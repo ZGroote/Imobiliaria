@@ -30,38 +30,11 @@ RAIZ = os.path.abspath(os.path.join(AQUI, "..")) + os.sep
 sys.path.insert(0, RAIZ)
 from padrao.cidade import carrega, lista
 
-# A cidade vem de CIDADE=<slug> no ambiente. Ate 05/09/2026 um slug passado como
-# ARGUMENTO era ignorado em silencio: `montar.py ribeirao-preto` montava Sao Carlos
-# e escrevia o HTML de Sao Carlos, com a saida dizendo o nome certo do arquivo --
-# o suficiente pra alguem medir a pagina velha e achar que validou a mudanca (foi o
-# que aconteceu). Agora o argumento vale, e um slug desconhecido para o programa.
-def _slug():
-    ar = sys.argv[1:]
-    for i, a in enumerate(ar):
-        # valor de opcao (`--conferir <alvo>`) nao e slug
-        if a.startswith("-") or (i and ar[i - 1].startswith("-")):
-            continue
-        if a in lista():
-            return a
-        raise SystemExit("cidade desconhecida: %s (tem: %s)" % (a, ", ".join(lista())))
-    return os.environ.get("CIDADE", "sao-carlos")
+from pipeline.build.config import resolve, V_PADRAO, VERSAO
 
 
-CID = carrega(_slug())
-
-# VARIANTE DE RENDERIZADOR. `MAPA_V=v16` monta a partir de `renderizador-v16/` e escreve
-# em `v16/`, sem tocar no v15 -- e como todo o QA le a versao daqui (`from pipeline.montar
-# import VERSAO`), a mesma variavel aponta os medidores e os portoes pra copia. Sem ela,
-# nada muda: a versao continua tendo UM dono, que e este arquivo.
-V_PADRAO = "v15"
-VERSAO = os.environ.get("MAPA_V") or V_PADRAO
-FONTE = os.path.join(RAIZ, "renderizador" if VERSAO == V_PADRAO else "renderizador-" + VERSAO)
-
-
-def saida(chave):
-    """Caminho de saida declarado na cidade, com a versao da variante no lugar da padrao."""
-    p = CID.caminho(chave)
-    return p if VERSAO == V_PADRAO else p.replace(V_PADRAO, VERSAO)
+def saida(chave, config=None):
+    return str((config or resolve()).saida(chave))
 
 # id do bloco -> chave da fonte no JSON da cidade. A ORDEM importa: o renderizador le
 # o relevo antes de chao/rua/muro se registrarem no terrainRegistry.
@@ -80,8 +53,8 @@ DADOS = [("__imoveis", "imoveis"),
 CARIMBO = re.compile(r'(<div class="sub" id="build"[^>]*>)[^<]*(</div>)')
 
 
-def le(rel):
-    return io.open(os.path.join(FONTE, rel.replace("/", os.sep)),
+def le(rel, config=None):
+    return io.open(os.path.join((config or resolve()).fonte, rel.replace("/", os.sep)),
                    encoding="utf-8", newline="").read()
 
 
@@ -128,7 +101,7 @@ def bloco_textura():
     return json.dumps(fora, separators=(",", ":"))
 
 
-def bloco_cidade():
+def bloco_cidade(CID):
     """O que o renderizador precisa saber sobre a cidade, tirado do JSON dela.
 
     Fica FORA da compressao de proposito: o app le isso na inicializacao do modulo,
@@ -164,7 +137,7 @@ _LIN = [round(255.0 * ((c/255.0)/12.92 if c/255.0 <= 0.04045
                        else (((c/255.0) + 0.055)/1.055) ** 2.4)) for c in range(256)]
 
 
-def bloco_arvores():
+def bloco_arvores(CID):
     """A biblioteca de arvores, so o LOD baixo e ja no espaco de cor do renderizador.
 
     O LOD alto (copa de 80 tris por blob) fica no arquivo pra uso de perto; a cidade
@@ -186,7 +159,7 @@ def bloco_arvores():
     return json.dumps({"especies": out}, separators=(",", ":"))
 
 
-def bloco_unidades():
+def bloco_unidades(CID):
     """As plantas FORNECIDAS desta cidade, uma por pasta em plantas_fornecidas/.
 
     Fica fora da compressao pelo mesmo motivo do bloco da cidade: sao alguns KB, e o
@@ -241,7 +214,7 @@ def bloco_unidades():
     return json.dumps(out, ensure_ascii=False)
 
 
-def bloco_luzue():
+def bloco_luzue(CID):
     """Os atlas de luz assados no Unreal, um por unidade que tenha.
 
     Vai EMBUTIDO em data URI, e nao como arquivo ao lado, pelo mesmo motivo de todo o
@@ -288,21 +261,27 @@ def bloco_luzue():
     return json.dumps(out, separators=(",", ":"))
 
 
-def monta(carimbo=None):
+def monta(carimbo=None, config=None):
+    config = config or resolve()
+    CID = config.cidade()
+    VERSAO = config.versao
+    FONTE = str(config.fonte)
+    def ler(rel):
+        return le(rel, config)
     carimbo = carimbo or "%s / %s / %s" % (CID.slug, VERSAO, time.strftime("%Y-%m-%d %H:%M"))
-    partes = [le("cabeca.html").replace("{{CIDADE}}", CID.nome).replace("{{VERSAO}}", VERSAO),
-              '<script type="application/json" id="__cidade">', bloco_cidade(), "</script>\n",
-              '<script type="application/json" id="__unidades">', bloco_unidades(), "</script>\n",
-              '<script type="application/json" id="__luzue">', bloco_luzue(), "</script>\n",
+    partes = [ler("cabeca.html").replace("{{CIDADE}}", CID.nome).replace("{{VERSAO}}", VERSAO),
+              '<script type="application/json" id="__cidade">', bloco_cidade(CID), "</script>\n",
+              '<script type="application/json" id="__unidades">', bloco_unidades(CID), "</script>\n",
+              '<script type="application/json" id="__luzue">', bloco_luzue(CID), "</script>\n",
               '<script type="application/json" id="__moveis">', bloco_moveis(), "</script>\n",
               '<script type="application/json" id="__textura">', bloco_textura(), "</script>\n",
-              "<script>", le("lib/three.min.js"), "</script>\n",
-              "<script>", le("lib/earcut.min.js"), "</script>\n",
-              "<style>", le("estilo.css"), "</style>\n"]
+              "<script>", ler("lib/three.min.js"), "</script>\n",
+              "<script>", ler("lib/earcut.min.js"), "</script>\n",
+              "<style>", ler("estilo.css"), "</style>\n"]
     for ident, chave in DADOS:
         if ident == "__arvores":
             partes += ['<script type="application/json" id="%s">' % ident,
-                       bloco_arvores(), "</script>\n"]
+                       bloco_arvores(CID), "</script>\n"]
             continue
         p = CID.caminho(chave)
         # Bloco ausente vira lista vazia em vez de quebrar a montagem: cidade nova pode
@@ -323,11 +302,11 @@ def monta(carimbo=None):
                 city = json.loads(d); city['urbanLots'] = placements
                 d = json.dumps(city, ensure_ascii=False, separators=(',', ':'))
         partes += ['<script type="application/json" id="%s">' % ident, d, "</script>\n"]
-    corpo = le("corpo.html").replace("{{CIDADE}}", CID.nome)
+    corpo = ler("corpo.html").replace("{{CIDADE}}", CID.nome)
     corpo = CARIMBO.sub(lambda m: m.group(1) + carimbo + m.group(2), corpo)
     urban = ""
     if os.path.exists(os.path.join(FONTE, "urban-models.js")):
-        urban = le("terrain-fit.js") + "\n" + le("road-clearance.js") + "\n" + le("urban-models.js") + "\n"
+        urban = ler("terrain-fit.js") + "\n" + ler("road-clearance.js") + "\n" + ler("urban-models.js") + "\n"
         pack = os.path.join(RAIZ, "modelos_urbanos", "v1", "mapa-casas.json")
         dados = io.open(pack, encoding="utf-8").read() if os.path.exists(pack) else "{}"
         compact_path = os.path.join(RAIZ, "modelos_urbanos", "v1", "compactos.json")
@@ -350,14 +329,14 @@ def monta(carimbo=None):
         exterior_pack['aerial']['image'] = 'data:image/png;base64,' + base64.b64encode(open(os.path.join(exterior_root, 'atlas-distante.png'), 'rb').read()).decode()
         partes += ['<script type="application/json" id="__exteriorModels">',
                    json.dumps(exterior_pack, separators=(',', ':')), "</script>\n"]
-        urban += le("exterior-details.js") + "\n"
+        urban += ler("exterior-details.js") + "\n"
     listing_js = ""
     if os.path.exists(os.path.join(FONTE, "listing-models.js")):
         listing_pack = os.path.join(RAIZ, "modelos_cadastrados", "estudos.json")
         listing_data = io.open(listing_pack, encoding="utf-8").read() if CID.slug == 'sao-carlos' and os.path.exists(listing_pack) else '{"assets":[]}'
         partes += ['<script type="application/json" id="__listingModels">', listing_data, "</script>\n"]
-        listing_js = le("listing-models.js")
-    partes += [corpo, "<script>", urban, listing_js, le("app.js"), "</script>", le("rabo.html")]
+        listing_js = ler("listing-models.js")
+    partes += [corpo, "<script>", urban, listing_js, ler("app.js"), "</script>", ler("rabo.html")]
     return "".join(partes)
 
 
@@ -499,18 +478,30 @@ def confere(montado, alvo):
     return 0
 
 
-def main():
-    s = monta()
-    if "--conferir" in sys.argv:
-        return confere(s, sys.argv[sys.argv.index("--conferir") + 1])
-    aberto = saida("html_saida")
+def main(argv=None):
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('cidade', nargs='?')
+    parser.add_argument('--variante')
+    parser.add_argument('--destino', help='Diretorio isolado para os dois HTMLs')
+    parser.add_argument('--sem-zip', action='store_true')
+    parser.add_argument('--conferir')
+    args = parser.parse_args(argv)
+    try:
+        config = resolve(args.cidade, args.variante, args.destino)
+        s = monta(config=config)
+    except (ValueError, KeyError) as exc:
+        parser.error(str(exc))
+    if args.conferir:
+        return confere(s, args.conferir)
+    aberto = saida("html_saida", config)
     os.makedirs(os.path.dirname(aberto), exist_ok=True)
     io.open(aberto, "w", encoding="utf-8", newline="").write(s)
     print("aberto: %.2f MB -> %s" % (len(s) / 1e6, aberto))
-    if "--sem-zip" in sys.argv: return 0
+    if args.sem_zip: return 0
     print("  comprimindo:")
     z = comprime(s)
-    alvo = saida("html_comprimido")
+    alvo = saida("html_comprimido", config)
     io.open(alvo, "w", encoding="utf-8", newline="").write(z)
     print("comprimido: %.2f MB -> %s (-%.0f%%)"
           % (len(z) / 1e6, alvo, 100 * (1 - len(z) / len(s))))

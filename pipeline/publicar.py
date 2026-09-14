@@ -22,7 +22,7 @@ sys.path.insert(0, RAIZ)
 # A versao tem UM dono: o montar.py, que e quem escreve a pagina. Aqui ela estava
 # escrita de novo ("v9"), e quando a montagem passou pro v13 este script parou de achar
 # o arquivo -- o mesmo conceito em dois lugares que o PADRAO.md existe pra matar.
-from pipeline.montar import VERSAO
+from pipeline.build.config import VERSAO
 PASTA = os.path.join(RAIZ, VERSAO)
 
 

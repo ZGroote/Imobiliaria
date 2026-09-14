@@ -1,0 +1,32 @@
+[
+  {
+    "name": "anuncios",
+    "code": 0,
+    "seconds": 1.4
+  },
+  {
+    "name": "urban",
+    "code": 0,
+    "seconds": 1.2
+  },
+  {
+    "name": "file-sao-carlos",
+    "code": 0,
+    "seconds": 116.1
+  },
+  {
+    "name": "ficha-sao-carlos",
+    "code": 1,
+    "seconds": 79.7
+  },
+  {
+    "name": "file-ribeirao",
+    "code": 0,
+    "seconds": 35.5
+  },
+  {
+    "name": "file-araraquara",
+    "code": 0,
+    "seconds": 0.6
+  }
+]
