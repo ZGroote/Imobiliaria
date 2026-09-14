@@ -8,5 +8,6 @@
   "core/city-data.js",
   "core/geometry.js",
   "core/storage.js",
+  "world/terrain.js",
   "app.js"
 ]

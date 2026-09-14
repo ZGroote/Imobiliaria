@@ -415,8 +415,7 @@ const ELEV_HALF = CIDADE.relevo_grade.half_m, ELEV_N = CIDADE.relevo_grade.n;
 // cima. Exagera o relevo verticalmente (comum em qualquer visualização 3D de terreno)
 // pra ele ficar visualmente aparente sem inventar dado novo.
 const TERRAIN_EXAG = 4.5;
-let elevGrid = null, reliefAmount = 0, reliefTarget = 0;
-const terrainRegistry = [];
+let reliefAmount = 0, reliefTarget = 0;
 // Casas e ruas ficam presas ao relevo (aDY) independente do exagero de altura (uHeight):
 // o shader soma o relevo real por cima da altura já escalada, em vez de escalar os dois juntos.
 const uRelief = { value: 0 }, uHeight = { value: 1 };
@@ -432,53 +431,11 @@ const uNoite = { value: 0 };
 // custaria 8 bytes por vertice em milhoes de vertices.
 const uFuro = { value: new THREE.Vector4(0, 0, 0, 0) };
 
-function terrainY(x, z) {
-  return elevGrid ? TerrainFit.sample(elevGrid,ELEV_N,ELEV_HALF,x,z)*TERRAIN_EXAG : 0;
-}
-terrainY.grid={n:ELEV_N,half:ELEV_HALF};
-/* 1.2 do plano da Fase 1, na forma pedida: uma casa de cache pro ponto amostrado com
-   mais frequencia, que e o ALVO da orbita. Uma casa so basta porque quem chama de
-   verdade em sequencia e sempre o mesmo ponto; qualquer outro uso derruba o cache e
-   volta a custar a amostragem cheia. */
-let _tyCache = { x: NaN, z: NaN, v: 0 };
-function terrainYCached(x, z) {
-  if (x !== _tyCache.x || z !== _tyCache.z) {
-    _tyCache.x = x; _tyCache.z = z; _tyCache.v = terrainY(x, z);
-  }
-  return _tyCache.v;
-}
-
-function registerTerrain(geo) {
-  if(geo.userData.chaoDetalhe || geo.attributes.aVia) TerrainFit.refine(THREE,geo,terrainY);
-  const pos = geo.attributes.position, n = pos.count;
-  const baseY = new Float32Array(n);
-  // Prédios já chegam com um valor de relevo por vértice pré-calculado (presetDY, um só
-  // por edificação — ver buildBuildings) em vez de cada vértice amostrar o seu próprio
-  // ponto; chão/rua/verde continuam amostrando por vértice normalmente.
-  const dy = geo.userData.presetDY || new Float32Array(n);
-  for (let i = 0; i < n; i++) { baseY[i] = pos.getY(i); if (!geo.userData.presetDY) dy[i] = terrainY(pos.getX(i), pos.getZ(i)); }
-  geo.userData.terrain = { baseY, dy };
-  // v8: so o shader de predio (dynamicHeight) le aDY. Chao/rua/muro tem o
-  // relevo aplicado na CPU por applyTerrainToGeo -- ali o atributo e peso
-  // morto na GPU (4 B x 1,45 M vertices).
-  if (geo.userData.dynamicHeight)
-    geo.setAttribute("aDY", new THREE.BufferAttribute(dy, 1));
-  terrainRegistry.push(geo);
-  if (reliefAmount) applyTerrainToGeo(geo, reliefAmount, true);
-}
-function applyTerrainToGeo(geo, amount, settle) {
-  const t = geo.userData.terrain; if (!t) return;
-  // Prédios/risers levam o relevo pelo uniform uRelief no shader (ver facadeMaterial/riseLine),
-  // não por posição de vértice, para não serem esticados junto do exagero de altura (hs).
-  if (geo.userData.dynamicHeight) return;
-  const pos = geo.attributes.position;
-  for (let i = 0; i < pos.count; i++) pos.setY(i, t.baseY[i] + t.dy[i]*amount);
-  pos.needsUpdate = true;
-  if (settle) {
-    if (geo.attributes.normal) geo.computeVertexNormals();
-    geo.computeBoundingSphere();
-  }
-}
+const terrain = WorldTerrain.create({THREE, TerrainFit,
+  n: ELEV_N, half: ELEV_HALF, exaggeration: TERRAIN_EXAG,
+  getAmount: () => reliefAmount});
+const {sample: terrainY, sampleCached: terrainYCached,
+       register: registerTerrain, apply: applyTerrainToGeo} = terrain;
 
 // v8: esfera de corte que acompanha o que o SHADER faz com o vertice.
 // O renderizador desloca cada vertice em `transformed.y*=riser*uHeight` e
@@ -962,17 +919,17 @@ const flat = c => new THREE.MeshPhongMaterial({ color:c, shininess:0, specular:0
 // v6: chao que acompanha o relevo (quadras). Ver make_v6.py.
 // v7: o relevo tem que estar carregado ANTES de chao/rua/muro/predio se registrarem.
 // registerTerrain CONGELA o dy de cada vertice na hora do registro, e terrainY()
-// devolve 0 enquanto elevGrid for null - e o elevGrid so era carregado no clique do
+// devolve 0 enquanto terrain.grid for null - e o terrain.grid so era carregado no clique do
 // botao Relevo. Consequencia: chao, rua e muro ficavam com dy=0 pra sempre; ao ligar
 // o Relevo so os predios subiam/desciam, e onde o terreno e NEGATIVO a casa afundava
 // no chao plano. Aqui a grade embutida e lida logo no boot.
 (function preloadElev(){
-  if (elevGrid) return;
+  if (terrain.grid) return;
   const t = document.getElementById("__elevdata");
   if (!t) return;
   try {
     const a = JSON.parse(t.textContent);
-    if (Array.isArray(a) && a.length === ELEV_N*ELEV_N) elevGrid = Float32Array.from(a);
+    if (Array.isArray(a) && a.length === ELEV_N*ELEV_N) terrain.grid = Float32Array.from(a);
   } catch (e) { console.error("Grade de relevo embutida invalida:", e); }
 })();
 /* ---- triangulo grande nao acompanha o relevo -------------------------
@@ -1349,13 +1306,13 @@ function buildMuros(){
    ------------------------------------------------------------ */
 const TERRENO_SUB = 4, TERRENO_LIM = 16000;
 (function buildTerrenoBase(){
-  if (!elevGrid) return;
+  if (!terrain.grid) return;
   // Maior termo de torcao da grade -- e o quanto dois triangulos por celula erram
   // contra a bilinear do terrainY. Subdividir por SUB divide o erro por SUB^2.
   let torc = 0;
   for (let j=0;j<ELEV_N-1;j++) for (let i=0;i<ELEV_N-1;i++){
-    const t = Math.abs(elevGrid[j*ELEV_N+i] + elevGrid[(j+1)*ELEV_N+i+1]
-                     - elevGrid[j*ELEV_N+i+1] - elevGrid[(j+1)*ELEV_N+i]) / 4 * TERRAIN_EXAG;
+    const t = Math.abs(terrain.grid[j*ELEV_N+i] + terrain.grid[(j+1)*ELEV_N+i+1]
+                     - terrain.grid[j*ELEV_N+i+1] - terrain.grid[(j+1)*ELEV_N+i]) / 4 * TERRAIN_EXAG;
     if (t > torc) torc = t;
   }
   const folga = Math.max(1.5, torc / (TERRENO_SUB*TERRENO_SUB) * 1.15 + 0.4);
@@ -1376,7 +1333,7 @@ const TERRENO_SUB = 4, TERRENO_LIM = 16000;
   const desce = new Float32Array(N*N);
   const noMin = c => Math.max(1, Math.ceil((c + ELEV_HALF)/passo));
   const noMax = c => Math.min(N-2, Math.floor((c + ELEV_HALF)/passo));
-  for (const geo of terrainRegistry) {
+  for (const geo of terrain.geometries()) {
     if (!geo.userData.chaoDetalhe) continue;
     const p = geo.attributes.position, dyv = geo.userData.terrain.dy;
     for (let t = 0; t + 2 < p.count; t += 3) {
@@ -1534,6 +1491,9 @@ const meshOf = P => {
 // THREE.ShapeUtils.triangulateShape, que costuma falhar (e descartar o prédio inteiro
 // em silêncio) em contornos comuns do OSM. Cai de volta pro triangulador do three.js
 // só se a lib não carregou.
+
+
+
 
 
 const BUILDING_INSET = 1.0; // metros — encolhe o contorno do lote antes de extrudar,
@@ -3274,7 +3234,7 @@ const seenStreets = new Map();
 let labels = [], built = 0, blocks = 0;
 // O relevo de um rotulo nao muda: a rua nao anda. Amostrar terrainY tres vezes por
 // rotulo por quadro (2.000 rotulos = 6.000 amostras da grade) era refazer sempre a
-// mesma conta. Quem invalida e o botao Relevo, unico que mexe em reliefAmount/elevGrid.
+// mesma conta. Quem invalida e o botao Relevo, unico que mexe em reliefAmount/terrain.grid.
 function dyDoRotulo(l) {
   l.ya = terrainY(l.a.x, l.a.z);
   l.yb = terrainY(l.b.x, l.b.z);
@@ -3751,8 +3711,7 @@ function dropGroup(i) {
   for (const o of rec.objs) {
     if (o.parent) o.parent.remove(o);
     if (o.geometry) {
-      const k = terrainRegistry.indexOf(o.geometry);
-      if (k >= 0) terrainRegistry.splice(k, 1);
+      terrain.unregister(o.geometry);
       o.geometry.dispose();
     }
     if (o.material) o.material.dispose();
@@ -3869,9 +3828,7 @@ function resetScene() {
   // As malhas dos estabelecimentos (halo/feixe) nao pertencem a nenhum quadrante da
   // cidade e ficam na cena entre um carregamento e outro — se saissem do registro de
   // relevo aqui, parariam de acompanhar o terreno depois do primeiro loadCity().
-  const keepPoi = terrainRegistry.filter(g => g.userData.poi || g.userData.ground);
-  terrainRegistry.length = 0;
-  for (const g of keepPoi) terrainRegistry.push(g);
+  terrain.retain(g => g.userData.poi || g.userData.ground);
   // v4: sem isso, um segundo loadCity() deixaria gLive apontando pra malhas ja
   // descartadas e o streaming nunca remontaria essas quadras.
   for (const k of [...gLive.keys()]) gLive.delete(k);
@@ -3977,7 +3934,7 @@ function loadCity(data, label) {
   if(window.__gMuros){
     const old=window.__gMuros;
     old.removeFromParent();
-    const i=terrainRegistry.indexOf(old.geometry);if(i>=0)terrainRegistry.splice(i,1);
+    terrain.unregister(old.geometry);
     old.geometry.dispose();old.material.dispose();
   }
   buildMuros();
@@ -4375,14 +4332,7 @@ function medianGrid(src, N, radius) {
 }
 function recomputeAllDy() {
   if (urban) urban.transform(reliefAmount,uHeight.value,urbanBase);
-  for (const geo of terrainRegistry) {
-    const t = geo.userData.terrain, pos = geo.attributes.position, ctr = geo.userData.presetCenter;
-    // Prédio recalcula pelo centro da edificação (mesmo valor pra todo mundo dela), não
-    // pela posição de cada vértice — mantém o telhado nivelado (ver buildBuildings).
-    if (ctr) for (let i = 0; i < pos.count; i++) t.dy[i] = terrainY(ctr[i*2], ctr[i*2+1]);
-    else for (let i = 0; i < pos.count; i++) t.dy[i] = terrainY(pos.getX(i), pos.getZ(i));
-    if (geo.attributes.aDY) geo.attributes.aDY.needsUpdate = true;
-  }
+  terrain.recompute();
   // v10: arvore nao tem mais laco proprio aqui. Ela deixou de ser InstancedMesh e
   // virou malha mesclada com presetCenter (o pe do tronco), entao o laco de cima ja
   // recalcula o dy dela junto do resto. `treeRegistry` sobrou so pra visibilidade
@@ -4413,17 +4363,17 @@ function saveElevCache(grid) {
 }
 let elevLoading = false;
 toggle("tRelief", async on => {
-  if (on && !elevGrid && !elevLoading) {
+  if (on && !terrain.grid && !elevLoading) {
     elevLoading = true;
     const btn = $("tRelief");
     btn.disabled = true;
     try {
       const cached = loadElevCache();
       if (cached) {
-        elevGrid = cached;
+        terrain.grid = cached;
       } else {
-        elevGrid = await fetchElevation((b, total) => { btn.textContent = `Relevo ${b+1}/${total}`; });
-        saveElevCache(elevGrid);
+        terrain.grid = await fetchElevation((b, total) => { btn.textContent = `Relevo ${b+1}/${total}`; });
+        saveElevCache(terrain.grid);
       }
       recomputeAllDy();
     } catch (e) {
@@ -4439,7 +4389,7 @@ toggle("tRelief", async on => {
   reliefAmount = reliefTarget;
   uRelief.value = reliefAmount;
   if (urban) urban.transform(reliefAmount,uHeight.value,urbanBase);
-  for (const geo of terrainRegistry) applyTerrainToGeo(geo, reliefAmount, true);
+  for (const geo of terrain.geometries()) applyTerrainToGeo(geo, reliefAmount, true);
   recalcDyRotulos();
   recalcDyPois(); sujaPois();
   arvSujo = true; arvTotal = true;   // arvore, portao e sombra levam o relevo na
@@ -9557,7 +9507,7 @@ function interiorFrame(now) {
   if (INT.pl) {
     // v11: o alvo passa pelo cache de terrainY (1.2 do plano) -- e o mesmo ponto que o
     // frame() acabou de amostrar, entao aqui ele ja vem da casa do cache.
-    if (INT.on) _tyCache.v = terrainYCached(target.x, target.z);
+    if (INT.on) terrainYCached(target.x, target.z);
     // O alvo da orbita mora no PISO da unidade, nao no terreno. Sem isto a vista de
     // planta de um apartamento do 3o andar orbita um ponto 9 m abaixo dele -- e o que
     // aparece na tela e a laje vista por baixo.
