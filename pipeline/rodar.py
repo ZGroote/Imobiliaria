@@ -195,14 +195,16 @@ CACHE = os.path.join(AQUI, "_hashes.json")      # sha1 memorizado por (tamanho, 
 def _carrega(p):
     try:
         import json as _j
-        return _j.load(open(p, encoding="utf-8"))
+        with open(p, encoding="utf-8") as stream:
+            return _j.load(stream)
     except Exception:
         return {}
 
 
 def _grava(p, d):
     import json as _j
-    _j.dump(d, open(p, "w", encoding="utf-8"))
+    with open(p, "w", encoding="utf-8") as stream:
+        _j.dump(d, stream)
 
 
 def mtime(p):

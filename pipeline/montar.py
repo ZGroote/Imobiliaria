@@ -336,7 +336,12 @@ def monta(carimbo=None, config=None):
         listing_data = io.open(listing_pack, encoding="utf-8").read() if CID.slug == 'sao-carlos' and os.path.exists(listing_pack) else '{"assets":[]}'
         partes += ['<script type="application/json" id="__listingModels">', listing_data, "</script>\n"]
         listing_js = ler("listing-models.js")
-    partes += [corpo, "<script>", urban, listing_js, ler("app.js"), "</script>", ler("rabo.html")]
+    if (config.fonte / 'modules.json').exists():
+        from pipeline.build.scripts import programa
+        script = programa(config)
+    else:
+        script = urban + listing_js + ler('app.js')
+    partes += [corpo, "<script>", script, "</script>", ler("rabo.html")]
     return "".join(partes)
 
 
