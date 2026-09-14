@@ -9,5 +9,6 @@
   "core/geometry.js",
   "core/storage.js",
   "world/terrain.js",
+  "world/building-type.js",
   "app.js"
 ]

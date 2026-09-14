@@ -1496,10 +1496,6 @@ const meshOf = P => {
 
 
 
-const BUILDING_INSET = 1.0; // metros — encolhe o contorno do lote antes de extrudar,
-                             // pra simular o recuo/calçada e o prédio não "comer" a rua
-
-
 /* ============================================================
    Tipologia: do contorno + altura + classe para um arquétipo
    ============================================================
@@ -1516,9 +1512,7 @@ const BUILDING_INSET = 1.0; // metros — encolhe o contorno do lote antes de ex
    contorno mudar de verdade.
    ============================================================ */
 
-const ST = { CASA:0, SOBRADO:1, PREDIO:2, COMERCIO:3, TORRE:4, GALPAO:5, CIVICO:6, ANEXO:7 };
-const ST_NOME = ["Casa térrea", "Sobrado", "Prédio residencial", "Comércio",
-                 "Torre comercial", "Galpão", "Institucional", "Anexo"];
+const {ST, ST_NOME, tipoDe, BUILDING_INSET} = BuildingType;
 
 /* --- retângulo mínimo orientado (OBB) -----------------------------------
    Serve pra duas coisas: dar eixo e proporção pro telhado inclinado, e medir
@@ -1534,18 +1528,7 @@ const ST_NOME = ["Casa térrea", "Sobrado", "Prédio residencial", "Comércio",
    São Carlos a classe do city.json é "sem uso mapeado" na maior parte do
    acervo. É exatamente esse buraco que faz uma cidade inteira virar caixa
    cinza se ninguém preencher. */
-function tipoDe(cls, h, area, ob) {
-  const pav = Math.max(1, Math.round((h - 1.1) / 3.15));
-  if (area < 34 && h < 4.4) return ST.ANEXO;                        // garagem, edícula, puxadinho
-  if (cls === 3) return ST.CIVICO;
-  if (area > 700 && pav <= 2 && ob.rect > 0.70) return ST.GALPAO;   // barracão: grande, baixo e retangular
-  if (cls === 2) return pav >= 8 ? ST.TORRE : ST.COMERCIO;
-  if (cls === 1) return pav >= 4 ? ST.PREDIO : pav >= 2 ? ST.SOBRADO : ST.CASA;
-  if (pav >= 8) return ST.TORRE;
-  if (pav >= 4) return ST.PREDIO;
-  if (area > 420) return ST.COMERCIO;
-  return pav >= 2 ? ST.SOBRADO : ST.CASA;
-}
+
 
 /* --- paleta -------------------------------------------------------------
    Uma cor por arquétipo mataria a monotonia e criaria outra: oito cores em vez
