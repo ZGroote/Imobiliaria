@@ -1,0 +1,520 @@
+
+  :root{
+    --void:#1A222C; --block:#29323E; --walk:#46525F; --road:#5A6774; --mark:#D7DCE2;
+    --wall:#A7AFB8; --res:#4BDB7C; --biz:#F13A52; --civic:#8659F2;
+    --line:rgba(255,255,255,.13); --txt:#E7EBF0;
+    --ui-font:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* `hidden` TEM que esconder. A regra de botao mais abaixo declara `display:block`, e
+     qualquer declaracao do autor ganha do `display:none` que a folha do navegador da
+     pro atributo -- entao `<button hidden>` ficava VISIVEL. Foi assim que o "Entrar na
+     casa" apareceu em cima de galpao sem cadastro: o JS o escondia (`ent.hidden = !uni`)
+     e o CSS o mostrava de volta, com o rotulo padrao do HTML. Havia remendo pontual
+     (`.card .acoes button[hidden]`), o que e a prova de que a classe do bug ja tinha
+     mordido antes; aqui a regra fecha a classe inteira, pra qualquer elemento. */
+  [hidden]{display:none!important}
+  html,body{height:100%;overflow:hidden;background:var(--void)}
+  body{font-family:var(--ui-font);color:var(--txt);-webkit-font-smoothing:antialiased;user-select:none}
+  canvas{display:block;position:fixed;inset:0;touch-action:none;cursor:grab}
+  /* The display size must not shrink with the governor's drawing-buffer resolution. */
+  #c{width:100%;height:100%}
+  #overlay{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+
+  .street{position:absolute;left:0;top:0;font-size:10px;font-weight:600;letter-spacing:.16em;
+    color:rgba(226,232,240,.72);white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.85);
+    transform-origin:50% 50%;will-change:transform}
+  .card{position:fixed;z-index:3;background:rgba(15,21,28,.9);backdrop-filter:blur(10px);
+    border:1px solid var(--line);border-radius:10px}
+  /* v12: o cartao perdeu titulo, extensao, carimbo e legenda -- sobrou a busca. O
+     padding encolhe junto, senao fica uma moldura larga em volta de um campo so. */
+  #hud{top:16px;left:16px;padding:9px 10px;width:212px}
+  #hud .sub{font-size:10px;opacity:.5;margin-top:2px}
+  #hud .prog{margin-top:11px;padding-top:10px;border-top:1px solid var(--line);font-size:10px;opacity:.72}
+  #tiles{display:grid;gap:2px;width:116px;margin:9px 0 2px}
+  #tiles i{aspect-ratio:1;border-radius:1px;background:rgba(255,255,255,.08);transition:background .35s}
+  #tiles i.done{background:rgba(95,199,119,.42)}
+  #tiles i.load{background:var(--res);animation:beat .9s ease-in-out infinite}
+  #tiles i.fail{background:rgba(194,69,94,.65)}
+  @keyframes beat{0%,100%{opacity:1}50%{opacity:.22}}
+  .phase{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--res);
+    margin-right:6px;vertical-align:middle;animation:beat .9s ease-in-out infinite}
+  .phase.off{animation:none;background:rgba(255,255,255,.25)}
+  #hud .bar{height:2px;border-radius:2px;background:rgba(255,255,255,.14);margin-top:6px;overflow:hidden}
+  #hud .bar i{display:block;height:100%;width:0;background:var(--res);transition:width .3s}
+
+  #hud .busca{position:relative}
+  #hud .busca input{width:100%;font:inherit;font-size:10.5px;padding:7px 9px;border-radius:6px;
+    background:rgba(255,255,255,.07);border:1px solid var(--line);color:var(--txt);outline:none}
+  #hud .busca input::placeholder{color:rgba(231,235,240,.38)}
+  #hud .busca input:focus{border-color:rgba(255,255,255,.34);background:rgba(255,255,255,.11)}
+  #bres{position:absolute;top:calc(100% + 5px);left:0;right:0;max-height:264px;overflow:auto;
+    background:rgba(15,21,28,.96);backdrop-filter:blur(10px);border:1px solid var(--line);
+    border-radius:8px;z-index:4}
+  #bres .bi{display:flex;align-items:center;gap:8px;padding:7px 9px;cursor:pointer;
+    border-bottom:1px solid rgba(255,255,255,.05)}
+  #bres .bi:last-child{border-bottom:0}
+  #bres .bi:hover,#bres .bi.on{background:rgba(255,255,255,.12)}
+  #bres .bi i{width:7px;height:7px;border-radius:2px;flex:none;background:var(--wall)}
+  #bres .bi .t{font-size:10.5px;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #bres .bi .s{font-size:9px;opacity:.5;margin-left:auto;flex:none}
+  #bres .vazio{padding:9px;font-size:10px;opacity:.5}
+
+  #minimapa{position:fixed;z-index:3;right:16px;bottom:26px;width:170px;height:170px;
+    border-radius:10px;overflow:hidden;border:1px solid var(--line);cursor:crosshair;
+    background:rgba(15,21,28,.9);box-shadow:0 4px 18px rgba(0,0,0,.45)}
+  #minimapa canvas{display:block;position:static;inset:auto;width:170px;height:170px;
+    touch-action:auto;cursor:crosshair}
+  #minimapa[hidden]{display:none}
+
+  #panel{bottom:16px;left:16px;padding:11px 13px;width:222px}
+  #panel .lbl{display:flex;justify-content:space-between;font-size:10px;opacity:.6;margin-bottom:8px}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:3px;border-radius:2px;
+    background:rgba(255,255,255,.16);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;
+    background:var(--txt);cursor:ew-resize}
+  input[type=range]::-moz-range-thumb{width:13px;height:13px;border:0;border-radius:50%;background:var(--txt);cursor:ew-resize}
+  .row{display:flex;gap:6px;margin-top:10px}
+  .row.primeira{margin-top:0}   /* v12: a primeira linha virou o topo do painel */
+  button,select,label.file{font:inherit;font-size:10px;padding:7px 8px;border-radius:6px;cursor:pointer;
+    background:rgba(255,255,255,.07);border:1px solid var(--line);color:var(--txt);transition:.15s;
+    text-align:center;display:block}
+  button{flex:1;padding:7px 0}
+  button:hover,select:hover,label.file:hover{background:rgba(255,255,255,.15)}
+  button[aria-pressed=false]{opacity:.4}
+  button:disabled{opacity:.3;cursor:default}
+  select{width:100%;margin-top:10px;-webkit-appearance:none;appearance:none}
+  select option{background:#0F151C}
+  label.file{flex:1;padding:7px 0}
+  label.file input{display:none}
+  .sep{margin-top:11px;padding-top:10px;border-top:1px solid var(--line)}
+  .hint{font-size:9.5px;opacity:.45;line-height:1.6;margin-top:7px}
+  button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--res);outline-offset:2px}
+
+  #houses{top:64px;right:16px;padding:11px 13px;width:236px;max-height:min(70vh,520px);overflow:auto}
+  #houses h3{font-size:11px;font-weight:700;margin-bottom:8px;opacity:.85}
+  #houses .hitem{padding:8px 9px;border-radius:7px;cursor:pointer;margin-bottom:6px;
+    background:rgba(255,255,255,.05);border:1px solid transparent;transition:.15s}
+  #houses .hitem:last-child{margin-bottom:0}
+  #houses .hitem:hover{background:rgba(255,255,255,.12);border-color:var(--line)}
+  #houses .hitem .t{font-size:11px;font-weight:600;line-height:1.3}
+  #houses .hitem .b{font-size:9.5px;opacity:.6;margin-top:2px}
+  #houses .hitem .p{font-size:11px;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums}
+  #houses .hitem .p.rent{color:var(--res)}
+  #houses .hitem .p.sale{color:#FFC24B}
+
+  #hsheet{bottom:16px;left:50%;transform:translateX(-50%) translateY(14px);padding:12px 16px;
+    min-width:250px;max-width:min(400px,calc(100vw - 32px));max-height:min(72vh,600px);
+    opacity:0;transition:.22s;pointer-events:none}
+  #hsheet.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+  #hsheet .tag{font-size:9px;letter-spacing:.13em;text-transform:uppercase;opacity:.55;color:#FFC24B}
+  #hsheet h2{font-size:14px;font-weight:650;margin:3px 0 2px;line-height:1.3}
+  #hsheet .addr{font-size:11px;opacity:.62}
+  #hsheet .stats{display:flex;gap:18px;margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
+  #hsheet .stats div{font-size:10px;opacity:.55}
+  #hsheet .stats b{display:block;font-size:14px;font-weight:650;opacity:1;margin-top:1px;font-variant-numeric:tabular-nums}
+  #hsheet .x{position:absolute;top:8px;right:10px;font-size:15px;opacity:.4;cursor:pointer;line-height:1}
+  #hsheet .x:hover{opacity:.9}
+  #hsheet .link{display:block;margin-top:10px;font-size:10.5px;text-align:center;padding:7px 0;
+    border-radius:6px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--txt);
+    text-decoration:none;transition:.15s}
+  #hsheet .link:hover{background:rgba(255,255,255,.15)}
+  /* A linha de acao e comum as duas fichas: no #hsheet ela so leva "O que tem por
+     perto?", no #usheet leva a visita 3D do lado. */
+  .card .acoes{display:flex;gap:6px;margin-top:8px}
+  .card .acoes button{flex:1;font-size:10.5px;padding:8px 6px}
+  .card .acoes button.pri{background:rgba(255,194,75,.16);border-color:rgba(255,194,75,.42);
+    color:#FFDFA0;font-weight:650}
+  .card .acoes button.pri:hover{background:rgba(255,194,75,.26)}
+
+  /* ---- Ficha do imovel da vitrine (v13) --------------------------------- */
+  /* A ficha e mais alta que as outras (traz a lista de comodos), entao ela rola por
+     dentro em vez de crescer pra fora da tela. */
+  #usheet{bottom:16px;left:50%;transform:translateX(-50%) translateY(14px);padding:12px 16px;
+    min-width:280px;width:min(430px,calc(100vw - 32px));max-height:min(72vh,600px);
+    overflow:auto;opacity:0;pointer-events:none;
+    transition:opacity .22s,transform .22s,max-height .22s,padding-bottom .22s}
+  #usheet.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+  #usheet .tag{font-size:9px;letter-spacing:.13em;text-transform:uppercase;opacity:.55;color:#FFC24B}
+  #usheet h2{font-size:14px;font-weight:650;margin:3px 0 2px;line-height:1.3;padding-right:18px}
+  #usheet .addr{font-size:11px;opacity:.62}
+  #usheet .naoconf{font-size:9.5px;color:#F0B24B;margin-top:5px}
+  #usheet .naoconf[hidden]{display:none}
+  #usheet .stats{display:flex;flex-wrap:wrap;gap:9px 18px;
+    margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
+  #usheet .stats div{font-size:10px;opacity:.55;min-width:56px}
+  #usheet .stats b{display:block;font-size:13.5px;font-weight:650;opacity:1;margin-top:1px;
+    font-variant-numeric:tabular-nums;white-space:nowrap}
+  #usheet .x{position:absolute;top:8px;right:10px;font-size:15px;opacity:.4;cursor:pointer;line-height:1}
+  #usheet .x:hover{opacity:.9}
+  #usheet .comodos{margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
+  #usheet .comodos h4{font-size:9px;letter-spacing:.13em;text-transform:uppercase;opacity:.55;
+    font-weight:600;margin-bottom:6px}
+  #usheet .comodos h4 b{opacity:.85;text-transform:none;letter-spacing:0;font-size:10px}
+  #usheet .comodos[hidden]{display:none}
+  #uCom{display:grid;grid-template-columns:1fr 1fr;gap:2px 14px}
+  #uCom .ci{display:flex;gap:8px;align-items:baseline;font-size:10.5px;padding:2px 0}
+  #uCom .ci span{opacity:.72;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #uCom .ci b{margin-left:auto;font-weight:600;opacity:.5;font-variant-numeric:tabular-nums;flex:none}
+
+  /* ---- A ficha minimizada ----------------------------------------------
+     Entrar no "o que tem por perto?" nao FECHA a ficha do imovel: encolhe ela pra uma
+     tira no mesmo canto de sempre. Fechar apagaria a resposta de "perto de QUE?"
+     justamente quando essa pergunta passa a importar -- e, com o mapa cheio de pino,
+     o nome do imovel na tira e o unico texto que ainda diz de quem e o farol.
+
+     A transicao anda porque os dois estados tem `max-height` em NUMERO: sai de
+     min(72vh,600px) e chega em 58px. Partindo de `none` nao haveria o que interpolar,
+     e a ficha sumiria de um quadro pro outro. */
+  #usheet.min,#hsheet.min{max-height:56px;overflow:hidden;cursor:pointer}
+  #usheet.min:hover,#hsheet.min:hover{background:rgba(22,30,40,.94)}
+  /* O endereco sai da tira. Sem isso o corte de 56 px caia NO MEIO da linha dele, e a
+     tira lia como cartao mal cortado em vez de cartao encolhido. */
+  #usheet.min .addr,#usheet.min .naoconf,#hsheet.min .addr{display:none}
+  #usheet.min h2,#hsheet.min h2{font-size:12.5px;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;padding-right:34px}
+  /* O controle de encolher/abrir, ao lado do x -- que continua FECHANDO. E a mesma
+     `.dobra` do painel do interior. So existe dentro do "por perto": fora dele nao ha
+     pra onde encolher, e um botao que nao leva a lugar nenhum e ruido. */
+  #usheet .dobra,#hsheet .dobra{position:absolute;top:9px;right:30px;font-size:11px;
+    line-height:1;opacity:.4;cursor:pointer;display:none;user-select:none}
+  #usheet .dobra:hover,#hsheet .dobra:hover{opacity:.9}
+  body.perto #usheet .dobra,body.perto #hsheet .dobra{display:block}
+  /* A ficha do estabelecimento tambem mora no rodape. Com a tira minimizada embaixo,
+     ela sobe -- as duas empilham em vez de uma cobrir a outra. */
+  body.perto #psheet{bottom:84px}
+
+  /* ---- Coluna "O que tem por perto?" (v13) ------------------------------ */
+  /* Fica a esquerda, abaixo da busca, e para acima do painel de baixo -- por isso o
+     max-height sai da altura da janela em vez de um numero fixo. */
+  #nearby{top:76px;left:16px;width:208px;padding:11px 12px;
+    max-height:calc(100vh - 210px);overflow:auto;
+    opacity:0;transform:translateX(-10px);transition:opacity .2s,transform .2s;pointer-events:none}
+  #nearby.on{opacity:1;transform:none;pointer-events:auto}
+  #nearby h3{font-size:11px;font-weight:700;opacity:.9;padding-right:16px}
+  #nearby .sub{font-size:9.5px;opacity:.5;margin-top:3px;line-height:1.45}
+  #nearby .x{position:absolute;top:8px;right:10px;font-size:15px;opacity:.4;cursor:pointer;line-height:1}
+  #nearby .x:hover{opacity:.9}
+  #nearby .mass{display:flex;gap:5px;margin:9px 0 7px}
+  #nearby .mass button{font-size:9.5px;padding:5px 0;opacity:.75}
+  #nearby .voltar{width:100%;margin-top:9px;font-size:9.5px;padding:7px 0;opacity:.75}
+  #nearby .ncat{display:flex;align-items:center;gap:7px;width:100%;text-align:left;
+    padding:6px 7px;margin-bottom:3px;font-size:10.5px;line-height:1.2}
+  #nearby .ncat i{width:8px;height:8px;border-radius:50%;background:var(--pc);flex:none;
+    box-shadow:0 0 7px -1px var(--pc)}
+  #nearby .ncat span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #nearby .ncat b{margin-left:auto;font-weight:600;opacity:.45;font-variant-numeric:tabular-nums}
+  #nearby .ncat.vazio{opacity:.3}
+  #nearby .ncat.vazio[aria-pressed=false]{opacity:.2}
+
+  #attrib{position:fixed;bottom:6px;right:12px;z-index:3;font-size:9px;opacity:.42}
+  #attrib a{color:inherit}
+  #compass{position:fixed;top:16px;right:16px;z-index:3;width:38px;height:38px;border-radius:50%;
+    background:rgba(15,21,28,.9);border:1px solid var(--line);cursor:pointer;display:grid;place-items:center}
+  #compass svg{width:20px;height:20px}
+
+  /* Medidor. Fonte monoespacada e largura fixa de propósito: numero que dança de
+     posicao a cada quadro e ilegivel justamente quando importa (durante o engasgo). */
+  #perf{position:fixed;top:62px;right:16px;z-index:4;width:186px;padding:9px 11px;
+    background:rgba(9,13,18,.86);backdrop-filter:blur(10px);border:1px solid var(--line);
+    border-radius:9px;font:11px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;
+    pointer-events:none}
+  #perf[hidden]{display:none}
+  #perf .t{font-size:17px;font-weight:700;letter-spacing:-.02em;margin-bottom:5px}
+  #perf .t.ok{color:var(--res)} #perf .t.mid{color:#F5C451} #perf .t.bad{color:var(--biz)}
+  #perf table{width:100%;border-collapse:collapse}
+  #perf td{padding:1px 0;font-size:10.5px}
+  #perf td:first-child{opacity:.5}
+  #perf td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+  #perf .g{margin-top:6px;padding-top:6px;border-top:1px solid var(--line);
+    font-size:9.5px;opacity:.42;word-break:break-word;line-height:1.35}
+
+  #status{position:fixed;inset:0;z-index:5;display:grid;place-content:center;justify-items:center;
+    gap:14px;background:var(--void);text-align:center;padding:24px}
+  #status .k{font-size:12px}
+  #status .m{font-size:10.5px;opacity:.5}
+  #status .tick{width:190px;height:2px;border-radius:2px;background:rgba(255,255,255,.13);overflow:hidden}
+  #status .tick i{display:block;height:100%;width:0;background:var(--res);transition:width .4s}
+  #fallback{max-width:440px;text-align:left;font-size:11.5px;line-height:1.8;opacity:.85}
+  #fallback ol{margin:10px 0 12px 17px}
+  #fallback .row{justify-content:flex-start}
+  a.btn{font-size:10px;padding:7px 14px;border-radius:6px;border:1px solid var(--line);
+    background:rgba(255,255,255,.07);cursor:pointer;text-decoration:none;color:var(--txt)}
+  a.btn:hover{background:rgba(255,255,255,.15)}
+
+  @media (max-width:640px){
+    #hud{left:12px;top:12px;width:auto}
+    #panel{left:12px;right:12px;bottom:12px;width:auto}
+    #hsheet{bottom:150px}
+    /* A ficha do imovel rola por dentro; no telefone ela nao pode comer a tela toda,
+       senao nao sobra mapa pra ver ONDE o imovel fica. */
+    #usheet{bottom:150px;max-height:50vh}
+    /* A coluna de categorias sobe pro alto (o canto de baixo ja e do painel e da
+       vitrine) e cede a direita pro minimapa. A vitrine sai enquanto o modo perto
+       estiver aberto: as duas listas nao cabem juntas. */
+    #nearby{top:62px;left:12px;right:136px;width:auto;max-height:calc(100vh - 210px)}
+    body.perto #houses{display:none}
+    /* A vitrine era `display:none` no celular. Ela e a UNICA porta de entrada do
+       imovel 3D -- escondida, o telefone virava so um mapa bonito. Aqui ela vira
+       uma faixa curta no alto, rolavel. */
+    #houses{top:auto;bottom:178px;left:12px;right:12px;width:auto;max-height:26vh}
+    /* No telefone o canto de baixo e do painel e da vitrine de imoveis: o minimapa
+       sobe pro alto, abaixo da bussola, e encolhe. O canvas continua 170 px por
+       dentro -- quem converte clique em metro ja usa a proporcao do elemento. */
+    #minimapa{top:62px;right:12px;bottom:auto;width:112px;height:112px}
+    #minimapa canvas{width:112px;height:112px}
+    #hud{padding:8px}
+    #houses .hitem .t{font-size:12.5px} #houses .hitem .p{font-size:12.5px}
+    button,select,label.file{font-size:12px;padding:10px 8px}
+    #ipanel .cat button{font-size:11px;padding:10px 2px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  /* ---- Estabelecimentos (supermercados, saude, farmacias) ---------------- */
+  #poibar{position:fixed;z-index:3;top:16px;left:50%;transform:translateX(-50%);
+    display:flex;gap:5px;padding:5px;max-width:min(880px,calc(100vw - 140px));
+    overflow-x:auto;scrollbar-width:none;border-radius:999px}
+  #poibar::-webkit-scrollbar{display:none}
+  .pchip{flex:none;display:flex;align-items:center;gap:6px;height:28px;padding:0 11px 0 7px;
+    border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);
+    color:var(--txt);font:600 10.5px/1 var(--ui-font);cursor:pointer;white-space:nowrap;
+    transition:background .15s,border-color .15s,opacity .15s;opacity:.42}
+  .pchip:hover{background:rgba(255,255,255,.13)}
+  .pchip[aria-pressed=true]{opacity:1;background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.24)}
+  .pchip i{width:8px;height:8px;border-radius:50%;background:var(--pc);flex:none;
+    box-shadow:0 0 7px -1px var(--pc)}
+  .pchip b{font-weight:600;opacity:.45;font-variant-numeric:tabular-nums}
+
+  .poi{position:absolute;left:0;top:0;display:flex;align-items:center;gap:7px;
+    height:30px;padding:2px 12px 2px 2px;border-radius:999px;
+    background:rgba(12,18,25,.8);border:1px solid rgba(255,255,255,.13);
+    box-shadow:0 5px 16px rgba(0,0,0,.55);
+    color:var(--txt);font:600 11px/1 var(--ui-font);white-space:nowrap;
+    transform-origin:15px 15px;pointer-events:auto;cursor:pointer;will-change:transform;
+    -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}
+  .poi:hover{background:rgba(22,32,44,.94);border-color:rgba(255,255,255,.3);z-index:9000!important}
+  .poi .ic{width:26px;height:26px;border-radius:50%;flex:none;display:grid;place-items:center;
+    background:var(--pc);box-shadow:0 0 0 2px rgba(11,16,22,.92),0 0 13px -2px var(--pc)}
+  .poi .ic svg{width:14px;height:14px;fill:none;stroke:#0B1016;stroke-width:2.1;
+    stroke-linecap:round;stroke-linejoin:round}
+  .poi .nm{max-width:158px;overflow:hidden;text-overflow:ellipsis}
+  .poi.mini{padding-right:2px;gap:0}
+  .poi.mini .nm{display:none}
+  /* Passar o mouse revela o nome que o empacotador escondeu. Nao e um tooltip novo:
+     e o mesmo .nm que ja esta no marcador, entao nao custa elemento nem JS por quadro. */
+  .poi.mini:hover{padding-right:9px;gap:7px}
+  .poi.mini:hover .nm{display:block;max-width:230px}
+  .poi.sel{border-color:var(--pc);background:rgba(22,32,44,.96);
+    box-shadow:0 5px 20px rgba(0,0,0,.6),0 0 0 1px var(--pc)}
+
+  #psheet{bottom:16px;left:50%;transform:translateX(-50%) translateY(14px);padding:12px 16px;
+    min-width:262px;max-width:min(400px,calc(100vw - 32px));opacity:0;transition:.22s;pointer-events:none}
+  #psheet.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+  #psheet .top{display:flex;align-items:center;gap:9px}
+  #psheet .ic{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;
+    background:var(--pc);box-shadow:0 0 14px -2px var(--pc)}
+  #psheet .ic svg{width:15px;height:15px;fill:none;stroke:#0B1016;stroke-width:2.1;
+    stroke-linecap:round;stroke-linejoin:round}
+  #psheet .tag{font-size:9px;letter-spacing:.13em;text-transform:uppercase;opacity:.6;color:var(--pc)}
+  #psheet h2{font-size:14px;font-weight:650;margin:2px 0 0;line-height:1.3;
+    max-width:300px;overflow-wrap:anywhere}
+  #psheet .meta{margin-top:10px;padding-top:9px;border-top:1px solid var(--line);
+    display:grid;gap:5px;font-size:10.5px;opacity:.72;line-height:1.45}
+  #psheet .meta div{display:flex;gap:7px}
+  #psheet .meta span{opacity:.5;flex:none;width:58px}
+  #psheet .x{position:absolute;top:8px;right:10px;font-size:15px;opacity:.4;cursor:pointer;line-height:1}
+  #psheet .x:hover{opacity:.9}
+  #psheet .link{display:block;margin-top:10px;font-size:10.5px;text-align:center;padding:7px 0;
+    border-radius:6px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--txt);
+    text-decoration:none;transition:.15s}
+  #psheet .link:hover{background:rgba(255,255,255,.15)}
+
+  /* Vem depois do bloco acima de proposito: media query nao soma especificidade,
+     entao a regra movel so vence a de desktop se aparecer mais tarde na folha. */
+  @media (max-width:640px){
+    #poibar{top:70px;left:12px;right:12px;max-width:none;transform:none;padding:0;
+      justify-content:flex-start}
+    #psheet{bottom:150px}
+    .poi .nm{max-width:112px}
+  }
+
+  /* ---- Interior: painel de mobilia e rotulo de comodo -------------------- */
+  #ipanel{top:16px;right:16px;width:246px;padding:12px 14px;opacity:0;
+    transform:translateY(-10px);pointer-events:none;transition:opacity .22s,transform .22s;
+    max-height:calc(100vh - 32px);overflow-y:auto;scrollbar-width:thin}
+  #ipanel.on{opacity:1;transform:translateY(0);pointer-events:auto}
+  #ipanel .x{position:absolute;top:8px;right:10px;font-size:15px;opacity:.4;cursor:pointer;line-height:1}
+  #ipanel .x:hover{opacity:.9}
+  #ipanel .tag{font-size:9px;letter-spacing:.13em;text-transform:uppercase;opacity:.55}
+  #ipanel h2{font-size:13px;font-weight:650;margin:3px 22px 2px 0;line-height:1.3}
+  #ipanel .addr{font-size:10.5px;opacity:.6}
+  #ipanel .cat{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:11px;
+    padding-top:10px;border-top:1px solid var(--line)}
+  #ipanel .cat button{flex:none;padding:7px 2px;font-size:9.5px}
+  #ipanel .sel{font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.75;
+    margin:11px 0 8px;padding-top:10px;border-top:1px solid var(--line)}
+  #ipanel .lbl{display:flex;justify-content:space-between;font-size:10px;opacity:.6;margin:9px 0 6px}
+  #ipanel .cor{display:flex;align-items:center;gap:5px;flex:1;padding:4px 7px}
+  #ipanel .cor input{width:22px;height:20px;padding:0;border:0;background:none;cursor:pointer}
+  #ipanel .dica{margin-top:10px;font-size:9.5px;opacity:.45;line-height:1.5}
+  .ilbl{position:absolute;z-index:2;font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--txt);opacity:.5;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.85)}
+  @media (max-width:640px){
+    #ipanel{top:auto;bottom:12px;left:12px;right:12px;width:auto;max-height:52vh}
+  }
+  #iaviso{top:16px;left:50%;transform:translateX(-50%) translateY(-8px);padding:9px 14px;
+    display:none;align-items:center;gap:12px;font-size:11px;z-index:6}
+  #iaviso.on{display:flex;transform:translateX(-50%) translateY(0)}
+  #iaviso .x{opacity:.45;cursor:pointer;font-size:15px;line-height:1}
+  #iaviso .x:hover{opacity:.9}
+  #ipanel .naoconf{margin-top:8px;font-size:9.5px;opacity:.55;line-height:1.5}
+  #houses .hitem .b .aviso{color:#F0B24B}
+
+  /* ---- Celular: manche de caminhada e painel que encolhe ------------------
+     Dentro do imovel o teclado nao existe. O manche e um alvo de dedo de 112 px que
+     devolve um vetor continuo -- nao um pad de setas, porque andar em quatro direcoes
+     dentro de um comodo de 3 m e sofrivel. Fica no canto esquerdo, longe do painel de
+     mobilia, e so aparece em ponteiro grosso e em primeira pessoa. */
+  #joy{position:fixed;left:14px;bottom:14px;width:114px;height:114px;border-radius:50%;
+    z-index:5;display:none;touch-action:none;background:rgba(15,21,28,.40);
+    border:1px solid var(--line);backdrop-filter:blur(8px)}
+  #joy.on{display:block}
+  #joy i{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;
+    border-radius:50%;background:rgba(231,235,240,.55);border:1px solid rgba(255,255,255,.32);
+    will-change:transform}
+  #ipanel .dobra{position:absolute;top:8px;right:32px;font-size:12px;opacity:.4;
+    cursor:pointer;line-height:1;display:none;user-select:none}
+  #ipanel .dobra:hover{opacity:.9}
+  #ipanel.min .cat,#ipanel.min #iEdit,#ipanel.min .dica,#ipanel.min .naoconf,
+  #ipanel.min #iPredioRow{display:none}
+  #ipanel.min .row{margin-top:8px}
+  @media (max-width:820px),(pointer:coarse){
+    #ipanel .dobra{display:block}
+    #ipanel{max-height:46vh}
+  }
+  /* O manche mora no canto esquerdo de baixo; o painel de mobilia cede essa faixa. */
+  @media (max-width:640px){ #ipanel{left:140px} }
+  /* Altura, Relevo e Muros sao controles da CIDADE. Dentro do imovel nao operam nada,
+     e no celular ficam exatamente embaixo do painel de mobilia. */
+  body.dentro #panel{display:none}
+
+  /* ---- v16-moveis: o modo de mobiliar ------------------------------------
+     O botao mora a ESQUERDA da bussola (que e fixa no canto), e o painel desce
+     pra faixa que a vitrine ocupa fora da casa -- la dentro ela some, entao a
+     coluna da direita fica livre e nao ha o que empilhar. As duas regras vencem
+     as de cima por virem depois na folha, com a mesma especificidade. */
+  #imob{display:none;top:16px;right:62px;padding:9px 13px;font:inherit;font-size:11px;
+    font-weight:600;color:var(--txt);cursor:pointer;line-height:1}
+  body.dentro #imob{display:block}
+  #imob[aria-pressed="true"]{background:rgba(75,219,124,.16);border-color:rgba(75,219,124,.5);
+    color:#BFF3D2}
+  #ipanel{top:64px;right:16px}
+  #ipanel .acao{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:4px}
+  #ipanel .acao button{flex:none;padding:7px 2px;font-size:9.5px}
+  /* Mover e Modificar sao ESTADOS, nao gatilhos: o botao aceso diz o que o proximo
+     clique na cena vai fazer. Sem realce os dois viravam "nao aconteceu nada". */
+  #ipanel .acao button[aria-pressed="true"]{background:rgba(75,219,124,.18);
+    border-color:rgba(75,219,124,.5);color:#BFF3D2}
+
+  /* Campo de medida da seta. Vive no #overlay, que e pointer-events:none -- sem
+     devolver o evento aqui o campo aparece e nao aceita digito. */
+  .med{position:absolute;z-index:4;pointer-events:auto;transform:translate(-50%,0);
+    display:flex;align-items:center;gap:3px;padding:2px 5px;border-radius:6px;
+    background:rgba(15,21,28,.92);border:1px solid rgba(75,219,124,.45);
+    font-family:var(--ui-font);font-size:10px;color:#BFF3D2;white-space:nowrap}
+  .med input{width:42px;font:inherit;font-size:10px;text-align:right;padding:1px 3px;
+    border:0;border-radius:4px;background:rgba(255,255,255,.09);color:#E7EBF0;
+    font-variant-numeric:tabular-nums}
+  .med input:focus{outline:1px solid rgba(75,219,124,.6)}
+  .med b{font-weight:500;opacity:.6}
+  /* Enquanto arrasta, o campo vira numero puro: caixa de texto seguindo o cursor
+     pisca o cursor de digitacao e rouba o foco do arrasto. */
+  .med.arrasta input{pointer-events:none}
+
+  #mobileNav,#mobileHint,#isair{display:none}
+  body.dentro #isair{display:block;position:fixed;top:72px;left:16px;min-height:44px;padding:8px 12px}
+  .card .x,.card .dobra{background:transparent;border:0}
+  #houses button.hitem{width:100%;text-align:left}
+  @media (max-width:820px){
+    :root{--mobile-bottom:calc(76px + env(safe-area-inset-bottom));--mobile-top:calc(12px + env(safe-area-inset-top))}
+    .card{backdrop-filter:none;background:rgba(15,21,28,.96)}
+    button,select,label.file{min-height:44px;font-size:14px;padding:10px 8px;touch-action:manipulation}
+    button[aria-pressed=false]{opacity:.8}
+    #hud{top:var(--mobile-top);left:max(12px,env(safe-area-inset-left));right:68px;width:auto;padding:0;z-index:7}
+    #hud .busca input{font-size:16px;min-height:48px;padding:12px;width:100%}
+    #bres{max-height:45vh;max-height:45dvh;overscroll-behavior:contain}
+    #bres .bi{min-height:48px;padding:10px;flex-wrap:wrap;gap:4px 8px}
+    #bres .bi .t{font-size:14px;white-space:normal;flex:1}
+    #bres .bi .s,#bres .vazio{font-size:12px}
+    #compass{top:var(--mobile-top);right:max(12px,env(safe-area-inset-right));width:44px;height:48px}
+    #mobileNav{display:flex;gap:6px;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:calc(12px + env(safe-area-inset-bottom));padding:6px;z-index:6}
+    #mobileNav button{flex:1;opacity:1}
+    #mobileNav button[aria-pressed=true],#mobileNav button[aria-expanded=true]{background:rgba(75,219,124,.16);border-color:rgba(75,219,124,.5);color:#BFF3D2}
+    #panel,#houses{display:none;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));top:auto;bottom:var(--mobile-bottom);width:auto;max-height:52vh;max-height:52dvh;overflow:auto;overscroll-behavior:contain}
+    body[data-mobile=imoveis]:not(.dentro):not(.perto) #houses,body[data-mobile=opcoes]:not(.dentro) #panel{display:block}
+    #houses h3{font-size:14px;margin-bottom:12px}
+    #houses .hitem{padding:12px;min-height:72px}
+    #houses .hitem .t,#houses .hitem .p{font-size:14px}
+    #houses .hitem .b{font-size:12px}
+    #mobileHint{display:block;position:fixed;left:20px;right:20px;bottom:var(--mobile-bottom);padding:8px;font-size:12px;line-height:1.5;text-align:center;background:rgba(15,21,28,.85);border-radius:6px;pointer-events:none;z-index:2}
+    body:not([data-mobile=mapa]) #mobileHint,body:has(.card.on) #mobileHint{display:none}
+    #minimapa{top:calc(var(--mobile-top) + 60px);right:12px;bottom:auto;width:88px;height:88px}
+    #minimapa canvas{width:88px;height:88px}
+    #usheet,#hsheet,#psheet{left:12px;right:12px;width:auto;min-width:0;max-width:none;bottom:var(--mobile-bottom);max-height:52vh;max-height:52dvh;overflow:auto;overscroll-behavior:contain;padding:14px;transform:translateY(14px)}
+    #usheet.on,#hsheet.on,#psheet.on{transform:none}
+    #usheet h2,#hsheet h2,#psheet h2{font-size:16px;padding-right:44px}
+    #usheet .addr,#hsheet .addr,#psheet .meta,#uCom .ci{font-size:13px}
+    .card .acoes{flex-wrap:wrap;position:sticky;bottom:-14px;background:#0F151C;padding:8px 0}
+    .card .acoes button{min-height:48px;font-size:14px;flex:1 1 140px}
+    #hsheet .link,#psheet .link{min-height:44px;font-size:14px;padding:12px}
+    .card .x{min-width:44px;min-height:44px;top:2px!important;right:2px!important;display:grid;place-items:center;font-size:22px!important;opacity:.85!important}
+    .card .dobra{min-width:44px;min-height:44px;top:2px!important;right:46px!important;padding:14px;opacity:.8!important}
+    #usheet.min h2,#hsheet.min h2{padding-right:80px}
+    #usheet.min .stats,#usheet.min .comodos,#usheet.min .acoes,#hsheet.min .stats,#hsheet.min .link,#hsheet.min .acoes{display:none}
+    #nearby{top:calc(var(--mobile-top) + 60px);left:12px;right:12px;width:auto;max-height:42vh;max-height:42dvh;overflow:hidden;display:flex;flex-direction:column}
+    #nearby > :not(#nList){flex-shrink:0}
+    #nearby h3{font-size:14px;padding-right:36px}
+    #nearby .sub{font-size:12px}
+    #nList{display:grid;grid-template-columns:1fr 1fr;gap:4px;overflow:auto;overscroll-behavior:contain;min-height:44px}
+    #nearby .ncat,#nearby .mass button,#nearby .voltar{font-size:13px;min-height:44px}
+    body.perto #minimapa{display:none}
+    body.perto #psheet{bottom:calc(var(--mobile-bottom) + 64px);max-height:28vh;max-height:28dvh;z-index:4}
+    body.perto:has(#psheet.on) #nearby,body.perto:has(#usheet.on:not(.min)) #nearby,body.perto:has(#hsheet.on:not(.min)) #nearby{visibility:hidden}
+    body.dentro #hud,body.dentro #mobileNav,body.dentro #mobileHint{display:none}
+    body.dentro #isair{top:var(--mobile-top);left:max(12px,env(safe-area-inset-left));font-size:14px;z-index:6}
+    body.dentro #imob{top:var(--mobile-top);right:68px;font-size:14px;min-height:48px;padding:12px}
+    #ipanel{top:calc(var(--mobile-top) + 60px);bottom:auto;left:12px;right:12px;width:auto;max-height:calc(100vh - 230px);max-height:calc(100dvh - 230px)}
+    #ipanel h2{padding-right:70px;font-size:15px}
+    #ipanel .cat button,#ipanel .acao button{font-size:13px;min-height:44px}
+    body.dentro:has(#ipanel.on) #minimapa{display:none}
+    #joy{left:max(14px,env(safe-area-inset-left));bottom:calc(14px + env(safe-area-inset-bottom))}
+    .med input{font-size:16px;min-height:44px;width:60px}
+    input[type=range]{height:28px;background:linear-gradient(rgba(255,255,255,.16),rgba(255,255,255,.16)) center/100% 3px no-repeat}
+    input[type=range]::-webkit-slider-thumb{width:24px;height:24px}
+    input[type=range]::-moz-range-thumb{width:24px;height:24px}
+    body.buscando #minimapa,body.buscando #mobileHint,body.buscando #mobileNav{visibility:hidden}
+    #attrib{bottom:1px;font-size:8px}
+  }
+  @media (max-width:820px) and (max-height:500px){
+    #mobileHint{display:none}
+    #houses,#usheet,#hsheet,#psheet{max-height:calc(100dvh - 150px)}
+    #ipanel{left:auto;width:48%;max-height:calc(100dvh - 90px)}
+    #nearby{right:50%;max-height:calc(100dvh - 156px)}
+    #nList{grid-template-columns:1fr}
+  }
+
+.listing-model-dialog{width:min(960px,94vw);max-height:94dvh;padding:0;border:1px solid #52654e;border-radius:16px;background:#f1f2eb;color:#263625;box-shadow:0 25px 90px #0008;overflow:auto}
+.listing-model-dialog::backdrop{background:#101a16bd}
+.listing-model-dialog header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px}
+.listing-model-dialog h2{font-size:20px;line-height:1.3;margin:5px 0}
+.listing-model-dialog small{font-size:11px;letter-spacing:.04em}
+.listing-model-dialog button{border:1px solid #abb5a6;border-radius:8px;background:#fff;color:#283a27;padding:10px 15px;cursor:pointer;font:inherit;min-width:44px;min-height:44px}
+.listing-model-dialog button:focus-visible{outline:3px solid #427233;outline-offset:2px}
+.listing-model-stage{height:min(56dvh,530px);min-height:230px;background:#e5e9e3}
+.listing-model-stage canvas{position:static;inset:auto;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.listing-model-dialog footer{padding:14px 22px 20px}
+.listing-model-controls{display:flex;gap:8px;flex-wrap:wrap}
+.listing-model-note{font-size:13px;line-height:1.5;margin:12px 0 8px}
+#hModelNote{font-size:12px;line-height:1.45;margin-top:10px;color:#b4c4b9}
+
+.listing-model-dialog{margin:auto}
+.listing-model-dialog header button{flex:0 0 44px;padding:8px;font-size:22px}

@@ -1,0 +1,42 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper
+    function isOwner(imobiliaria_id) {
+      return request.auth != null
+        && request.auth.token.imobiliaria_id == imobiliaria_id;
+    }
+
+    // ── MODELOS 3D ──
+    match /modelos/{imobiliaria_id}/{file} {
+      allow read: if true;  // público
+      allow write: if isOwner(imobiliaria_id)
+        && request.resource.size < 50 * 1024 * 1024  // max 50MB
+        && request.resource.contentType == 'model/gltf-binary';
+    }
+
+    // ── FOTOS ──
+    match /fotos/{imobiliaria_id}/{imovel_id}/{file} {
+      allow read: if true;  // público
+      allow write: if isOwner(imobiliaria_id)
+        && request.resource.size < 10 * 1024 * 1024  // max 10MB por foto
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // ── PLANTAS ORIGINAIS ──
+    match /plantas/{imobiliaria_id}/{imovel_id}/{file} {
+      allow read: if isOwner(imobiliaria_id);
+      allow write: if isOwner(imobiliaria_id)
+        && request.resource.size < 20 * 1024 * 1024;  // max 20MB
+    }
+
+    // ── LOGOS ──
+    match /logos/{imobiliaria_id}/{file} {
+      allow read: if true;
+      allow write: if isOwner(imobiliaria_id)
+        && request.resource.size < 2 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}

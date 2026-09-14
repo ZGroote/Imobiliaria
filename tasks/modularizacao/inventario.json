@@ -1,0 +1,4374 @@
+{
+  "metodo": "rg --files --hidden, exclui node_modules, .git e .firebase; leitura textual de codigo/HTML; AST Python; expressoes regulares JS; sem executar projeto",
+  "total_arquivos_listados": 10487,
+  "arquivos": [
+    {
+      "arquivo": "_variante_union.py",
+      "bytes": 3298,
+      "linhas": 75,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "io",
+        "json",
+        "os",
+        "pipeline.montar",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "_variante_proxy.py",
+      "bytes": 4341,
+      "linhas": 94,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "io",
+        "json",
+        "os",
+        "pipeline.montar",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "_union_proxy.py",
+      "bytes": 12019,
+      "linhas": 302,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "io",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "shapely.geometry",
+        "shapely.geometry.polygon",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys",
+        "time"
+      ],
+      "funcoes": 7
+    },
+    {
+      "arquivo": "_run_cadastro_oficial/ribeirao-preto-v13.html",
+      "bytes": 16049766,
+      "linhas": 589,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_run_cadastro_oficial/ribeirao-preto-v13-aberto.html",
+      "bytes": 47311109,
+      "linhas": 11887,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_mede_proxy.py",
+      "bytes": 8827,
+      "linhas": 204,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "_diagnostico_quadra.py",
+      "bytes": 8269,
+      "linhas": 180,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "io",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "padrao.cidade",
+        "pyproj",
+        "re",
+        "scipy.spatial",
+        "sys",
+        "time"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "loteamentos_oficial_viewer.html",
+      "bytes": 2050174,
+      "linhas": 49,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/v7/pipeline/_qa_qa_telhados.html",
+      "bytes": 11378405,
+      "linhas": 2753,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/v7/pipeline/_medir.html",
+      "bytes": 11378697,
+      "linhas": 2757,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "build_blocks.py",
+      "bytes": 9887,
+      "linhas": 256,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "json",
+        "math",
+        "os",
+        "padrao.cidade",
+        "sys"
+      ],
+      "funcoes": 8
+    },
+    {
+      "arquivo": "baixar_openplots.py",
+      "bytes": 3770,
+      "linhas": 84,
+      "classe": "codigo",
+      "imports": [
+        "html",
+        "json",
+        "os",
+        "re",
+        "sys",
+        "time",
+        "urllib.error",
+        "urllib.request"
+      ],
+      "funcoes": 5
+    },
+    {
+      "arquivo": "validate.html",
+      "bytes": 148595,
+      "linhas": 9,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "firebase/storage.rules",
+      "bytes": 1368,
+      "linhas": 42,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "firebase/firestore.rules",
+      "bytes": 2139,
+      "linhas": 66,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "firebase/admin.js",
+      "bytes": 2353,
+      "linhas": 66,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "fetch_osm_pois.py",
+      "bytes": 5048,
+      "linhas": 131,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "os",
+        "padrao.cidade",
+        "sys",
+        "time",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "fetch_osm_buildings.py",
+      "bytes": 4798,
+      "linhas": 127,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "os",
+        "padrao.cidade",
+        "sys",
+        "time",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "_arquivo/v6_backup_20260826_1118/sao-carlos-v6.html",
+      "bytes": 4879466,
+      "linhas": 2462,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/v6_backup_20260826_1118/make_v6.py",
+      "bytes": 19492,
+      "linhas": 362,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/estruturas_heat.html",
+      "bytes": 10376636,
+      "linhas": 12,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "build_pois.py",
+      "bytes": 6312,
+      "linhas": 173,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "json",
+        "math",
+        "os",
+        "re",
+        "time",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "funcoes": 5
+    },
+    {
+      "arquivo": "convert_overture.py",
+      "bytes": 8450,
+      "linhas": 274,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "sys"
+      ],
+      "funcoes": 9
+    },
+    {
+      "arquivo": "v9/sorocaba-v9.html",
+      "bytes": 8259113,
+      "linhas": 446,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v9/sorocaba-v9-aberto.html",
+      "bytes": 17952849,
+      "linhas": 4500,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v9/sao-jose-do-rio-preto-v9.html",
+      "bytes": 7336279,
+      "linhas": 446,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v9/sao-jose-do-rio-preto-v9-aberto.html",
+      "bytes": 15981377,
+      "linhas": 4500,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v9/sao-carlos-v9.html",
+      "bytes": 5458521,
+      "linhas": 446,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v9/sao-carlos-v9-aberto.html",
+      "bytes": 13213540,
+      "linhas": 4500,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v9/ribeirao-preto-v9.html",
+      "bytes": 7368684,
+      "linhas": 446,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v9/ribeirao-preto-v9-aberto.html",
+      "bytes": 16141861,
+      "linhas": 4501,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v12/sorocaba-v12.html",
+      "bytes": 9954849,
+      "linhas": 484,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v12/sorocaba-v12-aberto.html",
+      "bytes": 21433312,
+      "linhas": 11185,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v12/sao-jose-do-rio-preto-v12.html",
+      "bytes": 8991322,
+      "linhas": 484,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v12/sao-jose-do-rio-preto-v12-aberto.html",
+      "bytes": 19394914,
+      "linhas": 11185,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v12/sao-carlos-v12.html",
+      "bytes": 6635698,
+      "linhas": 484,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v12/sao-carlos-v12-aberto.html",
+      "bytes": 15593065,
+      "linhas": 11185,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v12/ribeirao-preto-v12.html",
+      "bytes": 9033474,
+      "linhas": 484,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v12/ribeirao-preto-v12-aberto.html",
+      "bytes": 19563201,
+      "linhas": 11185,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v12/araraquara-v12.html",
+      "bytes": 5791851,
+      "linhas": 484,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v12/araraquara-v12-aberto.html",
+      "bytes": 12631217,
+      "linhas": 11185,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/three/three.r128.min.js",
+      "bytes": 603451,
+      "linhas": 6,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/three/entrada.js",
+      "bytes": 23,
+      "linhas": 1,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/test_load.html",
+      "bytes": 1911,
+      "linhas": 61,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/sao-carlos-grade_1.html",
+      "bytes": 42161,
+      "linhas": 896,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_antes_cadastro_oficial/ribeirao-preto-v13.html",
+      "bytes": 9059050,
+      "linhas": 589,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_antes_cadastro_oficial/ribeirao-preto-v13-aberto.html",
+      "bytes": 19600633,
+      "linhas": 11887,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "v9/publicado/ribeirao-preto.html",
+      "bytes": 7368640,
+      "linhas": 446,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v9/araraquara-v9.html",
+      "bytes": 4543233,
+      "linhas": 446,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v9/araraquara-v9-aberto.html",
+      "bytes": 10075731,
+      "linhas": 4500,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "backups/2026-09-11-assentamento/urban-models.js",
+      "bytes": 9987,
+      "linhas": 170,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "backups/2026-09-11-assentamento/montar.py",
+      "bytes": 26489,
+      "linhas": 506,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "backups/2026-09-11-assentamento/exterior-details.js",
+      "bytes": 18003,
+      "linhas": 228,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "backups/2026-09-11-assentamento/app.js",
+      "bytes": 570160,
+      "linhas": 10604,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "sao-carlos-overture-v2.html",
+      "bytes": 6821396,
+      "linhas": 1414,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "arvores/validar_v2.py",
+      "bytes": 1075,
+      "linhas": 19,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "pathlib"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "arvores/render_fichas.py",
+      "bytes": 1800,
+      "linhas": 60,
+      "classe": "codigo",
+      "imports": [
+        "bpy",
+        "math"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "arvores/recolorir.py",
+      "bytes": 4158,
+      "linhas": 118,
+      "classe": "codigo",
+      "imports": [
+        "especies",
+        "io",
+        "json",
+        "os",
+        "shutil",
+        "sys"
+      ],
+      "funcoes": 7
+    },
+    {
+      "arquivo": "arvores/gerar_v2.py",
+      "bytes": 437,
+      "linhas": 11,
+      "classe": "codigo",
+      "imports": [
+        "arvores",
+        "bpy",
+        "pathlib",
+        "runpy",
+        "sys"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "arvores/export_arvores.py",
+      "bytes": 3248,
+      "linhas": 80,
+      "classe": "codigo",
+      "imports": [
+        "arvores",
+        "bmesh",
+        "bpy",
+        "importlib",
+        "json",
+        "math",
+        "mathutils",
+        "os",
+        "random",
+        "sys",
+        "zlib"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "arvores/especies.py",
+      "bytes": 4665,
+      "linhas": 78,
+      "classe": "codigo",
+      "imports": [],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "arvores/blender_bridge.py",
+      "bytes": 3249,
+      "linhas": 98,
+      "classe": "codigo",
+      "imports": [
+        "bpy",
+        "contextlib",
+        "io",
+        "json",
+        "queue",
+        "socket",
+        "threading",
+        "traceback"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "arvores/bl.py",
+      "bytes": 832,
+      "linhas": 30,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "socket",
+        "sys"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "arvores/arvores.py",
+      "bytes": 14452,
+      "linhas": 330,
+      "classe": "codigo",
+      "imports": [
+        "bmesh",
+        "bpy",
+        "especies",
+        "math",
+        "mathutils",
+        "random",
+        "zlib"
+      ],
+      "funcoes": 13
+    },
+    {
+      "arquivo": "v8/sao-carlos-v8.html",
+      "bytes": 5448583,
+      "linhas": 408,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v8/sao-carlos-v8-aberto.html",
+      "bytes": 13195341,
+      "linhas": 4173,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "visitas/sanca-135-29.html",
+      "bytes": 8497110,
+      "linhas": 3988,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "ribeirao-preto/ribeirao-preto.html",
+      "bytes": 7358734,
+      "linhas": 408,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "ribeirao-preto/ribeirao-preto-aberto.html",
+      "bytes": 16123623,
+      "linhas": 4173,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v8/pipeline/qa_medir.py",
+      "bytes": 9221,
+      "linhas": 181,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "v8/pipeline/make_v8.py",
+      "bytes": 19187,
+      "linhas": 377,
+      "classe": "codigo",
+      "imports": [
+        "base64",
+        "io",
+        "os",
+        "sys",
+        "zlib"
+      ],
+      "funcoes": 6
+    },
+    {
+      "arquivo": "v8/pipeline/limpar_dados.py",
+      "bytes": 8544,
+      "linhas": 201,
+      "classe": "codigo",
+      "imports": [
+        "datetime",
+        "io",
+        "json",
+        "os",
+        "shutil",
+        "sys"
+      ],
+      "funcoes": 6
+    },
+    {
+      "arquivo": "plantas_pipeline/georreferenciar_planta.py",
+      "bytes": 18132,
+      "linhas": 376,
+      "classe": "codigo",
+      "imports": [
+        "bisect",
+        "itertools",
+        "json",
+        "math",
+        "numpy",
+        "pyproj",
+        "random",
+        "shapely.affinity",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "statistics",
+        "sys"
+      ],
+      "funcoes": 15
+    },
+    {
+      "arquivo": "plantas_pipeline/filtrar_confiaveis.py",
+      "bytes": 2241,
+      "linhas": 40,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "json",
+        "numpy",
+        "os"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "plantas_pipeline/consolidar.py",
+      "bytes": 5378,
+      "linhas": 107,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "glob",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "plantas_pipeline/conferir_encaixe.py",
+      "bytes": 1566,
+      "linhas": 26,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "json",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "plantas_pipeline/casar_nomes.py",
+      "bytes": 4882,
+      "linhas": 103,
+      "classe": "codigo",
+      "imports": [
+        "difflib",
+        "json",
+        "re",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "unicodedata"
+      ],
+      "funcoes": 8
+    },
+    {
+      "arquivo": "plantas_pipeline/auditoria_tamanhos.py",
+      "bytes": 4694,
+      "linhas": 92,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "csv",
+        "json",
+        "numpy",
+        "os"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-v16-moveis-aberto.html",
+      "bytes": 25837267,
+      "linhas": 15260,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-mobile-628a342bbd16.html",
+      "bytes": 11381576,
+      "linhas": 748,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "plantas_pipeline/relatorio.py",
+      "bytes": 2541,
+      "linhas": 44,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "csv",
+        "json",
+        "numpy",
+        "os"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-exteriores-d82490219c66.html",
+      "bytes": 12538062,
+      "linhas": 749,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "plantas_pipeline/overlay_planta.py",
+      "bytes": 712,
+      "linhas": 15,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "json",
+        "numpy",
+        "sys"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "plantas_pipeline/mapa_qa.py",
+      "bytes": 1704,
+      "linhas": 32,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "json",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-exteriores-d294450defa2.html",
+      "bytes": 12939406,
+      "linhas": 750,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-exteriores-bdf9c99b605a.html",
+      "bytes": 13721915,
+      "linhas": 752,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-exteriores-bb5b2e9e1197.html",
+      "bytes": 12538510,
+      "linhas": 750,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "plantas_pipeline/ler_escala.py",
+      "bytes": 2953,
+      "linhas": 76,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "collections",
+        "json",
+        "numpy",
+        "os",
+        "pypdfium2",
+        "rapidocr_onnxruntime",
+        "re",
+        "sys"
+      ],
+      "funcoes": 5
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-exteriores-b8ce2cca7f47.html",
+      "bytes": 12941302,
+      "linhas": 750,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "plantas_pipeline/vetorizar_planta.py",
+      "bytes": 6928,
+      "linhas": 152,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "collections",
+        "cv2",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "pypdfium2",
+        "scipy",
+        "scipy.spatial",
+        "sys"
+      ],
+      "funcoes": 6
+    },
+    {
+      "arquivo": "plantas_pipeline/rodar_escalas.py",
+      "bytes": 1516,
+      "linhas": 32,
+      "classe": "codigo",
+      "imports": [
+        "concurrent.futures",
+        "json",
+        "os",
+        "re",
+        "subprocess",
+        "sys"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-exteriores-abd917c0b117.html",
+      "bytes": 13722007,
+      "linhas": 752,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-exteriores-a5553f246e1a.html",
+      "bytes": 12940406,
+      "linhas": 750,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-exteriores-95f1f62f6ea3.html",
+      "bytes": 13722038,
+      "linhas": 750,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "plantas_pipeline/rodar_tudo.py",
+      "bytes": 4282,
+      "linhas": 82,
+      "classe": "codigo",
+      "imports": [
+        "concurrent.futures",
+        "json",
+        "os",
+        "re",
+        "subprocess",
+        "sys",
+        "time"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-exteriores-8ea4990e0a78.html",
+      "bytes": 13722030,
+      "linhas": 750,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-exteriores-6c331d0adb8a.html",
+      "bytes": 12940622,
+      "linhas": 750,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-exteriores-1320e56da325.html",
+      "bytes": 13730618,
+      "linhas": 750,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/publicado-antigos-2026-09-11/mapa/sao-carlos-exteriores-066295d39e28.html",
+      "bytes": 14517570,
+      "linhas": 750,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "araraquara/araraquara-aberto.html",
+      "bytes": 10037838,
+      "linhas": 3807,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/pipeline_superado/validate_diff.py",
+      "bytes": 3618,
+      "linhas": 100,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/pipeline_superado/validate.py",
+      "bytes": 1625,
+      "linhas": 60,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/pipeline_superado/embed_v2.py",
+      "bytes": 5110,
+      "linhas": 150,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/pipeline_superado/embed_final.py",
+      "bytes": 6073,
+      "linhas": 178,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "_arquivo/pipeline_superado/embed_data.py",
+      "bytes": 3177,
+      "linhas": 96,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador-v16-moveis/urban-models.js",
+      "bytes": 12311,
+      "linhas": 201,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "UrbanModels"
+      ],
+      "funcoes": 16
+    },
+    {
+      "arquivo": "renderizador-v16-moveis/terrain-fit.js",
+      "bytes": 3088,
+      "linhas": 52,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "TerrainFit"
+      ],
+      "funcoes": 5
+    },
+    {
+      "arquivo": "renderizador-v16-moveis/road-clearance.js",
+      "bytes": 3757,
+      "linhas": 77,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "RoadClearance"
+      ],
+      "funcoes": 6
+    },
+    {
+      "arquivo": "renderizador-v16-moveis/rabo.html",
+      "bytes": 2,
+      "linhas": 1,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador-v16-moveis/listing-models.js",
+      "bytes": 5299,
+      "linhas": 57,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "ListingModels"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "exteriores/v1/verificar_vazio.py",
+      "bytes": 1058,
+      "linhas": 23,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "pathlib",
+        "shapely.geometry",
+        "sys"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "exteriores/v1/validar_glb.mjs",
+      "bytes": 1795,
+      "linhas": 27,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "exteriores/v1/validar_encaixes.py",
+      "bytes": 2457,
+      "linhas": 35,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "padrao.cidade",
+        "pathlib",
+        "pipeline.encaixar_casas_lotes",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "exteriores/v1/testar_ocupacao.py",
+      "bytes": 1402,
+      "linhas": 32,
+      "classe": "codigo",
+      "imports": [
+        "ocupacao",
+        "pathlib",
+        "shapely.geometry",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "exteriores/v1/terrenos.py",
+      "bytes": 6900,
+      "linhas": 98,
+      "classe": "codigo",
+      "imports": [
+        "hashlib",
+        "json",
+        "math",
+        "ocupacao",
+        "padrao.cidade",
+        "pathlib",
+        "pipeline.encaixar_casas_lotes",
+        "shapely",
+        "shapely.affinity",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "exteriores/v1/proteger_cadastros.py",
+      "bytes": 1847,
+      "linhas": 23,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "padrao.cidade",
+        "pathlib",
+        "sys"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "v11/sorocaba-v11.html",
+      "bytes": 9938319,
+      "linhas": 484,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v11/sorocaba-v11-aberto.html",
+      "bytes": 21399795,
+      "linhas": 10592,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v11/sao-jose-do-rio-preto-v11.html",
+      "bytes": 8974805,
+      "linhas": 484,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v11/sao-jose-do-rio-preto-v11-aberto.html",
+      "bytes": 19361410,
+      "linhas": 10592,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v11/sao-carlos-v11.html",
+      "bytes": 6619171,
+      "linhas": 484,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v11/sao-carlos-v11-aberto.html",
+      "bytes": 15559551,
+      "linhas": 10592,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v11/ribeirao-preto-v11.html",
+      "bytes": 9016950,
+      "linhas": 484,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v11/ribeirao-preto-v11-aberto.html",
+      "bytes": 19529690,
+      "linhas": 10592,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v11/araraquara-v11.html",
+      "bytes": 5775323,
+      "linhas": 484,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v11/araraquara-v11-aberto.html",
+      "bytes": 12597702,
+      "linhas": 10592,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v10/sorocaba-v10.html",
+      "bytes": 9260512,
+      "linhas": 448,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v10/sorocaba-v10-aberto.html",
+      "bytes": 20517477,
+      "linhas": 4974,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v10/sao-jose-do-rio-preto-v10.html",
+      "bytes": 8299450,
+      "linhas": 448,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v10/sao-jose-do-rio-preto-v10-aberto.html",
+      "bytes": 18494006,
+      "linhas": 4974,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v10/sao-carlos-v10.html",
+      "bytes": 6075436,
+      "linhas": 448,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v10/sao-carlos-v10-aberto.html",
+      "bytes": 15227972,
+      "linhas": 5025,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v10/ribeirao-preto-v10.html",
+      "bytes": 8320695,
+      "linhas": 448,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v10/ribeirao-preto-v10-aberto.html",
+      "bytes": 18641843,
+      "linhas": 4974,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v10/araraquara-v10.html",
+      "bytes": 5172308,
+      "linhas": 448,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v10/araraquara-v10-aberto.html",
+      "bytes": 11819697,
+      "linhas": 4974,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v7/pipeline/vetorizar_planta.py",
+      "bytes": 6928,
+      "linhas": 152,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "collections",
+        "cv2",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "pypdfium2",
+        "scipy",
+        "scipy.spatial",
+        "sys"
+      ],
+      "funcoes": 6
+    },
+    {
+      "arquivo": "v7/pipeline/rodar_tudo.py",
+      "bytes": 4282,
+      "linhas": 82,
+      "classe": "codigo",
+      "imports": [
+        "concurrent.futures",
+        "json",
+        "os",
+        "re",
+        "subprocess",
+        "sys",
+        "time"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "v7/pipeline/rodar_escalas.py",
+      "bytes": 1516,
+      "linhas": 32,
+      "classe": "codigo",
+      "imports": [
+        "concurrent.futures",
+        "json",
+        "os",
+        "re",
+        "subprocess",
+        "sys"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "v7/pipeline/relatorio.py",
+      "bytes": 2984,
+      "linhas": 51,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "csv",
+        "json",
+        "numpy",
+        "os",
+        "padrao.cidade",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "v7/pipeline/quadras_miolo.py",
+      "bytes": 6374,
+      "linhas": 127,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "padrao",
+        "padrao.cidade",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "v7/pipeline/quadras_grafo.py",
+      "bytes": 6914,
+      "linhas": 149,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "os",
+        "padrao.cidade",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "v7/pipeline/qa_shot.py",
+      "bytes": 2550,
+      "linhas": 48,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "os",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "v7/pipeline/qa_medir.py",
+      "bytes": 2087,
+      "linhas": 38,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "os",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "v7/pipeline/overlay_planta.py",
+      "bytes": 712,
+      "linhas": 15,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "json",
+        "numpy",
+        "sys"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "v7/pipeline/ocupacao.py",
+      "bytes": 4377,
+      "linhas": 96,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "padrao.cidade",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "v7/pipeline/mapa_qa.py",
+      "bytes": 1704,
+      "linhas": 32,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "json",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "v7/pipeline/make_v7_html.py",
+      "bytes": 3304,
+      "linhas": 88,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "os",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "v7/pipeline/make_v7.py",
+      "bytes": 32133,
+      "linhas": 589,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "os",
+        "padrao.cidade",
+        "sys",
+        "time"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "v7/pipeline/lotes_sinteticos.py",
+      "bytes": 16541,
+      "linhas": 333,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "os",
+        "padrao.cidade",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys"
+      ],
+      "funcoes": 13
+    },
+    {
+      "arquivo": "v7/pipeline/ler_escala.py",
+      "bytes": 2953,
+      "linhas": 76,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "collections",
+        "json",
+        "numpy",
+        "os",
+        "pypdfium2",
+        "rapidocr_onnxruntime",
+        "re",
+        "sys"
+      ],
+      "funcoes": 5
+    },
+    {
+      "arquivo": "v7/pipeline/juntar_lotes.py",
+      "bytes": 14984,
+      "linhas": 299,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "json",
+        "lotes_sinteticos",
+        "math",
+        "numpy",
+        "os",
+        "padrao",
+        "padrao.cidade",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys"
+      ],
+      "funcoes": 8
+    },
+    {
+      "arquivo": "v7/pipeline/georreferenciar_planta.py",
+      "bytes": 18132,
+      "linhas": 376,
+      "classe": "codigo",
+      "imports": [
+        "bisect",
+        "itertools",
+        "json",
+        "math",
+        "numpy",
+        "pyproj",
+        "random",
+        "shapely.affinity",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "statistics",
+        "sys"
+      ],
+      "funcoes": 15
+    },
+    {
+      "arquivo": "v7/pipeline/gen_ruas.py",
+      "bytes": 5895,
+      "linhas": 111,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "os",
+        "padrao.cidade",
+        "shapely.geometry",
+        "shapely.ops",
+        "sys",
+        "time"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "v7/pipeline/gen_portoes.py",
+      "bytes": 6461,
+      "linhas": 149,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "padrao",
+        "padrao.cidade",
+        "pyproj",
+        "shapely",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "v7/pipeline/gen_muros.py",
+      "bytes": 5558,
+      "linhas": 125,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "os",
+        "padrao.cidade",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops",
+        "sys"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "v7/pipeline/gen_chao.py",
+      "bytes": 2061,
+      "linhas": 49,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "os",
+        "padrao.cidade",
+        "shapely.geometry",
+        "shapely.ops",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "v7/pipeline/filtrar_confiaveis.py",
+      "bytes": 2652,
+      "linhas": 47,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "json",
+        "numpy",
+        "os",
+        "padrao.cidade",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "v7/pipeline/exporta_gabarito.py",
+      "bytes": 4283,
+      "linhas": 90,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "json",
+        "math",
+        "os",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "v7/pipeline/consolidar.py",
+      "bytes": 5867,
+      "linhas": 115,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "glob",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "padrao.cidade",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "v7/pipeline/conferir_encaixe.py",
+      "bytes": 1566,
+      "linhas": 26,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "json",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "v7/pipeline/casar_nomes.py",
+      "bytes": 4882,
+      "linhas": 103,
+      "classe": "codigo",
+      "imports": [
+        "difflib",
+        "json",
+        "re",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "unicodedata"
+      ],
+      "funcoes": 8
+    },
+    {
+      "arquivo": "v7/pipeline/build_v7_city.py",
+      "bytes": 31140,
+      "linhas": 656,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "json",
+        "math",
+        "os",
+        "padrao",
+        "padrao.cidade",
+        "pyproj",
+        "random",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys"
+      ],
+      "funcoes": 19
+    },
+    {
+      "arquivo": "v7/pipeline/baixar_openplots.py",
+      "bytes": 3770,
+      "linhas": 84,
+      "classe": "codigo",
+      "imports": [
+        "html",
+        "json",
+        "os",
+        "re",
+        "sys",
+        "time",
+        "urllib.error",
+        "urllib.request"
+      ],
+      "funcoes": 5
+    },
+    {
+      "arquivo": "v7/pipeline/auditoria_tamanhos.py",
+      "bytes": 5090,
+      "linhas": 98,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "csv",
+        "json",
+        "numpy",
+        "os",
+        "padrao.cidade",
+        "sys"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "araraquara/araraquara.html",
+      "bytes": 4523060,
+      "linhas": 392,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador-v16/rabo.html",
+      "bytes": 2,
+      "linhas": 1,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v6/sao-carlos-v6.html",
+      "bytes": 11768164,
+      "linhas": 2507,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v6/make_v6.py",
+      "bytes": 25020,
+      "linhas": 452,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "os",
+        "sys"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "renderizador-v16/lib/three.min.js",
+      "bytes": 678588,
+      "linhas": 3837,
+      "classe": "biblioteca",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador-v16/lib/earcut.min.js",
+      "bytes": 7132,
+      "linhas": 1,
+      "classe": "biblioteca",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador-v16/estilo.css",
+      "bytes": 26573,
+      "linhas": 396,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "renderizador-v16/corpo.html",
+      "bytes": 5915,
+      "linhas": 144,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador-v16/cabeca.html",
+      "bytes": 305,
+      "linhas": 5,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador-v16/app.js",
+      "bytes": 532072,
+      "linhas": 9859,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "THREE",
+        "__gMuros",
+        "__gTerreno",
+        "__int",
+        "__perf"
+      ],
+      "funcoes": 237
+    },
+    {
+      "arquivo": "exteriores/v1/preparar.py",
+      "bytes": 1516,
+      "linhas": 17,
+      "classe": "codigo",
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "exteriores/v1/ocupacao.py",
+      "bytes": 1237,
+      "linhas": 28,
+      "classe": "codigo",
+      "imports": [
+        "pipeline.encaixar_casas_lotes",
+        "shapely.geometry",
+        "shapely.strtree"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "renderizador-v16-moveis/lib/three.min.js",
+      "bytes": 678588,
+      "linhas": 3837,
+      "classe": "biblioteca",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador-v16-moveis/lib/earcut.min.js",
+      "bytes": 7132,
+      "linhas": 1,
+      "classe": "biblioteca",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador-v16-moveis/exterior-details.js",
+      "bytes": 18790,
+      "linhas": 237,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "ExteriorDetails"
+      ],
+      "funcoes": 12
+    },
+    {
+      "arquivo": "renderizador-v16-moveis/estilo.css",
+      "bytes": 36296,
+      "linhas": 520,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "renderizador-v16-moveis/corpo.html",
+      "bytes": 9467,
+      "linhas": 195,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador-v16-moveis/cabeca.html",
+      "bytes": 546,
+      "linhas": 6,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador-v16-moveis/app.js",
+      "bytes": 570651,
+      "linhas": 10603,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "ExteriorDetails",
+        "THREE",
+        "__gMuros",
+        "__gTerreno",
+        "__int",
+        "__perf"
+      ],
+      "funcoes": 266
+    },
+    {
+      "arquivo": "unreal/render_beleza.py",
+      "bytes": 23503,
+      "linhas": 511,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "os",
+        "unreal"
+      ],
+      "funcoes": 19
+    },
+    {
+      "arquivo": "renderizador/rabo.html",
+      "bytes": 2,
+      "linhas": 1,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v5/sao-carlos-v5.html",
+      "bytes": 112380,
+      "linhas": 2057,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v5/make_v5.py",
+      "bytes": 6744,
+      "linhas": 155,
+      "classe": "codigo",
+      "imports": [
+        "gzip",
+        "io",
+        "os",
+        "shutil",
+        "sys"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "v4/stream_block.js",
+      "bytes": 7691,
+      "linhas": 173,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 7
+    },
+    {
+      "arquivo": "v4/sao-carlos-v4.html",
+      "bytes": 6963371,
+      "linhas": 2041,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v4/make_v4.py",
+      "bytes": 9807,
+      "linhas": 204,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "os",
+        "sys"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "v4/build_city_v4.py",
+      "bytes": 6567,
+      "linhas": 166,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "json",
+        "math",
+        "os",
+        "padrao.cidade",
+        "sys"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "v4/assemble_block.js",
+      "bytes": 2257,
+      "linhas": 46,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "v3/sao-carlos-overture-v3.html",
+      "bytes": 6855271,
+      "linhas": 1843,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v16-moveis/sao-carlos-v16-moveis.html",
+      "bytes": 13956579,
+      "linhas": 771,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v16-moveis/sao-carlos-v16-moveis-aberto.html",
+      "bytes": 32789780,
+      "linhas": 15812,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "exteriores/v1/index-producao-anterior.html",
+      "bytes": 374,
+      "linhas": 1,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "exteriores/v1/index-local-anterior.html",
+      "bytes": 364,
+      "linhas": 1,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "moveis/moveis.py",
+      "bytes": 33215,
+      "linhas": 661,
+      "classe": "codigo",
+      "imports": [
+        "bmesh",
+        "bpy",
+        "math",
+        "mathutils"
+      ],
+      "funcoes": 24
+    },
+    {
+      "arquivo": "moveis/export_moveis.py",
+      "bytes": 3730,
+      "linhas": 81,
+      "classe": "codigo",
+      "imports": [
+        "bpy",
+        "json",
+        "moveis",
+        "os",
+        "sys"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "v16-moveis/publicado/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+      "bytes": 13955818,
+      "linhas": 771,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador/lib/three.min.js",
+      "bytes": 678588,
+      "linhas": 3837,
+      "classe": "biblioteca",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador/lib/earcut.min.js",
+      "bytes": 7132,
+      "linhas": 1,
+      "classe": "biblioteca",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador/estilo.css",
+      "bytes": 26573,
+      "linhas": 396,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "renderizador/corpo.html",
+      "bytes": 5915,
+      "linhas": 144,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador/cabeca.html",
+      "bytes": 305,
+      "linhas": 5,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "renderizador/app.js",
+      "bytes": 524138,
+      "linhas": 9890,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "THREE",
+        "__gMuros",
+        "__gTerreno",
+        "__int",
+        "__perf"
+      ],
+      "funcoes": 239
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/validar_glb.mjs",
+      "bytes": 3501,
+      "linhas": 56,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/roundtrip.py",
+      "bytes": 1468,
+      "linhas": 25,
+      "classe": "codigo",
+      "imports": [
+        "bpy",
+        "importlib.util",
+        "json",
+        "pathlib"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "exteriores/v1/gerar.py",
+      "bytes": 23534,
+      "linhas": 404,
+      "classe": "codigo",
+      "imports": [
+        "array",
+        "base64",
+        "bpy",
+        "hashlib",
+        "importlib.util",
+        "json",
+        "math",
+        "mathutils",
+        "pathlib",
+        "sys"
+      ],
+      "funcoes": 22
+    },
+    {
+      "arquivo": "exteriores/v1/encaixar.py",
+      "bytes": 4972,
+      "linhas": 81,
+      "classe": "codigo",
+      "imports": [
+        "hashlib",
+        "json",
+        "math",
+        "padrao.cidade",
+        "pathlib",
+        "pipeline.encaixar_casas_lotes",
+        "shapely.affinity",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "exteriores/v1/dividir_terrenos.py",
+      "bytes": 1017,
+      "linhas": 16,
+      "classe": "codigo",
+      "imports": [
+        "gzip",
+        "hashlib",
+        "json",
+        "math",
+        "pathlib"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "exteriores/v1/componentes.py",
+      "bytes": 1507,
+      "linhas": 26,
+      "classe": "codigo",
+      "imports": [
+        "bpy",
+        "hashlib",
+        "importlib.util",
+        "json",
+        "pathlib",
+        "sys"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "exteriores/v1/compactar_terrenos.py",
+      "bytes": 1074,
+      "linhas": 20,
+      "classe": "codigo",
+      "imports": [
+        "array",
+        "base64",
+        "json",
+        "pathlib"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "exteriores/v1/catalogo_terrenos.py",
+      "bytes": 2022,
+      "linhas": 10,
+      "classe": "codigo",
+      "imports": [
+        "html",
+        "json",
+        "pathlib"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "exteriores/v1/catalogo.py",
+      "bytes": 2076,
+      "linhas": 19,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "html",
+        "json",
+        "pathlib"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "exteriores/v1/catalogo.html",
+      "bytes": 7114,
+      "linhas": 1,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "exteriores/v1/atlas_distante.py",
+      "bytes": 1580,
+      "linhas": 21,
+      "classe": "codigo",
+      "imports": [
+        "bpy",
+        "json",
+        "math",
+        "pathlib"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "relatorios/modelos-cadastrados/qa-assentamento.html",
+      "bytes": 32795626,
+      "linhas": 15836,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "relatorios/modelos-cadastrados/qa-anterior.html",
+      "bytes": 31996097,
+      "linhas": 15749,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "relatorios/modelos-cadastrados/mapa.html",
+      "bytes": 32793751,
+      "linhas": 15812,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "relatorios/modelos-cadastrados/mapa-comprimido.html",
+      "bytes": 13956630,
+      "linhas": 771,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "relatorios/modelos-cadastrados/conferencia.html",
+      "bytes": 1523782,
+      "linhas": 4415,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "unreal/_sonda.py",
+      "bytes": 283,
+      "linhas": 5,
+      "classe": "codigo",
+      "imports": [
+        "unreal"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "v16-moveis/publicado/index.html",
+      "bytes": 374,
+      "linhas": 1,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "rebuild_city.py",
+      "bytes": 15085,
+      "linhas": 444,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "os",
+        "padrao.cidade",
+        "sys",
+        "time",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "funcoes": 12
+    },
+    {
+      "arquivo": "relatorios/estudo_editor_moveis_parametrico.html",
+      "bytes": 36536,
+      "linhas": 634,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "unreal/assar.py",
+      "bytes": 18627,
+      "linhas": 440,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "os",
+        "unreal"
+      ],
+      "funcoes": 20
+    },
+    {
+      "arquivo": "v16/sao-carlos-v16.html",
+      "bytes": 9804659,
+      "linhas": 592,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v16/sao-carlos-v16-aberto.html",
+      "bytes": 20202458,
+      "linhas": 14261,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v15/sao-carlos-v15.html",
+      "bytes": 9801097,
+      "linhas": 592,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v15/sao-carlos-v15-aberto.html",
+      "bytes": 20188121,
+      "linhas": 14196,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v15/ribeirao-preto-v15.html",
+      "bytes": 10446648,
+      "linhas": 591,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v15/ribeirao-preto-v15-aberto.html",
+      "bytes": 23330395,
+      "linhas": 14292,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "tools/upload_modelo.js",
+      "bytes": 3410,
+      "linhas": 96,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "tools/publicar_aberto.py",
+      "bytes": 1600,
+      "linhas": 48,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "os",
+        "re",
+        "shutil"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "tools/monta_visualizador.py",
+      "bytes": 8367,
+      "linhas": 179,
+      "classe": "codigo",
+      "imports": [
+        "base64",
+        "io",
+        "json",
+        "os",
+        "sys"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "tools/montar_conferencia_cadastros.py",
+      "bytes": 949,
+      "linhas": 8,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "pathlib"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "tools/interior_para_blender.py",
+      "bytes": 12416,
+      "linhas": 289,
+      "classe": "codigo",
+      "imports": [
+        "base64",
+        "bpy",
+        "json",
+        "math",
+        "mathutils",
+        "os"
+      ],
+      "funcoes": 8
+    },
+    {
+      "arquivo": "tools/firebase_check.js",
+      "bytes": 3223,
+      "linhas": 81,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "tools/extract_cidade.py",
+      "bytes": 1475,
+      "linhas": 50,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "os",
+        "re",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "tools/exporta_interior.py",
+      "bytes": 7469,
+      "linhas": 177,
+      "classe": "codigo",
+      "imports": [
+        "http.server",
+        "json",
+        "os",
+        "subprocess",
+        "sys",
+        "threading"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "tools/auditar_substituicoes.mjs",
+      "bytes": 1571,
+      "linhas": 7,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "tools/assar_e_empacotar.py",
+      "bytes": 6847,
+      "linhas": 178,
+      "classe": "codigo",
+      "imports": [
+        "bpy",
+        "json",
+        "os",
+        "sys",
+        "time"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/montar_catalogo.py",
+      "bytes": 3420,
+      "linhas": 56,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "ast",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "v15/publicado/sao-carlos.html",
+      "bytes": 9801062,
+      "linhas": 592,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v15/publicado/ribeirao-preto.html",
+      "bytes": 10446614,
+      "linhas": 591,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "v15/publicado/index.html",
+      "bytes": 780,
+      "linhas": 17,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "relatorios/mobile/antes-app.js",
+      "bytes": 565453,
+      "linhas": 10532,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "relatorios/mobile/antes-estilo.css",
+      "bytes": 28700,
+      "linhas": 429,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "relatorios/mobile/antes-corpo.html",
+      "bytes": 8025,
+      "linhas": 187,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "relatorios/mobile/preparar.py",
+      "bytes": 1416,
+      "linhas": 30,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "loteamentos_vetor_viewer.html",
+      "bytes": 218818,
+      "linhas": 15,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "mapa_completo_viewer.html",
+      "bytes": 493370,
+      "linhas": 13,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "merge_osm_overture.py",
+      "bytes": 20129,
+      "linhas": 535,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "os",
+        "padrao.cidade",
+        "re",
+        "sys"
+      ],
+      "funcoes": 19
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/compilar_mapa.mjs",
+      "bytes": 2625,
+      "linhas": 46,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "teste melhoria grafica/tipologia.js",
+      "bytes": 6391,
+      "linhas": 114,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "teste melhoria grafica/sao-carlos-tipologia.html",
+      "bytes": 7603291,
+      "linhas": 2388,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "teste melhoria grafica/sao-carlos-tipologia-servido.html",
+      "bytes": 129530,
+      "linhas": 2354,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "teste melhoria grafica/predios.js",
+      "bytes": 9533,
+      "linhas": 176,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "teste melhoria grafica/make_fachadas.py",
+      "bytes": 11968,
+      "linhas": 245,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "os",
+        "sys"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "teste melhoria grafica/lib/three.min.js",
+      "bytes": 603445,
+      "linhas": 6,
+      "classe": "biblioteca",
+      "imports": []
+    },
+    {
+      "arquivo": "teste melhoria grafica/lib/earcut.min.js",
+      "bytes": 7131,
+      "linhas": 1,
+      "classe": "biblioteca",
+      "imports": []
+    },
+    {
+      "arquivo": "teste melhoria grafica/grade_relevo.py",
+      "bytes": 3081,
+      "linhas": 84,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "math",
+        "os",
+        "sys",
+        "time",
+        "urllib.request"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "teste melhoria grafica/fachada.js",
+      "bytes": 5919,
+      "linhas": 98,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "modelos_cadastrados/testar.mjs",
+      "bytes": 993,
+      "linhas": 13,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "modelos_cadastrados/processar_anuncio.py",
+      "bytes": 10518,
+      "linhas": 184,
+      "classe": "codigo",
+      "imports": [
+        "analisar_fotos",
+        "argparse",
+        "datetime",
+        "extrair_anuncio",
+        "gerar_revisao",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "receita",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile",
+        "time"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "sorocaba/sorocaba.html",
+      "bytes": 8215834,
+      "linhas": 336,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "sorocaba/sorocaba-aberto.html",
+      "bytes": 17866586,
+      "linhas": 2808,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/gerar_compactos.mjs",
+      "bytes": 3568,
+      "linhas": 40,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "THREE"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/gerar.py",
+      "bytes": 28071,
+      "linhas": 447,
+      "classe": "codigo",
+      "imports": [
+        "bpy",
+        "hashlib",
+        "json",
+        "math",
+        "mathutils",
+        "pathlib",
+        "sys",
+        "time"
+      ],
+      "funcoes": 21
+    },
+    {
+      "arquivo": "modelos_cadastrados/processados/teste-pipeline-57881/revisao.html",
+      "bytes": 14200,
+      "linhas": 11,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "pipeline/unreal_roda.py",
+      "bytes": 6033,
+      "linhas": 134,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "os",
+        "re",
+        "shutil",
+        "subprocess",
+        "sys",
+        "time"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "pipeline/unreal_exporta.py",
+      "bytes": 9660,
+      "linhas": 224,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "math",
+        "os",
+        "sys"
+      ],
+      "funcoes": 9
+    },
+    {
+      "arquivo": "pipeline/unreal_cena.py",
+      "bytes": 14146,
+      "linhas": 321,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "math",
+        "os",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 11
+    },
+    {
+      "arquivo": "pipeline/unreal_atlas_prova.py",
+      "bytes": 2996,
+      "linhas": 84,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "io",
+        "json",
+        "os",
+        "shutil",
+        "sys"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "pipeline/unreal_atlas.py",
+      "bytes": 7062,
+      "linhas": 159,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "io",
+        "json",
+        "math",
+        "os",
+        "sys"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "pipeline/ue.py",
+      "bytes": 3754,
+      "linhas": 95,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "sys",
+        "urllib.error",
+        "urllib.request"
+      ],
+      "funcoes": 7
+    },
+    {
+      "arquivo": "pipeline/testa_v12_ux.py",
+      "bytes": 9860,
+      "linhas": 209,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "math",
+        "os",
+        "padrao.cidade",
+        "pipeline.foto",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "pipeline/testa_terreno_base.py",
+      "bytes": 8233,
+      "linhas": 169,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "padrao.cidade",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "pipeline/testa_quadro_preguicoso.py",
+      "bytes": 10747,
+      "linhas": 232,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "padrao.cidade",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "pipeline/testa_pe_de_parede.py",
+      "bytes": 3796,
+      "linhas": 74,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "os",
+        "subprocess",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "pipeline/testa_moveis.py",
+      "bytes": 14350,
+      "linhas": 293,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "pipeline/testa_luz.py",
+      "bytes": 10171,
+      "linhas": 225,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "padrao.cidade",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "pipeline/testa_junta.py",
+      "bytes": 2250,
+      "linhas": 48,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "io",
+        "json",
+        "os",
+        "subprocess",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "pipeline/testa_governador.py",
+      "bytes": 5206,
+      "linhas": 127,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "padrao.cidade",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "pipeline/testa_ficha_e_perto.py",
+      "bytes": 16758,
+      "linhas": 330,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "padrao.cidade",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "pipeline/testa_duplo_clique.py",
+      "bytes": 6016,
+      "linhas": 134,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "pipeline/testa_arvore_incremental.py",
+      "bytes": 6595,
+      "linhas": 152,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "padrao.cidade",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "pipeline/rodar.py",
+      "bytes": 15669,
+      "linhas": 332,
+      "classe": "codigo",
+      "imports": [
+        "hashlib",
+        "json",
+        "os",
+        "padrao.cidade",
+        "subprocess",
+        "sys",
+        "time"
+      ],
+      "funcoes": 14
+    },
+    {
+      "arquivo": "pipeline/recorta_sitios.py",
+      "bytes": 5624,
+      "linhas": 138,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "padrao",
+        "padrao.cidade",
+        "sys"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "pipeline/publicar.py",
+      "bytes": 3240,
+      "linhas": 68,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "os",
+        "pipeline.montar",
+        "re",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "pipeline/nova_cidade.py",
+      "bytes": 3722,
+      "linhas": 87,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "io",
+        "json",
+        "math",
+        "os",
+        "re",
+        "sys",
+        "unicodedata"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "pipeline/montar.py",
+      "bytes": 27657,
+      "linhas": 521,
+      "classe": "codigo",
+      "imports": [
+        "base64",
+        "difflib",
+        "io",
+        "json",
+        "os",
+        "padrao.cidade",
+        "pipeline.encaixar_casas_lotes",
+        "re",
+        "sys",
+        "time",
+        "zlib"
+      ],
+      "funcoes": 14
+    },
+    {
+      "arquivo": "pipeline/mobiliar.py",
+      "bytes": 41770,
+      "linhas": 905,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "math",
+        "os",
+        "re",
+        "sys"
+      ],
+      "funcoes": 28
+    },
+    {
+      "arquivo": "pipeline/mede_minimapa.py",
+      "bytes": 12058,
+      "linhas": 275,
+      "classe": "codigo",
+      "imports": [
+        "base64",
+        "http.server",
+        "io",
+        "json",
+        "os",
+        "padrao.cidade",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile",
+        "threading",
+        "time"
+      ],
+      "funcoes": 6
+    },
+    {
+      "arquivo": "pipeline/mede_interior.py",
+      "bytes": 16485,
+      "linhas": 297,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "io",
+        "json",
+        "os",
+        "padrao.cidade",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "pipeline/mede_cidade.py",
+      "bytes": 5850,
+      "linhas": 148,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "numpy",
+        "numpy.lib.stride_tricks",
+        "os",
+        "sys"
+      ],
+      "funcoes": 5
+    },
+    {
+      "arquivo": "pipeline/foto_interior.py",
+      "bytes": 9855,
+      "linhas": 212,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "pipeline/foto.py",
+      "bytes": 8229,
+      "linhas": 176,
+      "classe": "codigo",
+      "imports": [
+        "base64",
+        "http.server",
+        "io",
+        "json",
+        "math",
+        "os",
+        "pipeline.montar",
+        "shutil",
+        "socket",
+        "subprocess",
+        "sys",
+        "tempfile",
+        "threading",
+        "time"
+      ],
+      "funcoes": 5
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/auditar_ruas.mjs",
+      "bytes": 1324,
+      "linhas": 12,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/auditar_quarteiroes.py",
+      "bytes": 13636,
+      "linhas": 262,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "os",
+        "padrao.cidade",
+        "pipeline.encaixar_casas_lotes",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "statistics",
+        "sys"
+      ],
+      "funcoes": 5
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/auditar_encaixes.py",
+      "bytes": 2257,
+      "linhas": 46,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "padrao.cidade",
+        "pathlib",
+        "pipeline.encaixar_casas_lotes",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "sao-jose-do-rio-preto/sao-jose-do-rio-preto.html",
+      "bytes": 7293000,
+      "linhas": 336,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "sao-jose-do-rio-preto/sao-jose-do-rio-preto-aberto.html",
+      "bytes": 15895114,
+      "linhas": 2808,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "modelos_cadastrados/gerar_estudos.mjs",
+      "bytes": 9761,
+      "linhas": 110,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "THREE"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/medir_trecho.py",
+      "bytes": 7973,
+      "linhas": 174,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "padrao.cidade",
+        "pipeline.mede_minimapa",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/testar_ruas.mjs",
+      "bytes": 3161,
+      "linhas": 46,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "THREE"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/testar_colisao_ruas.mjs",
+      "bytes": 1471,
+      "linhas": 20,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/testar_browser.py",
+      "bytes": 7208,
+      "linhas": 122,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "os",
+        "pathlib",
+        "pipeline.foto",
+        "re",
+        "shutil",
+        "subprocess",
+        "sys",
+        "uuid"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/testar_assentamento.mjs",
+      "bytes": 4332,
+      "linhas": 65,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "THREE"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/testar.mjs",
+      "bytes": 4311,
+      "linhas": 56,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "THREE",
+        "UrbanModels"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/sonda-assentamento.js",
+      "bytes": 1950,
+      "linhas": 22,
+      "classe": "codigo",
+      "imports": [],
+      "globais": [
+        "__int"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/app-antes-colisao-ruas.js",
+      "bytes": 563026,
+      "linhas": 10482,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/app-antes-arvores-cruzamentos.js",
+      "bytes": 561702,
+      "linhas": 10450,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/app-antes-profundidade.js",
+      "bytes": 559107,
+      "linhas": 10412,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/app-antes-proporcoes.js",
+      "bytes": 565263,
+      "linhas": 10530,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "pipeline/cobertura_da_quadra.py",
+      "bytes": 3624,
+      "linhas": 81,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "os",
+        "padrao.cidade",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "statistics",
+        "sys"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "pipeline/baixa_texturas.py",
+      "bytes": 3360,
+      "linhas": 77,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "io",
+        "os",
+        "sys",
+        "urllib.request",
+        "zipfile"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "pipeline/audita_fronteiras.py",
+      "bytes": 4100,
+      "linhas": 95,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "math",
+        "os",
+        "sys"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/arvores.py",
+      "bytes": 14084,
+      "linhas": 322,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/app.js",
+      "bytes": 556786,
+      "linhas": 10365,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/export_arvores.py",
+      "bytes": 2833,
+      "linhas": 73,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/mapa-antes-arvores-cruzamentos.html",
+      "bytes": 11070741,
+      "linhas": 669,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "pipeline/encaixar_casas_lotes.py",
+      "bytes": 8221,
+      "linhas": 165,
+      "classe": "codigo",
+      "imports": [
+        "hashlib",
+        "json",
+        "math",
+        "pathlib",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "pipeline/dump_planta.py",
+      "bytes": 4835,
+      "linhas": 113,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "pipeline.montar",
+        "shutil",
+        "subprocess",
+        "sys",
+        "tempfile"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "pipeline/compara_ue.py",
+      "bytes": 2912,
+      "linhas": 76,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "io",
+        "numpy",
+        "os",
+        "sys"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "pipeline/compara_print.py",
+      "bytes": 2197,
+      "linhas": 54,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "numpy",
+        "sys"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "pipeline/extrair_planta.py",
+      "bytes": 10725,
+      "linhas": 268,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "cv2",
+        "json",
+        "numpy",
+        "os",
+        "sys"
+      ],
+      "funcoes": 9
+    },
+    {
+      "arquivo": "pipeline/extrair_dados.py",
+      "bytes": 4361,
+      "linhas": 100,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "os",
+        "padrao.cidade",
+        "sys"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "pipeline/extrair_renderizador.py",
+      "bytes": 4500,
+      "linhas": 91,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "os",
+        "re",
+        "sys"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "pipeline/fazer_backup.py",
+      "bytes": 6570,
+      "linhas": 155,
+      "classe": "codigo",
+      "imports": [
+        "hashlib",
+        "io",
+        "os",
+        "pipeline.montar",
+        "sys",
+        "time",
+        "zipfile"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "sao-carlos.html",
+      "bytes": 50615,
+      "linhas": 1106,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "sao-carlos-overture.html",
+      "bytes": 6596044,
+      "linhas": 1127,
+      "classe": "html/artefato",
+      "imports": []
+    },
+    {
+      "arquivo": "padrao/pagina.py",
+      "bytes": 6536,
+      "linhas": 133,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "shutil",
+        "subprocess",
+        "tempfile"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/urban-antes-proporcoes.js",
+      "bytes": 9093,
+      "linhas": 151,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/montar.py",
+      "bytes": 23605,
+      "linhas": 470,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/mapa-antes-proporcoes.html",
+      "bytes": 11059953,
+      "linhas": 669,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/mapa-antes-profundidade.html",
+      "bytes": 11069561,
+      "linhas": 669,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "modelos_urbanos/v1/integracao/antes/mapa-antes-colisao-ruas.html",
+      "bytes": 11056965,
+      "linhas": 669,
+      "classe": "historico/relatorio",
+      "imports": []
+    },
+    {
+      "arquivo": "padrao/comportamento.py",
+      "bytes": 9909,
+      "linhas": 178,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "padrao",
+        "padrao.qa",
+        "subprocess",
+        "sys",
+        "time"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "padrao/cidade.py",
+      "bytes": 5566,
+      "linhas": 119,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "math",
+        "os",
+        "pyproj"
+      ],
+      "funcoes": 14
+    },
+    {
+      "arquivo": "padrao/sitios.py",
+      "bytes": 8538,
+      "linhas": 160,
+      "classe": "codigo",
+      "imports": [
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "padrao/rodar_qa.py",
+      "bytes": 4710,
+      "linhas": 117,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "padrao",
+        "padrao.cidade",
+        "pipeline.montar",
+        "sys",
+        "time"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "padrao/qa.py",
+      "bytes": 19232,
+      "linhas": 374,
+      "classe": "codigo",
+      "imports": [
+        "",
+        "collections",
+        "io",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "padrao",
+        "re",
+        "shapely",
+        "shapely.geometry",
+        "shapely.strtree"
+      ],
+      "funcoes": 14
+    },
+    {
+      "arquivo": "padrao/vias.py",
+      "bytes": 3842,
+      "linhas": 90,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "math",
+        "re",
+        "shapely.geometry",
+        "shapely.ops"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "padrao/__init__.py",
+      "bytes": 0,
+      "linhas": 0,
+      "classe": "codigo",
+      "imports": [],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "modelos_cadastrados/pipeline/analisar_fotos.py",
+      "bytes": 6063,
+      "linhas": 78,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "pathlib",
+        "receita",
+        "shutil",
+        "subprocess",
+        "uuid"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "pipeline/fontes/recorta_lotes_oficiais.py",
+      "bytes": 4445,
+      "linhas": 96,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "io",
+        "json",
+        "os",
+        "padrao.cidade",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops",
+        "sys",
+        "time"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "pipeline/fontes/pois.py",
+      "bytes": 4276,
+      "linhas": 95,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "json",
+        "os",
+        "padrao.cidade",
+        "sys",
+        "unicodedata"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "pipeline/fontes/geoportal_rp.py",
+      "bytes": 4695,
+      "linhas": 114,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "sys",
+        "time",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "pipeline/fontes/overture.py",
+      "bytes": 2531,
+      "linhas": 58,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "os",
+        "padrao.cidade",
+        "subprocess",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "pipeline/fontes/cnefe.py",
+      "bytes": 4033,
+      "linhas": 88,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "os",
+        "padrao.cidade",
+        "pyproj",
+        "sys",
+        "zipfile"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "pipeline/fontes/osm_extract.py",
+      "bytes": 6664,
+      "linhas": 143,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "os",
+        "osmium",
+        "padrao.cidade",
+        "sys",
+        "time"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "pipeline/fontes/cadastro_rp.py",
+      "bytes": 10676,
+      "linhas": 232,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "io",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "padrao.cidade",
+        "pyproj",
+        "shapely.geometry",
+        "shapely.ops",
+        "shapely.strtree",
+        "sys",
+        "time"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "pipeline/fontes/sigasc_parcelamentos.py",
+      "bytes": 3820,
+      "linhas": 80,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "os",
+        "padrao.cidade",
+        "shapely.geometry",
+        "shapely.ops",
+        "sigasc",
+        "sys"
+      ],
+      "funcoes": 2
+    },
+    {
+      "arquivo": "pipeline/fontes/sigasc_enderecos.py",
+      "bytes": 2282,
+      "linhas": 53,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "os",
+        "padrao.cidade",
+        "sigasc",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "pipeline/fontes/sigasc.py",
+      "bytes": 11014,
+      "linhas": 232,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "affine",
+        "io",
+        "json",
+        "numpy",
+        "os",
+        "rasterio.features",
+        "scipy",
+        "shapely.geometry",
+        "shapely.ops",
+        "time",
+        "urllib.request"
+      ],
+      "funcoes": 12
+    },
+    {
+      "arquivo": "pipeline/fontes/relevo.py",
+      "bytes": 3883,
+      "linhas": 92,
+      "classe": "codigo",
+      "imports": [
+        "io",
+        "json",
+        "math",
+        "os",
+        "padrao.cidade",
+        "sys",
+        "time",
+        "urllib.request"
+      ],
+      "funcoes": 3
+    },
+    {
+      "arquivo": "pipeline/fontes/vegetacao.py",
+      "bytes": 6560,
+      "linhas": 143,
+      "classe": "codigo",
+      "imports": [
+        "base64",
+        "datetime",
+        "io",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "padrao.cidade",
+        "pyproj",
+        "rasterio",
+        "rasterio.enums",
+        "rasterio.windows",
+        "sys",
+        "urllib.request"
+      ],
+      "funcoes": 5
+    },
+    {
+      "arquivo": "pipeline/fontes/sigasc_quadras.py",
+      "bytes": 2243,
+      "linhas": 51,
+      "classe": "codigo",
+      "imports": [
+        "json",
+        "os",
+        "padrao.cidade",
+        "shapely.geometry",
+        "shapely.ops",
+        "sigasc",
+        "sys"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "pipeline/fontes/_confere_vegetacao.py",
+      "bytes": 6377,
+      "linhas": 150,
+      "classe": "codigo",
+      "imports": [
+        "base64",
+        "io",
+        "json",
+        "numpy",
+        "os",
+        "padrao.cidade",
+        "sys"
+      ],
+      "funcoes": 6
+    },
+    {
+      "arquivo": "modelos_cadastrados/pipeline/test_receita.py",
+      "bytes": 4409,
+      "linhas": 85,
+      "classe": "codigo",
+      "imports": [
+        "analisar_fotos",
+        "copy",
+        "hashlib",
+        "importlib.util",
+        "json",
+        "pathlib",
+        "receita",
+        "subprocess",
+        "sys",
+        "tempfile",
+        "unittest",
+        "unittest.mock"
+      ],
+      "funcoes": 9
+    },
+    {
+      "arquivo": "modelos_cadastrados/pipeline/test_processo.py",
+      "bytes": 6806,
+      "linhas": 145,
+      "classe": "codigo",
+      "imports": [
+        "contextlib",
+        "hashlib",
+        "importlib.util",
+        "io",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "unittest",
+        "unittest.mock"
+      ],
+      "funcoes": 15
+    },
+    {
+      "arquivo": "modelos_cadastrados/pipeline/test_extrair_anuncio.py",
+      "bytes": 9899,
+      "linhas": 173,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "extrair_anuncio",
+        "io",
+        "json",
+        "pathlib",
+        "tempfile",
+        "unittest",
+        "unittest.mock"
+      ],
+      "funcoes": 26
+    },
+    {
+      "arquivo": "modelos_cadastrados/pipeline/receita.py",
+      "bytes": 5041,
+      "linhas": 97,
+      "classe": "codigo",
+      "imports": [
+        "math",
+        "re"
+      ],
+      "funcoes": 4
+    },
+    {
+      "arquivo": "modelos_cadastrados/pipeline/montar_blender.py",
+      "bytes": 24282,
+      "linhas": 473,
+      "classe": "codigo",
+      "imports": [
+        "argparse",
+        "bpy",
+        "json",
+        "math",
+        "mathutils",
+        "pathlib",
+        "re",
+        "sys"
+      ],
+      "funcoes": 20
+    },
+    {
+      "arquivo": "modelos_cadastrados/pipeline/gerar_revisao.py",
+      "bytes": 4668,
+      "linhas": 44,
+      "classe": "codigo",
+      "imports": [
+        "argparse",
+        "html",
+        "json",
+        "pathlib",
+        "urllib.parse"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "modelos_cadastrados/pipeline/extrair_anuncio.py",
+      "bytes": 20972,
+      "linhas": 385,
+      "classe": "codigo",
+      "imports": [
+        "PIL",
+        "__future__",
+        "argparse",
+        "datetime",
+        "hashlib",
+        "html.parser",
+        "http.client",
+        "io",
+        "ipaddress",
+        "json",
+        "pathlib",
+        "re",
+        "socket",
+        "ssl",
+        "urllib.parse",
+        "warnings"
+      ],
+      "funcoes": 15
+    },
+    {
+      "arquivo": "modelos_cadastrados/pipeline/fixtures_blender/verificar_manifesto.py",
+      "bytes": 1294,
+      "linhas": 22,
+      "classe": "codigo",
+      "imports": [
+        "bpy",
+        "importlib.util",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "funcoes": 0
+    },
+    {
+      "arquivo": "modelos_cadastrados/pipeline/fixtures_blender/verificar_glb.py",
+      "bytes": 2566,
+      "linhas": 44,
+      "classe": "codigo",
+      "imports": [
+        "collections",
+        "json",
+        "math",
+        "pathlib",
+        "struct"
+      ],
+      "funcoes": 1
+    },
+    {
+      "arquivo": "modelos_cadastrados/pipeline/fixtures_blender/verificar_blend.py",
+      "bytes": 2330,
+      "linhas": 37,
+      "classe": "codigo",
+      "imports": [
+        "bpy",
+        "copy",
+        "importlib.util",
+        "json",
+        "pathlib"
+      ],
+      "funcoes": 0
+    }
+  ],
+  "duplicatas_textuais": [
+    [
+      "baixar_openplots.py",
+      "v7/pipeline/baixar_openplots.py"
+    ],
+    [
+      "plantas_pipeline/georreferenciar_planta.py",
+      "v7/pipeline/georreferenciar_planta.py"
+    ],
+    [
+      "plantas_pipeline/conferir_encaixe.py",
+      "v7/pipeline/conferir_encaixe.py"
+    ],
+    [
+      "plantas_pipeline/casar_nomes.py",
+      "v7/pipeline/casar_nomes.py"
+    ],
+    [
+      "plantas_pipeline/overlay_planta.py",
+      "v7/pipeline/overlay_planta.py"
+    ],
+    [
+      "plantas_pipeline/mapa_qa.py",
+      "v7/pipeline/mapa_qa.py"
+    ],
+    [
+      "plantas_pipeline/ler_escala.py",
+      "v7/pipeline/ler_escala.py"
+    ],
+    [
+      "plantas_pipeline/vetorizar_planta.py",
+      "v7/pipeline/vetorizar_planta.py"
+    ],
+    [
+      "plantas_pipeline/rodar_escalas.py",
+      "v7/pipeline/rodar_escalas.py"
+    ],
+    [
+      "plantas_pipeline/rodar_tudo.py",
+      "v7/pipeline/rodar_tudo.py"
+    ],
+    [
+      "renderizador-v16/estilo.css",
+      "renderizador/estilo.css"
+    ]
+  ]
+}

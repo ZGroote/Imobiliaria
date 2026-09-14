@@ -1,0 +1,75 @@
+{
+  "firestore": {
+    "rules": "firebase/firestore.rules"
+  },
+  "storage": {
+    "rules": "firebase/storage.rules"
+  },
+  "hosting": {
+    "public": "v16-moveis/publicado",
+    "ignore": [
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "headers": [
+      {
+        "//": "O index tem 269 bytes e o nome NAO muda: precisa chegar novo a cada deploy, senao o navegador serve a versao velha por 1h (que e o default do Hosting quando ninguem manda cabecalho -- e a regra antiga, '**/*.html', nunca pegava a raiz, porque o caminho pedido e '/' e nao termina em .html).",
+        "source": "/",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "//": "O nome do mapa carrega a versao, entao o conteudo desta URL nunca muda: cachear 1 ano e seguro e poupa 6,8 MB de egress por revisita. Medido: o Hosting nao responde 304 a If-None-Match, entao revalidar custaria o arquivo inteiro -- por isso 'immutable' aqui e nome versionado, e nao revalidacao.",
+        "source": "/mapa/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/mapa/sao-carlos-exteriores-bdf9c99b605a",
+        "destination": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "type": 302
+      },
+      {
+        "source": "/mapa/sao-carlos-exteriores-bdf9c99b605a.html",
+        "destination": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "type": 302
+      },
+      {
+        "source": "/mapa/sao-carlos-exteriores-abd917c0b117",
+        "destination": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "type": 302
+      },
+      {
+        "source": "/mapa/sao-carlos-exteriores-abd917c0b117.html",
+        "destination": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "type": 302
+      },
+      {
+        "source": "/mapa/sao-carlos-exteriores-95f1f62f6ea3",
+        "destination": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "type": 302
+      },
+      {
+        "source": "/mapa/sao-carlos-exteriores-95f1f62f6ea3.html",
+        "destination": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "type": 302
+      },
+      {
+        "source": "/sao-carlos",
+        "destination": "/",
+        "type": 301
+      }
+    ]
+  }
+}

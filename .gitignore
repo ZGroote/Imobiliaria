@@ -1,0 +1,27 @@
+node_modules/
+
+# === SEGREDOS — NUNCA versionar ===
+firebase/service-account.json
+firebase/*.local.json
+.env
+.env.*
+!.env.example
+
+# Caches do Firebase CLI
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Artefatos locais e checkpoints grandes; fontes sao adicionadas explicitamente.
+__pycache__/
+*.pyc
+*.log
+*.stackdump
+/backups/
+/_arquivo/
+/_antes_cadastro_oficial/
+/_run_cadastro_oficial/
+/tasks/modularizacao/baseline/artifacts/
+/tasks/modularizacao/work/
+/tasks/modularizacao/results/

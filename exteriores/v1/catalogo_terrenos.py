@@ -1,0 +1,10 @@
+"""Replace the fixed-base yard gallery with actual parcel views and reusable styles."""
+import json,html
+from pathlib import Path
+OUT=Path(__file__).resolve().parent
+build=json.loads((OUT/'build.json').read_text());layouts=json.loads((OUT/'componentes.json').read_text())['layouts']
+surface=dict(grass='grama',cement='cimento',paver='piso drenante',clay='tijolinho',deck='deck e grama',mixed='cimento e grama',gravel='pedrisco')
+cards=''.join(f'<article><small>Quintal {i+1:02}</small><h2>{html.escape(v["name"])}</h2><p>Piso de {surface[v["surface"]]}, recortado pelo terreno e pelas construções.</p></article>' for i,v in enumerate(layouts))
+url=build['localUrl']+'?em=-22.002799,-47.896723&r=140&p=0.72&t=0.5'
+(OUT/'catalogo.html').write_text('<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Quintais no tamanho do terreno</title><style>body{background:#e9e7de;color:#27352c;font:16px system-ui;margin:0;padding:24px;max-width:1280px;margin:auto}h1{font-size:32px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}article{background:#f7f5ee;padding:16px;border-radius:12px}img{width:100%;border-radius:12px}h2{font-size:18px;margin:8px 0}a{color:inherit}</style><h1>Quintais no tamanho de cada terreno</h1><p>O piso acompanha toda a área livre do lote, descontando as construções. Piscinas, varais, jardins e áreas de convivência são distribuídos em escala real.</p><p><a href="'+url+'">Abrir mapa corrigido</a> · <a href="componentes_quintais.blend">Componentes editáveis no Blender</a> · <a href="biblioteca_65.blend">Biblioteca original de muros e composições</a></p><a href="'+url+'"><img src="mapa-desktop.png" alt="Quintais integrados ao tamanho real dos lotes no mapa"></a><h2>40 estilos adaptados ao lote</h2><main>'+cards+'</main><h2>25 tipos de muros</h2><img loading="lazy" src="muros-01-25.jpg" alt="25 variações de muros"></html>',encoding='utf-8')
+print('CATALOG UPDATED')

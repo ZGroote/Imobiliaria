@@ -1,0 +1,1202 @@
+{
+  "artifacts": [
+    {
+      "path": "v16-moveis/sao-carlos-v16-moveis.html",
+      "bytes": 13956579,
+      "sha256": "cb96505339dcc50e7a71678a5769ceed36e526d73eb172c72b239aedc6fa9c1d"
+    },
+    {
+      "path": "v16-moveis/sao-carlos-v16-moveis-aberto.html",
+      "bytes": 32789780,
+      "sha256": "43393ee6b624aa6e7e93d58685f0cf059be6a787453386f75ab8bcf165f1a622"
+    },
+    {
+      "path": "v15/ribeirao-preto-v15.html",
+      "bytes": 10446648,
+      "sha256": "c67e939413237354c32682f10fd3107922ad4f4153d2449273463353f6609d98"
+    },
+    {
+      "path": "v15/ribeirao-preto-v15-aberto.html",
+      "bytes": 23330395,
+      "sha256": "537b9f522bd62ce0f363c5cacc63f83592825e04bc1d5f222704ef2cf914588a"
+    }
+  ],
+  "cities": [
+    {
+      "slug": "araraquara",
+      "sources": {
+        "overture_bruto": {
+          "path": "araraquara/fontes/overture_buildings.geojson",
+          "exists": true
+        },
+        "osm_predios": {
+          "path": "araraquara/fontes/osm_buildings_raw.json",
+          "exists": true
+        },
+        "osm_pois": {
+          "path": "araraquara/fontes/osm_pois_raw.json",
+          "exists": true
+        },
+        "osm_vias": {
+          "path": "araraquara/fontes/osm_vias_raw.json",
+          "exists": false
+        },
+        "city_bruto": {
+          "path": "araraquara/araraquara-bruto.city.json",
+          "exists": true
+        },
+        "city_v2": {
+          "path": "araraquara/araraquara-v2.city.json",
+          "exists": true
+        },
+        "loteamentos": {
+          "path": "loteamentos_araraquara_oficial.geojson",
+          "exists": false
+        },
+        "plantas": {
+          "path": "araraquara/plantas",
+          "exists": false
+        },
+        "relatorio_plantas": {
+          "path": "araraquara/relatorios/relatorio_extracao.csv",
+          "exists": false
+        },
+        "relevo": {
+          "path": "araraquara/relevo_wide.json",
+          "exists": true
+        },
+        "pois": {
+          "path": "araraquara/poidata_merged.json",
+          "exists": true
+        },
+        "imoveis": {
+          "path": "araraquara/dados/imoveis.json",
+          "exists": false
+        },
+        "quadras": {
+          "path": "quadras_araraquara.geojson",
+          "exists": false
+        },
+        "faces_ruas": {
+          "path": "araraquara/blocks.json",
+          "exists": true
+        },
+        "quadras_completo": {
+          "path": "quadras_araraquara_completo.geojson",
+          "exists": true
+        },
+        "city_base": {
+          "path": "araraquara/araraquara-v4.city.json",
+          "exists": true
+        },
+        "city_saida": {
+          "path": "araraquara/araraquara-v7.city.json",
+          "exists": true
+        },
+        "html_saida": {
+          "path": "v15/araraquara-v15-aberto.html",
+          "exists": false
+        },
+        "html_comprimido": {
+          "path": "v15/araraquara-v15.html",
+          "exists": false
+        },
+        "miolo": {
+          "path": "araraquara/dados/quadras_miolo.geojson",
+          "exists": true
+        },
+        "lotes_planta": {
+          "path": "araraquara/dados/lotes_confiaveis_araraquara.geojson",
+          "exists": false
+        },
+        "lotes_oficiais": {
+          "path": "araraquara/dados/lotes_oficiais_araraquara.geojson",
+          "exists": false
+        },
+        "lotes_sinteticos": {
+          "path": "araraquara/dados/lotes_sinteticos_miolo.geojson",
+          "exists": true
+        },
+        "lotes": {
+          "path": "araraquara/dados/lotes_araraquara_completo.geojson",
+          "exists": true
+        },
+        "lotes_ocupados": {
+          "path": "araraquara/dados/lotes_ocupados.json",
+          "exists": true
+        },
+        "muros": {
+          "path": "araraquara/dados/muros_segs.json",
+          "exists": true
+        },
+        "chao_tris": {
+          "path": "araraquara/dados/ground_tris.json",
+          "exists": true
+        },
+        "rua_tris": {
+          "path": "araraquara/dados/street_tris.json",
+          "exists": true
+        },
+        "enderecos": {
+          "path": "araraquara/dados/address_points.json",
+          "exists": false
+        },
+        "alturas_osm": {
+          "path": "araraquara/dados/osm_heights.json",
+          "exists": false
+        },
+        "_nota_quadras": {
+          "path": "quadras = so o cadastro do SigaSC (nao cobre a cidade toda). quadras_completo = cadastro + face do grafo de ruas onde o cadastro nao tem, gerado por v7/pipeline/quadras_grafo.py. E o quadras_completo que a etapa 2 consome.",
+          "exists": false
+        },
+        "arvores": {
+          "path": "arvores/arvores_lib.json",
+          "exists": true
+        },
+        "_nota_arvores": {
+          "path": "biblioteca das 20 especies (gerada por arvores/arvores.py no Blender). O montar.py embute so o LOD baixo. Qual especie entra em qual lugar e o bloco `arborizacao`, nao este caminho.",
+          "exists": false
+        },
+        "portoes": {
+          "path": "araraquara/dados/portoes.json",
+          "exists": true
+        },
+        "vegetacao": {
+          "path": "araraquara/dados/vegetacao_ndvi.json",
+          "exists": true
+        }
+      }
+    },
+    {
+      "slug": "ribeirao-preto-oficial",
+      "sources": {
+        "overture_bruto": {
+          "path": "ribeirao-preto/fontes/overture_buildings.geojson",
+          "exists": false
+        },
+        "osm_predios": {
+          "path": "ribeirao-preto/fontes/osm_buildings_raw.json",
+          "exists": true
+        },
+        "osm_pois": {
+          "path": "ribeirao-preto/fontes/osm_pois_raw.json",
+          "exists": true
+        },
+        "osm_vias": {
+          "path": "ribeirao-preto/fontes/osm_vias_raw.json",
+          "exists": true
+        },
+        "city_bruto": {
+          "path": "ribeirao-preto/ribeirao-preto-bruto.city.json",
+          "exists": true
+        },
+        "city_v2": {
+          "path": "ribeirao-preto/ribeirao-preto-v2.city.json",
+          "exists": true
+        },
+        "loteamentos": {
+          "path": "loteamentos_ribeirao-preto_oficial.geojson",
+          "exists": false
+        },
+        "plantas": {
+          "path": "ribeirao-preto/plantas",
+          "exists": false
+        },
+        "relatorio_plantas": {
+          "path": "ribeirao-preto/relatorios/relatorio_extracao.csv",
+          "exists": false
+        },
+        "relevo": {
+          "path": "ribeirao-preto/relevo_wide.json",
+          "exists": true
+        },
+        "pois": {
+          "path": "ribeirao-preto/poidata_merged.json",
+          "exists": true
+        },
+        "imoveis": {
+          "path": "ribeirao-preto/dados/imoveis.json",
+          "exists": false
+        },
+        "quadras": {
+          "path": "quadras_ribeirao-preto.geojson",
+          "exists": false
+        },
+        "faces_ruas": {
+          "path": "ribeirao-preto/blocks.json",
+          "exists": true
+        },
+        "quadras_completo": {
+          "path": "_run_cadastro_oficial/quadras_ribeirao-preto_completo.geojson",
+          "exists": true
+        },
+        "city_base": {
+          "path": "ribeirao-preto/ribeirao-preto-v4.city.json",
+          "exists": true
+        },
+        "city_saida": {
+          "path": "_run_cadastro_oficial/diagnostico.city.json",
+          "exists": true
+        },
+        "html_saida": {
+          "path": "_run_cadastro_oficial/diagnostico-aberto.html",
+          "exists": false
+        },
+        "html_comprimido": {
+          "path": "_run_cadastro_oficial/diagnostico.html",
+          "exists": false
+        },
+        "miolo": {
+          "path": "_run_cadastro_oficial/quadras_miolo.geojson",
+          "exists": true
+        },
+        "lotes_planta": {
+          "path": "ribeirao-preto/dados/lotes_confiaveis_ribeirao-preto.geojson",
+          "exists": false
+        },
+        "lotes_oficiais": {
+          "path": "ribeirao-preto/dados/lotes_oficiais_ribeirao-preto.geojson",
+          "exists": false
+        },
+        "lotes_sinteticos": {
+          "path": "ribeirao-preto/dados/lotes_sinteticos_miolo.geojson",
+          "exists": false
+        },
+        "lotes": {
+          "path": "_run_cadastro_oficial/lotes_sem_normal.geojson",
+          "exists": true
+        },
+        "lotes_ocupados": {
+          "path": "_run_cadastro_oficial/lotes_ocupados.json",
+          "exists": true
+        },
+        "muros": {
+          "path": "ribeirao-preto/dados/muros_segs.json",
+          "exists": true
+        },
+        "chao_tris": {
+          "path": "_run_cadastro_oficial/ground_tris_teste.json",
+          "exists": false
+        },
+        "rua_tris": {
+          "path": "_run_cadastro_oficial/street_tris_teste.json",
+          "exists": false
+        },
+        "enderecos": {
+          "path": "ribeirao-preto/dados/address_points.json",
+          "exists": true
+        },
+        "alturas_osm": {
+          "path": "ribeirao-preto/dados/osm_heights.json",
+          "exists": false
+        },
+        "_nota_quadras": {
+          "path": "quadras = so o cadastro do SigaSC (nao cobre a cidade toda). quadras_completo = cadastro + face do grafo de ruas onde o cadastro nao tem, gerado por v7/pipeline/quadras_grafo.py. E o quadras_completo que a etapa 2 consome.",
+          "exists": false
+        },
+        "arvores": {
+          "path": "arvores/arvores_lib.json",
+          "exists": true
+        },
+        "_nota_arvores": {
+          "path": "biblioteca das 20 especies (gerada por arvores/arvores.py no Blender). O montar.py embute so o LOD baixo. Qual especie entra em qual lugar e o bloco `arborizacao`, nao este caminho.",
+          "exists": false
+        },
+        "portoes": {
+          "path": "ribeirao-preto/dados/portoes.json",
+          "exists": true
+        },
+        "vegetacao": {
+          "path": "ribeirao-preto/dados/vegetacao_ndvi.json",
+          "exists": true
+        }
+      }
+    },
+    {
+      "slug": "ribeirao-preto-proxy-union",
+      "sources": {
+        "overture_bruto": {
+          "path": "ribeirao-preto/fontes/overture_buildings.geojson",
+          "exists": false
+        },
+        "osm_predios": {
+          "path": "ribeirao-preto/fontes/osm_buildings_raw.json",
+          "exists": true
+        },
+        "osm_pois": {
+          "path": "ribeirao-preto/fontes/osm_pois_raw.json",
+          "exists": true
+        },
+        "osm_vias": {
+          "path": "ribeirao-preto/fontes/osm_vias_raw.json",
+          "exists": true
+        },
+        "city_bruto": {
+          "path": "ribeirao-preto/ribeirao-preto-bruto.city.json",
+          "exists": true
+        },
+        "city_v2": {
+          "path": "ribeirao-preto/ribeirao-preto-v2.city.json",
+          "exists": true
+        },
+        "loteamentos": {
+          "path": "loteamentos_ribeirao-preto_oficial.geojson",
+          "exists": false
+        },
+        "plantas": {
+          "path": "ribeirao-preto/plantas",
+          "exists": false
+        },
+        "relatorio_plantas": {
+          "path": "ribeirao-preto/relatorios/relatorio_extracao.csv",
+          "exists": false
+        },
+        "relevo": {
+          "path": "ribeirao-preto/relevo_wide.json",
+          "exists": true
+        },
+        "pois": {
+          "path": "ribeirao-preto/poidata_merged.json",
+          "exists": true
+        },
+        "imoveis": {
+          "path": "ribeirao-preto/dados/imoveis.json",
+          "exists": false
+        },
+        "quadras": {
+          "path": "quadras_ribeirao-preto.geojson",
+          "exists": false
+        },
+        "faces_ruas": {
+          "path": "ribeirao-preto/blocks.json",
+          "exists": true
+        },
+        "quadras_completo": {
+          "path": "quadras_ribeirao-preto_completo.geojson",
+          "exists": true
+        },
+        "city_base": {
+          "path": "ribeirao-preto/ribeirao-preto-v4.city.json",
+          "exists": true
+        },
+        "city_saida": {
+          "path": "ribeirao-preto/ribeirao-preto-v4-recortado-union.city.json",
+          "exists": true
+        },
+        "html_saida": {
+          "path": "v13/ribeirao-preto-proxy-union-v13-aberto.html",
+          "exists": false
+        },
+        "html_comprimido": {
+          "path": "v13/ribeirao-preto-proxy-union-v13.html",
+          "exists": false
+        },
+        "miolo": {
+          "path": "ribeirao-preto/dados/quadras_miolo.geojson",
+          "exists": true
+        },
+        "lotes_planta": {
+          "path": "ribeirao-preto/dados/lotes_confiaveis_ribeirao-preto.geojson",
+          "exists": false
+        },
+        "lotes_oficiais": {
+          "path": "ribeirao-preto/dados/lotes_oficiais_ribeirao-preto.geojson",
+          "exists": false
+        },
+        "lotes_sinteticos": {
+          "path": "ribeirao-preto/dados/lotes_sinteticos_miolo.geojson",
+          "exists": false
+        },
+        "lotes": {
+          "path": "ribeirao-preto/dados/lotes_ribeirao-preto_completo.geojson",
+          "exists": true
+        },
+        "lotes_ocupados": {
+          "path": "ribeirao-preto/dados/lotes_ocupados.json",
+          "exists": true
+        },
+        "muros": {
+          "path": "ribeirao-preto/dados/muros_segs.json",
+          "exists": true
+        },
+        "chao_tris": {
+          "path": "ribeirao-preto/dados/ground_tris.json",
+          "exists": true
+        },
+        "rua_tris": {
+          "path": "ribeirao-preto/dados/street_tris.json",
+          "exists": true
+        },
+        "enderecos": {
+          "path": "ribeirao-preto/dados/address_points.json",
+          "exists": true
+        },
+        "alturas_osm": {
+          "path": "ribeirao-preto/dados/osm_heights.json",
+          "exists": false
+        },
+        "_nota_quadras": {
+          "path": "quadras = so o cadastro do SigaSC (nao cobre a cidade toda). quadras_completo = cadastro + face do grafo de ruas onde o cadastro nao tem, gerado por v7/pipeline/quadras_grafo.py. E o quadras_completo que a etapa 2 consome.",
+          "exists": false
+        },
+        "arvores": {
+          "path": "arvores/arvores_lib.json",
+          "exists": true
+        },
+        "_nota_arvores": {
+          "path": "biblioteca das 20 especies (gerada por arvores/arvores.py no Blender). O montar.py embute so o LOD baixo. Qual especie entra em qual lugar e o bloco `arborizacao`, nao este caminho.",
+          "exists": false
+        },
+        "portoes": {
+          "path": "ribeirao-preto/dados/portoes.json",
+          "exists": true
+        },
+        "vegetacao": {
+          "path": "ribeirao-preto/dados/vegetacao_ndvi.json",
+          "exists": true
+        },
+        "_nota_city_saida": {
+          "path": "saida do `_union_proxy.py` sobre o `-recortado`. Regerar com: python _union_proxy.py",
+          "exists": false
+        }
+      }
+    },
+    {
+      "slug": "ribeirao-preto-proxy",
+      "sources": {
+        "overture_bruto": {
+          "path": "ribeirao-preto/fontes/overture_buildings.geojson",
+          "exists": false
+        },
+        "osm_predios": {
+          "path": "ribeirao-preto/fontes/osm_buildings_raw.json",
+          "exists": true
+        },
+        "osm_pois": {
+          "path": "ribeirao-preto/fontes/osm_pois_raw.json",
+          "exists": true
+        },
+        "osm_vias": {
+          "path": "ribeirao-preto/fontes/osm_vias_raw.json",
+          "exists": true
+        },
+        "city_bruto": {
+          "path": "ribeirao-preto/ribeirao-preto-bruto.city.json",
+          "exists": true
+        },
+        "city_v2": {
+          "path": "ribeirao-preto/ribeirao-preto-v2.city.json",
+          "exists": true
+        },
+        "loteamentos": {
+          "path": "loteamentos_ribeirao-preto_oficial.geojson",
+          "exists": false
+        },
+        "plantas": {
+          "path": "ribeirao-preto/plantas",
+          "exists": false
+        },
+        "relatorio_plantas": {
+          "path": "ribeirao-preto/relatorios/relatorio_extracao.csv",
+          "exists": false
+        },
+        "relevo": {
+          "path": "ribeirao-preto/relevo_wide.json",
+          "exists": true
+        },
+        "pois": {
+          "path": "ribeirao-preto/poidata_merged.json",
+          "exists": true
+        },
+        "imoveis": {
+          "path": "ribeirao-preto/dados/imoveis.json",
+          "exists": false
+        },
+        "quadras": {
+          "path": "quadras_ribeirao-preto.geojson",
+          "exists": false
+        },
+        "faces_ruas": {
+          "path": "ribeirao-preto/blocks.json",
+          "exists": true
+        },
+        "quadras_completo": {
+          "path": "quadras_ribeirao-preto_completo.geojson",
+          "exists": true
+        },
+        "city_base": {
+          "path": "ribeirao-preto/ribeirao-preto-v4.city.json",
+          "exists": true
+        },
+        "city_saida": {
+          "path": "ribeirao-preto/ribeirao-preto-v4-recortado.city.json",
+          "exists": true
+        },
+        "html_saida": {
+          "path": "v13/ribeirao-preto-proxy-v13-aberto.html",
+          "exists": false
+        },
+        "html_comprimido": {
+          "path": "v13/ribeirao-preto-proxy-v13.html",
+          "exists": false
+        },
+        "miolo": {
+          "path": "ribeirao-preto/dados/quadras_miolo.geojson",
+          "exists": true
+        },
+        "lotes_planta": {
+          "path": "ribeirao-preto/dados/lotes_confiaveis_ribeirao-preto.geojson",
+          "exists": false
+        },
+        "lotes_oficiais": {
+          "path": "ribeirao-preto/dados/lotes_oficiais_ribeirao-preto.geojson",
+          "exists": false
+        },
+        "lotes_sinteticos": {
+          "path": "ribeirao-preto/dados/lotes_sinteticos_miolo.geojson",
+          "exists": false
+        },
+        "lotes": {
+          "path": "ribeirao-preto/dados/lotes_ribeirao-preto_completo.geojson",
+          "exists": true
+        },
+        "lotes_ocupados": {
+          "path": "ribeirao-preto/dados/lotes_ocupados.json",
+          "exists": true
+        },
+        "muros": {
+          "path": "ribeirao-preto/dados/muros_segs.json",
+          "exists": true
+        },
+        "chao_tris": {
+          "path": "ribeirao-preto/dados/ground_tris.json",
+          "exists": true
+        },
+        "rua_tris": {
+          "path": "ribeirao-preto/dados/street_tris.json",
+          "exists": true
+        },
+        "enderecos": {
+          "path": "ribeirao-preto/dados/address_points.json",
+          "exists": true
+        },
+        "alturas_osm": {
+          "path": "ribeirao-preto/dados/osm_heights.json",
+          "exists": false
+        },
+        "_nota_quadras": {
+          "path": "quadras = so o cadastro do SigaSC (nao cobre a cidade toda). quadras_completo = cadastro + face do grafo de ruas onde o cadastro nao tem, gerado por v7/pipeline/quadras_grafo.py. E o quadras_completo que a etapa 2 consome.",
+          "exists": false
+        },
+        "arvores": {
+          "path": "arvores/arvores_lib.json",
+          "exists": true
+        },
+        "_nota_arvores": {
+          "path": "biblioteca das 20 especies (gerada por arvores/arvores.py no Blender). O montar.py embute so o LOD baixo. Qual especie entra em qual lugar e o bloco `arborizacao`, nao este caminho.",
+          "exists": false
+        },
+        "portoes": {
+          "path": "ribeirao-preto/dados/portoes.json",
+          "exists": true
+        },
+        "vegetacao": {
+          "path": "ribeirao-preto/dados/vegetacao_ndvi.json",
+          "exists": true
+        },
+        "_nota_city_saida": {
+          "path": "e o city_base (footprint cru do Overture) com o recorte de sitio aplicado por pipeline/recorta_sitios.py -- NAO passa pela etapa 7, que e o que a variante existe pra evitar. Regerar com: python pipeline/recorta_sitios.py ribeirao-preto-proxy",
+          "exists": false
+        }
+      }
+    },
+    {
+      "slug": "ribeirao-preto",
+      "sources": {
+        "overture_bruto": {
+          "path": "ribeirao-preto/fontes/overture_buildings.geojson",
+          "exists": false
+        },
+        "osm_predios": {
+          "path": "ribeirao-preto/fontes/osm_buildings_raw.json",
+          "exists": true
+        },
+        "osm_pois": {
+          "path": "ribeirao-preto/fontes/osm_pois_raw.json",
+          "exists": true
+        },
+        "osm_vias": {
+          "path": "ribeirao-preto/fontes/osm_vias_raw.json",
+          "exists": true
+        },
+        "city_bruto": {
+          "path": "ribeirao-preto/ribeirao-preto-bruto.city.json",
+          "exists": true
+        },
+        "city_v2": {
+          "path": "ribeirao-preto/ribeirao-preto-v2.city.json",
+          "exists": true
+        },
+        "loteamentos": {
+          "path": "loteamentos_ribeirao-preto_oficial.geojson",
+          "exists": false
+        },
+        "plantas": {
+          "path": "ribeirao-preto/plantas",
+          "exists": false
+        },
+        "relatorio_plantas": {
+          "path": "ribeirao-preto/relatorios/relatorio_extracao.csv",
+          "exists": false
+        },
+        "relevo": {
+          "path": "ribeirao-preto/relevo_wide.json",
+          "exists": true
+        },
+        "pois": {
+          "path": "ribeirao-preto/poidata_merged.json",
+          "exists": true
+        },
+        "imoveis": {
+          "path": "ribeirao-preto/dados/imoveis.json",
+          "exists": false
+        },
+        "quadras": {
+          "path": "quadras_ribeirao-preto.geojson",
+          "exists": false
+        },
+        "faces_ruas": {
+          "path": "ribeirao-preto/blocks.json",
+          "exists": true
+        },
+        "quadras_completo": {
+          "path": "quadras_ribeirao-preto_completo.geojson",
+          "exists": true
+        },
+        "city_base": {
+          "path": "ribeirao-preto/ribeirao-preto-v4.city.json",
+          "exists": true
+        },
+        "city_saida": {
+          "path": "ribeirao-preto/ribeirao-preto-v7.city.json",
+          "exists": true
+        },
+        "html_saida": {
+          "path": "v15/ribeirao-preto-v15-aberto.html",
+          "exists": true
+        },
+        "html_comprimido": {
+          "path": "v15/ribeirao-preto-v15.html",
+          "exists": true
+        },
+        "miolo": {
+          "path": "ribeirao-preto/dados/quadras_miolo.geojson",
+          "exists": true
+        },
+        "lotes_planta": {
+          "path": "ribeirao-preto/dados/lotes_confiaveis_ribeirao-preto.geojson",
+          "exists": false
+        },
+        "lotes_oficiais": {
+          "path": "ribeirao-preto/dados/lotes_oficiais_ribeirao-preto.geojson",
+          "exists": false
+        },
+        "lotes_sinteticos": {
+          "path": "ribeirao-preto/dados/lotes_sinteticos_miolo.geojson",
+          "exists": false
+        },
+        "lotes": {
+          "path": "ribeirao-preto/dados/lotes_ribeirao-preto_completo.geojson",
+          "exists": true
+        },
+        "lotes_ocupados": {
+          "path": "ribeirao-preto/dados/lotes_ocupados.json",
+          "exists": true
+        },
+        "muros": {
+          "path": "ribeirao-preto/dados/muros_segs.json",
+          "exists": true
+        },
+        "chao_tris": {
+          "path": "ribeirao-preto/dados/ground_tris.json",
+          "exists": true
+        },
+        "rua_tris": {
+          "path": "ribeirao-preto/dados/street_tris.json",
+          "exists": true
+        },
+        "enderecos": {
+          "path": "ribeirao-preto/dados/address_points.json",
+          "exists": true
+        },
+        "alturas_osm": {
+          "path": "ribeirao-preto/dados/osm_heights.json",
+          "exists": false
+        },
+        "_nota_quadras": {
+          "path": "quadras = so o cadastro do SigaSC (nao cobre a cidade toda). quadras_completo = cadastro + face do grafo de ruas onde o cadastro nao tem, gerado por v7/pipeline/quadras_grafo.py. E o quadras_completo que a etapa 2 consome.",
+          "exists": false
+        },
+        "arvores": {
+          "path": "arvores/arvores_lib.json",
+          "exists": true
+        },
+        "_nota_arvores": {
+          "path": "biblioteca das 20 especies (gerada por arvores/arvores.py no Blender). O montar.py embute so o LOD baixo. Qual especie entra em qual lugar e o bloco `arborizacao`, nao este caminho.",
+          "exists": false
+        },
+        "portoes": {
+          "path": "ribeirao-preto/dados/portoes.json",
+          "exists": true
+        },
+        "vegetacao": {
+          "path": "ribeirao-preto/dados/vegetacao_ndvi.json",
+          "exists": true
+        }
+      }
+    },
+    {
+      "slug": "sao-carlos",
+      "sources": {
+        "overture_bruto": {
+          "path": "overture_buildings.geojson",
+          "exists": true
+        },
+        "osm_predios": {
+          "path": "osm_buildings_raw.json",
+          "exists": true
+        },
+        "osm_pois": {
+          "path": "osm_pois_raw.json",
+          "exists": true
+        },
+        "osm_vias": {
+          "path": "fontes_osm/sao-carlos/osm_vias_raw.json",
+          "exists": false
+        },
+        "city_bruto": {
+          "path": "sao-carlos-overture.city.json",
+          "exists": true
+        },
+        "city_v2": {
+          "path": "sao-carlos-overture-v2.city.json",
+          "exists": true
+        },
+        "loteamentos": {
+          "path": "loteamentos_saocarlos_oficial.geojson",
+          "exists": true
+        },
+        "plantas": {
+          "path": "plantas_openplots",
+          "exists": true
+        },
+        "relatorio_plantas": {
+          "path": "v7/relatorios/relatorio_extracao.csv",
+          "exists": true
+        },
+        "relevo": {
+          "path": "v6/relevo_wide.json",
+          "exists": true
+        },
+        "pois": {
+          "path": "v6/poidata_merged.json",
+          "exists": true
+        },
+        "imoveis": {
+          "path": "v7/dados/imoveis.json",
+          "exists": true
+        },
+        "quadras": {
+          "path": "quadras_saocarlos.geojson",
+          "exists": true
+        },
+        "faces_ruas": {
+          "path": "blocks.json",
+          "exists": true
+        },
+        "quadras_completo": {
+          "path": "quadras_saocarlos_completo.geojson",
+          "exists": true
+        },
+        "city_base": {
+          "path": "v4/sao-carlos-v4.city.json",
+          "exists": true
+        },
+        "city_saida": {
+          "path": "v7/sao-carlos-v7.city.json",
+          "exists": true
+        },
+        "html_saida": {
+          "path": "v15/sao-carlos-v15-aberto.html",
+          "exists": true
+        },
+        "html_comprimido": {
+          "path": "v15/sao-carlos-v15.html",
+          "exists": true
+        },
+        "miolo": {
+          "path": "v7/dados/quadras_miolo.geojson",
+          "exists": true
+        },
+        "lotes_planta": {
+          "path": "v7/dados/lotes_confiaveis_saocarlos.geojson",
+          "exists": true
+        },
+        "lotes_oficiais": {
+          "path": "v7/dados/lotes_oficiais_saocarlos.geojson",
+          "exists": true
+        },
+        "lotes_sinteticos": {
+          "path": "v7/dados/lotes_sinteticos_miolo.geojson",
+          "exists": true
+        },
+        "lotes": {
+          "path": "v7/dados/lotes_saocarlos_completo.geojson",
+          "exists": true
+        },
+        "lotes_visualizacao": {
+          "path": "lotes_saocarlos.geojson",
+          "exists": true
+        },
+        "lotes_ocupados": {
+          "path": "v7/dados/lotes_ocupados.json",
+          "exists": true
+        },
+        "muros": {
+          "path": "v7/dados/muros_segs.json",
+          "exists": true
+        },
+        "chao_tris": {
+          "path": "v7/dados/ground_tris.json",
+          "exists": true
+        },
+        "rua_tris": {
+          "path": "v7/dados/street_tris.json",
+          "exists": true
+        },
+        "enderecos": {
+          "path": "v7/dados/address_points.json",
+          "exists": true
+        },
+        "_nota_enderecos": {
+          "path": "enderecos = o cadastro PROPRIO da prefeitura (SigaSC, 54.111 pontos), que e onde as fontes de endereco escrevem. enderecos_extra = as outras provas do mesmo fato; hoje o CNEFE do IBGE (143.200, Censo 2022, pipeline/fontes/cnefe.py). A etapa 5 (ocupacao.py) soma as duas e deduplica na grade de 1 m -- nenhuma contem a outra, e lote sem prova nao ganha casa nem muro.",
+          "exists": false
+        },
+        "alturas_osm": {
+          "path": "v7/dados/osm_heights.json",
+          "exists": false
+        },
+        "_nota_quadras": {
+          "path": "quadras = so o cadastro do SigaSC (nao cobre a cidade toda). quadras_completo = cadastro + face do grafo de ruas onde o cadastro nao tem, gerado por v7/pipeline/quadras_grafo.py. E o quadras_completo que a etapa 2 consome.",
+          "exists": false
+        },
+        "arvores": {
+          "path": "arvores/arvores_lib.json",
+          "exists": true
+        },
+        "_nota_arvores": {
+          "path": "biblioteca das 20 especies (gerada por arvores/arvores.py no Blender). O montar.py embute so o LOD baixo. Qual especie entra em qual lugar e o bloco `arborizacao`, nao este caminho.",
+          "exists": false
+        },
+        "portoes": {
+          "path": "v7/dados/portoes.json",
+          "exists": true
+        },
+        "vegetacao": {
+          "path": "v7/dados/vegetacao_ndvi.json",
+          "exists": true
+        }
+      }
+    },
+    {
+      "slug": "sao-jose-do-rio-preto",
+      "sources": {
+        "overture_bruto": {
+          "path": "sao-jose-do-rio-preto/fontes/overture_buildings.geojson",
+          "exists": false
+        },
+        "osm_predios": {
+          "path": "sao-jose-do-rio-preto/fontes/osm_buildings_raw.json",
+          "exists": true
+        },
+        "osm_pois": {
+          "path": "sao-jose-do-rio-preto/fontes/osm_pois_raw.json",
+          "exists": true
+        },
+        "osm_vias": {
+          "path": "sao-jose-do-rio-preto/fontes/osm_vias_raw.json",
+          "exists": true
+        },
+        "city_bruto": {
+          "path": "sao-jose-do-rio-preto/sao-jose-do-rio-preto-bruto.city.json",
+          "exists": true
+        },
+        "city_v2": {
+          "path": "sao-jose-do-rio-preto/sao-jose-do-rio-preto-v2.city.json",
+          "exists": true
+        },
+        "loteamentos": {
+          "path": "loteamentos_sao-jose-do-rio-preto_oficial.geojson",
+          "exists": false
+        },
+        "plantas": {
+          "path": "sao-jose-do-rio-preto/plantas",
+          "exists": false
+        },
+        "relatorio_plantas": {
+          "path": "sao-jose-do-rio-preto/relatorios/relatorio_extracao.csv",
+          "exists": false
+        },
+        "relevo": {
+          "path": "sao-jose-do-rio-preto/relevo_wide.json",
+          "exists": true
+        },
+        "pois": {
+          "path": "sao-jose-do-rio-preto/poidata_merged.json",
+          "exists": true
+        },
+        "imoveis": {
+          "path": "sao-jose-do-rio-preto/dados/imoveis.json",
+          "exists": false
+        },
+        "quadras": {
+          "path": "quadras_sao-jose-do-rio-preto.geojson",
+          "exists": false
+        },
+        "faces_ruas": {
+          "path": "sao-jose-do-rio-preto/blocks.json",
+          "exists": true
+        },
+        "quadras_completo": {
+          "path": "quadras_sao-jose-do-rio-preto_completo.geojson",
+          "exists": true
+        },
+        "city_base": {
+          "path": "sao-jose-do-rio-preto/sao-jose-do-rio-preto-v4.city.json",
+          "exists": true
+        },
+        "city_saida": {
+          "path": "sao-jose-do-rio-preto/sao-jose-do-rio-preto-v7.city.json",
+          "exists": true
+        },
+        "html_saida": {
+          "path": "v15/sao-jose-do-rio-preto-v15-aberto.html",
+          "exists": false
+        },
+        "html_comprimido": {
+          "path": "v15/sao-jose-do-rio-preto-v15.html",
+          "exists": false
+        },
+        "miolo": {
+          "path": "sao-jose-do-rio-preto/dados/quadras_miolo.geojson",
+          "exists": true
+        },
+        "lotes_planta": {
+          "path": "sao-jose-do-rio-preto/dados/lotes_confiaveis_sao-jose-do-rio-preto.geojson",
+          "exists": false
+        },
+        "lotes_oficiais": {
+          "path": "sao-jose-do-rio-preto/dados/lotes_oficiais_sao-jose-do-rio-preto.geojson",
+          "exists": false
+        },
+        "lotes_sinteticos": {
+          "path": "sao-jose-do-rio-preto/dados/lotes_sinteticos_miolo.geojson",
+          "exists": false
+        },
+        "lotes": {
+          "path": "sao-jose-do-rio-preto/dados/lotes_sao-jose-do-rio-preto_completo.geojson",
+          "exists": true
+        },
+        "lotes_ocupados": {
+          "path": "sao-jose-do-rio-preto/dados/lotes_ocupados.json",
+          "exists": true
+        },
+        "muros": {
+          "path": "sao-jose-do-rio-preto/dados/muros_segs.json",
+          "exists": true
+        },
+        "chao_tris": {
+          "path": "sao-jose-do-rio-preto/dados/ground_tris.json",
+          "exists": true
+        },
+        "rua_tris": {
+          "path": "sao-jose-do-rio-preto/dados/street_tris.json",
+          "exists": true
+        },
+        "enderecos": {
+          "path": "sao-jose-do-rio-preto/dados/address_points.json",
+          "exists": false
+        },
+        "alturas_osm": {
+          "path": "sao-jose-do-rio-preto/dados/osm_heights.json",
+          "exists": false
+        },
+        "_nota_quadras": {
+          "path": "quadras = so o cadastro do SigaSC (nao cobre a cidade toda). quadras_completo = cadastro + face do grafo de ruas onde o cadastro nao tem, gerado por v7/pipeline/quadras_grafo.py. E o quadras_completo que a etapa 2 consome.",
+          "exists": false
+        },
+        "arvores": {
+          "path": "arvores/arvores_lib.json",
+          "exists": true
+        },
+        "_nota_arvores": {
+          "path": "biblioteca das 20 especies (gerada por arvores/arvores.py no Blender). O montar.py embute so o LOD baixo. Qual especie entra em qual lugar e o bloco `arborizacao`, nao este caminho.",
+          "exists": false
+        },
+        "portoes": {
+          "path": "sao-jose-do-rio-preto/dados/portoes.json",
+          "exists": true
+        },
+        "vegetacao": {
+          "path": "sao-jose-do-rio-preto/dados/vegetacao_ndvi.json",
+          "exists": true
+        }
+      }
+    },
+    {
+      "slug": "sorocaba",
+      "sources": {
+        "overture_bruto": {
+          "path": "sorocaba/fontes/overture_buildings.geojson",
+          "exists": false
+        },
+        "osm_predios": {
+          "path": "sorocaba/fontes/osm_buildings_raw.json",
+          "exists": true
+        },
+        "osm_pois": {
+          "path": "sorocaba/fontes/osm_pois_raw.json",
+          "exists": true
+        },
+        "osm_vias": {
+          "path": "sorocaba/fontes/osm_vias_raw.json",
+          "exists": true
+        },
+        "city_bruto": {
+          "path": "sorocaba/sorocaba-bruto.city.json",
+          "exists": true
+        },
+        "city_v2": {
+          "path": "sorocaba/sorocaba-v2.city.json",
+          "exists": true
+        },
+        "loteamentos": {
+          "path": "loteamentos_sorocaba_oficial.geojson",
+          "exists": false
+        },
+        "plantas": {
+          "path": "sorocaba/plantas",
+          "exists": false
+        },
+        "relatorio_plantas": {
+          "path": "sorocaba/relatorios/relatorio_extracao.csv",
+          "exists": false
+        },
+        "relevo": {
+          "path": "sorocaba/relevo_wide.json",
+          "exists": true
+        },
+        "pois": {
+          "path": "sorocaba/poidata_merged.json",
+          "exists": true
+        },
+        "imoveis": {
+          "path": "sorocaba/dados/imoveis.json",
+          "exists": false
+        },
+        "quadras": {
+          "path": "quadras_sorocaba.geojson",
+          "exists": false
+        },
+        "faces_ruas": {
+          "path": "sorocaba/blocks.json",
+          "exists": true
+        },
+        "quadras_completo": {
+          "path": "quadras_sorocaba_completo.geojson",
+          "exists": true
+        },
+        "city_base": {
+          "path": "sorocaba/sorocaba-v4.city.json",
+          "exists": true
+        },
+        "city_saida": {
+          "path": "sorocaba/sorocaba-v7.city.json",
+          "exists": true
+        },
+        "html_saida": {
+          "path": "v15/sorocaba-v15-aberto.html",
+          "exists": false
+        },
+        "html_comprimido": {
+          "path": "v15/sorocaba-v15.html",
+          "exists": false
+        },
+        "miolo": {
+          "path": "sorocaba/dados/quadras_miolo.geojson",
+          "exists": true
+        },
+        "lotes_planta": {
+          "path": "sorocaba/dados/lotes_confiaveis_sorocaba.geojson",
+          "exists": false
+        },
+        "lotes_oficiais": {
+          "path": "sorocaba/dados/lotes_oficiais_sorocaba.geojson",
+          "exists": false
+        },
+        "lotes_sinteticos": {
+          "path": "sorocaba/dados/lotes_sinteticos_miolo.geojson",
+          "exists": false
+        },
+        "lotes": {
+          "path": "sorocaba/dados/lotes_sorocaba_completo.geojson",
+          "exists": true
+        },
+        "lotes_ocupados": {
+          "path": "sorocaba/dados/lotes_ocupados.json",
+          "exists": true
+        },
+        "muros": {
+          "path": "sorocaba/dados/muros_segs.json",
+          "exists": true
+        },
+        "chao_tris": {
+          "path": "sorocaba/dados/ground_tris.json",
+          "exists": true
+        },
+        "rua_tris": {
+          "path": "sorocaba/dados/street_tris.json",
+          "exists": true
+        },
+        "enderecos": {
+          "path": "sorocaba/dados/address_points.json",
+          "exists": false
+        },
+        "alturas_osm": {
+          "path": "sorocaba/dados/osm_heights.json",
+          "exists": false
+        },
+        "_nota_quadras": {
+          "path": "quadras = so o cadastro do SigaSC (nao cobre a cidade toda). quadras_completo = cadastro + face do grafo de ruas onde o cadastro nao tem, gerado por v7/pipeline/quadras_grafo.py. E o quadras_completo que a etapa 2 consome.",
+          "exists": false
+        },
+        "arvores": {
+          "path": "arvores/arvores_lib.json",
+          "exists": true
+        },
+        "_nota_arvores": {
+          "path": "biblioteca das 20 especies (gerada por arvores/arvores.py no Blender). O montar.py embute so o LOD baixo. Qual especie entra em qual lugar e o bloco `arborizacao`, nao este caminho.",
+          "exists": false
+        },
+        "portoes": {
+          "path": "sorocaba/dados/portoes.json",
+          "exists": true
+        },
+        "vegetacao": {
+          "path": "sorocaba/dados/vegetacao_ndvi.json",
+          "exists": true
+        }
+      }
+    }
+  ]
+}
