@@ -43,13 +43,18 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.abspath(os.path.join(AQUI, "..")) + os.sep
 sys.path.insert(0, RAIZ)
 from padrao.cidade import carrega
+from pipeline.build.config import resolve
+from pipeline.build.manifest import entradas as entradas_build, assinatura
 
-CID = carrega(os.environ.get("CIDADE", "sao-carlos"))
+CONFIG = resolve()
+CID = CONFIG.cidade()
 PY = sys.executable
 
 
 def F(chave):
     """Caminho de uma fonte declarada no JSON da cidade."""
+    if chave in ('html_saida', 'html_comprimido'):
+        return str(CONFIG.saida(chave, CID))
     return CID.caminho(chave)
 
 
@@ -166,10 +171,7 @@ ETAPAS = [
      "MESMA lista de quadras da 2, senao o asfalto cobre a casa nova"),
     ("8", "HTML (monta das pecas)",
      ["pipeline/montar.py"],
-     [F("city_saida"), F("chao_tris"), F("rua_tris"), F("muros"), F("relevo"), O(F("pois")),
-      O(F("arvores")), O(F("portoes")), O(F("vegetacao")),
-      R("renderizador/app.js"), R("renderizador/estilo.css"),
-      R("renderizador/cabeca.html"), R("renderizador/corpo.html")],
+     [F("city_saida")] + [O(str(p)) for p in entradas_build(CONFIG)],
      [F("html_saida"), F("html_comprimido")], False,
      "concatena renderizador/ + os blocos de dado; make_v4..v8 viraram historico. "
      "a biblioteca de arvores entra aqui: mexeu nela, a pagina esta velha"),
@@ -186,7 +188,7 @@ ETAPAS = [
 
 # Por CIDADE: as chaves sao o id da etapa, entao um arquivo so faria Araraquara
 # sobrescrever o carimbo de Sao Carlos e vice-versa.
-ESTADO = os.path.join(AQUI, "_estado_%s.json" % CID.slug)
+ESTADO = os.path.join(AQUI, "_estado_%s_%s.json" % (CID.slug, CONFIG.versao))
 CACHE = os.path.join(AQUI, "_hashes.json")      # sha1 memorizado por (tamanho, mtime)
 
 
@@ -246,6 +248,9 @@ def sha(p):
 def estado(eid, ent, sai):
     ts = [mtime(p) for p in sai]
     if any(t is None for t in ts): return "FALTA"
+    if eid == '8':
+        reg = _carrega(ESTADO).get(eid, {})
+        return 'fresco' if reg.get('assinatura') == assinatura(CONFIG) else 'velho'
     te = [mtime(p) for p in _todas(ent) if mtime(p) is not None]
     if not te or max(te) <= min(ts): return "fresco"
     # mtime diz velho -- confere o conteudo antes de gastar a etapa inteira
@@ -257,6 +262,11 @@ def estado(eid, ent, sai):
 
 def anota(eid, ent, sai):
     d = _carrega(ESTADO)
+    if eid == '8':
+        d[eid] = {'assinatura': assinatura(CONFIG),
+                  'quando': time.strftime('%Y-%m-%d %H:%M')}
+        _grava(ESTADO, d)
+        return
     d[eid] = {"entradas": {p: sha(p) for p in _todas(ent) if os.path.exists(p)},
               "quando": time.strftime("%Y-%m-%d %H:%M")}
     _grava(ESTADO, d)
