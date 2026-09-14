@@ -122,14 +122,16 @@ const hash = id => { let h = 2166136261 ^ id; h = Math.imul(h ^ (h>>>15), 224682
 /* ============================================================
    2. Extração: OSM cru -> registros já projetados em metros
    ============================================================ */
-const shoelace = r => { let s = 0;
-  for (let i = 0, n = r.length; i < n; i++) { const a = r[i], b = r[(i+1)%n]; s += a[0]*b[1] - b[0]*a[1]; }
-  return s; };
+
 
 
 /* ============================================================
    3. Arquivo consolidado: números inteiros e diferença entre pontos
    ============================================================ */
+const {shoelace, inside, insetRing, safeInset, convexHull, obbOf} = MapGeometry;
+const triangulateRing = r => MapGeometry.triangulateRing(r,
+  typeof earcut === 'function' ? earcut : null,
+  ring => THREE.ShapeUtils.triangulateShape(ring.map(p => new V2(p[0], p[1])), []));
 const decode = CityData.createDecoder(Q, shoelace);
 
 /* ============================================================
@@ -245,10 +247,7 @@ const QUAL_NIVEIS = {
 };
 // localStorage joga em file:// (origem opaca) e em janela anônima. Como a página abre
 // por duplo clique de propósito, ler isso sem proteção derrubaria o app inteiro.
-const guarda = {
-  le(k)   { try { return localStorage.getItem(k); } catch (e) { return null; } },
-  grava(k,v) { try { localStorage.setItem(k, v); } catch (e) {} },
-};
+const guarda = MapStorage.create(() => localStorage);
 function gpuString() {
   try {
     const c = document.createElement("canvas");
@@ -1529,55 +1528,17 @@ const meshOf = P => {
   registerTerrain(g);
   return g;
 };
-const inside = (r, x, z) => { let hit = false;
-  for (let i = 0, j = r.length-1; i < r.length; j = i++) { const a = r[i], b = r[j];
-    if ((a[1] > z) !== (b[1] > z) && x < (b[0]-a[0])*(z-a[1])/(b[1]-a[1]) + a[0]) hit = !hit; }
-  return hit; };
+
 
 // Earcut lida com polígonos côncavos/degenerados de forma muito mais tolerante que
 // THREE.ShapeUtils.triangulateShape, que costuma falhar (e descartar o prédio inteiro
 // em silêncio) em contornos comuns do OSM. Cai de volta pro triangulador do three.js
 // só se a lib não carregou.
-function triangulateRing(r) {
-  if (typeof earcut === "function") {
-    const flat = []; for (const p of r) { flat.push(p[0], p[1]); }
-    const idx = earcut(flat);
-    const tri = [];
-    for (let i = 0; i < idx.length; i += 3) tri.push([idx[i], idx[i+1], idx[i+2]]);
-    return tri;
-  }
-  return THREE.ShapeUtils.triangulateShape(r.map(p => new V2(p[0], p[1])), []);
-}
+
 
 const BUILDING_INSET = 1.0; // metros — encolhe o contorno do lote antes de extrudar,
                              // pra simular o recuo/calçada e o prédio não "comer" a rua
-function insetRing(r, dist) {
-  const n = r.length, out = new Array(n);
-  for (let i = 0; i < n; i++) {
-    const p0 = r[(i-1+n)%n], p1 = r[i], p2 = r[(i+1)%n];
-    let e1x = p1[0]-p0[0], e1z = p1[1]-p0[1], e1L = Math.hypot(e1x,e1z);
-    let e2x = p2[0]-p1[0], e2z = p2[1]-p1[1], e2L = Math.hypot(e2x,e2z);
-    if (e1L < 1e-6 || e2L < 1e-6) { out[i] = p1; continue; }
-    e1x/=e1L; e1z/=e1L; e2x/=e2L; e2z/=e2L;
-    const n1x = -e1z, n1z = e1x, n2x = -e2z, n2z = e2x; // normais externas (mesma
-                                                          // convenção CW usada nas paredes)
-    let mx = n1x+n2x, mz = n1z+n2z; const mL = Math.hypot(mx,mz);
-    if (mL < 1e-6) { out[i] = [p1[0]-n1x*dist, p1[1]-n1z*dist]; continue; }
-    mx/=mL; mz/=mL;
-    const cosHalf = Math.max(0.35, mx*n1x + mz*n1z); // trava o "bico" em cantos muito agudos
-    const scale = dist/cosHalf;
-    out[i] = [p1[0]-mx*scale, p1[1]-mz*scale];
-  }
-  return out;
-}
-function safeInset(r, dist) {
-  const before = shoelace(r), areaBefore = Math.abs(before)/2;
-  if (areaBefore < 10) return r; // pequeno demais pra encolher com segurança
-  const ins = insetRing(r, dist);
-  const after = shoelace(ins), areaAfter = Math.abs(after)/2;
-  if (areaAfter < areaBefore*0.25 || (after > 0) !== (before > 0)) return r; // colapsou/inverteu, mantém original
-  return ins;
-}
+
 
 /* ============================================================
    Tipologia: do contorno + altura + classe para um arquétipo
@@ -1605,54 +1566,7 @@ const ST_NOME = ["Casa térrea", "Sobrado", "Prédio residencial", "Comércio",
    OSM quase sempre é; contorno digitalizado por ML raramente é. É esse número
    que decide quem ganha telhado de duas águas e quem cai pra laje — em vez de
    inventar um telhado torto sobre um polígono que não comporta. */
-function convexHull(pts) {
-  if (pts.length < 4) return pts.slice();
-  const p = pts.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
-  const cross = (o, a, b) => (a[0]-o[0])*(b[1]-o[1]) - (a[1]-o[1])*(b[0]-o[0]);
-  const lo = [], up = [];
-  for (const q of p) { while (lo.length >= 2 && cross(lo[lo.length-2], lo[lo.length-1], q) <= 0) lo.pop(); lo.push(q); }
-  for (let i = p.length-1; i >= 0; i--) { const q = p[i];
-    while (up.length >= 2 && cross(up[up.length-2], up[up.length-1], q) <= 0) up.pop(); up.push(q); }
-  lo.pop(); up.pop();
-  return lo.concat(up);
-}
 
-function obbOf(r, area) {
-  const H = convexHull(r);
-  let best = null;
-  if (H.length >= 3) {
-    for (let i = 0; i < H.length; i++) {                 // uma direção por aresta do casco
-      const a = H[i], b = H[(i+1) % H.length];
-      let ex = b[0]-a[0], ez = b[1]-a[1];
-      const L = Math.hypot(ex, ez); if (L < 1e-6) continue;
-      ex /= L; ez /= L;
-      let u0 = 1e9, u1 = -1e9, v0 = 1e9, v1 = -1e9;
-      for (const p of H) {
-        const u = p[0]*ex + p[1]*ez, v = -p[0]*ez + p[1]*ex;
-        if (u < u0) u0 = u; if (u > u1) u1 = u;
-        if (v < v0) v0 = v; if (v > v1) v1 = v;
-      }
-      const A = (u1-u0) * (v1-v0);
-      if (!best || A < best.A) best = { A, ex, ez, u0, u1, v0, v1 };
-    }
-  }
-  if (!best) {                                            // degenerado: cai pro AABB
-    let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9;
-    for (const p of r) { x0=Math.min(x0,p[0]); x1=Math.max(x1,p[0]); z0=Math.min(z0,p[1]); z1=Math.max(z1,p[1]); }
-    best = { A:(x1-x0)*(z1-z0), ex:1, ez:0, u0:x0, u1:x1, v0:z0, v1:z1 };
-  }
-  const cu = (best.u0+best.u1)/2, cv = (best.v0+best.v1)/2;
-  let hu = (best.u1-best.u0)/2, hv = (best.v1-best.v0)/2;
-  let ux = best.ex, uz = best.ez;
-  if (hv > hu) { const t = hu; hu = hv; hv = t;            // eixo maior sempre em u
-                 const tx = ux; ux = -uz; uz = tx; }
-  return {
-    cx: cu*best.ex - cv*best.ez, cz: cu*best.ez + cv*best.ex,
-    ux, uz, hu, hv,
-    rect: best.A > 1e-6 ? Math.min(1, area / best.A) : 0,  // 1 = retângulo perfeito
-    elong: hv > 1e-6 ? hu/hv : 1
-  };
-}
 
 /* --- arquétipo ----------------------------------------------------------
    A ordem das regras é a ordem da confiança: o que veio etiquetado no dado
@@ -4486,7 +4400,7 @@ function loadElevCache() {
     } catch (e) { console.error("Grade de relevo embutida invalida:", e); }
   }
   try {
-    const raw = localStorage.getItem(ELEV_CACHE_KEY);
+    const raw = guarda.le(ELEV_CACHE_KEY);
     if (!raw) return null;
     const arr = JSON.parse(raw);
     if (!Array.isArray(arr) || arr.length !== ELEV_N*ELEV_N) return null;
@@ -4494,7 +4408,7 @@ function loadElevCache() {
   } catch (e) { return null; }
 }
 function saveElevCache(grid) {
-  try { localStorage.setItem(ELEV_CACHE_KEY, JSON.stringify(Array.from(grid))); }
+  try { guarda.grava(ELEV_CACHE_KEY, JSON.stringify(Array.from(grid))); }
   catch (e) { /* localStorage cheio/indisponível — segue sem cache */ }
 }
 let elevLoading = false;
@@ -6288,7 +6202,7 @@ function predioDaUnidade(u) {
   // dois sentidos. Sem predio, o lote continua sendo so um ponto no chao.
   if (lt) return { rec: recDoLancamento(u), lote: lt, confirmado: u.lote.confirmado === true };
   let fixado = null;
-  try { fixado = localStorage.getItem(chaveAncora(u.id)); } catch (e) {}
+  try { fixado = guarda.le(chaveAncora(u.id)); } catch (e) {}
   if (fixado) { const r = predioDeId(fixado); if (r) return { rec: r, confirmado: true }; }
   if (u.predio_id) { const r = predioDeId(u.predio_id); if (r) return { rec: r, confirmado: true }; }
   const a = u.ancora;
@@ -7931,14 +7845,14 @@ function salvaMoveis() {
   if (!INT.pl) return;
   sujaLuzes();
   try {
-    localStorage.setItem(chaveSalva(INT.pl.id), JSON.stringify(INT.moveis.map(m =>
+    guarda.grava(chaveSalva(INT.pl.id), JSON.stringify(INT.moveis.map(m =>
       ({ t:m.tipo, u:+m.u.toFixed(3), v:+m.v.toFixed(3), r:m.rot,
          w:+m.w.toFixed(3), d:+m.d.toFixed(3), h:+m.h.toFixed(3), c:m.cor }))));
   } catch (e) { /* aba anônima / cota cheia: o layout só não persiste */ }
 }
 function leMoveis(id) {
   try {
-    const s = localStorage.getItem(chaveSalva(id));
+    const s = guarda.le(chaveSalva(id));
     if (!s) return null;
     const a = JSON.parse(s);
     if (!Array.isArray(a) || !a.length) return null;
@@ -8960,7 +8874,7 @@ function cliqueNaCidade(e) {
     if (!rec) continue;
     if (escolhendo) {                       // apontando o predio de uma unidade
       const u = escolhendo;
-      try { localStorage.setItem(chaveAncora(u.id), idDoRegistro(rec)); } catch (e2) {}
+      try { guarda.grava(chaveAncora(u.id), idDoRegistro(rec)); } catch (e2) {}
       cancelaEscolha();
       abreUnidade(u);
       return;

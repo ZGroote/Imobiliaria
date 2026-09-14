@@ -6,5 +6,7 @@
   "listing-models.js",
   "scene/diagnostics.js",
   "core/city-data.js",
+  "core/geometry.js",
+  "core/storage.js",
   "app.js"
 ]
