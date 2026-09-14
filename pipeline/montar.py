@@ -342,6 +342,8 @@ def monta(carimbo=None, config=None):
     else:
         script = urban + listing_js + ler('app.js')
     partes += [corpo, "<script>", script, "</script>", ler("rabo.html")]
+    if (config.fonte / 'scene/diagnostics.js').exists():
+        partes.insert(1, '<meta name="mapa-diagnostics" content="1">')
     return "".join(partes)
 
 

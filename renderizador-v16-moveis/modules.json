@@ -4,5 +4,7 @@
   "urban-models.js",
   "exterior-details.js",
   "listing-models.js",
+  "scene/diagnostics.js",
+  "core/city-data.js",
   "app.js"
 ]

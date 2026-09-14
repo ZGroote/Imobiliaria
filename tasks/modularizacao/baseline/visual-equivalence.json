@@ -1,0 +1,22 @@
+{
+  "identicalPixels": true,
+  "identicalSceneMetrics": true,
+  "timesMs": {
+    "real-before": [
+      6.800000011920929,
+      4.5,
+      4.5
+    ],
+    "real-control": [
+      4,
+      3.200000047683716,
+      3.600000023841858
+    ],
+    "real-after": [
+      1.699999988079071,
+      2.599999964237213,
+      1.699999988079071
+    ]
+  },
+  "note": "Real Chrome clock; software renderer. Timing variation does not establish a speed gain."
+}
