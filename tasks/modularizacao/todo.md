@@ -1,6 +1,6 @@
 # Execução da modularização
 
-Referência: [plan.md](plan.md). Nenhuma tarefa de implementação foi iniciada.
+Referência: [plan.md](plan.md). Implementação local em andamento na branch `refactor/modularizacao`. Evidências e limitações em [baseline/README.md](baseline/README.md).
 
 Cada linha abaixo é uma entrega. As linhas marcadas como lote devem ser repetidas para cada submódulo indicado, mantendo no máximo cinco arquivos alterados por entrega. Os caminhos de destino são propostas, não arquivos já criados. Registrar a verificação e o checkpoint de reversão ao concluir cada item.
 
@@ -39,10 +39,12 @@ Cada linha abaixo é uma entrega. As linhas marcadas como lote devem ser repetid
 
 ## Acompanhamento
 
-- [ ] 01–03: baseline, configuração e dependências de build.
-- [ ] 04–06: diagnóstico, composição e primeira extração funcional.
-- [ ] Checkpoint A: decodificador modular, HTML abre e sondas medem a variante correta.
-- [ ] 07–09: geometria, armazenamento e terreno.
+- [x] 02–03: configuração e dependências de build; 11 testes Python aprovados.
+- [ ] 01: baseline registrada; falta concluir a matriz comportamental das cidades legadas.
+- [x] 04–06: diagnóstico, composição e decodificador; equivalência dos dados e imagem fixa aprovada.
+- [x] Checkpoint A: decodificador modular, HTML abre e sondas medem a variante correta.
+- [x] 07–08: geometria e armazenamento; testes focados e equivalência geométrica em 89.895 edifícios.
+- [x] 09: terreno extraído; testes unitários, HTML comprimido, imagem fixa e alternância de relevo aprovados.
 - [ ] 10–12: materiais, ruas e edifícios.
 - [ ] Checkpoint B: geometria, assentamento e imagem externa equivalentes.
 - [ ] 13–15: vegetação, divisas e streaming.
@@ -61,3 +63,15 @@ Cada linha abaixo é uma entrega. As linhas marcadas como lote devem ser repetid
 Iniciar por 01–06. Só depois distribuir frentes com contratos definidos. Produção de dados, testes e UI podem ser trabalhados separadamente quando seus arquivos e interfaces não se sobrepõem. Alterações no app.js residual, no montador e na configuração precisam de sequência coordenada. Este plano não cria agentes ou tarefas externas.
 
 Ao iniciar uma linha com vários lotes, registrar os subitens concretos e seus arquivos antes de editar. Não marcar a linha completa até verificar todos. Checkpoints exigem registrar os resultados e revisar diferenças; falha retorna ao último lote conhecido. O plano existente de ocupação continua independente: alterações visuais desse plano não devem ser misturadas à extração arquitetural.
+
+## Lotes em andamento
+
+- 09: `world/terrain.js`, consumidor `app.js`, manifesto e `tests/test_terrain.mjs`. API de grade, amostragem, registro, recomputação e liberação. Concluído em `7db2893`.
+- Compatibilidade das auditorias: `world/building-type.js` e consumidores substituem os recortes de texto do monólito em `auditar_ruas.mjs` e `auditar_substituicoes.mjs`. Concluído em `c93bc7b`. Antecipação limitada da tarefa 12; não conclui a extração dos edifícios.
+- 04: sonda aguarda API também no HTML comprimido; teste no navegador aprovado (`72ff50f`).
+
+A composição 05 precedeu a extração 04/06 para fornecer uma ordem explícita de carregamento. Os checkpoints locais até 08 são `0fcb1b4`, `f81acd2`, `1aea668`, `44d875a` e `b1e7d07`.
+
+- 10a: fachadas e linhas de crescimento em `materials/facades.js`, consumidor `app.js`, manifesto e teste de equivalência de shader. Texturas continuam carregadas pelo consumidor e entram por dependência explícita. Os lotes de vias e interior permanecem pendentes.
+
+- [x] 10a: fachadas e linhas extraídas; quatro testes de equivalência de shader e imagem fixa idêntica à referência. Tarefa 10 permanece parcial: faltam materiais de vias e interior.

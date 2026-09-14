@@ -18,4 +18,29 @@ Resultados antes de alterar o renderizador:
 
 Na extração de configuração, o montador do checkpoint e o novo montador foram executados sobre os mesmos dados, com carimbo fixo, em São Carlos v16-moveis, Ribeirão Preto v15 e Araraquara v15. Os três HTMLs abertos foram idênticos byte a byte (`config-equivalence.json`). As montagens de referência estão em `../work/<cidade>/before*`; são artefatos de comparação, sem publicação.
 
-Ainda pendentes para completar a caracterização da tarefa 01: desempenho com câmera fixa, imagem de referência e QA completo por variante. O plano não considera a baseline comportamental completa enquanto esses resultados não forem registrados.
+QA completo original de São Carlos v16-moveis: 19 portões, duas reprovações preexistentes (UX e ficha/perto), nenhum não medido. Resultado em `qa-before.json`. A matriz comportamental de Ribeirão Preto e Araraquara continua pendente.
+
+Comparação com câmera fixa por Chrome e relógio real: imagens antes/controle/depois idênticas pixel a pixel na extração do decodificador e diagnóstico, 74 grupos, 273 chamadas de desenho e 3.263.632 triângulos. `visual-equivalence.json` registra o resultado. Os tempos variaram entre execuções; não demonstram ganho de desempenho.
+
+Geometria: seis funções comparadas com o checkpoint sobre os 89.895 edifícios, sem diferenças (`geometry-equivalence.json`). Classificação: 1.280 casos de limites idênticos (`classification-equivalence.json`).
+
+QA completo após 04–06 concluído: 19 portões, mesmos resultados, mesmas duas falhas anteriores, zero não medidos (`qa-after.json`, `qa-equivalence.json`).
+
+O artefato isolado em `../work/foundation/` inclui também geometria, armazenamento, terreno e classificação. Imagem fixa idêntica à referência (`foundation-visual-equivalence.json`). Alternância de relevo ligada/desligada/ligada: 11.018 vértices amostrados de 107 geometrias, erro máximo de arredondamento 0,00002984 m (`real-foundation.json`). Sonda no HTML comprimido responde com API v1, cena e elevação válida (`compressed-probe.json`). Duplo clique abre ficha e entra no imóvel monte-das-colinas-39, mantendo 7 cômodos, 32 paredes e 18 móveis (`foundation-interior.json`). O QA completo de 19 portões foi feito no artefato 04–06; estes são testes focados das extrações posteriores, não uma nova execução completa.
+
+O teste de duplo clique agora retorna código 2 se não encontrar a cidade solicitada (`8975867`), eliminando o falso sucesso de 0 páginas.
+
+Lote 10a: `materials/facades.js` recebe Three.js, configuração, texturas, uniforms e acesso tardio ao ruído explicitamente. Quatro combinações de configuração produzem shaders idênticos ao checkpoint `c93bc7b`. Imagem fixa após esta extração idêntica à referência (`materials-visual-equivalence.json`), mantendo as contagens de cena e o teste de relevo (`real-materials.json`). A leitura do ruído continua tardia porque o consumidor inicializa essa constante depois dos materiais.
+
+Verificação rápida final: 12 testes Python e 16 testes Node aprovados. Comandos:
+
+```powershell
+python -m unittest discover -s tests -p "test_*.py"
+node --test tests/test_city_data.mjs tests/test_diagnostics.mjs tests/test_geometry.mjs tests/test_storage.mjs tests/test_terrain.mjs tests/test_facades.mjs
+python pipeline/montar.py sao-carlos --variante v16-moveis --destino tasks/modularizacao/work/materials
+node tests/browser_realtime.mjs tasks/modularizacao/work/materials/sao-carlos-v16-moveis.html tasks/modularizacao/baseline/real-materials --diagnostics --terrain
+```
+
+Os testes de equivalência de fachada requerem o histórico Git local (checkpoint fixado). Os comandos de navegador usam Chrome instalado e os dados locais. HTMLs de teste continuam isolados, sem deploy.
+
+Os resultados brutos desta rodada também estão reunidos no arquivo versionado `integration-results.json`; `tested-artifacts.json` identifica os HTMLs medidos por SHA-256. As imagens ficam locais.

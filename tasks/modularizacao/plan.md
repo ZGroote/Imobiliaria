@@ -1,6 +1,6 @@
 # Plano de modularização da imobiliária
 
-Data: 14/09/2026. Escopo: diagnóstico e planejamento; nenhuma refatoração aplicada.
+Data: 14/09/2026. Diagnóstico original preservado abaixo. Implementação local autorizada e em andamento; status atualizado em [todo.md](todo.md), evidências em [baseline/README.md](baseline/README.md).
 Destino separado autorizado pelo usuário para preservar o plano de ocupação existente.
 
 ## Recomendação
@@ -9,7 +9,7 @@ Manter um único projeto e separar o código por responsabilidade, com interface
 
 O resultado esperado é conseguir alterar busca, móveis, terreno ou cadastro sem percorrer dez mil linhas e sem depender de variáveis privadas de outro subsistema. Separar arquivos é a primeira etapa; remover dependências implícitas é o que efetivamente conclui a modularização.
 
-## Cobertura e limites da varredura
+## Cobertura e limites da varredura inicial
 
 - 10.487 arquivos enumerados por `rg --files --hidden`, excluindo `node_modules`, `.git` e `.firebase`.
 - 372 arquivos textuais de código/HTML lidos pelo inventário: 214 classificados como código, 91 HTML/artefatos, 59 históricos/relatórios e 8 bibliotecas. A classificação é por caminho e extensão; os 214 incluem experimentos e scripts antigos, não significam 214 arquivos ativos.
