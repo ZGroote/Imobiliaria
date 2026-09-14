@@ -77,6 +77,36 @@ try {
   })()`);
   await fs.writeFile(prefix + '.png', Buffer.from(result.image, 'base64'));
   delete result.image;
+  if (process.argv.includes('--terrain')) {
+    result.terrain = await evaluate(`(async () => {
+      const I = __int, P = __perf, button = document.getElementById('tRelief');
+      if (!button) throw Error('Relief control missing');
+      const samples = [];
+      for (const on of [true, false, true]) {
+        if ((button.getAttribute('aria-pressed') === 'true') !== on) button.click();
+        await new Promise(resolve => setTimeout(resolve, 100));
+        if (button.disabled) throw Error('Elevation did not load from embedded data');
+        P.passo(1100000 + samples.length * 2000); P.bombeia(100000);
+        let vertices = 0, maximumError = 0;
+        const visited = new Set();
+        I.scene.traverse(object => {
+          const g = object.geometry, t = g && g.userData.terrain;
+          if (!t || g.userData.dynamicHeight || visited.has(g)) return;
+          visited.add(g);
+          const pos = g.attributes.position;
+          for (let i = 0; i < pos.count; i += Math.max(1, Math.floor(pos.count / 100))) {
+            const expected = t.baseY[i] + t.dy[i] * Number(on);
+            const error = Math.abs(pos.getY(i) - expected);
+            if (!Number.isFinite(error)) throw Error('Non-finite terrain vertex');
+            maximumError = Math.max(maximumError, error); vertices++;
+          }
+        });
+        if (!vertices || maximumError > .001) throw Error('Terrain mismatch: ' + maximumError);
+        samples.push({on, vertices, maximumError, geometries: visited.size});
+      }
+      return samples;
+    })()`);
+  }
   result.page = path.resolve(page);
   result.clock = 'real';
   await fs.writeFile(prefix + '.json', JSON.stringify(result, null, 2));
