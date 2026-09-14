@@ -10,5 +10,6 @@
   "core/storage.js",
   "world/terrain.js",
   "world/building-type.js",
+  "materials/facades.js",
   "app.js"
 ]
