@@ -20,5 +20,6 @@
   "ui/street-labels.js",
   "world/buildings.js",
   "world/building-placement.js",
+  "world/vegetation-planning.js",
   "app.js"
 ]
