@@ -235,6 +235,15 @@ try {
         }
         out.house.push(row);
       }
+      // Entry pose and the walkable map of the plan, sampled every 25 cm.
+      out.entryPose = I.FP ? [I.FP.pos.x, I.FP.pos.z, I.FP.yaw] : null;
+      if (pl && I.livre) {
+        let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
+        for (const c of pl.contorno) for (const p of c) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]); }
+        const bits = [];
+        for (let x = x0 - 0.5; x <= x1 + 0.5; x += 0.25) for (let z = z0 - 0.5; z <= z1 + 0.5; z += 0.25) bits.push(I.livre(x, z) ? 1 : 0);
+        out.walkable = [bits.length, bits.reduce((a, b) => a + b, 0), await hex(new Uint8Array(bits))];
+      }
       // The frame loop is stopped here, so the incremental bake never drains on its own:
       // finish it the way the headless probes do, then hash the lit colours and the profile.
       out.bakeFinished = !!(I.bakeAgora && I.bakeAgora());

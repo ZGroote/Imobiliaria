@@ -30,6 +30,7 @@
   "interior/light-atlas.js",
   "interior/bake.js",
   "interior/house-mesh.js",
+  "interior/navigation.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",
