@@ -17,7 +17,7 @@ const plans = fs.readdirSync(new URL('../plantas_fornecidas/', import.meta.url))
 
 const CONSTS = 'const ESP = 0.13, ESQ_ANG = 78 * Math.PI/180, ESQ_MARCO = 0.030;';
 function context() {
-  const ctx = vm.createContext({});
+  const ctx = vm.createContext({location: {search: ''}, URLSearchParams});
   vm.runInContext(read('core/geometry.js'), ctx);
   return ctx;
 }

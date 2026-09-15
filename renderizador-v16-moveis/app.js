@@ -3139,147 +3139,6 @@ for (const u of UNIDADES) {
   housesBox.appendChild(el);
 }
 
-const PISO_HEX = { frio: 0xCFC7BB, madeira: 0x9A7B57, porcelanato: 0xD6D0C6 };
-// Raio que cobre a pegada inteira do predio, com folga: e o tamanho do furo que apaga
-// a casca em volta da unidade.
-function raioDaCasca(casca, ob) {
-  let r = 0;
-  for (const p of casca) r = Math.max(r, Math.hypot(p[0]-ob.cx, p[1]-ob.cz));
-  return r + 1.5;
-}
-// Movel tambem vem do cadastro: `moveis` traz tipo, ponto em metros da planta, giro em
-// quartos de volta e tamanho. Sem isso a casa nasce vazia -- de proposito. Espalhar
-// movel por receita generica era exatamente o que fazia a sala do anuncio ficar
-// entulhada de coisa que nao esta no desenho.
-/* `?moveis=0` esvazia a casa sem rebuild. Existe porque nem toda planta tem (ou
-   deve ter) mobilia: unidade em obra, planta de gabarito, e o caso simples de
-   querer ver o apartamento vazio. Os outros dois interruptores estao em
-   `montar.py:bloco_unidades` -- `planta.moveis` a mao e `planta.mobiliar: false`. */
-const MOVEIS_ON = new URLSearchParams(location.search).get("moveis") !== "0";
-function moveisDaUnidade(P, mcx, mcz) {
-  const out = [];
-  if (!MOVEIS_ON) return out;
-  for (const m of (P.moveis || [])) {
-    const def = MOVEIS[m.tipo];
-    if (!def || !m.p) continue;
-    out.push({ tipo: m.tipo, u: m.p[0] - mcx, v: m.p[1] - mcz, rot: (m.rot || 0) & 3,
-               w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2],
-               cor: m.cor ? parseInt(String(m.cor).replace("#", ""), 16) : def.cor });
-  }
-  return out;
-}
-
-/* A casca de uma unidade de LOTE. Sem volume na base, ela sai da PROPRIA PLANTA.
-
-   Tudo daqui pra baixo -- posicao no mundo, eixo em que a planta assenta, altura do
-   piso -- e lido do `rec` do predio. Em vez de espalhar `if (rec)` por
-   `plantaDaUnidade`, `baseDaCasa` e `geoDaCasa`, o lote fabrica um `rec` com a mesma
-   forma: um retangulo do tamanho da planta mais folga de alvenaria, plantado na
-   coordenada do terreno. O resto do programa nao precisa saber a diferenca.
-
-   Duas decisoes que nao sao arbitrarias:
-
-   ENROLAMENTO POSITIVO de proposito. `plantaDaUnidade` le `shoelace(rec.r) > 0` como
-   "contorno GERADO" e aplica recuo de 25 cm em vez do 1 m do footprint do Overture --
-   e gerado e exatamente o que este contorno e. Com o sinal trocado, a casca do lote
-   levaria 1 m de recuo por lado e a planta nasceria maior que a casca.
-
-   FURO ZERO. O furo e o cilindro que a fachada nao desenha, pra apagar a casca do
-   predio em que se entrou. Num lote nao ha casca pra apagar -- e um raio qualquer ali
-   apagaria o VIZINHO. Ver `uFuro`.                                                  */
-function recDeLote(u) {
-  const an = anelDoLote(u);
-  if (!an) return null;
-  // `lote: true` e o que zera o furo la embaixo. So vale pro lote SEM predio: quando ha
-  // torre declarada, ela e uma casca de verdade e precisa ser recortada como qualquer
-  // outra -- senao entra-se no 7o andar com a propria fachada tapando a tela.
-  return { r: an.r, h: an.h, name: null, lote: true };
-}
-function plantaDaUnidade(rec, u) {
-  if (!rec) rec = recDeLote(u);
-  if (!rec) return null;
-  const P = u.planta, pd = P.pe_direito || PD;
-  let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
-  for (const c of P.comodos) for (const p of c.poly) {
-    if (p[0] < x0) x0 = p[0]; if (p[0] > x1) x1 = p[0];
-    if (p[1] < z0) z0 = p[1]; if (p[1] > z1) z1 = p[1];
-  }
-  const mcx = (x0+x1)/2, mcz = (z0+z1)/2;
-
-  // A planta vem em metros com origem propria. Ela e centrada no centroide do predio e
-  // alinhada ao eixo maior do volume -- que e o mesmo referencial (u,v) em que o movel
-  // ja vive, entao tudo daqui pra baixo nao sabe a diferenca entre planta e BSP.
-  const gerado = shoelace(rec.r) > 0;
-  const rOK = gerado ? rec.r.slice().reverse() : rec.r;
-  const casca = safeInset(rOK, gerado ? 0.25 : BUILDING_INSET);
-  const obB = obbOf(casca, Math.abs(shoelace(casca))/2);
-  const ob = { cx: obB.cx, cz: obB.cz, ux: obB.ux, uz: obB.uz,
-               hu: (x1-x0)/2, hv: (z1-z0)/2, rect: 1, elong: 1 };
-  const W = (a, b) => [ob.cx + ob.ux*a - ob.uz*b, ob.cz + ob.uz*a + ob.ux*b];
-  const mundo = p => W(p[0]-mcx, p[1]-mcz);
-
-  const cores = u.cores || {};
-  const hexPiso = k => {
-    const c = cores["piso_" + k];
-    return c ? parseInt(String(c).replace("#", ""), 16) : (PISO_HEX[k] || PISO_HEX.frio);
-  };
-  const comodos = P.comodos.map(c => {
-    const poly = c.poly.map(mundo);
-    let sx = 0, sz = 0, au = 1e9, bu = -1e9, av = 1e9, bv = -1e9;
-    for (const p of c.poly) {
-      const uu = p[0]-mcx, vv = p[1]-mcz;
-      if (uu < au) au = uu; if (uu > bu) bu = uu;
-      if (vv < av) av = vv; if (vv > bv) bv = vv;
-    }
-    for (const p of poly) { sx += p[0]; sz += p[1]; }
-    return { nome: c.nome, area: c.area || Math.abs(shoelace(poly))/2, poly,
-             piso: hexPiso(c.piso || "frio"), pisoTipo: c.piso || "frio",
-             cx: sx/poly.length, cz: sz/poly.length,
-             f: { u0: au, u1: bu, v0: av, v1: bv } };
-  });
-
-  const vaos = [];
-  for (const p of (P.portas || []))
-    vaos.push({ rec: p, porta: true, p: p.p, largura: p.largura || 0.85,
-                y0: p.y0 != null ? p.y0 : 0, y1: p.y1 != null ? p.y1 : 2.10 });
-  for (const j of (P.janelas || []))
-    vaos.push({ rec: j, porta: false, p: j.p, largura: j.largura || 1.40,
-                y0: j.y0 != null ? j.y0 : 1.00, y1: j.y1 != null ? j.y1 : 2.20 });
-  const grade = paredesDaGrade(P.comodos, vaos, pd);
-  const paredes = grade.paredes.map(w =>
-    ({ a: mundo(w.a), b: mundo(w.b), y0: w.y0, y1: w.y1, pa: w.pa, pb: w.pb }));
-  // A rotação `mundo()` preserva orientação (matriz [[ux,-uz],[uz,ux]], determinante 1),
-  // então o sinal do lado decidido na planta continua valendo depois de girar.
-  const esquadrias = [];
-  for (const v of grade.vaos) {
-    const d = decideVao(P.comodos, v, pd);
-    if (!d) continue;
-    const A = mundo(v.a), B2 = mundo(v.b);
-    const Lv = Math.hypot(B2[0]-A[0], B2[1]-A[1]) || 1e-6;
-    const dx = (B2[0]-A[0])/Lv, dz = (B2[1]-A[1])/Lv;
-    esquadrias.push({ tipo: d.tipo, lado: d.lado, eixo: d.eixo, porta: !!v.src.porta,
-                      y0: v.y0, y1: v.y1, a: A, b: B2, L: Lv,
-                      ux: dx, uz: dz, nx: -dz, nz: dx });
-  }
-
-  let area = 0;
-  for (const c of comodos) area += c.area;
-  comodos.sort((a, b) => b.area - a.area);
-  return { id: u.id, rec, dentro: comodos[0].poly, contorno: comodos.map(c => c.poly),
-           casca, ob, area, W, paredes, esquadrias, comodos,
-           moveis: moveisDaUnidade(P, mcx, mcz),
-           furo: { cx: obB.cx, cz: obB.cz, r: rec.lote ? 0 : raioDaCasca(casca, obB) },
-           cx: ob.cx, cz: ob.cz, mx: ob.cx, mz: ob.cz, h: rec.h,
-           pd, andar: u.andar || 0, unidade: u };
-}
-
-// Dentro da casa = dentro de QUALQUER comodo. No BSP `contorno` e o contorno unico da
-// casca; na planta fornecida e um poligono por comodo, e o vao entre eles e a parede.
-function dentroDaPlanta(pl, x, z) {
-  for (const c of pl.contorno) if (inside(c, x, z)) return true;
-  return false;
-}
-
 /* ---- geometria fixa da casa (piso + divisórias) ----------------------- */
 /* `fy` e uma gradacao VERTICAL opcional, aplicada na cor por vertice.
 
@@ -3420,7 +3279,8 @@ const ESQ_COR = { esquadria:0xF2EFE9, porta:0xEDE7DD, aluminio:0x4B5158,
 
 // Planta: parede pela grade, vaos e lado da folha -- ver interior/floor-plan.js. Criado
 // aqui, depois das medidas da esquadria que ele le.
-const {paredesDaGrade, decideVao} = FloorPlan.create({inside, shoelace, ESP, ESQ_ANG, ESQ_MARCO});
+const {decideVao, plantaDaUnidade, dentroDaPlanta} = FloorPlan.create({inside, shoelace, ESP, ESQ_ANG, ESQ_MARCO,
+  safeInset, obbOf, BUILDING_INSET, PD, anelDoLote, MOVEIS});
 
 /* Caixa orientada no plano XZ. `(dx,dz)` unitário é a direção do COMPRIMENTO; a
    espessura corre na perpendicular. Seis quads, normal explícita por face -- esquadria
