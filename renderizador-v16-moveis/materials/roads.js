@@ -89,7 +89,7 @@ ${RUA_ROLAMENTO}      }
     }`);
 }
 
-function matVia(cor, mul, calcada) {
+function matVia(cor, calcada) {
   const m = new THREE.MeshPhongMaterial({ color:cor, shininess:0, specular:0x000000,
     polygonOffset:true, polygonOffsetFactor:-1, polygonOffsetUnits:-1 });
   m.onBeforeCompile = sh => {

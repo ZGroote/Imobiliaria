@@ -17,7 +17,7 @@ for (const photo of [false, true]) for (const sidewalk of [false, true]) {
     vm.runInContext(source + ';globalThis.before=matVia;', ctx);
     vm.runInContext(module, ctx);
     const after = ctx.RoadMaterials.create(ctx).matVia;
-    const a = ctx.before(0x666666, 1.5, sidewalk), b = after(0x666666, 1.5, sidewalk);
+    const a = ctx.before(0x666666, 1.5, sidewalk), b = after(0x666666, sidewalk);
     const shader = () => ({uniforms: {}, vertexShader: ctx.THREE.ShaderLib.phong.vertexShader,
       fragmentShader: ctx.THREE.ShaderLib.phong.fragmentShader});
     const sa = shader(), sb = shader(); a.onBeforeCompile(sa); b.onBeforeCompile(sb);

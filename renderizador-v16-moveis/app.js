@@ -2803,9 +2803,9 @@ function assembleInto(rec, B, R, G, cx, cz) {
   // 0,02 sobravam 8 cm sobre ele e a rua sumia embaixo do terreno. 0,10 devolve folga
   // A calcada sobe a 0,32: 22 cm acima da pista, com sarjeta e quina chanfrada.
   const rd = buildRibbons(R, 0.10, 1.0);
-  if (rd) { const m = new THREE.Mesh(rd, matVia(K.asfalto, 1.0, false)); m.receiveShadow = SOMBRA_CIDADE; add(m, gRoad); }
+  if (rd) { const m = new THREE.Mesh(rd, matVia(K.asfalto, false)); m.receiveShadow = SOMBRA_CIDADE; add(m, gRoad); }
   const wk = buildRibbons(R, 0.32, 1.55, { de: 1.0, junta: false, meiofio: true, y_baixo: 0.10 });
-  if (wk) { const m = new THREE.Mesh(wk, matVia(K.walk, 1.55, true)); m.receiveShadow = SOMBRA_CIDADE; add(m, gRoad); }
+  if (wk) { const m = new THREE.Mesh(wk, matVia(K.walk, true)); m.receiveShadow = SOMBRA_CIDADE; add(m, gRoad); }
   // v12: a faixa central saiu daqui. Era uma chamada de desenho por quarteirao, so em
   // via grande e so no nivel de grafico alto; agora e o proprio shader da pista que a
   // pinta, em toda via e em todo nivel. Ver `_compilaVia`.
