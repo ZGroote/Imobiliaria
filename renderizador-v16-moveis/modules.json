@@ -12,5 +12,6 @@
   "world/building-type.js",
   "materials/facades.js",
   "materials/roads.js",
+  "materials/interior.js",
   "app.js"
 ]
