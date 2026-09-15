@@ -147,6 +147,22 @@ try {
           count:g('uNCom').textContent, rooms:g('uCom').innerHTML,
           roomsHidden:g('usheet').querySelector('.comodos').hidden, enterHidden:g('uEnter').hidden});
       }
+      out.ads = [];
+      for (const item of document.querySelectorAll('#houses .hitem:not([data-unidade])')) {
+        item.click();
+        const ad = {title:item.querySelector('.t').textContent, on:g('hsheet').classList.contains('on'),
+          tag:g('hTag').textContent, name:g('hName').textContent, addr:g('hAddr').textContent,
+          price:g('hPrice').textContent, rooms:g('hRooms').textContent, parking:g('hGar').textContent,
+          link:g('hLink').getAttribute('href'), modelHidden:g('hModel').hidden, note:g('hModelNote').textContent};
+        if (!ad.modelHidden) {
+          g('hModel').click();
+          const dialog = document.querySelector('dialog.listing-model-dialog');
+          ad.modelOpen = !!(dialog && dialog.open); ad.modelTitle = dialog && dialog.querySelector('h2').textContent;
+          dialog.querySelector('header button').click(); ad.modelClosed = !dialog.open;
+        }
+        out.ads.push(ad);
+      }
+      g('hx').click();
       if (!items.length) return out;
       items[0].click(); g('uEnter').click();
       await new Promise(resolve => setTimeout(resolve, 3000));

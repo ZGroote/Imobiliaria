@@ -9,7 +9,8 @@ function sheet(){
   const els={},comodos={hidden:false};
   const $=id=>els[id]||(els[id]={hidden:false,textContent:'',innerHTML:''});
   const s=ctx.ListingSheet.create({$,esc:t=>String(t).replace(/</g,'&lt;'),brl:v=>'R$ '+v,
-    cidade:{nome:'Cidade',uf:'SP'},sheet:{querySelector:q=>q==='.comodos'?comodos:null}});
+    cidade:{nome:'Cidade',uf:'SP'},sheet:{querySelector:q=>q==='.comodos'?comodos:null},
+    listingModels:{has:id=>String(id)==='7'}});
   return {s,$,comodos};
 }
 
@@ -37,4 +38,18 @@ test('rental lot without plan hides rooms and entry',()=>{
   assert.equal($('uStats').innerHTML,'<div>Preço<b>R$ 900/mês</b></div><div>Área útil<b>50 m²</b></div>');
   assert.equal($('uNCom').textContent,'sem planta');assert.equal($('uCom').innerHTML,'');
   assert.equal(comodos.hidden,true);assert.equal($('uEnter').hidden,true);
+});
+
+test('ad sheet shows price, placeholders and model availability',()=>{
+  const {s,$}=sheet();
+  s.preencheAnuncio({id:7,tipo:'aluguel',titulo:'Casa',bairro:'Vila',preco:1200,quartos:0,url:'https://x/7'});
+  assert.equal($('hTag').textContent,'Para alugar');assert.equal($('hAddr').textContent,'Vila · São Carlos/SP');
+  assert.equal($('hPrice').textContent,'R$ 1200/mês');assert.equal($('hRooms').textContent,0);
+  assert.equal($('hGar').textContent,'—');assert.equal($('hLink').href,'https://x/7');
+  assert.equal($('hModel').hidden,false);assert.match($('hModelNote').textContent,/^Exterior modelado/);
+  s.preencheAnuncio({id:57194,tipo:'venda',titulo:'B',bairro:'C',preco:1,url:''});
+  assert.equal($('hTag').textContent,'À venda');assert.equal($('hModel').hidden,true);
+  assert.match($('hModelNote').textContent,/indisponível/);
+  s.preencheAnuncio({id:8,tipo:'venda',titulo:'B',bairro:'C',preco:1,url:''});
+  assert.match($('hModelNote').textContent,/modelagem individual/);
 });

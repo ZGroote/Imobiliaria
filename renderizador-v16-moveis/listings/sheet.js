@@ -1,7 +1,7 @@
 /* Listing sheet content: fills the property card from the unit record. */
 (function(root) {
   "use strict";
-  function create({$, esc, brl, cidade:CIDADE, sheet:usheet}) {
+  function create({$, esc, brl, cidade:CIDADE, sheet:usheet, listingModels}) {
 const m2 = v => v.toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + " m\u00b2";
 
 // A area de um comodo sai do cadastro quando ele a traz; quando nao, do POLIGONO (a
@@ -64,7 +64,21 @@ function preenche(u, confirmado) {
   $("uEnter").hidden = !com.length;
 }
 
-    return {m2, areaDoComodo, preenche};
+// O anuncio SEM planta: ficha simples e, quando ha estudo de exterior, o botao do modelo.
+function preencheAnuncio(house) {
+  $("hTag").textContent = house.tipo === "aluguel" ? "Para alugar" : "À venda";
+  $("hName").textContent = house.titulo;
+  $("hAddr").textContent = house.bairro + " · São Carlos/SP";
+  $("hPrice").textContent = brl(house.preco) + (house.tipo === "aluguel" ? "/mês" : "");
+  $("hRooms").textContent = house.quartos ?? "—";
+  $("hGar").textContent = house.vagas ?? "—";
+  $("hLink").href = house.url;
+  const hasModel = listingModels.has(house.id);
+  $("hModel").hidden = !hasModel;
+  $("hModelNote").textContent = hasModel ? "Exterior modelado a partir das fotos. Dimensões e vistas ausentes ainda são estimadas." : String(house.id) === "57194" ? "Modelo aguardando fotos de referência: o anúncio original está indisponível." : "Modelo aguardando modelagem individual a partir das fotos.";
+}
+
+    return {m2, areaDoComodo, preenche, preencheAnuncio};
   }
   root.ListingSheet = Object.freeze({create});
 })(globalThis);

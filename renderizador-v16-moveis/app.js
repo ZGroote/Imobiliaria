@@ -2066,16 +2066,7 @@ let HOUSE_ATUAL = null;   // o anuncio SEM planta que esta na ficha simples
 function openHouseSheet(house) {
   const hx = px(house.lon), hz = pz(house.lat);
   HOUSE_ATUAL = { h: house, x: hx, z: hz };
-  $("hTag").textContent = house.tipo === "aluguel" ? "Para alugar" : "À venda";
-  $("hName").textContent = house.titulo;
-  $("hAddr").textContent = house.bairro + " · São Carlos/SP";
-  $("hPrice").textContent = brl(house.preco) + (house.tipo === "aluguel" ? "/mês" : "");
-  $("hRooms").textContent = house.quartos ?? "—";
-  $("hGar").textContent = house.vagas ?? "—";
-  $("hLink").href = house.url;
-  const hasModel = ListingModels.has(house.id);
-  $("hModel").hidden = !hasModel;
-  $("hModelNote").textContent = hasModel ? "Exterior modelado a partir das fotos. Dimensões e vistas ausentes ainda são estimadas." : String(house.id) === "57194" ? "Modelo aguardando fotos de referência: o anúncio original está indisponível." : "Modelo aguardando modelagem individual a partir das fotos.";
+  listingSheet.preencheAnuncio(house);
   hsheet.classList.add("on");
   hsheet.classList.remove("min");
   usheet.classList.remove("on");
@@ -3734,7 +3725,8 @@ let UNID_ATUAL = null;
    ficha e o unico lugar da pagina onde eles aparecem juntos. */
 const usheet = $("usheet");
 let FICHA = null;                       // { u, rec, x, z } -- de quem a ficha e agora
-const listingSheet = ListingSheet.create({$, esc, brl, cidade:CIDADE, sheet:usheet});
+const listingSheet = ListingSheet.create({$, esc, brl, cidade:CIDADE, sheet:usheet,
+  listingModels:ListingModels});
 
 function abreFichaDoImovel(u, rec, confirmado, x, z) {
   FICHA = { u, rec, x, z };

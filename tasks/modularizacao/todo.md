@@ -123,4 +123,7 @@ As imagens de 11b até 13b e dos portões são idênticas à referência de câm
 
 - [x] 16b: preenchimento da ficha (`m2`, `areaDoComodo`, preço/estatísticas, cômodos numerados, avisos de terreno/prédio) em `listings/sheet.js`, copiado byte a byte do consumidor; voo, farol, botões e `FICHA` continuam no `app.js`. Teste `tests/test_listing_sheet.mjs` (venda com área pelo polígono e cômodo repetido; aluguel em lote sem planta). `browser_realtime.mjs --listing` grava a ficha de cada item da vitrine e entra no primeiro: antes/depois com as 4 fichas idênticas, entrada em `monte-das-colinas-39` com 7/32/18, imagem externa com o mesmo hash (`baseline/listing-sheet-before.json`, `listing-sheet-after.json`). Não commitado. A sonda antiga por relógio virtual (`testa_duplo_clique.py`) não responde nestas páginas; usar a de relógio real.
 
-Próximo lote da 16: visualização do cadastrado (16c).
+- [x] 16c: texto da ficha do anúncio sem planta (`preencheAnuncio`: tipo, preço, quartos, vagas, link e nota/botão do estudo de exterior) em `listings/sheet.js`, recebendo `ListingModels`; voo, farol e troca de cartão continuam no `app.js`. `--listing` passou a clicar os anúncios e abrir/fechar cada modelo: 7 anúncios e 4 fichas idênticos antes/depois, 6 modelos abrem e fecham, entrada 7/32/18 e imagem com o mesmo hash (`baseline/listing-ads-before.json`, `listing-ads-after.json`). 49 testes Node e 12 Python.
+- [x] 16 concluída (16a–16c).
+
+Próxima frente: 17 (17a rótulos já feita): POIs/perto, busca/link, minimapa, controles mobile.
