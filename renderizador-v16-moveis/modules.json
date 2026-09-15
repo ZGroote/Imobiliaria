@@ -19,6 +19,7 @@
   "world/roads.js",
   "ui/street-labels.js",
   "ui/poi-layer.js",
+  "ui/search.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",

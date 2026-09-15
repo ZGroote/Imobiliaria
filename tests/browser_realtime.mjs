@@ -188,6 +188,13 @@ try {
         g('ux').click();
         out.nearby.push(near);
       }
+      // Search results as rendered, from the same fixed camera target.
+      out.search = [];
+      for (const term of ['farm', 'ru', 'Catedral', 'são car', 'SAO', 'escola', 'x', 'zzqq']) {
+        g('bq').value = term; g('bq').dispatchEvent(new Event('input'));
+        out.search.push([term, g('bres').hidden, g('bres').innerHTML]);
+      }
+      g('bq').value = ''; g('bq').dispatchEvent(new Event('input'));
       if (!items.length) return out;
       items[0].click(); g('uEnter').click();
       await new Promise(resolve => setTimeout(resolve, 3000));
