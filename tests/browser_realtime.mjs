@@ -107,6 +107,32 @@ try {
       return samples;
     })()`);
   }
+  if (process.argv.includes('--streaming')) {
+    result.streaming = await evaluate(`(() => {
+      const I = __int, P = __perf, samples = [];
+      function drain() {
+        for (let k = 0; k < 4; k++) { P.passo(1200000 + samples.length * 10000 + k * 2000); P.bombeia(100000); }
+        if (P.fila()) throw Error('Streaming queue did not drain');
+        const trees = P.confereArvores();
+        if (!trees.ok) throw Error('Tree membership mismatch: ' + JSON.stringify(trees));
+        I.renderer.render(I.scene, I.camera);
+        return {groups:I.vivos().size, geometries:I.renderer.info.memory.geometries,
+          textures:I.renderer.info.memory.textures, trees:trees.completo};
+      }
+      for (let cycle = 0; cycle < 3; cycle++) {
+        for (const [x, radius] of [[-525,450],[-375,250],[-525,450],[50000,150],[-525,450]]) {
+          I.target.set(x,0,x === 50000 ? 50000 : -1598); P.setStreamRadius(radius);
+          samples.push({cycle,x,radius,...drain()});
+        }
+      }
+      // Compare the same path after each full cycle; hysteresis deliberately keeps
+      // different geometry sets after the nearby and far-away routes.
+      const last = [samples[9], samples[14]];
+      if (last[0].groups !== last[1].groups || last[0].geometries !== last[1].geometries || last[0].textures !== last[1].textures)
+        throw Error('Resources did not settle after repeated return: ' + JSON.stringify(last));
+      return samples;
+    })()`);
+  }
   result.page = path.resolve(page);
   result.clock = 'real';
   await fs.writeFile(prefix + '.json', JSON.stringify(result, null, 2));

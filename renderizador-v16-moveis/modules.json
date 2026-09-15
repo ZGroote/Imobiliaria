@@ -24,5 +24,6 @@
   "world/vegetation-scene.js",
   "world/gates.js",
   "world/walls.js",
+  "world/streaming.js",
   "app.js"
 ]
