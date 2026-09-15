@@ -51,3 +51,15 @@ test('empty and degenerate roads produce no geometry; indexing resets previous j
   assert.deepEqual(api.buildRibbons([road],.32,1.55,opts).attributes.position.array,
     fresh.buildRibbons([road],.32,1.55,opts).attributes.position.array);
 });
+
+test('road composition preserves material assignment and leaves scene ownership to caller',()=>{
+  const api=ctx.WorldRoads.create({THREE:ctx.THREE,widthOf:()=>8,registerTerrain:()=>{}});
+  const road={pts:[[0,0],[80,0]]};api.indexaJuncoes([road]);
+  const calls=[];
+  const meshes=api.meshes([road],{K:{asfalto:0x333333,walk:0x777777},shadows:true,
+    material:(color,sidewalk)=>{calls.push([color,sidewalk]);return new ctx.THREE.MeshBasicMaterial({color});}});
+  assert.deepEqual(calls,[[0x333333,false],[0x777777,true]]);
+  assert.equal(meshes.length,2);
+  for(const m of meshes){assert.equal(m.parent,null);assert.equal(m.receiveShadow,true);m.geometry.dispose();m.material.dispose();}
+  assert.equal(api.meshes([],{material:()=>{throw Error('empty');},K:{},shadows:false}).length,0);
+});

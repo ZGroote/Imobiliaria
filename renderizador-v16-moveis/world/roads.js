@@ -126,7 +126,19 @@ function buildRibbons(recs, y, mul, opt) {
   return g;
 }
 
-    return {indexaJuncoes, buildRibbons};
+    function meshes(records, {material, K, shadows}) {
+      const meshes = [];
+  // A pista NAO pode descer perto do chao: o poligono da quadra vai ate o EIXO da
+  // via, entao o chao do quarteirao passa por baixo do asfalto inteiro. Com a pista a
+  // 0,02 sobravam 8 cm sobre ele e a rua sumia embaixo do terreno. 0,10 devolve folga
+  // A calcada sobe a 0,32: 22 cm acima da pista, com sarjeta e quina chanfrada.
+  const rd = buildRibbons(records, 0.10, 1.0);
+  if (rd) { const m = new THREE.Mesh(rd, material(K.asfalto, false)); m.receiveShadow = shadows; meshes.push(m); }
+  const wk = buildRibbons(records, 0.32, 1.55, { de: 1.0, junta: false, meiofio: true, y_baixo: 0.10 });
+  if (wk) { const m = new THREE.Mesh(wk, material(K.walk, true)); m.receiveShadow = shadows; meshes.push(m); }
+      return meshes;
+    }
+    return {indexaJuncoes, buildRibbons, meshes};
   }
   root.WorldRoads = {create};
 })(globalThis);

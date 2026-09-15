@@ -1826,8 +1826,9 @@ function buildBuildings(recs, cx, cz) {
    E ela é encurtada nas pontas de cada via. Sem isso, a calçada de uma rua atravessa
    o cruzamento da outra como uma lombada de 15 cm no meio do asfalto — as vias do OSM
    são cortadas nos entroncamentos, então a ponta da via é a esquina. */
-const {indexaJuncoes, buildRibbons} = WorldRoads.create({THREE,
+const roadGeometry = WorldRoads.create({THREE,
   widthOf: w => ROAD_W[HW[w.k]] || 6, registerTerrain});
+const {indexaJuncoes} = roadGeometry;
 
 const {matVia} = RoadMaterials.create({THREE, AP_RUA, K, GLSL_RUIDO});
 
@@ -2554,14 +2555,7 @@ function assembleInto(rec, B, R, G, cx, cz) {
   const add = (o, parent) => { parent.add(o); rec.objs.push(o); return o; };
   const gp = buildPatches(G);
   if (gp.m) { const m = new THREE.Mesh(gp.m, flat(K.green)); m.receiveShadow = SOMBRA_CIDADE; add(m, gRest); }
-  // A pista NAO pode descer perto do chao: o poligono da quadra vai ate o EIXO da
-  // via, entao o chao do quarteirao passa por baixo do asfalto inteiro. Com a pista a
-  // 0,02 sobravam 8 cm sobre ele e a rua sumia embaixo do terreno. 0,10 devolve folga
-  // A calcada sobe a 0,32: 22 cm acima da pista, com sarjeta e quina chanfrada.
-  const rd = buildRibbons(R, 0.10, 1.0);
-  if (rd) { const m = new THREE.Mesh(rd, matVia(K.asfalto, false)); m.receiveShadow = SOMBRA_CIDADE; add(m, gRoad); }
-  const wk = buildRibbons(R, 0.32, 1.55, { de: 1.0, junta: false, meiofio: true, y_baixo: 0.10 });
-  if (wk) { const m = new THREE.Mesh(wk, matVia(K.walk, true)); m.receiveShadow = SOMBRA_CIDADE; add(m, gRoad); }
+  for (const mesh of roadGeometry.meshes(R, {material: matVia, K, shadows: SOMBRA_CIDADE})) add(mesh, gRoad);
   // v12: a faixa central saiu daqui. Era uma chamada de desenho por quarteirao, so em
   // via grande e so no nivel de grafico alto; agora e o proprio shader da pista que a
   // pinta, em toda via e em todo nivel. Ver `_compilaVia`.
