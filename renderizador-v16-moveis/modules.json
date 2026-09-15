@@ -31,6 +31,7 @@
   "interior/bake.js",
   "interior/house-mesh.js",
   "interior/navigation.js",
+  "interior/first-person.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",
