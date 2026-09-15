@@ -19,5 +19,6 @@
   "world/roads.js",
   "ui/street-labels.js",
   "world/buildings.js",
+  "world/building-placement.js",
   "app.js"
 ]

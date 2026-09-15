@@ -1151,19 +1151,17 @@ const V2 = THREE.Vector2;
 // ?casas=procedural permite comparar com a representacao anterior.
 let urban = null;
 let exteriors = null;
-let roadSafety = null, roadSafetyCache = new WeakMap();
+let roadSafety = null;
 if(window.ExteriorDetails && $("__exteriorModels") && QS.get("exteriores")!=="0"){
   try {
     exteriors=ExteriorDetails.create(THREE,JSON.parse($("__exteriorModels").textContent),scene,
       {terrain:terrainY,coverageRadius:()=>STREAM_R+STREAM_HYST,groundTexture:TEX_CIDADE.chao,roadHit:ring=>!!roadSafety?.hit(ring),compact:matchMedia("(pointer:coarse)").matches||innerWidth<=820});
   }catch(e){console.warn("Detalhes externos indisponíveis; mantendo a representação anterior.",e);}
 }
-const explicitBuilding = b => b.lancamento || b.parede != null || b.sacadas;
-function buildingOverRoad(b) {
-  if (!roadSafety || explicitBuilding(b)) return false;
-  if (!roadSafetyCache.has(b)) roadSafetyCache.set(b,!!roadSafety.hit(b.r));
-  return roadSafetyCache.get(b);
-}
+const buildingPlacement = BuildingPlacement.create({geometry: MapGeometry, types: BuildingType, terrainY});
+const {explicitBuilding} = buildingPlacement;
+const buildingOverRoad = b => buildingPlacement.blocked(b, roadSafety);
+const urbanSplit = records => buildingPlacement.split(records, urban, roadSafety);
 if (new URLSearchParams(location.search).get("casas") !== "procedural") {
   try {
     urban = UrbanModels.create(THREE, JSON.parse($("__urbanModels").textContent), gBuild,
@@ -1172,29 +1170,6 @@ if (new URLSearchParams(location.search).get("casas") !== "procedural") {
 }
 function urbanBase(b, x, z) {
   return terrainY(x,z);
-}
-function urbanSplit(records) {
-  const rest=[], slots=[], shadows=[];
-  if (!urban) return {rest:records,slots,shadows};
-  const ordered = records.slice().sort((a,b)=>a.r[0][0]-b.r[0][0]||a.r[0][1]-b.r[0][1]);
-  for (const b of ordered) {
-    const gerado = shoelace(b.r)>0;
-    const ring = safeInset(gerado?b.r.slice().reverse():b.r,gerado?.25:BUILDING_INSET);
-    const ob = obbOf(ring,Math.abs(shoelace(ring))/2);
-    const st = tipoDe(b.c,b.h,b.area,ob);
-    const category = st===ST.CASA?'casas':st===ST.SOBRADO?'sobrados':
-      (st===ST.PREDIO||(st===ST.TORRE&&b.c!==2))?'predios':null;
-    const chosen = urban.select(b,ob,ring,category,slots);
-    if (chosen && roadSafety?.hit(chosen.corners)) { rest.push(b); continue; }
-    if (!chosen) { rest.push(b); continue; }
-    let base = urbanBase(b,chosen.x,chosen.z);
-    for(const p of chosen.corners) base = Math.max(base,terrainY(p[0],p[1]));
-    slots.push(urban.add(chosen,b,base));
-    shadows.push(chosen.x,chosen.z,Math.cos(chosen.theta),-Math.sin(chosen.theta),
-      chosen.asset.size[0]*chosen.scale/2,chosen.asset.size[2]*chosen.scale/2,
-      base,chosen.asset.size[1]*chosen.scale);
-  }
-  return {rest,slots,shadows};
 }
 const {buildBuildings} = WorldBuildings.create({THREE, APAR, CLS, TILE_M, LV,
   geometry: MapGeometry, types: BuildingType, hash, terrainY, registerTerrain,
@@ -2586,7 +2561,7 @@ function loadCity(data, label) {
   montaBaseMinimapa(R);
   indexaAsfalto(R);   // a arvore nao pode nascer no asfalto de NENHUMA via
   roadSafety = RoadClearance.create(R,w=>ROAD_W[HW[w.k]]||6,.15);
-  roadSafetyCache = new WeakMap();
+  buildingPlacement.clear();
   // Walls depend on the complete street index too, not just the visible blocks.
   if(window.__gMuros){
     const old=window.__gMuros;
