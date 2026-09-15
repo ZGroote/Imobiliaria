@@ -18,5 +18,6 @@
   "materials/interior-textures.js",
   "world/roads.js",
   "ui/street-labels.js",
+  "world/buildings.js",
   "app.js"
 ]
