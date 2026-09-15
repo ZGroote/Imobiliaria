@@ -235,6 +235,8 @@ try {
         }
         out.house.push(row);
       }
+      // Interior camera lens right after entering.
+      out.camera = [I.camera.fov, I.camera.near, I.camera.far, I.camera.aspect];
       // Entry pose and the walkable map of the plan, sampled every 25 cm.
       out.entryPose = I.FP ? [I.FP.pos.x, I.FP.pos.z, I.FP.yaw] : null;
       if (pl && I.livre) {
