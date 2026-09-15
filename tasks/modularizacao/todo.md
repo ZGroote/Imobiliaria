@@ -117,3 +117,8 @@ Verificação 11a: 9.292 vias, 186 lotes de comparação, 4.236.996 vértices co
 - 14: portões e muros extraídos; comparação dos quatro modelos de portão e dos buffers/metadados das divisas aprovada. Validação integrada aprovada: imagem idêntica, relevo reversível e 54 testes aprovados.
 
 As imagens de 11b até 13b e dos portões são idênticas à referência de câmera fixa; detalhes em `baseline/world-extraction-results.json`. Esse resultado não substitui a matriz comportamental completa, ainda pendente. Próxima frente: gerenciamento da fila de streaming e ciclo de montagem/descarte, preservando as chamadas de diagnóstico.
+
+- [x] 15: fila e ciclo de streaming em `world/streaming.js` (`12180d4`); 15 pontos do percurso idênticos antes/depois, sem crescimento de recursos entre ciclos. A falha inicial da sonda era da comparação entre trajetos distintos (`baseline/streaming-test-investigation.md`).
+- [x] 16a: identidade e vínculo imóvel↔prédio em `listings/identity.js`, consumidor `app.js`, manifesto e `tests/test_listing_identity.mjs`. Prioridade fixado > `predio_id` > âncora, chave `ancora_<slug>_<id>`, lote sem volume, blocos de lançamento e `?planta=` testados. HTML aberto: vitrine 4, ficha abriu e entrou em `monte-das-colinas-39` com 7 cômodos, 32 paredes e 18 móveis (`baseline/listing-identity-entry.json`). 46 testes Node e 12 Python aprovados. Não medido: saída do interior e clique direto no prédio no navegador.
+
+Próximos lotes da 16: ficha (16b) e visualização do cadastrado (16c).

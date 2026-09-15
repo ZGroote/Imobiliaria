@@ -502,5 +502,77 @@
       "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\walls\\sao-carlos-v16-moveis.html",
       "clock": "real"
     }
+  },
+  "streaming": {
+    "pixels_identical": true,
+    "measurements": {
+      "camera": [
+        -412.3496810166678,
+        114.4413410150972,
+        -1433.3394853050079
+      ],
+      "groups": 74,
+      "queue": 0,
+      "times": [
+        {
+          "ms": 3,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 3.5,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 2.700000001117587,
+          "calls": 273,
+          "tris": 3263632
+        }
+      ],
+      "geometries": 183,
+      "textures": 5,
+      "urban": {
+        "enabled": true,
+        "models": 74,
+        "pools": 55,
+        "instances": 836,
+        "categories": {
+          "casas": 697,
+          "sobrados": 136,
+          "predios": 3
+        },
+        "drawCalls": 151
+      },
+      "dpr": 1,
+      "quality": "baixo",
+      "viewport": [
+        944,
+        545
+      ],
+      "diagnostics": 1,
+      "terrain": [
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        },
+        {
+          "on": false,
+          "vertices": 11018,
+          "maximumError": 0,
+          "geometries": 107
+        },
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        }
+      ],
+      "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\streaming\\sao-carlos-v16-moveis.html",
+      "clock": "real"
+    }
   }
 }
