@@ -26,5 +26,6 @@
   "world/walls.js",
   "world/streaming.js",
   "listings/identity.js",
+  "listings/sheet.js",
   "app.js"
 ]

@@ -133,6 +133,29 @@ try {
       return samples;
     })()`);
   }
+  if (process.argv.includes('--listing')) {
+    // Every showcase item: sheet text as rendered, then enter the first one.
+    result.listing = await evaluate(`(async () => {
+      const I = __int, g = id => document.getElementById(id), out = {sheets: []};
+      const items = document.querySelectorAll('#houses .hitem[data-unidade]');
+      out.showcase = items.length;
+      for (const item of items) {
+        item.click();
+        out.sheets.push({id:item.dataset.unidade, on:g('usheet').classList.contains('on'),
+          tag:g('uTag').textContent, name:g('uName').textContent, addr:g('uAddr').textContent,
+          warning:[g('uAviso').hidden, g('uAviso').textContent], stats:g('uStats').innerHTML,
+          count:g('uNCom').textContent, rooms:g('uCom').innerHTML,
+          roomsHidden:g('usheet').querySelector('.comodos').hidden, enterHidden:g('uEnter').hidden});
+      }
+      if (!items.length) return out;
+      items[0].click(); g('uEnter').click();
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      const pl = I.INT.pl;
+      Object.assign(out, {entered:!!I.INT.on, unit:pl && pl.id, rooms:pl ? pl.comodos.length : 0,
+        walls:pl ? pl.paredes.length : 0, furniture:I.INT.moveis.length});
+      return out;
+    })()`);
+  }
   result.page = path.resolve(page);
   result.clock = 'real';
   await fs.writeFile(prefix + '.json', JSON.stringify(result, null, 2));
