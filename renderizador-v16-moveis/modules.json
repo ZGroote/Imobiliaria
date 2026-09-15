@@ -35,6 +35,7 @@
   "interior/furniture-instances.js",
   "interior/furniture-editor.js",
   "interior/lights.js",
+  "scene/quality.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",
