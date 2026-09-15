@@ -1,0 +1,204 @@
+{
+  "commits": {
+    "roads": "8351273",
+    "interior": "524756c"
+  },
+  "tests": {
+    "python": 12,
+    "node": 21,
+    "failed": 0
+  },
+  "roads": {
+    "camera": [
+      -412.3496810166678,
+      114.4413410150972,
+      -1433.3394853050079
+    ],
+    "groups": 74,
+    "queue": 0,
+    "times": [
+      {
+        "ms": 3.600000001490116,
+        "calls": 273,
+        "tris": 3263632
+      },
+      {
+        "ms": 4.5999999940395355,
+        "calls": 273,
+        "tris": 3263632
+      },
+      {
+        "ms": 5.300000004470348,
+        "calls": 273,
+        "tris": 3263632
+      }
+    ],
+    "geometries": 183,
+    "textures": 5,
+    "urban": {
+      "enabled": true,
+      "models": 74,
+      "pools": 55,
+      "instances": 836,
+      "categories": {
+        "casas": 697,
+        "sobrados": 136,
+        "predios": 3
+      },
+      "drawCalls": 151
+    },
+    "dpr": 1,
+    "quality": "baixo",
+    "viewport": [
+      944,
+      545
+    ],
+    "diagnostics": 1,
+    "terrain": [
+      {
+        "on": true,
+        "vertices": 11018,
+        "maximumError": 2.9832124710083008e-05,
+        "geometries": 107
+      },
+      {
+        "on": false,
+        "vertices": 11018,
+        "maximumError": 0,
+        "geometries": 107
+      },
+      {
+        "on": true,
+        "vertices": 11018,
+        "maximumError": 2.9832124710083008e-05,
+        "geometries": 107
+      }
+    ],
+    "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\roads\\sao-carlos-v16-moveis.html",
+    "clock": "real"
+  },
+  "road_image": {
+    "identical": true,
+    "before": "real-before.png",
+    "after": "real-roads.png"
+  },
+  "interior_entry": {
+    "vitrine": 4,
+    "unidades": 5,
+    "ficha": true,
+    "entrou": true,
+    "unidade": "monte-das-colinas-39",
+    "comodos": 7,
+    "paredes": 32,
+    "moveis": 18,
+    "malhas": 6,
+    "furo": true
+  },
+  "artifacts": {
+    "roads": {
+      "sao-carlos-v16-moveis-aberto.html": "75ee247d952ad800667bc70a4a327924a959227670578b4587991ed0bd48dd97",
+      "sao-carlos-v16-moveis.html": "49e08e15f5b67a7f78c5eba9c8532f907bdbd098b29a8923da5e82d318638237"
+    },
+    "interior-materials": {
+      "sao-carlos-v16-moveis-aberto.html": "124cfec9b622a9900e8dea9bdc95f1392f3e6cb9bbe28566d9fa9ccf6f5ed014",
+      "sao-carlos-v16-moveis.html": "7d85d4afb65685ec568c51a93d134f0d5d65911617349e0d50afb462c5c110e1"
+    }
+  },
+  "interior_exposure": {
+    "before": {
+      "probe": {
+        "luzes": 5,
+        "dentro": true,
+        "bake": true,
+        "bakeMs": 0,
+        "voo": false,
+        "cam": [
+          -2469.39,
+          11.07,
+          1130.32
+        ],
+        "solInt": 6.13,
+        "solCast": true,
+        "dist": 1243,
+        "caixa": [
+          -7.295,
+          7.295,
+          1210.4399225872469,
+          1290.4399225872469
+        ],
+        "movelCast": true,
+        "pisoRecebe": true,
+        "mapaSombra": true,
+        "mapaTam": 2048,
+        "corteAtivo": false,
+        "shadowSide": null,
+        "matSide": 2
+      },
+      "metrics": {
+        "media": 129.04135948902672,
+        "p05": 52.910599999999995,
+        "p50": 133.7754,
+        "p95": 178.992,
+        "p99": 229.2086,
+        "queimado": 0.0,
+        "faixa": 126.0814,
+        "escuro": 8.843511450381678,
+        "croma": 0.20926820056162834
+      }
+    },
+    "after": {
+      "probe": {
+        "luzes": 5,
+        "dentro": true,
+        "bake": true,
+        "bakeMs": 0,
+        "voo": false,
+        "cam": [
+          -2469.39,
+          11.07,
+          1130.32
+        ],
+        "solInt": 6.13,
+        "solCast": true,
+        "dist": 1243,
+        "caixa": [
+          -7.295,
+          7.295,
+          1210.4399225872469,
+          1290.4399225872469
+        ],
+        "movelCast": true,
+        "pisoRecebe": true,
+        "mapaSombra": true,
+        "mapaTam": 2048,
+        "corteAtivo": false,
+        "shadowSide": null,
+        "matSide": 2
+      },
+      "metrics": {
+        "media": 129.05560654961832,
+        "p05": 52.910599999999995,
+        "p50": 133.7754,
+        "p95": 178.992,
+        "p99": 229.2086,
+        "queimado": 0.0,
+        "faixa": 126.0814,
+        "escuro": 8.843511450381678,
+        "croma": 0.20924621964206033
+      }
+    }
+  },
+  "interior_image": {
+    "identical": false,
+    "bounds": [
+      0,
+      0,
+      1000,
+      640
+    ],
+    "changed_pixels": 311214,
+    "total_pixels": 640000,
+    "mean_absolute_channel_error": 0.819909375
+  },
+  "exposure_limits_pass": true
+}

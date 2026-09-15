@@ -72,6 +72,16 @@ Ao iniciar uma linha com vários lotes, registrar os subitens concretos e seus a
 
 A composição 05 precedeu a extração 04/06 para fornecer uma ordem explícita de carregamento. Os checkpoints locais até 08 são `0fcb1b4`, `f81acd2`, `1aea668`, `44d875a` e `b1e7d07`.
 
-- 10a: fachadas e linhas de crescimento em `materials/facades.js`, consumidor `app.js`, manifesto e teste de equivalência de shader. Texturas continuam carregadas pelo consumidor e entram por dependência explícita. Os lotes de vias e interior permanecem pendentes.
+- 10a: fachadas e linhas de crescimento em `materials/facades.js`, consumidor `app.js`, manifesto e teste de equivalência de shader. Texturas continuam carregadas pelo consumidor e entram por dependência explícita. Os próximos lotes estão registrados na continuação de 15/09.
 
-- [x] 10a: fachadas e linhas extraídas; quatro testes de equivalência de shader e imagem fixa idêntica à referência. Tarefa 10 permanece parcial: faltam materiais de vias e interior.
+- [x] 10a: fachadas e linhas extraídas; quatro testes de equivalência de shader e imagem fixa idêntica à referência. Tarefa 10 permanece parcial: outros shaders de chão/muros e geração de texturas ainda estão no consumidor.
+
+## Continuação 15/09
+
+- [x] 10b: `matVia` e compilação GLSL extraídos para `materials/roads.js`; consumidor, manifesto e teste de equivalência com ambas as configurações de via e pista/calçada. Commit `8351273`; imagem externa e alternância de relevo equivalentes.
+- [x] 10c: sete materiais de interior extraídos em `materials/interior.js` (`524756c`); parâmetros, texturas, shader de forro e entrada no imóvel aprovados. Critérios de exposição aprovados antes/depois, mesma câmera e estado de iluminação; pequena variação de pixels registrada. Texturas procedurais continuam no consumidor.
+- Revisão de over-engineering dos módulos de produção e testes gerados; registrar achados separadamente, sem apagar ferramentas de diagnóstico durante a revisão.
+
+Próximos lotes da tarefa 10: shaders de chão detalhado, muros, preenchimento de asfalto e terreno de fundo; geração de texturas procedurais e recursos compartilhados. A geometria das ruas (tarefa 11) ainda não foi extraída.
+
+Revisão de complexidade: [over-engineering.md](over-engineering.md), dois achados pequenos, sem abstrações especulativas identificadas nos módulos de produção revisados.
