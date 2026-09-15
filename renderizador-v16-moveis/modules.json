@@ -28,6 +28,7 @@
   "interior/openings.js",
   "interior/shell-geometry.js",
   "interior/light-atlas.js",
+  "interior/bake.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",
