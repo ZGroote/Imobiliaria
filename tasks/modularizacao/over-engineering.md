@@ -11,7 +11,7 @@ net: -99 lines applied.
 
 Não encontrei necessidade de um framework de módulos, contêiner de injeção, barramento de eventos ou classes base. Nenhum deles foi introduzido. As fábricas existentes recebem dados já usados: configuração/quantização, uniformes de cena, acesso a storage e texturas. O terreno possui estado mutável próprio; geometria e classificação são funções compartilhadas pelas auditorias. O manifesto atende ao HTML offline já distribuído e preserva a ordem de inicialização.
 
-`getNoise` em fachadas preserva uma dependência inicializada mais tarde pelo consumidor. Retirá-lo isoladamente causaria acesso antes da inicialização; pode desaparecer quando o GLSL compartilhado mudar de dono, sem criar um novo sistema de resolução de dependências.
+Atualização `19b0155`: o GLSL compartilhado passou para `materials/resources.js`, carregado antes dos materiais. `getNoise` foi removido de fachadas e superfícies; os consumidores recebem a string pronta. A flag `TEX_ON`, sem consumidor, também foi removida. Não foi criado um sistema de resolução de dependências.
 
 Os testes de shader usam o código de um commit fixo como oráculo da migração. Essa comparação tem propósito durante a extração e exige histórico Git local. Não substitui os testes funcionais nem demonstra, sozinha, que todo o monólito está correto.
 

@@ -74,3 +74,11 @@ Commit `3608849`: geração dos nove mapas em `materials/interior-textures.js`, 
 Validação: 12 testes Python e 25 Node aprovados. `python tests/browser_texture_equivalence.py` usa o canvas real do Chrome para comparar todos os bytes dos nove mapas contra `0131e88`, além das dimensões, repetição, anisotropia, espaço de cor e filtros. O sorteio é controlado somente nessa página de teste; a aplicação mantém o comportamento aleatório anterior. Os mapas e as contagens de chamadas aleatórias são idênticos.
 
 O HTML comprimido em `../work/textures/` abriu ficha e entrou em monte-das-colinas-39: 7 cômodos, 32 paredes e 18 móveis. Resultados brutos e hashes em `texture-results.json`. QA completo e comparação de exposição não foram repetidos neste lote; foram usados equivalência das texturas e teste funcional de entrada. A modularização geral permanece em andamento.
+
+## Lote 10f — recursos compartilhados
+
+Commit `19b0155`: `materials/resources.js` contém o ruído GLSL e o carregamento das três texturas embutidas da cidade. O app mantém a leitura do payload. Fachadas e superfícies recebem a string pronta; `getNoise` e a flag sem uso `TEX_ON` foram removidos.
+
+12 testes Python e 27 Node aprovados. `tests/test_material_resources.mjs` compara a string GLSL com `b300541`, incluindo a quebra de linha final, e testa imagens ausentes, envio à GPU somente após onload, limites de anisotropia e espaço de cor. Os testes de shaders anteriores continuam aprovados.
+
+HTML aberto e comprimido gerados em `../work/resources/`. Imagem externa do comprimido idêntica à referência, mesmas contagens de cena e alternância de relevo aprovada (11.018 vértices). Evidências e hashes em `resource-results.json`. Não foi repetido o QA completo nem a exposição interna neste lote. A migração continua em andamento, com a geometria das ruas como próxima frente.

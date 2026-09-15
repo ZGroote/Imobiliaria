@@ -91,3 +91,7 @@ Revisão de complexidade: [over-engineering.md](over-engineering.md), dois achad
 Verificação de 10d: 37 testes aprovados; imagem externa idêntica à referência e relevo reversível. Evidências em `baseline/surface-results.json`. O QA completo e as cidades legadas mantêm as pendências já registradas.
 
 - [x] 10e concluído (`3608849`): `materials/interior-textures.js`, consumidor e manifesto; comparação dos nove mapas em canvas real com sorteio controlado somente no teste. API única `create({THREE, document})`, geração uma vez no boot. Nove mapas e configurações idênticos no Chrome com sorteio de teste controlado; HTML comprimido abriu ficha e interior com 7 cômodos, 32 paredes e 18 móveis. Evidências em `baseline/texture-results.json`.
+
+- [x] 10f concluído (`19b0155`): `materials/resources.js` para ruído GLSL e texturas embutidas da cidade; consumidores recebem recursos prontos. Remover leitura tardia `getNoise` e flag `TEX_ON` sem consumidor. Testar string de shader original e carregamento assíncrono de imagens.
+
+Validação de 10f: 39 testes, imagem externa idêntica e alternância de relevo aprovada. `baseline/resource-results.json` registra hashes e medições. Próxima frente: geometria das ruas (11); a sonda de ambiente e materiais de apoio permanecem junto aos respectivos fluxos e serão tratados na extração de iluminação/editor.
