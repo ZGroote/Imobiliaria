@@ -99,3 +99,21 @@ Validação de 10f: 39 testes, imagem externa idêntica e alternância de relevo
 - [x] 11a concluído: `world/roads.js` passa a possuir o índice de junções e a construção de fitas de pista/calçada; recebe Three.js, largura por tipo e registro de terreno. Comparar buffers e cruzamentos com o checkpoint anterior.
 
 Verificação 11a: 9.292 vias, 186 lotes de comparação, 4.236.996 vértices com todos os atributos idênticos antes do registro no relevo. Imagem externa idêntica, relevo reversível e 41 testes aprovados. Evidências em `baseline/road-geometry-results.json`. A tarefa 11 permanece parcial: composição das malhas de ruas na cena e rótulos ainda estão no consumidor.
+
+- 11b/17a: `ui/street-labels.js` possui criação, projeção, cache e descarte de rótulos de ruas; testa reconstrução, filtro e ocultação. `world/roads.js` recebe composição de suas malhas por método concreto; streaming continua dono da inserção/descarte.
+
+- 12a: `world/buildings.js` para geometria procedural, paleta e coberturas. Biblioteca UrbanModels e seleção permanecem no consumidor até o lote seguinte. Comparar buffers, sombras, metadados e casos de cadastro explícito.
+
+- 12b: `world/building-placement.js` para filtro de colisão e escolha de modelo urbano, preservando cache por registro, cadastro explícito e altura máxima da pegada.
+
+- 13a: `world/vegetation-planning.js` para catálogo, índice de asfalto e plantio determinístico; comparar buffers e registros de plantas com o checkpoint anterior.
+
+### Checkpoint de mundo — continuação
+
+- [x] 11b/17a: rótulos (`77f966b`) e composição das vias (`e0c8ea1`); teste DOM e imagem externa idêntica.
+- [x] 12a/12b: edifícios (`a7115a1`) e seleção urbana (`8712430`); buffers, colisão, cadastro explícito e assentamento aprovados; imagem externa idêntica.
+- [x] 13a: catálogo e plantio (`e628bf6`); catálogo real, seleção ponderada, cruzamentos e reconstrução de índice equivalentes.
+- [x] 13b: instanciamento (`786fd08`); estado privado, crescimento, remoção, teto, raio e relevo testados; conferidor incremental preservado.
+- 14: portões e muros extraídos; comparação dos quatro modelos de portão e dos buffers/metadados das divisas aprovada. Validação integrada aprovada: imagem idêntica, relevo reversível e 54 testes aprovados.
+
+As imagens de 11b até 13b e dos portões são idênticas à referência de câmera fixa; detalhes em `baseline/world-extraction-results.json`. Esse resultado não substitui a matriz comportamental completa, ainda pendente. Próxima frente: gerenciamento da fila de streaming e ciclo de montagem/descarte, preservando as chamadas de diagnóstico.

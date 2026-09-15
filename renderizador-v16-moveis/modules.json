@@ -22,5 +22,7 @@
   "world/building-placement.js",
   "world/vegetation-planning.js",
   "world/vegetation-scene.js",
+  "world/gates.js",
+  "world/walls.js",
   "app.js"
 ]

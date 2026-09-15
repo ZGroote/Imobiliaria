@@ -16,3 +16,6 @@ Atualização `19b0155`: o GLSL compartilhado passou para `materials/resources.j
 Os testes de shader usam o código de um commit fixo como oráculo da migração. Essa comparação tem propósito durante a extração e exige histórico Git local. Não substitui os testes funcionais nem demonstra, sozinha, que todo o monólito está correto.
 
 Esta revisão cobre os arquivos gerados nesta migração; não é uma auditoria de complexidade dos 10 mil arquivos de dados, históricos e demais fontes do acervo. O capturador duplicado foi excluído, e a API de `matVia` e seus consumidores foram ajustados. Os quatro testes de shader de via passaram após a simplificação.
+
+
+Revisão dos lotes de vegetação/divisas com `ponytail-review`: o estado de instâncias e do índice espacial tem consumidores reais, e as APIs de criação, atualização e invalidação acompanham os fluxos existentes. Não foram adicionados barramento, gerenciador genérico de entidades ou novas dependências. A revisão de complexidade não encontrou corte de linhas necessário nesses lotes; os testes de equivalência permanecem justificáveis durante a migração.

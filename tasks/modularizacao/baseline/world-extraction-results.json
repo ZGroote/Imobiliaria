@@ -1,0 +1,506 @@
+{
+  "labels": {
+    "pixels_identical": true,
+    "measurements": {
+      "camera": [
+        -412.3496810166678,
+        114.4413410150972,
+        -1433.3394853050079
+      ],
+      "groups": 74,
+      "queue": 0,
+      "times": [
+        {
+          "ms": 4.699999995529652,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 18.19999999552965,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 3.2000000029802322,
+          "calls": 273,
+          "tris": 3263632
+        }
+      ],
+      "geometries": 183,
+      "textures": 5,
+      "urban": {
+        "enabled": true,
+        "models": 74,
+        "pools": 55,
+        "instances": 836,
+        "categories": {
+          "casas": 697,
+          "sobrados": 136,
+          "predios": 3
+        },
+        "drawCalls": 151
+      },
+      "dpr": 1,
+      "quality": "baixo",
+      "viewport": [
+        944,
+        545
+      ],
+      "diagnostics": 1,
+      "terrain": [
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        },
+        {
+          "on": false,
+          "vertices": 11018,
+          "maximumError": 0,
+          "geometries": 107
+        },
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        }
+      ],
+      "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\labels\\sao-carlos-v16-moveis.html",
+      "clock": "real"
+    }
+  },
+  "buildings": {
+    "pixels_identical": true,
+    "measurements": {
+      "camera": [
+        -412.3496810166678,
+        114.4413410150972,
+        -1433.3394853050079
+      ],
+      "groups": 74,
+      "queue": 0,
+      "times": [
+        {
+          "ms": 6.600000001490116,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 13.700000002980232,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 13.300000004470348,
+          "calls": 273,
+          "tris": 3263632
+        }
+      ],
+      "geometries": 183,
+      "textures": 5,
+      "urban": {
+        "enabled": true,
+        "models": 74,
+        "pools": 55,
+        "instances": 836,
+        "categories": {
+          "casas": 697,
+          "sobrados": 136,
+          "predios": 3
+        },
+        "drawCalls": 151
+      },
+      "dpr": 1,
+      "quality": "baixo",
+      "viewport": [
+        944,
+        545
+      ],
+      "diagnostics": 1,
+      "terrain": [
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        },
+        {
+          "on": false,
+          "vertices": 11018,
+          "maximumError": 0,
+          "geometries": 107
+        },
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        }
+      ],
+      "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\buildings\\sao-carlos-v16-moveis.html",
+      "clock": "real"
+    }
+  },
+  "placement": {
+    "pixels_identical": true,
+    "measurements": {
+      "camera": [
+        -412.3496810166678,
+        114.4413410150972,
+        -1433.3394853050079
+      ],
+      "groups": 74,
+      "queue": 0,
+      "times": [
+        {
+          "ms": 5.600000001490116,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 3.3000000044703484,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 3.5999999940395355,
+          "calls": 273,
+          "tris": 3263632
+        }
+      ],
+      "geometries": 183,
+      "textures": 5,
+      "urban": {
+        "enabled": true,
+        "models": 74,
+        "pools": 55,
+        "instances": 836,
+        "categories": {
+          "casas": 697,
+          "sobrados": 136,
+          "predios": 3
+        },
+        "drawCalls": 151
+      },
+      "dpr": 1,
+      "quality": "baixo",
+      "viewport": [
+        944,
+        545
+      ],
+      "diagnostics": 1,
+      "terrain": [
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        },
+        {
+          "on": false,
+          "vertices": 11018,
+          "maximumError": 0,
+          "geometries": 107
+        },
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        }
+      ],
+      "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\placement\\sao-carlos-v16-moveis.html",
+      "clock": "real"
+    }
+  },
+  "vegetation-planning": {
+    "pixels_identical": true,
+    "measurements": {
+      "camera": [
+        -412.3496810166678,
+        114.4413410150972,
+        -1433.3394853050079
+      ],
+      "groups": 74,
+      "queue": 0,
+      "times": [
+        {
+          "ms": 4.800000004470348,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 27.5,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 12.800000004470348,
+          "calls": 273,
+          "tris": 3263632
+        }
+      ],
+      "geometries": 183,
+      "textures": 5,
+      "urban": {
+        "enabled": true,
+        "models": 74,
+        "pools": 55,
+        "instances": 836,
+        "categories": {
+          "casas": 697,
+          "sobrados": 136,
+          "predios": 3
+        },
+        "drawCalls": 151
+      },
+      "dpr": 1,
+      "quality": "baixo",
+      "viewport": [
+        944,
+        545
+      ],
+      "diagnostics": 1,
+      "terrain": [
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        },
+        {
+          "on": false,
+          "vertices": 11018,
+          "maximumError": 0,
+          "geometries": 107
+        },
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        }
+      ],
+      "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\vegetation-planning\\sao-carlos-v16-moveis.html",
+      "clock": "real"
+    }
+  },
+  "vegetation-scene": {
+    "pixels_identical": true,
+    "measurements": {
+      "camera": [
+        -412.3496810166678,
+        114.4413410150972,
+        -1433.3394853050079
+      ],
+      "groups": 74,
+      "queue": 0,
+      "times": [
+        {
+          "ms": 5,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 13.099999994039536,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 16.700000002980232,
+          "calls": 273,
+          "tris": 3263632
+        }
+      ],
+      "geometries": 183,
+      "textures": 5,
+      "urban": {
+        "enabled": true,
+        "models": 74,
+        "pools": 55,
+        "instances": 836,
+        "categories": {
+          "casas": 697,
+          "sobrados": 136,
+          "predios": 3
+        },
+        "drawCalls": 151
+      },
+      "dpr": 1,
+      "quality": "baixo",
+      "viewport": [
+        944,
+        545
+      ],
+      "diagnostics": 1,
+      "terrain": [
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        },
+        {
+          "on": false,
+          "vertices": 11018,
+          "maximumError": 0,
+          "geometries": 107
+        },
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        }
+      ],
+      "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\vegetation-scene\\sao-carlos-v16-moveis.html",
+      "clock": "real"
+    }
+  },
+  "gates": {
+    "pixels_identical": true,
+    "measurements": {
+      "camera": [
+        -412.3496810166678,
+        114.4413410150972,
+        -1433.3394853050079
+      ],
+      "groups": 74,
+      "queue": 0,
+      "times": [
+        {
+          "ms": 3.699999999254942,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 3.599999999627471,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 3.799999998882413,
+          "calls": 273,
+          "tris": 3263632
+        }
+      ],
+      "geometries": 183,
+      "textures": 5,
+      "urban": {
+        "enabled": true,
+        "models": 74,
+        "pools": 55,
+        "instances": 836,
+        "categories": {
+          "casas": 697,
+          "sobrados": 136,
+          "predios": 3
+        },
+        "drawCalls": 151
+      },
+      "dpr": 1,
+      "quality": "baixo",
+      "viewport": [
+        944,
+        545
+      ],
+      "diagnostics": 1,
+      "terrain": [
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        },
+        {
+          "on": false,
+          "vertices": 11018,
+          "maximumError": 0,
+          "geometries": 107
+        },
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        }
+      ],
+      "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\gates\\sao-carlos-v16-moveis.html",
+      "clock": "real"
+    }
+  },
+  "walls": {
+    "pixels_identical": true,
+    "measurements": {
+      "camera": [
+        -412.3496810166678,
+        114.4413410150972,
+        -1433.3394853050079
+      ],
+      "groups": 74,
+      "queue": 0,
+      "times": [
+        {
+          "ms": 2.300000000745058,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 2.599999999627471,
+          "calls": 273,
+          "tris": 3263632
+        },
+        {
+          "ms": 2.900000000372529,
+          "calls": 273,
+          "tris": 3263632
+        }
+      ],
+      "geometries": 183,
+      "textures": 5,
+      "urban": {
+        "enabled": true,
+        "models": 74,
+        "pools": 55,
+        "instances": 836,
+        "categories": {
+          "casas": 697,
+          "sobrados": 136,
+          "predios": 3
+        },
+        "drawCalls": 151
+      },
+      "dpr": 1,
+      "quality": "baixo",
+      "viewport": [
+        944,
+        545
+      ],
+      "diagnostics": 1,
+      "terrain": [
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        },
+        {
+          "on": false,
+          "vertices": 11018,
+          "maximumError": 0,
+          "geometries": 107
+        },
+        {
+          "on": true,
+          "vertices": 11018,
+          "maximumError": 2.9832124710083008e-05,
+          "geometries": 107
+        }
+      ],
+      "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\walls\\sao-carlos-v16-moveis.html",
+      "clock": "real"
+    }
+  }
+}
