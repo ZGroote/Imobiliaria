@@ -127,3 +127,5 @@ As imagens de 11b até 13b e dos portões são idênticas à referência de câm
 - [x] 16 concluída (16a–16c).
 
 Próxima frente: 17 (17a rótulos já feita): POIs/perto, busca/link, minimapa, controles mobile.
+
+- [x] 17b: camada 3D dos POIs (textura de brilho, halo e feixe por categoria, registro no relevo) e contagem por raio em `ui/poi-layer.js`, copiadas byte a byte; marcadores HTML, categorias, ficha do POI e o modo "por perto" continuam no `app.js`. Teste `tests/test_poi_layer.mjs`. `--listing` passou a gravar hash dos 42 buffers da camada e o "por perto" de cada item da vitrine (texto, contagem/ordem das 21 categorias, voltar). Antes/depois idênticos: camada, "por perto" (0, 30, 162 e 27 estabelecimentos), fichas, anúncios, entrada e imagem (`baseline/poi-before.json`, `poi-after.json`). 51 testes Node e 12 Python. O zero de `monte-das-colinas-39` é dado real: o POI mais próximo fica a 1.012 m.

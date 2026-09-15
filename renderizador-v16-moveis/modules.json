@@ -18,6 +18,7 @@
   "materials/interior-textures.js",
   "world/roads.js",
   "ui/street-labels.js",
+  "ui/poi-layer.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",

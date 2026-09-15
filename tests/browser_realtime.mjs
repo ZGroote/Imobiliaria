@@ -163,6 +163,31 @@ try {
         out.ads.push(ad);
       }
       g('hx').click();
+      // POI layer buffers and the "what is nearby" column for the first showcase item.
+      const hex = async a => [...new Uint8Array(await crypto.subtle.digest('SHA-256',
+        new Uint8Array(a.buffer, a.byteOffset, a.byteLength)))].map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
+      out.poiLayer = [];
+      const poiObjects = [];
+      I.scene.traverse(o => { if (o.geometry && o.geometry.userData.poi) poiObjects.push(o); });
+      for (const o of poiObjects) {
+        const geo = o.geometry, m = o.material, row = {type:o.type, renderOrder:o.renderOrder,
+          frustumCulled:o.frustumCulled, material:[m.type, m.opacity, m.blending, m.depthTest, m.depthWrite, !!m.map]};
+        for (const [k, a] of Object.entries(geo.attributes)) row[k] = [a.count, await hex(a.array)];
+        row.presetDY = await hex(geo.userData.presetDY); row.presetCenter = await hex(geo.userData.presetCenter);
+        out.poiLayer.push(row);
+      }
+      out.nearby = [];
+      for (const item of items) {
+        item.click(); g('uPerto').click();
+        const near = {id:item.dataset.unidade, on:g('nearby').classList.contains('on'), sub:g('nSub').textContent, back:!g('nBack').hidden,
+          chips:[...g('nList').children].map(b => [b.querySelector('span').textContent, b.querySelector('b').textContent,
+            b.getAttribute('aria-pressed'), b.classList.contains('vazio')]),
+          sheetMin:g('usheet').classList.contains('min')};
+        g('nBack').click();
+        near.afterBack = [g('nearby').classList.contains('on'), g('usheet').classList.contains('on'), g('usheet').classList.contains('min')];
+        g('ux').click();
+        out.nearby.push(near);
+      }
       if (!items.length) return out;
       items[0].click(); g('uEnter').click();
       await new Promise(resolve => setTimeout(resolve, 3000));
