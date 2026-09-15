@@ -220,6 +220,26 @@ try {
       return out;
     })()`);
   }
+  if (process.argv.includes('--mobile')) {
+    // Compact viewport: tab switching, inert areas and a sheet forcing the map tab.
+    await send('Emulation.setDeviceMetricsOverride', {width: 390, height: 844, deviceScaleFactor: 1, mobile: true});
+    await delay(500);
+    result.mobile = await evaluate(`(async () => {
+      const g = id => document.getElementById(id), tick = () => new Promise(r => setTimeout(r, 50));
+      const state = label => ({label, tab:document.body.dataset.mobile, compact:matchMedia('(max-width:820px)').matches,
+        aria:[g('mMapa').getAttribute('aria-pressed'), g('mImoveis').getAttribute('aria-expanded'), g('mOpcoes').getAttribute('aria-expanded')],
+        inert:['usheet','hsheet','psheet','nearby','ipanel','houses','panel'].map(id => g(id).inert)});
+      const out = [state('start')];
+      for (const id of ['mImoveis', 'mImoveis', 'mOpcoes', 'mImoveis', 'mMapa']) { g(id).click(); await tick(); out.push(state(id)); }
+      g('mImoveis').click(); await tick();
+      const item = document.querySelector('#houses .hitem');
+      if (item) { item.click(); await tick(); out.push(state('sheet')); }
+      g('mOpcoes').click(); await tick(); out.push(state('options-closes-sheet'));
+      g('mOpcoes').click(); await tick(); out.push(state('options-again'));
+      return out;
+    })()`);
+    await send('Emulation.clearDeviceMetricsOverride');
+  }
   result.page = path.resolve(page);
   result.clock = 'real';
   await fs.writeFile(prefix + '.json', JSON.stringify(result, null, 2));
