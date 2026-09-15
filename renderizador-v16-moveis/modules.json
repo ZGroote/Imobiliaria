@@ -24,6 +24,7 @@
   "ui/mobile-tabs.js",
   "interior/furniture-param.js",
   "interior/furniture-catalog.js",
+  "interior/floor-plan.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",

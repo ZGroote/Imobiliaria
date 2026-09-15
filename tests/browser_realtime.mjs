@@ -217,6 +217,13 @@ try {
       const pl = I.INT.pl;
       Object.assign(out, {entered:!!I.INT.on, unit:pl && pl.id, rooms:pl ? pl.comodos.length : 0,
         walls:pl ? pl.paredes.length : 0, furniture:I.INT.moveis.length});
+      // Derived plan: walls, openings (type, swing side, hinge) and rooms, exactly as computed.
+      out.plan = pl && await hex(new TextEncoder().encode(JSON.stringify({
+        paredes: pl.paredes, esquadrias: pl.esquadrias, comodos: pl.comodos.map(c => [c.nome, c.area, c.poly, c.piso]),
+        casca: pl.casca, ob: pl.ob, furo: pl.furo, area: pl.area,
+        moveis: pl.moveis.map(m => [m.tipo, m.u, m.v, m.rot, m.w, m.h, m.d, m.cor])})));
+      out.planCounts = pl && {walls: pl.paredes.length, openings: pl.esquadrias.length,
+        types: pl.esquadrias.map(e => e.tipo + ':' + e.lado + ':' + e.eixo).join(' ')};
       // Furniture geometry as mounted: type, measure, transform and buffer hashes per piece.
       out.furnitureGeometry = [];
       for (const m of I.INT.moveis) {
