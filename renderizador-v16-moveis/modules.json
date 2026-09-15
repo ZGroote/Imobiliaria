@@ -37,6 +37,7 @@
   "interior/lights.js",
   "scene/quality.js",
   "scene/camera-lenses.js",
+  "ui/position-link.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",
