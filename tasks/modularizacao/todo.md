@@ -82,6 +82,10 @@ A composição 05 precedeu a extração 04/06 para fornecer uma ordem explícita
 - [x] 10c: sete materiais de interior extraídos em `materials/interior.js` (`524756c`); parâmetros, texturas, shader de forro e entrada no imóvel aprovados. Critérios de exposição aprovados antes/depois, mesma câmera e estado de iluminação; pequena variação de pixels registrada. Texturas procedurais continuam no consumidor.
 - Revisão de over-engineering dos módulos de produção e testes gerados; registrar achados separadamente, sem apagar ferramentas de diagnóstico durante a revisão.
 
-Próximos lotes da tarefa 10: shaders de chão detalhado, muros, preenchimento de asfalto e terreno de fundo; geração de texturas procedurais e recursos compartilhados. A geometria das ruas (tarefa 11) ainda não foi extraída.
+Próximos lotes da tarefa 10: geração de texturas procedurais e recursos compartilhados. Os quatro materiais externos foram extraídos em 10d. A geometria das ruas (tarefa 11) ainda não foi extraída.
 
-Revisão de complexidade: [over-engineering.md](over-engineering.md), dois achados pequenos, sem abstrações especulativas identificadas nos módulos de produção revisados.
+Revisão de complexidade: [over-engineering.md](over-engineering.md), dois achados corrigidos em `35fcefb`: capturador duplicado excluído e argumento sem uso removido.
+
+- [x] 10d concluído (`de166a1`): `materials/surfaces.js` reúne quatro materiais externos (chão, muros, asfalto de preenchimento e fundo), com consumidor, manifesto e teste de shader. Ruído permanece uma dependência tardia; texturas são fornecidas pela cena.
+
+Verificação de 10d: 37 testes aprovados; imagem externa idêntica à referência e relevo reversível. Evidências em `baseline/surface-results.json`. O QA completo e as cidades legadas mantêm as pendências já registradas.

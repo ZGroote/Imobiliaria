@@ -1,11 +1,11 @@
 # Revisão de complexidade — 15/09/2026
 
-Escopo: módulos criados em `pipeline/build`, `core`, `world`, `scene`, `materials`, seus consumidores e testes desta modularização. Revisão com a skill ponytail-review; achados registrados, sem aplicar exclusões nesta revisão.
+Escopo: módulos criados em `pipeline/build`, `core`, `world`, `scene`, `materials`, seus consumidores e testes desta modularização. Revisão com a skill ponytail-review. Os dois achados abaixo foram corrigidos após autorização do usuário, no commit `35fcefb`.
 
-- `tests/browser_snapshot.py:L1`: delete: segundo capturador de câmera fixa, 99 linhas, sem consumidor ativo encontrado. Usar `tests/browser_realtime.mjs`, que já captura a mesma cena, registra métricas e verifica a API; seus tempos usam relógio real.
-- `renderizador-v16-moveis/materials/roads.js:L92`: delete: parâmetro `mul` herdado do monólito, sem leitura na função. Trocar `matVia(cor, mul, calcada)` por `matVia(cor, calcada)` e remover o argumento nas duas chamadas e no teste. Economia de argumentos, não de linhas.
+- Corrigido — `tests/browser_snapshot.py` (antigo L1): delete: segundo capturador de câmera fixa, 99 linhas, sem consumidor ativo encontrado. Usar `tests/browser_realtime.mjs`, que já captura a mesma cena, registra métricas e verifica a API; seus tempos usam relógio real.
+- Corrigido — `renderizador-v16-moveis/materials/roads.js:L92`: delete: parâmetro `mul` herdado do monólito, sem leitura na função. Trocar `matVia(cor, mul, calcada)` por `matVia(cor, calcada)` e remover o argumento nas duas chamadas e no teste. Economia de argumentos, não de linhas.
 
-net: -99 lines possible.
+net: -99 lines applied.
 
 ## Estrutura mantida
 
@@ -15,4 +15,4 @@ Não encontrei necessidade de um framework de módulos, contêiner de injeção,
 
 Os testes de shader usam o código de um commit fixo como oráculo da migração. Essa comparação tem propósito durante a extração e exige histórico Git local. Não substitui os testes funcionais nem demonstra, sozinha, que todo o monólito está correto.
 
-Esta revisão cobre os arquivos gerados nesta migração; não é uma auditoria de complexidade dos 10 mil arquivos de dados, históricos e demais fontes do acervo. Os dois achados acima não bloqueiam as extrações verificadas.
+Esta revisão cobre os arquivos gerados nesta migração; não é uma auditoria de complexidade dos 10 mil arquivos de dados, históricos e demais fontes do acervo. O capturador duplicado foi excluído, e a API de `matVia` e seus consumidores foram ajustados. Os quatro testes de shader de via passaram após a simplificação.

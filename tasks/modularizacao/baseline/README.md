@@ -56,3 +56,13 @@ Materiais de pista/calçada extraídos em `8351273`; sete materiais principais d
 - Não foi repetido o QA completo de 19 portões nesta rodada; as duas falhas históricas continuam registradas como pendências, não como aprovação.
 
 Revisão de complexidade dos arquivos gerados em [../over-engineering.md](../over-engineering.md). Achados: capturador duplicado (99 linhas possíveis de remover) e parâmetro sem uso herdado em `matVia`. Revisão registrada, sem aplicar exclusões. O restante da tarefa 10 e a migração completa continuam em andamento.
+
+## Exclusões autorizadas e lote 10d
+
+O commit `35fcefb` remove o capturador duplicado `tests/browser_snapshot.py` (99 linhas) e o argumento sem uso de `matVia`, incluindo as duas chamadas e o teste. O capturador mantido é `tests/browser_realtime.mjs`.
+
+O commit `de166a1` extrai materiais de chão detalhado, muros, asfalto de preenchimento e terreno de fundo para `materials/surfaces.js`. Mantém quatro funções concretas, texturas recebidas do consumidor e leitura tardia do ruído. Nenhuma dependência adicionada.
+
+Resultado: 12 testes Python e 25 testes Node aprovados; os quatro novos testes de `tests/test_surface_materials.mjs` comparam os shaders e parâmetros com `35fcefb`. HTML aberto e comprimido gerados em `../work/surfaces/`; a captura do comprimido é idêntica à referência pixel a pixel, com 74 grupos e 273 chamadas. A alternância de relevo verifica 11.018 vértices de 107 geometrias, com erro máximo de arredondamento 0,00002984 m. Resultados brutos e hashes em `surface-results.json`.
+
+Esta rodada não repete o QA completo nem os testes de interior, já registrados nas etapas anteriores. Geração de texturas e demais tarefas de modularização continuam pendentes.
