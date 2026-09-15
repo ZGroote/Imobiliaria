@@ -27,6 +27,7 @@
   "interior/floor-plan.js",
   "interior/openings.js",
   "interior/shell-geometry.js",
+  "interior/light-atlas.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",

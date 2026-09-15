@@ -235,6 +235,16 @@ try {
         }
         out.house.push(row);
       }
+      // The frame loop is stopped here, so the incremental bake never drains on its own:
+      // finish it the way the headless probes do, then hash the lit colours and the profile.
+      out.bakeFinished = !!(I.bakeAgora && I.bakeAgora());
+      out.bake = I.BAKE && {on:I.BAKE.on, pronto:I.BAKE.pronto, unicos:I.BAKE.unicos, vertices:I.BAKE.vertices,
+        tris:I.BAKE.tris, med:I.BAKE.med, k:I.BAKE.k, cache:I.BAKE.cache.size};
+      out.houseBaked = [];
+      for (const c of (I.INT.casa ? I.INT.casa.children : [])) {
+        const a = c.geometry && c.geometry.attributes.color;
+        out.houseBaked.push(a ? [a.count, await hex(a.array)] : null);
+      }
       out.doorLeaves = pl && await hex(new TextEncoder().encode(JSON.stringify(pl.esquadrias.map(e => e.folha || null))));
       // Furniture geometry as mounted: type, measure, transform and buffer hashes per piece.
       out.furnitureGeometry = [];
