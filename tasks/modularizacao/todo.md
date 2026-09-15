@@ -95,3 +95,7 @@ Verificação de 10d: 37 testes aprovados; imagem externa idêntica à referênc
 - [x] 10f concluído (`19b0155`): `materials/resources.js` para ruído GLSL e texturas embutidas da cidade; consumidores recebem recursos prontos. Remover leitura tardia `getNoise` e flag `TEX_ON` sem consumidor. Testar string de shader original e carregamento assíncrono de imagens.
 
 Validação de 10f: 39 testes, imagem externa idêntica e alternância de relevo aprovada. `baseline/resource-results.json` registra hashes e medições. Próxima frente: geometria das ruas (11); a sonda de ambiente e materiais de apoio permanecem junto aos respectivos fluxos e serão tratados na extração de iluminação/editor.
+
+- [x] 11a concluído: `world/roads.js` passa a possuir o índice de junções e a construção de fitas de pista/calçada; recebe Three.js, largura por tipo e registro de terreno. Comparar buffers e cruzamentos com o checkpoint anterior.
+
+Verificação 11a: 9.292 vias, 186 lotes de comparação, 4.236.996 vértices com todos os atributos idênticos antes do registro no relevo. Imagem externa idêntica, relevo reversível e 41 testes aprovados. Evidências em `baseline/road-geometry-results.json`. A tarefa 11 permanece parcial: composição das malhas de ruas na cena e rótulos ainda estão no consumidor.

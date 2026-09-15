@@ -82,3 +82,11 @@ Commit `19b0155`: `materials/resources.js` contém o ruído GLSL e o carregament
 12 testes Python e 27 Node aprovados. `tests/test_material_resources.mjs` compara a string GLSL com `b300541`, incluindo a quebra de linha final, e testa imagens ausentes, envio à GPU somente após onload, limites de anisotropia e espaço de cor. Os testes de shaders anteriores continuam aprovados.
 
 HTML aberto e comprimido gerados em `../work/resources/`. Imagem externa do comprimido idêntica à referência, mesmas contagens de cena e alternância de relevo aprovada (11.018 vértices). Evidências e hashes em `resource-results.json`. Não foi repetido o QA completo nem a exposição interna neste lote. A migração continua em andamento, com a geometria das ruas como próxima frente.
+
+## Lote 11a — geometria das ruas
+
+`world/roads.js` possui o índice de junções da cidade e a criação das fitas de pista/calçada. API com duas operações: indexar as vias e criar a geometria; dependências explícitas de Three.js, largura por registro e registro de terreno. O mapa de junções é privado; não foi criado um sistema genérico de geometria.
+
+12 testes Python e 29 Node aprovados. Os testes de ruas cobrem cruzamentos, vias vizinhas fora do lote, tipos sem largura cadastrada, segmentos degenerados e reconstrução do índice. Comparação com `4b648ff` sobre as 9.292 vias de São Carlos: 186 lotes, 4.236.996 vértices, todos os atributos de buffers idênticos antes do registro no relevo. A verificação do relevo é separada, pelo navegador.
+
+HTML comprimido em `../work/road-geometry/`: imagem externa idêntica à referência, mesmas contagens de cena e alternância de relevo aprovada. Resultados e hashes em `road-geometry-results.json`. O QA completo não foi repetido neste lote; a tarefa 11 e a modularização geral permanecem em andamento.
