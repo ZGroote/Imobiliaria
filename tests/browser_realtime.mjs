@@ -286,6 +286,24 @@ try {
       return out;
     })()`);
   }
+  if (process.argv.includes('--night')) {
+    // Night applied at once: exposure, fog, clear colour, sky tint and the frame, then day again.
+    result.night = await evaluate(`(async () => {
+      const I = __int, P = __perf, R = I.renderer, sky = I.scene.children.find(o => o.renderOrder === -1000);
+      const snap = async () => {
+        P.passo(1300000); R.render(I.scene, I.camera);
+        const png = R.domElement.toDataURL('image/png');
+        const bytes = new TextEncoder().encode(png);
+        const d = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
+        return {on: I.NOITE.on, t: I.NOITE.t, exposure: R.toneMappingExposure, fog: I.scene.fog.color.toArray(),
+          clear: R.getClearColor(new THREE.Color()).toArray(), sky: sky && [sky.visible, sky.material.color.toArray()], image: d};
+      };
+      const out = {day: await snap()};
+      I.setNoite(true, true); out.night = await snap();
+      I.setNoite(false, true); out.back = await snap();
+      return out;
+    })()`);
+  }
   if (process.argv.includes('--editor')) {
     // Furniture editor in the real page: resize from both sides, rotate, move and cancel,
     // move and confirm, then reload the saved layout into a fresh visit.
