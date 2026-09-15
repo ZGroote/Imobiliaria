@@ -14,5 +14,6 @@
   "materials/roads.js",
   "materials/interior.js",
   "materials/surfaces.js",
+  "materials/interior-textures.js",
   "app.js"
 ]
