@@ -22,6 +22,7 @@
   "ui/search.js",
   "ui/minimap.js",
   "ui/mobile-tabs.js",
+  "interior/furniture-param.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",

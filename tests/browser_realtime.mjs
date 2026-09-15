@@ -217,6 +217,19 @@ try {
       const pl = I.INT.pl;
       Object.assign(out, {entered:!!I.INT.on, unit:pl && pl.id, rooms:pl ? pl.comodos.length : 0,
         walls:pl ? pl.paredes.length : 0, furniture:I.INT.moveis.length});
+      // Furniture geometry as mounted: type, measure, transform and buffer hashes per piece.
+      out.furnitureGeometry = [];
+      for (const m of I.INT.moveis) {
+        const o = m.obj, row = {type:m.tipo, measure:[m.w, m.h, m.d, m.rot, m.cor],
+          position:o.position.toArray(), scale:o.scale.toArray(), rotation:o.rotation.y, meshes:[]};
+        for (const c of o.children) {
+          const geo = c.geometry, mesh = {material:c.material.type};
+          for (const [k, a] of Object.entries(geo.attributes)) mesh[k] = [a.count, await hex(a.array)];
+          if (geo.index) mesh.index = [geo.index.count, await hex(geo.index.array)];
+          row.meshes.push(mesh);
+        }
+        out.furnitureGeometry.push(row);
+      }
       return out;
     })()`);
   }
