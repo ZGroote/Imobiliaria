@@ -195,6 +195,22 @@ try {
         out.search.push([term, g('bres').hidden, g('bres').innerHTML]);
       }
       g('bq').value = ''; g('bq').dispatchEvent(new Event('input'));
+      // Minimap pixels: camera variations, then POI dots with categories all on, all off and one on.
+      const minimap = async label => { I.desenhaMinimapa();
+        out.minimap.push([label, I.MM.pronto, await hex(new TextEncoder().encode(I.MM.cv.toDataURL()))]); };
+      out.minimap = [];
+      await minimap('base');
+      const orbit = [I.sph.radius, I.sph.theta];
+      I.sph.radius = 3000; I.sph.theta = 1.1; await minimap('far-rotated');
+      I.sph.radius = 60; await minimap('near');
+      [I.sph.radius, I.sph.theta] = orbit;
+      if (items.length) {
+        items[items.length > 2 ? 2 : 0].click(); g('uPerto').click();
+        g('nAll').click(); await minimap('pins-all');
+        g('nNone').click(); await minimap('pins-none');
+        g('nList').children[0].click(); await minimap('pins-one');
+        g('nx').click(); await minimap('closed');
+      }
       if (!items.length) return out;
       items[0].click(); g('uEnter').click();
       await new Promise(resolve => setTimeout(resolve, 3000));

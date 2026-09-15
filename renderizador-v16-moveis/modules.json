@@ -20,6 +20,7 @@
   "ui/street-labels.js",
   "ui/poi-layer.js",
   "ui/search.js",
+  "ui/minimap.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",
