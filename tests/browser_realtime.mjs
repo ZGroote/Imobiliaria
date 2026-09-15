@@ -255,6 +255,19 @@ try {
         out.houseBaked.push(a ? [a.count, await hex(a.array)] : null);
       }
       out.doorLeaves = pl && await hex(new TextEncoder().encode(JSON.stringify(pl.esquadrias.map(e => e.folha || null))));
+      // Interior lighting as mounted, then with the first two lamps switched on.
+      const lights = async () => {
+        const S = I.INT, arr = a => hex(new Float32Array(a));
+        const inst = async m => m && [m.count, await arr(m.instanceMatrix.array), m.instanceColor ? await arr(m.instanceColor.array) : null];
+        return {sun: I.sun.intensity, exposure: I.renderer.toneMappingExposure, fog: I.scene.fog.color.toArray(),
+          hemi: [I.hemi.intensity, I.hemi.color.getHex(), I.hemi.groundColor.getHex()],
+          shadowCam: ['left','right','top','bottom','near','far'].map(k => I.sun.shadow.camera[k]).concat([I.sun.shadow.bias, I.sun.shadow.normalBias]),
+          lights: S.luzes.map(l => [l.type, l.intensity, l.color.getHex(), l.position.toArray(), l.castShadow, l.distance || 0]),
+          lamps: S.lamps.map(L => [L.i, L.on, L.p.toArray()]), key: S.chaveLuz,
+          plafons: await inst(S.plafons), switches: await inst(S.chaves), map: S.chaves && S.chaves.userData.mapa};
+      };
+      out.lighting = await lights();
+      if (I.alternaLuz) { I.alternaLuz(0); I.alternaLuz(1); out.lightingOn = await lights(); I.alternaLuz(0); I.alternaLuz(1); }
       // Furniture geometry as mounted: type, measure, transform and buffer hashes per piece.
       out.furnitureGeometry = [];
       for (const m of I.INT.moveis) {

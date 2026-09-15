@@ -34,6 +34,7 @@
   "interior/first-person.js",
   "interior/furniture-instances.js",
   "interior/furniture-editor.js",
+  "interior/lights.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",
