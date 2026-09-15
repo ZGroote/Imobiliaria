@@ -45,12 +45,12 @@ Cada linha abaixo é uma entrega. As linhas marcadas como lote devem ser repetid
 - [x] Checkpoint A: decodificador modular, HTML abre e sondas medem a variante correta.
 - [x] 07–08: geometria e armazenamento; testes focados e equivalência geométrica em 89.895 edifícios.
 - [x] 09: terreno extraído; testes unitários, HTML comprimido, imagem fixa e alternância de relevo aprovados.
-- [ ] 10–12: materiais, ruas e edifícios.
-- [ ] Checkpoint B: geometria, assentamento e imagem externa equivalentes.
-- [ ] 13–15: vegetação, divisas e streaming.
-- [ ] 16–17: imóvel, ficha, busca, POIs e minimapa.
-- [ ] Checkpoint C: navegação externa desktop/mobile e recursos preservados.
-- [ ] 18–20: móveis, planta, casca, iluminação e bake.
+- [x] 10–12: materiais, ruas e edifícios (lotes 10a–10f, 11a–11b, 12a–12b abaixo).
+- [x] Checkpoint B: geometria, assentamento e imagem externa equivalentes. Os 10 portões de geometria na página modular batem com o monólito (`baseline/qa-checkpoint-c-modular.json`) e a imagem de câmera fixa é idêntica em todos os lotes.
+- [x] 13–15: vegetação, divisas e streaming.
+- [x] 16–17: imóvel, ficha, busca, POIs, minimapa e abas móveis.
+- [x] Checkpoint C: navegação externa desktop/mobile e recursos preservados. Ver "Checkpoint C — página modular" abaixo.
+- [ ] 18–20: móveis e planta/casca concluídos; iluminação, bake e `geoDaCasa` pendentes (20).
 - [ ] 21–22: editor, navegação interna, câmera e loop.
 - [ ] Checkpoint D: interior completo e persistência equivalentes.
 - [ ] 23–25: build, scripts geográficos e duplicatas.
@@ -136,6 +136,8 @@ Próxima frente: 17 (17a rótulos já feita): POIs/perto, busca/link, minimapa, 
 - [x] 17 concluída (17a–17e).
 
 Checkpoint C — primeira rodada (`baseline/qa-checkpoint-c.json`): 19 portões, mesmos valores e as mesmas 2 reprovações de `qa-after.json`, 0 não medidos. **Não vale como aceite do comportamento**: só os 10 portões de geometria leram a página nova (`html_saida` redirecionado para `work/mobile-tabs`). Os 9 de comportamento rodam como subprocesso e cada `pipeline/testa_*.py`/`mede_*.py` abre `v16-moveis/<slug>-v16-moveis(-aberto).html` direto, que era o build de 14/09 02:18, anterior à modularização. É provável que `qa-after.json` tenha o mesmo problema. Refeito com as páginas modulares copiadas temporariamente para `v16-moveis/` e restauradas depois (`baseline/qa-checkpoint-c-modular.json`, com o SHA-256 das páginas medidas).
+
+Checkpoint C — página modular: `work/furniture-catalog` (HEAD `044b220`, todos os lotes até 18b), SHA-256 `c7686472…` (comprimido) e `c753d85a…` (aberto). 19 portões com os mesmos valores do monólito em `qa-after.json`: 17 aprovados, 0 não medidos e as mesmas 2 reprovações preexistentes, com o mesmo detalhe: "UX: busca, link, noite, minimapa" e "ficha e 'o que tem por perto'" (`a busca acende o pino do lugar achado`). A modularização não criou nem corrigiu essas duas; elas continuam pendentes fora deste plano. Páginas de 14/09 restauradas e conferidas por hash. Somam-se as sondas por lote (`--listing`, `--mobile`, `--streaming`) com equivalência antes/depois.
 
 - [x] 18a: móvel paramétrico em `interior/furniture-param.js` (`B`, `caixaEm`, `instanciaLib`, `geoDeParts`, cores `ARM_*` e os 9 construtores `*Param`), copiado byte a byte; única troca `MOVEIS_LIB` → `getLib()`. Criado antes de `MOVEIS`, que referencia os construtores; biblioteca e `rgbDe` chegam por função porque são definidos depois. Teste `tests/test_furniture_param.mjs` usa o bloco do commit `5d1d7e9` como oráculo (precisa do histórico Git) com a `moveis/moveis_lib.json` real: 2.520 medidas × 9 construtores com a mesma lista de peças, e buffers de posição/normal/cor idênticos em 2 cores. `--listing` passou a gravar transformação e hash dos buffers de cada móvel montado: os 18 móveis de `monte-das-colinas-39` (10 paramétricos: aéreo, box, bancada, rack, ripado, sofá, TV) idênticos antes/depois, com todos os fluxos anteriores e a imagem (`baseline/furniture-before.json`, `furniture-after.json`). 58 testes Node e 12 Python.
 - [x] 18b: catálogo (`MOVEIS`, `MOVEL_KEYS`), biblioteca do Blender (`MOVEIS_LIB`, que troca a caixa digitada pela medida da malha), `geoDaLib`, `geoDoMovel` e `medidaPadrao` em `interior/furniture-catalog.js`, copiados byte a byte; única troca `matInt` → `getMaterial()` (o material nasce depois). Cores `rgbDe`/`rgbAcabamento` ficam no `app.js` porque a casa também usa. Teste `tests/test_furniture_catalog.mjs` com oráculo do commit `908381d`: catálogo, medidas e as 23 peças montadas (medida padrão e 2,4×2,3×0,6 em outra cor) com buffers, índice, material e sombra idênticos, com a biblioteca real e sem biblioteca. Página: móveis montados, fluxos e imagem idênticos (`baseline/catalog-before.json`, `catalog-after.json`). 60 testes Node e 12 Python.
