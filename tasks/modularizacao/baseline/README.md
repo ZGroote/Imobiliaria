@@ -66,3 +66,11 @@ O commit `de166a1` extrai materiais de chão detalhado, muros, asfalto de preenc
 Resultado: 12 testes Python e 25 testes Node aprovados; os quatro novos testes de `tests/test_surface_materials.mjs` comparam os shaders e parâmetros com `35fcefb`. HTML aberto e comprimido gerados em `../work/surfaces/`; a captura do comprimido é idêntica à referência pixel a pixel, com 74 grupos e 273 chamadas. A alternância de relevo verifica 11.018 vértices de 107 geometrias, com erro máximo de arredondamento 0,00002984 m. Resultados brutos e hashes em `surface-results.json`.
 
 Esta rodada não repete o QA completo nem os testes de interior, já registrados nas etapas anteriores. Geração de texturas e demais tarefas de modularização continuam pendentes.
+
+## Lote 10e — texturas procedurais do interior
+
+Commit `3608849`: geração dos nove mapas em `materials/interior-textures.js`, com uma chamada no boot e auxiliares privados. Sem novos pacotes ou framework. O app recebe o conjunto de texturas e o passa aos materiais existentes.
+
+Validação: 12 testes Python e 25 Node aprovados. `python tests/browser_texture_equivalence.py` usa o canvas real do Chrome para comparar todos os bytes dos nove mapas contra `0131e88`, além das dimensões, repetição, anisotropia, espaço de cor e filtros. O sorteio é controlado somente nessa página de teste; a aplicação mantém o comportamento aleatório anterior. Os mapas e as contagens de chamadas aleatórias são idênticos.
+
+O HTML comprimido em `../work/textures/` abriu ficha e entrou em monte-das-colinas-39: 7 cômodos, 32 paredes e 18 móveis. Resultados brutos e hashes em `texture-results.json`. QA completo e comparação de exposição não foram repetidos neste lote; foram usados equivalência das texturas e teste funcional de entrada. A modularização geral permanece em andamento.

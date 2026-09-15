@@ -1,0 +1,83 @@
+{
+  "commit": "3608849",
+  "tests": {
+    "python": 12,
+    "node": 25,
+    "failures": 0
+  },
+  "maps": {
+    "maps": {
+      "texParede": {
+        "width": 128,
+        "height": 128,
+        "bytes": 65536,
+        "identical": true
+      },
+      "texPiso": {
+        "width": 256,
+        "height": 256,
+        "bytes": 262144,
+        "identical": true
+      },
+      "texMadeira": {
+        "width": 512,
+        "height": 512,
+        "bytes": 1048576,
+        "identical": true
+      },
+      "nrmParede": {
+        "width": 128,
+        "height": 128,
+        "bytes": 65536,
+        "identical": true
+      },
+      "nrmPiso": {
+        "width": 256,
+        "height": 256,
+        "bytes": 262144,
+        "identical": true
+      },
+      "nrmMadeira": {
+        "width": 512,
+        "height": 512,
+        "bytes": 1048576,
+        "identical": true
+      },
+      "rugParede": {
+        "width": 128,
+        "height": 128,
+        "bytes": 65536,
+        "identical": true
+      },
+      "rugPiso": {
+        "width": 128,
+        "height": 128,
+        "bytes": 65536,
+        "identical": true
+      },
+      "rugMadeira": {
+        "width": 128,
+        "height": 128,
+        "bytes": 65536,
+        "identical": true
+      }
+    },
+    "randomCalls": 147528
+  },
+  "entry": {
+    "vitrine": 4,
+    "unidades": 5,
+    "ficha": true,
+    "entrou": true,
+    "unidade": "monte-das-colinas-39",
+    "comodos": 7,
+    "paredes": 32,
+    "moveis": 18,
+    "malhas": 6,
+    "furo": true
+  },
+  "artifacts": {
+    "sao-carlos-v16-moveis-aberto.html": "eaee30992ee85a3da929d5d8cabe3ffa33046b9b1ceaf342e3899774ad2cab17",
+    "sao-carlos-v16-moveis.html": "a24d8a2f5206055bd84fc8f53e4e8e7c93f7377bdfcb17626614ed3db737defc"
+  }
+}

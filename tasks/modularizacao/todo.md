@@ -82,10 +82,12 @@ A composição 05 precedeu a extração 04/06 para fornecer uma ordem explícita
 - [x] 10c: sete materiais de interior extraídos em `materials/interior.js` (`524756c`); parâmetros, texturas, shader de forro e entrada no imóvel aprovados. Critérios de exposição aprovados antes/depois, mesma câmera e estado de iluminação; pequena variação de pixels registrada. Texturas procedurais continuam no consumidor.
 - Revisão de over-engineering dos módulos de produção e testes gerados; registrar achados separadamente, sem apagar ferramentas de diagnóstico durante a revisão.
 
-Próximos lotes da tarefa 10: geração de texturas procedurais e recursos compartilhados. Os quatro materiais externos foram extraídos em 10d. A geometria das ruas (tarefa 11) ainda não foi extraída.
+Próximos lotes da tarefa 10: recursos compartilhados de GLSL e carregamento de texturas externas. A geração procedural do interior foi extraída em 10e. Os quatro materiais externos foram extraídos em 10d. A geometria das ruas (tarefa 11) ainda não foi extraída.
 
 Revisão de complexidade: [over-engineering.md](over-engineering.md), dois achados corrigidos em `35fcefb`: capturador duplicado excluído e argumento sem uso removido.
 
 - [x] 10d concluído (`de166a1`): `materials/surfaces.js` reúne quatro materiais externos (chão, muros, asfalto de preenchimento e fundo), com consumidor, manifesto e teste de shader. Ruído permanece uma dependência tardia; texturas são fornecidas pela cena.
 
 Verificação de 10d: 37 testes aprovados; imagem externa idêntica à referência e relevo reversível. Evidências em `baseline/surface-results.json`. O QA completo e as cidades legadas mantêm as pendências já registradas.
+
+- [x] 10e concluído (`3608849`): `materials/interior-textures.js`, consumidor e manifesto; comparação dos nove mapas em canvas real com sorteio controlado somente no teste. API única `create({THREE, document})`, geração uma vez no boot. Nove mapas e configurações idênticos no Chrome com sorteio de teste controlado; HTML comprimido abriu ficha e interior com 7 cômodos, 32 paredes e 18 móveis. Evidências em `baseline/texture-results.json`.
