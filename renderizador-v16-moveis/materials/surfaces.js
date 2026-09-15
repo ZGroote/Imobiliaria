@@ -1,7 +1,7 @@
 /* Shared exterior surface materials; geometry and scene ownership stay with callers. */
 (function(root) {
   "use strict";
-  function create({THREE, K, TEX_CIDADE, getNoise}) {
+  function create({THREE, K, TEX_CIDADE, GLSL_RUIDO}) {
 const BLOCO_MURO = `#include <color_fragment>
     {
       // Direcao ao longo do muro, pela derivada da posicao de mundo (ver a nota do
@@ -40,7 +40,7 @@ const BLOCO_MURO = `#include <color_fragment>
     sh.uniforms.uTexChao = { value: TEX_CIDADE.chao };
     sh.vertexShader = "varying vec2 vXZ;\n" + sh.vertexShader.replace(
       "#include <begin_vertex>", "#include <begin_vertex>\nvXZ = transformed.xz;");
-    sh.fragmentShader = "varying vec2 vXZ;\nuniform sampler2D uTexChao;\n" + getNoise() +
+    sh.fragmentShader = "varying vec2 vXZ;\nuniform sampler2D uTexChao;\n" + GLSL_RUIDO +
       sh.fragmentShader.replace("#include <color_fragment>",
       `#include <color_fragment>
        float gc = dot(texture2D(uTexChao, vXZ * 0.125).rgb, vec3(0.299,0.587,0.114)) / 0.557;
@@ -59,7 +59,7 @@ const BLOCO_MURO = `#include <color_fragment>
     sh.vertexShader = "attribute float aDetailHidden;\nvarying float vDetailHidden;\nattribute float aMv;\nvarying float vMv;\nvarying vec3 vMw;\n" +
       sh.vertexShader.replace("#include <begin_vertex>",
         "#include <begin_vertex>\nvDetailHidden=aDetailHidden;\nvMv=aMv;\nvMw=transformed;");
-    sh.fragmentShader = "varying float vDetailHidden;\nvarying float vMv;\nvarying vec3 vMw;\n" + getNoise() +
+    sh.fragmentShader = "varying float vDetailHidden;\nvarying float vMv;\nvarying vec3 vMw;\n" + GLSL_RUIDO +
       sh.fragmentShader.replace("#include <color_fragment>", "if(vDetailHidden>0.5) discard;\n"+BLOCO_MURO);
   };
   // Sem isto o three usaria o texto da funcao como chave e recompilaria: ver a nota
@@ -72,7 +72,7 @@ const BLOCO_MURO = `#include <color_fragment>
   mat.onBeforeCompile = sh => {
     sh.vertexShader = "varying vec3 vAsf;\n" +
       sh.vertexShader.replace("#include <begin_vertex>", "#include <begin_vertex>\nvAsf=transformed;");
-    sh.fragmentShader = "varying vec3 vAsf;\n" + getNoise() +
+    sh.fragmentShader = "varying vec3 vAsf;\n" + GLSL_RUIDO +
       sh.fragmentShader.replace("#include <color_fragment>", `#include <color_fragment>
       diffuseColor.rgb *= 1.0 + (h21(floor(vAsf.xz * 3.7)) - 0.5) * 0.22;
       diffuseColor.rgb *= 0.84 + 0.32 * vnoise(vAsf.xz * 0.085);`);
@@ -87,7 +87,7 @@ const BLOCO_MURO = `#include <color_fragment>
     // ruido em espaco de mundo custam quatro senos por fragmento e nenhum byte.
     sh.vertexShader = "varying vec3 vTer;\n" +
       sh.vertexShader.replace("#include <begin_vertex>", "#include <begin_vertex>\nvTer=transformed;");
-    sh.fragmentShader = "varying vec3 vTer;\n" + getNoise() +
+    sh.fragmentShader = "varying vec3 vTer;\n" + GLSL_RUIDO +
       sh.fragmentShader.replace("#include <color_fragment>", `#include <color_fragment>
       diffuseColor.rgb *= 0.80 + 0.40 * vnoise(vTer.xz * 0.0055);
       diffuseColor.rgb *= 0.92 + 0.16 * vnoise(vTer.xz * 0.034);`);

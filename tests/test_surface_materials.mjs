@@ -21,7 +21,7 @@ for (const [name, start, variable, type] of cases) {
     assert(from >= 0 && to > from);
     vm.runInContext(wall + original.slice(from, to) + ';globalThis.before=' + variable, ctx);
     vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/materials/surfaces.js', import.meta.url), 'utf8'), ctx);
-    const b = ctx.SurfaceMaterials.create({...ctx, getNoise: () => ctx.GLSL_RUIDO})[name](), a = ctx.before;
+    const b = ctx.SurfaceMaterials.create({...ctx, GLSL_RUIDO: ctx.GLSL_RUIDO})[name](), a = ctx.before;
     const shader = () => ({uniforms: {}, vertexShader: ctx.THREE.ShaderLib[type].vertexShader,
       fragmentShader: ctx.THREE.ShaderLib[type].fragmentShader});
     const sa = shader(), sb = shader(); a.onBeforeCompile(sa); b.onBeforeCompile(sb);

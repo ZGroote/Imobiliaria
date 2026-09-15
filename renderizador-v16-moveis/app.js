@@ -552,37 +552,20 @@ const risers = [];
    O que a textura NAO conserta, e a medida diz: reboco tem desvio padrao 4,1 em 255
    -- a 80 m de distancia o mipmap devolve a mesma cor chapada de antes. Quem
    sobrevive a distancia e o tijolo (desvio 42,5). Ver `pipeline/baixa_texturas.py`. */
+const {GLSL_RUIDO} = MaterialResources;
 const TEX_CIDADE = (() => {
   const el = document.getElementById("__textura");
-  let d = {};
-  try { d = JSON.parse(el.textContent) || {}; } catch (e) {}
-  const carrega = uri => {
-    if (!uri) return null;
-    const im = new Image();
-    const t = new THREE.Texture(im);
-    t.wrapS = t.wrapT = THREE.RepeatWrapping;
-    // NoColorSpace de proposito: a amostragem aqui e `texture2D` na mao, fora do
-    // caminho `map` do three, entao a conversao sRGB->linear que ele injeta nao
-    // acontece. Usada como RAZAO em torno da media (e nao como cor), a textura
-    // fica no mesmo espaco dos dois lados e a conta se cancela.
-    t.colorSpace = THREE.NoColorSpace;
-    t.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
-    // `needsUpdate` SO depois do onload: setar antes envia uma imagem de 0x0 pra GPU
-    // e a textura fica preta pro resto da sessao, sem erro no console.
-    im.onload = () => { t.needsUpdate = true; };
-    im.src = uri;
-    return t;
-  };
-  return { reboco: carrega(d.reboco), tijolo: carrega(d.tijolo),
-           chao: carrega(d.chao) };
+  let data = {};
+  try { data = JSON.parse(el.textContent) || {}; } catch (e) {}
+  return MaterialResources.cityTextures({THREE, ImageClass: Image, data,
+    maxAnisotropy: renderer.capabilities.getMaxAnisotropy()});
 })();
-const TEX_ON = !!(TEX_CIDADE.reboco && TEX_CIDADE.tijolo);
 
 const {facadeMaterial, riseLine} = FacadeMaterials.create({
-  THREE, AP_LUZ, AP_JANELA, TEX_CIDADE, getNoise: () => GLSL_RUIDO,
+  THREE, AP_LUZ, AP_JANELA, TEX_CIDADE, GLSL_RUIDO,
   uRelief, uHeight, uFuro, uNoite
 });
-const surfaceMaterials = SurfaceMaterials.create({THREE, K, TEX_CIDADE, getNoise: () => GLSL_RUIDO});
+const surfaceMaterials = SurfaceMaterials.create({THREE, K, TEX_CIDADE, GLSL_RUIDO});
 const flat = c => new THREE.MeshPhongMaterial({ color:c, shininess:0, specular:0x000000, polygonOffset:true, polygonOffsetFactor:-1, polygonOffsetUnits:-1 });
 // v6: chao que acompanha o relevo (quadras). Ver make_v6.py.
 // v7: o relevo tem que estar carregado ANTES de chao/rua/muro/predio se registrarem.
@@ -1966,24 +1949,6 @@ function buildRibbons(recs, y, mul, opt) {
   registerTerrain(g); g.computeVertexNormals(); g.computeBoundingSphere();
   return g;
 }
-
-/* O ruido e o mesmo dos dois materiais: hash por celula pro agregado do asfalto
-   (uma chamada de sin) e um valor suavizado pra mancha grande (quatro). Foi medido
-   contra a alternativa obvia -- textura de imagem em canvas -- e ganha em tudo que
-   importa aqui: 0 byte na pagina, 0 uv por vertice, e nenhum problema de costura
-   entre malhas de quarteiroes vizinhos, que uma textura repetida em espaco de mundo
-   teria nas bordas. */
-const GLSL_RUIDO = `
-  float h21(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }
-  float vnoise(vec2 p){
-    vec2 i = floor(p), f = fract(p); f = f*f*(3.0-2.0*f);
-    return mix(mix(h21(i), h21(i+vec2(1.0,0.0)), f.x),
-               mix(h21(i+vec2(0.0,1.0)), h21(i+vec2(1.0,1.0)), f.x), f.y);
-  }
-`;
-// A quebra de linha antes da crase NAO e enfeite: o shader do three comeca com
-// `#define PHONG`, e sem ela a concatenacao produz "}#define PHONG" -- diretiva no
-// meio da linha, que o GLSL recusa com "'#' : invalid character".
 
 const {matVia} = RoadMaterials.create({THREE, AP_RUA, K, GLSL_RUIDO});
 

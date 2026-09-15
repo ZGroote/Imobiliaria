@@ -10,6 +10,7 @@
   "core/storage.js",
   "world/terrain.js",
   "world/building-type.js",
+  "materials/resources.js",
   "materials/facades.js",
   "materials/roads.js",
   "materials/interior.js",

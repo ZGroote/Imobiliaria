@@ -22,7 +22,7 @@ for (const light of [false, true]) for (const windows of [false, true]) {
     vm.runInContext(three, ctx);
     vm.runInContext(tables + functions + ';globalThis.before={facadeMaterial,riseLine};', ctx);
     vm.runInContext(module, ctx);
-    const after = ctx.FacadeMaterials.create({...inputs, THREE: ctx.THREE, getNoise: () => inputs.GLSL_RUIDO});
+    const after = ctx.FacadeMaterials.create({...inputs, THREE: ctx.THREE, GLSL_RUIDO: inputs.GLSL_RUIDO});
     for (const method of ['facadeMaterial', 'riseLine']) {
       const time = {value: .5}, a = ctx.before[method](time), b = after[method](time);
       const shader = () => ({uniforms: {}, vertexShader: ctx.THREE.ShaderLib.phong.vertexShader,

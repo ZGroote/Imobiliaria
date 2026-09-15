@@ -1,7 +1,7 @@
 /* Building surface and growth-line shaders; all scene inputs are explicit. */
 (function(root) {
   "use strict";
-  function create({THREE, AP_LUZ, AP_JANELA, TEX_CIDADE, getNoise,
+  function create({THREE, AP_LUZ, AP_JANELA, TEX_CIDADE, GLSL_RUIDO,
                    uRelief, uHeight, uFuro, uNoite}) {
 const AP_GLSL = AP_LUZ ? "1.0" : "0.0";
 
@@ -120,7 +120,7 @@ function facadeMaterial(u) {
         "float g=clamp((uT-aDist*0.5)/0.5,0.0,1.0);transformed.y*=g*g*(3.0-2.0*g)*uHeight;transformed.y+=aDY*uRelief;\n" +
         "vMundo=transformed;");
 
-    sh.fragmentShader = "varying vec2 vFace;\nvarying vec3 vStyle;\nvarying vec3 vMundo;\nvarying vec3 vNw;\nuniform vec4 uFuro;\nuniform float uNoite;\nuniform sampler2D uTexReb;\nuniform sampler2D uTexTij;\nvec3 gLuz;\nfloat gEspec;\n" + getNoise() +
+    sh.fragmentShader = "varying vec2 vFace;\nvarying vec3 vStyle;\nvarying vec3 vMundo;\nvarying vec3 vNw;\nuniform vec4 uFuro;\nuniform float uNoite;\nuniform sampler2D uTexReb;\nuniform sampler2D uTexTij;\nvec3 gLuz;\nfloat gEspec;\n" + GLSL_RUIDO +
       sh.fragmentShader
         // A luz da janela nao pode entrar na cor difusa: difusa e multiplicada pela
         // luz da cena, e a noite a luz da cena e quase zero. Entra na EMISSIVA, que
