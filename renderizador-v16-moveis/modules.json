@@ -11,5 +11,6 @@
   "world/terrain.js",
   "world/building-type.js",
   "materials/facades.js",
+  "materials/roads.js",
   "app.js"
 ]
