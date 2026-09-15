@@ -224,6 +224,18 @@ try {
         moveis: pl.moveis.map(m => [m.tipo, m.u, m.v, m.rot, m.w, m.h, m.d, m.cor])})));
       out.planCounts = pl && {walls: pl.paredes.length, openings: pl.esquadrias.length,
         types: pl.esquadrias.map(e => e.tipo + ':' + e.lado + ':' + e.eixo).join(' ')};
+      // House shell as mounted: every mesh of INT.casa (walls, floors, ceiling, openings).
+      out.house = [];
+      for (const c of (I.INT.casa ? I.INT.casa.children : [])) {
+        const geo = c.geometry, row = {type:c.type, material:c.material && c.material.type, renderOrder:c.renderOrder,
+          cast:c.castShadow, receive:c.receiveShadow, casa:!!c.userData.casa};
+        if (geo) {
+          for (const [k, a] of Object.entries(geo.attributes)) row[k] = [a.count, await hex(a.array)];
+          if (geo.index) row.index = [geo.index.count, await hex(geo.index.array)];
+        }
+        out.house.push(row);
+      }
+      out.doorLeaves = pl && await hex(new TextEncoder().encode(JSON.stringify(pl.esquadrias.map(e => e.folha || null))));
       // Furniture geometry as mounted: type, measure, transform and buffer hashes per piece.
       out.furnitureGeometry = [];
       for (const m of I.INT.moveis) {
