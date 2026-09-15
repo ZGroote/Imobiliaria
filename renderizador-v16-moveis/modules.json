@@ -32,6 +32,7 @@
   "interior/house-mesh.js",
   "interior/navigation.js",
   "interior/first-person.js",
+  "interior/furniture-instances.js",
   "world/buildings.js",
   "world/building-placement.js",
   "world/vegetation-planning.js",
