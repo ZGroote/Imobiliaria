@@ -271,6 +271,47 @@ try {
       return out;
     })()`);
   }
+  if (process.argv.includes('--editor')) {
+    // Furniture editor in the real page: resize from both sides, rotate, move and cancel,
+    // move and confirm, then reload the saved layout into a fresh visit.
+    result.editor = await evaluate(`(async () => {
+      const I = __int, g = id => document.getElementById(id), tick = () => new Promise(r => setTimeout(r, 50));
+      const item = document.querySelector('#houses .hitem[data-unidade]');
+      if (!item) return {skipped: 'no unit'};
+      item.click(); g('uEnter').click();
+      await new Promise(r => setTimeout(r, 1500));
+      const out = {steps: []}, pl = I.INT.pl;
+      const key = 'int_' + JSON.parse(g('__cidade').textContent).slug + '_' + pl.id;
+      const snap = label => {
+        const m = I.INT.moveis[I.INT.sel];
+        out.steps.push([label, I.MOB.on, I.MOB.modo, I.INT.sel, m && [m.tipo, m.u, m.v, m.w, m.d, m.h, m.rot,
+          m.obj.position.toArray(), m.obj.rotation.y, m.obj.scale.toArray()], localStorage.getItem(key)]);
+      };
+      localStorage.removeItem(key);
+      I.modoMoveis(true); await tick();
+      const i = I.INT.moveis.findIndex(m => !I.MOVEIS[m.tipo].alto && m.h > 0.3);
+      I.seleciona(i); snap('selected');
+      I.modo('medir'); snap('measure');
+      const m = I.INT.moveis[i];
+      I.redimensiona(m, 'w', m.w + 0.3, 1); snap('wider +');
+      I.redimensiona(m, 'd', m.d - 0.1, -1); snap('shallower -');
+      I.redimensiona(m, 'h', m.h + 0.2, 1); snap('taller');
+      out.axis = [[1, 0], [0, 1]].map(([x, z]) => I.dirUV(m, x, z));
+      m.rot = (m.rot + 1) % 4; I.atualizaMovel(m); I.seleciona(i); snap('rotated');
+      I.modo('mover'); m.u += 0.8; m.v -= 0.4; I.atualizaMovel(m); snap('moving');
+      out.fitsMoving = I.cabeAqui(m, m.u, m.v);
+      I.cancelaGesto(); snap('cancelled');
+      I.modo('mover'); m.u += 0.2; I.atualizaMovel(m); I.confirmaMover(); snap('confirmed');
+      const saved = localStorage.getItem(key);
+      I.modoMoveis(false); snap('mode off');
+      I.exitInterior(); await new Promise(r => setTimeout(r, 1200));
+      I.enterInterior(pl.rec, pl.unidade); await new Promise(r => setTimeout(r, 1500));
+      out.reloaded = [saved === localStorage.getItem(key), I.INT.moveis.length,
+        I.INT.moveis.map(x => [x.tipo, x.u, x.v, x.w, x.d, x.h, x.rot])];
+      localStorage.removeItem(key);
+      return out;
+    })()`);
+  }
   if (process.argv.includes('--mobile')) {
     // Compact viewport: tab switching, inert areas and a sheet forcing the map tab.
     await send('Emulation.setDeviceMetricsOverride', {width: 390, height: 844, deviceScaleFactor: 1, mobile: true});
