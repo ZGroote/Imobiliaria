@@ -49,5 +49,6 @@
   "listings/identity.js",
   "listings/sheet.js",
   "scene/day-night.js",
+  "ui/floor-plan-minimap.js",
   "app.js"
 ]

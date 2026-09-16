@@ -286,6 +286,30 @@ try {
       return out;
     })()`);
   }
+  if (process.argv.includes('--floor-map')) {
+    result.floorMap = await evaluate(`(async () => {
+      const I = __int, out = [];
+      I.abreUnidade(I.UNIDADES.find(u => u.id === 'monte-das-colinas-39'));
+      I.el('uEnter').click();
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      if (!I.INT.on) throw Error('Interior did not open');
+      for (const room of I.INT.pl.comodos) {
+        const points = room.poly;
+        I.FP.pos.x = points.reduce((sum,p) => sum+p[0],0)/points.length;
+        I.FP.pos.z = points.reduce((sum,p) => sum+p[1],0)/points.length;
+        for (const yaw of [0, 1.2]) {
+          I.FP.yaw = yaw; I.desenhaPlantaMini();
+          const bytes = new TextEncoder().encode(I.MM.cv.toDataURL());
+          const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', bytes));
+          out.push({room:room.nome,yaw,image:Array.from(digest,b=>b.toString(16).padStart(2,'0')).join('')});
+        }
+      }
+      I.exitInterior();
+      __perf.passo(performance.now() + 1000);
+      if (I.INT.on) throw Error('Interior did not close');
+      return out;
+    })()`);
+  }
   if (process.argv.includes('--night')) {
     // Night applied at once: exposure, fog, clear colour, sky tint and the frame, then day again.
     result.night = await evaluate(`(async () => {
