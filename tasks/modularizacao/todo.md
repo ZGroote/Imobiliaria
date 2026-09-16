@@ -175,3 +175,5 @@ Conferidos os 26 commits entre `12180d4` e `6623aa2`, com 23 módulos novos. Ár
 Validação 22e: teste de equivalência com `6623aa2` aprovado para transições parciais, preferência e prioridade do interior; no Chrome, dia/noite/retorno e imagem externa idênticos (`baseline/day-night-results.json`).
 
 - [x] 22f (`9d68c01`): `ui/floor-plan-minimap.js` possui desenho da planta e projeção no referencial do imóvel. Chamadas de canvas equivalentes em três rotações; 14 imagens (7 cômodos × 2 rumos) idênticas no Chrome e saída do interior verificada (`baseline/floor-map-results.json`). A sonda respeita o voo de saída de 900 ms, avançando o quadro até o término.
+
+- [x] 22g: `scene/resolution-governor.js` possui janela de amostras, DPR e decisão de rebaixar o nível na próxima abertura. Oráculo em três níveis com quadros rápidos/lentos, aba oculta, voo e fila ativa; imagem externa idêntica. Sonda existente `testa_governador.roda`: canvas 1084×605 → 542×302 → 1084×605, redução e restauração aprovadas (`baseline/governor-results.json`).

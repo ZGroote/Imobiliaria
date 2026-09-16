@@ -1,0 +1,96 @@
+{
+  "camera": [
+    -412.3496810166678,
+    114.4413410150972,
+    -1433.3394853050079
+  ],
+  "groups": 74,
+  "queue": 0,
+  "times": [
+    {
+      "ms": 1.2999999970197678,
+      "calls": 273,
+      "tris": 3263632
+    },
+    {
+      "ms": 1.5,
+      "calls": 273,
+      "tris": 3263632
+    },
+    {
+      "ms": 1.2000000029802322,
+      "calls": 273,
+      "tris": 3263632
+    }
+  ],
+  "geometries": 183,
+  "textures": 5,
+  "urban": {
+    "enabled": true,
+    "models": 74,
+    "pools": 55,
+    "instances": 836,
+    "categories": {
+      "casas": 697,
+      "sobrados": 136,
+      "predios": 3
+    },
+    "drawCalls": 151
+  },
+  "dpr": 1,
+  "quality": "baixo",
+  "viewport": [
+    944,
+    545
+  ],
+  "diagnostics": 1,
+  "terrain": [
+    {
+      "on": true,
+      "vertices": 11018,
+      "maximumError": 2.9832124710083008e-05,
+      "geometries": 107
+    },
+    {
+      "on": false,
+      "vertices": 11018,
+      "maximumError": 0,
+      "geometries": 107
+    },
+    {
+      "on": true,
+      "vertices": 11018,
+      "maximumError": 2.9832124710083008e-05,
+      "geometries": 107
+    }
+  ],
+  "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\governor\\sao-carlos-v16-moveis.html",
+  "clock": "real",
+  "canvas": {
+    "janela": [
+      1084,
+      605
+    ],
+    "dpr_inicial": 1,
+    "canvas_inicial": [
+      1084,
+      605
+    ],
+    "dpr_pedido": 0.5,
+    "canvas_depois": [
+      542,
+      302
+    ],
+    "esperado": [
+      542,
+      302
+    ],
+    "aplicou": true,
+    "canvas_voltou": [
+      1084,
+      605
+    ],
+    "voltou": true
+  },
+  "external_pixels_identical": true
+}

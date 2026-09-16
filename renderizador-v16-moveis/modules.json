@@ -50,5 +50,6 @@
   "listings/sheet.js",
   "scene/day-night.js",
   "ui/floor-plan-minimap.js",
+  "scene/resolution-governor.js",
   "app.js"
 ]
