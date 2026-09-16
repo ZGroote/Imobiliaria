@@ -51,5 +51,6 @@
   "scene/day-night.js",
   "ui/floor-plan-minimap.js",
   "scene/resolution-governor.js",
+  "scene/camera-gestures.js",
   "app.js"
 ]
