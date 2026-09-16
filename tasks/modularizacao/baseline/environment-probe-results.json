@@ -1,0 +1,15 @@
+{
+  "oracle": "1ad2a59",
+  "before_page": "work/interior-frame",
+  "after_page": "work/environment-probe",
+  "lifecycle_oracle": "tests/test_environment_probe.mjs (captura, ganho, soltura, ?sonda=0, falha na captura)",
+  "materials_identical": true,
+  "camera_identical": true,
+  "textures_per_cycle": {"inside": [17, 18], "outside": [16, 17], "same_before_after": true},
+  "image_hash_deterministic": false,
+  "image_pixel_diff": {
+    "cycle0": {"before_vs_before": {"mean": 0.805, "max": 10}, "before_vs_after": {"mean": 0.796, "max": 13}},
+    "cycle1": {"before_vs_before": {"mean": 0.652, "max": 8}, "before_vs_after": {"mean": 0.646, "max": 8}}
+  },
+  "visual_equivalent": true
+}

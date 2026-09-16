@@ -49,6 +49,12 @@ try {
     if (r.exceptionDetails) throw Error(JSON.stringify(r.exceptionDetails));
     return r.result.value;
   }
+  if (process.argv.includes('--environment')) {
+    // Interior surface noise uses Math.random. Seed only this comparison fixture,
+    // before any page script, so independent launches render the same textures.
+    await send('Page.addScriptToEvaluateOnNewDocument', {source:
+      'let fixtureSeed=123456789; Math.random=()=>((fixtureSeed=(Math.imul(fixtureSeed,1664525)+1013904223)>>>0)/4294967296);'});
+  }
   await send('Page.navigate', {url: pathToFileURL(path.resolve(page)).href + '?q=baixo'});
   let ready = false;
   for (let i = 0; i < 240; i++) {
@@ -285,6 +291,40 @@ try {
       }
       return out;
     })()`);
+  }
+  if (process.argv.includes('--environment')) {
+    result.environment = await evaluate(`(async () => {
+      const I=__int, P=__perf, out=[];
+      for(let cycle=0;cycle<2;cycle++) {
+        const frameTime=1700000+cycle*10000;
+        I.abreUnidade(I.UNIDADES.find(u=>u.id==='monte-das-colinas-39'));
+        // Finish city streaming and growth before the cube camera captures it.
+        P.bombeia(100000); P.passo(frameTime); P.bombeia(100000); P.passo(frameTime+1000);
+        if(P.fila()) throw Error('Environment capture requires a settled city');
+        I.el('uEnter').click();
+        P.bombeia(100000); P.passo(frameTime+2000);
+        if(!I.INT.on || I.INT.voo) throw Error('Interior flight did not finish');
+        I.bakeAgora(); P.passo(frameTime+2100);
+        I.renderer.render(I.scene,I.camera);
+        const png=I.renderer.domElement.toDataURL();
+        const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(png)))].map(b=>b.toString(16).padStart(2,'0')).join('');
+        const mats=[];
+        I.INT.raiz.traverse(o=>{for(const m of o.material ? (Array.isArray(o.material)?o.material:[o.material]) : []) {
+          mats.push([m.type,!!m.envMap,m.envMap?.mapping,m.envMapIntensity,m._envBase]);
+        }});
+        out.push({phase:'inside',cycle,image:hash,png,materials:mats,textures:I.renderer.info.memory.textures,
+          camera:I.camera.position.toArray(),rotation:I.camera.quaternion.toArray(),groups:I.vivos().size});
+        I.exitInterior(); P.passo(frameTime+3100);
+        if(I.INT.on || I.INT.raiz) throw Error('Interior did not dispose');
+        out.push({phase:'outside',cycle,textures:I.renderer.info.memory.textures});
+      }
+      return out;
+    })()`);
+    // The hash differs between runs of the same build, so keep the pixels for a tolerance diff.
+    for (const e of result.environment) if (e.png) {
+      await fs.writeFile(prefix + '-inside-' + e.cycle + '.png', Buffer.from(e.png.split(',')[1], 'base64'));
+      delete e.png;
+    }
   }
   if (process.argv.includes('--pointer-editor')) {
     const handle = await evaluate(`(async () => {
