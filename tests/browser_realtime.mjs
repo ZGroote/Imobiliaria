@@ -286,6 +286,33 @@ try {
       return out;
     })()`);
   }
+  if (process.argv.includes('--pointer-editor')) {
+    const handle = await evaluate(`(async () => {
+      const I = __int;
+      document.querySelector('#houses .hitem[data-unidade]').click(); I.el('uEnter').click();
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      I.modoMoveis(true);
+      const index = I.INT.moveis.findIndex(m => !I.MOVEIS[m.tipo].alto && m.h > .3);
+      I.seleciona(index); I.modo('medir');
+      const m = I.INT.moveis[index], center = I.INT.pl.W(m.u,m.v);
+      I.camera.position.set(center[0]+3,I.INT.baseY+5,center[1]+4);
+      I.camera.lookAt(center[0],I.INT.baseY+m.h/2,center[1]); I.camera.updateMatrixWorld(true);
+      I.mobSetas.updateMatrixWorld(true);
+      const point = I.camera.position.clone().setFromMatrixPosition(I.mobSetas.children[0].matrixWorld).project(I.camera);
+      return {x:(point.x*.5+.5)*innerWidth,y:(-point.y*.5+.5)*innerHeight,
+        width:m.w, camera:I.camera.position.toArray(), target:I.target.toArray(), index};
+    })()`);
+    await send('Input.dispatchMouseEvent', {type:'mouseMoved', x:handle.x, y:handle.y});
+    await send('Input.dispatchMouseEvent', {type:'mousePressed', x:handle.x, y:handle.y, button:'left', clickCount:1});
+    await send('Input.dispatchMouseEvent', {type:'mouseMoved', x:handle.x+35, y:handle.y, buttons:1});
+    const dragging = await evaluate(`({active:!!__int.MOB.arrasto,width:__int.INT.moveis[${handle.index}].w,target:__int.target.toArray()})`);
+    await send('Input.dispatchMouseEvent', {type:'mouseReleased', x:handle.x+35, y:handle.y, button:'left', clickCount:1});
+    const released = await evaluate(`({active:!!__int.MOB.arrasto,width:__int.INT.moveis[${handle.index}].w})`);
+    if (!dragging.active || released.active || released.width === handle.width)
+      throw Error('Real pointer resize failed: ' + JSON.stringify({handle,dragging,released}));
+    if (JSON.stringify(dragging.target) !== JSON.stringify(handle.target)) throw Error('Camera panned during furniture resize');
+    result.pointerEditor = {handle,dragging,released};
+  }
   if (process.argv.includes('--floor-map')) {
     result.floorMap = await evaluate(`(async () => {
       const I = __int, out = [];

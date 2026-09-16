@@ -53,5 +53,6 @@
   "scene/resolution-governor.js",
   "scene/camera-gestures.js",
   "interior/editor-visuals.js",
+  "interior/editor-pointer.js",
   "app.js"
 ]

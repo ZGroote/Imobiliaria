@@ -181,3 +181,5 @@ Validação 22e: teste de equivalência com `6623aa2` aprovado para transições
 - [x] 22h: `scene/camera-gestures.js` encapsula arrasto, órbita, pinça, rotação por dois dedos e olhar em primeira pessoa. Editor assume gesto por API explícita. Sequências de ponteiro equivalentes ao código anterior; fluxos editor/mobile idênticos no Chrome (`baseline/camera-gestures-results.json`).
 
 - [x] 21e: `interior/editor-visuals.js` para grade, setas, prévia e campos de medida. Geometria e transformações equivalentes, prévia preserva geometria compartilhada, entrada decimal e foco dos campos testados. Fluxo de editar/cancelar/confirmar/sair/recarregar idêntico no Chrome (`baseline/editor-visuals-results.json`).
+
+- [x] 21f: `interior/editor-pointer.js` possui projeção do ponteiro, arrasto das setas e movimento com encaixe. Oráculo de eventos cobre largura/altura, captura, grade/Shift e dois dedos. No Chrome, eventos reais de mouse redimensionam 0,60 → 1,10 m, liberam a captura e mantêm o alvo da câmera; idêntico antes/depois. Fluxo de editor/persistência também idêntico. 82 testes Node + 12 Python aprovados (`baseline/editor-pointer-results.json`).

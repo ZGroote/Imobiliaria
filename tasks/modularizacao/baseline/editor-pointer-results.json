@@ -1,0 +1,37 @@
+{
+  "pointer_identical": true,
+  "editor_identical": true,
+  "pointer": {
+    "handle": {
+      "x": 501.64890780849754,
+      "y": 269.9007793552395,
+      "width": 0.6,
+      "camera": [
+        -2469.3548407317953,
+        14.45,
+        1133.6825507532017
+      ],
+      "target": [
+        -2468.569696151548,
+        0,
+        1130.1106634797388
+      ],
+      "index": 0
+    },
+    "dragging": {
+      "active": true,
+      "width": 1.1,
+      "target": [
+        -2468.569696151548,
+        0,
+        1130.1106634797388
+      ]
+    },
+    "released": {
+      "active": false,
+      "width": 1.1
+    }
+  },
+  "node_tests": 82,
+  "python_tests": 12
+}
