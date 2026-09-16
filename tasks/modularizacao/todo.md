@@ -173,3 +173,5 @@ Conferidos os 26 commits entre `12180d4` e `6623aa2`, com 23 módulos novos. Ár
 - [x] 22e: controle dia/noite em `scene/day-night.js`, preservando preferência, cores, exposição, prioridade da iluminação interna e callbacks do laço. Comparar com `6623aa2` e com a sonda `--night` do HTML atual, sem refazer módulos já extraídos em paralelo.
 
 Validação 22e: teste de equivalência com `6623aa2` aprovado para transições parciais, preferência e prioridade do interior; no Chrome, dia/noite/retorno e imagem externa idênticos (`baseline/day-night-results.json`).
+
+- [x] 22f (`9d68c01`): `ui/floor-plan-minimap.js` possui desenho da planta e projeção no referencial do imóvel. Chamadas de canvas equivalentes em três rotações; 14 imagens (7 cômodos × 2 rumos) idênticas no Chrome e saída do interior verificada (`baseline/floor-map-results.json`). A sonda respeita o voo de saída de 900 ms, avançando o quadro até o término.
