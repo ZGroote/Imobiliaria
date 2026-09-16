@@ -1,0 +1,81 @@
+{
+  "checkpoint": "6623aa2",
+  "night_identical": true,
+  "external_pixels_identical": true,
+  "states": {
+    "day": {
+      "on": false,
+      "t": 0,
+      "exposure": 1.075,
+      "fog": [
+        0.7803921568627451,
+        0.8470588235294118,
+        0.8941176470588236
+      ],
+      "clear": [
+        0.34901960784313724,
+        0.38823529411764707,
+        0.43529411764705883
+      ],
+      "sky": [
+        true,
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "image": "682e439205e30cf7"
+    },
+    "night": {
+      "on": true,
+      "t": 1,
+      "exposure": 0.4,
+      "fog": [
+        0.04705882352941171,
+        0.0862745098039216,
+        0.1333333333333333
+      ],
+      "clear": [
+        0.047058823529411764,
+        0.08627450980392154,
+        0.1333333333333333
+      ],
+      "sky": [
+        true,
+        [
+          0.05490196078431375,
+          0.09019607843137256,
+          0.14901960784313728
+        ]
+      ],
+      "image": "828a3dd5a889be22"
+    },
+    "back": {
+      "on": false,
+      "t": 0,
+      "exposure": 1.075,
+      "fog": [
+        0.7803921568627451,
+        0.8470588235294118,
+        0.8941176470588236
+      ],
+      "clear": [
+        0.34901960784313724,
+        0.38823529411764707,
+        0.43529411764705883
+      ],
+      "sky": [
+        true,
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "image": "682e439205e30cf7"
+    }
+  },
+  "before": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\parallel-review\\sao-carlos-v16-moveis.html",
+  "after": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\day-night\\sao-carlos-v16-moveis.html"
+}

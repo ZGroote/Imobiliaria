@@ -48,5 +48,6 @@
   "world/streaming.js",
   "listings/identity.js",
   "listings/sheet.js",
+  "scene/day-night.js",
   "app.js"
 ]

@@ -164,3 +164,12 @@ Checkpoint C — página modular: `work/furniture-catalog` (HEAD `044b220`, todo
 
 Checkpoint D — página modular: `work/lights` (lote 20d), SHA-256 `920a0971…` (comprimido) e `9eb4fc35…` (aberto), copiada para `v16-moveis/` e restaurada depois (conferido por hash). 19 portões com os mesmos valores de `qa-after.json`, sem nenhuma diferença: 17 aprovados, 0 não medidos, e as mesmas 2 reprovações preexistentes com o mesmo detalhe. Inclui os portões que o aceite da 22 pede repetir — governador de gráfico e quadro preguiçoso — e exposição do interior, árvore remendada, custo do minimapa e duplo clique em `file://` (`baseline/qa-checkpoint-d-modular.json`). Somam-se as sondas por lote de interior: `--listing` (planta, casa, bake, iluminação, móveis, pose, mapa andável) e `--editor` (redimensionar, girar, mover/cancelar/confirmar, sair e recarregar).
 - [x] 19 concluída (19a–19d). `geoDaCasa` usa o bake (`BAKE`, `bakePrepara`, `cursorDeLuz`, `texturaDeLuz`, `_LUZUE`) e vai junto com a tarefa 20. A colisão (`livre`/`folga`) lê `pl.paredes` e `v.folha`, que as sondas mostram idênticos.
+
+
+## Retomada após trabalho paralelo — 16/09
+
+Conferidos os 26 commits entre `12180d4` e `6623aa2`, com 23 módulos novos. Árvore versionada limpa no início da revisão. Reexecutados: 76 testes Node e 12 Python, todos aprovados; build explícito de São Carlos v16-moveis aprovado em `work/parallel-review`. Mantidas as conclusões do Checkpoint D e as pendências de 21/22 e 23–30; esta revisão não marca o plano inteiro como concluído.
+
+- [x] 22e: controle dia/noite em `scene/day-night.js`, preservando preferência, cores, exposição, prioridade da iluminação interna e callbacks do laço. Comparar com `6623aa2` e com a sonda `--night` do HTML atual, sem refazer módulos já extraídos em paralelo.
+
+Validação 22e: teste de equivalência com `6623aa2` aprovado para transições parciais, preferência e prioridade do interior; no Chrome, dia/noite/retorno e imagem externa idênticos (`baseline/day-night-results.json`).
