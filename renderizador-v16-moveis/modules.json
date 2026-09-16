@@ -52,5 +52,6 @@
   "ui/floor-plan-minimap.js",
   "scene/resolution-governor.js",
   "scene/camera-gestures.js",
+  "interior/editor-visuals.js",
   "app.js"
 ]
