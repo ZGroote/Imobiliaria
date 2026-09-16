@@ -51,7 +51,7 @@ Cada linha abaixo é uma entrega. As linhas marcadas como lote devem ser repetid
 - [x] 16–17: imóvel, ficha, busca, POIs, minimapa e abas móveis.
 - [x] Checkpoint C: navegação externa desktop/mobile e recursos preservados. Ver "Checkpoint C — página modular" abaixo.
 - [x] 18–20: móveis, planta, casca, iluminação e bake (lotes 18a–18b, 19a–19d, 20a–20d abaixo).
-- [ ] 21–22: parciais. Caminhada, primeira pessoa, móveis, persistência, regras do editor, nível de gráficos, lentes, link e céu extraídos; entrar/sair, gestos do editor, noite, laço de quadro, governador e inicialização ainda no `app.js`.
+- [ ] 21–22: parciais. Caminhada, primeira pessoa, móveis, persistência, regras do editor, nível de gráficos, lentes, link e céu extraídos; gestos do editor, noite, governador e atualização interna também extraídos. Restam entrada/saída, coordenação do editor, laço principal e inicialização/domínios residuais no `app.js`.
 - [x] Checkpoint D: interior completo e persistência equivalentes. Ver "Checkpoint D — página modular" abaixo.
 - [ ] 23–25: build, scripts geográficos e duplicatas.
 - [ ] 26–28: CSS, variantes e preparação de publicação.
@@ -183,3 +183,5 @@ Validação 22e: teste de equivalência com `6623aa2` aprovado para transições
 - [x] 21e: `interior/editor-visuals.js` para grade, setas, prévia e campos de medida. Geometria e transformações equivalentes, prévia preserva geometria compartilhada, entrada decimal e foco dos campos testados. Fluxo de editar/cancelar/confirmar/sair/recarregar idêntico no Chrome (`baseline/editor-visuals-results.json`).
 
 - [x] 21f: `interior/editor-pointer.js` possui projeção do ponteiro, arrasto das setas e movimento com encaixe. Oráculo de eventos cobre largura/altura, captura, grade/Shift e dois dedos. No Chrome, eventos reais de mouse redimensionam 0,60 → 1,10 m, liberam a captura e mantêm o alvo da câmera; idêntico antes/depois. Fluxo de editor/persistência também idêntico. 82 testes Node + 12 Python aprovados (`baseline/editor-pointer-results.json`).
+
+- [x] 21g: `interior/frame.js` reúne corte, atualização da altura/luzes, voo, caminhada e projeção de rótulos. Continua chamado pelo único laço da aplicação. Oráculo `a2473f6` aprovado; editor, 14 vistas da planta e imagem externa idênticos no Chrome (`baseline/interior-frame-results.json`).

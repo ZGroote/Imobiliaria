@@ -54,5 +54,6 @@
   "scene/camera-gestures.js",
   "interior/editor-visuals.js",
   "interior/editor-pointer.js",
+  "interior/frame.js",
   "app.js"
 ]
