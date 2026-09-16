@@ -128,7 +128,7 @@ const hash = id => { let h = 2166136261 ^ id; h = Math.imul(h ^ (h>>>15), 224682
 /* ============================================================
    3. Arquivo consolidado: números inteiros e diferença entre pontos
    ============================================================ */
-const {shoelace, inside, insetRing, safeInset, convexHull, obbOf} = MapGeometry;
+const {shoelace, inside, safeInset, obbOf} = MapGeometry;
 const triangulateRing = r => MapGeometry.triangulateRing(r,
   typeof earcut === 'function' ? earcut : null,
   ring => THREE.ShapeUtils.triangulateShape(ring.map(p => new V2(p[0], p[1])), []));
@@ -897,7 +897,7 @@ const meshOf = P => {
    contorno mudar de verdade.
    ============================================================ */
 
-const {ST, ST_NOME, tipoDe, BUILDING_INSET} = BuildingType;
+const {tipoDe, BUILDING_INSET} = BuildingType;
 
 /* --- retângulo mínimo orientado (OBB) -----------------------------------
    Serve pra duas coisas: dar eixo e proporção pro telhado inclinado, e medir
@@ -2867,7 +2867,7 @@ const listingIdentity = ListingIdentity.create({units:UNIDADES, getGroups:()=>gG
   slug:CIDADE.slug, storage:guarda, px, pz, recDoLancamento, recsDoLancamento,
   forcedPlan:new URLSearchParams(location.search).get("planta")});
 const {idDoRegistro, unidadeDoPredio, chaveAncora, predioDeId,
-  predioMaisPerto, loteDaUnidade, predioDaUnidade} = listingIdentity;
+  predioDaUnidade} = listingIdentity;
 
 const iaviso = $("iaviso");
 let escolhendo = null;            // unidade esperando o usuario apontar o predio
@@ -4169,7 +4169,7 @@ let _semRaf = false;   // ligado so durante __perf.passo()
      desenha o vão, somando em `totalEmissiveRadiance`.
    ============================================================ */
 
-const {semAcento, BUSCA, indexaBusca, buscaAgora} = CitySearch.create({pois:POIS, cls:CLS, target});
+const {BUSCA, indexaBusca, buscaAgora} = CitySearch.create({pois:POIS, cls:CLS, target});
 
 const bq = $("bq"), bres = $("bres");
 MobileTabs.create({$, perto:PERTO, fechaTudo: () => {
@@ -4233,7 +4233,7 @@ addEventListener("pointerdown", e => {
 let _linkT = 0;
 
 /* ---------------- minimapa ---------------- */
-const {MM, MM_CEL, montaBaseMinimapa, desenhaMinimapa} = StreetMinimap.create({canvas:$("mmc"),
+const {MM, montaBaseMinimapa, desenhaMinimapa} = StreetMinimap.create({canvas:$("mmc"),
   target, sph, camera, cat:CAT, catKeys:CAT_KEYS, poiPorCat:POI_POR_CAT, catOn,
   isPoiHidden:() => poiHidden, bigRoad:BIGROAD, hw:HW});
 

@@ -19,3 +19,5 @@ Esta revisão cobre os arquivos gerados nesta migração; não é uma auditoria 
 
 
 Revisão dos lotes de vegetação/divisas com `ponytail-review`: o estado de instâncias e do índice espacial tem consumidores reais, e as APIs de criação, atualização e invalidação acompanham os fluxos existentes. Não foram adicionados barramento, gerenciador genérico de entidades ou novas dependências. A revisão de complexidade não encontrou corte de linhas necessário nesses lotes; os testes de equivalência permanecem justificáveis durante a migração.
+
+Revisão de 16/09 após integrar os 26 commits paralelos: removidos oito nomes sem leitura no consumidor `app.js` (`insetRing`, `convexHull`, `ST`, `ST_NOME`, `predioMaisPerto`, `loteDaUnidade`, `semAcento`, `MM_CEL`). Suas implementações e APIs de módulo permanecem: têm uso interno, em testes ou auditorias. Nenhuma camada nova foi necessária. Economia de oito bindings locais, sem redução relevante de linhas.
