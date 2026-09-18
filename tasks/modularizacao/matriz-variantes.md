@@ -42,7 +42,7 @@ As duas capacidades do galho v15 foram portadas atrás de chave (27b e 27c) e de
 
 | capacidade | onde age | quanto | promover? |
 |---|---|---|---|
-| `sombra_projetada` | o quadro inteiro, nos três enquadramentos | `escuro%` de rua 7,08 → 8,87 (Ribeirão) e 8,70 → 12,72 (SC); `faixa` +3,4 e +7,5 | **candidata** — falta refazer as 6 fotos de controle |
+| `sombra_projetada` | o quadro inteiro, nos três enquadramentos | `escuro%` de rua 7,08 → 8,87 (Ribeirão) e 8,70 → 12,72 (SC); `faixa` +3,4 e +7,5 | **candidata (só São Carlos)** — falta refazer a foto de controle |
 | `especular_fragmento` | só o telhado, visto de cima (92,4% do que ele move) | +2,68 de luminância média no construído no quadro alto; 0,11 no de rua | **não** — o ganho some com a sombra ligada |
 
 Três coisas que essa medida corrigiu:
@@ -63,7 +63,7 @@ Detalhe em `baseline/promocao-aparencia-results.json`.
    `aparencia` do JSON da cidade já usa (ver `[[mapa-3d-aparencia-promovida-sc]]`):
    promover é decisão por cidade, com medida, não efeito colateral de remontagem.
 2. A ordem de porte começa pelo que tem medida registrada e portão de aceite existente:
-   sombra projetada + sol a 30° (o `compara_print.py` acusa as 6 cidades, e isso é
+   sombra projetada + sol a 30° (o `compara_print.py` acusa a diferença, e isso é
    esperado, não regressão — está escrito no próprio comentário do v15).
 3. Só depois disso as duas pastas antigas viram invocadores ou saem de cena. Enquanto a
    capacidade viver só num galho, apagar o galho é perder a capacidade.
@@ -79,3 +79,16 @@ d=[l for l in difflib.unified_diff(a,b,'v15','v16',n=0,lineterm='')]
 print('linhas de diferenca:', len([x for x in d if x[:1] in '+-'])-2)
 PY
 ```
+
+## Escopo: uma cidade
+
+**São Carlos é a única cidade em escopo** — é a única que está na versão mais recente do
+renderizador. As outras (`araraquara`, `sorocaba`, `sao-jose-do-rio-preto` e as quatro de
+Ribeirão) têm `city.json` no acervo, mas a página delas não é montada há tempos: medir
+aparência nelas é medir uma versão que não vai ser publicada.
+
+Consequência para esta matriz: onde `PADRAO.md` diz "promover é decisão por cidade,
+com medida", leia **uma** cidade. A medida de Ribeirão que está em
+`baseline/promocao-aparencia-results.json` serviu para achar que o portão `realce%` é
+inalcançável — esse achado vale para qualquer cidade, porque o teto de 234,5 é do
+renderizador —, mas Ribeirão não é alvo de promoção.
