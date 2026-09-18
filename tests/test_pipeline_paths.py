@@ -13,7 +13,11 @@ MIGRADAS = {'0c': ('pipeline/city_base.py', 'v4/build_city_v4.py'),
             '1b': ('pipeline/quadras_grafo.py', 'v7/pipeline/quadras_grafo.py'),
             '2': ('pipeline/quadras_miolo.py', 'v7/pipeline/quadras_miolo.py'),
             '3': ('pipeline/lotes_sinteticos.py', 'v7/pipeline/lotes_sinteticos.py'),
-            '4': ('pipeline/juntar_lotes.py', 'v7/pipeline/juntar_lotes.py')}
+            '4': ('pipeline/juntar_lotes.py', 'v7/pipeline/juntar_lotes.py'),
+            '5': ('pipeline/ocupacao.py', 'v7/pipeline/ocupacao.py'),
+            '7': ('pipeline/city_final.py', 'v7/pipeline/build_v7_city.py'),
+            '7b-chao': ('pipeline/chao.py', 'v7/pipeline/gen_chao.py'),
+            '7b-ruas': ('pipeline/ruas.py', 'v7/pipeline/gen_ruas.py')}
 
 
 class PipelinePathTests(unittest.TestCase):
@@ -32,10 +36,14 @@ class PipelinePathTests(unittest.TestCase):
             self.assertIn(Path(canonico).name, (RAIZ / antigo).read_text(encoding='utf-8'))
             self.assertTrue((RAIZ / canonico).exists())
 
-    def test_the_moved_step_keeps_its_own_entry_point(self):
-        for canonico, _ in MIGRADAS.values():
-            fonte = (RAIZ / canonico).read_text(encoding='utf-8')
-            self.assertIn("if __name__ ==", fonte, '%s tem que rodar sozinho' % canonico)
+    def test_the_wrapper_runs_the_step_as_a_program(self):
+        """Parte das etapas é script de linha reta: o trabalho acontece no import, sem
+        `if __name__`. Por isso o invocador usa `run_name="__main__"` -- ele serve aos
+        dois estilos, e é o que mantém o caminho antigo com o mesmo efeito de antes."""
+        for canonico, antigo in MIGRADAS.values():
+            fonte = (RAIZ / antigo).read_text(encoding='utf-8')
+            self.assertIn('run_name="__main__"', fonte, antigo)
+            self.assertIn('runpy.run_path', fonte, antigo)
 
 
 if __name__ == '__main__':
