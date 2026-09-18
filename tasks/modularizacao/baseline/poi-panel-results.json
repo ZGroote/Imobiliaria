@@ -1,0 +1,13 @@
+{
+  "oracle": "88bbc83",
+  "before_page": "work/listing-flow",
+  "after_page": "work/poi-panel",
+  "probes": ["--listing", "--search"],
+  "identical": ["camera", "groups", "queue", "geometries", "textures", "urban", "dpr", "quality",
+                "viewport", "diagnostics", "listing", "search", "image"],
+  "differ": ["times", "page"],
+  "image_byte_identical": true,
+  "accessors": ["reliefAmount -> getRelevo", "INT -> getInterior (era typeof INT)",
+                "catOn e pinoOculto saem para o minimapa e para o diagnóstico"],
+  "tests": {"node": 101, "python": 12}
+}

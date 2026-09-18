@@ -56,6 +56,7 @@
   "interior/editor-pointer.js",
   "interior/frame.js",
   "world/elevation.js",
+  "ui/poi-panel.js",
   "listings/flow.js",
   "ui/search-box.js",
   "ui/picking.js",
