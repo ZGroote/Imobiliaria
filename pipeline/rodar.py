@@ -116,7 +116,7 @@ ETAPAS = [
      ["build_blocks.py"], [F("city_v2")], [F("faces_ruas")], False,
      "4.457 faces; e a fonte de quadra da 1b onde o cadastro nao tem"),
     ("0c", "city_base (agrupado por quadra)",
-     ["v4/build_city_v4.py"], [F("city_v2"), F("faces_ruas")], [F("city_base")], False,
+     ["pipeline/city_base.py"], [F("city_v2"), F("faces_ruas")], [F("city_base")], False,
      "reordena b[] por quadra e emite bl[]; e o que o streaming le"),
     ("0d", "Plantas -> lotes oficiais",
      ["v7/pipeline/rodar_tudo.py", "v7/pipeline/relatorio.py"], [F("plantas")],

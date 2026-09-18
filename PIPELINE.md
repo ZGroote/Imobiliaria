@@ -172,7 +172,7 @@ chão saltava. Cidade nova: meça o bbox das quadras antes de escolher `HALF`.
 |---|---|---|---|
 | 0a | `merge_osm_overture.py` | overture + tags OSM | `sao-carlos-overture-v2.city.json` |
 | 0b | `build_blocks.py` | city v2 | `blocks.json` (4.457 faces) |
-| 0c | `v4/build_city_v4.py` | city v2 + blocks | `v4/sao-carlos-v4.city.json` |
+| 0c | `pipeline/city_base.py` | city v2 + blocks | `v4/sao-carlos-v4.city.json` |
 
 **0a** é onde o prédio ganha semântica: classe (`0/1` residencial, `2` comércio,
 `3` cívico), nome e endereço. Só ~4.528 dos 125.994 casam com o OSM — o resto fica
