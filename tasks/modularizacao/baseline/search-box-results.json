@@ -1,0 +1,12 @@
+{
+  "oracle": "d277e52",
+  "before_page": "work/elevation",
+  "after_page": "work/search-box",
+  "probes": ["--search"],
+  "probe_steps": 10,
+  "identical": ["camera", "groups", "queue", "geometries", "textures", "urban", "dpr", "quality",
+                "viewport", "diagnostics", "search", "image"],
+  "differ": ["times", "page"],
+  "image_byte_identical": true,
+  "tests": {"node": 97, "python": 12}
+}

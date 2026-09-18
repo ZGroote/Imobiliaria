@@ -395,6 +395,38 @@ try {
       return out;
     })()`);
   }
+  if (process.argv.includes('--search')) {
+    // Search box in the real page: typing, arrow keys, Enter and the click on a result.
+    result.search = await evaluate(`(async () => {
+      const I = __int, g = id => document.getElementById(id), tick = () => new Promise(r => setTimeout(r, 60));
+      const bq = g('bq'), bres = g('bres'), out = {steps: []};
+      const tecla = k => bq.dispatchEvent(new KeyboardEvent('keydown', {key: k, bubbles: true, cancelable: true}));
+      const snap = label => out.steps.push([label, bres.hidden, bres.innerHTML.length,
+        [...bres.querySelectorAll('.bi')].map(d => [d.className, d.querySelector('.t').textContent,
+          d.querySelector('.s').textContent]).slice(0, 6),
+        I.target.toArray().map(v => Math.round(v * 100) / 100), I.sph.radius, I.INT.on]);
+      const digita = t => { bq.value = t; bq.dispatchEvent(new Event('input', {bubbles: true})); };
+      digita('a'); snap('one letter');
+      digita('rua'); snap('typed');
+      tecla('ArrowDown'); snap('down');
+      tecla('ArrowDown'); tecla('ArrowUp'); snap('down up');
+      tecla('Enter'); await tick(); snap('enter');
+      digita('zzzzqq'); snap('nothing found');
+      digita('av'); snap('typed again');
+      const alvo = bres.querySelector('.bi[data-i="1"]');
+      if (alvo) { alvo.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true})); await tick(); }
+      snap('clicked');
+      tecla('Escape'); snap('escape');
+      // Buscar de dentro da casa sai da casa antes de voar.
+      const item = document.querySelector('#houses .hitem[data-unidade]');
+      if (item) {
+        item.click(); g('uEnter').click(); await new Promise(r => setTimeout(r, 1500));
+        out.inside = I.INT.on;
+        digita('rua'); tecla('Enter'); await tick(); snap('from inside');
+      }
+      return out;
+    })()`);
+  }
   if (process.argv.includes('--editor')) {
     // Furniture editor in the real page: resize from both sides, rotate, move and cancel,
     // move and confirm, then reload the saved layout into a fresh visit.
