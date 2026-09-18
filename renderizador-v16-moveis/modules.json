@@ -66,5 +66,6 @@
   "interior/environment-probe.js",
   "ui/perf-meter.js",
   "ui/keyboard.js",
+  "ui/frame.js",
   "app.js"
 ]

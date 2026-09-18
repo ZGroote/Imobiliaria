@@ -1,0 +1,12 @@
+{
+  "oracle": "f4260af",
+  "before_page": "work/keyboard",
+  "after_page": "work/ui-frame",
+  "probes": ["--night", "--floor-map", "--search"],
+  "identical": ["night", "floorMap", "search", "camera", "groups", "queue", "geometries",
+                "textures", "urban", "dpr", "quality", "viewport", "diagnostics", "image"],
+  "differ": ["times", "page"],
+  "image_byte_identical": true,
+  "moved": "_linkT (o contador do intervalo do link foi com quem conta)",
+  "tests": {"node": 109, "python": 12}
+}

@@ -41,3 +41,5 @@ Revisão do lote 17 (POIs): `PoiPanel` mantém o mesmo punhado de variáveis de 
 Revisão do lote 16 (anúncio público): `HouseSheet` não devolve nada -- a vitrine e a ficha dela só se falam ali dentro --, e mantém o único estado que já existia (`HOUSE_ATUAL`). Nenhum registro de fichas, nenhuma classe base compartilhada com a ficha do imóvel cadastrado: as duas usam a MESMA `listingSheet`, que continua sendo criada uma vez no `app.js`. net: -0 lines possible.
 
 Revisão do lote 22 (medidor e teclado): os dois módulos devolvem exatamente o que os consumidores usam -- o medidor três funções, o teclado nenhuma (ele só assina ouvintes). Nenhum mapa de atalhos configurável, nenhum sistema de comandos, nenhuma camada de "HUD": o medidor continua escrevendo nos mesmos ids. O `ligado()` do medidor existe porque o atalho P precisa saber o estado que o próprio medidor guarda. net: -0 lines possible.
+
+Revisão do lote 22 (quadro da UI): `UiFrame` devolve UMA função, chamada pelo mesmo ponto do laço que a chamava; os três contadores de estado continuam sendo os mesmos três, agora privados. Nenhuma fila de tarefas por quadro, nenhum agendador. net: -0 lines possible.
