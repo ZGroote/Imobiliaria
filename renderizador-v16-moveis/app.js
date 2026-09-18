@@ -97,6 +97,10 @@ const AP_LUZ = !!APAR.material_luz;
 // o sol baixo que a torna visivel: ver scene/city-shadow.js. Nasce DESLIGADA -- e
 // promocao por cidade, com medida, e nao efeito de remontagem.
 const AP_SOMBRA = !!APAR.sombra_projetada;
+// Especular POR FRAGMENTO: o expoente do lobo deixa de ser um numero pra fachada
+// inteira (56, calibrado pro vidro) e passa a ser 8 na pintura, 16 no telhado e 56 no
+// vidro; junto vem o asfalto (26) e a folha (24). Portado do v15. Nasce DESLIGADA.
+const AP_ESPEC = !!APAR.especular_fragmento;
 
 let GRID = 4, HALF = GRID * TILE_M / 2;
 const LIGHT = () => GRID >= 10;
@@ -486,11 +490,12 @@ const TEX_CIDADE = (() => {
     maxAnisotropy: renderer.capabilities.getMaxAnisotropy()});
 })();
 
-const {facadeMaterial, riseLine} = FacadeMaterials.create({
+const {facadeMaterial, riseLine} = FacadeMaterials.create({ AP_ESPEC,
   THREE, AP_LUZ, AP_JANELA, TEX_CIDADE, GLSL_RUIDO,
   uRelief, uHeight, uFuro, uNoite
 });
-const surfaceMaterials = SurfaceMaterials.create({THREE, K, TEX_CIDADE, GLSL_RUIDO});
+const surfaceMaterials = SurfaceMaterials.create({THREE, K, TEX_CIDADE, GLSL_RUIDO,
+  AP_LUZ, AP_ESPEC});
 const flat = c => new THREE.MeshPhongMaterial({ color:c, shininess:0, specular:0x000000, polygonOffset:true, polygonOffsetFactor:-1, polygonOffsetUnits:-1 });
 // v6: chao que acompanha o relevo (quadras). Ver make_v6.py.
 // v7: o relevo tem que estar carregado ANTES de chao/rua/muro/predio se registrarem.
@@ -1011,7 +1016,7 @@ const roadGeometry = WorldRoads.create({THREE,
   widthOf: w => ROAD_W[HW[w.k]] || 6, registerTerrain});
 const {indexaJuncoes} = roadGeometry;
 
-const {matVia} = RoadMaterials.create({THREE, AP_RUA, K, GLSL_RUIDO});
+const {matVia} = RoadMaterials.create({THREE, AP_RUA, K, GLSL_RUIDO, AP_LUZ, AP_ESPEC});
 
 function buildPatches(recs) {
   const P = [], polys = [];
@@ -1059,6 +1064,7 @@ function indexaAsfalto(roads) {
 }
 
 const vegetation = VegetationScene.create({THREE, ARV, terrainY, projeta:AP_SOMBRA,
+  AP_LUZ, AP_ESPEC,
   getRelief: () => reliefAmount, target, SOMBRA_CIDADE, getLive: () => gLive});
 scene.add(vegetation.group);
 

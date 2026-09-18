@@ -1,8 +1,24 @@
 /* Building surface and growth-line shaders; all scene inputs are explicit. */
 (function(root) {
   "use strict";
-  function create({THREE, AP_LUZ, AP_JANELA, TEX_CIDADE, GLSL_RUIDO,
+  function create({THREE, AP_LUZ, AP_JANELA, AP_ESPEC, TEX_CIDADE, GLSL_RUIDO,
                    uRelief, uHeight, uFuro, uNoite}) {
+/* `AP_ESPEC` (chave `especular_fragmento`, portada do v15): o expoente do lobo deixa de
+   ser UM numero pra fachada inteira e passa a ser por fragmento. O `shininess` do
+   material foi calibrado pro VIDRO (56, lobo estreito); reboco com lobo estreito nao
+   vira reboco iluminado, vira reboco ENVERNIZADO -- o mesmo defeito de plastico, so
+   brilhando. Com a chave: 8 na pintura (largo e fraco), 16 no telhado, 56 no vidro.
+   Custa um float por fragmento e zero chamada de desenho. Desligada, nada aqui muda. */
+const ESP_SHIN = AP_ESPEC ? "float gShin;\n" : "";
+/* A PAREDE estava em gEspec = 0: o vidro ganhou brilho no "material_luz" e o reboco
+   ficou pra tras. Medido no v15, no quadro de rua de Ribeirao: nenhum pixel passa de
+   234,5 de luminancia e 0,000% do quadro e realce -- o topo da faixa esta vazio e a
+   fachada devolve a mesma cor de qualquer angulo. Tinta acrilica brilha fraco e LARGO:
+   0,09 de forca com expoente 8, nao 0,90 com o 56 do vidro. Telhado: laje tem lobo
+   largo (16) e a telha inclinada deixa de ser zero -- vista de cima ela e a maior
+   superficie da cidade, e era ela que segurava o topo da faixa vazio.
+   O comentario mora AQUI, e nao dentro do GLSL, porque o fonte do shader viaja na
+   pagina: com a chave desligada ele tem que sair byte a byte igual ao de antes. */
 const AP_GLSL = AP_LUZ ? "1.0" : "0.0";
 
 const JAN_TABELA = AP_JANELA ? `
@@ -120,7 +136,7 @@ function facadeMaterial(u) {
         "float g=clamp((uT-aDist*0.5)/0.5,0.0,1.0);transformed.y*=g*g*(3.0-2.0*g)*uHeight;transformed.y+=aDY*uRelief;\n" +
         "vMundo=transformed;");
 
-    sh.fragmentShader = "varying vec2 vFace;\nvarying vec3 vStyle;\nvarying vec3 vMundo;\nvarying vec3 vNw;\nuniform vec4 uFuro;\nuniform float uNoite;\nuniform sampler2D uTexReb;\nuniform sampler2D uTexTij;\nvec3 gLuz;\nfloat gEspec;\n" + GLSL_RUIDO +
+    sh.fragmentShader = "varying vec2 vFace;\nvarying vec3 vStyle;\nvarying vec3 vMundo;\nvarying vec3 vNw;\nuniform vec4 uFuro;\nuniform float uNoite;\nuniform sampler2D uTexReb;\nuniform sampler2D uTexTij;\nvec3 gLuz;\nfloat gEspec;\n" + ESP_SHIN + GLSL_RUIDO +
       sh.fragmentShader
         // A luz da janela nao pode entrar na cor difusa: difusa e multiplicada pela
         // luz da cena, e a noite a luz da cena e quase zero. Entra na EMISSIVA, que
@@ -130,10 +146,14 @@ function facadeMaterial(u) {
                  "#include <emissivemap_fragment>\ntotalEmissiveRadiance += gLuz;")
         .replace("#include <specularmap_fragment>",
                  "#include <specularmap_fragment>\nspecularStrength = gEspec;")
+        // Com a chave, o expoente do lobo tambem passa a ser por fragmento.
+        .replace("#include <lights_phong_fragment>", AP_ESPEC
+                 ? "#include <lights_phong_fragment>\nmaterial.specularShininess = gShin;"
+                 : "#include <lights_phong_fragment>")
         .replace("#include <color_fragment>",
       `#include <color_fragment>
        gLuz = vec3(0.0);
-       gEspec = 0.0;
+       gEspec = 0.0;${AP_ESPEC ? "\n       gShin = 56.0;" : ""}
        // ---- textura de superficie ----------------------------------------
        // Entra ANTES do desenho de janela e telha: vao e caixilho nao levam grao
        // de reboco. E entra como RAZAO em torno da media da textura, nao como cor
@@ -235,7 +255,7 @@ ${JAN_MALHA}
             Nenhuma das duas custa chamada de desenho: o brilho sai pelo
             'specularStrength', que ja existia (em 1,0, multiplicando preto), e o
             Fresnel e uma potencia do produto escalar com a normal ja interpolada.   */
-         gEspec = glass * 0.90 * AP;
+         gEspec = ${AP_ESPEC ? "mix(0.09, 0.90, glass)" : "glass * 0.90"} * AP;${AP_ESPEC ? "\n         gShin  = mix(8.0, 56.0, glass);" : ""}
          float fres = pow(1.0 - clamp(abs(dot(normalize(vNw),
                           normalize(cameraPosition - vMundo))), 0.0, 1.0), 4.0);
          gLuz += AP * glass * fres * fadeJ * (1.0 - uNoite * 0.8) * vec3(0.26, 0.31, 0.39);
@@ -293,7 +313,7 @@ ${JAN_MALHA}
          float incl  = clamp(length(nw.xz) / 0.45, 0.0, 1.0);   // 0 = laje, 1 = agua cheia
          // Laje de concreto tem um brilho fraco e largo; telha ceramica nao tem
          // nenhum. E o mesmo 'specularStrength' do vidro, com 1/6 da forca.
-         gEspec = AP * (1.0 - incl) * 0.15;
+         gEspec = ${AP_ESPEC ? "AP * (0.15 - incl * 0.03)" : "AP * (1.0 - incl) * 0.15"};${AP_ESPEC ? "\n         gShin  = 16.0;   // laje: lobo largo. a telha inclinada deixa de ser zero" : ""}
          float fadeT = 1.0 - smoothstep(260.0, 780.0, length(vViewPosition));
          vec2  dirD  = incl > 0.02 ? normalize(nw.xz) : vec2(1.0, 0.0);   // desce a agua
          vec2  dirT  = vec2(-dirD.y, dirD.x);                             // corre a fiada

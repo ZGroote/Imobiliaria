@@ -1,7 +1,7 @@
 /* Shared exterior surface materials; geometry and scene ownership stay with callers. */
 (function(root) {
   "use strict";
-  function create({THREE, K, TEX_CIDADE, GLSL_RUIDO}) {
+  function create({THREE, K, TEX_CIDADE, GLSL_RUIDO, AP_LUZ = false, AP_ESPEC = false}) {
 const BLOCO_MURO = `#include <color_fragment>
     {
       // Direcao ao longo do muro, pela derivada da posicao de mundo (ver a nota do
@@ -53,7 +53,13 @@ const BLOCO_MURO = `#include <color_fragment>
     }
     function muros() {
   const mat = new THREE.MeshPhongMaterial({
-      vertexColors:true, side:THREE.DoubleSide, shininess:0, specular:0x000000,
+      // Muro e alvenaria pintada, mesma familia do reboco da fachada: brilho fraco e
+      // LARGO (10). Com `flatShading` cada quad tem uma normal so, entao o realce nao
+      // varia DENTRO do painel -- ele acende o muro virado pro sol e deixa o resto
+      // quieto, que e o que uma foto mostra. Portado do v15 com a chave.
+      vertexColors:true, side:THREE.DoubleSide,
+      shininess: (AP_LUZ && AP_ESPEC) ? 10 : 0,
+      specular:  (AP_LUZ && AP_ESPEC) ? 0x0B0B0A : 0x000000,
       flatShading:true });
   mat.onBeforeCompile = sh => {
     sh.vertexShader = "attribute float aDetailHidden;\nvarying float vDetailHidden;\nattribute float aMv;\nvarying float vMv;\nvarying vec3 vMw;\n" +

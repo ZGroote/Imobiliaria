@@ -1,7 +1,7 @@
 /* Road-strip materials: preserve palette, feature flags and shader cache keys. */
 (function(root) {
   "use strict";
-  function create({THREE, AP_RUA, K, GLSL_RUIDO}) {
+  function create({THREE, AP_RUA, K, GLSL_RUIDO, AP_LUZ = false, AP_ESPEC = false}) {
 /* O que a `rua_foto` mexe DENTRO do shader. Vai interpolado no fonte, e nao como
    uniform, por dois motivos: e constante pra pagina inteira (a chave e da cidade, nao
    da via), e assim o compilador do GLSL apaga o ramo que sobra em vez de o ramo viajar
@@ -90,7 +90,15 @@ ${RUA_ROLAMENTO}      }
 }
 
 function matVia(cor, calcada) {
-  const m = new THREE.MeshPhongMaterial({ color:cor, shininess:0, specular:0x000000,
+  /* Asfalto e a superficie MAIS especular de uma foto de rua -- em angulo rasante o sol
+     nele e a coisa mais clara do quadro depois do ceu, e aqui ele era Lambert puro, igual
+     a calcada e ao muro. Calcada de concreto e quase fosca (8); pista ganha lobo LARGO
+     (26), nao lobo de espelho -- asfalto seco espalha, so molhado reflete. Constante de
+     material: zero chamada de desenho. Portado do v15 com a chave. */
+  const esp = AP_LUZ && AP_ESPEC;
+  const m = new THREE.MeshPhongMaterial({ color:cor,
+    shininess: esp ? (calcada ? 8 : 26) : 0,
+    specular:  esp ? (calcada ? 0x0A0A0B : 0x151719) : 0x000000,
     polygonOffset:true, polygonOffsetFactor:-1, polygonOffsetUnits:-1 });
   m.onBeforeCompile = sh => {
     sh.uniforms.uCalcada = { value: calcada ? 1 : 0 };

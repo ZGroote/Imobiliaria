@@ -2,7 +2,18 @@
 (function(root) {
   "use strict";
   function create({THREE, ARV, terrainY, getRelief, target, SOMBRA_CIDADE, getLive,
-                  projeta = false}) {
+                  projeta = false, AP_LUZ = false, AP_ESPEC = false}) {
+/* Um lugar so pro material da arvore: ele nasce nos DOIS caminhos (o remendo
+   incremental e a refeitura completa), e enquanto foram dois literais iguais qualquer
+   mudanca precisava ser feita em duplicata -- o tipo de par que ja mordeu este projeto.
+   Folha tem cuticula: brilha fraco e razoavelmente estreito, e e por isso que uma
+   arvore ao sol tem pontos claros no meio do verde. Portado do v15 com a chave. */
+function matArvore() {
+  const esp = AP_LUZ && AP_ESPEC;
+  return new THREE.MeshPhongMaterial({ vertexColors:true,
+    shininess: esp ? 24 : 0, specular: esp ? 0x0D140A : 0x000000 });
+}
+
 /* Uma InstancedMesh POR ESPECIE, global -- nao uma malha por quarteirao.
 
    A primeira tentativa mesclou as arvores do quarteirao num buffer so, o que dava
@@ -105,7 +116,7 @@ function arvGarante(sp, n) {
   if (im) { gArv.remove(im); im.dispose(); }
   const cap = 1 << Math.ceil(Math.log2(Math.max(64, n)));
   im = new THREE.InstancedMesh(arvGeometria(ARV.cat[sp]),
-        new THREE.MeshPhongMaterial({ vertexColors:true, shininess:0, specular:0x000000 }), cap);
+        matArvore(), cap);
   im.castShadow = projeta && SOMBRA_CIDADE; im.receiveShadow = SOMBRA_CIDADE;
   // Uma InstancedMesh cobre a cidade visivel inteira: nenhuma esfera de corte
   // ajuda, e o teste custaria mais que os 20 desenhos que ela evita.
@@ -236,7 +247,7 @@ function refazArvoresTotal() {
       if (im) { gArv.remove(im); im.dispose(); }
       const cap = 1 << Math.ceil(Math.log2(Math.max(64, lista.length)));
       im = new THREE.InstancedMesh(arvGeometria(ARV.cat[i]),
-            new THREE.MeshPhongMaterial({ vertexColors:true, shininess:0, specular:0x000000 }), cap);
+            matArvore(), cap);
       im.castShadow = projeta && SOMBRA_CIDADE; im.receiveShadow = SOMBRA_CIDADE;
       // Uma InstancedMesh cobre a cidade visivel inteira: nenhuma esfera de corte
       // ajuda, e o teste custaria mais que os 20 desenhos que ela evita.
