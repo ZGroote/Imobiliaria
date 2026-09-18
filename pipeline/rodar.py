@@ -106,7 +106,7 @@ ETAPAS = [
      ["pipeline/fontes/vegetacao.py"], [], [F("vegetacao")], True,
      "substitui o 'e parque ou nao e' do OSM por um numero continuo; ~2 min por cidade"),
     ("0.9", "OpenPlots: plantas",
-     ["baixar_openplots.py"], [], [F("plantas")], True, "retomavel"),
+     ["pipeline/plantas/baixar_openplots.py"], [], [F("plantas")], True, "retomavel"),
 
     ("0a", "Cruza OSM x Overture",
      ["merge_osm_overture.py"], [F("city_bruto"), F("osm_predios")],
@@ -119,7 +119,7 @@ ETAPAS = [
      ["pipeline/city_base.py"], [F("city_v2"), F("faces_ruas")], [F("city_base")], False,
      "reordena b[] por quadra e emite bl[]; e o que o streaming le"),
     ("0d", "Plantas -> lotes oficiais",
-     ["pipeline/plantas/rodar_tudo.py", "v7/pipeline/relatorio.py"], [F("plantas")],
+     ["pipeline/plantas/rodar_tudo.py", "pipeline/plantas/relatorio.py"], [F("plantas")],
      [F("relatorio_plantas")], False,
      "vetoriza+georreferencia planta a planta; ~1 subprocesso por planta. "
      "quem escreve o CSV e o relatorio.py -- sem ele a etapa nunca fica fresca"),

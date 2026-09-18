@@ -21,7 +21,9 @@ MIGRADAS = {'0c': ('pipeline/city_base.py', 'v4/build_city_v4.py'),
             '0e-consolida': ('pipeline/consolidar.py', 'v7/pipeline/consolidar.py'),
             '0e-audita': ('pipeline/auditoria_tamanhos.py', 'v7/pipeline/auditoria_tamanhos.py'),
             '0e-filtra': ('pipeline/filtrar_confiaveis.py', 'v7/pipeline/filtrar_confiaveis.py'),
-            '0d': ('pipeline/plantas/rodar_tudo.py', 'v7/pipeline/rodar_tudo.py')}
+            '0d': ('pipeline/plantas/rodar_tudo.py', 'v7/pipeline/rodar_tudo.py'),
+            '0d-relatorio': ('pipeline/plantas/relatorio.py', 'v7/pipeline/relatorio.py'),
+            '0.9': ('pipeline/plantas/baixar_openplots.py', 'v7/pipeline/baixar_openplots.py')}
 
 # Ferramenta de planta: tinha DUAS cópias idênticas (plantas_pipeline/ e v7/pipeline/) e
 # agora tem uma fonte só, com invocador em cada caminho antigo. `plantas_pipeline/` segue
@@ -31,6 +33,11 @@ FERRAMENTAS = {'pipeline/plantas/rodar_tudo.py':
 for _n in ('vetorizar_planta', 'georreferenciar_planta', 'ler_escala', 'rodar_escalas',
            'casar_nomes', 'conferir_encaixe', 'overlay_planta', 'mapa_qa'):
     FERRAMENTAS['pipeline/plantas/%s.py' % _n] = ['plantas_pipeline/%s.py' % _n]
+FERRAMENTAS['pipeline/plantas/relatorio.py'] = ['plantas_pipeline/relatorio.py',
+                                                'v7/pipeline/relatorio.py']
+# O baixador nao tinha copia em `plantas_pipeline/`: o par era raiz x `v7/pipeline/`.
+FERRAMENTAS['pipeline/plantas/baixar_openplots.py'] = ['baixar_openplots.py',
+                                                       'v7/pipeline/baixar_openplots.py']
 
 
 class PipelinePathTests(unittest.TestCase):
@@ -63,6 +70,15 @@ class PipelinePathTests(unittest.TestCase):
         for canonico in FERRAMENTAS:
             fonte = (RAIZ / canonico).read_text(encoding='utf-8')
             self.assertNotIn('C:/Users', fonte, canonico)
+
+    def test_the_downloader_writes_under_the_project_root(self):
+        """As duas cópias byte a byte iguais tiravam `OUT` de `__file__`, então rodar a
+        do `v7/pipeline/` baixava as 265 plantas para `v7/pipeline/plantas_openplots/` e
+        a etapa 0.9 seguia achando a pasta vazia. Agora a âncora é a raiz."""
+        import runpy
+        alvo = runpy.run_path(str(RAIZ / 'pipeline/plantas/baixar_openplots.py'))
+        self.assertEqual(Path(alvo['OUT']), RAIZ / 'plantas_openplots')
+        self.assertEqual(Path(alvo['SRC_HTML']).parent, RAIZ / 'plantas_openplots')
 
     def test_the_wrapper_runs_the_step_as_a_program(self):
         """Parte das etapas é script de linha reta: o trabalho acontece no import, sem

@@ -133,7 +133,7 @@ EPSG:31983 (zona 23), sem intervenção. Errar o fuso não dá erro — dá cida
 
 ### 1.4 OpenPlots — as plantas urbanísticas
 
-    python baixar_openplots.py                 # 265 plantas (retomável)
+    python pipeline/plantas/baixar_openplots.py   # 265 plantas (retomável)
     python pipeline/plantas/rodar_tudo.py     # vetoriza + georreferencia, 1 subprocesso por planta
     python v7/pipeline/consolidar.py           # arbitra por quadra -> lotes_oficiais
     python v7/pipeline/filtrar_confiaveis.py   # aplica o gabarito  -> lotes_planta
