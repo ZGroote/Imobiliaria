@@ -55,6 +55,7 @@
   "interior/editor-visuals.js",
   "interior/editor-pointer.js",
   "interior/frame.js",
+  "interior/editor-panel.js",
   "interior/entry.js",
   "interior/environment-probe.js",
   "app.js"

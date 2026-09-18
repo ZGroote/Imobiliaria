@@ -1,0 +1,12 @@
+{
+  "oracle": "3e39a13",
+  "before_page": "work/interior-entry",
+  "after_page": "work/editor-panel",
+  "probes": ["--listing", "--editor", "--pointer-editor"],
+  "identical": ["camera", "groups", "queue", "geometries", "textures", "urban", "dpr", "quality",
+                "viewport", "diagnostics", "listing", "editor", "pointerEditor", "image"],
+  "differ": ["times", "page"],
+  "image_byte_identical": true,
+  "deferred_lookups": ["igir", "idel", "FurnitureEditor.seleciona"],
+  "tests": {"node": 90, "python": 12}
+}
