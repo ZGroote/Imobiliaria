@@ -1,0 +1,28 @@
+  /* ---- Celular: manche de caminhada e painel que encolhe ------------------
+     Dentro do imovel o teclado nao existe. O manche e um alvo de dedo de 112 px que
+     devolve um vetor continuo -- nao um pad de setas, porque andar em quatro direcoes
+     dentro de um comodo de 3 m e sofrivel. Fica no canto esquerdo, longe do painel de
+     mobilia, e so aparece em ponteiro grosso e em primeira pessoa. */
+  #joy{position:fixed;left:14px;bottom:14px;width:114px;height:114px;border-radius:50%;
+    z-index:5;display:none;touch-action:none;background:rgba(15,21,28,.40);
+    border:1px solid var(--line);backdrop-filter:blur(8px)}
+  #joy.on{display:block}
+  #joy i{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;
+    border-radius:50%;background:rgba(231,235,240,.55);border:1px solid rgba(255,255,255,.32);
+    will-change:transform}
+  #ipanel .dobra{position:absolute;top:8px;right:32px;font-size:12px;opacity:.4;
+    cursor:pointer;line-height:1;display:none;user-select:none}
+  #ipanel .dobra:hover{opacity:.9}
+  #ipanel.min .cat,#ipanel.min #iEdit,#ipanel.min .dica,#ipanel.min .naoconf,
+  #ipanel.min #iPredioRow{display:none}
+  #ipanel.min .row{margin-top:8px}
+  @media (max-width:820px),(pointer:coarse){
+    #ipanel .dobra{display:block}
+    #ipanel{max-height:46vh}
+  }
+  /* O manche mora no canto esquerdo de baixo; o painel de mobilia cede essa faixa. */
+  @media (max-width:640px){ #ipanel{left:140px} }
+  /* Altura, Relevo e Muros sao controles da CIDADE. Dentro do imovel nao operam nada,
+     e no celular ficam exatamente embaixo do painel de mobilia. */
+  body.dentro #panel{display:none}
+

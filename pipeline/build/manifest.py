@@ -19,6 +19,8 @@ def entradas(config):
                                           'corpo.html', 'rabo.html',
                                           'lib/three.min.js', 'lib/earcut.min.js'))
     paths.add(config.fonte / 'modules.json')
+    # a ordem das folhas de estilo e semantica: trocar o manifesto muda a pagina
+    paths.add(config.fonte / 'estilos.json')
     for key in ('imoveis', 'chao_tris', 'muros', 'rua_tris', 'relevo', 'portoes',
                 'vegetacao', 'city_saida', 'arvores', 'pois', 'lotes', 'lotes_visualizacao'):
         value = cid._fontes.get(key, [])

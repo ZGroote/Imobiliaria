@@ -31,7 +31,7 @@ sys.path.insert(0, RAIZ)
 from padrao.cidade import carrega, lista
 
 from pipeline.build.config import resolve, V_PADRAO, VERSAO
-from pipeline.build import blocos as blocos_dado, pacotes
+from pipeline.build import blocos as blocos_dado, folhas, pacotes
 from pipeline.build.html import comprime, confere
 
 
@@ -65,7 +65,7 @@ def monta(carimbo=None, config=None):
               '<script type="application/json" id="__textura">', blocos_dado.bloco_textura(), "</script>\n",
               "<script>", ler("lib/three.min.js"), "</script>\n",
               "<script>", ler("lib/earcut.min.js"), "</script>\n",
-              "<style>", ler("estilo.css"), "</style>\n"]
+              "<style>", folhas.folha(config), "</style>\n"]
     for ident, chave in blocos_dado.DADOS:
         if ident == "__arvores":
             partes += ['<script type="application/json" id="%s">' % ident,
