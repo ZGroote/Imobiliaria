@@ -1878,11 +1878,6 @@ async function boot() {
 // A VITRINE VEM DE FORA. Estes anuncios eram 6 imoveis de Sao Carlos escritos aqui
 // dentro -- e no mapa de Araraquara apareciam do mesmo jeito, com bairro e preco de
 // outro municipio. O bloco e opcional: cidade sem vitrine cadastrada recebe [].
-const HOUSES = (function () {
-  try { return JSON.parse(document.getElementById("__imoveis").textContent); }
-  catch (e) { return []; }
-})();
-
 const brl = v => "R$ " + v.toLocaleString("pt-BR");
 
 function flyTo(x, z, radius) {
@@ -1901,43 +1896,14 @@ function flyTo(x, z, radius) {
 }
 
 const hsheet = $("hsheet");
-let HOUSE_ATUAL = null;   // o anuncio SEM planta que esta na ficha simples
-function openHouseSheet(house) {
-  const hx = px(house.lon), hz = pz(house.lat);
-  HOUSE_ATUAL = { h: house, x: hx, z: hz };
-  listingSheet.preencheAnuncio(house);
-  hsheet.classList.add("on");
-  hsheet.classList.remove("min");
-  usheet.classList.remove("on");
-  closePoiSheet();
-  houseBeacon.position.set(hx, 0, hz);
-  houseBeacon.visible = true;
-  flyTo(hx, hz, 190);
-}
-$("hModel").addEventListener("click", () => { if (HOUSE_ATUAL) ListingModels.open(HOUSE_ATUAL.h.id); });
-$("hx").addEventListener("click", () => { hsheet.classList.remove("on"); houseBeacon.visible = false; });
-// O anuncio sem planta nao tem visita 3D, mas tem endereco -- e a vizinhanca dele e
-// exatamente a mesma pergunta.
-$("hPerto").addEventListener("click", () => {
-  if (!HOUSE_ATUAL) return;
-  const a = HOUSE_ATUAL;
-  abrePerto({ x: a.x, z: a.z, nome: a.h.titulo,
-              volta: () => { hsheet.classList.add("on"); hsheet.classList.remove("min");
-                             houseBeacon.position.set(a.x, 0, a.z);
-                             houseBeacon.visible = true;
-                             flyTo(a.x, a.z, 190); } });
-});
-
 const housesBox = $("houses");
-for (const h of HOUSES) {
-  const el = document.createElement("button");
-  el.type = "button";
-  el.className = "hitem";
-  el.innerHTML = `<div class="t">${h.titulo}</div><div class="b">${h.bairro}</div>` +
-    `<div class="p ${h.tipo === "aluguel" ? "rent" : "sale"}">${brl(h.preco)}${h.tipo === "aluguel" ? "/mês" : ""}</div>`;
-  el.addEventListener("click", () => openHouseSheet(h));
-  housesBox.appendChild(el);
-}
+// Ficha do anuncio SEM planta (vitrine publica, farol e voo): ver listings/house-sheet.js.
+// A ficha (a peca compartilhada com o imovel cadastrado), a ficha do POI e o "por perto"
+// nascem depois neste arquivo, entao entram por leitor ou chamada adiada; `usheet` entra
+// pelo proprio `$`, que ja acha o elemento no documento.
+HouseSheet.create({document, $, px, pz, brl, getSheet:()=>listingSheet,
+  ListingModels, hsheet, usheet:$("usheet"), housesBox, houseBeacon, flyTo,
+  closePoiSheet:()=>closePoiSheet(), abrePerto:ctx=>abrePerto(ctx)});
 
 /* ------------------------------------------------------------
    Navegação: botão esquerdo arrasta o mapa, direito gira a câmera.
