@@ -19,7 +19,9 @@ _CID = _carrega(_os.environ.get("CIDADE", "sao-carlos"))
 # Estes dois gravavam na RAIZ enquanto o pipeline lia de v7/dados/ -- alguem movia o
 # arquivo a mao entre uma etapa e a outra, e isso nao aparecia em lugar nenhum.
 # Agora o destino sai do JSON da cidade, igual ao resto.
-PROJ = "C:/Users/respawn/Desktop/imobiliaria/"
+# A raiz sai do proprio arquivo, e nao do caminho absoluto da maquina de quem
+# escreveu: este script mora em `pipeline/`, um nivel abaixo da raiz.
+PROJ = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))).replace(chr(92), "/") + "/"
 PIPE = PROJ + "plantas_pipeline/"
 FWD = Transformer.from_crs("EPSG:4326", "EPSG:29193", always_xy=True)
 def toutm(x, y, z=None): return FWD.transform(x, y)

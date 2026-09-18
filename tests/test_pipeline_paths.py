@@ -38,6 +38,12 @@ FERRAMENTAS['pipeline/plantas/relatorio.py'] = ['plantas_pipeline/relatorio.py',
 # O baixador nao tinha copia em `plantas_pipeline/`: o par era raiz x `v7/pipeline/`.
 FERRAMENTAS['pipeline/plantas/baixar_openplots.py'] = ['baixar_openplots.py',
                                                        'v7/pipeline/baixar_openplots.py']
+# A etapa 0e tinha uma TERCEIRA copia em `plantas_pipeline/`, anterior ao conserto que
+# a fez ler o caminho do JSON da cidade: ela gravava na raiz enquanto o pipeline lia de
+# v7/dados/, e o filtro seguinte devolvia zero lote confiavel sem erro nenhum.
+for _n in ('auditoria_tamanhos', 'consolidar', 'filtrar_confiaveis'):
+    FERRAMENTAS['pipeline/%s.py' % _n] = ['plantas_pipeline/%s.py' % _n,
+                                          'v7/pipeline/%s.py' % _n]
 
 
 class PipelinePathTests(unittest.TestCase):

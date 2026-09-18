@@ -13,7 +13,9 @@ _CID = _carrega(os.environ.get("CIDADE", "sao-carlos"))
 # Gravava na RAIZ enquanto o pipeline lia de v7/dados/ -- alguem movia o arquivo a mao
 # entre uma etapa e a outra, e isso nao aparecia em lugar nenhum. Agora o destino sai
 # do JSON da cidade, igual ao resto.
-PROJ = "C:/Users/respawn/Desktop/imobiliaria/"
+# A raiz sai do proprio arquivo, e nao do caminho absoluto da maquina de quem
+# escreveu: este script mora em `pipeline/`, um nivel abaixo da raiz.
+PROJ = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace(chr(92), "/") + "/"
 PIPE = PROJ + "plantas_pipeline/"
 SAUDE_MIN = float(os.environ.get("SAUDE_MIN", "0.50"))   # % minimo de lotes no padrao
 

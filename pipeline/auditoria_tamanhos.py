@@ -11,7 +11,9 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")))
 from padrao.cidade import carrega as _carrega
 _CID = _carrega(os.environ.get("CIDADE", "sao-carlos"))
-PROJ = "C:/Users/respawn/Desktop/imobiliaria/"
+# A raiz sai do proprio arquivo, e nao do caminho absoluto da maquina de quem
+# escreveu: este script mora em `pipeline/`, um nivel abaixo da raiz.
+PROJ = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace(chr(92), "/") + "/"
 PIPE = PROJ + "plantas_pipeline/"
 
 def padroes(fr, fu, ar, passo=0.5, cobre=0.65, teto=4):
