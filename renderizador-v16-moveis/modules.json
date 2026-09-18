@@ -64,5 +64,7 @@
   "interior/editor-panel.js",
   "interior/entry.js",
   "interior/environment-probe.js",
+  "ui/perf-meter.js",
+  "ui/keyboard.js",
   "app.js"
 ]

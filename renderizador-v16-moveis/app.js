@@ -2385,43 +2385,6 @@ function criaRotulos(pl) {
   }
 }
 
-addEventListener("keydown", e => {
-  if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
-  const k = e.key.toLowerCase();
-  // Antes do corte por INT.on: o medidor serve dentro e fora da casa, e é justamente
-  // fora (cidade inteira na tela) que o número interessa.
-  if (k === "p") { mostraPerf(!perfOn); return; }
-  if (INT.on && k === "escape") {
-    // Tres degraus, do mais local pro mais global. Sem eles o Esc de "desisti de
-    // mover" jogava a pessoa pra fora da casa inteira.
-    if (MOB.modo) { cancelaGesto(); return; }
-    if (MOB.on) { modoMoveis(false); return; }
-    exitInterior(); return;
-  }
-  if (!INT.on) return;
-  if (k === "delete") { excluiSel(); e.preventDefault(); return; }
-  if (k === "r") { giraSel(); return; }
-  if (k === "w" || k === "arrowup") teclas.w = 1;
-  else if (k === "s" || k === "arrowdown") teclas.s = 1;
-  else if (k === "a" || k === "arrowleft") teclas.a = 1;
-  else if (k === "d" || k === "arrowright") teclas.d = 1;
-  else if (k === "q") teclas.q = 1;
-  else if (k === "e") teclas.e = 1;
-  else return;
-  teclas.shift = e.shiftKey ? 1 : 0;
-  e.preventDefault();
-});
-addEventListener("keyup", e => {
-  const k = e.key.toLowerCase();
-  if (k === "w" || k === "arrowup") teclas.w = 0;
-  else if (k === "s" || k === "arrowdown") teclas.s = 0;
-  else if (k === "a" || k === "arrowleft") teclas.a = 0;
-  else if (k === "d" || k === "arrowright") teclas.d = 0;
-  else if (k === "q") teclas.q = 0;
-  else if (k === "e") teclas.e = 0;
-  teclas.shift = e.shiftKey ? 1 : 0;
-});
-addEventListener("blur", () => { for (const k in teclas) teclas[k] = 0; FP.mov.x = FP.mov.z = 0; });
 
 // Passo em primeira pessoa e manche do celular: ver interior/first-person.js.
 const {fpPasso, mostraJoy} = FirstPerson.create({FP, teclas, livre, joy: $("joy"), TOQUE});
@@ -2663,31 +2626,15 @@ const governa = governor.update;
 let _cpuMs = 0;
 
 /* ---- medidor ------------------------------------------------------------ */
-const perfBox = $("perf");
-let perfOn = QS.get("perf") === "1", _perfT = 0;
-function mostraPerf(v) {
-  perfOn = v; perfBox.hidden = !v;
-  if (v) $("pfGpu").textContent = GPU || "GPU não identificada (extensão bloqueada)";
-}
-mostraPerf(perfOn);
-function pintaPerf(now) {
-  if (!perfOn || now - _perfT < 260) return;
-  _perfT = now;
-  const med = governor.frameMs || 0, fps = med > 0 ? 1000/med : 0;
-  const t = $("pfFps");
-  t.textContent = fps ? fps.toFixed(0) + " FPS" : "—";
-  t.className = "t " + (fps >= 50 ? "ok" : fps >= 28 ? "mid" : "bad");
-  const i = renderer.info;
-  $("pfMs").textContent  = med ? med.toFixed(1) + " ms" : "—";
-  $("pfCpu").textContent = _cpuMs.toFixed(1) + " ms";
-  $("pfDc").textContent  = i.render.calls;
-  $("pfTri").textContent = (i.render.triangles/1e3).toFixed(0) + "k";
-  $("pfPrg").textContent = i.programs ? i.programs.length : "—";
-  $("pfGeo").textContent = i.memory.geometries;
-  $("pfDpr").textContent = governor.dpr.toFixed(2) + "× · " + NIVEL_NOME;
-  $("pfQt").textContent  = gLive.size + (streaming.pending ? " +" + streaming.pending : "");
-  $("pfSom").textContent = NIVEL.somMap + (NIVEL.somSuave ? " suave" : "");
-}
+// Numeros do HUD: ver ui/perf-meter.js. `_cpuMs` fica aqui, onde o laco o escreve.
+const {mostraPerf, pintaPerf, ligado:perfLigado} = PerfMeter.create({$, QS, GPU, governor,
+  renderer, NIVEL, NIVEL_NOME, gLive, streaming, getCpuMs:()=>_cpuMs});
+
+// Teclado (P do medidor, Esc em tres degraus, Del/R no movel, WASD/setas e o "solta tudo"
+// ao perder o foco): ver ui/keyboard.js. Criado aqui, e nao no lugar de origem, porque tudo
+// que ele aciona -- painel, saida da casa, medidor -- nasce acima desta linha.
+Keyboard.create({addEventListener, teclas, INT, MOB, FP, mostraPerf, perfLigado,
+  cancelaGesto, modoMoveis, exitInterior, excluiSel, giraSel});
 
 const alvoSombra = new THREE.Vector3(1e9, 0, 1e9);
 let _semRaf = false;   // ligado so durante __perf.passo()

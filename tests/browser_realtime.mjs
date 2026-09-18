@@ -395,6 +395,24 @@ try {
       return out;
     })()`);
   }
+  if (process.argv.includes('--meter')) {
+    // HUD meter in the real page: the P shortcut shows it, a frame fills it, P hides it.
+    result.meter = await evaluate(`(async () => {
+      const I = __int, P = __perf, g = id => document.getElementById(id), out = [];
+      const campos = ['pfFps','pfMs','pfCpu','pfDc','pfTri','pfPrg','pfGeo','pfDpr','pfQt','pfSom','pfGpu'];
+      const snap = label => out.push([label, g('perf').hidden,
+        campos.map(id => [id, g(id).textContent, g(id).className])]);
+      const tecla = k => dispatchEvent(new KeyboardEvent('keydown', {key: k, bubbles: true, cancelable: true}));
+      snap('start');
+      tecla('p'); snap('shown');
+      // O medidor só reescreve a cada 260 ms de relógio; dois passos afastados bastam.
+      P.passo(2000000); snap('first frame');
+      P.passo(2000400); snap('second frame');
+      tecla('p'); snap('hidden');
+      tecla('p'); P.passo(2001000); snap('shown again');
+      return out;
+    })()`);
+  }
   if (process.argv.includes('--search')) {
     // Search box in the real page: typing, arrow keys, Enter and the click on a result.
     result.search = await evaluate(`(async () => {
