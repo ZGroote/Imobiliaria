@@ -1,0 +1,12 @@
+{
+  "oracle": "0159611",
+  "before_page": "work/environment-probe",
+  "after_page": "work/interior-entry",
+  "probes": ["--listing", "--editor", "--floor-map"],
+  "identical": ["camera", "groups", "queue", "geometries", "textures", "urban", "dpr",
+                "quality", "viewport", "diagnostics", "listing", "floorMap", "editor", "image"],
+  "differ": ["times", "page"],
+  "image_byte_identical": true,
+  "tdz_fixed": "$(\"isair\") passou a chamar exitInterior no clique: registrar por valor lia a constante do módulo antes da inicialização",
+  "tests": {"node": 88, "python": 12}
+}
