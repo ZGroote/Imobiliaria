@@ -16,27 +16,37 @@ são a única cidade na versão recente do renderizador.
 | Build, QA e publicação concordam | montar → `sao-carlos-v16-moveis-aberto.html`; QA → `cidade=sao-carlos variante=v16-moveis`; publicar aceita `--variante` e confere tiles | **ok** |
 | Fluxos e limites do `PADRAO.md`, incl. `file://` | **19 portões, 0 reprovados, 0 não medidos**; `abre em file:// (duplo clique)`: 1 de 1 página pronta | **ok** |
 | Scripts antigos têm caminho canônico | duplicata textual em código: **2**, e as duas são `three.min.js`/`earcut.min.js`, biblioteca de terceiros entre pastas de variante | **ok** |
-| Artefatos e persistência preservados | página aberta: 32,84 MB, `sombra_projetada` presente, 69 módulos concatenados | **parcial — ver falha** |
+| Artefatos e persistência preservados | as **duas** páginas de 18/09 17:29, com `sombra_projetada` e o mesmo carimbo; publicado servido por HTTP com **1.027.020 vértices de quintal** e zero CORS barrado | **ok** |
 
-## A falha, e ela é real
+## A falha que havia, e como ela fechou
 
-**A página comprimida está defasada.** `sao-carlos-v16-moveis.html` é de 14/09 02:18:
-13,96 MB, **sem** `sombra_projetada` e sem os módulos concatenados. A página aberta é de
-hoje e tem as duas coisas. As duas convivem na mesma pasta descrevendo builds diferentes,
-com quatro dias de modularização entre elas.
+A página comprimida era de 14/09 — sem `sombra_projetada` e sem os módulos —, enquanto a
+aberta já era de hoje. Como `pipeline/publicar.py` parte da comprimida, **publicar
+publicava a página de 14/09**; testei, vi os 13,96 MB, removi o artefato e devolvi o
+`index.html` ao de 11/09.
 
-Causa: as remontagens de hoje usaram `--sem-zip`, e remontar a comprimida custa ~11 min
-porque **qualquer** mudança no JSON da cidade invalida o cache de encaixe (o hash inclui
-`cid._d` inteiro), mesmo uma chave de aparência que não move um lote.
+Remontado em 18/09 17:29. As duas páginas agora carregam a chave e o **mesmo carimbo**
+(`sao-carlos / v16-moveis / 2026-09-18 17:29`).
 
-Consequência prática, medida: `pipeline/publicar.py` parte da comprimida, então **publicar
-hoje publica a página de 14/09**. Rodei o comando para testar, vi o tamanho de 13,96 MB,
-removi o artefato e apontei o `index.html` de volta para o de 11/09, que está intacto
-(`64a4258bfc48`, hash que confere com o próprio nome). Nada saiu da máquina — o script
-não faz deploy.
+**A remontagem levou 3,3 s, não os ~11 min previstos.** O custo do cache de encaixe é de
+UMA vez: a montagem logo após promover a chave pagou 11m28 (o hash inclui `cid._d`
+inteiro, então uma chave de aparência que não move um lote invalida tudo), e a seguinte
+já achou o cache válido. Promover atrapalha uma vez, não o ciclo curto.
 
-**Adiado a pedido.** Enquanto não for remontada, o aceite de publicação fica *não medido*,
-não aprovado.
+**O mapa publicado foi testado servido por HTTP**, que é como o Firebase serve — e não
+por `file://`, que é como todas as outras sondas abrem a página. Medido:
+
+| | file:// | HTTP |
+|---|---|---|
+| fetch barrado por CORS | dezenas | **0** |
+| malha de quintal | ausente | **1.027.020 vértices** |
+| avisos de quintal no console | contínuos | **0** |
+
+São os 64.769 lotes de quintal que não existiam em nenhuma página aberta por duplo
+clique. Ver `[[mapa-3d-quintais-tiles-externos]]`.
+
+**Os 19 portões foram rodados de novo no artefato exato** que está publicado (17:29), e
+não só no build anterior: 19 portões, 0 reprovados, 0 não medidos, 837 s.
 
 ## O que os portões mediram hoje
 
@@ -80,7 +90,7 @@ baixo da sombra o apaga.
 
 Estas coisas não foram medidas e **não contam como aprovadas**:
 
-- **Publicação real** — depende da remontagem da página comprimida (acima).
+- ~~Publicação real~~ — **feita e medida** (acima).
 - **Desempenho em GPU real** — todas as medidas de hoje saíram do rasterizador de software
   do Chrome headless, onde o quadro leva ~750 ms. Draw call e triângulo são comparáveis
   (não dependem da GPU); tempo de quadro não é.

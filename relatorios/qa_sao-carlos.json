@@ -1,0 +1,162 @@
+{
+ "cidade": "sao-carlos",
+ "quando": "2026-09-18 17:47",
+ "versao": "v16-moveis",
+ "comportamento_medido": true,
+ "reprovados": 0,
+ "nao_medidos": [],
+ "portoes": [
+  {
+   "nome": "tabela de vias (HTML x JSON)",
+   "familia": "geometria",
+   "valor": true,
+   "limite": true,
+   "passou": true,
+   "detalhe": "identicas"
+  },
+  {
+   "nome": "cidade fora do codigo do renderizador",
+   "familia": "geometria",
+   "valor": 0,
+   "limite": 0,
+   "passou": true,
+   "detalhe": "limpo"
+  },
+  {
+   "nome": "muro sobre a rua",
+   "familia": "geometria",
+   "valor": 0.14303132843793234,
+   "limite": 1.0,
+   "passou": true,
+   "detalhe": "6.9 km de 4831 km | 0.22% dos segmentos"
+  },
+  {
+   "nome": "lote sobre a rua",
+   "familia": "geometria",
+   "valor": 0.002611175151735265,
+   "limite": 1.0,
+   "passou": true,
+   "detalhe": "110089 lotes | 3371 ha"
+  },
+  {
+   "nome": "frente do lote encostada na rua (mediana)",
+   "familia": "geometria",
+   "valor": 0.004304854091597405,
+   "limite": 0.25,
+   "passou": true,
+   "detalhe": "74174 lotes ocupados"
+  },
+  {
+   "nome": "lote sintetico sem acesso a rua",
+   "familia": "geometria",
+   "valor": 0,
+   "limite": 0,
+   "passou": true,
+   "detalhe": "limpo"
+  },
+  {
+   "nome": "quadra com lote fora do eixo da rua",
+   "familia": "geometria",
+   "valor": 0,
+   "limite": 0,
+   "passou": true,
+   "detalhe": "de 955 quadras de planta"
+  },
+  {
+   "nome": "casa sobre a rua",
+   "familia": "geometria",
+   "valor": 0.556110237253483,
+   "limite": 1.0,
+   "passou": true,
+   "detalhe": "89895 volumes | 455 com mais de 2 m2 no asfalto"
+  },
+  {
+   "nome": "muro fora do chao (na pagina)",
+   "familia": "geometria",
+   "valor": 0.0,
+   "limite": 1.0,
+   "passou": true,
+   "detalhe": "1662540 vertices | erro p50 0.00 p99 0.00 max 0.0 m"
+  },
+  {
+   "nome": "arvore fora da calcada (na pagina)",
+   "familia": "geometria",
+   "valor": 0.0,
+   "limite": 0.0,
+   "passou": true,
+   "detalhe": "1146 arvores de rua | 0 alem da fita, 0 sobre o asfalto | 20 especies vivas, 1992 arvores, 565.060 tris de arvore"
+  },
+  {
+   "nome": "abre em file:// (duplo clique)",
+   "familia": "comportamento",
+   "valor": 0,
+   "limite": 0,
+   "passou": true,
+   "detalhe": "v6 | 59s | 1 de 1 paginas prontas pra duplo clique"
+  },
+  {
+   "nome": "terreno de fundo sem buraco",
+   "familia": "comportamento",
+   "valor": 0,
+   "limite": 0,
+   "passou": true,
+   "detalhe": "v11 | 103s | sao-carlos                199712   4.69   132.54       0       0      4.63  ok"
+  },
+  {
+   "nome": "quadro preguicoso",
+   "familia": "comportamento",
+   "valor": 0,
+   "limite": 0,
+   "passou": true,
+   "detalhe": "v11 | 129s | Tudo passou."
+  },
+  {
+   "nome": "governador de grafico",
+   "familia": "comportamento",
+   "valor": 0,
+   "limite": 0,
+   "passou": true,
+   "detalhe": "v11 | 45s | O governador chega na tela em todas."
+  },
+  {
+   "nome": "arvore remendada",
+   "familia": "comportamento",
+   "valor": 0,
+   "limite": 0,
+   "passou": true,
+   "detalhe": "v11 | 85s | O remendo bate com a reconstrucao completa em todas."
+  },
+  {
+   "nome": "UX: busca, link, noite, minimapa",
+   "familia": "comportamento",
+   "valor": 0,
+   "limite": 0,
+   "passou": true,
+   "detalhe": "v12 | 46s | Todas as cidades passaram."
+  },
+  {
+   "nome": "ficha e 'o que tem por perto'",
+   "familia": "comportamento",
+   "valor": 0,
+   "limite": 0,
+   "passou": true,
+   "detalhe": "v13 | 41s | Tudo passou."
+  },
+  {
+   "nome": "custo do minimapa",
+   "familia": "comportamento",
+   "valor": 0,
+   "limite": 0,
+   "passou": true,
+   "detalhe": "v13 | 102s | Tudo dentro do teto."
+  },
+  {
+   "nome": "exposicao do interior",
+   "familia": "comportamento",
+   "valor": 0,
+   "limite": 0,
+   "passou": true,
+   "detalhe": "v13 | 136s | croma           0.2   0.09 a 1 ok"
+  }
+ ]
+}
