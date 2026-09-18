@@ -35,6 +35,28 @@ fragmento). O v16 e o v16-moveis receberam correções de interior e de canvas q
 voltaram pro v15. Consolidar, portanto, **não é apagar cópia**: é levar capacidade de um
 galho pro outro e só então ficar com uma fonte.
 
+## Medida de promoção (27d, 18/09/2026)
+
+As duas capacidades do galho v15 foram portadas atrás de chave (27b e 27c) e depois
+**medidas nas duas cidades**, em três enquadramentos, com o `mede_cidade.py`:
+
+| capacidade | onde age | quanto | promover? |
+|---|---|---|---|
+| `sombra_projetada` | o quadro inteiro, nos três enquadramentos | `escuro%` de rua 7,08 → 8,87 (Ribeirão) e 8,70 → 12,72 (SC); `faixa` +3,4 e +7,5 | **candidata** — falta refazer as 6 fotos de controle |
+| `especular_fragmento` | só o telhado, visto de cima (92,4% do que ele move) | +2,68 de luminância média no construído no quadro alto; 0,11 no de rua | **não** — o ganho some com a sombra ligada |
+
+Três coisas que essa medida corrigiu:
+
+1. **A medida do 27c estava no enquadramento errado, por um fator de 24.** Especular é
+   luz em superfície larga vista de cima; quadro de rua quase não mostra telhado.
+2. **`realce%` (`lum > 235`) é inalcançável**: o máximo do quadro é 234,5 nas 18
+   combinações, e esses 234,5 são o texto branco do `#panel` que o recorte não exclui a
+   1280×800 — não a cidade, que para em ~227.
+3. **As duas chaves são antagonistas de cima**, não acopladas: a sombra baixa o sol,
+   escurece o telhado e apaga o ganho do especular.
+
+Detalhe em `baseline/promocao-aparencia-results.json`.
+
 ## Consequência pro plano
 
 1. Cada linha da tabela vira uma chave de capacidade, no mesmo mecanismo que a
