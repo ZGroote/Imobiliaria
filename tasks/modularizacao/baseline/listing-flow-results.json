@@ -1,0 +1,13 @@
+{
+  "oracle": "13aeb8c",
+  "before_page": "work/search-box",
+  "after_page": "work/listing-flow",
+  "probes": ["--listing", "--search", "--editor"],
+  "identical": ["camera", "groups", "queue", "geometries", "textures", "urban", "dpr", "quality",
+                "viewport", "diagnostics", "listing", "search", "editor", "image"],
+  "differ": ["times", "page"],
+  "image_byte_identical": true,
+  "caught_by_probe": "listingSheet é usada pelos DOIS fluxos (anúncio e ficha); levá-la pro módulo quebrou openHouseSheet, e o oráculo em vm não teria visto",
+  "removed": "UNID_ATUAL (escrito, nunca lido)",
+  "tests": {"node": 99, "python": 12}
+}

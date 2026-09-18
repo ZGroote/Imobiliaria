@@ -2591,114 +2591,19 @@ const listingIdentity = ListingIdentity.create({units:UNIDADES, getGroups:()=>gG
 const {idDoRegistro, unidadeDoPredio, chaveAncora, predioDeId,
   predioDaUnidade} = listingIdentity;
 
-const iaviso = $("iaviso");
-let escolhendo = null;            // unidade esperando o usuario apontar o predio
-function pedePredio(u, texto) {
-  escolhendo = u;
-  $("iavisoT").textContent = texto ||
-    "Clique no prédio do " + ((u.ficha && u.ficha.empreendimento) || "empreendimento");
-  iaviso.classList.add("on");
-}
-function cancelaEscolha() { escolhendo = null; iaviso.classList.remove("on"); }
-$("iavisoX").addEventListener("click", cancelaEscolha);
-
-function abreUnidade(u, tentativa) {
-  // A vitrine e montada na inicializacao do modulo; a CIDADE chega depois. Clicar no
-  // anuncio nesse meio-tempo achava zero predio e caia no "clique no predio certo" --
-  // que e a resposta pra ancora ausente, nao pra cidade que ainda nao chegou.
-  if (!gGroups.length) {
-    if ((tentativa || 0) < 40) return setTimeout(() => abreUnidade(u, (tentativa||0)+1), 400);
-    pedePredio(u, "A cidade ainda nao carregou. Clique no predio do empreendimento.");
-    return;
-  }
-  const alvo = predioDaUnidade(u);
-  if (!alvo) { pedePredio(u); return; }
-  const rec = alvo.rec;
-  let mx = 0, mz = 0;
-  if (rec) {
-    for (const p of rec.r) { mx += p[0]; mz += p[1]; }
-    mx /= rec.r.length; mz /= rec.r.length;
-  } else {
-    // Unidade de LOTE: o alvo e o proprio terreno. O farol de chao (houseBeacon) ja
-    // marca ponto, nao volume -- e por isso ele serve pro lote sem nenhuma mudanca.
-    mx = alvo.lote.x; mz = alvo.lote.z;
-  }
-  // Voa igual a vitrine sempre voou e acende o farol -- e PARA AQUI. Ate o v12 o
-  // clique caia dentro da casa 980 ms depois; quem so queria saber o que era aquele
-  // anuncio se via em primeira pessoa numa sala, sem ter lido metragem nem comodo, e
-  // com a cidade sumindo atras do corte. Agora a visita 3D e um botao da ficha.
-  houseBeacon.position.set(mx, 0, mz);
-  houseBeacon.visible = true;
-  target.set(mx, 0, mz);
-  streamUpdate(true);
-  flyTo(mx, mz, 190);
-  UNID_ATUAL = u;
-  abreFichaDoImovel(u, rec, alvo.confirmado, mx, mz);
-}
-let UNID_ATUAL = null;
-
-/* ---- a ficha do imovel -------------------------------------------------
-   O que o anuncio diz (preco, quartos, vagas) mais o que a PLANTA diz (quantos
-   comodos, quais, e quantos metros cada um). Os dois vem do mesmo `unidade.json`, e a
-   ficha e o unico lugar da pagina onde eles aparecem juntos. */
 const usheet = $("usheet");
-let FICHA = null;                       // { u, rec, x, z } -- de quem a ficha e agora
+// A ficha e a MESMA peca nos dois fluxos: o anuncio simples (hsheet, la em cima) e a
+// ficha do imovel. Por isso ela nasce aqui, e nao dentro de um dos dois.
 const listingSheet = ListingSheet.create({$, esc, brl, cidade:CIDADE, sheet:usheet,
   listingModels:ListingModels});
-
-function abreFichaDoImovel(u, rec, confirmado, x, z) {
-  FICHA = { u, rec, x, z };
-  listingSheet.preenche(u, confirmado);
-  usheet.classList.add("on");
-  usheet.classList.remove("min");
-  hsheet.classList.remove("on");
-  closePoiSheet();
-}
-// Voltar do "por perto" e reabrir a ficha exatamente como ela estava, inclusive o voo.
-function reabreFicha() {
-  if (!FICHA) return;
-  usheet.classList.add("on");
-  usheet.classList.remove("min");
-  houseBeacon.position.set(FICHA.x, 0, FICHA.z);
-  houseBeacon.visible = true;
-  flyTo(FICHA.x, FICHA.z, 190);
-}
-$("ux").addEventListener("click", () => {
-  usheet.classList.remove("on"); houseBeacon.visible = false;
-});
-$("uEnter").addEventListener("click", () => {
-  if (FICHA) enterInterior(FICHA.rec, FICHA.u);
-});
-$("uPerto").addEventListener("click", () => {
-  if (!FICHA) return;
-  abrePerto({ x: FICHA.x, z: FICHA.z, nome: $("uName").textContent, volta: reabreFicha });
-});
-
-// A vitrine do HTML e a mesma; muda a origem de um dos itens.
-for (const u of UNIDADES) {
-  if (!u.planta || !u.planta.comodos || !u.planta.comodos.length) continue;
-  if (String(u.id).charAt(0) === "_") continue;   // gabarito de formato nao e imovel
-  const f = u.ficha || {};
-  const el = document.createElement("button");
-  el.type = "button";
-  el.className = "hitem";
-  // Lote e predio tem cada um a sua confirmacao, e a palavra na tela muda junto: em
-  // lancamento o que esta por confirmar e o TERRENO, e nao qual predio e o dele.
-  const emLote = !!(u.lote && u.lote.lat != null);
-  const conf = emLote ? u.lote.confirmado === true
-                      : !!(u.ancora && u.ancora.confirmado === true);
-  el.innerHTML = '<div class="t">' + esc(f.empreendimento && f.empreendimento !== "\u2014"
-      ? f.empreendimento : (f.titulo || u.id)) + "</div>" +
-    '<div class="b">' + esc([f.bairro, (u.andar ? u.andar + "\u00ba andar" : null)]
-      .filter(Boolean).join(" \u00b7 ")) +
-      (conf ? "" : ' <span class="aviso">\u00b7 ' + (emLote ? "terreno" : "pr\u00e9dio")
-                   + ' n\u00e3o confirmado</span>') + "</div>" +
-    '<div class="p ' + (f.tipo === "aluguel" ? "rent" : "sale") + '">' +
-      (f.preco ? brl(f.preco) + (f.tipo === "aluguel" ? "/m\u00eas" : "") : "planta 3D") + "</div>";
-  el.dataset.unidade = u.id;   // marca o item que tem interior, e nao so farol
-  el.addEventListener("click", () => abreUnidade(u));
-  housesBox.appendChild(el);
-}
+// Fluxo do anuncio (vitrine, "clique no predio", ficha e volta do "por perto"): ver
+// listings/flow.js. `enterInterior` nasce mais abaixo, entao entra como chamada adiada.
+// Saiu junto o `UNID_ATUAL`, que era escrito e nunca lido.
+const {pedePredio, cancelaEscolha, abreUnidade, getEscolhendo} =
+  ListingFlow.create({document, $, esc, brl, UNIDADES,
+  listingSheet, usheet, hsheet, housesBox, houseBeacon, target, streamUpdate,
+  flyTo, getGroups:()=>gGroups, predioDaUnidade, closePoiSheet, abrePerto,
+  enterInterior:(rec,u)=>enterInterior(rec,u), setTimeout});
 
 /* ---- geometria fixa da casa (piso + divisórias) ----------------------- */
 // Prisma de parede e quad de segmento: ver interior/shell-geometry.js.
@@ -2952,7 +2857,7 @@ function soltaSeta(e) { editorPointer.soltaSeta(e); }
 // acessores; o slot de `poeTipo` e o MESMO que o painel escreve.
 const {registroDoHit, cliqueNaCidade, abreFicha, cliqueInterior} = Picking.create({THREE,
   camera, gBuild, getUrban:()=>urban, guarda, chaveAncora, idDoRegistro, unidadeDoPredio,
-  abreUnidade, cancelaEscolha, getEscolhendo:()=>escolhendo, INT, MOB, CORTE, MOVEIS,
+  abreUnidade, cancelaEscolha, getEscolhendo, INT, MOB, CORTE, MOVEIS,
   dentroDaPlanta, paraUV, alternaLuz, luzDoHit, seleciona, confirmaMover, pintaCatalogo,
   poeNaCena, salvaMoveis, getPoeTipo:()=>poeTipo, setPoeTipo:v=>{ poeTipo = v; }});
 
