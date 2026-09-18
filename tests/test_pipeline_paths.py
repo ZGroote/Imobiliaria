@@ -9,7 +9,11 @@ RAIZ = Path(__file__).resolve().parents[1]
 # etapa migrada -> (caminho canônico, invocador antigo)
 MIGRADAS = {'0c': ('pipeline/city_base.py', 'v4/build_city_v4.py'),
             '6': ('pipeline/muros.py', 'v7/pipeline/gen_muros.py'),
-            '6b': ('pipeline/portoes.py', 'v7/pipeline/gen_portoes.py')}
+            '6b': ('pipeline/portoes.py', 'v7/pipeline/gen_portoes.py'),
+            '1b': ('pipeline/quadras_grafo.py', 'v7/pipeline/quadras_grafo.py'),
+            '2': ('pipeline/quadras_miolo.py', 'v7/pipeline/quadras_miolo.py'),
+            '3': ('pipeline/lotes_sinteticos.py', 'v7/pipeline/lotes_sinteticos.py'),
+            '4': ('pipeline/juntar_lotes.py', 'v7/pipeline/juntar_lotes.py')}
 
 
 class PipelinePathTests(unittest.TestCase):
