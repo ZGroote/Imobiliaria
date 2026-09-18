@@ -31,6 +31,7 @@ sys.path.insert(0, RAIZ)
 from padrao.cidade import carrega, lista
 
 from pipeline.build.config import resolve, V_PADRAO, VERSAO
+from pipeline.build import pacotes
 
 
 def saida(chave, config=None):
@@ -294,47 +295,25 @@ def monta(carimbo=None, config=None):
             raise SystemExit("falta a base da cidade: %s" % p)
         else:
             d = "[]"; print("  (sem %s: bloco %s vazio)" % (os.path.basename(p), ident))
-        if chave == "city_saida" and os.path.exists(os.path.join(FONTE, "urban-models.js")):
-            pack_path = os.path.join(RAIZ, "modelos_urbanos", "v1", "mapa-casas.json")
-            if os.path.exists(pack_path):
-                from pipeline.encaixar_casas_lotes import compile_placements
-                placements = compile_placements(CID, d, io.open(pack_path, encoding="utf-8").read(), RAIZ)
-                city = json.loads(d); city['urbanLots'] = placements
-                d = json.dumps(city, ensure_ascii=False, separators=(',', ':'))
+        if chave == "city_saida":
+            d = pacotes.com_encaixes(config, CID, d)
         partes += ['<script type="application/json" id="%s">' % ident, d, "</script>\n"]
     corpo = ler("corpo.html").replace("{{CIDADE}}", CID.nome)
     corpo = CARIMBO.sub(lambda m: m.group(1) + carimbo + m.group(2), corpo)
     urban = ""
-    if os.path.exists(os.path.join(FONTE, "urban-models.js")):
+    dados_urbanos = pacotes.urbanos(config)
+    if dados_urbanos is not None:
         urban = ler("terrain-fit.js") + "\n" + ler("road-clearance.js") + "\n" + ler("urban-models.js") + "\n"
-        pack = os.path.join(RAIZ, "modelos_urbanos", "v1", "mapa-casas.json")
-        dados = io.open(pack, encoding="utf-8").read() if os.path.exists(pack) else "{}"
-        compact_path = os.path.join(RAIZ, "modelos_urbanos", "v1", "compactos.json")
-        if os.path.exists(pack) and os.path.exists(compact_path):
-            library = json.loads(dados)
-            library['assets'] += json.load(io.open(compact_path, encoding="utf-8"))['assets']
-            dados = json.dumps(library, separators=(',', ':'))
-        partes += ['<script type="application/json" id="__urbanModels">', dados, "</script>\n"]
-    if os.path.exists(os.path.join(FONTE, "exterior-details.js")):
-        exterior_root = os.path.join(RAIZ, "exteriores", "v1")
-        exterior_pack = json.load(io.open(os.path.join(exterior_root, "mapa-exteriores.json"), encoding="utf-8"))
-        exterior_pack['placements'] = (json.load(io.open(os.path.join(exterior_root, "encaixes.json"), encoding="utf-8"))['placements']
-                                       if CID.slug == 'sao-carlos' else [])
-        exterior_pack['props'] = json.load(io.open(os.path.join(exterior_root, "componentes.json"), encoding="utf-8"))['assets']
-        terrain_pack = json.load(io.open(os.path.join(exterior_root, "terrenos-manifesto.json"), encoding="utf-8"))
-        exterior_pack['parcelTiles'] = terrain_pack if CID.slug == 'sao-carlos' else dict(keys=[],parcels=0,size=160)
-        exterior_pack['palette'] = terrain_pack['palette']
-        exterior_pack['aerial'] = json.load(io.open(os.path.join(exterior_root, 'atlas-distante.json'), encoding='utf-8'))
-        import base64
-        exterior_pack['aerial']['image'] = 'data:image/png;base64,' + base64.b64encode(open(os.path.join(exterior_root, 'atlas-distante.png'), 'rb').read()).decode()
+        partes += ['<script type="application/json" id="__urbanModels">', dados_urbanos, "</script>\n"]
+    dados_exteriores = pacotes.exteriores(config, CID)
+    if dados_exteriores is not None:
         partes += ['<script type="application/json" id="__exteriorModels">',
-                   json.dumps(exterior_pack, separators=(',', ':')), "</script>\n"]
+                   dados_exteriores, "</script>\n"]
         urban += ler("exterior-details.js") + "\n"
     listing_js = ""
-    if os.path.exists(os.path.join(FONTE, "listing-models.js")):
-        listing_pack = os.path.join(RAIZ, "modelos_cadastrados", "estudos.json")
-        listing_data = io.open(listing_pack, encoding="utf-8").read() if CID.slug == 'sao-carlos' and os.path.exists(listing_pack) else '{"assets":[]}'
-        partes += ['<script type="application/json" id="__listingModels">', listing_data, "</script>\n"]
+    dados_cadastrados = pacotes.cadastrados(config, CID)
+    if dados_cadastrados is not None:
+        partes += ['<script type="application/json" id="__listingModels">', dados_cadastrados, "</script>\n"]
         listing_js = ler("listing-models.js")
     if (config.fonte / 'modules.json').exists():
         from pipeline.build.scripts import programa
