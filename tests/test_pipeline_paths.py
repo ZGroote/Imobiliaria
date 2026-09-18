@@ -20,7 +20,18 @@ MIGRADAS = {'0c': ('pipeline/city_base.py', 'v4/build_city_v4.py'),
             '7b-ruas': ('pipeline/ruas.py', 'v7/pipeline/gen_ruas.py'),
             '0e-consolida': ('pipeline/consolidar.py', 'v7/pipeline/consolidar.py'),
             '0e-audita': ('pipeline/auditoria_tamanhos.py', 'v7/pipeline/auditoria_tamanhos.py'),
-            '0e-filtra': ('pipeline/filtrar_confiaveis.py', 'v7/pipeline/filtrar_confiaveis.py')}
+            '0e-filtra': ('pipeline/filtrar_confiaveis.py', 'v7/pipeline/filtrar_confiaveis.py'),
+            '0d': ('pipeline/plantas/rodar_tudo.py', 'v7/pipeline/rodar_tudo.py')}
+
+# Ferramenta de planta: tinha DUAS cópias idênticas (plantas_pipeline/ e v7/pipeline/) e
+# agora tem uma fonte só, com invocador em cada caminho antigo. `plantas_pipeline/` segue
+# sendo a pasta de DADO da caixa de ferramentas -- recortes, saída e casamento de nomes.
+FERRAMENTAS = {'pipeline/plantas/vetorizar_planta.py':
+               ['plantas_pipeline/vetorizar_planta.py'],
+               'pipeline/plantas/georreferenciar_planta.py':
+               ['plantas_pipeline/georreferenciar_planta.py'],
+               'pipeline/plantas/rodar_tudo.py':
+               ['plantas_pipeline/rodar_tudo.py', 'v7/pipeline/rodar_tudo.py']}
 
 
 class PipelinePathTests(unittest.TestCase):
@@ -38,6 +49,21 @@ class PipelinePathTests(unittest.TestCase):
                              '%s virou invocador; não pode ter lógica' % antigo)
             self.assertIn(Path(canonico).name, (RAIZ / antigo).read_text(encoding='utf-8'))
             self.assertTrue((RAIZ / canonico).exists())
+
+    def test_each_plant_tool_has_a_single_source(self):
+        for canonico, antigos in FERRAMENTAS.items():
+            self.assertTrue((RAIZ / canonico).exists(), canonico)
+            for antigo in antigos:
+                fonte = (RAIZ / antigo).read_text(encoding='utf-8')
+                self.assertIn('runpy.run_path', fonte, antigo)
+                self.assertLess(len(fonte.splitlines()), 15,
+                                '%s tem que ser invocador, não cópia' % antigo)
+
+    def test_the_plant_tools_derive_the_root_from_their_own_file(self):
+        """Tinham o caminho absoluto da máquina de quem escreveu escrito no código."""
+        for canonico in FERRAMENTAS:
+            fonte = (RAIZ / canonico).read_text(encoding='utf-8')
+            self.assertNotIn('C:/Users', fonte, canonico)
 
     def test_the_wrapper_runs_the_step_as_a_program(self):
         """Parte das etapas é script de linha reta: o trabalho acontece no import, sem

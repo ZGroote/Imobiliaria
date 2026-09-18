@@ -119,7 +119,7 @@ ETAPAS = [
      ["pipeline/city_base.py"], [F("city_v2"), F("faces_ruas")], [F("city_base")], False,
      "reordena b[] por quadra e emite bl[]; e o que o streaming le"),
     ("0d", "Plantas -> lotes oficiais",
-     ["v7/pipeline/rodar_tudo.py", "v7/pipeline/relatorio.py"], [F("plantas")],
+     ["pipeline/plantas/rodar_tudo.py", "v7/pipeline/relatorio.py"], [F("plantas")],
      [F("relatorio_plantas")], False,
      "vetoriza+georreferencia planta a planta; ~1 subprocesso por planta. "
      "quem escreve o CSV e o relatorio.py -- sem ele a etapa nunca fica fresca"),

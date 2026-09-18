@@ -7,7 +7,11 @@ from shapely.geometry import shape, Polygon, mapping
 from shapely.ops import unary_union, transform as shptransform
 from pyproj import Transformer
 
-PROJ = "C:/Users/respawn/Desktop/imobiliaria/"
+# A raiz sai do proprio arquivo, e nao do caminho absoluto da maquina de quem
+# escreveu: este script mora em `pipeline/plantas/`, dois niveis abaixo da raiz.
+import os as _os
+PROJ = _os.path.dirname(_os.path.dirname(_os.path.dirname(
+    _os.path.abspath(__file__)))).replace("\\", "/") + "/"
 FWD = Transformer.from_crs("EPSG:4326", "EPSG:29193", always_xy=True)
 INV = Transformer.from_crs("EPSG:29193", "EPSG:4326", always_xy=True)
 
