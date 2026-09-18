@@ -1,0 +1,14 @@
+{
+  "oracle": "aa9269d",
+  "before_page": "work/picking",
+  "after_page": "work/elevation",
+  "probes": ["--terrain", "--listing"],
+  "identical": ["camera", "groups", "queue", "geometries", "textures", "urban", "dpr", "quality",
+                "viewport", "diagnostics", "terrain", "listing", "image"],
+  "differ": ["times", "page"],
+  "terrain_toggle": [{"on": true, "vertices": 11018, "maximumError": 2.98e-05, "geometries": 107},
+                     {"on": false, "vertices": 11018, "maximumError": 0, "geometries": 107},
+                     {"on": true, "vertices": 11018, "maximumError": 2.98e-05, "geometries": 107}],
+  "image_byte_identical": true,
+  "tests": {"node": 95, "python": 12}
+}
