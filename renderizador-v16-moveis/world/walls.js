@@ -3,7 +3,8 @@
   "use strict";
 const MURO_COR = [[122,78,58], [96,62,47], [186,180,168], [172,158,132],
                   [150,146,138], [108,112,104], [200,196,186], [86,84,78]];
-function build(a, {THREE, roadSafety, terrainY, hash, registerTerrain, material, shadows}) {
+function build(a, {THREE, roadSafety, terrainY, hash, registerTerrain, material, shadows,
+                   projeta = false}) {
   const detailSegments=[];
   const sources=[];
   if(roadSafety){
@@ -114,7 +115,7 @@ function build(a, {THREE, roadSafety, terrainY, hash, registerTerrain, material,
   const mat = material;
   const m = new THREE.Mesh(g, mat);
   m.userData.ground = true; m.userData.muros = true;
-  m.receiveShadow = shadows; m.castShadow = false;
+  m.receiveShadow = shadows; m.castShadow = projeta && shadows;
   return {mesh:m, detailSegments, detailHidden};
 }
   root.WorldWalls = Object.freeze({build});

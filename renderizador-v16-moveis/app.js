@@ -93,6 +93,10 @@ const APAR = CIDADE.aparencia || {};
 const AP_JANELA = !!APAR.janela_metrica;
 // Vidro que reflete, e luz de cena com mais degrau entre o que pega sol e o que nao pega.
 const AP_LUZ = !!APAR.material_luz;
+// Sombra PROJETADA na cidade (predio, muro, portao e arvore lancando sombra no chao) e
+// o sol baixo que a torna visivel: ver scene/city-shadow.js. Nasce DESLIGADA -- e
+// promocao por cidade, com medida, e nao efeito de remontagem.
+const AP_SOMBRA = !!APAR.sombra_projetada;
 
 let GRID = 4, HALF = GRID * TILE_M / 2;
 const LIGHT = () => GRID >= 10;
@@ -320,12 +324,11 @@ scene.add(hemi);
 // Onde o sol fica em relacao ao alvo. E constante: o sol acompanha a camera, entao a
 // DIRECAO da luz nunca muda na cidade inteira -- e e dela que a sombra de contato tira
 // pra que lado projetar (ver refazSombras).
-const SOL_OFF = { x: -520, y: 940, z: 640 };
+const SOL_OFF = { x: -520, z: 640,
+                  y: AP_SOMBRA ? CityShadow.ALTURA_COM : CityShadow.ALTURA_SEM };
 const sun = new THREE.DirectionalLight(0xFFF4E0, (AP_LUZ ? 1.16 : 0.95) * LUZ_PI);
 sun.castShadow = true; sun.shadow.mapSize.set(NIVEL.somMap, NIVEL.somMap);
-const SHR = 640, sc = sun.shadow.camera;
-sc.left=-SHR; sc.right=SHR; sc.top=SHR; sc.bottom=-SHR; sc.near=200; sc.far=3200;
-sun.shadow.bias = -0.0012;
+const cityShadow = CityShadow.create({sun, sph, sujaSombra, projeta:AP_SOMBRA});
 scene.add(sun, sun.target);
 
 /* ============================================================
@@ -620,7 +623,7 @@ function buildMuros() {
   const el = document.getElementById("__murosdata");
   if (!el) return;
   let data; try { data = JSON.parse(el.textContent); } catch(e) { return; }
-  const walls = WorldWalls.build(data, {THREE, roadSafety, terrainY, hash,
+  const walls = WorldWalls.build(data, {THREE, roadSafety, terrainY, hash, projeta:AP_SOMBRA,
     registerTerrain, material:surfaceMaterials.muros(), shadows:SOMBRA_CIDADE});
   scene.add(walls.mesh);
   window.__gMuros = walls.mesh;
@@ -1055,7 +1058,7 @@ function indexaAsfalto(roads) {
   vegetationPlanning.indexaAsfalto(roads);
 }
 
-const vegetation = VegetationScene.create({THREE, ARV, terrainY,
+const vegetation = VegetationScene.create({THREE, ARV, terrainY, projeta:AP_SOMBRA,
   getRelief: () => reliefAmount, target, SOMBRA_CIDADE, getLive: () => gLive});
 scene.add(vegetation.group);
 
@@ -1184,7 +1187,7 @@ const gatesData = (() => {
   if (!el) return null;
   try { return JSON.parse(el.textContent); } catch (e) { return null; }
 })();
-const gates = Gates.create({THREE, data:gatesData, target, terrainY,
+const gates = Gates.create({THREE, data:gatesData, target, terrainY, projeta:AP_SOMBRA,
   getRelief: () => reliefAmount, SOMBRA_CIDADE});
 scene.add(gates.group);
 const refazPortoes = gates.refresh;
@@ -1241,7 +1244,8 @@ function assembleInto(rec, B, R, G, cx, cz) {
     // esta perto e ATRAS da camera continuava custando uma chamada de desenho.
     medeFolga(b.g); inflaEsfera(b.g);
     bm.frustumCulled = true;
-    bm.castShadow = false; bm.receiveShadow = SOMBRA_CIDADE; add(bm, gBuild);
+    bm.castShadow = AP_SOMBRA && SOMBRA_CIDADE;
+    bm.receiveShadow = SOMBRA_CIDADE; add(bm, gBuild);
     if (!LIGHT()) {
       b.lg.userData.dynamicHeight = true; registerTerrain(b.lg);
       const lgLines = new THREE.LineSegments(b.lg, riseLine(u));
@@ -2763,7 +2767,7 @@ const frame = SceneFrame.create({THREE, document, $,
   governa, ajustaEsferas, resize, risers, mark, markMat, fillMat, houseBeacon,
   houseBeaconMat, terrainYCached, bakePasso, interiorFrame, streetLabels, vegetation,
   refazPortoes, refazSombras, alvoSombra, updatePois, streamUpdate, streamPump, v12Frame,
-  nevoaDoQuadro, pintaPerf, sujaSombra,
+  nevoaDoQuadro, pintaPerf, sujaSombra, sombraDoQuadro:cityShadow.porQuadro,
   sujaContato:()=>{ somSujo = true; }, contatoSujo:()=>somSujo,
   sombraPendente:()=>sombraSuja, limpaSombra:()=>{ sombraSuja = false; },
   getRelevo:()=>reliefAmount, mostraRotulos:()=>showLab,

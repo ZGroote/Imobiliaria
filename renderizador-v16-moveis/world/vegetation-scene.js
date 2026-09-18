@@ -1,7 +1,8 @@
 /* Instanced tree scene and incremental membership; streaming supplies live records. */
 (function(root) {
   "use strict";
-  function create({THREE, ARV, terrainY, getRelief, target, SOMBRA_CIDADE, getLive}) {
+  function create({THREE, ARV, terrainY, getRelief, target, SOMBRA_CIDADE, getLive,
+                  projeta = false}) {
 /* Uma InstancedMesh POR ESPECIE, global -- nao uma malha por quarteirao.
 
    A primeira tentativa mesclou as arvores do quarteirao num buffer so, o que dava
@@ -105,7 +106,7 @@ function arvGarante(sp, n) {
   const cap = 1 << Math.ceil(Math.log2(Math.max(64, n)));
   im = new THREE.InstancedMesh(arvGeometria(ARV.cat[sp]),
         new THREE.MeshPhongMaterial({ vertexColors:true, shininess:0, specular:0x000000 }), cap);
-  im.castShadow = false; im.receiveShadow = SOMBRA_CIDADE;
+  im.castShadow = projeta && SOMBRA_CIDADE; im.receiveShadow = SOMBRA_CIDADE;
   // Uma InstancedMesh cobre a cidade visivel inteira: nenhuma esfera de corte
   // ajuda, e o teste custaria mais que os 20 desenhos que ela evita.
   im.frustumCulled = false;
@@ -236,7 +237,7 @@ function refazArvoresTotal() {
       const cap = 1 << Math.ceil(Math.log2(Math.max(64, lista.length)));
       im = new THREE.InstancedMesh(arvGeometria(ARV.cat[i]),
             new THREE.MeshPhongMaterial({ vertexColors:true, shininess:0, specular:0x000000 }), cap);
-      im.castShadow = false; im.receiveShadow = SOMBRA_CIDADE;
+      im.castShadow = projeta && SOMBRA_CIDADE; im.receiveShadow = SOMBRA_CIDADE;
       // Uma InstancedMesh cobre a cidade visivel inteira: nenhuma esfera de corte
       // ajuda, e o teste custaria mais que os 20 desenhos que ela evita.
       im.frustumCulled = false;

@@ -12,12 +12,16 @@
                    houseBeacon, houseBeaconMat, terrainYCached, bakePasso, interiorFrame,
                    streetLabels, vegetation, refazPortoes, refazSombras, alvoSombra,
                    updatePois, streamUpdate, streamPump, v12Frame, nevoaDoQuadro, pintaPerf,
-                   sujaSombra, sujaContato, contatoSujo, sombraPendente, limpaSombra,
+                   sujaSombra, sombraDoQuadro, sujaContato, contatoSujo,
+                   sombraPendente, limpaSombra,
                    getRelevo, mostraRotulos, getUrban, getExteriors, poeCpuMs, semRaf,
                    getWidth, getHeight}) {
 function frame(now) {
   const t0 = performance.now();
   governa(now);
+  // Enquadramento do mapa de sombra pelo zoom: so faz algo com a chave de aparencia
+  // `sombra_projetada` ligada; sem ela e uma chamada vazia.
+  sombraDoQuadro();
   ajustaEsferas();   // v8: relevo/altura mudaram? a esfera de corte muda junto
   resize();
   // Prédio subindo é vértice se movendo no shader: a sombra tem que acompanhar.

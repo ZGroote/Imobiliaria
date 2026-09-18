@@ -16,7 +16,8 @@
   }
   return { n, x, z, ang, larg, tipo };
   }
-  function create({THREE, data, target, terrainY, getRelief, SOMBRA_CIDADE, radius = 700}) {
+  function create({THREE, data, target, terrainY, getRelief, SOMBRA_CIDADE, radius = 700,
+                  projeta = false}) {
     const PORT = data ? decode(data) : null;
     const PORT_RAIO = radius;
 
@@ -94,7 +95,7 @@ function refazPortoes() {
       const cap = 1 << Math.ceil(Math.log2(Math.max(64, L.length)));
       im = new THREE.InstancedMesh(_geoPortao(t),
         new THREE.MeshPhongMaterial({ vertexColors:true, shininess:8, specular:0x222222 }), cap);
-      im.castShadow = false; im.receiveShadow = SOMBRA_CIDADE;
+      im.castShadow = projeta && SOMBRA_CIDADE; im.receiveShadow = SOMBRA_CIDADE;
       im.frustumCulled = false;
       portMesh[t] = im; gPort.add(im);
     }

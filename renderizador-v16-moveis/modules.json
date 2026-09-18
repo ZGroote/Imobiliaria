@@ -68,5 +68,6 @@
   "ui/keyboard.js",
   "ui/frame.js",
   "scene/frame.js",
+  "scene/city-shadow.js",
   "app.js"
 ]
