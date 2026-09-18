@@ -124,8 +124,8 @@ ETAPAS = [
      "vetoriza+georreferencia planta a planta; ~1 subprocesso por planta. "
      "quem escreve o CSV e o relatorio.py -- sem ele a etapa nunca fica fresca"),
     ("0e", "Consolida e filtra lote de planta",
-     ["v7/pipeline/consolidar.py", "v7/pipeline/auditoria_tamanhos.py",
-      "v7/pipeline/filtrar_confiaveis.py"],
+     ["pipeline/consolidar.py", "pipeline/auditoria_tamanhos.py",
+      "pipeline/filtrar_confiaveis.py"],
      [F("relatorio_plantas")],
      [F("lotes_oficiais"), F("lotes_planta")], False,
      "a planta e o gabarito: lote fora do tamanho padrao dela e erro de extracao. "

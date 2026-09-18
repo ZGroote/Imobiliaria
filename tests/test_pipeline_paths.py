@@ -17,7 +17,10 @@ MIGRADAS = {'0c': ('pipeline/city_base.py', 'v4/build_city_v4.py'),
             '5': ('pipeline/ocupacao.py', 'v7/pipeline/ocupacao.py'),
             '7': ('pipeline/city_final.py', 'v7/pipeline/build_v7_city.py'),
             '7b-chao': ('pipeline/chao.py', 'v7/pipeline/gen_chao.py'),
-            '7b-ruas': ('pipeline/ruas.py', 'v7/pipeline/gen_ruas.py')}
+            '7b-ruas': ('pipeline/ruas.py', 'v7/pipeline/gen_ruas.py'),
+            '0e-consolida': ('pipeline/consolidar.py', 'v7/pipeline/consolidar.py'),
+            '0e-audita': ('pipeline/auditoria_tamanhos.py', 'v7/pipeline/auditoria_tamanhos.py'),
+            '0e-filtra': ('pipeline/filtrar_confiaveis.py', 'v7/pipeline/filtrar_confiaveis.py')}
 
 
 class PipelinePathTests(unittest.TestCase):
