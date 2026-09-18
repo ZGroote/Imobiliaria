@@ -2618,7 +2618,11 @@ function resize() {
   camera.updateProjectionMatrix();
 }
 addEventListener("resize", resize);
-function frameLoop() { if (!looping) { looping = true; requestAnimationFrame(frame); } }
+// `t => frame(t)` e nao `frame`: o laco nasce mais abaixo (scene/frame.js), e ha DOIS
+// caminhos que chamam frameLoop ainda durante a carga -- a noite guardada no navegador e
+// o `?noite=1` do link. Passar a constante aqui a leria na zona morta e derrubaria a
+// pagina justamente para quem deixou a noite ligada. O rAF entrega o mesmo carimbo.
+function frameLoop() { if (!looping) { looping = true; requestAnimationFrame(t => frame(t)); } }
 
 const governor = ResolutionGovernor.create({document, getDevicePixelRatio:()=>devicePixelRatio,
   NIVEL, NIVEL_NOME, streaming, INT, renderer, resize, guarda, atualizaBotaoQual});
@@ -2749,88 +2753,23 @@ Object.assign(window.__int, { NOITE, MM, setNoite, BUSCA, buscaAgora, el: $, v12
 const v12Frame = UiFrame.create({$, INT, FP, NOITE, MM, target, sph, aplicaNoite, frameLoop,
   escreveLink, desenhaMinimapa, desenhaPlantaMini});
 
-function frame(now) {
-  const t0 = performance.now();
-  governa(now);
-  ajustaEsferas();   // v8: relevo/altura mudaram? a esfera de corte muda junto
-  resize();
-  // Prédio subindo é vértice se movendo no shader: a sombra tem que acompanhar.
-  for (const r of risers) if (r.u.value < 1) { r.u.value = Math.min(1, (now - r.t0)/1100); sujaSombra(); }
-  if (mark.visible) {
-    const b = 0.5 + 0.5*Math.sin(now*0.005);
-    markMat.opacity = 0.22 + b*0.42; fillMat.opacity = 0.03 + b*0.05;
-  }
-  if (houseBeacon.visible) {
-    const b = 0.5 + 0.5*Math.sin(now*0.006);
-    houseBeaconMat.opacity = 0.5 + b*0.45;
-  }
-  // v4: o alvo da orbita segue o relevo. O target nasce sempre com y=0
-  // (target.set(p.x, 0, p.z)), mas o chao e deslocado pra cima por
-  // terrainY()*reliefAmount -- e terrainY ja embute TERRAIN_EXAG=4.5. Num bairro
-  // alto isso punha o terreno POR CIMA da camera: ela orbitava um ponto no nivel
-  // do mar enquanto o chao subia centenas de metros, e a cena ficava tapada.
-  // Afastar a camera nao resolveria, so afastaria um ponto que continua enterrado.
-  target.y = terrainYCached(target.x, target.z) * reliefAmount;
-  // v15: o bake assenta ao longo dos quadros. DURANTE O VOO ele gasta o triplo:
-  // um quadro perdido enquanto a câmera varre a sala não se vê, e é ali que está
-  // quase todo o tempo disponível antes de alguém olhar pra parede parada. Depois
-  // que a câmera para, volta ao gasto pequeno. Ver `bakePrepara`.
-  if (BAKE.fila && bakePasso(BAKE.fila, INT.voo ? BAKE.orcVoo : BAKE.orcamento))
-    BAKE.fila = null;
-  // v9: o interior manda na camera enquanto durar o voo de entrada ou a
-  // primeira pessoa; fora disso interiorFrame so cuida do plano de corte.
-  interiorFrame(now);
-  if (!INT.voo && (!INT.on || INT.orbita)) {
-    camera.position.setFromSpherical(sph).add(target);
-    camera.lookAt(target);
-  }
-  sun.position.set(target.x + SOL_OFF.x, SOL_OFF.y, target.z + SOL_OFF.z);
-  sun.target.position.copy(target);
-  camera.updateMatrixWorld();
-  $("compass").firstElementChild.style.transform = `rotate(${sph.theta}rad)`;
-
-  const W = innerWidth, H = innerHeight;
-
-  streetLabels.update({camera, W, H, reliefAmount, interior: INT.on, showLab});
-  // v10: as arvores sao InstancedMesh por especie, refeitas quando o conjunto vivo
-  // muda OU quando o alvo anda o bastante pra mudar quem esta dentro dos 1800 m.
-  if (vegetation.trackTarget()) somSujo = true;
-  if (vegetation.dirty) { vegetation.refresh(); refazPortoes(); sujaSombra(); }
-  if (somSujo) { refazSombras(); sujaSombra(); }
-  updatePois();
-  streamUpdate(false);   // alvo mudou? recalcula o conjunto vivo
-  streamPump();          // gasta ate STREAM_MS montando o que falta
-  if (urban) urban.flush();
-  if(exteriors)exteriors.update(target.x,target.z,sph.radius,reliefAmount,INT.on,performance.now());
-
-  /* A sombra só é redesenhada quando alguma coisa que a projeta mudou. O sol acompanha
-     o alvo, então andar pela cidade invalida o mapa -- mas só depois de andar o
-     bastante pra sombra sair do lugar: sub-metro não muda um pixel do mapa de sombra e
-     custaria uma passada inteira da cena. Dentro de casa a cena é uma casa só (poucas
-     chamadas de desenho) e o usuário mexe em móvel o tempo todo, então lá vale sempre
-     redesenhar em vez de rastrear cada edição. */
-  if (INT.on) sujaSombra();
-  else if (alvoSombra.distanceToSquared(target) > 1) { alvoSombra.copy(target); sujaSombra(); }
-  // Nos niveis fracos SOMBRA_CIDADE e false e nada na cidade projeta nem recebe: a
-  // passada do mapa de sombra percorre o grafo inteiro pra desenhar nada e ainda paga
-  // bind + clear do alvo de profundidade, a cada quadro em que o alvo anda 1 m.
-  // Desligar `shadowMap.enabled` daria o mesmo, mas o three exige `needsUpdate` em TODO
-  // material depois de trocar essa flag -- seria recompilar a cidade inteira na entrada
-  // da casa, exatamente o congelamento que a nota do SOMBRA_CIDADE evita. INT.on ja
-  // cobre a casa inteira, voo de entrada e de saida inclusive.
-  renderer.shadowMap.needsUpdate = sombraSuja && (SOMBRA_CIDADE || INT.on);
-  sombraSuja = false;
-
-  v12Frame(now);   // busca/link/minimapa/noite -- ver secao 14
-  nevoaDoQuadro();
-
-  // A cupula do ceu anda com a camera: ela e um FUNDO, nao um lugar.
-  if (CEU && CEU.visible) CEU.position.copy(camera.position);
-  renderer.render(scene, camera);
-  _cpuMs = performance.now() - t0;
-  pintaPerf(now);
-  if (!_semRaf) requestAnimationFrame(frame);
-}
+/* ---- o laco ------------------------------------------------------------- */
+// A ORDEM de atualizacao por quadro: ver scene/frame.js. Entra por leitor ou escritor o
+// estado que o laco NAO possui -- relevo, rotulo de rua, as duas sujeiras de sombra, os
+// dois modulos que so nascem com a cidade (urbanos e exteriores), o tempo de CPU que o
+// medidor le e a trava do passo manual do QA.
+const frame = SceneFrame.create({THREE, document, $,
+  scene, camera, renderer, target, sph, sun, SOL_OFF, SOMBRA_CIDADE, CEU, INT, BAKE,
+  governa, ajustaEsferas, resize, risers, mark, markMat, fillMat, houseBeacon,
+  houseBeaconMat, terrainYCached, bakePasso, interiorFrame, streetLabels, vegetation,
+  refazPortoes, refazSombras, alvoSombra, updatePois, streamUpdate, streamPump, v12Frame,
+  nevoaDoQuadro, pintaPerf, sujaSombra,
+  sujaContato:()=>{ somSujo = true; }, contatoSujo:()=>somSujo,
+  sombraPendente:()=>sombraSuja, limpaSombra:()=>{ sombraSuja = false; },
+  getRelevo:()=>reliefAmount, mostraRotulos:()=>showLab,
+  getUrban:()=>urban, getExteriors:()=>exteriors,
+  poeCpuMs:v=>{ _cpuMs = v; }, semRaf:()=>_semRaf,
+  getWidth:()=>innerWidth, getHeight:()=>innerHeight});
 
 window.__qa = MapDiagnostics.create({
   terrainY, scene, renderer, camera, target, sph,

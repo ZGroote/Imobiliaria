@@ -1,0 +1,18 @@
+{
+  "oracle": "37eefae",
+  "before_page": "work/ui-frame",
+  "after_page": "work/scene-frame",
+  "probes": ["--listing", "--editor", "--search", "--night", "--floor-map", "--terrain",
+             "--streaming", "--meter", "--diagnostics"],
+  "identical": ["19 das 21 chaves, incluindo listing, editor, search, night, floorMap, terrain, streaming, diagnostics e image"],
+  "differ": ["times", "meter", "page"],
+  "meter_nota": "a mesma página rodada duas vezes já difere em `meter` (chamadas de desenho, geometrias e fila dependem de quanto a cidade montou no relógio); medido antes de comparar",
+  "night_on_load": "página aberta com ?noite=1 idêntica antes/depois, imagem byte a byte",
+  "image_byte_identical": true,
+  "defeitos_encontrados": [
+    "frameLoop passava `frame` por valor e a noite guardada chama frameLoop na carga -> TDZ; virou `t => frame(t)`",
+    "requestAnimationFrame injetado prendia o laço ao rAF original, e a sonda TROCA o rAF da janela; com isso a página agendava quadros por fora do teste e as duas luzes do interior trocavam de slot"
+  ],
+  "accessors": ["relevo", "showLab", "somSujo", "sombraSuja", "urban", "exteriors", "_cpuMs", "_semRaf", "largura/altura"],
+  "tests": {"node": 111, "python": 12}
+}

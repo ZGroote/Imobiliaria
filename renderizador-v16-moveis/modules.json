@@ -67,5 +67,6 @@
   "ui/perf-meter.js",
   "ui/keyboard.js",
   "ui/frame.js",
+  "scene/frame.js",
   "app.js"
 ]
