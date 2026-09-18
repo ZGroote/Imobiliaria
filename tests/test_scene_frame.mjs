@@ -9,6 +9,9 @@ const app=execFileSync('git',['-c','safe.directory='+root,'show','37eefae:render
   {encoding:'utf8',maxBuffer:2e6}).replaceAll('\r','');
 // As mesmas trocas da extração: o que o laço NÃO possui vira leitor ou escritor.
 const source=app.slice(app.indexOf('function frame(now) {'),app.indexOf('window.__qa = MapDiagnostics'))
+  // 27b: o laço passou a enquadrar o mapa de sombra por quadro (no-op com a chave de
+  // aparência desligada). O oráculo recebe a MESMA linha, pra provar que o resto não mudou.
+  .replace('  governa(now);', '  governa(now);\n  sombraDoQuadro();')
   .replaceAll('reliefAmount','getRelevo()')
   // a chamada dos rótulos usava forma abreviada: nomear os dois campos depois da troca
   .replace('streetLabels.update({camera, W, H, getRelevo(), interior: INT.on, showLab});',
@@ -41,7 +44,8 @@ function fixture(modular) {
     refazPortoes:()=>log.push(['portoes']), refazSombras:()=>log.push(['sombras']),
     updatePois:()=>log.push(['pois']), streamUpdate:f=>log.push(['stream',f]),
     streamPump:()=>log.push(['bomba']), v12Frame:n=>log.push(['ui',n]),
-    nevoaDoQuadro:()=>log.push(['nevoa']), pintaPerf:n=>log.push(['medidor',n])});
+    nevoaDoQuadro:()=>log.push(['nevoa']), pintaPerf:n=>log.push(['medidor',n]),
+    sombraDoQuadro:()=>log.push(['enquadra'])});
   vm.runInContext(`var THREE_OK=1;
     var sujaSombra=()=>{ __log(['suja']); sombra=true; };   // como o do app.js
     var camera={position:{setFromSpherical(s){__log(['camPos',s.radius]);return this;},
@@ -67,6 +71,7 @@ function fixture(modular) {
     fillMat, houseBeacon, houseBeaconMat, terrainYCached, bakePasso, interiorFrame,
     streetLabels, vegetation, refazPortoes, refazSombras, alvoSombra, updatePois,
     streamUpdate, streamPump, v12Frame, nevoaDoQuadro, pintaPerf, sujaSombra,
+    sombraDoQuadro,
     sujaContato:()=>{contato=true;}, contatoSujo:()=>contato,
     sombraPendente:()=>sombra, limpaSombra:()=>{sombra=false;},
     getRelevo:()=>relevo, mostraRotulos:()=>rotulos,
@@ -117,7 +122,7 @@ test('the frame loop order and effects match the pre-extraction application',()=
   // governador -> esferas -> tamanho -> prédio subindo suja a sombra -> interior manda na
   // câmera -> fora dele a órbita reposiciona -> sol -> matriz, e só então o que projeta
   assert.deepEqual(ordem.slice(0,10),
-    ['governa','esferas','resize','suja','interior','camPos','camSoma','olha','sol','solAlvo']);
+    ['governa','enquadra','esferas','resize','suja','interior','camPos','camSoma','olha','sol']);
   assert.ok(ordem.indexOf('matriz')<ordem.indexOf('rotulos'),'a matriz vem antes de projetar rótulo');
   assert.ok(ordem.indexOf('render')>ordem.indexOf('pois'),'desenha depois de decidir o que existe');
   assert.ok(a.log.filter(l=>l[0]==='render').length===passos.length,'um render por quadro');
