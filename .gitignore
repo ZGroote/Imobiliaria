@@ -25,3 +25,7 @@ __pycache__/
 /tasks/modularizacao/baseline/artifacts/
 /tasks/modularizacao/work/
 /tasks/modularizacao/results/
+# Fontes brutas gigantes. O `sudeste-latest.osm.pbf` (856 MB) entrou num commit por
+# acidente uma vez; o resto das fontes segue a regra de cima -- adicionadas explicitamente.
+/fontes_osm/
+*.osm.pbf
