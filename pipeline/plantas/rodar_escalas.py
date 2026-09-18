@@ -2,12 +2,17 @@
 """Le a escala do selo de todas as plantas da fila (paralelo, um processo por planta)."""
 import json, os, subprocess, sys, re
 from concurrent.futures import ThreadPoolExecutor
-PROJ = "C:/Users/respawn/Desktop/imobiliaria/"
-PIPE = PROJ + "plantas_pipeline/"
+# A raiz sai do proprio arquivo, e nao do caminho absoluto da maquina de quem
+# escreveu: este script mora em `pipeline/plantas/`, dois niveis abaixo da raiz.
+import os as _os
+PROJ = _os.path.dirname(_os.path.dirname(_os.path.dirname(
+    _os.path.abspath(__file__)))).replace("\\", "/") + "/"
+PIPE = PROJ + "plantas_pipeline/"   # pasta de DADO da caixa
+FERR = _os.path.dirname(_os.path.abspath(__file__)).replace("\\", "/") + "/"
 def uma(arq):
     p = PROJ + "plantas_openplots/" + arq
     try:
-        r = subprocess.run([sys.executable, PIPE + "ler_escala.py", p],
+        r = subprocess.run([sys.executable, FERR + "ler_escala.py", p],
                            capture_output=True, text=True, timeout=900)
         m = re.search(r"-> (\d+)", r.stdout or "")
         return arq, (int(m.group(1)) if m else None)

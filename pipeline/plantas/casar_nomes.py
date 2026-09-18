@@ -6,7 +6,11 @@ from shapely.geometry import shape
 from shapely.ops import unary_union
 from shapely.strtree import STRtree
 
-PROJ = "C:/Users/respawn/Desktop/imobiliaria/"
+# A raiz sai do proprio arquivo, e nao do caminho absoluto da maquina de quem
+# escreveu: este script mora em `pipeline/plantas/`, dois niveis abaixo da raiz.
+import os as _os
+PROJ = _os.path.dirname(_os.path.dirname(_os.path.dirname(
+    _os.path.abspath(__file__)))).replace("\\", "/") + "/"
 FONTES = ["loteamentos_saocarlos_oficial.geojson", "bairros_centro_saocarlos.geojson"]
 ART = {"DE", "DA", "DO", "DAS", "DOS", "E"}
 TIPOS = {"JARDIM", "VILA", "PARQUE", "RESIDENCIAL", "LOTEAMENTO", "CONJUNTO", "HABITACIONAL",

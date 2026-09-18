@@ -5,7 +5,11 @@ from shapely.ops import unary_union,transform as sht
 from pyproj import Transformer
 F=Transformer.from_crs("EPSG:4326","EPSG:29193",always_xy=True)
 def toutm(x,y,z=None): return F.transform(x,y)
-P="C:/Users/respawn/Desktop/imobiliaria/"
+# A raiz sai do proprio arquivo, e nao do caminho absoluto da maquina de quem
+# escreveu: este script mora em `pipeline/plantas/`, dois niveis abaixo da raiz.
+import os as _os
+P = _os.path.dirname(_os.path.dirname(_os.path.dirname(
+    _os.path.abspath(__file__)))).replace("\\", "/") + "/"
 geo=json.load(open(sys.argv[1]))
 lotes=[sht(toutm,shape(f['geometry'])) for f in geo['features']]
 lo=json.load(open(P+'loteamentos_saocarlos_oficial.geojson',encoding='utf-8'))

@@ -26,12 +26,11 @@ MIGRADAS = {'0c': ('pipeline/city_base.py', 'v4/build_city_v4.py'),
 # Ferramenta de planta: tinha DUAS cópias idênticas (plantas_pipeline/ e v7/pipeline/) e
 # agora tem uma fonte só, com invocador em cada caminho antigo. `plantas_pipeline/` segue
 # sendo a pasta de DADO da caixa de ferramentas -- recortes, saída e casamento de nomes.
-FERRAMENTAS = {'pipeline/plantas/vetorizar_planta.py':
-               ['plantas_pipeline/vetorizar_planta.py'],
-               'pipeline/plantas/georreferenciar_planta.py':
-               ['plantas_pipeline/georreferenciar_planta.py'],
-               'pipeline/plantas/rodar_tudo.py':
+FERRAMENTAS = {'pipeline/plantas/rodar_tudo.py':
                ['plantas_pipeline/rodar_tudo.py', 'v7/pipeline/rodar_tudo.py']}
+for _n in ('vetorizar_planta', 'georreferenciar_planta', 'ler_escala', 'rodar_escalas',
+           'casar_nomes', 'conferir_encaixe', 'overlay_planta', 'mapa_qa'):
+    FERRAMENTAS['pipeline/plantas/%s.py' % _n] = ['plantas_pipeline/%s.py' % _n]
 
 
 class PipelinePathTests(unittest.TestCase):

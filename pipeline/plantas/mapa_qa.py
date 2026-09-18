@@ -7,7 +7,11 @@ from shapely.ops import transform as sht
 from pyproj import Transformer
 F = Transformer.from_crs("EPSG:4326", "EPSG:29193", always_xy=True)
 def u(x, y, z=None): return F.transform(x, y)
-P = "C:/Users/respawn/Desktop/imobiliaria/"
+# A raiz sai do proprio arquivo, e nao do caminho absoluto da maquina de quem
+# escreveu: este script mora em `pipeline/plantas/`, dois niveis abaixo da raiz.
+import os as _os
+P = _os.path.dirname(_os.path.dirname(_os.path.dirname(
+    _os.path.abspath(__file__)))).replace("\\", "/") + "/"
 q = json.load(open(P + "quadras_saocarlos.geojson", encoding="utf-8"))
 qs = [sht(u, shape(f["geometry"])) for f in q["features"]]
 d = json.load(open(P + (sys.argv[1] if len(sys.argv) > 1 else "lotes_oficiais_saocarlos.geojson"), encoding="utf-8"))
