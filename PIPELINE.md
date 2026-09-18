@@ -135,8 +135,9 @@ EPSG:31983 (zona 23), sem intervenção. Errar o fuso não dá erro — dá cida
 
     python pipeline/plantas/baixar_openplots.py   # 265 plantas (retomável)
     python pipeline/plantas/rodar_tudo.py     # vetoriza + georreferencia, 1 subprocesso por planta
-    python v7/pipeline/consolidar.py           # arbitra por quadra -> lotes_oficiais
-    python v7/pipeline/filtrar_confiaveis.py   # aplica o gabarito  -> lotes_planta
+    python pipeline/consolidar.py              # arbitra por quadra -> lotes_oficiais
+    python pipeline/auditoria_tamanhos.py      # marca padrao_lote  <- o filtro DEPENDE disto
+    python pipeline/filtrar_confiaveis.py      # aplica o gabarito  -> lotes_planta
     → v7/dados/lotes_confiaveis_saocarlos.geojson (21.163 lotes em 67 bairros)
 
 > **Buraco fechado nesta passagem.** Os dois últimos gravavam na **raiz** enquanto o
@@ -205,10 +206,10 @@ A tabela completa, com contrato de cada saída, está em `PADRAO.md`. O resumo:
     4   juntar_lotes.py      planta onde presta, grade onde não presta (exame por quadra)
     5   ocupacao.py          só lote com endereço OU footprint  ← guarda ÍNDICES da 4
     6   pipeline/muros.py    divisa dos lotes ocupados
-    7   build_v7_city.py     volumes; casa recortada pelo miolo
-    7b  gen_chao / gen_ruas  chão e asfalto — MESMA lista de quadras da 2
+    7   pipeline/city_final.py   volumes; casa recortada pelo miolo
+    7b  pipeline/chao / ruas  chão e asfalto — MESMA lista de quadras da 2
     8   pipeline/montar.py   HTML por concatenação das peças (v13)
-    9   padrao/rodar_qa.py   9 portões de geometria + 9 de comportamento; sai 1 se reprovar
+    9   padrao/rodar_qa.py   10 portões de geometria + 9 de comportamento; sai 1 se reprovar
 
 ### Quanto custa rodar
 

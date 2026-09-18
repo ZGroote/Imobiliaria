@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test \"tests/test_*.mjs\"",
+    "test:py": "python -m unittest discover -s tests -p \"test_*.py\"",
+    "qa": "python padrao/rodar_qa.py sao-carlos --variante v16-moveis",
+    "montar": "python pipeline/montar.py sao-carlos --variante v16-moveis"
   },
   "keywords": [],
   "author": "",

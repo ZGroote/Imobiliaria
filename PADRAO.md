@@ -62,8 +62,12 @@ mesmo defeito da largura da rua, na forma "o aceite está escrito em mais de um 
     padrao/pagina.py             sonda que roda JS dentro do HTML pronto (Chrome headless)
     padrao/rodar_qa.py           roda tudo, grava relatorios/qa_<slug>.json, sai 1 se reprovar
 
-Já consomem isso: `v7/pipeline/quadras_miolo.py` (a tabela de largura saiu de lá) e
-`v7/pipeline/juntar_lotes.py` (os limiares do exame de quadra).
+**A variante é sempre explícita**: `padrao/rodar_qa.py <slug> --variante <v>`. Sem a
+flag tudo cai no padrão `v15`, que é o renderizador ANTIGO — o QA mede a página errada
+e o `montar` produz a página errada, os dois em silêncio. Ver `DEPENDENCIAS.md`.
+
+Já consomem isso: `pipeline/quadras_miolo.py` (a tabela de largura saiu de lá) e
+`pipeline/juntar_lotes.py` (os limiares do exame de quadra).
 
 ### `aparencia`: melhoria que vale numa cidade só
 
@@ -329,10 +333,11 @@ Duas regras que a segunda cidade acrescentou:
   código de verdade em `renderizador/app.js` e a página é montada por `pipeline/montar.py`,
   dá pra injetar a tabela junto do bloco `__cidade` — é o próximo conceito a sair do
   código. Até lá o portão compara as duas e reprova o build se divergirem.
-- **Os scripts do pipeline moram em `v7/pipeline/` com nome e caminho de São Carlos.** A
-  segunda cidade obriga a promover essa pasta pra `pipeline/` na raiz, dirigida pelo
-  `CIDADE=<slug>`. Metade do caminho já está andada: os caminhos saem de
-  `CID.caminho(...)` e o slug já vem de `os.environ["CIDADE"]`.
+- ~~**Os scripts do pipeline moram em `v7/pipeline/`.**~~ **Resolvido** (18/09/2026): as
+  etapas do runner e as ferramentas de planta têm caminho canônico em `pipeline/`, e cada
+  caminho antigo virou invocador de nove linhas sem lógica, travado por
+  `tests/test_pipeline_paths.py`. Sobram em `v7/pipeline/` só a cadeia de build antiga
+  (`make_v7*`) e três ferramentas de QA antigas — histórico, sem consumidor.
 - **As fontes são de São Carlos**: OpenPlots (plantas da prefeitura) e pontos de endereço
   do SigaSC. Cidade nova precisa do equivalente, e o `filtrar_confiaveis`/`consolidar`
   assume o formato do acervo daqui.

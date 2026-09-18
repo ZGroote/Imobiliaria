@@ -1,0 +1,12 @@
+# So para as etapas que processam FONTE de dado (pipeline/rodar.py --rede e as
+# etapas 0d/0e de planta). Quem so monta a pagina e roda os portoes nao precisa
+# de nada daqui -- ver requirements.txt.
+-r requirements.txt
+
+osmium>=4.3                 # ler o .osm.pbf da Geofabrik (etapa de fontes)
+rasterio>=1.5               # raster de relevo e recorte de planta
+affine>=3.0                 # transformacao do raster, par do rasterio
+scipy>=1.18                 # vizinhanca e interpolacao no terreno
+opencv-python>=4.10         # achar parede na planta digitalizada (pipeline/plantas)
+pypdfium2>=5                # rasterizar a planta em PDF
+rapidocr-onnxruntime>=1.2   # ler o selo de escala da planta
