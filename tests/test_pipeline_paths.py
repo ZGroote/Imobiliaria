@@ -7,7 +7,9 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[1]
 
 # etapa migrada -> (caminho canônico, invocador antigo)
-MIGRADAS = {'0c': ('pipeline/city_base.py', 'v4/build_city_v4.py')}
+MIGRADAS = {'0c': ('pipeline/city_base.py', 'v4/build_city_v4.py'),
+            '6': ('pipeline/muros.py', 'v7/pipeline/gen_muros.py'),
+            '6b': ('pipeline/portoes.py', 'v7/pipeline/gen_portoes.py')}
 
 
 class PipelinePathTests(unittest.TestCase):

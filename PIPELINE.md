@@ -204,7 +204,7 @@ A tabela completa, com contrato de cada saída, está em `PADRAO.md`. O resumo:
     3   lotes_sinteticos.py  grade 12x25 caminhando o perímetro do miolo
     4   juntar_lotes.py      planta onde presta, grade onde não presta (exame por quadra)
     5   ocupacao.py          só lote com endereço OU footprint  ← guarda ÍNDICES da 4
-    6   gen_muros.py         divisa dos lotes ocupados
+    6   pipeline/muros.py    divisa dos lotes ocupados
     7   build_v7_city.py     volumes; casa recortada pelo miolo
     7b  gen_chao / gen_ruas  chão e asfalto — MESMA lista de quadras da 2
     8   pipeline/montar.py   HTML por concatenação das peças (v13)
@@ -222,7 +222,7 @@ os mesmos 74.989 volumes e passou os 7 portões:
 | 3 lotes_sinteticos | 123 | | 7b gen_ruas | 68 |
 | 4 juntar_lotes | 68 | | 8 make_v7 | 0,2 |
 | 5 ocupacao | 23 | | 8 make_v8 | 3 |
-| 6 gen_muros | 18 | | 9 rodar_qa | 41 |
+| 6 muros | 18 | | 9 rodar_qa | 41 |
 
 **Total: 485 s (8 min)** do `city_base` ao HTML aprovado. As etapas de rede (0.x) são
 outra ordem de grandeza — horas — e por isso são opt-in e retomáveis.
