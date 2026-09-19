@@ -67,7 +67,7 @@ PAGINA = u"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Maquete 3D · %(TITULO)s</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%%3Crect width='32' height='32' rx='6' fill='%231A222C'/%3E%%3Cpath d='M5 15L16 6l11 9v12h-8v-8h-6v8H5z' fill='%234BDB7C'/%3E%%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231A222C'/%3E%3Cpath d='M5 15L16 6l11 9v12h-8v-8h-6v8H5z' fill='%234BDB7C'/%3E%3C/svg%3E">
 <style>
   :root{
     --void:#0E141B; --line:rgba(255,255,255,.12); --txt:#E7EBF0; --verde:#4BDB7C;
@@ -80,29 +80,41 @@ PAGINA = u"""<!doctype html>
      a ser desenhada num canvas maior que a tela -- foi assim que o predio apareceu
      cortado no lado direito no telefone. O conserto de verdade sao os `min-width:0`
      abaixo, que e o que deixa os itens do flex encolherem. */
-  html,body{height:100%;background:var(--void);overflow:hidden;max-width:100%}
+  /* MINIATURA E MINIATURA: ela tem TAMANHO PROPRIO, nao o tamanho que sobra.
+
+     A primeira versao era uma cena `flex:1` com a ficha embaixo -- ou seja, um
+     visualizador de tela cheia, e no celular o predio ocupava 670 dos 900 px. Nada
+     nisso e miniatura. Aqui a pagina volta a ser uma PAGINA que rola: coluna centrada,
+     painel da maquete com altura declarada, ficha logo abaixo dele. Quem quiser ver de
+     perto tem o botao Ampliar, que ai sim toma a tela -- por pedido, e nao por padrao. */
+  html{background:var(--void)}
   body{font-family:var(--ui);color:var(--txt);-webkit-font-smoothing:antialiased;
-    user-select:none;-webkit-user-select:none;display:flex;flex-direction:column;
-    /* Sem isto, arrastar pra girar a maquete dispara o "puxar pra recarregar" do
-       Chrome no Android e a pagina recarrega no meio do gesto. */
-    overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
-  /* `100%` de altura no celular e a altura COM a barra de endereco, que some quando a
-     pessoa rola -- e como o corpo nao rola, ela nunca some e sobra uma faixa cortada
-     embaixo. `dvh` e a altura que realmente esta visivel agora. O `@supports` mantem
-     o `100%` de pe em navegador que nao conhece a unidade. */
-  @supports (height:100dvh){ body{height:100dvh} }
+    background:var(--void);min-height:100%;user-select:none;-webkit-user-select:none;
+    -webkit-tap-highlight-color:transparent;
+    padding:16px calc(16px + env(safe-area-inset-right))
+            calc(24px + env(safe-area-inset-bottom))
+            calc(16px + env(safe-area-inset-left))}
+  .folha{max-width:720px;margin:0 auto}
 
   /* A MAQUETE em cima, a ficha embaixo. A maquete e `flex:1` e a ficha tem altura
      propria: numa tela baixa quem cede espaco e o 3D, nunca a informacao. */
-  #cena{position:relative;flex:1 1 auto;min-height:180px;min-width:0}
-  #c{display:block;width:100%%;height:100%%;touch-action:none;cursor:grab}
+  /* `clamp` e nao `vh` puro: em tela baixa e deitada 40vh vira uma faixa de 150 px, e
+     num monitor grande vira meio metro de predio. O piso e o teto sao o que dao a
+     miniatura o mesmo tamanho aparente nos dois. */
+  #cena{position:relative;height:clamp(220px,40vh,420px);min-width:0;
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    background:#0E141B;box-shadow:0 8px 28px rgba(0,0,0,.4)}
+  @supports (height:40dvh){ #cena{height:clamp(220px,40dvh,420px)} }
+  body.ampliada{overflow:hidden}
+  body.ampliada #cena{position:fixed;inset:0;height:auto;border:0;border-radius:0;
+    z-index:50;box-shadow:none}
+  #c{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
   #c:active{cursor:grabbing}
 
   /* O topo da tela de um celular com entalhe nao comeca em zero: `viewport-fit=cover`
      (no <meta>) pede a tela inteira, e e por isso que daqui pra baixo todo canto usa
      `env(safe-area-inset-*)`. Sem isso o selo fica debaixo do relogio do sistema. */
-  #selo{position:absolute;top:calc(14px + env(safe-area-inset-top));
-    left:calc(14px + env(safe-area-inset-left));display:flex;align-items:center;gap:7px;
+  #selo{position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:7px;
     padding:6px 11px;border-radius:999px;background:rgba(12,18,25,.72);
     border:1px solid rgba(75,219,124,.42);backdrop-filter:blur(8px);
     font-size:11.5px;letter-spacing:.02em;pointer-events:none}
@@ -110,8 +122,13 @@ PAGINA = u"""<!doctype html>
     box-shadow:0 0 10px 1px rgba(75,219,124,.85);animation:pisca 1.6s ease-in-out infinite}
   @keyframes pisca{0%,100%{opacity:1}50%{opacity:.25}}
 
-  #ctrl{position:absolute;top:calc(14px + env(safe-area-inset-top));
-    right:calc(14px + env(safe-area-inset-right));display:flex;gap:6px}
+  #ctrl{position:absolute;top:10px;right:10px;display:flex;gap:6px}
+  /* Ampliada, os controles passam a respeitar o entalhe. Fora dela quem cuida disso e
+     o `padding` do corpo, e somar os dois empurraria os botoes pra dentro da maquete. */
+  body.ampliada #selo{top:calc(12px + env(safe-area-inset-top));
+    left:calc(12px + env(safe-area-inset-left))}
+  body.ampliada #ctrl{top:calc(12px + env(safe-area-inset-top));
+    right:calc(12px + env(safe-area-inset-right))}
   #ctrl button{font:inherit;font-size:11px;padding:7px 11px;border-radius:7px;cursor:pointer;
     background:rgba(12,18,25,.72);border:1px solid var(--line);color:var(--txt);
     backdrop-filter:blur(8px);transition:.15s;min-height:34px;
@@ -119,29 +136,19 @@ PAGINA = u"""<!doctype html>
   #ctrl button:hover{background:rgba(255,255,255,.14)}
   #ctrl button[aria-pressed=true]{border-color:rgba(75,219,124,.5);
     background:rgba(75,219,124,.16);color:#BFF3D2}
-  #dica{position:absolute;left:calc(14px + env(safe-area-inset-left));bottom:12px;font-size:10.5px;opacity:.45;
-    pointer-events:none;letter-spacing:.04em}
+  /* A dica fica POR CIMA da maquete, entao ela precisa de fundo proprio: sobre a
+     parede clara do predio, texto a 45% de opacidade desaparece. O degrade e so na
+     faixa de baixo -- escurecer o painel inteiro apagaria a sombra no chao, que e a
+     pista de profundidade da cena. */
+  #dica{position:absolute;left:0;right:0;bottom:0;padding:16px 12px 8px;
+    font-size:10.5px;opacity:.72;pointer-events:none;letter-spacing:.04em;
+    background:linear-gradient(to top,rgba(10,15,21,.82),rgba(10,15,21,0))}
 
   /* A JANELA DE INFORMACOES. Rola por dentro: numa tela de telefone deitado a ficha
      inteira nao cabe, e encolher a maquete ate o predio sumir seria pior. */
-  /* A FICHA E UM PAINEL RECOLHIVEL. Numa tela de telefone em pe ela come metade do
-     que existe pra ver; recolhida, sobra titulo e preco -- que e o que se olha antes
-     de decidir se vale abrir o resto. O puxador e o alvo do dedo, e a transicao e em
-     `max-height` porque e ela que o `flex:1` da cena consome de volta (o
-     `ResizeObserver` reenquadra a maquete sozinho quando isso acontece). */
-  #ficha{flex:0 0 auto;max-height:46vh;overflow:auto;position:relative;
-    overscroll-behavior:contain;background:rgba(15,21,28,.96);
-    border-top:1px solid var(--line);
-    padding:14px 18px calc(18px + env(safe-area-inset-bottom));
-    transition:max-height .3s cubic-bezier(.4,0,.2,1)}
-  @supports (max-height:46dvh){ #ficha{max-height:46dvh} }
-  #puxador{display:none;position:sticky;top:-14px;z-index:2;margin:-8px -18px 6px;
-    padding:8px 0 6px;background:rgba(15,21,28,.96);cursor:pointer;
-    touch-action:manipulation}
-  #puxador i{display:block;width:38px;height:4px;border-radius:99px;margin:0 auto;
-    background:rgba(231,235,240,.34)}
-  #puxador b{display:block;text-align:center;font-size:9px;letter-spacing:.14em;
-    text-transform:uppercase;opacity:.4;margin-top:5px;font-weight:600}
+  #ficha{margin-top:14px;background:rgba(18,25,33,.9);border:1px solid var(--line);
+    border-radius:12px;padding:15px 18px 18px}
+  body.ampliada #ficha{display:none}
   #ficha .topo{display:flex;align-items:flex-start;gap:8px 14px;flex-wrap:wrap}
   /* Sem isto o bloco do titulo tem `min-width:auto` e se recusa a encolher abaixo do
      conteudo, empurrando o preco pra fora da tela. */
@@ -169,14 +176,17 @@ PAGINA = u"""<!doctype html>
   .ci b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
   #ctrl,#selo,#dica{max-width:calc(100% - 28px)}
   /* Ponteiro grosso = dedo. Nao e "tela pequena": um tablet tem tela grande e dedo,
-     e e o dedo que decide se o painel precisa de puxador e se o botao precisa de 44 px. */
+     e e o dedo que decide se o botao precisa de 44 px de alvo. */
   @media (pointer:coarse),(max-width:640px){
-    #puxador{display:block}
-    #ctrl button{min-height:44px;padding:10px 13px;font-size:12.5px}
-    #selo{padding:8px 13px;font-size:12.5px}
+    #ctrl button{min-height:44px;padding:9px 11px;font-size:12px}
+    #selo{padding:7px 11px;font-size:12px}
   }
   @media (max-width:640px){
-    #ficha{padding:12px 14px calc(16px + env(safe-area-inset-bottom));max-height:52vh}
+    body{padding:12px 12px calc(20px + env(safe-area-inset-bottom))}
+    /* No telefone a miniatura encolhe mais: o cartao inteiro -- miniatura e ficha --
+       tem que caber na primeira tela, que e o ponto de um cartao de imovel. */
+    #cena{height:clamp(190px,30vh,290px)}
+    #ficha{padding:13px 14px 16px;margin-top:12px}
     #ficha h1{font-size:16px}
     /* No telefone o preco desce pra linha de baixo, alinhado a esquerda com o resto:
        empurrado pra direita ele briga por largura com um titulo que ja mal cabe. */
@@ -186,42 +196,25 @@ PAGINA = u"""<!doctype html>
     /* Duas colunas ainda cabem em 500 px e poupam 4 linhas de ficha -- que e altura
        que volta pra maquete. Abaixo de ~340 px o `auto-fit` cai pra uma sozinho. */
     .comodos .grade{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0 16px}
-    #puxador{margin:-6px -14px 6px}
   }
-  @supports (max-height:52dvh){ @media (max-width:640px){ #ficha{max-height:52dvh} } }
+  @supports (height:30dvh){ @media (max-width:640px){ #cena{height:clamp(190px,30dvh,290px)} } }
 
-  /* A FICHA RECOLHIDA. A ALTURA VEM POR ESTILO INLINE, do JS -- nao daqui.
-
-     As duas primeiras versoes tentaram pela folha: `body.recolhida #ficha{max-height:
-     var(--ficha-min) !important}`, primeiro no meio e depois no fim do arquivo. Medido
-     nas duas: `overflow:hidden` da MESMA regra pegava e o `max-height` nao (computado
-     ficava em 422,76 px, que e o `52dvh` da regra anterior). Ou seja, a declaracao com
-     `var()` saia da cascata e a de baixo assumia -- sem erro, sem aviso, e com o
-     painel simplesmente nao recolhendo.
-
-     Estilo inline nao disputa cascata com ninguem, nao depende de `!important` e
-     continua animando pela transicao declarada no `#ficha`. Aqui fica so o que nao
-     tem a ver com altura. */
-  @media (pointer:coarse),(max-width:640px){
-    body.recolhida #ficha{overflow:hidden}
-    body.recolhida .stats,body.recolhida .comodos{opacity:0;transition:opacity .12s}
-  }
 </style>
 </head>
 <body>
+<div class="folha">
 <div id="cena">
   <canvas id="c"></canvas>
   <div id="selo"><i></i><span id="seloT">3&ordm; andar</span></div>
   <div id="ctrl">
     <button id="bGira" aria-pressed="true">Girar</button>
     <button id="bCorte" aria-pressed="false">Ver andar</button>
+    <button id="bAmpliar" aria-pressed="false">Ampliar</button>
   </div>
   <div id="dica">Arraste para girar &middot; roda ou pin&ccedil;a para aproximar</div>
 </div>
 
 <section id="ficha">
-  <div id="puxador" role="button" tabindex="0" aria-expanded="true"
-       aria-label="Abrir ou recolher as informa&ccedil;&otilde;es"><i></i><b id="puxadorT">Recolher</b></div>
   <div class="topo">
     <div>
       <div class="tag" id="fTag"></div>
@@ -233,6 +226,7 @@ PAGINA = u"""<!doctype html>
   <div class="stats" id="fStats"></div>
   <div class="comodos"><h2>C&ocirc;modos</h2><div class="grade" id="fComodos"></div></div>
 </section>
+</div>
 
 <script>@@THREE@@</script>
 <script id="__imovel" type="application/json">@@DADOS@@</script>
@@ -534,7 +528,9 @@ function raioQueEnquadra() {
      CENTRO) nao conta. */
   var dv = (ALTURA / 2) / Math.tan(vf / 2);
   var dh = raioBase / Math.tan(hf / 2);
-  return Math.max(R_MIN, Math.max(dv, dh) * 1.06 + raioBase * 0.9);
+  // 1,12 e nao 1,06: com a margem justa a base do predio encostava na borda de baixo
+  // do painel, e a perspectiva ainda empurra pra fora o canto mais proximo.
+  return Math.max(R_MIN, Math.max(dv, dh) * 1.12 + raioBase * 0.9);
 }
 function poeCam() {
   var s = Math.sin(orb.ph);
@@ -546,7 +542,14 @@ function redim() {
   var w = caixa.clientWidth, h = caixa.clientHeight;
   if (!w || !h) return;
   if (cv.width !== Math.floor(w*ren.getPixelRatio()) || cv.height !== Math.floor(h*ren.getPixelRatio())) {
-    ren.setSize(w, h, false);
+    /* `updateStyle` LIGADO (o padrao). Com ele desligado o canvas fica sem tamanho de
+       CSS e o navegador o exibe no tamanho do BUFFER -- que e `w * devicePixelRatio`.
+       Num monitor de dpr 1 os dois numeros coincidem e nao se ve nada; num celular de
+       dpr 1,75 a maquete sai 75% maior que o painel e vaza por fora dele. Foi assim
+       que a "miniatura gigante no celular" nasceu, junto com um `width:100pct` invalido
+       que ficou na folha. Aqui sao os dois consertos, e este e o que nao depende de o
+       CSS estar certo. */
+    ren.setSize(w, h);
   }
   if (Math.abs(cam.aspect - w/h) > 1e-4) { cam.aspect = w/h; cam.updateProjectionMatrix(); }
   /* Fora do `if` de proposito. No primeiro quadro a ficha ainda nao foi medida, entao
@@ -623,62 +626,20 @@ bCorte.addEventListener("click", function () {
 });
 pintaGira();
 
-/* ---- o painel recolhivel (celular) ---------------------------------------- */
-var ficha = document.getElementById("ficha"), puxador = document.getElementById("puxador");
-var recolhida = false;
-function alturaMinima() {
-  // O quanto da ficha fica visivel recolhida: o puxador mais o bloco do titulo. Sai
-  // MEDIDO do proprio topo, e nao de um numero fixo -- titulo de duas linhas, preco em
-  // linha propria e fonte maior do sistema mudam essa altura, e um valor cravado
-  // cortaria o preco em metade dos aparelhos.
-  var topo = ficha.querySelector(".topo");
-  var h = puxador.offsetHeight + topo.getBoundingClientRect().height;
-  var pad = parseFloat(getComputedStyle(ficha).paddingTop) || 12;
-  return Math.round(h + pad * 2) + "px";
+/* ---- ampliar: a miniatura toma a tela, por pedido ------------------------- */
+var bAmpliar = document.getElementById("bAmpliar"), ampliada = false;
+function poeAmpliada(v) {
+  ampliada = v;
+  document.body.classList.toggle("ampliada", v);
+  bAmpliar.setAttribute("aria-pressed", String(v));
+  bAmpliar.textContent = v ? "Reduzir" : "Ampliar";
+  // O `ResizeObserver` do #cena chama `redim()` sozinho quando a caixa muda de
+  // tamanho, e `redim()` reenquadra -- a proporcao de tela cheia nao e a do painel.
 }
-function poeRecolhida(v) {
-  recolhida = v;
-  // Medir ANTES de recolher: com a classe ja posta o painel esta cortado e a medida
-  // sairia a dele proprio, que e justamente o que se quer calcular.
-  var alt = v ? alturaMinima() : "";
-  document.body.classList.toggle("recolhida", v);
-  ficha.style.maxHeight = alt;          // ver a nota do bloco recolhido, no CSS
-  if (v) ficha.scrollTop = 0;
-  puxador.setAttribute("aria-expanded", String(!v));
-  document.getElementById("puxadorT").textContent = v ? "Ver informa\u00e7\u00f5es" : "Recolher";
-}
-puxador.addEventListener("click", function () { poeRecolhida(!recolhida); });
-puxador.addEventListener("keydown", function (e) {
-  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); poeRecolhida(!recolhida); }
-});
-// Arrastar o puxador pra baixo recolhe, pra cima abre -- e o gesto que a pessoa ja
-// tenta antes de procurar onde clicar.
-(function arrastaPuxador() {
-  var y0 = null;
-  puxador.addEventListener("pointerdown", function (e) { y0 = e.clientY; });
-  puxador.addEventListener("pointermove", function (e) {
-    if (y0 === null) return;
-    var d = e.clientY - y0;
-    if (Math.abs(d) > 24) { poeRecolhida(d > 0); y0 = null; }
-  });
-  addEventListener("pointerup", function () { y0 = null; });
-})();
-// No celular a pagina ABRE recolhida: a maquete e o que se veio ver, e a ficha esta a
-// um toque de distancia. No desktop nao ha o que recolher -- sobra tela.
-if (TOQUE || innerWidth <= 640) {
-  // Depois do layout: `alturaMinima()` mede, e antes do primeiro quadro nao ha o que medir.
-  requestAnimationFrame(function () { requestAnimationFrame(function () { poeRecolhida(true); }); });
-}
-// Girar o telefone muda a altura do titulo (ele quebra em menos linhas deitado), e
-// com ela a altura recolhida. Remedir sem a classe posta exige tira-la por um quadro.
-addEventListener("resize", function () {
-  if (!recolhida) return;
-  ficha.style.maxHeight = "";
-  document.body.classList.remove("recolhida");
-  var alt = alturaMinima();
-  document.body.classList.add("recolhida");
-  ficha.style.maxHeight = alt;
-});
+bAmpliar.addEventListener("click", function () { poeAmpliada(!ampliada); });
+// Sair pelo Esc: ampliada nao ha botao de fechar alem do proprio, e teclado e o
+// caminho que quem esta no desktop tenta primeiro.
+addEventListener("keydown", function (e) { if (e.key === "Escape" && ampliada) poeAmpliada(false); });
 
 /* ---- laco ----------------------------------------------------------------- */
 var tAnt = 0, pulso = 0;
@@ -743,6 +704,14 @@ def main():
          .replace("@@DADOS@@", json.dumps(IMOVEL, ensure_ascii=False))
          .replace("@@THREE@@", three))
     os.makedirs(os.path.dirname(os.path.abspath(SAIDA)), exist_ok=True)
+    # PORTAO DE `%%`. O template ja foi formatado por `%` um dia, e os escapes que
+    # aquilo exigia sobreviveram a troca pra `.replace()`: sobrou `width:100%%` na folha,
+    # que e declaracao INVALIDA. Sem tamanho de CSS o navegador exibe o canvas no
+    # tamanho do BUFFER -- num monitor de dpr 1 da no mesmo e nao se ve nada; num
+    # celular de dpr 1,75 a maquete sai 75% maior que o painel. Custou uma ida e volta
+    # ate alguem abrir no telefone, entao vira portao.
+    if "%%" in s:
+        raise SystemExit("saida tem '%%' -- escape de formatacao que virou CSS invalido")
     io.open(SAIDA, "w", encoding="utf-8", newline="").write(s)
     print("%.2f MB -> %s" % (len(s.encode("utf-8")) / 1e6, SAIDA))
     print("  %s · %d pavimentos · unidade no %dº andar"
