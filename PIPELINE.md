@@ -3059,3 +3059,117 @@ olhando o terreno.
 - **Móvel é caixa chanfrada.** A cadeira Tulip, o pendente e o vaso da referência
   precisam de asset real (Fab/Quixel são grátis com a UE; Poly Haven é CC0), em
   glTF+Draco+KTX2, ~200-600 KB por peça e compartilhado entre unidades.
+
+
+## 26. As tres etapas, e a planta que saiu da cidade (2026-09-19, v17)
+
+Pedido de 19/09/2026: um link que abre direto no imovel, com a camera circulando o
+predio e a ficha na tela, e **tres etapas** de visualizacao -- mapa, interior e planta
+3D. A planta tinha que ser **cenario separado**, sem a cidade em volta, e com o sistema
+de moveis funcionando **tambem na vista aerea**.
+
+Sai em `renderizador-v17/`, copia do `renderizador-v16-moveis/`. O v16-moveis nao foi
+tocado: monta-se um ou outro por `MAPA_V`.
+
+    MAPA_V=v17 python pipeline/montar.py sao-carlos
+    MAPA_V=v17 python pipeline/testa_etapas.py sao-carlos --unidade <id>
+
+### O link
+
+`?imovel=<id>` abre a pagina ja no imovel; `?etapa=mapa|interior|planta` diz em qual
+das tres. Ele e lido em `lerLink()`, **depois** que a cidade montou -- achar o predio de
+uma unidade depende de `gGroups`, e esse e o mesmo elo fraco que a vitrine ja tinha (o
+predio sai de `predio_id`, da ancora do anuncio ou do lote). Nao resolvendo, a pagina
+cai no "clique no predio do empreendimento" de sempre, em vez de abrir em lugar nenhum.
+
+Na chegada pelo link o raio de montagem sobe pra **2.500 m** (`RAIO_LINK`), contra os
+1.800 m do uso normal. Nao e o novo padrao da pagina: e quase o dobro de area
+(2,5² / 1,8² = 1,93), e so vale quando a cidade em volta do predio e o assunto. O
+orcamento por quadro do `streamPump` continua o mesmo -- o que muda e quanto tempo ele
+leva pra encher, nao o tamanho do engasgo.
+
+**A URL de um imovel e a do IMOVEL.** `escreveLink()` para de gravar `em/r/p/t`
+enquanto ha ficha aberta: com a camera girando, aqueles quatro numeros seriam outros a
+cada segundo, e na volta brigariam com o enquadramento do proprio predio. Quem escreve
+a URL passa a ser `marcaEtapaNaUrl()`, na troca de etapa.
+
+### A camera que circula
+
+`TOUR`, 0,19 rad/s -- uma volta em ~33 s. O giro e por SEGUNDO, nao por quadro: com
+passo por quadro a mesma volta levaria 12 s numa GPU e 90 s no rasterizador de
+software, e a diferenca apareceria como "o link do celular esta quebrado".
+
+Ela **para no primeiro toque** no canvas (`pointerdown` e `wheel`). E o ponto: o giro
+existe pra mostrar o predio a quem acabou de abrir o link, e insistir por cima da mao
+de quem ja esta arrastando e o defeito classico desse recurso. Volta pelo botao "Girar
+camera" na ficha.
+
+### A planta ganhou cena propria
+
+Ate o v16 a "vista de planta" era a **mesma cena da cidade** com o plano de corte
+descendo pra altura do ombro. Funcionava e custava caro: o quadro continuava montando
+quarteirao, plantando arvore, projetando rotulo de rua, redesenhando minimapa e
+pintando pino, tudo atras de um apartamento de 60 m² que era o unico assunto da tela --
+e o bairro fatiado em volta atrapalhava justamente a leitura que a planta existe pra dar.
+
+Agora existe `cenaPlanta`: fundo, nevoa e tres luzes proprias, mais o "chao" (um disco
+escuro com grade de 1 m) em que a maquete pousa -- sem uma superficie embaixo, a sombra
+do movel cai no nada e a cena perde a unica pista de profundidade que tem.
+
+**A geometria nao e duplicada.** Quem muda de cena e o grupo `gInteriores` INTEIRO, que
+ja carrega a raiz da unidade (paredes, piso, esquadria, mobilia, plafom, interruptor e a
+grade do modo moveis), o contorno de selecao e o gizmo de setas. Trocar de etapa e um
+`add()`: nao remonta malha, nao realoca buffer e nao recompila material.
+
+Quatro coisas que isso cobrou:
+
+- **As luzes do interior mudaram de dono.** Estavam penduradas direto em `scene`
+  (`montaLuminarias` e a ambiente do `acendeInterior`); agora nascem em `gInteriores`.
+  Sem isso a etapa 3 abriria sem lampada e a cidade ficaria com quatro pontuais orfas.
+- **A unidade assenta em y = 0.** Na cidade ela mora em `baseDaCasa` (cota do terreno +
+  andar x pe-direito de pavimento); planta de 3º andar nao se desenha 9 m acima do
+  papel. `INT.baseY` vira 0 enquanto durar a etapa, e tudo que deriva dele -- corte,
+  caixa de selecao, gizmo, altura da lampada -- segue junto sem saber da troca. O
+  `interiorFrame` deixa de perseguir o terreno enquanto `PLANTA.on`.
+- **O forro sai.** Com o corte no ombro ele sumia por clipping e ninguem notava; com
+  "Paredes inteiras" ele e a tampa de uma caixa, e a planta desaparece debaixo dela --
+  foi exatamente o que apareceu no primeiro print. Maquete de arquitetura nao tem laje
+  de cobertura. A troca do forro saiu do ouvinte do botao orfao "Teto" e virou
+  `poeTeto()`, que as duas pontas chamam.
+- **A cor escrita na cena da planta e a cor na tela.** O resto do arquivo escreve hex
+  CRU porque a paleta da cidade foi calibrada a olho contra a saida sRGB (ver a nota do
+  `ColorManagement`): na pratica cada hex daquela paleta e um valor LINEAR. Numa cena
+  nova isso nao se herda -- o primeiro fundo foi escrito `0x121820` (quase preto) e saiu
+  **#4A5561** na tela, um cinza-azulado de meio-tom. `corTela()` faz a conversao
+  explicita, e so nesta cena.
+
+**O ganho e o laco.** `plantaFrame()` e o contrario do `frame()`: nao chama streaming,
+arvore, portao, pino, rotulo de rua, minimapa, nevoa do quadro nem noite. Quem nao e
+desenhado nao e atualizado -- e isso e o recurso, nao um efeito colateral. O bake de luz
+continua rodando ali (`cenaDoBake` ja e cena separada e nao le nada da cidade): sem essa
+linha, um link que abre direto na etapa 3 ficaria com a parede sem lightmap ate alguem
+voltar pro mapa.
+
+### Dois consertos que vieram junto
+
+- **`flyTo` ganhou GERACAO.** Dois voos disparados no mesmo gesto (a vitrine enquadrando
+  o anuncio e, logo depois, a etapa enquadrando pelo tamanho do predio) rodavam os dois
+  ao mesmo tempo, cada um escrevendo em `target` e `sph.radius` no seu proprio rAF.
+  Medido: a etapa 3 abria a 190 m de distancia -- um apartamento de 10 m virava tres
+  pixels -- porque o voo da vitrine escrevia DEPOIS do enquadramento. Agora o voo novo
+  invalida o velho na primeira linha do passo, e `paraVoo()` cancela sem mexer na camera.
+- **O arrasto inverte na etapa 3.** Ali a pessoa olha um OBJETO, nao um mapa: esquerdo
+  gira, direito move -- que e o que o texto da dica da vista de planta sempre prometeu e
+  o codigo nunca fez. A faixa de `phi` tambem abre (0,10 a 1,35 contra 0,75 a 1,15):
+  de cima a pino E a vista util numa planta, e nao ha horizonte pra proteger.
+
+### O que NAO foi feito
+
+- O raio de 2.500 m vale pra qualquer nivel de grafico, inclusive "baixo". O
+  `streamPump` espalha a montagem no tempo, entao nao ha engasgo -- mas a memoria
+  residente de um celular fraco sobe junto. Se aparecer, o teto por nivel entra aqui.
+- A pagina real nao foi montada neste ambiente: o acervo (`city.json`, relevo, plantas
+  fornecidas) nao esta no checkout. A prova saiu de uma fixture sintetica -- um predio,
+  uma planta de cinco comodos, mobilia parametrica -- pelo mesmo Chrome headless que os
+  outros portoes usam. `pipeline/testa_etapas.py` e o portao pra rodar contra o acervo
+  de verdade.
