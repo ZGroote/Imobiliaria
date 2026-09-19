@@ -8,9 +8,11 @@ antigo primeiro. Os invocadores saíram, junto com onze scripts que ninguém mai
 chamava. O que eles faziam está em `pipeline/`; o código deles está no histórico do
 Git, que é onde código aposentado deve morar.
 
-As pastas `v4/`..`v8/` continuam existindo porque guardam DADO -- `padrao/cidades/*.json`
-aponta para `v7/dados/`, `v4/sao-carlos-v4.city.json` e `v6/relevo_wide.json`. O que
-saiu foi só código.
+As pastas `v3/`..`v12/` e `v16/` guardavam, além disso, o DADO de São Carlos e as
+páginas montadas de cada geração. O dado foi para `sao-carlos/`, no padrão das outras
+cidades, e as pastas foram para `_arquivo/`. Saída viva hoje é só `v15/` (V_PADRAO) e
+`v16-moveis/` — e o nome não é o critério: `pipeline/build/config.py` deriva o caminho
+da variante a partir do que a cidade declara.
 """
 import ast
 import unittest
@@ -85,18 +87,19 @@ class PipelinePathTests(unittest.TestCase):
                              '%s não é chamado por ninguém; seu lugar é o histórico'
                              % morto)
 
-    def test_the_old_version_folders_hold_data_only(self):
-        """Elas continuam existindo -- `padrao/cidades/*.json` lê dado de dentro --
-        mas não voltam a guardar etapa de pipeline."""
-        for pasta in ('v4', 'v5', 'v6', 'v7', 'v8'):
-            raiz = RAIZ / pasta
-            if not raiz.exists():
-                continue
-            codigo = [p for p in raiz.rglob('*')
-                      if p.suffix in ('.py', '.js') and p.is_file()
-                      and 'dados' not in p.parts]
-            self.assertEqual(codigo, [],
-                             'código de volta em %s/: %s' % (pasta, codigo))
+    def test_only_the_live_variants_keep_a_version_folder(self):
+        """Pasta com nome de geração na raiz é saída de variante viva, e nada mais.
+
+        As outras foram para `_arquivo/` em 19/09/2026 e o dado que estava nelas para
+        `sao-carlos/`. Uma voltando à raiz é sinal de que alguém a desarquivou sem
+        querer -- e a de código já custou uma migração pela metade."""
+        from pipeline.build.config import VARIANTES
+        vivas = {'v15'} | {v for v in VARIANTES if v != 'v15'}
+        for pasta in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10', 'v11',
+                      'v12', 'v16'):
+            self.assertNotIn(pasta, vivas)
+            self.assertFalse((RAIZ / pasta).exists(),
+                             '%s/ voltou para a raiz; o lugar dela é _arquivo/' % pasta)
 
     def test_each_plant_tool_has_a_single_source(self):
         for canonico, antigos in FERRAMENTAS.items():
