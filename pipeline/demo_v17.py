@@ -1,21 +1,26 @@
 # -*- coding: utf-8 -*-
-"""Monta uma pagina de DEMONSTRACAO do v17 com cidade sintetica.
+"""Monta uma pagina do v17 com UM predio: o da planta enviada em 19/09/2026.
 
 Existe por um motivo pratico: o acervo de Sao Carlos (`city.json`, relevo, plantas
 fornecidas) sao artefatos grandes que nao vivem no repositorio, entao uma maquina que
-so tem o codigo nao consegue montar a pagina de verdade -- nem pra conferir as tres
-etapas, nem pra mostrar o resultado pra alguem. Aqui a cidade e FABRICADA: malha viaria
-em grade, quarteiroes com predios de altura variada, e no centro uma torre com uma
-unidade cadastrada (planta de cinco comodos e mobilia parametrica).
+so tem o codigo nao consegue montar pagina nenhuma -- nem pra conferir as tres etapas,
+nem pra mostrar o resultado pra alguem.
 
-NAO substitui o `montar.py`. As pecas do renderizador sao as mesmas, byte a byte -- o
-que muda e so a origem do dado. Serve pra demonstrar e pra provar comportamento (e o
-que o `testa_etapas.py` mediria contra o acervo de verdade).
+Aqui a "cidade" e o predio e mais nada: uma torre com a pegada da planta e duas ruas
+pra dar chao. Quem precisa de cidade cheia usa o `montar.py` com o acervo.
 
-    python pipeline/demo_v17.py                      # -> v17/demo-v17.html
+AS MEDIDAS SAO AS DA PLANTA ENVIADA, lidas do `planta-apartamento-3d.html`: piso de
+16,5 x 9,2 m, pe-direito 2,6 m, o recuo no canto sudeste, e cada divisoria na mesma
+coordenada em que ela esta la. O que muda e a FORMA do dado, nao o numero: aquele
+arquivo declara PAREDE (uma caixa por parede); o v17 declara COMODO, e deriva a parede
+de toda fronteira entre donos diferentes (ver `paredesDaGrade` no app.js). Por isso o
+que esta escrito abaixo e o retangulo de cada ambiente, e nao a lista de paredes.
+
+    python pipeline/demo_v17.py                          # -> v17/demo-v17.html
+    python pipeline/demo_v17.py --abre planta            # abre direto na etapa 3
     python pipeline/demo_v17.py --saida /tmp/x.html
 """
-import io, json, os, random, sys
+import io, json, os, re, sys
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FONTE = os.path.join(RAIZ, "renderizador-v17")
@@ -26,16 +31,91 @@ def arg(nome, padrao=None):
 
 
 SAIDA = arg("--saida", os.path.join(RAIZ, "v17", "demo-v17.html"))
-UNIDADE_ID = "demo-1204"
-Q = 10                      # decimetros: a mesma quantizacao do acervo real
-ELEV_N = 8                  # grade de relevo NxN (plana, nesta demo)
-QUADRA = 120.0              # lado do quarteirao, em metros
-ALCANCE = 1320.0            # meia-largura da cidade fabricada
-rnd = random.Random(20260919)   # semente fixa: a mesma demo em toda maquina
+ABRE = arg("--abre", "")            # "", "mapa", "interior" ou "planta"
+UNIDADE_ID = "planta-1"
+Q = 10                              # decimetros: a mesma quantizacao do acervo real
+ELEV_N = 8                          # grade de relevo NxN (plana aqui)
+PD = 2.6                            # pe-direito da planta enviada
+ANDAR = 3                           # o piso nasce em andar x 3,15 m (LV, no app.js)
+
+# ---- a planta, em metros, no referencial do desenho enviado -------------------
+# Linhas de EIXO de parede, nao faces: a parede do v17 nasce sobre a fronteira entre
+# dois comodos, com 13 cm centrados nela. Sao os mesmos numeros do arquivo enviado.
+O, L = -8.15, 8.15                  # oeste / leste
+N, S = -4.50, 4.50                  # norte / sul
+RX, RZ = 3.00, 1.90                 # o recuo do canto sudeste comeca aqui
+QX = -2.70                          # a prumada que fecha os dois quartos
+Q1S, Q2N = -1.30, 1.60              # fundo do quarto 1 e testada do quarto 2
+BX0, BX1, BZ0, BZ1 = -1.10, 1.50, -1.40, 1.00   # banho
+CX0, CX1, CZ1 = 2.00, 4.80, -2.40               # cozinha (encosta no norte)
+PX = 4.80                           # prumada que separa a sala da area privativa
+
+
+def ret(x0, z0, x1, z1):
+    return [[x0, z0], [x1, z0], [x1, z1], [x0, z1]]
+
+
+# A ORDEM IMPORTA. `paredesDaGrade` pergunta "de quem e esta celula?" e fica no PRIMEIRO
+# comodo que a contem. A sala e o poligono que sobra -- um hexagono que passa por cima
+# do banho e da cozinha --, entao ela vem por ultimo e os dois vencem dentro da area
+# deles. Sem isso a sala seria um poligono COM BURACO, que `inside()` nao sabe tratar.
+COMODOS = [
+    {"nome": "Banho",           "poly": ret(BX0, BZ0, BX1, BZ1), "piso": "frio"},
+    {"nome": "Cozinha",         "poly": ret(CX0, N, CX1, CZ1),   "piso": "frio"},
+    {"nome": "Quarto 1",        "poly": ret(O, N, QX, Q1S),      "piso": "quente"},
+    {"nome": "Quarto 2",        "poly": ret(O, Q2N, QX, S),      "piso": "quente"},
+    {"nome": "Hall",            "poly": ret(O, Q1S, QX, Q2N),    "piso": "quente"},
+    {"nome": "Área privativa",  "poly": ret(PX, N, L, RZ),       "piso": "frio"},
+    # O hexagono da sala: desce pelo leste ate o recuo, corta pra dentro e fecha no sul.
+    {"nome": "Sala", "piso": "quente",
+     # Area MEDIDA (o hexagono menos banho e cozinha). Sem ela a ficha somaria a area
+     # dos dois duas vezes -- o poligono passa por cima deles de proposito.
+     "area": round((PX - QX) * (RZ - N) + (RX - QX) * (S - RZ)
+                   - (BX1 - BX0) * (BZ1 - BZ0) - (CX1 - CX0) * (CZ1 - N), 2),
+     "poly": [[QX, N], [PX, N], [PX, RZ], [RX, RZ], [RX, S], [QX, S]]},
+]
+
+# Vao e PONTO + largura: ele procura sozinho a parede mais proxima (35 cm de alcance).
+PORTAS = [
+    {"p": [-4.00, Q1S], "largura": 0.80},          # quarto 1 -> hall
+    {"p": [-4.00, Q2N], "largura": 0.80},          # quarto 2 -> hall
+    # O hall e a sala sao o MESMO espaco no desenho enviado: ali nao ha parede nenhuma
+    # em x = -2,70 entre os dois quartos. Uma abertura da largura inteira do trecho
+    # (2,90 m) reproduz isso sem precisar de um comodo em L.
+    {"p": [QX, (Q1S + Q2N) / 2], "largura": 2.90},
+    # O desenho enviado nao fecha o lado leste do banho -- nao ha parede em x = 1,50.
+    # Deixado assim o banheiro fica aberto pra sala, que e defeito de croqui e nao
+    # projeto: aqui ele ganha porta, e essa e a UNICA licenca tomada sobre o original.
+    {"p": [BX1, -0.20], "largura": 0.80},
+    {"p": [(CX0 + CX1) / 2, CZ1], "largura": 0.90},   # cozinha -> sala
+    {"p": [PX, -3.75], "largura": 1.50},              # sala -> area privativa
+]
+JANELAS = [
+    {"p": [O, -3.00], "largura": 1.60},    # quarto 1, oeste
+    {"p": [O,  2.50], "largura": 1.60},    # quarto 2, oeste
+    {"p": [L, -1.50], "largura": 2.20},    # leste
+    {"p": [5.50, RZ], "largura": 1.80},    # sobre o recuo
+    {"p": [-4.00, N], "largura": 2.00},    # quarto 1, norte
+    {"p": [ 1.50, N], "largura": 2.00},    # sala, norte
+]
+MOVEIS = [
+    {"tipo": "sofa",        "p": [0.20, -3.40], "rot": 0},
+    {"tipo": "rack",        "p": [0.20, -4.30], "rot": 2},
+    {"tipo": "tv",          "p": [0.20, -4.35], "rot": 2},
+    {"tipo": "guardaroupa", "p": [-7.70, -3.00], "rot": 1},
+    {"tipo": "armario",     "p": [-7.70,  3.00], "rot": 1},
+    {"tipo": "pia",         "p": [ 2.60, -4.10], "rot": 0},
+    {"tipo": "balcao",      "p": [ 4.30, -4.10], "rot": 0},
+    {"tipo": "box",         "p": [-0.60,  0.40], "rot": 0},
+    {"tipo": "maquina",     "p": [ 7.60,  1.30], "rot": 0},
+]
+
+# ---- o predio: a pegada da planta, seis pavimentos ---------------------------
+LARG, PROF = 16.90, 9.60            # 40 cm a mais que a planta: a casca e por fora dela
+ALT = 19.00                         # ~6 pavimentos; o piso do 3o andar fica em 9,45 m
 
 
 def caminho(pts):
-    """Um anel/linha no formato do city.json: n seguido de deltas inteiros."""
     out = [len(pts)]
     lx = lz = 0
     for x, z in pts:
@@ -44,149 +124,59 @@ def caminho(pts):
     return out
 
 
-def anel(cx, cz, larg, prof):
-    """Retangulo em DECIMETROS, com enrolamento negativo (shoelace < 0).
+# Enrolamento NEGATIVO: `plantaDaUnidade` le `shoelace(rec.r) > 0` como "contorno
+# gerado" e inverte o anel antes de recortar a casca. No sentido errado a planta nasce
+# maior que o predio.
+anel = [(-LARG / 2 * Q,  PROF / 2 * Q), ( LARG / 2 * Q,  PROF / 2 * Q),
+        ( LARG / 2 * Q, -PROF / 2 * Q), (-LARG / 2 * Q, -PROF / 2 * Q)]
 
-       O sinal nao e detalhe: `plantaDaUnidade` le `shoelace(rec.r) > 0` como "contorno
-       GERADO" e inverte o anel antes de recortar a casca. Um retangulo no sentido
-       errado faz a planta nascer maior que o predio."""
-    x0, x1 = (cx - larg / 2) * Q, (cx + larg / 2) * Q
-    z0, z1 = (cz - prof / 2) * Q, (cz + prof / 2) * Q
-    return [(x0, z1), (x1, z1), (x1, z0), (x0, z0)]
+nomes = ["Edifício da planta", "Rua da Planta", "Rua Lateral"]
+city = {
+    "q": Q,
+    "b": [1, int(ALT * Q)] + caminho(anel),
+    # Duas ruas so pra dar chao e escala -- sem via nenhuma o minimapa e a busca
+    # abrem vazios e a etapa 1 vira um predio boiando no nada.
+    "r": ([6, 1] + caminho([(-1200, 130), (1200, 130)]) +
+          [6, 2] + caminho([(-150, -600), (-150, 600)])),
+    "g": [], "bl": [0, 0, 200, 0, 1],
+    "names": nomes, "bm": [0, 0, 0], "fa": [400],
+}
 
-
-def ret(x0, z0, x1, z1):
-    return [[x0, z0], [x1, z0], [x1, z1], [x0, z1]]
-
-
-# ---- a malha viaria: grade simples, uma avenida no meio de cada eixo -----------
-ruas, nomes = [], []
-def via(k, nome, pts):
-    nomes.append(nome)
-    ruas.extend([k, len(nomes) - 1] + caminho([(x * Q, z * Q) for x, z in pts]))
-
-# As ruas ficam em (i + 1/2) x QUADRA, e nao em i x QUADRA. O motivo nao e estetico: a
-# `ancora` da unidade e o CENTRO do mapa, e `predioDaUnidade` resolve isso pelo predio
-# mais proximo da origem -- entao a torre TEM que estar em (0, 0). Com a grade deslocada
-# de meia quadra, o quarteirao do meio e centrado na origem e o lote do meio dele tambem.
-# Alinhando as ruas na origem, a torre cairia em (60, 60) e o farol do link acenderia
-# num predio qualquer do lado -- foi exatamente o que aconteceu no primeiro print.
-n = int(ALCANCE / QUADRA)
-for i in range(-n, n + 1):
-    c = (i + 0.5) * QUADRA
-    avenida = (abs(i) % 5 == 0)
-    # 2 = primary (13 m) nas avenidas; 6 = residential (7,5 m) no resto
-    via(2 if avenida else 6,
-        ("Avenida %d Norte-Sul" % abs(i)) if avenida else ("Rua %d Norte-Sul" % abs(i)),
-        [(c, -ALCANCE), (c, ALCANCE)])
-    via(2 if avenida else 6,
-        ("Avenida %d Leste-Oeste" % abs(i)) if avenida else ("Rua %d Leste-Oeste" % abs(i)),
-        [(-ALCANCE, c), (ALCANCE, c)])
-
-# ---- os quarteiroes: predios de altura variada, e a TORRE no centro ------------
-predios, grupos, meta, fa = [], [], [], []
-RECUO = 11.0            # da rua ate a testada: meia pista + calcada + recuo
-
-for gi in range(-n, n + 1):
-    for gj in range(-n, n + 1):
-        cx, cz = gi * QUADRA, gj * QUADRA
-        miolo = QUADRA - 2 * RECUO
-        inicio = len(fa)
-        central = (gi == 0 and gj == 0)
-        # 3 x 3 lotes por quadra. No quarteirao central, o do meio e a torre da unidade.
-        for li in range(3):
-            for lj in range(3):
-                lx = cx + (li - 1) * (miolo / 3.0)
-                lz = cz + (lj - 1) * (miolo / 3.0)
-                torre = central and li == 1 and lj == 1
-                if torre:
-                    # 45 m = ~14 pavimentos. A unidade mora no 12o andar, e o piso dela
-                    # nasce em `andar x LV` (3,15 m) = 37,8 m: num predio de 12 m o
-                    # apartamento flutuaria acima do proprio telhado. A planta tem
-                    # 10,2 x 8,0 m, entao a torre e so um pouco maior que ela.
-                    larg, prof, alt, cls = 13.0, 10.5, 45.0, 1
-                else:
-                    if rnd.random() < 0.18:
-                        continue                      # lote vazio: a quadra respira
-                    larg = rnd.uniform(8.0, 15.0)
-                    prof = rnd.uniform(8.0, 14.0)
-                    alt = rnd.choice([3.2, 3.2, 6.0, 6.0, 9.0, 15.0, 24.0])
-                    cls = 1 if rnd.random() < 0.82 else 2
-                predios.extend([cls, int(round(alt * Q))] + caminho(anel(lx, lz, larg, prof)))
-                if torre:
-                    nomes.append("Edificio Mirante")
-                    meta.extend([len(fa), len(nomes) - 1, 0])
-                fa.append(400)
-        if len(fa) > inicio:
-            grupos.extend([int(cx * Q), int(cz * Q), int(QUADRA * 0.75 * Q),
-                           inicio, len(fa) - inicio])
-
-city = {"q": Q, "b": predios, "r": ruas, "g": [], "bl": grupos,
-        "names": nomes, "bm": meta, "fa": fa}
-
-cidade = {"slug": "demo", "nome": "Cidade de demonstração", "uf": "SP",
+cidade = {"slug": "planta", "nome": "Planta enviada", "uf": "SP",
           "centro": {"lat": -22.01725, "lon": -47.8908},
           "quantizacao": Q,
           "relevo_grade": {"n": ELEV_N, "half_m": 2000},
           "arborizacao": {}, "aparencia": {},
-          "arquivo_base": "demo.city.json"}
+          "arquivo_base": "planta.city.json"}
 
-# ---- a unidade: planta de cinco comodos na torre do centro --------------------
-# So mobilia PARAMETRICA: sem `moveis/moveis_lib.json` as pecas de malha (cama, mesa,
-# geladeira...) nasceriam vazias. Limite do dado da demo, nao do renderizador.
+area_util = round(sum(
+    c.get("area") or abs(
+        sum(c["poly"][i - 1][0] * c["poly"][i][1] - c["poly"][i][0] * c["poly"][i - 1][1]
+            for i in range(len(c["poly"])))) / 2.0
+    for c in COMODOS), 1)
+
 unidade = {
-    "id": UNIDADE_ID, "cidade": "demo", "andar": 12,
-    "ficha": {"empreendimento": "Edifício Mirante", "titulo": "Apartamento 1204",
-              "bairro": "Centro", "municipio": "Demonstração/SP",
-              "preco": 690000, "tipo": "venda", "area_util": 96,
-              "quartos": 3, "suites": 1, "banheiros": 2, "vagas": 2},
+    "id": UNIDADE_ID, "cidade": "planta", "andar": ANDAR,
+    "ficha": {"empreendimento": "Edifício da planta",
+              "titulo": "Apartamento da planta enviada",
+              "bairro": "—", "municipio": "—",
+              "area_util": area_util, "quartos": 2, "banheiros": 1},
     "predio_id": None,
     "ancora": {"lat": -22.01725, "lon": -47.8908, "confirmado": True},
-    "planta": {
-        "pe_direito": 2.7,
-        "comodos": [
-            {"nome": "Sala",     "poly": ret(0.0, 0.0, 6.4, 4.2), "piso": "quente"},
-            {"nome": "Cozinha",  "poly": ret(6.4, 0.0, 10.2, 4.2), "piso": "frio"},
-            {"nome": "Suíte",   "poly": ret(0.0, 4.2, 4.0, 8.0), "piso": "quente"},
-            {"nome": "Quarto 2", "poly": ret(4.0, 4.2, 7.4, 8.0), "piso": "quente"},
-            {"nome": "Banho",    "poly": ret(7.4, 4.2, 10.2, 8.0), "piso": "frio"}
-        ],
-        "portas": [{"p": [6.4, 2.1], "largura": 0.9},
-                   {"p": [2.0, 4.2], "largura": 0.8},
-                   {"p": [5.7, 4.2], "largura": 0.8},
-                   {"p": [8.8, 4.2], "largura": 0.7}],
-        "janelas": [{"p": [3.2, 0.0], "largura": 2.0},
-                    {"p": [2.0, 8.0], "largura": 1.6},
-                    {"p": [5.7, 8.0], "largura": 1.6},
-                    {"p": [10.2, 2.1], "largura": 1.2}],
-        "moveis": [{"tipo": "sofa",        "p": [1.6, 1.2], "rot": 0},
-                   {"tipo": "tv",          "p": [5.9, 1.2], "rot": 2},
-                   {"tipo": "rack",        "p": [5.9, 1.6], "rot": 2},
-                   {"tipo": "guardaroupa", "p": [0.6, 6.2], "rot": 1},
-                   {"tipo": "armario",     "p": [6.9, 6.2], "rot": 3},
-                   {"tipo": "pia",         "p": [9.6, 0.6], "rot": 0},
-                   {"tipo": "balcao",      "p": [7.2, 0.6], "rot": 0},
-                   {"tipo": "box",         "p": [9.6, 7.4], "rot": 0},
-                   {"tipo": "maquina",     "p": [7.9, 7.4], "rot": 0}]
-    }
+    "planta": {"pe_direito": PD, "comodos": COMODOS,
+               "portas": PORTAS, "janelas": JANELAS, "moveis": MOVEIS},
 }
 
 BLOCOS = [
     ("__cidade", json.dumps(cidade, ensure_ascii=False)),
     ("__unidades", json.dumps([unidade], ensure_ascii=False)),
-    ("__luzue", "{}"),
-    ("__moveis", "{}"),
-    ("__textura", "{}"),
-    ("__imoveis", "[]"),
-    ("__grounddata", "[]"),
-    ("__murosdata", "[]"),
+    ("__luzue", "{}"), ("__moveis", "{}"), ("__textura", "{}"),
+    ("__imoveis", "[]"), ("__grounddata", "[]"), ("__murosdata", "[]"),
     ("__streetdata", "[]"),
     ("__elevdata", json.dumps([0.0] * (ELEV_N * ELEV_N))),
-    ("__portoes", "[]"),
-    ("__vegetacao", "[]"),
+    ("__portoes", "[]"), ("__vegetacao", "[]"),
     ("__citydata", json.dumps(city, separators=(",", ":"))),
-    ("__arvores", '{"especies":{}}'),
-    ("__poidata", "[]"),
+    ("__arvores", '{"especies":{}}'), ("__poidata", "[]"),
     ("__urbanModels", "{}"),
 ]
 
@@ -197,11 +187,10 @@ def le(rel):
 
 
 def main():
-    titulo = "Mapa 3D · v17 · três etapas (demonstração)"
+    titulo = "Planta 3D · v17 · o prédio da planta enviada"
     cabeca = le("cabeca.html")
     if cabeca and cabeca[0] == u"﻿":
-        cabeca = cabeca[1:]          # o BOM vira caractere invisivel quando hospedado
-    import re
+        cabeca = cabeca[1:]      # o BOM vira caractere invisivel quando hospedado
     cabeca = re.sub(r"<title>[^<]*</title>", "<title>%s</title>" % titulo, cabeca, count=1)
 
     partes = [cabeca]
@@ -210,16 +199,27 @@ def main():
     partes += ["<script>", le("lib/three.min.js"), "</script>\n",
                "<script>", le("lib/earcut.min.js"), "</script>\n",
                "<style>", le("estilo.css"), "</style>\n",
-               le("corpo.html"),
-               "<script>", le("terrain-fit.js"), "\n", le("road-clearance.js"), "\n",
+               le("corpo.html")]
+    if ABRE:
+        # O app le `location.search` na inicializacao do modulo. Quando a pagina e
+        # hospedada num lugar que nao deixa acrescentar parametro na URL, este
+        # `replaceState` -- ANTES do app.js -- e o que entrega o link direto mesmo
+        # assim. Um `?imovel=` explicito na URL continua ganhando.
+        partes += ["<script>try{if(!/[?&]imovel=/.test(location.search))"
+                   "history.replaceState(null,'',location.pathname+"
+                   "'?imovel=%s&etapa=%s'+location.hash)}catch(e){}</script>\n"
+                   % (UNIDADE_ID, ABRE)]
+    partes += ["<script>", le("terrain-fit.js"), "\n", le("road-clearance.js"), "\n",
                le("urban-models.js"), "\n", le("app.js"), "</script>", le("rabo.html")]
     s = "".join(partes)
     os.makedirs(os.path.dirname(os.path.abspath(SAIDA)), exist_ok=True)
     io.open(SAIDA, "w", encoding="utf-8", newline="").write(s)
     print("%.2f MB -> %s" % (len(s.encode("utf-8")) / 1e6, SAIDA))
-    print("  %d predios, %d quarteiroes, %d vias" %
-          (len(fa), len(grupos) // 5, len(nomes)))
-    print("  link direto: <url>?imovel=%s  (&etapa=interior | &etapa=planta)" % UNIDADE_ID)
+    print("  planta %.1f x %.1f m · %d cômodos · %.1f m² úteis · pe-direito %.2f m"
+          % (L - O, S - N, len(COMODOS), area_util, PD))
+    print("  predio %.1f x %.1f x %.1f m · unidade no %dº andar (piso em %.2f m)"
+          % (LARG, PROF, ALT, ANDAR, ANDAR * 3.15))
+    print("  link direto: <url>?imovel=%s  (&etapa=mapa | interior | planta)" % UNIDADE_ID)
     return 0
 
 
