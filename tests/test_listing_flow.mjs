@@ -60,9 +60,12 @@ function fixture(modular,{grupos=3}={}) {
       predioDaUnidade, closePoiSheet, abrePerto, enterInterior, setTimeout});`,ctx);
   } else vm.runInContext(source+'\nglobalThis.api={pedePredio,cancelaEscolha,abreUnidade,getEscolhendo:()=>escolhendo};',ctx);
   const clica=(id,tipo='click')=>{for(const fn of node(id).ouvintes[tipo]||[]) fn({});};
+  // A 1.0 altera somente estes textos; o comportamento continua comparado ao original.
+  const textoAtual=html=>modular ? html : html.replace('planta 3D','Sob consulta')
+    .replace(/· (terreno|prédio) não confirmado/g,'· Localização aproximada, ainda não confirmada');
   return {ctx,log,node,clica,
     estado:()=>JSON.stringify([...el].map(([k,e])=>[k,e.textContent,[...e.classList.list],
-      e.dataset.unidade,e.innerHTML.length,e.children.map(f=>[f.dataset.unidade,f.innerHTML])]))
+      e.dataset.unidade,textoAtual(e.innerHTML).length,e.children.map(f=>[f.dataset.unidade,textoAtual(f.innerHTML)])]))
       +vm.runInContext('JSON.stringify([houseBeacon.visible,api.getEscolhendo()&&api.getEscolhendo().id])',ctx)};
 }
 

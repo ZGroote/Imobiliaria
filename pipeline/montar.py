@@ -49,18 +49,21 @@ def le(rel, config=None):
                    encoding="utf-8", newline="").read()
 
 
-def monta(carimbo=None, config=None):
+def monta(carimbo=None, config=None, recorte=None):
     config = config or resolve()
     CID = config.cidade()
     VERSAO = config.versao
     FONTE = str(config.fonte)
     def ler(rel):
         return le(rel, config)
+    # Sem `recorte`, `rec` e a identidade e a pagina sai byte a byte igual a de sempre.
+    def rec(ident, texto):
+        return texto if recorte is None else recorte.aplica(ident, texto)
     carimbo = carimbo or "%s / %s / %s" % (CID.slug, VERSAO, time.strftime("%Y-%m-%d %H:%M"))
     partes = [ler("cabeca.html").replace("{{CIDADE}}", CID.nome).replace("{{VERSAO}}", VERSAO),
               '<script type="application/json" id="__cidade">', blocos_dado.bloco_cidade(CID), "</script>\n",
-              '<script type="application/json" id="__unidades">', blocos_dado.bloco_unidades(CID), "</script>\n",
-              '<script type="application/json" id="__luzue">', blocos_dado.bloco_luzue(CID), "</script>\n",
+              '<script type="application/json" id="__unidades">', rec("__unidades", blocos_dado.bloco_unidades(CID)), "</script>\n",
+              '<script type="application/json" id="__luzue">', rec("__luzue", blocos_dado.bloco_luzue(CID)), "</script>\n",
               '<script type="application/json" id="__moveis">', blocos_dado.bloco_moveis(), "</script>\n",
               '<script type="application/json" id="__textura">', blocos_dado.bloco_textura(), "</script>\n",
               "<script>", ler("lib/three.min.js"), "</script>\n",
@@ -84,23 +87,25 @@ def monta(carimbo=None, config=None):
             d = "[]"; print("  (sem %s: bloco %s vazio)" % (os.path.basename(p), ident))
         if chave == "city_saida":
             d = pacotes.com_encaixes(config, CID, d)
-        partes += ['<script type="application/json" id="%s">' % ident, d, "</script>\n"]
+        partes += ['<script type="application/json" id="%s">' % ident, rec(ident, d), "</script>\n"]
     corpo = ler("corpo.html").replace("{{CIDADE}}", CID.nome)
     corpo = CARIMBO.sub(lambda m: m.group(1) + carimbo + m.group(2), corpo)
     urban = ""
     dados_urbanos = pacotes.urbanos(config)
     if dados_urbanos is not None:
         urban = ler("terrain-fit.js") + "\n" + ler("road-clearance.js") + "\n" + ler("urban-models.js") + "\n"
-        partes += ['<script type="application/json" id="__urbanModels">', dados_urbanos, "</script>\n"]
+        partes += ['<script type="application/json" id="__urbanModels">',
+                   rec("__urbanModels", dados_urbanos), "</script>\n"]
     dados_exteriores = pacotes.exteriores(config, CID)
     if dados_exteriores is not None:
         partes += ['<script type="application/json" id="__exteriorModels">',
-                   dados_exteriores, "</script>\n"]
+                   rec("__exteriorModels", dados_exteriores), "</script>\n"]
         urban += ler("exterior-details.js") + "\n"
     listing_js = ""
     dados_cadastrados = pacotes.cadastrados(config, CID)
     if dados_cadastrados is not None:
-        partes += ['<script type="application/json" id="__listingModels">', dados_cadastrados, "</script>\n"]
+        partes += ['<script type="application/json" id="__listingModels">',
+                   rec("__listingModels", dados_cadastrados), "</script>\n"]
         listing_js = ler("listing-models.js")
     if (config.fonte / 'modules.json').exists():
         from pipeline.build.scripts import programa

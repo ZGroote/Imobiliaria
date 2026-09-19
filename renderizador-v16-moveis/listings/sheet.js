@@ -20,21 +20,20 @@ function preenche(u, confirmado) {
   const f = u.ficha || {}, pl = u.planta || {}, com = pl.comodos || [];
   const nome = (f.empreendimento && f.empreendimento !== "\u2014")
     ? f.empreendimento : (f.titulo || u.id);
-  $("uTag").textContent = f.preco ? (f.tipo === "aluguel" ? "Para alugar" : "\u00c0 venda")
-                                  : "Planta 3D";
+  $("uTag").textContent = f.tipo === "aluguel" ? "Para alugar"
+    : f.tipo === "venda" || f.preco ? "\u00c0 venda" : "Planta 3D";
   $("uName").textContent = nome;
   $("uAddr").textContent = [f.bairro, f.municipio || (CIDADE.nome + "/" + CIDADE.uf),
     u.andar ? u.andar + "\u00ba andar" : null].filter(Boolean).join(" \u00b7 ");
   // O aviso do item da vitrine repetido aqui de proposito: a ficha e onde se decide
   // entrar, e entrar num predio errado e o erro caro.
   $("uAviso").hidden = !!confirmado;
-  $("uAviso").textContent = u.lote
-    ? "Terreno ainda não confirmado"
-    : "Prédio ainda não confirmado";
+  $("uAviso").textContent = "Localização aproximada, ainda não confirmada";
 
   const medida = com.reduce((a, c) => a + areaDoComodo(c), 0);
   const st = [];
-  if (f.preco) st.push(["Pre\u00e7o", brl(f.preco) + (f.tipo === "aluguel" ? "/m\u00eas" : "")]);
+  st.push(["Pre\u00e7o", f.preco
+    ? brl(f.preco) + (f.tipo === "aluguel" ? "/m\u00eas" : "") : "Sob consulta"]);
   if (f.area_util) st.push(["\u00c1rea \u00fatil", m2(f.area_util)]);
   else if (medida) st.push(["\u00c1rea medida", m2(medida)]);
   if (f.area_total && f.area_total !== f.area_util) st.push(["\u00c1rea total", m2(f.area_total)]);

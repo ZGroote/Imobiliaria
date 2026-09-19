@@ -1,0 +1,15 @@
+{
+  "versao_alvo": "1.0.0",
+  "versao_desenvolvimento": "1.0.0-dev.1",
+  "cidade": "sao-carlos",
+  "variante": "v16-moveis",
+  "imoveis": [
+    "wish-castanheiras-58",
+    "monte-das-colinas-39",
+    "monte-dos-cedros-37"
+  ],
+  "preco_ausente": "Sob consulta",
+  "localizacao_nao_confirmada": "Localização aproximada, ainda não confirmada",
+  "raio_entorno_m": 2500,
+  "estado": "em_desenvolvimento"
+}

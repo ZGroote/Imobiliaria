@@ -91,8 +91,7 @@ for (const u of UNIDADES) {
   const el = document.createElement("button");
   el.type = "button";
   el.className = "hitem";
-  // Lote e predio tem cada um a sua confirmacao, e a palavra na tela muda junto: em
-  // lancamento o que esta por confirmar e o TERRENO, e nao qual predio e o dele.
+  // A origem da confirmacao depende de ser lote ou predio; o aviso e sobre localizacao.
   const emLote = !!(u.lote && u.lote.lat != null);
   const conf = emLote ? u.lote.confirmado === true
                       : !!(u.ancora && u.ancora.confirmado === true);
@@ -100,10 +99,9 @@ for (const u of UNIDADES) {
       ? f.empreendimento : (f.titulo || u.id)) + "</div>" +
     '<div class="b">' + esc([f.bairro, (u.andar ? u.andar + "\u00ba andar" : null)]
       .filter(Boolean).join(" \u00b7 ")) +
-      (conf ? "" : ' <span class="aviso">\u00b7 ' + (emLote ? "terreno" : "pr\u00e9dio")
-                   + ' n\u00e3o confirmado</span>') + "</div>" +
+      (conf ? "" : ' <span class="aviso">\u00b7 Localização aproximada, ainda não confirmada</span>') + "</div>" +
     '<div class="p ' + (f.tipo === "aluguel" ? "rent" : "sale") + '">' +
-      (f.preco ? brl(f.preco) + (f.tipo === "aluguel" ? "/m\u00eas" : "") : "planta 3D") + "</div>";
+      (f.preco ? brl(f.preco) + (f.tipo === "aluguel" ? "/m\u00eas" : "") : "Sob consulta") + "</div>";
   el.dataset.unidade = u.id;   // marca o item que tem interior, e nao so farol
   el.addEventListener("click", () => abreUnidade(u));
   housesBox.appendChild(el);
