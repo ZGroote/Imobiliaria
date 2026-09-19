@@ -46,6 +46,39 @@ IMOVEL = {
         "pavimentos": 6,
         "pe_direito_pav": 3.15      # laje a laje; o mesmo LV do renderizador
     },
+    # A PLANTA DA UNIDADE, em metros, no referencial do desenho enviado em 19/09/2026
+    # (16,5 x 9,2 m de piso, pe-direito 2,60 m, recuo no canto sudeste). Sao as MESMAS
+    # coordenadas do `pipeline/demo_v18.py`; a diferenca e que aqui ela e desenhada de
+    # tres jeitos -- 2D, 3D e por dentro -- em vez de virar cidade.
+    #
+    # A ORDEM DOS COMODOS IMPORTA: quem deriva parede pergunta "de quem e esta celula?"
+    # e fica no PRIMEIRO da lista que a contem. A sala e o poligono que SOBRA (um
+    # hexagono que passa por cima do banho e da cozinha), entao vem por ultimo.
+    "planta": {
+        "pe_direito": 2.60,
+        "comodos": [
+            {"nome": "Banho",          "poly": [[-1.10,-1.40],[1.50,-1.40],[1.50,1.00],[-1.10,1.00]], "piso": "frio"},
+            {"nome": "Cozinha",        "poly": [[2.00,-4.50],[4.80,-4.50],[4.80,-2.40],[2.00,-2.40]], "piso": "frio"},
+            {"nome": "Quarto 1",       "poly": [[-8.15,-4.50],[-2.70,-4.50],[-2.70,-1.30],[-8.15,-1.30]], "piso": "quente"},
+            {"nome": "Quarto 2",       "poly": [[-8.15,1.60],[-2.70,1.60],[-2.70,4.50],[-8.15,4.50]], "piso": "quente"},
+            {"nome": "Hall",           "poly": [[-8.15,-1.30],[-2.70,-1.30],[-2.70,1.60],[-8.15,1.60]], "piso": "quente"},
+            {"nome": "\u00c1rea privativa", "poly": [[4.80,-4.50],[8.15,-4.50],[8.15,1.90],[4.80,1.90]], "piso": "frio"},
+            {"nome": "Sala", "piso": "quente",
+             "poly": [[-2.70,-4.50],[4.80,-4.50],[4.80,1.90],[3.00,1.90],[3.00,4.50],[-2.70,4.50]]}
+        ],
+        # Vao e PONTO + largura: ele acha sozinho a parede mais proxima.
+        "portas": [
+            {"p": [-4.00,-1.30], "largura": 0.80}, {"p": [-4.00,1.60], "largura": 0.80},
+            {"p": [-2.70,0.15],  "largura": 2.90},   # hall e sala sao o mesmo espaco
+            {"p": [1.50,-0.20],  "largura": 0.80},   # o croqui nao fecha o banho; aqui fecha
+            {"p": [3.40,-2.40],  "largura": 0.90}, {"p": [4.80,-3.75], "largura": 1.50}
+        ],
+        "janelas": [
+            {"p": [-8.15,-3.00], "largura": 1.60}, {"p": [-8.15,2.50], "largura": 1.60},
+            {"p": [8.15,-1.50],  "largura": 2.20}, {"p": [5.50,1.90],  "largura": 1.80},
+            {"p": [-4.00,-4.50], "largura": 2.00}, {"p": [1.50,-4.50], "largura": 2.00}
+        ]
+    },
     "ficha": [
         ["Área útil", "133,3 m²"],
         ["Quartos", "2"],
@@ -88,13 +121,19 @@ PAGINA = u"""<!doctype html>
      painel da maquete com altura declarada, ficha logo abaixo dele. Quem quiser ver de
      perto tem o botao Ampliar, que ai sim toma a tela -- por pedido, e nao por padrao. */
   html{background:var(--void)}
+  /* A FICHA ENCOSTA NO RODAPE DA TELA. Era uma coluna que comecava no topo, e sobrava
+     tela morta embaixo do cartao. Com o corpo em coluna de altura cheia e a folha
+     empurrada por `margin-top:auto`, o conjunto -- maquete e ficha -- desce junto e a
+     ultima linha para logo acima da borda de baixo. Passando disso, a pagina rola
+     normalmente, porque a altura e `min-height` e nao `height`. */
   body{font-family:var(--ui);color:var(--txt);-webkit-font-smoothing:antialiased;
-    background:var(--void);min-height:100%;user-select:none;-webkit-user-select:none;
-    -webkit-tap-highlight-color:transparent;
+    background:var(--void);min-height:100%;display:flex;flex-direction:column;
+    user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;
     padding:16px calc(16px + env(safe-area-inset-right))
-            calc(24px + env(safe-area-inset-bottom))
+            calc(10px + env(safe-area-inset-bottom))
             calc(16px + env(safe-area-inset-left))}
-  .folha{max-width:720px;margin:0 auto}
+  @supports (min-height:100dvh){ body{min-height:100dvh} }
+  .folha{max-width:720px;margin:auto auto 0;width:100%}
 
   /* A MAQUETE em cima, a ficha embaixo. A maquete e `flex:1` e a ficha tem altura
      propria: numa tela baixa quem cede espaco e o 3D, nunca a informacao. */
@@ -111,10 +150,6 @@ PAGINA = u"""<!doctype html>
     background:radial-gradient(ellipse 62% 58% at 50% 46%,
       rgba(86,124,168,.17),rgba(86,124,168,.05) 55%,transparent 72%)}
   @supports (height:40dvh){ #cena{height:clamp(220px,40dvh,420px)} }
-  body.ampliada{overflow:hidden}
-  body.ampliada #cena{position:fixed;inset:0;height:auto;margin:0;z-index:50;
-    background:radial-gradient(ellipse 52% 48% at 50% 46%,
-      rgba(86,124,168,.15),transparent 70%),var(--void)}
   #c{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
   #c:active{cursor:grabbing}
 
@@ -129,20 +164,10 @@ PAGINA = u"""<!doctype html>
     box-shadow:0 0 10px 1px rgba(75,219,124,.85);animation:pisca 1.6s ease-in-out infinite}
   @keyframes pisca{0%,100%{opacity:1}50%{opacity:.25}}
 
-  #ctrl{position:absolute;top:10px;right:10px;display:flex;gap:6px}
-  /* Ampliada, os controles passam a respeitar o entalhe. Fora dela quem cuida disso e
-     o `padding` do corpo, e somar os dois empurraria os botoes pra dentro da maquete. */
-  body.ampliada #selo{top:calc(12px + env(safe-area-inset-top));
-    left:calc(12px + env(safe-area-inset-left))}
-  body.ampliada #ctrl{top:calc(12px + env(safe-area-inset-top));
-    right:calc(12px + env(safe-area-inset-right))}
-  #ctrl button{font:inherit;font-size:11px;padding:7px 11px;border-radius:7px;cursor:pointer;
-    background:rgba(12,18,25,.72);border:1px solid var(--line);color:var(--txt);
-    backdrop-filter:blur(8px);transition:.15s;min-height:34px;
-    touch-action:manipulation}   /* mata o zoom de toque duplo no botao */
-  #ctrl button:hover{background:rgba(255,255,255,.14)}
-  #ctrl button[aria-pressed=true]{border-color:rgba(75,219,124,.5);
-    background:rgba(75,219,124,.16);color:#BFF3D2}
+  /* A planta 2D e um <svg> por cima do canvas, no mesmo painel: trocar de modo nao
+     troca de caixa, so de conteudo -- e por isso a maquete nao "salta" quando volta. */
+  #p2d{position:absolute;inset:0;width:100%;height:100%}
+  #p2d[hidden]{display:none}
   /* A dica fica POR CIMA da maquete, entao ela precisa de fundo proprio: sobre a
      parede clara do predio, texto a 45% de opacidade desaparece. O degrade e so na
      faixa de baixo -- escurecer o painel inteiro apagaria a sombra no chao, que e a
@@ -150,8 +175,29 @@ PAGINA = u"""<!doctype html>
   /* A dica saiu do canvas. Sem moldura nao ha rodape onde ela caiba: em cima do
      predio ela fica ilegivel, e na faixa de baixo ela cai justamente onde o canvas se
      sobrepoe ao cartao. Virou a ultima linha da ficha, que e onde legenda mora. */
-  #dica{margin-top:13px;padding-top:11px;border-top:1px solid var(--line);
-    font-size:10.5px;opacity:.42;letter-spacing:.04em}
+  /* A ESCADA DE MODOS mora na ficha, e nao flutuando sobre a maquete: sao os quatro
+     jeitos de ver o MESMO imovel, e o lugar disso e junto da informacao dele. Rola no
+     eixo x em tela estreita em vez de quebrar em duas linhas. */
+  #modos{display:flex;gap:6px;margin-top:14px;padding-top:12px;
+    border-top:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+  #modos::-webkit-scrollbar{display:none}
+  #modos button{flex:1 1 0;min-width:84px;font:inherit;font-size:11.5px;padding:9px 6px;
+    border-radius:8px;cursor:pointer;background:rgba(255,255,255,.06);
+    border:1px solid var(--line);color:var(--txt);transition:.15s;
+    touch-action:manipulation;white-space:nowrap}
+  #modos button:hover{background:rgba(255,255,255,.13)}
+  #modos button[aria-pressed=true]{background:rgba(75,219,124,.16);
+    border-color:rgba(75,219,124,.5);color:#BFF3D2}
+  #dica{margin-top:11px;font-size:10.5px;opacity:.42;letter-spacing:.04em}
+
+  /* Manche de caminhada: so na visita, so em ponteiro grosso. Dentro de um
+     apartamento de 3,5 m, quatro setas sao sofriveis -- o manche devolve um vetor
+     continuo, e e isso que deixa ajustar a posicao dentro de um comodo pequeno. */
+  #joy{position:absolute;left:12px;bottom:12px;width:104px;height:104px;border-radius:50%;
+    background:rgba(12,18,25,.42);border:1px solid var(--line);touch-action:none;z-index:3}
+  #joy[hidden]{display:none}
+  #joy i{position:absolute;left:50%;top:50%;width:42px;height:42px;margin:-21px 0 0 -21px;
+    border-radius:50%;background:rgba(231,235,240,.5);border:1px solid rgba(255,255,255,.3)}
 
   /* A JANELA DE INFORMACOES. Rola por dentro: numa tela de telefone deitado a ficha
      inteira nao cabe, e encolher a maquete ate o predio sumir seria pior. */
@@ -159,7 +205,6 @@ PAGINA = u"""<!doctype html>
      cima do "A VENDA". */
   #ficha{position:relative;background:rgba(18,25,33,.92);border:1px solid var(--line);
     border-radius:14px;padding:56px 18px 18px}
-  body.ampliada #ficha{display:none}
   #ficha .topo{display:flex;align-items:flex-start;gap:8px 14px;flex-wrap:wrap}
   /* Sem isto o bloco do titulo tem `min-width:auto` e se recusa a encolher abaixo do
      conteudo, empurrando o preco pra fora da tela. */
@@ -185,15 +230,15 @@ PAGINA = u"""<!doctype html>
   .ci{display:flex;justify-content:space-between;gap:12px;font-size:12px;padding:3px 0}
   .ci span{opacity:.72;min-width:0;overflow-wrap:anywhere}
   .ci b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
-  #ctrl,#selo,#dica{max-width:calc(100% - 28px)}
+  #selo{max-width:calc(100% - 28px)}
   /* Ponteiro grosso = dedo. Nao e "tela pequena": um tablet tem tela grande e dedo,
      e e o dedo que decide se o botao precisa de 44 px de alvo. */
   @media (pointer:coarse),(max-width:640px){
-    #ctrl button{min-height:44px;padding:9px 11px;font-size:12px}
+    #modos button{min-height:44px;font-size:12px}
     #selo{padding:7px 11px;font-size:12px}
   }
   @media (max-width:640px){
-    body{padding:12px 12px calc(20px + env(safe-area-inset-bottom))}
+    body{padding:12px 12px calc(8px + env(safe-area-inset-bottom))}
     /* No telefone a miniatura encolhe mais: o cartao inteiro -- miniatura e ficha --
        tem que caber na primeira tela, que e o ponto de um cartao de imovel. */
     #cena{height:clamp(190px,30vh,290px);margin-bottom:-38px}
@@ -217,10 +262,9 @@ PAGINA = u"""<!doctype html>
 <div id="cena">
   <canvas id="c"></canvas>
   <div id="selo"><i></i><span id="seloT">3&ordm; andar</span></div>
-  <div id="ctrl">
-    <button id="bCorte" aria-pressed="false">Ver andar</button>
-    <button id="bAmpliar" aria-pressed="false">Ampliar</button>
-  </div>
+  <svg id="p2d" hidden aria-label="Planta baixa"></svg>
+  <div id="joy" hidden aria-hidden="true"><i></i></div>
+
 </div>
 
 <section id="ficha">
@@ -234,6 +278,12 @@ PAGINA = u"""<!doctype html>
   </div>
   <div class="stats" id="fStats"></div>
   <div class="comodos"><h2>C&ocirc;modos</h2><div class="grade" id="fComodos"></div></div>
+  <nav id="modos" aria-label="Como ver o im&oacute;vel">
+    <button data-modo="maquete" aria-pressed="true">Pr&eacute;dio</button>
+    <button data-modo="planta2d" aria-pressed="false">Planta 2D</button>
+    <button data-modo="planta3d" aria-pressed="false">Planta 3D</button>
+    <button data-modo="visita" aria-pressed="false">Visita 3D</button>
+  </nav>
   <div id="dica">Arraste a maquete para girar</div>
 </section>
 </div>
@@ -318,6 +368,7 @@ var cena = new THREE.Scene();
   tex.dispose(); pm.dispose();
 })();
 var cam = new THREE.PerspectiveCamera(34, 1, 0.2, 900);
+cam.rotation.order = "YXZ";   // primeira pessoa: yaw depois pitch, nunca roll
 
 /* Luz: uma principal que DESENHA A SOMBRA (e a sombra e o que faz uma maquete parecer
    pousada numa mesa), uma de preenchimento fria do lado oposto pra tirar o preto da
@@ -543,11 +594,17 @@ function raioQueEnquadra() {
      e o oposto do esperado. Aqui cada eixo e medido no campo dele e vence o mais
      exigente; o termo final e a metade de perto do predio, que a orbita (distancia ao
      CENTRO) nao conta. */
-  var dv = (ALTURA / 2) / Math.tan(vf / 2);
-  var dh = raioBase / Math.tan(hf / 2);
+  /* O QUE SE ENQUADRA MUDA COM O MODO: no "Predio" e a torre inteira, na "Planta 3D"
+     e a laje de um pavimento -- 21 m de altura contra 2,6. Usar a medida da torre nos
+     dois deixaria a planta do tamanho de uma moeda no meio do painel. */
+  var ehPlanta = (typeof modo !== "undefined") && modo === "planta3d";
+  var alt  = ehPlanta ? PD : ALTURA;
+  var lado = ehPlanta ? Math.hypot(PB.w, PB.h) / 2 : raioBase;
+  var dv = (alt / 2) / Math.tan(vf / 2);
+  var dh = lado / Math.tan(hf / 2);
   // 1,12 e nao 1,06: com a margem justa a base do predio encostava na borda de baixo
   // do painel, e a perspectiva ainda empurra pra fora o canto mais proximo.
-  return Math.max(R_MIN, Math.max(dv, dh) * 1.12 + raioBase * 0.9);
+  return Math.max(R_MIN, Math.max(dv, dh) * 1.12 + lado * 0.9);
 }
 function poeCam() {
   var s = Math.sin(orb.ph);
@@ -574,7 +631,9 @@ function redim() {
      proporcao que nao existe. Recalcular sempre custa duas tangentes por quadro e
      acerta o enquadramento assim que o layout assenta. Quem ja aproximou com a mao
      (`zoomManual`) ou pediu "Ver andar" (`perto`) nao e mexido. */
-  if (!zoomManual && !voo && !perto) orb.r = raioQueEnquadra();
+  if (!zoomManual && !voo && !perto && modo !== "visita") orb.r = raioQueEnquadra();
+  // A planta 2D e desenhada em PIXELS do painel: mudou a caixa, o desenho e refeito.
+  if (typeof modo !== "undefined" && modo === "planta2d") desenhaPlanta2D();
 }
 addEventListener("resize", redim);
 if (window.ResizeObserver) new ResizeObserver(redim).observe(caixa);
@@ -609,6 +668,15 @@ cv.addEventListener("pointermove", function (e) {
         orb.th += da; }
       ant = m; return; } }
   if (!arr) return;
+  if (modo === "visita") {
+    /* Dentro da casa o arrasto e OLHAR EM VOLTA, nao girar um objeto: nao ha objeto,
+       ha um lugar -- e por isso o eixo vertical aqui NAO e o invertido da maquete.
+       O pitch trava antes do zenite pra nao virar de cabeca pra baixo. */
+    FP.yaw -= (e.clientX - lx) * 0.004;
+    FP.pitch = Math.max(-1.25, Math.min(1.25, FP.pitch - (e.clientY - ly) * 0.004));
+    lx = e.clientX; ly = e.clientY;
+    return;
+  }
   orb.th -= (e.clientX - lx) * 0.0085;
   /* VERTICAL INVERTIDO a pedido. Agora arrastar pra BAIXO sobe a camera: e como se a
      mao pegasse a face da frente do predio e a puxasse pra baixo, trazendo o topo pra
@@ -634,11 +702,428 @@ cv.addEventListener("wheel", function (e) {
   orb.r = Math.max(R_MIN, Math.min(R_MAX, orb.r * (1 + Math.sign(e.deltaY) * 0.1)));
 }, { passive: false });
 
-/* ---- os dois botoes ------------------------------------------------------- */
-var bCorte = document.getElementById("bCorte");
-/* A MAQUETE GIRA. Nao e um modo que se liga -- e o estado dela.
+/* ============================================================
+   OS QUATRO MODOS
+   ============================================================
+   Predio, planta 2D, planta 3D e visita -- o mesmo imovel, quatro leituras. Duas
+   decisoes valem nota antes do codigo:
 
-   A versao anterior tinha um botao "Girar", e botao pra isso e a pergunta errada: nao
+   - PAREDE NAO E DADO DE ENTRADA, E DERIVADA. O cadastro declara COMODO (poligono com
+     nome), e a parede sai de toda fronteira entre donos diferentes numa grade de 5 cm.
+     E a mesma regra do renderizador (`paredesDaGrade`, no app.js), e ela existe por
+     tres motivos: e o que a imagem de uma planta de fato entrega (area rotulada, nao
+     espessura de alvenaria); sobrevive a um poligono que nao fecha em angulo reto; e
+     dispensa declarar contorno externo, que e a parte que planta de anuncio nao
+     desenha por inteiro.
+
+   - OS QUATRO MODOS DIVIDEM UMA CENA SO. Trocar de modo troca a VISIBILIDADE de dois
+     grupos e o jeito de posicionar a camera. Nao ha segunda cena, segundo renderizador
+     nem remontagem: a planta 3D e construida uma vez, na primeira vez que alguem
+     pedir, e a visita e a mesma planta com a camera na altura dos olhos.        */
+
+var PL = D.planta, PD = PL.pe_direito;
+var ESP = 0.13;                 // espessura de parede interna
+var OLHO = 1.62, RAIO_CORPO = 0.30;
+
+/* ---- parede a partir dos comodos ---------------------------------------- */
+function derivaParedes() {
+  var G = 0.05, C = PL.comodos;
+  var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
+  for (var i = 0; i < C.length; i++) for (var j = 0; j < C[i].poly.length; j++) {
+    var p = C[i].poly[j];
+    if (p[0] < x0) x0 = p[0]; if (p[0] > x1) x1 = p[0];
+    if (p[1] < z0) z0 = p[1]; if (p[1] > z1) z1 = p[1];
+  }
+  x0 -= G; z0 -= G; x1 += G; z1 += G;
+  var NX = Math.ceil((x1-x0)/G), NZ = Math.ceil((z1-z0)/G);
+  var dono = new Int16Array(NX*NZ).fill(-1);
+  for (var a = 0; a < NX; a++) for (var b = 0; b < NZ; b++) {
+    var px = x0 + (a+0.5)*G, pz = z0 + (b+0.5)*G;
+    for (var k = 0; k < C.length; k++)
+      if (dentro(C[k].poly, px, pz)) { dono[a*NZ+b] = k; break; }
+  }
+  // Toda fronteira entre donos diferentes vira parede -- comodo x comodo, ou comodo x
+  // lado de fora. Corridas contiguas viram UM segmento, senao seriam 5 cm por peca.
+  var brutos = [];
+  for (var a2 = 0; a2 < NX-1; a2++) { var j2 = 0;
+    while (j2 < NZ) {
+      if (dono[a2*NZ+j2] === dono[(a2+1)*NZ+j2]) { j2++; continue; }
+      var jA = j2;
+      while (j2 < NZ && dono[a2*NZ+j2] !== dono[(a2+1)*NZ+j2]) j2++;
+      brutos.push([[x0+(a2+1)*G, z0+jA*G], [x0+(a2+1)*G, z0+j2*G]]);
+    } }
+  for (var b2 = 0; b2 < NZ-1; b2++) { var i2 = 0;
+    while (i2 < NX) {
+      if (dono[i2*NZ+b2] === dono[i2*NZ+b2+1]) { i2++; continue; }
+      var iA = i2;
+      while (i2 < NX && dono[i2*NZ+b2] !== dono[i2*NZ+b2+1]) i2++;
+      brutos.push([[x0+iA*G, z0+(b2+1)*G], [x0+i2*G, z0+(b2+1)*G]]);
+    } }
+
+  // Cada vao vai pra UMA parede: a mais perto. Porta em canto de dois comodos ficaria
+  // perto de duas paredes perpendiculares e abriria buraco nas duas.
+  var vaos = [];
+  for (var q = 0; q < PL.portas.length; q++)
+    vaos.push({ p: PL.portas[q].p, larg: PL.portas[q].largura, porta: true, y0: 0, y1: 2.10 });
+  for (var w = 0; w < PL.janelas.length; w++)
+    vaos.push({ p: PL.janelas[w].p, larg: PL.janelas[w].largura, porta: false, y0: 1.00, y1: 2.20 });
+  var doVao = brutos.map(function () { return []; });
+  for (var v = 0; v < vaos.length; v++) {
+    var melhor = -1, dm = 0.35, pr = null;
+    for (var n = 0; n < brutos.length; n++) {
+      var pj = projeta(vaos[v].p, brutos[n][0], brutos[n][1]);
+      if (pj.d < dm) { dm = pj.d; melhor = n; pr = pj; }
+    }
+    if (melhor < 0) continue;
+    var meia = vaos[v].larg / 2;
+    doVao[melhor].push({ src: vaos[v], a: Math.max(0, pr.t - meia),
+                         b: Math.min(pr.L, pr.t + meia) });
+  }
+
+  var out = [], postos = [];
+  for (var m = 0; m < brutos.length; m++) {
+    var A = brutos[m][0], B = brutos[m][1];
+    var L = Math.hypot(B[0]-A[0], B[1]-A[1]);
+    if (L < G*1.5) continue;
+    var ux = (B[0]-A[0])/L, uz = (B[1]-A[1])/L;
+    var pt = function (t) { return [A[0] + ux*t, A[1] + uz*t]; };
+    var vs = doVao[m].filter(function (o) { return o.b - o.a > 0.15; })
+                     .sort(function (o, r) { return o.a - r.a; });
+    var t0 = 0;
+    for (var y = 0; y < vs.length; y++) {
+      var vv = vs[y];
+      if (vv.a - t0 > 0.06) out.push({ a: pt(t0), b: pt(vv.a), y0: 0, y1: PD });
+      // Peitoril e verga: o que sobra de parede embaixo e em cima do vao.
+      if (vv.src.y0 > 0.06) out.push({ a: pt(vv.a), b: pt(vv.b), y0: 0, y1: vv.src.y0 });
+      if (vv.src.y1 < PD - 0.06) out.push({ a: pt(vv.a), b: pt(vv.b), y0: vv.src.y1, y1: PD });
+      postos.push({ a: pt(vv.a), b: pt(vv.b), y0: vv.src.y0, y1: vv.src.y1,
+                    porta: vv.src.porta, ux: ux, uz: uz });
+      t0 = Math.max(t0, vv.b);
+    }
+    if (L - t0 > 0.06) out.push({ a: pt(t0), b: pt(L), y0: 0, y1: PD });
+  }
+  return { paredes: out, vaos: postos };
+}
+function projeta(p, a, b) {
+  var dx = b[0]-a[0], dz = b[1]-a[1], L = Math.hypot(dx, dz) || 1e-6;
+  var t = ((p[0]-a[0])*dx + (p[1]-a[1])*dz) / (L*L);
+  var tc = t < 0 ? 0 : t > 1 ? 1 : t;
+  return { t: tc*L, L: L, d: Math.hypot(a[0]+dx*tc - p[0], a[1]+dz*tc - p[1]) };
+}
+var PAREDES = null;
+function paredes() { if (!PAREDES) PAREDES = derivaParedes(); return PAREDES; }
+
+// Extensao da planta, pra enquadrar e pra centrar o desenho 2D.
+var PB = (function () {
+  var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
+  for (var i = 0; i < PL.comodos.length; i++) for (var j = 0; j < PL.comodos[i].poly.length; j++) {
+    var p = PL.comodos[i].poly[j];
+    if (p[0] < x0) x0 = p[0]; if (p[0] > x1) x1 = p[0];
+    if (p[1] < z0) z0 = p[1]; if (p[1] > z1) z1 = p[1];
+  }
+  return { x0:x0, x1:x1, z0:z0, z1:z1, cx:(x0+x1)/2, cz:(z0+z1)/2, w:x1-x0, h:z1-z0 };
+})();
+
+/* ---- planta 3D: a mesma parede, extrudada ------------------------------- */
+var PISOS = { quente: 0x8E6E4C, frio: 0xA9AFB6 };
+var planta3d = null;
+function montaPlanta3D() {
+  if (planta3d) return planta3d;
+  var P = paredes(), g = new THREE.Group();
+
+  // Piso por comodo: e o que da a leitura de "quantos ambientes" numa olhada, e o
+  // motivo de o cadastro trazer o TIPO de piso e nao so o nome do comodo.
+  for (var i = 0; i < PL.comodos.length; i++) {
+    var c = PL.comodos[i], sh = new THREE.Shape();
+    sh.moveTo(c.poly[0][0], -c.poly[0][1]);
+    for (var j = 1; j < c.poly.length; j++) sh.lineTo(c.poly[j][0], -c.poly[j][1]);
+    sh.closePath();
+    var gm = new THREE.ShapeGeometry(sh);
+    gm.rotateX(Math.PI/2);        // o plano da forma (XY) deita em XZ
+    gm.translate(0, 0.02, 0);
+    var mp = new THREE.Mesh(gm, new THREE.MeshStandardMaterial({
+      color: PISOS[c.piso] || PISOS.frio, roughness: 0.82, metalness: 0.02,
+      envMapIntensity: 0.35, side: THREE.DoubleSide }));
+    mp.receiveShadow = true;
+    g.add(mp);
+  }
+
+  /* UMA caixa unitaria, instanciada. Cada parede tem comprimento e angulo proprios, e
+     e a MATRIZ da instancia que carrega os dois -- entao 45 trechos de parede custam
+     uma chamada de desenho, nao 45. */
+  var cx0 = new THREE.BoxGeometry(1, 1, 1);
+  var matPar3 = new THREE.MeshStandardMaterial({ color: 0xE6E2DA, roughness: 0.94,
+                                                 metalness: 0.01, envMapIntensity: 0.4 });
+  var im = new THREE.InstancedMesh(cx0, matPar3, P.paredes.length);
+  im.castShadow = im.receiveShadow = true;
+  var d3 = new THREE.Object3D();
+  for (var k = 0; k < P.paredes.length; k++) {
+    var w = P.paredes[k];
+    var dx = w.b[0]-w.a[0], dz = w.b[1]-w.a[1], L = Math.hypot(dx, dz);
+    d3.position.set((w.a[0]+w.b[0])/2, (w.y0+w.y1)/2, (w.a[1]+w.b[1])/2);
+    d3.rotation.set(0, Math.atan2(dx, dz), 0);
+    d3.scale.set(ESP, w.y1-w.y0, L + ESP);   // +ESP fecha a junta de canto
+    d3.updateMatrix(); im.setMatrixAt(k, d3.matrix);
+  }
+  im.instanceMatrix.needsUpdate = true;
+  g.add(im);
+
+  // Vidro nas janelas; porta fica como VAO ABERTO de proposito -- folha fechada tapa
+  // justamente a passagem que a planta existe pra mostrar.
+  var jan = P.vaos.filter(function (v) { return !v.porta; });
+  if (jan.length) {
+    var iv = new THREE.InstancedMesh(cx0, new THREE.MeshStandardMaterial({
+      color: 0x9EC4DE, roughness: 0.06, metalness: 0.25, envMapIntensity: 2.0,
+      transparent: true, opacity: 0.42 }), jan.length);
+    for (var q = 0; q < jan.length; q++) {
+      var v2 = jan[q];
+      var dx2 = v2.b[0]-v2.a[0], dz2 = v2.b[1]-v2.a[1], L2 = Math.hypot(dx2, dz2);
+      d3.position.set((v2.a[0]+v2.b[0])/2, (v2.y0+v2.y1)/2, (v2.a[1]+v2.b[1])/2);
+      d3.rotation.set(0, Math.atan2(dx2, dz2), 0);
+      d3.scale.set(0.04, v2.y1-v2.y0, L2);
+      d3.updateMatrix(); iv.setMatrixAt(q, d3.matrix);
+    }
+    iv.instanceMatrix.needsUpdate = true;
+    g.add(iv);
+  }
+  g.visible = false;
+  cena.add(g);
+  planta3d = g;
+  return g;
+}
+
+/* ---- planta 2D: SVG, e nao canvas --------------------------------------- */
+// SVG porque a planta e VETOR: ela tem que ficar nitida em qualquer zoom e em
+// qualquer densidade de tela, e num canvas 2D isso obrigaria a redesenhar tudo por
+// mudanca de dpr. Aqui o navegador cuida.
+var p2d = document.getElementById("p2d");
+function desenhaPlanta2D() {
+  var P = paredes();
+  /* A MEDIDA VEM DO PAINEL, e nao do proprio <svg>. `clientWidth` de um elemento SVG
+     devolve 0 em Chrome, entao o desenho caia no palpite de 400x260 e saia
+     letterboxado dentro de um painel de 474x242. `#cena` e um <div> e mede direito. */
+  var b = caixa.getBoundingClientRect();
+  var M = 14, w = Math.round(b.width) || 400, h = Math.round(b.height) || 260;
+  /* A FAIXA DE BAIXO DO PAINEL ESTA DEBAIXO DO CARTAO. O canvas se sobrepoe a ficha de
+     proposito (e o que faz a maquete flutuar por cima dela), e o predio 3D aproveita
+     isso -- ele passa por cima e fica bonito. Um DESENHO TECNICO nao: metade da sala
+     escondida atras do cartao nao e efeito, e informacao perdida. Entao a planta 2D
+     desenha so acima da emenda, medida aqui e nao chutada. */
+  var fi = document.getElementById("ficha").getBoundingClientRect();
+  var mb = Math.max(M, Math.round(b.bottom - fi.top) + 10);
+  var esc = Math.min((w - M*2) / PB.w, (h - M - mb) / PB.h);
+  var ox = w/2 - PB.cx*esc, oy = (M + (h - mb)) / 2 - PB.cz*esc;
+  var X = function (x) { return (ox + x*esc).toFixed(1); };
+  var Y = function (z) { return (oy + z*esc).toFixed(1); };
+  var s = ['<rect width="100%" height="100%" fill="none"/>'];
+
+  for (var i = 0; i < PL.comodos.length; i++) {
+    var c = PL.comodos[i], pts = [];
+    for (var j = 0; j < c.poly.length; j++) pts.push(X(c.poly[j][0]) + "," + Y(c.poly[j][1]));
+    s.push('<polygon points="' + pts.join(" ") + '" fill="' +
+           (c.piso === "quente" ? "rgba(190,150,105,.17)" : "rgba(150,170,190,.15)") +
+           '" stroke="none"/>');
+  }
+  // Parede como linha GROSSA na espessura real: `stroke-linecap:square` fecha o canto
+  // sem precisar de peca de junta.
+  var pw = Math.max(1.5, ESP * esc);
+  for (var k = 0; k < P.paredes.length; k++) {
+    var q = P.paredes[k];
+    if (q.y0 > 0.06 && q.y1 < PD - 0.06) continue;      // verga: nao e corte de planta
+    if (q.y1 < 1.2) continue;                            // peitoril idem
+    s.push('<line x1="' + X(q.a[0]) + '" y1="' + Y(q.a[1]) + '" x2="' + X(q.b[0]) +
+           '" y2="' + Y(q.b[1]) + '" stroke="#E7EBF0" stroke-width="' + pw.toFixed(1) +
+           '" stroke-linecap="square"/>');
+  }
+  for (var v = 0; v < P.vaos.length; v++) {
+    var o = P.vaos[v];
+    if (o.porta) {
+      // Porta: o vao aberto mais o arco de abertura -- que e como planta de
+      // arquitetura diz "abre pra ca", e o unico desenho que o croqui enviado tinha.
+      var dx = o.b[0]-o.a[0], dz = o.b[1]-o.a[1], L = Math.hypot(dx, dz);
+      if (L > 1.6) continue;                             // passagem larga nao tem folha
+      var r = L * esc;
+      s.push('<path d="M ' + X(o.a[0]) + ' ' + Y(o.a[1]) + ' a ' + r.toFixed(1) + ' ' +
+             r.toFixed(1) + ' 0 0 1 ' + (dx*esc - dz*esc).toFixed(1) + ' ' +
+             (dz*esc + dx*esc).toFixed(1) + '" fill="none" stroke="rgba(231,235,240,.34)" stroke-width="1"/>');
+      s.push('<line x1="' + X(o.a[0]) + '" y1="' + Y(o.a[1]) + '" x2="' +
+             (parseFloat(X(o.a[0])) - dz*esc).toFixed(1) + '" y2="' +
+             (parseFloat(Y(o.a[1])) + dx*esc).toFixed(1) +
+             '" stroke="rgba(231,235,240,.6)" stroke-width="1.4"/>');
+    } else {
+      s.push('<line x1="' + X(o.a[0]) + '" y1="' + Y(o.a[1]) + '" x2="' + X(o.b[0]) +
+             '" y2="' + Y(o.b[1]) + '" stroke="#6FC6F5" stroke-width="' +
+             Math.max(1.2, pw*0.5).toFixed(1) + '" stroke-linecap="butt"/>');
+    }
+  }
+  for (var n = 0; n < PL.comodos.length; n++) {
+    var cc = PL.comodos[n], sx = 0, sz = 0;
+    for (var m = 0; m < cc.poly.length; m++) { sx += cc.poly[m][0]; sz += cc.poly[m][1]; }
+    sx /= cc.poly.length; sz /= cc.poly.length;
+    if (cc.nome === "Sala") sx += 2.0;      // o centroide do hexagono cai no banho
+    s.push('<text x="' + X(sx) + '" y="' + Y(sz) + '" text-anchor="middle" ' +
+           'font-family="system-ui,sans-serif" font-size="' + Math.max(7, esc*0.42).toFixed(1) +
+           '" fill="rgba(231,235,240,.78)">' + cc.nome + '</text>');
+  }
+  p2d.setAttribute("viewBox", "0 0 " + w + " " + h);
+  p2d.innerHTML = s.join("");
+}
+
+/* ---- visita: primeira pessoa dentro da planta --------------------------- */
+var FP = { x:0, z:0, yaw:0, pitch:-0.05, mx:0, mz:0 };
+function livre(x, z) {
+  var P = paredes(), lim = ESP/2 + RAIO_CORPO;
+  for (var i = 0; i < P.paredes.length; i++) {
+    var w = P.paredes[i];
+    if (w.y0 >= 1.2) continue;                 // verga e bandeira passam por cima
+    var ax = w.a[0], az = w.a[1], dx = w.b[0]-ax, dz = w.b[1]-az;
+    var L2 = dx*dx + dz*dz || 1;
+    var t = ((x-ax)*dx + (z-az)*dz) / L2;
+    t = t < 0 ? 0 : t > 1 ? 1 : t;
+    var px = ax + dx*t - x, pz = az + dz*t - z;
+    if (px*px + pz*pz < lim*lim) return false;
+  }
+  return dentroDaPlanta(x, z);
+}
+function dentroDaPlanta(x, z) {
+  for (var i = 0; i < PL.comodos.length; i++)
+    if (dentro(PL.comodos[i].poly, x, z)) return true;
+  return false;
+}
+/* ONDE A VISITA COMECA.
+
+   Duas escolhas, e nenhuma e "o centro da maior sala".
+
+   1. O COMODO e a SALA, e nao o maior. Num apartamento a suite costuma ser o maior
+      ambiente, e abrir a visita dentro do quarto de casal e estranho.
+   2. O PONTO e o de maior FOLGA dentro dela. Nascer no centro geometrico parece obvio
+      e e ruim: num comodo em L o centro cai atras de uma parede, e num retangulo ele
+      poe a camera a um metro da parede de fundo. Aqui o ponto e o mais longe de
+      qualquer parede -- que e onde uma pessoa de fato para pra olhar um comodo.
+   3. A MIRA e a linha de visao mais LONGA que existe desse ponto. Mirar no centro do
+      comodo aponta pra parede mais perto; a linha mais longa costuma varrer sala e
+      jantar de ponta a ponta, que e o que se mostra pra quem chega. */
+function folga(x, z) {
+  var P = paredes(), d = 1e9;
+  for (var i = 0; i < P.paredes.length; i++) {
+    var w = P.paredes[i];
+    if (w.y0 >= 1.2) continue;
+    var ax = w.a[0], az = w.a[1], dx = w.b[0]-ax, dz = w.b[1]-az;
+    var L2 = dx*dx + dz*dz || 1;
+    var t = ((x-ax)*dx + (z-az)*dz) / L2;
+    t = t < 0 ? 0 : t > 1 ? 1 : t;
+    d = Math.min(d, Math.hypot(ax + dx*t - x, az + dz*t - z));
+  }
+  return d;
+}
+function visivel(x, z) {
+  var P = paredes();
+  if (!dentroDaPlanta(x, z)) return false;
+  for (var i = 0; i < P.paredes.length; i++) {
+    var w = P.paredes[i];
+    if (w.y0 > OLHO || w.y1 < OLHO) continue;      // verga e peitoril nao tapam a vista
+    var ax = w.a[0], az = w.a[1], dx = w.b[0]-ax, dz = w.b[1]-az;
+    var L2 = dx*dx + dz*dz || 1;
+    var t = ((x-ax)*dx + (z-az)*dz) / L2;
+    t = t < 0 ? 0 : t > 1 ? 1 : t;
+    var px = ax + dx*t - x, pz = az + dz*t - z;
+    if (px*px + pz*pz < (ESP/2 + 0.03)*(ESP/2 + 0.03)) return false;
+  }
+  return true;
+}
+function melhorDirecao(x, z) {
+  var bdx = 0, bdz = -1, best = -1;
+  for (var k = 0; k < 24; k++) {
+    var a = k * Math.PI / 12, dx = Math.sin(a), dz = Math.cos(a), t = 0.3;
+    while (t < 18 && visivel(x + dx*t, z + dz*t)) t += 0.3;
+    if (t > best) { best = t; bdx = dx; bdz = dz; }
+  }
+  return Math.atan2(-bdx, -bdz);     // a camera olha em -Z girado por yaw
+}
+function pontoDeEntrada() {
+  var sala = null;
+  for (var i = 0; i < PL.comodos.length; i++)
+    if (/^(sala|estar|living)/i.test(PL.comodos[i].nome)) { sala = PL.comodos[i]; break; }
+  if (!sala) sala = PL.comodos[PL.comodos.length-1];
+  var bx0 = 1e9, bx1 = -1e9, bz0 = 1e9, bz1 = -1e9;
+  for (var j = 0; j < sala.poly.length; j++) {
+    var p = sala.poly[j];
+    if (p[0] < bx0) bx0 = p[0]; if (p[0] > bx1) bx1 = p[0];
+    if (p[1] < bz0) bz0 = p[1]; if (p[1] > bz1) bz1 = p[1];
+  }
+  var melhor = null, score = -1;
+  for (var x = bx0 + 0.3; x < bx1; x += 0.3)
+    for (var z = bz0 + 0.3; z < bz1; z += 0.3) {
+      // `dentro(sala.poly)` e nao `dentroDaPlanta`: a sala e um hexagono que passa por
+      // cima do banho e da cozinha (ver a nota da ordem dos comodos), entao o teste
+      // tem que ser o do comodo E o de estar livre de parede e de outro ambiente.
+      if (!dentro(sala.poly, x, z) || !livre(x, z)) continue;
+      var f = folga(x, z);
+      if (f > score) { score = f; melhor = [x, z]; }
+    }
+  return melhor || [(bx0+bx1)/2, (bz0+bz1)/2];
+}
+function passoVisita(dt) {
+  var mf = FP.mz, mr = FP.mx;
+  if (teclas.w) mf += 1; if (teclas.s) mf -= 1;
+  if (teclas.d) mr += 1; if (teclas.a) mr -= 1;
+  if (!mf && !mr) return;
+  var forca = Math.min(1, Math.hypot(mf, mr));
+  var vel = 1.8 * Math.min(0.05, dt) * forca;
+  var L = Math.hypot(mf, mr); mf /= L; mr /= L;
+  var sy = Math.sin(FP.yaw), cy = Math.cos(FP.yaw);
+  var dx = (-sy*mf + cy*mr) * vel, dz = (-cy*mf - sy*mr) * vel;
+  // Desliza pela parede em vez de travar: barrado na diagonal, tenta cada eixo. Sem
+  // isso, andar encostado numa parede para de funcionar e parece travamento.
+  if (livre(FP.x+dx, FP.z+dz)) { FP.x += dx; FP.z += dz; }
+  else if (livre(FP.x+dx, FP.z)) FP.x += dx;
+  else if (livre(FP.x, FP.z+dz)) FP.z += dz;
+}
+var teclas = {};
+addEventListener("keydown", function (e) {
+  if (modo !== "visita") return;
+  var k = e.key.toLowerCase();
+  if (k === "w" || k === "arrowup") teclas.w = 1;
+  else if (k === "s" || k === "arrowdown") teclas.s = 1;
+  else if (k === "a" || k === "arrowleft") teclas.a = 1;
+  else if (k === "d" || k === "arrowright") teclas.d = 1;
+  else return;
+  e.preventDefault();
+});
+addEventListener("keyup", function (e) {
+  var k = e.key.toLowerCase();
+  if (k === "w" || k === "arrowup") teclas.w = 0;
+  else if (k === "s" || k === "arrowdown") teclas.s = 0;
+  else if (k === "a" || k === "arrowleft") teclas.a = 0;
+  else if (k === "d" || k === "arrowright") teclas.d = 0;
+});
+(function manche() {
+  var joy = document.getElementById("joy"), pino = joy.firstElementChild, id = null;
+  function poe(e) {
+    var b = joy.getBoundingClientRect();
+    var dx = (e.clientX - (b.left + b.width/2)) / (b.width/2);
+    var dz = (e.clientY - (b.top + b.height/2)) / (b.height/2);
+    var L = Math.hypot(dx, dz);
+    if (L > 1) { dx /= L; dz /= L; }
+    FP.mx = dx; FP.mz = -dz;
+    pino.style.transform = "translate(" + (dx*32).toFixed(0) + "px," + (dz*32).toFixed(0) + "px)";
+  }
+  joy.addEventListener("pointerdown", function (e) {
+    id = e.pointerId; poe(e);
+    try { joy.setPointerCapture(e.pointerId); } catch (err) {}
+    e.preventDefault(); e.stopPropagation();
+  });
+  joy.addEventListener("pointermove", function (e) { if (id === e.pointerId) poe(e); });
+  function solta2(e) {
+    if (id !== e.pointerId) return;
+    id = null; FP.mx = FP.mz = 0; pino.style.transform = "";
+  }
+  joy.addEventListener("pointerup", solta2);
+  joy.addEventListener("pointercancel", solta2);
+})();
+
+/* ---- o giro, que e estado e nao botao ------------------------------------ */
+/* A versao anterior tinha um botao "Girar", e botao pra isso e a pergunta errada: nao
    existe momento em que alguem quer a miniatura parada de proposito. O que existe e o
    momento em que a pessoa esta MEXENDO nela, e ai o giro tem que sair da frente. Entao
    ele para no toque e volta sozinho quando a mao larga. */
@@ -646,36 +1131,61 @@ var RETOMA = 2200;                       // ms de mao parada ate o giro voltar
 var ultimoToque = 0;
 function mexeu() { gira = false; ultimoToque = performance.now(); }
 
-// "Ver andar": a camera desce ate a altura do pavimento da unidade e aproxima. Nao e
-// outra cena -- e a mesma orbita com outro alvo, que e o que mantem a transicao
-// continua em vez de um corte.
-bCorte.addEventListener("click", function () {
-  perto = !perto;
-  bCorte.setAttribute("aria-pressed", String(perto));
-  bCorte.textContent = perto ? "Ver o pr\\u00e9dio" : "Ver andar";
-  gira = false; mexeu();
-  zoomManual = false;
-  voo = { t0: performance.now(), dur: 900,
-          y0: alvo.y, y1: perto ? (ANDAR*LV + LV*0.5) : ALTURA*0.5,
-          r0: orb.r,  r1: perto ? Math.max(R_MIN, raioBase*2.2) : raioQueEnquadra(),
-          p0: orb.ph, p1: perto ? 1.22 : 1.03 };
-});
-mexeu();
-
-/* ---- ampliar: a miniatura toma a tela, por pedido ------------------------- */
-var bAmpliar = document.getElementById("bAmpliar"), ampliada = false;
-function poeAmpliada(v) {
-  ampliada = v;
-  document.body.classList.toggle("ampliada", v);
-  bAmpliar.setAttribute("aria-pressed", String(v));
-  bAmpliar.textContent = v ? "Reduzir" : "Ampliar";
-  // O `ResizeObserver` do #cena chama `redim()` sozinho quando a caixa muda de
-  // tamanho, e `redim()` reenquadra -- a proporcao de tela cheia nao e a do painel.
+/* ---- a troca de modo ----------------------------------------------------- */
+var modo = "maquete";
+var DICAS = {
+  maquete:  "Arraste a maquete para girar · ela volta a girar sozinha",
+  planta2d: "Corte na altura do peitoril · azul é esquadria",
+  planta3d: "Arraste para girar a planta · sem laje por cima",
+  visita:   TOQUE ? "Use o manche para andar · arraste a vista para olhar"
+                  : "W A S D para andar · arraste para olhar"
+};
+function vaiPara(novo) {
+  modo = novo;
+  var botoes = document.querySelectorAll("#modos button");
+  for (var i = 0; i < botoes.length; i++)
+    botoes[i].setAttribute("aria-pressed", String(botoes[i].dataset.modo === novo));
+  var ehPlanta = novo === "planta3d" || novo === "visita";
+  if (ehPlanta) montaPlanta3D();
+  predio.visible = novo === "maquete";
+  if (planta3d) planta3d.visible = ehPlanta;
+  /* `hidden` E PROPRIEDADE DE HTMLElement, E `<svg>` NAO E UM. Atribuir
+     `svg.hidden = false` cria uma propriedade solta no objeto -- ela ate LE como
+     `false` depois --, mas o atributo do markup continua no elemento, e a regra
+     global `[hidden]{display:none!important}` continua valendo. Medido: `svg.hidden`
+     dizia `false`, `getComputedStyle` dizia `display:none`, e a planta 2D era uma area
+     vazia sem erro nenhum no console. Com atributo funciona nos dois. */
+  if (novo === "planta2d") p2d.removeAttribute("hidden");
+  else p2d.setAttribute("hidden", "");
+  document.getElementById("c").style.visibility = novo === "planta2d" ? "hidden" : "";
+  document.getElementById("joy").hidden = !(novo === "visita" && TOQUE);
+  document.getElementById("selo").hidden = novo !== "maquete";
+  document.getElementById("dica").textContent = DICAS[novo];
+  if (novo === "planta2d") { desenhaPlanta2D(); return; }
+  if (novo === "visita") {
+    var e = pontoDeEntrada();
+    FP.x = e[0]; FP.z = e[1]; FP.pitch = -0.05;
+    FP.yaw = melhorDirecao(e[0], e[1]);
+    cam.fov = 72; cam.near = 0.08; cam.updateProjectionMatrix();
+  } else {
+    cam.fov = 34; cam.near = 0.2; cam.updateProjectionMatrix();
+    zoomManual = false;
+    if (novo === "planta3d") {
+      alvo.set(PB.cx, PD * 0.5, PB.cz);
+      orb.ph = 0.72;
+    } else {
+      alvo.set(0, ALTURA * 0.5, 0);
+      orb.ph = 1.03;
+    }
+    orb.r = raioQueEnquadra();
+  }
+  mexeu();
 }
-bAmpliar.addEventListener("click", function () { poeAmpliada(!ampliada); });
-// Sair pelo Esc: ampliada nao ha botao de fechar alem do proprio, e teclado e o
-// caminho que quem esta no desktop tenta primeiro.
-addEventListener("keydown", function (e) { if (e.key === "Escape" && ampliada) poeAmpliada(false); });
+(function ligaModos() {
+  var botoes = document.querySelectorAll("#modos button");
+  for (var i = 0; i < botoes.length; i++)
+    botoes[i].addEventListener("click", function () { vaiPara(this.dataset.modo); });
+})();
 
 /* ---- laco ----------------------------------------------------------------- */
 var tAnt = 0, pulso = 0;
@@ -695,8 +1205,8 @@ function quadro(now) {
   // 0,16 rad/s: uma volta em 39 s. Por SEGUNDO e nao por quadro -- com passo por
   // quadro a mesma volta leva 12 s numa GPU e um minuto num rasterizador de software.
   // Volta a girar sozinha depois que a mao larga -- ver a nota do `mexeu`.
-  if (!gira && !ampliada && now - ultimoToque > RETOMA) gira = true;
-  if (gira && !voo) orb.th += 0.16 * dt;
+  if (!gira && now - ultimoToque > RETOMA) gira = true;
+  if (gira && !voo && modo !== "visita") orb.th += 0.16 * dt;
   pulso += dt;
   if (brilho) {
     var b = 0.5 + 0.5 * Math.sin(pulso * 3.0);
@@ -707,12 +1217,23 @@ function quadro(now) {
     lajes.setColorAt(ANDAR, corInst); pars.setColorAt(ANDAR, corInst);
     lajes.instanceColor.needsUpdate = pars.instanceColor.needsUpdate = true;
   }
-  poeCam();
+  if (modo === "visita") {
+    // Dentro da casa quem manda na camera e o corpo, nao a orbita.
+    passoVisita(dt);
+    cam.position.set(FP.x, OLHO, FP.z);
+    cam.rotation.set(FP.pitch, FP.yaw, 0);
+    cam.updateMatrixWorld();
+  } else poeCam();
   // O sol fica FIXO no mundo enquanto a camera gira: e o que faz a maquete parecer
   // um objeto numa mesa, e nao um objeto grudado na lente. Posto a oeste-norte, a
   // sombra cai pro lado oposto e entra no quadro na maior parte da volta.
-  sol.position.set(alvo.x - 30, 46 + alvo.y, alvo.z + 22);
-  sol.target.position.set(alvo.x, alvo.y, alvo.z);
+  // Na visita ele mira a planta: `alvo` e o alvo da ORBITA, que ali nao e usado, e
+  // ficaria parado no ultimo enquadramento -- o sol nao entraria pela janela certa.
+  var sx = modo === "visita" ? PB.cx : alvo.x;
+  var sy = modo === "visita" ? PD/2  : alvo.y;
+  var sz = modo === "visita" ? PB.cz : alvo.z;
+  sol.position.set(sx - 30, 46 + sy, sz + 22);
+  sol.target.position.set(sx, sy, sz);
   sol.target.updateMatrixWorld();
   ren.render(cena, cam);
 }
@@ -726,8 +1247,14 @@ sol.shadow.camera.near = 1;  sol.shadow.camera.far = 240;
 sol.shadow.camera.updateProjectionMatrix();
 redim(); orb.r = raioQueEnquadra(); poeCam();
 requestAnimationFrame(quadro);
+/* Porta pro QA. `quadro` entra porque em Chrome headless o rAF para depois dos
+   primeiros quadros: sem ele, uma sonda so consegue desenhar chamando `ren.render`
+   direto -- e ai o que o laco DECIDE (a camera da visita, o passo de caminhada, a
+   posicao do sol) nunca roda, e o print sai com a camera do modo anterior. */
 window.__maq = { cena:cena, cam:cam, ren:ren, orb:orb, alvo:alvo, predio:predio,
-                 brilho:brilho, andar:ANDAR, N:N, poeCam:poeCam };
+                 brilho:brilho, andar:ANDAR, N:N, poeCam:poeCam, quadro:quadro,
+                 vaiPara:vaiPara, FP:FP, modo:function(){ return modo; },
+                 paredes:paredes, planta:function(){ return planta3d; } };
 })();
 </script>
 </body>
