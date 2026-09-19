@@ -82,7 +82,15 @@ PAGINA = u"""<!doctype html>
      abaixo, que e o que deixa os itens do flex encolherem. */
   html,body{height:100%;background:var(--void);overflow:hidden;max-width:100%}
   body{font-family:var(--ui);color:var(--txt);-webkit-font-smoothing:antialiased;
-    user-select:none;display:flex;flex-direction:column}
+    user-select:none;-webkit-user-select:none;display:flex;flex-direction:column;
+    /* Sem isto, arrastar pra girar a maquete dispara o "puxar pra recarregar" do
+       Chrome no Android e a pagina recarrega no meio do gesto. */
+    overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+  /* `100%` de altura no celular e a altura COM a barra de endereco, que some quando a
+     pessoa rola -- e como o corpo nao rola, ela nunca some e sobra uma faixa cortada
+     embaixo. `dvh` e a altura que realmente esta visivel agora. O `@supports` mantem
+     o `100%` de pe em navegador que nao conhece a unidade. */
+  @supports (height:100dvh){ body{height:100dvh} }
 
   /* A MAQUETE em cima, a ficha embaixo. A maquete e `flex:1` e a ficha tem altura
      propria: numa tela baixa quem cede espaco e o 3D, nunca a informacao. */
@@ -90,7 +98,11 @@ PAGINA = u"""<!doctype html>
   #c{display:block;width:100%%;height:100%%;touch-action:none;cursor:grab}
   #c:active{cursor:grabbing}
 
-  #selo{position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:7px;
+  /* O topo da tela de um celular com entalhe nao comeca em zero: `viewport-fit=cover`
+     (no <meta>) pede a tela inteira, e e por isso que daqui pra baixo todo canto usa
+     `env(safe-area-inset-*)`. Sem isso o selo fica debaixo do relogio do sistema. */
+  #selo{position:absolute;top:calc(14px + env(safe-area-inset-top));
+    left:calc(14px + env(safe-area-inset-left));display:flex;align-items:center;gap:7px;
     padding:6px 11px;border-radius:999px;background:rgba(12,18,25,.72);
     border:1px solid rgba(75,219,124,.42);backdrop-filter:blur(8px);
     font-size:11.5px;letter-spacing:.02em;pointer-events:none}
@@ -98,21 +110,38 @@ PAGINA = u"""<!doctype html>
     box-shadow:0 0 10px 1px rgba(75,219,124,.85);animation:pisca 1.6s ease-in-out infinite}
   @keyframes pisca{0%,100%{opacity:1}50%{opacity:.25}}
 
-  #ctrl{position:absolute;top:14px;right:14px;display:flex;gap:6px}
+  #ctrl{position:absolute;top:calc(14px + env(safe-area-inset-top));
+    right:calc(14px + env(safe-area-inset-right));display:flex;gap:6px}
   #ctrl button{font:inherit;font-size:11px;padding:7px 11px;border-radius:7px;cursor:pointer;
     background:rgba(12,18,25,.72);border:1px solid var(--line);color:var(--txt);
-    backdrop-filter:blur(8px);transition:.15s;min-height:34px}
+    backdrop-filter:blur(8px);transition:.15s;min-height:34px;
+    touch-action:manipulation}   /* mata o zoom de toque duplo no botao */
   #ctrl button:hover{background:rgba(255,255,255,.14)}
   #ctrl button[aria-pressed=true]{border-color:rgba(75,219,124,.5);
     background:rgba(75,219,124,.16);color:#BFF3D2}
-  #dica{position:absolute;left:14px;bottom:12px;font-size:10.5px;opacity:.45;
+  #dica{position:absolute;left:calc(14px + env(safe-area-inset-left));bottom:12px;font-size:10.5px;opacity:.45;
     pointer-events:none;letter-spacing:.04em}
 
   /* A JANELA DE INFORMACOES. Rola por dentro: numa tela de telefone deitado a ficha
      inteira nao cabe, e encolher a maquete ate o predio sumir seria pior. */
-  #ficha{flex:0 0 auto;max-height:46vh;max-height:46dvh;overflow:auto;
+  /* A FICHA E UM PAINEL RECOLHIVEL. Numa tela de telefone em pe ela come metade do
+     que existe pra ver; recolhida, sobra titulo e preco -- que e o que se olha antes
+     de decidir se vale abrir o resto. O puxador e o alvo do dedo, e a transicao e em
+     `max-height` porque e ela que o `flex:1` da cena consome de volta (o
+     `ResizeObserver` reenquadra a maquete sozinho quando isso acontece). */
+  #ficha{flex:0 0 auto;max-height:46vh;overflow:auto;position:relative;
     overscroll-behavior:contain;background:rgba(15,21,28,.96);
-    border-top:1px solid var(--line);padding:14px 18px 18px}
+    border-top:1px solid var(--line);
+    padding:14px 18px calc(18px + env(safe-area-inset-bottom));
+    transition:max-height .3s cubic-bezier(.4,0,.2,1)}
+  @supports (max-height:46dvh){ #ficha{max-height:46dvh} }
+  #puxador{display:none;position:sticky;top:-14px;z-index:2;margin:-8px -18px 6px;
+    padding:8px 0 6px;background:rgba(15,21,28,.96);cursor:pointer;
+    touch-action:manipulation}
+  #puxador i{display:block;width:38px;height:4px;border-radius:99px;margin:0 auto;
+    background:rgba(231,235,240,.34)}
+  #puxador b{display:block;text-align:center;font-size:9px;letter-spacing:.14em;
+    text-transform:uppercase;opacity:.4;margin-top:5px;font-weight:600}
   #ficha .topo{display:flex;align-items:flex-start;gap:8px 14px;flex-wrap:wrap}
   /* Sem isto o bloco do titulo tem `min-width:auto` e se recusa a encolher abaixo do
      conteudo, empurrando o preco pra fora da tela. */
@@ -139,8 +168,15 @@ PAGINA = u"""<!doctype html>
   .ci span{opacity:.72;min-width:0;overflow-wrap:anywhere}
   .ci b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
   #ctrl,#selo,#dica{max-width:calc(100% - 28px)}
+  /* Ponteiro grosso = dedo. Nao e "tela pequena": um tablet tem tela grande e dedo,
+     e e o dedo que decide se o painel precisa de puxador e se o botao precisa de 44 px. */
+  @media (pointer:coarse),(max-width:640px){
+    #puxador{display:block}
+    #ctrl button{min-height:44px;padding:10px 13px;font-size:12.5px}
+    #selo{padding:8px 13px;font-size:12.5px}
+  }
   @media (max-width:640px){
-    #ficha{padding:12px 14px 16px;max-height:52vh;max-height:52dvh}
+    #ficha{padding:12px 14px calc(16px + env(safe-area-inset-bottom));max-height:52vh}
     #ficha h1{font-size:16px}
     /* No telefone o preco desce pra linha de baixo, alinhado a esquerda com o resto:
        empurrado pra direita ele briga por largura com um titulo que ja mal cabe. */
@@ -150,7 +186,25 @@ PAGINA = u"""<!doctype html>
     /* Duas colunas ainda cabem em 500 px e poupam 4 linhas de ficha -- que e altura
        que volta pra maquete. Abaixo de ~340 px o `auto-fit` cai pra uma sozinho. */
     .comodos .grade{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0 16px}
-    #ctrl button{font-size:12px;min-height:40px;padding:7px 9px}
+    #puxador{margin:-6px -14px 6px}
+  }
+  @supports (max-height:52dvh){ @media (max-width:640px){ #ficha{max-height:52dvh} } }
+
+  /* A FICHA RECOLHIDA. A ALTURA VEM POR ESTILO INLINE, do JS -- nao daqui.
+
+     As duas primeiras versoes tentaram pela folha: `body.recolhida #ficha{max-height:
+     var(--ficha-min) !important}`, primeiro no meio e depois no fim do arquivo. Medido
+     nas duas: `overflow:hidden` da MESMA regra pegava e o `max-height` nao (computado
+     ficava em 422,76 px, que e o `52dvh` da regra anterior). Ou seja, a declaracao com
+     `var()` saia da cascata e a de baixo assumia -- sem erro, sem aviso, e com o
+     painel simplesmente nao recolhendo.
+
+     Estilo inline nao disputa cascata com ninguem, nao depende de `!important` e
+     continua animando pela transicao declarada no `#ficha`. Aqui fica so o que nao
+     tem a ver com altura. */
+  @media (pointer:coarse),(max-width:640px){
+    body.recolhida #ficha{overflow:hidden}
+    body.recolhida .stats,body.recolhida .comodos{opacity:0;transition:opacity .12s}
   }
 </style>
 </head>
@@ -166,6 +220,8 @@ PAGINA = u"""<!doctype html>
 </div>
 
 <section id="ficha">
+  <div id="puxador" role="button" tabindex="0" aria-expanded="true"
+       aria-label="Abrir ou recolher as informa&ccedil;&otilde;es"><i></i><b id="puxadorT">Recolher</b></div>
   <div class="topo">
     <div>
       <div class="tag" id="fTag"></div>
@@ -201,8 +257,16 @@ document.getElementById("seloT").textContent = ANDAR === 0 ? "T\\u00e9rreo" : AN
 
 /* ---- cena ----------------------------------------------------------------- */
 var cv = document.getElementById("c"), caixa = document.getElementById("cena");
-var ren = new THREE.WebGLRenderer({ canvas: cv, antialias: true, powerPreference: "high-performance" });
-ren.setPixelRatio(Math.min(devicePixelRatio, 2));
+/* O QUE SE DECIDE ANTES DE CRIAR O CONTEXTO nao da pra mudar depois: antialias e
+   escolha de construcao, nao propriedade. Num telefone a tela ja tem 3x de densidade,
+   entao o serrilhado que o MSAA tira custa caro e se ve pouco -- e o custo de
+   preenchimento e quadratico na resolucao, que e a alavanca mais forte que existe. */
+var TOQUE = matchMedia("(pointer:coarse)").matches;
+var PEQUENA = Math.min(screen.width, screen.height) <= 820;
+var CELULAR = TOQUE && PEQUENA;
+var ren = new THREE.WebGLRenderer({ canvas: cv, antialias: !CELULAR,
+                                    powerPreference: "high-performance" });
+ren.setPixelRatio(Math.min(devicePixelRatio, CELULAR ? 1.75 : 2));
 ren.outputColorSpace = THREE.SRGBColorSpace;
 ren.toneMapping = THREE.ACESFilmicToneMapping;
 ren.toneMappingExposure = 1.02;
@@ -253,7 +317,7 @@ var cam = new THREE.PerspectiveCamera(34, 1, 0.2, 900);
 var sol = new THREE.DirectionalLight(0xFFF2DD, 2.6);
 sol.position.set(26, 42, 18);
 sol.castShadow = true;
-sol.shadow.mapSize.set(2048, 2048);
+sol.shadow.mapSize.set(CELULAR ? 1024 : 2048, CELULAR ? 1024 : 2048);
 sol.shadow.bias = -0.0004;
 sol.shadow.normalBias = 0.02;
 cena.add(sol, sol.target);
@@ -461,8 +525,16 @@ var R_MIN = 9, R_MAX = 260, gira = true, zoomManual = false;
 function raioQueEnquadra() {
   var vf = cam.fov * Math.PI / 180;
   var hf = 2 * Math.atan(Math.tan(vf / 2) * cam.aspect);
-  var Rb = Math.hypot(raioBase, ALTURA / 2);
-  return Math.max(R_MIN, Rb / Math.sin(Math.min(vf, hf) / 2) * 1.08);
+  /* Contra a CAIXA, e nao contra a esfera envolvente. A esfera e mais simples e mais
+     conservadora: ela trata um predio alto e estreito como uma bola do tamanho da
+     diagonal dele, e num celular em pe isso deixava meia tela de sobra dos lados --
+     medido, o predio ENCOLHIA quando a ficha recolhia e dava mais altura pra cena, que
+     e o oposto do esperado. Aqui cada eixo e medido no campo dele e vence o mais
+     exigente; o termo final e a metade de perto do predio, que a orbita (distancia ao
+     CENTRO) nao conta. */
+  var dv = (ALTURA / 2) / Math.tan(vf / 2);
+  var dh = raioBase / Math.tan(hf / 2);
+  return Math.max(R_MIN, Math.max(dv, dh) * 1.06 + raioBase * 0.9);
 }
 function poeCam() {
   var s = Math.sin(orb.ph);
@@ -494,6 +566,9 @@ function medida() { var a = [], it = dedos.values(), v;
   return { d: Math.hypot(a[1].x-a[0].x, a[1].y-a[0].y), a: Math.atan2(a[1].y-a[0].y, a[1].x-a[0].x) }; }
 cv.addEventListener("pointerdown", function (e) {
   gira = false; pintaGira();
+document.getElementById("dica").textContent = TOQUE
+  ? "Arraste para girar \u00b7 dois dedos para aproximar"
+  : "Arraste para girar \u00b7 roda ou pin\u00e7a para aproximar";
   if (e.pointerType === "touch") { dedos.set(e.pointerId, {x:e.clientX,y:e.clientY});
     if (dedos.size > 1) { ant = medida(); arr = false; cv.setPointerCapture(e.pointerId); return; } }
   arr = true; lx = e.clientX; ly = e.clientY; cv.setPointerCapture(e.pointerId);
@@ -520,6 +595,8 @@ function solta(e) { arr = false; ant = null;
     if (cv.hasPointerCapture(e.pointerId)) cv.releasePointerCapture(e.pointerId); } }
 cv.addEventListener("pointerup", solta);
 cv.addEventListener("pointercancel", solta);
+// Toque longo no canvas abre o menu de contexto do sistema no meio do giro.
+cv.addEventListener("contextmenu", function (e) { e.preventDefault(); });
 cv.addEventListener("wheel", function (e) {
   e.preventDefault(); gira = false; pintaGira(); zoomManual = true;
   orb.r = Math.max(R_MIN, Math.min(R_MAX, orb.r * (1 + Math.sign(e.deltaY) * 0.1)));
@@ -545,6 +622,63 @@ bCorte.addEventListener("click", function () {
           p0: orb.ph, p1: perto ? 1.22 : 1.03 };
 });
 pintaGira();
+
+/* ---- o painel recolhivel (celular) ---------------------------------------- */
+var ficha = document.getElementById("ficha"), puxador = document.getElementById("puxador");
+var recolhida = false;
+function alturaMinima() {
+  // O quanto da ficha fica visivel recolhida: o puxador mais o bloco do titulo. Sai
+  // MEDIDO do proprio topo, e nao de um numero fixo -- titulo de duas linhas, preco em
+  // linha propria e fonte maior do sistema mudam essa altura, e um valor cravado
+  // cortaria o preco em metade dos aparelhos.
+  var topo = ficha.querySelector(".topo");
+  var h = puxador.offsetHeight + topo.getBoundingClientRect().height;
+  var pad = parseFloat(getComputedStyle(ficha).paddingTop) || 12;
+  return Math.round(h + pad * 2) + "px";
+}
+function poeRecolhida(v) {
+  recolhida = v;
+  // Medir ANTES de recolher: com a classe ja posta o painel esta cortado e a medida
+  // sairia a dele proprio, que e justamente o que se quer calcular.
+  var alt = v ? alturaMinima() : "";
+  document.body.classList.toggle("recolhida", v);
+  ficha.style.maxHeight = alt;          // ver a nota do bloco recolhido, no CSS
+  if (v) ficha.scrollTop = 0;
+  puxador.setAttribute("aria-expanded", String(!v));
+  document.getElementById("puxadorT").textContent = v ? "Ver informa\u00e7\u00f5es" : "Recolher";
+}
+puxador.addEventListener("click", function () { poeRecolhida(!recolhida); });
+puxador.addEventListener("keydown", function (e) {
+  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); poeRecolhida(!recolhida); }
+});
+// Arrastar o puxador pra baixo recolhe, pra cima abre -- e o gesto que a pessoa ja
+// tenta antes de procurar onde clicar.
+(function arrastaPuxador() {
+  var y0 = null;
+  puxador.addEventListener("pointerdown", function (e) { y0 = e.clientY; });
+  puxador.addEventListener("pointermove", function (e) {
+    if (y0 === null) return;
+    var d = e.clientY - y0;
+    if (Math.abs(d) > 24) { poeRecolhida(d > 0); y0 = null; }
+  });
+  addEventListener("pointerup", function () { y0 = null; });
+})();
+// No celular a pagina ABRE recolhida: a maquete e o que se veio ver, e a ficha esta a
+// um toque de distancia. No desktop nao ha o que recolher -- sobra tela.
+if (TOQUE || innerWidth <= 640) {
+  // Depois do layout: `alturaMinima()` mede, e antes do primeiro quadro nao ha o que medir.
+  requestAnimationFrame(function () { requestAnimationFrame(function () { poeRecolhida(true); }); });
+}
+// Girar o telefone muda a altura do titulo (ele quebra em menos linhas deitado), e
+// com ela a altura recolhida. Remedir sem a classe posta exige tira-la por um quadro.
+addEventListener("resize", function () {
+  if (!recolhida) return;
+  ficha.style.maxHeight = "";
+  document.body.classList.remove("recolhida");
+  var alt = alturaMinima();
+  document.body.classList.add("recolhida");
+  ficha.style.maxHeight = alt;
+});
 
 /* ---- laco ----------------------------------------------------------------- */
 var tAnt = 0, pulso = 0;
