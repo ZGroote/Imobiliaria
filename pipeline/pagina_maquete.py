@@ -101,13 +101,20 @@ PAGINA = u"""<!doctype html>
   /* `clamp` e nao `vh` puro: em tela baixa e deitada 40vh vira uma faixa de 150 px, e
      num monitor grande vira meio metro de predio. O piso e o teto sao o que dao a
      miniatura o mesmo tamanho aparente nos dois. */
-  #cena{position:relative;height:clamp(220px,40vh,420px);min-width:0;
-    border:1px solid var(--line);border-radius:12px;overflow:hidden;
-    background:#0E141B;box-shadow:0 8px 28px rgba(0,0,0,.4)}
+  /* A MAQUETE NAO TEM MOLDURA. Ela e um canvas transparente que se sobrepoe ao
+     cartao: a margem negativa de baixo e o que faz o predio passar POR CIMA da ficha
+     em vez de ficar numa caixa empilhada acima dela. O degrade e o unico fundo que
+     sobrou -- ele da presenca ao volume sem prende-lo a um chao, que era o que o
+     disco de terreno fazia. */
+  #cena{position:relative;height:clamp(220px,40vh,420px);min-width:0;z-index:2;
+    margin-bottom:-46px;
+    background:radial-gradient(ellipse 62% 58% at 50% 46%,
+      rgba(86,124,168,.17),rgba(86,124,168,.05) 55%,transparent 72%)}
   @supports (height:40dvh){ #cena{height:clamp(220px,40dvh,420px)} }
   body.ampliada{overflow:hidden}
-  body.ampliada #cena{position:fixed;inset:0;height:auto;border:0;border-radius:0;
-    z-index:50;box-shadow:none}
+  body.ampliada #cena{position:fixed;inset:0;height:auto;margin:0;z-index:50;
+    background:radial-gradient(ellipse 52% 48% at 50% 46%,
+      rgba(86,124,168,.15),transparent 70%),var(--void)}
   #c{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
   #c:active{cursor:grabbing}
 
@@ -140,14 +147,18 @@ PAGINA = u"""<!doctype html>
      parede clara do predio, texto a 45% de opacidade desaparece. O degrade e so na
      faixa de baixo -- escurecer o painel inteiro apagaria a sombra no chao, que e a
      pista de profundidade da cena. */
-  #dica{position:absolute;left:0;right:0;bottom:0;padding:16px 12px 8px;
-    font-size:10.5px;opacity:.72;pointer-events:none;letter-spacing:.04em;
-    background:linear-gradient(to top,rgba(10,15,21,.82),rgba(10,15,21,0))}
+  /* A dica saiu do canvas. Sem moldura nao ha rodape onde ela caiba: em cima do
+     predio ela fica ilegivel, e na faixa de baixo ela cai justamente onde o canvas se
+     sobrepoe ao cartao. Virou a ultima linha da ficha, que e onde legenda mora. */
+  #dica{margin-top:13px;padding-top:11px;border-top:1px solid var(--line);
+    font-size:10.5px;opacity:.42;letter-spacing:.04em}
 
   /* A JANELA DE INFORMACOES. Rola por dentro: numa tela de telefone deitado a ficha
      inteira nao cabe, e encolher a maquete ate o predio sumir seria pior. */
-  #ficha{margin-top:14px;background:rgba(18,25,33,.9);border:1px solid var(--line);
-    border-radius:12px;padding:15px 18px 18px}
+  /* O topo generoso e onde a maquete pousa por cima. Sem ele o predio cairia em
+     cima do "A VENDA". */
+  #ficha{position:relative;background:rgba(18,25,33,.92);border:1px solid var(--line);
+    border-radius:14px;padding:56px 18px 18px}
   body.ampliada #ficha{display:none}
   #ficha .topo{display:flex;align-items:flex-start;gap:8px 14px;flex-wrap:wrap}
   /* Sem isto o bloco do titulo tem `min-width:auto` e se recusa a encolher abaixo do
@@ -185,8 +196,8 @@ PAGINA = u"""<!doctype html>
     body{padding:12px 12px calc(20px + env(safe-area-inset-bottom))}
     /* No telefone a miniatura encolhe mais: o cartao inteiro -- miniatura e ficha --
        tem que caber na primeira tela, que e o ponto de um cartao de imovel. */
-    #cena{height:clamp(190px,30vh,290px)}
-    #ficha{padding:13px 14px 16px;margin-top:12px}
+    #cena{height:clamp(190px,30vh,290px);margin-bottom:-38px}
+    #ficha{padding:46px 14px 16px}
     #ficha h1{font-size:16px}
     /* No telefone o preco desce pra linha de baixo, alinhado a esquerda com o resto:
        empurrado pra direita ele briga por largura com um titulo que ja mal cabe. */
@@ -207,11 +218,9 @@ PAGINA = u"""<!doctype html>
   <canvas id="c"></canvas>
   <div id="selo"><i></i><span id="seloT">3&ordm; andar</span></div>
   <div id="ctrl">
-    <button id="bGira" aria-pressed="true">Girar</button>
     <button id="bCorte" aria-pressed="false">Ver andar</button>
     <button id="bAmpliar" aria-pressed="false">Ampliar</button>
   </div>
-  <div id="dica">Arraste para girar &middot; roda ou pin&ccedil;a para aproximar</div>
 </div>
 
 <section id="ficha">
@@ -225,6 +234,7 @@ PAGINA = u"""<!doctype html>
   </div>
   <div class="stats" id="fStats"></div>
   <div class="comodos"><h2>C&ocirc;modos</h2><div class="grade" id="fComodos"></div></div>
+  <div id="dica">Arraste a maquete para girar</div>
 </section>
 </div>
 
@@ -258,8 +268,13 @@ var cv = document.getElementById("c"), caixa = document.getElementById("cena");
 var TOQUE = matchMedia("(pointer:coarse)").matches;
 var PEQUENA = Math.min(screen.width, screen.height) <= 820;
 var CELULAR = TOQUE && PEQUENA;
-var ren = new THREE.WebGLRenderer({ canvas: cv, antialias: !CELULAR,
+/* `alpha: true` e o que faz a maquete FLUTUAR. Sem ele o canvas e um retangulo
+   opaco com o predio dentro, e qualquer sobreposicao com o cartao vira uma caixa
+   por cima de outra. Com ele o que nao e predio e transparente, e o cartao aparece
+   por tras -- que e o "em cima da janela de informacoes" do pedido. */
+var ren = new THREE.WebGLRenderer({ canvas: cv, antialias: !CELULAR, alpha: true,
                                     powerPreference: "high-performance" });
+ren.setClearAlpha(0);
 ren.setPixelRatio(Math.min(devicePixelRatio, CELULAR ? 1.75 : 2));
 ren.outputColorSpace = THREE.SRGBColorSpace;
 ren.toneMapping = THREE.ACESFilmicToneMapping;
@@ -268,7 +283,8 @@ ren.shadowMap.enabled = true;
 ren.shadowMap.type = THREE.PCFSoftShadowMap;
 
 var cena = new THREE.Scene();
-cena.background = new THREE.Color(0x0E141B);
+/* Sem fundo e sem nevoa, de proposito. A nevoa fecha na COR dela, e sobre um fundo
+   transparente isso pinta uma borda cinza em volta do predio em vez de dissolve-lo. */
 
 /* UM AMBIENTE, SEM ARQUIVO. Vidro e metal nao sao pintados pela luz: eles sao pintados
    pelo que REFLETEM. Sem mapa de ambiente, `metalness` alto nao da vidro -- da preto,
@@ -301,7 +317,6 @@ cena.background = new THREE.Color(0x0E141B);
   cena.environment = pm.fromEquirectangular(tex).texture;
   tex.dispose(); pm.dispose();
 })();
-cena.fog = new THREE.Fog(0x0E141B, 60, 190);
 var cam = new THREE.PerspectiveCamera(34, 1, 0.2, 900);
 
 /* Luz: uma principal que DESENHA A SOMBRA (e a sombra e o que faz uma maquete parecer
@@ -459,17 +474,19 @@ plat.position.y = N*LV + LAJE; plat.castShadow = true; predio.add(plat);
 var cm = new THREE.Mesh(new THREE.BoxGeometry(3.2, 2.4, 2.6), matPar);
 cm.position.set(0, N*LV + LAJE + 1.2, 0); cm.castShadow = true; predio.add(cm);
 
-// Terreno: a sombra precisa cair em algum lugar, senao a maquete flutua.
+/* NADA DE TERRENO. Tinha um disco com grade aqui, e o argumento era bom -- sem
+   superficie embaixo a sombra cai no nada e a maquete perde a pista de profundidade.
+   So que "pista de profundidade" custava prender o predio no chao, e o pedido e o
+   contrario: ele flutua. O que sobra desenhando volume e a sombra do proprio predio
+   sobre ele mesmo (a platibanda na laje, o recuo de cada janela) mais o degrade que o
+   CSS poe ATRAS do canvas -- que nao e geometria e nao pesa nada.
+
+   `raioChao` continua existindo porque o enquadramento e a camera de sombra se apoiam
+   nele; ele passou a ser so a extensao do predio, sem malha nenhuma. */
 var raioChao = 0;
 for (var v = 0; v < anel.length; v++)
   raioChao = Math.max(raioChao, Math.hypot(anel[v][0]-cx, anel[v][1]-cz));
 raioChao = raioChao * 2.4 + 8;
-var chao = new THREE.Mesh(new THREE.CircleGeometry(raioChao, 64).rotateX(-Math.PI/2),
-  new THREE.MeshStandardMaterial({ color: 0x18202A, roughness: 0.98, metalness: 0 }));
-chao.position.y = -0.05; chao.receiveShadow = true; cena.add(chao);
-var grade = new THREE.GridHelper(Math.ceil(raioChao*2), Math.ceil(raioChao*2), 0x33404E, 0x222C37);
-grade.material.transparent = true; grade.material.opacity = 0.42;
-grade.material.depthWrite = false; grade.position.y = -0.03; cena.add(grade);
 
 /* O PAVIMENTO DA UNIDADE. Verde, translucido, sem luz (`MeshBasic`) e com o contorno
    por cima: cor de material iluminado nao le como "e este aqui" -- ela some no branco
@@ -568,13 +585,18 @@ function medida() { var a = [], it = dedos.values(), v;
   while (!(v = it.next()).done) a.push(v.value);
   return { d: Math.hypot(a[1].x-a[0].x, a[1].y-a[0].y), a: Math.atan2(a[1].y-a[0].y, a[1].x-a[0].x) }; }
 cv.addEventListener("pointerdown", function (e) {
-  gira = false; pintaGira();
+  gira = false; mexeu();
 document.getElementById("dica").textContent = TOQUE
-  ? "Arraste para girar \u00b7 dois dedos para aproximar"
-  : "Arraste para girar \u00b7 roda ou pin\u00e7a para aproximar";
+  ? "Arraste a maquete para girar \u00b7 dois dedos aproximam \u00b7 ela volta a girar sozinha"
+  : "Arraste a maquete para girar \u00b7 roda aproxima \u00b7 ela volta a girar sozinha";
   if (e.pointerType === "touch") { dedos.set(e.pointerId, {x:e.clientX,y:e.clientY});
-    if (dedos.size > 1) { ant = medida(); arr = false; cv.setPointerCapture(e.pointerId); return; } }
-  arr = true; lx = e.clientX; ly = e.clientY; cv.setPointerCapture(e.pointerId);
+    if (dedos.size > 1) { ant = medida(); arr = false;
+      try { cv.setPointerCapture(e.pointerId); } catch (err) {} return; } }
+  arr = true; lx = e.clientX; ly = e.clientY;
+  // A captura e um plus (segura o gesto quando o dedo sai do canvas), nao um
+  // requisito. Ela LANCA quando o ponteiro ja nao esta ativo, e sem o try isso abortava
+  // o resto do `pointerdown` -- o arrasto simplesmente nao comecava.
+  try { cv.setPointerCapture(e.pointerId); } catch (err) {}
 });
 cv.addEventListener("pointermove", function (e) {
   if (e.pointerType === "touch" && dedos.has(e.pointerId)) {
@@ -588,27 +610,41 @@ cv.addEventListener("pointermove", function (e) {
       ant = m; return; } }
   if (!arr) return;
   orb.th -= (e.clientX - lx) * 0.0085;
-  // A faixa de phi para longe do zenite e do horizonte: a pino a maquete vira planta
-  // baixa, e no horizonte ela some atras do proprio terreno.
-  orb.ph = Math.max(0.35, Math.min(1.44, orb.ph + (e.clientY - ly) * 0.0065));
+  /* VERTICAL INVERTIDO a pedido. Agora arrastar pra BAIXO sobe a camera: e como se a
+     mao pegasse a face da frente do predio e a puxasse pra baixo, trazendo o topo pra
+     ca. E a convencao de visualizador de OBJETO; a de antes era a de camera em
+     primeira pessoa (arrasta pra baixo, olha pra baixo), que aqui nao faz sentido
+     porque ninguem esta dentro de nada.
+
+     A faixa tambem abriu: sem terreno nao ha mais em que a camera afunde, entao da
+     pra passar do horizonte e olhar a maquete por baixo. */
+  orb.ph = Math.max(0.28, Math.min(2.20, orb.ph - (e.clientY - ly) * 0.0065));
   lx = e.clientX; ly = e.clientY;
 });
 function solta(e) { arr = false; ant = null;
   if (e && e.pointerId != null) { dedos.delete(e.pointerId);
-    if (cv.hasPointerCapture(e.pointerId)) cv.releasePointerCapture(e.pointerId); } }
+    try { if (cv.hasPointerCapture(e.pointerId)) cv.releasePointerCapture(e.pointerId); }
+    catch (err) {} } }
 cv.addEventListener("pointerup", solta);
 cv.addEventListener("pointercancel", solta);
 // Toque longo no canvas abre o menu de contexto do sistema no meio do giro.
 cv.addEventListener("contextmenu", function (e) { e.preventDefault(); });
 cv.addEventListener("wheel", function (e) {
-  e.preventDefault(); gira = false; pintaGira(); zoomManual = true;
+  e.preventDefault(); gira = false; mexeu(); zoomManual = true;
   orb.r = Math.max(R_MIN, Math.min(R_MAX, orb.r * (1 + Math.sign(e.deltaY) * 0.1)));
 }, { passive: false });
 
 /* ---- os dois botoes ------------------------------------------------------- */
-var bGira = document.getElementById("bGira"), bCorte = document.getElementById("bCorte");
-function pintaGira() { bGira.setAttribute("aria-pressed", String(gira)); }
-bGira.addEventListener("click", function () { gira = !gira; pintaGira(); });
+var bCorte = document.getElementById("bCorte");
+/* A MAQUETE GIRA. Nao e um modo que se liga -- e o estado dela.
+
+   A versao anterior tinha um botao "Girar", e botao pra isso e a pergunta errada: nao
+   existe momento em que alguem quer a miniatura parada de proposito. O que existe e o
+   momento em que a pessoa esta MEXENDO nela, e ai o giro tem que sair da frente. Entao
+   ele para no toque e volta sozinho quando a mao larga. */
+var RETOMA = 2200;                       // ms de mao parada ate o giro voltar
+var ultimoToque = 0;
+function mexeu() { gira = false; ultimoToque = performance.now(); }
 
 // "Ver andar": a camera desce ate a altura do pavimento da unidade e aproxima. Nao e
 // outra cena -- e a mesma orbita com outro alvo, que e o que mantem a transicao
@@ -617,14 +653,14 @@ bCorte.addEventListener("click", function () {
   perto = !perto;
   bCorte.setAttribute("aria-pressed", String(perto));
   bCorte.textContent = perto ? "Ver o pr\\u00e9dio" : "Ver andar";
-  gira = false; pintaGira();
+  gira = false; mexeu();
   zoomManual = false;
   voo = { t0: performance.now(), dur: 900,
           y0: alvo.y, y1: perto ? (ANDAR*LV + LV*0.5) : ALTURA*0.5,
           r0: orb.r,  r1: perto ? Math.max(R_MIN, raioBase*2.2) : raioQueEnquadra(),
           p0: orb.ph, p1: perto ? 1.22 : 1.03 };
 });
-pintaGira();
+mexeu();
 
 /* ---- ampliar: a miniatura toma a tela, por pedido ------------------------- */
 var bAmpliar = document.getElementById("bAmpliar"), ampliada = false;
@@ -658,6 +694,8 @@ function quadro(now) {
   }
   // 0,16 rad/s: uma volta em 39 s. Por SEGUNDO e nao por quadro -- com passo por
   // quadro a mesma volta leva 12 s numa GPU e um minuto num rasterizador de software.
+  // Volta a girar sozinha depois que a mao larga -- ver a nota do `mexeu`.
+  if (!gira && !ampliada && now - ultimoToque > RETOMA) gira = true;
   if (gira && !voo) orb.th += 0.16 * dt;
   pulso += dt;
   if (brilho) {
