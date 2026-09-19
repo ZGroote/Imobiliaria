@@ -150,7 +150,7 @@
     ],
     "_nota_enderecos": "enderecos = o cadastro PROPRIO da prefeitura (SigaSC, 54.111 pontos), que e onde as fontes de endereco escrevem. enderecos_extra = as outras provas do mesmo fato; hoje o CNEFE do IBGE (143.200, Censo 2022, pipeline/fontes/cnefe.py). A etapa 5 (ocupacao.py) soma as duas e deduplica na grade de 1 m -- nenhuma contem a outra, e lote sem prova nao ganha casa nem muro.",
     "alturas_osm": "v7/dados/osm_heights.json",
-    "_nota_quadras": "quadras = so o cadastro do SigaSC (nao cobre a cidade toda). quadras_completo = cadastro + face do grafo de ruas onde o cadastro nao tem, gerado por v7/pipeline/quadras_grafo.py. E o quadras_completo que a etapa 2 consome.",
+    "_nota_quadras": "quadras = so o cadastro do SigaSC (nao cobre a cidade toda). quadras_completo = cadastro + face do grafo de ruas onde o cadastro nao tem, gerado por pipeline/quadras_grafo.py. E o quadras_completo que a etapa 2 consome.",
     "arvores": "arvores/arvores_lib.json",
     "_nota_arvores": "biblioteca das 20 especies (gerada por arvores/arvores.py no Blender). O montar.py embute so o LOD baixo. Qual especie entra em qual lugar e o bloco `arborizacao`, nao este caminho.",
     "portoes": "v7/dados/portoes.json",

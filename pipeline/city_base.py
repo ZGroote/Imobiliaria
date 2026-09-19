@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """Etapa 0c -- reorganiza o city.json para streaming por quarteirao.
 
-Era `v4/build_city_v4.py`. Ficou em `v4/` por acidente de historia: a pasta guarda o
-DADO daquela geracao, e o script continua sendo etapa corrente do pipeline. O caminho
-antigo segue funcionando por um invocador de duas linhas.
+Era `v4/build_city_v4.py`: ficou em `v4/` por acidente de historia, porque a pasta
+guarda o DADO daquela geracao -- mas o script e etapa corrente do pipeline, e mora
+aqui. O invocador que mantinha o caminho antigo saiu; quem procurar por ele acha
+esta etapa em `pipeline/rodar.py`, e a versao antiga no historico do Git.
 
 O v3 guarda os predios em ordem arbitraria e monta a cidade inteira no boot. Pra
 carregar so o que esta a vista, o runtime precisa responder "quais predios estao

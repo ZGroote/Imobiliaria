@@ -9,7 +9,7 @@ E o contrato da etapa 1 do PADRAO.md.
 
 O que este layer NAO da: ele cobriu 3.373 quadras em Sao Carlos e deixou 1.359 faces
 de cidade sem cadastro nenhum. Isso NAO e falha de raspagem -- o dado nao existe la.
-A etapa 1b (`v7/pipeline/quadras_grafo.py`) completa com a face do grafo de ruas.
+A etapa 1b (`pipeline/quadras_grafo.py`) completa com a face do grafo de ruas.
 """
 import json, os, sys
 from shapely.geometry import mapping

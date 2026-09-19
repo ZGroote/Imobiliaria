@@ -17,8 +17,9 @@ pagina e a concatenacao das pecas com os blocos de dado no meio:
     python pipeline/montar.py --conferir <arq> # exige saida byte a byte igual a <arq>
 
 `--conferir` e o aceite da migracao: a pagina montada tem que reproduzir exatamente o
-HTML de onde as pecas foram extraidas. Depois disso, `make_v4..make_v8` viram historico
-(seguem em v4/, v5/, v7/, v8/ e nao sao mais chamados pelo runner).
+HTML de onde as pecas foram extraidas. Feito isso, `make_v4..make_v8` sairam da arvore:
+a logica deles esta aqui e nas etapas de `pipeline/`, e o codigo antigo fica no
+historico do Git, que e onde codigo aposentado deve morar.
 
 O carimbo do HUD e a UNICA coisa que muda entre duas montagens do mesmo dado (a data),
 entao `--conferir` normaliza os dois lados so nessa linha antes de comparar.

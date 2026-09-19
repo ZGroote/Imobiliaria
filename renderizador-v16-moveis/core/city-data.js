@@ -39,7 +39,7 @@
         G.push({ r });
       }
       // v4: bl[] = [cx, cz, raio, inicioB, qtdB] por quarteirao. Os indices batem
-      // com a ordem de B porque o build_city_v4.py reordenou data.b agrupando por
+      // com a ordem de B porque o pipeline/city_base.py reordenou data.b agrupando por
       // quadra -- por isso aqui e uma fatia contigua, nao uma lista de indices.
       const grp = [], bl = data.bl || [];
       for (let k = 0; k < bl.length; k += 5)

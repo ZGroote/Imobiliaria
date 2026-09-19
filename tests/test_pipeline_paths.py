@@ -1,12 +1,24 @@
 """Caminhos canônicos das etapas: o runner chama `pipeline/`, e o caminho antigo
-continua funcionando por um invocador que não guarda lógica nenhuma."""
+**não existe mais**.
+
+Durante a modularização cada etapa foi copiada de `v4/`, `v7/pipeline/` ou `v8/` para
+`pipeline/`, e o caminho antigo ficou para trás como invocador de nove linhas. Isso
+mantinha meia migração de pé: quem procurasse a etapa achava dois arquivos, e o mais
+antigo primeiro. Os invocadores saíram, junto com onze scripts que ninguém mais
+chamava. O que eles faziam está em `pipeline/`; o código deles está no histórico do
+Git, que é onde código aposentado deve morar.
+
+As pastas `v4/`..`v8/` continuam existindo porque guardam DADO -- `padrao/cidades/*.json`
+aponta para `v7/dados/`, `v4/sao-carlos-v4.city.json` e `v6/relevo_wide.json`. O que
+saiu foi só código.
+"""
 import ast
 import unittest
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[1]
 
-# etapa migrada -> (caminho canônico, invocador antigo)
+# etapa -> (caminho canônico, caminho aposentado que não pode voltar)
 MIGRADAS = {'0c': ('pipeline/city_base.py', 'v4/build_city_v4.py'),
             '6': ('pipeline/muros.py', 'v7/pipeline/gen_muros.py'),
             '6b': ('pipeline/portoes.py', 'v7/pipeline/gen_portoes.py'),
@@ -25,25 +37,32 @@ MIGRADAS = {'0c': ('pipeline/city_base.py', 'v4/build_city_v4.py'),
             '0d-relatorio': ('pipeline/plantas/relatorio.py', 'v7/pipeline/relatorio.py'),
             '0.9': ('pipeline/plantas/baixar_openplots.py', 'v7/pipeline/baixar_openplots.py')}
 
-# Ferramenta de planta: tinha DUAS cópias idênticas (plantas_pipeline/ e v7/pipeline/) e
-# agora tem uma fonte só, com invocador em cada caminho antigo. `plantas_pipeline/` segue
-# sendo a pasta de DADO da caixa de ferramentas -- recortes, saída e casamento de nomes.
-FERRAMENTAS = {'pipeline/plantas/rodar_tudo.py':
-               ['plantas_pipeline/rodar_tudo.py', 'v7/pipeline/rodar_tudo.py']}
+# Scripts que tinham lógica própria em `v4/`..`v8/` e que ninguém importava nem
+# chamava -- as quatro gerações do montador de página, mais ferramentas de QA e de
+# limpeza que já têm equivalente em `pipeline/`. Saíram inteiros.
+APOSENTADOS = ['v4/make_v4.py', 'v4/assemble_block.js', 'v4/stream_block.js',
+               'v5/make_v5.py', 'v6/make_v6.py',
+               'v7/pipeline/make_v7.py', 'v7/pipeline/make_v7_html.py',
+               'v7/pipeline/exporta_gabarito.py', 'v7/pipeline/qa_medir.py',
+               'v7/pipeline/qa_shot.py', 'v8/pipeline/make_v8.py',
+               'v8/pipeline/limpar_dados.py', 'v8/pipeline/qa_medir.py']
+
+# Ferramenta de planta: tinha DUAS cópias idênticas (plantas_pipeline/ e v7/pipeline/).
+# A de `v7/pipeline/` saiu; `plantas_pipeline/` segue sendo a pasta de DADO da caixa de
+# ferramentas -- recortes, saída e casamento de nomes -- e mantém um invocador, porque
+# é lá que se trabalha planta.
+FERRAMENTAS = {'pipeline/plantas/rodar_tudo.py': ['plantas_pipeline/rodar_tudo.py']}
 for _n in ('vetorizar_planta', 'georreferenciar_planta', 'ler_escala', 'rodar_escalas',
            'casar_nomes', 'conferir_encaixe', 'overlay_planta', 'mapa_qa'):
     FERRAMENTAS['pipeline/plantas/%s.py' % _n] = ['plantas_pipeline/%s.py' % _n]
-FERRAMENTAS['pipeline/plantas/relatorio.py'] = ['plantas_pipeline/relatorio.py',
-                                                'v7/pipeline/relatorio.py']
+FERRAMENTAS['pipeline/plantas/relatorio.py'] = ['plantas_pipeline/relatorio.py']
 # O baixador nao tinha copia em `plantas_pipeline/`: o par era raiz x `v7/pipeline/`.
-FERRAMENTAS['pipeline/plantas/baixar_openplots.py'] = ['baixar_openplots.py',
-                                                       'v7/pipeline/baixar_openplots.py']
+FERRAMENTAS['pipeline/plantas/baixar_openplots.py'] = ['baixar_openplots.py']
 # A etapa 0e tinha uma TERCEIRA copia em `plantas_pipeline/`, anterior ao conserto que
 # a fez ler o caminho do JSON da cidade: ela gravava na raiz enquanto o pipeline lia de
 # v7/dados/, e o filtro seguinte devolvia zero lote confiavel sem erro nenhum.
 for _n in ('auditoria_tamanhos', 'consolidar', 'filtrar_confiaveis'):
-    FERRAMENTAS['pipeline/%s.py' % _n] = ['plantas_pipeline/%s.py' % _n,
-                                          'v7/pipeline/%s.py' % _n]
+    FERRAMENTAS['pipeline/%s.py' % _n] = ['plantas_pipeline/%s.py' % _n]
 
 
 class PipelinePathTests(unittest.TestCase):
@@ -53,14 +72,31 @@ class PipelinePathTests(unittest.TestCase):
             self.assertIn('"%s"' % canonico, fonte, etapa)
             self.assertNotIn('"%s"' % antigo, fonte, etapa)
 
-    def test_the_old_path_only_delegates(self):
-        for canonico, antigo in MIGRADAS.values():
-            arvore = ast.parse((RAIZ / antigo).read_text(encoding='utf-8'))
-            nomes = {n.__class__.__name__ for n in arvore.body}
-            self.assertFalse(nomes & {'FunctionDef', 'ClassDef', 'For', 'While', 'If'},
-                             '%s virou invocador; não pode ter lógica' % antigo)
-            self.assertIn(Path(canonico).name, (RAIZ / antigo).read_text(encoding='utf-8'))
-            self.assertTrue((RAIZ / canonico).exists())
+    def test_the_step_lives_only_at_the_canonical_path(self):
+        for etapa, (canonico, antigo) in MIGRADAS.items():
+            self.assertTrue((RAIZ / canonico).exists(), canonico)
+            self.assertFalse((RAIZ / antigo).exists(),
+                             '%s voltou: a etapa tem que existir só em %s'
+                             % (antigo, canonico))
+
+    def test_the_retired_scripts_are_not_back(self):
+        for morto in APOSENTADOS:
+            self.assertFalse((RAIZ / morto).exists(),
+                             '%s não é chamado por ninguém; seu lugar é o histórico'
+                             % morto)
+
+    def test_the_old_version_folders_hold_data_only(self):
+        """Elas continuam existindo -- `padrao/cidades/*.json` lê dado de dentro --
+        mas não voltam a guardar etapa de pipeline."""
+        for pasta in ('v4', 'v5', 'v6', 'v7', 'v8'):
+            raiz = RAIZ / pasta
+            if not raiz.exists():
+                continue
+            codigo = [p for p in raiz.rglob('*')
+                      if p.suffix in ('.py', '.js') and p.is_file()
+                      and 'dados' not in p.parts]
+            self.assertEqual(codigo, [],
+                             'código de volta em %s/: %s' % (pasta, codigo))
 
     def test_each_plant_tool_has_a_single_source(self):
         for canonico, antigos in FERRAMENTAS.items():
@@ -70,6 +106,11 @@ class PipelinePathTests(unittest.TestCase):
                 self.assertIn('runpy.run_path', fonte, antigo)
                 self.assertLess(len(fonte.splitlines()), 15,
                                 '%s tem que ser invocador, não cópia' % antigo)
+                arvore = ast.parse(fonte)
+                nomes = {n.__class__.__name__ for n in arvore.body}
+                self.assertFalse(nomes & {'FunctionDef', 'ClassDef', 'For', 'While'},
+                                 '%s é invocador; não pode ter lógica' % antigo)
+                self.assertIn('run_name="__main__"', fonte, antigo)
 
     def test_the_plant_tools_derive_the_root_from_their_own_file(self):
         """Tinham o caminho absoluto da máquina de quem escreveu escrito no código."""
@@ -85,15 +126,6 @@ class PipelinePathTests(unittest.TestCase):
         alvo = runpy.run_path(str(RAIZ / 'pipeline/plantas/baixar_openplots.py'))
         self.assertEqual(Path(alvo['OUT']), RAIZ / 'plantas_openplots')
         self.assertEqual(Path(alvo['SRC_HTML']).parent, RAIZ / 'plantas_openplots')
-
-    def test_the_wrapper_runs_the_step_as_a_program(self):
-        """Parte das etapas é script de linha reta: o trabalho acontece no import, sem
-        `if __name__`. Por isso o invocador usa `run_name="__main__"` -- ele serve aos
-        dois estilos, e é o que mantém o caminho antigo com o mesmo efeito de antes."""
-        for canonico, antigo in MIGRADAS.values():
-            fonte = (RAIZ / antigo).read_text(encoding='utf-8')
-            self.assertIn('run_name="__main__"', fonte, antigo)
-            self.assertIn('runpy.run_path', fonte, antigo)
 
 
 if __name__ == '__main__':

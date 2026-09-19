@@ -497,7 +497,7 @@ const {facadeMaterial, riseLine} = FacadeMaterials.create({ AP_ESPEC,
 const surfaceMaterials = SurfaceMaterials.create({THREE, K, TEX_CIDADE, GLSL_RUIDO,
   AP_LUZ, AP_ESPEC});
 const flat = c => new THREE.MeshPhongMaterial({ color:c, shininess:0, specular:0x000000, polygonOffset:true, polygonOffsetFactor:-1, polygonOffsetUnits:-1 });
-// v6: chao que acompanha o relevo (quadras). Ver make_v6.py.
+// v6: chao que acompanha o relevo (quadras). Ver pipeline/chao.py.
 // v7: o relevo tem que estar carregado ANTES de chao/rua/muro/predio se registrarem.
 // registerTerrain CONGELA o dy de cada vertice na hora do registro, e terrainY()
 // devolve 0 enquanto terrain.grid for null - e o terrain.grid so era carregado no clique do
@@ -1519,7 +1519,7 @@ function recDoLancamento(u) { recsDoLancamento(u); return u._recLote; }
 
 function groupsFrom(B, R, G, grp) {
   const out = [];
-  // Prédios: fatia contígua de B. O build_city_v4.py reordenou o b[] agrupando
+  // Prédios: fatia contígua de B. O pipeline/city_base.py reordenou o b[] agrupando
   // por quadra justamente pra isso caber em [início, quantidade] em vez de uma
   // lista de 111 mil índices (1,2 MB -> 0,13 MB).
   for (const g of grp)
@@ -1728,7 +1728,7 @@ function loadCity(data, label) {
   resetScene();
   GRID = data.b.length > 400000 ? 12 : 4;
   const { B, R, G, grp } = decode(data);
-  if (!grp.length) throw new Error("city.json sem bl[] — rode build_city_v4.py");
+  if (!grp.length) throw new Error("city.json sem bl[] — rode pipeline/city_base.py");
 
   gGroups = groupsFrom(B, R, G, grp);
   // O lancamento entra como grupo de UM predio, e depois do groupsFrom de proposito: ele

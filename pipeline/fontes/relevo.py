@@ -18,7 +18,7 @@ meca o bbox das quadras antes de escolher, `HALF` tem que sobrar folga sobre ele
 
 **A escala vertical NAO esta aqui.** O `TERRAIN_EXAG = 4,5` mora no renderizador e a
 grade de Sao Carlos vai de -146 a +97 m: no mapa isso vira -657 a +437 m. E por isso
-que o alvo da camera precisa seguir o terreno (ver v4/stream_block.js).
+que o alvo da camera precisa seguir o terreno (ver renderizador-v16-moveis/world/terrain.js).
 
   python pipeline/fontes/relevo.py
 """

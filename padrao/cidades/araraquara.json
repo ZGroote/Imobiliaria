@@ -143,7 +143,7 @@
     "rua_tris": "araraquara/dados/street_tris.json",
     "enderecos": "araraquara/dados/address_points.json",
     "alturas_osm": "araraquara/dados/osm_heights.json",
-    "_nota_quadras": "quadras = so o cadastro do SigaSC (nao cobre a cidade toda). quadras_completo = cadastro + face do grafo de ruas onde o cadastro nao tem, gerado por v7/pipeline/quadras_grafo.py. E o quadras_completo que a etapa 2 consome.",
+    "_nota_quadras": "quadras = so o cadastro do SigaSC (nao cobre a cidade toda). quadras_completo = cadastro + face do grafo de ruas onde o cadastro nao tem, gerado por pipeline/quadras_grafo.py. E o quadras_completo que a etapa 2 consome.",
     "arvores": "arvores/arvores_lib.json",
     "_nota_arvores": "biblioteca das 20 especies (gerada por arvores/arvores.py no Blender). O montar.py embute so o LOD baixo. Qual especie entra em qual lugar e o bloco `arborizacao`, nao este caminho.",
     "portoes": "araraquara/dados/portoes.json",
