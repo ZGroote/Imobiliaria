@@ -7,7 +7,7 @@ fonte antiga o bairro vindo do grafo ficava com casa e SEM chao debaixo: no plan
 se nota, porque o material do chao e da cor do vazio de proposito, mas com o Relevo
 ligado o predio flutua sobre o fundo, que foi o defeito que o chao existe pra curar.
 
-  python pipeline/chao.py     # -> v7/dados/ground_tris.json
+  python pipeline/chao.py     # -> sao-carlos/dados/ground_tris.json
 """
 import json, os, sys
 from shapely.geometry import shape, Polygon

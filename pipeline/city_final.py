@@ -4,7 +4,7 @@ tirado da planta urbanistica onde ele existe (21.163 lotes de 67 bairros) e o lo
 sintetico 12x25 so onde nao ha planta.
 
 Mesma logica do build_lots_city2 que gerou a base do v6. A diferenca e a fonte dos
-lotes: `v7/dados/lotes_saocarlos_completo.geojson` no lugar de `lotes_saocarlos.geojson`.
+lotes: `sao-carlos/dados/lotes_saocarlos_completo.geojson` no lugar de `lotes_saocarlos.geojson`.
 Como o lote oficial nao traz a normal do fundo (nx,ny), ela e derivada aqui: aponta do
 centro do lote para o centro da quadra (ou seja, pro miolo do quarteirao), e depois e
 grudada no eixo da quadra pelo snap_normal - entao a frente da casa sempre olha pra rua.

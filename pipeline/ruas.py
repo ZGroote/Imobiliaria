@@ -17,7 +17,7 @@ conta de largura de rua do projeto, diferente da fita de `padrao.vias`. Nao foi
 unificada nesta passagem de proposito, pelo motivo acima. O asfalto e recortado pelas
 quadras, entao ela nao afeta o encosto do muro nem os portoes de QA.
 
-  python pipeline/ruas.py     # -> v7/dados/street_tris.json
+  python pipeline/ruas.py     # -> sao-carlos/dados/street_tris.json
 """
 import json, os, sys, time
 from shapely.geometry import shape, Polygon, LineString

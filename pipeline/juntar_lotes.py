@@ -31,7 +31,7 @@ Quadra aprovada mantem o lote da planta, recortado pelo miolo - o que tira dele
 exatamente a lingueta que estava por baixo do asfalto, deixando a frente na borda
 externa da rua.
 
-  python pipeline/juntar_lotes.py     # -> v7/dados/lotes_saocarlos_completo.geojson
+  python pipeline/juntar_lotes.py     # -> sao-carlos/dados/lotes_saocarlos_completo.geojson
 """
 import json, math, os, sys, collections
 import numpy as np
@@ -45,9 +45,9 @@ from lotes_sinteticos import subdivide, largura_menor, NUCLEO_LARG_MIN, _pol
 
 # a raiz fica UM nivel acima: o script saiu de `v7/pipeline/` pra `pipeline/`
 ROOT = os.path.abspath(os.path.join(AQUI, "..")) + "/"
-# o relatorio de quadras refeitas continua indo pra `v7/relatorios/`: ele e do acervo
-# daquela geracao, e mover a saida junto com o script seria mudar dado de lugar
-V7 = os.path.join(ROOT, "v7") + "/"
+# o relatorio de quadras refeitas vai pra `<cidade>/relatorios/`, junto com o resto do
+# dado dela. Antes ia pra `v7/relatorios/` com o "v7" escrito no codigo: valia so pra
+# Sao Carlos por acidente, e qualquer outra cidade sobrescrevia o relatorio dela la.
 sys.path.insert(0, ROOT)
 from padrao.cidade import carrega          # projecao, caminhos e limiares vem daqui
 from padrao import vias
@@ -289,13 +289,14 @@ def main():
     json.dump({"type": "FeatureCollection", "features": feats}, open(saida, "w"))
     print("-> %s (%.1f MB)" % (saida, os.path.getsize(saida) / 1e6))
 
-    os.makedirs(V7 + "relatorios", exist_ok=True)
-    with open(V7 + "relatorios/quadras_refeitas.csv", "w", encoding="utf-8") as fh:
+    rel_dir = os.path.join(ROOT, CID.slug, "relatorios")
+    os.makedirs(rel_dir, exist_ok=True)
+    with open(os.path.join(rel_dir, "quadras_refeitas.csv"), "w", encoding="utf-8") as fh:
         fh.write("quadra;loteamento;planta;lotes_planta;lotes_refeitos;desalinho_graus;fora_do_miolo;frente_m;fundo_m\n")
         for r in sorted(rel, key=lambda t: -(t[5] or 0)):
             fh.write("%d;%s;%s;%d;%d;%.1f;%.3f;%.1f;%.1f\n"
                      % (r[0], r[1], r[2], r[3], r[4], r[5] or -1, r[6], r[7], r[8]))
-    print("-> v7/relatorios/quadras_refeitas.csv (%d quadras)" % len(rel))
+    print("-> %s/relatorios/quadras_refeitas.csv (%d quadras)" % (CID.slug, len(rel)))
 
 
 if __name__ == "__main__":

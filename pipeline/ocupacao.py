@@ -10,7 +10,7 @@ ligado:
      8 m pro ponto que cai na calcada;
   2. centroide de footprint residencial (cls 0/1) do Overture/OSM dentro do lote.
 
-  python pipeline/ocupacao.py     # -> v7/dados/lotes_ocupados.json
+  python pipeline/ocupacao.py     # -> sao-carlos/dados/lotes_ocupados.json
 """
 import json, math, os
 import numpy as np

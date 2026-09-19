@@ -21,7 +21,7 @@ fita (o muro nao encostava na rua) e na avenida a fita passava por cima do lote 
 muro nascia em cima do asfalto). Com o corte na propria fita, a face frontal do muro
 cai exatamente na extremidade externa da rua.
 
-  python pipeline/quadras_miolo.py            # gera v7/dados/quadras_miolo.geojson
+  python pipeline/quadras_miolo.py            # gera sao-carlos/dados/quadras_miolo.geojson
   python pipeline/quadras_miolo.py --calibra  # so mede, nao grava
 """
 import json, math, os, sys

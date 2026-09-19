@@ -5,7 +5,7 @@ O `montar.py` copia o TEXTO do arquivo de origem verbatim entre as tags
 `<script type="application/json" id="__*">`. Entao a pagina aberta e, tambem, um
 backup exato desses arquivos -- e este script e o caminho de volta.
 
-Escrito para recuperar `v7/dados/` de Sao Carlos depois que a pasta foi apagada por
+Escrito para recuperar o dado de Sao Carlos depois que a pasta foi apagada por
 engano: o `v15/sao-carlos-v15-aberto.html` continuava no disco com tudo dentro.
 
     python pipeline/extrair_dados.py v15/sao-carlos-v15-aberto.html            # so lista

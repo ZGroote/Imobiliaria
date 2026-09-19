@@ -26,18 +26,14 @@ DATA = time.strftime("%Y-%m-%d-%H%M")
 CODIGO = [
     ("renderizador", ["renderizador"], None),
     ("pipeline",     ["pipeline"], (".py", ".json", ".csv", ".md")),
-    # v7/pipeline sao as ETAPAS 1b..7b -- build_v7_city, gen_ruas, gen_chao, gen_muros,
-    # ocupacao, juntar_lotes, quadras_miolo, quadras_grafo, lotes_sinteticos,
-    # gen_portoes. Ou seja: o nucleo do tratamento, o que MENOS da pra refazer.
+    # As ETAPAS 1b..7b (city_final, ruas, chao, muros, ocupacao, juntar_lotes,
+    # quadras_miolo, quadras_grafo, lotes_sinteticos, portoes) moravam em
+    # `v7/pipeline/` e ficaram de fora do backup ate 03/09/2026 -- o nome da pasta
+    # fazia ela parecer versao antiga descartavel, e era o codigo VIVO. Hoje estao em
+    # `pipeline/`, cobertas pela linha acima, e `v7/` nao existe mais.
     #
-    # Ficaram de fora desde sempre. Descoberto em 03/09/2026 conferindo o zip contra
-    # uma lista de alvos, depois de editar `build_v7_city.py` e `gen_ruas.py`: os dois
-    # nao estavam la, nem em nenhum backup anterior. O nome da pasta ("v7") faz ela
-    # parecer versao antiga descartavel, como v3..v11 -- e nao e; e o codigo VIVO.
-    #
-    # `dados/` fica de fora de proposito: sao os .geojson grandes que o pipeline
-    # regenera, e a regra do cabecalho vale pra eles.
-    ("v7/pipeline",  ["v7/pipeline"], (".py", ".md")),
+    # O dado grande da cidade (`<slug>/dados/`) continua fora de proposito: sao os
+    # .geojson que o pipeline regenera, e a regra do cabecalho vale pra eles.
     ("padrao",       ["padrao"], (".py", ".json", ".md")),
     ("arvores",      ["arvores"], (".py", ".json", ".md")),
     ("relatorios",   ["relatorios"], None),

@@ -23,7 +23,7 @@ Os 14.211 predios que nao caem em nenhuma face do grafo de ruas (franja da
 cidade, onde a malha nao fecha ciclo) NAO sao descartados: viram quadras
 sinteticas de 850 m, so pra continuarem tendo uma unidade de streaming.
 
-Saida: v4/sao-carlos-v4.city.json  (v:4, com o array bl[] novo)
+Saida: sao-carlos/sao-carlos-v4.city.json  (v:4, com o array bl[] novo)
 """
 import json, math, collections
 
