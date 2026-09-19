@@ -1,0 +1,22 @@
+{
+  "//": "SEGUNDO SITE DE HOSTING, so pro v17. Config PROPRIA, e nao uma segunda entrada dentro do firebase.json, por um motivo so: assim nao existe comando que suba o v17 e derrube o v16 junto. O firebase.json continua sendo o dono do site de producao (v16-moveis/publicado) e nao foi tocado -- este arquivo nao declara firestore nem storage, entao nem por engano um deploy daqui reescreve regra de banco.",
+  "hosting": {
+    "//": "O site TEM que existir antes do primeiro deploy: `firebase hosting:sites:create imobiliaria-v17`. Trocou o nome la, troque aqui -- e o unico lugar em que ele aparece. A URL sai <site>.web.app.",
+    "site": "imobiliaria-v17",
+    "public": "v17/publicado",
+    "ignore": ["**/.*", "**/node_modules/**"],
+    "cleanUrls": true,
+    "headers": [
+      {
+        "//": "Mesma razao do firebase.json: o index tem ~400 bytes e o nome NAO muda, entao precisa chegar novo a cada deploy. Sem cabecalho o Hosting serve a versao velha por 1h, e a regra '**/*.html' nao pega a raiz (o caminho pedido e '/').",
+        "source": "/",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      },
+      {
+        "//": "O nome do mapa carrega a versao, entao o conteudo desta URL nunca muda. Medido no site de producao: o Hosting nao responde 304 a If-None-Match, entao revalidar custaria o arquivo inteiro -- por isso 'immutable' aqui e nome versionado, e nao revalidacao.",
+        "source": "/mapa/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      }
+    ]
+  }
+}

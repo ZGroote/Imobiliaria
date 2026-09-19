@@ -3173,3 +3173,37 @@ voltar pro mapa.
   uma planta de cinco comodos, mobilia parametrica -- pelo mesmo Chrome headless que os
   outros portoes usam. `pipeline/testa_etapas.py` e o portao pra rodar contra o acervo
   de verdade.
+
+### Publicar o v17 num link separado
+
+O v17 sobe num **segundo site de Hosting**, com URL propria, sem encostar no site de
+producao. A config dele e `firebase.v17.json` -- arquivo separado, e nao uma segunda
+entrada dentro do `firebase.json`, porque assim nao existe comando que suba o v17 e
+derrube o v16 junto. O `firebase.json` continua sendo o dono de `v16-moveis/publicado`.
+
+Uma vez, pra criar o site (o nome vira a URL; se trocar aqui, troque tambem no
+`firebase.v17.json`, que e o unico outro lugar em que ele aparece):
+
+    npx firebase login
+    npx firebase hosting:sites:create imobiliaria-v17
+
+A cada publicacao:
+
+    MAPA_V=v17 python pipeline/montar.py sao-carlos
+    MAPA_V=v17 python pipeline/publicar.py sao-carlos "Sao Carlos 3D - v17"
+    npx firebase deploy --config firebase.v17.json --only hosting
+
+Sai em `https://imobiliaria-v17.web.app`. O link direto de um imovel e essa URL mais
+`?imovel=<id>` -- e `&etapa=planta` (ou `interior`) pra abrir direto na etapa.
+
+`MAPA_V` tem que estar nos DOIS comandos: e ela que faz o `montar.py` ler
+`renderizador-v17/` e escrever em `v17/`, e e dela que o `publicar.py` tira a pasta
+onde procurar a pagina (`from pipeline.montar import VERSAO`). Sem ela os dois
+montam e publicam o v15.
+
+Se um dia a preferencia for um site so, com o v17 num caminho proprio em vez de num
+dominio proprio, e trocar o `hosting.public` do `firebase.json` por `v17/publicado` e
+copiar a pagina do v16 pra dentro de `v17/publicado/mapa/` -- as duas continuam
+servidas, muda quem e o `index`. Nao foi feito assim porque "link separado" e
+literalmente o que foi pedido, e dominio separado e o unico jeito de as duas versoes
+terem index proprio.
