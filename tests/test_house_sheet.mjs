@@ -18,7 +18,7 @@ const ANUNCIOS=[{id:'a1',titulo:'Casa no Centro',bairro:'Centro',preco:450000,ti
     lat:-22.01,lon:-47.89},
   {id:'a2',titulo:'Kitnet',bairro:'Vila',preco:1200,tipo:'aluguel',lat:-22.02,lon:-47.88}];
 
-function fixture(modular) {
+function fixture(modular,anuncios=ANUNCIOS) {
   const log=[];
   const el=new Map();
   const node=id=>{
@@ -33,9 +33,10 @@ function fixture(modular) {
   let criados=0;
   const ctx=vm.createContext({console,
     document:{createElement:()=>node('novo-'+(++criados)),
-      getElementById:id=>id==='__imoveis'?{textContent:JSON.stringify(ANUNCIOS)}:null},
+      getElementById:id=>id==='__imoveis'?{textContent:JSON.stringify(anuncios)}:null},
     $:node, px:lon=>Math.round((lon+47.89)*1000), pz:lat=>Math.round(-(lat+22.01)*1000),
     brl:v=>'R$ '+v, ListingModels:{open:id=>log.push(['modelo',id])},
+    esc:t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),
     getSheet:()=>({preencheAnuncio:h=>log.push(['anuncio',h.id])}),
     closePoiSheet:()=>log.push(['poi']), abrePerto:c=>{log.push(['perto',c.x,c.z,c.nome]);ctx.__volta=c.volta;},
     flyTo:(x,z,r)=>log.push(['voo',x,z,r])});
@@ -44,7 +45,7 @@ function fixture(modular) {
   ctx.__log=a=>log.push(a);
   if(modular) {
     vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/listings/house-sheet.js',import.meta.url),'utf8'),ctx);
-    vm.runInContext(`HouseSheet.create({document, $, px, pz, brl, getSheet, ListingModels,
+    vm.runInContext(`HouseSheet.create({document, $, esc, px, pz, brl, getSheet, ListingModels,
       hsheet, usheet, housesBox, houseBeacon, flyTo, closePoiSheet, abrePerto});`,ctx);
   } else vm.runInContext(source,ctx);
   const clica=id=>{for(const fn of node(id).ouvintes.click||[]) fn({});};
@@ -76,6 +77,17 @@ test('the public showcase, its sheet, the 3D model and “nearby” match the pr
   assert.equal(a.node('houses').children.length,2,'um item por anúncio público');
   assert.ok(a.log.filter(l=>l[0]==='voo').length>=3,'abrir, voltar do perto e o segundo anúncio voam');
   assert.deepEqual(JSON.parse(JSON.stringify(a.log.find(l=>l[0]==='voo'))),['voo',0,0,190]);
+});
+
+// O cadastro vem de fora e ninguem revisa titulo por titulo. O item da vitrine e o
+// unico ponto do anuncio publico montado por innerHTML -- o resto e textContent.
+test('ad text with markup is written as text, not as markup',()=>{
+  const f=fixture(true,[{id:'x',titulo:'<img src=x onerror="alert(1)">',
+    bairro:'</div><script>alert(2)<\/script>',preco:1,tipo:'venda',lat:-22.01,lon:-47.89}]);
+  const item=f.node('houses').children[0].innerHTML;
+  assert.ok(!/<img|<script/i.test(item),'nada de tag vinda do cadastro: '+item);
+  assert.ok(item.includes('&lt;img src=x onerror=&quot;alert(1)&quot;&gt;'),item);
+  assert.ok(item.includes('&lt;/div&gt;&lt;script&gt;'),item);
 });
 
 test('a city without a public showcase gets an empty one instead of an error',()=>{

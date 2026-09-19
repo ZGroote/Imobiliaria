@@ -20,12 +20,16 @@ T02–T15 seguem pendentes. A montagem local não equivale à release estável.
 
 ## T02 — Dados de anúncio seguros
 
-- [ ] Escapar título/bairro em `listings/house-sheet.js`; aceitar somente URLs de anúncio HTTP(S).
-- [ ] Proteger a serialização de JSON embutido contra fechamento de tag script.
+- [x] Escapar título/bairro em `listings/house-sheet.js`; aceitar somente URLs de anúncio HTTP(S).
+- [x] Proteger a serialização de JSON embutido contra fechamento de tag script.
 
 Aceite: entradas com HTML são texto e não executam código; links inválidos não navegam.
 Arquivos: `house-sheet.js`, `sheet.js`, serialização em `pipeline/build/` e testes focados.
 Verificar fixtures hostis em navegador, sem usar dados externos ou gravar produção.
+
+Resultado: [verificação do T02](verificacao-t02.md). O escape do `</` ficou no montador,
+não em `pipeline/build/`, porque é ali que todo bloco vira tag. A ficha da unidade
+cadastrada já escapava; o item da vitrine pública, não.
 
 ## T03 — Isolamento dos dados no Firebase
 

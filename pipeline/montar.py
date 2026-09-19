@@ -49,6 +49,21 @@ def le(rel, config=None):
                    encoding="utf-8", newline="").read()
 
 
+def bloco_json(ident, texto, recorte=None):
+    """Um bloco de dado dentro de <script type="application/json">.
+
+    Sem `recorte` o conteudo e o de sempre. O escape de `</` vale SEMPRE: o parser de
+    HTML fecha o script no primeiro `</script>` que aparecer no TEXTO, entao um titulo
+    de anuncio com essa sequencia derrubaria o resto do JSON pra dentro do documento --
+    e `html.comprime`, que separa os blocos procurando `</script>`, cortaria no mesmo
+    lugar errado. Em JSON valido `<` so existe dentro de string, e `<\\/` volta a `</`
+    no JSON.parse: o dado que o renderizador le nao muda."""
+    if recorte is not None:
+        texto = recorte.aplica(ident, texto)
+    return ['<script type="application/json" id="%s">' % ident,
+            texto.replace("</", "<\\/"), "</script>\n"]
+
+
 def monta(carimbo=None, config=None, recorte=None):
     config = config or resolve()
     CID = config.cidade()
@@ -56,23 +71,21 @@ def monta(carimbo=None, config=None, recorte=None):
     FONTE = str(config.fonte)
     def ler(rel):
         return le(rel, config)
-    # Sem `recorte`, `rec` e a identidade e a pagina sai byte a byte igual a de sempre.
-    def rec(ident, texto):
-        return texto if recorte is None else recorte.aplica(ident, texto)
+    def bloco(ident, texto):
+        return bloco_json(ident, texto, recorte)
     carimbo = carimbo or "%s / %s / %s" % (CID.slug, VERSAO, time.strftime("%Y-%m-%d %H:%M"))
     partes = [ler("cabeca.html").replace("{{CIDADE}}", CID.nome).replace("{{VERSAO}}", VERSAO),
-              '<script type="application/json" id="__cidade">', blocos_dado.bloco_cidade(CID), "</script>\n",
-              '<script type="application/json" id="__unidades">', rec("__unidades", blocos_dado.bloco_unidades(CID)), "</script>\n",
-              '<script type="application/json" id="__luzue">', rec("__luzue", blocos_dado.bloco_luzue(CID)), "</script>\n",
-              '<script type="application/json" id="__moveis">', blocos_dado.bloco_moveis(), "</script>\n",
-              '<script type="application/json" id="__textura">', blocos_dado.bloco_textura(), "</script>\n",
+              *bloco("__cidade", blocos_dado.bloco_cidade(CID)),
+              *bloco("__unidades", blocos_dado.bloco_unidades(CID)),
+              *bloco("__luzue", blocos_dado.bloco_luzue(CID)),
+              *bloco("__moveis", blocos_dado.bloco_moveis()),
+              *bloco("__textura", blocos_dado.bloco_textura()),
               "<script>", ler("lib/three.min.js"), "</script>\n",
               "<script>", ler("lib/earcut.min.js"), "</script>\n",
               "<style>", folhas.folha(config), "</style>\n"]
     for ident, chave in blocos_dado.DADOS:
         if ident == "__arvores":
-            partes += ['<script type="application/json" id="%s">' % ident,
-                       blocos_dado.bloco_arvores(CID), "</script>\n"]
+            partes += bloco(ident, blocos_dado.bloco_arvores(CID))
             continue
         p = CID.caminho(chave)
         # Bloco ausente vira lista vazia em vez de quebrar a montagem: cidade nova pode
@@ -87,25 +100,22 @@ def monta(carimbo=None, config=None, recorte=None):
             d = "[]"; print("  (sem %s: bloco %s vazio)" % (os.path.basename(p), ident))
         if chave == "city_saida":
             d = pacotes.com_encaixes(config, CID, d)
-        partes += ['<script type="application/json" id="%s">' % ident, rec(ident, d), "</script>\n"]
+        partes += bloco(ident, d)
     corpo = ler("corpo.html").replace("{{CIDADE}}", CID.nome)
     corpo = CARIMBO.sub(lambda m: m.group(1) + carimbo + m.group(2), corpo)
     urban = ""
     dados_urbanos = pacotes.urbanos(config)
     if dados_urbanos is not None:
         urban = ler("terrain-fit.js") + "\n" + ler("road-clearance.js") + "\n" + ler("urban-models.js") + "\n"
-        partes += ['<script type="application/json" id="__urbanModels">',
-                   rec("__urbanModels", dados_urbanos), "</script>\n"]
+        partes += bloco("__urbanModels", dados_urbanos)
     dados_exteriores = pacotes.exteriores(config, CID)
     if dados_exteriores is not None:
-        partes += ['<script type="application/json" id="__exteriorModels">',
-                   rec("__exteriorModels", dados_exteriores), "</script>\n"]
+        partes += bloco("__exteriorModels", dados_exteriores)
         urban += ler("exterior-details.js") + "\n"
     listing_js = ""
     dados_cadastrados = pacotes.cadastrados(config, CID)
     if dados_cadastrados is not None:
-        partes += ['<script type="application/json" id="__listingModels">',
-                   rec("__listingModels", dados_cadastrados), "</script>\n"]
+        partes += bloco("__listingModels", dados_cadastrados)
         listing_js = ler("listing-models.js")
     if (config.fonte / 'modules.json').exists():
         from pipeline.build.scripts import programa

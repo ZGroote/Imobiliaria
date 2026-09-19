@@ -1,7 +1,7 @@
 /* Ficha do anuncio simples: a vitrine sem planta, o farol e o voo ate o endereco. */
 (function(root) {
   "use strict";
-  function create({document, $, px, pz, brl, getSheet, ListingModels, hsheet, usheet,
+  function create({document, $, esc, px, pz, brl, getSheet, ListingModels, hsheet, usheet,
                    housesBox, houseBeacon, flyTo, closePoiSheet, abrePerto}) {
 const HOUSES = (function () {
   try { return JSON.parse(document.getElementById("__imoveis").textContent); }
@@ -39,7 +39,9 @@ for (const h of HOUSES) {
   const el = document.createElement("button");
   el.type = "button";
   el.className = "hitem";
-  el.innerHTML = `<div class="t">${h.titulo}</div><div class="b">${h.bairro}</div>` +
+  // Titulo e bairro vem do cadastro, que nao e texto controlado por este codigo: entram
+  // escapados, senao um `<` no nome do anuncio vira marcacao dentro da vitrine.
+  el.innerHTML = `<div class="t">${esc(h.titulo)}</div><div class="b">${esc(h.bairro)}</div>` +
     `<div class="p ${h.tipo === "aluguel" ? "rent" : "sale"}">${brl(h.preco)}${h.tipo === "aluguel" ? "/mês" : ""}</div>`;
   el.addEventListener("click", () => openHouseSheet(h));
   housesBox.appendChild(el);

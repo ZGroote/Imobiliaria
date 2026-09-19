@@ -46,10 +46,27 @@ test('ad sheet shows price, placeholders and model availability',()=>{
   assert.equal($('hTag').textContent,'Para alugar');assert.equal($('hAddr').textContent,'Vila · São Carlos/SP');
   assert.equal($('hPrice').textContent,'R$ 1200/mês');assert.equal($('hRooms').textContent,0);
   assert.equal($('hGar').textContent,'—');assert.equal($('hLink').href,'https://x/7');
+  assert.equal($('hLink').hidden,false);
   assert.equal($('hModel').hidden,false);assert.match($('hModelNote').textContent,/^Exterior modelado/);
   s.preencheAnuncio({id:57194,tipo:'venda',titulo:'B',bairro:'C',preco:1,url:''});
+  assert.equal($('hLink').href,'#');assert.equal($('hLink').hidden,true,'sem URL nao ha link');
   assert.equal($('hTag').textContent,'À venda');assert.equal($('hModel').hidden,true);
   assert.match($('hModelNote').textContent,/indisponível/);
   s.preencheAnuncio({id:8,tipo:'venda',titulo:'B',bairro:'C',preco:1,url:''});
   assert.match($('hModelNote').textContent,/modelagem individual/);
+});
+
+test('only http(s) becomes the ad link',()=>{
+  const {s,$}=sheet();
+  const anuncio=u=>({id:8,tipo:'venda',titulo:'B',bairro:'C',preco:1,url:u});
+  for(const u of ['javascript:alert(1)','data:text/html,<b>x','JavaScript:alert(1)',
+                  '/interno','ftp://x/y',null,undefined,{}]) {
+    s.preencheAnuncio(anuncio(u));
+    assert.equal($('hLink').href,'#',String(u));
+    assert.equal($('hLink').hidden,true,String(u));
+  }
+  for(const u of ['http://x/1','HTTPS://x/2']) {
+    s.preencheAnuncio(anuncio(u));
+    assert.equal($('hLink').href,u);assert.equal($('hLink').hidden,false);
+  }
 });

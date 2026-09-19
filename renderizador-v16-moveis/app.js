@@ -1905,13 +1905,18 @@ function flyTo(x, z, radius) {
   requestAnimationFrame(step);
 }
 
+// Escapa texto de cadastro que vai pra innerHTML. Fica AQUI, e nao junto do POI onde
+// nasceu, porque a vitrine publica se monta na criacao do modulo abaixo -- um const
+// declarado depois estaria na zona morta e a vitrine quebraria inteira.
+const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+
 const hsheet = $("hsheet");
 const housesBox = $("houses");
 // Ficha do anuncio SEM planta (vitrine publica, farol e voo): ver listings/house-sheet.js.
 // A ficha (a peca compartilhada com o imovel cadastrado), a ficha do POI e o "por perto"
 // nascem depois neste arquivo, entao entram por leitor ou chamada adiada; `usheet` entra
 // pelo proprio `$`, que ja acha o elemento no documento.
-HouseSheet.create({document, $, px, pz, brl, getSheet:()=>listingSheet,
+HouseSheet.create({document, $, esc, px, pz, brl, getSheet:()=>listingSheet,
   ListingModels, hsheet, usheet:$("usheet"), housesBox, houseBeacon, flyTo,
   closePoiSheet:()=>closePoiSheet(), abrePerto:ctx=>abrePerto(ctx)});
 
@@ -2098,8 +2103,6 @@ const POI_Y = 24;            // altura do topo do feixe, onde o marcador HTML se
 const POI_MAX = 4200;        // alem disso o marcador some (a cidade toda vira sopa de icones)
 const POI_NAME = 1400;       // ate essa distancia o marcador mostra o nome, depois so o icone
 const POI_HALO = 30;         // raio do halo no chao, em metros
-
-const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
 
 const poiRaw = (() => {
   try { return JSON.parse($("__poidata").textContent); } catch (e) { return []; }

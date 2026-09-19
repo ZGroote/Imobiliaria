@@ -8,6 +8,7 @@ Preço: **Sob consulta**. Aviso: **Localização aproximada, ainda não confirma
 - [Experimentos de melhoria](experimentos.md)
 - [Configuração do piloto](piloto.json)
 - [Verificação da primeira base](verificacao-dev.1.md)
+- [Verificação do T02 — dados de anúncio seguros](verificacao-t02.md)
 
 ## Comandos existentes
 

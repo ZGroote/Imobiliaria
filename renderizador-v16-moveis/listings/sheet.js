@@ -71,7 +71,12 @@ function preencheAnuncio(house) {
   $("hPrice").textContent = brl(house.preco) + (house.tipo === "aluguel" ? "/mês" : "");
   $("hRooms").textContent = house.quartos ?? "—";
   $("hGar").textContent = house.vagas ?? "—";
-  $("hLink").href = house.url;
+  // O endereco do anuncio vem do cadastro e vira href: so http(s) passa. `javascript:`
+  // executaria no clique e `data:` abriria documento proprio -- sem URL utilizavel o
+  // link some, em vez de virar um botao que nao leva a lugar nenhum.
+  const url = /^https?:\/\//i.test(String(house.url || "")) ? house.url : "";
+  $("hLink").href = url || "#";
+  $("hLink").hidden = !url;
   const hasModel = listingModels.has(house.id);
   $("hModel").hidden = !hasModel;
   $("hModelNote").textContent = hasModel ? "Exterior modelado a partir das fotos. Dimensões e vistas ausentes ainda são estimadas." : String(house.id) === "57194" ? "Modelo aguardando fotos de referência: o anúncio original está indisponível." : "Modelo aguardando modelagem individual a partir das fotos.";
