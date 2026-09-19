@@ -11,9 +11,20 @@ from pipeline.build.config import RAIZ, resolve
 class BuildConfigurationTests(unittest.TestCase):
     def test_defaults_and_explicit_precedence(self):
         self.assertEqual(resolve(environ={}).versao, 'v15')
-        cfg = resolve('araraquara', 'v16', environ={'CIDADE': 'sao-carlos', 'MAPA_V': 'v15'})
-        self.assertEqual((cfg.slug, cfg.versao), ('araraquara', 'v16'))
-        self.assertEqual(cfg.fonte, RAIZ / 'renderizador-v16')
+        cfg = resolve('araraquara', 'v16-moveis',
+                      environ={'CIDADE': 'sao-carlos', 'MAPA_V': 'v15'})
+        self.assertEqual((cfg.slug, cfg.versao), ('araraquara', 'v16-moveis'))
+        self.assertEqual(cfg.fonte, RAIZ / 'renderizador-v16-moveis')
+
+    def test_every_declared_variant_has_its_folder(self):
+        """`v16` era declarado e tinha pasta; saiu dos dois lugares ao mesmo tempo.
+        Declarar variante sem pasta faz o montador ler diretório inexistente."""
+        from pipeline.build.config import VARIANTES
+        self.assertEqual(VARIANTES, ('v15', 'v16-moveis'))
+        for v in VARIANTES:
+            self.assertTrue(resolve(versao=v).fonte.is_dir(), v)
+        self.assertFalse((RAIZ / 'renderizador-v16').exists(),
+                         'o galho intermediário voltou')
 
     def test_output_and_isolated_destination(self):
         cid = Mock()

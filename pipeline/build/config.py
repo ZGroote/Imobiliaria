@@ -5,7 +5,11 @@ import os
 
 RAIZ = Path(__file__).resolve().parents[2]
 V_PADRAO = 'v15'
-VARIANTES = ('v15', 'v16', 'v16-moveis')
+# `v16` saiu: era um galho intermediario entre o v15 e o v16-moveis, e ficou de pe
+# enquanto a matriz de capacidades era portada. Com a portagem fechada nao restou
+# nada nele que os outros dois nao tenham -- medido linha a linha -- e a pasta foi
+# removida. Ver tests/test_build_config.py.
+VARIANTES = ('v15', 'v16-moveis')
 
 
 @dataclass(frozen=True)
