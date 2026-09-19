@@ -12,7 +12,7 @@ pagina e a concatenacao das pecas com os blocos de dado no meio:
     corpo.html   <- canvas, HUD, painel
     app.js       <- O RENDERIZADOR (120 KB)
 
-    python pipeline/montar.py                  # -> v8/sao-carlos-v8-aberto.html + v8.html
+    python pipeline/montar.py                  # -> v15/sao-carlos-v15-aberto.html + v15.html
     python pipeline/montar.py --sem-zip        # so a versao aberta
     python pipeline/montar.py --conferir <arq> # exige saida byte a byte igual a <arq>
 
