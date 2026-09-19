@@ -99,7 +99,7 @@ PAGINA = u"""<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Maquete 3D · %(TITULO)s</title>
+<title>Maquete 3D · @@TITULO@@</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231A222C'/%3E%3Cpath d='M5 15L16 6l11 9v12h-8v-8h-6v8H5z' fill='%234BDB7C'/%3E%3C/svg%3E">
 <style>
   :root{
@@ -140,13 +140,17 @@ PAGINA = u"""<!doctype html>
   /* `clamp` e nao `vh` puro: em tela baixa e deitada 40vh vira uma faixa de 150 px, e
      num monitor grande vira meio metro de predio. O piso e o teto sao o que dao a
      miniatura o mesmo tamanho aparente nos dois. */
-  /* A MAQUETE NAO TEM MOLDURA. Ela e um canvas transparente que se sobrepoe ao
-     cartao: a margem negativa de baixo e o que faz o predio passar POR CIMA da ficha
-     em vez de ficar numa caixa empilhada acima dela. O degrade e o unico fundo que
-     sobrou -- ele da presenca ao volume sem prende-lo a um chao, que era o que o
-     disco de terreno fazia. */
-  #cena{position:relative;height:clamp(220px,40vh,420px);min-width:0;z-index:2;
-    margin-bottom:-46px;
+  /* A MAQUETE NAO TEM MOLDURA, MAS TEM LIMITE. Ela continua um canvas transparente
+     sem chao -- o degrade e o unico fundo, e e ele que da presenca ao volume sem
+     prende-lo a um piso.
+
+     O que saiu foi a SOBREPOSICAO. A margem negativa fazia o predio passar por cima
+     da ficha, e a ideia parecia boa ate a construcao cobrir o "A VENDA" e a metragem:
+     informacao coberta por desenho nao e profundidade, e informacao perdida. O
+     `overflow:hidden` e a garantia dura -- por mais que a camera se aproxime ou a
+     geometria cresca, nada e desenhado fora desta caixa. */
+  #cena{position:relative;height:clamp(220px,40vh,420px);min-width:0;overflow:hidden;
+    margin-bottom:12px;
     background:radial-gradient(ellipse 62% 58% at 50% 46%,
       rgba(86,124,168,.17),rgba(86,124,168,.05) 55%,transparent 72%)}
   @supports (height:40dvh){ #cena{height:clamp(220px,40dvh,420px)} }
@@ -201,10 +205,8 @@ PAGINA = u"""<!doctype html>
 
   /* A JANELA DE INFORMACOES. Rola por dentro: numa tela de telefone deitado a ficha
      inteira nao cabe, e encolher a maquete ate o predio sumir seria pior. */
-  /* O topo generoso e onde a maquete pousa por cima. Sem ele o predio cairia em
-     cima do "A VENDA". */
   #ficha{position:relative;background:rgba(18,25,33,.92);border:1px solid var(--line);
-    border-radius:14px;padding:56px 18px 18px}
+    border-radius:14px;padding:16px 18px 18px}
   #ficha .topo{display:flex;align-items:flex-start;gap:8px 14px;flex-wrap:wrap}
   /* Sem isto o bloco do titulo tem `min-width:auto` e se recusa a encolher abaixo do
      conteudo, empurrando o preco pra fora da tela. */
@@ -241,8 +243,8 @@ PAGINA = u"""<!doctype html>
     body{padding:12px 12px calc(8px + env(safe-area-inset-bottom))}
     /* No telefone a miniatura encolhe mais: o cartao inteiro -- miniatura e ficha --
        tem que caber na primeira tela, que e o ponto de um cartao de imovel. */
-    #cena{height:clamp(190px,30vh,290px);margin-bottom:-38px}
-    #ficha{padding:46px 14px 16px}
+    #cena{height:clamp(190px,30vh,290px);margin-bottom:10px}
+    #ficha{padding:14px 14px 16px}
     #ficha h1{font-size:16px}
     /* No telefone o preco desce pra linha de baixo, alinhado a esquerda com o resto:
        empurrado pra direita ele briga por largura com um titulo que ja mal cabe. */
@@ -598,13 +600,21 @@ function raioQueEnquadra() {
      e a laje de um pavimento -- 21 m de altura contra 2,6. Usar a medida da torre nos
      dois deixaria a planta do tamanho de uma moeda no meio do painel. */
   var ehPlanta = (typeof modo !== "undefined") && modo === "planta3d";
-  var alt  = ehPlanta ? PD : ALTURA;
-  var lado = ehPlanta ? Math.hypot(PB.w, PB.h) / 2 : raioBase;
-  var dv = (alt / 2) / Math.tan(vf / 2);
-  var dh = lado / Math.tan(hf / 2);
+  if (ehPlanta) {
+    /* A PLANTA E LARGA E PLANA, e isso quebra a conta por eixo. Num predio a altura
+       fica no eixo vertical e a largura no horizontal, qualquer que seja o giro. Numa
+       laje de 16 x 9 m inclinada, a PROFUNDIDADE dela projeta no eixo vertical junto
+       com o pe-direito -- medir so 2,6 m de altura deixava o canto de baixo saindo
+       pela borda. Aqui vale a esfera que a envolve contra o menor dos dois campos:
+       e conservador, e conservador e o certo pra uma coisa que gira livre. */
+    var Rb = Math.hypot(Math.hypot(PB.w, PB.h) / 2, PD / 2);
+    return Math.max(R_MIN, Rb / Math.sin(Math.min(vf, hf) / 2) * 1.08);
+  }
+  var dv = (ALTURA / 2) / Math.tan(vf / 2);
+  var dh = raioBase / Math.tan(hf / 2);
   // 1,12 e nao 1,06: com a margem justa a base do predio encostava na borda de baixo
   // do painel, e a perspectiva ainda empurra pra fora o canto mais proximo.
-  return Math.max(R_MIN, Math.max(dv, dh) * 1.12 + lado * 0.9);
+  return Math.max(R_MIN, Math.max(dv, dh) * 1.12 + raioBase * 0.9);
 }
 function poeCam() {
   var s = Math.sin(orb.ph);
@@ -904,15 +914,8 @@ function desenhaPlanta2D() {
      letterboxado dentro de um painel de 474x242. `#cena` e um <div> e mede direito. */
   var b = caixa.getBoundingClientRect();
   var M = 14, w = Math.round(b.width) || 400, h = Math.round(b.height) || 260;
-  /* A FAIXA DE BAIXO DO PAINEL ESTA DEBAIXO DO CARTAO. O canvas se sobrepoe a ficha de
-     proposito (e o que faz a maquete flutuar por cima dela), e o predio 3D aproveita
-     isso -- ele passa por cima e fica bonito. Um DESENHO TECNICO nao: metade da sala
-     escondida atras do cartao nao e efeito, e informacao perdida. Entao a planta 2D
-     desenha so acima da emenda, medida aqui e nao chutada. */
-  var fi = document.getElementById("ficha").getBoundingClientRect();
-  var mb = Math.max(M, Math.round(b.bottom - fi.top) + 10);
-  var esc = Math.min((w - M*2) / PB.w, (h - M - mb) / PB.h);
-  var ox = w/2 - PB.cx*esc, oy = (M + (h - mb)) / 2 - PB.cz*esc;
+  var esc = Math.min((w - M*2) / PB.w, (h - M*2) / PB.h);
+  var ox = w/2 - PB.cx*esc, oy = h/2 - PB.cz*esc;
   var X = function (x) { return (ox + x*esc).toFixed(1); };
   var Y = function (z) { return (oy + z*esc).toFixed(1); };
   var s = ['<rect width="100%" height="100%" fill="none"/>'];
@@ -1275,8 +1278,14 @@ def main():
     # tamanho do BUFFER -- num monitor de dpr 1 da no mesmo e nao se ve nada; num
     # celular de dpr 1,75 a maquete sai 75% maior que o painel. Custou uma ida e volta
     # ate alguem abrir no telefone, entao vira portao.
-    if "%%" in s:
-        raise SystemExit("saida tem '%%' -- escape de formatacao que virou CSS invalido")
+    # PORTAO DE MARCADOR. O template ja foi formatado por `%` um dia, e restos daquilo
+    # sobreviveram a troca pra `.replace()` -- duas vezes, e as duas so apareceram no
+    # telefone: `width:100%%` (declaracao invalida, canvas no tamanho do buffer) e
+    # `%(TITULO)s` cru na barra de titulo. Nenhum dos dois quebra nada de forma visivel
+    # no desktop, entao viram portao.
+    for marca in ("%%", "%(TITULO)s", "%(DADOS)s", "%(THREE)s", "@@"):
+        if marca in s:
+            raise SystemExit("saida tem %r -- marcador de montagem que nao foi trocado" % marca)
     io.open(SAIDA, "w", encoding="utf-8", newline="").write(s)
     print("%.2f MB -> %s" % (len(s.encode("utf-8")) / 1e6, SAIDA))
     print("  %s · %d pavimentos · unidade no %dº andar"
