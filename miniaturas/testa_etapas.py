@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Portao das TRES ETAPAS (v17): link direto, camera rotativa e planta em cena propria.
 
-    MAPA_V=v17 python pipeline/testa_etapas.py sao-carlos
-    MAPA_V=v17 python pipeline/testa_etapas.py sao-carlos --unidade mirra-114 --foto p.png
+    MAPA_V=v17 python miniaturas/testa_etapas.py sao-carlos
+    MAPA_V=v17 python miniaturas/testa_etapas.py sao-carlos --unidade mirra-114 --foto p.png
 
 Sete sondas. Como as do `testa_moveis.py`, todas medem coisa que **falha calada** --
 nenhuma delas produz erro no console quando quebra:

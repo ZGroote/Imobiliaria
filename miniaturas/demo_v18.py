@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Monta uma pagina do v17 com UM predio: o da planta enviada em 19/09/2026.
+"""Monta uma pagina do v18 com UM predio: o da planta enviada em 19/09/2026.
+
+O v18 acrescenta a MAQUETE: a miniatura que nasce em cima da ficha, pisca o pavimento
+da unidade em verde e cresce ate a tela pra entregar a visita 3D ou a planta.
 
 Existe por um motivo pratico: o acervo de Sao Carlos (`city.json`, relevo, plantas
 fornecidas) sao artefatos grandes que nao vivem no repositorio, entao uma maquina que
@@ -12,25 +15,25 @@ pra dar chao. Quem precisa de cidade cheia usa o `montar.py` com o acervo.
 AS MEDIDAS SAO AS DA PLANTA ENVIADA, lidas do `planta-apartamento-3d.html`: piso de
 16,5 x 9,2 m, pe-direito 2,6 m, o recuo no canto sudeste, e cada divisoria na mesma
 coordenada em que ela esta la. O que muda e a FORMA do dado, nao o numero: aquele
-arquivo declara PAREDE (uma caixa por parede); o v17 declara COMODO, e deriva a parede
+arquivo declara PAREDE (uma caixa por parede); o v18 declara COMODO, e deriva a parede
 de toda fronteira entre donos diferentes (ver `paredesDaGrade` no app.js). Por isso o
 que esta escrito abaixo e o retangulo de cada ambiente, e nao a lista de paredes.
 
-    python pipeline/demo_v17.py                          # -> v17/demo-v17.html
-    python pipeline/demo_v17.py --abre planta            # abre direto na etapa 3
-    python pipeline/demo_v17.py --saida /tmp/x.html
+    python miniaturas/demo_v18.py                          # -> v18/demo-v18.html
+    python miniaturas/demo_v18.py --abre planta            # abre direto na etapa 3
+    python miniaturas/demo_v18.py --saida /tmp/x.html
 """
 import io, json, os, re, sys
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FONTE = os.path.join(RAIZ, "renderizador-v17")
+FONTE = os.path.join(RAIZ, "renderizador-v18")
 
 
 def arg(nome, padrao=None):
     return sys.argv[sys.argv.index(nome) + 1] if nome in sys.argv else padrao
 
 
-SAIDA = arg("--saida", os.path.join(RAIZ, "v17", "demo-v17.html"))
+SAIDA = arg("--saida", os.path.join(RAIZ, "v18", "demo-v18.html"))
 ABRE = arg("--abre", "")            # "", "mapa", "interior" ou "planta"
 UNIDADE_ID = "planta-1"
 Q = 10                              # decimetros: a mesma quantizacao do acervo real
@@ -39,7 +42,7 @@ PD = 2.6                            # pe-direito da planta enviada
 ANDAR = 3                           # o piso nasce em andar x 3,15 m (LV, no app.js)
 
 # ---- a planta, em metros, no referencial do desenho enviado -------------------
-# Linhas de EIXO de parede, nao faces: a parede do v17 nasce sobre a fronteira entre
+# Linhas de EIXO de parede, nao faces: a parede do v18 nasce sobre a fronteira entre
 # dois comodos, com 13 cm centrados nela. Sao os mesmos numeros do arquivo enviado.
 O, L = -8.15, 8.15                  # oeste / leste
 N, S = -4.50, 4.50                  # norte / sul
@@ -187,7 +190,7 @@ def le(rel):
 
 
 def main():
-    titulo = "Planta 3D · v17 · o prédio da planta enviada"
+    titulo = "Imóvel 3D · v18 · maquete, visita e planta"
     cabeca = le("cabeca.html")
     if cabeca and cabeca[0] == u"﻿":
         cabeca = cabeca[1:]      # o BOM vira caractere invisivel quando hospedado

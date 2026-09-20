@@ -12,8 +12,8 @@ tudo em `InstancedMesh`), com um degrau a mais de detalhe que so cabe aqui: as j
 sao ESQUADRIAS DE VERDADE, distribuidas ao longo de cada face, em vez de uma fita
 continua de vidro.
 
-    python pipeline/pagina_maquete.py                    # -> v18/maquete.html
-    python pipeline/pagina_maquete.py --saida /tmp/x.html
+    python miniaturas/pagina_maquete.py                    # -> v18/maquete.html
+    python miniaturas/pagina_maquete.py --saida /tmp/x.html
 """
 import io, json, os, sys
 
@@ -48,7 +48,7 @@ IMOVEL = {
     },
     # A PLANTA DA UNIDADE, em metros, no referencial do desenho enviado em 19/09/2026
     # (16,5 x 9,2 m de piso, pe-direito 2,60 m, recuo no canto sudeste). Sao as MESMAS
-    # coordenadas do `pipeline/demo_v18.py`; a diferenca e que aqui ela e desenhada de
+    # coordenadas do `miniaturas/demo_v18.py`; a diferenca e que aqui ela e desenhada de
     # tres jeitos -- 2D, 3D e por dentro -- em vez de virar cidade.
     #
     # A ORDEM DOS COMODOS IMPORTA: quem deriva parede pergunta "de quem e esta celula?"

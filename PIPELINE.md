@@ -3072,7 +3072,7 @@ Sai em `renderizador-v17/`, copia do `renderizador-v16-moveis/`. O v16-moveis na
 tocado: monta-se um ou outro por `MAPA_V`.
 
     MAPA_V=v17 python pipeline/montar.py sao-carlos
-    MAPA_V=v17 python pipeline/testa_etapas.py sao-carlos --unidade <id>
+    MAPA_V=v17 python miniaturas/testa_etapas.py sao-carlos --unidade <id>
 
 ### O link
 
@@ -3171,7 +3171,7 @@ voltar pro mapa.
 - A pagina real nao foi montada neste ambiente: o acervo (`city.json`, relevo, plantas
   fornecidas) nao esta no checkout. A prova saiu de uma fixture sintetica -- um predio,
   uma planta de cinco comodos, mobilia parametrica -- pelo mesmo Chrome headless que os
-  outros portoes usam. `pipeline/testa_etapas.py` e o portao pra rodar contra o acervo
+  outros portoes usam. `miniaturas/testa_etapas.py` e o portao pra rodar contra o acervo
   de verdade.
 
 ### Publicar o v17 num link separado
@@ -3207,3 +3207,15 @@ copiar a pagina do v16 pra dentro de `v17/publicado/mapa/` -- as duas continuam
 servidas, muda quem e o `index`. Nao foi feito assim porque "link separado" e
 literalmente o que foi pedido, e dominio separado e o unico jeito de as duas versoes
 terem index proprio.
+
+### A pasta `miniaturas/`
+
+Pedido de 20/09/2026: juntar o trabalho da maquete num lugar so. Ficou em
+`miniaturas/`, com README proprio: o montador da pagina, a pagina montada (740 KB, abre
+com duplo clique), os dois montadores de demonstracao e o portao das etapas.
+
+O que NAO foi pra la, e de proposito: `renderizador-v17/` e `renderizador-v18/`
+continuam na raiz, porque `pipeline/montar.py` acha a variante por
+`FONTE = renderizador-<MAPA_V>` -- mover as pastas quebraria a montagem de todas as
+cidades, e a convencao de nome vem desde o `renderizador-v16`. O `firebase.v17.json`
+idem: o `public:` de um config do Firebase e relativo a pasta do proprio arquivo.
