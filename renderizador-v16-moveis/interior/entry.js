@@ -9,7 +9,9 @@
                    criaRotulos, pontoDeEntrada, melhorDirecao, livre, quatOlhando,
                    acendeInterior, apagaInterior, sondaDeAmbiente, soltaSonda, modoMoveis,
                    mostraJoy, pintaCatalogo, pintaEditor, fechaPerto, setPins, closePoiSheet,
-                   hsheet, usheet, ipanel, houseBeacon, housesBox, poeTipoNulo}) {
+                   hsheet, usheet, ipanel, houseBeacon, housesBox, poeTipoNulo,
+                   // A escada das tres etapas (listings/stage.js).
+                   getPlanta, getEtapa, saiPlanta, paraVoo, pintaEtapas, getFicha, setFicha}) {
 function baseDaCasa(pl) {
   let by = terrainY(pl.mx, pl.mz);
   for (const p of pl.rec.r) { const t = terrainY(p[0], p[1]); if (t > by) by = t; }
@@ -38,6 +40,7 @@ function enterInterior(rec, unidade) {
   for (const m of INT.moveis) poeNaCena(m);
   criaRotulos(pl);
 
+  paraVoo();   // o voo da vitrine nao pode continuar puxando o alvo la de fora
   INT.salvo = { tx:target.x, tz:target.z, r:sph.radius, phi:sph.phi, theta:sph.theta };
   INT.on = true; INT.fp = false; INT.orbita = false; INT.sel = -1; selBox.visible = false; poeTipoNulo();
   target.set(pl.cx, 0, pl.cz);
@@ -69,6 +72,23 @@ function enterInterior(rec, unidade) {
               p0:camera.position.clone(), q0:camera.quaternion.clone(),
               p1:dest, q1:quatOlhando(dest, olha),
               fim:() => { INT.fp = true; } };
+
+  // Quem entrou por clique no PREDIO nunca passou pela ficha, entao `FICHA` estaria
+  // vazia e a escada de etapas nao teria de quem falar. Aqui ela e escrita com o mesmo
+  // formato que `abreFichaDoImovel` usa -- e so quando o imovel e outro, pra nao jogar
+  // fora o ponto de voo que a ficha ja tinha calculado pra este mesmo.
+  const _f = getFicha();
+  if (pl.unidade && (!_f || _f.u !== pl.unidade)) {
+    let fx = pl.cx, fz = pl.cz;
+    if (rec && rec.r && rec.r.length) {
+      fx = 0; fz = 0;
+      for (const q of rec.r) { fx += q[0]; fz += q[1]; }
+      fx /= rec.r.length; fz /= rec.r.length;
+    }
+    setFicha({ u: pl.unidade, rec, x: fx, z: fz });
+  }
+  getEtapa().atual = "interior";
+  pintaEtapas();
 
   hsheet.classList.remove("on"); usheet.classList.remove("on");
   fechaPerto(false); setPins(false);   // la dentro o pino nao opera nada -- e a saida
@@ -123,6 +143,7 @@ function descarta() {
 
 function exitInterior() {
   if (!INT.on) return;
+  if (getPlanta().on) saiPlanta();   // sair da casa pela etapa 3 tambem desfaz a cena
   const S = INT.salvo;
   INT.fp = false; INT.orbita = false;
   $("ivista").setAttribute("aria-pressed", "false");
@@ -139,6 +160,7 @@ function exitInterior() {
                 target.set(S.tx, 0, S.tz);
                 sph.set(S.r, S.phi, S.theta);
                 INT.on = false; descarta(); aplicaFuro(); apagaInterior(); streamUpdate(true);
+                getEtapa().atual = "mapa"; pintaEtapas();
               } };
   modoMoveis(false);
   document.body.classList.remove("dentro");
@@ -150,6 +172,7 @@ function exitInterior() {
 // própria (o botão Centro), animar o retorno só brigaria com o destino dele.
 function saiSeco() {
   if (!INT.on) return;
+  if (getPlanta().on) saiPlanta();   // idem -- ver exitInterior
   INT.on = false; INT.fp = false; INT.orbita = false; INT.voo = null;
   $("ivista").setAttribute("aria-pressed", "false");
   INT.corteAlvo = CORTE_OFF;
@@ -174,6 +197,10 @@ function saiSeco() {
    onde ele serve pra alguma coisa -- ver por cima das proprias paredes. */
 function alturaDoCorte() {
   if (!INT.on) return CORTE_OFF;
+  // Na cena da planta o corte e uma ESCOLHA, nao uma consequencia da vista. Sem cidade
+  // em volta, parede inteira e uma maquete legivel; cortada na altura do ombro e a
+  // planta de arquitetura, que e o que se le pra decidir onde poe o sofa.
+  if (getPlanta().on) return getPlanta().corta ? INT.baseY + CORTE_OMBRO : CORTE_OFF;
   return INT.orbita ? INT.baseY + CORTE_OMBRO : CORTE_OFF;
 }
 function aplicaFuro() {

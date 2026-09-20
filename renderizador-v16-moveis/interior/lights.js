@@ -1,7 +1,7 @@
 /* Interior lighting: the city light giving way to the window, the lamp pool with switches, and their restore on exit. */
 (function(root) {
   "use strict";
-  function create({THREE, INT, scene, sun, hemi, renderer, camera, NIVEL, LUZ_PI, FILL, cursorDeLuz, CEU_LINHA, inside, ESP}) {
+  function create({THREE, INT, scene, gInteriores, sun, hemi, renderer, camera, NIVEL, LUZ_PI, FILL, cursorDeLuz, CEU_LINHA, inside, ESP}) {
 const MAX_LUZES = 6;
 function acendeInterior(pl) {
   apagaInterior();
@@ -70,7 +70,7 @@ function acendeInterior(pl) {
      mesma abertura e, quando alguem acende, a lampada -- ver `montaLuminarias`. */
   hemi.intensity = (assado ? 0.085 : 0.11) * LUZ_PI * FILL;
   const amb = new THREE.AmbientLight(0xFFEDD8, (assado ? 0.025 : 0.022) * LUZ_PI * FILL);
-  scene.add(amb); INT.luzes.push(amb);
+  gInteriores.add(amb); INT.luzes.push(amb);   // ver a nota em montaLuminarias
   // A luminaria de teto nao acende mais sozinha: virou LAMPADA, tem interruptor na
   // parede, comeca apagada e a luz dela para na parede. Ver secao 12d.
   montaLuminarias(pl);
@@ -94,7 +94,7 @@ function acendeInterior(pl) {
   sun.shadow.normalBias = 0.02;
 }
 function apagaInterior() {
-  for (const l of INT.luzes) scene.remove(l);
+  for (const l of INT.luzes) gInteriores.remove(l);
   INT.luzes.length = 0;
   // As malhas morrem junto com INT.raiz (`descarta`); aqui so caem as referencias e o
   // pool, que vive na cena e nao na raiz.
@@ -182,7 +182,11 @@ function montaLuminarias(pl) {
     l.shadow.normalBias = 0.10;
     l.shadow.autoUpdate = false;
     l.position.set(pl.cx, INT.baseY + pl.pd - 0.28, pl.cz);
-    scene.add(l); INT.luzes.push(l); INT.pool.push(l);
+    // `gInteriores`, nao `scene`. O grupo inteiro troca de cena na etapa 3 (ver
+    // `entraPlanta`), e luz pendurada direto na cena da cidade nao iria junto -- a
+    // planta abriria sem lampada e a cidade ficaria com quatro pontuais orfas. O
+    // grupo nao tem transformacao, entao a posicao continua sendo a do mundo.
+    gInteriores.add(l); INT.luzes.push(l); INT.pool.push(l);
   }
 
   // Plafom: calota de 23 cm rente ao forro. A luz mora 18 cm abaixo dela, pra que a

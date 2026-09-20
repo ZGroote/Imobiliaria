@@ -1,7 +1,8 @@
 /* Furniture editor grid, handles, shared-geometry preview and measurement labels. */
 (function(root) {
   "use strict";
-  function create({THREE, INT, MOB, MOB_VERDE, document, overlay, camera, redimensiona}) {
+  function create({THREE, INT, MOB, MOB_VERDE, document, overlay, camera, redimensiona,
+                   getPlanta}) {
 /* ---- a grade ----------------------------------------------------------- */
 function fazGrade() {
   const pl = INT.pl;
@@ -11,7 +12,10 @@ function fazGrade() {
   let div = Math.round(lado / MOB.passo);
   if (div > 200) div = Math.round(div / 2);
   const g = new THREE.GridHelper(lado, div, 0xFFFFFF, MOB_VERDE);
-  g.material.transparent = true; g.material.opacity = 0.55;
+  /* Na etapa 3 a camera esta LONGE e de cima, e a 10 cm de passo a grade deixa de
+     ser retificado pra virar um feltro verde por cima do piso inteiro -- a mesma
+     opacidade discreta a 1,60 m do chao cobre a planta vista de 16 m. */
+  g.material.transparent = true; g.material.opacity = getPlanta().on ? 0.22 : 0.55;
   g.material.depthWrite = false;
   /* `toneMapped = false`, pelo mesmo motivo que o ceu do interior ja usa: dentro da
      casa a exposicao cai pra 0,58 e o ACES ainda comprime por cima. A grade nascia

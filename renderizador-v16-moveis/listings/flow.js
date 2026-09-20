@@ -4,7 +4,11 @@
   function create({document, $, esc, brl, UNIDADES, listingSheet,
                    usheet, hsheet, housesBox, houseBeacon, target, streamUpdate, flyTo,
                    getGroups, predioDaUnidade, closePoiSheet, abrePerto, enterInterior,
-                   setTimeout}) {
+                   setTimeout,
+                   // A escada das tres etapas (listings/stage.js). Entram como funcao,
+                   // e nao como valor, porque `vaiParaEtapa` so existe depois que o
+                   // app.js terminou de montar tudo -- ver a nota de TDZ la.
+                   getEtapa, pintaEtapas, vaiParaEtapa, tour, marcaEtapaNaUrl}) {
 const iaviso = $("iaviso");
 let escolhendo = null;            // unidade esperando o usuario apontar o predio
 function pedePredio(u, texto) {
@@ -62,6 +66,10 @@ function abreFichaDoImovel(u, rec, confirmado, x, z) {
   usheet.classList.remove("min");
   hsheet.classList.remove("on");
   closePoiSheet();
+  // Abrir a ficha e estar na ETAPA 1. A escada de botoes e pintada aqui porque e aqui
+  // que se sabe se a unidade tem planta -- sem ela nao ha etapa 2 nem 3.
+  getEtapa().atual = "mapa";
+  pintaEtapas();
 }
 // Voltar do "por perto" e reabrir a ficha exatamente como ela estava, inclusive o voo.
 function reabreFicha() {
@@ -74,10 +82,11 @@ function reabreFicha() {
 }
 $("ux").addEventListener("click", () => {
   usheet.classList.remove("on"); houseBeacon.visible = false;
+  tour(false);                       // fechar a ficha encerra a apresentacao
+  FICHA = null; pintaEtapas(); marcaEtapaNaUrl();
 });
-$("uEnter").addEventListener("click", () => {
-  if (FICHA) enterInterior(FICHA.rec, FICHA.u);
-});
+// O mesmo botao, agora como degrau 2 da escada -- a troca de etapa tem UMA porta.
+$("uEnter").addEventListener("click", () => vaiParaEtapa("interior"));
 $("uPerto").addEventListener("click", () => {
   if (!FICHA) return;
   abrePerto({ x: FICHA.x, z: FICHA.z, nome: $("uName").textContent, volta: reabreFicha });
@@ -109,7 +118,12 @@ for (const u of UNIDADES) {
 
     // `abreFichaDoImovel` e `reabreFicha` sao internos: quem os chama e a propria vitrine
     // e o botao "por perto", aqui dentro.
-    return {pedePredio, cancelaEscolha, abreUnidade, getEscolhendo: () => escolhendo};
+    // `getFicha`/`setFicha`: a escada das etapas (listings/stage.js) precisa saber de
+    // quem e a ficha, e a entrada pelo PREDIO precisa escreve-la sem passar por aqui.
+    // Sao os dois unicos motivos de `FICHA` sair deste arquivo -- continua sendo `let`
+    // privado, e ninguem de fora enxerga a variavel, so estas duas portas.
+    return {pedePredio, cancelaEscolha, abreUnidade, getEscolhendo: () => escolhendo,
+            getFicha: () => FICHA, setFicha: f => { FICHA = f; }};
   }
   root.ListingFlow = Object.freeze({create});
 })(globalThis);

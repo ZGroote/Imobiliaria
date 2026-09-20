@@ -2,7 +2,8 @@
 (function(root) {
   "use strict";
   function create({canvas, target, sph, camera, zoomMax, getHeight, getInterior,
-                   getFirstPerson, soltaSeta, cliqueInterior, cliqueNaCidade}) {
+                   getFirstPerson, soltaSeta, cliqueInterior, cliqueNaCidade,
+                   getPlanta, paraTour}) {
 const PAN = 1, ORBIT = 2;
 let drag = 0, lx = 0, ly = 0;
 let dnX = 0, dnY = 0, moveu = 0;   // v9: separa clique de arrasto
@@ -15,6 +16,7 @@ function medidaDedos() {
 let toqueAnterior = null;
 
 canvas.addEventListener("pointerdown", e => {
+  paraTour();   // a mao de quem chegou manda mais que o giro de apresentacao
   if (e.pointerType === "touch") {
     dedos.set(e.pointerId, {x:e.clientX, y:e.clientY});
     if (dedos.size > 1) {
@@ -26,7 +28,12 @@ canvas.addEventListener("pointerdown", e => {
     }
     gestoDuplo = false;
   }
-  drag = (e.button === 2 || e.button === 1 || e.shiftKey) ? ORBIT : PAN;
+  /* Na cena da planta os papeis do arrasto se invertem. Ali a pessoa esta olhando um
+     OBJETO, nao um mapa -- e em visualizador de objeto arrastar gira, que e o que o
+     proprio texto da dica da vista de planta sempre prometeu. Fora dela nada muda:
+     esquerdo arrasta o mapa, direito gira. */
+  const _sec = (e.button === 2 || e.button === 1 || e.shiftKey);
+  drag = (_sec !== getPlanta().on) ? ORBIT : PAN;
   lx = e.clientX; ly = e.clientY;
   dnX = e.clientX; dnY = e.clientY; moveu = 0;
   canvas.setPointerCapture(e.pointerId);
@@ -82,7 +89,12 @@ canvas.addEventListener("pointermove", e => {
   }
   if (drag === ORBIT) {
     sph.theta -= dx*0.005;
-    sph.phi = Math.max(0.75, Math.min(1.15, sph.phi + dy*0.005));
+    // A faixa de phi da CIDADE existe pra nao deixar a camera rasar o chao nem olhar
+    // de cima a ponto de a cidade virar mapa chapado. Na cena da planta e o oposto: o
+    // de cima a pino E a vista util (e a planta de arquitetura), e nao ha horizonte
+    // pra proteger. Por isso a faixa abre so ali.
+    const p0 = getPlanta().on ? 0.10 : 0.75, p1 = getPlanta().on ? 1.35 : 1.15;
+    sph.phi = Math.max(p0, Math.min(p1, sph.phi + dy*0.005));
   } else panBy(dx, dy);
 });
 
@@ -102,6 +114,7 @@ function panBy(dx, dy) {
 
 canvas.addEventListener("contextmenu", e => e.preventDefault());
 canvas.addEventListener("wheel", e => { e.preventDefault();
+  paraTour();
   if (getInterior().on && !getInterior().orbita) return;                   // v9: zoom nao vale a pe
   const rmin = getInterior().orbita ? 5 : 60;   // uma casa tem 8 m de frente, nao 60
   sph.radius = Math.max(rmin, Math.min(zoomMax(), sph.radius*(1 + Math.sign(e.deltaY)*0.11)));

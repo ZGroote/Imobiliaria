@@ -59,6 +59,7 @@
   "listings/house-sheet.js",
   "ui/poi-panel.js",
   "listings/flow.js",
+  "listings/stage.js",
   "ui/search-box.js",
   "ui/picking.js",
   "interior/editor-panel.js",

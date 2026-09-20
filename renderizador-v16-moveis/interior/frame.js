@@ -1,7 +1,7 @@
 /* Interior animation step; called by the application's single frame loop. */
 (function(root) {
   "use strict";
-  function create({THREE, INT, FP, CORTE, CORTE_OFF, camera, target, OLHO,
+  function create({THREE, INT, FP, CORTE, CORTE_OFF, camera, target, OLHO, PLANTA,
                    terrainYCached, baseDaCasa, alturaDoCorte, aplicaFuro, distribuiLuzes,
                    seleciona, fpPasso, posicionaMedidas, getWidth, getHeight}) {
     let _tAnt = 0;
@@ -28,7 +28,11 @@ function interiorFrame(now) {
     // planta de um apartamento do 3o andar orbita um ponto 9 m abaixo dele -- e o que
     // aparece na tela e a laje vista por baixo.
     if (INT.on) target.y = INT.baseY;
-    const by = baseDaCasa(INT.pl);
+    // Na cena da planta a unidade assenta em y = 0 -- nao ha terreno ali, e nem faria
+    // sentido: a planta do 3o andar nao e desenhada 9 m acima do papel. Sem esta guarda
+    // o bloco abaixo devolveria a cota do morro a cada quadro e a planta subiria de
+    // volta pra fora do enquadramento.
+    const by = PLANTA.on ? 0 : baseDaCasa(INT.pl);
     if (Math.abs(by - INT.baseY) > 1e-4) {
       INT.baseY = by; INT.raiz.position.y = by;
       INT.corteAlvo = alturaDoCorte();

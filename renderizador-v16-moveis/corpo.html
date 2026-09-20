@@ -10,6 +10,17 @@
 <div id="mobileHint">Arraste para explorar · Use dois dedos para aproximar e girar</div>
 <button id="isair" class="card" aria-label="Sair da visita 3D e voltar ao mapa">‹ Voltar ao mapa</button>
 
+<!-- AS TRES ETAPAS DA VISITA.
+     Mapa (orbita rotativa em volta do predio) -> Interior 3D (andar dentro) ->
+     Planta 3D (a unidade sozinha, numa CENA propria, sem cidade em volta).
+     A barra flutuante so existe dentro do imovel; no mapa quem troca de etapa e a
+     propria ficha (#uEtapas), que e onde a pessoa ja esta olhando. -->
+<nav id="etapas" class="card" aria-label="Etapas da visualiza&ccedil;&atilde;o">
+  <button id="eMapa" aria-pressed="false">Mapa</button>
+  <button id="eInterior" aria-pressed="false">Interior 3D</button>
+  <button id="ePlanta" aria-pressed="false">Planta 3D</button>
+</nav>
+
 <div id="hud" class="card">
   <!-- O carimbo continua aqui, invisivel: e o `montar.py` que escreve nele (o regex do
        CARIMBO procura exatamente esta div), e e ele que diz de qual build veio um
@@ -96,8 +107,16 @@
     <h4>Cômodos <b id="uNCom">—</b></h4>
     <div id="uCom"></div>
   </div>
+  <!-- O botao unico "Entrar na visita 3D" virou a ESCADA das tres etapas. O id
+       `uEnter` foi mantido: ele continua sendo a porta do interior, e todo o QA
+       headless (window.__int) o alcanca por esse nome. -->
+  <div class="etapasrow" id="uEtapas">
+    <button id="uE1" aria-pressed="true">1 &middot; Mapa</button>
+    <button id="uEnter" class="pri">2 &middot; Interior 3D</button>
+    <button id="uPlanta">3 &middot; Planta 3D</button>
+  </div>
   <div class="acoes">
-    <button id="uEnter" class="pri">Entrar na visita 3D</button>
+    <button id="uGira" aria-pressed="false" title="C&acirc;mera circulando o pr&eacute;dio">Girar c&acirc;mera</button>
     <button id="uPerto">O que tem por perto?</button>
   </div>
 </div>
@@ -156,6 +175,7 @@
   </div>
   <div class="row">
     <button id="ivista" aria-pressed="false">Planta</button>
+    <button id="iparedes" aria-pressed="true" title="Cortar as paredes na altura do ombro">Paredes cortadas</button>
     <button id="ireset">Refazer</button>
   </div>
   <div class="dica" id="iDica">&mdash;</div>

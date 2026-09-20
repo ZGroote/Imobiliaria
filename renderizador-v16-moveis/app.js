@@ -16,6 +16,11 @@
    codigo que le `.value`, escuta `click` ou troca `aria-pressed` continua valendo
    palavra por palavra, e ninguem ve nada. A lista e explicita porque id ERRADO tem que
    continuar estourando: sem ela, um typo viraria um botao fantasma silencioso. */
+/* A escada das tres etapas (listings/stage.js) so pode ser criada depois que a casa,
+   o editor e a luz existem -- ver a criacao mais abaixo. Os modulos montados ANTES dela
+   (gestos, ficha, editor, entrada) recebem acessores, nao valores: na hora em que eles
+   sao montados esta caixa ainda esta vazia, e na hora em que eles USAM ja esta cheia. */
+let etapas = null;
 const SUMIDOS = {
   // do painel de baixo e do cartao de cima
   hs:"input", hv:"b", tPins:"button", tArrows:"button", tMuros:"button",
@@ -26,7 +31,12 @@ const SUMIDOS = {
   ipanel:"div", ix:"div", idobra:"div", iName:"h2", iInfo:"div", iCat:"div", iEdit:"div",
   iSelName:"div", ivw:"b", isw:"input", ivd:"b", isd:"input", ivh:"b", ish:"input",
   icor:"input", igir:"button", idel:"button", ivista:"button", iteto:"button",
-  ireset:"button", isair:"button", iPredioRow:"div", ipredio:"button", iDica:"div" };
+  ireset:"button", isair:"button", iPredioRow:"div", ipredio:"button", iDica:"div",
+  // A escada das tres etapas e o corte de parede da planta. Estao no corpo.html, mas
+  // entram aqui pela mesma razao dos de cima: uma pagina montada de um corpo ANTIGO
+  // continua abrindo, so sem os botoes -- nao com um TypeError no boot.
+  etapas:"nav", eMapa:"button", eInterior:"button", ePlanta:"button",
+  uEtapas:"div", uE1:"button", uPlanta:"button", uGira:"button", iparedes:"button" };
 const _orfaos = new Map();
 // Os orfaos moram TODOS dentro de uma div que nunca e anexada. Nao e organizacao: sem
 // um pai, `$("iPredioRow").parentNode.insertBefore(...)` estoura -- e esse insertBefore
@@ -1890,13 +1900,27 @@ async function boot() {
 // outro municipio. O bloco e opcional: cidade sem vitrine cadastrada recebe [].
 const brl = v => "R$ " + v.toLocaleString("pt-BR");
 
+/* O voo tem GERACAO. Sem ela dois `flyTo` disparados no mesmo gesto (a vitrine
+   enquadrando o anuncio e, logo depois, o link enquadrando o predio pelo tamanho dele)
+   rodavam os dois ao mesmo tempo, cada um escrevendo em `target` e `sph.radius` no seu
+   proprio rAF -- a camera tremia e parava num ponto que nao era o de nenhum dos dois.
+   Agora o voo novo invalida o velho na primeira linha do passo. */
+let _vooGer = 0;
+// Cancela o voo em curso sem mexer na camera: quem chama e quem vai enquadrar por conta
+// propria. Sem isto o `flyTo(mx, mz, 190)` da vitrine continuava animando por cima da
+// entrada na casa e da cena da planta -- medido, a planta abria a 190 m de distancia
+// (um apartamento de 10 m virava tres pixels) porque o voo escrevia em `sph.radius`
+// DEPOIS do enquadramento.
+function paraVoo() { _vooGer++; }
 function flyTo(x, z, radius) {
+  const ger = ++_vooGer;
   const x0 = target.x, z0 = target.z, r0 = sph.radius;
   const dx = x - x0, dz = z - z0, dr = radius - r0, t0 = performance.now(), dur = 900;
   // requestAnimationFrame sempre entrega um timestamp real no argumento — chamar step()
   // direto (sem passar por rAF) roda com now=undefined na primeira vez, o que vira NaN
   // em cascata (target/sph.radius = NaN) e quebra a câmera/render logo de cara.
   function step(now) {
+    if (ger !== _vooGer) return;                               // outro voo tomou a frente
     const t = Math.min(1, (now - t0) / dur);
     const e = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;   // easeInOutCubic
     target.x = x0 + dx*e; target.z = z0 + dz*e; sph.radius = r0 + dr*e;
@@ -1936,7 +1960,8 @@ HouseSheet.create({document, $, esc, px, pz, brl, getSheet:()=>listingSheet,
    ------------------------------------------------------------ */
 const cameraGestures = CameraGestures.create({canvas, target, sph, camera, zoomMax,
   getHeight:()=>innerHeight, getInterior:()=>INT, getFirstPerson:()=>FP,
-  soltaSeta, cliqueInterior:e=>cliqueInterior(e), cliqueNaCidade:e=>cliqueNaCidade(e)});
+  soltaSeta, cliqueInterior:e=>cliqueInterior(e), cliqueNaCidade:e=>cliqueNaCidade(e),
+  getPlanta:()=>etapas.PLANTA, paraTour:()=>{ if (etapas) etapas.tour(false); }});
 
 $("hs").addEventListener("input", e => {
   const v = parseFloat(e.target.value);
@@ -2288,11 +2313,14 @@ const listingSheet = ListingSheet.create({$, esc, brl, cidade:CIDADE, sheet:ushe
 // Fluxo do anuncio (vitrine, "clique no predio", ficha e volta do "por perto"): ver
 // listings/flow.js. `enterInterior` nasce mais abaixo, entao entra como chamada adiada.
 // Saiu junto o `UNID_ATUAL`, que era escrito e nunca lido.
-const {pedePredio, cancelaEscolha, abreUnidade, getEscolhendo} =
+const {pedePredio, cancelaEscolha, abreUnidade, getEscolhendo, getFicha, setFicha} =
   ListingFlow.create({document, $, esc, brl, UNIDADES,
   listingSheet, usheet, hsheet, housesBox, houseBeacon, target, streamUpdate,
   flyTo, getGroups:()=>gGroups, predioDaUnidade, closePoiSheet, abrePerto,
-  enterInterior:(rec,u)=>enterInterior(rec,u), setTimeout});
+  enterInterior:(rec,u)=>enterInterior(rec,u), setTimeout,
+  getEtapa:()=>etapas.ETAPA, pintaEtapas:()=>etapas.pintaEtapas(),
+  vaiParaEtapa:k=>etapas.vaiParaEtapa(k), tour:v=>etapas.tour(v),
+  marcaEtapaNaUrl:()=>marcaEtapaNaUrl()});
 
 /* ---- geometria fixa da casa (piso + divisórias) ----------------------- */
 // Prisma de parede e quad de segmento: ver interior/shell-geometry.js.
@@ -2385,7 +2413,7 @@ scene.fog.color.set(CEU_LINHA);
 
 // Luz de dentro, lampadas e interruptores: ver interior/lights.js.
 const {acendeInterior, apagaInterior, LAMP, distribuiLuzes, sujaLuzes, alternaLuz, luzDoHit} =
-  InteriorLights.create({THREE, INT, scene, sun, hemi, renderer, camera, NIVEL, LUZ_PI, FILL, cursorDeLuz, CEU_LINHA, inside, ESP});
+  InteriorLights.create({THREE, INT, scene, gInteriores, sun, hemi, renderer, camera, NIVEL, LUZ_PI, FILL, cursorDeLuz, CEU_LINHA, inside, ESP});
 
 
 /* ---- rótulos de cômodo (DOM, como os de rua) --------------------------- */
@@ -2418,7 +2446,7 @@ $("icor").addEventListener("input", e => {
 });
 $("igir").addEventListener("click", () => giraSel());
 $("idel").addEventListener("click", () => excluiSel());
-$("isair").addEventListener("click", () => exitInterior());
+$("isair").addEventListener("click", () => etapas.vaiParaEtapa("mapa"));
 $("ix").addEventListener("click", () => modoMoveis(false));
 $("idobra").addEventListener("click", () => {
   const min = ipanel.classList.toggle("min");
@@ -2433,15 +2461,25 @@ $("ireset").addEventListener("click", () => {
   for (const m of INT.moveis) poeNaCena(m);
   seleciona(-1); salvaMoveis();
 });
-toggle("ivista", on => vista(on));
-toggle("iteto", on => {
+// "Planta" deixou de ser uma vista da cena da cidade e virou a ETAPA 3, com cena
+// propria. O id continua o mesmo porque o QA headless o alcanca por ele.
+$("ivista").addEventListener("click", () =>
+  etapas.vaiParaEtapa(etapas.PLANTA.on ? "interior" : "planta"));
+// A troca do forro saiu do ouvinte pra virar funcao. A etapa 3 precisa dela: com parede
+// INTEIRA e forro no lugar, a planta vista de cima e uma caixa fechada -- foi exatamente
+// o que apareceu ao ligar "Paredes inteiras" pela primeira vez.
+function poeTeto(on) {
   INT.teto = on;
-  if (!INT.pl) return;
+  const b = $("iteto");
+  if (b) b.setAttribute("aria-pressed", String(on));
+  if (!INT.pl || !INT.casa) return;
   INT.casa.traverse(o => { if (o.geometry) o.geometry.dispose(); });
   INT.raiz.remove(INT.casa);
   INT.casa = geoDaCasa(INT.pl, on);
   INT.raiz.add(INT.casa);
-});
+  sujaSombra();
+}
+toggle("iteto", poeTeto);
 /* ============================================================
    MODO MOVEIS (v16-moveis): grade, gizmo de setas e fantasma
    ============================================================
@@ -2483,7 +2521,7 @@ const {arred, dirUV, redimensiona, cabeAqui} = FurnitureEditor.create({THREE, IN
 
 const {fazGrade, mobSetas, poeSetas, poeFantasma, tiraFantasma, mobMed,
   pintaMedidas, posicionaMedidas} = EditorVisuals.create({THREE, INT, MOB, MOB_VERDE,
-    document, overlay, camera, redimensiona});
+    document, overlay, camera, redimensiona, getPlanta:()=>etapas.PLANTA});
 gInteriores.add(mobSetas);
 // Painel e coordenacao do editor (selecao, catalogo, medidas, modos): ver
 // interior/editor-panel.js. Criado aqui, depois da grade/setas/fantasma que ele comanda.
@@ -2525,6 +2563,9 @@ const {baseDaCasa, enterInterior, descarta, exitInterior, saiSeco, alturaDoCorte
   NEAR_CIDADE, FAR_CIDADE, FOV_CIDADE, fovInterior, terrainY, getRelevo:()=>reliefAmount,
   streamUpdate, sujaSombra, uFuro, selBox, BAKE, plantaDaUnidade, unidadeDoPredio,
   predioDaUnidade, geoDaCasa, leMoveis, poeNaCena, criaRotulos, pontoDeEntrada,
+  getPlanta:()=>etapas.PLANTA, getEtapa:()=>etapas.ETAPA,
+  saiPlanta:pra=>etapas.saiPlanta(pra), pintaEtapas:()=>etapas.pintaEtapas(),
+  paraVoo, getFicha, setFicha,
   melhorDirecao, livre, quatOlhando, acendeInterior, apagaInterior, sondaDeAmbiente,
   soltaSonda, modoMoveis, mostraJoy, pintaCatalogo, pintaEditor, fechaPerto, setPins,
   closePoiSheet, hsheet, usheet, ipanel, houseBeacon, housesBox,
@@ -2544,12 +2585,41 @@ $("ipredio").addEventListener("click", () => {
     + ((u.ficha && u.ficha.empreendimento) || "empreendimento"));
 });
 
+/* A escada das tres etapas nasce AQUI: e o primeiro ponto do arquivo em que a casa
+   (`enterInterior`), o editor (`modoMoveis`) e a luz (`distribuiLuzes`) ja existem. O
+   que vem depois dela -- o laco, o medidor e a URL -- entra como funcao, porque nesta
+   linha ainda nao existe. */
+etapas = ListingStages.create({THREE, $, QS, renderer, scene, camera, target, sph,
+  gInteriores, NIVEL, LUZ_PI, INT, FP, CORTE, UNIDADES, NEAR_CASA, FAR_CASA, BAKE,
+  TOQUE, usheet, houseBeacon, housesBox, flyTo, setStreamRadius, sujaSombra,
+  fovInterior, alturaDoCorte, baseDaCasa, enterInterior, exitInterior, vista,
+  distribuiLuzes, modoMoveis, seleciona, poeTeto, mostraJoy, pontoDeEntrada,
+  melhorDirecao, livre, abreUnidade, getFicha, setFicha, paraVoo, resize, frameLoop,
+  bakePasso,
+  governa:now=>governa(now), interiorFrame:now=>interiorFrame(now),
+  pintaPerf:now=>pintaPerf(now), marcaEtapaNaUrl:()=>marcaEtapaNaUrl(),
+  getFrame:()=>frame,
+  sombraPendente:()=>sombraSuja, limpaSombra:()=>{ sombraSuja = false; },
+  poeCpuMs:v=>{ _cpuMs = v; }, semRaf:()=>_semRaf});
+etapas.iniciaEtapas();
+
 /* ---- por frame --------------------------------------------------------- */
 // Porta pro QA headless, como o `window.__gMuros`: o modulo e um IIFE, entao
 // sem isto nenhuma sonda consegue perguntar onde a camera parou.
 // `sph` e `target` entram porque enquadrar um print no Chrome headless sempre
 // esbarrou neles estarem fora de alcance (ver [[mapa-3d-qa-headless]]).
 window.__int = { INT, FP, CORTE, camera, scene, gInteriores, MOVEIS, sph, target, exteriors,
+                 // Sem estes nenhuma sonda alcanca as tres etapas. `cenaPlanta` entra
+                 // junto de `scene` porque o `mede()` do __perf renderiza uma cena por
+                 // nome -- medir a etapa 3 pela cena da cidade daria o numero de uma
+                 // coisa que nao esta na tela.
+                 ETAPA:etapas.ETAPA, PLANTA:etapas.PLANTA, TOUR:etapas.TOUR,
+                 cenaPlanta:etapas.cenaPlanta, vaiParaEtapa:etapas.vaiParaEtapa,
+                 entraPlanta:etapas.entraPlanta, saiPlanta:etapas.saiPlanta,
+                 tour:etapas.tour, trocaParedes:etapas.trocaParedes,
+                 abrePeloLink:etapas.abrePeloLink, unidadePorId:etapas.unidadePorId,
+                 enquadraImovel:etapas.enquadraImovel, raioDoEnquadre:etapas.raioDoEnquadre,
+                 ficha: () => getFicha(),
                  urban, registroDoHit,
                  roadClearance: {hit:ring=>roadSafety?.hit(ring), blocked:buildingOverRoad,
                    stats:()=>({rejected:[...gLive.values()].reduce((n,r)=>n+(r.roadRejected||0),0)})},
@@ -2610,6 +2680,7 @@ window.__perf = {
 };
 
 const interiorFrame = InteriorFrame.create({THREE, INT, FP, CORTE, CORTE_OFF,
+  PLANTA:etapas.PLANTA,
   camera, target, OLHO, terrainYCached, baseDaCasa, alturaDoCorte, aplicaFuro,
   distribuiLuzes, seleciona, fpPasso, posicionaMedidas,
   getWidth:()=>innerWidth, getHeight:()=>innerHeight});
@@ -2746,8 +2817,10 @@ $("tMapa").addEventListener("click", () => {
 const NOITE = { on: false, t: 0, dia: null };
 const {aplicaNoite, setNoite} = DayNight.create({THREE, NOITE, renderer, sun, hemi,
   scene, INT, CEU, uNoite, sujaSombra, guarda, frameLoop, el:$});
-const {escreveLink, lerLink} = PositionLink.create({CENTER, MLAT, MLON, px, pz, target, sph, NOITE, INT,
-  setNoite, streamUpdate});
+const {escreveLink, lerLink, marcaEtapaNaUrl} =
+  PositionLink.create({CENTER, MLAT, MLON, px, pz, target, sph, NOITE, INT,
+  setNoite, streamUpdate, ETAPA:etapas.ETAPA, TOUR:etapas.TOUR, getFicha,
+  getLinkImovel:()=>etapas.getLinkImovel(), abrePeloLink:()=>etapas.abrePeloLink()});
 $("tNoite").addEventListener("click", () => setNoite(!NOITE.on));
 if (guarda.le("mapa3d.noite") === "1") setNoite(true, true);
 
@@ -2771,7 +2844,8 @@ const v12Frame = UiFrame.create({$, INT, FP, NOITE, MM, target, sph, aplicaNoite
 // estado que o laco NAO possui -- relevo, rotulo de rua, as duas sujeiras de sombra, os
 // dois modulos que so nascem com a cidade (urbanos e exteriores), o tempo de CPU que o
 // medidor le e a trava do passo manual do QA.
-const frame = SceneFrame.create({THREE, document, $,
+const frame = SceneFrame.create({THREE, document, $, PLANTA:etapas.PLANTA,
+  plantaFrame:now=>etapas.plantaFrame(now), tourPassa:dt=>etapas.tourPassa(dt),
   scene, camera, renderer, target, sph, sun, SOL_OFF, SOMBRA_CIDADE, CEU, INT, BAKE,
   governa, ajustaEsferas, resize, risers, mark, markMat, fillMat, houseBeacon,
   houseBeaconMat, terrainYCached, bakePasso, interiorFrame, streetLabels, vegetation,

@@ -15,8 +15,16 @@
                    sujaSombra, sombraDoQuadro, sujaContato, contatoSujo,
                    sombraPendente, limpaSombra,
                    getRelevo, mostraRotulos, getUrban, getExteriors, poeCpuMs, semRaf,
-                   getWidth, getHeight}) {
+                   getWidth, getHeight,
+                   // A escada das tres etapas (listings/stage.js).
+                   PLANTA, plantaFrame, tourPassa}) {
+let _tourT = 0;
 function frame(now) {
+  // A etapa 3 tem laco proprio. O desvio e a PRIMEIRA linha de proposito: tudo que
+  // vem abaixo fala de uma cidade que, na cena da planta, nao esta sendo desenhada.
+  if (PLANTA.on) { _tourT = now; return plantaFrame(now); }
+  tourPassa(_tourT ? (now - _tourT)/1000 : 0);
+  _tourT = now;
   const t0 = performance.now();
   governa(now);
   // Enquadramento do mapa de sombra pelo zoom: so faz algo com a chave de aparencia
