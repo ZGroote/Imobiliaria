@@ -40,6 +40,12 @@ mais detalhe gráfico. Não houve teste com usuários nem validação em celular
    gera aproximadamente 32,9 MB aberto e 14,0 MB no formato comprimido do projeto.
    Isso não é uma medição de tráfego HTTP. Preferir a entrada por imóvel/maquete,
    deixar a cidade completa como exploração e medir tempo até interação e memória.
+6. **Média: tornar o cache independente de quebras de linha.** O hash de
+   `pipeline/encaixar_casas_lotes.py` considera bytes de fonte e dados. Na exportação
+   limpa com CRLF, o cache foi invalidado e começou a recalcular milhares de casas.
+   Com LF preservado, os mesmos 50.277 encaixes foram reutilizados e o piloto
+   completo foi gerado. Definir uma política de final de linha ou normalizar as
+   entradas textuais do hash evita esse custo em máquinas novas.
 
 ## Produto — prioridades
 
@@ -57,6 +63,11 @@ mais detalhe gráfico. Não houve teste com usuários nem validação em celular
 - **Validar primeiro os três imóveis do piloto.** Observar se uma pessoa consegue
   entender área, andar e disposição, entrar/sair da visita, voltar à ficha e pedir
   contato. Depois investir em expansão de cidades e sofisticação visual.
+- **Validar pixels, além do DOM.** A captura do tour Castanheiras feita pelo smoke
+  test mostrou o painel da maquete vazio, apesar de ficha e tiles passarem. Isso
+  pode envolver o ritmo de quadros do Chrome headless; não foi isolada a causa.
+  A maquete independente renderizou corretamente. Acrescentar uma verificação
+  visual da maquete integrada antes de considerar essa parte aprovada.
 - **Medir resultado da jornada.** Acompanhar abertura da ficha, planta, visita e
   contato, além do tempo de carregamento. A utilidade do 3D deve aparecer na decisão
   do visitante, não apenas no tempo que ele fica girando a cena.
@@ -67,6 +78,13 @@ mais detalhe gráfico. Não houve teste com usuários nem validação em celular
 - `npm test`: 103/113 aprovados; 10 falhas, nenhuma cancelada ou ignorada.
 - Build modular de São Carlos: concluído, versão aberta e comprimida geradas.
 - Inspeção visual: maquete demonstrativa desktop; não equivale ao QA integral.
+- Smoke test HTTP dos três tours: fichas, preços sob consulta, avisos de localização
+  e tiles aprovados; nenhum erro JavaScript ou HTTP detectado. Índice sem rolagem
+  horizontal no viewport emulado de 390 × 844. Isso não testa todas as transições.
+- Piloto completo montado a partir de uma exportação limpa do índice Git, com LF
+  preservado: três tours, três maquetes e mapa completo gerados, sem arquivos extras
+  da pasta de trabalho. A primeira tentativa com CRLF foi interrompida durante o
+  recálculo geométrico; não falhou por dependência ausente.
 - Fontes e dados de build/runtime foram selecionados pelo manifesto do pipeline e
   pelo manifesto de tiles. Credenciais locais e arquivos de backup não foram incluídos.
 - Revisão de padrões de segredo nos arquivos adicionados/alterados: nenhum achado
