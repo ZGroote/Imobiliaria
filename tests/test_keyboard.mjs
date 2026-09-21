@@ -23,7 +23,7 @@ function fixture(modular) {
   vm.runInContext(`var teclas=Object.create(null);
     var INT={on:false}, MOB={on:false,modo:null}, FP={mov:{x:1,z:1}};`,ctx);
   if(modular) {
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/ui/keyboard.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/ui/keyboard.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`Keyboard.create({addEventListener, teclas, INT, MOB, FP, mostraPerf,
       perfLigado, cancelaGesto, modoMoveis, exitInterior, excluiSel, giraSel});`,ctx);
   } else vm.runInContext(source,ctx);

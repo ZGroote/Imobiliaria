@@ -9,7 +9,7 @@ import {fileURLToPath} from 'node:url';
 
 const CHECKPOINT = '624a13f';
 const root = fileURLToPath(new URL('..', import.meta.url)).replace(/\\/g, '/').replace(/\/$/, '');
-const read = name => fs.readFileSync(new URL('../renderizador-v16-moveis/' + name, import.meta.url), 'utf8');
+const read = name => fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/' + name, import.meta.url), 'utf8');
 const git = path => execFileSync('git', ['-c', 'safe.directory=' + root, 'show', CHECKPOINT + ':' + path],
   {cwd: root, encoding: 'utf8', maxBuffer: 64 << 20}).replace(/\r/g, '');
 const base = new URL('../plantas_fornecidas/', import.meta.url);

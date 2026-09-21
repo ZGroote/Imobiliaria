@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 
 const CHECKPOINT = '908381d';
 const root = fileURLToPath(new URL('..', import.meta.url)).replace(/\\/g, '/').replace(/\/$/, '');
-const read = name => fs.readFileSync(new URL('../renderizador-v16-moveis/' + name, import.meta.url), 'utf8');
+const read = name => fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/' + name, import.meta.url), 'utf8');
 const libText = fs.readFileSync(new URL('../moveis/moveis_lib.json', import.meta.url), 'utf8');
 const PARAMS = 'armarioParam, bancadaParam, aereoParam, ripadoParam, rackParam, tvParam, boxParam, maquinaParam, sofaParam';
 

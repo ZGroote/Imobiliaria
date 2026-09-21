@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import test from 'node:test';
 
 const context = vm.createContext({}); // No window, document, THREE or application globals.
-vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/core/city-data.js', import.meta.url), 'utf8'), context);
+vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/core/city-data.js', import.meta.url), 'utf8'), context);
 const area2 = ring => ring.reduce((sum, p, i) => {
   const next = ring[(i + 1) % ring.length];
   return sum + p[0] * next[1] - next[0] * p[1];

@@ -32,7 +32,7 @@ function fixture(modular,{store=new Map(),embutida=null,falhas=0}={}) {
             grava:(k,v)=>{log.push(['grava',k,v.length]);store.set(k,v);}},
     document:{getElementById:id=>{log.push(['dom',id]);return embutida===null?null:{textContent:embutida};}}});
   if(modular) {
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/world/elevation.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/world/elevation.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`globalThis.api=Elevation.create({document, console, CENTER, MLAT, MLON,
       ELEV_N, ELEV_HALF, timed, sleep, guarda});`,ctx);
   } else vm.runInContext(source+'\nglobalThis.api={fetchElevation,medianGrid,loadElevCache,saveElevCache,ELEV_CACHE_KEY};',ctx);

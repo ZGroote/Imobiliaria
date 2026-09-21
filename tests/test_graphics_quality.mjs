@@ -32,7 +32,7 @@ function oracle(env) {
 }
 function modular(env) {
   const ctx = vm.createContext(globals(env));
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/scene/quality.js', import.meta.url), 'utf8'), ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/scene/quality.js', import.meta.url), 'utf8'), ctx);
   return vm.runInContext(`GraphicsQuality.create({document, guarda: {le: k => k in __store ? __store[k] : null},
     QS: new URLSearchParams(location.search)})`, ctx);
 }

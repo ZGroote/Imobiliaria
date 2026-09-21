@@ -24,7 +24,7 @@ function fixture(modular,{perf='0',gpu='GeForce RTX 4070'}={}) {
     gLive:new Map([['a',1],['b',2]]), streaming:{pending:4},
     getCpuMs:()=>7.25});
   if(modular) {
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/ui/perf-meter.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/ui/perf-meter.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`globalThis.api=PerfMeter.create({$, QS, GPU, governor, renderer, NIVEL,
       NIVEL_NOME, gLive, streaming, getCpuMs});`,ctx);
   } else vm.runInContext(source+'\nglobalThis.api={mostraPerf,pintaPerf,ligado:()=>perfOn};',ctx);

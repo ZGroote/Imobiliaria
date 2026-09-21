@@ -78,7 +78,7 @@ function fixture(modular) {
     getUrban:()=>urbanMod, getExteriors:()=>exteriorMod,
     poeCpuMs:v=>{cpu=v;}, semRaf:()=>travado, getWidth, getHeight}`;
   if(modular) {
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/scene/frame.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/scene/frame.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`globalThis.frame=SceneFrame.create(${deps});`,ctx);
   } else {
     vm.runInContext(`var d=${deps};

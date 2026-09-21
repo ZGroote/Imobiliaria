@@ -31,7 +31,7 @@ function fixture(modular,disabled=false) {
   const INT={baseY:12,raiz:{traverse(fn){fn({material:materials[0]});fn({material:[clone,materials[2]]});fn({});}}};
   const ctx=vm.createContext({THREE,renderer,scene,INT,OLHO:1.62,QS:new URLSearchParams(disabled?'sonda=0':''),ambientePBR:base,MATS_INT:materials});
   if(modular) {
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/interior/environment-probe.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/interior/environment-probe.js',import.meta.url),'utf8'),ctx);
     vm.runInContext('globalThis.api=InteriorEnvironmentProbe.create({THREE,renderer,scene,INT,OLHO,QS,ambientePBR,MATS_INT});',ctx);
   }else vm.runInContext(original+'\nglobalThis.api={sondaDeAmbiente,soltaSonda};',ctx);
   return {ctx,log,renderer,materials:[...materials,clone],fail:()=>{fail=true;},

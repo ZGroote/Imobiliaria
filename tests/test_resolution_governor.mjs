@@ -11,7 +11,7 @@ function create(modular,level) {
   const calls=[],ctx=vm.createContext({document:{hidden:false},devicePixelRatio:2,NIVEL:{dpr:1.5,dprMin:.6},NIVEL_NOME:level,
     streaming:{pending:0},INT:{voo:null},renderer:{setPixelRatio:d=>calls.push(['dpr',d])},
     resize:()=>calls.push(['resize']),guarda:{grava:(...args)=>calls.push(['save',...args])},atualizaBotaoQual:()=>calls.push(['button'])});
-  if(modular){vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/scene/resolution-governor.js',import.meta.url),'utf8'),ctx);
+  if(modular){vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/scene/resolution-governor.js',import.meta.url),'utf8'),ctx);
     vm.runInContext('globalThis.api=ResolutionGovernor.create({document,getDevicePixelRatio:()=>devicePixelRatio,NIVEL,NIVEL_NOME,streaming,INT,renderer,resize,guarda,atualizaBotaoQual});',ctx);
   } else vm.runInContext(source+'\nglobalThis.api={update:governa,get dpr(){return dprAtual;},get frameMs(){return _cpuMed;}};',ctx);
   return {ctx,calls};

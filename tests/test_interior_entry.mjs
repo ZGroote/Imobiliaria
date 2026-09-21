@@ -48,7 +48,7 @@ function fixture(modular) {
     fechaPerto:v=>log.push(['perto',v]), setPins:on=>log.push(['pins',on]), closePoiSheet:()=>log.push(['poi']),
     hsheet:node('hsheet'), usheet:node('usheet'), ipanel:node('ipanel'),
     houseBeacon:node('beacon'), housesBox:node('housesBox'), log:(...a)=>log.push(a)});
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
   vm.runInContext(`geoDaCasa=(pl,teto)=>{log('casa',pl.id,teto);const g=new THREE.Group();g.name='casa';return g;};
     var camera=new THREE.PerspectiveCamera(55,1.5,1,20000);
     camera.position.set(100,200,300);
@@ -63,7 +63,7 @@ function fixture(modular) {
     var quatOlhando=(de,para)=>{const m=new THREE.Matrix4().lookAt(de,para,new THREE.Vector3(0,1,0));
       return new THREE.Quaternion().setFromRotationMatrix(m);};`,ctx);
   if(modular) {
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/interior/entry.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/interior/entry.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`globalThis.api=InteriorEntry.create({THREE, document, $, camera, target, sph,
       gInteriores, INT, FP, TOQUE, OLHO, LV, CORTE, CORTE_OFF, CORTE_OMBRO, NEAR_CASA, FAR_CASA,
       NEAR_CIDADE, FAR_CIDADE, FOV_CIDADE, fovInterior, terrainY, getRelevo:()=>reliefAmount,

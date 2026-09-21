@@ -25,7 +25,7 @@ function fixture(modular) {
     var target={x:0,z:0}, sph={theta:0,radius:900};
     var _linkT=0;`,ctx);
   if(modular) {
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/ui/frame.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/ui/frame.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`globalThis.passo=UiFrame.create({$, INT, FP, NOITE, MM, target, sph,
       aplicaNoite, frameLoop, escreveLink, desenhaMinimapa, desenhaPlantaMini});`,ctx);
   } else vm.runInContext(source+'\nglobalThis.passo=v12Frame;',ctx);

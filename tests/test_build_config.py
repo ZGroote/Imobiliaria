@@ -14,7 +14,7 @@ class BuildConfigurationTests(unittest.TestCase):
         cfg = resolve('araraquara', 'v16-moveis',
                       environ={'CIDADE': 'sao-carlos', 'MAPA_V': 'v15'})
         self.assertEqual((cfg.slug, cfg.versao), ('araraquara', 'v16-moveis'))
-        self.assertEqual(cfg.fonte, RAIZ / 'renderizador-v16-moveis')
+        self.assertEqual(cfg.fonte, RAIZ / 'v1.5' / 'renderizador-v16-moveis')
 
     def test_every_declared_variant_has_its_folder(self):
         """`v16` era declarado e tinha pasta; saiu dos dois lugares ao mesmo tempo.

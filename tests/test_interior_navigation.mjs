@@ -9,7 +9,7 @@ import {fileURLToPath} from 'node:url';
 
 const CHECKPOINT = 'b976291';
 const root = fileURLToPath(new URL('..', import.meta.url)).replace(/\\/g, '/').replace(/\/$/, '');
-const read = name => fs.readFileSync(new URL('../renderizador-v16-moveis/' + name, import.meta.url), 'utf8');
+const read = name => fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/' + name, import.meta.url), 'utf8');
 const base = new URL('../plantas_fornecidas/', import.meta.url);
 const units = fs.readdirSync(base).filter(d => fs.existsSync(new URL(`${d}/unidade.json`, base))).map(d => {
   const u = JSON.parse(fs.readFileSync(new URL(`${d}/unidade.json`, base), 'utf8'));

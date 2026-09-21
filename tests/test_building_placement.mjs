@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import test from 'node:test';
 const ctx=vm.createContext({});
 for(const f of ['core/geometry.js','world/building-type.js','world/building-placement.js'])
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/'+f,import.meta.url),'utf8'),ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/'+f,import.meta.url),'utf8'),ctx);
 const create=()=>ctx.BuildingPlacement.create({geometry:ctx.MapGeometry,types:ctx.BuildingType,terrainY:(x,z)=>x+z});
 const record=(x=0)=>({r:[[x,0],[x,10],[x+10,10],[x+10,0]],c:1,h:4,area:100});
 test('explicit properties bypass road filtering and cached collision results reset',()=>{

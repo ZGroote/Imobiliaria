@@ -31,7 +31,7 @@ function fixture(modular) {
     openPoiSheet:p=>log.push(['poi',p.id]), aim:a=>log.push(['aim',a.x,a.z]),
     flyTo:(x,z,r)=>log.push(['voo',x,z,r]), sph:{radius:900}, frameLoop:()=>log.push(['laco'])});
   if(modular) {
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/ui/search-box.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/ui/search-box.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`globalThis.api=SearchBox.create({document, addEventListener, bq, bres, esc,
       buscaAgora, INT, saiSeco, openPoiSheet, aim, flyTo, sph, frameLoop});`,ctx);
   } else vm.runInContext(source+'\nglobalThis.api={pintaBusca,vaiPara};',ctx);

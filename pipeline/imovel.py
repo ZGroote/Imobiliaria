@@ -83,6 +83,57 @@ def _deep_link(unidade_id):
     ) % json.dumps(unidade_id)
 
 
+def _voltar(maquete_href):
+    """O "Voltar ao imovel", ou nada.
+
+    Sem `maquete_href` nao existe ficha pra onde voltar -- `pipeline/imovel.py` roda
+    sozinho e gera mapa sem maquete ao lado --, e um botao que nao volta pra lugar
+    nenhum e pior que botao ausente.
+
+    `history.back()` quando a pessoa VEIO da maquete: o navegador devolve a pagina do
+    bfcache, no angulo em que ela estava, sem baixar 2 MB de novo. Quando ela chegou
+    por link direto nao ha historico, e a ancora carrega a pagina normalmente. Por
+    isso e uma ancora de verdade e nao um botao: ela funciona nos dois casos, e ainda
+    abre noutra aba no botao do meio.
+    """
+    if not maquete_href:
+        return ''
+    return (
+        '<a id="voltarImovel" class="card" href="%s"\n'
+        '   title="Voltar para a ficha e a maquete deste imovel">&lsaquo; Voltar ao im&oacute;vel</a>\n'
+        '<script>\n'
+        'addEventListener("click", function (ev) {\n'
+        '  var a = ev.target.closest && ev.target.closest("#voltarImovel");\n'
+        '  if (!a || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button !== 0) return;\n'
+        '  try {\n'
+        '    if (document.referrer === new URL(a.getAttribute("href"), location.href).href) {\n'
+        '      ev.preventDefault(); history.back();\n'
+        '    }\n'
+        '  } catch (e) { /* sem URL() ou origem opaca: a ancora leva do jeito normal */ }\n'
+        '}, true);\n'
+        '</script>\n'
+        '<style>\n'
+        '/* NA MESMA LINHA do "Navegar pelo mapa", e nao embaixo dele. Medido nesta\n'
+        '   pagina: a vitrine de imoveis ocupa o canto direito de y=54 pra baixo, entao\n'
+        '   so cabe UM botao empilhado ali -- o segundo cairia em cima do titulo dela.\n'
+        '   A faixa de y=14 a 47 esta livre da busca (que acaba em x=228) ate a vitrine,\n'
+        '   e e onde os dois cabem lado a lado.\n'
+        '   Voltar fica no canto, que e a posicao de mais alcance: e a acao de quem ja\n'
+        '   viu o que queria. O empurrao no #irAoMapa vale so no tamanho grande; no\n'
+        '   estreito ele ja desce pro rodape sozinho. */\n'
+        '#voltarImovel{position:fixed;right:14px;top:14px;z-index:41;padding:9px 13px;\n'
+        '  border-radius:10px;text-decoration:none;color:#e8edf2;\n'
+        '  font:600 13px/1 system-ui,-apple-system,sans-serif}\n'
+        '#voltarImovel:hover{color:#fff}\n'
+        '@media (min-width:701px){#irAoMapa{right:168px}}\n'
+        '/* Dentro do apartamento ele sai, pelo mesmo motivo do #irAoMapa: a ancora\n'
+        '   cobre os controles do interior, e ali dentro ja existe "Voltar ao mapa". */\n'
+        'body.dentro #voltarImovel{display:none}\n'
+        '@media (max-width:700px){#voltarImovel{top:auto;bottom:118px;right:10px}}\n'
+        '</style>\n'
+    ) % _esc(maquete_href)
+
+
 def _snippet(lat, lon, mapa_href, titulo):
     """Posicao inicial + botao de navegar, inserido antes do canvas."""
     em = "em=%.5f,%.5f&r=%d&p=%.2f&t=%.2f" % (lat, lon, VISTA["r"], VISTA["p"],
@@ -207,7 +258,7 @@ def _unidades(CID, apenas=None):
     return fica
 
 
-def gera(config, unidade, raio, destino, mapa_href, base=""):
+def gera(config, unidade, raio, destino, mapa_href, base="", maquete_href=None):
     CID = config.cidade()
     lote = unidade["lote"]
     r = recorte.para_unidade(CID, unidade, raio)
@@ -224,6 +275,7 @@ def gera(config, unidade, raio, destino, mapa_href, base=""):
     corte = html.index('<canvas id="c">')
     html = (html[:corte]
             + _snippet(lote["lat"], lote["lon"], mapa_href, unidade["id"])
+            + _voltar(maquete_href)
             + _deep_link(unidade["id"])
             + html[corte:])
     io.open(alvo, "w", encoding="utf-8", newline="").write(html)

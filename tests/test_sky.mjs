@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 
 const CHECKPOINT = '81b9c37';
 const root = fileURLToPath(new URL('..', import.meta.url)).replace(/\\/g, '/').replace(/\/$/, '');
-const three = fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8');
+const three = fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8');
 const HASH = `const hash = id => { let h = 2166136261 ^ id; h = Math.imul(h ^ (h>>>15), 2246822507);
   h = Math.imul(h ^ (h>>>13), 3266489909); return ((h ^ (h>>>16))>>>0) / 4294967296; };`;
 
@@ -40,7 +40,7 @@ function oracle(ceuTex) {
 }
 function modular(ceuTex) {
   const ctx = context(ceuTex);
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/scene/sky.js', import.meta.url), 'utf8'), ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/scene/sky.js', import.meta.url), 'utf8'), ctx);
   vm.runInContext(`(() => { ${HASH} globalThis.__o = SkyDome.create({THREE, document, scene: __scene, NIVEL: __nivel, hash}); })();`, ctx);
   return ctx;
 }

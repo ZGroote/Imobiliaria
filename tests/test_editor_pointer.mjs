@@ -16,7 +16,7 @@ function create(modular) {
     paraUV:(x,z)=>[x,z],dirUV:(m,x,z)=>[x,z],arred:x=>Math.round(x*10)/10,
     redimensiona:(m,k,v,s)=>{calls.push(['resize',k,v,s]);m[k]=v;},cabeAqui:()=>true,
     atualizaMovel:()=>calls.push('update'),seleciona:i=>calls.push(['select',i]),salvaMoveis:()=>calls.push('save'),pintaMedidas:()=>calls.push('labels')});
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
   vm.runInContext(`const camera=new THREE.PerspectiveCamera(60,800/600,.1,100);
     camera.position.set(0,8,10);camera.lookAt(0,0,0);camera.updateMatrixWorld();
     const INT={on:true,sel:0,baseY:0,pl:{W:(u,v)=>[u,v]},moveis:[{u:0,v:0,w:2,d:1,h:1}]};
@@ -24,7 +24,7 @@ function create(modular) {
     const handle=new THREE.Mesh(new THREE.SphereGeometry(.4),new THREE.MeshBasicMaterial());
     handle.userData.eixo={k:'w',s:1};mobSetas.add(handle);mobSetas.updateMatrixWorld(true);
     const selBox={material:{color:new THREE.Color()}};`,ctx);
-  if(modular){vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/interior/editor-pointer.js',import.meta.url),'utf8'),ctx);
+  if(modular){vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/interior/editor-pointer.js',import.meta.url),'utf8'),ctx);
     vm.runInContext('globalThis.api=EditorPointer.create({THREE,canvas,camera,INT,MOB,mobSetas,mobMed,cameraGestures,paraUV,dirUV,arred,redimensiona,cabeAqui,atualizaMovel,seleciona,selBox,MOB_VERDE,MOB_VERMELHO,salvaMoveis,pintaMedidas,getWidth:()=>innerWidth,getHeight:()=>innerHeight});',ctx);
   }else vm.runInContext('const rcaster=new THREE.Raycaster(),_ndc=new THREE.Vector2(),_mobV=new THREE.Vector3();'+source,ctx);
   return {ctx,calls,captured,setMulti:x=>multi=x,send(type,extra={}){for(const f of handlers[type]||[])f({type,button:0,pointerId:1,clientX:400,clientY:300,...extra});}};

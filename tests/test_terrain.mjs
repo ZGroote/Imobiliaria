@@ -5,7 +5,7 @@ import test from 'node:test';
 
 const ctx = vm.createContext({});
 for (const file of ['lib/three.min.js', 'terrain-fit.js', 'world/terrain.js'])
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/' + file, import.meta.url), 'utf8'), ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/' + file, import.meta.url), 'utf8'), ctx);
 const T = ctx.THREE;
 const create = () => ctx.WorldTerrain.create({THREE: T, TerrainFit: ctx.TerrainFit,
   n: 2, half: 10, exaggeration: 1, getAmount: () => 0});

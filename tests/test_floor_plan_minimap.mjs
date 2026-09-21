@@ -11,12 +11,12 @@ function context(modular,angle) {
   const calls=[],drawing=new Proxy({}, {get:(_,k)=>(...args)=>calls.push([k,...args]),set:(_,k,v)=>{calls.push(['=',k,v]);return true;}});
   const ctx=vm.createContext({document:{body:{}},getComputedStyle:()=>({fontFamily:'Arial'}),
     MM:{cv:{width:170,getContext:()=>drawing}},INT:{},FP:{pos:{x:1,z:1},yaw:.7},camera:{fov:65,aspect:1.5}});
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/core/geometry.js',import.meta.url),'utf8'),ctx);ctx.inside=ctx.MapGeometry.inside;
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/core/geometry.js',import.meta.url),'utf8'),ctx);ctx.inside=ctx.MapGeometry.inside;
   ctx.INT.pl={ob:{cx:0,cz:0,ux:Math.cos(angle),uz:Math.sin(angle)},pd:2.6,area:30,
     comodos:[{nome:'Sala',area:20,poly:[[0,0],[5,0],[5,4],[0,4]]},{nome:'Cozinha',area:10,poly:[[5,0],[7,0],[7,4],[5,4]]}],
     paredes:[{a:[0,0],b:[5,0],y0:0,y1:2.6},{a:[5,0],b:[5,4],y0:1,y1:2.6}],
     esquadrias:[{a:[0,1],b:[0,2],porta:false},{a:[5,1],b:[5,2],porta:true}]};
-  if(modular){vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/ui/floor-plan-minimap.js',import.meta.url),'utf8'),ctx);
+  if(modular){vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/ui/floor-plan-minimap.js',import.meta.url),'utf8'),ctx);
     vm.runInContext('globalThis.api=FloorPlanMinimap.create({INT,MM,FP,camera,inside,document,getComputedStyle});',ctx);
   } else vm.runInContext(source+'\nglobalThis.api={locDaPlanta,desenhaPlantaMini};',ctx);
   return {ctx,calls};

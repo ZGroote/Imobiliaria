@@ -3,7 +3,7 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 const root=new URL('../../../',import.meta.url);
 for(const name of ['lib/three.min.js','terrain-fit.js','urban-models.js'])
-  vm.runInThisContext(fs.readFileSync(new URL('renderizador-v16-moveis/'+name,root),'utf8'));
+  vm.runInThisContext(fs.readFileSync(new URL('v1.5/renderizador-v16-moveis/'+name,root),'utf8'));
 const T=globalThis.THREE;
 // Curved hillside with a grid-cell boundary inside a long road segment.
 const grid=[0,12,30,3,21,27,2,11,22];

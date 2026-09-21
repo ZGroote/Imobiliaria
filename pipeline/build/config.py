@@ -25,8 +25,13 @@ class BuildConfig:
 
     @property
     def fonte(self):
-        return RAIZ / ('renderizador' if self.versao == V_PADRAO
-                       else 'renderizador-' + self.versao)
+        # O v15 e o monolito de onde as pecas foram extraidas, e continua na raiz.
+        # O que saiu da modularizacao foi reunido em `v1.5/`, junto das miniaturas,
+        # entao dai pra frente a fonte mora um nivel abaixo. O nome da variante nao
+        # muda: MAPA_V continua sendo a chave de SAIDA (v16-moveis/...html).
+        if self.versao == V_PADRAO:
+            return RAIZ / 'renderizador'
+        return RAIZ / 'v1.5' / ('renderizador-' + self.versao)
 
     def cidade(self):
         from padrao.cidade import carrega

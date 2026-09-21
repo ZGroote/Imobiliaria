@@ -15,7 +15,7 @@ for(const largePalette of [false,true]) test(`procedural building buffers preser
   const ctx=vm.createContext({APAR:{parede_grande:largePalette},CLS:['none','res','biz','civic'],TILE_M:500,LV:3.15,
     terrainY:(x,z)=>x*.03-z*.02,registerTerrain:()=>{},explicitBuilding:b=>b.lancamento||b.parede!=null||b.sacadas,roadSafety:null});
   for(const file of ['lib/three.min.js','lib/earcut.min.js','core/geometry.js','world/building-type.js','world/buildings.js'])
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/'+file,import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/'+file,import.meta.url),'utf8'),ctx);
   Object.assign(ctx,ctx.MapGeometry,ctx.BuildingType);
   ctx.triangulateRing=r=>ctx.MapGeometry.triangulateRing(r,ctx.earcut,()=>{throw Error('unexpected fallback');});
   vm.runInContext(hashSource+';globalThis.hash=hash;'+pal+roof+fn+';globalThis.before=buildBuildings;',ctx);

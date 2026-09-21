@@ -9,7 +9,7 @@ import {fileURLToPath} from 'node:url';
 
 const CHECKPOINT = 'e9bd8b1';
 const root = fileURLToPath(new URL('..', import.meta.url)).replace(/\\/g, '/').replace(/\/$/, '');
-const read = name => fs.readFileSync(new URL('../renderizador-v16-moveis/' + name, import.meta.url), 'utf8');
+const read = name => fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/' + name, import.meta.url), 'utf8');
 const lib = fs.readFileSync(new URL('../moveis/moveis_lib.json', import.meta.url), 'utf8');
 
 const SETUP = `const _c = new THREE.Color();

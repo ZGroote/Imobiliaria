@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('..',import.meta.url)).replaceAll('\\','/').replace(/\/$/,'');
 const original=execFileSync('git',['-c','safe.directory='+root,'show','6623aa2:renderizador-v16-moveis/app.js'],{encoding:'utf8',maxBuffer:2e6}).replaceAll('\r','');
 const source=original.slice(original.indexOf('function guardaDia()'),original.indexOf('$("tNoite").addEventListener'));
-const three=fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8');
+const three=fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8');
 function create(modular) {
   const ctx=vm.createContext({});vm.runInContext(three,ctx);
   vm.runInContext(`const NOITE={on:false,t:0,dia:null},INT={on:false},uNoite={value:0},calls=[];
@@ -20,7 +20,7 @@ function create(modular) {
     const guarda={grava:(...a)=>calls.push(['save',...a])},sujaSombra=()=>calls.push(['shadow']),frameLoop=()=>calls.push(['frame']);
     const $=()=>({setAttribute:(...a)=>calls.push(['button',...a])});`,ctx);
   if(modular){
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/scene/day-night.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/scene/day-night.js',import.meta.url),'utf8'),ctx);
     vm.runInContext('globalThis.api=DayNight.create({THREE,NOITE,renderer,sun,hemi,scene,INT,CEU,uNoite,sujaSombra,guarda,frameLoop,el:$});',ctx);
   } else vm.runInContext(source+'\nglobalThis.api={aplicaNoite,setNoite};',ctx);
   return ctx;

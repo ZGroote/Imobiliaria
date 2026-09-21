@@ -6,7 +6,7 @@ import test from 'node:test';
 class Path2D { constructor(){ this.ops=[]; built.push(this); } moveTo(...a){this.ops.push(['m',...a]);} lineTo(...a){this.ops.push(['l',...a]);} arc(...a){this.ops.push(['a',...a]);} }
 const built=[];
 const ctx=vm.createContext({Path2D,document:{body:{}},getComputedStyle:()=>({fontFamily:'x'})});
-vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/ui/minimap.js',import.meta.url),'utf8'),ctx);
+vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/ui/minimap.js',import.meta.url),'utf8'),ctx);
 
 function setup(){
   const calls=[];

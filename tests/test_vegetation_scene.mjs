@@ -5,7 +5,7 @@ import test from 'node:test';
 
 const ctx=vm.createContext({console});
 for(const file of ['lib/three.min.js','world/vegetation-scene.js'])
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/'+file,import.meta.url),'utf8'),ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/'+file,import.meta.url),'utf8'),ctx);
 const {THREE,VegetationScene}=ctx;
 const species={pos:new Float32Array([0,0,0,1,0,0,0,1,0]),nrm:new Float32Array(9),col:new Float32Array(9)};
 const makePlant=(x,sp=0)=>({x,z:0,sp,rua:true,s:1,rot:0,tint:1});

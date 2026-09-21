@@ -2,6 +2,11 @@
 
     python pipeline/preparar_piloto.py
     python pipeline/preparar_piloto.py --destino <diretorio-novo>
+    python pipeline/preparar_piloto.py --versao 1.5        # -> releases/1.5/
+
+Cada imovel sai em duas leituras: o TOUR (`mapa/imovel-<id>.html`, precisa de HTTP
+por causa dos tiles de quintal) e a MAQUETE (`maquete/<id>.html`, abre com duplo
+clique).
 
 Uma pasta existente nunca e sobrescrita. O manifesto registra o que foi montado;
 nao transforma montagem bem-sucedida em aprovacao de QA ou de produto.
@@ -13,6 +18,7 @@ from html import escape
 import json
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 import tempfile
 
@@ -25,6 +31,7 @@ from pipeline.build.html import comprime
 from pipeline.build.manifest import entradas, snapshot
 
 PILOTO = RAIZ / 'tasks/v1.0/piloto.json'
+MAQUETE = RAIZ / 'v1.5/miniaturas/pagina_maquete.py'
 
 
 def sha256(path):
@@ -37,9 +44,12 @@ def indice(unidades, versao):
     for u in unidades:
         titulo, descricao = imovel._texto_da_ficha(u)
         url = 'mapa/imovel-' + u['id'] + '.html?imovel=' + u['id'] + '&modo=ficha'
+        maquete = 'maquete/' + u['id'] + '.html'
         cards.append('<article><h2>' + escape(titulo) + '</h2><p>' +
                      escape(descricao) + '</p><a href="' + escape(url, quote=True) +
-                     '">Abrir imóvel e tour</a></article>')
+                     '">Abrir imóvel e tour</a><br><a href="' +
+                     escape(maquete, quote=True) +
+                     '">Ver a maquete (abre sem servidor)</a></article>')
     return '''<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -61,9 +71,12 @@ de compartilhamento e a validação em celulares estão no plano de desenvolvime
 </main></body></html>'''
 
 
-def preparar(destino=None):
+def preparar(destino=None, versao=None):
     piloto = json.loads(PILOTO.read_text(encoding='utf-8'))
-    versao = piloto['versao_desenvolvimento']
+    # A versao e parametro porque o manifesto nao pode discordar do nome da pasta: uma
+    # base montada em `releases/1.5/` que se declara `1.0.0-dev.1` e um manifesto que
+    # mente, e o manifesto e a unica coisa que diz o que foi montado de onde.
+    versao = versao or piloto['versao_desenvolvimento']
     config = resolve(piloto['cidade'], piloto['variante'])
     alvo = Path(destino).resolve() if destino else RAIZ / 'releases' / versao
     if alvo.exists():
@@ -88,7 +101,7 @@ def preparar(destino=None):
             raise ValueError('tile ausente ou vazio: ' + str(source))
 
     fontes = entradas(config) + [PILOTO, Path(__file__), RAIZ / 'pipeline/imovel.py',
-                                RAIZ / 'pipeline/recorte.py']
+                                RAIZ / 'pipeline/recorte.py', MAQUETE]
     hashes_fontes = snapshot(fontes)
     alvo.parent.mkdir(parents=True, exist_ok=True)
     trabalho = Path(tempfile.mkdtemp(prefix='.piloto-', dir=alvo.parent))
@@ -99,15 +112,35 @@ def preparar(destino=None):
         nome_mapa = 'sao-carlos-' + hashlib.sha256(completo.encode('utf-8')).hexdigest()[:12] + '.html'
         (mapa / nome_mapa).write_text(completo, encoding='utf-8')
         for u in unidades:
-            pagina, _, _ = imovel.gera(config, u, piloto['raio_entorno_m'], str(mapa), nome_mapa)
+            # A ida e a volta sao um par: o tour ganha "Voltar ao imovel" porque a
+            # maquete dele nasce logo abaixo, no mesmo pacote.
+            pagina, _, _ = imovel.gera(config, u, piloto['raio_entorno_m'], str(mapa),
+                                       nome_mapa,
+                                       maquete_href='../maquete/' + u['id'] + '.html')
             print('tour:', Path(pagina).name)
+        # A maquete e a UNICA peca da base que abre com duplo clique: ela nao busca
+        # tile nenhum, entao nao depende do servidor local que o tour exige.
+        maquetes = trabalho / 'maquete'
+        maquetes.mkdir()
+        for u in unidades:
+            pagina = maquetes / (u['id'] + '.html')
+            # O "Ver mapa" so existe porque AQUI ha um mapa ao lado. A maquete
+            # gerada solta nao recebe `--mapa` e sai sem o botao.
+            subprocess.run([sys.executable, str(MAQUETE), '--cidade', piloto['cidade'],
+                            '--unidade', u['id'], '--saida', str(pagina),
+                            '--mapa', '../mapa/imovel-' + u['id'] + '.html'],
+                           check=True, cwd=str(RAIZ), stdout=subprocess.DEVNULL)
+            print('maquete:', pagina.name)
         (mapa / prefixo).mkdir(parents=True, exist_ok=True)
         for key in tiles['keys']:
             shutil.copy2(origem_tiles / (key + '.bin'), mapa / prefixo / (key + '.bin'))
         (trabalho / 'index.html').write_text(indice(unidades, versao), encoding='utf-8')
         (trabalho / 'LEIA-ME.md').write_text(
             '# Piloto ' + versao + '\n\nBase local em desenvolvimento; nao publicada.\n\n'
-            'Abra por HTTP para carregar os quintais:\n\n'
+            '`maquete/<imovel>.html` abre com DUPLO CLIQUE: cada pagina leva o three.js,\n'
+            'a planta e os moveis dentro dela, e nao busca nada pela rede.\n\n'
+            'O tour (`mapa/imovel-<imovel>.html`) precisa de HTTP, porque busca os tiles\n'
+            'de quintal:\n\n'
             '```powershell\npython -m http.server 8765 --bind 127.0.0.1 --directory "' +
             str(alvo) + '"\n```\n\nAbra http://127.0.0.1:8765/ no navegador.\n\n'
             'Plano e pendencias: tasks/v1.0/ no repositorio.\n', encoding='utf-8')
@@ -125,6 +158,7 @@ def preparar(destino=None):
             'fontes': {Path(k).relative_to(RAIZ).as_posix(): v for k, v in hashes_fontes.items()},
             'arquivos': arquivos,
             'verificacoes': {'montagem': 'concluida', 'tiles_copiados': len(tiles['keys']),
+                            'maquetes': len(unidades),
                             'qa_completo': 'pendente', 'mobile_real': 'pendente',
                             'preview_whatsapp': 'pendente', 'quatro_modos': 'pendente'},
         }
@@ -141,7 +175,9 @@ def preparar(destino=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--destino', help='diretorio novo para a base local')
+    parser.add_argument('--versao', help='sobrepoe a versao de tasks/v1.0/piloto.json')
+    args = parser.parse_args()
     try:
-        preparar(parser.parse_args().destino)
+        preparar(args.destino, args.versao)
     except ValueError as exc:
         parser.exit(1, str(exc) + '\n')

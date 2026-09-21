@@ -37,7 +37,7 @@ function oracle(toque) {
 function modular(toque) {
   const j = fakeJoy();
   const ctx = vm.createContext({});
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/interior/first-person.js', import.meta.url), 'utf8'), ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/interior/first-person.js', import.meta.url), 'utf8'), ctx);
   ctx.__joy = j.el;
   vm.runInContext(`(() => { ${SETUP}
     globalThis.__o = FirstPerson.create({FP, teclas, livre, joy: __joy, TOQUE: ${toque}}); })();`, ctx);

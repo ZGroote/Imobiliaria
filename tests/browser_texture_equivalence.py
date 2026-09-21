@@ -16,7 +16,7 @@ def main():
         '0131e88:renderizador-v16-moveis/app.js'], cwd=ROOT).decode('utf-8')
     source = source[source.index('/* ---- textura sem arquivo'):source.index('const {matInt, matVidro')]
     names = 'texParede, texPiso, texMadeira, nrmParede, nrmPiso, nrmMadeira, rugParede, rugPiso, rugMadeira'
-    renderer = ROOT / 'renderizador-v16-moveis'
+    renderer = ROOT / 'v1.5' / 'renderizador-v16-moveis'
     scripts = [
         (renderer / 'lib/three.min.js').read_text(encoding='utf-8'),
         'function before(){' + source + '\nreturn {' + names + '};}',

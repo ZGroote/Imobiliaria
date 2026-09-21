@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import test from 'node:test';
 
-vm.runInThisContext(fs.readFileSync(new URL('../renderizador-v16-moveis/scene/diagnostics.js', import.meta.url), 'utf8'));
+vm.runInThisContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/scene/diagnostics.js', import.meta.url), 'utf8'));
 
 test('QA reads the current scene and deferred vegetation without DOM or source injection', () => {
   const scene = {}, renderer = {};

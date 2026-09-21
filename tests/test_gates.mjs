@@ -10,10 +10,10 @@ const source=original.slice(start,original.indexOf('/* =========================
 const data=Array.from({length:280},(_,i)=>[10,(i%2?10:-10),i%256,30+i%30,i%4]).flat();
 const ctx=vm.createContext({console,document:{getElementById:()=>({textContent:JSON.stringify(data)})},
   terrainY:(x,z)=>x*.1+z*.2,reliefAmount:0,SOMBRA_CIDADE:true,PORT_RAIO:700});
-vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
+vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
 ctx.target=new ctx.THREE.Vector3();ctx.scene=new ctx.THREE.Scene();
 vm.runInContext(source+'\nglobalThis.old={group:gPort,refresh:refazPortoes};',ctx);
-vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/world/gates.js',import.meta.url),'utf8'),ctx);
+vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/world/gates.js',import.meta.url),'utf8'),ctx);
 const gates=ctx.Gates.create({THREE:ctx.THREE,data,target:ctx.target,terrainY:ctx.terrainY,
   getRelief:()=>ctx.reliefAmount,SOMBRA_CIDADE:true});
 const snapshot=group=>JSON.stringify(group.children.map(mesh=>({count:mesh.count,

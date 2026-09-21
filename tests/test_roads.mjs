@@ -9,7 +9,7 @@ const original = execFileSync('git', ['-c', 'safe.directory=' + process.cwd().re
 const block = original.slice(original.indexOf('const viaJunctions'), original.indexOf('const {matVia}'));
 const ctx = vm.createContext({ROAD_W:{residential:7.5,primary:13}, HW:['residential','primary'], registerTerrain: () => {}});
 for (const name of ['lib/three.min.js','world/roads.js'])
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/'+name, import.meta.url),'utf8'),ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/'+name, import.meta.url),'utf8'),ctx);
 vm.runInContext(block+';globalThis.before={indexaJuncoes,buildRibbons};',ctx);
 
 function compare(roads, batch=roads) {

@@ -16,11 +16,11 @@ const cases = [
 for (const [name, start, variable, type] of cases) {
   test(`${name} preserves surface shader, texture references and render settings`, () => {
     const ctx = vm.createContext({K: {asfaltoPlano: 0x555555}, TEX_CIDADE: {chao: {}}, GLSL_RUIDO: 'noise fixture'});
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8'), ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8'), ctx);
     const from = original.indexOf(start), to = original.indexOf('  const m = new THREE.Mesh(g, ' + variable + ');', from);
     assert(from >= 0 && to > from);
     vm.runInContext(wall + original.slice(from, to) + ';globalThis.before=' + variable, ctx);
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/materials/surfaces.js', import.meta.url), 'utf8'), ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/materials/surfaces.js', import.meta.url), 'utf8'), ctx);
     const b = ctx.SurfaceMaterials.create({...ctx, GLSL_RUIDO: ctx.GLSL_RUIDO})[name](), a = ctx.before;
     const shader = () => ({uniforms: {}, vertexShader: ctx.THREE.ShaderLib[type].vertexShader,
       fragmentShader: ctx.THREE.ShaderLib[type].fragmentShader});

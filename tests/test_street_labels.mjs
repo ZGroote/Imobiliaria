@@ -6,7 +6,7 @@ import test from 'node:test';
 test('street labels filter, project, hide and recreate at an unchanged camera', () => {
   const ctx=vm.createContext({});
   for(const name of ['lib/three.min.js','ui/street-labels.js'])
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/'+name,import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/'+name,import.meta.url),'utf8'),ctx);
   const children=[];
   const document={createElement:()=>({style:{},remove(){children.splice(children.indexOf(this),1);}})};
   let height=0;

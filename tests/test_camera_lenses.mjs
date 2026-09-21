@@ -22,7 +22,7 @@ function oracle(win) {
 }
 function modular(win) {
   const ctx = vm.createContext(win);
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/scene/camera-lenses.js', import.meta.url), 'utf8'), ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/scene/camera-lenses.js', import.meta.url), 'utf8'), ctx);
   return vm.runInContext('CameraLenses.create({NIVEL: __nivel})', ctx);
 }
 

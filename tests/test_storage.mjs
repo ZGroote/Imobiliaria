@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import test from 'node:test';
 
 const ctx = vm.createContext({});
-vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/core/storage.js', import.meta.url), 'utf8'), ctx);
+vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/core/storage.js', import.meta.url), 'utf8'), ctx);
 
 test('existing furniture and anchor keys are read and written without transformation', () => {
   const values = new Map([['int_sao-carlos_casa', '[{"tipo":"sofa"}]']]);

@@ -12,11 +12,11 @@ const names = ['matInt', 'matVidro', 'matEsq', 'matAlum', 'matParede', 'matFrio'
 
 test('interior materials preserve textures, transparency, reflection and ceiling shaders', () => {
   const ctx = vm.createContext({});
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8'), ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8'), ctx);
   for (const key of ['ambientePBR', 'texParede', 'texPiso', 'texMadeira', 'nrmParede', 'nrmPiso', 'nrmMadeira',
     'rugParede', 'rugPiso', 'rugMadeira']) ctx[key] = new ctx.THREE.Texture();
   vm.runInContext(basic + surfaces + ';globalThis.before={' + names.join(',') + '};', ctx);
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/materials/interior.js', import.meta.url), 'utf8'), ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/materials/interior.js', import.meta.url), 'utf8'), ctx);
   const after = ctx.InteriorMaterials.create(ctx);
   for (const name of names) {
     const a = ctx.before[name], b = after[name];

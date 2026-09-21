@@ -7,8 +7,8 @@ import test from 'node:test';
 const original = execFileSync('git', ['-c', 'safe.directory=' + process.cwd().replaceAll('\\', '/'),
   'show', '131b60e:renderizador-v16-moveis/app.js'], {encoding: 'utf8', maxBuffer: 2000000});
 const source = original.slice(original.indexOf('const RUA_MANCHA'), original.indexOf('function buildPatches'));
-const three = fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8');
-const module = fs.readFileSync(new URL('../renderizador-v16-moveis/materials/roads.js', import.meta.url), 'utf8');
+const three = fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8');
+const module = fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/materials/roads.js', import.meta.url), 'utf8');
 
 for (const photo of [false, true]) for (const sidewalk of [false, true]) {
   test(`road shader preserves photo=${photo}, sidewalk=${sidewalk}`, () => {

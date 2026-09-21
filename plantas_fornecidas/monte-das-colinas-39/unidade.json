@@ -1,0 +1,486 @@
+{
+  "id": "monte-das-colinas-39",
+  "cidade": "sao-carlos",
+  "predio_id": null,
+  "andar": 3,
+  "ficha": {
+    "titulo": "Apartamento 2 dormitórios, 39,30 m² — Monte das Colinas",
+    "empreendimento": "Monte das Colinas",
+    "bairro": "Jardim Botafogo",
+    "municipio": "São Carlos/SP",
+    "tipo": "venda",
+    "preco": null,
+    "quartos": 2,
+    "suites": 0,
+    "banheiros": 1,
+    "vagas": 1,
+    "area_total": 39.3,
+    "area_util": 39.3,
+    "endereco": "Rua Antonio Carlos Dalla Déa, 540 - Jardim Botafogo, São Carlos - SP",
+    "cep": "13573-564",
+    "construtora": "MRV",
+    "fonte": "mariaaires.com.br",
+    "url": "https://www.mariaaires.com.br/lancamentos/monte-das-colinas"
+  },
+  "_conflito": [
+    "O ENDEREÇO PUBLICADO NÃO FECHA COM O BAIRRO PUBLICADO, e os dois estão no mesmo",
+    "anúncio: 'Rua Antonio Carlos Dalla Déa, 540, JARDIM BOTAFOGO'.",
+    "",
+    "  - No CNEFE/IBGE 2022 a Rua Antônio Carlos Dalla Déa tem 112 endereços, TODOS com",
+    "    DSC_LOCALIDADE = 'RESIDENCIAL DEPUTADO JOSE ZAVAGLIA' e CEP 13573-564, entre",
+    "    lat -22,0442 e -22,0480. O grafo de ruas do mapa só conhece UMA rua com esse nome,",
+    "    no mesmo lugar. O nº 540 cairia entre o 538 e o 548, num quarteirão de casas",
+    "    geminadas já construído (138 edificações num raio de 130 m no city.json).",
+    "  - O Jardim Botafogo fica em -22,0254/-47,9104 (centróide dos 376 endereços do CNEFE",
+    "    com esse bairro) -- 2,3 km ao NORTE da Dalla Déa.",
+    "  - O marcador do MAPA do próprio anúncio (-22,02439/-47,91159) cai no Jardim",
+    "    Botafogo, não na Dalla Déa.",
+    "  - O agregador apto.vc e a MRV põem o empreendimento na Estrada Municipal Cônego",
+    "    Washington José Pera, em -22,02701/-47,91317, também no Jardim Botafogo.",
+    "",
+    "Três fontes contra uma: o BAIRRO está certo, a RUA do cadastro é que está errada.",
+    "A implantação abaixo segue o bairro. Se alguém confirmar a Dalla Déa 540, trocar",
+    "lat/lon/rumo aqui -- e contar que a quadra de lá já está cheia de casas."
+  ],
+  "planta": {
+    "origem": "fotos/monte-das-colinas/05.jpg (RESIDENCIAL MONTE DAS COLINAS - BLOCO 03 - APTO. 203)",
+    "escala_conferida": true,
+    "pe_direito": 2.6,
+    "_como_foi_medida": [
+      "A PIOR RESOLUÇÃO DAS QUATRO, e por isso o método muda: no arquivo do anúncio a planta",
+      "inteira ocupa 372 x 410 px (~58 px/m), e ela é uma IMAGEM RENDERIZADA -- as paredes são",
+      "brancas sobre fundo claro, não traço preto. A detecção de vão por buraco no traço, que",
+      "funcionou nas outras três, aqui devolve ruído: o limiar de escuro só pega móvel.",
+      "1. Os retângulos de cômodo saíram da leitura da imagem ampliada 3x, e não da CV.",
+      "2. ESCALA pela área: o retângulo inteiro dá 1.206.975 px² (na ampliação 3x) contra os",
+      "   39,30 m² da ficha -> 175,25 px/m ampliados. Conferida na cama de casal desenhada:",
+      "   350 x 240 px = 2,00 x 1,37 m (catálogo 1,98 x 1,38) e no cooktop 95 x 100 px =",
+      "   0,54 x 0,57 m (catálogo 0,58 x 0,51).",
+      "3. Os VÃOS saíram das BADGES numeradas do próprio material, que é a melhor informação",
+      "   que existe aqui: 11 = portas em compensado de madeira (4 delas), 10 = janelas em",
+      "   alumínio e vidro (5 delas). A posição é a do badge; a largura é a padrão do tipo,",
+      "   porque o desenho não a informa nesta resolução.",
+      "PORTÃO: a soma dos cômodos dá 39,28 m² contra 39,30 da ficha."
+    ],
+    "_incerteza": [
+      "A LARGURA de cada esquadria é padrão adotado, não medida -- diferente dos outros três,",
+      "onde ela saiu do buraco no traço. A posição e o tipo, esses vêm do material."
+    ],
+    "comodos": [
+      {
+        "nome": "Área de Serviço",
+        "area": 2.7,
+        "piso": "frio",
+        "poly": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.14,
+            0.0
+          ],
+          [
+            1.14,
+            2.37
+          ],
+          [
+            0.0,
+            2.37
+          ]
+        ]
+      },
+      {
+        "nome": "Cozinha",
+        "area": 4.05,
+        "piso": "madeira",
+        "poly": [
+          [
+            1.14,
+            0.0
+          ],
+          [
+            2.85,
+            0.0
+          ],
+          [
+            2.85,
+            2.37
+          ],
+          [
+            1.14,
+            2.37
+          ]
+        ]
+      },
+      {
+        "nome": "Sala/Jantar",
+        "area": 12.03,
+        "piso": "madeira",
+        "poly": [
+          [
+            0.0,
+            2.37
+          ],
+          [
+            2.85,
+            2.37
+          ],
+          [
+            2.85,
+            6.59
+          ],
+          [
+            0.0,
+            6.59
+          ]
+        ]
+      },
+      {
+        "nome": "Circulação",
+        "area": 1.42,
+        "piso": "madeira",
+        "poly": [
+          [
+            2.85,
+            2.68
+          ],
+          [
+            3.8,
+            2.68
+          ],
+          [
+            3.8,
+            4.17
+          ],
+          [
+            2.85,
+            4.17
+          ]
+        ]
+      },
+      {
+        "nome": "Quarto 1",
+        "area": 8.33,
+        "piso": "madeira",
+        "poly": [
+          [
+            2.85,
+            0.0
+          ],
+          [
+            5.96,
+            0.0
+          ],
+          [
+            5.96,
+            2.68
+          ],
+          [
+            2.85,
+            2.68
+          ]
+        ]
+      },
+      {
+        "nome": "Banho",
+        "area": 3.22,
+        "piso": "frio",
+        "poly": [
+          [
+            3.8,
+            2.68
+          ],
+          [
+            5.96,
+            2.68
+          ],
+          [
+            5.96,
+            4.17
+          ],
+          [
+            3.8,
+            4.17
+          ]
+        ]
+      },
+      {
+        "nome": "Quarto 2",
+        "area": 7.53,
+        "piso": "madeira",
+        "poly": [
+          [
+            2.85,
+            4.17
+          ],
+          [
+            5.96,
+            4.17
+          ],
+          [
+            5.96,
+            6.59
+          ],
+          [
+            2.85,
+            6.59
+          ]
+        ]
+      }
+    ],
+    "portas": [
+      {
+        "p": [
+          1.42,
+          2.37
+        ],
+        "largura": 2.6,
+        "tipo": "vao",
+        "y1": 2.6,
+        "_o_que_e": "cozinha/serviço e sala são UM espaço no desenho: o que separa é o balcão passa-prato, que é móvel, não parede"
+      },
+      {
+        "p": [
+          1.14,
+          1.2
+        ],
+        "largura": 2.3,
+        "tipo": "vao",
+        "y1": 2.6,
+        "_o_que_e": "área de serviço e cozinha idem: os dois nomes são do rótulo, não de uma divisória"
+      },
+      {
+        "p": [
+          3.3,
+          2.68
+        ],
+        "largura": 0.7,
+        "_o_que_e": "quarto 1, da circulação. ESTAVA EM [2.85, 2.51], sobre a divisa sala x quarto 1 -- que ali tem só 0,31 m de comprimento, então uma folha de 0,70 transbordava pra divisa vizinha (cozinha x quarto 1) e a porta abria da COZINHA. A badge 11 do desenho está em (3,11 / 2,45), que é a parede y=2,68."
+      },
+      {
+        "p": [
+          3.8,
+          3.42
+        ],
+        "largura": 0.7,
+        "_o_que_e": "banho, da circulação (badge 11)"
+      },
+      {
+        "p": [
+          3.3,
+          4.17
+        ],
+        "largura": 0.7,
+        "_o_que_e": "quarto 2, da circulação (badge 11)"
+      },
+      {
+        "p": [
+          2.85,
+          3.42
+        ],
+        "largura": 1.2,
+        "tipo": "vao",
+        "y1": 2.6,
+        "_o_que_e": "sala -> circulação: passagem sem folha"
+      }
+    ],
+    "janelas": [
+      {
+        "p": [
+          0.0,
+          1.6
+        ],
+        "largura": 0.8,
+        "_o_que_e": "área de serviço (badge 10: janela em alumínio e vidro)"
+      },
+      {
+        "p": [
+          0.0,
+          2.91
+        ],
+        "largura": 1.2,
+        "_o_que_e": "sala/jantar (badge 10)"
+      },
+      {
+        "p": [
+          5.96,
+          1.68
+        ],
+        "largura": 1.2,
+        "_o_que_e": "quarto 1 (badge 10)"
+      },
+      {
+        "p": [
+          5.96,
+          3.54
+        ],
+        "largura": 0.6,
+        "y0": 1.6,
+        "y1": 2.2,
+        "_o_que_e": "banho: basculante (badge 10)"
+      },
+      {
+        "p": [
+          5.96,
+          5.34
+        ],
+        "largura": 1.2,
+        "_o_que_e": "quarto 2 (badge 10)"
+      }
+    ],
+    "moveis": []
+  },
+  "fotos": [],
+  "_fotos": "as 6 imagens do anúncio foram baixadas temporariamente para leitura e não ficaram no repositório.",
+  "lote": {
+    "lat": -22.027419,
+    "lon": -47.91472,
+    "confirmado": false,
+    "rumo_graus": 135.7,
+    "_o_que_e": [
+      "LANÇAMENTO MRV em fase inicial (entrega anunciada entre 2027 e 2029): não existe",
+      "como volume na base. Conferido: nenhuma edificação do city.json dentro do retângulo,",
+      "nenhuma a menos de 60 m."
+    ],
+    "_como_foi_escolhido": [
+      "1. Ponto de partida: -22,02701/-47,91317, que é onde o apto.vc põe o empreendimento,",
+      "   na Estrada Municipal Cônego Washington José Pera / Av. José Pereira Lopes.",
+      "   Fica a 330 m do marcador do próprio anúncio, e os dois estão no Jardim Botafogo.",
+      "2. Desse ponto, 160 m a oeste e 45 m ao sul: é o centro de uma GLEBA TERRAPLENADA",
+      "   de terra vermelha (~140 x 170 m) que a imagem Esri mostra colada na avenida --",
+      "   a única área livre do tamanho de um condomínio de blocos MRV ali.",
+      "3. Rumo 135,7 graus = azimute da Av. José Pereira Lopes nesse trecho, do grafo de",
+      "   ruas do mapa. Bloco de condomínio se implanta paralelo à testada.",
+      "63,5 m do eixo da avenida (a fita acaba em 8,5 m) -- recuo de condomínio, não de",
+      "prédio de rua. Centro dentro de quadra, então há chão."
+    ],
+    "_incerteza": [
+      "±150 m, a maior das quatro. Além do conflito de endereço acima, nenhuma imagem",
+      "aérea disponível mostra obra: a gleba está apenas terraplenada na captura."
+    ],
+    "predio": {
+      "pavimentos": 4,
+      "largura_m": 32.0,
+      "profundidade_m": 12.0,
+      "cor_parede": "#C9B48F",
+      "_pavimentos": [
+        "4 pavimentos, que é o que a ficha do corretor (Cardinali) declara por bloco, e é o",
+        "padrão MRV de bloco sem elevador. Confere com a numeração das plantas do material:",
+        "apto 101 (1º), 202 e 203 (2º). Altura = 4 x 3,15 = 12,6 m.",
+        "O empreendimento tem VÁRIOS BLOCOS (o material fala em 'Bloco 03'); o mapa desenha",
+        "UM. O renderizador prende um único volume por unidade de lote."
+      ],
+      "_pegada": [
+        "ARBITRADA, e a mais frágil das quatro: não há perspectiva do prédio no material do",
+        "anúncio -- só plantas, interiores e uma aérea de localização. 32 x 12 m é o bloco",
+        "MRV típico de 4 apartamentos por andar com apartamento de ~39 m²",
+        "(4 x 39 x 1,45 ≈ 226 m² de laje; 32 x 12 = 384 m² inclui a escada e a circulação",
+        "aberta que esses blocos têm)."
+      ],
+      "_cor_parede": [
+        "SEM AMOSTRA: não há imagem da fachada no material. #C9B48F é o bege da mesma",
+        "construtora, um passo mais claro que o do Monte dos Cedros (#C4A87E), que ESSE sim",
+        "foi amostrado de perspectiva. Já vem calibrado na tela pelo mesmo motivo anotado lá."
+      ],
+      "_massa": [
+        "ARBITRADA, como a pegada: o material nao tem perspectiva do conjunto (so plantas,",
+        "interiores e uma aerea de localizacao). O que se sabe e que ha VARIOS BLOCOS (o",
+        "material fala em 'Bloco 03') e que o bloco MRV de 4 pavimentos sem elevador mede",
+        "~32 x 12. Quatro blocos em duas fileiras, 6 m entre blocos e 16 m entre fileiras",
+        "(o estacionamento), e o que cabe folgado na gleba terraplenada de ~140 x 170 m",
+        "escolhida no `_como_foi_escolhido`. O NUMERO de blocos e o arranjo sao a parte",
+        "fraca -- trocar aqui muda o conjunto no mapa, e mais nada."
+      ],
+      "blocos": [
+        {
+          "_o_que_e": "Bloco 03, o das plantas do material; e onde mora a unidade. Fica no PONTO do lote e com a pegada declarada em largura_m/profundidade_m -- os outros tres e que se arrumam em volta. Mexer nisto muda o interior: a casca da unidade e este retangulo.",
+          "principal": true,
+          "du": 0,
+          "dv": 0,
+          "largura_m": 32,
+          "profundidade_m": 12,
+          "sacadas": {
+            "por_face": 4,
+            "largura_m": 2.4,
+            "avanco_m": 1.1,
+            "de_pav": 1
+          },
+          "faixa_pav": {
+            "altura_m": 0.55,
+            "avanco_m": 0.3
+          }
+        },
+        {
+          "du": -38,
+          "dv": 0,
+          "largura_m": 32,
+          "profundidade_m": 12,
+          "sacadas": {
+            "por_face": 4,
+            "largura_m": 2.4,
+            "avanco_m": 1.1,
+            "de_pav": 1
+          },
+          "faixa_pav": {
+            "altura_m": 0.55,
+            "avanco_m": 0.3
+          }
+        },
+        {
+          "du": 0,
+          "dv": 28,
+          "largura_m": 32,
+          "profundidade_m": 12,
+          "sacadas": {
+            "por_face": 4,
+            "largura_m": 2.4,
+            "avanco_m": 1.1,
+            "de_pav": 1
+          },
+          "faixa_pav": {
+            "altura_m": 0.55,
+            "avanco_m": 0.3
+          }
+        },
+        {
+          "du": -38,
+          "dv": 28,
+          "largura_m": 32,
+          "profundidade_m": 12,
+          "sacadas": {
+            "por_face": 4,
+            "largura_m": 2.4,
+            "avanco_m": 1.1,
+            "de_pav": 1
+          },
+          "faixa_pav": {
+            "altura_m": 0.55,
+            "avanco_m": 0.3
+          }
+        },
+        {
+          "_o_que_e": "portaria",
+          "du": -19,
+          "dv": -14,
+          "largura_m": 8,
+          "profundidade_m": 4,
+          "pavimentos": 1,
+          "classe": 2,
+          "cor_parede": "#B3A184"
+        }
+      ]
+    }
+  },
+  "cores": {
+    "parede": "#D1CABF",
+    "rodape": "#F3F1ED",
+    "piso_frio": "#BAB2A6",
+    "piso_madeira": "#96703F",
+    "teto": "#F1EFEA",
+    "_origem": "fotos 01 (sala/cozinha) e 02 (quartos) do anúncio: parede em pintura lisa clara, cozinha com marcenaria verde-oliva, piso da sala e dos quartos em tom de madeira média. ATENÇÃO: o desenho anota que a sala e os quartos são entregues com PISO NIVELADO SEM REVESTIMENTO (badge 9) -- a madeira aqui é a do render, não a da entrega.",
+    "_calibracao": "Escurecidas ~5% em 04/09/2026 depois de medir: com os tons amostrados direto do render do anúncio a cena de dentro saía com média 175,3 e faixa 77,1, fora dos limites do portão `exposição do interior` (média 120-175, faixa >=80). É o mesmo efeito da fachada: a saída sRGB mais o ACES levantam o valor, então cor de catálogo chega lavada. Os valores aqui são os que CHEGAM certos na tela.",
+    "_piso": "Pedido do usuário em 04/09/2026: chão em TÁBUA DE MADEIRA. Cerâmica ficou só onde ela é obrigatória — banho, área de serviço e a área externa (sacada/varanda). ATENÇÃO: isso CONTRARIA a especificação do anúncio, que manda cerâmica em toda a unidade; é escolha de apresentação, não o acabamento de entrega."
+  },
+  "_planta_qual": "A ficha da imobiliária é Planta 1, 2 dormitórios, 39,30 m². Das três plantas do material (apto 101 com área privativa, 202 com varanda, 203 sem nenhuma das duas), a 203 é a única cuja área fecha nos 39,30 m² sem contar quintal nem varanda."
+}

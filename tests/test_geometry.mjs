@@ -4,8 +4,8 @@ import vm from 'node:vm';
 import test from 'node:test';
 
 const ctx = vm.createContext({});
-vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/core/geometry.js', import.meta.url), 'utf8'), ctx);
-vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/lib/earcut.min.js', import.meta.url), 'utf8'), ctx);
+vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/core/geometry.js', import.meta.url), 'utf8'), ctx);
+vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/earcut.min.js', import.meta.url), 'utf8'), ctx);
 const G = ctx.MapGeometry, plain = value => JSON.parse(JSON.stringify(value));
 const rectangle = [[0, 0], [0, 10], [20, 10], [20, 0]];
 

@@ -35,7 +35,7 @@ function fixture(modular) {
     poeSetas:()=>log.push(['setas']), poeFantasma:m=>log.push(['fantasma',m.tipo]),
     tiraFantasma:()=>log.push(['tira-fantasma']), pintaMedidas:()=>log.push(['medidas']),
     registra:(...a)=>log.push(a)});
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
   vm.runInContext(`fazGrade=()=>{registra('grade');const g=new THREE.Mesh(new THREE.BufferGeometry());
       g.geometry.dispose=()=>registra('grade-dispose');return g;};
     var MOB_VERDE=0x5FC777;
@@ -49,7 +49,7 @@ function fixture(modular) {
       h:MOVEIS[tipo].b[1],cor:MOVEIS[tipo].cor,obj:new THREE.Group()};}
     INT.moveis.push(movel('cama',1,2),movel('sofa',3,4));`,ctx);
   if(modular) {
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/interior/editor-panel.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/interior/editor-panel.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`globalThis.api=EditorPanel.create({document, $, INT, MOB, MOB_VERDE, MOVEIS,
       MOVEL_KEYS, TOQUE, selBox, ipanel, atualizaMovel, salvaMoveis, fazGrade, poeSetas,
       poeFantasma, tiraFantasma, pintaMedidas,

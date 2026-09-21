@@ -51,7 +51,7 @@ function fixture(modular) {
         return {group:{visible:true,tipo:'gPoi'},layer};},
       contaPerto:(pois,x,z,r)=>{log.push(['conta',x,z,r]);
         const n={};for(const p of pois){const d=Math.hypot(p.x-x,p.z-z);if(d<=r)n[p.c]=(n[p.c]||0)+1;}return n;}}});
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
   vm.runInContext(`var camera=new THREE.PerspectiveCamera(55,1.5,1,20000);
     camera.position.set(0,300,600); camera.lookAt(new THREE.Vector3(0,0,0)); camera.updateMatrixWorld();
     camera.updateProjectionMatrix();
@@ -65,7 +65,7 @@ function fixture(modular) {
       v:new THREE.Vector3()}));`,ctx);
   ctx.__log=a=>log.push(a);
   if(modular) {
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/ui/poi-panel.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/ui/poi-panel.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`globalThis.api=PoiPanel.create({THREE, document, $, esc, overlay, scene, camera,
       sph, target, POIS, CAT, CAT_KEYS, PoiLayer, terrainY, registerTerrain, POI_HALO, POI_Y,
       POI_MAX, POI_NAME, usheet, hsheet, houseBeacon, flyTo, streamUpdate,

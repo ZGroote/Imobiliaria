@@ -34,7 +34,7 @@ function fixture(modular,hits,dentro=true) {
     seleciona:i=>log.push(['seleciona',i]), confirmaMover:()=>log.push(['confirma']),
     pintaCatalogo:()=>log.push(['catalogo']), poeNaCena:m=>log.push(['poe',m.tipo]),
     salvaMoveis:()=>log.push(['salva'])});
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
   vm.runInContext(`var camera=new THREE.PerspectiveCamera(60,1.25,.1,5000);
     camera.position.set(0,40,60); camera.lookAt(new THREE.Vector3(5,0,5)); camera.updateMatrixWorld();
     var gBuild=new THREE.Group(), CORTE={constant:2.5}, urban=null, escolhendo=null;
@@ -48,7 +48,7 @@ function fixture(modular,hits,dentro=true) {
     THREE.Raycaster.prototype.intersectObjects=function(objs){return globalThis.__hits(objs);};`,ctx);
   ctx.__hits=objs=>hits(objs,log);
   if(modular) {
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/ui/picking.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/ui/picking.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`globalThis.api=Picking.create({THREE, camera, gBuild, getUrban:()=>urban,
       guarda, chaveAncora, idDoRegistro, unidadeDoPredio, abreUnidade, cancelaEscolha,
       getEscolhendo:()=>escolhendo, INT, MOB, CORTE, MOVEIS, dentroDaPlanta, paraUV,

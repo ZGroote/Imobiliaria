@@ -1,10 +1,10 @@
 import fs from 'node:fs';import vm from 'node:vm';
 const root=new URL('../../../',import.meta.url);
 for(const file of ['core/geometry.js','core/city-data.js'])
-  vm.runInThisContext(fs.readFileSync(new URL('renderizador-v16-moveis/'+file,root),'utf8'));
+  vm.runInThisContext(fs.readFileSync(new URL('v1.5/renderizador-v16-moveis/'+file,root),'utf8'));
 const config=JSON.parse(fs.readFileSync(new URL('padrao/cidades/sao-carlos.json',root),'utf8'));
 const decode=CityData.createDecoder(config.quantizacao,MapGeometry.shoelace);
-vm.runInThisContext(fs.readFileSync(new URL('renderizador-v16-moveis/road-clearance.js',root),'utf8'));
+vm.runInThisContext(fs.readFileSync(new URL('v1.5/renderizador-v16-moveis/road-clearance.js',root),'utf8'));
 const html=fs.readFileSync(new URL('v16-moveis/sao-carlos-v16-moveis-aberto.html',root),'utf8');
 const data=JSON.parse(html.match(/id="__citydata">([\s\S]*?)<\/script>/)[1]);
 const {B,R}=decode(data),index=RoadClearance.create(R,w=>config.vias.largura[config.vias.ordem[w.k]]||6,0);

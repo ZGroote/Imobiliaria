@@ -6,7 +6,7 @@ import test from 'node:test';
 
 const ctx = vm.createContext({});
 for (const name of ['lib/three.min.js', 'materials/resources.js'])
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/' + name, import.meta.url), 'utf8'), ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/' + name, import.meta.url), 'utf8'), ctx);
 
 test('shared GLSL preserves the original bytes and final newline', () => {
   const source = execFileSync('git', ['-c', 'safe.directory=' + process.cwd().replaceAll('\\', '/'),

@@ -1,0 +1,103 @@
+{
+ "_gerado_por": "pipeline/mobiliar.py",
+ "_nota": "layout automatico; mobilia posta a mao em unidade.json.planta.moveis GANHA deste arquivo",
+ "_norma": "folgas conferidas contra ABNT NBR 15575-1 Anexo G (minimo) e NKBA/Panero-Zelnik (conforto)",
+ "_erros": [
+  "Cozinha/fogao: folga 0.05 m, norma pede 0.85"
+ ],
+ "_apertos": [],
+ "moveis": [
+  {
+   "tipo": "pia",
+   "p": [
+    0.32,
+    1.025
+   ],
+   "rot": 1,
+   "w": 0.9,
+   "h": 0.92,
+   "d": 0.48,
+   "cor": "#E4DFD5"
+  },
+  {
+   "tipo": "vaso",
+   "p": [
+    0.8,
+    0.41
+   ],
+   "rot": 0,
+   "w": 0.4,
+   "h": 0.8,
+   "d": 0.66
+  },
+  {
+   "tipo": "guardaroupa",
+   "p": [
+    0.79,
+    2.43
+   ],
+   "rot": 0,
+   "w": 1.48,
+   "h": 2.35,
+   "d": 0.6,
+   "cor": "#E4DFD5"
+  },
+  {
+   "tipo": "pia",
+   "p": [
+    3.445,
+    0.38
+   ],
+   "rot": 0,
+   "w": 1.3,
+   "h": 0.92,
+   "d": 0.6,
+   "cor": "#5A6249"
+  },
+  {
+   "tipo": "aereo",
+   "p": [
+    3.445,
+    0.255
+   ],
+   "rot": 0,
+   "w": 1.3,
+   "h": 2.2,
+   "d": 0.35,
+   "cor": "#5A6249"
+  },
+  {
+   "tipo": "fogao",
+   "p": [
+    4.405,
+    0.39
+   ],
+   "rot": 0,
+   "w": 0.62,
+   "h": 0.92,
+   "d": 0.62
+  },
+  {
+   "tipo": "coifa",
+   "p": [
+    4.405,
+    0.33
+   ],
+   "rot": 0,
+   "w": 0.6,
+   "h": 2.6,
+   "d": 0.5
+  },
+  {
+   "tipo": "geladeira",
+   "p": [
+    4.5,
+    1.09
+   ],
+   "rot": 3,
+   "w": 0.68,
+   "h": 1.78,
+   "d": 0.68
+  }
+ ]
+}

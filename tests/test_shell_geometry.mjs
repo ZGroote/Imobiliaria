@@ -20,7 +20,7 @@ function oracle() {
 }
 function modular() {
   const ctx = vm.createContext({});
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/interior/shell-geometry.js', import.meta.url), 'utf8'), ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/interior/shell-geometry.js', import.meta.url), 'utf8'), ctx);
   return ctx.ShellGeometry;
 }
 

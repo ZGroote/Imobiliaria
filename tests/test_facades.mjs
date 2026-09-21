@@ -10,8 +10,8 @@ const original = execFileSync('git', ['-c', 'safe.directory=' + process.cwd().re
   'show', 'c93bc7b:renderizador-v16-moveis/app.js'], {encoding: 'utf8', maxBuffer: 2000000});
 const tables = original.slice(original.indexOf('const AP_GLSL ='), original.indexOf('/* ---- textura de fachada'));
 const functions = original.slice(original.indexOf('function facadeMaterial('), original.indexOf('const flat ='));
-const three = fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8');
-const module = fs.readFileSync(new URL('../renderizador-v16-moveis/materials/facades.js', import.meta.url), 'utf8');
+const three = fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8');
+const module = fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/materials/facades.js', import.meta.url), 'utf8');
 
 for (const light of [false, true]) for (const windows of [false, true]) {
   test(`facade and growth shaders preserve light=${light}, metricWindows=${windows}`, () => {

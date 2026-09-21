@@ -13,7 +13,7 @@ function page(compact){
   const document={body:el()};document.body.dataset={};
   const ctx=vm.createContext({document,matchMedia:q=>{assert.equal(q,'(max-width:820px)');return media;},
     MutationObserver:class{constructor(f){this.f=f;}observe(e,o){observed.push([e,o]);}}});
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/ui/mobile-tabs.js',import.meta.url),'utf8'),ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/ui/mobile-tabs.js',import.meta.url),'utf8'),ctx);
   const perto={on:false};let fechou=0;
   const tabs=ctx.MobileTabs.create({$,perto,fechaTudo:()=>fechou++});
   return {$,document,media,observed,perto,tabs,fechados:()=>fechou};

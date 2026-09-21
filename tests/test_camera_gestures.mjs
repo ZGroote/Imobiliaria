@@ -14,7 +14,7 @@ function create(modular) {
   const ctx=vm.createContext({canvas,target:{x:0,z:0},sph:{radius:300,theta:.5,phi:.98},camera:{fov:50},innerHeight:600,
     INT:{on:false,orbita:false,fp:false},FP:{yaw:0,pitch:0},zoomMax:()=>1000,
     soltaSeta:()=>calls.push('release-editor'),cliqueInterior:()=>calls.push('interior-click'),cliqueNaCidade:()=>calls.push('city-click')});
-  if(modular){vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/scene/camera-gestures.js',import.meta.url),'utf8'),ctx);
+  if(modular){vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/scene/camera-gestures.js',import.meta.url),'utf8'),ctx);
     vm.runInContext('globalThis.api=CameraGestures.create({canvas,target,sph,camera,zoomMax,getHeight:()=>innerHeight,getInterior:()=>INT,getFirstPerson:()=>FP,soltaSeta,cliqueInterior,cliqueNaCidade});',ctx);
   } else vm.runInContext(source+'\nglobalThis.api={isMultiTouch:e=>dedos.size>1||gestoDuplo&&e.pointerType==="touch",claimGesture(){drag=0;moveu=1;}};',ctx);
   return {ctx,calls,canvas,captures,send(type,extra={}) {const event={type,pointerId:1,pointerType:'mouse',button:0,clientX:100,clientY:100,preventDefault:()=>calls.push('prevent'),...extra};for(const fn of listeners[type]||[])fn(event);}};

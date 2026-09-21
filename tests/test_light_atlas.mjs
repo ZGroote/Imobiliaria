@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 
 const CHECKPOINT = '8a3ad9a';
 const root = fileURLToPath(new URL('..', import.meta.url)).replace(/\\/g, '/').replace(/\/$/, '');
-const three = fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8');
+const three = fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8');
 
 // Two walls (one with skirting), two rooms, one ceiling outline -> 10 + 5 + 2 + 1 = 18 pieces.
 const plan = {id: 'u1', paredes: [{y0: 0.02}, {y0: 1.0}], comodos: [{}, {}], contorno: [[]]};
@@ -38,7 +38,7 @@ function oracle(search) {
 }
 function modular(search) {
   const c = context(search);
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/interior/light-atlas.js', import.meta.url), 'utf8'), c.ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/interior/light-atlas.js', import.meta.url), 'utf8'), c.ctx);
   c.api = vm.runInContext('LightAtlas.create({THREE, document, sujaSombra: () => globalThis.__dirty++})', c.ctx);
   return c;
 }

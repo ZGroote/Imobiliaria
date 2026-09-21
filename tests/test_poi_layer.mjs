@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import test from 'node:test';
 const ctx=vm.createContext({});
 for(const name of ['lib/three.min.js','ui/poi-layer.js'])
-  vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/'+name,import.meta.url),'utf8'),ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/'+name,import.meta.url),'utf8'),ctx);
 
 test('POI layer builds one halo and one beam per category on the terrain',()=>{
   const THREE=ctx.THREE,registered=[];

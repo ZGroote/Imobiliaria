@@ -44,7 +44,7 @@ function fixture(modular,anuncios=ANUNCIOS) {
     var houseBeacon={visible:false,position:{set:(x,y,z)=>__log(['farol',x,y,z])}};`,ctx);
   ctx.__log=a=>log.push(a);
   if(modular) {
-    vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/listings/house-sheet.js',import.meta.url),'utf8'),ctx);
+    vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/listings/house-sheet.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`HouseSheet.create({document, $, esc, px, pz, brl, getSheet, ListingModels,
       hsheet, usheet, housesBox, houseBeacon, flyTo, closePoiSheet, abrePerto});`,ctx);
   } else vm.runInContext(source,ctx);
@@ -102,7 +102,7 @@ test('a city without a public showcase gets an empty one instead of an error',()
     vm.runInContext(`var hsheet=$(), usheet=$(), housesBox=$();
       var houseBeacon={visible:false,position:{set(){}}};`,ctx);
     if(modular) {
-      vm.runInContext(fs.readFileSync(new URL('../renderizador-v16-moveis/listings/house-sheet.js',import.meta.url),'utf8'),ctx);
+      vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/listings/house-sheet.js',import.meta.url),'utf8'),ctx);
       vm.runInContext(`globalThis.n=HouseSheet.create({document, $, px, pz, brl, getSheet,
         ListingModels, hsheet, usheet, housesBox, houseBeacon, flyTo, closePoiSheet, abrePerto});
         globalThis.total=housesBox.children.length;`,ctx);
