@@ -1,0 +1,7 @@
+{
+  "site": "https://imobilaria-deccb-miniaturas.web.app",
+  "release": "62549ac12936f290",
+  "verifiedAt": "2026-09-23T20:56:26.449318+00:00",
+  "htmlSHA256": "baf1436969022c4058a47fa0f59a6e2b13bbf0811bdb17b8c8a32539d18111cc",
+  "changes": "18 door posts corrected and interior rebaked; cached room shadows with layout/mode/switch invalidation; no inactive sun shadow passes inside; mobile DPR 1.25"
+}

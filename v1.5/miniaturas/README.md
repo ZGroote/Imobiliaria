@@ -1,4 +1,69 @@
+# Padrão atual — 23/09/2026
+
+O **Monte dos Cedros** usa o padrão aprovado de luz calculada no exterior, planta 3D e visita. O gerador habitual já seleciona essa versão por padrão. Colinas e Castanheiras permanecem na versão anterior.
+
+- [Processo completo, fontes, ferramentas, testes e reversão](PADRAO-ATUAL.md)
+- Montador: `padrao_atual.py`; fontes: `padrao-atual/`.
+- Publicação: `python v1.5/miniaturas/preparar_publicacao.py`, QA `qa_padrao_atual.py`, depois Firebase com `firebase.miniaturas.json`.
+- Saída pública atual: `publicado-atual/`, 20 arquivos permitidos. O mapa principal não é publicado por esse fluxo.
+- Fonte e integridade da versão: `padrao-atual/release.json` e `publication-hashes.json`.
+
+As seções abaixo são o registro anterior à promoção. Para o Cedros, os comandos e critérios de `PADRAO-ATUAL.md` têm precedência.
+
+---
+
 # miniaturas
+
+## Publicação Firebase
+
+Site das três miniaturas: https://imobilaria-deccb-miniaturas.web.app
+Projeto Firebase: `imobilaria-deccb`; site separado: `imobilaria-deccb-miniaturas`.
+O site principal do mapa não é alterado por esta configuração.
+
+```powershell
+python v1.5/miniaturas/preparar_publicacao.py
+npx firebase deploy --only hosting --config firebase.miniaturas.json --project imobilaria-deccb --non-interactive
+```
+
+O preparador copia uma lista explícita de 13 arquivos para `publicado/` e verifica
+os links: entrada, três maquetes, três renders, três GLBs e três projetos Blender.
+Scripts, referências de pesquisa e arquivos de QA ficam fora da publicação.
+O Hosting revalida o cache para receber atualizações nos mesmos endereços.
+
+## Monte dos Cedros e Monte das Colinas — Blender
+
+Abra `index.html` para escolher uma das novas maquetes. As páginas
+`maquete-monte-dos-cedros-37.html` e `maquete-monte-das-colinas-39.html` funcionam
+offline, com modelo embutido, planta 2D, planta mobiliada e visita em primeira pessoa.
+O botão **Ver conjunto** alterna entre o bloco da unidade e os blocos do cadastro.
+O 8º andar do Cedros e o 3º do Colinas continuam destacados.
+
+Os modelos foram criados no Blender 5.2.2, com sacadas recuadas, guarda-corpos,
+esquadrias divididas, peitoris, soleiras, marquises, portaria, cortinas iluminadas,
+rufos, platibandas e ventilação da cobertura. A fachada segue as imagens oficiais
+da MRV salvas em `referencias/`; fundos e dimensões são aproximados. O Colinas usa
+quatro blocos representativos do cadastro, não a implantação completa oficial.
+
+Fontes: [Cedros](https://www.mrv.com.br/imoveis/sao-paulo/sao-carlos/apartamentos-monte-dos-cedros)
+e [Colinas](https://www.mrv.com.br/imoveis/sao-paulo/sao-carlos/apartamentos-residencial-monte-das-colinas).
+
+Em cada pasta `monte-*_blender/` ficam `.blend`, `.glb`, exportação offline
+`modelo.json`, render geral, render de detalhe e `validacao.json`. O arquivo
+`modelar_montes.py` modela; `blender_maquete_base.py` compartilha exportação e render.
+`castanheiras.js` lê ambos os formatos de exportação (matrizes/índices novos e
+posição/escala do Castanheiras), sem gerar fachadas no navegador.
+
+```powershell
+& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python v1.5/miniaturas/modelar_montes.py -- cedros
+& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python v1.5/miniaturas/modelar_montes.py -- colinas
+python v1.5/miniaturas/pagina_maquete.py --unidade monte-dos-cedros-37 --saida v1.5/miniaturas/maquete-monte-dos-cedros-37.html
+python v1.5/miniaturas/pagina_maquete.py --unidade monte-das-colinas-39 --saida v1.5/miniaturas/maquete-monte-das-colinas-39.html
+python v1.5/miniaturas/qa_visual.py maquete-monte-das-colinas-39.html --nome colinas-conjunto --conjunto
+```
+
+GLBs têm cerca de 0,9 MB; HTMLs cerca de 3,3 MB. Os renders de conferência usam
+Cycles; a página usa a iluminação interativa do Three.js. Não altera a publicação
+Firebase nem as miniaturas internas do mapa.
 
 A maquete do imóvel: a miniatura 3D que fica junto da ficha, e as três leituras que
 saem dela — planta 2D, planta 3D e visita em primeira pessoa.
@@ -14,7 +79,7 @@ defeitos que custaram caro) está na **seção 26 do [PIPELINE.md](../PIPELINE.m
 v1.5/miniaturas/maquete.html
 ```
 
-Duplo clique. São 740 KB com o three.js embutido — não depende de rede, de servidor
+Duplo clique. São cerca de 1,8 MB com o three.js embutido — não depende de rede, de servidor
 nem de build. É a página que está publicada em
 `https://claude.ai/artifact/JSqvSPTHCibgdGMVdtd3hx`.
 
@@ -34,12 +99,61 @@ HTML na mão é trabalho que a próxima montagem apaga.
 | `testa_etapas.py` | portão headless de 7 sondas sobre as três etapas do v17/v18. Roda contra a página montada do acervo de verdade. |
 
 ```bash
-python v1.5/miniaturas/pagina_maquete.py                 # -> v18/maquete.html
+python v1.5/miniaturas/pagina_maquete.py                 # -> v1.5/miniaturas/maquete.html
 python v1.5/miniaturas/pagina_maquete.py --saida x.html
 
 python v1.5/miniaturas/demo_v18.py --abre planta         # abre direto na etapa 3
 MAPA_V=v18 python v1.5/miniaturas/testa_etapas.py sao-carlos --unidade <id>
 ```
+
+## Acabamento visual — 21/09/2026
+
+O gerador agora inclui reboco e concreto com textura procedural e relevo fino,
+vidros com variação discreta de tonalidade, divisões das esquadrias, peitoris em
+3D, bordas levemente chanfradas e cobertura com platibanda e remate. O recuo das
+paredes foi corrigido para deslocar o contorno para dentro. As dimensões e os
+blocos vêm do mesmo cadastro; estes acabamentos são ilustrativos, não uma
+reconstituição confirmada das fachadas. Não há downloads de texturas.
+
+As duas páginas desta pasta foram reconstruídas. As miniaturas integradas ao mapa
+em `renderizador-v18` têm outro gerador e não recebem estas mudanças.
+
+### Castanheiras modelado no Blender
+
+O Castanheiras agora usa geometria criada no **Blender 5.2**, a partir da perspectiva
+em `referencias/castanheiras.png`: duas torres, sacadas com 2 m de profundidade,
+guarda-corpos e treliças vazadas, janelas menores, cortinas acesas e portaria.
+Os 22 pavimentos e o envelope vêm do cadastro. A profundidade das sacadas e os
+fundos são aproximações visuais; não é um levantamento arquitetônico certificado.
+
+- `modelar_castanheiras.py`: fonte reproduzível da modelagem e renderização.
+- `castanheiras_blender/castanheiras.blend`: projeto editável, referência empacotada.
+- `castanheiras_blender/castanheiras.glb`: modelo interoperável, cerca de 0,9 MB.
+- `castanheiras_blender/preview.png`: render Cycles.
+- `castanheiras_blender/modelo.json`: malhas avaliadas do Blender para a página offline.
+- `castanheiras.js`: importa essas malhas com instâncias e conserva o destaque do andar.
+
+O HTML do Castanheiras tem cerca de 4 MB, com o modelo embutido. O Three.js apenas
+exibe a exportação; as sacadas e os detalhes não são mais modelados no navegador.
+Para reconstruir, execute o script com Blender e depois monte o HTML:
+
+```powershell
+& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python v1.5/miniaturas/modelar_castanheiras.py
+python v1.5/miniaturas/pagina_maquete.py --unidade wish-castanheiras-58 --saida v1.5/miniaturas/maquete-wish-castanheiras-58.html
+```
+
+Para conferir a página avulsa no Chrome instalado, gerar captura e métricas:
+
+```bash
+python v1.5/miniaturas/qa_visual.py maquete.html --nome depois
+python v1.5/miniaturas/qa_visual.py maquete-wish-castanheiras-58.html --nome wish-depois
+python v1.5/miniaturas/qa_visual.py maquete-wish-castanheiras-58.html --modo planta3d --nome planta3d
+```
+
+As imagens e métricas ficam em `qa/`. A opção `--mobile` usa janela estreita e DPR
+1,75; a largura efetiva é registrada no JSON (o Chrome pode impor largura mínima).
+Não substitui teste em aparelho físico. O buffer de desenho é preservado somente
+na cópia temporária usada para a captura.
 
 ---
 

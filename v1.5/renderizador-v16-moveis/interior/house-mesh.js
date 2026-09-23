@@ -5,7 +5,7 @@
 /* Tres malhas, nao uma: parede, piso frio e piso de madeira tem MAPA diferente, e mapa
    diferente e material diferente. Sao tres chamadas de desenho pro apartamento inteiro
    -- o mesmo que custavam duas mesas de cabeceira. */
-function geoDaCasa(pl, comTeto) {
+function geoDaCasa(pl, comTeto, tetoSeparado = false) {
   const P=[], N=[], C=[], U=[];
   const PF=[], NF=[], CF=[], UF=[];
   const PM=[], NM=[], CM=[], UM=[];
@@ -151,8 +151,9 @@ function geoDaCasa(pl, comTeto) {
                  null, U2, LUZ && cinco(f => LUZ.rodape(i, f)), true,
                  (w.pa ? 0 : 1) | (w.pb ? 0 : 2));
   }
-  if (comTeto) for (let i = 0; i < pl.contorno.length; i++)
-    piso(dPar, pl.contorno[i], pl.pd, teto, false, 1.2, LUZ && LUZ.teto(i));
+  const dTeto = [[], [], [], [], LUZ ? [] : null];
+  if (comTeto || tetoSeparado) for (let i = 0; i < pl.contorno.length; i++)
+    piso(tetoSeparado ? dTeto : dPar, pl.contorno[i], pl.pd, teto, false, 1.2, LUZ && LUZ.teto(i));
   const malha = (Pa, Na, Ca, Ua, mat, Ua2) => {
     if (!Pa.length) return null;
     const g = new THREE.BufferGeometry();
@@ -218,6 +219,10 @@ function geoDaCasa(pl, comTeto) {
               malha(gp[1][0], gp[1][1], gp[1][2], gp[1][3], comLuz(matFrio), UF2),
               malha(gp[2][0], gp[2][1], gp[2][2], gp[2][3], comLuz(matMadeira), UM2)];
   for (const m of gl) if (m) grupo.add(m);
+  if (tetoSeparado) {
+    const forro = malha(dTeto[0], dTeto[1], dTeto[2], dTeto[3], comLuz(matParede), dTeto[4]);
+    if (forro) { forro.name = 'forro-original'; grupo.add(forro); }
+  }
   if (ctx) { ctx.gl = gl; BAKE.fila = ctx; }
   // Esquadria DEPOIS das três: `mede_interior.py` lê `INT.casa.children[1]` pra provar
   // que o piso recebe sombra, e entrar no meio da fila trocaria o piso por um batente.

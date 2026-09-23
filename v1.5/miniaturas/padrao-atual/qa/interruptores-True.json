@@ -1,0 +1,8 @@
+{
+  "switches": 6,
+  "allOff": true,
+  "roomIndependent": true,
+  "noInteriorSun": true,
+  "modeTransition": true,
+  "errors": []
+}

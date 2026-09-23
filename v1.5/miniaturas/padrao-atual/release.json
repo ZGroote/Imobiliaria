@@ -1,0 +1,26 @@
+{
+  "standard": "cedros-luz-calculada-2026-09-23",
+  "release": "62549ac12936f290",
+  "sources": {
+    "anterior/v2.html": "c1ce7f642f2d3d0adaa7d85117aa494cba613a75113643de6bf29645d7d5f98b",
+    "lightmap-v3.js": "6cfca1910743e4f2ac9f7367f4a7ad04410b55f94785d501fdbb3147631ff50d",
+    "exterior-v3.js": "e048c404abb731b24e2def5619e0af0587c45175c524754b204a81b7aaffbe02",
+    "interruptores.js": "4f7d98e244f48d22c5a09d90feb101058e4458d563a41eef941e7c0110619896",
+    "piloto-v3/geometry-compact.json": "1dae995adcdb66578fba5d9bb8373174474b57cdb8008807eb2d572863716146",
+    "piloto-v3/lightmap.rgbm.gz": "c4c0b484146fce556406441f46f832c92529dcac6f88628eb07d0e31c0652249",
+    "exterior-v3/geometry-compact.json": "e357b5c63f493bba47dca69a06fb052cf85747b2d004d55453b1c1157b9ff88a",
+    "exterior-v3/lightmap.rgbm.gz": "237468a81dba87e8169b3147bb623daa7af0245f5b084a267d29a2b3ba38de08",
+    "renders/v3/miniatura.webp": "07a4d31deb44ce3714db7d70147fa4b3427d1b84f8ffe35d3df1b885661ab6fa",
+    "renders/v3/planta3d.webp": "557d988bfbdfbed1b5d63911e2e926d8d9a90d784eaabc918957ca36c6395f6c"
+  },
+  "files": [
+    "assets/cedros/62549ac12936f290/interior-uv.json",
+    "assets/cedros/62549ac12936f290/interior-luz.rgbm.gz",
+    "assets/cedros/62549ac12936f290/exterior-uv.json",
+    "assets/cedros/62549ac12936f290/exterior-luz.rgbm.gz",
+    "assets/cedros/62549ac12936f290/miniatura.webp",
+    "assets/cedros/62549ac12936f290/planta3d.webp",
+    "maquete-monte-dos-cedros-37.html",
+    "maquete-monte-dos-cedros-37-offline.html"
+  ]
+}
