@@ -38,6 +38,10 @@ test('pointer pan, orbit, touch, cancellation, interior look and editor ownershi
   for(const c of [a,b])c.ctx.INT.orbita=true;
   send('pointerdown',{shiftKey:true});send('pointermove',{clientX:160,clientY:120});send('pointerup');
   assert(a.calls.includes('city-click'));assert(a.calls.includes('release-editor'));assert.equal(b.ctx.FP.pitch,-1.25);
+  // Evento sem shiftKey (undefined, nao false): o modulo tem que tratar como tecla solta e arrastar o
+  // mapa. Sem o !! em camera-gestures.js, `undefined !== false` escolhia a orbita.
+  const c=create(true);c.send('pointerdown',{shiftKey:undefined});c.send('pointermove',{clientX:160,clientY:100});
+  assert.notEqual(c.ctx.target.x,0,'pans');assert.equal(c.ctx.sph.theta,.5,'does not orbit');
 });
 
 test('in the floor plan scene a plain drag orbits with a wider phi, and any hand on the map stops the tour',()=>{
