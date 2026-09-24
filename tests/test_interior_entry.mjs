@@ -17,7 +17,7 @@ const planta=id=>({id,cx:20,cz:-30,mx:20,mz:-30,andar:3,h:2.9,pd:2.7,area:64.4,
   W:(u,v)=>[u,v]});
 
 function fixture(modular) {
-  const log=[];
+  const log=[],etapas=[];   // a escada das tres etapas (v17) nao existia no original
   const el=new Map();
   const node=id=>{
     if(el.has(id)) return el.get(id);
@@ -47,7 +47,8 @@ function fixture(modular) {
     pintaCatalogo:()=>log.push(['catalogo']), pintaEditor:()=>log.push(['editor']),
     fechaPerto:v=>log.push(['perto',v]), setPins:on=>log.push(['pins',on]), closePoiSheet:()=>log.push(['poi']),
     hsheet:node('hsheet'), usheet:node('usheet'), ipanel:node('ipanel'),
-    houseBeacon:node('beacon'), housesBox:node('housesBox'), log:(...a)=>log.push(a)});
+    houseBeacon:node('beacon'), housesBox:node('housesBox'), log:(...a)=>log.push(a),
+    etapa:(...a)=>etapas.push(a)});
   vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'),ctx);
   vm.runInContext(`geoDaCasa=(pl,teto)=>{log('casa',pl.id,teto);const g=new THREE.Group();g.name='casa';return g;};
     var camera=new THREE.PerspectiveCamera(55,1.5,1,20000);
@@ -60,6 +61,8 @@ function fixture(modular) {
       moveis:[],sel:7,teto:false,baseY:0,voo:null,corteAlvo:1e6,salvo:null,rotulos:[{el:{remove(){}}}]};
     var FP={pos:new THREE.Vector3(),yaw:0,pitch:-0.05,mov:{x:0,z:0}};
     var reliefAmount=0.8, poeTipo='sofa';
+    // escada fechada: nenhuma planta aberta, nenhuma transicao em curso
+    var PLANTA={on:false,corta:false}, ETAPA={atual:'mapa'}, FICHA=null, INDO=null;
     var quatOlhando=(de,para)=>{const m=new THREE.Matrix4().lookAt(de,para,new THREE.Vector3(0,1,0));
       return new THREE.Quaternion().setFromRotationMatrix(m);};`,ctx);
   if(modular) {
@@ -73,11 +76,10 @@ function fixture(modular) {
       soltaSonda, modoMoveis, mostraJoy, pintaCatalogo, pintaEditor, fechaPerto, setPins,
       closePoiSheet, hsheet, usheet, ipanel, houseBeacon, housesBox,
       poeTipoNulo:()=>{ poeTipo=null; },
-      // A escada de etapas, a ficha e a maquete são posteriores ao monólito; neutras: planta
-      // fechada, nenhum voo nem transição em curso, nenhuma ficha aberta.
-      getPlanta:()=>({on:false,corta:false}), getEtapa:(e=>()=>e)({atual:'mapa'}), saiPlanta:()=>{},
-      paraVoo:()=>{}, pintaEtapas:()=>{}, getFicha:()=>null, setFicha:()=>{}, indoPara:()=>null,
-      escondeMaquete:()=>{}});`,ctx);
+      getPlanta:()=>PLANTA, getEtapa:()=>ETAPA, saiPlanta:pra=>etapa('saiPlanta',pra),
+      pintaEtapas:()=>etapa('pinta',ETAPA.atual), paraVoo:()=>etapa('paraVoo'),
+      getFicha:()=>FICHA, setFicha:f=>{ FICHA=f; etapa('ficha',f.u.id,f.x,f.z); },
+      indoPara:()=>INDO, escondeMaquete:()=>etapa('escondeMaquete')});`,ctx);
   } else vm.runInContext(source+'\nglobalThis.api={baseDaCasa,enterInterior,descarta,exitInterior,saiSeco,alturaDoCorte,aplicaFuro,vista};',ctx);
   const snapshot=()=>vm.runInContext(`JSON.stringify({
     cam:[camera.position.toArray(),camera.quaternion.toArray(),camera.near,camera.far,camera.fov,
@@ -89,7 +91,7 @@ function fixture(modular) {
       moveis:INT.moveis.length,rotulos:INT.rotulos.length,salvo:INT.salvo,
       voo:INT.voo&&[INT.voo.dur,INT.voo.p1.toArray(),INT.voo.q1.toArray()]},
     fp:[FP.pos.toArray(),FP.yaw,FP.pitch], grupo:gInteriores.children.length})`,ctx);
-  return {ctx,log,snapshot,el,
+  return {ctx,log,etapas,snapshot,el,
     dom:()=>JSON.stringify([...el].map(([k,e])=>[k,e.textContent,e.hidden,e.attrs,[...e.classList.list],e.style.display]))};
 }
 
@@ -133,4 +135,22 @@ test('a unit on the ground floor without relief sits on the terrain, and the fli
   assert.equal(y,JSON.parse(b.snapshot()).int.baseY+1.62);
   // o piso nasce na MAIOR cota das esquinas do lote, não na do centro: 0,1 m × relevo
   assert.equal(JSON.parse(b.snapshot()).int.baseY,0.8*0.1+3*3.15);
+});
+
+test('entering and leaving keep the stage ladder in step, and the floor plan scene owns the cut',()=>{
+  const b=fixture(true),run=c=>vm.runInContext(c,b.ctx),rec=`{unidade:{id:'g'},r:[[10,-40],[30,-40],[30,-20],[10,-20]]}`;
+  run(`api.enterInterior(${rec})`);
+  // entrar pelo predio escreve a ficha no centro do contorno, declara a etapa 2 e tira a miniatura
+  assert.deepEqual(b.etapas,[['paraVoo'],['ficha','u-g',20,-30],['pinta','interior'],['escondeMaquete']]);
+  run(`api.exitInterior(); INT.voo.fim()`);
+  assert.deepEqual(b.etapas.slice(4),[['pinta','mapa']]);
+  // de passagem pra etapa 3 quem declara a etapa e ela: a entrada nao mexe nem na miniatura
+  b.etapas.length=0; run(`INDO='planta'; api.enterInterior(${rec})`);
+  assert.deepEqual(b.etapas,[['paraVoo'],['ficha','u-g',20,-30]]);
+  assert.equal(run('ETAPA.atual'),'mapa');
+  run(`INDO=null; PLANTA.on=true`);
+  assert.equal(run('api.alturaDoCorte()'),1e6,'parede inteira');
+  assert.equal(run('PLANTA.corta=true; api.alturaDoCorte()'),run('INT.baseY')+1.55,'cortada no ombro');
+  b.etapas.length=0; run('api.saiSeco()');
+  assert.deepEqual(b.etapas,[['saiPlanta',undefined]],'sair da casa pela etapa 3 desfaz a cena');
 });

@@ -41,7 +41,7 @@ quando se usa a ponte com uma sessão aberta (ver `[[blender-ponte-sessao-aberta
 Os quatro são reais e foram rodados; não são exemplo.
 
 ```bash
-npm test                 # 111 testes Node (equivalência dos módulos contra o monólito)
+npm test                 # 120 testes Node (equivalência dos módulos contra o monólito)
 npm run test:py          # 36 testes Python (build, caminhos canônicos, publicação)
 npm run montar           # monta São Carlos na variante modular
 npm run qa               # os 19 portões de aceite: geometria + comportamento (~23 min)
