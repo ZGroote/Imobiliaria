@@ -1,0 +1,4 @@
+Arquivos de EXEMPLO do contrato painel ↔ pipeline (tasks/painel/proposta.md, §9), só para o painel em
+dev: b/<imovel>/<build>/manifest.json e estado.json, no formato que build_imovel.py e publicar_imovel.py
+vão gerar. Ficam FORA de public/ de propósito, para não entrarem em painel/out: scripts/dev.mjs os serve
+em http://127.0.0.1:5055/ fazendo o papel do site de imóveis (origem separada, com CORS).

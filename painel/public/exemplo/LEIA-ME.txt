@@ -1,3 +1,0 @@
-Arquivos de EXEMPLO do contrato painel ↔ pipeline (tasks/painel/proposta.md, §9), só para o
-painel em dev: b/<imovel>/<build>/manifest.json e, depois, estado.json. Não publicar: o site do
-painel deve ignorar exemplo/** quando o firebase.painel.json for criado.
