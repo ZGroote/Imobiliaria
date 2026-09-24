@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { doc } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { DadosDoPedido, EditarPedido } from '@/components/pedido'
+import { AcoesDeStatus, Historico } from '@/components/status'
 import { Aviso, ComId, Estado } from '@/components/ui'
 import { db } from '@/lib/firebase'
 import { usePessoas } from '@/lib/usePessoas'
@@ -21,8 +22,12 @@ function Solicitacao({ id }: { id: string }) {
   const r = useDoc<Request>(`pedido:${id}`, () => doc(db, 'requests', id))
   const p = r.dado
   const im = useDoc<Property>(p?.propertyId ? `imovel:${p.propertyId}` : null, () => doc(db, 'properties', p!.propertyId!))
-  const { nome } = usePessoas(perfil.agencyId, perfil.role === 'agency_manager')
+  const gerente = perfil.role === 'agency_manager'
+  const { nome, pessoas } = usePessoas(perfil.agencyId, gerente)
   const [editando, setEditando] = useState(false)
+  // Quem fez cada passo: o gerente conhece a equipe da imobiliária, então o resto é a equipe interna.
+  const autor = (uid: string) => uid === perfil.id ? 'Você'
+    : pessoas.find((u) => u.id === uid)?.name ?? (gerente ? 'Equipe interna' : 'Outra pessoa')
 
   if (p === null) return <Pagina titulo="Solicitação"><Aviso>Solicitação não encontrada.</Aviso></Pagina>
   const podeEditar = p && editavelPelaImobiliaria(p.status)
@@ -38,6 +43,10 @@ function Solicitacao({ id }: { id: string }) {
                 imovel={im.dado ? <Link href={`/properties/view?id=${im.dado.id}`} className="hover:underline">{im.dado.title}</Link>
                   : p.propertyId ? '…' : 'Ainda não cadastrado'} />
             )}
+            <div className="space-y-6">
+              <AcoesDeStatus r={p} />
+              <Historico r={p} interno={false} pessoa={autor} />
+            </div>
           </div>
         )}
       </Estado>

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { doc, type Timestamp } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { DadosDoPedido, EditarPedido, ROTULO_PRIORIDADE } from '@/components/pedido'
+import { AcoesDeStatus, Historico } from '@/components/status'
 import { Aviso, Cartao, ComId, Estado, useAcao } from '@/components/ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
@@ -36,8 +37,12 @@ function Solicitacao({ id }: { id: string }) {
                   : 'Não vinculado'}
                 extra={[['Responsável interno', cat.pessoa(p.assignedTo)]]} />
             )}
-            <Producao p={p} cat={cat} />
+            <div className="space-y-6">
+              <AcoesDeStatus r={p} />
+              <Producao p={p} cat={cat} />
+            </div>
             <NotaInterna rid={p.id} />
+            <Historico r={p} interno pessoa={cat.pessoa} />
           </div>
         )}
       </Estado>
