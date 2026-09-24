@@ -31,14 +31,26 @@ Resultado: [verificação do T02](verificacao-t02.md). O escape do `</` ficou no
 não em `pipeline/build/`, porque é ali que todo bloco vira tag. A ficha da unidade
 cadastrada já escapava; o item da vitrine pública, não.
 
-## T03 — Isolamento dos dados no Firebase
+## T03 — Isolamento dos dados no Firebase: as primeiras regras reais
 
-- [ ] Restringir criação, leitura e atualização de usuários e alterações de tenant em imóveis.
-- [ ] Testar dois tenants, usuário comum, admin e visitante no emulador.
+O projeto não tinha banco Firestore nem bucket (D2, conferido via API em 24/09): as regras
+antigas de `firebase/` nunca protegeram dado. A T03 escreveu as primeiras regras do projeto, para
+o modelo do painel ([proposta](../painel/proposta.md), §3), sem compatibilidade com o modelo
+antigo. O código está no branch `painel/t03-regras` e entra em `main` com a integração do painel.
 
-Aceite: nenhuma leitura ou edição cruzada; o titular não concede privilégios a si mesmo.
-Arquivos: `firebase/firestore.rules`, testes de regras e configuração do emulador.
-Implantação das regras é uma etapa própria, após revisão do resultado.
+- [x] Regras de Firestore e Storage para o modelo canônico (`firebase/*.rules`).
+- [x] Testes no emulador: 28/28 (`npm run test:regras`), cobrindo dois tenants, papéis internos
+      e de imobiliária, inativo, pendente e visitante, publicação e reversão consistentes e
+      imóvel travado depois do build. 14 regras quebradas de propósito, todas detectadas.
+- [x] Firestore `(default)` criado em `southamerica-east1`; regras e 9 índices publicados em
+      24/09. As regras no ar são o commit `40b1abd` (sha256 conferido).
+- [ ] Storage: implantar `storage.rules` quando o plano estiver confirmado e o bucket existir.
+
+Aceite: nenhuma leitura ou edição cruzada; o titular não concede privilégios a si mesmo;
+nada fora do modelo canônico é acessível.
+Arquivos: `firebase/firestore.rules`, `firebase/storage.rules`,
+`firebase/firestore.indexes.json`, `firebase/tests/regras.test.mjs` e o bloco `emulators` do
+`firebase.json`. Deploy sempre com escopo: `firebase deploy --only firestore:rules`.
 
 ## T04 — Preparação de publicação consistente
 
