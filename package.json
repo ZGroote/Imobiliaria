@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:regras": "firebase emulators:exec --only firestore,storage --project demo-painel \"node --test firebase/tests/regras.test.mjs\""
+    "test:regras": "firebase emulators:exec --only firestore,storage --project demo-painel \"node --test firebase/tests/regras.test.mjs\"",
+    "test:painel": "firebase emulators:exec --only auth,firestore --project demo-painel \"node --test --test-concurrency=1 painel/tests/*.test.ts\"",
+    "painel:dev": "firebase emulators:exec --only auth,firestore --project demo-painel \"node painel/scripts/seed.mjs && npm --prefix painel run dev\""
   },
   "keywords": [],
   "author": "",
