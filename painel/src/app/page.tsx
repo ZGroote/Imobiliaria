@@ -2,20 +2,20 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { EstadoDaConta } from '@/components/EstadoDaConta'
-import { sair, useSessao } from '@/lib/session'
-import { ROTULO_PAPEL } from '@/lib/types'
+import { inicioDoPapel } from '@/lib/acesso'
+import { useSessao } from '@/lib/session'
 
+// A raiz só distribui: login, tela de estado da conta, ou a área do papel.
 export default function Inicio() {
   const { sessao } = useSessao()
   const router = useRouter()
-  useEffect(() => { if (sessao.tipo === 'fora') router.replace('/login') }, [sessao, router])
+  useEffect(() => {
+    if (sessao.tipo === 'fora') router.replace('/login')
+    if (sessao.tipo === 'ativo') router.replace(inicioDoPapel(sessao.perfil.role))
+  }, [sessao, router])
 
-  if (sessao.tipo === 'carregando' || sessao.tipo === 'fora') return <p className="p-8 text-sm text-slate-500">Carregando…</p>
-  if (sessao.tipo !== 'ativo') return <EstadoDaConta sessao={sessao} />
-  return (
-    <main className="p-8">
-      <p>{sessao.perfil.name} · {ROTULO_PAPEL[sessao.perfil.role]}</p>
-      <button onClick={sair} className="btn mt-4">Sair</button>
-    </main>
-  )
+  if (sessao.tipo === 'carregando' || sessao.tipo === 'fora' || sessao.tipo === 'ativo') {
+    return <p className="p-8 text-sm text-slate-500">Carregando…</p>
+  }
+  return <EstadoDaConta sessao={sessao} />
 }
