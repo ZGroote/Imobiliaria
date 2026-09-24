@@ -5,7 +5,7 @@ import test from 'node:test';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('..',import.meta.url)).replaceAll('\\','/').replace(/\/$/,'');
-const app=execFileSync('git',['-c','safe.directory='+root,'show','f1f6c9f:renderizador-v16-moveis/app.js'],
+const app=execFileSync('git',['-c','safe.directory='+root,'show','118f4ce:renderizador-v16-moveis/app.js'],
   {encoding:'utf8',maxBuffer:2e6}).replaceAll('\r','');
 // `_cpuMs` é escrito pelo laço e continua no app.js; no módulo ele entra por leitor.
 const source=app.slice(app.indexOf('const perfBox = $("perf");'),app.indexOf('const alvoSombra ='))

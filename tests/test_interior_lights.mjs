@@ -18,6 +18,9 @@ const SETUP = `const {inside, shoelace, safeInset, obbOf} = MapGeometry;
   const ESP = 0.13, PD = 2.70, LUZ_PI = Math.PI, FILL = 0.5, CEU_LINHA = "#C7D8E4";
   const NIVEL = {somMap: globalThis.__somMap};
   const scene = new THREE.Scene(); scene.fog = new THREE.Fog(0x6B7A88, 10, 100);
+  // v17: a luz de dentro vai pro grupo do interior, que troca de cena na planta. O grupo nao
+  // tem transformacao, entao cena ou grupo e so o endereco: o estado compara os dois juntos.
+  const gInteriores = new THREE.Group();
   const hemi = new THREE.HemisphereLight(0xC7D6E8, 0x1A222C, 0.8);
   const sun = new THREE.DirectionalLight(0xFFF4E0, 0.95 * LUZ_PI);
   Object.assign(sun.shadow.camera, {left: -640, right: 640, top: 640, bottom: -640, near: 10, far: 3000});
@@ -32,7 +35,7 @@ const SETUP = `const {inside, shoelace, safeInset, obbOf} = MapGeometry;
     anelDoLote: () => null, MOVEIS: {}});
   const INT = { luzes:[], sombra:null, brilho:null, lamps:[], pool:[], chaveLuz:"", plafons:null, chaves:null,
                 raiz: new THREE.Group(), baseY: 4.2 };
-  globalThis.__st = {INT, scene, sun, hemi, renderer, camera,
+  globalThis.__st = {INT, scene, gInteriores, sun, hemi, renderer, camera,
     planta: u => fp.plantaDaUnidade({r: [[-12,-9],[14,-9],[14,11],[-12,11]], h: 30}, u)};`;
 function context(somMap, assado) {
   const ctx = vm.createContext({location: {search: ''}, URLSearchParams, __somMap: somMap, __assado: assado});
@@ -53,17 +56,17 @@ function modular(somMap, assado) {
   const ctx = context(somMap, assado);
   vm.runInContext(read('interior/lights.js'), ctx);
   vm.runInContext(`(() => { ${SETUP}
-    globalThis.__o = InteriorLights.create({THREE, INT, scene, sun, hemi, renderer, camera, NIVEL, LUZ_PI, FILL,
+    globalThis.__o = InteriorLights.create({THREE, INT, scene, gInteriores, sun, hemi, renderer, camera, NIVEL, LUZ_PI, FILL,
       cursorDeLuz, CEU_LINHA, inside, ESP}); })();`, ctx);
   return ctx;
 }
 function state(ctx) {
-  const {INT, scene, sun, hemi, renderer} = ctx.__st;
+  const {INT, scene, gInteriores, sun, hemi, renderer} = ctx.__st;
   const buf = a => a ? Buffer.from(a.buffer, a.byteOffset, a.byteLength).toString('base64') : null;
   return JSON.stringify({sun: sun.intensity, exp: renderer.toneMappingExposure, fog: scene.fog.color.toArray(),
     hemi: [hemi.intensity, hemi.color.getHex(), hemi.groundColor.getHex()],
     cam: ['left','right','top','bottom','near','far'].map(k => sun.shadow.camera[k]), bias: [sun.shadow.bias, sun.shadow.normalBias],
-    children: scene.children.map(o => [o.type, o.intensity, o.position && o.position.toArray(), o.castShadow,
+    children: [...scene.children, ...gInteriores.children].map(o => [o.type, o.intensity, o.position && o.position.toArray(), o.castShadow,
       o.shadow ? [o.shadow.mapSize.x, o.shadow.camera.near, o.shadow.camera.far, o.shadow.bias, o.shadow.normalBias, o.shadow.autoUpdate, o.shadow.needsUpdate] : null]),
     lamps: INT.lamps.map(L => [L.i, L.on, L.p.toArray()]), key: INT.chaveLuz, pool: INT.pool.length,
     plafons: INT.plafons && [INT.plafons.count, buf(INT.plafons.instanceMatrix.array), buf(INT.plafons.instanceColor && INT.plafons.instanceColor.array)],
@@ -91,4 +94,13 @@ test('interior light, lamp pool, switches and restore match the monolith', () =>
       const a = oracle(somMap, assado), b = modular(somMap, assado);
       assert.equal(run(b, u), run(a, u), `${u.id} somMap=${somMap} assado=${assado}`);
     }
+});
+
+test('interior lights hang on the interior group, never on the city scene', () => {
+  const ctx = modular(2048, false), S = ctx.__st, P = ctx.__o;
+  P.acendeInterior(S.planta(units[0]));
+  assert.equal(S.scene.children.length, 0, 'a light on the city scene would stay behind in the floor plan');
+  assert.ok(S.gInteriores.children.length > 1 && S.gInteriores.children.every(o => o.isLight));
+  P.apagaInterior();
+  assert.equal(S.gInteriores.children.length, 0);
 });
