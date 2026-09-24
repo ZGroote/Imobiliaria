@@ -28,6 +28,12 @@ const DADOS = {
     status: 'production', priority: 'high' },
   'requests/pedB': { agencyId: 'agB', requestedBy: 'gerB', propertyId: 'imovelB', title: 'Tour do imóvel B',
     status: 'accepted', priority: 'normal' },
+  // Já aprovado, com o build de exemplo que public/exemplo/estado.json mostra no ar: pronto para publicar no dev.
+  'requests/pedAprovado': { agencyId: 'agA', requestedBy: 'gerA', propertyId: 'cedros', title: 'Tour do Cedros (aprovado)',
+    status: 'approved', priority: 'normal', approvedBuild: 'a1b2c3d4e5f6', approvedBy: 'gerA', approvedAt: T,
+    preview: { build: 'a1b2c3d4e5f6',
+      tourUrl: 'http://localhost:3000/exemplo/b/monte-dos-cedros-37/a1b2c3d4e5f6/tour.html',
+      maqueteUrl: 'http://localhost:3000/exemplo/b/monte-dos-cedros-37/a1b2c3d4e5f6/maquete.html' } },
 }
 
 export async function semear() {

@@ -7,6 +7,8 @@ import { Aviso, Cartao, ComId, Estado, useAcao } from '@/components/ui'
 import { db } from '@/lib/firebase'
 import { editarImovel } from '@/lib/imoveis'
 import { usePessoas } from '@/lib/usePessoas'
+import { useCatalogoInterno } from '@/lib/useEquipe'
+import { HistoricoDePublicacoes, ReverterPublicacao } from '@/components/publicacao'
 import type { Agency, Property } from '@/lib/types'
 import { useDoc } from '@/lib/useFirestore'
 
@@ -19,6 +21,7 @@ function Imovel({ id }: { id: string }) {
   const p = r.dado
   const ag = useDoc<Agency>(p ? `agencia:${p.agencyId}` : null, () => doc(db, 'agencies', p!.agencyId))
   const { pessoas } = usePessoas(p?.agencyId, true)
+  const cat = useCatalogoInterno()
   const [editando, setEditando] = useState(false)
 
   if (p === null) return <Pagina titulo="Imóvel"><Aviso>Imóvel não encontrado.</Aviso></Pagina>
@@ -31,6 +34,8 @@ function Imovel({ id }: { id: string }) {
             {editando ? <Editar p={p} fechar={() => setEditando(false)} /> : <Dados p={p} nomeDaAgencia={ag.dado?.name} />}
             <LinksPublicos p={p} />
             <CorretorResponsavel p={p} pessoas={pessoas} />
+            <HistoricoDePublicacoes p={p} interno pessoa={cat.pessoa} basePedido="/admin/requests" />
+            <ReverterPublicacao p={p} />
           </div>
         )}
       </Estado>

@@ -36,6 +36,38 @@ export function validarManifesto(m: unknown, esperado: { imovel: string; pasta: 
   return x as Manifesto
 }
 
+// O que o estado.json DO SITE diz estar no ar para um imóvel (o painel nunca usa cópia local).
+export function noAr(estado: unknown, unidade: string): { atual: string; anterior: string | null } {
+  const e = estado as { schema?: number; imoveis?: Record<string, { atual?: unknown; anterior?: unknown }> } | null
+  if (!e || e.schema !== 1 || typeof e.imoveis !== 'object') throw new Error('estado.json fora do formato esperado (schema 1).')
+  const i = e.imoveis[unidade]
+  if (!i) throw new Error(`O site de imóveis ainda não tem "${unidade}" no ar.`)
+  if (typeof i.atual !== 'string' || !BUILD.test(i.atual)) throw new Error(`estado.json sem um build válido para "${unidade}".`)
+  const anterior = typeof i.anterior === 'string' && BUILD.test(i.anterior) ? i.anterior : null
+  return { atual: i.atual, anterior }
+}
+
+const raizDoSite = (site: string) => url(site.endsWith('/') ? site : site + '/')
+
+export async function lerEstado(site: string, unidade: string, buscar: Buscar = fetch) {
+  const r = await buscar(new URL('estado.json', raizDoSite(site)).href, { cache: 'no-store' })
+  if (!r.ok) throw new Error(`Não consegui ler o estado.json do site de imóveis (HTTP ${r.status}).`)
+  return noAr(await r.json(), unidade)
+}
+
+// Os ponteiros estáveis do imóvel (§8): nunca mudam; o que muda é o build para onde apontam.
+export const linksPublicos = (site: string, unidade: string) => ({
+  tourUrl: new URL(`imovel/${unidade}`, raizDoSite(site)).href,
+  maqueteUrl: new URL(`maquete/${unidade}`, raizDoSite(site)).href,
+})
+
+// "Registrar publicado" só depois de ver no site que o build está no ar (§2).
+export function conferirNoAr(estado: { atual: string }, esperado: string, comando: string) {
+  if (estado.atual !== esperado) {
+    throw new Error(`No ar está o build ${estado.atual}, e o esperado é ${esperado}. Rode ${comando} e confira de novo.`)
+  }
+}
+
 // O operador cola a URL do tour em preview; o painel lê o manifest.json da mesma pasta.
 export async function lerPreview(urlDoTour: string, pipelineUnitId: string, buscar: Buscar = fetch): Promise<Preview> {
   const pasta = new URL('./', url(urlDoTour))

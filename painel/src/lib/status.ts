@@ -1,4 +1,4 @@
-import { collection, doc, serverTimestamp, writeBatch, type Firestore } from 'firebase/firestore'
+import { collection, doc, serverTimestamp, writeBatch, type Firestore, type WriteBatch } from 'firebase/firestore'
 import type { Request, RequestStatus, UserRole } from './types.ts'
 
 export const ROTULO_STATUS: Record<RequestStatus, string> = {
@@ -69,6 +69,13 @@ export function rotuloDaAcao(de: RequestStatus, para: RequestStatus) {
 export function mudarStatus(db: Firestore, uid: string, r: Pick<Request, 'id' | 'agencyId' | 'status'>,
   para: RequestStatus, extra: Record<string, unknown> = {}, detalhes: { nota?: string; build?: string } = {}) {
   const b = writeBatch(db)
+  noBatch(b, db, uid, r, para, extra, detalhes)
+  return b.commit()
+}
+
+// O mesmo par (pedido + log) dentro de um batch maior, como o da publicação.
+export function noBatch(b: WriteBatch, db: Firestore, uid: string, r: Pick<Request, 'id' | 'agencyId' | 'status'>,
+  para: RequestStatus, extra: Record<string, unknown> = {}, detalhes: { nota?: string; build?: string } = {}) {
   const log = doc(collection(db, 'auditLogs'))
   b.set(log, {
     agencyId: r.agencyId, userId: uid, entityType: 'request', entityId: r.id,
@@ -77,5 +84,4 @@ export function mudarStatus(db: Firestore, uid: string, r: Pick<Request, 'id' | 
     timestamp: serverTimestamp(),
   })
   b.update(doc(db, 'requests', r.id), { status: para, lastAuditId: log.id, updatedAt: serverTimestamp(), ...extra })
-  return b.commit()
 }

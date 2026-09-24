@@ -2,6 +2,7 @@
 import { doc } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { CorretorResponsavel, Dados, LinksPublicos } from '@/components/imovel'
+import { HistoricoDePublicacoes } from '@/components/publicacao'
 import { Aviso, Cartao, ComId, Estado } from '@/components/ui'
 import { db } from '@/lib/firebase'
 import { usePessoas } from '@/lib/usePessoas'
@@ -29,6 +30,8 @@ function Imovel({ id }: { id: string }) {
             <Dados p={p} />
             {gerente ? <CorretorResponsavel p={p} pessoas={pessoas} />
               : <Cartao titulo="Corretor responsável"><p className="text-sm">{nome(p.assignedAgentId, perfil.id)}</p></Cartao>}
+            {/* quem publica é sempre a equipe interna (platform_admin) */}
+            <HistoricoDePublicacoes p={p} interno={false} pessoa={() => 'Equipe interna'} basePedido="/requests" />
           </div>
         )}
       </Estado>
