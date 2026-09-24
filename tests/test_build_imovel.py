@@ -9,6 +9,7 @@ import hashlib
 import json
 import runpy
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -27,6 +28,15 @@ class BuildIdTests(unittest.TestCase):
         self.assertRegex(a, r'^[0-9a-f]{12}$')
         self.assertEqual(a, B['build_id'](b'<tour>', b'<maquete>'))
         self.assertEqual(a, hashlib.sha256(b'<tour><maquete>').hexdigest()[:12])
+        # O ID nao pode depender da plataforma: os HTMLs viram LF antes do hash, e
+        # canonicalizar de novo nao muda nada.
+        with tempfile.TemporaryDirectory() as tmp:
+            html = Path(tmp) / 'tour.html'
+            html.write_bytes(b'a\r\nb\rc\n')
+            B['canonicaliza_html'](html)
+            self.assertEqual(html.read_bytes(), b'a\nb\nc\n')
+            B['canonicaliza_html'](html)
+            self.assertEqual(html.read_bytes(), b'a\nb\nc\n')
 
     def test_changing_the_tour_changes_the_id(self):
         self.assertNotEqual(B['build_id'](b'<tour>', b'<maquete>'),

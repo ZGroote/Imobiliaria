@@ -1,0 +1,2 @@
+# Este arquivo entra byte a byte na chave do cache de encaixes.
+pipeline/encaixar_casas_lotes.py text eol=lf

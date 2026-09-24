@@ -60,6 +60,14 @@ def prefixo_publico(prefixo):
     return '/' + '/'.join(p.parts) + '/'
 
 
+def canonicaliza_html(path):
+    """Reescreve o HTML com fim de linha LF. O que o gerador escreve depende do checkout
+    (autocrlf) e do `write_text` do Windows; sem isto o mesmo conjunto de fontes daria
+    outro ID em outra plataforma. O arquivo publicado e o proprio byte canonico."""
+    dado = path.read_bytes()
+    path.write_bytes(dado.replace(b'\r\n', b'\n').replace(b'\r', b'\n'))
+
+
 def fontes_da_maquete(imovel_id):
     """O que o pagina_maquete.py le. No Cedros ele entrega a pagina inteira ao
     padrao_atual.py, e as fontes passam a ser os arquivos do `padrao-atual/`."""
@@ -113,6 +121,8 @@ def construir(imovel_id, builds=BUILDS):
                         '--unidade', imovel_id, '--saida', str(trabalho / 'maquete.html'),
                         '--mapa', 'tour.html'],
                        check=True, cwd=str(RAIZ), stdout=sys.stderr)
+        for n in ARQUIVOS:
+            canonicaliza_html(trabalho / n)
         if snapshot(fontes) != antes:
             raise ValueError('uma fonte mudou durante a montagem; repita com fontes estaveis')
 
