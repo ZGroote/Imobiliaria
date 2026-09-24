@@ -32,7 +32,7 @@ canvas.addEventListener("pointerdown", e => {
      OBJETO, nao um mapa -- e em visualizador de objeto arrastar gira, que e o que o
      proprio texto da dica da vista de planta sempre prometeu. Fora dela nada muda:
      esquerdo arrasta o mapa, direito gira. */
-  const _sec = (e.button === 2 || e.button === 1 || e.shiftKey);
+  const _sec = (e.button === 2 || e.button === 1 || !!e.shiftKey);
   drag = (_sec !== getPlanta().on) ? ORBIT : PAN;
   lx = e.clientX; ly = e.clientY;
   dnX = e.clientX; dnY = e.clientY; moveu = 0;

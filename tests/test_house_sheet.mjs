@@ -5,7 +5,7 @@ import test from 'node:test';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('..',import.meta.url)).replaceAll('\\','/').replace(/\/$/,'');
-const app=execFileSync('git',['-c','safe.directory='+root,'show','46ef7a0:renderizador-v16-moveis/app.js'],
+const app=execFileSync('git',['-c','safe.directory='+root,'show','1899f9d:renderizador-v16-moveis/app.js'],
   {encoding:'utf8',maxBuffer:2e6}).replaceAll('\r','');
 // A ficha entra por leitor no módulo, porque ela nasce depois dele no app.js.
 const fim=app.lastIndexOf('/*',app.indexOf('Navegação: botão esquerdo'));
@@ -19,7 +19,7 @@ const ANUNCIOS=[{id:'a1',titulo:'Casa no Centro',bairro:'Centro',preco:450000,ti
   {id:'a2',titulo:'Kitnet',bairro:'Vila',preco:1200,tipo:'aluguel',lat:-22.02,lon:-47.88}];
 
 function fixture(modular,anuncios=ANUNCIOS) {
-  const log=[];
+  const log=[],maquete=[];   // a miniatura (v17) nao existia no original: fica fora do oraculo
   const el=new Map();
   const node=id=>{
     if(el.has(id)) return el.get(id);
@@ -39,17 +39,22 @@ function fixture(modular,anuncios=ANUNCIOS) {
     esc:t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),
     getSheet:()=>({preencheAnuncio:h=>log.push(['anuncio',h.id])}),
     closePoiSheet:()=>log.push(['poi']), abrePerto:c=>{log.push(['perto',c.x,c.z,c.nome]);ctx.__volta=c.volta;},
-    flyTo:(x,z,r)=>log.push(['voo',x,z,r])});
+    flyTo:(x,z,r)=>log.push(['voo',x,z,r]),
+    // so o endereco do primeiro anuncio tem predio por perto
+    predioMaisPerto:(x,z,r)=>(maquete.push(['predio',x,z,r]),x===0&&z===0?{id:'p1'}:null),
+    mostraMaquete:(rec,u,dono)=>maquete.push(['mostra',rec.id,u,dono]),
+    escondeMaquete:()=>maquete.push(['esconde'])});
   vm.runInContext(`var hsheet=$('hsheet'), usheet=$('usheet'), housesBox=$('houses');
     var houseBeacon={visible:false,position:{set:(x,y,z)=>__log(['farol',x,y,z])}};`,ctx);
   ctx.__log=a=>log.push(a);
   if(modular) {
     vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/listings/house-sheet.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`HouseSheet.create({document, $, esc, px, pz, brl, getSheet, ListingModels,
-      hsheet, usheet, housesBox, houseBeacon, flyTo, closePoiSheet, abrePerto});`,ctx);
+      hsheet, usheet, housesBox, houseBeacon, flyTo, closePoiSheet, abrePerto,
+      predioMaisPerto, mostraMaquete, escondeMaquete});`,ctx);
   } else vm.runInContext(source,ctx);
   const clica=id=>{for(const fn of node(id).ouvintes.click||[]) fn({});};
-  return {ctx,log,node,clica,
+  return {ctx,log,maquete,node,clica,
     estado:()=>JSON.stringify([...el].map(([k,e])=>[k,e.textContent,e.innerHTML,[...e.classList.list],
       e.children.map(f=>f.innerHTML)]))
       +vm.runInContext('JSON.stringify([houseBeacon.visible])',ctx)};
@@ -77,6 +82,9 @@ test('the public showcase, its sheet, the 3D model and “nearby” match the pr
   assert.equal(a.node('houses').children.length,2,'um item por anúncio público');
   assert.ok(a.log.filter(l=>l[0]==='voo').length>=3,'abrir, voltar do perto e o segundo anúncio voam');
   assert.deepEqual(JSON.parse(JSON.stringify(a.log.find(l=>l[0]==='voo'))),['voo',0,0,190]);
+  // a miniatura sai do predio mais perto do endereco; sem predio, e ao fechar, ela some
+  assert.deepEqual(JSON.parse(JSON.stringify(b.maquete)),[['predio',0,0,90],['mostra','p1',null,'hsheet'],
+    ['esconde'],['predio',10,10,90],['esconde']]);
 });
 
 // O cadastro vem de fora e ninguem revisa titulo por titulo. O item da vitrine e o

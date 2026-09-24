@@ -5,7 +5,7 @@ import test from 'node:test';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('..',import.meta.url)).replaceAll('\\','/').replace(/\/$/,'');
-const app=execFileSync('git',['-c','safe.directory='+root,'show','13aeb8c:renderizador-v16-moveis/app.js'],
+const app=execFileSync('git',['-c','safe.directory='+root,'show','2cad735:renderizador-v16-moveis/app.js'],
   {encoding:'utf8',maxBuffer:2e6}).replaceAll('\r','');
 // No app.js a ficha nascia no meio deste trecho; no módulo ela entra injetada.
 const source=app.slice(app.indexOf('const iaviso = $("iaviso");'),app.indexOf('/* ---- geometria fixa da casa'))
@@ -25,7 +25,7 @@ const UNIDADES=[
   {id:'sem-planta',ficha:{}}];
 
 function fixture(modular,{grupos=3}={}) {
-  const log=[];
+  const log=[],etapas=[];   // a escada das tres etapas (v17) nao existia no original
   const el=new Map();
   const node=id=>{
     if(el.has(id)) return el.get(id);
@@ -47,23 +47,30 @@ function fixture(modular,{grupos=3}={}) {
     enterInterior:(rec,u)=>log.push(['entra',u&&u.id]),
     streamUpdate:f=>log.push(['stream',f]), flyTo:(x,z,r)=>log.push(['voo',x,z,r]),
     setTimeout:(fn,ms)=>{log.push(['espera',ms]);return 1;},
-    getGroups:()=>({length:grupos})});
+    getGroups:()=>({length:grupos}), etapa:(...a)=>etapas.push(a)});
   vm.runInContext(`var target={set:(x,y,z)=>__log(['alvo',x,y,z])};
     var houseBeacon={visible:false,position:{set:(x,y,z)=>__log(['farol',x,y,z])}};
     var usheet=$('usheet'), hsheet=$('hsheet'), housesBox=$('houses');
-    var gGroups={length:${grupos}};`,ctx);
+    var gGroups={length:${grupos}}, ETAPA={atual:'mapa'};`,ctx);
   ctx.__log=a=>log.push(a);
   if(modular) {
     vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/listings/flow.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`globalThis.api=ListingFlow.create({document, $, esc, brl, UNIDADES, listingSheet,
       usheet, hsheet, housesBox, houseBeacon, target, streamUpdate, flyTo, getGroups,
-      predioDaUnidade, closePoiSheet, abrePerto, enterInterior, setTimeout});`,ctx);
+      predioDaUnidade, closePoiSheet, abrePerto, enterInterior, setTimeout,
+      getEtapa:()=>ETAPA, pintaEtapas:()=>etapa('pinta',ETAPA.atual), tour:v=>etapa('tour',v),
+      marcaEtapaNaUrl:()=>etapa('url'), mostraMaquete:(rec,u,dono)=>etapa('mostra',u.id,dono),
+      escondeMaquete:()=>etapa('esconde'), predioMaisPerto:()=>null,
+      // O botao da visita passou a ser o degrau 2 da escada. Sem miniatura aberta, o degrau
+      // entra direto com a unidade da ficha (listings/stage.js, \`entra\`) -- o que o
+      // botao fazia sozinho no original.
+      vaiParaEtapa:k=>{ etapa('vai',k); const F=api.getFicha(); if(k==='interior'&&F) enterInterior(F.rec,F.u); }});`,ctx);
   } else vm.runInContext(source+'\nglobalThis.api={pedePredio,cancelaEscolha,abreUnidade,getEscolhendo:()=>escolhendo};',ctx);
   const clica=(id,tipo='click')=>{for(const fn of node(id).ouvintes[tipo]||[]) fn({});};
   // A 1.0 altera somente estes textos; o comportamento continua comparado ao original.
   const textoAtual=html=>modular ? html : html.replace('planta 3D','Sob consulta')
     .replace(/· (terreno|prédio) não confirmado/g,'· Localização aproximada, ainda não confirmada');
-  return {ctx,log,node,clica,
+  return {ctx,log,etapas,node,clica,
     estado:()=>JSON.stringify([...el].map(([k,e])=>[k,e.textContent,[...e.classList.list],
       e.dataset.unidade,textoAtual(e.innerHTML).length,e.children.map(f=>[f.dataset.unidade,textoAtual(f.innerHTML)])]))
       +vm.runInContext('JSON.stringify([houseBeacon.visible,api.getEscolhendo()&&api.getEscolhendo().id])',ctx)};
@@ -92,6 +99,19 @@ test('showcase, unit opening, sheet and “choose the building” match the pre-
   }
   assert.ok(a.log.some(l=>l[0]==='voo'&&l[3]===190),'the sheet flight is the 190 m one');
   assert.ok(a.log.some(l=>l[0]==='farol'&&l[1]===70),'a unit on a plot targets the plot itself');
+});
+
+test('the sheet drives the stage ladder: opening, the miniature, closing and the visit button',()=>{
+  const b=fixture(true),passo=(id,...esperado)=>{b.etapas.length=0;b.clica(id);assert.deepEqual(b.etapas,esperado,id);};
+  passo('novo-1',['pinta','mapa'],['mostra','com-predio','usheet']);   // abrir a ficha e estar na etapa 1
+  passo('ux',['tour',false],['esconde'],['pinta','mapa'],['url']);     // fechar encerra o giro e esquece a ficha
+  assert.equal(vm.runInContext('api.getFicha()',b.ctx),null);
+  passo('novo-2',['pinta','mapa'],['esconde']);                        // lote: sem volume, sem miniatura
+  passo('uEnter',['vai','interior']);
+  assert.deepEqual(b.log.at(-1),['entra','em-lote']);
+  b.clica('ux');const n=b.log.length;
+  passo('uEnter',['vai','interior']);
+  assert.equal(b.log.length,n,'sem ficha a escada nao tem de quem falar');
 });
 
 test('clicking a listing before the city arrives waits instead of asking for the building',()=>{

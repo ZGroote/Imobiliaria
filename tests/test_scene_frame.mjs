@@ -5,7 +5,7 @@ import test from 'node:test';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('..',import.meta.url)).replaceAll('\\','/').replace(/\/$/,'');
-const app=execFileSync('git',['-c','safe.directory='+root,'show','37eefae:renderizador-v16-moveis/app.js'],
+const app=execFileSync('git',['-c','safe.directory='+root,'show','536b230:renderizador-v16-moveis/app.js'],
   {encoding:'utf8',maxBuffer:2e6}).replaceAll('\r','');
 // As mesmas trocas da extração: o que o laço NÃO possui vira leitor ou escritor.
 const source=app.slice(app.indexOf('function frame(now) {'),app.indexOf('window.__qa = MapDiagnostics'))
@@ -27,8 +27,10 @@ const source=app.slice(app.indexOf('function frame(now) {'),app.indexOf('window.
   .replace('if (!_semRaf) requestAnimationFrame(frame);','if (!semRaf()) requestAnimationFrame(frame);')
   .replace('const W = innerWidth, H = innerHeight;','const W = getWidth(), H = getHeight();');
 
-function fixture(modular) {
-  const log=[];
+// `ordemUnica`: a escada das tres etapas (v17) escreve no mesmo registro do laco. Sem ela
+// fica num registro proprio, porque o original nao a tinha.
+function fixture(modular,{ordemUnica=false}={}) {
+  const log=[],etapas=ordemUnica?log:[];
   const el=id=>({id,firstElementChild:{style:{}},style:{}});
   const compass={firstElementChild:{style:{}}};
   const ctx=vm.createContext({console,$:id=>id==='compass'?compass:el(id),
@@ -45,7 +47,10 @@ function fixture(modular) {
     updatePois:()=>log.push(['pois']), streamUpdate:f=>log.push(['stream',f]),
     streamPump:()=>log.push(['bomba']), v12Frame:n=>log.push(['ui',n]),
     nevoaDoQuadro:()=>log.push(['nevoa']), pintaPerf:n=>log.push(['medidor',n]),
-    sombraDoQuadro:()=>log.push(['enquadra'])});
+    sombraDoQuadro:()=>log.push(['enquadra']),
+    PLANTA:{on:false}, plantaFrame:n=>etapas.push(['planta',n]), marcaTempo:n=>etapas.push(['marca',n]),
+    passoDoTempo:n=>(etapas.push(['tempo',n]),16), tourPassa:dt=>etapas.push(['giro',dt]),
+    passoMaquete:(n,dt)=>etapas.push(['maquete',n,dt]), desenhaMaquete:()=>etapas.push(['miniatura'])});
   vm.runInContext(`var THREE_OK=1;
     var sujaSombra=()=>{ __log(['suja']); sombra=true; };   // como o do app.js
     var camera={position:{setFromSpherical(s){__log(['camPos',s.radius]);return this;},
@@ -76,7 +81,8 @@ function fixture(modular) {
     sombraPendente:()=>sombra, limpaSombra:()=>{sombra=false;},
     getRelevo:()=>relevo, mostraRotulos:()=>rotulos,
     getUrban:()=>urbanMod, getExteriors:()=>exteriorMod,
-    poeCpuMs:v=>{cpu=v;}, semRaf:()=>travado, getWidth, getHeight}`;
+    poeCpuMs:v=>{cpu=v;}, semRaf:()=>travado, getWidth, getHeight,
+    PLANTA, plantaFrame, marcaTempo, passoDoTempo, tourPassa, passoMaquete, desenhaMaquete}`;
   if(modular) {
     vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/scene/frame.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`globalThis.frame=SceneFrame.create(${deps});`,ctx);
@@ -138,4 +144,14 @@ test('the shadow map is only redrawn when something dirtied it',()=>{
   assert.equal(vm.runInContext('renderer.shadowMap.needsUpdate',f.ctx),false,'parada, não redesenha');
   vm.runInContext('INT.on=true; frame(2000)',f.ctx);
   assert.equal(vm.runInContext('renderer.shadowMap.needsUpdate',f.ctx),true,'dentro da casa, sempre');
+});
+
+test('the stage ladder wraps the city frame, and the floor plan scene runs its own loop',()=>{
+  const f=fixture(true,{ordemUnica:true}),ordem=()=>f.log.map(l=>l[0]);
+  vm.runInContext('frame(1000)',f.ctx);
+  // o relogio da escada anda antes de tudo; a miniatura e um segundo render, depois da cidade
+  assert.deepEqual(f.log.slice(0,4),[['tempo',1000],['giro',16],['maquete',1000,16],['governa',1000]]);
+  assert.equal(ordem().indexOf('miniatura'),ordem().indexOf('render')+1);
+  f.log.length=0; vm.runInContext('PLANTA.on=true; frame(1500)',f.ctx);
+  assert.deepEqual(f.log,[['marca',1500],['planta',1500]],'nada da cidade roda na etapa 3');
 });
