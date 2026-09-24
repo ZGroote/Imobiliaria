@@ -76,6 +76,29 @@ class RelocatableTourTests(unittest.TestCase):
         self.assertEqual(json.loads(velho)['parcelTiles']['prefix'], './quintais/h/')
 
 
+class MiniatureSourcesTests(unittest.TestCase):
+    # Fonte que determinou os bytes e ficou fora do manifesto e provenance falsa.
+    def test_every_pilot_miniature_source_is_tracked(self):
+        mini = 'v1.5/miniaturas/'
+        esperado = {
+            'monte-dos-cedros-37': {'pagina_maquete.py', 'padrao_atual.py',
+                                    'padrao-atual/anterior/v2.html',
+                                    'padrao-atual/piloto-v3/lightmap.rgbm.gz',
+                                    'padrao-atual/exterior-v3/geometry-compact.json'},
+            'wish-castanheiras-58': {'pagina_maquete.py', 'caminhada.js', 'castanheiras.js',
+                                     'castanheiras_blender/modelo.json'},
+            'monte-das-colinas-39': {'pagina_maquete.py', 'caminhada.js', 'castanheiras.js',
+                                     'monte-das-colinas_blender/modelo.json'},
+        }
+        for uid, arquivos in esperado.items():
+            fontes = B['fontes_da_maquete'](uid)
+            with self.subTest(imovel=uid):
+                rel = {Path(p).resolve().relative_to(RAIZ).as_posix() for p in fontes}
+                self.assertLessEqual({mini + a for a in arquivos}, rel)
+                # caminho errado viraria `null` no manifesto, calado
+                self.assertEqual([p for p in fontes if not Path(p).is_file()], [])
+
+
 class HeadTests(unittest.TestCase):
     def test_canonical_url_gives_og_url_and_no_invented_og_image(self):
         cabeca = imovel._cabeca(UNIDADE, '', url=URL)

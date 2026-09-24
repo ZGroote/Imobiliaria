@@ -69,15 +69,20 @@ def canonicaliza_html(path):
 
 
 def fontes_da_maquete(imovel_id):
-    """O que o pagina_maquete.py le. No Cedros ele entrega a pagina inteira ao
-    padrao_atual.py, e as fontes passam a ser os arquivos do `padrao-atual/`."""
+    """O que o pagina_maquete.py le alem do que `entradas(config)` ja cobre (renderizador,
+    moveis, luz assada, cadastro). No Cedros ele entrega a pagina inteira ao
+    padrao_atual.py, e as fontes passam a ser os arquivos do `padrao-atual/`. Nos outros,
+    a caminhada e, quando ha modelo do Blender, o castanheiras.js e o modelo.json dele."""
     fontes = [MAQUETE]
     padrao = runpy.run_path(str(PADRAO_CEDROS))
     if imovel_id == padrao['UID']:
-        fontes += [PADRAO_CEDROS] + [padrao['SOURCE'] / p
-                                     for p in padrao['source_manifest']()['sources']]
-    # ponytail: nas outras unidades o pagina_maquete.py tambem le v1.5/miniaturas/*.js
-    # e o modelo.json do Blender, que ficam de fora; incluir quando o build passar do Cedros.
+        return fontes + [PADRAO_CEDROS] + [padrao['SOURCE'] / p
+                                           for p in padrao['source_manifest']()['sources']]
+    mini = MAQUETE.parent
+    fontes.append(mini / 'caminhada.js')
+    modelos = runpy.run_path(str(MAQUETE))['MODELOS_BLENDER']
+    if imovel_id in modelos:
+        fontes += [mini / 'castanheiras.js', mini / modelos[imovel_id] / 'modelo.json']
     return fontes
 
 
