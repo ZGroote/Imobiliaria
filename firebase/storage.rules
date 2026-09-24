@@ -1,42 +1,33 @@
 rules_version = '2';
+// As primeiras regras reais do Storage (T03; tasks/painel/proposta.md, §5). O bucket ainda
+// não existe (D2, 24/09): até ele existir, isto roda só no emulator. Só request-assets/ tem
+// bloco; qualquer outro caminho é negado.
 service firebase.storage {
   match /b/{bucket}/o {
 
-    // Helper
-    function isOwner(imobiliaria_id) {
-      return request.auth != null
-        && request.auth.token.imobiliaria_id == imobiliaria_id;
+    // users/{uid} no Firestore é a fonte de papel
+    function member() {
+      return firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data;
+    }
+    function activeMember() { return request.auth != null && member().active == true; }
+    function staff() { return activeMember() && member().role in ['platform_admin', 'operator']; }
+    function ofAgency(a) {
+      return activeMember() && member().role in ['agency_manager', 'agent']
+        && member().agencyId == a;
     }
 
-    // ── MODELOS 3D ──
-    match /modelos/{imobiliaria_id}/{file} {
-      allow read: if true;  // público
-      allow write: if isOwner(imobiliaria_id)
-        && request.resource.size < 50 * 1024 * 1024  // max 50MB
-        && request.resource.contentType == 'model/gltf-binary';
-    }
-
-    // ── FOTOS ──
-    match /fotos/{imobiliaria_id}/{imovel_id}/{file} {
-      allow read: if true;  // público
-      allow write: if isOwner(imobiliaria_id)
-        && request.resource.size < 10 * 1024 * 1024  // max 10MB por foto
-        && request.resource.contentType.matches('image/.*');
-    }
-
-    // ── PLANTAS ORIGINAIS ──
-    match /plantas/{imobiliaria_id}/{imovel_id}/{file} {
-      allow read: if isOwner(imobiliaria_id);
-      allow write: if isOwner(imobiliaria_id)
-        && request.resource.size < 20 * 1024 * 1024;  // max 20MB
-    }
-
-    // ── LOGOS ──
-    match /logos/{imobiliaria_id}/{file} {
-      allow read: if true;
-      allow write: if isOwner(imobiliaria_id)
-        && request.resource.size < 2 * 1024 * 1024
-        && request.resource.contentType.matches('image/.*');
+    // Materiais enviados pela imobiliária. Só cria: reenviar é arquivo novo.
+    // `resource == null`: o Storage avalia SOBRESCREVER como create, não como update
+    // (medido no emulator), então `allow update: if false` sozinho não barra.
+    match /request-assets/{agencyId}/{requestId}/{file} {
+      allow read: if staff() || ofAgency(agencyId);
+      allow create: if resource == null && (staff() || ofAgency(agencyId))
+        && firestore.get(/databases/(default)/documents/requests/$(requestId)).data.agencyId
+             == agencyId
+        && request.resource.size < 200 * 1024 * 1024
+        && !request.resource.contentType.matches('text/html.*|image/svg.*|application/xhtml.*');
+      allow update: if false;
+      allow delete: if staff();
     }
   }
 }

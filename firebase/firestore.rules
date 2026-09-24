@@ -1,66 +1,239 @@
 rules_version = '2';
+// As primeiras regras reais do projeto (T03; tasks/painel/proposta.md, §5). O banco ainda
+// não existe (D2, 24/09); nada fora do modelo canônico tem bloco, então tudo o mais é negado.
+//
+// Autorização: users/{uid} é a fonte de role, agencyId e active. Ninguém muda os
+// próprios; só platform_admin muda os de qualquer um.
 service cloud.firestore {
-  match /databases/{database}/documents {
+  match /databases/{db}/documents {
 
-    // Helper: usuário está autenticado e pertence à imobiliária
-    function isMember(imobiliaria_id) {
-      return request.auth != null
-        && request.auth.token.imobiliaria_id == imobiliaria_id;
+    // ── quem é quem ──
+    function signedIn() { return request.auth != null; }
+    function userPath(uid) { return /databases/$(db)/documents/users/$(uid); }
+    function me() { return get(userPath(request.auth.uid)).data; }
+    function active() {
+      return signedIn() && exists(userPath(request.auth.uid)) && me().active == true;
+    }
+    function role() { return me().role; }
+    function isAdmin() { return active() && role() == 'platform_admin'; }
+    function isStaff() { return active() && role() in ['platform_admin', 'operator']; }
+    function inAgency(a) {
+      return active() && role() in ['agency_manager', 'agent'] && me().agencyId == a;
+    }
+    function isManager(a) { return inAgency(a) && role() == 'agency_manager'; }
+
+    // ── escrita ──
+    function d() { return request.resource.data; }
+    function diffKeys() { return d().diff(resource.data).affectedKeys(); }
+    function changed(f) { return diffKeys().hasAny([f]); }
+    function keeps(fs) { return !diffKeys().hasAny(fs); }
+    function changesOnly(fs) { return diffKeys().hasOnly(fs); }
+    function stamped() { return d().updatedAt == request.time; }
+    function born() { return d().createdAt == request.time && stamped(); }
+
+    // O AuditLog nasce no MESMO batch: mesmo request.time, mesmo autor, mesma entidade.
+    // Reaproveitar um log antigo falha no timestamp.
+    function auditedAs(id, action) {
+      let log = getAfter(/databases/$(db)/documents/auditLogs/$(d().lastAuditId)).data;
+      return log.entityId == id && log.action == action
+        && log.userId == request.auth.uid && log.timestamp == request.time;
     }
 
-    // Helper: usuário é admin da imobiliária
-    function isAdmin(imobiliaria_id) {
-      return isMember(imobiliaria_id)
-        && request.auth.token.role == 'admin';
+    // Papel interno não tem agência; papel de imobiliária tem uma que existe.
+    function validMembership(u) {
+      return (u.role in ['agency_manager', 'agent'] && u.agencyId is string
+                && exists(/databases/$(db)/documents/agencies/$(u.agencyId)))
+          || (u.role in ['platform_admin', 'operator'] && !('agencyId' in u));
     }
 
-    // ── IMOBILIÁRIAS ──
-    match /imobiliarias/{id} {
-      allow read: if isMember(id);
-      allow write: if isAdmin(id);
+    // ── agencies ──
+    match /agencies/{agencyId} {
+      allow read: if isStaff() || inAgency(agencyId);
+      allow create, update: if isAdmin() && stamped();
+      allow delete: if false;                          // desativar: active = false
     }
 
-    // ── USUÁRIOS ──
-    match /usuarios/{uid} {
-      allow read: if request.auth != null
-        && (request.auth.uid == uid
-            || request.auth.token.role == 'admin');
-      allow create: if request.auth != null;
-      allow update: if request.auth != null
-        && (request.auth.uid == uid
-            || isAdmin(request.resource.data.imobiliaria_id));
-      allow delete: if false;  // desativar, não deletar
+    // ── users ──
+    function invite() {
+      return get(/databases/$(db)/documents/invites/$(request.auth.token.email)).data;
+    }
+    match /users/{uid} {
+      allow read: if isStaff()
+        || (signedIn() && request.auth.uid == uid)
+        || isManager(resource.data.agencyId);
+
+      // Só nasce de convite: próprio uid, e-mail verificado, papel e agência do convite.
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.auth.token.email_verified == true
+        && d().email == request.auth.token.email
+        && d().role == invite().role
+        && d().get('agencyId', null) == invite().get('agencyId', null)
+        && d().active == true && born()
+        && d().keys().hasOnly(['name', 'email', 'role', 'agencyId', 'active',
+                               'createdAt', 'updatedAt']);
+
+      allow update: if stamped() && keeps(['email', 'createdAt'])
+        && ((isAdmin() && validMembership(d()))
+          || (signedIn() && request.auth.uid == uid && changesOnly(['name', 'updatedAt'])));
+      allow delete: if false;
     }
 
-    // ── CIDADES ──
-    match /cidades/{slug} {
-      allow read: if true;  // público
-      allow write: if false;  // só admin SDK (pipeline)
+    // ── invites ──
+    match /invites/{email} {
+      allow read: if isAdmin()
+        || (signedIn() && request.auth.token.email == email
+            && request.auth.token.email_verified == true);
+      allow create, update: if isAdmin() && d().email == email && validMembership(d());
+      allow delete: if isAdmin();
     }
 
-    // ── IMÓVEIS ──
-    match /imoveis/{id} {
-      // Público pode ver imóveis publicados
-      allow read: if resource.data.status == 'publicado'
-        || isMember(resource.data.imobiliaria_id);
-
-      // Membro pode criar imóveis na sua imobiliária
-      allow create: if isMember(request.resource.data.imobiliaria_id)
-        && request.resource.data.status in ['rascunho', 'processando'];
-
-      // Membro pode editar imóveis da sua imobiliária
-      allow update: if isMember(resource.data.imobiliaria_id);
-
-      // Admin pode deletar
-      allow delete: if isAdmin(resource.data.imobiliaria_id);
+    // ── properties ──
+    function pubFields() {
+      return ['tourUrl', 'maqueteUrl', 'publicUrl', 'publishedBuild', 'previousBuild',
+              'publishedRequestId', 'publishedAt', 'lastPublicationId'];
+    }
+    // Publicar e reverter nascem com um registro em publications no MESMO batch: mesmo
+    // autor, mesmo request.time, mesmo imóvel, mesmo build. Ele é o histórico e a auditoria.
+    function publishedAs(pid, action) {
+      let p = getAfter(/databases/$(db)/documents/publications/$(d().lastPublicationId)).data;
+      return p.propertyId == pid && p.action == action && p.build == d().publishedBuild
+        && p.publishedBy == request.auth.uid && p.publishedAt == request.time;
+    }
+    // O build que vai ao ar é o aprovado de um pedido DESTE imóvel, publicado no mesmo batch.
+    function publishedFromApproved(pid) {
+      let r = getAfter(/databases/$(db)/documents/requests/$(d().publishedRequestId)).data;
+      return r.propertyId == pid && r.status == 'published'
+        && r.approvedBuild == d().publishedBuild;
+    }
+    function publicationOk(pid) {
+      return (publishedAs(pid, 'publish') && d().publishedAt == request.time
+                && d().get('previousBuild', null) == resource.data.get('publishedBuild', null)
+                && publishedFromApproved(pid))
+          || (publishedAs(pid, 'rollback')
+                && d().publishedBuild == resource.data.previousBuild
+                && d().previousBuild == resource.data.publishedBuild)
+          || (auditedAs(pid, 'urls')
+                && keeps(['publishedBuild', 'previousBuild', 'publishedRequestId', 'publishedAt',
+                          'lastPublicationId']));
+    }
+    match /properties/{pid} {
+      allow read: if isStaff() || inAgency(resource.data.agencyId);
+      allow create: if isStaff() && born() && !d().keys().hasAny(pubFields())
+        && exists(/databases/$(db)/documents/agencies/$(d().agencyId));
+      allow update: if stamped() && keeps(['createdAt'])
+        && ((isAdmin() && (!diffKeys().hasAny(pubFields()) || publicationOk(pid)))
+          || (isStaff() && keeps(['agencyId']) && !diffKeys().hasAny(pubFields()))
+          || (isManager(resource.data.agencyId)
+              && changesOnly(['assignedAgentId', 'updatedAt'])
+              && get(userPath(d().assignedAgentId)).data.agencyId == resource.data.agencyId));
+      allow delete: if false;                          // arquivar: status = archived
     }
 
-    // ── ANALYTICS ──
-    match /analytics/{id} {
-      allow create: if true;  // qualquer um pode registrar evento
-      allow read: if request.auth != null
-        && request.auth.token.role == 'admin';
-      allow update, delete: if false;  // imutável
+    // ── requests ──
+    function from() { return resource.data.status; }
+    function to() { return d().status; }
+
+    // Ninguém além do gerente escreve a aprovação. Publicar exige o build aprovado.
+    function staffEdit() {
+      return keeps(['approvedBuild', 'approvedBy', 'approvedAt'])
+        && ((isAdmin() && (to() != 'published'
+                           || (from() in ['approved', 'published']
+                               && resource.data.approvedBuild == resource.data.preview.build)))
+          || (isStaff() && !(to() in ['approved', 'published'])));
+    }
+    function managerDecision() {
+      return isManager(resource.data.agencyId) && from() == 'agency_review'
+        && ((to() == 'approved'
+              && changesOnly(['status', 'approvedBuild', 'approvedBy', 'approvedAt',
+                              'updatedAt', 'lastAuditId'])
+              && d().approvedBuild == resource.data.preview.build
+              && d().approvedBy == request.auth.uid
+              && d().approvedAt == request.time)
+          || (to() == 'production' && changesOnly(['status', 'updatedAt', 'lastAuditId'])));
+    }
+    function requesterEdit() {
+      return inAgency(resource.data.agencyId)
+        && (role() == 'agency_manager' || request.auth.uid == resource.data.requestedBy)
+        && from() in ['submitted', 'waiting_materials']
+        && to() in [from(), 'submitted', 'cancelled']
+        && changesOnly(['title', 'notes', 'listingUrl', 'status', 'updatedAt', 'lastAuditId']);
+    }
+
+    match /requests/{rid} {
+      allow read: if isStaff() || inAgency(resource.data.agencyId);
+
+      allow create: if (isStaff() || inAgency(d().agencyId))
+        && d().requestedBy == request.auth.uid
+        && d().status == 'submitted' && born()
+        && (!('propertyId' in d())
+            || get(/databases/$(db)/documents/properties/$(d().propertyId)).data.agencyId
+                 == d().agencyId)
+        && d().keys().hasOnly(['agencyId', 'requestedBy', 'propertyId', 'listingUrl', 'title',
+                               'status', 'priority', 'notes', 'createdAt', 'updatedAt']);
+
+      allow update: if keeps(['agencyId', 'requestedBy', 'createdAt']) && stamped()
+        && (!changed('status') || auditedAs(rid, 'status:' + to()))
+        // trocar o preview tira o pedido de approved: a aprovação é de um build
+        && (!changed('preview') || !(to() in ['approved', 'published']))
+        && (to() != 'agency_review' || d().preview.build is string)
+        && (staffEdit() || managerDecision() || requesterEdit());
+      allow delete: if false;
+
+      match /internal/{doc} {
+        allow read, write: if isStaff();
+      }
+    }
+
+    // ── requestAssets ──
+    match /requestAssets/{aid} {
+      allow read: if isStaff() || inAgency(resource.data.agencyId);
+      allow create: if (isStaff() || inAgency(d().agencyId))
+        && d().uploadedBy == request.auth.uid && d().createdAt == request.time
+        && get(/databases/$(db)/documents/requests/$(d().requestId)).data.agencyId
+             == d().agencyId
+        && d().storagePath == 'request-assets/' + d().agencyId + '/' + d().requestId
+                              + '/' + d().filename
+        && d().type in ['photo', 'video', 'floorplan', 'document', 'reference', 'other']
+        && d().keys().hasOnly(['requestId', 'agencyId', 'type', 'filename', 'storagePath',
+                               'uploadedBy', 'createdAt']);
+      allow update: if false;
+      allow delete: if isStaff();
+    }
+
+    // ── auditLogs (só cresce) ──
+    match /auditLogs/{id} {
+      allow read: if isStaff()
+        || (inAgency(resource.data.agencyId) && resource.data.visibility == 'agency');
+      allow create: if active()
+        && d().userId == request.auth.uid && d().timestamp == request.time
+        && d().visibility in ['internal', 'agency']
+        && (isStaff() || (inAgency(d().agencyId) && d().visibility == 'agency'));
+      allow update, delete: if false;
+    }
+
+    // ── publications (histórico de publicar/reverter; só cresce) ──
+    // Só nasce junto com a mudança do imóvel que aponta para ela (lastPublicationId).
+    function publicationBorn(pubId) {
+      let p = getAfter(/databases/$(db)/documents/properties/$(d().propertyId)).data;
+      return p.lastPublicationId == pubId && p.agencyId == d().agencyId
+        && p.publishedBuild == d().build;
+    }
+    match /publications/{pubId} {
+      allow read: if isStaff() || inAgency(resource.data.agencyId);
+      allow create: if isAdmin()
+        && d().publishedBy == request.auth.uid && d().publishedAt == request.time
+        && d().action in ['publish', 'rollback'] && publicationBorn(pubId)
+        && d().keys().hasOnly(['propertyId', 'agencyId', 'requestId', 'action', 'build',
+                               'previousBuild', 'tourUrl', 'maqueteUrl', 'publishedBy',
+                               'publishedAt']);
+      allow update, delete: if false;
+    }
+
+    // ── buildJobs (Fase 2) ──
+    // Só tools/buildjob.mjs escreve, com o Admin SDK, que não passa por estas regras.
+    match /buildJobs/{id} {
+      allow read: if isStaff();
+      allow write: if false;
     }
   }
 }
