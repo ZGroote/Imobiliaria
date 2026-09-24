@@ -191,6 +191,10 @@ service cloud.firestore {
         && (!changed('propertyId') || !('propertyId' in d())
             || get(/databases/$(db)/documents/properties/$(d().propertyId)).data.agencyId
                  == resource.data.agencyId)
+        // o primeiro build de revisão amarra o pedido à unidade: depois dele, propertyId não muda
+        // (para ninguém, nem platform_admin), e o preview só é trocado, nunca removido
+        && (!changed('propertyId') || !('preview' in resource.data))
+        && (!changed('preview') || 'preview' in d())
         && (to() != 'agency_review' || d().preview.build is string)
         && (staffEdit() || managerDecision() || requesterEdit());
       allow delete: if false;

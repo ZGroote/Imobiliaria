@@ -4,7 +4,7 @@ import { collection, doc, getDoc, getDocs, orderBy, query, where, type Firestore
 import { aprovar, registrarPreview } from '../src/lib/aprovacao.ts'
 import { conferirNoAr, lerEstado, linksPublicos, noAr } from '../src/lib/publicacao.ts'
 import { registrarPublicacao, registrarReversao } from '../src/lib/publicar.ts'
-import { criarPedido } from '../src/lib/pedidos.ts'
+import { criarPedido, editarPedidoInterno } from '../src/lib/pedidos.ts'
 import { mudarStatus } from '../src/lib/status.ts'
 import type { Property, Request } from '../src/lib/types.ts'
 import { semear } from '../scripts/seed.mjs'
@@ -55,6 +55,7 @@ test('publicação: só o admin, só o aprovado; histórico visível só para a 
   assert.deepEqual([p.publishedBuild, p.previousBuild, p.publishedRequestId, p.tourUrl, p.publicUrl],
     ['a1b2c3d4e5f6', undefined, 'pedCedros', links.tourUrl, links.tourUrl])
   assert.equal((await pedido(admin.db, 'pedCedros')).status, 'published')
+  await assert.rejects(editarPedidoInterno(admin.db, 'pedCedros', { propertyId: 'colinas' }), /permission/i)  // publicado
 
   const historico = (db: Firestore, agencyId: string) => getDocs(query(collection(db, 'publications'),
     where('agencyId', '==', agencyId), where('propertyId', '==', 'cedros'), orderBy('publishedAt', 'desc')))

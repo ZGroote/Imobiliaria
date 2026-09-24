@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { doc, getDoc, type Firestore } from 'firebase/firestore'
 import { aprovar, pedirAjuste, registrarPreview } from '../src/lib/aprovacao.ts'
 import { lerPreview, validarManifesto } from '../src/lib/publicacao.ts'
+import { editarPedidoInterno } from '../src/lib/pedidos.ts'
 import { mudarStatus } from '../src/lib/status.ts'
 import type { Request } from '../src/lib/types.ts'
 import { semear } from '../scripts/seed.mjs'
@@ -39,8 +40,14 @@ test('aprovação: só o gerente da agência, só o build em revisão; ajuste vo
   await mudarStatus(op.db, 'op', await ler(op.db, 'pedCedros'), 'accepted')
   await mudarStatus(op.db, 'op', await ler(op.db, 'pedCedros'), 'production')
   const previewA = await lerPreview(site('a1b2c3d4e5f6'), UNID, servir(manifesto('a1b2c3d4e5f6')))
+  const admin = await entrar('admin')
+  await editarPedidoInterno(op.db, 'pedCedros', { propertyId: 'colinas' })          // antes do build: pode trocar
+  await editarPedidoInterno(op.db, 'pedCedros', { propertyId: 'cedros' })
   await registrarPreview(op.db, 'op', await ler(op.db, 'pedCedros'), previewA)
   assert.equal((await ler(op.db, 'pedCedros')).status, 'agency_review')
+  for (const q of [op, admin]) {                                                     // com build: travado
+    await assert.rejects(editarPedidoInterno(q.db, 'pedCedros', { propertyId: 'colinas' }), /permission/i)
+  }
 
   await assert.rejects(aprovar(corA.db, 'corA', await ler(corA.db, 'pedCedros')), /permission/i)
   await assert.rejects(aprovar(gerB.db, 'gerB', await ler(op.db, 'pedCedros')), /permission/i)
@@ -56,5 +63,6 @@ test('aprovação: só o gerente da agência, só o build em revisão; ajuste vo
   await aprovar(gerA.db, 'gerA', await ler(gerA.db, 'pedCedros'))
   const aprovado = await ler(op.db, 'pedCedros')
   assert.deepEqual([aprovado.status, aprovado.approvedBuild, aprovado.approvedBy], ['approved', '0f9e8d7c6b5a', 'gerA'])
+  await assert.rejects(editarPedidoInterno(admin.db, 'pedCedros', { propertyId: 'colinas' }), /permission/i)   // aprovado
   assert.throws(() => aprovar(gerA.db, 'gerA', aprovado), /build em revisão/)
 })

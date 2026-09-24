@@ -454,3 +454,37 @@ test('23. publishedRequestId acompanha o build no ar, ao publicar e ao reverter'
   assert.deepEqual([p.publishedBuild, p.publishedRequestId, p.previousBuild, p.previousRequestId],
     [BUILD2, 'aprA2', '000000000000', 'reqAntigo']);
 });
+
+// ── o build de revisão amarra o pedido à unidade ──
+
+const outroImovelDeA = () => env.withSecurityRulesDisabled((ctx) => setDoc(doc(ctx.firestore(), 'properties/propA2'),
+  { agencyId: 'agA', title: 'Outro de A', status: 'active', createdAt: T, updatedAt: T }));
+const trocaImovel = (uid, rid, propertyId = 'propA2') =>
+  updateDoc(doc(db(uid), 'requests', rid), { propertyId, updatedAt: now() });
+
+test('24. antes do build: trocar entre imóveis da mesma imobiliária é permitido', async () => {
+  await outroImovelDeA();
+  await assertSucceeds(trocaImovel('op', 'reqA'));                 // reqA ainda não tem preview
+  await assertSucceeds(trocaImovel('admin', 'reqA', 'propA'));
+});
+
+test('25. depois do preview: imóvel travado para todos, e o preview não sai para destravar', async () => {
+  await outroImovelDeA();
+  for (const uid of ['op', 'admin']) await assertFails(trocaImovel(uid, 'revA'));         // em revisão, com preview
+  await assertSucceeds(mudaStatus(db('gerA'), 'gerA', 'revA', 'production'));             // ajuste: o preview fica
+  for (const uid of ['op', 'admin']) await assertFails(trocaImovel(uid, 'revA'));         // de volta à produção
+  await assertFails(updateDoc(doc(db('op'), 'requests/revA'), { preview: deleteField(), updatedAt: now() }));
+  await assertFails(updateDoc(doc(db('admin'), 'requests/revA'),
+    { preview: deleteField(), propertyId: 'propA2', updatedAt: now() }));
+  await assertFails(updateDoc(doc(db('op'), 'requests/revA'), { propertyId: deleteField(), updatedAt: now() })); // nem desvincular
+  // trocar o preview por outro build da MESMA unidade continua valendo
+  await assertSucceeds(updateDoc(doc(db('op'), 'requests/revA'),
+    { preview: { ...PREVIEW, build: 'cccccccccccc' }, updatedAt: now() }));
+});
+
+test('26. depois de aprovado e de publicado: imóvel travado', async () => {
+  await outroImovelDeA();
+  for (const uid of ['op', 'admin']) await assertFails(trocaImovel(uid, 'aprA'));         // aprovado
+  await assertSucceeds(publica(db('admin'), 'admin', 'aprA', 'propA', BUILD));
+  for (const uid of ['op', 'admin']) await assertFails(trocaImovel(uid, 'aprA'));         // publicado
+});

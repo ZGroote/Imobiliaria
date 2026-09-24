@@ -77,12 +77,19 @@ function Producao({ p, cat }: { p: Request; cat: ReturnType<typeof useCatalogoIn
           </select>
         </label>
         <label>Imóvel vinculado
-          <select disabled={ocupado} value={p.propertyId ?? ''} onChange={(e) => salvar({ propertyId: e.target.value })}
-            className="campo mt-1">
+          <select disabled={ocupado || !!p.preview} value={p.propertyId ?? ''}
+            onChange={(e) => salvar({ propertyId: e.target.value })} className="campo mt-1">
             <option value="">Não vinculado</option>
             {cat.imoveis.filter((i) => i.agencyId === p.agencyId).map((i) => <option key={i.id} value={i.id}>{i.title}</option>)}
           </select>
         </label>
+        {/* As regras travam o mesmo: o build é de uma unidade e não pode ir para outra. */}
+        {p.preview && (
+          <p className="text-xs text-slate-500">
+            Travado: o build de revisão <code>{p.preview.build}</code> foi gerado para este imóvel. Para outro imóvel,
+            abra uma nova solicitação.
+          </p>
+        )}
         {erro && <Aviso>{erro}</Aviso>}
       </div>
     </Cartao>
