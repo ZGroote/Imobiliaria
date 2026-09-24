@@ -56,7 +56,8 @@ export function ReverterPublicacao({ p }: { p: Property }) {
   const perfil = usePerfil()
   const { executar, ocupado, erro } = useAcao()
   const [conferido, setConferido] = useState(false)
-  if (perfil.role !== 'platform_admin' || !p.previousBuild || !p.publishedBuild || !p.pipelineUnitId || !SITE) return null
+  if (perfil.role !== 'platform_admin' || !p.previousBuild || !p.previousRequestId || !p.publishedBuild
+    || !p.pipelineUnitId || !SITE) return null
   const comando = `python pipeline/publicar_imovel.py reverter ${p.pipelineUnitId}`
   return (
     <Cartao titulo="Reverter">

@@ -9,9 +9,10 @@
 // As agências A e B são fictícias (D6): nenhum nome de imobiliária real aqui.
 import { test, before, beforeEach, after } from 'node:test';
 import { readFileSync } from 'node:fs';
+import assert from 'node:assert/strict';
 import { initializeTestEnvironment, assertFails, assertSucceeds } from '@firebase/rules-unit-testing';
 import {
-  doc, getDoc, setDoc, updateDoc, deleteDoc, getDocs, collection, query, where, writeBatch,
+  doc, getDoc, setDoc, updateDoc, deleteDoc, deleteField, getDocs, collection, query, where, writeBatch,
   serverTimestamp, Timestamp,
 } from 'firebase/firestore';
 import { ref, uploadBytes, getBytes } from 'firebase/storage';
@@ -96,7 +97,7 @@ function mudaStatus(f, uid, rid, status, extra = {}, { agencyId = 'agA', visibil
   return b.commit();
 }
 // Publicação: pedido -> published (AuditLog) E ponteiro do imóvel (Publication), num batch.
-function publica(f, uid, rid, pid, build, pubExtra = {}) {
+function publica(f, uid, rid, pid, build, pubExtra = {}, propExtra = {}) {
   const b = writeBatch(f);
   const log = doc(collection(f, 'auditLogs'));
   const pub = doc(collection(f, 'publications'));
@@ -108,8 +109,27 @@ function publica(f, uid, rid, pid, build, pubExtra = {}) {
     tourUrl: 'https://imoveis.example/imovel/monte-dos-cedros-37',
     maqueteUrl: 'https://imoveis.example/maquete/monte-dos-cedros-37',
     publicUrl: 'https://imoveis.example/imovel/monte-dos-cedros-37',
-    lastPublicationId: pub.id, updatedAt: now(),
+    lastPublicationId: pub.id, updatedAt: now(), ...propExtra,
   });
+  return b.commit();
+}
+
+// Estado de partida da reversão: no ar BUILD (pedido aprA); antes dele, 000000000000 (pedido reqAntigo).
+async function publicadoComAnterior() {
+  await assertSucceeds(publica(db('admin'), 'admin', 'aprA', 'propA', BUILD));
+  await env.withSecurityRulesDisabled((ctx) => updateDoc(doc(ctx.firestore(), 'properties/propA'),
+    { previousBuild: '000000000000', previousRequestId: 'reqAntigo' }));
+}
+// Reversão correta (troca os dois pares), com campos a mais ou a menos para os casos negativos.
+function reverte(prop = {}, pub = {}) {
+  const f = db('admin');
+  const b = writeBatch(f);
+  const r = doc(collection(f, 'publications'));
+  b.set(r, { propertyId: 'propA', agencyId: 'agA', requestId: 'reqAntigo', action: 'rollback', build: '000000000000',
+    previousBuild: BUILD, publishedBy: 'admin', publishedAt: now(), ...pub });
+  b.update(doc(f, 'properties/propA'), { publishedBuild: '000000000000', previousBuild: BUILD,
+    publishedRequestId: 'reqAntigo', previousRequestId: 'aprA', publishedAt: now(),
+    lastPublicationId: r.id, updatedAt: now(), ...prop });
   return b.commit();
 }
 
@@ -279,15 +299,11 @@ test('13. publicar só o aprovado; trocar o preview derruba a aprovação', asyn
 });
 
 test('13b. publicação registrada, depois reverter para o build anterior', async () => {
-  await assertSucceeds(publica(db('admin'), 'admin', 'aprA', 'propA', BUILD));
-  await env.withSecurityRulesDisabled((ctx) =>
-    updateDoc(doc(ctx.firestore(), 'properties/propA'), { previousBuild: '000000000000' }));
-  const f = db('admin');
-  const b = writeBatch(f);
-  const pub = doc(collection(f, 'publications'));
-  b.set(pub, { propertyId: 'propA', agencyId: 'agA', action: 'rollback', build: '000000000000', previousBuild: BUILD, publishedBy: 'admin', publishedAt: now() });
-  b.update(doc(f, 'properties/propA'), { publishedBuild: '000000000000', previousBuild: BUILD, lastPublicationId: pub.id, updatedAt: now() });
-  await assertSucceeds(b.commit());
+  await publicadoComAnterior();
+  await assertSucceeds(reverte());
+  const p = (await getDoc(doc(db('admin'), 'properties/propA'))).data();
+  assert.deepEqual([p.publishedBuild, p.publishedRequestId, p.previousBuild, p.previousRequestId],
+    ['000000000000', 'reqAntigo', BUILD, 'aprA']);
 });
 
 test('14. imutáveis e atribuição de corretor', async () => {
@@ -395,4 +411,46 @@ test('20. fora do modelo canônico, tudo negado: nem coleção nem claim do mode
       await assertFails(setDoc(doc(f, `${c}/x`), { status: 'publicado', imobiliaria_id: 'agA' }));
   }
   await assertFails(getDoc(doc(claimsAntigas, 'agencies/agA')));   // claim não substitui users/{uid}
+});
+
+// ── consistência da publicação (correção de segurança, item 1 da revisão da Fase 1) ──
+
+test('21. pedido: o imóvel vinculado é sempre da imobiliária do pedido, também ao trocar', async () => {
+  await env.withSecurityRulesDisabled((ctx) => setDoc(doc(ctx.firestore(), 'properties/propA2'),
+    { agencyId: 'agA', title: 'Outro de A', status: 'active', createdAt: T, updatedAt: T }));
+  for (const uid of ['op', 'admin']) {
+    await assertFails(updateDoc(doc(db(uid), 'requests/reqA'), { propertyId: 'propB', updatedAt: now() }));      // de B
+    await assertFails(updateDoc(doc(db(uid), 'requests/reqA'), { propertyId: 'naoexiste', updatedAt: now() }));
+  }
+  await assertSucceeds(updateDoc(doc(db('op'), 'requests/reqA'), { propertyId: 'propA2', updatedAt: now() }));
+  await assertSucceeds(updateDoc(doc(db('op'), 'requests/reqA'), { propertyId: deleteField(), updatedAt: now() }));
+});
+
+test('22. reversão troca só atual e anterior: URLs e ponteiros não mudam', async () => {
+  await publicadoComAnterior();
+  await assertFails(reverte({ tourUrl: 'https://outro.example/imovel/x' }));
+  await assertFails(reverte({ maqueteUrl: 'https://outro.example/maquete/x' }));
+  await assertFails(reverte({ publicUrl: 'https://outro.example/' }));
+  await assertFails(reverte({ publishedAt: T }));                        // "no ar desde" é a hora da reversão
+  await assertSucceeds(reverte());
+});
+
+test('23. publishedRequestId acompanha o build no ar, ao publicar e ao reverter', async () => {
+  await publicadoComAnterior();
+  await assertFails(reverte({ publishedRequestId: 'aprA' }));            // build antigo com o pedido novo
+  await assertFails(reverte({ previousRequestId: 'reqAntigo' }));
+  await assertFails(reverte({}, { requestId: 'aprA' }));                 // histórico com outro pedido
+  await assertSucceeds(reverte());
+
+  // republicar empurra o par (build, pedido) no ar para "anterior"
+  const BUILD2 = 'bbbbbbbbbbbb';
+  await env.withSecurityRulesDisabled((ctx) => setDoc(doc(ctx.firestore(), 'requests/aprA2'), pedido('agA', 'corA', 'approved', {
+    propertyId: 'propA', preview: { ...PREVIEW, build: BUILD2 }, approvedBuild: BUILD2, approvedBy: 'gerA', approvedAt: T })));
+  const prev = { previousBuild: '000000000000' };
+  await assertFails(publica(db('admin'), 'admin', 'aprA2', 'propA', BUILD2, prev, prev));   // sem previousRequestId
+  await assertFails(publica(db('admin'), 'admin', 'aprA2', 'propA', BUILD2, prev, { ...prev, previousRequestId: 'aprA' }));
+  await assertSucceeds(publica(db('admin'), 'admin', 'aprA2', 'propA', BUILD2, prev, { ...prev, previousRequestId: 'reqAntigo' }));
+  const p = (await getDoc(doc(db('admin'), 'properties/propA'))).data();
+  assert.deepEqual([p.publishedBuild, p.publishedRequestId, p.previousBuild, p.previousRequestId],
+    [BUILD2, 'aprA2', '000000000000', 'reqAntigo']);
 });

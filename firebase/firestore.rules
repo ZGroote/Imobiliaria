@@ -90,7 +90,12 @@ service cloud.firestore {
     // ── properties ──
     function pubFields() {
       return ['tourUrl', 'maqueteUrl', 'publicUrl', 'publishedBuild', 'previousBuild',
-              'publishedRequestId', 'publishedAt', 'lastPublicationId'];
+              'publishedRequestId', 'previousRequestId', 'publishedAt', 'lastPublicationId'];
+    }
+    // O que uma reversão pode mudar. Todo outro campo de publicação (URLs, ponteiros) fica igual.
+    function rollbackFields() {
+      return ['publishedBuild', 'previousBuild', 'publishedRequestId', 'previousRequestId',
+              'publishedAt', 'lastPublicationId'];
     }
     // Publicar e reverter nascem com um registro em publications no MESMO batch: mesmo
     // autor, mesmo request.time, mesmo imóvel, mesmo build. Ele é o histórico e a auditoria.
@@ -105,16 +110,23 @@ service cloud.firestore {
       return r.propertyId == pid && r.status == 'published'
         && r.approvedBuild == d().publishedBuild;
     }
+    // No ar e anterior andam em PARES (build, pedido que o aprovou): publicar empurra o par atual
+    // para "anterior"; reverter troca os dois pares. Assim publishedRequestId é sempre o pedido
+    // que aprovou o publishedBuild, inclusive depois de reverter.
     function publicationOk(pid) {
       return (publishedAs(pid, 'publish') && d().publishedAt == request.time
                 && d().get('previousBuild', null) == resource.data.get('publishedBuild', null)
+                && d().get('previousRequestId', null) == resource.data.get('publishedRequestId', null)
                 && publishedFromApproved(pid))
-          || (publishedAs(pid, 'rollback')
+          || (publishedAs(pid, 'rollback') && d().publishedAt == request.time
                 && d().publishedBuild == resource.data.previousBuild
-                && d().previousBuild == resource.data.publishedBuild)
+                && d().previousBuild == resource.data.publishedBuild
+                && d().publishedRequestId == resource.data.previousRequestId
+                && d().previousRequestId == resource.data.publishedRequestId
+                && !diffKeys().hasAny(pubFields().removeAll(rollbackFields())))
           || (auditedAs(pid, 'urls')
-                && keeps(['publishedBuild', 'previousBuild', 'publishedRequestId', 'publishedAt',
-                          'lastPublicationId']));
+                && keeps(['publishedBuild', 'previousBuild', 'publishedRequestId', 'previousRequestId',
+                          'publishedAt', 'lastPublicationId']));
     }
     match /properties/{pid} {
       allow read: if isStaff() || inAgency(resource.data.agencyId);
@@ -175,6 +187,10 @@ service cloud.firestore {
         && (!changed('status') || auditedAs(rid, 'status:' + to()))
         // trocar o preview tira o pedido de approved: a aprovação é de um build
         && (!changed('preview') || !(to() in ['approved', 'published']))
+        // o imóvel vinculado é sempre da imobiliária do pedido, na criação e em toda troca
+        && (!changed('propertyId') || !('propertyId' in d())
+            || get(/databases/$(db)/documents/properties/$(d().propertyId)).data.agencyId
+                 == resource.data.agencyId)
         && (to() != 'agency_review' || d().preview.build is string)
         && (staffEdit() || managerDecision() || requesterEdit());
       allow delete: if false;
@@ -216,7 +232,8 @@ service cloud.firestore {
     function publicationBorn(pubId) {
       let p = getAfter(/databases/$(db)/documents/properties/$(d().propertyId)).data;
       return p.lastPublicationId == pubId && p.agencyId == d().agencyId
-        && p.publishedBuild == d().build;
+        && p.publishedBuild == d().build
+        && d().get('requestId', null) == p.get('publishedRequestId', null);   // o histórico diz o mesmo pedido
     }
     match /publications/{pubId} {
       allow read: if isStaff() || inAgency(resource.data.agencyId);

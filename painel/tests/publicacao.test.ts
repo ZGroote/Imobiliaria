@@ -70,15 +70,19 @@ test('republicar guarda o anterior; reverter volta a ele e fica no histórico', 
   await registrarPublicacao(admin.db, 'admin', await pedido(admin.db, novo.id), await imovel(admin.db, 'cedros'),
     linksPublicos(SITE, UNID))
   let p = await imovel(admin.db, 'cedros')
-  assert.deepEqual([p.publishedBuild, p.previousBuild], ['0f9e8d7c6b5a', 'a1b2c3d4e5f6'])
+  const par = (x: Property) => [x.publishedBuild, x.publishedRequestId, x.previousBuild, x.previousRequestId]
+  assert.deepEqual(par(p), ['0f9e8d7c6b5a', novo.id, 'a1b2c3d4e5f6', 'pedCedros'])
+  const links = [p.tourUrl, p.maqueteUrl, p.publicUrl]
 
   await assert.rejects(registrarReversao(op.db, 'op', p), /permission/i)
   await registrarReversao(admin.db, 'admin', p)
   p = await imovel(admin.db, 'cedros')
-  assert.deepEqual([p.publishedBuild, p.previousBuild], ['a1b2c3d4e5f6', '0f9e8d7c6b5a'])
+  // o pedido registrado volta junto com o build: o que está no ar foi aprovado por pedCedros
+  assert.deepEqual(par(p), ['a1b2c3d4e5f6', 'pedCedros', '0f9e8d7c6b5a', novo.id])
+  assert.deepEqual([p.tourUrl, p.maqueteUrl, p.publicUrl], links)   // reverter não mexe nos ponteiros
 
   const todos = await getDocs(query(collection(admin.db, 'publications'), where('propertyId', '==', 'cedros'),
     orderBy('publishedAt', 'desc')))
-  assert.deepEqual(todos.docs.map((d) => `${d.data().action}:${d.data().build}`),
-    ['rollback:a1b2c3d4e5f6', 'publish:0f9e8d7c6b5a', 'publish:a1b2c3d4e5f6'])
+  assert.deepEqual(todos.docs.map((d) => `${d.data().action}:${d.data().build}:${d.data().requestId}`),
+    ['rollback:a1b2c3d4e5f6:pedCedros', `publish:0f9e8d7c6b5a:${novo.id}`, 'publish:a1b2c3d4e5f6:pedCedros'])
 })

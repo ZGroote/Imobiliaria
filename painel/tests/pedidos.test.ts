@@ -31,6 +31,11 @@ test('pedidos: quem edita o quê, e quando', async () => {
   await assert.rejects(editarPedido(gerA.db, 'pedColinas', { title: 'X' }), /permission/i)   // produção já começou
   await assert.rejects(editarPedidoInterno(gerA.db, 'pedCedros', { priority: 'high' }), /permission/i)
 
+  // o imóvel vinculado não pode ser de outra imobiliária, nem pela equipe, nem na edição
+  await assert.rejects(editarPedidoInterno(op.db, 'pedCedros', { propertyId: 'imovelB' }), /permission/i)
+  await editarPedidoInterno(op.db, 'pedCedros', { propertyId: 'colinas' })
+  await editarPedidoInterno(op.db, 'pedCedros', { propertyId: 'cedros' })
+
   await editarPedidoInterno(op.db, 'pedB', { priority: 'low', assignedTo: 'op' })
   const b = (await getDoc(doc(op.db, 'requests/pedB'))).data()!
   assert.deepEqual([b.priority, b.assignedTo], ['low', 'op'])

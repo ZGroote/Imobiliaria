@@ -39,7 +39,9 @@ export interface Property {               // properties/{id}
   status: 'active' | 'inactive' | 'archived'
   tourUrl?: string; maqueteUrl?: string; publicUrl?: string
   publishedBuild?: string; previousBuild?: string
-  publishedRequestId?: string; publishedAt?: Timestamp
+  publishedRequestId?: string             // o pedido que aprovou o publishedBuild
+  previousRequestId?: string              // o que aprovou o previousBuild; a reversão troca os pares
+  publishedAt?: Timestamp
   lastPublicationId?: string; lastAuditId?: string
   createdAt: Timestamp; updatedAt: Timestamp
 }
