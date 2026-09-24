@@ -1,0 +1,57 @@
+[
+  {
+    "file": "castanheiras_blender/castanheiras.blend",
+    "sameAsLocal": true,
+    "sha256": "5f8fa12fad13290e1fdc9f3925cf5d0b1833e1c5db47dbe7f53aa5681910f61e"
+  },
+  {
+    "file": "castanheiras_blender/castanheiras.glb",
+    "sameAsLocal": true,
+    "sha256": "a8f76ebbe501034864ab51c61ae7f0ec44a6bd8a00d32defc42afe17b3d5da9e"
+  },
+  {
+    "file": "castanheiras_blender/preview.png",
+    "sameAsLocal": true,
+    "sha256": "d387271a9455a4e9b95a761bef333154b996d546b5b4c3ac178586733bbf5b67"
+  },
+  {
+    "file": "maquete-monte-das-colinas-39.html",
+    "sameAsLocal": true,
+    "sha256": "567c3e545ccafaada47820cfbdd092defca1306aaa151be739916e28979c92c5"
+  },
+  {
+    "file": "maquete-wish-castanheiras-58.html",
+    "sameAsLocal": true,
+    "sha256": "5142f716454c942ef2812cf8ec8458684cc36a8e6266bd2e37cb1359c655057f"
+  },
+  {
+    "file": "monte-das-colinas_blender/detalhe.png",
+    "sameAsLocal": true,
+    "sha256": "29487b40dfc6d3304c20f0e9a8230b60298450d6c0a6701323e5782d0ead7ab5"
+  },
+  {
+    "file": "monte-das-colinas_blender/monte-das-colinas.blend",
+    "sameAsLocal": true,
+    "sha256": "c44c874178e323bd054f33ae9b43d49fd695564837031f73a149e319ad8a00da"
+  },
+  {
+    "file": "monte-das-colinas_blender/monte-das-colinas.glb",
+    "sameAsLocal": true,
+    "sha256": "d7520b68d957bab6edf595987456bcbac834a97b587854966c0cd24505b7d5cc"
+  },
+  {
+    "file": "monte-dos-cedros_blender/detalhe.png",
+    "sameAsLocal": true,
+    "sha256": "d31d89ca3b24edabf7dbcc842e2b9df2fd6e515196553b22b4a7a05b88d3ffc5"
+  },
+  {
+    "file": "monte-dos-cedros_blender/monte-dos-cedros.blend",
+    "sameAsLocal": true,
+    "sha256": "c0f1a9e086a2ce0a797020ad130e59abce9c053c2e55e7f691282964895547ae"
+  },
+  {
+    "file": "monte-dos-cedros_blender/monte-dos-cedros.glb",
+    "sameAsLocal": true,
+    "sha256": "b498ab35e58bd8b0e66e43a3e4b6bf36a9aa35685b459a239a8709629822ce1e"
+  }
+]

@@ -1,0 +1,7 @@
+# Rebuild these from the canonical inputs with preparar_publicacao.py.
+publicado-atual/
+padrao-atual/rollback*/
+padrao-atual/legacy-live/
+padrao-atual/**/irradiance*
+padrao-atual/**/lightmap-scene.blend*
+padrao-atual/**/source-before-trim-repair.json

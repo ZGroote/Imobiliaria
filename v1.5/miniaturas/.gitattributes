@@ -1,0 +1,3 @@
+# Source hashes identify the published release: preserve exact bytes on checkout.
+padrao-atual/** -text whitespace=cr-at-eol
+*.html -text whitespace=cr-at-eol

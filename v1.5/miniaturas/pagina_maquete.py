@@ -32,10 +32,15 @@ def arg(nome, padrao=None):
     return sys.argv[sys.argv.index(nome) + 1] if nome in sys.argv else padrao
 
 
-SAIDA = arg("--saida", os.path.join(RAIZ, "v18", "maquete.html"))
+SAIDA = arg("--saida", os.path.join(RAIZ, "v1.5", "miniaturas", "maquete.html"))
 UNIDADE = arg("--unidade")       # id do cadastro; sem ele vale o IMOVEL de exemplo
 CIDADE = arg("--cidade", "sao-carlos")
 MAPA = arg("--mapa")             # href do mapa deste imovel; sem ele, sem botao
+MODELOS_BLENDER = {
+    'wish-castanheiras-58': 'castanheiras_blender',
+    'monte-dos-cedros-37': 'monte-dos-cedros_blender',
+    'monte-das-colinas-39': 'monte-das-colinas_blender',
+}
 
 
 # ---------------------------------------------------------------------------
@@ -347,13 +352,13 @@ PAGINA = u"""<!doctype html>
      jeitos de ver o MESMO imovel, e o lugar disso e junto da informacao dele. Rola no
      eixo x em tela estreita em vez de quebrar em duas linhas. */
   #modos{display:flex;gap:6px;margin-top:14px;padding-top:12px;
-    border-top:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+    border-top:1px solid var(--line);flex-wrap:wrap}
   #modos::-webkit-scrollbar{display:none}
   /* O "Ver mapa" e um <a> e nao um <button>: ele SAI da pagina. Sendo ancora, o
      botao do meio abre noutra aba, o direito oferece copiar o endereco, e se o
      programa nao rodar ele continua levando ao mapa. A aparencia e a mesma; o que
      muda e a natureza. */
-  #modos button,#modos a{flex:1 1 0;min-width:84px;font:inherit;font-size:11.5px;
+  #modos button,#modos a{flex:1 1 100px;min-width:0;font:inherit;font-size:11.5px;
     padding:9px 6px;border-radius:8px;cursor:pointer;background:rgba(255,255,255,.06);
     border:1px solid var(--line);color:var(--txt);transition:.15s;
     touch-action:manipulation;white-space:nowrap;text-align:center;
@@ -457,6 +462,41 @@ PAGINA = u"""<!doctype html>
   }
   @supports (height:30dvh){ @media (max-width:640px){ #cena{height:clamp(190px,30dvh,290px)} } }
 
+  #alternarFicha{display:flex;align-items:center;justify-content:center;margin:-8px auto 0;width:44px;height:32px;
+    border:0;border-radius:6px;background:transparent;color:#99a5af;cursor:pointer}
+  #alternarFicha:hover{color:var(--txt);background:rgba(255,255,255,.05)}
+  #alternarFicha svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6}
+  body.ficha-recolhida #alternarFicha svg{transform:rotate(180deg)}
+  #alternarFicha:focus-visible{outline:2px solid var(--verde);outline-offset:3px}
+  body.ficha-recolhida .folha{height:calc(100vh - 26px - env(safe-area-inset-bottom));
+    height:calc(100dvh - 26px - env(safe-area-inset-bottom));display:flex;flex-direction:column;margin:0 auto}
+  body.ficha-recolhida #cena{height:0;min-height:160px;flex:1 1 0}
+  body.ficha-recolhida #ficha{flex:none}
+  body.ficha-recolhida #alternarFicha{margin-bottom:0}
+  body.ficha-recolhida #notaModelo{display:none}
+  /* Em telas pequenas, os detalhes rolam dentro da ficha; a navegacao fica acessivel. */
+  @media (max-width:640px), (max-height:500px) and (max-width:1000px){
+    body{padding:8px max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+    body .folha,body.ficha-recolhida .folha{height:calc(100vh - 16px - env(safe-area-inset-bottom));height:calc(100dvh - 16px - env(safe-area-inset-bottom));margin:0 auto;display:flex;flex-direction:column;gap:8px}
+    body #cena,body.ficha-recolhida #cena{height:0;flex:1 1 0;min-height:120px;margin:0}
+    #ficha{display:flex;flex-direction:column;min-height:0;max-height:62%;padding:8px 10px;flex:0 1 auto}
+    #informacoes{overflow-y:auto;min-height:0;overscroll-behavior:contain;padding-right:2px}
+    #alternarFicha{flex:none;margin:-4px auto 0}
+    #modos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;flex:none;margin-top:6px;padding-top:6px;overflow:visible}
+    #modos button,#modos a{min-width:0;min-height:44px;padding:8px 2px;font-size:11px;white-space:normal;display:flex;align-items:center;justify-content:center}
+    #modos a{grid-column:1/-1}
+    #dica{flex:none;font-size:10px;margin-top:6px}
+    #ficha .preco{font-size:16px;margin-top:4px}
+    .stats,.comodos{margin-top:8px;padding-top:8px}
+    .comodos .grade{display:flex;flex-wrap:wrap;gap:4px 10px}
+    .ci{font-size:11px;padding:0}
+    body.ficha-recolhida #ficha{max-height:none;flex:none}
+  }
+  @media (min-width:640px) and (max-width:1000px) and (max-height:500px){
+    body:not(.ficha-recolhida) .folha{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,40%)}
+    body:not(.ficha-recolhida) #cena{height:100%;min-height:0}
+    body:not(.ficha-recolhida) #ficha{max-height:100%;overflow:hidden}
+  }
 </style>
 </head>
 <body>
@@ -487,6 +527,8 @@ PAGINA = u"""<!doctype html>
 </div>
 
 <section id="ficha">
+  <button id="alternarFicha" type="button" aria-expanded="true" aria-controls="informacoes" aria-label="Recolher informações" title="Recolher informações"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+  <div id="informacoes">
   <div class="topo">
     <div>
       <div class="tag" id="fTag"></div>
@@ -496,7 +538,7 @@ PAGINA = u"""<!doctype html>
     <div class="preco" id="fPreco"><small>Valor</small></div>
   </div>
   <div class="stats" id="fStats"></div>
-  <div class="comodos"><h2>C&ocirc;modos</h2><div class="grade" id="fComodos"></div></div>
+  </div>
   <nav id="modos" aria-label="Como ver o im&oacute;vel">
     <button data-modo="maquete" aria-pressed="true">Pr&eacute;dio</button>
     <button data-modo="planta2d" aria-pressed="false">Planta 2D</button>
@@ -504,6 +546,8 @@ PAGINA = u"""<!doctype html>
     <button data-modo="visita" aria-pressed="false">Visita 3D</button>@@BOTAO_MAPA@@
   </nav>
   <div id="dica">Arraste a maquete para girar</div>
+  <button id="verConjunto" hidden style="margin-top:10px;padding:9px 14px;border:1px solid #52605e;border-radius:8px;background:#202b32;color:#e7ebf0;cursor:pointer" aria-pressed="false">Ver conjunto</button>
+  <p id="notaModelo" hidden style="font-size:11px;color:#99a5af;margin-top:8px;line-height:1.5"></p>
 </section>
 </div>
 <div id="cortina" aria-hidden="true">Abrindo o mapa&hellip;</div>
@@ -534,6 +578,7 @@ PAGINA = u"""<!doctype html>
 <script>@@BAKE@@</script>
 <script>@@ATLAS@@</script>
 <script>@@HOUSEMESH@@</script>
+@@EDITOR_LIB@@
 <script>
 (function () {
 "use strict";
@@ -549,8 +594,7 @@ document.getElementById("fSub").textContent = D.endereco;
 document.getElementById("fPreco").insertAdjacentHTML("beforeend", esc(D.preco));
 document.getElementById("fStats").innerHTML = D.ficha.map(function (r) {
   return "<div>" + esc(r[0]) + "<b>" + esc(r[1]) + "</b></div>"; }).join("");
-document.getElementById("fComodos").innerHTML = D.comodos.map(function (r) {
-  return '<div class="ci"><span>' + esc(r[0]) + "</span><b>" + esc(r[1]) + "</b></div>"; }).join("");
+
 document.getElementById("seloT").textContent = ANDAR === 0 ? "T\\u00e9rreo" : ANDAR + "\\u00ba andar";
 
 /* ---- cena ----------------------------------------------------------------- */
@@ -647,7 +691,7 @@ function encolhe(r, d) {
     var L = Math.hypot(mx, mz) || 1;
     var cosm = (n1[0]*n2[0] + n1[1]*n2[1] + 1) / 2;
     var k = d / Math.max(0.35, Math.sqrt(Math.max(0.12, cosm)));
-    out.push([b[0] + sgn * mx / L * k, b[1] + sgn * mz / L * k]);
+    out.push([b[0] - sgn * mx / L * k, b[1] - sgn * mz / L * k]);
   }
   return out;
   function norm(p, q) { var dx = q[0]-p[0], dz = q[1]-p[1], l = Math.hypot(dx, dz) || 1;
@@ -666,8 +710,10 @@ function forma(r, buraco) {
   }
   return s;
 }
-function prisma(r, alt, buraco) {
-  var g = new THREE.ExtrudeGeometry(forma(r, buraco), { depth: alt, bevelEnabled: false });
+function prisma(r, alt, buraco, bisel) {
+  var g = new THREE.ExtrudeGeometry(forma(r, buraco), { depth: alt,
+    bevelEnabled: !!bisel, bevelSize: bisel || 0, bevelThickness: bisel || 0,
+    bevelSegments: 1, steps: 1 });
   g.rotateX(-Math.PI / 2); g.computeVertexNormals();
   return g;
 }
@@ -677,15 +723,40 @@ cena.add(predio);
 
 var LAJE = 0.34;                       // a laje avanca alem da parede: e ela que
 var REC  = 0.30;                       // desenha a linha horizontal de cada pavimento
-var matLaje = new THREE.MeshStandardMaterial({ color: 0xCFCABF, roughness: 0.88,
+// Texturas pequenas, deterministicas e embutidas: continuam funcionando offline.
+// Cor em sRGB; relevo e rugosidade usam dados lineares. UVs do prisma em metros.
+function acabamento(escala, semente) {
+  var c = document.createElement('canvas'); c.width = c.height = 128;
+  var ctx = c.getContext('2d'), pixels = ctx.createImageData(128,128);
+  for (var i = 0; i < pixels.data.length; i += 4) {
+    semente = (Math.imul(semente,1664525) + 1013904223) >>> 0;
+    var v = 224 + (semente >>> 27);
+    pixels.data[i] = pixels.data[i+1] = pixels.data[i+2] = v;
+    pixels.data[i+3] = 255;
+  }
+  ctx.putImageData(pixels,0,0);
+  var mapa = new THREE.CanvasTexture(c);
+  mapa.wrapS = mapa.wrapT = THREE.RepeatWrapping;
+  mapa.repeat.set(escala,escala);
+  mapa.anisotropy = Math.min(4,ren.capabilities.getMaxAnisotropy());
+  var relevo = mapa.clone(); relevo.needsUpdate = true;
+  mapa.colorSpace = THREE.SRGBColorSpace;
+  return { map:mapa, bumpMap:relevo, bumpScale:0.018, roughnessMap:relevo };
+}
+var reboco = acabamento(1.5,71), concreto = acabamento(0.8,113);
+var matLaje = new THREE.MeshStandardMaterial({ color: 0xDED7CA, roughness: 0.88,
                                                metalness: 0.02, envMapIntensity: 0.5 });
 var matPar  = new THREE.MeshStandardMaterial({ color: 0xB4BAC1, roughness: 0.92,
                                                metalness: 0.02, envMapIntensity: 0.5 });
 // `envMapIntensity` acima de 1 de proposito: o ambiente gerado e fraco (um degrade,
 // nao um HDR), e e o reflexo que desenha a janela.
-var matVid  = new THREE.MeshStandardMaterial({ color: 0x16202C, roughness: 0.09,
-                                               metalness: 0.45, envMapIntensity: 2.1 });
-var matCax  = new THREE.MeshStandardMaterial({ color: 0xE9E6E0, roughness: 0.6,  metalness: 0.05 });
+var matVid  = new THREE.MeshStandardMaterial({ color: 0x4D6877, roughness: 0.18,
+                                               metalness: 0.35, envMapIntensity: 1.6 });
+var matCax  = new THREE.MeshStandardMaterial({ color: 0xD7D4CD, roughness: 0.38, metalness: 0.35 });
+matLaje.setValues(concreto); matPar.setValues(reboco);
+var matTopo = new THREE.MeshStandardMaterial(Object.assign({ color:0x737A7A,
+  roughness:0.96, metalness:0, polygonOffset:true, polygonOffsetFactor:-1,
+  polygonOffsetUnits:-1 }, concreto));
 
 
 /* ---- O PREDIO E UMA LISTA DE BLOCOS --------------------------------------
@@ -722,15 +793,18 @@ function poe(m, i, y) {
 var matsPar = {};
 function matDaCor(hex) {
   if (!hex) return matPar;
-  if (!matsPar[hex]) matsPar[hex] = new THREE.MeshStandardMaterial(
-    { color: new THREE.Color(hex), roughness: 0.92, metalness: 0.02, envMapIntensity: 0.5 });
+  if (!matsPar[hex]) matsPar[hex] = new THREE.MeshStandardMaterial(Object.assign(
+    { color: new THREE.Color(hex), roughness: 0.92, metalness: 0.02, envMapIntensity: 0.5 }, reboco));
   return matsPar[hex];
 }
 
+@@CASTANHEIRAS@@
+
 function montaBloco(bl) {
+  if (typeof CASTANHEIRAS_BLENDER !== 'undefined') return montaCastanheiras(bl);
   var r = bl.pegada, nb = bl.pavimentos;
   var interno = encolhe(r, REC);
-  var gL = prisma(r, LAJE), gP = prisma(interno, LV - LAJE);
+  var gL = prisma(r, LAJE, null, 0.025), gP = prisma(interno, LV - LAJE);
   var ml = new THREE.InstancedMesh(gL, matLaje, nb + 1);
   var mp = new THREE.InstancedMesh(gP, matDaCor(bl.cor), nb);
   ml.castShadow = ml.receiveShadow = true;
@@ -773,6 +847,13 @@ function montaBloco(bl) {
     if (nJ) {
       var vidros = new THREE.InstancedMesh(new THREE.BoxGeometry(JAN_L, JAN_A, 0.05), matVid, nJ);
       var caxs   = new THREE.InstancedMesh(new THREE.BoxGeometry(JAN_L + 0.18, JAN_A + 0.18, 0.12), matCax, nJ);
+      var divisorias = new THREE.InstancedMesh(new THREE.BoxGeometry(0.045, JAN_A, 0.065), matCax, nJ);
+      var peitoris = new THREE.InstancedMesh(new THREE.BoxGeometry(JAN_L + 0.28, 0.09, 0.28), matLaje, nJ);
+      divisorias.name = 'Divisoes das esquadrias'; peitoris.name = 'Peitoris';
+      vidros.name = 'Vidros';
+      peitoris.castShadow = peitoris.receiveShadow = true;
+      vidros.receiveShadow = caxs.receiveShadow = true;
+      var tomVidro = new THREE.Color();
       caxs.castShadow = true;
       var n2 = 0;
       for (var f2 = 0; f2 < nb; f2++) for (var q = 0; q < postos.length; q++) {
@@ -782,15 +863,29 @@ function montaBloco(bl) {
         d.updateMatrix(); caxs.setMatrixAt(n2, d.matrix);
         d.position.set(pt.x + pt.nx*VID_FORA, yy, pt.z + pt.nz*VID_FORA);
         d.updateMatrix(); vidros.setMatrixAt(n2, d.matrix);
+        var variacao = 0.76 + ((f2*17 + q*7) % 11) * 0.024;
+        vidros.setColorAt(n2, tomVidro.setRGB(variacao,variacao,variacao));
+        d.position.set(pt.x + pt.nx*0.12, yy, pt.z + pt.nz*0.12);
+        d.updateMatrix(); divisorias.setMatrixAt(n2,d.matrix);
+        d.position.set(pt.x + pt.nx*0.08, yy - JAN_A/2 - 0.08, pt.z + pt.nz*0.08);
+        d.updateMatrix(); peitoris.setMatrixAt(n2,d.matrix);
         n2++;
       }
       vidros.instanceMatrix.needsUpdate = caxs.instanceMatrix.needsUpdate = true;
-      predio.add(caxs, vidros);
+      divisorias.instanceMatrix.needsUpdate = peitoris.instanceMatrix.needsUpdate = true;
+      vidros.instanceColor.needsUpdate = true;
+      predio.add(caxs, vidros, divisorias, peitoris);
     }
     // Platibanda: e o que separa "predio" de "caixa empilhada". So onde ha apartamento;
     // a caixa de escada do cadastro ja e o remate das laminas.
     var plat = new THREE.Mesh(prisma(r, 0.95, encolhe(r, 0.24)), matDaCor(bl.cor));
-    plat.position.y = nb*LV + LAJE; plat.castShadow = true; predio.add(plat);
+    plat.position.y = nb*LV + LAJE; plat.castShadow = plat.receiveShadow = true; predio.add(plat);
+    var topo = new THREE.Mesh(prisma(encolhe(r,0.26),0.025),matTopo);
+    topo.position.y = nb*LV + LAJE + 0.005; topo.receiveShadow = true;
+    var remate = new THREE.Mesh(prisma(r,0.065,encolhe(r,0.28),0.012),matLaje);
+    remate.position.y = nb*LV + LAJE + 0.95;
+    remate.castShadow = remate.receiveShadow = true;
+    predio.add(topo,remate);
   }
   return { lajes: ml, pars: mp };
 }
@@ -876,7 +971,17 @@ if (ANDAR >= 0 && ANDAR < N) {
    -- em vez de refazer a conta a partir do cadastro e errar de novo no proximo
    formato de empreendimento que aparecer. */
 predio.updateWorldMatrix(true, true);
-var CAIXA = new THREE.Box3().setFromObject(predio);
+var modeloMontes = /^monte-d[ao]s-/.test(D._id || '');
+var conjuntoCompleto = !modeloMontes;
+function caixaVisivel() {
+  var box=new THREE.Box3();
+  predio.children.forEach(function(o){if(o.visible && o.isMesh)box.expandByObject(o);});
+  return box;
+}
+if(modeloMontes)predio.children.forEach(function(o){
+  if(o.isMesh)o.visible=o.userData.tower===0;
+});
+var CAIXA = caixaVisivel();
 var MEIO = CAIXA.getCenter(new THREE.Vector3());
 var TAM = CAIXA.getSize(new THREE.Vector3());
 var ALTURA = TAM.y;
@@ -885,8 +990,25 @@ var ALTURA = TAM.y;
    sozinha: com o semi-lado o canto do embasamento sairia da tela em 45 graus. */
 var raioBase = Math.hypot(TAM.x, TAM.z) / 2;
 var alvo = new THREE.Vector3(MEIO.x, MEIO.y, MEIO.z);
-var orb = { r: 40, th: 0.72, ph: 1.03 };
+var orb = { r: 40, th: D._id === 'wish-castanheiras-58' ? -0.48 : 0.72,
+            ph: D._id === 'wish-castanheiras-58' ? 1.38 : 1.03 };
 var R_MIN = 9, R_MAX = 260, gira = true, zoomManual = false;
+if(modeloMontes){
+  var btConjunto=document.getElementById('verConjunto');btConjunto.hidden=false;
+  var nota=document.getElementById('notaModelo');nota.hidden=false;
+  nota.textContent=D._id==='monte-das-colinas-39'
+    ? 'Maquete ilustrativa • conjunto com quatro blocos representativos; implantação completa não reproduzida.'
+    : 'Maquete ilustrativa baseada nas imagens da MRV • dimensões e implantação aproximadas.';
+  btConjunto.onclick=function(){
+    conjuntoCompleto=!conjuntoCompleto;
+    predio.children.forEach(function(o){if(o.isMesh)o.visible=conjuntoCompleto || o.userData.tower===0;});
+    CAIXA=caixaVisivel();CAIXA.getCenter(MEIO);CAIXA.getSize(TAM);
+    ALTURA=TAM.y;raioBase=Math.hypot(TAM.x,TAM.z)/2;
+    btConjunto.textContent=conjuntoCompleto?'Ver bloco da unidade':'Ver conjunto';
+    btConjunto.setAttribute('aria-pressed',String(conjuntoCompleto));
+    vaiPara('maquete');
+  };
+}
 
 /* O RAIO QUE ENQUADRA O PREDIO INTEIRO, e nao um multiplo chutado do tamanho dele.
    O primeiro palpite (`max(raioChao*1.25, ALTURA*1.5)`) cortava a cobertura no topo da
@@ -923,6 +1045,7 @@ function raioQueEnquadra() {
   // do painel, e a perspectiva ainda empurra pra fora o canto mais proximo.
   return Math.max(R_MIN, Math.max(dv, dh) * 1.12 + raioBase * 0.9);
 }
+var deslocamentoPivo = new THREE.Vector3(0, 0, 1);
 function poeCam() {
   var s = Math.sin(orb.ph);
   cam.position.set(alvo.x + orb.r*s*Math.sin(orb.th), alvo.y + orb.r*Math.cos(orb.ph),
@@ -942,6 +1065,10 @@ function poeCam() {
      saltar. Com ele, o limite pode ir a zero, e zero e a vista de planta baixa. */
   cam.up.set(-Math.cos(orb.ph)*Math.sin(orb.th), s, -Math.cos(orb.ph)*Math.cos(orb.th));
   cam.lookAt(alvo);
+  // O pivo pode ficar fora do centro da tela sem inclinar os eixos da camera.
+  if (modo === 'planta3d')
+    cam.position.copy(deslocamentoPivo).applyQuaternion(cam.quaternion).multiplyScalar(orb.r).add(alvo);
+  cam.updateMatrixWorld();
 }
 
 /* CENTRALIZAR VERTICALMENTE, e nao so caber.
@@ -1017,21 +1144,9 @@ var ARRASTO = "girar";            // "girar" | "mover" -- ver a barra de ferrame
 var _pf = new THREE.Vector3(), _pd = new THREE.Vector3();
 var _raio = new THREE.Raycaster(), _ndc = new THREE.Vector2(), _off = new THREE.Vector3();
 
-/* O QUE A MAO PEGA VIRA O CENTRO.
-
-   O pivo era fixo no meio da planta, entao girar pra ver a cozinha trazia a cozinha
-   pro canto da tela: era preciso trocar pra ferramenta de mover, recentralizar, e
-   voltar pra girar -- duas trocas de botao por angulo, toda vez.
-
-   Aqui o clique lanca um raio na cena e o ponto atingido passa a ser o alvo da
-   orbita. A CAMERA NAO SE MEXE: `r`, `th` e `ph` sao recalculados a partir da posicao
-   onde ela ja esta, que e exatamente a conta inversa do `poeCam` -- entao ela fica no
-   mesmo lugar e so passa a OLHAR pro ponto agarrado. O que a pessoa ve no instante do
-   clique e o enquadramento virar pro que ela escolheu; o arrasto seguinte gira em
-   volta dali.
-
-   Fora da planta 3D nao vale: na maquete o assunto e o predio inteiro, e ele gira
-   sozinho -- pivo que anda ali so faria a vitrine fugir. */
+/* Na planta 3D, o ponto atingido vira o pivo sem alterar a pose da camera.
+   Guarda o deslocamento no referencial da camera, sem mudar os angulos de giro.
+   Assim o ponto fica fixo na tela e a camera nao acumula inclinacao lateral. */
 function focaNoPonto(e) {
   if (modo !== "planta3d" || ARRASTO !== "girar" || !planta3d) return;
   var cr = cv.getBoundingClientRect();
@@ -1041,15 +1156,16 @@ function focaNoPonto(e) {
   _raio.setFromCamera(_ndc, cam);
   var achou = _raio.intersectObject(planta3d, true);
   if (!achou.length) return;                 // clicou no vazio: pivo fica onde estava
-  _off.copy(cam.position).sub(achou[0].point);
+  var posAnterior=cam.position.clone(), rotAnterior=cam.quaternion.clone();
+  _off.copy(posAnterior).sub(achou[0].point);
   var d = _off.length();
-  if (!(d > R_MIN)) return;                  // ponto colado na lente: nao ha orbita
+  if (!(d > cam.near)) return;
   alvo.copy(achou[0].point);
-  orb.r  = Math.min(R_MAX, d);
-  orb.ph = Math.max(0, Math.min(2.20, Math.acos(Math.max(-1, Math.min(1, _off.y / d)))));
-  orb.th = Math.atan2(_off.x, _off.z);
+  orb.r  = d;
+  deslocamentoPivo.copy(_off).applyQuaternion(rotAnterior.clone().invert()).divideScalar(d);
   // O raio virou escolha de quem clicou; `redim` nao pode reenquadrar por cima dele.
   zoomManual = true;
+  // A pose atual fica intacta; poeCam reconstruira a mesma pose no proximo quadro.
 }
 var dedos = new Map(), ant = null, arr = false, lx = 0, ly = 0;
 function medida() { var a = [], it = dedos.values(), v;
@@ -1096,26 +1212,14 @@ cv.addEventListener("pointermove", function (e) {
     return;
   }
   if (ARRASTO === "mover") {
-    /* ARRASTAR = DESLOCAR A PLANTA. O alvo anda no PLANO DO CHAO, nao no plano da
-       tela: a camera olha de cima e em diagonal, entao mover no eixo da tela faria a
-       planta escorregar pra dentro do piso. Direita e frente saem da direcao da
-       propria camera achatada em y -- assim o desenho acompanha o dedo em qualquer
-       giro, que e a unica coisa que a mao espera.
-       A escala e a altura do tronco de visao nesta distancia dividida pelos pixels
-       do painel: um pixel de arrasto vale um pixel de planta, e continua valendo
-       depois de aproximar. */
+    // Desloca a camera no plano da tela para a planta acompanhar o ponteiro.
     var esc_ = 2 * orb.r * Math.tan(cam.fov * Math.PI / 360) / (caixa.clientHeight || 1);
-    _pf.set(0, 0, 0); cam.getWorldDirection(_pf); _pf.y = 0;
-    if (_pf.lengthSq() < 1e-8) _pf.set(0, 0, -1);
-    _pf.normalize();
-    _pd.set(-_pf.z, 0, _pf.x);                       // direita da camera, no chao
-    /* INVERTIDO a pedido, como ja era o eixo vertical do giro. O arrasto move a
-       CAMERA, e nao o desenho: puxar pra direita leva o olhar pra direita, e a planta
-       corre pra esquerda. E a mesma mao das duas ferramentas -- na de girar, arrastar
-       pra baixo sobe a camera --, e misturar as duas convencoes na mesma cena e o que
-       faz a pessoa errar o lado toda vez que troca de botao. */
-    alvo.addScaledVector(_pd,  (e.clientX - lx) * esc_);
-    alvo.addScaledVector(_pf, -(e.clientY - ly) * esc_);
+    cam.updateMatrixWorld();
+    _pd.setFromMatrixColumn(cam.matrixWorld,0);
+    _pf.setFromMatrixColumn(cam.matrixWorld,1);
+    alvo.addScaledVector(_pd, -(e.clientX - lx) * esc_);
+    alvo.addScaledVector(_pf,  (e.clientY - ly) * esc_);
+    zoomManual = true;
     lx = e.clientX; ly = e.clientY;
     return;
   }
@@ -1392,7 +1496,7 @@ function montaMoveisDaPlanta(g) {
     // Peca parametrica ja nasce na medida (a malha e outra); o resto escala.
     if (!def.param) obj.scale.set(m.w/def.b[0], m.h/def.b[1], m.d/def.b[2]);
     obj.rotation.y = Math.atan2(-PL_R.ob.uz, PL_R.ob.ux) + (m.rot || 0) * Math.PI/2;
-    g.add(obj); n++;
+    obj.userData.movel=true;obj.userData.registroMovel=m;g.add(obj); n++;
   }
   return n;
 }
@@ -1413,7 +1517,7 @@ function montaMoveis(g) {
     // e a propria geometria que sobe. Sem esta distincao o aereo ficava no piso.
     obj.position.set(m.p[0], 0, m.p[1]);
     obj.rotation.y = (m.rot || 0) * Math.PI / 2;
-    g.add(obj);
+    obj.userData.movel=true;g.add(obj);
     postos++;
   }
   return postos;
@@ -1468,7 +1572,68 @@ if (PL_R) console.log("planta: " + PL_R.paredes.length + " paredes, " +
 
 /* ---- planta 3D: a mesma parede, extrudada ------------------------------- */
 var PISOS = { quente: 0x8E6E4C, frio: 0xA9AFB6 };
-var planta3d = null;
+var planta3d = null, tetoVisita = null;
+var materiaisSemLuz=new WeakMap();
+function guardaCoresPlanta(){
+  if(D._id!=='monte-dos-cedros-37')return;
+  planta3d.traverse(function(o){if(o.isMesh && o.userData.casa && o.geometry.attributes.color){o.userData.geoVisita=o.geometry;o.userData.geoPlanta=o.geometry.clone();}});
+}
+function luzDaPlanta(plana){
+  if(D._id!=='monte-dos-cedros-37'||!planta3d)return;
+  planta3d.traverse(function(o){
+    if(!o.isMesh)return;
+    if(o.userData.materialVisita){o.material=o.userData.materialVisita;if(o.userData.geoVisita)o.geometry=o.userData.geoVisita;}
+    if(!plana||!o.material.isMeshStandardMaterial)return;
+    var original=o.material,basico=materiaisSemLuz.get(original);
+    if(!basico){basico=new THREE.MeshBasicMaterial({color:original.color,map:original.map,vertexColors:original.vertexColors,side:original.side,transparent:original.transparent,opacity:original.opacity,alphaTest:original.alphaTest,depthWrite:original.depthWrite});materiaisSemLuz.set(original,basico);}
+    o.userData.materialVisita=original;o.material=basico;
+    if(o.userData.geoPlanta)o.geometry=o.userData.geoPlanta;
+  });
+}
+function acabamentoTeto(grupo,pl) {
+  var gesso = new THREE.MeshStandardMaterial({color:0xF2EFE8,roughness:0.88});
+  var caixaGesso = new THREE.BoxGeometry(1,1,1);
+  // Duas faixas em degraus acompanham apenas paredes que chegam ao forro.
+  pl.paredes.forEach(function(w){
+    if(w.y1 < pl.pd-0.01)return;
+    var dx=w.b[0]-w.a[0], dz=w.b[1]-w.a[1], comprimento=Math.hypot(dx,dz);
+    [[0.10,0.055,0.0275],[0.055,0.055,0.0825]].forEach(function(f){
+      var moldura=new THREE.Mesh(caixaGesso,gesso);
+      moldura.name='rodateto';
+      moldura.position.set((w.a[0]+w.b[0])/2,pl.pd-f[2],(w.a[1]+w.b[1])/2);
+      moldura.rotation.y=Math.atan2(dx,dz);
+      moldura.scale.set(ESP+f[0],f[1],comprimento+ESP);
+      moldura.receiveShadow=true;grupo.add(moldura);
+    });
+  });
+  // Mesmo plafom de 23 cm e mesmas posicoes do modulo interior/lights.js.
+  var calota=new THREE.SphereGeometry(0.115,12,8);calota.scale(1,0.58,1);
+  var difusor=new THREE.MeshBasicMaterial({color:0xFFF7E2,toneMapped:false});
+  var aro=new THREE.CylinderGeometry(0.13,0.13,0.035,20);
+  pl.comodos.forEach(function(c){
+    var base=new THREE.Mesh(aro,gesso);base.position.set(c.cx,pl.pd-0.035,c.cz);grupo.add(base);
+    var lampada=new THREE.Mesh(calota,difusor);lampada.name='plafon';
+    lampada.position.set(c.cx,pl.pd-0.09,c.cz);grupo.add(lampada);
+  });
+}
+function montaTeto(grupo, contornos, altura) {
+  tetoVisita = new THREE.Group();
+  tetoVisita.name = 'teto-visita';
+  var material = new THREE.MeshStandardMaterial({color:0xE6E3DD,emissive:0xE6E3DD,emissiveIntensity:0.3,roughness:0.95,side:THREE.DoubleSide});
+  contornos.forEach(function(poly) {
+    var forma = new THREE.Shape();
+    poly.forEach(function(p,i){if(i)forma.lineTo(p[0],p[1]);else forma.moveTo(p[0],p[1]);});
+    forma.closePath();
+    var geo = new THREE.ShapeGeometry(forma);
+    geo.rotateX(Math.PI/2);
+    geo.translate(0,altura,0);
+    var malha = new THREE.Mesh(geo,material);
+    malha.receiveShadow = true;
+    tetoVisita.add(malha);
+  });
+  tetoVisita.visible = false;
+  grupo.add(tetoVisita);
+}
 function montaPlanta3D() {
   if (planta3d) return planta3d;
 
@@ -1479,13 +1644,19 @@ function montaPlanta3D() {
      mesma razao da etapa 3 do mapa: com laje por cima a planta vista de fora e uma
      caixa fechada. */
   if (PL_R) {
-    var gr = HM.geoDaCasa(PL_R, false);
+    var gr = HM.geoDaCasa(PL_R, false, true);
+    tetoVisita = new THREE.Group();tetoVisita.name='teto-visita';
+    var forroOriginal=gr.getObjectByName('forro-original');
+    if(forroOriginal)tetoVisita.add(forroOriginal);
+    acabamentoTeto(tetoVisita,PL_R);
+    tetoVisita.visible=false;gr.add(tetoVisita);
     gr.position.set(-PL_R.ob.cx, 0, -PL_R.ob.cz);   // a casa mora no centro do predio
     var nm2 = montaMoveisDaPlanta(gr);
     if (nm2) console.log("moveis do cadastro: " + nm2);
     gr.visible = false;
     cena.add(gr);
     planta3d = gr;
+    guardaCoresPlanta();
     return gr;
   }
 
@@ -1548,6 +1719,7 @@ function montaPlanta3D() {
     iv.instanceMatrix.needsUpdate = true;
     g.add(iv);
   }
+  montaTeto(g, PL.comodos.map(function(c){return c.poly;}), PD);
   var nm = montaMoveis(g);
   if (nm) console.log("moveis do cadastro: " + nm);
 
@@ -1701,6 +1873,33 @@ function desenhaPlanta2D() {
 
 /* ---- visita: primeira pessoa dentro da planta --------------------------- */
 var FP = { x:0, z:0, yaw:0, pitch:-0.05, mx:0, mz:0 };
+var obstaculosMoveis = null;
+function preparaObstaculos() {
+  if(obstaculosMoveis || !planta3d)return;
+  obstaculosMoveis=[];planta3d.updateMatrixWorld(true);
+  planta3d.children.forEach(function(obj){
+    if(!obj.userData.movel)return;
+    var inversa=obj.matrixWorld.clone().invert(),caixa=new THREE.Box3();
+    obj.traverse(function(mesh){
+      if(!mesh.isMesh||!mesh.geometry)return;
+      mesh.geometry.computeBoundingBox();
+      var mundo=mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
+      if(mundo.max.y<0.12||mundo.min.y>OLHO+0.15)return;
+      caixa.union(mesh.geometry.boundingBox.clone().applyMatrix4(inversa.clone().multiply(mesh.matrixWorld)));
+    });
+    if(caixa.isEmpty())return;
+    var escala=new THREE.Vector3();obj.getWorldScale(escala);
+    obstaculosMoveis.push({caixa:caixa,inversa:inversa,rx:RAIO_CORPO/Math.abs(escala.x),rz:RAIO_CORPO/Math.abs(escala.z)});
+  });
+}
+var pontoColisao=new THREE.Vector3();
+function livreDosMoveis(x,z) {
+  preparaObstaculos();
+  return !(obstaculosMoveis||[]).some(function(o){
+    pontoColisao.set(x,0,z).applyMatrix4(o.inversa);
+    return pontoColisao.x>o.caixa.min.x-o.rx && pontoColisao.x<o.caixa.max.x+o.rx && pontoColisao.z>o.caixa.min.z-o.rz && pontoColisao.z<o.caixa.max.z+o.rz;
+  });
+}
 function livre(x, z) {
   var P = paredes(), lim = ESP/2 + RAIO_CORPO;
   for (var i = 0; i < P.paredes.length; i++) {
@@ -1713,7 +1912,7 @@ function livre(x, z) {
     var px = ax + dx*t - x, pz = az + dz*t - z;
     if (px*px + pz*pz < lim*lim) return false;
   }
-  return dentroDaPlanta(x, z);
+  return dentroDaPlanta(x, z) && livreDosMoveis(x,z);
 }
 function dentroDaPlanta(x, z) {
   for (var i = 0; i < PL.comodos.length; i++)
@@ -1793,11 +1992,13 @@ function pontoDeEntrada() {
     }
   return melhor || [(bx0+bx1)/2, (bz0+bz1)/2];
 }
+@@CAMINHADA@@
 function passoVisita(dt) {
   var mf = FP.mz, mr = FP.mx;
   if (teclas.w) mf += 1; if (teclas.s) mf -= 1;
   if (teclas.d) mr += 1; if (teclas.a) mr -= 1;
-  if (!mf && !mr) return;
+  if (!mf && !mr) { passoAutomatico(dt); return; }
+  cancelaCaminhada();
   var forca = Math.min(1, Math.hypot(mf, mr));
   var vel = 1.8 * Math.min(0.05, dt) * forca;
   var L = Math.hypot(mf, mr); mf /= L; mr /= L;
@@ -1811,7 +2012,7 @@ function passoVisita(dt) {
 }
 var teclas = {};
 addEventListener("keydown", function (e) {
-  if (modo !== "visita") return;
+  if (modo !== "visita" || /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) return;
   var k = e.key.toLowerCase();
   if (k === "w" || k === "arrowup") teclas.w = 1;
   else if (k === "s" || k === "arrowdown") teclas.s = 1;
@@ -1868,24 +2069,38 @@ var DICAS = {
   maquete:  "Arraste a maquete para girar · ela volta a girar sozinha",
   planta2d: "Corte na altura do peitoril · azul é esquadria",
   planta3d: "Escolha à esquerda se o arraste gira ou move · sem laje por cima",
-  visita:   TOQUE ? "Use o manche para andar · arraste a vista para olhar"
-                  : "W A S D para andar · arraste para olhar"
+  visita:   TOQUE ? "Dois toques no chão para caminhar · manche para andar · arraste para olhar"
+                  : "Duplo clique no chão para caminhar · W A S D para andar · arraste para olhar"
 };
+document.getElementById('alternarFicha').addEventListener('click', function() {
+  var recolhida = document.body.classList.toggle('ficha-recolhida');
+  document.getElementById('informacoes').hidden = recolhida;
+  this.setAttribute('aria-expanded', String(!recolhida));
+  var label = recolhida ? 'Mostrar informações' : 'Recolher informações';
+  this.setAttribute('aria-label',label);this.title=label;
+  redim();
+});
 function vaiPara(novo) {
+  cancelaCaminhada();
   /* De onde a planta estava sendo vista e uma ESCOLHA, nao um estado qualquer: como
      ela nao gira sozinha, o angulo na tela foi posto ali por alguem. Ir ver o predio e
      voltar tem que devolver o mesmo desenho, e nao o de fabrica. */
   if (modo === "planta3d")
     vistaPlanta = { th:orb.th, ph:orb.ph, r:orb.r, zoom:zoomManual,
-                    ax:alvo.x, ay:alvo.y, az:alvo.z };
+                    ax:alvo.x, ay:alvo.y, az:alvo.z, deslocamento:deslocamentoPivo.clone() };
+  if(typeof editorCedros!=="undefined" && editorCedros && novo!=="planta3d" && novo!=="visita")editorCedros.fechar(false);
   modo = novo;
+  if(typeof editorCedros!=="undefined" && editorCedros)editorCedros.sincronizaModo();
+  deslocamentoPivo.set(0, 0, 1);
   var botoes = document.querySelectorAll("#modos button");
   for (var i = 0; i < botoes.length; i++)
     botoes[i].setAttribute("aria-pressed", String(botoes[i].dataset.modo === novo));
   var ehPlanta = novo === "planta3d" || novo === "visita";
   if (ehPlanta) montaPlanta3D();
   predio.visible = novo === "maquete";
+  if(modeloMontes)document.getElementById('verConjunto').hidden=novo!=='maquete';
   if (planta3d) planta3d.visible = ehPlanta;
+  if (tetoVisita) tetoVisita.visible = novo === "visita";
   /* `hidden` E PROPRIEDADE DE HTMLElement, E `<svg>` NAO E UM. Atribuir
      `svg.hidden = false` cria uma propriedade solta no objeto -- ela ate LE como
      `false` depois --, mas o atributo do markup continua no elemento, e a regra
@@ -1919,10 +2134,11 @@ function vaiPara(novo) {
         orb.r = vistaPlanta.r;   zoomManual = vistaPlanta.zoom;
         // o deslocamento tambem e escolha de quem olhou: volta junto com o angulo
         alvo.set(vistaPlanta.ax, vistaPlanta.ay, vistaPlanta.az);
+        if(vistaPlanta.deslocamento)deslocamentoPivo.copy(vistaPlanta.deslocamento);
       } else { orb.ph = 0.72; orb.r = raioQueEnquadra(); }
     } else {
       alvo.set(MEIO.x, MEIO.y, MEIO.z);
-      orb.ph = 1.03;
+      orb.ph = D._id === 'wish-castanheiras-58' ? 1.38 : 1.03;
       orb.r = raioQueEnquadra();
       centralizaVertical();
     }
@@ -1946,6 +2162,7 @@ function vaiPara(novo) {
    O cursor muda junto. E a unica confirmacao continua de qual modo esta ligado
    enquanto a mao esta sobre o desenho, longe dos botoes. */
 function poeArrasto(qual) {
+  if(typeof editorCedros!=="undefined" && editorCedros)editorCedros.navegar();
   ARRASTO = qual;
   var g = document.getElementById("fGirar"), mv = document.getElementById("fMover");
   g.setAttribute("aria-pressed", String(qual === "girar"));
@@ -2017,6 +2234,7 @@ function quadro(now) {
      so trava a pagina por segundos; `bakePasso` gasta um orcamento por quadro e devolve
      `true` quando fecha. Ate la a parede aparece com a luz analitica e vai escurecendo
      nos cantos -- que e melhor que uma tela parada. */
+  luzDaPlanta(false);
   if (BK.BAKE.fila && BK.bakePasso(BK.BAKE.fila, 9)) BK.BAKE.fila = null;
   if (voo) {
     var t = Math.min(1, (now - voo.t0) / voo.dur);
@@ -2072,6 +2290,7 @@ function quadro(now) {
   sol.position.set(sx - 30, 46 + sy, sz + 22);
   sol.target.position.set(sx, sy, sz);
   sol.target.updateMatrixWorld();
+  luzDaPlanta(modo === "planta3d");
   ren.render(cena, cam);
 }
 // A camera de sombra tem que CABER o predio: nos +-5 m do padrao do three todo
@@ -2083,6 +2302,7 @@ sol.shadow.camera.top = S;   sol.shadow.camera.bottom = -S;
 sol.shadow.camera.near = 1;  sol.shadow.camera.far = 240;
 sol.shadow.camera.updateProjectionMatrix();
 redim(); orb.r = raioQueEnquadra(); centralizaVertical(); poeCam();
+@@EDITOR_CEDROS@@
 requestAnimationFrame(quadro);
 /* Porta pro QA. `quadro` entra porque em Chrome headless o rAF para depois dos
    primeiros quadros: sem ele, uma sonda so consegue desenhar chamando `ren.render`
@@ -2091,7 +2311,7 @@ requestAnimationFrame(quadro);
 window.__maq = { cena:cena, cam:cam, ren:ren, orb:orb, alvo:alvo, predio:predio,
                  brilho:brilho, andar:ANDAR, N:N, poeCam:poeCam, quadro:quadro,
                  vaiPara:vaiPara, FP:FP, modo:function(){ return modo; },
-                 paredes:paredes, planta:function(){ return planta3d; } };
+                 editor:function(){return typeof editorCedros!=="undefined"?editorCedros:null;}, caminhada:caminhada, caminhoAte:caminhoAte, livre:livre, passoVisita:passoVisita, paredes:paredes, planta:function(){ return planta3d; } };
 })();
 </script>
 </body>
@@ -2133,7 +2353,7 @@ def carrega_cidade():
     return carrega(CIDADE)
 
 
-def botao_mapa():
+def botao_mapa(imovel=None):
     """O "Ver mapa", ou nada.
 
     Sem `--mapa` o botao NAO E ESCRITO -- e nao escrito escondido. Esta pagina e feita
@@ -2142,14 +2362,23 @@ def botao_mapa():
     com `hidden` tambem nao serviria: `[hidden]` ja falhou em <button> nesta casa, e o
     modo de falhar e o botao APARECER.
     """
-    if not MAPA:
+    destino = MAPA or ("https://imobilaria-deccb.web.app/?voltar=https%3A%2F%2Fimobilaria-deccb-miniaturas.web.app%2Fmaquete-monte-dos-cedros-37.html" if imovel and imovel.get("_id") == "monte-dos-cedros-37" else None)
+    if not destino:
         return ""
     from html import escape
     return ('\n    <a id="verMapa" href="%s">Ver mapa</a>'
-            % escape(MAPA, quote=True))
+            % escape(destino, quote=True))
 
 
 def main():
+    if UNIDADE == 'monte-dos-cedros-37' and '--geometria-base' not in sys.argv:
+        from padrao_atual import render
+        from pathlib import Path
+        target = Path(SAIDA)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(render(offline=True, map_href=MAPA), encoding='utf8')
+        print('Padrao atual Cedros: maquete, planta e visita com luz calculada ->', target)
+        return 0
     imovel = do_cadastro(UNIDADE, CIDADE) if UNIDADE else IMOVEL
     three = le(THREE)
     R16 = os.path.join(RAIZ, "v1.5", "renderizador-v16-moveis")
@@ -2167,8 +2396,15 @@ def main():
          .replace("@@FLOORPLAN@@", le(os.path.join(rend, "floor-plan.js")))
          .replace("@@BAKE@@", le(os.path.join(rend, "bake.js")))
          .replace("@@ATLAS@@", le(os.path.join(rend, "light-atlas.js")))
+         .replace("@@CAMINHADA@@", le(os.path.join(RAIZ, "v1.5", "miniaturas", "caminhada.js")))
+         .replace("@@EDITOR_LIB@@", ('<script>'+le(os.path.join(rend, 'furniture-editor.js'))+'</script>') if imovel.get('_id') == 'monte-dos-cedros-37' else '')
+         .replace("@@EDITOR_CEDROS@@", le(os.path.join(RAIZ, 'v1.5', 'miniaturas', 'editor_cedros.js')) if imovel.get('_id') == 'monte-dos-cedros-37' else '')
          .replace("@@HOUSEMESH@@", le(os.path.join(rend, "house-mesh.js")))
-         .replace("@@BOTAO_MAPA@@", botao_mapa())
+         .replace("@@CASTANHEIRAS@@", (
+             'var CASTANHEIRAS_BLENDER = ' + le(os.path.join(RAIZ, "v1.5", "miniaturas", MODELOS_BLENDER[imovel['_id']], "modelo.json")) + ';\n'
+             + le(os.path.join(RAIZ, "v1.5", "miniaturas", "castanheiras.js"))
+             ) if imovel.get('_id') in MODELOS_BLENDER else '')
+         .replace("@@BOTAO_MAPA@@", botao_mapa(imovel))
          .replace("@@TITULO@@", imovel["empreendimento"] + " · " + imovel["unidade"])
          .replace("@@DADOS@@", json.dumps(imovel, ensure_ascii=False))
          .replace("@@THREE@@", three))

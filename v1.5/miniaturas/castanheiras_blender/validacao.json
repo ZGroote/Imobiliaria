@@ -1,0 +1,17 @@
+{
+  "blender": "5.2.2 LTS",
+  "towers": 2,
+  "floors_per_tower": 22,
+  "balcony_depth_m": 2,
+  "reference": "../referencias/castanheiras.png",
+  "back": "aproximado por simetria",
+  "objects": 396,
+  "shared_geometries": 18,
+  "web_bytes": 2025822,
+  "checks": {
+    "pavimentos_e_lajes_duas_torres": true,
+    "geometria_finita": true,
+    "normais_e_uv": true,
+    "glb_valido": true
+  }
+}

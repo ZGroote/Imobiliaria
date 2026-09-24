@@ -1,0 +1,20 @@
+[
+  {
+    "mobile": false,
+    "dpr": 1,
+    "cachedRoomDraws": 0,
+    "uncachedRoomDrawsIn500ms": 11842,
+    "afterMoveDraws": 382,
+    "allIdleShadowDraws": 0,
+    "errors": []
+  },
+  {
+    "mobile": true,
+    "dpr": 1.25,
+    "cachedRoomDraws": 0,
+    "uncachedRoomDrawsIn500ms": 11842,
+    "afterMoveDraws": 382,
+    "allIdleShadowDraws": 0,
+    "errors": []
+  }
+]
