@@ -1,3 +1,5 @@
+import { Pagina } from '@/components/AppShell'
+
 export default function Admin() {
-  return <main className="p-8"><h1 className="text-lg font-semibold">Área interna</h1></main>
+  return <Pagina titulo="Kanban" sub="Pedidos por etapa da produção.">{null}</Pagina>
 }

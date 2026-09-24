@@ -1,3 +1,5 @@
+import { Pagina } from '@/components/AppShell'
+
 export default function Dashboard() {
-  return <main className="p-8"><h1 className="text-lg font-semibold">Área da imobiliária</h1></main>
+  return <Pagina titulo="Início" sub="Resumo dos imóveis e pedidos da imobiliária.">{null}</Pagina>
 }
