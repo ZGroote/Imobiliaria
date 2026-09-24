@@ -3,3 +3,5 @@ out/
 next-env.d.ts
 *.tsbuildinfo
 .env*.local
+# Sem segredo: só manda o next dev usar o emulador. A raiz ignora .env.* por causa de segredos.
+!.env.development
