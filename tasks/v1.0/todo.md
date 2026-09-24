@@ -36,7 +36,7 @@ cadastrada já escapava; o item da vitrine pública, não.
 O projeto não tinha banco Firestore nem bucket (D2, conferido via API em 24/09): as regras
 antigas de `firebase/` nunca protegeram dado. A T03 escreveu as primeiras regras do projeto, para
 o modelo do painel ([proposta](../painel/proposta.md), §3), sem compatibilidade com o modelo
-antigo. O código está no branch `painel/t03-regras` e entra em `main` com a integração do painel.
+antigo. As regras estão em `main` desde o PR #5 (`37114b2`).
 
 - [x] Regras de Firestore e Storage para o modelo canônico (`firebase/*.rules`).
 - [x] Testes no emulador: 28/28 (`npm run test:regras`), cobrindo dois tenants, papéis internos

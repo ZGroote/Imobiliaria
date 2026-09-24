@@ -1,7 +1,7 @@
 # Painel administrativo — arquitetura revisada (v3)
 
-Estado (24/09/2026): **Fase 1 concluída e em produção.** Arquitetura v3 aprovada. O código vive
-no branch `painel/t03-regras` e entra em `main` por merge (§14). Onde a spec
+Estado (24/09/2026): **Fase 1 concluída e em produção.** Arquitetura v3 aprovada. A Fase 1 está
+integrada ao `main` pelo PR #5 (merge commit `37114b2`, §14). Onde a spec
 (`Downloads/PAINEL_ADMIN_ESPECIFICACAO_REVISADA.md`) diverge do repositório, vale o repositório.
 A v3 assume um projeto novo no Firestore e no Storage (D2 encerrada) e separa o trabalho em dois
 trilhos que não se esperam (§13).
@@ -29,7 +29,7 @@ O que existe e roda:
 | D5 | URL pública principal = tour; `tourUrl` e `maqueteUrl` explícitos | `publicUrl = tourUrl` por enquanto (§3) |
 | D6 | Nenhuma imobiliária real assumida | Emulator e testes usam "Imobiliária Fictícia A/B (dev)". Produção sem seed até você informar o nome. |
 | D7 | JDK 21 para o emulator | Temurin 21.0.12.1 portátil em `~/.jdks/`, checksum conferido. **PATH e variáveis do sistema intactos.** |
-| D8 | Firestore `(default)` em `southamerica-east1` | Preparado, **não criado**. Comando e impacto no checklist da §5. A localização não muda depois. |
+| D8 | Firestore `(default)` em `southamerica-east1` | **Criado** em 24/09, com proteção contra exclusão. Comando e impacto no checklist da §5. A localização não muda depois. |
 | D9 | O Storage não bloqueia a Fase 1 | Materiais só no emulator até o plano ser confirmado e o bucket criado (§13, A5) |
 | D10 | Dois trilhos: infraestrutura do painel (A) e publicação 3D (B) | Nenhum espera o outro; o contato é o contrato da §9 (§13) |
 
@@ -299,8 +299,9 @@ npm run test:regras
 índices publicados; as regras no ar são o commit `40b1abd`, conferido por sha256). Falta o passo
 10 (Storage). O texto abaixo fica como registro do procedimento.
 
-Não há versão no ar para anotar nem para onde voltar: o banco e o bucket ainda não
-existem. Cada passo marcado **projeto real** é executado só com a sua aprovação.
+Hoje o Firestore existe e está em produção (regras no ar = `40b1abd`); só o Storage continua
+pendente, porque o bucket ainda não existe. Cada passo marcado **projeto real** é executado só
+com a sua aprovação.
 
 **Antes (git, nada no projeto real)**
 
@@ -660,7 +661,7 @@ daqui, o seu C3 é o C5, e assim por diante.
   prende o visitante ao mapa atual (§6).
 - **N4.** `imovel._cabeca` sempre emite `og:image` para `preview-<id>.jpg`, mesmo sem a
   imagem existir. A mudança da §10 corrige no fluxo novo.
-- **N5.** D2, conferida via API em 24/09, só leitura:
+- **N5.** D2, conferida via API em 24/09, só leitura, antes da criação do banco:
   - Firestore: `databases.list` vazio; `(default)` responde 404.
   - Storage: nenhum bucket; a API do Firebase Storage nunca foi ativada.
   - Os únicos recursos do projeto Firebase são o `hostingSite`.
@@ -774,11 +775,8 @@ cache → build por imóvel → preview → promoção → confirmação no site
 
 **Com você, sem ordem entre si:**
 
-- a criação do banco (A1);
 - o plano e o bucket (A5);
-- ativar o provedor de login do Auth no projeto (não conferido; o painel em produção
-  precisa dele);
-- os sites `imobilaria-deccb-imoveis` e `imobilaria-deccb-painel`;
+- o site `imobilaria-deccb-imoveis` (Trilho B);
 - a guarda do `publicar_aberto.py`.
 
 **Depois dos dois trilhos, Fase 2:** BuildJob e a trava de aprovação dentro do próprio
@@ -810,7 +808,8 @@ npx firebase deploy --only firestore:rules --project imobilaria-deccb
 npx firebase deploy --only hosting:painel --config firebase.painel.json --project imobilaria-deccb
 ```
 
-**Integração:** o branch `painel/t03-regras` entra em `main` por **merge** (sem rebase nem
-cherry-pick), para que `40b1abd` e `8139863` continuem sendo os commits do que está no ar. O
-único conflito previsto é o bloco `scripts` do `package.json`.
+**Integração (concluída):** o branch `painel/t03-regras` entrou em `main` pelo PR #5, com
+**merge commit** (`37114b2`; sem squash, rebase nem cherry-pick), e `40b1abd` e `8139863`
+continuam sendo os commits do que está no ar. O único conflito foi o bloco `scripts` do
+`package.json`.
 
