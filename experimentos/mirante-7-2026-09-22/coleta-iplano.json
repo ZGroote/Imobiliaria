@@ -1,0 +1,68 @@
+{
+  "segundos": 2.8011359000011,
+  "fotos": [
+    {
+      "arquivo": "fotos-iplano/01.jpg",
+      "src": "https://s3.amazonaws.com/msys-imob-iplano/condominio/fotos/1308/f7886e69d9eb52a59282892fd6a10865.jpg",
+      "alt": "Fachada externa",
+      "width": 3,
+      "height": 2
+    },
+    {
+      "arquivo": "fotos-iplano/02.jpg",
+      "src": "https://s3.amazonaws.com/msys-imob-iplano/condominio/fotos/1308/008347f707badd86008226cbf38252aa.jpg",
+      "alt": "Play Ground",
+      "width": 3,
+      "height": 2
+    },
+    {
+      "arquivo": "fotos-iplano/03.jpg",
+      "src": "https://s3.amazonaws.com/msys-imob-iplano/condominio/fotos/1308/6bda3d2d500149e813b00afeb457ef0b.jpg",
+      "alt": "Piscina",
+      "width": 3,
+      "height": 2
+    },
+    {
+      "arquivo": "fotos-iplano/04.jpg",
+      "src": "https://s3.amazonaws.com/msys-imob-iplano/condominio/fotos/1308/f6e0ee756c64e6683356964e773c309d.jpg",
+      "alt": "Sauna",
+      "width": 3,
+      "height": 2
+    },
+    {
+      "arquivo": "fotos-iplano/05.jpg",
+      "src": "https://s3.amazonaws.com/msys-imob-iplano/condominio/fotos/1308/63703a3e3173932049dd07f7a5ed6d27.jpg",
+      "alt": "Sala Fitness",
+      "width": 3,
+      "height": 2
+    },
+    {
+      "arquivo": "fotos-iplano/06.jpg",
+      "src": "https://s3.amazonaws.com/msys-imob-iplano/condominio/fotos/1308/e59c21f0ae34873bce79f5761e2c351c.jpg",
+      "alt": "Pet Care",
+      "width": 3,
+      "height": 2
+    },
+    {
+      "arquivo": "fotos-iplano/07.jpg",
+      "src": "https://s3.amazonaws.com/msys-imob-iplano/condominio/fotos/1308/7797a082f0cb13cf18618717d2c86f52.jpg",
+      "alt": "Dormit\u00f3rio 1",
+      "width": 3,
+      "height": 2
+    },
+    {
+      "arquivo": "fotos-iplano/08.jpg",
+      "src": "https://s3.amazonaws.com/msys-imob-iplano/condominio/fotos/1308/30cfef40d614ff135e22d8fffdb0a8b3.jpg",
+      "alt": "Varanda",
+      "width": 3,
+      "height": 2
+    },
+    {
+      "arquivo": "fotos-iplano/09.jpg",
+      "src": "https://s3.amazonaws.com/msys-imob-iplano/condominio/fotos/1308/067fc60fdad62b2941339e6286a5b57d.jpg",
+      "alt": "Living",
+      "width": 3,
+      "height": 2
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "metodo": "Ajuste assistido após avisos do layout automático, baseado nas perspectivas e na planta",
+  "mudancas": [
+    "Sala e cozinha unidas sem divisória",
+    "Cama casal conforme referência",
+    "Segundo dormitório com uma cama e mesa de apoio, arranjo ilustrativo",
+    "Sofá acrescentado pois o automático não o posicionou",
+    "Cozinha alinhada à parede inferior"
+  ],
+  "moveis": [
+    {
+      "tipo": "cama",
+      "p": [
+        1.2331,
+        1.6981
+      ],
+      "w": 1.38,
+      "d": 1.88,
+      "h": 1.05,
+      "rot": 0
+    },
+    {
+      "tipo": "guardaroupa",
+      "p": [
+        1.2331,
+        3.012
+      ],
+      "w": 1.8,
+      "d": 0.5,
+      "h": 2.3,
+      "rot": 2
+    },
+    {
+      "tipo": "cama",
+      "p": [
+        5.9837,
+        1.7385
+      ],
+      "w": 0.9,
+      "d": 1.88,
+      "h": 1.05,
+      "rot": 0
+    },
+    {
+      "tipo": "mesa",
+      "p": [
+        6.9944,
+        1.3948
+      ],
+      "w": 0.7,
+      "d": 0.5,
+      "h": 0.76,
+      "rot": 3
+    },
+    {
+      "tipo": "guardaroupa",
+      "p": [
+        6.4486,
+        3.1536
+      ],
+      "w": 1.55,
+      "d": 0.45,
+      "h": 2.3,
+      "rot": 2
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        0.566,
+        3.8409
+      ],
+      "w": 0.65,
+      "d": 0.45,
+      "h": 0.92,
+      "rot": 1
+    },
+    {
+      "tipo": "vaso",
+      "p": [
+        1.2938,
+        4.609
+      ],
+      "w": 0.4,
+      "d": 0.66,
+      "h": 0.8,
+      "rot": 2
+    },
+    {
+      "tipo": "box",
+      "p": [
+        0.4649,
+        4.6697
+      ],
+      "w": 0.78,
+      "d": 0.78,
+      "h": 2,
+      "rot": 0
+    },
+    {
+      "tipo": "sofa",
+      "p": [
+        4.7708,
+        1.8598
+      ],
+      "w": 1.65,
+      "d": 0.76,
+      "h": 0.85,
+      "rot": 3,
+      "cor": "#6D8B83"
+    },
+    {
+      "tipo": "rack",
+      "p": [
+        3.012,
+        1.88
+      ],
+      "w": 1.4,
+      "d": 0.26,
+      "h": 0.7,
+      "rot": 1
+    },
+    {
+      "tipo": "tv",
+      "p": [
+        2.911,
+        1.88
+      ],
+      "w": 1.05,
+      "d": 0.1,
+      "h": 1.6,
+      "rot": 1
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        4.8314,
+        4.7101
+      ],
+      "w": 1.0,
+      "d": 0.55,
+      "h": 0.92,
+      "rot": 2,
+      "cor": "#AE8962"
+    },
+    {
+      "tipo": "fogao",
+      "p": [
+        5.7411,
+        4.7101
+      ],
+      "w": 0.55,
+      "d": 0.55,
+      "h": 0.9,
+      "rot": 2
+    },
+    {
+      "tipo": "balcao",
+      "p": [
+        6.388,
+        4.7101
+      ],
+      "w": 0.6,
+      "d": 0.55,
+      "h": 0.92,
+      "rot": 2
+    },
+    {
+      "tipo": "geladeira",
+      "p": [
+        7.1157,
+        4.6495
+      ],
+      "w": 0.6,
+      "d": 0.65,
+      "h": 1.85,
+      "rot": 2
+    },
+    {
+      "tipo": "aereo",
+      "p": [
+        4.8314,
+        4.7505
+      ],
+      "w": 1.0,
+      "d": 0.3,
+      "h": 2.15,
+      "rot": 2
+    },
+    {
+      "tipo": "mesa",
+      "p": [
+        3.7398,
+        3.6791
+      ],
+      "w": 0.75,
+      "d": 0.65,
+      "h": 0.76,
+      "rot": 0
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        3.2951,
+        3.6791
+      ],
+      "w": 0.4,
+      "d": 0.4,
+      "h": 0.85,
+      "rot": 1
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        4.1441,
+        3.6791
+      ],
+      "w": 0.4,
+      "d": 0.4,
+      "h": 0.85,
+      "rot": 3
+    }
+  ]
+}
