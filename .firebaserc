@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "imobilaria-deccb"
-  }
+  },
+  "targets": {
+    "imobilaria-deccb": {
+      "hosting": {
+        "painel": [
+          "imobilaria-deccb-painel"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
