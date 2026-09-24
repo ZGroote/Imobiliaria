@@ -5,7 +5,7 @@ import test from 'node:test';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('..',import.meta.url)).replaceAll('\\','/').replace(/\/$/,'');
-const app=execFileSync('git',['-c','safe.directory='+root,'show','d277e52:renderizador-v16-moveis/app.js'],
+const app=execFileSync('git',['-c','safe.directory='+root,'show','05d7616:renderizador-v16-moveis/app.js'],
   {encoding:'utf8',maxBuffer:2e6}).replaceAll('\r','');
 const source=app.slice(app.indexOf('bq.addEventListener("focus", () => document.body'),
   app.indexOf('// Link de posicao na URL'));

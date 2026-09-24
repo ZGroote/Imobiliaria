@@ -18,13 +18,20 @@ const SETUP = `const CENTER = {lat: -22.01725, lon: -47.8908};
   const NOITE = {on: false}, INT = {on: false}, log = [];
   function setNoite(on, jaVai) { log.push(['noite', on, jaVai]); NOITE.on = on; }
   const streamUpdate = f => log.push(['stream', f]);
-  globalThis.__st = {target, sph, NOITE, INT, log};`;
-function env(search, recusa) {
+  // v17: a escada das tres etapas. Sem imovel na ficha nem link de imovel, o modulo tem que
+  // se comportar exatamente como o original; o que muda com eles fica no teste de baixo.
+  const ETAPA = {atual: 'mapa'}, TOUR = {on: false}, IMOVEL = {ficha: null, link: null};
+  const getFicha = () => IMOVEL.ficha, getLinkImovel = () => IMOVEL.link,
+    abrePeloLink = () => log.push(['abrePeloLink', IMOVEL.link]);
+  globalThis.__st = {target, sph, NOITE, INT, log, ETAPA, TOUR, IMOVEL};`;
+// `segue`: a location acompanha o replaceState, como no navegador. O oraculo nao liga isso.
+function env(search, recusa, segue) {
   const writes = [];
   let refused = 0;
-  return {URL, URLSearchParams, writes,
-    location: {href: 'file:///C:/mapa/sao-carlos-v16-moveis.html' + search + '#vista', search},
-    history: {replaceState: (s, t, u) => { if (recusa && refused++ === 0) throw Error('opaque origin'); writes.push(u); }}};
+  const location = {href: 'file:///C:/mapa/sao-carlos-v16-moveis.html' + search + '#vista', search};
+  return {URL, URLSearchParams, writes, location,
+    history: {replaceState: (s, t, u) => { if (recusa && refused++ === 0) throw Error('opaque origin'); writes.push(u);
+      if (segue) { location.href = 'file://' + u; location.search = new URL(location.href).search; } }}};
 }
 function oracle(search, recusa) {
   const app = execFileSync('git', ['-c', 'safe.directory=' + root, 'show', CHECKPOINT + ':renderizador-v16-moveis/app.js'],
@@ -35,14 +42,12 @@ function oracle(search, recusa) {
   vm.runInContext(`(() => { ${SETUP} ${app.slice(i, j)} globalThis.__o = {escreveLink, lerLink}; })();`, ctx);
   return {ctx, e};
 }
-function modular(search, recusa) {
-  const e = env(search, recusa), ctx = vm.createContext(e);
+function modular(search, recusa, segue) {
+  const e = env(search, recusa, segue), ctx = vm.createContext(e);
   vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/ui/position-link.js', import.meta.url), 'utf8'), ctx);
   vm.runInContext(`(() => { ${SETUP}
     globalThis.__o = PositionLink.create({CENTER, MLAT, MLON, px, pz, target, sph, NOITE, INT, setNoite, streamUpdate,
-      // Dependências posteriores ao monólito, neutras: nenhuma ficha aberta, nenhum tour e
-      // nenhum ?imovel= na URL (nenhuma das buscas abaixo tem), então vale o link de posição.
-      TOUR: {on: false}, getFicha: () => null, getLinkImovel: () => null}); })();`, ctx);
+      ETAPA, TOUR, getFicha, getLinkImovel, abrePeloLink}); })();`, ctx);
   return {ctx, e};
 }
 function run({ctx, e}) {
@@ -63,4 +68,23 @@ test('position link write and read match the monolith', () => {
   for (const search of searches)
     for (const recusa of [false, true])
       assert.equal(run(modular(search, recusa)), run(oracle(search, recusa)), `${search} recusa=${recusa}`);
+});
+
+test('with a listing in hand the URL names the listing, not the camera', () => {
+  const m = modular('?em=-22.02,-47.9&r=15&p=2&t=0.3&q=baixo', false, true), S = m.ctx.__st, P = m.ctx.__o;
+  S.IMOVEL.link = 'mirra-114'; P.lerLink();
+  assert.equal(JSON.stringify(S.log), '[["abrePeloLink","mirra-114"]]', '?imovel= wins over ?em=');
+  assert.deepEqual([S.target.x, S.target.z, S.sph.radius], [0, 0, 900]);
+  S.IMOVEL.ficha = {u: {id: 'mirra-114'}}; P.escreveLink();
+  S.IMOVEL.ficha = null; S.TOUR.on = true; P.escreveLink();
+  assert.deepEqual(m.e.writes, [], 'no camera position while a sheet is open or the tour spins');
+  S.TOUR.on = false; S.IMOVEL.ficha = {u: {id: 'mirra-114'}}; S.ETAPA.atual = 'planta'; P.marcaEtapaNaUrl();
+  S.ETAPA.atual = 'mapa'; P.marcaEtapaNaUrl();
+  S.IMOVEL.ficha = null; P.marcaEtapaNaUrl();
+  const doc = '/C:/mapa/sao-carlos-v16-moveis.html';
+  assert.deepEqual(m.e.writes, [doc + '?q=baixo&imovel=mirra-114&etapa=planta#vista',
+    doc + '?q=baixo&imovel=mirra-114#vista', doc + '?q=baixo#vista']);
+  const f = modular('', true, true);   // file:// recusa a primeira escrita e o link desliga
+  f.ctx.__st.IMOVEL.ficha = {u: {id: 7}}; f.ctx.__o.marcaEtapaNaUrl(); f.ctx.__o.marcaEtapaNaUrl();
+  assert.deepEqual(f.e.writes, []);
 });
