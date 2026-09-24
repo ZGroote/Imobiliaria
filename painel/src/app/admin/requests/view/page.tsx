@@ -5,6 +5,7 @@ import { doc, type Timestamp } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { DadosDoPedido, EditarPedido, ROTULO_PRIORIDADE } from '@/components/pedido'
 import { AcoesDeStatus, Historico } from '@/components/status'
+import { PreviewEmRevisao, RegistrarPreview } from '@/components/aprovacao'
 import { Aviso, Cartao, ComId, Estado, useAcao } from '@/components/ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
@@ -39,6 +40,8 @@ function Solicitacao({ id }: { id: string }) {
             )}
             <div className="space-y-6">
               <AcoesDeStatus r={p} />
+              <PreviewEmRevisao r={p} pessoa={cat.pessoa} />
+              <RegistrarPreview r={p} imovel={cat.imoveis.find((i) => i.id === p.propertyId)} />
               <Producao p={p} cat={cat} />
             </div>
             <NotaInterna rid={p.id} />

@@ -65,15 +65,15 @@ export function rotuloDaAcao(de: RequestStatus, para: RequestStatus) {
 }
 
 // A ÚNICA escrita de status: pedido + AuditLog no mesmo batch, do mesmo autor, na mesma hora
-// (regras: auditedAs). `nota` vai para o log (ex.: o motivo de um ajuste).
+// (regras: auditedAs). `detalhes` vai para o log (ex.: o build revisado, o motivo de um ajuste).
 export function mudarStatus(db: Firestore, uid: string, r: Pick<Request, 'id' | 'agencyId' | 'status'>,
-  para: RequestStatus, extra: Record<string, unknown> = {}, nota?: string) {
+  para: RequestStatus, extra: Record<string, unknown> = {}, detalhes: { nota?: string; build?: string } = {}) {
   const b = writeBatch(db)
   const log = doc(collection(db, 'auditLogs'))
   b.set(log, {
     agencyId: r.agencyId, userId: uid, entityType: 'request', entityId: r.id,
     action: `status:${para}`, visibility: 'agency',
-    before: { status: r.status }, after: { status: para, ...(nota ? { nota } : {}) },
+    before: { status: r.status }, after: { status: para, ...detalhes },
     timestamp: serverTimestamp(),
   })
   b.update(doc(db, 'requests', r.id), { status: para, lastAuditId: log.id, updatedAt: serverTimestamp(), ...extra })

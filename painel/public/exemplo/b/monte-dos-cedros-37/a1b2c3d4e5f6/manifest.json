@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "imovel": "monte-dos-cedros-37",
+  "build": "a1b2c3d4e5f6",
+  "gerado_em": "2026-09-24T03:00:00+00:00",
+  "commit": "exemplo",
+  "arquivos": {
+    "tour.html": { "bytes": 312, "sha256": "exemplo" },
+    "maquete.html": { "bytes": 318, "sha256": "exemplo" }
+  },
+  "publico": { "tour": "/imovel/monte-dos-cedros-37", "maquete": "/maquete/monte-dos-cedros-37" }
+}

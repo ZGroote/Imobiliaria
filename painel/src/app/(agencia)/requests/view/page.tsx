@@ -5,6 +5,7 @@ import { doc } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { DadosDoPedido, EditarPedido } from '@/components/pedido'
 import { AcoesDeStatus, Historico } from '@/components/status'
+import { PreviewEmRevisao } from '@/components/aprovacao'
 import { Aviso, ComId, Estado } from '@/components/ui'
 import { db } from '@/lib/firebase'
 import { usePessoas } from '@/lib/usePessoas'
@@ -44,6 +45,7 @@ function Solicitacao({ id }: { id: string }) {
                   : p.propertyId ? '…' : 'Ainda não cadastrado'} />
             )}
             <div className="space-y-6">
+              <PreviewEmRevisao r={p} pessoa={autor} />
               <AcoesDeStatus r={p} />
               <Historico r={p} interno={false} pessoa={autor} />
             </div>
