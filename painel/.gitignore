@@ -5,3 +5,5 @@ next-env.d.ts
 .env*.local
 # Sem segredo: só manda o next dev usar o emulador. A raiz ignora .env.* por causa de segredos.
 !.env.development
+# Config pública do app web "painel" (não é segredo; ver o próprio arquivo).
+!.env.production
