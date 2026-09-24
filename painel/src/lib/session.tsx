@@ -61,4 +61,11 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
 }
 
 export const useSessao = () => useContext(Ctx)
+
+// Dentro das áreas (sempre atrás do Portão) o usuário está ativo.
+export function usePerfil() {
+  const { sessao } = useSessao()
+  if (sessao.tipo !== 'ativo') throw new Error('usePerfil fora do Portão')
+  return sessao.perfil
+}
 export const sair = () => signOut(auth)

@@ -17,5 +17,6 @@ export function mensagemDoAuth(e: unknown) {
 export function mensagemDoFirestore(e: unknown) {
   const code = (e as { code?: string }).code ?? ''
   if (code === 'permission-denied') return 'Sem permissão para esta ação.'
-  return `Não foi possível salvar (${code || (e as Error).message}).`
+  if (!code) return (e as Error).message          // validação do próprio painel
+  return `Não foi possível salvar (${code}).`
 }
