@@ -23,7 +23,7 @@ O que existe e roda:
 | # | Decisão | Consequência no desenho |
 |---|---|---|
 | D1 | Painel estático no Firebase Hosting, sem servidor | `output: 'export'`; detalhe por `?id=`; as regras são a única camada de autorização |
-| D2 | **Encerrada: legado vazio/não utilizado.** Conferido via API em 24/09: o projeto não tem banco Firestore nem bucket. | Projeto novo. Nenhuma regra, teste, adaptador ou campo para `imobiliarias`, `imoveis`, `usuarios`, `cidades`, `analytics`, `imobiliaria_id` ou os papéis antigos (claims `role`/`imobiliaria_id`). O teste 20 falha se algum voltar. |
+| D2 | **Encerrada: legado vazio/não utilizado.** Antes da criação do banco, conferido via API em 24/09: o projeto não tinha banco Firestore nem bucket. | Projeto novo. Nenhuma regra, teste, adaptador ou campo para `imobiliarias`, `imoveis`, `usuarios`, `cidades`, `analytics`, `imobiliaria_id` ou os papéis antigos (claims `role`/`imobiliaria_id`). O teste 20 falha se algum voltar. |
 | D3 | Papel em `users/{uid}` + convite; sem Custom Claims nem Cloud Function | As regras leem `role`, `agencyId` e `active` desse documento (§4) |
 | D4 | O corretor vê imóveis e pedidos da própria imobiliária | A fronteira é a agência; "meus pedidos" é filtro de tela |
 | D5 | URL pública principal = tour; `tourUrl` e `maqueteUrl` explícitos | `publicUrl = tourUrl` por enquanto (§3) |
@@ -229,7 +229,7 @@ desativar vale na hora, sem esperar o token de 1 h expirar.
 
 ## 5. Security Rules e testes no emulator
 
-Arquivos (em `main` depois da integração do painel): [firestore.rules](../../firebase/firestore.rules),
+Arquivos em `main`: [firestore.rules](../../firebase/firestore.rules),
 [storage.rules](../../firebase/storage.rules), [regras.test.mjs](../../firebase/tests/regras.test.mjs).
 
 As regras não estão transcritas aqui para não existirem duas versões. O que elas
@@ -295,8 +295,8 @@ npm run test:regras
 
 ### Promoção: as primeiras regras reais (fecha a T03)
 
-**Situação em 24/09:** passos 1–9 feitos (no branch `painel/t03-regras`; banco criado, regras e
-índices publicados; as regras no ar são o commit `40b1abd`, conferido por sha256). Falta o passo
+**Situação em 24/09:** passos 1–9 feitos e integrados em `main` pelo PR #5; banco criado, regras e
+índices publicados; as regras no ar são o commit `40b1abd`, conferido por sha256. Falta o passo
 10 (Storage). O texto abaixo fica como registro do procedimento.
 
 Hoje o Firestore existe e está em produção (regras no ar = `40b1abd`); só o Storage continua
@@ -668,7 +668,7 @@ daqui, o seu C3 é o C5, e assim por diante.
 - **N6.** `tools/upload_modelo.js` grava `modelos/<imobiliaria>/<imovel>.glb`, e
   `tools/firebase_check.js` grava `_diagnostico/` e `.firebaserc`. Os dois usam o Admin
   SDK, que ignora as regras.
-  - **Isolados** no branch `painel/t03-regras` (`081da98`): o código antigo foi, sem
+  - **Isolados** desde o commit `081da98`, hoje em `main` pelo PR #5: o código antigo foi, sem
     mudança, para `*.js.legacy`, extensão que o Node recusa executar. O ponto de entrada
     virou um stub sem import que sai com código 1.
   - Não foram apagados. Nenhum script, passo do pipeline ou documento operacional os
@@ -783,8 +783,8 @@ cache → build por imóvel → preview → promoção → confirmação no site
 `promover`.
 
 **Andamento em 24/09:** A1–A4 concluídos e em produção; A5 (Storage) pendente. Trilho B não
-começou: deve partir de `main` depois da integração do painel (§14), porque o pipeline de
-`main` é o atual.
+começou: agora deve partir de `main`, com a integração do painel concluída (§14), porque o
+pipeline de `main` é o atual.
 
 ---
 
