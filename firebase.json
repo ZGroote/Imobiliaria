@@ -32,8 +32,55 @@
         ]
       },
       {
+        "//": "Nome fixo, conteudo novo a cada deploy: chega novo, como o '/'. Vale para os quatro abaixo.",
+        "source": "/index.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/404.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/mapa/imovel-*",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/mapa/sao-carlos-v16-moveis*",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
         "//": "O nome do mapa carrega a versao, entao o conteudo desta URL nunca muda: cachear 1 ano e seguro e poupa 6,8 MB de egress por revisita. Medido: o Hosting nao responde 304 a If-None-Match, entao revalidar custaria o arquivo inteiro -- por isso 'immutable' aqui e nome versionado, e nao revalidacao.",
-        "source": "/mapa/**",
+        "source": "/mapa/sao-carlos-exteriores-*",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "//": "Cada conjunto de quintais mora numa pasta com o hash no nome: mesmo raciocinio do mapa versionado. Nada mais em /mapa/ e imutavel.",
+        "source": "/mapa/quintais/**",
         "headers": [
           {
             "key": "Cache-Control",
@@ -45,32 +92,32 @@
     "redirects": [
       {
         "source": "/mapa/sao-carlos-exteriores-bdf9c99b605a",
-        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
+        "destination": "/",
         "type": 302
       },
       {
         "source": "/mapa/sao-carlos-exteriores-bdf9c99b605a.html",
-        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
+        "destination": "/",
         "type": 302
       },
       {
         "source": "/mapa/sao-carlos-exteriores-abd917c0b117",
-        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
+        "destination": "/",
         "type": 302
       },
       {
         "source": "/mapa/sao-carlos-exteriores-abd917c0b117.html",
-        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
+        "destination": "/",
         "type": 302
       },
       {
         "source": "/mapa/sao-carlos-exteriores-95f1f62f6ea3",
-        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
+        "destination": "/",
         "type": 302
       },
       {
         "source": "/mapa/sao-carlos-exteriores-95f1f62f6ea3.html",
-        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
+        "destination": "/",
         "type": 302
       },
       {
@@ -80,12 +127,12 @@
       },
       {
         "source": "/mapa/sao-carlos-exteriores-64a4258bfc48",
-        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
+        "destination": "/",
         "type": 302
       },
       {
         "source": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
-        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
+        "destination": "/",
         "type": 302
       }
     ]
