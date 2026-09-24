@@ -19,7 +19,8 @@ function context(modular) {
     const obj=new THREE.Group();obj.add(new THREE.Mesh(new THREE.BoxGeometry(2,1,1),new THREE.MeshBasicMaterial()));
     const m={u:0,v:0,w:2,d:1,h:1,obj};obj.userData.movel=m;INT.moveis.push(m);`,ctx);
   if(modular){vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/interior/editor-visuals.js',import.meta.url),'utf8'),ctx);
-    vm.runInContext('globalThis.api=EditorVisuals.create({THREE,INT,MOB,MOB_VERDE,document,overlay,camera,redimensiona});',ctx);
+    // getPlanta é posterior ao monólito; neutra: planta fechada.
+    vm.runInContext('globalThis.api=EditorVisuals.create({THREE,INT,MOB,MOB_VERDE,document,overlay,camera,redimensiona,getPlanta:()=>({on:false})});',ctx);
   }else vm.runInContext(source+'\nglobalThis.api={fazGrade,mobSetas,poeSetas,poeFantasma,tiraFantasma,mobMed,pintaMedidas,posicionaMedidas};',ctx);
   return {ctx,changes};
 }

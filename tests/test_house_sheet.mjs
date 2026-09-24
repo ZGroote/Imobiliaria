@@ -45,8 +45,10 @@ function fixture(modular,anuncios=ANUNCIOS) {
   ctx.__log=a=>log.push(a);
   if(modular) {
     vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/listings/house-sheet.js',import.meta.url),'utf8'),ctx);
+    // A miniatura do prédio é posterior ao monólito; neutra: nenhum prédio por perto, nenhuma maquete.
     vm.runInContext(`HouseSheet.create({document, $, esc, px, pz, brl, getSheet, ListingModels,
-      hsheet, usheet, housesBox, houseBeacon, flyTo, closePoiSheet, abrePerto});`,ctx);
+      hsheet, usheet, housesBox, houseBeacon, flyTo, closePoiSheet, abrePerto,
+      predioMaisPerto:()=>null, mostraMaquete:()=>{}, escondeMaquete:()=>{}});`,ctx);
   } else vm.runInContext(source,ctx);
   const clica=id=>{for(const fn of node(id).ouvintes.click||[]) fn({});};
   return {ctx,log,node,clica,

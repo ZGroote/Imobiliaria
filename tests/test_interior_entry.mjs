@@ -72,7 +72,12 @@ function fixture(modular) {
       melhorDirecao, livre, quatOlhando, acendeInterior, apagaInterior, sondaDeAmbiente,
       soltaSonda, modoMoveis, mostraJoy, pintaCatalogo, pintaEditor, fechaPerto, setPins,
       closePoiSheet, hsheet, usheet, ipanel, houseBeacon, housesBox,
-      poeTipoNulo:()=>{ poeTipo=null; }});`,ctx);
+      poeTipoNulo:()=>{ poeTipo=null; },
+      // A escada de etapas, a ficha e a maquete são posteriores ao monólito; neutras: planta
+      // fechada, nenhum voo nem transição em curso, nenhuma ficha aberta.
+      getPlanta:()=>({on:false,corta:false}), getEtapa:(e=>()=>e)({atual:'mapa'}), saiPlanta:()=>{},
+      paraVoo:()=>{}, pintaEtapas:()=>{}, getFicha:()=>null, setFicha:()=>{}, indoPara:()=>null,
+      escondeMaquete:()=>{}});`,ctx);
   } else vm.runInContext(source+'\nglobalThis.api={baseDaCasa,enterInterior,descarta,exitInterior,saiSeco,alturaDoCorte,aplicaFuro,vista};',ctx);
   const snapshot=()=>vm.runInContext(`JSON.stringify({
     cam:[camera.position.toArray(),camera.quaternion.toArray(),camera.near,camera.far,camera.fov,

@@ -39,7 +39,10 @@ function modular(search, recusa) {
   const e = env(search, recusa), ctx = vm.createContext(e);
   vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/ui/position-link.js', import.meta.url), 'utf8'), ctx);
   vm.runInContext(`(() => { ${SETUP}
-    globalThis.__o = PositionLink.create({CENTER, MLAT, MLON, px, pz, target, sph, NOITE, INT, setNoite, streamUpdate}); })();`, ctx);
+    globalThis.__o = PositionLink.create({CENTER, MLAT, MLON, px, pz, target, sph, NOITE, INT, setNoite, streamUpdate,
+      // Dependências posteriores ao monólito, neutras: nenhuma ficha aberta, nenhum tour e
+      // nenhum ?imovel= na URL (nenhuma das buscas abaixo tem), então vale o link de posição.
+      TOUR: {on: false}, getFicha: () => null, getLinkImovel: () => null}); })();`, ctx);
   return {ctx, e};
 }
 function run({ctx, e}) {
