@@ -57,7 +57,13 @@ function fixture(modular,{grupos=3}={}) {
     vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/listings/flow.js',import.meta.url),'utf8'),ctx);
     vm.runInContext(`globalThis.api=ListingFlow.create({document, $, esc, brl, UNIDADES, listingSheet,
       usheet, hsheet, housesBox, houseBeacon, target, streamUpdate, flyTo, getGroups,
-      predioDaUnidade, closePoiSheet, abrePerto, enterInterior, setTimeout});`,ctx);
+      predioDaUnidade, closePoiSheet, abrePerto, enterInterior, setTimeout,
+      // Dependências posteriores ao monólito, neutras: etapa 1, nenhum tour, sem miniatura.
+      // O botão da visita passou a ir pela escada de etapas (stage.js); aqui a escada faz
+      // o que o botão fazia no monólito: entra com a ficha aberta.
+      getEtapa:(e=>()=>e)({atual:'mapa'}), pintaEtapas:()=>{}, tour:()=>{}, marcaEtapaNaUrl:()=>{},
+      mostraMaquete:()=>{}, escondeMaquete:()=>{}, predioMaisPerto:()=>null,
+      vaiParaEtapa:k=>{const F=api.getFicha();if(k==='interior'&&F)enterInterior(F.rec,F.u);}});`,ctx);
   } else vm.runInContext(source+'\nglobalThis.api={pedePredio,cancelaEscolha,abreUnidade,getEscolhendo:()=>escolhendo};',ctx);
   const clica=(id,tipo='click')=>{for(const fn of node(id).ouvintes[tipo]||[]) fn({});};
   // A 1.0 altera somente estes textos; o comportamento continua comparado ao original.

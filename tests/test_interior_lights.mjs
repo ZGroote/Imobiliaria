@@ -54,7 +54,11 @@ function modular(somMap, assado) {
   vm.runInContext(read('interior/lights.js'), ctx);
   vm.runInContext(`(() => { ${SETUP}
     globalThis.__o = InteriorLights.create({THREE, INT, scene, sun, hemi, renderer, camera, NIVEL, LUZ_PI, FILL,
-      cursorDeLuz, CEU_LINHA, inside, ESP}); })();`, ctx);
+      cursorDeLuz, CEU_LINHA, inside, ESP,
+      // a5411f1 pendurou as luzes do interior no grupo gInteriores (o grupo troca de cena na
+      // etapa 3); o monólito as punha direto na cena. Aqui o grupo é a própria cena, então a
+      // comparação mede as luzes -- quais, onde, com que força e sombra --, não o pai delas.
+      gInteriores: scene}); })();`, ctx);
   return ctx;
 }
 function state(ctx) {
