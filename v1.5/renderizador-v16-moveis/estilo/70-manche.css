@@ -1,0 +1,98 @@
+  /* ---- Celular: manche de caminhada e painel que encolhe ------------------
+     Dentro do imovel o teclado nao existe. O manche e um alvo de dedo de 112 px que
+     devolve um vetor continuo -- nao um pad de setas, porque andar em quatro direcoes
+     dentro de um comodo de 3 m e sofrivel. Fica no canto esquerdo, longe do painel de
+     mobilia, e so aparece em ponteiro grosso e em primeira pessoa. */
+  #joy{position:fixed;left:14px;bottom:14px;width:114px;height:114px;border-radius:50%;
+    z-index:5;display:none;touch-action:none;background:rgba(15,21,28,.40);
+    border:1px solid var(--line);backdrop-filter:blur(8px)}
+  #joy.on{display:block}
+  #joy i{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;
+    border-radius:50%;background:rgba(231,235,240,.55);border:1px solid rgba(255,255,255,.32);
+    will-change:transform}
+  #ipanel .dobra{position:absolute;top:8px;right:32px;font-size:12px;opacity:.4;
+    cursor:pointer;line-height:1;display:none;user-select:none}
+  #ipanel .dobra:hover{opacity:.9}
+  #ipanel.min .cat,#ipanel.min #iEdit,#ipanel.min .dica,#ipanel.min .naoconf,
+  #ipanel.min #iPredioRow{display:none}
+  #ipanel.min .row{margin-top:8px}
+  @media (max-width:820px),(pointer:coarse){
+    #ipanel .dobra{display:block}
+    #ipanel{max-height:46vh}
+  }
+  /* O manche mora no canto esquerdo de baixo; o painel de mobilia cede essa faixa. */
+  @media (max-width:640px){ #ipanel{left:140px} }
+  /* ---- o painel da maquete -----------------------------------------------
+     Ele e uma MOLDURA, nao uma imagem: nada e desenhado por CSS aqui dentro. O
+     renderizador le `getBoundingClientRect()` deste elemento e recorta um viewport do
+     proprio canvas em cima dele (ver `desenhaMaquete`). Consequencia que vale escrever:
+     o fundo fica transparente de proposito -- o que aparece por tras do 3D e o fundo da
+     CENA da maquete, nao o do cartao, e pintar aqui so produziria uma moldura de cor
+     diferente por um quadro.
+
+     Os cantos ficam retos: a tesoura do WebGL e um RETANGULO, e um `border-radius` aqui
+     deixaria quatro quinas de 3D vazando por fora da curva. */
+  #maquete{position:relative;height:190px;margin:0 0 11px;border:1px solid var(--line);
+    background:transparent;cursor:grab;touch-action:none;overflow:hidden}
+  #maquete[hidden]{display:none}
+  #maquete:active{cursor:grabbing}
+  #maqDica{position:absolute;left:8px;bottom:6px;right:8px;font-size:9px;letter-spacing:.06em;
+    opacity:.62;text-shadow:0 1px 3px rgba(0,0,0,.9);pointer-events:none;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* A ficha encolhida da etapa 2: o painel sai junto com o resto do conteudo, senao ele
+     continuaria pedindo 190 px dentro de um cartao de 56. */
+  #usheet.min #maquete,#hsheet.min #maquete{display:none}
+  @media (max-width:820px){
+    #maquete{height:150px}
+    #maqDica{font-size:11px}
+  }
+
+  /* ---- as tres etapas ----------------------------------------------------
+     A barra flutuante so existe DENTRO do imovel (`body.dentro`): no mapa quem troca
+     de etapa e a propria ficha, e duas barras dizendo a mesma coisa seria ruido. No
+     telefone `body.dentro` ja esconde #hud, #mobileNav e #mobileHint -- o topo esta
+     livre, e e por isso que ela cabe no centro em cima nas duas larguras. */
+  #etapas{display:none;top:16px;left:50%;transform:translateX(-50%);
+    gap:5px;padding:5px;z-index:6}
+  body.dentro #etapas{display:flex}
+  #etapas button{flex:none;min-width:96px;padding:7px 12px;opacity:1}
+  #etapas button[aria-pressed=true]{background:rgba(75,219,124,.16);
+    border-color:rgba(75,219,124,.5);color:#BFF3D2}
+  #etapas button[aria-pressed=false]{opacity:.62}
+  /* O aviso de "clique no predio" nasce no mesmo lugar: ele desce quando a barra existe. */
+  body.dentro #iaviso{top:64px}
+
+  /* A escada de etapas dentro da ficha do imovel. Mesma ordem, mesmos rotulos: quem
+     aprendeu a sequencia no mapa a reconhece la dentro. */
+  #usheet .etapasrow{display:flex;gap:6px;margin-top:11px;padding-top:10px;
+    border-top:1px solid var(--line)}
+  /* A regra geral pinta `aria-pressed=false` com 40% de opacidade, que e como este
+     arquivo diz "desligado". Numa ESCADA isso mente: a etapa que nao e a atual nao
+     esta desligada, e o proximo passo -- e no primeiro print as duas seguintes liam
+     como botao inerte. Aqui a etapa nao-atual fica legivel; quem some de verdade
+     continua sendo o `[hidden]` de unidade sem planta. */
+  #usheet .etapasrow button{flex:1;padding:8px 0;opacity:.88}
+  #usheet .etapasrow button[aria-pressed=true]{background:rgba(75,219,124,.16);
+    border-color:rgba(75,219,124,.5);color:#BFF3D2;opacity:1}
+  #usheet .etapasrow button[hidden]{display:none}
+  #usheet .acoes{margin-top:8px}
+
+  /* Etapa 3: a planta mora numa cena PROPRIA, sem cidade. O que sobra de HUD de mapa
+     nao tem o que operar la -- minimapa, bussola, rotulo de rua e marca de POI falam
+     de uma cidade que nao esta sendo desenhada. */
+  body.planta #minimapa,body.planta #compass,body.planta #attrib,
+  body.planta #houses,body.planta #joy{display:none}
+  body.planta #overlay .street,body.planta #overlay .poi{display:none}
+
+  @media (max-width:820px){
+    #etapas{top:var(--mobile-top);left:max(12px,env(safe-area-inset-left));
+      right:max(12px,env(safe-area-inset-right));transform:none}
+    #etapas button{flex:1;min-width:0;padding:10px 4px;font-size:13px}
+    body.dentro #iaviso{top:calc(var(--mobile-top) + 58px)}
+    #usheet .etapasrow button{min-height:48px;font-size:13px}
+  }
+
+  /* Altura, Relevo e Muros sao controles da CIDADE. Dentro do imovel nao operam nada,
+     e no celular ficam exatamente embaixo do painel de mobilia. */
+  body.dentro #panel{display:none}
+

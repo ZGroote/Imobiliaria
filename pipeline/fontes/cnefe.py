@@ -44,9 +44,10 @@ def main():
     CID = carrega(slug)
     zpath = sys.argv[sys.argv.index("--zip") + 1] if "--zip" in sys.argv else None
     if not zpath:
-        for cand in (os.path.join(RAIZ, "%s/fontes/cnefe_%s.json.zip" % (slug, cod)),
-                     os.path.join(RAIZ, "v7/dados/cnefe_%s.json.zip" % cod)):
-            if os.path.exists(cand): zpath = cand; break
+        # O de Sao Carlos morava em `v7/dados/` e vinha por este segundo candidato;
+        # com o dado da cidade reunido em `sao-carlos/`, o primeiro serve as duas.
+        cand = os.path.join(RAIZ, "%s/fontes/cnefe_%s.json.zip" % (slug, cod))
+        if os.path.exists(cand): zpath = cand
     if not zpath or not os.path.exists(zpath):
         print("zip do CNEFE nao encontrado. Baixe:\n  %s" % (URL % cod)); return 2
 

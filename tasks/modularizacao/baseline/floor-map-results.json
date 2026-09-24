@@ -1,0 +1,78 @@
+{
+  "identical": true,
+  "states": [
+    {
+      "room": "Sala/Jantar",
+      "yaw": 0,
+      "image": "098d7263f1c8047026aa52c435bb02f7aff7617294a4ba5ac7b68d556b53a23f"
+    },
+    {
+      "room": "Sala/Jantar",
+      "yaw": 1.2,
+      "image": "c4aa6d932efae8b689381893a817fb5a14961f4b3e29a3124df6bbc1f4e40d66"
+    },
+    {
+      "room": "Quarto 1",
+      "yaw": 0,
+      "image": "2603b8b3863b8186d1e257fad769572fbae79a27f4ca0a48c62cef8191f4cbe4"
+    },
+    {
+      "room": "Quarto 1",
+      "yaw": 1.2,
+      "image": "1b25a9a652b9f25ad3a62d770d6a85203b96554d2b60e0130acd74718dc6aa0a"
+    },
+    {
+      "room": "Quarto 2",
+      "yaw": 0,
+      "image": "935e0216705fc625d269f56003ee35587179a8d94ad4336254cf8479f408e2a3"
+    },
+    {
+      "room": "Quarto 2",
+      "yaw": 1.2,
+      "image": "380edc68f770a45f7437b57cc1e06257895044a6844a04db6569414f5a0e734c"
+    },
+    {
+      "room": "Cozinha",
+      "yaw": 0,
+      "image": "139f646cc51f8c935e273202d659efd5aeeafad464c4698956aa2f68905c4134"
+    },
+    {
+      "room": "Cozinha",
+      "yaw": 1.2,
+      "image": "f1e969b2e9aedb5b1682677dcbae67ea65fdf119e538f145b2b0db76afecdc0b"
+    },
+    {
+      "room": "Banho",
+      "yaw": 0,
+      "image": "0e1a8840fcd6a906b8d8d093d54ad61dd78f3c4c8fc684ef6bfbaaf239d31209"
+    },
+    {
+      "room": "Banho",
+      "yaw": 1.2,
+      "image": "c02e2f3a9b47e4931c355cff8a8e07f11c2d152706c1c5440fbda4e1c8bdeca1"
+    },
+    {
+      "room": "Área de Serviço",
+      "yaw": 0,
+      "image": "5d67a3338ea12b11f110c61be7eee0fc4cbda1549e4c2d84141b5e6e437cd6a2"
+    },
+    {
+      "room": "Área de Serviço",
+      "yaw": 1.2,
+      "image": "affac55512201d8aa1d2bc71412f7552f7b4f01a5e0214a95ece88087ec23bc2"
+    },
+    {
+      "room": "Circulação",
+      "yaw": 0,
+      "image": "250af7aed88af80f84d1544bd30668893c6053fc5ce81187257ca1a21e0a8774"
+    },
+    {
+      "room": "Circulação",
+      "yaw": 1.2,
+      "image": "62db6f166ae01dbfd2609745fa7837ad1f932c3137271e50dfc383ac42c38bf3"
+    }
+  ],
+  "before": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\day-night\\sao-carlos-v16-moveis.html",
+  "after": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\floor-map\\sao-carlos-v16-moveis.html",
+  "exit_verified": true
+}

@@ -1,0 +1,20 @@
+# O que e preciso para GERAR a pagina e para RODAR os portoes de aceite.
+#
+# Os grupos nao sao gosto: foram medidos percorrendo os imports (18/09/2026).
+#   montar.py alcanca 10 modulos do projeto e precisa de DOIS pacotes:
+#     pyproj   -- padrao/cidade.py, a conversao geo <-> mapa
+#     shapely  -- pipeline/encaixar_casas_lotes.py, o encaixe das casas nos lotes
+#   os portoes (padrao/ + as sondas testa_*/mede_*/compara_print) acrescentam:
+#     numpy    -- estatistica de quadro e de malha
+#     pillow   -- ler e recortar os prints
+#
+# Processar as FONTES de dado (as etapas do runner que leem OSM, raster e planta)
+# pede bem mais: ver requirements-fontes.txt. Blender e Unreal nao entram em
+# nenhum dos dois -- ver DEPENDENCIAS.md.
+#
+# Versoes: as que estavam instaladas quando isto foi medido. Nada aqui exige a
+# versao exata; o piso e o que o codigo usa.
+pyproj>=3.7
+shapely>=2.1
+numpy>=2.0
+pillow>=11

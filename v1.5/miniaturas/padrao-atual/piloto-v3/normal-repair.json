@@ -1,0 +1,6 @@
+{
+  "architecturalTrianglesReoriented": 18285,
+  "total": 24094,
+  "method": "Compare empty space on each side using ray intersections with the wall mesh; do not move vertices. Coplanar area-weighted consistency resolves isolated reversals caused by nearby trim.",
+  "coplanarCorrections": 403
+}

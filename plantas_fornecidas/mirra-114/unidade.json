@@ -1,0 +1,799 @@
+{
+ "id": "mirra-114",
+ "cidade": "ribeirao-preto",
+ "predio_id": null,
+ "andar": 7,
+ "ficha": {
+  "titulo": "Apartamento Alto Padrão à Venda em Vila Ana Maria",
+  "empreendimento": "Mirra Residencial",
+  "bairro": "Vila Ana Maria",
+  "municipio": "Ribeirão Preto/SP",
+  "tipo": "venda",
+  "preco": 960374.02,
+  "quartos": 3,
+  "suites": 3,
+  "banheiros": 4,
+  "vagas": 2,
+  "area_total": 114.32,
+  "area_util": 114.32,
+  "fonte": "roca.com.br",
+  "endereco": "R. Cesar Tupinamba Roselino, 420 - Vila Ana Maria, Ribeirao Preto - SP, 14026-230",
+  "cep": "14026-230",
+  "_fonte_endereco": "Informado pelo usuario em 03/09/2026. NAO veio do anuncio: o anuncio do roca.com.br nao da endereco, so \"em frente ao Ribeirao Shopping\". Por isso a ancora ate aqui era um chute -- e errou por 350 m."
+ },
+ "_conflito": [
+  "A PLANTA E A FICHA SÃO DE UNIDADES DIFERENTES.",
+  "A ficha descreve 114,32 m² com 3 suítes e 4 banhos; a planta desenhada soma",
+  "64,40 m² rotulados (56,40 fechados) e mostra 1 suíte + 1 dormitório + 2 banhos.",
+  "A GEOMETRIA ABAIXO É A DA PLANTA, não a da ficha. Conferir na origem qual das",
+  "duas descreve a unidade à venda."
+ ],
+ "planta": {
+  "origem": "transcrita à mão da imagem do anúncio (a imagem em arquivo ainda não chegou)",
+  "escala_conferida": false,
+  "pe_direito": 2.7,
+  "_como_foi_medida": [
+   "A imagem não traz cotas, só áreas rotuladas por cômodo. A escala saiu de",
+   "calibrar pixels contra essas áreas: ~110 px/m, conferida contra três objetos",
+   "desenhados (mesa oval de 6 lugares ≈ 2,05 m, cama de casal ≈ 1,55 m, sofá",
+   "≈ 2,45 m) — os três batem nessa escala.",
+   "Cada cômodo foi então AJUSTADO para fechar a área rotulada. As onze áreas batem",
+   "com erro máximo de 0,3%; a PROPORÇÃO pode errar alguns centímetros.",
+   "Trocar tudo isto pela extração quando a imagem em arquivo chegar."
+  ],
+  "_correcao_de_proporcao": [
+   "Primeira versão fazia o Dormitório ocupar toda a faixa (3,54 x 2,34 m). No desenho",
+   "ele é RETRATO, não paisagem: 2,85 x 2,91 m. Com a versão errada não cabia armário",
+   "e cama na mesma parede, e o quarto parecia apertado. Corrigido; a faixa de 0,69 m",
+   "que sobra entre o Dormitório e a Suíte é o armário embutido que o desenho mostra,",
+   "e vira bloco maciço porque nenhum cômodo a reivindica."
+  ],
+  "_desvios_conscientes": [
+   "CIRCULAÇÃO: rotulada 2,60 m², desenhada aqui com 3,43 m². O rótulo parece contar",
+   "só o trecho entre os dois banhos; com a largura que sairia daí (0,72 m) o",
+   "corredor ficaria intransitável no 3D. Adotado 0,97 m, que é o mínimo que se anda.",
+   "VARANDA: retângulo corrido na frente da sala e do dormitório, que foram alinhados",
+   "em z = 5,63 pra ela não virar um L de 3 cm. Área fecha os 8,00 m² rotulados."
+  ],
+  "comodos": [
+   {
+    "nome": "Cozinha",
+    "area": 6.0,
+    "piso": "frio",
+    "poly": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      1.75,
+      0.0
+     ],
+     [
+      1.75,
+      3.43
+     ],
+     [
+      0.0,
+      3.43
+     ]
+    ]
+   },
+   {
+    "nome": "Área de Serviço",
+    "area": 2.4,
+    "piso": "frio",
+    "poly": [
+     [
+      0.0,
+      3.43
+     ],
+     [
+      1.75,
+      3.43
+     ],
+     [
+      1.75,
+      4.8
+     ],
+     [
+      0.0,
+      4.8
+     ]
+    ]
+   },
+   {
+    "nome": "Área Técnica",
+    "area": 1.4,
+    "piso": "frio",
+    "poly": [
+     [
+      0.55,
+      4.8
+     ],
+     [
+      1.75,
+      4.8
+     ],
+     [
+      1.75,
+      5.97
+     ],
+     [
+      0.55,
+      5.97
+     ]
+    ]
+   },
+   {
+    "nome": "Jantar",
+    "area": 9.0,
+    "piso": "frio",
+    "poly": [
+     [
+      1.75,
+      0.0
+     ],
+     [
+      4.95,
+      0.0
+     ],
+     [
+      4.95,
+      2.81
+     ],
+     [
+      1.75,
+      2.81
+     ]
+    ]
+   },
+   {
+    "nome": "Sala",
+    "area": 9.0,
+    "piso": "frio",
+    "poly": [
+     [
+      1.75,
+      2.81
+     ],
+     [
+      4.95,
+      2.81
+     ],
+     [
+      4.95,
+      5.63
+     ],
+     [
+      1.75,
+      5.63
+     ]
+    ]
+   },
+   {
+    "nome": "Banho",
+    "area": 3.0,
+    "piso": "frio",
+    "poly": [
+     [
+      4.95,
+      0.0
+     ],
+     [
+      6.66,
+      0.0
+     ],
+     [
+      6.66,
+      1.75
+     ],
+     [
+      4.95,
+      1.75
+     ]
+    ]
+   },
+   {
+    "nome": "Banho",
+    "area": 3.2,
+    "piso": "frio",
+    "poly": [
+     [
+      6.66,
+      0.0
+     ],
+     [
+      8.49,
+      0.0
+     ],
+     [
+      8.49,
+      1.75
+     ],
+     [
+      6.66,
+      1.75
+     ]
+    ]
+   },
+   {
+    "nome": "Circulação",
+    "area": 3.43,
+    "piso": "madeira",
+    "poly": [
+     [
+      4.95,
+      1.75
+     ],
+     [
+      8.49,
+      1.75
+     ],
+     [
+      8.49,
+      2.72
+     ],
+     [
+      4.95,
+      2.72
+     ]
+    ]
+   },
+   {
+    "nome": "Dormitório",
+    "area": 8.3,
+    "piso": "madeira",
+    "poly": [
+     [
+      4.95,
+      2.72
+     ],
+     [
+      7.8,
+      2.72
+     ],
+     [
+      7.8,
+      5.63
+     ],
+     [
+      4.95,
+      5.63
+     ]
+    ]
+   },
+   {
+    "nome": "Suíte",
+    "area": 11.5,
+    "piso": "madeira",
+    "poly": [
+     [
+      8.49,
+      1.75
+     ],
+     [
+      11.45,
+      1.75
+     ],
+     [
+      11.45,
+      5.63
+     ],
+     [
+      8.49,
+      5.63
+     ]
+    ]
+   },
+   {
+    "nome": "Varanda",
+    "area": 8.0,
+    "piso": "frio",
+    "poly": [
+     [
+      1.75,
+      5.63
+     ],
+     [
+      8.49,
+      5.63
+     ],
+     [
+      8.49,
+      6.82
+     ],
+     [
+      1.75,
+      6.82
+     ]
+    ]
+   }
+  ],
+  "portas": [
+   {
+    "p": [
+     1.75,
+     2.6
+    ],
+    "largura": 1.2,
+    "_o_que_e": "cozinha aberta pro jantar"
+   },
+   {
+    "p": [
+     0.85,
+     3.43
+    ],
+    "largura": 0.8,
+    "_o_que_e": "cozinha -> área de serviço"
+   },
+   {
+    "p": [
+     1.15,
+     4.8
+    ],
+    "largura": 0.7,
+    "_o_que_e": "serviço -> área técnica"
+   },
+   {
+    "p": [
+     3.35,
+     2.81
+    ],
+    "largura": 3.2,
+    "y1": 2.7,
+    "_o_que_e": "jantar e sala são um espaço só: sem parede"
+   },
+   {
+    "p": [
+     4.95,
+     2.25
+    ],
+    "largura": 0.95,
+    "tipo": "vao",
+    "_o_que_e": "social -> circulação: passagem, sem folha"
+   },
+   {
+    "p": [
+     5.8,
+     1.75
+    ],
+    "largura": 0.7,
+    "_o_que_e": "banho 3,00"
+   },
+   {
+    "p": [
+     7.55,
+     1.75
+    ],
+    "largura": 0.7,
+    "_o_que_e": "banho 3,20"
+   },
+   {
+    "p": [
+     5.9,
+     2.72
+    ],
+    "largura": 0.8,
+    "_o_que_e": "dormitório"
+   },
+   {
+    "p": [
+     8.49,
+     2.25
+    ],
+    "largura": 0.8,
+    "_o_que_e": "suíte"
+   },
+   {
+    "p": [
+     3.35,
+     5.63
+    ],
+    "largura": 2.4,
+    "_o_que_e": "porta de correr sala -> varanda"
+   },
+   {
+    "p": [
+     6.4,
+     5.63
+    ],
+    "largura": 1.6,
+    "_o_que_e": "porta de correr dormitório -> varanda"
+   }
+  ],
+  "janelas": [
+   {
+    "p": [
+     0.0,
+     1.3
+    ],
+    "largura": 1.2
+   },
+   {
+    "p": [
+     0.0,
+     4.1
+    ],
+    "largura": 0.8
+   },
+   {
+    "p": [
+     3.35,
+     0.0
+    ],
+    "largura": 1.8
+   },
+   {
+    "p": [
+     5.8,
+     0.0
+    ],
+    "largura": 0.6,
+    "y0": 1.6,
+    "y1": 2.2
+   },
+   {
+    "p": [
+     7.55,
+     0.0
+    ],
+    "largura": 0.6,
+    "y0": 1.6,
+    "y1": 2.2
+   },
+   {
+    "p": [
+     11.45,
+     3.6
+    ],
+    "largura": 1.8
+   },
+   {
+    "p": [
+     9.95,
+     5.63
+    ],
+    "largura": 1.6
+   }
+  ],
+  "_moveis_de_onde": [
+   "REMOVIDOS a pedido (2026-08-31): o apartamento de exibição entra VAZIO. As 29 peças",
+   "seguem abaixo em `_moveis_arquivados`, intactas — campo com _ na frente não viaja",
+   "pra página (montar.py:bloco_unidades). Pra devolver a mobília, renomeie",
+   "`_moveis_arquivados` de volta pra `moveis`.",
+   "",
+   "Como foram lidas, enquanto existiam: do próprio desenho da planta — posição, giro",
+   "e tamanho de cada peça saem de onde ela está na imagem. Não há mobília automática:",
+   "o renderizador só põe na cena o que está em `moveis` (moveisDaUnidade), então",
+   "lista vazia é cômodo vazio, não cômodo mobiliado por padrão."
+  ],
+  "moveis": [],
+  "_moveis_arquivados": [
+   {
+    "tipo": "fogao",
+    "p": [
+     0.36,
+     1.25
+    ],
+    "rot": 1,
+    "w": 0.62,
+    "d": 0.6
+   },
+   {
+    "tipo": "pia",
+    "p": [
+     0.36,
+     2.2
+    ],
+    "rot": 1,
+    "w": 1.0,
+    "d": 0.6
+   },
+   {
+    "tipo": "geladeira",
+    "p": [
+     0.4,
+     3.08
+    ],
+    "rot": 1
+   },
+   {
+    "tipo": "pia",
+    "p": [
+     1.47,
+     2.45
+    ],
+    "rot": 1,
+    "w": 1.4,
+    "d": 0.55,
+    "_o_que_e": "península entre cozinha e jantar"
+   },
+   {
+    "tipo": "pia",
+    "p": [
+     0.4,
+     4.1
+    ],
+    "rot": 1,
+    "w": 1.1,
+    "d": 0.6,
+    "_o_que_e": "tanque da área de serviço"
+   },
+   {
+    "tipo": "mesa",
+    "p": [
+     3.35,
+     1.42
+    ],
+    "rot": 0,
+    "w": 1.25,
+    "d": 2.05
+   },
+   {
+    "tipo": "cadeira",
+    "p": [
+     2.65,
+     0.8
+    ],
+    "rot": 1
+   },
+   {
+    "tipo": "cadeira",
+    "p": [
+     2.65,
+     1.42
+    ],
+    "rot": 1
+   },
+   {
+    "tipo": "cadeira",
+    "p": [
+     2.65,
+     2.04
+    ],
+    "rot": 1
+   },
+   {
+    "tipo": "cadeira",
+    "p": [
+     4.05,
+     0.8
+    ],
+    "rot": 3
+   },
+   {
+    "tipo": "cadeira",
+    "p": [
+     4.05,
+     1.42
+    ],
+    "rot": 3
+   },
+   {
+    "tipo": "cadeira",
+    "p": [
+     4.05,
+     2.04
+    ],
+    "rot": 3
+   },
+   {
+    "tipo": "tapete",
+    "p": [
+     3.3,
+     4.3
+    ],
+    "rot": 0,
+    "w": 2.4,
+    "d": 2.0,
+    "cor": "#BCB3A8"
+   },
+   {
+    "tipo": "sofa",
+    "p": [
+     2.35,
+     4.3
+    ],
+    "rot": 1,
+    "w": 2.2,
+    "d": 0.9,
+    "cor": "#9AA3AC"
+   },
+   {
+    "tipo": "mesa",
+    "p": [
+     3.55,
+     4.3
+    ],
+    "rot": 0,
+    "w": 0.75,
+    "d": 0.75,
+    "h": 0.42
+   },
+   {
+    "tipo": "cadeira",
+    "p": [
+     2.35,
+     6.2
+    ],
+    "rot": 0,
+    "w": 0.8,
+    "d": 0.8,
+    "h": 0.85
+   },
+   {
+    "tipo": "mesa",
+    "p": [
+     3.15,
+     6.25
+    ],
+    "rot": 0,
+    "w": 0.6,
+    "d": 0.6,
+    "h": 0.45
+   },
+   {
+    "tipo": "vaso",
+    "p": [
+     5.3,
+     1.3
+    ],
+    "rot": 2
+   },
+   {
+    "tipo": "pia",
+    "p": [
+     6.2,
+     0.35
+    ],
+    "rot": 0,
+    "w": 0.8,
+    "d": 0.5
+   },
+   {
+    "tipo": "vaso",
+    "p": [
+     8.1,
+     0.45
+    ],
+    "rot": 0
+   },
+   {
+    "tipo": "pia",
+    "p": [
+     7.1,
+     1.35
+    ],
+    "rot": 2,
+    "w": 0.8,
+    "d": 0.5
+   },
+   {
+    "tipo": "armario",
+    "p": [
+     6.6,
+     3.02
+    ],
+    "rot": 0,
+    "w": 1.9,
+    "d": 0.55
+   },
+   {
+    "tipo": "cama",
+    "p": [
+     5.6,
+     4.35
+    ],
+    "rot": 0,
+    "w": 0.95,
+    "d": 1.95
+   },
+   {
+    "tipo": "cama",
+    "p": [
+     7.05,
+     4.35
+    ],
+    "rot": 0,
+    "w": 0.95,
+    "d": 1.95
+   },
+   {
+    "tipo": "mesa",
+    "p": [
+     6.33,
+     5.25
+    ],
+    "rot": 0,
+    "w": 0.5,
+    "d": 0.5,
+    "h": 0.45
+   },
+   {
+    "tipo": "armario",
+    "p": [
+     9.97,
+     2.05
+    ],
+    "rot": 0,
+    "w": 2.2,
+    "d": 0.55
+   },
+   {
+    "tipo": "cama",
+    "p": [
+     9.97,
+     3.55
+    ],
+    "rot": 0,
+    "w": 1.6,
+    "d": 2.05
+   },
+   {
+    "tipo": "mesa",
+    "p": [
+     8.9,
+     2.7
+    ],
+    "rot": 0,
+    "w": 0.45,
+    "d": 0.45,
+    "h": 0.55
+   },
+   {
+    "tipo": "mesa",
+    "p": [
+     11.04,
+     2.7
+    ],
+    "rot": 0,
+    "w": 0.45,
+    "d": 0.45,
+    "h": 0.55
+   }
+  ]
+ },
+ "cores": {
+  "parede": "#D9D2C7",
+  "rodape": "#F3F1ED",
+  "piso_frio": "#C8BFB2",
+  "piso_madeira": "#9A7B57",
+  "teto": "#F2F0EC",
+  "_origem": "amostrado das fotos do anúncio: parede em massa corrida bege-cinza, piso porcelanato bege de formato grande, rodapé branco, marcenaria escura nas portas"
+ },
+ "fotos": [],
+ "_fotos_pendentes": "as fotos em arquivo ainda não chegaram; quando chegarem, refazer `cores` por amostragem e conferir posição de porta e janela",
+ "lote": {
+  "lat": -21.210956,
+  "lon": -47.818658,
+  "confirmado": true,
+  "rumo_graus": 27.1,
+  "_o_que_e": [
+   "O Mirra e LANCAMENTO: nao existe como volume na base. O footprint vem do Overture,",
+   "que e foto de satelite -- se a torre nao estava de pe na captura, o que ha no dado e",
+   "lote vazio. Por isso a unidade mora num TERRENO, e a torre abaixo e desenhada a",
+   "partir DESTE cadastro (ver anelDoLote/recDoLancamento no renderizador)."
+  ],
+  "_como_foi_escolhido": [
+   "APONTADO PELO USUARIO em 03/09/2026, sobre o mapa: o lote da arvore no lado SUL da",
+   "R. Cesar Tupinamba Roselino, entre a torre de 32,6 m (a oeste) e o predio de 7,4 m",
+   "(a leste) -- a maior frente vazia daquele trecho, 55 m de testada.",
+   "Conferido contra a base: a torre fica de 11 m a 25 m do EIXO da rua (a fita da rua",
+   "acaba em 5,8 m) e o vizinho mais proximo tem 6 m de folga ate a face."
+  ],
+  "_rumo_graus": "Azimute em que a pegada assenta, no plano do mapa (0 = +X, leste). 27,1 graus e o rumo do eixo da rua no ponto -- predio de rua se implanta paralelo a testada.",
+  "predio": {
+   "pavimentos": 15,
+   "largura_m": 24.0,
+   "profundidade_m": 14.0,
+   "_pavimentos": "15, informado pelo usuario. Altura = 15 x 3,15 m = 47,25 m.",
+   "_pegada": [
+    "ARBITRADA. O anuncio nao da laje de pavimento nem implantacao: so a planta de UMA",
+    "unidade (64,4 m2 desenhados) e a ficha (114,32 m2 uteis). 24 x 14 m = 336 m2 foi",
+    "escolhido pra ficar na faixa dos vizinhos da mesma rua (242, 280 e 371 m2) e caber",
+    "na testada de 55 m com folga. Trocar aqui muda a torre no mapa, e mais nada."
+   ]
+  }
+ }
+}

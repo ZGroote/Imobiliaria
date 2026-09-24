@@ -1,0 +1,13 @@
+{
+  "size": 2048,
+  "seconds": 304.8552079000001,
+  "samples": 512,
+  "objects": 84,
+  "triangles": 51202,
+  "flipped": 3272,
+  "passes": [
+    "DIRECT",
+    "INDIRECT"
+  ],
+  "colorPass": false
+}

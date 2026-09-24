@@ -1,0 +1,151 @@
+{
+  "pixels_por_metro": 49.46801104929127,
+  "area_calibrada_m2": 37.21,
+  "contornos_px": [
+    [
+      "Quarto casal",
+      [
+        [
+          49,
+          202
+        ],
+        [
+          182,
+          202
+        ],
+        [
+          182,
+          356
+        ],
+        [
+          49,
+          356
+        ]
+      ],
+      "madeira"
+    ],
+    [
+      "Quarto solteiro",
+      [
+        [
+          310,
+          204
+        ],
+        [
+          425,
+          204
+        ],
+        [
+          425,
+          362
+        ],
+        [
+          310,
+          362
+        ]
+      ],
+      "madeira"
+    ],
+    [
+      "Banheiro",
+      [
+        [
+          49,
+          356
+        ],
+        [
+          137,
+          356
+        ],
+        [
+          137,
+          441
+        ],
+        [
+          49,
+          441
+        ]
+      ],
+      "frio"
+    ],
+    [
+      "Sala de estar",
+      [
+        [
+          182,
+          225
+        ],
+        [
+          310,
+          225
+        ],
+        [
+          310,
+          362
+        ],
+        [
+          182,
+          362
+        ]
+      ],
+      "frio"
+    ],
+    [
+      "Cozinha e jantar",
+      [
+        [
+          137,
+          356
+        ],
+        [
+          182,
+          356
+        ],
+        [
+          182,
+          362
+        ],
+        [
+          425,
+          362
+        ],
+        [
+          425,
+          441
+        ],
+        [
+          137,
+          441
+        ]
+      ],
+      "frio"
+    ],
+    [
+      "Varanda",
+      [
+        [
+          190,
+          188
+        ],
+        [
+          308,
+          188
+        ],
+        [
+          308,
+          225
+        ],
+        [
+          190,
+          225
+        ]
+      ],
+      "frio"
+    ]
+  ],
+  "altura_pavimento_m": 3.15,
+  "pe_direito_m": 2.6,
+  "pavimentos_representados": 24,
+  "andar_demonstrativo": 8,
+  "observacao": "Altura, quantidade de pisos, envelope exterior e posição da unidade não confirmados. Área calibra o desenho, não verifica medidas reais."
+}

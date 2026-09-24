@@ -133,14 +133,15 @@ EPSG:31983 (zona 23), sem intervenção. Errar o fuso não dá erro — dá cida
 
 ### 1.4 OpenPlots — as plantas urbanísticas
 
-    python baixar_openplots.py                 # 265 plantas (retomável)
-    python v7/pipeline/rodar_tudo.py           # vetoriza + georreferencia, 1 subprocesso por planta
-    python v7/pipeline/consolidar.py           # arbitra por quadra -> lotes_oficiais
-    python v7/pipeline/filtrar_confiaveis.py   # aplica o gabarito  -> lotes_planta
-    → v7/dados/lotes_confiaveis_saocarlos.geojson (21.163 lotes em 67 bairros)
+    python pipeline/plantas/baixar_openplots.py   # 265 plantas (retomável)
+    python pipeline/plantas/rodar_tudo.py     # vetoriza + georreferencia, 1 subprocesso por planta
+    python pipeline/consolidar.py              # arbitra por quadra -> lotes_oficiais
+    python pipeline/auditoria_tamanhos.py      # marca padrao_lote  <- o filtro DEPENDE disto
+    python pipeline/filtrar_confiaveis.py      # aplica o gabarito  -> lotes_planta
+    → sao-carlos/dados/lotes_confiaveis_saocarlos.geojson (21.163 lotes em 67 bairros)
 
 > **Buraco fechado nesta passagem.** Os dois últimos gravavam na **raiz** enquanto o
-> resto do pipeline lia de `v7/dados/` — alguém movia o arquivo à mão entre uma etapa e
+> resto do pipeline lia da pasta de dado da cidade — alguém movia o arquivo à mão entre uma etapa e
 > a outra, e isso não aparecia em lugar nenhum. Agora o destino sai do JSON da cidade,
 > igual ao resto.
 
@@ -172,7 +173,7 @@ chão saltava. Cidade nova: meça o bbox das quadras antes de escolher `HALF`.
 |---|---|---|---|
 | 0a | `merge_osm_overture.py` | overture + tags OSM | `sao-carlos-overture-v2.city.json` |
 | 0b | `build_blocks.py` | city v2 | `blocks.json` (4.457 faces) |
-| 0c | `v4/build_city_v4.py` | city v2 + blocks | `v4/sao-carlos-v4.city.json` |
+| 0c | `pipeline/city_base.py` | city v2 + blocks | `sao-carlos/sao-carlos-v4.city.json` |
 
 **0a** é onde o prédio ganha semântica: classe (`0/1` residencial, `2` comércio,
 `3` cívico), nome e endereço. Só ~4.528 dos 125.994 casam com o OSM — o resto fica
@@ -204,11 +205,11 @@ A tabela completa, com contrato de cada saída, está em `PADRAO.md`. O resumo:
     3   lotes_sinteticos.py  grade 12x25 caminhando o perímetro do miolo
     4   juntar_lotes.py      planta onde presta, grade onde não presta (exame por quadra)
     5   ocupacao.py          só lote com endereço OU footprint  ← guarda ÍNDICES da 4
-    6   gen_muros.py         divisa dos lotes ocupados
-    7   build_v7_city.py     volumes; casa recortada pelo miolo
-    7b  gen_chao / gen_ruas  chão e asfalto — MESMA lista de quadras da 2
+    6   pipeline/muros.py    divisa dos lotes ocupados
+    7   pipeline/city_final.py   volumes; casa recortada pelo miolo
+    7b  pipeline/chao / ruas  chão e asfalto — MESMA lista de quadras da 2
     8   pipeline/montar.py   HTML por concatenação das peças (v13)
-    9   padrao/rodar_qa.py   9 portões de geometria + 9 de comportamento; sai 1 se reprovar
+    9   padrao/rodar_qa.py   10 portões de geometria + 9 de comportamento; sai 1 se reprovar
 
 ### Quanto custa rodar
 
@@ -222,7 +223,7 @@ os mesmos 74.989 volumes e passou os 7 portões:
 | 3 lotes_sinteticos | 123 | | 7b gen_ruas | 68 |
 | 4 juntar_lotes | 68 | | 8 make_v7 | 0,2 |
 | 5 ocupacao | 23 | | 8 make_v8 | 3 |
-| 6 gen_muros | 18 | | 9 rodar_qa | 41 |
+| 6 muros | 18 | | 9 rodar_qa | 41 |
 
 **Total: 485 s (8 min)** do `city_base` ao HTML aprovado. As etapas de rede (0.x) são
 outra ordem de grandeza — horas — e por isso são opt-in e retomáveis.
@@ -2330,9 +2331,9 @@ massas sobraram — é por ali que se confere um caso novo antes de mexer nos li
   `app.js`** — 6 anúncios com lat/lon fixos. É demonstração, não configuração do
   renderizador (o portão da cidade ignora esse array de propósito), mas numa cidade
   nova ela some ou vira dado externo.
-- **Os scripts do pipeline ainda moram em `v7/pipeline/`**, com nome de versão. Já
-  leem caminho de `CID.caminho(...)` e slug de `CIDADE=<slug>`, então a mudança é de
-  lugar, não de código.
+- ~~**Os scripts do pipeline ainda moram em `v7/pipeline/`**~~ — resolvido. Eles moram
+  em `pipeline/` desde a modularização, e o dado da cidade em `sao-carlos/`, no mesmo
+  padrão das outras. Não há mais pasta `v7/`.
 - **O renderizador tem a própria cópia da tabela de vias** (JS). O portão compara as
   duas e reprova se divergirem — contenção, não cura.
 - **A malha de asfalto tem a terceira conta de largura** (`ROAD_W/2 + 5`, em

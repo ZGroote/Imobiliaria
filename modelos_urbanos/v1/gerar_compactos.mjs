@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import vm from 'node:vm';
 import {Document,NodeIO} from '@gltf-transform/core';
-vm.runInThisContext(fs.readFileSync(new URL('../../renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'));
+vm.runInThisContext(fs.readFileSync(new URL('../../v1.5/renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'));
 const T=globalThis.THREE,b64=a=>Buffer.from(a.buffer).toString('base64'),assets=[];
 const folder=new URL('./compactos/',import.meta.url);fs.mkdirSync(folder,{recursive:true});
 for(const floors of [1,2])for(const [index,[width,depth]] of [[3.6,5],[4.2,6.5],[4.8,5],[5.2,7],[5.8,6],[6.5,5],[4.2,9]].entries()){

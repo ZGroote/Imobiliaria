@@ -1,0 +1,427 @@
+{
+  "id": "monte-dos-cedros-37",
+  "cidade": "sao-carlos",
+  "predio_id": null,
+  "andar": 8,
+  "ficha": {
+    "titulo": "Apartamento 1 dormitório, 37,28 m² — Monte dos Cedros",
+    "empreendimento": "Monte dos Cedros",
+    "bairro": "Parque Faber Castell II",
+    "municipio": "São Carlos/SP",
+    "tipo": "venda",
+    "preco": null,
+    "quartos": 1,
+    "suites": 0,
+    "banheiros": 1,
+    "vagas": 1,
+    "area_total": 37.28,
+    "area_util": 37.28,
+    "endereco": "Avenida dos Sanhaços, 1099 - Parque Faber Castell II, São Carlos - SP",
+    "cep": "13561-390",
+    "construtora": "MRV",
+    "fonte": "mariaaires.com.br",
+    "url": "https://www.mariaaires.com.br/lancamentos/monte-dos-cedros",
+    "_outras_plantas": "o anúncio vai de 37,28 a 44,32 m² (1 e 2 dormitórios). As plantas do material são de apto 104/102/202 da Torre 01."
+  },
+  "_de_onde_veio_a_ficha": [
+    "Raspado do anúncio em 04/09/2026 (bloco template.data.launch do __NEXT_DATA__).",
+    "`valSales` = 0: preço sob consulta, por isso `preco: null`.",
+    "A vaga vem de fora do anúncio: a reportagem local sobre o empreendimento diz",
+    "'duas torres com 224 apartamentos, com elevadores e uma vaga de garagem por",
+    "apartamento'. O anúncio da imobiliária não lista vaga."
+  ],
+  "planta": {
+    "origem": "fotos/monte-dos-cedros/06.jpg (MONTE DOS CEDROS - APTO 104 - TORRE 01)",
+    "escala_conferida": true,
+    "pe_direito": 2.6,
+    "_como_foi_medida": [
+      "MESMO método do wish-castanheiras-58, com uma diferença que muda tudo: ESTE DESENHO",
+      "NÃO TEM COTA NENHUMA. Só rótulo de cômodo e chamada de acabamento.",
+      "1. A CV achou 5 paredes verticais (x 178, 364, 550, 643, 825) e 4 horizontais",
+      "   (y 106, 176, 327, 395), espessura mediana 6 px. A planta é um L: a ala do banho e",
+      "   do quarto para em y=327, a do estar/cozinha/serviço vai até y=395.",
+      "2. ESCALA pela ÁREA, que é o que sobra quando não há cota: a união dos dois retângulos",
+      "   dá 168.283 px², a ficha diz 37,28 m² -> 67,19 px/m.",
+      "3. CONFERIDA em três louças/eletros desenhados, que têm tamanho de catálogo:",
+      "   cooktop 4 bocas 35x40 px = 0,52x0,60 m (catálogo 0,58x0,51); vaso sanitário",
+      "   35x45 px = 0,52x0,67 m (catálogo 0,37x0,68); máquina de lavar 40x35 px =",
+      "   0,60x0,52 m (catálogo 0,60x0,60). Os três batem, então a escala não é circular.",
+      "4. VÃOS por detecção de buraco no traço: 8 achados, 8 usados."
+    ],
+    "_pe_direito": "2,60 m, e não os 2,70 do Wish: é o pé-direito de projeto da linha econômica da MRV. Arbitrado -- o desenho não informa.",
+    "comodos": [
+      {
+        "nome": "Estar/Jantar",
+        "area": 11.91,
+        "piso": "madeira",
+        "poly": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            2.77,
+            0.0
+          ],
+          [
+            2.77,
+            4.3
+          ],
+          [
+            0.0,
+            4.3
+          ]
+        ]
+      },
+      {
+        "nome": "Circulação",
+        "area": 4.32,
+        "piso": "madeira",
+        "poly": [
+          [
+            2.77,
+            0.0
+          ],
+          [
+            6.92,
+            0.0
+          ],
+          [
+            6.92,
+            1.04
+          ],
+          [
+            2.77,
+            1.04
+          ]
+        ]
+      },
+      {
+        "nome": "Cozinha",
+        "area": 6.23,
+        "piso": "madeira",
+        "poly": [
+          [
+            2.77,
+            1.04
+          ],
+          [
+            5.54,
+            1.04
+          ],
+          [
+            5.54,
+            3.29
+          ],
+          [
+            2.77,
+            3.29
+          ]
+        ]
+      },
+      {
+        "nome": "Área de Serviço",
+        "area": 2.8,
+        "piso": "frio",
+        "poly": [
+          [
+            2.77,
+            3.29
+          ],
+          [
+            5.54,
+            3.29
+          ],
+          [
+            5.54,
+            4.3
+          ],
+          [
+            2.77,
+            4.3
+          ]
+        ]
+      },
+      {
+        "nome": "Banho",
+        "area": 3.11,
+        "piso": "frio",
+        "poly": [
+          [
+            5.54,
+            1.04
+          ],
+          [
+            6.92,
+            1.04
+          ],
+          [
+            6.92,
+            3.29
+          ],
+          [
+            5.54,
+            3.29
+          ]
+        ]
+      },
+      {
+        "nome": "Quarto",
+        "area": 8.92,
+        "piso": "madeira",
+        "poly": [
+          [
+            6.92,
+            0.0
+          ],
+          [
+            9.63,
+            0.0
+          ],
+          [
+            9.63,
+            3.29
+          ],
+          [
+            6.92,
+            3.29
+          ]
+        ]
+      }
+    ],
+    "portas": [
+      {
+        "p": [
+          3.25,
+          1.04
+        ],
+        "largura": 0.85,
+        "tipo": "vao",
+        "_o_que_e": "circulação -> cozinha: o desenho não mostra folha, é passagem"
+      },
+      {
+        "p": [
+          6.03,
+          1.04
+        ],
+        "largura": 0.63,
+        "_o_que_e": "banho, da circulação"
+      },
+      {
+        "p": [
+          6.92,
+          0.54
+        ],
+        "largura": 0.92,
+        "_o_que_e": "quarto, da circulação"
+      },
+      {
+        "p": [
+          2.77,
+          0.52
+        ],
+        "largura": 1.04,
+        "tipo": "vao",
+        "y1": 2.6,
+        "_o_que_e": "estar/jantar -> circulação: sem parede. O traço vertical em x=364 px começa em y=172 px; acima disso o estar e a circulação são o mesmo espaço."
+      },
+      {
+        "p": [
+          4.16,
+          3.29
+        ],
+        "largura": 2.77,
+        "tipo": "vao",
+        "y1": 2.6,
+        "_o_que_e": "cozinha e área de serviço são uma faixa só: os dois rótulos estão no mesmo piso cerâmico contínuo, sem divisória desenhada."
+      }
+    ],
+    "janelas": [
+      {
+        "p": [
+          0.55,
+          0.0
+        ],
+        "largura": 0.95,
+        "_o_que_e": "estar/jantar, fachada de cima"
+      },
+      {
+        "p": [
+          1.21,
+          4.3
+        ],
+        "largura": 2.28,
+        "_o_que_e": "estar/jantar, fachada de baixo -- a janela grande da sala"
+      },
+      {
+        "p": [
+          4.18,
+          4.3
+        ],
+        "largura": 1.25,
+        "_o_que_e": "área de serviço"
+      },
+      {
+        "p": [
+          8.28,
+          3.29
+        ],
+        "largura": 1.55,
+        "_o_que_e": "quarto (o desenho anota 'janela com veneziana')"
+      },
+      {
+        "p": [
+          6.07,
+          3.29
+        ],
+        "largura": 0.6,
+        "y0": 1.6,
+        "y1": 2.2,
+        "_o_que_e": "banho: basculante. O traço do desenho some em 0,95 m ali, mas parte disso é o duto da prumada -- adotado 0,60, que é a esquadria de banheiro do padrão"
+      }
+    ],
+    "moveis": [],
+    "_correcao_04_09": [
+      "Mesmo defeito do wish: duas divisas sem vão viravam parede (estar x circulação e",
+      "cozinha x área de serviço). A primeira fechava a entrada do apartamento."
+    ]
+  },
+  "fotos": [],
+  "_fotos": "as 9 imagens do anúncio foram baixadas temporariamente para leitura e não ficaram no repositório.",
+  "lote": {
+    "lat": -22.015355,
+    "lon": -47.91249,
+    "confirmado": false,
+    "rumo_graus": 173.9,
+    "_o_que_e": [
+      "LANÇAMENTO MRV, entrega prevista out/2026: não existe como volume na base.",
+      "Conferido: nenhuma edificação do city.json dentro do retângulo, e nenhuma a menos",
+      "de 60 m do centro."
+    ],
+    "_como_foi_escolhido": [
+      "1. As DUAS fontes independentes concordam no ponto: o marcador do próprio site",
+      "   (-22,01504/-47,91249) e o do agregador apto.vc (-22,01499/-47,91215) ficam a",
+      "   35 m um do outro, os dois sobre a Avenida dos Sanhaços.",
+      "2. O número 1099 não existe no CNEFE 2022 (a via só tem 461, o portão do condomínio",
+      "   Parque Faber II, e 691) -- de novo o que se espera de terreno sem endereço.",
+      "3. LADO SUL da avenida, e não norte: o lado norte é o Parque Faber II, condomínio",
+      "   fechado de casas já construído (o polígono murado está no OSM, 109.719 m²);",
+      "   o lado sul, na imagem de satélite, é a única faixa livre da via.",
+      "4. Rumo 173,9 graus = azimute do eixo da Avenida dos Sanhaços nesse ponto, tirado",
+      "   do grafo de ruas do próprio mapa.",
+      "Depois de posicionar: 30,5 m do eixo da avenida (a fita acaba em 5,8 m) e o centro",
+      "cai dentro de uma quadra, então há chão."
+    ],
+    "_incerteza": [
+      "±80 m. Nenhuma imagem aérea disponível mostra a obra (a cobertura Esri do local é",
+      "anterior ao início dela), e o número 1099 está fora da faixa numerada da via em 2022.",
+      "A torre está no lado certo da avenida certa; a posição exata ao longo dela é estimada."
+    ],
+    "predio": {
+      "pavimentos": 15,
+      "largura_m": 34.0,
+      "profundidade_m": 14.0,
+      "cor_parede": "#C4A87E",
+      "_pavimentos": [
+        "15 = térreo + 14 tipo. Duas contas independentes batem:",
+        "a) 224 apartamentos / 2 torres = 112 por torre; 112 / 8 por andar = 14 tipo.",
+        "b) contagem nas sacadas da torre da direita na perspectiva 00 (realce de gradiente",
+        "   vertical): 14 faixas de laje entre y=107 e y=258 px, passo estável de ~11 px,",
+        "   antes da marquise da portaria cortar a vista.",
+        "Altura = 15 x 3,15 = 47,25 m.",
+        "SÃO DUAS TORRES no empreendimento; o mapa desenha UMA. O renderizador prende um",
+        "único volume por unidade de lote (recDoLancamento devolve um rec só)."
+      ],
+      "_pegada": [
+        "ARBITRADA. 8 apartamentos por andar x ~42 m² úteis x 1,4 de circulação e parede",
+        "≈ 470 m²; 34 x 14 = 476 m². A proporção alongada é a da lâmina que aparece na",
+        "perspectiva (fachada longa com sacadas, empena curta cega)."
+      ],
+      "_cor_parede": [
+        "Amostrada da perspectiva 00: a fachada iluminada dá #D2C6B8 (creme MRV).",
+        "#C4A87E é esse creme já CALIBRADO NA TELA: com #CFC3B0 a torre saía (197,195,191)",
+        "no print, ou seja cinza -- a saída sRGB mais o ACES comem a saturação de cor clara.",
+        "Com #C4A87E sai (194,187,173), que é o creme que se vê na perspectiva."
+      ],
+      "_massa": [
+        "MEDIDA na perspectiva 00: DUAS TORRES iguais, cada uma com a caixa de escada",
+        "aparecendo acima da laje, mais o portico da portaria na testada. A pendencia",
+        "declarada em `_pavimentos` ('sao duas torres; o mapa desenha uma') fecha aqui."
+      ],
+      "blocos": [
+        {
+          "_o_que_e": "Torre 01, a das plantas do material; e onde mora a unidade. Fica no PONTO do lote e com a pegada declarada em largura_m/profundidade_m -- a Torre 02 e que se arruma ao lado. Encolher esta pegada pra parecer mais com a perspectiva ENCOLHE A CASCA DA UNIDADE e mexe no interior (medido: a faixa dinamica do print caiu de 80,8 pra 67,5 quando a torre virou 21 x 14).",
+          "principal": true,
+          "du": 0,
+          "dv": 0,
+          "largura_m": 34,
+          "profundidade_m": 14,
+          "sacadas": {
+            "por_face": 4,
+            "largura_m": 2.8,
+            "avanco_m": 1.2,
+            "de_pav": 1
+          },
+          "faixa_pav": {
+            "altura_m": 0.55,
+            "avanco_m": 0.3
+          }
+        },
+        {
+          "_o_que_e": "Torre 02",
+          "du": 44,
+          "dv": 1,
+          "largura_m": 34,
+          "profundidade_m": 14,
+          "sacadas": {
+            "por_face": 4,
+            "largura_m": 2.8,
+            "avanco_m": 1.2,
+            "de_pav": 1
+          },
+          "faixa_pav": {
+            "altura_m": 0.55,
+            "avanco_m": 0.3
+          }
+        },
+        {
+          "_o_que_e": "caixa de escada da Torre 01",
+          "du": 0,
+          "dv": 0,
+          "largura_m": 8,
+          "profundidade_m": 5,
+          "pavimentos": 16
+        },
+        {
+          "_o_que_e": "caixa de escada da Torre 02",
+          "du": 44,
+          "dv": 1,
+          "largura_m": 8,
+          "profundidade_m": 5,
+          "pavimentos": 16
+        },
+        {
+          "_o_que_e": "portico da portaria, na testada da Avenida dos Sanhacos",
+          "du": 22,
+          "dv": 15,
+          "largura_m": 9,
+          "profundidade_m": 5,
+          "pavimentos": 1,
+          "classe": 2,
+          "cor_parede": "#B9A279"
+        }
+      ]
+    }
+  },
+  "cores": {
+    "parede": "#D0C9BE",
+    "rodape": "#F3F1ED",
+    "piso_frio": "#BBB3A7",
+    "piso_madeira": "#9A7B57",
+    "teto": "#F1EFEA",
+    "_origem": "amostradas das fotos 01 (sala), 02 (quarto) e 03 (home office) do anúncio, que ESTAS sim são das unidades: parede em pintura clara, piso em cerâmica bege claro, marcenaria em tom médio.",
+    "_calibracao": "Escurecidas ~5% em 04/09/2026 depois de medir: com os tons amostrados direto do render do anúncio a cena de dentro saía com média 175,3 e faixa 77,1, fora dos limites do portão `exposição do interior` (média 120-175, faixa >=80). É o mesmo efeito da fachada: a saída sRGB mais o ACES levantam o valor, então cor de catálogo chega lavada. Os valores aqui são os que CHEGAM certos na tela.",
+    "_piso": "Pedido do usuário em 04/09/2026: chão em TÁBUA DE MADEIRA. Cerâmica ficou só onde ela é obrigatória — banho, área de serviço e a área externa (sacada/varanda). ATENÇÃO: isso CONTRARIA a especificação do anúncio, que manda cerâmica em toda a unidade; é escolha de apresentação, não o acabamento de entrega."
+  },
+  "_planta_qual": "A ficha é a de 1 dormitório/37,28 m² (apto 104). O anúncio traz mais duas: apto 102 (2 dorm com área privativa/quintal) e apto 202 (2 dorm com varanda), que vão até 44,32 m². Não foram extraídas."
+}

@@ -44,7 +44,8 @@ def formata(p):
 
 
 def uma_cidade(slug, comportamento=True):
-    cid = carrega(slug)
+    from pipeline.build.config import resolve
+    cid = resolve(slug).cidade_para_qa()
     t0 = time.time()
     print("QA de %s (%s)%s" % (cid.nome, slug, "" if comportamento else "  [--rapido: so geometria]"))
     portoes = qa.roda(cid, comportamento=comportamento)
@@ -89,15 +90,19 @@ def uma_cidade(slug, comportamento=True):
 
 
 def _versao():
-    try:
-        from pipeline.montar import VERSAO
-        return VERSAO
-    except Exception:
-        return "?"
+    from pipeline.build.config import resolve
+    return resolve().versao
 
 
 def main():
     a = sys.argv[1:]
+    if '--variante' in a:
+        i = a.index('--variante')
+        if i + 1 == len(a):
+            raise SystemExit('--variante precisa de um valor')
+        from pipeline.build.config import resolve
+        os.environ['MAPA_V'] = resolve(versao=a[i + 1]).versao
+        a = a[:i] + a[i + 2:]
     if any(x in a for x in ("-h", "--help")):
         print(__doc__); print("cidades:", ", ".join(lista())); return 0
     rapido = "--rapido" in a

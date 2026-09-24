@@ -1,0 +1,301 @@
+{
+ "_gerado_por": "pipeline/mobiliar.py",
+ "_nota": "layout automatico; mobilia posta a mao em unidade.json.planta.moveis GANHA deste arquivo",
+ "_norma": "folgas conferidas contra ABNT NBR 15575-1 Anexo G (minimo) e NKBA/Panero-Zelnik (conforto)",
+ "_erros": [
+  "Banho 2/pia: folga 0.05 m, norma pede 0.40",
+  "Banho 2/vaso: folga 0.10 m, norma pede 0.40",
+  "Suíte/guardaroupa: folga 0.35 m, norma pede 0.50"
+ ],
+ "_apertos": [
+  "Cozinha/fogao: folga 0.99 m, confortavel e 1.07",
+  "Cozinha/balcao: folga 0.99 m, confortavel e 1.07",
+  "Quarto/cama: folga 0.53 m, confortavel e 0.76"
+ ],
+ "moveis": [
+  {
+   "tipo": "pia",
+   "p": [
+    0.535,
+    0.885
+   ],
+   "rot": 0,
+   "w": 0.52,
+   "h": 0.92,
+   "d": 0.53,
+   "cor": "#E4DFD5"
+  },
+  {
+   "tipo": "maquina",
+   "p": [
+    1.205,
+    0.945
+   ],
+   "rot": 0,
+   "w": 0.6,
+   "h": 0.85,
+   "d": 0.65
+  },
+  {
+   "tipo": "aereo",
+   "p": [
+    0.255,
+    4.6
+   ],
+   "rot": 1,
+   "w": 1.3,
+   "h": 2.2,
+   "d": 0.35,
+   "cor": "#5A6249"
+  },
+  {
+   "tipo": "fogao",
+   "p": [
+    0.39,
+    3.64
+   ],
+   "rot": 1,
+   "w": 0.62,
+   "h": 0.92,
+   "d": 0.62
+  },
+  {
+   "tipo": "coifa",
+   "p": [
+    0.33,
+    3.64
+   ],
+   "rot": 1,
+   "w": 0.6,
+   "h": 2.7,
+   "d": 0.5
+  },
+  {
+   "tipo": "balcao",
+   "p": [
+    0.38,
+    2.83
+   ],
+   "rot": 1,
+   "w": 1.0,
+   "h": 0.92,
+   "d": 0.6,
+   "cor": "#5A6249"
+  },
+  {
+   "tipo": "aereo",
+   "p": [
+    0.255,
+    2.83
+   ],
+   "rot": 1,
+   "w": 1.0,
+   "h": 2.2,
+   "d": 0.35,
+   "cor": "#5A6249"
+  },
+  {
+   "tipo": "sofa",
+   "p": [
+    4.58,
+    1.055
+   ],
+   "rot": 3,
+   "w": 1.91,
+   "h": 0.8,
+   "d": 0.92
+  },
+  {
+   "tipo": "ripado",
+   "p": [
+    1.86,
+    1.04
+   ],
+   "rot": 1,
+   "w": 1.98,
+   "h": 2.4,
+   "d": 0.05,
+   "cor": "#8A6A45"
+  },
+  {
+   "tipo": "rack",
+   "p": [
+    2.075,
+    1.04
+   ],
+   "rot": 1,
+   "w": 1.78,
+   "h": 0.7,
+   "d": 0.38
+  },
+  {
+   "tipo": "tv",
+   "p": [
+    1.955,
+    1.04
+   ],
+   "rot": 1,
+   "w": 1.35,
+   "h": 1.62,
+   "d": 0.14
+  },
+  {
+   "tipo": "pia",
+   "p": [
+    6.31,
+    1.165
+   ],
+   "rot": 3,
+   "w": 0.9,
+   "h": 0.92,
+   "d": 0.48,
+   "cor": "#E4DFD5"
+  },
+  {
+   "tipo": "vaso",
+   "p": [
+    5.32,
+    0.41
+   ],
+   "rot": 0,
+   "w": 0.4,
+   "h": 0.8,
+   "d": 0.66
+  },
+  {
+   "tipo": "box",
+   "p": [
+    5.6,
+    1.26
+   ],
+   "rot": 1,
+   "w": 0.8,
+   "h": 2.0,
+   "d": 0.8
+  },
+  {
+   "tipo": "cama",
+   "p": [
+    8.41,
+    1.105
+   ],
+   "rot": 0,
+   "w": 1.45,
+   "h": 1.05,
+   "d": 2.05
+  },
+  {
+   "tipo": "criado",
+   "p": [
+    7.405,
+    0.33
+   ],
+   "rot": 0,
+   "w": 0.5,
+   "h": 0.55,
+   "d": 0.5
+  },
+  {
+   "tipo": "criado",
+   "p": [
+    9.415,
+    0.33
+   ],
+   "rot": 0,
+   "w": 0.5,
+   "h": 0.55,
+   "d": 0.5
+  },
+  {
+   "tipo": "guardaroupa",
+   "p": [
+    9.81,
+    1.665
+   ],
+   "rot": 3,
+   "w": 2.0,
+   "h": 2.35,
+   "d": 0.6,
+   "cor": "#E4DFD5"
+  },
+  {
+   "tipo": "cortina",
+   "p": [
+    9.41,
+    3.185
+   ],
+   "rot": 2,
+   "w": 1.74,
+   "h": 2.4,
+   "d": 0.12
+  },
+  {
+   "tipo": "cama",
+   "p": [
+    5.505,
+    5.455
+   ],
+   "rot": 1,
+   "w": 0.9,
+   "h": 1.05,
+   "d": 2.05
+  },
+  {
+   "tipo": "guardaroupa",
+   "p": [
+    5.14,
+    3.71
+   ],
+   "rot": 0,
+   "w": 1.38,
+   "h": 2.35,
+   "d": 0.6,
+   "cor": "#E4DFD5"
+  },
+  {
+   "tipo": "cortina",
+   "p": [
+    5.85,
+    5.935
+   ],
+   "rot": 2,
+   "w": 1.74,
+   "h": 2.4,
+   "d": 0.12
+  },
+  {
+   "tipo": "pia",
+   "p": [
+    7.46,
+    4.81
+   ],
+   "rot": 1,
+   "w": 0.9,
+   "h": 0.92,
+   "d": 0.48,
+   "cor": "#E4DFD5"
+  },
+  {
+   "tipo": "vaso",
+   "p": [
+    8.42,
+    5.67
+   ],
+   "rot": 2,
+   "w": 0.4,
+   "h": 0.8,
+   "d": 0.66
+  },
+  {
+   "tipo": "box",
+   "p": [
+    7.62,
+    5.68
+   ],
+   "rot": 1,
+   "w": 0.8,
+   "h": 2.0,
+   "d": 0.8
+  }
+ ]
+}

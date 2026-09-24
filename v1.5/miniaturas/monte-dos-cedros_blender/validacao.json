@@ -1,0 +1,22 @@
+{
+  "id": "monte-dos-cedros-37",
+  "towers": 2,
+  "floors": 15,
+  "floor_height": 3.15,
+  "balcony_depth": 1.7,
+  "reference": "MRV, fachadas e implantacoes consultadas em 21/09/2026",
+  "scope": "duas torres",
+  "uncertainty": "Dimensoes e posicoes do cadastro sao aproximadas; pormenores de cobertura e fundos interpretados. Sem levantamento executivo.",
+  "blender": "5.2.2 LTS",
+  "geometries": 35,
+  "groups": 64,
+  "web_bytes": 1402016,
+  "glb_bytes": 877948,
+  "checks": {
+    "pavimentos_e_lajes": true,
+    "exportacao": true,
+    "finite_geometry": true,
+    "normals_uv_indices": true,
+    "glb_header": true
+  }
+}

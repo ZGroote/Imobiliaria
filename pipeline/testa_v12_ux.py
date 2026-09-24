@@ -47,7 +47,7 @@ SONDA = """
     if (n > 0) return setTimeout(function(){ esperar(n-1); }, 300);
     console.log('UX {"erro":"a cidade nao subiu"}'); return;
   }
-  var I = window.__int, out = {};
+  var I = window.__int, P = window.__perf, out = {};
   // O contador NAO e enfeite: sem ele a segunda espera com o mesmo tempo vem do
   // cache do navegador e volta na hora -- foi assim que o portao "noite: volta"
   // reprovou medindo a exposicao antes de a transicao andar.
@@ -91,19 +91,29 @@ SONDA = """
     // 3 s bastavam em Sao Carlos e paravam em 0,85 de volta em Ribeirao). Entao a
     // sonda espera ATE ASSENTAR, com teto: o que se afere e "chega ao fim", nao "chega
     // em N segundos".
-    async function ateAssentar(alvo) {
-      for (var k = 0; k < 5 && Math.abs(I.NOITE.t - alvo) > 0.001; k++) await espera(2000);
+    // A transicao anda por RELOGIO (`performance.now()`), e em Chrome headless o rAF
+    // para depois dos primeiros quadros (ver a nota do `__perf.passo`) -- entao esperar
+    // tempo de parede nao faz a noite andar: ela ficava em t=0,38 e a exposicao em
+    // 0,818, e este portao reprovava havia meses uma noite que funciona. Com o relogio
+    // real e rAF vivo, medido nesta pagina: t=1 e exposicao 0,40, em 3 quadros.
+    // `__perf.passo(t)` roda um quadro COMPLETO fora do rAF com o carimbo que a gente
+    // escolhe. Passando 400 ms (o teto do dt da transicao) por chamada, a transicao de
+    // 700 ms fecha em 2 quadros -- sem depender da velocidade da maquina, que e
+    // exatamente o que o comentario original dizia querer evitar.
+    var _t = performance.now();
+    function ateAssentar(alvo) {
+      for (var k = 0; k < 12 && Math.abs(I.NOITE.t - alvo) > 0.001; k++) { _t += 400; P.passo(_t); }
       return +I.NOITE.t.toFixed(2);
     }
     // v12: o botao Noite saiu do painel a pedido; o modo continua, por `?noite=1` e
     // pela porta do QA. Chamar `setNoite` e o mesmo caminho que o botao chamava.
     var dia = I.renderer.toneMappingExposure;
     I.setNoite(true);
-    out.t = await ateAssentar(1);
+    out.t = ateAssentar(1);
     out.expDia = +dia.toFixed(3);
     out.expNoite = +I.renderer.toneMappingExposure.toFixed(3);
     I.setNoite(false);
-    out.tVolta = await ateAssentar(0);
+    out.tVolta = ateAssentar(0);
     out.expVolta = +I.renderer.toneMappingExposure.toFixed(3);
 
     // ---- minimapa ----------------------------------------------------------

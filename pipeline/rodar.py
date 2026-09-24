@@ -43,13 +43,18 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.abspath(os.path.join(AQUI, "..")) + os.sep
 sys.path.insert(0, RAIZ)
 from padrao.cidade import carrega
+from pipeline.build.config import resolve
+from pipeline.build.manifest import entradas as entradas_build, assinatura
 
-CID = carrega(os.environ.get("CIDADE", "sao-carlos"))
+CONFIG = resolve()
+CID = CONFIG.cidade()
 PY = sys.executable
 
 
 def F(chave):
     """Caminho de uma fonte declarada no JSON da cidade."""
+    if chave in ('html_saida', 'html_comprimido'):
+        return str(CONFIG.saida(chave, CID))
     return CID.caminho(chave)
 
 
@@ -101,7 +106,7 @@ ETAPAS = [
      ["pipeline/fontes/vegetacao.py"], [], [F("vegetacao")], True,
      "substitui o 'e parque ou nao e' do OSM por um numero continuo; ~2 min por cidade"),
     ("0.9", "OpenPlots: plantas",
-     ["baixar_openplots.py"], [], [F("plantas")], True, "retomavel"),
+     ["pipeline/plantas/baixar_openplots.py"], [], [F("plantas")], True, "retomavel"),
 
     ("0a", "Cruza OSM x Overture",
      ["merge_osm_overture.py"], [F("city_bruto"), F("osm_predios")],
@@ -111,16 +116,16 @@ ETAPAS = [
      ["build_blocks.py"], [F("city_v2")], [F("faces_ruas")], False,
      "4.457 faces; e a fonte de quadra da 1b onde o cadastro nao tem"),
     ("0c", "city_base (agrupado por quadra)",
-     ["v4/build_city_v4.py"], [F("city_v2"), F("faces_ruas")], [F("city_base")], False,
+     ["pipeline/city_base.py"], [F("city_v2"), F("faces_ruas")], [F("city_base")], False,
      "reordena b[] por quadra e emite bl[]; e o que o streaming le"),
     ("0d", "Plantas -> lotes oficiais",
-     ["v7/pipeline/rodar_tudo.py", "v7/pipeline/relatorio.py"], [F("plantas")],
+     ["pipeline/plantas/rodar_tudo.py", "pipeline/plantas/relatorio.py"], [F("plantas")],
      [F("relatorio_plantas")], False,
      "vetoriza+georreferencia planta a planta; ~1 subprocesso por planta. "
      "quem escreve o CSV e o relatorio.py -- sem ele a etapa nunca fica fresca"),
     ("0e", "Consolida e filtra lote de planta",
-     ["v7/pipeline/consolidar.py", "v7/pipeline/auditoria_tamanhos.py",
-      "v7/pipeline/filtrar_confiaveis.py"],
+     ["pipeline/consolidar.py", "pipeline/auditoria_tamanhos.py",
+      "pipeline/filtrar_confiaveis.py"],
      [F("relatorio_plantas")],
      [F("lotes_oficiais"), F("lotes_planta")], False,
      "a planta e o gabarito: lote fora do tamanho padrao dela e erro de extracao. "
@@ -132,44 +137,41 @@ ETAPAS = [
      "converte as tags do OSM na lista que o renderizador desenha (nao entra supermercado: o build_pois ja traz)"),
 
     ("1b", "Quadra do grafo onde falta cadastro",
-     ["v7/pipeline/quadras_grafo.py"], [O(F("quadras")), F("faces_ruas"), F("city_base")],
+     ["pipeline/quadras_grafo.py"], [O(F("quadras")), F("faces_ruas"), F("city_base")],
      [F("quadras_completo")], False,
      "so face com prova de urbanizacao (>=5 predios e >=3/ha)"),
     ("2", "Miolo (quadra menos a fita da rua)",
-     ["v7/pipeline/quadras_miolo.py"], [F("quadras_completo"), F("city_base")],
+     ["pipeline/quadras_miolo.py"], [F("quadras_completo"), F("city_base")],
      [F("miolo")], False,
      "corta pela fita que o renderizador DESENHA, nao por recuo fixo"),
     ("3", "Grade de lote sintetico",
-     ["v7/pipeline/lotes_sinteticos.py"], [F("miolo")], [F("lotes_sinteticos")], False, ""),
+     ["pipeline/lotes_sinteticos.py"], [F("miolo")], [F("lotes_sinteticos")], False, ""),
     ("4", "Junta planta + sintetico",
-     ["v7/pipeline/juntar_lotes.py"], [O(F("lotes_planta")), F("lotes_sinteticos"), F("miolo")],
+     ["pipeline/juntar_lotes.py"], [O(F("lotes_planta")), F("lotes_sinteticos"), F("miolo")],
      [F("lotes")], False,
      "exame por quadra: >15 graus de desalinho ou >20% fora do miolo -> refaz a fileira"),
     ("5", "Prova de ocupacao",
-     ["v7/pipeline/ocupacao.py"], [F("lotes"), O(F("enderecos")), F("city_base")],
+     ["pipeline/ocupacao.py"], [F("lotes"), O(F("enderecos")), F("city_base")],
      [F("lotes_ocupados")], False,
      "GUARDA INDICES da etapa 4: refez a 4, TEM que refazer a 5"),
     ("6", "Muros de divisa",
-     ["v7/pipeline/gen_muros.py"], [F("lotes"), F("lotes_ocupados")], [F("muros")], False, ""),
+     ["pipeline/muros.py"], [F("lotes"), F("lotes_ocupados")], [F("muros")], False, ""),
     ("6b", "Portao de cada lote com casa",
-     ["v7/pipeline/gen_portoes.py"], [F("lotes"), F("lotes_ocupados"), F("city_saida")],
+     ["pipeline/portoes.py"], [F("lotes"), F("lotes_ocupados"), F("city_saida")],
      [F("portoes")], False,
      "a frente sai da malha viaria: o nx/ny do lote so existe em lote sintetico"),
     ("7", "city.json final",
-     ["v7/pipeline/build_v7_city.py"],
+     ["pipeline/city_final.py"],
      [F("city_base"), F("lotes"), F("lotes_ocupados"), F("quadras_completo"), F("miolo")],
      [F("city_saida")], False,
      "le quadras_completo -- com o cadastro puro aqui, 11 mil casas somem no dedup"),
     ("7b", "Chao e asfalto",
-     ["v7/pipeline/gen_chao.py", "v7/pipeline/gen_ruas.py"],
+     ["pipeline/chao.py", "pipeline/ruas.py"],
      [F("quadras_completo"), F("city_base")], [F("chao_tris"), F("rua_tris")], False,
      "MESMA lista de quadras da 2, senao o asfalto cobre a casa nova"),
     ("8", "HTML (monta das pecas)",
      ["pipeline/montar.py"],
-     [F("city_saida"), F("chao_tris"), F("rua_tris"), F("muros"), F("relevo"), O(F("pois")),
-      O(F("arvores")), O(F("portoes")), O(F("vegetacao")),
-      R("renderizador/app.js"), R("renderizador/estilo.css"),
-      R("renderizador/cabeca.html"), R("renderizador/corpo.html")],
+     [F("city_saida")] + [O(str(p)) for p in entradas_build(CONFIG)],
      [F("html_saida"), F("html_comprimido")], False,
      "concatena renderizador/ + os blocos de dado; make_v4..v8 viraram historico. "
      "a biblioteca de arvores entra aqui: mexeu nela, a pagina esta velha"),
@@ -186,21 +188,23 @@ ETAPAS = [
 
 # Por CIDADE: as chaves sao o id da etapa, entao um arquivo so faria Araraquara
 # sobrescrever o carimbo de Sao Carlos e vice-versa.
-ESTADO = os.path.join(AQUI, "_estado_%s.json" % CID.slug)
+ESTADO = os.path.join(AQUI, "_estado_%s_%s.json" % (CID.slug, CONFIG.versao))
 CACHE = os.path.join(AQUI, "_hashes.json")      # sha1 memorizado por (tamanho, mtime)
 
 
 def _carrega(p):
     try:
         import json as _j
-        return _j.load(open(p, encoding="utf-8"))
+        with open(p, encoding="utf-8") as stream:
+            return _j.load(stream)
     except Exception:
         return {}
 
 
 def _grava(p, d):
     import json as _j
-    _j.dump(d, open(p, "w", encoding="utf-8"))
+    with open(p, "w", encoding="utf-8") as stream:
+        _j.dump(d, stream)
 
 
 def mtime(p):
@@ -246,6 +250,9 @@ def sha(p):
 def estado(eid, ent, sai):
     ts = [mtime(p) for p in sai]
     if any(t is None for t in ts): return "FALTA"
+    if eid == '8':
+        reg = _carrega(ESTADO).get(eid, {})
+        return 'fresco' if reg.get('assinatura') == assinatura(CONFIG) else 'velho'
     te = [mtime(p) for p in _todas(ent) if mtime(p) is not None]
     if not te or max(te) <= min(ts): return "fresco"
     # mtime diz velho -- confere o conteudo antes de gastar a etapa inteira
@@ -257,6 +264,11 @@ def estado(eid, ent, sai):
 
 def anota(eid, ent, sai):
     d = _carrega(ESTADO)
+    if eid == '8':
+        d[eid] = {'assinatura': assinatura(CONFIG),
+                  'quando': time.strftime('%Y-%m-%d %H:%M')}
+        _grava(ESTADO, d)
+        return
     d[eid] = {"entradas": {p: sha(p) for p in _todas(ent) if os.path.exists(p)},
               "quando": time.strftime("%Y-%m-%d %H:%M")}
     _grava(ESTADO, d)

@@ -82,7 +82,7 @@ def main():
                             "--enable-logging=stderr", "--log-level=0",
                             "file:///" + tmp.replace("\\", "/") + "?q=alto&bake=0"],
                            capture_output=True, text=True, encoding="utf-8",
-                           errors="replace", timeout=300)
+                           errors="replace", timeout=int(os.environ.get("QA_TIMEOUT", 1500)))
         bruto = (r.stderr or "") + (r.stdout or "")
     finally:
         shutil.rmtree(ud, ignore_errors=True)

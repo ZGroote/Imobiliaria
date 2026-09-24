@@ -1,0 +1,61 @@
+{
+  "origem": "renderizador/app.js (v15)",
+  "chave": "aparencia.especular_fragmento",
+  "nasce": "desligada em todas as cidades",
+  "o_que_porta": [
+    "expoente do lobo por fragmento na fachada (8 pintura, 16 telhado, 56 vidro)",
+    "forca do especular da parede (0,09 em vez de 0)",
+    "asfalto 26 e calcada 8 (matVia)",
+    "muro 10 (material de superficie)",
+    "folha 24 (matArvore, agora fonte unica nos dois caminhos)"
+  ],
+  "com_a_chave_desligada": {
+    "fonte_do_shader": "byte a byte igual ao de antes (o teste test_facades cobre os 4 casos)",
+    "imagem_externa": "byte a byte identica",
+    "listing": "identico"
+  },
+  "quadro_de_rua_sao_carlos": {
+    "sem_chave": {
+      "lum_media": 142.3,
+      "realce_acima_200_pct": 24.359,
+      "topo_acima_235_pct": 0.0,
+      "escuro_abaixo_70_pct": 9.29
+    },
+    "so_sombra": {
+      "lum_media": 140.2,
+      "realce_acima_200_pct": 26.979,
+      "topo_acima_235_pct": 0.0,
+      "escuro_abaixo_70_pct": 9.42
+    },
+    "sombra_e_especular": {
+      "lum_media": 140.7,
+      "realce_acima_200_pct": 27.273,
+      "topo_acima_235_pct": 0.0,
+      "escuro_abaixo_70_pct": 9.37
+    },
+    "especular_sozinho_sob_sol_alto": {
+      "pixels_alterados_pct": 3.57,
+      "max_por_canal": 111
+    },
+    "especular_sob_o_sol_baixo": {
+      "pixels_alterados_pct": 5.66,
+      "max_por_canal": 105
+    }
+  },
+  "leitura_honesta": [
+    "As duas capacidades sao acopladas: especular aparece em luz rasante, entao com o sol alto (chave de sombra desligada) ele quase nao muda o quadro.",
+    "O ganho medido do especular e pequeno: +0,29 ponto percentual de realce sob o sol baixo.",
+    "O que a nota do v15 promete -- encher o topo vazio da faixa -- NAO se reproduziu aqui: `lum > 235` continua 0,000% nos tres casos. A medida do v15 foi feita em RIBEIRAO e em outro enquadramento; antes de promover, refazer a medida na cidade e no quadro certos."
+  ],
+  "promocao": "nenhuma cidade promovida",
+  "corrigido_no_27d": [
+    "O quadro de rua usado aqui e o enquadramento ERRADO pra esta capacidade: nele o especular",
+    "move o construido em 0,11 nivel medio. No quadro de cima sao 2,68, e 92,4% do que ele move",
+    "ali e telhado -- que e exatamente o que o comentario do v15 diz.",
+    "O `topo_acima_235_pct: 0.0` registrado acima nao prova nada: o maximo do quadro e 234,5 em",
+    "TODAS as combinacoes medidas, e esses 234,5 sao o texto do painel `#panel`, nao a cidade.",
+    "A leitura de que as duas chaves sao 'acopladas' esta errada: no quadro de cima elas sao",
+    "ANTAGONISTAS -- a sombra baixa o sol, escurece o telhado e apaga o ganho do especular.",
+    "Ver baseline/promocao-aparencia-results.json."
+  ]
+}

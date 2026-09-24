@@ -1,0 +1,509 @@
+{
+  "qa-before": {
+    "cidade": "sao-carlos",
+    "quando": "2026-09-14 02:41",
+    "versao": "v16-moveis",
+    "comportamento_medido": true,
+    "reprovados": 2,
+    "nao_medidos": [],
+    "portoes": [
+      {
+        "nome": "tabela de vias (HTML x JSON)",
+        "familia": "geometria",
+        "valor": true,
+        "limite": true,
+        "passou": true,
+        "detalhe": "identicas"
+      },
+      {
+        "nome": "cidade fora do codigo do renderizador",
+        "familia": "geometria",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "limpo"
+      },
+      {
+        "nome": "muro sobre a rua",
+        "familia": "geometria",
+        "valor": 0.14303132843793234,
+        "limite": 1.0,
+        "passou": true,
+        "detalhe": "6.9 km de 4831 km | 0.22% dos segmentos"
+      },
+      {
+        "nome": "lote sobre a rua",
+        "familia": "geometria",
+        "valor": 0.002611175151735265,
+        "limite": 1.0,
+        "passou": true,
+        "detalhe": "110089 lotes | 3371 ha"
+      },
+      {
+        "nome": "frente do lote encostada na rua (mediana)",
+        "familia": "geometria",
+        "valor": 0.004304854091597405,
+        "limite": 0.25,
+        "passou": true,
+        "detalhe": "74174 lotes ocupados"
+      },
+      {
+        "nome": "lote sintetico sem acesso a rua",
+        "familia": "geometria",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "limpo"
+      },
+      {
+        "nome": "quadra com lote fora do eixo da rua",
+        "familia": "geometria",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "de 955 quadras de planta"
+      },
+      {
+        "nome": "casa sobre a rua",
+        "familia": "geometria",
+        "valor": 0.556110237253483,
+        "limite": 1.0,
+        "passou": true,
+        "detalhe": "89895 volumes | 455 com mais de 2 m2 no asfalto"
+      },
+      {
+        "nome": "muro fora do chao (na pagina)",
+        "familia": "geometria",
+        "valor": 0.0,
+        "limite": 1.0,
+        "passou": true,
+        "detalhe": "1662540 vertices | erro p50 0.00 p99 0.00 max 0.0 m"
+      },
+      {
+        "nome": "arvore fora da calcada (na pagina)",
+        "familia": "geometria",
+        "valor": 0.0,
+        "limite": 0.0,
+        "passou": true,
+        "detalhe": "1146 arvores de rua | 0 alem da fita, 0 sobre o asfalto | 20 especies vivas, 1992 arvores, 565.060 tris de arvore"
+      },
+      {
+        "nome": "abre em file:// (duplo clique)",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v6 | 74s | 1 de 1 paginas prontas pra duplo clique"
+      },
+      {
+        "nome": "terreno de fundo sem buraco",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v11 | 120s | sao-carlos                199712   4.69   132.54       0       0      4.63  ok"
+      },
+      {
+        "nome": "quadro preguicoso",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v11 | 166s | Tudo passou."
+      },
+      {
+        "nome": "governador de grafico",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v11 | 58s | O governador chega na tela em todas."
+      },
+      {
+        "nome": "arvore remendada",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v11 | 119s | O remendo bate com a reconstrucao completa em todas."
+      },
+      {
+        "nome": "UX: busca, link, noite, minimapa",
+        "familia": "comportamento",
+        "valor": 1,
+        "limite": 0,
+        "passou": false,
+        "detalhe": "v12 | 67s | REPROVOU em: sao-carlos"
+      },
+      {
+        "nome": "ficha e 'o que tem por perto'",
+        "familia": "comportamento",
+        "valor": 1,
+        "limite": 0,
+        "passou": false,
+        "detalhe": "v13 | 64s | XX      sao-carlos               vitrine=11  21 cat, 31 POI perto de 931, 2 na tela  a busca acende o pino do lugar achado"
+      },
+      {
+        "nome": "custo do minimapa",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v13 | 157s | Tudo dentro do teto."
+      },
+      {
+        "nome": "exposicao do interior",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v13 | 196s | croma           0.2   0.09 a 1 ok"
+      }
+    ]
+  },
+  "qa-after": {
+    "cidade": "sao-carlos",
+    "quando": "2026-09-14 14:05",
+    "versao": "v16-moveis",
+    "comportamento_medido": true,
+    "reprovados": 2,
+    "nao_medidos": [],
+    "portoes": [
+      {
+        "nome": "tabela de vias (HTML x JSON)",
+        "familia": "geometria",
+        "valor": true,
+        "limite": true,
+        "passou": true,
+        "detalhe": "identicas"
+      },
+      {
+        "nome": "cidade fora do codigo do renderizador",
+        "familia": "geometria",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "limpo"
+      },
+      {
+        "nome": "muro sobre a rua",
+        "familia": "geometria",
+        "valor": 0.14303132843793234,
+        "limite": 1.0,
+        "passou": true,
+        "detalhe": "6.9 km de 4831 km | 0.22% dos segmentos"
+      },
+      {
+        "nome": "lote sobre a rua",
+        "familia": "geometria",
+        "valor": 0.002611175151735265,
+        "limite": 1.0,
+        "passou": true,
+        "detalhe": "110089 lotes | 3371 ha"
+      },
+      {
+        "nome": "frente do lote encostada na rua (mediana)",
+        "familia": "geometria",
+        "valor": 0.004304854091597405,
+        "limite": 0.25,
+        "passou": true,
+        "detalhe": "74174 lotes ocupados"
+      },
+      {
+        "nome": "lote sintetico sem acesso a rua",
+        "familia": "geometria",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "limpo"
+      },
+      {
+        "nome": "quadra com lote fora do eixo da rua",
+        "familia": "geometria",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "de 955 quadras de planta"
+      },
+      {
+        "nome": "casa sobre a rua",
+        "familia": "geometria",
+        "valor": 0.556110237253483,
+        "limite": 1.0,
+        "passou": true,
+        "detalhe": "89895 volumes | 455 com mais de 2 m2 no asfalto"
+      },
+      {
+        "nome": "muro fora do chao (na pagina)",
+        "familia": "geometria",
+        "valor": 0.0,
+        "limite": 1.0,
+        "passou": true,
+        "detalhe": "1662540 vertices | erro p50 0.00 p99 0.00 max 0.0 m"
+      },
+      {
+        "nome": "arvore fora da calcada (na pagina)",
+        "familia": "geometria",
+        "valor": 0.0,
+        "limite": 0.0,
+        "passou": true,
+        "detalhe": "1146 arvores de rua | 0 alem da fita, 0 sobre o asfalto | 20 especies vivas, 1992 arvores, 565.060 tris de arvore"
+      },
+      {
+        "nome": "abre em file:// (duplo clique)",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v6 | 75s | 1 de 1 paginas prontas pra duplo clique"
+      },
+      {
+        "nome": "terreno de fundo sem buraco",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v11 | 118s | sao-carlos                199712   4.69   132.54       0       0      4.63  ok"
+      },
+      {
+        "nome": "quadro preguicoso",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v11 | 148s | Tudo passou."
+      },
+      {
+        "nome": "governador de grafico",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v11 | 49s | O governador chega na tela em todas."
+      },
+      {
+        "nome": "arvore remendada",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v11 | 91s | O remendo bate com a reconstrucao completa em todas."
+      },
+      {
+        "nome": "UX: busca, link, noite, minimapa",
+        "familia": "comportamento",
+        "valor": 1,
+        "limite": 0,
+        "passou": false,
+        "detalhe": "v12 | 46s | REPROVOU em: sao-carlos"
+      },
+      {
+        "nome": "ficha e 'o que tem por perto'",
+        "familia": "comportamento",
+        "valor": 1,
+        "limite": 0,
+        "passou": false,
+        "detalhe": "v13 | 43s | XX      sao-carlos               vitrine=11  21 cat, 31 POI perto de 931, 2 na tela  a busca acende o pino do lugar achado"
+      },
+      {
+        "nome": "custo do minimapa",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v13 | 109s | Tudo dentro do teto."
+      },
+      {
+        "nome": "exposicao do interior",
+        "familia": "comportamento",
+        "valor": 0,
+        "limite": 0,
+        "passou": true,
+        "detalhe": "v13 | 143s | croma           0.2   0.09 a 1 ok"
+      }
+    ]
+  },
+  "qa-equivalence": {
+    "gates": 19,
+    "changes": [],
+    "failed": [
+      "UX: busca, link, noite, minimapa",
+      "ficha e 'o que tem por perto'"
+    ],
+    "unmeasured": [],
+    "artifact": "tasks/modularizacao/work/modular/sao-carlos-v16-moveis.html",
+    "scope": "decoder and diagnostics; before terrain extraction"
+  },
+  "classification-equivalence": {
+    "baseline": "cbf9722",
+    "cases": 1280,
+    "identical": true
+  },
+  "foundation-visual-equivalence": {
+    "before": "real-before.png",
+    "after": "real-foundation.png",
+    "identical": true,
+    "difference_bounds": null
+  },
+  "materials-visual-equivalence": {
+    "before": "real-before.png",
+    "after": "real-materials.png",
+    "identical": true,
+    "difference_bounds": null
+  },
+  "real-foundation": {
+    "camera": [
+      -412.3496810166678,
+      114.4413410150972,
+      -1433.3394853050079
+    ],
+    "groups": 74,
+    "queue": 0,
+    "times": [
+      {
+        "ms": 1.5,
+        "calls": 273,
+        "tris": 3263632
+      },
+      {
+        "ms": 1.4000000357627869,
+        "calls": 273,
+        "tris": 3263632
+      },
+      {
+        "ms": 1.600000023841858,
+        "calls": 273,
+        "tris": 3263632
+      }
+    ],
+    "geometries": 183,
+    "textures": 5,
+    "urban": {
+      "enabled": true,
+      "models": 74,
+      "pools": 55,
+      "instances": 836,
+      "categories": {
+        "casas": 697,
+        "sobrados": 136,
+        "predios": 3
+      },
+      "drawCalls": 151
+    },
+    "dpr": 1,
+    "quality": "baixo",
+    "viewport": [
+      944,
+      545
+    ],
+    "diagnostics": 1,
+    "terrain": [
+      {
+        "on": true,
+        "vertices": 11018,
+        "maximumError": 2.9832124710083008e-05,
+        "geometries": 107
+      },
+      {
+        "on": false,
+        "vertices": 11018,
+        "maximumError": 0,
+        "geometries": 107
+      },
+      {
+        "on": true,
+        "vertices": 11018,
+        "maximumError": 2.9832124710083008e-05,
+        "geometries": 107
+      }
+    ],
+    "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\foundation\\sao-carlos-v16-moveis.html",
+    "clock": "real"
+  },
+  "real-materials": {
+    "camera": [
+      -412.3496810166678,
+      114.4413410150972,
+      -1433.3394853050079
+    ],
+    "groups": 74,
+    "queue": 0,
+    "times": [
+      {
+        "ms": 1.600000023841858,
+        "calls": 273,
+        "tris": 3263632
+      },
+      {
+        "ms": 1.600000023841858,
+        "calls": 273,
+        "tris": 3263632
+      },
+      {
+        "ms": 1.300000011920929,
+        "calls": 273,
+        "tris": 3263632
+      }
+    ],
+    "geometries": 183,
+    "textures": 5,
+    "urban": {
+      "enabled": true,
+      "models": 74,
+      "pools": 55,
+      "instances": 836,
+      "categories": {
+        "casas": 697,
+        "sobrados": 136,
+        "predios": 3
+      },
+      "drawCalls": 151
+    },
+    "dpr": 1,
+    "quality": "baixo",
+    "viewport": [
+      944,
+      545
+    ],
+    "diagnostics": 1,
+    "terrain": [
+      {
+        "on": true,
+        "vertices": 11018,
+        "maximumError": 2.9832124710083008e-05,
+        "geometries": 107
+      },
+      {
+        "on": false,
+        "vertices": 11018,
+        "maximumError": 0,
+        "geometries": 107
+      },
+      {
+        "on": true,
+        "vertices": 11018,
+        "maximumError": 2.9832124710083008e-05,
+        "geometries": 107
+      }
+    ],
+    "page": "C:\\Users\\respawn\\Desktop\\imobiliaria\\tasks\\modularizacao\\work\\materials\\sao-carlos-v16-moveis.html",
+    "clock": "real"
+  },
+  "compressed-probe": {
+    "version": 1,
+    "terrain": -41.88978947368419,
+    "scene": true
+  },
+  "foundation-interior": {
+    "vitrine": 4,
+    "unidades": 5,
+    "ficha": true,
+    "entrou": true,
+    "unidade": "monte-das-colinas-39",
+    "comodos": 7,
+    "paredes": 32,
+    "moveis": 18,
+    "malhas": 6,
+    "furo": true
+  }
+}

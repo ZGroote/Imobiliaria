@@ -45,10 +45,20 @@ def roda(html, js, exporta=("terrainY",), espera_ms=60000, marca="SONDA"):
     Devolve None se a sonda não responder (sem Chrome, erro de JS, prazo curto)."""
     if not disponivel(): return None
     s = io.open(html, encoding="utf-8", errors="replace").read()
-    for nome in exporta:
-        anc, ins = EXPORTA[nome]
-        if s.count(anc) != 1: return None
-        s = s.replace(anc, ins + chr(10) + anc)
+    # Paginas modulares anunciam a API, inclusive quando o JS esta comprimido.
+    # As paginas anteriores continuam usando o adaptador legado durante a migracao.
+    if '<meta name="mapa-diagnostics" content="1">' not in s:
+        for nome in exporta:
+            anc, ins = EXPORTA[nome]
+            if s.count(anc) != 1: return None
+            s = s.replace(anc, ins + chr(10) + anc)
+    else:
+        # O carregador comprimido publica a API depois da descompressao assincrona.
+        # A sonda aguarda essa inicializacao, em vez de medir uma pagina incompleta.
+        js = ('(function esperaAPI(n){if(!window.__qa){'
+              'if(n)return setTimeout(function(){esperaAPI(n-1);},250);'
+              'console.log(%s+" "+JSON.stringify({erro:"API de QA nao iniciou"}));return;}'
+              '%s\n})(240);') % (json.dumps(marca), js)
     s += "\n<script>\n" + js + "\n</script>\n"
     tmp = os.path.join(AQUI, "_sonda.html"); png = os.path.join(AQUI, "_sonda.png")
     io.open(tmp, "w", encoding="utf-8").write(s)

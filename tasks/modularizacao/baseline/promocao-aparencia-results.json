@@ -1,0 +1,230 @@
+{
+  "lote": "27d",
+  "pergunta": "promover `sombra_projetada` e `especular_fragmento` por cidade?",
+  "regua": "pipeline/mede_cidade.py (a mesma que a nota do v15 usou), sobre a mascara `construido`",
+  "como_a_chave_foi_ligada": [
+    "Remendo dos DOIS unicos `const` que a chave alimenta, na pagina ja montada:",
+    "`const AP_SOMBRA = !!APAR.sombra_projetada;` e `const AP_ESPEC = !!APAR.especular_fragmento;`",
+    "Conferido por grep: todo uso das duas capacidades desce desses dois const, entao remendar",
+    "os const e exatamente equivalente a declarar a chave no JSON da cidade.",
+    "Motivo de nao editar o JSON: o hash do cache de encaixe inclui `cid._d`, e uma chave de",
+    "APARENCIA (que nao move um lote) invalidaria o cache e custaria 16 a 24 min de recalculo."
+  ],
+  "enquadramentos": {
+    "rua": "phi 1.28, raio 260  (nivel da rua)",
+    "bairro": "phi 0.95, raio 700  (obliquo de bairro)",
+    "alto": "phi 0.35, raio 900  (quase planta: telhado domina)"
+  },
+  "ribeirao_preto": {
+    "pagina": "renderizador modular (v16-moveis), 905 quarteiroes montados",
+    "custo": "chamadas de desenho e triangulos IDENTICOS nas quatro configuracoes de cada quadro",
+    "medida": {
+      "rua": {
+        "off": {
+          "realce%": 0.0,
+          "faixa": 197.5,
+          "escuro%": 7.08,
+          "croma": 0.139,
+          "acima220%": 0.531
+        },
+        "espec": {
+          "realce%": 0.0,
+          "faixa": 197.5,
+          "escuro%": 7.07,
+          "croma": 0.139,
+          "acima220%": 0.536
+        },
+        "sombra": {
+          "realce%": 0.0,
+          "faixa": 200.9,
+          "escuro%": 8.87,
+          "croma": 0.141,
+          "acima220%": 1.234
+        },
+        "ambos": {
+          "realce%": 0.0,
+          "faixa": 201.1,
+          "escuro%": 8.86,
+          "croma": 0.141,
+          "acima220%": 1.265
+        }
+      },
+      "bairro": {
+        "off": {
+          "realce%": 0.0,
+          "faixa": 191.5,
+          "escuro%": 5.41,
+          "croma": 0.128,
+          "acima220%": 0.335
+        },
+        "espec": {
+          "realce%": 0.0,
+          "faixa": 191.4,
+          "escuro%": 5.41,
+          "croma": 0.128,
+          "acima220%": 0.336
+        },
+        "sombra": {
+          "realce%": 0.0,
+          "faixa": 190.9,
+          "escuro%": 7.61,
+          "croma": 0.13,
+          "acima220%": 0.673
+        },
+        "ambos": {
+          "realce%": 0.0,
+          "faixa": 190.8,
+          "escuro%": 7.61,
+          "croma": 0.13,
+          "acima220%": 0.677
+        }
+      },
+      "alto": {
+        "off": {
+          "realce%": 0.0,
+          "faixa": 173.8,
+          "escuro%": 2.76,
+          "croma": 0.118,
+          "acima220%": 0.217
+        },
+        "espec": {
+          "realce%": 0.0,
+          "faixa": 175.5,
+          "escuro%": 2.75,
+          "croma": 0.116,
+          "acima220%": 0.315
+        },
+        "sombra": {
+          "realce%": 0.0,
+          "faixa": 168.0,
+          "escuro%": 5.23,
+          "croma": 0.121,
+          "acima220%": 0.204
+        },
+        "ambos": {
+          "realce%": 0.0,
+          "faixa": 168.4,
+          "escuro%": 5.14,
+          "croma": 0.12,
+          "acima220%": 0.206
+        }
+      }
+    },
+    "especular_sozinho_onde_ele_cai": {
+      "_nota": "diferenca de pixel entre a mesma pagina com e sem a chave; mascara do quadro sem chave",
+      "alto": {
+        "mudou%_do_recorte": 17.8,
+        "dentro_construido%": 92.4,
+        "dentro_vegetacao%": 7.6,
+        "delta_medio_no_construido": 2.68,
+        "lum_do_construido": "127.5 -> 130.0"
+      },
+      "bairro": {
+        "mudou%_do_recorte": 2.92,
+        "dentro_construido%": 54.4,
+        "dentro_vegetacao%": 45.6,
+        "delta_medio_no_construido": 0.26,
+        "lum_do_construido": "124.6 -> 124.7"
+      },
+      "rua": {
+        "mudou%_do_recorte": 0.8,
+        "dentro_construido%": 26.7,
+        "dentro_vegetacao%": 73.2,
+        "delta_medio_no_construido": 0.11,
+        "lum_do_construido": "119.3 -> 119.3"
+      },
+      "quadro_inteiro_alto": "30.56% dos pixels mudam, |delta| medio 2.42, brilho 125.4 -> 127.8, max 119"
+    }
+  },
+  "achados": [
+    "O ENQUADRAMENTO DO 27c ESTAVA ERRADO, e por um fator de 24. Em quadro de rua o especular move o construido em 0,11 nivel medio; no quadro de cima, 2,68 -- e 92,4% do que ele move ali E telhado. O raciocinio do comentario do v15 (`vista de cima ela e a maior superficie da cidade`) estava certo; foi a minha medida do 27c que olhou pra onde a capacidade nao age.",
+    "O NUMERO QUE A NOTA DO v15 PROMETE E INALCANCAVEL, e nao por pouco. `realce%` exige `lum > 235`; o maximo do quadro e 234,5 em TODAS as 12 combinacoes medidas, identico ate a primeira decimal. Nenhuma mudanca de material pode atender esse piso.",
+    "E PIOR: esse 234,5 nao e a cidade. Sao 26 pixels numa caixa fixa (y 634..640, x 4..113 do recorte), iguais em todo quadro e em toda configuracao -- o texto branco do painel `#panel` (bottom:16px;left:16px), que o recorte CORTE=(0.10,0.92,0.06,0.78) devia excluir e nao exclui a 1280x800. Tirando o painel, a cidade para em ~227 (p99,9). E a mesma familia de erro que o proprio docstring do mede_cidade.py registra: a mascara tirou ceu e vegetacao, mas o limiar continuou acima do teto do renderizador.",
+    "AS DUAS CHAVES SAO ANTAGONISTAS NO QUADRO DE CIMA, nao acopladas como eu escrevi no 27c. Com a sombra ligada, `acima220%` do quadro alto CAI de 0,217 para 0,204 (o sol baixo escurece o telhado), e o especular recupera so ate 0,206 -- ou seja, a sombra apaga o unico ganho medivel do especular, justamente na configuracao que qualquer promocao dos dois entregaria.",
+    "A SOMBRA E A CAPACIDADE QUE MOVE PORTAO ALCANCAVEL. `escuro%` no quadro de rua de Ribeirao: 7,08 (reprova o piso de 8,0) -> 8,87 (passa). No bairro, 5,41 -> 7,61. No alto, 2,76 -> 5,23. E `faixa` +3,4 na rua. Zero chamada de desenho e zero triangulo a mais.",
+    "O cache de encaixe e invalidado por chave de APARENCIA. `compile_placements` poe `cid._d` inteiro no hash, entao promover uma chave que nao move um lote custa 16 min (Sao Carlos) a 24 min (Ribeirao) de recalculo. Nao consertado neste lote: mexer no hash e decidir o que conta como entrada do encaixe."
+  ],
+  "recomendacao": {
+    "sombra_projetada": "candidata a promocao: efeito grande, visivel em portao alcancavel (escuro%), custo zero. Falta so refazer as fotos de controle das 6 cidades, que o proprio comentario do v15 ja avisa que vao acusar diferenca.",
+    "especular_fragmento": "NAO promover. O ganho existe e agora esta localizado (telhado, visto de cima), mas e de 2,7 niveis de luminancia media e desaparece quando a sombra esta ligada -- que e a configuracao que se entregaria. A capacidade fica portada, inerte e travada por teste (`test_facades` nos 4 casos): preservada, nao adotada.",
+    "mede_cidade.py": "o piso de `realce%` (0,15 com limiar 235) nunca foi atendido por cidade nenhuma e nao pode ser. Proposta, NAO aplicada: limiar 220 (que da 0,2 a 1,3% e discrimina) e o recorte descendo de 0.92 para ~0.86 pra tirar o painel. Recalibrar portao e decisao de aceite, nao efeito colateral de uma medida."
+  },
+  "promocao_feita": "nenhuma. Os JSON de padrao/cidades/ seguem intocados (conferido por git status).",
+  "sao_carlos": {
+    "pagina": "renderizador modular (v16-moveis), 874 quarteiroes montados",
+    "medida": {
+      "rua": {
+        "off": {
+          "realce%": 0.0,
+          "faixa": 199.2,
+          "escuro%": 8.7,
+          "croma": 0.14,
+          "acima220%": 0.123
+        },
+        "ambos": {
+          "realce%": 0.0,
+          "faixa": 206.7,
+          "escuro%": 12.72,
+          "croma": 0.138,
+          "acima220%": 2.057
+        }
+      },
+      "bairro": {
+        "off": {
+          "realce%": 0.0,
+          "faixa": 185.5,
+          "escuro%": 5.72,
+          "croma": 0.129,
+          "acima220%": 0.08
+        },
+        "ambos": {
+          "realce%": 0.0,
+          "faixa": 190.0,
+          "escuro%": 7.79,
+          "croma": 0.128,
+          "acima220%": 0.973
+        }
+      },
+      "alto": {
+        "off": {
+          "realce%": 0.0,
+          "faixa": 171.6,
+          "escuro%": 3.28,
+          "croma": 0.116,
+          "acima220%": 0.046
+        },
+        "ambos": {
+          "realce%": 0.0,
+          "faixa": 166.2,
+          "escuro%": 5.5,
+          "croma": 0.117,
+          "acima220%": 0.116
+        }
+      }
+    },
+    "as_duas_chaves_juntas": {
+      "alto": {
+        "mudou%_do_recorte": 46.99,
+        "dentro_construido%": 94.3,
+        "delta_medio_no_construido": 8.04,
+        "lum_do_construido": "117.0 -> 109.9"
+      },
+      "bairro": {
+        "mudou%_do_recorte": 51.08,
+        "dentro_construido%": 93.1,
+        "delta_medio_no_construido": 8.53,
+        "lum_do_construido": "118.7 -> 113.1"
+      },
+      "rua": {
+        "mudou%_do_recorte": 48.0,
+        "dentro_construido%": 74.2,
+        "delta_medio_no_construido": 9.66,
+        "lum_do_construido": "117.0 -> 112.5"
+      }
+    },
+    "leitura": [
+      "As duas cidades concordam no que importa: `realce%` 0,000 e `lumMAX` 234,5 nos SEIS quadros, e a sombra e quem move `escuro%` (rua 8,70 -> 12,72; bairro 5,72 -> 7,79; alto 3,28 -> 5,50) e `faixa` (rua +7,5).",
+      "Juntas, as chaves mexem em ~47 a 51% do recorte com 8 a 9,7 niveis de delta medio no construido, e ESCURECEM (lum 117 -> 110/112). O sinal e da sombra: o especular sozinho clareia 2,7 niveis e so no quadro de cima."
+    ]
+  }
+}

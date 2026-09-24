@@ -2,8 +2,8 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
 const root=new URL('../../../',import.meta.url);
-vm.runInThisContext(fs.readFileSync(new URL('renderizador-v16-moveis/lib/three.min.js',root),'utf8'));
-vm.runInThisContext(fs.readFileSync(new URL('renderizador-v16-moveis/urban-models.js',root),'utf8'));
+vm.runInThisContext(fs.readFileSync(new URL('v1.5/renderizador-v16-moveis/lib/three.min.js',root),'utf8'));
+vm.runInThisContext(fs.readFileSync(new URL('v1.5/renderizador-v16-moveis/urban-models.js',root),'utf8'));
 const pack=JSON.parse(fs.readFileSync(new URL('modelos_urbanos/v1/mapa-casas.json',root),'utf8'));
 assert.equal(pack.assets.length,60);
 for(const a of pack.assets){

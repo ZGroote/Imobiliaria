@@ -1,0 +1,23 @@
+[
+  {
+    "city": "sao-carlos",
+    "variant": "v16-moveis",
+    "identical": true,
+    "bytes": 32789746,
+    "sha256": "df18c3be485b03f55c2107d92d870e72e05a8399ad85a27915580303d106631c"
+  },
+  {
+    "city": "ribeirao-preto",
+    "variant": "v15",
+    "identical": true,
+    "bytes": 23209761,
+    "sha256": "45285b4435f7e4492b7bd7d5da5dd0fc25b2894ad042dedc3f6987869f9fe230"
+  },
+  {
+    "city": "araraquara",
+    "variant": "v15",
+    "identical": true,
+    "bytes": 13802785,
+    "sha256": "565313e30c7e848e44643e2469e32856244b9553a6eb5a2b8642d2ac46329d3c"
+  }
+]

@@ -1,0 +1,265 @@
+{
+ "_gerado_por": "pipeline/mobiliar.py",
+ "_nota": "layout automatico; mobilia posta a mao em unidade.json.planta.moveis GANHA deste arquivo",
+ "_norma": "folgas conferidas contra ABNT NBR 15575-1 Anexo G (minimo) e NKBA/Panero-Zelnik (conforto)",
+ "_erros": [
+  "Suíte/cama: folga 0.00 m, norma pede 0.50",
+  "Suíte/guardaroupa: folga 0.00 m, norma pede 0.50"
+ ],
+ "_apertos": [
+  "Sala/sofa: folga 0.50 m, confortavel e 0.90",
+  "Área de Serviço/pia: folga 0.69 m, confortavel e 0.76",
+  "Área de Serviço/maquina: folga 0.58 m, confortavel e 0.76"
+ ],
+ "moveis": [
+  {
+   "tipo": "sofa",
+   "p": [
+    1.7,
+    0.54
+   ],
+   "rot": 0,
+   "w": 1.95,
+   "h": 0.8,
+   "d": 0.92
+  },
+  {
+   "tipo": "tapete",
+   "p": [
+    1.7,
+    2.2
+   ],
+   "rot": 0,
+   "w": 1.9,
+   "h": 0.02,
+   "d": 1.35
+  },
+  {
+   "tipo": "cortina",
+   "p": [
+    0.145,
+    2.2
+   ],
+   "rot": 1,
+   "w": 2.15,
+   "h": 2.4,
+   "d": 0.12
+  },
+  {
+   "tipo": "cama",
+   "p": [
+    5.295,
+    1.577
+   ],
+   "rot": 3,
+   "w": 1.45,
+   "h": 1.05,
+   "d": 2.05
+  },
+  {
+   "tipo": "criado",
+   "p": [
+    6.07,
+    0.573
+   ],
+   "rot": 3,
+   "w": 0.5,
+   "h": 0.55,
+   "d": 0.5
+  },
+  {
+   "tipo": "criado",
+   "p": [
+    6.07,
+    2.582
+   ],
+   "rot": 3,
+   "w": 0.5,
+   "h": 0.55,
+   "d": 0.5
+  },
+  {
+   "tipo": "cortina",
+   "p": [
+    4.9,
+    0.145
+   ],
+   "rot": 0,
+   "w": 1.95,
+   "h": 2.4,
+   "d": 0.12
+  },
+  {
+   "tipo": "cama",
+   "p": [
+    8.095,
+    2.2
+   ],
+   "rot": 3,
+   "w": 1.45,
+   "h": 1.05,
+   "d": 2.05
+  },
+  {
+   "tipo": "criado",
+   "p": [
+    8.87,
+    1.195
+   ],
+   "rot": 3,
+   "w": 0.5,
+   "h": 0.55,
+   "d": 0.5
+  },
+  {
+   "tipo": "guardaroupa",
+   "p": [
+    6.78,
+    1.355
+   ],
+   "rot": 1,
+   "w": 1.2,
+   "h": 2.35,
+   "d": 0.6,
+   "cor": "#E4DFD5"
+  },
+  {
+   "tipo": "cortina",
+   "p": [
+    7.8,
+    0.145
+   ],
+   "rot": 0,
+   "w": 1.95,
+   "h": 2.4,
+   "d": 0.12
+  },
+  {
+   "tipo": "pia",
+   "p": [
+    0.38,
+    6.55
+   ],
+   "rot": 1,
+   "w": 1.3,
+   "h": 0.92,
+   "d": 0.6,
+   "cor": "#5A6249"
+  },
+  {
+   "tipo": "aereo",
+   "p": [
+    0.255,
+    6.55
+   ],
+   "rot": 1,
+   "w": 1.3,
+   "h": 2.2,
+   "d": 0.35,
+   "cor": "#5A6249"
+  },
+  {
+   "tipo": "fogao",
+   "p": [
+    0.39,
+    5.59
+   ],
+   "rot": 1,
+   "w": 0.62,
+   "h": 0.92,
+   "d": 0.62
+  },
+  {
+   "tipo": "coifa",
+   "p": [
+    0.33,
+    5.59
+   ],
+   "rot": 1,
+   "w": 0.6,
+   "h": 2.7,
+   "d": 0.5
+  },
+  {
+   "tipo": "balcao",
+   "p": [
+    0.38,
+    4.84
+   ],
+   "rot": 1,
+   "w": 0.88,
+   "h": 0.92,
+   "d": 0.6,
+   "cor": "#5A6249"
+  },
+  {
+   "tipo": "aereo",
+   "p": [
+    0.255,
+    4.84
+   ],
+   "rot": 1,
+   "w": 0.88,
+   "h": 2.2,
+   "d": 0.35,
+   "cor": "#5A6249"
+  },
+  {
+   "tipo": "pia",
+   "p": [
+    4.455,
+    5.45
+   ],
+   "rot": 3,
+   "w": 0.52,
+   "h": 0.92,
+   "d": 0.53,
+   "cor": "#E4DFD5"
+  },
+  {
+   "tipo": "maquina",
+   "p": [
+    4.395,
+    6.12
+   ],
+   "rot": 3,
+   "w": 0.6,
+   "h": 0.85,
+   "d": 0.65
+  },
+  {
+   "tipo": "pia",
+   "p": [
+    5.12,
+    5.8
+   ],
+   "rot": 1,
+   "w": 0.9,
+   "h": 0.92,
+   "d": 0.48,
+   "cor": "#E4DFD5"
+  },
+  {
+   "tipo": "vaso",
+   "p": [
+    6.2,
+    6.79
+   ],
+   "rot": 2,
+   "w": 0.4,
+   "h": 0.8,
+   "d": 0.66
+  },
+  {
+   "tipo": "box",
+   "p": [
+    5.28,
+    6.8
+   ],
+   "rot": 1,
+   "w": 0.8,
+   "h": 2.0,
+   "d": 0.8
+  }
+ ]
+}

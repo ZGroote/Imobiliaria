@@ -51,7 +51,7 @@ Aceite: nenhuma parcela sobre via ou vizinha, nenhuma entrada isolada, nenhuma
 mudanca em lote confirmado ou imovel cadastrado. Comparacao visual do quarteirao
 deve eliminar as faixas profundas causadas pelo gerador, quando esse for o motivo.
 
-Arquivos provaveis: v7/pipeline/lotes_sinteticos.py; v7/pipeline/gen_muros.py;
+Arquivos provaveis: pipeline/lotes_sinteticos.py; pipeline/muros.py;
 pipeline/cobertura_da_quadra.py; gerador de portoes a localizar na etapa 1.
 Dividir em duas entregas: geometria do lote; regeneracao de divisas e acessos.
 

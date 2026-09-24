@@ -22,14 +22,50 @@ sys.path.insert(0, RAIZ)
 # A versao tem UM dono: o montar.py, que e quem escreve a pagina. Aqui ela estava
 # escrita de novo ("v9"), e quando a montagem passou pro v13 este script parou de achar
 # o arquivo -- o mesmo conceito em dois lugares que o PADRAO.md existe pra matar.
-from pipeline.montar import VERSAO
-PASTA = os.path.join(RAIZ, VERSAO)
+from pipeline.build.config import resolve
+
+MANIFESTO_TILES = os.path.join(RAIZ, "exteriores", "v1", "terrenos-manifesto.json")
+
+
+def confere_tiles(mapa):
+    """Os tiles de quintal que a pagina VAI BUSCAR estao ao lado dela?
+
+    A pagina pede `tileInfo.prefix + <chave>.bin` relativo a `location.href` (ver
+    `exterior-details.js`). Quem os grava e `exteriores/v1/dividir_terrenos.py`, num
+    diretorio com o hash do dado. Sem eles a pagina NAO quebra -- ela tenta de novo
+    com recuo exponencial e escreve aviso no console pra sempre, e o mapa fica sem
+    os 64.769 quintais. Publicar isso e publicar uma perda silenciosa; dai a conferencia.
+    """
+    if not os.path.exists(MANIFESTO_TILES):
+        return None, []
+    import json
+    with io.open(MANIFESTO_TILES, encoding="utf-8") as arq:
+        m = json.load(arq)
+    base = os.path.join(mapa, m["prefix"].lstrip("./").replace("/", os.sep))
+    faltam = [k for k in m["keys"] if not os.path.exists(os.path.join(base, k + ".bin"))]
+    return m, faltam
 
 
 def main():
-    slug = sys.argv[1] if len(sys.argv) > 1 else "ribeirao-preto"
-    nome = sys.argv[2] if len(sys.argv) > 2 else None
-    origem = os.path.join(PASTA, "%s-%s.html" % (slug, VERSAO))
+    # `--variante` como no `rodar_qa` e no `montar`. Sem isto a variante saia so do
+    # ambiente e caia no padrao (v15): publicar sem a flag subia o renderizador ANTIGO,
+    # em silencio, porque a pagina do v15 existe e e encontrada.
+    argv = [a for a in sys.argv[1:]]
+    variante = None
+    if "--variante" in argv:
+        i = argv.index("--variante")
+        if i + 1 >= len(argv):
+            print("--variante precisa de um valor"); return 2
+        variante = argv[i + 1]; del argv[i:i + 2]
+    slug = argv[0] if argv else "ribeirao-preto"
+    nome = argv[1] if len(argv) > 1 else None
+    try:
+        config = resolve(slug, variante)
+    except ValueError as exc:
+        print(str(exc)); return 2
+    VERSAO = config.versao
+    PASTA = os.path.join(RAIZ, VERSAO)
+    origem = str(config.saida("html_comprimido"))
     if not os.path.exists(origem):
         print("nao achei %s -- rode pipeline/montar.py antes" % origem); return 1
     s = io.open(origem, encoding="utf-8", newline="").read()
@@ -61,6 +97,19 @@ def main():
         '<a href="/mapa/%s">abrir o mapa</a>'
         % (nome or slug, arquivo, arquivo, arquivo))
     print("%.2f MB -> %s" % (len(s.encode("utf-8")) / 1e6, destino))
+
+    m, faltam = confere_tiles(mapa)
+    if m is None:
+        print("  (sem manifesto de quintais: nada a conferir)")
+    elif faltam:
+        print("  QUINTAIS INCOMPLETOS: %d dos %d tiles faltam em %s"
+              % (len(faltam), len(m["keys"]), m["prefix"]))
+        print("  os %d quintais nao vao aparecer, e a pagina so avisa no console."
+              % m["parcels"])
+        print("  gere com: python exteriores/v1/dividir_terrenos.py")
+        return 1
+    else:
+        print("  quintais: %d tiles conferidos (%d lotes)" % (len(m["keys"]), m["parcels"]))
     return 0
 
 

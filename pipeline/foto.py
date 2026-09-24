@@ -8,7 +8,7 @@ foto, recebe uma foto. Quem compara e o `compara_print.py`.
 
     python pipeline/foto.py --saida antes.png                       # centro, obliquo
     python pipeline/foto.py --lat -22.0175 --lon -47.8908 --raio 260 --phi 1.28
-    python pipeline/foto.py --pagina v11/sao-carlos-v11-aberto.html --saida antes.png
+    python pipeline/foto.py --pagina v16-moveis/sao-carlos-v16-moveis-aberto.html --saida antes.png
 
 `phi` e o angulo a partir do EIXO Y: 0,3 e quase de cima (planta), 1,45 e quase no nivel
 da rua. `raio` e a distancia da camera ao alvo, em metros.

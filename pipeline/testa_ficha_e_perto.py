@@ -163,10 +163,21 @@ SONDA = """
       q.value = alvo.n; q.dispatchEvent(new Event("input"));
       var lin = document.querySelectorAll("#bres .bi");
       R.busca_achou = lin.length;
-      // O resultado da busca responde a MOUSEDOWN, nao a click (e assim que ele
-      // ganha do blur do campo): `el.click()` nao dispara nada.
-      if (lin.length) { lin[0].dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
-                        P.passo(); }
+      // A sonda emite a SEQUENCIA que o navegador emite num clique, em vez de adivinhar
+      // qual dos eventos o codigo escuta. O comentario que estava aqui dizia que o
+      // resultado responde a mousedown e que `el.click()` nao dispara nada -- era verdade
+      // no v15 (`bres.addEventListener("mousedown")`), e deixou de ser quando o galho v16
+      // trocou para "click", ANTES da modularizacao. Desde entao este portao reprovava um
+      // recurso que funciona: medido nesta pagina, so-mousedown nao acende o pino, e tanto
+      // `el.click()` quanto a sequencia completa acendem. Emitindo a sequencia, a sonda
+      // para de depender de qual evento esta ligado hoje.
+      if (lin.length) {
+        ["pointerdown", "mousedown", "pointerup", "mouseup", "click"].forEach(function (t) {
+          var Ev = (t.indexOf("pointer") === 0 && window.PointerEvent) ? PointerEvent : MouseEvent;
+          lin[0].dispatchEvent(new Ev(t, { bubbles: true, cancelable: true }));
+        });
+        P.passo();
+      }
       R.busca_acendeu = I.pins();
       document.getElementById("px").click(); P.passo();
       R.busca_apagou = I.pins() === false;

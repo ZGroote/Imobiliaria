@@ -105,6 +105,10 @@ def main():
     arquivos = sorted(f for f in os.listdir(PASTA)
                       if f.endswith("-%s.html" % VERSAO)
                       and (not alvos or any(a in f for a in alvos)))
+    if not arquivos:
+        print("nenhuma pagina encontrada para %s em %s -- rode o montador antes"
+              % (", ".join(alvos) or VERSAO, PASTA))
+        return 2
     ruim = 0
     for f in arquivos:
         p = os.path.join(PASTA, f)

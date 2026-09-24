@@ -1,0 +1,22 @@
+{
+  "origem": "renderizador/app.js (v15), medido lá em 08/09/2026",
+  "chave": "aparencia.sombra_projetada",
+  "nasce": "desligada em todas as cidades",
+  "com_a_chave_desligada": {
+    "imagem_externa": "byte a byte identica a antes do porte",
+    "listing": "identico",
+    "diferem": ["times", "meter (ruido conhecido entre execucoes)", "page"]
+  },
+  "com_a_chave_ligada_em_sao_carlos": {
+    "pixels_alterados_no_quadro_externo_pct": 58.56,
+    "diferenca_media_por_canal": 8.60,
+    "luminancia_media": {"desligada": 127.2, "ligada": 122.5},
+    "escuro_pct": {"desligada": 8.0, "ligada": 8.2},
+    "chamadas_de_desenho": {"desligada": 59, "ligada": 59},
+    "triangulos_mil": {"desligada": 1345, "ligada": 1345},
+    "programas_de_shader": {"desligada": 56, "ligada": 55},
+    "geometrias": {"desligada": 151, "ligada": 151}
+  },
+  "conclusao": "custo zero em chamada de desenho e triangulo; a mudanca e de sombra, nao de carga",
+  "promocao": "nao promovida: a decisao por cidade fica para a tarefa 27 seguinte, com as 6 fotos de controle refeitas"
+}

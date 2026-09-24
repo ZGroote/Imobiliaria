@@ -1,5 +1,5 @@
 import fs from 'node:fs';import vm from 'node:vm';import assert from 'node:assert/strict';
-vm.runInThisContext(fs.readFileSync(new URL('../../../renderizador-v16-moveis/road-clearance.js',import.meta.url),'utf8'));
+vm.runInThisContext(fs.readFileSync(new URL('../../../v1.5/renderizador-v16-moveis/road-clearance.js',import.meta.url),'utf8'));
 const rect=(x,z,w,d)=>[[x-w,z-d],[x+w,z-d],[x+w,z+d],[x-w,z+d]];
 const road={pts:[[-300,0],[0,0],[300,0]],name:'avenue'};
 const index=RoadClearance.create([road],()=>10,0);

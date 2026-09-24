@@ -1,0 +1,57 @@
+{
+  "url": "https://www.mariaaires.com.br/lancamentos/mirante-7",
+  "coletado_em": "2026-09-22T20:35:42.123485+00:00",
+  "segundos": 4.532704699999158,
+  "fotos": [
+    {
+      "url": "https://s3.amazonaws.com/msys-imob-mariaaires/condominio/fotos/604/f523bc8d32156724bbe99291c8324b0e.jpg",
+      "arquivo": "fotos\\01.jpg",
+      "bytes": 223158,
+      "dimensoes": [
+        1024,
+        576
+      ],
+      "sha256": "2ba7fdad345eebd42c64c37c7d20221ffcc1b76dc629152debd14cddb4d0fdf6"
+    },
+    {
+      "url": "https://s3.amazonaws.com/msys-imob-mariaaires/condominio/fotos/604/8abde32e63f4f37f5f3aab0ad6020fd8.jpg",
+      "arquivo": "fotos\\02.jpg",
+      "bytes": 177070,
+      "dimensoes": [
+        1024,
+        576
+      ],
+      "sha256": "263acb4c0274f1f30c149eb23f55f0af6b1d706fa76454119b15626580de544d"
+    },
+    {
+      "url": "https://s3.amazonaws.com/msys-imob-mariaaires/condominio/fotos/604/4bc1f40f85d0f0f20c08aa8c678501ab.jpg",
+      "arquivo": "fotos\\03.jpg",
+      "bytes": 177321,
+      "dimensoes": [
+        1024,
+        576
+      ],
+      "sha256": "b9ff931342c90bfe419ce85c0d62829e4fa8e5087eb53a3d74a80e7f05ea322f"
+    },
+    {
+      "url": "https://s3.amazonaws.com/msys-imob-mariaaires/condominio/fotos/604/da5865530ffba211942f2b684e2d9e27.jpg",
+      "arquivo": "fotos\\04.jpg",
+      "bytes": 160445,
+      "dimensoes": [
+        1024,
+        576
+      ],
+      "sha256": "00a37728fc4ba821e760ed11c0b0cd5d6f489db9239980d3521db82016d8cf71"
+    },
+    {
+      "url": "https://s3.amazonaws.com/msys-imob-mariaaires/condominio/fotos/604/41c18857dc690da936cd8f305d07cadf.jpg",
+      "arquivo": "fotos\\05.jpg",
+      "bytes": 180353,
+      "dimensoes": [
+        1024,
+        576
+      ],
+      "sha256": "90f02d2e0810bd97663940e9e851a5a8cd355c1b03aed9e3aebe2e3e22efe961"
+    }
+  ]
+}

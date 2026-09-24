@@ -1,0 +1,11 @@
+{
+  "oracle": "f1f6c9f",
+  "modules": ["ui/perf-meter.js", "ui/keyboard.js"],
+  "before_page": "work/house-sheet",
+  "after_pages": ["work/perf-meter", "work/keyboard"],
+  "probes": ["--meter (nova)", "--editor", "--listing"],
+  "identical": ["todos os 11 campos do medidor exceto pfCpu", "editor", "listing", "image"],
+  "differ": ["times", "page", "meter.pfCpu"],
+  "pfCpu_nota": "é o tempo de CPU do quadro medido na hora; varia entre execuções como `times`",
+  "tests": {"node": 107, "python": 12}
+}

@@ -3,9 +3,9 @@
 import fs from 'node:fs';import vm from 'node:vm';
 import {Document,NodeIO} from '@gltf-transform/core';
 import {fileURLToPath} from 'node:url';
-vm.runInThisContext(fs.readFileSync(new URL('../renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'));
+vm.runInThisContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js',import.meta.url),'utf8'));
 const T=globalThis.THREE,assets=[],b64=a=>Buffer.from(a.buffer).toString('base64');
-const houses=JSON.parse(fs.readFileSync(new URL('../v7/dados/imoveis.json',import.meta.url)));
+const houses=JSON.parse(fs.readFileSync(new URL('../sao-carlos/dados/imoveis.json',import.meta.url)));
 for(const id of [57881,89981,86834,85452,87313,89963]){
   const P=[],N=[],C=[],indices=[],parts=[];
   function geometry(name,g,color){

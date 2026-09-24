@@ -1,0 +1,27 @@
+  @media (max-width:640px){
+    #hud{left:12px;top:12px;width:auto}
+    #panel{left:12px;right:12px;bottom:12px;width:auto}
+    #hsheet{bottom:150px}
+    /* A ficha do imovel rola por dentro; no telefone ela nao pode comer a tela toda,
+       senao nao sobra mapa pra ver ONDE o imovel fica. */
+    #usheet{bottom:150px;max-height:50vh}
+    /* A coluna de categorias sobe pro alto (o canto de baixo ja e do painel e da
+       vitrine) e cede a direita pro minimapa. A vitrine sai enquanto o modo perto
+       estiver aberto: as duas listas nao cabem juntas. */
+    #nearby{top:62px;left:12px;right:136px;width:auto;max-height:calc(100vh - 210px)}
+    body.perto #houses{display:none}
+    /* A vitrine era `display:none` no celular. Ela e a UNICA porta de entrada do
+       imovel 3D -- escondida, o telefone virava so um mapa bonito. Aqui ela vira
+       uma faixa curta no alto, rolavel. */
+    #houses{top:auto;bottom:178px;left:12px;right:12px;width:auto;max-height:26vh}
+    /* No telefone o canto de baixo e do painel e da vitrine de imoveis: o minimapa
+       sobe pro alto, abaixo da bussola, e encolhe. O canvas continua 170 px por
+       dentro -- quem converte clique em metro ja usa a proporcao do elemento. */
+    #minimapa{top:62px;right:12px;bottom:auto;width:112px;height:112px}
+    #minimapa canvas{width:112px;height:112px}
+    #hud{padding:8px}
+    #houses .hitem .t{font-size:12.5px} #houses .hitem .p{font-size:12.5px}
+    button,select,label.file{font-size:12px;padding:10px 8px}
+    #ipanel .cat button{font-size:11px;padding:10px 2px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}

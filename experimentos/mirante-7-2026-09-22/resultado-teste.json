@@ -1,0 +1,30 @@
+{
+  "inicio_utc": "2026-09-22T20:34:05Z",
+  "miniatura_conferida_utc": "2026-09-22T20:46:06Z",
+  "total_segundos": 721,
+  "escopo": "Pesquisa até miniatura local revisada; sem publicação; documentação posterior excluída",
+  "html_bytes": 2181359,
+  "gzip_local_bytes": 454942,
+  "sha256": "dccb7e41362d8a20915579a9fb36d6bfb6bba31e0b4f4ee70b592a4187e8222e",
+  "moveis": 19,
+  "imagens": 14,
+  "publicado": false,
+  "verificacoes": [
+    "Prédio",
+    "Conjunto",
+    "Planta 2D",
+    "Planta 3D",
+    "Entrada na visita 3D",
+    "Editor seleciona sofá, altera largura e desfaz",
+    "Viewport 390x844 sem overflow horizontal após ajuste",
+    "Console sem avisos ou erros na sessão consultada",
+    "Sem botão Ver mapa",
+    "Sem marcadores de template pendentes"
+  ],
+  "limitacoes": [
+    "Fachada e altura aproximadas",
+    "Pavimentos e andar ilustrativos",
+    "Planta calibrada pela área, sem cotas",
+    "Sem ensaio exaustivo de caminhada, catálogo, FPS ou memória"
+  ]
+}

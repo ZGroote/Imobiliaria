@@ -20,6 +20,15 @@ console quando quebra:
 """
 import io, json, os, shutil, subprocess, sys, tempfile
 
+# O Chrome instalado NAO serve mais: da versao 151 em diante `--headless=new` parou de
+# mandar o `console.log` pro stderr, e toda sonda daqui e lida de la -- o processo sai
+# com codigo 0, sem print e sem log, e o portao acusa "a pagina nao subiu". Quem ainda
+# faz isso e o `chrome-headless-shell`, que vem no cache do Playwright. Aponte o CHROME
+# pra ele:
+#   CHROME=%LOCALAPPDATA%\ms-playwright\chromium_headless_shell-1234\chrome-headless-shell-win64\chrome-headless-shell.exe
+# Ele e mais lento que o headless antigo (a pagina de Sao Carlos leva ~175 s so pra
+# desenhar o primeiro quadro no swiftshader, e este portao fecha em ~400 s), e foi por
+# isso que o `timeout` virou knob: no 400 de antes ele estourava por 0,2 s.
 CHROME = os.environ.get("CHROME", r"C:\Program Files\Google\Chrome\Application\chrome.exe")
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, RAIZ)
@@ -264,7 +273,7 @@ def main():
     bruto = ""
     try:
         r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8",
-                           errors="replace", timeout=400)
+                           errors="replace", timeout=int(os.environ.get("QA_TIMEOUT", 1500)))
         bruto = (r.stderr or "") + (r.stdout or "")
     finally:
         shutil.rmtree(ud, ignore_errors=True)
