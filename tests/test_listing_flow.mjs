@@ -60,7 +60,7 @@ function fixture(modular,{grupos=3}={}) {
       predioDaUnidade, closePoiSheet, abrePerto, enterInterior, setTimeout,
       getEtapa:()=>ETAPA, pintaEtapas:()=>etapa('pinta',ETAPA.atual), tour:v=>etapa('tour',v),
       marcaEtapaNaUrl:()=>etapa('url'), mostraMaquete:(rec,u,dono)=>etapa('mostra',u.id,dono),
-      escondeMaquete:()=>etapa('esconde'),
+      escondeMaquete:()=>etapa('esconde'), predioMaisPerto:()=>null,
       // O botao da visita passou a ser o degrau 2 da escada. Sem miniatura aberta, o degrau
       // entra direto com a unidade da ficha (listings/stage.js, \`entra\`) -- o que o
       // botao fazia sozinho no original.
