@@ -37,38 +37,48 @@
     "redirects": [
       {
         "source": "/mapa/sao-carlos-exteriores-bdf9c99b605a",
-        "destination": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
         "type": 302
       },
       {
         "source": "/mapa/sao-carlos-exteriores-bdf9c99b605a.html",
-        "destination": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
         "type": 302
       },
       {
         "source": "/mapa/sao-carlos-exteriores-abd917c0b117",
-        "destination": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
         "type": 302
       },
       {
         "source": "/mapa/sao-carlos-exteriores-abd917c0b117.html",
-        "destination": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
         "type": 302
       },
       {
         "source": "/mapa/sao-carlos-exteriores-95f1f62f6ea3",
-        "destination": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
         "type": 302
       },
       {
         "source": "/mapa/sao-carlos-exteriores-95f1f62f6ea3.html",
-        "destination": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
         "type": 302
       },
       {
         "source": "/sao-carlos",
         "destination": "/",
         "type": 301
+      },
+      {
+        "source": "/mapa/sao-carlos-exteriores-64a4258bfc48",
+        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
+        "type": 302
+      },
+      {
+        "source": "/mapa/sao-carlos-exteriores-64a4258bfc48.html",
+        "destination": "/mapa/sao-carlos-exteriores-f16b0250b705.html",
+        "type": 302
       }
     ]
   }
