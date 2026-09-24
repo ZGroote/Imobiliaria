@@ -6,6 +6,7 @@ travam o contrato em volta da montagem -- o ID, o prefixo dos tiles de quintal e
 cabeca do tour.
 """
 import hashlib
+import json
 import runpy
 import sys
 import unittest
@@ -13,7 +14,7 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
-from pipeline import imovel  # noqa: E402
+from pipeline import imovel, recorte  # noqa: E402
 
 B = runpy.run_path(str(RAIZ / 'pipeline/build_imovel.py'))
 URL = 'https://imobilaria-deccb-imoveis.web.app/imovel/monte-dos-cedros-37'
@@ -49,6 +50,20 @@ class TilePrefixTests(unittest.TestCase):
                      '', './'):
             with self.subTest(prefixo=ruim), self.assertRaises(ValueError):
                 B['prefixo_publico'](ruim)
+
+
+class RelocatableTourTests(unittest.TestCase):
+    def test_tile_prefix_is_rewritten_only_when_asked(self):
+        pacote = json.dumps({'assets': [{'id': i} for i in range(recorte.EXTERIOR_EXATO)],
+                             'placements': [],
+                             'parcelTiles': {'prefix': './quintais/h/', 'size': 640,
+                                             'keys': ['0_0', '9_9']}})
+        novo = recorte.Recorte((0, 0), 100, prefixo_tiles='/quintais/h/').exteriorModels(pacote)
+        # o filtro das chaves continua: so o tile que o raio alcanca fica
+        self.assertEqual(json.loads(novo)['parcelTiles'],
+                         {'prefix': '/quintais/h/', 'size': 640, 'keys': ['0_0']})
+        velho = recorte.Recorte((0, 0), 100).exteriorModels(pacote)
+        self.assertEqual(json.loads(velho)['parcelTiles']['prefix'], './quintais/h/')
 
 
 class HeadTests(unittest.TestCase):
