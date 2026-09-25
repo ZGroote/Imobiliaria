@@ -38,7 +38,7 @@ function Solicitacao({ id }: { id: string }) {
       acoes={podeEditar && !editando && <button className="btn" onClick={() => setEditando(true)}>Editar</button>}>
       <Estado r={r}>
         {p && (
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {editando ? <EditarPedido r={p} fechar={() => setEditando(false)} /> : (
               <DadosDoPedido r={p} pessoa={nome(p.requestedBy, perfil.id)}
                 imovel={im.dado ? <Link href={`/properties/view?id=${im.dado.id}`} className="hover:underline">{im.dado.title}</Link>
