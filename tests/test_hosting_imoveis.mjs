@@ -17,6 +17,10 @@ test('listing site: immutable only on builds and tiles, stable URLs revalidate, 
   const regra = (s, chave) => hosting.headers.filter(r => r.source === s).flatMap(r => valores(r, chave));
 
   assert.equal(hosting.target, 'imoveis');
+  // O target so aponta pro site certo porque o .firebaserc versionado diz qual e: um deploy
+  // nunca depende de um `target:apply` feito numa copia local.
+  const rc = JSON.parse(fs.readFileSync(new URL('../.firebaserc', import.meta.url), 'utf8'));
+  assert.deepEqual(rc.targets?.['imobilaria-deccb']?.hosting?.imoveis, ['imobilaria-deccb-imoveis']);
   assert.equal(hosting.public, 'publicacao/site');
   // com cleanUrls, pedir /b/<id>/<build>/tour.html daria 301 para .../tour
   assert.equal(hosting.cleanUrls, false);
