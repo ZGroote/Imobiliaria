@@ -875,28 +875,58 @@ esse hash, e o registro confere com o que já está no ar.
 
 ---
 
-## 14. Estado de produção e integração (24/09/2026)
+## 14. Estado de produção e integração (25/09/2026)
 
 | Peça | Estado |
 |---|---|
 | Firestore | `(default)` em `southamerica-east1`, Standard, proteção contra exclusão; 9 índices `READY` |
-| Regras do Firestore | publicadas = `firebase/firestore.rules` do commit `40b1abd` (sha256 conferido) |
+| Regras do Firestore | publicadas = `firebase/firestore.rules` de `main` `5e46af7` (B5 + B5b): ruleset `bb95ee6b-6d5e-42aa-b709-871234c20742`, sha256 `8c163114ad5d4f59…`, lido de volta pela API e igual byte a byte ao arquivo (25/09, 16:59 UTC). O anterior, para rollback, é `40b1abd` (ruleset `e793d948…`, sha256 `081a98a233d0151f…`) |
 | Storage | não existe; `storage.rules` só no emulator |
-| Web App | `painel` (`1:163406298617:web:a78e1724d239a144f55128`); config pública em `painel/.env.production` |
-| Hosting do painel | site `imobilaria-deccb-painel`, target `painel`, `firebase.painel.json`; primeiro deploy = `8139863` |
+| Web App | `painel` (`1:163406298617:web:a78e1724d239a144f55128`); config pública em `painel/.env.production`, com `NEXT_PUBLIC_SITE_IMOVEIS` apontando o site de imóveis (PR #17) |
+| Hosting do painel | site `imobilaria-deccb-painel`, target `painel`, `firebase.painel.json`; no ar = `main` `40d03ab` (B5 + B5b + B5c + site configurado), versão `df6c80a5076eed7c` (25/09, 17:43 UTC); o primeiro deploy foi `8139863` |
+| Site de imóveis | `imobilaria-deccb-imoveis`, target `imoveis`, `firebase.imoveis.json`. Live = versão `56630f63b23116cc`: Cedros `215965d37d7d` com manifest `c2b2a242…`. O canal `imovel-monte-dos-cedros-37` serve o mesmo artefato (tour, maquete e manifest iguais byte a byte ao live; expira em 25/10) |
 | Outros sites | `imobilaria-deccb` (mapa) e `imobilaria-deccb-miniaturas` não foram tocados; os redirects do mapa estão em `main` desde o PR #2 |
-| Login em produção | validado com o `platform_admin` |
+| Contas em produção | o `platform_admin` e um `agency_manager` da Cardinali (conta de teste, entrou pelo convite normal com e-mail verificado) |
+| Dados | 1 imobiliária (Cardinali), 1 imóvel (Cedros), 1 pedido publicado e 1 registro em `publications` |
 
 **Deploy, sempre com escopo explícito** (o `firebase.json` da raiz reúne Firestore, Storage e o
-Hosting do mapa; um `firebase deploy` sem `--only` publicaria tudo):
+Hosting do mapa; um `firebase deploy` sem `--only` publicaria tudo). Cada um só com aprovação:
 
 ```bash
 npx firebase deploy --only firestore:rules --project imobilaria-deccb
 npx firebase deploy --only hosting:painel --config firebase.painel.json --project imobilaria-deccb
+npx firebase hosting:channel:deploy imovel-<id> --only imoveis --config firebase.imoveis.json --project imobilaria-deccb --expires 30d
+npx firebase deploy --only hosting:imoveis --config firebase.imoveis.json --project imobilaria-deccb
 ```
 
-**Integração (concluída):** o branch `painel/t03-regras` entrou em `main` pelo PR #5, com
-**merge commit** (`37114b2`; sem squash, rebase nem cherry-pick), e `40b1abd` e `8139863`
-continuam sendo os commits do que está no ar. O único conflito foi o bloco `scripts` do
-`package.json`.
+A ordem que foi usada na entrada do B5 em produção, e que vale para qualquer mudança que torne as
+regras mais estritas: as regras primeiro; depois, um smoke de leitura do painel que ainda está no
+ar; só então o painel novo. As escritas antigas que as regras novas recusam (preview e aprovação
+sem o hash do manifest) são esperadas nesse intervalo e não pedem rollback. O rollback só entra
+se o login, a leitura ou a navegação quebrarem.
 
+**Primeiro ciclo real (25/09/2026, 18:04–18:08 UTC), sem deploy de imóvel.** O live do Cedros já
+era o artefato oficial. O painel só formalizou no Firestore o que o Hosting já servia:
+
+1. O admin cadastrou o Cedros (`pipelineUnitId` `monte-dos-cedros-37`), só com os campos de
+   identificação.
+2. O gerente da Cardinali criou o pedido, vinculado ao imóvel.
+3. A equipe aceitou, pôs em produção e registrou o preview do canal. O painel calculou o
+   sha256 dos bytes do `manifest.json` servido (`c2b2a242…`) e o pedido foi para `agency_review`.
+4. O gerente aprovou: `approvedBuild` `215965d37d7d` e `approvedManifestSha256` `c2b2a242…`,
+   iguais aos do preview.
+5. O admin conferiu o site: o `estado.json` do live mostrou o build aprovado com o manifest
+   aprovado. Registrar publicação releu o `estado.json` no próprio clique e só então gravou o
+   pedido (`published`), os campos de publicação do imóvel e o registro em `publications`, com
+   um AuditLog por passo.
+
+Antes de o ciclo ser possível, o preview do canal servia outro manifest do mesmo build
+(`064d47fa…`, de uma rematerialização). Com a conferência exata do B5c, o registro seria recusado;
+por isso o canal foi remontado a partir do mesmo diretório de build que foi ao live, sem tocar
+no live. A **reversão** ainda não foi exercitada em produção: espera um segundo build legítimo
+de algum imóvel (não se fabrica um só para testar). Os testes do emulador cobrem a mecânica.
+
+**Integração (concluída em 24/09):** o branch `painel/t03-regras` entrou em `main` pelo PR #5,
+com **merge commit** (`37114b2`; sem squash, rebase nem cherry-pick). Naquela data, `40b1abd`
+(regras) e `8139863` (painel) eram os commits do que estava no ar; o estado atual é o da tabela
+acima. O único conflito foi o bloco `scripts` do `package.json`.
