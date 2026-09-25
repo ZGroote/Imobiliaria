@@ -4,6 +4,7 @@
 import type { Preview } from './types.ts'
 
 export const BUILD = /^[0-9a-f]{12}$/
+const SHA256 = /^[0-9a-f]{64}$/
 const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/
 
 export interface Manifesto {
@@ -38,15 +39,21 @@ export function validarManifesto(m: unknown, esperado: { imovel: string; pasta: 
   return x as Manifesto
 }
 
-// O que o estado.json DO SITE diz estar no ar para um imóvel (o painel nunca usa cópia local).
-export function noAr(estado: unknown, unidade: string): { atual: string; anterior: string | null } {
-  const e = estado as { schema?: number; imoveis?: Record<string, { atual?: unknown; anterior?: unknown }> } | null
+// O que o estado.json DO SITE diz estar no ar para um imóvel (o painel nunca usa cópia local): o build
+// e, pelo inventário do site (arquivos), o sha256 do manifest.json dele -- a identidade do artefato.
+export function noAr(estado: unknown, unidade: string): { atual: string; anterior: string | null; manifestSha256: string } {
+  const e = estado as { schema?: number; imoveis?: Record<string, { atual?: unknown; anterior?: unknown }>;
+    arquivos?: Record<string, unknown> } | null
   if (!e || e.schema !== 1 || typeof e.imoveis !== 'object') throw new Error('estado.json fora do formato esperado (schema 1).')
   const i = e.imoveis[unidade]
   if (!i) throw new Error(`O site de imóveis ainda não tem "${unidade}" no ar.`)
   if (typeof i.atual !== 'string' || !BUILD.test(i.atual)) throw new Error(`estado.json sem um build válido para "${unidade}".`)
   const anterior = typeof i.anterior === 'string' && BUILD.test(i.anterior) ? i.anterior : null
-  return { atual: i.atual, anterior }
+  const manifestSha256 = e.arquivos?.[`b/${unidade}/${i.atual}/manifest.json`]
+  if (typeof manifestSha256 !== 'string' || !SHA256.test(manifestSha256)) {
+    throw new Error(`estado.json sem o sha256 do manifest.json do build ${i.atual}: não há como conferir o artefato no ar.`)
+  }
+  return { atual: i.atual, anterior, manifestSha256 }
 }
 
 const raizDoSite = (site: string) => url(site.endsWith('/') ? site : site + '/')
@@ -63,10 +70,16 @@ export const linksPublicos = (site: string, unidade: string) => ({
   maqueteUrl: new URL(`maquete/${unidade}`, raizDoSite(site)).href,
 })
 
-// "Registrar publicado" só depois de ver no site que o build está no ar (§2).
-export function conferirNoAr(estado: { atual: string }, esperado: string, comando: string) {
+// "Registrar publicado" só depois de ver no site que o ARTEFATO aprovado está no ar (§2): o build e
+// o manifest.json exato. Mesmo build com outro manifest não é o artefato aprovado.
+export function conferirNoAr(estado: { atual: string; manifestSha256: string }, esperado: string, comando: string,
+  manifestSha256: string) {
   if (estado.atual !== esperado) {
     throw new Error(`No ar está o build ${estado.atual}, e o esperado é ${esperado}. Rode ${comando} e confira de novo.`)
+  }
+  if (estado.manifestSha256 !== manifestSha256) {
+    throw new Error(`No ar está o build ${esperado}, mas com outro manifest.json (${estado.manifestSha256.slice(0, 12)}…) `
+      + `que não o aprovado (${manifestSha256.slice(0, 12)}…): o artefato no ar não é o que foi aprovado.`)
   }
 }
 
