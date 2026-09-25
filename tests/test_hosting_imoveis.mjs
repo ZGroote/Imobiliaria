@@ -36,6 +36,10 @@ test('listing site: immutable only on builds and tiles, stable URLs revalidate, 
   for (const s of VERSIONADOS) assert.deepEqual(regra(s, 'cache-control'), [IMUTAVEL], s);
   for (const s of SEM_CACHE) assert.deepEqual(regra(s, 'cache-control'), ['no-cache'], s);
   for (const s of COM_CORS) assert.deepEqual(regra(s, 'access-control-allow-origin'), [PAINEL], s);
+  // Ponteiros sem extensao: o arquivo fisico e a URL publica sao o mesmo caminho
+  // (imovel/<id>, maquete/<id>), sem cleanUrls nem redirect. E o header que diz que e HTML.
+  for (const s of ['/imovel/**', '/maquete/**'])
+    assert.deepEqual(regra(s, 'content-type'), ['text/html; charset=utf-8'], s);
   // A regra do manifest vem antes de /b/** e ja traz o Cache-Control: vale tanto se o Hosting
   // somar as regras que casam (o superstatic soma) quanto se ficar so com a primeira.
   const ordem = hosting.headers.map(r => r.source);
