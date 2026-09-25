@@ -193,9 +193,10 @@ def montar_preview(imovel, build, builds=BUILDS, tiles_origem=TILES, terrenos=TE
     arvore = _instala(site, lambda t: _copia_build(origem, t, imovel, build)
                       + _copia_tiles(t, pasta_tiles, chaves, tiles_origem))
     raiz_b = '/b/%s/%s/' % (imovel, build)
+    # manifest_sha256 e o que a aprovacao registra e o `promover` vai exigir: este artefato.
     return _resultado(site, arvore, imovel=imovel, build=build, tour=raiz_b + 'tour.html',
                       maquete=raiz_b + 'maquete.html', manifest=raiz_b + 'manifest.json',
-                      tiles=manifesto['tiles'])
+                      tiles=manifesto['tiles'], manifest_sha256=_sha(origem / 'manifest.json'))
 
 
 # ---- live -------------------------------------------------------------------
@@ -291,17 +292,49 @@ PAGINA_404 = r'''<!doctype html>
 '''
 
 
-def montar_live(acao, imovel, build, estado, builds=BUILDS, tiles_origem=TILES, terrenos=TERRENOS,
-                site=SITE, agora=None):
+SHA256 = re.compile(r'^[0-9a-f]{64}$')
+
+
+def _confere_contra_estado(estado, imovel, build, pasta):
+    """Um build que ja esta no ar tem de ser, byte a byte, o que o estado.json registrou --
+    manifest incluido. Outra materializacao do mesmo build nao serve."""
+    registrados = estado.get('arquivos') or {}
+    for n in PUBLICADOS:
+        chave = 'b/%s/%s/%s' % (imovel, build, n)
+        if chave not in registrados:
+            raise ValueError('o estado lista %s/%s mas nao registra o hash de %s' % (imovel, build, n))
+        if _sha(pasta / n) != registrados[chave]:
+            raise ValueError('%s de %s/%s nao e o que esta no ar (estado.json): esta copia local '
+                             'foi rematerializada?' % (n, imovel, build))
+
+
+def montar_live(acao, imovel, build, estado, manifest_aprovado=None, builds=BUILDS, tiles_origem=TILES,
+                terrenos=TERRENOS, site=SITE, agora=None):
+    """`promover` exige `manifest_aprovado`: o sha256 do manifest.json que foi ao preview. O
+    build nao e rematerializado entre aprovacao e live; promove-se exatamente aquele artefato.
+    `reverter` nao pede aprovacao nova: os dois builds ja estiveram no ar, e o estado.json
+    anterior registra os bytes de cada um."""
     agora = agora or datetime.now(timezone.utc).isoformat(timespec='seconds')
     imoveis = proximo_estado(acao, imovel, build, estado, agora)
-    # Antes de montar: todo build que o estado exige existe e e o que o manifest dele diz.
+    if acao == 'promover':
+        if not SHA256.match(manifest_aprovado or ''):
+            raise ValueError('promover exige o sha256 do manifest.json aprovado no preview')
+        pasta = builds / imovel / build
+        if pasta.is_dir() and _sha(pasta / 'manifest.json') != manifest_aprovado:
+            raise ValueError('o manifest.json local de %s/%s nao e o aprovado no preview (%s...): '
+                             'o build foi rematerializado depois da aprovacao?'
+                             % (imovel, build, manifest_aprovado[:12]))
+    no_ar = {(i, b) for i, r in estado['imoveis'].items() for b in (r['atual'], r.get('anterior')) if b}
+    # Antes de montar: todo build que o estado exige existe e e o que o manifest dele diz; e o
+    # que ja estava no ar continua sendo, byte a byte, o que o estado.json registrou.
     exigidos = [(i, b) for i, r in imoveis.items() for b in (r['atual'], r['anterior']) if b]
     prefixos = set()
     for i, b in exigidos:
         if not (builds / i / b).is_dir():
             raise ValueError('o estado exige o build %s/%s, que nao existe em %s' % (i, b, builds))
         prefixos.add(confere_build(builds / i / b, i, b)['tiles'])
+        if (i, b) in no_ar:
+            _confere_contra_estado(estado, i, b, builds / i / b)
     # Todo conjunto que atual ou anterior usa, cada um copiado uma vez: o build de rollback
     # pode depender de um conjunto que o de hoje ja nao usa.
     conjuntos = [_conjunto_de_tiles(p, terrenos, tiles_origem) for p in sorted(prefixos)]
@@ -347,6 +380,8 @@ def main(argv=None):
     estado = pr.add_mutually_exclusive_group(required=True)
     estado.add_argument('--estado', help='estado.json do snapshot anterior')
     estado.add_argument('--estado-vazio', action='store_true', help='primeira publicacao do site')
+    pr.add_argument('--manifest-aprovado', required=True, metavar='SHA256',
+                    help='sha256 do manifest.json aprovado no preview (manifest_sha256 do montar-preview)')
     rv = acoes.add_parser('reverter', help='troca atual e anterior do imovel')
     rv.add_argument('imovel')
     rv.add_argument('--estado', required=True, help='estado.json do snapshot anterior')
@@ -357,7 +392,8 @@ def main(argv=None):
         else:
             anterior = ({'schema': 1, 'imoveis': {}} if getattr(args, 'estado_vazio', False)
                         else json.loads(Path(args.estado).read_text(encoding='utf-8')))
-            resultado = montar_live(args.acao, args.imovel, getattr(args, 'build', None), anterior)
+            resultado = montar_live(args.acao, args.imovel, getattr(args, 'build', None), anterior,
+                                    manifest_aprovado=getattr(args, 'manifest_aprovado', None))
     except (ValueError, OSError) as exc:
         parser.exit(1, str(exc) + '\n')
     print(json.dumps(resultado, ensure_ascii=False))
