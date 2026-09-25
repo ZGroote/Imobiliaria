@@ -20,10 +20,12 @@ import { ref, uploadBytes, getBytes } from 'firebase/storage';
 const aqui = (f) => readFileSync(new URL(f, import.meta.url), 'utf8');
 const T = Timestamp.fromMillis(1_790_000_000_000);
 const BUILD = 'a1b2c3d4e5f6';
+const MANIFESTO = '5a'.repeat(32);        // sha256 fictício do manifest.json do preview
 const PREVIEW = {
   build: BUILD,
   tourUrl: `https://imoveis.example/b/monte-dos-cedros-37/${BUILD}/tour.html`,
   maqueteUrl: `https://imoveis.example/b/monte-dos-cedros-37/${BUILD}/maquete.html`,
+  manifestSha256: MANIFESTO,
 };
 const pessoa = (role, agencyId, extra = {}) => ({
   name: role, email: '', role, ...(agencyId ? { agencyId } : {}), active: true,
@@ -52,7 +54,8 @@ const SEED = {
   'requests/revA': pedido('agA', 'corA', 'agency_review', { propertyId: 'propA', preview: PREVIEW }),
   'requests/revB': pedido('agB', 'corB', 'agency_review', { propertyId: 'propB', preview: PREVIEW }),
   'requests/aprA': pedido('agA', 'corA', 'approved', {
-    propertyId: 'propA', preview: PREVIEW, approvedBuild: BUILD, approvedBy: 'gerA', approvedAt: T }),
+    propertyId: 'propA', preview: PREVIEW, approvedBuild: BUILD, approvedManifestSha256: MANIFESTO,
+    approvedBy: 'gerA', approvedAt: T }),
   'requests/reqA/internal/notes': { text: 'nota interna', updatedBy: 'op', updatedAt: T },
   'requestAssets/assetA': { requestId: 'reqA', agencyId: 'agA', type: 'photo', filename: 'a.jpg', storagePath: 'request-assets/agA/reqA/a.jpg', uploadedBy: 'corA', createdAt: T },
   'requestAssets/assetB': { requestId: 'reqB', agencyId: 'agB', type: 'photo', filename: 'b.jpg', storagePath: 'request-assets/agB/reqB/b.jpg', uploadedBy: 'corB', createdAt: T },
@@ -277,11 +280,15 @@ test('11. status só muda com AuditLog no mesmo batch, do mesmo autor', async ()
 });
 
 test('12. aprovar: só o gerente da agência, só em agency_review, só o build em revisão', async () => {
-  const aprova = (uid, rid, build = BUILD, agencyId = 'agA') =>
-    mudaStatus(db(uid), uid, rid, 'approved', { approvedBuild: build, approvedBy: uid, approvedAt: now() }, { agencyId });
+  const aprova = (uid, rid, build = BUILD, agencyId = 'agA', manifesto = MANIFESTO) =>
+    mudaStatus(db(uid), uid, rid, 'approved', { approvedBuild: build,
+      ...(manifesto ? { approvedManifestSha256: manifesto } : {}), approvedBy: uid, approvedAt: now() }, { agencyId });
   await assertFails(aprova('corA', 'revA'));
   await assertFails(aprova('gerB', 'revA', BUILD, 'agB'));
   await assertFails(aprova('gerA', 'revA', 'outrobuild00'));
+  // a aprovação é do ARTEFATO: o build e o manifest.json exato do preview
+  await assertFails(aprova('gerA', 'revA', BUILD, 'agA', null));               // sem o hash do manifest
+  await assertFails(aprova('gerA', 'revA', BUILD, 'agA', 'd'.repeat(64)));     // outro manifest
   await assertFails(aprova('gerA', 'reqA'));                     // não está em revisão
   await assertFails(aprova('gerA', 'revB'));
   await assertSucceeds(aprova('gerA', 'revA'));
@@ -296,6 +303,23 @@ test('13. publicar só o aprovado; trocar o preview derruba a aprovação', asyn
   await assertSucceeds(mudaStatus(db('op'), 'op', 'aprA', 'production', { preview: novoPreview }));
   await assertFails(publica(db('admin'), 'admin', 'aprA', 'propA', 'ffffffffffff'));  // preview novo não foi aprovado
   await assertFails(mudaStatus(db('op'), 'op', 'reqA', 'agency_review'));             // revisão sem preview
+
+  // o preview traz a identidade exata do artefato: sha256 de 64 hex minúsculos, e nada além
+  const { manifestSha256: _, ...semHash } = PREVIEW;
+  for (const preview of [semHash, { ...PREVIEW, manifestSha256: 'abc' }, { ...PREVIEW, manifestSha256: 'A'.repeat(64) },
+                         { ...PREVIEW, manifestSha256: '0'.repeat(65) }])
+    await assertFails(mudaStatus(db('op'), 'op', 'reqA', 'agency_review', { preview }));
+  await assertSucceeds(mudaStatus(db('op'), 'op', 'reqA', 'agency_review', { preview: PREVIEW }));
+
+  // aprovação antiga, sem identidade do manifest, ou com outra que não a do preview: não publica
+  await env.withSecurityRulesDisabled(async (ctx) => {
+    const aprovado = (extra) => pedido('agA', 'corA', 'approved', {
+      propertyId: 'propA', preview: PREVIEW, approvedBuild: BUILD, approvedBy: 'gerA', approvedAt: T, ...extra });
+    await setDoc(doc(ctx.firestore(), 'requests/aprVelho'), aprovado({}));
+    await setDoc(doc(ctx.firestore(), 'requests/aprOutro'), aprovado({ approvedManifestSha256: 'd'.repeat(64) }));
+  });
+  await assertFails(publica(db('admin'), 'admin', 'aprVelho', 'propA', BUILD));
+  await assertFails(publica(db('admin'), 'admin', 'aprOutro', 'propA', BUILD));
 });
 
 test('13b. publicação registrada, depois reverter para o build anterior', async () => {
@@ -445,7 +469,8 @@ test('23. publishedRequestId acompanha o build no ar, ao publicar e ao reverter'
   // republicar empurra o par (build, pedido) no ar para "anterior"
   const BUILD2 = 'bbbbbbbbbbbb';
   await env.withSecurityRulesDisabled((ctx) => setDoc(doc(ctx.firestore(), 'requests/aprA2'), pedido('agA', 'corA', 'approved', {
-    propertyId: 'propA', preview: { ...PREVIEW, build: BUILD2 }, approvedBuild: BUILD2, approvedBy: 'gerA', approvedAt: T })));
+    propertyId: 'propA', preview: { ...PREVIEW, build: BUILD2 }, approvedBuild: BUILD2,
+    approvedManifestSha256: MANIFESTO, approvedBy: 'gerA', approvedAt: T })));
   const prev = { previousBuild: '000000000000' };
   await assertFails(publica(db('admin'), 'admin', 'aprA2', 'propA', BUILD2, prev, prev));   // sem previousRequestId
   await assertFails(publica(db('admin'), 'admin', 'aprA2', 'propA', BUILD2, prev, { ...prev, previousRequestId: 'aprA' }));
