@@ -11,7 +11,7 @@ export interface Manifesto {
   arquivos: Record<string, { bytes: number; sha256: string }>
 }
 
-type Buscar = (url: string, init?: RequestInit) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }>
+export type Buscar = (url: string, init?: RequestInit) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }>
 // O manifest é lido em bytes: o hash tem de ser do arquivo servido, não de um JSON reinterpretado.
 type BuscarBytes = (url: string, init?: RequestInit) => Promise<{ ok: boolean; status: number; arrayBuffer(): Promise<ArrayBuffer> }>
 
