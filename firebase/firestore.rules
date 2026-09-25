@@ -145,20 +145,30 @@ service cloud.firestore {
     function from() { return resource.data.status; }
     function to() { return d().status; }
 
-    // Ninguém além do gerente escreve a aprovação. Publicar exige o build aprovado.
+    // sha256 do manifest.json servido no preview: a identidade exata do artefato aprovado
+    // (build once, promote the exact artifact). matches() casa a string inteira.
+    function isSha256(v) { return v is string && v.matches('[0-9a-f]{64}'); }
+
+    // Ninguém além do gerente escreve a aprovação. Publicar exige o artefato aprovado: o build
+    // e o manifest; uma aprovação sem a identidade do manifest não publica.
     function staffEdit() {
-      return keeps(['approvedBuild', 'approvedBy', 'approvedAt'])
+      return keeps(['approvedBuild', 'approvedManifestSha256', 'approvedBy', 'approvedAt'])
         && ((isAdmin() && (to() != 'published'
                            || (from() in ['approved', 'published']
-                               && resource.data.approvedBuild == resource.data.preview.build)))
+                               && resource.data.approvedBuild == resource.data.preview.build
+                               && isSha256(resource.data.get('approvedManifestSha256', null))
+                               && resource.data.approvedManifestSha256
+                                    == resource.data.preview.get('manifestSha256', null))))
           || (isStaff() && !(to() in ['approved', 'published'])));
     }
     function managerDecision() {
       return isManager(resource.data.agencyId) && from() == 'agency_review'
         && ((to() == 'approved'
-              && changesOnly(['status', 'approvedBuild', 'approvedBy', 'approvedAt',
-                              'updatedAt', 'lastAuditId'])
+              && changesOnly(['status', 'approvedBuild', 'approvedManifestSha256', 'approvedBy',
+                              'approvedAt', 'updatedAt', 'lastAuditId'])
               && d().approvedBuild == resource.data.preview.build
+              && isSha256(d().get('approvedManifestSha256', null))
+              && d().approvedManifestSha256 == resource.data.preview.get('manifestSha256', null)
               && d().approvedBy == request.auth.uid
               && d().approvedAt == request.time)
           || (to() == 'production' && changesOnly(['status', 'updatedAt', 'lastAuditId'])));
@@ -195,7 +205,10 @@ service cloud.firestore {
         // (para ninguém, nem platform_admin), e o preview só é trocado, nunca removido
         && (!changed('propertyId') || !('preview' in resource.data))
         && (!changed('preview') || 'preview' in d())
-        && (to() != 'agency_review' || d().preview.build is string)
+        // todo preview que entra traz a identidade exata do manifest que foi servido
+        && (!changed('preview') || isSha256(d().preview.get('manifestSha256', null)))
+        && (to() != 'agency_review'
+            || (d().preview.build is string && isSha256(d().preview.get('manifestSha256', null))))
         && (staffEdit() || managerDecision() || requesterEdit());
       allow delete: if false;
 

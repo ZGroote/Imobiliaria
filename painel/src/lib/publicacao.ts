@@ -12,6 +12,8 @@ export interface Manifesto {
 }
 
 type Buscar = (url: string, init?: RequestInit) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }>
+// O manifest é lido em bytes: o hash tem de ser do arquivo servido, não de um JSON reinterpretado.
+type BuscarBytes = (url: string, init?: RequestInit) => Promise<{ ok: boolean; status: number; arrayBuffer(): Promise<ArrayBuffer> }>
 
 function url(texto: string) {
   let u: URL
@@ -68,11 +70,34 @@ export function conferirNoAr(estado: { atual: string }, esperado: string, comand
   }
 }
 
-// O operador cola a URL do tour em preview; o painel lê o manifest.json da mesma pasta.
-export async function lerPreview(urlDoTour: string, pipelineUnitId: string, buscar: Buscar = fetch): Promise<Preview> {
+// O operador cola a URL do tour em preview; o painel lê o manifest.json da mesma pasta. O hash
+// é dos BYTES servidos, não de um JSON serializado de novo: é o artefato exato que se aprova
+// (build once, promote the exact artifact). A leitura do JSON vem depois, só para validar.
+export async function lerPreview(urlDoTour: string, pipelineUnitId: string, buscar: BuscarBytes = fetch): Promise<Preview> {
   const pasta = new URL('./', url(urlDoTour))
   const r = await buscar(new URL('manifest.json', pasta).href, { cache: 'no-store' })
   if (!r.ok) throw new Error(`Não encontrei o manifest.json ao lado do tour (HTTP ${r.status}).`)
-  const m = validarManifesto(await r.json(), { imovel: pipelineUnitId, pasta: pasta.pathname })
-  return { build: m.build, tourUrl: new URL('tour.html', pasta).href, maqueteUrl: new URL('maquete.html', pasta).href }
+  const bytes = await r.arrayBuffer()
+  const digest = await crypto.subtle.digest('SHA-256', bytes)
+  const manifestSha256 = [...new Uint8Array(digest)].map((x) => x.toString(16).padStart(2, '0')).join('')
+  let json: unknown
+  try { json = JSON.parse(new TextDecoder().decode(bytes)) } catch { throw new Error('manifest.json não é um JSON válido.') }
+  const m = validarManifesto(json, { imovel: pipelineUnitId, pasta: pasta.pathname })
+  return { build: m.build, tourUrl: new URL('tour.html', pasta).href, maqueteUrl: new URL('maquete.html', pasta).href,
+    manifestSha256 }
 }
+
+// O comando que põe no ar EXATAMENTE o artefato aprovado: o build e o manifest congelados na
+// aprovação (nunca o preview que por acaso esteja no pedido).
+export const comandoPromover = (unidade: string, build: string, manifestSha256: string) =>
+  `python pipeline/publicar_imovel.py montar-live promover ${unidade} ${build} --estado <estado-live.json> --manifest-aprovado ${manifestSha256}`
+
+// O preview: montar a pasta de deploy com o build e subir SÓ no canal de preview do imóvel.
+export const comandosPreview = (unidade: string) => [
+  `python pipeline/publicar_imovel.py montar-preview ${unidade} <build>`,
+  `firebase hosting:channel:deploy imovel-${unidade} --only imoveis --config firebase.imoveis.json --project imobilaria-deccb --expires 30d`,
+]
+
+// Reverter volta ao build anterior, que já está no ar e no estado.json: sem aprovação nova.
+export const comandoReverter = (unidade: string) =>
+  `python pipeline/publicar_imovel.py montar-live reverter ${unidade} --estado <estado-live.json>`

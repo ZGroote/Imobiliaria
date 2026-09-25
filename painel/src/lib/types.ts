@@ -50,7 +50,12 @@ export type RequestStatus =
   | 'submitted' | 'waiting_materials' | 'accepted' | 'production'
   | 'internal_review' | 'agency_review' | 'approved' | 'published' | 'cancelled'
 
-export interface Preview { build: string; tourUrl: string; maqueteUrl: string }
+export interface Preview {
+  build: string                           // identidade funcional: tour + maquete
+  tourUrl: string
+  maqueteUrl: string
+  manifestSha256: string                  // identidade exata do artefato: os bytes do manifest.json servido
+}
 
 export interface Request {                // requests/{id}
   id: string; agencyId: string; requestedBy: string
@@ -60,6 +65,7 @@ export interface Request {                // requests/{id}
   assignedTo?: string
   preview?: Preview
   approvedBuild?: string; approvedBy?: string; approvedAt?: Timestamp
+  approvedManifestSha256?: string         // o artefato congelado pela aprovação; a promoção parte dele
   lastAuditId?: string
   createdAt: Timestamp; updatedAt: Timestamp
 }

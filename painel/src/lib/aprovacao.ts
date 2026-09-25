@@ -10,11 +10,17 @@ export function registrarPreview(db: Firestore, uid: string, r: Pedido, preview:
   return mudarStatus(db, uid, r, 'agency_review', { preview }, { build: preview.build })
 }
 
-// Gerente da imobiliária: aprova exatamente o build em revisão.
+// Gerente da imobiliária: aprova exatamente o artefato em revisão -- o build E o manifest.json
+// servido no preview. A promoção depois exige esse mesmo par.
 export function aprovar(db: Firestore, uid: string, r: Pedido) {
   if (r.status !== 'agency_review' || !r.preview?.build) throw new Error('Não há build em revisão para aprovar.')
+  if (!r.preview.manifestSha256) {
+    throw new Error('Este preview não traz a identidade do manifest.json. Registre o preview de novo antes de aprovar.')
+  }
+  const { build, manifestSha256 } = r.preview
   return mudarStatus(db, uid, r, 'approved',
-    { approvedBuild: r.preview.build, approvedBy: uid, approvedAt: serverTimestamp() }, { build: r.preview.build })
+    { approvedBuild: build, approvedManifestSha256: manifestSha256, approvedBy: uid, approvedAt: serverTimestamp() },
+    { build, manifestSha256 })
 }
 
 // Gerente: devolve para a produção. O motivo fica no histórico (o pedido em si não guarda).
