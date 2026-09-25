@@ -33,8 +33,21 @@
       { "source": "/", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] },
       { "source": "/index.html", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] },
       { "source": "/404.html", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] },
-      { "source": "/imovel/**", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] },
-      { "source": "/maquete/**", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }
+      {
+        "//": "Ponteiros sem extensao: o arquivo fisico e a URL sao o mesmo caminho (imovel/<id>), sem cleanUrls nem redirect; sem extensao o Hosting nao sabe que e HTML.",
+        "source": "/imovel/**",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache" },
+          { "key": "Content-Type", "value": "text/html; charset=utf-8" }
+        ]
+      },
+      {
+        "source": "/maquete/**",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache" },
+          { "key": "Content-Type", "value": "text/html; charset=utf-8" }
+        ]
+      }
     ]
   }
 }
