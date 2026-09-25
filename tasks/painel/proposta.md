@@ -815,6 +815,12 @@ Cedros `39234fb6c9bc` foi para o canal de preview `imovel-monte-dos-cedros-37` d
 dois reservados `/__/firebase/init.*`. Os bytes do preview são iguais aos do build (sha256
 de `tour.html`, `maquete.html` e `manifest.json`), e o live continua vazio, sem release.
 
+Depois, o hotfix #11 fez o `tour.html` preservar o `#fragmento` ao acrescentar `?em=`. Isso
+mudou o build do Cedros para **`215965d37d7d`** (o `tour.html` com 16 bytes a mais, a
+maquete idêntica), que é o candidato atual para o live. Ele foi revalidado no mesmo canal:
+242 arquivos, bytes iguais aos do build, `#x` preservado na URL, ida e volta tour ↔ maquete
+com os quintais sem erro, e o live ainda vazio. O `39234fb6c9bc` nunca foi publicado no live.
+
 ---
 
 ## 14. Estado de produção e integração (24/09/2026)
