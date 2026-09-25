@@ -5,8 +5,8 @@ import { collection, orderBy, query, where } from 'firebase/firestore'
 import { Aviso, Cartao, Estado, useAcao } from './ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
-import { conferirNoAr, lerEstado, linksPublicos } from '@/lib/publicacao'
-import { registrarPublicacao, registrarReversao } from '@/lib/publicar'
+import { comandoPromover, conferirNoAr, lerEstado, linksPublicos } from '@/lib/publicacao'
+import { APROVACAO_SEM_MANIFEST, registrarPublicacao, registrarReversao } from '@/lib/publicar'
 import { usePerfil } from '@/lib/session'
 import type { Property, Publication, Request } from '@/lib/types'
 import { useColecao } from '@/lib/useFirestore'
@@ -22,13 +22,17 @@ export function RegistrarPublicacao({ r, imovel }: { r: Request; imovel?: Proper
   const [conferido, setConferido] = useState(false)
   if (r.status !== 'approved' || perfil.role !== 'platform_admin') return null
   const unidade = imovel?.pipelineUnitId
-  const comando = `python pipeline/publicar_imovel.py promover ${unidade} ${r.approvedBuild}`
+  // Sempre o artefato APROVADO (approvedManifestSha256), nunca o preview que esteja no pedido.
+  const comando = unidade && r.approvedBuild && r.approvedManifestSha256
+    ? comandoPromover(unidade, r.approvedBuild, r.approvedManifestSha256) : ''
   return (
     <Cartao titulo="Publicação">
       {!SITE ? <Aviso>Site de imóveis não configurado (NEXT_PUBLIC_SITE_IMOVEIS).</Aviso>
-        : !imovel || !unidade ? <p className="text-sm text-slate-600">O pedido precisa de um imóvel com id do pipeline.</p> : (
+        : !imovel || !unidade ? <p className="text-sm text-slate-600">O pedido precisa de um imóvel com id do pipeline.</p>
+        : !r.approvedManifestSha256 ? <Aviso>{APROVACAO_SEM_MANIFEST}</Aviso> : (
         <>
-          <p className="text-sm">Aprovado o build <code>{r.approvedBuild}</code>. Ponha no ar com:</p>
+          <p className="text-sm">Aprovado o build <code>{r.approvedBuild}</code> (manifest{' '}
+            <code>{r.approvedManifestSha256.slice(0, 12)}…</code>). Ponha no ar com:</p>
           <pre className="mt-1 overflow-x-auto rounded bg-slate-100 p-2 text-xs">{comando}</pre>
           <div className="mt-3 flex flex-wrap gap-2">
             <button disabled={ocupado} className="btn" onClick={() => executar(async () => {
