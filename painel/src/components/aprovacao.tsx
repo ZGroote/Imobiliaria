@@ -4,7 +4,7 @@ import { Aviso, Cartao, useAcao } from './ui'
 import { aprovar, pedirAjuste, registrarPreview } from '@/lib/aprovacao'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
-import { lerPreview } from '@/lib/publicacao'
+import { comandosPreview, lerPreview } from '@/lib/publicacao'
 import { usePerfil } from '@/lib/session'
 import type { Preview, Property, Request } from '@/lib/types'
 
@@ -69,9 +69,11 @@ export function RegistrarPreview({ r, imovel }: { r: Request; imovel?: Property 
   }
   return (
     <Cartao titulo={r.preview ? 'Trocar o preview' : 'Registrar preview'}>
-      <p className="mb-2 text-xs text-slate-500">
-        Rode <code>python pipeline/publicar_imovel.py preview {imovel.pipelineUnitId} &lt;build&gt;</code> e cole aqui o endereço do tour.
-      </p>
+      <div className="mb-2 space-y-1 text-xs text-slate-500">
+        <p>Monte o preview do build e depois suba só no canal de preview deste imóvel (nunca no live):</p>
+        <pre className="overflow-x-auto rounded bg-slate-100 p-2">{comandosPreview(imovel.pipelineUnitId).join('\n')}</pre>
+        <p>Cole aqui o endereço do tour que o canal publicou.</p>
+      </div>
       <div className="flex flex-wrap gap-2">
         <input value={url} onChange={(e) => { setUrl(e.target.value); setLido(null) }} className="campo min-w-72 flex-1"
           placeholder={`https://…/b/${imovel.pipelineUnitId}/<build>/tour.html`} />

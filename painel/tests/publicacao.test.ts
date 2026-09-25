@@ -3,7 +3,8 @@ import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { collection, doc, getDoc, getDocs, orderBy, query, where, type Firestore } from 'firebase/firestore'
 import { aprovar, registrarPreview } from '../src/lib/aprovacao.ts'
-import { comandoPromover, conferirNoAr, lerEstado, linksPublicos, noAr } from '../src/lib/publicacao.ts'
+import { comandoPromover, comandoReverter, comandosPreview, conferirNoAr, lerEstado, linksPublicos, noAr }
+  from '../src/lib/publicacao.ts'
 import { registrarPublicacao, registrarReversao } from '../src/lib/publicar.ts'
 import { criarPedido, editarPedidoInterno } from '../src/lib/pedidos.ts'
 import { mudarStatus } from '../src/lib/status.ts'
@@ -46,6 +47,12 @@ test('estado.json: o que está no ar, e a conferência antes de registrar', asyn
   const m = manifestDe('a1b2c3d4e5f6')
   assert.equal(comandoPromover(UNID, 'a1b2c3d4e5f6', m),
     `python pipeline/publicar_imovel.py montar-live promover ${UNID} a1b2c3d4e5f6 --estado <estado-live.json> --manifest-aprovado ${m}`)
+  // as outras dicas mostradas ao operador são o fluxo de hoje, não os comandos antigos
+  assert.deepEqual(comandosPreview(UNID), [
+    `python pipeline/publicar_imovel.py montar-preview ${UNID} <build>`,
+    `firebase hosting:channel:deploy imovel-${UNID} --only imoveis --config firebase.imoveis.json --project imobilaria-deccb --expires 30d`])
+  assert.equal(comandoReverter(UNID),
+    `python pipeline/publicar_imovel.py montar-live reverter ${UNID} --estado <estado-live.json>`)
 })
 
 test('publicação: só o admin, só o aprovado; histórico visível só para a própria imobiliária', async () => {

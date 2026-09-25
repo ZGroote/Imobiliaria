@@ -91,3 +91,13 @@ export async function lerPreview(urlDoTour: string, pipelineUnitId: string, busc
 // aprovação (nunca o preview que por acaso esteja no pedido).
 export const comandoPromover = (unidade: string, build: string, manifestSha256: string) =>
   `python pipeline/publicar_imovel.py montar-live promover ${unidade} ${build} --estado <estado-live.json> --manifest-aprovado ${manifestSha256}`
+
+// O preview: montar a pasta de deploy com o build e subir SÓ no canal de preview do imóvel.
+export const comandosPreview = (unidade: string) => [
+  `python pipeline/publicar_imovel.py montar-preview ${unidade} <build>`,
+  `firebase hosting:channel:deploy imovel-${unidade} --only imoveis --config firebase.imoveis.json --project imobilaria-deccb --expires 30d`,
+]
+
+// Reverter volta ao build anterior, que já está no ar e no estado.json: sem aprovação nova.
+export const comandoReverter = (unidade: string) =>
+  `python pipeline/publicar_imovel.py montar-live reverter ${unidade} --estado <estado-live.json>`

@@ -5,7 +5,7 @@ import { collection, orderBy, query, where } from 'firebase/firestore'
 import { Aviso, Cartao, Estado, useAcao } from './ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
-import { comandoPromover, conferirNoAr, lerEstado, linksPublicos } from '@/lib/publicacao'
+import { comandoPromover, comandoReverter, conferirNoAr, lerEstado, linksPublicos } from '@/lib/publicacao'
 import { APROVACAO_SEM_MANIFEST, registrarPublicacao, registrarReversao } from '@/lib/publicar'
 import { usePerfil } from '@/lib/session'
 import type { Property, Publication, Request } from '@/lib/types'
@@ -62,7 +62,7 @@ export function ReverterPublicacao({ p }: { p: Property }) {
   const [conferido, setConferido] = useState(false)
   if (perfil.role !== 'platform_admin' || !p.previousBuild || !p.previousRequestId || !p.publishedBuild
     || !p.pipelineUnitId || !SITE) return null
-  const comando = `python pipeline/publicar_imovel.py reverter ${p.pipelineUnitId}`
+  const comando = comandoReverter(p.pipelineUnitId)
   return (
     <Cartao titulo="Reverter">
       <p className="text-sm">No ar: <code>{p.publishedBuild}</code>. Anterior: <code>{p.previousBuild}</code>.</p>
