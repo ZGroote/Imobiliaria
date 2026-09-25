@@ -519,6 +519,12 @@ no Firestore.
   já estava no ar e continua no snapshot tem de bater, byte a byte, com os hashes que o
   `estado.json` registrou (manifest incluído). `reverter` não pede aprovação nova: os dois builds
   já estiveram no ar, e o estado já registra os bytes de cada um.
+- **O painel carrega a identidade do artefato; ninguém copia hash à mão.** Ele lê o
+  `manifest.json` do preview, calcula o `manifestSha256` dos bytes servidos (não de um JSON
+  reinterpretado) e o grava no preview. O gerente, ao aprovar, congela `approvedBuild` +
+  `approvedManifestSha256`, e o comando de promoção que o painel mostra usa os dois. As regras
+  exigem o sha256 no preview e a igualdade com ele na aprovação e na publicação: uma aprovação
+  sem a identidade do manifest não publica.
 
 ### Fluxo completo
 
@@ -527,14 +533,16 @@ operador   python pipeline/build_imovel.py <id>
              → publicacao/builds/<id>/<build>/        (não sobrescreve; mesmo conteúdo = mesmo hash)
 operador   python pipeline/publicar_imovel.py montar-preview <id> <build>  + deploy do canal
              → canal imovel-<id>; o JSON traz build, tour, maquete, manifest e manifest_sha256
-painel     operador cola a URL do tour. O painel lê o manifest.json do canal, confere se o
-             imóvel é o deste pedido e grava preview {build, tourUrl, maqueteUrl}
+painel     operador cola a URL do tour. O painel lê o manifest.json do canal, calcula o
+             sha256 dos bytes, confere se o imóvel é o deste pedido e grava
+             preview {build, tourUrl, maqueteUrl, manifestSha256}
              → status agency_review                                       [batch + AuditLog]
-painel     gerente abre o preview e aprova → approvedBuild = preview.build  [batch + AuditLog]
+painel     gerente abre o preview e aprova → approvedBuild + approvedManifestSha256
+             = os do preview                                             [batch + AuditLog]
 operador   python pipeline/publicar_imovel.py montar-live promover <id> <build>
-             --estado <estado.json do ar> --manifest-aprovado <manifest_sha256 do preview>
-             (o MESMO diretório do preview; o painel ainda não guarda o manifest_sha256, e
-             até ele guardar, o operador leva o valor da saída do preview até aqui)
+             --estado <estado.json do ar> --manifest-aprovado <approvedManifestSha256>
+             (o MESMO diretório do preview; o painel mostra este comando já montado com o
+             build e o manifest aprovados)
              (a Fase 1 confere build + manifest; a Fase 2 também confere approvedBuild no Firestore)
              → ponteiros apontam o build; estado.json atualizado; deploy do site de imóveis
 painel     admin clica "Registrar publicação". O painel lê /estado.json DO SITE e só grava se
