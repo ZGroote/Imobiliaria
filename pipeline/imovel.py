@@ -220,14 +220,19 @@ def _texto_da_ficha(u):
                            if desc else "Mapa 3D com planta e visita.")
 
 
-def _cabeca(u, base):
+def _cabeca(u, base, url=None, imagem=None):
     """<title> proprio e OG tags — o preview do WhatsApp le o HTML CRU.
 
     Por isso elas tem que estar no arquivo, nao postas por JS: nenhum robo de preview
     executa script. E a razao de existir um HTML por imovel em vez de um mapa so
-    respondendo a `?imovel=` -- alem do peso, que e a outra metade."""
+    respondendo a `?imovel=` -- alem do peso, que e a outra metade.
+
+    `url` e a URL canonica; sem ela, sai do nome fisico ao lado do mapa
+    (`<base>/imovel-<id>.html`). `og:image` so com `imagem` dada: a foto e gerada a
+    parte (pipeline/foto.py), e deduzir o endereco dela da `base` punha no preview
+    uma imagem que podia nao existir (N4)."""
     titulo, desc = _texto_da_ficha(u)
-    url = (base.rstrip("/") + "/imovel-%s.html" % u["id"]) if base else None
+    url = url or ((base.rstrip("/") + "/imovel-%s.html" % u["id"]) if base else None)
     m = ['<title>%s</title>' % _esc(titulo),
          '<meta name="description" content="%s">' % _esc(desc),
          '<meta property="og:type" content="website">',
@@ -237,10 +242,8 @@ def _cabeca(u, base):
          '<meta name="twitter:card" content="summary_large_image">']
     if url:
         m.append('<meta property="og:url" content="%s">' % _esc(url))
-        # A imagem e gerada a parte (pipeline/foto.py); sem ela o preview sai so com
-        # titulo e texto, que ja e melhor que o titulo generico do mapa.
-        img = base.rstrip("/") + "/preview-%s.jpg" % u["id"]
-        m.append('<meta property="og:image" content="%s">' % _esc(img))
+    if imagem:
+        m.append('<meta property="og:image" content="%s">' % _esc(imagem))
     return "\n".join(m) + "\n"
 
 
@@ -258,16 +261,20 @@ def _unidades(CID, apenas=None):
     return fica
 
 
-def gera(config, unidade, raio, destino, mapa_href, base="", maquete_href=None):
+def gera(config, unidade, raio, destino, mapa_href, base="", maquete_href=None,
+         prefixo_tiles=None, url=None, imagem=None, carimbo=None):
     CID = config.cidade()
     lote = unidade["lote"]
-    r = recorte.para_unidade(CID, unidade, raio)
+    r = recorte.para_unidade(CID, unidade, raio, prefixo_tiles)
     t0 = time.time()
-    html = montar.monta(config=config, recorte=r)
+    # Sem `carimbo`, o montador poe a hora no HUD e duas paginas do mesmo dado saem
+    # diferentes. Quem precisa de pagina reproduzivel (pipeline/build_imovel.py) passa
+    # um fixo.
+    html = montar.monta(carimbo=carimbo, config=config, recorte=r)
     alvo = os.path.join(destino, "imovel-%s.html" % unidade["id"])
     # O <title> do mapa vira o do imovel, e as OG tags entram no lugar dele -- que ja
     # esta dentro do <head> implicito, antes de qualquer script.
-    novo, n = re.subn(r"<title>[^<]*</title>", lambda _: _cabeca(unidade, base),
+    novo, n = re.subn(r"<title>[^<]*</title>", lambda _: _cabeca(unidade, base, url, imagem),
                       html, count=1)
     if not n:
         raise SystemExit("nao achei o <title> pra trocar pelo do imovel")
@@ -293,7 +300,7 @@ def main(argv=None):
     p.add_argument("--destino", default=None)
     p.add_argument("--base", default="",
                    help="URL publica da pasta (ex.: https://exemplo.web.app/mapa); "
-                        "sem ela as OG tags saem sem og:url e og:image")
+                        "sem ela as OG tags saem sem og:url")
     p.add_argument("--mapa", default=None,
                    help="href do mapa completo pro botao Navegar; sem isto, aponta "
                         "pro HTML que esta build produz")

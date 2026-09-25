@@ -48,11 +48,15 @@ def _dist(x, z, cx, cz):
 class Recorte:
     """Filtro de blocos em volta de (cx, cz), em metros do sistema do mapa."""
 
-    def __init__(self, centro, raio, unidade=None, cid=None):
+    def __init__(self, centro, raio, unidade=None, cid=None, prefixo_tiles=None):
         self.cx, self.cz = centro
         self.raio = float(raio)
         self.unidade = unidade
         self._cid = cid
+        # Onde os tiles de quintal moram quando a pagina NAO fica ao lado do mapa
+        # (ex.: "/quintais/<hash>/" na raiz do site). Sem ele, fica o prefixo do
+        # mapa, relativo a pagina.
+        self.prefixo_tiles = prefixo_tiles
         self._urbanos_manter = None     # indices de modelo urbano que sobraram, em ordem
         self._imoveis_dentro = None     # ids de anuncio dentro do raio
         self._unidades_dentro = None    # ids de planta cadastrada que ficaram
@@ -307,6 +311,8 @@ class Recorte:
                     dentro.append(chave)
             self.relatorio["parcelTiles"] = (len(t["keys"]), len(dentro))
             t["keys"] = dentro
+        if self.prefixo_tiles and t:
+            t["prefix"] = self.prefixo_tiles
         self.relatorio["exteriorModels/assets"] = (len(antigos), len(antigos))
         return json.dumps(d, separators=(",", ":"))
 
@@ -373,13 +379,14 @@ class Recorte:
         return json.dumps(fica, separators=(",", ":"))
 
 
-def para_unidade(cid, unidade, raio):
+def para_unidade(cid, unidade, raio, prefixo_tiles=None):
     """Recorte centrado no lote de uma unidade do cadastro."""
     lote = unidade.get("lote") or {}
     if lote.get("lat") is None or lote.get("lon") is None:
         raise SystemExit("unidade %s nao tem lote.lat/lon" % unidade.get("id"))
     centro = cid.geo_para_mapa(lote["lon"], lote["lat"])
-    return Recorte(centro, raio, unidade=unidade.get("id"), cid=cid)
+    return Recorte(centro, raio, unidade=unidade.get("id"), cid=cid,
+                   prefixo_tiles=prefixo_tiles)
 
 
 class _CidFalsa:
