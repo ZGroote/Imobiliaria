@@ -109,6 +109,7 @@ def _tiles(prefixo_do_build, terrenos):
 
 
 PREFIXO_TILES = re.compile(r'^/quintais/[0-9a-f]{12}/$')
+TILE = re.compile(r'^-?\d+_-?\d+\.bin$')                 # <i>_<j>.bin, como dividir_terrenos.py grava
 
 
 def _conjunto_de_tiles(prefixo, terrenos, tiles_origem):
@@ -124,10 +125,17 @@ def _conjunto_de_tiles(prefixo, terrenos, tiles_origem):
     if prefixo_publico(t['prefix']) == prefixo:
         return _tiles(prefixo, terrenos)
     pasta = prefixo.strip('/')
-    chaves = sorted(p.stem for p in (tiles_origem / pasta).glob('*.bin'))
-    if not chaves:
-        raise ValueError('o conjunto de tiles %s nao existe em %s' % (prefixo, tiles_origem))
-    return pasta, chaves
+    fonte = tiles_origem / pasta
+    filhos = sorted(fonte.iterdir()) if fonte.is_dir() else []
+    if not filhos:
+        raise ValueError('o conjunto de tiles %s nao existe ou esta vazio em %s' % (prefixo, tiles_origem))
+    # Estrito: um conjunto imutavel ou tem so tiles validos, ou nao e o conjunto que o build usou.
+    for f in filhos:
+        if f.is_symlink() or not f.is_file() or not TILE.match(f.name):
+            raise ValueError('o conjunto de tiles %s tem %r, que nao e um tile' % (prefixo, f.name))
+        if f.stat().st_size == 0:
+            raise ValueError('tile vazio no conjunto %s: %s' % (prefixo, f.name))
+    return pasta, [f.name[:-len('.bin')] for f in filhos]
 
 
 def _copia_tiles(trabalho, pasta, chaves, tiles_origem):

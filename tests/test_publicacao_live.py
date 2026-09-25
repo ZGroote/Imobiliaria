@@ -184,6 +184,21 @@ class LivePromotionTests(unittest.TestCase):
             fora = c.cria('x', 5, tiles='/quintais/../fora/')
             with self.assertRaises(ValueError):
                 c.promove('x', fora, c.estado())
+            # O conjunto antigo e content-addressed: ou so tiles validos, ou a operacao aborta.
+            antes, velho = c.bytes_de(('',)), c.tiles / 'quintais' / H1
+            for nome, poe, tira in (
+                    ('lixo.txt', lambda: (velho / 'lixo.txt').write_bytes(b'x'),
+                     lambda: (velho / 'lixo.txt').unlink()),
+                    ('subpasta', lambda: (velho / 'sub').mkdir(), lambda: (velho / 'sub').rmdir()),
+                    ('tile vazio', lambda: (velho / '9_9.bin').write_bytes(b''),
+                     lambda: (velho / '9_9.bin').unlink())):
+                with self.subTest(nome):
+                    poe()
+                    with self.assertRaises(ValueError):
+                        c.reverte('x', c.estado())      # D volta a atual; A (tiles H1) fica anterior
+                    self.assertEqual(c.bytes_de(('',)), antes, 'o site anterior continua inteiro')
+                    self.assertEqual(c.sobras(), [])
+                    tira()
 
     def test_rollback_without_previous_is_refused(self):
         with tempfile.TemporaryDirectory() as tmp:
