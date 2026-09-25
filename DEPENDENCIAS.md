@@ -42,7 +42,7 @@ Os quatro são reais e foram rodados; não são exemplo.
 
 ```bash
 npm test                 # 122 testes Node (renderizador + política de Hosting)
-npm run test:py          # 55 testes Python (build, caminhos canônicos, publicação)
+npm run test:py          # 56 testes Python (build, caminhos canônicos, publicação)
 npm run montar           # monta São Carlos na variante modular
 npm run qa               # os 19 portões de aceite: geometria + comportamento (~23 min)
 ```
