@@ -52,6 +52,23 @@ def confere_build(pasta, imovel, build):
     return manifesto
 
 
+def troca_site(novo, site):
+    """Poe `novo` no lugar de `site`, inteiro. O anterior sai de lado primeiro; se o novo nao
+    conseguir entrar, o anterior volta. So depois do novo instalado o anterior e apagado."""
+    if not site.exists():
+        novo.rename(site)
+        return
+    anterior = Path(tempfile.mkdtemp(prefix='.site-anterior-', dir=site.parent))
+    anterior.rmdir()                      # so o nome unico; o rename cria a pasta
+    site.rename(anterior)
+    try:
+        novo.rename(site)
+    except BaseException:
+        anterior.rename(site)
+        raise
+    shutil.rmtree(anterior)
+
+
 def montar_preview(imovel, build, builds=BUILDS, tiles_origem=TILES, terrenos=TERRENOS, site=SITE):
     origem = builds / imovel / build
     if not origem.is_dir():
@@ -92,15 +109,7 @@ def montar_preview(imovel, build, builds=BUILDS, tiles_origem=TILES, terrenos=TE
         if arvore != esperado:
             raise ValueError('a montagem tem arquivos alem do build e dos tiles')
 
-        # Troca inteira: o site anterior sai de lado, o novo entra, o anterior e apagado.
-        if site.exists():
-            velho = Path(tempfile.mkdtemp(prefix='.site-anterior-', dir=site.parent))
-            velho.rmdir()
-            site.rename(velho)
-            trabalho.rename(site)
-            shutil.rmtree(velho)
-        else:
-            trabalho.rename(site)
+        troca_site(trabalho, site)
     except Exception:
         shutil.rmtree(trabalho, ignore_errors=True)
         raise

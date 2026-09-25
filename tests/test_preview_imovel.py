@@ -14,6 +14,7 @@ import runpy
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 RAIZ = Path(__file__).resolve().parents[1]
 P = runpy.run_path(str(RAIZ / 'pipeline/publicar_imovel.py'))
@@ -102,6 +103,27 @@ class PreviewTests(unittest.TestCase):
                     c.monta()
                 self.assertEqual(c.arvore(), antes, 'o site anterior continua inteiro')
                 self.assertEqual(c.sobras(), [])
+
+    def test_if_the_new_site_fails_to_enter_the_previous_one_comes_back(self):
+        # A janela da troca: o site anterior ja saiu de lado e o novo nao consegue entrar.
+        # Ele tem que voltar, e nenhuma pasta temporaria pode ficar para tras.
+        with tempfile.TemporaryDirectory() as tmp:
+            c = Cenario(tmp)
+            c.monta()
+            # marca que so o site ANTERIOR tem: se ela sumir, quem ficou foi o novo (ou nada)
+            (c.site / 'marca-do-anterior').write_bytes(b'x')
+            antes = {a: (c.site / a).read_bytes() for a in c.arvore()}
+            renomeia = Path.rename
+
+            def falha_na_entrada(origem, alvo):
+                if Path(alvo) == c.site and not origem.name.startswith('.site-anterior-'):
+                    raise OSError('falha injetada: o novo site nao entra')
+                return renomeia(origem, alvo)
+
+            with mock.patch.object(Path, 'rename', falha_na_entrada), self.assertRaises(OSError):
+                c.monta()
+            self.assertEqual({a: (c.site / a).read_bytes() for a in c.arvore()}, antes)
+            self.assertEqual(c.sobras(), [])
 
     def test_a_missing_or_empty_tile_is_refused(self):
         for nome, estraga in {'ausente': Path.unlink,
