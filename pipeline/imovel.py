@@ -149,7 +149,7 @@ def _snippet(lat, lon, mapa_href, titulo):
         '  if (!_p.get("em")) {\n'
         '    var _b = _p.toString();\n'
         '    history.replaceState(null, "", location.pathname + "?" +\n'
-        '      (_b ? _b + "&" : "") + %s);\n'
+        '      (_b ? _b + "&" : "") + %s + location.hash);\n'
         '  }\n'
         '} catch (e) { /* origem opaca em file:// recusa: abre no centro da cidade */ }\n'
         '/* O mapa completo abre ONDE A PESSOA ESTA, nao onde o imovel esta: o\n'

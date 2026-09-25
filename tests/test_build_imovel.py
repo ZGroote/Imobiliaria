@@ -7,7 +7,10 @@ cabeca do tour.
 """
 import hashlib
 import json
+import re
 import runpy
+import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -62,8 +65,27 @@ class TilePrefixTests(unittest.TestCase):
                 B['prefixo_publico'](ruim)
 
 
+def _url_semeada(busca, ancora):
+    """Roda o <script> do _snippet() com location/history falsos; devolve o replaceState()."""
+    if not shutil.which('node'):
+        raise unittest.SkipTest('sem node neste ambiente')
+    script = re.search(r'<script>(.*?)</script>', imovel._snippet(-22.0, -47.9, '/', 'x'), re.S).group(1)
+    js = ("const vm=require('vm');let u=null;"
+          "const ctx={location:{pathname:'/b/x/y/tour.html',search:%s,hash:%s},URLSearchParams,"
+          "history:{replaceState:(a,b,c)=>{u=c}},addEventListener:()=>{}};"
+          "vm.createContext(ctx);vm.runInContext(%s,ctx);process.stdout.write(JSON.stringify(u))") % (
+        json.dumps(busca), json.dumps(ancora), json.dumps(script))
+    return json.loads(subprocess.run(['node', '-e', js], capture_output=True, text=True, check=True).stdout)
+
+
 class RelocatableTourTests(unittest.TestCase):
-    def test_tile_prefix_is_rewritten_only_when_asked(self):
+    def test_relocated_tour_keeps_its_tiles_and_the_url_fragment(self):
+        # O tour enquadra o lote pondo ?em=... na URL; a ancora (#...) de quem chegou fica.
+        semeada = _url_semeada('?teste=1', '#x')
+        self.assertTrue(semeada.startswith('/b/x/y/tour.html?teste=1&em='), semeada)
+        self.assertTrue(semeada.endswith('#x'), semeada)
+        self.assertFalse(_url_semeada('', '').endswith('#'))
+        self.assertIsNone(_url_semeada('?em=-22,-47', '#x'), 'com posicao no link, nada e reescrito')
         pacote = json.dumps({'assets': [{'id': i} for i in range(recorte.EXTERIOR_EXATO)],
                              'placements': [],
                              'parcelTiles': {'prefix': './quintais/h/', 'size': 640,
