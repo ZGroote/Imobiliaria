@@ -1,26 +1,21 @@
 'use client'
 import { useState } from 'react'
-import { collection, orderBy, query, where, type QueryConstraint } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { ListaDePedidos } from '@/components/pedido'
-import { Estado } from '@/components/ui'
+import { CarregarMais, Estado } from '@/components/ui'
 import { db } from '@/lib/firebase'
+import { pedidosInternos } from '@/lib/listas'
 import { ROTULO_STATUS, TODOS_STATUS } from '@/lib/status'
 import type { Request } from '@/lib/types'
 import { useCatalogoInterno } from '@/lib/useEquipe'
-import { useColecao } from '@/lib/useFirestore'
+import { usePaginada } from '@/lib/useFirestore'
 
 // Filtros no servidor, pelos índices de firebase/firestore.indexes.json.
 export default function PedidosInterno() {
   const [agencia, setAgencia] = useState('')
   const [status, setStatus] = useState('')
   const cat = useCatalogoInterno()
-  const filtros: QueryConstraint[] = [
-    ...(agencia ? [where('agencyId', '==', agencia)] : []),
-    ...(status ? [where('status', '==', status)] : []),
-    orderBy('updatedAt', 'desc'),
-  ]
-  const r = useColecao<Request>(`pedidos:${agencia}:${status}`, () => query(collection(db, 'requests'), ...filtros))
+  const r = usePaginada<Request>(`pedidos:${agencia}:${status}`, () => pedidosInternos(db, { agencia, status }))
 
   return (
     <Pagina titulo="Solicitações" sub="Todas as imobiliárias.">
@@ -38,6 +33,7 @@ export default function PedidosInterno() {
         <ListaDePedidos pedidos={r.dados ?? []} base="/admin/requests"
           imovel={cat.imovel} pessoa={cat.pessoa} agencia={cat.agencia} />
       </Estado>
+      <CarregarMais r={r} />
     </Pagina>
   )
 }

@@ -3,18 +3,17 @@ import { useState, type FormEvent } from 'react'
 import { collection, orderBy, query, where } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { ListaDeImoveis } from '@/components/imovel'
-import { Aviso, Cartao, Estado, useAcao } from '@/components/ui'
+import { Aviso, CarregarMais, Cartao, Estado, useAcao } from '@/components/ui'
 import { db } from '@/lib/firebase'
+import { imoveisDa } from '@/lib/listas'
 import { criarImovel } from '@/lib/imoveis'
 import type { Agency, Property, User } from '@/lib/types'
-import { useColecao } from '@/lib/useFirestore'
+import { useColecao, usePaginada } from '@/lib/useFirestore'
 
 export default function ImoveisInterno() {
   const [agencia, setAgencia] = useState('')
   const agencias = useColecao<Agency>('agencias', () => query(collection(db, 'agencies'), orderBy('name')))
-  const imoveis = useColecao<Property>(`imoveis:${agencia}`, () => agencia
-    ? query(collection(db, 'properties'), where('agencyId', '==', agencia))
-    : collection(db, 'properties'))
+  const imoveis = usePaginada<Property>(`imoveis:${agencia}`, () => imoveisDa(db, agencia || undefined))
   const corretores = useColecao<User>('corretores', () => query(collection(db, 'users'), where('role', '==', 'agent')))
   const nomeDaAgencia = (id: string) => agencias.dados?.find((a) => a.id === id)?.name ?? id
   const nomeDoCorretor = (uid?: string) => (uid ? corretores.dados?.find((u) => u.id === uid)?.name ?? '…' : '—')
@@ -33,6 +32,7 @@ export default function ImoveisInterno() {
           <ListaDeImoveis imoveis={imoveis.dados ?? []} base="/admin/properties"
             nomeDaAgencia={nomeDaAgencia} nomeDoCorretor={nomeDoCorretor} />
         </Estado>
+        <CarregarMais r={imoveis} />
       </div>
     </Pagina>
   )

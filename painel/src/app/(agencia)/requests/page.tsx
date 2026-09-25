@@ -1,28 +1,29 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { collection, orderBy, query, where } from 'firebase/firestore'
+import { collection, query, where } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { ListaDePedidos } from '@/components/pedido'
-import { Estado } from '@/components/ui'
+import { CarregarMais, Estado } from '@/components/ui'
 import { db } from '@/lib/firebase'
+import { pedidosDaAgencia } from '@/lib/listas'
 import { usePessoas } from '@/lib/usePessoas'
 import { usePerfil } from '@/lib/session'
 import { ROTULO_STATUS, TODOS_STATUS } from '@/lib/status'
 import type { Property, Request } from '@/lib/types'
-import { useColecao } from '@/lib/useFirestore'
+import { useColecao, usePaginada } from '@/lib/useFirestore'
 
-// D4: o corretor vê os pedidos da imobiliária inteira; "só os meus" é filtro de tela.
+// D4: o corretor vê os pedidos da imobiliária inteira. Status e "só as minhas" vão na consulta:
+// com a lista paginada, filtrar a página na tela perderia o que não coube nela.
 export default function Pedidos() {
   const perfil = usePerfil()
   const [status, setStatus] = useState('')
   const [meus, setMeus] = useState(false)
-  const r = useColecao<Request>(`pedidos:${perfil.agencyId}`, () => query(collection(db, 'requests'),
-    where('agencyId', '==', perfil.agencyId), orderBy('updatedAt', 'desc')))
+  const r = usePaginada<Request>(`pedidos:${perfil.agencyId}:${status}:${meus}`,
+    () => pedidosDaAgencia(db, perfil.agencyId ?? '', { status, de: meus ? perfil.id : undefined }))
   const imoveis = useColecao<Property>(`imoveis:${perfil.agencyId}`,
     () => query(collection(db, 'properties'), where('agencyId', '==', perfil.agencyId)))
   const { nome } = usePessoas(perfil.agencyId, perfil.role === 'agency_manager')
-  const visiveis = (r.dados ?? []).filter((p) => (!status || p.status === status) && (!meus || p.requestedBy === perfil.id))
 
   return (
     <Pagina titulo="Solicitações" acoes={<Link href="/requests/new" className="btn-primario">Nova solicitação</Link>}>
@@ -36,10 +37,11 @@ export default function Pedidos() {
         </label>
       </div>
       <Estado r={r}>
-        <ListaDePedidos pedidos={visiveis} base="/requests"
+        <ListaDePedidos pedidos={r.dados ?? []} base="/requests"
           imovel={(id) => (id ? imoveis.dados?.find((p) => p.id === id)?.title ?? '…' : '—')}
           pessoa={(uid) => nome(uid, perfil.id)} />
       </Estado>
+      <CarregarMais r={r} />
     </Pagina>
   )
 }
