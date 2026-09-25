@@ -72,6 +72,8 @@ class PreviewTests(unittest.TestCase):
                 self.assertEqual((c.site / b / n).read_bytes(), (c.origem / n).read_bytes(), n)
             self.assertEqual((r['build'], r['tour'], r['tiles']),
                              (c.build, '/' + b + 'tour.html', '/quintais/abc/'))
+            # o que a aprovacao registra e a promocao exige: este manifest, e nao outro
+            self.assertEqual(r['manifest_sha256'], _sha((c.origem / 'manifest.json').read_bytes()))
             self.assertEqual(c.sobras(), [], 'nenhuma pasta temporaria fica para tras')
 
     def test_site_is_replaced_whole_never_updated_in_place(self):
