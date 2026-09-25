@@ -456,8 +456,8 @@ publicacao/                          gitignored; na máquina de quem publica
       quintais/<hashDoDado>/*.bin    tiles compartilhados
     live (B4):
       index.html  404.html  estado.json
-      imovel/<id>.html               ponteiro do tour      (tourUrl)
-      maquete/<id>.html              ponteiro da maquete   (maqueteUrl)
+      imovel/<id>                    ponteiro do tour      (tourUrl), sem extensão
+      maquete/<id>                   ponteiro da maquete   (maqueteUrl), sem extensão
       b/<id>/<build>/…               builds no ar: atual + anterior de cada imóvel
       quintais/<hashDoDado>/*.bin    tiles compartilhados
 ```
@@ -466,7 +466,13 @@ O build contém só `tour.html`, `maquete.html` e `manifest.json`: sua identidad
 dos dois HTMLs, e um ponteiro mutável dentro dele contradiria isso. Os ponteiros são do B4
 (`promover`/`reverter`). `site/` nunca é atualizado no lugar: a montagem nasce em
 `publicacao/.site-*`, é conferida inteira e só então substitui `site/`
-(`pipeline/publicar_imovel.py montar-preview`).
+(`pipeline/publicar_imovel.py montar-preview` e `montar-live`).
+
+Os ponteiros são **arquivos sem extensão**: o arquivo físico `imovel/<id>` é a própria URL
+pública, sem `cleanUrls` e sem redirect. O `firebase.imoveis.json` os serve com
+`Content-Type: text/html; charset=utf-8` e `no-cache`. O ponteiro leva os metadados do
+`tour.html` do build aprovado (nunca do cadastro, que pode ter mudado depois da aprovação),
+`og:url` do próprio ponteiro e `location.replace()` para o build, preservando `?` e `#`.
 
 ### Garantia central: o build de um imóvel nunca é refeito na publicação de outro
 
@@ -476,11 +482,14 @@ outros imóveis não são gerados de novo; são os mesmos bytes que já estão n
 
 Antes de todo deploy, `publicar_imovel.py`:
 
-1. Baixa o `estado.json` **do site no ar**, e não de uma cópia local: ele lista todos os
-   arquivos publicados com o sha256 de cada um.
+1. Baixa o `estado.json` **do site no ar**, e não de uma cópia local: `arquivos` traz o
+   sha256 de cada arquivo que o projeto gerencia no snapshot, exceto o próprio
+   `estado.json`. `/__/**` é reservado e injetado pelo Firebase Hosting (por exemplo
+   `/__/firebase/init.js` e `init.json`, em toda versão) e fica fora do inventário e da
+   comparação. Nenhum outro arquivo extra é aceito.
 2. Compara com a montagem em `publicacao/site/`.
-3. **Aborta** se houver qualquer diferença fora de `b/<X>/`, `imovel/<X>.html`,
-   `maquete/<X>.html` e `estado.json`. Isso também pega uma cópia local desatualizada:
+3. **Aborta** se houver qualquer diferença fora de `b/<X>/`, `imovel/<X>`,
+   `maquete/<X>` e `estado.json`. Isso também pega uma cópia local desatualizada:
    se outra pessoa publicou depois, o `estado.json` do ar não bate com a cópia.
 4. Faz o deploy (atômico no Hosting).
 5. Em caso de falha, desfaz as mudanças locais.
@@ -586,9 +595,13 @@ mesmo diretório; conteúdo novo, diretório novo.
 {
   "schema": 1,
   "imoveis": { "monte-dos-cedros-37": { "atual": "a1b2c3d4e5f6", "anterior": "0f9e8d7c6b5a", "em": "…" } },
-  "arquivos": { "imovel/monte-dos-cedros-37.html": "<sha256>", "b/monte-dos-cedros-37/a1b2c3d4e5f6/tour.html": "<sha256>", "…": "…" }
+  "arquivos": { "imovel/monte-dos-cedros-37": "<sha256>", "b/monte-dos-cedros-37/a1b2c3d4e5f6/tour.html": "<sha256>", "…": "…" }
 }
 ```
+
+`arquivos` = cada arquivo gerenciado do snapshot, exceto o próprio `estado.json`. `/__/**`
+(reservado do Firebase Hosting) nunca entra. Cada imóvel guarda só `atual` e `anterior`:
+promover move `atual → anterior`, reverter troca os dois, sem gerar build algum.
 
 **3. Saída dos comandos:** código 0 = ok; diferente de 0 = falha, com a mensagem na
 última linha do stderr. Em caso de sucesso, uma linha JSON no stdout.
@@ -795,6 +808,12 @@ cache → build por imóvel → preview → promoção → confirmação no site
 **Andamento em 24/09:** A1–A4 concluídos e em produção; A5 (Storage) pendente. Trilho B não
 começou: agora deve partir de `main`, com a integração do painel concluída (§14), porque o
 pipeline de `main` é o atual.
+
+**Andamento em 25/09 (Trilho B):** B1, B2 e B3 em `main`. O B3 real passou: o build do
+Cedros `39234fb6c9bc` foi para o canal de preview `imovel-monte-dos-cedros-37` do site
+`imobilaria-deccb-imoveis`, com 242 arquivos enviados; a versão registra 244 por causa dos
+dois reservados `/__/firebase/init.*`. Os bytes do preview são iguais aos do build (sha256
+de `tour.html`, `maquete.html` e `manifest.json`), e o live continua vazio, sem release.
 
 ---
 
