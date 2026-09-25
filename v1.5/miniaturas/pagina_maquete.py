@@ -54,6 +54,16 @@ def brl(v):
     return "R$ " + "{:,.0f}".format(v).replace(",", ".")
 
 
+def linha_de_area(f):
+    """A linha de área da ficha: (rótulo, valor), ou None. A útil quando o cadastro a tem;
+    senão a total, com o nome de TOTAL -- são números diferentes, e quem compara imóvel
+    compara pelo rótulo. Sem nenhuma das duas, a ficha não mostra área."""
+    for campo, rotulo in (("area_util", "Área útil"), ("area_total", "Área total")):
+        if f.get(campo):
+            return rotulo, "%s m²" % ("%.1f" % f[campo]).replace(".", ",")
+    return None
+
+
 def anel_do_bloco(u, v, larg, prof, giro=0.0):
     """O retangulo de um bloco, no referencial do lote. Mesma conta do `anelNoLote` do
     renderizador: `largura_m` corre em u, `profundidade_m` em v, e `giro_graus` gira o
@@ -129,7 +139,7 @@ def do_cadastro(uid, slug):
     desc = ("%d dormitório%s" % (quartos, "s" if quartos != 1 else "")) if quartos else "Unidade"
     if suites:
         desc += " (%d suíte%s)" % (suites, "s" if suites != 1 else "")
-    linhas = [("Área útil", "%s m²" % ("%.1f" % area).replace(".", ",")) if area else None,
+    linhas = [linha_de_area(f),
               ("Dormitórios", str(quartos)) if quartos else None,
               ("Suítes", str(suites)) if suites else None,
               ("Banheiros", str(f["banheiros"])) if f.get("banheiros") else None,
