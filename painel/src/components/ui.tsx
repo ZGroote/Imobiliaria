@@ -39,9 +39,11 @@ export function Tabela({ cabecalho, children }: { cabecalho: string[]; children:
 }
 export const Td = ({ children }: { children?: ReactNode }) => <td className="px-4 py-2 align-top">{children}</td>
 
+// min-w-0: o cartão é item de grid, e item de grid não encolhe abaixo do conteúdo (min-width: auto).
+// Sem isso, um <pre> com comando longo alarga a página inteira em vez de rolar dentro de si.
 export function Cartao({ titulo, children }: { titulo?: string; children: ReactNode }) {
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5">
+    <section className="min-w-0 rounded-lg border border-slate-200 bg-white p-5">
       {titulo && <h2 className="mb-3 text-sm font-semibold">{titulo}</h2>}
       {children}
     </section>
