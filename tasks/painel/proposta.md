@@ -507,21 +507,34 @@ no Firestore.
 - O preview fica em `https://imobilaria-deccb-imoveis--imovel-<id>-<aleatório>.web.app/b/<id>/<build>/tour.html`.
 - A URL contém o hash. Um preview novo muda a URL, e a regra do Firestore tira o pedido
   de `approved`.
-- O que vai ao ar depois é **o mesmo diretório**, conferido pelo sha256 de cada arquivo.
-  Nada é compilado de novo entre a aprovação e a publicação.
+- **Build once, promote the exact artifact.** O `build` (sha256 de `tour.html` +
+  `maquete.html`) é a identidade funcional. O **artefato aprovado** é esse build mais os bytes
+  exatos de `tour.html`, `maquete.html` e `manifest.json`, e o manifest carrega a proveniência
+  (`commit`, `gerado_em`, `fontes`), que muda a cada materialização mesmo quando tour e maquete
+  coincidem. Preview → aprovação → live promove **o mesmo diretório** de `publicacao/builds/`:
+  o build não é rematerializado entre essas etapas, e `build_imovel.py` não roda de novo depois
+  da aprovação.
+- `montar-preview` devolve `manifest_sha256`. `montar-live promover` exige
+  `--manifest-aprovado <sha256>` e recusa um `manifest.json` local diferente dele. Todo build que
+  já estava no ar e continua no snapshot tem de bater, byte a byte, com os hashes que o
+  `estado.json` registrou (manifest incluído). `reverter` não pede aprovação nova: os dois builds
+  já estiveram no ar, e o estado já registra os bytes de cada um.
 
 ### Fluxo completo
 
 ```text
 operador   python pipeline/build_imovel.py <id>
              → publicacao/builds/<id>/<build>/        (não sobrescreve; mesmo conteúdo = mesmo hash)
-operador   python pipeline/publicar_imovel.py preview <id> <build>
-             → canal imovel-<id>; imprime JSON {build, tourUrl, maqueteUrl, manifestUrl}
+operador   python pipeline/publicar_imovel.py montar-preview <id> <build>  + deploy do canal
+             → canal imovel-<id>; o JSON traz build, tour, maquete, manifest e manifest_sha256
 painel     operador cola a URL do tour. O painel lê o manifest.json do canal, confere se o
              imóvel é o deste pedido e grava preview {build, tourUrl, maqueteUrl}
              → status agency_review                                       [batch + AuditLog]
 painel     gerente abre o preview e aprova → approvedBuild = preview.build  [batch + AuditLog]
-operador   python pipeline/publicar_imovel.py promover <id> <build>
+operador   python pipeline/publicar_imovel.py montar-live promover <id> <build>
+             --estado <estado.json do ar> --manifest-aprovado <manifest_sha256 do preview>
+             (o MESMO diretório do preview; o painel ainda não guarda o manifest_sha256, e
+             até ele guardar, o operador leva o valor da saída do preview até aqui)
              (a Fase 1 confere build + manifest; a Fase 2 também confere approvedBuild no Firestore)
              → ponteiros apontam o build; estado.json atualizado; deploy do site de imóveis
 painel     admin clica "Registrar publicação". O painel lê /estado.json DO SITE e só grava se
@@ -820,6 +833,20 @@ mudou o build do Cedros para **`215965d37d7d`** (o `tour.html` com 16 bytes a ma
 maquete idêntica), que é o candidato atual para o live. Ele foi revalidado no mesmo canal:
 242 arquivos, bytes iguais aos do build, `#x` preservado na URL, ida e volta tour ↔ maquete
 com os quintais sem erro, e o live ainda vazio. O `39234fb6c9bc` nunca foi publicado no live.
+
+**Primeira publicação live (25/09, 15:04 UTC, B4b):** Cedros `215965d37d7d` no ar em
+`imobilaria-deccb-imoveis`. A versão `56630f63b23116cc` tem 249 caminhos: os 247 do snapshot
+mais os 2 reservados `/__/firebase/init.*`, sem nenhum outro extra. Os 247 baixados do live
+são iguais ao snapshot local, e os 246 inventariados batem com o `estado.json`. Os headers
+estão como a §6 define, e o ponteiro público leva ao build preservando `?` e `#`. O
+`manifest.json` no ar (`c2b2a242…`) não é o do preview (`064d47fa…`): o build foi
+rematerializado em outro worktree entre o preview e o live. `tour.html` e `maquete.html` são
+idênticos, mas `commit`, `gerado_em` e o hash de uma fonte mudaram. Foi essa descoberta que
+fechou o contrato "build once, promote the exact artifact" (acima). O live não foi
+redeployado: sob URL `immutable`, trocar o manifest seria pior. O `c2b2a242…` fica congelado
+como a proveniência oficial da primeira publicação, e o `064d47fa…` é o do preview que a
+antecedeu. O próximo teste real de promoção e rollback espera um segundo build legítimo de
+algum imóvel.
 
 ---
 

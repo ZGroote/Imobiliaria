@@ -92,8 +92,20 @@ class Cenario:
     def caminhos(self):
         return dict(builds=self.builds, tiles_origem=self.tiles, terrenos=self.terrenos, site=self.site)
 
-    def promove(self, imovel, build, estado):
-        return P['montar_live']('promover', imovel, build, estado, **self.caminhos())
+    def aprovado(self, imovel, build):
+        """O que o preview registra: o sha256 do manifest.json deste artefato."""
+        return _sha((self.builds / imovel / build / 'manifest.json').read_bytes())
+
+    def rematerializa(self, imovel, build):
+        """O mesmo build gerado de novo: tour e maquete iguais, manifest com outra proveniencia."""
+        m = self.builds / imovel / build / 'manifest.json'
+        d = json.loads(m.read_text(encoding='utf-8'))
+        d['gerado_em'] = 'outra vez'
+        m.write_text(json.dumps(d, indent=2) + '\n', encoding='utf-8')
+
+    def promove(self, imovel, build, estado, aprovado=None):
+        return P['montar_live']('promover', imovel, build, estado,
+                                manifest_aprovado=aprovado or self.aprovado(imovel, build), **self.caminhos())
 
     def reverte(self, imovel, estado):
         return P['montar_live']('reverter', imovel, None, estado, **self.caminhos())
@@ -267,6 +279,37 @@ class LivePromotionTests(unittest.TestCase):
             c.promove('x', c.C, c.estado())
             self.assertIn('<meta property="og:image" content="https://exemplo.web.app/x.jpg">',
                           c.texto('imovel/x'), 'a imagem do build aprovado viaja para o ponteiro')
+
+    def test_promotion_requires_the_exact_approved_artifact(self):
+        # Build once, promote the exact artifact: mesmo build, tour e maquete iguais, mas um
+        # manifest de outra materializacao nao e o que foi aprovado no preview.
+        with tempfile.TemporaryDirectory() as tmp:
+            c = Cenario(tmp)
+            aprovado = c.aprovado('x', c.A)
+            c.rematerializa('x', c.A)
+            for nome, valor in (('manifest rematerializado', aprovado), ('sem aprovacao', None)):
+                with self.subTest(nome), self.assertRaises(ValueError):
+                    P['montar_live']('promover', 'x', c.A, VAZIO, manifest_aprovado=valor, **c.caminhos())
+                self.assertFalse(c.site.exists(), 'nada foi montado')
+            c.promove('x', c.A, VAZIO, aprovado=c.aprovado('x', c.A))
+            self.assertEqual(c.no_ar('x'), (c.A, None))
+
+    def test_builds_already_live_must_match_the_state_byte_for_byte(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            c = Cenario(tmp)
+            c.promove('x', c.A, VAZIO)
+            c.promove('x', c.B, c.estado())                  # no ar: atual B, anterior A
+            antes = c.bytes_de(('',))
+            c.rematerializa('x', c.A)                        # a copia local de A deixa de ser a do ar
+            for nome, op in (('reverter para A', lambda: c.reverte('x', c.estado())),
+                             ('promover y com A ainda no ar', lambda: c.promove('y', c.Y, c.estado()))):
+                with self.subTest(nome), self.assertRaises(ValueError):
+                    op()
+                self.assertEqual(c.bytes_de(('',)), antes, 'o site anterior continua inteiro')
+            self.assertEqual(c.sobras(), [])
+            # promover C tira A do site: nada mais exige a copia local dele
+            c.promove('x', c.C, c.estado())
+            self.assertEqual(c.no_ar('x'), (c.C, c.B))
 
     def test_404_sends_old_build_links_to_the_pointer(self):
         with tempfile.TemporaryDirectory() as tmp:
