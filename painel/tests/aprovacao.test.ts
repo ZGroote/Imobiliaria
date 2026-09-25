@@ -1,5 +1,6 @@
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import { doc, getDoc, type Firestore } from 'firebase/firestore'
 import { aprovar, pedirAjuste, registrarPreview } from '../src/lib/aprovacao.ts'
 import { lerPreview, validarManifesto } from '../src/lib/publicacao.ts'
@@ -17,7 +18,11 @@ const manifesto = (build: string, imovel = UNID) => ({
   schema: 1, imovel, build, arquivos: { 'tour.html': { bytes: 1, sha256: 'x' }, 'maquete.html': { bytes: 1, sha256: 'y' } },
 })
 const site = (build: string) => `https://imoveis.example/b/${UNID}/${build}/tour.html`
-const servir = (corpo: unknown, ok = true) => async () => ({ ok, status: ok ? 200 : 404, json: async () => corpo })
+// O fetch de mentira entrega os BYTES servidos: é deles que sai a identidade do artefato.
+const servirTexto = (texto: string, ok = true) => async () => ({ ok, status: ok ? 200 : 404,
+  json: async () => JSON.parse(texto), arrayBuffer: async () => new TextEncoder().encode(texto).buffer })
+const servir = (corpo: unknown, ok = true) => servirTexto(JSON.stringify(corpo), ok)
+const sha = (texto: string) => createHash('sha256').update(texto).digest('hex')
 const ler = async (db: Firestore, id: string) => ({ id, ...(await getDoc(doc(db, 'requests', id))).data() }) as Request
 
 test('manifest: descreve este imóvel e este build, na pasta do build', async () => {
@@ -28,9 +33,16 @@ test('manifest: descreve este imóvel e este build, na pasta do build', async ()
   assert.throws(() => validarManifesto(manifesto('ffffffffffff'), { imovel: UNID, pasta }), /endereço não é o do build/)
   assert.throws(() => validarManifesto({ ...manifesto('a1b2c3d4e5f6'), arquivos: {} }, { imovel: UNID, pasta }), /tour.html/)
 
-  const p = await lerPreview(site('a1b2c3d4e5f6'), UNID, servir(manifesto('a1b2c3d4e5f6')))
+  const texto = JSON.stringify(manifesto('a1b2c3d4e5f6'))
+  const p = await lerPreview(site('a1b2c3d4e5f6'), UNID, servirTexto(texto))
   assert.deepEqual(p, { build: 'a1b2c3d4e5f6', tourUrl: site('a1b2c3d4e5f6'),
-    maqueteUrl: `https://imoveis.example/b/${UNID}/a1b2c3d4e5f6/maquete.html` })
+    maqueteUrl: `https://imoveis.example/b/${UNID}/a1b2c3d4e5f6/maquete.html`, manifestSha256: sha(texto) })
+  // Aprova-se o ARQUIVO servido, não o JSON interpretado: o mesmo conteúdo com outra
+  // indentação é outro artefato, e tem outro hash.
+  const indentado = JSON.stringify(manifesto('a1b2c3d4e5f6'), null, 2)
+  const q = await lerPreview(site('a1b2c3d4e5f6'), UNID, servirTexto(indentado))
+  assert.deepEqual([q.build, q.manifestSha256], ['a1b2c3d4e5f6', sha(indentado)])
+  assert.notEqual(q.manifestSha256, p.manifestSha256)
   await assert.rejects(lerPreview(site('a1b2c3d4e5f6'), UNID, servir(null, false)), /HTTP 404/)
   await assert.rejects(lerPreview('javascript:alert(1)', UNID, servir({})), /https/)
 })
@@ -62,7 +74,12 @@ test('aprovação: só o gerente da agência, só o build em revisão; ajuste vo
   await registrarPreview(op.db, 'op', await ler(op.db, 'pedCedros'), previewB)
   await aprovar(gerA.db, 'gerA', await ler(gerA.db, 'pedCedros'))
   const aprovado = await ler(op.db, 'pedCedros')
-  assert.deepEqual([aprovado.status, aprovado.approvedBuild, aprovado.approvedBy], ['approved', '0f9e8d7c6b5a', 'gerA'])
+  // a aprovação congela o artefato em revisão: o build E o manifest exato
+  assert.match(previewB.manifestSha256 ?? '', /^[0-9a-f]{64}$/)
+  assert.deepEqual([aprovado.status, aprovado.approvedBuild, aprovado.approvedManifestSha256, aprovado.approvedBy],
+    ['approved', previewB.build, previewB.manifestSha256, 'gerA'])
+  const decisao = (await getDoc(doc(op.db, 'auditLogs', aprovado.lastAuditId!))).data()!
+  assert.deepEqual([decisao.after.build, decisao.after.manifestSha256], [previewB.build, previewB.manifestSha256])
   await assert.rejects(editarPedidoInterno(admin.db, 'pedCedros', { propertyId: 'colinas' }), /permission/i)   // aprovado
   assert.throws(() => aprovar(gerA.db, 'gerA', aprovado), /build em revisão/)
 })
