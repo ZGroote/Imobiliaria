@@ -295,7 +295,7 @@ test('12. aprovar: só o gerente da agência, só em agency_review, só o build 
   await assertSucceeds(mudaStatus(db('gerB'), 'gerB', 'revB', 'production', {}, { agencyId: 'agB' }));  // pedir ajuste
 });
 
-test('13. publicar só o aprovado; trocar o preview derruba a aprovação', async () => {
+test('13. publicar só o aprovado; trocar o preview derruba a aprovação; pedido antigo refaz o ciclo', async () => {
   await assertFails(publica(db('admin'), 'admin', 'revA', 'propA', BUILD));        // não aprovado
   await assertFails(publica(db('admin'), 'admin', 'aprA', 'propA', 'outrobuild00')); // imóvel aponta outro build
   const novoPreview = { ...PREVIEW, build: 'ffffffffffff' };
@@ -311,15 +311,38 @@ test('13. publicar só o aprovado; trocar o preview derruba a aprovação', asyn
     await assertFails(mudaStatus(db('op'), 'op', 'reqA', 'agency_review', { preview }));
   await assertSucceeds(mudaStatus(db('op'), 'op', 'reqA', 'agency_review', { preview: PREVIEW }));
 
-  // aprovação antiga, sem identidade do manifest, ou com outra que não a do preview: não publica
+  // aprovação antiga, sem identidade do manifest, ou com outra que não a do preview: não publica.
+  // Os pedidos de antes do B5 (preview e aprovação sem hash) não são migrados: refazem o ciclo.
   await env.withSecurityRulesDisabled(async (ctx) => {
-    const aprovado = (extra) => pedido('agA', 'corA', 'approved', {
-      propertyId: 'propA', preview: PREVIEW, approvedBuild: BUILD, approvedBy: 'gerA', approvedAt: T, ...extra });
-    await setDoc(doc(ctx.firestore(), 'requests/aprVelho'), aprovado({}));
-    await setDoc(doc(ctx.firestore(), 'requests/aprOutro'), aprovado({ approvedManifestSha256: 'd'.repeat(64) }));
+    const velho = (status, extra = {}) => pedido('agA', 'corA', status, { propertyId: 'propA', preview: semHash, ...extra });
+    await setDoc(doc(ctx.firestore(), 'requests/aprVelho'),
+      velho('approved', { approvedBuild: BUILD, approvedBy: 'gerA', approvedAt: T }));
+    await setDoc(doc(ctx.firestore(), 'requests/revVelho'), velho('agency_review'));
+    await setDoc(doc(ctx.firestore(), 'requests/aprOutro'), pedido('agA', 'corA', 'approved', {
+      propertyId: 'propA', preview: PREVIEW, approvedBuild: BUILD, approvedManifestSha256: 'd'.repeat(64),
+      approvedBy: 'gerA', approvedAt: T }));
   });
   await assertFails(publica(db('admin'), 'admin', 'aprVelho', 'propA', BUILD));
   await assertFails(publica(db('admin'), 'admin', 'aprOutro', 'propA', BUILD));
+  const aprova = (rid) => mudaStatus(db('gerA'), 'gerA', rid, 'approved',
+    { approvedBuild: BUILD, approvedManifestSha256: MANIFESTO, approvedBy: 'gerA', approvedAt: now() });
+  const lido = async (rid) => (await getDoc(doc(db('op'), 'requests', rid))).data();
+
+  // o preview velho continua como histórico, mas não entra nem fica em agency_review
+  await assertFails(aprova('revVelho'));
+  await assertFails(updateDoc(doc(db('op'), 'requests/revVelho'), { notes: 'x', updatedAt: now() }));
+  await assertSucceeds(updateDoc(doc(db('op'), 'requests/revVelho'), { preview: PREVIEW, updatedAt: now() }));
+  await assertSucceeds(updateDoc(doc(db('op'), 'requests/revVelho'), { notes: 'x', updatedAt: now() }));
+
+  // aprovado sem hash -> produção (o preview velho fica) -> preview completo -> revisão -> aprovação -> publica
+  await assertSucceeds(mudaStatus(db('op'), 'op', 'aprVelho', 'production'));
+  assert.deepEqual((await lido('aprVelho')).preview, semHash);
+  await assertFails(mudaStatus(db('op'), 'op', 'aprVelho', 'agency_review'));
+  await assertSucceeds(mudaStatus(db('op'), 'op', 'aprVelho', 'agency_review', { preview: PREVIEW }));
+  await assertSucceeds(aprova('aprVelho'));
+  const a = await lido('aprVelho');
+  assert.deepEqual([a.status, a.approvedBuild, a.approvedManifestSha256], ['approved', BUILD, MANIFESTO]);
+  await assertSucceeds(publica(db('admin'), 'admin', 'aprVelho', 'propA', BUILD));
 });
 
 test('13b. publicação registrada, depois reverter para o build anterior', async () => {

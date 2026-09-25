@@ -72,7 +72,12 @@ test('aprovação: só o gerente da agência, só o build em revisão; ajuste vo
 
   const previewB = await lerPreview(site('0f9e8d7c6b5a'), UNID, servir(manifesto('0f9e8d7c6b5a')))
   await registrarPreview(op.db, 'op', await ler(op.db, 'pedCedros'), previewB)
-  await aprovar(gerA.db, 'gerA', await ler(gerA.db, 'pedCedros'))
+  // preview de antes do B5, sem o hash: o painel não aprova, pede para registrar de novo
+  const emRevisao = await ler(gerA.db, 'pedCedros')
+  const { manifestSha256: _, ...previewVelho } = previewB
+  assert.throws(() => aprovar(gerA.db, 'gerA', { ...emRevisao, preview: previewVelho } as Request),
+    /Registre o preview de novo/)
+  await aprovar(gerA.db, 'gerA', emRevisao)
   const aprovado = await ler(op.db, 'pedCedros')
   // a aprovação congela o artefato em revisão: o build E o manifest exato
   assert.match(previewB.manifestSha256 ?? '', /^[0-9a-f]{64}$/)
