@@ -24,6 +24,7 @@ RAIZ = Path(__file__).resolve().parents[1]
 P = runpy.run_path(str(RAIZ / 'pipeline/publicar_imovel.py'))
 SITE_PUBLICO = 'https://imobilaria-deccb-imoveis.web.app'
 VAZIO = {'schema': 1, 'imoveis': {}}
+H1, H2 = 'a1b2c3d4e5f6', 'f6e5d4c3b2a1'     # conjuntos de tiles: o de hoje e o de depois
 
 
 def _sha(b):
@@ -54,15 +55,19 @@ class Cenario:
                                   self.cria('x', 3, imagem='https://exemplo.web.app/x.jpg'))
         self.Y = self.cria('y', 1)
         self.tiles = self.raiz / 'mapa'
-        (self.tiles / 'quintais/abc').mkdir(parents=True)
-        for k in ('0_0', '-1_2'):
-            (self.tiles / 'quintais/abc' / (k + '.bin')).write_bytes(b'tile ' + k.encode())
         self.terrenos = self.raiz / 'terrenos-manifesto.json'
-        self.terrenos.write_text(json.dumps({'prefix': './quintais/abc/', 'keys': ['0_0', '-1_2']}),
-                                 encoding='utf-8')
+        self.poe_tiles(H1, ('0_0', '-1_2'))
         self.site = self.raiz / 'publicacao' / 'site'
 
-    def cria(self, imovel, n, imagem=None):
+    def poe_tiles(self, h, chaves):
+        """Um conjunto novo de tiles; o manifesto dos terrenos passa a apontar para ele."""
+        (self.tiles / 'quintais' / h).mkdir(parents=True)
+        for k in chaves:
+            (self.tiles / 'quintais' / h / (k + '.bin')).write_bytes(b'tile ' + (h + k).encode())
+        self.terrenos.write_text(json.dumps({'prefix': './quintais/%s/' % h, 'keys': list(chaves)}),
+                                 encoding='utf-8')
+
+    def cria(self, imovel, n, imagem=None, tiles='/quintais/%s/' % H1):
         cabeca = ('<title>%s v%d</title>\n<meta name="description" content="descricao %s v%d">\n'
                   '<meta property="og:type" content="website">\n<meta property="og:title" content="%s v%d">\n'
                   '<meta property="og:url" content="%s/imovel/%s">\n') % (
@@ -78,7 +83,7 @@ class Cenario:
         pasta.mkdir(parents=True)
         (pasta / 'tour.html').write_bytes(tour)
         (pasta / 'maquete.html').write_bytes(maquete)
-        manifesto = {'schema': 1, 'imovel': imovel, 'build': build, 'tiles': '/quintais/abc/',
+        manifesto = {'schema': 1, 'imovel': imovel, 'build': build, 'tiles': tiles,
                      'arquivos': {'tour.html': {'bytes': len(tour), 'sha256': _sha(tour)},
                                   'maquete.html': {'bytes': len(maquete), 'sha256': _sha(maquete)}}}
         (pasta / 'manifest.json').write_text(json.dumps(manifesto, indent=2) + '\n', encoding='utf-8')
@@ -117,7 +122,7 @@ def _b(imovel, build):
     return ['b/%s/%s/%s' % (imovel, build, n) for n in ('tour.html', 'maquete.html', 'manifest.json')]
 
 
-TILES = ['quintais/abc/-1_2.bin', 'quintais/abc/0_0.bin']
+TILES = ['quintais/%s/-1_2.bin' % H1, 'quintais/%s/0_0.bin' % H1]
 
 
 class LivePromotionTests(unittest.TestCase):
@@ -162,6 +167,23 @@ class LivePromotionTests(unittest.TestCase):
                                  (c.builds / 'x' / c.A / a.rsplit('/', 1)[1]).read_bytes(), a)
             # nada foi gerado de novo: os builds continuam exatamente como estavam
             self.assertEqual({p: p.read_bytes() for p in c.builds.rglob('*') if p.is_file()}, builds)
+
+            # Os quintais mudam: o build novo usa outro conjunto de tiles, e o build de rollback
+            # continua precisando do dele -- que o manifesto dos terrenos de hoje nem cita.
+            c.poe_tiles(H2, ('0_0',))
+            D = c.cria('x', 4, tiles='/quintais/%s/' % H2)
+            c.promove('x', D, c.estado())
+            self.assertEqual(c.no_ar('x'), (D, c.A))
+            quintais = sorted(a for a in c.arvore() if a.startswith('quintais/'))
+            self.assertEqual(quintais, sorted(TILES + ['quintais/%s/0_0.bin' % H2]), 'os dois conjuntos')
+            c.reverte('x', c.estado())
+            self.assertEqual(c.no_ar('x'), (c.A, D))
+            self.assertEqual(_destino(c.texto('imovel/x'), '/imovel/x'), '/b/x/%s/tour.html' % c.A)
+            self.assertEqual(sorted(a for a in c.arvore() if a.startswith('quintais/')), quintais)
+            # so /quintais/<12hex>/ entra: o conjunto e content-addressed
+            fora = c.cria('x', 5, tiles='/quintais/../fora/')
+            with self.assertRaises(ValueError):
+                c.promove('x', fora, c.estado())
 
     def test_rollback_without_previous_is_refused(self):
         with tempfile.TemporaryDirectory() as tmp:

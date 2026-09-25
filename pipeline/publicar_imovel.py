@@ -16,7 +16,7 @@ proximo deploy sobe (o `public` do firebase.imoveis.json).
       index.html  404.html  estado.json
       imovel/<id>  maquete/<id>            ponteiros, sem extensao
       b/<id>/<atual>/  b/<id>/<anterior>/  so esses dois, por imovel
-      quintais/<hash>/*.bin
+      quintais/<hash>/*.bin                todo conjunto que atual ou anterior usa
 
   Promover poe o build em `atual` e o atual em `anterior`; reverter troca os dois. Nenhum
   build e gerado de novo: todo arquivo de `b/` e copia conferida de `publicacao/builds/`.
@@ -106,6 +106,28 @@ def _tiles(prefixo_do_build, terrenos):
         if Path(k).name != k or '/' in k or '\\' in k:
             raise ValueError('chave de tile invalida: %r' % k)
     return prefixo_do_build.strip('/'), t['keys']
+
+
+PREFIXO_TILES = re.compile(r'^/quintais/[0-9a-f]{12}/$')
+
+
+def _conjunto_de_tiles(prefixo, terrenos, tiles_origem):
+    """(pasta, chaves) de um conjunto de tiles que um build no ar usa.
+
+    O conjunto de hoje e conferido contra o manifesto dos terrenos, chave a chave. Um
+    conjunto antigo -- o do build `anterior`, depois que os quintais mudaram -- nao esta
+    mais no manifesto: vale pela propria pasta, que e content-addressed (o nome e o hash do
+    dado de origem) e nunca e reescrita. Sem ele o rollback nao teria quintais."""
+    if not PREFIXO_TILES.match(prefixo):
+        raise ValueError('prefixo de tiles fora de /quintais/<12hex>/: %r' % prefixo)
+    t = json.loads(terrenos.read_text(encoding='utf-8'))
+    if prefixo_publico(t['prefix']) == prefixo:
+        return _tiles(prefixo, terrenos)
+    pasta = prefixo.strip('/')
+    chaves = sorted(p.stem for p in (tiles_origem / pasta).glob('*.bin'))
+    if not chaves:
+        raise ValueError('o conjunto de tiles %s nao existe em %s' % (prefixo, tiles_origem))
+    return pasta, chaves
 
 
 def _copia_tiles(trabalho, pasta, chaves, tiles_origem):
@@ -267,20 +289,19 @@ def montar_live(acao, imovel, build, estado, builds=BUILDS, tiles_origem=TILES, 
     imoveis = proximo_estado(acao, imovel, build, estado, agora)
     # Antes de montar: todo build que o estado exige existe e e o que o manifest dele diz.
     exigidos = [(i, b) for i, r in imoveis.items() for b in (r['atual'], r['anterior']) if b]
-    tiles = set()
+    prefixos = set()
     for i, b in exigidos:
         if not (builds / i / b).is_dir():
             raise ValueError('o estado exige o build %s/%s, que nao existe em %s' % (i, b, builds))
-        tiles.add(confere_build(builds / i / b, i, b)['tiles'])
-    # ponytail: um conjunto de tiles por snapshot; quando o dado dos quintais mudar, os builds
-    # antigos vao pedir o conjunto antigo e esta montagem recusa -- guardar os dois conjuntos.
-    if len(tiles) != 1:
-        raise ValueError('os builds no ar usam conjuntos de tiles diferentes: %s' % sorted(tiles))
-    pasta_tiles, chaves = _tiles(tiles.pop(), terrenos)
+        prefixos.add(confere_build(builds / i / b, i, b)['tiles'])
+    # Todo conjunto que atual ou anterior usa, cada um copiado uma vez: o build de rollback
+    # pode depender de um conjunto que o de hoje ja nao usa.
+    conjuntos = [_conjunto_de_tiles(p, terrenos, tiles_origem) for p in sorted(prefixos)]
 
     def preenche(trabalho):
         feitos = [a for i, b in exigidos for a in _copia_build(builds / i / b, trabalho, i, b)]
-        feitos += _copia_tiles(trabalho, pasta_tiles, chaves, tiles_origem)
+        for pasta_tiles, chaves in conjuntos:
+            feitos += _copia_tiles(trabalho, pasta_tiles, chaves, tiles_origem)
         itens = []
         for i, r in imoveis.items():
             tags = _metadados((trabalho / 'b' / i / r['atual'] / 'tour.html').read_bytes())
