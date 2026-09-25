@@ -447,16 +447,26 @@ suba um e derrube o outro". O site do mapa e o das miniaturas não são tocados.
 
 ```text
 publicacao/                          gitignored; na máquina de quem publica
-  builds/<id>/<build>/               saída do build_imovel.py; imutável, nunca sobrescrito
-    tour.html  maquete.html  ponteiro-tour.html  ponteiro-maquete.html  manifest.json
-  imoveis/                           = `public` do site de imóveis (espelho do que está no ar)
-    index.html  404.html  estado.json
-    imovel/<id>.html                 ponteiro do tour      (tourUrl)
-    maquete/<id>.html                ponteiro da maquete   (maqueteUrl)
-    b/<id>/<build>/…                 builds no ar: atual + anterior de cada imóvel
-    quintais/<hashDoDado>/*.bin      tiles compartilhados
-  preview/<id>/                      montagem temporária do canal de preview
+  builds/<id>/<build>/               saída do build_imovel.py; imutável, nunca sobrescrito, permanente
+    tour.html  maquete.html  manifest.json
+  site/                              = `public` do firebase.imoveis.json: exatamente o próximo
+                                     deploy, remontado do zero a cada operação; descartável
+    preview (B3):
+      b/<id>/<build>/…               só o build em revisão
+      quintais/<hashDoDado>/*.bin    tiles compartilhados
+    live (B4):
+      index.html  404.html  estado.json
+      imovel/<id>.html               ponteiro do tour      (tourUrl)
+      maquete/<id>.html              ponteiro da maquete   (maqueteUrl)
+      b/<id>/<build>/…               builds no ar: atual + anterior de cada imóvel
+      quintais/<hashDoDado>/*.bin    tiles compartilhados
 ```
+
+O build contém só `tour.html`, `maquete.html` e `manifest.json`: sua identidade é o conteúdo
+dos dois HTMLs, e um ponteiro mutável dentro dele contradiria isso. Os ponteiros são do B4
+(`promover`/`reverter`). `site/` nunca é atualizado no lugar: a montagem nasce em
+`publicacao/.site-*`, é conferida inteira e só então substitui `site/`
+(`pipeline/publicar_imovel.py montar-preview`).
 
 ### Garantia central: o build de um imóvel nunca é refeito na publicação de outro
 
@@ -468,7 +478,7 @@ Antes de todo deploy, `publicar_imovel.py`:
 
 1. Baixa o `estado.json` **do site no ar**, e não de uma cópia local: ele lista todos os
    arquivos publicados com o sha256 de cada um.
-2. Compara com a pasta `publicacao/imoveis/`.
+2. Compara com a montagem em `publicacao/site/`.
 3. **Aborta** se houver qualquer diferença fora de `b/<X>/`, `imovel/<X>.html`,
    `maquete/<X>.html` e `estado.json`. Isso também pega uma cópia local desatualizada:
    se outra pessoa publicou depois, o `estado.json` do ar não bate com a cópia.

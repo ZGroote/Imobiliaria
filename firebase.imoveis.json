@@ -1,0 +1,40 @@
+{
+  "hosting": {
+    "target": "imoveis",
+    "public": "publicacao/site",
+    "ignore": ["**/.*"],
+    "cleanUrls": false,
+    "headers": [
+      {
+        "//": "Antes de /b/** e com o proprio Cache-Control: o painel le este arquivo de outra origem, e a regra vale quer o Hosting some as regras que casam, quer fique so com a primeira.",
+        "source": "/b/**/manifest.json",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+          { "key": "Access-Control-Allow-Origin", "value": "https://imobilaria-deccb-painel.web.app" }
+        ]
+      },
+      {
+        "//": "O build tem o hash do conteudo no nome e nunca e sobrescrito (pipeline/build_imovel.py).",
+        "source": "/b/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      },
+      {
+        "source": "/quintais/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      },
+      {
+        "//": "O que esta no ar; o painel confere daqui antes de gravar (proposta, secao 7).",
+        "source": "/estado.json",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache" },
+          { "key": "Access-Control-Allow-Origin", "value": "https://imobilaria-deccb-painel.web.app" }
+        ]
+      },
+      { "source": "/", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] },
+      { "source": "/index.html", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] },
+      { "source": "/404.html", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] },
+      { "source": "/imovel/**", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] },
+      { "source": "/maquete/**", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }
+    ]
+  }
+}
