@@ -45,7 +45,7 @@ A regra é uma fonte de verdade por fato. O painel registra e confere; não dupl
 | Imobiliárias, usuários, papéis | Firestore `agencies`, `users` | painel (platform_admin) | é a fonte |
 | Pedidos, materiais, status, aprovação | Firestore `requests`, `requestAssets` | painel | é a fonte |
 | Bytes de um build | `publicacao/builds/<id>/<build>/` + Hosting | `pipeline/build_imovel.py` | lê o `manifest.json` |
-| **O que está no ar** | `estado.json` publicado no site de imóveis | `pipeline/publicar_imovel.py` | lê e **confere antes de marcar "publicado"** |
+| **O que está no ar** | `estado.json` publicado no site de imóveis | `pipeline/publicar_imovel.py` | lê e **confere build + manifest antes de marcar "publicado"** |
 | Histórico de publicar/reverter | Firestore `publications` | painel (platform_admin), no mesmo batch da mudança do imóvel | é a fonte |
 | Histórico das demais ações (status, URLs) | Firestore `auditLogs` | painel, no mesmo batch da ação | é a fonte |
 | Andamento de um build (Fase 2) | Firestore `buildJobs` | `tools/buildjob.mjs` (Admin SDK) | lê |
@@ -525,6 +525,13 @@ no Firestore.
   `approvedManifestSha256`, e o comando de promoção que o painel mostra usa os dois. As regras
   exigem o sha256 no preview e a igualdade com ele na aprovação e na publicação: uma aprovação
   sem a identidade do manifest não publica.
+- **O registro confere o artefato exato no ar, não só o build.** O `estado.json` já traz, em
+  `arquivos`, o sha256 de `b/<id>/<build>/manifest.json`. O painel só registra a publicação se o
+  build no ar for o `approvedBuild` **e** esse hash for o `approvedManifestSha256`; a reversão
+  exige o `previousBuild` com o manifest que o pedido anterior (`previousRequestId`) aprovou.
+  Mesmo build com outro manifest é recusado, e um inventário sem esse hash (ou malformado)
+  também. A conferência roda no botão "Conferir o site" e de novo no clique que grava; a
+  segunda leitura é a autoridade. Nenhuma regra muda: o Firestore não vê o site.
 
 ### Fluxo completo
 
@@ -545,13 +552,15 @@ operador   python pipeline/publicar_imovel.py montar-live promover <id> <build>
              build e o manifest aprovados)
              (a Fase 1 confere build + manifest; a Fase 2 também confere approvedBuild no Firestore)
              → ponteiros apontam o build; estado.json atualizado; deploy do site de imóveis
-painel     admin clica "Registrar publicação". O painel lê /estado.json DO SITE e só grava se
-             o build no ar == approvedBuild
+painel     admin clica "Registrar publicação". O painel relê /estado.json DO SITE no próprio
+             clique e só grava se o build no ar == approvedBuild E
+             arquivos["b/<id>/<build>/manifest.json"] == approvedManifestSha256
              → request published + property.publishedBuild/tourUrl/maqueteUrl
                                                    [batch: AuditLog do pedido + Publication]
-reverter   python pipeline/publicar_imovel.py reverter <id>
+reverter   python pipeline/publicar_imovel.py montar-live reverter <id> --estado <estado.json do ar>
              → ponteiro volta para o build anterior (ainda no ar)
-             → no painel, ação "rollback"                              [batch + Publication]
+             → no painel, ação "rollback", conferida contra o build e o manifest que o
+               pedido anterior aprovou                                 [batch + Publication]
 ```
 
 **Os dois bloqueadores que você apontou:**
@@ -621,7 +630,9 @@ mesmo diretório; conteúdo novo, diretório novo.
 ```
 
 `arquivos` = cada arquivo gerenciado do snapshot, exceto o próprio `estado.json`. `/__/**`
-(reservado do Firebase Hosting) nunca entra. Cada imóvel guarda só `atual` e `anterior`:
+(reservado do Firebase Hosting) nunca entra. O painel lê dele o sha256 de
+`b/<id>/<atual>/manifest.json`: é a identidade do artefato no ar que o registro compara com a
+aprovação. Cada imóvel guarda só `atual` e `anterior`:
 promover move `atual → anterior`, reverter troca os dois, sem gerar build algum.
 
 **3. Saída dos comandos:** código 0 = ok; diferente de 0 = falha, com a mensagem na
@@ -767,7 +778,7 @@ firebase.painel.json           site imobilaria-deccb-painel (só hosting)
   - Aprovação: `agency_review`, `approved`
   - Publicado: `published`
 - **`PublishPanel`** só habilita "Registrar publicação" quando o `estado.json` do site
-  mostra o `approvedBuild` no ar.
+  mostra o `approvedBuild` no ar com o `approvedManifestSha256`.
 - **`CopyLinkButton`** copia sempre `tourUrl`/`maqueteUrl` (ponteiros), nunca a URL de
   build com hash.
 
@@ -855,6 +866,12 @@ redeployado: sob URL `immutable`, trocar o manifest seria pior. O `c2b2a242…` 
 como a proveniência oficial da primeira publicação, e o `064d47fa…` é o do preview que a
 antecedeu. O próximo teste real de promoção e rollback espera um segundo build legítimo de
 algum imóvel.
+
+Com a conferência do artefato exato no registro (B5c), o painel **recusa** registrar essa
+publicação a partir do preview `064d47fa…`: o live tem o mesmo build com outro manifest. Para
+registrá-la, o canal de preview passa a servir o mesmo diretório de build que foi ao live
+(manifest `c2b2a242…`), sem tocar no live; aí o painel calcula `c2b2a242…`, o gerente aprova
+esse hash, e o registro confere com o que já está no ar.
 
 ---
 
