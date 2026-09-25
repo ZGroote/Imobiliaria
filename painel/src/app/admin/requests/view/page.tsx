@@ -31,7 +31,7 @@ function Solicitacao({ id }: { id: string }) {
       acoes={p && !editando && <button className="btn" onClick={() => setEditando(true)}>Editar</button>}>
       <Estado r={r}>
         {p && (
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {editando ? <EditarPedido r={p} fechar={() => setEditando(false)} /> : (
               <DadosDoPedido r={p} pessoa={cat.pessoa(p.requestedBy)}
                 imovel={p.propertyId

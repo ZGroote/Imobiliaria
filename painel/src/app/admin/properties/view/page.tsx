@@ -30,7 +30,7 @@ function Imovel({ id }: { id: string }) {
       acoes={p && !editando && <button className="btn" onClick={() => setEditando(true)}>Editar</button>}>
       <Estado r={r}>
         {p && (
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {editando ? <Editar p={p} fechar={() => setEditando(false)} /> : <Dados p={p} nomeDaAgencia={ag.dado?.name} />}
             <LinksPublicos p={p} />
             <CorretorResponsavel p={p} pessoas={pessoas} />
