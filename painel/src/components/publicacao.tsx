@@ -5,8 +5,9 @@ import { collection, orderBy, query, where } from 'firebase/firestore'
 import { Aviso, Cartao, Estado, useAcao } from './ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
-import { comandoPromover, comandoReverter, conferirNoAr, lerEstado } from '@/lib/publicacao'
-import { APROVACAO_SEM_MANIFEST, registrarPublicacao, registrarReversao } from '@/lib/publicar'
+import { comandoPromover, comandoReverter } from '@/lib/publicacao'
+import { APROVACAO_SEM_MANIFEST, conferirPublicacao, conferirReversao, registrarPublicacao, registrarReversao }
+  from '@/lib/publicar'
 import { usePerfil } from '@/lib/session'
 import type { Property, Publication, Request } from '@/lib/types'
 import { useColecao } from '@/lib/useFirestore'
@@ -39,7 +40,7 @@ export function RegistrarPublicacao({ r, imovel }: { r: Request; imovel?: Proper
           <div className="mt-3 flex flex-wrap gap-2">
             <button disabled={ocupado} className="btn" onClick={() => executar(async () => {
               setConferido('')
-              conferirNoAr(await lerEstado(SITE, unidade), r.approvedBuild!, comando)
+              await conferirPublicacao(r, imovel, SITE)
               setConferido(chave)
             })}>Conferir o site</button>
             {conferido === chave && (
@@ -49,7 +50,8 @@ export function RegistrarPublicacao({ r, imovel }: { r: Request; imovel?: Proper
               </button>
             )}
           </div>
-          {conferido === chave && <p className="mt-2 text-sm text-emerald-700">O site mostra o build {r.approvedBuild} no ar.</p>}
+          {conferido === chave && <p className="mt-2 text-sm text-emerald-700">
+            O site mostra no ar o build {r.approvedBuild} com o manifest aprovado.</p>}
         </>
       )}
       {erro && <Aviso>{erro}</Aviso>}
@@ -73,7 +75,7 @@ export function ReverterPublicacao({ p }: { p: Property }) {
       <div className="mt-3 flex flex-wrap gap-2">
         <button disabled={ocupado} className="btn" onClick={() => executar(async () => {
           setConferido('')
-          conferirNoAr(await lerEstado(SITE, p.pipelineUnitId!), p.previousBuild!, comando)
+          await conferirReversao(db, p, SITE)
           setConferido(chave)
         })}>Conferir o site</button>
         {conferido === chave && <button disabled={ocupado} className="btn-primario"
