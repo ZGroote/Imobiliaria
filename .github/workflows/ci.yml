@@ -1,0 +1,109 @@
+# Os gates que cada PR rodava à mão, agora em todo PR para main e em todo push em main:
+# Node, Python, TypeScript e build do painel, e os testes de painel e de regras no emulador.
+# Nenhum segredo: o emulador usa o projeto demo-painel, e o build usa a config pública do
+# painel/.env.production. Actions fixadas por SHA (a tag fica no comentário).
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  node-python:
+    name: Node + Python
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - run: npm ci --no-audit --no-fund
+      - run: pip install -r requirements.txt
+      - name: Node (renderizador + política de Hosting)
+        run: npm test
+      - name: Python (build, caminhos, publicação, ficha da maquete)
+        run: npm run test:py
+
+  painel:
+    name: Painel (TypeScript + build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: painel
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: painel/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npx tsc --noEmit
+      - run: npm run build
+      # O que já se conferia antes de todo deploy do painel: nada de exemplo, seed, emulador
+      # ou credencial administrativa no que vai ao ar.
+      - name: Bundle sem exemplo, seed, emulador nem credencial
+        run: |
+          echo "rotas: $(find out -name '*.html' | wc -l) arquivos HTML"
+          achou=0
+          for p in exemplo semear '@teste.dev' demo-painel emulador 127.0.0.1 'localhost:' \
+                   private_key 'BEGIN PRIVATE KEY' client_email firebase-adminsdk service_account service-account; do
+            if grep -rlF -e "$p" out; then echo "::error::'$p' apareceu no bundle"; achou=1; fi
+          done
+          if find out \( -iname '*exemplo*' -o -iname '*seed*' -o -name '*.map' -o -name '.env*' \) | grep .; then
+            echo "::error::arquivo de exemplo, seed, .map ou .env no out/"; achou=1
+          fi
+          exit $achou
+
+  emulador:
+    name: Painel + regras (emulador)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            painel/package-lock.json
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Cache dos emuladores do Firebase
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/firebase/emulators
+          key: firebase-emulators-${{ hashFiles('package-lock.json') }}
+      - run: npm ci --no-audit --no-fund
+      - run: npm ci --no-audit --no-fund
+        working-directory: painel
+      - name: Painel no emulador (auth + firestore)
+        run: npm run test:painel
+      - name: Regras no emulador (firestore + storage)
+        run: npm run test:regras

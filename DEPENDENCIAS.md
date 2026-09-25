@@ -47,6 +47,11 @@ npm run montar           # monta São Carlos na variante modular
 npm run qa               # os 19 portões de aceite: geometria + comportamento (~23 min)
 ```
 
+O CI (`.github/workflows/ci.yml`) roda em todo PR para `main` e em todo push em `main`:
+`npm test`, `npm run test:py`, TypeScript e build do painel (com a varredura do bundle) e
+`test:painel` + `test:regras` no emulador. `montar` e `qa` ficam fora: pedem o dado da
+cidade e um navegador, e levam dezenas de minutos.
+
 `npm test` respondia `Error: no test specified` — o placeholder do `npm init` sobreviveu
 o projeto inteiro, enquanto os 111 testes existiam e só rodavam à mão.
 
