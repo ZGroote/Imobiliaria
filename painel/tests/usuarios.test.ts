@@ -1,7 +1,8 @@
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
-import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
-import { cancelarConvite, convidar, definirAtivo, mudarPapel, pendentes } from '../src/lib/usuarios.ts'
+import { collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore'
+import { usuariosPorNome } from '../src/lib/listas.ts'
+import { cancelarConvite, convidar, definirAtivo, mudarPapel } from '../src/lib/usuarios.ts'
 import { semear } from '../scripts/seed.mjs'
 import { entrar, sairDeTodos } from './apoio.ts'
 
@@ -24,7 +25,12 @@ test('convites: só o admin convida; papel de imobiliária exige imobiliária', 
     /permission/i)
   await assert.rejects(convidar(op.db, 'op', { email: 'z@painel.test', name: 'Z', role: 'operator' }), /permission/i)
 
-  assert.deepEqual(pendentes([{ email: 'a@x' }, { email: 'b@x' }], ['b@x']).map((x) => x.email), ['a@x'])
+  // a lista de usuários pagina por nome (a de convites não precisa: só guarda pendentes)
+  const nomes = (await getDocs(query(usuariosPorNome(admin.db), limit(3)))).docs.map((d) => d.data().name as string)
+  assert.equal(nomes.length, 3)
+  assert.deepEqual(nomes, [...nomes].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)))
+  const corA = await entrar('corA')
+  await assert.rejects(getDocs(query(usuariosPorNome(corA.db), limit(3))), /permission/i)   // só a equipe lista todos
   await cancelarConvite(admin.db, 'op2@painel.test')
   assert.equal((await getDoc(doc(admin.db, 'invites/op2@painel.test'))).exists(), false)
 })

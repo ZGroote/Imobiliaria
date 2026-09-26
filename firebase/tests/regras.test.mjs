@@ -220,7 +220,7 @@ test('6. platform_admin acessa e administra todos os tenants', async () => {
 
 // ── identidade (T03 / REVISAO-1.5) ──
 
-test('7. users/{uid} só nasce de convite, com o papel do convite', async () => {
+test('7. users/{uid} só nasce de convite, com o papel do convite, e o convite é consumido no aceite', async () => {
   const novo = (token) => db('novo', { email: 'novo@a.test', ...token });
   const base = { name: 'Novo', email: 'novo@a.test', role: 'agent', agencyId: 'agA', active: true, createdAt: now(), updatedAt: now() };
   await assertFails(setDoc(doc(db('semconvite'), 'users/semconvite'), { ...base, email: 'semconvite@teste.dev' }));
@@ -230,7 +230,29 @@ test('7. users/{uid} só nasce de convite, com o papel do convite', async () => 
   await assertFails(setDoc(doc(novo(), 'users/outro'), base));                                 // uid alheio
   await assertFails(setDoc(doc(novo({ email_verified: false }), 'users/novo'), base));
   await assertFails(setDoc(doc(novo(), 'users/novo'), { ...base, extra: 1 }));
-  await assertSucceeds(setDoc(doc(novo(), 'users/novo'), base));
+
+  // invites/ guarda só convites PENDENTES: users/{uid} nasce e invites/{email} sai no MESMO batch
+  const convite = (email) => ({ email, name: 'X', role: 'agent', agencyId: 'agA', createdBy: 'admin', createdAt: T });
+  await env.withSecurityRulesDisabled((ctx) => setDoc(doc(ctx.firestore(), 'invites/outro@a.test'), convite('outro@a.test')));
+  const aceita = (f, apagar = ['invites/novo@a.test']) => {
+    const b = writeBatch(f);
+    b.set(doc(f, 'users/novo'), base);
+    for (const c of apagar) b.delete(doc(f, c));
+    return b.commit();
+  };
+  await assertFails(setDoc(doc(novo(), 'users/novo'), base));                  // nascer deixando o convite para trás
+  await assertFails(deleteDoc(doc(novo(), 'invites/novo@a.test')));            // apagar o convite sem nascer
+  await assertFails(aceita(novo(), ['invites/novo@a.test', 'invites/outro@a.test']));   // levar junto o de outro e-mail
+  await assertFails(aceita(novo({ email_verified: false })));
+  await assertSucceeds(aceita(novo()));
+  assert.equal((await getDoc(doc(db('admin'), 'invites/novo@a.test'))).exists(), false);
+
+  // depois do aceite, nenhum poder sobre convites: nem de outro e-mail, nem um reemitido para o próprio
+  await env.withSecurityRulesDisabled((ctx) => setDoc(doc(ctx.firestore(), 'invites/novo@a.test'), convite('novo@a.test')));
+  await assertFails(deleteDoc(doc(novo(), 'invites/outro@a.test')));
+  await assertFails(deleteDoc(doc(novo(), 'invites/novo@a.test')));
+  await assertFails(deleteDoc(doc(db('corA'), 'invites/outro@a.test')));       // usuário comum, idem
+  await assertSucceeds(deleteDoc(doc(db('admin'), 'invites/outro@a.test')));    // o admin continua cancelando
 });
 
 test('8. ninguém muda o próprio role, agencyId ou active', async () => {
