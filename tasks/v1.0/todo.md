@@ -1,6 +1,6 @@
 # Execução da versão 1.0
 
-> **Backlog vivo, parcialmente desatualizado (26/09/2026).** Parte dos itens abaixo já foi entregue pelo Trilho B (painel e publicação de imóveis) sem estar marcada aqui; a reconciliação item a item vem em PR próprio. Antes de pegar um item, confira [DOCUMENTACAO.md](../../DOCUMENTACAO.md) e a [proposta do painel](../painel/proposta.md).
+> **Backlog vivo, reconciliado em 26/09/2026 com o que o Trilho B entregou** (painel e publicação de imóveis, PRs #5 a #28). Cada item marcado cita o PR; o que só se relaciona com um item aberto fica como nota, sem marcar. Antes de pegar um item, confira [DOCUMENTACAO.md](../../DOCUMENTACAO.md) e a [proposta do painel](../painel/proposta.md).
 
 Escopo e decisões: [plan.md](plan.md). Ordem: T01 → T02/T03 → T04 → T05 → T06 →
 T07 → T08 → T09 → T10 → T11 → T12 → T13 → T14 → T15. Cada incremento deve ser
@@ -45,8 +45,10 @@ antigo. As regras estão em `main` desde o PR #5 (`37114b2`).
       e de imobiliária, inativo, pendente e visitante, publicação e reversão consistentes e
       imóvel travado depois do build. 14 regras quebradas de propósito, todas detectadas.
 - [x] Firestore `(default)` criado em `southamerica-east1`; regras e 9 índices publicados em
-      24/09. As regras no ar são o commit `40b1abd` (sha256 conferido).
+      24/09 (então, o commit `40b1abd`). **Hoje (26/09):** regras de `3afc464` (ruleset `d965b18a`) e
+      12 índices; o estado vigente fica na [proposta, §14](../painel/proposta.md).
 - [ ] Storage: implantar `storage.rules` quando o plano estiver confirmado e o bucket existir.
+      *Continua aberto em 26/09: o bucket ainda não existe.*
 
 Aceite: nenhuma leitura ou edição cruzada; o titular não concede privilégios a si mesmo;
 nada fora do modelo canônico é acessível.
@@ -56,19 +58,40 @@ Arquivos: `firebase/firestore.rules`, `firebase/storage.rules`,
 
 ## T04 — Preparação de publicação consistente
 
-- [ ] Consolidar nome por hash e conferir tiles/modelos/imagens antes de atualizar índice.
-- [ ] Definir cache de rotas estáveis e assets imutáveis; manter rollback.
+- [x] Consolidar nome por hash e conferir tiles/modelos/imagens antes de atualizar índice, **na
+      publicação por imóvel**: build com ID pelo conteúdo em pasta imutável (#8); montagem do site
+      trocada inteira, com rollback se falhar (#9); snapshot live conferido arquivo a arquivo contra o
+      `estado.json`, com o conjunto de tiles de cada build (#12); promoção só do artefato aprovado,
+      build + manifest (#13).
+- [ ] O mesmo para o **mapa da cidade** (`pipeline/publicar.py`): hoje ele já confere os tiles de
+      quintal antes de publicar, mas o nome da página carrega a versão, não um hash, e não há troca
+      atômica com rollback. Só vale fazer se o mapa voltar a ser publicado com frequência.
+- [x] Definir cache de rotas estáveis e assets imutáveis; manter rollback: no site do mapa, só URL
+      versionada é `immutable` (#7); no site de imóveis, `/b/**` e `/quintais/**` são `immutable`, e os
+      ponteiros e o `estado.json` são `no-cache` (#9); `montar-live reverter` (#12) e o registro da
+      reversão no painel, relendo o site no clique (#15, #16).
+
+Entregue por outro caminho: em vez de mexer em `pipeline/publicar.py` e `exteriores/v1/preparar.py`,
+a publicação do piloto passou a ser por imóvel, com `pipeline/build_imovel.py` e
+`pipeline/publicar_imovel.py`, no site `imobilaria-deccb-imoveis` (proposta §6–§9).
 
 Aceite: duas montagens diferentes geram URLs diferentes; falha preserva índice anterior.
 Arquivos: `pipeline/publicar.py`, `exteriores/v1/preparar.py`, `firebase.json` e testes.
 Verificar pacote HTTP e ausência deliberada de um asset, sem executar deploy.
 
 Checkpoint A: build preservado, entradas seguras, isolamento testado, pacote completo.
+**Atingido para a publicação por imóvel (26/09):** build imutável (#8), entradas seguras (T02),
+isolamento testado (T03, 28/28 regras), pacote conferido contra o `estado.json` (#12); primeira
+publicação live do Cedros em 25/09 e primeiro ciclo real no painel em 26/09 (proposta §14).
 
 ## T05 — Link e estado de um imóvel
 
 - [ ] Extrair deep links do script injetado para módulo de produção com prontidão explícita.
 - [ ] Preservar aliases e resolver erro, timeout, navegação rápida e unidade desconhecida.
+
+*Relacionado, sem fechar a tarefa:* no site de imóveis, `/imovel/<id>` e `/maquete/<id>` são
+ponteiros estáveis para o build no ar e preservam `?` e `#` (#11, #12). O módulo de deep link dentro
+do tour, pedido aqui, não foi feito.
 
 Aceite: URL abre exatamente uma unidade e não deixa ação anterior abrir outro imóvel.
 Arquivos: novo módulo em `listings/`, `modules.json`, integração em `app.js`, gerador e teste.
@@ -78,6 +101,11 @@ Verificar primeira carga sem cache e dois links sucessivos; usar um imóvel ante
 
 - [ ] Gerar página leve por imóvel com área, preço, localização e acesso ao tour/anúncio.
 - [ ] Adicionar copiar link/compartilhar, com alternativa quando compartilhamento nativo falhar.
+
+*Relacionado, sem fechar a tarefa:* cada imóvel publicado tem URL canônica estável
+(`/imovel/<id>`, `/maquete/<id>`, #12), mas a página da maquete é 3D e pesada, não a ficha leve sem
+JS pedida aqui. No painel, a imobiliária copia esses links ("Copiar", Fase 1); não há
+compartilhamento na página pública.
 
 Aceite: ficha funciona sem JS/3D; URL canônica é estável e preserva imóvel/modo.
 Arquivos: gerador de página individual, template, CSS e testes de metadados/URLs.
@@ -163,6 +191,11 @@ Arquivos: service worker, registro e teste HTTP/HTTPS. Não prometer funcionamen
 - [ ] Rodar suites e QA completo sobre hashes dos artefatos corretos; revisar achados da segurança.
 - [ ] Gerar `1.0.0-rc.1`, changelog, pacote de links e texto para o corretor.
 - [ ] Validar preview real, mobile e rollback antes de marcar `1.0.0` estável.
+
+*Relacionado, sem fechar a tarefa:* o preview real por imóvel existe (canal
+`imovel-<id>` do site de imóveis, #9, #10), e o rollback existe e está testado no emulador
+(#12, #15, #16), mas **ainda não foi exercitado em produção**: isso espera um segundo build legítimo
+de algum imóvel.
 
 Dependências: T01–T14. Arquivos: manifesto da release, relatório de aceite e changelog.
 Publicação e envio não são consequências automáticas de um teste local aprovado.
