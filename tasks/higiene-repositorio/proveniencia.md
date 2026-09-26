@@ -35,7 +35,7 @@ Cada fonte tem quatro informações:
 | Sentinel-2, via Element84 | etapa 0.10 | derivado | mapa, tour | nenhum |
 | open-elevation | etapa 0.8 | derivado | mapa, tour | nenhum |
 | ambientCG | fora do `rodar.py` (`pipeline/baixa_texturas.py`) | sim | mapa, tour | não exigido (CC0) |
-| Anúncios de `roca.com.br` | vitrine de demonstração | sim | mapa, tour | nenhum |
+| Anúncios de `roca.com.br` | **substituídos por fictícios em 26/09/2026** | não | não (a partir do próximo build) | — |
 | Imóveis de clientes | cadastro das unidades | sim | mapa, tour, maquete | não se aplica |
 | Geoportal de Ribeirão Preto | **só histórico** | nada | nada | — |
 
@@ -169,17 +169,36 @@ Cada fonte tem quatro informações:
 
 ## Anúncios de `roca.com.br` (vitrine de demonstração)
 
-- **Uso atual:** sim, como a vitrine de imóveis do mapa. O `padrao/qa.py` a declara "conteúdo de
-  demonstração, declarado como dívida no PIPELINE.md".
-- **Chega ao artefato final:**
-  - no git: `sao-carlos/dados/imoveis.json`, com 7 anúncios. Cada um traz título, preço, quartos,
-    vagas, bairro, lat/lon e `url`, todos de `roca.com.br`;
-  - nas páginas: `__imoveis`, inteiro no mapa. No tour ficam os anúncios que caem no raio
-    (`recorte.py:319–333`).
-- **Licença:** **nenhum termo registrado.** É conteúdo de site de terceiro, e o repositório não diz
-  como foi coletado.
-- **Evidência:** `pipeline/build/blocos.py:21`, `padrao/qa.py:324–327` e `pipeline/recorte.py:319`.
-- **Destino:** o próximo PR do ciclo, sobre material de terceiros e de clientes.
+**Substituídos em 26/09/2026.** Até essa data, a vitrine do mapa tinha duas partes vindas da Roca:
+
+- 7 anúncios reais em `sao-carlos/dados/imoveis.json`: título, preço, quartos, vagas, bairro,
+  lat/lon e `url`;
+- 6 estudos 3D de fachada em `modelos_cadastrados/estudos.json`, feitos a partir das fotos dos
+  anúncios. Eles traziam o título e a URL de cada anúncio.
+
+As duas partes iam para dentro das páginas: `__imoveis` e `__listingModels`, inteiros no mapa, e
+no tour os que caem no raio (`recorte.py:319–342`). Não havia termo nem autorização registrados.
+
+O que ficou:
+
+- **Anúncios:** 7 anúncios **fictícios**, com o mesmo contrato de dados.
+  - O título começa com `[FICTÍCIO]` e a URL é de `example.com` (domínio reservado pela RFC 2606).
+  - Cada pino fica no centro de um quarteirão residencial, escolhido por regra fixa em volta do
+    centro da cidade, sem usar posição de anúncio. O pino mais próximo de um anúncio antigo fica
+    a 436 m dele.
+- **Estudos:** o pacote está vazio (`{"version":1,"assets":[]}`), e a ficha esconde o botão de
+  estudo 3D.
+- **Gerador:** `modelos_cadastrados/gerar_estudos.mjs`, com a geometria de cada casa escrita a
+  partir das fotos, e o `testar.mjs` dele saíram do `HEAD`.
+- **Trava:** `tests/test_vitrine_ficticia.py` confere o contrato, o marcador `[FICTÍCIO]` e que
+  nenhuma URL fora dos domínios reservados apareça nos arquivos da vitrine nem no pacote de
+  estudos.
+- **Fora da trava:** o extrator de anúncio (`modelos_cadastrados/pipeline/extrair_anuncio.py`)
+  continua sabendo ler o `roca.com.br`. Ele é código, e o teste dele usa dados montados à mão.
+- **Produção:** o tour do Cedros no ar (build `215965d37d7d`, publicado em 25/09) ainda leva 4
+  dos anúncios antigos, os que caem no raio dele, e os 3 estudos 3D que existiam para eles. Conferido
+  no `tour.html` do build local. Isso só muda num próximo build e publicação, e produção está
+  congelada neste ciclo.
 
 ## Imóveis de clientes (plantas fornecidas)
 
@@ -237,7 +256,8 @@ etapas 5, 6, 6b e 7.
    - os termos do SigaSC/OpenPlots;
    - o termo Copernicus;
    - o termo do open-elevation.
-3. **Dados de terceiros e de clientes versionados e publicados:** os anúncios de `roca.com.br` e as
-   plantas fornecidas. O destino deles é o próximo PR.
+3. **Dados de terceiros e de clientes:** os anúncios da Roca viraram fictícios, e as imagens do
+   Mirante 7 saíram (26/09). As plantas fornecidas continuam, classificadas como privadas em
+   [dados-privados.md](dados-privados.md), até a política de artefatos.
 4. **Sobras com leitor:** o `lotes_saocarlos.geojson` e o `build_pois.py`. Decidir no PR de arquivos
    grandes e no de scripts.

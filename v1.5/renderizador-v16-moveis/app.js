@@ -1893,10 +1893,11 @@ async function boot() {
    vitrine -> `abreUnidade` -> `usheet` (ficha) -> "Entrar na visita 3D".            */
 
 /* ============================================================
-   11b. Imóveis para inspeção 3D (fonte pública: roca.com.br)
-   Cada item traz lat/lon real do anúncio; px()/pz() (já definidos no
-   topo do arquivo) convertem pro mesmo sistema de coordenadas do
-   city.json, então o farol cai no prédio certo sem dado extra.
+   11b. Imóveis para inspeção 3D: a vitrine de demonstração. Os anúncios
+   são FICTÍCIOS (sao-carlos/dados/imoveis.json, desde 26/09/2026); a
+   trava é tests/test_vitrine_ficticia.py. Cada item traz lat/lon, e
+   px()/pz() (já definidos no topo do arquivo) convertem pro mesmo
+   sistema de coordenadas do city.json, sem dado extra.
    ============================================================ */
 // A VITRINE VEM DE FORA. Estes anuncios eram 6 imoveis de Sao Carlos escritos aqui
 // dentro -- e no mapa de Araraquara apareciam do mesmo jeito, com bairro e preco de
