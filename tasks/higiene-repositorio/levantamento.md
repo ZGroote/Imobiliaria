@@ -384,7 +384,7 @@ Esta seção descreve a situação. Não é parecer jurídico.
 |---|---|---|---|
 | three.js r168 | 4 cópias, mais as páginas montadas | MIT | nenhum |
 | earcut | 4 cópias, mais as páginas montadas | ISC | nenhum |
-| texturas de fachada (`Bricks023`, `Concrete016`, `Plaster001`) | `texturas/*.webp` | CC0 (ambientCG) | documentada em `pipeline/baixa_texturas.py` |
+| texturas de fachada (`Plaster001`, `Bricks023`, `Ground037`; mapeamento em `pipeline/baixa_texturas.py:36`) | `texturas/*.webp` | CC0 (ambientCG) | documentada em `pipeline/baixa_texturas.py` |
 | texturas do Cedros | `…/piloto-v3/textures/*.png` | `PADRAO-ATUAL.md` diz que madeira, tecido e reboco são procedurais | sem origem externa registrada |
 | móveis e árvores | `moveis/moveis_lib.json`, `arvores/arvores_lib.json` | gerados por script dentro do Blender (`moveis/export_moveis.py`, `arvores/export_arvores.py`) | — |
 | **imagens de divulgação da iPlano/Grupo Plano** | `experimentos/mirante-7-2026-09-22/`: `fotos/01–05.jpg`, `fotos-iplano/*.jpg` e `contato.jpg`, que é a folha de contato das mesmas imagens (renders de ambiente e plantas de venda) | de terceiro, sem licença | a origem está em `ESTUDO.md`; não há autorização registrada |
