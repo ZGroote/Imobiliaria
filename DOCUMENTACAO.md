@@ -21,7 +21,7 @@ configuração e scripts.
 | Mapa 3D: o passo a passo, do arquivo baixado ao HTML | [PIPELINE.md](PIPELINE.md) |
 | Fontes da base 1.5 (renderizador modular e miniaturas) | [v1.5/LEIA-ME.md](v1.5/LEIA-ME.md) |
 | Maquete, planta e visita: o padrão aprovado | [v1.5/miniaturas/README.md](v1.5/miniaturas/README.md), [v1.5/miniaturas/PADRAO-ATUAL.md](v1.5/miniaturas/PADRAO-ATUAL.md) e, para agentes, [v1.5/miniaturas/AGENTS.md](v1.5/miniaturas/AGENTS.md) |
-| Backlog do produto (versão 1.0) | [tasks/v1.0/](tasks/v1.0/README.md): **vivo, mas parcialmente desatualizado** (aviso no [todo.md](tasks/v1.0/todo.md)); a reconciliação com o que o Trilho B entregou vem em PR próprio |
+| Backlog do produto (versão 1.0) | [tasks/v1.0/](tasks/v1.0/README.md): **vivo**, reconciliado em 26/09 com o que o Trilho B entregou ([todo.md](tasks/v1.0/todo.md): cada item marcado cita o PR) |
 
 ## Registros históricos
 
