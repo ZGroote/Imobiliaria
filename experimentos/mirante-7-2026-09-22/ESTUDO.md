@@ -1,5 +1,7 @@
 # Teste de produção da miniatura Mirante 7
 
+> **Registro histórico (22/09/2026).** Ensaio de produção feito na data; não descreve o estado atual. Estado atual: [DOCUMENTACAO.md](../../DOCUMENTACAO.md).
+
 ## Resultado e tempo de ponta a ponta
 
 Em 22 de setembro de 2026, o ensaio partiu do link https://www.mariaaires.com.br/lancamentos/mirante-7 e produziu uma página HTML local com exterior, conjunto de duas torres, planta 2D, planta 3D, visita em primeira pessoa e editor de móveis. O botão Ver mapa foi omitido. A unidade representada é a tipologia Solaris de 37,21 m².

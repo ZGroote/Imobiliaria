@@ -1,5 +1,7 @@
 # Revisão da base 1.5 — 21/09/2026
 
+> **Registro histórico (21/09/2026).** Descreve a base naquela data e não é mantido. As falhas de teste citadas aqui foram resolvidas (em 26/09: 122 Node e 70 Python, todos verdes, com CI em todo PR). Estado atual: [DOCUMENTACAO.md](DOCUMENTACAO.md).
+
 ## Parecer
 
 A direção melhorou: módulos com responsabilidades identificáveis, pipeline separado

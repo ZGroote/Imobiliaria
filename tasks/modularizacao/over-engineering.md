@@ -1,5 +1,7 @@
 # Revisão de complexidade — 15/09/2026
 
+> **Registro histórico.** A modularização foi concluída em 18/09/2026 ([aceite-final.md](aceite-final.md)). Este arquivo descreve aquele trabalho e não é mantido. Estado atual: [DOCUMENTACAO.md](../../DOCUMENTACAO.md).
+
 Escopo: módulos criados em `pipeline/build`, `core`, `world`, `scene`, `materials`, seus consumidores e testes desta modularização. Revisão com a skill ponytail-review. Os dois achados abaixo foram corrigidos após autorização do usuário, no commit `35fcefb`.
 
 - Corrigido — `tests/browser_snapshot.py` (antigo L1): delete: segundo capturador de câmera fixa, 99 linhas, sem consumidor ativo encontrado. Usar `tests/browser_realtime.mjs`, que já captura a mesma cena, registra métricas e verifica a API; seus tempos usam relógio real.

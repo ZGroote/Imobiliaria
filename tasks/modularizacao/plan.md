@@ -1,5 +1,7 @@
 # Plano de modularização da imobiliária
 
+> **Registro histórico.** A modularização foi concluída em 18/09/2026 ([aceite-final.md](aceite-final.md)). Este arquivo descreve aquele trabalho e não é mantido. Estado atual: [DOCUMENTACAO.md](../../DOCUMENTACAO.md).
+
 Data: 14/09/2026. Diagnóstico original preservado abaixo. Implementação local autorizada e em andamento; status atualizado em [todo.md](todo.md), evidências em [baseline/README.md](baseline/README.md).
 Destino separado autorizado pelo usuário para preservar o plano de ocupação existente.
 

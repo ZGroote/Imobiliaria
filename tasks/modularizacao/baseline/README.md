@@ -1,5 +1,7 @@
 # Referência inicial
 
+> **Registro histórico.** A modularização foi concluída em 18/09/2026 ([aceite-final.md](../aceite-final.md)). Este arquivo descreve aquele trabalho e não é mantido. Estado atual: [DOCUMENTACAO.md](../../../DOCUMENTACAO.md).
+
 Checkpoint de fontes: `cbf9722`, branch inicial `main`. Implementação em `refactor/modularizacao`.
 Git precisa de `-c safe.directory=C:/Users/respawn/Desktop/imobiliaria` nesta máquina por diferença de proprietário da pasta; nenhuma exceção global foi criada.
 
