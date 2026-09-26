@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { collection, query, where } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { ListaDePedidos } from '@/components/pedido'
 import { CarregarMais, Estado } from '@/components/ui'
@@ -10,8 +9,9 @@ import { pedidosDaAgencia } from '@/lib/listas'
 import { usePessoas } from '@/lib/usePessoas'
 import { usePerfil } from '@/lib/session'
 import { ROTULO_STATUS, TODOS_STATUS } from '@/lib/status'
-import type { Property, Request } from '@/lib/types'
-import { useColecao, usePaginada } from '@/lib/useFirestore'
+import type { Request } from '@/lib/types'
+import { useNomes } from '@/lib/useEquipe'
+import { usePaginada } from '@/lib/useFirestore'
 
 // D4: o corretor vê os pedidos da imobiliária inteira. Status e "só as minhas" vão na consulta:
 // com a lista paginada, filtrar a página na tela perderia o que não coube nela.
@@ -21,8 +21,7 @@ export default function Pedidos() {
   const [meus, setMeus] = useState(false)
   const r = usePaginada<Request>(`pedidos:${perfil.agencyId}:${status}:${meus}`,
     () => pedidosDaAgencia(db, perfil.agencyId ?? '', { status, de: meus ? perfil.id : undefined }))
-  const imoveis = useColecao<Property>(`imoveis:${perfil.agencyId}`,
-    () => query(collection(db, 'properties'), where('agencyId', '==', perfil.agencyId)))
+  const { imovel } = useNomes()
   const { nome } = usePessoas(perfil.agencyId, perfil.role === 'agency_manager')
 
   return (
@@ -38,7 +37,7 @@ export default function Pedidos() {
       </div>
       <Estado r={r}>
         <ListaDePedidos pedidos={r.dados ?? []} base="/requests"
-          imovel={(id) => (id ? imoveis.dados?.find((p) => p.id === id)?.title ?? '…' : '—')}
+          imovel={imovel}
           pessoa={(uid) => nome(uid, perfil.id)} />
       </Estado>
       <CarregarMais r={r} />

@@ -26,5 +26,16 @@ export const imoveisDa = (db: Firestore, agencyId?: string) =>
   query(collection(db, 'properties'), ...(agencyId ? [where('agencyId', '==', agencyId)] : []),
     orderBy('updatedAt', 'desc'))
 
+// "Publicado" = publishedBuild é texto não vazio. É o critério da etiqueta da lista e do contador
+// do Início; no Firestore, `> ''` casa exatamente isso (campo ausente, null e '' ficam de fora).
+export const estaPublicado = (p: { publishedBuild?: unknown }) =>
+  typeof p.publishedBuild === 'string' && p.publishedBuild !== ''
+
+export const publicadosDa = (db: Firestore, agencyId: string) =>
+  query(collection(db, 'properties'), where('agencyId', '==', agencyId), where('publishedBuild', '>', ''))
+
+export const pedidosNaEtapa = (db: Firestore, agencyId: string, status: RequestStatus[]) =>
+  query(collection(db, 'requests'), where('agencyId', '==', agencyId), where('status', 'in', status))
+
 export const colunaDoKanban = (db: Firestore, status: RequestStatus[]) =>
   query(collection(db, 'requests'), where('status', 'in', status), orderBy('updatedAt', 'desc'))

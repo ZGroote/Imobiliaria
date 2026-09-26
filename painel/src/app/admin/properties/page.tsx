@@ -1,22 +1,22 @@
 'use client'
 import { useState, type FormEvent } from 'react'
-import { collection, orderBy, query, where } from 'firebase/firestore'
+import { collection, orderBy, query } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { ListaDeImoveis } from '@/components/imovel'
 import { Aviso, CarregarMais, Cartao, Estado, useAcao } from '@/components/ui'
 import { db } from '@/lib/firebase'
 import { imoveisDa } from '@/lib/listas'
 import { criarImovel } from '@/lib/imoveis'
-import type { Agency, Property, User } from '@/lib/types'
+import type { Agency, Property } from '@/lib/types'
+import { useNomes } from '@/lib/useEquipe'
 import { useColecao, usePaginada } from '@/lib/useFirestore'
 
 export default function ImoveisInterno() {
   const [agencia, setAgencia] = useState('')
   const agencias = useColecao<Agency>('agencias', () => query(collection(db, 'agencies'), orderBy('name')))
   const imoveis = usePaginada<Property>(`imoveis:${agencia}`, () => imoveisDa(db, agencia || undefined))
-  const corretores = useColecao<User>('corretores', () => query(collection(db, 'users'), where('role', '==', 'agent')))
+  const { pessoa: nomeDoCorretor } = useNomes()   // só os corretores das linhas na tela
   const nomeDaAgencia = (id: string) => agencias.dados?.find((a) => a.id === id)?.name ?? id
-  const nomeDoCorretor = (uid?: string) => (uid ? corretores.dados?.find((u) => u.id === uid)?.name ?? '…' : '—')
 
   return (
     <Pagina titulo="Imóveis" sub="Todos os imóveis das imobiliárias. A ficha completa mora no pipeline."

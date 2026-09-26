@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { doc, type Timestamp } from 'firebase/firestore'
+import { collection, doc, query, where, type Timestamp } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { DadosDoPedido, EditarPedido, ROTULO_PRIORIDADE } from '@/components/pedido'
 import { AcoesDeStatus, Historico } from '@/components/status'
@@ -12,9 +12,9 @@ import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
 import { editarPedidoInterno, salvarNotaInterna } from '@/lib/pedidos'
 import { usePerfil } from '@/lib/session'
-import type { Request } from '@/lib/types'
+import type { Property, Request } from '@/lib/types'
 import { useCatalogoInterno } from '@/lib/useEquipe'
-import { useDoc } from '@/lib/useFirestore'
+import { useColecao, useDoc } from '@/lib/useFirestore'
 
 export default function VerSolicitacaoInterno() {
   return <ComId>{(id) => <Solicitacao id={id} />}</ComId>
@@ -25,6 +25,9 @@ function Solicitacao({ id }: { id: string }) {
   const cat = useCatalogoInterno()
   const [editando, setEditando] = useState(false)
   const p = r.dado
+  // o imóvel do pedido, ao vivo: os cartões de preview e de publicação dependem dele
+  const im = useDoc<Property>(p?.propertyId ? `imovel:${p.propertyId}` : null, () => doc(db, 'properties', p!.propertyId!))
+  const imovel = p?.propertyId && im.dado ? im.dado : undefined
   if (p === null) return <Pagina titulo="Solicitação"><Aviso>Solicitação não encontrada.</Aviso></Pagina>
   return (
     <Pagina titulo={p?.title ?? 'Solicitação'} sub={p && cat.agencia(p.agencyId)}
@@ -42,8 +45,8 @@ function Solicitacao({ id }: { id: string }) {
             <div className="space-y-6">
               <AcoesDeStatus r={p} />
               <PreviewEmRevisao r={p} pessoa={cat.pessoa} />
-              <RegistrarPublicacao r={p} imovel={cat.imoveis.find((i) => i.id === p.propertyId)} />
-              <RegistrarPreview r={p} imovel={cat.imoveis.find((i) => i.id === p.propertyId)} />
+              <RegistrarPublicacao r={p} imovel={imovel} />
+              <RegistrarPreview r={p} imovel={imovel} />
               <Producao p={p} cat={cat} />
             </div>
             <NotaInterna rid={p.id} />
@@ -59,6 +62,9 @@ function Solicitacao({ id }: { id: string }) {
 function Producao({ p, cat }: { p: Request; cat: ReturnType<typeof useCatalogoInterno> }) {
   const { executar, ocupado, erro } = useAcao()
   const salvar = (c: Parameters<typeof editarPedidoInterno>[2]) => executar(() => editarPedidoInterno(db, p.id, c))
+  // Seletor: todos os imóveis DESTA imobiliária (a busca por prefixo, para imobiliária grande, é outro PR).
+  const imoveis = useColecao<Property>(`imoveis-da:${p.agencyId}`,
+    () => query(collection(db, 'properties'), where('agencyId', '==', p.agencyId)))
   return (
     <Cartao titulo="Produção (equipe)">
       <div className="grid gap-3 text-sm">
@@ -80,7 +86,7 @@ function Producao({ p, cat }: { p: Request; cat: ReturnType<typeof useCatalogoIn
           <select disabled={ocupado || !!p.preview} value={p.propertyId ?? ''}
             onChange={(e) => salvar({ propertyId: e.target.value })} className="campo mt-1">
             <option value="">Não vinculado</option>
-            {cat.imoveis.filter((i) => i.agencyId === p.agencyId).map((i) => <option key={i.id} value={i.id}>{i.title}</option>)}
+            {imoveis.dados?.map((i) => <option key={i.id} value={i.id}>{i.title}</option>)}
           </select>
         </label>
         {/* As regras travam o mesmo: o build é de uma unidade e não pode ir para outra. */}
