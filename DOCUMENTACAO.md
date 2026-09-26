@@ -17,6 +17,7 @@ configuração e scripts.
 | Índices do Firestore | [firebase/firestore.indexes.json](firebase/firestore.indexes.json) |
 | Publicação de imóveis: cache, preview por imóvel, promoção e reversão ("build once, promote the exact artifact") | [tasks/painel/proposta.md](tasks/painel/proposta.md) §6–§9; código em `pipeline/build_imovel.py` e `pipeline/publicar_imovel.py` |
 | **Estado de produção** (regras, índices, painel, sites, contas, dados) e a ordem de deploy | [tasks/painel/proposta.md](tasks/painel/proposta.md) §14 |
+| Último checkpoint: produção, gates, pendências deliberadas e próximos trilhos (26/09) | [tasks/checkpoints/estabilizacao-2026-09-26.md](tasks/checkpoints/estabilizacao-2026-09-26.md) |
 | Mapa 3D: o contrato de cidade e os portões de aceite | [PADRAO.md](PADRAO.md) |
 | Mapa 3D: o passo a passo, do arquivo baixado ao HTML | [PIPELINE.md](PIPELINE.md) |
 | Fontes da base 1.5 (renderizador modular e miniaturas) | [v1.5/LEIA-ME.md](v1.5/LEIA-ME.md) |
