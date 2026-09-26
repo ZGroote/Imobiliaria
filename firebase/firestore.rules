@@ -57,6 +57,16 @@ service cloud.firestore {
     function invite() {
       return get(/databases/$(db)/documents/invites/$(request.auth.token.email)).data;
     }
+    // invites/ guarda só convites PENDENTES: o aceite consome o convite. O convidado apaga o PRÓPRIO
+    // convite, e só no batch em que nasce o users/{uid} dele, com o mesmo e-mail. Quem já existe
+    // (inclusive o próprio convidado depois do aceite) não ganha poder nenhum sobre convites.
+    function aceitandoConvite(email) {
+      return signedIn() && request.auth.token.email == email
+        && request.auth.token.email_verified == true
+        && !exists(/databases/$(db)/documents/users/$(request.auth.uid))
+        && existsAfter(/databases/$(db)/documents/users/$(request.auth.uid))
+        && getAfter(/databases/$(db)/documents/users/$(request.auth.uid)).data.email == email;
+    }
     match /users/{uid} {
       allow read: if isStaff()
         || (signedIn() && request.auth.uid == uid)
@@ -70,7 +80,9 @@ service cloud.firestore {
         && d().get('agencyId', null) == invite().get('agencyId', null)
         && d().active == true && born()
         && d().keys().hasOnly(['name', 'email', 'role', 'agencyId', 'active',
-                               'createdAt', 'updatedAt']);
+                               'createdAt', 'updatedAt'])
+        // e o convite sai no mesmo batch (invite() acima lê o de antes do batch)
+        && !existsAfter(/databases/$(db)/documents/invites/$(request.auth.token.email));
 
       allow update: if stamped() && keeps(['email', 'createdAt'])
         && ((isAdmin() && validMembership(d()))
@@ -84,7 +96,7 @@ service cloud.firestore {
         || (signedIn() && request.auth.token.email == email
             && request.auth.token.email_verified == true);
       allow create, update: if isAdmin() && d().email == email && validMembership(d());
-      allow delete: if isAdmin();
+      allow delete: if isAdmin() || aceitandoConvite(email);
     }
 
     // ── properties ──
