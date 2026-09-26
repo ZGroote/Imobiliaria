@@ -25,6 +25,18 @@ export function Estado<T>({ r, children }: { r: { dados?: T[]; dado?: T | null; 
   return <>{children}</>
 }
 
+// Paginação por limite crescente (usePaginada): some quando a consulta devolve menos que o pedido.
+export function CarregarMais({ r }: { r: { temMais: boolean; carregando: boolean; carregarMais: () => void } }) {
+  if (!r.temMais) return null
+  return (
+    <div className="mt-3 flex justify-center">
+      <button className="btn" disabled={r.carregando} onClick={r.carregarMais}>
+        {r.carregando ? 'Carregando…' : 'Carregar mais'}
+      </button>
+    </div>
+  )
+}
+
 export function Tabela({ cabecalho, children }: { cabecalho: string[]; children: ReactNode }) {
   return (
     <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">

@@ -13,10 +13,12 @@ export function ListaDeImoveis({ imoveis, base, nomeDaAgencia, nomeDoCorretor }:
   imoveis: Property[]; base: string; nomeDaAgencia?: (id: string) => string; nomeDoCorretor: (uid?: string) => string
 }) {
   if (!imoveis.length) return <Vazio>Nenhum imóvel.</Vazio>
+  // Na ordem da consulta (mais recentes primeiro): com a lista paginada, reordenar aqui misturaria
+  // as páginas e "Carregar mais" encaixaria itens no meio.
   const cab = ['Imóvel', ...(nomeDaAgencia ? ['Imobiliária'] : []), 'Corretor', 'No ar', 'Atualizado']
   return (
     <Tabela cabecalho={cab}>
-      {[...imoveis].sort((a, b) => a.title.localeCompare(b.title)).map((p) => (
+      {imoveis.map((p) => (
         <tr key={p.id}>
           <Td>
             <Link href={`${base}/view?id=${p.id}`} className="font-medium hover:underline">{p.title}</Link>

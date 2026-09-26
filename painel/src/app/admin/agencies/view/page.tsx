@@ -3,12 +3,13 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { collection, doc, query, where } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
-import { Aviso, Cartao, ComId, Estado, Selo, Tabela, Td, useAcao, Vazio } from '@/components/ui'
+import { Aviso, CarregarMais, Cartao, ComId, Estado, Selo, Tabela, Td, useAcao, Vazio } from '@/components/ui'
 import { atualizarAgencia } from '@/lib/agencias'
 import { db } from '@/lib/firebase'
+import { imoveisDa } from '@/lib/listas'
 import { usePerfil } from '@/lib/session'
 import { ROTULO_PAPEL, type Agency, type Property, type User } from '@/lib/types'
-import { useColecao, useDoc } from '@/lib/useFirestore'
+import { useColecao, useDoc, usePaginada } from '@/lib/useFirestore'
 
 export default function VerAgencia() {
   return <ComId>{(id) => <Agencia id={id} />}</ComId>
@@ -18,8 +19,7 @@ function Agencia({ id }: { id: string }) {
   const perfil = usePerfil()
   const admin = perfil.role === 'platform_admin'
   const a = useDoc<Agency>(`agencia:${id}`, () => doc(db, 'agencies', id))
-  const imoveis = useColecao<Property>(`imoveis-da:${id}`,
-    () => query(collection(db, 'properties'), where('agencyId', '==', id)))
+  const imoveis = usePaginada<Property>(`imoveis-da:${id}`, () => imoveisDa(db, id))
   const pessoas = useColecao<User>(`pessoas-da:${id}`,
     () => query(collection(db, 'users'), where('agencyId', '==', id)))
   const { executar, ocupado, erro } = useAcao()
@@ -58,6 +58,7 @@ function Agencia({ id }: { id: string }) {
                 </ul>
               ) : <Vazio>Nenhum imóvel.</Vazio>}
             </Estado>
+            <CarregarMais r={imoveis} />
           </Cartao>
           <Cartao titulo="Pessoas">
             <Estado r={pessoas}>

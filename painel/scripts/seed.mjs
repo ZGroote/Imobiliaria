@@ -36,6 +36,12 @@ const DADOS = {
       maqueteUrl: 'http://127.0.0.1:5055/b/monte-dos-cedros-37/a1b2c3d4e5f6/maquete.html' } },
 }
 
+// O Firestore do Admin SDK no emulador, para testes que precisam de mais dados que o seed. Mesma
+// guarda do seed (as variáveis *_EMULATOR_HOST e o projeto demo-painel acima): este é o único ponto
+// de entrada do Admin SDK no painel, e o painel não declara firebase-admin por causa disso.
+export const adminDb = () => getFirestore(getApps()[0] ?? initializeApp({ projectId: PROJETO }))
+export { Timestamp }
+
 export async function semear() {
   const fs = process.env.FIRESTORE_EMULATOR_HOST, au = process.env.FIREBASE_AUTH_EMULATOR_HOST
   for (const url of [`http://${fs}/emulator/v1/projects/${PROJETO}/databases/(default)/documents`,
