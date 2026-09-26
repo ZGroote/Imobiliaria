@@ -5,6 +5,7 @@ import { Aviso, Cartao, Selo, Tabela, Td, useAcao, Vazio } from './ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
 import { atribuirCorretor } from '@/lib/imoveis'
+import { estaPublicado } from '@/lib/listas'
 import type { Property, User } from '@/lib/types'
 
 export const ROTULO_SITUACAO: Record<Property['status'], string> = { active: 'Ativo', inactive: 'Inativo', archived: 'Arquivado' }
@@ -26,7 +27,7 @@ export function ListaDeImoveis({ imoveis, base, nomeDaAgencia, nomeDoCorretor }:
           </Td>
           {nomeDaAgencia && <Td>{nomeDaAgencia(p.agencyId)}</Td>}
           <Td>{nomeDoCorretor(p.assignedAgentId)}</Td>
-          <Td>{p.publishedBuild ? <Selo tom="verde">Publicado</Selo> : <Selo>Não publicado</Selo>}</Td>
+          <Td>{estaPublicado(p) ? <Selo tom="verde">Publicado</Selo> : <Selo>Não publicado</Selo>}</Td>
           <Td>{quando(p.updatedAt)}</Td>
         </tr>
       ))}
@@ -56,7 +57,7 @@ export function LinksPublicos({ p }: { p: Property }) {
         <CopiarLink url={p.tourUrl} rotulo="Tour" />
         <CopiarLink url={p.maqueteUrl} rotulo="Maquete" />
       </div>
-      {p.publishedBuild && (
+      {estaPublicado(p) && (
         <p className="mt-3 text-xs text-slate-500">Build no ar: <code>{p.publishedBuild}</code> desde {quando(p.publishedAt)}</p>
       )}
     </Cartao>

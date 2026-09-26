@@ -52,6 +52,14 @@
       ]
     },
     {
+      "collectionGroup": "properties",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "agencyId", "order": "ASCENDING" },
+        { "fieldPath": "publishedBuild", "order": "ASCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "requestAssets",
       "queryScope": "COLLECTION",
       "fields": [
