@@ -32,6 +32,7 @@ O que existe e roda:
 | D8 | Firestore `(default)` em `southamerica-east1` | **Criado** em 24/09, com proteção contra exclusão. Comando e impacto no checklist da §5. A localização não muda depois. |
 | D9 | O Storage não bloqueia a Fase 1 | Materiais só no emulator até o plano ser confirmado e o bucket criado (§13, A5) |
 | D10 | Dois trilhos: infraestrutura do painel (A) e publicação 3D (B) | Nenhum espera o outro; o contato é o contrato da §9 (§13) |
+| D11 | Busca de imóvel nos seletores ("Nova solicitação" e "Imóvel vinculado"): **adiada** (26/09) até uma imobiliária ter algumas dezenas de imóveis e o `<select>` passar a atrapalhar. Hoje cada seletor lê os imóveis de **uma** imobiliária, e isso não pede um campo, um índice e uma migração a mais. | Quando for feita, sem rediscutir a direção: busca por prefixo de **qualquer palavra** ("cedros" e "monte" acham "Monte dos Cedros"), com um campo derivado do título contendo os prefixos normalizados (sem acento, minúsculo) de cada palavra, gravado por `criarImovel`/`editarImovel`; consulta `array-contains` + `agencyId` + `status == 'active'` (só imóveis ativos nos **dois** seletores, para não vincular pedido novo a imóvel inativo ou arquivado, e com um índice só); até 20 sugestões a partir de 2 letras. Os imóveis existentes recebem o campo por um **script de backfill** pequeno e auditável (antes e depois por `updateTime`), não por "Editar/Salvar". As regras de `properties` não têm lista fechada de campos e não mudam. |
 
 ---
 
