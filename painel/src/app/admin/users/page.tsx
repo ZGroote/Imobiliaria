@@ -3,13 +3,14 @@ import { useState, type FormEvent } from 'react'
 import { collection, orderBy, query } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { Portao } from '@/components/Portao'
-import { Aviso, Cartao, Estado, Selo, Tabela, Td, useAcao, Vazio } from '@/components/ui'
+import { Aviso, CarregarMais, Cartao, Estado, Selo, Tabela, Td, useAcao, Vazio } from '@/components/ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
+import { usuariosPorNome } from '@/lib/listas'
 import { usePerfil } from '@/lib/session'
 import { interno, ROTULO_PAPEL, type Agency, type Invite, type User, type UserRole } from '@/lib/types'
-import { useColecao } from '@/lib/useFirestore'
-import { cancelarConvite, convidar, definirAtivo, mudarPapel, pendentes } from '@/lib/usuarios'
+import { useColecao, usePaginada } from '@/lib/useFirestore'
+import { cancelarConvite, convidar, definirAtivo, mudarPapel } from '@/lib/usuarios'
 
 const PAPEIS = Object.keys(ROTULO_PAPEL) as UserRole[]
 
@@ -19,10 +20,12 @@ export default function Usuarios() {
 
 function Conteudo() {
   const agencias = useColecao<Agency>('agencias', () => query(collection(db, 'agencies'), orderBy('name')))
-  const usuarios = useColecao<User>('usuarios', () => query(collection(db, 'users'), orderBy('name')))
+  const usuarios = usePaginada<User>('usuarios', () => usuariosPorNome(db))
+  // invites/ guarda só os pendentes: o aceite consome o convite (regras), então a coleção inteira
+  // é a lista de pendentes, sem cruzar com os e-mails dos usuários.
   const convites = useColecao<Invite & { id: string }>('convites', () => collection(db, 'invites'))
   const nomeDa = (id?: string) => agencias.dados?.find((a) => a.id === id)?.name ?? '—'
-  const abertos = pendentes(convites.dados ?? [], (usuarios.dados ?? []).map((u) => u.email))
+  const abertos = convites.dados ?? []
 
   return (
     <Pagina titulo="Usuários e convites" sub="Todo acesso começa por um convite. Papel e imobiliária só mudam aqui.">
@@ -43,6 +46,7 @@ function Conteudo() {
               {(usuarios.dados ?? []).map((u) => <LinhaUsuario key={u.id} u={u} agencias={agencias.dados ?? []} />)}
             </Tabela>
           </Estado>
+          <CarregarMais r={usuarios} />
         </Cartao>
       </div>
     </Pagina>

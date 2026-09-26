@@ -37,5 +37,8 @@ export const publicadosDa = (db: Firestore, agencyId: string) =>
 export const pedidosNaEtapa = (db: Firestore, agencyId: string, status: RequestStatus[]) =>
   query(collection(db, 'requests'), where('agencyId', '==', agencyId), where('status', 'in', status))
 
+// Usuários (tela da equipe), por nome. Convites não paginam: invites/ só guarda os pendentes.
+export const usuariosPorNome = (db: Firestore) => query(collection(db, 'users'), orderBy('name'))
+
 export const colunaDoKanban = (db: Firestore, status: RequestStatus[]) =>
   query(collection(db, 'requests'), where('status', 'in', status), orderBy('updatedAt', 'desc'))

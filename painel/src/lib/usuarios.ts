@@ -32,7 +32,3 @@ export function mudarPapel(db: Firestore, uid: string, role: UserRole, agencyId?
 // Vale na hora: as regras leem users/{uid} a cada acesso (D3).
 export const definirAtivo = (db: Firestore, uid: string, active: boolean) =>
   updateDoc(doc(db, 'users', uid), { active, updatedAt: serverTimestamp() })
-
-// Convite pendente = convite cujo e-mail ainda não tem users/{uid}.
-export const pendentes = <C extends { email: string }>(convites: C[], emailsComConta: string[]) =>
-  convites.filter((c) => !emailsComConta.includes(c.email))
