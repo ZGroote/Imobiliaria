@@ -25,7 +25,7 @@ O que existe e roda:
 | D1 | Painel estático no Firebase Hosting, sem servidor | `output: 'export'`; detalhe por `?id=`; as regras são a única camada de autorização |
 | D2 | **Encerrada: legado vazio/não utilizado.** Antes da criação do banco, conferido via API em 24/09: o projeto não tinha banco Firestore nem bucket. | Projeto novo. Nenhuma regra, teste, adaptador ou campo para `imobiliarias`, `imoveis`, `usuarios`, `cidades`, `analytics`, `imobiliaria_id` ou os papéis antigos (claims `role`/`imobiliaria_id`). O teste 20 falha se algum voltar. |
 | D3 | Papel em `users/{uid}` + convite; sem Custom Claims nem Cloud Function | As regras leem `role`, `agencyId` e `active` desse documento (§4) |
-| D4 | O corretor vê imóveis e pedidos da própria imobiliária | A fronteira é a agência; "meus pedidos" é filtro de tela |
+| D4 | O corretor vê imóveis e pedidos da própria imobiliária | A fronteira é a agência; "só as minhas" é filtro da consulta no Firestore (`requestedBy`), desde o PR #23: com as listas paginadas, filtrar a página na tela perderia o que não coube nela |
 | D5 | URL pública principal = tour; `tourUrl` e `maqueteUrl` explícitos | `publicUrl = tourUrl` por enquanto (§3) |
 | D6 | Nenhuma imobiliária real assumida | Emulator e testes usam "Imobiliária Fictícia A/B (dev)". Produção sem seed até você informar o nome. |
 | D7 | JDK 21 para o emulator | Temurin 21.0.12.1 portátil em `~/.jdks/`, checksum conferido. **PATH e variáveis do sistema intactos.** |
@@ -876,25 +876,26 @@ esse hash, e o registro confere com o que já está no ar.
 
 ---
 
-## 14. Estado de produção e integração (25/09/2026)
+## 14. Estado de produção e integração (26/09/2026)
 
 | Peça | Estado |
 |---|---|
-| Firestore | `(default)` em `southamerica-east1`, Standard, proteção contra exclusão; 9 índices `READY` |
-| Regras do Firestore | publicadas = `firebase/firestore.rules` de `main` `5e46af7` (B5 + B5b): ruleset `bb95ee6b-6d5e-42aa-b709-871234c20742`, sha256 `8c163114ad5d4f59…`, lido de volta pela API e igual byte a byte ao arquivo (25/09, 16:59 UTC). O anterior, para rollback, é `40b1abd` (ruleset `e793d948…`, sha256 `081a98a233d0151f…`) |
+| Firestore | `(default)` em `southamerica-east1`, Standard, proteção contra exclusão; 12 índices compostos `READY`: os 9 originais, 2 da paginação (PR #23) e 1 do contador de imóveis publicados (PR #24) |
+| Regras do Firestore | publicadas = `firebase/firestore.rules` de `main` `3afc464` (PR #25: o aceite consome o convite): ruleset `d965b18a-49dc-490a-8fe8-9b9073038373`, sha256 `f9764b0745e7f755…`, lido de volta pela API e igual byte a byte ao arquivo (26/09, 02:48 UTC). O anterior, para rollback, é `5e46af7` (ruleset `bb95ee6b…`, sha256 `8c163114ad5d4f59…`) |
 | Storage | não existe; `storage.rules` só no emulator |
 | Web App | `painel` (`1:163406298617:web:a78e1724d239a144f55128`); config pública em `painel/.env.production`, com `NEXT_PUBLIC_SITE_IMOVEIS` apontando o site de imóveis (PR #17) |
-| Hosting do painel | site `imobilaria-deccb-painel`, target `painel`, `firebase.painel.json`; no ar = `main` `40d03ab` (B5 + B5b + B5c + site configurado), versão `df6c80a5076eed7c` (25/09, 17:43 UTC); o primeiro deploy foi `8139863` |
+| Hosting do painel | site `imobilaria-deccb-painel`, target `painel`, `firebase.painel.json`; no ar = `main` `3afc464` (paginação #23, nomes por id e Início com `count()` #24, convite consumido e usuários paginados #25), versão `ef9c4d811735cfb8` (26/09, 03:00 UTC); o primeiro deploy foi `8139863` |
 | Site de imóveis | `imobilaria-deccb-imoveis`, target `imoveis`, `firebase.imoveis.json`. Live = versão `56630f63b23116cc`: Cedros `215965d37d7d` com manifest `c2b2a242…`. O canal `imovel-monte-dos-cedros-37` serve o mesmo artefato (tour, maquete e manifest iguais byte a byte ao live; expira em 25/10) |
 | Outros sites | `imobilaria-deccb` (mapa) e `imobilaria-deccb-miniaturas` não foram tocados; os redirects do mapa estão em `main` desde o PR #2 |
-| Contas em produção | o `platform_admin` e um `agency_manager` da Cardinali (conta de teste, entrou pelo convite normal com e-mail verificado) |
-| Dados | 1 imobiliária (Cardinali), 1 imóvel (Cedros), 1 pedido publicado e 1 registro em `publications` |
+| Contas em produção | o `platform_admin` e um `agency_manager` da Cardinali (conta de teste, entrou pelo convite normal com e-mail verificado). `invites` está vazio: o aceite consome o convite, e o convite legado já aceito saiu em 26/09 pelo "Cancelar" (única escrita, conferida por `updateTime` de todos os documentos) |
+| Dados | 1 imobiliária (Cardinali), 2 usuários, 0 convites, 1 imóvel (Cedros), 1 pedido publicado, 1 registro em `publications` e 6 AuditLogs |
 
 **Deploy, sempre com escopo explícito** (o `firebase.json` da raiz reúne Firestore, Storage e o
 Hosting do mapa; um `firebase deploy` sem `--only` publicaria tudo). Cada um só com aprovação:
 
 ```bash
 npx firebase deploy --only firestore:rules --project imobilaria-deccb
+npx firebase deploy --only firestore:indexes --project imobilaria-deccb
 npx firebase deploy --only hosting:painel --config firebase.painel.json --project imobilaria-deccb
 npx firebase hosting:channel:deploy imovel-<id> --only imoveis --config firebase.imoveis.json --project imobilaria-deccb --expires 30d
 npx firebase deploy --only hosting:imoveis --config firebase.imoveis.json --project imobilaria-deccb
@@ -905,6 +906,11 @@ regras mais estritas: as regras primeiro; depois, um smoke de leitura do painel 
 ar; só então o painel novo. As escritas antigas que as regras novas recusam (preview e aprovação
 sem o hash do manifest) são esperadas nesse intervalo e não pedem rollback. O rollback só entra
 se o login, a leitura ou a navegação quebrarem.
+
+Para índice novo (PRs #23 e #24): os índices primeiro (`--only firestore:indexes`; o CLI compila as
+regras como checagem, mas não as publica); esperar os novos ficarem `READY`; smoke do painel que
+está no ar; só então o painel novo. O emulador não exige índice, então a combinação que depende
+de fusão de índices (status + "só as minhas") foi conferida em produção, pela API, antes de fechar.
 
 **Primeiro ciclo real (25/09/2026, 18:04–18:08 UTC), sem deploy de imóvel.** O live do Cedros já
 era o artefato oficial. O painel só formalizou no Firestore o que o Hosting já servia:
