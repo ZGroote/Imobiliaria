@@ -1,10 +1,8 @@
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { getCountFromServer, getDocs, limit, query, type DocumentData, type Query } from 'firebase/firestore'
-import { getApps, initializeApp } from 'firebase-admin/app'
-import { getFirestore, Timestamp } from 'firebase-admin/firestore'
 import { PAGINA, colunaDoKanban, imoveisDa, pedidosDaAgencia, pedidosInternos, temMais } from '../src/lib/listas.ts'
-import { semear } from '../scripts/seed.mjs'
+import { adminDb, semear, Timestamp } from '../scripts/seed.mjs'
 import { entrar, sairDeTodos } from './apoio.ts'
 
 // Mais do que cabe numa página: 80 pedidos e 60 imóveis a mais na agA, todos mais antigos que os
@@ -12,7 +10,7 @@ import { entrar, sairDeTodos } from './apoio.ts'
 // feito no navegador sobre a página não os veria. "Recebidas" passa de 50 no Kanban.
 before(async () => {
   await semear()
-  const adm = getFirestore(getApps()[0] ?? initializeApp({ projectId: 'demo-painel' }))
+  const adm = adminDb()
   const antes = (min: number) => Timestamp.fromMillis(Date.UTC(2026, 8, 10) - min * 60_000)
   const b = adm.batch()
   for (let i = 0; i < 80; i++) {
