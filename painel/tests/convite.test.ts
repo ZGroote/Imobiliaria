@@ -9,7 +9,7 @@ import type { Invite } from '../src/lib/types.ts'
 before(semear)
 after(sairDeTodos)
 
-test('convite: só com e-mail verificado; users/{uid} nasce com o papel do convite', async () => {
+test('convite: só com e-mail verificado; users/{uid} nasce com o papel do convite e o convite sai', async () => {
   const admin = await entrar('admin')
   await setDoc(doc(admin.db, 'invites/novo@painel.test'), { email: 'novo@painel.test', name: 'Novo', role: 'agent',
     agencyId: 'agA', agencyName: 'Imobiliária Fictícia A (dev)', createdBy: 'admin', createdAt: serverTimestamp() })
@@ -25,6 +25,8 @@ test('convite: só com e-mail verificado; users/{uid} nasce com o papel do convi
   await aceitarConvite(novo.db, novo.uid, convite!)
   const perfil = (await getDoc(doc(novo.db, 'users', novo.uid))).data()!
   assert.deepEqual([perfil.role, perfil.agencyId, perfil.active], ['agent', 'agA', true])
+  // o aceite consome o convite: invites/ fica só com os pendentes
+  assert.equal((await getDoc(doc(admin.db, 'invites/novo@painel.test'))).exists(), false)
 })
 
 test('sem convite: e-mail verificado não basta para entrar', async () => {
