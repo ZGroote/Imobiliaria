@@ -2,6 +2,16 @@
 
 > **Registro histórico (22/09/2026).** Ensaio de produção feito na data; não descreve o estado atual. Estado atual: [DOCUMENTACAO.md](../../DOCUMENTACAO.md).
 
+> **Imagens retiradas em 26/09/2026.** As 15 imagens desta pasta saíram do `HEAD` porque não há autorização documentada para redistribuí-las:
+>
+> - `fotos/01–05.jpg`, baixadas do anúncio da Maria Aires;
+> - `fotos-iplano/01–09.jpg`, da iPlano;
+> - `contato.jpg`, a folha de contato das cinco primeiras.
+>
+> As menções a elas no texto abaixo ficam como registro. A origem de cada uma continua em `coleta.json` (URL, bytes e sha256) e em `coleta-iplano.json` (URL de origem).
+>
+> O histórico do git não foi reescrito: as imagens ainda estão nos commits anteriores ao que as retirou, e só quem tem acesso ao repositório privado alcança esses commits.
+
 ## Resultado e tempo de ponta a ponta
 
 Em 22 de setembro de 2026, o ensaio partiu do link https://www.mariaaires.com.br/lancamentos/mirante-7 e produziu uma página HTML local com exterior, conjunto de duas torres, planta 2D, planta 3D, visita em primeira pessoa e editor de móveis. O botão Ver mapa foi omitido. A unidade representada é a tipologia Solaris de 37,21 m².

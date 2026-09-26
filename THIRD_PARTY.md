@@ -93,9 +93,19 @@ Este inventário não repete o que os lockfiles já registram.
 
 ### De terceiros, fora do produto
 
-`experimentos/mirante-7-2026-09-22/` tem imagens de divulgação da iPlano/Grupo Plano: `fotos/`,
-`fotos-iplano/` e `contato.jpg`.
+**Retiradas do `HEAD` em 26/09/2026:** as 15 imagens de divulgação do Mirante 7, em
+`experimentos/mirante-7-2026-09-22/`.
 
-- Não há licença nem autorização registradas.
-- A origem está no `ESTUDO.md` da própria pasta.
-- O destino delas é o próximo PR do ciclo de higiene (material de terceiros e de clientes).
+- `fotos/01–05.jpg`, do anúncio da Maria Aires;
+- `fotos-iplano/01–09.jpg`, da iPlano;
+- `contato.jpg`, a folha de contato das cinco primeiras.
+
+Saíram porque não havia autorização documentada. O `ESTUDO.md` da pasta registra a retirada, e a
+origem de cada imagem continua em `coleta.json` e em `coleta-iplano.json`. O histórico do git não
+foi reescrito.
+
+Os dados de terceiro que não são imagem continuam nessa pasta, e estão listados em
+[tasks/higiene-repositorio/dados-privados.md](tasks/higiene-repositorio/dados-privados.md).
+
+**Imagem nova só entra classificada.** `tests/test_dados_privados.py` reprova qualquer imagem
+versionada fora da lista dele ou de uma pasta já classificada.
