@@ -1,5 +1,7 @@
 # Aceite final da modularização — São Carlos, 18/09/2026
 
+> **Registro histórico.** Aceite que encerrou a modularização em 18/09/2026; não é mantido. Estado atual: [DOCUMENTACAO.md](../../DOCUMENTACAO.md).
+
 Cada linha abaixo foi **medida**, não declarada. O critério da própria tarefa 30 é que
 *ausência de medição não conta como sucesso*, então o que não foi medido está marcado
 como não medido, e o que falhou está marcado como falha.

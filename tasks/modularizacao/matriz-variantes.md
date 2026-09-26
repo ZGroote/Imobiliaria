@@ -1,5 +1,7 @@
 # Matriz de diferenças entre as três variantes do renderizador
 
+> **Registro histórico.** A modularização foi concluída em 18/09/2026 ([aceite-final.md](aceite-final.md)). Este arquivo descreve aquele trabalho e não é mantido. Estado atual: [DOCUMENTACAO.md](../../DOCUMENTACAO.md).
+
 Medida em 18/09/2026, para a tarefa 27 (consolidar variantes por capacidade).
 
 ## O que mascarava a comparação

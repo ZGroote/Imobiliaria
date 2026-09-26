@@ -1,5 +1,7 @@
 # Execucao do plano de proporcao e ocupacao
 
+> **Registro histórico (09/09/2026).** Execução do plano de proporção e ocupação; os itens não foram acompanhados aqui e não descrevem o estado atual. Estado atual: [DOCUMENTACAO.md](../DOCUMENTACAO.md).
+
 Detalhes, arquivos, dependencias e criterios em [plan.md](plan.md).
 
 - [ ] 1. Auditar procedencia e dimensoes; registrar tres quarteiroes e desempenho inicial.

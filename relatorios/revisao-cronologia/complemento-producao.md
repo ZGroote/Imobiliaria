@@ -1,3 +1,5 @@
+> **Registro histórico (23/09/2026).** Complemento da cronologia do projeto, na data dele; não é mantido. Estado atual: [DOCUMENTACAO.md](../../DOCUMENTACAO.md).
+
 ## 32 Do link e das imagens ao cadastro do imóvel
 
 A produção de uma miniatura envolve a preparação dos dados, a autoria da geometria e a montagem de uma página interativa. O gerador atual de HTML recebe uma unidade já cadastrada. Seu parâmetro --unidade identifica esse cadastro; ele não recebe um link de anúncio para executar automaticamente toda a produção. Portanto, o intervalo entre receber o material e publicar uma página inclui trabalho anterior à execução do gerador.

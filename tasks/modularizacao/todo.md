@@ -1,5 +1,7 @@
 # Execução da modularização
 
+> **Registro histórico.** A modularização foi concluída em 18/09/2026 ([aceite-final.md](aceite-final.md)). Este arquivo descreve aquele trabalho e não é mantido. Estado atual: [DOCUMENTACAO.md](../../DOCUMENTACAO.md).
+
 Referência: [plan.md](plan.md). Implementação local em andamento na branch `refactor/modularizacao`. Evidências e limitações em [baseline/README.md](baseline/README.md).
 
 Cada linha abaixo é uma entrega. As linhas marcadas como lote devem ser repetidas para cada submódulo indicado, mantendo no máximo cinco arquivos alterados por entrega. Os caminhos de destino são propostas, não arquivos já criados. Registrar a verificação e o checkpoint de reversão ao concluir cada item.

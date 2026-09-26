@@ -1,5 +1,7 @@
 # Execução da versão 1.0
 
+> **Backlog vivo, parcialmente desatualizado (26/09/2026).** Parte dos itens abaixo já foi entregue pelo Trilho B (painel e publicação de imóveis) sem estar marcada aqui; a reconciliação item a item vem em PR próprio. Antes de pegar um item, confira [DOCUMENTACAO.md](../../DOCUMENTACAO.md) e a [proposta do painel](../painel/proposta.md).
+
 Escopo e decisões: [plan.md](plan.md). Ordem: T01 → T02/T03 → T04 → T05 → T06 →
 T07 → T08 → T09 → T10 → T11 → T12 → T13 → T14 → T15. Cada incremento deve ser
 verificável; tarefas grandes abaixo têm entregas separadas. Sem prazo prometido

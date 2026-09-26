@@ -1,5 +1,7 @@
 # Estudo de carga das miniaturas sem “Ver mapa”
 
+> **Registro histórico (22/09/2026).** Medição feita na data e não refeita. Estado atual: [DOCUMENTACAO.md](../DOCUMENTACAO.md).
+
 Medição em 22/09/2026. Escopo: páginas independentes de Cedros, Colinas e Castanheiras, incluindo ficha, maquete, conjunto, controles de câmera, planta 2D, planta mobiliada, visita e editor de móveis onde disponível. O mapa não foi aberto. Nenhum arquivo de produção foi alterado.
 
 ## Resultado medido

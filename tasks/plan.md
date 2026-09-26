@@ -1,5 +1,7 @@
 # Plano: proporcao e ocupacao dos quarteiroes
 
+> **Registro histórico (09/09/2026).** Plano de proporção e ocupação dos quarteirões. Os itens não foram acompanhados neste arquivo, e ele não descreve o estado atual do mapa. Estado atual: [DOCUMENTACAO.md](../DOCUMENTACAO.md).
+
 Pedido de 09/09/2026: planejar melhorias no resultado visual das casas e terrenos.
 Este documento propoe trabalho; nao aplica novas alteracoes no mapa.
 

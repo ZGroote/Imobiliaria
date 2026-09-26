@@ -1,5 +1,7 @@
 # Verificação do T02 — dados de anúncio seguros
 
+> **Registro histórico.** Verificação do T02, feita na data dela e não refeita. Estado atual: [DOCUMENTACAO.md](../../DOCUMENTACAO.md).
+
 ## O que estava aberto
 
 Três entradas do cadastro chegavam à página sem tratamento:

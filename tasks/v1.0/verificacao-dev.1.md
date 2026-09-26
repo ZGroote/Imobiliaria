@@ -1,5 +1,7 @@
 # Verificação da base 1.0.0-dev.1
 
+> **Registro histórico.** Verificação da base 1.0.0-dev.1, feita na data dela e não refeita. Estado atual: [DOCUMENTACAO.md](../../DOCUMENTACAO.md).
+
 ## Entrega
 
 Gerada em `releases/1.0.0-dev.1/`, sem modificar o destino configurado no Firebase.
