@@ -42,7 +42,7 @@ class CastanheirasBaseTests(unittest.TestCase):
         self.assertNotIn("from blender_maquete_base import renderizar", self.codigo)
 
     def test_referencia_visual_local_e_opcional_mas_placeholder_permanece(self):
-        self.assertIn("ref_path=ROOT/'referencias/castanheiras.png'", self.codigo)
+        self.assertIn("ref_path=ROOT/style['referenceImage']", self.codigo)
         self.assertIn(
             "ref=bpy.data.objects.new('REF-perspectiva-fornecida',None)",
             self.codigo,
