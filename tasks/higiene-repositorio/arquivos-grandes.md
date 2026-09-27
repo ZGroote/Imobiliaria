@@ -1,12 +1,19 @@
 # Arquivos grandes — inventário, dependências e decisões (27/09/2026)
 
-Este PR não remove nada. Ele traz três coisas:
+**Histórico deste documento:**
 
-- o inventário dos arquivos grandes;
-- a prova de regenerabilidade dos candidatos a descarte;
-- a trava de tamanho no CI.
+- **#36:** ele nasceu como inventário, sem remover nada. Trouxe o inventário, a prova de
+  regenerabilidade dos candidatos a descarte e a trava de tamanho no CI. As decisões foram tomadas
+  arquivo por arquivo, depois dele.
+- **#37:** ele foi atualizado com as três saídas aprovadas, que somam 42,08 MiB:
+  - saíram os dois `uv.json` e o `source-before-normal-repair.json`;
+  - o ambiente de regeneração passou a ser o `requirements-bake.txt` (`numpy==2.4.6`,
+    `xatlas==0.0.11`);
+  - o `repair-bake-normals.py` deixou de recriar o backup.
 
-A decisão de cada arquivo é **proposta** aqui e tomada arquivo por arquivo, antes de qualquer remoção.
+**Estado depois do #37:** o `HEAD` tem 986 arquivos e 238,3 MiB, e 24 arquivos acima de 1 MiB
+somam 198,8 MiB. As linhas dos três arquivos que saíram continuam no inventário como registro,
+marcadas "saiu", e a prova depois das saídas está no fim deste documento.
 
 **Regras deste ciclo:**
 
@@ -33,14 +40,14 @@ A decisão de cada arquivo é **proposta** aqui e tomada arquivo por arquivo, an
 |---:|---|---|---|---|---|---|
 | 62,33 | `sao-carlos/dados/lotes_saocarlos_completo.geojson` | E | `pipeline/juntar_lotes.py` (etapa 4) | etapas 5, 6, 6b e 7 | todo imóvel | não: as entradas (lote de planta, sintético, miolo) não estão no git |
 | 35,43 | `lotes_saocarlos.geojson` | E | nenhum gerador no repositório | só como fallback: `consolidar.py` com `FALLBACK=1`; `encaixar_casas_lotes.py` se o completo não existir | todo imóvel | não |
-| 22,06 | `…/piloto-v3/source-before-normal-repair.json` | **I** | backup escrito pelo `repair-bake-normals.py` | o próprio `repair-bake-normals.py`, quando roda de novo | não | não, mas não faz falta (prova abaixo) |
+| 22,06 | `…/piloto-v3/source-before-normal-repair.json` | **I, saiu em 27/09** | backup escrito pelo `repair-bake-normals.py` | o próprio `repair-bake-normals.py`, quando roda de novo | não | não, mas não faz falta (prova abaixo) |
 | 22,03 | `…/piloto-v3/source.json` | **F, premium** | exportado do visualizador; depois recebe os três reparos | `unwrap-v3.py`, `bake-v3.py`, `repair-*` | não | não |
 | 15,03 | `…/exterior-v3/geometry-compact.json` | E | `unwrap-exterior.py` | a página do Cedros | Cedros | **sim, provado** |
-| 14,20 | `…/exterior-v3/uv.json` | **I** | `unwrap-exterior.py` | `bake-exterior.py` | não | **sim, provado** |
+| 14,20 | `…/exterior-v3/uv.json` | **I, saiu em 27/09** | `unwrap-exterior.py` | `bake-exterior.py` | não | **sim, provado** |
 | 6,71 | `…/exterior-v3/lightmap.rgbm.gz` | E | bake (Cycles), denoise e `encode_lightmaps.py` | a página do Cedros | Cedros | não testado: bake em GPU |
 | 6,38 | `…/piloto-v3/geometry-compact.json` | E | `unwrap-v3.py` | a página do Cedros | Cedros | **sim, provado** |
 | 6,08 | `…/piloto-v3/lightmap.rgbm.gz` | E | bake, denoise e encode | a página do Cedros | Cedros | não testado |
-| 5,83 | `…/piloto-v3/uv.json` | **I** | `unwrap-v3.py` | `bake-v3.py` | não | **sim, provado** |
+| 5,83 | `…/piloto-v3/uv.json` | **I, saiu em 27/09** | `unwrap-v3.py` | `bake-v3.py` | não | **sim, provado** |
 | 4,91 | `sao-carlos/sao-carlos-v7.city.json` | E | `pipeline/city_final.py` (etapa 7) | a montagem | todo imóvel | não: `city_base` não está no git |
 | 4,90 | `modelos_urbanos/v1/mapa-casas.json` | E | `modelos_urbanos/v1/compilar_mapa.mjs` | a montagem e `exteriores/v1/*` | todo imóvel | não verificado |
 | 4,08 | `sao-carlos/dados/street_tris.json` | E | `pipeline/ruas.py` (etapa 7b) | a montagem | todo imóvel | não: as quadras não estão no git |
@@ -81,7 +88,7 @@ O mesmo script escreve o `uv.json` e o `geometry-compact.json`, que é entrada d
 
 O `unwrap.json`, que o script também escreve, guarda o tempo da execução e muda a cada rodada. Ele é pequeno e não entra nesta conta.
 
-**O `xatlas` não está registrado em nenhum `requirements` nem no `DEPENDENCIAS.md`.** Registrar a versão 0.0.11 é condição para o `uv.json` sair do git.
+O `xatlas` não estava registrado em nenhum `requirements`. No #37 ele entrou no `requirements-bake.txt`, com a versão exata, junto com o `numpy`.
 
 ### `source-before-normal-repair.json`: não se regenera, e não faz falta
 
@@ -99,21 +106,23 @@ O que isso quer dizer:
 - **O backup ainda é um risco.** Enquanto ele existe, rodar só o `repair-bake-normals.py` desfaz, sem aviso, os reparos de batentes e molduras (teste b).
 - O que se perde ao tirá-lo é o export original, que só faria falta para refazer os três reparos com outro algoritmo. Ele continua no histórico do git.
 
-## Decisões propostas (para aprovar arquivo por arquivo)
+## Decisões
 
-| Arquivo | Proposta | Condição |
+Foram tomadas arquivo por arquivo depois do #36. As três primeiras linhas foram feitas no #37.
+
+| Arquivo | Decisão | Condição |
 |---|---|---|
-| `piloto-v3/uv.json`, `exterior-v3/uv.json` (20 MiB) | **sair do `HEAD`** | registrar `xatlas==0.0.11` em `requirements-fontes.txt` e no `DEPENDENCIAS.md`; anotar no padrão atual que o bake começa pelo unwrap |
-| `piloto-v3/source-before-normal-repair.json` (22 MiB) | **sair do `HEAD`** | nenhuma, além da sua decisão: ele não se regenera, mas o reproduzível é o atual. Se quiser guardar o export original, ele vai para o destino privado junto com os `source.json` |
-| `piloto-v3/source.json`, `exterior-v3/source.json` (24,8 MiB) | **ficam**, até haver destino privado comprovado | ver "Destino privado" abaixo |
-| `lotes_saocarlos.geojson` (35 MiB) | **fica agora**, porque os GeoJSON não se apagam neste ciclo | é candidato a sair das entradas do build, porque em São Carlos só é lido como fallback. Isso muda o `fontes` do manifest e é decisão própria |
+| `piloto-v3/uv.json`, `exterior-v3/uv.json` (20 MiB) | **saíram do `HEAD`** (#37) | `requirements-bake.txt` com `numpy==2.4.6` e `xatlas==0.0.11`, numa venv própria; `DEPENDENCIAS.md` e `PADRAO-ATUAL.md` dizem como recalcular a luz |
+| `piloto-v3/source-before-normal-repair.json` (22 MiB) | **saiu do `HEAD`** (#37), sem ir para armazenamento privado | o `repair-bake-normals.py` deixou de criar e de ler esse backup |
+| `piloto-v3/source.json`, `exterior-v3/source.json` (24,8 MiB) | **ficam** até haver destino privado comprovado | ver "Destino privado" abaixo |
+| `lotes_saocarlos.geojson` (35 MiB) | **fica**, porque os GeoJSON não se apagam neste ciclo | é candidato a sair das entradas do build, porque em São Carlos só é lido como fallback. Isso muda o `fontes` do manifest e é decisão própria |
 | `lotes_saocarlos_completo.geojson` e os `.bin` | **ficam** | entram no build e na publicação |
 | os outros arquivos de classe E | **ficam** | o build lê do checkout |
 | `castanheiras.blend`, `monte-dos-cedros_blender/modelo.json` (padrão leve) | **ficam** | são ativos do produto |
 | `encaixes-sao-carlos.json` | **fica** | é cache caro de refazer |
 | `maquete-*.html` (site das miniaturas) | **ficam** | o site das miniaturas publica a partir deles |
 
-Se as três primeiras linhas forem aprovadas, o `HEAD` perde 42 MiB.
+As três primeiras linhas tiraram 42,08 MiB do `HEAD` (#37).
 
 ## Destino privado: o que conta como "comprovado"
 
@@ -131,7 +140,7 @@ Nada disto foi feito ainda. Serve de critério para quando o `source.json` for s
 
 - um arquivo versionado acima de **1 MiB** não está na lista `GRANDES`;
 - um arquivo da lista **cresce além do teto** dele, que é o tamanho de hoje arredondado para cima até o MiB inteiro;
-- o repositório inteiro passa de **300 MiB** (hoje são 280,3);
+- o repositório inteiro passa de **300 MiB** (eram 280,3 na base; 238,3 depois das saídas de 27/09);
 - algum arquivo passa de 100 MiB, o limite duro do GitHub;
 - uma entrada da lista não existe mais, ou deixou de estar acima de 1 MiB. A lista é o inventário exato, então quando um arquivo sai ou encolhe, a linha dele sai da lista e do inventário no mesmo PR.
 
@@ -143,3 +152,32 @@ O tamanho medido é o do blob no índice do git, e não o do disco, porque no Wi
 | `portoes.json` com 1 MiB a mais | reprova |
 | `piloto-v3/uv.json` fora do índice | reprova |
 | `arvores_lib.json` encolhido para 500 KB | reprova |
+
+## Prova depois das saídas (27/09/2026)
+
+A prova rodou sobre o commit `d4180f6`, extraído com `git archive`. Esse commit já não tem os três
+arquivos.
+
+**O ambiente** é uma venv limpa, criada só com o `requirements-bake.txt` do commit. `pip freeze`
+mostra exatamente `numpy==2.4.6` e `xatlas==0.0.11`, com Python 3.14.4.
+
+**O unwrap.** Os dois scripts rodaram na árvore extraída, sem nenhum `uv.json` presente:
+
+| Arquivo | Resultado |
+|---|---|
+| `piloto-v3/uv.json` | regerado = blob removido `3c1ca56a…` (sha256 `dccdc34a7718e03c…`): **idêntico byte a byte** |
+| `exterior-v3/uv.json` | regerado = blob removido `d1751603…` (sha256 `59d6c208cea6a916…`): **idêntico byte a byte** |
+| `piloto-v3/geometry-compact.json` | não mudou (`1dae995adcdb6657…`) |
+| `exterior-v3/geometry-compact.json` | não mudou (`e357b5c63f493bba…`) |
+
+Os atlas saíram com 2943 × 2948 e 6275 × 6273, as mesmas dimensões do `unwrap.json` versionado.
+
+**O `repair-bake-normals.py` novo,** no Blender 5.2.2 LTS:
+
+| Caso | Resultado |
+|---|---|
+| (i) sem backup | o `source.json` fica igual ao versionado (`36e683fd164bc666…`), e **nenhum backup é criado** |
+| (ii) com o backup antigo plantado na pasta (blob `afcdedf4…`) | o `source.json` fica igual ao versionado. O script ignora o backup; o antigo, nesse caso, gerava `bcc6e794…` e desfazia os reparos de batentes e molduras |
+
+O reparo, quando roda, reescreve o `normal-repair.json` com as contagens daquela rodada (383
+triângulos), sem mudar o `source.json`.
