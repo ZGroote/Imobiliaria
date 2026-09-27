@@ -62,9 +62,9 @@ mesmo defeito da largura da rua, na forma "o aceite está escrito em mais de um 
     padrao/pagina.py             sonda que roda JS dentro do HTML pronto (Chrome headless)
     padrao/rodar_qa.py           roda tudo, grava relatorios/qa_<slug>.json, sai 1 se reprovar
 
-**A variante é sempre explícita**: `padrao/rodar_qa.py <slug> --variante <v>`. Sem a
-flag tudo cai no padrão `v15`, que é o renderizador ANTIGO — o QA mede a página errada
-e o `montar` produz a página errada, os dois em silêncio. Ver `DEPENDENCIAS.md`.
+**A variante vem de `--variante`**: `padrao/rodar_qa.py <slug> --variante <v>`. Sem a
+flag vale o padrão, que desde o #46 é o `v16-moveis`. O `v15`, o renderizador antigo, só
+com `--variante v15`. Ver `DEPENDENCIAS.md`.
 
 Já consomem isso: `pipeline/quadras_miolo.py` (a tabela de largura saiu de lá) e
 `pipeline/juntar_lotes.py` (os limiares do exame de quadra).

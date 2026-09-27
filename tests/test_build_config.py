@@ -10,7 +10,7 @@ from pipeline.build.config import RAIZ, resolve
 
 class BuildConfigurationTests(unittest.TestCase):
     def test_defaults_and_explicit_precedence(self):
-        self.assertEqual(resolve(environ={}).versao, 'v15')
+        self.assertEqual(resolve(environ={}).versao, 'v16-moveis')
         cfg = resolve('araraquara', 'v16-moveis',
                       environ={'CIDADE': 'sao-carlos', 'MAPA_V': 'v15'})
         self.assertEqual((cfg.slug, cfg.versao), ('araraquara', 'v16-moveis'))
@@ -31,7 +31,9 @@ class BuildConfigurationTests(unittest.TestCase):
         cid.caminho.return_value = str(RAIZ / 'v15/ribeirao-preto-v15-aberto.html')
         self.assertEqual(resolve(versao='v16-moveis').saida('html_saida', cid),
                          RAIZ / 'v16-moveis/ribeirao-preto-v16-moveis-aberto.html')
-        self.assertEqual(resolve(destino='isolado').saida('html_saida', cid),
+        self.assertEqual(resolve(destino='isolado', environ={}).saida('html_saida', cid),
+                         Path('isolado').resolve() / 'ribeirao-preto-v16-moveis-aberto.html')
+        self.assertEqual(resolve(versao='v15', destino='isolado').saida('html_saida', cid),
                          Path('isolado').resolve() / 'ribeirao-preto-v15-aberto.html')
 
     def test_invalid_variant_cannot_be_a_path(self):

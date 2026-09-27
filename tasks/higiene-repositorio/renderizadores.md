@@ -3,6 +3,10 @@
 **Histórico deste documento:**
 
 - **#44:** inventário e classificação. Nada foi movido, apagado ou publicado.
+- **#45:** o portão "cidade fora do código" passou a ler `config.fonte`.
+- **#46:** o v15 deixou de ser o padrão. O `V_PADRAO` é `v16-moveis`, e o layout `v15/...` dos JSON das cidades virou `BASE_CAMINHO_SAIDA`, separado do padrão. O v15 continua congelado e disponível com `--variante v15`.
+
+As tabelas abaixo são a medida de 27/09 na base `78e6f12`, **antes** do #45 e do #46. Onde elas dizem que o v15 é o padrão, isso valia até o #46.
 
 **Escopo:** os quatro renderizadores de **cidade**:
 
@@ -203,8 +207,8 @@ Não foram corrigidos aqui, porque este PR é só inventário.
 
 Nada disso foi feito neste PR.
 
-1. **Fazer o QA medir o renderizador usado:** o portão "cidade fora do código" passa a ler `config.fonte`. Vem **antes** da troca do padrão, porque não se promove o v16-moveis a padrão com uma barreira de QA ainda apontada para o v15. Como a mesma lógica deu 0 nas quatro árvores, o PR é isolável e de baixo risco.
-2. **Tirar o v15 de padrão.** O `V_PADRAO` passa a ser `v16-moveis`, com o remapeamento de `html_saida` resolvido e o `rodar.py`, o `publicar.py` e o `rodar_qa.py` seguindo junto. É o passo de mais risco, e merece PR só dele, com o Cedros conferido byte a byte (`34331f1ceb9d`).
+1. **Feito no #45. Fazer o QA medir o renderizador usado:** o portão "cidade fora do código" passa a ler `config.fonte`. Vem **antes** da troca do padrão, porque não se promove o v16-moveis a padrão com uma barreira de QA ainda apontada para o v15. Como a mesma lógica deu 0 nas quatro árvores, o PR é isolável e de baixo risco.
+2. **Feito no #46. Tirar o v15 de padrão.** O `V_PADRAO` passa a ser `v16-moveis`, com o remapeamento de `html_saida` resolvido e o `rodar.py`, o `publicar.py` e o `rodar_qa.py` seguindo junto. É o passo de mais risco, e merece PR só dele, com o Cedros conferido byte a byte (`34331f1ceb9d`).
 3. **Corrigir a documentação desatualizada** (achado 3).
 4. **v17 e v18:** decidir se as árvores e as duas demos saem do `HEAD`. O histórico fica no git e na branch `claude/serene-edison-de1ior`.
 5. **v15:** continua congelado como referência até os passos 1 e 2 provarem que nada o consulta. Só no fim se decide se fica ou sai.
