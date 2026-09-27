@@ -876,19 +876,19 @@ esse hash, e o registro confere com o que já está no ar.
 
 ---
 
-## 14. Estado de produção e integração (26/09/2026)
+## 14. Estado de produção e integração (27/09/2026)
 
 | Peça | Estado |
 |---|---|
 | Firestore | `(default)` em `southamerica-east1`, Standard, proteção contra exclusão; 12 índices compostos `READY`: os 9 originais, 2 da paginação (PR #23) e 1 do contador de imóveis publicados (PR #24) |
-| Regras do Firestore | publicadas = `firebase/firestore.rules` de `main` `3afc464` (PR #25: o aceite consome o convite): ruleset `d965b18a-49dc-490a-8fe8-9b9073038373`, sha256 `f9764b0745e7f755…`, lido de volta pela API e igual byte a byte ao arquivo (26/09, 02:48 UTC). O anterior, para rollback, é `5e46af7` (ruleset `bb95ee6b…`, sha256 `8c163114ad5d4f59…`) |
+| Regras do Firestore | publicadas = `firebase/firestore.rules` de `main` `3afc464` (PR #25: o aceite consome o convite): ruleset `d965b18a-49dc-490a-8fe8-9b9073038373`, sha256 `f9764b0745e7f755…`, lido de volta pela API e igual byte a byte ao arquivo (26/09, 02:48 UTC; relido em 27/09, igual ao de `main` `8593a8e`). O anterior, para rollback, é `5e46af7` (ruleset `bb95ee6b…`, sha256 `8c163114ad5d4f59…`) |
 | Storage | não existe; `storage.rules` só no emulator |
 | Web App | `painel` (`1:163406298617:web:a78e1724d239a144f55128`); config pública em `painel/.env.production`, com `NEXT_PUBLIC_SITE_IMOVEIS` apontando o site de imóveis (PR #17) |
 | Hosting do painel | site `imobilaria-deccb-painel`, target `painel`, `firebase.painel.json`; no ar = `main` `3afc464` (paginação #23, nomes por id e Início com `count()` #24, convite consumido e usuários paginados #25), versão `ef9c4d811735cfb8` (26/09, 03:00 UTC); o primeiro deploy foi `8139863` |
-| Site de imóveis | `imobilaria-deccb-imoveis`, target `imoveis`, `firebase.imoveis.json`. Live = versão `56630f63b23116cc`: Cedros `215965d37d7d` com manifest `c2b2a242…`. O canal `imovel-monte-dos-cedros-37` serve o mesmo artefato (tour, maquete e manifest iguais byte a byte ao live; expira em 25/10) |
-| Outros sites | `imobilaria-deccb` (mapa) e `imobilaria-deccb-miniaturas` não foram tocados; os redirects do mapa estão em `main` desde o PR #2 |
+| Site de imóveis | `imobilaria-deccb-imoveis`, target `imoveis`, `firebase.imoveis.json`. Live = versão `716c753dc02158ca` (27/09, 01:19 UTC; 252 caminhos = 250 do snapshot + 2 reservados). No `estado.json`: Cedros `atual` = `34331f1ceb9d` (manifest `99712b35d7bf6f3c…`) e `anterior` = `215965d37d7d` (manifest `c2b2a242…`, a primeira publicação). O canal `imovel-monte-dos-cedros-37` serve o `34331f1ceb9d` (expira em 26/10) |
+| Outros sites | `imobilaria-deccb` (mapa, versão `1855179e3c93c2eb` de 22/09) e `imobilaria-deccb-miniaturas` (versão `2769c1c05b7090a4` de 23/09) não foram tocados; os redirects do mapa estão em `main` desde o PR #2 |
 | Contas em produção | o `platform_admin` e um `agency_manager` da Cardinali (conta de teste, entrou pelo convite normal com e-mail verificado). `invites` está vazio: o aceite consome o convite, e o convite legado já aceito saiu em 26/09 pelo "Cancelar" (única escrita, conferida por `updateTime` de todos os documentos) |
-| Dados | 1 imobiliária (Cardinali), 2 usuários, 0 convites, 1 imóvel (Cedros), 1 pedido publicado, 1 registro em `publications` e 6 AuditLogs |
+| Dados | 1 imobiliária (Cardinali), 2 usuários, 0 convites, 1 imóvel (Cedros: `publishedBuild` `34331f1ceb9d`, `previousBuild` `215965d37d7d`), 2 pedidos publicados, 2 registros em `publications` e 17 AuditLogs (contados em 27/09) |
 
 **Deploy, sempre com escopo explícito** (o `firebase.json` da raiz reúne Firestore, Storage e o
 Hosting do mapa; um `firebase deploy` sem `--only` publicaria tudo). Cada um só com aprovação:
@@ -930,8 +930,65 @@ era o artefato oficial. O painel só formalizou no Firestore o que o Hosting já
 Antes de o ciclo ser possível, o preview do canal servia outro manifest do mesmo build
 (`064d47fa…`, de uma rematerialização). Com a conferência exata do B5c, o registro seria recusado;
 por isso o canal foi remontado a partir do mesmo diretório de build que foi ao live, sem tocar
-no live. A **reversão** ainda não foi exercitada em produção: espera um segundo build legítimo
-de algum imóvel (não se fabrica um só para testar). Os testes do emulador cobrem a mecânica.
+no live.
+
+**Segundo ciclo real: a sanitização do Cedros (concluída em 27/09/2026, 01:32 UTC).** O build
+`215965d37d7d` no ar levava 4 anúncios reais do `roca.com.br` na vitrine do tour e 3 estudos 3D
+derivados das fotos deles. O PR #33 os trocou em `main` por anúncios fictícios e por um pacote de
+estudos vazio. Isto foi uma exceção controlada ao congelamento de produção do ciclo de higiene,
+com cada etapa autorizada em separado.
+
+1. **Build.** `34331f1ceb9d`, feito a partir de `main` `8593a8e`, sem mudar código nem dados.
+   Comparado com o `215965d37d7d`:
+   - a `maquete.html` é idêntica byte a byte;
+   - no `tour.html`, 21 dos 24 blocos são iguais, e o HTML fora dos scripts também. Mudaram só
+     `__imoveis` (4 anúncios da Roca viraram 3 fictícios), `__listingModels` (3 estudos viraram
+     `[]`) e o comentário da vitrine no JavaScript;
+   - `roca.com.br` passou de 8 ocorrências para 0;
+   - das 164 entradas do manifest mudaram 4: as 3 do #33 e o `pagina_maquete.py` do #21, que não
+     afeta a maquete do Cedros.
+2. **Preview** no canal. Os bytes servidos de tour, maquete e manifest são iguais aos do build.
+   Tour e maquete funcionam, os quintais carregam, e não houve erro no console.
+3. **Painel** (01:07–01:16 UTC). Pedido `3EaRqRJRfn6JJRlWsAy0`, com o preview registrado com o manifest
+   `99712b35d7bf6f3c…`. A gerente aprovou esse par.
+4. **Promoção.**
+   - O `estado.json` do ar foi relido na hora: `atual` = `215965d37d7d`, sem `anterior`.
+   - `montar-live promover` rodou com o manifest aprovado.
+   - O snapshot montado tem 244 dos 246 caminhos do ar iguais. Só mudaram os 2 ponteiros e
+     entraram os 3 arquivos do build novo, e o build anterior está preservado byte a byte.
+   - O deploy foi só de `hosting:imoveis` (01:19 UTC).
+5. **Smoke público.**
+   - O `estado.json` no ar é igual ao snapshot, e `/imovel` e `/maquete` levam ao build novo.
+   - A maquete é igual à anterior.
+   - Não há nenhum `roca.com.br`, os 3 anúncios são `[FICTÍCIO]`, e o estudo 3D fica oculto.
+   - Os 47 quintais respondem 200, sem erro de console ou de rede.
+   - Os bytes e o manifest no ar são iguais aos aprovados.
+   - Nenhum outro site ganhou release.
+6. **Registro.** O imóvel ficou com `publishedBuild` `34331f1ceb9d`, `previousBuild`
+   `215965d37d7d`, `publishedRequestId` `3EaRqRJRfn6JJRlWsAy0` e `previousRequestId`
+   `vFninsZXhvAOAorZtoNM`. Em `publications` entrou o `nGR6fzbTWmCyzU0g5Kp6` (publish, anterior
+   `215965d37d7d`), e cada transição tem o seu AuditLog.
+
+**A armadilha do "Voltar para produção"** apareceu nesse ciclo.
+
+- **O que o painel mostra.** No estado `approved`, o único botão de status é "Voltar para
+  produção", e o "Registrar publicação" só aparece **depois** de "Conferir o site".
+- **O que aconteceu.** Às 01:27 o pedido saiu de `approved` por quatro cliques de status:
+  `production` → `internal_review` → `production` → `internal_review`. Todos ficaram auditados.
+- **Por que não houve publicação indevida.** As regras só permitem publicar a partir de
+  `approved`, e só o gerente pode colocar o pedido em `approved`. A armadilha de interface alterou
+  o fluxo, mas a barreira de autorização segurou a publicação.
+- **A volta,** pelo fluxo normal:
+  1. o admin registrou de novo o mesmo preview, com o mesmo build e o mesmo manifest (01:32:04);
+  2. a gerente aprovou de novo (01:32:11);
+  3. o admin conferiu o site e registrou (01:32:20).
+- **Correção pendente,** depois do congelamento: pedir confirmação para o "Voltar para produção" ou
+  tirar esse botão do estado `approved`.
+
+**Reversão.** Desde 27/09 existe, pela primeira vez, um par legítimo `atual`/`anterior`, no ar e no
+Firestore. `montar-live reverter` e a ação de reversão do painel levariam o Cedros de volta ao
+`215965d37d7d`. **Ela não foi exercitada, por decisão:** não se testa em produção sem motivo. Os
+testes do emulador cobrem a mecânica.
 
 **Integração (concluída em 24/09):** o branch `painel/t03-regras` entrou em `main` pelo PR #5,
 com **merge commit** (`37114b2`; sem squash, rebase nem cherry-pick). Naquela data, `40b1abd`

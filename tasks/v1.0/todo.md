@@ -194,8 +194,9 @@ Arquivos: service worker, registro e teste HTTP/HTTPS. Não prometer funcionamen
 
 *Relacionado, sem fechar a tarefa:* o preview real por imóvel existe (canal
 `imovel-<id>` do site de imóveis, #9, #10), e o rollback existe e está testado no emulador
-(#12, #15, #16), mas **ainda não foi exercitado em produção**: isso espera um segundo build legítimo
-de algum imóvel.
+(#12, #15, #16), mas **ainda não foi exercitado em produção**. Desde 27/09 existe o par legítimo:
+o Cedros `34331f1ceb9d` no ar, com o `215965d37d7d` como anterior (proposta §14). A reversão fica
+parada por decisão, porque não se testa em produção sem motivo.
 
 Dependências: T01–T14. Arquivos: manifesto da release, relatório de aceite e changelog.
 Publicação e envio não são consequências automáticas de um teste local aprovado.
