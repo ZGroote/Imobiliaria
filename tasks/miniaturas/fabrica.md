@@ -511,6 +511,8 @@ Primeiro runner pode chamar scripts existentes sem refatorá-los.
 
 ## M2 — LEVE sem intervenção
 
+Inventário e contrato detalhado: [m2-fonte-leve.md](m2-fonte-leve.md).
+
 Tirar do caminho normal as escolhas específicas codificadas por empreendimento.
 
 Meta:
