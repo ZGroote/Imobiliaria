@@ -122,7 +122,7 @@ guarda-corpos e treliças vazadas, janelas menores, cortinas acesas e portaria.
 Os 22 pavimentos e o envelope vêm do cadastro. A profundidade das sacadas e os
 fundos são aproximações visuais; não é um levantamento arquitetônico certificado.
 
-- `modelar_castanheiras.py`: fonte reproduzível da modelagem e renderização.
+- `modelar_castanheiras.py`: fonte reproduzível da modelagem; reutiliza `material`, `box`, `flush` e `MATS` de `blender_maquete_base.py`, mantendo cópias/exportação/render próprios nesta etapa.
 - `castanheiras_blender/castanheiras.blend`: projeto editável, referência empacotada.
 - `castanheiras_blender/castanheiras.glb`: modelo interoperável, cerca de 0,9 MB.
 - `castanheiras_blender/preview.png`: render Cycles.
@@ -134,7 +134,7 @@ exibe a exportação; as sacadas e os detalhes não são mais modelados no naveg
 Para reconstruir, execute o script com Blender e depois monte o HTML:
 
 ```powershell
-& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python v1.5/miniaturas/modelar_castanheiras.py
+& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python-exit-code 1 --python v1.5/miniaturas/modelar_castanheiras.py
 python v1.5/miniaturas/pagina_maquete.py --unidade wish-castanheiras-58 --saida v1.5/miniaturas/maquete-wish-castanheiras-58.html
 ```
 
