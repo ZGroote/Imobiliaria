@@ -123,6 +123,11 @@ def normalizar(property_id):
             "target": variant["renderTarget"],
             "distance": common["renderDistance"],
             "ortho": variant["renderOrtho"],
+            "detail": {
+                "target": variant["detailTarget"],
+                "distance": common["detailDistance"],
+                "ortho": variant["detailOrtho"],
+            },
         },
         "metadata": {
             "reference": common["reference"],
