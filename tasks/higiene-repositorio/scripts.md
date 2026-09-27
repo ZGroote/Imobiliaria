@@ -7,7 +7,7 @@
 - **#42:** o `testa_recorte` virou gate do build por imóvel; a verificação mora no `pipeline/recorte.py`.
 - **#43:** saiu o `testa_pe_de_parede.py`, que era histórico (seção abaixo).
 
-Os renderizadores (v15, v16, v17, v18) ficam para a frente seguinte.
+Os renderizadores (v15, v16-moveis, v17, v18) estão em [renderizadores.md](renderizadores.md).
 
 **Base medida:** `main` `4dae983`.
 
