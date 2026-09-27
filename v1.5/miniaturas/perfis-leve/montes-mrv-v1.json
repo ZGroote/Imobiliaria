@@ -121,7 +121,12 @@
         "metalness": 0,
         "emission": 0.38
       }
-    }
+    },
+    "detailDistance": [
+      -50,
+      -48,
+      32
+    ]
   },
   "variants": {
     "torres-altas": {
@@ -140,7 +145,13 @@
         22
       ],
       "renderOrtho": 110,
-      "scope": "duas torres"
+      "scope": "duas torres",
+      "detailTarget": [
+        0,
+        0,
+        24
+      ],
+      "detailOrtho": 82
     },
     "blocos-baixos": {
       "balconyWidth": 2.25,
@@ -158,7 +169,13 @@
         6
       ],
       "renderOrtho": 104,
-      "scope": "quatro blocos representativos do cadastro; o condominio oficial tem mais blocos"
+      "scope": "quatro blocos representativos do cadastro; o condominio oficial tem mais blocos",
+      "detailTarget": [
+        0,
+        0,
+        10
+      ],
+      "detailOrtho": 44
     }
   }
 }
