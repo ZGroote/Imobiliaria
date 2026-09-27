@@ -6,11 +6,11 @@ uma miniatura do predio desejado. Com uma janela de informacoes em baixo."
 
 E de proposito que isto NAO e o renderizador: sem cidade, sem streaming, sem relevo e
 sem as tres etapas, a pagina abre em 1,5 MB e a maquete e a unica coisa que existe pra
-olhar -- que e o ponto de um teste. A geometria segue a mesma regra do
-`montaMaquete` do `renderizador-v18/app.js` (laje, parede e caixilho por pavimento,
-tudo em `InstancedMesh`), com um degrau a mais de detalhe que so cabe aqui: as janelas
-sao ESQUADRIAS DE VERDADE, distribuidas ao longo de cada face, em vez de uma fita
-continua de vidro.
+olhar -- que e o ponto de um teste. A geometria segue a mesma regra do `montaMaquete`
+do renderizador, hoje em `v1.5/renderizador-v16-moveis/listings/stage.js` (laje, parede
+e caixilho por pavimento, tudo em `InstancedMesh`), com um degrau a mais de detalhe que
+so cabe aqui: as janelas sao ESQUADRIAS DE VERDADE, distribuidas ao longo de cada face,
+em vez de uma fita continua de vidro.
 
     python v1.5/miniaturas/pagina_maquete.py                 # -> v1.5/miniaturas/maquete.html
     python v1.5/miniaturas/pagina_maquete.py --saida /tmp/x.html
@@ -216,9 +216,9 @@ IMOVEL = {
         "pe_direito_pav": 3.15      # laje a laje; o mesmo LV do renderizador
     },
     # A PLANTA DA UNIDADE, em metros, no referencial do desenho enviado em 19/09/2026
-    # (16,5 x 9,2 m de piso, pe-direito 2,60 m, recuo no canto sudeste). Sao as MESMAS
-    # coordenadas do `miniaturas/demo_v18.py`; a diferenca e que aqui ela e desenhada de
-    # tres jeitos -- 2D, 3D e por dentro -- em vez de virar cidade.
+    # (16,5 x 9,2 m de piso, pe-direito 2,60 m, recuo no canto sudeste). O antigo
+    # `demo_v18.py` (fora do HEAD desde o #48) usava as MESMAS coordenadas pra virar
+    # cidade; aqui ela e desenhada de tres jeitos -- 2D, 3D e por dentro.
     #
     # A ORDEM DOS COMODOS IMPORTA: quem deriva parede pergunta "de quem e esta celula?"
     # e fica no PRIMEIRO da lista que a contem. A sala e o poligono que SOBRA (um

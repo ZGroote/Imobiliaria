@@ -6,6 +6,7 @@
 - **#45:** o portão "cidade fora do código" passou a ler `config.fonte`.
 - **#46:** o v15 deixou de ser o padrão. O `V_PADRAO` é `v16-moveis`, e o layout `v15/...` dos JSON das cidades virou `BASE_CAMINHO_SAIDA`, separado do padrão. O v15 continua congelado e disponível com `--variante v15`.
 - **#47:** corrigidas as quatro docs desatualizadas do achado 3.
+- **#48:** o v17 e o v18 saíram do `HEAD`, com os dois demos (seção "Retirada do v17 e do v18").
 
 As tabelas abaixo são a medida de 27/09 na base `78e6f12`, **antes** do #45 e do #46. Onde elas dizem que o v15 é o padrão, isso valia até o #46.
 
@@ -158,6 +159,23 @@ E também:
 - **fonte das demos:** os 12 arquivos de cada árvore;
 - **saída regenerável:** `v17/` e `v18/`. Na pasta principal, `v17/` tem 32 MB com uma `sao-carlos-v17-aberto.html` antiga, montada quando o v17 ainda era variante, e `v18/` não existe. Nenhuma das duas é versionada ou ignorada.
 
+### Retirada do v17 e do v18 (#48, 27/09/2026)
+
+Saíram do `HEAD`, **removidos e não movidos** para `_arquivo/`: o histórico do git é a referência.
+
+| Saiu | Objeto no git | Arquivos | Bytes |
+|---|---|---:|---:|
+| `v1.5/renderizador-v17/` | árvore `ab8ad1416486` | 12 | 1.367.424 |
+| `v1.5/renderizador-v18/` | árvore `94f10d1df32c` | 12 | 1.398.689 |
+| `v1.5/miniaturas/demo_v17.py` | blob `d277ef9b9db0` | 1 | 11.292 |
+| `v1.5/miniaturas/demo_v18.py` | blob `5c277da85ea2` | 1 | 11.455 |
+| **total** | | **26** | **2.788.860** (2,66 MiB) |
+
+- **Por que podiam sair:** a classificação acima. Ninguém além dos dois demos os lia, nenhum teste, build, manifest ou config de Hosting os usava, o pipeline os recusava, e as funções já estavam no v16-moveis.
+- **O `HEAD` encolhe 2,66 MiB, mas o repositório não:** os blobs compartilhados (`three.min.js`, `earcut.min.js`, `cabeca.html`, `rabo.html` e os cinco módulos soltos) continuam no v16-moveis, e o resto continua no histórico.
+- **Trava:** `tests/test_pipeline_paths.py` reprova se `renderizador-v17/`, `renderizador-v18/`, `demo_v17.py` ou `demo_v18.py` voltarem ao índice do git, em qualquer pasta.
+- **Cedros:** o `pagina_maquete.py` é fonte do build e teve só docstring e comentário alterados. O rebuild deu `34331f1ceb9d`, com `tour.html` e `maquete.html` iguais byte a byte.
+
 ## Sondas: de onde tiram o caminho da página
 
 | Como acham a página | Sondas |
@@ -211,5 +229,5 @@ Nada disso foi feito neste PR.
 1. **Feito no #45. Fazer o QA medir o renderizador usado:** o portão "cidade fora do código" passa a ler `config.fonte`. Vem **antes** da troca do padrão, porque não se promove o v16-moveis a padrão com uma barreira de QA ainda apontada para o v15. Como a mesma lógica deu 0 nas quatro árvores, o PR é isolável e de baixo risco.
 2. **Feito no #46. Tirar o v15 de padrão.** O `V_PADRAO` passa a ser `v16-moveis`, com o remapeamento de `html_saida` resolvido e o `rodar.py`, o `publicar.py` e o `rodar_qa.py` seguindo junto. É o passo de mais risco, e merece PR só dele, com o Cedros conferido byte a byte (`34331f1ceb9d`).
 3. **Feito no #47. Corrigir a documentação desatualizada** (achado 3).
-4. **v17 e v18:** decidir se as árvores e as duas demos saem do `HEAD`. O histórico fica no git e na branch `claude/serene-edison-de1ior`.
+4. **Feito no #48. v17 e v18:** as árvores e as duas demos saíram do `HEAD`. O histórico fica no git e na branch `claude/serene-edison-de1ior`.
 5. **v15:** continua congelado como referência até os passos 1 e 2 provarem que nada o consulta. Só no fim se decide se fica ou sai.

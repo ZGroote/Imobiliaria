@@ -47,8 +47,9 @@ Pôr um item na lista é a classificação explícita. Tirar um item nunca repro
   listaria a unidade. Ribeirão está fora do escopo, e esse mapa não é montado nem publicado.
 
 Mais um prédio real: o "Edifício da planta · Apartamento 304", da planta enviada em 19/09/2026.
-Ele está **dentro do código**, como a constante `IMOVEL` de `v1.5/miniaturas/pagina_maquete.py` e
-nos demos `demo_v17.py` e `demo_v18.py`, e já está montado em `v1.5/miniaturas/maquete.html`.
+Ele está **dentro do código**, como a constante `IMOVEL` de `v1.5/miniaturas/pagina_maquete.py`, e
+já está montado em `v1.5/miniaturas/maquete.html`. Os demos `demo_v17.py` e `demo_v18.py` também o
+traziam; saíram do `HEAD` no #48 e continuam no histórico do git.
 
 ## Onde esses dados estão
 

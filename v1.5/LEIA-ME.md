@@ -6,10 +6,11 @@ só. Antes de 21/09/2026 isso estava espalhado por quatro diretórios na raiz.
 ```
 v1.5/
   renderizador-v16-moveis/   o renderizador modular: 80 módulos no lugar de um app.js
-  renderizador-v17/          as três etapas (mapa, interior, planta) e a planta 3D
-  renderizador-v18/          a maquete como fio condutor da ficha até a visita
-  miniaturas/                o montador da maquete, os demos e o portão de 7 sondas
+  miniaturas/                o montador da maquete e o portão de 8 sondas (testa_etapas)
 ```
+
+O `renderizador-v17/` e o `renderizador-v18/`, com os dois demos que os montavam, saíram do
+`HEAD` no #48. O que traziam já está no v16-moveis, e o código continua no histórico do git.
 
 ## Isto é FONTE, não pacote
 
