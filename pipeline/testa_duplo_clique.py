@@ -23,7 +23,8 @@ sys.path.insert(0, RAIZ)
 # A versao tem UM dono: o montar.py, que e quem escreve a pagina. Ate o v9 ela estava
 # escrita aqui tambem, e o teste do v10 saiu aprovando as paginas do v9 -- o mesmo
 # conceito em dois lugares que o PADRAO.md existe pra matar, so que em miniatura.
-from pipeline.montar import VERSAO
+from pipeline.build.config import resolve
+VERSAO = resolve().versao   # sem flag propria: MAPA_V ou o padrao; o v15 reprova aqui
 PASTA = os.path.join(RAIZ, VERSAO)
 
 SONDA = """

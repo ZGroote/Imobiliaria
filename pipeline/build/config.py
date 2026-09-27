@@ -67,9 +67,3 @@ def resolve(slug=None, versao=None, destino=None, environ=None):
     return BuildConfig(slug or env.get('CIDADE') or 'sao-carlos',
                        versao or env.get('MAPA_V') or V_PADRAO,
                        Path(destino).resolve() if destino is not None else None)
-
-
-# Compatibilidade com os medidores antigos; apenas strings, sem I/O. Passa pelo
-# `resolve()` pra VALIDAR: um `MAPA_V=v15` que sobrou num terminal faria a sonda achar a
-# pagina velha que ainda existe em `v15/` no disco e medi-la em silencio.
-VERSAO = resolve().versao

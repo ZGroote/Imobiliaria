@@ -18,7 +18,8 @@ import io, json, os, shutil, subprocess, sys, tempfile
 CHROME = os.environ.get("CHROME", r"C:\Program Files\Google\Chrome\Application\chrome.exe")
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, RAIZ)
-from pipeline.montar import VERSAO
+from pipeline.build.config import resolve
+VERSAO = resolve().versao   # sem flag propria: MAPA_V ou o padrao; o v15 reprova aqui
 
 SLUG = ([a for a in sys.argv[1:] if not a.startswith("-")] or ["sao-carlos"])[0]
 SAIDA = os.path.join(RAIZ, "unreal", "plantas")

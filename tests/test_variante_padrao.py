@@ -189,15 +189,94 @@ class PontosDeEntrada(unittest.TestCase):
         self.assertNotEqual(r.returncode, 0)
         self.assertIn('variante desconhecida: v15', r.stderr)
 
-    def test_sondas_herdam_o_padrao_e_recusam_o_v15(self):
-        """As sondas acham a página por `RAIZ/VERSAO`. Um `MAPA_V=v15` esquecido não pode
-        mandá-las medir a pasta `v15/` que ainda existe no disco de quem montou antes."""
-        codigo = 'from pipeline.montar import VERSAO; print(VERSAO)'
+    def test_sondas_herdam_o_padrao(self):
+        """Sem flag própria, cada sonda faz `resolve().versao`: sem `MAPA_V`, v16-moveis."""
+        codigo = ("import runpy; g = runpy.run_path('pipeline/testa_moveis.py', run_name='inspecao'); "
+                  "print(g['VERSAO']); print(g['PAG'])")
         r = self.roda_python(codigo)
-        self.assertEqual((r.returncode, r.stdout.split()), (0, ['v16-moveis']), r.stderr)
-        r = self.roda_python(codigo, 'v15')
+        self.assertEqual(r.returncode, 0, r.stderr)
+        versao, pagina = r.stdout.split()
+        self.assertEqual(versao, 'v16-moveis')
+        self.assertEqual(Path(pagina), RAIZ / 'v16-moveis/sao-carlos-v16-moveis-aberto.html')
+
+    def test_sonda_com_mapa_v15_recusa_antes_de_medir(self):
+        """Um `MAPA_V=v15` esquecido não pode mandar a sonda medir a pasta `v15/` que ainda
+        existe no disco de quem montou antes: ela reprova antes de procurar a página."""
+        r = subprocess.run([sys.executable, 'pipeline/testa_moveis.py'], cwd=RAIZ,
+                           env=dict(sem_variante(), MAPA_V='v15'), capture_output=True, text=True)
         self.assertNotEqual(r.returncode, 0)
         self.assertIn('variante desconhecida: v15', r.stderr)
+        self.assertEqual(r.stdout, '', 'procurou ou mediu antes de recusar')
+
+    def test_nenhuma_sonda_importa_versao_global(self):
+        """O `VERSAO` global de `montar`/`config` saiu no #49: cada script resolve o seu."""
+        for pasta in ('pipeline', 'padrao', 'tools', 'v1.5/miniaturas'):
+            for p in (RAIZ / pasta).rglob('*.py'):
+                fonte = p.read_text(encoding='utf-8', errors='replace')
+                self.assertNotIn('from pipeline.montar import VERSAO', fonte, p)
+                self.assertNotIn('config import VERSAO', fonte, p)
+
+
+class FlagVenceAmbiente(unittest.TestCase):
+    """flag explícita > `MAPA_V` > padrão. Com `MAPA_V=v15` no ambiente, quem pede
+    `--variante v16-moveis` recebe o v16-moveis; quem não pede nada reprova. Cada caso roda num
+    processo novo, com o ambiente envenenado desde o import."""
+
+    def roda(self, codigo):
+        return subprocess.run([sys.executable, '-c', codigo], cwd=RAIZ,
+                              env=dict(sem_variante(), MAPA_V='v15'), capture_output=True, text=True)
+
+    def test_montar(self):
+        codigo = """
+import sys
+from unittest.mock import patch
+import pipeline.montar as m
+class Para(Exception): pass
+def monta(config=None, **k):
+    print(config.versao); raise Para
+with patch.object(m, 'monta', monta):
+    try: m.main(sys.argv[1:])
+    except Para: pass
+"""
+        r = self.roda(codigo.replace('sys.argv[1:]', "['sao-carlos', '--variante', 'v16-moveis']"))
+        self.assertEqual((r.returncode, r.stdout.split()), (0, ['v16-moveis']), r.stderr)
+        r = self.roda(codigo.replace('sys.argv[1:]', "['sao-carlos']"))
+        self.assertEqual(r.returncode, 2, r.stderr)
+        self.assertIn('variante desconhecida: v15', r.stderr)
+
+    def test_publicar(self):
+        codigo = """
+import runpy, sys
+from pipeline.build.config import resolve
+g = runpy.run_path('pipeline/publicar.py')['main'].__globals__
+class Para(Exception): pass
+def espiao(slug=None, versao=None, *a, **k):
+    print(resolve(slug, versao).versao); raise Para
+g['resolve'] = espiao
+sys.argv = ['publicar.py', 'sao-carlos', '--variante', 'v16-moveis']
+try: g['main']()
+except Para: pass
+"""
+        r = self.roda(codigo)
+        self.assertEqual((r.returncode, r.stdout.split()), (0, ['v16-moveis']), r.stderr)
+
+    def test_rodar_qa(self):
+        codigo = """
+import os, sys
+from padrao import rodar_qa
+class Para(Exception): pass
+def roda(cid, comportamento=True):
+    print(os.environ['MAPA_V']); print(cid.caminho('html_saida')); raise Para
+rodar_qa.qa.roda = roda
+sys.argv = ['rodar_qa.py', 'sao-carlos', '--rapido', '--variante', 'v16-moveis']
+try: rodar_qa.main()
+except Para: pass
+"""
+        r = self.roda(codigo)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        mapa_v, pagina = r.stdout.split('\n')[-3:-1]
+        self.assertEqual(mapa_v, 'v16-moveis')
+        self.assertEqual(Path(pagina), RAIZ / 'v16-moveis/sao-carlos-v16-moveis-aberto.html')
 
 
 if __name__ == '__main__':

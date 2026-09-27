@@ -53,16 +53,20 @@ class BuildConfigurationTests(unittest.TestCase):
         self.assertEqual(cid.caminho('city_saida'), cfg.cidade().caminho('city_saida'))
 
     def test_import_does_not_load_city_or_interpret_foreign_arguments(self):
+        """Importar não lê cidade, não interpreta argumento e não valida o ambiente: com
+        `MAPA_V=v15` o import passa, e quem decide é a flag ou o `resolve()` de quem roda.
+        Nem `config` nem `montar` exportam mais o `VERSAO` global (#49)."""
         script = """
 import sys
 sys.argv = ['outro-programa', 'titulo com espacos', '--opcao']
 from unittest.mock import patch
 with patch('padrao.cidade.carrega', side_effect=AssertionError('city loaded')):
-    from pipeline.montar import VERSAO
-    assert VERSAO == 'v16-moveis'
+    import pipeline.montar as montar
+    from pipeline.build import config
+    assert not hasattr(montar, 'VERSAO') and not hasattr(config, 'VERSAO')
 """
         result = subprocess.run([sys.executable, '-c', script], cwd=RAIZ,
-                                env=dict(os.environ, MAPA_V='v16-moveis'),
+                                env=dict(os.environ, MAPA_V='v15'),
                                 capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
 

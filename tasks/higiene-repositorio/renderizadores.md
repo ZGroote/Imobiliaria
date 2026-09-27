@@ -137,6 +137,7 @@ Os blobs: `app.js` `e8428038df54` (524.159), `cabeca.html` `3db7bbb9c57d`, `corp
 
 - **Por que podia sair:** depois do #45 e do #46, o v15 não era o padrão, não era servido pelo Firebase, não entrava no Cedros nem na publicação, e não tinha capacidade exclusiva (as duas foram portadas para o v16-moveis atrás de chave).
 - **`v15` deixou de ser variante:** `VARIANTES = ('v16-moveis',)`. `--variante v15` e `MAPA_V=v15` reprovam como **variante desconhecida** no `montar`, no `rodar_qa`, no `publicar`, no `rodar.py` e nas sondas.
+- **Precedência: flag explícita > `MAPA_V` > padrão.** Nenhum import valida o ambiente. Quem aceita `--variante` (`montar`, `rodar_qa`, `publicar`) deixa a flag vencer um `MAPA_V=v15` esquecido. Quem não aceita (as sondas, os medidores e o `fazer_backup`) faz `resolve().versao` no próprio processo e reprova antes de procurar a página velha que ainda está em `v15/` no disco.
 - **`BASE_CAMINHO_SAIDA = 'v15'` fica.** Ele não é variante: é o layout que cinco JSON de cidade ainda declaram (`v15/<cidade>-v15-aberto.html`), remapeado para `v16-moveis/...`. Os JSON não mudaram.
 - **Os consumidores auxiliares migraram:** o `tools/monta_visualizador.py` pega o three.js do v16-moveis (mesmo blob), e o `pipeline/fazer_backup.py` arquiva `v1.5/renderizador-v16-moveis/`. Sem isso, o backup sairia sem renderizador, calado, porque ele pula caminho que não existe.
 - **Trava:** `tests/test_pipeline_paths.py` reprova se `renderizador/` voltar ao índice do git.

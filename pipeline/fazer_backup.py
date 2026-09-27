@@ -15,8 +15,10 @@ grandes e as versoes antigas v3..v11): sao ~2,7 GB que o pipeline baixa e regene
 import io, os, sys, time, zipfile, hashlib
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# A versao tem UM dono: o montar.py (mesma regra dos testes headless).
-from pipeline.montar import VERSAO
+# Sem `--variante`: a variante vem do `resolve()` (MAPA_V ou o padrao), como nas sondas.
+# Um MAPA_V aposentado (o v15) reprova aqui, antes de arquivar pasta velha.
+from pipeline.build.config import resolve
+VERSAO = resolve().versao
 
 RAIZ = os.path.abspath(".")
 DEST = os.path.join(RAIZ, "backups")

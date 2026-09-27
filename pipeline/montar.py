@@ -32,7 +32,7 @@ RAIZ = os.path.abspath(os.path.join(AQUI, "..")) + os.sep
 sys.path.insert(0, RAIZ)
 from padrao.cidade import carrega, lista
 
-from pipeline.build.config import resolve, V_PADRAO, VERSAO
+from pipeline.build.config import resolve, V_PADRAO
 from pipeline.build import blocos as blocos_dado, folhas, pacotes
 from pipeline.build.html import comprime, confere
 
