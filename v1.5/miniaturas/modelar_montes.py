@@ -138,4 +138,4 @@ metadata={'id':uid,'towers':len(towers),'floors':N,'floor_height':LV,'balcony_de
  'uncertainty':fonte['metadata']['uncertainty']}
 exportar(out,slug,metadata)
 ref=ROOT/style['referenceImage']
-renderizar(out,slug,ref,render['target'],render['distance'],render['ortho'])
+renderizar(out,slug,ref,render['target'],render['distance'],render['ortho'],render['detail'])
