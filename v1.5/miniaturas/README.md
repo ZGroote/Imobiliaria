@@ -103,7 +103,7 @@ python v1.5/miniaturas/pagina_maquete.py                 # -> v1.5/miniaturas/ma
 python v1.5/miniaturas/pagina_maquete.py --saida x.html
 
 python v1.5/miniaturas/demo_v18.py --abre planta         # abre direto na etapa 3
-MAPA_V=v18 python v1.5/miniaturas/testa_etapas.py sao-carlos --unidade <id>
+python v1.5/miniaturas/testa_etapas.py sao-carlos --unidade <id>   # mede a página do v16-moveis, o padrão
 ```
 
 ## Acabamento visual — 21/09/2026
@@ -173,8 +173,10 @@ por `FONTE = renderizador-<MAPA_V>`. Isso deixou de ser verdade: `pipeline/build
 agora procura em `v1.5/renderizador-<MAPA_V>`, e só o **v15** continua na raiz, em
 `renderizador/`, por ser o monólito de onde as peças foram extraídas.
 
-`firebase.v17.json` continua na raiz, porque o `public:` de um config do Firebase é
-relativo à pasta do próprio arquivo.
+`firebase.v17.json` não está no `main`: ele só existe na branch
+`claude/serene-edison-de1ior`, junto do trabalho original do v17 (`facd7ef`). Nenhum
+config do `main` publica o v17; o mapa publicado usa o `firebase.json`
+(`v16-moveis/publicado`).
 
 ---
 
