@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "profile": "castanheiras-ebm-v1",
+  "normalizer": "castanheiras-v1",
+  "common": {
+    "floorHeight": 3.15,
+    "visualBalconyDepth": 2,
+    "referenceImage": "referencias/castanheiras.png",
+    "referenceReport": "../referencias/castanheiras.png",
+    "back": "aproximado por simetria",
+    "materials": {
+      "reboco": {
+        "color": [
+          204,
+          202,
+          194
+        ],
+        "roughness": 0.92,
+        "metalness": 0
+      },
+      "concreto": {
+        "color": [
+          221,
+          219,
+          210
+        ],
+        "roughness": 0.85,
+        "metalness": 0
+      },
+      "esquadria": {
+        "color": [
+          63,
+          64,
+          61
+        ],
+        "roughness": 0.36,
+        "metalness": 1
+      },
+      "vidro": {
+        "color": [
+          69,
+          85,
+          93
+        ],
+        "roughness": 0.18,
+        "metalness": 0
+      },
+      "luz": {
+        "color": [
+          255,
+          204,
+          127
+        ],
+        "roughness": 0.75,
+        "metalness": 0,
+        "emission": 0.7
+      },
+      "trelica": {
+        "color": [
+          117,
+          86,
+          60
+        ],
+        "roughness": 0.65,
+        "metalness": 0
+      },
+      "recuo": {
+        "color": [
+          83,
+          79,
+          72
+        ],
+        "roughness": 0.94,
+        "metalness": 0
+      },
+      "folhagem": {
+        "color": [
+          63,
+          87,
+          49
+        ],
+        "roughness": 0.94,
+        "metalness": 0
+      },
+      "vaso": {
+        "color": [
+          139,
+          128,
+          111
+        ],
+        "roughness": 0.85,
+        "metalness": 0
+      },
+      "cobertura": {
+        "color": [
+          111,
+          116,
+          114
+        ],
+        "roughness": 0.98,
+        "metalness": 0
+      }
+    },
+    "facade": {
+      "sideBodyWidth": 5,
+      "centerBodyWidth": 10,
+      "centerBodyDepth": 11,
+      "backFaceOffset": 5.54,
+      "sideWindowX": [
+        -7.4,
+        7.4
+      ],
+      "balconyCenters": [
+        -2.95,
+        2.95
+      ],
+      "trellisCenters": [
+        -0.38,
+        0.38
+      ],
+      "curtainVariants": 4,
+      "curtainCycle": 5,
+      "plantingFloors": [
+        2,
+        6,
+        10,
+        15,
+        19
+      ]
+    },
+    "render": {
+      "worldColor": [
+        0.13,
+        0.18,
+        0.25
+      ],
+      "worldStrength": 0.55,
+      "key": {
+        "location": [
+          -40,
+          -65,
+          100
+        ],
+        "power": 85000,
+        "color": [
+          1,
+          0.85,
+          0.67
+        ],
+        "size": 65
+      },
+      "fill": {
+        "location": [
+          55,
+          -20,
+          70
+        ],
+        "power": 45000,
+        "color": [
+          0.63,
+          0.76,
+          1
+        ],
+        "size": 55
+      },
+      "camera": {
+        "location": [
+          -53,
+          -120,
+          26
+        ],
+        "target": [
+          10,
+          -2,
+          35
+        ],
+        "lens": 55
+      },
+      "resolution": [
+        900,
+        1000
+      ],
+      "samples": 24,
+      "referenceEmpty": {
+        "size": 75,
+        "location": [
+          -65,
+          0,
+          37
+        ]
+      }
+    }
+  },
+  "variants": {
+    "duas-laminas": {
+      "scope": "duas lâminas escalonadas com cobogós, caixas de circulação e embasamento",
+      "uncertainty": "Fachada, fundos e acabamento são reconstrução visual aproximada; dimensões estruturais vêm do cadastro e não substituem projeto executivo."
+    }
+  }
+}
