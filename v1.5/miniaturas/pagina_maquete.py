@@ -24,6 +24,7 @@ import io, json, math, os, sys
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, RAIZ)
+from pipeline import artefatos_leve, fonte_leve
 THREE = os.path.join(RAIZ, "v1.5", "renderizador-v16-moveis", "lib", "three.min.js")
 LV = 3.15                        # pe-direito de pavimento, o mesmo do renderizador
 
@@ -36,11 +37,16 @@ SAIDA = arg("--saida", os.path.join(RAIZ, "v1.5", "miniaturas", "maquete.html"))
 UNIDADE = arg("--unidade")       # id do cadastro; sem ele vale o IMOVEL de exemplo
 CIDADE = arg("--cidade", "sao-carlos")
 MAPA = arg("--mapa")             # href do mapa deste imovel; sem ele, sem botao
-MODELOS_BLENDER = {
-    'wish-castanheiras-58': 'castanheiras_blender',
-    'monte-dos-cedros-37': 'monte-dos-cedros_blender',
-    'monte-das-colinas-39': 'monte-das-colinas_blender',
-}
+
+
+def artefato_leve(uid):
+    """Artefato LEVE deste cadastro; imóvel sem perfil continua sem modelo Blender."""
+    if not uid:
+        return None
+    try:
+        return artefatos_leve.resolver(uid)
+    except fonte_leve.FonteLeveErro:
+        return None
 
 
 # ---------------------------------------------------------------------------
@@ -2390,6 +2396,7 @@ def main():
         print('Padrao atual Cedros: maquete, planta e visita com luz calculada ->', target)
         return 0
     imovel = do_cadastro(UNIDADE, CIDADE) if UNIDADE else IMOVEL
+    modelo = artefato_leve(imovel.get('_id'))
     three = le(THREE)
     R16 = os.path.join(RAIZ, "v1.5", "renderizador-v16-moveis")
     rend = os.path.join(R16, "interior")
@@ -2411,9 +2418,9 @@ def main():
          .replace("@@EDITOR_CEDROS@@", le(os.path.join(RAIZ, 'v1.5', 'miniaturas', 'editor_cedros.js')) if imovel.get('_id') == 'monte-dos-cedros-37' else '')
          .replace("@@HOUSEMESH@@", le(os.path.join(rend, "house-mesh.js")))
          .replace("@@CASTANHEIRAS@@", (
-             'var CASTANHEIRAS_BLENDER = ' + le(os.path.join(RAIZ, "v1.5", "miniaturas", MODELOS_BLENDER[imovel['_id']], "modelo.json")) + ';\n'
+             'var CASTANHEIRAS_BLENDER = ' + le(str(modelo['modelo'])) + ';\n'
              + le(os.path.join(RAIZ, "v1.5", "miniaturas", "castanheiras.js"))
-             ) if imovel.get('_id') in MODELOS_BLENDER else '')
+             ) if modelo else '')
          .replace("@@BOTAO_MAPA@@", botao_mapa(imovel))
          .replace("@@TITULO@@", imovel["empreendimento"] + " · " + imovel["unidade"])
          .replace("@@DADOS@@", json.dumps(imovel, ensure_ascii=False))
