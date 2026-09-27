@@ -84,12 +84,31 @@ class ModelarMontesFonteTests(unittest.TestCase):
         self.assertIn("detail_target=Vector(detalhe['target'])", base)
         self.assertIn("data.ortho_scale=detalhe['ortho']", base)
 
+    def test_referencia_visual_local_e_opcional(self):
+        base = BASE.read_text(encoding="utf-8")
+        self.assertIn("if reference.is_file():", base)
+        self.assertIn("REFERENCE_OPTIONAL_MISSING", base)
+
+    def test_checks_versionados_sao_calculados_pelo_exportador(self):
+        base = BASE.read_text(encoding="utf-8")
+        for trecho in (
+            "finite_geometry=all(",
+            "normals_uv_indices=all(",
+            "glb_header=glb_path.stat().st_size>=12",
+            "'finite_geometry':finite_geometry",
+            "'normals_uv_indices':normals_uv_indices",
+            "'glb_header':glb_header",
+        ):
+            with self.subTest(trecho=trecho):
+                self.assertIn(trecho, base)
+
     def test_readme_usa_property_id(self):
         doc = README.read_text(encoding="utf-8")
         self.assertIn("modelar_montes.py -- monte-dos-cedros-37", doc)
         self.assertIn("modelar_montes.py -- monte-das-colinas-39", doc)
         self.assertNotIn("modelar_montes.py -- cedros", doc)
         self.assertNotIn("modelar_montes.py -- colinas", doc)
+        self.assertEqual(doc.count("--python-exit-code 1 --python v1.5/miniaturas/modelar_montes.py"), 2)
 
 
 if __name__ == "__main__":
