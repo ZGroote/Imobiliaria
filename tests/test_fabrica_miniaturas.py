@@ -145,7 +145,7 @@ class LeveGeracaoTests(unittest.TestCase):
                 F.gerar_leve('monte-das-colinas-39', cache_path=cache,
                              dest_root=destino, descricao=desc)
 
-            paths = F._artefatos_leve(desc['slug'], destino)
+            paths = F._artefatos_leve('monte-das-colinas-39', destino)
             paths['validacao.json'].write_text(
                 json.dumps({'checks': {'gate': False}}), encoding='utf-8')
             state = json.loads(cache.read_text(encoding='utf-8'))
