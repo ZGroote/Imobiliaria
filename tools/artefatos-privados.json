@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "_nota": "Fontes que moram fora do git, no repositorio PRIVADO de artefatos, como assets de release. O sha256 deste manifesto e a AUTORIDADE: tools/baixar_artefatos.py recusa entregar arquivo que nao bata com ele. O digest que o GitHub mostra no asset e so uma conferencia a mais. Ver tasks/higiene-repositorio/arquivos-grandes.md.",
+  "repositorio": "ZGroote/imobiliaria-artefatos",
+  "artefatos": [
+    {
+      "destino": "v1.5/miniaturas/padrao-atual/piloto-v3/source.json",
+      "release": "premium-sources-2026-09-27",
+      "asset": "monte-dos-cedros-37-premium-interior-source.json",
+      "bytes": 23094984,
+      "sha256": "36e683fd164bc666e2fad43951ea6f0c6ce6ef84af13b354b3d7b99c5c465538",
+      "data": "2026-09-27",
+      "origem": "ZGroote/Imobiliaria main 2c1283d99b12be1b9474a2e7ad116578544b39ec"
+    },
+    {
+      "destino": "v1.5/miniaturas/padrao-atual/exterior-v3/source.json",
+      "release": "premium-sources-2026-09-27",
+      "asset": "monte-dos-cedros-37-premium-exterior-source.json",
+      "bytes": 2943459,
+      "sha256": "3c7a8194bd2f713ce724a9d7a5ffb3b10fdc865661ea70cf0ecfc5c238b7de76",
+      "data": "2026-09-27",
+      "origem": "ZGroote/Imobiliaria main 2c1283d99b12be1b9474a2e7ad116578544b39ec"
+    }
+  ]
+}
