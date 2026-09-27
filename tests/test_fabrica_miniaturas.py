@@ -132,6 +132,36 @@ class LeveGeracaoTests(unittest.TestCase):
             self.assertTrue(r2['cached'])
             self.assertEqual(r1['outputs'], r2['outputs'])
 
+    def test_cache_adulterado_com_validacao_invalida_e_regenerado(self):
+        desc = F.descrever_leve('monte-das-colinas-39')
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = Path(tmp)
+            cache = raiz / 'cache' / 'leve-state.json'
+            destino = raiz / 'destino'
+            ambiente = {'path': 'blender-falso', 'version': 'Blender 5.2.2 LTS'}
+            with patch.object(F, 'resolver_blender', return_value=ambiente), \
+                 patch.object(F.subprocess, 'run',
+                              side_effect=self._fake_blender(desc)):
+                F.gerar_leve('monte-das-colinas-39', cache_path=cache,
+                             dest_root=destino, descricao=desc)
+
+            paths = F._artefatos_leve(desc['slug'], destino)
+            paths['validacao.json'].write_text(
+                json.dumps({'checks': {'gate': False}}), encoding='utf-8')
+            state = json.loads(cache.read_text(encoding='utf-8'))
+            state['outputs'] = F._hashes_existentes(paths)
+            cache.write_text(json.dumps(state), encoding='utf-8')
+
+            with patch.object(F, 'resolver_blender', return_value=ambiente), \
+                 patch.object(F.subprocess, 'run',
+                              side_effect=self._fake_blender(desc)):
+                r = F.gerar_leve('monte-das-colinas-39', cache_path=cache,
+                                 dest_root=destino, descricao=desc)
+            self.assertFalse(r['cached'])
+            self.assertTrue(
+                json.loads(paths['validacao.json'].read_text(encoding='utf-8'))
+                ['checks']['gate'])
+
     def test_check_falso_nao_promove_saida(self):
         desc = F.descrever_leve('wish-castanheiras-58')
         with tempfile.TemporaryDirectory() as tmp:
