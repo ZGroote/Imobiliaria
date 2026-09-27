@@ -2,7 +2,7 @@
 
 Estado: **arquitetura proposta para a próxima frente de produto**. Este documento não muda o
 pipeline atual, não publica nada e não aposenta nenhum padrão. Ele define o contrato que os próximos
-PRs devem implementar, em passos pequenos e prováveis.
+PRs devem implementar, em passos pequenos e provados.
 
 ## Objetivo
 
@@ -47,7 +47,7 @@ O repositório já tem partes importantes da fábrica; o trabalho agora é conec
 | Parte | Estado atual | Automação hoje |
 |---|---|---|
 | Cadastro do imóvel | `padrao/cidades/*.json` + dados de unidade/planta | estruturado |
-| Maquete LEVE | `pagina_maquete.py` | montagem automática depois que o modelo/fonte existe |
+| Entry point da maquete | `pagina_maquete.py` | monta a base atual; no Cedros desvia para o PREMIUM aprovado de `padrao_atual.py` |
 | Modelos LEVE Blender | `modelar_montes.py`, `modelar_castanheiras.py` | reproduzíveis, mas específicos por empreendimento |
 | Exportação Blender | `blender_maquete_base.py` | automatizada |
 | PREMIUM Cedros | `padrao_atual.py` | montagem determinística |
