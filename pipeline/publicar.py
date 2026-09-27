@@ -47,9 +47,10 @@ def confere_tiles(mapa):
 
 
 def main():
-    # `--variante` como no `rodar_qa` e no `montar`. Sem isto a variante saia so do
-    # ambiente e caia no padrao (v15): publicar sem a flag subia o renderizador ANTIGO,
-    # em silencio, porque a pagina do v15 existe e e encontrada.
+    # `--variante` como no `rodar_qa` e no `montar`. Ate o #46 a variante saia so do
+    # ambiente e caia no padrao, que era o v15: publicar sem a flag subia o renderizador
+    # ANTIGO, em silencio, porque a pagina do v15 existe e e encontrada. Desde o #46,
+    # sem a flag herda o v16-moveis, e o v15 so sai com `--variante v15`.
     argv = [a for a in sys.argv[1:]]
     variante = None
     if "--variante" in argv:
