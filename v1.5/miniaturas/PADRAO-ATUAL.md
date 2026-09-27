@@ -66,7 +66,13 @@ Esse comando agora monta o padrão atual. `--geometria-base` é uma saída expl�
 
 Somente republicar não exige Blender nem recalcular os atlas.
 
-Recalcular a luz parte do **`source.json` atual**, em `piloto-v3/` e em `exterior-v3/`. Uma cópia de cada um fica no repositório privado de artefatos, com o SHA-256 de autoridade em `tools/artefatos-privados.json`. Se o arquivo não estiver no disco, `python tools/baixar_artefatos.py` o recupera e confere antes de pôr no lugar (precisa do `gh` com acesso ao repositório privado). Desde 27/09/2026 o `uv.json` não é versionado, porque o unwrap o regera, e o export de antes dos reparos (`source-before-normal-repair.json`) saiu do repositório.
+Recalcular a luz parte do **`source.json` atual**, em `piloto-v3/` e em `exterior-v3/`.
+
+**Recuperar as duas fontes é pré-requisito do unwrap e do bake.** Desde 27/09/2026 elas não estão no git: moram no repositório privado de artefatos, com o SHA-256 de autoridade em `tools/artefatos-privados.json`.
+
+- Num checkout sem elas, rode `python tools/baixar_artefatos.py`. Ele baixa, confere tamanho e SHA-256 e só então põe cada arquivo no lugar. Precisa do `gh` autenticado com acesso ao repositório privado.
+- `python tools/baixar_artefatos.py --conferir` confirma, sem rede, que o que está no disco é o do manifesto.
+- Os dois caminhos estão no `.gitignore`: uma fonte recuperada não aparece no `git status` e não volta num commit. Desde 27/09/2026 o `uv.json` não é versionado, porque o unwrap o regera, e o export de antes dos reparos (`source-before-normal-repair.json`) saiu do repositório.
 
 **Ambiente validado em 27/09/2026:**
 
