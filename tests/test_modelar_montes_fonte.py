@@ -102,13 +102,16 @@ class ModelarMontesFonteTests(unittest.TestCase):
             with self.subTest(trecho=trecho):
                 self.assertIn(trecho, base)
 
-    def test_readme_usa_property_id(self):
+    def test_readme_usa_property_id_no_entrypoint_unico(self):
         doc = README.read_text(encoding="utf-8")
-        self.assertIn("modelar_montes.py -- monte-dos-cedros-37", doc)
-        self.assertIn("modelar_montes.py -- monte-das-colinas-39", doc)
-        self.assertNotIn("modelar_montes.py -- cedros", doc)
-        self.assertNotIn("modelar_montes.py -- colinas", doc)
-        self.assertEqual(doc.count("--python-exit-code 1 --python v1.5/miniaturas/modelar_montes.py"), 2)
+        self.assertIn("modelar_imovel.py -- monte-dos-cedros-37", doc)
+        self.assertIn("modelar_imovel.py -- monte-das-colinas-39", doc)
+        self.assertNotIn("modelar_montes.py -- monte-dos-cedros-37", doc)
+        self.assertNotIn("modelar_montes.py -- monte-das-colinas-39", doc)
+        self.assertEqual(
+            doc.count("--python-exit-code 1 --python v1.5/miniaturas/modelar_imovel.py"),
+            3,
+        )
 
 
 if __name__ == "__main__":

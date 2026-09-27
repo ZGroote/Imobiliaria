@@ -87,9 +87,13 @@ class CastanheirasFonteTests(unittest.TestCase):
         self.assertIn("'reference':metadata['reference']", self.codigo)
         self.assertIn("'back':metadata['back']", self.codigo)
 
-    def test_readme_usa_property_id(self):
+    def test_readme_usa_property_id_no_entrypoint_unico(self):
         doc = README.read_text(encoding="utf-8")
         self.assertIn(
+            "modelar_imovel.py -- wish-castanheiras-58",
+            doc,
+        )
+        self.assertNotIn(
             "modelar_castanheiras.py -- wish-castanheiras-58",
             doc,
         )
