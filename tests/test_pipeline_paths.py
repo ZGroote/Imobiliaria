@@ -10,9 +10,9 @@ Git, que é onde código aposentado deve morar.
 
 As pastas `v3/`..`v12/` e `v16/` guardavam, além disso, o DADO de São Carlos e as
 páginas montadas de cada geração. O dado foi para `sao-carlos/`, no padrão das outras
-cidades, e as pastas foram para `_arquivo/`. Saída viva hoje é só `v15/` (V_PADRAO) e
-`v16-moveis/` — e o nome não é o critério: `pipeline/build/config.py` deriva o caminho
-da variante a partir do que a cidade declara.
+cidades, e as pastas foram para `_arquivo/`. Saída viva hoje é `v16-moveis/` (o padrão,
+desde o #46) e `v15/` (só com `--variante v15`) — e o nome não é o critério:
+`pipeline/build/config.py` deriva o caminho da variante a partir do que a cidade declara.
 """
 import ast
 import unittest

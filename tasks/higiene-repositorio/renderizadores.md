@@ -5,6 +5,7 @@
 - **#44:** inventário e classificação. Nada foi movido, apagado ou publicado.
 - **#45:** o portão "cidade fora do código" passou a ler `config.fonte`.
 - **#46:** o v15 deixou de ser o padrão. O `V_PADRAO` é `v16-moveis`, e o layout `v15/...` dos JSON das cidades virou `BASE_CAMINHO_SAIDA`, separado do padrão. O v15 continua congelado e disponível com `--variante v15`.
+- **#47:** corrigidas as quatro docs desatualizadas do achado 3.
 
 As tabelas abaixo são a medida de 27/09 na base `78e6f12`, **antes** do #45 e do #46. Onde elas dizem que o v15 é o padrão, isso valia até o #46.
 
@@ -195,7 +196,7 @@ Não foram corrigidos aqui, porque este PR é só inventário.
 
 1. **O v15 ainda é o padrão.** Os pontos de troca estão todos na tabela do v15: o `V_PADRAO`, o `rodar.py`, o `publicar.py`, o `rodar_qa.py`, o remapeamento do `html_saida` e o `test_build_config`.
 2. **O portão "cidade fora do código" mede a árvore errada** quando a variante é o v16-moveis. Hoje passa nas quatro, então o conserto não muda o resultado.
-3. **Documentação desatualizada:**
+3. **Documentação desatualizada** (corrigida no #47):
    - `v1.5/miniaturas/README.md:106` manda rodar `MAPA_V=v18 ... testa_etapas.py`, mas o v18 não é variante e o `montar.py` o recusa;
    - `v1.5/miniaturas/README.md:176` diz que o `firebase.v17.json` "continua na raiz", mas ele só existe na branch `claude/serene-edison-de1ior`;
    - `v1.5/miniaturas/pagina_maquete.py:15` diz que a saída padrão é `v18/maquete.html`, mas é `v1.5/miniaturas/maquete.html` (linha 35);
@@ -209,6 +210,6 @@ Nada disso foi feito neste PR.
 
 1. **Feito no #45. Fazer o QA medir o renderizador usado:** o portão "cidade fora do código" passa a ler `config.fonte`. Vem **antes** da troca do padrão, porque não se promove o v16-moveis a padrão com uma barreira de QA ainda apontada para o v15. Como a mesma lógica deu 0 nas quatro árvores, o PR é isolável e de baixo risco.
 2. **Feito no #46. Tirar o v15 de padrão.** O `V_PADRAO` passa a ser `v16-moveis`, com o remapeamento de `html_saida` resolvido e o `rodar.py`, o `publicar.py` e o `rodar_qa.py` seguindo junto. É o passo de mais risco, e merece PR só dele, com o Cedros conferido byte a byte (`34331f1ceb9d`).
-3. **Corrigir a documentação desatualizada** (achado 3).
+3. **Feito no #47. Corrigir a documentação desatualizada** (achado 3).
 4. **v17 e v18:** decidir se as árvores e as duas demos saem do `HEAD`. O histórico fica no git e na branch `claude/serene-edison-de1ior`.
 5. **v15:** continua congelado como referência até os passos 1 e 2 provarem que nada o consulta. Só no fim se decide se fica ou sai.

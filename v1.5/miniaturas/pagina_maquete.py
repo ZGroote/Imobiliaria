@@ -12,7 +12,7 @@ tudo em `InstancedMesh`), com um degrau a mais de detalhe que so cabe aqui: as j
 sao ESQUADRIAS DE VERDADE, distribuidas ao longo de cada face, em vez de uma fita
 continua de vidro.
 
-    python v1.5/miniaturas/pagina_maquete.py                 # -> v18/maquete.html
+    python v1.5/miniaturas/pagina_maquete.py                 # -> v1.5/miniaturas/maquete.html
     python v1.5/miniaturas/pagina_maquete.py --saida /tmp/x.html
     python v1.5/miniaturas/pagina_maquete.py --unidade <id> \\
            --mapa ../mapa/imovel-<id>.html                   # com o botao "Ver mapa"
