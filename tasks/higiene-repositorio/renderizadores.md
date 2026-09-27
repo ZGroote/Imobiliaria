@@ -97,7 +97,7 @@ Por isso retirar uma árvore economiza, no `HEAD`, só a coluna "bytes só desta
 | `padrao/rodar_qa.py` | sem `--variante`, usa o v15. O `npm run qa` passa `--variante v16-moveis` |
 | `pipeline/publicar.py` | sem `--variante`, usa o v15, e sem cidade usa `ribeirao-preto`. Não chega em produção por engano, porque escreve em `v15/publicado`, que nenhum `firebase*.json` serve. Mas é o padrão errado |
 | `padrao/qa.py:330` (`portao_cidade_fora_do_codigo`) | varre **só** `renderizador/`, qualquer que seja a variante. O `npm run qa` do v16-moveis mede o código do v15. A mesma lógica sobre as quatro árvores deu **0 ocorrências em todas**, então apontar o portão para a fonte da variante (`config.fonte`) continua passando |
-| `padrao/cidades/*.json` | as cinco cidades declaram `html_saida: v15/<cidade>-v15-aberto.html`. O `BuildConfig.saida()` troca o componente `V_PADRAO` pelo da variante. **Trocar o `V_PADRAO` sem mexer nisso muda o destino de todas as saídas** |
+| `padrao/cidades/*.json` | **cinco das seis cidades** declaram as saídas em `v15/...` (`html_saida: v15/<cidade>-v15-aberto.html`, e o `html_comprimido` junto). A exceção é a `ribeirao-preto-oficial`: ela usa scratch diagnóstico (`_run_cadastro_oficial/diagnostico-aberto.html` e `diagnostico.html`) e **não é remapeada** por componente de versão. O `BuildConfig.saida()` só troca o componente que é `V_PADRAO` ou que contém `-V_PADRAO`. **Trocar o `V_PADRAO` sem mexer nisso muda o destino das saídas das cinco;** o da oficial não muda |
 | `tests/test_build_config.py` | trava `resolve(environ={}).versao == 'v15'` e `VARIANTES == ('v15', 'v16-moveis')` |
 | sondas de comportamento | seguem o `VERSAO` (seção seguinte), que é v15 sem `MAPA_V` |
 
@@ -199,12 +199,12 @@ Não foram corrigidos aqui, porque este PR é só inventário.
 4. **As pastas de saída não estão no `.gitignore`:** `v15/`, `v17/`, `v18/` e o HTML de `v16-moveis/` aparecem como `??`. Ignorar exige cuidado, porque `v16-moveis/publicado/mapa/` tem os 239 tiles versionados.
 5. **`pipeline/extrair_renderizador.py`** é histórico de uso único, e sua entrada não existe mais.
 
-## Ordem proposta
+## Ordem decidida (gate do #44)
 
-As decisões são suas. Nada disso foi feito.
+Nada disso foi feito neste PR.
 
-1. **Tirar o v15 de padrão.** O `V_PADRAO` passa a ser `v16-moveis`, com o remapeamento de `html_saida` resolvido e o `rodar.py`, o `publicar.py` e o `rodar_qa.py` seguindo junto. É o passo que dá mais risco, e merece PR só dele, com o Cedros conferido byte a byte (`34331f1ceb9d`).
-2. **Fazer o QA medir o renderizador usado:** o portão de código passa a ler `config.fonte`.
+1. **Fazer o QA medir o renderizador usado:** o portão "cidade fora do código" passa a ler `config.fonte`. Vem **antes** da troca do padrão, porque não se promove o v16-moveis a padrão com uma barreira de QA ainda apontada para o v15. Como a mesma lógica deu 0 nas quatro árvores, o PR é isolável e de baixo risco.
+2. **Tirar o v15 de padrão.** O `V_PADRAO` passa a ser `v16-moveis`, com o remapeamento de `html_saida` resolvido e o `rodar.py`, o `publicar.py` e o `rodar_qa.py` seguindo junto. É o passo de mais risco, e merece PR só dele, com o Cedros conferido byte a byte (`34331f1ceb9d`).
 3. **Corrigir a documentação desatualizada** (achado 3).
 4. **v17 e v18:** decidir se as árvores e as duas demos saem do `HEAD`. O histórico fica no git e na branch `claude/serene-edison-de1ior`.
-5. **v15:** continua congelado como referência até os passos 1 e 2 provarem que nada o consulta. Só depois se decide se fica ou sai.
+5. **v15:** continua congelado como referência até os passos 1 e 2 provarem que nada o consulta. Só no fim se decide se fica ou sai.
