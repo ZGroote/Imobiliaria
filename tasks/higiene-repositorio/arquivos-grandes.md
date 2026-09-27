@@ -15,7 +15,7 @@ A decisão de cada arquivo é **proposta** aqui e tomada arquivo por arquivo, an
 - As fontes do padrão leve e as do premium são ativos do produto, e não legado.
 - Um `source.json` do premium só sai do git depois que houver um destino privado comprovado.
 
-**Base medida:** `main` `e0ff688`. O `HEAD` tem 986 arquivos e 280,3 MiB, dos quais **27 arquivos têm 1 MiB ou mais e somam 240,9 MiB**.
+**Base medida:** `main` `e0ff688`. O `HEAD` tem 986 arquivos e 280,3 MiB, dos quais **27 arquivos estão acima de 1 MiB e somam 240,9 MiB**.
 
 ## Classes
 
@@ -133,7 +133,7 @@ Nada disto foi feito ainda. Serve de critério para quando o `source.json` for s
 - um arquivo da lista **cresce além do teto** dele, que é o tamanho de hoje arredondado para cima até o MiB inteiro;
 - o repositório inteiro passa de **300 MiB** (hoje são 280,3);
 - algum arquivo passa de 100 MiB, o limite duro do GitHub;
-- uma entrada da lista não existe mais. A lista é o inventário, então quando um arquivo sai, a linha dele sai no mesmo PR.
+- uma entrada da lista não existe mais, ou deixou de estar acima de 1 MiB. A lista é o inventário exato, então quando um arquivo sai ou encolhe, a linha dele sai da lista e do inventário no mesmo PR.
 
 O tamanho medido é o do blob no índice do git, e não o do disco, porque no Windows o fim de linha muda o tamanho. A trava foi conferida por mutação, com cada caso revertido depois:
 
@@ -142,3 +142,4 @@ O tamanho medido é o do blob no índice do git, e não o do disco, porque no Wi
 | arquivo novo de 2 MiB | reprova |
 | `portoes.json` com 1 MiB a mais | reprova |
 | `piloto-v3/uv.json` fora do índice | reprova |
+| `arvores_lib.json` encolhido para 500 KB | reprova |

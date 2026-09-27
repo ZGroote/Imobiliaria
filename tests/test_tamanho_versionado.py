@@ -4,11 +4,12 @@ O inventário e a decisão de cada arquivo estão em tasks/higiene-repositorio/a
 Este teste é a trava do CI, com quatro regras:
 
 1. Todo arquivo versionado acima de 1 MiB precisa estar em GRANDES.
-2. Nenhum arquivo cresce além do teto dele em GRANDES: o tamanho de 26/09/2026, arredondado
+2. Nenhum arquivo cresce além do teto dele em GRANDES: o tamanho de 27/09/2026, arredondado
    para cima até o MiB inteiro.
 3. O repositório inteiro, somado, não passa de TOTAL_MAX.
-4. Cada entrada de GRANDES existe: quando o arquivo sai, a entrada sai no mesmo PR, e a lista
-   continua sendo o inventário.
+4. Cada entrada de GRANDES existe e continua acima de 1 MiB. Quando o arquivo sai, ou encolhe
+   para 1 MiB ou menos, a entrada sai daqui e do inventário no mesmo PR, e a lista continua sendo
+   o inventário exato.
 
 Arquivo grande novo, ou um que cresceu, entra com a linha dele aqui e no inventário. Essa é a
 classificação explícita. O tamanho medido é o do blob no índice do git, e não o do disco: no
@@ -21,7 +22,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[1]
 MiB = 1 << 20
 LIMITE = 1 * MiB
-TOTAL_MAX = 300 * MiB           # 280,3 MiB em 26/09/2026; a folga é para o que é pequeno
+TOTAL_MAX = 300 * MiB           # 280,3 MiB em 27/09/2026; a folga é para o que é pequeno
 GITHUB_DURO = 100 * MiB         # o GitHub recusa acima disso; avisa a partir de 50
 
 # caminho -> teto em MiB. Classe (ver o inventário): E = entra no build ou é publicação;
@@ -81,6 +82,11 @@ def violacoes(t, grandes=GRANDES):
     return fora, acima, (total if total > TOTAL_MAX else None)
 
 
+def encolhidos(t, grandes=GRANDES):
+    """Entradas de GRANDES que existem mas não estão mais acima de LIMITE."""
+    return sorted(c for c in grandes if c in t and t[c] <= LIMITE)
+
+
 class TamanhoVersionadoTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -105,12 +111,18 @@ class TamanhoVersionadoTests(unittest.TestCase):
         faltam = sorted(set(GRANDES) - set(self.t))
         self.assertFalse(faltam, 'saiu do repositório: tire de GRANDES no mesmo PR')
 
+    def test_every_listed_file_is_still_above_the_limit(self):
+        self.assertFalse(encolhidos(self.t),
+                         'não está mais acima de 1 MiB: tire de GRANDES e do inventário no mesmo PR')
+
     def test_the_check_itself(self):
         base = {'a.json': 3 * MiB, 'b.txt': 10}
         self.assertEqual(violacoes(base, {'a.json': 3}), ([], [], None))
         self.assertEqual(violacoes(base, {})[0], ['a.json'])                 # grande sem lista
         self.assertTrue(violacoes({'a.json': 3 * MiB + 1}, {'a.json': 3})[1])  # passou do teto
         self.assertTrue(violacoes({'x': TOTAL_MAX + 1}, {'x': 400})[2])         # total
+        self.assertEqual(encolhidos({'a.json': LIMITE}, {'a.json': 3}), ['a.json'])  # = 1 MiB já é pouco
+        self.assertEqual(encolhidos({'a.json': LIMITE + 1}, {'a.json': 3}), [])
 
 
 if __name__ == '__main__':
