@@ -78,6 +78,10 @@ def resolver_fontes(imovel_id):
     piloto = json.loads(build_imovel.PILOTO.read_text(encoding='utf-8'))
     config = resolve(piloto['cidade'], piloto['variante'])
     base = list(entradas(config))
+    base += [build_imovel.PILOTO, build_imovel.TERRENOS,
+             Path(build_imovel.__file__).resolve(),
+             RAIZ / 'pipeline' / 'imovel.py',
+             RAIZ / 'pipeline' / 'recorte.py']
     mini = [Path(p) for p in build_imovel.fontes_da_maquete(imovel_id)]
     faltam_mini = [_relativo(p) for p in mini if not p.is_file()]
     if faltam_mini:
@@ -91,6 +95,7 @@ def resolver_fontes(imovel_id):
         'presentes': sum(v is not None for v in normal.values()),
         'ausentes_opcionais': sorted(k for k, v in normal.items() if v is None),
         'sha256': _digest(normal),
+        'caminhos': sorted(normal),
         'fontes_maquete': sorted(_relativo(p) for p in mini),
     }
 
