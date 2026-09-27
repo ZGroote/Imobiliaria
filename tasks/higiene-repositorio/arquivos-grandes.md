@@ -155,3 +155,32 @@ O tamanho medido é o do blob no índice do git, e não o do disco, porque no Wi
 | `portoes.json` com 1 MiB a mais | reprova |
 | `piloto-v3/uv.json` fora do índice | reprova |
 | `arvores_lib.json` encolhido para 500 KB | reprova |
+
+## Prova depois das saídas (27/09/2026)
+
+A prova rodou sobre o commit `d4180f6`, extraído com `git archive`. Esse commit já não tem os três
+arquivos.
+
+**O ambiente** é uma venv limpa, criada só com o `requirements-bake.txt` do commit. `pip freeze`
+mostra exatamente `numpy==2.4.6` e `xatlas==0.0.11`, com Python 3.14.4.
+
+**O unwrap.** Os dois scripts rodaram na árvore extraída, sem nenhum `uv.json` presente:
+
+| Arquivo | Resultado |
+|---|---|
+| `piloto-v3/uv.json` | regerado = blob removido `3c1ca56a…` (sha256 `dccdc34a7718e03c…`): **idêntico byte a byte** |
+| `exterior-v3/uv.json` | regerado = blob removido `d1751603…` (sha256 `59d6c208cea6a916…`): **idêntico byte a byte** |
+| `piloto-v3/geometry-compact.json` | não mudou (`1dae995adcdb6657…`) |
+| `exterior-v3/geometry-compact.json` | não mudou (`e357b5c63f493bba…`) |
+
+Os atlas saíram com 2943 × 2948 e 6275 × 6273, as mesmas dimensões do `unwrap.json` versionado.
+
+**O `repair-bake-normals.py` novo,** no Blender 5.2.2 LTS:
+
+| Caso | Resultado |
+|---|---|
+| (i) sem backup | o `source.json` fica igual ao versionado (`36e683fd164bc666…`), e **nenhum backup é criado** |
+| (ii) com o backup antigo plantado na pasta (blob `afcdedf4…`) | o `source.json` fica igual ao versionado. O script ignora o backup; o antigo, nesse caso, gerava `bcc6e794…` e desfazia os reparos de batentes e molduras |
+
+O reparo, quando roda, reescreve o `normal-repair.json` com as contagens daquela rodada (383
+triângulos), sem mudar o `source.json`.
