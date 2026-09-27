@@ -56,6 +56,7 @@ cidade e um navegador, e levam dezenas de minutos.
 `npm test` respondia `Error: no test specified` — o placeholder do `npm init` sobreviveu
 o projeto inteiro, enquanto os 111 testes existiam e só rodavam à mão.
 
-**A variante é sempre explícita.** Sem `--variante`, tudo cai no padrão `v15`, que é o
-renderizador antigo: montar produz a página errada e o QA mede a página errada, os dois
-em silêncio. É por isso que os scripts do `package.json` a declaram.
+**A variante vem de `--variante`.** Sem ela (e sem `MAPA_V`), tudo cai no padrão, que desde o
+#46 é o `v16-moveis`. Até o #46 o padrão era o `v15`, o renderizador antigo, e montar e QA
+sem a flag saíam errados em silêncio: é por isso que os scripts do `package.json` a declaram.
+O `v15` continua disponível, só com `--variante v15`.

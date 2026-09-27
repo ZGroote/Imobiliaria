@@ -173,7 +173,7 @@ ETAPAS = [
      ["pipeline/montar.py"],
      [F("city_saida")] + [O(str(p)) for p in entradas_build(CONFIG)],
      [F("html_saida"), F("html_comprimido")], False,
-     "concatena renderizador/ + os blocos de dado; make_v4..v8 viraram historico. "
+     "concatena a fonte da variante + os blocos de dado; make_v4..v8 viraram historico. "
      "a biblioteca de arvores entra aqui: mexeu nela, a pagina esta velha"),
     ("9", "Portoes de QA (geometria + comportamento)",
      ["padrao/rodar_qa.py " + CID.slug],

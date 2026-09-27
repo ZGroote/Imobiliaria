@@ -2,8 +2,10 @@
 """Etapa 8: monta a pagina a partir das PECAS, em vez de patchear texto.
 
 Substitui a cadeia `make_v4 -> make_v5 -> make_v7 -> make_v8` (59 ancoras de texto
-exato, encadeadas). Aqui o renderizador e codigo de verdade em `renderizador/`, e a
-pagina e a concatenacao das pecas com os blocos de dado no meio:
+exato, encadeadas). Aqui o renderizador e codigo de verdade na fonte da variante
+(`BuildConfig.fonte`: `v1.5/renderizador-v16-moveis/` no v16-moveis, que e o padrao, e
+`renderizador/` no v15), e a pagina e a concatenacao das pecas com os blocos de dado no
+meio:
 
     cabeca.html  <- titulo e meta
     lib/three.min.js + lib/earcut.min.js
@@ -12,7 +14,8 @@ pagina e a concatenacao das pecas com os blocos de dado no meio:
     corpo.html   <- canvas, HUD, painel
     app.js       <- O RENDERIZADOR (120 KB)
 
-    python pipeline/montar.py                  # -> v15/sao-carlos-v15-aberto.html + v15.html
+    python pipeline/montar.py                  # -> v16-moveis/sao-carlos-v16-moveis-aberto.html + .html
+    python pipeline/montar.py --variante v15   # -> v15/sao-carlos-v15-aberto.html (o monolito antigo)
     python pipeline/montar.py --sem-zip        # so a versao aberta
     python pipeline/montar.py --conferir <arq> # exige saida byte a byte igual a <arq>
 

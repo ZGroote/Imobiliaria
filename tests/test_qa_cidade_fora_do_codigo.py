@@ -2,7 +2,7 @@
 
 Até o #45 ele varria fixo `renderizador/` (v15): o `npm run qa`, que é do v16-moveis, media o
 código de outra árvore. Agora ele lê `config.fonte`, resolvida como o `rodar_qa` resolve:
-`--variante` vira `MAPA_V`, e sem ela vale o padrão.
+`--variante` vira `MAPA_V`, e sem ela vale o padrão, que desde o #46 é o v16-moveis.
 
 As mutações rodam numa raiz temporária com as duas árvores, então a coordenada plantada
 nunca toca o repositório.
@@ -58,12 +58,16 @@ class ArvoreInspecionada(unittest.TestCase):
         self.assertEqual(raizes, [RAIZ / V16])
         self.assertIn('v1.5/renderizador-v16-moveis', p.detalhe)
 
-    def test_qa_do_v15_continua_olhando_renderizador(self):
+    def test_qa_sem_variante_acompanha_o_padrao(self):
+        """#46: sem `--variante`, o QA é do v16-moveis, e o portão vai junto."""
         raizes, p = self.percorridas(None)
+        self.assertEqual(raizes, [RAIZ / V16])
+        self.assertIn('v1.5/renderizador-v16-moveis', p.detalhe)
+
+    def test_qa_do_v15_continua_olhando_renderizador(self):
+        raizes, p = self.percorridas('v15')
         self.assertEqual(raizes, [RAIZ / 'renderizador'])
-        self.assertIn('renderizador', p.detalhe)
-        raizes, _ = self.percorridas('v15')
-        self.assertEqual(raizes, [RAIZ / 'renderizador'])
+        self.assertIn('limpo em renderizador', p.detalhe)
 
 
 class Mutacao(unittest.TestCase):
