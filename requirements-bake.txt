@@ -1,0 +1,13 @@
+# So para REGERAR a luz do padrao premium (v1.5/miniaturas/padrao-atual): o unwrap
+# (unwrap-v3.py, unwrap-exterior.py), que escreve uv.json e geometry-compact.json.
+# E um ambiente proprio, para nao congelar o numpy do projeto: use uma venv so para isto.
+#
+# As versoes sao exatas porque a prova e byte a byte. Com elas, o unwrap reproduz os dois
+# geometry-compact.json versionados e os dois uv.json, que sairam do repositorio em 27/09/2026.
+# A prova rodou em Python 3.14.4, no Windows. Outra versao do xatlas ou do numpy pode mudar o
+# atlas, e com ele a geometria publicada. Ver tasks/higiene-repositorio/arquivos-grandes.md.
+#
+# O bake em si (bake-*.py, repair-bake-normals.py) roda dentro do Blender 5.2.2 LTS, que nao
+# entra em requirements nenhum (DEPENDENCIAS.md).
+numpy==2.4.6
+xatlas==0.0.11

@@ -4,9 +4,10 @@ from pathlib import Path
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
 H=Path(__file__).resolve().parent;O=H/'piloto-v3';p=O/'source.json';d=json.loads(p.read_text())
-backup=O/'source-before-normal-repair.json'
-if not backup.exists():backup.write_text(p.read_text())
-else:d=json.loads(backup.read_text())
+# Opera sobre o source.json ATUAL e nao guarda nem le backup. O export de antes dos reparos
+# (source-before-normal-repair.json) saiu do repositorio em 27/09/2026. Relido aqui, ele desfazia
+# em silencio os reparos de batentes e molduras. Sobre o atual, este reparo e idempotente
+# (tasks/higiene-repositorio/arquivos-grandes.md).
 g=d['geometries'][d['objects'][0]['geometry']];verts=[Vector(g['position'][i:i+3]) for i in range(0,len(g['position']),3)]
 ix=g['index'] or list(range(len(verts)));faces=[ix[i:i+3] for i in range(0,len(ix),3)]
 bvh=BVHTree.FromPolygons(verts,faces,all_triangles=True);flipped=0

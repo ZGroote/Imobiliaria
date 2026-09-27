@@ -8,6 +8,16 @@ Este PR não remove nada. Ele traz três coisas:
 
 A decisão de cada arquivo é **proposta** aqui e tomada arquivo por arquivo, antes de qualquer remoção.
 
+> **Atualização, 27/09/2026: as três saídas aprovadas foram feitas.** Saíram do `HEAD` os dois
+> `uv.json` e o `source-before-normal-repair.json`, 42,08 MiB.
+>
+> - O ambiente de regeneração é o `requirements-bake.txt` (`numpy==2.4.6`, `xatlas==0.0.11`).
+> - O `repair-bake-normals.py` não recria mais o backup.
+> - Depois das saídas, o `HEAD` tem 986 arquivos e 238,3 MiB, e 24 arquivos acima de 1 MiB somam
+>   198,8 MiB.
+> - As linhas dos três arquivos ficam no inventário como registro, marcadas "saiu".
+> - A prova depois das mudanças está no fim deste documento.
+
 **Regras deste ciclo:**
 
 - Nada de LFS nem de `filter-repo`.
@@ -33,14 +43,14 @@ A decisão de cada arquivo é **proposta** aqui e tomada arquivo por arquivo, an
 |---:|---|---|---|---|---|---|
 | 62,33 | `sao-carlos/dados/lotes_saocarlos_completo.geojson` | E | `pipeline/juntar_lotes.py` (etapa 4) | etapas 5, 6, 6b e 7 | todo imóvel | não: as entradas (lote de planta, sintético, miolo) não estão no git |
 | 35,43 | `lotes_saocarlos.geojson` | E | nenhum gerador no repositório | só como fallback: `consolidar.py` com `FALLBACK=1`; `encaixar_casas_lotes.py` se o completo não existir | todo imóvel | não |
-| 22,06 | `…/piloto-v3/source-before-normal-repair.json` | **I** | backup escrito pelo `repair-bake-normals.py` | o próprio `repair-bake-normals.py`, quando roda de novo | não | não, mas não faz falta (prova abaixo) |
+| 22,06 | `…/piloto-v3/source-before-normal-repair.json` | **I, saiu em 27/09** | backup escrito pelo `repair-bake-normals.py` | o próprio `repair-bake-normals.py`, quando roda de novo | não | não, mas não faz falta (prova abaixo) |
 | 22,03 | `…/piloto-v3/source.json` | **F, premium** | exportado do visualizador; depois recebe os três reparos | `unwrap-v3.py`, `bake-v3.py`, `repair-*` | não | não |
 | 15,03 | `…/exterior-v3/geometry-compact.json` | E | `unwrap-exterior.py` | a página do Cedros | Cedros | **sim, provado** |
-| 14,20 | `…/exterior-v3/uv.json` | **I** | `unwrap-exterior.py` | `bake-exterior.py` | não | **sim, provado** |
+| 14,20 | `…/exterior-v3/uv.json` | **I, saiu em 27/09** | `unwrap-exterior.py` | `bake-exterior.py` | não | **sim, provado** |
 | 6,71 | `…/exterior-v3/lightmap.rgbm.gz` | E | bake (Cycles), denoise e `encode_lightmaps.py` | a página do Cedros | Cedros | não testado: bake em GPU |
 | 6,38 | `…/piloto-v3/geometry-compact.json` | E | `unwrap-v3.py` | a página do Cedros | Cedros | **sim, provado** |
 | 6,08 | `…/piloto-v3/lightmap.rgbm.gz` | E | bake, denoise e encode | a página do Cedros | Cedros | não testado |
-| 5,83 | `…/piloto-v3/uv.json` | **I** | `unwrap-v3.py` | `bake-v3.py` | não | **sim, provado** |
+| 5,83 | `…/piloto-v3/uv.json` | **I, saiu em 27/09** | `unwrap-v3.py` | `bake-v3.py` | não | **sim, provado** |
 | 4,91 | `sao-carlos/sao-carlos-v7.city.json` | E | `pipeline/city_final.py` (etapa 7) | a montagem | todo imóvel | não: `city_base` não está no git |
 | 4,90 | `modelos_urbanos/v1/mapa-casas.json` | E | `modelos_urbanos/v1/compilar_mapa.mjs` | a montagem e `exteriores/v1/*` | todo imóvel | não verificado |
 | 4,08 | `sao-carlos/dados/street_tris.json` | E | `pipeline/ruas.py` (etapa 7b) | a montagem | todo imóvel | não: as quadras não estão no git |
@@ -101,6 +111,8 @@ O que isso quer dizer:
 
 ## Decisões propostas (para aprovar arquivo por arquivo)
 
+As três primeiras foram **aprovadas e feitas** em 27/09. As outras foram aprovadas como estão: os `source.json` e o `lotes_saocarlos.geojson` ficam.
+
 | Arquivo | Proposta | Condição |
 |---|---|---|
 | `piloto-v3/uv.json`, `exterior-v3/uv.json` (20 MiB) | **sair do `HEAD`** | registrar `xatlas==0.0.11` em `requirements-fontes.txt` e no `DEPENDENCIAS.md`; anotar no padrão atual que o bake começa pelo unwrap |
@@ -131,7 +143,7 @@ Nada disto foi feito ainda. Serve de critério para quando o `source.json` for s
 
 - um arquivo versionado acima de **1 MiB** não está na lista `GRANDES`;
 - um arquivo da lista **cresce além do teto** dele, que é o tamanho de hoje arredondado para cima até o MiB inteiro;
-- o repositório inteiro passa de **300 MiB** (hoje são 280,3);
+- o repositório inteiro passa de **300 MiB** (eram 280,3 na base; 238,3 depois das saídas de 27/09);
 - algum arquivo passa de 100 MiB, o limite duro do GitHub;
 - uma entrada da lista não existe mais, ou deixou de estar acima de 1 MiB. A lista é o inventário exato, então quando um arquivo sai ou encolhe, a linha dele sai da lista e do inventário no mesmo PR.
 

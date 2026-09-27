@@ -1,6 +1,6 @@
 # Dependências, por ambiente
 
-Três ambientes, e a separação **foi medida**, não suposta: em 18/09/2026 percorri os
+Três ambientes, mais um só para regerar a luz do premium. A separação **foi medida**, não suposta: em 18/09/2026 percorri os
 `import` de todo `.py` do projeto e cruzei com o que está instalado neste interpretador.
 
 | ambiente | instala com | pacotes |
@@ -8,6 +8,7 @@ Três ambientes, e a separação **foi medida**, não suposta: em 18/09/2026 per
 | **Montar e verificar o mapa** | `pip install -r requirements.txt` | pyproj, shapely, numpy, pillow |
 | **Processar fontes de dado** | `pip install -r requirements-fontes.txt` | + osmium, rasterio, affine, scipy, opencv-python, pypdfium2, rapidocr-onnxruntime |
 | **Blender / Unreal** | não instala aqui — ver abaixo | bpy, mathutils |
+| **Regerar a luz do premium** (unwrap) | `pip install -r requirements-bake.txt`, numa venv própria | numpy==2.4.6, xatlas==0.0.11: versões exatas, porque a prova de 27/09/2026 é byte a byte (Python 3.14.4) |
 
 ## Por que essa divisão
 

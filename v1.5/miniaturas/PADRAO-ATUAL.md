@@ -41,6 +41,22 @@ flowchart LR
 7. O bake é estático: mover, girar ou redimensionar móveis desativa o mapa interno e mostra aviso, passando para iluminação dinâmica. Recalcular a luz é necessário para aprovar um novo layout.
 8. A câmera permanece livre. Nenhum vídeo é gerado. O resultado é uma maquete ilustrativa, com implantação e dimensões aproximadas, não uma imagem fotográfica ou projeto executivo.
 
+### Regerar a luz
+
+Desde 27/09/2026 o `uv.json` de `piloto-v3/` e de `exterior-v3/` não é versionado. O unwrap o
+escreve junto com o `geometry-compact.json`, e o bake o lê. Por isso a luz se refaz nesta ordem:
+
+1. **Unwrap,** num ambiente próprio:
+   - `pip install -r requirements-bake.txt`, numa venv;
+   - `python unwrap-v3.py` e `python unwrap-exterior.py`, os dois em `padrao-atual/`.
+
+   Com as versões desse arquivo, ele reproduz byte a byte o `geometry-compact.json` versionado.
+2. **Bake,** no Blender: `bake-v3.py` e `bake-exterior.py`.
+3. **Denoise** (`denoise-v3.py`, `denoise-exterior.py`) e **encode** (`encode_lightmaps.py`).
+
+O export de antes dos reparos, `source-before-normal-repair.json`, também saiu em 27/09.
+`repair-bake-normals.py` opera sobre o `source.json` atual, sem guardar nem ler backup.
+
 ## Montar e publicar a versão aprovada
 
 Na raiz do repositório:
