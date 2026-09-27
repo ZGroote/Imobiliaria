@@ -279,14 +279,19 @@ def gerar_leve(imovel_id, cache_path=None, blender=None, dest_root=MINI_ROOT,
     if (state and state.get('schema') == 1
             and state.get('inputSha256') == desc['sha256']
             and atuais is not None and atuais == state.get('outputs')):
-        return {
-            'profile': desc['profile'],
-            'slug': desc['slug'],
-            'cached': True,
-            'inputSha256': desc['sha256'],
-            'blender': state.get('blender'),
-            'outputs': atuais,
-        }
+        try:
+            conferidos = _validar_artefatos_leve(desc['slug'], destinos)
+        except (OSError, ValueError, json.JSONDecodeError):
+            conferidos = None
+        if conferidos == atuais:
+            return {
+                'profile': desc['profile'],
+                'slug': desc['slug'],
+                'cached': True,
+                'inputSha256': desc['sha256'],
+                'blender': state.get('blender'),
+                'outputs': atuais,
+            }
 
     ambiente = resolver_blender(blender)
     with tempfile.TemporaryDirectory(prefix='leve-', dir=str(cache_path.parent)) as tmp:
