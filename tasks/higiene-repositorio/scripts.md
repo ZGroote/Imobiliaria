@@ -4,6 +4,7 @@
 
 - **#40:** inventário e classificação, sem remover nada.
 - **#41:** saíram os 5 `_*.py` e os dois JSON de variante de Ribeirão que eles geraram (seção seguinte).
+- **#42:** o `testa_recorte` virou gate do build por imóvel; a verificação mora no `pipeline/recorte.py`.
 
 Os renderizadores (v15, v16, v17, v18) ficam para a frente seguinte.
 
@@ -127,32 +128,40 @@ Ninguém as chama, nem o CI. Elas medem partes do interior e do editor que exist
 |---|---:|---|---|---|
 | `testa_pe_de_parede.py` | 74 | 14/09 `cbf9722` | só mede em **Ribeirão Preto** (`mirra-114`). A docstring explica que em São Carlos a unidade tem atlas do Unreal e o defeito não apareceria. Ribeirão está fora do escopo, e a `mirra-114` está travada para publicação (`NAO_PUBLICAR`) | **histórico** |
 
-### `testa_recorte.py`: vira gate do build por imóvel (tratado à parte)
+### `testa_recorte.py`: o gate do build por imóvel (#42)
+
+**Implementado no #42.** A verificação de identidade saiu do script e virou gate do build por imóvel. A autoridade é uma só: a função `diverge` do `pipeline/recorte.py`.
 
 | Item | Estado |
 |---|---|
-| Linhas / último commit | 108 / 19/09 `52f96cb` |
-| O que prova | que o recorte preserva a **identidade** de cada prédio: mesma cor, altura, número de vértices, nome, fachada (`fa`) e modelo urbano. Compara o tour recortado com a página cheia, casando cada prédio pela **posição** |
-| Quem chama hoje | ninguém. O `pipeline/recorte.py` o cita duas vezes, em comentário, como o conferidor que pegou defeitos reais |
-| Uso documentado | `python pipeline/testa_recorte.py imovel/sao-carlos/sanca-135-29.html`, contra a página cheia fixa `v16-moveis/sao-carlos-v16-moveis-aberto.html` |
-| Classe hoje | ferramenta operacional, mas protege uma peça do **produto publicado**: o tour por imóvel |
+| Onde mora a verificação | `pipeline/recorte.py`: a função pura `diverge(cheia, corte, lib_cheia, lib_corte)` e a exceção `IdentidadeQuebrada` |
+| O que confere | cada prédio do recorte, achado pela **posição** do primeiro vértice na cidade inteira, num casamento **1:1** (um prédio da cidade é par de um só prédio do recorte): cor, altura, número de vértices, nome e endereço, frente (`fa`), existência, posição e rotação do `urbanLot`, e o modelo urbano **pelo id**, não pelo índice, porque a biblioteca encolhe. A frente **falha fechado:** presente num lado e ausente no outro reprova |
+| Quando | **durante a própria montagem.** O `Recorte.citydata` guarda o bloco inteiro e compara com o recortado; o `Recorte.urbanModels` confere o modelo de cada lote. Não se monta a cidade cheia |
+| Efeito | uma divergência levanta `IdentidadeQuebrada` (um `RuntimeError`) e aborta a geração do tour, antes de existir build promovível |
+| O gate só lê | o corte em si foi para `_corta_cidade` e `_corta_modelos`, sem mudar a lógica. A saída é byte a byte a de antes (teste `test_the_gate_only_reads` e a rodada do Cedros) |
+| Ordem dos blocos | continua travada: `urbanModels` antes de `citydata` e `luzue` antes de `unidades` levantam erro, e não viram biblioteca vazia |
+| `pipeline/testa_recorte.py` | **invocador fino** da mesma `diverge`, para rodar à mão sobre páginas já montadas (o tour e a página cheia). Não duplica lógica |
 
-**Por que não serve como teste genérico de CI:** ele precisa de duas páginas montadas, o tour e a página cheia do mapa, e nenhuma das duas está no git. Montar as duas no CI custaria minutos por imóvel. E a página cheia vem de um caminho fixo da pasta da versão, que é o mesmo problema das sondas.
+**Os testes** estão em `tests/test_recorte_gate.py`: 20 testes, no CI, determinísticos, com uma cidade de cinco prédios feita à mão e uma biblioteca de 100 modelos com índices esparsos, para que a poda remapeie.
 
-**Desenho proposto para o gate (a implementar em PR próprio):**
+- O recorte correto passa e mantém o modelo pelo id.
+- O gate só lê.
+- Dois prédios que começam no mesmo ponto não disparam alarme falso.
+- As mutações de altura, nome, `fa`, modelo pelo id, posição do `urbanLot`, `urbanLot` ausente e prédio sem par reprovam, cada uma com o seu tipo.
+- Um prédio duplicado no recorte, com um só correspondente na cidade inteira, reprova (`duplicado`).
+- O array `fa` removido inteiro, ou curto demais, reprova (`fa ausente`), sem depender de `IndexError`. Contra a `diverge` anterior, esses três testes reprovavam, o que prova que pegam os dois furos.
+- A divergência aborta o `citydata` e o `urbanModels` durante a montagem.
+- A ordem errada dos blocos continua falhando, também passando pelo `aplica`.
+- A autoprova do módulo (`_prova`) passa.
+- **Mutação:** desligar o gate no `citydata` ou no `urbanModels` faz o teste correspondente reprovar.
 
-1. **Onde:** dentro do build por imóvel. O `pipeline/imovel.py` (`gera`) monta o tour chamando `montar.monta(..., recorte=r)`. O recorte é aplicado **bloco a bloco** (`Recorte.aplica`), com o texto inteiro de cada bloco na mão. Então o gate **não precisa da página cheia:** basta guardar o `__citydata` e o `__urbanModels` inteiros no momento do recorte e comparar com os recortados.
-2. **O quê:** a mesma verificação do script, movida para uma função do `pipeline/recorte.py`, que não sai de lá. São duas regras:
-   - todo prédio do recorte tem par na cidade inteira pela posição;
-   - cor, altura, vértices, nome, `fa` e modelo urbano (pelo **id** do modelo) são iguais.
-3. **Efeito:** divergência faz o `build_imovel.py` **falhar** (`ValueError`), antes de gravar o build. É o mesmo lugar onde já estão a canonicalização e a checagem de fonte estável. Recorte que troca a identidade de um prédio não vira preview nem live.
-4. **Prova:** um teste Python do CI, sem montar cidade, com um `__citydata` pequeno montado à mão:
-   - recorte correto passa;
-   - trocar altura, nome ou modelo de um prédio reprova;
-   - prédio sem par reprova.
+**A rodada do Cedros** é o `python pipeline/build_imovel.py monte-dos-cedros-37`:
 
-   Mais uma rodada do build do Cedros, que tem de reproduzir o `34331f1ceb9d` (o gate só lê, então não muda os bytes).
-5. **E o script manual:** vira um invocador fino dessa função, ou sai quando o gate entrar. Fica para você decidir no PR do gate.
+- ela devolve **`34331f1ceb9d`**, com `reutilizado: true`;
+- num build novo em pasta temporária, o gate rodou sobre os dados reais. No `__citydata`, conferiu 23.681 prédios do recorte contra os 89.895 da cidade, com 13.237 lotes urbanos e 10 posições com mais de um prédio; no `__urbanModels`, o modelo de cada lote. As duas conferências deram **0 divergências**;
+- `tour.html` e `maquete.html` saíram idênticos byte a byte aos do ar.
+
+O invocador manual, sobre o tour do Cedros e uma página cheia montada, também deu 23.681 prédios e 0 divergências.
 
 ## Outros avulsos da raiz, fora desta lista
 
@@ -168,13 +177,14 @@ Os outros `.py` da raiz são chamados pelo `pipeline/rodar.py`, ou são invocado
 | Classe | Scripts |
 |---|---|
 | gate vivo | 7 portões `testa_*` |
-| ferramenta operacional | `testa_junta`, `testa_luz`, `testa_moveis`; e `testa_recorte`, a caminho de virar gate |
+| ferramenta operacional | `testa_junta`, `testa_luz`, `testa_moveis` |
+| gate do build por imóvel | a verificação de identidade do recorte (`pipeline/recorte.py`, #42); o `testa_recorte` é o invocador manual dela |
 | experimento descartável | os 5 `_*.py`, **retirados no #41** |
 | histórico | `testa_pe_de_parede` |
 
 **Ordem:**
 
 1. **Feito no #41:** saíram os 5 `_*.py` e os dois JSON de variante de Ribeirão.
-2. **Transformar o `testa_recorte` em gate do build por imóvel,** com o desenho acima.
+2. **Feito no #42:** o `testa_recorte` virou gate do build por imóvel.
 3. **Decidir o `testa_pe_de_parede`:** fica como histórico ou sai.
 4. **Os renderizadores** vêm depois, e com eles a questão das sondas presas à pasta da versão.

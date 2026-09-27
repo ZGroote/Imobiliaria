@@ -16,6 +16,15 @@ Ordem importa uma vez: `__citydata` tem que ser recortado antes de `__urbanModel
 porque e ele que diz quais modelos de casa sobraram. O montador ja emite nessa ordem;
 `urbanModels` levanta erro se for chamado fora dela, em vez de devolver biblioteca
 vazia em silencio.
+
+O RECORTE SE CONFERE (gate do build por imovel). Tamanho menor nao prova nada: um
+recorte que trocasse o nome, a altura ou o modelo de casa dos predios produziria uma
+pagina menor que renderiza. Por isso `citydata` e `urbanModels` guardam o bloco inteiro
+e comparam com o recortado na propria montagem (`diverge`): cada predio que ficou tem
+de ser O MESMO predio da cidade inteira, achado pela POSICAO, que e a unica coisa que o
+recorte nao pode mexer. Divergencia levanta `IdentidadeQuebrada` e aborta a montagem,
+antes de existir build. O gate so le: a saida e a mesma com ou sem ele.
+`pipeline/testa_recorte.py` e o invocador manual da mesma funcao sobre paginas prontas.
 """
 import json
 import math
@@ -45,6 +54,125 @@ def _dist(x, z, cx, cz):
     return math.hypot(x - cx, z - cz)
 
 
+class IdentidadeQuebrada(RuntimeError):
+    """O recorte trocou a identidade de um predio: aborta a montagem."""
+
+
+def _predios(c):
+    """{(x, z) do primeiro vertice: [(cor, altura, n_vertices, indice), ...]}.
+
+    Lista, e nao um valor so: dois predios podem comecar no mesmo ponto, e o casamento
+    pela posicao nao pode escolher um deles por acaso."""
+    b = c["b"]
+    fora, i, n = {}, 0, 0
+    while i < len(b):
+        k = b[i + 2]
+        fora.setdefault((b[i + 3], b[i + 4]), []).append((b[i], b[i + 1], k, n))
+        i += 3 + 2 * k
+        n += 1
+    return fora
+
+
+def _nomes(c):
+    """indice do predio -> (nome, endereco), pelo `bm` e pela tabela `names`."""
+    ns, bm, fora = c.get("names") or [], c.get("bm") or [], {}
+    for i in range(0, len(bm), 3):
+        fora[bm[i]] = (ns[bm[i + 1]] if bm[i + 1] < len(ns) else None,
+                       ns[bm[i + 2]] if bm[i + 2] < len(ns) else None)
+    return fora
+
+
+def _modelo(lib, i):
+    assets = (lib or {}).get("assets") or []
+    return assets[i].get("id") if 0 <= i < len(assets) else None
+
+
+def _emparelha(compativeis, n):
+    """Casamento 1:1 entre os predios do recorte numa posicao e os `n` candidatos da cidade
+    inteira nela (caminho de aumento). `compativeis[i]` sao os candidatos que batem em tudo
+    com o predio i. Devolve, para cada predio, o candidato casado ou None."""
+    dono = [None] * n
+
+    def tenta(i, visto):
+        for j in compativeis[i]:
+            if j not in visto:
+                visto.add(j)
+                if dono[j] is None or tenta(dono[j], visto):
+                    dono[j] = i
+                    return True
+        return False
+
+    for i in range(len(compativeis)):
+        tenta(i, set())
+    par = [None] * len(compativeis)
+    for j, i in enumerate(dono):
+        if i is not None:
+            par[i] = j
+    return par
+
+
+def diverge(cheia, corte, lib_cheia=None, lib_corte=None):
+    """Onde o `__citydata` recortado deixou de ser a cidade inteira.
+
+    Para cada predio do recorte, achado pela POSICAO do primeiro vertice: mesma cor,
+    altura e numero de vertices; mesmo nome e endereco; mesma frente (`fa`); o mesmo
+    `urbanLot`, com a mesma posicao e rotacao; e, quando as duas bibliotecas vierem, o
+    mesmo modelo pelo ID (o indice muda, porque a biblioteca encolhe). Devolve a lista
+    de divergencias `(tipo, posicao, recorte, cheia)`, vazia quando tudo bate.
+
+    O casamento e 1:1: um predio da cidade inteira e par de UM predio do recorte, entao
+    uma copia a mais no recorte reprova. E `fa` falha fechado: frente de um lado e nao do
+    outro -- o array inteiro sumido, ou curto demais -- e divergencia."""
+    pc, pr = _predios(cheia), _predios(corte)
+    nc, nr = _nomes(cheia), _nomes(corte)
+    ulc, ulr = cheia.get("urbanLots") or {}, corte.get("urbanLots") or {}
+    fa_c, fa_r = cheia.get("fa") or [], corte.get("fa") or []
+    modelos = lib_cheia is not None and lib_corte is not None
+    ausente = object()
+
+    def frente(fa, i):
+        return fa[i] if 0 <= i < len(fa) else ausente
+
+    def difere(pos, r, c):
+        """A primeira diferenca entre o predio r do recorte e o candidato c, ou None."""
+        (cor, alt, k, idx), (ccor, calt, ck, cidx) = r, c
+        if (cor, alt, k) != (ccor, calt, ck):
+            return ("geometria", pos, (cor, alt, k), (ccor, calt, ck))
+        if nr.get(idx) != nc.get(cidx):
+            return ("nome", pos, nr.get(idx), nc.get(cidx))
+        fr, fc = frente(fa_r, idx), frente(fa_c, cidx)
+        if (fr is ausente) != (fc is ausente):
+            return ("fa ausente", pos, None if fr is ausente else fr,
+                    None if fc is ausente else fc)
+        if fr != fc:
+            return ("fa", pos, fr, fc)
+        vr, vc = ulr.get(str(idx)), ulc.get(str(cidx))
+        if (vr is None) != (vc is None):
+            return ("urbanLot ausente", pos, vr, vc)
+        if vr is not None and vr[1:] != vc[1:]:
+            return ("urbanLot", pos, vr[1:], vc[1:])
+        if vr is not None and modelos and _modelo(lib_corte, vr[0]) != _modelo(lib_cheia, vc[0]):
+            return ("modelo urbano", pos, _modelo(lib_corte, vr[0]), _modelo(lib_cheia, vc[0]))
+        return None
+
+    erros = []
+    for pos, lista in pr.items():
+        candidatos = pc.get(pos) or []
+        compativeis = [[j for j, c in enumerate(candidatos) if difere(pos, r, c) is None]
+                       for r in lista]
+        for i, j in enumerate(_emparelha(compativeis, len(candidatos))):
+            if j is not None:
+                continue
+            r = lista[i]
+            if not candidatos:
+                erros.append(("sem par", pos, r[:3], None))
+            elif compativeis[i]:
+                erros.append(("duplicado", pos, r[:3], "o par ja foi usado por outro predio"))
+            else:
+                erros.append(difere(pos, r, candidatos[0]))
+    return erros
+
+
 class Recorte:
     """Filtro de blocos em volta de (cx, cz), em metros do sistema do mapa."""
 
@@ -60,6 +188,7 @@ class Recorte:
         self._urbanos_manter = None     # indices de modelo urbano que sobraram, em ordem
         self._imoveis_dentro = None     # ids de anuncio dentro do raio
         self._unidades_dentro = None    # ids de planta cadastrada que ficaram
+        self._cidade_par = None         # (cheia, recortada), para o gate conferir modelos
         self.relatorio = {}
 
     # ---- entrada ---------------------------------------------------------
@@ -80,9 +209,23 @@ class Recorte:
     def _geo(self, lon, lat):
         return self._cid.geo_para_mapa(lon, lat)
 
+    # ---- gate ------------------------------------------------------------
+    def _exige(self, erros, bloco):
+        if erros:
+            amostra = "; ".join("%s em %s: recorte=%s cheia=%s" % e for e in erros[:5])
+            raise IdentidadeQuebrada("%s: o recorte trocou a identidade de %d predio(s). %s"
+                                     % (bloco, len(erros), amostra))
+
     # ---- cidade ----------------------------------------------------------
     def citydata(self, texto):
-        c = json.loads(texto)
+        cheia = json.loads(texto)
+        corte = self._corta_cidade(json.loads(texto))
+        self._exige(diverge(cheia, corte), "__citydata")
+        self._cidade_par = (cheia, corte)
+        return json.dumps(corte, ensure_ascii=False, separators=(",", ":"))
+
+    def _corta_cidade(self, c):
+        """O recorte em si. Devolve o mesmo dicionario, cortado; quem confere e `citydata`."""
         Q = 10.0
         q = c.get("q", 10)
         escala = q / Q
@@ -162,7 +305,7 @@ class Recorte:
             c["g"] = self._chaos(c["g"], Q, escala)
         self.relatorio["predios"] = (len(lim), len(guardados))
         self.relatorio["quarteiroes"] = (len(bl) // 5, len(novo_bl))
-        return json.dumps(c, ensure_ascii=False, separators=(",", ":"))
+        return c
 
     def _com_piso(self, usados, urban_lots):
         """Indices a manter na biblioteca urbana, nunca menos que URBANO_MINIMO.
@@ -264,6 +407,15 @@ class Recorte:
             raise RuntimeError("__urbanModels recortado antes de __citydata: sem a "
                                "cidade nao da pra saber qual casa sobrou")
         d = json.loads(texto)
+        cheia = {"assets": d.get("assets") or []}
+        d = self._corta_modelos(d)
+        if self._cidade_par is not None:
+            cidade, corte = self._cidade_par
+            self._exige(diverge(cidade, corte, cheia, d), "__urbanModels")
+        return json.dumps(d, separators=(",", ":"))
+
+    def _corta_modelos(self, d):
+        """A poda da biblioteca. Devolve o mesmo dicionario; quem confere e `urbanModels`."""
         antigos = d.get("assets") or []
         manter = self._urbanos_manter
         # `citydata` ja reescreveu urbanLots contando com ESTA ordem. Pular um indice
@@ -280,7 +432,7 @@ class Recorte:
             self._urbanos_manter = manter
         d["assets"] = [antigos[i] for i in manter]
         self.relatorio["urbanModels/assets"] = (len(antigos), len(manter))
-        return json.dumps(d, separators=(",", ":"))
+        return d
 
     def exteriorModels(self, texto):
         d = json.loads(texto)
