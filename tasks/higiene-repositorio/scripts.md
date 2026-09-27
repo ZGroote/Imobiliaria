@@ -5,6 +5,7 @@
 - **#40:** inventário e classificação, sem remover nada.
 - **#41:** saíram os 5 `_*.py` e os dois JSON de variante de Ribeirão que eles geraram (seção seguinte).
 - **#42:** o `testa_recorte` virou gate do build por imóvel; a verificação mora no `pipeline/recorte.py`.
+- **#43:** saiu o `testa_pe_de_parede.py`, que era histórico (seção abaixo).
 
 Os renderizadores (v15, v16, v17, v18) ficam para a frente seguinte.
 
@@ -122,11 +123,26 @@ Ninguém as chama, nem o CI. Elas medem partes do interior e do editor que exist
 | `testa_luz.py` | 225 | 14/09 `cbf9722` | `python pipeline/testa_luz.py sao-carlos` | interruptor, plafom e parede que veda | **ferramenta operacional** |
 | `testa_moveis.py` | 302 | 20/09 `be2676b` | `python pipeline/testa_moveis.py sao-carlos` | o modo Móveis: grade, gizmo, fantasma. O `v1.5/miniaturas/testa_etapas.py` o cita como modelo | **ferramenta operacional** |
 
-### Histórico (1)
+### Histórico (1): retirado no #43
 
 | Script | Linhas | Último commit | Por quê | Classe |
 |---|---:|---|---|---|
-| `testa_pe_de_parede.py` | 74 | 14/09 `cbf9722` | só mede em **Ribeirão Preto** (`mirra-114`). A docstring explica que em São Carlos a unidade tem atlas do Unreal e o defeito não apareceria. Ribeirão está fora do escopo, e a `mirra-114` está travada para publicação (`NAO_PUBLICAR`) | **histórico** |
+| `testa_pe_de_parede.py` (**saiu no #43**) | 74 | 14/09 `cbf9722` | só mede em **Ribeirão Preto** (`mirra-114`). A docstring explica que em São Carlos a unidade tem atlas do Unreal e o defeito não apareceria. Ribeirão está fora do escopo, e a `mirra-114` está travada para publicação (`NAO_PUBLICAR`) | **histórico** |
+
+**Retirado em 27/09/2026 (#43).**
+
+| Arquivo | Blob | Bytes |
+|---|---|---:|
+| `pipeline/testa_pe_de_parede.py` | `43c8ae1b7ab2` | 3.796 |
+
+**Motivo:**
+
+- Ninguém o chamava: nem código, nem CI, nem documento vivo. Ele só aparecia no `scripts.md`, no levantamento datado de 26/09 e no inventário congelado da modularização.
+- Só media em Ribeirão Preto (`mirra-114`), que está fora do escopo.
+- A `mirra-114` está travada para publicação (`NAO_PUBLICAR`).
+- A própria docstring dizia que o defeito não se reproduz no caso de São Carlos.
+
+O histórico fica no git (o blob acima) e neste documento.
 
 ### `testa_recorte.py`: o gate do build por imóvel (#42)
 
@@ -180,11 +196,11 @@ Os outros `.py` da raiz são chamados pelo `pipeline/rodar.py`, ou são invocado
 | ferramenta operacional | `testa_junta`, `testa_luz`, `testa_moveis` |
 | gate do build por imóvel | a verificação de identidade do recorte (`pipeline/recorte.py`, #42); o `testa_recorte` é o invocador manual dela |
 | experimento descartável | os 5 `_*.py`, **retirados no #41** |
-| histórico | `testa_pe_de_parede` |
+| histórico | `testa_pe_de_parede`, **retirado no #43** |
 
 **Ordem:**
 
 1. **Feito no #41:** saíram os 5 `_*.py` e os dois JSON de variante de Ribeirão.
 2. **Feito no #42:** o `testa_recorte` virou gate do build por imóvel.
-3. **Decidir o `testa_pe_de_parede`:** fica como histórico ou sai.
+3. **Feito no #43:** o `testa_pe_de_parede` saiu do `HEAD`.
 4. **Os renderizadores** vêm depois, e com eles a questão das sondas presas à pasta da versão.
