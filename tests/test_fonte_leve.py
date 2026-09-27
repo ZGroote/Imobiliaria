@@ -32,6 +32,11 @@ class MontesNormalizacaoTests(unittest.TestCase):
             "target": [22, -1, 22],
             "distance": [-95, -100, 70],
             "ortho": 110,
+            "detail": {
+                "target": [0, 0, 24],
+                "distance": [-50, -48, 32],
+                "ortho": 82,
+            },
         })
         self.assertEqual(r["style"]["referenceImage"], "referencias/cedros-fachada.jpg")
         self.assertEqual(r["metadata"]["scope"], "duas torres")
@@ -59,6 +64,11 @@ class MontesNormalizacaoTests(unittest.TestCase):
             "target": [-19, -14, 6],
             "distance": [-95, -100, 70],
             "ortho": 104,
+            "detail": {
+                "target": [0, 0, 10],
+                "distance": [-50, -48, 32],
+                "ortho": 44,
+            },
         })
         self.assertEqual(r["style"]["referenceImage"], "referencias/colinas-portaria.jpg")
 
@@ -83,7 +93,8 @@ class MontesNormalizacaoTests(unittest.TestCase):
                 "schema": 1, "profile": "p",
                 "common": {
                     "floorHeight": 3.15, "recess": 1.7, "balconyCenters": [-2.1, 2.1],
-                    "renderDistance": [-1, -2, 3], "reference": "r", "uncertainty": "u",
+                    "renderDistance": [-1, -2, 3], "detailDistance": [-4, -5, 6],
+                    "reference": "r", "uncertainty": "u",
                     "materials": {
                         "moldura": {"color": None, "roughness": 0.9, "metalness": 0}
                     },
@@ -92,7 +103,8 @@ class MontesNormalizacaoTests(unittest.TestCase):
                     "balconyWidth": 2.0, "molduraColor": [1, 2, 3],
                     "molduraMode": "m", "longFacadeBands": False,
                     "referenceImage": "r.jpg", "renderTarget": [1, 2, 3],
-                    "renderOrtho": 10, "scope": "s",
+                    "renderOrtho": 10, "detailTarget": [7, 8, 9], "detailOrtho": 11,
+                    "scope": "s",
                 }},
             }
             (raiz / "perfis/p.json").write_text(json.dumps(perfil), encoding="utf-8")
