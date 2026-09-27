@@ -25,7 +25,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from pathlib import Path, PurePosixPath
+from pathlib import Path, PurePosixPath, PureWindowsPath
 
 RAIZ = Path(__file__).resolve().parents[1]
 MANIFESTO = RAIZ / 'tools' / 'artefatos-privados.json'
@@ -35,14 +35,34 @@ class Recusado(Exception):
     pass
 
 
+def relativo_seguro(destino):
+    """O destino é relativo e não sobe de pasta, lido como caminho POSIX e como caminho Windows.
+
+    Só POSIX não basta no Windows: `C:/fora.json` não é absoluto para PurePosixPath, mas é para
+    PureWindowsPath e para o Path do Windows, e `raiz / 'C:/fora.json'` vira `C:/fora.json`.
+    Drive (`C:`), raiz (`/`, `\\`) e UNC (`\\\\srv\\share`) aparecem no `anchor`."""
+    if not destino or '\\' in destino:
+        return False
+    return not any(p.anchor or '..' in p.parts for p in (PurePosixPath(destino), PureWindowsPath(destino)))
+
+
+def dentro(raiz, destino):
+    """O caminho montado e RESOLVIDO fica sob a raiz. Recusado se não."""
+    if not relativo_seguro(destino):
+        raise Recusado('destino fora do repositório: %r' % destino)
+    base = Path(raiz).resolve()
+    alvo = (base / destino).resolve()
+    if base not in alvo.parents:
+        raise Recusado('destino fora do repositório: %r resolve para %s' % (destino, alvo))
+    return alvo
+
+
 def carrega(caminho=MANIFESTO):
     m = json.loads(Path(caminho).read_text(encoding='utf-8'))
     if m.get('schema') != 1:
         raise Recusado('manifesto com schema desconhecido: %r' % m.get('schema'))
     for a in m['artefatos']:
-        d = PurePosixPath(a['destino'])
-        if d.is_absolute() or '..' in d.parts or '\\' in a['destino']:
-            raise Recusado('destino fora do repositório: %r' % a['destino'])
+        dentro(RAIZ, a['destino'])
     return m
 
 
@@ -71,7 +91,7 @@ def baixa_com_gh(repo, a, pasta):
 
 
 def recupera(a, repo, raiz=RAIZ, baixar=baixa_com_gh):
-    destino = Path(raiz) / a['destino']
+    destino = dentro(raiz, a['destino'])
     if destino.exists():
         try:
             confere(destino, a)
@@ -98,7 +118,7 @@ def main(argv=None):
     for a in m['artefatos']:
         try:
             if args.conferir:
-                confere(RAIZ / a['destino'], a)
+                confere(dentro(RAIZ, a['destino']), a)
                 estado = 'confere'
             else:
                 if shutil.which('gh') is None:

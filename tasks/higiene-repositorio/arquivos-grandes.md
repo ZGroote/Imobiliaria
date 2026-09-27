@@ -138,7 +138,10 @@ O critério foi escrito no #36:
 
 **O destino** é o repositório GitHub **privado** `ZGroote/imobiliaria-artefatos`.
 
-- Ele é separado do `ZGroote/Imobiliaria` de propósito: mudar a visibilidade do código não expõe as fontes.
+- Ele é separado do `ZGroote/Imobiliaria` de propósito. Isso desacopla da visibilidade do repositório principal **as cópias operacionais daqui em diante**, e nada além disso.
+- **O repositório principal tem de continuar privado.** Os dois `source.json` estão no histórico do git do `ZGroote/Imobiliaria`, e tirá-los do `HEAD` não apaga os blobs antigos.
+  - Qualquer volta a público exige, antes, um ciclo separado de sanitização e revisão do histórico, planejado e provado.
+  - Nada de `filter-repo` neste ciclo.
 - O git dele só tem um README. As fontes são **assets** da release `premium-sources-2026-09-27`.
 - O Storage do Firebase ficou de fora: exigiria o plano Blaze, com cobrança, regras e deploy, e o projeto está sem cobrança.
 

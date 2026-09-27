@@ -9,6 +9,7 @@ garante que a âncora foi tirada do arquivo certo.
 """
 import hashlib
 import importlib.util
+import json
 import subprocess
 import tempfile
 import unittest
@@ -66,14 +67,33 @@ class ManifestoTests(unittest.TestCase):
             verificados += 1
         self.assertEqual(verificados, 2, 'hoje os dois source.json ainda estão no git')
 
+    # Caminhos que escapam em POSIX, no Windows (drive absoluto, drive relativo, raiz do drive) e
+    # por UNC. `C:/fora.json` é o que passava quando a validação era só POSIX.
+    RUINS = ('../fora.json', '/abs/x.json', 'a/../../x.json', 'a\\b.json', '',
+             'C:/fora.json', 'C:\\fora.json', 'C:fora.json', 'c:/Windows/x.json',
+             '\\\\srv\\share\\x.json', '//srv/share/x.json', '\\fora.json')
+
     def test_destination_cannot_escape_the_repository(self):
         with tempfile.TemporaryDirectory() as t:
-            for ruim in ('../fora.json', '/abs/x.json', 'a/../../x.json', 'a\\b.json'):
+            for ruim in self.RUINS:
                 p = Path(t) / 'm.json'
-                p.write_text('{"schema": 1, "repositorio": "r", "artefatos": [{"destino": "%s"}]}'
-                             % ruim.replace('\\', '\\\\'), encoding='utf-8')
+                p.write_text(json.dumps({'schema': 1, 'repositorio': 'r',
+                                         'artefatos': [{'destino': ruim}]}), encoding='utf-8')
                 with self.subTest(destino=ruim), self.assertRaises(BA.Recusado):
                     BA.carrega(p)
+
+    def test_recovery_refuses_an_escaping_destination_before_downloading(self):
+        baixar, chamadas = baixador(b'x')
+        with tempfile.TemporaryDirectory() as raiz:
+            for ruim in self.RUINS:
+                with self.subTest(destino=ruim), self.assertRaises(BA.Recusado):
+                    BA.recupera(entrada(b'x', destino=ruim), 'r', raiz, baixar)
+        self.assertEqual(chamadas, [])
+
+    def test_a_normal_destination_resolves_under_the_root(self):
+        with tempfile.TemporaryDirectory() as raiz:
+            alvo = BA.dentro(raiz, 'v1.5/miniaturas/padrao-atual/piloto-v3/source.json')
+            self.assertIn(Path(raiz).resolve(), alvo.parents)
 
 
 class RecuperacaoTests(unittest.TestCase):
