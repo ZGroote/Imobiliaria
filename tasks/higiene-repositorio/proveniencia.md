@@ -195,10 +195,12 @@ O que ficou:
   estudos.
 - **Fora da trava:** o extrator de anúncio (`modelos_cadastrados/pipeline/extrair_anuncio.py`)
   continua sabendo ler o `roca.com.br`. Ele é código, e o teste dele usa dados montados à mão.
-- **Produção:** o tour do Cedros no ar (build `215965d37d7d`, publicado em 25/09) ainda leva 4
-  dos anúncios antigos, os que caem no raio dele, e os 3 estudos 3D que existiam para eles. Conferido
-  no `tour.html` do build local. Isso só muda num próximo build e publicação, e produção está
-  congelada neste ciclo.
+- **Produção:** o tour do Cedros publicado em 25/09 (build `215965d37d7d`) levava 4 dos anúncios
+  antigos, os que caem no raio dele, e os 3 estudos 3D que existiam para eles.
+  - Em 27/09 ele foi substituído pelo build `34331f1ceb9d`, com os 3 anúncios fictícios do raio, o
+    pacote de estudos vazio e nenhum `roca.com.br`. Foi uma exceção controlada ao congelamento
+    (proposta, §14).
+  - O `215965d37d7d` continua no ar como `anterior`, porque é para ele que a reversão volta.
 
 ## Imóveis de clientes (plantas fornecidas)
 
