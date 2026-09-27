@@ -35,7 +35,10 @@ class MontesNormalizacaoTests(unittest.TestCase):
         })
         self.assertEqual(r["style"]["referenceImage"], "referencias/cedros-fachada.jpg")
         self.assertEqual(r["metadata"]["scope"], "duas torres")
-        self.assertEqual(len(r["style"]["materials"]), 12)
+        self.assertEqual(list(r["style"]["materials"]), [
+            "reboco", "concreto", "moldura", "painel", "metal", "vidro",
+            "escuro", "telhado", "madeira", "folha", "vaso", "acesa",
+        ])
 
     def test_colinas_preserva_parametros_do_gerador_atual(self):
         r = F.normalizar("monte-das-colinas-39")
