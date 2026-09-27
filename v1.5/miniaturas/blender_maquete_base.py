@@ -112,7 +112,7 @@ def exportar(out,slug,metadata):
     (out/'validacao.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
     print('MODEL_READY',json.dumps(report),flush=True)
 
-def renderizar(out,slug,reference,target,distance,ortho):
+def renderizar(out,slug,reference,target,distance,ortho,detalhe):
     out=Path(out)
     if reference:
         img=bpy.data.images.load(str(reference));img.pack()
@@ -145,10 +145,9 @@ def renderizar(out,slug,reference,target,distance,ortho):
     # Vista de detalhe do bloco principal, preservando a mesma geometria.
     for ob in scene.objects:
         if ob.type=='MESH' and ob.get('tower',-1)!=0:ob.hide_render=True
-    cam.location=Vector((0,0,10))+Vector((-50,-48,32));cam.rotation_euler=(Vector((0,0,10))-cam.location).to_track_quat('-Z','Y').to_euler()
-    data.ortho_scale=55 if slug=='monte-dos-cedros' else 44
-    if slug=='monte-dos-cedros':
-        cam.location.z+=14;cam.rotation_euler=(Vector((0,0,24))-cam.location).to_track_quat('-Z','Y').to_euler()
-        data.ortho_scale=82
+    detail_target=Vector(detalhe['target'])
+    cam.location=detail_target+Vector(detalhe['distance'])
+    cam.rotation_euler=(detail_target-cam.location).to_track_quat('-Z','Y').to_euler()
+    data.ortho_scale=detalhe['ortho']
     scene.render.filepath=str(out/'detalhe.png');bpy.ops.render.render(write_still=True)
 
