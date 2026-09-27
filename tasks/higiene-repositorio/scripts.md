@@ -1,6 +1,11 @@
 # Scripts avulsos — inventário e classificação (27/09/2026)
 
-**Só inventário: nenhum script foi apagado, movido ou alterado.** A remoção dos que estão comprovadamente mortos vem num PR próprio, depois de aprovada. Os renderizadores (v15, v16, v17, v18) ficam para a frente seguinte.
+**Histórico deste documento:**
+
+- **#40:** inventário e classificação, sem remover nada.
+- **#41:** saíram os 5 `_*.py` e os dois JSON de variante de Ribeirão que eles geraram (seção seguinte).
+
+Os renderizadores (v15, v16, v17, v18) ficam para a frente seguinte.
 
 **Base medida:** `main` `4dae983`.
 
@@ -45,7 +50,37 @@ Os cinco entraram no git com o baseline de 14/09 (`cbf9722`) e não mudaram depo
 
 **O que eles leem:** `ribeirao-preto-v4-recortado.city.json` e as saídas de Ribeirão. Nada disso está no git, então nenhum dos cinco roda num checkout.
 
-**Decisão a tomar junto com a remoção:** os dois JSON de variante (`padrao/cidades/ribeirao-preto-proxy.json` e `-proxy-union.json`) foram gerados por esses scripts. O `padrao/rodar_qa.py --todas` os enumera.
+### Retirados em 27/09/2026 (#41)
+
+Saíram do `HEAD` os 5 `_*.py` e os dois JSON de variante que eles geraram, 7 arquivos no total:
+
+| Arquivo | Blob | Bytes |
+|---|---|---:|
+| `_diagnostico_quadra.py` | `f9acbf61762d` | 8.089 |
+| `_mede_proxy.py` | `f3594b6e797d` | 8.827 |
+| `_union_proxy.py` | `085fb9a1cc92` | 12.019 |
+| `_variante_proxy.py` | `d845fb6a2f4b` | 4.247 |
+| `_variante_union.py` | `a01e37e05353` | 3.223 |
+| `padrao/cidades/ribeirao-preto-proxy.json` | `378b0d30bc23` | 13.237 |
+| `padrao/cidades/ribeirao-preto-proxy-union.json` | `b69aa9863aef` | 12.965 |
+
+**Por que os dois JSON saíram, e não foram movidos para uma pasta histórica:**
+
+- Eles estavam no namespace operacional `padrao/cidades/`, e o `cidade.lista()` enumera qualquer `.json` dali.
+- Mantidos, o `rodar_qa.py --todas` e as sondas que rodam "todas as cidades" continuariam tratando um experimento morto como cidade.
+- O histórico fica no git (os blobs acima) e neste documento.
+
+Depois da retirada, o `cidade.lista()` devolve 6 cidades: `araraquara`, `ribeirao-preto`, `ribeirao-preto-oficial`, `sao-carlos`, `sao-jose-do-rio-preto` e `sorocaba`.
+
+**O que ficou, e é registro:**
+
+- o `tasks/modularizacao/baseline/manifest.json` e o `tasks/modularizacao/inventario.json` ainda citam as variantes. São registros congelados da modularização;
+- o `tasks/higiene-repositorio/levantamento.md` também, porque é o diagnóstico datado de 26/09.
+
+**Ficaram sem o caso que os motivou, e não foram mexidos:**
+
+- `pipeline/recorta_sitios.py` foi escrito para a variante `ribeirao-preto-proxy`. Segue como ferramenta genérica (`<slug> --entrada --saida`), e a seção dele no `PIPELINE.md` ainda usa a variante como exemplo. Fica para decisão depois.
+- O campo `plantas_de` do `padrao/cidade.py` também nasceu para a variante, mas **continua em uso** pelo `ribeirao-preto-oficial.json`.
 
 ## Os 12 `pipeline/testa_*.py`
 
@@ -134,12 +169,12 @@ Os outros `.py` da raiz são chamados pelo `pipeline/rodar.py`, ou são invocado
 |---|---|
 | gate vivo | 7 portões `testa_*` |
 | ferramenta operacional | `testa_junta`, `testa_luz`, `testa_moveis`; e `testa_recorte`, a caminho de virar gate |
-| experimento descartável | os 5 `_*.py` |
+| experimento descartável | os 5 `_*.py`, **retirados no #41** |
 | histórico | `testa_pe_de_parede` |
 
-**Proposta de ordem**, a aprovar:
+**Ordem:**
 
-1. **Remover os 5 `_*.py`.** Nenhum código vivo, CI ou documento vivo depende deles. Decidir no mesmo PR o destino dos dois JSON de variante de Ribeirão.
+1. **Feito no #41:** saíram os 5 `_*.py` e os dois JSON de variante de Ribeirão.
 2. **Transformar o `testa_recorte` em gate do build por imóvel,** com o desenho acima.
 3. **Decidir o `testa_pe_de_parede`:** fica como histórico ou sai.
 4. **Os renderizadores** vêm depois, e com eles a questão das sondas presas à pasta da versão.

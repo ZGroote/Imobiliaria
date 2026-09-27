@@ -55,7 +55,7 @@ def main():
     if not os.path.exists(pagina):
         print("pagina nao encontrada: %s" % pagina); return 2
     # A cidade sai do nome do arquivo, e o casamento e pelo slug mais longo que bate --
-    # senao "ribeirao-preto" ganharia de "ribeirao-preto-proxy" pela ordem da lista.
+    # senao "ribeirao-preto" ganharia de "ribeirao-preto-oficial" pela ordem da lista.
     base = os.path.basename(pagina)
     cands = sorted([s for s in lista() if base.startswith(s)], key=len, reverse=True)
     if not cands:

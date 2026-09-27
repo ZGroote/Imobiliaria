@@ -34,11 +34,12 @@ class Cidade(object):
         self.exame = d.get("exame_da_quadra", {})
         self.limiares = d.get("limiares_qa", {})
         self._fontes = d.get("fontes", {})
-        # De qual cidade esta herda as plantas fornecidas. Existe pra VARIANTE de
-        # experimento (ribeirao-preto-proxy): slug proprio, pra ter relatorio de QA
-        # proprio, mas o acervo de imovel e o mesmo da cidade de origem -- sem isto a
-        # variante nasce sem nenhuma unidade, porque `unidade.json` diz `cidade:
-        # "ribeirao-preto"` e o filtro do montar.py so aceitava o proprio slug.
+        # De qual cidade esta herda as plantas fornecidas. Hoje quem usa e o
+        # `ribeirao-preto-oficial` (`plantas_de: "ribeirao-preto"`): slug proprio, pra ter
+        # relatorio de QA proprio, mas o acervo de imovel e o mesmo da cidade de origem --
+        # sem isto ele nasce sem nenhuma unidade, porque `unidade.json` diz `cidade:
+        # "ribeirao-preto"` e o filtro do montar.py so aceitava o proprio slug. O campo
+        # nasceu pra variante de experimento `ribeirao-preto-proxy`, removida no #41.
         self.plantas_de = d.get("plantas_de", self.slug)
         self._tr = {}
 
