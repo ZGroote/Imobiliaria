@@ -126,13 +126,50 @@ As três primeiras linhas tiraram 42,08 MiB do `HEAD` (#37).
 
 ## Destino privado: o que conta como "comprovado"
 
-Nada disto foi feito ainda. Serve de critério para quando o `source.json` for sair do git:
+O critério foi escrito no #36:
 
 1. **Onde:** um armazenamento privado com dono definido, por exemplo um bucket do Storage com regra fechada ou um repositório de artefatos privado. Não pode ser o Hosting público nem o repositório.
 2. **Prova de ida e volta:** subir o arquivo, baixar de outra máquina ou de outro diretório e conferir o sha256 igual ao versionado.
 3. **Acesso:** mostrar que uma conta sem permissão recebe negado.
 4. **Registro:** um manifesto no repositório com caminho, sha256, tamanho e data de cada arquivo. O script que precisa do arquivo o baixa e confere o sha256 antes de usar.
 5. Só então o arquivo sai do `HEAD`, e a linha dele sai da trava, no mesmo PR.
+
+### O destino escolhido e as provas (27/09/2026)
+
+**O destino** é o repositório GitHub **privado** `ZGroote/imobiliaria-artefatos`.
+
+- Ele é separado do `ZGroote/Imobiliaria` de propósito. Isso desacopla da visibilidade do repositório principal **as cópias operacionais daqui em diante**, e nada além disso.
+- **O repositório principal tem de continuar privado.** Os dois `source.json` estão no histórico do git do `ZGroote/Imobiliaria`, e tirá-los do `HEAD` não apaga os blobs antigos.
+  - Qualquer volta a público exige, antes, um ciclo separado de sanitização e revisão do histórico, planejado e provado.
+  - Nada de `filter-repo` neste ciclo.
+- O git dele só tem um README. As fontes são **assets** da release `premium-sources-2026-09-27`.
+- O Storage do Firebase ficou de fora: exigiria o plano Blaze, com cobrança, regras e deploy, e o projeto está sem cobrança.
+
+| Asset | Destino no repositório principal | Bytes | SHA-256 |
+|---|---|---:|---|
+| `monte-dos-cedros-37-premium-interior-source.json` | `v1.5/miniaturas/padrao-atual/piloto-v3/source.json` | 23.094.984 | `36e683fd164bc666…` |
+| `monte-dos-cedros-37-premium-exterior-source.json` | `v1.5/miniaturas/padrao-atual/exterior-v3/source.json` | 2.943.459 | `3c7a8194bd2f713c…` |
+
+**As provas:**
+
+1. **Upload.** Os assets foram copiados dos blobs exatos de `main` `2c1283d`, e não da cópia em disco. O digest que o GitHub calculou para cada um bate com o SHA-256 acima.
+2. **Ida e volta.** `gh release download` para outro diretório: os dois arquivos são idênticos byte a byte ao blob versionado (sha256 e `cmp`).
+3. **Acesso negado.** Sem credencial, todas as chamadas respondem **404**: o repositório, a lista de releases, a release pela tag, o asset pela API (`application/octet-stream`) e o link de download. O controle foi o mesmo `curl` anônimo num repositório público, que respondeu 200. Com o `gh` autenticado de quem tem acesso, os mesmos recursos respondem.
+4. **Registro.** O manifesto é o `tools/artefatos-privados.json`, com repositório, release, asset, destino, bytes, sha256, data e origem. **O sha256 do manifesto é a autoridade;** o digest do GitHub é só uma conferência a mais.
+   - O downloader é o `tools/baixar_artefatos.py`. Ele baixa numa pasta temporária, confere tamanho e sha256, e só então põe o arquivo no lugar.
+   - Arquivo que não bate é apagado, e o destino não recebe nada.
+   - Arquivo local diferente do manifesto não é sobrescrito.
+   - Os testes são `tests/test_artefatos_privados.py`, sem rede. O teste de mutação (tirar a conferência) reprova.
+
+**Os dois `source.json` continuam no git** até o PR que os retira. Antes dele, a recuperação é refeita usando só o asset remoto e o manifesto.
+
+**Como recuperar:** com o `gh` autenticado por quem tem leitura em `ZGroote/imobiliaria-artefatos`, na raiz do repositório:
+
+```bash
+python tools/baixar_artefatos.py
+```
+
+Para só conferir o que está no disco, sem rede: `python tools/baixar_artefatos.py --conferir`.
 
 ## Trava de tamanho no CI
 
