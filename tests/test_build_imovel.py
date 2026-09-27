@@ -50,6 +50,22 @@ class BuildIdTests(unittest.TestCase):
                             B['build_id'](b'<tour>', b'<maquete 2>'))
 
 
+class NaoPublicarTests(unittest.TestCase):
+    # mirra-114: origem e autorizacao dos dados nao confirmadas (dados-privados.md). A trava e no
+    # build, antes de qualquer leitura: sem build nao ha preview nem live.
+    def test_blocked_unit_is_refused_before_anything_is_built(self):
+        with tempfile.TemporaryDirectory() as pasta:
+            with self.assertRaisesRegex(ValueError, 'mirra-114 nao se publica ate confirmar a origem'):
+                B['construir']('mirra-114', builds=Path(pasta))
+            self.assertEqual(list(Path(pasta).iterdir()), [])
+
+    def test_only_mirra_is_blocked(self):
+        # Nenhum imovel do piloto fica travado por engano.
+        piloto = json.loads((RAIZ / 'tasks/v1.0/piloto.json').read_text(encoding='utf-8'))
+        self.assertEqual(set(B['NAO_PUBLICAR']), {'mirra-114'})
+        self.assertFalse(set(piloto['imoveis']) & set(B['NAO_PUBLICAR']))
+
+
 class TilePrefixTests(unittest.TestCase):
     # O tour do build nao mora ao lado dos tiles: servido em /imovel/<id>, o prefixo
     # relativo do mapa buscaria /imovel/quintais/..., que nao existe.

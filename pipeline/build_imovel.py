@@ -99,7 +99,20 @@ def _commit():
         return None
 
 
+# Unidade que NAO se publica ate a origem dos dados ser confirmada
+# (tasks/higiene-repositorio/dados-privados.md). A trava fica no build porque, sem build, nao
+# ha preview nem live. Tirar daqui e decisao, no mesmo PR que registra a origem confirmada.
+NAO_PUBLICAR = {
+    'mirra-114': 'o cadastro partiu de um anuncio do roca.com.br, a origem e a autorizacao dos '
+                 'dados usados na modelagem nao foram confirmadas, e a planta e a ficha descrevem '
+                 'unidades diferentes (unidade.json, _conflito)',
+}
+
+
 def construir(imovel_id, builds=BUILDS):
+    if imovel_id in NAO_PUBLICAR:
+        raise ValueError('%s nao se publica ate confirmar a origem: %s'
+                         % (imovel_id, NAO_PUBLICAR[imovel_id]))
     piloto = json.loads(PILOTO.read_text(encoding='utf-8'))
     config = resolve(piloto['cidade'], piloto['variante'])
     achadas = imovel._unidades(config.cidade(), {imovel_id})

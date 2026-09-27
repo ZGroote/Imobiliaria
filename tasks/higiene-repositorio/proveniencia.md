@@ -259,7 +259,7 @@ etapas 5, 6, 6b e 7.
    - o termo Copernicus;
    - o termo do open-elevation.
 3. **Dados de terceiros e de clientes:** os anúncios da Roca viraram fictícios, e as imagens do
-   Mirante 7 saíram (26/09). As plantas fornecidas continuam, classificadas como privadas em
+   Mirante 7 saíram (26/09), e o resto do material de terceiro da pasta também (27/09). As plantas fornecidas continuam, classificadas como privadas em
    [dados-privados.md](dados-privados.md), até a política de artefatos.
 4. **Sobras com leitor:** o `lotes_saocarlos.geojson` e o `build_pois.py`. Decidir no PR de arquivos
    grandes e no de scripts.

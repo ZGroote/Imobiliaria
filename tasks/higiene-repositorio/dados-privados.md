@@ -28,7 +28,23 @@ Pôr um item na lista é a classificação explícita. Tirar um item nunca repro
 | `monte-das-colinas-39` | São Carlos | piloto (`tasks/v1.0/piloto.json`) |
 | `wish-castanheiras-58` | São Carlos | piloto (`tasks/v1.0/piloto.json`) |
 | `sanca-135-29` | São Carlos | — |
-| `mirra-114` | Ribeirão Preto | o cadastro partiu de um anúncio do `roca.com.br`; o endereço foi informado pelo usuário (`unidade.json`, `_fonte_endereco`) |
+| `mirra-114` | Ribeirão Preto | **não publicar até confirmar a origem.** Ver a seção seguinte |
+
+### `mirra-114`: não publicar até confirmar a origem
+
+- **O que falta confirmar:** o cadastro partiu de um anúncio do `roca.com.br`, e o endereço foi
+  informado pelo usuário (`unidade.json`, `_fonte_endereco`). A origem e a autorização dos dados
+  usados na modelagem não foram confirmadas.
+- **Um problema a mais:** o próprio cadastro anota que a planta e a ficha descrevem **unidades
+  diferentes** (`unidade.json`, `_conflito`).
+- **Os dados ficam:** não apagamos o trabalho, mas também não fingimos que a proveniência está
+  resolvida.
+- **A trava está no build por imóvel:** `pipeline/build_imovel.py` recusa a `mirra-114` antes de
+  qualquer leitura, com o motivo (`NAO_PUBLICAR`). Sem build não há preview nem live. O teste é
+  `tests/test_build_imovel.py`, `NaoPublicarTests`.
+- **Para liberar:** registrar a origem confirmada e tirar a unidade de `NAO_PUBLICAR`, no mesmo PR.
+- **O que a trava não cobre:** o mapa de Ribeirão Preto, montado por `pipeline/montar.py`, ainda
+  listaria a unidade. Ribeirão está fora do escopo, e esse mapa não é montado nem publicado.
 
 Mais um prédio real: o "Edifício da planta · Apartamento 304", da planta enviada em 19/09/2026.
 Ele está **dentro do código**, como a constante `IMOVEL` de `v1.5/miniaturas/pagina_maquete.py` e
@@ -60,20 +76,41 @@ nos demos `demo_v17.py` e `demo_v18.py`, e já está montado em `v1.5/miniaturas
 | `painel/exemplo/` | contrato de exemplo do painel: só o id do Cedros, sem dado da unidade |
 | `sao-carlos/dados/imoveis.json` | a vitrine de demonstração, **fictícia** desde 26/09/2026. A trava é `tests/test_vitrine_ficticia.py` |
 | `modelos_cadastrados/estudos.json` | vazio desde 26/09/2026. Os 6 estudos derivados das fotos da Roca saíram, junto com o `gerar_estudos.mjs` |
-| `experimentos/mirante-7-2026-09-22/` | material de **terceiro**, não de cliente (seção seguinte) |
+| `experimentos/mirante-7-2026-09-22/` | era material de **terceiro**, não de cliente. Saiu do `HEAD` em 26–27/09 (seção seguinte) |
 
-## Material de terceiro que continua no `HEAD`
+## Material de terceiro do Mirante 7: retirado do `HEAD`
 
-As **imagens** do Mirante 7 saíram, e o `ESTUDO.md` registra o motivo. Continuam na pasta dados
-que não são imagem, mas são de terceiro. Ficaram fora deste PR:
+A regra: sai o que é de terceiro ou derivado dele; fica o que é nosso e não carrega conteúdo de
+terceiro. As 15 imagens saíram em 26/09. Estes 20 arquivos saíram em 27/09, somando 4,05 MB:
 
-- **`iplano.json` e `dados-anuncio.json`:** o registro completo que a API da iPlano devolveu para
-  o anúncio: descrição, preço, características e ids internos.
-- **`anuncio.json`, `coleta.json` e `coleta-iplano.json`:** o que o extrator viu, e a URL de cada
-  imagem.
-- **`unidade.json` e `modelo/`:** a planta e o modelo, interpretados a partir das plantas do
-  folheto.
-- **`miniatura.html`:** a página montada.
+| Arquivo | Classe | Quem lia |
+|---|---|---|
+| `iplano.json` | de terceiro: o registro que a plataforma devolveu para o anúncio da iPlano (descrição, preço, características, ids internos) | ninguém; escrito por `coletar_complemento.py` |
+| `dados-anuncio.json` | de terceiro: o mesmo registro, para o anúncio da Maria Aires | ninguém; escrito por `coletar.py` |
+| `anuncio.json` | de terceiro: título, descrição e fotos, como o extrator viu | ninguém |
+| `coleta.json`, `coleta-iplano.json` | de terceiro: URL e texto alternativo de cada imagem | ninguém |
+| `coletar.py`, `coletar_complemento.py` | nosso, mas a única função deles é baixar conteúdo de terceiro de novo | ninguém |
+| `processo.json` | registro do extrator, mas guardava a URL do anúncio e apontava o `anuncio.json` | ninguém |
+| `hipoteses.json` | derivado: os contornos em pixel da planta do folheto e a calibração | `gerar_miniatura.py` (saiu junto) |
+| `unidade.json` | derivado: a planta interpretada, com a ficha do anúncio | `gerar_miniatura.py` (saiu junto) |
+| `layout-automatico.json`, `ajustes-layout.json` | derivado: a mobília sobre a planta interpretada | `gerar_miniatura.py` (saiu junto) |
+| `gerar_miniatura.py` | derivado: os contornos e a ficha do anúncio estão escritos no código | ninguém |
+| `modelar.py` | derivado: a volumetria das torres, estimada a partir das imagens | ninguém |
+| `modelo/` (`.blend`, `.glb`, `modelo.json`, `preview.png`, `validacao.json`) | derivado: o modelo do prédio e o render dele | ninguém; escrito por `modelar.py` |
+| `miniatura.html` | derivado: a página montada, com a planta, o modelo e a ficha | ninguém |
+
+**Prova de uso.** Fora da própria pasta, nenhum código, teste, configuração ou CI lê um caminho de
+`experimentos/mirante-7-2026-09-22/`. As únicas referências eram documentos e a linha do
+`preview.png` na lista de imagens de `tests/test_dados_privados.py`, que saiu junto.
+
+**Ficam:**
+
+- o `ESTUDO.md`, reduzido ao método em nível alto, tempos, verificações, limitações e o registro
+  das duas retiradas. Saíram dele as URLs das fontes, preço, área e tipologia, a comparação entre
+  anúncios, as dimensões e hipóteses tiradas das imagens e os detalhes da interpretação da planta e
+  do modelo;
+- três registros nossos de medição: `resultado-teste.json`, `tempo-blender.json` e
+  `tempo-montagem.json`.
 
 ## Como a lista muda
 
