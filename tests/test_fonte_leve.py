@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""M2.1a: a fonte LEVE dos Montes vira dados, sem Blender."""
+"""M2: fontes LEVE viram dados normalizados, sem Blender."""
 import json
 from pathlib import Path
 import tempfile
@@ -90,7 +90,7 @@ class MontesNormalizacaoTests(unittest.TestCase):
             (raiz / "plantas_fornecidas/x-1/unidade.json").write_text(
                 json.dumps(cadastro), encoding="utf-8")
             perfil = {
-                "schema": 1, "profile": "p",
+                "schema": 1, "profile": "p", "normalizer": "montes-v1",
                 "common": {
                     "floorHeight": 3.15, "recess": 1.7, "balconyCenters": [-2.1, 2.1],
                     "renderDistance": [-1, -2, 3], "detailDistance": [-4, -5, 6],
@@ -121,13 +121,16 @@ class MontesNormalizacaoTests(unittest.TestCase):
             self.assertEqual((r["building"]["portaria"]["du"],
                               r["building"]["portaria"]["dv"]), (3, 4))
 
-    def test_ids_dos_montes_ficam_no_mapa_de_dados_nao_no_modulo(self):
+    def test_ids_dos_imoveis_ficam_no_mapa_de_dados_nao_no_modulo(self):
         codigo = Path(F.__file__).read_text(encoding="utf-8")
-        self.assertNotIn("monte-dos-cedros-37", codigo)
-        self.assertNotIn("monte-das-colinas-39", codigo)
+        for uid in ("monte-dos-cedros-37", "monte-das-colinas-39",
+                    "wish-castanheiras-58"):
+            with self.subTest(uid=uid):
+                self.assertNotIn(uid, codigo)
 
     def test_normalizacao_nao_vaza_ficha_url_ou_fonte_comercial(self):
-        for uid in ("monte-dos-cedros-37", "monte-das-colinas-39"):
+        for uid in ("monte-dos-cedros-37", "monte-das-colinas-39",
+                    "wish-castanheiras-58"):
             bruto = F.canonical(uid)
             self.assertNotIn("mariaaires", bruto.lower())
             self.assertNotIn('"url"', bruto)
@@ -137,9 +140,77 @@ class MontesNormalizacaoTests(unittest.TestCase):
         self.assertEqual(F.canonical("monte-dos-cedros-37"),
                          F.canonical("monte-dos-cedros-37"))
 
-    def test_castanheiras_ainda_e_explicitamente_nao_suportado(self):
-        with self.assertRaisesRegex(F.FonteLeveErro, "sem perfil LEVE declarado"):
-            F.normalizar("wish-castanheiras-58")
+class CastanheirasNormalizacaoTests(unittest.TestCase):
+    def test_castanheiras_preserva_massa_implantacao_e_perfil(self):
+        r = F.normalizar("wish-castanheiras-58")
+        self.assertEqual(r["style"]["profile"], "castanheiras-ebm-v1")
+        self.assertEqual(r["style"]["variant"], "duas-laminas")
+        self.assertEqual(r["style"]["slug"], "castanheiras")
+        self.assertEqual(
+            (r["building"]["floors"], r["building"]["width"], r["building"]["depth"]),
+            (22, 20.0, 15.0),
+        )
+        self.assertEqual(r["building"]["floorHeight"], 3.15)
+        self.assertEqual(
+            [(b["du"], b["dv"]) for b in r["building"]["towers"]],
+            [(0, 0), (21.0, 3.5)],
+        )
+        self.assertEqual(r["building"]["principalTower"], 0)
+        self.assertEqual(
+            (r["building"]["portaria"]["du"], r["building"]["portaria"]["dv"],
+             r["building"]["portaria"]["largura_m"],
+             r["building"]["portaria"]["profundidade_m"]),
+            (10.5, 11.0, 38, 8),
+        )
+        self.assertEqual(len(r["building"]["auxiliaryBlocks"]), 10)
+
+    def test_castanheiras_preserva_decisoes_visuais_atuais(self):
+        r = F.normalizar("wish-castanheiras-58")
+        self.assertEqual(r["style"]["visualBalconyDepth"], 2.0)
+        self.assertEqual(
+            list(r["style"]["materials"]),
+            ["reboco", "concreto", "esquadria", "vidro", "luz", "trelica",
+             "recuo", "folhagem", "vaso", "cobertura"],
+        )
+        self.assertEqual(r["style"]["materials"]["reboco"]["color"], [204, 202, 194])
+        self.assertEqual(r["style"]["materials"]["trelica"]["color"], [117, 86, 60])
+        self.assertEqual(r["style"]["materials"]["luz"]["emission"], 0.7)
+        self.assertEqual(r["style"]["referenceImage"], "referencias/castanheiras.png")
+        self.assertEqual(r["style"]["facade"]["balconyCenters"], [-2.95, 2.95])
+        self.assertEqual(r["style"]["facade"]["trellisCenters"], [-0.38, 0.38])
+        self.assertEqual(r["style"]["facade"]["plantingFloors"], [2, 6, 10, 15, 19])
+        self.assertEqual(r["style"]["facade"]["curtainVariants"], 4)
+        self.assertEqual(r["style"]["facade"]["curtainCycle"], 5)
+
+    def test_castanheiras_preserva_render_e_metadata_atuais(self):
+        r = F.normalizar("wish-castanheiras-58")
+        self.assertEqual(r["render"]["camera"], {
+            "location": [-53, -120, 26],
+            "target": [10, -2, 35],
+            "lens": 55,
+        })
+        self.assertEqual(r["render"]["resolution"], [900, 1000])
+        self.assertEqual(r["render"]["samples"], 24)
+        self.assertEqual(r["render"]["referenceEmpty"], {
+            "size": 75,
+            "location": [-65, 0, 37],
+        })
+        self.assertEqual(r["metadata"]["reference"], "../referencias/castanheiras.png")
+        self.assertEqual(r["metadata"]["back"], "aproximado por simetria")
+
+    def test_sacada_visual_de_2m_nao_reescreve_avanco_medido_do_cadastro(self):
+        r = F.normalizar("wish-castanheiras-58")
+        self.assertEqual(r["style"]["visualBalconyDepth"], 2.0)
+        self.assertEqual(
+            [b["sacadas"]["avanco_m"] for b in r["building"]["towers"]],
+            [1.3, 1.3],
+        )
+
+    def test_serializacao_castanheiras_e_deterministica(self):
+        self.assertEqual(
+            F.canonical("wish-castanheiras-58"),
+            F.canonical("wish-castanheiras-58"),
+        )
 
 
 class ContratoTests(unittest.TestCase):
@@ -147,7 +218,10 @@ class ContratoTests(unittest.TestCase):
         mapa = json.loads(F.MAPA.read_text(encoding="utf-8"))
         for uid, cfg in mapa["properties"].items():
             with self.subTest(uid):
-                self.assertTrue((F.PERFIS / (cfg["profile"] + ".json")).is_file())
+                path = F.PERFIS / (cfg["profile"] + ".json")
+                self.assertTrue(path.is_file())
+                perfil = json.loads(path.read_text(encoding="utf-8"))
+                self.assertIn(perfil["normalizer"], F.NORMALIZERS)
 
     def test_um_principal_e_uma_portaria_sao_obrigatorios(self):
         original = F._json
