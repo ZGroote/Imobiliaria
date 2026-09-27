@@ -66,6 +66,9 @@ class ModelarMontesFonteTests(unittest.TestCase):
         self.assertIn("<propertyId>", self.codigo)
         self.assertNotIn("else 'cedros'", self.codigo)
 
+    def test_pe_direito_normalizado_chega_a_todas_as_repeticoes(self):
+        self.assertEqual(self.codigo.count("lv=LV"), 5)
+
     def test_portaria_usa_posicao_do_cadastro_sem_mudar_desenho_visual(self):
         self.assertIn("gx=building['portaria'].get('du',0)", self.codigo)
         self.assertIn("gy=building['portaria'].get('dv',0)", self.codigo)
