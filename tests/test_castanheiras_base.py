@@ -74,10 +74,11 @@ class CastanheirasBaseTests(unittest.TestCase):
         self.assertLessEqual({"material", "box", "flush"}, funcoes)
         self.assertIn("MATS={}", base)
 
-    def test_readme_propaga_excecao_python_do_blender(self):
+    def test_readme_propaga_excecao_python_pelo_entrypoint_unico(self):
         doc = README.read_text(encoding="utf-8")
         self.assertIn(
-            "--python-exit-code 1 --python v1.5/miniaturas/modelar_castanheiras.py",
+            "--python-exit-code 1 --python v1.5/miniaturas/modelar_imovel.py "
+            "-- wish-castanheiras-58",
             doc,
         )
 
