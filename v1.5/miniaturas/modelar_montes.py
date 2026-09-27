@@ -38,9 +38,9 @@ box('reboco',0,LV/2+.08,0,W-2*recess,LV-.16,D)
 segments=[(-D/2,centers[0]-bw/2),(centers[0]+bw/2,centers[1]-bw/2),(centers[1]+bw/2,D/2)]
 for side in [-1,1]:
  for a,b in segments:box('reboco',side*(W/2-recess/2),LV/2+.08,(a+b)/2,recess,LV-.16,b-a)
-repetir(flush('corpo',True),towers,range(N),'paredes')
+repetir(flush('corpo',True),towers,range(N),'paredes',lv=LV)
 box('concreto',0,.08,0,W,.16,D)
-repetir(flush('laje',True),towers,range(N+1),'lajes')
+repetir(flush('laje',True),towers,range(N+1),'lajes',lv=LV)
 
 def janela(x,z,y,w,h,side=1,end=False,lit=False):
  # Moldura com quatro barras, vidro recuado, duas folhas, peitoril e pingadeira.
@@ -74,7 +74,7 @@ for variant in range(3):
     for j in range(3):box('folha',side*(W/2-.55)+j*.07,.80+j*.1,dx+.65,.44-j*.06,.24,.38)
    # Piso da varanda e soleira.
    box('telhado',side*(W/2-recess/2),.175,dx,recess-.10,.025,bw-.08)
- repetir(flush('esquadrias-'+str(variant)),towers,range(variant,N,3),'fachada')
+ repetir(flush('esquadrias-'+str(variant)),towers,range(variant,N,3),'fachada',lv=LV)
 
 # Molduras verticais em verde/cinza, lidas nas perspectivas oficiais.
 moldura_mode=style['molduraMode']
@@ -94,7 +94,7 @@ for side in [-1,1]:
    # Pintura entre vãos nas fachadas longas, sem cobrir janelas.
    for zz in [LV*.72,N*LV-.58]:box('moldura',xx,zz,side*(D/2+.014),7.1,.28,.024)
    for xx2 in [xx-3.42,xx+3.42]:box('moldura',xx2,(N*LV+LV*.72)/2-.29,side*(D/2+.014),.27,N*LV-LV*.72-.58,.024)
-repetir(flush('molduras'),towers,[0],'acabamento')
+repetir(flush('molduras'),towers,[0],'acabamento',lv=LV)
 
 # Cobertura com platibanda, rufo, casa de escada, venezianas e tubulacoes.
 H=N*LV
@@ -118,7 +118,7 @@ for side in [-1,1]:
  box('vidro',0,1.28,side*(D/2+.08),1.54,2.22,.03)
  box('metal',0,1.28,side*(D/2+.105),.045,2.22,.035)
  box('concreto',0,2.65,side*(D/2+.6),2.7,.15,1.5)
-repetir(flush('cobertura-acessos',True),towers,[0],'acabamento')
+repetir(flush('cobertura-acessos',True),towers,[0],'acabamento',lv=LV)
 
 # Portaria como elemento separado. Posicao e fato do cadastro; desenho 8 x 4 segue regra visual atual.
 gx=building['portaria'].get('du',0); gy=building['portaria'].get('dv',0)
