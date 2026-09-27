@@ -87,6 +87,18 @@ class PipelinePathTests(unittest.TestCase):
                              '%s não é chamado por ninguém; seu lugar é o histórico'
                              % morto)
 
+    def test_v17_and_v18_are_not_back(self):
+        """O v17 e o v18 saíram do `HEAD` no #48, com os dois demos que os montavam; o
+        histórico do git é a referência. Confere o ÍNDICE do git, em qualquer pasta, e não
+        o disco: uma cópia solta fora do git não é o que este teste guarda."""
+        import subprocess
+        r = subprocess.run(['git', 'ls-files', '-z'], cwd=RAIZ, capture_output=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        voltaram = [p for p in r.stdout.decode('utf-8').split('\0')
+                    if '/renderizador-v17/' in '/' + p or '/renderizador-v18/' in '/' + p
+                    or p.rsplit('/', 1)[-1] in ('demo_v17.py', 'demo_v18.py')]
+        self.assertEqual(voltaram, [], 'saíram no #48; o lugar deles é o histórico do git')
+
     def test_only_the_live_variants_keep_a_version_folder(self):
         """Pasta com nome de geração na raiz é saída de variante viva, e nada mais.
 

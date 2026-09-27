@@ -94,15 +94,12 @@ HTML na mão é trabalho que a próxima montagem apaga.
 |---|---|
 | `pagina_maquete.py` | **o montador da página.** Escreve o HTML inteiro — dado, CSS e programa. Trocar de imóvel é trocar o dicionário `IMOVEL`, no topo do arquivo. |
 | `maquete.html` | a página montada, pronta pra abrir. |
-| `demo_v18.py` | monta o RENDERIZADOR (`renderizador-v18/`) com um prédio e uma planta sintéticos, pra conferir as três etapas sem o acervo da cidade. |
-| `demo_v17.py` | o mesmo pro `renderizador-v17/`. |
-| `testa_etapas.py` | portão headless de 7 sondas sobre as três etapas do v17/v18. Roda contra a página montada do acervo de verdade. |
+| `testa_etapas.py` | portão headless de 8 sondas sobre as três etapas (mapa, interior, planta) e a maquete da ficha. Mede a página montada do **v16-moveis**, o padrão, com o acervo de verdade. |
 
 ```bash
 python v1.5/miniaturas/pagina_maquete.py                 # -> v1.5/miniaturas/maquete.html
 python v1.5/miniaturas/pagina_maquete.py --saida x.html
 
-python v1.5/miniaturas/demo_v18.py --abre planta         # abre direto na etapa 3
 python v1.5/miniaturas/testa_etapas.py sao-carlos --unidade <id>   # mede a página do v16-moveis, o padrão
 ```
 
@@ -115,8 +112,7 @@ paredes foi corrigido para deslocar o contorno para dentro. As dimensões e os
 blocos vêm do mesmo cadastro; estes acabamentos são ilustrativos, não uma
 reconstituição confirmada das fachadas. Não há downloads de texturas.
 
-As duas páginas desta pasta foram reconstruídas. As miniaturas integradas ao mapa
-em `renderizador-v18` têm outro gerador e não recebem estas mudanças.
+As duas páginas desta pasta foram reconstruídas.
 
 ### Castanheiras modelado no Blender
 
@@ -159,16 +155,19 @@ na cópia temporária usada para a captura.
 
 ## O que NÃO está aqui, e por quê
 
-Os renderizadores são os vizinhos desta pasta, dentro do mesmo `v1.5/`:
+O renderizador vivo é o vizinho desta pasta, dentro do mesmo `v1.5/`:
 
-- `../renderizador-v17/` — as três etapas (mapa, interior, planta) e a planta 3D em
-  cena própria.
-- `../renderizador-v18/` — a maquete como fio condutor: ela nasce sobre a ficha, pisca
-  o pavimento da unidade em verde e cresce até a tela pra entregar a visita ou a planta.
 - `../renderizador-v16-moveis/` — o renderizador modularizado, de onde saem o three.js
-  e o catálogo de móveis que a maquete reaproveita.
+  e o catálogo de móveis que a maquete reaproveita. As três etapas (mapa, interior,
+  planta) e a maquete sobre a ficha moram nele, em `listings/stage.js`.
 
-Até 21/09/2026 os três moravam na raiz, porque `pipeline/montar.py` achava a variante
+**Removidos do `HEAD` no #48, e só históricos:** o `renderizador-v17/` (as três etapas e a
+planta 3D em cena própria), o `renderizador-v18/` (a maquete como fio condutor da ficha
+até a visita) e os dois demos que os montavam (`demo_v17.py` e `demo_v18.py`). O que eles
+traziam já tinha sido portado para o v16-moveis. O código continua no histórico do git e
+na branch `claude/serene-edison-de1ior`.
+
+Até 21/09/2026 esses renderizadores moravam na raiz, porque `pipeline/montar.py` achava a variante
 por `FONTE = renderizador-<MAPA_V>`. Isso deixou de ser verdade: `pipeline/build/config.py`
 agora procura em `v1.5/renderizador-<MAPA_V>`, e só o **v15** continua na raiz, em
 `renderizador/`, por ser o monólito de onde as peças foram extraídas.
