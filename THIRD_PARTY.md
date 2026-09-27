@@ -104,13 +104,14 @@ Saíram porque não havia autorização documentada.
 
 **Retirado em 27/09/2026:** o resto do material de terceiro da pasta, que não era imagem.
 
-- os registros do anúncio da Maria Aires e da iPlano;
+- os registros do anúncio da Maria Aires e da iPlano, e o do extrator, que guardava a URL do anúncio;
 - as coletas e os coletores;
 - a planta e o modelo interpretados do folheto;
 - a página montada.
 
-Na pasta ficam o `ESTUDO.md`, que registra as duas retiradas, e quatro registros nossos (tempos e
-resultado), sem conteúdo de terceiro. O histórico do git não foi reescrito. O inventário está em
+Na pasta ficam o `ESTUDO.md` e três registros nossos de medição (tempos e resultado), sem conteúdo
+de terceiro. O `ESTUDO.md` foi reduzido ao método em nível alto, tempos, verificações, limitações
+e o registro das duas retiradas. O histórico do git não foi reescrito. O inventário está em
 [tasks/higiene-repositorio/dados-privados.md](tasks/higiene-repositorio/dados-privados.md).
 
 **Imagem nova só entra classificada.** `tests/test_dados_privados.py` reprova qualquer imagem

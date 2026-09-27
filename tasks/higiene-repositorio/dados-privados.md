@@ -81,7 +81,7 @@ nos demos `demo_v17.py` e `demo_v18.py`, e já está montado em `v1.5/miniaturas
 ## Material de terceiro do Mirante 7: retirado do `HEAD`
 
 A regra: sai o que é de terceiro ou derivado dele; fica o que é nosso e não carrega conteúdo de
-terceiro. As 15 imagens saíram em 26/09. Estes 19 arquivos saíram em 27/09, somando 4,05 MB:
+terceiro. As 15 imagens saíram em 26/09. Estes 20 arquivos saíram em 27/09, somando 4,05 MB:
 
 | Arquivo | Classe | Quem lia |
 |---|---|---|
@@ -90,6 +90,7 @@ terceiro. As 15 imagens saíram em 26/09. Estes 19 arquivos saíram em 27/09, so
 | `anuncio.json` | de terceiro: título, descrição e fotos, como o extrator viu | ninguém |
 | `coleta.json`, `coleta-iplano.json` | de terceiro: URL e texto alternativo de cada imagem | ninguém |
 | `coletar.py`, `coletar_complemento.py` | nosso, mas a única função deles é baixar conteúdo de terceiro de novo | ninguém |
+| `processo.json` | registro do extrator, mas guardava a URL do anúncio e apontava o `anuncio.json` | ninguém |
 | `hipoteses.json` | derivado: os contornos em pixel da planta do folheto e a calibração | `gerar_miniatura.py` (saiu junto) |
 | `unidade.json` | derivado: a planta interpretada, com a ficha do anúncio | `gerar_miniatura.py` (saiu junto) |
 | `layout-automatico.json`, `ajustes-layout.json` | derivado: a mobília sobre a planta interpretada | `gerar_miniatura.py` (saiu junto) |
@@ -102,8 +103,14 @@ terceiro. As 15 imagens saíram em 26/09. Estes 19 arquivos saíram em 27/09, so
 `experimentos/mirante-7-2026-09-22/`. As únicas referências eram documentos e a linha do
 `preview.png` na lista de imagens de `tests/test_dados_privados.py`, que saiu junto.
 
-**Ficam:** o `ESTUDO.md`, que registra o método, os tempos e as duas retiradas, e os registros
-nossos `processo.json`, `resultado-teste.json`, `tempo-blender.json` e `tempo-montagem.json`.
+**Ficam:**
+
+- o `ESTUDO.md`, reduzido ao método em nível alto, tempos, verificações, limitações e o registro
+  das duas retiradas. Saíram dele as URLs das fontes, preço, área e tipologia, a comparação entre
+  anúncios, as dimensões e hipóteses tiradas das imagens e os detalhes da interpretação da planta e
+  do modelo;
+- três registros nossos de medição: `resultado-teste.json`, `tempo-blender.json` e
+  `tempo-montagem.json`.
 
 ## Como a lista muda
 
