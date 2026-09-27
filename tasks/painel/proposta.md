@@ -975,8 +975,9 @@ com cada etapa autorizada em separado.
   produção", e o "Registrar publicação" só aparece **depois** de "Conferir o site".
 - **O que aconteceu.** Às 01:27 o pedido saiu de `approved` por quatro cliques de status:
   `production` → `internal_review` → `production` → `internal_review`. Todos ficaram auditados.
-- **Por que não foi um defeito.** As regras só publicam a partir de `approved`, e só o gerente põe
-  o pedido em `approved`. O controle funcionou.
+- **Por que não houve publicação indevida.** As regras só permitem publicar a partir de
+  `approved`, e só o gerente pode colocar o pedido em `approved`. A armadilha de interface alterou
+  o fluxo, mas a barreira de autorização segurou a publicação.
 - **A volta,** pelo fluxo normal:
   1. o admin registrou de novo o mesmo preview, com o mesmo build e o mesmo manifest (01:32:04);
   2. a gerente aprovou de novo (01:32:11);
