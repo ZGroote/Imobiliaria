@@ -84,7 +84,9 @@ class MontesNormalizacaoTests(unittest.TestCase):
                 "common": {
                     "floorHeight": 3.15, "recess": 1.7, "balconyCenters": [-2.1, 2.1],
                     "renderDistance": [-1, -2, 3], "reference": "r", "uncertainty": "u",
-                    "materials": {},
+                    "materials": {
+                        "moldura": {"color": None, "roughness": 0.9, "metalness": 0}
+                    },
                 },
                 "variants": {"v": {
                     "balconyWidth": 2.0, "molduraColor": [1, 2, 3],
