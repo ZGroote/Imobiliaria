@@ -21,7 +21,7 @@ em [tasks/higiene-repositorio/proveniencia.md](tasks/higiene-repositorio/proveni
 | | |
 |---|---|
 | Onde | `renderizador/lib/three.min.js` e `v1.5/renderizador-{v16-moveis,v17,v18}/lib/three.min.js`: 4 cópias do mesmo blob, `b6a311783f5b01f8aba64fd95346c7eb4709b541` (678.588 bytes) |
-| Entra em | toda página do `pipeline/montar.py` (mapa e tour por imóvel), toda maquete de `v1.5/miniaturas/pagina_maquete.py` e o template `v1.5/miniaturas/padrao-atual/anterior/v2.html` (maquete do Cedros). Já está embutido em `v1.5/miniaturas/maquete*.html` e em `experimentos/mirante-7-2026-09-22/miniatura.html` |
+| Entra em | toda página do `pipeline/montar.py` (mapa e tour por imóvel), toda maquete de `v1.5/miniaturas/pagina_maquete.py` e o template `v1.5/miniaturas/padrao-atual/anterior/v2.html` (maquete do Cedros). Já está embutido em `v1.5/miniaturas/maquete*.html` |
 | Versão | r168, provada pelo `REVISION "168"` dentro do próprio arquivo |
 | Como foi feito | não é um arquivo publicado pelo three. É um bundle IIFE feito aqui a partir do pacote ESM, com `esbuild --format=iife --global-name=THREE` (`PIPELINE.md`, §4.4). **Não estão registrados** a versão exata do pacote npm nem o comando completo |
 | Licença | MIT, a licença conhecida do projeto de origem (mrdoob/three.js) |
