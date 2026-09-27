@@ -54,8 +54,8 @@ Em cada pasta `monte-*_blender/` ficam `.blend`, `.glb`, exportação offline
 posição/escala do Castanheiras), sem gerar fachadas no navegador.
 
 ```powershell
-& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python v1.5/miniaturas/modelar_montes.py -- monte-dos-cedros-37
-& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python v1.5/miniaturas/modelar_montes.py -- monte-das-colinas-39
+& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python-exit-code 1 --python v1.5/miniaturas/modelar_montes.py -- monte-dos-cedros-37
+& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python-exit-code 1 --python v1.5/miniaturas/modelar_montes.py -- monte-das-colinas-39
 python v1.5/miniaturas/pagina_maquete.py --unidade monte-dos-cedros-37 --saida v1.5/miniaturas/maquete-monte-dos-cedros-37.html
 python v1.5/miniaturas/pagina_maquete.py --unidade monte-das-colinas-39 --saida v1.5/miniaturas/maquete-monte-das-colinas-39.html
 python v1.5/miniaturas/qa_visual.py maquete-monte-das-colinas-39.html --nome colinas-conjunto --conjunto
