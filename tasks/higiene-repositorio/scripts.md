@@ -135,19 +135,21 @@ Ninguém as chama, nem o CI. Elas medem partes do interior e do editor que exist
 | Item | Estado |
 |---|---|
 | Onde mora a verificação | `pipeline/recorte.py`: a função pura `diverge(cheia, corte, lib_cheia, lib_corte)` e a exceção `IdentidadeQuebrada` |
-| O que confere | cada prédio do recorte, achado pela **posição** do primeiro vértice na cidade inteira: cor, altura, número de vértices, nome e endereço, frente (`fa`), existência, posição e rotação do `urbanLot`, e o modelo urbano **pelo id**, não pelo índice, porque a biblioteca encolhe |
+| O que confere | cada prédio do recorte, achado pela **posição** do primeiro vértice na cidade inteira, num casamento **1:1** (um prédio da cidade é par de um só prédio do recorte): cor, altura, número de vértices, nome e endereço, frente (`fa`), existência, posição e rotação do `urbanLot`, e o modelo urbano **pelo id**, não pelo índice, porque a biblioteca encolhe. A frente **falha fechado:** presente num lado e ausente no outro reprova |
 | Quando | **durante a própria montagem.** O `Recorte.citydata` guarda o bloco inteiro e compara com o recortado; o `Recorte.urbanModels` confere o modelo de cada lote. Não se monta a cidade cheia |
 | Efeito | uma divergência levanta `IdentidadeQuebrada` (um `RuntimeError`) e aborta a geração do tour, antes de existir build promovível |
 | O gate só lê | o corte em si foi para `_corta_cidade` e `_corta_modelos`, sem mudar a lógica. A saída é byte a byte a de antes (teste `test_the_gate_only_reads` e a rodada do Cedros) |
 | Ordem dos blocos | continua travada: `urbanModels` antes de `citydata` e `luzue` antes de `unidades` levantam erro, e não viram biblioteca vazia |
 | `pipeline/testa_recorte.py` | **invocador fino** da mesma `diverge`, para rodar à mão sobre páginas já montadas (o tour e a página cheia). Não duplica lógica |
 
-**Os testes** estão em `tests/test_recorte_gate.py`: 17 testes, no CI, determinísticos, com uma cidade de cinco prédios feita à mão e uma biblioteca de 100 modelos com índices esparsos, para que a poda remapeie.
+**Os testes** estão em `tests/test_recorte_gate.py`: 20 testes, no CI, determinísticos, com uma cidade de cinco prédios feita à mão e uma biblioteca de 100 modelos com índices esparsos, para que a poda remapeie.
 
 - O recorte correto passa e mantém o modelo pelo id.
 - O gate só lê.
 - Dois prédios que começam no mesmo ponto não disparam alarme falso.
 - As mutações de altura, nome, `fa`, modelo pelo id, posição do `urbanLot`, `urbanLot` ausente e prédio sem par reprovam, cada uma com o seu tipo.
+- Um prédio duplicado no recorte, com um só correspondente na cidade inteira, reprova (`duplicado`).
+- O array `fa` removido inteiro, ou curto demais, reprova (`fa ausente`), sem depender de `IndexError`. Contra a `diverge` anterior, esses três testes reprovavam, o que prova que pegam os dois furos.
 - A divergência aborta o `citydata` e o `urbanModels` durante a montagem.
 - A ordem errada dos blocos continua falhando, também passando pelo `aplica`.
 - A autoprova do módulo (`_prova`) passa.
@@ -156,7 +158,7 @@ Ninguém as chama, nem o CI. Elas medem partes do interior e do editor que exist
 **A rodada do Cedros** é o `python pipeline/build_imovel.py monte-dos-cedros-37`:
 
 - ela devolve **`34331f1ceb9d`**, com `reutilizado: true`;
-- num build novo em pasta temporária, o gate rodou sobre os dados reais. No `__citydata`, conferiu 23.681 prédios do recorte contra os 89.895 da cidade, com 13.237 lotes urbanos; no `__urbanModels`, o modelo de cada lote. As duas conferências deram **0 divergências**;
+- num build novo em pasta temporária, o gate rodou sobre os dados reais. No `__citydata`, conferiu 23.681 prédios do recorte contra os 89.895 da cidade, com 13.237 lotes urbanos e 10 posições com mais de um prédio; no `__urbanModels`, o modelo de cada lote. As duas conferências deram **0 divergências**;
 - `tour.html` e `maquete.html` saíram idênticos byte a byte aos do ar.
 
 O invocador manual, sobre o tour do Cedros e uma página cheia montada, também deu 23.681 prédios e 0 divergências.

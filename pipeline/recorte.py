@@ -87,6 +87,30 @@ def _modelo(lib, i):
     return assets[i].get("id") if 0 <= i < len(assets) else None
 
 
+def _emparelha(compativeis, n):
+    """Casamento 1:1 entre os predios do recorte numa posicao e os `n` candidatos da cidade
+    inteira nela (caminho de aumento). `compativeis[i]` sao os candidatos que batem em tudo
+    com o predio i. Devolve, para cada predio, o candidato casado ou None."""
+    dono = [None] * n
+
+    def tenta(i, visto):
+        for j in compativeis[i]:
+            if j not in visto:
+                visto.add(j)
+                if dono[j] is None or tenta(dono[j], visto):
+                    dono[j] = i
+                    return True
+        return False
+
+    for i in range(len(compativeis)):
+        tenta(i, set())
+    par = [None] * len(compativeis)
+    for j, i in enumerate(dono):
+        if i is not None:
+            par[i] = j
+    return par
+
+
 def diverge(cheia, corte, lib_cheia=None, lib_corte=None):
     """Onde o `__citydata` recortado deixou de ser a cidade inteira.
 
@@ -94,44 +118,58 @@ def diverge(cheia, corte, lib_cheia=None, lib_corte=None):
     altura e numero de vertices; mesmo nome e endereco; mesma frente (`fa`); o mesmo
     `urbanLot`, com a mesma posicao e rotacao; e, quando as duas bibliotecas vierem, o
     mesmo modelo pelo ID (o indice muda, porque a biblioteca encolhe). Devolve a lista
-    de divergencias `(tipo, posicao, recorte, cheia)`, vazia quando tudo bate."""
+    de divergencias `(tipo, posicao, recorte, cheia)`, vazia quando tudo bate.
+
+    O casamento e 1:1: um predio da cidade inteira e par de UM predio do recorte, entao
+    uma copia a mais no recorte reprova. E `fa` falha fechado: frente de um lado e nao do
+    outro -- o array inteiro sumido, ou curto demais -- e divergencia."""
     pc, pr = _predios(cheia), _predios(corte)
     nc, nr = _nomes(cheia), _nomes(corte)
     ulc, ulr = cheia.get("urbanLots") or {}, corte.get("urbanLots") or {}
     fa_c, fa_r = cheia.get("fa") or [], corte.get("fa") or []
     modelos = lib_cheia is not None and lib_corte is not None
+    ausente = object()
+
+    def frente(fa, i):
+        return fa[i] if 0 <= i < len(fa) else ausente
+
+    def difere(pos, r, c):
+        """A primeira diferenca entre o predio r do recorte e o candidato c, ou None."""
+        (cor, alt, k, idx), (ccor, calt, ck, cidx) = r, c
+        if (cor, alt, k) != (ccor, calt, ck):
+            return ("geometria", pos, (cor, alt, k), (ccor, calt, ck))
+        if nr.get(idx) != nc.get(cidx):
+            return ("nome", pos, nr.get(idx), nc.get(cidx))
+        fr, fc = frente(fa_r, idx), frente(fa_c, cidx)
+        if (fr is ausente) != (fc is ausente):
+            return ("fa ausente", pos, None if fr is ausente else fr,
+                    None if fc is ausente else fc)
+        if fr != fc:
+            return ("fa", pos, fr, fc)
+        vr, vc = ulr.get(str(idx)), ulc.get(str(cidx))
+        if (vr is None) != (vc is None):
+            return ("urbanLot ausente", pos, vr, vc)
+        if vr is not None and vr[1:] != vc[1:]:
+            return ("urbanLot", pos, vr[1:], vc[1:])
+        if vr is not None and modelos and _modelo(lib_corte, vr[0]) != _modelo(lib_cheia, vc[0]):
+            return ("modelo urbano", pos, _modelo(lib_corte, vr[0]), _modelo(lib_cheia, vc[0]))
+        return None
+
     erros = []
     for pos, lista in pr.items():
-        candidatos = pc.get(pos)
-        for cor, alt, k, idx in lista:
-            if not candidatos:
-                erros.append(("sem par", pos, (cor, alt, k), None))
+        candidatos = pc.get(pos) or []
+        compativeis = [[j for j, c in enumerate(candidatos) if difere(pos, r, c) is None]
+                       for r in lista]
+        for i, j in enumerate(_emparelha(compativeis, len(candidatos))):
+            if j is not None:
                 continue
-            primeiro = None
-            for ccor, calt, ck, cidx in candidatos:
-                achado = []
-                if (cor, alt, k) != (ccor, calt, ck):
-                    achado.append(("geometria", pos, (cor, alt, k), (ccor, calt, ck)))
-                elif nr.get(idx) != nc.get(cidx):
-                    achado.append(("nome", pos, nr.get(idx), nc.get(cidx)))
-                elif fa_r and fa_c and fa_r[idx] != fa_c[cidx]:
-                    achado.append(("fa", pos, fa_r[idx], fa_c[cidx]))
-                else:
-                    vr, vc = ulr.get(str(idx)), ulc.get(str(cidx))
-                    if (vr is None) != (vc is None):
-                        achado.append(("urbanLot ausente", pos, vr, vc))
-                    elif vr is not None and vr[1:] != vc[1:]:
-                        achado.append(("urbanLot", pos, vr[1:], vc[1:]))
-                    elif vr is not None and modelos and \
-                            _modelo(lib_corte, vr[0]) != _modelo(lib_cheia, vc[0]):
-                        achado.append(("modelo urbano", pos, _modelo(lib_corte, vr[0]),
-                                       _modelo(lib_cheia, vc[0])))
-                if not achado:
-                    primeiro = None
-                    break
-                primeiro = primeiro or achado[0]
-            if primeiro:
-                erros.append(primeiro)
+            r = lista[i]
+            if not candidatos:
+                erros.append(("sem par", pos, r[:3], None))
+            elif compativeis[i]:
+                erros.append(("duplicado", pos, r[:3], "o par ja foi usado por outro predio"))
+            else:
+                erros.append(difere(pos, r, candidatos[0]))
     return erros
 
 

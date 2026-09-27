@@ -104,6 +104,22 @@ class MutacaoTests(unittest.TestCase):
     def test_building_without_match(self):
         self.assertEqual(self.tipos(lambda c: c["b"].__setitem__(3, 12345)), ["sem par"])
 
+    def test_duplicated_building_with_a_single_match_fails(self):
+        # Uma cópia do prédio 0 no recorte, igual em tudo (geometria, nome, fa, lote e
+        # modelo), com um único correspondente na cidade inteira: o casamento é 1:1.
+        def duplica(c):
+            c["b"].extend(c["b"][0:5])
+            c["fa"].append(c["fa"][0])
+            c["bm"].extend([3, c["bm"][1], c["bm"][2]])
+            c["urbanLots"]["3"] = list(c["urbanLots"]["0"])
+        self.assertEqual(self.tipos(duplica), ["duplicado"])
+
+    def test_facade_array_removed_fails(self):
+        self.assertEqual(self.tipos(lambda c: c.pop("fa")), ["fa ausente"] * 3)
+
+    def test_facade_array_too_short_fails_without_index_error(self):
+        self.assertEqual(self.tipos(lambda c: c.__setitem__("fa", c["fa"][:2])), ["fa ausente"])
+
 
 class GateNaMontagemTests(unittest.TestCase):
     """A divergência aborta a própria montagem, não um relatório depois."""
