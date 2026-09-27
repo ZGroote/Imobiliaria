@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "properties": {
+    "monte-dos-cedros-37": {
+      "profile": "montes-mrv-v1",
+      "variant": "torres-altas",
+      "slug": "monte-dos-cedros"
+    },
+    "monte-das-colinas-39": {
+      "profile": "montes-mrv-v1",
+      "variant": "blocos-baixos",
+      "slug": "monte-das-colinas"
+    }
+  }
+}
