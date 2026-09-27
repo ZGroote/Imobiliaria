@@ -324,28 +324,36 @@ def portao_cidade_fora_do_codigo(cid):
     O portao existe pra isso nao voltar: quem reintroduzir a coordenada no codigo
     reprova o build. Comentario nao conta -- explicar o historico e permitido. E o
     array HOUSES (as vitrines de imovel) tambem nao: e conteudo de demonstracao,
-    declarado como divida no PIPELINE.md, nao configuracao do renderizador."""
+    declarado como divida no PIPELINE.md, nao configuracao do renderizador.
+
+    Olha a FONTE DA VARIANTE que esta passando pelo QA (`config.fonte`), resolvida
+    como o `rodar_qa` resolve: `--variante`/`MAPA_V`, senao o padrao. Ate o #45 olhava
+    fixo `renderizador/` (v15), e o QA do v16-moveis media o codigo de outra arvore."""
     import re as _re
-    raiz = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-    alvo = os.path.join(raiz, "renderizador")
+    from pipeline.build import config as _config
+    fonte = _config.resolve(cid.slug).fonte
+    alvo = str(fonte)
+    rotulo = fonte.relative_to(_config.RAIZ).as_posix()
     if not os.path.isdir(alvo):
-        return Portao("cidade fora do codigo do renderizador", None, None, detalhe="sem renderizador/")
+        return Portao("cidade fora do codigo do renderizador", None, None, detalhe="sem %s/" % rotulo)
     proibidos = ["%.5f" % cid.clat, "%.5f" % cid.clon,
                  ("%.5f" % cid.clat).rstrip("0"), ("%.5f" % cid.clon).rstrip("0")]
     achados = []
     for pasta, _, arqs in os.walk(alvo):
-        if "lib" in pasta.replace(raiz, "").split(os.sep): continue      # three.js/earcut
+        rel = os.path.relpath(pasta, alvo)
+        if "lib" in rel.split(os.sep): continue      # three.js/earcut
         for a in arqs:
             if not a.endswith((".js", ".html", ".css")): continue
-            p = os.path.join(pasta, a)
-            for n, linha in enumerate(io.open(p, encoding="utf-8", errors="replace"), 1):
-                nu = linha.strip()
-                if nu.startswith("//") or nu.startswith("*") or nu.startswith("<!--"): continue
-                if "roca.com.br" in nu or "titulo:" in nu: continue      # vitrine HOUSES
-                if any(x in linha for x in proibidos):
-                    achados.append("%s:%d" % (a, n))
+            with io.open(os.path.join(pasta, a), encoding="utf-8", errors="replace") as f:
+                for n, linha in enumerate(f, 1):
+                    nu = linha.strip()
+                    if nu.startswith("//") or nu.startswith("*") or nu.startswith("<!--"): continue
+                    if "roca.com.br" in nu or "titulo:" in nu: continue      # vitrine HOUSES
+                    if any(x in linha for x in proibidos):
+                        achados.append("%s:%d" % (os.path.normpath(os.path.join(rel, a)).replace(os.sep, "/"), n))
     return Portao("cidade fora do codigo do renderizador", len(achados), 0, "ocorrencias",
-                  detalhe=("limpo" if not achados else "coordenada da cidade em " + ", ".join(achados[:5])))
+                  detalhe=("limpo em %s" % rotulo if not achados else
+                           "coordenada da cidade em %s: %s" % (rotulo, ", ".join(achados[:5]))))
 
 
 def roda(cid, comportamento=True):
