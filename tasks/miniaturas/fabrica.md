@@ -1,8 +1,8 @@
 # Fábrica de miniaturas — contrato da automação
 
-Estado: **arquitetura proposta para a próxima frente de produto**. Este documento não muda o
-pipeline atual, não publica nada e não aposenta nenhum padrão. Ele define o contrato que os próximos
-PRs devem implementar, em passos pequenos e provados.
+Estado: **contrato em implementação**. O M1 (runner local + relatório) já existe; a frente M2
+está automatizando a geração LEVE em passos pequenos e provados. Nada nesta frente publica produção
+ou aposenta LEVE/PREMIUM.
 
 ## Objetivo
 
@@ -48,7 +48,7 @@ O repositório já tem partes importantes da fábrica; o trabalho agora é conec
 |---|---|---|
 | Cadastro do imóvel | `padrao/cidades/*.json` + dados de unidade/planta | estruturado |
 | Entry point da maquete | `pagina_maquete.py` | monta a base atual; no Cedros desvia para o PREMIUM aprovado de `padrao_atual.py` |
-| Modelos LEVE Blender | `modelar_montes.py`, `modelar_castanheiras.py` | reproduzíveis, mas específicos por empreendimento |
+| Modelos LEVE Blender | `modelar_imovel.py` → geradores de família + `fonte_leve.py` | fonte normalizada e entrypoint único; Cedros/Colinas/Castanheiras provados byte a byte |
 | Exportação Blender | `blender_maquete_base.py` | automatizada |
 | PREMIUM Cedros | `padrao_atual.py` | montagem determinística |
 | Fonte PREMIUM | `source.json` privado, manifesto em `tools/artefatos-privados.json` | recuperação automática e verificada |
@@ -61,6 +61,29 @@ O repositório já tem partes importantes da fábrica; o trabalho agora é conec
 
 O gargalo não está na montagem final. Está antes dela: converter o material bruto em uma fonte 3D
 normalizada e repetível ainda depende de código/decisões específicas de cada empreendimento.
+
+O gargalo original de escolher manualmente o gerador LEVE já foi removido para os três fixtures:
+`modelar_imovel.py -- <propertyId>` resolve a família a partir da fonte normalizada.
+
+### Runner local implementado
+
+O runner atual é `pipeline/fabrica_miniaturas.py`. Nesta etapa, o caminho é:
+
+```text
+validar_entrada
+→ resolver_fontes
+→ gerar_leve
+→ verificar_maquete
+→ build_imovel
+→ verificar_build
+```
+
+`gerar_leve` usa Blender 5.2.2, gera em pasta temporária, valida `modelo.json`, GLB e
+`validacao.json`, promove somente esses artefatos determinísticos e grava cache local em
+`publicacao/fabrica/<imovel>/leve-state.json`. PNG e `.blend` de inspeção não são promovidos
+pela fábrica. O segundo ciclo pode reutilizar o cache sem abrir Blender quando os hashes de entrada,
+código e saída continuam iguais.
+
 
 ### Duas linhas atuais que não devem ser confundidas
 

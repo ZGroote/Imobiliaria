@@ -1,7 +1,7 @@
 """Blender --background --factory-startup --python modelar_montes.py -- <propertyId>.
 Referencias MRV em referencias/. Fatos do predio vem da fonte LEVE normalizada.
 """
-import sys, math, random
+import sys, math, random, os
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 REPO=ROOT.parent.parent
@@ -131,7 +131,7 @@ for j in range(24):box('escuro',gx+4.3+j*.23,1.1,gy+1.5,.035,2.2,.035)
 for z in [.15,2.15]:box('escuro',gx+7,z,gy+1.5,5.6,.055,.07)
 flush('portaria',True)
 
-out=ROOT/(slug+'_blender')
+out=Path(os.environ.get('LEVE_OUTPUT_ROOT',str(ROOT)))/(slug+'_blender')
 metadata={'id':uid,'towers':len(towers),'floors':N,'floor_height':LV,'balcony_depth':recess,
  'reference':fonte['metadata']['reference'],
  'scope':fonte['metadata']['scope'],
