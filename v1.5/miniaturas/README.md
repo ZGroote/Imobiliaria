@@ -49,13 +49,13 @@ e [Colinas](https://www.mrv.com.br/imoveis/sao-paulo/sao-carlos/apartamentos-res
 
 Em cada pasta `monte-*_blender/` ficam `.blend`, `.glb`, exportação offline
 `modelo.json`, render geral, render de detalhe e `validacao.json`. O arquivo
-`modelar_montes.py` modela a família MRV a partir da fonte LEVE normalizada; `blender_maquete_base.py` compartilha exportação e render. O argumento do Blender é o `propertyId`, não um apelido do empreendimento.
+`modelar_imovel.py` é o entrypoint operacional único: recebe o `propertyId`, resolve o perfil LEVE e delega ao gerador da família sem tocar na cena. `modelar_montes.py` e `modelar_castanheiras.py` continuam como implementações internas; `blender_maquete_base.py` compartilha primitivas e, nos Montes, exportação/render.
 `castanheiras.js` lê ambos os formatos de exportação (matrizes/índices novos e
 posição/escala do Castanheiras), sem gerar fachadas no navegador.
 
 ```powershell
-& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python-exit-code 1 --python v1.5/miniaturas/modelar_montes.py -- monte-dos-cedros-37
-& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python-exit-code 1 --python v1.5/miniaturas/modelar_montes.py -- monte-das-colinas-39
+& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python-exit-code 1 --python v1.5/miniaturas/modelar_imovel.py -- monte-dos-cedros-37
+& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python-exit-code 1 --python v1.5/miniaturas/modelar_imovel.py -- monte-das-colinas-39
 python v1.5/miniaturas/pagina_maquete.py --unidade monte-dos-cedros-37 --saida v1.5/miniaturas/maquete-monte-dos-cedros-37.html
 python v1.5/miniaturas/pagina_maquete.py --unidade monte-das-colinas-39 --saida v1.5/miniaturas/maquete-monte-das-colinas-39.html
 python v1.5/miniaturas/qa_visual.py maquete-monte-das-colinas-39.html --nome colinas-conjunto --conjunto
@@ -122,7 +122,8 @@ guarda-corpos e treliças vazadas, janelas menores, cortinas acesas e portaria.
 Os 22 pavimentos e o envelope vêm do cadastro. A profundidade das sacadas e os
 fundos são aproximações visuais; não é um levantamento arquitetônico certificado.
 
-- `modelar_castanheiras.py`: gerador da família Castanheiras; consome a fonte LEVE normalizada (`castanheiras-ebm-v1`), reutiliza `material`, `box`, `flush` e `MATS` de `blender_maquete_base.py` e mantém cópias/exportação `p/s` próprios nesta etapa.
+- `modelar_imovel.py`: entrypoint operacional único; para este imóvel resolve `castanheiras-ebm-v1` e delega ao gerador correto.
+- `modelar_castanheiras.py`: implementação da família Castanheiras; consome a fonte LEVE normalizada, reutiliza `material`, `box`, `flush` e `MATS` de `blender_maquete_base.py` e mantém cópias/exportação `p/s` próprios nesta etapa.
 - `castanheiras_blender/castanheiras.blend`: projeto editável, referência empacotada.
 - `castanheiras_blender/castanheiras.glb`: modelo interoperável, cerca de 0,9 MB.
 - `castanheiras_blender/preview.png`: render Cycles.
@@ -134,7 +135,7 @@ exibe a exportação; as sacadas e os detalhes não são mais modelados no naveg
 Para reconstruir, execute o script com Blender e depois monte o HTML:
 
 ```powershell
-& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python-exit-code 1 --python v1.5/miniaturas/modelar_castanheiras.py -- wish-castanheiras-58
+& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python-exit-code 1 --python v1.5/miniaturas/modelar_imovel.py -- wish-castanheiras-58
 python v1.5/miniaturas/pagina_maquete.py --unidade wish-castanheiras-58 --saida v1.5/miniaturas/maquete-wish-castanheiras-58.html
 ```
 
