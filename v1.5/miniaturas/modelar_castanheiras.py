@@ -1,11 +1,14 @@
 """Blender 5.x: fachada do Castanheiras, fonte editavel e exportacao web offline.
 Executar com blender --background --factory-startup --python este_arquivo.py.
 """
-import bpy, math, json, random
+import bpy, math, json, random, sys
 from pathlib import Path
 from mathutils import Vector
 
 ROOT=Path(__file__).resolve().parent
+sys.path.insert(0,str(ROOT))
+from blender_maquete_base import material, box, flush, MATS
+
 OUT=ROOT/'castanheiras_blender'
 OUT.mkdir(exist_ok=True)
 scene=bpy.context.scene
@@ -13,19 +16,6 @@ print('BLENDER',bpy.app.version_string,'SCENE',scene.name,len(scene.objects))
 for obj in list(scene.objects):
     bpy.data.objects.remove(obj,do_unlink=True)
 LV=3.15
-MATS={}
-def material(name, rgb, rough=.8, metal=0, emission=0):
-    m=bpy.data.materials.new('MAT-'+name);m.use_nodes=True
-    p=next(n for n in m.node_tree.nodes if n.type=='BSDF_PRINCIPLED')
-    # Entrada em sRGB -> shader linear, assim Blender e web conservam a cor.
-    col=tuple(((v/255+0.055)/1.055)**2.4 if v/255>.04045 else v/255/12.92 for v in rgb)
-    p.inputs['Base Color'].default_value=(*col,1)
-    p.inputs['Roughness'].default_value=rough;p.inputs['Metallic'].default_value=metal
-    if emission:
-        p.inputs['Emission Color'].default_value=(*col,1)
-        p.inputs['Emission Strength'].default_value=emission
-    m.diffuse_color=(*col,1);MATS[name]=m
-    return m
 material('reboco',(204,202,194),.92)
 material('concreto',(221,219,210),.85)
 material('esquadria',(63,64,61),.36,1)
@@ -37,42 +27,7 @@ material('folhagem',(63,87,49),.94)
 material('vaso',(139,128,111),.85)
 material('cobertura',(111,116,114),.98)
 
-# Geometria agrupada por acabamento por pavimento. Malhas compartilhadas nas copias.
-buckets={}
-def box(mat,x,z,y,w,h,d,angle=0):
-    """Coordenadas arquitetonicas: x horizontal, y profundidade, z altura."""
-    verts,faces=buckets.setdefault(mat,([],[])); base=len(verts)
-    cs,sn=math.cos(angle),math.sin(angle)
-    for a,b,c in [(-1,-1,-1),(1,-1,-1),(1,1,-1),(-1,1,-1),(-1,-1,1),(1,-1,1),(1,1,1),(-1,1,1)]:
-        xx=a*w/2;zz=c*h/2
-        verts.append((x+cs*xx-sn*zz,-y-b*d/2,z+sn*xx+cs*zz))
-    # Transformacao y -> -y exige inverter enrolamento.
-    for face in [(0,3,2,1),(4,5,6,7),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7)]:
-        faces.append(tuple(base+i for i in reversed(face)))
-
-def flush(prefix, bevel=False):
-    result=[]
-    for key,(verts,faces) in buckets.items():
-        mesh=bpy.data.meshes.new(prefix+'-'+key);mesh.from_pydata(verts,[],faces);mesh.update()
-        obj=bpy.data.objects.new('GEO-'+prefix+'-'+key,mesh);scene.collection.objects.link(obj)
-        mesh.materials.append(MATS[key]);obj['acabamento']=key
-        if bevel and key in ('reboco','concreto'):
-            bpy.context.view_layer.objects.active=obj
-            mod=obj.modifiers.new('Arestas suavizadas','BEVEL');mod.width=.018;mod.segments=2
-            bpy.ops.object.modifier_apply(modifier=mod.name)
-            mesh=obj.data
-        # UVs metricas por face para reboco/concreto quando usados na web.
-        uv=mesh.uv_layers.new(name='UVMap')
-        for poly in mesh.polygons:
-            n=poly.normal;axis=max(range(3),key=lambda i:abs(n[i]))
-            axes=[i for i in range(3) if i!=axis]
-            for li in poly.loop_indices:
-                co=mesh.vertices[mesh.loops[li].vertex_index].co
-                uv.data[li].uv=(co[axes[0]],co[axes[1]])
-        result.append(obj)
-    buckets.clear()
-    return result
-
+# Geometria agrupada por acabamento por pavimento. material/box/flush vêm da base comum.
 def copies(template, floors, role):
     for tower,(dx,dy) in enumerate([(0,0),(21,-3.5)]):
         for f in floors:
@@ -157,11 +112,16 @@ box('concreto',10.5,3.22,14.8,38.4,.22,2.5)
 for j in range(57):box('trelica',-7.5+j*.64,1.55,15.12,.095,2.85,.16)
 flush('cobertura-portaria',True)
 
-# Fonte de referencia incluida no .blend como Image Empty, fora de render/export.
-img=bpy.data.images.load(str(ROOT/'referencias/castanheiras.png'));img.pack()
+# Fonte de referencia só afeta o .blend de autoria; não entra no export/render.
+ref_path=ROOT/'referencias/castanheiras.png'
 ref=bpy.data.objects.new('REF-perspectiva-fornecida',None);scene.collection.objects.link(ref)
-ref.empty_display_type='IMAGE';ref.data=img;ref.empty_display_size=75;ref.location=(-65,0,37)
-ref.hide_render=True
+ref.empty_display_size=75;ref.location=(-65,0,37);ref.hide_render=True
+if ref_path.is_file():
+    img=bpy.data.images.load(str(ref_path));img.pack()
+    ref.empty_display_type='IMAGE';ref.data=img
+else:
+    ref.empty_display_type='PLAIN_AXES'
+    print('REFERENCE_OPTIONAL_MISSING',str(ref_path),flush=True)
 
 # Exportacao web dos meshes AVALIADOS do Blender, incluindo os bevels.
 # Reusa geometria e matrizes, mantendo a pagina offline sem loader externo.
@@ -227,9 +187,36 @@ for screen in bpy.data.screens:
     for a in screen.areas:
         if a.type=='VIEW_3D':a.spaces.active.region_3d.view_perspective='CAMERA'
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'castanheiras.blend'))
+pavimentos_e_lajes_duas_torres=all(
+    len([g for g in groups.values() if g['tower']==tower and g['role']==role])==1
+    and len([g for g in groups.values() if g['tower']==tower and g['role']==role][0]['instances'])==n
+    for tower in (0,1) for role,n in (('paredes',22),('lajes',23))
+)
+geometria_finita=all(
+    math.isfinite(v)
+    for geo in geos.values()
+    for key in ('position','normal','uv')
+    for v in geo[key]
+)
+normais_e_uv=all(
+    len(geo['position'])%3==0
+    and len(geo['normal'])==len(geo['position'])
+    and len(geo['uv'])==(len(geo['position'])//3)*2
+    for geo in geos.values()
+)
+glb_path=OUT/'castanheiras.glb'
+glb_valido=glb_path.stat().st_size>=12 and glb_path.read_bytes()[:4]==b'glTF'
+assert pavimentos_e_lajes_duas_torres,'pavimentos/lajes invalidos'
+assert geometria_finita,'geometria nao finita'
+assert normais_e_uv,'normais/UV invalidos'
+assert glb_valido,'cabecalho GLB invalido'
 report={'blender':bpy.app.version_string,'towers':2,'floors_per_tower':22,'balcony_depth_m':2,
         'reference':'../referencias/castanheiras.png','back':'aproximado por simetria',
-        'objects':len(scene.objects),'shared_geometries':len(geos),'web_bytes':(OUT/'modelo.json').stat().st_size}
+        'objects':len(scene.objects),'shared_geometries':len(geos),'web_bytes':(OUT/'modelo.json').stat().st_size,
+        'checks':{'pavimentos_e_lajes_duas_torres':pavimentos_e_lajes_duas_torres,
+                  'geometria_finita':geometria_finita,
+                  'normais_e_uv':normais_e_uv,
+                  'glb_valido':glb_valido}}
 (OUT/'validacao.json').write_text(json.dumps(report,indent=2),encoding='utf8')
 print('MODEL_READY',json.dumps(report),flush=True)
 bpy.ops.render.render(write_still=True)
