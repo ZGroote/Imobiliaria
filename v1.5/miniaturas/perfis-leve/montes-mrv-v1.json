@@ -1,0 +1,164 @@
+{
+  "schema": 1,
+  "profile": "montes-mrv-v1",
+  "common": {
+    "floorHeight": 3.15,
+    "recess": 1.7,
+    "balconyCenters": [
+      -2.1,
+      2.1
+    ],
+    "renderDistance": [
+      -95,
+      -100,
+      70
+    ],
+    "reference": "MRV, fachadas e implantacoes consultadas em 21/09/2026",
+    "uncertainty": "Dimensoes e posicoes do cadastro sao aproximadas; pormenores de cobertura e fundos interpretados. Sem levantamento executivo.",
+    "materials": {
+      "reboco": {
+        "color": [
+          211,
+          208,
+          195
+        ],
+        "roughness": 0.92,
+        "metalness": 0
+      },
+      "concreto": {
+        "color": [
+          222,
+          221,
+          211
+        ],
+        "roughness": 0.87,
+        "metalness": 0
+      },
+      "moldura": {
+        "color": null,
+        "roughness": 0.9,
+        "metalness": 0
+      },
+      "painel": {
+        "color": [
+          182,
+          186,
+          155
+        ],
+        "roughness": 0.9,
+        "metalness": 0
+      },
+      "metal": {
+        "color": [
+          200,
+          204,
+          201
+        ],
+        "roughness": 0.38,
+        "metalness": 1
+      },
+      "vidro": {
+        "color": [
+          64,
+          91,
+          103
+        ],
+        "roughness": 0.18,
+        "metalness": 0
+      },
+      "escuro": {
+        "color": [
+          67,
+          71,
+          68
+        ],
+        "roughness": 0.88,
+        "metalness": 0
+      },
+      "telhado": {
+        "color": [
+          125,
+          133,
+          134
+        ],
+        "roughness": 0.85,
+        "metalness": 0
+      },
+      "madeira": {
+        "color": [
+          131,
+          96,
+          64
+        ],
+        "roughness": 0.8,
+        "metalness": 0
+      },
+      "folha": {
+        "color": [
+          74,
+          103,
+          55
+        ],
+        "roughness": 0.95,
+        "metalness": 0
+      },
+      "vaso": {
+        "color": [
+          165,
+          144,
+          115
+        ],
+        "roughness": 0.9,
+        "metalness": 0
+      },
+      "acesa": {
+        "color": [
+          255,
+          217,
+          156
+        ],
+        "roughness": 0.8,
+        "metalness": 0,
+        "emission": 0.38
+      }
+    }
+  },
+  "variants": {
+    "torres-altas": {
+      "balconyWidth": 2.55,
+      "molduraColor": [
+        107,
+        117,
+        92
+      ],
+      "molduraMode": "split-highrise",
+      "longFacadeBands": false,
+      "referenceImage": "referencias/cedros-fachada.jpg",
+      "renderTarget": [
+        22,
+        -1,
+        22
+      ],
+      "renderOrtho": 110,
+      "scope": "duas torres"
+    },
+    "blocos-baixos": {
+      "balconyWidth": 2.25,
+      "molduraColor": [
+        135,
+        130,
+        115
+      ],
+      "molduraMode": "full-lowrise",
+      "longFacadeBands": true,
+      "referenceImage": "referencias/colinas-portaria.jpg",
+      "renderTarget": [
+        -19,
+        -14,
+        6
+      ],
+      "renderOrtho": 104,
+      "scope": "quatro blocos representativos do cadastro; o condominio oficial tem mais blocos"
+    }
+  }
+}
