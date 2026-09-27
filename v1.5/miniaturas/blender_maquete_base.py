@@ -106,18 +106,45 @@ def exportar(out,slug,metadata):
     opts=dict(filepath=str(out/(slug+'.glb')),use_selection=True,export_format='GLB',export_apply=True)
     if 'export_gpu_instances' in props:opts['export_gpu_instances']=True
     bpy.ops.export_scene.gltf(**opts)
+    # Checks historicamente versionados passam a ser calculados no caminho reproduzivel.
+    finite_geometry=all(
+        math.isfinite(v)
+        for geo in geos.values()
+        for key in ('position','normal','uv')
+        for v in geo[key]
+    )
+    normals_uv_indices=all(
+        len(geo['position'])%3==0
+        and len(geo['normal'])==len(geo['position'])
+        and len(geo['uv'])==(len(geo['position'])//3)*2
+        and len(geo['index'])%3==0
+        and all(isinstance(i,int) and 0<=i<len(geo['position'])//3 for i in geo['index'])
+        for geo in geos.values()
+    )
+    glb_path=out/(slug+'.glb')
+    glb_header=glb_path.stat().st_size>=12 and glb_path.read_bytes()[:4]==b'glTF'
+    assert finite_geometry,'geometria nao finita'
+    assert normals_uv_indices,'normais/UV/indices invalidos'
+    assert glb_header,'cabecalho GLB invalido'
     report=dict(metadata,blender=bpy.app.version_string,geometries=len(geos),groups=len(groups),
-                web_bytes=(out/'modelo.json').stat().st_size,glb_bytes=(out/(slug+'.glb')).stat().st_size,
-                checks={'pavimentos_e_lajes':True,'exportacao':True})
+                web_bytes=(out/'modelo.json').stat().st_size,glb_bytes=glb_path.stat().st_size,
+                checks={'pavimentos_e_lajes':True,'exportacao':True,
+                        'finite_geometry':finite_geometry,
+                        'normals_uv_indices':normals_uv_indices,
+                        'glb_header':glb_header})
     (out/'validacao.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
     print('MODEL_READY',json.dumps(report),flush=True)
 
 def renderizar(out,slug,reference,target,distance,ortho,detalhe):
     out=Path(out)
     if reference:
-        img=bpy.data.images.load(str(reference));img.pack()
-        ref=bpy.data.objects.new('REF-fachada-MRV',None);scene.collection.objects.link(ref)
-        ref.empty_display_type='IMAGE';ref.data=img;ref.empty_display_size=50;ref.location=(-120,0,30);ref.hide_render=True
+        reference=Path(reference)
+        if reference.is_file():
+            img=bpy.data.images.load(str(reference));img.pack()
+            ref=bpy.data.objects.new('REF-fachada-MRV',None);scene.collection.objects.link(ref)
+            ref.empty_display_type='IMAGE';ref.data=img;ref.empty_display_size=50;ref.location=(-120,0,30);ref.hide_render=True
+        else:
+            print('REFERENCE_OPTIONAL_MISSING',str(reference),flush=True)
     world=bpy.data.worlds.new('Ceu-estudio');world.use_nodes=True;scene.world=world
     bg=next(n for n in world.node_tree.nodes if n.type=='BACKGROUND')
     bg.inputs[0].default_value=(.20,.26,.34,1);bg.inputs[1].default_value=.6
