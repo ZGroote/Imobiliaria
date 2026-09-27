@@ -23,6 +23,24 @@ class EntradaTests(unittest.TestCase):
         self.assertEqual(e.exception.codigo, 'ORIGIN_UNCONFIRMED')
 
 
+class FontesTests(unittest.TestCase):
+    def test_runner_assina_as_fontes_extras_do_build_imovel(self):
+        """M1 não pode declarar proveniência menor que a do build que ele orquestra."""
+        with patch.object(F, 'entradas', return_value=[]), \
+             patch.object(F.build_imovel, 'fontes_da_maquete', return_value=[]):
+            r = F.resolver_fontes('monte-dos-cedros-37')
+        caminhos = set(r['caminhos'])
+        esperados = {
+            'tasks/v1.0/piloto.json',
+            'exteriores/v1/terrenos-manifesto.json',
+            'pipeline/build_imovel.py',
+            'pipeline/imovel.py',
+            'pipeline/recorte.py',
+        }
+        self.assertLessEqual(esperados, caminhos)
+        self.assertEqual(len(r['sha256']), 64)
+
+
 class RunnerTests(unittest.TestCase):
     def test_blocked_para_a_linha_e_grava_relatorio(self):
         with tempfile.TemporaryDirectory() as tmp:
