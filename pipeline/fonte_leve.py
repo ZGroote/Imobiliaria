@@ -91,7 +91,7 @@ def normalizar(property_id):
     common = deepcopy(profile["common"])
     moldura = variant.pop("molduraColor")
     materials = deepcopy(common["materials"])
-    materials["moldura"] = {"color": moldura, "roughness": 0.9, "metalness": 0}
+    materials["moldura"]["color"] = moldura
 
     return {
         "schema": 1,
