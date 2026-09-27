@@ -1,22 +1,19 @@
 # Arquivos grandes — inventário, dependências e decisões (27/09/2026)
 
-Este PR não remove nada. Ele traz três coisas:
+**Histórico deste documento:**
 
-- o inventário dos arquivos grandes;
-- a prova de regenerabilidade dos candidatos a descarte;
-- a trava de tamanho no CI.
+- **#36:** ele nasceu como inventário, sem remover nada. Trouxe o inventário, a prova de
+  regenerabilidade dos candidatos a descarte e a trava de tamanho no CI. As decisões foram tomadas
+  arquivo por arquivo, depois dele.
+- **#37:** ele foi atualizado com as três saídas aprovadas, que somam 42,08 MiB:
+  - saíram os dois `uv.json` e o `source-before-normal-repair.json`;
+  - o ambiente de regeneração passou a ser o `requirements-bake.txt` (`numpy==2.4.6`,
+    `xatlas==0.0.11`);
+  - o `repair-bake-normals.py` deixou de recriar o backup.
 
-A decisão de cada arquivo é **proposta** aqui e tomada arquivo por arquivo, antes de qualquer remoção.
-
-> **Atualização, 27/09/2026: as três saídas aprovadas foram feitas.** Saíram do `HEAD` os dois
-> `uv.json` e o `source-before-normal-repair.json`, 42,08 MiB.
->
-> - O ambiente de regeneração é o `requirements-bake.txt` (`numpy==2.4.6`, `xatlas==0.0.11`).
-> - O `repair-bake-normals.py` não recria mais o backup.
-> - Depois das saídas, o `HEAD` tem 986 arquivos e 238,3 MiB, e 24 arquivos acima de 1 MiB somam
->   198,8 MiB.
-> - As linhas dos três arquivos ficam no inventário como registro, marcadas "saiu".
-> - A prova depois das mudanças está no fim deste documento.
+**Estado depois do #37:** o `HEAD` tem 986 arquivos e 238,3 MiB, e 24 arquivos acima de 1 MiB
+somam 198,8 MiB. As linhas dos três arquivos que saíram continuam no inventário como registro,
+marcadas "saiu", e a prova depois das saídas está no fim deste documento.
 
 **Regras deste ciclo:**
 
@@ -91,7 +88,7 @@ O mesmo script escreve o `uv.json` e o `geometry-compact.json`, que é entrada d
 
 O `unwrap.json`, que o script também escreve, guarda o tempo da execução e muda a cada rodada. Ele é pequeno e não entra nesta conta.
 
-**O `xatlas` não está registrado em nenhum `requirements` nem no `DEPENDENCIAS.md`.** Registrar a versão 0.0.11 é condição para o `uv.json` sair do git.
+O `xatlas` não estava registrado em nenhum `requirements`. No #37 ele entrou no `requirements-bake.txt`, com a versão exata, junto com o `numpy`.
 
 ### `source-before-normal-repair.json`: não se regenera, e não faz falta
 
@@ -109,23 +106,23 @@ O que isso quer dizer:
 - **O backup ainda é um risco.** Enquanto ele existe, rodar só o `repair-bake-normals.py` desfaz, sem aviso, os reparos de batentes e molduras (teste b).
 - O que se perde ao tirá-lo é o export original, que só faria falta para refazer os três reparos com outro algoritmo. Ele continua no histórico do git.
 
-## Decisões propostas (para aprovar arquivo por arquivo)
+## Decisões
 
-As três primeiras foram **aprovadas e feitas** em 27/09. As outras foram aprovadas como estão: os `source.json` e o `lotes_saocarlos.geojson` ficam.
+Foram tomadas arquivo por arquivo depois do #36. As três primeiras linhas foram feitas no #37.
 
-| Arquivo | Proposta | Condição |
+| Arquivo | Decisão | Condição |
 |---|---|---|
-| `piloto-v3/uv.json`, `exterior-v3/uv.json` (20 MiB) | **sair do `HEAD`** | registrar `xatlas==0.0.11` em `requirements-fontes.txt` e no `DEPENDENCIAS.md`; anotar no padrão atual que o bake começa pelo unwrap |
-| `piloto-v3/source-before-normal-repair.json` (22 MiB) | **sair do `HEAD`** | nenhuma, além da sua decisão: ele não se regenera, mas o reproduzível é o atual. Se quiser guardar o export original, ele vai para o destino privado junto com os `source.json` |
-| `piloto-v3/source.json`, `exterior-v3/source.json` (24,8 MiB) | **ficam**, até haver destino privado comprovado | ver "Destino privado" abaixo |
-| `lotes_saocarlos.geojson` (35 MiB) | **fica agora**, porque os GeoJSON não se apagam neste ciclo | é candidato a sair das entradas do build, porque em São Carlos só é lido como fallback. Isso muda o `fontes` do manifest e é decisão própria |
+| `piloto-v3/uv.json`, `exterior-v3/uv.json` (20 MiB) | **saíram do `HEAD`** (#37) | `requirements-bake.txt` com `numpy==2.4.6` e `xatlas==0.0.11`, numa venv própria; `DEPENDENCIAS.md` e `PADRAO-ATUAL.md` dizem como recalcular a luz |
+| `piloto-v3/source-before-normal-repair.json` (22 MiB) | **saiu do `HEAD`** (#37), sem ir para armazenamento privado | o `repair-bake-normals.py` deixou de criar e de ler esse backup |
+| `piloto-v3/source.json`, `exterior-v3/source.json` (24,8 MiB) | **ficam** até haver destino privado comprovado | ver "Destino privado" abaixo |
+| `lotes_saocarlos.geojson` (35 MiB) | **fica**, porque os GeoJSON não se apagam neste ciclo | é candidato a sair das entradas do build, porque em São Carlos só é lido como fallback. Isso muda o `fontes` do manifest e é decisão própria |
 | `lotes_saocarlos_completo.geojson` e os `.bin` | **ficam** | entram no build e na publicação |
 | os outros arquivos de classe E | **ficam** | o build lê do checkout |
 | `castanheiras.blend`, `monte-dos-cedros_blender/modelo.json` (padrão leve) | **ficam** | são ativos do produto |
 | `encaixes-sao-carlos.json` | **fica** | é cache caro de refazer |
 | `maquete-*.html` (site das miniaturas) | **ficam** | o site das miniaturas publica a partir deles |
 
-Se as três primeiras linhas forem aprovadas, o `HEAD` perde 42 MiB.
+As três primeiras linhas tiraram 42,08 MiB do `HEAD` (#37).
 
 ## Destino privado: o que conta como "comprovado"
 

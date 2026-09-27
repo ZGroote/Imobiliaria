@@ -41,22 +41,6 @@ flowchart LR
 7. O bake é estático: mover, girar ou redimensionar móveis desativa o mapa interno e mostra aviso, passando para iluminação dinâmica. Recalcular a luz é necessário para aprovar um novo layout.
 8. A câmera permanece livre. Nenhum vídeo é gerado. O resultado é uma maquete ilustrativa, com implantação e dimensões aproximadas, não uma imagem fotográfica ou projeto executivo.
 
-### Regerar a luz
-
-Desde 27/09/2026 o `uv.json` de `piloto-v3/` e de `exterior-v3/` não é versionado. O unwrap o
-escreve junto com o `geometry-compact.json`, e o bake o lê. Por isso a luz se refaz nesta ordem:
-
-1. **Unwrap,** num ambiente próprio:
-   - `pip install -r requirements-bake.txt`, numa venv;
-   - `python unwrap-v3.py` e `python unwrap-exterior.py`, os dois em `padrao-atual/`.
-
-   Com as versões desse arquivo, ele reproduz byte a byte o `geometry-compact.json` versionado.
-2. **Bake,** no Blender: `bake-v3.py` e `bake-exterior.py`.
-3. **Denoise** (`denoise-v3.py`, `denoise-exterior.py`) e **encode** (`encode_lightmaps.py`).
-
-O export de antes dos reparos, `source-before-normal-repair.json`, também saiu em 27/09.
-`repair-bake-normals.py` opera sobre o `source.json` atual, sem guardar nem ler backup.
-
 ## Montar e publicar a versão aprovada
 
 Na raiz do repositório:
@@ -80,15 +64,28 @@ Esse comando agora monta o padrão atual. `--geometria-base` é uma saída expl�
 
 ## Recalcular a iluminação
 
-Somente republicar não exige Blender nem recalcular os atlas. Para recalcular, as fontes exportadas, UVs e scripts ficam no pacote canônico. Ferramentas usadas: Blender 4.5.3 LTS portátil com Cycles/OptiX, Python 3.14 com NumPy, Pillow, xatlas 0.0.11 e Playwright; OIDN 2.3.3 portátil. Os scripts de OIDN apontam para `%LOCALAPPDATA%/CodexBlenderStudy/oidn-2.3.3.x64.windows/bin`; ajustar o caminho numa nova máquina.
+Somente republicar não exige Blender nem recalcular os atlas.
 
-Ordem, dentro de `padrao-atual/`:
+Recalcular a luz parte do **`source.json` atual**, em `piloto-v3/` e em `exterior-v3/`. Desde 27/09/2026 o `uv.json` não é versionado, porque o unwrap o regera, e o export de antes dos reparos (`source-before-normal-repair.json`) saiu do repositório.
 
-1. Blender: `repair-bake-normals.py`, que restaura o snapshot original para correções repetíveis. Python comum (NumPy): `repair-trim-v3.py` e `repair-jamb-v3.py`, nessa ordem, após a correção de normais.
-2. Python: `unwrap-v3.py` e `unwrap-exterior.py`.
-3. Blender em background: `bake-v3.py -- 2048` e `bake-exterior.py -- 4096`.
-4. Python: `denoise-v3.py`, `denoise-exterior.py`, `encode_lightmaps.py`. Para alterar somente o interior, usar `encode_lightmaps.py piloto-v3`, preservando o exterior.
-5. Reconstruir, conferir visualmente e testar antes de publicar. Uma alteração de geometria exige reexportar `source.json`, atualizar o template correspondente e os snapshots de normais; atlas de uma malha não serve automaticamente em outra. A validação de contagem ajuda, mas não substitui comparação visual.
+**Ambiente validado em 27/09/2026:**
+
+- **Unwrap:** Python 3.14.4 com o `requirements-bake.txt` (`numpy==2.4.6`, `xatlas==0.0.11`), numa venv própria. Com essas versões, o unwrap reproduz byte a byte o `geometry-compact.json` versionado e os `uv.json` que saíram.
+- **Blender:** 5.2.2 LTS. A prova do reparo de normais rodou nele. A luz aprovada foi assada antes, e não foi assada de novo depois dessa prova.
+- **Denoise:** OIDN 2.3.3 portátil. Os scripts apontam para `%LOCALAPPDATA%/CodexBlenderStudy/oidn-2.3.3.x64.windows/bin`; numa máquina nova, ajuste esse caminho.
+
+**Ordem, dentro de `padrao-atual/`:**
+
+1. **Unwrap,** com o Python da venv do bake: `unwrap-v3.py` e `unwrap-exterior.py`. Eles escrevem o `uv.json` (não versionado) e o `geometry-compact.json`.
+2. **Bake,** com o Blender em background: `bake-v3.py -- 2048` e `bake-exterior.py -- 4096`.
+3. **Denoise e encode:** `denoise-v3.py`, `denoise-exterior.py` e `encode_lightmaps.py`. Para alterar só o interior, use `encode_lightmaps.py piloto-v3`, que preserva o exterior.
+4. Reconstruir, conferir visualmente e testar antes de publicar. A validação de contagem ajuda, mas não substitui a comparação visual.
+
+**Os reparos de geometria não fazem parte da regeneração da luz.** São eles `repair-bake-normals.py` (no Blender), `repair-trim-v3.py` e `repair-jamb-v3.py` (Python com NumPy).
+
+- Eles corrigem o `source.json`, e o `source.json` versionado já os tem.
+- Só se usam quando a geometria muda. Nesse caso é preciso reexportar o `source.json`, reaplicar os reparos, refazer a luz e atualizar o template correspondente. Um atlas de uma malha não serve automaticamente em outra.
+- O `repair-bake-normals.py` opera sobre o `source.json` atual, sem guardar nem ler backup, e é idempotente nele.
 
 O template congelado documenta a combinação exata de bibliotecas e geometria aprovada. Para outro imóvel, produzir uma nova combinação de template, fontes, UVs, atlas e testes; não copiar os mapas do Cedros. Para alterar preço/dados comerciais sem trocar geometria, atualizar os dados com cuidado no template e reconstruir.
 
