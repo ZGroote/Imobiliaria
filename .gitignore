@@ -32,3 +32,9 @@ __pycache__/
 # acidente uma vez; o resto das fontes segue a regra de cima -- adicionadas explicitamente.
 /fontes_osm/
 *.osm.pbf
+
+# Fontes premium do Cedros: moram no repo PRIVADO de artefatos (tools/artefatos-privados.json)
+# e voltam pelo tools/baixar_artefatos.py. Recuperadas, ficam aqui sem sujar o status nem
+# serem recomitadas por engano (25 MiB). Ver tasks/higiene-repositorio/arquivos-grandes.md.
+/v1.5/miniaturas/padrao-atual/piloto-v3/source.json
+/v1.5/miniaturas/padrao-atual/exterior-v3/source.json

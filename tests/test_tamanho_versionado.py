@@ -30,7 +30,6 @@ GITHUB_DURO = 100 * MiB         # o GitHub recusa acima disso; avisa a partir de
 GRANDES = {
     'sao-carlos/dados/lotes_saocarlos_completo.geojson': 63,                      # E
     'lotes_saocarlos.geojson': 36,                                                 # E (só fallback)
-    'v1.5/miniaturas/padrao-atual/piloto-v3/source.json': 23,                     # F (premium)
     'v1.5/miniaturas/padrao-atual/exterior-v3/geometry-compact.json': 16,         # E
     'v1.5/miniaturas/padrao-atual/exterior-v3/lightmap.rgbm.gz': 7,               # E
     'v1.5/miniaturas/padrao-atual/piloto-v3/geometry-compact.json': 7,            # E
@@ -43,7 +42,6 @@ GRANDES = {
     'v1.5/miniaturas/padrao-atual/anterior/v2.html': 4,                           # E
     'v1.5/miniaturas/maquete-monte-das-colinas-39.html': 4,                       # E (publicação)
     'exteriores/v1/mapa-exteriores.json': 3,                                      # E
-    'v1.5/miniaturas/padrao-atual/exterior-v3/source.json': 3,                    # F (premium)
     'v1.5/miniaturas/castanheiras_blender/modelo.json': 2,                        # E
     'modelos_urbanos/v1/integracao/encaixes-sao-carlos.json': 2,                  # I (cache)
     'exteriores/v1/componentes.json': 2,                                          # E

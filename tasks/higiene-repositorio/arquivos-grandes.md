@@ -10,10 +10,15 @@
   - o ambiente de regeneração passou a ser o `requirements-bake.txt` (`numpy==2.4.6`,
     `xatlas==0.0.11`);
   - o `repair-bake-normals.py` deixou de recriar o backup.
+- **#38:** as duas fontes premium ganharam um destino privado comprovado, no repositório
+  `ZGroote/imobiliaria-artefatos`, com manifesto, downloader e testes.
+- **#39:** os dois `source.json` premium saíram do `HEAD` (24,83 MiB), depois da recuperação provada
+  ponta a ponta num clone limpo. Eles agora **moram operacionalmente no repositório privado** e
+  voltam pelo `tools/baixar_artefatos.py`. Os dois caminhos estão no `.gitignore`.
 
-**Estado depois do #37:** o `HEAD` tem 986 arquivos e 238,3 MiB, e 24 arquivos acima de 1 MiB
-somam 198,8 MiB. As linhas dos três arquivos que saíram continuam no inventário como registro,
-marcadas "saiu", e a prova depois das saídas está no fim deste documento.
+**Estado depois do #39:** o `HEAD` tem 987 arquivos e 213,5 MiB, e 22 arquivos acima de 1 MiB
+somam 174,0 MiB. As linhas dos cinco arquivos que saíram continuam no inventário como registro,
+marcadas "saiu", e as provas estão nas seções do fim deste documento.
 
 **Regras deste ciclo:**
 
@@ -41,7 +46,7 @@ marcadas "saiu", e a prova depois das saídas está no fim deste documento.
 | 62,33 | `sao-carlos/dados/lotes_saocarlos_completo.geojson` | E | `pipeline/juntar_lotes.py` (etapa 4) | etapas 5, 6, 6b e 7 | todo imóvel | não: as entradas (lote de planta, sintético, miolo) não estão no git |
 | 35,43 | `lotes_saocarlos.geojson` | E | nenhum gerador no repositório | só como fallback: `consolidar.py` com `FALLBACK=1`; `encaixar_casas_lotes.py` se o completo não existir | todo imóvel | não |
 | 22,06 | `…/piloto-v3/source-before-normal-repair.json` | **I, saiu em 27/09** | backup escrito pelo `repair-bake-normals.py` | o próprio `repair-bake-normals.py`, quando roda de novo | não | não, mas não faz falta (prova abaixo) |
-| 22,03 | `…/piloto-v3/source.json` | **F, premium** | exportado do visualizador; depois recebe os três reparos | `unwrap-v3.py`, `bake-v3.py`, `repair-*` | não | não |
+| 22,03 | `…/piloto-v3/source.json` | **F, premium; saiu em 27/09 (#39)**, mora no repositório privado | exportado do visualizador; depois recebe os três reparos | `unwrap-v3.py`, `bake-v3.py`, `repair-*` | não | não |
 | 15,03 | `…/exterior-v3/geometry-compact.json` | E | `unwrap-exterior.py` | a página do Cedros | Cedros | **sim, provado** |
 | 14,20 | `…/exterior-v3/uv.json` | **I, saiu em 27/09** | `unwrap-exterior.py` | `bake-exterior.py` | não | **sim, provado** |
 | 6,71 | `…/exterior-v3/lightmap.rgbm.gz` | E | bake (Cycles), denoise e `encode_lightmaps.py` | a página do Cedros | Cedros | não testado: bake em GPU |
@@ -56,7 +61,7 @@ marcadas "saiu", e a prova depois das saídas está no fim deste documento.
 | 3,22 | `…/padrao-atual/anterior/v2.html` | E | template aprovado; sem gerador | a página do Cedros | Cedros | não |
 | 3,16 | `v1.5/miniaturas/maquete-monte-das-colinas-39.html` | E, publicação | `pagina_maquete.py`, numa versão antiga | `preparar_publicacao.py` | não | não testado: o gerador mudou depois |
 | 2,88 | `exteriores/v1/mapa-exteriores.json` | E | `exteriores/v1/gerar.py` (no Blender) | a montagem e `exteriores/v1/*` | todo imóvel | não testado |
-| 2,81 | `…/exterior-v3/source.json` | **F, premium** | exportado do visualizador | `unwrap-exterior.py`, `bake-exterior.py` | não | não |
+| 2,81 | `…/exterior-v3/source.json` | **F, premium; saiu em 27/09 (#39)**, mora no repositório privado | exportado do visualizador | `unwrap-exterior.py`, `bake-exterior.py` | não | não |
 | 1,93 | `v1.5/miniaturas/castanheiras_blender/modelo.json` | E | `modelar_castanheiras.py` (Blender) | a página da Castanheiras | Castanheiras | não testado |
 | 1,85 | `modelos_urbanos/v1/integracao/encaixes-sao-carlos.json` | I, cache | `pipeline/encaixar_casas_lotes.py`, durante a montagem | `exteriores/v1/*`, a montagem | não | sim, pela montagem, mas é caro de recalcular (a montagem valida o cache) |
 | 1,71 | `exteriores/v1/componentes.json` | E | `exteriores/v1/componentes.py` | a montagem e `exteriores/v1/*` | todo imóvel | não testado |
@@ -114,7 +119,7 @@ Foram tomadas arquivo por arquivo depois do #36. As três primeiras linhas foram
 |---|---|---|
 | `piloto-v3/uv.json`, `exterior-v3/uv.json` (20 MiB) | **saíram do `HEAD`** (#37) | `requirements-bake.txt` com `numpy==2.4.6` e `xatlas==0.0.11`, numa venv própria; `DEPENDENCIAS.md` e `PADRAO-ATUAL.md` dizem como recalcular a luz |
 | `piloto-v3/source-before-normal-repair.json` (22 MiB) | **saiu do `HEAD`** (#37), sem ir para armazenamento privado | o `repair-bake-normals.py` deixou de criar e de ler esse backup |
-| `piloto-v3/source.json`, `exterior-v3/source.json` (24,8 MiB) | **ficam** até haver destino privado comprovado | ver "Destino privado" abaixo |
+| `piloto-v3/source.json`, `exterior-v3/source.json` (24,8 MiB) | **saíram do `HEAD`** (#39), depois do destino privado comprovado (#38) e da recuperação provada num clone limpo | moram no repositório privado; voltam pelo `tools/baixar_artefatos.py`; os caminhos estão no `.gitignore`. Ver "Destino privado" abaixo |
 | `lotes_saocarlos.geojson` (35 MiB) | **fica**, porque os GeoJSON não se apagam neste ciclo | é candidato a sair das entradas do build, porque em São Carlos só é lido como fallback. Isso muda o `fontes` do manifest e é decisão própria |
 | `lotes_saocarlos_completo.geojson` e os `.bin` | **ficam** | entram no build e na publicação |
 | os outros arquivos de classe E | **ficam** | o build lê do checkout |
@@ -161,7 +166,15 @@ O critério foi escrito no #36:
    - Arquivo local diferente do manifesto não é sobrescrito.
    - Os testes são `tests/test_artefatos_privados.py`, sem rede. O teste de mutação (tirar a conferência) reprova.
 
-**Os dois `source.json` continuam no git** até o PR que os retira. Antes dele, a recuperação é refeita usando só o asset remoto e o manifesto.
+**A recuperação ponta a ponta foi provada** antes da retirada, sem mexer na release nem no manifesto:
+
+1. clone novo do GitHub em `main` `23f2c6e`;
+2. os dois `source.json` apagados sem commit, e a ausência confirmada;
+3. `python tools/baixar_artefatos.py` respondeu "baixado" para os dois. Tamanho e sha256 bateram com o manifesto, e os bytes com os blobs originais (`5e05a99a…` e `9dac0115…`);
+4. `--conferir` passou;
+5. uma segunda rodada respondeu "já estava", sem baixar: os arquivos mantiveram o horário de modificação, e nenhuma pasta temporária foi criada. O contador de downloads do GitHub não foi usado como evidência, porque conta a menos.
+
+**Desde o #39, os dois `source.json` não estão mais no `HEAD`.** Eles moram no repositório privado, e os caminhos estão no `.gitignore`. Como os blobs antigos continuam no histórico, o repositório principal continua obrigatoriamente privado (acima).
 
 **Como recuperar:** com o `gh` autenticado por quem tem leitura em `ZGroote/imobiliaria-artefatos`, na raiz do repositório:
 
@@ -177,7 +190,7 @@ Para só conferir o que está no disco, sem rede: `python tools/baixar_artefatos
 
 - um arquivo versionado acima de **1 MiB** não está na lista `GRANDES`;
 - um arquivo da lista **cresce além do teto** dele, que é o tamanho de hoje arredondado para cima até o MiB inteiro;
-- o repositório inteiro passa de **300 MiB** (eram 280,3 na base; 238,3 depois das saídas de 27/09);
+- o repositório inteiro passa de **300 MiB** (eram 280,3 na base; 238,3 depois do #37 e 213,5 depois do #39);
 - algum arquivo passa de 100 MiB, o limite duro do GitHub;
 - uma entrada da lista não existe mais, ou deixou de estar acima de 1 MiB. A lista é o inventário exato, então quando um arquivo sai ou encolhe, a linha dele sai da lista e do inventário no mesmo PR.
 
