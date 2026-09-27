@@ -177,5 +177,6 @@
       ],
       "detailOrtho": 44
     }
-  }
+  },
+  "normalizer": "montes-v1"
 }
