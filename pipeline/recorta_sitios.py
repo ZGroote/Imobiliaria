@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
 """Aplica o recorte de SITIO a uma base de cidade JA PRONTA.
 
-    python pipeline/recorta_sitios.py ribeirao-preto-proxy
+    python pipeline/recorta_sitios.py <slug>
     python pipeline/recorta_sitios.py <slug> --entrada a.city.json --saida b.city.json
 
 A regra e a mesma da etapa 7 (`padrao/sitios.py`): poligono atravessado por via publica
 nao e edificacao, e e RECORTADO nas massas construidas. O que muda aqui e QUANDO ela
 roda -- sobre um `city.json` fechado, e nao no meio da montagem.
 
-**Por que isso existe.** A variante `ribeirao-preto-proxy` aponta o `city_saida` pro
-`city_base` de proposito: ela e o footprint cru do Overture, e e esse o experimento. So
-que o recorte de sitio NAO e aparencia -- e o mapa deixando de afirmar que existe uma
-laje de 446 m onde ha estacionamento. Sem ele, o terreno do RibeiraoShopping (107.729 m2
-a 7,7 m) cobre quarteiroes inteiros com torres saindo por dentro. Entao a variante passa
-a apontar pra uma base recortada, e continua sendo footprint cru naquilo que ela mede,
-que e individualizacao.
+**Por que isso existiu.** A ferramenta nasceu para a variante de experimento
+`ribeirao-preto-proxy`, que foi removida no #41 (27/09/2026), junto com os scripts que a
+geravam. Aquela variante apontava o `city_saida` pro `city_base` de proposito: era o
+footprint cru do Overture, e esse era o experimento. So que o recorte de sitio NAO e
+aparencia -- e o mapa deixando de afirmar que existe uma laje de 446 m onde ha
+estacionamento. Sem ele, o terreno do RibeiraoShopping (107.729 m2 a 7,7 m) cobria
+quarteiroes inteiros com torres saindo por dentro. Por isso a variante passou a apontar
+pra uma base recortada. A ferramenta continua valendo para qualquer `city.json` ja
+fechado que nao tenha passado pela etapa 7.
 
 **O trabalho real nao e o recorte, e o INDICE.** Um sitio vira N massas, e o `b[]` e
 indexado por tres estruturas que precisam continuar de acordo:

@@ -2263,7 +2263,11 @@ terreno do RibeirãoShopping aparecia lá como uma laje de 446 m sobre quarteir�
 inteiros. O recorte **não é aparência**: é o mapa deixando de afirmar o que não sabe, e
 por isso vale também para uma variante de experimento.
 
-    python pipeline/recorta_sitios.py ribeirao-preto-proxy
+    python pipeline/recorta_sitios.py ribeirao-preto-proxy    # histórico: o slug foi removido no #41
+
+> **Histórico (27/09/2026).** A variante `ribeirao-preto-proxy` e os scripts que a geravam saíram no
+> #41. O comando acima registra como a ferramenta foi usada naquela época. Hoje o uso é
+> `python pipeline/recorta_sitios.py <slug> --entrada a.city.json --saida b.city.json`.
 
 O trabalho ali não é o recorte — é o **índice**. Um sítio vira N massas, e três
 estruturas indexam `b[]` e precisam continuar de acordo: `bl[]` (fatia **contígua** por
