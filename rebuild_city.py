@@ -431,7 +431,8 @@ print(f"  Roads: {road_count} ({named_roads} with names)")
 # STEP 5 (patch do HTML v1) APOSENTADO em 2026-08-29. Ele reescrevia o
 # `sao-carlos.html` original com uma serie de "Fix N" de z-fighting -- o primeiro elo
 # da cadeia de patch que `pipeline/montar.py` substituiu. A pagina agora e montada das
-# pecas em `renderizador/`. O que interessa desta etapa sao os STEPS 1-4: a malha
+# pecas da fonte da variante (hoje `v1.5/renderizador-v16-moveis/`). O que interessa
+# desta etapa sao os STEPS 1-4: a malha
 # viaria e as areas verdes do Overpass, mais os footprints do Overture.
 # ---------------------------------------------------------------------------
 print("\n" + "=" * 60)

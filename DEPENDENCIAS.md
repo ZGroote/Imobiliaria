@@ -59,4 +59,5 @@ o projeto inteiro, enquanto os 111 testes existiam e só rodavam à mão.
 **A variante vem de `--variante`.** Sem ela (e sem `MAPA_V`), tudo cai no padrão, que desde o
 #46 é o `v16-moveis`. Até o #46 o padrão era o `v15`, o renderizador antigo, e montar e QA
 sem a flag saíam errados em silêncio: é por isso que os scripts do `package.json` a declaram.
-O `v15` continua disponível, só com `--variante v15`.
+Desde o #49 o `v16-moveis` é a única variante, e `--variante v15` (ou `MAPA_V=v15`) reprova
+como variante desconhecida.

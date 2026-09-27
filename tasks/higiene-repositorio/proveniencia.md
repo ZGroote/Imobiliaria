@@ -61,7 +61,7 @@ Cada fonte tem quatro informações:
   - O crédito some só na cena de planta, que não desenha cidade.
 - **Evidência:**
   - `pipeline/rodar.py:85–92` e `:135–137`, e `rebuild_city.py:184–191`;
-  - `v1.5/renderizador-v16-moveis/corpo.html:214` (e `renderizador/corpo.html`);
+  - `v1.5/renderizador-v16-moveis/corpo.html:214`;
   - `estilo/70-manche.css:83`.
 
 ## Overture Maps (edificações)

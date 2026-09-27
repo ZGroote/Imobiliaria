@@ -7,6 +7,7 @@
 - **#46:** o v15 deixou de ser o padrão. O `V_PADRAO` é `v16-moveis`, e o layout `v15/...` dos JSON das cidades virou `BASE_CAMINHO_SAIDA`, separado do padrão. O v15 continua congelado e disponível com `--variante v15`.
 - **#47:** corrigidas as quatro docs desatualizadas do achado 3.
 - **#48:** o v17 e o v18 saíram do `HEAD`, com os dois demos (seção "Retirada do v17 e do v18").
+- **#49:** o v15 saiu do `HEAD` e de `VARIANTES` (seção "Retirada do v15"). Com isso a frente termina: uma única árvore de cidade viva, o v16-moveis.
 
 As tabelas abaixo são a medida de 27/09 na base `78e6f12`, **antes** do #45 e do #46. Onde elas dizem que o v15 é o padrão, isso valia até o #46.
 
@@ -124,6 +125,23 @@ Por isso retirar uma árvore economiza, no `HEAD`, só a coluna "bytes só desta
 - **fonte:** os 7 arquivos de `renderizador/`;
 - **saída regenerável:** `v15/`, com 81 MB e 7 arquivos na pasta principal, incluindo páginas de Ribeirão Preto. Não é versionada nem ignorada.
 
+### Retirada do v15 (#49, 27/09/2026)
+
+Saiu do `HEAD`, **removido e não movido** para `_arquivo/`: o histórico do git é a referência, como já é para os testes de equivalência da modularização (`git show <commit>:...`).
+
+| Saiu | Objeto no git | Arquivos | Bytes |
+|---|---|---:|---:|
+| `renderizador/` | árvore `aa64236b09ec` | 7 | 1.242.127 (1,18 MiB) |
+
+Os blobs: `app.js` `e8428038df54` (524.159), `cabeca.html` `3db7bbb9c57d`, `corpo.html` `de4f14e915a6`, `estilo.css` `4951121e8df0`, `lib/three.min.js` `b6a311783f5b`, `lib/earcut.min.js` `79cf67e10013` e `rabo.html` `8b137891791f`. Os três últimos continuam no v16-moveis, que tem o mesmo blob.
+
+- **Por que podia sair:** depois do #45 e do #46, o v15 não era o padrão, não era servido pelo Firebase, não entrava no Cedros nem na publicação, e não tinha capacidade exclusiva (as duas foram portadas para o v16-moveis atrás de chave).
+- **`v15` deixou de ser variante:** `VARIANTES = ('v16-moveis',)`. `--variante v15` e `MAPA_V=v15` reprovam como **variante desconhecida** no `montar`, no `rodar_qa`, no `publicar`, no `rodar.py` e nas sondas.
+- **`BASE_CAMINHO_SAIDA = 'v15'` fica.** Ele não é variante: é o layout que cinco JSON de cidade ainda declaram (`v15/<cidade>-v15-aberto.html`), remapeado para `v16-moveis/...`. Os JSON não mudaram.
+- **Os consumidores auxiliares migraram:** o `tools/monta_visualizador.py` pega o three.js do v16-moveis (mesmo blob), e o `pipeline/fazer_backup.py` arquiva `v1.5/renderizador-v16-moveis/`. Sem isso, o backup sairia sem renderizador, calado, porque ele pula caminho que não existe.
+- **Trava:** `tests/test_pipeline_paths.py` reprova se `renderizador/` voltar ao índice do git.
+- **Cedros:** `34331f1ceb9d`, com `tour.html` e `maquete.html` iguais byte a byte.
+
 ### v17 e v18: DEMO / HISTÓRICO
 
 **Quem gera:** nasceram na branch `claude/serene-edison-de1ior`:
@@ -230,4 +248,4 @@ Nada disso foi feito neste PR.
 2. **Feito no #46. Tirar o v15 de padrão.** O `V_PADRAO` passa a ser `v16-moveis`, com o remapeamento de `html_saida` resolvido e o `rodar.py`, o `publicar.py` e o `rodar_qa.py` seguindo junto. É o passo de mais risco, e merece PR só dele, com o Cedros conferido byte a byte (`34331f1ceb9d`).
 3. **Feito no #47. Corrigir a documentação desatualizada** (achado 3).
 4. **Feito no #48. v17 e v18:** as árvores e as duas demos saíram do `HEAD`. O histórico fica no git e na branch `claude/serene-edison-de1ior`.
-5. **v15:** continua congelado como referência até os passos 1 e 2 provarem que nada o consulta. Só no fim se decide se fica ou sai.
+5. **Feito no #49. v15:** saiu do `HEAD` e de `VARIANTES`, depois que os passos 1 e 2 provaram que nada além de suporte explícito e dois auxiliares o consultava.

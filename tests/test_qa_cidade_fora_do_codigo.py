@@ -2,10 +2,12 @@
 
 Até o #45 ele varria fixo `renderizador/` (v15): o `npm run qa`, que é do v16-moveis, media o
 código de outra árvore. Agora ele lê `config.fonte`, resolvida como o `rodar_qa` resolve:
-`--variante` vira `MAPA_V`, e sem ela vale o padrão, que desde o #46 é o v16-moveis.
+`--variante` vira `MAPA_V`, e sem ela vale o padrão, que desde o #46 é o v16-moveis. Desde o
+#49 o v15 não é mais variante, e pedir o QA dele é erro.
 
-As mutações rodam numa raiz temporária com as duas árvores, então a coordenada plantada
-nunca toca o repositório.
+As mutações rodam numa raiz temporária, então a coordenada plantada nunca toca o
+repositório. Uma pasta `renderizador/` solta nessa raiz faz o papel de "outra árvore": o
+portão não pode reprovar nem passar por causa dela.
 """
 import os
 import sys
@@ -64,14 +66,16 @@ class ArvoreInspecionada(unittest.TestCase):
         self.assertEqual(raizes, [RAIZ / V16])
         self.assertIn('v1.5/renderizador-v16-moveis', p.detalhe)
 
-    def test_qa_do_v15_continua_olhando_renderizador(self):
-        raizes, p = self.percorridas('v15')
-        self.assertEqual(raizes, [RAIZ / 'renderizador'])
-        self.assertIn('limpo em renderizador', p.detalhe)
+    def test_qa_do_v15_e_recusado(self):
+        """#49: o v15 saiu de `VARIANTES`. O portão não cai numa pasta velha: recusa."""
+        with patch('os.walk', wraps=os.walk) as espiao:
+            with self.assertRaisesRegex(ValueError, 'variante desconhecida: v15'):
+                portao('v15')
+        self.assertEqual(espiao.call_count, 0)
 
 
 class Mutacao(unittest.TestCase):
-    """Numa raiz temporária: a coordenada plantada numa árvore só reprova a variante dela."""
+    """Numa raiz temporária: só a coordenada plantada na fonte da variante reprova."""
 
     def setUp(self):
         self._tmp = tempfile.TemporaryDirectory()
@@ -84,8 +88,8 @@ class Mutacao(unittest.TestCase):
     def tearDown(self):
         self._tmp.cleanup()
 
-    def test_arvores_limpas_passam(self):
-        for variante in ('v16-moveis', 'v15'):
+    def test_arvore_limpa_passa(self):
+        for variante in ('v16-moveis', None):
             p = portao(variante, self.raiz)
             self.assertTrue(p.passou, (variante, p.detalhe))
             self.assertEqual(p.valor, 0)
@@ -96,9 +100,8 @@ class Mutacao(unittest.TestCase):
         self.assertFalse(p.passou)
         self.assertEqual(p.valor, 1)
         self.assertIn('v1.5/renderizador-v16-moveis: world/terrain.js:2', p.detalhe)
-        self.assertTrue(portao('v15', self.raiz).passou)
 
-    def test_o_qa_do_v16_nao_depende_do_v15(self):
+    def test_o_qa_do_v16_nao_depende_de_outra_arvore(self):
         escreve(self.raiz, V16 / 'world' / 'terrain.js', PROIBIDA)
         Path(self.raiz, 'renderizador', 'app.js').unlink()
         Path(self.raiz, 'renderizador').rmdir()
@@ -106,9 +109,8 @@ class Mutacao(unittest.TestCase):
         self.assertIs(p.passou, False, p.detalhe)
         self.assertEqual(p.valor, 1)
 
-    def test_coordenada_so_no_v15_nao_reprova_o_v16(self):
+    def test_coordenada_fora_da_fonte_nao_reprova(self):
         escreve(self.raiz, 'renderizador/app.js', PROIBIDA)
-        self.assertFalse(portao('v15', self.raiz).passou)
         self.assertTrue(portao('v16-moveis', self.raiz).passou)
 
     def test_comentario_continua_permitido(self):

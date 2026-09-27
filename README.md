@@ -8,7 +8,7 @@ Esta é a base **em desenvolvimento**, não uma release estável aprovada.
 
 As fontes atuais estão em `v1.5/`. O pipeline, os testes e os dados compartilhados
 continuam na raiz. `v16-moveis` é a chave técnica da variante modular, não a versão
-do produto. `renderizador/` contém o v15 legado, ainda usado como referência.
+do produto. O v15 (`renderizador/`) saiu do `HEAD` no #49: o histórico do git é a referência.
 
 - **Painel** (`painel/`): Next.js estático no Firebase Hosting, com Firestore e regras em
   `firebase/`. Arquitetura e estado de produção: [tasks/painel/proposta.md](tasks/painel/proposta.md).

@@ -10,8 +10,8 @@ Git, que é onde código aposentado deve morar.
 
 As pastas `v3/`..`v12/` e `v16/` guardavam, além disso, o DADO de São Carlos e as
 páginas montadas de cada geração. O dado foi para `sao-carlos/`, no padrão das outras
-cidades, e as pastas foram para `_arquivo/`. Saída viva hoje é `v16-moveis/` (o padrão,
-desde o #46) e `v15/` (só com `--variante v15`) — e o nome não é o critério:
+cidades, e as pastas foram para `_arquivo/`. Saída viva hoje é só `v16-moveis/` (o padrão
+desde o #46, e a única variante desde o #49) — e o nome não é o critério:
 `pipeline/build/config.py` deriva o caminho da variante a partir do que a cidade declara.
 """
 import ast
@@ -87,14 +87,25 @@ class PipelinePathTests(unittest.TestCase):
                              '%s não é chamado por ninguém; seu lugar é o histórico'
                              % morto)
 
-    def test_v17_and_v18_are_not_back(self):
-        """O v17 e o v18 saíram do `HEAD` no #48, com os dois demos que os montavam; o
-        histórico do git é a referência. Confere o ÍNDICE do git, em qualquer pasta, e não
-        o disco: uma cópia solta fora do git não é o que este teste guarda."""
+    def indice(self):
+        """Os caminhos no ÍNDICE do git, e não no disco: uma cópia solta fora do git (a
+        pasta `v15/` que sobra de uma montagem antiga, por exemplo) não é o que as travas
+        de retirada guardam."""
         import subprocess
         r = subprocess.run(['git', 'ls-files', '-z'], cwd=RAIZ, capture_output=True)
         self.assertEqual(r.returncode, 0, r.stderr)
-        voltaram = [p for p in r.stdout.decode('utf-8').split('\0')
+        return r.stdout.decode('utf-8').split('\0')
+
+    def test_v15_tree_is_not_back(self):
+        """O v15 (`renderizador/`, o monólito da raiz) saiu do `HEAD` no #49; o histórico
+        do git é a referência, como já é para os testes de equivalência da modularização."""
+        voltaram = [p for p in self.indice() if p.startswith('renderizador/')]
+        self.assertEqual(voltaram, [], 'saiu no #49; o lugar dele é o histórico do git')
+
+    def test_v17_and_v18_are_not_back(self):
+        """O v17 e o v18 saíram do `HEAD` no #48, com os dois demos que os montavam; o
+        histórico do git é a referência. Vale em qualquer pasta."""
+        voltaram = [p for p in self.indice()
                     if '/renderizador-v17/' in '/' + p or '/renderizador-v18/' in '/' + p
                     or p.rsplit('/', 1)[-1] in ('demo_v17.py', 'demo_v18.py')]
         self.assertEqual(voltaram, [], 'saíram no #48; o lugar deles é o histórico do git')
@@ -106,7 +117,10 @@ class PipelinePathTests(unittest.TestCase):
         `sao-carlos/`. Uma voltando à raiz é sinal de que alguém a desarquivou sem
         querer -- e a de código já custou uma migração pela metade."""
         from pipeline.build.config import VARIANTES
-        vivas = {'v15'} | {v for v in VARIANTES if v != 'v15'}
+        vivas = set(VARIANTES)
+        # O v15 saiu no #49. Só o nome: a pasta `v15/` pode sobrar no disco de quem montou
+        # antes, fora do git, e isso não é volta ao `HEAD` (ver `test_v15_tree_is_not_back`).
+        self.assertNotIn('v15', vivas)
         for pasta in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10', 'v11',
                       'v12', 'v16'):
             self.assertNotIn(pasta, vivas)

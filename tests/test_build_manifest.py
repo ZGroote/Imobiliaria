@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from pipeline.build.config import resolve
+from pipeline.build.config import BuildConfig, resolve
 from pipeline.build.manifest import entradas, assinatura, snapshot
 
 
@@ -36,7 +36,9 @@ class ManifestTests(unittest.TestCase):
             p.write_text('first')
             with patch('pipeline.build.manifest.entradas', return_value=[]):
                 before = assinatura(cfg)
-                other_variant = assinatura(resolve('sao-carlos', 'v15'))
+                # Uma variante qualquer: desde o #49 a unica viva e o v16-moveis.
+                with patch('pipeline.build.config.VARIANTES', ('v16-moveis', 'outra')):
+                    other_variant = assinatura(BuildConfig('sao-carlos', 'outra'))
             with patch('pipeline.build.manifest.entradas', return_value=[p]):
                 after = assinatura(cfg)
             self.assertNotEqual(before, after)

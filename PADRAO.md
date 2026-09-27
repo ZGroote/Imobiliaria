@@ -19,7 +19,7 @@ terreno padrão, limiares de QA e o caminho de cada fonte. Código de pipeline n
 ter número de cidade escrito dentro dele.
 
 **1b. O renderizador é código, e a cidade não mora dentro dele.**
-Os 97 KB de JS vivem em `renderizador/app.js`, não dentro de um HTML de 6,9 MB, e a
+O JS vive na fonte da variante (`v1.5/renderizador-v16-moveis/`), não dentro de um HTML de 6,9 MB, e a
 página é montada por concatenação (`pipeline/montar.py`) em vez de 59 âncoras de texto
 encadeadas. Centro, quantização, grade de relevo e nome saem do bloco `__cidade`, escrito
 a partir de `padrao/cidades/<slug>.json`. O portão `cidade fora do código do renderizador`
@@ -63,8 +63,8 @@ mesmo defeito da largura da rua, na forma "o aceite está escrito em mais de um 
     padrao/rodar_qa.py           roda tudo, grava relatorios/qa_<slug>.json, sai 1 se reprovar
 
 **A variante vem de `--variante`**: `padrao/rodar_qa.py <slug> --variante <v>`. Sem a
-flag vale o padrão, que desde o #46 é o `v16-moveis`. O `v15`, o renderizador antigo, só
-com `--variante v15`. Ver `DEPENDENCIAS.md`.
+flag vale o padrão, que desde o #46 é o `v16-moveis`, e desde o #49 a única variante: o
+`v15`, o renderizador antigo, reprova como variante desconhecida. Ver `DEPENDENCIAS.md`.
 
 Já consomem isso: `pipeline/quadras_miolo.py` (a tabela de largura saiu de lá) e
 `pipeline/juntar_lotes.py` (os limiares do exame de quadra).
@@ -257,7 +257,7 @@ são o contrato; quem quebrar uma delas quebra a etapa seguinte.
 | 6 | `gen_muros.py` | lotes + ocupados | `muros_segs.json` | segmentos delta-encodados em decímetros |
 | 7 | `build_v7_city.py` | tudo acima | `<cidade>.city.json` | volumes; casa recortada pelo **miolo** |
 | 7b | `gen_chao.py`, `gen_ruas.py` | quadras_completo + `city_base` | `ground_tris.json`, `street_tris.json` | triângulos em metros, int16; a rua é `(vão + corredores) − quadras` |
-| 8 | `pipeline/montar.py` | `renderizador/` + city + assets | `.html` | concatena as peças; `--conferir` compara peça a peça |
+| 8 | `pipeline/montar.py` | fonte da variante + city + assets | `.html` | concatena as peças; `--conferir` compara peça a peça |
 | 9 | `padrao/rodar_qa.py` | os artefatos | `relatorios/qa_<slug>.json` | **sai 1 se reprovar** |
 
 A armadilha da etapa 5 já mordeu: `lotes_ocupados.json` guarda índices, não ids. Mexeu na
@@ -330,7 +330,7 @@ Duas regras que a segunda cidade acrescentou:
 ## O que ainda NÃO é padrão (dívida conhecida)
 
 - **O renderizador ainda tem a própria cópia da tabela de vias** (JS). Agora que ele é
-  código de verdade em `renderizador/app.js` e a página é montada por `pipeline/montar.py`,
+  código de verdade na fonte da variante e a página é montada por `pipeline/montar.py`,
   dá pra injetar a tabela junto do bloco `__cidade` — é o próximo conceito a sair do
   código. Até lá o portão compara as duas e reprova o build se divergirem.
 - ~~**Os scripts do pipeline moram em `v7/pipeline/`.**~~ **Resolvido** (18/09/2026): as

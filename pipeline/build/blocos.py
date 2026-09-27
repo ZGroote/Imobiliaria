@@ -95,7 +95,7 @@ def bloco_cidade(CID):
                        # aparencia era, ate aqui, "qual pagina foi montada por ultimo"
                        # -- ou seja, nenhum: a proxima montagem de qualquer motivo
                        # levava a mudanca junto. Aqui vira chave, e quem nao declarou
-                       # continua igual mesmo remontado. Ver renderizador/app.js (APAR).
+                       # continua igual mesmo remontado. Ver o app.js da fonte (APAR).
                        "aparencia": CID._d.get("aparencia", {}),
                        "arquivo_base": os.path.basename(CID.caminho("city_saida"))},
                       ensure_ascii=False)
