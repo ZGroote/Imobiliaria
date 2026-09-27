@@ -34,6 +34,11 @@
         "roughness": 0.87,
         "metalness": 0
       },
+      "moldura": {
+        "color": null,
+        "roughness": 0.9,
+        "metalness": 0
+      },
       "painel": {
         "color": [
           182,
