@@ -16,7 +16,7 @@ OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.splitext(PAC)[0] + ".html"
 GANHO = float(os.environ.get("GANHO", "7.0"))   # exposicao; ver a nota no HTML
 
 d = json.load(open(PAC, encoding="utf-8"))
-three = io.open(os.path.join(RAIZ, "renderizador", "lib", "three.min.js"),
+three = io.open(os.path.join(RAIZ, "v1.5", "renderizador-v16-moveis", "lib", "three.min.js"),
                 encoding="utf-8").read()
 MALHA = json.dumps({"malhas": d["malhas"], "texturas": d["texturas"],
                     "cam": d["cam"], "ganho": GANHO}, separators=(",", ":"))

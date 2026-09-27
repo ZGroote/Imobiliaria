@@ -8,8 +8,8 @@ backup exato desses arquivos -- e este script e o caminho de volta.
 Escrito para recuperar o dado de Sao Carlos depois que a pasta foi apagada por
 engano: o `v15/sao-carlos-v15-aberto.html` continuava no disco com tudo dentro.
 
-    python pipeline/extrair_dados.py v15/sao-carlos-v15-aberto.html            # so lista
-    python pipeline/extrair_dados.py v15/sao-carlos-v15-aberto.html --escrever # grava o que falta
+    python pipeline/extrair_dados.py v16-moveis/sao-carlos-v16-moveis-aberto.html            # so lista
+    python pipeline/extrair_dados.py v16-moveis/sao-carlos-v16-moveis-aberto.html --escrever # grava o que falta
     python pipeline/extrair_dados.py <pagina> --escrever --forcar              # grava por cima
 
 `--forcar` existe pra conferencia (extrair por cima de um arquivo que existe e comparar

@@ -20,7 +20,7 @@ em [tasks/higiene-repositorio/proveniencia.md](tasks/higiene-repositorio/proveni
 
 | | |
 |---|---|
-| Onde | `renderizador/lib/three.min.js` e `v1.5/renderizador-v16-moveis/lib/three.min.js`: 2 cópias do mesmo blob, `b6a311783f5b01f8aba64fd95346c7eb4709b541` (678.588 bytes). As cópias do v17 e do v18 saíram do `HEAD` no #48 |
+| Onde | `v1.5/renderizador-v16-moveis/lib/three.min.js`: 1 cópia viva, blob `b6a311783f5b01f8aba64fd95346c7eb4709b541` (678.588 bytes). As cópias do v17 e do v18 saíram do `HEAD` no #48, e a do v15 (`renderizador/lib/`) no #49 |
 | Entra em | toda página do `pipeline/montar.py` (mapa e tour por imóvel), toda maquete de `v1.5/miniaturas/pagina_maquete.py` e o template `v1.5/miniaturas/padrao-atual/anterior/v2.html` (maquete do Cedros). Já está embutido em `v1.5/miniaturas/maquete*.html` |
 | Versão | r168, provada pelo `REVISION "168"` dentro do próprio arquivo |
 | Como foi feito | não é um arquivo publicado pelo three. É um bundle IIFE feito aqui a partir do pacote ESM, com `esbuild --format=iife --global-name=THREE` (`PIPELINE.md`, §4.4). **Não estão registrados** a versão exata do pacote npm nem o comando completo |
@@ -31,7 +31,7 @@ em [tasks/higiene-repositorio/proveniencia.md](tasks/higiene-repositorio/proveni
 
 | | |
 |---|---|
-| Onde | `renderizador/lib/earcut.min.js` e `v1.5/renderizador-v16-moveis/lib/earcut.min.js`: 2 cópias do mesmo blob, `79cf67e1001350a4da6d9e51c6421da06cd7b556` (7.131 bytes). As cópias do v17 e do v18 saíram do `HEAD` no #48 |
+| Onde | `v1.5/renderizador-v16-moveis/lib/earcut.min.js`: 1 cópia viva, blob `79cf67e1001350a4da6d9e51c6421da06cd7b556` (7.131 bytes). As cópias do v17 e do v18 saíram do `HEAD` no #48, e a do v15 (`renderizador/lib/`) no #49 |
 | Entra em | páginas do `pipeline/montar.py` (mapa e tour). **As maquetes não o embutem:** `pagina_maquete.py` usa, de propósito, o recuo do próprio three |
 | Versão | **2.2.4, provada por comparação.** O blob é idêntico byte a byte ao `package/dist/earcut.min.js` do pacote `earcut@2.2.4` do npm: sha256 `1444195270d4358ef8dd1a448074f555d7ac3c83c850f5648b611ea1d2090ff3` dos dois lados, conferido em 26/09/2026. Tarball: `https://registry.npmjs.org/earcut/-/earcut-2.2.4.tgz`, integrity `sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ==` |
 | Licença | ISC. Texto do `LICENSE` do mesmo pacote: |

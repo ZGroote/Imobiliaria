@@ -19,10 +19,9 @@ extenso, porque a pergunta volta:
 
 | o que falta aqui | tamanho | por que não pode vir junto |
 |---|---|---|
-| `pipeline/` (`montar.py` + `build/`) | 1,6 MB | é quem monta a página, e os mesmos arquivos servem o v15 e as outras cidades |
+| `pipeline/` (`montar.py` + `build/`) | 1,6 MB | é quem monta a página, e os mesmos arquivos servem todas as cidades |
 | `sao-carlos/`, `moveis/`, `arvores/`, `texturas/`, `padrao/` | ~200 MB | é o **dado**. 98% do peso, compartilhado entre cidades |
 | `tests/` | 66 arquivos | são o aceite da modularização; ficam junto dos outros 45 |
-| `renderizador/` (v15) | 1,4 MB | é o monólito de ONDE as peças foram extraídas — não é resultado, é origem |
 
 Estes 1,6 MB de código só viram página quando o `pipeline/` lê ~200 MB de dado. O que
 **consegue** ser autossuficiente é a saída: `releases/<versão>/`, que abre com duplo

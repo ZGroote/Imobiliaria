@@ -35,7 +35,8 @@ sys.path.insert(0, RAIZ)
 # posicional e o id da UNIDADE, e importar direto morre com "cidade desconhecida".
 _argv = sys.argv
 sys.argv = [_argv[0]]
-from pipeline.montar import VERSAO
+from pipeline.build.config import resolve
+VERSAO = resolve().versao   # sem flag propria: MAPA_V ou o padrao; o v15 reprova aqui
 sys.argv = _argv
 
 ESP = 0.13

@@ -101,7 +101,10 @@ def main():
         if i + 1 == len(a):
             raise SystemExit('--variante precisa de um valor')
         from pipeline.build.config import resolve
-        os.environ['MAPA_V'] = resolve(versao=a[i + 1]).versao
+        try:
+            os.environ['MAPA_V'] = resolve(versao=a[i + 1]).versao
+        except ValueError as exc:
+            raise SystemExit(str(exc))
         a = a[:i] + a[i + 2:]
     if any(x in a for x in ("-h", "--help")):
         print(__doc__); print("cidades:", ", ".join(lista())); return 0

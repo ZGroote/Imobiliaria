@@ -169,8 +169,8 @@ na branch `claude/serene-edison-de1ior`.
 
 Até 21/09/2026 esses renderizadores moravam na raiz, porque `pipeline/montar.py` achava a variante
 por `FONTE = renderizador-<MAPA_V>`. Isso deixou de ser verdade: `pipeline/build/config.py`
-agora procura em `v1.5/renderizador-<MAPA_V>`, e só o **v15** continua na raiz, em
-`renderizador/`, por ser o monólito de onde as peças foram extraídas.
+agora procura em `v1.5/renderizador-<MAPA_V>`. O **v15**, o monólito de onde as peças foram
+extraídas, ficou na raiz em `renderizador/` até sair do `HEAD` no #49.
 
 `firebase.v17.json` não está no `main`: ele só existe na branch
 `claude/serene-edison-de1ior`, junto do trabalho original do v17 (`facd7ef`). Nenhum

@@ -18,7 +18,8 @@ import base64, io, json, os, shutil, socket, subprocess, sys, tempfile, threadin
 CHROME = os.environ.get("CHROME", r"C:\Program Files\Google\Chrome\Application\chrome.exe")
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, RAIZ)
-from pipeline.montar import VERSAO
+from pipeline.build.config import resolve
+VERSAO = resolve().versao   # sem flag propria: MAPA_V ou o padrao; o v15 reprova aqui
 
 # --- por que existe um servidor HTTP aqui ------------------------------------
 # `--virtual-time-budget` adianta os temporizadores: um `setTimeout(8000)` do lado da

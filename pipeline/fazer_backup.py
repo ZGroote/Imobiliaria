@@ -15,8 +15,10 @@ grandes e as versoes antigas v3..v11): sao ~2,7 GB que o pipeline baixa e regene
 import io, os, sys, time, zipfile, hashlib
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# A versao tem UM dono: o montar.py (mesma regra dos testes headless).
-from pipeline.montar import VERSAO
+# Sem `--variante`: a variante vem do `resolve()` (MAPA_V ou o padrao), como nas sondas.
+# Um MAPA_V aposentado (o v15) reprova aqui, antes de arquivar pasta velha.
+from pipeline.build.config import resolve
+VERSAO = resolve().versao
 
 RAIZ = os.path.abspath(".")
 DEST = os.path.join(RAIZ, "backups")
@@ -24,7 +26,10 @@ DATA = time.strftime("%Y-%m-%d-%H%M")
 
 # (rotulo, [caminhos], extensoes aceitas ou None pra tudo)
 CODIGO = [
-    ("renderizador", ["renderizador"], None),
+    # A fonte da unica variante viva. Ate o #49 era `renderizador/` (o v15), e o
+    # `os.path.exists` abaixo faria o backup sair SEM renderizador, calado, depois da
+    # retirada.
+    ("renderizador", [os.path.join("v1.5", "renderizador-v16-moveis")], None),
     ("pipeline",     ["pipeline"], (".py", ".json", ".csv", ".md")),
     # As ETAPAS 1b..7b (city_final, ruas, chao, muros, ocupacao, juntar_lotes,
     # quadras_miolo, quadras_grafo, lotes_sinteticos, portoes) moravam em
@@ -48,7 +53,8 @@ LEIAME = """Ponto de backup do mapa 3D -- {data}
 O QUE ESTA AQUI
   {cod}
       Codigo e configuracao. E o que nao da pra refazer:
-        renderizador/   app.js, css, html, three e earcut (fonte da verdade da pagina)
+        v1.5/renderizador-v16-moveis/   os modulos, css, html, three e earcut (fonte da
+                        verdade da pagina; o v15 em renderizador/ saiu no #49)
         pipeline/       montar.py, rodar.py, os testes headless, o estado das cidades
         padrao/         cidade.py, qa.py, vias.py, os JSON por cidade
         arvores/        os scripts do Blender e a biblioteca de especies
@@ -66,15 +72,13 @@ O QUE NAO ESTA (de proposito)
 
 COMO VOLTAR
   1. Descompactar os dois zips por cima da pasta do projeto.
-  2. `CIDADE=<slug> python pipeline/montar.py` remonta a pagina a partir do
-     renderizador/ (so precisa das bases da cidade em <slug>/).
+  2. `CIDADE=<slug> python pipeline/montar.py` remonta a pagina a partir de
+     v1.5/renderizador-v16-moveis/ (so precisa das bases da cidade em <slug>/).
   3. `python padrao/rodar_qa.py <slug>` confere que o build bate com o relatorio.
 
 ESTADO NO MOMENTO DO BACKUP
-  v12: telhado com telha, muro com pilarete, encardido de parede, e os quatro
-  recursos de tela (busca, link de posicao, minimapa e modo noite). As CINCO
-  cidades foram remontadas, entao nao ha mais o descompasso do v11, em que so
-  Ribeirao tinha as fases 2 a 4. Ver PIPELINE.md secao 17.
+  Variante {ver}, a unica viva desde o #49. O que mudou em cada entrega esta no
+  historico do git e em DOCUMENTACAO.md.
 """
 
 

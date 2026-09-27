@@ -54,7 +54,8 @@ sys.path.insert(0, RAIZ)
 # A versao tem UM dono, o montar.py -- mesma licao do testa_duplo_clique.py, que ja
 # tinha sido aprendida uma vez: aqui a pagina estava presa no "v9" escrito a mao, e o
 # medidor seguia aprovando a iluminacao de uma pagina duas versoes atras.
-from pipeline.montar import VERSAO
+from pipeline.build.config import resolve
+VERSAO = resolve().versao   # sem flag propria: MAPA_V ou o padrao; o v15 reprova aqui
 from padrao.cidade import lista
 # A cidade tambem tem UM dono, e nao e este arquivo (regra 1b do PADRAO.md): "ribeirao-
 # preto" estava escrito aqui dentro porque era a unica com planta fornecida. Agora vem

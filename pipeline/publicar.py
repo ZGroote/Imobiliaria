@@ -3,7 +3,7 @@
 
 Duas diferencas em relacao ao arquivo de duplo clique, e so duas:
 
-1. O TITULO. Offline ele sai do `renderizador/cabeca.html` e descreve o ARQUIVO --
+1. O TITULO. Offline ele sai do `cabeca.html` da fonte da variante e descreve o ARQUIVO --
    "<cidade> - mapa 3D ({{VERSAO}} - duplo clique)". Hospedado, o titulo e o nome da
    coisa numa galeria ao lado de dezenas de outras: vira nome de produto, nao legenda.
 2. O BOM do inicio. O arquivo e concatenado a partir de `cabeca.html`, que tem BOM; ele
@@ -50,7 +50,7 @@ def main():
     # `--variante` como no `rodar_qa` e no `montar`. Ate o #46 a variante saia so do
     # ambiente e caia no padrao, que era o v15: publicar sem a flag subia o renderizador
     # ANTIGO, em silencio, porque a pagina do v15 existe e e encontrada. Desde o #46,
-    # sem a flag herda o v16-moveis, e o v15 so sai com `--variante v15`.
+    # sem a flag herda o v16-moveis; desde o #49 o v15 nem e mais variante.
     argv = [a for a in sys.argv[1:]]
     variante = None
     if "--variante" in argv:
