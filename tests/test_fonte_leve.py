@@ -135,11 +135,9 @@ class ContratoTests(unittest.TestCase):
     def test_um_principal_e_uma_portaria_sao_obrigatorios(self):
         original = F._json
         def fake(path):
-            if Path(path) == F.MAPA:
-                return {"schema": 1, "properties": {
-                    "x": {"profile": "montes-mrv-v1", "variant": "torres-altas", "slug": "x"}}}
             data = original(path)
-            if str(path).endswith("unidade.json"):
+            if str(path).replace("\\", "/").endswith(
+                    "plantas_fornecidas/monte-dos-cedros-37/unidade.json"):
                 data["lote"]["predio"]["blocos"] = [
                     {"du": 0, "dv": 0, "sacadas": {"por_face": 1}},
                     {"du": 1, "dv": 1, "classe": 2},
@@ -147,7 +145,7 @@ class ContratoTests(unittest.TestCase):
             return data
         with patch.object(F, "_json", side_effect=fake):
             with self.assertRaisesRegex(F.FonteLeveErro, "bloco principal"):
-                F.normalizar("x")
+                F.normalizar("monte-dos-cedros-37")
 
 
 if __name__ == "__main__":
