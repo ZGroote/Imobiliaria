@@ -100,11 +100,17 @@ Este inventário não repete o que os lockfiles já registram.
 - `fotos-iplano/01–09.jpg`, da iPlano;
 - `contato.jpg`, a folha de contato das cinco primeiras.
 
-Saíram porque não havia autorização documentada. O `ESTUDO.md` da pasta registra a retirada, e a
-origem de cada imagem continua em `coleta.json` e em `coleta-iplano.json`. O histórico do git não
-foi reescrito.
+Saíram porque não havia autorização documentada.
 
-Os dados de terceiro que não são imagem continuam nessa pasta, e estão listados em
+**Retirado em 27/09/2026:** o resto do material de terceiro da pasta, que não era imagem.
+
+- os registros do anúncio da Maria Aires e da iPlano;
+- as coletas e os coletores;
+- a planta e o modelo interpretados do folheto;
+- a página montada.
+
+Na pasta ficam o `ESTUDO.md`, que registra as duas retiradas, e quatro registros nossos (tempos e
+resultado), sem conteúdo de terceiro. O histórico do git não foi reescrito. O inventário está em
 [tasks/higiene-repositorio/dados-privados.md](tasks/higiene-repositorio/dados-privados.md).
 
 **Imagem nova só entra classificada.** `tests/test_dados_privados.py` reprova qualquer imagem

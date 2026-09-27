@@ -35,7 +35,6 @@ EXT_IMAGEM = {'.png', '.jpg', '.jpeg', '.webp', '.gif', '.bmp', '.tif', '.tiff',
 IMAGENS = {
     'texturas/chao.webp', 'texturas/reboco.webp', 'texturas/tijolo.webp',   # ambientCG, CC0
     'exteriores/v1/atlas-distante.png',                                    # gerada aqui
-    'experimentos/mirante-7-2026-09-22/modelo/preview.png',               # render nosso
 }
 # Pastas inteiras classificadas como dado privado do Cedros: bake, texturas, QA e renders.
 PASTAS_DE_IMAGEM = ('v1.5/miniaturas/padrao-atual/',)

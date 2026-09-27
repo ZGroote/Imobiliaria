@@ -8,9 +8,18 @@
 > - `fotos-iplano/01–09.jpg`, da iPlano;
 > - `contato.jpg`, a folha de contato das cinco primeiras.
 >
-> As menções a elas no texto abaixo ficam como registro. A origem de cada uma continua em `coleta.json` (URL, bytes e sha256) e em `coleta-iplano.json` (URL de origem).
+> **Material de terceiro retirado em 27/09/2026.** Saiu também o que não era imagem, mas era de terceiro ou derivado dele:
 >
-> O histórico do git não foi reescrito: as imagens ainda estão nos commits anteriores ao que as retirou, e só quem tem acesso ao repositório privado alcança esses commits.
+> - os registros da iPlano e do anúncio: `iplano.json`, `dados-anuncio.json` e `anuncio.json`;
+> - as coletas e os coletores: `coleta.json`, `coleta-iplano.json`, `coletar.py` e `coletar_complemento.py`;
+> - a planta e o modelo interpretados das imagens do folheto: `hipoteses.json`, `unidade.json`, `layout-automatico.json`, `ajustes-layout.json`, `gerar_miniatura.py`, `modelar.py` e `modelo/`;
+> - a página montada: `miniatura.html`.
+>
+> Ficam este texto e os registros nossos, que não carregam conteúdo de terceiro: `processo.json`, `resultado-teste.json`, `tempo-blender.json` e `tempo-montagem.json`.
+>
+> As menções aos arquivos retirados, incluindo "Arquivos e reprodução", ficam como registro do método. O ensaio não é mais reproduzível a partir do repositório.
+>
+> O histórico do git não foi reescrito: esses arquivos continuam nos commits anteriores à retirada, e só quem tem acesso ao repositório privado alcança esses commits.
 
 ## Resultado e tempo de ponta a ponta
 

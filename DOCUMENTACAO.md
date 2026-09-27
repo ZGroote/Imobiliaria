@@ -37,4 +37,4 @@ Não descrevem o estado atual. Servem para entender por que as coisas são como 
 | [tasks/v1.0/verificacao-dev.1.md](tasks/v1.0/verificacao-dev.1.md), [tasks/v1.0/verificacao-t02.md](tasks/v1.0/verificacao-t02.md) | Verificações da base 1.0.0-dev.1 e do T02, na data delas |
 | [relatorios/estudo-peso-miniaturas-2026-09-22.md](relatorios/estudo-peso-miniaturas-2026-09-22.md) | Estudo de carga das miniaturas (22/09/2026) |
 | [relatorios/revisao-cronologia/](relatorios/revisao-cronologia/versao-completa.md) | Cronologia e estudo do projeto (22–23/09/2026). O `versao-completa.md` **não** leva aviso no topo: `gerar_completa.py` o lê linha a linha para montar o documento |
-| [experimentos/mirante-7-2026-09-22/ESTUDO.md](experimentos/mirante-7-2026-09-22/ESTUDO.md) | Ensaio de produção da miniatura Mirante 7 (22/09/2026) |
+| [experimentos/mirante-7-2026-09-22/ESTUDO.md](experimentos/mirante-7-2026-09-22/ESTUDO.md) | Ensaio de produção da miniatura Mirante 7 (22/09/2026). Só o texto e os tempos: o material de terceiro saiu em 26–27/09 |
