@@ -1,7 +1,7 @@
 """Blender 5.x: fachada Castanheiras a partir da fonte LEVE normalizada.
 Executar com blender --background --factory-startup --python este_arquivo.py -- <propertyId>.
 """
-import bpy, math, json, random, sys
+import bpy, math, json, random, sys, os
 from pathlib import Path
 from mathutils import Vector
 
@@ -23,7 +23,7 @@ style=fonte['style'];building=fonte['building'];render=fonte['render'];metadata=
 if style['profile']!='castanheiras-ebm-v1':
     raise SystemExit('perfil LEVE nao suportado por modelar_castanheiras.py: '+style['profile'])
 slug=style['slug']
-OUT=ROOT/(slug+'_blender')
+OUT=Path(os.environ.get('LEVE_OUTPUT_ROOT',str(ROOT)))/(slug+'_blender')
 OUT.mkdir(exist_ok=True)
 scene=bpy.context.scene
 print('BLENDER',bpy.app.version_string,'SCENE',scene.name,len(scene.objects))
