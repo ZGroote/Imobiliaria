@@ -6,6 +6,7 @@ import unittest
 
 RAIZ = Path(__file__).resolve().parents[1]
 SCRIPT = RAIZ / "v1.5" / "miniaturas" / "modelar_montes.py"
+BASE = RAIZ / "v1.5" / "miniaturas" / "blender_maquete_base.py"
 README = RAIZ / "v1.5" / "miniaturas" / "README.md"
 
 
@@ -37,6 +38,7 @@ class ModelarMontesFonteTests(unittest.TestCase):
             "render['target']",
             "render['distance']",
             "render['ortho']",
+            "render['detail']",
         ):
             with self.subTest(trecho=trecho):
                 self.assertIn(trecho, self.codigo)
@@ -69,6 +71,15 @@ class ModelarMontesFonteTests(unittest.TestCase):
         self.assertIn("gy=building['portaria'].get('dv',0)", self.codigo)
         # 8 x 4 é deliberadamente a regra visual aprovada nesta etapa.
         self.assertIn("box('reboco',gx,1.55,gy,8,3.1,4)", self.codigo)
+
+
+    def test_biblioteca_blender_nao_esconde_mais_escolha_do_cedros(self):
+        base = BASE.read_text(encoding="utf-8")
+        ast.parse(base)
+        self.assertNotIn("slug=='monte-dos-cedros'", base)
+        self.assertNotIn("55 if slug", base)
+        self.assertIn("detail_target=Vector(detalhe['target'])", base)
+        self.assertIn("data.ortho_scale=detalhe['ortho']", base)
 
     def test_readme_usa_property_id(self):
         doc = README.read_text(encoding="utf-8")
