@@ -49,13 +49,13 @@ e [Colinas](https://www.mrv.com.br/imoveis/sao-paulo/sao-carlos/apartamentos-res
 
 Em cada pasta `monte-*_blender/` ficam `.blend`, `.glb`, exportação offline
 `modelo.json`, render geral, render de detalhe e `validacao.json`. O arquivo
-`modelar_montes.py` modela; `blender_maquete_base.py` compartilha exportação e render.
+`modelar_montes.py` modela a família MRV a partir da fonte LEVE normalizada; `blender_maquete_base.py` compartilha exportação e render. O argumento do Blender é o `propertyId`, não um apelido do empreendimento.
 `castanheiras.js` lê ambos os formatos de exportação (matrizes/índices novos e
 posição/escala do Castanheiras), sem gerar fachadas no navegador.
 
 ```powershell
-& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python v1.5/miniaturas/modelar_montes.py -- cedros
-& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python v1.5/miniaturas/modelar_montes.py -- colinas
+& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python v1.5/miniaturas/modelar_montes.py -- monte-dos-cedros-37
+& 'C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe' --background --factory-startup --python v1.5/miniaturas/modelar_montes.py -- monte-das-colinas-39
 python v1.5/miniaturas/pagina_maquete.py --unidade monte-dos-cedros-37 --saida v1.5/miniaturas/maquete-monte-dos-cedros-37.html
 python v1.5/miniaturas/pagina_maquete.py --unidade monte-das-colinas-39 --saida v1.5/miniaturas/maquete-monte-das-colinas-39.html
 python v1.5/miniaturas/qa_visual.py maquete-monte-das-colinas-39.html --nome colinas-conjunto --conjunto
