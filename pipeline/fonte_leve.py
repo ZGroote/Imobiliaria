@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Fonte LEVE normalizada, independente do Blender.
 
-M2.1a só projeta fatos do cadastro e parâmetros de perfil declarativo. Não gera
-geometria, não escreve arquivos e não conhece IDs de imóveis no código.
+Projeta fatos do cadastro e parâmetros de perfil declarativo. Não gera geometria,
+não escreve arquivos e não conhece IDs de imóveis no código.
 """
 from copy import deepcopy
 import json
@@ -28,6 +28,8 @@ def _perfil(nome):
     data = _json(path)
     if data.get("schema") != 1 or data.get("profile") != nome:
         raise FonteLeveErro("perfil LEVE inválido: " + nome)
+    if not data.get("normalizer"):
+        raise FonteLeveErro("perfil LEVE sem normalizer: " + nome)
     return data
 
 
@@ -50,15 +52,12 @@ def _bloco_publico(bloco):
     return {k: deepcopy(bloco[k]) for k in chaves if k in bloco}
 
 
-def normalizar(property_id):
-    cfg = _config_imovel(property_id)
-    profile_name = cfg["profile"]
-    profile = _perfil(profile_name)
+def _base(property_id, cfg, profile):
     try:
         variant = deepcopy(profile["variants"][cfg["variant"]])
     except KeyError:
         raise FonteLeveErro(
-            "variante %s ausente no perfil %s" % (cfg.get("variant"), profile_name)
+            "variante %s ausente no perfil %s" % (cfg.get("variant"), profile["profile"])
         )
 
     unit_path = RAIZ / "plantas_fornecidas" / property_id / "unidade.json"
@@ -87,18 +86,50 @@ def normalizar(property_id):
         for b in blocos
         if not b.get("sacadas") and b.get("classe") != 2
     ]
+    return {
+        "variant": variant,
+        "unit_path": unit_path,
+        "predio": predio,
+        "towers": torres,
+        "principal": principais[0],
+        "portaria": portarias[0],
+        "auxiliares": auxiliares,
+    }
 
+
+def _cabecalho(property_id, cfg, profile, base):
+    return {
+        "schema": 1,
+        "propertyId": property_id,
+        "source": base["unit_path"].relative_to(RAIZ).as_posix(),
+    }
+
+
+def _building(profile, base):
+    predio = base["predio"]
+    return {
+        "floors": predio["pavimentos"],
+        "floorHeight": profile["common"]["floorHeight"],
+        "width": predio["largura_m"],
+        "depth": predio["profundidade_m"],
+        "towers": base["towers"],
+        "principalTower": base["principal"],
+        "portaria": base["portaria"],
+        "auxiliaryBlocks": base["auxiliares"],
+    }
+
+
+def _normalizar_montes(property_id, cfg, profile, base):
     common = deepcopy(profile["common"])
+    variant = deepcopy(base["variant"])
     moldura = variant.pop("molduraColor")
     materials = deepcopy(common["materials"])
     materials["moldura"]["color"] = moldura
 
-    return {
-        "schema": 1,
-        "propertyId": property_id,
-        "source": unit_path.relative_to(RAIZ).as_posix(),
+    result = _cabecalho(property_id, cfg, profile, base)
+    result.update({
         "style": {
-            "profile": profile_name,
+            "profile": profile["profile"],
             "variant": cfg["variant"],
             "slug": cfg["slug"],
             "materials": materials,
@@ -109,16 +140,7 @@ def normalizar(property_id):
             "longFacadeBands": variant["longFacadeBands"],
             "referenceImage": variant["referenceImage"],
         },
-        "building": {
-            "floors": predio["pavimentos"],
-            "floorHeight": common["floorHeight"],
-            "width": predio["largura_m"],
-            "depth": predio["profundidade_m"],
-            "towers": torres,
-            "principalTower": principais[0],
-            "portaria": portarias[0],
-            "auxiliaryBlocks": auxiliares,
-        },
+        "building": _building(profile, base),
         "render": {
             "target": variant["renderTarget"],
             "distance": common["renderDistance"],
@@ -134,7 +156,53 @@ def normalizar(property_id):
             "scope": variant["scope"],
             "uncertainty": common["uncertainty"],
         },
-    }
+    })
+    return result
+
+
+def _normalizar_castanheiras(property_id, cfg, profile, base):
+    common = deepcopy(profile["common"])
+    variant = deepcopy(base["variant"])
+    result = _cabecalho(property_id, cfg, profile, base)
+    result.update({
+        "style": {
+            "profile": profile["profile"],
+            "variant": cfg["variant"],
+            "slug": cfg["slug"],
+            "materials": common["materials"],
+            "visualBalconyDepth": common["visualBalconyDepth"],
+            "referenceImage": common["referenceImage"],
+            "facade": common["facade"],
+        },
+        "building": _building(profile, base),
+        "render": common["render"],
+        "metadata": {
+            "reference": common["referenceReport"],
+            "back": common["back"],
+            "scope": variant["scope"],
+            "uncertainty": variant["uncertainty"],
+        },
+    })
+    return result
+
+
+NORMALIZERS = {
+    "montes-v1": _normalizar_montes,
+    "castanheiras-v1": _normalizar_castanheiras,
+}
+
+
+def normalizar(property_id):
+    cfg = _config_imovel(property_id)
+    profile = _perfil(cfg["profile"])
+    base = _base(property_id, cfg, profile)
+    try:
+        fn = NORMALIZERS[profile["normalizer"]]
+    except KeyError:
+        raise FonteLeveErro(
+            "normalizer LEVE desconhecido: " + str(profile.get("normalizer"))
+        )
+    return fn(property_id, cfg, profile, base)
 
 
 def canonical(property_id):
