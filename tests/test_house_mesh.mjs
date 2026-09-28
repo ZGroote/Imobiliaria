@@ -93,3 +93,22 @@ test('rendered surviving wall reaches the perpendicular face on either end', () 
     assert.deepEqual(w.a,[0,0]);assert.deepEqual(w.b,[2,0]);
   }
 });
+
+
+test('remate has an opaque end face from floor to ceiling on both ends', () => {
+  for (const side of ['remateA', 'remateB']) for (const openingEnd of [0, 1]) {
+    const ctx = modular('?bake=0');
+    const w = {a:[0,0], b:[2,0], y0:.02, y1:2.6, pa:openingEnd, pb:openingEnd, [side]:.065};
+    const pl = {id:'closed-remate', pd:2.6, ob:{cx:0,cz:0,ux:1,uz:0}, paredes:[w], comodos:[], contorno:[], esquadrias:[]};
+    const mesh = ctx.__geo(pl, false).children[0];
+    mesh.updateMatrixWorld(true);
+    for (const y of [.15, 1.3, 2.55]) {
+      const fromA = side === 'remateA';
+      const ray = new ctx.THREE.Raycaster(new ctx.THREE.Vector3(fromA ? -1 : 3, y, 0),
+        new ctx.THREE.Vector3(fromA ? 1 : -1, 0, 0));
+      const hits = ray.intersectObject(mesh);
+      assert.ok(hits.length, `${side} opening=${openingEnd} must block sight at y=${y}`);
+      assert.ok(Math.abs(hits[0].point.x - (fromA ? -.065 : 2.065)) < 1e-6);
+    }
+  }
+});

@@ -132,10 +132,14 @@ function geoDaCasa(pl, comTeto, tetoSeparado = false) {
     const ea = w.remateA ?? (w.pa ? 0 : EXT), eb = w.remateB ?? (w.pb ? 0 : EXT);
     const wa = [w.a[0] - exw*ea, w.a[1] - ezw*ea];
     const wb = [w.b[0] + exw*eb, w.b[1] + ezw*eb];
+    // Um remate substitui o filete removido: sua ponta pode ficar exposta junto
+    // ao vao. Fechar essa face inteira impede enxergar por dentro do prisma.
+    const semPontas = (w.pa || w.remateA != null ? 0 : 1) |
+                      (w.pb || w.remateB != null ? 0 : 2);
     prismaQuad(P, N, C, U, quadDoSeg([wa, wb], ESP), w.y0, yTopo, parede,
                (assar || LUZ) ? null : fyParede,
                U2, LUZ && cinco(f => LUZ.parede(i, f)), false,
-               (w.pa && w.remateA == null ? 0 : 1) | (w.pb && w.remateB == null ? 0 : 2), 0.80);
+               semPontas, 0.80);
     // Rodapé: 8 cm de faixa clara na base de toda parede que começa no chão. Custa
     // cinco quads por parede e é o detalhe que mais separa "caixa branca" de "cômodo".
     if (w.y0 < 0.05)
@@ -150,7 +154,7 @@ function geoDaCasa(pl, comTeto, tetoSeparado = false) {
       // o movel para, entao ele aparece na junta em vez de ficar espremido.
       prismaQuad(P, N, C, U, quadDoSeg([wa, wb], ESP + 0.032), 0.02, 0.115, rodape,
                  null, U2, LUZ && cinco(f => LUZ.rodape(i, f)), true,
-                 (w.pa && w.remateA == null ? 0 : 1) | (w.pb && w.remateB == null ? 0 : 2));
+                 semPontas);
   }
   const dTeto = [[], [], [], [], LUZ ? [] : null];
   if (comTeto || tetoSeparado) for (let i = 0; i < pl.contorno.length; i++)
