@@ -471,9 +471,30 @@ Não usar “editar o arquivo e rodar de novo” como estado do sistema.
 
 # 10. Relação com BuildJob e o painel
 
-Não vamos começar pelo backend.
+O runner local já provou o contrato LEVE. A persistência começa agora sem dar poder de escrita
+direto ao painel: `buildJobs/{id}` continua read-only pelas Security Rules e nasce por Admin SDK.
 
-Primeiro o runner local deve provar o contrato. Depois o mesmo grafo vira o futuro `BuildJob`.
+Contrato inicial:
+
+```text
+request (status=production, productionMode explícito, propertyId)
+  ↓
+tools/buildjob.mjs
+  ↓
+buildJobs/{id}
+  requestId
+  propertyId / pipelineUnitId / agencyId
+  productionMode
+  requestedBy / createdBy
+  status=pending
+  lastAuditId
+```
+
+A identidade do job (request/imóvel/agência/modo) é snapshot do pedido. Retry futuro cria outro job
+depois que o anterior termina; dois jobs `pending/running` para o mesmo request são bloqueados.
+
+O painel ainda não cria nem atualiza BuildJob. O próximo PR liga o runner local a este contrato,
+sem preview/publicação automática.
 
 Destino conceitual:
 
