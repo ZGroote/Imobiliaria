@@ -78,6 +78,22 @@ export interface Request {                // requests/{id}
   createdAt: Timestamp; updatedAt: Timestamp
 }
 
+export type BuildJobStatus = 'pending' | 'running' | 'succeeded' | 'blocked' | 'failed' | 'cancelled'
+
+export interface BuildJob {               // buildJobs/{id}; escrita só por ferramenta/worker Admin SDK
+  id: string
+  requestId: string; propertyId: string; pipelineUnitId: string; agencyId: string
+  productionMode: ProductionMode
+  requestedBy: string; createdBy: string
+  status: BuildJobStatus
+  inputSha256?: string
+  build?: string; manifestSha256?: string; reportPath?: string
+  error?: { code?: string; type?: string; message: string }
+  startedAt?: Timestamp; finishedAt?: Timestamp
+  lastAuditId?: string
+  createdAt: Timestamp; updatedAt: Timestamp
+}
+
 export interface AuditLog {               // auditLogs/{id}; só cresce
   id: string; agencyId?: string; userId: string
   entityType: 'request' | 'property' | 'agency' | 'user' | 'buildJob'
