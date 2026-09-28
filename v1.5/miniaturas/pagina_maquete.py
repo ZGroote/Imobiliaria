@@ -24,7 +24,7 @@ import io, json, math, os, sys
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, RAIZ)
-from pipeline import artefatos_leve, fonte_leve
+from pipeline import artefatos_leve, fonte_leve, modo_producao
 THREE = os.path.join(RAIZ, "v1.5", "renderizador-v16-moveis", "lib", "three.min.js")
 LV = 3.15                        # pe-direito de pavimento, o mesmo do renderizador
 
@@ -37,6 +37,7 @@ SAIDA = arg("--saida", os.path.join(RAIZ, "v1.5", "miniaturas", "maquete.html"))
 UNIDADE = arg("--unidade")       # id do cadastro; sem ele vale o IMOVEL de exemplo
 CIDADE = arg("--cidade", "sao-carlos")
 MAPA = arg("--mapa")             # href do mapa deste imovel; sem ele, sem botao
+MODO = arg("--modo")              # leve|premium; ausente preserva o comportamento histórico
 
 
 def artefato_leve(uid):
@@ -2387,13 +2388,19 @@ def botao_mapa(imovel=None):
 
 
 def main():
-    if UNIDADE == 'monte-dos-cedros-37' and '--geometria-base' not in sys.argv:
+    try:
+        modo = modo_producao.resolver(UNIDADE, MODO)
+    except ValueError as exc:
+        raise SystemExit(str(exc))
+    if MODO is not None and '--geometria-base' in sys.argv:
+        raise SystemExit('--geometria-base nao pode ser combinado com --modo')
+    if modo == 'premium':
         from padrao_atual import render
         from pathlib import Path
         target = Path(SAIDA)
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(render(offline=True, map_href=MAPA), encoding='utf8')
-        print('Padrao atual Cedros: maquete, planta e visita com luz calculada ->', target)
+        print('Padrao PREMIUM: maquete, planta e visita com luz calculada ->', target)
         return 0
     imovel = do_cadastro(UNIDADE, CIDADE) if UNIDADE else IMOVEL
     modelo = artefato_leve(imovel.get('_id'))
