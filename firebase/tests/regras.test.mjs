@@ -409,7 +409,7 @@ test('15a. productionMode: obrigatório em novos pedidos, legado continua editá
     { productionMode: 'premium', updatedAt: now() }));
 
   // Pedidos históricos sem o campo continuam seguindo o fluxo: a obrigatoriedade vale só no create.
-  await assertSucceeds(updateDoc(doc(cor, 'requests/reqA'),
+  await assertSucceeds(updateDoc(doc(db('corA2'), 'requests/reqA'),
     { title: 'Legado ainda editável', updatedAt: now() }));
 });
 
