@@ -91,8 +91,19 @@ código e saída continuam iguais.
 
 ### Duas linhas atuais que não devem ser confundidas
 
-**LEVE** e **PREMIUM continuam ativos.** A fábrica deve gerar os dois a partir de uma mesma entrada
-canônica sempre que o imóvel tiver material suficiente.
+**LEVE** e **PREMIUM continuam ativos.** A escolha do produto já tem contrato explícito no build:
+
+```text
+python pipeline/build_imovel.py <propertyId> --modo leve
+python pipeline/build_imovel.py <propertyId> --modo premium
+```
+
+Sem `--modo`, o comportamento histórico é preservado para regressão: Cedros usa o PREMIUM
+aprovado; demais fixtures usam LEVE. Com modo explícito não existe fallback: `leve` força LEVE e
+`premium` só passa quando há pacote PREMIUM automatizado; caso contrário termina em
+`PREMIUM_UNAVAILABLE`.
+
+A fábrica deve gerar os dois a partir de uma mesma entrada canônica sempre que o imóvel tiver material suficiente.
 
 A hipótese de qualidade progressiva (`Padrão → Alta`) fica compatível com esta arquitetura, mas
 **não entra nos primeiros PRs**. Primeiro a fábrica aprende a produzir os dois resultados atuais.
