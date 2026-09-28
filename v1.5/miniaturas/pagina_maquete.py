@@ -1548,7 +1548,7 @@ var MAT = InteriorMaterials.create({ THREE: THREE, ambientePBR: ambientePBR,
   rugParede: TEX.rugParede, rugPiso: TEX.rugPiso, rugMadeira: TEX.rugMadeira });
 var OPEN = Openings.create({ THREE: THREE, ESP: ESP, rgbDe: rgbDe,
   matEsq: MAT.matEsq, matAlum: MAT.matAlum, matVidro: MAT.matVidro });
-var FP2 = FloorPlan.create({ inside: MG.inside, shoelace: MG.shoelace, ESP: ESP,
+var FP2 = FloorPlan.create({ fecharQuinas: true, inside: MG.inside, shoelace: MG.shoelace, ESP: ESP,
   ESQ_ANG: OPEN.ESQ_ANG, ESQ_MARCO: OPEN.ESQ_MARCO, safeInset: MG.safeInset,
   obbOf: MG.obbOf, BUILDING_INSET: BUILDING_INSET, PD: PD_INT,
   // `anelDoLote` e a ponte com o MAPA (lat/lon -> metros). Aqui o predio ja nasce na
@@ -1617,9 +1617,13 @@ function acabamentoTeto(grupo,pl) {
     [[0.10,0.055,0.0275],[0.055,0.055,0.0825]].forEach(function(f){
       var moldura=new THREE.Mesh(caixaGesso,gesso);
       moldura.name='rodateto';
-      moldura.position.set((w.a[0]+w.b[0])/2,pl.pd-f[2],(w.a[1]+w.b[1])/2);
+      // Mesmo remate do pano; a faixa mais larga precisa alcancar sua propria face.
+      var ea=w.remateA==null?ESP/2:w.remateA+f[0]/2;
+      var eb=w.remateB==null?ESP/2:w.remateB+f[0]/2;
+      moldura.position.set((w.a[0]+w.b[0])/2+dx/comprimento*(eb-ea)/2,pl.pd-f[2],
+                          (w.a[1]+w.b[1])/2+dz/comprimento*(eb-ea)/2);
       moldura.rotation.y=Math.atan2(dx,dz);
-      moldura.scale.set(ESP+f[0],f[1],comprimento+ESP);
+      moldura.scale.set(ESP+f[0],f[1],comprimento+ea+eb);
       moldura.receiveShadow=true;grupo.add(moldura);
     });
   });

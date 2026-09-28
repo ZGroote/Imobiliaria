@@ -1,7 +1,7 @@
 /* Floor plan: walls derived from a 5 cm ownership grid, openings and which way each door swings. */
 (function(root) {
   "use strict";
-  function create({inside, shoelace, ESP, ESQ_ANG, ESQ_MARCO, safeInset, obbOf, BUILDING_INSET, PD, anelDoLote, MOVEIS}) {
+  function create({inside, shoelace, ESP, ESQ_ANG, ESQ_MARCO, safeInset, obbOf, BUILDING_INSET, PD, anelDoLote, MOVEIS, fecharQuinas = false}) {
 // t do ponto projetado no segmento, e o quanto ele esta fora dele
 function projeta(p, a, b) {
   const dx = b[0]-a[0], dz = b[1]-a[1], L = Math.hypot(dx, dz) || 1e-6;
@@ -85,17 +85,49 @@ function paredesDaGrade(comodos, vaos, pd) {
     }
     if (L - t0 > 0.06) out.push({ a: pt(t0), b: pt(L), y0: 0.02, y1: pd, pa: vs.length ? 1 : 0 });
   }
+  // A compactacao e opt-in do LEVE; mapa e outros consumidores mantem o contrato.
+  if (!fecharQuinas) return {paredes: out, vaos: postos};
   // Um resto de parede menor que a propria espessura nao e um pano de parede:
   // e um filete deixado pelo recorte de um vao. Extrudar, por exemplo, 8 cm de
   // comprimento com 13 cm de espessura cria um prisma mais grosso que comprido,
   // expondo duas faces no corredor e uma quina falsa no encontro com o forro.
-  // O marco/guarnicao do vao ja resolve visualmente essa ombreira. Mantemos peitoris
+  // O remate abaixo fecha essa ombreira com os panos sobreviventes. Mantemos peitoris
   // e vergas (nao ocupam a altura inteira) e qualquer pano com comprimento >= ESP.
   const paredes = out.filter(w => {
     const comprimento = Math.hypot(w.b[0]-w.a[0], w.b[1]-w.a[1]);
     const alturaInteira = w.y0 < 0.05 && w.y1 >= pd - 0.01;
     return !alturaInteira || comprimento + 1e-6 >= ESP;
   });
+  // Remates so existem quando o filete removido encontra um pano perpendicular.
+  // Guardamos extensoes de desenho; os eixos usados pela colisao nao mudam.
+  for (const v of postos) for (const lado of ['a', 'b']) {
+    if (v.y1 >= pd - 0.06) continue; // ambiente continuo: nao criar portal/remate
+    const sobra = lado === 'a' ? v.ta : v.L - v.tb;
+    if (!(sobra > 1e-6 && sobra + 1e-6 < ESP)) continue;
+    const sinal = lado === 'a' ? -1 : 1;
+    const canto = [v[lado][0] + sinal*v.ux*sobra, v[lado][1] + sinal*v.uz*sobra];
+    const vizinhas = paredes.filter(w => {
+      const dx = w.b[0]-w.a[0], dz = w.b[1]-w.a[1], L = Math.hypot(dx,dz);
+      return w.y0 < 0.05 && w.y1 >= pd-0.01 &&
+        Math.abs((dx*v.ux+dz*v.uz)/L) < 1e-6 && projeta(canto,w.a,w.b).d < ESP/2;
+    });
+    if (!vizinhas.length) continue;
+    const chave = lado === 'a' ? 'remateA' : 'remateB';
+    v[chave] = sobra + ESP/2;
+    // Peitoril/verga sobreviventes chegam a face externa da parede vizinha.
+    for (const w of paredes) if (Math.hypot(w[lado][0]-v[lado][0],w[lado][1]-v[lado][1]) < 1e-6 &&
+      Math.abs((w.b[0]-w.a[0])*v.uz-(w.b[1]-w.a[1])*v.ux) < 1e-6)
+      w[chave] = Math.max(w[chave] || 0, v[chave]);
+    // A ponta perpendicular pode estar marcada como vao: fecha ate a face,
+    // descontando o deslocamento real entre os eixos (grade de 5 cm).
+    for (const w of vizinhas) for (const ponta of ['a','b']) {
+      const outra = ponta === 'a' ? 'b' : 'a';
+      const dx = w[ponta][0]-w[outra][0], dz = w[ponta][1]-w[outra][1], L = Math.hypot(dx,dz);
+      const distancia = (canto[0]-w[ponta][0])*dx/L + (canto[1]-w[ponta][1])*dz/L;
+      if (Math.hypot(canto[0]-w[ponta][0],canto[1]-w[ponta][1]) < ESP/2 && distancia+ESP/2 > 0)
+        w[ponta === 'a' ? 'remateA' : 'remateB'] = distancia+ESP/2;
+    }
+  }
   return { paredes, vaos: postos };
 }
 
@@ -347,7 +379,7 @@ function plantaDaUnidade(rec, u) {
                 y0: j.y0 != null ? j.y0 : 1.00, y1: j.y1 != null ? j.y1 : 2.20 });
   const grade = paredesDaGrade(P.comodos, vaos, pd);
   const paredes = grade.paredes.map(w =>
-    ({ a: mundo(w.a), b: mundo(w.b), y0: w.y0, y1: w.y1, pa: w.pa, pb: w.pb }));
+    ({ a: mundo(w.a), b: mundo(w.b), y0: w.y0, y1: w.y1, pa: w.pa, pb: w.pb, remateA: w.remateA, remateB: w.remateB }));
   // A rotação `mundo()` preserva orientação (matriz [[ux,-uz],[uz,ux]], determinante 1),
   // então o sinal do lado decidido na planta continua valendo depois de girar.
   const esquadrias = [];
@@ -359,7 +391,7 @@ function plantaDaUnidade(rec, u) {
     const dx = (B2[0]-A[0])/Lv, dz = (B2[1]-A[1])/Lv;
     esquadrias.push({ tipo: d.tipo, lado: d.lado, eixo: d.eixo, porta: !!v.src.porta,
                       y0: v.y0, y1: v.y1, a: A, b: B2, L: Lv,
-                      ux: dx, uz: dz, nx: -dz, nz: dx });
+                      ux: dx, uz: dz, nx: -dz, nz: dx, remateA: v.remateA, remateB: v.remateB });
   }
 
   let area = 0;

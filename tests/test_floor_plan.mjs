@@ -32,11 +32,11 @@ function oracle() {
     globalThis.__o = {paredesDaGrade, decideVao}; })();`, ctx);
   return ctx.__o;
 }
-function modular() {
+function modular(fecharQuinas = true) {
   const ctx = context();
   vm.runInContext(read('interior/floor-plan.js'), ctx);
   return vm.runInContext(`(() => { const {inside, shoelace} = MapGeometry; ${CONSTS}
-    return FloorPlan.create({inside, shoelace, ESP, ESQ_ANG, ESQ_MARCO}); })()`, ctx);
+    return FloorPlan.create({inside, shoelace, ESP, ESQ_ANG, ESQ_MARCO, fecharQuinas: ${fecharQuinas}}); })()`, ctx);
 }
 // Same opening list plantaDaUnidade builds from the record.
 function openings(P) {
@@ -55,7 +55,7 @@ const compactaFiletes = (grade, pd) => ({
     return !alturaInteira || L + 1e-6 >= 0.13;
   })
 });
-const plain = v => JSON.stringify(v, (k, x) => k === 'src' ? undefined : x);
+const plain = v => JSON.stringify(v, (k, x) => ['src', 'remateA', 'remateB'].includes(k) ? undefined : x);
 
 test('walls, placed openings and door decisions match the monolith apart from degenerate wall nibs', () => {
   assert.ok(plans.length >= 5, 'supplied plans available');
@@ -83,4 +83,32 @@ test('walls, placed openings and door decisions match the monolith apart from de
     }
   assert.ok(openingsSeen > 100, 'openings compared: ' + openingsSeen);
   assert.ok(types.size >= 3, 'door types exercised: ' + [...types]);
+});
+
+// Geometry contract, independent of the old monolith: a door 7.5 cm from a
+// perpendicular wall must end on its far face, including after rotation.
+test('corner closure reaches faces without changing the collision axes or restoring nibs', () => {
+  const fp = modular();
+  for (const mirror of [1,-1]) for (const swap of [false,true]) {
+    const tr = ([x,z]) => swap ? [z,mirror*x] : [mirror*x,z];
+    const comodos = [{poly:[[0,0],[3,0],[3,3],[0,3]].map(tr)}];
+    const g = fp.paredesDaGrade(comodos,[{porta:true,p:tr([0.5,0]),largura:.85,y0:0,y1:2.1}],2.6);
+    const v = g.vaos[0];
+    const ext = v.remateA ?? v.remateB;
+    assert.ok(Math.abs(ext-.14)<1e-6, '7.5 cm remainder + 6.5 cm half thickness');
+    const lintel = g.paredes.find(w => w.y0===2.1);
+    assert.ok(Math.abs((lintel.remateA ?? lintel.remateB)-.14)<1e-6);
+    assert.ok(Math.abs(Math.hypot(lintel.b[0]-lintel.a[0],lintel.b[1]-lintel.a[1])-.85)<1e-6,
+      'opening/collision axes unchanged');
+  }
+  for (const leftover of [0,.13,.20]) {
+    const g=fp.paredesDaGrade([{poly:[[0,0],[3,0],[3,3],[0,3]]}],
+      [{porta:true,p:[leftover+.425,0],largura:.85,y0:0,y1:2.1}],2.6);
+    assert.equal(g.vaos[0].remateA,undefined,'no closure at threshold or no nib');
+  }
+});
+
+test('map and consumers that do not opt in preserve the original walls and openings', () => {
+  const a=oracle(),b=modular(false);
+  for(const u of plans){const p=u.planta;assert.equal(plain(b.paredesDaGrade(p.comodos,openings(p),p.pe_direito||2.7)),plain(a.paredesDaGrade(p.comodos,openings(p),p.pe_direito||2.7)));}
 });

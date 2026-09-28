@@ -80,3 +80,16 @@ test('house walls, skirting, floors, ceiling, bake queue and cache match the mon
         assert.equal(b.__bake.BAKE.fila === null || b.__bake.BAKE.fila === undefined, a.__bake.BAKE.fila === null || a.__bake.BAKE.fila === undefined);
       }
 });
+
+test('rendered surviving wall reaches the perpendicular face on either end', () => {
+  for (const side of ['remateA','remateB']) {
+    const ctx=modular('?bake=0');
+    const w={a:[0,0],b:[2,0],y0:.02,y1:2.6,pa:1,pb:1,[side]:.065};
+    const pl={id:'closure-fixture',pd:2.6,ob:{cx:0,cz:0,ux:1,uz:0},paredes:[w],comodos:[],contorno:[],esquadrias:[]};
+    const g=ctx.__geo(pl,false);const a=g.children[0].geometry.attributes.position;
+    const xs=[];for(let i=0;i<a.count;i++){assert.ok(Number.isFinite(a.getX(i)));xs.push(a.getX(i));}
+    assert.ok(Math.abs(Math.min(...xs)-(side==='remateA'?-.065:0))<1e-6);
+    assert.ok(Math.abs(Math.max(...xs)-(side==='remateB'?2.065:2))<1e-6);
+    assert.deepEqual(w.a,[0,0]);assert.deepEqual(w.b,[2,0]);
+  }
+});

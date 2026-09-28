@@ -106,11 +106,15 @@ function geoDasEsquadrias(pl) {
       const yG = Math.min(v.y1 + ESQ_GUARN, pl.pd - 0.008);
       for (const s of [1, -1]) {
         const o = s*(meia + 0.006), g = ESQ_GUARN;
-        const E = P(-g/2, o), F = P(L + g/2, o), G = P(L/2, o);
-        pecaOr(dPin, E[0], E[1], dx, dz, g, 0.014, v.y0, yG, cEsq);
-        pecaOr(dPin, F[0], F[1], dx, dz, g, 0.014, v.y0, yG, cEsq);
+        // A guarnicao encosta na face PROXIMA da vizinha. Atravessa-la ate a
+        // face oposta faria outra tira branca aparecer no comodo perpendicular.
+        const ga = Math.max(g, v.remateA == null ? g : v.remateA - ESP);
+        const gb = Math.max(g, v.remateB == null ? g : v.remateB - ESP);
+        const E = P(-ga/2, o), F = P(L + gb/2, o), G = P((L+gb-ga)/2, o);
+        pecaOr(dPin, E[0], E[1], dx, dz, ga, 0.014, v.y0, yG, cEsq);
+        pecaOr(dPin, F[0], F[1], dx, dz, gb, 0.014, v.y0, yG, cEsq);
         if (yG > v.y1 + 0.004)
-          pecaOr(dPin, G[0], G[1], dx, dz, L + g*2, 0.014, v.y1, yG, cEsq);
+          pecaOr(dPin, G[0], G[1], dx, dz, L + ga + gb, 0.014, v.y1, yG, cEsq);
       }
       if (v.tipo === "vao") continue;   // passagem: marco e guarnição, sem folha
       // A folha, girada em torno da ombreira da dobradiça. `+ang` gira na direção +n

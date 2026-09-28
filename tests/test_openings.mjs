@@ -68,3 +68,16 @@ test('door frames, leaves, handles, sills and sliding panes match the monolith f
     }
   assert.ok(pieces >= units.length * 2 * 2, 'meshes built: ' + pieces);
 });
+
+test('corner trim closes only the affected end and keeps the door opening', () => {
+  for (const side of ['remateA','remateB']) {
+    const api=modular();
+    const v={tipo:'vao',a:[0,0],b:[1,0],L:1,ux:1,uz:0,nx:0,nz:1,y0:0,y1:2.1,[side]:.19};
+    const result=api.geoDasEsquadrias({pd:2.6,esquadrias:[v]});
+    const a=result[0].geometry.attributes.position;const xs=[];
+    for(let i=0;i<a.count;i++){assert.ok(Number.isFinite(a.getX(i)));xs.push(a.getX(i));}
+    assert.ok(Math.abs(Math.min(...xs)-(side==='remateA'?-.06:-.055))<1e-6);
+    assert.ok(Math.abs(Math.max(...xs)-(side==='remateB'?1.06:1.055))<1e-6);
+    assert.deepEqual(v.a,[0,0]); assert.deepEqual(v.b,[1,0]);
+  }
+});

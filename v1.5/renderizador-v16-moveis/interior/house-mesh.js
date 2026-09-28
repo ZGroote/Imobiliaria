@@ -129,12 +129,13 @@ function geoDaCasa(pl, comTeto, tetoSeparado = false) {
     const yTopo = w.y1 >= pl.pd - 0.01 ? pl.pd + SOBE_FORRO : w.y1;
     const dxw = w.b[0]-w.a[0], dzw = w.b[1]-w.a[1];
     const Lw = Math.hypot(dxw, dzw) || 1, exw = dxw/Lw, ezw = dzw/Lw;
-    const wa = w.pa ? w.a : [w.a[0] - exw*EXT, w.a[1] - ezw*EXT];
-    const wb = w.pb ? w.b : [w.b[0] + exw*EXT, w.b[1] + ezw*EXT];
+    const ea = w.remateA ?? (w.pa ? 0 : EXT), eb = w.remateB ?? (w.pb ? 0 : EXT);
+    const wa = [w.a[0] - exw*ea, w.a[1] - ezw*ea];
+    const wb = [w.b[0] + exw*eb, w.b[1] + ezw*eb];
     prismaQuad(P, N, C, U, quadDoSeg([wa, wb], ESP), w.y0, yTopo, parede,
                (assar || LUZ) ? null : fyParede,
                U2, LUZ && cinco(f => LUZ.parede(i, f)), false,
-               (w.pa ? 0 : 1) | (w.pb ? 0 : 2), 0.80);
+               (w.pa && w.remateA == null ? 0 : 1) | (w.pb && w.remateB == null ? 0 : 2), 0.80);
     // Rodapé: 8 cm de faixa clara na base de toda parede que começa no chão. Custa
     // cinco quads por parede e é o detalhe que mais separa "caixa branca" de "cômodo".
     if (w.y0 < 0.05)
@@ -149,7 +150,7 @@ function geoDaCasa(pl, comTeto, tetoSeparado = false) {
       // o movel para, entao ele aparece na junta em vez de ficar espremido.
       prismaQuad(P, N, C, U, quadDoSeg([wa, wb], ESP + 0.032), 0.02, 0.115, rodape,
                  null, U2, LUZ && cinco(f => LUZ.rodape(i, f)), true,
-                 (w.pa ? 0 : 1) | (w.pb ? 0 : 2));
+                 (w.pa && w.remateA == null ? 0 : 1) | (w.pb && w.remateB == null ? 0 : 2));
   }
   const dTeto = [[], [], [], [], LUZ ? [] : null];
   if (comTeto || tetoSeparado) for (let i = 0; i < pl.contorno.length; i++)
