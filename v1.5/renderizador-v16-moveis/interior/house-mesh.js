@@ -124,17 +124,52 @@ function geoDaCasa(pl, comTeto, tetoSeparado = false) {
        + 1,5 mm            +1,7
        ESP/2 exato         +0,9   sem listra e sem fresta                            */
   const EXT = ESP*0.5;
+  const prismas = pl.paredes.map(w => {
+    const dx=w.b[0]-w.a[0], dz=w.b[1]-w.a[1], L=Math.hypot(dx,dz)||1;
+    const ea=w.remateA ?? (w.pa?0:EXT), eb=w.remateB ?? (w.pb?0:EXT);
+    return {a:[w.a[0]-dx/L*ea,w.a[1]-dz/L*ea], b:[w.b[0]+dx/L*eb,w.b[1]+dz/L*eb],
+      y0:w.y0,y1:w.y1>=pl.pd-.01?pl.pd+SOBE_FORRO:w.y1};
+  });
+  // Interseccao do segmento da ponta com os prismas vizinhos em coordenadas
+  // locais. Funciona tambem depois de girar a planta e preserva UVs/atlas.
+  const cortesDaPonta = (indice,face,esp,base,topo) => {
+    const q=quadDoSeg([prismas[indice].a,prismas[indice].b],esp);
+    const a=q[face], b=q[(face+1)%4], cortes=[];
+    for (let j=0;j<prismas.length;j++) {
+      if(j===indice) continue;
+      const v=prismas[j], dx=v.b[0]-v.a[0], dz=v.b[1]-v.a[1], L=Math.hypot(dx,dz);
+      const coord=p=>[( (p[0]-v.a[0])*dx+(p[1]-v.a[1])*dz)/L,
+        (-(p[0]-v.a[0])*dz+(p[1]-v.a[1])*dx)/L];
+      const A=coord(a),B=coord(b);let lo=0,hi=1;
+      for(const [axis,min,max] of [[0,0,L],[1,-esp/2,esp/2]]) {
+        const d=B[axis]-A[axis];
+        if(Math.abs(d)<1e-9){if(A[axis]<min-1e-7||A[axis]>max+1e-7)hi=-1;}
+        else {const x=(min-A[axis])/d,y=(max-A[axis])/d;lo=Math.max(lo,Math.min(x,y));hi=Math.min(hi,Math.max(x,y));}
+      }
+      const y0=base==null?v.y0:Math.max(base,v.y0),y1=topo==null?v.y1:Math.min(topo,v.y1);
+      if(hi-lo>1e-7 && y1-y0>1e-7)cortes.push([lo,hi,y0,y1]);
+    }
+    return cortes;
+  };
   for (let i = 0; i < pl.paredes.length; i++) {
     const w = pl.paredes[i];
     const yTopo = w.y1 >= pl.pd - 0.01 ? pl.pd + SOBE_FORRO : w.y1;
     const dxw = w.b[0]-w.a[0], dzw = w.b[1]-w.a[1];
     const Lw = Math.hypot(dxw, dzw) || 1, exw = dxw/Lw, ezw = dzw/Lw;
-    const wa = w.pa ? w.a : [w.a[0] - exw*EXT, w.a[1] - ezw*EXT];
-    const wb = w.pb ? w.b : [w.b[0] + exw*EXT, w.b[1] + ezw*EXT];
+    const ea = w.remateA ?? (w.pa ? 0 : EXT), eb = w.remateB ?? (w.pb ? 0 : EXT);
+    const wa = [w.a[0] - exw*ea, w.a[1] - ezw*ea];
+    const wb = [w.b[0] + exw*eb, w.b[1] + ezw*eb];
+    // Um remate substitui o filete removido: sua ponta pode ficar exposta junto
+    // ao vao. Fechar essa face inteira impede enxergar por dentro do prisma.
+    const semPontas = (w.pa || w.remateA != null ? 0 : 1) |
+                      (w.pb || w.remateB != null ? 0 : 2);
+    const cortes = {};
+    if(w.remateA != null) cortes[3]=cortesDaPonta(i,3,ESP);
+    if(w.remateB != null) cortes[1]=cortesDaPonta(i,1,ESP);
     prismaQuad(P, N, C, U, quadDoSeg([wa, wb], ESP), w.y0, yTopo, parede,
                (assar || LUZ) ? null : fyParede,
                U2, LUZ && cinco(f => LUZ.parede(i, f)), false,
-               (w.pa ? 0 : 1) | (w.pb ? 0 : 2), 0.80);
+               semPontas, 0.80, cortes);
     // Rodapé: 8 cm de faixa clara na base de toda parede que começa no chão. Custa
     // cinco quads por parede e é o detalhe que mais separa "caixa branca" de "cômodo".
     if (w.y0 < 0.05)
@@ -147,9 +182,22 @@ function geoDaCasa(pl, comTeto, tetoSeparado = false) {
       // MEIA_PAREDE em `mobiliar.py`), nao o rodape ser fino. Corrigido aquilo, ele
       // ganhou volume de verdade: 1,6 cm passa na frente da folga de 1,5 cm com que
       // o movel para, entao ele aparece na junta em vez de ficar espremido.
-      prismaQuad(P, N, C, U, quadDoSeg([wa, wb], ESP + 0.032), 0.02, 0.115, rodape,
-                 null, U2, LUZ && cinco(f => LUZ.rodape(i, f)), true,
-                 (w.pa ? 0 : 1) | (w.pb ? 0 : 2));
+      {
+        const espRodape = ESP + 0.032;
+        // A ponta do rodape ocupa o MESMO plano da ponta da parede. No miolo de
+        // largura ESP, portanto, desenhar as duas cria faces coplanares (z-fighting).
+        // O rodape so precisa fechar as duas abas que realmente salientes, 1,6 cm
+        // de cada lado. Recortamos o miolo contra a propria parede e mantemos os
+        // cortes contra paredes vizinhas calculados acima.
+        const margemParede = (espRodape - ESP) / (2 * espRodape);
+        const cortaMiolo = [margemParede, 1-margemParede, 0.02, 0.115];
+        prismaQuad(P, N, C, U, quadDoSeg([wa, wb], espRodape), 0.02, 0.115, rodape,
+                   null, U2, LUZ && cinco(f => LUZ.rodape(i, f)), true,
+                   semPontas, undefined, {
+                     3: w.remateA != null ? [...cortesDaPonta(i,3,espRodape,.02,.115), cortaMiolo] : [],
+                     1: w.remateB != null ? [...cortesDaPonta(i,1,espRodape,.02,.115), cortaMiolo] : []
+                   });
+      }
   }
   const dTeto = [[], [], [], [], LUZ ? [] : null];
   if (comTeto || tetoSeparado) for (let i = 0; i < pl.contorno.length; i++)

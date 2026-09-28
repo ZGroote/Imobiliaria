@@ -13,6 +13,11 @@ const read = name => fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/' 
 const base = new URL('../plantas_fornecidas/', import.meta.url);
 const units = ['monte-das-colinas-39', 'wish-castanheiras-58']
   .map(d => JSON.parse(fs.readFileSync(new URL(`${d}/unidade.json`, base), 'utf8')));
+const allUnits = fs.readdirSync(base)
+  .map(d => new URL(`${d}/unidade.json`, base))
+  .filter(u => fs.existsSync(u))
+  .map(u => JSON.parse(fs.readFileSync(u, 'utf8')))
+  .filter(u => u.planta && (u.planta.comodos || []).length);
 
 const DEPS = `const {inside, shoelace, safeInset, obbOf} = MapGeometry;
   const PD = 2.70, ESP = 0.13, V2 = THREE.Vector2;
@@ -30,7 +35,11 @@ const DEPS = `const {inside, shoelace, safeInset, obbOf} = MapGeometry;
   const {ESQ_ANG, ESQ_MARCO, geoDasEsquadrias} = Openings.create({THREE, ESP, rgbDe, matEsq, matAlum, matVidro});
   const fp = FloorPlan.create({inside, shoelace, ESP, ESQ_ANG, ESQ_MARCO, safeInset, obbOf, BUILDING_INSET: 1.0, PD,
     anelDoLote: () => null, MOVEIS: {}});
-  globalThis.__planta = u => fp.plantaDaUnidade({r: [[-12,-9],[14,-9],[14,11],[-12,11]], h: 30}, u);
+  const fpQuinas = FloorPlan.create({inside, shoelace, ESP, ESQ_ANG, ESQ_MARCO, safeInset, obbOf, BUILDING_INSET: 1.0, PD,
+    anelDoLote: () => null, MOVEIS: {}, fecharQuinas: true});
+  const recTeste = {r: [[-12,-9],[14,-9],[14,11],[-12,11]], h: 30};
+  globalThis.__planta = u => fp.plantaDaUnidade(recTeste, u);
+  globalThis.__plantaQuinas = u => fpQuinas.plantaDaUnidade(recTeste, u);
   globalThis.__bake = {BAKE, bakeAgora};`;
 function context(search) {
   const ctx = vm.createContext({location: {search}, URLSearchParams, performance, Image: class {},
@@ -80,3 +89,112 @@ test('house walls, skirting, floors, ceiling, bake queue and cache match the mon
         assert.equal(b.__bake.BAKE.fila === null || b.__bake.BAKE.fila === undefined, a.__bake.BAKE.fila === null || a.__bake.BAKE.fila === undefined);
       }
 });
+
+test('rendered surviving wall reaches the perpendicular face on either end', () => {
+  for (const side of ['remateA','remateB']) {
+    const ctx=modular('?bake=0');
+    const w={a:[0,0],b:[2,0],y0:.02,y1:2.6,pa:1,pb:1,[side]:.065};
+    const pl={id:'closure-fixture',pd:2.6,ob:{cx:0,cz:0,ux:1,uz:0},paredes:[w],comodos:[],contorno:[],esquadrias:[]};
+    const g=ctx.__geo(pl,false);const a=g.children[0].geometry.attributes.position;
+    const xs=[];for(let i=0;i<a.count;i++){assert.ok(Number.isFinite(a.getX(i)));xs.push(a.getX(i));}
+    assert.ok(Math.abs(Math.min(...xs)-(side==='remateA'?-.065:0))<1e-6);
+    assert.ok(Math.abs(Math.max(...xs)-(side==='remateB'?2.065:2))<1e-6);
+    assert.deepEqual(w.a,[0,0]);assert.deepEqual(w.b,[2,0]);
+  }
+});
+
+
+test('remate has an opaque end face from floor to ceiling on both ends', () => {
+  for (const side of ['remateA', 'remateB']) for (const openingEnd of [0, 1]) {
+    const ctx = modular('?bake=0');
+    const w = {a:[0,0], b:[2,0], y0:.02, y1:2.6, pa:openingEnd, pb:openingEnd, [side]:.065};
+    const pl = {id:'closed-remate', pd:2.6, ob:{cx:0,cz:0,ux:1,uz:0}, paredes:[w], comodos:[], contorno:[], esquadrias:[]};
+    const mesh = ctx.__geo(pl, false).children[0];
+    mesh.updateMatrixWorld(true);
+    for (const y of [.15, 1.3, 2.55]) {
+      const fromA = side === 'remateA';
+      const ray = new ctx.THREE.Raycaster(new ctx.THREE.Vector3(fromA ? -1 : 3, y, 0),
+        new ctx.THREE.Vector3(fromA ? 1 : -1, 0, 0));
+      const hits = ray.intersectObject(mesh);
+      assert.ok(hits.length, `${side} opening=${openingEnd} must block sight at y=${y}`);
+      assert.ok(Math.abs(hits[0].point.x - (fromA ? -.065 : 2.065)) < 1e-6);
+    }
+  }
+});
+
+
+test('remate stays opaque below a lintel and has only one surface where they meet', () => {
+  for (const angle of [0, .37, Math.PI/2]) {
+    const tr=([x,z])=>[x*Math.cos(angle)-z*Math.sin(angle),x*Math.sin(angle)+z*Math.cos(angle)];
+    const ctx=modular('?bake=0');
+    const walls=[{a:[0,0],b:[2,0],y0:.02,y1:2.6,pa:1,pb:1,remateB:.065},
+      {a:[2,-1],b:[2,1],y0:2.1,y1:2.6,pa:1,pb:1}]
+      .map(w=>({...w,a:tr(w.a),b:tr(w.b)}));
+    const pl={id:'lintel-closure',pd:2.6,ob:{cx:0,cz:0,ux:1,uz:0},paredes:walls,comodos:[],contorno:[],esquadrias:[]};
+    const mesh=ctx.__geo(pl,false).children[0];mesh.updateMatrixWorld(true);
+    for (const y of [.3,1.3,2.15,2.5]) {
+      const p=tr([3,.021]),d=tr([-1,0]);
+      const hits=new ctx.THREE.Raycaster(new ctx.THREE.Vector3(p[0],y,p[1]),new ctx.THREE.Vector3(d[0],0,d[1]))
+        .intersectObject(mesh).filter(h=>Math.abs(h.distance-.935)<1e-5);
+      assert.equal(hits.length,1,`one opaque face, no duplicate: y=${y}, angle=${angle}`);
+    }
+  }
+});
+
+test('every generated corner remate in supplied plans is closed and has no coincident face', () => {
+  const EPS = 2e-5, ESP = .13;
+  let remates = 0, raios = 0;
+  for (const u of allUnits) {
+    const ctx = modular('?bake=0');
+    const pl = ctx.__plantaQuinas(u);
+    const mesh = ctx.__geo(pl, false).children.find(m => m.material.name === 'parede');
+    assert.ok(mesh, u.id + ' wall mesh');
+    mesh.updateMatrixWorld(true);
+
+    for (const w of pl.paredes) for (const lado of ['A', 'B']) {
+      const chave = 'remate' + lado, ext = w[chave];
+      if (!(ext > 1e-7)) continue;
+      remates++;
+
+      const dx = w.b[0]-w.a[0], dz = w.b[1]-w.a[1], L = Math.hypot(dx,dz);
+      assert.ok(L > 1e-7, u.id + ' degenerate wall axis');
+      const ux = dx/L, uz = dz/L, nx = -uz, nz = ux;
+      const ponta = lado === 'A'
+        ? [w.a[0]-ux*ext, w.a[1]-uz*ext]
+        : [w.b[0]+ux*ext, w.b[1]+uz*ext];
+      const sinal = lado === 'A' ? 1 : -1;
+
+      // Amostras fora das diagonais dos dois triangulos da face. O raio entra pelo
+      // eixo da parede; uma ponta exposta precisa bloquear, e uma ponta coberta pela
+      // vizinha pode mudar QUAL prisma responde, mas nunca pode deixar buraco nem duas
+      // faces na mesma profundidade.
+      const alturas = [
+        Math.max(w.y0 + .035, .08),
+        (Math.max(w.y0,.02) + Math.min(w.y1,pl.pd)) / 2,
+        Math.min(w.y1 - .035, pl.pd - .035)
+      ].filter((y,i,a) => y > w.y0 + .01 && y < w.y1 - .01 &&
+        a.findIndex(v => Math.abs(v-y)<1e-6) === i);
+      for (const y of alturas) for (const off of [-.031, .019]) {
+        const origem = new ctx.THREE.Vector3(
+          ponta[0] - ux*sinal*.18 + nx*off, y,
+          ponta[1] - uz*sinal*.18 + nz*off);
+        const direcao = new ctx.THREE.Vector3(ux*sinal, 0, uz*sinal);
+        const hits = new ctx.THREE.Raycaster(origem, direcao).intersectObject(mesh)
+          .filter(h => h.distance < .36);
+        assert.ok(hits.length, `${u.id} ${chave}: open corner at y=${y.toFixed(3)} off=${off}`);
+
+        // Duas intersecoes praticamente na mesma distancia = duas superficies
+        // coplanares competindo no depth buffer, exatamente o triangulo/z-fighting
+        // que motivou o recorte do #66.
+        const ds = hits.map(h => h.distance).sort((a,b) => a-b);
+        for (let i=1;i<ds.length;i++)
+          assert.ok(Math.abs(ds[i]-ds[i-1]) > EPS,
+            `${u.id} ${chave}: coincident faces at y=${y.toFixed(3)} off=${off}, d=${ds[i].toFixed(6)}`);
+        raios++;
+      }
+    }
+  }
+  assert.ok(remates > 0, 'corner-remate fixtures exercised');
+  assert.ok(raios >= remates*2, `corner rays exercised: ${raios} for ${remates} remates`);
+});
+

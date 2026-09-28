@@ -1548,7 +1548,7 @@ var MAT = InteriorMaterials.create({ THREE: THREE, ambientePBR: ambientePBR,
   rugParede: TEX.rugParede, rugPiso: TEX.rugPiso, rugMadeira: TEX.rugMadeira });
 var OPEN = Openings.create({ THREE: THREE, ESP: ESP, rgbDe: rgbDe,
   matEsq: MAT.matEsq, matAlum: MAT.matAlum, matVidro: MAT.matVidro });
-var FP2 = FloorPlan.create({ inside: MG.inside, shoelace: MG.shoelace, ESP: ESP,
+var FP2 = FloorPlan.create({ fecharQuinas: true, inside: MG.inside, shoelace: MG.shoelace, ESP: ESP,
   ESQ_ANG: OPEN.ESQ_ANG, ESQ_MARCO: OPEN.ESQ_MARCO, safeInset: MG.safeInset,
   obbOf: MG.obbOf, BUILDING_INSET: BUILDING_INSET, PD: PD_INT,
   // `anelDoLote` e a ponte com o MAPA (lat/lon -> metros). Aqui o predio ja nasce na
@@ -1617,9 +1617,13 @@ function acabamentoTeto(grupo,pl) {
     [[0.10,0.055,0.0275],[0.055,0.055,0.0825]].forEach(function(f){
       var moldura=new THREE.Mesh(caixaGesso,gesso);
       moldura.name='rodateto';
-      moldura.position.set((w.a[0]+w.b[0])/2,pl.pd-f[2],(w.a[1]+w.b[1])/2);
+      // Mesmo remate do pano; a faixa mais larga precisa alcancar sua propria face.
+      var ea=w.remateA==null?ESP/2:w.remateA+f[0]/2;
+      var eb=w.remateB==null?ESP/2:w.remateB+f[0]/2;
+      moldura.position.set((w.a[0]+w.b[0])/2+dx/comprimento*(eb-ea)/2,pl.pd-f[2],
+                          (w.a[1]+w.b[1])/2+dz/comprimento*(eb-ea)/2);
       moldura.rotation.y=Math.atan2(dx,dz);
-      moldura.scale.set(ESP+f[0],f[1],comprimento+ESP);
+      moldura.scale.set(ESP+f[0],f[1],comprimento+ea+eb);
       moldura.receiveShadow=true;grupo.add(moldura);
     });
   });
@@ -2307,17 +2311,31 @@ function quadro(now) {
   sol.position.set(sx - 30, 46 + sy, sz + 22);
   sol.target.position.set(sx, sy, sz);
   sol.target.updateMatrixWorld();
+  caixaDaSombra(modo === "visita");
   luzDaPlanta(modo === "planta3d");
   ren.render(cena, cam);
 }
 // A camera de sombra tem que CABER o predio: nos +-5 m do padrao do three todo
 // fragmento fora da caixa e amostrado fora do mapa, e o three devolve isso como
 // sombra -- o predio sai preto, sem erro nenhum no console.
-var S = Math.max(raioChao, ALTURA) * 0.9;
-sol.shadow.camera.left = -S; sol.shadow.camera.right = S;
-sol.shadow.camera.top = S;   sol.shadow.camera.bottom = -S;
-sol.shadow.camera.near = 1;  sol.shadow.camera.far = 240;
-sol.shadow.camera.updateProjectionMatrix();
+// NA VISITA a caixa e a da UNIDADE: o predio esta escondido e so a planta projeta.
+// Com a caixa do predio inteiro (~4 cm por texel em 2048) a sombra do rodateto
+// caia na parede em serrilhado triangular e o bias listrava as paredes na
+// diagonal -- `?bake=0` nao mudava nada; sem `castShadow`, sumia.
+var caixaSombraVisita = null;
+function caixaDaSombra(visita) {
+  if (caixaSombraVisita === visita) return;
+  caixaSombraVisita = visita;
+  var c = sol.shadow.camera;
+  var S = visita ? Math.hypot(Math.hypot(PB.w, PB.h) / 2, PD / 2) + 0.5
+                 : Math.max(raioChao, ALTURA) * 0.9;
+  var d = sol.position.distanceTo(sol.target.position);
+  c.left = -S; c.right = S; c.top = S; c.bottom = -S;
+  c.near = visita ? Math.max(1, d - S) : 1;
+  c.far  = visita ? d + S : 240;
+  c.updateProjectionMatrix();
+}
+caixaDaSombra(false);
 redim(); orb.r = raioQueEnquadra(); centralizaVertical(); poeCam();
 @@EDITOR_CEDROS@@
 requestAnimationFrame(quadro);
