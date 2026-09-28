@@ -1619,7 +1619,11 @@ function acabamentoTeto(grupo,pl) {
       moldura.name='rodateto';
       moldura.position.set((w.a[0]+w.b[0])/2,pl.pd-f[2],(w.a[1]+w.b[1])/2);
       moldura.rotation.y=Math.atan2(dx,dz);
-      moldura.scale.set(ESP+f[0],f[1],comprimento+ESP);
+      // A ponta precisa entrar meia LARGURA da propria faixa na parede perpendicular.
+      // Antes somava so ESP: cada lado avancava 6,5 cm mesmo quando esta faixa mede
+      // 23 cm, deixando 5 cm de ponta exposta na quina (2,75 cm na faixa menor).
+      // Somar a largura total enterra a tampa da caixa dentro da faixa perpendicular.
+      moldura.scale.set(ESP+f[0],f[1],comprimento+ESP+f[0]);
       moldura.receiveShadow=true;grupo.add(moldura);
     });
   });
