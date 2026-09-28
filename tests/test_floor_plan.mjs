@@ -47,9 +47,17 @@ function openings(P) {
     vaos.push({rec: j, porta: false, p: j.p, largura: j.largura || 1.40, y0: j.y0 != null ? j.y0 : 1.00, y1: j.y1 != null ? j.y1 : 2.20});
   return vaos;
 }
+const compactaFiletes = (grade, pd) => ({
+  ...grade,
+  paredes: grade.paredes.filter(w => {
+    const L = Math.hypot(w.b[0]-w.a[0], w.b[1]-w.a[1]);
+    const alturaInteira = w.y0 < 0.05 && w.y1 >= pd - 0.01;
+    return !alturaInteira || L + 1e-6 >= 0.13;
+  })
+});
 const plain = v => JSON.stringify(v, (k, x) => k === 'src' ? undefined : x);
 
-test('walls, placed openings and door decisions match the monolith for every supplied plan', () => {
+test('walls, placed openings and door decisions match the monolith apart from degenerate wall nibs', () => {
   assert.ok(plans.length >= 5, 'supplied plans available');
   const a = oracle(), b = modular();
   let openingsSeen = 0;
@@ -58,8 +66,14 @@ test('walls, placed openings and door decisions match the monolith for every sup
     for (const pd of [u.planta.pe_direito || 2.70, 2.50, 3.00]) {
       const ga = a.paredesDaGrade(u.planta.comodos, openings(u.planta), pd);
       const gb = b.paredesDaGrade(u.planta.comodos, openings(u.planta), pd);
-      assert.equal(plain(gb), plain(ga), u.id + ' pd ' + pd);
+      assert.equal(plain(gb), plain(compactaFiletes(ga, pd)), u.id + ' pd ' + pd);
       assert.ok(gb.paredes.length > 0);
+      for (const w of gb.paredes) {
+        const L = Math.hypot(w.b[0]-w.a[0], w.b[1]-w.a[1]);
+        const alturaInteira = w.y0 < 0.05 && w.y1 >= pd - 0.01;
+        assert.ok(!alturaInteira || L + 1e-6 >= 0.13,
+          u.id + ' emitted full-height wall shorter than its 13 cm thickness: ' + L);
+      }
       for (let k = 0; k < gb.vaos.length; k++) {
         const da = a.decideVao(u.planta.comodos, ga.vaos[k], pd), db = b.decideVao(u.planta.comodos, gb.vaos[k], pd);
         assert.equal(JSON.stringify(db), JSON.stringify(da), u.id + ' opening ' + k);
