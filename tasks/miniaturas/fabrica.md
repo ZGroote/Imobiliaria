@@ -47,7 +47,7 @@ O repositório já tem partes importantes da fábrica; o trabalho agora é conec
 | Parte | Estado atual | Automação hoje |
 |---|---|---|
 | Cadastro do imóvel | `padrao/cidades/*.json` + dados de unidade/planta | estruturado |
-| Entry point da maquete | `pagina_maquete.py` | monta a base atual; no Cedros desvia para o PREMIUM aprovado de `padrao_atual.py` |
+| Entry point da maquete | `pagina_maquete.py` + `pipeline/artefatos_leve.py` | monta a base atual e resolve o modelo LEVE por perfil/slug; no Cedros desvia para o PREMIUM aprovado de `padrao_atual.py` |
 | Modelos LEVE Blender | `modelar_imovel.py` → geradores de família + `fonte_leve.py` | fonte normalizada e entrypoint único; Cedros/Colinas/Castanheiras provados byte a byte |
 | Exportação Blender | `blender_maquete_base.py` | automatizada |
 | PREMIUM Cedros | `padrao_atual.py` | montagem determinística |
@@ -64,6 +64,10 @@ normalizada e repetível ainda depende de código/decisões específicas de cada
 
 O gargalo original de escolher manualmente o gerador LEVE já foi removido para os três fixtures:
 `modelar_imovel.py -- <propertyId>` resolve a família a partir da fonte normalizada.
+
+A resolução do artefato também é única: `pipeline/artefatos_leve.py` deriva pasta,
+`modelo.json`, GLB e `validacao.json` do `profile/slug` normalizado. A página, o build
+e a fábrica não mantêm mapas próprios de `propertyId -> pasta Blender`.
 
 ### Runner local implementado
 

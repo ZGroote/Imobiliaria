@@ -23,7 +23,7 @@ import time
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
 
-from pipeline import build_imovel, fonte_leve, imovel  # noqa: E402
+from pipeline import artefatos_leve, build_imovel, fonte_leve, imovel  # noqa: E402
 from pipeline.build.config import resolve  # noqa: E402
 from pipeline.build.manifest import entradas, snapshot  # noqa: E402
 
@@ -121,10 +121,9 @@ def descrever_leve(imovel_id):
 
 def _modelo_geravel(imovel_id):
     try:
-        desc = descrever_leve(imovel_id)
-    except Bloqueado:
+        return artefatos_leve.resolver(imovel_id)['modelo']
+    except fonte_leve.FonteLeveErro:
         return None
-    return MINI_ROOT / (desc['slug'] + '_blender') / 'modelo.json'
 
 
 def resolver_fontes(imovel_id):
@@ -201,12 +200,12 @@ def resolver_blender(executavel=None):
                      'Blender 5.2.2 não encontrado; configure BLENDER_EXE uma vez')
 
 
-def _artefatos_leve(slug, raiz=MINI_ROOT):
-    pasta = Path(raiz) / (slug + '_blender')
+def _artefatos_leve(imovel_id, raiz=MINI_ROOT):
+    resolvido = artefatos_leve.resolver(imovel_id, root=raiz)
     return {
-        'modelo.json': pasta / 'modelo.json',
-        slug + '.glb': pasta / (slug + '.glb'),
-        'validacao.json': pasta / 'validacao.json',
+        'modelo.json': resolvido['modelo'],
+        resolvido['slug'] + '.glb': resolvido['glb'],
+        'validacao.json': resolvido['validacao'],
     }
 
 
@@ -273,7 +272,7 @@ def gerar_leve(imovel_id, cache_path=None, blender=None, dest_root=MINI_ROOT,
         RAIZ / 'publicacao' / 'fabrica' / imovel_id / 'leve-state.json')
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     state = _ler_json(cache_path)
-    destinos = _artefatos_leve(desc['slug'], dest_root)
+    destinos = _artefatos_leve(imovel_id, dest_root)
     atuais = _hashes_existentes(destinos)
 
     if (state and state.get('schema') == 1
@@ -308,7 +307,7 @@ def gerar_leve(imovel_id, cache_path=None, blender=None, dest_root=MINI_ROOT,
             cauda = '\n'.join(((proc.stdout or '') + '\n' + (proc.stderr or '')).splitlines()[-30:])
             raise RuntimeError('Blender falhou ao gerar LEVE:\n' + cauda)
 
-        origens = _artefatos_leve(desc['slug'], Path(tmp))
+        origens = _artefatos_leve(imovel_id, Path(tmp))
         gerados = _validar_artefatos_leve(desc['slug'], origens)
         _promocao_segura(destinos, state)
         _promover_artefatos(origens, destinos)

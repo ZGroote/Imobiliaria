@@ -29,7 +29,7 @@ import tempfile
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
 
-from pipeline import imovel  # noqa: E402
+from pipeline import artefatos_leve, fonte_leve, imovel  # noqa: E402
 from pipeline.build.config import resolve  # noqa: E402
 from pipeline.build.manifest import entradas, snapshot  # noqa: E402
 
@@ -80,9 +80,12 @@ def fontes_da_maquete(imovel_id):
                                            for p in padrao['source_manifest']()['sources']]
     mini = MAQUETE.parent
     fontes.append(mini / 'caminhada.js')
-    modelos = runpy.run_path(str(MAQUETE))['MODELOS_BLENDER']
-    if imovel_id in modelos:
-        fontes += [mini / 'castanheiras.js', mini / modelos[imovel_id] / 'modelo.json']
+    try:
+        modelo = artefatos_leve.resolver(imovel_id)
+    except fonte_leve.FonteLeveErro:
+        modelo = None
+    if modelo:
+        fontes += [mini / 'castanheiras.js', modelo['modelo']]
     return fontes
 
 
