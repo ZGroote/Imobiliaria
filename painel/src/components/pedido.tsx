@@ -6,7 +6,7 @@ import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
 import { editarPedido } from '@/lib/pedidos'
 import { ROTULO_STATUS, TOM_STATUS } from '@/lib/status'
-import type { Request, RequestStatus } from '@/lib/types'
+import { ROTULO_MODO_PRODUCAO, type Request, type RequestStatus } from '@/lib/types'
 
 export const SeloStatus = ({ s }: { s: RequestStatus }) => <Selo tom={TOM_STATUS[s]}>{ROTULO_STATUS[s]}</Selo>
 export const ROTULO_PRIORIDADE = { low: 'Baixa', normal: 'Normal', high: 'Alta' } as const
@@ -16,12 +16,13 @@ export function ListaDePedidos({ pedidos, base, imovel, pessoa, agencia }: {
   agencia?: (id: string) => string
 }) {
   if (!pedidos.length) return <Vazio>Nenhuma solicitação.</Vazio>
-  const cab = ['Solicitação', 'Imóvel', ...(agencia ? ['Imobiliária'] : []), 'Solicitante', 'Status', 'Prioridade', 'Atualizada']
+  const cab = ['Solicitação', 'Produto', 'Imóvel', ...(agencia ? ['Imobiliária'] : []), 'Solicitante', 'Status', 'Prioridade', 'Atualizada']
   return (
     <Tabela cabecalho={cab}>
       {pedidos.map((r) => (
         <tr key={r.id}>
           <Td><Link href={`${base}/view?id=${r.id}`} className="font-medium hover:underline">{r.title}</Link></Td>
+          <Td>{r.productionMode ? ROTULO_MODO_PRODUCAO[r.productionMode] : '—'}</Td>
           <Td>{imovel(r.propertyId)}</Td>
           {agencia && <Td>{agencia(r.agencyId)}</Td>}
           <Td>{pessoa(r.requestedBy)}</Td>
@@ -39,6 +40,7 @@ export function DadosDoPedido({ r, imovel, pessoa, extra }: {
 }) {
   const linhas: [string, ReactNode][] = [
     ['Status', <SeloStatus key="s" s={r.status} />],
+    ['Produto', r.productionMode ? ROTULO_MODO_PRODUCAO[r.productionMode] : 'Não registrado (pedido anterior)'],
     ['Imóvel', imovel],
     ['Solicitante', pessoa],
     ['Anúncio', r.listingUrl &&

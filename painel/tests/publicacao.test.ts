@@ -113,7 +113,9 @@ test('publicação: só o admin, só o aprovado; histórico visível só para a 
 
 test('republicar guarda o anterior; reverter volta a ele e fica no histórico', async () => {
   const admin = await entrar('admin'), corA = await entrar('corA'), op = await entrar('op')
-  const novo = await criarPedido(corA.db, 'corA', { agencyId: 'agA', title: 'Nova versão do Cedros', propertyId: 'cedros' })
+  const novo = await criarPedido(corA.db, 'corA', {
+    agencyId: 'agA', title: 'Nova versão do Cedros', productionMode: 'leve', propertyId: 'cedros',
+  })
   await aprovado(novo.id, '0f9e8d7c6b5a')
   noArAgora = '0f9e8d7c6b5a'
   await registrarPublicacao(admin.db, 'admin', await pedido(admin.db, novo.id), await imovel(admin.db, 'cedros'),

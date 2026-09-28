@@ -50,6 +50,13 @@ export type RequestStatus =
   | 'submitted' | 'waiting_materials' | 'accepted' | 'production'
   | 'internal_review' | 'agency_review' | 'approved' | 'published' | 'cancelled'
 
+export type ProductionMode = 'leve' | 'premium'
+export const MODOS_PRODUCAO: ProductionMode[] = ['leve', 'premium']
+export const ROTULO_MODO_PRODUCAO: Record<ProductionMode, string> = {
+  leve: 'LEVE',
+  premium: 'PREMIUM',
+}
+
 export interface Preview {
   build: string                           // identidade funcional: tour + maquete
   tourUrl: string
@@ -60,6 +67,7 @@ export interface Preview {
 export interface Request {                // requests/{id}
   id: string; agencyId: string; requestedBy: string
   propertyId?: string; listingUrl?: string; title: string
+  productionMode?: ProductionMode              // ausente só em pedidos anteriores ao produto LEVE/PREMIUM
   status: RequestStatus; priority?: 'low' | 'normal' | 'high'
   notes?: string
   assignedTo?: string
