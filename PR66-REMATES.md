@@ -25,3 +25,12 @@ O teste de eb09dcc provava que existia uma face, mas não que existia **apenas u
 O recorte é restrito às pontas marcadas como remate, incluindo rodapé. Mantém dimensões, aberturas, eixos de colisão e coordenadas de textura/atlas. Não usa deslocamento artificial, polygonOffset, mudança de textura ou IDs de imóveis. Consumidores sem remate conservam o comportamento anterior.
 
 A prova visual não deve ser declarada aprovada apenas pelos testes: conferir também o canto por ambos os lados, sobretudo entre a verga e o teto. PR permanece draft, sem merge/deploy.
+
+
+## Terceiro caso encontrado pelo gate geral
+
+O primeiro CI do teste que varre todos os remates encontrou uma sobreposição real no Cedros a y = 0,08 m: a face terminal da parede e a face terminal do próprio rodapé estavam no mesmo plano longitudinal.
+
+O rodapé tem espessura `ESP + 0,032` e a parede `ESP`. Na ponta exposta, o fechamento do rodapé só precisa existir nas duas abas laterais de 0,016 m que ultrapassam a parede. A faixa central de largura `ESP` já é fechada pela ponta da parede.
+
+A correção recorta essa faixa central da face terminal do rodapé. O teste geral permanece inalterado: coincidência de faces continua sendo falha, inclusive na faixa do rodapé.
