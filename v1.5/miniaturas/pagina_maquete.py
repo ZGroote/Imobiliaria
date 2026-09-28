@@ -2311,17 +2311,31 @@ function quadro(now) {
   sol.position.set(sx - 30, 46 + sy, sz + 22);
   sol.target.position.set(sx, sy, sz);
   sol.target.updateMatrixWorld();
+  caixaDaSombra(modo === "visita");
   luzDaPlanta(modo === "planta3d");
   ren.render(cena, cam);
 }
 // A camera de sombra tem que CABER o predio: nos +-5 m do padrao do three todo
 // fragmento fora da caixa e amostrado fora do mapa, e o three devolve isso como
 // sombra -- o predio sai preto, sem erro nenhum no console.
-var S = Math.max(raioChao, ALTURA) * 0.9;
-sol.shadow.camera.left = -S; sol.shadow.camera.right = S;
-sol.shadow.camera.top = S;   sol.shadow.camera.bottom = -S;
-sol.shadow.camera.near = 1;  sol.shadow.camera.far = 240;
-sol.shadow.camera.updateProjectionMatrix();
+// NA VISITA a caixa e a da UNIDADE: o predio esta escondido e so a planta projeta.
+// Com a caixa do predio inteiro (~4 cm por texel em 2048) a sombra do rodateto
+// caia na parede em serrilhado triangular e o bias listrava as paredes na
+// diagonal -- `?bake=0` nao mudava nada; sem `castShadow`, sumia.
+var caixaSombraVisita = null;
+function caixaDaSombra(visita) {
+  if (caixaSombraVisita === visita) return;
+  caixaSombraVisita = visita;
+  var c = sol.shadow.camera;
+  var S = visita ? Math.hypot(Math.hypot(PB.w, PB.h) / 2, PD / 2) + 0.5
+                 : Math.max(raioChao, ALTURA) * 0.9;
+  var d = sol.position.distanceTo(sol.target.position);
+  c.left = -S; c.right = S; c.top = S; c.bottom = -S;
+  c.near = visita ? Math.max(1, d - S) : 1;
+  c.far  = visita ? d + S : 240;
+  c.updateProjectionMatrix();
+}
+caixaDaSombra(false);
 redim(); orb.r = raioQueEnquadra(); centralizaVertical(); poeCam();
 @@EDITOR_CEDROS@@
 requestAnimationFrame(quadro);

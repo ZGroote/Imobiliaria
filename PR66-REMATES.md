@@ -34,3 +34,16 @@ O primeiro CI do teste que varre todos os remates encontrou uma sobreposição r
 O rodapé tem espessura `ESP + 0,032` e a parede `ESP`. Na ponta exposta, o fechamento do rodapé só precisa existir nas duas abas laterais de 0,016 m que ultrapassam a parede. A faixa central de largura `ESP` já é fechada pela ponta da parede.
 
 A correção recorta essa faixa central da face terminal do rodapé. O teste geral permanece inalterado: coincidência de faces continua sendo falha, inclusive na faixa do rodapé.
+
+## Mancha triangular abaixo do rodateto: sombra do sol, não remate
+
+Prova A/B na `maquete.html`, modo Visita (a `tour.html` não liga `fecharQuinas`):
+
+| Variante | Serrilhado sob o rodateto e listras diagonais |
+|---|---|
+| `?moveis=0` | presentes |
+| `?moveis=0&bake=0` | presentes |
+| `bake=0` e sol sem `castShadow` | ausentes |
+| build publicado 9d4038e55b87 (anterior ao #66) | presentes |
+
+Causa: a câmera de sombra do sol cobria o prédio inteiro também na visita (cerca de 4 cm por texel em 2048). A borda da sombra do rodateto na parede saía em serra, e o bias gerava listras. Correção: na visita, a caixa de sombra envolve só a unidade, com near e far justos. O prédio já está escondido nesse modo. Os outros modos mantêm a caixa anterior. Build b2c998e71177: sem serrilhado nas oito vistas do remate, com bake ligado e desligado, e o modo Prédio fica igual depois de sair da visita.
