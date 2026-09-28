@@ -29,7 +29,7 @@ import tempfile
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
 
-from pipeline import artefatos_leve, fonte_leve, imovel  # noqa: E402
+from pipeline import artefatos_leve, fonte_leve, imovel, modo_producao  # noqa: E402
 from pipeline.build.config import resolve  # noqa: E402
 from pipeline.build.manifest import entradas, snapshot  # noqa: E402
 
@@ -68,14 +68,16 @@ def canonicaliza_html(path):
     path.write_bytes(dado.replace(b'\r\n', b'\n').replace(b'\r', b'\n'))
 
 
-def fontes_da_maquete(imovel_id):
-    """O que o pagina_maquete.py le alem do que `entradas(config)` ja cobre (renderizador,
-    moveis, luz assada, cadastro). No Cedros ele entrega a pagina inteira ao
-    padrao_atual.py, e as fontes passam a ser os arquivos do `padrao-atual/`. Nos outros,
-    a caminhada e, quando ha modelo do Blender, o castanheiras.js e o modelo.json dele."""
-    fontes = [MAQUETE]
-    padrao = runpy.run_path(str(PADRAO_CEDROS))
-    if imovel_id == padrao['UID']:
+def fontes_da_maquete(imovel_id, production_mode=None):
+    """Fontes que realmente determinam a maquete do produto escolhido.
+
+    Sem modo explícito preserva o histórico: Cedros PREMIUM, demais LEVE.
+    Com modo explícito, nunca há downgrade/fallback silencioso.
+    """
+    modo = modo_producao.resolver(imovel_id, production_mode)
+    fontes = [MAQUETE, Path(modo_producao.__file__).resolve()]
+    if modo == 'premium':
+        padrao = runpy.run_path(str(PADRAO_CEDROS))
         return fontes + [PADRAO_CEDROS] + [padrao['SOURCE'] / p
                                            for p in padrao['source_manifest']()['sources']]
     mini = MAQUETE.parent
@@ -86,6 +88,8 @@ def fontes_da_maquete(imovel_id):
         modelo = None
     if modelo:
         fontes += [mini / 'castanheiras.js', modelo['modelo']]
+    if imovel_id == modo_producao.premium_uid():
+        fontes.append(mini / 'editor_cedros.js')
     return fontes
 
 
@@ -112,10 +116,11 @@ NAO_PUBLICAR = {
 }
 
 
-def construir(imovel_id, builds=BUILDS):
+def construir(imovel_id, builds=BUILDS, production_mode=None):
     if imovel_id in NAO_PUBLICAR:
         raise ValueError('%s nao se publica ate confirmar a origem: %s'
                          % (imovel_id, NAO_PUBLICAR[imovel_id]))
+    modo = modo_producao.resolver(imovel_id, production_mode)
     piloto = json.loads(PILOTO.read_text(encoding='utf-8'))
     config = resolve(piloto['cidade'], piloto['variante'])
     achadas = imovel._unidades(config.cidade(), {imovel_id})
@@ -125,7 +130,7 @@ def construir(imovel_id, builds=BUILDS):
 
     fontes = entradas(config) + [PILOTO, TERRENOS, Path(__file__).resolve(),
                                  RAIZ / 'pipeline/imovel.py', RAIZ / 'pipeline/recorte.py']
-    fontes += fontes_da_maquete(imovel_id)
+    fontes += fontes_da_maquete(imovel_id, modo)
     antes = snapshot(fontes)
     pasta = builds / imovel_id
     pasta.mkdir(parents=True, exist_ok=True)
@@ -140,7 +145,7 @@ def construir(imovel_id, builds=BUILDS):
         Path(gerado).rename(trabalho / 'tour.html')
         subprocess.run([sys.executable, str(MAQUETE), '--cidade', piloto['cidade'],
                         '--unidade', imovel_id, '--saida', str(trabalho / 'maquete.html'),
-                        '--mapa', 'tour.html'],
+                        '--mapa', 'tour.html', '--modo', modo],
                        check=True, cwd=str(RAIZ), stdout=sys.stderr)
         for n in ARQUIVOS:
             canonicaliza_html(trabalho / n)
@@ -150,6 +155,7 @@ def construir(imovel_id, builds=BUILDS):
         build = build_id(*((trabalho / n).read_bytes() for n in ARQUIVOS))
         alvo = pasta / build
         resultado = {'imovel': imovel_id, 'build': build, 'reutilizado': alvo.exists(),
+                     'productionMode': modo,
                      'pasta': (alvo.relative_to(RAIZ).as_posix() if alvo.is_relative_to(RAIZ)
                                else str(alvo))}
         if alvo.exists():
@@ -184,11 +190,13 @@ def construir(imovel_id, builds=BUILDS):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument('imovel', help='id do cadastro, ex.: monte-dos-cedros-37')
+    parser.add_argument('--modo', choices=modo_producao.MODOS,
+                        help='produto explícito; ausente preserva o comportamento histórico')
     args = parser.parse_args(argv)
     try:
         # Cadastro, montador e recorte imprimem progresso no stdout, que e so da linha final.
         with contextlib.redirect_stdout(sys.stderr):
-            resultado = construir(args.imovel)
+            resultado = construir(args.imovel, production_mode=args.modo)
     except ValueError as exc:
         parser.exit(1, str(exc) + '\n')
     print(json.dumps(resultado, ensure_ascii=False))
