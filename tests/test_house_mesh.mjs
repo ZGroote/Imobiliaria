@@ -13,6 +13,11 @@ const read = name => fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/' 
 const base = new URL('../plantas_fornecidas/', import.meta.url);
 const units = ['monte-das-colinas-39', 'wish-castanheiras-58']
   .map(d => JSON.parse(fs.readFileSync(new URL(`${d}/unidade.json`, base), 'utf8')));
+const allUnits = fs.readdirSync(base)
+  .map(d => new URL(`${d}/unidade.json`, base))
+  .filter(u => fs.existsSync(u))
+  .map(u => JSON.parse(fs.readFileSync(u, 'utf8')))
+  .filter(u => u.planta && (u.planta.comodos || []).length);
 
 const DEPS = `const {inside, shoelace, safeInset, obbOf} = MapGeometry;
   const PD = 2.70, ESP = 0.13, V2 = THREE.Vector2;
@@ -30,7 +35,11 @@ const DEPS = `const {inside, shoelace, safeInset, obbOf} = MapGeometry;
   const {ESQ_ANG, ESQ_MARCO, geoDasEsquadrias} = Openings.create({THREE, ESP, rgbDe, matEsq, matAlum, matVidro});
   const fp = FloorPlan.create({inside, shoelace, ESP, ESQ_ANG, ESQ_MARCO, safeInset, obbOf, BUILDING_INSET: 1.0, PD,
     anelDoLote: () => null, MOVEIS: {}});
-  globalThis.__planta = u => fp.plantaDaUnidade({r: [[-12,-9],[14,-9],[14,11],[-12,11]], h: 30}, u);
+  const fpQuinas = FloorPlan.create({inside, shoelace, ESP, ESQ_ANG, ESQ_MARCO, safeInset, obbOf, BUILDING_INSET: 1.0, PD,
+    anelDoLote: () => null, MOVEIS: {}, fecharQuinas: true});
+  const recTeste = {r: [[-12,-9],[14,-9],[14,11],[-12,11]], h: 30};
+  globalThis.__planta = u => fp.plantaDaUnidade(recTeste, u);
+  globalThis.__plantaQuinas = u => fpQuinas.plantaDaUnidade(recTeste, u);
   globalThis.__bake = {BAKE, bakeAgora};`;
 function context(search) {
   const ctx = vm.createContext({location: {search}, URLSearchParams, performance, Image: class {},
@@ -131,3 +140,61 @@ test('remate stays opaque below a lintel and has only one surface where they mee
     }
   }
 });
+
+test('every generated corner remate in supplied plans is closed and has no coincident face', () => {
+  const EPS = 2e-5, ESP = .13;
+  let remates = 0, raios = 0;
+  for (const u of allUnits) {
+    const ctx = modular('?bake=0');
+    const pl = ctx.__plantaQuinas(u);
+    const mesh = ctx.__geo(pl, false).children.find(m => m.material.name === 'parede');
+    assert.ok(mesh, u.id + ' wall mesh');
+    mesh.updateMatrixWorld(true);
+
+    for (const w of pl.paredes) for (const lado of ['A', 'B']) {
+      const chave = 'remate' + lado, ext = w[chave];
+      if (!(ext > 1e-7)) continue;
+      remates++;
+
+      const dx = w.b[0]-w.a[0], dz = w.b[1]-w.a[1], L = Math.hypot(dx,dz);
+      assert.ok(L > 1e-7, u.id + ' degenerate wall axis');
+      const ux = dx/L, uz = dz/L, nx = -uz, nz = ux;
+      const ponta = lado === 'A'
+        ? [w.a[0]-ux*ext, w.a[1]-uz*ext]
+        : [w.b[0]+ux*ext, w.b[1]+uz*ext];
+      const sinal = lado === 'A' ? 1 : -1;
+
+      // Amostras fora das diagonais dos dois triangulos da face. O raio entra pelo
+      // eixo da parede; uma ponta exposta precisa bloquear, e uma ponta coberta pela
+      // vizinha pode mudar QUAL prisma responde, mas nunca pode deixar buraco nem duas
+      // faces na mesma profundidade.
+      const alturas = [
+        Math.max(w.y0 + .035, .08),
+        (Math.max(w.y0,.02) + Math.min(w.y1,pl.pd)) / 2,
+        Math.min(w.y1 - .035, pl.pd - .035)
+      ].filter((y,i,a) => y > w.y0 + .01 && y < w.y1 - .01 &&
+        a.findIndex(v => Math.abs(v-y)<1e-6) === i);
+      for (const y of alturas) for (const off of [-.031, .019]) {
+        const origem = new ctx.THREE.Vector3(
+          ponta[0] - ux*sinal*.18 + nx*off, y,
+          ponta[1] - uz*sinal*.18 + nz*off);
+        const direcao = new ctx.THREE.Vector3(ux*sinal, 0, uz*sinal);
+        const hits = new ctx.THREE.Raycaster(origem, direcao).intersectObject(mesh)
+          .filter(h => h.distance < .36);
+        assert.ok(hits.length, `${u.id} ${chave}: open corner at y=${y.toFixed(3)} off=${off}`);
+
+        // Duas intersecoes praticamente na mesma distancia = duas superficies
+        // coplanares competindo no depth buffer, exatamente o triangulo/z-fighting
+        // que motivou o recorte do #66.
+        const ds = hits.map(h => h.distance).sort((a,b) => a-b);
+        for (let i=1;i<ds.length;i++)
+          assert.ok(Math.abs(ds[i]-ds[i-1]) > EPS,
+            `${u.id} ${chave}: coincident faces at y=${y.toFixed(3)} off=${off}, d=${ds[i].toFixed(6)}`);
+        raios++;
+      }
+    }
+  }
+  assert.ok(remates > 0, 'corner-remate fixtures exercised');
+  assert.ok(raios >= remates*2, `corner rays exercised: ${raios} for ${remates} remates`);
+});
+
