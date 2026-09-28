@@ -85,7 +85,18 @@ function paredesDaGrade(comodos, vaos, pd) {
     }
     if (L - t0 > 0.06) out.push({ a: pt(t0), b: pt(L), y0: 0.02, y1: pd, pa: vs.length ? 1 : 0 });
   }
-  return { paredes: out, vaos: postos };
+  // Um resto de parede menor que a propria espessura nao e um pano de parede:
+  // e um filete deixado pelo recorte de um vao. Extrudar, por exemplo, 8 cm de
+  // comprimento com 13 cm de espessura cria um prisma mais grosso que comprido,
+  // expondo duas faces no corredor e uma quina falsa no encontro com o forro.
+  // O marco/guarnicao do vao ja resolve visualmente essa ombreira. Mantemos peitoris
+  // e vergas (nao ocupam a altura inteira) e qualquer pano com comprimento >= ESP.
+  const paredes = out.filter(w => {
+    const comprimento = Math.hypot(w.b[0]-w.a[0], w.b[1]-w.a[1]);
+    const alturaInteira = w.y0 < 0.05 && w.y1 >= pd - 0.01;
+    return !alturaInteira || comprimento + 1e-6 >= ESP;
+  });
+  return { paredes, vaos: postos };
 }
 
 /* ---- pra que lado a porta abre ----------------------------------------
