@@ -112,3 +112,22 @@ test('remate has an opaque end face from floor to ceiling on both ends', () => {
     }
   }
 });
+
+
+test('remate stays opaque below a lintel and has only one surface where they meet', () => {
+  for (const angle of [0, .37, Math.PI/2]) {
+    const tr=([x,z])=>[x*Math.cos(angle)-z*Math.sin(angle),x*Math.sin(angle)+z*Math.cos(angle)];
+    const ctx=modular('?bake=0');
+    const walls=[{a:[0,0],b:[2,0],y0:.02,y1:2.6,pa:1,pb:1,remateB:.065},
+      {a:[2,-1],b:[2,1],y0:2.1,y1:2.6,pa:1,pb:1}]
+      .map(w=>({...w,a:tr(w.a),b:tr(w.b)}));
+    const pl={id:'lintel-closure',pd:2.6,ob:{cx:0,cz:0,ux:1,uz:0},paredes:walls,comodos:[],contorno:[],esquadrias:[]};
+    const mesh=ctx.__geo(pl,false).children[0];mesh.updateMatrixWorld(true);
+    for (const y of [.3,1.3,2.15,2.5]) {
+      const p=tr([3,.021]),d=tr([-1,0]);
+      const hits=new ctx.THREE.Raycaster(new ctx.THREE.Vector3(p[0],y,p[1]),new ctx.THREE.Vector3(d[0],0,d[1]))
+        .intersectObject(mesh).filter(h=>Math.abs(h.distance-.935)<1e-5);
+      assert.equal(hits.length,1,`one opaque face, no duplicate: y=${y}, angle=${angle}`);
+    }
+  }
+});

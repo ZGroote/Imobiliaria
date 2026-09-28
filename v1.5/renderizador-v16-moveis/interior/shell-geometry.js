@@ -11,7 +11,7 @@
 
    Sai de graca porque o prisma ja emite o vertice de baixo e o de cima separados: a
    gradacao e interpolada pelo proprio rasterizador, sem um triangulo a mais. */
-function prismaQuad(P, N, C, U, q, y0, y1, rgb, fy, U2, pecas, semTampa, semPontas, fPonta) {
+function prismaQuad(P, N, C, U, q, y0, y1, rgb, fy, U2, pecas, semTampa, semPontas, fPonta, cortesPontas) {
   // `U2`/`pecas`: a UV do atlas de luz. `pecas` e um vetor de 5 funcoes, uma por
   // face deste prisma, ja enderecadas por quem chamou -- ver `cursorDeLuz`.
   /* `fPonta`: quanto a PONTA do prisma escurece. A ponta que sobra (a que morre num
@@ -60,6 +60,7 @@ function prismaQuad(P, N, C, U, q, y0, y1, rgb, fy, U2, pecas, semTampa, semPont
     const L = Math.hypot(nx, nz) || 1; nx /= L; nz /= L;
     const c = Math.hypot(b[0]-a[0], b[1]-a[1]);   // UV corre com o comprimento real
     mapa = pecas ? pecas[i] : null;
+    if (!cortesPontas?.[i]?.length) {
     for (let k = 0; k < NF; k++) {
       const ya = y0 + (y1-y0)*k/NF, yb = y0 + (y1-y0)*(k+1)/NF;
       const va = (ya-y0)/H, vb = (yb-y0)/H;
@@ -69,6 +70,32 @@ function prismaQuad(P, N, C, U, q, y0, y1, rgb, fy, U2, pecas, semTampa, semPont
       put(a[0],ya,a[1],nx,0,nz,0,ya); put2(0, va);
       put(b[0],yb,b[1],nx,0,nz,c,yb); put2(1, vb);
       put(a[0],yb,a[1],nx,0,nz,0,yb); put2(0, vb);
+    }
+      continue;
+    }
+    // Recorta somente a parte da ponta coberta por outro prisma. A parte
+    // exposta continua opaca; a coberta nao duplica a face da parede vizinha.
+    let retangulos = [[0, 1, y0, y1]];
+    for (const [l,r,baixo,alto] of (cortesPontas?.[i] || [])) {
+      retangulos = retangulos.flatMap(([x0,x1,z0,z1]) => {
+        const a=Math.max(x0,l), b=Math.min(x1,r), c=Math.max(z0,baixo), d=Math.min(z1,alto);
+        if (b-a < 1e-7 || d-c < 1e-7) return [[x0,x1,z0,z1]];
+        return [[x0,a,z0,z1],[b,x1,z0,z1],[a,b,z0,c],[a,b,d,z1]]
+          .filter(q => q[1]-q[0]>1e-7 && q[3]-q[2]>1e-7);
+      });
+    }
+    for (const [t0,t1,baixo,alto] of retangulos) for (let k = 0; k < NF; k++) {
+      const ya = Math.max(baixo,y0+(y1-y0)*k/NF), yb = Math.min(alto,y0+(y1-y0)*(k+1)/NF);
+      if (yb <= ya) continue;
+      const va = (ya-y0)/H, vb = (yb-y0)/H;
+      const ax=a[0]+(b[0]-a[0])*t0, az=a[1]+(b[1]-a[1])*t0;
+      const bx=a[0]+(b[0]-a[0])*t1, bz=a[1]+(b[1]-a[1])*t1;
+      put(ax,ya,az,nx,0,nz,c*t0,ya); put2(t0, va);
+      put(bx,ya,bz,nx,0,nz,c*t1,ya); put2(t1, va);
+      put(bx,yb,bz,nx,0,nz,c*t1,yb); put2(t1, vb);
+      put(ax,ya,az,nx,0,nz,c*t0,ya); put2(t0, va);
+      put(bx,yb,bz,nx,0,nz,c*t1,yb); put2(t1, vb);
+      put(ax,yb,az,nx,0,nz,c*t0,yb); put2(t0, vb);
     }
   }
   /* `semTampa`: NAO emitir a face de cima. Existe pro rodape, e o motivo e o
