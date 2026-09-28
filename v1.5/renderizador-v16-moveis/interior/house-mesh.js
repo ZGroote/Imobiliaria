@@ -182,12 +182,22 @@ function geoDaCasa(pl, comTeto, tetoSeparado = false) {
       // MEIA_PAREDE em `mobiliar.py`), nao o rodape ser fino. Corrigido aquilo, ele
       // ganhou volume de verdade: 1,6 cm passa na frente da folga de 1,5 cm com que
       // o movel para, entao ele aparece na junta em vez de ficar espremido.
-      prismaQuad(P, N, C, U, quadDoSeg([wa, wb], ESP + 0.032), 0.02, 0.115, rodape,
-                 null, U2, LUZ && cinco(f => LUZ.rodape(i, f)), true,
-                 semPontas, undefined, {
-                   3: w.remateA != null ? cortesDaPonta(i,3,ESP+.032,.02,.115) : [],
-                   1: w.remateB != null ? cortesDaPonta(i,1,ESP+.032,.02,.115) : []
-                 });
+      {
+        const espRodape = ESP + 0.032;
+        // A ponta do rodape ocupa o MESMO plano da ponta da parede. No miolo de
+        // largura ESP, portanto, desenhar as duas cria faces coplanares (z-fighting).
+        // O rodape so precisa fechar as duas abas que realmente salientes, 1,6 cm
+        // de cada lado. Recortamos o miolo contra a propria parede e mantemos os
+        // cortes contra paredes vizinhas calculados acima.
+        const margemParede = (espRodape - ESP) / (2 * espRodape);
+        const cortaMiolo = [margemParede, 1-margemParede, 0.02, 0.115];
+        prismaQuad(P, N, C, U, quadDoSeg([wa, wb], espRodape), 0.02, 0.115, rodape,
+                   null, U2, LUZ && cinco(f => LUZ.rodape(i, f)), true,
+                   semPontas, undefined, {
+                     3: w.remateA != null ? [...cortesDaPonta(i,3,espRodape,.02,.115), cortaMiolo] : [],
+                     1: w.remateB != null ? [...cortesDaPonta(i,1,espRodape,.02,.115), cortaMiolo] : []
+                   });
+      }
   }
   const dTeto = [[], [], [], [], LUZ ? [] : null];
   if (comTeto || tetoSeparado) for (let i = 0; i < pl.contorno.length; i++)
