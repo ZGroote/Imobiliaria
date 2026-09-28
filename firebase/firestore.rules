@@ -161,7 +161,7 @@ service cloud.firestore {
     // (build once, promote the exact artifact). matches() casa a string inteira.
     function isSha256(v) { return v is string && v.matches('[0-9a-f]{64}'); }
     function productionModeOk() {
-      return !('productionMode' in d()) || d().productionMode in ['leve', 'premium'];
+      return 'productionMode' in d() && d().productionMode in ['leve', 'premium'];
     }
 
     // Ninguém além do gerente escreve a aprovação. Publicar exige o artefato aprovado: o build

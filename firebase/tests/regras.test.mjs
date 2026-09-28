@@ -158,9 +158,9 @@ test('2. gerente A não altera dados de B nem cria em nome de B', async () => {
   const f = db('gerA');
   await assertFails(updateDoc(doc(f, 'requests/reqB'), { title: 'x', updatedAt: now() }));
   await assertFails(updateDoc(doc(f, 'properties/propB'), { assignedAgentId: 'corA', updatedAt: now() }));
-  await assertFails(setDoc(doc(f, 'requests/novo'), pedido('agB', 'gerA', 'submitted', { createdAt: now(), updatedAt: now() })));
+  await assertFails(setDoc(doc(f, 'requests/novo'), pedido('agB', 'gerA', 'submitted', { productionMode: 'leve', createdAt: now(), updatedAt: now() })));
   // pedido de A apontando para imóvel de B
-  await assertFails(setDoc(doc(f, 'requests/novo'), pedido('agA', 'gerA', 'submitted', { propertyId: 'propB', createdAt: now(), updatedAt: now() })));
+  await assertFails(setDoc(doc(f, 'requests/novo'), pedido('agA', 'gerA', 'submitted', { productionMode: 'leve', propertyId: 'propB', createdAt: now(), updatedAt: now() })));
   // material em pedido de B, declarado como de A ou como de B
   for (const agencyId of ['agA', 'agB'])
     await assertFails(setDoc(doc(f, 'requestAssets/x'), { requestId: 'reqB', agencyId, type: 'photo', filename: 'x.jpg',
@@ -390,10 +390,10 @@ test('14. imutáveis e atribuição de corretor', async () => {
   await assertSucceeds(mudaStatus(db('corA2'), 'corA2', 'reqA', 'cancelled'));
 });
 
-test('15a. productionMode: LEVE/PREMIUM válidos, legado compatível e modo imutável', async () => {
+test('15a. productionMode: obrigatório em novos pedidos, legado continua editável e modo é imutável', async () => {
   const cor = db('corA'), admin = db('admin');
-  // Compatibilidade de rollout: cliente antigo ainda pode criar sem o campo enquanto o painel é atualizado.
-  await assertSucceeds(setDoc(doc(cor, 'requests/legadoTransitorio'),
+  // Janela de rollout encerrada: pedido NOVO sem modo não nasce mais.
+  await assertFails(setDoc(doc(cor, 'requests/semModoNovo'),
     pedido('agA', 'corA', 'submitted', { createdAt: now(), updatedAt: now() })));
   await assertSucceeds(setDoc(doc(cor, 'requests/leveNovo'),
     pedido('agA', 'corA', 'submitted', { productionMode: 'leve', createdAt: now(), updatedAt: now() })));
@@ -407,13 +407,17 @@ test('15a. productionMode: LEVE/PREMIUM válidos, legado compatível e modo imut
     { productionMode: 'premium', updatedAt: now() }));
   await assertFails(updateDoc(doc(admin, 'requests/leveNovo'),
     { productionMode: 'premium', updatedAt: now() }));
+
+  // Pedidos históricos sem o campo continuam seguindo o fluxo: a obrigatoriedade vale só no create.
+  await assertSucceeds(updateDoc(doc(db('corA2'), 'requests/reqA'),
+    { title: 'Legado ainda editável', updatedAt: now() }));
 });
 
 test('15. imobiliária cria pedido e material só na própria agência', async () => {
   const f = db('corA');
-  await assertSucceeds(setDoc(doc(f, 'requests/novoA'), pedido('agA', 'corA', 'submitted', { propertyId: 'propA', createdAt: now(), updatedAt: now() })));
-  await assertFails(setDoc(doc(f, 'requests/novoA2'), pedido('agA', 'corA', 'approved', { createdAt: now(), updatedAt: now() })));
-  await assertFails(setDoc(doc(f, 'requests/novoA3'), pedido('agA', 'corA2', 'submitted', { createdAt: now(), updatedAt: now() })));
+  await assertSucceeds(setDoc(doc(f, 'requests/novoA'), pedido('agA', 'corA', 'submitted', { productionMode: 'leve', propertyId: 'propA', createdAt: now(), updatedAt: now() })));
+  await assertFails(setDoc(doc(f, 'requests/novoA2'), pedido('agA', 'corA', 'approved', { productionMode: 'leve', createdAt: now(), updatedAt: now() })));
+  await assertFails(setDoc(doc(f, 'requests/novoA3'), pedido('agA', 'corA2', 'submitted', { productionMode: 'leve', createdAt: now(), updatedAt: now() })));
   await assertSucceeds(setDoc(doc(f, 'requestAssets/a2'), { requestId: 'reqA', agencyId: 'agA', type: 'floorplan', filename: 'planta.pdf',
     storagePath: 'request-assets/agA/reqA/planta.pdf', uploadedBy: 'corA', createdAt: now() }));
   await assertFails(setDoc(doc(f, 'requestAssets/a3'), { requestId: 'reqA', agencyId: 'agA', type: 'floorplan', filename: 'p.pdf',
