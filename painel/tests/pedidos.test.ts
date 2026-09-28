@@ -10,16 +10,44 @@ after(sairDeTodos)
 
 test('pedidos: a imobiliária cria só na própria agência e só com imóvel dela', async () => {
   const corA = await entrar('corA')
-  const ref = await criarPedido(corA.db, 'corA', { agencyId: 'agA', title: ' Tour novo ', propertyId: 'cedros',
-    listingUrl: 'https://anuncio.example/1', priority: 'high', notes: '' })
+  const ref = await criarPedido(corA.db, 'corA', { agencyId: 'agA', title: ' Tour novo ', productionMode: 'leve',
+    propertyId: 'cedros', listingUrl: 'https://anuncio.example/1', priority: 'high', notes: '' })
   const p = (await getDoc(ref)).data()!
-  assert.deepEqual([p.status, p.requestedBy, p.title, p.priority, 'notes' in p], ['submitted', 'corA', 'Tour novo', 'high', false])
+  assert.deepEqual(
+    [p.status, p.requestedBy, p.title, p.productionMode, p.priority, 'notes' in p],
+    ['submitted', 'corA', 'Tour novo', 'leve', 'high', false],
+  )
 
-  await assert.rejects(criarPedido(corA.db, 'corA', { agencyId: 'agB', title: 'Em nome de B' }), /permission/i)
-  await assert.rejects(criarPedido(corA.db, 'corA', { agencyId: 'agA', title: 'Imóvel de B', propertyId: 'imovelB' }), /permission/i)
-  await assert.rejects(criarPedido(corA.db, 'gerA', { agencyId: 'agA', title: 'Em nome de outro' }), /permission/i)
-  assert.throws(() => criarPedido(corA.db, 'corA', { agencyId: 'agA', title: 'X', listingUrl: 'javascript:alert(1)' }), /http/)
-  assert.throws(() => criarPedido(corA.db, 'corA', { agencyId: 'agA', title: ' ' }), /título/)
+  await assert.rejects(criarPedido(corA.db, 'corA', {
+    agencyId: 'agB', title: 'Em nome de B', productionMode: 'leve',
+  }), /permission/i)
+  await assert.rejects(criarPedido(corA.db, 'corA', {
+    agencyId: 'agA', title: 'Imóvel de B', productionMode: 'premium', propertyId: 'imovelB',
+  }), /permission/i)
+  await assert.rejects(criarPedido(corA.db, 'gerA', {
+    agencyId: 'agA', title: 'Em nome de outro', productionMode: 'leve',
+  }), /permission/i)
+  assert.throws(() => criarPedido(corA.db, 'corA', {
+    agencyId: 'agA', title: 'X', productionMode: 'leve', listingUrl: 'javascript:alert(1)',
+  }), /http/)
+  assert.throws(() => criarPedido(corA.db, 'corA', {
+    agencyId: 'agA', title: ' ', productionMode: 'leve',
+  }), /título/)
+  assert.throws(() => criarPedido(corA.db, 'corA', {
+    agencyId: 'agA', title: 'X', productionMode: 'ultra' as 'leve',
+  }), /LEVE ou PREMIUM/)
+})
+
+test('pedidos: equipe interna cria LEVE ou PREMIUM para qualquer imobiliária', async () => {
+  const admin = await entrar('admin')
+  const leve = await criarPedido(admin.db, 'admin', {
+    agencyId: 'agA', title: 'Cedros LEVE', productionMode: 'leve', propertyId: 'cedros',
+  })
+  const premium = await criarPedido(admin.db, 'admin', {
+    agencyId: 'agB', title: 'Imóvel B PREMIUM', productionMode: 'premium', propertyId: 'imovelB',
+  })
+  assert.equal((await getDoc(leve)).data()!.productionMode, 'leve')
+  assert.equal((await getDoc(premium)).data()!.productionMode, 'premium')
 })
 
 test('pedidos: quem edita o quê, e quando', async () => {

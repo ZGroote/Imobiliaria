@@ -390,6 +390,25 @@ test('14. imutáveis e atribuição de corretor', async () => {
   await assertSucceeds(mudaStatus(db('corA2'), 'corA2', 'reqA', 'cancelled'));
 });
 
+test('15a. productionMode: LEVE/PREMIUM válidos, legado compatível e modo imutável', async () => {
+  const cor = db('corA'), admin = db('admin');
+  // Compatibilidade de rollout: cliente antigo ainda pode criar sem o campo enquanto o painel é atualizado.
+  await assertSucceeds(setDoc(doc(cor, 'requests/legadoTransitorio'),
+    pedido('agA', 'corA', 'submitted', { createdAt: now(), updatedAt: now() })));
+  await assertSucceeds(setDoc(doc(cor, 'requests/leveNovo'),
+    pedido('agA', 'corA', 'submitted', { productionMode: 'leve', createdAt: now(), updatedAt: now() })));
+  await assertSucceeds(setDoc(doc(admin, 'requests/premiumNovo'),
+    pedido('agB', 'admin', 'submitted', { productionMode: 'premium', createdAt: now(), updatedAt: now() })));
+  await assertFails(setDoc(doc(cor, 'requests/invalido'),
+    pedido('agA', 'corA', 'submitted', { productionMode: 'ultra', createdAt: now(), updatedAt: now() })));
+
+  // O produto é decisão do pedido: não muda no meio do fluxo, nem pelo platform_admin.
+  await assertFails(updateDoc(doc(cor, 'requests/leveNovo'),
+    { productionMode: 'premium', updatedAt: now() }));
+  await assertFails(updateDoc(doc(admin, 'requests/leveNovo'),
+    { productionMode: 'premium', updatedAt: now() }));
+});
+
 test('15. imobiliária cria pedido e material só na própria agência', async () => {
   const f = db('corA');
   await assertSucceeds(setDoc(doc(f, 'requests/novoA'), pedido('agA', 'corA', 'submitted', { propertyId: 'propA', createdAt: now(), updatedAt: now() })));

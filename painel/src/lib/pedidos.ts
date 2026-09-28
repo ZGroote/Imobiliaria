@@ -1,19 +1,22 @@
 import { addDoc, collection, deleteField, doc, serverTimestamp, setDoc, updateDoc, type Firestore } from 'firebase/firestore'
 import { urlSegura } from './imoveis.ts'
-import type { Request } from './types.ts'
+import { MODOS_PRODUCAO, type ProductionMode, type Request } from './types.ts'
 
 // Pedido = solicitação de produção de um tour. Nasce "submitted"; status muda só por
 // mudarStatus (status.ts / auditoria), nunca por aqui.
 export interface NovoPedido {
-  agencyId: string; title: string; propertyId?: string; listingUrl?: string
+  agencyId: string; title: string; productionMode: ProductionMode
+  propertyId?: string; listingUrl?: string
   priority?: Request['priority']; notes?: string
 }
 
 const texto = (v?: string) => (v ?? '').trim()
 
-function validar(c: { title?: string; listingUrl?: string }) {
+function validar(c: { title?: string; listingUrl?: string; productionMode?: string }) {
   if (c.title !== undefined && !texto(c.title)) throw new Error('Informe um título para o pedido.')
   if (!urlSegura(texto(c.listingUrl) || undefined)) throw new Error('O link do anúncio precisa começar com http:// ou https://.')
+  if (c.productionMode !== undefined && !MODOS_PRODUCAO.includes(c.productionMode as ProductionMode))
+    throw new Error('Escolha LEVE ou PREMIUM.')
 }
 
 export function criarPedido(db: Firestore, uid: string, p: NovoPedido) {
@@ -21,7 +24,7 @@ export function criarPedido(db: Firestore, uid: string, p: NovoPedido) {
   if (!p.agencyId) throw new Error('Escolha a imobiliária.')
   const opcionais = { propertyId: texto(p.propertyId), listingUrl: texto(p.listingUrl), notes: texto(p.notes), priority: p.priority }
   return addDoc(collection(db, 'requests'), {
-    agencyId: p.agencyId, requestedBy: uid, title: texto(p.title), status: 'submitted',
+    agencyId: p.agencyId, requestedBy: uid, title: texto(p.title), productionMode: p.productionMode, status: 'submitted',
     ...Object.fromEntries(Object.entries(opcionais).filter(([, v]) => v)),
     createdAt: serverTimestamp(), updatedAt: serverTimestamp(),
   })

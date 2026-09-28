@@ -36,6 +36,19 @@ O que existe e roda:
 
 ---
 
+### Produto solicitado: LEVE ou PREMIUM (28/09/2026)
+
+- Uma única coleção `requests`; não existem fluxos/kanbans separados.
+- `productionMode = leve | premium` é a intenção de produto e fica **imutável** depois da criação.
+- O link continua sendo só a origem/fonte; ele não decide a qualidade.
+- Pedidos anteriores ao campo continuam legíveis sem `productionMode` e aparecem como
+  "Não registrado (pedido anterior)".
+- Rollout em duas etapas: primeiro as regras aceitam o campo de forma aditiva e o painel novo
+  sempre o grava; depois do deploy do painel, um PR curto torna o campo obrigatório também nas
+  Security Rules. Isso evita incompatibilidade entre painel antigo e regras novas.
+- A futura fábrica ligada ao pedido deve carregar esse modo para o BuildJob; não há downgrade
+  silencioso de PREMIUM para LEVE.
+
 ## 2. Onde cada dado mora
 
 A regra é uma fonte de verdade por fato. O painel registra e confere; não duplica.
@@ -120,9 +133,12 @@ export type RequestStatus =
   | 'submitted' | 'waiting_materials' | 'accepted' | 'production'
   | 'internal_review' | 'agency_review' | 'approved' | 'published' | 'cancelled'
 
+export type ProductionMode = 'leve' | 'premium'
+
 export interface Request {                // requests/{id}
   id: string; agencyId: string; requestedBy: string
   propertyId?: string; listingUrl?: string; title: string
+  productionMode?: ProductionMode         // obrigatório no painel novo; ausente só em pedidos anteriores
   status: RequestStatus; priority?: 'low' | 'normal' | 'high'
   notes?: string                          // da imobiliária; visível a ela
   assignedTo?: string                     // responsável interno
@@ -766,6 +782,8 @@ firebase.painel.json           site imobilaria-deccb-painel (só hosting)
 
 - **Rotas (D1):** `/properties/view?id=`, `/requests/view?id=`,
   `/admin/requests/view?id=` e assim por diante. O export estático não gera `[id]`.
+  Para a equipe interna, `/admin/requests/new/leve` e `/admin/requests/new/premium`
+  congelam o produto antes de preencher imobiliária, imóvel e link.
 - **Fora da Fase 1:**
   - `/settings`: ainda não há o que a imobiliária configure;
   - `/analytics` e `/admin/analytics`: Fase 3;
