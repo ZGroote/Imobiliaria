@@ -21,6 +21,7 @@ function validar(c: { title?: string; listingUrl?: string; productionMode?: stri
 
 export function criarPedido(db: Firestore, uid: string, p: NovoPedido) {
   validar(p)
+  if (!MODOS_PRODUCAO.includes(p.productionMode)) throw new Error('Escolha LEVE ou PREMIUM.')
   if (!p.agencyId) throw new Error('Escolha a imobiliária.')
   const opcionais = { propertyId: texto(p.propertyId), listingUrl: texto(p.listingUrl), notes: texto(p.notes), priority: p.priority }
   return addDoc(collection(db, 'requests'), {
