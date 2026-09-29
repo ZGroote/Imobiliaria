@@ -170,14 +170,25 @@ def montar(leitura, dir_base="."):
 
     caixas = unificar_bordas(caixas)
 
-    areas_rot = [c["area_rotulada"] for c in comodos_in]
+    areas_rot = [c.get("area_rotulada") for c in comodos_in]
+    escala_conhecida = leitura.get("escala_px_por_m")
     recuo = leitura.get("recuo_px")
     if recuo is None:
-        recuo, _ = ajustar_recuo(caixas, areas_rot, esp)
+        if all(a is not None and a > 0 for a in areas_rot):
+            recuo, _ = ajustar_recuo(caixas, areas_rot, esp)
+        else:
+            recuo = int(round(esp / 2.0))
 
     areas_px = [(x1 - x0 - 2 * recuo) * (y1 - y0 - 2 * recuo)
                 for x0, y0, x1, y1 in caixas]
-    s = calibrar(areas_px, areas_rot)
+    if escala_conhecida is not None:
+        s = float(escala_conhecida)
+        if not np.isfinite(s) or s <= 0:
+            raise ValueError("escala_px_por_m precisa ser positiva")
+    else:
+        if not all(a is not None and a > 0 for a in areas_rot):
+            raise ValueError("sem escala_px_por_m, todo comodo precisa de area_rotulada")
+        s = calibrar(areas_px, areas_rot)
 
     # o recuo some da AREA mas nao da POSICAO: o comodo tem que continuar
     # encostando no vizinho, senao a derivacao de parede quebra.
@@ -190,12 +201,13 @@ def montar(leitura, dir_base="."):
         # area CONFERIDA e a do interior (poligono menos meia parede em cada lado),
         # que e o que o rotulo do desenho descreve. O poligono em si continua cheio.
         area = round((X1 - X0 - 2 * recuo / s) * (Y1 - Y0 - 2 * recuo / s), 2)
-        rot = c["area_rotulada"]
+        rot = c.get("area_rotulada")
+        erro = (area - rot) / rot if rot is not None and rot > 0 else 0.0
         relatorio.append({"nome": c["nome"], "area": area, "rotulada": rot,
-                          "erro": (area - rot) / rot})
+                          "erro": erro, "conferida_por_area": rot is not None})
         saida.append({
             "nome": c["nome"],
-            "area": rot,                      # o rotulo do desenho manda na ficha
+            "area": rot if rot is not None else area,
             "piso": c.get("piso", "frio"),
             "poly": [[round(X0, 2), round(Y0, 2)], [round(X1, 2), round(Y0, 2)],
                      [round(X1, 2), round(Y1, 2)], [round(X0, 2), round(Y1, 2)]],
@@ -215,16 +227,22 @@ def cmd_montar(caminho):
     print("  %-18s %8s %8s %8s" % ("comodo", "fechou", "rotulo", "erro"))
     ruins = 0
     for r in rel:
-        fora = abs(r["erro"]) > TOL_AREA
+        fora = r["conferida_por_area"] and abs(r["erro"]) > TOL_AREA
         ruins += fora
-        print("  %-18s %8.2f %8.2f %7.1f%%%s" % (
-            r["nome"], r["area"], r["rotulada"], r["erro"] * 100,
-            "  <-- FORA" if fora else ""))
+        rot = ("%.2f" % r["rotulada"]) if r["rotulada"] is not None else "-"
+        err = ("%6.1f%%" % (r["erro"] * 100)) if r["conferida_por_area"] else "   n/a"
+        print("  %-18s %8.2f %8s %7s%s" % (
+            r["nome"], r["area"], rot, err, "  <-- FORA" if fora else ""))
     sf = sum(r["area"] for r in rel)
-    sr = sum(r["rotulada"] for r in rel)
-    print("  %-18s %8.2f %8.2f %7.1f%%" % ("TOTAL", sf, sr, (sf - sr) / sr * 100))
+    rotulos = [r["rotulada"] for r in rel if r["rotulada"] is not None]
+    if len(rotulos) == len(rel) and rotulos:
+        sr = sum(rotulos)
+        print("  %-18s %8.2f %8.2f %7.1f%%" % ("TOTAL", sf, sr, (sf - sr) / sr * 100))
+    else:
+        print("  %-18s %8.2f %8s %7s" % ("TOTAL", sf, "-", "n/a"))
 
-    conferida = ruins == 0
+    conferida = ruins == 0 and (bool(leitura.get("escala_px_por_m")) or
+                                all(r["conferida_por_area"] for r in rel))
     print("\n%d comodo(s) fora da tolerancia de %.0f%%  ->  escala_conferida: %s"
           % (ruins, TOL_AREA * 100, str(conferida).lower()))
 
