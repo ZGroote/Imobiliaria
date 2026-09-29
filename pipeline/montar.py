@@ -66,7 +66,7 @@ def bloco_json(ident, texto, recorte=None):
             texto.replace("</", "<\\/"), "</script>\n"]
 
 
-def monta(carimbo=None, config=None, recorte=None):
+def monta(carimbo=None, config=None, recorte=None, runtime_v2=False):
     config = config or resolve()
     CID = config.cidade()
     VERSAO = config.versao
@@ -86,6 +86,10 @@ def monta(carimbo=None, config=None, recorte=None):
               "<script>", ler("lib/earcut.min.js"), "</script>\n",
               "<style>", folhas.folha(config), "</style>\n"]
     for ident, chave in blocos_dado.DADOS:
+        # Runtime V2 recebe a massa da cidade por index/context/chunks. Embutir o
+        # city_saida monolitico aqui anularia o ganho de startup e de rede do V2.
+        if runtime_v2 and chave == "city_saida":
+            continue
         if ident == "__arvores":
             partes += bloco(ident, blocos_dado.bloco_arvores(CID))
             continue
@@ -137,11 +141,13 @@ def main(argv=None):
     parser.add_argument('--variante')
     parser.add_argument('--destino', help='Diretorio isolado para os dois HTMLs')
     parser.add_argument('--sem-zip', action='store_true')
+    parser.add_argument('--runtime-v2', action='store_true',
+                        help='monta pagina V2 sem a base monolitica __citydata')
     parser.add_argument('--conferir')
     args = parser.parse_args(argv)
     try:
         config = resolve(args.cidade, args.variante, args.destino)
-        s = monta(config=config)
+        s = monta(config=config, runtime_v2=args.runtime_v2)
     except (ValueError, KeyError) as exc:
         parser.error(str(exc))
     if args.conferir:
