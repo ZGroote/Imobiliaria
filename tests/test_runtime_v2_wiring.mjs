@@ -28,3 +28,8 @@ test('composed classic bundle remains syntactically valid with V2 modules presen
  const source=modules.map(name=>fs.readFileSync(new URL(name,root),'utf8')).join('\n');
  assert.doesNotThrow(()=>new Function(source));
 });
+
+
+test('Runtime V2 explicitly bypasses legacy urban asset instancing',()=>{
+ assert.match(app,/if \(!RUNTIME_V2 && new URLSearchParams\(location\.search\)\.get\("casas"\) !== "procedural"\)/);
+});
