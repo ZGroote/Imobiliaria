@@ -113,6 +113,12 @@ async function runCase(label,url,isV2){
       v2:window.__runtimeV2?.stats?.()||null}))()`);
     const heap=await send('Runtime.getHeapUsage');
 
+    if(process.env.RUNTIME_AB_SCREENSHOT_DIR){
+      await fs.mkdir(process.env.RUNTIME_AB_SCREENSHOT_DIR,{recursive:true});
+      const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+      await fs.writeFile(path.join(process.env.RUNTIME_AB_SCREENSHOT_DIR,label+'.png'),Buffer.from(shot.data,'base64'));
+    }
+
     await delay(300);
     assert.equal(httpErrors.length,0,label+' HTTP errors: '+JSON.stringify(httpErrors));
     assert.equal(errors.length,0,label+' runtime errors: '+JSON.stringify(errors));
