@@ -101,8 +101,17 @@ SONDA = """
   // 29/09 no main: 1 de 4 rodadas medindo; num caso a entrada so veio aos ~5,5 s. Aqui o
   // clique se repete enquanto a etapa nao virou "interior", e so com a animacao parada;
   // depois disso a entrada (cresceMaquete + voo) e esperada pelo estado, nao pelo tempo.
+  //
+  // E cada volta da espera AVANCA UM QUADRO. A animacao da ficha e o voo so progridem
+  // dentro do `frame()`, e no headless o rAF para -- enquanto o tempo virtual dos
+  // `setTimeout` continua correndo. Medido depois do #69: uma rodada esgotou os 40 s de
+  // espera em 45 s de relogio sem a entrada acontecer, e outra mediu com `voo: true` e a
+  // camera em (388728, 110469, -34102). `__perf.passo` e o quadro completo fora do rAF
+  // que a pagina ja oferece pras sondas (ver o comentario dele no app.js).
+  function quadro() { if (window.__perf && window.__perf.passo) window.__perf.passo(); }
   (function entrar(n) {
     var I = window.__int, bt = document.getElementById("uEnter");
+    quadro();
     if (I.INT.on && I.INT.casa) { medir.n = 0; return setTimeout(medir, 250); }
     if (n <= 0) {
       console.log("SONDA " + JSON.stringify({ erro: "a entrada no interior nao aconteceu",
@@ -140,6 +149,7 @@ SONDA = """
     var I = window.__int;
     if (I.INT.voo && medir.n++ < 40) {
       I.INT.voo.t0 -= I.INT.voo.dur + 1000;
+      quadro();   // o voo rebobinado so conclui (`fim()`) dentro de um quadro
       return setTimeout(medir, 250);
     }
     // v15: o bake de luz assenta em fatias de 5 ms por quadro. Sem terminar o que
