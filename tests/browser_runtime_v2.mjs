@@ -18,7 +18,7 @@ const chrome=spawn(chromeBin,[
 ],{stdio:['ignore','ignore','pipe']});
 let chromeErr=''; chrome.stderr.on('data',d=>{chromeErr+=d.toString();});
 let socket,seq=0;
-const pending=new Map(),errors=[],httpErrors=[],chunkUrls=new Set();
+const pending=new Map(),errors=[],httpErrors=[],chunkUrls=new Set(); let urbanKitSeen=false;
 try{
  let port;
  for(let i=0;i<120;i++){
@@ -37,6 +37,7 @@ try{
    const r=d.params.response;
    if(r.status>=400&&!r.url.endsWith('/favicon.ico')) httpErrors.push({url:r.url,status:r.status});
    if(r.url.includes('/runtime-v2/chunks/')) chunkUrls.add(r.url);
+   if(r.url.includes('/runtime-v2/urban-kit.json')) urbanKitSeen=true;
   }
  };
  function send(method,params={}){
@@ -64,6 +65,7 @@ try{
  assert.equal(await read("!!document.getElementById('__urbanModelsV2')"),false,
    'Runtime V2 must not embed an offline urban model pack');
  assert.ok(stats.resident>=0,'Runtime V2 server-backed diagnostics missing');
+ assert.equal(urbanKitSeen,true,'Runtime V2 did not fetch urban-kit.json from the server package');
  assert.equal(stats.chunks,3876);
  assert.equal(stats.buildings,89895);
  assert.ok(stats.mounted>0,'no V2 chunks mounted');
