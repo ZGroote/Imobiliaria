@@ -3,7 +3,7 @@
   "use strict";
   function create({document, $, esc, px, pz, brl, getSheet, ListingModels, hsheet, usheet,
                    housesBox, houseBeacon, flyTo, closePoiSheet, abrePerto,
-                   mostraMaquete, escondeMaquete, predioMaisPerto}) {
+                   mostraMaquete, escondeMaquete, predioMaisPerto, prewarmMapAt}) {
 const HOUSES = (function () {
   try { return JSON.parse(document.getElementById("__imoveis").textContent); }
   catch (e) { return []; }
@@ -13,6 +13,7 @@ let HOUSE_ATUAL = null;   // o anuncio SEM planta que esta na ficha simples
 function openHouseSheet(house) {
   const hx = px(house.lon), hz = pz(house.lat);
   HOUSE_ATUAL = { h: house, x: hx, z: hz };
+  try { prewarmMapAt?.(hx, hz); } catch {}
   getSheet().preencheAnuncio(house);   // a ficha nasce depois deste modulo
   hsheet.classList.add("on");
   hsheet.classList.remove("min");
