@@ -30,7 +30,9 @@ test('composed classic bundle remains syntactically valid with V2 modules presen
 });
 
 
-test('Runtime V2 uses compact urban kit while legacy pack stays V1-only',()=>{
- assert.match(app,/if \(RUNTIME_V2 && \$\("__urbanModelsV2"\)\)/);
- assert.match(app,/else if \(!RUNTIME_V2 && new URLSearchParams\(location\.search\)\.get\("casas"\) !== "procedural"\)/);
+test('Runtime V2 fetches its urban kit while legacy pack stays V1-only',()=>{
+ assert.doesNotMatch(app,/RUNTIME_V2 && \$\("__urbanModelsV2"\)/);
+ assert.match(app,/rawIndex\.urbanKit\?\.url/);
+ assert.match(app,/fetchJsonV2\(kitUrl\)/);
+ assert.match(app,/if \(!RUNTIME_V2 && new URLSearchParams\(location\.search\)\.get\("casas"\) !== "procedural"\)/);
 });
