@@ -54,7 +54,7 @@ async function runCase(label,url,isV2){
         if(!u) return;
         const n=d.params.encodedDataLength||0;
         networkBytes+=n; requestCount++; lastNetworkAt=Date.now();
-        if(u.includes('/runtime-v2/chunks/')){chunkBytes+=n;chunkRequests++;}
+        if(u.includes('/runtime-v2/chunks/')||u.includes('/runtime-v2/packs/')){chunkBytes+=n;chunkRequests++;}
       }
     };
     function send(method,params={}){
