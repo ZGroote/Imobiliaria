@@ -32,6 +32,10 @@ def comprime(s):
     pedacos = []
     for ident, _ in DADOS:
         abre = '<script type="application/json" id="%s">' % ident
+        # Runtime V2 deliberately omits __citydata: the city mass is fetched as
+        # index/context/chunks. Compression must accept that intentional absence.
+        if abre not in s:
+            continue
         i = s.index(abre); j = s.index("</script>", i)
         pedacos.append((s[i:j + 9], s[i + len(abre):j], "json", ident))
     # As bibliotecas e o app tambem vao comprimidos -- three.js sozinho e 589 KB, e
