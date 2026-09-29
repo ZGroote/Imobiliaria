@@ -59,7 +59,14 @@ jobs:
         run: |
           CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
           test -n "$CHROME_BIN"
-          CHROME="$CHROME_BIN" node tests/browser_runtime_v2.mjs "http://127.0.0.1:8872/v2.html?runtime=v2&cityIndex=/runtime-v2/index.json&q=baixo"
+          RUNTIME_V2_MOBILE_SCREENSHOT="$RUNNER_TEMP/runtime-v2-mobile.png" CHROME="$CHROME_BIN" node tests/browser_runtime_v2.mjs "http://127.0.0.1:8872/v2.html?runtime=v2&cityIndex=/runtime-v2/index.json&q=baixo"
+      - name: Upload Runtime V2 mobile screenshot
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: runtime-v2-mobile
+          path: ${{ runner.temp }}/runtime-v2-mobile.png
+          if-no-files-found: error
+          retention-days: 7
       - name: V1 vs V2 cold browser benchmark
         run: |
           CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
