@@ -80,6 +80,19 @@ try{
  await read('window.__int.renderer.render(window.__int.scene,window.__int.camera); true');
  assert.notDeepEqual(after,before,'180 degree camera turn did not change visible chunk set');
 
+ if(process.env.RUNTIME_V2_MOBILE_SCREENSHOT){
+   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+   await read("(()=>{dispatchEvent(new Event('resize'));try{window.__perf?.passo();}catch{};return true})()");
+   await delay(800);
+   await read("(()=>{try{window.__runtimeV2?.controller?.update(true);window.__perf?.passo();}catch{};return true})()");
+   await delay(800);
+   const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+   await fs.writeFile(process.env.RUNTIME_V2_MOBILE_SCREENSHOT,Buffer.from(shot.data,'base64'));
+   const mobile=await read("(()=>({w:innerWidth,h:innerHeight,dpr:devicePixelRatio,stats:window.__runtimeV2?.stats?.()||null,scrollW:document.documentElement.scrollWidth}))()");
+   assert.equal(mobile.w,390); assert.equal(mobile.h,844);
+   assert.ok(mobile.scrollW<=390,'mobile layout has horizontal overflow');
+   console.log('RUNTIME_V2_MOBILE',JSON.stringify(mobile));
+ }
  console.log('RUNTIME_V2_BROWSER',JSON.stringify({...stats,chunkRequests:chunkUrls.size,before:before.length,after:after.length}));
 }finally{
  socket?.close();
