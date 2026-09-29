@@ -110,10 +110,14 @@ def monta(carimbo=None, config=None, recorte=None, runtime_v2=False):
     corpo = ler("corpo.html").replace("{{CIDADE}}", CID.nome)
     corpo = CARIMBO.sub(lambda m: m.group(1) + carimbo + m.group(2), corpo)
     urban = ""
-    dados_urbanos = pacotes.urbanos(config)
+    dados_urbanos = None if runtime_v2 else pacotes.urbanos(config)
     if dados_urbanos is not None:
         urban = ler("terrain-fit.js") + "\n" + ler("road-clearance.js") + "\n" + ler("urban-models.js") + "\n"
         partes += bloco("__urbanModels", dados_urbanos)
+    elif runtime_v2:
+        # V2 deliberately drops the heavyweight urban asset pack. The original/V1
+        # build remains unchanged until the lightweight replacement passes A/B.
+        print("  runtime-v2: __urbanModels omitido; usando cidade procedural leve")
     dados_exteriores = pacotes.exteriores(config, CID)
     if dados_exteriores is not None:
         partes += bloco("__exteriorModels", dados_exteriores)
