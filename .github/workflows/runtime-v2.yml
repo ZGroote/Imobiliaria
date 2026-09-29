@@ -47,7 +47,7 @@ jobs:
           test -n "$V2"
           mv "$V2" "$RUNNER_TEMP/site/v2.html"
 
-          python pipeline/city_runtime_v2.py --city-id sao-carlos sao-carlos/sao-carlos-v7.city.json "$RUNNER_TEMP/site/runtime-v2"
+          python pipeline/city_runtime_v2.py --city-id sao-carlos --cidade sao-carlos --variante v16-moveis --urban-v2 sao-carlos/sao-carlos-v7.city.json "$RUNNER_TEMP/site/runtime-v2"
           if [ -d v16-moveis/publicado/mapa/quintais ]; then
             cp -R v16-moveis/publicado/mapa/quintais "$RUNNER_TEMP/site/quintais"
           fi
