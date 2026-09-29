@@ -65,6 +65,23 @@ def urbanos(config):
     return dados
 
 
+def urbanos_v2(config):
+    """Kit urbano leve do Runtime V2.
+
+    Usa somente os compactos ilustrativos: mesma leitura arquitetonica basica
+    (volume, porta, janela, pavimentos) sem transportar a biblioteca urbana de ~5 MB.
+    A fonte V1 permanece intacta e continua usando urbanos().
+    """
+    if not usa_urbanos(config):
+        return None
+    compactos = URBANOS / 'compactos.json'
+    if not compactos.exists():
+        return None
+    biblioteca = _json(compactos)
+    biblioteca.update({"version": 1, "lod": 1, "units": "m", "front": "+Z"})
+    return json.dumps(biblioteca, separators=(',', ':'))
+
+
 def exteriores(config, cid):
     """Muro, portao, quintal e a foto aerea distante -- tudo num bloco so.
 
