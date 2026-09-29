@@ -10,21 +10,24 @@
   }
 
   function create({index,select,bridge,getResident,getSample,getViewConfig,now,onError,
-                   moveThreshold=30,turnDot=0.985,motionHoldMs=260}) {
-    let anchorX=1e30,anchorZ=1e30,lastX=null,lastZ=null,lastMoveAt=-1e30;
+                   moveThreshold=30,directionThreshold,turnDot=0.985,motionHoldMs=260}) {
+    const dirThreshold=directionThreshold==null ? Math.min(4,moveThreshold) : Math.max(.1,directionThreshold);
+    let anchorX=1e30,anchorZ=1e30,dirAnchorX=null,dirAnchorZ=null,lastMoveAt=-1e30;
     let moveDir=[0,1],chosenDir=[0,1];
 
     function update(force=false) {
       const s=getSample();
       const t=now();
-      if (lastX!=null) {
-        const dx=s.x-lastX,dz=s.z-lastZ;
-        if (Math.hypot(dx,dz)>.5) {
+      if (dirAnchorX==null) {
+        dirAnchorX=s.x; dirAnchorZ=s.z;
+      } else {
+        const dx=s.x-dirAnchorX,dz=s.z-dirAnchorZ;
+        if (Math.hypot(dx,dz)>=dirThreshold) {
           moveDir=norm(dx,dz,moveDir[0],moveDir[1]);
           lastMoveAt=t;
+          dirAnchorX=s.x; dirAnchorZ=s.z;
         }
       }
-      lastX=s.x; lastZ=s.z;
 
       const viewDir=norm(s.viewDirX,s.viewDirZ,chosenDir[0],chosenDir[1]);
       const dir=(t-lastMoveAt<=motionHoldMs)?moveDir:viewDir;
@@ -40,7 +43,7 @@
     }
 
     function reset() {
-      anchorX=anchorZ=1e30; lastX=lastZ=null; lastMoveAt=-1e30;
+      anchorX=anchorZ=1e30; dirAnchorX=dirAnchorZ=null; lastMoveAt=-1e30;
       moveDir=chosenDir=[0,1];
       bridge.reset();
     }
