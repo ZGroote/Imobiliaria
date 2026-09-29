@@ -45,8 +45,9 @@ test('visible envelope is a base circle extended forward, so behind disappears s
 
 test('working-set budgets cap visible, warm and raw bytes independently of city size', () => {
   const chunks=[];
-  for(let i=0;i<20;i++) chunks.push({id:'c'+i,cx:0,cz:20+i*5,rad:0,bytes:100});
-  const got=V2.select({chunks},{x:0,z:0,dirX:0,dirZ:1,renderRadius:200,prefetchRadius:300,
+  for(let i=0;i<4;i++) chunks.push({id:'v'+i,cx:0,cz:20+i*20,rad:0,bytes:100});
+  for(let i=0;i<8;i++) chunks.push({id:'w'+i,cx:0,cz:220+i*10,rad:0,bytes:100});
+  const got=V2.select({chunks},{x:0,z:0,dirX:0,dirZ:1,renderRadius:100,prefetchRadius:300,
     maxVisible:4,maxWarm:3,maxWantedBytes:550});
   assert.equal(got.filter(x=>x.state==='visible').length,4);
   assert.equal(got.length,5,'byte budget stops the working set before count budget');
