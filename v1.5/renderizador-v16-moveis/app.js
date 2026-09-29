@@ -1758,7 +1758,7 @@ if ($("tArrows")) $("tArrows").addEventListener("click", () => {
   $("tArrows").setAttribute("aria-pressed", String(on));
   if (gArrows) gArrows.visible = on;
 });
-const V2_SESSION_CACHE_MAX = 96;
+const V2_SESSION_CACHE_MAX = 48;
 const v2JsonSession = new Map();
 function v2SessionRemember(url,promise) {
   v2JsonSession.delete(url);
