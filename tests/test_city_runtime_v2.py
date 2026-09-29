@@ -31,6 +31,12 @@ class RuntimeV2CompilerTest(unittest.TestCase):
             out2=root/"out2"; compile_city(src,out2,city_id="arbitrary")
             self.assertEqual(a["bid"],json.loads((out2/"chunks/000000.json").read_text())["bid"])
 
+            kit='{"version":1,"lod":1,"illustrative":true,"assets":[]}'
+            out3=root/"out3"; idx3=compile_city(src,out3,city_id="arbitrary",urban_kit_text=kit)
+            self.assertEqual(json.loads((out3/"urban-kit.json").read_text()),json.loads(kit))
+            self.assertEqual(idx3["urbanKit"]["url"],"urban-kit.json")
+            self.assertEqual(idx3["urbanKit"]["bytes"],len(kit.encode("utf-8")))
+
     def test_building_identity_ignores_height_class_start_vertex_and_winding(self):
         a=[1,30,4,0,0,20,0,0,20,-20,0]
         rotated=[3,99,4,20,0,0,20,-20,0,0,-20]
