@@ -76,7 +76,7 @@ async function runCase(label,url,isV2){
     for(let i=0;i<360;i++){
       first=await read(`(()=>{try{window.__perf?.passo();}catch{};const v2=window.__runtimeV2?.stats?.();return {
         perf:!!window.__perf,live:window.__int?.vivos?.().size||0,mounted:v2?.mounted||0,resident:v2?.resident||0};})()`);
-      if(first.perf && first.live>0 && (!${isV2} || first.mounted>0)) break;
+      if(first.perf && first.live>0 && (!isV2 || first.mounted>0)) break;
       await delay(100);
     }
     assert.ok(first?.perf,label+' perf probe missing');
