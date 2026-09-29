@@ -126,29 +126,42 @@ def compile_placements(cid, city_text, pack_text, root, cache_tag=None):
         obstacles += [roads[j] for j in road_tree.query(lot)]
         available = lot.buffer(-.6,join_style=2).difference(unary_union(obstacles))
         category = 'sobrados' if round((h-1.1)/3.15) >= 2 else 'casas'
+        # Match the visual reference by OCCUPANCY, not by the old footprint size.
+        # Existing footprint still influences the target, but a tiny source footprint
+        # no longer forces a toy-size house into a large verified lot.
+        target_area = min(300.0, max(p.area, lot.area*.46))
+        min_area = min(target_area*.68, lot.area*.30)
+        max_area = min(330.0, lot.area*.62)
         options = []
         for ai,a in enumerate(assets):
             w,ah,d = a['size']; area = w*d
-            if a['category'] != category or area < p.area*.85 or area > lot.area*.65 or not h*.65 <= ah <= h*1.4:
+            if a['category'] != category or area < min_area or area > max_area or not h*.65 <= ah <= h*1.4:
                 continue
-            for fr in dict.fromkeys([front,lot_front,front-2]):
-                for lat in dict.fromkeys([lateral,lot_lateral]):
-                    x = round(r[0]*lat+f[0]*(fr-d/2),2)
-                    z = round(r[1]*lat+f[1]*(fr-d/2),2)
-                    box = rectangle(x,z,theta,w,d)
-                    if available.covers(box):
-                        options.append((ai,x,z,box,area,math.hypot(x-p.centroid.x,z-p.centroid.y)))
+            # Four high-value placements instead of the previous 3x2 Cartesian
+            # product. This keeps frontage/centering choices while cutting many
+            # expensive polygon covers() calls in the offline compiler.
+            positions=list(dict.fromkeys([
+                (lot_front,lot_lateral),(lot_front,lateral),
+                (front,lot_lateral),(front,lateral)]))
+            for fr,lat in positions:
+                x = round(r[0]*lat+f[0]*(fr-d/2),2)
+                z = round(r[1]*lat+f[1]*(fr-d/2),2)
+                box = rectangle(x,z,theta,w,d)
+                if available.covers(box):
+                    fit = abs(area-target_area)/max(1.0,target_area)
+                    options.append((ai,x,z,box,area,math.hypot(x-p.centroid.x,z-p.centroid.y),fit))
         if not options:
             continue
-        max_area = max(o[4] for o in options)
-        options = [o for o in options if o[4] >= max_area*.9]
-        # One position per variant; favor staying near its original frontage.
-        by_asset = {}
-        for o in sorted(options,key=lambda o:o[5]):
+        best_fit=min(o[6] for o in options)
+        options=[o for o in options if o[6] <= best_fit+.12]
+        # One position per variant; keep a small deterministic variety pool among
+        # models that achieve nearly the same lot occupancy.
+        by_asset={}
+        for o in sorted(options,key=lambda o:(o[6],o[5],-o[4])):
             by_asset.setdefault(o[0],o)
-        options = list(by_asset.values())
+        options=sorted(by_asset.values(),key=lambda o:(o[6],-o[4],o[5]))[:6]
         seed = int(hashlib.sha256(('%s:%s' % (cid.slug,i)).encode()).hexdigest()[:8],16)
-        ai,x,z,box,area,_ = options[seed % len(options)]
+        ai,x,z,box,area,_,_ = options[seed % len(options)]
         placements[i] = [ai,x,z,theta]
         accepted[i] = box
         for cell in cells(box):
