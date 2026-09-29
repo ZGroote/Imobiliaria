@@ -91,6 +91,8 @@ const Q = CIDADE.quantizacao;                          // decímetros: precisão
 const URL_PARAMS = new URLSearchParams(location.search);
 const RUNTIME_V2 = URL_PARAMS.get("runtime") === "v2";
 const RUNTIME_V2_INDEX = URL_PARAMS.get("cityIndex");
+// V2-only visual experiment. ?ground=legacy is the instant fallback; V1 never changes.
+const GROUND_V2 = RUNTIME_V2 && URL_PARAMS.get("ground") !== "legacy";
 
 /* Aparência: o que vale SÓ NA CIDADE QUE PEDIU.
    ------------------------------------------------------------------
@@ -511,7 +513,7 @@ const {facadeMaterial, riseLine} = FacadeMaterials.create({ AP_ESPEC,
   uRelief, uHeight, uFuro, uNoite
 });
 const surfaceMaterials = SurfaceMaterials.create({THREE, K, TEX_CIDADE, GLSL_RUIDO,
-  AP_LUZ, AP_ESPEC});
+  AP_LUZ, AP_ESPEC, GRASS_V2:GROUND_V2});
 const flat = c => new THREE.MeshPhongMaterial({ color:c, shininess:0, specular:0x000000, polygonOffset:true, polygonOffsetFactor:-1, polygonOffsetUnits:-1 });
 // v6: chao que acompanha o relevo (quadras). Ver pipeline/chao.py.
 // v7: o relevo tem que estar carregado ANTES de chao/rua/muro/predio se registrarem.
