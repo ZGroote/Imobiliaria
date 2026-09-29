@@ -38,13 +38,22 @@ def compile_city(source: Path, out_dir: Path):
             if old_i in meta:
                 _,ni,ai=meta[old_i]; bm.extend([new_i,ni,ai])
         cid=f"{gi//5:06d}"
-        payload={"v":VERSION,"q":q,"names":data.get("names",[]),"b":bflat,"bm":bm}
+        # Local string pool: chunks must not repeat the city-wide names table.
+        global_names=data.get("names",[])
+        used=[]
+        for i in range(1,len(bm),3):
+            used.extend([bm[i],bm[i+1]])
+        remap={old:new for new,old in enumerate(dict.fromkeys(used))}
+        local_names=[global_names[old] for old in remap]
+        for i in range(1,len(bm),3):
+            bm[i]=remap[bm[i]]; bm[i+1]=remap[bm[i+1]]
+        payload={"v":VERSION,"q":q,"names":local_names,"b":bflat,"bm":bm}
         raw=json.dumps(payload,separators=(",",":"),ensure_ascii=False)
         rel=f"chunks/{cid}.json"; (out_dir/rel).write_text(raw,encoding="utf-8")
         chunks.append({"id":cid,"cx":cx/q,"cz":cz/q,"rad":rad/q,"buildings":count,
                        "bytes":len(raw.encode("utf-8")),"url":rel})
     index={"format":FORMAT,"version":VERSION,"center":data.get("c"),"q":q,
-           "sourceVersion":data.get("v"),"chunks":chunks}
+           "sourceFormatVersion":data.get("v"),"sourceArtifact":source.name,"chunks":chunks}
     (out_dir/"index.json").write_text(json.dumps(index,separators=(",",":"),ensure_ascii=False),encoding="utf-8")
     return index
 
