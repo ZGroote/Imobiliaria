@@ -31,3 +31,13 @@ test('hysteresis keeps an already resident chunk warm near the boundary', () => 
   const got=V2.select(index,{x:0,z:0,dirX:0,dirZ:1,renderRadius:100,prefetchRadius:220,hysteresis:40,resident});
   assert.ok(got.some(x=>x.id==='side' && x.state==='warm'));
 });
+
+test('visible envelope is a base circle extended forward, so behind disappears sooner', () => {
+  const directional={chunks:[
+    {id:'front',cx:0,cz:90,rad:0},
+    {id:'back',cx:0,cz:-90,rad:0}
+  ]};
+  const got=V2.select(directional,{x:0,z:0,dirX:0,dirZ:1,renderRadius:100,prefetchRadius:100,baseRenderFactor:.65});
+  assert.equal(got.find(x=>x.id==='front')?.state,'visible');
+  assert.equal(got.find(x=>x.id==='back')?.state,'warm');
+});
