@@ -114,9 +114,13 @@ def compile_placements(cid, city_text, pack_text, root, cache_tag=None):
         dot = lambda pt, axis: pt[0]*axis[0]+pt[1]*axis[1]
         front = max(dot(pt,f) for pt in ring)
         lc = list(lot.exterior.coords)
-        lot_front = max(dot(pt,f) for pt in lc)-3
+        lot_f_min,lot_f_max=min(dot(pt,f) for pt in lc),max(dot(pt,f) for pt in lc)
+        lot_r_min,lot_r_max=min(dot(pt,r) for pt in lc),max(dot(pt,r) for pt in lc)
+        lot_front = lot_f_max-3
+        lot_width = lot_r_max-lot_r_min
+        lot_depth = lot_f_max-lot_f_min
         lateral = dot((p.centroid.x,p.centroid.y),r)
-        lot_lateral = (min(dot(pt,r) for pt in lc)+max(dot(pt,r) for pt in lc))/2
+        lot_lateral = (lot_r_min+lot_r_max)/2
         # Inflate neighboring source volumes to cover their roof overhangs too.
         nearby = [int(j) for j in tree.query(lot.buffer(2)) if j != i]
         obstacles = [buildings[j].buffer(.65,join_style=2) for j in nearby]
@@ -126,20 +130,37 @@ def compile_placements(cid, city_text, pack_text, root, cache_tag=None):
         obstacles += [roads[j] for j in road_tree.query(lot)]
         available = lot.buffer(-.6,join_style=2).difference(unary_union(obstacles))
         category = 'sobrados' if round((h-1.1)/3.15) >= 2 else 'casas'
-        # Match the visual reference by OCCUPANCY, not by the old footprint size.
-        # Existing footprint still influences the target, but a tiny source footprint
-        # no longer forces a toy-size house into a large verified lot.
-        target_area = min(300.0, max(p.area, lot.area*.46))
-        min_area = min(target_area*.68, lot.area*.30)
-        max_area = min(330.0, lot.area*.62)
+        # Occupancy is a lot class, not one global percentage. Compact urban lots can
+        # legitimately approach 80% built footprint; larger/open lots keep visible
+        # setbacks and backyard. The class is deterministic for reproducibility.
+        seed = int(hashlib.sha256(('%s:%s' % (cid.slug,i)).encode()).hexdigest()[:8],16)
+        jitter=((seed>>8)&255)/255.0
+        if lot.area <= 180 or lot_width <= 9.5:
+            occ_target = .74 + .06*jitter      # 74..80%
+            occ_cap = .82
+        elif lot.area <= 300 or lot_width <= 12.5:
+            occ_target = .62 + .08*jitter      # 62..70%
+            occ_cap = .74
+        elif lot.area <= 450:
+            occ_target = .52 + .08*jitter      # 52..60%
+            occ_cap = .66
+        else:
+            occ_target = .40 + .10*jitter      # 40..50%
+            occ_cap = .58
+        # Deep narrow lots tend to read better with a little more house mass.
+        if lot_depth > lot_width*2.2:
+            occ_target=min(occ_target+.04,occ_cap)
+        target_area = min(330.0, max(p.area, lot.area*occ_target))
+        min_area = min(target_area*.55, lot.area*.28)
+        max_area = min(360.0, lot.area*occ_cap)
         options = []
         for ai,a in enumerate(assets):
             w,ah,d = a['size']; area = w*d
             if a['category'] != category or area < min_area or area > max_area or not h*.65 <= ah <= h*1.4:
                 continue
-            # Four high-value placements instead of the previous 3x2 Cartesian
-            # product. This keeps frontage/centering choices while cutting many
-            # expensive polygon covers() calls in the offline compiler.
+            # Four high-value placements instead of the previous Cartesian product.
+            # This keeps frontage/centering choices while cutting expensive polygon
+            # covers() calls in the server-side preprocessing stage.
             positions=list(dict.fromkeys([
                 (lot_front,lot_lateral),(lot_front,lateral),
                 (front,lot_lateral),(front,lateral)]))
@@ -160,7 +181,6 @@ def compile_placements(cid, city_text, pack_text, root, cache_tag=None):
         for o in sorted(options,key=lambda o:(o[6],o[5],-o[4])):
             by_asset.setdefault(o[0],o)
         options=sorted(by_asset.values(),key=lambda o:(o[6],-o[4],o[5]))[:6]
-        seed = int(hashlib.sha256(('%s:%s' % (cid.slug,i)).encode()).hexdigest()[:8],16)
         ai,x,z,box,area,_,_ = options[seed % len(options)]
         placements[i] = [ai,x,z,theta]
         accepted[i] = box
@@ -169,6 +189,9 @@ def compile_placements(cid, city_text, pack_text, root, cache_tag=None):
         if len(examples)<30 or math.hypot(x+525,z+1598)<200:
             examples.append(dict(index=i,asset=assets[ai]['id'],x=x,z=z,
                                  lot_m2=round(lot.area,1),source_m2=round(p.area,1),
+                                 lot_width_m=round(lot_width,1),lot_depth_m=round(lot_depth,1),
+                                 target_occupancy_pct=round(occ_target*100,1),
+                                 actual_occupancy_pct=round(area/lot.area*100,1),
                                  model_envelope_m2=round(area,1)))
         if len(placements)%5000 == 0:
             print('  encaixadas %d casas...' % len(placements), flush=True)
