@@ -1,0 +1,47 @@
+name: Runtime V2 Browser Smoke
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'pipeline/city_runtime_v2.py'
+      - 'v1.5/renderizador-v16-moveis/app.js'
+      - 'v1.5/renderizador-v16-moveis/modules.json'
+      - 'v1.5/renderizador-v16-moveis/core/*v2.js'
+      - 'v1.5/renderizador-v16-moveis/world/*v2.js'
+      - 'tests/browser_runtime_v2.mjs'
+      - '.github/workflows/runtime-v2.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.14'
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+      - name: Build isolated HTML and Runtime V2 package
+        run: |
+          mkdir -p "$RUNNER_TEMP/site/runtime-v2"
+          python pipeline/montar.py sao-carlos --variante v16-moveis --destino "$RUNNER_TEMP/site" --sem-zip
+          python pipeline/city_runtime_v2.py sao-carlos/sao-carlos-v7.city.json "$RUNNER_TEMP/site/runtime-v2"
+      - name: Serve isolated build
+        run: |
+          python -m http.server 8872 --bind 127.0.0.1 --directory "$RUNNER_TEMP/site" >"$RUNNER_TEMP/http.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/http.pid"
+      - name: Chrome Runtime V2 smoke
+        run: |
+          CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$CHROME_BIN"
+          HTML="$(find "$RUNNER_TEMP/site" -maxdepth 1 -name '*-aberto.html' -printf '%f\n' | head -1)"
+          test -n "$HTML"
+          CHROME="$CHROME_BIN" node tests/browser_runtime_v2.mjs "http://127.0.0.1:8872/$HTML?runtime=v2&cityIndex=/runtime-v2/index.json&q=baixo"
