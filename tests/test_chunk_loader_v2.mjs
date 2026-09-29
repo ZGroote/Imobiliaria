@@ -36,3 +36,22 @@ test('resident cache survives camera rotation and bounded eviction removes cold 
  assert.equal(loader.has('ahead'),true);
  assert.equal(loader.has('behind'),true);
 });
+
+
+test('hard resident ceiling wins even when every chunk is in keep set', async()=>{
+ const loader=L.create({fetchJson:async u=>({u}),decode:(x,c)=>c.id,maxResident:2,maxResidentBytes:999999});
+ await Promise.all(index.chunks.map(c=>loader.load(c)));
+ loader.evict(new Set(index.chunks.map(c=>c.id)));
+ assert.equal(loader.residentIds().size,2);
+});
+
+test('resident raw-byte ceiling evicts old unpinned chunks', async()=>{
+ const sized=[
+  {id:'a',url:'a',bytes:80},{id:'b',url:'b',bytes:80},{id:'c',url:'c',bytes:80}
+ ];
+ const loader=L.create({fetchJson:async u=>({u}),decode:(x,c)=>c.id,maxResident:10,maxResidentBytes:160});
+ for(const c of sized) await loader.load(c);
+ loader.evict(new Set(sized.map(c=>c.id)),new Set(['c']));
+ assert.ok(loader.residentBytes()<=160);
+ assert.ok(loader.has('c'));
+});
