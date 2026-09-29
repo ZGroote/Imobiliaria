@@ -88,6 +88,9 @@ const MLAT = 111132.92, MLON = 111319.49 * Math.cos(CENTER.lat * Math.PI/180);
 const px = lon => (lon - CENTER.lon) * MLON;
 const pz = lat => -(lat - CENTER.lat) * MLAT;
 const Q = CIDADE.quantizacao;                          // decímetros: precisão de 10 cm
+const URL_PARAMS = new URLSearchParams(location.search);
+const RUNTIME_V2 = URL_PARAMS.get("runtime") === "v2";
+const RUNTIME_V2_INDEX = URL_PARAMS.get("cityIndex");
 
 /* Aparência: o que vale SÓ NA CIDADE QUE PEDIU.
    ------------------------------------------------------------------
@@ -1357,6 +1360,7 @@ const gLive = new Map();       // índice -> { objs, risers, roads }
 const streaming = WorldStreaming.create({target, live:gLive, getGroups:()=>gGroups,
   getRadius:()=>STREAM_R, hysteresis:STREAM_HYST, budgetMs:STREAM_MS,
   dropGroup, buildGroup, rebuildOverlay, now:()=>performance.now()});
+let v2Index = null, v2Loader = null, v2Bridge = null, v2Controller = null;
 
 /* O acervo de unidades, lido CEDO. A lista continua documentada onde sempre esteve
    (ver UNIDADES, na secao do interior); o que subiu pra ca foi so a leitura, porque o
@@ -1564,11 +1568,10 @@ function groupsFrom(B, R, G, grp) {
   return out;
 }
 
-function dropGroup(i) {
-  const rec = gLive.get(i);
+function disposeGroupRec(rec) {
   if (!rec) return;
   if (urban) for (const slot of rec.urban || []) urban.remove(slot);
-  for (const o of rec.objs) {
+  for (const o of rec.objs || []) {
     if (o.parent) o.parent.remove(o);
     if (o.geometry) {
       terrain.unregister(o.geometry);
@@ -1578,14 +1581,19 @@ function dropGroup(i) {
   }
   // risers guarda o uniform da animação de subida por malha montada; sem tirar
   // daqui, a lista cresce sem limite conforme o usuário anda pela cidade.
-  for (const u of rec.risers) {
+  for (const u of rec.risers || []) {
     const k = risers.findIndex(r => r.u === u);
     if (k >= 0) risers.splice(k, 1);
   }
-  // seenStreets nao e limpo aqui: o rebuildOverlay() zera e refaz o conjunto
-  // inteiro logo em seguida, e limpar aqui so criaria dois donos pro mesmo estado.
   if (rec.plants) vegetation.invalidate();
   if (rec.sombras) somSujo = true;
+}
+function dropGroup(i) {
+  const rec = gLive.get(i);
+  if (!rec) return;
+  disposeGroupRec(rec);
+  // seenStreets nao e limpo aqui: o rebuildOverlay() zera e refaz o conjunto
+  // inteiro logo em seguida, e limpar aqui so criaria dois donos pro mesmo estado.
   gLive.delete(i);
 }
 
@@ -1608,7 +1616,12 @@ function rebuildOverlay() {
     for (const w of rec.roads) addStreets([w]);
 }
 
-const streamUpdate = streaming.update;
+function streamUpdate(force) {
+  // No V2, ruas/areas verdes continuam usando o streaming espacial comprovado do V1
+  // enquanto a aparencia dos predios vem dos chunks direcionais.
+  streaming.update(force);
+  if (v2Controller) v2Controller.update(!!force);
+}
 
 /* Chamado uma vez por frame: gasta no máximo STREAM_MS montando. O laço de
    render é o mesmo que desenha, então estourar esse orçamento aparece como
@@ -1663,6 +1676,11 @@ function resetScene() {
   // cidade e ficam na cena entre um carregamento e outro — se saissem do registro de
   // relevo aqui, parariam de acompanhar o terreno depois do primeiro loadCity().
   terrain.retain(g => g.userData.poi || g.userData.ground);
+  // V2 pode ter requisicoes em voo. Cancela a geracao logica antes de limpar a cena,
+  // para uma resposta atrasada nao remontar um chunk depois do reset.
+  if (v2Controller) v2Controller.reset();
+  v2Index = v2Loader = v2Bridge = v2Controller = null;
+  if (window.__runtimeV2) window.__runtimeV2 = null;
   // v4: sem isso, um segundo loadCity() deixaria gLive apontando pra malhas ja
   // descartadas e o streaming nunca remontaria essas quadras.
   for (const k of [...gLive.keys()]) gLive.delete(k);
@@ -1736,6 +1754,128 @@ if ($("tArrows")) $("tArrows").addEventListener("click", () => {
   $("tArrows").setAttribute("aria-pressed", String(on));
   if (gArrows) gArrows.visible = on;
 });
+async function fetchJsonV2(url) {
+  const r = await fetch(url, { cache:"force-cache" });
+  if (!r.ok) throw new Error("HTTP " + r.status + " em " + url);
+  return r.json();
+}
+function v2Absolute(base, rel) { return new URL(rel, base).href; }
+
+function mountV2Chunk(id, value, meta) {
+  const key = "v2:" + id;
+  if (gLive.has(key)) return key;
+  const rec = { objs:[], risers:[], roads:[], cx:meta.cx, cz:meta.cz };
+  gLive.set(key, rec);
+  assembleInto(rec, value.B || [], [], [], meta.cx, meta.cz);
+  sujaSombra();
+  return key;
+}
+function unmountV2Chunk(_id, key) {
+  const rec = gLive.get(key);
+  if (!rec) return;
+  disposeGroupRec(rec);
+  gLive.delete(key);
+  sujaSombra();
+}
+
+async function loadCityV2(indexUrl) {
+  resetScene();
+  const absoluteIndex = new URL(indexUrl, location.href).href;
+  const rawIndex = await fetchJsonV2(absoluteIndex);
+  if (rawIndex.format !== "city-runtime-v2" || !Array.isArray(rawIndex.chunks))
+    throw new Error("indice Runtime V2 invalido");
+
+  const index = {
+    ...rawIndex,
+    chunks: rawIndex.chunks.map(ch => ({...ch, url:v2Absolute(absoluteIndex, ch.url)}))
+  };
+  const contextUrl = v2Absolute(absoluteIndex, rawIndex.context?.url || "context.json");
+  const rawContext = await fetchJsonV2(contextUrl);
+  const {R, G} = CityChunkDataV2.decodeContext(decode, rawContext);
+  const buildingCount = index.chunks.reduce((n,ch) => n + (ch.buildings || 0), 0);
+  GRID = buildingCount > 50000 ? 12 : 4;
+
+  // O contexto leve continua conhecido: vias, areas verdes, busca e minimapa.
+  // A massa de predios NAO entra aqui; chega somente pelos chunks selecionados.
+  gGroups = groupsFrom([], R, G, []);
+  indexaBusca([], R);
+  montaBaseMinimapa(R);
+  indexaAsfalto(R);
+  roadSafety = RoadClearance.create(R,w=>ROAD_W[HW[w.k]]||6,.15);
+  buildingPlacement.clear();
+  if (window.__gMuros) {
+    const old=window.__gMuros;
+    old.removeFromParent(); terrain.unregister(old.geometry);
+    old.geometry.dispose(); old.material.dispose();
+  }
+  buildMuros();
+  buildFacingArrows([]);
+
+  let minX=1e9,maxX=-1e9,minZ=1e9,maxZ=-1e9;
+  for (const g of index.chunks) {
+    minX=Math.min(minX,g.cx-g.rad); maxX=Math.max(maxX,g.cx+g.rad);
+    minZ=Math.min(minZ,g.cz-g.rad); maxZ=Math.max(maxZ,g.cz+g.rad);
+  }
+  if (index.chunks.length)
+    frame0(Math.max(4, Math.round(Math.max(maxX-minX,maxZ-minZ)/TILE_M)));
+  else frame0(4);
+
+  const ctx = buildStreetContext(R);
+  if (ctx) gRoad.add(ctx);
+  sph.radius = Math.min(sph.radius, 480);
+
+  v2Loader = CityChunkLoaderV2.create({
+    fetchJson: fetchJsonV2,
+    decode: (raw, meta) => CityChunkDataV2.decodeChunk(decode, raw, meta),
+    maxResident: 512
+  });
+  v2Bridge = CitySceneBridgeV2.create({
+    loader:v2Loader, mountChunk:mountV2Chunk, unmountChunk:unmountV2Chunk
+  });
+  v2Index = index;
+  v2Controller = CityControllerV2.create({
+    index,
+    select:CityRuntimeV2.select,
+    bridge:v2Bridge,
+    getResident:()=>v2Loader.residentIds(),
+    getSample:()=>({
+      x:target.x, z:target.z,
+      // THREE.Spherical: camera offset = (sin(theta), cos(theta)) no plano XZ.
+      // O que a camera enxerga alem do alvo e o vetor oposto.
+      viewDirX:-Math.sin(sph.theta), viewDirZ:-Math.cos(sph.theta)
+    }),
+    getViewConfig:()=>({
+      renderRadius:STREAM_R,
+      prefetchRadius:STREAM_R*1.15,
+      forwardExtra:Math.max(350, STREAM_R*.75),
+      prefetchBias:STREAM_R*.22,
+      hysteresis:STREAM_HYST,
+      baseRenderFactor:.62
+    }),
+    now:()=>performance.now(),
+    onError:e=>console.error("Runtime V2 streaming:",e)
+  });
+
+  window.__runtimeV2 = {
+    index, loader:v2Loader, bridge:v2Bridge, controller:v2Controller,
+    stats:()=>({
+      chunks:index.chunks.length,
+      buildings:buildingCount,
+      resident:v2Loader.residentIds().size,
+      mounted:v2Bridge.mountedIds().size
+    })
+  };
+
+  streaming.start();            // contexto (ruas/verde)
+  v2Controller.update(true);    // predios, primeiro lote direcional
+  streamUpdate(true);
+  lerLink();
+
+  phase.classList.remove("off");
+  progTxt.textContent = `${index.chunks.length} chunks · Runtime V2 experimental`;
+  hideStatus();
+}
+
 function loadCity(data, label) {
   if (!data || !data.b) throw new Error("arquivo sem edificações");
   resetScene();
@@ -1836,6 +1976,23 @@ async function fetchCity(url) {
 
 async function boot() {
   frame0(4);
+  if (RUNTIME_V2) {
+    stK.textContent = "Iniciando Runtime V2";
+    stM.textContent = "Carregando indice espacial";
+    stI.style.width = "12%";
+    try {
+      if (!RUNTIME_V2_INDEX) throw new Error("use ?runtime=v2&cityIndex=<index.json>");
+      await loadCityV2(RUNTIME_V2_INDEX);
+      stI.style.width = "100%";
+      return;
+    } catch (e) {
+      console.error("Falha no Runtime V2:", e);
+      stK.textContent = "Runtime V2 nao iniciou";
+      stM.textContent = e.message || "Erro no indice/chunks";
+      stI.style.width = "100%";
+      return;
+    }
+  }
   // Duplo clique abre em file://, e ali fetch e bloqueado pela origem opaca.
   // A base vai embutida; a rede so entra se alguem pedir outra cidade por ?city=.
   const embutida = document.getElementById("__citydata");
