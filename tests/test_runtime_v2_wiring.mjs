@@ -36,3 +36,12 @@ test('Runtime V2 fetches its urban kit while legacy pack stays V1-only',()=>{
  assert.match(app,/fetchJsonV2\(kitUrl\)/);
  assert.match(app,/if \(!RUNTIME_V2 && new URLSearchParams\(location\.search\)\.get\("casas"\) !== "procedural"\)/);
 });
+
+
+test('property miniature prewarms the online V2 neighbourhood through a shared session cache',()=>{
+ assert.match(app,/async function prewarmCityV2At\(x,z\)/);
+ assert.match(app,/const v2JsonSession = new Map\(\)/);
+ assert.match(app,/ranked\.slice\(0,12\)/);
+ assert.match(app,/ranked\.slice\(12,32\)/);
+ assert.match(app,/prewarmMapAt:\(x,z\)=>prewarmCityV2At\(x,z\)/);
+});
