@@ -44,9 +44,22 @@ function oracle(search) {
     {cwd: root, encoding: 'utf8', maxBuffer: 64 << 20}).replace(/\r/g, '');
   const i = app.indexOf('const BAKE = {'), j = app.indexOf('function geoDaCasa(', i);
   assert.ok(i > 0 && j > i);
+  // Intentional deltas since the checkpoint, applied to the oracle so everything else still
+  // has to match: bounce 0.30 -> 0.60 and the hard gain cap replaced by a soft shoulder.
+  let src = app.slice(i, j);
+  for (const [a, b] of [
+    ['bounce:  0.30,', 'bounce:  0.60,'],
+    ['teto: 1.38,', 'teto: 1.18,'],
+    ['if (g < BAKE.chao) { g = BAKE.chao; baixo++; }',
+     'if (g <= 1) g = Math.max(BAKE.chao, g); else g = 1 + (BAKE.teto-1)*Math.tanh((g-1)/(BAKE.teto-1));' +
+     ' if (g <= BAKE.chao) baixo++;'],
+    ['else if (g > BAKE.teto) { g = BAKE.teto; alto++; }', 'else if (g > BAKE.teto - 0.01) alto++;']]) {
+    assert.ok(src.includes(a), 'oracle delta not found: ' + a);
+    src = src.replace(a, b);
+  }
   const ctx = context(search);
   vm.runInContext(`(() => { const {inside} = MapGeometry; const PD = 2.70;
-    ${app.slice(i, j)}
+    ${src}
     globalThis.__o = {BAKE, cenaDoBake, bakeRaio, bakePrepara, bakePasso, bakeAgora}; })();`, ctx);
   return ctx;
 }
@@ -83,4 +96,17 @@ test('bake scene, ray hits, incremental passes and lit colours match the monolit
   }
   assert.equal(modular('?bake=0').__o.BAKE.on, false);
   assert.equal(modular('').__o.BAKE.on, true);
+});
+
+test('bake gain: occlusion floors at chao, the bright side is a shoulder that never reaches teto', () => {
+  const {BAKE, ganhoDoBake: g} = modular('').__o;
+  assert.equal(g(1), 1);
+  assert.equal(g(0.01), BAKE.chao);
+  // slope 1 through the typical wall: no kink where the shoulder starts
+  assert.ok(Math.abs((g(1.001) - g(0.999)) / 0.002 - BAKE.gama) < 0.01);
+  // strictly increasing above 1 and below the asymptote: no plateau to end in a hard edge
+  let prev = 1;
+  for (let r = 1.05; r < 3; r += 0.05) { const v = g(r); assert.ok(v > prev && v < BAKE.teto, 'r=' + r); prev = v; }
+  // past ~3x the median tanh rounds to 1 in doubles: it may touch teto, never pass it
+  for (let r = 3; r < 50; r += 1) assert.ok(g(r) <= BAKE.teto, 'r=' + r);
 });

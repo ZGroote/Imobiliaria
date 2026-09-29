@@ -76,9 +76,13 @@ const BAKE = {
   // não pra janela. O bake precisou de contraste de verdade pra repor: céu contra
   // superfície de 1 pra 0,30 (era 1 pra 0,60), e gama acima de 1, que ABRE em vez de
   // fechar. Medido depois: São Carlos 90,4 e Ribeirão 84,6.
-  bounce:  0.30,   // quanto uma superfície devolve, contra 1,0 do céu
+  // 0,30 -> 0,60 junto com o ombro do `ganhoDoBake`: com 0,30 a parede que so via parede
+  // saia 26% abaixo da tinta e a de frente pra janela acima dela (razao 1,46 no quarto
+  // do monte-dos-cedros), e a clara parecia EMITIR luz. Com 0,60 a razao cai pra 1,30.
+  // A faixa que o 0,30 veio comprar continua: sonda do portao no colinas, 132,3 -> 128,6.
+  bounce:  0.60,   // quanto uma superfície devolve, contra 1,0 do céu
   gama:    1.12,   // curva do ganho depois de normalizar (>1 abre o contraste)
-  chao:    0.28, teto: 1.38,   // trava do ganho: nem preto no canto, nem estouro
+  chao:    0.28, teto: 1.18,   // trava do ganho: nem preto no canto, nem estouro (teto = assintota)
   tinta:   1.0,    // amplitude do degradê de temperatura (0 = sem cor)
   suave:   2,      // passadas de suavização sobre a vizinhança do vértice
   raio:    0.45,   // raio dessa vizinhança, em metros
@@ -372,6 +376,20 @@ function bakePasso(ctx, orcamento) {
   return true;
 }
 
+/* Irradiancia relativa (E/mediana) -> ganho na cor. Abaixo de 1 e oclusao: escurece
+   ate `chao`. ACIMA DE 1 E UM OMBRO, nao um corte: o teto seco de 1,38 travava 40,6%
+   dos vertices do monte-dos-cedros no mesmo valor -- quase meio apartamento com 1,38x
+   a cor da propria tinta. A parede de frente pra janela saia mais branca que o material
+   e lia como se EMITISSE luz, e o plato terminava numa borda vertical onde o ganho
+   saia do teto. O ombro tem derivada 1 em g = 1 (a parede tipica nao muda), continua
+   subindo sem nunca chegar a `teto`, e preserva a ordem: mais ceu, mais claro. */
+function ganhoDoBake(r) {
+  const g = Math.pow(Math.max(1e-3, r), BAKE.gama);
+  if (g <= 1) return Math.max(BAKE.chao, g);
+  const T = BAKE.teto - 1;
+  return 1 + T * Math.tanh((g - 1) / T);
+}
+
 function bakeFecha(ctx) {
   const nu = ctx.nu;
   if (!nu) { BAKE.pronto = true; return; }   // planta so com esquadria: nada a assar
@@ -392,9 +410,9 @@ function bakeFecha(ctx) {
   let baixo = 0, alto = 0;
   const ganho = new Float32Array(nu);
   for (let k = 0; k < nu; k++) {
-    let g = Math.pow(Math.max(1e-3, E[k]/med), BAKE.gama);
-    if (g < BAKE.chao) { g = BAKE.chao; baixo++; }
-    else if (g > BAKE.teto) { g = BAKE.teto; alto++; }
+    const g = ganhoDoBake(E[k]/med);
+    if (g <= BAKE.chao) baixo++;
+    else if (g > BAKE.teto - 0.01) alto++;
     ganho[k] = g;
   }
   // TEMPERATURA: o vertice que enxerga muito ceu recebe luz fria; o que so enxerga
@@ -560,7 +578,7 @@ function bakeVertice(S, px, py, pz, nx, ny, nz) {
 // carregar um float e desperdicio que aparece no orcamento de quadro.
 let _bakeCeu = 0;
 
-    return {BAKE, cenaDoBake, bakeRaio, tesselaSopa, bakePrepara, bakePasso, bakeFecha, bakeAgora, bakeVertice};
+    return {BAKE, cenaDoBake, bakeRaio, tesselaSopa, bakePrepara, bakePasso, bakeFecha, bakeAgora, bakeVertice, ganhoDoBake};
   }
   root.LightBake = Object.freeze({create});
 })(globalThis);
