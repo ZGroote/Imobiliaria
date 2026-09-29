@@ -997,15 +997,19 @@ const buildingPlacement = BuildingPlacement.create({geometry: MapGeometry, types
 const {explicitBuilding} = buildingPlacement;
 const buildingOverRoad = b => buildingPlacement.blocked(b, roadSafety);
 const urbanSplit = records => buildingPlacement.split(records, urban, roadSafety);
-if (!RUNTIME_V2 && new URLSearchParams(location.search).get("casas") !== "procedural") {
+if (RUNTIME_V2 && $("__urbanModelsV2")) {
+  try {
+    urban = UrbanModels.create(THREE, JSON.parse($("__urbanModelsV2").textContent), gBuild,
+                              {cut:uFuro, shadows:SOMBRA_CIDADE,terrain:urbanBase});
+  } catch (e) { console.warn("Kit urbano V2 indisponivel; usando volumes procedurais.", e); }
+} else if (!RUNTIME_V2 && new URLSearchParams(location.search).get("casas") !== "procedural") {
   try {
     urban = UrbanModels.create(THREE, JSON.parse($("__urbanModels").textContent), gBuild,
                               {cut:uFuro, shadows:SOMBRA_CIDADE,terrain:urbanBase});
   } catch (e) { console.warn("Biblioteca urbana indisponivel; usando volumes atuais.", e); }
 }
-// Runtime V2 intentionally does not instantiate the legacy urban asset pack.
-// Its city layer stays on the lightweight procedural representation until the
-// new city-house kit is proven; V1 remains the visual/reference baseline.
+// Runtime V2 uses only the compact illustrative kit; the heavyweight V1 pack
+// remains exclusive to the original/reference runtime.
 function urbanBase(b, x, z) {
   return terrainY(x,z);
 }
