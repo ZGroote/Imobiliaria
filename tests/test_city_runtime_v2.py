@@ -16,6 +16,12 @@ class RuntimeV2CompilerTest(unittest.TestCase):
             self.assertEqual(idx["center"],city["c"])
             self.assertEqual(idx["buildingCount"],2)
             self.assertEqual(len(idx["chunks"]),2)
+            self.assertEqual(idx["packCount"],1)
+            self.assertGreater(idx["packMaxBytes"],0)
+            self.assertTrue(all(x.get("pack") for x in idx["chunks"]))
+            pack_path=out/idx["chunks"][0]["pack"]
+            packed=json.loads(pack_path.read_text(encoding="utf-8"))
+            self.assertEqual(set(packed["chunks"]),{"000000","000001"})
             self.assertNotIn("sao",json.dumps(idx).lower())
             ctx=json.loads((out/"context.json").read_text(encoding="utf-8"))
             self.assertEqual(ctx["r"],city["r"]); self.assertEqual(ctx["g"],city["g"])
