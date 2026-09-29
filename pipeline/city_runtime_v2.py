@@ -77,7 +77,8 @@ def _valid_city_id(city_id):
     return city_id
 
 
-def compile_city(source: Path, out_dir: Path, *, city_id: str, source_text: str | None = None):
+def compile_city(source: Path, out_dir: Path, *, city_id: str, source_text: str | None = None,
+                 urban_kit_text: str | None = None):
     city_id=_valid_city_id(city_id)
     data=json.loads(source_text if source_text is not None else source.read_text(encoding="utf-8"))
     q=data.get("q",10); bl=data.get("bl") or []
@@ -137,6 +138,10 @@ def compile_city(source: Path, out_dir: Path, *, city_id: str, source_text: str 
            "buildingCount":len(building_ids),
            "context":{"url":"context.json","bytes":len(context_raw.encode("utf-8"))},
            "chunks":chunks}
+    if urban_kit_text is not None:
+        kit_raw=urban_kit_text
+        (out_dir/"urban-kit.json").write_text(kit_raw,encoding="utf-8")
+        index["urbanKit"]={"url":"urban-kit.json","bytes":len(kit_raw.encode("utf-8"))}
     (out_dir/"index.json").write_text(json.dumps(index,separators=(",",":"),ensure_ascii=False),encoding="utf-8")
     return index
 
@@ -151,6 +156,7 @@ def main():
     p.add_argument("source",type=Path); p.add_argument("output",type=Path)
     a=p.parse_args()
     source_text=None
+    urban_kit_text=None
     if a.urban_v2:
         if not a.cidade:
             p.error("--urban-v2 requires --cidade")
@@ -161,8 +167,10 @@ def main():
         source_text=a.source.read_text(encoding="utf-8")
         pack=pacotes.urbanos_v2(config)
         if pack:
+            urban_kit_text=pack
             source_text=pacotes.com_encaixes(config,cid,source_text,pack_text=pack,cache_tag="v2")
-    idx=compile_city(a.source,a.output,city_id=a.city_id,source_text=source_text)
+    idx=compile_city(a.source,a.output,city_id=a.city_id,source_text=source_text,
+                     urban_kit_text=urban_kit_text)
     print(f"{len(idx['chunks'])} chunks / {idx['buildingCount']} buildings -> {a.output}")
 
 
