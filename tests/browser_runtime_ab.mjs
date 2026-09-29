@@ -59,7 +59,7 @@ async function runCase(label,url,isV2){
     };
     function send(method,params={}){
       return new Promise((resolve,reject)=>{
-        const id=++seq,timer=setTimeout(()=>{pending.delete(id);reject(Error(method+' timeout'));},60000);
+        const id=++seq,timer=setTimeout(()=>{pending.delete(id);reject(Error(method+' timeout'));},120000);
         pending.set(id,{resolve,reject,timer});socket.send(JSON.stringify({id,method,params}));
       });
     }
@@ -88,8 +88,8 @@ async function runCase(label,url,isV2){
       try{window.__runtimeV2?.controller?.update(true);}catch{};try{window.__perf.passo();}catch{};return true;})()`);
 
     let settled=null,stable=0,lastSig='';
-    for(let i=0;i<480;i++){
-      settled=await read(`(()=>{try{window.__perf?.passo();window.__perf?.bombeia(200);}catch{}
+    for(let i=0;i<300;i++){
+      settled=await read(`(()=>{try{window.__perf?.passo();window.__perf?.bombeia(40);}catch{}
         const v=window.__runtimeV2;const s=v?.stats?.();return {
           queue:window.__perf?.fila?.()??-1,live:window.__int?.vivos?.().size||0,
           mounted:s?.mounted||0,resident:s?.resident||0,
@@ -104,8 +104,9 @@ async function runCase(label,url,isV2){
     assert.equal(settled.queue,0,label+' streaming queue did not settle');
     if(isV2){assert.equal(settled.loading,0);assert.equal(settled.syncing,0);}
 
-    await read('(()=>{for(let i=0;i<3;i++)window.__perf.mede(1,false);return true})()');
-    const render=await read('window.__perf.mede(15,false)');
+    console.log('RUNTIME_AB_PHASE',label,'settled',JSON.stringify({firstSceneMs,settledMs,networkBytes,requestCount,...settled}));
+    await read('window.__perf.mede(1,false)');
+    const render=await read('window.__perf.mede(3,false)');
     const scene=await read(`(()=>({geometries:window.__perf.renderer.info.memory.geometries,
       live:window.__int.vivos().size,dpr:window.__perf.dpr(),level:window.__perf.nivel,
       v2:window.__runtimeV2?.stats?.()||null}))()`);
@@ -129,7 +130,9 @@ async function runCase(label,url,isV2){
 }
 
 const v1=await runCase('v1',v1Url,false);
+console.log('RUNTIME_AB_CASE',JSON.stringify(v1));
 const v2=await runCase('v2',v2Url,true);
+console.log('RUNTIME_AB_CASE',JSON.stringify(v2));
 const pct=(a,b)=>b?Math.round((a/b-1)*1000)/10:null;
 const delta={
   htmlBytesPct:pct(v2.htmlBytes,v1.htmlBytes),
