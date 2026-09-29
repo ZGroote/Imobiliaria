@@ -45,3 +45,9 @@ test('property miniature prewarms the online V2 neighbourhood through a shared s
  assert.match(app,/ranked\.slice\(12,32\)/);
  assert.match(app,/prewarmMapAt:\(x,z\)=>prewarmCityV2At\(x,z\)/);
 });
+
+
+test('V2 grass is opt-out and V1 remains on the legacy ground path',()=>{
+ assert.match(app,/const GROUND_V2 = RUNTIME_V2 && URL_PARAMS\.get\("ground"\) !== "legacy"/);
+ assert.match(app,/GRASS_V2:GROUND_V2/);
+});
