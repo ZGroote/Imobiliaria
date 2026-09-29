@@ -1829,10 +1829,12 @@ async function loadCityV2(indexUrl) {
   v2Loader = CityChunkLoaderV2.create({
     fetchJson: fetchJsonV2,
     decode: (raw, meta) => CityChunkDataV2.decodeChunk(decode, raw, meta, index.cityId),
-    maxResident: 512
+    maxResident: 192,
+    maxResidentBytes: 768 * 1024
   });
   v2Bridge = CitySceneBridgeV2.create({
-    loader:v2Loader, mountChunk:mountV2Chunk, unmountChunk:unmountV2Chunk
+    loader:v2Loader, mountChunk:mountV2Chunk, unmountChunk:unmountV2Chunk,
+    concurrency:8
   });
   v2Index = index;
   v2Controller = CityControllerV2.create({
@@ -1852,7 +1854,11 @@ async function loadCityV2(indexUrl) {
       forwardExtra:Math.max(350, STREAM_R*.75),
       prefetchBias:STREAM_R*.22,
       hysteresis:STREAM_HYST,
-      baseRenderFactor:.62
+      baseRenderFactor:.62,
+      // Hard working-set budget: city size must not determine client memory/network.
+      maxVisible:128,
+      maxWarm:48,
+      maxWantedBytes:512 * 1024
     }),
     now:()=>performance.now(),
     onError:e=>console.error("Runtime V2 streaming:",e)
@@ -1865,6 +1871,7 @@ async function loadCityV2(indexUrl) {
       chunks:index.chunks.length,
       buildings:buildingCount,
       resident:v2Loader.residentIds().size,
+      residentBytes:v2Loader.residentBytes(),
       mounted:v2Bridge.mountedIds().size
     })
   };
