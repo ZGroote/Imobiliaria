@@ -38,7 +38,7 @@ def rectangle(x, z, theta, width, depth):
                     for u, v in [(-1,-1),(1,-1),(1,1),(-1,1)]])
 
 
-def compile_placements(cid, city_text, pack_text, root):
+def compile_placements(cid, city_text, pack_text, root, cache_tag=None):
     root = Path(root)
     lot_path = Path(cid.caminho('lotes'))
     if not lot_path.exists():
@@ -55,7 +55,8 @@ def compile_placements(cid, city_text, pack_text, root):
     digest = hashlib.sha256(Path(__file__).read_bytes() + str(VERSION).encode() + city_text.encode() +
                             pack_text.encode() + lot_bytes + wall_bytes +
                             json.dumps(cid._d, sort_keys=True).encode()).hexdigest()
-    output = root/'modelos_urbanos'/'v1'/'integracao'/('encaixes-'+cid.slug+'.json')
+    nome = ('encaixes-'+cid.slug+'.json') if not cache_tag else ('encaixes-%s-%s.json' % (cache_tag,cid.slug))
+    output = root/'modelos_urbanos'/'v1'/'integracao'/nome
     if output.exists():
         cache = json.loads(output.read_text(encoding='utf-8'))
         if cache.get('hash') == digest:
