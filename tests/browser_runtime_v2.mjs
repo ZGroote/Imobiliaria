@@ -12,10 +12,11 @@ if(!chromeBin) throw Error('CHROME env is required');
 
 const profile=await fs.mkdtemp(path.join(os.tmpdir(),'imob-runtime-v2-'));
 const chrome=spawn(chromeBin,[
- '--headless=new','--remote-debugging-port=0','--user-data-dir='+profile,
+ '--headless=new','--no-sandbox','--disable-dev-shm-usage','--remote-debugging-port=0','--user-data-dir='+profile,
  '--window-size=1280,900','--use-angle=swiftshader','--enable-unsafe-swiftshader',
  '--no-first-run','--disable-background-networking','about:blank'
-],{stdio:'ignore'});
+],{stdio:['ignore','ignore','pipe']});
+let chromeErr=''; chrome.stderr.on('data',d=>{chromeErr+=d.toString();});
 let socket,seq=0;
 const pending=new Map(),errors=[],httpErrors=[],chunkUrls=new Set();
 try{
@@ -24,7 +25,7 @@ try{
   try{port=(await fs.readFile(path.join(profile,'DevToolsActivePort'),'utf8')).split('\n')[0];break;}
   catch{await delay(100);}
  }
- if(!port) throw Error('Chrome did not start');
+ if(!port) throw Error('Chrome did not start: '+chromeErr.slice(-2000));
  const tabs=await (await fetch('http://127.0.0.1:'+port+'/json/list')).json();
  socket=new WebSocket(tabs.find(t=>t.type==='page').webSocketDebuggerUrl);
  await new Promise((resolve,reject)=>{socket.onopen=resolve;socket.onerror=reject;});
