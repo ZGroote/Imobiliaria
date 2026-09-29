@@ -115,9 +115,14 @@ def monta(carimbo=None, config=None, recorte=None, runtime_v2=False):
         urban = ler("terrain-fit.js") + "\n" + ler("road-clearance.js") + "\n" + ler("urban-models.js") + "\n"
         partes += bloco("__urbanModels", dados_urbanos)
     elif runtime_v2:
-        # V2 deliberately drops the heavyweight urban asset pack. The original/V1
-        # build remains unchanged until the lightweight replacement passes A/B.
-        print("  runtime-v2: __urbanModels omitido; usando cidade procedural leve")
+        # V2 never transports the heavyweight V1 pack. It may carry the tiny compact
+        # kit instead; buildings that do not fit it stay on the procedural path.
+        dados_urbanos_v2 = pacotes.urbanos_v2(config)
+        if dados_urbanos_v2 is not None:
+            partes += bloco("__urbanModelsV2", dados_urbanos_v2)
+            print("  runtime-v2: kit urbano compacto habilitado")
+        else:
+            print("  runtime-v2: sem kit compacto; usando cidade procedural leve")
     dados_exteriores = pacotes.exteriores(config, CID)
     if dados_exteriores is not None:
         partes += bloco("__exteriorModels", dados_exteriores)
