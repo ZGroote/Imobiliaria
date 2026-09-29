@@ -71,9 +71,9 @@ def _valid_city_id(city_id):
     return city_id
 
 
-def compile_city(source: Path, out_dir: Path, *, city_id: str):
+def compile_city(source: Path, out_dir: Path, *, city_id: str, source_text: str | None = None):
     city_id=_valid_city_id(city_id)
-    data=json.loads(source.read_text(encoding="utf-8"))
+    data=json.loads(source_text if source_text is not None else source.read_text(encoding="utf-8"))
     q=data.get("q",10); bl=data.get("bl") or []
     if len(bl)%5: raise ValueError("invalid bl[]")
     slices=building_slices(data["b"]); meta=metadata_by_building(data)
@@ -138,8 +138,25 @@ def compile_city(source: Path, out_dir: Path, *, city_id: str):
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--city-id",required=True,help="stable city namespace, e.g. sao-carlos")
+    p.add_argument("--cidade",help="city config slug; enables build-time enrichment")
+    p.add_argument("--variante")
+    p.add_argument("--urban-v2",action="store_true",
+                   help="compile lot-aware Runtime V2 placements with the lightweight kit")
     p.add_argument("source",type=Path); p.add_argument("output",type=Path)
-    a=p.parse_args(); idx=compile_city(a.source,a.output,city_id=a.city_id)
+    a=p.parse_args()
+    source_text=None
+    if a.urban_v2:
+        if not a.cidade:
+            p.error("--urban-v2 requires --cidade")
+        from pipeline.build.config import resolve
+        from pipeline.build import pacotes
+        config=resolve(a.cidade,a.variante)
+        cid=config.cidade()
+        source_text=a.source.read_text(encoding="utf-8")
+        pack=pacotes.urbanos_v2(config)
+        if pack:
+            source_text=pacotes.com_encaixes(config,cid,source_text,pack_text=pack,cache_tag="v2")
+    idx=compile_city(a.source,a.output,city_id=a.city_id,source_text=source_text)
     print(f"{len(idx['chunks'])} chunks / {idx['buildingCount']} buildings -> {a.output}")
 
 
