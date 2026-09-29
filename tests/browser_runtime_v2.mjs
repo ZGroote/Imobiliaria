@@ -61,8 +61,9 @@ try{
  assert.ok(stats,'Runtime V2 diagnostics not exposed');
  assert.equal(await read("!!document.getElementById('__urbanModels')"),false,
    'Runtime V2 slim page still carries legacy urban model pack');
- assert.equal(await read("!!document.getElementById('__urbanModelsV2')"),true,
-   'Runtime V2 compact urban kit is missing');
+ assert.equal(await read("!!document.getElementById('__urbanModelsV2')"),false,
+   'Runtime V2 must not embed an offline urban model pack');
+ assert.ok(stats.resident>=0,'Runtime V2 server-backed diagnostics missing');
  assert.equal(stats.chunks,3876);
  assert.equal(stats.buildings,89895);
  assert.ok(stats.mounted>0,'no V2 chunks mounted');
