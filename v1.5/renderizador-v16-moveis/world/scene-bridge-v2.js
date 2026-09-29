@@ -2,7 +2,7 @@
 (function(root) {
   "use strict";
 
-  function create({loader,mountChunk,unmountChunk}) {
+  function create({loader,mountChunk,unmountChunk,concurrency=8}) {
     const mounted=new Map();
     let generation=0, syncing=0;
 
@@ -21,15 +21,30 @@
           }
         }
 
-        for (const w of wanted) {
-          const meta=byId.get(w.id);
-          if (!meta) continue;
-          const value=await loader.load(meta);
-          if (gen!==generation) return {stale:true,mounted:new Set(mounted.keys())};
-          if (w.state==="visible" && !mounted.has(w.id))
-            mounted.set(w.id,mountChunk(w.id,value,meta));
+        async function loadBatch(items) {
+          let cursor=0;
+          async function worker() {
+            while (cursor < items.length) {
+              const w=items[cursor++], meta=byId.get(w.id);
+              if (!meta || gen!==generation) continue;
+              const value=await loader.load(meta);
+              if (gen!==generation) return;
+              if (w.state==="visible" && !mounted.has(w.id))
+                mounted.set(w.id,mountChunk(w.id,value,meta));
+            }
+          }
+          const n=Math.min(Math.max(1,concurrency|0),items.length);
+          await Promise.all(Array.from({length:n},worker));
         }
-        loader.evict(keep);
+
+        // Anything on screen wins over speculative prefetch. Only after every visible
+        // request settles do warm chunks get network slots.
+        await loadBatch(wanted.filter(w=>w.state==="visible"));
+        if (gen!==generation) return {stale:true,mounted:new Set(mounted.keys())};
+        await loadBatch(wanted.filter(w=>w.state!=="visible"));
+        if (gen!==generation) return {stale:true,mounted:new Set(mounted.keys())};
+
+        loader.evict(keep, visible);
         return {stale:false,mounted:new Set(mounted.keys())};
       } finally {
         syncing--;
