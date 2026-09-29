@@ -1,7 +1,8 @@
 /* Shared exterior surface materials; geometry and scene ownership stay with callers. */
 (function(root) {
   "use strict";
-  function create({THREE, K, TEX_CIDADE, GLSL_RUIDO, AP_LUZ = false, AP_ESPEC = false}) {
+  function create({THREE, K, TEX_CIDADE, GLSL_RUIDO, AP_LUZ = false, AP_ESPEC = false,
+                   GRASS_V2 = false}) {
 const BLOCO_MURO = `#include <color_fragment>
     {
       // Direcao ao longo do muro, pela derivada da posicao de mundo (ver a nota do
@@ -38,6 +39,20 @@ const BLOCO_MURO = `#include <color_fragment>
     side:THREE.DoubleSide, fog:true });
   matChao.onBeforeCompile = sh => {
     sh.uniforms.uTexChao = { value: TEX_CIDADE.chao };
+    const grassPatch = GRASS_V2 ? `
+       // V2 lawn: keep NDVI's brown/green classification, but make green lots read
+       // like maintained grass from aerial imagery. Shader-only: no geometry,
+       // texture payload, request or draw-call increase.
+       float greenScore = smoothstep(0.025, 0.115,
+         diffuseColor.g - (diffuseColor.r + diffuseColor.b) * 0.5);
+       float broad = vnoise(vXZ * 0.0085);
+       float fine = vnoise(vXZ * 0.060);
+       vec3 lawn = vec3(0.215, 0.385, 0.165);
+       lawn *= 0.88 + broad * 0.20 + fine * 0.07;
+       float mow = 0.5 + 0.5 * sin((vXZ.x + vXZ.y * 0.31) * 0.39);
+       lawn *= 0.965 + mow * 0.035;
+       diffuseColor.rgb = mix(diffuseColor.rgb, lawn, greenScore * 0.74);
+    ` : "";
     sh.vertexShader = "varying vec2 vXZ;\n" + sh.vertexShader.replace(
       "#include <begin_vertex>", "#include <begin_vertex>\nvXZ = transformed.xz;");
     sh.fragmentShader = "varying vec2 vXZ;\nuniform sampler2D uTexChao;\n" + GLSL_RUIDO +
@@ -45,10 +60,10 @@ const BLOCO_MURO = `#include <color_fragment>
       `#include <color_fragment>
        float gc = dot(texture2D(uTexChao, vXZ * 0.125).rgb, vec3(0.299,0.587,0.114)) / 0.557;
        float mc = vnoise(vXZ * 0.028) * 0.65 + vnoise(vXZ * 0.11) * 0.35;
-       diffuseColor.rgb *= mix(1.0, gc, 0.55) * (1.0 + (mc - 0.5) * 0.30);`);
+       diffuseColor.rgb *= mix(1.0, gc, 0.55) * (1.0 + (mc - 0.5) * 0.30);` + grassPatch);
   };
   // Sem a chave o three reaproveita o programa do MeshBasic cru e o patch nao entra.
-  matChao.customProgramCacheKey = () => "chaoquadra";
+  matChao.customProgramCacheKey = () => GRASS_V2 ? "chaoquadra-grass-v2" : "chaoquadra";
       return matChao;
     }
     function muros() {
