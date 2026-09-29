@@ -36,7 +36,7 @@ try{
   if(d.method==='Network.responseReceived'){
    const r=d.params.response;
    if(r.status>=400&&!r.url.endsWith('/favicon.ico')) httpErrors.push({url:r.url,status:r.status});
-   if(r.url.includes('/runtime-v2/chunks/')) chunkUrls.add(r.url);
+   if(r.url.includes('/runtime-v2/chunks/')||r.url.includes('/runtime-v2/packs/')) chunkUrls.add(r.url);
    if(r.url.includes('/runtime-v2/urban-kit.json')) urbanKitSeen=true;
   }
  };
