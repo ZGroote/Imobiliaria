@@ -18,7 +18,7 @@ test('scheduler to loader fetches only selected chunks and preserves ids', async
  const wanted=R.select(index,{x:0,z:0,dirX:0,dirZ:1,renderRadius:100,prefetchRadius:220,forwardExtra:100});
  const got=await loader.sync(index,wanted);
  assert.deepEqual(calls,['near.json','ahead.json']);
- assert.deepEqual(got.map(x=>x.id),['near','ahead']);
+ assert.deepEqual(Array.from(got, x=>String(x.id)),['near','ahead']);
  assert.equal(got[1].value.chunkId,'ahead');
 });
 
