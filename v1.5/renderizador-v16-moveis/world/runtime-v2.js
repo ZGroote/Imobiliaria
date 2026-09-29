@@ -26,8 +26,12 @@
     const wanted = [];
     for (const chunk of index.chunks || []) {
       const s = score(chunk, view);
+      // Visible area = safe circle + forward lobe. Behind/side content disappears
+      // earlier while the direction of travel/view receives the full render radius.
+      const base = Math.max(0.1, Math.min(1, view.baseRenderFactor == null ? 0.65 : view.baseRenderFactor));
+      const renderReach = renderRadius * (base + (1 - base) * Math.max(0, s.ahead));
       const forwardReach = prefetchRadius + Math.max(0, s.ahead) * (view.forwardExtra || 0);
-      if (s.distance <= renderRadius) wanted.push({...s, id:chunk.id, state:STATES.VISIBLE});
+      if (s.distance <= renderReach) wanted.push({...s, id:chunk.id, state:STATES.VISIBLE});
       else if (s.distance <= forwardReach) wanted.push({...s, id:chunk.id, state:STATES.WARM});
       else if (s.distance <= keepRadius && view.resident && view.resident.has(chunk.id))
         wanted.push({...s, id:chunk.id, state:STATES.WARM});
