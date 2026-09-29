@@ -46,4 +46,5 @@ test('stale async load never mounts after a newer camera update',async()=>{
  const second=bridge.sync(index,[{id:'behind',state:'visible'}]);
  release(); await Promise.all([first,second]);
  assert.ok(!mounted.includes('ahead')); assert.ok(mounted.includes('behind'));
+ assert.equal(bridge.syncing(),0);
 });
