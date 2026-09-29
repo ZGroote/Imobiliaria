@@ -42,10 +42,11 @@ def comprime(s):
     # deixar so os dados comprimidos custava 0,4 MB de pagina a mais. Sao os tres
     # <script> SEM atributo, em ordem: three, earcut, app. O `__cidade` fica de fora
     # (o app le ele na inicializacao, antes de qualquer descompactacao).
-    abre_urban = '<script type="application/json" id="__urbanModels">'
-    if abre_urban in s:
-        i = s.index(abre_urban); j = s.index("</script>", i)
-        pedacos.append((s[i:j + 9], s[i + len(abre_urban):j], "json", "__urbanModels"))
+    for ident_urban in ("__urbanModels", "__urbanModelsV2"):
+        abre_urban = '<script type="application/json" id="%s">' % ident_urban
+        if abre_urban in s:
+            i = s.index(abre_urban); j = s.index("</script>", i)
+            pedacos.append((s[i:j + 9], s[i + len(abre_urban):j], "json", ident_urban))
     abre_exterior = '<script type="application/json" id="__exteriorModels">'
     if abre_exterior in s:
         i = s.index(abre_exterior); j = s.index("</script>", i)
