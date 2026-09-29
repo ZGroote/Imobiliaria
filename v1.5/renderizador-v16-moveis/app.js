@@ -997,19 +997,14 @@ const buildingPlacement = BuildingPlacement.create({geometry: MapGeometry, types
 const {explicitBuilding} = buildingPlacement;
 const buildingOverRoad = b => buildingPlacement.blocked(b, roadSafety);
 const urbanSplit = records => buildingPlacement.split(records, urban, roadSafety);
-if (RUNTIME_V2 && $("__urbanModelsV2")) {
-  try {
-    urban = UrbanModels.create(THREE, JSON.parse($("__urbanModelsV2").textContent), gBuild,
-                              {cut:uFuro, shadows:SOMBRA_CIDADE,terrain:urbanBase});
-  } catch (e) { console.warn("Kit urbano V2 indisponivel; usando volumes procedurais.", e); }
-} else if (!RUNTIME_V2 && new URLSearchParams(location.search).get("casas") !== "procedural") {
+if (!RUNTIME_V2 && new URLSearchParams(location.search).get("casas") !== "procedural") {
   try {
     urban = UrbanModels.create(THREE, JSON.parse($("__urbanModels").textContent), gBuild,
                               {cut:uFuro, shadows:SOMBRA_CIDADE,terrain:urbanBase});
   } catch (e) { console.warn("Biblioteca urbana indisponivel; usando volumes atuais.", e); }
 }
-// Runtime V2 uses only the compact illustrative kit; the heavyweight V1 pack
-// remains exclusive to the original/reference runtime.
+// Runtime V2 receives its lightweight city-house kit from the server spatial
+// package during loadCityV2(); the heavyweight V1 pack stays V1-only.
 function urbanBase(b, x, z) {
   return terrainY(x,z);
 }
@@ -1798,8 +1793,24 @@ async function loadCityV2(indexUrl) {
     chunks: rawIndex.chunks.map(ch => ({...ch, url:v2Absolute(absoluteIndex, ch.url)}))
   };
   const contextUrl = v2Absolute(absoluteIndex, rawIndex.context?.url || "context.json");
-  const rawContext = await fetchJsonV2(contextUrl);
+  const kitUrl = rawIndex.urbanKit?.url ? v2Absolute(absoluteIndex, rawIndex.urbanKit.url) : null;
+  const [rawContext, rawUrbanKit] = await Promise.all([
+    fetchJsonV2(contextUrl),
+    kitUrl ? fetchJsonV2(kitUrl) : Promise.resolve(null)
+  ]);
   const {R, G} = CityChunkDataV2.decodeContext(decode, rawContext);
+
+  // V2 is intentionally online/server-first. Recreate the shared lightweight asset
+  // pools from the server package; never depend on an embedded/offline urban payload.
+  if (urban) { urban.dispose(); urban = null; }
+  if (rawUrbanKit) {
+    try {
+      urban = UrbanModels.create(THREE, rawUrbanKit, gBuild,
+                                {cut:uFuro, shadows:SOMBRA_CIDADE,terrain:urbanBase});
+    } catch (e) {
+      console.warn("Kit urbano V2 do servidor indisponivel; usando volumes procedurais.", e);
+    }
+  }
   const buildingCount = index.buildingCount ??
     index.chunks.reduce((n,ch) => n + (ch.buildings || 0), 0);
   GRID = buildingCount > 50000 ? 12 : 4;
