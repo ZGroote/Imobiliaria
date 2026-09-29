@@ -30,6 +30,7 @@ test('composed classic bundle remains syntactically valid with V2 modules presen
 });
 
 
-test('Runtime V2 explicitly bypasses legacy urban asset instancing',()=>{
- assert.match(app,/if \(!RUNTIME_V2 && new URLSearchParams\(location\.search\)\.get\("casas"\) !== "procedural"\)/);
+test('Runtime V2 uses compact urban kit while legacy pack stays V1-only',()=>{
+ assert.match(app,/if \(RUNTIME_V2 && \$\("__urbanModelsV2"\)\)/);
+ assert.match(app,/else if \(!RUNTIME_V2 && new URLSearchParams\(location\.search\)\.get\("casas"\) !== "procedural"\)/);
 });
