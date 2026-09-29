@@ -1756,12 +1756,54 @@ if ($("tArrows")) $("tArrows").addEventListener("click", () => {
   $("tArrows").setAttribute("aria-pressed", String(on));
   if (gArrows) gArrows.visible = on;
 });
+const v2JsonSession = new Map();
 async function fetchJsonV2(url) {
-  const r = await fetch(url, { cache:"force-cache" });
-  if (!r.ok) throw new Error("HTTP " + r.status + " em " + url);
-  return r.json();
+  const absolute = new URL(url, location.href).href;
+  if (v2JsonSession.has(absolute)) return v2JsonSession.get(absolute);
+  const p = (async () => {
+    const r = await fetch(absolute, { cache:"default" });
+    if (!r.ok) throw new Error("HTTP " + r.status + " em " + absolute);
+    return r.json();
+  })();
+  v2JsonSession.set(absolute,p);
+  try { return await p; }
+  catch (e) { v2JsonSession.delete(absolute); throw e; }
 }
 function v2Absolute(base, rel) { return new URL(rel, base).href; }
+
+let v2PrewarmLast = null;
+async function prewarmCityV2At(x,z) {
+  if (!RUNTIME_V2_INDEX || !Number.isFinite(x) || !Number.isFinite(z)) return null;
+  const absoluteIndex = new URL(RUNTIME_V2_INDEX, location.href).href;
+  const rawIndex = await fetchJsonV2(absoluteIndex);
+  if (!Array.isArray(rawIndex.chunks)) return null;
+
+  const base = [
+    fetchJsonV2(v2Absolute(absoluteIndex, rawIndex.context?.url || "context.json"))
+  ];
+  if (rawIndex.urbanKit?.url)
+    base.push(fetchJsonV2(v2Absolute(absoluteIndex, rawIndex.urbanKit.url)));
+
+  const ranked = rawIndex.chunks.map(ch => ({
+    ch,
+    d: Math.max(0, Math.hypot((ch.cx||0)-x,(ch.cz||0)-z) - (ch.rad||0))
+  })).sort((a,b)=>a.d-b.d);
+
+  // First useful neighbourhood: enough mass to make the transition feel instant,
+  // but intentionally much smaller than the normal 128-visible working set.
+  const critical = ranked.slice(0,12);
+  const warm = ranked.slice(12,32);
+
+  await Promise.all(base.concat(critical.map(({ch}) =>
+    fetchJsonV2(v2Absolute(absoluteIndex,ch.url)))));
+  v2PrewarmLast = {x,z,critical:critical.length,warm:warm.length,ready:true};
+
+  // The second ring is opportunistic. It never blocks the miniature or map transition.
+  Promise.all(warm.map(({ch})=>fetchJsonV2(v2Absolute(absoluteIndex,ch.url))))
+    .then(()=>{ if(v2PrewarmLast&&v2PrewarmLast.x===x&&v2PrewarmLast.z===z) v2PrewarmLast.warmReady=true; })
+    .catch(()=>{});
+  return v2PrewarmLast;
+}
 
 function mountV2Chunk(id, value, meta) {
   const key = "v2:" + id;
@@ -2130,6 +2172,7 @@ const housesBox = $("houses");
 // pelo proprio `$`, que ja acha o elemento no documento.
 HouseSheet.create({document, $, esc, px, pz, brl, getSheet:()=>listingSheet,
   ListingModels, hsheet, usheet:$("usheet"), housesBox, houseBeacon, flyTo,
+  prewarmMapAt:(x,z)=>prewarmCityV2At(x,z),
   closePoiSheet:()=>closePoiSheet(), abrePerto:ctx=>abrePerto(ctx),
   // `listingIdentity` e a escada nascem os dois mais abaixo -- chamada adiada.
   predioMaisPerto:(x,z,r)=>listingIdentity.predioMaisPerto(x,z,r),
@@ -2513,6 +2556,7 @@ const {pedePredio, cancelaEscolha, abreUnidade, getEscolhendo, getFicha, setFich
   getEtapa:()=>etapas.ETAPA, pintaEtapas:()=>etapas.pintaEtapas(),
   vaiParaEtapa:k=>etapas.vaiParaEtapa(k), tour:v=>etapas.tour(v),
   marcaEtapaNaUrl:()=>marcaEtapaNaUrl(), predioMaisPerto,
+  prewarmMapAt:(x,z)=>prewarmCityV2At(x,z),
   mostraMaquete:(rec,u,d)=>etapas.mostraMaquete(rec,u,d),
   escondeMaquete:()=>etapas.escondeMaquete()});
 
