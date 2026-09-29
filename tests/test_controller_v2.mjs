@@ -32,3 +32,14 @@ test('small unchanged samples do not reschedule work',()=>{
  assert.equal(c.update(false),false);
  assert.equal(calls,1);
 });
+
+test('sub-threshold pan samples accumulate into a stable movement direction',()=>{
+ let time=0,sample={x:0,z:0,viewDirX:0,viewDirZ:1}; const dirs=[];
+ const c=C.create({index:{chunks:[]},select:(idx,v)=>(dirs.push([v.dirX,v.dirZ]),[]),
+  bridge:{sync:async()=>{},reset(){}},getResident:()=>new Set(),getSample:()=>sample,
+  getViewConfig:()=>({}),now:()=>time,moveThreshold:30,directionThreshold:4,turnDot:.999});
+ c.update(true);
+ sample={...sample,x:2};time=10;assert.equal(c.update(false),false);
+ sample={...sample,x:4.2};time=20;assert.equal(c.update(false),true);
+ assert.ok(dirs.at(-1)[0]>.99);
+});
