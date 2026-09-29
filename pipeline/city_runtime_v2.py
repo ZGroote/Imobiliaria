@@ -4,6 +4,12 @@ from __future__ import annotations
 import argparse, base64, hashlib, json, re
 from pathlib import Path
 
+# Keep direct CLI execution (python pipeline/city_runtime_v2.py ...) compatible with
+# package imports used by the optional build-time enrichment path.
+if __package__ in (None, ""):
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 FORMAT = "city-runtime-v2"
 VERSION = 2
 CITY_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
