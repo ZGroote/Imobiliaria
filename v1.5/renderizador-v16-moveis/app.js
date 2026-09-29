@@ -1867,8 +1867,7 @@ async function loadCityV2(indexUrl) {
   };
 
   streaming.start();            // contexto (ruas/verde)
-  v2Controller.update(true);    // predios, primeiro lote direcional
-  streamUpdate(true);
+  streamUpdate(true);           // contexto + primeiro lote direcional de predios
   lerLink();
 
   phase.classList.remove("off");
