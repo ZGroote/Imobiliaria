@@ -24,7 +24,8 @@ class RuntimeV2RealCityTest(unittest.TestCase):
               "chunk_p90_bytes":pct(.90),
               "chunk_p99_bytes":pct(.99),
               "chunk_max_bytes":max(sizes),
-              "buildings":sum(c["buildings"] for c in idx["chunks"]),\n              "city_id":idx["cityId"]
+              "buildings":sum(c["buildings"] for c in idx["chunks"]),
+              "city_id":idx["cityId"]
             },sort_keys=True))
 
 if __name__=="__main__": unittest.main()
