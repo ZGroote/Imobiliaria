@@ -94,7 +94,23 @@ SONDA = """
     : document.querySelector("#houses .hitem[data-unidade]");
   if (!alvo) { console.log('SONDA {"erro":"unidade nao esta na vitrine"}'); return; }
   alvo.click();
-  document.getElementById("uEnter").click();
+  // ESPERAR A ENTRADA, e nao um relogio. O clique na vitrine abre a ficha COM animacao,
+  // e `vaiParaEtapa` descarta em silencio o clique de "entrar" enquanto `MAQ.anim` esta
+  // no ar -- clicar logo em seguida perdia o clique numa parte das rodadas, e o `medir`
+  // das 2600 ms achava `INT.casa` nulo e quebrava ("a sonda nao respondeu"). Medido em
+  // 29/09 no main: 1 de 4 rodadas medindo; num caso a entrada so veio aos ~5,5 s. Aqui o
+  // clique se repete enquanto a etapa nao virou "interior", e so com a animacao parada;
+  // depois disso a entrada (cresceMaquete + voo) e esperada pelo estado, nao pelo tempo.
+  (function entrar(n) {
+    var I = window.__int, bt = document.getElementById("uEnter");
+    if (I.INT.on && I.INT.casa) { medir.n = 0; return setTimeout(medir, 250); }
+    if (n <= 0) {
+      console.log("SONDA " + JSON.stringify({ erro: "a entrada no interior nao aconteceu",
+        etapa: I.ETAPA.atual, anim: !!I.MAQ.anim, on: !!I.INT.on })); return;
+    }
+    if (!I.MAQ.anim && bt && !bt.hidden && I.ETAPA.atual !== "interior") bt.click();
+    setTimeout(function () { entrar(n - 1); }, 250);
+  })(160);
   // v15: TERMINAR O VOO E O BAKE ANTES DE MEDIR -- os dois, e nesta ordem.
   //
   // Este medidor fotografava a camera ONDE ELA ESTIVESSE aos 2600 ms, e sob
@@ -180,8 +196,6 @@ SONDA = """
       corteAtivo: I.CORTE.constant < 1e5, shadowSide: mv && mv.obj.children[0].material.shadowSide,
       matSide: mv && mv.obj.children[0].material.side }));
   }
-  medir.n = 0;
-  setTimeout(medir, 2600);
 })(120);
 </script>
 """
