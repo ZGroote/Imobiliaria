@@ -30,7 +30,8 @@ def inflado(texto, ident):
 
 class HtmlTests(unittest.TestCase):
     def test_every_block_is_packed_and_comes_back_whole(self):
-        for extras in ([], ['__urbanModels', '__exteriorModels', '__listingModels']):
+        for extras in ([], ['__urbanModels', '__exteriorModels', '__listingModels'],
+                       ['__urbanModelsV2', '__exteriorModels', '__listingModels']):
             texto = comprime(pagina(extras))
             for ident, _ in DADOS:
                 self.assertEqual(inflado(texto, ident), '[%s]' % ident)
