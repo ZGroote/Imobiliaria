@@ -54,7 +54,7 @@ try{
  await send('Page.navigate',{url});
  let stats;
  for(let i=0;i<240;i++){
-  stats=await read("(()=>{try{window.__perf?.passo(performance.now());}catch{};return window.__runtimeV2?.stats?.()||null})()");
+  stats=await read("(()=>{try{window.__runtimeV2?.controller?.update(true);}catch{};return window.__runtimeV2?.stats?.()||null})()");
   if(stats?.mounted>0&&stats?.resident>=stats.mounted) break;
   await delay(250);
  }
@@ -68,10 +68,16 @@ try{
  assert.equal(httpErrors.length,0,JSON.stringify(httpErrors));
  assert.equal(errors.length,0,JSON.stringify(errors));
 
+ await read('window.__int.renderer.render(window.__int.scene,window.__int.camera); true');
  const before=await read('Array.from(window.__runtimeV2.bridge.mountedIds()).sort()');
- await read('window.__int.sph.theta+=Math.PI; window.__perf.passo(performance.now()); true');
- for(let i=0;i<80;i++){await read('window.__perf.passo(performance.now()); true');await delay(100);}
- const after=await read('Array.from(window.__runtimeV2.bridge.mountedIds()).sort()');
+ await read('window.__int.sph.theta+=Math.PI; window.__runtimeV2.controller.update(true); true');
+ let after=before;
+ for(let i=0;i<80;i++){
+   await delay(100);
+   after=await read('Array.from(window.__runtimeV2.bridge.mountedIds()).sort()');
+   if(JSON.stringify(after)!==JSON.stringify(before)) break;
+ }
+ await read('window.__int.renderer.render(window.__int.scene,window.__int.camera); true');
  assert.notDeepEqual(after,before,'180 degree camera turn did not change visible chunk set');
 
  console.log('RUNTIME_V2_BROWSER',JSON.stringify({...stats,chunkRequests:chunkUrls.size,before:before.length,after:after.length}));
