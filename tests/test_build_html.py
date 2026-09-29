@@ -46,6 +46,12 @@ class HtmlTests(unittest.TestCase):
             self.assertTrue(texto.rstrip().endswith('</script>'), 'o carregador vai no fim')
             self.assertIn('DecompressionStream("deflate-raw")', texto)
 
+    def test_slim_runtime_v2_page_can_omit_monolithic_city_block(self):
+        slim = pagina().replace('<script type="application/json" id="__citydata">[__citydata]</script>', '')
+        packed = comprime(slim)
+        self.assertNotIn('id="__citydata"', packed)
+        self.assertIn('data-zip="json" id="__poidata"', packed)
+
     def test_a_page_without_the_three_anonymous_scripts_is_refused(self):
         with self.assertRaises(SystemExit):
             comprime(pagina().replace('<script>/* earcut */ var earcut=1;</script>', ''))
