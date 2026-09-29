@@ -39,13 +39,21 @@ def usa_urbanos(config):
     return (config.fonte / 'urban-models.js').exists()
 
 
-def com_encaixes(config, cid, texto_cidade):
-    """Texto da cidade com `urbanLots`, ou o texto original quando nao ha pacote."""
-    pack = URBANOS / 'mapa-casas.json'
-    if not (usa_urbanos(config) and pack.exists()):
+def com_encaixes(config, cid, texto_cidade, pack_text=None, cache_tag=None):
+    """Texto da cidade com `urbanLots`, ou o texto original quando nao ha pacote.
+
+    `pack_text`/cache_tag permitem ao Runtime V2 usar seu kit proprio sem alterar o
+    cache ou a biblioteca visual do V1.
+    """
+    if not usa_urbanos(config):
         return texto_cidade
+    if pack_text is None:
+        pack = URBANOS / 'mapa-casas.json'
+        if not pack.exists():
+            return texto_cidade
+        pack_text = _texto(pack)
     from pipeline.encaixar_casas_lotes import compile_placements
-    placements = compile_placements(cid, texto_cidade, _texto(pack), RAIZ)
+    placements = compile_placements(cid, texto_cidade, pack_text, RAIZ, cache_tag=cache_tag)
     cidade = json.loads(texto_cidade)
     cidade['urbanLots'] = placements
     return json.dumps(cidade, ensure_ascii=False, separators=(',', ':'))
