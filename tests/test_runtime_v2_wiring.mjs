@@ -22,3 +22,9 @@ test('Runtime V2 modules are composed before app.js',()=>{
   assert.ok(modules.indexOf(name)<modules.indexOf('app.js'),name+' must load before app');
  }
 });
+
+test('composed classic bundle remains syntactically valid with V2 modules present',()=>{
+ const root=new URL('../v1.5/renderizador-v16-moveis/',import.meta.url);
+ const source=modules.map(name=>fs.readFileSync(new URL(name,root),'utf8')).join('\n');
+ assert.doesNotThrow(()=>new Function(source));
+});
