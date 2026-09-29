@@ -17,6 +17,7 @@ class RuntimeV2RealCityTest(unittest.TestCase):
             print("RUNTIME_V2_BENCH",json.dumps({
               "source_bytes":src.stat().st_size,
               "index_bytes":(out/"index.json").stat().st_size,
+              "context_bytes":(out/"context.json").stat().st_size,
               "chunks":len(sizes),
               "chunk_total_bytes":sum(sizes),
               "chunk_p50_bytes":pct(.50),
