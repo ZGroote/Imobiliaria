@@ -22,7 +22,14 @@
       if (hit) return hit.value;
       if (pending.has(chunk.id)) return pending.get(chunk.id);
       const p = (async () => {
-        const raw = await fetchJson(chunk.url);
+        let raw;
+        if (chunk.packUrl) {
+          const pack = await fetchJson(chunk.packUrl);
+          raw = pack && pack.chunks && pack.chunks[chunk.id];
+          if (!raw) throw Error("Runtime V2 pack missing chunk " + chunk.id);
+        } else {
+          raw = await fetchJson(chunk.url);
+        }
         const value = decode(raw, chunk);
         resident.set(chunk.id, {value, used:++clock, bytes:chunk.bytes || 0});
         return value;
