@@ -1782,8 +1782,9 @@ async function loadCityV2(indexUrl) {
   resetScene();
   const absoluteIndex = new URL(indexUrl, location.href).href;
   const rawIndex = await fetchJsonV2(absoluteIndex);
-  if (rawIndex.format !== "city-runtime-v2" || !Array.isArray(rawIndex.chunks))
-    throw new Error("indice Runtime V2 invalido");
+  if (rawIndex.format !== "city-runtime-v2" || rawIndex.version !== 2 ||
+      !rawIndex.cityId || !Array.isArray(rawIndex.chunks))
+    throw new Error("indice Runtime V2 invalido ou sem identidade persistente");
 
   const index = {
     ...rawIndex,
@@ -1792,7 +1793,8 @@ async function loadCityV2(indexUrl) {
   const contextUrl = v2Absolute(absoluteIndex, rawIndex.context?.url || "context.json");
   const rawContext = await fetchJsonV2(contextUrl);
   const {R, G} = CityChunkDataV2.decodeContext(decode, rawContext);
-  const buildingCount = index.chunks.reduce((n,ch) => n + (ch.buildings || 0), 0);
+  const buildingCount = index.buildingCount ??
+    index.chunks.reduce((n,ch) => n + (ch.buildings || 0), 0);
   GRID = buildingCount > 50000 ? 12 : 4;
 
   // O contexto leve continua conhecido: vias, areas verdes, busca e minimapa.
@@ -1826,7 +1828,7 @@ async function loadCityV2(indexUrl) {
 
   v2Loader = CityChunkLoaderV2.create({
     fetchJson: fetchJsonV2,
-    decode: (raw, meta) => CityChunkDataV2.decodeChunk(decode, raw, meta),
+    decode: (raw, meta) => CityChunkDataV2.decodeChunk(decode, raw, meta, index.cityId),
     maxResident: 512
   });
   v2Bridge = CitySceneBridgeV2.create({
@@ -1859,6 +1861,7 @@ async function loadCityV2(indexUrl) {
   window.__runtimeV2 = {
     index, loader:v2Loader, bridge:v2Bridge, controller:v2Controller,
     stats:()=>({
+      cityId:index.cityId,
       chunks:index.chunks.length,
       buildings:buildingCount,
       resident:v2Loader.residentIds().size,
