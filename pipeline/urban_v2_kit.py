@@ -121,13 +121,16 @@ def _house(i,floors,w,d,*,gable=False,garage=False,lshape=False,flat=False,porch
 
 def build_pack():
     assets=[]
-    one=[(6.6,8.4),(7.2,9.5),(7.8,10.5),(8.4,9),(8.8,11.8),(9.2,10.2),(9.8,12.5),(10.4,9.8),
-         (7.6,13.5),(8.6,14.2),(9.4,13),(10.8,11.5),(11.2,13.8),(8,11),(9,12),(10,14.5)]
+    # V2 city houses deliberately read larger than the first compact experiment.
+    # The dimensions target the aerial-reference language: substantial house mass,
+    # while preserving front/side setback and backyard.
+    one=[(7.8,10.2),(8.4,11.4),(9.0,12.2),(9.6,10.8),(10.2,13.5),(10.8,12.4),(11.4,14.5),(12.0,11.8),
+         (9.2,15.2),(10.4,16.0),(11.2,15.0),(12.4,13.8),(13.0,16.0),(9.8,13.2),(11.0,14.5),(12.0,17.0)]
     for i,(w,d) in enumerate(one):
         assets.append(_house(i,1,w,d,gable=i%3==1,garage=i in {2,5,8,11,14},
                              lshape=i in {6,12},flat=i in {3,10,15},porch=i in {1,4,7,13}))
-    two=[(6.5,8.5),(7,9.5),(7.5,10.5),(8,9),(8.5,11),(9,10),(9.5,12),(10,10.5),
-         (7.4,12.8),(8.4,13.2),(9.4,13.5),(10.4,12)]
+    two=[(7.6,9.8),(8.2,10.8),(8.8,11.8),(9.4,10.4),(10.0,12.4),(10.6,11.5),(11.2,13.2),(11.8,12.0),
+         (8.8,14.0),(9.8,14.5),(10.8,14.8),(12.0,13.6)]
     for j,(w,d) in enumerate(two):
         i=16+j; assets.append(_house(i,2,w,d,gable=j%2==1,garage=j in {1,4,7,10},
                                      lshape=j in {5,9},flat=j in {3,8,11},porch=j in {0,6}))
