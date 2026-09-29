@@ -71,4 +71,12 @@ jobs:
         run: |
           CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
           test -n "$CHROME_BIN"
-          CHROME="$CHROME_BIN" node tests/browser_runtime_ab.mjs             "http://127.0.0.1:8872/v1.html?q=baixo"             "http://127.0.0.1:8872/v2.html?runtime=v2&cityIndex=/runtime-v2/index.json&q=baixo"
+          mkdir -p "$RUNNER_TEMP/runtime-ab"
+          RUNTIME_AB_SCREENSHOT_DIR="$RUNNER_TEMP/runtime-ab" CHROME="$CHROME_BIN" node tests/browser_runtime_ab.mjs             "http://127.0.0.1:8872/v1.html?q=baixo"             "http://127.0.0.1:8872/v2.html?runtime=v2&cityIndex=/runtime-v2/index.json&q=baixo"
+      - name: Upload Runtime visual A/B
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: runtime-v1-v2-visual-ab
+          path: ${{ runner.temp }}/runtime-ab/*.png
+          if-no-files-found: error
+          retention-days: 7
