@@ -5,11 +5,14 @@ on:
     branches: [main]
     paths:
       - 'pipeline/city_runtime_v2.py'
+      - 'pipeline/montar.py'
+      - 'pipeline/build/html.py'
       - 'v1.5/renderizador-v16-moveis/app.js'
       - 'v1.5/renderizador-v16-moveis/modules.json'
       - 'v1.5/renderizador-v16-moveis/core/*v2.js'
       - 'v1.5/renderizador-v16-moveis/world/*v2.js'
       - 'tests/browser_runtime_v2.mjs'
+      - 'tests/browser_runtime_ab.mjs'
       - '.github/workflows/runtime-v2.yml'
 
 permissions:
@@ -31,13 +34,20 @@ jobs:
           node-version: 24
       - name: Install build dependencies
         run: pip install -r requirements.txt
-      - name: Build isolated HTML and Runtime V2 package
+      - name: Build V1, slim V2 and Runtime V2 package
         run: |
           mkdir -p "$RUNNER_TEMP/site/runtime-v2"
           python pipeline/montar.py sao-carlos --variante v16-moveis --destino "$RUNNER_TEMP/site" --sem-zip
+          V1="$(find "$RUNNER_TEMP/site" -maxdepth 1 -name '*-aberto.html' -print -quit)"
+          test -n "$V1"
+          mv "$V1" "$RUNNER_TEMP/site/v1.html"
+
+          python pipeline/montar.py sao-carlos --variante v16-moveis --destino "$RUNNER_TEMP/site" --sem-zip --runtime-v2
+          V2="$(find "$RUNNER_TEMP/site" -maxdepth 1 -name '*-aberto.html' -print -quit)"
+          test -n "$V2"
+          mv "$V2" "$RUNNER_TEMP/site/v2.html"
+
           python pipeline/city_runtime_v2.py --city-id sao-carlos sao-carlos/sao-carlos-v7.city.json "$RUNNER_TEMP/site/runtime-v2"
-          # The assembled HTML references the existing exterior/quintal tile pack.
-          # Mirror that published static asset tree into the isolated HTTP root.
           if [ -d v16-moveis/publicado/mapa/quintais ]; then
             cp -R v16-moveis/publicado/mapa/quintais "$RUNNER_TEMP/site/quintais"
           fi
@@ -49,6 +59,9 @@ jobs:
         run: |
           CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
           test -n "$CHROME_BIN"
-          HTML="$(find "$RUNNER_TEMP/site" -maxdepth 1 -name '*-aberto.html' -printf '%f\n' | head -1)"
-          test -n "$HTML"
-          CHROME="$CHROME_BIN" node tests/browser_runtime_v2.mjs "http://127.0.0.1:8872/$HTML?runtime=v2&cityIndex=/runtime-v2/index.json&q=baixo"
+          CHROME="$CHROME_BIN" node tests/browser_runtime_v2.mjs "http://127.0.0.1:8872/v2.html?runtime=v2&cityIndex=/runtime-v2/index.json&q=baixo"
+      - name: V1 vs V2 cold browser benchmark
+        run: |
+          CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$CHROME_BIN"
+          CHROME="$CHROME_BIN" node tests/browser_runtime_ab.mjs             "http://127.0.0.1:8872/v1.html?q=baixo"             "http://127.0.0.1:8872/v2.html?runtime=v2&cityIndex=/runtime-v2/index.json&q=baixo"
