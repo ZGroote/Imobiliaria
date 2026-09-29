@@ -1758,16 +1758,28 @@ if ($("tArrows")) $("tArrows").addEventListener("click", () => {
   $("tArrows").setAttribute("aria-pressed", String(on));
   if (gArrows) gArrows.visible = on;
 });
+const V2_SESSION_CACHE_MAX = 96;
 const v2JsonSession = new Map();
+function v2SessionRemember(url,promise) {
+  v2JsonSession.delete(url);
+  v2JsonSession.set(url,promise);
+  while (v2JsonSession.size > V2_SESSION_CACHE_MAX)
+    v2JsonSession.delete(v2JsonSession.keys().next().value);
+  return promise;
+}
 async function fetchJsonV2(url) {
   const absolute = new URL(url, location.href).href;
-  if (v2JsonSession.has(absolute)) return v2JsonSession.get(absolute);
+  if (v2JsonSession.has(absolute)) {
+    const hit=v2JsonSession.get(absolute);
+    v2SessionRemember(absolute,hit);
+    return hit;
+  }
   const p = (async () => {
     const r = await fetch(absolute, { cache:"default" });
     if (!r.ok) throw new Error("HTTP " + r.status + " em " + absolute);
     return r.json();
   })();
-  v2JsonSession.set(absolute,p);
+  v2SessionRemember(absolute,p);
   try { return await p; }
   catch (e) { v2JsonSession.delete(absolute); throw e; }
 }
