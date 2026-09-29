@@ -35,7 +35,7 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/site/runtime-v2"
           python pipeline/montar.py sao-carlos --variante v16-moveis --destino "$RUNNER_TEMP/site" --sem-zip
-          python pipeline/city_runtime_v2.py sao-carlos/sao-carlos-v7.city.json "$RUNNER_TEMP/site/runtime-v2"
+          python pipeline/city_runtime_v2.py --city-id sao-carlos sao-carlos/sao-carlos-v7.city.json "$RUNNER_TEMP/site/runtime-v2"
           # The assembled HTML references the existing exterior/quintal tile pack.
           # Mirror that published static asset tree into the isolated HTTP root.
           if [ -d v16-moveis/publicado/mapa/quintais ]; then
