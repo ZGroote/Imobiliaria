@@ -12,7 +12,9 @@ if __package__ in (None, ""):
 
 FORMAT = "city-runtime-v2"
 VERSION = 2
-PACK_M = 850.0
+# Transport packs are deliberately smaller than a city tile. 850 m collapsed
+# requests aggressively but made first-use latency and retained raw JSON too bursty.
+PACK_M = 425.0
 CITY_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
 
 
