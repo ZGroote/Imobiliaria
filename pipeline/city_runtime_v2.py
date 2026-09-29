@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Compile any compact city.json into city-agnostic Runtime V2 spatial packages."""
 from __future__ import annotations
-import argparse, base64, hashlib, json, re
+import argparse, base64, hashlib, json, math, re
 from pathlib import Path
 
 # Keep direct CLI execution (python pipeline/city_runtime_v2.py ...) compatible with
@@ -12,6 +12,7 @@ if __package__ in (None, ""):
 
 FORMAT = "city-runtime-v2"
 VERSION = 2
+PACK_M = 850.0
 CITY_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
 
 
@@ -85,7 +86,9 @@ def compile_city(source: Path, out_dir: Path, *, city_id: str, source_text: str 
     if len(bl)%5: raise ValueError("invalid bl[]")
     slices=building_slices(data["b"]); meta=metadata_by_building(data)
     building_ids=_building_ids(data["b"],slices)
-    out_dir.mkdir(parents=True,exist_ok=True); (out_dir/"chunks").mkdir(exist_ok=True)
+    out_dir.mkdir(parents=True,exist_ok=True)
+    (out_dir/"chunks").mkdir(exist_ok=True)
+    (out_dir/"packs").mkdir(exist_ok=True)
 
     # Shared non-building context stays independent of every chunk. Roads and green
     # areas keep their original name indices, so the global names table belongs here.
@@ -95,6 +98,7 @@ def compile_city(source: Path, out_dir: Path, *, city_id: str, source_text: str 
     (out_dir/"context.json").write_text(context_raw,encoding="utf-8")
 
     chunks=[]
+    packs={}
     for gi in range(0,len(bl),5):
         cx,cz,rad,start,count=bl[gi:gi+5]; end=start+count
         if start < 0 or end > len(slices): raise ValueError("group building range out of bounds")
@@ -129,13 +133,26 @@ def compile_city(source: Path, out_dir: Path, *, city_id: str, source_text: str 
         cid=f"{gi//5:06d}"
         raw=json.dumps(payload,separators=(",",":"),ensure_ascii=False)
         rel=f"chunks/{cid}.json"; (out_dir/rel).write_text(raw,encoding="utf-8")
+
+        mx,my=math.floor((cx/q)/PACK_M),math.floor((cz/q)/PACK_M)
+        pack_id=f"{mx:+04d}_{my:+04d}".replace("+","p").replace("-","m")
+        pack_rel=f"packs/{pack_id}.json"
+        packs.setdefault(pack_rel,{})[cid]=payload
         chunks.append({"id":cid,"cx":cx/q,"cz":cz/q,"rad":rad/q,"buildings":count,
-                       "bytes":len(raw.encode("utf-8")),"url":rel})
+                       "bytes":len(raw.encode("utf-8")),"url":rel,"pack":pack_rel})
+
+    pack_bytes=[]
+    for rel,items in packs.items():
+        pack_raw=json.dumps({"v":VERSION,"chunks":items},separators=(",",":"),ensure_ascii=False)
+        (out_dir/rel).write_text(pack_raw,encoding="utf-8")
+        pack_bytes.append(len(pack_raw.encode("utf-8")))
 
     index={"format":FORMAT,"version":VERSION,"cityId":city_id,
            "center":data.get("c"),"q":q,
            "sourceFormatVersion":data.get("v"),"sourceArtifact":source.name,
            "buildingCount":len(building_ids),
+           "packCount":len(packs),
+           "packMaxBytes":max(pack_bytes,default=0),
            "context":{"url":"context.json","bytes":len(context_raw.encode("utf-8"))},
            "chunks":chunks}
     if urban_kit_text is not None:
@@ -171,7 +188,7 @@ def main():
             source_text=pacotes.com_encaixes(config,cid,source_text,pack_text=pack,cache_tag="v2")
     idx=compile_city(a.source,a.output,city_id=a.city_id,source_text=source_text,
                      urban_kit_text=urban_kit_text)
-    print(f"{len(idx['chunks'])} chunks / {idx['buildingCount']} buildings -> {a.output}")
+    print(f"{len(idx['chunks'])} chunks / {idx['packCount']} packs / {idx['buildingCount']} buildings -> {a.output}")
 
 
 if __name__=="__main__": main()
