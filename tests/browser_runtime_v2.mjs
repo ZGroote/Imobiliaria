@@ -59,6 +59,8 @@ try{
   await delay(250);
  }
  assert.ok(stats,'Runtime V2 diagnostics not exposed');
+ assert.equal(await read("!!document.getElementById('__urbanModels')"),false,
+   'Runtime V2 slim page still carries legacy urban model pack');
  assert.equal(stats.chunks,3876);
  assert.equal(stats.buildings,89895);
  assert.ok(stats.mounted>0,'no V2 chunks mounted');
