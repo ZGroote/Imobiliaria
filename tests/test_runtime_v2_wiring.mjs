@@ -51,3 +51,10 @@ test('V2 grass is opt-out and V1 remains on the legacy ground path',()=>{
  assert.match(app,/const GROUND_V2 = RUNTIME_V2 && URL_PARAMS\.get\("ground"\) !== "legacy"/);
  assert.match(app,/GRASS_V2:GROUND_V2/);
 });
+
+
+test('V2 prewarm session cache is bounded while reusing fetched resources',()=>{
+ assert.match(app,/const V2_SESSION_CACHE_MAX = 96/);
+ assert.match(app,/while \(v2JsonSession\.size > V2_SESSION_CACHE_MAX\)/);
+ assert.match(app,/v2SessionRemember\(absolute,hit\)/);
+});
