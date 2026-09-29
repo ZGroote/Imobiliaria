@@ -55,3 +55,20 @@ test('resident raw-byte ceiling evicts old unpinned chunks', async()=>{
  assert.ok(loader.residentBytes()<=160);
  assert.ok(loader.has('c'));
 });
+
+
+test('loader extracts independent logical chunks from one shared transport pack', async()=>{
+ const calls=[];
+ const packed={v:2,chunks:{a:{payload:'A'},b:{payload:'B'}}};
+ const loader=L.create({
+   fetchJson:async u=>(calls.push(u),packed),
+   decode:(raw,c)=>raw.payload+':'+c.id,
+   maxResident:8
+ });
+ const a={id:'a',url:'a.json',packUrl:'region.json',bytes:10};
+ const b={id:'b',url:'b.json',packUrl:'region.json',bytes:10};
+ assert.equal(await loader.load(a),'A:a');
+ assert.equal(await loader.load(b),'B:b');
+ assert.deepEqual(calls,['region.json','region.json'],
+   'URL-level request coalescing belongs to the shared session fetcher');
+});
