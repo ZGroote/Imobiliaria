@@ -109,6 +109,7 @@ async function runCase(label,url,isV2){
     const render=await read('window.__perf.mede(3,false)');
     const scene=await read(`(()=>({geometries:window.__perf.renderer.info.memory.geometries,
       live:window.__int.vivos().size,dpr:window.__perf.dpr(),level:window.__perf.nivel,
+      hasUrbanPack:!!document.getElementById('__urbanModels'),
       v2:window.__runtimeV2?.stats?.()||null}))()`);
     const heap=await send('Runtime.getHeapUsage');
 
@@ -119,7 +120,7 @@ async function runCase(label,url,isV2){
       label,htmlBytes:await headBytes(url),firstSceneMs,settledMs,networkBytes,requestCount,
       chunkRequests,chunkBytes,heapUsedBytes:heap.usedSize,renderMs:render.ms,
       drawCalls:render.calls,triangles:render.tris,geometries:scene.geometries,
-      liveGroups:scene.live,dpr:scene.dpr,quality:scene.level,
+      liveGroups:scene.live,dpr:scene.dpr,quality:scene.level,hasUrbanPack:scene.hasUrbanPack,
       resident:scene.v2?.resident||0,mounted:scene.v2?.mounted||0
     };
   } finally {
@@ -144,6 +145,8 @@ const delta={
   drawCallsPct:pct(v2.drawCalls,v1.drawCalls),
   geometriesPct:pct(v2.geometries,v1.geometries)
 };
+assert.equal(v1.hasUrbanPack,true,'V1/reference unexpectedly lost legacy urban pack');
+assert.equal(v2.hasUrbanPack,false,'V2 still carries legacy urban pack');
 assert.ok(v2.htmlBytes<v1.htmlBytes,'slim V2 HTML did not remove monolithic payload');
 assert.ok(v2.chunkRequests>0,'V2 made no chunk requests');
 assert.ok(v2.networkBytes<v1.networkBytes,'V2 startup transferred no less data than V1');
