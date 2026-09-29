@@ -1796,12 +1796,12 @@ async function prewarmCityV2At(x,z) {
   const critical = ranked.slice(0,12);
   const warm = ranked.slice(12,32);
 
-  await Promise.all(base.concat(critical.map(({ch}) =>
-    fetchJsonV2(v2Absolute(absoluteIndex,ch.url)))));
+  const resource = ch => v2Absolute(absoluteIndex, ch.pack || ch.url);
+  await Promise.all(base.concat(critical.map(({ch}) => fetchJsonV2(resource(ch)))));
   v2PrewarmLast = {x,z,critical:critical.length,warm:warm.length,ready:true};
 
   // The second ring is opportunistic. It never blocks the miniature or map transition.
-  Promise.all(warm.map(({ch})=>fetchJsonV2(v2Absolute(absoluteIndex,ch.url))))
+  Promise.all(warm.map(({ch})=>fetchJsonV2(resource(ch))))
     .then(()=>{ if(v2PrewarmLast&&v2PrewarmLast.x===x&&v2PrewarmLast.z===z) v2PrewarmLast.warmReady=true; })
     .catch(()=>{});
   return v2PrewarmLast;
@@ -1834,7 +1834,10 @@ async function loadCityV2(indexUrl) {
 
   const index = {
     ...rawIndex,
-    chunks: rawIndex.chunks.map(ch => ({...ch, url:v2Absolute(absoluteIndex, ch.url)}))
+    chunks: rawIndex.chunks.map(ch => ({...ch,
+      url:v2Absolute(absoluteIndex, ch.url),
+      packUrl:ch.pack ? v2Absolute(absoluteIndex, ch.pack) : null
+    }))
   };
   const contextUrl = v2Absolute(absoluteIndex, rawIndex.context?.url || "context.json");
   const kitUrl = rawIndex.urbanKit?.url ? v2Absolute(absoluteIndex, rawIndex.urbanKit.url) : null;
