@@ -8,7 +8,7 @@ class RuntimeV2RealCityTest(unittest.TestCase):
         self.assertTrue(src.exists())
         with tempfile.TemporaryDirectory() as td:
             out=Path(td)/"compiled"
-            idx=compile_city(src,out)
+            idx=compile_city(src,out,city_id="sao-carlos")
             sizes=[c["bytes"] for c in idx["chunks"]]
             self.assertGreater(len(sizes),0)
             self.assertTrue(all(s>0 for s in sizes))
@@ -24,7 +24,7 @@ class RuntimeV2RealCityTest(unittest.TestCase):
               "chunk_p90_bytes":pct(.90),
               "chunk_p99_bytes":pct(.99),
               "chunk_max_bytes":max(sizes),
-              "buildings":sum(c["buildings"] for c in idx["chunks"])
+              "buildings":sum(c["buildings"] for c in idx["chunks"]),\n              "city_id":idx["cityId"]
             },sort_keys=True))
 
 if __name__=="__main__": unittest.main()
