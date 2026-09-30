@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "propertyId": "m1f-sintetico",
+  "agencyId": "agA",
+  "andar": 2,
+  "ficha": {
+    "titulo": "Planta sintética do M1-F",
+    "empreendimento": "Edifício sintético (teste)",
+    "bairro": "—",
+    "municipio": "—",
+    "tipo": "venda",
+    "quartos": 2,
+    "suites": 1,
+    "banheiros": 1,
+    "vagas": 1
+  },
+  "cores": {"parede": "#D8D2C8", "piso_frio": "#CFC7BB", "piso_madeira": "#9A7B57", "teto": "#F2F0EC"},
+  "lote": {"predio": {"largura_m": 16, "profundidade_m": 12, "pavimentos": 5}}
+}
