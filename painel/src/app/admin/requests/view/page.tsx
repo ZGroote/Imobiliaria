@@ -10,7 +10,7 @@ import { RegistrarPublicacao } from '@/components/publicacao'
 import { Aviso, Cartao, ComId, Estado, Selo, useAcao } from '@/components/ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
-import { ESTADOS_ENTRADA, exigeEntrada, fixarEntrada, listarVersoes, type PropertyReading } from '@/lib/leituras'
+import { bloqueioDaProducao, ESTADOS_ENTRADA, fixarEntrada, listarVersoes, type PropertyReading } from '@/lib/leituras'
 import { editarPedidoInterno, salvarNotaInterna } from '@/lib/pedidos'
 import { usePerfil } from '@/lib/session'
 import type { Property, Request } from '@/lib/types'
@@ -44,8 +44,7 @@ function Solicitacao({ id }: { id: string }) {
                 extra={[['Responsável interno', cat.pessoa(p.assignedTo)]]} />
             )}
             <div className="space-y-6">
-              <AcoesDeStatus r={p} bloqueio={exigeEntrada(p, imovel)
-                ? { production: 'Fixe a entrada da planta antes de iniciar a produção.' } : undefined} />
+              <AcoesDeStatus r={p} bloqueio={{ production: bloqueioDaProducao(p, imovel) }} />
               {p.propertyId && <EntradaDaPlanta p={p} pessoa={cat.pessoa} />}
               <PreviewEmRevisao r={p} pessoa={cat.pessoa} />
               <RegistrarPublicacao r={p} imovel={imovel} />

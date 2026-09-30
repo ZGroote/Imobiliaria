@@ -36,7 +36,14 @@ export function fixarEntrada(db:Firestore,uid:string,r:Pick<Request,'id'|'agency
     lastAuditId:log.id,updatedAt:serverTimestamp()})
   return b.commit()
 }
-// Iniciar produção no fluxo novo exige entrada fixada. Imóvel com pipelineUnitId ainda é o fluxo
-// legado (plantas_fornecidas/, BuildJob de hoje) até o M2. As regras são a autoridade.
-export const exigeEntrada=(r:Pick<Request,'status'|'productionInput'>,imovel?:Pick<Property,'pipelineUnitId'>)=>
-  r.status==='accepted'&&!r.productionInput&&!imovel?.pipelineUnitId
+// Por que "Iniciar produção" seria negado, no critério das regras (productionStartOk); undefined = liberado.
+// Imóvel com pipelineUnitId ainda é o fluxo legado (plantas_fornecidas/, BuildJob de hoje) até o M2, mas
+// também só com o imóvel hoje na agência do pedido (a invariável do AGENCY_MISMATCH do BuildJob).
+export function bloqueioDaProducao(r:Pick<Request,'status'|'agencyId'|'propertyId'|'productionInput'>,
+  imovel?:Pick<Property,'agencyId'|'pipelineUnitId'>):string|undefined{
+  if(r.status!=='accepted') return
+  if(!r.propertyId) return 'Vincule um imóvel antes de iniciar a produção.'
+  if(!imovel) return 'Conferindo o imóvel…'
+  if(imovel.agencyId!==r.agencyId) return 'O imóvel não pertence mais à imobiliária deste pedido.'
+  if(!imovel.pipelineUnitId&&!r.productionInput) return 'Fixe a entrada da planta antes de iniciar a produção.'
+}

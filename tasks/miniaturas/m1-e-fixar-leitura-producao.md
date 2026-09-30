@@ -32,13 +32,17 @@ Trocar `productionInput` só passa se, no mesmo write:
   **hoje** ainda é dessa agência;
 - `readingVersion`, `readingRevision`, `schemaVersion` e `contentSha256` são iguais aos
   do snapshot (hash em hexa minúsculo de 64). "Leitura X com o hash Y" é recusado;
-- há um `AuditLog` `production_input:set` no mesmo batch (mesmo autor, mesma hora, mesmo
-  pedido) cujo `before` repete o ponteiro anterior (`readingId`, `contentSha256`, ou null)
-  e cujo `after` repete o novo (`readingId`, `readingVersion`, `contentSha256`).
+- há um `AuditLog` `production_input:set` **interno** no mesmo batch (mesmo autor, mesma
+  hora, mesmo pedido) cujo `before` repete o ponteiro anterior (`readingId`,
+  `readingVersion`, `contentSha256`; null explícito quando não havia) e cujo `after` repete
+  o novo (`readingId`, `readingVersion`, `readingRevision`, `contentSha256`). O log é
+  imutável e o histórico da tela ("v1 → v3") é lido dele: todo campo usado como evidência
+  é conferido, sem virar schema completo de AuditLog.
 
 Não há remoção do ponteiro e, depois de fixado, `propertyId` não muda mais. Gerente e
 corretor não alteram o ponteiro (os caminhos deles usam `changesOnly` sem esse campo).
-Log com `visibility: internal`: é ato da equipe.
+O log é sempre `visibility: internal` (exigido pelas regras, não só pelo cliente): fixar é
+decisão operacional da equipe, não aprovação da imobiliária.
 
 ### Gate de "Iniciar produção"
 
@@ -47,9 +51,11 @@ Log com `visibility: internal`: é ato da equipe.
 
 **Exceção deliberada, fluxo legado:** se o imóvel do pedido tem `pipelineUnitId`, ele
 ainda é produzido por `plantas_fornecidas/<id>/` e pelo BuildJob de hoje, que não lê
-snapshot. Esses pedidos seguem iniciando como antes. A exceção sai quando BuildJob passar
-a partir de `productionInput` (integração produtiva/M2). A equipe pode editar
-`pipelineUnitId` de um imóvel; isso é o fluxo legado por definição, não um desvio desta regra.
+snapshot. Esses pedidos seguem iniciando sem entrada fixada, **desde que o imóvel esteja
+hoje na agência do pedido** — a mesma invariável que `tools/buildjob.mjs` recusa como
+`AGENCY_MISMATCH`. A exceção sai quando BuildJob passar a partir de `productionInput`
+(integração produtiva/M2). A equipe pode editar `pipelineUnitId` de um imóvel; isso é o
+fluxo legado por definição, não um desvio desta regra.
 
 Os retornos para produção (`internal_review`/`agency_review`/`approved` → `production`)
 não mudaram.
@@ -62,8 +68,10 @@ imóvel: versão atual, revisão, id, SHA-256 completo, autor/data do snapshot e
 revisão, autor, data, hash abreviado e o selo da fixada; antes de confirmar, o aviso:
 "Esta versão será a entrada do próximo processo de produção. Alterações posteriores na
 planta não mudam esta seleção automaticamente." Fora de Aceita/Em produção o cartão é só
-leitura. "Iniciar produção" fica desabilitado com o motivo enquanto faltar a entrada
-(`exigeEntrada`). O histórico mostra "Entrada da planta: v1 → v3".
+leitura. "Iniciar produção" fica desabilitado com o motivo que as regras dariam
+(`bloqueioDaProducao`): pedido sem imóvel, imóvel que não pertence mais à imobiliária do
+pedido (também no legado) ou, no fluxo novo, entrada não fixada. O histórico mostra
+"Entrada da planta: v1 → v3".
 
 Salvar uma versão nova na planta não toca em pedido nenhum.
 

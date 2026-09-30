@@ -195,7 +195,9 @@ service cloud.firestore {
         && isSha256(pi.contentSha256) && pi.contentSha256 == rd.contentSha256;
     }
     // Só a equipe, só em accepted/production, sem mudar status/imóvel no mesmo write, e com o
-    // AuditLog do mesmo batch dizendo de onde para onde o ponteiro foi.
+    // AuditLog interno do mesmo batch dizendo de onde para onde o ponteiro foi. O log é imutável e
+    // o histórico mostra "v1 → v3" a partir dele: todo campo usado como evidência é conferido, e
+    // "não havia entrada" é null explícito (acesso sem default: chave ausente nega).
     function productionInputSet(rid) {
       let pi = d().productionInput;
       let log = getAfter(/databases/$(db)/documents/auditLogs/$(d().lastAuditId)).data;
@@ -205,20 +207,24 @@ service cloud.firestore {
         && pi.keys().hasOnly(inputKeys()) && pi.keys().hasAll(inputKeys())
         && pi.fixedBy == request.auth.uid && pi.fixedAt == request.time
         && inputMatchesReading(pi)
-        && auditedAs(rid, 'production_input:set')
-        && log.before.get('readingId', null) == old.get('readingId', null)
-        && log.before.get('contentSha256', null) == old.get('contentSha256', null)
+        && auditedAs(rid, 'production_input:set') && log.visibility == 'internal'
+        && log.before.readingId == old.get('readingId', null)
+        && log.before.readingVersion == old.get('readingVersion', null)
+        && log.before.contentSha256 == old.get('contentSha256', null)
         && log.after.readingId == pi.readingId && log.after.readingVersion == pi.readingVersion
+        && log.after.readingRevision == pi.readingRevision
         && log.after.contentSha256 == pi.contentSha256;
     }
     // Fluxo legado: o imóvel ainda é produzido por plantas_fornecidas/<pipelineUnitId>/ (BuildJob
-    // de hoje). Ele sai desta exceção quando BuildJob passar a partir do snapshot (M2).
+    // de hoje). Ele sai desta exceção quando BuildJob passar a partir do snapshot (M2). Mesmo aqui
+    // o imóvel tem que estar hoje na agência do pedido: a invariável do AGENCY_MISMATCH do BuildJob.
     function legacyPipeline() {
       return 'propertyId' in d()
-        && get(/databases/$(db)/documents/properties/$(d().propertyId)).data
-             .get('pipelineUnitId', '') is string
-        && get(/databases/$(db)/documents/properties/$(d().propertyId)).data
-             .get('pipelineUnitId', '') != '';
+        && legacyProperty(get(/databases/$(db)/documents/properties/$(d().propertyId)).data);
+    }
+    function legacyProperty(p) {
+      return p.agencyId == resource.data.agencyId
+        && p.get('pipelineUnitId', '') is string && p.get('pipelineUnitId', '') != '';
     }
     // Iniciar produção no fluxo novo exige a entrada fixada e ainda válida.
     function productionStartOk() {
