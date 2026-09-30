@@ -10,12 +10,14 @@ const blank:Fields={name:'',width:'',depth:'',height:''}
 type Drag = {id:string; pointerId:number; start:{x:number;y:number}; clientX:number; clientY:number;
   room:Room; moved:boolean; position:{xMm:number;yMm:number}}
 
-export default function Capturador(){
+export default function Capturador({initialSession,onSave}:{initialSession?:Session;onSave?:(json:string)=>Promise<void>}){
   const [session,setSession]=useState<Session|null>(null)
   const [selected,setSelected]=useState<string|null>(null)
   const [fields,setFields]=useState<Fields>(blank)
   const [error,setError]=useState('')
   const [notice,setNotice]=useState('')
+  const [saving,setSaving]=useState(false)
+  const [saveError,setSaveError]=useState('')
   const [mode,setMode]=useState<'rooms'|'openings'>('rooms')
   const [wallId,setWallId]=useState<string|null>(null)
   const [openingId,setOpeningId]=useState<string|null>(null)
@@ -24,7 +26,11 @@ export default function Capturador(){
   const [preview,setPreview]=useState<{id:string;xMm:number;yMm:number}|null>(null)
   const svg=useRef<SVGSVGElement>(null)
   const drag=useRef<Drag|null>(null)
-  useEffect(()=>{setSession(iniciar('leitura-'+crypto.randomUUID()))},[])
+  useEffect(()=>{
+    const initial=initialSession??iniciar('leitura-'+crypto.randomUUID())
+    setSession(initial)
+    setFields({...blank,height:initial.present.ceilingHeightMm?metros(initial.present.ceilingHeightMm):''})
+  },[initialSession])
   if(!session) return <p className="p-6">Preparando a planta local…</p>
 
   const s=session
@@ -130,15 +136,24 @@ export default function Capturador(){
     const a=document.createElement('a');a.href=url;a.download='leitura.json';a.click()
     setTimeout(()=>URL.revokeObjectURL(url),1000);setNotice('Download de leitura.json iniciado.')
   }
+  async function save(){
+    if(!json||preview||!onSave||saving) return
+    setSaving(true);setSaveError('')
+    try{await onSave(json);setNotice('Versão salva. Alterações futuras geram outra versão.')}
+    catch(e){setSaveError((e as Error).message)}finally{setSaving(false)}
+  }
   const input=(label:string,key:keyof Fields,placeholder:string)=>(
     <label>{label}<input value={fields[key]} onChange={e=>setFields({...fields,[key]:e.target.value})}
       inputMode={key==='name'?'text':'decimal'} placeholder={placeholder} required
       maxLength={key==='name'?100:16} autoComplete="off" /></label>
   )
-  return <main className={styles.page}>
+  return <main className={styles.page} aria-busy={saving}>
+    {saving&&<p role="status">Validando e salvando versão…</p>}
+    {saveError&&<p role="alert" className={styles.error}>{saveError}</p>}
+    <div inert={saving}>
     <header className={styles.header}>
       <div><p className={styles.eyebrow}>CAPTURA LOCAL · CÔMODOS</p><h1>Desenhe sua planta</h1></div>
-      <p>Somente nesta aba. Baixe o arquivo antes de sair; recarregar apaga o trabalho.</p>
+      <p>{onSave?'Alterações ficam nesta aba até você clicar em Salvar versão.':'Somente nesta aba. Baixe o arquivo antes de sair; recarregar apaga o trabalho.'}</p>
     </header>
     <p className={styles.rule}>Informe medidas <strong>entre eixos das paredes</strong>. O pé-direito é único para toda a planta.</p>
     <div className={styles.modes} aria-label="Ferramenta de captura">
@@ -223,10 +238,12 @@ export default function Capturador(){
       </section>}
     </div>
     <section className={styles.export} aria-label="Exportação local">
-      <div><h2>Leve a planta com você</h2><p>Baixe o JSON das medidas declaradas. Nenhum dado é enviado.</p></div>
+      <div><h2>Leve a planta com você</h2><p>{onSave?'Baixe o JSON ou salve uma nova versão imutável neste imóvel.':'Baixe o JSON das medidas declaradas. Nenhum dado é enviado.'}</p></div>
+      {onSave&&<button className={styles.primary} disabled={!json||!!preview||saving} onClick={save}>Salvar versão</button>}
       <button className={styles.primary} disabled={!json||!!preview} onClick={download}>Baixar leitura.json</button>
       <details><summary>Inspecionar JSON</summary>{json?<textarea aria-label="JSON da planta" readOnly value={json} rows={14}/>:<p>Corrija os avisos para gerar o arquivo.</p>}</details>
     </section>
     <p className={styles.notice} role="status" aria-live="polite">{notice}</p>
+    </div>
   </main>
 }

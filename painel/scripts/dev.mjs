@@ -9,7 +9,9 @@ import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { semear } from './seed.mjs'
+import { semear, adminDb } from './seed.mjs'
+import { getAuth } from 'firebase-admin/auth'
+import { criarServidorLeituras } from '../../tools/leitura-api.mjs'
 
 const PAINEL = fileURLToPath(new URL('..', import.meta.url))
 const EXEMPLO = path.join(PAINEL, 'exemplo') + path.sep
@@ -18,6 +20,9 @@ const TIPOS = { '.json': 'application/json', '.html': 'text/html; charset=utf-8'
 
 await semear()
 console.log('seed: emulador zerado e populado.')
+const painelPort=process.env.PAINEL_PORT??'3000'
+const origin=`http://127.0.0.1:${painelPort}`
+criarServidorLeituras({db:adminDb(),auth:getAuth(),origin}).listen(5056,'127.0.0.1')
 
 http.createServer(async (req, res) => {
   const cab = { 'access-control-allow-origin': '*', 'cache-control': 'no-store' }
@@ -31,6 +36,6 @@ http.createServer(async (req, res) => {
   }
 }).listen(PORTA, '127.0.0.1', () => console.log(`site de imóveis de exemplo: http://127.0.0.1:${PORTA}/`))
 
-const next = spawn(process.execPath, [path.join(PAINEL, 'node_modules', 'next', 'dist', 'bin', 'next'), 'dev'],
-  { cwd: PAINEL, stdio: 'inherit' })
+const next = spawn(process.execPath, [path.join(PAINEL, 'node_modules', 'next', 'dist', 'bin', 'next'), 'dev','--hostname','127.0.0.1','--port',painelPort],
+  { cwd: PAINEL, stdio: 'inherit',env:{...process.env,NEXT_PUBLIC_READINGS_API_URL:'http://127.0.0.1:5056/property-readings'} })
 next.on('exit', (codigo) => process.exit(codigo ?? 0))
