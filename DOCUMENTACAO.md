@@ -9,6 +9,7 @@ configuração e scripts.
 
 | Assunto | Onde |
 |---|---|
+| Base M0-A de 30/09: estado público observado, BuildJob, depreciação de CV e continuidade | [tasks/checkpoints/m0a-2026-09-30.md](tasks/checkpoints/m0a-2026-09-30.md) |
 | Visão geral, instalar, testar e montar o piloto | [README.md](README.md) |
 | Dependências por ambiente e comandos de verificação | [DEPENDENCIAS.md](DEPENDENCIAS.md) |
 | O que o CI roda em todo PR | [.github/workflows/ci.yml](.github/workflows/ci.yml) |
@@ -16,8 +17,8 @@ configuração e scripts.
 | Regras do Firestore e do Storage, e seus testes | [firebase/firestore.rules](firebase/firestore.rules), [firebase/storage.rules](firebase/storage.rules), [firebase/tests/regras.test.mjs](firebase/tests/regras.test.mjs); o que é cada arquivo: [firebase/README.md](firebase/README.md) |
 | Índices do Firestore | [firebase/firestore.indexes.json](firebase/firestore.indexes.json) |
 | Publicação de imóveis: cache, preview por imóvel, promoção e reversão ("build once, promote the exact artifact") | [tasks/painel/proposta.md](tasks/painel/proposta.md) §6–§9; código em `pipeline/build_imovel.py` e `pipeline/publicar_imovel.py` |
-| **Estado de produção** (regras, índices, painel, sites, contas, dados) e a ordem de deploy | [tasks/painel/proposta.md](tasks/painel/proposta.md) §14 |
-| Último checkpoint: produção, código, gates, builds de referência, pendências deliberadas e próximos trilhos (27/09, fim do ciclo de higiene) | [tasks/checkpoints/higiene-2026-09-27.md](tasks/checkpoints/higiene-2026-09-27.md); o anterior é o [de 26/09](tasks/checkpoints/estabilizacao-2026-09-26.md) |
+| Produção: observação pública de 30/09 e histórico de regras, painel e dados de 27/09 | [M0-A](tasks/checkpoints/m0a-2026-09-30.md); histórico e ordem de deploy em [proposta.md](tasks/painel/proposta.md) §14 |
+| Checkpoints anteriores: produção, código, gates e pendências ao fim do ciclo de higiene | [27/09](tasks/checkpoints/higiene-2026-09-27.md) e [26/09](tasks/checkpoints/estabilizacao-2026-09-26.md); atualização em [M0-A de 30/09](tasks/checkpoints/m0a-2026-09-30.md) |
 | Mapa 3D: o contrato de cidade e os portões de aceite | [PADRAO.md](PADRAO.md) |
 | Mapa 3D: o passo a passo, do arquivo baixado ao HTML | [PIPELINE.md](PIPELINE.md) |
 | Fontes da base 1.5 (renderizador modular e miniaturas) | [v1.5/LEIA-ME.md](v1.5/LEIA-ME.md) |

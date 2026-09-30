@@ -502,10 +502,14 @@ buildJobs/{id}
 ```
 
 A identidade do job (request/imóvel/agência/modo) é snapshot do pedido. Retry futuro cria outro job
-depois que o anterior termina; dois jobs `pending/running` para o mesmo request são bloqueados.
+depois que o anterior termina. A ferramenta recusa um job `pending/running` encontrado na consulta,
+mas consulta e criação não são uma transação: chamadas simultâneas ainda podem criar duplicados.
+O bloqueio atômico e a política de retry são pendências do M2 do plano diretor de 30/09.
 
-O painel ainda não cria nem atualiza BuildJob. O próximo PR liga o runner local a este contrato,
-sem preview/publicação automática.
+O painel ainda não cria nem atualiza BuildJob. Os estados canônicos são `pending`, `running`,
+`succeeded`, `blocked`, `failed` e `cancelled`; somente a criação em `pending` está implementada.
+A ligação ao runner depende do M2, após aceite de M1; não é escopo do M0-A.
+Veja o [checkpoint M0-A](../checkpoints/m0a-2026-09-30.md) para a ordem atual dos marcos.
 
 Destino conceitual:
 
