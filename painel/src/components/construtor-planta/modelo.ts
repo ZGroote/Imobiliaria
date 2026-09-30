@@ -1,19 +1,23 @@
 // Feedback local e edição. O gate normativo continua sendo pipeline.validar_leitura.
 export type Room = {id:string; name:string; xMm:number; yMm:number; widthMm:number; depthMm:number}
-export type Layout = {rooms:Room[]; ceilingHeightMm:number|null}
-export type Session = {id:string; revision:number; nextId:number; present:Layout; past:Layout[]; future:Layout[]}
+export type OpeningInput = {kind:'door'|'window';wallId:string;offsetMm:number;widthMm:number;heightMm:number;sillMm:number}
+export type Opening = OpeningInput & {id:string;pairedWallId?:string}
+export type Layout = {rooms:Room[]; openings:Opening[]; ceilingHeightMm:number|null}
+export type Session = {id:string; revision:number; nextId:number; nextOpeningId:number; present:Layout; past:Layout[]; future:Layout[]}
 type Measures = {name:string; widthMm:number; depthMm:number; ceilingHeightMm:number}
 export type Action = ({type:'add'} & Measures) | ({type:'edit'; id:string} & Measures)
   | {type:'move'; id:string; xMm:number; yMm:number} | {type:'delete'; id:string}
+  | ({type:'opening-add'} & OpeningInput) | ({type:'opening-edit';id:string} & OpeningInput)
+  | {type:'opening-delete';id:string}
 export type Problem = {code:string; message:string; ids:string[]}
 const declared = () => ({kind:'declared' as const, referenceIds:[] as string[]})
 const integer = (n:number, min:number, max:number) => Number.isSafeInteger(n) && n>=min && n<=max
 
-export function metrosParaMm(text:string):number {
+export function metrosParaMm(text:string,allowZero=false):number {
   const match=/^(\d+)(?:[.,](\d{1,3}))?$/.exec(text.trim())
   if(!match) throw new Error('Use metros com até três casas decimais, como 4,20.')
   const n=Number(match[1])*1000+Number((match[2]??'').padEnd(3,'0'))
-  if(!integer(n,1,1000000)) throw new Error('A medida deve ser maior que zero e até 1.000 m.')
+  if(!integer(n,allowZero?0:1,1000000)) throw new Error(allowZero?'Use de zero a 1.000 m.':'A medida deve ser maior que zero e até 1.000 m.')
   return n
 }
 export const metros = (mm:number) => {
@@ -21,9 +25,26 @@ export const metros = (mm:number) => {
   return (mm<0?'-':'')+(rest ? whole+','+rest : String(whole))
 }
 export const iniciar = (id:string):Session => ({
-  id, revision:1, nextId:1, present:{rooms:[],ceilingHeightMm:null}, past:[], future:[],
+  id, revision:1, nextId:1, nextOpeningId:1, present:{rooms:[],openings:[],ceilingHeightMm:null}, past:[], future:[],
 })
 export function aplicar(s:Session,a:Action):Session {
+  if(a.type==='opening-add'||a.type==='opening-edit'||a.type==='opening-delete'){
+    let openings=s.present.openings
+    if(a.type!=='opening-add'&&!openings.some(o=>o.id===a.id)) throw new Error('Selecione uma abertura existente.')
+    if(a.type==='opening-delete') openings=openings.filter(o=>o.id!==a.id)
+    else{
+      if(a.type==='opening-add'&&openings.length>=400) throw new Error('O limite é de 400 aberturas.')
+      const opening:Opening={id:a.type==='opening-add'?'a'+s.nextOpeningId:a.id,
+        kind:a.kind,wallId:a.wallId,offsetMm:a.offsetMm,widthMm:a.widthMm,heightMm:a.heightMm,sillMm:a.sillMm}
+      const paired=parDaAbertura(s.present.rooms,opening)
+      if(paired.error) throw new Error(paired.error)
+      if(paired.id) opening.pairedWallId=paired.id
+      openings=a.type==='opening-add'?[...openings,opening]:openings.map(o=>o.id===a.id?opening:o)
+      const errors=problemasAberturas({...s.present,openings}).filter(e=>e.ids.includes(opening.id))
+      if(errors.length) throw new Error(errors.map(e=>e.message).join(' '))
+    }
+    return confirmar(s,{...s.present,openings},s.nextId,s.nextOpeningId+(a.type==='opening-add'?1:0))
+  }
   let rooms=s.present.rooms, ceilingHeightMm=s.present.ceilingHeightMm
   if(a.type==='add'||a.type==='edit'){
     if(!a.name.trim() || a.name.trim().length>100) throw new Error('Informe um nome com até 100 caracteres.')
@@ -44,9 +65,14 @@ export function aplicar(s:Session,a:Action):Session {
       rooms=rooms.map(r=>r.id===a.id?{...r,xMm:a.xMm,yMm:a.yMm}:r)
     }
   }
-  const present={rooms,ceilingHeightMm}
+  // Excluir dono remove suas aberturas na mesma ação; pares de outros donos
+  // permanecem explícitos e inválidos até revisão. Undo restaura tudo.
+  const openings=a.type==='delete'?s.present.openings.filter(o=>!Object.values(paredes(a.id)).includes(o.wallId)):s.present.openings
+  return confirmar(s,{rooms,openings,ceilingHeightMm},s.nextId+(a.type==='add'?1:0),s.nextOpeningId)
+}
+function confirmar(s:Session,present:Layout,nextId:number,nextOpeningId:number):Session{
   if(JSON.stringify(present)===JSON.stringify(s.present)) return s
-  return {...s,present,revision:s.revision+1,nextId:s.nextId+(a.type==='add'?1:0),past:[...s.past,s.present],future:[]}
+  return {...s,present,revision:s.revision+1,nextId,nextOpeningId,past:[...s.past,s.present],future:[]}
 }
 export function desfazer(s:Session):Session {
   if(!s.past.length) return s
@@ -58,6 +84,52 @@ export function refazer(s:Session):Session {
 }
 const overlap = (a:number,b:number,c:number,d:number) => Math.max(a,c)<Math.min(b,d)
 export const paredes = (id:string) => ({south:id+'-south',east:id+'-east',north:id+'-north',west:id+'-west'})
+export type Wall = {id:string;roomId:string;label:string;axis:'x'|'y';fixed:number;start:number;end:number}
+export function geometriaParedes(rooms:Room[]):Wall[]{
+  return rooms.flatMap(r=>[
+    {id:r.id+'-south',roomId:r.id,label:r.name+' · Sul',axis:'x' as const,fixed:r.yMm,start:r.xMm,end:r.xMm+r.widthMm},
+    {id:r.id+'-north',roomId:r.id,label:r.name+' · Norte',axis:'x' as const,fixed:r.yMm+r.depthMm,start:r.xMm,end:r.xMm+r.widthMm},
+    {id:r.id+'-west',roomId:r.id,label:r.name+' · Oeste',axis:'y' as const,fixed:r.xMm,start:r.yMm,end:r.yMm+r.depthMm},
+    {id:r.id+'-east',roomId:r.id,label:r.name+' · Leste',axis:'y' as const,fixed:r.xMm+r.widthMm,start:r.yMm,end:r.yMm+r.depthMm},
+  ])
+}
+// Mesma origem nominal de M1-0: coordenada crescente nas quatro paredes.
+export function parDaAbertura(rooms:Room[],o:OpeningInput):{id?:string;error?:string}{
+  const walls=geometriaParedes(rooms), w=walls.find(w=>w.id===o.wallId)
+  if(!w) return {error:'Selecione uma parede existente.'}
+  const lo=w.start+o.offsetMm,hi=lo+o.widthMm
+  const touched=relacoes(rooms).filter(r=>r.wallA===w.id||r.wallB===w.id).map(r=>{
+    const other=walls.find(p=>p.id===(r.wallA===w.id?r.wallB:r.wallA))!
+    return {id:other.id,start:Math.max(w.start,other.start),end:Math.min(w.end,other.end)}
+  }).filter(p=>overlap(lo,hi,p.start,p.end))
+  if(!touched.length) return {}
+  if(touched.length===1&&touched[0].start<=lo&&hi<=touched[0].end) return {id:touched[0].id}
+  return {error:'A abertura cruza o limite de um trecho compartilhado. Ajuste posição ou largura.'}
+}
+export function problemasAberturas(layout:Layout):Problem[]{
+  const errors:Problem[]=[],walls=geometriaParedes(layout.rooms)
+  const physical:{o:Opening;w:Wall;lo:number;hi:number}[]=[]
+  for(const o of layout.openings){
+    const messages:string[]=[],w=walls.find(w=>w.id===o.wallId)
+    if(!w){errors.push({code:'INVALID_OPENING',message:o.id+': parede inexistente.',ids:[o.id]});continue}
+    if(![o.offsetMm,o.sillMm].every(n=>integer(n,0,1000000))||![o.widthMm,o.heightMm].every(n=>integer(n,1,1000000)))
+      messages.push('Informe medidas inteiras válidas em milímetros.')
+    if(o.offsetMm+o.widthMm>w.end-w.start) messages.push('A abertura ultrapassa o comprimento da parede.')
+    if(layout.ceilingHeightMm===null||o.sillMm+o.heightMm>layout.ceilingHeightMm) messages.push('A abertura ultrapassa o pé-direito.')
+    if(o.kind==='door'&&o.sillMm!==0) messages.push('Porta precisa ter peitoril zero.')
+    if(o.kind!=='door'&&o.kind!=='window') messages.push('Selecione Porta ou Janela.')
+    const paired=parDaAbertura(layout.rooms,o)
+    if(paired.error) messages.push(paired.error)
+    else if(paired.id!==o.pairedWallId) messages.push('O par da parede mudou ou é inválido; revise e aplique a abertura.')
+    if(messages.length){errors.push({code:'INVALID_OPENING',message:o.id+': '+messages.join(' '),ids:[o.id,w.roomId]});continue}
+    const lo=w.start+o.offsetMm,hi=lo+o.widthMm
+    for(const other of physical) if(w.axis===other.w.axis&&w.fixed===other.w.fixed
+      &&overlap(lo,hi,other.lo,other.hi)&&overlap(o.sillMm,o.sillMm+o.heightMm,other.o.sillMm,other.o.sillMm+other.o.heightMm))
+      errors.push({code:'OPENING_OVERLAP',message:o.id+' e '+other.o.id+': aberturas sobrepostas.',ids:[o.id,other.o.id,w.roomId,other.w.roomId]})
+    physical.push({o,w,lo,hi})
+  }
+  return errors
+}
 export function relacoes(rooms:Room[]){
   const result:{id:string; kind:'adjacent'; wallA:string; wallB:string; provenance:ReturnType<typeof declared>}[]=[]
   const push=(a:string,b:string)=>{
@@ -123,7 +195,7 @@ export function problemas(layout:Layout):Problem[]{
   }
   for(const r of rooms) if(!seen.has(r.id))
     result.push({code:'DISCONNECTED_ROOM',message:r.name+': encoste uma parede no conjunto.',ids:[r.id]})
-  return result
+  return [...result,...problemasAberturas(layout)]
 }
 export function exportar(s:Session):string {
   const errors=problemas(s.present)
@@ -132,6 +204,6 @@ export function exportar(s:Session):string {
     schemaVersion:'1.0.0',id:s.id,revision:s.revision,unit:'mm',geometry:'orthogonal-rectangles',
     ceilingHeightMm:s.present.ceilingHeightMm,provenance:declared(),references:[],
     rooms:s.present.rooms.map(r=>({...r,walls:paredes(r.id),provenance:declared()})),
-    relations:relacoes(s.present.rooms),openings:[],
+    relations:relacoes(s.present.rooms),openings:s.present.openings.map(o=>({...o,provenance:declared()})),
   },null,2)+'\n'
 }

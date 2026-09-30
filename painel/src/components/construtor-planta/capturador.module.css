@@ -49,6 +49,12 @@
 .export summary{cursor:pointer;min-height:44px;padding:10px 0}
 .export textarea{width:100%;font-family:monospace;font-size:12px;border:1px solid #cbd5df;padding:10px;border-radius:4px}
 .notice{min-height:24px;font-size:13px;color:#345950;margin:12px 0}
+.modes{display:flex;gap:8px;margin:0 0 16px}
+.modes button[aria-pressed=true]{background:#115e59;color:white;border-color:#115e59}
+.page .modes button[aria-pressed=true]:hover:not(:disabled){background:#134e4a}
+.editor select{display:block;width:100%;min-height:44px;margin:6px 0 14px;padding:8px;border:1px solid #a8bbc7;border-radius:5px;background:white;font-size:16px}
+.page select:focus-visible{outline:3px solid #0f766e;outline-offset:3px}
+.canvas g:focus-visible line{stroke:#0f766e}
 @media(max-width:760px){
  .page{padding:16px}
  .header{display:block}

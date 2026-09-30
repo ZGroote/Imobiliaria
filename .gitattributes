@@ -2,3 +2,4 @@
 pipeline/encaixar_casas_lotes.py text eol=lf
 # Download do capturador preservado e comparado byte a byte nos testes.
 tests/fixtures/leitura/v1/capturador-mobile.json text eol=lf
+tests/fixtures/leitura/v1/capturador-aberturas-mobile.json text eol=lf

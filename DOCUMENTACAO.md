@@ -11,7 +11,8 @@ configuração e scripts.
 |---|---|
 | M1-0 aprovado (#75): contrato declarado de planta, schema versionado e validação sem Blender | [tasks/miniaturas/m1-0-contrato-planta.md](tasks/miniaturas/m1-0-contrato-planta.md) |
 | M1-A aprovado (#76): planta derivada nominal, contrato de saída e normalizador isolado | [tasks/miniaturas/m1-a-normalizador-planta.md](tasks/miniaturas/m1-a-normalizador-planta.md) |
-| M1-B: captura local de cômodos, SVG e exportação M1-0 (em revisão) | [tasks/miniaturas/m1-b-capturador-comodos.md](tasks/miniaturas/m1-b-capturador-comodos.md) |
+| M1-B aprovado (#77): captura local de cômodos, SVG e exportação M1-0 | [tasks/miniaturas/m1-b-capturador-comodos.md](tasks/miniaturas/m1-b-capturador-comodos.md) |
+| M1-C: portas/janelas locais, paredes compartilhadas e prova M1-0 → M1-A (em revisão) | [tasks/miniaturas/m1-c-portas-janelas.md](tasks/miniaturas/m1-c-portas-janelas.md) |
 | Base M0-A de 30/09: estado público observado, BuildJob, depreciação de CV e continuidade | [tasks/checkpoints/m0a-2026-09-30.md](tasks/checkpoints/m0a-2026-09-30.md) |
 | Visão geral, instalar, testar e montar o piloto | [README.md](README.md) |
 | Dependências por ambiente e comandos de verificação | [DEPENDENCIAS.md](DEPENDENCIAS.md) |

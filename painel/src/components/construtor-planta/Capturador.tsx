@@ -2,6 +2,8 @@
 import {useEffect, useRef, useState, type FormEvent, type PointerEvent as ReactPointerEvent} from 'react'
 import {aplicar, desfazer, refazer, iniciar, metros, metrosParaMm, problemas, exportar, snap, type Session, type Room} from './modelo'
 import styles from './capturador.module.css'
+import EditorAberturas from './EditorAberturas'
+import ParedesEAberturas from './ParedesEAberturas'
 
 type Fields = {name:string; width:string; depth:string; height:string}
 const blank:Fields={name:'',width:'',depth:'',height:''}
@@ -14,6 +16,11 @@ export default function Capturador(){
   const [fields,setFields]=useState<Fields>(blank)
   const [error,setError]=useState('')
   const [notice,setNotice]=useState('')
+  const [mode,setMode]=useState<'rooms'|'openings'>('rooms')
+  const [wallId,setWallId]=useState<string|null>(null)
+  const [openingId,setOpeningId]=useState<string|null>(null)
+  const [openingPending,setOpeningPending]=useState(false)
+  const [openingFormKey,setOpeningFormKey]=useState(0)
   const [preview,setPreview]=useState<{id:string;xMm:number;yMm:number}|null>(null)
   const svg=useRef<SVGSVGElement>(null)
   const drag=useRef<Drag|null>(null)
@@ -35,7 +42,8 @@ export default function Capturador(){
   }else if(s.present.ceilingHeightMm!==null){
     try{draftPending ||= metrosParaMm(fields.height)!==s.present.ceilingHeightMm}catch{draftPending=true}
   }
-  const json=problemas(s.present).length||draftPending?'':exportar(s)
+  const pending=draftPending||openingPending
+  const json=problemas(s.present).length||pending?'':exportar(s)
   // Enquadramento segue o estado confirmado; fica estável durante todo o gesto.
   const minX=Math.min(0,...rooms.map(r=>r.xMm))-1000
   const maxX=Math.max(6000,...rooms.map(r=>r.xMm+r.widthMm))+1000
@@ -62,7 +70,13 @@ export default function Capturador(){
   }
   function history(redo=false){
     const next=redo?refazer(s):desfazer(s)
-    setSession(next);newRoom(next);setNotice(redo?'Ação refeita.':'Ação desfeita.')
+    setSession(next);newRoom(next);selectWall(null);setNotice(redo?'Ação refeita.':'Ação desfeita.')
+  }
+  function selectWall(wall:string|null,id?:string){
+    setWallId(wall);setOpeningId(id??null);setOpeningPending(false);setOpeningFormKey(k=>k+1)
+  }
+  function changeMode(next:'rooms'|'openings'){
+    setMode(next);newRoom();selectWall(null)
   }
   function remove(){
     if(!selected) return
@@ -76,7 +90,7 @@ export default function Capturador(){
     return {x:p.x,y:-p.y,scale:Math.abs(matrix.a)}
   }
   function start(e:ReactPointerEvent<SVGGElement>,room:Room){
-    if(drag.current || e.button!==0) return
+    if(mode!=='rooms'||drag.current || e.button!==0) return
     const p=point(e);if(!p) return
     e.preventDefault();select(room)
     drag.current={id:room.id,pointerId:e.pointerId,start:p,clientX:e.clientX,clientY:e.clientY,
@@ -127,6 +141,10 @@ export default function Capturador(){
       <p>Somente nesta aba. Baixe o arquivo antes de sair; recarregar apaga o trabalho.</p>
     </header>
     <p className={styles.rule}>Informe medidas <strong>entre eixos das paredes</strong>. O pé-direito é único para toda a planta.</p>
+    <div className={styles.modes} aria-label="Ferramenta de captura">
+      <button disabled={!!preview} aria-pressed={mode==='rooms'} onClick={()=>changeMode('rooms')}>Cômodos</button>
+      <button disabled={!!preview||!rooms.length} aria-pressed={mode==='openings'} onClick={()=>changeMode('openings')}>Portas e janelas</button>
+    </div>
     <div className={styles.workspace}>
       <section className={styles.drawing} aria-label="Área de desenho">
         <div className={styles.toolbar}>
@@ -142,10 +160,12 @@ export default function Capturador(){
             <path d="M 1000 0 L 0 0 0 1000" fill="none" stroke="#dbe2e8" strokeWidth="12"/>
           </pattern></defs>
           <rect x={minX} y={-maxY} width={maxX-minX} height={maxY-minY} fill="url(#grade-planta)"/>
-          {shown.map(room=><g key={room.id} role="button" tabIndex={0}
+          {shown.map(room=><g key={room.id} role="button"
             aria-label={'Mover '+room.name} aria-pressed={selected===room.id}
-            onPointerDown={e=>start(e,room)} onFocus={()=>{if(!drag.current) select(room)}}
+            style={mode==='openings'?{pointerEvents:'none'}:undefined} tabIndex={mode==='rooms'?0:-1}
+            onPointerDown={e=>start(e,room)} onFocus={()=>{if(mode==='rooms'&&!drag.current) select(room)}}
             onKeyDown={e=>{
+              if(mode!=='rooms') return
               const delta:Record<string,[number,number]>={ArrowLeft:[-100,0],ArrowRight:[100,0],ArrowUp:[0,100],ArrowDown:[0,-100]}
               if(delta[e.key]){e.preventDefault();step(room,...delta[e.key])}
               if(e.key==='Enter'||e.key===' '){e.preventDefault();select(room)}
@@ -160,9 +180,11 @@ export default function Capturador(){
               <tspan x={room.xMm+room.widthMm/2} dy="1.5em" fontSize="0.85em">{metros(room.widthMm)} × {metros(room.depthMm)} m</tspan>
             </text>
           </g>)}
+          <ParedesEAberturas rooms={shown} openings={s.present.openings} active={mode==='openings'} wallId={wallId}
+            openingId={openingId} invalidIds={invalidIds} onSelect={selectWall}/>
         </svg>
-        <p className={styles.hint}>Grade de 1 m. Arraste pelo interior do cômodo; paredes próximas encaixam. Role a página fora do desenho.</p>
-        {chosen&&<div className={styles.position}>
+        <p className={styles.hint}>{mode==='rooms'?'Grade de 1 m. Arraste pelo interior do cômodo; paredes próximas encaixam.':'Toque uma parede ou uma abertura. Porta: traço ocre; janela: traço azul pontilhado.'} Role a página fora do desenho.</p>
+        {mode==='rooms'&&chosen&&<div className={styles.position}>
           <span>{chosen.name} · x {metros(chosen.xMm)} m · y {metros(chosen.yMm)} m</span>
           <div aria-label="Mover em passos de 10 cm">
             <button disabled={!!preview} aria-label="Mover à esquerda 10 cm" onClick={()=>step(chosen,-100,0)}>←</button>
@@ -173,9 +195,13 @@ export default function Capturador(){
         </div>}
         <div className={issues.length?styles.problems:styles.ready} role="status" aria-live="polite">
           {issues.length?<><strong>{rooms.length?'Ajuste a planta para exportar':'Comece pelas medidas'}</strong>
-            <ul>{issues.map((p,i)=><li key={i}>{p.message}</li>)}</ul></>:<strong>{draftPending?'Aplique as medidas em edição ou escolha Novo cômodo para descartá-las.':'Pronta para exportar · cômodos conectados, sem sobreposição'}</strong>}
+            <ul>{issues.map((p,i)=><li key={i}>{p.message}</li>)}</ul></>:<strong>{pending?'Aplique a edição ou descarte escolhendo Novo cômodo / Nova abertura.':'Pronta para exportar · planta e aberturas sem bloqueios locais'}</strong>}
         </div>
       </section>
+      {mode==='openings'?<EditorAberturas key={`${openingFormKey}-${s.revision}`} session={s} wallId={wallId} openingId={openingId}
+        onSelect={selectWall} onPending={()=>setOpeningPending(true)}
+        onSave={(next,id)=>{setSession(next);selectWall(wallId,id);setNotice('Abertura aplicada.')}}
+        onDelete={next=>{setSession(next);selectWall(wallId);setNotice('Abertura excluída. Você pode desfazer.')}}/>:
       <section className={styles.editor} aria-label="Medidas do cômodo">
         <div className={styles.editorTitle}><h2>{selected?'Editar cômodo':'Novo cômodo'}</h2>
           <button disabled={!!preview} onClick={()=>newRoom()}>Novo cômodo</button></div>
@@ -194,7 +220,7 @@ export default function Capturador(){
           {rooms.map(r=><li key={r.id}><button disabled={!!preview} onClick={()=>select(r)} aria-pressed={selected===r.id}>
             <span>{r.name}</span><small>{metros(r.widthMm)} × {metros(r.depthMm)} m</small>
           </button></li>)}</ul></>}
-      </section>
+      </section>}
     </div>
     <section className={styles.export} aria-label="Exportação local">
       <div><h2>Leve a planta com você</h2><p>Baixe o JSON das medidas declaradas. Nenhum dado é enviado.</p></div>

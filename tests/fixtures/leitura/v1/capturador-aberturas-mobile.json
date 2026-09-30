@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "leitura-d9c15eaa-e989-4405-b6a7-f6676c11908f",
+  "revision": 13,
+  "unit": "mm",
+  "geometry": "orthogonal-rectangles",
+  "ceilingHeightMm": 2700,
+  "provenance": {
+    "kind": "declared",
+    "referenceIds": []
+  },
+  "references": [],
+  "rooms": [
+    {
+      "id": "c1",
+      "name": "Sala",
+      "widthMm": 4000,
+      "depthMm": 4000,
+      "xMm": 0,
+      "yMm": 0,
+      "walls": {
+        "south": "c1-south",
+        "east": "c1-east",
+        "north": "c1-north",
+        "west": "c1-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c2",
+      "name": "Quarto",
+      "widthMm": 3000,
+      "depthMm": 4000,
+      "xMm": 4000,
+      "yMm": 0,
+      "walls": {
+        "south": "c2-south",
+        "east": "c2-east",
+        "north": "c2-north",
+        "west": "c2-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "rel-c1-east--c2-west",
+      "kind": "adjacent",
+      "wallA": "c1-east",
+      "wallB": "c2-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ],
+  "openings": [
+    {
+      "id": "a1",
+      "kind": "door",
+      "wallId": "c2-west",
+      "offsetMm": 500,
+      "widthMm": 1000,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "pairedWallId": "c1-east",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a2",
+      "kind": "window",
+      "wallId": "c1-south",
+      "offsetMm": 1000,
+      "widthMm": 1200,
+      "heightMm": 1000,
+      "sillMm": 1100,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ]
+}
