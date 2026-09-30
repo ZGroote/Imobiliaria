@@ -176,6 +176,56 @@ service cloud.firestore {
       return 'productionMode' in d() && d().productionMode in ['leve', 'premium'];
     }
 
+    // M1-E: a leitura fixada como entrada da produção (productionInput). Não é aprovação: aprovar é
+    // do build (approvedBuild + manifest). O ponteiro só vale se repetir EXATAMENTE o snapshot
+    // imutável de propertyReadings, do imóvel do pedido, da agência do pedido e do imóvel hoje.
+    function inputKeys() {
+      return ['readingId', 'readingVersion', 'readingRevision', 'schemaVersion', 'contentSha256',
+              'fixedBy', 'fixedAt'];
+    }
+    function inputMatchesReading(pi) {
+      let rd = get(/databases/$(db)/documents/propertyReadings/$(pi.readingId)).data;
+      return pi.readingId is string && pi.readingId.matches('[A-Za-z0-9_-]{1,128}')
+        && 'propertyId' in d() && rd.propertyId == d().propertyId
+        && rd.agencyId == resource.data.agencyId
+        && get(/databases/$(db)/documents/properties/$(d().propertyId)).data.agencyId
+             == resource.data.agencyId
+        && pi.readingVersion == rd.version && pi.readingRevision == rd.revision
+        && pi.schemaVersion == rd.schemaVersion
+        && isSha256(pi.contentSha256) && pi.contentSha256 == rd.contentSha256;
+    }
+    // Só a equipe, só em accepted/production, sem mudar status/imóvel no mesmo write, e com o
+    // AuditLog do mesmo batch dizendo de onde para onde o ponteiro foi.
+    function productionInputSet(rid) {
+      let pi = d().productionInput;
+      let log = getAfter(/databases/$(db)/documents/auditLogs/$(d().lastAuditId)).data;
+      let old = resource.data.get('productionInput', {});
+      return isStaff() && from() in ['accepted', 'production']
+        && !changed('status') && !changed('propertyId')
+        && pi.keys().hasOnly(inputKeys()) && pi.keys().hasAll(inputKeys())
+        && pi.fixedBy == request.auth.uid && pi.fixedAt == request.time
+        && inputMatchesReading(pi)
+        && auditedAs(rid, 'production_input:set')
+        && log.before.get('readingId', null) == old.get('readingId', null)
+        && log.before.get('contentSha256', null) == old.get('contentSha256', null)
+        && log.after.readingId == pi.readingId && log.after.readingVersion == pi.readingVersion
+        && log.after.contentSha256 == pi.contentSha256;
+    }
+    // Fluxo legado: o imóvel ainda é produzido por plantas_fornecidas/<pipelineUnitId>/ (BuildJob
+    // de hoje). Ele sai desta exceção quando BuildJob passar a partir do snapshot (M2).
+    function legacyPipeline() {
+      return 'propertyId' in d()
+        && get(/databases/$(db)/documents/properties/$(d().propertyId)).data
+             .get('pipelineUnitId', '') is string
+        && get(/databases/$(db)/documents/properties/$(d().propertyId)).data
+             .get('pipelineUnitId', '') != '';
+    }
+    // Iniciar produção no fluxo novo exige a entrada fixada e ainda válida.
+    function productionStartOk() {
+      return !(from() == 'accepted' && to() == 'production') || legacyPipeline()
+        || ('productionInput' in d() && inputMatchesReading(d().productionInput));
+    }
+
     // Ninguém além do gerente escreve a aprovação. Publicar exige o artefato aprovado: o build
     // e o manifest; uma aprovação sem a identidade do manifest não publica.
     function staffEdit() {
@@ -232,6 +282,10 @@ service cloud.firestore {
         // o primeiro build de revisão amarra o pedido à unidade: depois dele, propertyId não muda
         // (para ninguém, nem platform_admin), e o preview só é trocado, nunca removido
         && (!changed('propertyId') || !('preview' in resource.data))
+        // a entrada fixada é do imóvel do pedido: fixou, o imóvel não muda mais
+        && (!changed('propertyId') || !('productionInput' in resource.data))
+        && (!changed('productionInput') || productionInputSet(rid))
+        && productionStartOk()
         && (!changed('preview') || 'preview' in d())
         // todo preview que entra traz a identidade exata do manifest que foi servido
         && (!changed('preview') || isSha256(d().preview.get('manifestSha256', null)))

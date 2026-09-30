@@ -64,6 +64,14 @@ export interface Preview {
   manifestSha256: string                  // identidade exata do artefato: os bytes do manifest.json servido
 }
 
+// M1-E: a leitura (propertyReadings) fixada como entrada da produção. Repete os números do snapshot
+// imutável; as regras recusam qualquer divergência. NÃO é aprovação: aprovar é do build (approvedBuild).
+export interface ProductionInput {
+  readingId: string; readingVersion: number; readingRevision: number
+  schemaVersion: string; contentSha256: string
+  fixedBy: string; fixedAt: Timestamp
+}
+
 export interface Request {                // requests/{id}
   id: string; agencyId: string; requestedBy: string
   propertyId?: string; listingUrl?: string; title: string
@@ -72,6 +80,7 @@ export interface Request {                // requests/{id}
   notes?: string
   assignedTo?: string
   preview?: Preview
+  productionInput?: ProductionInput       // só a equipe, só em accepted/production, sempre com AuditLog
   approvedBuild?: string; approvedBy?: string; approvedAt?: Timestamp
   approvedManifestSha256?: string         // o artefato congelado pela aprovação; a promoção parte dele
   lastAuditId?: string
@@ -98,7 +107,7 @@ export interface AuditLog {               // auditLogs/{id}; só cresce
   id: string; agencyId?: string; userId: string
   entityType: 'request' | 'property' | 'agency' | 'user' | 'buildJob'
   entityId: string
-  action: string                          // 'status:<novo>' | 'urls' | 'build_failed' | 'bootstrap'
+  action: string                          // 'status:<novo>' | 'urls' | 'build_failed' | 'bootstrap' | 'production_input:set'
   visibility: 'internal' | 'agency'
   before?: Record<string, unknown>; after?: Record<string, unknown>
   timestamp: Timestamp
