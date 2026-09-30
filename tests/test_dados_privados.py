@@ -70,6 +70,14 @@ class DadosPrivadosTests(unittest.TestCase):
         novas = self.filhos('plantas_fornecidas') - UNIDADES_REAIS - UNIDADES_SINTETICAS
         self.assertFalse(novas, 'unidade nova em plantas_fornecidas/ sem classificação')
 
+    def test_mirante7_keeps_only_sanitized_study_and_own_measurements(self):
+        pasta = PurePosixPath('experimentos/mirante-7-2026-09-22')
+        permitidos = {pasta / nome for nome in ('ESTUDO.md', 'resultado-teste.json',
+                                               'tempo-blender.json', 'tempo-montagem.json')}
+        presentes = {p for p in self.arquivos if pasta in p.parents}
+        self.assertFalse(presentes - permitidos,
+                         'Mirante 7: material fora do inventario sanitizado voltou ao Git')
+
     def test_baked_light_only_for_known_units(self):
         for pasta, sufixo in (('unreal/lightmaps', '.png'), ('unreal/malhas', '.tiles.json')):
             nomes = {p.name[:-len(sufixo)] for p in self.arquivos

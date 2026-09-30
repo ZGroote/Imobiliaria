@@ -39,9 +39,12 @@ Pôr um item na lista é a classificação explícita. Tirar um item nunca repro
   diferentes** (`unidade.json`, `_conflito`).
 - **Os dados ficam:** não apagamos o trabalho, mas também não fingimos que a proveniência está
   resolvida.
-- **A trava está no build por imóvel:** `pipeline/build_imovel.py` recusa a `mirra-114` antes de
-  qualquer leitura, com o motivo (`NAO_PUBLICAR`). Sem build não há preview nem live. O teste é
-  `tests/test_build_imovel.py`, `NaoPublicarTests`.
+- **A trava está no build e na montagem de publicação:** `pipeline/build_imovel.py` recusa a
+  `mirra-114` antes de gerar, com o motivo (`NAO_PUBLICAR`). `pipeline/publicar_imovel.py`
+  consulta a mesma lista ao conferir cada build, inclusive artefatos antigos, rollback e builds
+  preservados ao promover outro imóvel. A recusa mantém o site anterior intacto.
+  Os testes são `NaoPublicarTests` em `tests/test_build_imovel.py` e
+  `tests/test_publicacao_live.py`; a fábrica também recusa com `ORIGIN_UNCONFIRMED`.
 - **Para liberar:** registrar a origem confirmada e tirar a unidade de `NAO_PUBLICAR`, no mesmo PR.
 - **O que a trava não cobre:** o mapa de Ribeirão Preto, montado por `pipeline/montar.py`, ainda
   listaria a unidade. Ribeirão está fora do escopo, e esse mapa não é montado nem publicado.
@@ -112,6 +115,10 @@ terceiro. As 15 imagens saíram em 26/09. Estes 20 arquivos saíram em 27/09, so
   do modelo;
 - três registros nossos de medição: `resultado-teste.json`, `tempo-blender.json` e
   `tempo-montagem.json`.
+
+Reinventariado em 30/09 no [M0-B](../checkpoints/m0b-2026-09-30.md): nenhum novo
+material a retirar. `tests/test_dados_privados.py` impede que arquivos fora desses
+quatro remanescentes voltem à pasta experimental versionada.
 
 ## Como a lista muda
 

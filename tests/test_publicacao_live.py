@@ -321,5 +321,55 @@ class LivePromotionTests(unittest.TestCase):
             self.assertIn('href="/"', html)
 
 
+class NaoPublicarTests(unittest.TestCase):
+    """Um build antigo valido nao autoriza a publicacao de uma unidade bloqueada."""
+
+    def preparar(self, tmp):
+        c = Cenario(tmp)
+        c.promove('x', c.A, VAZIO)
+        bloqueado = c.cria('mirra-114', 1)
+        return c, bloqueado
+
+    def recusa_sem_alterar_site(self, c, operacao):
+        antes = c.bytes_de(('',))
+        with self.assertRaisesRegex(ValueError, 'mirra-114 nao se publica ate confirmar a origem'):
+            operacao()
+        self.assertEqual(c.bytes_de(('',)), antes)
+        self.assertEqual(c.sobras(), [])
+
+    def estado_legado(self, c, atual, anterior=None):
+        estado = c.estado()
+        estado['imoveis']['mirra-114'] = {'atual': atual, 'anterior': anterior}
+        for build in (atual, anterior):
+            if build:
+                for nome in ('tour.html', 'maquete.html', 'manifest.json'):
+                    caminho = 'b/mirra-114/%s/%s' % (build, nome)
+                    estado['arquivos'][caminho] = _sha((c.builds / 'mirra-114' / build / nome).read_bytes())
+        return estado
+
+    def test_blocked_existing_build_cannot_enter_preview(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            c, build = self.preparar(tmp)
+            self.recusa_sem_alterar_site(c, lambda: P['montar_preview']('mirra-114', build, **c.caminhos()))
+
+    def test_blocked_existing_build_cannot_be_promoted_even_with_matching_approval(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            c, build = self.preparar(tmp)
+            self.recusa_sem_alterar_site(c, lambda: c.promove('mirra-114', build, c.estado()))
+
+    def test_rollback_cannot_reintroduce_blocked_unit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            c, build = self.preparar(tmp)
+            anterior = c.cria('mirra-114', 2)
+            estado = self.estado_legado(c, build, anterior)
+            self.recusa_sem_alterar_site(c, lambda: c.reverte('mirra-114', estado))
+
+    def test_other_unit_promotion_cannot_carry_blocked_build_from_old_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            c, build = self.preparar(tmp)
+            estado = self.estado_legado(c, build)
+            self.recusa_sem_alterar_site(c, lambda: c.promove('y', c.Y, estado))
+
+
 if __name__ == '__main__':
     unittest.main()
