@@ -8,7 +8,8 @@ import { mudarStatus, proximos, ROTULO_STATUS, rotuloDaAcao } from '@/lib/status
 import type { AuditLog, Request, RequestStatus } from '@/lib/types'
 import { useColecao } from '@/lib/useFirestore'
 
-export function AcoesDeStatus({ r }: { r: Request }) {
+// `bloqueio`: transições que a tela já sabe que as regras negariam, com o motivo.
+export function AcoesDeStatus({ r, bloqueio }: { r: Request; bloqueio?: Partial<Record<RequestStatus, string>> }) {
   const perfil = usePerfil()
   const { executar, ocupado, erro } = useAcao()
   const opcoes = proximos(r, perfil.role, perfil.id)
@@ -21,11 +22,13 @@ export function AcoesDeStatus({ r }: { r: Request }) {
     <Cartao titulo="Andamento">
       <div className="flex flex-wrap gap-2">
         {opcoes.map((s) => (
-          <button key={s} disabled={ocupado} onClick={() => ir(s)} className={s === 'cancelled' ? 'btn' : 'btn-primario'}>
+          <button key={s} disabled={ocupado || !!bloqueio?.[s]} title={bloqueio?.[s]} onClick={() => ir(s)}
+            className={s === 'cancelled' ? 'btn' : 'btn-primario'}>
             {rotuloDaAcao(r.status, s)}
           </button>
         ))}
       </div>
+      {opcoes.map((s) => bloqueio?.[s] && <p key={s} className="mt-2 text-xs text-slate-500">{bloqueio[s]}</p>)}
       {erro && <Aviso>{erro}</Aviso>}
     </Cartao>
   )
@@ -61,6 +64,10 @@ function descrever(l: AuditLog) {
     const s = l.action.slice(7) as RequestStatus
     const build = typeof l.after?.build === 'string' ? ` (build ${l.after.build})` : ''
     return `${ROTULO_STATUS[s] ?? s}${build}`
+  }
+  if (l.action === 'production_input:set') {
+    const de = typeof l.before?.readingVersion === 'number' ? `v${l.before.readingVersion} → ` : ''
+    return `Entrada da planta: ${de}v${l.after?.readingVersion}`
   }
   return l.action
 }

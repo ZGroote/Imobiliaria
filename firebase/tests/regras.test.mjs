@@ -31,6 +31,10 @@ const pessoa = (role, agencyId, extra = {}) => ({
   name: role, email: '', role, ...(agencyId ? { agencyId } : {}), active: true,
   createdAt: T, updatedAt: T, ...extra,
 });
+function leituraSalva(propertyId, agencyId, version, revision, hex) {
+  return { propertyId, agencyId, version, revision, schemaVersion: '1.0.0', contentSha256: hex.repeat(32),
+           createdBy: 'corA', createdByName: 'corA', createdAt: T, leitura: {}, basedOnVersionId: null };
+}
 const pedido = (agencyId, requestedBy, status, extra = {}) => ({
   agencyId, requestedBy, title: 'Pedido', status, createdAt: T, updatedAt: T, ...extra,
 });
@@ -64,6 +68,14 @@ const SEED = {
   'auditLogs/logB': { agencyId: 'agB', userId: 'op', entityType: 'request', entityId: 'reqB', action: 'status:accepted', visibility: 'agency', timestamp: T },
   'publications/pubA': { propertyId: 'propA', agencyId: 'agA', action: 'publish', build: '000000000000', publishedBy: 'admin', publishedAt: T },
   'publications/pubB': { propertyId: 'propB', agencyId: 'agB', action: 'publish', build: '000000000000', publishedBy: 'admin', publishedAt: T },
+  // M1-E: imóvel do fluxo novo (sem pipelineUnitId) e snapshots imutáveis dele e de terceiros.
+  'properties/propN': { agencyId: 'agA', title: 'Novo', status: 'active', createdAt: T, updatedAt: T },
+  'propertyReadings/n1': leituraSalva('propN', 'agA', 1, 3, 'a1'),
+  'propertyReadings/n2': leituraSalva('propN', 'agA', 2, 4, 'b2'),
+  'propertyReadings/deOutroImovel': leituraSalva('propA', 'agA', 1, 1, 'c3'),
+  'propertyReadings/deOutraAgencia': leituraSalva('propB', 'agB', 1, 1, 'd4'),
+  'propertyReadings/agenciaTrocada': leituraSalva('propN', 'agB', 9, 1, 'e5'),
+  'requests/entradaA': pedido('agA', 'corA', 'accepted', { propertyId: 'propN', productionMode: 'leve' }),
   'buildJobs/jobA': { requestId: 'reqA', propertyId: 'propA', agencyId: 'agA', status: 'failed', errorMessage: 'x', createdBy: 'op', createdAt: T, updatedAt: T },
 };
 
@@ -600,4 +612,157 @@ test('26. depois de aprovado e de publicado: imóvel travado', async () => {
   for (const uid of ['op', 'admin']) await assertFails(trocaImovel(uid, 'aprA'));         // aprovado
   await assertSucceeds(publica(db('admin'), 'admin', 'aprA', 'propA', BUILD));
   for (const uid of ['op', 'admin']) await assertFails(trocaImovel(uid, 'aprA'));         // publicado
+});
+
+// ── M1-E: leitura fixada como entrada da produção (productionInput) ──
+
+function entrada(readingId, uid) {
+  const r = SEED['propertyReadings/' + readingId] ?? SEED['propertyReadings/n1'];
+  return { readingId, readingVersion: r.version, readingRevision: r.revision, schemaVersion: r.schemaVersion,
+           contentSha256: r.contentSha256, fixedBy: uid, fixedAt: now() };
+}
+// Ponteiro + AuditLog no mesmo batch, como painel/src/lib/leituras.ts faz.
+function fixa(f, uid, rid, readingId, { pi = {}, log = {}, antes = null, extra = {}, sem } = {}) {
+  const e = { ...entrada(readingId, uid), ...pi };
+  if (sem) delete e[sem];
+  const b = writeBatch(f);
+  const l = doc(collection(f, 'auditLogs'));
+  b.set(l, { agencyId: 'agA', userId: uid, entityType: 'request', entityId: rid, action: 'production_input:set',
+             visibility: 'internal',
+             before: { readingId: antes?.readingId ?? null, readingVersion: antes?.readingVersion ?? null,
+                       contentSha256: antes?.contentSha256 ?? null },
+             after: { readingId: e.readingId, readingVersion: e.readingVersion, readingRevision: e.readingRevision ?? null,
+                      contentSha256: e.contentSha256 },
+             timestamp: now(), ...log });
+  b.update(doc(f, 'requests', rid), { productionInput: e, lastAuditId: l.id, updatedAt: now(), ...extra });
+  return b.commit();
+}
+async function semRegras(fn) { let v; await env.withSecurityRulesDisabled(async (ctx) => { v = await fn(ctx.firestore()); }); return v; }
+const ler = async (p) => (await semRegras((f) => getDoc(doc(f, p)))).data();
+const N1 = SEED['propertyReadings/n1'];
+const ANTES_N1 = { readingId: 'n1', readingVersion: 1, contentSha256: N1.contentSha256 };          // log.before quando v1 era a entrada
+const DEPOIS_N1 = { readingId: 'n1', readingVersion: 1, readingRevision: 3, contentSha256: N1.contentSha256 };  // log.after ao fixar v1
+
+test('M1-E 1/7. equipe fixa leitura do mesmo imóvel/agência; o ponteiro repete o snapshot', async () => {
+  await assertSucceeds(fixa(db('op'), 'op', 'entradaA', 'n1'));
+  const pi = (await ler('requests/entradaA')).productionInput;
+  assert.deepEqual([pi.readingId, pi.readingVersion, pi.readingRevision, pi.schemaVersion, pi.contentSha256, pi.fixedBy],
+    ['n1', 1, 3, '1.0.0', N1.contentSha256, 'op']);
+  await assertSucceeds(fixa(db('admin'), 'admin', 'entradaA', 'n2', { antes: ANTES_N1 }));
+});
+
+test('M1-E 2–5. outro imóvel, outra agência, hash/version/revision/schema adulterados: recusados', async () => {
+  const f = db('op');
+  for (const rid of ['deOutroImovel', 'deOutraAgencia', 'agenciaTrocada', 'inexistente'])
+    await assertFails(fixa(f, 'op', 'entradaA', rid));
+  const adulterados = [
+    { contentSha256: 'ff'.repeat(32) },                           // hash inventado
+    { contentSha256: SEED['propertyReadings/n2'].contentSha256 },  // "use n1, mas com o hash de n2"
+    { contentSha256: N1.contentSha256.toUpperCase() },
+    { readingVersion: 2 }, { readingRevision: 99 }, { schemaVersion: '1.0.1' },
+    { readingId: 'n1/../n2' },
+    { fixedBy: 'admin' }, { fixedAt: T }, { extra: 'x' },
+  ];
+  for (const pi of adulterados) await assertFails(fixa(f, 'op', 'entradaA', 'n1', { pi }));
+  await assertFails(fixa(f, 'op', 'entradaA', 'n1', { sem: 'readingRevision' }));
+  assert.equal((await ler('requests/entradaA')).productionInput, undefined);
+});
+
+test('M1-E 6. gerente e corretor (de A ou de B) não mexem no ponteiro', async () => {
+  for (const uid of ['gerA', 'corA', 'gerB', 'inativo'])
+    await assertFails(fixa(db(uid), uid, 'entradaA', 'n1', { log: { visibility: 'agency' } }));
+  // nem pela porta do solicitante, em submitted
+  await semRegras((f) => updateDoc(doc(f, 'requests/entradaA'), { status: 'submitted' }));
+  await assertFails(updateDoc(doc(db('corA'), 'requests/entradaA'),
+    { productionInput: entrada('n1', 'corA'), updatedAt: now() }));
+});
+
+test('M1-E 8. sem AuditLog ou com log que mente sobre antes/depois: recusado', async () => {
+  const f = db('op');
+  await assertFails(updateDoc(doc(f, 'requests/entradaA'), { productionInput: entrada('n1', 'op'), updatedAt: now() }));
+  await assertFails(fixa(f, 'op', 'entradaA', 'n1', { log: { action: 'status:production' } }));
+  await assertFails(fixa(f, 'op', 'entradaA', 'n1', { log: { after: { ...DEPOIS_N1, readingId: 'n2' } } }));
+  await assertFails(fixa(f, 'op', 'entradaA', 'n1', { log: { after: { ...DEPOIS_N1, contentSha256: 'ff'.repeat(32) } } }));
+  await assertFails(fixa(f, 'op', 'entradaA', 'n1', { antes: { readingId: 'n2', contentSha256: null } }));   // não havia antes
+  await assertSucceeds(fixa(f, 'op', 'entradaA', 'n1'));
+  await assertFails(fixa(f, 'op', 'entradaA', 'n2'));                                                          // esconde o n1
+  await assertSucceeds(fixa(f, 'op', 'entradaA', 'n2', { antes: ANTES_N1 }));
+  const logs = await semRegras((g) => getDocs(query(collection(g, 'auditLogs'),
+    where('entityId', '==', 'entradaA'), where('action', '==', 'production_input:set'))));
+  const trocas = logs.docs.map((d) => d.data()).map((l) => [l.before.readingId, l.after.readingId, l.after.readingVersion]);
+  assert.deepEqual(trocas.sort((a, b) => a[2] - b[2]), [[null, 'n1', 1], ['n1', 'n2', 2]]);
+});
+
+test('M1-E 9/10. iniciar produção exige entrada válida no fluxo novo; o legado segue como estava', async () => {
+  await assertFails(mudaStatus(db('op'), 'op', 'entradaA', 'production'));
+  await semRegras((f) => Promise.all([
+    setDoc(doc(f, 'requests/semImovel'), pedido('agA', 'corA', 'accepted', { productionMode: 'leve' })),
+    setDoc(doc(f, 'requests/legado'), pedido('agA', 'corA', 'accepted', { propertyId: 'propA', productionMode: 'leve' })),
+  ]));
+  await assertFails(mudaStatus(db('op'), 'op', 'semImovel', 'production'));
+  await assertSucceeds(mudaStatus(db('op'), 'op', 'legado', 'production'));   // propA tem pipelineUnitId
+  // fixar e iniciar no mesmo write não: são dois atos, dois logs
+  await assertFails(fixa(db('op'), 'op', 'entradaA', 'n1', { extra: { status: 'production' } }));
+  await assertSucceeds(fixa(db('op'), 'op', 'entradaA', 'n1'));
+  // imóvel transferido depois de fixar: a entrada deixou de valer, não inicia
+  await semRegras((f) => updateDoc(doc(f, 'properties/propN'), { agencyId: 'agB' }));
+  await assertFails(mudaStatus(db('op'), 'op', 'entradaA', 'production'));
+  await semRegras((f) => updateDoc(doc(f, 'properties/propN'), { agencyId: 'agA' }));
+  await assertSucceeds(mudaStatus(db('op'), 'op', 'entradaA', 'production'));
+});
+
+test('M1-E 12/14. troca v1 → v2 em produção: ponteiro explícito, histórico preservado, nenhum BuildJob', async () => {
+  await assertSucceeds(fixa(db('op'), 'op', 'entradaA', 'n1'));
+  await assertSucceeds(mudaStatus(db('op'), 'op', 'entradaA', 'production'));
+  await assertSucceeds(fixa(db('op'), 'op', 'entradaA', 'n2', { antes: ANTES_N1 }));
+  const r = await ler('requests/entradaA');
+  assert.deepEqual([r.status, r.productionInput.readingId, r.productionInput.readingVersion], ['production', 'n2', 2]);
+  const log = await ler('auditLogs/' + r.lastAuditId);
+  assert.deepEqual([log.before.readingId, log.after.readingId], ['n1', 'n2']);
+  assert.deepEqual(await ler('propertyReadings/n1'), N1);                        // o snapshot não mudou
+  await assertFails(setDoc(doc(db('op'), 'buildJobs/novo'), { requestId: 'entradaA' }));
+  const jobs = await semRegras((f) => getDocs(collection(f, 'buildJobs')));
+  assert.deepEqual(jobs.docs.map((d) => d.id), ['jobA']);
+});
+
+test('M1-E 13. fora de accepted/production ninguém troca; em nenhum estado se apaga ou desvincula', async () => {
+  await assertSucceeds(fixa(db('op'), 'op', 'entradaA', 'n1'));
+  await assertFails(updateDoc(doc(db('admin'), 'requests/entradaA'), { productionInput: deleteField(), updatedAt: now() }));
+  await assertFails(updateDoc(doc(db('admin'), 'requests/entradaA'), { propertyId: 'propA', updatedAt: now() }));
+  for (const status of ['submitted', 'waiting_materials', 'internal_review', 'agency_review', 'approved', 'published', 'cancelled']) {
+    await semRegras((f) => updateDoc(doc(f, 'requests/entradaA'), { status }));
+    for (const uid of ['op', 'admin']) await assertFails(fixa(db(uid), uid, 'entradaA', 'n2', { antes: ANTES_N1 }));
+  }
+});
+
+// ── M1-E, correção da revisão do #80: o log é evidência e o legado respeita a agência ──
+
+test('M1-E revisão. o log da troca é interno, mesmo com cliente adulterado da equipe', async () => {
+  for (const uid of ['op', 'admin'])
+    await assertFails(fixa(db(uid), uid, 'entradaA', 'n1', { log: { visibility: 'agency' } }));
+  await assertSucceeds(fixa(db('op'), 'op', 'entradaA', 'n1'));
+});
+
+test('M1-E revisão. o log não mente sobre a versão de antes nem sobre a revisão de depois', async () => {
+  const f = db('op');
+  await assertFails(fixa(f, 'op', 'entradaA', 'n1', { log: { after: { ...DEPOIS_N1, readingRevision: 99 } } }));
+  await assertFails(fixa(f, 'op', 'entradaA', 'n1', { antes: { readingVersion: 1 } }));      // não havia entrada
+  await assertFails(fixa(f, 'op', 'entradaA', 'n1',                                          // "nada antes" é null explícito
+    { log: { before: { readingId: null, contentSha256: null } } }));
+  await assertSucceeds(fixa(f, 'op', 'entradaA', 'n1'));
+  await assertFails(fixa(f, 'op', 'entradaA', 'n2', { antes: { ...ANTES_N1, readingVersion: 99 } }));   // "v99 → v2"
+  await assertFails(fixa(f, 'op', 'entradaA', 'n2',
+    { log: { before: { readingId: 'n1', contentSha256: N1.contentSha256 } } }));             // sem a versão de antes
+  await assertSucceeds(fixa(f, 'op', 'entradaA', 'n2', { antes: ANTES_N1 }));
+  const log = await ler('auditLogs/' + (await ler('requests/entradaA')).lastAuditId);
+  assert.deepEqual([log.before.readingVersion, log.after.readingVersion, log.after.readingRevision], [1, 2, 4]);
+});
+
+test('M1-E revisão. legado também exige o imóvel na agência do pedido para iniciar produção', async () => {
+  await semRegras((f) => setDoc(doc(f, 'requests/legado'),
+    pedido('agA', 'corA', 'accepted', { propertyId: 'propA', productionMode: 'leve' })));
+  await semRegras((f) => updateDoc(doc(f, 'properties/propA'), { agencyId: 'agB' }));   // propA tem pipelineUnitId
+  for (const uid of ['op', 'admin']) await assertFails(mudaStatus(db(uid), uid, 'legado', 'production'));
+  await semRegras((f) => updateDoc(doc(f, 'properties/propA'), { agencyId: 'agA' }));
+  await assertSucceeds(mudaStatus(db('op'), 'op', 'legado', 'production'));
 });
