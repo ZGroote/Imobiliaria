@@ -1,5 +1,9 @@
 # Painel administrativo — arquitetura revisada (v3)
 
+Reconciliado em 30/09/2026 com `main` `81c2d7a`. O estado público observado,
+os limites da verificação e o handoff estão no [M0-A](../checkpoints/m0a-2026-09-30.md).
+Datas, contagens e releases da §14 são históricos de 27/09, não uma consulta atual.
+
 Estado (24/09/2026): **Fase 1 concluída e em produção.** Arquitetura v3 aprovada. A Fase 1 está
 integrada ao `main` pelo PR #5 (merge commit `37114b2`, §14). Onde a spec
 (`Downloads/PAINEL_ADMIN_ESPECIFICACAO_REVISADA.md`) diverge do repositório, vale o repositório.
@@ -144,8 +148,10 @@ export interface Request {                // requests/{id}
   assignedTo?: string                     // responsável interno
   preview?: {                             // o build EM REVISÃO (canal de preview)
     build: string; tourUrl: string; maqueteUrl: string
+    manifestSha256: string                // SHA-256 dos bytes do manifest servido
   }
   approvedBuild?: string                  // o gerente aprova UM build: == preview.build
+  approvedManifestSha256?: string         // identidade exata congelada pela aprovação
   approvedBy?: string; approvedAt?: Timestamp
   lastAuditId?: string
   createdAt: Timestamp; updatedAt: Timestamp
@@ -160,11 +166,20 @@ export interface RequestAsset {           // requestAssets/{id}
   uploadedBy: string; createdAt: Timestamp
 }
 
-export interface BuildJob {               // buildJobs/{id}; Fase 2; só tools/buildjob.mjs escreve
-  id: string; requestId: string; propertyId: string; agencyId: string
-  status: 'queued' | 'building' | 'ready' | 'failed'
-  build?: string; manifestUrl?: string; commit?: string; errorMessage?: string
-  createdBy: string; createdAt: Timestamp; updatedAt: Timestamp
+export type BuildJobStatus = 'pending' | 'running' | 'succeeded' | 'blocked' | 'failed' | 'cancelled'
+
+export interface BuildJob {               // buildJobs/{id}; ferramenta/worker Admin SDK
+  id: string
+  requestId: string; propertyId: string; pipelineUnitId: string; agencyId: string
+  productionMode: ProductionMode
+  requestedBy: string; createdBy: string
+  status: BuildJobStatus
+  inputSha256?: string
+  build?: string; manifestSha256?: string; reportPath?: string
+  error?: { code?: string; type?: string; message: string }
+  startedAt?: Timestamp; finishedAt?: Timestamp
+  lastAuditId?: string
+  createdAt: Timestamp; updatedAt: Timestamp
 }
 
 export interface AuditLog {               // auditLogs/{id}; só cresce
@@ -662,16 +677,24 @@ promover move `atual → anterior`, reverter troca os dois, sem gerar build algu
 - Os dois arquivos levam `Access-Control-Allow-Origin` do domínio do painel, e nada
   mais precisa de CORS.
 
-**Fase 2 (BuildJob):**
+**BuildJob implementado e pendências do M2 (30/09/2026):**
 
-- `tools/buildjob.mjs` (Node) reaproveita `firebase/admin.js`, que já existe. Ele lê o
-  mesmo `manifest.json` e atualiza `buildJobs/{id}`:
-  `queued → building → ready (build, manifestUrl) | failed (errorMessage)`.
-  Nova tentativa = novo job.
-- `publicar_imovel.py promover` passa a chamar `node tools/buildjob.mjs aprovado <id>
-  <build>` e **recusa** promover se o Firestore não tiver `approvedBuild == build`. A
-  trava sai do registro e entra no próprio deploy.
-- O Python continua sem dependência de Firebase. Nada de fila ou worker (§19 da spec).
+- O tipo canônico está em `painel/src/lib/types.ts`, reproduzido na §3. Os estados
+  são `pending`, `running`, `succeeded`, `blocked`, `failed` e `cancelled`.
+- `tools/buildjob.mjs criar <requestId> --user <uid> --project <projectId>` inicializa
+  o Admin SDK diretamente. Valida usuário interno ativo, pedido em `production`,
+  modo LEVE/PREMIUM e imóvel da mesma agência com `pipelineUnitId`.
+- Somente a criação em `pending` existe: job e AuditLog `created` são gravados no
+  mesmo batch. Não há comando para assumir, executar ou encerrar o job; os demais
+  estados são contrato tipado, não transições implementadas. Cliente não escreve
+  `buildJobs`; equipe interna pode ler conforme as Security Rules.
+- A consulta por job `pending/running` antecede o batch: bloqueia um ativo já
+  encontrado, mas não garante exclusão entre chamadas simultâneas. Criação atômica,
+  idempotência, runner, lease/heartbeat, retry e encerramento são pendências do M2.
+- A antiga proposta de comando `buildjob.mjs aprovado` não foi implementada.
+  `publicar_imovel.py montar-live promover` exige `--manifest-aprovado`, mas não
+  consulta o Firestore nem realiza deploy. A conferência e o registro no painel
+  continuam separados do deploy. Reconciliação após interrupções pertence ao M2.
 
 ---
 
@@ -894,7 +917,11 @@ esse hash, e o registro confere com o que já está no ar.
 
 ---
 
-## 14. Estado de produção e integração (27/09/2026)
+## 14. Histórico de produção e integração (27/09/2026)
+
+Esta seção preserva a evidência daquela data. Para a observação pública de 30/09,
+consulte [M0-A](../checkpoints/m0a-2026-09-30.md). Releases de painel/regras,
+contagens e dados privados abaixo não foram revalidados nesta revisão documental.
 
 | Peça | Estado |
 |---|---|
