@@ -1,0 +1,368 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:imobiliaria:planta-derivada:1.0.0",
+  "title": "Planta nominal derivada v1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "kind",
+    "unit",
+    "measurementBasis",
+    "construction",
+    "source",
+    "normalizer",
+    "provenance",
+    "references",
+    "relations",
+    "planta"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "kind": {
+      "const": "derived-floor-plan"
+    },
+    "unit": {
+      "const": "m"
+    },
+    "measurementBasis": {
+      "const": "wall-centerlines"
+    },
+    "construction": {
+      "const": "not-applied"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "schemaVersion",
+        "sha256"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "normalizer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "transformations"
+      ],
+      "properties": {
+        "id": {
+          "const": "nominal-floor-plan"
+        },
+        "version": {
+          "const": "1.0.0"
+        },
+        "transformations": {
+          "const": [
+            "mm-to-m@1",
+            "rectangle-to-ccw-polygon@1",
+            "wall-offset-to-opening-center@1",
+            "sill-height-to-y0-y1@1",
+            "preserve-nominal-axes@1"
+          ]
+        }
+      }
+    },
+    "provenance": {
+      "$ref": "#/$defs/provenance"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reference"
+      },
+      "minItems": 0,
+      "maxItems": 100
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/relation"
+      },
+      "minItems": 0,
+      "maxItems": 400
+    },
+    "planta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pe_direito",
+        "comodos",
+        "portas",
+        "janelas"
+      ],
+      "properties": {
+        "pe_direito": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "comodos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/room"
+          },
+          "minItems": 1,
+          "maxItems": 100
+        },
+        "portas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/opening"
+          },
+          "minItems": 0,
+          "maxItems": 400
+        },
+        "janelas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/opening"
+          },
+          "minItems": 0,
+          "maxItems": 400
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+    },
+    "declared": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "referenceIds"
+      ],
+      "properties": {
+        "kind": {
+          "const": "declared"
+        },
+        "referenceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "uniqueItems": true
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "declared"
+      ],
+      "properties": {
+        "kind": {
+          "const": "derived"
+        },
+        "declared": {
+          "$ref": "#/$defs/declared"
+        }
+      }
+    },
+    "point": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": -1000,
+        "maximum": 2000
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "walls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "south",
+        "east",
+        "north",
+        "west"
+      ],
+      "properties": {
+        "south": {
+          "$ref": "#/$defs/id"
+        },
+        "east": {
+          "$ref": "#/$defs/id"
+        },
+        "north": {
+          "$ref": "#/$defs/id"
+        },
+        "west": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "measurement",
+            "sketch",
+            "photo",
+            "document"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      }
+    },
+    "room": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "nome",
+        "poly",
+        "walls",
+        "provenance"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "nome": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "poly": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/point"
+          },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "walls": {
+          "$ref": "#/$defs/walls"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "wallA",
+        "wallB",
+        "provenance"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "const": "adjacent"
+        },
+        "wallA": {
+          "$ref": "#/$defs/id"
+        },
+        "wallB": {
+          "$ref": "#/$defs/id"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "opening": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "wallId",
+        "p",
+        "largura",
+        "y0",
+        "y1",
+        "provenance"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "wallId": {
+          "$ref": "#/$defs/id"
+        },
+        "pairedWallId": {
+          "$ref": "#/$defs/id"
+        },
+        "p": {
+          "$ref": "#/$defs/point"
+        },
+        "largura": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "y0": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "y1": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    }
+  }
+}
