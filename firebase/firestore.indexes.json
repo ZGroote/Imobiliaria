@@ -1,6 +1,15 @@
 {
   "indexes": [
     {
+      "collectionGroup": "propertyReadings",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "agencyId", "order": "ASCENDING" },
+        { "fieldPath": "propertyId", "order": "ASCENDING" },
+        { "fieldPath": "version", "order": "DESCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "requests",
       "queryScope": "COLLECTION",
       "fields": [
@@ -104,5 +113,5 @@
       ]
     }
   ],
-  "fieldOverrides": []
+  "fieldOverrides": [{ "collectionGroup": "propertyReadings", "fieldPath": "leitura", "indexes": [] }]
 }

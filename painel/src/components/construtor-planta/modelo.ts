@@ -197,13 +197,32 @@ export function problemas(layout:Layout):Problem[]{
     result.push({code:'DISCONNECTED_ROOM',message:r.name+': encoste uma parede no conjunto.',ids:[r.id]})
   return [...result,...problemasAberturas(layout)]
 }
-export function exportar(s:Session):string {
+export function documento(s:Session) {
   const errors=problemas(s.present)
   if(errors.length) throw new Error(errors.map(e=>e.message).join(' '))
-  return JSON.stringify({
-    schemaVersion:'1.0.0',id:s.id,revision:s.revision,unit:'mm',geometry:'orthogonal-rectangles',
+  return {
+    schemaVersion:'1.0.0' as const,id:s.id,revision:s.revision,unit:'mm' as const,geometry:'orthogonal-rectangles' as const,
     ceilingHeightMm:s.present.ceilingHeightMm,provenance:declared(),references:[],
     rooms:s.present.rooms.map(r=>({...r,walls:paredes(r.id),provenance:declared()})),
     relations:relacoes(s.present.rooms),openings:s.present.openings.map(o=>({...o,provenance:declared()})),
-  },null,2)+'\n'
+  }
+}
+export type Leitura=ReturnType<typeof documento>
+export const exportar=(s:Session)=>JSON.stringify(documento(s),null,2)+'\n'
+const sorted=(v:unknown):unknown=>Array.isArray(v)?v.map(sorted):v&&typeof v==='object'
+  ?Object.fromEntries(Object.entries(v).sort(([a],[b])=>a<b?-1:a>b?1:0).map(([k,x])=>[k,sorted(x)])):v
+// Recebe somente snapshot já validado no servidor; round-trip impede perda silenciosa
+// de campos M1-0 que esta UI ainda não edita (referências, IDs de paredes externos etc.).
+export function carregar(leitura:Leitura):Session{
+  try{
+    const rooms=leitura.rooms.map(r=>({id:r.id,name:r.name,xMm:r.xMm,yMm:r.yMm,widthMm:r.widthMm,depthMm:r.depthMm}))
+    const openings=leitura.openings.map(({provenance,...o})=>({...o}))
+    if(rooms.some(r=>!/^c[1-9][0-9]*$/.test(r.id))||openings.some(o=>!/^a[1-9][0-9]*$/.test(o.id))) throw new Error()
+    const s={...iniciar(leitura.id),revision:leitura.revision,
+      nextId:Math.max(0,...rooms.map(r=>Number(r.id.slice(1))))+1,
+      nextOpeningId:Math.max(0,...openings.map(o=>Number(o.id.slice(1))))+1,
+      present:{rooms,openings,ceilingHeightMm:leitura.ceilingHeightMm}}
+    if(JSON.stringify(sorted(documento(s)))!==JSON.stringify(sorted(leitura))) throw new Error()
+    return s
+  }catch{throw new Error('Esta leitura contém conteúdo não suportado pelo editor; nenhum dado foi descartado.')}
 }

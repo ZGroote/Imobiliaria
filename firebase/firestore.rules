@@ -153,6 +153,18 @@ service cloud.firestore {
       allow delete: if false;                          // arquivar: status = archived
     }
 
+    // Snapshots M1-D: criação somente pela API autenticada + gate Python M1-0.
+    // Admin SDK ignora rules: autorização é repetida na transação da API.
+    match /propertyReadings/{id} {
+      allow read: if isStaff() || (inAgency(resource.data.agencyId)
+        && get(/databases/$(db)/documents/properties/$(resource.data.propertyId)).data.agencyId
+             == resource.data.agencyId);
+      allow create, update, delete: if false;
+    }
+    match /propertyReadingCounters/{id} {
+      allow read, write: if false;
+    }
+
     // ── requests ──
     function from() { return resource.data.status; }
     function to() { return d().status; }

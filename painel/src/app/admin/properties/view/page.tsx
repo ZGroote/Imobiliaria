@@ -31,6 +31,7 @@ function Imovel({ id }: { id: string }) {
       <Estado r={r}>
         {p && (
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <a className="btn" href={'/imoveis/planta?id='+encodeURIComponent(p.id)}>Editar planta e versões</a>
             {editando ? <Editar p={p} fechar={() => setEditando(false)} /> : <Dados p={p} nomeDaAgencia={ag.dado?.name} />}
             <LinksPublicos p={p} />
             <CorretorResponsavel p={p} pessoas={pessoas} />

@@ -90,6 +90,26 @@ beforeEach(async () => {
 });
 after(() => env.cleanup());
 
+test('leituras: acesso por imóvel/agência atual; ninguém escreve diretamente snapshots ou contador', async () => {
+  await env.withSecurityRulesDisabled(async ctx=>{
+    await setDoc(doc(ctx.firestore(),'propertyReadings/v1'),{propertyId:'propA',agencyId:'agA',version:1});
+    await setDoc(doc(ctx.firestore(),'propertyReadings/incompativel'),{propertyId:'propB',agencyId:'agA',version:1});
+  });
+  for(const uid of ['admin','op','gerA','corA']){
+    const f=db(uid),ref=doc(f,'propertyReadings/v1');
+    await assertSucceeds(getDoc(ref));
+    await assertFails(setDoc(doc(f,'propertyReadings/nova'),{propertyId:'propA',agencyId:'agA'}));
+    await assertFails(updateDoc(ref,{version:2}));await assertFails(deleteDoc(ref));
+    await assertFails(setDoc(doc(f,'propertyReadingCounters/propA'),{version:0}));
+  }
+  for(const f of [anon(),db('gerB'),db('inativo')]) await assertFails(getDoc(doc(f,'propertyReadings/v1')));
+  await assertFails(getDoc(doc(db('corA'),'propertyReadings/incompativel')));
+  await assertFails(getDocs(collection(db('corA'),'propertyReadings')));
+  await env.withSecurityRulesDisabled(ctx=>updateDoc(doc(ctx.firestore(),'properties/propA'),{agencyId:'agB'}));
+  await assertFails(getDoc(doc(db('corA'),'propertyReadings/v1')));
+  await assertFails(getDoc(doc(db('gerB'),'propertyReadings/v1')));
+});
+
 // Mudança de status: request + AuditLog no mesmo batch, como o painel fará.
 function mudaStatus(f, uid, rid, status, extra = {}, { agencyId = 'agA', visibility = 'agency' } = {}) {
   const b = writeBatch(f);
