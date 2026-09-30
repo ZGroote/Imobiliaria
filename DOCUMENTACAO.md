@@ -16,6 +16,7 @@ configuração e scripts.
 | M1-D aprovado (#79): snapshots validados e imutáveis vinculados ao imóvel | [tasks/miniaturas/m1-d-persistencia-leitura.md](tasks/miniaturas/m1-d-persistencia-leitura.md) |
 | M1-E aprovado (#80): fixação da leitura de entrada para produção no pedido | [tasks/miniaturas/m1-e-fixar-leitura-producao.md](tasks/miniaturas/m1-e-fixar-leitura-producao.md) |
 | M1-F aprovado (#81): E2E controlado da leitura fixada até a maquete LEVE local | [tasks/miniaturas/m1-f-e2e-leitura-artefato.md](tasks/miniaturas/m1-f-e2e-leitura-artefato.md) |
+| M1.1-A: protocolo do baseline de usabilidade em aparelho físico (sessões pendentes) | [tasks/miniaturas/m1-1a-usabilidade-mobile.md](tasks/miniaturas/m1-1a-usabilidade-mobile.md) |
 | M1.1-B: capturador em tela cheia para o celular (em revisão) | [tasks/miniaturas/m1-1b-capturador-mobile.md](tasks/miniaturas/m1-1b-capturador-mobile.md) |
 | M1.1-C1: cômodo composto (leitura 1.1.0), validador, normalizador e prova no consumidor 3D (em revisão) | [tasks/miniaturas/m1-1c-comodo-composto.md](tasks/miniaturas/m1-1c-comodo-composto.md) |
 | M1.1-C2: UI de cômodo composto no capturador (mesclar e separar) | [tasks/miniaturas/m1-1c2-mesclar-ui.md](tasks/miniaturas/m1-1c2-mesclar-ui.md) |
