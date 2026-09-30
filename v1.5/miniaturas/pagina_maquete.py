@@ -38,6 +38,7 @@ UNIDADE = arg("--unidade")       # id do cadastro; sem ele vale o IMOVEL de exem
 CIDADE = arg("--cidade", "sao-carlos")
 MAPA = arg("--mapa")             # href do mapa deste imovel; sem ele, sem botao
 MODO = arg("--modo")              # leve|premium; ausente preserva o comportamento histórico
+CADASTRO = arg("--cadastro")      # unidade explícita (JSON), no lugar do acervo (M1-F)
 
 
 def artefato_leve(uid):
@@ -92,6 +93,17 @@ def do_cadastro(uid, slug):
     if u is None:
         raise SystemExit("unidade %r nao esta no cadastro de %s (tem: %s)"
                          % (uid, slug, ", ".join(str(x.get("id")) for x in todas)))
+    return da_unidade(u)
+
+
+def da_unidade(u, acervo=True):
+    """O IMOVEL montado a partir de UMA unidade: a do acervo ou a de `--cadastro`.
+
+    `acervo=False` e a unidade explicita (M1-F): ela nao tem identidade no acervo, entao
+    `_id` sai nulo e nada e buscado pelo id dela -- nem modelo Blender, nem atlas do
+    Unreal, nem os casos especiais do Cedros/Castanheiras. O que ela tem de predio vem
+    do proprio documento (`lote.predio`)."""
+    uid = str(u.get("id"))
     f, P = u.get("ficha") or {}, u.get("planta") or {}
     if not P.get("comodos"):
         raise SystemExit("a unidade %r nao tem planta cadastrada" % uid)
@@ -198,7 +210,7 @@ def do_cadastro(uid, slug):
         # centra a planta no volume e recentra o movel por conta propria, entao mandar a
         # versao ja deslocada daria uma planta deslocada duas vezes. As listas acima
         # continuam existindo porque sao o TEXTO da ficha, que e outra coisa.
-        "_id": uid,
+        "_id": uid if acervo else None,
         "cadastro": {"id": u.get("id"), "andar": u.get("andar", 0),
                      "planta": P, "cores": u.get("cores") or {}},
     }
@@ -2412,6 +2424,8 @@ def main():
         raise SystemExit(str(exc))
     if MODO is not None and '--geometria-base' in sys.argv:
         raise SystemExit('--geometria-base nao pode ser combinado com --modo')
+    if CADASTRO and (UNIDADE or MODO != 'leve'):
+        raise SystemExit('--cadastro exige --modo leve e exclui --unidade')
     if modo == 'premium':
         from padrao_atual import render
         from pathlib import Path
@@ -2420,7 +2434,10 @@ def main():
         target.write_text(render(offline=True, map_href=MAPA), encoding='utf8')
         print('Padrao PREMIUM: maquete, planta e visita com luz calculada ->', target)
         return 0
-    imovel = do_cadastro(UNIDADE, CIDADE) if UNIDADE else IMOVEL
+    if CADASTRO:
+        imovel = da_unidade(json.loads(le(CADASTRO)), acervo=False)
+    else:
+        imovel = do_cadastro(UNIDADE, CIDADE) if UNIDADE else IMOVEL
     modelo = artefato_leve(imovel.get('_id'))
     three = le(THREE)
     R16 = os.path.join(RAIZ, "v1.5", "renderizador-v16-moveis")
