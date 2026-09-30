@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "leitura-sintetica",
+  "revision": 1,
+  "unit": "mm",
+  "geometry": "orthogonal-rectangles",
+  "ceilingHeightMm": 2700,
+  "provenance": {
+    "kind": "declared",
+    "referenceIds": [
+      "ref-medicao"
+    ]
+  },
+  "references": [
+    {
+      "id": "ref-medicao",
+      "kind": "measurement",
+      "description": "Medidas sintéticas declaradas para teste; nenhum imóvel real."
+    }
+  ],
+  "rooms": [
+    {
+      "id": "sala",
+      "name": "sala",
+      "xMm": 0,
+      "yMm": 0,
+      "widthMm": 0,
+      "depthMm": 3000,
+      "walls": {
+        "south": "sala-south",
+        "east": "sala-east",
+        "north": "sala-north",
+        "west": "sala-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    }
+  ],
+  "relations": [],
+  "openings": []
+}

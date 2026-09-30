@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "leitura-sintetica",
+  "revision": 1,
+  "unit": "mm",
+  "geometry": "orthogonal-rectangles",
+  "ceilingHeightMm": 2700,
+  "provenance": {
+    "kind": "declared",
+    "referenceIds": [
+      "ref-medicao"
+    ]
+  },
+  "references": [
+    {
+      "id": "ref-medicao",
+      "kind": "measurement",
+      "description": "Medidas sintéticas declaradas para teste; nenhum imóvel real."
+    }
+  ],
+  "rooms": [
+    {
+      "id": "sala",
+      "name": "sala",
+      "xMm": 0,
+      "yMm": 0,
+      "widthMm": 4000,
+      "depthMm": 3000,
+      "walls": {
+        "south": "sala-south",
+        "east": "sala-east",
+        "north": "sala-north",
+        "west": "sala-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    },
+    {
+      "id": "quarto",
+      "name": "quarto",
+      "xMm": 4000,
+      "yMm": 0,
+      "widthMm": 3000,
+      "depthMm": 3000,
+      "walls": {
+        "south": "quarto-south",
+        "east": "quarto-east",
+        "north": "quarto-north",
+        "west": "quarto-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    },
+    {
+      "id": "cozinha",
+      "name": "cozinha",
+      "xMm": 0,
+      "yMm": 3000,
+      "widthMm": 4000,
+      "depthMm": 2000,
+      "walls": {
+        "south": "cozinha-south",
+        "east": "cozinha-east",
+        "north": "cozinha-north",
+        "west": "cozinha-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "rel-sala-quarto",
+      "kind": "adjacent",
+      "wallA": "sala-east",
+      "wallB": "quarto-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    },
+    {
+      "id": "rel-sala-cozinha",
+      "kind": "adjacent",
+      "wallA": "sala-north",
+      "wallB": "cozinha-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    }
+  ],
+  "openings": [
+    {
+      "id": "porta-1",
+      "kind": "door",
+      "wallId": "sala-east",
+      "pairedWallId": "quarto-west",
+      "offsetMm": 1000,
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    },
+    {
+      "id": "porta-2",
+      "kind": "door",
+      "wallId": "sala-north",
+      "pairedWallId": "cozinha-south",
+      "offsetMm": 2000,
+      "widthMm": 900,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    },
+    {
+      "id": "janela-1",
+      "kind": "window",
+      "wallId": "sala-south",
+      "offsetMm": 1000,
+      "widthMm": 1200,
+      "heightMm": 1000,
+      "sillMm": 1000,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    }
+  ]
+}
