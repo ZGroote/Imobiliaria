@@ -40,6 +40,8 @@ jobs:
           cache-dependency-path: requirements.txt
       - run: npm ci --no-audit --no-fund
       - run: pip install -r requirements.txt
+      - name: Tamanho dos arquivos versionados (indice Git)
+        run: python -m unittest discover -s tests -p test_tamanho_versionado.py
       - name: Node (renderizador + política de Hosting)
         run: npm test
       - name: Python (build, caminhos, publicação, ficha da maquete)

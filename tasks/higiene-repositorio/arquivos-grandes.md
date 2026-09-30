@@ -1,5 +1,51 @@
 # Arquivos grandes — inventário, dependências e decisões (27/09/2026)
 
+## Política atualizada no M0-C em 30/09/2026
+
+A [baseline M0-C](../checkpoints/m0c-2026-09-30.md) mede a base
+`0c4fbf689c8f07fc41d284bd070278e2669101d1`: 979 arquivos, 220.011.925 bytes;
+22 acima de 1 MiB, somando 182.455.036 bytes. As contagens de 27/09 abaixo
+permanecem históricas. Nenhum ativo foi removido neste M0-C.
+
+O limite padrão continua **1 MiB (1.048.576 bytes)**, inclusive para arquivos
+novos que cruzem esse tamanho após uma edição. É um limiar de revisão, não um
+limite de validade do produto: identifica outputs pesados sem proibir fontes,
+mapas, geometrias, páginas e lightmaps necessários. Não foi elevado para acomodar
+o acervo: os 22 caminhos existentes têm exceções específicas e seus tetos foram
+preservados, mantendo a folga anterior de arredondamento para MiB inteiro.
+
+`EXCECOES` em `tests/test_tamanho_versionado.py` é a lista executável: caminho
+exato → teto em MiB, classe principal e justificativa. `GRANDES` é derivada dela.
+Classes: `fonte`, `runtime`, `gerado` e `descartavel`. Um runtime pode ser gerado;
+a classificação principal informa por que ele precisa permanecer. Nenhum arquivo
+da baseline foi considerado descartável. Os tetos globais existentes de 100 MiB
+por arquivo e 300 MiB no total continuam como política interna.
+
+Para incluir uma exceção ou ampliar um teto, no mesmo PR:
+
+1. Registrar caminho, bytes, consumidor/gerador e razão da permanência no inventário.
+2. Atualizar `EXCECOES` com teto limitado, classe e justificativa não vazia.
+3. Explicar por que o arquivo precisa ser versionado e como se reproduz ou recupera.
+4. Adicionar o arquivo ao índice (`git add`) e executar o gate; submeter o diff à revisão.
+
+Não usar curingas nem aumentar o limite geral para contornar um único arquivo.
+Se um ativo sair ou encolher por mudança aprovada, atualizar a exceção no mesmo
+PR; o gate apenas reporta inconsistências, nunca apaga arquivos.
+
+Comando focal, igual à etapa nomeada do CI:
+
+```bash
+python -m unittest discover -s tests -p test_tamanho_versionado.py
+```
+
+O comando retorna erro para violações e informa caminho, bytes observados e teto.
+Mede blobs do **índice Git**: alterações sem staging e arquivos não versionados
+não contam. No CI, o índice corresponde ao checkout do commit/merge ref testado.
+A suíte Python completa também executa esse gate. Justificativas precisam de
+revisão humana; preenchê-las não prova que um ativo é necessário ou autorizado.
+
+## Histórico até 27/09/2026
+
 **Histórico deste documento:**
 
 - **#36:** ele nasceu como inventário, sem remover nada. Trouxe o inventário, a prova de
