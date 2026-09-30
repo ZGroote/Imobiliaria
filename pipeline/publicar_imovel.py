@@ -40,7 +40,7 @@ import tempfile
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
 
-from pipeline.build_imovel import (ARQUIVOS, BUILDS, TERRENOS, build_id,  # noqa: E402
+from pipeline.build_imovel import (ARQUIVOS, BUILDS, TERRENOS, NAO_PUBLICAR, build_id,  # noqa: E402
                                    prefixo_publico, SITE as SITE_PUBLICO)
 
 SITE = RAIZ / 'publicacao/site'
@@ -64,6 +64,10 @@ def _grava(caminho, texto):
 
 def confere_build(pasta, imovel, build):
     """O build e o que o manifest.json dele diz ser, byte a byte; devolve o manifesto."""
+    # Builds antigos tambem passam aqui, inclusive os preservados no snapshot live.
+    if imovel in NAO_PUBLICAR:
+        raise ValueError('%s nao se publica ate confirmar a origem: %s'
+                         % (imovel, NAO_PUBLICAR[imovel]))
     manifesto = json.loads((pasta / 'manifest.json').read_text(encoding='utf-8'))
     if (manifesto.get('imovel'), manifesto.get('build')) != (imovel, build):
         raise ValueError('manifest.json de %s/%s diz ser %s/%s' % (
