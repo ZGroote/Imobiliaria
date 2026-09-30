@@ -5,7 +5,7 @@ Três ambientes, mais um só para regerar a luz do premium. A separação **foi 
 
 | ambiente | instala com | pacotes |
 |---|---|---|
-| **Montar e verificar o mapa** | `pip install -r requirements.txt` | pyproj, shapely, numpy, pillow |
+| **Montar e verificar o mapa; validar leitura de planta** | `pip install -r requirements.txt` | pyproj, shapely, numpy, pillow, jsonschema |
 | **Processar fontes de dado** | `pip install -r requirements-fontes.txt` | + osmium, rasterio, affine, scipy, opencv-python, pypdfium2, rapidocr-onnxruntime |
 | **Blender / Unreal** | não instala aqui — ver abaixo | bpy, mathutils |
 | **Regerar a luz do premium** (unwrap) | `pip install -r requirements-bake.txt`, numa venv própria | numpy==2.4.6, xatlas==0.0.11: versões exatas, porque a prova de 27/09/2026 é byte a byte (Python 3.14.4) |
@@ -16,11 +16,13 @@ Montar a página alcança 10 módulos do projeto e precisa de **dois** pacotes:
 `pyproj` (em `padrao/cidade.py`, a conversão geo ↔ mapa) e `shapely`
 (em `pipeline/encaixar_casas_lotes.py`, o encaixe das casas nos lotes). Os portões de
 aceite acrescentam `numpy` e `pillow`, que são de medir quadro e recortar print.
+O contrato M1-0 acrescenta `jsonschema` para validar `leitura.json` sem Blender;
+o validador isolado só precisa desse pacote e da biblioteca padrão Python.
 
 Todo o resto é de **fonte de dado**: ler o `.osm.pbf` da Geofabrik, rasterizar planta em
 PDF, achar parede na planta digitalizada, ler o selo de escala por OCR. Quem só monta e
 confere São Carlos não precisa de nada disso — e essa é a diferença entre um `pip
-install` de 4 pacotes e um de 11, com rasterio e onnxruntime no meio.
+install` do ambiente básico e um com rasterio e onnxruntime no meio.
 
 ## Blender e Unreal não entram em nenhum requirements
 
