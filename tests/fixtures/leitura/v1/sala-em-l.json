@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "1.1.0",
+  "id": "leitura-sala-em-l",
+  "revision": 1,
+  "unit": "mm",
+  "geometry": "orthogonal-rectangles",
+  "ceilingHeightMm": 2700,
+  "provenance": {
+    "kind": "declared",
+    "referenceIds": [
+      "ref-medicao"
+    ]
+  },
+  "references": [
+    {
+      "id": "ref-medicao",
+      "kind": "measurement",
+      "description": "Medidas sintéticas declaradas para teste (M1.1-C1): sala em L de duas partes mescladas e um quarto; nenhum imóvel real."
+    }
+  ],
+  "rooms": [
+    {
+      "id": "comodo-1",
+      "name": "Sala",
+      "xMm": 0,
+      "yMm": 0,
+      "widthMm": 4000,
+      "depthMm": 3000,
+      "walls": {
+        "south": "c1-south",
+        "east": "c1-east",
+        "north": "c1-north",
+        "west": "c1-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    },
+    {
+      "id": "comodo-2",
+      "name": "Quarto",
+      "xMm": 4000,
+      "yMm": 0,
+      "widthMm": 3000,
+      "depthMm": 3000,
+      "walls": {
+        "south": "c2-south",
+        "east": "c2-east",
+        "north": "c2-north",
+        "west": "c2-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    },
+    {
+      "id": "comodo-3",
+      "name": "Sala",
+      "xMm": 0,
+      "yMm": 3000,
+      "widthMm": 2000,
+      "depthMm": 2000,
+      "walls": {
+        "south": "c3-south",
+        "east": "c3-east",
+        "north": "c3-north",
+        "west": "c3-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "rel-1",
+      "kind": "merged",
+      "wallA": "c1-north",
+      "wallB": "c3-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    },
+    {
+      "id": "rel-2",
+      "kind": "adjacent",
+      "wallA": "c1-east",
+      "wallB": "c2-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    }
+  ],
+  "openings": [
+    {
+      "id": "door-1",
+      "kind": "door",
+      "wallId": "c1-east",
+      "offsetMm": 1000,
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      },
+      "pairedWallId": "c2-west"
+    },
+    {
+      "id": "door-2",
+      "kind": "door",
+      "wallId": "c3-west",
+      "offsetMm": 600,
+      "widthMm": 900,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    },
+    {
+      "id": "window-1",
+      "kind": "window",
+      "wallId": "c2-south",
+      "offsetMm": 900,
+      "widthMm": 1200,
+      "heightMm": 1000,
+      "sillMm": 1100,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    },
+    {
+      "id": "window-2",
+      "kind": "window",
+      "wallId": "c1-north",
+      "offsetMm": 2400,
+      "widthMm": 1200,
+      "heightMm": 1000,
+      "sillMm": 1100,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": [
+          "ref-medicao"
+        ]
+      }
+    }
+  ]
+}

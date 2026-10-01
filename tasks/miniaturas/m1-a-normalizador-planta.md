@@ -75,6 +75,11 @@ de documentos com entidades reordenadas. Não é RFC 8785. Essa política perten
 à versão do normalizador; mudanças exigem nova versão e revisão de compatibilidade.
 Somente contratos 1.0.0 são aceitos nesta implementação.
 
+**Atualizado no M1.1-C1 (01/10/2026):** leitura 1.1.0 gera derivada 1.1.0
+(`nominal-floor-plan@1.1.0`, regra a mais `merge-parts-to-polygon@1`). A leitura
+1.0.0 continua gerando a derivada 1.0.0 byte a byte igual. Ver
+[cômodo composto](m1-1c-comodo-composto.md).
+
 O schema de saída é fechado e valida estrutura. Relação matemática com a leitura
 é garantida pela transformação/testes; o schema isolado não autentica o hash nem
 recalcula geometria. O normalizador valida o próprio resultado antes de retorná-lo.

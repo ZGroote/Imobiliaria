@@ -17,6 +17,7 @@ configuração e scripts.
 | M1-E aprovado (#80): fixação da leitura de entrada para produção no pedido | [tasks/miniaturas/m1-e-fixar-leitura-producao.md](tasks/miniaturas/m1-e-fixar-leitura-producao.md) |
 | M1-F aprovado (#81): E2E controlado da leitura fixada até a maquete LEVE local | [tasks/miniaturas/m1-f-e2e-leitura-artefato.md](tasks/miniaturas/m1-f-e2e-leitura-artefato.md) |
 | M1.1-B: capturador em tela cheia para o celular (em revisão) | [tasks/miniaturas/m1-1b-capturador-mobile.md](tasks/miniaturas/m1-1b-capturador-mobile.md) |
+| M1.1-C1: cômodo composto (leitura 1.1.0), validador, normalizador e prova no consumidor 3D (em revisão) | [tasks/miniaturas/m1-1c-comodo-composto.md](tasks/miniaturas/m1-1c-comodo-composto.md) |
 | Base M0-A de 30/09: estado público observado, BuildJob, depreciação de CV e continuidade | [tasks/checkpoints/m0a-2026-09-30.md](tasks/checkpoints/m0a-2026-09-30.md) |
 | Visão geral, instalar, testar e montar o piloto | [README.md](README.md) |
 | Dependências por ambiente e comandos de verificação | [DEPENDENCIAS.md](DEPENDENCIAS.md) |

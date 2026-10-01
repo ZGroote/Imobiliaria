@@ -7,16 +7,19 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-SCHEMA = json.loads(
-    (Path(__file__).resolve().parents[1] / "schemas/leitura/1.0.0.schema.json")
-    .read_text(encoding="utf-8")
-)
-VALIDATOR = Draft202012Validator(SCHEMA)
+# 1.1.0 é a 1.0.0 mais relações `merged` (M1.1-C1). A versão declarada escolhe o schema;
+# qualquer outra cai no da 1.0.0 e sai como UNSUPPORTED_VERSION.
+VERSOES = ("1.0.0", "1.1.0")
+SCHEMAS = {v: json.loads((Path(__file__).resolve().parents[1] / f"schemas/leitura/{v}.schema.json")
+                         .read_text(encoding="utf-8")) for v in VERSOES}
+SCHEMA = SCHEMAS["1.0.0"]
+VALIDATORS = {v: Draft202012Validator(s) for v, s in SCHEMAS.items()}
+VALIDATOR = VALIDATORS["1.0.0"]
 MESSAGES = {
     "INVALID_JSON": "O arquivo deve conter JSON válido, sem chaves repetidas ou números não finitos.",
     "INPUT_UNREADABLE": "Não foi possível ler o arquivo de entrada em UTF-8.",
     "INVALID_STRUCTURE": "O documento não corresponde à estrutura fechada do contrato.",
-    "UNSUPPORTED_VERSION": "A versão do contrato deve ser 1.0.0.",
+    "UNSUPPORTED_VERSION": "A versão do contrato deve ser 1.0.0 ou 1.1.0.",
     "INVALID_UNIT": "A unidade canônica deve ser mm.",
     "UNSUPPORTED_GEOMETRY": "Esta versão aceita apenas cômodos retangulares alinhados aos eixos.",
     "INVALID_DIMENSION": "Informe medidas inteiras em milímetros dentro dos limites do schema.",
@@ -28,6 +31,9 @@ MESSAGES = {
     "INCONSISTENT_RELATION": "Declare exatamente uma relação para cada par de paredes adjacentes.",
     "INVALID_OPENING": "Confira parede, par compartilhado, limites, altura e peitoril da abertura.",
     "OPENING_OVERLAP": "As aberturas não podem ocupar a mesma região física da parede.",
+    "MERGED_NAME_MISMATCH": "Partes mescladas formam um só cômodo e precisam ter o mesmo nome.",
+    "MERGED_INTERNAL_WALL": "Partes do mesmo cômodo mesclado não têm parede entre si; mescle também esse trecho.",
+    "MERGED_SHAPE": "O cômodo mesclado precisa de um contorno único, sem vazio interno e sem encostar em si mesmo num ponto.",
 }
 
 
@@ -83,11 +89,68 @@ def _walls(rooms):
     return result
 
 
+def contorno(retangulos):
+    """Contorno da união de retângulos (x0, y0, x1, y1) em mm inteiros.
+
+    Vértices no sentido anti-horário, começando no de menor y e depois menor x, sem pontos
+    colineares. None quando a união tem vazio interno, partes soltas ou encosta em si mesma
+    num ponto só: o consumidor desenha cada cômodo como um polígono simples."""
+    xs = sorted({v for r in retangulos for v in (r[0], r[2])})
+    ys = sorted({v for r in retangulos for v in (r[1], r[3])})
+    cheio = {(i, j) for i in range(len(xs) - 1) for j in range(len(ys) - 1)
+             if any(r[0] <= xs[i] and xs[i + 1] <= r[2] and r[1] <= ys[j] and ys[j + 1] <= r[3]
+                    for r in retangulos)}
+    seguinte = {}
+    for i, j in sorted(cheio):
+        x0, x1, y0, y1 = xs[i], xs[i + 1], ys[j], ys[j + 1]
+        # borda entre célula cheia e vazia, com o interior à esquerda (anti-horário)
+        for vizinha, a, b in (((i, j - 1), (x0, y0), (x1, y0)), ((i + 1, j), (x1, y0), (x1, y1)),
+                              ((i, j + 1), (x1, y1), (x0, y1)), ((i - 1, j), (x0, y1), (x0, y0))):
+            if vizinha not in cheio:
+                seguinte[a] = b
+    if not seguinte:
+        return None
+    inicio = min(seguinte, key=lambda p: (p[1], p[0]))
+    laco = [inicio]
+    while (proximo := seguinte[laco[-1]]) != inicio and len(laco) < len(seguinte):
+        laco.append(proximo)
+    # Polígono simples: um laço só, passando por todas as arestas. Vazio interno ou parte
+    # solta deixam outro laço de fora; encostar num ponto põe duas arestas saindo do mesmo
+    # vértice e o dicionário guarda uma só, então o laço não fecha ou não passa por todas.
+    if proximo != inicio or len(laco) != len(seguinte):
+        return None
+    n = len(laco)
+    return [laco[k] for k in range(n) if not (
+        laco[k - 1][0] == laco[k][0] == laco[(k + 1) % n][0]
+        or laco[k - 1][1] == laco[k][1] == laco[(k + 1) % n][1])]
+
+
+def grupos_mesclados(documento):
+    """Índices dos cômodos agrupados pelas relações `merged`, na ordem da leitura."""
+    rooms = documento["rooms"]
+    dono = {w: i for i, r in enumerate(rooms) for w in r["walls"].values()}
+    pai = list(range(len(rooms)))
+
+    def raiz(i):
+        while pai[i] != i:
+            pai[i] = pai[pai[i]]
+            i = pai[i]
+        return i
+    for relation in documento["relations"]:
+        if relation["kind"] == "merged" and relation["wallA"] in dono and relation["wallB"] in dono:
+            pai[raiz(dono[relation["wallA"]])] = raiz(dono[relation["wallB"]])
+    grupos = {}
+    for i in range(len(rooms)):
+        grupos.setdefault(raiz(i), []).append(i)
+    return sorted(grupos.values())
+
+
 def validar(documento):
     """Lista determinística de {code, path (JSON Pointer), message}; nunca altera entrada."""
+    versao = documento.get("schemaVersion") if isinstance(documento, dict) else None
     errors = [
         _error(_schema_code(e), _pointer(e.absolute_path))
-        for e in VALIDATOR.iter_errors(documento)
+        for e in VALIDATORS.get(versao, VALIDATOR).iter_errors(documento)
     ]
     if errors:
         return _sorted(errors)
@@ -153,6 +216,27 @@ def validar(documento):
     if set(adjacent) - declared:
         errors.append(_error("INCONSISTENT_RELATION", "/relations"))
 
+    # 1.1.0: partes ligadas por `merged` são um cômodo só. Com relação inconsistente o
+    # grupo não é confiável; o erro de relação vem primeiro.
+    kinds = {frozenset((r["wallA"], r["wallB"])): r["kind"] for r in documento["relations"]}
+    if not any(e["code"] == "INCONSISTENT_RELATION" for e in errors):
+        grupo = {}
+        for membros in grupos_mesclados(documento):
+            for i in membros:
+                grupo[i] = membros[0]
+            if len(membros) < 2:
+                continue
+            for i in membros:
+                if rooms[i]["name"] != rooms[membros[0]]["name"]:
+                    errors.append(_error("MERGED_NAME_MISMATCH", f"/rooms/{i}"))
+            if contorno([(rooms[i]["xMm"], rooms[i]["yMm"], rooms[i]["xMm"] + rooms[i]["widthMm"],
+                          rooms[i]["yMm"] + rooms[i]["depthMm"]) for i in membros]) is None:
+                errors.append(_error("MERGED_SHAPE", f"/rooms/{membros[0]}"))
+        for i, relation in enumerate(documento["relations"]):
+            if (relation["kind"] == "adjacent"
+                    and grupo[walls[relation["wallA"]].room] == grupo[walls[relation["wallB"]].room]):
+                errors.append(_error("MERGED_INTERNAL_WALL", f"/relations/{i}"))
+
     physical_openings = []
     for i, opening in enumerate(documento["openings"]):
         path = f"/openings/{i}"
@@ -177,6 +261,7 @@ def validar(documento):
             pair = frozenset((opening["wallId"], paired))
             span = adjacent.get(pair)
             invalid |= span is None or not (span[0] <= lo and hi <= span[1])
+            invalid |= kinds.get(pair) == "merged"         # no trecho mesclado não há parede
         if invalid:
             errors.append(_error("INVALID_OPENING", path))
             continue
@@ -210,7 +295,7 @@ def _invalid_constant(value):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("arquivo", type=Path, help="leitura.json v1.0.0")
+    parser.add_argument("arquivo", type=Path, help="leitura.json v1.0.0 ou v1.1.0")
     args = parser.parse_args()
     try:
         text = args.arquivo.read_text(encoding="utf-8")
