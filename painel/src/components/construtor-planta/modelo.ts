@@ -70,10 +70,10 @@ export function aplicar(s:Session,a:Action):Session {
       rooms=rooms.map(r=>r.id===a.id?{...r,xMm:a.xMm,yMm:a.yMm}:r)
     }
   }
-  // Excluir dono remove suas aberturas na mesma ação; pares de outros donos
-  // permanecem explícitos e inválidos até revisão. Undo restaura tudo.
-  const openings=a.type==='delete'?s.present.openings.filter(o=>!Object.values(paredes(a.id)).includes(o.wallId)):s.present.openings
-  return confirmar(s,{rooms,openings,ceilingHeightMm},s.nextId+(a.type==='add'?1:0),s.nextOpeningId)
+  // Excluir dono remove suas aberturas na mesma ação; undo restaura tudo. As demais
+  // acompanham a geometria nova (reparear).
+  const proprias=a.type==='delete'?s.present.openings.filter(o=>!Object.values(paredes(a.id)).includes(o.wallId)):s.present.openings
+  return confirmar(s,{rooms,openings:reparear(rooms,proprias),ceilingHeightMm},s.nextId+(a.type==='add'?1:0),s.nextOpeningId)
 }
 function confirmar(s:Session,present:Layout,nextId:number,nextOpeningId:number):Session{
   if(JSON.stringify(present)===JSON.stringify(s.present)) return s
@@ -130,6 +130,19 @@ export function parDaAbertura(rooms:Room[],o:OpeningInput):{id?:string;error?:st
   if(!touched.length) return {}
   if(touched.length===1&&touched[0].start<=lo&&hi<=touched[0].end) return {id:touched[0].id}
   return {error:'A abertura cruza o limite de um trecho compartilhado. Ajuste posição ou largura.'}
+}
+// O par é da geometria, não da abertura. Quando um cômodo encosta, se afasta ou some, a
+// abertura acompanha: a que passa a ficar entre dois cômodos é comum aos dois, a que deixa de
+// ficar dá para fora (decisão do usuário em 01/10/2026, revendo a regra do M1-C). Medidas e
+// posição não mudam. Abertura que cruza o limite entre trecho interno e externo não tem par
+// possível: fica como está e continua apontada em problemasAberturas.
+function reparear(rooms:Room[],openings:Opening[]):Opening[]{
+  return openings.map(o=>{
+    const par=parDaAbertura(rooms,o)
+    if(par.error) return o
+    const {pairedWallId:_,...resto}=o
+    return par.id?{...resto,pairedWallId:par.id}:resto
+  })
 }
 export function problemasAberturas(layout:Layout):Problem[]{
   const errors:Problem[]=[],walls=geometriaParedes(layout.rooms)

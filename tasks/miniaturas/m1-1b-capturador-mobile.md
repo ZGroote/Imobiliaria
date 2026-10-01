@@ -36,6 +36,22 @@ Acrescentado para funcionar no celular:
    **Editar**. Mover cômodo também tem passos de 10 cm. Teclado: ícones e itens são botões.
 10. O toque longo não abre o menu de contexto do navegador.
 
+## Porta comum aos dois cômodos
+
+Pedido do usuário em 01/10/2026, testando esta versão: com uma porta numa parede externa,
+encostar depois outro cômodo nessa parede dava erro ("o par da parede mudou"). A porta deve
+ser comum aos dois ambientes. Isso revê a regra do M1-C (o par ficava congelado até a pessoa
+reaplicar a abertura) sem mexer no contrato: o M1-0 já registra a porta comum em
+`pairedWallId`.
+
+- Toda ação de cômodo (soltar, mover, editar, excluir) recalcula o par das aberturas que
+  sobram (`modelo.ts: reparear`). A porta que passa a ficar entre dois cômodos fica comum aos
+  dois; a que deixa de ficar entre eles dá para fora. A tela avisa a mudança.
+- Medidas e posição nunca mudam sozinhas. Abertura que passa do fim da parede ou do
+  pé-direito continua erro.
+- Abertura que fica metade num trecho compartilhado e metade fora não tem par possível e
+  continua erro, com a mensagem de limite de trecho.
+
 ## Decisões de implementação
 
 - **Posição ao soltar:** o centro do cômodo fica onde o dedo soltou, com o mesmo encaixe de

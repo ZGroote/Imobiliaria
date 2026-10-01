@@ -278,7 +278,10 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
     }
     if(g.tipo==='arraste'&&g.pointerId===e.pointerId){
       gesto.current={tipo:'nada'};setPreview(null)
-      if(!cancelar){setSession(aplicar(s!,{type:'move',id:g.room.id,...g.pos}));setNotice('Posição aplicada. Desfazer reverte o arraste inteiro.')}
+      if(!cancelar){
+        const next=aplicar(s!,{type:'move',id:g.room.id,...g.pos})
+        setSession(next);setNotice(avisoDoPar(next)||'Posição aplicada. Desfazer reverte o arraste inteiro.')
+      }
     }
   }
   function tocar(alvo:Alvo,p:Ponto){
@@ -304,9 +307,16 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
     setCamera(zoomEm(g.cam0,r,g.m0,{x:(a.x+b.x)/2,y:(a.y+b.y)/2},g.cam0.w*g.d0/d))
   }
 
+  // O par acompanha a geometria (modelo: reparear); a tela avisa quando uma abertura muda de lado.
+  function avisoDoPar(depois:Session){
+    const o=depois.present.openings.find(o=>{const a=s!.present.openings.find(x=>x.id===o.id)
+      return a&&a.pairedWallId!==o.pairedWallId})
+    if(!o) return ''
+    return (o.kind==='door'?'A porta':'A janela')+(o.pairedWallId?' passou a ser comum aos dois cômodos.':' agora dá para fora.')
+  }
   function step(room:Room,dx:number,dy:number){
-    const p=snap(rooms,room.id,room.xMm+dx,room.yMm+dy,0)
-    setSession(aplicar(s!,{type:'move',id:room.id,...p}));setNotice('Posição alterada em 10 cm.')
+    const p=snap(rooms,room.id,room.xMm+dx,room.yMm+dy,0),next=aplicar(s!,{type:'move',id:room.id,...p})
+    setSession(next);setNotice(avisoDoPar(next)||'Posição alterada em 10 cm.')
   }
   function historia(redo=false){
     setSession(redo?refazer(s!):desfazer(s!));setSel(null);setNotice(redo?'Ação refeita.':'Ação desfeita.')
@@ -338,7 +348,8 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
       const confirmar=(m:MedidasComodo)=>{
         const pos=posicaoSolta(aberta.em,m.widthMm,m.depthMm,aberta.tol)
         const next=aplicar(s!,{type:'add',...m,...pos})
-        fechar();setSession(next);setSel({tipo:'comodo',id:'c'+s!.nextId});setNotice('Cômodo adicionado: '+m.name.trim()+'.')
+        fechar();setSession(next);setSel({tipo:'comodo',id:'c'+s!.nextId})
+        setNotice(avisoDoPar(next)||'Cômodo adicionado: '+m.name.trim()+'.')
       }
       return {titulo:aberta.forma==='quadrado'?'Novo cômodo quadrado':'Novo cômodo',corpo:<FormComodo forma={aberta.forma}
         peDireito={s!.present.ceilingHeightMm} pedirPeDireito={s!.present.ceilingHeightMm===null}
@@ -349,9 +360,10 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
       if(!room) return null
       return {titulo:'Editar '+room.name,corpo:<FormComodo forma="retangulo" inicial={room}
         peDireito={s!.present.ceilingHeightMm} pedirPeDireito onRascunho={setRascComodo}
-        onConfirmar={m=>{const next=aplicar(s!,{type:'edit',id:room.id,...m});fechar();setSession(next);setNotice('Medidas aplicadas.')}}
+        onConfirmar={m=>{const next=aplicar(s!,{type:'edit',id:room.id,...m});fechar();setSession(next)
+          setNotice(avisoDoPar(next)||'Medidas aplicadas.')}}
         onExcluir={()=>{const next=aplicar(s!,{type:'delete',id:room.id});fechar();setSession(next);setSel(null)
-          setNotice('Cômodo excluído. Você pode desfazer.')}} onCancelar={fechar}>
+          setNotice(avisoDoPar(next)||'Cômodo excluído. Você pode desfazer.')}} onCancelar={fechar}>
         <div className={styles.posicao}><span>Posição: x {metros(room.xMm)} · y {metros(room.yMm)} m</span>
           <div role="group" aria-label="Mover em passos de 10 cm">
             <button type="button" aria-label="Mover à esquerda 10 cm" onClick={()=>step(room,-100,0)}>←</button>

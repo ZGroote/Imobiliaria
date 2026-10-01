@@ -107,11 +107,18 @@ test('editar/excluir/undo/redo preserva ID; novo ID não recicla após undo',()=
   const fresh=add(desfazer(desfazer(desfazer(s))),window);
   assert.notEqual(fresh.present.openings[0].id,id);
 });
-test('alterar cômodo não repara abertura inválida; excluir dono e undo são atômicos',()=>{
+test('o par acompanha o cômodo; medida inválida não é reparada; excluir dono e undo são atômicos',()=>{
   let s=add(rooms());
-  const changed=aplicar(s,{type:'move',id:'c2',xMm:4000,yMm:3000});
-  assert.ok(problemas(changed.present).some(p=>p.code==='INVALID_OPENING'));
-  assert.throws(()=>exportar(changed));
+  // o quarto sobe e a porta (y 500..1400) fica no trecho externo: dá para fora, sem erro
+  const fora=aplicar(s,{type:'move',id:'c2',xMm:4000,yMm:3000});
+  assert.equal('pairedWallId' in fora.present.openings[0],false);
+  assert.equal(problemas(fora.present).length,0);pipeline(fora);
+  // de volta ao lugar, a porta volta a ser comum aos dois
+  assert.equal(aplicar(fora,{type:'move',id:'c2',xMm:4000,yMm:0}).present.openings[0].pairedWallId,'c2-west');
+  // metade dentro, metade fora: não há par possível e continua erro
+  const cruzando=aplicar(s,{type:'move',id:'c2',xMm:4000,yMm:1000});
+  assert.ok(problemas(cruzando.present).some(p=>p.code==='INVALID_OPENING'&&/compartilhado/.test(p.message)));
+  assert.throws(()=>exportar(cruzando));
   const lower=aplicar(s,{type:'edit',id:'c1',name:'Sala',widthMm:4000,depthMm:4000,ceilingHeightMm:2000});
   assert.throws(()=>exportar(lower));
   s=aplicar(s,{type:'delete',id:'c1'});
@@ -140,4 +147,16 @@ test('offset sempre progride na coordenada crescente, inclusive north/west e neg
     assert.deepEqual(out.planta.janelas[0].p,[-1.0485,2]);
     assert.deepEqual(out.planta.portas[0].p,[-2,-0.0485]);
   });
+});
+test('cômodo encostado depois na parede da porta torna a porta comum aos dois',()=>{
+  let s=aplicar(iniciar('leitura-par'),{type:'add',name:'Sala',widthMm:4000,depthMm:4000,ceilingHeightMm:2700});
+  s=add(s);                                              // porta na parede leste, ainda externa
+  assert.equal('pairedWallId' in s.present.openings[0],false);
+  s=aplicar(s,{type:'add',name:'Quarto',widthMm:3000,depthMm:4000,ceilingHeightMm:2700,xMm:4000,yMm:0});
+  assert.equal(s.present.openings[0].pairedWallId,'c2-west');
+  assert.equal(problemas(s.present).length,0);pipeline(s);
+  // excluir o quarto devolve a porta para fora; desfazer restaura o par
+  const sem=aplicar(s,{type:'delete',id:'c2'});
+  assert.equal('pairedWallId' in sem.present.openings[0],false);pipeline(sem);
+  assert.equal(desfazer(sem).present.openings[0].pairedWallId,'c2-west');
 });
