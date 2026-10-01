@@ -7,7 +7,7 @@ import sys
 import tempfile
 import unittest
 
-from pipeline.validar_leitura import validar, SCHEMA
+from pipeline.validar_leitura import contorno, validar, SCHEMA, SCHEMAS
 from jsonschema import Draft202012Validator
 
 FIXTURES = Path(__file__).parent / "fixtures" / "leitura" / "v1"
@@ -203,6 +203,97 @@ class ContratoLeituraTest(unittest.TestCase):
                 )
                 self.assertEqual(resultado.returncode, 2, resultado.stderr)
                 self.assertEqual(json.loads(resultado.stdout)["errors"][0]["code"], "INVALID_JSON")
+
+
+def partes(retangulos, mesclas):
+    """Leitura 1.1.0 só com partes "Sala" (x, y, largura, profundidade) ligadas por `merged`."""
+    doc = fixture("sala-em-l")
+    dec = doc["provenance"]
+    doc["rooms"] = [{"id": f"p{i}", "name": "Sala", "xMm": x, "yMm": y, "widthMm": w, "depthMm": d,
+                     "walls": {lado: f"p{i}-{lado}" for lado in ("south", "east", "north", "west")},
+                     "provenance": copy.deepcopy(dec)} for i, (x, y, w, d) in enumerate(retangulos)]
+    doc["relations"] = [{"id": f"r{k}", "kind": "merged", "wallA": a, "wallB": b,
+                         "provenance": copy.deepcopy(dec)} for k, (a, b) in enumerate(mesclas)]
+    doc["openings"] = []
+    return doc
+
+
+def tres_partes(entre_2_e_3="merged"):
+    """A sala em L ganha a parte que fecha o retângulo; ela encosta nas duas outras."""
+    doc = fixture("sala-em-l")
+    extra = copy.deepcopy(doc["rooms"][2])
+    extra.update(id="comodo-4", xMm=2000, walls={lado: "c4-" + lado for lado in extra["walls"]})
+    doc["rooms"].append(extra)
+    for k, (kind, a, b) in enumerate((("merged", "c1-north", "c4-south"),
+                                      (entre_2_e_3, "c3-east", "c4-west")), start=3):
+        doc["relations"].append({**copy.deepcopy(doc["relations"][0]), "id": f"rel-{k}",
+                                 "kind": kind, "wallA": a, "wallB": b})
+    doc["openings"] = [o for o in doc["openings"] if o["id"] != "window-2"]   # virou trecho mesclado
+    return doc
+
+
+class ComodoMescladoTest(unittest.TestCase):
+    """M1.1-C1: leitura 1.1.0, partes ligadas por `merged` são um cômodo só."""
+
+    def test_1_1_aceita_merged_e_1_0_nao(self):
+        Draft202012Validator.check_schema(SCHEMAS["1.1.0"])
+        self.assertEqual(validar(fixture("sala-em-l")), [])
+        self.assertEqual(validar(tres_partes()), [])
+        doc = fixture("sala-em-l")
+        doc["schemaVersion"] = "1.0.0"
+        self.assertEqual(validar(doc), [{"code": "INCONSISTENT_RELATION", "path": "/relations/0/kind",
+                                         "message": validar(doc)[0]["message"]}])
+
+    def test_partes_do_mesmo_comodo_tem_o_mesmo_nome(self):
+        doc = fixture("sala-em-l")
+        doc["rooms"][2]["name"] = "Estar"
+        self.assertEqual([(e["code"], e["path"]) for e in validar(doc)],
+                         [("MERGED_NAME_MISMATCH", "/rooms/2")])
+        doc["relations"][0]["kind"] = "adjacent"          # só encostadas, nomes livres
+        self.assertEqual(validar(doc), [])
+
+    def test_entre_partes_do_mesmo_comodo_nao_ha_parede(self):
+        self.assertEqual([(e["code"], e["path"]) for e in validar(tres_partes("adjacent"))],
+                         [("MERGED_INTERNAL_WALL", "/relations/3")])
+
+    def test_contorno_unico_sem_vazio_e_sem_ponto(self):
+        anel = partes([(0, 0, 3000, 1000), (0, 1000, 1000, 1000), (2000, 1000, 1000, 1000),
+                       (0, 2000, 3000, 1000)],
+                      [("p0-north", "p1-south"), ("p0-north", "p2-south"),
+                       ("p1-north", "p3-south"), ("p2-north", "p3-south")])
+        ponto = partes([(0, 0, 3000, 1000), (0, 1000, 1000, 1000), (2000, 1000, 1000, 1000),
+                        (1000, 2000, 2000, 1000)],
+                       [("p0-north", "p1-south"), ("p0-north", "p2-south"), ("p2-north", "p3-south")])
+        for nome, doc in (("vazio", anel), ("ponto", ponto)):
+            with self.subTest(nome=nome):
+                self.assertEqual([(e["code"], e["path"]) for e in validar(doc)],
+                                 [("MERGED_SHAPE", "/rooms/0")])
+
+    def test_abertura_no_trecho_mesclado(self):
+        for par in (None, "c3-south"):
+            doc = fixture("sala-em-l")
+            janela = doc["openings"][3]
+            janela["offsetMm"] = 400                      # 0,4 a 1,6 m: trecho sem parede
+            if par:
+                janela["pairedWallId"] = par
+            with self.subTest(par=par):
+                self.assertEqual([(e["code"], e["path"]) for e in validar(doc)],
+                                 [("INVALID_OPENING", "/openings/3")])
+
+    def test_contorno(self):
+        sala_l = [(0, 0, 4000, 3000), (0, 3000, 2000, 5000)]
+        esperado = [(0, 0), (4000, 0), (4000, 3000), (2000, 3000), (2000, 5000), (0, 5000)]
+        self.assertEqual(contorno(sala_l), esperado)
+        self.assertEqual(contorno(sala_l[::-1]), esperado)
+        self.assertEqual(contorno(sala_l + [(2000, 3000, 4000, 5000)]),
+                         [(0, 0), (4000, 0), (4000, 5000), (0, 5000)])      # sem vértice colinear
+        self.assertEqual(contorno([(1000, 0, 2000, 1000), (0, 1000, 3000, 2000)])[0], (1000, 0))
+        for nome, rects in (("vazio", [(0, 0, 3000, 1000), (0, 1000, 1000, 2000), (2000, 1000, 3000, 2000),
+                                       (0, 2000, 3000, 3000)]),
+                            ("ponto", [(0, 0, 1000, 1000), (1000, 1000, 2000, 2000)]),
+                            ("solto", [(0, 0, 1000, 1000), (2000, 0, 3000, 1000)])):
+            with self.subTest(nome=nome):
+                self.assertIsNone(contorno(rects))
 
 
 if __name__ == "__main__":

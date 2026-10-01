@@ -125,6 +125,11 @@ estrutura; o gate é **schema + semântica** de `validar_leitura`.
 Somente versão 1.0.0 aceita. Mudança incompatível exige nova versão principal;
 campos/semântica novos exigem schema/validador versionados e revisão explícita,
 nunca aceitação silenciosa. `revision` é edição, não versão de contrato.
+
+**Atualizado no M1.1-C1 (01/10/2026):** o validador aceita também a 1.1.0, que
+acrescenta relações `merged` (partes do mesmo cômodo, sem parede no trecho comum).
+Toda leitura 1.0.0 continua válida e com o mesmo significado; a versão declarada
+escolhe o schema. Ver [cômodo composto](m1-1c-comodo-composto.md).
 Referências: [JSON Schema](https://json-schema.org/draft/2020-12/json-schema-validation),
 [API python-jsonschema](https://python-jsonschema.readthedocs.io/en/stable/validate/).
 

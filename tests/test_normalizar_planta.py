@@ -121,6 +121,38 @@ class NormalizadorTest(unittest.TestCase):
         doc["revision"] = 8
         self.assertNotEqual(anterior, n.normalizar(doc)["source"]["sha256"])
 
+    def test_1_0_sai_identica_a_de_antes_do_1_1(self):
+        # sha256 das derivadas geradas pelo normalizador da main 06bbcd6, antes do M1.1-C1:
+        # plantas já salvas não mudam de hash.
+        for nome, sha in (("apartamento-simples", "dcefff06e249da0a4290a7078d20f81606b0aeced6709ef97e2f3f7ed48d64e4"),
+                          ("exemplo-geometrico", "de2846907dc5fd8cf1cafd20310dd92efc04d751bbc6cd6165d13b9309268bfe")):
+            with self.subTest(nome=nome):
+                self.assertEqual(hashlib.sha256(n.serializar(n.normalizar(leitura(nome)))).hexdigest(), sha)
+
+    def test_1_1_partes_mescladas_viram_um_comodo(self):
+        doc = leitura("sala-em-l")
+        out = n.normalizar(doc)
+        Draft202012Validator.check_schema(n.SCHEMAS["1.1.0"])
+        Draft202012Validator(n.SCHEMAS["1.1.0"]).validate(out)
+        self.assertEqual((out["schemaVersion"], out["source"]["schemaVersion"], out["normalizer"]["version"]),
+                         ("1.1.0", "1.1.0", "1.1.0"))
+        self.assertEqual(out["normalizer"]["transformations"], n.RULES + ["merge-parts-to-polygon@1"])
+        self.assertEqual([r["kind"] for r in out["relations"]], ["merged", "adjacent"])
+        sala, quarto = out["planta"]["comodos"]          # a sala fica na posição da 1ª parte
+        self.assertEqual((sala["id"], sala["nome"], sala["poly"]),
+                         ("comodo-1", "Sala", [[0, 0], [4, 0], [4, 3], [2, 3], [2, 5], [0, 5]]))
+        self.assertEqual(set(sala), {"id", "nome", "poly", "parts"})
+        self.assertEqual(sala["parts"], [{"id": r["id"], "walls": r["walls"],
+                                          "provenance": {"kind": "derived", "declared": r["provenance"]}}
+                                         for r in (doc["rooms"][0], doc["rooms"][2])])
+        self.assertEqual((quarto["id"], quarto["poly"]), ("comodo-2", [[4, 0], [7, 0], [7, 3], [4, 3]]))
+        self.assertIn("walls", quarto)
+        # a janela fica no trecho da parede norte que continua parede (2 a 4 m)
+        self.assertEqual(next(j for j in out["planta"]["janelas"] if j["id"] == "window-2")["p"], [3, 3])
+        errado = copy.deepcopy(out)
+        errado["planta"]["comodos"][0]["walls"] = doc["rooms"][0]["walls"]
+        self.assertFalse(Draft202012Validator(n.SCHEMAS["1.1.0"]).is_valid(errado))
+
     def test_schema_recusa_cadastro_e_semantica_construtiva(self):
         out = n.normalizar(leitura())
         for campo in ("propertyId", "agencyId", "lote", "predio", "ficha", "profile"):

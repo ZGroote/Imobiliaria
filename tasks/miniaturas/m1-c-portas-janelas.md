@@ -29,14 +29,19 @@ selecionáveis no SVG ou na lista, editáveis e excluíveis.
 
 ## Alterações posteriores de cômodos
 
-Mover/redimensionar um cômodo ou alterar pé-direito pode invalidar uma abertura.
-Ela permanece no estado, com seu offset/medidas/par, e bloqueia exportação até
-revisão explícita. Aplicar a abertura recalcula o par para a geometria atual;
-não há reparo silencioso ao mover cômodos.
+Mover/redimensionar um cômodo ou alterar pé-direito pode invalidar uma abertura
+(passar do fim da parede, do pé-direito, cruzar o limite de um trecho
+compartilhado). Ela permanece no estado, com seu offset/medidas, e bloqueia
+exportação até revisão explícita.
 
-Excluir o cômodo dono remove suas aberturas na mesma ação reversível. Abertura
-de outro dono que apontava para a parede excluída permanece com par inválido;
-a pessoa deve revisá-la. Undo restaura o estado completo.
+**Revisto no M1.1-B (01/10/2026), a pedido do usuário:** o *par* não é mais
+congelado. Ele é da geometria: quando um cômodo encosta, se afasta ou é excluído,
+a abertura passa a ser comum aos dois cômodos ou a dar para fora, e a tela avisa.
+Medidas e posição nunca mudam sozinhas. Ver
+[M1.1-B](m1-1b-capturador-mobile.md#porta-comum-aos-dois-cômodos).
+
+Excluir o cômodo dono remove suas aberturas na mesma ação reversível. Undo
+restaura o estado completo.
 
 ## Gate e testes
 

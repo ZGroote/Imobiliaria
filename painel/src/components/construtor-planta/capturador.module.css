@@ -1,68 +1,85 @@
-.page{max-width:1200px;margin:0 auto;padding:24px;color:#172b38}
-.header{display:flex;justify-content:space-between;gap:24px;align-items:center}
-.header h1{font-size:28px;font-weight:700;letter-spacing:-.03em}
-.header>p{max-width:340px;font-size:14px;color:#526475}
-.eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;color:#0f766e;margin-bottom:6px}
-.rule{font-size:14px;background:#e9f3f0;border-left:3px solid #0f766e;padding:12px 16px;margin:20px 0}
-.workspace{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
-.drawing,.editor,.export{border:1px solid #cbd5df;border-radius:8px;background:white;overflow:hidden}
-.toolbar{display:flex;gap:8px;align-items:center;padding:12px;border-bottom:1px solid #dbe2e8}
-.toolbar strong{margin-right:auto;font-size:14px}
-.page button{min-height:44px;padding:8px 12px;border:1px solid #b8c7d1;border-radius:5px;background:white;font-size:14px;font-weight:600;cursor:pointer}
-.page button:disabled{opacity:.45;cursor:not-allowed}
-.page button:hover:not(:disabled){background:#eef5f3}
-.page button:focus-visible,.page input:focus-visible,.page summary:focus-visible,.page textarea:focus-visible{outline:3px solid #0f766e;outline-offset:3px}
-.page .primary{background:#115e59;color:white;border-color:#115e59}
-.page .primary:hover:not(:disabled){background:#134e4a}
-.canvas{display:block;width:100%;height:420px;background:#f8fafc;touch-action:none;user-select:none}
-.canvas g{cursor:grab}
-.canvas g:active{cursor:grabbing}
+/* M1.1-B: a tela inteira é o capturador. Nada rola: a planta ocupa o que sobra entre a barra
+   de cima e o menu lateral, e os dados entram num pop-up de baixo. */
+.app{position:relative;height:100dvh;min-height:420px;display:grid;grid-template-columns:auto minmax(0,1fr);
+  grid-template-rows:auto minmax(0,1fr);background:#f8fafc;color:#172b38;overflow:hidden;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.app button{min-height:44px;min-width:44px;padding:6px 10px;border:1px solid #b8c7d1;border-radius:8px;background:white;
+  color:#172b38;font:600 14px/1.1 inherit;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer}
+.app button:disabled{opacity:.45;cursor:not-allowed}
+.app button:hover:not(:disabled){background:#eef5f3}
+.app button:focus-visible,.app input:focus-visible,.app summary:focus-visible,.app textarea:focus-visible,
+.canvas g:focus-visible{outline:3px solid #0f766e;outline-offset:2px}
+.app svg{flex:none}
+.app .primario{background:#115e59;color:white;border-color:#115e59}
+.app .primario:hover:not(:disabled){background:#134e4a}
+
+.barra{grid-column:1/-1;display:flex;align-items:center;gap:6px;padding:6px 8px;background:white;
+  border-bottom:1px solid #dbe2e8;min-width:0}
+.barra svg{width:22px;height:22px}
+.espaco{flex:1}
+.app .avisos{background:#fff7ed;color:#9a3412;border-color:#fdba74}
+.app .pronta{background:#ecfdf5;color:#166534;border-color:#86efac}
+.app .neutro{color:#526475}
+@media(max-width:420px){.barra>.primario span{display:none}}
+
+.menu{display:flex;flex-direction:column;gap:6px;padding:8px 6px;background:white;border-right:1px solid #dbe2e8;
+  overflow-y:auto;-webkit-user-select:none;user-select:none}
+.app .menu button{flex-direction:column;width:64px;min-height:64px;padding:6px 2px;font-size:11px;
+  touch-action:none;-webkit-touch-callout:none}
+.menu svg{width:26px;height:26px}
+.app .menu button[aria-pressed=true]{border-color:#0f766e;background:#e6f4f1;color:#0f766e}
+
+.plano{position:relative;min-width:0;min-height:0;overflow:hidden}
+.canvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:#f8fafc;touch-action:none;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.canvas [data-comodo],.canvas [data-abertura],.canvas [data-parede]{cursor:pointer}
 .canvas g:focus-visible rect{stroke:#0f172a;stroke-width:5px}
-.hint{font-size:12px;line-height:1.5;color:#526475}
-.drawing>.hint{padding:12px}
-.position{padding:0 12px 12px;font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.position>div{display:flex;gap:6px}
-.position button{min-width:44px;font-size:20px}
-.problems,.ready{padding:14px;font-size:13px;border-top:1px solid #dbe2e8;line-height:1.5}
-.problems{background:#fff7f4;color:#903d28}
-.problems ul{list-style:disc;padding-left:20px;margin-top:4px}
-.ready{background:#edf8f2;color:#16624d}
-.editor{padding:16px}
-.editorTitle{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:16px}
-.page h2{font-size:17px;font-weight:650}
-.editor fieldset{border:0;display:grid;gap:14px;min-width:0}
-.editor label{display:block;font-size:13px;font-weight:600}
-.editor input{display:block;width:100%;margin-top:6px;border:1px solid #a8bbc7;border-radius:5px;min-height:44px;padding:10px;font-size:16px;font-weight:400;background:white}
-.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0}
-.pair>*{min-width:0}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.error{color:#b42318;font-size:14px}
-.listTitle{margin-top:24px;margin-bottom:8px}
-.list{display:grid;gap:6px}
-.list button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left}
-.list button[aria-pressed=true]{border-color:#0f766e;background:#edf8f2}
-.list span{overflow-wrap:anywhere}
-.list small{font-weight:400;white-space:nowrap;color:#526475}
-.export{margin-top:20px;padding:16px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
-.export p{font-size:13px;color:#526475;margin-top:4px}
-.export details{width:100%;font-size:14px}
-.export summary{cursor:pointer;min-height:44px;padding:10px 0}
-.export textarea{width:100%;font-family:monospace;font-size:12px;border:1px solid #cbd5df;padding:10px;border-radius:4px}
-.notice{min-height:24px;font-size:13px;color:#345950;margin:12px 0}
-.modes{display:flex;gap:8px;margin:0 0 16px}
-.modes button[aria-pressed=true]{background:#115e59;color:white;border-color:#115e59}
-.page .modes button[aria-pressed=true]:hover:not(:disabled){background:#134e4a}
-.editor select{display:block;width:100%;min-height:44px;margin:6px 0 14px;padding:8px;border:1px solid #a8bbc7;border-radius:5px;background:white;font-size:16px}
-.page select:focus-visible{outline:3px solid #0f766e;outline-offset:3px}
-.canvas g:focus-visible line{stroke:#0f766e}
-@media(max-width:760px){
- .page{padding:16px}
- .header{display:block}
- .header h1{font-size:25px}
- .header>p{margin-top:10px;max-width:none}
- .rule{margin:16px 0}
- .workspace{grid-template-columns:1fr;gap:16px}
- .canvas{height:300px}
- .editor{padding:14px}
- .export>.primary{width:100%}
-}
+.vazio{position:absolute;left:12px;right:12px;bottom:12px;pointer-events:none;background:rgba(255,255,255,.94);
+  border:1px solid #dbe2e8;border-radius:10px;padding:12px;font-size:14px;line-height:1.45}
+.faixa{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;gap:8px;background:white;
+  border:1px solid #cbd5df;border-radius:12px;padding:6px 6px 6px 12px;font-size:14px;box-shadow:0 4px 14px rgba(15,23,42,.12)}
+.faixa span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fantasma{position:fixed;z-index:40;pointer-events:none;transform:translate(-50%,-130%);width:56px;height:56px;
+  border-radius:12px;background:#115e59;color:white;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 18px rgba(15,23,42,.3)}
+.fantasma svg{width:30px;height:30px}
+
+.folha{position:fixed;left:0;right:0;z-index:30;max-height:72dvh;overflow:auto;background:white;
+  border-top:1px solid #cbd5df;border-radius:16px 16px 0 0;box-shadow:0 -8px 24px rgba(15,23,42,.18);
+  padding:10px 16px calc(12px + env(safe-area-inset-bottom))}
+@media(min-width:700px){.folha{left:50%;right:auto;width:460px;transform:translateX(-50%)}}
+.folhaTopo{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.folhaTopo h2{font-size:17px;font-weight:650;min-width:0;overflow-wrap:anywhere}
+.form{display:grid;gap:10px}
+.form label{display:block;font-size:13px;font-weight:600;min-width:0}
+.form input{display:block;width:100%;margin-top:4px;border:1px solid #a8bbc7;border-radius:8px;min-height:44px;
+  padding:8px 10px;font-size:16px;font-weight:400;background:white}
+.form textarea{width:100%;margin-top:6px;font:12px/1.4 ui-monospace,monospace;border:1px solid #cbd5df;border-radius:6px;padding:8px}
+.form summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:14px;font-weight:600}
+.par{display:grid;grid-template-columns:1fr 1fr;gap:10px;min-width:0;align-items:end}
+.dica{font-size:12px;line-height:1.45;color:#526475}
+.alerta{font-size:13px;line-height:1.45;color:#9a3412;background:#fff7ed;border-radius:8px;padding:8px 10px 8px 26px;list-style:disc}
+.erro{color:#b42318;font-size:14px}
+.acoes{display:flex;gap:8px;flex-wrap:wrap}
+.tipos{display:flex;gap:6px}
+.app .tipos button{flex:1}
+.app .tipos button[aria-pressed=true]{background:#115e59;color:white;border-color:#115e59}
+.posicao{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:13px}
+.posicao>div{display:flex;gap:6px}
+.app .posicao button{font-size:18px}
+
+.toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);z-index:50;max-width:calc(100% - 32px);
+  background:#0f172a;color:white;border-radius:10px;padding:10px 14px;font-size:14px;pointer-events:none}
+.toast:empty{display:none}
+.toastErro{position:fixed;left:50%;top:60px;transform:translateX(-50%);z-index:50;max-width:calc(100% - 32px);
+  background:#fef2f2;color:#b42318;border:1px solid #fecaca;border-radius:10px;padding:10px 14px;font-size:14px}
+
+.blocoMesclado{display:grid;gap:6px;padding:8px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px}
+.rotuloMesclar{font-size:13px;font-weight:600;color:#166534}
+.listaMesclar{display:flex;gap:6px;flex-wrap:wrap}
+.app .botaoMesclar{background:#166534;color:white;border-color:#166534;font-size:13px}
+.app .botaoMesclar:hover:not(:disabled){background:#14532d}
+.app .botaoSeparar{background:#fff;color:#b42318;border-color:#fca5a5;font-size:13px}
+.app .botaoSeparar:hover:not(:disabled){background:#fef2f2}
+.app .botaoAcaoMesclar{background:#047857;color:white;border-color:#047857;font-size:13px}
+.app .botaoAcaoMesclar:hover:not(:disabled){background:#065f46}
