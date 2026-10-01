@@ -192,3 +192,24 @@ Não há meta de tempo: seria inventar KPI antes dos dados.
 - [`pipeline/avaliar_captura.py`](../../pipeline/avaliar_captura.py): export → M1-0 → M1-A →
   portões do M1-F (e encaixe/maquete com contexto). É harness do estudo, **não** caminho de
   entrada: o caminho confiável continua sendo o par fixado em `pipeline.e2e_leitura`.
+
+## Registro
+
+### Piloto P0 — 01/10/2026 (não conta para o gate)
+
+- **Operador:** o dono do produto, familiar com o capturador. Não é operador alheio.
+- **Aparelho:** Android (modelo não anotado), Google Chrome, pelo canal de preview.
+- **Planta, cronômetro e export:** não houve planta real nem medição; foi um uso livre.
+- **Técnico:** abre e roda bem no telefone, sem erro.
+- **Achado:** ter que **rolar a página** no celular para ir da planta aos formulários e
+  voltar "quebra completamente a sensação de fluidez".
+- **Proposta do usuário, como veio:**
+  1. Menu lateral com quatro ícones: quadrado, retângulo, janela e porta.
+  2. Arrastar o ícone até a planta e soltar o dedo onde quer: abre um pop-up pedindo as
+     informações.
+  3. Porta e janela abrem um pop-up para a metragem e mostram a abertura andando na parede
+     enquanto as medidas são digitadas.
+  4. Para mudar algo já posto: selecionar uma vez e depois manter pressionado, o que abre o
+     pop-up com as informações já carregadas.
+- **Classificação:** só interface. Cômodo continua retângulo e abertura continua em parede:
+  não muda o contrato M1-0, o export nem os portões do M1-F.
