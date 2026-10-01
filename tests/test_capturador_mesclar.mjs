@@ -117,3 +117,108 @@ test('M1.1-C2: guardrails - não mescla sem contato, nem com abertura divisória
   s3 = aplicar(s3, {type: 'merge', roomAId: 'c1', roomBId: 'c2'});
   assert.throws(() => aplicar(s3, {type: 'opening-add', kind: 'door', wallId: 'c1-north', offsetMm: 200, widthMm: 800, heightMm: 2100, sillMm: 0}), /trecho mesclado/);
 });
+test('M1.1-C2: unmerge e delete em grupo A-B-C tratam peca-ponte e preservam subconjuntos conectados', () => {
+  // Configuração:
+  // D: (0, 0), 9000 x 3000 (Corredor independente ao sul, mantém o conjunto conectado ao deletar peças)
+  // A: (0, 3000), 3000 x 3000
+  // B: (3000, 3000), 3000 x 3000 (ponte)
+  // C: (6000, 3000), 3000 x 3000
+  const criarCenario = () => {
+    let s = add(iniciar('leitura-ponte'), 'Corredor', 9000, 3000, {xMm: 0, yMm: 0});
+    s = add(s, 'Sala', 3000, 3000, {xMm: 0, yMm: 3000}); // c2
+    s = add(s, 'Sala', 3000, 3000, {xMm: 3000, yMm: 3000}); // c3 (ponte)
+    s = add(s, 'Sala', 3000, 3000, {xMm: 6000, yMm: 3000}); // c4
+    s = aplicar(s, {type: 'merge', roomAId: 'c2', roomBId: 'c3'});
+    s = aplicar(s, {type: 'merge', roomAId: 'c3', roomBId: 'c4'});
+    assert.deepEqual(s.present.mergedGroups, [['c2', 'c3', 'c4']]);
+    return s;
+  };
+
+  // 1. Separar a peça-ponte B (c3): A (c2) e C (c4) não se tocam, nenhum grupo inválido sobra
+  const s1 = criarCenario();
+  const sepB = aplicar(s1, {type: 'unmerge', roomId: 'c3'});
+  assert.equal(sepB.present.mergedGroups, undefined);
+  const docSepB = JSON.parse(exportar(sepB));
+  assert.equal(docSepB.schemaVersion, '1.0.0');
+  assert.equal(docSepB.relations.every(r => r.kind === 'adjacent'), true);
+  assert.equal(pythonValida(exportar(sepB)), true);
+
+  // 2. Separar a ponta A (c2): B (c3) e C (c4) continuam se tocando e permanecem mesclados
+  const s2 = criarCenario();
+  const sepA = aplicar(s2, {type: 'unmerge', roomId: 'c2'});
+  assert.deepEqual(sepA.present.mergedGroups, [['c3', 'c4']]);
+  const docSepA = JSON.parse(exportar(sepA));
+  assert.equal(docSepA.schemaVersion, '1.1.0');
+  const relC3C4 = docSepA.relations.find(r => (r.wallA === 'c3-east' && r.wallB === 'c4-west') || (r.wallA === 'c4-west' && r.wallB === 'c3-east'));
+  assert.equal(relC3C4.kind, 'merged');
+  assert.equal(pythonValida(exportar(sepA)), true);
+
+  // 3. Excluir a peça-ponte B (c3): mesma semântica, A e C deixam de ser grupo
+  const s3 = criarCenario();
+  const delB = aplicar(s3, {type: 'delete', id: 'c3'});
+  assert.equal(delB.present.mergedGroups, undefined);
+  const docDelB = JSON.parse(exportar(delB));
+  assert.equal(docDelB.schemaVersion, '1.0.0');
+  assert.equal(docDelB.relations.every(r => r.kind === 'adjacent'), true);
+  assert.equal(pythonValida(exportar(delB)), true);
+
+  // 4. Excluir a ponta A (c2): B e C continuam mesclados
+  const s4 = criarCenario();
+  const delA = aplicar(s4, {type: 'delete', id: 'c2'});
+  assert.deepEqual(delA.present.mergedGroups, [['c3', 'c4']]);
+  const docDelA = JSON.parse(exportar(delA));
+  assert.equal(docDelA.schemaVersion, '1.1.0');
+  assert.equal(pythonValida(exportar(delA)), true);
+});
+
+test('M1.1-C2: regressao - merge recusa se houver abertura em qualquer divisoria que virara merged', () => {
+  // Cenário:
+  // A | C
+  // --| C
+  // B | C
+  // A: (0, 0), 3000 x 3000
+  // B: (0, 3000), 3000 x 3000
+  // C: (3000, 0), 3000 x 6000 (toca A no leste e B no leste)
+  let s = add(iniciar('leitura-regressao-abertura'), 'Sala A', 3000, 3000, {xMm: 0, yMm: 0});
+  s = add(s, 'Sala B', 3000, 3000, {xMm: 0, yMm: 3000});
+  s = add(s, 'Quarto C', 3000, 6000, {xMm: 3000, yMm: 0});
+
+  // A (c1) + B (c2) já são um cômodo composto
+  s = aplicar(s, {type: 'merge', roomAId: 'c1', roomBId: 'c2'});
+  assert.deepEqual(s.present.mergedGroups, [['c1', 'c2']]);
+
+  // Existe uma porta entre B (c2) e C (c3) na divisória B-C
+  s = aplicar(s, {
+    type: 'opening-add',
+    kind: 'door',
+    wallId: 'c2-east',
+    offsetMm: 1000,
+    widthMm: 800,
+    heightMm: 2100,
+    sillMm: 0,
+  });
+  assert.equal(s.present.openings.length, 1);
+  assert.equal(s.present.openings[0].pairedWallId, 'c3-west');
+
+  // Tentativa de mesclar A (c1) + C (c3) deve recusar antes de alterar a sessão
+  assert.throws(
+    () => aplicar(s, {type: 'merge', roomAId: 'c1', roomBId: 'c3'}),
+    /Remova as portas e janelas da parede divisória antes de mesclar/
+  );
+
+  // Também recusa se a ordem dos argumentos for C (c3) + A (c1)
+  assert.throws(
+    () => aplicar(s, {type: 'merge', roomAId: 'c3', roomBId: 'c1'}),
+    /Remova as portas e janelas da parede divisória antes de mesclar/
+  );
+
+  // A sessão NÃO foi alterada
+  assert.equal(s.present.openings.length, 1);
+  assert.deepEqual(s.present.mergedGroups, [['c1', 'c2']]);
+
+  // Removendo a porta entre B e C, o merge passa e valida normativamente no Python
+  s = aplicar(s, {type: 'opening-delete', id: 'a1'});
+  const mescladoABC = aplicar(s, {type: 'merge', roomAId: 'c1', roomBId: 'c3'});
+  assert.deepEqual(mescladoABC.present.mergedGroups, [['c1', 'c2', 'c3']]);
+  assert.equal(pythonValida(exportar(mescladoABC)), true);
+});

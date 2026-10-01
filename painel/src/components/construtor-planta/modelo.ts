@@ -17,6 +17,66 @@ export type Problem = {code:string; message:string; ids:string[]}
 const declared = () => ({kind:'declared' as const, referenceIds:[] as string[]})
 const integer = (n:number, min:number, max:number) => Number.isSafeInteger(n) && n>=min && n<=max
 
+const overlap = (a:number,b:number,c:number,d:number) => Math.max(a,c)<Math.min(b,d)
+
+export function comodosSeTocam(a: Room, b: Room): boolean {
+  if (overlap(a.yMm, a.yMm + a.depthMm, b.yMm, b.yMm + b.depthMm)) {
+    if (a.xMm + a.widthMm === b.xMm || b.xMm + b.widthMm === a.xMm) return true
+  }
+  if (overlap(a.xMm, a.xMm + a.widthMm, b.xMm, b.xMm + b.widthMm)) {
+    if (a.yMm + a.depthMm === b.yMm || b.yMm + b.depthMm === a.yMm) return true
+  }
+  return false
+}
+
+export function reconstruirGrupos(rooms: Room[], groups?: string[][]): string[][] {
+  if (!groups || !groups.length) return []
+  const roomMap = new Map(rooms.map(r => [r.id, r]))
+  const result: string[][] = []
+
+  for (const group of groups) {
+    const validIds = Array.from(new Set(group)).filter(id => roomMap.has(id))
+    if (validIds.length < 2) continue
+
+    const adj = new Map<string, string[]>()
+    for (const id of validIds) adj.set(id, [])
+
+    for (let i = 0; i < validIds.length; i++) {
+      const rA = roomMap.get(validIds[i])!
+      for (let j = i + 1; j < validIds.length; j++) {
+        const rB = roomMap.get(validIds[j])!
+        if (comodosSeTocam(rA, rB)) {
+          adj.get(rA.id)!.push(rB.id)
+          adj.get(rB.id)!.push(rA.id)
+        }
+      }
+    }
+
+    const visited = new Set<string>()
+    for (const id of validIds) {
+      if (visited.has(id)) continue
+      const component: string[] = []
+      const queue = [id]
+      visited.add(id)
+      while (queue.length > 0) {
+        const curr = queue.shift()!
+        component.push(curr)
+        for (const neighbor of adj.get(curr)!) {
+          if (!visited.has(neighbor)) {
+            visited.add(neighbor)
+            queue.push(neighbor)
+          }
+        }
+      }
+      if (component.length >= 2) {
+        result.push(component.sort())
+      }
+    }
+  }
+
+  return result.sort((a, b) => a[0].localeCompare(b[0]))
+}
+
 export function normalizeGroups(groups?: string[][]): string[][] {
   if (!groups) return []
   return groups
@@ -59,10 +119,6 @@ export function aplicar(s:Session,a:Action):Session {
     const contato=rels.filter(r=>(pA.has(r.wallA)&&pB.has(r.wallB))||(pA.has(r.wallB)&&pB.has(r.wallA)))
     if(!contato.length) throw new Error('Os cômodos precisam estar encostados parede com parede para mesclar.')
 
-    const paredesContato=new Set(contato.flatMap(c=>[c.wallA,c.wallB]))
-    const aberturaNaDivisoria=s.present.openings.find(o=>paredesContato.has(o.wallId)||(o.pairedWallId&&paredesContato.has(o.pairedWallId)))
-    if(aberturaNaDivisoria) throw new Error('Remova as portas e janelas da parede divisória antes de mesclar.')
-
     const curGroups=s.present.mergedGroups?s.present.mergedGroups.map(g=>[...g]):[]
     const gAIdx=curGroups.findIndex(g=>g.includes(roomAId)), gBIdx=curGroups.findIndex(g=>g.includes(roomBId))
     let nextGroups:string[][]
@@ -80,10 +136,23 @@ export function aplicar(s:Session,a:Action):Session {
       curGroups.push([roomAId,roomBId])
       nextGroups=curGroups
     }
+
+    const nextRels=relacoes(s.present.rooms, nextGroups)
+    const nextMergedRels=nextRels.filter(r=>r.kind==='merged')
+    const paredesMescladas=new Set(nextMergedRels.flatMap(r=>[r.wallA,r.wallB]))
+    for(const o of s.present.openings){
+      if(paredesMescladas.has(o.wallId)||(o.pairedWallId&&paredesMescladas.has(o.pairedWallId))){
+        const par=parDaAbertura(s.present.rooms,o,nextGroups)
+        if(par.error&&par.error.includes('mesclado')){
+          throw new Error('Remova as portas e janelas da parede divisória antes de mesclar.')
+        }
+      }
+    }
+
     const targetName=roomA.name.trim()
     const members=new Set(nextGroups.find(g=>g.includes(roomAId))!)
     const updatedRooms=s.present.rooms.map(r=>members.has(r.id)?{...r,name:targetName}:r)
-    const normalized=normalizeGroups(nextGroups)
+    const normalized=reconstruirGrupos(updatedRooms,nextGroups)
     const nextLayout:Layout={...s.present,rooms:updatedRooms,mergedGroups:normalized.length?normalized:undefined}
     const shapeErrors=problemas(nextLayout).filter(p=>p.code==='MERGED_SHAPE')
     if(shapeErrors.length) throw new Error('A união desses cômodos geraria um formato inválido (com buraco ou vértice isolado).')
@@ -95,7 +164,7 @@ export function aplicar(s:Session,a:Action):Session {
     const gIdx=curGroups.findIndex(g=>g.includes(roomId))
     if(gIdx<0) throw new Error('O cômodo não está mesclado.')
     curGroups[gIdx]=curGroups[gIdx].filter(id=>id!==roomId)
-    const normalized=normalizeGroups(curGroups)
+    const normalized=reconstruirGrupos(s.present.rooms,curGroups)
     return confirmar(s,{...s.present,mergedGroups:normalized.length?normalized:undefined},s.nextId,s.nextOpeningId)
   }
   if(a.type==='opening-add'||a.type==='opening-edit'||a.type==='opening-delete'){
@@ -136,7 +205,7 @@ export function aplicar(s:Session,a:Action):Session {
       rooms=rooms.filter(r=>r.id!==a.id)
       if(mergedGroups){
         const nextGroups=mergedGroups.map(g=>g.filter(id=>id!==a.id))
-        const normalized=normalizeGroups(nextGroups)
+        const normalized=reconstruirGrupos(rooms,nextGroups)
         mergedGroups=normalized.length?normalized:undefined
       }
     }
@@ -171,7 +240,6 @@ export function refazer(s:Session):Session {
   if(!s.future.length) return s
   return {...s,present:s.future[0],past:[...s.past,s.present],future:s.future.slice(1),revision:s.revision+1}
 }
-const overlap = (a:number,b:number,c:number,d:number) => Math.max(a,c)<Math.min(b,d)
 export const paredes = (id:string) => ({south:id+'-south',east:id+'-east',north:id+'-north',west:id+'-west'})
 export type Wall = {id:string;roomId:string;label:string;axis:'x'|'y';fixed:number;start:number;end:number}
 export function geometriaParedes(rooms:Room[]):Wall[]{
@@ -453,7 +521,7 @@ export function carregar(leitura:Leitura | any):Session{
       }
     }
 
-    const normalized = normalizeGroups(mergedGroups)
+    const normalized = reconstruirGrupos(rooms, mergedGroups)
     const s:Session={...iniciar(leitura.id),revision:leitura.revision,
       nextId:Math.max(0,...rooms.map((r:any)=>Number(r.id.slice(1))))+1,
       nextOpeningId:Math.max(0,...openings.map((o:any)=>Number(o.id.slice(1))))+1,
