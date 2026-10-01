@@ -6,7 +6,8 @@ preenchido sem sessão real.
 
 Base: `06bbcd6` (merge #81). Não se altera código do capturador, contrato M1-0/M1-A, portões
 do M1-F nem o painel. A dívida do cartão "Escolher versão" com imóvel transferido fica para o
-M1.1-B. Sem deploy e sem Firestore: o objeto é a captura, não a persistência.
+M1.1-B. Sem Firestore: o objeto é a captura, não a persistência. A única publicação é o canal
+temporário descrito abaixo, autorizado à parte.
 
 ## Perguntas
 
@@ -15,7 +16,31 @@ M1.1-B. Sem deploy e sem Firestore: o objeto é a captura, não a persistência.
 3. Os dados reais que ela informa continuam válidos no M1-0 e no M1-A?
 4. Quantas plantas reais esbarram nas limitações atuais do consumidor 3D?
 
-## Preparação (uma vez)
+## Hospedagem do capturador (decisão de 01/10/2026)
+
+Pela rede local o telefone não alcançou o PC: o firewall do Windows bloqueia conexões de
+entrada no perfil Público, e liberar exigiria mudar configuração de segurança. O usuário
+autorizou então um deploy **separado e temporário**:
+
+- canal de preview `m1-1a-capturador` do site `imobilaria-deccb-painel`, expirando em
+  2026-10-08; o canal `live` não mudou (última publicação continua a de 28/09);
+- endereço: `https://imobilaria-deccb-painel--m1-1a-capturador-o99ctbtu.web.app/capturador`;
+- conteúdo: **só** a página `/capturador` (o `capturador.html`, os payloads dela e
+  `_next/static`), copiados do build para `publicacao/m1-1a/hosting-capturador/`. Login, admin,
+  a raiz e o resto do painel dão 404 no canal;
+- a página não inicializa Auth nem Firestore (o painel pula a sessão nessa rota) e não faz
+  nenhuma chamada a Firebase. A planta digitada fica no telefone e no arquivo baixado;
+- configuração temporária `firebase.m1-1a.json` (fora do git), igual à do painel em
+  `cleanUrls` e cabeçalhos, com `public` apontando para a pasta enxuta. Comando usado:
+  `npx firebase hosting:channel:deploy m1-1a-capturador --config firebase.m1-1a.json --only painel --expires 7d --project imobilaria-deccb`;
+- ao fim do estudo:
+  `npx firebase hosting:channel:delete m1-1a-capturador --site imobilaria-deccb-painel --project imobilaria-deccb`.
+
+Com o canal não há log do servidor local: a prova do aparelho físico é a captura ou gravação
+de tela do telefone, mais o modelo anotado. O servidor local (abaixo) continua como
+alternativa sem publicação.
+
+## Preparação pela rede local (alternativa)
 
 Todos os comandos rodam **na raiz do repositório**, no branch
 `test/m1-1a-usabilidade-mobile`, e funcionam no PowerShell e no bash (nenhum usa `&&`).
@@ -34,9 +59,9 @@ Todos os comandos rodam **na raiz do repositório**, no branch
      ferramenta do estudo mexe nisso.
    - O telefone e o PC ficam na mesma rede. Se o roteador isolar os aparelhos, conecte o PC
      ao roteador do telefone e rode o servidor de novo, porque o IP muda.
-3. **Checklist no telefone, antes de a pessoa chegar:**
-   - abrir o endereço e aceitar o aviso de certificado (Android/Chrome: *Avançado →
-     Continuar*; iPhone/Safari: *Mostrar detalhes → visitar este site*);
+3. **Checklist no telefone, antes de a pessoa chegar** (vale também para o canal):
+   - abrir o endereço; na rede local, aceitar o aviso de certificado (Android/Chrome:
+     *Avançado → Continuar*; iPhone/Safari: *Mostrar detalhes → visitar este site*);
    - conferir que aparece **"Desenhe sua planta"**. Se aparecer "This page couldn't load", o
      navegador não tratou a página como contexto seguro: pare aqui e registre;
    - anotar modelo, sistema, versão e navegador;
