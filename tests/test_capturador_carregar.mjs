@@ -15,3 +15,7 @@ test('editor não descarta referências, procedência ou paredes fora de seu sub
   assert.throws(()=>carregar(d),/suportado/);
   const wall=structuredClone(doc);wall.rooms[0].walls.south='outra';assert.throws(()=>carregar(wall),/suportado/);
 });
+test('editor ainda produz 1.0.0 e recusa leitura 1.1.0 (cômodo mesclado) sem descartar nada',()=>{
+  const v11=structuredClone(doc);v11.schemaVersion='1.1.0';assert.throws(()=>carregar(v11),/suportado/);
+  const merged=structuredClone(v11);merged.relations[0].kind='merged';assert.throws(()=>carregar(merged),/suportado/);
+});

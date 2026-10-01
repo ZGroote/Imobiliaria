@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:imobiliaria:leitura:1.1.0",
+  "title": "Leitura declarada de planta — v1.1.0",
+  "description": "Estrutura fechada em milímetros; 1.0.0 mais relações `merged` (partes do mesmo cômodo, sem parede no trecho comum). Complementar com pipeline.validar_leitura.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "revision",
+    "unit",
+    "geometry",
+    "ceilingHeightMm",
+    "provenance",
+    "references",
+    "rooms",
+    "relations",
+    "openings"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.1.0"
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "unit": {
+      "const": "mm"
+    },
+    "geometry": {
+      "const": "orthogonal-rectangles"
+    },
+    "ceilingHeightMm": {
+      "$ref": "#/$defs/length"
+    },
+    "provenance": {
+      "$ref": "#/$defs/provenance"
+    },
+    "references": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 100,
+      "items": {
+        "$ref": "#/$defs/reference"
+      }
+    },
+    "rooms": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "$ref": "#/$defs/room"
+      }
+    },
+    "relations": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 400,
+      "items": {
+        "$ref": "#/$defs/relation"
+      }
+    },
+    "openings": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 400,
+      "items": {
+        "$ref": "#/$defs/opening"
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+    },
+    "length": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000000
+    },
+    "offset": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000000
+    },
+    "coordinate": {
+      "type": "integer",
+      "minimum": -1000000,
+      "maximum": 1000000
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "referenceIds"
+      ],
+      "properties": {
+        "kind": {
+          "const": "declared"
+        },
+        "referenceIds": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "measurement",
+            "sketch",
+            "photo",
+            "document"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      }
+    },
+    "room": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "xMm",
+        "yMm",
+        "widthMm",
+        "depthMm",
+        "walls",
+        "provenance"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "xMm": {
+          "$ref": "#/$defs/coordinate"
+        },
+        "yMm": {
+          "$ref": "#/$defs/coordinate"
+        },
+        "widthMm": {
+          "$ref": "#/$defs/length"
+        },
+        "depthMm": {
+          "$ref": "#/$defs/length"
+        },
+        "walls": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "south",
+            "east",
+            "north",
+            "west"
+          ],
+          "properties": {
+            "south": {
+              "$ref": "#/$defs/id"
+            },
+            "east": {
+              "$ref": "#/$defs/id"
+            },
+            "north": {
+              "$ref": "#/$defs/id"
+            },
+            "west": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "wallA",
+        "wallB",
+        "provenance"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "adjacent",
+            "merged"
+          ]
+        },
+        "wallA": {
+          "$ref": "#/$defs/id"
+        },
+        "wallB": {
+          "$ref": "#/$defs/id"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "opening": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "wallId",
+        "offsetMm",
+        "widthMm",
+        "heightMm",
+        "sillMm",
+        "provenance"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "door",
+            "window"
+          ]
+        },
+        "wallId": {
+          "$ref": "#/$defs/id"
+        },
+        "pairedWallId": {
+          "$ref": "#/$defs/id"
+        },
+        "offsetMm": {
+          "$ref": "#/$defs/offset"
+        },
+        "widthMm": {
+          "$ref": "#/$defs/length"
+        },
+        "heightMm": {
+          "$ref": "#/$defs/length"
+        },
+        "sillMm": {
+          "$ref": "#/$defs/offset"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    }
+  }
+}

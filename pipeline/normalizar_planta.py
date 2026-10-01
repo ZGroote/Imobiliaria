@@ -9,15 +9,16 @@ import sys
 from jsonschema import Draft202012Validator
 from pipeline import validar_leitura as entrada
 
-SCHEMA = json.loads(
-    (Path(__file__).resolve().parents[1] / "schemas/planta-derivada/1.0.0.schema.json")
-    .read_text(encoding="utf-8")
-)
+# A derivada tem a versão da leitura: 1.0.0 sai byte a byte como antes do M1.1-C1.
+SCHEMAS = {v: json.loads((Path(__file__).resolve().parents[1] / f"schemas/planta-derivada/{v}.schema.json")
+                         .read_text(encoding="utf-8")) for v in entrada.VERSOES}
+SCHEMA = SCHEMAS["1.0.0"]
 RULES = [
     "mm-to-m@1", "rectangle-to-ccw-polygon@1",
     "wall-offset-to-opening-center@1", "sill-height-to-y0-y1@1",
     "preserve-nominal-axes@1",
 ]
+RULES_1_1 = RULES + ["merge-parts-to-polygon@1"]
 
 
 class LeituraInvalida(ValueError):
@@ -70,6 +71,23 @@ def normalizar(leitura):
         ):
             walls[room["walls"][side]] = (origin, axis)
 
+    # Partes ligadas por `merged` viram um cômodo: o contorno da união, sem a parede do
+    # trecho comum. Cômodo de uma parte só sai como na 1.0.0.
+    comodos = []
+    for membros in entrada.grupos_mesclados(leitura):
+        if len(membros) == 1:
+            comodos.append(rooms[membros[0]])
+            continue
+        partes = [leitura["rooms"][i] for i in membros]
+        contorno = entrada.contorno([
+            (int(r["xMm"]), int(r["yMm"]), int(r["xMm"]) + int(r["widthMm"]),
+             int(r["yMm"]) + int(r["depthMm"])) for r in partes])
+        comodos.append({
+            "id": partes[0]["id"], "nome": partes[0]["name"],
+            "poly": [[a / 1000, b / 1000] for a, b in contorno],
+            "parts": [{k: rooms[i][k] for k in ("id", "walls", "provenance")} for i in membros],
+        })
+
     doors, windows = [], []
     for opening in leitura["openings"]:
         origin, axis = walls[opening["wallId"]]
@@ -88,21 +106,22 @@ def normalizar(leitura):
             item["pairedWallId"] = opening["pairedWallId"]
         (doors if opening["kind"] == "door" else windows).append(item)
 
+    versao = leitura["schemaVersion"]
     result = {
-        "schemaVersion": "1.0.0", "kind": "derived-floor-plan", "unit": "m",
+        "schemaVersion": versao, "kind": "derived-floor-plan", "unit": "m",
         "measurementBasis": "wall-centerlines", "construction": "not-applied",
         "source": {**{k: leitura[k] for k in ("id", "revision", "schemaVersion")},
                    "sha256": hashlib.sha256(serializar(leitura)).hexdigest()},
-        "normalizer": {"id": "nominal-floor-plan", "version": "1.0.0",
-                       "transformations": list(RULES)},
+        "normalizer": {"id": "nominal-floor-plan", "version": versao,
+                       "transformations": list(RULES if versao == "1.0.0" else RULES_1_1)},
         "provenance": _provenance(leitura),
         "references": deepcopy(leitura["references"]),
         "relations": [{**deepcopy(r), "provenance": _provenance(r)}
                       for r in leitura["relations"]],
         "planta": {"pe_direito": int(leitura["ceilingHeightMm"]) / 1000,
-                   "comodos": rooms, "portas": doors, "janelas": windows},
+                   "comodos": comodos, "portas": doors, "janelas": windows},
     }
-    Draft202012Validator(SCHEMA).validate(result)
+    Draft202012Validator(SCHEMAS[versao]).validate(result)
     return result
 
 

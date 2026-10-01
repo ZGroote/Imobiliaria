@@ -97,6 +97,33 @@ class CaminhoFeliz(Base):
         self.assertEqual(list(self.tmp.glob(".e2e-*")), [])
 
 
+class ComodoMesclado(Base):
+    """M1.1-C1: a sala em L chega ao consumidor como UM polígono, sem parede no trecho mesclado."""
+
+    @staticmethod
+    def no_trecho(paredes):
+        # Trecho mesclado: y = 3 m, x de 0 a 2 m. No referencial da sonda (centro da caixa
+        # 7 x 5 m da planta) é z = 0,5 e x de -3,5 a -1,5.
+        return [w for w in paredes if abs(w["a"][1] - 0.5) < 1e-6 and abs(w["b"][1] - 0.5) < 1e-6
+                and min(w["a"][0], w["b"][0]) < -1.5 - 1e-6 and max(w["a"][0], w["b"][0]) > -3.5 + 1e-6]
+
+    def test_sala_em_l_sem_parede_no_trecho_mesclado(self):
+        rel, pasta = self.rodar(entrada(leitura("sala-em-l")))
+        self.assertEqual(rel["normalizador"]["version"], "1.1.0")
+        g = rel["geometria"]
+        self.assertEqual((g["conferida"], g["comodos"], g["portas"], g["janelas"]), (True, 2, 2, 2))
+        geo = e2e.sondar(pasta / "maquete.html")["geometria"]
+        self.assertEqual(len(next(c for c in geo["comodos"] if c["nome"] == "Sala")["poly"]), 6)
+        self.assertEqual(self.no_trecho(geo["paredes"]), [])
+        # A mesma planta com as partes só encostadas (1.0.0): o consumidor põe parede ali.
+        l = leitura("sala-em-l")
+        l["schemaVersion"] = "1.0.0"
+        l["relations"][0]["kind"] = "adjacent"
+        rel0, pasta0 = self.rodar(entrada(l, "leitura-m1f-l-1-0"), nome="encostadas")
+        self.assertEqual(rel0["geometria"]["comodos"], 3)
+        self.assertTrue(self.no_trecho(e2e.sondar(pasta0 / "maquete.html")["geometria"]["paredes"]))
+
+
 class Rastreabilidade(Base):
     @classmethod
     def setUpClass(cls):
