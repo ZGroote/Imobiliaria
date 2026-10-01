@@ -5,7 +5,9 @@ export type Opening = OpeningInput & {id:string;pairedWallId?:string}
 export type Layout = {rooms:Room[]; openings:Opening[]; ceilingHeightMm:number|null}
 export type Session = {id:string; revision:number; nextId:number; nextOpeningId:number; present:Layout; past:Layout[]; future:Layout[]}
 type Measures = {name:string; widthMm:number; depthMm:number; ceilingHeightMm:number}
-export type Action = ({type:'add'} & Measures) | ({type:'edit'; id:string} & Measures)
+// `add` sem posição mantém o comportamento antigo (à direita do conjunto); com posição, é o
+// cômodo solto na planta (M1.1-B), em mm inteiro como qualquer gesto.
+export type Action = ({type:'add'; xMm?:number; yMm?:number} & Measures) | ({type:'edit'; id:string} & Measures)
   | {type:'move'; id:string; xMm:number; yMm:number} | {type:'delete'; id:string}
   | ({type:'opening-add'} & OpeningInput) | ({type:'opening-edit';id:string} & OpeningInput)
   | {type:'opening-delete';id:string}
@@ -54,8 +56,11 @@ export function aplicar(s:Session,a:Action):Session {
   }
   if(a.type==='add'){
     if(rooms.length>=100) throw new Error('O limite desta planta é de 100 cômodos.')
-    const xMm=rooms.length ? Math.max(...rooms.map(r=>r.xMm+r.widthMm))+500 : 0
-    rooms=[...rooms,{id:'c'+s.nextId,name:a.name.trim(),widthMm:a.widthMm,depthMm:a.depthMm,xMm,yMm:0}]
+    const solto=a.xMm!==undefined||a.yMm!==undefined
+    if(solto&&!(Number.isSafeInteger(a.xMm)&&Number.isSafeInteger(a.yMm)))
+      throw new Error('A posição precisa usar milímetros inteiros.')
+    const xMm=solto?a.xMm!:rooms.length ? Math.max(...rooms.map(r=>r.xMm+r.widthMm))+500 : 0
+    rooms=[...rooms,{id:'c'+s.nextId,name:a.name.trim(),widthMm:a.widthMm,depthMm:a.depthMm,xMm,yMm:solto?a.yMm!:0}]
   }else{
     if(!rooms.some(r=>r.id===a.id)) throw new Error('Selecione um cômodo existente.')
     if(a.type==='delete') rooms=rooms.filter(r=>r.id!==a.id)
@@ -92,6 +97,26 @@ export function geometriaParedes(rooms:Room[]):Wall[]{
     {id:r.id+'-west',roomId:r.id,label:r.name+' · Oeste',axis:'y' as const,fixed:r.xMm,start:r.yMm,end:r.yMm+r.depthMm},
     {id:r.id+'-east',roomId:r.id,label:r.name+' · Leste',axis:'y' as const,fixed:r.xMm+r.widthMm,start:r.yMm,end:r.yMm+r.depthMm},
   ])
+}
+// A parede mais próxima de um ponto (mm), até `tolerancia`; `t` é a posição ao longo dela desde
+// o início. Em parede compartilhada vence a do cômodo onde o ponto está; empate, ordem de ID.
+export function paredeProxima(rooms:Room[],xMm:number,yMm:number,tolerancia:number):{wall:Wall;t:number}|null{
+  let melhor:{wall:Wall;t:number;d:number;dentro:boolean}|null=null
+  for(const w of geometriaParedes(rooms)){
+    const [u,v]=w.axis==='x'?[xMm,yMm]:[yMm,xMm]
+    const t=Math.min(Math.max(u,w.start),w.end),d=Math.hypot(u-t,v-w.fixed)
+    if(d>tolerancia) continue
+    const r=rooms.find(r=>r.id===w.roomId)!
+    const dentro=xMm>=r.xMm&&xMm<=r.xMm+r.widthMm&&yMm>=r.yMm&&yMm<=r.yMm+r.depthMm
+    const empate=melhor&&Math.abs(d-melhor.d)<=1e-9
+    if(!melhor||d<melhor.d-1e-9||(empate&&(dentro!==melhor.dentro?dentro:w.id<melhor.wall.id)))
+      melhor={wall:w,t:t-w.start,d,dentro}
+  }
+  return melhor&&{wall:melhor.wall,t:melhor.t}
+}
+// Distância desde o início da parede que centraliza a abertura em `t`: a 1 cm, dentro da parede.
+export function distanciaSugerida(wall:Wall,t:number,widthMm:number){
+  return Math.min(Math.max(0,wall.end-wall.start-widthMm),Math.max(0,Math.round((t-widthMm/2)/10)*10))
 }
 // Mesma origem nominal de M1-0: coordenada crescente nas quatro paredes.
 export function parDaAbertura(rooms:Room[],o:OpeningInput):{id?:string;error?:string}{
