@@ -17,8 +17,11 @@ M1.1-B. Sem deploy e sem Firestore: o objeto é a captura, não a persistência.
 
 ## Preparação (uma vez)
 
+Todos os comandos rodam **na raiz do repositório**, no branch
+`test/m1-1a-usabilidade-mobile`, e funcionam no PowerShell e no bash (nenhum usa `&&`).
+
 1. Build estático do painel, onde o capturador é a página `/capturador`, sem Firebase:
-   `cd painel && npm run build` (gera `painel/out/`).
+   `npm --prefix painel run build` (gera `painel/out/`).
 2. Servir na rede: `python tools/servir_lan.py painel/out`. Ele imprime o endereço
    `https://<ip-do-pc>:8813/`. O telefone abre `https://<ip-do-pc>:8813/capturador`.
    - **Por que HTTPS.** O capturador usa `crypto.randomUUID`, que só existe em contexto
