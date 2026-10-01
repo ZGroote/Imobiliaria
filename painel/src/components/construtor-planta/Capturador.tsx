@@ -1,7 +1,8 @@
 'use client'
 import {useEffect,useRef,useState,type PointerEvent as RPE,type ReactNode} from 'react'
 import {aplicar,desfazer,refazer,iniciar,metros,problemas,problemasAberturas,parDaAbertura,exportar,snap,
-  paredeProxima,geometriaParedes,type Session,type Room,type OpeningInput} from './modelo'
+  paredeProxima,geometriaParedes,relacoes,paredes,mesmoGrupoMesclado,grupoDoComodo,
+  type Session,type Room,type OpeningInput} from './modelo'
 import styles from './capturador.module.css'
 import Folha from './Folha'
 import FormComodo,{type MedidasComodo} from './FormComodo'
@@ -11,6 +12,7 @@ import ParedesEAberturas from './ParedesEAberturas'
 // M1.1-B: tela cheia, sem rolagem. Menu lateral para arrastar (ou tocar) cômodo, porta e
 // janela; pop-up embaixo com os dados; um toque seleciona e manter pressionado edita; dois
 // dedos movem e aproximam a planta. O modelo (modelo.ts) e o arquivo exportado não mudam.
+// M1.1-C2: mesclar cômodos encostados em formato L/T/U e separá-los pelo formulário ou seleção.
 type Ferramenta='quadrado'|'retangulo'|'janela'|'porta'
 type Ponto={x:number;y:number}
 type Camera={cx:number;cy:number;w:number}                    // centro e largura da vista, em mm
@@ -157,7 +159,7 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
     return snap([...rooms,{id:'__novo',name:'',xMm:x,yMm:y,widthMm:w,depthMm:d}],'__novo',x,y,tol)
   }
   function verificar(o:OpeningInput,ignorar?:string){
-    const par=parDaAbertura(rooms,o)
+    const par=parDaAbertura(rooms,o,s!.present.mergedGroups)
     if(par.error) return {mensagens:[par.error],trecho:''}
     const trecho=par.id?'Trecho interno, compartilhado com '+(walls.find(w=>w.id===par.id)?.label??par.id):'Trecho externo'
     const rasc={...o,id:'__rascunho',...(par.id?{pairedWallId:par.id}:{})}
@@ -198,46 +200,51 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
   function menuDescer(e:RPE<HTMLButtonElement>,f:Ferramenta){
     ignorarClique.current=false
     if(ocupado||(e.pointerType==='mouse'&&e.button!==0)) return
-    try{e.currentTarget.setPointerCapture(e.pointerId)}catch{/* ponteiro já solto */}
+    const el=e.currentTarget
+    el.setPointerCapture(e.pointerId)
     menu.current={ferramenta:f,pointerId:e.pointerId,x0:e.clientX,y0:e.clientY,moveu:false}
   }
   function menuMover(e:RPE<HTMLButtonElement>){
     const m=menu.current
     if(!m||m.pointerId!==e.pointerId) return
-    if(!m.moveu&&Math.hypot(e.clientX-m.x0,e.clientY-m.y0)<FOLGA_PX) return
-    m.moveu=true
-    const p=m.ferramenta==='porta'||m.ferramenta==='janela'?dentroDaPlanta(e.clientX,e.clientY):null
-    setArrasteMenu({ferramenta:m.ferramenta,x:e.clientX,y:e.clientY,
-      parede:p?paredeProxima(rooms,p.x,p.y,PAREDE_PX*mmPorPx)?.wall.id??null:null})
+    if(!m.moveu&&Math.hypot(e.clientX-m.x0,e.clientY-m.y0)>=FOLGA_PX) m.moveu=true
+    if(!m.moveu) return
+    const p=dentroDaPlanta(e.clientX,e.clientY)
+    const achou=(m.ferramenta==='porta'||m.ferramenta==='janela')&&p?paredeProxima(rooms,p.x,p.y,PAREDE_PX*mmPorPx):null
+    setArrasteMenu({ferramenta:m.ferramenta,x:e.clientX,y:e.clientY,parede:achou?.wall.id??null})
   }
   function menuSoltar(e:RPE<HTMLButtonElement>,cancelar=false){
     const m=menu.current
     if(!m||m.pointerId!==e.pointerId) return
+    if(e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId)
+    const moveu=m.moveu,f=m.ferramenta
     menu.current=null;setArrasteMenu(null)
-    if(!m.moveu) return                                       // foi toque: o onClick resolve
+    if(!moveu) return
     ignorarClique.current=true
     if(cancelar) return
     const p=dentroDaPlanta(e.clientX,e.clientY)
-    if(p) soltar(m.ferramenta,p);else setNotice('Solte dentro da planta.')
+    if(p) soltar(f,p)
   }
 
   function aoDescer(e:RPE<SVGSVGElement>){
-    if(e.pointerType==='mouse'&&e.button!==0) return
+    if(ocupado||(e.pointerType==='mouse'&&e.button!==0)) return
+    svg.current?.setPointerCapture(e.pointerId)
     ponteiros.current.set(e.pointerId,{x:e.clientX,y:e.clientY})
-    try{svg.current?.setPointerCapture(e.pointerId)}catch{/* ponteiro já solto */}
-    if(ponteiros.current.size>=2){comecarPinca();return}
+    if(ponteiros.current.size===2){comecarPinca();return}
+    if(ponteiros.current.size>2) return
     const p=aoPlano(e.clientX,e.clientY)
     if(!p) return
-    const el=(e.target as Element).closest('[data-comodo],[data-abertura],[data-parede]')
-    const alvo:Alvo=!el?null:el.hasAttribute('data-comodo')?{tipo:'comodo',id:el.getAttribute('data-comodo')!}
-      :el.hasAttribute('data-abertura')?{tipo:'abertura',id:el.getAttribute('data-abertura')!}
-      :{tipo:'parede',id:el.getAttribute('data-parede')!}
-    const timer=window.setTimeout(()=>pressaoLonga(e.pointerId),TOQUE_LONGO)
+    const el=document.elementFromPoint(e.clientX,e.clientY)
+    const idComodo=el?.closest?.('[data-comodo]')?.getAttribute('data-comodo')
+    const idAbertura=el?.closest?.('[data-abertura]')?.getAttribute('data-abertura')
+    const idParede=el?.closest?.('[data-parede]')?.getAttribute('data-parede')
+    const alvo:Alvo=idComodo?{tipo:'comodo',id:idComodo}:idAbertura?{tipo:'abertura',id:idAbertura}:idParede?{tipo:'parede',id:idParede}:null
+    const timer=window.setTimeout(()=>toqueLongo(),TOQUE_LONGO)
     gesto.current={tipo:'pressao',pointerId:e.pointerId,x0:e.clientX,y0:e.clientY,alvo,p0:p,timer}
   }
-  function pressaoLonga(pointerId:number){
+  function toqueLongo(){
     const g=gesto.current
-    if(g.tipo!=='pressao'||g.pointerId!==pointerId) return
+    if(g.tipo!=='pressao') return
     gesto.current={tipo:'nada'}
     const a=g.alvo
     if(aberta||aguardando||!a||a.tipo==='parede') return
@@ -358,13 +365,51 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
     if(aberta.tipo==='comodo'){
       const room=rooms.find(r=>r.id===aberta.id)
       if(!room) return null
+
+      const rels = relacoes(rooms, s!.present.mergedGroups)
+      const wallsDoComodo = new Set(Object.values(paredes(room.id)))
+      const vizinhosAdjacentes = rels
+        .filter(r => (wallsDoComodo.has(r.wallA) || wallsDoComodo.has(r.wallB)) && r.kind === 'adjacent')
+        .map(r => {
+          const otherWall = wallsDoComodo.has(r.wallA) ? r.wallB : r.wallA
+          const otherRoomId = walls.find(w => w.id === otherWall)!.roomId
+          const otherRoom = rooms.find(rm => rm.id === otherRoomId)!
+          return { id: otherRoom.id, name: otherRoom.name }
+        })
+      const vizinhosMesclaveis = Array.from(new Map(vizinhosAdjacentes.map(v => [v.id, v])).values())
+      const partesMescladas = grupoDoComodo(s!.present.mergedGroups, room.id)
+        .map(id => rooms.find(r => r.id === id)!)
+        .filter(Boolean)
+        .map(r => ({ id: r.id, name: r.name }))
+
       return {titulo:'Editar '+room.name,corpo:<FormComodo forma="retangulo" inicial={room}
         peDireito={s!.present.ceilingHeightMm} pedirPeDireito onRascunho={setRascComodo}
+        vizinhosMesclaveis={vizinhosMesclaveis} partesMescladas={partesMescladas}
+        onMesclar={vizinhoId => {
+          try {
+            const next = aplicar(s!, { type: 'merge', roomAId: room.id, roomBId: vizinhoId })
+            fechar()
+            setSession(next)
+            setNotice(avisoDoPar(next) || `Cômodos mesclados em um só: ${room.name}. Parede divisória removida.`)
+          } catch(e) {
+            setNotice((e as Error).message)
+          }
+        }}
+        onSeparar={() => {
+          try {
+            const next = aplicar(s!, { type: 'unmerge', roomId: room.id })
+            fechar()
+            setSession(next)
+            setNotice(avisoDoPar(next) || `Cômodo ${room.name} separado.`)
+          } catch(e) {
+            setNotice((e as Error).message)
+          }
+        }}
         onConfirmar={m=>{const next=aplicar(s!,{type:'edit',id:room.id,...m});fechar();setSession(next)
           setNotice(avisoDoPar(next)||'Medidas aplicadas.')}}
         onExcluir={()=>{const next=aplicar(s!,{type:'delete',id:room.id});fechar();setSession(next);setSel(null)
           setNotice(avisoDoPar(next)||'Cômodo excluído. Você pode desfazer.')}} onCancelar={fechar}>
-        <div className={styles.posicao}><span>Posição: x {metros(room.xMm)} · y {metros(room.yMm)} m</span>
+        <div className={styles.posicao}><span>Posição: x {metros(room.xMm)} • y {metros(room.yMm)} m</span>
           <div role="group" aria-label="Mover em passos de 10 cm">
             <button type="button" aria-label="Mover à esquerda 10 cm" onClick={()=>step(room,-100,0)}>←</button>
             <button type="button" aria-label="Mover acima 10 cm" onClick={()=>step(room,0,100)}>↑</button>
@@ -395,9 +440,10 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
   const redimensionado=aberta?.tipo==='comodo'&&rascComodo?rooms.find(r=>r.id===aberta.id):undefined
   const paredeDestaque=arrasteMenu?.parede??rascAbertura?.wallId??null
   const nomeSel=!selecao?'':selecao.tipo==='comodo'?(()=>{const r=rooms.find(r=>r.id===selecao.id)!
-    return r.name+' · '+metros(r.widthMm)+' × '+metros(r.depthMm)+' m'})()
+    return r.name+' • '+metros(r.widthMm)+' × '+metros(r.depthMm)+' m'})()
     :(()=>{const o=s.present.openings.find(o=>o.id===selecao.id)!
-      return (o.kind==='door'?'Porta ':'Janela ')+metros(o.widthMm)+' m · '+(walls.find(w=>w.id===o.wallId)?.label??'')})()
+      return (o.kind==='door'?'Porta ':'Janela ')+metros(o.widthMm)+' m • '+(walls.find(w=>w.id===o.wallId)?.label??'')})()
+
   const pendentes=issues.filter(p=>p.code!=='EMPTY'&&p.code!=='HEIGHT_REQUIRED').length
 
   return <div className={styles.app} aria-busy={saving}>
@@ -433,18 +479,20 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
         </pattern></defs>
         <rect x={vb.x} y={vb.y} width={vb.w} height={vb.h} fill="url(#grade-planta)"/>
         {shown.map(room=>{
-          const marcado=selecao?.tipo==='comodo'&&selecao.id===room.id
+          const ehFoco=selecao?.tipo==='comodo'&&selecao.id===room.id
+          const ehMescladoComSel=selecao?.tipo==='comodo'&&mesmoGrupoMesclado(s.present.mergedGroups,selecao.id,room.id)
+          const marcado=ehFoco||ehMescladoComSel
           return <g key={room.id} data-comodo={room.id} role="button" tabIndex={0} aria-pressed={marcado}
             aria-label={room.name+', '+metros(room.widthMm)+' por '+metros(room.depthMm)+' m'}
             onKeyDown={e=>{
               const delta:Record<string,[number,number]>={ArrowLeft:[-100,0],ArrowRight:[100,0],ArrowUp:[0,100],ArrowDown:[0,-100]}
-              if(delta[e.key]&&marcado&&!ocupado){e.preventDefault();step(room,...delta[e.key])}
+              if(delta[e.key]&&ehFoco&&!ocupado){e.preventDefault();step(room,...delta[e.key])}
               if(e.key==='Enter'||e.key===' '){e.preventDefault();if(marcado) editar(selecao);else setSel({tipo:'comodo',id:room.id})}
             }}>
             <rect x={room.xMm} y={-room.yMm-room.depthMm} width={room.widthMm} height={room.depthMm}
               fill={invalidIds.has(room.id)?'#fff1f2':marcado?'#d5eee9':'#edf3f7'}
-              stroke={invalidIds.has(room.id)?'#be123c':marcado?'#0f766e':'#64748b'}
-              strokeWidth={marcado?4:2} vectorEffect="non-scaling-stroke"/>
+              stroke={invalidIds.has(room.id)?'#be123c':ehFoco?'#0f766e':marcado?'#14b8a6':'#64748b'}
+              strokeWidth={ehFoco?4:marcado?3:2} vectorEffect="non-scaling-stroke"/>
             <text x={room.xMm+room.widthMm/2} y={-room.yMm-room.depthMm/2} textAnchor="middle"
               fontSize={Math.min(280,room.widthMm/Math.max(room.name.length,12))} fill="#0f172a" pointerEvents="none">
               {room.name.slice(0,24)}
@@ -456,9 +504,9 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
           fill="none" stroke="#0f766e" strokeWidth="3" strokeDasharray="8 5" vectorEffect="non-scaling-stroke"/>}
         {novo&&<rect pointerEvents="none" x={novo.xMm} y={-novo.yMm-novo.depthMm} width={novo.widthMm} height={novo.depthMm}
           fill="rgba(15,118,110,.12)" stroke="#0f766e" strokeWidth="3" strokeDasharray="8 5" vectorEffect="non-scaling-stroke"/>}
-        <ParedesEAberturas rooms={shown} openings={s.present.openings} paredesAtivas={!!aguardando}
-          paredeDestaque={paredeDestaque} selecionada={selecao?.tipo==='abertura'?selecao.id:null} invalidIds={invalidIds}
-          rascunho={rascAbertura?{o:rascAbertura,ok:!verificar(rascAbertura,editando??undefined).mensagens.length}:null}
+        <ParedesEAberturas rooms={shown} openings={s.present.openings} mergedGroups={s.present.mergedGroups}
+          paredesAtivas={!!aguardando} paredeDestaque={paredeDestaque} selecionada={selecao?.tipo==='abertura'?selecao.id:null}
+          invalidIds={invalidIds} rascunho={rascAbertura?{o:rascAbertura,ok:!verificar(rascAbertura,editando??undefined).mensagens.length}:null}
           ignorar={editando} mmPorPx={mmPorPx}
           onParedeTeclado={id=>{const w=walls.find(w=>w.id===id)!
             if(aguardando) abrir({tipo:'abertura-nova',kind:aguardando,wallId:id,t:(w.end-w.start)/2})}}
@@ -469,8 +517,35 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
         {!onSave&&' Somente nesta aba: baixe o arquivo antes de sair.'}</div>}
       {aguardando&&<div className={styles.faixa} role="status"><span>Toque na parede onde vai a {aguardando==='door'?'porta':'janela'}</span>
         <button onClick={()=>setAguardando(null)}>Cancelar</button></div>}
-      {selecao&&!aberta&&!aguardando&&!preview&&<div className={styles.faixa}><span>{nomeSel}</span>
-        <button className={styles.primario} onClick={()=>editar(selecao)}>Editar</button></div>}
+      {selecao&&!aberta&&!aguardando&&!preview&&<div className={styles.faixa}>
+        <span>{nomeSel}</span>
+        {selecao.tipo==='comodo'&&(()=>{
+          const rels = relacoes(rooms, s.present.mergedGroups)
+          const wallsDoComodo = new Set(Object.values(paredes(selecao.id)))
+          const vizinhosAdjacentes = rels
+            .filter(r => (wallsDoComodo.has(r.wallA) || wallsDoComodo.has(r.wallB)) && r.kind === 'adjacent')
+            .map(r => {
+              const otherWall = wallsDoComodo.has(r.wallA) ? r.wallB : r.wallA
+              return walls.find(w => w.id === otherWall)!.roomId
+            })
+          const vizinhosUnicos = Array.from(new Set(vizinhosAdjacentes))
+          if(vizinhosUnicos.length === 1){
+            const vId = vizinhosUnicos[0]
+            const vRoom = rooms.find(r => r.id === vId)
+            return <button type="button" className={styles.botaoAcaoMesclar} onClick={()=>{
+              try {
+                const next = aplicar(s, {type:'merge', roomAId: selecao.id, roomBId: vId})
+                setSession(next)
+                setNotice(avisoDoPar(next) || `Cômodos mesclados em um só: ${rooms.find(r=>r.id===selecao.id)?.name}. Parede divisória removida.`)
+              } catch(e) {
+                setNotice((e as Error).message)
+              }
+            }}>Mesclar{vRoom ? ` com ${vRoom.name}` : ''}</button>
+          }
+          return null
+        })()}
+        <button className={styles.primario} onClick={()=>editar(selecao)}>Editar</button>
+      </div>}
     </div>
     {arrasteMenu&&<div className={styles.fantasma} style={{left:arrasteMenu.x,top:arrasteMenu.y}} aria-hidden="true">
       {FERRAMENTAS.find(f=>f.id===arrasteMenu.ferramenta)!.desenho}</div>}

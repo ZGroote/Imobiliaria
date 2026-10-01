@@ -6,12 +6,16 @@ import styles from './capturador.module.css'
 export type MedidasComodo={name:string;widthMm:number;depthMm:number;ceilingHeightMm:number}
 type Props={forma:'quadrado'|'retangulo';inicial?:{name:string;widthMm:number;depthMm:number};
   peDireito:number|null;pedirPeDireito:boolean;onRascunho:(d:{widthMm:number;depthMm:number}|null)=>void;
+  vizinhosMesclaveis?:{id:string;name:string}[];partesMescladas?:{id:string;name:string}[];
+  onMesclar?:(vizinhoId:string)=>void;onSeparar?:()=>void;
   onConfirmar:(m:MedidasComodo)=>void;onExcluir?:()=>void;onCancelar:()=>void;children?:ReactNode}
 const mm=(t:string)=>{try{return metrosParaMm(t)}catch{return null}}
 const seleciona=(e:{currentTarget:HTMLInputElement})=>e.currentTarget.select()
 
 // Quadrado é só um atalho de criação: um lado vira largura e profundidade.
-export default function FormComodo({forma,inicial,peDireito,pedirPeDireito,onRascunho,onConfirmar,onExcluir,onCancelar,children}:Props){
+export default function FormComodo({forma,inicial,peDireito,pedirPeDireito,onRascunho,
+  vizinhosMesclaveis,partesMescladas,onMesclar,onSeparar,
+  onConfirmar,onExcluir,onCancelar,children}:Props){
   const [f,setF]=useState({name:inicial?.name??'',width:inicial?metros(inicial.widthMm):'',
     depth:inicial?metros(inicial.depthMm):'',height:peDireito?metros(peDireito):''})
   const [erro,setErro]=useState('')
@@ -40,6 +44,26 @@ export default function FormComodo({forma,inicial,peDireito,pedirPeDireito,onRas
     <p className={styles.dica}>Medidas entre eixos das paredes, até três casas decimais.
       {pedirPeDireito&&' O pé-direito vale para a planta inteira.'}</p>
     {children}
+    {partesMescladas && partesMescladas.length > 0 && (
+      <div className={styles.blocoMesclado}>
+        <p className={styles.dica}>Cômodo composto (mesclado com {partesMescladas.map(p => p.name).join(', ')}).</p>
+        <button type="button" className={styles.botaoSeparar} onClick={onSeparar}>
+          Separar deste cômodo
+        </button>
+      </div>
+    )}
+    {vizinhosMesclaveis && vizinhosMesclaveis.length > 0 && (
+      <div className={styles.blocoMesclado}>
+        <span className={styles.rotuloMesclar}>Mesclar com cômodo encostado:</span>
+        <div className={styles.listaMesclar}>
+          {vizinhosMesclaveis.map(v => (
+            <button key={v.id} type="button" className={styles.botaoMesclar} onClick={() => onMesclar?.(v.id)}>
+              Mesclar com {v.name}
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
     {erro&&<p role="alert" className={styles.erro}>{erro}</p>}
     <div className={styles.acoes}>
       <button type="submit" className={styles.primario}>{inicial?'Aplicar':'Adicionar'}</button>

@@ -1,6 +1,6 @@
-import {geometriaParedes,metros,type Room,type Opening,type OpeningInput,type Wall} from './modelo'
+import {geometriaParedes,metros,relacoes,type Room,type Opening,type OpeningInput,type Wall} from './modelo'
 
-type Props={rooms:Room[];openings:Opening[];paredesAtivas:boolean;paredeDestaque:string|null;
+type Props={rooms:Room[];openings:Opening[];mergedGroups?:string[][];paredesAtivas:boolean;paredeDestaque:string|null;
   selecionada:string|null;invalidIds:Set<string>;rascunho:{o:OpeningInput;ok:boolean}|null;ignorar:string|null;
   mmPorPx:number;onParedeTeclado:(wallId:string)=>void;onAberturaTeclado:(id:string)=>void}
 function segmento(w:Wall,start=w.start,end=w.end){
@@ -12,16 +12,28 @@ const teclaAtiva=(e:{key:string;preventDefault:()=>void},f:()=>void)=>{
   if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}
 }
 
-export default function ParedesEAberturas({rooms,openings,paredesAtivas,paredeDestaque,selecionada,invalidIds,
+export default function ParedesEAberturas({rooms,openings,mergedGroups,paredesAtivas,paredeDestaque,selecionada,invalidIds,
   rascunho,ignorar,mmPorPx,onParedeTeclado,onAberturaTeclado}:Props){
   const walls=geometriaParedes(rooms),destaque=walls.find(w=>w.id===paredeDestaque)
   const doRascunho=rascunho&&walls.find(w=>w.id===rascunho.o.wallId)
+  const rels=relacoes(rooms,mergedGroups)
+  const mergedWalls=new Set(rels.filter(r=>r.kind==='merged').flatMap(r=>[r.wallA,r.wallB]))
+
   return <g>
-    {paredesAtivas&&walls.map(w=><g key={w.id} data-parede={w.id} role="button" tabIndex={0}
+    {paredesAtivas&&walls.filter(w=>!mergedWalls.has(w.id)).map(w=><g key={w.id} data-parede={w.id} role="button" tabIndex={0}
       aria-label={'Parede '+w.label} onKeyDown={e=>teclaAtiva(e,()=>onParedeTeclado(w.id))}>
       <line {...segmento(w)} stroke="transparent" strokeWidth="28" vectorEffect="non-scaling-stroke"/>
       <line {...segmento(w)} pointerEvents="none" stroke="#0f766e" strokeOpacity=".6" strokeWidth="3" vectorEffect="non-scaling-stroke"/>
     </g>)}
+    {rels.filter(r=>r.kind==='merged').map(r=>{
+      const wA=walls.find(w=>w.id===r.wallA), wB=walls.find(w=>w.id===r.wallB)
+      if(!wA||!wB) return null
+      const start=Math.max(wA.start,wB.start), end=Math.min(wA.end,wB.end)
+      const pos=segmento(wA,start,end)
+      return <g key={r.id} pointerEvents="none">
+        <line {...pos} stroke="#cbd5e1" strokeWidth="2" strokeDasharray="6 4" vectorEffect="non-scaling-stroke"/>
+      </g>
+    })}
     {destaque&&<g pointerEvents="none">
       <line {...segmento(destaque)} stroke="#0f766e" strokeWidth="6" vectorEffect="non-scaling-stroke"/>
       <circle cx={segmento(destaque).x1} cy={segmento(destaque).y1} r={7*mmPorPx} fill="#0f766e" stroke="white"
