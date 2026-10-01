@@ -23,6 +23,7 @@ type Aberta={tipo:'comodo-novo';forma:'quadrado'|'retangulo';em:Ponto;tol:number
 type Gesto={tipo:'nada'}
   |{tipo:'pressao';pointerId:number;x0:number;y0:number;alvo:Alvo;p0:Ponto;timer:number}
   |{tipo:'arraste';pointerId:number;room:Room;p0:Ponto;pos:{xMm:number;yMm:number}}
+  |{tipo:'pan';pointerId:number;cam0:Camera;x0:number;y0:number}
   |{tipo:'pinca';cam0:Camera;d0:number;m0:Ponto}
 
 // Ao soltar o cômodo o encaixe é mais forte que no arraste: o dedo solta antes de saber o
@@ -257,13 +258,22 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
     ponteiros.current.set(e.pointerId,{x:e.clientX,y:e.clientY})
     const g=gesto.current
     if(g.tipo==='pinca'){moverPinca(g);return}
+    if(g.tipo==='pan'){
+      if(g.pointerId===e.pointerId) moverPan(g, e)
+      return
+    }
     if(g.tipo==='pressao'&&g.pointerId===e.pointerId){
       if(Math.hypot(e.clientX-g.x0,e.clientY-g.y0)<FOLGA_PX) return
       clearTimeout(g.timer)
       const room=g.alvo?.tipo==='comodo'&&!aberta&&!aguardando?rooms.find(r=>r.id===g.alvo!.id):undefined
-      if(!room){gesto.current={tipo:'nada'};return}
-      setSel({tipo:'comodo',id:room.id})
-      gesto.current={tipo:'arraste',pointerId:e.pointerId,room,p0:g.p0,pos:{xMm:room.xMm,yMm:room.yMm}}
+      if(room){
+        setSel({tipo:'comodo',id:room.id})
+        gesto.current={tipo:'arraste',pointerId:e.pointerId,room,p0:g.p0,pos:{xMm:room.xMm,yMm:room.yMm}}
+      }else{
+        gesto.current={tipo:'pan',pointerId:e.pointerId,cam0:cam,x0:g.x0,y0:g.y0}
+        moverPan(gesto.current, e)
+      }
+      return
     }
     const a=gesto.current
     if(a.tipo==='arraste'&&a.pointerId===e.pointerId){
@@ -274,11 +284,28 @@ export default function Capturador({initialSession,onSave}:{initialSession?:Sess
       setPreview({id:a.room.id,...a.pos})
     }
   }
+  function moverPan(g:Extract<Gesto,{tipo:'pan'}>, e:RPE<SVGSVGElement>){
+    const r=plano.current?.getBoundingClientRect()
+    if(!r) return
+    setCamera(zoomEm(g.cam0, r, {x:g.x0, y:g.y0}, {x:e.clientX, y:e.clientY}, g.cam0.w))
+  }
   function aoSubir(e:RPE<SVGSVGElement>,cancelar=false){
     if(!ponteiros.current.delete(e.pointerId)) return
     if(svg.current?.hasPointerCapture(e.pointerId)) svg.current.releasePointerCapture(e.pointerId)
     const g=gesto.current
-    if(g.tipo==='pinca'){if(!ponteiros.current.size) gesto.current={tipo:'nada'};return}
+    if(g.tipo==='pinca'){
+      if(ponteiros.current.size===1){
+        const [pId, p]=[...ponteiros.current.entries()][0]
+        gesto.current={tipo:'pan',pointerId:pId,cam0:cam,x0:p.x,y0:p.y}
+      }else if(!ponteiros.current.size){
+        gesto.current={tipo:'nada'}
+      }
+      return
+    }
+    if(g.tipo==='pan'&&g.pointerId===e.pointerId){
+      gesto.current={tipo:'nada'}
+      return
+    }
     if(g.tipo==='pressao'&&g.pointerId===e.pointerId){
       clearTimeout(g.timer);gesto.current={tipo:'nada'}
       if(!cancelar) tocar(g.alvo,g.p0)
