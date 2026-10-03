@@ -1,0 +1,90 @@
+name: Runtime V2 Browser Smoke
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'pipeline/city_runtime_v2.py'
+      - 'pipeline/montar.py'
+      - 'pipeline/build/html.py'
+      - 'pipeline/build/pacotes.py'
+      - 'pipeline/encaixar_casas_lotes.py'
+      - 'pipeline/urban_v2_kit.py'
+      - 'v1.5/renderizador-v16-moveis/app.js'
+      - 'v1.5/renderizador-v16-moveis/modules.json'
+      - 'v1.5/renderizador-v16-moveis/core/*v2.js'
+      - 'v1.5/renderizador-v16-moveis/world/*v2.js'
+      - 'tests/browser_runtime_v2.mjs'
+      - 'tests/browser_runtime_ab.mjs'
+      - '.github/workflows/runtime-v2.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.14'
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+      - name: Cache Runtime V2 lot placements
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          path: modelos_urbanos/v1/integracao/encaixes-v2-sao-carlos.json
+          key: runtime-v2-lots-${{ hashFiles('pipeline/urban_v2_kit.py', 'pipeline/encaixar_casas_lotes.py', 'sao-carlos/sao-carlos-v7.city.json', 'sao-carlos/dados/lotes_saocarlos_completo.geojson', 'sao-carlos/dados/muros_segs.json', 'padrao/cidades/sao-carlos.json') }}
+      - name: Install build dependencies
+        run: pip install -r requirements.txt
+      - name: Build V1, slim V2 and Runtime V2 package
+        run: |
+          mkdir -p "$RUNNER_TEMP/site/runtime-v2"
+          python pipeline/montar.py sao-carlos --variante v16-moveis --destino "$RUNNER_TEMP/site" --sem-zip
+          V1="$(find "$RUNNER_TEMP/site" -maxdepth 1 -name '*-aberto.html' -print -quit)"
+          test -n "$V1"
+          mv "$V1" "$RUNNER_TEMP/site/v1.html"
+
+          python pipeline/montar.py sao-carlos --variante v16-moveis --destino "$RUNNER_TEMP/site" --sem-zip --runtime-v2
+          V2="$(find "$RUNNER_TEMP/site" -maxdepth 1 -name '*-aberto.html' -print -quit)"
+          test -n "$V2"
+          mv "$V2" "$RUNNER_TEMP/site/v2.html"
+
+          python pipeline/city_runtime_v2.py --city-id sao-carlos --cidade sao-carlos --variante v16-moveis --urban-v2 sao-carlos/sao-carlos-v7.city.json "$RUNNER_TEMP/site/runtime-v2"
+          if [ -d v16-moveis/publicado/mapa/quintais ]; then
+            cp -R v16-moveis/publicado/mapa/quintais "$RUNNER_TEMP/site/quintais"
+          fi
+      - name: Serve isolated build
+        run: |
+          python -m http.server 8872 --bind 127.0.0.1 --directory "$RUNNER_TEMP/site" >"$RUNNER_TEMP/http.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/http.pid"
+      - name: Chrome Runtime V2 smoke
+        run: |
+          CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$CHROME_BIN"
+          RUNTIME_V2_MOBILE_SCREENSHOT="$RUNNER_TEMP/runtime-v2-mobile.png" CHROME="$CHROME_BIN" node tests/browser_runtime_v2.mjs "http://127.0.0.1:8872/v2.html?runtime=v2&cityIndex=/runtime-v2/index.json&q=baixo"
+      - name: Upload Runtime V2 mobile screenshot
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: runtime-v2-mobile
+          path: ${{ runner.temp }}/runtime-v2-mobile.png
+          if-no-files-found: error
+          retention-days: 7
+      - name: V1 vs V2 cold browser benchmark
+        run: |
+          CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$CHROME_BIN"
+          mkdir -p "$RUNNER_TEMP/runtime-ab"
+          RUNTIME_AB_SCREENSHOT_DIR="$RUNNER_TEMP/runtime-ab" CHROME="$CHROME_BIN" node tests/browser_runtime_ab.mjs             "http://127.0.0.1:8872/v1.html?q=baixo"             "http://127.0.0.1:8872/v2.html?runtime=v2&cityIndex=/runtime-v2/index.json&q=baixo"
+      - name: Upload Runtime visual A/B
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: runtime-v1-v2-visual-ab
+          path: ${{ runner.temp }}/runtime-ab/*.png
+          if-no-files-found: error
+          retention-days: 7

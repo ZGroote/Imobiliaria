@@ -33,3 +33,20 @@ for (const [name, start, variable, type] of cases) {
     assert.equal(b.color.getHex(), a.color.getHex());
   });
 }
+
+
+test('V2 grass ground is shader-only and legacy remains the default', () => {
+  const ctx = vm.createContext({K:{asfaltoPlano:0x555555},TEX_CIDADE:{chao:{}},
+    GLSL_RUIDO:'float vnoise(vec2 p){return .5;}\nfloat h21(vec2 p){return .5;}'});
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/lib/three.min.js', import.meta.url), 'utf8'), ctx);
+  vm.runInContext(fs.readFileSync(new URL('../v1.5/renderizador-v16-moveis/materials/surfaces.js', import.meta.url), 'utf8'), ctx);
+  const legacy=ctx.SurfaceMaterials.create({...ctx,GLSL_RUIDO:ctx.GLSL_RUIDO,GRASS_V2:false}).chao();
+  const grass=ctx.SurfaceMaterials.create({...ctx,GLSL_RUIDO:ctx.GLSL_RUIDO,GRASS_V2:true}).chao();
+  assert.equal(legacy.customProgramCacheKey(),'chaoquadra');
+  assert.equal(grass.customProgramCacheKey(),'chaoquadra-grass-v2');
+  const shader={uniforms:{},vertexShader:ctx.THREE.ShaderLib.basic.vertexShader,
+    fragmentShader:ctx.THREE.ShaderLib.basic.fragmentShader};
+  grass.onBeforeCompile(shader);
+  assert.match(shader.fragmentShader,/greenScore/);
+  assert.match(shader.fragmentShader,/vec3 lawn/);
+});

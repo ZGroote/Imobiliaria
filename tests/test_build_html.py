@@ -30,7 +30,8 @@ def inflado(texto, ident):
 
 class HtmlTests(unittest.TestCase):
     def test_every_block_is_packed_and_comes_back_whole(self):
-        for extras in ([], ['__urbanModels', '__exteriorModels', '__listingModels']):
+        for extras in ([], ['__urbanModels', '__exteriorModels', '__listingModels'],
+                       ['__urbanModelsV2', '__exteriorModels', '__listingModels']):
             texto = comprime(pagina(extras))
             for ident, _ in DADOS:
                 self.assertEqual(inflado(texto, ident), '[%s]' % ident)
@@ -45,6 +46,12 @@ class HtmlTests(unittest.TestCase):
             self.assertNotIn('data-zip="json" id="__cidade"', texto)
             self.assertTrue(texto.rstrip().endswith('</script>'), 'o carregador vai no fim')
             self.assertIn('DecompressionStream("deflate-raw")', texto)
+
+    def test_slim_runtime_v2_page_can_omit_monolithic_city_block(self):
+        slim = pagina().replace('<script type="application/json" id="__citydata">[__citydata]</script>', '')
+        packed = comprime(slim)
+        self.assertNotIn('id="__citydata"', packed)
+        self.assertIn('data-zip="json" id="__poidata"', packed)
 
     def test_a_page_without_the_three_anonymous_scripts_is_refused(self):
         with self.assertRaises(SystemExit):

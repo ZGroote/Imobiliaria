@@ -88,6 +88,11 @@ const MLAT = 111132.92, MLON = 111319.49 * Math.cos(CENTER.lat * Math.PI/180);
 const px = lon => (lon - CENTER.lon) * MLON;
 const pz = lat => -(lat - CENTER.lat) * MLAT;
 const Q = CIDADE.quantizacao;                          // decímetros: precisão de 10 cm
+const URL_PARAMS = new URLSearchParams(location.search);
+const RUNTIME_V2 = URL_PARAMS.get("runtime") === "v2";
+const RUNTIME_V2_INDEX = URL_PARAMS.get("cityIndex");
+// V2-only visual experiment. ?ground=legacy is the instant fallback; V1 never changes.
+const GROUND_V2 = RUNTIME_V2 && URL_PARAMS.get("ground") !== "legacy";
 
 /* Aparência: o que vale SÓ NA CIDADE QUE PEDIU.
    ------------------------------------------------------------------
@@ -508,7 +513,7 @@ const {facadeMaterial, riseLine} = FacadeMaterials.create({ AP_ESPEC,
   uRelief, uHeight, uFuro, uNoite
 });
 const surfaceMaterials = SurfaceMaterials.create({THREE, K, TEX_CIDADE, GLSL_RUIDO,
-  AP_LUZ, AP_ESPEC});
+  AP_LUZ, AP_ESPEC, GRASS_V2:GROUND_V2});
 const flat = c => new THREE.MeshPhongMaterial({ color:c, shininess:0, specular:0x000000, polygonOffset:true, polygonOffsetFactor:-1, polygonOffsetUnits:-1 });
 // v6: chao que acompanha o relevo (quadras). Ver pipeline/chao.py.
 // v7: o relevo tem que estar carregado ANTES de chao/rua/muro/predio se registrarem.
@@ -994,12 +999,14 @@ const buildingPlacement = BuildingPlacement.create({geometry: MapGeometry, types
 const {explicitBuilding} = buildingPlacement;
 const buildingOverRoad = b => buildingPlacement.blocked(b, roadSafety);
 const urbanSplit = records => buildingPlacement.split(records, urban, roadSafety);
-if (new URLSearchParams(location.search).get("casas") !== "procedural") {
+if (!RUNTIME_V2 && new URLSearchParams(location.search).get("casas") !== "procedural") {
   try {
     urban = UrbanModels.create(THREE, JSON.parse($("__urbanModels").textContent), gBuild,
                               {cut:uFuro, shadows:SOMBRA_CIDADE,terrain:urbanBase});
   } catch (e) { console.warn("Biblioteca urbana indisponivel; usando volumes atuais.", e); }
 }
+// Runtime V2 receives its lightweight city-house kit from the server spatial
+// package during loadCityV2(); the heavyweight V1 pack stays V1-only.
 function urbanBase(b, x, z) {
   return terrainY(x,z);
 }
@@ -1357,6 +1364,7 @@ const gLive = new Map();       // índice -> { objs, risers, roads }
 const streaming = WorldStreaming.create({target, live:gLive, getGroups:()=>gGroups,
   getRadius:()=>STREAM_R, hysteresis:STREAM_HYST, budgetMs:STREAM_MS,
   dropGroup, buildGroup, rebuildOverlay, now:()=>performance.now()});
+let v2Index = null, v2Loader = null, v2Bridge = null, v2Controller = null;
 
 /* O acervo de unidades, lido CEDO. A lista continua documentada onde sempre esteve
    (ver UNIDADES, na secao do interior); o que subiu pra ca foi so a leitura, porque o
@@ -1564,11 +1572,10 @@ function groupsFrom(B, R, G, grp) {
   return out;
 }
 
-function dropGroup(i) {
-  const rec = gLive.get(i);
+function disposeGroupRec(rec) {
   if (!rec) return;
   if (urban) for (const slot of rec.urban || []) urban.remove(slot);
-  for (const o of rec.objs) {
+  for (const o of rec.objs || []) {
     if (o.parent) o.parent.remove(o);
     if (o.geometry) {
       terrain.unregister(o.geometry);
@@ -1578,14 +1585,19 @@ function dropGroup(i) {
   }
   // risers guarda o uniform da animação de subida por malha montada; sem tirar
   // daqui, a lista cresce sem limite conforme o usuário anda pela cidade.
-  for (const u of rec.risers) {
+  for (const u of rec.risers || []) {
     const k = risers.findIndex(r => r.u === u);
     if (k >= 0) risers.splice(k, 1);
   }
-  // seenStreets nao e limpo aqui: o rebuildOverlay() zera e refaz o conjunto
-  // inteiro logo em seguida, e limpar aqui so criaria dois donos pro mesmo estado.
   if (rec.plants) vegetation.invalidate();
   if (rec.sombras) somSujo = true;
+}
+function dropGroup(i) {
+  const rec = gLive.get(i);
+  if (!rec) return;
+  disposeGroupRec(rec);
+  // seenStreets nao e limpo aqui: o rebuildOverlay() zera e refaz o conjunto
+  // inteiro logo em seguida, e limpar aqui so criaria dois donos pro mesmo estado.
   gLive.delete(i);
 }
 
@@ -1608,7 +1620,12 @@ function rebuildOverlay() {
     for (const w of rec.roads) addStreets([w]);
 }
 
-const streamUpdate = streaming.update;
+function streamUpdate(force) {
+  // No V2, ruas/areas verdes continuam usando o streaming espacial comprovado do V1
+  // enquanto a aparencia dos predios vem dos chunks direcionais.
+  streaming.update(force);
+  if (v2Controller) v2Controller.update(!!force);
+}
 
 /* Chamado uma vez por frame: gasta no máximo STREAM_MS montando. O laço de
    render é o mesmo que desenha, então estourar esse orçamento aparece como
@@ -1663,6 +1680,11 @@ function resetScene() {
   // cidade e ficam na cena entre um carregamento e outro — se saissem do registro de
   // relevo aqui, parariam de acompanhar o terreno depois do primeiro loadCity().
   terrain.retain(g => g.userData.poi || g.userData.ground);
+  // V2 pode ter requisicoes em voo. Cancela a geracao logica antes de limpar a cena,
+  // para uma resposta atrasada nao remontar um chunk depois do reset.
+  if (v2Controller) v2Controller.reset();
+  v2Index = v2Loader = v2Bridge = v2Controller = null;
+  if (window.__runtimeV2) window.__runtimeV2 = null;
   // v4: sem isso, um segundo loadCity() deixaria gLive apontando pra malhas ja
   // descartadas e o streaming nunca remontaria essas quadras.
   for (const k of [...gLive.keys()]) gLive.delete(k);
@@ -1736,6 +1758,210 @@ if ($("tArrows")) $("tArrows").addEventListener("click", () => {
   $("tArrows").setAttribute("aria-pressed", String(on));
   if (gArrows) gArrows.visible = on;
 });
+const V2_SESSION_CACHE_MAX = 48;
+const v2JsonSession = new Map();
+function v2SessionRemember(url,promise) {
+  v2JsonSession.delete(url);
+  v2JsonSession.set(url,promise);
+  while (v2JsonSession.size > V2_SESSION_CACHE_MAX)
+    v2JsonSession.delete(v2JsonSession.keys().next().value);
+  return promise;
+}
+async function fetchJsonV2(url) {
+  const absolute = new URL(url, location.href).href;
+  if (v2JsonSession.has(absolute)) {
+    const hit=v2JsonSession.get(absolute);
+    v2SessionRemember(absolute,hit);
+    return hit;
+  }
+  const p = (async () => {
+    const r = await fetch(absolute, { cache:"default" });
+    if (!r.ok) throw new Error("HTTP " + r.status + " em " + absolute);
+    return r.json();
+  })();
+  v2SessionRemember(absolute,p);
+  try { return await p; }
+  catch (e) { v2JsonSession.delete(absolute); throw e; }
+}
+function v2Absolute(base, rel) { return new URL(rel, base).href; }
+
+let v2PrewarmLast = null;
+async function prewarmCityV2At(x,z) {
+  if (!RUNTIME_V2_INDEX || !Number.isFinite(x) || !Number.isFinite(z)) return null;
+  const absoluteIndex = new URL(RUNTIME_V2_INDEX, location.href).href;
+  const rawIndex = await fetchJsonV2(absoluteIndex);
+  if (!Array.isArray(rawIndex.chunks)) return null;
+
+  const base = [
+    fetchJsonV2(v2Absolute(absoluteIndex, rawIndex.context?.url || "context.json"))
+  ];
+  if (rawIndex.urbanKit?.url)
+    base.push(fetchJsonV2(v2Absolute(absoluteIndex, rawIndex.urbanKit.url)));
+
+  const ranked = rawIndex.chunks.map(ch => ({
+    ch,
+    d: Math.max(0, Math.hypot((ch.cx||0)-x,(ch.cz||0)-z) - (ch.rad||0))
+  })).sort((a,b)=>a.d-b.d);
+
+  // First useful neighbourhood: enough mass to make the transition feel instant,
+  // but intentionally much smaller than the normal 128-visible working set.
+  const critical = ranked.slice(0,12);
+  const warm = ranked.slice(12,32);
+
+  const resource = ch => v2Absolute(absoluteIndex, ch.pack || ch.url);
+  await Promise.all(base.concat(critical.map(({ch}) => fetchJsonV2(resource(ch)))));
+  v2PrewarmLast = {x,z,critical:critical.length,warm:warm.length,ready:true};
+
+  // The second ring is opportunistic. It never blocks the miniature or map transition.
+  Promise.all(warm.map(({ch})=>fetchJsonV2(resource(ch))))
+    .then(()=>{ if(v2PrewarmLast&&v2PrewarmLast.x===x&&v2PrewarmLast.z===z) v2PrewarmLast.warmReady=true; })
+    .catch(()=>{});
+  return v2PrewarmLast;
+}
+
+function mountV2Chunk(id, value, meta) {
+  const key = "v2:" + id;
+  if (gLive.has(key)) return key;
+  const rec = { objs:[], risers:[], roads:[], cx:meta.cx, cz:meta.cz };
+  gLive.set(key, rec);
+  assembleInto(rec, value.B || [], [], [], meta.cx, meta.cz);
+  sujaSombra();
+  return key;
+}
+function unmountV2Chunk(_id, key) {
+  const rec = gLive.get(key);
+  if (!rec) return;
+  disposeGroupRec(rec);
+  gLive.delete(key);
+  sujaSombra();
+}
+
+async function loadCityV2(indexUrl) {
+  resetScene();
+  const absoluteIndex = new URL(indexUrl, location.href).href;
+  const rawIndex = await fetchJsonV2(absoluteIndex);
+  if (rawIndex.format !== "city-runtime-v2" || rawIndex.version !== 2 ||
+      !rawIndex.cityId || !Array.isArray(rawIndex.chunks))
+    throw new Error("indice Runtime V2 invalido ou sem identidade persistente");
+
+  const index = {
+    ...rawIndex,
+    chunks: rawIndex.chunks.map(ch => ({...ch,
+      url:v2Absolute(absoluteIndex, ch.url),
+      packUrl:ch.pack ? v2Absolute(absoluteIndex, ch.pack) : null
+    }))
+  };
+  const contextUrl = v2Absolute(absoluteIndex, rawIndex.context?.url || "context.json");
+  const kitUrl = rawIndex.urbanKit?.url ? v2Absolute(absoluteIndex, rawIndex.urbanKit.url) : null;
+  const [rawContext, rawUrbanKit] = await Promise.all([
+    fetchJsonV2(contextUrl),
+    kitUrl ? fetchJsonV2(kitUrl) : Promise.resolve(null)
+  ]);
+  const {R, G} = CityChunkDataV2.decodeContext(decode, rawContext);
+
+  // V2 is intentionally online/server-first. Recreate the shared lightweight asset
+  // pools from the server package; never depend on an embedded/offline urban payload.
+  if (urban) { urban.dispose(); urban = null; }
+  if (rawUrbanKit) {
+    try {
+      urban = UrbanModels.create(THREE, rawUrbanKit, gBuild,
+                                {cut:uFuro, shadows:SOMBRA_CIDADE,terrain:urbanBase});
+    } catch (e) {
+      console.warn("Kit urbano V2 do servidor indisponivel; usando volumes procedurais.", e);
+    }
+  }
+  const buildingCount = index.buildingCount ??
+    index.chunks.reduce((n,ch) => n + (ch.buildings || 0), 0);
+  GRID = buildingCount > 50000 ? 12 : 4;
+
+  // O contexto leve continua conhecido: vias, areas verdes, busca e minimapa.
+  // A massa de predios NAO entra aqui; chega somente pelos chunks selecionados.
+  gGroups = groupsFrom([], R, G, []);
+  indexaBusca([], R);
+  montaBaseMinimapa(R);
+  indexaAsfalto(R);
+  roadSafety = RoadClearance.create(R,w=>ROAD_W[HW[w.k]]||6,.15);
+  buildingPlacement.clear();
+  if (window.__gMuros) {
+    const old=window.__gMuros;
+    old.removeFromParent(); terrain.unregister(old.geometry);
+    old.geometry.dispose(); old.material.dispose();
+  }
+  buildMuros();
+  buildFacingArrows([]);
+
+  let minX=1e9,maxX=-1e9,minZ=1e9,maxZ=-1e9;
+  for (const g of index.chunks) {
+    minX=Math.min(minX,g.cx-g.rad); maxX=Math.max(maxX,g.cx+g.rad);
+    minZ=Math.min(minZ,g.cz-g.rad); maxZ=Math.max(maxZ,g.cz+g.rad);
+  }
+  if (index.chunks.length)
+    frame0(Math.max(4, Math.round(Math.max(maxX-minX,maxZ-minZ)/TILE_M)));
+  else frame0(4);
+
+  const ctx = buildStreetContext(R);
+  if (ctx) gRoad.add(ctx);
+  sph.radius = Math.min(sph.radius, 480);
+
+  v2Loader = CityChunkLoaderV2.create({
+    fetchJson: fetchJsonV2,
+    decode: (raw, meta) => CityChunkDataV2.decodeChunk(decode, raw, meta, index.cityId),
+    maxResident: 192,
+    maxResidentBytes: 768 * 1024
+  });
+  v2Bridge = CitySceneBridgeV2.create({
+    loader:v2Loader, mountChunk:mountV2Chunk, unmountChunk:unmountV2Chunk,
+    concurrency:8
+  });
+  v2Index = index;
+  v2Controller = CityControllerV2.create({
+    index,
+    select:CityRuntimeV2.select,
+    bridge:v2Bridge,
+    getResident:()=>v2Loader.residentIds(),
+    getSample:()=>({
+      x:target.x, z:target.z,
+      // THREE.Spherical: camera offset = (sin(theta), cos(theta)) no plano XZ.
+      // O que a camera enxerga alem do alvo e o vetor oposto.
+      viewDirX:-Math.sin(sph.theta), viewDirZ:-Math.cos(sph.theta)
+    }),
+    getViewConfig:()=>({
+      renderRadius:STREAM_R,
+      prefetchRadius:STREAM_R*1.15,
+      forwardExtra:Math.max(350, STREAM_R*.75),
+      prefetchBias:STREAM_R*.22,
+      hysteresis:STREAM_HYST,
+      baseRenderFactor:.62,
+      // Hard working-set budget: city size must not determine client memory/network.
+      maxVisible:128,
+      maxWarm:48,
+      maxWantedBytes:512 * 1024
+    }),
+    now:()=>performance.now(),
+    onError:e=>console.error("Runtime V2 streaming:",e)
+  });
+
+  window.__runtimeV2 = {
+    index, loader:v2Loader, bridge:v2Bridge, controller:v2Controller,
+    stats:()=>({
+      cityId:index.cityId,
+      chunks:index.chunks.length,
+      buildings:buildingCount,
+      resident:v2Loader.residentIds().size,
+      residentBytes:v2Loader.residentBytes(),
+      mounted:v2Bridge.mountedIds().size
+    })
+  };
+
+  streaming.start();            // contexto (ruas/verde)
+  streamUpdate(true);           // contexto + primeiro lote direcional de predios
+  lerLink();
+
+  phase.classList.remove("off");
+  progTxt.textContent = `${index.chunks.length} chunks · Runtime V2 experimental`;
+  hideStatus();
+}
+
 function loadCity(data, label) {
   if (!data || !data.b) throw new Error("arquivo sem edificações");
   resetScene();
@@ -1836,6 +2062,23 @@ async function fetchCity(url) {
 
 async function boot() {
   frame0(4);
+  if (RUNTIME_V2) {
+    stK.textContent = "Iniciando Runtime V2";
+    stM.textContent = "Carregando indice espacial";
+    stI.style.width = "12%";
+    try {
+      if (!RUNTIME_V2_INDEX) throw new Error("use ?runtime=v2&cityIndex=<index.json>");
+      await loadCityV2(RUNTIME_V2_INDEX);
+      stI.style.width = "100%";
+      return;
+    } catch (e) {
+      console.error("Falha no Runtime V2:", e);
+      stK.textContent = "Runtime V2 nao iniciou";
+      stM.textContent = e.message || "Erro no indice/chunks";
+      stI.style.width = "100%";
+      return;
+    }
+  }
   // Duplo clique abre em file://, e ali fetch e bloqueado pela origem opaca.
   // A base vai embutida; a rede so entra se alguem pedir outra cidade por ?city=.
   const embutida = document.getElementById("__citydata");
@@ -1946,6 +2189,7 @@ const housesBox = $("houses");
 // pelo proprio `$`, que ja acha o elemento no documento.
 HouseSheet.create({document, $, esc, px, pz, brl, getSheet:()=>listingSheet,
   ListingModels, hsheet, usheet:$("usheet"), housesBox, houseBeacon, flyTo,
+  prewarmMapAt:(x,z)=>prewarmCityV2At(x,z),
   closePoiSheet:()=>closePoiSheet(), abrePerto:ctx=>abrePerto(ctx),
   // `listingIdentity` e a escada nascem os dois mais abaixo -- chamada adiada.
   predioMaisPerto:(x,z,r)=>listingIdentity.predioMaisPerto(x,z,r),
@@ -2329,6 +2573,7 @@ const {pedePredio, cancelaEscolha, abreUnidade, getEscolhendo, getFicha, setFich
   getEtapa:()=>etapas.ETAPA, pintaEtapas:()=>etapas.pintaEtapas(),
   vaiParaEtapa:k=>etapas.vaiParaEtapa(k), tour:v=>etapas.tour(v),
   marcaEtapaNaUrl:()=>marcaEtapaNaUrl(), predioMaisPerto,
+  prewarmMapAt:(x,z)=>prewarmCityV2At(x,z),
   mostraMaquete:(rec,u,d)=>etapas.mostraMaquete(rec,u,d),
   escondeMaquete:()=>etapas.escondeMaquete()});
 

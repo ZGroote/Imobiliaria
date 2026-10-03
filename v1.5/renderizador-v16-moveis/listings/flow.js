@@ -9,7 +9,7 @@
                    // e nao como valor, porque `vaiParaEtapa` so existe depois que o
                    // app.js terminou de montar tudo -- ver a nota de TDZ la.
                    getEtapa, pintaEtapas, vaiParaEtapa, tour, marcaEtapaNaUrl,
-                   mostraMaquete, escondeMaquete, predioMaisPerto}) {
+                   mostraMaquete, escondeMaquete, predioMaisPerto, prewarmMapAt}) {
 const iaviso = $("iaviso");
 let escolhendo = null;            // unidade esperando o usuario apontar o predio
 function pedePredio(u, texto) {
@@ -46,6 +46,10 @@ function abreUnidade(u, tentativa) {
   // clique caia dentro da casa 980 ms depois; quem so queria saber o que era aquele
   // anuncio se via em primeira pessoa numa sala, sem ter lido metragem nem comodo, e
   // com a cidade sumindo atras do corte. Agora a visita 3D e um botao da ficha.
+  // The property miniature is useful dwell time: while the person reads the card,
+  // warm the online Runtime V2 around this exact property. Fire-and-forget so opening
+  // the sheet never waits for network.
+  try { prewarmMapAt?.(mx, mz); } catch {}
   houseBeacon.position.set(mx, 0, mz);
   houseBeacon.visible = true;
   target.set(mx, 0, mz);

@@ -38,7 +38,7 @@ def rectangle(x, z, theta, width, depth):
                     for u, v in [(-1,-1),(1,-1),(1,1),(-1,1)]])
 
 
-def compile_placements(cid, city_text, pack_text, root):
+def compile_placements(cid, city_text, pack_text, root, cache_tag=None):
     root = Path(root)
     lot_path = Path(cid.caminho('lotes'))
     if not lot_path.exists():
@@ -55,7 +55,8 @@ def compile_placements(cid, city_text, pack_text, root):
     digest = hashlib.sha256(Path(__file__).read_bytes() + str(VERSION).encode() + city_text.encode() +
                             pack_text.encode() + lot_bytes + wall_bytes +
                             json.dumps(cid._d, sort_keys=True).encode()).hexdigest()
-    output = root/'modelos_urbanos'/'v1'/'integracao'/('encaixes-'+cid.slug+'.json')
+    nome = ('encaixes-'+cid.slug+'.json') if not cache_tag else ('encaixes-%s-%s.json' % (cache_tag,cid.slug))
+    output = root/'modelos_urbanos'/'v1'/'integracao'/nome
     if output.exists():
         cache = json.loads(output.read_text(encoding='utf-8'))
         if cache.get('hash') == digest:
@@ -113,9 +114,13 @@ def compile_placements(cid, city_text, pack_text, root):
         dot = lambda pt, axis: pt[0]*axis[0]+pt[1]*axis[1]
         front = max(dot(pt,f) for pt in ring)
         lc = list(lot.exterior.coords)
-        lot_front = max(dot(pt,f) for pt in lc)-3
+        lot_f_min,lot_f_max=min(dot(pt,f) for pt in lc),max(dot(pt,f) for pt in lc)
+        lot_r_min,lot_r_max=min(dot(pt,r) for pt in lc),max(dot(pt,r) for pt in lc)
+        lot_front = lot_f_max-3
+        lot_width = lot_r_max-lot_r_min
+        lot_depth = lot_f_max-lot_f_min
         lateral = dot((p.centroid.x,p.centroid.y),r)
-        lot_lateral = (min(dot(pt,r) for pt in lc)+max(dot(pt,r) for pt in lc))/2
+        lot_lateral = (lot_r_min+lot_r_max)/2
         # Inflate neighboring source volumes to cover their roof overhangs too.
         nearby = [int(j) for j in tree.query(lot.buffer(2)) if j != i]
         obstacles = [buildings[j].buffer(.65,join_style=2) for j in nearby]
@@ -125,29 +130,58 @@ def compile_placements(cid, city_text, pack_text, root):
         obstacles += [roads[j] for j in road_tree.query(lot)]
         available = lot.buffer(-.6,join_style=2).difference(unary_union(obstacles))
         category = 'sobrados' if round((h-1.1)/3.15) >= 2 else 'casas'
+        # Occupancy is a lot class, not one global percentage. Compact urban lots can
+        # legitimately approach 80% built footprint; larger/open lots keep visible
+        # setbacks and backyard. The class is deterministic for reproducibility.
+        seed = int(hashlib.sha256(('%s:%s' % (cid.slug,i)).encode()).hexdigest()[:8],16)
+        jitter=((seed>>8)&255)/255.0
+        if lot.area <= 180 or lot_width <= 9.5:
+            occ_target = .74 + .06*jitter      # 74..80%
+            occ_cap = .82
+        elif lot.area <= 300 or lot_width <= 12.5:
+            occ_target = .62 + .08*jitter      # 62..70%
+            occ_cap = .74
+        elif lot.area <= 450:
+            occ_target = .52 + .08*jitter      # 52..60%
+            occ_cap = .66
+        else:
+            occ_target = .40 + .10*jitter      # 40..50%
+            occ_cap = .58
+        # Deep narrow lots tend to read better with a little more house mass.
+        if lot_depth > lot_width*2.2:
+            occ_target=min(occ_target+.04,occ_cap)
+        target_area = min(330.0, max(p.area, lot.area*occ_target))
+        min_area = min(target_area*.55, lot.area*.28)
+        max_area = min(360.0, lot.area*occ_cap)
         options = []
         for ai,a in enumerate(assets):
             w,ah,d = a['size']; area = w*d
-            if a['category'] != category or area < p.area*.85 or area > lot.area*.65 or not h*.65 <= ah <= h*1.4:
+            if a['category'] != category or area < min_area or area > max_area or not h*.65 <= ah <= h*1.4:
                 continue
-            for fr in dict.fromkeys([front,lot_front,front-2]):
-                for lat in dict.fromkeys([lateral,lot_lateral]):
-                    x = round(r[0]*lat+f[0]*(fr-d/2),2)
-                    z = round(r[1]*lat+f[1]*(fr-d/2),2)
-                    box = rectangle(x,z,theta,w,d)
-                    if available.covers(box):
-                        options.append((ai,x,z,box,area,math.hypot(x-p.centroid.x,z-p.centroid.y)))
+            # Four high-value placements instead of the previous Cartesian product.
+            # This keeps frontage/centering choices while cutting expensive polygon
+            # covers() calls in the server-side preprocessing stage.
+            positions=list(dict.fromkeys([
+                (lot_front,lot_lateral),(lot_front,lateral),
+                (front,lot_lateral),(front,lateral)]))
+            for fr,lat in positions:
+                x = round(r[0]*lat+f[0]*(fr-d/2),2)
+                z = round(r[1]*lat+f[1]*(fr-d/2),2)
+                box = rectangle(x,z,theta,w,d)
+                if available.covers(box):
+                    fit = abs(area-target_area)/max(1.0,target_area)
+                    options.append((ai,x,z,box,area,math.hypot(x-p.centroid.x,z-p.centroid.y),fit))
         if not options:
             continue
-        max_area = max(o[4] for o in options)
-        options = [o for o in options if o[4] >= max_area*.9]
-        # One position per variant; favor staying near its original frontage.
-        by_asset = {}
-        for o in sorted(options,key=lambda o:o[5]):
+        best_fit=min(o[6] for o in options)
+        options=[o for o in options if o[6] <= best_fit+.12]
+        # One position per variant; keep a small deterministic variety pool among
+        # models that achieve nearly the same lot occupancy.
+        by_asset={}
+        for o in sorted(options,key=lambda o:(o[6],o[5],-o[4])):
             by_asset.setdefault(o[0],o)
-        options = list(by_asset.values())
-        seed = int(hashlib.sha256(('%s:%s' % (cid.slug,i)).encode()).hexdigest()[:8],16)
-        ai,x,z,box,area,_ = options[seed % len(options)]
+        options=sorted(by_asset.values(),key=lambda o:(o[6],-o[4],o[5]))[:6]
+        ai,x,z,box,area,_,_ = options[seed % len(options)]
         placements[i] = [ai,x,z,theta]
         accepted[i] = box
         for cell in cells(box):
@@ -155,6 +189,9 @@ def compile_placements(cid, city_text, pack_text, root):
         if len(examples)<30 or math.hypot(x+525,z+1598)<200:
             examples.append(dict(index=i,asset=assets[ai]['id'],x=x,z=z,
                                  lot_m2=round(lot.area,1),source_m2=round(p.area,1),
+                                 lot_width_m=round(lot_width,1),lot_depth_m=round(lot_depth,1),
+                                 target_occupancy_pct=round(occ_target*100,1),
+                                 actual_occupancy_pct=round(area/lot.area*100,1),
                                  model_envelope_m2=round(area,1)))
         if len(placements)%5000 == 0:
             print('  encaixadas %d casas...' % len(placements), flush=True)

@@ -31,6 +31,7 @@ configuração e scripts.
 | Checkpoints anteriores: produção, código, gates e pendências ao fim do ciclo de higiene | [27/09](tasks/checkpoints/higiene-2026-09-27.md) e [26/09](tasks/checkpoints/estabilizacao-2026-09-26.md); atualização em [M0-A de 30/09](tasks/checkpoints/m0a-2026-09-30.md) |
 | Mapa 3D: o contrato de cidade e os portões de aceite | [PADRAO.md](PADRAO.md) |
 | Mapa 3D: o passo a passo, do arquivo baixado ao HTML | [PIPELINE.md](PIPELINE.md) |
+| Runtime V2: plano pós-mapa para preload paralelo de mapa + LEVE + PREMIUM | [tasks/runtime-v2/plano-pos-mapa.md](tasks/runtime-v2/plano-pos-mapa.md) |
 | Fontes da base 1.5 (renderizador modular e miniaturas) | [v1.5/LEIA-ME.md](v1.5/LEIA-ME.md) |
 | Maquete, planta e visita: o padrão aprovado | [v1.5/miniaturas/README.md](v1.5/miniaturas/README.md), [v1.5/miniaturas/PADRAO-ATUAL.md](v1.5/miniaturas/PADRAO-ATUAL.md) e, para agentes, [v1.5/miniaturas/AGENTS.md](v1.5/miniaturas/AGENTS.md) |
 | Automação das miniaturas: contrato da fábrica, jobs, cache, exceções e sequência M0–M5 | [tasks/miniaturas/fabrica.md](tasks/miniaturas/fabrica.md); M2 LEVE genérico: [tasks/miniaturas/m2-fonte-leve.md](tasks/miniaturas/m2-fonte-leve.md) |

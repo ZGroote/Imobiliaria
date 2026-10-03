@@ -80,7 +80,8 @@
     return varied[seed%varied.length];
   }
   function create(THREE,pack,parent,{cut,shadows=false,terrain}={}){
-    if(!pack||pack.version!==1||pack.lod!==1||!Array.isArray(pack.assets)||pack.assets.length<40)throw new Error('Invalid urban asset pack');
+    const minAssets=pack&&pack.illustrative?8:40;
+    if(!pack||pack.version!==1||pack.lod!==1||!Array.isArray(pack.assets)||pack.assets.length<minAssets)throw new Error('Invalid urban asset pack');
     const ids=new Set();
     for(const a of pack.assets){
       if(ids.has(a.id)||!['casas','sobrados','predios'].includes(a.category)||!a.size?.every(v=>Number.isFinite(v)&&v>0))throw new Error('Invalid urban model');
