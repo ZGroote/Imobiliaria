@@ -4,6 +4,11 @@ Este é o índice de continuidade. O diagnóstico anterior está em
 [avaliação](../relatorios/avaliacao-atual-2026-10-04.md); as correções e verificações
 da consolidação estão em [organização](organizacao-2026-10-04.md).
 
+As publicações públicas identificadas estão offline, conforme o
+[relatório de desativação e dados de acesso](../relatorios/desativacao-e-acessos-2026-10-04.md).
+O pacote M1.1-A continua preparado localmente; as sessões físicas usarão o
+pacote local/LAN, com as publicações públicas permanecendo desativadas.
+
 ## Plano Diretor
 
 | Marco | Situação e próximo trabalho |
@@ -13,7 +18,7 @@ da consolidação estão em [organização](organizacao-2026-10-04.md).
 | M1-D/E/F entregues | Snapshots imutáveis, leitura fixada no pedido e E2E controlado aceitos (#79–81) |
 | Objetivos originais D/E/F | Fotos vinculadas, contexto real completo do painel e captura real por telefone até 3D ainda sem comprovação completa; registrar decisão de escopo sem reabrir os PRs aceitos |
 | M1.1-B/C | Mobile e cômodo composto integrados pelo #83 |
-| [M1.1-A / homologação](miniaturas/m1-1a-usabilidade-mobile.md) | [Preparação concluída](miniaturas/m1-1a-preparacao-2026-10-04.md) na baseline `4586e7c`; 0/5 sessões atuais. Cinco plantas reais, dois operadores, métricas de captura/projeto/3D separadas e evidência física; P0/C1 anteriores não contam |
+| [M1.1-A / homologação](miniaturas/m1-1a-usabilidade-mobile.md) | [Pacote local preparado](miniaturas/m1-1a-preparacao-2026-10-04.md) na baseline `4586e7c`; 0/5 sessões atuais. Executar cinco plantas reais pelo pacote local/LAN, com dois operadores, métricas de captura/projeto/3D separadas e evidência física; publicações públicas seguem offline; P0/C1 anteriores não contam |
 | M1.2 | Concluir retirada do CV depois da homologação, conforme a continuidade do diretor |
 | M2 operacional | Fundação de BuildJob existente; falta identidade/transação, worker, lease/heartbeat, retry/cancelamento, reconciliação e prova de falhas/concorrência |
 | M3 urbano | Comparar V1, V2 e híbrido com o mesmo protocolo, investigar início lento e registrar a escolha |
@@ -38,8 +43,8 @@ metas originais que continuam sem prova.
 
 ## Ordem de trabalho
 
-1. Preparar e conferir o [pacote M1.1-A](miniaturas/m1-1a-preparacao-2026-10-04.md), preservando a baseline `4586e7c` e os testes verdes.
-2. Executar as cinco sessões físicas pelo [protocolo](miniaturas/m1-1a-usabilidade-mobile.md); registrar preservação de pisos/móveis, reconciliar fotos/contexto real e fechar o marco com evidência.
+1. Preservar o [pacote M1.1-A já preparado](miniaturas/m1-1a-preparacao-2026-10-04.md), a baseline `4586e7c` e os fingerprints; manter as publicações offline.
+2. Executar as cinco sessões físicas pelo [protocolo](miniaturas/m1-1a-usabilidade-mobile.md) usando o pacote local/LAN; registrar preservação de pisos/móveis, reconciliar fotos/contexto real e fechar o marco com evidência, mantendo as publicações públicas offline.
 3. Concluir M1.2 e implementar M2 em incrementos verificáveis.
 4. Usar as medições de qualidade progressiva para reduzir o custo de entrada/luz no celular.
 5. Executar comparação urbana M3, implementar M4 e conduzir M5 com imóveis reais.
