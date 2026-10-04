@@ -5,9 +5,9 @@ import vm from 'node:vm';
 
 const source=await readFile(new URL('../experimentos/piloto-qualidade-visual-2026-10-04/metricas.js',import.meta.url),'utf8');
 
-function harness() {
+function harness({walls}={}) {
   const frames=[], nodes=[], docEvents=new Map(), windowEvents=new Map();
-  let mode='planta3d', enabled=false, forbiddenCalls=0;
+  let mode='planta3d', enabled=false, wallPreference=walls, forbiddenCalls=0;
   const forbidden=()=>{forbiddenCalls++;throw new Error('Métricas devem permanecer locais');};
   const document={visibilityState:'visible',body:{append:node=>nodes.push(node)},
     createElement:tag=>({tag,textContent:'',hidden:false}),
@@ -16,7 +16,8 @@ function harness() {
   const context={document,location:{href:'https://piloto.test/maquete.html'},URL,innerWidth:1280,innerHeight:720,
     requestAnimationFrame:fn=>frames.push(fn),
     addEventListener(name,fn){windowEvents.set(name,[...(windowEvents.get(name)||[]),fn]);},
-    __pilotoRelease:'teste-local',__pilotoVisual:{snapshot:()=>({enabled})},
+    __pilotoRelease:'teste-local',__pilotoVisual:{snapshot:()=>({enabled,
+      ...(typeof wallPreference==='boolean'?{wallsEnabled:wallPreference}:{})})},
     __maq:{modo:()=>mode,cam:{position:{toArray:()=>[3,4,5]}},alvo:{toArray:()=>[0,0,0]},
       ren:{info:{render:{calls:7,triangles:999},memory:{textures:2,geometries:4}},
         getContext:()=>gl,getPixelRatio:()=>1.25}},
@@ -28,7 +29,7 @@ function harness() {
   return {frame,nodes,
     run(from,to,step=16){for(let now=from;now<=to;now+=step)frame(now);},
     visibility(value){document.visibilityState=value;for(const fn of docEvents.get('visibilitychange')||[])fn();},
-    switch({finish=enabled,page=mode}={}){enabled=finish;mode=page;},
+    switch({finish=enabled,page=mode,walls=wallPreference}={}){enabled=finish;mode=page;wallPreference=walls;},
     snapshot(){return JSON.parse(nodes[0].textContent);},forbiddenCalls:()=>forbiddenCalls};
 }
 
@@ -63,6 +64,42 @@ test('trocar A/B e modo separa grupos e não atribui intervalo de transição a 
   assert.equal(Object.keys(snapshot.sampling).length,3);
   assert.equal(snapshot.sampling['visita|true'].maxMs,16);
   assert.equal(snapshot.sampling['visita|true'].startupMaxMs,16);
+});
+
+test('alternar somente parede separa as amostras e descarta o primeiro delta da transição',()=>{
+  const h=harness({walls:true});h.switch({finish:true});h.run(0,2000);
+  h.switch({walls:false});h.frame(200000);
+  let snapshot=h.snapshot();
+  // A exportação tem throttle; a transição exporta os contadores anteriores completos.
+  const textured=snapshot.sampling['planta3d|true|paredes:true'];
+  assert.ok(textured?.samples>0);
+  assert.equal(snapshot.sampling['planta3d|true|paredes:false'].samples,0);
+  assert.equal(snapshot.sampling['planta3d|true|paredes:false'].startupMaxMs,0);
+  h.run(200016,202000);snapshot=h.snapshot();
+  assert.equal(snapshot.sampling['planta3d|true|paredes:false'].maxMs,16);
+  assert.equal(snapshot.sampling['planta3d|true|paredes:false'].startupMaxMs,16);
+  assert.deepEqual(snapshot.sampling['planta3d|true|paredes:true'],textured);
+  h.switch({walls:true});h.frame(400000);
+  snapshot=h.snapshot();
+  const smooth=snapshot.sampling['planta3d|true|paredes:false'];
+  assert.deepEqual(snapshot.sampling['planta3d|true|paredes:true'],textured);
+  h.run(400016,402000);
+  snapshot=h.snapshot();
+  assert.equal(Object.keys(snapshot.sampling).length,2);
+  assert.deepEqual(snapshot.sampling['planta3d|true|paredes:false'],smooth);
+  assert.equal(snapshot.sampling['planta3d|true|paredes:true'].maxMs,16);
+  assert.equal(snapshot.sampling['planta3d|true|paredes:true'].startupMaxMs,16);
+});
+
+test('preferência da parede em Base não divide amostras com o mesmo acabamento aplicado',()=>{
+  const h=harness({walls:true});h.run(0,2000);
+  const before=h.snapshot().sampling['planta3d|false|paredes:false'];
+  assert.ok(before.samples>0);
+  h.switch({walls:false});h.run(2016,4000);
+  const snapshot=h.snapshot();
+  assert.deepEqual(Object.keys(snapshot.sampling),['planta3d|false|paredes:false']);
+  assert.ok(snapshot.sampling['planta3d|false|paredes:false'].samples>before.samples);
+  assert.equal(snapshot.sampling['planta3d|false|paredes:false'].maxMs,16);
 });
 
 test('instrumentação escreve somente output DOM oculto, sem persistência nem envio',()=>{

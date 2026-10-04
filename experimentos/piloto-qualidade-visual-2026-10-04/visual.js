@@ -2,10 +2,47 @@
 (function (root) {
   'use strict';
 
+  // Mesmos pixels no browser e no PNG estático do build, sem DOM, Three ou rede.
+  function paintPixels() {
+    const {imul,sin,floor,tanh,round,min,max,PI}=Math;
+    const width=256,height=256,bump=new Uint8Array(width*height*4);
+    const roughness=new Uint8Array(bump.length),color=new Uint8Array(bump.length);
+    let seed=0x51A3D1;
+    const random=()=>{seed=(imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
+    const gridSize=64,field=new Float32Array(gridSize*gridSize);
+    for(let i=0;i<field.length;i++)field[i]=random()*2-1;
+    const smooth=t=>t*t*(3-2*t);
+    for(let y=0;y<height;y++) {
+      const gy=y*gridSize/height,y0=floor(gy),fy=smooth(gy-y0);
+      const row0=y0*gridSize,row1=((y0+1)%gridSize)*gridSize;
+      const rollerPhase=.6*sin(2*PI*y/height*3);
+      for(let x=0;x<width;x++) {
+        // Grão fino + casca de laranja de rolo (~6,25 mm), sem manchas grandes.
+        // O campo periódico interpolado continua legível nos mipmaps a 1–3 m;
+        // somente ruído por pixel desaparecia e deixava B mais liso que A.
+        const gx=x*gridSize/width,x0=floor(gx),x1=(x0+1)%gridSize,fx=smooth(gx-x0);
+        const a=field[row0+x0]*(1-fx)+field[row0+x1]*fx;
+        const b=field[row1+x0]*(1-fx)+field[row1+x1]*fx;
+        const broad=a*(1-fy)+b*fy,grain=10*(random()+random()-1);
+        const roller=sin(2*PI*x/width*11+rollerPhase);
+        const relief=round(128+44*broad+grain+roller*1.4);
+        const rugosity=round(230+broad*5+grain*.25+roller*.6);
+        // Pigmento quase branco em faixa de 4%: relevo sozinho fica invisível
+        // neste ambiente difuso. O mesmo grão pequeno dá legibilidade sem sujeira.
+        const pigment=max(242,min(252,round(247+5*tanh(broad*2.2)+grain*.1)));
+        const i=(y*width+x)*4;
+        for(let k=0;k<3;k++){bump[i+k]=relief;roughness[i+k]=rugosity;color[i+k]=pigment;}
+        bump[i+3]=roughness[i+3]=color[i+3]=255;
+      }
+    }
+    return {width,height,bump,roughness,color};
+  }
+
   function start({THREE:T, maq, base, assets, assetPath, enabled=true}) {
     if (!T || !maq || !base?.MAT || !Array.isArray(assets)) throw new Error('Ponte do piloto ausente');
     const catalog=new Map(), records=[], sofas=[], failures=[], finishes=new Map();
-    let active=Boolean(enabled), loading=null, settled=false, installed=null, extraTriangles=0;
+    let active=Boolean(enabled), wallsEnabled=true, loading=null, settled=false, installed=null, extraTriangles=0;
+    let paint=null, wallMeshes=0;
     let requestedBytes=0, loadedMaps=0;
     for (const item of assets) {
       if (!['madeira','tecido','frio'].includes(item.id) || catalog.has(item.id) ||
@@ -75,6 +112,53 @@
       }
       g.setAttribute('uv',new T.BufferAttribute(uvs,2));
       return g;
+    }
+
+    function paintMaps() {
+      if(paint)return paint;
+      const pixels=paintPixels();
+      const bumpCanvas=root.document.createElement('canvas'),roughCanvas=root.document.createElement('canvas');
+      const colorCanvas=root.document.createElement('canvas');
+      for(const canvas of [bumpCanvas,roughCanvas,colorCanvas]){canvas.width=pixels.width;canvas.height=pixels.height;}
+      const bumpContext=bumpCanvas.getContext('2d'),roughContext=roughCanvas.getContext('2d'),colorContext=colorCanvas.getContext('2d');
+      if(!bumpContext||!roughContext||!colorContext)throw new Error('Não foi possível preparar a textura de pintura');
+      for(const [context,name] of [[bumpContext,'bump'],[roughContext,'roughness'],[colorContext,'color']]) {
+        const image=context.createImageData(pixels.width,pixels.height);image.data.set(pixels[name]);
+        context.putImageData(image,0,0);
+      }
+      const configure=(canvas,name,colorSpace=T.NoColorSpace)=>{const texture=new T.CanvasTexture(canvas);texture.name=name;
+        texture.colorSpace=colorSpace;texture.wrapS=texture.wrapT=T.RepeatWrapping;
+        texture.anisotropy=anisotropy;return texture;};
+      paint={bump:configure(bumpCanvas,'pintura-rolo-relevo'),roughness:configure(roughCanvas,'pintura-rolo-rugosidade'),
+        color:configure(colorCanvas,'pintura-rolo-pigmento',T.SRGBColorSpace)};
+      return paint;
+    }
+
+    function finishWall(mesh) {
+      if(!mesh?.isMesh||Array.isArray(mesh.material)||!mesh.geometry.attributes.normal)return;
+      try {
+        const maps=paintMaps(),g=mesh.geometry.clone(),p=g.attributes.position,n=g.attributes.normal;
+        const uv=new Float32Array(p.count*2),tile=.4;
+        // Mantém index/posição/normais e uv1. A tangente à normal horizontal dá
+        // metros de parede também quando a casa está girada no referencial global.
+        for(let i=0;i<p.count;i++) {
+          const x=p.getX(i),y=p.getY(i),z=p.getZ(i),nx=n.getX(i),nz=n.getZ(i),length=Math.hypot(nx,nz);
+          uv[i*2]=(length>.5?(-nz*x+nx*z)/length:x)/tile;
+          uv[i*2+1]=(length>.5?y:z)/tile;
+        }
+        g.setAttribute('uv',new T.BufferAttribute(uv,2));
+        if(mesh.geometry.attributes.color)g.setAttribute('color',mesh.geometry.attributes.color);
+        const m=mesh.material.clone();m.name='piloto-pintura';
+        // Three prioriza normalMap sobre bumpMap. A mantém o normal original;
+        // B usa microrelevo + pigmento quase branco, preservando cor/lightMap do material.
+        m.normalMap=null;m.bumpMap=maps.bump;m.bumpScale=.0055;
+        m.map=maps.color;
+        m.roughnessMap=maps.roughness;m.roughness=.98;
+        m.onBeforeCompile=mesh.material.onBeforeCompile;
+        m.customProgramCacheKey=mesh.material.customProgramCacheKey;m.needsUpdate=true;
+        records.push({mesh,kind:'wall',originalMaterial:mesh.material,originalGeometry:mesh.geometry,
+          nextMaterial:m,nextGeometry:g});wallMeshes++;
+      }catch(error){failures.push({material:'pintura',message:error.message});}
     }
 
     function finishFloor(mesh,id,oldTile) {
@@ -220,6 +304,7 @@
       const house=maq.planta();
       if(!house || installed===house || !settled || finishes.size===0) return false;
       installed=house;
+      finishWall(house.children[0]);
       finishFloor(house.children[1],'frio',1.2);
       finishFloor(house.children[2],'madeira',2.4);
       for(const obj of house.children.slice()) {
@@ -237,22 +322,25 @@
     }
 
     function apply() {
-      for(const r of records){r.mesh.material=active?r.nextMaterial:r.originalMaterial;
-        r.mesh.geometry=active?r.nextGeometry:r.originalGeometry;}
+      for(const r of records){const use=active&&(r.kind!=='wall'||wallsEnabled);
+        r.mesh.material=use?r.nextMaterial:r.originalMaterial;
+        r.mesh.geometry=use?r.nextGeometry:r.originalGeometry;}
       for(const sofa of sofas){sofa.gr.visible=active;
         for(const r of sofa.originals)r.child.visible=active?false:r.visible;}
     }
     function snapshot() {
       return {enabled:active,loadedMaterials:Array.from(finishes.keys()),loadedMaps,requestedBytes,
         changedMeshes:records.length,sofas:sofas.length,extraTriangles,failures:failures.map(f=>({...f})),
-        installed:installed!==null};
+        installed:installed!==null,wallsEnabled,wallMeshes,proceduralTextures:paint?3:0};
     }
     const api={setEnabled(value){active=Boolean(value);if(active)load();install();apply();return active;},
+      setWallsEnabled(value){wallsEnabled=Boolean(value);apply();return wallsEnabled;},
+      getWallTextureDownload(){if(!paint)return null;return {url:paint.bump.image.toDataURL('image/png'),filename:'pintura-rolo-relevo.png'};},
       get ready(){return loading || Promise.resolve(snapshot());},snapshot};
     root.__pilotoVisual=api;
     function observe(){if(install())apply();root.requestAnimationFrame(observe);}
     if(active)load(); root.requestAnimationFrame(observe);
     return api;
   }
-  root.PilotoVisual={start};
+  root.PilotoVisual={start,paintPixels};
 })(window);

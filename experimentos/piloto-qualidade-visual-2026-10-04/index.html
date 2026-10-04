@@ -10,21 +10,24 @@
 @media(max-width:1000px){main{padding:24px}.workspace{grid-template-columns:minmax(0,1fr) 230px}.heading{align-items:start}.facts{gap:14px}.facts strong{font-size:17px}}
 @media(max-width:760px){main{padding:20px 14px}.brand{font-size:10px}.brand strong{font-size:11px}.badge{font-size:9px}.heading{display:block;margin:26px 0 20px}.heading p{font-size:14px}.facts{margin-top:20px;gap:28px}.workspace{display:block}.toolbar{padding:10px 9px;gap:3px;align-items:start}.tabs{gap:2px}button{padding:8px 10px;font-size:12px}.expand{padding:8px}.caption{align-items:start;font-size:11px}iframe{height:65vh;min-height:410px}.aside{margin-top:26px}.swatches{grid-template-columns:repeat(3,1fr);gap:10px}.swatch{display:block;padding:0 0 14px}.swatch i{display:block;margin-bottom:9px}.swatch small{display:block;margin-top:4px}.plan{display:grid;grid-template-columns:1fr 1fr;column-gap:18px}.plan img{grid-column:2;grid-row:1/4;margin:0;max-height:220px}.plan a{text-align:left;grid-column:1}.note{margin-top:18px}}
 </style>
+<style>.paint{background-color:#e5dfd2;background-image:radial-gradient(#c8c2b6 .65px,transparent .9px),radial-gradient(#f7f3ea .65px,transparent 1px);background-size:4px 5px,5px 4px;background-position:0 0,2px 2px}@media(max-width:760px){.swatches{grid-template-columns:repeat(2,minmax(0,1fr))}}</style>
+<style>.workspace{align-items:start}.wall-controls{border-top:1px solid #dedbd0;padding-top:8px;padding-bottom:8px}.download-texture{display:block;min-height:32px;padding:5px 0;color:#354c3a;font-size:11px;text-decoration:underline;text-underline-offset:3px}.download-texture:disabled{opacity:.5;cursor:wait}</style>
 </head>
 <body><main>
 <div class="brand"><strong>Estudo de interiores</strong><span class="badge">Piloto demonstrativo</span></div>
-<header class="heading"><div><h1>Uma casa, mais textura.</h1><p>Explore a planta e compare os acabamentos. Madeira natural, tecido e cerâmica sobre a mesma arquitetura.</p></div><div class="facts"><div><strong>59,64 m²</strong><span>Área dos ambientes</span></div><div><strong>2 quartos</strong><span>Um pavimento</span></div></div></header>
+<header class="heading"><div><h1>Uma casa, mais textura.</h1><p>Explore a planta e compare os acabamentos. Pintura com textura, madeira natural, tecido e cerâmica sobre a mesma arquitetura.</p></div><div class="facts"><div><strong>59,64 m²</strong><span>Área dos ambientes</span></div><div><strong>2 quartos</strong><span>Um pavimento</span></div></div></header>
 <div class="workspace"><section class="viewer" id="viewer" aria-label="Maquete interativa">
 <div class="toolbar"><div class="tabs" aria-label="Modo de visualização"><button data-mode="planta3d" aria-pressed="true">Planta 3D</button><button data-mode="planta2d" aria-pressed="false">Planta 2D</button><button data-mode="visita" aria-pressed="false">Visita 3D</button></div><button class="expand" id="expand" aria-label="Abrir maquete em tela cheia">⛶ <span>Tela cheia</span></button></div>
 <div class="stage"><iframe id="model" title="Casa demonstrativa com dois dormitórios" src="maquete.html?embed=1&amp;modo=planta3d&amp;acabamento=melhorado" allow="fullscreen"></iframe><div class="loading" id="loading"><strong>Preparando a casa</strong><small>Você já poderá girar a planta.</small></div></div>
 <div class="caption"><div class="tabs" aria-label="Comparação de acabamentos"><button data-finish="false" aria-pressed="false">Base</button><button data-finish="true" aria-pressed="true">Acabamentos</button></div><span id="hint" role="status">Arraste para girar · aproxime para ver os detalhes</span></div>
-</section><aside class="aside"><h2>Materiais do estudo</h2><div class="swatches"><div class="swatch"><i class="wood" aria-hidden="true"></i><div><strong>Madeira natural</strong><small>Piso e marcenaria</small></div></div><div class="swatch"><i class="cloth" aria-hidden="true"></i><div><strong>Algodão claro</strong><small>Estofados e camas</small></div></div><div class="swatch"><i class="tile" aria-hidden="true"></i><div><strong>Cerâmica acetinada</strong><small>Cozinha e banheiro</small></div></div></div><div class="plan"><h2>A planta</h2><p>Sala, cozinha, serviço, banheiro e dois dormitórios.</p><img src="planta.svg" alt="Planta demonstrativa de 59,64 metros quadrados"><a href="planta.svg" download="planta-demonstrativa.svg">Baixar planta demonstrativa ↗</a></div><p class="note">Casa sintética para avaliação visual. Explore a visita com os controles de movimento; na planta, arraste para girar.</p></aside></div>
-<footer><span>Demonstração temporária · outubro de 2026</span><span>Materiais CC0 · Poly Haven</span></footer>
+<div class="caption wall-controls"><span>Paredes</span><div class="tabs" aria-label="Textura das paredes"><button data-walls="false" aria-pressed="false">Lisa</button><button data-walls="true" aria-pressed="true">Texturizada</button></div></div>
+</section><aside class="aside"><h2>Materiais do estudo</h2><div class="swatches"><div class="swatch"><i class="paint" aria-hidden="true"></i><div><strong>Pintura com textura</strong><small>Paredes · relevo suave</small><a class="download-texture" id="download-wall" href="pintura-rolo-relevo.png" download="pintura-rolo-relevo.png">Baixar textura (relevo) ↗</a></div></div><div class="swatch"><i class="wood" aria-hidden="true"></i><div><strong>Madeira natural</strong><small>Piso e marcenaria</small></div></div><div class="swatch"><i class="cloth" aria-hidden="true"></i><div><strong>Algodão claro</strong><small>Estofados e camas</small></div></div><div class="swatch"><i class="tile" aria-hidden="true"></i><div><strong>Cerâmica acetinada</strong><small>Cozinha e banheiro</small></div></div></div><div class="plan"><h2>A planta</h2><p>Sala, cozinha, serviço, banheiro e dois dormitórios.</p><img src="planta.svg" alt="Planta demonstrativa de 59,64 metros quadrados"><a href="planta.svg" download="planta-demonstrativa.svg">Baixar planta demonstrativa ↗</a></div><p class="note">Casa sintética para avaliação visual. Explore a visita com os controles de movimento; na planta, arraste para girar.</p></aside></div>
+<footer><span>Demonstração temporária · outubro de 2026</span><span>Texturas Poly Haven (CC0) · pintura própria</span></footer>
 </main>
 <script>
 (()=>{
   const frame=document.getElementById('model'),hint=document.getElementById('hint'),loading=document.getElementById('loading');
-  let finish=true;
+  let finish=true,walls=true;
   const runtime=()=>frame.contentWindow?.__maq;
   const visual=()=>frame.contentWindow?.__pilotoVisual;
   const pressed=(attr,value)=>document.querySelectorAll('['+attr+']').forEach(b=>b.setAttribute('aria-pressed',String(b.getAttribute(attr)===value)));
@@ -39,8 +42,15 @@
     const m=runtime();if(!m)return;try{m.vaiPara(b.dataset.mode);pressed('data-mode',b.dataset.mode);hint.textContent=b.dataset.mode==='visita'?'Use os controles para caminhar pela casa':'Arraste para girar · aproxime para ver os detalhes';}catch{hint.textContent='Não foi possível abrir este modo. Recarregue a página.';}
   }));
   document.querySelectorAll('[data-finish]').forEach(b=>b.addEventListener('click',()=>{
-    const v=visual();if(!v)return;finish=b.dataset.finish==='true';v.setEnabled(finish);pressed('data-finish',String(finish));hint.textContent=finish?'Acabamentos aplicados · a câmera permanece no mesmo lugar':'Materiais básicos · a mesma planta para comparação';
+    const v=visual();if(!v)return;finish=b.dataset.finish==='true';v.setEnabled(finish);pressed('data-finish',String(finish));pressed('data-walls',String(finish&&walls));hint.textContent=finish?'Acabamentos aplicados · a câmera permanece no mesmo lugar':'Materiais básicos · a mesma planta para comparação';
   }));
+  document.querySelectorAll('[data-walls]').forEach(b=>b.addEventListener('click',()=>{
+    const v=visual();if(!v)return;walls=b.dataset.walls==='true';
+    if(walls&&!finish){finish=true;v.setEnabled(true);pressed('data-finish','true');}
+    v.setWallsEnabled(walls);pressed('data-walls',String(finish&&walls));
+    hint.textContent=walls?'Pintura com textura · veja o relevo na Visita 3D':'Paredes com o acabamento básico · demais materiais preservados';
+  }));
+  document.getElementById('download-wall').addEventListener('click',()=>{hint.textContent='Textura de relevo da pintura · arquivo PNG';});
   document.getElementById('expand').addEventListener('click',async()=>{
     try{if(document.fullscreenElement)await document.exitFullscreen();else await document.getElementById('viewer').requestFullscreen();}catch{hint.textContent='Tela cheia indisponível neste navegador.';}
   });

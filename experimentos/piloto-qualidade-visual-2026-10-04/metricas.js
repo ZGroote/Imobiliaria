@@ -10,7 +10,8 @@
   function observe(now){
     const q=window.__maq,v=window.__pilotoVisual;
     if(q&&v){
-      const s=v.snapshot(),next=q.modo()+'|'+String(s.enabled);
+      const s=v.snapshot(),effectiveWall=Boolean(s.enabled&&s.wallsEnabled);
+      const next=q.modo()+'|'+String(s.enabled)+(typeof s.wallsEnabled==='boolean'?'|paredes:'+effectiveWall:'');
       if(firstObserved===null&&q.ren.info.render.calls>0)firstObserved=now;
       if(key!==next){key=next;previous=null;changedAt=now;}
       let m=measures.get(key);if(!m){m={frames:[],maxStartupMs:0};measures.set(key,m);}

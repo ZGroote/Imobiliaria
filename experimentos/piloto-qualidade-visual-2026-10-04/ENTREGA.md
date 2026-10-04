@@ -1,5 +1,8 @@
 # Entrega do piloto visual — 04/10/2026
 
+Este é o registro da primeira publicação. O [refinamento de paredes](PAREDES.md)
+acrescenta Lisa/Texturizada e download PNG, com a expiração efetiva atualizada.
+
 [Abrir demonstração temporária](https://imobilaria-deccb-miniaturas--qualidade-piloto-20261004-tj49koea.web.app).
 Expiração confirmada pela API Hosting: **11/10/2026, 14:04:25 BRT**
 (`2026-10-11T17:04:25.201135364Z`). Canal `qualidade-piloto-20261004`, site

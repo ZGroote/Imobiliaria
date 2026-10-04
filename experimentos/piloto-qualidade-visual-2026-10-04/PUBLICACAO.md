@@ -19,7 +19,9 @@ funções ou serviços de dados.
 
 O montador deve copiar somente sua lista pública permitida para `site/`:
 apresentação, maquete derivada, scripts visual e de diagnóstico local, planta SVG
-e assets referenciados. Leitura, contexto, mobiliário, originais, relatório,
+e assets referenciados. O refinamento de paredes inclui `pintura-rolo-relevo.png`,
+gerado pelos mesmos pixels procedurais do renderer e servido como download;
+conferir seu hash e `Content-Disposition: attachment`. Leitura, contexto, mobiliário, originais, relatório,
 configuração e evidências ficam fora de `site/`. O manifesto e os créditos JSON
 de montagem presentes em `site/` são excluídos do deploy pelo filtro `**/*.json`.
 Os filtros de ignore são uma proteção adicional; não substituem a conferência
@@ -30,7 +32,8 @@ Antes de publicar:
 1. Executar os testes do montador e conferir hashes, licenças, limite de assets e
    ausência de arquivos extras ou symlinks no pacote.
 2. Abrir localmente o pacote e verificar Base/Acabamentos na mesma câmera,
-   Planta 2D, Planta 3D, Visita 3D e fallback de material indisponível.
+   Lisa/Texturizada das paredes, download PNG, Planta 2D, Planta 3D, Visita 3D
+   e fallback de material indisponível.
 3. Conferir que os dados e o mobiliário são sintéticos e a página os identifica
    como demonstração. Conferir ausência de endereço, contato, imóvel real, links
    legados, credenciais, SDK Firebase, API e analytics nos arquivos públicos.

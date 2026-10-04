@@ -4,6 +4,8 @@ import { spawnSync } from 'node:child_process';
 import { resolve, dirname, basename, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
+import { runInNewContext } from 'node:vm';
+import { encodeRGBA } from './png.mjs';
 import { CASAS, construirCasa } from '../../tools/benchmark_10_casas.mjs';
 
 const pasta = dirname(fileURLToPath(import.meta.url));
@@ -108,7 +110,7 @@ export async function montar(assetsDir,destino,atualizar=false) {
     if(!atualizar) throw Error('Destino ocupado. Use outro destino; --atualizar somente para este piloto.');
     const prior=JSON.parse(await readFile(join(destino,'manifesto.json'),'utf8'));
     if(prior.kind!=='piloto-qualidade-visual'||prior.schema!==1) throw Error('Destino não pertence ao piloto.');
-    const allowed=['index.html','maquete.html','visual.js','planta.svg',...(prior.files['metricas.js']?['metricas.js']:[]),...checked.files.map(f=>`assets/${checked.release}/${f}`)].sort();
+    const allowed=['index.html','maquete.html','visual.js','planta.svg',...(prior.files['metricas.js']?['metricas.js']:[]),...(prior.files['pintura-rolo-relevo.png']?['pintura-rolo-relevo.png']:[]),...checked.files.map(f=>`assets/${checked.release}/${f}`)].sort();
     if(JSON.stringify(Object.keys(prior.files).sort())!==JSON.stringify(allowed))throw Error('Manifesto anterior não corresponde à lista permitida.');
     const expected=[...allowed,'manifesto.json','creditos.json'].sort();
     if(JSON.stringify(await inventario(destino))!==JSON.stringify(expected))throw Error('Destino contém arquivos extras; preserve-o e escolha uma pasta nova.');
@@ -145,11 +147,13 @@ export async function montar(assetsDir,destino,atualizar=false) {
   if(sha256(baseHtml)!==rel.artefato.sha256||Buffer.byteLength(baseHtml)!==rel.artefato.bytes) throw Error('Maquete base diverge do E2E.');
   const visual=await readFile(join(pasta,'visual.js')), index=await readFile(join(pasta,'index.html')),metricas=await readFile(join(pasta,'metricas.js'));
   const builder=await readFile(fileURLToPath(import.meta.url));
-  const release=sha256(Buffer.concat([builder,Buffer.from(baseHtml),visual,index,metricas,Buffer.from(json(checked.manifest))])).slice(0,16);
+  const context={window:{}};runInNewContext(visual.toString(),context,{timeout:1000});
+  const pixels=context.window.PilotoVisual.paintPixels(),wallPng=encodeRGBA({width:pixels.width,height:pixels.height,data:pixels.bump});
+  const release=sha256(Buffer.concat([builder,Buffer.from(baseHtml),visual,index,metricas,wallPng,Buffer.from(json(checked.manifest))])).slice(0,16);
   const assetPath=`assets/${checked.release}/`, html=derivarHtml(baseHtml,{materials:checked.manifest.materials,assetPath,release});
   await mkdir(join(destino,assetPath),{recursive:true});
   for(const name of checked.files) await copyFile(join(assetsDir,name),join(destino,assetPath,name));
-  const contents={'maquete.html':html,'visual.js':visual,'metricas.js':metricas,'index.html':index,'planta.svg':plantaSvg(leitura)};
+  const contents={'maquete.html':html,'visual.js':visual,'metricas.js':metricas,'index.html':index,'planta.svg':plantaSvg(leitura),'pintura-rolo-relevo.png':wallPng};
   for(const [name,data] of Object.entries(contents)) await writeFile(join(destino,name),data);
   const files={};for(const name of [...Object.keys(contents),...checked.files.map(n=>assetPath+n)]) {const data=await readFile(join(destino,name));files[name]={bytes:data.length,sha256:sha256(data)};}
   const credits={license:'CC0-1.0',licenseUrl:'https://polyhaven.com/license',materials:checked.manifest.materials};

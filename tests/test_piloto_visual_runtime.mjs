@@ -10,9 +10,17 @@ const assets = ['madeira','tecido','frio'].map(id=>({id,tileMeters:id==='tecido'
   maps:Object.fromEntries(['color','normal','roughness'].map(kind=>[kind,{file:`${id}-${kind}.webp`,
     width:512,height:512,bytes:100,sha256:'a'.repeat(64)}]))}));
 
-async function fixture({enabled=true, fail='', deferred=false, lazy=false, bed=false}={}) {
-  const requests=[], pending=[], frames=[];
-  const ctx=vm.createContext({console, requestAnimationFrame:fn=>frames.push(fn)});
+async function fixture({enabled=true, fail='', deferred=false, lazy=false, bed=false, failCanvas=false}={}) {
+  const requests=[], pending=[], frames=[], canvases=[];
+  const document={createElement(tag){
+    assert.equal(tag,'canvas');const canvas={width:0,height:0};
+    const drawing={createImageData(w,h){return {width:w,height:h,data:new Uint8ClampedArray(w*h*4)};},
+      putImageData(image){canvas.pixels=image.data;}};
+    canvas.downloadCalls=0;canvas.toDataURL=kind=>{assert.equal(kind,'image/png');canvas.downloadCalls++;
+      return 'data:image/png;base64,cGludHVyYS1yb2xvLXJlbGV2bw==';};
+    canvas.getContext=()=>failCanvas?null:drawing;canvases.push(canvas);return canvas;
+  }};
+  const ctx=vm.createContext({console,document,requestAnimationFrame:fn=>frames.push(fn)});
   ctx.window=ctx; vm.runInContext(threeSource,ctx);
   const T=ctx.THREE;
   T.TextureLoader.prototype.load=function(url,onLoad,_progress,onError){
@@ -23,6 +31,11 @@ async function fixture({enabled=true, fail='', deferred=false, lazy=false, bed=f
   };
   const original = new T.MeshStandardMaterial({vertexColors:true,roughness:.78});
   const MAT={matParede:original.clone(),matFrio:original.clone(),matMadeira:original.clone()};
+  MAT.matParede.color.setHex(0xE3DECB);MAT.matParede.map=new T.Texture();
+  MAT.matParede.normalMap=new T.Texture();MAT.matParede.roughnessMap=new T.Texture();
+  MAT.matParede.lightMap=new T.Texture();
+  MAT.matParede.onBeforeCompile=function originalPaintShader(){};
+  MAT.matParede.customProgramCacheKey=()=> 'forro16iso';
   const house=new T.Group();
   for(const name of ['matParede','matFrio','matMadeira']) {
     const geo=new T.PlaneGeometry(3,3); geo.setAttribute('uv1',geo.attributes.uv.clone());
@@ -55,7 +68,7 @@ async function fixture({enabled=true, fail='', deferred=false, lazy=false, bed=f
   vm.runInContext(await readFile(source,'utf8'),ctx,{filename:'visual.js'});
   const api=ctx.PilotoVisual.start({THREE:T,maq,base:{MAT,matMovel:original,ambientePBR:null,PL_R:{}},
     assets,assetPath:'assets/',enabled});
-  return {T,api,house,MAT,sofa,oldSofa,woodMesh,woodGeo,bedMesh,requests,pending,cam,
+  return {T,api,house,MAT,sofa,oldSofa,woodMesh,woodGeo,bedMesh,requests,pending,cam,canvases,
     frame(){current=house;frames.shift()?.();},finish(){pending.splice(0).forEach(fn=>fn());}};
 }
 
@@ -168,4 +181,119 @@ test('cama real separa algodão, box/cabeceira de madeira e pés, sem alterar di
   }
   assert.ok(frame>0&&linen>0&&duvet>0&&feet>0);
   f.api.setEnabled(false);assert.equal(f.bedMesh.geometry,original);
+});
+
+test('pintura de rolo preserva cor/bake/UV1/index/câmera e não baixa arquivos novos',async()=>{
+  const f=await fixture({deferred:true}), wall=f.house.children[0], original=wall.geometry;
+  const oldUv=Array.from(original.attributes.uv.array), oldUv1=Array.from(original.attributes.uv1.array);
+  const oldColor=f.MAT.matParede.color.clone(), camera=f.cam.position.clone();
+  const door=new f.T.Mesh(new f.T.BoxGeometry(.8,2,.04),f.MAT.matParede);
+  f.house.add(door); const doorGeo=door.geometry;
+  f.finish();await f.api.ready;
+  const m=wall.material,g=wall.geometry,s=f.api.snapshot();
+  assert.notEqual(m,f.MAT.matParede);assert.equal(m.name,'piloto-pintura');
+  assert.equal(m.normalMap,null);assert.ok(m.bumpMap?.isCanvasTexture);
+  assert.ok(m.roughnessMap?.isCanvasTexture);assert.ok(m.bumpScale>=.004&&m.bumpScale<=.006);
+  assert.equal(m.bumpMap.colorSpace,f.T.NoColorSpace);assert.equal(m.roughnessMap.colorSpace,f.T.NoColorSpace);
+  assert.ok(m.color.equals(oldColor));assert.ok(m.map?.isCanvasTexture);
+  assert.equal(m.map.colorSpace,f.T.SRGBColorSpace);assert.notEqual(m.map,f.MAT.matParede.map);
+  assert.equal(m.lightMap,f.MAT.matParede.lightMap);
+  assert.equal(m.onBeforeCompile,f.MAT.matParede.onBeforeCompile);
+  assert.equal(m.customProgramCacheKey,f.MAT.matParede.customProgramCacheKey);
+  assert.equal(m.customProgramCacheKey(),'forro16iso');
+  assert.equal(g.attributes.color,original.attributes.color);
+  assert.equal(g.attributes.position.count,original.attributes.position.count);
+  assert.deepEqual(Array.from(g.attributes.position.array),Array.from(original.attributes.position.array));
+  assert.deepEqual(Array.from(g.index.array),Array.from(original.index.array));
+  assert.deepEqual(Array.from(g.attributes.uv1.array),oldUv1);
+  assert.deepEqual(Array.from(original.attributes.uv.array),oldUv);
+  assert.notDeepEqual(Array.from(g.attributes.uv.array),oldUv);
+  assert.equal(s.wallMeshes,1);assert.equal(s.proceduralTextures,3);assert.equal(s.loadedMaps,9);
+  assert.equal(f.requests.length,9);assert.equal(door.geometry,doorGeo);assert.equal(door.material,f.MAT.matParede);
+  const materialB=m;
+  f.api.setEnabled(false);assert.equal(wall.geometry,original);assert.equal(wall.material,f.MAT.matParede);
+  assert.notEqual(f.MAT.matParede.map,m.map);
+  assert.ok(f.MAT.matParede.normalMap);assert.ok(f.MAT.matParede.color.equals(oldColor));
+  f.api.setEnabled(true);await f.api.ready;assert.equal(wall.material,materialB);
+  assert.equal(f.canvases.length,3);assert.ok(f.cam.position.equals(camera));
+});
+
+test('UV de pintura mantém escala de 40 cm em parede girada e acompanha novo bake',async()=>{
+  const f=await fixture({deferred:true}),original=f.house.children[0].geometry;
+  original.rotateY(Math.PI*.31);
+  f.finish();await f.api.ready;
+  const g=f.house.children[0].geometry,uv=g.attributes.uv;
+  assert.ok(Math.abs(Math.abs(uv.getX(1)-uv.getX(0))-3/.4)<.00001);
+  assert.ok(Math.abs(Math.abs(uv.getY(2)-uv.getY(0))-3/.4)<.00001);
+  original.attributes.color.setX(0,.35);
+  assert.ok(Math.abs(g.attributes.color.getX(0)-.35)<.000001);
+  assert.equal(g.index.count,original.index.count);
+  assert.equal(g.attributes.position.count,original.attributes.position.count);
+});
+
+test('pintura procedural é determinística e falha de canvas mantém parede base',async()=>{
+  const a=await fixture(),b=await fixture();await Promise.all([a.api.ready,b.api.ready]);
+  assert.equal(a.canvases.length,3);assert.equal(b.canvases.length,3);
+  for(let i=0;i<3;i++) {
+    assert.deepEqual(a.canvases[i].pixels,b.canvases[i].pixels);
+    const pixels=a.canvases[i].pixels, range=new Set();
+    for(let j=0;j<pixels.length;j+=4){assert.equal(pixels[j],pixels[j+1]);assert.equal(pixels[j],pixels[j+2]);
+      assert.equal(pixels[j+3],255);range.add(pixels[j]);}
+    assert.ok(range.size>3&&range.size<(i===0?130:80));
+    if(i===2)assert.ok([...range].every(value=>value>=242&&value<=252));
+  }
+  const failed=await fixture({failCanvas:true});await failed.api.ready;
+  assert.equal(failed.house.children[0].material,failed.MAT.matParede);
+  assert.equal(failed.api.snapshot().wallMeshes,0);assert.equal(failed.api.snapshot().proceduralTextures,0);
+  assert.ok(failed.api.snapshot().failures.some(f=>f.material==='pintura'));
+  assert.equal(failed.requests.length,9);
+  assert.notEqual(failed.house.children[1].material,failed.MAT.matFrio);
+});
+
+test('relevo combina grão fino e grão de rolo que permanece após redução de mipmap',async()=>{
+  const f=await fixture();await f.api.ready;
+  const canvas=f.house.children[0].material.bumpMap.image,pixels=canvas.pixels,means=[];
+  for(let y=0;y<canvas.height;y+=4)for(let x=0;x<canvas.width;x+=4) {
+    let sum=0;for(let j=0;j<4;j++)for(let i=0;i<4;i++)sum+=pixels[((y+j)*canvas.width+x+i)*4];
+    means.push(sum/16);
+  }
+  const mean=means.reduce((sum,n)=>sum+n,0)/means.length;
+  const std=Math.sqrt(means.reduce((sum,n)=>sum+(n-mean)**2,0)/means.length);
+  assert.ok(std>8&&std<30,`Contraste de relevo após mipmap: ${std}`);
+  assert.equal(f.requests.length,9);
+});
+
+test('parede alterna independentemente e download do relevo PNG acontece só por pedido',async()=>{
+  const f=await fixture();await f.api.ready;
+  const wall=f.house.children[0],materialB=wall.material,floorB=f.house.children[1].material;
+  assert.equal(f.api.snapshot().wallsEnabled,true);
+  f.api.setWallsEnabled(false);
+  assert.equal(wall.material,f.MAT.matParede);assert.equal(f.house.children[1].material,floorB);
+  assert.equal(f.api.snapshot().enabled,true);assert.equal(f.api.snapshot().wallsEnabled,false);
+  f.api.setEnabled(false);f.api.setWallsEnabled(true);assert.equal(wall.material,f.MAT.matParede);
+  f.api.setEnabled(true);await f.api.ready;assert.equal(wall.material,materialB);
+  assert.ok(f.canvases.every(canvas=>canvas.downloadCalls===0));
+  const download=f.api.getWallTextureDownload();
+  assert.equal(download.filename,'pintura-rolo-relevo.png');assert.match(download.url,/^data:image\/png;base64,/);
+  assert.equal(materialB.bumpMap.image.downloadCalls,1);assert.equal(materialB.roughnessMap.image.downloadCalls,0);
+  assert.equal(f.requests.length,9);assert.equal(f.canvases.length,3);
+  const unavailable=await fixture({failCanvas:true});await unavailable.api.ready;
+  assert.equal(unavailable.api.getWallTextureDownload(),null);
+});
+
+test('paintPixels é pura sem Three/DOM e gera exatamente o relevo usado no canvas runtime',async()=>{
+  const standalone={window:{}};
+  vm.runInNewContext(await readFile(source,'utf8'),standalone);
+  assert.equal(typeof standalone.window.PilotoVisual.paintPixels,'function');
+  const pixels=standalone.window.PilotoVisual.paintPixels();
+  assert.equal(pixels.width,256);assert.equal(pixels.height,256);
+  for(const name of ['bump','roughness','color']) {
+    assert.equal(pixels[name].constructor.name,'Uint8Array');
+    assert.equal(pixels[name].length,pixels.width*pixels.height*4);
+  }
+  const f=await fixture();await f.api.ready;
+  const material=f.house.children[0].material;
+  assert.deepEqual(Buffer.from(pixels.bump),Buffer.from(material.bumpMap.image.pixels));
+  assert.deepEqual(Buffer.from(pixels.roughness),Buffer.from(material.roughnessMap.image.pixels));
+  assert.deepEqual(Buffer.from(pixels.color),Buffer.from(material.map.image.pixels));
 });

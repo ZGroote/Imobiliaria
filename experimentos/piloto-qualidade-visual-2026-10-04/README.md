@@ -13,6 +13,12 @@ essas evidências.
 
 [Entrega, link temporário e verificações](ENTREGA.md).
 
+O refinamento de paredes inclui pintura procedural própria, controle
+Lisa/Texturizada e [download do relevo PNG](PAREDES.md). A pintura usa três
+texturas de 256² geradas localmente: pigmento quase branco, microrelevo e
+rugosidade. Não acrescenta downloads ao carregamento 3D ou triângulos. O PNG
+separado é transferido somente quando o visitante solicita o download.
+
 ## Reproduzir
 
 Executar os comandos na raiz do repositório. Usar Node 24, dependências do
@@ -61,10 +67,10 @@ saídas, downloads e evidências em `publicacao/` são ignorados pelo Git.
 
 ## Testes e qualidade
 
-Os três arquivos abaixo contêm 17 testes focados:
+Os quatro arquivos abaixo contêm 27 testes focados:
 
 ```powershell
-node --test tests/test_piloto_visual_build.mjs tests/test_piloto_visual_runtime.mjs tests/test_piloto_visual_metricas.mjs
+node --test tests/test_piloto_visual_build.mjs tests/test_piloto_visual_runtime.mjs tests/test_piloto_visual_metricas.mjs tests/test_piloto_visual_png.mjs
 ```
 
 Eles verificam manifesto e hashes, limite e lista de arquivos públicos,
