@@ -14,6 +14,8 @@ O contrato está na [SPEC](SPEC.md). O resultado atual, fontes, medições,
 verificações e expiração estão em [MATERIAIS-REAIS](MATERIAIS-REAIS.md).
 [ENTREGA](ENTREGA.md) e [PAREDES](PAREDES.md) preservam as rodadas anteriores.
 A publicação continua restrita ao [preview temporário](PUBLICACAO.md).
+O [guia explicativo de acabamentos PBR](../../relatorios/guia-acabamentos-pbr-2026-10-04.md)
+documenta as fontes, a preparação, a implementação e o caminho para padronizar o processo.
 
 ## Reprodução
 

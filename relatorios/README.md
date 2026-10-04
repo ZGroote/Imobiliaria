@@ -1,5 +1,6 @@
 # Relatórios
 
+- [Guia de acabamentos PBR — 04/10/2026](guia-acabamentos-pbr-2026-10-04.md): fontes e licenças, preparação, implementação, reprodução e proposta de padrão; PDF local em `padrao-acabamentos-pbr/guia-acabamentos-pbr.pdf`.
 - [Rastreabilidade — entrega local de 04/10/2026](../tasks/rastreabilidade/entrega-2026-10-04.md): links por corretor, sublinks, tempo por páginas/seções e relatórios; testes locais, sites offline.
 - [Desativação e dados de acesso — 04/10/2026](desativacao-e-acessos-2026-10-04.md): oito canais Hosting desativados, artefato Claude privado e transferência medida; audiência desconhecida.
 - [Avaliação de 04/10/2026](avaliacao-atual-2026-10-04.md): diagnóstico anterior à consolidação.
