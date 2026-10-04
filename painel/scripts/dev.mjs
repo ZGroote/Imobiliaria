@@ -22,7 +22,8 @@ await semear()
 console.log('seed: emulador zerado e populado.')
 const painelPort=process.env.PAINEL_PORT??'3000'
 const origin=`http://127.0.0.1:${painelPort}`
-criarServidorLeituras({db:adminDb(),auth:getAuth(),origin}).listen(5056,'127.0.0.1')
+criarServidorLeituras({db:adminDb(),auth:getAuth(),origin,allowDemo:process.env.READINGS_ALLOW_LOCAL_DEMO==='1'})
+  .listen(5056,'127.0.0.1')
 
 http.createServer(async (req, res) => {
   const cab = { 'access-control-allow-origin': '*', 'cache-control': 'no-store' }

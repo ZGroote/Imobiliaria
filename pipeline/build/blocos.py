@@ -150,7 +150,8 @@ def bloco_unidades(CID):
             p = os.path.join(base, nome, "unidade.json")
             if not os.path.exists(p):
                 continue
-            u = json.load(io.open(p, encoding="utf-8"))
+            with io.open(p, encoding="utf-8") as arquivo:
+                u = json.load(arquivo)
             if u.get("cidade") not in (None, CID.slug, CID.plantas_de):
                 continue
             # Campo com _ na frente e anotacao pra humano (conflito de ficha, topologia
@@ -172,7 +173,8 @@ def bloco_unidades(CID):
                 auto = os.path.join(base, nome, "moveis.auto.json")
                 if (not u["planta"].get("moveis") and u["planta"].get("mobiliar") is not False
                         and os.path.exists(auto)):
-                    d = json.load(io.open(auto, encoding="utf-8"))
+                    with io.open(auto, encoding="utf-8") as arquivo:
+                        d = json.load(arquivo)
                     u["planta"]["moveis"] = d.get("moveis") or []
                     if u["planta"]["moveis"]:
                         print("    %s: %d moveis automaticos"

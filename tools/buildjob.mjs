@@ -7,11 +7,24 @@
 // No emulador, FIRESTORE_EMULATOR_HOST pode ser usado normalmente.
 import { pathToFileURL } from 'node:url'
 import { initializeApp, getApps } from 'firebase-admin/app'
-import { FieldValue, getFirestore } from 'firebase-admin/firestore'
+import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore'
 
 const MODOS = new Set(['leve', 'premium'])
 const PAPEIS = new Set(['platform_admin', 'operator'])
 const ATIVOS = new Set(['pending', 'running'])
+const PIN_FIELDS = ['readingId', 'readingVersion', 'readingRevision', 'schemaVersion', 'contentSha256', 'fixedBy', 'fixedAt']
+const SNAPSHOT_FIELDS = {readingId:'id',readingVersion:'version',readingRevision:'revision',schemaVersion:'schemaVersion',contentSha256:'contentSha256'}
+const id = value => typeof value === 'string' && /^[a-zA-Z0-9_-]{1,128}$/.test(value)
+
+function entradaFixada(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)
+    || Object.keys(value).length !== PIN_FIELDS.length || !PIN_FIELDS.every(key => Object.hasOwn(value,key))
+    || !id(value.readingId) || !id(value.fixedBy) || !Number.isSafeInteger(value.readingVersion) || value.readingVersion < 1
+    || !Number.isSafeInteger(value.readingRevision) || value.readingRevision < 1 || value.readingRevision > 2147483647
+    || !['1.0.0','1.1.0'].includes(value.schemaVersion) || typeof value.contentSha256 !== 'string' || !/^[0-9a-f]{64}$/.test(value.contentSha256)
+    || !(value.fixedAt instanceof Timestamp)) throw new Error('PRODUCTION_INPUT_INVALID')
+  return {...value}
+}
 
 export function planejarBuildJob(requestId, request, property, userId, user) {
   if (!requestId || !request) throw new Error('REQUEST_NOT_FOUND')
@@ -21,12 +34,14 @@ export function planejarBuildJob(requestId, request, property, userId, user) {
   if (!request.propertyId) throw new Error('PROPERTY_REQUIRED')
   if (!property) throw new Error('PROPERTY_NOT_FOUND')
   if (property.agencyId !== request.agencyId) throw new Error('AGENCY_MISMATCH')
-  if (!property.pipelineUnitId) throw new Error('PIPELINE_UNIT_REQUIRED')
+  const productionInput = request.productionInput === undefined ? undefined : entradaFixada(request.productionInput)
+  if (!property.pipelineUnitId && !productionInput) throw new Error('PIPELINE_UNIT_REQUIRED')
 
   return {
     requestId,
     propertyId: request.propertyId,
-    pipelineUnitId: property.pipelineUnitId,
+    ...(property.pipelineUnitId ? { pipelineUnitId: property.pipelineUnitId } : {}),
+    ...(productionInput ? { productionInput } : {}),
     agencyId: request.agencyId,
     productionMode: request.productionMode,
     requestedBy: request.requestedBy,
@@ -55,6 +70,14 @@ export async function criarBuildJob(db, requestId, userId) {
     userId,
     userSnap.data(),
   )
+  if (plano.productionInput) {
+    const reading = await db.collection('propertyReadings').doc(plano.productionInput.readingId).get()
+    if (!reading.exists) throw new Error('PRODUCTION_INPUT_NOT_FOUND')
+    const snapshot = {...reading.data(),id:reading.id}
+    if (snapshot.propertyId !== plano.propertyId || snapshot.agencyId !== plano.agencyId
+      || Object.entries(SNAPSHOT_FIELDS).some(([pin,field]) => plano.productionInput[pin] !== snapshot[field]))
+      throw new Error('PRODUCTION_INPUT_MISMATCH')
+  }
 
   // Um request só pode ter um job ativo. Jobs encerrados continuam no histórico e permitem retry explícito.
   const existentes = await db.collection('buildJobs').where('requestId', '==', requestId).get()
@@ -76,7 +99,8 @@ export async function criarBuildJob(db, requestId, userId) {
       status: plano.status,
       requestId: plano.requestId,
       propertyId: plano.propertyId,
-      pipelineUnitId: plano.pipelineUnitId,
+      ...(plano.pipelineUnitId ? { pipelineUnitId: plano.pipelineUnitId } : {}),
+      ...(plano.productionInput ? { productionInput: plano.productionInput } : {}),
       productionMode: plano.productionMode,
     },
     timestamp: ts,

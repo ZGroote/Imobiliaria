@@ -31,6 +31,7 @@ import tempfile
 
 from pipeline import validar_leitura
 from pipeline.normalizar_planta import LeituraInvalida, normalizar, serializar
+from pipeline.editor_state import validar_moveis
 
 RAIZ = Path(__file__).resolve().parents[1]
 MAQUETE = RAIZ / "v1.5" / "miniaturas" / "pagina_maquete.py"
@@ -47,7 +48,7 @@ VAO_MIN_MM = 200        # decideVao descarta vão abaixo de 0,2 m
 RECUO_CASCA_M = 0.25    # plantaDaUnidade: casca de contorno gerado recua 0,25 m por lado
 TOL_M = 1e-6
 
-CONTEXTO = {"schema", "propertyId", "agencyId", "andar", "ficha", "cores", "lote"}
+CONTEXTO = {"schema", "propertyId", "agencyId", "andar", "ficha", "cores", "lote", "moveis"}
 PREDIO = {"largura_m", "profundidade_m", "pavimentos"}
 COR = re.compile(r"#[0-9A-Fa-f]{6}")
 
@@ -175,6 +176,9 @@ def unidade(derivada, pedido, contexto):
     if not (isinstance(cores, dict)
             and all(isinstance(v, str) and COR.fullmatch(v) for v in cores.values())):
         erros.append(_erro("CONTEXTO_INVALIDO", "/cores", "Cores são #RRGGBB."))
+    moveis = c.get("moveis")
+    if moveis is not None:
+        erros += validar_moveis(moveis)
     lote = c.get("lote")
     predio = lote.get("predio") if isinstance(lote, dict) and set(lote) == {"predio"} else None
     if not (isinstance(predio, dict) and not set(predio) - PREDIO
@@ -200,15 +204,21 @@ def unidade(derivada, pedido, contexto):
                             "A planta (%.2f x %.2f m) não cabe no prédio declarado do jeito que "
                             "o consumidor a assenta (%.2f x %.2f m úteis)." % (larg, prof, maior, menor))])
 
+    planta_out = {
+        "pe_direito": P["pe_direito"], "comodos": P["comodos"],
+        "portas": P["portas"], "janelas": P["janelas"],
+        # o vínculo viaja DENTRO do artefato: a página diz de que leitura nasceu
+        "entrada": _vinculo(pedido["productionInput"], derivada),
+    }
+    if isinstance(c.get("moveis"), list):
+        planta_out["moveis"] = c["moveis"]
+    elif isinstance(P.get("moveis"), list):
+        planta_out["moveis"] = P["moveis"]
+
     return {
         "id": pedido["propertyId"], "cidade": None, "andar": andar, "ficha": ficha,
         "cores": cores, "lote": {"predio": predio},
-        "planta": {
-            "pe_direito": P["pe_direito"], "comodos": P["comodos"],
-            "portas": P["portas"], "janelas": P["janelas"],
-            # o vínculo viaja DENTRO do artefato: a página diz de que leitura nasceu
-            "entrada": _vinculo(pedido["productionInput"], derivada),
-        },
+        "planta": planta_out,
     }
 
 
@@ -302,7 +312,7 @@ def executar(entrada, contexto, destino):
         raise Recusa(erros)
 
     destino = Path(destino)
-    if destino.exists() and (not destino.is_dir() or any(destino.iterdir())):
+    if destino.is_symlink() or destino.exists() and (not destino.is_dir() or any(destino.iterdir())):
         raise Recusa([_erro("DESTINO_OCUPADO", str(destino), "O destino já existe e não está vazio.")])
     destino.parent.mkdir(parents=True, exist_ok=True)
     trabalho = Path(tempfile.mkdtemp(prefix=".e2e-", dir=str(destino.parent)))
@@ -331,8 +341,12 @@ def executar(entrada, contexto, destino):
                          "id": _sha(dado)[:12]},
         }
         (trabalho / "relatorio.json").write_bytes(serializar(relatorio))
+        # A pasta inteira só aparece depois da conferência. Uma concorrência que
+        # ocupe o destino nunca autoriza apagar seus arquivos.
+        if destino.is_symlink() or destino.exists() and (not destino.is_dir() or any(destino.iterdir())):
+            raise Recusa([_erro("DESTINO_OCUPADO", str(destino), "O destino foi ocupado durante a geração.")])
         if destino.exists():
-            destino.rmdir()
+            destino.rmdir()  # somente a pasta ainda vazia, nunca remoção recursiva
         trabalho.rename(destino)
     except BaseException:
         shutil.rmtree(trabalho, ignore_errors=True)

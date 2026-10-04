@@ -4,10 +4,11 @@ import {doc} from 'firebase/firestore'
 import {Portao} from '@/components/Portao'
 import {ComId,Aviso} from '@/components/ui'
 import Capturador from '@/components/construtor-planta/Capturador'
-import {carregar,type Session} from '@/components/construtor-planta/modelo'
+import {carregarSnapshot,carregarEditorState,exportarEditor,type EditorState,type Floor} from '@/components/construtor-planta/editorDocument'
+import type {Session} from '@/components/construtor-planta/modelo'
 import {db,auth} from '@/lib/firebase'
 import {useDoc} from '@/lib/useFirestore'
-import {listarVersoes,salvarVersao,type PropertyReading} from '@/lib/leituras'
+import {listarVersoes,salvarVersao,requisitarMaquete3D,type PropertyReading} from '@/lib/leituras'
 import type {Property} from '@/lib/types'
 
 export default function PlantaDoImovel(){
@@ -30,16 +31,16 @@ function Versoes({property:p}:{property:Property}){
   const [more,setMore]=useState(false)
   const [listing,setListing]=useState(false)
   const [base,setBase]=useState<string>()
-  const [editor,setEditor]=useState<{key:number;session?:Session}>({key:0})
+  const [editor,setEditor]=useState<{key:number;session?:Session;editorState?:EditorState}>({key:0})
   // Um retry da mesma ação reutiliza ID; conteúdo novo ganha outra identidade.
-  const [attempt,setAttempt]=useState<{json:string;base?:string;id:string}>()
+  const [attempt,setAttempt]=useState<{json:string;editorStateJson:string;base?:string;id:string}>()
   useEffect(()=>{
     let active=true
     listarVersoes(db,p.id,p.agencyId).then(v=>{if(active){setVersions(v);setMore(v.length===50);setLoaded(true)}},e=>{if(active)setError(e.message)})
     return ()=>{active=false}
   },[p.id,p.agencyId])
   function load(v:PropertyReading){
-    try{const session=carregar(v.leitura);setEditor(e=>({key:e.key+1,session}));setBase(v.id);setAttempt(undefined);setError('')}
+    try{const restored=carregarSnapshot(v.leitura,v.editorState);setEditor(e=>({key:e.key+1,session:restored.sessions[0],editorState:v.editorState}));setBase(v.id);setAttempt(undefined);setError('')}
     catch(e){setError((e as Error).message)}
   }
   async function older(){
@@ -47,22 +48,32 @@ function Versoes({property:p}:{property:Property}){
     try{const page=await listarVersoes(db,p.id,p.agencyId,versions.at(-1)!.version);setVersions(v=>[...v,...page]);setMore(page.length===50)}
     catch(e){setError((e as Error).message)}finally{setListing(false)}
   }
-  async function save(json:string){
+  async function save(json:string,editorStateJson:string){
     setSaving(true)
     try{
     const user=auth.currentUser;if(!user) throw new Error('Entre novamente para salvar.')
-    const current=attempt?.json===json&&attempt.base===base?attempt:{json,base,id:crypto.randomUUID()}
+    const current=attempt?.json===json&&attempt.editorStateJson===editorStateJson&&attempt.base===base?attempt:{json,editorStateJson,base,id:crypto.randomUUID()}
     setAttempt(current)
     const saved=await salvarVersao(process.env.NEXT_PUBLIC_READINGS_API_URL??'',await user.getIdToken(),{
-      saveId:current.id,propertyId:p.id,agencyId:p.agencyId,leituraJson:json,...(base?{basedOnVersionId:base}:{})})
+      saveId:current.id,propertyId:p.id,agencyId:p.agencyId,leituraJson:json,editorStateJson,...(base?{basedOnVersionId:base}:{})})
     const refreshed=await listarVersoes(db,p.id,p.agencyId)
+    const snapshot=refreshed.find(v=>v.id===saved.id)
+    if(!snapshot?.editorState) throw new Error('Não foi possível confirmar o projeto completo salvo. Preserve a edição e baixe o projeto antes de sair.')
+    const expected=carregarEditorState(JSON.parse(editorStateJson)),observed=carregarSnapshot(snapshot.leitura,snapshot.editorState)
+    if(exportarEditor(expected.sessions,expected.activeFloor)!==exportarEditor(observed.sessions,observed.activeFloor))
+      throw new Error('O projeto salvo diverge da edição. Preserve a edição e baixe o projeto antes de sair.')
     setVersions(refreshed);setMore(refreshed.length===50);setBase(saved.id);setAttempt(undefined)
     }finally{setSaving(false)}
+  }
+  async function gerar3D(json:string,moveisJson:string,_floor:Floor){
+    const user=auth.currentUser;if(!user) throw new Error('Entre novamente para gerar a prévia.')
+    return requisitarMaquete3D(process.env.NEXT_PUBLIC_READINGS_API_URL??'',json,undefined,
+      {moveisJson,demo:true,propertyId:p.id,agencyId:p.agencyId,token:await user.getIdToken()})
   }
   return <>
     <section className="mx-auto max-w-6xl space-y-3 p-6">
       <h1 className="text-xl font-semibold">Planta · {p.title}</h1>
-      <p className="text-sm">Salvar cria um snapshot. Não aprova a planta nem inicia produção.</p>
+      <p className="text-sm">Salvar preserva pavimentos e móveis em um snapshot. A leitura de produção usa o andar ativo. A prévia 3D local é ilustrativa.</p>
       {error&&<Aviso>{error}</Aviso>}
       {!loaded?<p>Carregando versões…</p>:<>
         <h2 className="font-semibold">Versões salvas</h2>
@@ -76,6 +87,6 @@ function Versoes({property:p}:{property:Property}){
         <p className="text-sm">Carregar outra versão substitui a edição ainda não salva.</p>
       </>}
     </section>
-    {loaded&&<div inert={listing}><Capturador key={editor.key} initialSession={editor.session} onSave={save}/></div>}
+    {loaded&&<div inert={listing}><Capturador key={editor.key} initialSession={editor.session} initialEditorState={editor.editorState} onSave={save} onGerar3D={gerar3D}/></div>}
   </>
 }

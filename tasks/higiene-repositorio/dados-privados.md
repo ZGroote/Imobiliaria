@@ -128,3 +128,12 @@ quatro remanescentes voltem à pasta experimental versionada.
    for de terceiro, a licença entra antes no [THIRD_PARTY.md](../../THIRD_PARTY.md).
 3. **Migração para armazenamento privado,** que vem com a política de artefatos: o dado sai do
    repositório, e o item sai da lista no mesmo PR.
+
+## Comparativo A/B — classificação de 04/10/2026
+
+Os 11 JPGs de `experimentos/comparativo-planos-3d/assets_planob/` são material
+procedural próprio, sem imóvel real, produzido por NumPy/Pillow com semente fixa.
+O gerador canônico é `experimentos/comparativo-planos-3d/gerar_texturas_planob.py`.
+Os paths estão liberados individualmente em `tests/test_dados_privados.py`; uma nova
+foto nessa pasta continua exigindo classificação. Os HTMLs A/B usam uma casa sintética
+como experimento isolado, não cadastro comercial nem saída aprovada da fábrica.

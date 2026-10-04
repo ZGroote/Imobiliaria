@@ -1,6 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { planejarBuildJob } from '../tools/buildjob.mjs'
+import { Timestamp } from 'firebase-admin/firestore'
 
 const REQUEST = {
   agencyId: 'agA',
@@ -14,6 +15,8 @@ const PROPERTY = {
   pipelineUnitId: 'monte-dos-cedros-37',
 }
 const USER = { role: 'operator', active: true }
+const PIN = {readingId:'leitura1',readingVersion:2,readingRevision:1,schemaVersion:'1.0.0',
+  contentSha256:'a'.repeat(64),fixedBy:'op',fixedAt:Timestamp.fromMillis(1000)}
 
 test('buildjob: snapshot mínimo nasce do pedido e do imóvel', () => {
   const j = planejarBuildJob('reqA', REQUEST, PROPERTY, 'op', USER)
@@ -62,4 +65,22 @@ test('buildjob: modo, imóvel e pipelineUnitId são obrigatórios', () => {
 test('buildjob: imóvel não pode escapar da agência do pedido', () => {
   assert.throws(() => planejarBuildJob('reqA', REQUEST,
     { ...PROPERTY, agencyId: 'agB' }, 'op', USER), /AGENCY_MISMATCH/)
+})
+
+test('buildjob: entrada fixada permite imóvel novo e é congelada no plano', () => {
+  const input={...PIN},request={...REQUEST,productionInput:input}
+  const job=planejarBuildJob('novo',request,{agencyId:'agA'},'op',USER)
+  assert.deepEqual(job.productionInput,PIN)
+  assert.equal(job.pipelineUnitId,undefined)
+  input.contentSha256='b'.repeat(64)
+  assert.equal(job.productionInput.contentSha256,PIN.contentSha256)
+})
+
+test('buildjob: ponteiro incompleto/adulterado não substitui a unidade nem é copiado no legado', () => {
+  for(const invalid of [{},null,'leitura', {...PIN,extra:1},{...PIN,readingVersion:0},
+    {...PIN,readingRevision:1.5},{...PIN,readingId:'../escape'},{...PIN,schemaVersion:'2.0.0'},
+    {...PIN,contentSha256:'sem-hash'},{...PIN,fixedAt:'ontem'}]){
+    for(const property of [PROPERTY,{agencyId:'agA'}])
+      assert.throws(()=>planejarBuildJob('reqA',{...REQUEST,productionInput:invalid},property,'op',USER),/PRODUCTION_INPUT_INVALID/)
+  }
 })

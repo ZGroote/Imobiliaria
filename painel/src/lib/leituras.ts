@@ -1,14 +1,36 @@
 import {collection,doc,getDocs,query,where,orderBy,limit,startAfter,serverTimestamp,writeBatch} from 'firebase/firestore'
 import type {Firestore,Timestamp} from 'firebase/firestore'
 import type {Leitura} from '../components/construtor-planta/modelo.ts'
+import type {EditorState} from '../components/construtor-planta/editorDocument.ts'
 import type {Property,Request} from './types.ts'
 
 export interface PropertyReading {
   id:string;propertyId:string;agencyId:string;version:number;createdBy:string;createdByName:string;createdAt:Timestamp
-  schemaVersion:'1.0.0';revision:number;contentSha256:string;leitura:Leitura;basedOnVersionId:string|null
+  schemaVersion:Leitura['schemaVersion'];revision:number;contentSha256:string;leitura:Leitura;basedOnVersionId:string|null
+  editorState?:EditorState;editorStateSha256?:string
 }
-export type NovaVersao={saveId:string;propertyId:string;agencyId:string;leituraJson:string;basedOnVersionId?:string}
-export async function salvarVersao(endpoint:string,token:string,input:NovaVersao):Promise<{id:string;version:number}>{
+export type NovaVersao={saveId:string;propertyId:string;agencyId:string;leituraJson:string;editorStateJson?:string;basedOnVersionId?:string}
+export interface RespostaMaquete3D{ok:boolean;html:string;bytes:number;relatorio?:unknown}
+export type OpcoesMaquete3D={moveisJson?:string;demo?:boolean;propertyId?:string;agencyId?:string;token?:string}
+export async function requisitarMaquete3D(endpoint:string,leituraJson:string,contextoJson?:string,options:OpcoesMaquete3D={}):Promise<RespostaMaquete3D>{
+  let target=endpoint
+  if(!target){
+    const host=typeof window!=='undefined'?window.location.hostname:''
+    if(!/^127(?:\.\d{1,3}){3}$/.test(host)&&host!=='localhost'&&host!=='[::1]')
+      throw new Error('A prévia 3D precisa do serviço local configurado.')
+    target=`http://${host}:5056/gerar-maquete`
+  }else{
+    target=target.replace(/\/property-readings\/?$/,'/gerar-maquete')
+  }
+  const {token,...payload}=options
+  const r=await fetch(target,{method:'POST',headers:{'content-type':'application/json',...(token?{authorization:'Bearer '+token}:{})},
+    body:JSON.stringify({leituraJson,contextoJson,...payload})})
+  const body=await r.json()
+  if(!r.ok||!body.ok) throw new Error(body.error??'Falha ao gerar maquete 3D.')
+  if(typeof body.html!=='string'||!body.html.trim()) throw new Error('O serviço retornou uma prévia vazia.')
+  return body
+}
+export async function salvarVersao(endpoint:string,token:string,input:NovaVersao):Promise<{id:string;version:number;editorStateSha256?:string}>{
   if(!endpoint) throw new Error('Serviço de leituras ainda não configurado.')
   const r=await fetch(endpoint,{method:'POST',headers:{authorization:'Bearer '+token,'content-type':'application/json'},body:JSON.stringify(input)})
   const body=await r.json()

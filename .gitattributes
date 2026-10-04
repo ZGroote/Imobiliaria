@@ -3,3 +3,9 @@ pipeline/encaixar_casas_lotes.py text eol=lf
 # Download do capturador preservado e comparado byte a byte nos testes.
 tests/fixtures/leitura/v1/capturador-mobile.json text eol=lf
 tests/fixtures/leitura/v1/capturador-aberturas-mobile.json text eol=lf
+# O manifesto A/B identifica os bytes gerados, inclusive em checkout Windows.
+experimentos/comparativo-planos-3d/*.html text eol=lf
+experimentos/comparativo-planos-3d/*.json text eol=lf
+experimentos/comparativo-planos-3d/*.py text eol=lf
+# Evidência recuperável com SHA documentado no Windows.
+experimentos/maquete-cosmetica-procedural-2026-10-04/*.patch text eol=lf -whitespace

@@ -1,93 +1,96 @@
-# Estudo & Benchmark: Plano A (Mobile-First 3G) vs Plano B (High-End ArchViz)
+# Comparativo experimental de maquetes 3D
 
-Este diretório contém o estudo comparativo completo, os protótipos funcionais, scripts geradores e medições de desempenho entre duas filosofias arquiteturais para maquetes interativas 3D imobiliárias no navegador:
+Esta pasta guarda dois protótipos de uma casa sintética. Plano A usa a base com materiais
+embutidos; Plano B acrescenta JPGs procedurais e decoração pelo override experimental.
+Não há decisão de produto ou homologação mobile baseada neste estudo.
 
-1. **Plano A · Mobile-First (Otimizado para 3G / Baixo Consumo)**: 100% autocontido em um único arquivo HTML, com texturas procedurais PBR geradas em memória, foco em abertura instantânea (< 1,8s no 3G) e zero requisições secundárias.
-2. **Plano B · High-End ArchViz (Padrão Desktop / Alta Resolução)**: Texturas fotográficas escaneadas em 1024x1024 (Albedo, Normal e Roughness), mapas de ambiente de estúdio e staging decorativo de alto padrão (tapete berber contemporâneo, mármore nobre, livros de design).
+A base é o HTML sintético preservado do lote anterior e inclui a variação gráfica
+local de móveis/ambiente. Essa cosmética foi isolada do gerador geral durante a
+organização; seu [patch original](../maquete-cosmetica-procedural-2026-10-04/README.md)
+continua recuperável. A/B se reproduz a partir desta base, sem depender do template ativo.
 
----
+O relatório anterior apresentava estimativas como resultados. Foram retirados tempos de
+abertura em 3G/4G/Wi-Fi, FPS, VRAM, abandono e custo sem coleta. Esses critérios aparecem
+agora como **NÃO MEDIDO** na página e no JSON.
 
-## 📊 Tabela de Comparação Técnica
+## O que é medido
 
-| Critério de Avaliação | Plano A (Mobile-First / 3G) | Plano B (High-End ArchViz) | Impacto no Negócio / Conversão |
-| :--- | :--- | :--- | :--- |
-| **Peso em Disco (HTML bruto)** | **1,83 MB** | **1,84 MB** (+ 2,5 MB de imagens) | Plano A é um único arquivo transportável. |
-| **Peso Transferido na Rede (Gzip/Brotli)** | **~415 KB** ⚡ | **~7.820 KB** (18x mais pesado) | Economiza 95% do plano de dados do visitante. |
-| **Tempo de Abertura no 3G (1.5 Mbps)** | **1,5 s a 1,8 s** | **18 s a 28 s** 🐢 | Esperas acima de 3s geram +40% de taxa de abandono. |
-| **Tempo de Abertura no 4G (25 Mbps)** | **< 0,7 s** | **~2,5 s** | Em conexões velozes, ambos carregam rápido. |
-| **Tempo no Wi-Fi / Fibra (100 Mbps)** | **< 0,4 s** | **~0,9 s** | Praticamente instantâneo em banda larga fixa. |
-| **Requisições HTTP Secundárias** | **0 requisições** | **11 requisições de imagem** | Zero risco de textura quebrar por queda de sinal no Plano A. |
-| **Consumo de Memória VRAM na GPU** | **~28 MB** | **~145 MB** | Aparelhos básicos (2GB/3GB RAM) rodam o Plano A a 60 FPS. |
-| **FPS Médio em Celular de Entrada** | **60 FPS cravados** | **35 a 45 FPS** | Fluidez tátil e sensação de agilidade no toque. |
-| **Custo de Tráfego por 100k Acessos** | **~R$ 2,10** | **~R$ 41,00** | Escala com custo de CDN/servidor quase nulo no Plano A. |
+`metricas_comparativo.json` contém bytes, SHA-256 e gzip local dos arquivos realmente
+presentes. O inventário distingue todos os JPGs existentes dos nove JPGs referenciados
+no código do Plano B. Referência no código não comprova uma requisição HTTP, aplicação
+visual, qualidade ou enquadramento correto. Gzip local não é transferência de rede.
 
----
+`manifest.json` identifica os arquivos finais e a fonte normalizada sem banner. O
+manifesto pertence à derivação A/B; não substitui um relatório geométrico E2E. A geometria
+não foi novamente homologada nesta organização.
 
-## 🏗️ Estrutura de Arquivos
+## Origem dos assets
 
-```text
-experimentos/comparativo-planos-3d/
-├── README.md                      # Documentação completa, metodologia e decisões
-├── comparativo.html               # Dashboard interativo com visualizador lado a lado
-├── plano-a.html                   # Maquete 3D completa do Plano A (Mobile-First)
-├── plano-b.html                   # Maquete 3D completa do Plano B (High-End ArchViz)
-├── metricas_comparativo.json      # Dados estruturados de benchmark para CI/CD
-├── gerar_texturas_planob.py       # Gerador em NumPy/PIL das texturas PBR escaneadas
-├── gerar_planos_comparativo.py    # Compilador e integrador das maquetes
-└── assets_planob/                 # Mapas de textura PBR de alta resolução (1024x1024)
-    ├── piso_madeira_albedo.jpg    # Réguas de madeira nobre com nós e juntas chanfradas
-    ├── piso_madeira_normal.jpg    # Relevo e profundidade tangencial das fibras
-    ├── piso_madeira_roughness.jpg # Variação de verniz acetinado e veios foscos
-    ├── marmore_albedo.jpg         # Mármore Calacatta com veios ramificados dourados e cinzas
-    ├── marmore_roughness.jpg      # Superfície polida com microvariações minerais
-    ├── tecido_linho_albedo.jpg    # Trama têxtil escaneada em linho cru nórdico
-    ├── tecido_linho_normal.jpg    # Relevo tátil de trama e urdidura
-    ├── tecido_linho_roughness.jpg # Dispersão de luz têxtil suave
-    ├── tapete_sala_albedo.jpg     # Tapete contemporâneo estilo berber geométrico
-    ├── tapete_sala_normal.jpg     # Altura da pelagem do tapete
-    └── ambiente_hdri.jpg          # Iluminação equirretangular de estúdio residencial
+Os 11 JPGs em `assets_planob/` são desenhados por NumPy/Pillow com sementes fixas no
+`gerar_texturas_planob.py`. Não são fotografias nem escaneamentos, não contêm dados de
+imóvel real e não são downloads de terceiros. `ambiente_hdri.jpg` é um nome histórico
+para um JPEG LDR sintético. Ele e `tapete_sala_normal.jpg` não são referenciados pelo
+override atual. A pasta está classificada nos inventários e nas travas do repositório.
+
+As maquetes incluem o three.js da base do projeto, sujeito ao inventário em
+`../../THIRD_PARTY.md`. O padrão PREMIUM canônico não é alterado por estes scripts.
+
+## Abrir e reproduzir
+
+Da raiz, em PowerShell:
+
+```powershell
+python -m http.server 8820 --bind 127.0.0.1 --directory experimentos/comparativo-planos-3d
 ```
 
----
+Abra `http://127.0.0.1:8820/comparativo.html`. Os banners usam quebra de linha para
+caber em telas estreitas. O Plano B precisa de HTTP para seus JPGs externos.
 
-## 🎯 Detalhamento dos Planos
+A fonte carregada por padrão é a maquete do próprio `plano-a.html`; o gerador remove
+seu banner antes de derivar os dois planos. Isso evita guardar outra cópia de 1,8 MB.
+Para outra fonte, passe `--fonte CAMINHO/maquete.html`.
 
-### Plano A · Mobile-First (Otimizado para 3G)
-* **Objetivo Comercial**: Conversão máxima em tráfego pago (WhatsApp, Instagram Stories, Facebook Ads, portais imobiliários).
-* **Solução Técnica**:
-  * Em vez de baixar imagens pesadas pela rede móvel, o navegador sintetiza as texturas em tempo de execução via Canvas 2D / WebGL Shaders em frações de milissegundo.
-  * O arquivo é 100% autocontido. Se o sinal do celular oscilar ou o usuário estiver em um túnel/garagem, a maquete continua funcionando perfeitamente sem imagens corrompidas.
-  * Shaders calibrados: Carvalho Freijó com veios multi-frequência, estofados em linho cru neutro, inox escovado brilhante para eletrodomésticos e reflexo sintético de luz de janela em superfícies reflexivas.
-
-### Plano B · High-End ArchViz (Padrão Desktop)
-* **Objetivo Comercial**: Catálogos de luxo, showrooms presenciais, totens interativos em estandes de venda e visualização em computadores ou tablets.
-* **Solução Técnica**:
-  * Carregamento de texturas PBR completas (1024x1024): Albedo, Normal Map e Roughness Map.
-  * Piso com visual de tábuas individuais chanfradas, com nós de madeira naturais e reflexos acetinados.
-  * Bancadas da cozinha e banheiros em mármore nobre Calacatta.
-  * Staging decorativo de alto padrão: tapete berber contemporâneo sob a mesa de centro, livros de design/arquitetura empilhados e vaso de cerâmica.
-  * Maior impacto estético imediato para clientes em conexões velozes (Wi-Fi/4G/5G).
-
----
-
-## 🚀 Como Executar Localmente
-
-Para rodar o comparativo interativo localmente com qualquer servidor HTTP:
-
-```bash
-# Na raiz do repositório:
-python -m http.server 8820 --directory experimentos/comparativo-planos-3d
+```powershell
+python experimentos/comparativo-planos-3d/gerar_planos_comparativo.py --medir
+python experimentos/comparativo-planos-3d/gerar_planos_comparativo.py
 ```
 
-E abra no navegador:
-* **Dashboard Comparativo**: `http://localhost:8820/comparativo.html`
-* **Plano A Direto**: `http://localhost:8820/plano-a.html?modo=planta3d`
-* **Plano B Direto**: `http://localhost:8820/plano-b.html?modo=planta3d`
+O segundo comando reescreve somente A/B, dashboard, métricas e manifesto nesta pasta.
+`tools/gerar_planos_comparativo.py` e `tools/sincronizar_experimento_comparativo.py` são
+invocadores de compatibilidade desta mesma fonte; não copiam do lote em `publicacao/`.
 
----
+Para regenerar imagens (NumPy e Pillow do ambiente de fontes):
 
-## 💡 Recomendação de Produto
+```powershell
+python experimentos/comparativo-planos-3d/gerar_texturas_planob.py
+```
 
-A estratégia recomendada para a plataforma imobiliária é:
-1. **Adotar o Plano A como padrão de entrega**: Todo link gerado automaticamente para anúncios e WhatsApp deve usar o Plano A, garantindo que nenhum comprador em potencial desista antes de ver o imóvel.
-2. **Disponibilizar o Plano B como alternador opcional**: Adicionar um botão discreto `"Ver em Alta Definição (HD)"` na interface da maquete. Ao clicar, o sistema carrega os assets sob demanda, beneficiando os usuários em computadores sem prejudicar os usuários no 3G.
+Depois, rode novamente o gerador do comparativo para atualizar os hashes.
+
+## Lote sintético de dez casas
+
+`tools/benchmark_10_casas.mjs` é um experimento separado. Exige uma pasta nova, mede
+somente tempos locais e tamanho, passa paleta/móveis antes da geração e confere o
+hash do HTML contra o relatório. Preserva a iluminação padrão; presets antigos de
+luz ficam registrados como não aplicados. Mobília ilustrativa não certifica NBR/NKBA.
+
+```powershell
+node tools/benchmark_10_casas.mjs --destino publicacao/experimentos/lote-10-casas-nova
+```
+
+O lote histórico não foi regenerado. A auditoria de 04/10/2026 encontrou divergência
+em 10/10 HTMLs contra o relatório original, após o antigo ajuste de luz. Foi salvo
+somente o registro lateral `identidade-artefatos-legados.json`; relatórios e HTMLs
+históricos foram preservados. Para conferir novamente sem modificar o lote:
+
+```powershell
+node tools/benchmark_10_casas.mjs --auditar-legado publicacao/m1-1a/lote-10-casas
+```
+
+Para registrar os hashes dos bytes atuais, acrescente `--registrar-legado`. Isso cria
+`identidade-artefatos-legados.json` com os hashes declarados e encontrados, preserva os
+relatórios antigos e informa que geração, geometria e desempenho não foram repetidos.
+Recusa sobrescrever um registro lateral existente. Não restaura uma homologação antiga.
+
+Antes de escolher A/B para o produto, falta medir ambos no mesmo aparelho, rede, cache,
+versão e jornada. Não se conclui taxa de conversão a partir do tamanho de arquivo.

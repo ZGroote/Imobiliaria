@@ -1,74 +1,27 @@
-"""
-Script para gerar:
-1. publicacao/m1-1a/lote-10-casas/casa-10/maquete/plano-a.html
-2. publicacao/m1-1a/lote-10-casas/casa-10/maquete/plano-b.html
-3. publicacao/m1-1a/lote-10-casas/comparativo.html
-"""
+"""Comparativo visual isolado e medição estática dos bytes presentes no disco.
 
-import os
+A base fica em plano-a.html; banners são removidos antes de gerar novamente.
+Nenhum tempo de rede, FPS, VRAM, conversão ou custo é estimado como medição.
+"""
+import argparse
+import gzip
+import hashlib
+import json
+from pathlib import Path
 import re
 
-BASE_DIR = os.path.join("publicacao", "m1-1a", "lote-10-casas")
-CASA10_DIR = os.path.join(BASE_DIR, "casa-10", "maquete")
-SRC_HTML = os.path.join(CASA10_DIR, "maquete.html")
-PLANO_A_HTML = os.path.join(CASA10_DIR, "plano-a.html")
-PLANO_B_HTML = os.path.join(CASA10_DIR, "plano-b.html")
-COMP_HTML = os.path.join(BASE_DIR, "comparativo.html")
-
-with open(SRC_HTML, "r", encoding="utf-8") as f:
-    source_html = f.read()
-
-# ---------------------------------------------------------------------------
-# 1. PLANO A (Mobile-First / 3G Ultra-Leve)
-# ---------------------------------------------------------------------------
-banner_a = """
-<div id="badgePlano" style="position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:9999;background:rgba(12,18,25,0.94);border:1px solid rgba(75,219,124,0.6);border-radius:30px;padding:6px 16px;box-shadow:0 8px 32px rgba(0,0,0,0.65);display:flex;align-items:center;gap:12px;font-family:system-ui,-apple-system,sans-serif;font-size:12px;color:#e7ebf0;backdrop-filter:blur(10px);white-space:nowrap;pointer-events:auto;">
-  <span style="display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#4BDB7C;letter-spacing:0.5px;text-transform:uppercase;">
-    <span style="width:8px;height:8px;border-radius:50%;background:#4BDB7C;box-shadow:0 0 8px #4BDB7C;display:inline-block;"></span>
-    Plano A · Mobile-First (3G)
-  </span>
-  <span style="color:#99a5af;font-size:11px;">~415 KB transferidos · 1 único arquivo · Carga &lt; 2s</span>
-  <a href="../../comparativo.html" style="background:#2563eb;color:#fff;text-decoration:none;padding:3px 10px;border-radius:12px;font-weight:600;font-size:11px;transition:background 0.2s;">Ver Comparativo ↗</a>
-</div>
-"""
-
-html_a = source_html.replace("<body>", "<body>\n" + banner_a)
-html_a = html_a.replace("<title>", "<title>[Plano A · Mobile-First 3G] ")
-
-with open(PLANO_A_HTML, "w", encoding="utf-8") as f:
-    f.write(html_a)
-print("Plano A gerado com sucesso:", PLANO_A_HTML, f"({len(html_a)} bytes)")
-
-# ---------------------------------------------------------------------------
-# 2. PLANO B (High-End ArchViz / Padrão Desktop com Texturas Fotográficas)
-# ---------------------------------------------------------------------------
-banner_b = """
-<div id="badgePlano" style="position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:9999;background:rgba(12,18,25,0.94);border:1px solid rgba(59,130,246,0.6);border-radius:30px;padding:6px 16px;box-shadow:0 8px 32px rgba(0,0,0,0.65);display:flex;align-items:center;gap:12px;font-family:system-ui,-apple-system,sans-serif;font-size:12px;color:#e7ebf0;backdrop-filter:blur(10px);white-space:nowrap;pointer-events:auto;">
-  <span style="display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#60A5FA;letter-spacing:0.5px;text-transform:uppercase;">
-    <span style="width:8px;height:8px;border-radius:50%;background:#60A5FA;box-shadow:0 0 8px #60A5FA;display:inline-block;"></span>
-    Plano B · High-End ArchViz (Desktop)
-  </span>
-  <span style="color:#99a5af;font-size:11px;">~7.8 MB · Texturas Fotográficas PBR + Staging Decorativo</span>
-  <a href="../../comparativo.html" style="background:#2563eb;color:#fff;text-decoration:none;padding:3px 10px;border-radius:12px;font-weight:600;font-size:11px;transition:background 0.2s;">Ver Comparativo ↗</a>
-</div>
-"""
-
-# No Plano B, garantimos que cena e materiais sejam acessíveis globalmente via window.__
-html_b = source_html.replace("var cena = new THREE.Scene();", "var cena = window.__cena3D = new THREE.Scene();")
-html_b = html_b.replace("var MAT = InteriorMaterials.create({", "var MAT = window.__MAT = InteriorMaterials.create({")
-html_b = html_b.replace("var matSofaTecido = new THREE.MeshStandardMaterial({", "var matSofaTecido = window.__matSofaTecido = new THREE.MeshStandardMaterial({")
-html_b = html_b.replace("var matCamaTecido = new THREE.MeshStandardMaterial({", "var matCamaTecido = window.__matCamaTecido = new THREE.MeshStandardMaterial({")
+PASTA = Path(__file__).resolve().parent
 
 js_planob_override = """
 /* ==========================================================================
-   PLANO B: ATIVAÇÃO DE TEXTURAS FOTOGRÁFICAS PBR & STAGING DE ALTO PADRÃO
+   PLANO B: ATIVAÇÃO DE TEXTURAS PROCEDURAIS PBR & STAGING DE ALTO PADRÃO
    ========================================================================== */
 (function() {
   if (typeof THREE === 'undefined') return;
   var loader = new THREE.TextureLoader();
   var assetPath = 'assets_planob/';
 
-  // 1. Texturas Fotográficas de Piso de Madeira Nobre
+  // 1. Texturas Procedurais de Piso de Madeira Nobre
   loader.load(assetPath + 'piso_madeira_albedo.jpg', function(texAlbedo) {
     texAlbedo.wrapS = texAlbedo.wrapT = THREE.RepeatWrapping;
     texAlbedo.repeat.set(4, 4);
@@ -96,7 +49,7 @@ js_planob_override = """
     });
   });
 
-  // 2. Texturas Fotográficas de Linho Escaneado para Sofá e Cama
+  // 2. Texturas Procedurais de Linho Procedural para Sofá e Cama
   loader.load(assetPath + 'tecido_linho_albedo.jpg', function(texAlbedo) {
     texAlbedo.wrapS = texAlbedo.wrapT = THREE.RepeatWrapping;
     texAlbedo.repeat.set(5, 5);
@@ -131,7 +84,7 @@ js_planob_override = """
     });
   });
 
-  // 3. Mármore Fotográfico Calacatta para Bancadas
+  // 3. Mármore Procedural Calacatta para Bancadas
   loader.load(assetPath + 'marmore_albedo.jpg', function(texMarmore) {
     texMarmore.wrapS = texMarmore.wrapT = THREE.RepeatWrapping;
     texMarmore.repeat.set(2, 2);
@@ -203,10 +156,122 @@ js_planob_override = """
 })();
 """
 
-html_b = html_b.replace("<body>", "<body>\n" + banner_b)
-html_b = html_b.replace("<title>", "<title>[Plano B · High-End ArchViz] ")
-html_b = html_b.replace("</body>", f"<script>\n{js_planob_override}\n</script>\n</body>")
 
-with open(PLANO_B_HTML, "w", encoding="utf-8") as f:
-    f.write(html_b)
-print("Plano B gerado com sucesso:", PLANO_B_HTML, f"({len(html_b)} bytes)")
+def sha256(dado):
+    return hashlib.sha256(dado).hexdigest()
+
+
+def base_sem_banner(source):
+    source = re.sub(r'<style id="estiloComparativo">.*?</style>\s*', '', source, flags=re.S)
+    source = re.sub(r'<(?:div|aside) id="badgePlano".*?</(?:div|aside)>\s*', '', source, flags=re.S)
+    source = re.sub(r'(<title>)\[Plano A[^]]*\]\s*', r'\1', source)
+    return re.sub(r'<body>\s*', '<body>\n', source, count=1)
+
+
+def banner(plano):
+    cor = '#4bdb7c' if plano == 'A' else '#60a5fa'
+    texto = 'Materiais embutidos' if plano == 'A' else 'JPGs procedurais externos'
+    return f"""<style id="estiloComparativo">
+#badgePlano{{position:fixed;top:8px;left:50%;transform:translateX(-50%);z-index:9999;width:max-content;max-width:calc(100vw - 16px);box-sizing:border-box;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 10px;padding:6px 12px;border-radius:12px;background:#0c1219ef;border:1px solid {cor};color:#e7ebf0;font:12px system-ui;text-align:center}}
+#badgePlano a{{color:{cor};padding:6px;min-height:32px;box-sizing:border-box}}
+#badgePlano span{{white-space:normal}}
+@media(max-width:480px){{#badgePlano{{font-size:11px;gap:2px 8px}}}}
+</style>
+<aside id="badgePlano" aria-label="Experimento comparativo"><strong>Plano {plano} · Experimento</strong><span>{texto} · Desempenho NÃO MEDIDO</span><a href="comparativo.html">Comparar</a></aside>"""
+
+
+def prototipos(source):
+    base = base_sem_banner(source)
+    if '<body>' not in base or '</body>' not in base:
+        raise ValueError('Fonte deve conter body; nenhum arquivo foi gerado.')
+    a = base.replace('<body>\n', '<body>\n' + banner('A') + '\n', 1)
+    a = a.replace('<title>', '<title>[Plano A · Experimento] ', 1)
+    b = base.replace('var cena = new THREE.Scene();', 'var cena = window.__cena3D = new THREE.Scene();')
+    b = b.replace('var MAT = InteriorMaterials.create({', 'var MAT = window.__MAT = InteriorMaterials.create({')
+    b = b.replace('var matSofaTecido = new THREE.MeshStandardMaterial({', 'var matSofaTecido = window.__matSofaTecido = new THREE.MeshStandardMaterial({')
+    b = b.replace('var matCamaTecido = new THREE.MeshStandardMaterial({', 'var matCamaTecido = window.__matCamaTecido = new THREE.MeshStandardMaterial({')
+    b = b.replace('<body>\n', '<body>\n' + banner('B') + '\n', 1)
+    b = b.replace('<title>', '<title>[Plano B · Experimento] ', 1)
+    b = b.replace('</body>', '<script>\n' + js_planob_override + '\n</script>\n</body>', 1)
+    return base, a, b
+
+
+def arquivo(path, pasta):
+    dado = path.read_bytes()
+    return {'arquivo': path.relative_to(pasta).as_posix(), 'bytes': len(dado),
+            'gzip_local_bytes': len(gzip.compress(dado, mtime=0)), 'sha256': sha256(dado)}
+
+
+def medir(pasta):
+    referencias = sorted(set(re.findall(r"loader\.load\(assetPath \+ '([^']+)'", js_planob_override)))
+    planos = {}
+    for nome in ('a', 'b'):
+        principal = arquivo(pasta / f'plano-{nome}.html', pasta)
+        assets = [arquivo(pasta / 'assets_planob' / ref, pasta) for ref in referencias] if nome == 'b' else []
+        planos[nome] = {'html': principal, 'assets_referenciados_no_codigo': assets,
+                       'bytes_assets_referenciados': sum(a['bytes'] for a in assets),
+                       'bytes_pacote_referenciado': principal['bytes'] + sum(a['bytes'] for a in assets)}
+    inventario = [arquivo(p, pasta) for p in sorted((pasta / 'assets_planob').glob('*.jpg'))]
+    return {'schema': 2, 'classe': 'medicao-estatica-local',
+            'metodo': 'Bytes e SHA-256 dos arquivos; gzip local com mtime=0. Referências de JPG identificadas no código, sem observar tráfego HTTP.',
+            'planos': planos, 'inventario_assets': inventario,
+            'assets_nao_referenciados_no_override': [a['arquivo'] for a in inventario if Path(a['arquivo']).name not in referencias],
+            'nao_medido': {k: 'NÃO MEDIDO' for k in (
+                'transferencia_http', 'requisicoes_http', 'abertura_3g_4g_wifi',
+                'fps_mobile', 'vram', 'abandono', 'custo_cdn', 'qualidade_com_usuarios')},
+            'conclusao': 'A diferença de bytes é verificável. Escolha de produto requer medições de rede, aparelho e usabilidade no mesmo protocolo.'}
+
+
+def dashboard(metricas):
+    def kb(n):
+        return f'{n / 1024:.1f} KiB'
+    cards = []
+    for nome, titulo, texto in [('a', 'Plano A', 'Materiais embutidos na maquete.'),
+                                ('b', 'Plano B', 'Mesma base com JPGs procedurais externos e decoração experimental.')]:
+        p = metricas['planos'][nome]
+        cards.append(f"""<article><h2>{titulo}</h2><p>{texto}</p><dl><dt>HTML em disco</dt><dd>{kb(p['html']['bytes'])}</dd><dt>HTML gzip local</dt><dd>{kb(p['html']['gzip_local_bytes'])}</dd><dt>JPGs referenciados no código</dt><dd>{len(p['assets_referenciados_no_codigo'])} · {kb(p['bytes_assets_referenciados'])}</dd></dl><a href="plano-{nome}.html?modo=planta3d">Abrir {titulo}</a></article>""")
+    return """<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Experimento comparativo de maquetes 3D</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#0c1219;color:#e7ebf0;font:16px/1.5 system-ui;padding:24px}main{max-width:1100px;margin:auto}h1{font-size:clamp(24px,4vw,36px)}p{color:#b4c0cc}a{color:#8cc2ff}section{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}article{background:#17202c;border:1px solid #334155;border-radius:14px;padding:20px;min-width:0}dl{display:grid;grid-template-columns:1fr auto;gap:10px}dd{margin:0;text-align:right}button{font:inherit;min-height:44px;border:1px solid #64748b;border-radius:8px;background:#263549;color:white;padding:8px 16px;margin:4px 8px 12px 0;cursor:pointer}button[aria-pressed=true]{background:#075985}iframe{width:100%;height:70vh;border:1px solid #334155;border-radius:12px}table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:12px;border-bottom:1px solid #334155}.table{overflow:auto}@media(max-width:620px){body{padding:16px}section{grid-template-columns:1fr}dl{grid-template-columns:1fr}dd{text-align:left}iframe{height:65vh}}</style>
+<main><h1>Comparativo visual: Plano A e Plano B</h1><p>Protótipos sintéticos para investigação. Os números abaixo medem arquivos locais; gzip local não representa bytes transferidos pelo servidor.</p><section>""" + ''.join(cards) + """</section>
+<h2>O que ainda precisa ser medido</h2><div class="table"><table><tr><th>Critério</th><th>Estado dos dois planos</th></tr><tr><td>Abertura em 3G/4G/Wi-Fi e requisições HTTP</td><td>NÃO MEDIDO</td></tr><tr><td>FPS em aparelho físico e memória GPU</td><td>NÃO MEDIDO</td></tr><tr><td>Abandono, conversão e custo de distribuição</td><td>NÃO MEDIDO</td></tr><tr><td>Qualidade e compreensão por usuários</td><td>NÃO MEDIDO</td></tr></table></div>
+<p>Os JPGs são desenhados por NumPy/Pillow com sementes fixas. Não são fotos nem escaneamentos; o arquivo ambiente_hdri.jpg é um JPEG LDR sintético e não é referenciado pelo override atual. Referência no código não comprova download, aplicação visual ou enquadramento correto.</p>
+<p><a href="metricas_comparativo.json">Métricas e hashes</a> · <a href="manifest.json">Manifesto da derivação</a></p><h2>Explorar os protótipos</h2><button type="button" aria-pressed="true" onclick="mostrar('a',this)">Plano A</button><button type="button" aria-pressed="false" onclick="mostrar('b',this)">Plano B</button><iframe id="visualizador" title="Maquete experimental Plano A" src="plano-a.html?modo=planta3d" loading="lazy"></iframe>
+<script>function mostrar(plano,botao){document.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b===botao)));const f=document.getElementById('visualizador');f.title='Maquete experimental Plano '+plano.toUpperCase();f.src='plano-'+plano+'.html?modo=planta3d'}</script></main></html>"""
+
+
+def gerar(fonte=PASTA / 'plano-a.html', destino=PASTA):
+    destino = Path(destino).resolve()
+    base, a, b = prototipos(Path(fonte).read_text(encoding='utf-8'))
+    # Confere assets antes de reescrever a comparação.
+    refs = set(re.findall(r"loader\.load\(assetPath \+ '([^']+)'", js_planob_override))
+    for ref in refs:
+        if not (destino / 'assets_planob' / ref).is_file():
+            raise ValueError(f'Asset ausente: {ref}. Execute gerar_texturas_planob.py --destino {destino / "assets_planob"}')
+    destino.mkdir(parents=True, exist_ok=True)
+    for nome, conteudo in [('plano-a.html', a), ('plano-b.html', b)]:
+        (destino / nome).write_text(conteudo, encoding='utf-8', newline='\n')
+    metricas = medir(destino)
+    (destino / 'metricas_comparativo.json').write_text(json.dumps(metricas, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
+    (destino / 'comparativo.html').write_text(dashboard(metricas), encoding='utf-8', newline='\n')
+    manifesto = {'schema': 1, 'classe': 'derivacao-experimental',
+                 'fonte': {'arquivo_base': Path(fonte).name, 'sha256_sem_banner': sha256(base.encode('utf-8'))},
+                 'gerador_sha256': sha256(Path(__file__).read_bytes()),
+                 'transformacoes': ['banner responsivo', 'Plano B: override de materiais e decoração'],
+                 'geometria_reverificada': False,
+                 'arquivos': [arquivo(destino / n, destino) for n in ('plano-a.html', 'plano-b.html', 'comparativo.html', 'metricas_comparativo.json')] + metricas['inventario_assets']}
+    (destino / 'manifest.json').write_text(json.dumps(manifesto, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
+    return metricas
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--fonte', type=Path, default=PASTA / 'plano-a.html')
+    parser.add_argument('--destino', type=Path, default=PASTA)
+    parser.add_argument('--medir', action='store_true', help='somente calcular métricas dos arquivos existentes')
+    args = parser.parse_args()
+    result = medir(args.destino) if args.medir else gerar(args.fonte, args.destino)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
+if __name__ == '__main__':
+    main()

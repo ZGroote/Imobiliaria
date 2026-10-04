@@ -277,3 +277,15 @@ Os atlas saíram com 2943 × 2948 e 6275 × 6273, as mesmas dimensões do `unwra
 
 O reparo, quando roda, reescreve o `normal-repair.json` com as contagens daquela rodada (383
 triângulos), sem mudar o `source.json`.
+
+## Exceções do experimento A/B — 04/10/2026
+
+| Caminho | Classe | Teto | Razão e reprodução |
+|---|---|---|---|
+| `experimentos/comparativo-planos-3d/plano-a.html` | gerado | 2 MiB | Protótipo sintético autossuficiente, com base preservada no próprio arquivo para inspeção e reprodução sem cópia adicional. |
+| `experimentos/comparativo-planos-3d/plano-b.html` | gerado | 2 MiB | Derivado experimental de A com override de JPGs procedurais; mantido para inspeção imediata junto dos assets. |
+
+Gerador único: `experimentos/comparativo-planos-3d/gerar_planos_comparativo.py`.
+`manifest.json` registra os bytes e SHA-256 exatos; `metricas_comparativo.json` mede
+somente disco/compressão local. São exceções por caminho, sem ampliar o limite global
+nem incluir estes protótipos na publicação do produto.

@@ -30,6 +30,10 @@ GITHUB_DURO = 100 * MiB         # o GitHub recusa acima disso; avisa a partir de
 # caminho -> (teto em MiB, classe principal, justificativa de permanência).
 # Não usar globs: cada exceção nova precisa de motivo revisável no mesmo PR.
 EXCECOES = {
+    'experimentos/comparativo-planos-3d/plano-a.html':
+        (2, 'gerado', 'Protótipo sintético autossuficiente A; fonte-base reproduzível do comparativo isolado, não publicado pelo produto.'),
+    'experimentos/comparativo-planos-3d/plano-b.html':
+        (2, 'gerado', 'Protótipo sintético B derivado de A pelo gerador canônico; mantido para inspeção imediata com assets locais.'),
     'sao-carlos/dados/lotes_saocarlos_completo.geojson':
         (63, 'fonte', 'Base de lotes consumida pelo build; entradas de regeneracao ausentes do Git.'),
     'lotes_saocarlos.geojson':

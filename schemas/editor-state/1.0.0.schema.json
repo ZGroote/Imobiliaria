@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:imobiliaria:editor-state:1.0.0",
+  "title": "Companion do editor de planta — v1.0.0",
+  "description": "Pisos e móveis da UI. Cada leitura permanece no contrato M1-0. Registrar os schemas de leitura pelos seus URNs. Complementar com pipeline.editor_state: piso ativo repete exatamente a leitura principal, pavimentos ordenados com térreo obrigatório, IDs mN reservam próximo inteiro seguro e tipoCatalogo/tipo3D são coerentes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "activeFloor",
+    "floors"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "activeFloor": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "floors": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "floor",
+          "leitura",
+          "furniture"
+        ],
+        "properties": {
+          "floor": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "leitura": {
+            "oneOf": [
+              {
+                "$ref": "urn:imobiliaria:leitura:1.0.0"
+              },
+              {
+                "$ref": "urn:imobiliaria:leitura:1.1.0"
+              }
+            ]
+          },
+          "furniture": {
+            "type": "array",
+            "maxItems": 200,
+            "items": {
+              "$ref": "#/$defs/furniture"
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "furniture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "tipoCatalogo",
+        "tipo3D",
+        "nome",
+        "xMm",
+        "yMm",
+        "widthMm",
+        "depthMm",
+        "rotDegrees"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^m[1-9][0-9]{0,15}$"
+        },
+        "tipoCatalogo": {
+          "type": "string",
+          "enum": [
+            "cama-casal",
+            "cama-queen",
+            "cama-solteiro",
+            "guardaroupa",
+            "criado",
+            "sofa-3",
+            "sofa-2",
+            "poltrona",
+            "rack-tv",
+            "mesa-jantar-4",
+            "mesa-jantar-6",
+            "tapete-sala",
+            "pia-cozinha",
+            "fogao",
+            "geladeira",
+            "balcao-americano",
+            "vaso-sanitario",
+            "gabinete-banheiro",
+            "box-chuveiro",
+            "maquina-lavar",
+            "tanque-lavar",
+            "escrivaninha"
+          ]
+        },
+        "tipo3D": {
+          "type": "string",
+          "enum": [
+            "cama",
+            "guardaroupa",
+            "criado",
+            "sofa",
+            "cadeira",
+            "rack",
+            "mesa",
+            "tapete",
+            "pia",
+            "fogao",
+            "geladeira",
+            "balcao",
+            "vaso",
+            "box",
+            "maquina"
+          ]
+        },
+        "nome": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "xMm": {
+          "type": "integer",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "yMm": {
+          "type": "integer",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "widthMm": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "depthMm": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "alturaMm": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "rotDegrees": {
+          "type": "integer",
+          "enum": [
+            0,
+            90,
+            180,
+            270
+          ]
+        },
+        "cor": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        }
+      }
+    }
+  }
+}

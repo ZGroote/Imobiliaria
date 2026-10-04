@@ -77,3 +77,31 @@ test('unit plan assembly matches the monolith for supplied plans, footprint wind
   assert.equal(b.plantaDaUnidade(null, {...units[0], lote: undefined}), null, 'no building and no lot');
   assert.ok(n >= 15 && units.some(u => (u.planta.moveis || []).length), 'furniture from records exercised');
 });
+
+test('declared furniture height reaches the maquette without shifting across skipped catalog entries', () => {
+  const unit = structuredClone(units[0]);
+  unit.planta.moveis = [
+    {tipo: 'tipo-desconhecido', p: [0, 0], y: 9, rot: 0},
+    {tipo: 'sofa', p: [1, 1], y: 1.15, rot: 3},
+    {tipo: 'outro-desconhecido', p: [2, 2], y: 7, rot: 0},
+    {tipo: 'tv', p: [3, 3], y: 0, rot: 1},
+    {tipo: 'mesa', p: [4, 4], rot: 0},
+  ];
+  const plan = modular().plantaDaUnidade({r: [[-12,-9],[14,-9],[14,11],[-12,11]], h: 30}, unit);
+  assert.deepEqual(Array.from(plan.moveis, m => [m.tipo, m.y]), [['sofa', 1.15], ['tv', 0], ['mesa', undefined]]);
+  const page = fs.readFileSync(new URL('../v1.5/miniaturas/pagina_maquete.py', import.meta.url), 'utf8');
+  const start = page.indexOf('function montaMoveisDaPlanta(g) {');
+  const end = page.indexOf('\nfunction montaMoveis(g)', start);
+  assert.ok(start > 0 && end > start);
+  const pieces = [];
+  const ctx = vm.createContext({
+    PL_R: plan, console,
+    FURN: {MOVEIS: {sofa: {b: [1, 1, 1]}, tv: {b: [1, 1, 1]}, mesa: {b: [1, 1, 1]}},
+      geoDoMovel: () => ({position: {set: (x, y, z) => pieces.push({x, y, z})},
+                         rotation: {}, scale: {set() {}}, userData: {}})},
+  });
+  vm.runInContext(page.slice(start, end), ctx);
+  assert.equal(ctx.montaMoveisDaPlanta({add() {}}), 3);
+  assert.deepEqual(pieces.map(p => p.y), [1.15, 0, 0.03]);
+  assert.equal(unit.planta.moveis[1].y, 1.15, 'source record stays untouched');
+});

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>[Plano B · High-End ArchViz] Maquete 3D · Residencial Linha 3D · 3 dormitórios (2 suítes) · ? m²</title>
+<title>[Plano B · Experimento] Maquete 3D · Residencial Linha 3D · 3 dormitórios (2 suítes) · ? m²</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231A222C'/%3E%3Cpath d='M5 15L16 6l11 9v12h-8v-8h-6v8H5z' fill='%234BDB7C'/%3E%3C/svg%3E">
 <style>
   :root{
@@ -245,16 +245,13 @@
 </style>
 </head>
 <body>
-
-<div id="badgePlano" style="position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:9999;background:rgba(12,18,25,0.94);border:1px solid rgba(59,130,246,0.6);border-radius:30px;padding:6px 16px;box-shadow:0 8px 32px rgba(0,0,0,0.65);display:flex;align-items:center;gap:12px;font-family:system-ui,-apple-system,sans-serif;font-size:12px;color:#e7ebf0;backdrop-filter:blur(10px);white-space:nowrap;pointer-events:auto;">
-  <span style="display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#60A5FA;letter-spacing:0.5px;text-transform:uppercase;">
-    <span style="width:8px;height:8px;border-radius:50%;background:#60A5FA;box-shadow:0 0 8px #60A5FA;display:inline-block;"></span>
-    Plano B · High-End ArchViz (Desktop)
-  </span>
-  <span style="color:#99a5af;font-size:11px;">~7.8 MB · Texturas Fotográficas PBR + Staging Decorativo</span>
-  <a href="comparativo.html" style="background:#2563eb;color:#fff;text-decoration:none;padding:3px 10px;border-radius:12px;font-weight:600;font-size:11px;transition:background 0.2s;">Ver Comparativo ↗</a>
-</div>
-
+<style id="estiloComparativo">
+#badgePlano{position:fixed;top:8px;left:50%;transform:translateX(-50%);z-index:9999;width:max-content;max-width:calc(100vw - 16px);box-sizing:border-box;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 10px;padding:6px 12px;border-radius:12px;background:#0c1219ef;border:1px solid #60a5fa;color:#e7ebf0;font:12px system-ui;text-align:center}
+#badgePlano a{color:#60a5fa;padding:6px;min-height:32px;box-sizing:border-box}
+#badgePlano span{white-space:normal}
+@media(max-width:480px){#badgePlano{font-size:11px;gap:2px 8px}}
+</style>
+<aside id="badgePlano" aria-label="Experimento comparativo"><strong>Plano B · Experimento</strong><span>JPGs procedurais externos · Desempenho NÃO MEDIDO</span><a href="comparativo.html">Comparar</a></aside>
 <div class="folha">
 <div id="cena">
   <canvas id="c"></canvas>
@@ -9298,14 +9295,14 @@ window.__maq = { cena:cena, cam:cam, ren:ren, orb:orb, alvo:alvo, predio:predio,
 <script>
 
 /* ==========================================================================
-   PLANO B: ATIVAÇÃO DE TEXTURAS FOTOGRÁFICAS PBR & STAGING DE ALTO PADRÃO
+   PLANO B: ATIVAÇÃO DE TEXTURAS PROCEDURAIS PBR & STAGING DE ALTO PADRÃO
    ========================================================================== */
 (function() {
   if (typeof THREE === 'undefined') return;
   var loader = new THREE.TextureLoader();
   var assetPath = 'assets_planob/';
 
-  // 1. Texturas Fotográficas de Piso de Madeira Nobre
+  // 1. Texturas Procedurais de Piso de Madeira Nobre
   loader.load(assetPath + 'piso_madeira_albedo.jpg', function(texAlbedo) {
     texAlbedo.wrapS = texAlbedo.wrapT = THREE.RepeatWrapping;
     texAlbedo.repeat.set(4, 4);
@@ -9333,7 +9330,7 @@ window.__maq = { cena:cena, cam:cam, ren:ren, orb:orb, alvo:alvo, predio:predio,
     });
   });
 
-  // 2. Texturas Fotográficas de Linho Escaneado para Sofá e Cama
+  // 2. Texturas Procedurais de Linho Procedural para Sofá e Cama
   loader.load(assetPath + 'tecido_linho_albedo.jpg', function(texAlbedo) {
     texAlbedo.wrapS = texAlbedo.wrapT = THREE.RepeatWrapping;
     texAlbedo.repeat.set(5, 5);
@@ -9368,7 +9365,7 @@ window.__maq = { cena:cena, cam:cam, ren:ren, orb:orb, alvo:alvo, predio:predio,
     });
   });
 
-  // 3. Mármore Fotográfico Calacatta para Bancadas
+  // 3. Mármore Procedural Calacatta para Bancadas
   loader.load(assetPath + 'marmore_albedo.jpg', function(texMarmore) {
     texMarmore.wrapS = texMarmore.wrapT = THREE.RepeatWrapping;
     texMarmore.repeat.set(2, 2);

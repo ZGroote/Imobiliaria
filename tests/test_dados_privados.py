@@ -35,6 +35,18 @@ EXT_IMAGEM = {'.png', '.jpg', '.jpeg', '.webp', '.gif', '.bmp', '.tif', '.tiff',
 IMAGENS = {
     'texturas/chao.webp', 'texturas/reboco.webp', 'texturas/tijolo.webp',   # ambientCG, CC0
     'exteriores/v1/atlas-distante.png',                                    # gerada aqui
+    # Procedurais NumPy/Pillow com semente fixa; sem terceiro ou imóvel real.
+    'experimentos/comparativo-planos-3d/assets_planob/ambiente_hdri.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/marmore_albedo.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/marmore_roughness.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/piso_madeira_albedo.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/piso_madeira_normal.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/piso_madeira_roughness.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/tapete_sala_albedo.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/tapete_sala_normal.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/tecido_linho_albedo.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/tecido_linho_normal.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/tecido_linho_roughness.jpg',
 }
 # Pastas inteiras classificadas como dado privado do Cedros: bake, texturas, QA e renders.
 PASTAS_DE_IMAGEM = ('v1.5/miniaturas/padrao-atual/',)
@@ -107,6 +119,8 @@ class DadosPrivadosTests(unittest.TestCase):
     def test_the_check_itself(self):
         P = PurePosixPath
         self.assertFalse(imagem_classificada(P('experimentos/novo/fotos/01.jpg')))
+        self.assertTrue(imagem_classificada(P('experimentos/comparativo-planos-3d/assets_planob/piso_madeira_albedo.jpg')))
+        self.assertFalse(imagem_classificada(P('experimentos/comparativo-planos-3d/assets_planob/foto-cliente.jpg')))
         self.assertFalse(imagem_classificada(P('unreal/lightmaps/cliente-novo-12.png')))
         self.assertFalse(imagem_classificada(P('v1.5/miniaturas/outro_blender/preview.png')))
         self.assertTrue(imagem_classificada(P('v1.5/miniaturas/castanheiras_blender/preview.png')))
