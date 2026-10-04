@@ -1,8 +1,10 @@
 # Fábrica de miniaturas — contrato da automação
 
-Estado: **contrato em implementação**. O M1 (runner local + relatório) já existe; a frente M2
-está automatizando a geração LEVE em passos pequenos e provados. Nada nesta frente publica produção
-ou aposenta LEVE/PREMIUM.
+Estado em 04/10/2026: **contrato parcialmente implementado**. M1 (runner local + relatório)
+e M2 (fonte LEVE dos três perfis piloto) existem. M3 PREMIUM por jobs, ligação automática
+ao preview e lote real de 30 seguem pendentes. A nomenclatura deste roteiro é anterior
+ao Plano Diretor: este M2 LEVE não fecha o M2 operacional de worker/lease/retry.
+Veja [o índice dos marcos](../README.md). LEVE/PREMIUM continuam separados.
 
 ## Objetivo
 
@@ -653,6 +655,10 @@ A métrica principal não é “quantos scripts existem”.
 ---
 
 # 13. Primeira implementação autorizada depois deste documento
+
+**Registro histórico:** o runner local descrito nesta seção já foi implementado.
+A continuidade atual está em [tasks/README.md](../README.md); o texto abaixo conserva
+o escopo de aceite original.
 
 O próximo PR funcional deve ser **M1: runner local + relatório**, e só isso.
 

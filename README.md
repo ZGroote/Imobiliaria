@@ -5,6 +5,8 @@ painel administrativo e a publicação de cada imóvel no Firebase Hosting.
 Esta é a base **em desenvolvimento**, não uma release estável aprovada.
 
 **Onde está a verdade atual de cada parte:** [DOCUMENTACAO.md](DOCUMENTACAO.md).
+Planos e pendências: [tasks/README.md](tasks/README.md). Experimentos e medições:
+[experimentos/README.md](experimentos/README.md).
 
 As fontes atuais estão em `v1.5/`. O pipeline, os testes e os dados compartilhados
 continuam na raiz. `v16-moveis` é a chave técnica da variante modular, não a versão
@@ -17,7 +19,7 @@ do produto. O v15 (`renderizador/`) saiu do `HEAD` no #49: o histórico do git �
 
 ## Instalar e verificar
 
-Use Python 3.11 ou superior e Node.js compatível com o `package-lock.json`.
+Use Python 3.11 ou superior e Node.js 24 ou superior, como no CI.
 
 ```powershell
 python -m pip install -r requirements.txt
@@ -34,8 +36,9 @@ npm run test:painel
 npm run test:regras
 ```
 
-Em 26/09/2026, todos verdes: 122 Node, 70 Python, painel 30, regras 28, TypeScript e build do
-painel. O CI (`.github/workflows/ci.yml`) roda esses gates em todo PR para `main`.
+O CI (`.github/workflows/ci.yml`) roda esses gates em todo PR para `main`.
+O resultado da consolidação de 04/10 está em [tasks/organizacao-2026-10-04.md](tasks/organizacao-2026-10-04.md).
+Instalação do Java e dependências por ambiente: [DEPENDENCIAS.md](DEPENDENCIAS.md).
 Os testes de equivalência leem commits antigos com `git show`: use um clone com
 histórico completo, não apenas um ZIP ou clone raso (o CI usa `fetch-depth: 0`).
 
@@ -55,6 +58,9 @@ texturas, cadastros e tiles necessários ao piloto. Os tiles ficam atualmente em
 `v16-moveis/publicado/mapa/quintais/`, caminho lido pelo preparador.
 Backups, caches, ZIPs, capturas de experimentos e bases brutas de outras cidades
 não fazem parte deste conjunto reprodutível.
+Arquivos antigos locais foram preservados em `_arquivo/organizacao-2026-10-04/`, com
+manifesto de movimentações; o backup das alterações iniciais fica em
+`backups/organizacao-2026-10-04/`. Ambos são locais e ignorados pelo Git.
 
 Para gerar somente o exemplo de maquete:
 

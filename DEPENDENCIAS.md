@@ -41,11 +41,11 @@ quando se usa a ponte com uma sessão aberta (ver `[[blender-ponte-sessao-aberta
 
 ## Comandos de verificação
 
-Os quatro são reais e foram rodados; não são exemplo.
+Verificações do projeto:
 
 ```bash
-npm test                 # 122 testes Node (renderizador + política de Hosting)
-npm run test:py          # 70 testes Python (build, caminhos canônicos, publicação, ficha da maquete)
+npm test                 # Node: contratos, renderizador, API e política de Hosting
+npm run test:py          # Python: validação, build, publicação e inventários
 npm run montar           # monta São Carlos na variante modular
 npm run qa               # os 19 portões de aceite: geometria + comportamento (~23 min)
 ```
@@ -55,8 +55,25 @@ O CI (`.github/workflows/ci.yml`) roda em todo PR para `main` e em todo push em 
 `test:painel` + `test:regras` no emulador. `montar` e `qa` ficam fora: pedem o dado da
 cidade e um navegador, e levam dezenas de minutos.
 
-`npm test` respondia `Error: no test specified` — o placeholder do `npm init` sobreviveu
-o projeto inteiro, enquanto os 111 testes existiam e só rodavam à mão.
+Resultados recentes: [consolidação de 04/10](tasks/organizacao-2026-10-04.md).
+
+### Emuladores do Firebase
+
+`npm run test:painel` e `npm run test:regras` precisam de JDK 21 no `PATH` do processo.
+Nesta máquina já existe Temurin 21 em `C:/Users/respawn/.jdks/jdk-21.0.12.1+1/`.
+Use o caminho do JDK instalado na sua máquina; não é necessário alterar o PATH do sistema:
+
+```powershell
+$jdkBin = 'C:\Users\respawn\.jdks\jdk-21.0.12.1+1\bin'
+$env:PATH = "$jdkBin;$env:PATH"
+java -version
+npm run test:painel
+npm run test:regras
+```
+
+Os scripts de `experimentos/qualidade-progressiva-cedros/` são estudos opcionais.
+`medir_rede.py` exige `brotli` e `playwright` e um Chromium instalado pelo Playwright;
+esses pacotes não são necessários aos testes básicos ou à montagem do piloto.
 
 **A variante vem de `--variante`.** Sem ela (e sem `MAPA_V`), tudo cai no padrão, que desde o
 #46 é o `v16-moveis`. Até o #46 o padrão era o `v15`, o renderizador antigo, e montar e QA
