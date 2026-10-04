@@ -2,51 +2,18 @@
 (function (root) {
   'use strict';
 
-  // Mesmos pixels no browser e no PNG estático do build, sem DOM, Three ou rede.
-  function paintPixels() {
-    const {imul,sin,floor,tanh,round,min,max,PI}=Math;
-    const width=256,height=256,bump=new Uint8Array(width*height*4);
-    const roughness=new Uint8Array(bump.length),color=new Uint8Array(bump.length);
-    let seed=0x51A3D1;
-    const random=()=>{seed=(imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
-    const gridSize=64,field=new Float32Array(gridSize*gridSize);
-    for(let i=0;i<field.length;i++)field[i]=random()*2-1;
-    const smooth=t=>t*t*(3-2*t);
-    for(let y=0;y<height;y++) {
-      const gy=y*gridSize/height,y0=floor(gy),fy=smooth(gy-y0);
-      const row0=y0*gridSize,row1=((y0+1)%gridSize)*gridSize;
-      const rollerPhase=.6*sin(2*PI*y/height*3);
-      for(let x=0;x<width;x++) {
-        // Grão fino + casca de laranja de rolo (~6,25 mm), sem manchas grandes.
-        // O campo periódico interpolado continua legível nos mipmaps a 1–3 m;
-        // somente ruído por pixel desaparecia e deixava B mais liso que A.
-        const gx=x*gridSize/width,x0=floor(gx),x1=(x0+1)%gridSize,fx=smooth(gx-x0);
-        const a=field[row0+x0]*(1-fx)+field[row0+x1]*fx;
-        const b=field[row1+x0]*(1-fx)+field[row1+x1]*fx;
-        const broad=a*(1-fy)+b*fy,grain=10*(random()+random()-1);
-        const roller=sin(2*PI*x/width*11+rollerPhase);
-        const relief=round(128+44*broad+grain+roller*1.4);
-        const rugosity=round(230+broad*5+grain*.25+roller*.6);
-        // Pigmento quase branco em faixa de 4%: relevo sozinho fica invisível
-        // neste ambiente difuso. O mesmo grão pequeno dá legibilidade sem sujeira.
-        const pigment=max(242,min(252,round(247+5*tanh(broad*2.2)+grain*.1)));
-        const i=(y*width+x)*4;
-        for(let k=0;k<3;k++){bump[i+k]=relief;roughness[i+k]=rugosity;color[i+k]=pigment;}
-        bump[i+3]=roughness[i+3]=color[i+3]=255;
-      }
-    }
-    return {width,height,bump,roughness,color};
-  }
-
   function start({THREE:T, maq, base, assets, assetPath, enabled=true}) {
     if (!T || !maq || !base?.MAT || !Array.isArray(assets)) throw new Error('Ponte do piloto ausente');
     const catalog=new Map(), records=[], sofas=[], failures=[], finishes=new Map();
     let active=Boolean(enabled), wallsEnabled=true, loading=null, settled=false, installed=null, extraTriangles=0;
-    let paint=null, wallMeshes=0;
+    let wallMeshes=0;
+    const furnitureCoverage={},maskFallbacks=[];
     let requestedBytes=0, loadedMaps=0;
     for (const item of assets) {
-      if (!['madeira','tecido','frio'].includes(item.id) || catalog.has(item.id) ||
-          !(item.tileMeters>0 && Number.isFinite(item.tileMeters))) throw new Error('Manifesto de materiais inválido');
+      if (!['madeira','tecido','frio','parede','madeira_movel'].includes(item.id) || catalog.has(item.id) ||
+          !(item.tileMeters>0 && Number.isFinite(item.tileMeters)) ||
+          item.tileHeightMeters!==undefined&&!(item.tileHeightMeters>0&&Number.isFinite(item.tileHeightMeters)))
+        throw new Error('Manifesto de materiais inválido');
       for (const kind of ['color','normal','roughness']) {
         const map=item.maps?.[kind], limit=kind==='color'?1024:512;
         if (!map || !/^[a-zA-Z0-9][a-zA-Z0-9._-]*\.(webp|png|jpg)$/.test(map.file) ||
@@ -57,7 +24,7 @@
       }
       catalog.set(item.id,item);
     }
-    if (catalog.size!==3 || requestedBytes>1500000 || typeof assetPath!=='string' ||
+    if (catalog.size!==5 || requestedBytes>3000000 || typeof assetPath!=='string' ||
         !/^(?:\.\/)?[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)*\/$/.test(assetPath))
       throw new Error('Manifesto ou diretório do piloto inválido');
 
@@ -66,6 +33,7 @@
     function texture(map, kind) {
       return new Promise((resolve,reject)=>loader.load(assetPath+map.file,tex=>{
         tex.colorSpace=kind==='color'?T.SRGBColorSpace:T.NoColorSpace;
+        tex.name=map.file;
         tex.wrapS=tex.wrapT=T.RepeatWrapping;
         tex.anisotropy=anisotropy;
         tex.needsUpdate=true; loadedMaps++; resolve(tex);
@@ -84,19 +52,27 @@
       return loading;
     }
 
-    function material(original,id) {
+    const tileHeight=id=>catalog.get(id).tileHeightMeters??catalog.get(id).tileMeters;
+    function material(original,id,neutral=false) {
       const m=original.clone(), maps=finishes.get(id);
       Object.assign(m,maps);
       m.name='piloto-'+id;
       m.envMap=original.envMap || base.ambientePBR || null;
-      m.normalScale.setScalar(id==='tecido'?.28:.42);
+      m.normalScale.setScalar(id==='tecido'?.75:id==='parede'?.65:.5);
       m.bumpMap=null; m.bumpScale=0;
-      m.metalness=0; m.roughness=id==='frio'?.65:.9;
+      m.metalness=0; m.roughness=id==='frio'?.65:id==='parede'?1:.95;
+      // Calibração específica do reboco desta demonstração: clarear seu albedo
+      // real, mantendo tint/bake e iluminação originais (sem emissão ou luz extra).
+      if(id==='parede')m.color.multiplyScalar(1.7);
+      m.onBeforeCompile=original.onBeforeCompile;m.customProgramCacheKey=original.customProgramCacheKey;
+      // As cores dos móveis são tint do catálogo, não o bake da casa. O albedo real
+      // substitui esse tint só nos grupos de acabamento; ferragens permanecem originais.
+      if(neutral){m.vertexColors=false;m.color.setHex(0xffffff);}
       m.needsUpdate=true;
       return m;
     }
 
-    function uvProjected(geo, tile, scale) {
+    function uvProjected(geo, id, scale) {
       const g=geo.index?geo.toNonIndexed():geo.clone();
       const p=g.attributes.position,n=g.attributes.normal, uvs=new Float32Array(p.count*2);
       const s=scale || {x:1,y:1,z:1};
@@ -106,59 +82,32 @@
         const nz=Math.abs(n.getZ(i)+n.getZ(i+1)+n.getZ(i+2));
         for (let j=i;j<i+3;j++) {
           const x=p.getX(j)*s.x, y=p.getY(j)*s.y, z=p.getZ(j)*s.z;
-          uvs[j*2]=(nx>=ny && nx>=nz?z:x)/tile;
-          uvs[j*2+1]=(ny>=nx && ny>=nz?z:y)/tile;
+          uvs[j*2]=(nx>=ny && nx>=nz?z:x)/catalog.get(id).tileMeters;
+          uvs[j*2+1]=(ny>=nx && ny>=nz?z:y)/tileHeight(id);
         }
       }
       g.setAttribute('uv',new T.BufferAttribute(uvs,2));
       return g;
     }
 
-    function paintMaps() {
-      if(paint)return paint;
-      const pixels=paintPixels();
-      const bumpCanvas=root.document.createElement('canvas'),roughCanvas=root.document.createElement('canvas');
-      const colorCanvas=root.document.createElement('canvas');
-      for(const canvas of [bumpCanvas,roughCanvas,colorCanvas]){canvas.width=pixels.width;canvas.height=pixels.height;}
-      const bumpContext=bumpCanvas.getContext('2d'),roughContext=roughCanvas.getContext('2d'),colorContext=colorCanvas.getContext('2d');
-      if(!bumpContext||!roughContext||!colorContext)throw new Error('Não foi possível preparar a textura de pintura');
-      for(const [context,name] of [[bumpContext,'bump'],[roughContext,'roughness'],[colorContext,'color']]) {
-        const image=context.createImageData(pixels.width,pixels.height);image.data.set(pixels[name]);
-        context.putImageData(image,0,0);
-      }
-      const configure=(canvas,name,colorSpace=T.NoColorSpace)=>{const texture=new T.CanvasTexture(canvas);texture.name=name;
-        texture.colorSpace=colorSpace;texture.wrapS=texture.wrapT=T.RepeatWrapping;
-        texture.anisotropy=anisotropy;return texture;};
-      paint={bump:configure(bumpCanvas,'pintura-rolo-relevo'),roughness:configure(roughCanvas,'pintura-rolo-rugosidade'),
-        color:configure(colorCanvas,'pintura-rolo-pigmento',T.SRGBColorSpace)};
-      return paint;
-    }
-
     function finishWall(mesh) {
-      if(!mesh?.isMesh||Array.isArray(mesh.material)||!mesh.geometry.attributes.normal)return;
+      if(!finishes.has('parede')||!mesh?.isMesh||Array.isArray(mesh.material)||!mesh.geometry.attributes.normal)return;
       try {
-        const maps=paintMaps(),g=mesh.geometry.clone(),p=g.attributes.position,n=g.attributes.normal;
-        const uv=new Float32Array(p.count*2),tile=.4;
+        const g=mesh.geometry.clone(),p=g.attributes.position,n=g.attributes.normal;
+        const uv=new Float32Array(p.count*2),tile=catalog.get('parede').tileMeters;
         // Mantém index/posição/normais e uv1. A tangente à normal horizontal dá
         // metros de parede também quando a casa está girada no referencial global.
         for(let i=0;i<p.count;i++) {
           const x=p.getX(i),y=p.getY(i),z=p.getZ(i),nx=n.getX(i),nz=n.getZ(i),length=Math.hypot(nx,nz);
           uv[i*2]=(length>.5?(-nz*x+nx*z)/length:x)/tile;
-          uv[i*2+1]=(length>.5?y:z)/tile;
+          uv[i*2+1]=(length>.5?y:z)/tileHeight('parede');
         }
         g.setAttribute('uv',new T.BufferAttribute(uv,2));
         if(mesh.geometry.attributes.color)g.setAttribute('color',mesh.geometry.attributes.color);
-        const m=mesh.material.clone();m.name='piloto-pintura';
-        // Three prioriza normalMap sobre bumpMap. A mantém o normal original;
-        // B usa microrelevo + pigmento quase branco, preservando cor/lightMap do material.
-        m.normalMap=null;m.bumpMap=maps.bump;m.bumpScale=.0055;
-        m.map=maps.color;
-        m.roughnessMap=maps.roughness;m.roughness=.98;
-        m.onBeforeCompile=mesh.material.onBeforeCompile;
-        m.customProgramCacheKey=mesh.material.customProgramCacheKey;m.needsUpdate=true;
+        const m=material(mesh.material,'parede');
         records.push({mesh,kind:'wall',originalMaterial:mesh.material,originalGeometry:mesh.geometry,
           nextMaterial:m,nextGeometry:g});wallMeshes++;
-      }catch(error){failures.push({material:'pintura',message:error.message});}
+      }catch(error){failures.push({material:'parede',message:error.message});}
     }
 
     function finishFloor(mesh,id,oldTile) {
@@ -167,23 +116,41 @@
       // O bake progressivo pode continuar depois do download. Compartilhar somente
       // a cor mantém a mesma iluminação em A e B; a UV de repetição continua isolada.
       if(mesh.geometry.attributes.color)g.setAttribute('color',mesh.geometry.attributes.color);
-      for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*ratio,uv.getY(i)*ratio);
+      for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*ratio,uv.getY(i)*oldTile/tileHeight(id));
       uv.needsUpdate=true;
       records.push({mesh,originalMaterial:mesh.material,originalGeometry:mesh.geometry,
         nextMaterial:material(mesh.material,id),nextGeometry:g});
     }
 
+    function sourceMask(g,item,wood=false) {
+      if(item.tipo==='tapete')return new Uint8Array(g.attributes.position.count).fill(1);
+      const FURN=base.FURN,def=FURN?.MOVEIS?.[item.tipo],mask=[];
+      const fromLibrary=(name,override)=>{
+        const d=FURN?.MOVEIS_LIB?.[name];if(!d)return false;
+        for(const i of d.idx){const fixed=override??((d.col[i*3]<<16)|(d.col[i*3+1]<<8)|d.col[i*3+2]);
+          mask.push(d.herda[i]||wood&&fixed===0xA9793F?1:0);}return true;
+      };
+      if(def?.param)for(const part of def.param({w:item.w,h:item.h,d:item.d})) {
+        if(part.malha){if(!fromLibrary(part.malha,part.c))break;}
+        // FurnitureParam.caixaEm tem44triângulos/132vértices por caixa chanfrada.
+        else for(let i=0;i<132;i++)mask.push(part.c==null||wood&&part.c===0xA9793F?1:0);
+      }
+      else if(def?.malha)fromLibrary(def.malha);
+      if(mask.length!==g.attributes.position.count){maskFallbacks.push({tipo:item.tipo,reason:'Máscara do catálogo incompatível'});return null;}
+      return Uint8Array.from(mask);
+    }
+
     function finishFurniture(mesh,id,item,scale) {
       if (!mesh.isMesh || Array.isArray(mesh.material) || !mesh.geometry.attributes.color) return;
-      const g=uvProjected(mesh.geometry,catalog.get(id).tileMeters,scale), c=g.attributes.color;
-      const tint=new T.Color(item.cor ?? 0x8A7660), next=material(mesh.material,id);
+      const g=uvProjected(mesh.geometry,id,scale), c=g.attributes.color;
+      const mask=sourceMask(g,item,id==='madeira_movel');if(!mask){g.dispose();return;}
+      const next=material(mesh.material,id,true);
       // Somente faces que herdam a cor do cadastro recebem o acabamento. Ferragens,
       // pés e peças de cor fixa preservam o material original; não viram madeira.
       const triangles=[[],[]];
       g.clearGroups();
-      const matches=i=>Math.abs(c.getX(i)-tint.r)<.009 && Math.abs(c.getY(i)-tint.g)<.009 && Math.abs(c.getZ(i)-tint.b)<.009;
       for(let i=0;i<c.count;i+=3) {
-        const slot=matches(i)&&matches(i+1)&&matches(i+2)?0:1;
+        const slot=mask[i]&&mask[i+1]&&mask[i+2]?0:1;
         triangles[slot].push(i);
       }
       if(!triangles[0].length){g.dispose();next.dispose();return;}
@@ -209,33 +176,34 @@
 
     function finishBed(mesh,item,scale) {
       if(!mesh.isMesh || Array.isArray(mesh.material) || !mesh.geometry.attributes.color) return;
-      if(!finishes.has('tecido')&&!finishes.has('madeira'))return;
-      const clothTile=catalog.get('tecido').tileMeters, woodTile=catalog.get('madeira').tileMeters;
-      const g=uvProjected(mesh.geometry,clothTile,scale),p=g.attributes.position,c=g.attributes.color;
-      const tint=new T.Color(item.cor ?? 0x8A7660),groups=[[],[],[]];
+      if(!finishes.has('tecido')&&!finishes.has('madeira_movel'))return;
+      const clothTile=catalog.get('tecido').tileMeters,woodTile=catalog.get('madeira_movel').tileMeters;
+      const g=uvProjected(mesh.geometry,'tecido',scale),p=g.attributes.position,c=g.attributes.color;
+      const mask=sourceMask(g,item);if(!mask){g.dispose();return;}
+      const groups=[[],[],[]];
       g.computeBoundingBox();const box=g.boundingBox;
       // Contrato da cama atual (moveis.py): ROUPA fixa no colchão/travesseiros;
       // cor herdada no box, cabeceira e edredom. Este último fica acima do colchão
       // e à frente da cabeceira. Pés de cor fixa mantêm o material original.
       const white=[242/255,239/255,232/255];
-      const inherited=i=>Math.abs(c.getX(i)-tint.r)<.009&&Math.abs(c.getY(i)-tint.g)<.009&&Math.abs(c.getZ(i)-tint.b)<.009;
-      const linen=i=>Math.abs(c.getX(i)-white[0])<.009&&Math.abs(c.getY(i)-white[1])<.009&&Math.abs(c.getZ(i)-white[2])<.009;
+      const inherited=i=>mask[i]===1;
+      const linen=i=>!mask[i]&&Math.abs(c.getX(i)-white[0])<.009&&Math.abs(c.getY(i)-white[1])<.009&&Math.abs(c.getZ(i)-white[2])<.009;
       for(let i=0;i<p.count;i+=3) {
         const same=[i,i+1,i+2].every(inherited), roupa=[i,i+1,i+2].every(linen);
         const y=(p.getY(i)+p.getY(i+1)+p.getY(i+2))/3,z=(p.getZ(i)+p.getZ(i+1)+p.getZ(i+2))/3;
         const duvet=same && y>box.min.y+(box.max.y-box.min.y)*.43 && z>box.min.z+(box.max.z-box.min.z)*.22;
         let slot=roupa||duvet?0:same?1:2;
-        if(slot===0&&!finishes.has('tecido')||slot===1&&!finishes.has('madeira'))slot=2;
+        if(slot===0&&!finishes.has('tecido')||slot===1&&!finishes.has('madeira_movel'))slot=2;
         groups[slot].push(i);
         if(slot===1)for(let j=i;j<i+3;j++) {
-          const uv=g.attributes.uv;uv.setXY(j,uv.getX(j)*clothTile/woodTile,uv.getY(j)*clothTile/woodTile);
+          const uv=g.attributes.uv;uv.setXY(j,uv.getX(j)*clothTile/woodTile,uv.getY(j)*tileHeight('tecido')/tileHeight('madeira_movel'));
         }
       }
       if(!groups[0].length&&!groups[1].length){g.dispose();return;}
       groupTriangles(g,groups);
       records.push({mesh,originalMaterial:mesh.material,originalGeometry:mesh.geometry,
-        nextMaterial:[finishes.has('tecido')?material(mesh.material,'tecido'):mesh.material,
-          finishes.has('madeira')?material(mesh.material,'madeira'):mesh.material,mesh.material],nextGeometry:g});
+        nextMaterial:[finishes.has('tecido')?material(mesh.material,'tecido',true):mesh.material,
+          finishes.has('madeira_movel')?material(mesh.material,'madeira_movel',true):mesh.material,mesh.material],nextGeometry:g});
     }
 
     function roundedBox(w,h,d,r) {
@@ -249,7 +217,7 @@
     function merge(parts,id,original) {
       const position=[],normal=[],uv=[];
       for(const part of parts) {
-        const source=roundedBox(...part.size,part.radius), g=uvProjected(source,catalog.get(id).tileMeters);
+        const source=roundedBox(...part.size,part.radius), g=uvProjected(source,id);
         source.dispose(); g.translate(...part.at);
         for(const name of ['position','normal','uv']) {
           const dst=name==='position'?position:name==='normal'?normal:uv;
@@ -264,12 +232,12 @@
       g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));
       g.computeBoundingSphere();
       extraTriangles+=position.length/9;
-      const m=material(original,id);m.vertexColors=false;
+      const m=material(original,id,true);
       const mesh=new T.Mesh(g,m);mesh.castShadow=true;mesh.receiveShadow=true;return mesh;
     }
 
     function replaceSofa(obj,item) {
-      if(!finishes.has('tecido') || !finishes.has('madeira') || sofas.length) return;
+      if(!finishes.has('tecido') || !finishes.has('madeira_movel') || sofas.length) return;
       const w=item.w,h=item.h,d=item.d;
       if (![w,h,d].every(v=>Number.isFinite(v)&&v>0)) return;
       const arm=Math.min(.15,w*.09), leg=h*.14, seat=h*.36, back=d*.18;
@@ -288,8 +256,7 @@
         at:[x*(w/2-arm*.7),leg/2,z*(d/2-arm*.7)],radius:Math.min(.008,arm*.04)});
       const gr=new T.Group();gr.name='sofa-piloto';
       const body=merge(parts,'tecido',base.matMovel);
-      body.material.color.setHex(item.cor ?? 0x4A5A6B);
-      gr.add(body,merge(feet,'madeira',base.matMovel));
+      gr.add(body,merge(feet,'madeira_movel',base.matMovel));
       // Dimensões nominais exatas, sem ampliar footprint nem alterar o objeto selecionável.
       gr.updateMatrixWorld(true);
       const box=new T.Box3().setFromObject(gr), size=box.getSize(new T.Vector3());
@@ -310,13 +277,16 @@
       for(const obj of house.children.slice()) {
         const item=obj.userData?.registroMovel;
         if(!obj.userData?.movel || !item)continue;
-        if(item.tipo==='sofa' && finishes.has('tecido')&&finishes.has('madeira')&&!sofas.length) {
-          replaceSofa(obj,item);continue;
+        const count=furnitureCoverage[item.tipo]??(furnitureCoverage[item.tipo]={total:0,textured:0});count.total++;
+        const before=records.length+sofas.length;
+        if(item.tipo==='sofa' && finishes.has('tecido')&&finishes.has('madeira_movel')&&!sofas.length)replaceSofa(obj,item);
+        else if(item.tipo==='cama')obj.traverse(mesh=>finishBed(mesh,item,obj.scale));
+        else {
+          const id=['armario','guardaroupa','estante','mesa','criado','ripado','rack','aereo','cadeira','pia','balcao','bancada'].includes(item.tipo)
+            ?'madeira_movel':['sofa','cortina','tapete'].includes(item.tipo)?'tecido':null;
+          if(id && finishes.has(id))obj.traverse(mesh=>finishFurniture(mesh,id,item,obj.scale));
         }
-        if(item.tipo==='cama'){obj.traverse(mesh=>finishBed(mesh,item,obj.scale));continue;}
-        const id=['armario','guardaroupa','estante','mesa','criado','ripado','rack','aereo'].includes(item.tipo)
-          ?'madeira':['sofa','cortina','tapete'].includes(item.tipo)?'tecido':null;
-        if(id && finishes.has(id))obj.traverse(mesh=>finishFurniture(mesh,id,item,obj.scale));
+        if(records.length+sofas.length>before)count.textured++;
       }
       return true;
     }
@@ -331,16 +301,19 @@
     function snapshot() {
       return {enabled:active,loadedMaterials:Array.from(finishes.keys()),loadedMaps,requestedBytes,
         changedMeshes:records.length,sofas:sofas.length,extraTriangles,failures:failures.map(f=>({...f})),
-        installed:installed!==null,wallsEnabled,wallMeshes,proceduralTextures:paint?3:0};
+        installed:installed!==null,wallsEnabled,wallMeshes,proceduralTextures:0,
+        furnitureCoverage:Object.fromEntries(Object.entries(furnitureCoverage).map(([type,value])=>[type,{...value}])),
+        maskFallbacks:maskFallbacks.map(value=>({...value}))};
     }
     const api={setEnabled(value){active=Boolean(value);if(active)load();install();apply();return active;},
       setWallsEnabled(value){wallsEnabled=Boolean(value);apply();return wallsEnabled;},
-      getWallTextureDownload(){if(!paint)return null;return {url:paint.bump.image.toDataURL('image/png'),filename:'pintura-rolo-relevo.png'};},
+      getWallTextureDownload(){if(!finishes.has('parede'))return null;const file=catalog.get('parede').maps.color.file;
+        return {url:assetPath+file,filename:file};},
       get ready(){return loading || Promise.resolve(snapshot());},snapshot};
     root.__pilotoVisual=api;
     function observe(){if(install())apply();root.requestAnimationFrame(observe);}
     if(active)load(); root.requestAnimationFrame(observe);
     return api;
   }
-  root.PilotoVisual={start,paintPixels};
+  root.PilotoVisual={start};
 })(window);

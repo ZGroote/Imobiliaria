@@ -1,7 +1,7 @@
-"""Prepara somente os nove mapas CC0 listados em assets.json, sem API no navegador.
+"""Prepara somente os mapas CC0 fixados no inventário, sem API no navegador.
 
-python experimentos/piloto-qualidade-visual-2026-10-04/preparar_assets.py --destino publicacao/piloto-qualidade-visual-2026-10-04/assets
-python experimentos/piloto-qualidade-visual-2026-10-04/preparar_assets.py --verificar publicacao/piloto-qualidade-visual-2026-10-04/assets
+python experimentos/piloto-qualidade-visual-2026-10-04/preparar_assets.py --destino publicacao/piloto-qualidade-visual-2026-10-04/materiais-v2/assets
+python experimentos/piloto-qualidade-visual-2026-10-04/preparar_assets.py --verificar publicacao/piloto-qualidade-visual-2026-10-04/materiais-v2/assets
 """
 from __future__ import annotations
 
@@ -100,18 +100,25 @@ def prepare(data: bytes, role: str, options: dict, max_dimension: int) -> tuple[
         return encoded.getvalue(), {"width": image.width, "height": image.height, "sourceImage": source_info}
 
 
-def generate(destination: Path, config: dict) -> None:
+def generate(destination: Path, config: dict, source_config: Path = HERE / "assets.json") -> None:
     if destination.exists():
         raise ValueError("Destino ocupado: materiais preparados não são sobrescritos; use --verificar ou outro destino novo.")
     originals = local_output(str(destination.parent / "originais"))
     manifest = {"schema": 1, "license": config["license"], "licenseUrl": config["licenseUrl"], "credit": config["credit"],
-                "sourceConfigSha256": sha256((HERE / "assets.json").read_bytes()), "materials": [],
+                "sourceConfigSha256": sha256(source_config.read_bytes()), "materials": [],
                 "processing": config["processing"], "runtime": {"python": platform.python_version(), "pillow": PIL.__version__, "libwebp": features.version("webp")},
                 "originalsLocation": "../originais/", "maxPreparedBytes": config["maxPreparedBytes"]}
+    if config.get("generation"):
+        manifest["generation"] = config["generation"]
+    if config.get("targetPreparedBytes"):
+        manifest["targetPreparedBytes"] = config["targetPreparedBytes"]
+        manifest["budgetNote"] = config["budgetNote"]
     outputs = {}
     for material in config["materials"]:
         prepared = {"id": material["id"], "name": material["name"], "tileMeters": material["tileMeters"],
                     "sourcePage": material["sourcePage"], "sourceId": material["sourceId"], "maps": {}}
+        if "tileHeightMeters" in material:
+            prepared["tileHeightMeters"] = material["tileHeightMeters"]
         for role in ROLES:
             source = material["maps"][role]
             data = original_bytes(config, material, role, originals)
@@ -136,19 +143,21 @@ def generate(destination: Path, config: dict) -> None:
     print(json.dumps({"destination": str(destination), "maps": len(outputs), "totalPreparedBytes": manifest["totalPreparedBytes"], "originals": str(originals)}, ensure_ascii=False))
 
 
-def verify(destination: Path, config: dict) -> None:
+def verify(destination: Path, config: dict, source_config: Path = HERE / "assets.json") -> None:
     manifest = json.loads((destination / "manifesto.json").read_text(encoding="utf-8"))
     if manifest.get("schema") != 1 or manifest.get("license") != "CC0-1.0":
         raise ValueError("Manifesto ou licença inválidos.")
-    if manifest["sourceConfigSha256"] != sha256((HERE / "assets.json").read_bytes()):
-        raise ValueError("As fontes/opções de assets.json mudaram após a preparação.")
-    if [material["id"] for material in manifest["materials"]] != ["madeira", "tecido", "frio"]:
-        raise ValueError("Os três materiais previstos devem estar presentes.")
+    if manifest["sourceConfigSha256"] != sha256(source_config.read_bytes()):
+        raise ValueError("As fontes/opções do inventário mudaram após a preparação.")
+    if [material["id"] for material in manifest["materials"]] != [material["id"] for material in config["materials"]]:
+        raise ValueError("Os materiais fixados no inventário devem estar presentes, na mesma ordem.")
     expected = {"manifesto.json"}
     total = 0
     originals = local_output(str(destination.parent / "originais"))
     for material, source_material in zip(manifest["materials"], config["materials"], strict=True):
-        if material["tileMeters"] != source_material["tileMeters"] or set(material["maps"]) != set(ROLES):
+        if (material["tileMeters"] != source_material["tileMeters"]
+                or material.get("tileHeightMeters") != source_material.get("tileHeightMeters")
+                or set(material["maps"]) != set(ROLES)):
             raise ValueError("Escala ou conjunto de mapas divergente.")
         for role, record in material["maps"].items():
             filename = record["file"]
@@ -180,7 +189,7 @@ def verify(destination: Path, config: dict) -> None:
         raise ValueError("Arquivos extras não fazem parte do pacote de mapas.")
     if total != manifest["totalPreparedBytes"] or total > config["maxPreparedBytes"]:
         raise ValueError("Orçamento ou total de bytes divergente.")
-    print(json.dumps({"verified": True, "maps": 9, "totalPreparedBytes": total, "license": "CC0-1.0"}))
+    print(json.dumps({"verified": True, "maps": len(expected) - 1, "totalPreparedBytes": total, "license": "CC0-1.0"}))
 
 
 def main() -> None:
@@ -188,14 +197,15 @@ def main() -> None:
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument("--destino", help="Novo diretório de assets dentro da saída do piloto.")
     action.add_argument("--verificar", help="Conferir hashes, bytes, fontes, licença e dimensões sem baixar.")
+    parser.add_argument("--fontes", type=Path, default=HERE / "assets.json", help="Inventário JSON fixado; permite conferir uma geração antiga com seu snapshot.")
     args = parser.parse_args()
-    config = json.loads((HERE / "assets.json").read_text(encoding="utf-8"))
+    config = json.loads(args.fontes.read_text(encoding="utf-8"))
     destination = local_output(args.destino or args.verificar)
     if args.verificar:
-        verify(destination, config)
+        verify(destination, config, args.fontes)
     else:
         print(config["credit"])
-        generate(destination, config)
+        generate(destination, config, args.fontes)
 
 
 if __name__ == "__main__":

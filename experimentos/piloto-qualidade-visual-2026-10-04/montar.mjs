@@ -4,8 +4,6 @@ import { spawnSync } from 'node:child_process';
 import { resolve, dirname, basename, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
-import { runInNewContext } from 'node:vm';
-import { encodeRGBA } from './png.mjs';
 import { CASAS, construirCasa } from '../../tools/benchmark_10_casas.mjs';
 
 const pasta = dirname(fileURLToPath(import.meta.url));
@@ -40,12 +38,14 @@ export function leituraPiloto() {
 
 export async function validarAssets(dir) {
   const manifest = JSON.parse(await readFile(join(dir,'manifesto.json'),'utf8'));
-  if(manifest.schema!==1||!Array.isArray(manifest.materials)||manifest.materials.length!==3
-    ||new Set(manifest.materials.map(m=>m.id)).size!==3
-    ||manifest.materials.some(m=>!['madeira','tecido','frio'].includes(m.id))) throw Error('Materiais do manifesto inválidos.');
+  const ids=['madeira','tecido','frio','parede','madeira_movel'];
+  if(manifest.schema!==1||!Array.isArray(manifest.materials)||manifest.materials.length!==ids.length
+    ||new Set(manifest.materials.map(m=>m.id)).size!==ids.length
+    ||manifest.materials.some(m=>!ids.includes(m.id))) throw Error('Materiais do manifesto inválidos.');
   const files = [], seen = new Set(); let bytes=0;
   for(const m of manifest.materials) {
     if(!Number.isFinite(m.tileMeters)||m.tileMeters<0.1||m.tileMeters>20) throw Error('Escala do material inválida.');
+    if(m.tileHeightMeters!==undefined&&(!Number.isFinite(m.tileHeightMeters)||m.tileHeightMeters<0.1||m.tileHeightMeters>20)) throw Error('Altura do patch de material inválida.');
     if(!m.maps||Object.keys(m.maps).sort().join(',')!=='color,normal,roughness') throw Error('Mapas do material inválidos.');
     for(const slot of ['color','normal','roughness']) {
       const v=m.maps[slot], max=slot==='color'?1024:512;
@@ -56,7 +56,7 @@ export async function validarAssets(dir) {
       seen.add(v.file);files.push(v.file);bytes+=data.length;
     }
   }
-  if(bytes>1500000) throw Error('Assets excedem orçamento de 1,5 MB.');
+  if(bytes>3000000) throw Error('Assets excedem orçamento de 3 MB.');
   return {manifest,files,bytes,release:sha256(json(manifest)).slice(0,16)};
 }
 
@@ -87,7 +87,7 @@ export function plantaSvg(leitura) {
 export function derivarHtml(base,{materials=[],assetPath='assets/',release=''}) {
   const marker='window.__maq =';
   if(base.split(marker).length!==2||!base.includes('</body>')||!base.includes('</head>')) throw Error('Template de maquete desconhecido.');
-  const bridge='window.__pilotoBase = {MAT:MAT,matMovel:matMovel,ambientePBR:ambientePBR,PL_R:PL_R};\n';
+  const bridge='window.__pilotoBase = {MAT:MAT,matMovel:matMovel,ambientePBR:ambientePBR,PL_R:PL_R,FURN:FURN};\n';
   const contrast='<style>html.pilot-embed #p2d text{fill:#354438}html.pilot-embed #p2d path{stroke:#687064}html.pilot-embed #p2d line:not([stroke="#6FC6F5"]){stroke:#555850}html.pilot-embed #ferramentas button[aria-pressed=true]{color:#354438;border-color:#7c9975;background:#d3e4cb}</style>';
   const css='<style id="piloto-apresentacao">html.pilot-embed,html.pilot-embed body{margin:0;padding:0;width:100%;height:100%;background:#eeeae2}html.pilot-embed .folha{display:block;grid-template-columns:none;max-width:none;margin:0;width:100%}html.pilot-embed #ficha{display:none}html.pilot-embed #cena{height:100dvh;max-height:none;min-height:0;width:100%;border:0;border-radius:0;background:#eeeae2}html.pilot-embed #cena::before{display:none}html.pilot-embed #andar-tag{display:none}</style><script>if(new URL(location.href).searchParams.get("embed")==="1")document.documentElement.classList.add("pilot-embed");</script>';
   const start=`<script src="visual.js"></script><script>window.__pilotoRelease=${json(release)};if(__maq.modo()==='planta3d'&&__maq.planta()){var b=new THREE.Box3().setFromObject(__maq.planta()),s=b.getSize(new THREE.Vector3()),half=__maq.cam.fov*Math.PI/360,fit=Math.min(half,Math.atan(Math.tan(half)*__maq.cam.aspect));__maq.alvo.copy(b.getCenter(new THREE.Vector3()));__maq.orb.r=s.length()/2/Math.sin(fit)*1.06;__maq.poeCam();}PilotoVisual.start({THREE:THREE,maq:__maq,base:__pilotoBase,assets:${json(materials)},assetPath:${json(assetPath)},enabled:new URL(location.href).searchParams.get('acabamento')!=='base'});</script><script src="metricas.js"></script>`;
@@ -110,7 +110,7 @@ export async function montar(assetsDir,destino,atualizar=false) {
     if(!atualizar) throw Error('Destino ocupado. Use outro destino; --atualizar somente para este piloto.');
     const prior=JSON.parse(await readFile(join(destino,'manifesto.json'),'utf8'));
     if(prior.kind!=='piloto-qualidade-visual'||prior.schema!==1) throw Error('Destino não pertence ao piloto.');
-    const allowed=['index.html','maquete.html','visual.js','planta.svg',...(prior.files['metricas.js']?['metricas.js']:[]),...(prior.files['pintura-rolo-relevo.png']?['pintura-rolo-relevo.png']:[]),...checked.files.map(f=>`assets/${checked.release}/${f}`)].sort();
+    const allowed=['index.html','maquete.html','visual.js','planta.svg',...(prior.files['metricas.js']?['metricas.js']:[]),...(prior.files['parede-reboco.webp']?['parede-reboco.webp']:[]),...checked.files.map(f=>`assets/${checked.release}/${f}`)].sort();
     if(JSON.stringify(Object.keys(prior.files).sort())!==JSON.stringify(allowed))throw Error('Manifesto anterior não corresponde à lista permitida.');
     const expected=[...allowed,'manifesto.json','creditos.json'].sort();
     if(JSON.stringify(await inventario(destino))!==JSON.stringify(expected))throw Error('Destino contém arquivos extras; preserve-o e escolha uma pasta nova.');
@@ -145,15 +145,18 @@ export async function montar(assetsDir,destino,atualizar=false) {
   }
   baseHtml=await readFile(join(baseDir,'maquete.html'),'utf8');rel=JSON.parse(await readFile(join(baseDir,'relatorio.json'),'utf8'));
   if(sha256(baseHtml)!==rel.artefato.sha256||Buffer.byteLength(baseHtml)!==rel.artefato.bytes) throw Error('Maquete base diverge do E2E.');
-  const visual=await readFile(join(pasta,'visual.js')), index=await readFile(join(pasta,'index.html')),metricas=await readFile(join(pasta,'metricas.js'));
+  const visual=await readFile(join(pasta,'visual.js')), indexSource=await readFile(join(pasta,'index.html'),'utf8'),metricas=await readFile(join(pasta,'metricas.js'));
   const builder=await readFile(fileURLToPath(import.meta.url));
-  const context={window:{}};runInNewContext(visual.toString(),context,{timeout:1000});
-  const pixels=context.window.PilotoVisual.paintPixels(),wallPng=encodeRGBA({width:pixels.width,height:pixels.height,data:pixels.bump});
-  const release=sha256(Buffer.concat([builder,Buffer.from(baseHtml),visual,index,metricas,wallPng,Buffer.from(json(checked.manifest))])).slice(0,16);
-  const assetPath=`assets/${checked.release}/`, html=derivarHtml(baseHtml,{materials:checked.manifest.materials,assetPath,release});
+  const assetPath=`assets/${checked.release}/`;
+  let index=indexSource;
+  for(const m of checked.manifest.materials)index=index.replaceAll(`__ASSET_${m.id.toUpperCase()}__`,assetPath+m.maps.color.file);
+  if(/__ASSET_/.test(index))throw Error('Material da apresentação não corresponde ao catálogo.');
+  const wallColor=await readFile(join(assetsDir,checked.manifest.materials.find(m=>m.id==='parede').maps.color.file));
+  const release=sha256(Buffer.concat([builder,Buffer.from(baseHtml),visual,Buffer.from(index),metricas,wallColor,Buffer.from(json(checked.manifest))])).slice(0,16);
+  const html=derivarHtml(baseHtml,{materials:checked.manifest.materials,assetPath,release});
   await mkdir(join(destino,assetPath),{recursive:true});
   for(const name of checked.files) await copyFile(join(assetsDir,name),join(destino,assetPath,name));
-  const contents={'maquete.html':html,'visual.js':visual,'metricas.js':metricas,'index.html':index,'planta.svg':plantaSvg(leitura),'pintura-rolo-relevo.png':wallPng};
+  const contents={'maquete.html':html,'visual.js':visual,'metricas.js':metricas,'index.html':index,'planta.svg':plantaSvg(leitura),'parede-reboco.webp':wallColor};
   for(const [name,data] of Object.entries(contents)) await writeFile(join(destino,name),data);
   const files={};for(const name of [...Object.keys(contents),...checked.files.map(n=>assetPath+n)]) {const data=await readFile(join(destino,name));files[name]={bytes:data.length,sha256:sha256(data)};}
   const credits={license:'CC0-1.0',licenseUrl:'https://polyhaven.com/license',materials:checked.manifest.materials};

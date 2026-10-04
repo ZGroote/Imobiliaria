@@ -14,13 +14,14 @@ desativados. Sem dados reais, API, analytics, autenticação ou serviços de pro
 
 ## Escopo visual
 
-- Materiais CC0 reais: madeira (`madeira`), algodão (`tecido`) e piso frio (`frio`).
-- Refinamento solicitado em 04/10: pintura de paredes com granulação de rolo,
-  microrelevo, pigmento quase branco e rugosidade procedurais. Texturas pequenas geradas localmente,
-  compartilhadas, sem downloads adicionais ou novas faces. Preservar cor e bake
-  original, UV de iluminação e comparação A/B; conferir de perto na Visita 3D.
-  O PNG de relevo para download é gerado na build pelos mesmos pixels do runtime,
-  servido como arquivo anexo e transferido somente quando solicitado.
+- Cinco materiais CC0 reais: madeira do piso (`madeira`), tecido (`tecido`),
+  piso frio (`frio`), reboco (`parede`) e madeira de marcenaria (`madeira_movel`).
+- Correção solicitada em 04/10 após a comparação enviada pelo usuário: substituir
+  a pintura procedural, cuja diferença era insuficiente, por albedo, normal OpenGL
+  e rugosidade baixados. Madeira de móveis não usa as tábuas do piso. Conferir
+  paredes e móveis de perto, com imagens A/B na mesma câmera. Preservar o bake
+  e UV de iluminação das paredes; faces de ferragens preservam o material básico.
+  O download da parede é uma cópia byte a byte do albedo real preparado em WebP.
 - Texturas de cor até 1024²; normal OpenGL e rugosidade até 512²; mapas compartilhados.
 - Preparação no PC, cache pelo hash da versão e carregamento por demanda.
 - Separar tecido/madeira/metal; melhorar um sofá com geometria própria leve,
@@ -28,7 +29,8 @@ desativados. Sem dados reais, API, analytics, autenticação ou serviços de pro
 - Preservar planta, vãos, movimentos, modo inicial, colisões e seleção dos móveis.
 - Base/acabamento alternam sem perder câmera; o piloto volta ao básico se um
   material não carregar. Sem copiar atlas do Cedros ou adicionar luzes com sombras.
-- Meta inicial: assets preparados até 1,5 MB; geometria adicional até 10 mil
+- Orçamento revisado para os cinco materiais: assets preparados até 3 MB;
+  geometria adicional até 10 mil
   triângulos. São limites do piloto, não garantias de FPS ou celular homologado.
 
 ## Estrutura e contrato
@@ -45,21 +47,24 @@ Tudo que se implementa fica nesta pasta. Saídas, downloads e evidências ficam 
   `file` é basename dentro do diretório de assets; dados adicionais são permitidos.
 - `visual.js`: script clássico para o Three r168 já embutido. Define
   `window.PilotoVisual.start({THREE,maq,base,assets,assetPath,enabled})`.
-  `maq` é `__maq`; `base={MAT,matMovel,ambientePBR,PL_R}` é uma ponte explícita
-  colocada somente no HTML derivado. `assets` é a lista `materials` do manifesto.
+  `maq` é `__maq`; `base={MAT,matMovel,ambientePBR,PL_R,FURN}` é uma ponte explícita
+  colocada somente no HTML derivado. `FURN` permite identificar faces herdadas
+  do catálogo sem confundir corpo e ferragem quando têm a mesma cor.
+  `assets` é a lista `materials` do manifesto; `tileHeightMeters` opcional preserva
+  a proporção de uma fonte retangular, com `tileMeters` como largura do patch.
   Expõe `window.__pilotoVisual={setEnabled,setWallsEnabled,getWallTextureDownload,ready,snapshot}`. `setEnabled(boolean)`
   restaura ou reaplica o acabamento na mesma câmera. `snapshot()` oferece contagens
   e falhas para QA; não envia dados. Sem esperas arbitrárias ou globals presumidas.
   `setWallsEnabled(boolean)` compara somente as paredes dentro de Acabamentos;
-  Base restaura todos os materiais originais. `getWallTextureDownload()` gera,
-  sob pedido, `{url,filename}` para PNG do mapa de relevo; sem novo request HTTP.
+  Base restaura todos os materiais originais. `getWallTextureDownload()` retorna
+  `{url,filename}` do albedo real local, sem Canvas ou geração procedural.
 - `montar.mjs --assets CAMINHO --destino CAMINHO`: gera leitura nova pela fixture
   sintética de dois dormitórios do construtor existente, mobiliário nominal e
   maquete pelo pipeline real. Preserva o HTML/relatório E2E originais em `base/`;
   identifica hashes da derivação e copia somente a lista permitida para `site/`.
 - `index.html`: apresentação responsiva, alternância Base/Acabamentos, acesso
   aos modos e planta demonstrativa. Um canvas ativo, sem duplicar GPU em dois iframes.
-  Paredes têm Lisa/Texturizada e download do relevo. Selecionar Texturizada em
+  Paredes têm Lisa/Texturizada e download da textura de cor. Selecionar Texturizada em
   Base ativa Acabamentos, com os estados dos dois controles refletidos na tela.
 
 ## Validação

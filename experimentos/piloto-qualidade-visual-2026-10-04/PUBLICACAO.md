@@ -10,7 +10,7 @@ clonar releases antigas ou copiar conteúdo das publicações anteriores.
 
 A fonte versionada da configuração é `firebase.preview.json` nesta pasta. Depois
 da montagem, copiar esse arquivo para
-`publicacao/piloto-qualidade-visual-2026-10-04/firebase.preview.json`, fora de
+`publicacao/piloto-qualidade-visual-2026-10-04/materiais-v2/firebase.preview.json`, fora de
 `site/`. O Firebase CLI resolve `hosting.public` em relação ao diretório do
 config e bloqueia caminhos fora dele; `public: "site"` na cópia aponta para a
 saída correta. Não executar o deploy diretamente pela fonte em `experimentos/`.
@@ -19,8 +19,8 @@ funções ou serviços de dados.
 
 O montador deve copiar somente sua lista pública permitida para `site/`:
 apresentação, maquete derivada, scripts visual e de diagnóstico local, planta SVG
-e assets referenciados. O refinamento de paredes inclui `pintura-rolo-relevo.png`,
-gerado pelos mesmos pixels procedurais do renderer e servido como download;
+e assets referenciados. O refinamento atual inclui `parede-reboco.webp`,
+cópia do albedo real preparado, servida como download;
 conferir seu hash e `Content-Disposition: attachment`. Leitura, contexto, mobiliário, originais, relatório,
 configuração e evidências ficam fora de `site/`. O manifesto e os créditos JSON
 de montagem presentes em `site/` são excluídos do deploy pelo filtro `**/*.json`.
@@ -32,7 +32,8 @@ Antes de publicar:
 1. Executar os testes do montador e conferir hashes, licenças, limite de assets e
    ausência de arquivos extras ou symlinks no pacote.
 2. Abrir localmente o pacote e verificar Base/Acabamentos na mesma câmera,
-   Lisa/Texturizada das paredes, download PNG, Planta 2D, Planta 3D, Visita 3D
+   Lisa/Texturizada das paredes, textura de madeira/tecido nos móveis, download WebP,
+   Planta 2D, Planta 3D, Visita 3D
    e fallback de material indisponível.
 3. Conferir que os dados e o mobiliário são sintéticos e a página os identifica
    como demonstração. Conferir ausência de endereço, contato, imóvel real, links
@@ -58,14 +59,14 @@ Executar na raiz do repositório, usando o CLI já instalado. Primeiro preparar 
 cópia da configuração, depois do montador criar o pacote:
 
 ```powershell
-Copy-Item -LiteralPath experimentos/piloto-qualidade-visual-2026-10-04/firebase.preview.json -Destination publicacao/piloto-qualidade-visual-2026-10-04/firebase.preview.json
+Copy-Item -LiteralPath experimentos/piloto-qualidade-visual-2026-10-04/firebase.preview.json -Destination publicacao/piloto-qualidade-visual-2026-10-04/materiais-v2/firebase.preview.json
 ```
 
 Conferir que fonte e cópia têm o mesmo SHA-256 e que a pasta `site/` passou na
 verificação acima. Publicar com a cópia:
 
 ```powershell
-node node_modules/firebase-tools/lib/bin/firebase.js hosting:channel:deploy qualidade-piloto-20261004 --project imobilaria-deccb --config publicacao/piloto-qualidade-visual-2026-10-04/firebase.preview.json --only imobilaria-deccb-miniaturas --expires 7d --no-authorized-domains --non-interactive
+node node_modules/firebase-tools/lib/bin/firebase.js hosting:channel:deploy qualidade-piloto-20261004 --project imobilaria-deccb --config publicacao/piloto-qualidade-visual-2026-10-04/materiais-v2/firebase.preview.json --only imobilaria-deccb-miniaturas --expires 7d --no-authorized-domains --non-interactive
 ```
 
 `--only` recebe o site, sem o prefixo `hosting:` neste comando. O site também é

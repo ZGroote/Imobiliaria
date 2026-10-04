@@ -1,5 +1,12 @@
 # Refinamento de paredes — 04/10/2026
 
+**Registro histórico.** A comparação abaixo foi rejeitada visualmente pelo
+usuário: Lisa/Texturizada eram parecidas demais. A implementação atual usa
+texturas reais baixadas; ver [MATERIAIS-REAIS](MATERIAIS-REAIS.md). Para reproduzir
+esta rodada procedural, usar a fonte do commit `bc9cded`, incluindo os assets
+e os testes daquele commit. Os comandos e a expiração abaixo pertencem àquela
+publicação, não à release atual.
+
 [Mesmo preview atualizado](https://imobilaria-deccb-miniaturas--qualidade-piloto-20261004-tj49koea.web.app).
 Após esta atualização, a expiração é **11/10/2026 às 14:37:09 BRT**.
 O registro da primeira publicação permanece em [ENTREGA](ENTREGA.md).

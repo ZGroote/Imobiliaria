@@ -31,9 +31,9 @@
         ]
       },
       {
-        "source": "/pintura-rolo-relevo.png",
+        "source": "/parede-reboco.webp",
         "headers": [
-          { "key": "Content-Disposition", "value": "attachment; filename=\"pintura-rolo-relevo.png\"" }
+          { "key": "Content-Disposition", "value": "attachment; filename=\"parede-reboco.webp\"" }
         ]
       },
       {
