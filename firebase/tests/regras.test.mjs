@@ -526,6 +526,22 @@ test('19. buildJobs: a equipe lê; pelo cliente ninguém escreve', async () => {
   for (const uid of ['gerA', 'corA']) await assertFails(getDoc(doc(db(uid), 'buildJobs/jobA')));
 });
 
+test('rastreabilidade: coleções privadas ficam inacessíveis inclusive para equipe e titulares dos links', async () => {
+  const colecoes = ['trackingLinks', 'trackingVisits', 'trackingSessions', 'trackingAttempts'];
+  await env.withSecurityRulesDisabled(async (ctx) => {
+    await Promise.all(colecoes.map(c => setDoc(doc(ctx.firestore(), c, 'registro'),
+      { agencyId: 'agA', propertyId: 'propA', brokerUid: 'corA' })));
+  });
+  for (const banco of [anon(), db('admin'), db('gerA'), db('corA'), db('corB')]) {
+    for (const c of colecoes) {
+      await assertFails(getDoc(doc(banco, c, 'registro')));
+      await assertFails(getDocs(query(collection(banco, c), where('brokerUid', '==', 'corA'))));
+      await assertFails(setDoc(doc(banco, c, 'novo'), { agencyId: 'agA', propertyId: 'propA', brokerUid: 'corA' }));
+      await assertFails(updateDoc(doc(banco, c, 'registro'), { brokerUid: 'corB' }));
+    }
+  }
+});
+
 test('20. fora do modelo canônico, tudo negado: nem coleção nem claim do modelo antigo', async () => {
   await env.withSecurityRulesDisabled((ctx) => setDoc(doc(ctx.firestore(), 'cidades/sao-carlos'), { nome: 'São Carlos' }));
   const claimsAntigas = db('qualquer', { imobiliaria_id: 'agA', role: 'admin' });
