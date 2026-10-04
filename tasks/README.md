@@ -9,6 +9,13 @@ As publicações públicas identificadas estão offline, conforme o
 O pacote M1.1-A continua preparado localmente; as sessões físicas usarão o
 pacote local/LAN, com as publicações públicas permanecendo desativadas.
 
+A prioridade adicional aprovada é a [rastreabilidade dos links](rastreabilidade/plan.md):
+vínculo por corretor, encaminhamentos, métricas de páginas/seções e relatórios.
+O corretor original também será a referência para o futuro contato WhatsApp.
+[Implementação local concluída](rastreabilidade/entrega-2026-10-04.md), com
+testes e demonstração integrados. Ativação pública e botão WhatsApp ficam
+para uma entrega futura; a rodada M1.1-A continua preservada, em 0/5 sessões.
+
 ## Plano Diretor
 
 | Marco | Situação e próximo trabalho |

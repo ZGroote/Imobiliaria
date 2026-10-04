@@ -1,5 +1,22 @@
 # Execucao do plano de proporcao e ocupacao
 
+## Rastreabilidade — prioridade aprovada em 04/10/2026
+
+Plano atual: [rastreabilidade/plan.md](rastreabilidade/plan.md).
+As tarefas urbanas históricas abaixo continuam preservadas.
+
+- [x] Links por corretor: raízes distintas, revogação e isolamento entre imobiliárias.
+  Aceite/teste: dois corretores por imóvel; negar outro tenant; teste Node/backend e emulador.
+- [x] Encaminhamentos: sublink na barra e recibo privado de retomada.
+  Aceite/teste: cópia manual, reload/back e troca tour/maquete sem inflar a cadeia; navegador local.
+- [x] Métricas de páginas/seções: aceite, tempo visível/ativo e retry idempotente.
+  Aceite/teste: relógio controlado, aba oculta/inatividade, duplicatas e limites de tempo.
+- [x] Relatórios/painel: escopo por papel, distintos no período e resultados por seção.
+  Aceite/teste: corretor só seus links; gerente só agência; tipos/build e demonstração local.
+- [x] Checkpoint: regressão, manifesto M1.1 íntegro e [entrega local](rastreabilidade/entrega-2026-10-04.md).
+
+## Plano urbano histórico
+
 > **Registro histórico (09/09/2026).** Execução do plano de proporção e ocupação; os itens não foram acompanhados aqui e não descrevem o estado atual. Estado atual: [DOCUMENTACAO.md](../DOCUMENTACAO.md).
 
 Detalhes, arquivos, dependencias e criterios em [plan.md](plan.md).

@@ -10,6 +10,7 @@ configuração e scripts.
 | Assunto | Onde |
 |---|---|
 | Continuidade: marcos entregues, próximos passos e nomes dos planos | [tasks/README.md](tasks/README.md) |
+| Rastreabilidade local: links por corretor, repasses, métricas e relatórios | [Execução/contrato](rastreabilidade/README.md), [entrega e evidências](tasks/rastreabilidade/entrega-2026-10-04.md); ativação pública pendente |
 | Consolidação de 04/10: correções, organização e validação do trabalho local | [tasks/organizacao-2026-10-04.md](tasks/organizacao-2026-10-04.md) |
 | Experimentos: quais aproveitar, método e limites das evidências | [experimentos/README.md](experimentos/README.md) |
 | M1-0 aprovado (#75): contrato declarado de planta, schema versionado e validação sem Blender | [tasks/miniaturas/m1-0-contrato-planta.md](tasks/miniaturas/m1-0-contrato-planta.md) |
