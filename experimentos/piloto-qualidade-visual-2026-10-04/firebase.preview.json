@@ -1,0 +1,41 @@
+{
+  "hosting": {
+    "site": "imobilaria-deccb-miniaturas",
+    "public": "site",
+    "ignore": [
+      "**/.*",
+      "**/node_modules/**",
+      "**/*.json",
+      "**/*.jsonl",
+      "**/*.ndjson",
+      "**/*.md",
+      "**/*.log",
+      "**/*.map",
+      "**/*.py",
+      "**/*.ts",
+      "**/*.mjs",
+      "**/base/**",
+      "**/private/**",
+      "**/originais/**"
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-store" },
+          { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "Referrer-Policy", "value": "no-referrer" },
+          { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+          { "key": "Content-Security-Policy", "value": "frame-ancestors 'self'" }
+        ]
+      },
+      {
+        "regex": "^/assets/[0-9a-f]{12,64}/.+$",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        ]
+      }
+    ]
+  }
+}

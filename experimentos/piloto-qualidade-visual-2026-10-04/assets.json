@@ -1,0 +1,216 @@
+{
+  "schema": 1,
+  "license": "CC0-1.0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "licenseSummary": "Os assets CC0 podem ser modificados, redistribuídos e usados comercialmente. Previews, texto do site e logotipos não fazem parte dos downloads deste piloto.",
+  "credit": "Texturas CC0 de Poly Haven; preparação offline para o piloto da imobiliária.",
+  "apiTermsUrl": "https://github.com/Poly-Haven/Public-API/blob/master/ToS.md",
+  "userAgent": "ImobiliariaVisualPilot/2026.10 (offline CC0 texture preparation)",
+  "sourceResolution": "1k",
+  "maxPreparedBytes": 1500000,
+  "processing": {
+    "pillowVersion": "12.3.0",
+    "resize": "LANCZOS",
+    "color": {
+      "encoding": "WebP",
+      "quality": 82,
+      "method": 6,
+      "colorSpace": "SRGBColorSpace"
+    },
+    "normal": {
+      "encoding": "WebP lossless",
+      "method": 6,
+      "colorSpace": "NoColorSpace",
+      "normalConvention": "OpenGL",
+      "renormalize": true
+    },
+    "roughness": {
+      "encoding": "WebP lossless",
+      "method": 6,
+      "colorSpace": "NoColorSpace"
+    },
+    "libwebpVersion": "1.6.0"
+  },
+  "materials": [
+    {
+      "id": "madeira",
+      "name": "Wood Floor",
+      "sourceId": "wood_floor",
+      "sourcePage": "https://polyhaven.com/a/wood_floor",
+      "metadataUrl": "https://api.polyhaven.com/info/wood_floor",
+      "filesUrl": "https://api.polyhaven.com/files/wood_floor",
+      "author": "Dimitrios Savva",
+      "tileMeters": 1.7,
+      "sourceDimensionsMillimeters": [
+        1699.9996900558472,
+        1699.9996900558472
+      ],
+      "usage": "Piso de madeira; compartilhado com superfícies de madeira dos móveis neste piloto.",
+      "maps": {
+        "color": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_floor/wood_floor_diff_1k.jpg",
+          "bytes": 734493,
+          "md5": "b7e927d2bf2f8f103820ff3890c8407c",
+          "sha256": "2a1c07687b6dbb214c4b9213739c6d92d425f1f0fc8ab3ac157f105d78240789",
+          "maxDimension": 1024,
+          "prepared": {
+            "file": "madeira-color.webp",
+            "width": 1024,
+            "height": 1024,
+            "bytes": 122212,
+            "sha256": "3b85d1780bdb3d95b714767c1a8b03bc802957fa25ec2043812e9fda14d97c92"
+          }
+        },
+        "normal": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/wood_floor/wood_floor_nor_gl_1k.png",
+          "bytes": 4873122,
+          "md5": "2ae3e80b1a9b5e0aba44047839b75837",
+          "sha256": "70e1a41420a161bb7dd046b1e6c5e5d4cbacb681f1731279c06ffd54855682c6",
+          "maxDimension": 512,
+          "prepared": {
+            "file": "madeira-normal.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 162708,
+            "sha256": "0667ff57616f3d445f855a639c0a94ce7f3e6375e0c7525e0f235d6986c5b198"
+          }
+        },
+        "roughness": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/wood_floor/wood_floor_rough_1k.png",
+          "bytes": 1786545,
+          "md5": "e1d039c5c59fc0ddf571ad288cd2bebd",
+          "sha256": "4a9f632f8ce6db0c80ee70a9bcfb8e4d7afa03f4ae9e1becf0b1fcfc95136747",
+          "maxDimension": 512,
+          "prepared": {
+            "file": "madeira-roughness.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 130130,
+            "sha256": "c3556beee1c3ac323e968f2505c2fffc93b67bcfb6a0093e509247def417203e"
+          }
+        }
+      }
+    },
+    {
+      "id": "tecido",
+      "name": "Cotton Jersey",
+      "sourceId": "cotton_jersey",
+      "sourcePage": "https://polyhaven.com/a/cotton_jersey",
+      "metadataUrl": "https://api.polyhaven.com/info/cotton_jersey",
+      "filesUrl": "https://api.polyhaven.com/files/cotton_jersey",
+      "authors": {
+        "colormass": "Photography",
+        "Rico Cilliers": "Processing"
+      },
+      "tileMeters": 0.264,
+      "sourceDimensionsMillimeters": [
+        263.6027473872483,
+        263.7999951839447
+      ],
+      "usage": "Algodão bege para estofamento. Escala quadrada arredondada a 0,264 m para o contrato do piloto.",
+      "maps": {
+        "color": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cotton_jersey/cotton_jersey_diff_1k.jpg",
+          "bytes": 581360,
+          "md5": "d2f4493fdd48634b50d40f810ce9deb7",
+          "sha256": "0f1b790e4087223275aaa6fdffdd46a556a26d2af72cd811acf72ba9c21ec1f6",
+          "maxDimension": 512,
+          "prepared": {
+            "file": "tecido-color.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 1262,
+            "sha256": "af9801efbf3fedc3fd89054a57f3bc9293095acc17921cdb02e43f48370de430"
+          }
+        },
+        "normal": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/cotton_jersey/cotton_jersey_nor_gl_1k.png",
+          "bytes": 5460045,
+          "md5": "919d63b888f8c495b34e8b261dc23f88",
+          "sha256": "d2d3bf79f2dd4214d8efa4c82bec9ce5ef409daea33b7d3add10d4fed08bb5a4",
+          "maxDimension": 512,
+          "prepared": {
+            "file": "tecido-normal.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 220848,
+            "sha256": "3124ded9dc8e2a5889638c75d709292c41b5c77c03b582579efc596779832355"
+          }
+        },
+        "roughness": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/cotton_jersey/cotton_jersey_rough_1k.png",
+          "bytes": 1979369,
+          "md5": "8f402095349668efe3a79d0352ee3d61",
+          "sha256": "4c44c3f0efa4d95ce9ee1c86aae12e6f3ac22a46b4c7ee9bc2c55804a7946c41",
+          "maxDimension": 512,
+          "prepared": {
+            "file": "tecido-roughness.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 156048,
+            "sha256": "1f4ec9d60b31201e48cf485c8abc15e97dd3c5778406f2a152d333d565a6ff75"
+          }
+        }
+      }
+    },
+    {
+      "id": "frio",
+      "name": "Floor Tiles 08",
+      "sourceId": "floor_tiles_08",
+      "sourcePage": "https://polyhaven.com/a/floor_tiles_08",
+      "metadataUrl": "https://api.polyhaven.com/info/floor_tiles_08",
+      "filesUrl": "https://api.polyhaven.com/files/floor_tiles_08",
+      "author": "Rob Tuytel",
+      "tileMeters": 1.5,
+      "sourceDimensionsMillimeters": [
+        1500,
+        1500
+      ],
+      "usage": "Cerâmica bege com juntas para áreas de piso frio.",
+      "maps": {
+        "color": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/floor_tiles_08/floor_tiles_08_diff_1k.jpg",
+          "bytes": 414119,
+          "md5": "9bc91e302a76ad75a9b7e539fe48c28d",
+          "sha256": "c618d589b732e22ae68d9a18af6baed551e1e736deb8d2039b2d8e7ffa320036",
+          "maxDimension": 1024,
+          "prepared": {
+            "file": "frio-color.webp",
+            "width": 1024,
+            "height": 1024,
+            "bytes": 94442,
+            "sha256": "7a2d25cf2a7e29aff8a402e932f61c7322773fb1158bdad607909cbc03ffca2c"
+          }
+        },
+        "normal": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/floor_tiles_08/floor_tiles_08_nor_gl_1k.png",
+          "bytes": 1317717,
+          "md5": "0f31c95ffbf78a1d0a213aac90b0c08f",
+          "sha256": "c59104cba5baca14eec940fe3fb1ea99e2c705c85e033defc1c22fec94bf010a",
+          "maxDimension": 512,
+          "prepared": {
+            "file": "frio-normal.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 193776,
+            "sha256": "6cfeb77fe805c8e5ed8bbd74f844a41bc8274e1e282367e37365b872089721fc"
+          }
+        },
+        "roughness": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/floor_tiles_08/floor_tiles_08_rough_1k.png",
+          "bytes": 1719328,
+          "md5": "dd3a92cf46dce27077f095732bef4825",
+          "sha256": "ccb659d41376fe0c5626e13131652a9da1656f2e6a148f49b907e38861d5b766",
+          "maxDimension": 512,
+          "prepared": {
+            "file": "frio-roughness.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 86696,
+            "sha256": "ee9ba8d0cd1d465593239e60b76f1a3af75b79d4488fe288897fed89780b2ed0"
+          }
+        }
+      }
+    }
+  ]
+}

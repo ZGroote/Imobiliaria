@@ -16,6 +16,16 @@ O corretor original também será a referência para o futuro contato WhatsApp.
 testes e demonstração integrados. Ativação pública e botão WhatsApp ficam
 para uma entrega futura; a rodada M1.1-A continua preservada, em 0/5 sessões.
 
+O [piloto de qualidade visual](../experimentos/piloto-qualidade-visual-2026-10-04/SPEC.md)
+foi autorizado como demonstração sintética separada, com planta de dois quartos,
+materiais CC0 e comparação Base/Acabamentos. Seu preview temporário de sete dias
+é a única exceção ao estado offline anterior; não ativa o produto ou a API de
+rastreabilidade. A [entrega e verificação pública](../experimentos/piloto-qualidade-visual-2026-10-04/ENTREGA.md)
+registra o link e sua expiração em 11/10/2026 às 14:04 BRT.
+A [reprodução e preparação do primeiro lote](../experimentos/piloto-qualidade-visual-2026-10-04/README.md)
+usa a janela de um mês informada pelo usuário, com quantidade e capacidade a
+validar. A homologação física permanece em 0/5.
+
 ## Plano Diretor
 
 | Marco | Situação e próximo trabalho |
