@@ -11,7 +11,9 @@
     "montar": "python pipeline/montar.py sao-carlos --variante v16-moveis",
     "test:regras": "firebase emulators:exec --only firestore,storage --project demo-painel \"node --test firebase/tests/regras.test.mjs\"",
     "test:painel": "firebase emulators:exec --only auth,firestore --project demo-painel \"node --test --test-concurrency=1 painel/tests/*.test.*\"",
-    "painel:dev": "firebase emulators:exec --only auth,firestore --project demo-painel \"node painel/scripts/dev.mjs\""
+    "painel:dev": "firebase emulators:exec --only auth,firestore --project demo-painel \"node painel/scripts/dev.mjs\"",
+    "test:rastreabilidade": "firebase emulators:exec --only auth,firestore --project demo-painel \"node --test tests/test_rastreabilidade_*.mjs\"",
+    "rastreabilidade:dev": "firebase emulators:exec --only auth,firestore --project demo-painel \"node rastreabilidade/dev.mjs\""
   },
   "keywords": [],
   "author": "",
