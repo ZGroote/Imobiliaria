@@ -13,7 +13,7 @@ da consolidação estão em [organização](organizacao-2026-10-04.md).
 | M1-D/E/F entregues | Snapshots imutáveis, leitura fixada no pedido e E2E controlado aceitos (#79–81) |
 | Objetivos originais D/E/F | Fotos vinculadas, contexto real completo do painel e captura real por telefone até 3D ainda sem comprovação completa; registrar decisão de escopo sem reabrir os PRs aceitos |
 | M1.1-B/C | Mobile e cômodo composto integrados pelo #83 |
-| M1.1-A / homologação | Executar cinco sessões em aparelhos físicos, registrar tempo, dúvidas, correções, perda de estado e ciclo até 3D; os ensaios locais não fecham esse aceite |
+| [M1.1-A / homologação](miniaturas/m1-1a-usabilidade-mobile.md) | [Preparação concluída](miniaturas/m1-1a-preparacao-2026-10-04.md) na baseline `4586e7c`; 0/5 sessões atuais. Cinco plantas reais, dois operadores, métricas de captura/projeto/3D separadas e evidência física; P0/C1 anteriores não contam |
 | M1.2 | Concluir retirada do CV depois da homologação, conforme a continuidade do diretor |
 | M2 operacional | Fundação de BuildJob existente; falta identidade/transação, worker, lease/heartbeat, retry/cancelamento, reconciliação e prova de falhas/concorrência |
 | M3 urbano | Comparar V1, V2 e híbrido com o mesmo protocolo, investigar início lento e registrar a escolha |
@@ -38,8 +38,8 @@ metas originais que continuam sem prova.
 
 ## Ordem de trabalho
 
-1. Concluir a consolidação local e manter os testes verdes.
-2. Homologar M1.1 nos cinco casos físicos; reconciliar fotos/contexto real e fechar o marco.
+1. Preparar e conferir o [pacote M1.1-A](miniaturas/m1-1a-preparacao-2026-10-04.md), preservando a baseline `4586e7c` e os testes verdes.
+2. Executar as cinco sessões físicas pelo [protocolo](miniaturas/m1-1a-usabilidade-mobile.md); registrar preservação de pisos/móveis, reconciliar fotos/contexto real e fechar o marco com evidência.
 3. Concluir M1.2 e implementar M2 em incrementos verificáveis.
 4. Usar as medições de qualidade progressiva para reduzir o custo de entrada/luz no celular.
 5. Executar comparação urbana M3, implementar M4 e conduzir M5 com imóveis reais.

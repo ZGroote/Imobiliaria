@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Serve uma pasta por HTTPS na rede local, para abrir no TELEFONE (estudo M1.1-A).
 
-    python tools/servir_lan.py painel/out                         # o capturador
-    python tools/servir_lan.py publicacao/m1-1a/caso-1 --porta 8814   # a maquete do smoke 3D
+    python tools/servir_lan.py publicacao/m1-1a/rodada-2026-10-04/site
+    python tools/servir_lan.py publicacao/m1-1a/rodada-2026-10-04/C1/avaliacao-02/andar-0/maquete --porta 8814
 
 Por que HTTPS: o capturador usa `crypto.randomUUID`, que só existe em contexto seguro. Por
 HTTP no IP da rede ele nem abre ("This page couldn't load"); em produção o Hosting já é
@@ -11,8 +11,9 @@ serve) para o IP desta máquina, vale 7 dias e some quando o servidor para. O te
 mostra uma vez o aviso de conexão não privada.
 
 URL limpa como no Hosting (`/capturador` serve `capturador.html`). Só leitura: sem upload
-e sem listagem de pasta. O log de cada acesso leva o User-Agent, que é a prova de qual
-aparelho abriu a página.
+e sem listagem de pasta. Sirva somente o site ou a pasta da maquete, nunca a pasta de
+evidências. O log leva o User-Agent como indício auxiliar; a prova física exige modelo
+do aparelho, observação da sessão e captura/gravação do telefone.
 """
 import argparse
 import http.server
