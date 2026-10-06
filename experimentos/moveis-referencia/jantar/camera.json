@@ -1,0 +1,25 @@
+{
+ "location": [
+  2.915065251349713,
+  -4.176432357679928,
+  1.6007121454549167
+ ],
+ "rotation_euler": [
+  1.3325411161351346,
+  0.0,
+  0.6256827236051434
+ ],
+ "res": [
+  459,
+  296
+ ],
+ "f": 800,
+ "cx": 229.5,
+ "cy": 148.0,
+ "medidas": {
+  "W": 0.8,
+  "L": 1.36,
+  "Z": 0.77
+ },
+ "nota": "foto de ambiente: centro no meio; f fixado (63 mm eq) -- livre ia pra teleobjetiva a 8 m"
+}

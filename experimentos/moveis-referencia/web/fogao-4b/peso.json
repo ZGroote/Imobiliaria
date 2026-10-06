@@ -1,0 +1,39 @@
+{
+ "compartilhado": {
+  "inox_escovado-cor-256.webp": 810,
+  "inox_escovado-cor-256.avif": 940,
+  "inox_escovado-cor-512.webp": 2130,
+  "inox_escovado-cor-512.avif": 1693,
+  "inox_escovado-cor-1024.webp": 6184,
+  "inox_escovado-cor-1024.avif": 4097,
+  "inox_escovado-nor-256.webp": 2094,
+  "inox_escovado-nor-256.avif": 1356,
+  "inox_escovado-nor-512.webp": 6686,
+  "inox_escovado-nor-512.avif": 3112,
+  "inox_escovado-nor-1024.webp": 17804,
+  "inox_escovado-nor-1024.avif": 8332
+ },
+ "peca": {
+  "ao-256.webp": 12144,
+  "ao-256.avif": 8437,
+  "ao-512.webp": 29816,
+  "ao-512.avif": 19897,
+  "ao-1024.webp": 116274,
+  "ao-1024.avif": 97604,
+  "unica-256.webp": 3008,
+  "unica-256.avif": 3102,
+  "unica-512.webp": 6324,
+  "unica-512.avif": 6347,
+  "unica-1024.webp": 13098,
+  "unica-1024.avif": 13140,
+  "relevo-256.webp": 4212,
+  "relevo-256.avif": 3183,
+  "relevo-512.webp": 12782,
+  "relevo-512.avif": 8743,
+  "relevo-1024.webp": 38068,
+  "relevo-1024.avif": 24480
+ },
+ "geo_bin": 292748,
+ "geo_br": 47315,
+ "json_br": 2372
+}

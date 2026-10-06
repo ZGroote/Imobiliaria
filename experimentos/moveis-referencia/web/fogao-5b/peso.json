@@ -1,0 +1,26 @@
+{
+ "compartilhado": {},
+ "peca": {
+  "ao-256.webp": 12884,
+  "ao-256.avif": 9058,
+  "ao-512.webp": 33388,
+  "ao-512.avif": 22314,
+  "ao-1024.webp": 121036,
+  "ao-1024.avif": 83582,
+  "unica-256.webp": 3190,
+  "unica-256.avif": 3279,
+  "unica-512.webp": 7034,
+  "unica-512.avif": 7070,
+  "unica-1024.webp": 14906,
+  "unica-1024.avif": 15381,
+  "relevo-256.webp": 4268,
+  "relevo-256.avif": 2950,
+  "relevo-512.webp": 12584,
+  "relevo-512.avif": 8421,
+  "relevo-1024.webp": 34440,
+  "relevo-1024.avif": 23237
+ },
+ "geo_bin": 549072,
+ "geo_br": 75816,
+ "json_br": 2074
+}

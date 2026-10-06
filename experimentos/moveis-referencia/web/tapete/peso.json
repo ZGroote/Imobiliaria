@@ -1,0 +1,39 @@
+{
+ "compartilhado": {
+  "la_fios-cor-256.webp": 13026,
+  "la_fios-cor-256.avif": 10266,
+  "la_fios-cor-512.webp": 57600,
+  "la_fios-cor-512.avif": 41800,
+  "la_fios-cor-1024.webp": 229342,
+  "la_fios-cor-1024.avif": 163183,
+  "la_fios-nor-256.webp": 27838,
+  "la_fios-nor-256.avif": 18673,
+  "la_fios-nor-512.webp": 121272,
+  "la_fios-nor-512.avif": 84343,
+  "la_fios-nor-1024.webp": 560088,
+  "la_fios-nor-1024.avif": 390335
+ },
+ "peca": {
+  "ao-256.webp": 3424,
+  "ao-256.avif": 3362,
+  "ao-512.webp": 11242,
+  "ao-512.avif": 10562,
+  "ao-1024.webp": 25766,
+  "ao-1024.avif": 23581,
+  "unica-256.webp": 3938,
+  "unica-256.avif": 3431,
+  "unica-512.webp": 16214,
+  "unica-512.avif": 13783,
+  "unica-1024.webp": 30682,
+  "unica-1024.avif": 25964,
+  "relevo-256.webp": 4754,
+  "relevo-256.avif": 3634,
+  "relevo-512.webp": 24956,
+  "relevo-512.avif": 18519,
+  "relevo-1024.webp": 64802,
+  "relevo-1024.avif": 43653
+ },
+ "geo_bin": 15528,
+ "geo_br": 4081,
+ "json_br": 1259
+}
