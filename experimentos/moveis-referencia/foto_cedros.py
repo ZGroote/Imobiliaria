@@ -52,7 +52,8 @@ with sync_playwright() as pw:
         t0 = time.time()
         while True:
             s = pg.evaluate('() => ({modo: __maq.modo(), m: window.__movelWeb && __movelWeb.snapshot()})')
-            ok = nome == 'catalogo' or (s['m'] and (('instalado_' + TIPO) in s['m']['t'] or s['m']['erro']))
+            # ESPERA=0: o movel nao vem pelo movel-web (ex.: a cama assada do v8) -- so assenta
+            ok = nome == 'catalogo' or os.environ.get('ESPERA') == '0' or (s['m'] and (('instalado_' + TIPO) in s['m']['t'] or s['m']['erro']))
             if s['modo'] == 'visita' and ok and pg.evaluate(MIRA, [TIPO, DIST]):
                 break
             if time.time() - t0 > 90:

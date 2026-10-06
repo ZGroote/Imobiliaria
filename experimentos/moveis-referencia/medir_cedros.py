@@ -54,15 +54,15 @@ def roda(pw, perfil):
         # o visitante entra na visita assim que a pagina abre (o pior caso: tudo disputa a rede)
         pg.evaluate("() => { __m.marca('clique'); const b = document.querySelector('#modos button[data-modo=visita]'); b && b.click(); }")
         while time.time() - t0 < 300:
-            c = pg.evaluate("() => window.__camaAssada && __camaAssada.snapshot()")
+            c = pg.evaluate("() => window.__camaAssada ? __camaAssada.snapshot() : null")
             m = pg.evaluate("() => window.__movelWeb && __movelWeb.snapshot()")
-            cama_ok = c and (c['nivel'] == 'q3' or c['erro'])
+            cama_ok = c is None or c['nivel'] == 'q3' or c['erro']      # v9: a cama vem pelo movel-web
             mov_ok = m and (m['erro'] or all(('instalado_' + t) in m['t'] for t in TIPOS))
             if cama_ok and mov_ok:
                 break
             time.sleep(0.2)
         time.sleep(0.5)
-        d = pg.evaluate("""() => ({m: __m.t, cama: __camaAssada.snapshot(), mov: __movelWeb.snapshot(),
+        d = pg.evaluate("""() => ({m: __m.t, cama: window.__camaAssada ? __camaAssada.snapshot() : null, mov: __movelWeb.snapshot(),
           nav: performance.getEntriesByType('navigation')[0].transferSize,
           res: performance.getEntriesByType('resource').map(e => ({u: e.name.split('/').slice(-3).join('/'), fim: e.responseEnd, rede: e.transferSize}))})""")
         d['erros'] = erros
@@ -81,11 +81,11 @@ with sync_playwright() as pw:
             cam = [r for r in d['res'] if '/cama/' in '/' + r['u']]
             mov = [r for r in d['res'] if 'moveis/' in r['u'] or r['u'].endswith('movel-web.js')]
             rs.append({'quadro1': d['m']['quadro1'] / 1000,
-                       'cama_q3': (c['t0'] + c['t'].get('q3', 0)) / 1000,
+                       **({'cama_q3': (c['t0'] + c['t'].get('q3', 0)) / 1000} if c else {}),
                        **{k: (mv['t0'] + v) / 1000 for k, v in mv['t'].items() if k.startswith(('pedido', 'pronto_', 'instalado_'))},
                        'kb_pagina': (d['nav'] + sum(r['rede'] for r in d['res'] if r not in cam and r not in mov)) / 1024,
                        'kb_cama': sum(r['rede'] for r in cam) / 1024, 'kb_moveis': sum(r['rede'] for r in mov) / 1024,
-                       'erro': c['erro'] or mv['erro'], 'erros': d['erros']})
+                       'erro': (c and c['erro']) or mv['erro'], 'erros': d['erros']})
         med = {k: round(statistics.median(r[k] for r in rs), 2) for k in rs[0] if isinstance(rs[0][k], (int, float))}
         out[p] = {'mediana': med, 'rodadas': rs}
         print(p, json.dumps(med), rs[0]['erro'] or '', rs[0]['erros'][:2] or '', flush=True)

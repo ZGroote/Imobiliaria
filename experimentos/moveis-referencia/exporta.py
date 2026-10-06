@@ -45,6 +45,30 @@ mats = []
 def baixa(o):
     """Malha do navegador: a avaliada, ou decimada ate o["tri_alvo"] (estofado de pano tem 30 mil
     tri por almofada; o detalhe volta como relevo assado da alta)."""
+    grade = o.get("grade")
+    if grade:
+        # pano simulado que nasceu GRADE (nx x ny, na ordem dos vertices): a baixa e a mesma grade pegando 1
+        # a cada k pontos -- regular, comprime bem (decimar pano da malha irregular e pesada); as rugas finas
+        # voltam pelo relevo assado da alta (com espessura e subsurf)
+        nx, ny, k = (int(v) for v in grade)
+        co = np.empty(len(o.data.vertices) * 3, np.float32)
+        o.data.vertices.foreach_get("co", co)
+        co = co.reshape(ny, nx, 3)
+        iy, ix = list(range(0, ny, k)), list(range(0, nx, k))
+        if iy[-1] != ny - 1: iy.append(ny - 1)
+        if ix[-1] != nx - 1: ix.append(nx - 1)
+        g = co[np.ix_(iy, ix)].reshape(-1, 3)
+        m_, n_ = len(iy), len(ix)
+        faces = [(a * n_ + b, a * n_ + b + 1, (a + 1) * n_ + b + 1, (a + 1) * n_ + b) for a in range(m_ - 1) for b in range(n_ - 1)]
+        me = bpy.data.meshes.new(o.name + "_grade")
+        me.from_pydata(g.astype(np.float64).tolist(), [], faces)
+        uv = me.uv_layers.new(name="UVMap")
+        lv = np.empty(len(me.loops), np.int32)
+        me.loops.foreach_get("vertex_index", lv)
+        uv.data.foreach_set("uv", g[lv][:, :2].astype(np.float32).ravel())
+        me.polygons.foreach_set("use_smooth", np.ones(len(faces), bool))
+        me.materials.append(o.data.materials[0])
+        return me
     alvo = o.get("tri_alvo")
     alvo = alvo and alvo * float(os.environ.get("TRI_ESCALA", "1"))
     if not alvo:

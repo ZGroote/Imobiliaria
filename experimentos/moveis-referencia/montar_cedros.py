@@ -16,6 +16,8 @@ ap.add_argument('--pecas', default='geladeira:B')   # tipo:modo[:pasta em web/[:
 ap.add_argument('--destino', default=str(RAIZ / 'publicacao/piloto-qualidade-visual-2026-10-04/cedros-v7/site-leve'))
 # cama BN (prep_bn.py): troca o pacote da cama e o carregador; teto = nivel (q2 = 384, q3 = 512)
 ap.add_argument('--cama-bn', default=None, metavar='TETO')
+# a cama vira peca do movel-web (ex.: cama:BN:cama-madeira-solteiro:caixa): tira a cama assada da pagina
+ap.add_argument('--sem-cama-assada', action='store_true')
 a = ap.parse_args()
 dst = Path(a.destino)
 if dst.exists() and any(dst.iterdir()):
@@ -27,6 +29,13 @@ pecas = [dict(zip(('tipo', 'modo', 'pasta', 'ajuste', 'esconde'), p.split(':')))
 for p in pecas:
     p['esconde'] = p['esconde'].split('+') if p.get('esconde') else []
 shutil.copytree(V6, dst)
+if a.sem_cama_assada:
+    import re
+    html, n = re.subn(r'<script src="cama-assada\.js"></script><script>CamaAssada\.start\(.*?\);</script>', '', html, flags=re.S)
+    if n != 1:
+        raise SystemExit('carregador da cama nao encontrado')
+    shutil.rmtree(dst / 'cama')
+    (dst / 'cama-assada.js').unlink()
 if a.cama_bn:
     import re
     CB = RAIZ / 'experimentos/cama-box-referencia'
@@ -68,7 +77,7 @@ inj = ('<script src="movel-web.js"></script><script>MovelWeb.start({THREE:THREE,
 files = {p.relative_to(dst).as_posix(): {'bytes': p.stat().st_size, 'sha256': sha(p.read_bytes())}
          for p in sorted(dst.rglob('*')) if p.is_file() and p.name != 'manifesto.json'}
 (dst / 'manifesto.json').write_text(json.dumps({'schema': 1, 'kind': 'cedros-v6-mais-moveis', 'base': {
-    'pasta': V6.relative_to(RAIZ).as_posix(), 'sha256_pagina': sha((V6 / PAGINA).read_bytes())}, 'pecas': pecas, 'cama_bn': a.cama_bn,
+    'pasta': V6.relative_to(RAIZ).as_posix(), 'sha256_pagina': sha((V6 / PAGINA).read_bytes())}, 'pecas': pecas, 'cama_bn': a.cama_bn, 'sem_cama_assada': a.sem_cama_assada,
     'files': files}, indent=1), encoding='utf-8')
 print(json.dumps({'destino': str(dst), 'pecas': pecas, 'moveis_kb': round(sum(v['bytes'] for k, v in files.items()
       if k.startswith('moveis/') and not k.endswith('.webp')) / 1024, 1)}))

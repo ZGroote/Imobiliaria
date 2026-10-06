@@ -21,12 +21,16 @@ web/**/amb.bin
 !painel-tv/comp_r3.webp
 !tapete/comp_r11.webp
 !jantar/comp_r3.webp
+!cama-madeira/comp_r5.webp
+!cama-madeira/_r6_solteiro.webp
 fotos/*
 !fotos/cama-bn-x-atual.webp
 !fotos/geladeira-comparacao-lado.webp
 !fotos/fogao-comparacao-lado.webp
 !fotos/cortina-comparacao_perto.webp
 !fotos/rack-comparacao.webp
+!fotos/cama-v8-x-v9.webp
+!fotos/cama-v8-x-v9-lado.webp
 # do pacote web, so o nivel que o Cedros carrega (512); 256/1024 e a textura unica saem do prep.py
 web/**/*-256.*
 web/**/*-1024.*

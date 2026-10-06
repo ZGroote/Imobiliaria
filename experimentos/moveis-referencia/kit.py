@@ -348,3 +348,53 @@ def rolo(nome, r, comp, mat, achata=1.0, seg=40, aneis=40, ponta=0.05):
     for p in o.data.polygons:
         p.use_smooth = True
     return o
+
+
+def travesseiro(nome, w, h, mat, pressao=1.4, nu=40, nv=28, quadros=36):
+    """Travesseiro como ENVELOPE costurado na borda (frente e verso) inflado por pressao -- o da cama box.
+    A costura nao estica: o canto vira ponta e a borda puxa pra dentro; caixa inflada (estofado) com pouca
+    pressao fica placa de canto vivo. Deitado no plano XY, espessura em Z; posicione com poe()."""
+    bm = bmesh.new()
+    vs = {}
+
+    def vert(i, j, lado):
+        borda = i in (0, nu) or j in (0, nv)
+        k = ("b", i, j) if borda else (lado, i, j)
+        if k not in vs:
+            u, v = -1 + 2 * i / nu, -1 + 2 * j / nv
+            vs[k] = bm.verts.new((u * w / 2, v * h / 2, 0.0 if borda else lado * 0.015))
+        return vs[k]
+
+    for lado in (1, -1):
+        for i in range(nu):
+            for j in range(nv):
+                q = [vert(i, j, lado), vert(i + 1, j, lado), vert(i + 1, j + 1, lado), vert(i, j + 1, lado)]
+                bm.faces.new(q if lado == 1 else q[::-1])
+    uv = bm.loops.layers.uv.verify()
+    for f in bm.faces:
+        for l in f.loops:
+            l[uv].uv = (l.vert.co.x, l.vert.co.y)
+    o = obj(nome, mesh_bm(nome, bm), [mat])
+    S.frame_start, S.frame_end = 1, quadros
+    m = o.modifiers.new("pano", "CLOTH")
+    cs = m.settings
+    cs.quality, cs.mass = 8, 0.25
+    cs.tension_stiffness = cs.compression_stiffness = 40.0
+    cs.shear_stiffness, cs.bending_stiffness = 15.0, 0.05
+    cs.use_pressure, cs.uniform_pressure_force = True, pressao
+    cs.effector_weights.gravity = 0.0
+    m.point_cache.frame_start, m.point_cache.frame_end = 1, quadros
+    for f in range(1, quadros + 1):
+        S.frame_set(f)
+    me = bpy.data.meshes.new_from_object(o.evaluated_get(bpy.context.evaluated_depsgraph_get()))
+    o.modifiers.remove(m)
+    velho, o.data = o.data, me
+    bpy.data.meshes.remove(velho)
+    S.frame_set(1)
+    for p in me.polygons:
+        p.use_smooth = True
+    ss = o.modifiers.new("sub", "SUBSURF")
+    ss.levels = ss.render_levels = 1
+    co = np.array([v.co[:] for v in me.vertices])
+    print("travesseiro %s: %s (%.0f s)" % (nome, (co.max(0) - co.min(0)).round(3).tolist(), time.time() - T0), flush=True)
+    return o

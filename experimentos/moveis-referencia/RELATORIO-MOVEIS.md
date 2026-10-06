@@ -227,3 +227,37 @@ Bytes na rede: página 328 KB + cama 287 KB + 4 peças 190 KB = **805 KB**.
 - tudo instalado aos 3,5 s no 4G e 7,3 s no 3G.
 
 **Casa inteira, refeita:** móveis ~0,9 MB e apartamento ~1,2 MB. A 1000 visitas/dia: ~37 GB/mês, ~26 GB pagos, **~US$ 4 por mês**.
+
+## 8. Cama de madeira no lugar da cama box (Cedros v9)
+
+Pedido: a cama da referência 11 (estrutura de madeira, cabeceira de painel, edredom creme dobrado) no lugar da cama do Cedros. O banco e os criados da foto ficaram de fora.
+
+**Como** (`cama-madeira/cena.py`):
+- **Câmera:** a borda de cima da cabeceira e a de baixo do pé da cama são horizontais na foto, então a câmera é nivelada e olha ao longo da cama. A altura foi fixada em 1 m: com só 4 pontos, altura e focal se trocam.
+- **Estrutura:** tábuas, cabeceira de painel e pés cônicos inclinados para fora.
+- **Edredom:** é pano simulado com gravidade, que cai sobre o colchão e a lateral. A dobra da cabeceira é um segundo pano por cima.
+  - A ruga nasce de ondas iniciais em direções aleatórias. Ondulação regular, alinhada com a malha, congelava como caixa de ovo.
+  - Sobra 25 cm nas laterais e 12 cm no pé. Com 25 cm no pé, o edredom escorregava até o chão.
+- **Travesseiro:** envelope costurado e inflado (`kit.travesseiro`, o mesmo da cama box). A caixa inflada com pouca pressão ficava placa.
+- **Navegador:** o pano simulado nasce como grade, então a malha do navegador é a mesma grade pegando 1 ponto a cada 2 (`exporta.py`, `grade`). Decimar o pano deixava 106 KB de geometria; pela grade ficam 37 KB.
+  - Com 1 a cada 3 pontos, a borda saía rasgada no navegador.
+  - O raio do bake precisou de 4 cm, porque o pano alto fica longe da grade baixa.
+
+**Contra a foto (casal):** 26,9% na rodada 5. A estrutura bate (cabeceira 0,97, edredom 0,97). O que diverge:
+- a luz de sol rasante da foto;
+- a lateral, que na foto aparece sob o edredom e aqui é coberta;
+- o edredom, mais liso que o da foto. As rugas finas pedem mais quadros de simulação.
+
+**No Cedros (solteiro, 0,88 × 1,98 m):** `montar_cedros.py --sem-cama-assada` tira a cama assada da página, e a cama entra como peça do `movel-web.js` (tipo `cama`, BN, encaixe `caixa`).
+
+| | v8 (cama box BN) | v9 (cama de madeira) |
+|---|---|---|
+| cama na rede | 128 KB | **56 KB** (geometria 37 + AO 10 + relevo 7, madeira e tecido já compartilhados) |
+| total | 647 KB | **570 KB** |
+| página abre (4G / 3G) | 0,9 / 2,5 s | 0,9 / 2,6 s |
+| tudo instalado (4G / 3G) | 3,5 / 7,3 s | **3,6 / 6,8 s** |
+
+Evidências:
+- `fotos/cama-v8-x-v9.webp` e `fotos/cama-v8-x-v9-lado.webp` (no Cedros);
+- `cama-madeira/comp_r5.webp` (contra a foto);
+- `cama-madeira/_r6_solteiro.webp` (casal e solteiro).
