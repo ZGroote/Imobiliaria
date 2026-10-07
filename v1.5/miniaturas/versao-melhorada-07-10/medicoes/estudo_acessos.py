@@ -23,7 +23,40 @@ d = json.loads((R / 'acessos.json').read_text())
 V = d['versoes']
 
 
+# Defeito da v4 achado neste estudo: no celular, quando a capa sai, o <img> é tirado de dentro
+# do <picture> e o navegador baixa a capa LARGA (o `src`), que nunca aparece. Esse pedido sai
+# atrasado (às vezes já no trecho seguinte da sessão); aqui ele volta para o acesso em que a
+# capa foi mostrada (o primeiro da maquete A, ou o da B), para a conta por acesso ficar certa.
+CAPA_LARGA = __import__('re').compile(r'/assets/([^/]+)/capa-[0-9a-f]{12}\.webp$')
+DONO = {'monte-dos-cedros-37': 'primeiroAcesso', 'imovel-b': 'outraMaquete'}
+CAPA_EXTRA = {}
+
+
+def _ajustados(v, p):
+    runs = []
+    for r in V[v]['perfis'][p]['execucoes']:
+        b = {c: r[c]['bytesNavegador'] for c in r if isinstance(r[c], dict) and 'bytesNavegador' in r[c]}
+        for c in list(b):
+            for x in r[c]['recursos']:
+                m = CAPA_LARGA.search(x['recurso'])
+                if m and x['origem'] == 'rede' and V[v]['perfis'][p]['perfil']['mobile']:
+                    b[c] -= x['bytesNavegador']; b[DONO[m.group(1)]] += x['bytesNavegador']
+                    CAPA_EXTRA[(v, p)] = x['bytesNavegador']
+        runs.append(b)
+    return runs
+
+
+def _mediana(xs):
+    xs = sorted(x for x in xs if isinstance(x, (int, float)))
+    return xs[len(xs) // 2] if xs else None
+
+
+AJ = {(v, p): _ajustados(v, p) for v in V for p in V[v]['perfis']}
+
+
 def med(v, p, c, k='bytesNavegador'):
+    if k == 'bytesNavegador':
+        return _mediana([r[c] for r in AJ[(v, p)]])
     return V[v]['perfis'][p]['mediana'][c][k]
 
 
@@ -151,7 +184,9 @@ out['PRIMEIRO_BASE'] = kb('base', 'celular-4g', 'primeiroAcesso')
 out['PUB_V4'] = kb('nova', 'celular-4g', 'depoisDePublicar')
 out['PUB_BASE'] = kb('base', 'celular-4g', 'depoisDePublicar')
 out['QUANDO'] = d['quando'][:10]
-out['CONFERE'] = max(abs(med(v, p, c) - med(v, p, c, 'bytesServidor')) for v in V for p in V[v]['perfis'] for c, _ in CEN)
+out['CONFERE'] = max(abs(m[c]['bytesNavegador'] - m[c]['bytesServidor']) for v in V for p in V[v]['perfis']
+                     for m in [V[v]['perfis'][p]['mediana']] for c, _ in CEN)
+out['CAPA_EXTRA'] = mb(max(CAPA_EXTRA.values())) if CAPA_EXTRA else '0 KB'
 
 modelo = (AQUI / 'estudo-acessos-modelo.md').read_text(encoding='utf8')
 for k, v in out.items():

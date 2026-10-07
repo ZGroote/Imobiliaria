@@ -37,6 +37,11 @@ meia resolução.
   Hoje só o Cedros está na v4; com mais imóveis, cada um custa isso para quem já abriu outro.
 - Entrar no apartamento custa a mesma coisa na volta e no primeiro acesso, porque esses
   arquivos só descem quando a pessoa pede. Da segunda vez em diante, sai do aparelho.
+- **Defeito achado neste estudo:** no celular, quando a capa sai da tela, a v4 baixa também a
+  versão larga da capa (@@CAPA_EXTRA@@), que ninguém vê. São 1 a 2% do primeiro acesso no
+  celular, e a tabela já inclui esse valor. A correção é de uma linha: tirar o `<picture>`
+  inteiro, e não só a imagem de dentro dele. Ela fica para a próxima versão, para não mudar a
+  v4 que está sendo avaliada.
 
 ## Quanto custa no Firebase Hosting
 

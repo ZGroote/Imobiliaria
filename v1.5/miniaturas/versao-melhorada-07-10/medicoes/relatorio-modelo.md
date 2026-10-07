@@ -29,6 +29,11 @@ nada fora desta pasta foi alterado.
   relatório contava a capa quando ela terminava de **carregar** (0,1 / 0,3 / 1,2 s), mas a
   pintura espera o navegador terminar o script que estiver rodando, e no computador isso
   levava a capa para depois do primeiro desenho 3D. Os números abaixo são os da tela.
+- **Capa larga no celular:** o estudo de acessos ([ESTUDO-ACESSOS.md](ESTUDO-ACESSOS.md)) achou
+  que, no celular, a v4 baixa também a capa larga (27,5 KB) quando a capa sai da tela, um
+  pouco depois de a luz chegar e por isso fora da janela de "bytes para abrir". No celular,
+  some 27,5 KB a esses bytes (1 a 2%). A correção (tirar o `<picture>` inteiro) fica para a
+  próxima versão.
 - **Limite honesto:** o ambiente de medição não tem GPU. O Chrome desenha em software
   (SwiftShader), então **FPS absoluto não representa celular nenhum** e tempos de primeiro
   quadro ficam inflados pela compilação de shaders em CPU. Bytes, memória, chamadas de
