@@ -2,7 +2,9 @@
 //  - compressão automática (Brotli, ou gzip) só para tipos de texto, como o Hosting faz;
 //  - os cabeçalhos de cache da configuração (HTML revalida; assets com hash, imutáveis);
 //  - ETag/304, para medir a revisita.
-// Uso: import { servir } from './servidor.mjs'; const s = await servir(pasta, porta);
+//  - opcional: `registro(rel, status, bytes)` a cada resposta, com os bytes do corpo enviados
+//    (o que o servidor de fato manda; usado por acessos.mjs para conferir o lado do navegador).
+// Uso: import { servir } from './servidor.mjs'; const s = await servir(pasta, porta, { registro });
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -44,7 +46,7 @@ function preComprimir(raiz, cacheCorpo) {
   }
 }
 
-export function servir(raiz, porta = 0) {
+export function servir(raiz, porta = 0, { registro } = {}) {
   const cacheCorpo = new Map();
   preComprimir(raiz, cacheCorpo);
   const srv = http.createServer((req, res) => {
@@ -53,14 +55,14 @@ export function servir(raiz, porta = 0) {
     if (!rel || rel.endsWith('/')) rel += 'index.html';
     const arq = path.join(raiz, rel);
     if (!arq.startsWith(path.resolve(raiz)) || !fs.existsSync(arq) || !fs.statSync(arq).isFile()) {
-      res.writeHead(404); res.end('404'); return;
+      res.writeHead(404); res.end('404'); registro?.(rel, 404, 3); return;
     }
     const ext = path.extname(arq).toLowerCase();
     const st = fs.statSync(arq);
     const etag = '"' + crypto.createHash('sha1').update(arq + st.size + st.mtimeMs).digest('hex').slice(0, 16) + '"';
     const cab = { 'Content-Type': TIPOS[ext] || 'application/octet-stream', 'Cache-Control': cacheDe(rel),
                   'ETag': etag, 'X-Content-Type-Options': 'nosniff', 'Vary': 'Accept-Encoding' };
-    if (req.headers['if-none-match'] === etag) { res.writeHead(304, cab); res.end(); return; }
+    if (req.headers['if-none-match'] === etag) { res.writeHead(304, cab); res.end(); registro?.(rel, 304, 0); return; }
     let corpo = fs.readFileSync(arq);
     const ae = String(req.headers['accept-encoding'] || '');
     if (COMPRIMIVEL.has(ext)) {
@@ -75,7 +77,7 @@ export function servir(raiz, porta = 0) {
       }
     }
     cab['Content-Length'] = corpo.length;
-    res.writeHead(200, cab); res.end(corpo);
+    res.writeHead(200, cab); res.end(corpo); registro?.(rel, 200, corpo.length);
   });
   return new Promise(ok => srv.listen(porta, '127.0.0.1', () => ok({
     url: `http://127.0.0.1:${srv.address().port}`, fechar: () => new Promise(f => srv.close(f)) })));

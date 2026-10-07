@@ -41,7 +41,7 @@ out.append('### Abertura e transferência (mediana de 3 execuções por perfil)\
 out.append('| Perfil | | Versão atual | v4 | Ganho |')
 out.append('|---|---|---:|---:|---:|')
 for p, nome in PERFIS:
-    b_img = med(base, p, 'primeiroDesenhoMs')
+    b_img = med(base, p, 'primeiraImagemMs')
     n_img = med(nova, p, 'primeiraImagemMs')
     linhas = [
         ('Primeira imagem da maquete', s(b_img), s(n_img), x(b_img, n_img)),

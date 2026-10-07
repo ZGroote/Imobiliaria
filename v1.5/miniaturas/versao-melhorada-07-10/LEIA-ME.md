@@ -6,6 +6,7 @@ celular. **Nada fora desta pasta foi alterado**: o padrão aprovado continua em
 `../padrao-atual/` e é a base de comparação (versão 3; esta é a 4).
 
 - Resultado, medições, custos e a análise técnica por técnica: [RELATORIO.md](RELATORIO.md).
+- Quanto custa o segundo acesso (mesma maquete, outra maquete, depois de publicar): [ESTUDO-ACESSOS.md](ESTUDO-ACESSOS.md).
 - O que muda para quem visita (medido; ver o relatório): abre com 36% dos bytes (17% no
   celular fraco), a maquete aparece em 0,1–1,2 s (imagem de capa), a luz calculada chega
   1,4× a 6× mais cedo, a memória de vídeo cai 56–81%, e parada a página não desenha nada.
@@ -40,6 +41,7 @@ node medicoes/fumaca.mjs                 # abre a página, percorre os modos, ed
 node medicoes/comparar.mjs --q alto      # compara com o aprovado, pixel a pixel
 node medicoes/medir.mjs --versao nova    # bytes, tempos, memória (e --versao base)
 node medicoes/custos.mjs                 # custo de Hosting por 1.000 acessos/dia
+node medicoes/acessos.mjs; python medicoes/estudo_acessos.py   # acessos repetidos → ESTUDO-ACESSOS.md
 ```
 
 Atalho para tudo isso: `npm run gerar` (derivar → montar → capa → montar).

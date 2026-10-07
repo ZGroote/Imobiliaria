@@ -59,7 +59,7 @@ export const ADAPTADORES = {
 };
 
 // Instrumentação WebGL: memória viva por objeto, chamadas e triângulos, quadros.
-const GANCHO = String.raw`(() => {
+export const GANCHO = String.raw`(() => {
   const S = window.__gl = { draws: 0, tris: 0, frames: 0, primeiroDesenho: 0, mem: 0, pico: 0,
                             tex: 0, buf: 0, rb: 0, contexto: null, pronto: {} };
   const vivos = new WeakMap(), texNiveis = new WeakMap();
@@ -124,7 +124,9 @@ const GANCHO = String.raw`(() => {
     gl.deleteRenderbuffer = r => { tira(r); return o.deleteRenderbuffer(r); };
     let quadro = -1;
     function conta(modo, n, inst) {
-      if (!S.primeiroDesenho) S.primeiroDesenho = performance.now();
+      // primeiro desenho: quando a chamada sai; na tela: o primeiro rAF depois dela, ou seja,
+      // quando a tarefa que desenhou terminou e o quadro pode ser apresentado
+      if (!S.primeiroDesenho) { S.primeiroDesenho = performance.now(); raf(() => { S.primeiroDesenhoNaTela = performance.now(); }); }
       S.draws++; if (modo === 4) S.tris += Math.floor(n / 3) * (inst || 1);
       if (quadro !== S._raf) { quadro = S._raf; S.frames++; }
     }
@@ -148,12 +150,33 @@ const GANCHO = String.raw`(() => {
     const id = setInterval(() => { try { if (f()) { S.pronto[nome] = performance.now(); clearInterval(id); } } catch (e) {} }, 25); };
 })();`;
 
-const ARGS_CHROME = ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist',
+export const ARGS_CHROME = ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist',
                      '--enable-precise-memory-info'];
-function chromePath() {
+export function chromePath() {
   const cands = [process.env.CHROME_PATH, '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
     'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', '/usr/bin/google-chrome', '/usr/bin/chromium'];
   return cands.find(c => c && fs.existsSync(c));
+}
+
+// "Primeira imagem": quando a maquete aparece de fato -- a capa PINTADA (v4) ou o primeiro
+// desenho 3D JÁ NA TELA (o rAF seguinte à primeira chamada de desenho), o que vier antes. A pintura da capa vem do LCP do navegador (elemento #capa;
+// id e endereço ficam na entrada mesmo depois que a capa sai): o evento load da imagem
+// (`capaCarregada`, a telemetria da página) chega antes, e a pintura espera o navegador
+// terminar o script que estiver rodando.
+export function imagens(page) {
+  return page.evaluate(() => new Promise(ok => {
+    const tm = window.__miniatura && __miniatura.estado.tempos || {};
+    let feito = false;
+    const fim = lcp => { if (feito) return; feito = true;
+      const p = Math.min(lcp || Infinity, __gl.primeiroDesenhoNaTela || Infinity);
+      ok({ capaCarregada: tm.capa || null, capaPintada: lcp || null, primeiroDesenho: __gl.primeiroDesenho || null,
+           primeiroDesenhoNaTela: __gl.primeiroDesenhoNaTela || null, primeiraImagem: Number.isFinite(p) ? p : null }); };
+    try {
+      new PerformanceObserver(l => { const e = l.getEntries().find(x => x.id === 'capa' || /\/capa[-.]/.test(x.url || ''));
+        if (e) fim(e.startTime); }).observe({ type: 'largest-contentful-paint', buffered: true });
+    } catch (e) { /* sem LCP: fica o primeiro desenho */ }
+    setTimeout(() => fim(null), 300);
+  }));
 }
 
 async function ocioso(page, cdp, ms) {
@@ -204,16 +227,10 @@ export async function medirUma(base, ad, perfilNome, opcoes = {}) {
   await page.evaluate(([e, i]) => { __marca('exterior', e); __marca('interior', i); }, [ad.exterior, ad.interior]);
   await page.waitForFunction(ad.exterior, null, { timeout: 300000, polling: 50 });
   await page.waitForTimeout(300);
-  const nav = await page.evaluate(() => {
+  const nav = { ...await page.evaluate(() => {
     const n = performance.getEntriesByType('navigation')[0];
-    // "Primeira imagem": o que a pessoa vê primeiro -- a capa (v4) ou o primeiro desenho 3D.
-    const t = window.__miniatura && __miniatura.estado.tempos || {};
-    const capa = t.capa || null;
-    return { html: n.responseEnd, dom: n.domContentLoadedEventEnd, load: n.loadEventEnd,
-             primeiroDesenho: __gl.primeiroDesenho, capa,
-             primeiraImagem: Math.min(capa || Infinity, __gl.primeiroDesenho || Infinity),
-             luzExterior: __gl.pronto.exterior };
-  });
+    return { html: n.responseEnd, dom: n.domContentLoadedEventEnd, load: n.loadEventEnd, luzExterior: __gl.pronto.exterior };
+  }), ...await imagens(page) };
   fase.abrir = { ...nav, bytes, requisicoes: req.size, erroPagina: await page.evaluate(ad.erro) };
   fase.memoriaMaquete = await memoria(page, cdp);
   fase.maqueteParada = await ocioso(page, cdp, opcoes.janela || 4000);
@@ -287,6 +304,7 @@ async function main() {
       perfil: PERFIS[pn],
       mediana: {
         primeiraImagemMs: m(r => r.abrir.primeiraImagem), primeiroDesenhoMs: m(r => r.abrir.primeiroDesenho),
+        capaPintadaMs: m(r => r.abrir.capaPintada), capaCarregadaMs: m(r => r.abrir.capaCarregada),
         luzExteriorMs: m(r => r.abrir.luzExterior),
         htmlMs: m(r => r.abrir.html), bytesAbrir: m(r => r.abrir.bytes), planta3dMs: m(r => r.planta3d.ms),
         bytesPlanta3d: m(r => r.planta3d.bytes), bytesRevisita: m(r => r.revisita.bytes),

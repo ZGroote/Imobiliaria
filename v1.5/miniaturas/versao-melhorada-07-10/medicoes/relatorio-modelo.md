@@ -22,8 +22,13 @@ nada fora desta pasta foi alterado.
   celular fraco em "4G ruim" de 1,6 Mbps (o perfil *Slow 4G* do Lighthouse) com CPU 6× mais
   lenta. Três execuções por perfil, mediana. A v4 é medida no perfil de qualidade que um
   aparelho dessa classe recebe (alto, médio, baixo).
-- **Primeira imagem:** na versão atual, o primeiro desenho 3D; na v4, a capa (a imagem do
-  próprio visualizador) ou o primeiro desenho, o que vier antes.
+- **Primeira imagem:** o momento em que a maquete aparece **na tela**. Na versão atual, o
+  primeiro desenho 3D apresentado (o quadro seguinte à primeira chamada de desenho); na v4, a
+  capa já pintada (a imagem do próprio visualizador, medida pelo LCP do navegador) ou o
+  primeiro desenho apresentado, o que vier antes. *Correção de 07/10:* a primeira edição deste
+  relatório contava a capa quando ela terminava de **carregar** (0,1 / 0,3 / 1,2 s), mas a
+  pintura espera o navegador terminar o script que estiver rodando, e no computador isso
+  levava a capa para depois do primeiro desenho 3D. Os números abaixo são os da tela.
 - **Limite honesto:** o ambiente de medição não tem GPU. O Chrome desenha em software
   (SwiftShader), então **FPS absoluto não representa celular nenhum** e tempos de primeiro
   quadro ficam inflados pela compilação de shaders em CPU. Bytes, memória, chamadas de
