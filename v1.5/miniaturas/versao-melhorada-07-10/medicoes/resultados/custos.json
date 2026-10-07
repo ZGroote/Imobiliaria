@@ -1,0 +1,95 @@
+{
+  "premissas": {
+    "acessosDia": 1000,
+    "interior": 0.4,
+    "revisita": 0.25,
+    "mistura": {
+      "desktop": 0.3,
+      "celular-4g": 0.5,
+      "celular-fraco": 0.2
+    },
+    "dolar": 5.4,
+    "franquiaMBdia": 360,
+    "usdPorGB": 0.15
+  },
+  "cenarios": {
+    "so-predio": {
+      "fracaoInterior": 0,
+      "base": {
+        "mbPorAcesso": 6.68,
+        "gbDia": 6.68,
+        "gbMes": 200.5,
+        "usdMes": 28.46,
+        "brlMes": 153.69,
+        "usdMesSemFranquia": 30.08
+      },
+      "nova": {
+        "mbPorAcesso": 2.16,
+        "gbDia": 2.16,
+        "gbMes": 64.9,
+        "usdMes": 8.11,
+        "brlMes": 43.78,
+        "usdMesSemFranquia": 9.73
+      }
+    },
+    "padrao": {
+      "fracaoInterior": 0.4,
+      "base": {
+        "mbPorAcesso": 8.74,
+        "gbDia": 8.74,
+        "gbMes": 262.3,
+        "usdMes": 37.73,
+        "brlMes": 203.75,
+        "usdMesSemFranquia": 39.35
+      },
+      "nova": {
+        "mbPorAcesso": 3.1,
+        "gbDia": 3.1,
+        "gbMes": 92.9,
+        "usdMes": 12.31,
+        "brlMes": 66.46,
+        "usdMesSemFranquia": 13.93
+      }
+    },
+    "todos-no-interior": {
+      "fracaoInterior": 1,
+      "base": {
+        "mbPorAcesso": 11.84,
+        "gbDia": 11.84,
+        "gbMes": 355.1,
+        "usdMes": 51.64,
+        "brlMes": 278.85,
+        "usdMesSemFranquia": 53.26
+      },
+      "nova": {
+        "mbPorAcesso": 4.5,
+        "gbDia": 4.5,
+        "gbMes": 134.9,
+        "usdMes": 18.61,
+        "brlMes": 100.49,
+        "usdMesSemFranquia": 20.23
+      }
+    }
+  },
+  "limiteFranquia": {
+    "base": 41,
+    "nova": 116
+  },
+  "escala": [
+    {
+      "acessosDia": 1000,
+      "baseUsdMes": 37.73,
+      "novaUsdMes": 12.31
+    },
+    {
+      "acessosDia": 10000,
+      "baseUsdMes": 391.9,
+      "novaUsdMes": 137.66
+    },
+    {
+      "acessosDia": 100000,
+      "baseUsdMes": 3933.54,
+      "novaUsdMes": 1391.2
+    }
+  ]
+}

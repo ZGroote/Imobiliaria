@@ -1,0 +1,91 @@
+{
+  "imovel": "monte-dos-cedros-37",
+  "padrao": "cedros-luz-calculada-2026-09-23",
+  "predio": {
+    "bytes": 138540,
+    "bytesBrutos": 901804
+  },
+  "exteriorUV": {
+    "bytes": 223658,
+    "bytesBrutos": 3231844,
+    "cantos": 367380,
+    "unicos": 244962
+  },
+  "exteriorLuz": {
+    "origem": [
+      4096,
+      4096
+    ],
+    "reempacotamento": {
+      "ilhas": 48873,
+      "ilhasAcesas": 11806,
+      "origem": [
+        4096,
+        4096
+      ],
+      "atlas": [
+        2048,
+        1672
+      ],
+      "texelsOrigem": 16777216,
+      "texelsAtlas": 3424256,
+      "ocupacao": 0.9361,
+      "margem": 4
+    },
+    "cheia": {
+      "bytes": 2418255,
+      "ms": 28111,
+      "largura": 2048,
+      "altura": 1672,
+      "chave": "a1f438371a0abd3b454acac569a608f7aa584658cdcec6e3e9f34a4a5e3f9727|d1c757233ce0ae1eb48b66e0164aa4f6a0321cafd0742c05bd6585b1281892b4",
+      "erro": {
+        "formatoDecodificado": "UASTC",
+        "codigosTelaMedio": 0.647,
+        "codigosTelaP99": 7.0,
+        "codigosTelaP999": 10.0,
+        "erroRelativoMedio": 0.0136,
+        "texelsMedidos": 3205395
+      }
+    },
+    "metade": {
+      "bytes": 699340,
+      "ms": 8455,
+      "largura": 1024,
+      "altura": 836,
+      "chave": "c877b963134dff6a0fa8ca8e4b7429c7343b6b2048ec81d7087bf8a5968fb73d|d1c757233ce0ae1eb48b66e0164aa4f6a0321cafd0742c05bd6585b1281892b4"
+    }
+  },
+  "interiorUV": {
+    "bytes": 145670,
+    "bytesBrutos": 1887840
+  },
+  "interiorLuz": {
+    "origem": [
+      2048,
+      2048
+    ],
+    "cheia": {
+      "bytes": 3232706,
+      "ms": 30974,
+      "largura": 2048,
+      "altura": 2048,
+      "chave": "909f53fb9f1ec11ce8ead2c5cc50b714fc28b55c23b9eb2ff3bc5deecd489bec|d1c757233ce0ae1eb48b66e0164aa4f6a0321cafd0742c05bd6585b1281892b4",
+      "erro": {
+        "formatoDecodificado": "UASTC",
+        "codigosTelaMedio": 0.532,
+        "codigosTelaP99": 5.0,
+        "codigosTelaP999": 10.0,
+        "erroRelativoMedio": 0.0125,
+        "texelsMedidos": 2285669
+      }
+    },
+    "metade": {
+      "bytes": 938449,
+      "ms": 9670,
+      "largura": 1024,
+      "altura": 1024,
+      "chave": "634b9b0d3ee3737e0a87e80c1193cef31b7d2fb49cfe5474f474b9b2e5fe0643|d1c757233ce0ae1eb48b66e0164aa4f6a0321cafd0742c05bd6585b1281892b4"
+    }
+  },
+  "segundos": 41.4
+}

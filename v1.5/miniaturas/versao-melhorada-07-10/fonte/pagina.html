@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>@@TITULO@@</title>
+<meta name="maquete-release" content="@@RELEASE@@">
+<meta name="theme-color" content="#0E141B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231A222C'/%3E%3Cpath d='M5 15L16 6l11 9v12h-8v-8h-6v8H5z' fill='%234BDB7C'/%3E%3C/svg%3E">
+@@PRELOADS@@
+<style>
+  :root{
+    --void:#0E141B; --line:rgba(255,255,255,.12); --txt:#E7EBF0; --verde:#4BDB7C;
+    --ui:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  [hidden]{display:none!important}
+  /* `overflow-x:hidden` sozinho ESCONDE o estouro, nao o conserta: o documento
+     continua largo, `clientWidth` da caixa da cena continua largo, e a maquete passa
+     a ser desenhada num canvas maior que a tela -- foi assim que o predio apareceu
+     cortado no lado direito no telefone. O conserto de verdade sao os `min-width:0`
+     abaixo, que e o que deixa os itens do flex encolherem. */
+  /* MINIATURA E MINIATURA: ela tem TAMANHO PROPRIO, nao o tamanho que sobra.
+
+     A primeira versao era uma cena `flex:1` com a ficha embaixo -- ou seja, um
+     visualizador de tela cheia, e no celular o predio ocupava 670 dos 900 px. Nada
+     nisso e miniatura. Aqui a pagina volta a ser uma PAGINA que rola: coluna centrada,
+     painel da maquete com altura declarada, ficha logo abaixo dele. Quem quiser ver de
+     perto tem o botao Ampliar, que ai sim toma a tela -- por pedido, e nao por padrao. */
+  html{background:var(--void)}
+  /* A FICHA ENCOSTA NO RODAPE DA TELA. Era uma coluna que comecava no topo, e sobrava
+     tela morta embaixo do cartao. Com o corpo em coluna de altura cheia e a folha
+     empurrada por `margin-top:auto`, o conjunto -- maquete e ficha -- desce junto e a
+     ultima linha para logo acima da borda de baixo. Passando disso, a pagina rola
+     normalmente, porque a altura e `min-height` e nao `height`. */
+  body{font-family:var(--ui);color:var(--txt);-webkit-font-smoothing:antialiased;
+    background:var(--void);min-height:100%;display:flex;flex-direction:column;
+    user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;
+    padding:16px calc(16px + env(safe-area-inset-right))
+            calc(10px + env(safe-area-inset-bottom))
+            calc(16px + env(safe-area-inset-left))}
+  @supports (min-height:100dvh){ body{min-height:100dvh} }
+  .folha{max-width:720px;margin:auto auto 0;width:100%}
+
+  /* A MAQUETE em cima, a ficha embaixo. A maquete e `flex:1` e a ficha tem altura
+     propria: numa tela baixa quem cede espaco e o 3D, nunca a informacao. */
+  /* `clamp` e nao `vh` puro: em tela baixa e deitada 40vh vira uma faixa de 150 px, e
+     num monitor grande vira meio metro de predio. O piso e o teto sao o que dao a
+     miniatura o mesmo tamanho aparente nos dois. */
+  /* A MAQUETE NAO TEM MOLDURA, MAS TEM LIMITE. Ela continua um canvas transparente
+     sem chao -- o degrade e o unico fundo, e e ele que da presenca ao volume sem
+     prende-lo a um piso.
+
+     O que saiu foi a SOBREPOSICAO. A margem negativa fazia o predio passar por cima
+     da ficha, e a ideia parecia boa ate a construcao cobrir o "A VENDA" e a metragem:
+     informacao coberta por desenho nao e profundidade, e informacao perdida. O
+     `overflow:hidden` e a garantia dura -- por mais que a camera se aproxime ou a
+     geometria cresca, nada e desenhado fora desta caixa. */
+  /* A ALTURA E O QUE SOBRA, E NAO UMA FRACAO DA TELA. Com `40vh` numa janela de
+     1000 px a cena ficava com 400 px, a ficha com 399, e os 179 px restantes viravam
+     FAIXA MORTA NO TOPO -- a folha e empurrada pro rodape por `margin-top:auto`, entao
+     toda sobra se acumula em cima do predio. Medido: margem de topo 179 px contra
+     10 px embaixo, com o predio ja ocupando 93% do painel que tinha.
+     `100vh - 440px` e a tela menos a ficha (399) menos as folgas (26 de padding e 12
+     de respiro): a cena cresce ate a soma encostar nas duas bordas. O teto de 560 px
+     e o que impede a miniatura de virar visualizador de tela cheia num monitor alto,
+     e o piso de 220 px segura a leitura numa janela baixa. O 440 e medido nesta ficha;
+     numa com menos comodos sobra um resto pequeno, nunca os 179 px. */
+  #cena{position:relative;height:clamp(220px,calc(100vh - 440px),560px);min-width:0;overflow:hidden;
+    margin-bottom:12px;
+    background:radial-gradient(ellipse 62% 58% at 50% 46%,
+      rgba(86,124,168,.17),rgba(86,124,168,.05) 55%,transparent 72%)}
+  @supports (height:100dvh){ #cena{height:clamp(220px,calc(100dvh - 440px),560px)} }
+  #c{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+  #c:active{cursor:grabbing}
+
+  /* O topo da tela de um celular com entalhe nao comeca em zero: `viewport-fit=cover`
+     (no <meta>) pede a tela inteira, e e por isso que daqui pra baixo todo canto usa
+     `env(safe-area-inset-*)`. Sem isso o selo fica debaixo do relogio do sistema. */
+  #selo{position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:7px;
+    padding:6px 11px;border-radius:999px;background:rgba(12,18,25,.72);
+    border:1px solid rgba(75,219,124,.42);backdrop-filter:blur(8px);
+    font-size:11.5px;letter-spacing:.02em;pointer-events:none}
+  #selo i{width:7px;height:7px;border-radius:50%;background:var(--verde);flex:none;
+    box-shadow:0 0 10px 1px rgba(75,219,124,.85);animation:pisca 1.6s ease-in-out infinite}
+  @keyframes pisca{0%,100%{opacity:1}50%{opacity:.25}}
+
+  /* A planta 2D e um <svg> por cima do canvas, no mesmo painel: trocar de modo nao
+     troca de caixa, so de conteudo -- e por isso a maquete nao "salta" quando volta. */
+  #p2d{position:absolute;inset:0;width:100%;height:100%}
+  #p2d[hidden]{display:none}
+  /* A dica fica POR CIMA da maquete, entao ela precisa de fundo proprio: sobre a
+     parede clara do predio, texto a 45% de opacidade desaparece. O degrade e so na
+     faixa de baixo -- escurecer o painel inteiro apagaria a sombra no chao, que e a
+     pista de profundidade da cena. */
+  /* A dica saiu do canvas. Sem moldura nao ha rodape onde ela caiba: em cima do
+     predio ela fica ilegivel, e na faixa de baixo ela cai justamente onde o canvas se
+     sobrepoe ao cartao. Virou a ultima linha da ficha, que e onde legenda mora. */
+  /* A ESCADA DE MODOS mora na ficha, e nao flutuando sobre a maquete: sao os quatro
+     jeitos de ver o MESMO imovel, e o lugar disso e junto da informacao dele. Rola no
+     eixo x em tela estreita em vez de quebrar em duas linhas. */
+  #modos{display:flex;gap:6px;margin-top:14px;padding-top:12px;
+    border-top:1px solid var(--line);flex-wrap:wrap}
+  #modos::-webkit-scrollbar{display:none}
+  /* O "Ver mapa" e um <a> e nao um <button>: ele SAI da pagina. Sendo ancora, o
+     botao do meio abre noutra aba, o direito oferece copiar o endereco, e se o
+     programa nao rodar ele continua levando ao mapa. A aparencia e a mesma; o que
+     muda e a natureza. */
+  #modos button,#modos a{flex:1 1 100px;min-width:0;font:inherit;font-size:11.5px;
+    padding:9px 6px;border-radius:8px;cursor:pointer;background:rgba(255,255,255,.06);
+    border:1px solid var(--line);color:var(--txt);transition:.15s;
+    touch-action:manipulation;white-space:nowrap;text-align:center;
+    text-decoration:none;display:block}
+  #modos button:hover,#modos a:hover{background:rgba(255,255,255,.13)}
+  #modos button[aria-pressed=true]{background:rgba(75,219,124,.16);
+    border-color:rgba(75,219,124,.5);color:#BFF3D2}
+  /* A BARRA DE FERRAMENTAS fica DENTRO da cena, colada na borda esquerda: ela fala
+     sobre o desenho, e nao sobre o imovel -- o lugar dela e onde o gesto acontece,
+     não na fileira de modos junto da ficha. Só aparece na planta 3D, que é onde
+     deslocar tem serventia: na maquete o prédio é o assunto e sair de cima dele com
+     ele girando sozinho não leva a lugar nenhum. */
+  #ferramentas{position:absolute;left:10px;top:50%;transform:translateY(-50%);
+    display:none;flex-direction:column;gap:6px;z-index:4}
+  #cena.ferr #ferramentas{display:flex}
+  #ferramentas button{width:38px;height:38px;padding:0;border-radius:9px;cursor:pointer;
+    background:rgba(12,18,25,.72);border:1px solid var(--line);color:var(--txt);
+    display:grid;place-items:center;backdrop-filter:blur(8px);
+    touch-action:manipulation;transition:.15s}
+  #ferramentas button:hover{background:rgba(12,18,25,.9)}
+  #ferramentas button[aria-pressed=true]{background:rgba(75,219,124,.18);
+    border-color:rgba(75,219,124,.55);color:#BFF3D2}
+  #ferramentas svg{width:19px;height:19px;fill:none;stroke:currentColor;
+    stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  /* O rótulo existe pra quem usa leitor de tela: `title` não é lido de forma
+     confiável, e um botão só com desenho é um botão sem nome. */
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);
+    white-space:nowrap}
+  @media (pointer:coarse){ #ferramentas button{width:44px;height:44px} }
+  #dica{margin-top:11px;font-size:10.5px;opacity:.42;letter-spacing:.04em}
+
+  /* Manche de caminhada: so na visita, so em ponteiro grosso. Dentro de um
+     apartamento de 3,5 m, quatro setas sao sofriveis -- o manche devolve um vetor
+     continuo, e e isso que deixa ajustar a posicao dentro de um comodo pequeno. */
+  #joy{position:absolute;left:12px;bottom:12px;width:104px;height:104px;border-radius:50%;
+    background:rgba(12,18,25,.42);border:1px solid var(--line);touch-action:none;z-index:3}
+  #joy[hidden]{display:none}
+  #joy i{position:absolute;left:50%;top:50%;width:42px;height:42px;margin:-21px 0 0 -21px;
+    border-radius:50%;background:rgba(231,235,240,.5);border:1px solid rgba(255,255,255,.3)}
+
+  /* A JANELA DE INFORMACOES. Rola por dentro: numa tela de telefone deitado a ficha
+     inteira nao cabe, e encolher a maquete ate o predio sumir seria pior. */
+  #ficha{position:relative;background:rgba(18,25,33,.92);border:1px solid var(--line);
+    border-radius:14px;padding:16px 18px 18px}
+  #ficha .topo{display:flex;align-items:flex-start;gap:8px 14px;flex-wrap:wrap}
+  /* Sem isto o bloco do titulo tem `min-width:auto` e se recusa a encolher abaixo do
+     conteudo, empurrando o preco pra fora da tela. */
+  #ficha .topo>div{min-width:0}
+  #ficha .topo>div:first-child{flex:1 1 220px}
+  #ficha .tag{font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;color:#FFC24B}
+  #ficha h1{font-size:17px;font-weight:650;line-height:1.25;margin:3px 0 2px;
+    overflow-wrap:anywhere}
+  #ficha .sub{font-size:12px;opacity:.6;overflow-wrap:anywhere}
+  #ficha .preco{margin-left:auto;text-align:right;font-size:19px;font-weight:700;
+    font-variant-numeric:tabular-nums;white-space:nowrap}
+  #ficha .preco small{display:block;font-size:9px;letter-spacing:.14em;
+    text-transform:uppercase;opacity:.5;font-weight:600}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:10px 16px;
+    margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+  .stats div{font-size:10px;opacity:.55}
+  .stats b{display:block;font-size:14px;font-weight:650;opacity:1;margin-top:2px;
+    font-variant-numeric:tabular-nums}
+  .comodos{margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+  .comodos h2{font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:.55;
+    font-weight:600;margin-bottom:8px}
+  .comodos .grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:2px 22px}
+  .ci{display:flex;justify-content:space-between;gap:12px;font-size:12px;padding:3px 0}
+  .ci span{opacity:.72;min-width:0;overflow-wrap:anywhere}
+  .ci b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+  #selo{max-width:calc(100% - 28px)}
+  /* Ponteiro grosso = dedo. Nao e "tela pequena": um tablet tem tela grande e dedo,
+     e e o dedo que decide se o botao precisa de 44 px de alvo. */
+  @media (pointer:coarse),(max-width:640px){
+    #modos button{min-height:44px;font-size:12px}
+    #selo{padding:7px 11px;font-size:12px}
+  }
+  @media (max-width:640px){
+    body{padding:12px 12px calc(8px + env(safe-area-inset-bottom))}
+    /* No telefone a miniatura encolhe mais: o cartao inteiro -- miniatura e ficha --
+       tem que caber na primeira tela, que e o ponto de um cartao de imovel. */
+    #cena{height:clamp(190px,30vh,290px);margin-bottom:10px}
+    #ficha{padding:14px 14px 16px}
+    #ficha h1{font-size:16px}
+    /* No telefone o preco desce pra linha de baixo, alinhado a esquerda com o resto:
+       empurrado pra direita ele briga por largura com um titulo que ja mal cabe. */
+    #ficha .preco{margin:6px 0 0;text-align:left;font-size:18px;width:100%}
+    #ficha .preco small{display:inline;margin-right:8px;font-size:9px}
+    .stats{grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:9px 12px}
+    /* Duas colunas ainda cabem em 500 px e poupam 4 linhas de ficha -- que e altura
+       que volta pra maquete. Abaixo de ~340 px o `auto-fit` cai pra uma sozinho. */
+    .comodos .grade{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0 16px}
+  }
+  @supports (height:30dvh){ @media (max-width:640px){ #cena{height:clamp(190px,30dvh,290px)} } }
+
+  #alternarFicha{display:flex;align-items:center;justify-content:center;margin:-8px auto 0;width:44px;height:32px;
+    border:0;border-radius:6px;background:transparent;color:#99a5af;cursor:pointer}
+  #alternarFicha:hover{color:var(--txt);background:rgba(255,255,255,.05)}
+  #alternarFicha svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6}
+  body.ficha-recolhida #alternarFicha svg{transform:rotate(180deg)}
+  #alternarFicha:focus-visible{outline:2px solid var(--verde);outline-offset:3px}
+  body.ficha-recolhida .folha{height:calc(100vh - 26px - env(safe-area-inset-bottom));
+    height:calc(100dvh - 26px - env(safe-area-inset-bottom));display:flex;flex-direction:column;margin:0 auto}
+  body.ficha-recolhida #cena{height:0;min-height:160px;flex:1 1 0}
+  body.ficha-recolhida #ficha{flex:none}
+  body.ficha-recolhida #alternarFicha{margin-bottom:0}
+  body.ficha-recolhida #notaModelo{display:none}
+  /* Em telas pequenas, os detalhes rolam dentro da ficha; a navegacao fica acessivel. */
+  @media (max-width:640px), (max-height:500px) and (max-width:1000px){
+    body{padding:8px max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+    body .folha,body.ficha-recolhida .folha{height:calc(100vh - 16px - env(safe-area-inset-bottom));height:calc(100dvh - 16px - env(safe-area-inset-bottom));margin:0 auto;display:flex;flex-direction:column;gap:8px}
+    body #cena,body.ficha-recolhida #cena{height:0;flex:1 1 0;min-height:120px;margin:0}
+    #ficha{display:flex;flex-direction:column;min-height:0;max-height:62%;padding:8px 10px;flex:0 1 auto}
+    #informacoes{overflow-y:auto;min-height:0;overscroll-behavior:contain;padding-right:2px}
+    #alternarFicha{flex:none;margin:-4px auto 0}
+    #modos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;flex:none;margin-top:6px;padding-top:6px;overflow:visible}
+    #modos button,#modos a{min-width:0;min-height:44px;padding:8px 2px;font-size:11px;white-space:normal;display:flex;align-items:center;justify-content:center}
+    #modos a{grid-column:1/-1}
+    #dica{flex:none;font-size:10px;margin-top:6px}
+    #ficha .preco{font-size:16px;margin-top:4px}
+    .stats,.comodos{margin-top:8px;padding-top:8px}
+    .comodos .grade{display:flex;flex-wrap:wrap;gap:4px 10px}
+    .ci{font-size:11px;padding:0}
+    body.ficha-recolhida #ficha{max-height:none;flex:none}
+  }
+  @media (min-width:640px) and (max-width:1000px) and (max-height:500px){
+    body:not(.ficha-recolhida) .folha{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,40%)}
+    body:not(.ficha-recolhida) #cena{height:100%;min-height:0}
+    body:not(.ficha-recolhida) #ficha{max-height:100%;overflow:hidden}
+  }
+  /* v4: A CAPA. Antes de qualquer 3D a maquete ja aparece: e a imagem do proprio
+     visualizador na pose inicial (gerador/capa.mjs), sem fundo, no mesmo lugar do canvas.
+     Some quando o primeiro quadro 3D e desenhado. */
+  #capa{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;
+    transition:opacity .4s ease}
+  #capa.some{opacity:0}
+</style>
+</head>
+<body>
+<div class="folha">
+<div id="cena">
+  <canvas id="c"></canvas>
+@@CAPA@@
+  <div id="selo"><i></i><span id="seloT">3&ordm; andar</span></div>
+  <svg id="p2d" hidden aria-label="Planta baixa"></svg>
+  <!-- O QUE O ARRASTO FAZ. Girar e mover sao os dois gestos possiveis sobre o mesmo
+       desenho, e num painel deste tamanho nao ha botao do meio nem tecla modificadora
+       que a pessoa va descobrir sozinha. Dois icones dizem que existem os dois. -->
+  <div id="ferramentas" role="group" aria-label="O que o arrasto faz">
+    <button id="fGirar" type="button" aria-pressed="true" title="Arrastar gira a planta">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/><path d="M20.5 3.5v4.2h-4.2"/></svg>
+      <span class="sr">Girar</span>
+    </button>
+    <button id="fMover" type="button" aria-pressed="false" title="Arrastar move a planta">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3.2v17.6M3.2 12h17.6"/>
+        <path d="M12 3.2 9.6 5.6M12 3.2l2.4 2.4M12 20.8l-2.4-2.4M12 20.8l2.4-2.4"/>
+        <path d="M3.2 12l2.4-2.4M3.2 12l2.4 2.4M20.8 12l-2.4-2.4M20.8 12l-2.4 2.4"/></svg>
+      <span class="sr">Mover</span>
+    </button>
+  </div>
+  <div id="joy" hidden aria-hidden="true"><i></i></div>
+
+</div>
+
+<section id="ficha">
+  <button id="alternarFicha" type="button" aria-expanded="true" aria-controls="informacoes" aria-label="Recolher informações" title="Recolher informações"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+  <div id="informacoes">
+  <div class="topo">
+    <div>
+      <div class="tag" id="fTag"></div>
+      <h1 id="fNome"></h1>
+      <div class="sub" id="fSub"></div>
+    </div>
+    <div class="preco" id="fPreco"><small>Valor</small></div>
+  </div>
+  <div class="stats" id="fStats"></div>
+  </div>
+  <nav id="modos" aria-label="Como ver o im&oacute;vel">
+    <button data-modo="maquete" aria-pressed="true">Pr&eacute;dio</button>
+    <button data-modo="planta2d" aria-pressed="false">Planta 2D</button>
+    <button data-modo="planta3d" aria-pressed="false">Planta 3D</button>
+    <button data-modo="visita" aria-pressed="false">Visita 3D</button>
+  </nav>
+  <div id="dica">Arraste a maquete para girar</div>
+  <button id="verConjunto" hidden style="margin-top:10px;padding:9px 14px;border:1px solid #52605e;border-radius:8px;background:#202b32;color:#e7ebf0;cursor:pointer" aria-pressed="false">Ver conjunto</button>
+  <p id="notaModelo" hidden style="font-size:11px;color:#99a5af;margin-top:8px;line-height:1.5"></p>
+</section>
+</div>
+<script id="__imovel" type="application/json">@@IMOVEL@@</script>
+<script id="__config" type="application/json">@@CONFIG@@</script>
+<script type="importmap">@@IMPORTMAP@@</script>
+<script type="module" src="@@APP@@"></script>
+<noscript><p style="padding:16px">A maquete 3D precisa de JavaScript ativado.</p></noscript>
+</body>
+</html>

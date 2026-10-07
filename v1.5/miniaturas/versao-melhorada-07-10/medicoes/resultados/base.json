@@ -1,0 +1,848 @@
+{
+  "versao": "base",
+  "quando": "2026-10-07T03:43:44.775Z",
+  "maquina": "Intel(R) Xeon(R) Processor @ 2.10GHz x4",
+  "render": "SwiftShader (software)",
+  "perfis": {
+    "desktop": {
+      "perfil": {
+        "cpu": 1,
+        "rede": {
+          "latency": 20,
+          "down": 50000000,
+          "up": 10000000
+        },
+        "viewport": {
+          "width": 1366,
+          "height": 768
+        },
+        "dpr": 1,
+        "mobile": false
+      },
+      "mediana": {
+        "primeiroDesenhoMs": 614.6000000000931,
+        "luzExteriorMs": 4732.100000000093,
+        "htmlMs": 177.39999999990687,
+        "bytesAbrir": 8912629,
+        "planta3dMs": 9403,
+        "bytesPlanta3d": 6867496,
+        "bytesRevisita": 286,
+        "revisitaLuzMs": 4148.399999999907
+      },
+      "execucoes": [
+        {
+          "abrir": {
+            "html": 177.39999999990687,
+            "dom": 2329.5,
+            "load": 2331,
+            "primeiroDesenho": 583.1999999997206,
+            "luzExterior": 5967.600000000093,
+            "bytes": 8912629,
+            "requisicoes": 3,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 113,
+            "texturasMiB": 81.2,
+            "buffersMiB": 7.8,
+            "alvosMiB": 24.1,
+            "picoGpuMiB": 113,
+            "canvas": [
+              720,
+              328
+            ],
+            "msaa": true,
+            "heapJsMiB": 22.8
+          },
+          "maqueteParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 3,
+            "desenhosPorSeg": 180,
+            "triangulosPorSeg": 364986,
+            "cpuPrincipalPct": 0.8
+          },
+          "planta3d": {
+            "ms": 10632,
+            "bytes": 6867496,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 3,
+            "desenhosPorSeg": 87,
+            "triangulosPorSeg": 150478,
+            "cpuPrincipalPct": 0.7
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 2.2,
+            "desenhosPorSeg": 85,
+            "triangulosPorSeg": 88733,
+            "cpuPrincipalPct": 9.4
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 12
+          },
+          "memoriaTudo": {
+            "gpuMiB": 140.2,
+            "texturasMiB": 101.2,
+            "buffersMiB": 14.8,
+            "alvosMiB": 24.1,
+            "picoGpuMiB": 140.2,
+            "canvas": [
+              720,
+              328
+            ],
+            "msaa": true,
+            "heapJsMiB": 26.8
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 4148.399999999907
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 519525,
+            "/assets/cedros/62549ac12936f290/exterior-uv.json": 1361341,
+            "/assets/cedros/62549ac12936f290/exterior-luz.rgbm.gz": 7032049,
+            "/assets/cedros/62549ac12936f290/interior-uv.json": 496302,
+            "/assets/cedros/62549ac12936f290/interior-luz.rgbm.gz": 6371194
+          },
+          "erros": [],
+          "totalMs": 40392
+        },
+        {
+          "abrir": {
+            "html": 175.29999999981374,
+            "dom": 2542.5,
+            "load": 2544.600000000093,
+            "primeiroDesenho": 614.6000000000931,
+            "luzExterior": 4732.100000000093,
+            "bytes": 8912629,
+            "requisicoes": 3,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 113,
+            "texturasMiB": 81.2,
+            "buffersMiB": 7.8,
+            "alvosMiB": 24.1,
+            "picoGpuMiB": 113,
+            "canvas": [
+              720,
+              328
+            ],
+            "msaa": true,
+            "heapJsMiB": 22.6
+          },
+          "maqueteParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 3.2,
+            "desenhosPorSeg": 195,
+            "triangulosPorSeg": 395520,
+            "cpuPrincipalPct": 0.7
+          },
+          "planta3d": {
+            "ms": 8651,
+            "bytes": 6867496,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 3.2,
+            "desenhosPorSeg": 94,
+            "triangulosPorSeg": 162948,
+            "cpuPrincipalPct": 7.1
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 2,
+            "desenhosPorSeg": 76,
+            "triangulosPorSeg": 78880,
+            "cpuPrincipalPct": 0.6
+          },
+          "planta2dParada": {
+            "segundos": 4,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 10.2
+          },
+          "memoriaTudo": {
+            "gpuMiB": 140.2,
+            "texturasMiB": 101.2,
+            "buffersMiB": 14.8,
+            "alvosMiB": 24.1,
+            "picoGpuMiB": 140.2,
+            "canvas": [
+              720,
+              328
+            ],
+            "msaa": true,
+            "heapJsMiB": 26.7
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 4066.2999999998137
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 519525,
+            "/assets/cedros/62549ac12936f290/exterior-uv.json": 1361341,
+            "/assets/cedros/62549ac12936f290/exterior-luz.rgbm.gz": 7032049,
+            "/assets/cedros/62549ac12936f290/interior-uv.json": 496302,
+            "/assets/cedros/62549ac12936f290/interior-luz.rgbm.gz": 6371194
+          },
+          "erros": [],
+          "totalMs": 39300
+        },
+        {
+          "abrir": {
+            "html": 194.10000000009313,
+            "dom": 2498.100000000093,
+            "load": 2500.7000000001863,
+            "primeiroDesenho": 708.2000000001863,
+            "luzExterior": 4689.800000000279,
+            "bytes": 8912629,
+            "requisicoes": 3,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 113,
+            "texturasMiB": 81.2,
+            "buffersMiB": 7.8,
+            "alvosMiB": 24.1,
+            "picoGpuMiB": 113,
+            "canvas": [
+              720,
+              328
+            ],
+            "msaa": true,
+            "heapJsMiB": 21.4
+          },
+          "maqueteParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 3.7,
+            "desenhosPorSeg": 224,
+            "triangulosPorSeg": 455846,
+            "cpuPrincipalPct": 0.8
+          },
+          "planta3d": {
+            "ms": 9403,
+            "bytes": 6867496,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 3.2,
+            "desenhosPorSeg": 94,
+            "triangulosPorSeg": 163119,
+            "cpuPrincipalPct": 15.5
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 2.2,
+            "desenhosPorSeg": 85,
+            "triangulosPorSeg": 88614,
+            "cpuPrincipalPct": 1.2
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 10.5
+          },
+          "memoriaTudo": {
+            "gpuMiB": 140.2,
+            "texturasMiB": 101.2,
+            "buffersMiB": 14.8,
+            "alvosMiB": 24.1,
+            "picoGpuMiB": 140.2,
+            "canvas": [
+              720,
+              328
+            ],
+            "msaa": true,
+            "heapJsMiB": 26.6
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 4397.699999999721
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 519525,
+            "/assets/cedros/62549ac12936f290/exterior-uv.json": 1361341,
+            "/assets/cedros/62549ac12936f290/exterior-luz.rgbm.gz": 7032049,
+            "/assets/cedros/62549ac12936f290/interior-uv.json": 496302,
+            "/assets/cedros/62549ac12936f290/interior-luz.rgbm.gz": 6371194
+          },
+          "erros": [],
+          "totalMs": 39999
+        }
+      ]
+    },
+    "celular-4g": {
+      "perfil": {
+        "cpu": 4,
+        "rede": {
+          "latency": 60,
+          "down": 12000000,
+          "up": 3000000
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "dpr": 3,
+        "mobile": true
+      },
+      "mediana": {
+        "primeiroDesenhoMs": 761.0999999996275,
+        "luzExteriorMs": 11259.399999999907,
+        "htmlMs": 465.10000000009313,
+        "bytesAbrir": 8912629,
+        "planta3dMs": 16561,
+        "bytesPlanta3d": 6867496,
+        "bytesRevisita": 286,
+        "revisitaLuzMs": 6939.600000000093
+      },
+      "execucoes": [
+        {
+          "abrir": {
+            "html": 465.10000000009313,
+            "dom": 3432.3000000002794,
+            "load": 3434.5,
+            "primeiroDesenho": 796.3000000002794,
+            "luzExterior": 11259.399999999907,
+            "bytes": 8912629,
+            "requisicoes": 3,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 83.4,
+            "texturasMiB": 69.2,
+            "buffersMiB": 7.8,
+            "alvosMiB": 6.5,
+            "picoGpuMiB": 83.4,
+            "canvas": [
+              467,
+              473
+            ],
+            "msaa": false,
+            "heapJsMiB": 30.3
+          },
+          "maqueteParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 3.7,
+            "desenhosPorSeg": 224,
+            "triangulosPorSeg": 455721,
+            "cpuPrincipalPct": 3.8
+          },
+          "planta3d": {
+            "ms": 16915,
+            "bytes": 6867496,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.02,
+            "quadrosPorSeg": 4.7,
+            "desenhosPorSeg": 137,
+            "triangulosPorSeg": 238072,
+            "cpuPrincipalPct": 6.5
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 3.2,
+            "desenhosPorSeg": 107,
+            "triangulosPorSeg": 125977,
+            "cpuPrincipalPct": 2.2
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 46
+          },
+          "memoriaTudo": {
+            "gpuMiB": 110.9,
+            "texturasMiB": 89.2,
+            "buffersMiB": 14.8,
+            "alvosMiB": 6.8,
+            "picoGpuMiB": 110.9,
+            "canvas": [
+              467,
+              530
+            ],
+            "msaa": false,
+            "heapJsMiB": 26.6
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 6939.600000000093
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 519525,
+            "/assets/cedros/62549ac12936f290/exterior-uv.json": 1361341,
+            "/assets/cedros/62549ac12936f290/exterior-luz.rgbm.gz": 7032049,
+            "/assets/cedros/62549ac12936f290/interior-uv.json": 496302,
+            "/assets/cedros/62549ac12936f290/interior-luz.rgbm.gz": 6371194
+          },
+          "erros": [],
+          "totalMs": 54632
+        },
+        {
+          "abrir": {
+            "html": 478,
+            "dom": 3184.5,
+            "load": 3196.7999999998137,
+            "primeiroDesenho": 761.0999999996275,
+            "luzExterior": 11080.5,
+            "bytes": 8912629,
+            "requisicoes": 3,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 83.4,
+            "texturasMiB": 69.2,
+            "buffersMiB": 7.8,
+            "alvosMiB": 6.5,
+            "picoGpuMiB": 83.4,
+            "canvas": [
+              467,
+              473
+            ],
+            "msaa": false,
+            "heapJsMiB": 16.9
+          },
+          "maqueteParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 4,
+            "desenhosPorSeg": 239,
+            "triangulosPorSeg": 486478,
+            "cpuPrincipalPct": 3
+          },
+          "planta3d": {
+            "ms": 15349,
+            "bytes": 6867496,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 5,
+            "desenhosPorSeg": 145,
+            "triangulosPorSeg": 251184,
+            "cpuPrincipalPct": 4.6
+          },
+          "visitaParada": {
+            "segundos": 4.03,
+            "quadrosPorSeg": 3,
+            "desenhosPorSeg": 98,
+            "triangulosPorSeg": 115646,
+            "cpuPrincipalPct": 7.4
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 47.9
+          },
+          "memoriaTudo": {
+            "gpuMiB": 110.9,
+            "texturasMiB": 89.2,
+            "buffersMiB": 14.8,
+            "alvosMiB": 6.8,
+            "picoGpuMiB": 110.9,
+            "canvas": [
+              467,
+              530
+            ],
+            "msaa": false,
+            "heapJsMiB": 26.8
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 6853.600000000093
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 519525,
+            "/assets/cedros/62549ac12936f290/exterior-uv.json": 1361341,
+            "/assets/cedros/62549ac12936f290/exterior-luz.rgbm.gz": 7032049,
+            "/assets/cedros/62549ac12936f290/interior-uv.json": 496302,
+            "/assets/cedros/62549ac12936f290/interior-luz.rgbm.gz": 6371194
+          },
+          "erros": [],
+          "totalMs": 52897
+        },
+        {
+          "abrir": {
+            "html": 448.5,
+            "dom": 3250.100000000093,
+            "load": 3252,
+            "primeiroDesenho": 761,
+            "luzExterior": 11436.80000000028,
+            "bytes": 8912629,
+            "requisicoes": 3,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 83.4,
+            "texturasMiB": 69.2,
+            "buffersMiB": 7.8,
+            "alvosMiB": 6.5,
+            "picoGpuMiB": 83.4,
+            "canvas": [
+              467,
+              473
+            ],
+            "msaa": false,
+            "heapJsMiB": 16.9
+          },
+          "maqueteParada": {
+            "segundos": 4.04,
+            "quadrosPorSeg": 4,
+            "desenhosPorSeg": 238,
+            "triangulosPorSeg": 482984,
+            "cpuPrincipalPct": 3.7
+          },
+          "planta3d": {
+            "ms": 16561,
+            "bytes": 6867496,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 4.7,
+            "desenhosPorSeg": 137,
+            "triangulosPorSeg": 238179,
+            "cpuPrincipalPct": 5.5
+          },
+          "visitaParada": {
+            "segundos": 4.02,
+            "quadrosPorSeg": 3.2,
+            "desenhosPorSeg": 107,
+            "triangulosPorSeg": 125601,
+            "cpuPrincipalPct": 2.6
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 45.2
+          },
+          "memoriaTudo": {
+            "gpuMiB": 110.9,
+            "texturasMiB": 89.2,
+            "buffersMiB": 14.8,
+            "alvosMiB": 6.8,
+            "picoGpuMiB": 110.9,
+            "canvas": [
+              467,
+              530
+            ],
+            "msaa": false,
+            "heapJsMiB": 27.1
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 6988.100000000093
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 519525,
+            "/assets/cedros/62549ac12936f290/exterior-uv.json": 1361341,
+            "/assets/cedros/62549ac12936f290/exterior-luz.rgbm.gz": 7032049,
+            "/assets/cedros/62549ac12936f290/interior-uv.json": 496302,
+            "/assets/cedros/62549ac12936f290/interior-luz.rgbm.gz": 6371194
+          },
+          "erros": [],
+          "totalMs": 54383
+        }
+      ]
+    },
+    "celular-fraco": {
+      "perfil": {
+        "cpu": 6,
+        "rede": {
+          "latency": 150,
+          "down": 1600000,
+          "up": 750000
+        },
+        "viewport": {
+          "width": 360,
+          "height": 780
+        },
+        "dpr": 2,
+        "mobile": true
+      },
+      "mediana": {
+        "primeiroDesenhoMs": 3406.7999999998137,
+        "luzExteriorMs": 51263.60000000009,
+        "htmlMs": 2750.1999999997206,
+        "bytesAbrir": 8912629,
+        "planta3dMs": 46074,
+        "bytesPlanta3d": 6867496,
+        "bytesRevisita": 286,
+        "revisitaLuzMs": 9291.19999999972
+      },
+      "execucoes": [
+        {
+          "abrir": {
+            "html": 2758.100000000093,
+            "dom": 6154.5,
+            "load": 6166.899999999907,
+            "primeiroDesenho": 3417.2999999998137,
+            "luzExterior": 51345.799999999814,
+            "bytes": 8912629,
+            "requisicoes": 3,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 82.6,
+            "texturasMiB": 69.2,
+            "buffersMiB": 7.8,
+            "alvosMiB": 5.7,
+            "picoGpuMiB": 82.6,
+            "canvas": [
+              430,
+              352
+            ],
+            "msaa": false,
+            "heapJsMiB": 15
+          },
+          "maqueteParada": {
+            "segundos": 4.02,
+            "quadrosPorSeg": 5,
+            "desenhosPorSeg": 298,
+            "triangulosPorSeg": 606102,
+            "cpuPrincipalPct": 8.2
+          },
+          "planta3d": {
+            "ms": 44721,
+            "bytes": 6867496,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 6,
+            "desenhosPorSeg": 173,
+            "triangulosPorSeg": 300963,
+            "cpuPrincipalPct": 8.2
+          },
+          "visitaParada": {
+            "segundos": 4.02,
+            "quadrosPorSeg": 3.7,
+            "desenhosPorSeg": 123,
+            "triangulosPorSeg": 144957,
+            "cpuPrincipalPct": 5.7
+          },
+          "planta2dParada": {
+            "segundos": 4.02,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 68.8
+          },
+          "memoriaTudo": {
+            "gpuMiB": 110,
+            "texturasMiB": 89.2,
+            "buffersMiB": 14.8,
+            "alvosMiB": 6,
+            "picoGpuMiB": 110,
+            "canvas": [
+              430,
+              400
+            ],
+            "msaa": false,
+            "heapJsMiB": 27.2
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 9291.19999999972
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 519525,
+            "/assets/cedros/62549ac12936f290/exterior-uv.json": 1361341,
+            "/assets/cedros/62549ac12936f290/exterior-luz.rgbm.gz": 7032049,
+            "/assets/cedros/62549ac12936f290/interior-uv.json": 496302,
+            "/assets/cedros/62549ac12936f290/interior-luz.rgbm.gz": 6371194
+          },
+          "erros": [],
+          "totalMs": 124608
+        },
+        {
+          "abrir": {
+            "html": 2749.899999999907,
+            "dom": 6198.399999999907,
+            "load": 6219,
+            "primeiroDesenho": 3406.7999999998137,
+            "luzExterior": 51263.60000000009,
+            "bytes": 8912629,
+            "requisicoes": 3,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 82.6,
+            "texturasMiB": 69.2,
+            "buffersMiB": 7.8,
+            "alvosMiB": 5.7,
+            "picoGpuMiB": 82.6,
+            "canvas": [
+              430,
+              352
+            ],
+            "msaa": false,
+            "heapJsMiB": 15
+          },
+          "maqueteParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 5.7,
+            "desenhosPorSeg": 344,
+            "triangulosPorSeg": 699120,
+            "cpuPrincipalPct": 7.5
+          },
+          "planta3d": {
+            "ms": 46383,
+            "bytes": 6867496,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 6.2,
+            "desenhosPorSeg": 181,
+            "triangulosPorSeg": 313433,
+            "cpuPrincipalPct": 10.3
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 3.7,
+            "desenhosPorSeg": 123,
+            "triangulosPorSeg": 145156,
+            "cpuPrincipalPct": 4.4
+          },
+          "planta2dParada": {
+            "segundos": 4.03,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 67
+          },
+          "memoriaTudo": {
+            "gpuMiB": 110,
+            "texturasMiB": 89.2,
+            "buffersMiB": 14.8,
+            "alvosMiB": 6,
+            "picoGpuMiB": 110,
+            "canvas": [
+              430,
+              400
+            ],
+            "msaa": false,
+            "heapJsMiB": 27.4
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 9196.399999999907
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 519525,
+            "/assets/cedros/62549ac12936f290/exterior-uv.json": 1361341,
+            "/assets/cedros/62549ac12936f290/exterior-luz.rgbm.gz": 7032049,
+            "/assets/cedros/62549ac12936f290/interior-uv.json": 496302,
+            "/assets/cedros/62549ac12936f290/interior-luz.rgbm.gz": 6371194
+          },
+          "erros": [],
+          "totalMs": 126098
+        },
+        {
+          "abrir": {
+            "html": 2750.1999999997206,
+            "dom": 6272.299999999814,
+            "load": 6292,
+            "primeiroDesenho": 3209.5,
+            "luzExterior": 51144.299999999814,
+            "bytes": 8912629,
+            "requisicoes": 3,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 82.6,
+            "texturasMiB": 69.2,
+            "buffersMiB": 7.8,
+            "alvosMiB": 5.7,
+            "picoGpuMiB": 82.6,
+            "canvas": [
+              430,
+              352
+            ],
+            "msaa": false,
+            "heapJsMiB": 17.3
+          },
+          "maqueteParada": {
+            "segundos": 4.02,
+            "quadrosPorSeg": 5.7,
+            "desenhosPorSeg": 343,
+            "triangulosPorSeg": 697520,
+            "cpuPrincipalPct": 8.6
+          },
+          "planta3d": {
+            "ms": 46074,
+            "bytes": 6867496,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 6.5,
+            "desenhosPorSeg": 188,
+            "triangulosPorSeg": 326409,
+            "cpuPrincipalPct": 9.3
+          },
+          "visitaParada": {
+            "segundos": 4.03,
+            "quadrosPorSeg": 3.7,
+            "desenhosPorSeg": 123,
+            "triangulosPorSeg": 144400,
+            "cpuPrincipalPct": 4.5
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 62.3
+          },
+          "memoriaTudo": {
+            "gpuMiB": 110,
+            "texturasMiB": 89.2,
+            "buffersMiB": 14.8,
+            "alvosMiB": 6,
+            "picoGpuMiB": 110,
+            "canvas": [
+              430,
+              400
+            ],
+            "msaa": false,
+            "heapJsMiB": 26.5
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 9330.299999999814
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 519525,
+            "/assets/cedros/62549ac12936f290/exterior-uv.json": 1361341,
+            "/assets/cedros/62549ac12936f290/exterior-luz.rgbm.gz": 7032049,
+            "/assets/cedros/62549ac12936f290/interior-uv.json": 496302,
+            "/assets/cedros/62549ac12936f290/interior-luz.rgbm.gz": 6371194
+          },
+          "erros": [],
+          "totalMs": 125918
+        }
+      ]
+    }
+  }
+}

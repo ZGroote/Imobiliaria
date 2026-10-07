@@ -1,0 +1,20 @@
+{
+  "id": "monte-dos-cedros-37",
+  "titulo": "Monte dos Cedros · maquete, planta e visita 3D",
+  "padrao": "cedros-luz-calculada-2026-09-23",
+  "modelo": "../padrao-atual/anterior/v2.html",
+  "exterior": {
+    "luz": "../padrao-atual/exterior-v3/lightmap.rgbm.gz",
+    "uv": "../padrao-atual/exterior-v3/geometry-compact.json",
+    "reempacotar": true
+  },
+  "interior": {
+    "luz": "../padrao-atual/piloto-v3/lightmap.rgbm.gz",
+    "uv": "../padrao-atual/piloto-v3/geometry-compact.json",
+    "reempacotar": false
+  },
+  "renders": {
+    "miniatura": "../padrao-atual/renders/v3/miniatura.webp",
+    "planta3d": "../padrao-atual/renders/v3/planta3d.webp"
+  }
+}

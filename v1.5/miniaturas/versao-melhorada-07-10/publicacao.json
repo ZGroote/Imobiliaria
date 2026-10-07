@@ -1,0 +1,91 @@
+{
+  "versao": 4,
+  "imovel": "monte-dos-cedros-37",
+  "release": "503d647c93c5",
+  "three": "0.168.0",
+  "montadoEm": "2026-10-07T05:26:38.453Z",
+  "pagina": "maquete-monte-dos-cedros-37.html",
+  "app": "app/miniatura-CJH2YQZB.js",
+  "arquivos": {
+    "app/KTX2Loader-K53INSC3.js": {
+      "bytes": 56332,
+      "sha256": "d609e3ddd2fe6e50d8a482976c1eac28c22b3709903a71b6be67331bd17c3f3a"
+    },
+    "app/fflate.module-BNUMJJTQ.js": {
+      "bytes": 31853,
+      "sha256": "01e5dabed6c08c0bd771ed13589703ca6f178e448132445afe2914b02867b7f6"
+    },
+    "app/interior-modulos-JDJK7YJM.js": {
+      "bytes": 44832,
+      "sha256": "78957f5e6dfeaa0b913844958dd807672eaabd07b3d181bbe1c84d06010616ff"
+    },
+    "app/miniatura-CJH2YQZB.js": {
+      "bytes": 90285,
+      "sha256": "77ddb7cbb3aa1e1ff6afc3acfe3bc4629b5355ac90abd440cdf3fccdbb6508ba"
+    },
+    "assets/monte-dos-cedros-37/capa-1de5d6257434.webp": {
+      "bytes": 27276,
+      "sha256": "1de5d62574343a6533d8ce0e1e2c31047ab95f0f3c2926707e3ce29caa853a8d"
+    },
+    "assets/monte-dos-cedros-37/capa-estreita-5e72d992da0d.webp": {
+      "bytes": 27894,
+      "sha256": "5e72d992da0d4cdb996f0fb65ba14c669710a8cfae8fa09f887e281ffd3f2476"
+    },
+    "assets/monte-dos-cedros-37/exterior-luz-cheia-e71262344b51.ktx2": {
+      "bytes": 2418255,
+      "sha256": "e71262344b510cdb1dd2feeae958eb7f8e18c22d113f43083e10b81bdb8b4ad2"
+    },
+    "assets/monte-dos-cedros-37/exterior-luz-metade-8f83fbf19d58.ktx2": {
+      "bytes": 699340,
+      "sha256": "8f83fbf19d5813315ba4ceb34e041e1616e046fa959b75bbe87d53453ec3a04b"
+    },
+    "assets/monte-dos-cedros-37/exterior-uv-2669aa5fab64.bin": {
+      "bytes": 223658,
+      "sha256": "2669aa5fab6452452a871a95845d2adf6a1ca171ecc562d473953936315869aa"
+    },
+    "assets/monte-dos-cedros-37/interior-luz-cheia-fddbe7976ba3.ktx2": {
+      "bytes": 3232706,
+      "sha256": "fddbe7976ba3a33bf2f29de86eeb20bd77ab6ece91af43828b9abcf20d7eb96b"
+    },
+    "assets/monte-dos-cedros-37/interior-luz-metade-ec4ff4951f98.ktx2": {
+      "bytes": 938449,
+      "sha256": "ec4ff4951f98f3d45221800d67a3a5f9a6ff80d2c15c085ec9415f858096ea87"
+    },
+    "assets/monte-dos-cedros-37/interior-uv-1deb0ed2b67c.bin": {
+      "bytes": 145670,
+      "sha256": "1deb0ed2b67c291ba3f0f94543853ba06ce0a7a2b1a9d9d6026051864e6c2c41"
+    },
+    "assets/monte-dos-cedros-37/luzue-aaead94e1cc2.json": {
+      "bytes": 128700,
+      "sha256": "aaead94e1cc2f8611775fdd6a0dab7219cebcb56966cf589aa0462277e33f4d1"
+    },
+    "assets/monte-dos-cedros-37/moveis-c9d392fb1ca9.json": {
+      "bytes": 859896,
+      "sha256": "c9d392fb1ca9bf4153a9a82e072de756bbe7665d1cd30ed1c2340ee3d47fd531"
+    },
+    "assets/monte-dos-cedros-37/predio-7ce9348228f7.bin": {
+      "bytes": 138540,
+      "sha256": "7ce9348228f77f0c07f906015b697cf7b42dfec31d80ecb609b90fac04455a71"
+    },
+    "index.html": {
+      "bytes": 237,
+      "sha256": "139d378dfa8bb9f894ee13e057ca0dc5bfc49044f58116f30909996b0b7606ac"
+    },
+    "lib/three-r168/basis/basis_transcoder.js": {
+      "bytes": 62337,
+      "sha256": "48a0ef319a28bf0224ee88ded34f74eaf97c175bba9eb18b47fb9720510ad6c4"
+    },
+    "lib/three-r168/basis/basis_transcoder.wasm": {
+      "bytes": 499935,
+      "sha256": "79ae97d781e10a566659c689b7bb1de91726453f55f9f5e3bcc07a4e3904070f"
+    },
+    "lib/three-r168/three.module.min.js": {
+      "bytes": 685408,
+      "sha256": "ee08b04912b21d9bf71f13658a65da65c113827601377076663e710c0b1772d0"
+    },
+    "maquete-monte-dos-cedros-37.html": {
+      "bytes": 25775,
+      "sha256": "fe2c7c070910606051e26e626c0f91c637b8387ccfd6bda401c30fab3bb1ec8a"
+    }
+  }
+}

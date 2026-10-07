@@ -1,0 +1,22 @@
+{
+  "name": "miniaturas-versao-melhorada-07-10",
+  "version": "4.0.0",
+  "private": true,
+  "description": "Maquete, planta e visita 3D otimizadas (v4): gerador, visualizador e medições.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "scripts": {
+    "gerar": "python gerador/derivar.py && node gerador/montar.mjs && node gerador/capa.mjs && node gerador/montar.mjs",
+    "medir": "node medicoes/medir.mjs",
+    "comparar": "node medicoes/comparar.mjs",
+    "test": "node --test \"testes/*.test.mjs\""
+  },
+  "dependencies": {
+    "three": "0.168.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "ktx2-encoder": "0.6.0",
+    "playwright-core": "1.63.0"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "predio.bin": "7ce9348228f77f0c07f906015b697cf7b42dfec31d80ecb609b90fac04455a71",
+  "exterior-uv.bin": "2669aa5fab6452452a871a95845d2adf6a1ca171ecc562d473953936315869aa",
+  "interior-uv.bin": "1deb0ed2b67c291ba3f0f94543853ba06ce0a7a2b1a9d9d6026051864e6c2c41",
+  "exterior-luz-cheia.ktx2": "e71262344b510cdb1dd2feeae958eb7f8e18c22d113f43083e10b81bdb8b4ad2",
+  "exterior-luz-metade.ktx2": "8f83fbf19d5813315ba4ceb34e041e1616e046fa959b75bbe87d53453ec3a04b",
+  "interior-luz-cheia.ktx2": "fddbe7976ba3a33bf2f29de86eeb20bd77ab6ece91af43828b9abcf20d7eb96b",
+  "interior-luz-metade.ktx2": "ec4ff4951f98f3d45221800d67a3a5f9a6ff80d2c15c085ec9415f858096ea87",
+  "imovel.json": "785ba13117dd6b1d4b5e684435029c8c6453ec664e7a13aa4498eefa82f1cc5a",
+  "moveis.json": "c9d392fb1ca9bf4153a9a82e072de756bbe7665d1cd30ed1c2340ee3d47fd531",
+  "luzue.json": "aaead94e1cc2f8611775fdd6a0dab7219cebcb56966cf589aa0462277e33f4d1",
+  "luz.json": "6feef327c242b464c8384654a05eaccf5e3edccd1df8b2048fffb9098d8ffc27"
+}

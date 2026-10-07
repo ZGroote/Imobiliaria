@@ -1,0 +1,16 @@
+# Montado por `node gerador/montar.mjs` a partir de fonte/ e derivados/ (determinístico).
+publicado/
+# Capturas de teste (regeneráveis com medicoes/fumaca.mjs e medicoes/comparar.mjs).
+medicoes/capturas/
+medicoes/comparacao/
+node_modules/
+derivados/*/_tmp/
+# Os dois atlas de resolução cheia passam de 1 MiB (trava de tamanho do repositório, ver
+# tests/test_tamanho_versionado.py). São regenerados por `python gerador/derivar.py`, com
+# os mesmos bytes: o SHA-256 de cada um está em derivados/<imovel>/conferencia.json.
+derivados/*/*-luz-cheia.ktx2
+# Imagens geradas aqui (capa e montagem da comparação). O repositório só versiona imagem em
+# pasta classificada em tests/test_dados_privados.py; estas saem dos scripts:
+# `node gerador/capa.mjs` e `python medicoes/montagem.py`.
+derivados/*/capa*.webp
+medicoes/resultados/*.webp

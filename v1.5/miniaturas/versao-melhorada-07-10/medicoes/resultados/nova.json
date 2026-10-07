@@ -1,0 +1,968 @@
+{
+  "versao": "nova",
+  "quando": "2026-10-07T05:20:49.556Z",
+  "maquina": "Intel(R) Xeon(R) Processor @ 2.10GHz x4",
+  "render": "SwiftShader (software)",
+  "perfis": {
+    "desktop": {
+      "perfil": {
+        "qNova": "alto",
+        "cpu": 1,
+        "rede": {
+          "latency": 20,
+          "down": 50000000,
+          "up": 10000000
+        },
+        "viewport": {
+          "width": 1366,
+          "height": 768
+        },
+        "dpr": 1,
+        "mobile": false
+      },
+      "mediana": {
+        "primeiraImagemMs": 98,
+        "primeiroDesenhoMs": 686,
+        "luzExteriorMs": 3419.4000000003725,
+        "htmlMs": 27.200000000186265,
+        "bytesAbrir": 3225623,
+        "planta3dMs": 6919,
+        "bytesPlanta3d": 3570128,
+        "bytesRevisita": 286,
+        "revisitaLuzMs": 3014.4000000003725
+      },
+      "execucoes": [
+        {
+          "abrir": {
+            "html": 27.200000000186265,
+            "dom": 837,
+            "load": 837.5,
+            "primeiroDesenho": 657.7999999998137,
+            "capa": 88.8999999994412,
+            "primeiraImagem": 88.8999999994412,
+            "luzExterior": 3349.7000000001863,
+            "bytes": 3225623,
+            "requisicoes": 10,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 49.5,
+            "texturasMiB": 20.4,
+            "buffersMiB": 5,
+            "alvosMiB": 24.1,
+            "picoGpuMiB": 49.5,
+            "canvas": [
+              720,
+              328
+            ],
+            "msaa": true,
+            "heapJsMiB": 6.4
+          },
+          "maqueteParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 2,
+            "desenhosPorSeg": 162,
+            "triangulosPorSeg": 319442,
+            "cpuPrincipalPct": 1
+          },
+          "planta3d": {
+            "ms": 6919,
+            "bytes": 3570128,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.1
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0
+          },
+          "memoriaTudo": {
+            "gpuMiB": 64.7,
+            "texturasMiB": 28.5,
+            "buffersMiB": 12.1,
+            "alvosMiB": 24.1,
+            "picoGpuMiB": 64.7,
+            "canvas": [
+              720,
+              328
+            ],
+            "msaa": true,
+            "heapJsMiB": 18.7
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 3009.5
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 8217,
+            "/app/KTX2Loader-K53INSC3.js": 20267,
+            "/assets/monte-dos-cedros-37/capa-1de5d6257434.webp": 27562,
+            "/app/miniatura-DXDWR35U.js": 30860,
+            "/lib/three-r168/basis/basis_transcoder.js": 14511,
+            "/assets/monte-dos-cedros-37/predio-7ce9348228f7.bin": 138841,
+            "/lib/three-r168/three.module.min.js": 137885,
+            "/lib/three-r168/basis/basis_transcoder.wasm": 205264,
+            "/assets/monte-dos-cedros-37/exterior-uv-2669aa5fab64.bin": 223959,
+            "/assets/monte-dos-cedros-37/exterior-luz-cheia-e71262344b51.ktx2": 2418543,
+            "/app/interior-modulos-JDJK7YJM.js": 17153,
+            "/assets/monte-dos-cedros-37/luzue-aaead94e1cc2.json": 91497,
+            "/assets/monte-dos-cedros-37/moveis-c9d392fb1ca9.json": 82513,
+            "/assets/monte-dos-cedros-37/interior-uv-1deb0ed2b67c.bin": 145971,
+            "/assets/monte-dos-cedros-37/interior-luz-cheia-fddbe7976ba3.ktx2": 3232994
+          },
+          "erros": [],
+          "totalMs": 32412
+        },
+        {
+          "abrir": {
+            "html": 30.59999999962747,
+            "dom": 888.5999999996275,
+            "load": 889.3000000007451,
+            "primeiroDesenho": 694.5,
+            "capa": 107.5,
+            "primeiraImagem": 107.5,
+            "luzExterior": 3499.9000000003725,
+            "bytes": 3225623,
+            "requisicoes": 10,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 49.5,
+            "texturasMiB": 20.4,
+            "buffersMiB": 5,
+            "alvosMiB": 24.1,
+            "picoGpuMiB": 49.5,
+            "canvas": [
+              720,
+              328
+            ],
+            "msaa": true,
+            "heapJsMiB": 6.5
+          },
+          "maqueteParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 2.2,
+            "desenhosPorSeg": 170,
+            "triangulosPorSeg": 334787,
+            "cpuPrincipalPct": 1.2
+          },
+          "planta3d": {
+            "ms": 7042,
+            "bytes": 3570128,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.1
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0
+          },
+          "memoriaTudo": {
+            "gpuMiB": 64.7,
+            "texturasMiB": 28.5,
+            "buffersMiB": 12.1,
+            "alvosMiB": 24.1,
+            "picoGpuMiB": 64.7,
+            "canvas": [
+              720,
+              328
+            ],
+            "msaa": true,
+            "heapJsMiB": 31.4
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 3138.7000000011176
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 8217,
+            "/assets/monte-dos-cedros-37/capa-1de5d6257434.webp": 27562,
+            "/app/KTX2Loader-K53INSC3.js": 20267,
+            "/app/miniatura-DXDWR35U.js": 30860,
+            "/lib/three-r168/basis/basis_transcoder.js": 14511,
+            "/lib/three-r168/three.module.min.js": 137885,
+            "/assets/monte-dos-cedros-37/predio-7ce9348228f7.bin": 138841,
+            "/lib/three-r168/basis/basis_transcoder.wasm": 205264,
+            "/assets/monte-dos-cedros-37/exterior-uv-2669aa5fab64.bin": 223959,
+            "/assets/monte-dos-cedros-37/exterior-luz-cheia-e71262344b51.ktx2": 2418543,
+            "/app/interior-modulos-JDJK7YJM.js": 17153,
+            "/assets/monte-dos-cedros-37/moveis-c9d392fb1ca9.json": 82513,
+            "/assets/monte-dos-cedros-37/luzue-aaead94e1cc2.json": 91497,
+            "/assets/monte-dos-cedros-37/interior-uv-1deb0ed2b67c.bin": 145971,
+            "/assets/monte-dos-cedros-37/interior-luz-cheia-fddbe7976ba3.ktx2": 3232994
+          },
+          "erros": [],
+          "totalMs": 33699
+        },
+        {
+          "abrir": {
+            "html": 25.09999999962747,
+            "dom": 868.8000000007451,
+            "load": 869.3000000007451,
+            "primeiroDesenho": 686,
+            "capa": 98,
+            "primeiraImagem": 98,
+            "luzExterior": 3419.4000000003725,
+            "bytes": 3225623,
+            "requisicoes": 10,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 49.5,
+            "texturasMiB": 20.4,
+            "buffersMiB": 5,
+            "alvosMiB": 24.1,
+            "picoGpuMiB": 49.5,
+            "canvas": [
+              720,
+              328
+            ],
+            "msaa": true,
+            "heapJsMiB": 6.5
+          },
+          "maqueteParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 1.2,
+            "desenhosPorSeg": 147,
+            "triangulosPorSeg": 288875,
+            "cpuPrincipalPct": 1.1
+          },
+          "planta3d": {
+            "ms": 5109,
+            "bytes": 3570128,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.1
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0
+          },
+          "memoriaTudo": {
+            "gpuMiB": 64.7,
+            "texturasMiB": 28.5,
+            "buffersMiB": 12.1,
+            "alvosMiB": 24.1,
+            "picoGpuMiB": 64.7,
+            "canvas": [
+              720,
+              328
+            ],
+            "msaa": true,
+            "heapJsMiB": 29.6
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 3014.4000000003725
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 8217,
+            "/assets/monte-dos-cedros-37/capa-1de5d6257434.webp": 27562,
+            "/app/KTX2Loader-K53INSC3.js": 20267,
+            "/app/miniatura-DXDWR35U.js": 30860,
+            "/lib/three-r168/basis/basis_transcoder.js": 14511,
+            "/lib/three-r168/three.module.min.js": 137885,
+            "/lib/three-r168/basis/basis_transcoder.wasm": 205264,
+            "/assets/monte-dos-cedros-37/predio-7ce9348228f7.bin": 138841,
+            "/assets/monte-dos-cedros-37/exterior-uv-2669aa5fab64.bin": 223959,
+            "/assets/monte-dos-cedros-37/exterior-luz-cheia-e71262344b51.ktx2": 2418543,
+            "/app/interior-modulos-JDJK7YJM.js": 17153,
+            "/assets/monte-dos-cedros-37/moveis-c9d392fb1ca9.json": 82513,
+            "/assets/monte-dos-cedros-37/luzue-aaead94e1cc2.json": 91497,
+            "/assets/monte-dos-cedros-37/interior-uv-1deb0ed2b67c.bin": 145971,
+            "/assets/monte-dos-cedros-37/interior-luz-cheia-fddbe7976ba3.ktx2": 3232994
+          },
+          "erros": [],
+          "totalMs": 30466
+        }
+      ]
+    },
+    "celular-4g": {
+      "perfil": {
+        "qNova": "medio",
+        "cpu": 4,
+        "rede": {
+          "latency": 60,
+          "down": 12000000,
+          "up": 3000000
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "dpr": 3,
+        "mobile": true
+      },
+      "mediana": {
+        "primeiraImagemMs": 280.09999999962747,
+        "primeiroDesenhoMs": 830.7999999988824,
+        "luzExteriorMs": 3589.9000000003725,
+        "htmlMs": 71.09999999962747,
+        "bytesAbrir": 3226241,
+        "planta3dMs": 9036,
+        "bytesPlanta3d": 3570128,
+        "bytesRevisita": 286,
+        "revisitaLuzMs": 3032.2000000011176
+      },
+      "execucoes": [
+        {
+          "abrir": {
+            "html": 72.59999999962747,
+            "dom": 946.5999999996275,
+            "load": 949.5999999996275,
+            "primeiroDesenho": 799.9000000003725,
+            "capa": 275.5,
+            "primeiraImagem": 275.5,
+            "luzExterior": 3589.9000000003725,
+            "bytes": 3226241,
+            "requisicoes": 10,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 21.4,
+            "texturasMiB": 9.5,
+            "buffersMiB": 5,
+            "alvosMiB": 6.8,
+            "picoGpuMiB": 21.4,
+            "canvas": [
+              467,
+              533
+            ],
+            "msaa": false,
+            "heapJsMiB": 6.1
+          },
+          "maqueteParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 2.2,
+            "desenhosPorSeg": 147,
+            "triangulosPorSeg": 288860,
+            "cpuPrincipalPct": 6.6
+          },
+          "planta3d": {
+            "ms": 8879,
+            "bytes": 3570128,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.2
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.2
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 1.6
+          },
+          "memoriaTudo": {
+            "gpuMiB": 38.1,
+            "texturasMiB": 18.9,
+            "buffersMiB": 12,
+            "alvosMiB": 7.2,
+            "picoGpuMiB": 38.1,
+            "canvas": [
+              467,
+              590
+            ],
+            "msaa": false,
+            "heapJsMiB": 18.2
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 3209.300000000745
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 8217,
+            "/app/KTX2Loader-K53INSC3.js": 20267,
+            "/assets/monte-dos-cedros-37/capa-estreita-5e72d992da0d.webp": 28180,
+            "/app/miniatura-DXDWR35U.js": 30860,
+            "/lib/three-r168/basis/basis_transcoder.js": 14511,
+            "/assets/monte-dos-cedros-37/predio-7ce9348228f7.bin": 138841,
+            "/lib/three-r168/three.module.min.js": 137885,
+            "/lib/three-r168/basis/basis_transcoder.wasm": 205264,
+            "/assets/monte-dos-cedros-37/exterior-uv-2669aa5fab64.bin": 223959,
+            "/assets/monte-dos-cedros-37/exterior-luz-cheia-e71262344b51.ktx2": 2418543,
+            "/assets/monte-dos-cedros-37/capa-1de5d6257434.webp": 27562,
+            "/app/interior-modulos-JDJK7YJM.js": 17153,
+            "/assets/monte-dos-cedros-37/moveis-c9d392fb1ca9.json": 82513,
+            "/assets/monte-dos-cedros-37/luzue-aaead94e1cc2.json": 91497,
+            "/assets/monte-dos-cedros-37/interior-uv-1deb0ed2b67c.bin": 145971,
+            "/assets/monte-dos-cedros-37/interior-luz-cheia-fddbe7976ba3.ktx2": 3232994
+          },
+          "erros": [],
+          "totalMs": 35063
+        },
+        {
+          "abrir": {
+            "html": 71.09999999962747,
+            "dom": 986.5,
+            "load": 987.6999999992549,
+            "primeiroDesenho": 830.7999999988824,
+            "capa": 280.09999999962747,
+            "primeiraImagem": 280.09999999962747,
+            "luzExterior": 3565,
+            "bytes": 3226241,
+            "requisicoes": 10,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 21.4,
+            "texturasMiB": 9.5,
+            "buffersMiB": 5,
+            "alvosMiB": 6.8,
+            "picoGpuMiB": 21.4,
+            "canvas": [
+              467,
+              533
+            ],
+            "msaa": false,
+            "heapJsMiB": 7.7
+          },
+          "maqueteParada": {
+            "segundos": 4.03,
+            "quadrosPorSeg": 1.7,
+            "desenhosPorSeg": 138,
+            "triangulosPorSeg": 271927,
+            "cpuPrincipalPct": 6.4
+          },
+          "planta3d": {
+            "ms": 9036,
+            "bytes": 3570128,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.2
+          },
+          "visitaParada": {
+            "segundos": 4,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.4
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 2.1
+          },
+          "memoriaTudo": {
+            "gpuMiB": 38.1,
+            "texturasMiB": 18.9,
+            "buffersMiB": 12,
+            "alvosMiB": 7.2,
+            "picoGpuMiB": 38.1,
+            "canvas": [
+              467,
+              590
+            ],
+            "msaa": false,
+            "heapJsMiB": 18.3
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 2919.800000000745
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 8217,
+            "/app/KTX2Loader-K53INSC3.js": 20267,
+            "/assets/monte-dos-cedros-37/capa-estreita-5e72d992da0d.webp": 28180,
+            "/app/miniatura-DXDWR35U.js": 30860,
+            "/lib/three-r168/basis/basis_transcoder.js": 14511,
+            "/lib/three-r168/three.module.min.js": 137885,
+            "/assets/monte-dos-cedros-37/predio-7ce9348228f7.bin": 138841,
+            "/assets/monte-dos-cedros-37/exterior-uv-2669aa5fab64.bin": 223959,
+            "/lib/three-r168/basis/basis_transcoder.wasm": 205264,
+            "/assets/monte-dos-cedros-37/exterior-luz-cheia-e71262344b51.ktx2": 2418543,
+            "/assets/monte-dos-cedros-37/capa-1de5d6257434.webp": 27562,
+            "/app/interior-modulos-JDJK7YJM.js": 17153,
+            "/assets/monte-dos-cedros-37/moveis-c9d392fb1ca9.json": 82513,
+            "/assets/monte-dos-cedros-37/luzue-aaead94e1cc2.json": 91497,
+            "/assets/monte-dos-cedros-37/interior-uv-1deb0ed2b67c.bin": 145971,
+            "/assets/monte-dos-cedros-37/interior-luz-cheia-fddbe7976ba3.ktx2": 3232994
+          },
+          "erros": [],
+          "totalMs": 35807
+        },
+        {
+          "abrir": {
+            "html": 70.90000000037253,
+            "dom": 983.6000000014901,
+            "load": 985.8000000007451,
+            "primeiroDesenho": 840.6000000014901,
+            "capa": 282.5,
+            "primeiraImagem": 282.5,
+            "luzExterior": 3616,
+            "bytes": 3226241,
+            "requisicoes": 10,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 21.4,
+            "texturasMiB": 9.5,
+            "buffersMiB": 5,
+            "alvosMiB": 6.8,
+            "picoGpuMiB": 21.4,
+            "canvas": [
+              467,
+              533
+            ],
+            "msaa": false,
+            "heapJsMiB": 6.9
+          },
+          "maqueteParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 2.2,
+            "desenhosPorSeg": 162,
+            "triangulosPorSeg": 319044,
+            "cpuPrincipalPct": 6.1
+          },
+          "planta3d": {
+            "ms": 9092,
+            "bytes": 3570128,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.4
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.1
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 1.7
+          },
+          "memoriaTudo": {
+            "gpuMiB": 38.1,
+            "texturasMiB": 18.9,
+            "buffersMiB": 12,
+            "alvosMiB": 7.2,
+            "picoGpuMiB": 38.1,
+            "canvas": [
+              467,
+              590
+            ],
+            "msaa": false,
+            "heapJsMiB": 18.3
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 3032.2000000011176
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 8217,
+            "/assets/monte-dos-cedros-37/capa-estreita-5e72d992da0d.webp": 28180,
+            "/app/KTX2Loader-K53INSC3.js": 20267,
+            "/app/miniatura-DXDWR35U.js": 30860,
+            "/lib/three-r168/basis/basis_transcoder.js": 14511,
+            "/lib/three-r168/three.module.min.js": 137885,
+            "/assets/monte-dos-cedros-37/predio-7ce9348228f7.bin": 138841,
+            "/lib/three-r168/basis/basis_transcoder.wasm": 205264,
+            "/assets/monte-dos-cedros-37/exterior-uv-2669aa5fab64.bin": 223959,
+            "/assets/monte-dos-cedros-37/exterior-luz-cheia-e71262344b51.ktx2": 2418543,
+            "/assets/monte-dos-cedros-37/capa-1de5d6257434.webp": 27562,
+            "/app/interior-modulos-JDJK7YJM.js": 17153,
+            "/assets/monte-dos-cedros-37/moveis-c9d392fb1ca9.json": 82513,
+            "/assets/monte-dos-cedros-37/luzue-aaead94e1cc2.json": 91497,
+            "/assets/monte-dos-cedros-37/interior-uv-1deb0ed2b67c.bin": 145971,
+            "/assets/monte-dos-cedros-37/interior-luz-cheia-fddbe7976ba3.ktx2": 3232994
+          },
+          "erros": [],
+          "totalMs": 34770
+        }
+      ]
+    },
+    "celular-fraco": {
+      "perfil": {
+        "qNova": "baixo",
+        "cpu": 6,
+        "rede": {
+          "latency": 150,
+          "down": 1600000,
+          "up": 750000
+        },
+        "viewport": {
+          "width": 360,
+          "height": 780
+        },
+        "dpr": 2,
+        "mobile": true
+      },
+      "mediana": {
+        "primeiraImagemMs": 1183.9000000003725,
+        "primeiroDesenhoMs": 4207.800000000745,
+        "luzExteriorMs": 8421,
+        "htmlMs": 195.80000000074506,
+        "bytesAbrir": 1507325,
+        "planta3dMs": 10214,
+        "bytesPlanta3d": 1275870,
+        "bytesRevisita": 286,
+        "revisitaLuzMs": 3210.9000000003725
+      },
+      "execucoes": [
+        {
+          "abrir": {
+            "html": 199.2000000011176,
+            "dom": 4387.700000001118,
+            "load": 4389.4000000003725,
+            "primeiroDesenho": 4207.800000000745,
+            "capa": 1197.5999999996275,
+            "primeiraImagem": 1197.5999999996275,
+            "luzExterior": 8454,
+            "bytes": 1507325,
+            "requisicoes": 10,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 16.5,
+            "texturasMiB": 6.2,
+            "buffersMiB": 5,
+            "alvosMiB": 5.3,
+            "picoGpuMiB": 16.5,
+            "canvas": [
+              344,
+              323
+            ],
+            "msaa": false,
+            "heapJsMiB": 7
+          },
+          "maqueteParada": {
+            "segundos": 4.04,
+            "quadrosPorSeg": 7.2,
+            "desenhosPorSeg": 223,
+            "triangulosPorSeg": 437585,
+            "cpuPrincipalPct": 16.1
+          },
+          "planta3d": {
+            "ms": 10214,
+            "bytes": 1275870,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.3
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 1.8
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.2
+          },
+          "memoriaTudo": {
+            "gpuMiB": 29.2,
+            "texturasMiB": 11.7,
+            "buffersMiB": 12,
+            "alvosMiB": 5.4,
+            "picoGpuMiB": 29.2,
+            "canvas": [
+              344,
+              368
+            ],
+            "msaa": false,
+            "heapJsMiB": 18.9
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 3210.9000000003725
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 8217,
+            "/app/KTX2Loader-K53INSC3.js": 20267,
+            "/assets/monte-dos-cedros-37/capa-estreita-5e72d992da0d.webp": 28180,
+            "/app/miniatura-DXDWR35U.js": 30860,
+            "/lib/three-r168/basis/basis_transcoder.js": 14511,
+            "/lib/three-r168/three.module.min.js": 137885,
+            "/assets/monte-dos-cedros-37/predio-7ce9348228f7.bin": 138841,
+            "/lib/three-r168/basis/basis_transcoder.wasm": 205264,
+            "/assets/monte-dos-cedros-37/exterior-uv-2669aa5fab64.bin": 223959,
+            "/assets/monte-dos-cedros-37/exterior-luz-metade-8f83fbf19d58.ktx2": 699627,
+            "/assets/monte-dos-cedros-37/capa-1de5d6257434.webp": 27562,
+            "/app/interior-modulos-JDJK7YJM.js": 17153,
+            "/assets/monte-dos-cedros-37/moveis-c9d392fb1ca9.json": 82513,
+            "/assets/monte-dos-cedros-37/luzue-aaead94e1cc2.json": 91497,
+            "/assets/monte-dos-cedros-37/interior-uv-1deb0ed2b67c.bin": 145971,
+            "/assets/monte-dos-cedros-37/interior-luz-metade-ec4ff4951f98.ktx2": 938736
+          },
+          "erros": [],
+          "totalMs": 40799
+        },
+        {
+          "abrir": {
+            "html": 193.80000000074506,
+            "dom": 4349.700000001118,
+            "load": 4350.0999999996275,
+            "primeiroDesenho": 4179.5,
+            "capa": 1183.300000000745,
+            "primeiraImagem": 1183.300000000745,
+            "luzExterior": 8421,
+            "bytes": 1507325,
+            "requisicoes": 10,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 16.5,
+            "texturasMiB": 6.2,
+            "buffersMiB": 5,
+            "alvosMiB": 5.3,
+            "picoGpuMiB": 16.5,
+            "canvas": [
+              344,
+              323
+            ],
+            "msaa": false,
+            "heapJsMiB": 6.7
+          },
+          "maqueteParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 7,
+            "desenhosPorSeg": 216,
+            "triangulosPorSeg": 425265,
+            "cpuPrincipalPct": 14.1
+          },
+          "planta3d": {
+            "ms": 10020,
+            "bytes": 1275870,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.4
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 2.1
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.2
+          },
+          "memoriaTudo": {
+            "gpuMiB": 29.2,
+            "texturasMiB": 11.7,
+            "buffersMiB": 12,
+            "alvosMiB": 5.4,
+            "picoGpuMiB": 29.2,
+            "canvas": [
+              344,
+              368
+            ],
+            "msaa": false,
+            "heapJsMiB": 19
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 3384
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 8217,
+            "/app/KTX2Loader-K53INSC3.js": 20267,
+            "/assets/monte-dos-cedros-37/capa-estreita-5e72d992da0d.webp": 28180,
+            "/app/miniatura-DXDWR35U.js": 30860,
+            "/lib/three-r168/basis/basis_transcoder.js": 14511,
+            "/lib/three-r168/three.module.min.js": 137885,
+            "/assets/monte-dos-cedros-37/predio-7ce9348228f7.bin": 138841,
+            "/assets/monte-dos-cedros-37/exterior-uv-2669aa5fab64.bin": 223959,
+            "/lib/three-r168/basis/basis_transcoder.wasm": 205264,
+            "/assets/monte-dos-cedros-37/exterior-luz-metade-8f83fbf19d58.ktx2": 699627,
+            "/assets/monte-dos-cedros-37/capa-1de5d6257434.webp": 27562,
+            "/app/interior-modulos-JDJK7YJM.js": 17153,
+            "/assets/monte-dos-cedros-37/moveis-c9d392fb1ca9.json": 82513,
+            "/assets/monte-dos-cedros-37/luzue-aaead94e1cc2.json": 91497,
+            "/assets/monte-dos-cedros-37/interior-uv-1deb0ed2b67c.bin": 145971,
+            "/assets/monte-dos-cedros-37/interior-luz-metade-ec4ff4951f98.ktx2": 938736
+          },
+          "erros": [],
+          "totalMs": 41099
+        },
+        {
+          "abrir": {
+            "html": 195.80000000074506,
+            "dom": 4410.9000000003725,
+            "load": 4417.5,
+            "primeiroDesenho": 4231.5,
+            "capa": 1183.9000000003725,
+            "primeiraImagem": 1183.9000000003725,
+            "luzExterior": 8381,
+            "bytes": 1507325,
+            "requisicoes": 10,
+            "erroPagina": null
+          },
+          "memoriaMaquete": {
+            "gpuMiB": 16.5,
+            "texturasMiB": 6.2,
+            "buffersMiB": 5,
+            "alvosMiB": 5.3,
+            "picoGpuMiB": 16.5,
+            "canvas": [
+              344,
+              323
+            ],
+            "msaa": false,
+            "heapJsMiB": 8.8
+          },
+          "maqueteParada": {
+            "segundos": 4.03,
+            "quadrosPorSeg": 7.9,
+            "desenhosPorSeg": 246,
+            "triangulosPorSeg": 484014,
+            "cpuPrincipalPct": 17.2
+          },
+          "planta3d": {
+            "ms": 10646,
+            "bytes": 1275870,
+            "erroPagina": null
+          },
+          "planta3dParada": {
+            "segundos": 4.02,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.3
+          },
+          "visitaParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 2.7
+          },
+          "planta2dParada": {
+            "segundos": 4.01,
+            "quadrosPorSeg": 0,
+            "desenhosPorSeg": 0,
+            "triangulosPorSeg": 0,
+            "cpuPrincipalPct": 0.2
+          },
+          "memoriaTudo": {
+            "gpuMiB": 29.2,
+            "texturasMiB": 11.7,
+            "buffersMiB": 12,
+            "alvosMiB": 5.4,
+            "picoGpuMiB": 29.2,
+            "canvas": [
+              344,
+              368
+            ],
+            "msaa": false,
+            "heapJsMiB": 19
+          },
+          "revisita": {
+            "bytes": 286,
+            "luzExterior": 3088.10000000149
+          },
+          "bytesPorRecurso": {
+            "/maquete-monte-dos-cedros-37.html": 8217,
+            "/app/KTX2Loader-K53INSC3.js": 20267,
+            "/assets/monte-dos-cedros-37/capa-estreita-5e72d992da0d.webp": 28180,
+            "/app/miniatura-DXDWR35U.js": 30860,
+            "/lib/three-r168/basis/basis_transcoder.js": 14511,
+            "/lib/three-r168/three.module.min.js": 137885,
+            "/assets/monte-dos-cedros-37/predio-7ce9348228f7.bin": 138841,
+            "/lib/three-r168/basis/basis_transcoder.wasm": 205264,
+            "/assets/monte-dos-cedros-37/exterior-uv-2669aa5fab64.bin": 223959,
+            "/assets/monte-dos-cedros-37/exterior-luz-metade-8f83fbf19d58.ktx2": 699627,
+            "/assets/monte-dos-cedros-37/capa-1de5d6257434.webp": 27562,
+            "/app/interior-modulos-JDJK7YJM.js": 17153,
+            "/assets/monte-dos-cedros-37/moveis-c9d392fb1ca9.json": 82513,
+            "/assets/monte-dos-cedros-37/luzue-aaead94e1cc2.json": 91497,
+            "/assets/monte-dos-cedros-37/interior-uv-1deb0ed2b67c.bin": 145971,
+            "/assets/monte-dos-cedros-37/interior-luz-metade-ec4ff4951f98.ktx2": 938736
+          },
+          "erros": [],
+          "totalMs": 41610
+        }
+      ]
+    }
+  }
+}
