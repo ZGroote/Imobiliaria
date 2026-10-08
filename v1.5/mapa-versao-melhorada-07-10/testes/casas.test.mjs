@@ -412,3 +412,76 @@ test("cidade inteira: duas execuções separadas, mesmo SHA-256 e portões duros
   assert.equal(qa.reprovados, 0, JSON.stringify(qa.portoes.filter(p => p.passou === false)));
   assert.equal(sha(fs.readFileSync(path.join(sai[0], "substituidos.bin"))), sha(fs.readFileSync(path.join(sai[1], "substituidos.bin"))));
 });
+
+/* ---- geometria (fonte/casas/geometria.js) ------------------------------------------------
+   Sobre o casas.bin da cidade, quando ele existe (é gerado, fora do git): uma amostra de
+   casas de todos os partidos em cada nível de detalhe. */
+require("../fonte/casas/geometria.js");
+const GEO = globalThis.CasasGeometria;
+const BIN = path.join(PASTA, "derivados/casas/casas.bin");
+const amostra = () => {
+  const b = fs.readFileSync(BIN);
+  const arq = F.abre(b.buffer.slice(b.byteOffset, b.byteOffset + b.length));
+  const casas = [];
+  for (let i = 0; i < arq.nCasas; i += Math.max(1, Math.floor(arq.nCasas / 600))) casas.push(arq.casa(i));
+  return { arq, casas };
+};
+
+test("geometria: sem NaN, índice dentro do buffer e triângulos por nível na faixa", { skip: !fs.existsSync(BIN) }, () => {
+  const { arq, casas } = amostra();
+  const faixa = [[300, 4000], [20, 400], [6, 60]];   // triângulos por casa, por nível
+  for (const nivel of [0, 1, 2]) {
+    const s = GEO.criaSaida(), chao = GEO.criaSaida();
+    let tri = 0;
+    for (const c of casas) tri += GEO.expande(c, nivel, s, chao, arq.regras);
+    for (let k = 0; k < s.nVertices * 3; k++) assert.ok(Number.isFinite(s.pos[k]), "posição NaN");
+    for (let k = 0; k < s.nIndices; k++) assert.ok(s.idx[k] < s.nVertices, "índice fora do buffer");
+    assert.equal(s.nIndices % 3, 0);
+    const media = tri / casas.length;
+    assert.ok(media >= faixa[nivel][0] && media <= faixa[nivel][1], `LOD${nivel}: ${media.toFixed(0)} triângulos por casa`);
+  }
+});
+
+test("geometria: normal coerente com o enrolamento (nada de face invertida)", { skip: !fs.existsSync(BIN) }, () => {
+  const { arq, casas } = amostra();
+  const s = GEO.criaSaida(), chao = GEO.criaSaida();
+  for (const c of casas.slice(0, 120)) GEO.expande(c, 1, s, chao, arq.regras);
+  let ruins = 0, total = 0;
+  for (let t = 0; t < s.nIndices; t += 3) {
+    const a = s.idx[t], b = s.idx[t + 1], d = s.idx[t + 2];
+    const P = k => [s.pos[k * 3], s.pos[k * 3 + 1], s.pos[k * 3 + 2]];
+    const [A, B, C] = [P(a), P(b), P(d)];
+    const u = [B[0] - A[0], B[1] - A[1], B[2] - A[2]], v = [C[0] - A[0], C[1] - A[1], C[2] - A[2]];
+    const n = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]];
+    const L = Math.hypot(...n);
+    if (L < 1e-9) continue;                       // degenerado: não decide nada
+    total++;
+    const nv = [s.nor[a * 3], s.nor[a * 3 + 1], s.nor[a * 3 + 2]];
+    if (n[0] * nv[0] + n[1] * nv[1] + n[2] * nv[2] < 0) ruins++;
+  }
+  assert.ok(ruins / total < 0.001, `${ruins} de ${total} triângulos com a normal contra o enrolamento`);
+});
+
+test("geometria: determinística (mesma casa, mesmos bytes)", { skip: !fs.existsSync(BIN) }, () => {
+  const { arq, casas } = amostra();
+  const roda = () => { const s = GEO.criaSaida(), chao = GEO.criaSaida();
+    for (const c of casas.slice(0, 80)) GEO.expande(c, 0, s, chao, arq.regras);
+    return sha(s.pos.subarray(0, s.nVertices * 3)) + sha(s.idx.subarray(0, s.nIndices)); };
+  assert.equal(roda(), roda());
+});
+
+test("geometria: desempenho (LOD1 de 1.000 casas, LOD0 de uma casa)", { skip: !fs.existsSync(BIN) }, () => {
+  const { arq } = amostra();
+  const s = GEO.criaSaida(), chao = GEO.criaSaida();
+  let t = performance.now();
+  for (let i = 0; i < 1000; i++) GEO.expande(arq.casa(i * 7 % arq.nCasas), 1, s, chao, arq.regras);
+  const lod1 = performance.now() - t;
+  t = performance.now();
+  for (let i = 0; i < 200; i++) GEO.expande(arq.casa(i * 13 % arq.nCasas), 0, s, chao, arq.regras);
+  const lod0 = (performance.now() - t) / 200;
+  console.log(`  LOD1: 1.000 casas em ${lod1.toFixed(0)} ms; LOD0: ${lod0.toFixed(2)} ms por casa`);
+  // Teto folgado (máquina de CI e celular são mais lentos que a de medição); a meta da
+  // ESPEC (30 ms e 0,2 ms) é registrada no LEIA-ME com o número medido.
+  assert.ok(lod1 < 600, `LOD1 em ${lod1.toFixed(0)} ms`);
+  assert.ok(lod0 < 20, `LOD0 em ${lod0.toFixed(2)} ms por casa`);
+});

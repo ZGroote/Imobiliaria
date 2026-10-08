@@ -276,14 +276,14 @@
     "paleta_pesos": {
       "conjunto": { "8": 30, "9": 25, "10": 20, "11": 25 },
       "centro":   { "12": 50, "0": 15, "2": 15, "3": 10, "5": 10 },
-      "medio":    { "13": 22, "0": 20, "14": 16, "2": 12, "1": 10, "15": 6, "3": 6, "4": 3, "7": 3, "5": 2 },
-      "comum":    { "0": 18, "13": 16, "14": 12, "2": 12, "1": 10, "3": 9, "15": 6, "4": 5, "5": 5, "7": 4, "6": 3 },
-      "_nota": "Índice da paleta por bairro (chave = índice em paletas.lista). Paredes majoritariamente claras pela referência do cliente.",
+      "medio":    { "13": 12, "0": 12, "14": 9, "2": 12, "1": 8, "15": 5, "3": 12, "4": 6, "7": 8, "5": 8, "6": 4, "12": 4 },
+      "comum":    { "0": 11, "13": 9, "14": 7, "2": 12, "1": 8, "3": 13, "15": 5, "4": 7, "5": 9, "7": 9, "6": 6, "12": 4 },
+      "_nota": "Índice da paleta por bairro (chave = índice em paletas.lista). Claras ainda são a maioria (~55% fora do conjunto), pela referência do cliente; a primeira vista no mapa (08/10) saiu monótona, e areia, terracota, ocre, cinza-azulado e verde-claro ganharam peso, como na foto de rua que calibrou a paleta CASA de buildings.js.",
       "a_conferir": true
     },
     "telhas": {
-      "lista": ["A35E3C", "9D5637", "96543D", "9B5E48", "8E452E", "8A4A34", "864029", "7B412D", "6E4A3A", "723725", "633D32"],
-      "_nota": "Telha cerâmica do terracota claro ao marrom (referência do cliente; leque CASA/SOBRADO de buildings.js sem os cinzas de telha de concreto). A entrada sai da semente."
+      "lista": ["A35E3C", "9D5637", "96543D", "9B5E48", "8E452E", "8A4A34", "864029", "7B412D", "6E4A3A", "723725", "633D32", "6B6964", "7D7B76"],
+      "_nota": "Telha do terracota claro ao marrom (referência do cliente; leque CASA/SOBRADO de buildings.js) e dois cinzas de telha de concreto, comum nos bairros e presente no mapa de hoje (~15% das entradas). A entrada sai da semente."
     },
     "fibrocimento": { "lista": ["8C8C86", "7E7E79", "9A9893"], "_nota": "Telhado escondido e meia-água de fibrocimento." },
     "laje": { "lista": ["B9B6AE", "A8A59D", "C4C0B6"], "_nota": "Laje impermeabilizada vista de cima." },
@@ -298,9 +298,9 @@
       "_nota": "Portão: ferro preto, cinza ou branco."
     },
     "muro": {
-      "pesos": { "branco": 70, "cor_da_casa": 20, "cinza": 10 },
+      "pesos": { "branco": 50, "cor_da_casa": 35, "cinza": 15 },
       "cores": { "branco": "ECE8DE", "cinza": "B4B2AC" },
-      "_nota": "Muro branco contínuo com capa pela referência do cliente; parte dos muros leva a cor da casa."
+      "_nota": "Muro branco contínuo com capa pela referência do cliente; um terço leva a cor da casa e parte é bloco cinza, para o quarteirão não virar uma grade branca."
     },
     "grama": { "lista": ["688448", "5E7C40", "72904F"], "_nota": "Grama do quintal (mesmo verde dos exteriores)." },
     "piso": { "lista": ["A9AAA2", "B9B2A4", "B87154"], "_nota": "Cimentado, piso claro e cerâmica de quintal (cores de exteriores/v1/terrenos.py)." },

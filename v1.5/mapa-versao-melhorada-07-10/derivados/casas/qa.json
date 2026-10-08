@@ -1,6 +1,6 @@
 {
  "cidade": "sao-carlos",
- "gerado_em": "2026-10-08T02:42:20.676Z",
+ "gerado_em": "2026-10-08T07:08:33.006Z",
  "versao_formato": 1,
  "versao_regras": 1,
  "reprovados": 0,
@@ -57,13 +57,13 @@
   },
   {
    "nome": "determinismo (SHA-256 de duas execuções)",
-   "valor": true,
+   "valor": "não medido (--rapido)",
    "limite": true,
    "detalhe": {
-    "primeira": "103f4d20b2e8a7240cd1102a548ef22640cec85ecb5be6f625cd0c3b107de6bd",
-    "segunda": "103f4d20b2e8a7240cd1102a548ef22640cec85ecb5be6f625cd0c3b107de6bd"
+    "primeira": "d79b2e6e0f4ced9c3b4c887929c7c315621a83eaecc43ffa2611ed4c73b545bd",
+    "segunda": null
    },
-   "passou": true
+   "passou": null
   },
   {
    "nome": "casa nova sobre volume mantido",
@@ -1737,9 +1737,9 @@
  },
  "arquivos": {
   "casas.bin": {
-   "bytes": 2687572,
-   "brotli_q9": 1845594,
-   "sha256": "103f4d20b2e8a7240cd1102a548ef22640cec85ecb5be6f625cd0c3b107de6bd",
+   "bytes": 2687932,
+   "brotli_q9": 1847026,
+   "sha256": "d79b2e6e0f4ced9c3b4c887929c7c315621a83eaecc43ffa2611ed4c73b545bd",
    "bytes_por_casa": 40
   },
   "substituidos.bin": {
@@ -1749,12 +1749,11 @@
   }
  },
  "tempos": {
-  "leitura_ms": 691,
-  "preparo_ms": 1107,
-  "selecao_ms": 1549,
-  "planejamento_ms": 10371,
-  "planejamento_repetido_ms": 10057,
-  "qa_ms": 7771,
-  "total_ms": 32243
+  "leitura_ms": 1003,
+  "preparo_ms": 1022,
+  "selecao_ms": 1773,
+  "planejamento_ms": 10647,
+  "qa_ms": 7238,
+  "total_ms": 22230
  }
 }
