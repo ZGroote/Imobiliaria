@@ -143,6 +143,18 @@ async function medirUma(base, pagina, pn) {
     fatiaMaxMs: +(ord[ord.length - 1] || 0).toFixed(1), fatiasAcimaDe50ms: ord.filter(x => x > 50).length,
     quarteiroesPorQuadroMediana: montagem.ns.slice().sort((a, b) => a - b)[montagem.ns.length >> 1] || 0,
     segundosA60fps: +(quadros / 60 + soma / 1000 * 0).toFixed(1), segundosA30fps: +(quadros / 30).toFixed(1) };
+  // 2b) So na v2: as casas por regra nascem em LOD2 e SOBEM de nivel numa fila propria,
+  //     com orcamento de tempo por quadro (world/casas-mundo.js). Mesmo metodo da montagem:
+  //     cada __casas.atualiza() e a fatia de um quadro; conta-se quantas ate a fila zerar.
+  const casas = await page.evaluate(() => {
+    if (!window.__casas) return null;
+    const ts = []; let guarda = 50000; const cam = __int.camera.position;
+    while (__casas.pendente() && guarda-- > 0) { const a = performance.now(); __casas.atualiza(cam); ts.push(performance.now() - a); }
+    const o = ts.slice().sort((x, y) => x - y), soma = o.reduce((x, y) => x + y, 0);
+    return { quadros: ts.length, cpuTotalMs: Math.round(soma), fatiaMedianaMs: +(o[o.length >> 1] || 0).toFixed(2),
+      fatiaMaxMs: +(o[o.length - 1] || 0).toFixed(1), fatiasAcimaDe50ms: o.filter(x => x > 50).length, ...__casas.estatisticas() };
+  });
+  if (casas) montagemResumo.casas = casas;
   // 3) quintais (tiles .bin) e estabilidade
   await page.waitForFunction(SINAIS.completa, null, { timeout: 600000, polling: 100 });
   for (let i = 0; i < 20; i++) { await page.waitForTimeout(500);
