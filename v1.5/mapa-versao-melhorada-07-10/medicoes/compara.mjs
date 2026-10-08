@@ -27,7 +27,7 @@ export const VISTAS = {
   // perto, quase rua
   rua: 'em=-21.99640,-47.88180&r=140&p=1.18&t=1.10',
 };
-export const PRONTO = 'window.__int && __int.grupos && __int.grupos().length > 0 && __int.vivos().size > 0 && window.__perf && __perf.fila() === 0 && (!__int.exteriors || __int.exteriors.stats().pendingTiles === 0)';
+export const PRONTO = 'window.__int && __int.grupos && __int.grupos().length > 0 && __int.vivos().size > 0 && window.__perf && __perf.fila() === 0 && (!__int.exteriors || __int.exteriors.stats().pendingTiles === 0) && (!window.__casas || !__casas.pendente())';
 export const ARGS = ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'];
 export const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 

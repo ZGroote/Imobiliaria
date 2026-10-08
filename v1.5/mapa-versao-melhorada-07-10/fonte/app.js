@@ -1029,10 +1029,14 @@ const CASAS = (() => {
       materialCasa: facadeMaterial({ value: 1 }), materialLote: matLote,
       terrainY, registerTerrain, unregisterTerrain: g => terrain.unregister(g), medeFolga, inflaEsfera,
       sombra: { projeta: AP_SOMBRA && SOMBRA_CIDADE, recebe: SOMBRA_CIDADE },
-      niveis: NIVEL_NOME === "alto" ? [200, 700] : NIVEL_NOME === "medio" ? [160, 560] : [120, 450],
+      // LOD0 so bem perto: e ~1.600 triangulos e ~160 KB de memoria de video por casa.
+      niveis: NIVEL_NOME === "alto" ? [200, 700] : NIVEL_NOME === "medio" ? [140, 560] : [90, 420],
+      orcamentoMs: NIVEL_NOME === "baixo" ? 3 : 4,
+      exagero: () => reliefAmount > 0 ? TERRAIN_EXAG : 0,
       agora: () => performance.now()});
   } catch (e) { console.error("Casas por regra indisponiveis; mantendo o desenho anterior.", e); return null; }
 })();
+window.__casas = CASAS;   // sonda de QA e de medicao (estatisticas, fila de nivel de detalhe)
 
 /* A fita da rua, em duas peças com ALTURAS diferentes (v11).
 
@@ -2109,6 +2113,9 @@ toggle("tRelief", async on => {
   reliefAmount = reliefTarget;
   uRelief.value = reliefAmount;
   if (urban) urban.transform(reliefAmount,uHeight.value,urbanBase);
+  // v2: a casa por regra desce parede e muro ate o chao do declive EXAGERADO; com o
+  // relevo ligado ou desligado ela e outra malha.
+  if (CASAS) CASAS.remonta();
   for (const geo of terrain.geometries()) applyTerrainToGeo(geo, reliefAmount, true);
   recalcDyRotulos();
   recalcDyPois(); sujaPois();
