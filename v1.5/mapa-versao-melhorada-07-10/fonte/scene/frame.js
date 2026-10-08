@@ -151,12 +151,16 @@ function frame(now) {
     // So consome o pedido de sombra no quadro que desenha: pulado, o pedido espera.
     renderer.shadowMap.needsUpdate = sombraPendente() && (SOMBRA_CIDADE || INT.on);
     limpaSombra();
-    if (SD) { _versaoAnt = SD.versao(); assina(W, H); _assinAnt.set(_assin); }
+    if (SD) { assina(W, H); _assinAnt.set(_assin); }
     renderer.render(scene, camera);
     // A miniatura e um SEGUNDO render no mesmo quadro, recortado pelo painel. Vem depois
     // da cidade de proposito -- a tesoura limita tambem a limpeza, entao o que esta fora
     // do retangulo e a cidade que acabou de ser desenhada.
     desenhaMaquete();
+    // O contador e lido DEPOIS do desenho: o proprio three marca `needsUpdate` no meio do
+    // render (material transparente de dupla face desenha as duas faces trocando `side`),
+    // e ler antes fazia cada quadro pedir o seguinte -- parado, desenhava sem parar.
+    if (SD) _versaoAnt = SD.versao();
     if (contaQuadro) contaQuadro();
     _ultimoDesenho = now;
   }

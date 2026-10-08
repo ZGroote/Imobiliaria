@@ -2744,6 +2744,12 @@ window.__perf = {
   dpr: () => governor.dpr, quadroMs: () => governor.frameMs, cpuMs: () => _cpuMs,
   fila: () => streaming.pending, sujaSombra, setStreamRadius, raio: () => STREAM_R,
   bombeia(max) { let k = 0; while (streaming.pending && k < max) { streamPump(); k++; } return streaming.pending; },
+  // v2: por que o desenho sob demanda ainda desenha (o que esta ligado agora).
+  porque: () => ({ int: !!INT.on, voo: !!INT.voo, bake: !!BAKE.fila, mark: mark.visible, beacon: houseBeacon.visible,
+    veg: !!vegetation.dirty, contato: !!somSujo, risers: risers.filter(r => r.u.value < 1).length,
+    tour: !!etapas.TOUR.on, maq: !!(etapas.MAQ.anim || etapas.MAQ.fadeAnim || (etapas.MAQ.modo !== "off" && etapas.MAQ.raiz)),
+    tiles: exteriors ? exteriors.stats().pendingTiles : 0, sombra: !!sombraSuja, fila: streaming.pending,
+    casas: CASAS ? CASAS.pendente() : false, quadros: window.__quadrosDesenhados || 0, versao: SobDemanda.versao }),
   // Um quadro COMPLETO fora do rAF. Mesma razao do `mede`, um degrau acima: em Chrome
   // headless o rAF para depois dos primeiros quadros (ver [[mapa-3d-raf-aba-oculta]]),
   // e sem isto nenhuma sonda consegue testar o que o frame() DECIDE -- rotulo de rua,

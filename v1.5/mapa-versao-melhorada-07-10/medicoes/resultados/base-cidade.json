@@ -1,0 +1,868 @@
+{
+  "quando": "2026-10-08T07:19:34.481Z",
+  "maquina": "Intel(R) Xeon(R) Processor @ 2.10GHz x4",
+  "render": "SwiftShader (software)",
+  "pasta": "/tmp/claude-0/-home-user-Imobiliaria/8471c7d3-554c-52df-b080-634db34b0af2/scratchpad/mapa/piloto",
+  "resultados": {
+    "cidade|desktop": [
+      {
+        "url": "/mapa/sao-carlos-3b54570a8f4e.html",
+        "perfil": "desktop",
+        "carregadaParedeMs": 7946,
+        "completaParedeMs": 18051,
+        "montagem": {
+          "quarteiroesNaFila": 872,
+          "cpuTotalMs": 6550,
+          "fatiaMs": 4,
+          "quadrosParaMontar": 169,
+          "fatiaMedianaMs": 9.7,
+          "fatiaP95Ms": 141.7,
+          "fatiaMaxMs": 390.8,
+          "fatiasAcimaDe50ms": 46,
+          "quarteiroesPorQuadroMediana": 6,
+          "segundosA60fps": 2.8,
+          "segundosA30fps": 5.6
+        },
+        "cpuAteCarregada": {
+          "scriptMs": 2925,
+          "tarefaMs": 6764
+        },
+        "bytesAteCompleta": 15185388,
+        "requisicoes": 57,
+        "tiles": 52,
+        "bytesTiles": 5593057,
+        "abrir": {
+          "htmlRespostaFim": 2385.0999999998603,
+          "domContentLoaded": 2537.6999999999534,
+          "load": 2543,
+          "fcp": 2644,
+          "primeiroDesenho": 5609.09999999986,
+          "primeiroDesenhoNaTela": 5963.09999999986,
+          "cidadeCarregada": 7939.799999999814,
+          "filaZero": 15064.699999999953,
+          "completa": 16504.199999999953,
+          "longTasks": {
+            "n": 7,
+            "somaMs": 5041,
+            "maxMs": 2235,
+            "maiores": [
+              [
+                3531,
+                2235
+              ],
+              [
+                5966,
+                1258
+              ],
+              [
+                7227,
+                712
+              ],
+              [
+                14702,
+                362
+              ],
+              [
+                5766,
+                199
+              ],
+              [
+                7944,
+                169
+              ]
+            ]
+          },
+          "nivel": "baixo",
+          "dpr": 1,
+          "grupos": 4264,
+          "vivos": 874,
+          "exteriores": {
+            "loadedTiles": 52,
+            "tileErrors": 0,
+            "pendingTiles": 0,
+            "range": 360,
+            "coverage": 2120
+          },
+          "raioStream": 1800,
+          "drawsAteAqui": 962
+        },
+        "cpuAteCompleta": {
+          "scriptMs": 3554,
+          "tarefaMs": 14925,
+          "layoutMs": 75,
+          "estiloMs": 104,
+          "nota": "tempo de thread principal ja na escala do estrangulamento de CPU"
+        },
+        "memoriaCompleta": {
+          "gpuMiB": 124.8,
+          "texturasMiB": 7.3,
+          "buffersMiB": 105.5,
+          "alvosMiB": 12,
+          "picoGpuMiB": 124.8,
+          "canvas": [
+            1366,
+            768
+          ],
+          "msaa": false,
+          "heapJsMiB": 219.4,
+          "heapJsTotalMiB": 276.4,
+          "nos": 62897
+        },
+        "umQuadro": {
+          "calls": 458,
+          "tris": 8156447,
+          "msSwiftShader": 7.1
+        },
+        "composicao": {
+          "totalTris": 8456594,
+          "objetosVisiveis": 1169,
+          "instancias": 30763,
+          "familias": [
+            {
+              "familia": "Group/Mesh | Mesh | MeshPhongMaterial",
+              "objetos": 944,
+              "tris": 773419,
+              "instancias": 944,
+              "trisPorInstanciaMax": 21472,
+              "vertices": 2320257,
+              "pct": 9.1
+            },
+            {
+              "familia": "arvores/Mesh | Instanced | MeshPhongMaterial",
+              "objetos": 20,
+              "tris": 565060,
+              "instancias": 1992,
+              "trisPorInstanciaMax": 1410,
+              "vertices": 18972,
+              "pct": 6.7
+            },
+            {
+              "familia": "Mesh | Mesh | MeshPhongMaterial",
+              "objetos": 1,
+              "tris": 554180,
+              "instancias": 1,
+              "trisPorInstanciaMax": 554180,
+              "vertices": 1662540,
+              "pct": 6.6
+            },
+            {
+              "familia": "Group/urban-casas-02 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 469924,
+              "instancias": 1291,
+              "trisPorInstanciaMax": 364,
+              "vertices": 732,
+              "pct": 5.6
+            },
+            {
+              "familia": "Group/urban-casas-05 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 448800,
+              "instancias": 850,
+              "trisPorInstanciaMax": 528,
+              "vertices": 1056,
+              "pct": 5.3
+            },
+            {
+              "familia": "Mesh | Mesh | MeshBasicMaterial",
+              "objetos": 4,
+              "tris": 448391,
+              "instancias": 4,
+              "trisPorInstanciaMax": 199712,
+              "vertices": 843571,
+              "pct": 5.3
+            },
+            {
+              "familia": "Group/urban-sobrados-05 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 423900,
+              "instancias": 471,
+              "trisPorInstanciaMax": 900,
+              "vertices": 1800,
+              "pct": 5
+            },
+            {
+              "familia": "Group/urban-casas-12 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 270512,
+              "instancias": 583,
+              "trisPorInstanciaMax": 464,
+              "vertices": 930,
+              "pct": 3.2
+            },
+            {
+              "familia": "Group/urban-casas-01 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 267904,
+              "instancias": 728,
+              "trisPorInstanciaMax": 368,
+              "vertices": 738,
+              "pct": 3.2
+            },
+            {
+              "familia": "Group/urban-casas-11 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 222080,
+              "instancias": 694,
+              "trisPorInstanciaMax": 320,
+              "vertices": 642,
+              "pct": 2.6
+            },
+            {
+              "familia": "Group/urban-casas-09 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 184860,
+              "instancias": 585,
+              "trisPorInstanciaMax": 316,
+              "vertices": 636,
+              "pct": 2.2
+            },
+            {
+              "familia": "Group/urban-casas-06 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 146880,
+              "instancias": 510,
+              "trisPorInstanciaMax": 288,
+              "vertices": 576,
+              "pct": 1.7
+            },
+            {
+              "familia": "Group/urban-casas-03 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 127800,
+              "instancias": 450,
+              "trisPorInstanciaMax": 284,
+              "vertices": 570,
+              "pct": 1.5
+            },
+            {
+              "familia": "Group/urban-casas-08 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 120984,
+              "instancias": 426,
+              "trisPorInstanciaMax": 284,
+              "vertices": 570,
+              "pct": 1.4
+            },
+            {
+              "familia": "Group/urban-casas-16 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 119040,
+              "instancias": 160,
+              "trisPorInstanciaMax": 744,
+              "vertices": 1488,
+              "pct": 1.4
+            },
+            {
+              "familia": "exteriores-blender/exterior-muros-24 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 115128,
+              "instancias": 123,
+              "trisPorInstanciaMax": 936,
+              "vertices": 1872,
+              "pct": 1.4
+            },
+            {
+              "familia": "Group/urban-sobrados-01 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 114560,
+              "instancias": 160,
+              "trisPorInstanciaMax": 716,
+              "vertices": 1434,
+              "pct": 1.4
+            },
+            {
+              "familia": "exteriores-blender/exterior-muros-09 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 112320,
+              "instancias": 65,
+              "trisPorInstanciaMax": 1728,
+              "vertices": 2720,
+              "pct": 1.3
+            },
+            {
+              "familia": "Group/urban-sobrados-04 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 107880,
+              "instancias": 155,
+              "trisPorInstanciaMax": 696,
+              "vertices": 1392,
+              "pct": 1.3
+            },
+            {
+              "familia": "exteriores-blender/exterior-muros-10 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 96660,
+              "instancias": 45,
+              "trisPorInstanciaMax": 2148,
+              "vertices": 3560,
+              "pct": 1.1
+            },
+            {
+              "familia": "exteriores-blender/exterior-muros-04 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 93732,
+              "instancias": 73,
+              "trisPorInstanciaMax": 1284,
+              "vertices": 2568,
+              "pct": 1.1
+            },
+            {
+              "familia": "portoes/Mesh | Instanced | MeshPhongMaterial",
+              "objetos": 4,
+              "tris": 90432,
+              "instancias": 1885,
+              "trisPorInstanciaMax": 60,
+              "vertices": 576,
+              "pct": 1.1
+            },
+            {
+              "familia": "Group/urban-casas-13 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 90300,
+              "instancias": 215,
+              "trisPorInstanciaMax": 420,
+              "vertices": 840,
+              "pct": 1.1
+            },
+            {
+              "familia": "exteriores-blender/exterior-muros-05 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 88608,
+              "instancias": 52,
+              "trisPorInstanciaMax": 1704,
+              "vertices": 4752,
+              "pct": 1
+            },
+            {
+              "familia": "Group/urban-sobrados-03 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 87216,
+              "instancias": 138,
+              "trisPorInstanciaMax": 632,
+              "vertices": 1266,
+              "pct": 1
+            },
+            {
+              "familia": "exteriores-blender/exterior-muros-02 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 85920,
+              "instancias": 40,
+              "trisPorInstanciaMax": 2148,
+              "vertices": 4296,
+              "pct": 1
+            },
+            {
+              "familia": "Group/urban-casas-19 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 84744,
+              "instancias": 198,
+              "trisPorInstanciaMax": 428,
+              "vertices": 858,
+              "pct": 1
+            },
+            {
+              "familia": "Group/urban-casas-20 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 79344,
+              "instancias": 174,
+              "trisPorInstanciaMax": 456,
+              "vertices": 912,
+              "pct": 0.9
+            },
+            {
+              "familia": "Group/urban-casas-17 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 78246,
+              "instancias": 189,
+              "trisPorInstanciaMax": 414,
+              "vertices": 832,
+              "pct": 0.9
+            },
+            {
+              "familia": "Group/urban-sobrados-08 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 73260,
+              "instancias": 111,
+              "trisPorInstanciaMax": 660,
+              "vertices": 1320,
+              "pct": 0.9
+            }
+          ]
+        },
+        "parado": {
+          "segundos": 5.01,
+          "quadrosPorSeg": 0.6,
+          "desenhosPorQuadro": 460,
+          "triangulosPorQuadro": 8555455,
+          "cpuPrincipalPct": 71.2,
+          "scriptPct": 71.1
+        },
+        "girando": {
+          "segundos": 12.54,
+          "quadrosPorSeg": 0.2,
+          "desenhosPorQuadro": 460,
+          "triangulosPorQuadro": 8436945,
+          "cpuPrincipalPct": 3.7,
+          "scriptPct": 0.3
+        },
+        "posGiro": {
+          "fila": 0,
+          "vivos": 874,
+          "dpr": 1
+        },
+        "memoriaFinal": {
+          "gpuMiB": 169.6,
+          "texturasMiB": 10.7,
+          "buffersMiB": 147,
+          "alvosMiB": 12,
+          "picoGpuMiB": 169.6,
+          "canvas": [
+            1366,
+            768
+          ],
+          "msaa": false,
+          "heapJsMiB": 178.6,
+          "heapJsTotalMiB": 183.4,
+          "nos": 10852
+        },
+        "bytesPorRecurso": {
+          "/mapa/sao-carlos-3b54570a8f4e.html": 9592331,
+          "data:": 0,
+          "mapa/quintais/*.bin": 5593057
+        },
+        "erros": []
+      }
+    ],
+    "cidade|celular-fraco": [
+      {
+        "url": "/mapa/sao-carlos-3b54570a8f4e.html",
+        "perfil": "celular-fraco",
+        "carregadaParedeMs": 80600,
+        "completaParedeMs": 180115,
+        "montagem": {
+          "quarteiroesNaFila": 872,
+          "cpuTotalMs": 51721,
+          "fatiaMs": 4,
+          "quadrosParaMontar": 608,
+          "fatiaMedianaMs": 31,
+          "fatiaP95Ms": 530.4,
+          "fatiaMaxMs": 1656.9,
+          "fatiasAcimaDe50ms": 135,
+          "quarteiroesPorQuadroMediana": 1,
+          "segundosA60fps": 10.1,
+          "segundosA30fps": 20.3
+        },
+        "cpuAteCarregada": {
+          "scriptMs": 16133,
+          "tarefaMs": 51940
+        },
+        "bytesAteCompleta": 15185388,
+        "requisicoes": 57,
+        "tiles": 52,
+        "bytesTiles": 5593057,
+        "abrir": {
+          "htmlRespostaFim": 48120.799999999814,
+          "domContentLoaded": 49130.69999999995,
+          "load": 49213.799999999814,
+          "fcp": 47332,
+          "primeiroDesenho": 68879.09999999986,
+          "primeiroDesenhoNaTela": 71811.3999999999,
+          "cidadeCarregada": 80586.8999999999,
+          "filaZero": 134928.8999999999,
+          "completa": 161346.8999999999,
+          "longTasks": {
+            "n": 21,
+            "somaMs": 46215,
+            "maxMs": 17756,
+            "maiores": [
+              [
+                162353,
+                17756
+              ],
+              [
+                55686,
+                14042
+              ],
+              [
+                71842,
+                6652
+              ],
+              [
+                78495,
+                2086
+              ],
+              [
+                70052,
+                1773
+              ],
+              [
+                80605,
+                1550
+              ]
+            ]
+          },
+          "nivel": "baixo",
+          "dpr": 1,
+          "grupos": 4264,
+          "vivos": 874,
+          "exteriores": {
+            "loadedTiles": 52,
+            "tileErrors": 0,
+            "pendingTiles": 0,
+            "range": 240,
+            "coverage": 2120
+          },
+          "raioStream": 1800,
+          "drawsAteAqui": 4876
+        },
+        "cpuAteCompleta": {
+          "scriptMs": 37487,
+          "tarefaMs": 131061,
+          "layoutMs": 709,
+          "estiloMs": 1130,
+          "nota": "tempo de thread principal ja na escala do estrangulamento de CPU"
+        },
+        "memoriaCompleta": {
+          "gpuMiB": 144.8,
+          "texturasMiB": 10.7,
+          "buffersMiB": 130.9,
+          "alvosMiB": 3.2,
+          "picoGpuMiB": 144.8,
+          "canvas": [
+            360,
+            780
+          ],
+          "msaa": false,
+          "heapJsMiB": 182.2,
+          "heapJsTotalMiB": 223.2,
+          "nos": 10852
+        },
+        "umQuadro": {
+          "calls": 347,
+          "tris": 7753830,
+          "msSwiftShader": 44.9
+        },
+        "composicao": {
+          "totalTris": 8222202,
+          "objetosVisiveis": 1170,
+          "instancias": 92019,
+          "familias": [
+            {
+              "familia": "Group/Mesh | Mesh | MeshPhongMaterial",
+              "objetos": 944,
+              "tris": 773419,
+              "instancias": 944,
+              "trisPorInstanciaMax": 21472,
+              "vertices": 2320257,
+              "pct": 9.4
+            },
+            {
+              "familia": "arvores/Mesh | Instanced | MeshPhongMaterial",
+              "objetos": 20,
+              "tris": 565060,
+              "instancias": 1992,
+              "trisPorInstanciaMax": 1410,
+              "vertices": 18972,
+              "pct": 6.9
+            },
+            {
+              "familia": "Mesh | Mesh | MeshPhongMaterial",
+              "objetos": 1,
+              "tris": 554180,
+              "instancias": 1,
+              "trisPorInstanciaMax": 554180,
+              "vertices": 1662540,
+              "pct": 6.7
+            },
+            {
+              "familia": "Group/urban-casas-02 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 469924,
+              "instancias": 1291,
+              "trisPorInstanciaMax": 364,
+              "vertices": 732,
+              "pct": 5.7
+            },
+            {
+              "familia": "Group/urban-casas-05 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 448800,
+              "instancias": 850,
+              "trisPorInstanciaMax": 528,
+              "vertices": 1056,
+              "pct": 5.5
+            },
+            {
+              "familia": "Mesh | Mesh | MeshBasicMaterial",
+              "objetos": 4,
+              "tris": 448391,
+              "instancias": 4,
+              "trisPorInstanciaMax": 199712,
+              "vertices": 843571,
+              "pct": 5.5
+            },
+            {
+              "familia": "Group/urban-sobrados-05 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 423900,
+              "instancias": 471,
+              "trisPorInstanciaMax": 900,
+              "vertices": 1800,
+              "pct": 5.2
+            },
+            {
+              "familia": "quintais-area-livre | Mesh | MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 273872,
+              "instancias": 1,
+              "trisPorInstanciaMax": 273872,
+              "vertices": 1027020,
+              "pct": 3.3
+            },
+            {
+              "familia": "Group/urban-casas-12 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 270512,
+              "instancias": 583,
+              "trisPorInstanciaMax": 464,
+              "vertices": 930,
+              "pct": 3.3
+            },
+            {
+              "familia": "Group/urban-casas-01 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 267904,
+              "instancias": 728,
+              "trisPorInstanciaMax": 368,
+              "vertices": 738,
+              "pct": 3.3
+            },
+            {
+              "familia": "Group/urban-casas-11 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 222080,
+              "instancias": 694,
+              "trisPorInstanciaMax": 320,
+              "vertices": 642,
+              "pct": 2.7
+            },
+            {
+              "familia": "Group/urban-casas-09 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 184860,
+              "instancias": 585,
+              "trisPorInstanciaMax": 316,
+              "vertices": 636,
+              "pct": 2.2
+            },
+            {
+              "familia": "Group/urban-casas-06 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 146880,
+              "instancias": 510,
+              "trisPorInstanciaMax": 288,
+              "vertices": 576,
+              "pct": 1.8
+            },
+            {
+              "familia": "Group/urban-casas-03 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 127800,
+              "instancias": 450,
+              "trisPorInstanciaMax": 284,
+              "vertices": 570,
+              "pct": 1.6
+            },
+            {
+              "familia": "quintais-vista-aerea | Instanced | MeshBasicMaterial",
+              "objetos": 1,
+              "tris": 125136,
+              "instancias": 62568,
+              "trisPorInstanciaMax": 2,
+              "vertices": 4,
+              "pct": 1.5
+            },
+            {
+              "familia": "Group/urban-casas-08 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 120984,
+              "instancias": 426,
+              "trisPorInstanciaMax": 284,
+              "vertices": 570,
+              "pct": 1.5
+            },
+            {
+              "familia": "Group/urban-casas-16 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 119040,
+              "instancias": 160,
+              "trisPorInstanciaMax": 744,
+              "vertices": 1488,
+              "pct": 1.4
+            },
+            {
+              "familia": "Group/urban-sobrados-01 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 114560,
+              "instancias": 160,
+              "trisPorInstanciaMax": 716,
+              "vertices": 1434,
+              "pct": 1.4
+            },
+            {
+              "familia": "Group/urban-sobrados-04 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 107880,
+              "instancias": 155,
+              "trisPorInstanciaMax": 696,
+              "vertices": 1392,
+              "pct": 1.3
+            },
+            {
+              "familia": "portoes/Mesh | Instanced | MeshPhongMaterial",
+              "objetos": 4,
+              "tris": 90432,
+              "instancias": 1885,
+              "trisPorInstanciaMax": 60,
+              "vertices": 576,
+              "pct": 1.1
+            },
+            {
+              "familia": "Group/urban-casas-13 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 90300,
+              "instancias": 215,
+              "trisPorInstanciaMax": 420,
+              "vertices": 840,
+              "pct": 1.1
+            },
+            {
+              "familia": "exteriores-blender/exterior-muros-02 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 90216,
+              "instancias": 42,
+              "trisPorInstanciaMax": 2148,
+              "vertices": 4296,
+              "pct": 1.1
+            },
+            {
+              "familia": "Group/urban-sobrados-03 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 87216,
+              "instancias": 138,
+              "trisPorInstanciaMax": 632,
+              "vertices": 1266,
+              "pct": 1.1
+            },
+            {
+              "familia": "Group/urban-casas-19 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 84744,
+              "instancias": 198,
+              "trisPorInstanciaMax": 428,
+              "vertices": 858,
+              "pct": 1
+            },
+            {
+              "familia": "Group/urban-casas-20 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 79344,
+              "instancias": 174,
+              "trisPorInstanciaMax": 456,
+              "vertices": 912,
+              "pct": 1
+            },
+            {
+              "familia": "Group/urban-casas-17 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 78246,
+              "instancias": 189,
+              "trisPorInstanciaMax": 414,
+              "vertices": 832,
+              "pct": 1
+            },
+            {
+              "familia": "exteriores-blender/exterior-muros-09 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 76032,
+              "instancias": 44,
+              "trisPorInstanciaMax": 1728,
+              "vertices": 2720,
+              "pct": 0.9
+            },
+            {
+              "familia": "Group/urban-sobrados-08 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 73260,
+              "instancias": 111,
+              "trisPorInstanciaMax": 660,
+              "vertices": 1320,
+              "pct": 0.9
+            },
+            {
+              "familia": "Group/urban-casas-18 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 68876,
+              "instancias": 257,
+              "trisPorInstanciaMax": 268,
+              "vertices": 540,
+              "pct": 0.8
+            },
+            {
+              "familia": "exteriores-blender/exterior-muros-04 | Instanced | MeshStandardMaterial+MeshStandardMaterial",
+              "objetos": 1,
+              "tris": 65484,
+              "instancias": 51,
+              "trisPorInstanciaMax": 1284,
+              "vertices": 2568,
+              "pct": 0.8
+            }
+          ]
+        },
+        "parado": {
+          "segundos": 5.01,
+          "quadrosPorSeg": 0.2,
+          "desenhosPorQuadro": 347,
+          "triangulosPorQuadro": 7753830,
+          "cpuPrincipalPct": 1.2,
+          "scriptPct": 1
+        },
+        "girando": {
+          "segundos": 6.09,
+          "quadrosPorSeg": 0.2,
+          "desenhosPorQuadro": 347,
+          "triangulosPorQuadro": 7753830,
+          "cpuPrincipalPct": 2.7,
+          "scriptPct": 1.9
+        },
+        "posGiro": {
+          "fila": 0,
+          "vivos": 874,
+          "dpr": 1
+        },
+        "memoriaFinal": {
+          "gpuMiB": 144.8,
+          "texturasMiB": 10.7,
+          "buffersMiB": 130.9,
+          "alvosMiB": 3.2,
+          "picoGpuMiB": 144.8,
+          "canvas": [
+            360,
+            780
+          ],
+          "msaa": false,
+          "heapJsMiB": 184.5,
+          "heapJsTotalMiB": 223.2,
+          "nos": 10852
+        },
+        "bytesPorRecurso": {
+          "/mapa/sao-carlos-3b54570a8f4e.html": 9592331,
+          "data:": 0,
+          "mapa/quintais/*.bin": 5593057
+        },
+        "erros": []
+      }
+    ]
+  }
+}
