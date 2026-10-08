@@ -640,7 +640,10 @@
 
     // ocupação alvo: a do volume antigo dentro da faixa
     const [tmin, tmax] = R("ocupacao.taxa_alvo");
-    const taxaAlvo = ent.dica && ent.dica.ocupacao > 0 ? clamp(ent.dica.ocupacao, tmin, tmax) : (tmin + tmax) / 2;
+    const fO = fl("ocupacao");
+    const [sa, sb] = R("ocupacao.taxa_sorteio").map(x => Math.round(x * 100));
+    const pistaOcup = ent.dica && ent.dica.ocupacao > 0 ? ent.dica.ocupacao : (tmin + tmax) / 2;
+    const taxaAlvo = clamp(clamp(pistaOcup, tmin, tmax) + fO.inteiro(sa, sb) / 100, tmin, tmax);
 
     // ---- helpers de faixa em dm -----------------------------------------------------
     const limU = (v0, v1, ref) => { const f = faixa(P, 1, v0 / 10, v1 / 10, ref === undefined ? 0 : ref / 10); return f ? [dmCima(f[0]), dmBaixo(f[1])] : null; };
@@ -709,8 +712,13 @@
       if (gar) { if (t.garagem === 1) lo = lu[0] + gar.w; else hi = lu[1] - gar.w; }
       const W = hi - lo;
       const [cwMin, cwMax] = fx("malha.corpo_largura_m");
+      const [cdMin, cdMax] = fx("malha.corpo_profundidade_m");
+      const outros = (caixa ? caixa.w * caixa.d : 0) + (gar ? gar.w * gar.d : 0) + (forma === "L" || forma === "T" ? alaW * alaD : 0);
+      const areaAlvo = taxaAlvo * areaLote * 100 - outros;          // dm²
       let w;
-      if (W >= cwMin) w = fV.inteiro(cwMin, Math.min(cwMax, W));
+      // A largura sorteada sobe até a que a ocupação alvo pede com o corpo no fundo
+      // máximo: sem isso, o lote largo fica com a casa pequena no meio do gramado.
+      if (W >= cwMin) w = clamp(Math.max(fV.inteiro(cwMin, Math.min(cwMax, W)), Math.ceil(areaAlvo / cdMax)), cwMin, Math.min(cwMax, W));
       else if (W >= vaoMin) w = Math.min(Math.round(R("malha.vao_m")[1] * 10), W);
       else return "sem_espaco:2";
       w = malhaDm(w, R);
@@ -727,10 +735,8 @@
       if (!lv) return "sem_espaco:5";
       v0c = Math.max(v0c, lv[0] + recuoF + (caixa ? caixa.d : 0) + (frenteL ? alaD : 0));
       const vBack = lv[1] - rFundo;
-      const outros = (caixa ? caixa.w * caixa.d : 0) + (gar ? gar.w * gar.d : 0) + (forma === "L" || forma === "T" ? alaW * alaD : 0);
-      const [cdMin, cdMax] = fx("malha.corpo_profundidade_m");
       const reservaAtras = (forma === "T" || (forma === "L" && !frenteL)) ? Math.round(R("malha.ala_profundidade_m")[0] * 10) : 0;
-      let d = clamp(Math.round((taxaAlvo * areaLote * 100 - outros) / w), cdMin, cdMax);
+      let d = clamp(Math.round(areaAlvo / w), cdMin, cdMax);
       d = Math.min(d, vBack - v0c - reservaAtras);
       if (d < Math.round(R("malha.corpo_profundidade_min_absoluta_m") * 10)) return "sem_espaco:6";
       d = malhaDm(d, R);
@@ -838,35 +844,37 @@
        corpo que não esteja coberta por ala, caixa de garagem ou garagem. */
     function portas(campos, vols, gLado) {
       const pil = Math.round(R("portoes.pilarete_m") * 10), sw = Math.round(R("portoes.social_largura_m") * 10);
-      const pw = Math.round(R("aberturas.porta_largura_m") * 10), canto = Math.round(R("aberturas.janela_canto_min_m") * 10);
+      const pw = Math.round(R("aberturas.porta_largura_m") * 10), canto = Math.round(R("aberturas.porta_canto_min_m") * 10);
       const cw = Math.round(R("quintal.caminho_largura_m") * 10);
       const corpo = vols.corpo;
-      const meia = Math.max(Math.ceil(pw / 2), Math.ceil(cw / 2));
+      const meia = Math.max(Math.ceil(pw / 2), Math.ceil(cw / 2)), ms = Math.ceil(sw / 2);
+      // Onde a porta PODE ficar: na frente do corpo, longe do canto...
       let ok = [[corpo.u0 + canto + Math.ceil(pw / 2), corpo.u0 + corpo.w - canto - Math.ceil(pw / 2)]];
-      // a varanda não bloqueia: o caminho entra debaixo dela
+      // ...fora da frente coberta por ala ou caixa-garagem (a varanda não bloqueia: o
+      // caminho entra debaixo dela)...
       if (vols.ala && (vols.alaTipo === 1 || vols.alaTipo === 4) && vols.ala.v0 + vols.ala.d <= corpo.v0)
         ok = subtrai(ok, vols.ala.u0 - meia, vols.ala.u0 + vols.ala.w + meia);
-      ok = ok.filter(([a, b]) => b >= a);
-      if (!ok.length) return null;
       let alvo, gate = null;
       if (gLado) {
         // portão de garagem: o mesmo cálculo de CasasFormato.detalha
         const tmp = F.casaDeCampos(Object.assign({}, campos, { portaU: 0 }), ent.centroQuarteirao[0], ent.centroQuarteirao[1], regras.json);
         const d = F.detalha(tmp, regras.json);
-        if (!d.portaoGaragem) return null;
+        if (!d.portaoGaragem) { info.portasFalha = "sem_portao_garagem"; return null; }
         gate = [Math.round(d.portaoGaragem.u0 * 10), Math.round(d.portaoGaragem.u1 * 10)];
-        alvo = gLado === 1 ? gate[1] + pil + Math.ceil(sw / 2) : gate[0] - pil - Math.ceil(sw / 2);
+        alvo = gLado === 1 ? gate[1] + pil + ms : gate[0] - pil - ms;
       } else alvo = corpo.u0 + Math.round(corpo.w * (fl("aberturas").chance(0.5) ? 0.3 : 0.7));
-      // posição válida mais próxima do alvo
+      // ...e, com muro, onde o portão social (centrado na porta) cabe na testada sem
+      // encostar no portão de garagem: um pilarete entre os dois.
+      if (muro !== "nenhum") {
+        ok = ok.map(([a, b]) => [Math.max(a, -Math.floor(Tdm / 2) + pil + ms), Math.min(b, Math.floor(Tdm / 2) - pil - (sw - ms))]);
+        if (gate) ok = subtrai(ok, gate[0] - pil - (sw - ms) + 1, gate[1] + pil + ms - 1);
+      }
+      ok = ok.filter(([a, b]) => b >= a);
+      if (!ok.length) { info.portasFalha = gate ? "sem_lugar_com_garagem" : "sem_lugar_de_porta"; return null; }
+      // a posição permitida mais próxima do alvo
       let melhor = null;
       for (const [a, b] of ok) { const u = clamp(alvo, a, b); if (melhor === null || Math.abs(u - alvo) < Math.abs(melhor - alvo)) melhor = u; }
-      const u = melhor;
-      if (muro !== "nenhum") {
-        const s0 = u - Math.ceil(sw / 2), s1 = s0 + sw;
-        if (s0 < -Tdm / 2 + pil || s1 > Tdm / 2 - pil) return null;
-        if (gate && Math.min(s1, gate[1]) - Math.max(s0, gate[0]) > -pil) return null;
-      }
-      return u - corpo.u0;
+      return melhor - corpo.u0;
     }
     function subtrai(iv, a, b) {
       const out = [];
@@ -1017,7 +1025,7 @@
         corpoU0: corpo.u0, corpoV0: corpo.v0, corpoW: corpo.w, corpoD: corpo.d, corpoCega: 0,
         alaDu: ala ? ala.u0 - corpo.u0 : 0, alaDv: ala ? ala.v0 - corpo.v0 : 0, alaW: ala ? ala.w : 0, alaD: ala ? ala.d : 0, alaCega: 0,
         ediculaU0: edic ? edic.u0 : 0, ediculaDv: edic ? edic.v0 - (corpo.v0 + corpo.d) : 0, ediculaW: edic ? edic.w : 0, ediculaD: edic ? edic.d : 0, ediculaCega: 0,
-        reservado: 0
+        vagaCorpo: 0
       };
       // faixa dos campos: o que não cabe no formato vira recusa, nunca truncamento
       let fora = false;
@@ -1031,11 +1039,16 @@
       campos.corpoCega = mascara(rc, todos, sup);
       if (ra) campos.alaCega = alaTipo === 3 ? 15 : mascara(ra, todos);
       if (re) campos.ediculaCega = mascara(re, todos);
-      // porta e portões
-      const pu = portas(campos, { corpo, ala, alaTipo }, t.garagem);
-      if (pu === null || pu < 0 || pu > F.FAIXA.portaU[1]) { ultimo = "portoes"; (info.motivos = info.motivos || []).push("portoes"); continue; }
-      campos.portaU = pu;
-      const mot = valida(campos);
+      // porta e portões; a vaga descoberta tenta o canto do lote e depois a face do corpo
+      let mot = null;
+      for (const vc of (t.garagem && !alaTipo || t.garagem && alaTipo === 1 || t.garagem && alaTipo === 2 || t.garagem && alaTipo === 5) ? [0, 1] : [0]) {
+        campos.vagaCorpo = vc;
+        const pu = portas(campos, { corpo, ala, alaTipo }, t.garagem);
+        if (pu === null || pu < 0 || pu > F.FAIXA.portaU[1]) { mot = "portoes:" + (info.portasFalha || "faixa"); continue; }
+        campos.portaU = pu;
+        mot = valida(campos);
+        if (!mot) break;
+      }
       if (mot) { ultimo = mot.split(":")[0]; (info.motivos = info.motivos || []).push(mot); continue; }
       // piscina por regra, se couber
       const fPi = fl("piscina_regra");

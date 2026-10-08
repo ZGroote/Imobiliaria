@@ -84,6 +84,7 @@
 
   "ocupacao": {
     "taxa_alvo": { "faixa": [0.40, 0.60], "_nota": "Taxa de ocupação alvo (ESPEC regra 2). A ocupação do volume antigo é a pista dentro desta faixa.", "a_conferir": true },
+    "taxa_sorteio": { "faixa": [0.02, 0.12], "_nota": "Somado à pista do volume antigo (que quase sempre fica abaixo de 40%) para a ocupação se espalhar dentro da faixa alvo em vez de empilhar no piso dela. O mínimo de 2% cobre o arredondamento para dentro e a malha, que só tiram área.", "a_conferir": true },
     "taxa_max": { "valor": 0.70, "_nota": "Teto da taxa de ocupação.", "a_conferir": true },
     "permeabilidade_min": { "valor": 0.15, "_nota": "Área permeável mínima (grama/jardim) sobre a área do lote.", "a_conferir": true }
   },
@@ -92,7 +93,7 @@
     "_nota": "Volumetria em malha estrutural (ESPEC regra 3). Todo lado de volume de alvenaria se divide em vãos iguais entre 3,0 e 4,5 m: por isso 4,6 a 5,9 m não existe (dois vãos dariam menos de 3,0).",
     "vao_m": { "faixa": [3.0, 4.5], "_nota": "Vão entre pilares.", "a_conferir": true },
     "corpo_largura_m": { "faixa": [6.0, 9.0], "_nota": "Largura (ao longo da testada) do corpo principal. Lote estreito usa um vão só (3,0 a 4,5).", "a_conferir": true },
-    "corpo_profundidade_m": { "faixa": [6.0, 15.0], "_nota": "Profundidade do corpo; a ocupação alvo decide dentro da faixa.", "a_conferir": true },
+    "corpo_profundidade_m": { "faixa": [6.0, 18.0], "_nota": "Profundidade do corpo; a ocupação alvo decide dentro da faixa. 18 m deixa o lote de 10 x 25 chegar aos 40% com um corpo de 6,5 m de largura.", "a_conferir": true },
     "corpo_profundidade_min_absoluta_m": { "valor": 4.5, "_nota": "Lote curto: o corpo pode cair até um vão de 4,5 m antes de o lote ser recusado.", "a_conferir": true },
     "ala_largura_m": { "faixa": [3.0, 4.5], "_nota": "Ala de L ou T: um vão.", "a_conferir": true },
     "ala_profundidade_m": { "faixa": [3.0, 4.5], "_nota": "Profundidade da ala.", "a_conferir": true },
@@ -187,6 +188,7 @@
     "janela_recuo_m": { "faixa": [0.10, 0.15], "_nota": "Recuo real do vidro no LOD0.", "a_conferir": true },
     "verga_m": { "valor": 2.2, "_nota": "Altura da verga da janela e da porta sobre o piso do pavimento (janela métrica do mapa: 1,05 e 2,20 m).", "a_conferir": true },
     "porta_largura_m": { "valor": 0.9, "_nota": "Porta social.", "a_conferir": true },
+    "porta_canto_min_m": { "valor": 0.3, "_nota": "Porta a pelo menos isto do canto da fachada. A ESPEC pede 0,6 m para JANELA; a porta precisa de menos (batente + requadro), e é isso que deixa porta, portão social e portão de garagem caberem lado a lado no lote estreito.", "a_conferir": true },
     "porta_servico_largura_m": { "valor": 0.8, "_nota": "Porta de serviço no fundo.", "a_conferir": true }
   },
 

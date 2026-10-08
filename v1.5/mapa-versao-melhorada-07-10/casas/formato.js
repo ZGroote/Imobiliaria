@@ -61,13 +61,18 @@
        peDireito           6    cm acima de 2,40 m
        declV, declU        6+6 s %   declividade ao longo de v (fundo − frente) e de u
        paleta              4    índice em regras.cores.paletas.lista
-     RETÂNGULOS NA MOLDURA, em dm (116 bits + 1 reservado)
+     RETÂNGULOS NA MOLDURA, em dm (116 bits)
        corpo   u0 11 s, v0 11, w 8, d 8, cega 4
        ala     du 9 s (u0 − corpo.u0), dv 9 s (v0 − corpo.v0), w 8, d 8, cega 4
        edicula u0 9 s, dv 9 (v0 − (corpo.v0 + corpo.d)), w 7, d 7, cega 4
        cega: bit0 frente (v = v0), bit1 direita (u = u1), bit2 fundo (v = v1),
              bit3 esquerda (u = u0). Face cega = a menos de 1,5 m da divisa, ou interna:
              sem janela e sem beiral.
+     VAGA (1 bit)
+       vagaCorpo          1    casa sem volume de garagem: 0 = portão no canto do lote do
+                               lado da garagem; 1 = portão alinhado à face do corpo desse
+                               lado (lote cuja lateral fecha para dentro e não deixa a vaga
+                               no canto).
 
    POR QUE ASSIM, E NÃO A SUGESTÃO DA ESPEC AO PÉ DA LETRA
    - Origem em int16 relativo ao quarteirão (não int32 absoluto): o volume mais distante
@@ -105,7 +110,7 @@
     ["corpoU0", 11, 1], ["corpoV0", 11, 0], ["corpoW", 8, 0], ["corpoD", 8, 0], ["corpoCega", 4, 0],
     ["alaDu", 9, 1], ["alaDv", 9, 1], ["alaW", 8, 0], ["alaD", 8, 0], ["alaCega", 4, 0],
     ["ediculaU0", 9, 1], ["ediculaDv", 9, 0], ["ediculaW", 7, 0], ["ediculaD", 7, 0], ["ediculaCega", 4, 0],
-    ["reservado", 1, 0]
+    ["vagaCorpo", 1, 0]
   ];
   // Faixa de cada campo, para o codificador recusar (e não truncar em silêncio) um valor
   // que não cabe. Truncar giraria a casa ou mandaria o corpo para o outro lado do lote.
@@ -312,6 +317,7 @@
                  balanco: c.balanco / 10 },
       paleta: c.paleta,
       porta: c.portaU / 10,
+      vagaCorpo: !!c.vagaCorpo,
       volumes
     };
   }
@@ -485,8 +491,8 @@
         rampa = { u0: portaoGaragem.u0, u1: portaoGaragem.u1, v0: 0, v1: gv.v0 };
       } else {
         const lw = R("portoes.garagem_vaga_m");
-        portaoGaragem = esq ? { u0: -T / 2 + pil, u1: -T / 2 + pil + lw, largura: lw }
-                            : { u0: T / 2 - pil - lw, u1: T / 2 - pil, largura: lw };
+        const borda = casa.vagaCorpo ? (esq ? corpo.u0 : corpo.u1) : (esq ? -T / 2 + pil : T / 2 - pil);
+        portaoGaragem = esq ? { u0: borda, u1: borda + lw, largura: lw } : { u0: borda - lw, u1: borda, largura: lw };
         // A vaga é o recuo da frente na largura do portão, até o primeiro volume.
         let fundoVaga = corpo.v0;
         for (const v of vols) if (v.papel !== "edicula" && v.u1 > portaoGaragem.u0 && v.u0 < portaoGaragem.u1) fundoVaga = Math.min(fundoVaga, v.v0);

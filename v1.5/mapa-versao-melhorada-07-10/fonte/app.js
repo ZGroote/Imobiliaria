@@ -409,6 +409,7 @@ function ajustaEsferas() {
   sujaSombra();
   for (const o of gBuild.children) inflaEsfera(o.geometry);
   for (const o of gLines.children) inflaEsfera(o.geometry);
+  if (typeof gCasas !== "undefined") for (const o of gCasas.children) if (!o.userData.ground) inflaEsfera(o.geometry);
 }
 const gBuild = new THREE.Group(), gLines = new THREE.Group(),
       gRoad  = new THREE.Group(), gRest  = new THREE.Group();
@@ -994,7 +995,7 @@ const buildingPlacement = BuildingPlacement.create({geometry: MapGeometry, types
 const {explicitBuilding} = buildingPlacement;
 const buildingOverRoad = b => buildingPlacement.blocked(b, roadSafety);
 const urbanSplit = records => buildingPlacement.split(records, urban, roadSafety);
-if (new URLSearchParams(location.search).get("casas") !== "procedural") {
+if (new URLSearchParams(location.search).get("casas") !== "procedural" && $("__urbanModels")) {
   try {
     urban = UrbanModels.create(THREE, JSON.parse($("__urbanModels").textContent), gBuild,
                               {cut:uFuro, shadows:SOMBRA_CIDADE,terrain:urbanBase});
@@ -1006,6 +1007,32 @@ function urbanBase(b, x, z) {
 const {buildBuildings} = WorldBuildings.create({THREE, APAR, CLS, TILE_M, LV,
   geometry: MapGeometry, types: BuildingType, hash, terrainY, registerTerrain,
   triangulateRing, explicitBuilding, getRoadSafety: () => roadSafety});
+
+/* v2 (mapa melhorado): CASAS PROCEDURAIS POR REGRA (world/casas-mundo.js).
+   O plano de cada casa vem pronto do gerador (gerador/casas.mjs: recuo, malha estrutural,
+   telhado, aberturas por face, muro e portao alinhados a garagem); aqui ele vira
+   triangulo por quarteirao, no nivel de detalhe da distancia. Os volumes residenciais
+   que a casa nova substitui (`_casaNova`) saem do buildBuildings. `?casas=antigas`
+   volta ao desenho anterior (volumes + biblioteca, se a pagina a tiver). */
+const gCasas = new THREE.Group();
+scene.add(gCasas);
+const CASAS = (() => {
+  if (QS.get("casas") === "antigas" || !globalThis.CasasMundo || !globalThis.MapaDados) return null;
+  const buf = MapaDados.binario("__casas");
+  if (!buf) return null;
+  try {
+    const matLote = new THREE.MeshLambertMaterial({ vertexColors: true,
+      polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -2 });
+    return CasasMundo.create({THREE, formato: CasasFormato, geometria: CasasGeometria, buffer: buf,
+      subs: MapaDados.binario("__casasSubs"),
+      // Um material para todas as casas (sem animacao de subida): menos troca de programa.
+      materialCasa: facadeMaterial({ value: 1 }), materialLote: matLote,
+      terrainY, registerTerrain, unregisterTerrain: g => terrain.unregister(g), medeFolga, inflaEsfera,
+      sombra: { projeta: AP_SOMBRA && SOMBRA_CIDADE, recebe: SOMBRA_CIDADE },
+      niveis: NIVEL_NOME === "alto" ? [200, 700] : NIVEL_NOME === "medio" ? [160, 560] : [120, 450],
+      agora: () => performance.now()});
+  } catch (e) { console.error("Casas por regra indisponiveis; mantendo o desenho anterior.", e); return null; }
+})();
 
 /* A fita da rua, em duas peças com ALTURAS diferentes (v11).
 
@@ -1241,7 +1268,7 @@ function assembleInto(rec, B, R, G, cx, cz) {
     if (rec.plants) vegetation.invalidate();
     somSujo = true;   // sombra de contato existe em quarteirao sem uma arvore sequer
   }
-  const safeBuildings = B.filter(b=>!buildingOverRoad(b));
+  const safeBuildings = B.filter(b=>!b._casaNova && !buildingOverRoad(b));
   rec.roadRejected = B.length-safeBuildings.length;
   const replaced = urbanSplit(safeBuildings);
   rec.urban = replaced.slots;
@@ -1275,9 +1302,18 @@ function assembleInto(rec, B, R, G, cx, cz) {
     else b.lg.dispose();
     blocks += b.count;
   }
+  // v2: as casas por regra do quarteirao (so os quarteiroes do `bl`; celula de rua e
+  // lancamento nao tem). Nivel de detalhe pela distancia da camera agora.
+  let nCasas = 0;
+  if (CASAS && rec.q >= 0) {
+    const cp = camera.position;
+    const d = Math.max(0, Math.hypot(cx - cp.x, cz - cp.z, cp.y) - (rec.rad || 0));
+    const som = CASAS.monta(rec.q, rec, add, gCasas, d, cx, cz, rec.rad || 0);
+    if (som && som.length) { rec.sombras = new Float32Array([...rec.sombras, ...som]); nCasas = som.length / 8; }
+  }
   built++;
-  blocks += replaced.slots.length;
-  return (b ? b.count : 0) + replaced.slots.length;
+  blocks += replaced.slots.length + nCasas;
+  return (b ? b.count : 0) + replaced.slots.length + nCasas;
 }
 
 /* ============================================================
@@ -1578,8 +1614,10 @@ function dropGroup(i) {
       terrain.unregister(o.geometry);
       o.geometry.dispose();
     }
-    if (o.material) o.material.dispose();
+    // v2: material compartilhado (as casas por regra) nao morre com o quarteirao.
+    if (o.material && !(o.userData && o.userData.compartilhado)) o.material.dispose();
   }
+  if (CASAS && rec.q >= 0) CASAS.solta(rec.q);
   // risers guarda o uniform da animação de subida por malha montada; sem tirar
   // daqui, a lista cresce sem limite conforme o usuário anda pela cidade.
   for (const u of rec.risers) {
@@ -1596,7 +1634,8 @@ function dropGroup(i) {
 function buildGroup(i) {
   if (gLive.has(i)) return 0;
   const g = gGroups[i];
-  const rec = { objs: [], risers: [], roads: g.R };
+  const rec = { objs: [], risers: [], roads: g.R, rad: g.rad,
+                q: CASAS && i < CASAS.nQuarteiroes ? i : -1 };
   gLive.set(i, rec);
   const n = assembleInto(rec, g.B, g.R, g.G, g.cx, g.cz);
   // v2: os rotulos do quarteirao novo entram AGORA, um a um. Antes a lista inteira era
@@ -1624,6 +1663,8 @@ const streamUpdate = streaming.update;
    render é o mesmo que desenha, então estourar esse orçamento aparece como
    engasgo direto na tela — por isso é tempo medido, não contagem fixa. */
 function streamPump() {
+  // v2: nivel de detalhe das casas pela distancia da camera (troca com orcamento).
+  if (CASAS && CASAS.atualiza(camera.position)) sujaSombra();
   if (!streaming.pending) return;
   const n = streaming.pump();
   if (n) sujaSombra();   // quarteirão novo entrou: ele projeta sombra
@@ -1752,6 +1793,7 @@ function loadCity(data, label) {
   GRID = data.b.length > 400000 ? 12 : 4;
   const { B, R, G, grp } = decode(data);
   if (!grp.length) throw new Error("city.json sem bl[] — rode pipeline/city_base.py");
+  if (CASAS) CASAS.marcaSubstituidos(B);   // v2: o que virou casa por regra sai do buildBuildings
 
   gGroups = groupsFrom(B, R, G, grp);
   // O lancamento entra como grupo de UM predio, e depois do groupsFrom de proposito: ele

@@ -27,6 +27,13 @@ const SAIDA = path.resolve(PASTA, arg('saida', 'publicado'));
 const PECAS = path.join(PASTA, 'derivados', '_tmp', 'pecas');
 // Blocos que so o interior usa: nao entram na abertura.
 const TARDE = new Set(['__moveis', '__luzue']);
+// Casas por regra (gerador/casas.mjs). Com elas, a biblioteca Blender (`__urbanModels`,
+// `urbanLots`), os exteriores Blender e os quintais (`__exteriorModels`), os muros e os
+// portoes de lote (`__murosdata`, `__portoes`) saem da pagina: a casa nova traz o muro,
+// o portao alinhado a garagem e o quintal dela. `--sem-casas` monta sem elas.
+const CASAS_BIN = path.join(PASTA, 'derivados', 'casas', 'casas.bin');
+const COM_CASAS = !process.argv.includes('--sem-casas') && fs.existsSync(CASAS_BIN);
+const SAEM_COM_CASAS = new Set(['__urbanModels', '__exteriorModels', '__murosdata', '__portoes']);
 
 if (!process.argv.includes('--sem-pecas'))
   execFileSync(process.env.PYTHON || 'python3', [path.join(AQUI, 'pecas.py'), '--saida', PECAS], { stdio: 'inherit' });
@@ -51,7 +58,11 @@ function comHash(pasta, nome, ext, conteudo) {
 // `globalThis`; o app.js e uma funcao anonima). Envolto numa funcao, o esbuild pode
 // encurtar os nomes de topo sem quebrar ninguem: quem atravessa arquivo o faz por
 // `globalThis.X`, nao por nome solto.
-const programa = fs.readFileSync(path.join(PECAS, 'programa.js'), 'utf8');
+// Os modulos das casas que moram fora de fonte/ (o gerador no Node usa os mesmos arquivos)
+// entram antes do programa: o formato do plano e o sorteio, e a geometria.
+const ANTES = COM_CASAS ? ['casas/sorteio.js', 'casas/formato.js', 'fonte/casas/geometria.js']
+  .map(f => fs.readFileSync(path.join(PASTA, f), 'utf8')).join('\n') + '\n' : '';
+const programa = ANTES + fs.readFileSync(path.join(PECAS, 'programa.js'), 'utf8');
 const app = (await esbuild.transform(programa, { minify: true, format: 'iife', target: ['es2020', 'safari15'],
   legalComments: 'none', charset: 'utf8' })).code;
 const urlApp = comHash('app', 'mapa', '.js', app);
@@ -63,14 +74,28 @@ const urlEarcut = comHash('lib', 'earcut', '.min.js', fs.readFileSync(path.join(
 const dados = {};
 for (const p of man.pecas) {
   if (p.tipo !== 'bloco') continue;
-  const texto = fs.readFileSync(path.join(PECAS, 'blocos', p.id + '.json'));
+  if (COM_CASAS && SAEM_COM_CASAS.has(p.id)) continue;
+  let texto = fs.readFileSync(path.join(PECAS, 'blocos', p.id + '.json'));
+  if (COM_CASAS && p.id === '__citydata') {
+    // `urbanLots` (50 mil encaixes da biblioteca Blender) nao serve mais a ninguem.
+    const c = JSON.parse(texto); delete c.urbanLots; texto = Buffer.from(JSON.stringify(c));
+  }
   dados[p.id] = { url: comHash('dados', p.id.replace(/^_+/, ''), '.json', texto), bytes: texto.length,
                   ...(TARDE.has(p.id) ? { tarde: true } : {}) };
 }
 
+if (COM_CASAS) {
+  // Binarios: o carregador entrega o ArrayBuffer em `MapaDados.binario(id)`.
+  const bin = (id, arq) => { const b = fs.readFileSync(arq);
+    dados[id] = { url: comHash('dados', id.replace(/^_+/, ''), '.bin', b), bytes: b.length, bin: true }; };
+  bin('__casas', CASAS_BIN);
+  bin('__casasSubs', path.join(PASTA, 'derivados', 'casas', 'substituidos.bin'));
+}
+
 // ---- quintais: os tiles continuam onde a pagina os pede (prefixo relativo a ela) --------------
+// (so sem as casas por regra: com elas, o quintal vem do plano de cada lote)
 const QUINTAIS = path.join(RAIZ, 'v16-moveis', 'publicado', 'mapa', 'quintais');
-if (fs.existsSync(QUINTAIS)) {
+if (!COM_CASAS && fs.existsSync(QUINTAIS)) {
   for (const h of fs.readdirSync(QUINTAIS)) {
     const de = path.join(QUINTAIS, h), para = path.join(MAPA, 'quintais', h);
     fs.mkdirSync(para, { recursive: true });
