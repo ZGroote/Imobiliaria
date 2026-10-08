@@ -20,7 +20,7 @@
   var M = window.__MANIFESTO;
   var $ = function (id) { return document.getElementById(id); };
   var stK = $("stK"), stM = $("stM"), stI = $("stI");
-  var textos = {}, pendentes = {};
+  var textos = {}, pendentes = {}, binarios = {};
 
   function poeBloco(id, texto) {
     if (document.getElementById(id)) return;
@@ -36,6 +36,8 @@
     var d = M.dados[id];
     pendentes[id] = fetch(d.url).then(function (r) {
       if (!r.ok) throw new Error(id + ": HTTP " + r.status);
+      // Bloco binario (as casas): vai inteiro para `MapaDados.binario(id)`, sem virar texto.
+      if (d.bin) return r.arrayBuffer().then(function (b) { if (aoAvancar) aoAvancar(b.byteLength); binarios[id] = b; return b; });
       if (!r.body || !r.body.getReader || !aoAvancar) return r.text();
       var leitor = r.body.getReader(), partes = [], dec = new TextDecoder();
       function passo() {
@@ -47,7 +49,7 @@
         });
       }
       return passo();
-    }).then(function (t) { textos[id] = t; return t; });
+    }).then(function (t) { if (!d.bin) textos[id] = t; return t; });
     return pendentes[id];
   }
 
@@ -56,9 +58,10 @@
   window.MapaDados = {
     promessa: function (id) {
       if (!M.dados[id]) return Promise.resolve(null);
-      return baixa(id).then(function (t) { poeBloco(id, t); return t; });
+      return baixa(id).then(function (t) { if (!M.dados[id].bin) poeBloco(id, t); return t; });
     },
-    pronto: function (id) { return id in textos || !!document.getElementById(id); },
+    pronto: function (id) { return id in textos || id in binarios || !!document.getElementById(id); },
+    binario: function (id) { return binarios[id] || null; },
     tarde: Object.keys(M.dados).filter(function (k) { return M.dados[k].tarde; })
   };
 
@@ -91,7 +94,7 @@
   // garante a ORDEM de execucao: dados no documento, depois three, earcut e o programa.
   Promise.all(cedo.map(function (k) { return baixa(k, aoAvancar); }))
     .then(function () {
-      cedo.forEach(function (k) { poeBloco(k, textos[k]); });
+      cedo.forEach(function (k) { if (!M.dados[k].bin) poeBloco(k, textos[k]); });
       return scriptEmOrdem(M.scripts);
     })
     .then(function () {

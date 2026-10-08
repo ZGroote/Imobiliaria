@@ -1598,7 +1598,13 @@ function buildGroup(i) {
   const g = gGroups[i];
   const rec = { objs: [], risers: [], roads: g.R };
   gLive.set(i, rec);
-  return assembleInto(rec, g.B, g.R, g.G, g.cx, g.cz);
+  const n = assembleInto(rec, g.B, g.R, g.G, g.cx, g.cz);
+  // v2: os rotulos do quarteirao novo entram AGORA, um a um. Antes a lista inteira era
+  // refeita a cada pump (milhares de rotulos por quarteirao montado); refazer de uma vez
+  // e na mesma ordem da o mesmo resultado, entao so o descarte (`rebuildOverlay`, no
+  // streaming.update) precisa recomecar do zero.
+  if (g.R.length) { for (const w of g.R) addStreets([w]); sujaRotulos(); }
+  return n;
 }
 
 /* Rótulo de rua é DOM, não geometria: em vez de criar/remover um a um conforme a
@@ -1620,7 +1626,7 @@ const streamUpdate = streaming.update;
 function streamPump() {
   if (!streaming.pending) return;
   const n = streaming.pump();
-  if (n) { rebuildOverlay(); sujaSombra(); }   // quarteirão novo entrou: ele projeta sombra
+  if (n) sujaSombra();   // quarteirão novo entrou: ele projeta sombra
   if (!streaming.pending) {
     progTxt.textContent = `${gLive.size} quarteirões · ${blocks.toLocaleString("pt-BR")} edificações`;
   }

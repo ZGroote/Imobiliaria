@@ -18,8 +18,12 @@ const QUAL_NIVEIS = {
   // 360 graus da volta dao 0,18 grau por texel; em 1.024 a nuvem magnifica e borra.
   // Sao 8 MB de textura contra 2 -- vale onde sobra memoria, nao numa iGPU.
   alto:  { aa:true,  logdepth:true,  dpr:2,    dprMin:1,    somMap:2048, somSuave:true,  sombraCidade:true,  ceuTex:2048 },
-  medio: { aa:false, logdepth:false, dpr:1.25, dprMin:0.75, somMap:1536, somSuave:false, sombraCidade:false, ceuTex:1024 },
-  baixo: { aa:false, logdepth:false, dpr:1,    dprMin:0.55, somMap:1024, somSuave:false, sombraCidade:false, ceuTex:1024 },
+  // v2: o celular deixa de desenhar a 1 pixel por ponto. Numa tela de DPR 3 isso era
+  // 1/9 dos pixels da tela -- imagem borrada -- e a geometria nem ficava mais leve. Com
+  // a cena mais leve (casas com nivel de detalhe, desenho sob demanda), o teto passa a
+  // 1,5 e o governador desce ate 0,75 se o aparelho nao segurar.
+  medio: { aa:false, logdepth:false, dpr:1.5,  dprMin:0.75, somMap:1536, somSuave:false, sombraCidade:false, ceuTex:1024 },
+  baixo: { aa:false, logdepth:false, dpr:1.5,  dprMin:0.75, somMap:1024, somSuave:false, sombraCidade:false, ceuTex:1024 },
 };
 function gpuString() {
   try {

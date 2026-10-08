@@ -1,0 +1,298 @@
+{
+  "_nota": "Regras das casas procedurais de São Carlos (casas/ESPEC.md, etapa 3 do PLANO.md). TODO número que o motor de regras (casas/regras.js) e o detalhamento (casas/formato.js) usam mora aqui, com `_nota`. `a_conferir: true` = valor de prática ou de composição visual, ainda não conferido com o Plano Diretor (talvez a Lei 18.053/2016) e o Código de Obras de São Carlos. Unidades: metros, frações (0,30 = 30%) e graus. O gerador embute este arquivo inteiro no cabeçalho do casas.bin, então o navegador lê exatamente os mesmos números.",
+  "cidade": "sao-carlos",
+  "versao": { "valor": 1, "_nota": "Entra na semente de cada lote junto com o slug e o id do lote. Trocar a versão reembaralha TODAS as casas de propósito. Mudar um número de regra não exige trocá-la: cada etapa tem fluxo de sorteio próprio, então mexer no telhado não reembaralha recuo nem cor." },
+
+  "selecao": {
+    "_nota": "Quais volumes do city.json contam como 'casa hoje' (tipologias CASA, SOBRADO e ANEXO de fonte/world/building-type.js). O lote só entra se TODOS os volumes com centróide dentro dele passarem.",
+    "classe_residencial": { "valor": 1, "_nota": "b[] classe 1 = 'res' (CLS em fonte/app.js)." },
+    "altura_max_m": { "valor": 8.0, "_nota": "Teto da ESPEC: acima disso é prédio, não casa." },
+    "area_galpao_m2": { "valor": 700, "_nota": "building-type.js classifica volume baixo acima de 700 m² como GALPAO (com retângulo > 0,70). Fica de fora sem calcular o retângulo: casa de 700 m² não é o caso que importa aqui." },
+    "pavimento_base_m": { "valor": 1.1, "_nota": "pav = round((h - 1,1) / 3,15), a mesma conta de building-type.js." },
+    "pavimento_altura_m": { "valor": 3.15, "_nota": "Idem: altura de um pavimento na conta de pav." },
+    "sobrado_pavimentos": { "valor": 2, "_nota": "pav >= 2 no volume principal antigo = a casa nova é sobrado (pista do volume antigo, ESPEC 'Quais casas entram' 2)." }
+  },
+
+  "protecao": {
+    "_nota": "Área protegida em volta dos empreendimentos cadastrados (plantas_fornecidas/*/unidade.json). Mesma conta de exteriores/v1/proteger_cadastros.py: raio = max(hypot(du, dv) + hypot(largura, profundidade)/2 + folga). Lote que encosta no disco não é trocado.",
+    "folga_m": { "valor": 5.0, "_nota": "Folga somada ao raio do empreendimento (proteger_cadastros.py)." },
+    "dimensao_padrao_m": { "valor": 20.0, "_nota": "Largura/profundidade quando o cadastro não declara (proteger_cadastros.py)." },
+    "raio_ancora_m": { "valor": 120.0, "_nota": "Unidade com `ancora` mas sem lote: protege o volume mais próximo dentro deste raio, como predioMaisPerto em fonte/listings/identity.js." }
+  },
+
+  "lote": {
+    "classes_testada": { "limites_m": [7.5, 11.5, 16.0], "nomes": ["estreito", "padrao", "largo", "grande"], "_nota": "Classe por testada: estreito < 7,5; padrão < 11,5; largo < 16; grande acima (ESPEC regra 1). Mesmos cortes de pipeline/city_final.py.", "a_conferir": true },
+    "testada_min_m": { "valor": 3.6, "_nota": "Recusa testada menor (ESPEC regra 1; o mesmo 3,6 de city_final.py).", "a_conferir": true },
+    "fundo_min_m": { "valor": 8.0, "_nota": "Recusa fundo menor (ESPEC regra 1).", "a_conferir": true },
+    "testada_max_m": { "valor": 60.0, "_nota": "Acima disso o lote é gleba/chácara, não lote de casa: recusado com motivo próprio.", "a_conferir": true },
+    "fundo_max_m": { "valor": 150.0, "_nota": "Idem para o fundo. O formato aceita até 204,7 m.", "a_conferir": true },
+    "area_max_m2": { "valor": 4000, "_nota": "Idem para a área.", "a_conferir": true },
+    "irregular_iou_min": { "valor": 0.95, "_nota": "Quadrilátero do plano (testada + 2 cantos de fundo) com IoU menor que isto contra o polígono real marca o lote como irregular: a geometria sabe que o desenho do lote é aproximado." }
+  },
+
+  "testada": {
+    "_nota": "Como achar a borda do lote voltada para a rua (ESPEC regra 1). A rua é a FITA que o renderizador desenha: ROAD_W[tipo]/2 x mul_fita (padrao/cidades/sao-carlos.json), só vias dirigíveis.",
+    "lado_angulo_max_graus": { "valor": 15, "_nota": "Arestas consecutivas com desvio menor que isto viram um lado só (lote de planta tem vértice no meio do lado)." },
+    "lado_min_m": { "valor": 1.0, "_nota": "Lado mais curto que isto (chanfro, ruído de vetorização) não é candidato a testada." },
+    "rua_distancia_max_m": { "valor": 1.0, "_nota": "Ponto do lado a até 1 m da borda da fita conta como 'na rua'. O QA atual mede o lote encostado na rua com mediana de 0,004 m." },
+    "rua_cobertura_min": { "valor": 0.6, "_nota": "Fração mínima dos pontos amostrados do lado que estão na rua para o lado ser 'de rua'." },
+    "amostra_passo_m": { "valor": 1.5, "_nota": "Passo da amostragem ao longo do lado." },
+    "amostra_margem": { "valor": 0.15, "_nota": "Fração do lado ignorada em cada ponta: o canto de um lote de esquina encosta na fita da OUTRA rua." },
+    "empate_m": { "valor": 0.5, "_nota": "Dois lados de rua com distância média a menos disto um do outro estão empatados; desempata pelo fa do volume antigo." },
+    "esquina_cos_max": { "valor": 0.5, "_nota": "Lado de rua cuja normal faz mais de 60 graus com a da testada é lateral de esquina." }
+  },
+
+  "bairros": {
+    "_nota": "Variação por bairro (ESPEC regra 3). Ordem de decisão: centro antigo, conjunto habitacional, classe média, comum.",
+    "conjunto_habitacional": {
+      "nomes": { "lista": ["interesse social", "social", "conjunto habitacional", "cdhu", "habitacional"], "_nota": "Trecho do nome do loteamento (sem acento, minúsculo) que marca conjunto habitacional. Cidade Aracy, Antenor Garcia, Dom Constantino e Santa Angelina caem por aqui." },
+      "grupo_area_mediana_max_m2": { "valor": 200, "_nota": "Lotes de planta pequenos e iguais: mediana da quadra até 200 m²...", "a_conferir": true },
+      "grupo_cv_max": { "valor": 0.12, "_nota": "...e coeficiente de variação da área até 12% na mesma quadra/loteamento. Lote sintético não entra nesta conta: ele é igual por construção.", "a_conferir": true },
+      "grupo_min_lotes": { "valor": 8, "_nota": "Quadra com menos lotes que isto não tem estatística para dizer 'iguais'." }
+    },
+    "centro_antigo": {
+      "centro": { "lat": -22.0175, "lon": -47.8906, "_nota": "Catedral de São Carlos / Rua XV de Novembro: o miolo do centro antigo.", "a_conferir": true },
+      "raio_m": { "valor": 900, "_nota": "Raio do centro antigo, onde a casa é geminada no alinhamento.", "a_conferir": true },
+      "testada_max_m": { "valor": 11.5, "_nota": "Só lote estreito ou padrão vira geminada no alinhamento; lote largo do centro segue a regra comum.", "a_conferir": true }
+    },
+    "classe_media": {
+      "area_min_m2": { "valor": 300, "_nota": "Lote a partir de 300 m² fora de conjunto e de centro: bairro de classe média (mais sobrado, mais L).", "a_conferir": true }
+    }
+  },
+
+  "recuos": {
+    "frontal_m": { "valor": 4.0, "_nota": "Recuo frontal (ESPEC regra 2).", "a_conferir": true },
+    "frontal_extra_m": { "faixa": [0.0, 1.0], "_nota": "Sorteio somado ao recuo frontal: sem isso a rua inteira alinha a fachada no mesmo metro.", "a_conferir": true },
+    "frontal_centro_antigo_m": { "valor": 0.0, "_nota": "Centro antigo: geminada no alinhamento (ESPEC regra 3).", "a_conferir": true },
+    "garagem_leve_frontal_m": { "valor": 0.0, "_nota": "Garagem coberta leve (pergolado/telha) pode avançar até o alinhamento (ESPEC regra 2).", "a_conferir": true },
+    "garagem_leve_alinhada_prob": { "valor": 0.6, "_nota": "Chance de a garagem leve ir até o alinhamento; no resto ela alinha com a frente do corpo.", "a_conferir": true },
+    "lateral_janela_m": { "valor": 1.5, "_nota": "Face com janela fica a pelo menos 1,5 m da divisa.", "lei": "Código Civil, art. 1.301" },
+    "lateral_cega_m": { "valor": 0.0, "_nota": "Face cega encosta na divisa (geminada)." },
+    "fundo_m": { "valor": 2.0, "_nota": "Recuo de fundo mínimo (ESPEC regra 2). Vale para a edícula também.", "a_conferir": true },
+    "esquina_lateral_m": { "valor": 2.0, "_nota": "Lateral voltada para a rua no lote de esquina.", "a_conferir": true },
+    "encosta_prob": {
+      "pesos": { "conjunto": 0.6, "centro": 1.0, "medio": 0.1, "comum": 0.3 },
+      "_nota": "Lote PADRÃO: chance de encostar um lado (o da garagem). Estreito sempre encosta um lado; largo e grande nunca (ESPEC regra 2).",
+      "a_conferir": true
+    }
+  },
+
+  "ocupacao": {
+    "taxa_alvo": { "faixa": [0.40, 0.60], "_nota": "Taxa de ocupação alvo (ESPEC regra 2). A ocupação do volume antigo é a pista dentro desta faixa.", "a_conferir": true },
+    "taxa_max": { "valor": 0.70, "_nota": "Teto da taxa de ocupação.", "a_conferir": true },
+    "permeabilidade_min": { "valor": 0.15, "_nota": "Área permeável mínima (grama/jardim) sobre a área do lote.", "a_conferir": true }
+  },
+
+  "malha": {
+    "_nota": "Volumetria em malha estrutural (ESPEC regra 3). Todo lado de volume de alvenaria se divide em vãos iguais entre 3,0 e 4,5 m: por isso 4,6 a 5,9 m não existe (dois vãos dariam menos de 3,0).",
+    "vao_m": { "faixa": [3.0, 4.5], "_nota": "Vão entre pilares.", "a_conferir": true },
+    "corpo_largura_m": { "faixa": [6.0, 9.0], "_nota": "Largura (ao longo da testada) do corpo principal. Lote estreito usa um vão só (3,0 a 4,5).", "a_conferir": true },
+    "corpo_profundidade_m": { "faixa": [6.0, 15.0], "_nota": "Profundidade do corpo; a ocupação alvo decide dentro da faixa.", "a_conferir": true },
+    "corpo_profundidade_min_absoluta_m": { "valor": 4.5, "_nota": "Lote curto: o corpo pode cair até um vão de 4,5 m antes de o lote ser recusado.", "a_conferir": true },
+    "ala_largura_m": { "faixa": [3.0, 4.5], "_nota": "Ala de L ou T: um vão.", "a_conferir": true },
+    "ala_profundidade_m": { "faixa": [3.0, 4.5], "_nota": "Profundidade da ala.", "a_conferir": true },
+    "ala_folga_cumeeira_m": { "valor": 0.6, "_nota": "O vão da ala fica pelo menos isto abaixo do vão do corpo: a cumeeira da ala morre na água do corpo, nunca passa por cima dela (ESPEC regra 4).", "a_conferir": true },
+    "garagem_largura_m": { "faixa": [2.9, 3.5], "_nota": "Garagem leve (pergolado/telha) ao lado do corpo. 2,9 = portão de 2,6 + dois pilaretes.", "a_conferir": true },
+    "garagem_profundidade_m": { "faixa": [5.0, 6.0], "_nota": "Profundidade da garagem leve (carro de 4,5 m + folga). Estrutura leve: fora da malha.", "a_conferir": true },
+    "caixa_garagem_largura_m": { "faixa": [3.0, 4.5], "_nota": "Caixa de laje na frente do corpo, usada como garagem (referência do cliente, casa 1).", "a_conferir": true },
+    "caixa_garagem_profundidade_m": { "faixa": [6.0, 6.5], "_nota": "Dois vãos de 3,0 a 3,25 m.", "a_conferir": true },
+    "caixa_varanda_largura_m": { "faixa": [3.0, 4.5], "_nota": "Caixa de laje usada como varanda coberta na frente do corpo.", "a_conferir": true },
+    "caixa_varanda_profundidade_m": { "faixa": [3.0, 4.0], "_nota": "Um vão.", "a_conferir": true },
+    "edicula_largura_m": { "faixa": [3.0, 4.5], "_nota": "Edícula ao fundo: um vão de largura.", "a_conferir": true },
+    "edicula_profundidade_m": { "faixa": [3.0, 4.5], "_nota": "Edícula: um vão de profundidade.", "a_conferir": true },
+    "edicula_fundo_lote_min_m": { "valor": 22.0, "_nota": "Edícula só em lote com fundo de pelo menos 22 m (ESPEC regra 3).", "a_conferir": true },
+    "edicula_quintal_min_m": { "valor": 3.0, "_nota": "Quintal mínimo entre a casa e a edícula.", "a_conferir": true },
+    "edicula_afastamento_max_m": { "valor": 30.0, "_nota": "Lote muito fundo: a edícula fica no máximo isto atrás do corpo, não no fim de um terreno de 80 m.", "a_conferir": true }
+  },
+
+  "partidos": {
+    "_nota": "Forma do térreo por bairro. 'caixa_laje' = corpo de telhado + caixa branca de laje com platibanda na frente (garagem ou varanda): referência do cliente (08/10), casa 1, peso alto. 'L' = planta em L com rincão (casa 2). Sobrado e edícula são decisões à parte.",
+    "pesos": {
+      "conjunto": { "retangular": 60, "L": 6, "T": 2, "garagem_lateral": 16, "caixa_laje": 16 },
+      "centro":   { "retangular": 80, "L": 5, "T": 0, "garagem_lateral": 5, "caixa_laje": 10 },
+      "medio":    { "retangular": 14, "L": 30, "T": 8, "garagem_lateral": 18, "caixa_laje": 30 },
+      "comum":    { "retangular": 26, "L": 20, "T": 6, "garagem_lateral": 20, "caixa_laje": 28 },
+      "_nota": "Pesos relativos; o motor tira o que o lote não comporta (estreito: só retangular e caixa_laje).",
+      "a_conferir": true
+    },
+    "L_frente_prob": { "valor": 0.4, "_nota": "Chance de a ala do L avançar para a frente (sala avançada) em vez de ir para o fundo.", "a_conferir": true },
+    "caixa_garagem_prob": { "valor": 0.65, "_nota": "Caixa de laje é garagem nesta fração; no resto é varanda coberta.", "a_conferir": true },
+    "sobrado_promove_prob": {
+      "pesos": { "conjunto": 0.0, "centro": 0.0, "medio": 0.15, "comum": 0.03 },
+      "_nota": "Chance de uma casa térrea antiga virar sobrado. Classe média tem mais sobrado (ESPEC regra 3).",
+      "a_conferir": true
+    },
+    "sobrado_testada_min_m": { "valor": 5.0, "_nota": "Sobrado precisa de pelo menos esta testada para a escada caber.", "a_conferir": true },
+    "edicula_prob": {
+      "pesos": { "conjunto": 0.04, "centro": 0.10, "medio": 0.14, "comum": 0.12 },
+      "_nota": "Chance de edícula ao fundo, só onde o fundo comporta (12% em city_final.py).",
+      "a_conferir": true
+    },
+    "garagem_prob": {
+      "pesos": { "conjunto": 0.75, "centro": 0.0, "medio": 0.97, "comum": 0.88 },
+      "_nota": "Chance de a casa ter vaga/garagem (e portão de garagem). Centro antigo no alinhamento não tem.",
+      "a_conferir": true
+    }
+  },
+
+  "alturas": {
+    "piso_m": { "faixa": [0.15, 0.30], "_nota": "Piso acima do terreno na frente (ESPEC regra 3).", "a_conferir": true },
+    "pe_direito_m": { "faixa": [2.6, 2.8], "_nota": "Pé-direito.", "a_conferir": true },
+    "laje_m": { "valor": 0.12, "_nota": "Espessura da laje.", "a_conferir": true },
+    "respaldo_terrea_m": { "faixa": [2.9, 3.2], "_nota": "Respaldo da térrea = piso + pé-direito + laje; o pé-direito é ajustado para cair aqui.", "a_conferir": true },
+    "respaldo_sobrado_m": { "faixa": [5.8, 6.2], "_nota": "Respaldo do sobrado = piso + 2 x (pé-direito + laje).", "a_conferir": true },
+    "balanco_max_m": { "valor": 1.2, "_nota": "Balanço máximo do pavimento de cima sobre a malha de baixo (ESPEC regra 3).", "a_conferir": true },
+    "balanco_prob": { "valor": 0.5, "_nota": "Chance de o sobrado ter balanço na frente.", "a_conferir": true },
+    "declive_embasamento": { "valor": 0.08, "_nota": "Acima de 8% de declividade: embasamento ou arrimo aparente, com o piso na cota da frente.", "a_conferir": true },
+    "caixa_laje_platibanda_m": { "faixa": [0.3, 0.5], "_nota": "Platibanda da caixa de laje acima do respaldo da térrea: a caixa fica abaixo da cumeeira do corpo (referência do cliente).", "a_conferir": true },
+    "garagem_leve_altura_m": { "faixa": [2.5, 2.8], "_nota": "Altura livre da garagem leve na frente.", "a_conferir": true }
+  },
+
+  "telhado": {
+    "pesos": {
+      "conjunto": { "quatro_aguas": 8, "duas_aguas_paralela": 46, "duas_aguas_perpendicular": 46, "platibanda": 0, "laje": 0 },
+      "centro":   { "quatro_aguas": 10, "duas_aguas_paralela": 35, "duas_aguas_perpendicular": 5, "platibanda": 40, "laje": 10 },
+      "medio":    { "quatro_aguas": 60, "duas_aguas_paralela": 8, "duas_aguas_perpendicular": 8, "platibanda": 16, "laje": 8 },
+      "comum":    { "quatro_aguas": 52, "duas_aguas_paralela": 12, "duas_aguas_perpendicular": 12, "platibanda": 14, "laje": 10 },
+      "_nota": "Quatro águas com peso alto pela referência do cliente; conjunto habitacional é o partido repetitivo de duas águas (ESPEC regra 3). Face encostada na divisa não aceita água caindo para o vizinho: quatro águas e duas águas perpendicular viram duas águas paralela (empena na divisa).",
+      "a_conferir": true
+    },
+    "ceramica_inclinacao": { "faixa": [0.30, 0.35], "_nota": "Telha cerâmica de 30 a 35% (hoje o mapa usa 72 a 98%, o que dá o aspecto de brinquedo).", "a_conferir": true },
+    "beiral_m": { "faixa": [0.5, 0.8], "_nota": "Beiral do telhado cerâmico, descendo abaixo do respaldo.", "a_conferir": true },
+    "testeira_m": { "valor": 0.2, "_nota": "Altura da testeira na ponta do beiral.", "a_conferir": true },
+    "fibrocimento_inclinacao": { "faixa": [0.05, 0.10], "_nota": "Telhado escondido atrás da platibanda: fibrocimento a no máximo 10%.", "a_conferir": true },
+    "platibanda_folga_m": { "faixa": [0.2, 0.4], "_nota": "A platibanda sobe pelo menos 0,2 m acima do ponto mais alto do telhado escondido.", "a_conferir": true },
+    "laje_caimento": { "faixa": [0.01, 0.02], "_nota": "Laje impermeabilizada com caimento de 1 a 2%.", "a_conferir": true },
+    "laje_platibanda_m": { "faixa": [0.3, 0.6], "_nota": "Parapeito da casa de laje.", "a_conferir": true },
+    "caixa_dagua_litros": { "faixa": [500, 1000], "_nota": "Caixa d'água; só aparece em casa de laje (recuada) ou como torre.", "a_conferir": true },
+    "caixa_dagua_recuo_m": { "valor": 1.0, "_nota": "Recuo da caixa d'água em relação à fachada da casa de laje.", "a_conferir": true },
+    "caixa_torre_prob": { "valor": 0.05, "_nota": "Chance de a caixa d'água de uma casa de telhado sair como torre aparente.", "a_conferir": true },
+    "edicula_meia_agua_prob": { "valor": 0.6, "_nota": "Edícula de casa de telhado cerâmico: chance de meia-água (anexo) em vez do mesmo telhado da casa.", "a_conferir": true },
+    "garagem_telha_prob": { "valor": 0.55, "_nota": "Garagem leve de casa de telhado cerâmico: chance de ser telha (meia-água) em vez de pergolado.", "a_conferir": true }
+  },
+
+  "aberturas": {
+    "janela_sala_largura_m": { "faixa": [1.5, 2.0], "_nota": "Janela de sala na frente.", "a_conferir": true },
+    "janela_sala_altura_m": { "valor": 1.2, "_nota": "Altura da janela de sala.", "a_conferir": true },
+    "janela_peitoril_m": { "faixa": [1.0, 1.1], "_nota": "Peitoril da janela de sala e de quarto.", "a_conferir": true },
+    "basculante_peitoril_m": { "valor": 1.5, "_nota": "Basculante alto de banheiro e cozinha no fundo.", "a_conferir": true },
+    "basculante_m": { "faixa": [0.6, 1.0], "_nota": "Largura do basculante.", "a_conferir": true },
+    "janela_canto_min_m": { "valor": 0.6, "_nota": "Janela e porta a pelo menos 0,6 m do canto e do pilar, dentro do vão.", "a_conferir": true },
+    "janela_area_fracao_piso": { "valor": 0.1667, "_nota": "Área de janela por cômodo, cerca de 1/6 do piso.", "a_conferir": true },
+    "janela_recuo_m": { "faixa": [0.10, 0.15], "_nota": "Recuo real do vidro no LOD0.", "a_conferir": true },
+    "verga_m": { "valor": 2.2, "_nota": "Altura da verga da janela e da porta sobre o piso do pavimento (janela métrica do mapa: 1,05 e 2,20 m).", "a_conferir": true },
+    "porta_largura_m": { "valor": 0.9, "_nota": "Porta social.", "a_conferir": true },
+    "porta_servico_largura_m": { "valor": 0.8, "_nota": "Porta de serviço no fundo.", "a_conferir": true }
+  },
+
+  "portoes": {
+    "garagem_largura_m": { "faixa": [2.6, 3.0], "_nota": "Portão de garagem alinhado à garagem (ESPEC regra 6).", "a_conferir": true },
+    "garagem_vaga_m": { "valor": 2.8, "_nota": "Portão da vaga descoberta no recuo (casa sem volume de garagem).", "a_conferir": true },
+    "social_largura_m": { "valor": 1.0, "_nota": "Portão social alinhado à porta (faixa 0,9 a 1,2 na ESPEC).", "a_conferir": true },
+    "pilarete_m": { "valor": 0.15, "_nota": "Pilarete entre portões e na ponta do muro.", "a_conferir": true }
+  },
+
+  "muros": {
+    "frente_pesos": {
+      "conjunto": { "gradil": 40, "muro_alto": 40, "muro_baixo": 20 },
+      "centro":   { "gradil": 30, "muro_alto": 60, "muro_baixo": 10 },
+      "medio":    { "gradil": 30, "muro_alto": 50, "muro_baixo": 20 },
+      "comum":    { "gradil": 30, "muro_alto": 55, "muro_baixo": 15 },
+      "_nota": "Muro da frente. Muro alto liso e branco com capa pesa mais pela referência do cliente. Casa no alinhamento não tem muro de frente.",
+      "a_conferir": true
+    },
+    "mureta_m": { "faixa": [0.6, 1.0], "_nota": "Mureta (com ou sem gradil).", "a_conferir": true },
+    "gradil_topo_m": { "faixa": [1.8, 2.0], "_nota": "Topo do gradil sobre a mureta.", "a_conferir": true },
+    "muro_frente_m": { "faixa": [1.8, 2.2], "_nota": "Muro alto da frente.", "a_conferir": true },
+    "divisa_altura_m": { "faixa": [2.0, 2.5], "_nota": "Muro de divisa (laterais e fundo), mais alto que o da frente.", "a_conferir": true },
+    "espessura_m": { "valor": 0.15, "_nota": "Espessura do muro.", "a_conferir": true },
+    "pilarete_passo_m": { "valor": 3.0, "_nota": "Pilarete a cada 3 m.", "a_conferir": true },
+    "capa_m": { "valor": 0.05, "_nota": "Altura da capa no topo do muro.", "a_conferir": true },
+    "degrau_m": { "valor": 0.5, "_nota": "No declive, o muro desce em degraus desta altura.", "a_conferir": true }
+  },
+
+  "quintal": {
+    "caminho_largura_m": { "valor": 1.2, "_nota": "Piso de entrada do portão social até a porta.", "a_conferir": true },
+    "calcada_servico_m": { "valor": 0.8, "_nota": "Faixa cimentada atrás da casa (área de serviço).", "a_conferir": true },
+    "plantio_frente_min_m": { "valor": 3.0, "_nota": "Recuo de frente a partir do qual cabe um ponto de plantio no jardim da frente.", "a_conferir": true },
+    "plantio_margem_m": { "valor": 1.2, "_nota": "Ponto de plantio a pelo menos isto do muro, da casa e do piso.", "a_conferir": true },
+    "palmeira_prob": { "valor": 0.35, "_nota": "Fração de palmeiras nos pontos de plantio (referência do cliente: palmeira e árvores no quintal).", "a_conferir": true }
+  },
+
+  "piscina": {
+    "lote_min_m2": { "valor": 300, "_nota": "Piscina só em lote de pelo menos 300 m² (ESPEC regra 7).", "a_conferir": true },
+    "fundo_livre_min_m": { "valor": 8.0, "_nota": "...e com pelo menos 8 m de fundo livre atrás da casa.", "a_conferir": true },
+    "prob": {
+      "pesos": { "conjunto": 0.0, "centro": 0.05, "medio": 0.18, "comum": 0.12 },
+      "_nota": "Sorteio de piscina (cerca de 12%).",
+      "a_conferir": true
+    },
+    "largura_m": { "faixa": [3.0, 4.0], "_nota": "Piscina de 3x6 a 4x8 m.", "a_conferir": true },
+    "comprimento_m": { "faixa": [6.0, 8.0], "_nota": "Idem.", "a_conferir": true },
+    "borda_m": { "valor": 0.3, "_nota": "Borda (deck) em volta da piscina.", "a_conferir": true },
+    "margem_m": { "valor": 1.0, "_nota": "Folga entre a borda e a casa, o muro ou a edícula.", "a_conferir": true }
+  },
+
+  "cores": {
+    "_nota": "Paletas por família de parede, tiradas da paleta CASA/SOBRADO de fonte/world/buildings.js (os valores já vêm ~20% abaixo da cor de catálogo, pelo ACES + saída sRGB). A cor exata sai da semente no navegador: entrada do leque + desvio HSL (variacao). Casa, garagem e edícula do mesmo lote usam a mesma paleta e a mesma telha.",
+    "paletas": {
+      "lista": [
+        { "nome": "branco_quente", "parede": ["EFE7D8", "F2E8CE", "EAE1D0", "EDE6DA"] },
+        { "nome": "branco_frio", "parede": ["E8ECE6", "DCE4EC", "DFE6EA", "D7DFE6"] },
+        { "nome": "creme", "parede": ["F0E2CC", "E6DED4", "EFDFC4", "E2DACE"] },
+        { "nome": "areia", "parede": ["E3CBB4", "E8D9A8", "D8BCA6", "BFB08C", "B9A882"] },
+        { "nome": "verde_claro", "parede": ["D9E3D8", "C2C6C0", "D9E3D8"] },
+        { "nome": "terracota", "parede": ["CF7F5C", "B86A4E", "C98F62", "C08A66", "D4A98A"] },
+        { "nome": "ocre", "parede": ["A8724F", "AA9E90", "8F7F6E"] },
+        { "nome": "cinza_azulado", "parede": ["9FA9A2", "8E9AA6", "98A4B0", "A6B0AA", "7E8C82"] },
+        { "nome": "conjunto_branco", "parede": ["EAE4D6"] },
+        { "nome": "conjunto_creme", "parede": ["EADCBF"] },
+        { "nome": "conjunto_azul", "parede": ["D6E0E8"] },
+        { "nome": "conjunto_amarelo", "parede": ["E8D9A8"] },
+        { "nome": "centro_colonial", "parede": ["E8D9A8", "F0E2CC", "D4A98A", "D9E3D8", "CF7F5C"] },
+        { "nome": "branco_puro", "parede": ["F0EDE4", "ECE8DE"] },
+        { "nome": "creme_claro", "parede": ["F2EAD8", "EEE4CF"] },
+        { "nome": "cinza_claro", "parede": ["DCDCD6", "CFD4D6"] }
+      ],
+      "_nota": "16 paletas (o índice ocupa 4 bits no plano). As 'conjunto_*' têm um tom só: conjunto habitacional tem pouca variação de cor (ESPEC regra 3)."
+    },
+    "variacao": {
+      "pesos": { "conjunto": 0.3, "centro": 1.0, "medio": 1.0, "comum": 1.0 },
+      "_nota": "Multiplicador do desvio HSL por bairro; as paletas conjunto_* usam o do conjunto.",
+      "a_conferir": true
+    },
+    "desvio_hsl": { "matiz": 0.03, "saturacao": 0.10, "luminosidade": 0.10, "_nota": "Desvio máximo da cor sorteada, o mesmo da casa em buildings.js (s6/s2/s3)." },
+    "paleta_pesos": {
+      "conjunto": { "8": 30, "9": 25, "10": 20, "11": 25 },
+      "centro":   { "12": 50, "0": 15, "2": 15, "3": 10, "5": 10 },
+      "medio":    { "13": 22, "0": 20, "14": 16, "2": 12, "1": 10, "15": 6, "3": 6, "4": 3, "7": 3, "5": 2 },
+      "comum":    { "0": 18, "13": 16, "14": 12, "2": 12, "1": 10, "3": 9, "15": 6, "4": 5, "5": 5, "7": 4, "6": 3 },
+      "_nota": "Índice da paleta por bairro (chave = índice em paletas.lista). Paredes majoritariamente claras pela referência do cliente.",
+      "a_conferir": true
+    },
+    "telhas": {
+      "lista": ["A35E3C", "9D5637", "96543D", "9B5E48", "8E452E", "8A4A34", "864029", "7B412D", "6E4A3A", "723725", "633D32"],
+      "_nota": "Telha cerâmica do terracota claro ao marrom (referência do cliente; leque CASA/SOBRADO de buildings.js sem os cinzas de telha de concreto). A entrada sai da semente."
+    },
+    "fibrocimento": { "lista": ["8C8C86", "7E7E79", "9A9893"], "_nota": "Telhado escondido e meia-água de fibrocimento." },
+    "laje": { "lista": ["B9B6AE", "A8A59D", "C4C0B6"], "_nota": "Laje impermeabilizada vista de cima." },
+    "esquadrias": {
+      "pesos": { "aluminio_claro": 45, "aluminio_escuro": 30, "madeira": 25 },
+      "cores": { "aluminio_claro": "C8CBCC", "aluminio_escuro": "3B3E41", "madeira": "7A5232" },
+      "_nota": "Esquadrias: alumínio claro ou escuro, ou madeira."
+    },
+    "portao": {
+      "pesos": { "ferro_preto": 45, "cinza": 30, "branco": 25 },
+      "cores": { "ferro_preto": "222222", "cinza": "6E7072", "branco": "E6E6E2" },
+      "_nota": "Portão: ferro preto, cinza ou branco."
+    },
+    "muro": {
+      "pesos": { "branco": 70, "cor_da_casa": 20, "cinza": 10 },
+      "cores": { "branco": "ECE8DE", "cinza": "B4B2AC" },
+      "_nota": "Muro branco contínuo com capa pela referência do cliente; parte dos muros leva a cor da casa."
+    },
+    "grama": { "lista": ["688448", "5E7C40", "72904F"], "_nota": "Grama do quintal (mesmo verde dos exteriores)." },
+    "piso": { "lista": ["A9AAA2", "B9B2A4", "B87154"], "_nota": "Cimentado, piso claro e cerâmica de quintal (cores de exteriores/v1/terrenos.py)." },
+    "piscina": { "lista": ["3E8FB0", "2F7FA3"], "_nota": "Água da piscina." }
+  }
+}
