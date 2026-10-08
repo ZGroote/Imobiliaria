@@ -1,0 +1,19 @@
+{
+  "name": "mapa-versao-melhorada-07-10",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Mapa 3D de São Carlos otimizado, com casas procedurais por regra: gerador, renderizador e medições.",
+  "license": "UNLICENSED",
+  "scripts": {
+    "casas": "node gerador/casas.mjs",
+    "montar": "node gerador/montar.mjs",
+    "test": "node --test \"testes/*.test.mjs\""
+  },
+  "dependencies": {
+    "three": "0.168.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "playwright-core": "1.63.0"
+  }
+}

@@ -1,0 +1,81 @@
+  #hsheet{bottom:16px;left:50%;transform:translateX(-50%) translateY(14px);padding:12px 16px;
+    min-width:250px;max-width:min(400px,calc(100vw - 32px));max-height:min(72vh,600px);
+    opacity:0;transition:.22s;pointer-events:none}
+  #hsheet.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+  #hsheet .tag{font-size:9px;letter-spacing:.13em;text-transform:uppercase;opacity:.55;color:#FFC24B}
+  #hsheet h2{font-size:14px;font-weight:650;margin:3px 0 2px;line-height:1.3}
+  #hsheet .addr{font-size:11px;opacity:.62}
+  #hsheet .stats{display:flex;gap:18px;margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
+  #hsheet .stats div{font-size:10px;opacity:.55}
+  #hsheet .stats b{display:block;font-size:14px;font-weight:650;opacity:1;margin-top:1px;font-variant-numeric:tabular-nums}
+  #hsheet .x{position:absolute;top:8px;right:10px;font-size:15px;opacity:.4;cursor:pointer;line-height:1}
+  #hsheet .x:hover{opacity:.9}
+  #hsheet .link{display:block;margin-top:10px;font-size:10.5px;text-align:center;padding:7px 0;
+    border-radius:6px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--txt);
+    text-decoration:none;transition:.15s}
+  #hsheet .link:hover{background:rgba(255,255,255,.15)}
+  /* A linha de acao e comum as duas fichas: no #hsheet ela so leva "O que tem por
+     perto?", no #usheet leva a visita 3D do lado. */
+  .card .acoes{display:flex;gap:6px;margin-top:8px}
+  .card .acoes button{flex:1;font-size:10.5px;padding:8px 6px}
+  .card .acoes button.pri{background:rgba(255,194,75,.16);border-color:rgba(255,194,75,.42);
+    color:#FFDFA0;font-weight:650}
+  .card .acoes button.pri:hover{background:rgba(255,194,75,.26)}
+
+  /* ---- Ficha do imovel da vitrine (v13) --------------------------------- */
+  /* A ficha e mais alta que as outras (traz a lista de comodos), entao ela rola por
+     dentro em vez de crescer pra fora da tela. */
+  #usheet{bottom:16px;left:50%;transform:translateX(-50%) translateY(14px);padding:12px 16px;
+    min-width:280px;width:min(430px,calc(100vw - 32px));max-height:min(72vh,600px);
+    overflow:auto;opacity:0;pointer-events:none;
+    transition:opacity .22s,transform .22s,max-height .22s,padding-bottom .22s}
+  #usheet.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+  #usheet .tag{font-size:9px;letter-spacing:.13em;text-transform:uppercase;opacity:.55;color:#FFC24B}
+  #usheet h2{font-size:14px;font-weight:650;margin:3px 0 2px;line-height:1.3;padding-right:18px}
+  #usheet .addr{font-size:11px;opacity:.62}
+  #usheet .naoconf{font-size:9.5px;color:#F0B24B;margin-top:5px}
+  #usheet .naoconf[hidden]{display:none}
+  #usheet .stats{display:flex;flex-wrap:wrap;gap:9px 18px;
+    margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
+  #usheet .stats div{font-size:10px;opacity:.55;min-width:56px}
+  #usheet .stats b{display:block;font-size:13.5px;font-weight:650;opacity:1;margin-top:1px;
+    font-variant-numeric:tabular-nums;white-space:nowrap}
+  #usheet .x{position:absolute;top:8px;right:10px;font-size:15px;opacity:.4;cursor:pointer;line-height:1}
+  #usheet .x:hover{opacity:.9}
+  #usheet .comodos{margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
+  #usheet .comodos h4{font-size:9px;letter-spacing:.13em;text-transform:uppercase;opacity:.55;
+    font-weight:600;margin-bottom:6px}
+  #usheet .comodos h4 b{opacity:.85;text-transform:none;letter-spacing:0;font-size:10px}
+  #usheet .comodos[hidden]{display:none}
+  #uCom{display:grid;grid-template-columns:1fr 1fr;gap:2px 14px}
+  #uCom .ci{display:flex;gap:8px;align-items:baseline;font-size:10.5px;padding:2px 0}
+  #uCom .ci span{opacity:.72;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #uCom .ci b{margin-left:auto;font-weight:600;opacity:.5;font-variant-numeric:tabular-nums;flex:none}
+
+  /* ---- A ficha minimizada ----------------------------------------------
+     Entrar no "o que tem por perto?" nao FECHA a ficha do imovel: encolhe ela pra uma
+     tira no mesmo canto de sempre. Fechar apagaria a resposta de "perto de QUE?"
+     justamente quando essa pergunta passa a importar -- e, com o mapa cheio de pino,
+     o nome do imovel na tira e o unico texto que ainda diz de quem e o farol.
+
+     A transicao anda porque os dois estados tem `max-height` em NUMERO: sai de
+     min(72vh,600px) e chega em 58px. Partindo de `none` nao haveria o que interpolar,
+     e a ficha sumiria de um quadro pro outro. */
+  #usheet.min,#hsheet.min{max-height:56px;overflow:hidden;cursor:pointer}
+  #usheet.min:hover,#hsheet.min:hover{background:rgba(22,30,40,.94)}
+  /* O endereco sai da tira. Sem isso o corte de 56 px caia NO MEIO da linha dele, e a
+     tira lia como cartao mal cortado em vez de cartao encolhido. */
+  #usheet.min .addr,#usheet.min .naoconf,#hsheet.min .addr{display:none}
+  #usheet.min h2,#hsheet.min h2{font-size:12.5px;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;padding-right:34px}
+  /* O controle de encolher/abrir, ao lado do x -- que continua FECHANDO. E a mesma
+     `.dobra` do painel do interior. So existe dentro do "por perto": fora dele nao ha
+     pra onde encolher, e um botao que nao leva a lugar nenhum e ruido. */
+  #usheet .dobra,#hsheet .dobra{position:absolute;top:9px;right:30px;font-size:11px;
+    line-height:1;opacity:.4;cursor:pointer;display:none;user-select:none}
+  #usheet .dobra:hover,#hsheet .dobra:hover{opacity:.9}
+  body.perto #usheet .dobra,body.perto #hsheet .dobra{display:block}
+  /* A ficha do estabelecimento tambem mora no rodape. Com a tira minimizada embaixo,
+     ela sobe -- as duas empilham em vez de uma cobrir a outra. */
+  body.perto #psheet{bottom:84px}
+

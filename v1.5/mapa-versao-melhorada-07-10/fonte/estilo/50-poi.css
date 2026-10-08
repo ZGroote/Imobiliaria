@@ -1,0 +1,68 @@
+  /* ---- Estabelecimentos (supermercados, saude, farmacias) ---------------- */
+  #poibar{position:fixed;z-index:3;top:16px;left:50%;transform:translateX(-50%);
+    display:flex;gap:5px;padding:5px;max-width:min(880px,calc(100vw - 140px));
+    overflow-x:auto;scrollbar-width:none;border-radius:999px}
+  #poibar::-webkit-scrollbar{display:none}
+  .pchip{flex:none;display:flex;align-items:center;gap:6px;height:28px;padding:0 11px 0 7px;
+    border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);
+    color:var(--txt);font:600 10.5px/1 var(--ui-font);cursor:pointer;white-space:nowrap;
+    transition:background .15s,border-color .15s,opacity .15s;opacity:.42}
+  .pchip:hover{background:rgba(255,255,255,.13)}
+  .pchip[aria-pressed=true]{opacity:1;background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.24)}
+  .pchip i{width:8px;height:8px;border-radius:50%;background:var(--pc);flex:none;
+    box-shadow:0 0 7px -1px var(--pc)}
+  .pchip b{font-weight:600;opacity:.45;font-variant-numeric:tabular-nums}
+
+  .poi{position:absolute;left:0;top:0;display:flex;align-items:center;gap:7px;
+    height:30px;padding:2px 12px 2px 2px;border-radius:999px;
+    background:rgba(12,18,25,.8);border:1px solid rgba(255,255,255,.13);
+    box-shadow:0 5px 16px rgba(0,0,0,.55);
+    color:var(--txt);font:600 11px/1 var(--ui-font);white-space:nowrap;
+    transform-origin:15px 15px;pointer-events:auto;cursor:pointer;will-change:transform;
+    -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}
+  .poi:hover{background:rgba(22,32,44,.94);border-color:rgba(255,255,255,.3);z-index:9000!important}
+  .poi .ic{width:26px;height:26px;border-radius:50%;flex:none;display:grid;place-items:center;
+    background:var(--pc);box-shadow:0 0 0 2px rgba(11,16,22,.92),0 0 13px -2px var(--pc)}
+  .poi .ic svg{width:14px;height:14px;fill:none;stroke:#0B1016;stroke-width:2.1;
+    stroke-linecap:round;stroke-linejoin:round}
+  .poi .nm{max-width:158px;overflow:hidden;text-overflow:ellipsis}
+  .poi.mini{padding-right:2px;gap:0}
+  .poi.mini .nm{display:none}
+  /* Passar o mouse revela o nome que o empacotador escondeu. Nao e um tooltip novo:
+     e o mesmo .nm que ja esta no marcador, entao nao custa elemento nem JS por quadro. */
+  .poi.mini:hover{padding-right:9px;gap:7px}
+  .poi.mini:hover .nm{display:block;max-width:230px}
+  .poi.sel{border-color:var(--pc);background:rgba(22,32,44,.96);
+    box-shadow:0 5px 20px rgba(0,0,0,.6),0 0 0 1px var(--pc)}
+
+  #psheet{bottom:16px;left:50%;transform:translateX(-50%) translateY(14px);padding:12px 16px;
+    min-width:262px;max-width:min(400px,calc(100vw - 32px));opacity:0;transition:.22s;pointer-events:none}
+  #psheet.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+  #psheet .top{display:flex;align-items:center;gap:9px}
+  #psheet .ic{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;
+    background:var(--pc);box-shadow:0 0 14px -2px var(--pc)}
+  #psheet .ic svg{width:15px;height:15px;fill:none;stroke:#0B1016;stroke-width:2.1;
+    stroke-linecap:round;stroke-linejoin:round}
+  #psheet .tag{font-size:9px;letter-spacing:.13em;text-transform:uppercase;opacity:.6;color:var(--pc)}
+  #psheet h2{font-size:14px;font-weight:650;margin:2px 0 0;line-height:1.3;
+    max-width:300px;overflow-wrap:anywhere}
+  #psheet .meta{margin-top:10px;padding-top:9px;border-top:1px solid var(--line);
+    display:grid;gap:5px;font-size:10.5px;opacity:.72;line-height:1.45}
+  #psheet .meta div{display:flex;gap:7px}
+  #psheet .meta span{opacity:.5;flex:none;width:58px}
+  #psheet .x{position:absolute;top:8px;right:10px;font-size:15px;opacity:.4;cursor:pointer;line-height:1}
+  #psheet .x:hover{opacity:.9}
+  #psheet .link{display:block;margin-top:10px;font-size:10.5px;text-align:center;padding:7px 0;
+    border-radius:6px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--txt);
+    text-decoration:none;transition:.15s}
+  #psheet .link:hover{background:rgba(255,255,255,.15)}
+
+  /* Vem depois do bloco acima de proposito: media query nao soma especificidade,
+     entao a regra movel so vence a de desktop se aparecer mais tarde na folha. */
+  @media (max-width:640px){
+    #poibar{top:70px;left:12px;right:12px;max-width:none;transform:none;padding:0;
+      justify-content:flex-start}
+    #psheet{bottom:150px}
+    .poi .nm{max-width:112px}
+  }
+

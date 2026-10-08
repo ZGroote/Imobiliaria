@@ -1,0 +1,121 @@
+  /* ---- v16-moveis: o modo de mobiliar ------------------------------------
+     O botao mora a ESQUERDA da bussola (que e fixa no canto), e o painel desce
+     pra faixa que a vitrine ocupa fora da casa -- la dentro ela some, entao a
+     coluna da direita fica livre e nao ha o que empilhar. As duas regras vencem
+     as de cima por virem depois na folha, com a mesma especificidade. */
+  #imob{display:none;top:16px;right:62px;padding:9px 13px;font:inherit;font-size:11px;
+    font-weight:600;color:var(--txt);cursor:pointer;line-height:1}
+  body.dentro #imob{display:block}
+  #imob[aria-pressed="true"]{background:rgba(75,219,124,.16);border-color:rgba(75,219,124,.5);
+    color:#BFF3D2}
+  #ipanel{top:64px;right:16px}
+  #ipanel .acao{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:4px}
+  #ipanel .acao button{flex:none;padding:7px 2px;font-size:9.5px}
+  /* Mover e Modificar sao ESTADOS, nao gatilhos: o botao aceso diz o que o proximo
+     clique na cena vai fazer. Sem realce os dois viravam "nao aconteceu nada". */
+  #ipanel .acao button[aria-pressed="true"]{background:rgba(75,219,124,.18);
+    border-color:rgba(75,219,124,.5);color:#BFF3D2}
+
+  /* Campo de medida da seta. Vive no #overlay, que e pointer-events:none -- sem
+     devolver o evento aqui o campo aparece e nao aceita digito. */
+  .med{position:absolute;z-index:4;pointer-events:auto;transform:translate(-50%,0);
+    display:flex;align-items:center;gap:3px;padding:2px 5px;border-radius:6px;
+    background:rgba(15,21,28,.92);border:1px solid rgba(75,219,124,.45);
+    font-family:var(--ui-font);font-size:10px;color:#BFF3D2;white-space:nowrap}
+  .med input{width:42px;font:inherit;font-size:10px;text-align:right;padding:1px 3px;
+    border:0;border-radius:4px;background:rgba(255,255,255,.09);color:#E7EBF0;
+    font-variant-numeric:tabular-nums}
+  .med input:focus{outline:1px solid rgba(75,219,124,.6)}
+  .med b{font-weight:500;opacity:.6}
+  /* Enquanto arrasta, o campo vira numero puro: caixa de texto seguindo o cursor
+     pisca o cursor de digitacao e rouba o foco do arrasto. */
+  .med.arrasta input{pointer-events:none}
+
+  #mobileNav,#mobileHint,#isair{display:none}
+  body.dentro #isair{display:block;position:fixed;top:72px;left:16px;min-height:44px;padding:8px 12px}
+  .card .x,.card .dobra{background:transparent;border:0}
+  #houses button.hitem{width:100%;text-align:left}
+  @media (max-width:820px){
+    :root{--mobile-bottom:calc(76px + env(safe-area-inset-bottom));--mobile-top:calc(12px + env(safe-area-inset-top))}
+    .card{backdrop-filter:none;background:rgba(15,21,28,.96)}
+    button,select,label.file{min-height:44px;font-size:14px;padding:10px 8px;touch-action:manipulation}
+    button[aria-pressed=false]{opacity:.8}
+    #hud{top:var(--mobile-top);left:max(12px,env(safe-area-inset-left));right:68px;width:auto;padding:0;z-index:7}
+    #hud .busca input{font-size:16px;min-height:48px;padding:12px;width:100%}
+    #bres{max-height:45vh;max-height:45dvh;overscroll-behavior:contain}
+    #bres .bi{min-height:48px;padding:10px;flex-wrap:wrap;gap:4px 8px}
+    #bres .bi .t{font-size:14px;white-space:normal;flex:1}
+    #bres .bi .s,#bres .vazio{font-size:12px}
+    #compass{top:var(--mobile-top);right:max(12px,env(safe-area-inset-right));width:44px;height:48px}
+    #mobileNav{display:flex;gap:6px;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:calc(12px + env(safe-area-inset-bottom));padding:6px;z-index:6}
+    #mobileNav button{flex:1;opacity:1}
+    #mobileNav button[aria-pressed=true],#mobileNav button[aria-expanded=true]{background:rgba(75,219,124,.16);border-color:rgba(75,219,124,.5);color:#BFF3D2}
+    #panel,#houses{display:none;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));top:auto;bottom:var(--mobile-bottom);width:auto;max-height:52vh;max-height:52dvh;overflow:auto;overscroll-behavior:contain}
+    body[data-mobile=imoveis]:not(.dentro):not(.perto) #houses,body[data-mobile=opcoes]:not(.dentro) #panel{display:block}
+    #houses h3{font-size:14px;margin-bottom:12px}
+    #houses .hitem{padding:12px;min-height:72px}
+    #houses .hitem .t,#houses .hitem .p{font-size:14px}
+    #houses .hitem .b{font-size:12px}
+    #mobileHint{display:block;position:fixed;left:20px;right:20px;bottom:var(--mobile-bottom);padding:8px;font-size:12px;line-height:1.5;text-align:center;background:rgba(15,21,28,.85);border-radius:6px;pointer-events:none;z-index:2}
+    body:not([data-mobile=mapa]) #mobileHint,body:has(.card.on) #mobileHint{display:none}
+    #minimapa{top:calc(var(--mobile-top) + 60px);right:12px;bottom:auto;width:88px;height:88px}
+    #minimapa canvas{width:88px;height:88px}
+    #usheet,#hsheet,#psheet{left:12px;right:12px;width:auto;min-width:0;max-width:none;bottom:var(--mobile-bottom);max-height:52vh;max-height:52dvh;overflow:auto;overscroll-behavior:contain;padding:14px;transform:translateY(14px)}
+    #usheet.on,#hsheet.on,#psheet.on{transform:none}
+    #usheet h2,#hsheet h2,#psheet h2{font-size:16px;padding-right:44px}
+    #usheet .addr,#hsheet .addr,#psheet .meta,#uCom .ci{font-size:13px}
+    .card .acoes{flex-wrap:wrap;position:sticky;bottom:-14px;background:#0F151C;padding:8px 0}
+    .card .acoes button{min-height:48px;font-size:14px;flex:1 1 140px}
+    #hsheet .link,#psheet .link{min-height:44px;font-size:14px;padding:12px}
+    .card .x{min-width:44px;min-height:44px;top:2px!important;right:2px!important;display:grid;place-items:center;font-size:22px!important;opacity:.85!important}
+    .card .dobra{min-width:44px;min-height:44px;top:2px!important;right:46px!important;padding:14px;opacity:.8!important}
+    #usheet.min h2,#hsheet.min h2{padding-right:80px}
+    #usheet.min .stats,#usheet.min .comodos,#usheet.min .acoes,#hsheet.min .stats,#hsheet.min .link,#hsheet.min .acoes{display:none}
+    #nearby{top:calc(var(--mobile-top) + 60px);left:12px;right:12px;width:auto;max-height:42vh;max-height:42dvh;overflow:hidden;display:flex;flex-direction:column}
+    #nearby > :not(#nList){flex-shrink:0}
+    #nearby h3{font-size:14px;padding-right:36px}
+    #nearby .sub{font-size:12px}
+    #nList{display:grid;grid-template-columns:1fr 1fr;gap:4px;overflow:auto;overscroll-behavior:contain;min-height:44px}
+    #nearby .ncat,#nearby .mass button,#nearby .voltar{font-size:13px;min-height:44px}
+    body.perto #minimapa{display:none}
+    body.perto #psheet{bottom:calc(var(--mobile-bottom) + 64px);max-height:28vh;max-height:28dvh;z-index:4}
+    body.perto:has(#psheet.on) #nearby,body.perto:has(#usheet.on:not(.min)) #nearby,body.perto:has(#hsheet.on:not(.min)) #nearby{visibility:hidden}
+    body.dentro #hud,body.dentro #mobileNav,body.dentro #mobileHint{display:none}
+    body.dentro #isair{top:var(--mobile-top);left:max(12px,env(safe-area-inset-left));font-size:14px;z-index:6}
+    body.dentro #imob{top:var(--mobile-top);right:68px;font-size:14px;min-height:48px;padding:12px}
+    #ipanel{top:calc(var(--mobile-top) + 60px);bottom:auto;left:12px;right:12px;width:auto;max-height:calc(100vh - 230px);max-height:calc(100dvh - 230px)}
+    #ipanel h2{padding-right:70px;font-size:15px}
+    #ipanel .cat button,#ipanel .acao button{font-size:13px;min-height:44px}
+    body.dentro:has(#ipanel.on) #minimapa{display:none}
+    #joy{left:max(14px,env(safe-area-inset-left));bottom:calc(14px + env(safe-area-inset-bottom))}
+    .med input{font-size:16px;min-height:44px;width:60px}
+    input[type=range]{height:28px;background:linear-gradient(rgba(255,255,255,.16),rgba(255,255,255,.16)) center/100% 3px no-repeat}
+    input[type=range]::-webkit-slider-thumb{width:24px;height:24px}
+    input[type=range]::-moz-range-thumb{width:24px;height:24px}
+    body.buscando #minimapa,body.buscando #mobileHint,body.buscando #mobileNav{visibility:hidden}
+    #attrib{bottom:1px;font-size:8px}
+  }
+  @media (max-width:820px) and (max-height:500px){
+    #mobileHint{display:none}
+    #houses,#usheet,#hsheet,#psheet{max-height:calc(100dvh - 150px)}
+    #ipanel{left:auto;width:48%;max-height:calc(100dvh - 90px)}
+    #nearby{right:50%;max-height:calc(100dvh - 156px)}
+    #nList{grid-template-columns:1fr}
+  }
+
+.listing-model-dialog{width:min(960px,94vw);max-height:94dvh;padding:0;border:1px solid #52654e;border-radius:16px;background:#f1f2eb;color:#263625;box-shadow:0 25px 90px #0008;overflow:auto}
+.listing-model-dialog::backdrop{background:#101a16bd}
+.listing-model-dialog header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px}
+.listing-model-dialog h2{font-size:20px;line-height:1.3;margin:5px 0}
+.listing-model-dialog small{font-size:11px;letter-spacing:.04em}
+.listing-model-dialog button{border:1px solid #abb5a6;border-radius:8px;background:#fff;color:#283a27;padding:10px 15px;cursor:pointer;font:inherit;min-width:44px;min-height:44px}
+.listing-model-dialog button:focus-visible{outline:3px solid #427233;outline-offset:2px}
+.listing-model-stage{height:min(56dvh,530px);min-height:230px;background:#e5e9e3}
+.listing-model-stage canvas{position:static;inset:auto;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.listing-model-dialog footer{padding:14px 22px 20px}
+.listing-model-controls{display:flex;gap:8px;flex-wrap:wrap}
+.listing-model-note{font-size:13px;line-height:1.5;margin:12px 0 8px}
+#hModelNote{font-size:12px;line-height:1.45;margin-top:10px;color:#b4c4b9}
+
+.listing-model-dialog{margin:auto}
+.listing-model-dialog header button{flex:0 0 44px;padding:8px;font-size:22px}

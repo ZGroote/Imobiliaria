@@ -1,0 +1,10 @@
+node_modules/
+# Montado por `node gerador/montar.mjs` (determinístico a partir de fonte/ e derivados/).
+publicado/
+# Derivados grandes (> 1 MiB) e intermediários: refeitos por `node gerador/casas.mjs`.
+derivados/**/*.bin
+derivados/_tmp/
+# Imagens de revisão e capturas (regeneráveis pelos scripts de medicoes/).
+medicoes/vitrine/
+medicoes/capturas/
+medicoes/comparacao/
