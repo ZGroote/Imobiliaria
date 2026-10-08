@@ -431,10 +431,13 @@
       const w = vol.u1 - vol.u0, d = vol.v1 - vol.v0;
       const base = vol.papel === "corpo" ? casa.alturas.respaldo : resp1;
       const i = tel.inclinacao;
+      // Garagem leve com telha: duas águas de cumeeira em v, sobre a largura curta. Uma
+      // meia-água sobre 5,5 m de fundo subiria 1,8 m e atravessaria o beiral do corpo; a
+      // duas águas sobe metade da largura (~0,5 m) e fica abaixo dele.
       if (vol.papel === "garagem_leve")
-        return { volume: iv, tipo: casa.garagem.telha ? "meia_agua" : "pergolado", material: casa.garagem.telha ? "ceramica" : "madeira",
-                 queda: "frente", inclinacao: casa.garagem.telha ? i : 0, base: alturaLeve,
-                 topo: Math.round((alturaLeve + (casa.garagem.telha ? i * d : 0)) * 100) / 100 };
+        return { volume: iv, tipo: casa.garagem.telha ? "duas_aguas" : "pergolado", material: casa.garagem.telha ? "ceramica" : "madeira",
+                 cumeeira: "v", inclinacao: casa.garagem.telha ? i : 0, base: alturaLeve,
+                 topo: Math.round((alturaLeve + (casa.garagem.telha ? i * w / 2 : 0)) * 100) / 100 };
       if (vol.papel === "caixa_garagem" || vol.papel === "caixa_varanda")
         return { volume: iv, tipo: "laje", material: "laje", base, platibanda: Math.round((base + platCaixa) * 100) / 100,
                  topo: Math.round((base + platCaixa) * 100) / 100 };
@@ -484,7 +487,10 @@
         const lw = R("portoes.garagem_vaga_m");
         portaoGaragem = esq ? { u0: -T / 2 + pil, u1: -T / 2 + pil + lw, largura: lw }
                             : { u0: T / 2 - pil - lw, u1: T / 2 - pil, largura: lw };
-        vaga = { u0: portaoGaragem.u0, u1: portaoGaragem.u1, v0: 0, v1: corpo.v0 };
+        // A vaga é o recuo da frente na largura do portão, até o primeiro volume.
+        let fundoVaga = corpo.v0;
+        for (const v of vols) if (v.papel !== "edicula" && v.u1 > portaoGaragem.u0 && v.u0 < portaoGaragem.u1) fundoVaga = Math.min(fundoVaga, v.v0);
+        vaga = { u0: portaoGaragem.u0, u1: portaoGaragem.u1, v0: 0, v1: fundoVaga };
         rampa = Object.assign({}, vaga);
       }
     }
@@ -495,7 +501,9 @@
       const sw = R("portoes.social_largura_m");
       portaoSocial = { u0: porta.u - sw / 2, u1: porta.u + sw / 2, largura: sw };
       const cw = R("quintal.caminho_largura_m");
-      caminho = { u0: porta.u - cw / 2, u1: porta.u + cw / 2, v0: 0, v1: corpo.v0 };
+      // Debaixo da varanda o caminho para na frente dela: o piso da varanda continua.
+      const varanda = ala && ala.papel === "caixa_varanda" && porta.u > ala.u0 && porta.u < ala.u1 ? ala : null;
+      caminho = { u0: porta.u - cw / 2, u1: porta.u + cw / 2, v0: 0, v1: varanda ? varanda.v0 : corpo.v0 };
     }
 
     // --- muros: quadrilátero do lote, frente com os vãos dos portões -------------
@@ -543,18 +551,20 @@
     const plantio = [];
     const mg = R("quintal.plantio_margem_m"), palm = R("quintal.palmeira_prob");
     const tipoPlanta = () => fQ.chance(palm) ? "palmeira" : "arvore";
+    const livreDeVolume = (u, v) => !vols.some(x => u > x.u0 - mg && u < x.u1 + mg && v > x.v0 - mg && v < x.v1 + mg);
     if (corpo.v0 >= R("quintal.plantio_frente_min_m")) {
       // jardim da frente: do lado oposto à garagem, longe do caminho
       const ladoU = casa.garagem.lado === "esquerda" ? 1 : -1;
       const u = ladoU > 0 ? T / 2 - mg : -T / 2 + mg;
-      if (!caminho || Math.abs(u - porta.u) > mg + 0.6) plantio.push({ u, v: Math.min(corpo.v0 - mg, corpo.v0 / 2), tipo: tipoPlanta() });
+      const v = Math.min(corpo.v0 - mg, corpo.v0 / 2);
+      if ((!caminho || Math.abs(u - porta.u) > mg + 0.6) && livreDeVolume(u, v)) plantio.push({ u, v, tipo: tipoPlanta() });
     }
     const vFundo = (edicula ? edicula.v0 : fundoLote) - mg;
     if (vFundo - traseira > 2 * mg) {
       for (const s of [-1, 1]) {
         const u = s < 0 ? Math.max(k.fundoEsq[0], -T / 2) + mg : Math.min(k.fundoDir[0], T / 2) - mg;
         if (piscina && u > piscina.u0 - mg && u < piscina.u1 + mg) continue;
-        plantio.push({ u, v: vFundo, tipo: tipoPlanta() });
+        if (livreDeVolume(u, vFundo)) plantio.push({ u, v: vFundo, tipo: tipoPlanta() });
       }
     }
 
