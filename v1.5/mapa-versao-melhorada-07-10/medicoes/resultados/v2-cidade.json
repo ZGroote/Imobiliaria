@@ -1,0 +1,252 @@
+{
+  "quando": "2026-10-08T07:30:35.535Z",
+  "maquina": "Intel(R) Xeon(R) Processor @ 2.10GHz x4",
+  "render": "SwiftShader (software)",
+  "pasta": "/home/user/Imobiliaria/v1.5/mapa-versao-melhorada-07-10/publicado",
+  "resultados": {
+    "cidade|desktop": [
+      {
+        "url": "/mapa/sao-carlos-e2a19c288af3.html",
+        "perfil": "desktop",
+        "carregadaParedeMs": 4423,
+        "completaParedeMs": 10607,
+        "montagem": {
+          "quarteiroesNaFila": 872,
+          "cpuTotalMs": 5247,
+          "fatiaMs": 4,
+          "quadrosParaMontar": 110,
+          "fatiaMedianaMs": 18.5,
+          "fatiaP95Ms": 141.9,
+          "fatiaMaxMs": 186.3,
+          "fatiasAcimaDe50ms": 44,
+          "quarteiroesPorQuadroMediana": 7,
+          "segundosA60fps": 1.8,
+          "segundosA30fps": 3.7,
+          "casas": {
+            "quadros": 0,
+            "cpuTotalMs": 0,
+            "fatiaMedianaMs": 0,
+            "fatiaMaxMs": 0,
+            "fatiasAcimaDe50ms": 0,
+            "casas": 64977,
+            "quarteiroes": 3876,
+            "vivos": 817,
+            "porNivel": [
+              0,
+              38,
+              779
+            ],
+            "fila": 0,
+            "substituidos": 85460
+          }
+        },
+        "cpuAteCarregada": {
+          "scriptMs": 2257,
+          "tarefaMs": 3286
+        },
+        "bytesAteCompleta": 7331871,
+        "requisicoes": 24,
+        "tiles": 0,
+        "bytesTiles": 0,
+        "abrir": {
+          "htmlRespostaFim": 34,
+          "domContentLoaded": 83.20000000018626,
+          "load": 248.5,
+          "fcp": 760,
+          "primeiroDesenho": 2759.100000000093,
+          "primeiroDesenhoNaTela": 3104.100000000093,
+          "cidadeCarregada": 4418.600000000093,
+          "filaZero": 10063.600000000093,
+          "completa": 10063.600000000093,
+          "longTasks": {
+            "n": 6,
+            "somaMs": 3245,
+            "maxMs": 1359,
+            "maiores": [
+              [
+                1547,
+                1359
+              ],
+              [
+                3526,
+                884
+              ],
+              [
+                3111,
+                414
+              ],
+              [
+                9796,
+                268
+              ],
+              [
+                2907,
+                199
+              ],
+              [
+                4419,
+                121
+              ]
+            ]
+          },
+          "nivel": "baixo",
+          "dpr": 1,
+          "grupos": 4264,
+          "vivos": 874,
+          "exteriores": null,
+          "raioStream": 1800,
+          "drawsAteAqui": 1248
+        },
+        "cpuAteCompleta": {
+          "scriptMs": 2665,
+          "tarefaMs": 8964,
+          "layoutMs": 90,
+          "estiloMs": 111,
+          "nota": "tempo de thread principal ja na escala do estrangulamento de CPU"
+        },
+        "memoriaCompleta": {
+          "gpuMiB": 91.1,
+          "texturasMiB": 7.3,
+          "buffersMiB": 71.8,
+          "alvosMiB": 12,
+          "picoGpuMiB": 91.1,
+          "canvas": [
+            1366,
+            768
+          ],
+          "msaa": false,
+          "heapJsMiB": 174.7,
+          "heapJsTotalMiB": 227.5,
+          "nos": 10859
+        },
+        "umQuadro": {
+          "calls": 405,
+          "tris": 1517412,
+          "msSwiftShader": 7.4
+        },
+        "composicao": {
+          "totalTris": 1986946,
+          "objetosVisiveis": 2173,
+          "instancias": 4597,
+          "familias": [
+            {
+              "familia": "Group/Mesh | Mesh | MeshPhongMaterial",
+              "objetos": 1330,
+              "tris": 949995,
+              "instancias": 1330,
+              "trisPorInstanciaMax": 21472,
+              "vertices": 2677324,
+              "pct": 47.8
+            },
+            {
+              "familia": "arvores/Mesh | Instanced | MeshPhongMaterial",
+              "objetos": 20,
+              "tris": 565060,
+              "instancias": 1992,
+              "trisPorInstanciaMax": 1410,
+              "vertices": 18972,
+              "pct": 28.4
+            },
+            {
+              "familia": "Mesh | Mesh | MeshBasicMaterial",
+              "objetos": 4,
+              "tris": 448391,
+              "instancias": 4,
+              "trisPorInstanciaMax": 199712,
+              "vertices": 843571,
+              "pct": 22.6
+            },
+            {
+              "familia": "Group/Mesh | Mesh | MeshLambertMaterial",
+              "objetos": 817,
+              "tris": 22594,
+              "instancias": 817,
+              "trisPorInstanciaMax": 162,
+              "vertices": 67754,
+              "pct": 1.1
+            },
+            {
+              "familia": "sombras/Mesh | Instanced | MeshBasicMaterial",
+              "objetos": 1,
+              "tris": 906,
+              "instancias": 453,
+              "trisPorInstanciaMax": 2,
+              "vertices": 6,
+              "pct": 0
+            },
+            {
+              "familia": "Group/LineSegments | LineSegments | LineBasicMaterial",
+              "objetos": 1,
+              "tris": 0,
+              "instancias": 1,
+              "trisPorInstanciaMax": 41454,
+              "vertices": 124362,
+              "pct": 0
+            }
+          ]
+        },
+        "parado": {
+          "segundos": 5.01,
+          "quadrosPorSeg": 0.2,
+          "desenhosPorQuadro": 405,
+          "triangulosPorQuadro": 1517412,
+          "cpuPrincipalPct": 0.4,
+          "scriptPct": 0.3
+        },
+        "girando": {
+          "segundos": 5.52,
+          "quadrosPorSeg": 1.8,
+          "desenhosPorQuadro": 400,
+          "triangulosPorQuadro": 1327639,
+          "cpuPrincipalPct": 3.5,
+          "scriptPct": 2.5
+        },
+        "posGiro": {
+          "fila": 14,
+          "vivos": 877,
+          "dpr": 1
+        },
+        "memoriaFinal": {
+          "gpuMiB": 91.6,
+          "texturasMiB": 7.3,
+          "buffersMiB": 72.3,
+          "alvosMiB": 12,
+          "picoGpuMiB": 91.6,
+          "canvas": [
+            1366,
+            768
+          ],
+          "msaa": false,
+          "heapJsMiB": 123.2,
+          "heapJsTotalMiB": 198.2,
+          "nos": 10858
+        },
+        "bytesPorRecurso": {
+          "/mapa/sao-carlos-e2a19c288af3.html": 11747,
+          "/mapa/dados/arvores-b8a90d9cf4d2.json": 78996,
+          "/mapa/dados/grounddata-6ae2209adbce.json": 118973,
+          "/mapa/dados/capa-7c80b65ff4db.webp": 189368,
+          "/mapa/dados/vegetacao-0ffd9971a8fc.json": 243158,
+          "/mapa/dados/poidata-97c4960173fa.json": 21943,
+          "/mapa/dados/textura-c88b11c4ae4e.json": 196522,
+          "/mapa/dados/unidades-776f7cbacf7c.json": 12368,
+          "/mapa/dados/elevdata-594160be496a.json": 6611,
+          "/mapa/dados/cidade-dd87de467c26.json": 3576,
+          "/mapa/dados/imoveis-c27e79385ab9.json": 646,
+          "/mapa/dados/casasSubs-16fd39ff8396.bin": 342152,
+          "/mapa/dados/listingModels-22f81e6492a1.json": 339,
+          "/mapa/app/mapa-9b9c6d2500ed.js": 121216,
+          "/mapa/lib/three-r168-d7cf02d2fe2a.min.js": 142219,
+          "/mapa/dados/streetdata-1ae00312ab57.json": 908089,
+          "/mapa/dados/citydata-8d5960a8f30a.json": 1815462,
+          "/mapa/dados/casas-d79b2e6e0f4c.bin": 2688233,
+          "/mapa/lib/earcut-1444195270d4.min.js": 3061,
+          "data:": 0,
+          "/mapa/dados/luzue-3ea2cc6c3aa0.json": 344680,
+          "/mapa/dados/moveis-c9d392fb1ca9.json": 82512
+        },
+        "erros": []
+      }
+    ]
+  }
+}
