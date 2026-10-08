@@ -20,6 +20,10 @@
   var M = window.__MANIFESTO;
   var $ = function (id) { return document.getElementById(id); };
   var stK = $("stK"), stM = $("stM"), stI = $("stI");
+  // A capa e a pose de ABERTURA: link com posicao (`em=`) ou imovel (`imovel=`) abre em
+  // outro lugar, e la a capa mostraria a cidade errada.
+  var capa = $("capaMapa");
+  if (capa && /[?&](em|imovel)=/.test(location.search)) { capa.remove(); document.body.classList.remove("com-capa"); }
   var textos = {}, pendentes = {}, binarios = {};
 
   function poeBloco(id, texto) {

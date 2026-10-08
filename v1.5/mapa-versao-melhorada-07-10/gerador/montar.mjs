@@ -113,6 +113,22 @@ const cssMin = (await esbuild.transform(css, { loader: 'css', minify: true })).c
 const carregador = (await esbuild.transform(fs.readFileSync(path.join(PASTA, 'fonte', 'entrega', 'carregador.js'), 'utf8'),
   { minify: true, target: ['es2017', 'safari12'] })).code;
 const manifesto = { dados, scripts: [urlThree, urlEarcut, urlApp] };
+// A capa (gerador/capa.mjs): opcional. Sem ela a pagina abre so com a tela de carga.
+const CAPA = path.join(PASTA, 'derivados', 'capa');
+let capaHtml = '', capaPre = '', capaCss = '';
+if (fs.existsSync(path.join(CAPA, 'capa.webp'))) {
+  const larga = comHash('dados', 'capa', '.webp', fs.readFileSync(path.join(CAPA, 'capa.webp')));
+  const est = fs.existsSync(path.join(CAPA, 'capa-estreita.webp'))
+    ? comHash('dados', 'capa-estreita', '.webp', fs.readFileSync(path.join(CAPA, 'capa-estreita.webp'))) : null;
+  const ESTREITA = '(max-aspect-ratio: 4/5)';
+  capaHtml = `<picture id="capaMapa">${est ? `<source media="${ESTREITA}" srcset="${est}">` : ''}<img src="${larga}" alt="" fetchpriority="high"></picture>\n` +
+    '<script>document.body.classList.add("com-capa")</script>\n';
+  capaPre = (est ? `<link rel="preload" href="${est}" as="image" fetchpriority="high" media="${ESTREITA}">\n` : '') +
+    `<link rel="preload" href="${larga}" as="image" fetchpriority="high"${est ? ' media="(min-aspect-ratio: 4/5)"' : ''}>\n`;
+  capaCss = '#capaMapa{position:fixed;inset:0;z-index:4;pointer-events:none;transition:opacity .5s}' +
+    '#capaMapa img{width:100%;height:100%;object-fit:cover;display:block}#capaMapa.some{opacity:0}' +
+    'body.com-capa #status{background:linear-gradient(rgba(10,14,20,0) 45%,rgba(10,14,20,.62))!important;place-content:end center;padding-bottom:12vh}';
+}
 let cabeca = '', corpo = '';
 let viuEstilo = false;
 for (const p of man.pecas) {
@@ -131,7 +147,9 @@ const preload = [
   `<link rel="preload" href="${urlApp}" as="script">`,
 ].join('\n');
 // Sem doctype, como a pagina de hoje (o CSS do mapa foi calibrado em modo quirks).
-const html = `${cabeca.trim()}\n${preload}\n<style>${cssMin}</style>\n${corpo}` +
+if (capaHtml) corpo = corpo.replace('<canvas id="c"></canvas>', m => m + '\n' + capaHtml);
+const html = `${cabeca.trim()}\n${capaPre}${preload}\n<style>${cssMin}${capaCss}</style>\n` +
+  corpo +
   `<script>window.__MANIFESTO=${JSON.stringify(manifesto)};</script>\n<script>${carregador}</script>\n`;
 const nome = `sao-carlos-${hash(html)}.html`;
 fs.writeFileSync(path.join(MAPA, nome), html);

@@ -1662,9 +1662,28 @@ const streamUpdate = streaming.update;
 /* Chamado uma vez por frame: gasta no máximo STREAM_MS montando. O laço de
    render é o mesmo que desenha, então estourar esse orçamento aparece como
    engasgo direto na tela — por isso é tempo medido, não contagem fixa. */
+/* v2: a CAPA (gerador/capa.mjs) -- a cidade na pose de abertura, mostrada pelo HTML antes
+   de qualquer dado. Ela fica ate o bairro em volta estar montado (metade da fila inicial,
+   que monta de dentro para fora) ou 9 s, e sai na hora no primeiro gesto. */
+const CAPA_EL = document.getElementById("capaMapa");
+let _capaT0 = 0, _capaFila0 = 0;
+function tiraCapa() {
+  if (!CAPA_EL || CAPA_EL.classList.contains("some")) return;
+  CAPA_EL.classList.add("some");
+  setTimeout(() => CAPA_EL.remove(), 600);
+}
+if (CAPA_EL) for (const ev of ["pointerdown", "wheel", "keydown", "touchstart"])
+  addEventListener(ev, tiraCapa, { once: true, passive: true });
+function capaPasso() {
+  if (!CAPA_EL || !CAPA_EL.isConnected || CAPA_EL.classList.contains("some")) return;
+  if (!_capaT0) { _capaT0 = performance.now(); _capaFila0 = streaming.pending; }
+  const feito = _capaFila0 ? 1 - streaming.pending / _capaFila0 : 1;
+  if (feito >= 0.5 || performance.now() - _capaT0 > 9000) tiraCapa();
+}
 function streamPump() {
   // v2: nivel de detalhe das casas pela distancia da camera (troca com orcamento).
   if (CASAS && CASAS.atualiza(camera.position)) sujaSombra();
+  capaPasso();
   if (!streaming.pending) return;
   const n = streaming.pump();
   if (n) sujaSombra();   // quarteirão novo entrou: ele projeta sombra
