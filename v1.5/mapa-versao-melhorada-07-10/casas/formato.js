@@ -88,6 +88,50 @@
 
    `substituidos.bin`: "SUBS", u16 versão = 1, u16 reservado, u32 n, depois n x u32 com
    os índices de `b` (city.json) que o renderizador pula, em ordem crescente.
+
+   ======================================================================
+   O QUE O DECODIFICADOR DEVOLVE (para fonte/casas/geometria.js)
+   ======================================================================
+   Carregar casas/sorteio.js antes deste arquivo (o `detalha` sorteia cor e piscina).
+
+     const arq = CasasFormato.abre(arrayBuffer)
+       arq.nCasas, arq.nQuarteiroes, arq.regras (o JSON de regras inteiro)
+       arq.quarteiroes.{cx, cz, inicio, quantidade}   typed arrays, um por `bl`
+       arq.campos(i)        os campos crus (inteiros) da tabela CAMPOS
+       arq.casa(i)          a casa com nomes claros, em metros (abaixo)
+       arq.casasDoQuarteirao(q)
+     CasasFormato.detalha(casa, arq.regras)       o que a regra decide sem bit (abaixo)
+     CasasFormato.paraMundo(casa, u, v) -> [x, z] metros do mapa
+
+   casa: { indice, quarteirao, semente,
+           origem [x, z], angulo, eixoU [x, z], eixoV [x, z],
+           lote { testada, classe, irregular, cantos { frenteEsq, frenteDir, fundoDir, fundoEsq } [u, v] },
+           partido, pavimentos, encostado { esquerda, direita }, esquina { esquerda, direita },
+           telhado { tipo, ceramico, inclinacao (fração), beiral (m) },
+           garagem { lado, tipo: "vaga" | "leve" | "laje" | null, telha }, vagaCorpo,
+           muroFrente, piscina, embasamento, declive { v, u } (fração), paleta,
+           alturas { piso, peDireito, laje, respaldo, balanco },
+           porta (m a partir de corpo.u0),
+           volumes [ { papel, u0, v0, u1, v1, pavimentos, cega { frente, direita, fundo, esquerda }, meiaAgua? } ] }
+     papel: "corpo" | "ala_l" | "ala_t" | "garagem_leve" | "caixa_garagem" | "caixa_varanda" | "edicula"
+
+   detalha: { faces [ { volume, papel, lado, a, b, normal, comprimento, cega, janela, beiral,
+                        cobertos [[a, b]] (trecho encostado em outro volume), pilares { n, vao, valido } } ],
+              pavimentoSuperior { u0, v0, u1, v1, balanco, base } | null,
+              telhados [ { volume, tipo, material, inclinacao, cumeeira "u"|"v", base, alturaBeiral,
+                           topo, platibanda?, topoOculto?, queda? } ],
+              portaoGaragem { u0, u1, largura } | null, vaga, rampa, porta { u, v, largura },
+              portaoSocial, caminho, calcadaServico, piscina { u0, v0, u1, v1, borda } | null,
+              muros [ { lado, a, b, tipo, altura, gradil, vaos [ { u0, u1, tipo } ] } ],
+              plantio [ { u, v, tipo: "arvore" | "palmeira" } ],
+              caixaDagua { litros, aparente, torre, u, v, vFrente },
+              cores { parede, telha, fibrocimento, laje, esquadria, portao, muro, grama, piso, piscina } [r, g, b],
+              respaldoTerrea }
+   As faces vão de a para b e `normal` aponta para fora do volume. A moldura (u, v com
+   y para cima) tem a mesma mão do mundo do three, mas no plano (x, z) ela é espelhada
+   (det [U V] = −1): quem monta triângulo direto em (u, v) inverte o enrolamento ao
+   levar para o mundo. Alturas em metros a partir de Y = 0 = terreno na testada; o
+   renderizador soma o relevo.
    ====================================================================== */
 (function (root) {
   "use strict";
@@ -141,13 +185,22 @@
     if ("lista" in no) return no.lista;
     return no;
   }
+  // Cache por objeto de regras: `detalha` e o motor leem as mesmas ~80 regras milhões
+  // de vezes na cidade inteira, e separar o caminho por "." a cada leitura custava
+  // mais que todo o resto do detalhamento.
+  const _cacheRegra = new WeakMap();
   function regra(regras, caminho) {
+    let c = _cacheRegra.get(regras);
+    if (!c) _cacheRegra.set(regras, c = new Map());
+    if (c.has(caminho)) return c.get(caminho);
     let no = regras;
     for (const k of caminho.split(".")) {
       if (no == null || !(k in no)) throw new Error("regra não encontrada: " + caminho);
       no = no[k];
     }
-    return valorRegra(no);
+    const v = valorRegra(no);
+    c.set(caminho, v);
+    return v;
   }
 
   /* ---- registro <-> campos ------------------------------------------------ */
@@ -563,7 +616,7 @@
       const ladoU = casa.garagem.lado === "esquerda" ? 1 : -1;
       const u = ladoU > 0 ? T / 2 - mg : -T / 2 + mg;
       const v = Math.min(corpo.v0 - mg, corpo.v0 / 2);
-      if ((!caminho || Math.abs(u - porta.u) > mg + 0.6) && livreDeVolume(u, v)) plantio.push({ u, v, tipo: tipoPlanta() });
+      if ((!caminho || Math.abs(u - porta.u) > mg + (caminho.u1 - caminho.u0) / 2) && livreDeVolume(u, v)) plantio.push({ u, v, tipo: tipoPlanta() });
     }
     const vFundo = (edicula ? edicula.v0 : fundoLote) - mg;
     if (vFundo - traseira > 2 * mg) {
@@ -580,8 +633,10 @@
     const torre = tel.ceramico && fC.chance(R("telhado.caixa_torre_prob"));
     const aparente = tel.tipo === "laje" || torre;
     const recuoCx = R("telhado.caixa_dagua_recuo_m");
+    // Escondida: no meio do corpo, sob o telhado. Aparente (laje): recuada da fachada,
+    // `vFrente` é onde começa a caixa; o tamanho sai dos litros na geometria.
     const caixaDagua = { litros, aparente, torre, u: (corpo.u0 + corpo.u1) / 2,
-                         v: aparente && !torre ? Math.min(corpo.v1 - recuoCx, corpo.v0 + recuoCx + 1) : corpo.v1 - recuoCx };
+                         vFrente: aparente && !torre ? corpo.v0 + recuoCx : null, v: (corpo.v0 + corpo.v1) / 2 };
 
     // --- cores ------------------------------------------------------------------------
     const pal = R("cores.paletas")[casa.paleta] || R("cores.paletas")[0];

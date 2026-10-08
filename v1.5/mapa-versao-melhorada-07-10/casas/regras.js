@@ -17,9 +17,18 @@
      1. moldura e testada     2. recuos       3. partido em malha estrutural
      4. telhado               5. aberturas    6. muros e portões
      7. quintal/piscina       8. cores
-   Cada etapa sorteia no próprio fluxo (casas/sorteio.js). O plano candidato é
-   codificado, decodificado e detalhado (CasasFormato.detalha) e só então validado: o
-   gerador e o navegador leem a mesma coisa que foi validada. */
+   Cada etapa sorteia no próprio fluxo (casas/sorteio.js). O plano candidato passa
+   pelo mesmo decodificador do navegador (CasasFormato.casaDeCampos, sem perda para
+   campo dentro da faixa, o que o motor confere antes) e pelo mesmo detalhamento
+   (CasasFormato.detalha), e só então é validado: o gerador confere o que o navegador
+   vai desenhar.
+
+   TENTATIVAS
+   Para cada lote, as testadas candidatas em ordem (analisaLados); para cada testada,
+   o partido sorteado e depois os mais simples (sem edícula, retangular, garagem do
+   outro lado, sem garagem). Fica o primeiro plano que passa em `valida`. Cada
+   tentativa refaz o fluxo de volumes do zero, então a ordem das tentativas não muda o
+   sorteio de nenhuma delas. */
 (function (root) {
   "use strict";
   const Sorteio = () => root.CasasSorteio;
@@ -54,20 +63,29 @@
     return semEspinho(out);
   }
   /* Tira ESPINHO (vértice onde a borda vai e volta pelo mesmo caminho: lote vetorizado
-     com uma lasca de 5 m para fora e de volta) e vértice colinear (a menos de 2 cm da
-     reta dos vizinhos). O espinho quebra qualquer conta de faixa livre: a seção do lote
-     passa a ter um pedaço de largura zero que não existe no terreno. */
+     com uma lasca de 5 m para fora e de volta) e vértice quase colinear (a menos de
+     2 cm da reta dos vizinhos). O espinho quebra qualquer conta de faixa livre: a seção
+     do lote ganha um pedaço de largura zero que não existe no terreno.
+
+     Só sai vértice CONVEXO: tirá-lo só encolhe o lote. O entalhe para dentro (vértice
+     côncavo) fica, mesmo quando parece ruído: tirá-lo aumentaria o lote, e uma casa
+     dentro do anel limpo poderia sair do lote de verdade. Com isso, estar dentro do
+     anel limpo implica estar dentro do anel do GeoJSON. */
   function semEspinho(anel) {
     let a = anel.slice(), mudou = true;
+    const sinal = areaAssinada(a) >= 0 ? 1 : -1;
     while (mudou && a.length > 3) {
       mudou = false;
       for (let i = 0; i < a.length && a.length > 3; i++) {
         const p = a[(i - 1 + a.length) % a.length], q = a[i], r = a[(i + 1) % a.length];
         const ux = q[0] - p[0], uz = q[1] - p[1], vx = r[0] - q[0], vz = r[1] - q[1];
         const lu = Math.hypot(ux, uz), lv = Math.hypot(vx, vz), lpr = Math.hypot(r[0] - p[0], r[1] - p[1]);
-        const volta = lu > 0 && lv > 0 && (ux * vx + uz * vz) / (lu * lv) < -0.95;
+        const giro = (ux * vz - uz * vx) * sinal;          // > 0: vértice convexo
+        if (lu < 0.01) { a.splice(i, 1); mudou = true; i--; continue; }
+        if (giro < 0) continue;
+        const volta = lv > 0 && (ux * vx + uz * vz) / (lu * lv) < -0.95;
         const colinear = lpr > 0 && Math.abs(ux * (r[1] - p[1]) - uz * (r[0] - p[0])) / lpr < 0.02 && (ux * vx + uz * vz) > 0;
-        if (volta || colinear || lu < 0.01) { a.splice(i, 1); mudou = true; i--; }
+        if (volta || colinear) { a.splice(i, 1); mudou = true; i--; }
       }
     }
     return a;
@@ -463,17 +481,22 @@
     const A = antiHorario(limpaAnel(ent.anel));
     if (A.length < 3) return { ok: false, motivo: "lote_invalido", info: { bairro: ent.bairro } };
     const areaLote = Math.abs(areaAssinada(A));
-    if (!(areaLote > 20)) return { ok: false, motivo: "lote_invalido", info: { bairro: ent.bairro } };
+    if (!(areaLote > regras.R("lote.area_min_m2"))) return { ok: false, motivo: "lote_invalido", info: { bairro: ent.bairro } };
     const an = analisaLados(A, ent.distRua, ent.dica, regras);
     const n = Math.min(an.ordem.length, regras.R("testada.alternativas_max"));
-    let primeira = null;
+    const tentadas = new Map();
     for (let k = 0; k < n; k++) {
       const r = planejaComTestada(ent, regras, A, areaLote, an, an.ordem[k]);
       r.info.alternativa = k;
       if (r.ok) return r;
-      if (!primeira) primeira = r;
+      tentadas.set(an.ordem[k], r);
     }
-    return primeira;
+    // Recusa: o motivo que vale é o da frente DE RUA (a mais perto da fita), mesmo que
+    // ela não tenha sido tentada por ser inválida: "fundo curto" visto da rua diz mais
+    // que "sem espaço" visto de uma divisa lateral.
+    const deRua = an.lados.filter(s => s.rua).sort((a, b) => a.media - b.media)[0];
+    if (deRua) return tentadas.get(deRua) || planejaComTestada(ent, regras, A, areaLote, an, deRua);
+    return tentadas.get(an.ordem[0]);
   }
 
   function planejaComTestada(ent, regras, A, areaLote, an0, testada) {
@@ -703,16 +726,18 @@
       };
 
       // ---- largura e posição do corpo
-      // faixa de prova: até 9 m de corpo, sem passar do recuo de fundo do lote raso
-      const fimProva = Math.min(v0c + 90, Math.round(fundo * 10) - rFundo);
-      if (fimProva <= v0c) return "sem_espaco:0";
+      // Faixa de prova da largura (regra malha.faixa_prova_largura_m), sem passar do
+      // recuo de fundo no lote raso. O laço da faixa final, mais abaixo, estreita o corpo
+      // se a profundidade escolhida pedir.
+      const [cdMin, cdMax] = fx("malha.corpo_profundidade_m");
+      const fimProva = Math.min(v0c + Math.round(R("malha.faixa_prova_largura_m") * 10), Math.round(fundo * 10) - rFundo);
+      if (fimProva <= v0c) return "sem_espaco:lote_raso";
       const lu = limU(v0c, fimProva);
-      if (!lu) return "sem_espaco:1";
+      if (!lu) return "sem_espaco:faixa_do_corpo";
       let lo = lu[0] + rL, hi = lu[1] - rR;
       if (gar) { if (t.garagem === 1) lo = lu[0] + gar.w; else hi = lu[1] - gar.w; }
       const W = hi - lo;
       const [cwMin, cwMax] = fx("malha.corpo_largura_m");
-      const [cdMin, cdMax] = fx("malha.corpo_profundidade_m");
       const outros = (caixa ? caixa.w * caixa.d : 0) + (gar ? gar.w * gar.d : 0) + (forma === "L" || forma === "T" ? alaW * alaD : 0);
       const areaAlvo = taxaAlvo * areaLote * 100 - outros;          // dm²
       let w;
@@ -720,32 +745,32 @@
       // máximo: sem isso, o lote largo fica com a casa pequena no meio do gramado.
       if (W >= cwMin) w = clamp(Math.max(fV.inteiro(cwMin, Math.min(cwMax, W)), Math.ceil(areaAlvo / cdMax)), cwMin, Math.min(cwMax, W));
       else if (W >= vaoMin) w = Math.min(Math.round(R("malha.vao_m")[1] * 10), W);
-      else return "sem_espaco:2";
+      else return "sem_espaco:largura";
       w = malhaDm(w, R);
-      if (!w) return "sem_espaco:3";
-      if (caixa) { caixa.w = malhaDm(Math.min(caixa.w, w), R); if (!caixa.w) return "sem_espaco:4"; }
+      if (!w) return "sem_espaco:malha_largura";
+      if (caixa) { caixa.w = malhaDm(Math.min(caixa.w, w), R); if (!caixa.w) return "sem_espaco:caixa"; }
       // lado que cola: o da garagem leve, o encostado, ou nenhum (centro com folga sorteada)
       const cola = gar ? t.garagem : (encostado & 1) ? 1 : (encostado & 2) ? 2 : 0;
       const posiciona = (a, b, w0) => cola === 1 ? a : cola === 2 ? b - w0 : a + Math.round((b - a - w0) * jitter / 100);
-      const jitter = fV.inteiro(35, 65);
+      const jitter = fV.inteiro(...R("recuos.posicao_lateral").map(x => Math.round(x * 100)));
       let u0 = posiciona(lo, hi, w);
 
       // ---- profundidade pela ocupação alvo
       const lv = limV(u0, u0 + w, v0c + 5);
-      if (!lv) return "sem_espaco:5";
+      if (!lv) return "sem_espaco:faixa_de_fundo";
       v0c = Math.max(v0c, lv[0] + recuoF + (caixa ? caixa.d : 0) + (frenteL ? alaD : 0));
       const vBack = lv[1] - rFundo;
       const reservaAtras = (forma === "T" || (forma === "L" && !frenteL)) ? Math.round(R("malha.ala_profundidade_m")[0] * 10) : 0;
       let d = clamp(Math.round(areaAlvo / w), cdMin, cdMax);
       d = Math.min(d, vBack - v0c - reservaAtras);
-      if (d < Math.round(R("malha.corpo_profundidade_min_absoluta_m") * 10)) return "sem_espaco:6";
+      if (d < Math.round(R("malha.corpo_profundidade_min_absoluta_m") * 10)) return "sem_espaco:profundidade";
       d = malhaDm(d, R);
-      if (!d) return "sem_espaco:7";
+      if (!d) return "sem_espaco:malha_profundidade";
 
       // ---- a faixa lateral com a profundidade final (o lote pode estreitar no fundo)
       for (let it = 0; it < 4; it++) {
         const l2 = limU(v0c, v0c + d, u0 + w / 2);
-        if (!l2) return "sem_espaco:8";
+        if (!l2) return "sem_espaco:faixa_final";
         let a = l2[0] + rL, b = l2[1] - rR;
         if (gar) { if (t.garagem === 1) a = l2[0] + gmin; else b = l2[1] - gmin; }
         let w2 = w, u2 = u0;
@@ -754,7 +779,7 @@
         if (u2 + w2 > b) w2 = malhaDm(b - u2, R);
         if (cola === 1 && !gar) u2 = a;
         if (cola === 2 && !gar) u2 = b - w2;
-        if (!w2 || w2 < vaoMin) return "sem_espaco:9";
+        if (!w2 || w2 < vaoMin) return "sem_espaco:largura_final";
         const mudou = u2 !== u0 || w2 !== w;
         u0 = u2; w = w2;
         if (!mudou) break;
@@ -772,7 +797,7 @@
         alaTipo = caixa.tipo;
       } else if (gar) {
         const g = garLateral(corpo.u0, corpo.w);
-        if (!g) return "sem_espaco:10";
+        if (!g) return "sem_espaco:garagem_lateral";
         ala = g; alaTipo = 3;
       } else if (forma === "L" || forma === "T") {
         // A ala vence um vão MENOR que o do corpo: a cumeeira dela morre na água do
@@ -780,10 +805,10 @@
         const folga = Math.round(R("malha.ala_folga_cumeeira_m") * 10);
         const vaoCorpo = Math.min(corpo.w, corpo.d);
         alaW = malhaDm(Math.min(alaW, vaoCorpo - folga, corpo.w), R);
-        if (!alaW) return "sem_espaco:11";
+        if (!alaW) return "sem_espaco:ala";
         if (alaD > vaoCorpo - folga) alaD = malhaDm(vaoCorpo - folga, R);
         alaD = malhaDm(alaD, R);
-        if (!alaD) return "sem_espaco:12";
+        if (!alaD) return "sem_espaco:ala";
         let au0;
         if (forma === "T") au0 = corpo.u0 + Math.floor((corpo.w - alaW) / 2);
         else {
@@ -793,9 +818,9 @@
         const av0 = frenteL ? corpo.v0 - alaD : corpo.v0 + corpo.d;
         if (!frenteL) {                                   // ala dos fundos respeita o recuo de fundo
           const la = limV(au0, au0 + alaW, av0 - 5);
-          if (!la) return "sem_espaco:13";
+          if (!la) return "sem_espaco:ala_fundo";
           const dmax = la[1] - rFundo - av0;
-          if (dmax < alaD) { alaD = malhaDm(dmax, R); if (!alaD) return "sem_espaco:14"; }
+          if (dmax < alaD) { alaD = malhaDm(dmax, R); if (!alaD) return "sem_espaco:ala_fundo"; }
         }
         ala = { u0: au0, v0: av0, w: alaW, d: alaD };
         alaTipo = forma === "T" ? 2 : 1;
@@ -840,8 +865,9 @@
 
     /* Porta e portões (ESPEC regras 5 e 6): o portão de garagem vai na frente da
        garagem/vaga; o social encosta nele, separado por um pilarete; a porta social
-       fica alinhada ao social, a pelo menos 0,6 m do canto, numa parte da frente do
-       corpo que não esteja coberta por ala, caixa de garagem ou garagem. */
+       fica alinhada ao social, longe do canto (porta_canto_min_m), numa parte da frente
+       do corpo que não esteja coberta por ala ou caixa-garagem. Devolve portaU (dm a
+       partir de corpo.u0) ou null. */
     function portas(campos, vols, gLado) {
       const pil = Math.round(R("portoes.pilarete_m") * 10), sw = Math.round(R("portoes.social_largura_m") * 10);
       const pw = Math.round(R("aberturas.porta_largura_m") * 10), canto = Math.round(R("aberturas.porta_canto_min_m") * 10);
@@ -862,7 +888,7 @@
         if (!d.portaoGaragem) { info.portasFalha = "sem_portao_garagem"; return null; }
         gate = [Math.round(d.portaoGaragem.u0 * 10), Math.round(d.portaoGaragem.u1 * 10)];
         alvo = gLado === 1 ? gate[1] + pil + ms : gate[0] - pil - ms;
-      } else alvo = corpo.u0 + Math.round(corpo.w * (fl("aberturas").chance(0.5) ? 0.3 : 0.7));
+      } else alvo = corpo.u0 + Math.round(corpo.w * fl("aberturas").escolhe(R("aberturas.porta_posicao_sem_garagem")));
       // ...e, com muro, onde o portão social (centrado na porta) cabe na testada sem
       // encostar no portão de garagem: um pilarete entre os dois.
       if (muro !== "nenhum") {
@@ -882,13 +908,12 @@
       return out;
     }
 
-    /* Máscara de faces cegas: a menos de 1,5 m da divisa (a faixa de visão de 1,5 m
-       atravessa uma aresta de VIZINHO; a rua não conta) ou toda coberta por outro
-       volume da casa. Garagem leve não tem parede. */
-    // Faixa de visão de uma face: dj para fora, mais 1 cm para DENTRO do volume. O
-    // centímetro para dentro é o que pega a divisa que coincide com a própria face
-    // (geminada): sem ele, a faixa inteira cai do outro lado da divisa e nenhuma aresta
-    // a atravessa.
+    /* Máscara de faces cegas (sem janela, sem beiral): a face fica a menos de 1,5 m da
+       divisa, ou inteira encostada em outro volume da casa. "A menos de 1,5 m" é a
+       faixa de visão de 1,5 m da face atravessar uma aresta de VIZINHO: a rua não conta
+       (Código Civil, art. 1.301, protege o terreno vizinho, não a via). A faixa entra
+       1 cm para DENTRO do volume: é isso que pega a divisa que coincide com a própria
+       face (geminada); sem ele, a faixa inteira cai do outro lado e nada a atravessa. */
     const tiraVisao = (m, k, dj) => {
       const e = 0.01;
       return k === 0 ? { u0: m.u0, u1: m.u1, v0: m.v0 - dj, v1: m.v0 + e } : k === 1 ? { u0: m.u1 - e, u1: m.u1 + dj, v0: m.v0, v1: m.v1 }
@@ -938,20 +963,21 @@
       for (const v of vols) if (v.papel !== "garagem_leve" && !(F.vaos(v.u1 - v.u0, regras.json).valido && F.vaos(v.v1 - v.v0, regras.json).valido)) return "fora_da_malha";
       // obstáculos: volume que fica no mapa, lote vizinho sobreposto
       for (const ob of obstaculos) for (const v of todos) {
-        if (areaIntersecao(retAnel(v), [ob]) > 0.01) return "colide_volume_mantido";
+        if (v.u1 < ob.cx[0] || v.u0 > ob.cx[2] || v.v1 < ob.cx[1] || v.v0 > ob.cx[3]) continue;
+        if (areaIntersecao(retAnel(v), [ob.anel]) > 0.01) return "colide_volume_mantido";
       }
       // garagem: portão na frente, dentro da testada, sem invadir volume nem o social
       if (casa.garagem.lado !== "nenhuma") {
         const g = det.portaoGaragem, [gmin, gmax] = R("portoes.garagem_largura_m"), pil = R("portoes.pilarete_m");
-        if (!g || g.largura < gmin - 1e-9 || g.largura > gmax + 1e-9) return "garagem_sem_portao:1";
-        if (g.u0 < -Tq / 2 + pil - 1e-6 || g.u1 > Tq / 2 - pil + 1e-6) return "garagem_sem_portao:2";
-        if (casa.muroFrente === "nenhum") return "garagem_sem_portao:3";
+        if (!g || g.largura < gmin - 1e-9 || g.largura > gmax + 1e-9) return "garagem_sem_portao:largura";
+        if (g.u0 < -Tq / 2 + pil - 1e-6 || g.u1 > Tq / 2 - pil + 1e-6) return "garagem_sem_portao:fora_da_testada";
+        if (casa.muroFrente === "nenhum") return "garagem_sem_portao:sem_muro";
         const rp = det.rampa;
-        if (rp.v1 - rp.v0 < R("recuos.frontal_m") - 1e-6 && !(vols[1] && (vols[1].papel === "garagem_leve" || vols[1].papel === "caixa_garagem"))) return "garagem_sem_portao:4";
-        for (const v of vols) if (v.papel !== "garagem_leve" && v.papel !== "caixa_garagem" && retSobrepoe(rp, v, 1e-6)) return "garagem_sem_portao:5";
+        if (rp.v1 - rp.v0 < R("recuos.frontal_m") - 1e-6 && !(vols[1] && (vols[1].papel === "garagem_leve" || vols[1].papel === "caixa_garagem"))) return "garagem_sem_portao:vaga_curta";
+        for (const v of vols) if (v.papel !== "garagem_leve" && v.papel !== "caixa_garagem" && retSobrepoe(rp, v, 1e-6)) return "garagem_sem_portao:rampa_bloqueada";
         // A frente pode ser uma corda (frente composta): o primeiro metro da rampa pode
         // cair fora do polígono sem sair do lote. Do metro em diante, tem que estar dentro.
-        if (rp.v1 - rp.v0 > 1 && !retDentro(Object.assign({}, rp, { v0: rp.v0 + 1 }), P, tol)) return "garagem_sem_portao:6";
+        if (rp.v1 - rp.v0 > 1 && !retDentro(Object.assign({}, rp, { v0: rp.v0 + 1 }), P, tol)) return "garagem_sem_portao:rampa_fora_do_lote";
         if (det.portaoSocial && Math.min(det.portaoSocial.u1, g.u1) - Math.max(det.portaoSocial.u0, g.u0) > -pil + 1e-6) return "portoes_sobrepostos";
       }
       if (det.portaoSocial) {
@@ -983,11 +1009,20 @@
       const ext = { u0: p.u0 - m, u1: p.u1 + m, v0: p.v0 - m, v1: p.v1 + m };
       if (!retDentro(ext, P, 0)) return false;
       for (const v of casa.volumes.concat(det.pavimentoSuperior ? [det.pavimentoSuperior] : [], [det.calcadaServico])) if (retSobrepoe(ext, v, 0)) return false;
-      for (const ob of obstaculos) if (areaIntersecao(retAnel(ext), [ob]) > 0.01) return false;
+      for (const ob of obstaculos) {
+        if (ext.u1 < ob.cx[0] || ext.u0 > ob.cx[2] || ext.v1 < ob.cx[1] || ext.v0 > ob.cx[3]) continue;
+        if (areaIntersecao(retAnel(ext), [ob.anel]) > 0.01) return false;
+      }
       return true;
     }
 
-    const obstaculos = (ent.obstaculos || []).map(r => r.map(mol.local));
+    // obstáculos na moldura, com a caixa para descartar sem calcular interseção
+    const obstaculos = (ent.obstaculos || []).map(r => {
+      const anel = r.map(mol.local);
+      let u0 = Infinity, v0 = Infinity, u1 = -Infinity, v1 = -Infinity;
+      for (const p of anel) { if (p[0] < u0) u0 = p[0]; if (p[0] > u1) u1 = p[0]; if (p[1] < v0) v0 = p[1]; if (p[1] > v1) v1 = p[1]; }
+      return { anel, cx: [u0, v0, u1, v1] };
+    });
 
     // ---- tentativas, da escolha sorteada para a mais simples -------------------------
     const garInicial = garLado;
@@ -1041,7 +1076,8 @@
       if (re) campos.ediculaCega = mascara(re, todos);
       // porta e portões; a vaga descoberta tenta o canto do lote e depois a face do corpo
       let mot = null;
-      for (const vc of (t.garagem && !alaTipo || t.garagem && alaTipo === 1 || t.garagem && alaTipo === 2 || t.garagem && alaTipo === 5) ? [0, 1] : [0]) {
+      const vagaDescoberta = t.garagem && alaTipo !== 3 && alaTipo !== 4;   // sem volume de garagem
+      for (const vc of vagaDescoberta ? [0, 1] : [0]) {
         campos.vagaCorpo = vc;
         const pu = portas(campos, { corpo, ala, alaTipo }, t.garagem);
         if (pu === null || pu < 0 || pu > F.FAIXA.portaU[1]) { mot = "portoes:" + (info.portasFalha || "faixa"); continue; }

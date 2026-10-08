@@ -22,6 +22,7 @@
 
   "lote": {
     "classes_testada": { "limites_m": [7.5, 11.5, 16.0], "nomes": ["estreito", "padrao", "largo", "grande"], "_nota": "Classe por testada: estreito < 7,5; padrão < 11,5; largo < 16; grande acima (ESPEC regra 1). Mesmos cortes de pipeline/city_final.py.", "a_conferir": true },
+    "area_min_m2": { "valor": 20, "_nota": "Polígono menor que isto é resto de vetorização, não lote: recusado como inválido." },
     "testada_min_m": { "valor": 3.6, "_nota": "Recusa testada menor (ESPEC regra 1; o mesmo 3,6 de city_final.py).", "a_conferir": true },
     "fundo_min_m": { "valor": 8.0, "_nota": "Recusa fundo menor (ESPEC regra 1).", "a_conferir": true },
     "testada_max_m": { "valor": 60.0, "_nota": "Acima disso o lote é gleba/chácara, não lote de casa: recusado com motivo próprio.", "a_conferir": true },
@@ -71,6 +72,7 @@
     "frontal_centro_antigo_m": { "valor": 0.0, "_nota": "Centro antigo: geminada no alinhamento (ESPEC regra 3).", "a_conferir": true },
     "garagem_leve_frontal_m": { "valor": 0.0, "_nota": "Garagem coberta leve (pergolado/telha) pode avançar até o alinhamento (ESPEC regra 2).", "a_conferir": true },
     "garagem_leve_alinhada_prob": { "valor": 0.6, "_nota": "Chance de a garagem leve ir até o alinhamento; no resto ela alinha com a frente do corpo.", "a_conferir": true },
+    "posicao_lateral": { "faixa": [0.35, 0.65], "_nota": "Casa que não encosta em nenhum lado: a sobra de largura se divide entre os dois afastamentos nesta proporção sorteada (a rua não fica com todas as casas no eixo do lote).", "a_conferir": true },
     "lateral_janela_m": { "valor": 1.5, "_nota": "Face com janela fica a pelo menos 1,5 m da divisa.", "lei": "Código Civil, art. 1.301" },
     "lateral_cega_m": { "valor": 0.0, "_nota": "Face cega encosta na divisa (geminada)." },
     "fundo_m": { "valor": 2.0, "_nota": "Recuo de fundo mínimo (ESPEC regra 2). Vale para a edícula também.", "a_conferir": true },
@@ -94,6 +96,7 @@
     "vao_m": { "faixa": [3.0, 4.5], "_nota": "Vão entre pilares.", "a_conferir": true },
     "corpo_largura_m": { "faixa": [6.0, 9.0], "_nota": "Largura (ao longo da testada) do corpo principal. Lote estreito usa um vão só (3,0 a 4,5).", "a_conferir": true },
     "corpo_profundidade_m": { "faixa": [6.0, 18.0], "_nota": "Profundidade do corpo; a ocupação alvo decide dentro da faixa. 18 m deixa o lote de 10 x 25 chegar aos 40% com um corpo de 6,5 m de largura.", "a_conferir": true },
+    "faixa_prova_largura_m": { "valor": 9.0, "_nota": "Profundidade da faixa onde se mede a largura livre do lote para o corpo. Medido na cidade: 6 m superestima a largura do lote que estreita no fundo (o corpo largo bate no canto e não cabe em profundidade, +470 recusas); 18 m subestima (+340); 9 m fica com o menor número de recusas." },
     "corpo_profundidade_min_absoluta_m": { "valor": 4.5, "_nota": "Lote curto: o corpo pode cair até um vão de 4,5 m antes de o lote ser recusado.", "a_conferir": true },
     "ala_largura_m": { "faixa": [3.0, 4.5], "_nota": "Ala de L ou T: um vão.", "a_conferir": true },
     "ala_profundidade_m": { "faixa": [3.0, 4.5], "_nota": "Profundidade da ala.", "a_conferir": true },
@@ -189,6 +192,7 @@
     "verga_m": { "valor": 2.2, "_nota": "Altura da verga da janela e da porta sobre o piso do pavimento (janela métrica do mapa: 1,05 e 2,20 m).", "a_conferir": true },
     "porta_largura_m": { "valor": 0.9, "_nota": "Porta social.", "a_conferir": true },
     "porta_canto_min_m": { "valor": 0.3, "_nota": "Porta a pelo menos isto do canto da fachada. A ESPEC pede 0,6 m para JANELA; a porta precisa de menos (batente + requadro), e é isso que deixa porta, portão social e portão de garagem caberem lado a lado no lote estreito.", "a_conferir": true },
+    "porta_posicao_sem_garagem": { "lista": [0.3, 0.7], "_nota": "Casa sem garagem: a porta social fica a 30% ou a 70% da frente do corpo (sorteado), e a janela de sala no resto.", "a_conferir": true },
     "porta_servico_largura_m": { "valor": 0.8, "_nota": "Porta de serviço no fundo.", "a_conferir": true }
   },
 

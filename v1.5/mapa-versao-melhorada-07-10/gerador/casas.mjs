@@ -160,6 +160,23 @@ function sobreRua(anel) {
   return qs.length ? Math.min(G.areaIntersecao(anel, qs), Math.abs(G.areaAssinada(anel))) : 0;
 }
 
+// ---- preenchimento de rua (street_tris.json), só para informação no QA ----------------
+const RUA_TRIS = [];
+{
+  const t = lerJSON(fonte("rua_tris"));
+  for (let i = 0; i + 5 < t.length; i += 6) RUA_TRIS.push([[t[i], t[i + 1]], [t[i + 2], t[i + 3]], [t[i + 4], t[i + 5]]]);
+}
+const gradeTri = Grade(40);
+const TRI_CX = RUA_TRIS.map(caixa);
+RUA_TRIS.forEach((t, i) => gradeTri.poe(TRI_CX[i], i));
+// os triângulos da malha não se sobrepõem: a soma das interseções é a área sobre o asfalto
+function sobreAsfalto(anel) {
+  const cx = caixa(anel);
+  let a = 0;
+  for (const i of gradeTri.caixa(cx)) if (cruzaCaixa(TRI_CX[i], cx)) a += G.areaIntersecao(anel, [RUA_TRIS[i]]);
+  return a;
+}
+
 // ---- relevo: a mesma amostragem de fonte/terrain-fit.js (sem o exagero) -----------------
 const RN = CIDADE.relevo_grade.n, RH = CIDADE.relevo_grade.half_m;
 function relevo(x, z) {
@@ -174,11 +191,13 @@ function relevo(x, z) {
 const LOTES = lotesGeo.features.map((f, i) => {
   const g = f.geometry;
   if (!g || g.type !== "Polygon") return null;
-  const anel = G.limpaAnel(g.coordinates[0].map(([lo, la]) => projeta(lo, la)));
+  const bruto = g.coordinates[0].map(([lo, la]) => projeta(lo, la));
+  if (bruto.length > 1 && bruto[0][0] === bruto[bruto.length - 1][0] && bruto[0][1] === bruto[bruto.length - 1][1]) bruto.pop();
+  const anel = G.limpaAnel(bruto);
   if (anel.length < 3) return null;
   let mx = 0, mz = 0; for (const p of anel) { mx += p[0]; mz += p[1]; }
   mx /= anel.length; mz /= anel.length;
-  return { i, anel, props: f.properties || {}, area: Math.abs(G.areaAssinada(anel)), cen: G.centroide(anel), cx: caixa(anel),
+  return { i, anel, bruto, props: f.properties || {}, area: Math.abs(G.areaAssinada(anel)), cen: G.centroide(anel), cx: caixa(anel),
            // id estável: média dos vértices em dm, a mesma ideia do idDoRegistro do prédio
            id: Math.round(mx * 10) + "_" + Math.round(mz * 10) };
 });
@@ -410,7 +429,7 @@ const anota = (lista, i, extra) => { if (lista.length < 20) lista.push(Object.as
 const tamFalha = l => l.n || l.length;
 const DJ = R("recuos.lateral_janela_m"), TOL = 0.05;
 const mundoAnel = (casa, r) => [[r.u0, r.v0], [r.u1, r.v0], [r.u1, r.v1], [r.u0, r.v1]].map(([u, v]) => F.paraMundo(casa, u, v));
-let areaNova = 0, sobreNova = 0;
+let areaNova = 0, sobreNova = 0, asfaltoNova = 0;
 const gradeNova = Grade(50), casasMundo = [];
 const mantidosLista = [...plano.mantidos];
 
@@ -426,17 +445,23 @@ for (let i = 0; i < arq.nCasas; i++) {
   const viz = []; for (let k = 0; k < P.length; k++) if (!rua[k]) viz.push([P[k], P[(k + 1) % P.length]]);
   const vols = casa.volumes, sup = det.pavimentoSuperior;
 
-  // 1. fora do lote (paredes, pavimento de cima e beiral), tolerância 0,05 m
+  // 1. fora do lote (paredes, pavimento de cima e beiral), tolerância 0,05 m, contra o
+  // anel BRUTO do GeoJSON. O critério é de ÁREA: o retângulo encolhido de 0,05 m cabe
+  // inteiro na região do lote. Um teste de cruzamento de aresta acusaria a lasca de
+  // largura zero (ida e volta) que o GeoJSON tem em centenas de lotes e que não tira
+  // um centímetro quadrado do terreno.
+  const Pb = l.bruto.map(loc);
+  const dentroBruto = r => { const s = G.encolhe(r, TOL); if (s.u1 <= s.u0 || s.v1 <= s.v0) return true;
+    return (s.u1 - s.u0) * (s.v1 - s.v0) - G.areaIntersecao(G.retAnel(s), [Pb]) <= 1e-3; };   // 10 cm²: ruído numérico de lasca
   let fora = false;
-  for (const v of vols.concat(sup ? [sup] : [])) if (!G.retDentro(v, P, TOL)) fora = true;
+  for (const v of vols.concat(sup ? [sup] : [])) if (!dentroBruto(v)) fora = true;
   for (const f of det.faces) if (f.beiral > 0) {
     const v = vols[f.volume], b = f.beiral;
     const rr = f.lado === "frente" ? { u0: v.u0, u1: v.u1, v0: v.v0 - b, v1: v.v0 } : f.lado === "fundo" ? { u0: v.u0, u1: v.u1, v0: v.v1, v1: v.v1 + b }
              : f.lado === "direita" ? { u0: v.u1, u1: v.u1 + b, v0: v.v0, v1: v.v1 } : { u0: v.u0 - b, u1: v.u0, v0: v.v0, v1: v.v1 };
-    if (!G.retDentro(rr, P, TOL)) fora = true;
+    if (!dentroBruto(rr)) fora = true;
   }
   if (fora) anota(falhas.fora_do_lote, i);
-
   // 2. janela a menos de 1,5 m da divisa: a faixa de visão da face atravessa o vizinho
   const faixaVisao = (m, lado) => { const e = 0.01; return lado === "frente" ? { u0: m.u0, u1: m.u1, v0: m.v0 - DJ, v1: m.v0 + e } : lado === "direita" ? { u0: m.u1 - e, u1: m.u1 + DJ, v0: m.v0, v1: m.v1 }
                                     : lado === "fundo" ? { u0: m.u0, u1: m.u1, v0: m.v1 - e, v1: m.v1 + DJ } : { u0: m.u0 - DJ, u1: m.u0 + e, v0: m.v0, v1: m.v1 }; };
@@ -470,7 +495,7 @@ for (let i = 0; i < arq.nCasas; i++) {
 
   // 6. pegada no mundo: rua, volume mantido, casa nova vizinha
   const aneis = vols.map(v => mundoAnel(casa, v));
-  for (const a of aneis) { const ar = Math.abs(G.areaAssinada(a)); areaNova += ar; sobreNova += sobreRua(a); }
+  for (const a of aneis) { const ar = Math.abs(G.areaAssinada(a)); areaNova += ar; sobreNova += sobreRua(a); asfaltoNova += sobreAsfalto(a); }
   const cxCasa = caixa(aneis.flat());
   casasMundo.push({ aneis, cx: cxCasa });
   gradeNova.poe(cxCasa, i);
@@ -527,11 +552,12 @@ for (let i = 0; i < casasMundo.length; i++) {
 // casa sobre a rua: a cidade inteira como fica (volumes mantidos + casas novas),
 // contra a mesma conta feita nos volumes de hoje (QA atual: 0,5561 %)
 let areaHoje = 0, sobreHoje = 0, areaMant = 0, sobreMant = 0;
+let asfaltoHoje = 0, asfaltoSubst = 0;
 B.forEach((v, j) => {
   if (v.r.length < 3) return;
-  const a = v.area, s = sobreRua(v.r);
-  areaHoje += a; sobreHoje += s;
-  if (plano.mantidos.has(j)) { areaMant += a; sobreMant += s; }
+  const a = v.area, s = sobreRua(v.r), t = sobreAsfalto(v.r);
+  areaHoje += a; sobreHoje += s; asfaltoHoje += t;
+  if (plano.mantidos.has(j)) { areaMant += a; sobreMant += s; } else asfaltoSubst += t;
 });
 const pctHoje = 100 * sobreHoje / areaHoje;
 const pctDepois = 100 * (sobreMant + sobreNova) / (areaMant + areaNova);
@@ -545,7 +571,11 @@ const LIMITE_RUA = 0.56;
 const portoes = [
   { nome: "janelas a menos de 1,5 m da divisa", valor: tamFalha(falhas.janela_divisa), limite: 0, exemplos: falhas.janela_divisa },
   { nome: "casa sobre a rua (% da área, cidade inteira)", valor: Math.round(pctDepois * 10000) / 10000, limite: LIMITE_RUA,
-    detalhe: { hoje_mesma_conta: Math.round(pctHoje * 10000) / 10000, qa_atual: 0.556110237253483, so_casas_novas: Math.round(pctNovas * 10000) / 10000 },
+    detalhe: { hoje_mesma_conta: Math.round(pctHoje * 10000) / 10000, qa_atual: 0.556110237253483, so_casas_novas: Math.round(pctNovas * 10000) / 10000,
+               street_tris_pct_hoje: Math.round(10000 * 100 * asfaltoHoje / areaHoje) / 10000,
+               street_tris_pct_depois: Math.round(10000 * 100 * (asfaltoHoje - asfaltoSubst + asfaltoNova) / (areaMant + areaNova)) / 10000,
+               street_tris_pct_casas_novas: Math.round(10000 * 100 * asfaltoNova / areaNova) / 10000,
+               street_tris_pct_volumes_substituidos: Math.round(10000 * 100 * asfaltoSubst / (areaHoje - areaMant)) / 10000 },
     passou: pctDepois <= LIMITE_RUA && pctDepois <= pctHoje + 1e-9 },
   { nome: "casas fora do próprio lote (tolerância 0,05 m)", valor: tamFalha(falhas.fora_do_lote), limite: 0, exemplos: falhas.fora_do_lote },
   { nome: "balanços de sobrado acima do máximo", valor: tamFalha(falhas.balanco), limite: 0, exemplos: falhas.balanco },
@@ -574,8 +604,8 @@ for (const li of ativos) {
 fs.mkdirSync(SAIDA, { recursive: true });
 fs.writeFileSync(path.join(SAIDA, "casas.bin"), Buffer.from(plano.buf));
 fs.writeFileSync(path.join(SAIDA, "substituidos.bin"), Buffer.from(plano.subsBuf));
-const br = zlib.brotliCompressSync(Buffer.from(plano.buf), { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 11 } }).length;
-const brS = zlib.brotliCompressSync(Buffer.from(plano.subsBuf), { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 11 } }).length;
+const br = zlib.brotliCompressSync(Buffer.from(plano.buf), { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 9 } }).length;
+const brS = zlib.brotliCompressSync(Buffer.from(plano.subsBuf), { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 9 } }).length;
 tempos.total_ms = Math.round(performance.now() - t0);
 
 const qa = {
@@ -591,8 +621,8 @@ const qa = {
   },
   histogramas: Object.fromEntries(Object.entries(H).map(([k, h]) => [k, fecha(h)])),
   arquivos: {
-    "casas.bin": { bytes: plano.buf.byteLength, brotli: br, sha256: shaA, bytes_por_casa: F.BYTES },
-    "substituidos.bin": { bytes: plano.subsBuf.byteLength, brotli: brS, sha256: sha256(plano.subsBuf) }
+    "casas.bin": { bytes: plano.buf.byteLength, brotli_q9: br, sha256: shaA, bytes_por_casa: F.BYTES },
+    "substituidos.bin": { bytes: plano.subsBuf.byteLength, brotli_q9: brS, sha256: sha256(plano.subsBuf) }
   },
   tempos
 };
@@ -601,7 +631,7 @@ fs.writeFileSync(path.join(SAIDA, "qa.json"), JSON.stringify(qa, null, 1) + "\n"
 const fmt = n => n.toLocaleString("pt-BR");
 console.log(`casas: ${fmt(arq.nCasas)} de ${fmt(ativos.length)} lotes planejados (${fmt(candidatos.length)} candidatos, ${fmt(volumesDoLote.size)} lotes com volume)`);
 console.log(`recusados: ${JSON.stringify(recusas)}`);
-console.log(`casas.bin ${fmt(plano.buf.byteLength)} B (brotli ${fmt(br)}), substituidos ${fmt(F.decodificaSubstituidos(plano.subsBuf).length)} volumes`);
+console.log(`casas.bin ${fmt(plano.buf.byteLength)} B (brotli q9 ${fmt(br)}), substituidos ${fmt(F.decodificaSubstituidos(plano.subsBuf).length)} volumes`);
 for (const p of portoes) console.log(`${p.passou === false ? "REPROVA" : p.passou === null ? "  ----" : "  ok   "}  ${p.nome}: ${typeof p.valor === "object" ? JSON.stringify(p.valor) : p.valor}${p.detalhe ? "  " + JSON.stringify(p.detalhe) : ""}`);
 console.log(`tempos: ${JSON.stringify(tempos)}`);
 process.exitCode = reprovados ? 1 : 0;
