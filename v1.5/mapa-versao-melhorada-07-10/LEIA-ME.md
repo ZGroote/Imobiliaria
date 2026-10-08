@@ -17,7 +17,11 @@ Esta pasta guarda o mapa otimizado e as **casas procedurais por regra**. O plano
 | Rótulos de rua | lista inteira refeita a cada quarteirão | entram por quarteirão |
 | Sombra | refeita a cada metro andado | a cada 5% da área do mapa de sombra |
 | Celular | 1 pixel por ponto numa tela de DPR 3 (borrado) | até 1,5, com o governador descendo a 0,75 se precisar |
-| Casas | 74 modelos Blender repetidos (7.585 cópias da mesma casa) e volumes com telhado de 72–98% | casas por lote com regras de arquitetura e engenharia, em 3 níveis de detalhe (em integração) |
+| Casas | 74 modelos Blender repetidos (7.585 cópias da mesma casa) e volumes com telhado de 72–98% | 64.977 casas por lote com regras de arquitetura e engenharia, em 3 níveis de detalhe (40 B por casa) |
+| Capa | tela branca até o canvas chegar (47 s no celular fraco) | a cidade em WebP na pose de abertura, na primeira pintura (0,6 s) |
+| Binários | — | casas comprimidas no gerador (planos de byte + gzip, aberto pelo navegador): 2,69 MB → 1,49 MB |
+
+Resultado medido (cidade inteira): 15,19 MB → 5,80 MB, cidade carregada em 3,2 s em vez de 7,9 s no computador (41 s em vez de 81 s no celular fraco), 82% menos triângulos e metade da memória de GPU. Detalhes, custos e o que falta em [RELATORIO.md](RELATORIO.md).
 
 Com as mesmas casas de hoje (`--sem-casas`), a v2 desenha a cidade **igual pixel a pixel**: PSNR máximo nas vistas de centro, bairro e rua (`medicoes/compara.mjs` + `medicoes/psnr.py`).
 
@@ -39,6 +43,7 @@ Os comandos rodam dentro desta pasta e precisam de Node 20+ e Python 3.11+:
 ```powershell
 npm ci
 node gerador/casas.mjs                  # casas da cidade inteira (~30 s) -> derivados/casas/
+node gerador/capa.mjs                   # capa (precisa de um publicado/ montado; rode o montar de novo depois)
 node gerador/montar.mjs                 # publicado/ (com as casas; --sem-casas para o desenho antigo)
 npm test
 node medicoes/compara.mjs --base <piloto>   # mesmas câmeras, página de hoje × v2

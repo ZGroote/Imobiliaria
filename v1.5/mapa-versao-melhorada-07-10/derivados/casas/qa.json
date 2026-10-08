@@ -1,6 +1,6 @@
 {
  "cidade": "sao-carlos",
- "gerado_em": "2026-10-08T07:08:33.006Z",
+ "gerado_em": "2026-10-08T09:07:04.885Z",
  "versao_formato": 1,
  "versao_regras": 1,
  "reprovados": 0,
@@ -57,13 +57,13 @@
   },
   {
    "nome": "determinismo (SHA-256 de duas execuções)",
-   "valor": "não medido (--rapido)",
+   "valor": true,
    "limite": true,
    "detalhe": {
     "primeira": "d79b2e6e0f4ced9c3b4c887929c7c315621a83eaecc43ffa2611ed4c73b545bd",
-    "segunda": null
+    "segunda": "d79b2e6e0f4ced9c3b4c887929c7c315621a83eaecc43ffa2611ed4c73b545bd"
    },
-   "passou": null
+   "passou": true
   },
   {
    "nome": "casa nova sobre volume mantido",
@@ -1749,11 +1749,12 @@
   }
  },
  "tempos": {
-  "leitura_ms": 1003,
-  "preparo_ms": 1022,
-  "selecao_ms": 1773,
-  "planejamento_ms": 10647,
-  "qa_ms": 7238,
-  "total_ms": 22230
+  "leitura_ms": 1040,
+  "preparo_ms": 904,
+  "selecao_ms": 1884,
+  "planejamento_ms": 11510,
+  "planejamento_repetido_ms": 10216,
+  "qa_ms": 7596,
+  "total_ms": 33716
  }
 }
