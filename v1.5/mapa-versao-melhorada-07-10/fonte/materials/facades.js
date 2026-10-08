@@ -128,15 +128,15 @@ function facadeMaterial(u) {
     sh.uniforms.uTexReb = { value: TEX_CIDADE.reboco };
     sh.uniforms.uTexTij = { value: TEX_CIDADE.tijolo };
     sh.vertexShader =
-      "attribute vec2 aFace;\nattribute float aDist;\nattribute float aDY;\nattribute vec3 aStyle;\n" +
+      "attribute vec2 aFace;\nattribute float aDist;\nattribute float aDY;\nattribute vec3 aStyle;\nattribute float aSemJanela;\n" +
       "uniform float uT;\nuniform float uRelief;\nuniform float uHeight;\n" +
-      "varying vec2 vFace;\nvarying vec3 vStyle;\nvarying vec3 vMundo;\nvarying vec3 vNw;\n" +
+      "varying vec2 vFace;\nvarying vec3 vStyle;\nvarying vec3 vMundo;\nvarying vec3 vNw;\nvarying float vSemJ;\n" +
       sh.vertexShader.replace("#include <begin_vertex>",
-        "#include <begin_vertex>\nvFace=aFace;\nvStyle=aStyle;\nvNw=normal;\n" +
+        "#include <begin_vertex>\nvFace=aFace;\nvStyle=aStyle;\nvNw=normal;\nvSemJ=aSemJanela;\n" +
         "float g=clamp((uT-aDist*0.5)/0.5,0.0,1.0);transformed.y*=g*g*(3.0-2.0*g)*uHeight;transformed.y+=aDY*uRelief;\n" +
         "vMundo=transformed;");
 
-    sh.fragmentShader = "varying vec2 vFace;\nvarying vec3 vStyle;\nvarying vec3 vMundo;\nvarying vec3 vNw;\nuniform vec4 uFuro;\nuniform float uNoite;\nuniform sampler2D uTexReb;\nuniform sampler2D uTexTij;\nvec3 gLuz;\nfloat gEspec;\n" + ESP_SHIN + GLSL_RUIDO +
+    sh.fragmentShader = "varying vec2 vFace;\nvarying vec3 vStyle;\nvarying vec3 vMundo;\nvarying vec3 vNw;\nvarying float vSemJ;\nuniform vec4 uFuro;\nuniform float uNoite;\nuniform sampler2D uTexReb;\nuniform sampler2D uTexTij;\nvec3 gLuz;\nfloat gEspec;\n" + ESP_SHIN + GLSL_RUIDO +
       sh.fragmentShader
         // A luz da janela nao pode entrar na cor difusa: difusa e multiplicada pela
         // luz da cena, e a noite a luz da cena e quase zero. Entra na EMISSIVA, que
@@ -215,6 +215,13 @@ function facadeMaterial(u) {
                                 mix(diffuseColor.rgb, vec3(lumP), -0.34 * AP)) * (1.0 - 0.04 * AP);
 
 ${JAN_TABELA}
+         // v2 (casas por regra): a FACE diz se pode ter janela. aSemJanela = 0 e o desenho
+         // de sempre (predio sem o atributo le 0); 1 = face cega (encostada na divisa ou
+         // interna: Codigo Civil, art. 1.301); 2 = a janela e geometria de verdade (casa
+         // de perto, LOD0), entao o shader nao pinta outra por cima; 3 = fundo, so
+         // basculante alto de banheiro e cozinha.
+         if (vSemJ > 2.5) { w = vec4(0.32, 0.68, 1.55, 2.15); skip = 0.30; porta = 0.0; }
+         else if (vSemJ > 0.5) { skip = 1.01; porta = 0.0; }
 
 ${JAN_MALHA}
 
