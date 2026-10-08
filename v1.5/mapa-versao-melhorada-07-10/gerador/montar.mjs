@@ -86,10 +86,44 @@ for (const p of man.pecas) {
 
 if (COM_CASAS) {
   // Binarios: o carregador entrega o ArrayBuffer em `MapaDados.binario(id)`.
-  const bin = (id, arq) => { const b = fs.readFileSync(arq);
-    dados[id] = { url: comHash('dados', id.replace(/^_+/, ''), '.bin', b), bytes: b.length, bin: true }; };
-  bin('__casas', CASAS_BIN);
-  bin('__casasSubs', path.join(PASTA, 'derivados', 'casas', 'substituidos.bin'));
+  // O Hosting so comprime tipo de texto: `.bin` desceria cru (2,69 MB das casas). Entao
+  // o binario ja sai comprimido daqui, num transporte que o navegador desfaz sozinho:
+  //  - `planos`: os registros de tamanho fixo viram planos de byte (o byte k de todos os
+  //    registros junto, como o filtro shuffle do Blosc/HDF5): campo parecido fica ao lado
+  //    de campo parecido e o gzip acha as repeticoes;
+  //  - `delta32`: lista crescente de uint32 vira diferenca entre vizinhos (indices dos
+  //    volumes substituidos: 342 KB -> 4 KB);
+  //  - gzip 9, aberto por `DecompressionStream` (Chrome 80, Safari 16.4, Firefox 113).
+  // O arquivo cru continua publicado (`cru`) para o navegador sem DecompressionStream.
+  const zlib = await import('node:zlib');
+  const planos = (u8, ini, passo, n) => { const o = u8.subarray(ini, ini + passo * n), t = new Uint8Array(o.length);
+    for (let i = 0; i < n; i++) for (let k = 0; k < passo; k++) t[k * n + i] = o[i * passo + k];
+    o.set(t); };
+  const delta32 = (u8, ini, n) => { const dv = new DataView(u8.buffer, u8.byteOffset);
+    for (let i = n - 1; i > 0; i--) dv.setUint32(ini + i * 4, (dv.getUint32(ini + i * 4, true) - dv.getUint32(ini + (i - 1) * 4, true)) >>> 0, true); };
+  // O mesmo desfazer do carregador (fonte/entrega/carregador.js), para conferir aqui.
+  const desfaz = (u8, tr) => { for (const [op, ini, a, b] of tr) {
+    if (op === 'planos') { const o = u8.subarray(ini, ini + a * b), t = new Uint8Array(o.length);
+      for (let k = 0; k < a; k++) for (let i = 0; i < b; i++) t[i * a + k] = o[k * b + i]; o.set(t); }
+    else { const dv = new DataView(u8.buffer, u8.byteOffset); for (let i = 1; i < a; i++)
+      dv.setUint32(ini + i * 4, (dv.getUint32(ini + i * 4, true) + dv.getUint32(ini + (i - 1) * 4, true)) >>> 0, true); } } };
+  const bin = (id, arq, tr) => {
+    const cru = fs.readFileSync(arq), u8 = new Uint8Array(cru);   // copia: `cru` fica intacto
+    for (const [op, ini, a, b] of [...tr].reverse()) op === 'planos' ? planos(u8, ini, a, b) : delta32(u8, ini, a);
+    const z = zlib.gzipSync(u8, { level: 9 });
+    const volta = new Uint8Array(zlib.gunzipSync(z)); desfaz(volta, tr);
+    if (!Buffer.from(volta).equals(cru)) throw new Error(id + ': o transporte nao volta ao arquivo original');
+    const nome = id.replace(/^_+/, '');
+    dados[id] = { url: comHash('dados', nome + '.gz', '.bin', z), cru: comHash('dados', nome, '.bin', cru),
+                  bytes: cru.length, z: z.length, tr, bin: true };
+  };
+  // casas.bin: cabecalho (24 B + JSON), indice de quarteiroes (16 B cada), registros (40 B).
+  const cb = fs.readFileSync(CASAS_BIN), nC = cb.readUInt32LE(8), nQ = cb.readUInt32LE(12);
+  const iniQ = 24 + ((cb.readUInt32LE(16) + 3) & ~3), iniR = iniQ + nQ * 16;
+  bin('__casas', CASAS_BIN, [['planos', iniQ, 16, nQ], ['planos', iniR, cb.readUInt16LE(6), nC]]);
+  // substituidos.bin: 12 B de cabecalho e a lista ordenada de indices.
+  const SUB = path.join(PASTA, 'derivados', 'casas', 'substituidos.bin'), nS = fs.readFileSync(SUB).readUInt32LE(8);
+  bin('__casasSubs', SUB, [['planos', 12, 4, nS], ['delta32', 12, nS]]);
 }
 
 // ---- quintais: os tiles continuam onde a pagina os pede (prefixo relativo a ela) --------------

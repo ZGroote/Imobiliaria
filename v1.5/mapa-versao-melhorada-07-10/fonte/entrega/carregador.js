@@ -33,15 +33,37 @@
     document.body.appendChild(s);
   }
 
+  // Binario em transporte (gerador/montar.mjs): gzip aberto pelo proprio navegador e
+  // depois os planos de byte e as diferencas desfeitos, na ordem de `tr`. Sem
+  // DecompressionStream (Safari < 16.4), baixa o arquivo cru, que tambem esta publicado.
+  var DS = typeof DecompressionStream === "function";
+  function desfaz(u8, tr) {
+    for (var j = 0; j < tr.length; j++) {
+      var op = tr[j], ini = op[1], a = op[2], b = op[3], i, k;
+      if (op[0] === "planos") {
+        var o = u8.subarray(ini, ini + a * b), t = new Uint8Array(o.length);
+        for (k = 0; k < a; k++) for (i = 0; i < b; i++) t[i * a + k] = o[k * b + i];
+        o.set(t);
+      } else {
+        var dv = new DataView(u8.buffer, u8.byteOffset);
+        for (i = 1; i < a; i++) dv.setUint32(ini + i * 4, (dv.getUint32(ini + i * 4, true) + dv.getUint32(ini + (i - 1) * 4, true)) >>> 0, true);
+      }
+    }
+    return u8.buffer;
+  }
+
   // Baixa um bloco contando os bytes ABERTOS (o navegador entrega o corpo ja sem o
   // Brotli; o Content-Length e do comprimido e nao serve de total).
   function baixa(id, aoAvancar) {
     if (pendentes[id]) return pendentes[id];
-    var d = M.dados[id];
-    pendentes[id] = fetch(d.url).then(function (r) {
+    var d = M.dados[id], z = d.bin && d.z && DS;
+    pendentes[id] = fetch(d.bin && d.z && !DS ? d.cru : d.url).then(function (r) {
       if (!r.ok) throw new Error(id + ": HTTP " + r.status);
       // Bloco binario (as casas): vai inteiro para `MapaDados.binario(id)`, sem virar texto.
-      if (d.bin) return r.arrayBuffer().then(function (b) { if (aoAvancar) aoAvancar(b.byteLength); binarios[id] = b; return b; });
+      if (d.bin) return (z ? new Response(r.body.pipeThrough(new DecompressionStream("gzip"))).arrayBuffer()
+                             .then(function (b) { return desfaz(new Uint8Array(b), d.tr); })
+                           : r.arrayBuffer())
+        .then(function (b) { if (aoAvancar) aoAvancar(b.byteLength); binarios[id] = b; return b; });
       if (!r.body || !r.body.getReader || !aoAvancar) return r.text();
       var leitor = r.body.getReader(), partes = [], dec = new TextDecoder();
       function passo() {
