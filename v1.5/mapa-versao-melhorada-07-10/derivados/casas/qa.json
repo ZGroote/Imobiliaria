@@ -1,0 +1,1627 @@
+{
+ "cidade": "sao-carlos",
+ "gerado_em": "2026-10-08T02:18:12.899Z",
+ "versao_formato": 1,
+ "versao_regras": 1,
+ "reprovados": 0,
+ "portoes": [
+  {
+   "nome": "janelas a menos de 1,5 m da divisa",
+   "valor": 0,
+   "limite": 0,
+   "exemplos": [],
+   "passou": true
+  },
+  {
+   "nome": "casa sobre a rua (% da área, cidade inteira)",
+   "valor": 0.4457,
+   "limite": 0.56,
+   "detalhe": {
+    "hoje_mesma_conta": 0.5561,
+    "qa_atual": 0.556110237253483,
+    "so_casas_novas": 0
+   },
+   "passou": true
+  },
+  {
+   "nome": "casas fora do próprio lote (tolerância 0,05 m)",
+   "valor": 0,
+   "limite": 0,
+   "exemplos": [],
+   "passou": true
+  },
+  {
+   "nome": "balanços de sobrado acima do máximo",
+   "valor": 0,
+   "limite": 0,
+   "exemplos": [],
+   "passou": true
+  },
+  {
+   "nome": "garagem sem portão de garagem à frente",
+   "valor": 0,
+   "limite": 0,
+   "exemplos": [],
+   "passou": true
+  },
+  {
+   "nome": "telhado cerâmico fora de 30 a 35%",
+   "valor": 0,
+   "limite": 0,
+   "exemplos": [],
+   "passou": true
+  },
+  {
+   "nome": "determinismo (SHA-256 de duas execuções)",
+   "valor": "não medido (--rapido)",
+   "limite": true,
+   "detalhe": {
+    "primeira": "a1fb942dc730ee178ecbec7232eb9b96dec28afc5de1391b7bcdd84ff28f859b",
+    "segunda": null
+   },
+   "passou": null
+  },
+  {
+   "nome": "casa nova sobre volume mantido",
+   "valor": 0,
+   "limite": 0,
+   "exemplos": [],
+   "passou": true
+  },
+  {
+   "nome": "casa nova sobre outra casa nova",
+   "valor": 0,
+   "limite": 0,
+   "exemplos": [],
+   "passou": true
+  }
+ ],
+ "contagens": {
+  "volumes_city": 89895,
+  "lotes": 110089,
+  "lotes_com_volume": 68369,
+  "lotes_candidatos": 67456,
+  "lotes_planejados": 67437,
+  "casas": 64668,
+  "volumes_substituidos": 85043,
+  "volumes_mantidos": 4852,
+  "pares_de_lotes_sobrepostos": 210,
+  "empreendimentos_protegidos": [
+   {
+    "id": "monte-das-colinas-39",
+    "raio_m": 69.3
+   },
+   {
+    "id": "monte-dos-cedros-37",
+    "raio_m": 67.4
+   },
+   {
+    "id": "sanca-135-29",
+    "raio_m": 26.6
+   },
+   {
+    "id": "wish-castanheiras-58",
+    "raio_m": 39.6
+   }
+  ],
+  "voltas_do_ponto_fixo": 3,
+  "excluidos_da_selecao": {
+   "misto_ou_nao_casa": 240,
+   "nomeado": 665,
+   "protegido": 8,
+   "lote_duplicado": 19
+  },
+  "recusados": {
+   "sem_espaco": 1610,
+   "portoes": 445,
+   "fundo_curto": 599,
+   "colide_volume_mantido": 102,
+   "fora_do_alcance": 9,
+   "fora_do_lote": 2,
+   "testada_curta": 2
+  },
+  "recusados_por_tentativa": {
+   "sem_espaco:2": 754,
+   "sem_espaco:6": 769,
+   "sem_espaco:0": 190,
+   "garagem_sem_portao:2": 114,
+   "sem_espaco:9": 138,
+   "portoes": 476,
+   "fundo_curto": 599,
+   "sem_espaco:5": 35,
+   "colide_volume_mantido": 102,
+   "sem_edicula": 24,
+   "sem_espaco:10": 11,
+   "fora_do_alcance": 9,
+   "garagem_sem_portao:6": 38,
+   "fora_do_lote": 5,
+   "sem_espaco:1": 68,
+   "sem_espaco:11": 6,
+   "testada_curta": 2
+  },
+  "exemplos_de_recusa": {
+   "sem_espaco": [
+    {
+     "lote": 84,
+     "id": "8366_-71412",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "classe": "padrao",
+     "testada": 10,
+     "fundo": 14.1,
+     "area": 116,
+     "inferida": false,
+     "motivos": [
+      "sem_espaco:2",
+      "sem_espaco:2",
+      "sem_espaco:2",
+      "sem_espaco:2"
+     ]
+    },
+    {
+     "lote": 137,
+     "id": "7141_-71245",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "classe": "padrao",
+     "testada": 10,
+     "fundo": 13.6,
+     "area": 158,
+     "inferida": false,
+     "motivos": [
+      "sem_espaco:2"
+     ]
+    },
+    {
+     "lote": 254,
+     "id": "4753_-71053",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 4.1,
+     "fundo": 11.6,
+     "area": 247,
+     "inferida": true,
+     "motivos": [
+      "sem_espaco:6",
+      "sem_espaco:6"
+     ]
+    },
+    {
+     "lote": 259,
+     "id": "4854_-71040",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "classe": "padrao",
+     "testada": 10,
+     "fundo": 24.6,
+     "area": 172,
+     "inferida": false,
+     "motivos": [
+      "sem_espaco:2",
+      "sem_espaco:2",
+      "sem_espaco:2"
+     ]
+    },
+    {
+     "lote": 277,
+     "id": "3772_-70914",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "grande",
+     "testada": 25.7,
+     "fundo": 9.5,
+     "area": 270,
+     "inferida": false,
+     "motivos": [
+      "sem_espaco:0",
+      "sem_espaco:6"
+     ]
+    },
+    {
+     "lote": 324,
+     "id": "8031_-69364",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 5.7,
+     "fundo": 11.4,
+     "area": 224,
+     "inferida": false,
+     "motivos": [
+      "sem_espaco:6",
+      "sem_espaco:6",
+      "sem_espaco:6",
+      "sem_espaco:6"
+     ]
+    },
+    {
+     "lote": 325,
+     "id": "8026_-69691",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 3.6,
+     "fundo": 9.9,
+     "area": 230,
+     "inferida": true,
+     "motivos": [
+      "sem_espaco:6",
+      "sem_espaco:6"
+     ]
+    },
+    {
+     "lote": 352,
+     "id": "5913_-68022",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "grande",
+     "testada": 25.1,
+     "fundo": 10,
+     "area": 295,
+     "inferida": true,
+     "motivos": [
+      "sem_espaco:6",
+      "sem_espaco:6",
+      "sem_espaco:6",
+      "sem_espaco:6"
+     ]
+    },
+    {
+     "lote": 359,
+     "id": "6320_-68046",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "grande",
+     "testada": 25.4,
+     "fundo": 9.7,
+     "area": 290,
+     "inferida": true,
+     "motivos": [
+      "sem_espaco:6",
+      "sem_espaco:6",
+      "sem_espaco:6",
+      "sem_espaco:6"
+     ]
+    },
+    {
+     "lote": 366,
+     "id": "6249_-69657",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 5.2,
+     "fundo": 29.2,
+     "area": 253,
+     "inferida": true,
+     "motivos": [
+      "garagem_sem_portao:2",
+      "sem_espaco:6",
+      "sem_espaco:6",
+      "sem_espaco:6"
+     ]
+    },
+    {
+     "lote": 370,
+     "id": "6333_-68806",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 6,
+     "fundo": 8.7,
+     "area": 196,
+     "inferida": true,
+     "motivos": [
+      "sem_espaco:6",
+      "sem_espaco:6",
+      "sem_espaco:6",
+      "sem_espaco:6"
+     ]
+    },
+    {
+     "lote": 371,
+     "id": "6305_-68729",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "classe": "padrao",
+     "testada": 10,
+     "fundo": 18.1,
+     "area": 167,
+     "inferida": false,
+     "motivos": [
+      "sem_espaco:9",
+      "sem_espaco:9",
+      "sem_espaco:9",
+      "sem_espaco:9"
+     ]
+    }
+   ],
+   "portoes": [
+    {
+     "lote": 410,
+     "id": "8070_-68758",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 5.7,
+     "fundo": 14.7,
+     "area": 240,
+     "inferida": true,
+     "motivos": [
+      "portoes",
+      "portoes",
+      "portoes",
+      "portoes"
+     ]
+    },
+    {
+     "lote": 411,
+     "id": "8074_-69060",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 5,
+     "fundo": 11.4,
+     "area": 238,
+     "inferida": true,
+     "motivos": [
+      "portoes",
+      "portoes",
+      "portoes",
+      "portoes"
+     ]
+    },
+    {
+     "lote": 589,
+     "id": "6508_-66310",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 6.4,
+     "fundo": 23.2,
+     "area": 234,
+     "inferida": false,
+     "motivos": [
+      "sem_espaco:6",
+      "portoes",
+      "garagem_sem_portao:2",
+      "portoes"
+     ]
+    },
+    {
+     "lote": 1443,
+     "id": "-13048_-48692",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 5.4,
+     "fundo": 26.3,
+     "area": 279,
+     "inferida": true,
+     "motivos": [
+      "portoes",
+      "portoes",
+      "portoes",
+      "portoes"
+     ]
+    },
+    {
+     "lote": 1461,
+     "id": "-12424_-48690",
+     "fonte": "planta",
+     "bairro": "medio",
+     "classe": "estreito",
+     "testada": 5.3,
+     "fundo": 23.8,
+     "area": 308,
+     "inferida": true,
+     "motivos": [
+      "portoes",
+      "portoes",
+      "garagem_sem_portao:2",
+      "portoes"
+     ]
+    },
+    {
+     "lote": 1593,
+     "id": "-11514_-44198",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 7.4,
+     "fundo": 30.9,
+     "area": 286,
+     "inferida": false,
+     "motivos": [
+      "portoes",
+      "portoes",
+      "portoes"
+     ]
+    },
+    {
+     "lote": 3564,
+     "id": "-8741_-43578",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 6,
+     "fundo": 11.2,
+     "area": 204,
+     "inferida": false,
+     "motivos": [
+      "portoes",
+      "portoes",
+      "portoes"
+     ]
+    },
+    {
+     "lote": 3578,
+     "id": "-11819_-43138",
+     "fonte": "planta_refeita",
+     "bairro": "medio",
+     "classe": "estreito",
+     "testada": 6.1,
+     "fundo": 13.7,
+     "area": 306,
+     "inferida": false,
+     "motivos": [
+      "sem_espaco:6",
+      "portoes",
+      "portoes"
+     ]
+    },
+    {
+     "lote": 3647,
+     "id": "-9325_-43090",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 6.1,
+     "fundo": 28.3,
+     "area": 258,
+     "inferida": false,
+     "motivos": [
+      "portoes",
+      "portoes",
+      "portoes"
+     ]
+    },
+    {
+     "lote": 3850,
+     "id": "-11303_-41829",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 7.3,
+     "fundo": 30.5,
+     "area": 225,
+     "inferida": true,
+     "motivos": [
+      "portoes",
+      "portoes"
+     ]
+    },
+    {
+     "lote": 3889,
+     "id": "-9345_-41467",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 4,
+     "fundo": 30.4,
+     "area": 198,
+     "inferida": false,
+     "motivos": [
+      "portoes",
+      "portoes"
+     ]
+    },
+    {
+     "lote": 3891,
+     "id": "-9007_-40756",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 4.2,
+     "fundo": 30.5,
+     "area": 258,
+     "inferida": false,
+     "motivos": [
+      "portoes",
+      "portoes"
+     ]
+    }
+   ],
+   "fundo_curto": [
+    {
+     "lote": 463,
+     "id": "4027_-66289",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "testada": 19.9,
+     "fundo": 1.5,
+     "area": 290,
+     "inferida": false
+    },
+    {
+     "lote": 806,
+     "id": "6246_-64610",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "testada": 4.9,
+     "fundo": 3.5,
+     "area": 177,
+     "inferida": true
+    },
+    {
+     "lote": 902,
+     "id": "4224_-60468",
+     "fonte": "planta_complemento",
+     "bairro": "medio",
+     "testada": 42.5,
+     "fundo": 3.8,
+     "area": 404,
+     "inferida": false
+    },
+    {
+     "lote": 1042,
+     "id": "-12584_-50058",
+     "fonte": "planta",
+     "bairro": "comum",
+     "testada": 11.2,
+     "fundo": 4.3,
+     "area": 180,
+     "inferida": true
+    },
+    {
+     "lote": 1092,
+     "id": "-11469_-51124",
+     "fonte": "planta",
+     "bairro": "comum",
+     "testada": 4.6,
+     "fundo": 3.2,
+     "area": 190,
+     "inferida": true
+    },
+    {
+     "lote": 1200,
+     "id": "-12763_-49781",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "testada": 4.3,
+     "fundo": 3.1,
+     "area": 63,
+     "inferida": true
+    },
+    {
+     "lote": 1202,
+     "id": "-13104_-49331",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "testada": 4.3,
+     "fundo": 4.4,
+     "area": 59,
+     "inferida": false
+    },
+    {
+     "lote": 1329,
+     "id": "-13043_-49046",
+     "fonte": "planta",
+     "bairro": "comum",
+     "testada": 3.8,
+     "fundo": 3.2,
+     "area": 41,
+     "inferida": false
+    },
+    {
+     "lote": 1331,
+     "id": "-12964_-49031",
+     "fonte": "planta",
+     "bairro": "comum",
+     "testada": 8.6,
+     "fundo": 5.9,
+     "area": 61,
+     "inferida": false
+    },
+    {
+     "lote": 1407,
+     "id": "-10902_-49283",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "testada": 7.5,
+     "fundo": 6.6,
+     "area": 101,
+     "inferida": false
+    },
+    {
+     "lote": 1411,
+     "id": "-10430_-47776",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "testada": 9.1,
+     "fundo": 3,
+     "area": 77,
+     "inferida": true
+    },
+    {
+     "lote": 1467,
+     "id": "-13981_-48673",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "testada": 7.5,
+     "fundo": 7.8,
+     "area": 66,
+     "inferida": false
+    }
+   ],
+   "colide_volume_mantido": [
+    {
+     "lote": 3904,
+     "id": "-6660_-40998",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 5.7,
+     "fundo": 30.8,
+     "area": 290,
+     "inferida": false,
+     "motivos": [
+      "colide_volume_mantido",
+      "colide_volume_mantido",
+      "colide_volume_mantido",
+      "colide_volume_mantido"
+     ]
+    },
+    {
+     "lote": 6396,
+     "id": "-36311_-28503",
+     "fonte": "planta",
+     "bairro": "conjunto",
+     "classe": "padrao",
+     "testada": 10,
+     "fundo": 15.8,
+     "area": 157,
+     "inferida": false,
+     "motivos": [
+      "garagem_sem_portao:2",
+      "colide_volume_mantido",
+      "colide_volume_mantido",
+      "colide_volume_mantido"
+     ]
+    },
+    {
+     "lote": 7934,
+     "id": "34326_-25370",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 4,
+     "fundo": 19.7,
+     "area": 78,
+     "inferida": true,
+     "motivos": [
+      "sem_espaco:6",
+      "colide_volume_mantido"
+     ]
+    },
+    {
+     "lote": 8294,
+     "id": "2261_-26094",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "padrao",
+     "testada": 9.4,
+     "fundo": 31,
+     "area": 287,
+     "inferida": true,
+     "motivos": [
+      "colide_volume_mantido"
+     ]
+    },
+    {
+     "lote": 8623,
+     "id": "33502_-24647",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 3.8,
+     "fundo": 18.9,
+     "area": 71,
+     "inferida": true,
+     "motivos": [
+      "colide_volume_mantido",
+      "colide_volume_mantido"
+     ]
+    },
+    {
+     "lote": 8624,
+     "id": "33427_-24450",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "estreito",
+     "testada": 3.8,
+     "fundo": 22.8,
+     "area": 84,
+     "inferida": true,
+     "motivos": [
+      "colide_volume_mantido",
+      "colide_volume_mantido"
+     ]
+    },
+    {
+     "lote": 8942,
+     "id": "-10738_-24801",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "classe": "padrao",
+     "testada": 9.9,
+     "fundo": 22,
+     "area": 241,
+     "inferida": false,
+     "motivos": [
+      "portoes",
+      "colide_volume_mantido",
+      "colide_volume_mantido",
+      "colide_volume_mantido"
+     ]
+    },
+    {
+     "lote": 8945,
+     "id": "-10501_-24981",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "classe": "padrao",
+     "testada": 9.9,
+     "fundo": 15.8,
+     "area": 189,
+     "inferida": false,
+     "motivos": [
+      "colide_volume_mantido",
+      "colide_volume_mantido",
+      "colide_volume_mantido",
+      "colide_volume_mantido"
+     ]
+    },
+    {
+     "lote": 10152,
+     "id": "-30663_-23944",
+     "fonte": "planta",
+     "bairro": "medio",
+     "classe": "padrao",
+     "testada": 9.8,
+     "fundo": 30,
+     "area": 301,
+     "inferida": true,
+     "motivos": [
+      "colide_volume_mantido",
+      "colide_volume_mantido",
+      "colide_volume_mantido",
+      "colide_volume_mantido"
+     ]
+    },
+    {
+     "lote": 11403,
+     "id": "-31575_-22688",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "padrao",
+     "testada": 10.1,
+     "fundo": 18.3,
+     "area": 229,
+     "inferida": true,
+     "motivos": [
+      "colide_volume_mantido",
+      "colide_volume_mantido",
+      "colide_volume_mantido",
+      "colide_volume_mantido"
+     ]
+    },
+    {
+     "lote": 11404,
+     "id": "-31456_-22720",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "padrao",
+     "testada": 8.8,
+     "fundo": 30.9,
+     "area": 287,
+     "inferida": true,
+     "motivos": [
+      "colide_volume_mantido",
+      "colide_volume_mantido"
+     ]
+    },
+    {
+     "lote": 11405,
+     "id": "-31436_-22677",
+     "fonte": "planta",
+     "bairro": "comum",
+     "classe": "padrao",
+     "testada": 9.6,
+     "fundo": 30,
+     "area": 287,
+     "inferida": true,
+     "motivos": [
+      "colide_volume_mantido",
+      "colide_volume_mantido",
+      "colide_volume_mantido"
+     ]
+    }
+   ],
+   "fora_do_alcance": [
+    {
+     "lote": 4773,
+     "id": "-39373_-33794",
+     "fonte": "planta",
+     "bairro": "comum",
+     "testada": 5.4,
+     "fundo": 10.2,
+     "area": 235,
+     "inferida": false,
+     "campo": "fundoEsqV"
+    },
+    {
+     "lote": 5016,
+     "id": "-41967_-32557",
+     "fonte": "planta",
+     "bairro": "comum",
+     "testada": 6.6,
+     "fundo": 8,
+     "area": 127,
+     "inferida": true,
+     "campo": "fundoDirV"
+    },
+    {
+     "lote": 10907,
+     "id": "13466_-21607",
+     "fonte": "planta",
+     "bairro": "comum",
+     "testada": 10.7,
+     "fundo": 12.4,
+     "area": 293,
+     "inferida": false,
+     "campo": "fundoDirV"
+    },
+    {
+     "lote": 16808,
+     "id": "22415_-13565",
+     "fonte": "planta",
+     "bairro": "comum",
+     "testada": 4.8,
+     "fundo": 19.9,
+     "area": 190,
+     "inferida": true,
+     "campo": "fundoDirV"
+    },
+    {
+     "lote": 19418,
+     "id": "19140_-8636",
+     "fonte": "planta",
+     "bairro": "medio",
+     "testada": 4.7,
+     "fundo": 25.7,
+     "area": 1259,
+     "inferida": false,
+     "campo": "fundoEsqV"
+    },
+    {
+     "lote": 20220,
+     "id": "25001_-7615",
+     "fonte": "planta_refeita",
+     "bairro": "comum",
+     "testada": 4.6,
+     "fundo": 13.4,
+     "area": 223,
+     "inferida": true,
+     "campo": "fundoEsqV"
+    },
+    {
+     "lote": 23453,
+     "id": "-10214_2466",
+     "fonte": "planta",
+     "bairro": "medio",
+     "testada": 10.2,
+     "fundo": 16.6,
+     "area": 390,
+     "inferida": false,
+     "campo": "fundoDirV"
+    },
+    {
+     "lote": 26731,
+     "id": "-6198_16297",
+     "fonte": "planta_complemento",
+     "bairro": "comum",
+     "testada": 8.9,
+     "fundo": 13.4,
+     "area": 242,
+     "inferida": false,
+     "campo": "fundoEsqV"
+    },
+    {
+     "lote": 28258,
+     "id": "17582_20082",
+     "fonte": "planta",
+     "bairro": "comum",
+     "testada": 10.1,
+     "fundo": 9.8,
+     "area": 204,
+     "inferida": true,
+     "campo": "fundoDirV"
+    }
+   ],
+   "fora_do_lote": [
+    {
+     "lote": 12329,
+     "id": "11946_-19610",
+     "fonte": "planta",
+     "bairro": "medio",
+     "classe": "padrao",
+     "testada": 10.5,
+     "fundo": 13.5,
+     "area": 303,
+     "inferida": true,
+     "motivos": [
+      "sem_espaco:6",
+      "portoes",
+      "fora_do_lote",
+      "fora_do_lote"
+     ]
+    },
+    {
+     "lote": 54895,
+     "id": "208_-29187",
+     "fonte": "sintetico",
+     "bairro": "comum",
+     "classe": "padrao",
+     "testada": 10.5,
+     "fundo": 24.5,
+     "area": 254,
+     "inferida": false,
+     "motivos": [
+      "fora_do_lote",
+      "fora_do_lote"
+     ]
+    }
+   ],
+   "testada_curta": [
+    {
+     "lote": 69177,
+     "id": "3540_-9335",
+     "fonte": "sintetico",
+     "bairro": "comum",
+     "testada": 3.4,
+     "fundo": 45,
+     "area": 135,
+     "inferida": false
+    },
+    {
+     "lote": 70113,
+     "id": "-3377_-7783",
+     "fonte": "sintetico",
+     "bairro": "centro",
+     "testada": 3.4,
+     "fundo": 33,
+     "area": 105,
+     "inferida": false
+    }
+   ]
+  },
+  "partido": {
+   "sobrado": 16062,
+   "caixa_laje": 9281,
+   "L": 4699,
+   "garagem_lateral": 5716,
+   "retangular": 27165,
+   "T": 1306,
+   "edicula_fundo": 288,
+   "geminada_alinhamento": 151
+  },
+  "forma_por_bairro": {
+   "medio": {
+    "caixa_laje+sobrado": 3112,
+    "caixa_laje": 4560,
+    "L+edicula": 142,
+    "garagem_lateral": 2626,
+    "retangular": 8735,
+    "L": 2736,
+    "garagem_lateral+sobrado": 1848,
+    "retangular+sobrado": 3208,
+    "garagem_lateral+edicula": 259,
+    "T": 748,
+    "retangular+sobrado+edicula": 92,
+    "caixa_laje+edicula": 194,
+    "garagem_lateral+sobrado+edicula": 176,
+    "caixa_laje+sobrado+edicula": 166,
+    "retangular+edicula": 140,
+    "T+edicula": 32
+   },
+   "comum": {
+    "caixa_laje": 3862,
+    "retangular": 12024,
+    "retangular+sobrado": 3404,
+    "caixa_laje+sobrado": 1325,
+    "L": 1681,
+    "garagem_lateral": 2598,
+    "garagem_lateral+sobrado": 984,
+    "T": 510,
+    "retangular+edicula": 29,
+    "garagem_lateral+sobrado+edicula": 7,
+    "garagem_lateral+edicula": 15,
+    "caixa_laje+edicula": 10,
+    "retangular+sobrado+edicula": 8,
+    "L+edicula": 3
+   },
+   "centro": {
+    "retangular": 1603,
+    "retangular+edicula": 117,
+    "retangular+sobrado": 386,
+    "L": 90,
+    "caixa_laje+sobrado": 39,
+    "retangular+sobrado+edicula": 24,
+    "caixa_laje": 164,
+    "caixa_laje+edicula": 10,
+    "caixa_laje+sobrado+edicula": 6,
+    "L+edicula": 10
+   },
+   "conjunto": {
+    "retangular": 4921,
+    "retangular+sobrado": 1140,
+    "caixa_laje": 480,
+    "garagem_lateral+sobrado": 53,
+    "T": 16,
+    "garagem_lateral": 218,
+    "caixa_laje+sobrado": 108,
+    "L": 37,
+    "retangular+edicula": 10,
+    "caixa_laje+edicula": 1,
+    "retangular+sobrado+edicula": 1
+   }
+  },
+  "partido_por_bairro": {
+   "medio": {
+    "sobrado": 8602,
+    "caixa_laje": 4754,
+    "L": 2878,
+    "garagem_lateral": 2885,
+    "retangular": 8735,
+    "T": 780,
+    "edicula_fundo": 140
+   },
+   "comum": {
+    "caixa_laje": 3872,
+    "retangular": 12024,
+    "sobrado": 5728,
+    "L": 1684,
+    "garagem_lateral": 2613,
+    "T": 510,
+    "edicula_fundo": 29
+   },
+   "centro": {
+    "retangular": 1485,
+    "edicula_fundo": 109,
+    "sobrado": 430,
+    "L": 100,
+    "geminada_alinhamento": 151,
+    "caixa_laje": 174
+   },
+   "conjunto": {
+    "retangular": 4921,
+    "sobrado": 1302,
+    "caixa_laje": 481,
+    "T": 16,
+    "garagem_lateral": 218,
+    "L": 37,
+    "edicula_fundo": 10
+   }
+  },
+  "classe_testada": {
+   "largo": 38864,
+   "padrao": 18589,
+   "grande": 2311,
+   "estreito": 4904
+  },
+  "telhado": {
+   "quatro_aguas": 28386,
+   "platibanda": 9484,
+   "duas_aguas_paralela": 16089,
+   "laje": 5146,
+   "duas_aguas_perpendicular": 5563
+  },
+  "muro_frente": {
+   "muro_alto": 32934,
+   "muro_baixo": 11330,
+   "gradil": 20253,
+   "nenhum": 151
+  },
+  "garagem": {
+   "laje": 9146,
+   "vaga": 18160,
+   "leve": 8784,
+   "sem_garagem": 28578
+  },
+  "bairro": {
+   "medio": 28774,
+   "comum": 26460,
+   "centro": 2449,
+   "conjunto": 6985
+  },
+  "esquina": 7394,
+  "encostado": {
+   "nenhum": 53478,
+   "um_lado": 10822,
+   "dois_lados": 368
+  },
+  "edicula": 1452,
+  "piscina": 1558,
+  "sobrado": 16087,
+  "embasamento": 3048,
+  "irregular": 21944,
+  "testada_inferida": 7906,
+  "testada_composta": 806,
+  "plantio_fora_do_lote": 684,
+  "plantio": 139514,
+  "tentativa_usada": {
+   "0": 37244,
+   "1": 5454,
+   "2": 5640,
+   "3": 14867,
+   "4": 1463
+  },
+  "falhas_antes_do_plano": {
+   "sem_espaco:6": 2085,
+   "garagem_sem_portao:2": 48935,
+   "colide_volume_mantido": 58,
+   "sem_edicula": 3687,
+   "garagem_sem_portao:6": 1732,
+   "portoes": 8593,
+   "sem_espaco:10": 1026,
+   "sem_espaco:2": 454,
+   "sem_espaco:0": 350,
+   "sem_espaco:9": 123,
+   "sem_espaco:11": 51,
+   "fora_do_lote": 82,
+   "sem_espaco:5": 4,
+   "sem_espaco:1": 1,
+   "sem_espaco:14": 3,
+   "sem_espaco:8": 1
+  }
+ },
+ "histogramas": {
+  "inclinacao_ceramica": {
+   "passo": 0.005,
+   "desde": 0.28,
+   "contagens": [
+    0,
+    0,
+    0,
+    0,
+    4583,
+    4479,
+    4499,
+    4570,
+    4558,
+    4542,
+    4549,
+    4661,
+    4526,
+    4484,
+    4587,
+    0,
+    0,
+    0,
+    0
+   ],
+   "n": 50038,
+   "p5": 0.3,
+   "mediana": 0.325,
+   "p95": 0.35
+  },
+  "cumeeira_terrea_m": {
+   "passo": 0.25,
+   "desde": 2.5,
+   "contagens": [
+    0,
+    0,
+    80,
+    2032,
+    5280,
+    7891,
+    13770,
+    8283,
+    2249,
+    1378,
+    1906,
+    3372,
+    2205,
+    135,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "n": 48581,
+   "p5": 3.51,
+   "mediana": 4.16,
+   "p95": 5.49
+  },
+  "cumeeira_sobrado_m": {
+   "passo": 0.25,
+   "desde": 5,
+   "contagens": [
+    0,
+    0,
+    0,
+    0,
+    327,
+    1263,
+    2295,
+    4502,
+    3759,
+    1362,
+    386,
+    411,
+    779,
+    772,
+    230,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "n": 16087,
+   "p5": 6.36,
+   "mediana": 6.98,
+   "p95": 8.3
+  },
+  "respaldo_terrea_m": {
+   "passo": 0.05,
+   "desde": 2.7,
+   "contagens": [
+    0,
+    0,
+    0,
+    0,
+    5297,
+    8101,
+    11110,
+    11006,
+    7888,
+    4292,
+    887,
+    0,
+    0,
+    0,
+    0
+   ],
+   "n": 48581,
+   "p5": 2.92,
+   "mediana": 3.04,
+   "p95": 3.17
+  },
+  "respaldo_sobrado_m": {
+   "passo": 0.05,
+   "desde": 5.6,
+   "contagens": [
+    0,
+    0,
+    0,
+    0,
+    7309,
+    1919,
+    1891,
+    1948,
+    1621,
+    986,
+    413,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "n": 16087,
+   "p5": 5.8,
+   "mediana": 5.86,
+   "p95": 6.07
+  },
+  "taxa_ocupacao": {
+   "passo": 0.05,
+   "desde": 0,
+   "contagens": [
+    31,
+    434,
+    1509,
+    3665,
+    7424,
+    10443,
+    13481,
+    20933,
+    6686,
+    57,
+    5,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "n": 64668,
+   "p5": 0.174,
+   "mediana": 0.334,
+   "p95": 0.401
+  },
+  "permeabilidade": {
+   "passo": 0.05,
+   "desde": 0,
+   "contagens": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    37,
+    209,
+    594,
+    4563,
+    11864,
+    15987,
+    10678,
+    8524,
+    5933,
+    3840,
+    1685,
+    626,
+    113,
+    14,
+    0
+   ],
+   "n": 64668,
+   "p5": 0.488,
+   "mediana": 0.596,
+   "p95": 0.787
+  },
+  "recuo_frontal_m": {
+   "passo": 0.5,
+   "desde": 0,
+   "contagens": [
+    150,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    25531,
+    27177,
+    8825,
+    645,
+    373,
+    274,
+    327,
+    308,
+    288,
+    242,
+    187,
+    112,
+    46,
+    39,
+    28,
+    31,
+    25,
+    12,
+    8,
+    1,
+    1,
+    1,
+    37
+   ],
+   "n": 64668,
+   "p5": 4,
+   "mediana": 4.6,
+   "p95": 5.3
+  },
+  "recuo_lateral_m": {
+   "passo": 0.25,
+   "desde": 0,
+   "contagens": [
+    10591,
+    22,
+    21,
+    16,
+    21,
+    17,
+    29731,
+    18032,
+    16890,
+    14060,
+    11225,
+    9698,
+    6834,
+    4876,
+    1791,
+    516,
+    388,
+    332,
+    311,
+    262,
+    251,
+    247,
+    203,
+    190,
+    179,
+    194,
+    178,
+    162,
+    160,
+    152,
+    116,
+    145,
+    102,
+    112,
+    85,
+    86,
+    97,
+    69,
+    68,
+    59,
+    847
+   ],
+   "n": 129336,
+   "p5": 0.058,
+   "mediana": 2.082,
+   "p95": 3.554
+  },
+  "recuo_fundo_m": {
+   "passo": 1,
+   "desde": 0,
+   "contagens": [
+    677,
+    366,
+    21203,
+    6066,
+    4844,
+    5823,
+    4343,
+    2454,
+    1918,
+    2095,
+    1950,
+    2582,
+    1244,
+    584,
+    596,
+    1901,
+    448,
+    386,
+    467,
+    435,
+    424,
+    638,
+    799,
+    797,
+    652,
+    695,
+    114,
+    25,
+    27,
+    15,
+    27,
+    20,
+    0,
+    0,
+    0,
+    0,
+    1,
+    2,
+    1,
+    0,
+    2,
+    4,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    2,
+    0,
+    2,
+    36
+   ],
+   "n": 64668,
+   "p5": 2.014,
+   "mediana": 4.84,
+   "p95": 21.986
+  },
+  "declividade": {
+   "passo": 0.01,
+   "desde": 0,
+   "contagens": [
+    8184,
+    9404,
+    16001,
+    12345,
+    7000,
+    4310,
+    2513,
+    1863,
+    1049,
+    631,
+    549,
+    291,
+    168,
+    140,
+    78,
+    46,
+    35,
+    61,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "n": 64668,
+   "p5": 0.003,
+   "mediana": 0.029,
+   "p95": 0.079
+  }
+ },
+ "arquivos": {
+  "casas.bin": {
+   "bytes": 2673660,
+   "brotli": 1608957,
+   "sha256": "a1fb942dc730ee178ecbec7232eb9b96dec28afc5de1391b7bcdd84ff28f859b",
+   "bytes_por_casa": 40
+  },
+  "substituidos.bin": {
+   "bytes": 340184,
+   "brotli": 101114,
+   "sha256": "eca323edbbede165fbce9e4f7248277b029dd56dfc7dc34c7b61c995bfd95b78"
+  }
+ },
+ "tempos": {
+  "leitura_ms": 977,
+  "preparo_ms": 634,
+  "selecao_ms": 1501,
+  "planejamento_ms": 16140,
+  "qa_ms": 6374,
+  "total_ms": 33576
+ }
+}

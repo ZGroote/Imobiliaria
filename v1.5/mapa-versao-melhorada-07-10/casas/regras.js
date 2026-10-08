@@ -51,7 +51,26 @@
       if (!q || Math.hypot(p[0] - q[0], p[1] - q[1]) > 0.01) out.push([p[0], p[1]]);
     }
     while (out.length > 1 && Math.hypot(out[0][0] - out[out.length - 1][0], out[0][1] - out[out.length - 1][1]) <= 0.01) out.pop();
-    return out;
+    return semEspinho(out);
+  }
+  /* Tira ESPINHO (vértice onde a borda vai e volta pelo mesmo caminho: lote vetorizado
+     com uma lasca de 5 m para fora e de volta) e vértice colinear (a menos de 2 cm da
+     reta dos vizinhos). O espinho quebra qualquer conta de faixa livre: a seção do lote
+     passa a ter um pedaço de largura zero que não existe no terreno. */
+  function semEspinho(anel) {
+    let a = anel.slice(), mudou = true;
+    while (mudou && a.length > 3) {
+      mudou = false;
+      for (let i = 0; i < a.length && a.length > 3; i++) {
+        const p = a[(i - 1 + a.length) % a.length], q = a[i], r = a[(i + 1) % a.length];
+        const ux = q[0] - p[0], uz = q[1] - p[1], vx = r[0] - q[0], vz = r[1] - q[1];
+        const lu = Math.hypot(ux, uz), lv = Math.hypot(vx, vz), lpr = Math.hypot(r[0] - p[0], r[1] - p[1]);
+        const volta = lu > 0 && lv > 0 && (ux * vx + uz * vz) / (lu * lv) < -0.95;
+        const colinear = lpr > 0 && Math.abs(ux * (r[1] - p[1]) - uz * (r[0] - p[0])) / lpr < 0.02 && (ux * vx + uz * vz) > 0;
+        if (volta || colinear || lu < 0.01) { a.splice(i, 1); mudou = true; i--; }
+      }
+    }
+    return a;
   }
   // Anti-horário no sentido matemático de (x, z): o interior fica à ESQUERDA de cada aresta.
   const antiHorario = a => areaAssinada(a) < 0 ? a.slice().reverse() : a;
@@ -312,43 +331,92 @@
     return { cobertura: na / n, media: soma / n };
   }
 
-  /* Lados de rua e testada (ESPEC regra 1): o lado mais perto da rua; empate pelo `fa`
-     do volume antigo, depois pela normal do lote sintético, depois o lado mais curto
-     (a testada de lote de esquina costuma ser o lado curto). Sem lado de rua, a testada
-     é inferida pelas mesmas pistas. */
+  /* Lados de rua e testada (ESPEC regra 1). Devolve os candidatos a testada EM ORDEM
+     de preferência; o planejamento usa o primeiro e só passa ao seguinte se a casa não
+     couber (lote de esquina raso de um lado e fundo do outro).
+
+     A ordem:
+       1. lados de rua que dão lote válido (testada >= 3,6 m e fundo >= 8 m), do mais
+          perto da rua para o mais longe; os empatados (a menos de `empate_m` do melhor)
+          se desempatam pelo `fa` do volume antigo, depois pela normal do lote
+          sintético, depois pelo lado mais curto (testada de esquina costuma ser a curta);
+       2. lados válidos que não chegam a encostar na fita mas estão a até
+          `inferida_distancia_max_m` dela (lote de condomínio, rua fora do OSM), pela
+          mesma pista: testada INFERIDA;
+       3. o que sobrar, na mesma ordem (o lote será recusado com o motivo certo).
+     "Válido" vem antes de "mais perto" porque o lote que só encosta na rua por um
+     toco de 1 m, ou o de esquina cujo lado comprido dá na rua, não tem casa possível
+     com aquela testada, e tem com a outra. */
   function analisaLados(A, distRua, dica, regras) {
     const R = regras.R;
     const lados = ladosDoAnel(A, regras);
     const lmin = R("testada.lado_min_m"), cob = R("testada.rua_cobertura_min"), tmin = R("lote.testada_min_m");
+    const fmin = R("lote.fundo_min_m"), emp = R("testada.empate_m"), dinf = R("testada.inferida_distancia_max_m");
     for (const s of lados) {
       const m = s.comprimento >= lmin ? amostraRua(A, s, distRua, regras) : { cobertura: 0, media: 20 };
       s.cobertura = m.cobertura; s.media = m.media; s.rua = s.comprimento >= lmin && m.cobertura >= cob;
     }
-    const pista = s => {
-      if (dica && Number.isFinite(dica.fa) && dica.fa >= 0 && dica.fa <= 360) {
-        const a = dica.fa * Math.PI / 180;
-        return s.fora[0] * Math.cos(a) + s.fora[1] * Math.sin(a);
+    const profundidade = s => { let D = 0; for (const p of A) D = Math.max(D, -((p[0] - s.a[0]) * s.fora[0] + (p[1] - s.a[1]) * s.fora[1])); return D; };
+
+    /* Frente composta: esquina arredondada e frente curva chegam como vários lados
+       curtos de rua (1 a 3 m cada), nenhum com testada que preste. Junta os lados
+       vizinhos que estão na rua enquanto a corda continua reta o bastante (ângulo de
+       cada lado com a corda e afastamento dos vértices até ela). */
+    const nl = lados.length;
+    const dmaxC = R("testada.rua_distancia_max_m") + R("testada.frente_composta_folga_m");
+    const angC = Math.cos(R("testada.frente_composta_angulo_graus") * Math.PI / 180), desv = R("testada.frente_composta_desvio_m");
+    const cadeiaOk = (i0, k) => {
+      const a = lados[i0].a, b = lados[(i0 + k) % nl].b, dx = b[0] - a[0], dz = b[1] - a[1], L = Math.hypot(dx, dz);
+      if (L < 1e-6) return false;
+      for (let j = 0; j <= k; j++) {
+        const s = lados[(i0 + j) % nl], sx = s.b[0] - s.a[0], sz = s.b[1] - s.a[1], sl = Math.hypot(sx, sz) || 1;
+        if ((sx * dx + sz * dz) / (sl * L) < angC) return false;
+        for (const i of s.arestas) { const p = A[i]; if (Math.abs((p[0] - a[0]) * dz - (p[1] - a[1]) * dx) / L > desv) return false; }
       }
+      return true;
+    };
+    const compostas = [];
+    const vistas = new Set();
+    for (let i = 0; i < nl; i++) {
+      if (!lados[i].rua) continue;
+      let i0 = i, k = 0;
+      while (k < nl - 2 && lados[(i0 + k + 1) % nl].media <= dmaxC && cadeiaOk(i0, k + 1)) k++;
+      while (k < nl - 2 && lados[(i0 - 1 + nl) % nl].media <= dmaxC && cadeiaOk((i0 - 1 + nl) % nl, k + 1)) { i0 = (i0 - 1 + nl) % nl; k++; }
+      if (k === 0 || vistas.has(i0 + ":" + k)) continue;
+      vistas.add(i0 + ":" + k);
+      const parte = []; for (let j = 0; j <= k; j++) parte.push(lados[(i0 + j) % nl]);
+      const a = parte[0].a, b = parte[k].b, dx = b[0] - a[0], dz = b[1] - a[1], L = Math.hypot(dx, dz);
+      const peso = parte.reduce((x, s) => x + s.comprimento, 0);
+      compostas.push({ ia: parte[0].ia, ib: parte[k].ib, a, b, comprimento: L, fora: [dz / L, -dx / L],
+        arestas: parte.flatMap(s => s.arestas), composta: true, rua: true,
+        media: parte.reduce((x, s) => x + s.media * s.comprimento, 0) / peso,
+        cobertura: parte.reduce((x, s) => x + s.cobertura * s.comprimento, 0) / peso });
+    }
+    const cands = lados.concat(compostas);
+    for (const s of cands) { s.profundidade = profundidade(s); s.valido = s.comprimento >= tmin && s.profundidade >= fmin; }
+
+    const temFa = dica && Number.isFinite(dica.fa) && dica.fa >= 0 && dica.fa <= 360;
+    const temPista = temFa || !!(dica && dica.normal);
+    const pista = s => {
+      if (temFa) { const a = dica.fa * Math.PI / 180; return s.fora[0] * Math.cos(a) + s.fora[1] * Math.sin(a); }
       if (dica && dica.normal) return s.fora[0] * dica.normal[0] + s.fora[1] * dica.normal[1];
       return -s.comprimento / 1000;
     };
-    let cands = lados.filter(s => s.rua), inferida = false, testada;
-    const longos = cands.filter(s => s.comprimento >= tmin);
-    if (longos.length) cands = longos;
-    if (cands.length) {
-      const melhor = Math.min(...cands.map(s => s.media));
-      const emp = cands.filter(s => s.media <= melhor + R("testada.empate_m"));
-      testada = emp.reduce((a, b) => pista(b) > pista(a) + 1e-9 ? b : a, emp[0]);
-    } else {
-      inferida = true;
-      let pool = lados.filter(s => s.comprimento >= tmin);
-      if (!pool.length) pool = lados.filter(s => s.comprimento >= lmin);
-      if (!pool.length) pool = lados;
-      const temPista = dica && ((Number.isFinite(dica.fa) && dica.fa >= 0 && dica.fa <= 360) || dica.normal);
-      testada = temPista ? pool.reduce((a, b) => pista(b) > pista(a) + 1e-9 ? b : a, pool[0])
-                         : pool.reduce((a, b) => b.media < a.media - 1e-9 ? b : a, pool[0]);
-    }
-    return { lados, testada, inferida };
+    const ordena = grupo => {
+      if (!grupo.length) return [];
+      const melhor = Math.min(...grupo.map(s => s.media));
+      const empatados = grupo.filter(s => s.media <= melhor + emp).sort((a, b) => pista(b) - pista(a) || a.comprimento - b.comprimento);
+      const resto = grupo.filter(s => s.media > melhor + emp).sort((a, b) => a.media - b.media || pista(b) - pista(a));
+      return empatados.concat(resto);
+    };
+    const porPista = grupo => grupo.slice().sort((a, b) => temPista ? pista(b) - pista(a) || a.media - b.media : a.media - b.media);
+    const g1 = cands.filter(s => s.rua && s.valido);
+    const g2 = cands.filter(s => !s.rua && s.valido && s.media <= dinf);
+    const g3 = cands.filter(s => !s.rua && s.valido && s.media > dinf);
+    const g4 = cands.filter(s => !s.valido && s.comprimento >= lmin);
+    const ordem = ordena(g1).concat(porPista(g2), porPista(g3), g4.sort((a, b) => a.media - b.media));
+    if (!ordem.length) ordem.push(lados.reduce((a, b) => b.comprimento > a.comprimento ? b : a, lados[0]));
+    return { lados, ordem, testada: ordem[0], inferida: !ordem[0].rua };
   }
 
   /* =====================================================================
@@ -389,18 +457,34 @@
     return 0;
   }
 
+  /* Lote -> plano. Tenta as testadas candidatas em ordem (analisaLados) e devolve o
+     primeiro plano válido; se nenhuma serve, a recusa da testada preferida. */
   function planeja(ent, regras) {
+    const A = antiHorario(limpaAnel(ent.anel));
+    if (A.length < 3) return { ok: false, motivo: "lote_invalido", info: { bairro: ent.bairro } };
+    const areaLote = Math.abs(areaAssinada(A));
+    if (!(areaLote > 20)) return { ok: false, motivo: "lote_invalido", info: { bairro: ent.bairro } };
+    const an = analisaLados(A, ent.distRua, ent.dica, regras);
+    const n = Math.min(an.ordem.length, regras.R("testada.alternativas_max"));
+    let primeira = null;
+    for (let k = 0; k < n; k++) {
+      const r = planejaComTestada(ent, regras, A, areaLote, an, an.ordem[k]);
+      r.info.alternativa = k;
+      if (r.ok) return r;
+      if (!primeira) primeira = r;
+    }
+    return primeira;
+  }
+
+  function planejaComTestada(ent, regras, A, areaLote, an0, testada) {
     const R = regras.R, S = Sorteio(), F = Formato();
     const info = { bairro: ent.bairro };
     const recusa = (motivo, extra) => ({ ok: false, motivo, info: Object.assign(info, extra || {}) });
+    const an = { lados: an0.lados, testada, inferida: !testada.rua };
 
-    // ---- 1. lote e moldura ---------------------------------------------------------
-    const A = antiHorario(limpaAnel(ent.anel));
-    if (A.length < 3) return recusa("lote_invalido");
-    const areaLote = Math.abs(areaAssinada(A));
-    if (!(areaLote > 20)) return recusa("lote_invalido");
-    const an = analisaLados(A, ent.distRua, ent.dica, regras);
+    // ---- 1. moldura -----------------------------------------------------------------
     info.testadaInferida = an.inferida;
+    info.testadaComposta = !!testada.composta;
     const mol = moldura(A, an, ent.centroQuarteirao, regras);
     const P = mol.P;
     // arestas de rua (Código Civil vale para o VIZINHO, não para a rua)
@@ -427,7 +511,7 @@
     if (T > R("lote.testada_max_m") || fundo > R("lote.fundo_max_m") || areaLote > R("lote.area_max_m2")) return recusa("lote_grande");
     const cantos = { fundoEsqU: Math.round(fe[0] * 10), fundoEsqV: Math.round(fe[1] * 10),
                      fundoDirU: Math.round(fd[0] * 10), fundoDirV: Math.round(fd[1] * 10) };
-    for (const k in cantos) if (cantos[k] < F.FAIXA[k][0] || cantos[k] > F.FAIXA[k][1]) return recusa("fora_do_alcance");
+    for (const k in cantos) if (cantos[k] < F.FAIXA[k][0] || cantos[k] > F.FAIXA[k][1]) return recusa("fora_do_alcance", { campoFora: k });
     if (mol.origemX < F.FAIXA.origemX[0] || mol.origemX > F.FAIXA.origemX[1] ||
         mol.origemZ < F.FAIXA.origemZ[0] || mol.origemZ > F.FAIXA.origemZ[1] || Tdm > F.FAIXA.testada[1]) return recusa("fora_do_alcance");
     // quadrilátero do plano contra o polígono real
@@ -476,8 +560,12 @@
     // ---- 2. recuos e decisões de partido ---------------------------------------------
     const fR = fl("recuos"), fP = fl("partido");
     const centroAlinha = bairro === "centro" && T < R("bairros.centro_antigo.testada_max_m");
+    // O extra sorteado do recuo frontal sai do que sobra no lote raso: ele existe para a
+    // rua não alinhar todas as fachadas, não para recusar o lote que só cabe no mínimo.
+    const folgaFundo = Math.round(fundo * 10) - Math.round(R("recuos.frontal_m") * 10) - Math.round(R("recuos.fundo_m") * 10) - Math.round(R("malha.corpo_profundidade_m")[0] * 10);
+    const extraF = fR.inteiro(...R("recuos.frontal_extra_m").map(x => Math.round(x * 10)));
     const recuoF = centroAlinha ? Math.round(R("recuos.frontal_centro_antigo_m") * 10)
-      : Math.round(R("recuos.frontal_m") * 10) + fR.inteiro(...R("recuos.frontal_extra_m").map(x => Math.round(x * 10)));
+      : Math.round(R("recuos.frontal_m") * 10) + clamp(Math.min(extraF, folgaFundo), 0, extraF);
     const recuoFmin = centroAlinha ? recuoF : Math.round(R("recuos.frontal_m") * 10);
     let sobrado = (ent.dica && ent.dica.pavimentos >= R("selecao.sobrado_pavimentos")) || fP.chance(pb("partidos.sobrado_promove_prob"));
     if (T < R("partidos.sobrado_testada_min_m")) sobrado = false;
@@ -612,9 +700,11 @@
       };
 
       // ---- largura e posição do corpo
-      const dGuess = 90;
-      const lu = limU(v0c, v0c + dGuess);
-      if (!lu) return "sem_espaco";
+      // faixa de prova: até 9 m de corpo, sem passar do recuo de fundo do lote raso
+      const fimProva = Math.min(v0c + 90, Math.round(fundo * 10) - rFundo);
+      if (fimProva <= v0c) return "sem_espaco:0";
+      const lu = limU(v0c, fimProva);
+      if (!lu) return "sem_espaco:1";
       let lo = lu[0] + rL, hi = lu[1] - rR;
       if (gar) { if (t.garagem === 1) lo = lu[0] + gar.w; else hi = lu[1] - gar.w; }
       const W = hi - lo;
@@ -622,10 +712,10 @@
       let w;
       if (W >= cwMin) w = fV.inteiro(cwMin, Math.min(cwMax, W));
       else if (W >= vaoMin) w = Math.min(Math.round(R("malha.vao_m")[1] * 10), W);
-      else return "sem_espaco";
+      else return "sem_espaco:2";
       w = malhaDm(w, R);
-      if (!w) return "sem_espaco";
-      if (caixa) { caixa.w = malhaDm(Math.min(caixa.w, w), R); if (!caixa.w) return "sem_espaco"; }
+      if (!w) return "sem_espaco:3";
+      if (caixa) { caixa.w = malhaDm(Math.min(caixa.w, w), R); if (!caixa.w) return "sem_espaco:4"; }
       // lado que cola: o da garagem leve, o encostado, ou nenhum (centro com folga sorteada)
       const cola = gar ? t.garagem : (encostado & 1) ? 1 : (encostado & 2) ? 2 : 0;
       const posiciona = (a, b, w0) => cola === 1 ? a : cola === 2 ? b - w0 : a + Math.round((b - a - w0) * jitter / 100);
@@ -634,7 +724,7 @@
 
       // ---- profundidade pela ocupação alvo
       const lv = limV(u0, u0 + w, v0c + 5);
-      if (!lv) return "sem_espaco";
+      if (!lv) return "sem_espaco:5";
       v0c = Math.max(v0c, lv[0] + recuoF + (caixa ? caixa.d : 0) + (frenteL ? alaD : 0));
       const vBack = lv[1] - rFundo;
       const outros = (caixa ? caixa.w * caixa.d : 0) + (gar ? gar.w * gar.d : 0) + (forma === "L" || forma === "T" ? alaW * alaD : 0);
@@ -642,14 +732,14 @@
       const reservaAtras = (forma === "T" || (forma === "L" && !frenteL)) ? Math.round(R("malha.ala_profundidade_m")[0] * 10) : 0;
       let d = clamp(Math.round((taxaAlvo * areaLote * 100 - outros) / w), cdMin, cdMax);
       d = Math.min(d, vBack - v0c - reservaAtras);
-      if (d < Math.round(R("malha.corpo_profundidade_min_absoluta_m") * 10)) return "sem_espaco";
+      if (d < Math.round(R("malha.corpo_profundidade_min_absoluta_m") * 10)) return "sem_espaco:6";
       d = malhaDm(d, R);
-      if (!d) return "sem_espaco";
+      if (!d) return "sem_espaco:7";
 
       // ---- a faixa lateral com a profundidade final (o lote pode estreitar no fundo)
       for (let it = 0; it < 4; it++) {
         const l2 = limU(v0c, v0c + d, u0 + w / 2);
-        if (!l2) return "sem_espaco";
+        if (!l2) return "sem_espaco:8";
         let a = l2[0] + rL, b = l2[1] - rR;
         if (gar) { if (t.garagem === 1) a = l2[0] + gmin; else b = l2[1] - gmin; }
         let w2 = w, u2 = u0;
@@ -658,7 +748,7 @@
         if (u2 + w2 > b) w2 = malhaDm(b - u2, R);
         if (cola === 1 && !gar) u2 = a;
         if (cola === 2 && !gar) u2 = b - w2;
-        if (!w2 || w2 < vaoMin) return "sem_espaco";
+        if (!w2 || w2 < vaoMin) return "sem_espaco:9";
         const mudou = u2 !== u0 || w2 !== w;
         u0 = u2; w = w2;
         if (!mudou) break;
@@ -676,7 +766,7 @@
         alaTipo = caixa.tipo;
       } else if (gar) {
         const g = garLateral(corpo.u0, corpo.w);
-        if (!g) return "sem_espaco";
+        if (!g) return "sem_espaco:10";
         ala = g; alaTipo = 3;
       } else if (forma === "L" || forma === "T") {
         // A ala vence um vão MENOR que o do corpo: a cumeeira dela morre na água do
@@ -684,10 +774,10 @@
         const folga = Math.round(R("malha.ala_folga_cumeeira_m") * 10);
         const vaoCorpo = Math.min(corpo.w, corpo.d);
         alaW = malhaDm(Math.min(alaW, vaoCorpo - folga, corpo.w), R);
-        if (!alaW) return "sem_espaco";
+        if (!alaW) return "sem_espaco:11";
         if (alaD > vaoCorpo - folga) alaD = malhaDm(vaoCorpo - folga, R);
         alaD = malhaDm(alaD, R);
-        if (!alaD) return "sem_espaco";
+        if (!alaD) return "sem_espaco:12";
         let au0;
         if (forma === "T") au0 = corpo.u0 + Math.floor((corpo.w - alaW) / 2);
         else {
@@ -697,9 +787,9 @@
         const av0 = frenteL ? corpo.v0 - alaD : corpo.v0 + corpo.d;
         if (!frenteL) {                                   // ala dos fundos respeita o recuo de fundo
           const la = limV(au0, au0 + alaW, av0 - 5);
-          if (!la) return "sem_espaco";
+          if (!la) return "sem_espaco:13";
           const dmax = la[1] - rFundo - av0;
-          if (dmax < alaD) { alaD = malhaDm(dmax, R); if (!alaD) return "sem_espaco"; }
+          if (dmax < alaD) { alaD = malhaDm(dmax, R); if (!alaD) return "sem_espaco:14"; }
         }
         ala = { u0: au0, v0: av0, w: alaW, d: alaD };
         alaTipo = forma === "T" ? 2 : 1;
@@ -824,6 +914,8 @@
       const casa = F.casaDeCampos(campos, ent.centroQuarteirao[0], ent.centroQuarteirao[1], regras.json);
       const det = F.detalha(casa, regras.json);
       const tol = 0.05;
+      // A testada que vale é a GRAVADA (dm): é dela que o navegador tira os cantos da frente.
+      const Tq = casa.lote.testada;
       const vols = casa.volumes;
       const todos = vols.concat(det.pavimentoSuperior ? [det.pavimentoSuperior] : []);
       for (const v of todos) if (!retDentro(v, P, tol)) return "fora_do_lote";
@@ -843,18 +935,20 @@
       // garagem: portão na frente, dentro da testada, sem invadir volume nem o social
       if (casa.garagem.lado !== "nenhuma") {
         const g = det.portaoGaragem, [gmin, gmax] = R("portoes.garagem_largura_m"), pil = R("portoes.pilarete_m");
-        if (!g || g.largura < gmin - 1e-9 || g.largura > gmax + 1e-9) return "garagem_sem_portao";
-        if (g.u0 < -T / 2 + pil - 1e-6 || g.u1 > T / 2 - pil + 1e-6) return "garagem_sem_portao";
-        if (casa.muroFrente === "nenhum") return "garagem_sem_portao";
+        if (!g || g.largura < gmin - 1e-9 || g.largura > gmax + 1e-9) return "garagem_sem_portao:1";
+        if (g.u0 < -Tq / 2 + pil - 1e-6 || g.u1 > Tq / 2 - pil + 1e-6) return "garagem_sem_portao:2";
+        if (casa.muroFrente === "nenhum") return "garagem_sem_portao:3";
         const rp = det.rampa;
-        if (rp.v1 - rp.v0 < R("recuos.frontal_m") - 1e-6 && !(vols[1] && (vols[1].papel === "garagem_leve" || vols[1].papel === "caixa_garagem"))) return "garagem_sem_portao";
-        for (const v of vols) if (v.papel !== "garagem_leve" && v.papel !== "caixa_garagem" && retSobrepoe(rp, v, 1e-6)) return "garagem_sem_portao";
-        if (!retDentro(rp, P, tol)) return "garagem_sem_portao";
+        if (rp.v1 - rp.v0 < R("recuos.frontal_m") - 1e-6 && !(vols[1] && (vols[1].papel === "garagem_leve" || vols[1].papel === "caixa_garagem"))) return "garagem_sem_portao:4";
+        for (const v of vols) if (v.papel !== "garagem_leve" && v.papel !== "caixa_garagem" && retSobrepoe(rp, v, 1e-6)) return "garagem_sem_portao:5";
+        // A frente pode ser uma corda (frente composta): o primeiro metro da rampa pode
+        // cair fora do polígono sem sair do lote. Do metro em diante, tem que estar dentro.
+        if (rp.v1 - rp.v0 > 1 && !retDentro(Object.assign({}, rp, { v0: rp.v0 + 1 }), P, tol)) return "garagem_sem_portao:6";
         if (det.portaoSocial && Math.min(det.portaoSocial.u1, g.u1) - Math.max(det.portaoSocial.u0, g.u0) > -pil + 1e-6) return "portoes_sobrepostos";
       }
       if (det.portaoSocial) {
         const pil = R("portoes.pilarete_m");
-        if (det.portaoSocial.u0 < -T / 2 + pil - 1e-6 || det.portaoSocial.u1 > T / 2 - pil + 1e-6) return "portao_social_fora";
+        if (det.portaoSocial.u0 < -Tq / 2 + pil - 1e-6 || det.portaoSocial.u1 > Tq / 2 - pil + 1e-6) return "portao_social_fora";
         for (const v of vols) if (v.papel !== "caixa_varanda" && v.papel !== "garagem_leve" && retSobrepoe(det.caminho, v, 1e-6)) return "caminho_bloqueado";
       }
       // ocupação e permeabilidade
@@ -901,7 +995,7 @@
     for (const t of tentativas) {
       if (t.forma === "garagem_lateral" && !t.garagem) continue;
       const m = monta(t);
-      if (typeof m === "string") { ultimo = m; continue; }
+      if (typeof m === "string") { ultimo = m.split(":")[0]; (info.motivos = info.motivos || []).push(m); continue; }
       const { corpo, ala, alaTipo, edic, balanco } = m;
       const formaFinal = t.forma;
       let partido = formaFinal === "L" ? 1 : formaFinal === "T" ? 2 : formaFinal === "garagem_lateral" ? 3 : formaFinal === "caixa_laje" ? 4 : 0;
@@ -928,7 +1022,7 @@
       // faixa dos campos: o que não cabe no formato vira recusa, nunca truncamento
       let fora = false;
       for (const k in campos) if (campos[k] < F.FAIXA[k][0] || campos[k] > F.FAIXA[k][1]) { fora = k; break; }
-      if (fora) { ultimo = "fora_do_alcance"; continue; }
+      if (fora) { ultimo = "fora_do_alcance"; info.campoFora = fora; continue; }
       // máscaras em metros, na moldura
       const ms = r => r && { u0: r.u0 / 10, v0: r.v0 / 10, u1: (r.u0 + r.w) / 10, v1: (r.v0 + r.d) / 10 };
       const rc = ms(corpo), ra = ms(ala), re = ms(edic);
@@ -939,10 +1033,10 @@
       if (re) campos.ediculaCega = mascara(re, todos);
       // porta e portões
       const pu = portas(campos, { corpo, ala, alaTipo }, t.garagem);
-      if (pu === null || pu < 0 || pu > F.FAIXA.portaU[1]) { ultimo = "portoes"; continue; }
+      if (pu === null || pu < 0 || pu > F.FAIXA.portaU[1]) { ultimo = "portoes"; (info.motivos = info.motivos || []).push("portoes"); continue; }
       campos.portaU = pu;
       const mot = valida(campos);
-      if (mot) { ultimo = mot; continue; }
+      if (mot) { ultimo = mot.split(":")[0]; (info.motivos = info.motivos || []).push(mot); continue; }
       // piscina por regra, se couber
       const fPi = fl("piscina_regra");
       const traseira = Math.max(corpo.v0 + corpo.d, ala ? ala.v0 + ala.d : 0) / 10;

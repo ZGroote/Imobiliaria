@@ -39,7 +39,12 @@
     "amostra_passo_m": { "valor": 1.5, "_nota": "Passo da amostragem ao longo do lado." },
     "amostra_margem": { "valor": 0.15, "_nota": "Fração do lado ignorada em cada ponta: o canto de um lote de esquina encosta na fita da OUTRA rua." },
     "empate_m": { "valor": 0.5, "_nota": "Dois lados de rua com distância média a menos disto um do outro estão empatados; desempata pelo fa do volume antigo." },
-    "esquina_cos_max": { "valor": 0.5, "_nota": "Lado de rua cuja normal faz mais de 60 graus com a da testada é lateral de esquina." }
+    "esquina_cos_max": { "valor": 0.5, "_nota": "Lado de rua cuja normal faz mais de 60 graus com a da testada é lateral de esquina." },
+    "inferida_distancia_max_m": { "valor": 6.0, "_nota": "Lote sem lado encostado na fita: a testada pode ser um lado a até 6 m dela (rua de condomínio, viela fora do OSM). Mais longe que isso, a testada vem só da pista do volume antigo.", "a_conferir": true },
+    "frente_composta_folga_m": { "valor": 1.5, "_nota": "Frente composta: um lado entra na cadeia se a distância média dele à fita for até rua_distancia_max_m + isto (o canto arredondado se afasta um pouco da fita)." },
+    "frente_composta_angulo_graus": { "valor": 40, "_nota": "Cada lado da cadeia faz no máximo este ângulo com a corda da frente composta." },
+    "frente_composta_desvio_m": { "valor": 1.5, "_nota": "Nenhum vértice da cadeia se afasta mais que isto da corda: a frente ainda é uma frente, não meia volta na quadra." },
+    "alternativas_max": { "valor": 3, "_nota": "Quantas testadas candidatas o motor tenta, em ordem, antes de recusar o lote: esquina rasa de um lado pode ser funda do outro." }
   },
 
   "bairros": {
