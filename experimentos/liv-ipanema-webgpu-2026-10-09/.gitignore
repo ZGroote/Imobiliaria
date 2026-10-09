@@ -1,0 +1,6 @@
+/site-baseline*/
+/assets-prova/*
+!/assets-prova/manifest.json
+/evidencias/**/*.png
+/.liv-reproducao-*/
+/teste-reproducao-*/
