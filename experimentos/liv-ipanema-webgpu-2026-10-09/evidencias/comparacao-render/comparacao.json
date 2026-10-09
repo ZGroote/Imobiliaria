@@ -1,0 +1,142 @@
+{
+  "recordedAtUtc": "2026-10-09T19:00:37.593304+00:00",
+  "status": "PASS",
+  "method": "Capturas PNG RGBA sem CSS, mesmo tamanho de canvas e vistas; sem redimensionar imagens.",
+  "limits": "Métrica descritiva, não nota automática de fidelidade. PBR/sombras/specular mudaram de r168 para r186.",
+  "comparisons": [
+    {
+      "backend": "webgl",
+      "view": "perspectiva",
+      "size": [
+        720,
+        390
+      ],
+      "foregroundPixels": 40078,
+      "foregroundRgbMAE255": 6.2528486251831055,
+      "sharedOpaqueRgbMAE255": 6.2528486251831055,
+      "alphaMAE255": 0.0,
+      "foregroundRgbP95Delta255": 30.0
+    },
+    {
+      "backend": "webgl",
+      "view": "fachada",
+      "size": [
+        720,
+        390
+      ],
+      "foregroundPixels": 50613,
+      "foregroundRgbMAE255": 5.292724609375,
+      "sharedOpaqueRgbMAE255": 5.292724609375,
+      "alphaMAE255": 0.0,
+      "foregroundRgbP95Delta255": 28.0
+    },
+    {
+      "backend": "webgl",
+      "view": "aerea",
+      "size": [
+        720,
+        390
+      ],
+      "foregroundPixels": 35568,
+      "foregroundRgbMAE255": 6.095825672149658,
+      "sharedOpaqueRgbMAE255": 6.095825672149658,
+      "alphaMAE255": 0.0,
+      "foregroundRgbP95Delta255": 30.0
+    },
+    {
+      "backend": "webgl",
+      "view": "portaria",
+      "size": [
+        720,
+        390
+      ],
+      "foregroundPixels": 66474,
+      "foregroundRgbMAE255": 5.14319372177124,
+      "sharedOpaqueRgbMAE255": 5.14319372177124,
+      "alphaMAE255": 0.0,
+      "foregroundRgbP95Delta255": 27.0
+    },
+    {
+      "backend": "webgl",
+      "view": "implantacao",
+      "size": [
+        720,
+        390
+      ],
+      "foregroundPixels": 116653,
+      "foregroundRgbMAE255": 3.5133800506591797,
+      "sharedOpaqueRgbMAE255": 3.5133800506591797,
+      "alphaMAE255": 0.0,
+      "foregroundRgbP95Delta255": 18.0
+    },
+    {
+      "backend": "webgpu",
+      "view": "perspectiva",
+      "size": [
+        720,
+        390
+      ],
+      "foregroundPixels": 40111,
+      "foregroundRgbMAE255": 8.709671974182129,
+      "sharedOpaqueRgbMAE255": 8.705764770507812,
+      "alphaMAE255": 0.0884401723742485,
+      "foregroundRgbP95Delta255": 41.0
+    },
+    {
+      "backend": "webgpu",
+      "view": "fachada",
+      "size": [
+        720,
+        390
+      ],
+      "foregroundPixels": 50700,
+      "foregroundRgbMAE255": 6.340821743011475,
+      "sharedOpaqueRgbMAE255": 6.317714691162109,
+      "alphaMAE255": 0.1631588339805603,
+      "foregroundRgbP95Delta255": 31.0
+    },
+    {
+      "backend": "webgpu",
+      "view": "aerea",
+      "size": [
+        720,
+        390
+      ],
+      "foregroundPixels": 35590,
+      "foregroundRgbMAE255": 8.697668075561523,
+      "sharedOpaqueRgbMAE255": 8.701566696166992,
+      "alphaMAE255": 0.07120370119810104,
+      "foregroundRgbP95Delta255": 40.0
+    },
+    {
+      "backend": "webgpu",
+      "view": "portaria",
+      "size": [
+        720,
+        390
+      ],
+      "foregroundPixels": 66710,
+      "foregroundRgbMAE255": 6.349058151245117,
+      "sharedOpaqueRgbMAE255": 6.327120780944824,
+      "alphaMAE255": 0.44000357389450073,
+      "foregroundRgbP95Delta255": 30.0
+    },
+    {
+      "backend": "webgpu",
+      "view": "implantacao",
+      "size": [
+        720,
+        390
+      ],
+      "foregroundPixels": 116677,
+      "foregroundRgbMAE255": 3.871762752532959,
+      "sharedOpaqueRgbMAE255": 3.867579698562622,
+      "alphaMAE255": 0.09071937203407288,
+      "foregroundRgbP95Delta255": 19.0
+    }
+  ],
+  "canvas": {
+    "width": 720,
+    "height": 390
+  }
+}
