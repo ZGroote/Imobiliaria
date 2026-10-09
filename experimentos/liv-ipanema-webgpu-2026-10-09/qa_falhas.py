@@ -32,7 +32,7 @@ def main():
                 context=browser.new_context(viewport={'width':1280,'height':800})
                 if init:context.add_init_script(init)
                 page=context.new_page();page.on('pageerror',lambda error,c=case:c['errors'].append(str(error)))
-                route='**/irradiance.rgbm.gz'
+                route='**/irradiance.rgbm.gz*'
                 if name=='atlas-http':context.route(route,lambda r:r.fulfill(status=503,body='QA: indisponível'))
                 if name=='atlas-corrompido':context.route(route,lambda r:r.fulfill(status=200,body=b'QA: bytes divergentes'))
                 page.goto(URL+('?backend='+backend if backend else ''),wait_until='load',timeout=120000)

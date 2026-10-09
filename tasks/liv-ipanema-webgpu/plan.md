@@ -66,6 +66,8 @@ Separar quatro responsabilidades para que uma melhoria de renderização não al
 3. **Visualizador:** renderizador, controles, seleção, modos, captura e recuperação de falhas.
 4. **Dados comerciais:** identidade oficial da unidade, estado, preço, condições, data e origem da atualização.
 
+Diretriz de materiais reafirmada pelo usuário durante a execução: aproveitar materiais PBR padrão do Three.js/GLTF e a conversão automática da `StandardNodeLibrary` para suas implementações em nós. Novos acabamentos devem entrar por configuração de propriedades e texturas, sem uma reescrita de shader por material. Manter TSL próprio apenas onde há comportamento específico, como o transporte RGBM da base; `ShaderMaterial`, `RawShaderMaterial` e `onBeforeCompile` personalizados exigem portabilidade explícita. `MeshPhysicalMaterial` também está mapeado no runtime 0.186.1 fixado. Conferir extensões/texturas de cada asset antes de incorporá-lo à cena.
+
 ```mermaid
 flowchart LR
   B[Base publicada preservada] --> R[Reprodução e medição]

@@ -3,11 +3,13 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,createRGBMTexture} from './material-rgbm.js';
 
 const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION};
+const mark=name=>{(state.timings??={})[name]=performance.now();};mark('module');
 const parameters=new URLSearchParams(location.search);
 const requested=parameters.get('backend')||'auto';
 document.body.classList.toggle('embedded',parameters.get('embed')==='1');
 const stage=document.querySelector('#stage'),canvas=document.querySelector('#c'),status=document.querySelector('#status');
 const base=new URL('./assets-prova/',import.meta.url);
+const requests=new AbortController();
 const typedArrays={Float32Array,Float64Array,Uint32Array,Uint16Array,Uint8Array,Int32Array,Int16Array,Int8Array};
 
 async function sha(bytes) {
@@ -15,7 +17,9 @@ async function sha(bytes) {
 }
 
 async function loadBytes(name,record) {
-  const response=await fetch(new URL(name,base));
+  if(!record||!Number.isInteger(record.bytes)||!/^[a-f0-9]{64}$/.test(record.sha256))throw Error(`Identidade do recurso ${name} ausente no manifesto.`);
+  const url=new URL(name,base);url.searchParams.set('v',record.sha256);
+  const response=await fetch(url,{signal:requests.signal});
   if(!response.ok) throw Error(`Recurso ${name}: HTTP ${response.status}.`);
   const bytes=new Uint8Array(await response.arrayBuffer());
   if(record && (bytes.length!==record.bytes || await sha(bytes)!==record.sha256)) throw Error(`Identidade do recurso ${name} inválida.`);
@@ -58,17 +62,6 @@ function environmentTexture() {
 
 async function start() {
   if(!['auto','webgpu','webgl'].includes(requested)) throw Error('Backend de diagnóstico inválido.');
-  const response=await fetch(new URL('manifest.json',base));
-  if(!response.ok) throw Error('Manifesto da prova indisponível.');
-  const manifest=await response.json();
-  if(manifest.schema!=='liv-proof-manifest-v1') throw Error('Manifesto desconhecido.');
-  const encoded=await unzip(await loadBytes('scene.json.gz',manifest.files['scene.json.gz']));
-  if(await sha(encoded)!==manifest.sceneJSONSHA256) throw Error('Cena descomprimida não corresponde ao manifesto.');
-  const data=JSON.parse(new TextDecoder().decode(encoded));
-  if(data.schema!=='liv-exterior-proof-v1' || data.sourceModelSHA256!==manifest.sourceModelSHA256 || data.rgbm.sourceSHA256!==manifest.sourceModelSHA256) throw Error('A geometria e o atlas não pertencem à mesma edição.');
-  const atlasBytes=await unzip(await loadBytes(data.rgbm.textureURL,manifest.files[data.rgbm.textureURL]));
-  if(await sha(atlasBytes)!==data.rgbm.textureSHA256) throw Error('Atlas RGBM corrompido.');
-  const atlas=createRGBMTexture(atlasBytes,data.rgbm);
   let adapter=null;
   if(requested!=='webgl' && navigator.gpu) {
     try {adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});} catch(error) {state.adapterError=String(error);}
@@ -85,6 +78,7 @@ async function start() {
     renderer=new THREE.WebGPURenderer({...options,forceWebGL:true});
     await renderer.init();
   }
+  mark('backendReady');
   state.backend=renderer.backend.isWebGPUBackend?'webgpu':'webgl';
   if(requested==='webgpu' && state.backend!=='webgpu') throw Error('O renderer não ativou o backend WebGPU exigido.');
   const onDeviceLost=renderer.onDeviceLost.bind(renderer);
@@ -98,6 +92,25 @@ async function start() {
     state.backendError={api:info.api,type:info.type,message:info.message};
     fail(Error('O renderizador encontrou uma falha gráfica. Tente novamente ou abra a planta 2D.'));
   };
+  state.renderer=renderer;
+  state.dispose=()=>{
+    if(state.disposed)return;
+    state.ready=false;state.disposed=true;requests.abort();return renderer.dispose();
+  };
+  const response=await fetch(new URL('manifest.json',base),{cache:'no-cache',signal:requests.signal});
+  if(!response.ok) throw Error('Manifesto da prova indisponível.');
+  const manifest=await response.json();
+  if(manifest.schema!=='liv-proof-manifest-v1') throw Error('Manifesto desconhecido.');
+  const encoded=await unzip(await loadBytes('scene.json.gz',manifest.files['scene.json.gz']));
+  if(await sha(encoded)!==manifest.sceneJSONSHA256) throw Error('Cena descomprimida não corresponde ao manifesto.');
+  mark('sceneDecoded');
+  const data=JSON.parse(new TextDecoder().decode(encoded));mark('sceneParsed');
+  if(data.schema!=='liv-exterior-proof-v1' || data.sourceModelSHA256!==manifest.sourceModelSHA256 || data.rgbm.sourceSHA256!==manifest.sourceModelSHA256) throw Error('A geometria e o atlas não pertencem à mesma edição.');
+  const atlasBytes=await unzip(await loadBytes(data.rgbm.textureURL,manifest.files[data.rgbm.textureURL]));
+  if(await sha(atlasBytes)!==data.rgbm.textureSHA256) throw Error('Atlas RGBM corrompido.');
+  mark('atlasReady');
+  if(state.disposed)return;
+  const atlas=createRGBMTexture(atlasBytes,data.rgbm);
   renderer.setClearAlpha(0);
   renderer.setPixelRatio(1);
   renderer.outputColorSpace=THREE.SRGBColorSpace;
@@ -120,6 +133,7 @@ async function start() {
     texture.repeat.fromArray(spec.repeat);texture.offset.fromArray(spec.offset);texture.center.fromArray(spec.center);
     texture.needsUpdate=true;return texture;
   }));
+  if(state.disposed){for(const texture of textures){texture.dispose();texture.image?.close?.();}atlas.dispose();environment.dispose();return;}
   const materials=data.materials.map(spec=>{
     const props={};
     for(const [key,value] of Object.entries(spec)) {
@@ -307,7 +321,7 @@ async function start() {
     },
     dispose(){
       if(state.disposed)return;
-      state.ready=false;state.disposed=true;renderer.setAnimationLoop(null);resizeObserver.disconnect();controls.dispose();
+      state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);resizeObserver.disconnect();controls.dispose();
       for(const geometry of geometries) geometry.dispose();
       for(const material of materials) material.dispose();
       for(const texture of textures) {texture.dispose();texture.image?.close?.();}
@@ -315,10 +329,13 @@ async function start() {
       return renderer.dispose();
     }});
   renderer.setAnimationLoop(()=>{controls.update();orientCamera();renderer.render(scene,camera);});
-  await renderer.compileAsync(scene,camera);
+  mark('sceneBuilt');
+  await renderer.compileAsync(scene,camera);mark('compiled');
+  if(state.disposed)return;
   renderer.render(scene,camera);
   await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-  state.ready=true;state.activeView='perspectiva';
+  if(state.disposed)return;
+  mark('ready');state.ready=true;state.activeView='perspectiva';
   status.textContent=`Prova carregada — ${state.backend==='webgpu'?'WebGPU':'WebGL2'}, Three.js r${THREE.REVISION}, ${meshes.length} malhas. A paridade visual está em verificação.`;
   for(const button of document.querySelectorAll('button')) button.disabled=false;
   for(const button of document.querySelectorAll('[data-view]')) button.addEventListener('click',()=>setView(button.dataset.view));

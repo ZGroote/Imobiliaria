@@ -1,14 +1,27 @@
 import * as THREE from 'three/webgpu';
 import {texture, uv, float, vec3, diffuseContribution} from 'three/tsl';
 
+// Equal RGBM expressions must share node identity: NodeMaterial includes its
+// child nodes in the program cache key. Keep distinct atlases/parameters apart.
+const irradianceByAtlas=new WeakMap();
+function irradianceNode(atlas,range,intensity) {
+  let entries=irradianceByAtlas.get(atlas);
+  if(!entries){entries=new Map();irradianceByAtlas.set(atlas,entries);}
+  const key=`${range}:${intensity}`;
+  if(!entries.has(key)) {
+    const sample=texture(atlas,uv(1));
+    entries.set(key,sample.rgb.mul(sample.a).mul(float(range)).mul(float(intensity)));
+  }
+  return entries.get(key);
+}
+
 /** Diffuse-only RGBM transport matching the frozen r168 shader; specular remains lit. */
 export class LivRGBMNodeMaterial extends THREE.MeshStandardNodeMaterial {
   constructor(parameters, atlas, range, intensity) {
     super(parameters);
     this.isLivRGBMNodeMaterial = true;
     // Keep lightMap null: the normal lightMap path would add a second diffuse term.
-    const sample = texture(atlas, uv(1));
-    this.livIrradiance = sample.rgb.mul(sample.a).mul(float(range)).mul(float(intensity));
+    this.livIrradiance = irradianceNode(atlas,range,intensity);
   }
 
   setupLightingModel(builder) {

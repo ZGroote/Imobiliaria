@@ -62,6 +62,7 @@ Convenção de caminhos abaixo: `EXP` = novo diretório `experimentos/liv-ipanem
   - Aceite: menos bytes iniciais e abertura melhor que a base nas condições de T02; não antecipar mapa/interiores/luzes não usados; erros de download permitem nova tentativa; recursos não se misturam entre versões.
   - Verificar: rede fria/cache, bloqueio de um asset, retorno entre modos e pico de memória. Comparar o GLB existente à cena embutida antes de escolher qual representação otimizar.
   - Parcial: cena/atlas/texturas exteriores separados e verificados; mapa/interiores não são antecipados; Planta 2D abre da imagem sem renderer. O GLB regional não foi escolhido porque diverge da cena efetiva da base. Medição comparável e orçamento físico ainda precisam fechar o aceite.
+  - Medido: `evidencias/medicao-final/medicao.json` tem três rodadas sequenciais desktop por backend/cache. Conteúdo inicial 23.993.373 bytes, redução de 37,5%. Abertura fria mediana: base 1.508 ms, WebGL2 1.882 ms, WebGPU 2.797 ms. O critério de tempo permanece reprovado; não marcar T05 concluída ou alegar ganho de FPS. Nós RGBM equivalentes compartilhados reduziram a compilação; tentativas de paralelismo/ordem do loop sem ganho foram revertidas e registradas em `PERF.md`.
 
 - [ ] **T06 — Corrigir volumes, fachadas e implantação pelas referências.**
   - Dependências: T02, T04.
@@ -73,6 +74,7 @@ Convenção de caminhos abaixo: `EXP` = novo diretório `experimentos/liv-ipanem
 - [ ] **T07 — Refinar materiais, paisagismo, câmeras e dois estados de luz.**
   - Dependências: T05, T06.
   - Responsabilidade: acabamento PBR, vegetação próxima, vidros/varandas, enquadramentos e estados coerentes de dia e entardecer.
+  - Diretriz do usuário: priorizar materiais PBR padrão, incluindo MeshStandard/MeshPhysical e GLTF, com conversão automática do renderer. Configurar novos acabamentos/texturas; reservar TSL próprio ao comportamento específico RGBM e outros efeitos que realmente o exijam.
   - Escopo provável: `EXP/materials.js`, `EXP/lighting.js`, `EXP/cameras.js`, assets/bakes por estado, evidências visuais.
   - Aceite: leitura clara do empreendimento, sem cintilação/artefatos relevantes; estados carregados sob demanda; orçamento fechado em T02 respeitado nos dois backends.
   - Verificar: vistas fixas vs. render oficial, órbita com vegetação/vidros e transição de estado; não apresentar mudança artística de luz como simulação solar por data/hora.

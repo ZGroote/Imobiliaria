@@ -1,5 +1,5 @@
 {
-  "recordedAtUtc": "2026-10-09T19:00:37.593304+00:00",
+  "recordedAtUtc": "2026-10-09T20:02:19.468154+00:00",
   "status": "PASS",
   "method": "Capturas PNG RGBA sem CSS, mesmo tamanho de canvas e vistas; sem redimensionar imagens.",
   "limits": "Métrica descritiva, não nota automática de fidelidade. PBR/sombras/specular mudaram de r168 para r186.",
@@ -51,8 +51,8 @@
         390
       ],
       "foregroundPixels": 66474,
-      "foregroundRgbMAE255": 5.14319372177124,
-      "sharedOpaqueRgbMAE255": 5.14319372177124,
+      "foregroundRgbMAE255": 5.1432037353515625,
+      "sharedOpaqueRgbMAE255": 5.1432037353515625,
       "alphaMAE255": 0.0,
       "foregroundRgbP95Delta255": 27.0
     },
