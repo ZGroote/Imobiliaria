@@ -1,0 +1,15 @@
+{
+  "schema": "liv-plantas-comerciais-v1",
+  "files": {
+    "canto.jpg": {
+      "bytes": 63548,
+      "sha256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971",
+      "sourceLocal": "v1.5/miniaturas/liv-ipanema/referencias/planta-47-59.jpg",
+      "sourceEvidence": "referencias.json: planta-canto; book oficial p.14",
+      "edited": false,
+      "publishedAreaM2": 47.59,
+      "typology": "canto",
+      "finalAssociation": null
+    }
+  }
+}

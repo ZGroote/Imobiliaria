@@ -1,0 +1,63 @@
+{
+  "recordedAtUtc": "2026-10-09T19:35:30.246058+00:00",
+  "status": "PASS",
+  "cases": [
+    {
+      "name": "sem-webgpu",
+      "errors": [],
+      "backend": "webgl",
+      "status": "PASS"
+    },
+    {
+      "name": "inicializacao-webgpu",
+      "errors": [],
+      "backend": "webgl",
+      "status": "PASS"
+    },
+    {
+      "name": "webgpu-obrigatorio-ausente",
+      "errors": [],
+      "handledError": "Error: Error: WebGPU não está disponível neste navegador/dispositivo.",
+      "status": "PASS"
+    },
+    {
+      "name": "atlas-http",
+      "errors": [],
+      "handledError": "Error: Error: Recurso irradiance.rgbm.gz: HTTP 503.",
+      "status": "PASS"
+    },
+    {
+      "name": "atlas-corrompido",
+      "errors": [],
+      "handledError": "Error: Error: Identidade do recurso irradiance.rgbm.gz inválida.",
+      "status": "PASS"
+    },
+    {
+      "name": "contexto-webgl",
+      "errors": [],
+      "backend": "webgl",
+      "injection": "WEBGL_lose_context real",
+      "status": "PASS"
+    },
+    {
+      "name": "contexto-webgpu-simulado",
+      "errors": [],
+      "backend": "webgpu",
+      "injection": "callback simulado; não perda física do dispositivo",
+      "status": "PASS"
+    },
+    {
+      "name": "planta-http",
+      "errors": [],
+      "backend": "webgl",
+      "status": "PASS"
+    },
+    {
+      "name": "troca-rapida",
+      "errors": [],
+      "backend": "webgl",
+      "status": "PASS"
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

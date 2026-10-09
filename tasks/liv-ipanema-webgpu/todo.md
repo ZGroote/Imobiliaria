@@ -1,0 +1,182 @@
+# Execução — LIV Ipanema visual e WebGPU
+
+Referência: [plano](plan.md), [baseline](baseline.json) e [dossiê](../../relatorios/liv-referencias-publicas-2026-10-09/README.md). Data: 09/10/2026.
+
+A execução foi autorizada pelo usuário e começou em 09/10/2026, na branch `codex/liv-ipanema-webgpu`. T00/T01 e a validação técnica de T03/T04 foram concluídas. T02 está parcial: referências, reconciliação e medições desktop/emuladas registradas; ensaio físico e orçamento definitivo continuam pendentes. T05 tem a separação inicial dos recursos e Planta 2D direta. Nenhuma publicação da evolução foi realizada.
+
+Convenção de caminhos abaixo: `EXP` = novo diretório `experimentos/liv-ipanema-webgpu-2026-10-09/`; `LIV` = `v1.5/miniaturas/liv-ipanema/`; `MAPA` = `experimentos/mapa-liv-ipanema-5km-2026-10-08/`. Arquivos novos são propostas de organização, a confirmar na reprodução. Não alterar o experimento histórico para hospedar a evolução.
+
+## LIV-M0 — preservar, reproduzir e medir
+
+- [x] **T00 — Preservar a versão escolhida.**
+  - Dependências: nenhuma.
+  - Responsabilidade: copiar o pacote completo e conferir sua identidade; registrar o endereço público e a expiração.
+  - Artefatos: `backups/liv-webgpu-2026-10-09/site-v3/`, `backups/liv-webgpu-2026-10-09/inventario.json`, `baseline.json`.
+  - Verificação realizada: HTML público baixado e comparado; 126 arquivos da cópia comparados por hash com a origem local; 58.313.188 bytes preservados. Teste novo de navegador e medição física ainda não realizados.
+  - Continuidade: manter essa cópia preservada; copiar para o armazenamento de artefatos do projeto na execução.
+
+- [x] **T01 — Corrigir e demonstrar a reprodução isolada.**
+  - Dependências: T00.
+  - Responsabilidade: separar hash de fonte e publicação minificada, fixar entradas/versões e gerar em destino novo, conservando verificações.
+  - Escopo provável: `MAPA/preparar_site.py`, teste específico de reprodução em `EXP/`, `EXP/preparar_pacote.py`, `EXP/manifesto.json`, `EXP/README.md`.
+  - Aceite: preparação aceita a origem correta, rejeita origem alterada e gera os quatro modos, links e recursos esperados. Registrar diferenças da reprodução sem sobrescrever `site-v3/` ou seus relatórios.
+  - Verificar: teste positivo/negativo de identidade; manifesto/hashes; `qa_miniatura.py` e `qa_mapa.py` apontados ao novo destino.
+  - Executado: commit `fa4730d`; dez testes passaram, incluindo falha intermediária/recuperação. Montagem e repetição conferem 125 arquivos idênticos; QAs em `EXP/evidencias/reproducao-miniatura/` e `reproducao-mapa/` passaram.
+
+- [ ] **T02 — Capturar baseline, registrar evidências e fechar orçamento.**
+  - Dependências: T00; executar em paralelo à T01 quando possível.
+  - Responsabilidade: capturas em câmeras fixas, protocolo de rede/cache e desempenho, matriz de referência, reconciliação de pavimentos e finais.
+  - Escopo provável: `EXP/medir_baseline.py`, `EXP/evidencias/baseline/`, `EXP/referencias.json`, `EXP/orcamento.json`, `EXP/README.md`.
+  - Aceite: três rodadas comparáveis no desktop e ao menos um celular físico; equipamento/backend declarados; relação entre térreo + 16 tipos e a geometria atual documentada; metas fixadas antes dos efeitos.
+  - Verificar: transferência real, primeira cena utilizável, quadros p50/p95 e memória disponível; capturas frontal, lateral e aérea/implantação associadas às fontes oficiais.
+  - Parcial: `referencias.json`, `reconciliacao-unidades.md`, capturas e três rodadas por viewport/cache em `evidencias/medicao-baseline/`. Medição inicial concorrente com QAs, rede local e toque emulado: diagnóstico preliminar. `orcamento.json` é provisório e foi fixado antes de novos efeitos. Comparação visual oficial e Android/iPhone físicos pendentes.
+
+**Checkpoint C0:** T01 + T02. Baseline recuperável, pipeline reproduzível e métricas registradas. Estimar o calendário após esse checkpoint e a prova T03.
+
+## LIV-M1 — provar e integrar o renderer
+
+- [x] **T03 — Provar RGBM em TSL nos dois backends.**
+  - Dependências: T01, T02.
+  - Responsabilidade: portar um material representativo com as mesmas geometria/UV/textura e uma versão fixa do Three.js.
+  - Escopo provável: `EXP/renderer.js`, `EXP/material-rgbm.js`, `EXP/prova-rgbm.html`, manifesto de runtime/recursos, evidências da prova.
+  - Aceite: decodificação, espaço de cor, UV e intensidade preservados; sem dupla iluminação; capturas comparáveis em WebGPU e WebGL2; falha de inicialização recuperável.
+  - Verificar: comparação com `LIV/liv-lightmap.js` em vistas idênticas, backend efetivo registrado e erros de recurso/inicialização exercitados.
+  - Executado: commit `df128bf`, Three.js 0.186.1 fixado. Exterior efetivo de 56 malhas/41 baked exportado com geometria/UV/atlas verificados. WebGPU NVIDIA/Turing e WebGL2 ANGLE/D3D11 passaram em 1440×900 e 390×844 emulado. Dez capturas comparáveis documentam diferenças de PBR/sombra/AA; continuidade visual, sem identidade de pixels. Nove cenários de recuperação passaram em `evidencias/recuperacao/`.
+
+- [x] **T04 — Migrar o exterior atual e preservar controles/captura.**
+  - Dependências: T03.
+  - Responsabilidade: integrar materiais necessários, orbit/câmeras, destaque de pavimento, troca de modos e PNG; manter interiores legados sob demanda nesta fase.
+  - Escopo provável: `EXP/renderer.js`, `EXP/exterior.js`, `EXP/viewer.js`, `EXP/captura.js`, `EXP/qa_viewer.py`.
+  - Aceite: cinco vistas, câmera livre, destaque/reset, PNG e ida/volta dos quatro modos funcionam. Renderer/cena inativos são liberados; implantação permanece completa.
+  - Verificar: QA funcional e capturas comparáveis nos dois backends; vinte ciclos de troca de modo para investigar crescimento de memória; PNG efetivamente baixado e decodificado.
+  - Executado: `maquete-liv-ipanema.html`, `viewer.js` e adaptador de retorno do mapa. Quatro modos, cinco vistas, destaque/reset, mouse/toque e PNG passaram; interiores legados continuam sob demanda e ilustrativos. Vinte ciclos desktop e vinte com toque emulado mantiveram um iframe ativo e contagens estáveis de documentos/nós; heap via CDP não comprova toda a memória GPU. `qa_navegacao.py` passou em 320/768/1440 px, incluindo ida/volta do mapa, recuperação de câmera/pavimento no voltar e decodificação dos PNGs. Evidências em `integracao-final/`, `integracao-20-ciclos/`, `integracao-20-ciclos-toque/` e `navegacao/`.
+
+**Checkpoint C1 técnico atingido:** T03 + T04 no equipamento declarado e emulação de toque. Diferenças visuais documentadas antes de refinamento artístico. Qualificação física T02/T12 permanece pendente; este resultado não é o piloto de seleção C3.
+
+## LIV-M2 — reduzir carga e refinar a cena
+
+- [ ] **T05 — Separar assets e tornar o carregamento progressivo.**
+  - Dependências: T04.
+  - Responsabilidade: pacotes por modo/luz, manifesto/hash, cache coerente, instancing/LOD e texturas conforme medição.
+  - Escopo provável: `EXP/assets/`, `EXP/loader.js`, `EXP/preparar_pacote.py`, `EXP/manifesto.json`, medição de rede em `EXP/`.
+  - Aceite: menos bytes iniciais e abertura melhor que a base nas condições de T02; não antecipar mapa/interiores/luzes não usados; erros de download permitem nova tentativa; recursos não se misturam entre versões.
+  - Verificar: rede fria/cache, bloqueio de um asset, retorno entre modos e pico de memória. Comparar o GLB existente à cena embutida antes de escolher qual representação otimizar.
+  - Parcial: cena/atlas/texturas exteriores separados e verificados; mapa/interiores não são antecipados; Planta 2D abre da imagem sem renderer. O GLB regional não foi escolhido porque diverge da cena efetiva da base. Medição comparável e orçamento físico ainda precisam fechar o aceite.
+
+- [ ] **T06 — Corrigir volumes, fachadas e implantação pelas referências.**
+  - Dependências: T02, T04.
+  - Responsabilidade: silhueta, base/térreo, vãos, varandas, guarda-corpos, portaria e lazer; manter escala/posição do mapa enquanto não houver correção comprovada.
+  - Escopo provável: fontes geométricas próprias em `EXP/modelo/`, gerador/exportador do LIV, `EXP/referencias.json`, bake/UV correspondente, capturas de comparação.
+  - Aceite: três ângulos comparáveis às fontes, volumes principais conferidos e medidas inferidas identificadas; alterações de geometria usam iluminação da própria versão.
+  - Verificar: matriz de evidências; contagem/uso de pavimentos; reimportação do GLB no mapa existente; escala, orientação, contato com terreno e portaria.
+
+- [ ] **T07 — Refinar materiais, paisagismo, câmeras e dois estados de luz.**
+  - Dependências: T05, T06.
+  - Responsabilidade: acabamento PBR, vegetação próxima, vidros/varandas, enquadramentos e estados coerentes de dia e entardecer.
+  - Escopo provável: `EXP/materials.js`, `EXP/lighting.js`, `EXP/cameras.js`, assets/bakes por estado, evidências visuais.
+  - Aceite: leitura clara do empreendimento, sem cintilação/artefatos relevantes; estados carregados sob demanda; orçamento fechado em T02 respeitado nos dois backends.
+  - Verificar: vistas fixas vs. render oficial, órbita com vegetação/vidros e transição de estado; não apresentar mudança artística de luz como simulação solar por data/hora.
+
+**Checkpoint C2:** T05–T07. Exterior refinado, comparação documentada e custo medido; resolver regressões de carregamento/órbita antes de ampliar o catálogo.
+
+## LIV-M3 — um pavimento selecionável
+
+- [ ] **T08 — Cadastrar pavimento/finais e volumes de seleção.**
+  - Dependências: T02, T06.
+  - Responsabilidade: ID técnico estável, posição, tipologia/vínculo, planta 2D oficial correspondente, confiança e volumes de seleção independentes da malha decorativa.
+  - Escopo provável: `EXP/unidades.json`, `EXP/plantas2d/`, `EXP/picking.js`, `EXP/referencias.json`, teste de integridade do cadastro.
+  - Aceite: dez finais do pavimento piloto confrontados com a implantação; seleção corresponde à face correta e planta 2D; ambiguidades registradas; nenhuma numeração comercial presumida.
+  - Verificar: tabela final → posição → tipologia/planta 2D com fonte; raios de seleção em vistas frontal/lateral e toque; IDs únicos.
+
+- [ ] **T09 — Integrar realce, ficha e planta no piloto.**
+  - Dependências: T07, T08.
+  - Responsabilidade: seleção pela fachada/lista, destaque, ficha física e acesso à planta 2D; disponibilidade desconhecida explícita; Planta 3D/Tour gerais identificados como interior ilustrativo até T10.
+  - Escopo provável: `EXP/unit-ui.js`, `EXP/viewer.js`, `EXP/unit-ui.css`, `EXP/index.html`, QA de seleção.
+  - Aceite: mouse/toque/teclado selecionam o mesmo final; ficha/planta 2D conferidas; seleção pode ser limpa e não interfere na órbita; controles cabem no celular. O interior legado de canto não é apresentado como interior conferido de um final de meio.
+  - Verificar: selecionar os dez finais, conferir a planta 2D, trocar modo/andar/luz, retornar à maquete e usar teclado; indicação de interior ilustrativo preservada nos modos gerais. Executar T12 no perfil piloto antes de disponibilizar o primeiro preview.
+
+**Checkpoint C3:** T08 + T09. Piloto de seleção funcional. A demonstração qualificada pode seguir por T12 → T13 enquanto a expansão de interiores/catálogo continua.
+
+## LIV-M4 — tipologias e apresentação completa
+
+- [ ] **T10 — Conferir canto/meio e migrar os modos interiores.**
+  - Dependências: T03, T09; fonte pública de plantas já disponível.
+  - Responsabilidade: duas bases de planta, versões espelhadas demonstradas, interior RGBM/TSL, Planta 2D/3D e Tour com limites de circulação preservados.
+  - Escopo provável: `EXP/tipologias/`, `EXP/interior.js`, `EXP/interior-lightmap.js`, `EXP/visita.js`, QA de tipologias/modos.
+  - Aceite: a seleção abre a tipologia correta; móveis/aberturas/circulação coerentes; dimensões inferidas identificadas; bakes associados à geometria correta nos dois backends.
+  - Verificar: plantas comerciais lado a lado com modelo; giro/visita em canto e meio; troca de tipologia; encerramento do renderer legado quando todos os modos estiverem migrados. Mudanças em móveis preservam a regra existente de invalidar/rebaixar bake incompatível.
+
+- [ ] **T11 — Expandir catálogo reconciliado e espelho de unidades.**
+  - Dependências: T08, T10.
+  - Responsabilidade: pisos/finais/tipologias, térreo/gardens e exceções explícitas; espelho com filtros e ficha sincronizados.
+  - Escopo provável: `EXP/unidades.json`, `EXP/unit-schema.js`, `EXP/espelho.js`, `EXP/unit-ui.js`, testes de integridade/sincronização.
+  - Aceite: reconciliar as 170 unidades declaradas com o modelo e fontes sem inventar numeração/vaga; cada linha do espelho aponta para o mesmo volume/ficha/planta; ausência comercial preservada.
+  - Verificar: IDs únicos, finais por pavimento, vínculos pendentes explícitos, seleção fachada ↔ espelho, filtros e acessibilidade.
+
+- [ ] **T12 — Qualificar produto, fallback e desempenho em aparelhos reais.**
+  - Dependências: T09 para perfil `piloto`; T10 e T11 adicionais para perfil `completo`.
+  - Responsabilidade: matriz desktop/Android/iPhone/navegadores internos, rede/cache, falhas, retorno mapa e quatro modos, orçamento e evidências por backend.
+  - Escopo provável: `EXP/qa_viewer.py`, QA de mapa em destino próprio, `EXP/medir_runtime.py`, `EXP/evidencias/`, relatório de qualificação.
+  - Aceite: regressões obrigatórias do plano aplicáveis ao perfil aprovadas; no piloto, conferir cadastro/realce/ficha/planta 2D e indicação do interior geral ilustrativo; no completo, acrescentar catálogo expandido, tipologia 3D e espelho sincronizados. Backend efetivo registrado; zero falhas não tratadas; metas T02 atendidas ou limitação/resolução documentada antes da entrega.
+  - Verificar: mínimo de três rodadas nas condições registradas, teste físico Android+iPhone, captura PNG e repetição de modos. QA emulado complementa a prova física.
+  - Execução: realizar o perfil piloto para a primeira demonstração; repetir no perfil completo após T10/T11. Resultados de outros empreendimentos não contam como homologação do LIV.
+
+**Checkpoint C4:** T10–T12 no perfil completo. Apresentação completa qualificada, mesmo com dados comerciais ausentes.
+
+## Pacote de entrega e dados comerciais
+
+- [ ] **T13 — Preparar entrega, comparação e recuperação.**
+  - Dependências: T12 aprovado no perfil a entregar.
+  - Responsabilidade: pacote com manifesto, relatório, diferenças, métricas, pendências, preview separado e procedimento de retorno.
+  - Escopo provável: `EXP/preparar_pacote.py`, `EXP/manifesto.json`, `EXP/ENTREGA.md`, configuração específica do preview, verificação HTTP com destino próprio.
+  - Aceite: pacote local revisável completo; URLs relativas corretas; hashes e assets conferidos; identificação de perfil piloto/completo e expiração explícita. Publicar quando a execução/publicação desse preview for solicitada.
+  - Verificar: servir o pacote local, QA funcional/HTTP e recuperação da base preservada. Após publicação autorizada, conferir novamente o endereço público e registrar identidade/expiração.
+
+- [ ] **T14 — Integrar tabela comercial oficial/autorizada.**
+  - Dependências: T11; fonte comercial e regras de atualização fornecidas para uso no produto.
+  - Responsabilidade: importação inicial validada, vínculo por ID/numeração, disponibilidade, preço/condições, origem e data; resolver associações ambíguas antes de ativar.
+  - Escopo provável: `EXP/importar_comercial.py`, schema comercial, dados comerciais separados, `EXP/espelho.js`, testes de importação/sincronização.
+  - Aceite: duplicatas/IDs inexistentes rejeitados, campos ausentes tratados, estado e preço idênticos na ficha/espelho/fachada; números atualizados somente pela fonte escolhida.
+  - Verificar: amostra conferida com tabela, rejeição de arquivo inválido, versão anterior recuperável e teste de atualização. Preços de anúncios avulsos não substituem a tabela.
+  - Estado: condicional; não bloqueia o preview visual ou o espelho com disponibilidade não informada.
+
+## Extensões condicionais
+
+- [ ] **T15 — Migrar integralmente o mapa regional para o renderer novo.**
+  - Dependências: T12 no perfil completo; decisão de ampliar o escopo.
+  - Responsabilidade: shaders de terreno/ruas/fachadas/vegetação/limite circular e integração de maquete preservando dados e recorte.
+  - Escopo provável: renderer/materials de mapa em `EXP/`, integração GLB, manifesto regional, QA de mapa, evidências de comparação.
+  - Aceite: mesmos 5 km, relevo/posicionamento/busca e carregamento regional; melhora ou custo justificado nos dois backends; nenhuma cidade completa transferida ao visitante.
+  - Verificar: testes espaciais existentes e QA mapa, frio/cache e alternância mapa/maquete em aparelhos físicos.
+
+- [ ] **T16 — Implementar simulação solar por data/hora.**
+  - Dependências: T06, T07, T12 no perfil completo; norte, coordenadas e implantação validados; decisão de ampliar o escopo.
+  - Responsabilidade: separar sol direto/sombras móveis das contribuições fixas e expor data/hora com limites declarados.
+  - Escopo provável: `EXP/solar.js`, `EXP/lighting.js`, cadastro de orientação, controle de data/hora, testes/capturas de referência.
+  - Aceite: direção/sombra coerentes em datas/horas verificadas; ausência de sombra solar fixa conflitante; qualidade e desempenho dentro do orçamento.
+  - Verificar: posições solares por fonte técnica, cenas manhã/meio-dia/tarde e comparação de backends. Só usar o rótulo de simulação depois dessa comprovação.
+
+## Comandos existentes a adaptar na execução
+
+Estes comandos não foram executados neste planejamento. Usar URLs/destinos novos e conferir onde cada script grava relatórios antes de rodá-lo.
+
+```powershell
+python -m http.server 8788 --bind 127.0.0.1 --directory backups/liv-webgpu-2026-10-09/site-v3
+python experimentos/mapa-liv-ipanema-5km-2026-10-08/qa_miniatura.py --base-url http://127.0.0.1:8788 --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/baseline-miniatura
+python experimentos/mapa-liv-ipanema-5km-2026-10-08/qa_mapa.py --base-url http://127.0.0.1:8788 --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/baseline-mapa
+```
+
+Servidor e QAs rodam em terminais separados. T01 deve criar o comando equivalente para o pacote de evolução.
+
+Quando a evolução tocar geração/recorte do mapa, reutilizar também:
+
+```powershell
+python -m unittest discover -s experimentos/mapa-liv-ipanema-5km-2026-10-08 -p test_recorte_regional.py
+python -m unittest discover -s experimentos/mapa-liv-ipanema-5km-2026-10-08 -p test_tiles_circulares.py
+node experimentos/mapa-liv-ipanema-5km-2026-10-08/test_raster_esparso.mjs
+node experimentos/mapa-liv-ipanema-5km-2026-10-08/test_liv_terreno.mjs
+node experimentos/mapa-liv-ipanema-5km-2026-10-08/test_chao_circular.mjs
+node experimentos/mapa-liv-ipanema-5km-2026-10-08/test_busca_proximos.mjs
+```
+
+`qa_viewer.py` canônico precisa de adaptação para a interface desta base; `verificar_http.py` precisa de saída própria. Não executar publicação, regeneração histórica ou comandos de QA que sobrescrevam evidências antigas como parte da elaboração deste plano.

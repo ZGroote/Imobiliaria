@@ -1,0 +1,48 @@
+{
+  "project": "LIV Ipanema — evolução visual e WebGPU",
+  "recordedOn": "2026-10-09",
+  "baselineVersion": "strict-circle-v3",
+  "baselineUrl": "https://imobilaria-deccb-miniaturas--liv-mapa-5km-20261008-onn3ia42.web.app/maquete-liv-ipanema.html",
+  "previewExpiresAtUtc": "2026-10-16T12:12:58.747063958Z",
+  "sourcePackage": "experimentos/mapa-liv-ipanema-5km-2026-10-08/site-v3",
+  "preservedPackage": "backups/liv-webgpu-2026-10-09/site-v3",
+  "preservationInventory": "backups/liv-webgpu-2026-10-09/inventario.json",
+  "preservationRecordedAtUtc": "2026-10-09T18:27:30.135072Z",
+  "preservedFileCount": 126,
+  "preservedTotalBytes": 58313188,
+  "verification": {
+    "liveHtmlDownloadedAndMatched": true,
+    "allPreservedFilesMatchedLocalSource": true,
+    "newBrowserFunctionalTestsRun": true,
+    "physicalDevicePerformanceMeasured": false,
+    "sourceCommitIdentified": false,
+    "existingPublicQa": "experimentos/mapa-liv-ipanema-5km-2026-10-08/validacao-publica.json",
+    "existingPublicHttpVerification": "experimentos/mapa-liv-ipanema-5km-2026-10-08/http-verificado.json",
+    "newQaReports": [
+      "experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/reproducao-miniatura/runtime.json",
+      "experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/reproducao-mapa/runtime.json"
+    ]
+  },
+  "artifacts": {
+    "maquete-liv-ipanema.html": {
+      "bytes": 38378801,
+      "sha256": "31ffb45398aed3ad49b289600823232e37f668086ebfea458b96ecd2e1b9d018"
+    },
+    "mapa-liv-ipanema-5km.html": {
+      "bytes": 8046477,
+      "sha256": "54dc2fa36732e8efce3c3a21d8370e7bcccbfbf4e075e106170615ed465747e9"
+    },
+    "liv-ipanema.glb": {
+      "bytes": 2989904,
+      "sha256": "f3bef61c2a844aae0062b1c15df7ebb942ed188c572ba455b8cddd86d57fadf1"
+    }
+  },
+  "referenceDossier": "relatorios/liv-referencias-publicas-2026-10-09/README.md",
+  "reproductionIssue": {
+    "script": "experimentos/mapa-liv-ipanema-5km-2026-10-08/preparar_site.py",
+    "description": "A verificação de origem compara o HTML fonte ao hash do HTML minificado de uma publicação anterior. Separar identidade da fonte e do artefato publicado antes de reproduzir a evolução.",
+    "canonicalSourceBytes": 53580328,
+    "canonicalSourceSha256": "60a6d359e8db365cb7e94f0ee8ef2ee1ddd2ef8c7c2598446a28bd7635e0dedb",
+    "previousMinifiedReleaseBytes": 52891777
+  }
+}

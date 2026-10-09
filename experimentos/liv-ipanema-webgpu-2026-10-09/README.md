@@ -47,4 +47,52 @@ O preparo usa somente a biblioteca padrão do Python. Os QAs existentes requerem
 
 Estes testes demonstram reprodução e funcionamento do visualizador WebGL atual. Não medem desempenho em aparelhos físicos, não comprovam WebGPU e não substituem a qualificação T02/T12. O teste de download da função “Fotografar” nos dois backends integra T04.
 
-Não foi feita publicação nem commit. A configuração produzida pelo preparador histórico fica no diretório temporário e é descartada; este fluxo não prepara configuração de deploy. O preview original expira em 16/10/2026 às 09:12:58 BRT, enquanto os pacotes locais preservados continuam disponíveis.
+Não foi feita publicação. A reprodução foi registrada no commit `fa4730d`, na branch `codex/liv-ipanema-webgpu`. A configuração produzida pelo preparador histórico fica no diretório temporário e é descartada; este fluxo não prepara configuração de deploy. O preview original expira em 16/10/2026 às 09:12:58 BRT, enquanto os pacotes locais preservados continuam disponíveis.
+
+## T03/T04 — exterior WebGPU e quatro modos
+
+A [maquete integrada](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html) mantém as cinco vistas, câmera livre, destaque de térreo/pavimentos tipo, captura PNG e acesso ao mapa preservado. O exterior usa Three.js **0.186.1**, fixado no lockfile deste diretório, com WebGPU automático e WebGL2 quando necessário. Os interiores 3D/Tour ainda usam a implementação legada de canto, aberta sob demanda. A Planta 2D usa diretamente a imagem comercial de canto; não requer renderer.
+
+`exportar_cena.py` extrai a cena exterior **efetivamente exibida pela base**, depois de validar o HTML local/HTTP e o bake. Transporta as 56 malhas, 41 com RGBM, geometria/UV/cores/matrizes e 15 grupos instanciados. Não substitui o exterior pelo GLB regional, que representa outro artefato. O atlas continua associado ao modelo `89f552ec…`, em RGBA linear, UV1, faixa RGBM 16, sem mipmaps ou conversão sRGB.
+
+`material-rgbm.js` traduz a contribuição difusa baked para TSL, sem somá-la novamente às luzes diretas/hemisféricas. O PBR especular, sombras e antialiasing de r186 diferem de r168. A comparação em canvas idêntico demonstra a continuidade visual; **não é igualdade de pixels nem aprovação do refinamento artístico**. As dez comparações têm erro absoluto médio RGB no primeiro plano de aproximadamente 3,5–8,8 numa escala de 255. Ver [comparacao.json](evidencias/comparacao-render/comparacao.json).
+
+Cada mudança entre exterior e interior encerra a cena anterior e remove seu iframe. Planta 3D e Tour reutilizam o mesmo interior quando alternados diretamente. Esse limite de uma cena ativa favorece memória; retornar ao exterior recompõe a cena, reutilizando recursos que o navegador tiver em cache. A câmera livre/preset e o pavimento destacado são preservados. Ainda não há migração dos interiores para TSL.
+
+O mapa usa um adaptador de navegação em `mapa-liv-ipanema-5km.html`: o renderer regional e seus dados preservados continuam os mesmos; “Abrir maquete” retorna ao visualizador novo. Câmera/pavimento/modo ficam na sessão desta aba para recuperar o estado também quando o navegador recria a página ao voltar. O layout e essa navegação passaram em 320/768/1440 px em `evidencias/navegacao/`.
+
+Para instalar o runtime e servir a evolução, na raiz:
+
+```powershell
+npm ci --ignore-scripts --prefix experimentos/liv-ipanema-webgpu-2026-10-09
+python -m http.server 8790 --bind 127.0.0.1 --directory .
+```
+
+Com o pacote T01 recuperado e o servidor aberto, regenerar os assets se necessário:
+
+```powershell
+python experimentos/liv-ipanema-webgpu-2026-10-09/exportar_cena.py
+```
+
+Abrir a maquete integrada acima. Para diagnóstico, acrescentar `?backend=webgpu` ou `?backend=webgl`; [prova isolada](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html) mostra o backend efetivo. A escolha automática não promete aumento de FPS.
+
+```powershell
+python experimentos/liv-ipanema-webgpu-2026-10-09/qa_webgpu.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/prova-webgpu-responsive
+python experimentos/liv-ipanema-webgpu-2026-10-09/qa_integracao.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/integracao-final
+python experimentos/liv-ipanema-webgpu-2026-10-09/qa_falhas.py
+python experimentos/liv-ipanema-webgpu-2026-10-09/qa_navegacao.py
+```
+
+Chrome 154.0.8037.98, Windows 11, GTX 1650: WebGPU efetivo NVIDIA/Turing e WebGL2 ANGLE/D3D11. Os testes verificam vistas/enquadramento, toque emulado, destaque/reset, retornos de modo e PNG. Nove cenários de recuperação exercitam ausência/inicialização de GPU, HTTP 503, bytes corrompidos, falha da planta, navegação rápida e perda de contexto WebGL real. A perda WebGPU foi exercitada pelo callback simulado, não por falha física da placa.
+
+Foram realizados vinte ciclos desktop e vinte com toque emulado. Nas cinco amostras após GC de cada teste, permaneceram três documentos e 337 nós, com um iframe ativo. O heap do host foi de 13.879.568 para 13.884.420 bytes no desktop e 13.845.292 para 13.827.704 bytes no toque emulado. Isso não é medição completa da memória GPU. Os downloads PNG foram decodificados e tiveram dimensões/conteúdo não vazio conferidos por Pillow.
+
+Os recursos binários grandes e screenshots são locais, ignorados pelo Git. `assets-prova/manifest.json` registra os hashes para recuperação/regeneração. A planta em `plantas2d/canto.jpg` é cópia sem edição de `LIV/referencias/planta-47-59.jpg`; a [matriz de fontes](referencias.json) e a [reconciliação](reconciliacao-unidades.md) documentam sua procedência e os vínculos por final ainda desconhecidos.
+
+## Limites e próximas etapas do plano
+
+T02 tem capturas e três rodadas preliminares por viewport/cache em [medicao.json](evidencias/medicao-baseline/medicao.json). A medição inicial ocorreu durante outros QAs e usa rede local; não serve como orçamento definitivo ou comprovação de ganho. Viewport de 390 px e toque emulado não são ensaio de celular físico.
+
+O exterior transporta a geometria da base; volumes, materiais e iluminação ainda precisam de refinamento com as referências. Catálogo/seleção por final, meio/gardens, dia/entardecer e qualificação Android/iPhone permanecem no plano. Tipologia por final, limites cotados, numeração comercial, vaga, preços e estoque não foram confirmados. A indicação de interior ilustrativo permanece explícita.
+
+Referências técnicas consultadas: [WebGPURenderer](https://threejs.org/manual/pages/webgpurenderer.html), [NodeMaterial](https://threejs.org/docs/pages/NodeMaterial.html) e [Renderer: recuperação de contexto](https://threejs.org/docs/pages/Renderer.html). O runtime instalado e fixado é a fonte de compatibilidade efetivamente testada.
