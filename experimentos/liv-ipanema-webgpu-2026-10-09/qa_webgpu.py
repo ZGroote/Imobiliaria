@@ -15,6 +15,7 @@ GPU_STATE = """()=>{
     if(o.isInstancedMesh)instances+=o.count;}});
   const info=b.device?.adapterInfo;
   return {backend:p.backend,revision:r.isWebGPURenderer?r.type:null,
+    stockMaterials:p.materials.filter(m=>!m.userData.livBakedTransport).map(m=>({type:m.type,nodeMaterial:!!m.isNodeMaterial})),
     gpu:info?{vendor:info.vendor,architecture:info.architecture,device:info.device,
       description:info.description,isFallbackAdapter:info.isFallbackAdapter}:null,
     webglRenderer:ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):null,
@@ -73,6 +74,9 @@ def main():
                     case['initial'] = page.evaluate(GPU_STATE)
                     assert case['initial']['backend'] == backend, case['initial']
                     assert case['initial']['meshes'] == 56 and case['initial']['baked'] == 41, case['initial']
+                    assert case['initial']['stockMaterials'] and all(
+                        m['type']=='MeshStandardMaterial' and not m['nodeMaterial']
+                        for m in case['initial']['stockMaterials']), case['initial']
                     canvas = page.locator('canvas').first
                     canvas.scroll_into_view_if_needed()
                     for view in ['perspectiva', 'fachada', 'aerea', 'portaria', 'implantacao']:

@@ -1,6 +1,6 @@
 # Plano de desenvolvimento — LIV Ipanema: apresentação visual, WebGPU e unidades
 
-Data: 09/10/2026. Estado: execução autorizada e iniciada. Reprodução isolada e integração técnica do exterior WebGPU/WebGL2 com os quatro modos concluídas no desktop e emulação de toque. A qualificação física e o piloto de unidades continuam pendentes. Execução em [todo.md](todo.md); identidade verificável em [baseline.json](baseline.json).
+Data: 09/10/2026. Estado: execução autorizada e iniciada. Reprodução isolada e integração técnica do exterior WebGPU/WebGL2 com os quatro modos concluídas no desktop e emulação de toque. Reaproveitamento de materiais padrão/GLTF validado em bancada separada; a aplicação dos acabamentos ao LIV permanece em T06/T07. A qualificação física, o critério de abertura e o piloto de unidades continuam pendentes. Execução em [todo.md](todo.md); identidade verificável em [baseline.json](baseline.json).
 
 ## Resultado pretendido
 

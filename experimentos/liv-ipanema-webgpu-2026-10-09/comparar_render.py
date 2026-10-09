@@ -1,5 +1,7 @@
 """Compara capturas RGBA originais, no mesmo canvas, sem editar as imagens."""
 import base64
+import argparse
+import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -33,11 +35,15 @@ def difference(reference, candidate):
 
 
 def main():
-    output = EXP / 'evidencias' / 'comparacao-render'
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--saida',type=Path,default=EXP/'evidencias'/'comparacao-render')
+    output = parser.parse_args().saida
     output.mkdir(parents=True, exist_ok=True)
     report = {'recordedAtUtc': datetime.now(timezone.utc).isoformat(), 'status': 'RUNNING',
               'method': 'Capturas PNG RGBA sem CSS, mesmo tamanho de canvas e vistas; sem redimensionar imagens.',
               'limits': 'Métrica descritiva, não nota automática de fidelidade. PBR/sombras/specular mudaram de r168 para r186.',
+              'sourceSHA256': {name:hashlib.sha256((EXP/name).read_bytes()).hexdigest()
+                              for name in ['renderer.js','material-rgbm.js']},
               'comparisons': []}
     try:
         with sync_playwright() as pw:

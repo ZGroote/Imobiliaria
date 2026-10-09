@@ -2,5 +2,6 @@
 /assets-prova/*
 !/assets-prova/manifest.json
 /evidencias/**/*.png
+/evidencias/materiais/pacote-local/
 /.liv-reproducao-*/
 /teste-reproducao-*/

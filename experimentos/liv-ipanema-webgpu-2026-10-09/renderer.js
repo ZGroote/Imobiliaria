@@ -143,8 +143,12 @@ async function start() {
     if(spec.color) props.color=new THREE.Color().fromArray(spec.color);
     if(spec.emissive) props.emissive=new THREE.Color().fromArray(spec.emissive);
     if(spec.normalScale) props.normalScale=new THREE.Vector2().fromArray(spec.normalScale);
-    const material=spec.baked?new LivRGBMNodeMaterial(props,atlas,data.rgbm.range,data.rgbm.lightMapIntensity):
-      spec.type==='MeshBasicMaterial'?new THREE.MeshBasicNodeMaterial(props):new THREE.MeshStandardNodeMaterial(props);
+    // Stock materials are converted by the renderer itself. Keep the custom
+    // NodeMaterial only for our source-locked RGBM transport.
+    const StockMaterial={MeshBasicMaterial:THREE.MeshBasicMaterial,
+      MeshStandardMaterial:THREE.MeshStandardMaterial,MeshPhysicalMaterial:THREE.MeshPhysicalMaterial}[spec.type];
+    if(!spec.baked&&!StockMaterial)throw Error(`Material não suportado: ${spec.type}.`);
+    const material=spec.baked?new LivRGBMNodeMaterial(props,atlas,data.rgbm.range,data.rgbm.lightMapIntensity):new StockMaterial(props);
     material.name=spec.name;
     material.userData.livBakedTransport=spec.baked;
     return material;

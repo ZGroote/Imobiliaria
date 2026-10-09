@@ -29,7 +29,25 @@ O custo foi dividido em entrada do módulo, backend, cena, atlas, construção e
 
 A comparação completa anterior, antes de compartilhar nós, está em [medicao-comparavel/medicao.json](evidencias/medicao-comparavel/medicao.json). As medianas frias eram 2.426 ms em WebGL2 e 3.006 ms em WebGPU; a base daquele ensaio era 1.451 ms. A medição final repetiu o protocolo e inclui a própria base, preservando a comparação entre rodadas.
 
-## Trabalho restante
+## Continuação: PBR padrão e primeiro quadro
+
+O exterior passou a manter os materiais não baked como `MeshStandardMaterial` padrão, convertidos pelo próprio renderer. A [nova medição sem antecipar upload](evidencias/medicao-pbr-antes-upload/medicao.json) repetiu três rodadas por variante/cache, sem outros QAs:
+
+| Variante | Abertura fria: rodadas | Mediana fria | Mediana reload |
+|---|---|---:|---:|
+| Base | 2.853 / 1.535 / 1.633 ms | 1.633 ms | 1.529 ms |
+| PBR padrão WebGL2 | 5.330 / 1.781 / 2.190 ms | 2.190 ms | 1.920 ms |
+| PBR padrão WebGPU | 3.212 / 2.975 / 2.971 ms | 2.975 ms | 3.225 ms |
+
+Os resultados continuam acima do critério de abertura. A variação também apareceu na base; esse ensaio não isola um custo causado pela conversão de materiais e não comprova um ganho de desempenho.
+
+`perf_abertura.py` registra chamadas de render, pipelines, upload, long tasks e RAFs. No [perfil instrumentado](evidencias/perfil-abertura/perfil.json), o render explícito posterior a `compiled` custou 2,6–4,3 ms; a espera pelo primeiro RAF foi de cerca de 1,16–1,25 s nas rodadas frias WebGPU. Não houve pipeline novo ou long task após `compiled`. Isso indica espera de apresentação/agendamento nesse intervalo, sem identificar com certeza seu componente GPU/compositor. O observer interfere nos tempos e não substitui o benchmark sem instrumentação. A dupla RAF foi conservada.
+
+Foi testado `renderer.initTexture(atlas)` logo após criar o atlas, antecipando o envio dos mesmos 64 MiB antes de construir o restante da cena. Na [tentativa](evidencias/medicao-pbr-upload-antecipado/medicao.json), a mediana WebGPU fria foi 3.147 ms e o reload 3.077 ms; WebGL2 ficou em 2.132/2.048 ms. O resultado não foi consistente: piorou a abertura fria WebGPU e variou nas outras condições. **Tentativa revertida**, conservando dados e hashes da versão ensaiada.
+
+O laboratório de materiais é carregado em outra página sob demanda; seus GLB, loaders e decodificadores não foram adicionados à abertura da maquete. Adoção de novos acabamentos na cena continua dependente do orçamento e da comparação visual de T06/T07.
+
+## Trabalho restante após esta continuação
 
 Investigar o custo da primeira renderização/sombras/ambiente e a compilação em cada backend. Medir rede móvel e aparelhos físicos, inclusive memória GPU/atlas 4096, antes de fechar o orçamento. Avaliar bundle/representação binária somente com perfil que demonstre benefício. Não usar efeitos ou novos materiais mais caros para encobrir esta regressão; sua adoção precisa respeitar a qualificação de T05/T12.
 

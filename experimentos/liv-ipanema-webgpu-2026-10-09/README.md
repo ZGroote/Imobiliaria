@@ -96,10 +96,20 @@ Os recursos binários grandes e screenshots são locais, ignorados pelo Git. `as
 
 ## Limites e próximas etapas do plano
 
+### Reaproveitamento PBR implementado
+
+A [bancada de materiais e modelos](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/materiais.html) importa GLB/GLTF mantendo os materiais originais do GLTFLoader. Há inspeção de propriedades/mapas, ajuste de câmera, PNG, rejeição de arquivos/recursos incompatíveis e descarte/cancelamento. Seu pacote é separado da maquete e só carrega quando aberto. [MATERIAIS.md](MATERIAIS.md) descreve o contrato, a amostra própria e a qualificação de formatos.
+
+Dez testes Node e quatro perfis de navegador passaram: WebGPU/WebGL2 desktop e toque emulado. A importação do GLB Draco existente da Casa VistaLar, com 1.158 malhas e 44 materiais, passou nos dois backends desktop. Vinte reimportações mantiveram as mesmas contagens estimadas pelo renderer. Foi testado o encerramento durante compilação pendente e a perda WebGPU por callback simulado. Recursos intermediários de um parse falho também são liberados. KTX2/Basis e Meshopt foram configurados sob demanda, mas ainda precisam de fixtures de navegador.
+
+O exterior mantém seus materiais não baked como MeshStandardMaterial padrão e deixa a conversão ao renderer; RGBM continua específico à geometria/atlas verificados. Os quatro perfis da maquete passaram em `evidencias/prova-materiais-stock/`. A bancada é a base técnica antecipada de T07; não substitui os acabamentos finais ou a qualificação física.
+
+### Qualificação ainda pendente
+
 T02 tem capturas e três rodadas preliminares por viewport/cache em [medicao.json](evidencias/medicao-baseline/medicao.json). A medição inicial ocorreu durante outros QAs e usa rede local; não serve como orçamento definitivo ou comprovação de ganho. Viewport de 390 px e toque emulado não são ensaio de celular físico.
 
 O exterior transporta a geometria da base; volumes, materiais e iluminação ainda precisam de refinamento com as referências. Catálogo/seleção por final, meio/gardens, dia/entardecer e qualificação Android/iPhone permanecem no plano. Tipologia por final, limites cotados, numeração comercial, vaga, preços e estoque não foram confirmados. A indicação de interior ilustrativo permanece explícita.
 
-A medição sequencial final registrou 23.993.373 bytes iniciais, 37,5% abaixo da base. Medianamente, a abertura fria levou 1.882 ms em WebGL2 e 2.797 ms em WebGPU, contra 1.508 ms na base. **T05 ainda não atingiu o critério de tempo de abertura**. As tentativas de otimização, inclusive as revertidas, e os limites da comparação estão em [PERF.md](PERF.md). Não há comprovação de ganho de FPS.
+A medição anterior registrou 23.993.373 bytes iniciais, 37,5% abaixo da base. Com materiais padrão, a nova medição sequencial registrou 23.993.689 bytes; medianas frias de 2.190 ms em WebGL2 e 2.975 ms em WebGPU, contra 1.633 ms na própria base reensaiada. **T05 ainda não atingiu o critério de tempo de abertura**. Antecipar o upload do atlas não melhorou de modo consistente e foi revertido. As medições, o perfil do primeiro quadro e os limites da comparação estão em [PERF.md](PERF.md). Não há comprovação de ganho de FPS.
 
 Referências técnicas consultadas: [WebGPURenderer](https://threejs.org/manual/pages/webgpurenderer.html), [NodeMaterial](https://threejs.org/docs/pages/NodeMaterial.html) e [Renderer: recuperação de contexto](https://threejs.org/docs/pages/Renderer.html). O runtime instalado e fixado é a fonte de compatibilidade efetivamente testada.

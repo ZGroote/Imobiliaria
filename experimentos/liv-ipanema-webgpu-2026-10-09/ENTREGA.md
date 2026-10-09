@@ -13,6 +13,8 @@
 
 Para comparar backends, acrescentar `?backend=webgpu` ou `?backend=webgl`. A [prova técnica](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html) exibe o backend efetivo. A alternativa sem 3D é a imagem da planta.
 
+A [bancada PBR local](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/materiais.html) já permite abrir GLB/GLTF, conferir materiais e fotografar. Preserva os materiais padrão importados, incluindo propriedades Physical, e prepara o reaproveitamento de assets no refinamento. [MATERIAIS.md](MATERIAIS.md) registra a verificação e os formatos ainda pendentes. Seus recursos não são carregados pela maquete.
+
 ## Evidências
 
 | Verificação | Resultado e limite |
@@ -25,6 +27,8 @@ Para comparar backends, acrescentar `?backend=webgpu` ou `?backend=webgl`. A [pr
 | Recuperação | Nove cenários aprovados: GPU ausente/inicialização, HTTP, corrupção, planta, navegação rápida e perda de contexto. Perda WebGL real; WebGPU pelo callback simulado. |
 | Navegação/layout | Aprovados em 320/768/1440 px; ida/volta do mapa e recuperação de câmera/pavimento no histórico. |
 | Carregamento | 37,5% menos conteúdo inicial no servidor local; abertura fria mediana: base 1,51 s, evolução WebGL2 1,88 s, WebGPU 2,80 s. Critério de tempo ainda pendente. Ver [PERF.md](PERF.md). |
+| Materiais padrão | Dez testes Node e quatro perfis de navegador aprovados; GLB/GLTF/pasta, propriedades Physical e mapas preservados, vinte reimportações estáveis. GLB Draco próprio existente de 1.158 malhas aprovado nos dois backends desktop. |
+| Continuação do desempenho | Maquete com materiais padrão reensaiada: base 1,63 s, WebGL2 2,19 s, WebGPU 2,98 s na mediana fria. Antecipação de upload sem ganho consistente revertida; o critério de tempo segue pendente. |
 
 Ambiente: Chrome 154.0.8037.98, Windows 11, GTX 1650; WebGPU NVIDIA/Turing e WebGL2 ANGLE/D3D11. Evidências JSON em `evidencias/`; capturas e assets binários grandes ficam locais, com hashes nos manifestos. A matriz de referência e reconciliação estão em [referencias.json](referencias.json) e [reconciliacao-unidades.md](reconciliacao-unidades.md).
 

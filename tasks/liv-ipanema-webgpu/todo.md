@@ -63,6 +63,7 @@ Convenção de caminhos abaixo: `EXP` = novo diretório `experimentos/liv-ipanem
   - Verificar: rede fria/cache, bloqueio de um asset, retorno entre modos e pico de memória. Comparar o GLB existente à cena embutida antes de escolher qual representação otimizar.
   - Parcial: cena/atlas/texturas exteriores separados e verificados; mapa/interiores não são antecipados; Planta 2D abre da imagem sem renderer. O GLB regional não foi escolhido porque diverge da cena efetiva da base. Medição comparável e orçamento físico ainda precisam fechar o aceite.
   - Medido: `evidencias/medicao-final/medicao.json` tem três rodadas sequenciais desktop por backend/cache. Conteúdo inicial 23.993.373 bytes, redução de 37,5%. Abertura fria mediana: base 1.508 ms, WebGL2 1.882 ms, WebGPU 2.797 ms. O critério de tempo permanece reprovado; não marcar T05 concluída ou alegar ganho de FPS. Nós RGBM equivalentes compartilhados reduziram a compilação; tentativas de paralelismo/ordem do loop sem ganho foram revertidas e registradas em `PERF.md`.
+  - Continuação: materiais não baked padrão reensaiados em `medicao-pbr-antes-upload/`: medianas frias base 1.633 ms, WebGL2 2.190 ms, WebGPU 2.975 ms; 23.993.689 bytes iniciais. Antecipar o upload do atlas não deu ganho consistente e foi revertido, com dados preservados em `medicao-pbr-upload-antecipado/`. Perfil instrumentado localizou espera do primeiro RAF; não mede tempo GPU nem comprova causa no compositor. Critério continua pendente.
 
 - [ ] **T06 — Corrigir volumes, fachadas e implantação pelas referências.**
   - Dependências: T02, T04.
@@ -78,6 +79,7 @@ Convenção de caminhos abaixo: `EXP` = novo diretório `experimentos/liv-ipanem
   - Escopo provável: `EXP/materials.js`, `EXP/lighting.js`, `EXP/cameras.js`, assets/bakes por estado, evidências visuais.
   - Aceite: leitura clara do empreendimento, sem cintilação/artefatos relevantes; estados carregados sob demanda; orçamento fechado em T02 respeitado nos dois backends.
   - Verificar: vistas fixas vs. render oficial, órbita com vegetação/vidros e transição de estado; não apresentar mudança artística de luz como simulação solar por data/hora.
+  - Base técnica antecipada: `EXP/materials.js`, `asset-loader.js` e bancada `materiais.html` preservam materiais padrão importados e suas propriedades/mapas; exterior não baked usa MeshStandardMaterial convertido pelo renderer. Dez testes Node, quatro perfis desktop/toque WebGPU/WebGL2 e vinte reimportações passaram. GLB Draco próprio existente de 1.158 malhas/44 materiais qualificado nos dois backends desktop. KTX2/Meshopt, acabamentos finais do LIV, vegetação, dia/entardecer e orçamento físico permanecem pendentes. Ver `EXP/MATERIAIS.md`.
 
 **Checkpoint C2:** T05–T07. Exterior refinado, comparação documentada e custo medido; resolver regressões de carregamento/órbita antes de ampliar o catálogo.
 
