@@ -1,0 +1,73 @@
+{
+  "recordedAtUtc": "2026-10-10T13:24:03.829038+00:00",
+  "status": "PASS",
+  "cases": [
+    {
+      "name": "sem-webgpu",
+      "errors": [],
+      "backend": "webgl",
+      "status": "PASS"
+    },
+    {
+      "name": "inicializacao-webgpu",
+      "errors": [],
+      "backend": "webgl",
+      "status": "PASS"
+    },
+    {
+      "name": "webgpu-obrigatorio-ausente",
+      "errors": [],
+      "handledError": "Error: Error: WebGPU não está disponível neste navegador/dispositivo.",
+      "status": "PASS"
+    },
+    {
+      "name": "atlas-http",
+      "errors": [],
+      "handledError": "Error: Error: Recurso irradiance.rgbm.gz: HTTP 503.",
+      "status": "PASS"
+    },
+    {
+      "name": "atlas-corrompido",
+      "errors": [],
+      "handledError": "Error: Error: Identidade do recurso irradiance.rgbm.gz inválida.",
+      "status": "PASS"
+    },
+    {
+      "name": "contexto-webgl",
+      "errors": [],
+      "backend": "webgl",
+      "injection": "WEBGL_lose_context real",
+      "status": "PASS"
+    },
+    {
+      "name": "contexto-webgpu-simulado",
+      "errors": [],
+      "backend": "webgpu",
+      "injection": "callback simulado; não perda física do dispositivo",
+      "status": "PASS"
+    },
+    {
+      "name": "planta-http",
+      "errors": [],
+      "backend": "webgl",
+      "status": "PASS"
+    },
+    {
+      "name": "troca-rapida",
+      "errors": [],
+      "backend": "webgl",
+      "status": "PASS"
+    }
+  ],
+  "sourceSHA256": {
+    "qa_falhas.py": "c0ba3c746aa7adc3dbf1d1fddcbf40e1d938891ceb83e833f256e24c8288379e",
+    "renderer.js": "414672e6e89b2483df55a45d0fa84fe24213d7f0fbb5289cee9a2b6ba7ad7da0",
+    "viewer.js": "c5406ea301877b9a35f692a65ae0b6cd8dcd75d6cadc648a6c141183268b0881",
+    "exterior-finishes.js": "64c8e779742228455aa4ce9a5e74ddf4e91ab80168acd5e4f37685916bea524f",
+    "cameras.js": "bc0ff9daee7a68c456799efcaed8ab2016e75257f8535869d6efe3a137f108dc",
+    "maquete-liv-ipanema.html": "9515b694fcc7954dd19b13d1c4c271186b5fc52382c70b12b596ebfc247b3409",
+    "prova-rgbm.html": "ed074372597b4a6c922302170949c162ae5aa3e10269e50c431173bfd507b6c4",
+    "assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57"
+  },
+  "browserVersion": "154.0.8037.98"
+}

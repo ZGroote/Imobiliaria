@@ -1,6 +1,8 @@
 import * as THREE from 'three/webgpu';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,createRGBMTexture} from './material-rgbm.js';
+import {applyReferenceFinishes} from './exterior-finishes.js';
+import {balconyDetailView,BALCONY_DETAIL_BOUNDS} from './cameras.js';
 
 const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION};
 function progress(phase,message,extra={}){
@@ -10,6 +12,9 @@ function progress(phase,message,extra={}){
 const mark=name=>{(state.timings??={})[name]=performance.now();};mark('module');
 const parameters=new URLSearchParams(location.search);
 const requested=parameters.get('backend')||'auto';
+const finishProfile=parameters.get('acabamento')||'base';
+const recoveryURL=new URL(location.href);recoveryURL.searchParams.set('backend','webgl');
+document.querySelector('#retry').href=recoveryURL.href;
 document.body.classList.toggle('embedded',parameters.get('embed')==='1');
 const stage=document.querySelector('#stage'),canvas=document.querySelector('#c'),status=document.querySelector('#status');
 const base=new URL('./assets-prova/',import.meta.url);
@@ -85,6 +90,7 @@ function environmentTexture() {
 async function start() {
   progress('backend','Preparando os gráficos');
   if(!['auto','webgpu','webgl'].includes(requested)) throw Error('Backend de diagnóstico inválido.');
+  if(!['base','referencia'].includes(finishProfile))throw Error('Perfil de acabamento inválido.');
   let adapter=null;
   if(requested!=='webgl' && navigator.gpu) {
     try {adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});} catch(error) {state.adapterError=String(error);}
@@ -132,6 +138,7 @@ async function start() {
   mark('sceneDecoded');
   const data=JSON.parse(new TextDecoder().decode(encoded));mark('sceneParsed');
   if(data.schema!=='liv-exterior-proof-v1' || data.sourceModelSHA256!==manifest.sourceModelSHA256 || data.rgbm.sourceSHA256!==manifest.sourceModelSHA256) throw Error('A geometria e o atlas não pertencem à mesma edição.');
+  data.views.varandas=balconyDetailView();
   const atlasBytes=await unzip(await loadBytes(data.rgbm.textureURL,manifest.files[data.rgbm.textureURL]));
   if(await sha(atlasBytes)!==data.rgbm.textureSHA256) throw Error('Atlas RGBM corrompido.');
   mark('atlasReady');
@@ -201,6 +208,20 @@ async function start() {
     building.add(mesh);return mesh;
   });
   scene.add(building);
+  let controls,resizeObserver;
+  // Install the owner before the reference identity gate can reject a material.
+  // Construction errors must release assets even before camera/controls exist.
+  state.dispose=()=>{
+    if(state.disposed)return;
+    state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);
+    resizeObserver?.disconnect();controls?.dispose();
+    for(const geometry of geometries)geometry.dispose();
+    for(const material of materials)material.dispose();
+    for(const texture of textures){texture.dispose();texture.image?.close?.();}
+    atlas.dispose();environment.dispose();scene.traverse(o=>o.shadow?.dispose());scene.clear();
+    return renderer.dispose();
+  };
+  state.finish=finishProfile==='referencia'?applyReferenceFinishes(meshes,materials,data.sourceModelSHA256):{profile:'base',changes:[]};
   for(const spec of data.lights) {
     let light;
     const color=new THREE.Color().fromArray(spec.color);
@@ -226,32 +247,37 @@ async function start() {
     return camera;
   }
   let camera=makeCamera(data.views.perspectiva,'perspectiva');
-  const controls=new OrbitControls(camera,canvas);
+  controls=new OrbitControls(camera,canvas);
   controls.target.fromArray(data.views.perspectiva.target);controls.enableDamping=false;controls.minDistance=9;controls.maxDistance=900;
   controls.maxPolarAngle=Math.PI;controls.update();
   const visibleBounds=new THREE.Box3(new THREE.Vector3().fromArray(data.visibleBounds.min),new THREE.Vector3().fromArray(data.visibleBounds.max));
   const corners=[];
   for(const x of [visibleBounds.min.x,visibleBounds.max.x]) for(const y of [visibleBounds.min.y,visibleBounds.max.y])
     for(const z of [visibleBounds.min.z,visibleBounds.max.z]) corners.push(new THREE.Vector3(x,y,z));
+  const detailCorners=[];
+  for(const x of [BALCONY_DETAIL_BOUNDS.min[0],BALCONY_DETAIL_BOUNDS.max[0]])
+    for(const y of [BALCONY_DETAIL_BOUNDS.min[1],BALCONY_DETAIL_BOUNDS.max[1]])
+      for(const z of [BALCONY_DETAIL_BOUNDS.min[2],BALCONY_DETAIL_BOUNDS.max[2]])detailCorners.push(new THREE.Vector3(x,y,z));
   function fitPreset() {
     const name=camera.userData.viewName;
-    if(!['perspectiva','aerea','implantacao'].includes(name)) return false;
+    if(!['perspectiva','aerea','implantacao','varandas'].includes(name)) return false;
+    const fittedCorners=name==='varandas'?detailCorners:corners;
     const source=camera.userData.projectionSource,{th,ph}=source.orbit;
     const st=Math.sin(th),ct=Math.cos(th),sp=Math.sin(ph),cp=Math.cos(ph);
     const direction=new THREE.Vector3(st*sp,cp,ct*sp);
     const right=new THREE.Vector3(ct,0,-st),up=new THREE.Vector3(-st*cp,sp,-ct*cp);
     controls.target.fromArray(source.target);
     let radius=9;
-    if(Math.abs(camera.aspect-source.aspect)<1e-9) radius=source.orbit.r;
+    if(name!=='varandas'&&Math.abs(camera.aspect-source.aspect)<1e-9) radius=source.orbit.r;
     else if(camera.isOrthographicCamera) {
-      for(const point of corners) {
+      for(const point of fittedCorners) {
         const delta=point.clone().sub(controls.target);
         radius=Math.max(radius,Math.abs(delta.dot(up)),Math.abs(delta.dot(right))/camera.aspect);
       }
       radius*=1.08;
     } else {
       const vf=camera.fov*Math.PI/180,hf=2*Math.atan(Math.tan(vf/2)*camera.aspect);
-      for(const point of corners) {
+      for(const point of fittedCorners) {
         const delta=point.clone().sub(controls.target);
         radius=Math.max(radius,delta.dot(direction)+Math.max(Math.abs(delta.dot(right))/Math.tan(hf/2),Math.abs(delta.dot(up))/Math.tan(vf/2)));
       }
@@ -286,7 +312,7 @@ async function start() {
     }
     camera.updateProjectionMatrix();
   }
-  const resizeObserver=new ResizeObserver(resize);
+  resizeObserver=new ResizeObserver(resize);
   resizeObserver.observe(stage);resize();
   controls.addEventListener('start',()=>{camera.userData.viewName=null;state.activeView='livre';});
   function setView(name) {
@@ -349,15 +375,6 @@ async function start() {
         controls.target.fromArray(snapshot.camera.target);controls.update();orientCamera();resize();state.activeView='livre';
       }
       setFloor(snapshot.floor??-1);
-    },
-    dispose(){
-      if(state.disposed)return;
-      state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);resizeObserver.disconnect();controls.dispose();
-      for(const geometry of geometries) geometry.dispose();
-      for(const material of materials) material.dispose();
-      for(const texture of textures) {texture.dispose();texture.image?.close?.();}
-      atlas.dispose();environment.dispose();scene.traverse(o=>o.shadow?.dispose());scene.clear();
-      return renderer.dispose();
     }});
   renderer.setAnimationLoop(()=>{controls.update();orientCamera();renderer.render(scene,camera);});
   mark('sceneBuilt');
@@ -383,6 +400,7 @@ function fail(error) {
   document.querySelector('#failure').hidden=false;
   if(requested==='webgl') document.querySelector('#retry').textContent='Tentar novamente com WebGL2';
   window.dispatchEvent(new CustomEvent('liv-renderer-error',{detail:{error:state.error}}));
+  Promise.resolve(state.dispose?.()).catch(error=>{state.cleanupError=String(error);});
 }
 
 start().catch(fail);

@@ -3,13 +3,14 @@ const stage=document.getElementById('stage'),overlay=document.getElementById('lo
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
 const backend=['webgpu','webgl'].includes(requested)?requested:'auto';
+const finish=new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
 const state=window.__livViewer={ready:false,mode:'maquete',view:'perspectiva',floor:-1,frame:null,error:null,backend:null};
 const storageKey=`liv-viewer-v1:${location.pathname}`;
 try {
   const saved=JSON.parse(sessionStorage.getItem(storageKey));
   if(saved?.version===1&&['maquete','planta2d','planta3d','visita'].includes(saved.mode)&&
     Number.isInteger(saved.floor)&&saved.floor>=-1&&saved.floor<=16&&
-    ['perspectiva','fachada','aerea','portaria','implantacao','livre'].includes(saved.view)) {
+    ['perspectiva','fachada','aerea','portaria','implantacao','varandas','livre'].includes(saved.view)) {
     state.mode=saved.mode;state.view=saved.view;state.floor=saved.floor;
     const snapshot=saved.exteriorSnapshot,cam=snapshot?.camera;
     if(snapshot&&cam&&[cam.position,cam.target].every(v=>Array.isArray(v)&&v.length===3&&v.every(Number.isFinite)))state.exteriorSnapshot=snapshot;
@@ -120,7 +121,7 @@ async function setMode(mode) {
     if(mode==='planta2d'){await fallback2D(token);return;}
     if(frameKind!==kind) {
       release();const frame=document.createElement('iframe');frame.title=kind==='exterior'?'Maquete do LIV Ipanema':'Planta e interior de referência do LIV Ipanema';
-      frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}`:'site-baseline/maquete-liv-ipanema.html';
+      frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}&acabamento=${finish}`:'site-baseline/maquete-liv-ipanema.html';
       stage.prepend(frame);state.frame=frame;frameKind=kind;
     }
     const frame=state.frame;
@@ -133,7 +134,11 @@ async function setMode(mode) {
           if(state.exteriorSnapshot)api.restoreState({...state.exteriorSnapshot,floor:state.floor});
           else {api.setView(state.view);api.setFloor(state.floor);}
           frame.contentWindow.addEventListener('liv-renderer-error',event=>{
-            if(state.frame===frame&&frameKind==='exterior')showError(Error(event.detail.error));
+            if(state.frame===frame&&frameKind==='exterior'){
+              // Keep the last camera/floor before the renderer releases resources.
+              // A single retry must create a fresh frame instead of reusing its error.
+              release();showError(Error(event.detail.error));
+            }
           });
           frame.livPrepared=true;
         }

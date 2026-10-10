@@ -51,7 +51,7 @@ Não foi feita publicação. A reprodução foi registrada no commit `fa4730d`, 
 
 ## T03/T04 — exterior WebGPU e quatro modos
 
-A [maquete integrada](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html) mantém as cinco vistas, câmera livre, destaque de térreo/pavimentos tipo, captura PNG e acesso ao mapa preservado. O exterior usa Three.js **0.186.1**, fixado no lockfile deste diretório, com WebGPU automático e WebGL2 quando necessário. Os interiores 3D/Tour ainda usam a implementação legada de canto, aberta sob demanda. A Planta 2D usa diretamente a imagem comercial de canto; não requer renderer.
+A [maquete integrada](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html) mantém as cinco vistas e acrescenta Varandas, com câmera livre, destaque de térreo/pavimentos tipo, captura PNG e acesso ao mapa preservado. O exterior usa Three.js **0.186.1**, fixado no lockfile deste diretório, com WebGPU automático e WebGL2 quando necessário. Os interiores 3D/Tour ainda usam a implementação legada de canto, aberta sob demanda. A Planta 2D usa diretamente a imagem comercial de canto; não requer renderer.
 
 Após a tela inicial utilizável, a nova fila prepara automaticamente **Tour → mapa → Planta 2D**, conforme solicitado. O clique interrompe outro grupo e prioriza o escolhido; a preparação somente baixa arquivos, sem abrir cenas. Ver [FILA.md](FILA.md) para cache, interrupção, uso de dados e verificação.
 
@@ -107,6 +107,17 @@ A [bancada de materiais e modelos](http://127.0.0.1:8790/experimentos/liv-ipanem
 Dez testes Node e quatro perfis de navegador passaram: WebGPU/WebGL2 desktop e toque emulado. A importação do GLB Draco existente da Casa VistaLar, com 1.158 malhas e 44 materiais, passou nos dois backends desktop. Vinte reimportações mantiveram as mesmas contagens estimadas pelo renderer. Foi testado o encerramento durante compilação pendente e a perda WebGPU por callback simulado. Recursos intermediários de um parse falho também são liberados. KTX2/Basis e Meshopt foram configurados sob demanda, mas ainda precisam de fixtures de navegador.
 
 O exterior mantém seus materiais não baked como MeshStandardMaterial padrão e deixa a conversão ao renderer; RGBM continua específico à geometria/atlas verificados. Os quatro perfis da maquete passaram em `evidencias/prova-materiais-stock/`. A bancada é a base técnica antecipada de T07; não substitui os acabamentos finais ou a qualificação física.
+
+
+### Primeiro acabamento conferido com as referências
+
+Em 10/10/2026, o visualizador integrado passou a usar pintura nas esquadrias e guarda-corpos da torre. O render comercial da varanda mostra barras metálicas pintadas; o material anterior representava metal exposto. Um clone MeshStandardMaterial padrão muda somente metalness/rugosidade da atribuição da torre e preserva a tipografia da portaria. A vista **Varandas** permite inspecionar o detalhe e adapta o enquadramento ao celular.
+
+Os parâmetros são calibração visual estimada, sem especificação executiva. Malhas, matrizes, UV1, atlas e superfícies baked continuam iguais; os vidros permanecem como na base. A prova RGBM continua com o perfil original, enquanto a maquete integrada usa o novo. [REFINAMENTO.md](REFINAMENTO.md) e [refinamento-exterior.json](refinamento-exterior.json) registram fontes, comparação e limites.
+
+O ensaio final do acabamento passou em WebGPU/WebGL2 desktop e toque emulado, incluindo assinatura incompatível, descarte, recarga de sessão e recuperação com um clique. Nove cenários de falha e a integração dos quatro modos em três perfis passaram novamente com o perfil aplicado. Evidências em `evidencias/refinamento-exterior-final/` e `recuperacao-refinamento-final/`.
+
+A investigação identificou reentrâncias da cobertura que o modelo simplifica. [modelo/NOTAS-GEOMETRIA.md](modelo/NOTAS-GEOMETRIA.md) prepara a correção coordenada e o bake da própria variante. Isso ainda não foi modelado; T06/T07 permanecem parciais.
 
 ### Qualificação ainda pendente
 

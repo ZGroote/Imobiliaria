@@ -73,6 +73,7 @@ Convenção de caminhos abaixo: `EXP` = novo diretório `experimentos/liv-ipanem
   - Escopo provável: fontes geométricas próprias em `EXP/modelo/`, gerador/exportador do LIV, `EXP/referencias.json`, bake/UV correspondente, capturas de comparação.
   - Aceite: três ângulos comparáveis às fontes, volumes principais conferidos e medidas inferidas identificadas; alterações de geometria usam iluminação da própria versão.
   - Verificar: matriz de evidências; contagem/uso de pavimentos; reimportação do GLB no mapa existente; escala, orientação, contato com terreno e portaria.
+  - Inspeção em 10/10/2026: comparação oficial identificou contorno da cobertura simplificado e acabamento localizado da portaria pendente. `EXP/modelo/NOTAS-GEOMETRIA.md` documenta a autoria isolada e UV/bake próprios; nenhuma geometria nova foi aplicada. A evidência de guarda-corpo pintado está em `EXP/refinamento-exterior.json`.
 
 - [ ] **T07 — Refinar materiais, paisagismo, câmeras e dois estados de luz.**
   - Dependências: T05, T06.
@@ -82,6 +83,7 @@ Convenção de caminhos abaixo: `EXP` = novo diretório `experimentos/liv-ipanem
   - Aceite: leitura clara do empreendimento, sem cintilação/artefatos relevantes; estados carregados sob demanda; orçamento fechado em T02 respeitado nos dois backends.
   - Verificar: vistas fixas vs. render oficial, órbita com vegetação/vidros e transição de estado; não apresentar mudança artística de luz como simulação solar por data/hora.
   - Base técnica antecipada: `EXP/materials.js`, `asset-loader.js` e bancada `materiais.html` preservam materiais padrão importados e suas propriedades/mapas; exterior não baked usa MeshStandardMaterial convertido pelo renderer. Dez testes Node, quatro perfis desktop/toque WebGPU/WebGL2 e vinte reimportações passaram. GLB Draco próprio existente de 1.158 malhas/44 materiais qualificado nos dois backends desktop. KTX2/Meshopt, acabamentos finais do LIV, vegetação, dia/entardecer e orçamento físico permanecem pendentes. Ver `EXP/MATERIAIS.md`.
+  - Primeiro acabamento em 10/10/2026: clone MeshStandardMaterial pintado somente para esquadrias/guarda-corpos da torre, com assinatura/edição verificadas, e vista Varandas responsiva. Parâmetros visuais estimados; fonte e material compartilhado da portaria preservados. Comparação e limites em `EXP/REFINAMENTO.md`; fechamento de T07 ainda depende de T05/T06, paisagismo, luz e ensaio físico. Três perfis do acabamento/Varandas, rejeição de assinatura, recarga de sessão, descarte e recuperação com um clique aprovados em `refinamento-exterior-final/`; nove cenários de recuperação em `recuperacao-refinamento-final/`.
 
 **Checkpoint C2:** T05–T07. Exterior refinado, comparação documentada e custo medido; resolver regressões de carregamento/órbita antes de ampliar o catálogo.
 

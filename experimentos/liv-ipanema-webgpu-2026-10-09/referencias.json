@@ -2,6 +2,7 @@
   "schemaVersion": "1.0.0",
   "project": "LIV Ipanema",
   "preparedOn": "2026-10-09",
+  "refinementEvidence": "refinamento-exterior.json",
   "purpose": "Matriz de evidências para T02/T08; não constitui cadastro oficial, tabela comercial ou instrução para alterar geometria.",
   "confidenceStates": {
     "confirmado": "Informação explicitamente publicada ou fato verificável nos arquivos locais; o escopo da confirmação consta em cada evidência.",
@@ -187,6 +188,22 @@
       "observed": "A implantação rotula finais e vagas; não foi encontrado espelho oficial de números completos, estoque, preços ou vínculo vaga/unidade.",
       "decision": "Usar IDs técnicos de pavimento/final; numeroComercial, preco e vagaAtribuida nulos; disponibilidade não informada.",
       "comparisonCapture": null
+    },
+    {
+      "id": "guarda-corpos-pintados",
+      "part": "Esquadrias e guarda-corpos da torre",
+      "confidence": "confirmado",
+      "confirmationScope": "Barras verticais e acabamento pintado visíveis no render comercial. Parâmetros PBR são estimados.",
+      "sourceRefs": [
+        {
+          "sourceId": "book-oficial",
+          "page": 12,
+          "localImage": "relatorios/liv-referencias-publicas-2026-10-09/varanda-render-oficial-1.png"
+        }
+      ],
+      "observed": "Guarda-corpo metálico pintado; não substituir as barras por painel de vidro.",
+      "decision": "Clone de material nativo somente na torre: metalness=0 e roughness=.55; sem mudança de malha/UV1/atlas.",
+      "comparisonCapture": "evidencias/refinamento-exterior-final/runtime.json"
     }
   ],
   "currentModelInspection": {

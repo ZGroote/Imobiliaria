@@ -1,4 +1,6 @@
 """Exercita recuperação de recursos, ausência de GPU e perda de contexto no Chrome real."""
+import argparse
+import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -15,8 +17,14 @@ def ready(page,mode='maquete'):
 
 
 def main():
-    OUT.mkdir(parents=True,exist_ok=True)
-    report={'recordedAtUtc':datetime.now(timezone.utc).isoformat(),'status':'RUNNING','cases':[]}
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--saida',type=Path,default=OUT)
+    args=parser.parse_args();output=args.saida
+    output.mkdir(parents=True,exist_ok=True)
+    report={'recordedAtUtc':datetime.now(timezone.utc).isoformat(),'status':'RUNNING','cases':[],
+            'sourceSHA256':{name:hashlib.sha256((EXP/name).read_bytes()).hexdigest()
+              for name in ['qa_falhas.py','renderer.js','viewer.js','exterior-finishes.js','cameras.js',
+                           'maquete-liv-ipanema.html','prova-rgbm.html','assets-prova/manifest.json']}}
     try:
         with sync_playwright() as pw:
             browser=pw.chromium.launch(executable_path=r'C:\Program Files\Google\Chrome\Application\chrome.exe',headless=True)
@@ -76,8 +84,8 @@ def main():
     except Exception as error:
         report['status']='FAIL';report['failure']=str(error);raise
     finally:
-        (OUT/'runtime.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
-        print(json.dumps({'status':report['status'],'cases':len(report['cases']),'output':str(OUT)}))
+        (output/'runtime.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+        print(json.dumps({'status':report['status'],'cases':len(report['cases']),'output':str(output)}))
 
 
 if __name__=='__main__':main()
