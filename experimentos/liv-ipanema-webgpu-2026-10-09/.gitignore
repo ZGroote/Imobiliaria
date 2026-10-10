@@ -15,3 +15,13 @@
 /interiores/*/irradiance.rgbm.gz
 /interiores/*/autoria.html
 /interiores/*/textures/
+/interiores/*/autoria-*.png
+/interiores/*/bake/*.blend*
+/interiores/*/bake/*.glb
+/interiores/*/bake/*.f32
+/interiores/*/bake/*.exr
+/interiores/*/bake/*.log
+/interiores/*/bake/source-scene.json
+/interiores/*/bake/geometry-compact.json*
+/interiores/*/bake/irradiance.rgbm.gz
+/interiores/*/bake/textures/

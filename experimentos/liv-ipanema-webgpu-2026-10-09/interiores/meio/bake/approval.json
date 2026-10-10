@@ -1,0 +1,17 @@
+{
+  "schema": "liv-interior-geometry-approval-v1",
+  "approved": true,
+  "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+  "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+  "reviewedAtUtc": "2026-10-10T20:31:00Z",
+  "reviewer": "Codex, conferência local para bake ilustrativo",
+  "basis": [
+    "unidade própria conferida com a imagem oficial em conferencia.json",
+    "29 grupos de móveis exportados por identidade nominal, sem mapeamento por proximidade",
+    "cena nativa inspecionada em autoria-topo.png e autoria-tour.png",
+    "audit-scene.json PASS: normais verticais coerentes e tapete sem faces coplanares sobrepostas",
+    "unwrap.json: mesmas posições e ordem dos cantos, UV1 própria, atlas único e padding documentado"
+  ],
+  "source2DSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
+  "limits": "Geometria e dimensões inferidas de planta comercial sem cotas; aprovação do pipeline visual, não aprovação executiva ou comercial."
+}

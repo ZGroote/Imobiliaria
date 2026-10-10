@@ -203,7 +203,7 @@ def assert_identity(details, typology):
 
 def furniture_test(frame, typology):
     baseline = interior_state(frame)
-    assert bool(baseline['lighting']['bakedActive']) == (typology == 'canto'), baseline['lighting']
+    assert baseline['lighting']['bakedActive'], baseline['lighting']
     furniture = baseline['furniture']
     assert furniture, 'Interior sem móveis selecionáveis.'
     if not frame.locator('#furniture-panel').evaluate('node=>node.open'):
@@ -218,13 +218,18 @@ def furniture_test(frame, typology):
     frame.locator('#furniture-rotate').click()
     rotated = interior_state(frame)
     assert rotated['furniture'] != moved['furniture'], 'O botão de girar não alterou o móvel.'
+    frame.evaluate('''()=>{const api=__livInterior,original=api.getRoomRoutes;
+        window.__qaRestoreRouteQueries=0;api.getRoomRoutes=function(...args){__qaRestoreRouteQueries++;return original(...args);};}''')
     frame.locator('#furniture-reset').click()
+    queries = frame.evaluate('__qaRestoreRouteQueries')
+    assert queries == 1, f'Restaurar o conjunto recalculou as rotas {queries} vezes.'
     reset = interior_state(frame)
     assert reset['furniture'] == furniture, 'Reset não restaurou a posição e rotação originais.'
-    assert bool(reset['lighting']['bakedActive']) == (typology == 'canto'), reset['lighting']
+    assert reset['lighting']['bakedActive'], reset['lighting']
     frame.locator('#furniture-panel summary').click()
     return {'selectedFurniture': options[0], 'movementChanged': True, 'rotationChanged': True,
-            'bakeAfterMove': moved['lighting'], 'bakeAfterReset': reset['lighting'], 'resetExact': True}
+            'bakeAfterMove': moved['lighting'], 'bakeAfterReset': reset['lighting'], 'resetExact': True,
+            'restoreRouteQueries': queries}
 
 
 def rooms_test(page, frame, mobile):

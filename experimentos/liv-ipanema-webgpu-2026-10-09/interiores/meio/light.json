@@ -1,0 +1,75 @@
+{
+  "schema": "liv-interior-lightmap-v1",
+  "unitId": "liv-ipanema-planta-meio-referencia",
+  "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+  "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+  "geometrySHA256": "9110a84a7302f5ea6f29cf3a09c0da02d0336d8c7bec0f73de230a44890f01f3",
+  "geometryApproved": true,
+  "approvalSHA256": "59b75bb0080926111a6336fae8ab5a292718bd6a3f78e3f150c9365205609b2b",
+  "geometryURL": "interior/luz/geometry-compact.json",
+  "textureURL": "interior/luz/irradiance.rgbm.gz",
+  "textureCompression": "gzip",
+  "textureEncoding": "linear-rgbm-u8",
+  "textureSHA256": "5d636586c1d7b1a5c8b2266fb45ee8e88cddcb2670c3516f4dcaff7d117dc870",
+  "width": 2048,
+  "height": 2048,
+  "range": 16.0,
+  "origin": "bottom-left",
+  "premultiplyAlpha": false,
+  "lightMapIntensity": 3.141592653589793,
+  "samples": 512,
+  "passes": [
+    "DIRECT",
+    "INDIRECT"
+  ],
+  "colorPass": false,
+  "objects": 34,
+  "triangles": 31700,
+  "lighting": {
+    "name": "LIV Meio, luz diurna ilustrativa e plafons por ambiente",
+    "world": {
+      "color": [
+        0.72,
+        0.82,
+        1
+      ],
+      "strength": 0.45
+    },
+    "sun": {
+      "position": [
+        -7,
+        9,
+        10
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "energy": 2.2,
+      "angleDegrees": 4,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    "ceiling": {
+      "energy": 45,
+      "size": 0.32,
+      "color": [
+        1,
+        0.95,
+        0.86
+      ]
+    }
+  },
+  "effectivePaddingPixels": 7.185964912280702,
+  "recommendedGuardPixels": 3.342982456140351,
+  "ready": true,
+  "denoise": {
+    "filter": "OIDN RTLightmap",
+    "guardPixels": 3.342982456140351,
+    "auxiliaryImages": []
+  }
+}

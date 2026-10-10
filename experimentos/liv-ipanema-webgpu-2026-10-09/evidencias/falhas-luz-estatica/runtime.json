@@ -1,0 +1,2732 @@
+{
+  "recordedAtUtc": "2026-10-10T20:55:28.881425+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "serviceWorkers": "blocked for foreground fault injection",
+  "caseTimeoutMs": null,
+  "cases": [
+    {
+      "name": "sem-webgpu-auto",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:55:29.551805+00:00",
+      "backend": "webgl",
+      "finishedAtUtc": "2026-10-10T20:55:50.485231+00:00",
+      "durationMs": 20933
+    },
+    {
+      "name": "init-webgpu-falha-auto",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:55:50.516773+00:00",
+      "backend": "webgl",
+      "requestDeviceRejected": 1,
+      "finishedAtUtc": "2026-10-10T20:56:05.481699+00:00",
+      "durationMs": 14965
+    },
+    {
+      "name": "init-dos-backends-falha",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:56:05.506538+00:00",
+      "handledError": "Error: QA: falha de inicialização WebGL2",
+      "injection": "requestDevice e getContext(webgl2) rejeitados somente no iframe interior",
+      "rejections": {
+        "webgpuRejected": 1,
+        "webglRejected": 3
+      },
+      "ownership": {
+        "created": 2,
+        "disposed": 2,
+        "bitmapsClosed": 0
+      },
+      "fallback": {
+        "typology": "meio",
+        "renderersActive": 0
+      },
+      "finishedAtUtc": "2026-10-10T20:56:18.072483+00:00",
+      "durationMs": 12566
+    },
+    {
+      "name": "webgpu-obrigatorio-ausente-meio",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:56:18.083722+00:00",
+      "handledError": "Error: WebGPU não está disponível neste dispositivo.",
+      "fallback": {
+        "typology": "meio",
+        "renderersActive": 0
+      },
+      "finishedAtUtc": "2026-10-10T20:56:28.868309+00:00",
+      "durationMs": 10785
+    },
+    {
+      "name": "canto-atlas-http",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:56:28.877784+00:00",
+      "injection": "HTTP 503 no recurso foreground",
+      "handledError": "Error: interiores/canto/irradiance.rgbm.gz: HTTP 503.",
+      "asset": "interiores/canto/irradiance.rgbm.gz",
+      "retryClicks": 1,
+      "finishedAtUtc": "2026-10-10T20:56:44.370123+00:00",
+      "durationMs": 15492
+    },
+    {
+      "name": "canto-atlas-corrompido",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:56:44.405647+00:00",
+      "injection": "Bytes alterados com o tamanho original; hash divergente",
+      "handledError": "Error: Identidade do recurso interiores/canto/irradiance.rgbm.gz inválida.",
+      "asset": "interiores/canto/irradiance.rgbm.gz",
+      "retryClicks": 1,
+      "finishedAtUtc": "2026-10-10T20:56:59.481425+00:00",
+      "durationMs": 15076
+    },
+    {
+      "name": "meio-unidade-http",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:56:59.507330+00:00",
+      "injection": "HTTP 503 no recurso foreground",
+      "handledError": "Error: interiores/meio/unidade.json: HTTP 503.",
+      "asset": "interiores/meio/unidade.json",
+      "retryClicks": 1,
+      "finishedAtUtc": "2026-10-10T20:57:13.654519+00:00",
+      "durationMs": 14147
+    },
+    {
+      "name": "meio-unidade-corrompida",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:57:13.683823+00:00",
+      "injection": "Bytes alterados com o tamanho original; hash divergente",
+      "handledError": "Error: Identidade do recurso interiores/meio/unidade.json inválida.",
+      "asset": "interiores/meio/unidade.json",
+      "retryClicks": 1,
+      "finishedAtUtc": "2026-10-10T20:57:27.632378+00:00",
+      "durationMs": 13949
+    },
+    {
+      "name": "meio-atlas-corrompido",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:57:27.655048+00:00",
+      "injection": "Bytes alterados com o tamanho original; hash divergente",
+      "handledError": "Error: Identidade do recurso interiores/meio/irradiance.rgbm.gz inválida.",
+      "asset": "interiores/meio/irradiance.rgbm.gz",
+      "retryClicks": 1,
+      "finishedAtUtc": "2026-10-10T20:57:42.161926+00:00",
+      "durationMs": 14507
+    },
+    {
+      "name": "meio-atlas-de-canto",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:57:42.184961+00:00",
+      "injection": "Atlas íntegro do canto associado à fonte/UV1/light manifest próprios de meio",
+      "handledError": "Error: Identidade do bake interior não corresponde à unidade.",
+      "retryClicks": 1,
+      "finishedAtUtc": "2026-10-10T20:57:56.401098+00:00",
+      "durationMs": 14216
+    },
+    {
+      "name": "renderer-error-webgl",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:57:56.425651+00:00",
+      "injection": "Callback onError simulado após primeiro frame",
+      "handledError": "Error: QA: erro do renderer após pronto",
+      "retryClicks": 1,
+      "restored": {
+        "typology": "canto",
+        "mode": "visita",
+        "camera": {
+          "position": [
+            0.9500000000000002,
+            1.62,
+            0.7750000000000004
+          ],
+          "target": [
+            0,
+            0.4,
+            0
+          ],
+          "yaw": -3.141592653589793,
+          "pitch": 0
+        },
+        "furniture": [
+          {
+            "id": "movel-0",
+            "name": "Cama da suíte",
+            "position": [
+              -2.9499999999999997,
+              -0.7749999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              -3.15,
+              -0.7749999999999999
+            ],
+            "originalRotation": 1,
+            "modified": true
+          },
+          {
+            "id": "movel-1",
+            "name": "Armário da suíte",
+            "position": [
+              -2.95,
+              -2.525
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.95,
+              -2.525
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-2",
+            "name": "Criado-Mudo",
+            "position": [
+              -3.85,
+              -1.825
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.85,
+              -1.825
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-3",
+            "name": "Criado-Mudo",
+            "position": [
+              -3.85,
+              0.17499999999999982
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.85,
+              0.17499999999999982
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-4",
+            "name": "Cama do dormitório",
+            "position": [
+              0.5,
+              -1.725
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              0.5,
+              -1.725
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-5",
+            "name": "Armário do dormitório",
+            "position": [
+              -1.2999999999999998,
+              -2.025
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.2999999999999998,
+              -2.025
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-6",
+            "name": "Bancada do dormitório",
+            "position": [
+              0.25,
+              -0.5249999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              0.25,
+              -0.5249999999999999
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-7",
+            "name": "Sofá da sala TV",
+            "position": [
+              1.2000000000000002,
+              2.0250000000000004
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              1.2000000000000002,
+              2.0250000000000004
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-8",
+            "name": "Rack da sala TV",
+            "position": [
+              -0.4500000000000002,
+              2.0250000000000004
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -0.4500000000000002,
+              2.0250000000000004
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-9",
+            "name": "Tapete",
+            "position": [
+              0.40000000000000036,
+              2.075
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              0.40000000000000036,
+              2.075
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-10",
+            "name": "Mesa de jantar",
+            "position": [
+              2.05,
+              -0.3250000000000002
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.05,
+              -0.3250000000000002
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-11",
+            "name": "Cadeira de jantar 1",
+            "position": [
+              1.5499999999999998,
+              -0.9249999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              1.5499999999999998,
+              -0.9249999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-12",
+            "name": "Cadeira de jantar 2",
+            "position": [
+              2.3,
+              -0.9249999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.3,
+              -0.9249999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-13",
+            "name": "Cadeira de jantar 3",
+            "position": [
+              1.5499999999999998,
+              0.2250000000000001
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              1.5499999999999998,
+              0.2250000000000001
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-14",
+            "name": "Cadeira de jantar 4",
+            "position": [
+              2.3,
+              0.2250000000000001
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              2.3,
+              0.2250000000000001
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-15",
+            "name": "Fogão 4 Bocas",
+            "position": [
+              3.8499999999999996,
+              -1.175
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8499999999999996,
+              -1.175
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-16",
+            "name": "Bancada e cuba da cozinha",
+            "position": [
+              3.8499999999999996,
+              0.2749999999999999
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8499999999999996,
+              0.2749999999999999
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-17",
+            "name": "Geladeira Duplex",
+            "position": [
+              3.8000000000000007,
+              1.7249999999999996
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              1.7249999999999996
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-18",
+            "name": "Lavatório suíte",
+            "position": [
+              -2.3,
+              1.2750000000000004
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              -2.3,
+              1.2750000000000004
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-19",
+            "name": "Vaso Sanitário",
+            "position": [
+              -2.45,
+              1.9249999999999998
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              -2.45,
+              1.9249999999999998
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-20",
+            "name": "Box suíte",
+            "position": [
+              -2.7,
+              2.7249999999999996
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.7,
+              2.7249999999999996
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-21",
+            "name": "Lavatório social",
+            "position": [
+              -1.7000000000000002,
+              1.2750000000000004
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.7000000000000002,
+              1.2750000000000004
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-22",
+            "name": "Vaso Sanitário",
+            "position": [
+              -1.5,
+              1.9249999999999998
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.5,
+              1.9249999999999998
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-23",
+            "name": "Box social",
+            "position": [
+              -1.2999999999999998,
+              2.7249999999999996
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -1.2999999999999998,
+              2.7249999999999996
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-24",
+            "name": "Mesa da varanda",
+            "position": [
+              2.3499999999999996,
+              -2.425
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.3499999999999996,
+              -2.425
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-25",
+            "name": "Cadeira da varanda 1",
+            "position": [
+              2.0999999999999996,
+              -2.925
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.0999999999999996,
+              -2.925
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-26",
+            "name": "Cadeira da varanda 2",
+            "position": [
+              1.9000000000000004,
+              -2.225
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              1.9000000000000004,
+              -2.225
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-27",
+            "name": "Máquina de Lavar",
+            "position": [
+              3.8000000000000007,
+              -2.775
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              -2.775
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-28",
+            "name": "Tanque de Serviço",
+            "position": [
+              3.8000000000000007,
+              -2.225
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              -2.225
+            ],
+            "originalRotation": 3,
+            "modified": false
+          }
+        ],
+        "lighting": {
+          "bakedActive": false,
+          "reason": "móveis alterados: iluminação dinâmica"
+        }
+      },
+      "oldOwnership": {
+        "created": 257,
+        "disposed": 257,
+        "bitmapsClosed": 15
+      },
+      "finishedAtUtc": "2026-10-10T20:58:17.893581+00:00",
+      "durationMs": 21468
+    },
+    {
+      "name": "renderer-error-webgpu",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:58:17.926326+00:00",
+      "injection": "Callback onError simulado após primeiro frame",
+      "handledError": "Error: QA: erro do renderer após pronto",
+      "retryClicks": 1,
+      "restored": {
+        "typology": "canto",
+        "mode": "visita",
+        "camera": {
+          "position": [
+            0.9500000000000002,
+            1.62,
+            0.7750000000000004
+          ],
+          "target": [
+            0,
+            0.4,
+            0
+          ],
+          "yaw": -3.141592653589793,
+          "pitch": 0
+        },
+        "furniture": [
+          {
+            "id": "movel-0",
+            "name": "Cama da suíte",
+            "position": [
+              -2.9499999999999997,
+              -0.7749999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              -3.15,
+              -0.7749999999999999
+            ],
+            "originalRotation": 1,
+            "modified": true
+          },
+          {
+            "id": "movel-1",
+            "name": "Armário da suíte",
+            "position": [
+              -2.95,
+              -2.525
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.95,
+              -2.525
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-2",
+            "name": "Criado-Mudo",
+            "position": [
+              -3.85,
+              -1.825
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.85,
+              -1.825
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-3",
+            "name": "Criado-Mudo",
+            "position": [
+              -3.85,
+              0.17499999999999982
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.85,
+              0.17499999999999982
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-4",
+            "name": "Cama do dormitório",
+            "position": [
+              0.5,
+              -1.725
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              0.5,
+              -1.725
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-5",
+            "name": "Armário do dormitório",
+            "position": [
+              -1.2999999999999998,
+              -2.025
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.2999999999999998,
+              -2.025
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-6",
+            "name": "Bancada do dormitório",
+            "position": [
+              0.25,
+              -0.5249999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              0.25,
+              -0.5249999999999999
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-7",
+            "name": "Sofá da sala TV",
+            "position": [
+              1.2000000000000002,
+              2.0250000000000004
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              1.2000000000000002,
+              2.0250000000000004
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-8",
+            "name": "Rack da sala TV",
+            "position": [
+              -0.4500000000000002,
+              2.0250000000000004
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -0.4500000000000002,
+              2.0250000000000004
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-9",
+            "name": "Tapete",
+            "position": [
+              0.40000000000000036,
+              2.075
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              0.40000000000000036,
+              2.075
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-10",
+            "name": "Mesa de jantar",
+            "position": [
+              2.05,
+              -0.3250000000000002
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.05,
+              -0.3250000000000002
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-11",
+            "name": "Cadeira de jantar 1",
+            "position": [
+              1.5499999999999998,
+              -0.9249999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              1.5499999999999998,
+              -0.9249999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-12",
+            "name": "Cadeira de jantar 2",
+            "position": [
+              2.3,
+              -0.9249999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.3,
+              -0.9249999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-13",
+            "name": "Cadeira de jantar 3",
+            "position": [
+              1.5499999999999998,
+              0.2250000000000001
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              1.5499999999999998,
+              0.2250000000000001
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-14",
+            "name": "Cadeira de jantar 4",
+            "position": [
+              2.3,
+              0.2250000000000001
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              2.3,
+              0.2250000000000001
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-15",
+            "name": "Fogão 4 Bocas",
+            "position": [
+              3.8499999999999996,
+              -1.175
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8499999999999996,
+              -1.175
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-16",
+            "name": "Bancada e cuba da cozinha",
+            "position": [
+              3.8499999999999996,
+              0.2749999999999999
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8499999999999996,
+              0.2749999999999999
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-17",
+            "name": "Geladeira Duplex",
+            "position": [
+              3.8000000000000007,
+              1.7249999999999996
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              1.7249999999999996
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-18",
+            "name": "Lavatório suíte",
+            "position": [
+              -2.3,
+              1.2750000000000004
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              -2.3,
+              1.2750000000000004
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-19",
+            "name": "Vaso Sanitário",
+            "position": [
+              -2.45,
+              1.9249999999999998
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              -2.45,
+              1.9249999999999998
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-20",
+            "name": "Box suíte",
+            "position": [
+              -2.7,
+              2.7249999999999996
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.7,
+              2.7249999999999996
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-21",
+            "name": "Lavatório social",
+            "position": [
+              -1.7000000000000002,
+              1.2750000000000004
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.7000000000000002,
+              1.2750000000000004
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-22",
+            "name": "Vaso Sanitário",
+            "position": [
+              -1.5,
+              1.9249999999999998
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.5,
+              1.9249999999999998
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-23",
+            "name": "Box social",
+            "position": [
+              -1.2999999999999998,
+              2.7249999999999996
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -1.2999999999999998,
+              2.7249999999999996
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-24",
+            "name": "Mesa da varanda",
+            "position": [
+              2.3499999999999996,
+              -2.425
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.3499999999999996,
+              -2.425
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-25",
+            "name": "Cadeira da varanda 1",
+            "position": [
+              2.0999999999999996,
+              -2.925
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.0999999999999996,
+              -2.925
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-26",
+            "name": "Cadeira da varanda 2",
+            "position": [
+              1.9000000000000004,
+              -2.225
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              1.9000000000000004,
+              -2.225
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-27",
+            "name": "Máquina de Lavar",
+            "position": [
+              3.8000000000000007,
+              -2.775
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              -2.775
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-28",
+            "name": "Tanque de Serviço",
+            "position": [
+              3.8000000000000007,
+              -2.225
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              -2.225
+            ],
+            "originalRotation": 3,
+            "modified": false
+          }
+        ],
+        "lighting": {
+          "bakedActive": false,
+          "reason": "móveis alterados: iluminação dinâmica"
+        }
+      },
+      "oldOwnership": {
+        "created": 257,
+        "disposed": 257,
+        "bitmapsClosed": 15
+      },
+      "finishedAtUtc": "2026-10-10T20:58:38.955734+00:00",
+      "durationMs": 21029
+    },
+    {
+      "name": "device-lost-webgpu-simulado",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:58:39.476005+00:00",
+      "injection": "Callback onDeviceLost simulado; não representa perda física do dispositivo",
+      "handledError": "Error: Dispositivo gráfico perdido: QA: callback de perda",
+      "retryClicks": 1,
+      "restored": {
+        "typology": "canto",
+        "mode": "visita",
+        "camera": {
+          "position": [
+            0.9500000000000002,
+            1.62,
+            0.7750000000000004
+          ],
+          "target": [
+            0,
+            0.4,
+            0
+          ],
+          "yaw": -3.141592653589793,
+          "pitch": 0
+        },
+        "furniture": [
+          {
+            "id": "movel-0",
+            "name": "Cama da suíte",
+            "position": [
+              -2.9499999999999997,
+              -0.7749999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              -3.15,
+              -0.7749999999999999
+            ],
+            "originalRotation": 1,
+            "modified": true
+          },
+          {
+            "id": "movel-1",
+            "name": "Armário da suíte",
+            "position": [
+              -2.95,
+              -2.525
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.95,
+              -2.525
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-2",
+            "name": "Criado-Mudo",
+            "position": [
+              -3.85,
+              -1.825
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.85,
+              -1.825
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-3",
+            "name": "Criado-Mudo",
+            "position": [
+              -3.85,
+              0.17499999999999982
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.85,
+              0.17499999999999982
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-4",
+            "name": "Cama do dormitório",
+            "position": [
+              0.5,
+              -1.725
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              0.5,
+              -1.725
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-5",
+            "name": "Armário do dormitório",
+            "position": [
+              -1.2999999999999998,
+              -2.025
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.2999999999999998,
+              -2.025
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-6",
+            "name": "Bancada do dormitório",
+            "position": [
+              0.25,
+              -0.5249999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              0.25,
+              -0.5249999999999999
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-7",
+            "name": "Sofá da sala TV",
+            "position": [
+              1.2000000000000002,
+              2.0250000000000004
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              1.2000000000000002,
+              2.0250000000000004
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-8",
+            "name": "Rack da sala TV",
+            "position": [
+              -0.4500000000000002,
+              2.0250000000000004
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -0.4500000000000002,
+              2.0250000000000004
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-9",
+            "name": "Tapete",
+            "position": [
+              0.40000000000000036,
+              2.075
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              0.40000000000000036,
+              2.075
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-10",
+            "name": "Mesa de jantar",
+            "position": [
+              2.05,
+              -0.3250000000000002
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.05,
+              -0.3250000000000002
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-11",
+            "name": "Cadeira de jantar 1",
+            "position": [
+              1.5499999999999998,
+              -0.9249999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              1.5499999999999998,
+              -0.9249999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-12",
+            "name": "Cadeira de jantar 2",
+            "position": [
+              2.3,
+              -0.9249999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.3,
+              -0.9249999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-13",
+            "name": "Cadeira de jantar 3",
+            "position": [
+              1.5499999999999998,
+              0.2250000000000001
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              1.5499999999999998,
+              0.2250000000000001
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-14",
+            "name": "Cadeira de jantar 4",
+            "position": [
+              2.3,
+              0.2250000000000001
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              2.3,
+              0.2250000000000001
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-15",
+            "name": "Fogão 4 Bocas",
+            "position": [
+              3.8499999999999996,
+              -1.175
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8499999999999996,
+              -1.175
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-16",
+            "name": "Bancada e cuba da cozinha",
+            "position": [
+              3.8499999999999996,
+              0.2749999999999999
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8499999999999996,
+              0.2749999999999999
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-17",
+            "name": "Geladeira Duplex",
+            "position": [
+              3.8000000000000007,
+              1.7249999999999996
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              1.7249999999999996
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-18",
+            "name": "Lavatório suíte",
+            "position": [
+              -2.3,
+              1.2750000000000004
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              -2.3,
+              1.2750000000000004
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-19",
+            "name": "Vaso Sanitário",
+            "position": [
+              -2.45,
+              1.9249999999999998
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              -2.45,
+              1.9249999999999998
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-20",
+            "name": "Box suíte",
+            "position": [
+              -2.7,
+              2.7249999999999996
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.7,
+              2.7249999999999996
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-21",
+            "name": "Lavatório social",
+            "position": [
+              -1.7000000000000002,
+              1.2750000000000004
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.7000000000000002,
+              1.2750000000000004
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-22",
+            "name": "Vaso Sanitário",
+            "position": [
+              -1.5,
+              1.9249999999999998
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.5,
+              1.9249999999999998
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-23",
+            "name": "Box social",
+            "position": [
+              -1.2999999999999998,
+              2.7249999999999996
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -1.2999999999999998,
+              2.7249999999999996
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-24",
+            "name": "Mesa da varanda",
+            "position": [
+              2.3499999999999996,
+              -2.425
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.3499999999999996,
+              -2.425
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-25",
+            "name": "Cadeira da varanda 1",
+            "position": [
+              2.0999999999999996,
+              -2.925
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.0999999999999996,
+              -2.925
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-26",
+            "name": "Cadeira da varanda 2",
+            "position": [
+              1.9000000000000004,
+              -2.225
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              1.9000000000000004,
+              -2.225
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-27",
+            "name": "Máquina de Lavar",
+            "position": [
+              3.8000000000000007,
+              -2.775
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              -2.775
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-28",
+            "name": "Tanque de Serviço",
+            "position": [
+              3.8000000000000007,
+              -2.225
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              -2.225
+            ],
+            "originalRotation": 3,
+            "modified": false
+          }
+        ],
+        "lighting": {
+          "bakedActive": false,
+          "reason": "móveis alterados: iluminação dinâmica"
+        }
+      },
+      "oldOwnership": {
+        "created": 257,
+        "disposed": 257,
+        "bitmapsClosed": 15
+      },
+      "finishedAtUtc": "2026-10-10T20:59:01.576714+00:00",
+      "durationMs": 22101
+    },
+    {
+      "name": "cancelamento-fetch",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:59:02.101737+00:00",
+      "ownership": {
+        "created": 143,
+        "disposed": 143,
+        "bitmapsClosed": 15
+      },
+      "injection": "Atlas foreground bloqueado; mudança para 2D antes de concluir",
+      "finishedAtUtc": "2026-10-10T20:59:15.024067+00:00",
+      "durationMs": 12922
+    },
+    {
+      "name": "cancelamento-init-webgpu",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:59:15.036733+00:00",
+      "phase": "release disparado sem aguardar Promise",
+      "gate": {
+        "blocked": true,
+        "releaseCalled": true,
+        "settled": true,
+        "requestDeviceResolved": true,
+        "error": null
+      },
+      "gateResolutionTimedOut": false,
+      "ownership": {
+        "created": 1,
+        "disposed": 1,
+        "bitmapsClosed": 0
+      },
+      "disposingFramesAfterCleanup": 0,
+      "injection": "requestDevice retido no iframe; dispositivo liberado após navegação para 2D",
+      "finishedAtUtc": "2026-10-10T20:59:28.657066+00:00",
+      "durationMs": 13620
+    },
+    {
+      "name": "cancelamento-init-sem-resposta",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T20:59:28.666891+00:00",
+      "fallbackReadyMs": 68,
+      "phase": "2D pronto; gate permanece retida; aguardando limite real de 30 s",
+      "gate": {
+        "blocked": true,
+        "releaseCalled": false,
+        "settled": false,
+        "requestDeviceResolved": false,
+        "error": null
+      },
+      "observedTeardownMs": 30064.699999928474,
+      "pendingCleanup": 0,
+      "cleanupTimeouts": 1,
+      "nativeTeardownOnly": true,
+      "gpuMemoryReleaseVerified": false,
+      "injection": "requestDevice retido sem release; iframe removido pelo limite nativo de 30 s",
+      "finishedAtUtc": "2026-10-10T21:00:12.099945+00:00",
+      "durationMs": 43433
+    },
+    {
+      "name": "snapshot-preservado-cancelamento-init",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T21:00:12.109890+00:00",
+      "firstOwnership": {
+        "created": 257,
+        "disposed": 257,
+        "bitmapsClosed": 15
+      },
+      "snapshotPreservedDuringCancellation": true,
+      "phase": "snapshot válido preservado; liberando apenas a segunda inicialização",
+      "gate": {
+        "blocked": true,
+        "releaseCalled": true,
+        "settled": true,
+        "requestDeviceResolved": true,
+        "error": null
+      },
+      "canceledOwnership": {
+        "created": 1,
+        "disposed": 1,
+        "bitmapsClosed": 0
+      },
+      "restored": {
+        "camera": {
+          "position": [
+            -2.9,
+            1.62,
+            -1.9749999999999999
+          ],
+          "target": [
+            0,
+            0.4,
+            0
+          ],
+          "yaw": -3.141592653589793,
+          "pitch": 0
+        },
+        "furniture": [
+          {
+            "id": "movel-0",
+            "name": "Cama da suíte",
+            "position": [
+              -2.9499999999999997,
+              -0.7749999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              -3.15,
+              -0.7749999999999999
+            ],
+            "originalRotation": 1,
+            "modified": true
+          },
+          {
+            "id": "movel-1",
+            "name": "Armário da suíte",
+            "position": [
+              -2.95,
+              -2.525
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.95,
+              -2.525
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-2",
+            "name": "Criado-Mudo",
+            "position": [
+              -3.85,
+              -1.825
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.85,
+              -1.825
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-3",
+            "name": "Criado-Mudo",
+            "position": [
+              -3.85,
+              0.17499999999999982
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.85,
+              0.17499999999999982
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-4",
+            "name": "Cama do dormitório",
+            "position": [
+              0.5,
+              -1.725
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              0.5,
+              -1.725
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-5",
+            "name": "Armário do dormitório",
+            "position": [
+              -1.2999999999999998,
+              -2.025
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.2999999999999998,
+              -2.025
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-6",
+            "name": "Bancada do dormitório",
+            "position": [
+              0.25,
+              -0.5249999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              0.25,
+              -0.5249999999999999
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-7",
+            "name": "Sofá da sala TV",
+            "position": [
+              1.2000000000000002,
+              2.0250000000000004
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              1.2000000000000002,
+              2.0250000000000004
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-8",
+            "name": "Rack da sala TV",
+            "position": [
+              -0.4500000000000002,
+              2.0250000000000004
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -0.4500000000000002,
+              2.0250000000000004
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-9",
+            "name": "Tapete",
+            "position": [
+              0.40000000000000036,
+              2.075
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              0.40000000000000036,
+              2.075
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-10",
+            "name": "Mesa de jantar",
+            "position": [
+              2.05,
+              -0.3250000000000002
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.05,
+              -0.3250000000000002
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-11",
+            "name": "Cadeira de jantar 1",
+            "position": [
+              1.5499999999999998,
+              -0.9249999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              1.5499999999999998,
+              -0.9249999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-12",
+            "name": "Cadeira de jantar 2",
+            "position": [
+              2.3,
+              -0.9249999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.3,
+              -0.9249999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-13",
+            "name": "Cadeira de jantar 3",
+            "position": [
+              1.5499999999999998,
+              0.2250000000000001
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              1.5499999999999998,
+              0.2250000000000001
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-14",
+            "name": "Cadeira de jantar 4",
+            "position": [
+              2.3,
+              0.2250000000000001
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              2.3,
+              0.2250000000000001
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-15",
+            "name": "Fogão 4 Bocas",
+            "position": [
+              3.8499999999999996,
+              -1.175
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8499999999999996,
+              -1.175
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-16",
+            "name": "Bancada e cuba da cozinha",
+            "position": [
+              3.8499999999999996,
+              0.2749999999999999
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8499999999999996,
+              0.2749999999999999
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-17",
+            "name": "Geladeira Duplex",
+            "position": [
+              3.8000000000000007,
+              1.7249999999999996
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              1.7249999999999996
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-18",
+            "name": "Lavatório suíte",
+            "position": [
+              -2.3,
+              1.2750000000000004
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              -2.3,
+              1.2750000000000004
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-19",
+            "name": "Vaso Sanitário",
+            "position": [
+              -2.45,
+              1.9249999999999998
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              -2.45,
+              1.9249999999999998
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-20",
+            "name": "Box suíte",
+            "position": [
+              -2.7,
+              2.7249999999999996
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.7,
+              2.7249999999999996
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-21",
+            "name": "Lavatório social",
+            "position": [
+              -1.7000000000000002,
+              1.2750000000000004
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.7000000000000002,
+              1.2750000000000004
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-22",
+            "name": "Vaso Sanitário",
+            "position": [
+              -1.5,
+              1.9249999999999998
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.5,
+              1.9249999999999998
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-23",
+            "name": "Box social",
+            "position": [
+              -1.2999999999999998,
+              2.7249999999999996
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -1.2999999999999998,
+              2.7249999999999996
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-24",
+            "name": "Mesa da varanda",
+            "position": [
+              2.3499999999999996,
+              -2.425
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.3499999999999996,
+              -2.425
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-25",
+            "name": "Cadeira da varanda 1",
+            "position": [
+              2.0999999999999996,
+              -2.925
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.0999999999999996,
+              -2.925
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-26",
+            "name": "Cadeira da varanda 2",
+            "position": [
+              1.9000000000000004,
+              -2.225
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              1.9000000000000004,
+              -2.225
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-27",
+            "name": "Máquina de Lavar",
+            "position": [
+              3.8000000000000007,
+              -2.775
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              -2.775
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-28",
+            "name": "Tanque de Serviço",
+            "position": [
+              3.8000000000000007,
+              -2.225
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              -2.225
+            ],
+            "originalRotation": 3,
+            "modified": false
+          }
+        ],
+        "lighting": {
+          "bakedActive": false,
+          "reason": "móveis alterados: iluminação dinâmica"
+        },
+        "typology": "canto",
+        "mode": "visita"
+      },
+      "injection": "Gate somente na segunda init; cancelamento preserva câmera/layout salvos antes de reabrir sem gate",
+      "finishedAtUtc": "2026-10-10T21:00:34.910755+00:00",
+      "durationMs": 22801
+    },
+    {
+      "name": "ready-antes-restore",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T21:00:35.431580+00:00",
+      "firstOwnership": {
+        "created": 257,
+        "disposed": 257,
+        "bitmapsClosed": 15
+      },
+      "readyBeforeParentRestore": true,
+      "snapshotPreservedDuringCancellation": true,
+      "trigger": {
+        "childReady": true,
+        "parentPrepared": false,
+        "frameReleasedSynchronously": true,
+        "apiIndex": 1
+      },
+      "phase": "cancelamento síncrono em ready; snapshot anterior preservado",
+      "canceledOwnership": {
+        "created": 257,
+        "disposed": 257,
+        "bitmapsClosed": 15
+      },
+      "restored": {
+        "camera": {
+          "position": [
+            -2.9,
+            1.62,
+            -1.9749999999999999
+          ],
+          "target": [
+            0,
+            0.4,
+            0
+          ],
+          "yaw": -3.141592653589793,
+          "pitch": 0
+        },
+        "furniture": [
+          {
+            "id": "movel-0",
+            "name": "Cama da suíte",
+            "position": [
+              -2.9499999999999997,
+              -0.7749999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              -3.15,
+              -0.7749999999999999
+            ],
+            "originalRotation": 1,
+            "modified": true
+          },
+          {
+            "id": "movel-1",
+            "name": "Armário da suíte",
+            "position": [
+              -2.95,
+              -2.525
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.95,
+              -2.525
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-2",
+            "name": "Criado-Mudo",
+            "position": [
+              -3.85,
+              -1.825
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.85,
+              -1.825
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-3",
+            "name": "Criado-Mudo",
+            "position": [
+              -3.85,
+              0.17499999999999982
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.85,
+              0.17499999999999982
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-4",
+            "name": "Cama do dormitório",
+            "position": [
+              0.5,
+              -1.725
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              0.5,
+              -1.725
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-5",
+            "name": "Armário do dormitório",
+            "position": [
+              -1.2999999999999998,
+              -2.025
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.2999999999999998,
+              -2.025
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-6",
+            "name": "Bancada do dormitório",
+            "position": [
+              0.25,
+              -0.5249999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              0.25,
+              -0.5249999999999999
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-7",
+            "name": "Sofá da sala TV",
+            "position": [
+              1.2000000000000002,
+              2.0250000000000004
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              1.2000000000000002,
+              2.0250000000000004
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-8",
+            "name": "Rack da sala TV",
+            "position": [
+              -0.4500000000000002,
+              2.0250000000000004
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -0.4500000000000002,
+              2.0250000000000004
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-9",
+            "name": "Tapete",
+            "position": [
+              0.40000000000000036,
+              2.075
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              0.40000000000000036,
+              2.075
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-10",
+            "name": "Mesa de jantar",
+            "position": [
+              2.05,
+              -0.3250000000000002
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.05,
+              -0.3250000000000002
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-11",
+            "name": "Cadeira de jantar 1",
+            "position": [
+              1.5499999999999998,
+              -0.9249999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              1.5499999999999998,
+              -0.9249999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-12",
+            "name": "Cadeira de jantar 2",
+            "position": [
+              2.3,
+              -0.9249999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.3,
+              -0.9249999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-13",
+            "name": "Cadeira de jantar 3",
+            "position": [
+              1.5499999999999998,
+              0.2250000000000001
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              1.5499999999999998,
+              0.2250000000000001
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-14",
+            "name": "Cadeira de jantar 4",
+            "position": [
+              2.3,
+              0.2250000000000001
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              2.3,
+              0.2250000000000001
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-15",
+            "name": "Fogão 4 Bocas",
+            "position": [
+              3.8499999999999996,
+              -1.175
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8499999999999996,
+              -1.175
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-16",
+            "name": "Bancada e cuba da cozinha",
+            "position": [
+              3.8499999999999996,
+              0.2749999999999999
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8499999999999996,
+              0.2749999999999999
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-17",
+            "name": "Geladeira Duplex",
+            "position": [
+              3.8000000000000007,
+              1.7249999999999996
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              1.7249999999999996
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-18",
+            "name": "Lavatório suíte",
+            "position": [
+              -2.3,
+              1.2750000000000004
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              -2.3,
+              1.2750000000000004
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-19",
+            "name": "Vaso Sanitário",
+            "position": [
+              -2.45,
+              1.9249999999999998
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              -2.45,
+              1.9249999999999998
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-20",
+            "name": "Box suíte",
+            "position": [
+              -2.7,
+              2.7249999999999996
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.7,
+              2.7249999999999996
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-21",
+            "name": "Lavatório social",
+            "position": [
+              -1.7000000000000002,
+              1.2750000000000004
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.7000000000000002,
+              1.2750000000000004
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-22",
+            "name": "Vaso Sanitário",
+            "position": [
+              -1.5,
+              1.9249999999999998
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.5,
+              1.9249999999999998
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-23",
+            "name": "Box social",
+            "position": [
+              -1.2999999999999998,
+              2.7249999999999996
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -1.2999999999999998,
+              2.7249999999999996
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-24",
+            "name": "Mesa da varanda",
+            "position": [
+              2.3499999999999996,
+              -2.425
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.3499999999999996,
+              -2.425
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-25",
+            "name": "Cadeira da varanda 1",
+            "position": [
+              2.0999999999999996,
+              -2.925
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.0999999999999996,
+              -2.925
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-26",
+            "name": "Cadeira da varanda 2",
+            "position": [
+              1.9000000000000004,
+              -2.225
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              1.9000000000000004,
+              -2.225
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-27",
+            "name": "Máquina de Lavar",
+            "position": [
+              3.8000000000000007,
+              -2.775
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              -2.775
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-28",
+            "name": "Tanque de Serviço",
+            "position": [
+              3.8000000000000007,
+              -2.225
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              -2.225
+            ],
+            "originalRotation": 3,
+            "modified": false
+          }
+        ],
+        "lighting": {
+          "bakedActive": false,
+          "reason": "móveis alterados: iluminação dinâmica"
+        },
+        "typology": "canto",
+        "mode": "visita"
+      },
+      "injection": "Setter ready na segunda abertura chama 2D antes do restore do pai; terceira abertura restaura câmera/layout",
+      "finishedAtUtc": "2026-10-10T21:01:00.141986+00:00",
+      "durationMs": 24710
+    },
+    {
+      "name": "snapshot-antigo-descartado",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T21:01:00.656690+00:00",
+      "staleSnapshotLoaded": {
+        "sourceSHA256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "unitSHA256": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "injection": "Snapshot persistido com identidade de uma versão antiga; nova fonte abre normalmente",
+      "staleSnapshotDiscarded": true,
+      "finishedAtUtc": "2026-10-10T21:01:28.060208+00:00",
+      "durationMs": 27404
+    }
+  ],
+  "updatedAtUtc": "2026-10-10T21:01:28.350601+00:00",
+  "records": {
+    "catalogo": "b320d0d6f64a5e320678604b60e2b738c2ee30aea50a2506d7e859c60ec6d869",
+    "assets": {
+      "interiores/shared/runtime.js": {
+        "bytes": 93877,
+        "sha256": "cf84c09e1c243b0d48c31560c1c9d3d4cdd26586777144c559f4868c15f31da2",
+        "decodedSHA256": null
+      },
+      "interiores/shared/materials.json.gz": {
+        "bytes": 876068,
+        "sha256": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+        "decodedSHA256": "a04aecc426677a81f2cc41f64c224e9f1a0cdba634762a58cb91ade4b6bf3217"
+      },
+      "interiores/shared/furniture.json.gz": {
+        "bytes": 201119,
+        "sha256": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd",
+        "decodedSHA256": "8affa3dc2b6f105282ec5b744729bd3f35193680d04eb85cb05a57bb693fbdc7"
+      },
+      "interiores/canto/unidade.json": {
+        "bytes": 13456,
+        "sha256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+        "decodedSHA256": null
+      },
+      "interiores/canto/source.json.gz": {
+        "bytes": 1946610,
+        "sha256": "c8c03c3d42a71dbbdef215e20a01072f24d684e6691e610d7e99072e47429b57",
+        "decodedSHA256": "270d61e914f9f3dfdb7a79327b694409b32ccb475c3187c92cf42490e8ae3fb6"
+      },
+      "interiores/canto/geometry-compact.json.gz": {
+        "bytes": 850749,
+        "sha256": "a37b719fe821258f7ca7ad5ce4074afc4029050f65a3ce68b41785d721b19ab0",
+        "decodedSHA256": "a203719adc18db7c6ff1714907368566ce2d398590b08693716a5a5e41d4a56f"
+      },
+      "interiores/canto/light.json": {
+        "bytes": 1851,
+        "sha256": "fa372d273c42254a0d9cd107db89bdbf8618c785df5f9050d9bfb3a6d9efe4e3",
+        "decodedSHA256": null
+      },
+      "interiores/canto/irradiance.rgbm.gz": {
+        "bytes": 4646752,
+        "sha256": "25a42a2014ae77fe034e65e86585b233335273af7b4309e952a2cd9193e96366",
+        "decodedSHA256": "1f32fd51333c05cc2ca1405ce45ba529ca0e760e007f7a4fd6464c3c3539cbde"
+      },
+      "interiores/meio/unidade.json": {
+        "bytes": 8038,
+        "sha256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+        "decodedSHA256": null
+      },
+      "interiores/meio/recipe.json": {
+        "bytes": 595,
+        "sha256": "dc206ab5c031941b614fd889af9c843ee67a53371311dfcb2a7d61358177609d",
+        "decodedSHA256": null
+      },
+      "interiores/meio/source.json.gz": {
+        "bytes": 1366048,
+        "sha256": "94b259f6b377d4a06680f61813362abdc5b1b49bf8688e18c247ebe7ad1ed6b7",
+        "decodedSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188"
+      },
+      "interiores/meio/geometry-compact.json.gz": {
+        "bytes": 418028,
+        "sha256": "9be16641a2cb189d559124d8f8590b554dbf9a2b40bcccd5ad904bfa1253f51e",
+        "decodedSHA256": "9110a84a7302f5ea6f29cf3a09c0da02d0336d8c7bec0f73de230a44890f01f3"
+      },
+      "interiores/meio/light.json": {
+        "bytes": 1881,
+        "sha256": "1230dcf4dfc6b64364907cafae95e8543a22546a2f25ab34356fe3f119cbe012",
+        "decodedSHA256": null
+      },
+      "interiores/meio/irradiance.rgbm.gz": {
+        "bytes": 4171499,
+        "sha256": "fca0a7a95292bfccda31893ecfd6164e624c9a7aa1cf58c3d1869eed41d322e9",
+        "decodedSHA256": "5d636586c1d7b1a5c8b2266fb45ee8e88cddcb2670c3516f4dcaff7d117dc870"
+      }
+    },
+    "sourceSHA256": {
+      "gerar_manifesto_transferencias.py": "f87e000da94b2cb0a645d13e5621466eb7310614ac3e364a84f845ef6aac1c87",
+      "gerar_pacote_interiores.py": "0161872becf5e47315c3f571fe3a6115c62d4cdea7ba88fa2cf15e9a1afffc79",
+      "interior-navigation.js": "a93e4ddb3dae17a1c82f073ca7f36758b1e94309a3e73f67c9ee4abc5c1702f1",
+      "interior-renderer.js": "3dd11166d915f289525a01de0b3206b1eedee37fcc645c21adc70b95a1200510",
+      "interior.html": "794cf562a7b64f81d04a6b9e65bdc374714958f1fe0a9ae3496c2d78389bb6e3",
+      "interiores/canto/geometry-compact.json.gz": "a37b719fe821258f7ca7ad5ce4074afc4029050f65a3ce68b41785d721b19ab0",
+      "interiores/canto/irradiance.rgbm.gz": "25a42a2014ae77fe034e65e86585b233335273af7b4309e952a2cd9193e96366",
+      "interiores/canto/light.json": "fa372d273c42254a0d9cd107db89bdbf8618c785df5f9050d9bfb3a6d9efe4e3",
+      "interiores/canto/source.json.gz": "c8c03c3d42a71dbbdef215e20a01072f24d684e6691e610d7e99072e47429b57",
+      "interiores/canto/unidade.json": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiores/catalogo.json": "b320d0d6f64a5e320678604b60e2b738c2ee30aea50a2506d7e859c60ec6d869",
+      "interiores/meio/cena-exportada.json": "ab2e93d70397cf02afda6dae0dedf9f494dbf78995775f49367f740d0c784686",
+      "interiores/meio/cena-reproduzida.json": "75b704b0b93ff16dce76d000819064e5d058dfb9f6251829b717cc238c1e99f5",
+      "interiores/meio/conferencia.json": "5b2b128d0b6095ac89af7d214bf2ca0475f0e293ed7d8c684fabe356a3faa200",
+      "interiores/meio/construir-meio.ts": "cef5d70aff9480d78d87991ca990b6bb4f4caa28fe75940869b7352e647c7ad7",
+      "interiores/meio/contexto.json": "48bf6cac891e21284bf49747f08a7c53ed2740ae782f1d895fb076e1cca7be27",
+      "interiores/meio/exportacao.json": "55ccc40a8d7a95b88470ff0d615f3f7d87fe798c7f61923b048ea75180f4b5dd",
+      "interiores/meio/geometry-compact.json.gz": "9be16641a2cb189d559124d8f8590b554dbf9a2b40bcccd5ad904bfa1253f51e",
+      "interiores/meio/irradiance.rgbm.gz": "fca0a7a95292bfccda31893ecfd6164e624c9a7aa1cf58c3d1869eed41d322e9",
+      "interiores/meio/leitura.json": "eb6c6444028b0b2467859cdf5575648bf531876430a19f9c065aaff6919316bf",
+      "interiores/meio/light.json": "1230dcf4dfc6b64364907cafae95e8543a22546a2f25ab34356fe3f119cbe012",
+      "interiores/meio/moveis.json": "6490104ff5989cac254aabd30072bc522a4d606b51f78e4ac8c1cd1879b9c898",
+      "interiores/meio/projeto-planta.json": "271d30b63157971807e97b68d4930819f08411f63dc0621c66fa3e56a0450660",
+      "interiores/meio/recipe.json": "dc206ab5c031941b614fd889af9c843ee67a53371311dfcb2a7d61358177609d",
+      "interiores/meio/referencia.json": "fe68313ca6c21f8ca78ad326646ba06d188b2d23128d639ab839cc5fb62e7edc",
+      "interiores/meio/source.json": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+      "interiores/meio/source.json.gz": "94b259f6b377d4a06680f61813362abdc5b1b49bf8688e18c247ebe7ad1ed6b7",
+      "interiores/meio/unidade.json": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+      "interiores/shared/furniture.json.gz": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd",
+      "interiores/shared/materials.json.gz": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+      "interiores/shared/runtime.js": "cf84c09e1c243b0d48c31560c1c9d3d4cdd26586777144c559f4868c15f31da2",
+      "maquete-liv-ipanema.html": "5b03753d8fc932cee83044538bd5bb4a3f361c4b26e453b66b2babf45f5f3336",
+      "material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+      "plantas2d/canto.jpg": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971",
+      "plantas2d/manifest.json": "a249468806b17861a8c7b8771808115c2313ec4b071ead527960e91d480cf34a",
+      "plantas2d/meio.jpg": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
+      "qa_falhas_interiores.py": "8b658a66bec6787ab3f3de59fc457d7ac0a48b4f0a4bd0c59065aaea27b39a38",
+      "renderer.js": "414672e6e89b2483df55a45d0fa84fe24213d7f0fbb5289cee9a2b6ba7ad7da0",
+      "tipologias.js": "bead10376b812f56a9e1ee7513049c108664e38c43120aafec5c00d396856403",
+      "transfer-manifest.json": "e17ebedd440ce35b8482a9bd0f68aaf2b3511ddc3c64265eb4861235b0b4938d",
+      "transfer-worker.js": "d215453785075ecaa187047a009aa3f2456bb45756207fef98d590bc5767cd2e",
+      "transfers.js": "d3f18d35513422b0566e55d8fbf60f643686d42c2ec0588ca2bdb2e440abb146",
+      "viewer.js": "4c5bf0a35819793b6513a64241c8f5a25c220661f9e8aa1c126b5b5aadfcfd0e"
+    }
+  },
+  "browserVersion": "154.0.8037.98",
+  "currentCase": null
+}

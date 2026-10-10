@@ -18,6 +18,7 @@ CHROME = r'C:\Program Files\Google\Chrome\Application\chrome.exe'
 _case_deadline = None
 CASES = ['sem-webgpu-auto', 'init-webgpu-falha-auto', 'init-dos-backends-falha', 'webgpu-obrigatorio-ausente-meio',
          'canto-atlas-http', 'canto-atlas-corrompido', 'meio-unidade-http', 'meio-unidade-corrompida',
+         'meio-atlas-corrompido', 'meio-atlas-de-canto',
          'renderer-error-webgl', 'renderer-error-webgpu', 'device-lost-webgpu-simulado',
          'cancelamento-fetch', 'cancelamento-init-webgpu', 'cancelamento-init-sem-resposta',
          'snapshot-preservado-cancelamento-init', 'ready-antes-restore', 'snapshot-antigo-descartado']
@@ -319,9 +320,21 @@ def run_case(browser, name, catalog, report, output, timeout_ms=None):
                 assert page.locator('#typology').input_value() == 'meio'
                 assert page.evaluate('__livViewer.frame===null')
                 case['fallback'] = {'typology': 'meio', 'renderersActive': 0}
-            elif name.startswith('canto-atlas-') or name.startswith('meio-unidade-'):
+            elif name == 'meio-atlas-de-canto':
+                mixed = json.loads(json.dumps(catalog))
+                mixed['tipologias']['meio']['files']['atlas'] = mixed['tipologias']['canto']['files']['atlas']
+                pattern = '**/interiores/catalogo.json*'
+                context.route(pattern, lambda route: route.fulfill(json=mixed))
+                case['injection'] = 'Atlas íntegro do canto associado à fonte/UV1/light manifest próprios de meio'
+                open_interior(page, 'meio')
+                handled_error(page, case)
+                assert 'identidade do bake' in case['handledError'].lower(), case
+                context.unroute(pattern)
+                retry_once(page, 'visita', 'meio', case)
+                assert state(page)['lighting']['bakedActive'], 'Retry deve usar somente o atlas próprio de meio.'
+            elif name.startswith('canto-atlas-') or name.startswith('meio-unidade-') or name.startswith('meio-atlas-'):
                 typology = 'canto' if name.startswith('canto') else 'meio'
-                key = 'atlas' if typology == 'canto' else 'unit'
+                key = 'atlas' if '-atlas-' in name else 'unit'
                 record = catalog['tipologias'][typology]['files'][key]
                 pattern = '**/' + record['path'] + '*'
                 if name.endswith('http'):

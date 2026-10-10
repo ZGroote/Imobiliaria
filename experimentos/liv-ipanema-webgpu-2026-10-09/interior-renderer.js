@@ -11,7 +11,9 @@ const state=window.__livInterior={ready:false,error:null,backend:null,typology,m
 let renderer,scene,camera,controls,observer,startup,disposePromise,layout,navigation,entry,catalog,record,source,light,atlas;
 let yaw=0,pitch=0,tourPosition=null,route=[],routeResolve=null,frameBusy=false,framePromise=Promise.resolve(),lastFrame=0,ceiling=[];
 const furniture=[],meshBySlot=new Map(),baked=[],keys=new Set(),touchKeys=new Set();
-let orbitSnapshot=null,pointer=null;
+let orbitSnapshot=null,pointer=null,shadowLight=null;
+
+function invalidateShadows(){if(shadowLight)shadowLight.shadow.needsUpdate=true;}
 
 function check(){if(controller.signal.aborted||state.disposed)throw new DOMException('Interior cancelado.','AbortError');}
 function own(value){if(value&&!owned.has(value)){owned.add(value);state.ownership.created++;}return value;}
@@ -144,7 +146,16 @@ function buildNative(materials,factory){
   root.traverse(o=>{if(o.name==='forro-original')ceiling.push(o);});
   for(const item of furniture){
     const def=factory.catalog.MOVEIS[item.tipo];if(!def)throw Error(`Móvel ${item.tipo} ausente do catálogo nativo.`);
-    const group=factory.catalog.geoDoMovel(def,item.cor,{w:item.w,d:item.d,h:item.h,estilo:item.estilo});
+    let group;
+    if(item.tipo==='tapete'){
+      // Library stripes share coplanar top faces. A closed fabric slab keeps
+      // the nominal footprint/thickness and avoids z-fighting and bake overlap.
+      group=new THREE.Group();const geometry=new THREE.BoxGeometry(...def.b);
+      geometry.translate(0,def.b[1]/2,0);const color=new THREE.Color(item.cor??def.cor),colors=new Float32Array(geometry.attributes.position.count*3);
+      for(let i=0;i<colors.length;i+=3)colors.set(color.toArray(),i);
+      geometry.setAttribute('color',new THREE.BufferAttribute(colors,3));
+      group.add(new THREE.Mesh(geometry,materials.m21));
+    }else group=factory.catalog.geoDoMovel(def,item.cor,{w:item.w,d:item.d,h:item.h,estilo:item.estilo});
     if(!group)throw Error(`Não foi possível construir ${item.name}.`);
     finishNativeFurniture(group,item,materials);
     if(!def.param)group.scale.set(item.w/def.b[0],item.h/def.b[1],item.d/def.b[2]);
@@ -197,7 +208,7 @@ function expandedGeometry(spec,corner){
   for(const group of corner.groups)geometry.addGroup(group.start,group.count,group.materialIndex);geometry.computeBoundingSphere();return geometry;
 }
 function installBake(compact){
-  if(typology!=='canto'||!light.ready||!light.geometryApproved||light.colorPass!==false||light.sourceSHA256!==record.sourceSHA256||light.unitSHA256!==record.unitSHA256||compact.sourceSHA256!==record.sourceSHA256||compact.unitSHA256!==record.unitSHA256||light.geometrySHA256!==record.files.compact.decodedSHA256||light.textureSHA256!==record.files.atlas.decodedSHA256)throw Error('Identidade do bake interior não corresponde à unidade.');
+  if(!light.ready||!light.geometryApproved||light.colorPass!==false||light.sourceSHA256!==record.sourceSHA256||light.unitSHA256!==record.unitSHA256||compact.sourceSHA256!==record.sourceSHA256||compact.unitSHA256!==record.unitSHA256||light.geometrySHA256!==record.files.compact.decodedSHA256||light.textureSHA256!==record.files.atlas.decodedSHA256)throw Error('Identidade do bake interior não corresponde à unidade.');
   if(compact.schema!=='liv-interior-corners-v1'||compact.uvScale!==65535||compact.objects.length!==light.objects)throw Error('Contrato do bake interior inválido.');
   const nodeMaterials=new Map();
   for(const corner of compact.objects){
@@ -211,19 +222,27 @@ function installBake(compact){
     });
     baked.push({mesh,originalGeometry:mesh.geometry,originalMaterial:original,geometry,material:list.length===1?list[0]:list});
   }
-  setBaked(true,'atlas aprovado da planta de canto');
+  setBaked(true,`atlas aprovado da planta de ${typology}`);
 }
 function layoutOriginal(){return furniture.every(m=>Math.abs(m.position[0]-m.originalPosition[0])<1e-9&&Math.abs(m.position[1]-m.originalPosition[1])<1e-9&&m.rotation===m.originalRotation);}
 function setBaked(active,reason){
+  const changed=state.lighting.bakedActive!==active;
   for(const target of baked){target.mesh.geometry=active?target.geometry:target.originalGeometry;target.mesh.material=active?target.material:target.originalMaterial;}
   state.lighting={bakedActive:active,reason};
+  if(changed)invalidateShadows();
 }
 function furnitureTransform(item){
   item.group.position.x=item.position[0];item.group.position.z=item.position[1];
-  item.group.rotation.y=typology==='canto'?(item.rotation-item.originalRotation)*Math.PI/2:item.rotation*Math.PI/2;
+  // Frozen meshes already contain their nominal rotation. Native factory
+  // groups instead carry it on the parent; both apply only the requested delta.
+  item.group.rotation.y=((item.baseRotation??item.originalRotation)+item.rotation-item.originalRotation)*Math.PI/2;
+}
+function furnitureChanged(){
+  // Restore/reset applies all transforms before rebuilding collision/routes.
   navigation.invalidate();stopRoute(false);
   if(tourPosition&&!navigation.free(...tourPosition))tourPosition=navigation.entry();
-  setBaked(typology==='canto'&&baked.length>0&&layoutOriginal(),layoutOriginal()?(typology==='canto'?'atlas aprovado da planta de canto':'iluminação dinâmica da planta de meio'):'móveis alterados: iluminação dinâmica');
+  const original=layoutOriginal();setBaked(baked.length>0&&original,original?(baked.length?`atlas aprovado da planta de ${typology}`:'iluminação dinâmica'):'móveis alterados: iluminação dinâmica');
+  invalidateShadows();
   refreshRooms();
 }
 state.moveFurniture=function(id,dx,dz){
@@ -232,11 +251,11 @@ state.moveFurniture=function(id,dx,dz){
   // Keep the furniture anchor in a real room; conservative collision remains
   // active even if the new layout blocks a destination.
   if(!layout.rooms.some(r=>r.poly&&pointIn(r.poly,...p)))return false;
-  item.position=p;furnitureTransform(item);return true;
+  item.position=p;furnitureTransform(item);furnitureChanged();return true;
 };
 function pointIn(poly,x,z){let b=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const a=poly[i],q=poly[j];if((a[1]>z)!==(q[1]>z)&&x<(q[0]-a[0])*(z-a[1])/(q[1]-a[1])+a[0])b=!b;}return b;}
-state.rotateFurniture=function(id){if(!state.ready)return false;const item=furniture.find(m=>m.id===id);if(!item)return false;item.rotation=(item.rotation+1)%4;furnitureTransform(item);return true;};
-state.resetFurniture=function(){if(!state.ready)return false;for(const item of furniture){item.position=[...item.originalPosition];item.rotation=item.originalRotation;furnitureTransform(item);}return true;};
+state.rotateFurniture=function(id){if(!state.ready)return false;const item=furniture.find(m=>m.id===id);if(!item)return false;item.rotation=(item.rotation+1)%4;furnitureTransform(item);furnitureChanged();return true;};
+state.resetFurniture=function(){if(!state.ready)return false;for(const item of furniture){item.position=[...item.originalPosition];item.rotation=item.originalRotation;furnitureTransform(item);}furnitureChanged();return true;};
 
 function addLights(){
   scene.background=new THREE.Color('#e8ede9');
@@ -244,7 +263,8 @@ function addLights(){
   environment.colorSpace=THREE.SRGBColorSpace;environment.mapping=THREE.EquirectangularReflectionMapping;environment.needsUpdate=true;scene.environment=environment;scene.environmentIntensity=.55;
   const hemi=new THREE.HemisphereLight(0xc8ddff,0x817664,1.2);scene.add(hemi);
   const sun=own(new THREE.DirectionalLight(0xffffff,light?.lighting?.sun?.energy||2.2));sun.position.fromArray(light?.lighting?.sun?.position||[-7,9,10]);sun.castShadow=true;
-  sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-7,right:7,top:7,bottom:-7,near:.5,far:35});sun.shadow.bias=-.0003;sun.shadow.normalBias=.012;scene.add(sun);
+  sun.name='Sol estático LIV';sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-7,right:7,top:7,bottom:-7,near:.5,far:35});sun.shadow.bias=-.0003;sun.shadow.normalBias=.012;
+  sun.shadow.autoUpdate=false;sun.shadow.needsUpdate=true;shadowLight=sun;scene.add(sun,sun.target);
   const fill=new THREE.DirectionalLight(0xe3eaff,.6);fill.position.set(4,5,-4);scene.add(fill);
   for(const room of layout.rooms){const lamp=new THREE.PointLight(0xfff2dc,10,8,2);lamp.position.set(room.cx,layout.pd-.14,room.cz);scene.add(lamp);}
 }
@@ -257,8 +277,10 @@ function orbitDefault(){
 function setTourCamera(){camera.position.set(tourPosition[0],1.62,tourPosition[1]);camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);}
 state.setMode=function(mode){
   if(!['planta3d','visita'].includes(mode)||!scene||state.disposed)return false;
+  const changed=state.mode!==mode;
   if(state.mode==='planta3d'&&mode==='visita')orbitSnapshot={position:camera.position.toArray(),target:controls.target.toArray()};
   state.mode=mode;controls.enabled=mode==='planta3d';for(const mesh of ceiling)mesh.visible=mode==='visita';
+  if(changed)invalidateShadows();
   keys.clear();touchKeys.clear();stopRoute(false);
   if(mode==='visita'){tourPosition??=[...entry];setTourCamera();}
   else if(orbitSnapshot){camera.position.fromArray(orbitSnapshot.position);controls.target.fromArray(orbitSnapshot.target);controls.update();}
@@ -334,11 +356,13 @@ state.getState=function(){return {version:1,typology,mode:state.mode,backend:sta
   ceiling:{visible:ceiling.length>0&&ceiling.every(m=>m.visible),count:ceiling.length},rooms:state.rooms||[],
   furniture:furniture.map(m=>({id:m.id,name:m.name,position:[...m.position],rotation:m.rotation,originalPosition:[...m.originalPosition],originalRotation:m.originalRotation,
     modified:Math.abs(m.position[0]-m.originalPosition[0])>1e-9||Math.abs(m.position[1]-m.originalPosition[1])>1e-9||m.rotation!==m.originalRotation})),
-  lighting:{...state.lighting},navigation:state.navigationDiagnostics(),renderer:{calls:renderer?.info.render.calls||0,triangles:renderer?.info.render.triangles||0,geometries:renderer?.info.memory.geometries||0,textures:renderer?.info.memory.textures||0},ownership:{...state.ownership}};};
+  lighting:{...state.lighting},shadows:shadowLight?{autoUpdate:shadowLight.shadow.autoUpdate,needsUpdate:shadowLight.shadow.needsUpdate,mapSize:shadowLight.shadow.mapSize.toArray()}:null,
+  navigation:state.navigationDiagnostics(),renderer:{calls:renderer?.info.render.drawCalls||0,framePasses:renderer?.info.render.frameCalls||0,totalPasses:renderer?.info.render.calls||0,triangles:renderer?.info.render.triangles||0,geometries:renderer?.info.memory.geometries||0,textures:renderer?.info.memory.textures||0},ownership:{...state.ownership}};};
 state.restoreState=function(snapshot){
   if(!state.ready||snapshot?.typology!==typology||snapshot.unitSHA256!==record.unitSHA256||snapshot.sourceSHA256!==record.sourceSHA256)return false;
-  for(const transform of snapshot.furniture||[]){const item=furniture.find(m=>m.id===transform.id);if(!item||!Array.isArray(transform.position)||!transform.position.every(Number.isFinite)||!Number.isInteger(transform.rotation)||transform.rotation<0||transform.rotation>3)return false;}
+  for(const transform of snapshot.furniture||[]){const item=furniture.find(m=>m.id===transform.id);if(!item||!Array.isArray(transform.position)||transform.position.length!==2||!transform.position.every(Number.isFinite)||!Number.isInteger(transform.rotation)||transform.rotation<0||transform.rotation>3)return false;}
   for(const transform of snapshot.furniture||[]){const item=furniture.find(m=>m.id===transform.id);item.position=[...transform.position];item.rotation=transform.rotation;furnitureTransform(item);}
+  if(snapshot.furniture?.length)furnitureChanged();
   if(snapshot.camera){
     const p=snapshot.camera.position;if(Array.isArray(p)&&p.length===3&&p.every(Number.isFinite)){
       if(snapshot.mode==='visita'&&navigation.free(p[0],p[2])){tourPosition=[p[0],p[2]];yaw=Number.isFinite(snapshot.camera.yaw)?snapshot.camera.yaw:0;pitch=Math.max(-1.2,Math.min(1.2,snapshot.camera.pitch||0));}
@@ -366,20 +390,23 @@ async function start(){
   // Execute the exact bytes checked above, retaining the native factory APIs.
   const runtimeURL=URL.createObjectURL(new Blob([runtime],{type:'text/javascript'}));
   try{await import(runtimeURL);}finally{URL.revokeObjectURL(runtimeURL);}check();
-  const [unit,nativeMaterials,library]=await Promise.all([load(record.files.unit,true),load(catalog.shared.materials,true),load(catalog.shared.furniture,true)]);check();
+  const sourceMaterials=record.geometryKind==='frozen-source'&&record.materialsOrigin==='source';
+  const [unit,nativeMaterials,library]=await Promise.all([load(record.files.unit,true),
+    load(sourceMaterials?record.files.source:catalog.shared.materials,true),
+    record.geometryKind==='native-factories'?load(catalog.shared.furniture,true):Promise.resolve({})]);check();
   if(record.unitSHA256!==record.files.unit.sha256||unit.id!==record.unitId)throw Error('Unidade não pertence à tipologia selecionada.');
   layout=createLayout(unit);scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(48,1,.02,100);state.scene=scene;state.camera=camera;
   controls=own(new OrbitControls(camera,canvas));controls.enableDamping=true;controls.maxPolarAngle=Math.PI*.48;controls.minDistance=3;controls.maxDistance=32;
-  const materials=await materialsFrom(nativeMaterials);check();
+  const native=await materialsFrom(nativeMaterials);check();
   for(const [i,m]of unit.planta.moveis.entries()){
     const position=[m.p[0]-layout.center[0],m.p[1]-layout.center[1]];
     furniture.push({...m,id:`movel-${i}`,name:m.nome||m.tipo,position,originalPosition:[...position],rotation:m.rot||0,originalRotation:m.rot||0});
   }
-  const factory=nativeFactory(materials,library);
+  const factory=nativeFactory(native,library);
   if(record.geometryKind==='frozen-source'){
-    [source,light]=await Promise.all([load(record.files.source,true),load(record.files.light,true)]);check();
+    [source,light]=await Promise.all([sourceMaterials?Promise.resolve(nativeMaterials):load(record.files.source,true),load(record.files.light,true)]);check();
     if(source.schema!=='liv-interior-scene-v1'||source.unitSHA256!==record.unitSHA256||record.files.source.decodedSHA256!==record.sourceSHA256)throw Error('Fonte congelada não corresponde à unidade.');
-    buildFrozen(source,materials);bindFrozenFurniture();
+    buildFrozen(source,native);bindFrozenFurniture();
     // Openings fills only the native collision leaf descriptors. The frozen
     // meshes remain untouched; these temporary construction meshes are released.
     for(const mesh of factory.openings.geoDasEsquadrias(layout.house)){own(mesh.geometry);release(mesh.geometry);}
@@ -387,7 +414,7 @@ async function start(){
   }else if(record.geometryKind==='native-factories'){
     const recipe=await load(record.files.recipe,true);check();
     if(recipe.unitSHA256!==record.unitSHA256||record.files.recipe.sha256!==record.sourceSHA256||recipe.runtimeSHA256!==catalog.shared.runtime.sha256||recipe.materialsSHA256!==catalog.shared.materials.sha256||recipe.furnitureSHA256!==catalog.shared.furniture.sha256||recipe.lighting!=='dynamic')throw Error('Receita da planta de meio inválida.');
-    buildNative(materials,factory);state.lighting={bakedActive:false,reason:'iluminação dinâmica da planta de meio; bake específico pendente'};
+    buildNative(native,factory);state.lighting={bakedActive:false,reason:'cena autoral dinâmica da planta de meio'};
   }else throw Error('Formato de geometria interior desconhecido.');
   check();if(!ceiling.length)throw Error('O interior perdeu o forro para o Tour.');addLights();
   navigation=createNavigation(layout,()=>furniture);entry=navigation.entry();tourPosition=[...entry];yaw=navigation.direction(entry);refreshRooms();

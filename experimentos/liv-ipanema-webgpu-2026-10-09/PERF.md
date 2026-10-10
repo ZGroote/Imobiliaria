@@ -66,3 +66,11 @@ A variação visual foi reproduzida com câmera em posição fixa e bake ativo. 
 ```powershell
 python experimentos/liv-ipanema-webgpu-2026-10-09/perf_visita.py --verificar-publico
 ```
+
+## Iluminação dos dois interiores — continuação em 10/10
+
+Meio recebeu seu próprio mapa de irradiância de 2048×2048/512 amostras, com materiais PBR preservados. A sombra solar agora usa `LightShadow.autoUpdate=false` e é invalidada nas mudanças de móveis, geometria baked e visibilidade do forro. Caminhada e giro não mudam esses elementos. A restauração do conjunto de móveis também recalcula colisões/rotas uma vez, em vez de repetir o trabalho a cada item.
+
+[luz-estatica/runtime.json](evidencias/luz-estatica/runtime.json) registra seis casos no Chrome desktop: WebGPU, WebGL2 e toque emulado, com Canto e Meio. No controle sequencial de 24 quadros por variante, a atualização automática gerou 24 passes de sombra; o cache gerou zero. O renderer submeteu 72 contra 48 passes totais, incluindo seu passe de saída. Ao mover/restaurar, a sombra atualizou e a imagem foi idêntica ao recálculo de referência. O ponto/UV1 da parede permaneceu o mesmo e a variação RGB média máxima foi 0,16/255.
+
+A emulação de toque usou CSS 390×844/DPR 3, com canvas limitado pelo runtime a 780×1688. A restauração síncrona dos snapshots consumiu aproximadamente 450–685 ms nos seis casos; ainda há custo de CPU ao editar/restaurar o layout. Nenhum desses resultados mede execução GPU, consumo de bateria ou FPS no Poco X6 5G. O ganho demonstrado é a remoção dos passes redundantes de sombra. O próprio bake adiciona cerca de 6 MB ao pacote secundário da fila; a abertura do exterior não recebeu esses recursos.
