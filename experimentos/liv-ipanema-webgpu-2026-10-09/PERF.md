@@ -52,3 +52,17 @@ O laboratório de materiais é carregado em outra página sob demanda; seus GLB,
 Investigar o custo da primeira renderização/sombras/ambiente e a compilação em cada backend. Medir rede móvel e aparelhos físicos, inclusive memória GPU/atlas 4096, antes de fechar o orçamento. Avaliar bundle/representação binária somente com perfil que demonstre benefício. Não usar efeitos ou novos materiais mais caros para encobrir esta regressão; sua adoção precisa respeitar a qualificação de T05/T12.
 
 Referências de implementação: `NodeMaterial._getNodeChildren/customProgramCacheKey` do Three.js 0.186.1 instalado; [NodeMaterial](https://threejs.org/docs/pages/NodeMaterial.html) e [WebGPURenderer](https://threejs.org/manual/pages/webgpurenderer.html). O renderer acrescenta capacidades PBR/TSL e WebGPU; desempenho depende da cena e da implementação.
+
+## Relato de caminhada e mudança de claridade, 10/10
+
+O usuário localizou os travamentos durante a caminhada no link público e forneceu capturas da parede acima da porta mudando de claridade com a câmera. O aparelho informado é Poco X6 5G, Android 13, Chrome 154.0.8037.127. A publicação foi conferida por SHA-256 contra a base preservada; não confundir esse runtime r168 com os interiores nativos da prévia.
+
+`perf_visita.py` compara a caminhada do HTML público preservado com DPR original 1,75 e DPR 1, sombras desligadas e conferência de bake dispensada, somente nos contextos locais do diagnóstico. Duas rodadas por variante, com CPU normal e 4×, estão em [perfil-visita-publica/runtime.json](evidencias/perfil-visita-publica/runtime.json). O bake e a sombra congelada estavam ativos no ambiente ensaiado. A cadência desktop não reproduziu o travamento; a GPU de celular não foi emulada. Não há ganho físico de FPS demonstrado.
+
+O cálculo síncrono de rotas foi o custo de CPU mais evidente: aproximadamente 93–303 ms por chamada sob throttling 4×, incluindo buscas sem caminho. A conferência do bake teve p95 de cerca de 1 ms e o passo de caminhada, 0,2 ms. Esses resultados apontam uma possibilidade de pausa ao pedir um destino, sem estabelecer a causa da caminhada contínua no Poco.
+
+A variação visual foi reproduzida com câmera em posição fixa e bake ativo. Atlas/albedo isolados ficaram estáveis; a composição difusa/ambiente antiga variou mesmo sem especular. O interior nativo passou no mesmo ponto em WebGPU e WebGL2. Método, inferência e prova em [LUZ-CAMERA.md](LUZ-CAMERA.md). Este caso não comprova que a falha visual cause o travamento de desempenho.
+
+```powershell
+python experimentos/liv-ipanema-webgpu-2026-10-09/perf_visita.py --verificar-publico
+```

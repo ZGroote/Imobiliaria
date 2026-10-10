@@ -130,6 +130,7 @@ Convenção de caminhos abaixo: `EXP` = novo diretório `experimentos/liv-ipanem
   - Aceite: regressões obrigatórias do plano aplicáveis ao perfil aprovadas; no piloto, conferir cadastro/realce/ficha/planta 2D e indicação do interior geral ilustrativo; no completo, acrescentar catálogo expandido, tipologia 3D e espelho sincronizados. Backend efetivo registrado; zero falhas não tratadas; metas T02 atendidas ou limitação/resolução documentada antes da entrega.
   - Verificar: mínimo de três rodadas nas condições registradas, teste físico Android+iPhone, captura PNG e repetição de modos. QA emulado complementa a prova física.
   - Execução: realizar o perfil piloto para a primeira demonstração; repetir no perfil completo após T10/T11. Resultados de outros empreendimentos não contam como homologação do LIV.
+  - Relato de 10/10: caminhada com travamentos na publicação r168, em Poco X6 5G/Android 13/Chrome 154.0.8037.127. Diagnóstico desktop sequencial em `EXP/PERF.md`; cálculo síncrono de rotas é candidato a pausas ao pedir destinos, sem causa física confirmada. A parede que muda de claridade com rotação foi reproduzida com bake ativo na base antiga; o interior nativo passou nesse caso em WebGPU/WebGL2. Ver `EXP/LUZ-CAMERA.md`. Qualificar caminhada e giro no aparelho continua pendente.
 
 **Checkpoint C4:** T10–T12 no perfil completo. Apresentação completa qualificada, mesmo com dados comerciais ausentes.
 

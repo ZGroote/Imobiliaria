@@ -2,6 +2,10 @@
 /assets-prova/*
 !/assets-prova/manifest.json
 /evidencias/**/*.png
+/evidencias/luz-camera-relatada/entrada/
+/evidencias/luz-camera-relatada/inspecao.json
+/evidencias/luz-camera-relatada/shaders-compilados.json
+/evidencias/luz-camera-relatada/shader-original.txt
 /evidencias/materiais/pacote-local/
 /.liv-reproducao-*/
 /teste-reproducao-*/
