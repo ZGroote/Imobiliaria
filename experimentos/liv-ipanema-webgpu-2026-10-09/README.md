@@ -61,6 +61,8 @@ Em 10/10, o novo interior de meio foi traçado a partir da sua própria planta o
 
 A versão com os dois bakes passou em seis ensaios de iluminação, três perfis funcionais, 19 cenários de recuperação e quatro cenários de fila com os 139 arquivos reais. Cinco regressões do empacotador passaram, e a cena autoral de Meio foi reproduzida byte a byte. WebGPU e WebGL2 foram exercitados no desktop; o perfil de toque é emulado. A validação física no Poco X6 5G continua pendente.
 
+O ajuste das câmeras enquadra o volume inteiro das duas plantas, acrescenta **Enquadrar** e orienta as chegadas do Tour para focos do ambiente solicitado. A órbita manual é preservada ao redimensionar/restaurar. Três perfis de câmera passaram em WebGPU, WebGL2 e toque emulado, incluindo mudanças entre retrato/paisagem e telas de 320 px. Ver [CAMERAS.md](CAMERAS.md).
+
 As capturas do usuário também permitiram reproduzir a parede que muda de claridade ao girar a câmera no renderer público antigo, com bake ativo. O interior nativo passou no mesmo ponto em WebGPU e WebGL2, mantendo o difuso associado ao atlas. [LUZ-CAMERA.md](LUZ-CAMERA.md) registra o diagnóstico visual e o limite do ensaio desktop diante do travamento relatado no Poco X6 5G.
 
 `exportar_cena.py` extrai a cena exterior **efetivamente exibida pela base**, depois de validar o HTML local/HTTP e o bake. Transporta as 56 malhas, 41 com RGBM, geometria/UV/cores/matrizes e 15 grupos instanciados. Não substitui o exterior pelo GLB regional, que representa outro artefato. O atlas continua associado ao modelo `89f552ec…`, em RGBA linear, UV1, faixa RGBM 16, sem mipmaps ou conversão sRGB.

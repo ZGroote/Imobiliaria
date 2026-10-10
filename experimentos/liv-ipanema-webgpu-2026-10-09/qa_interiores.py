@@ -121,7 +121,7 @@ def save_layout(page, out, name, mobile):
 
 def source_hashes():
     names = {'viewer.js', 'maquete-liv-ipanema.html', 'interior.html', 'interior.js',
-             'interior-navigation.js', 'interior-geometria.js', 'interior-catalogo.js',
+             'interior-navigation.js', 'interior-camera.js', 'interior-geometria.js', 'interior-catalogo.js',
              'tipologias.js', 'gerar_pacote_interiores.py', 'gerar_manifesto_transferencias.py',
              'transfers.js', 'transfer-worker.js', 'transfer-manifest.json', 'qa_interiores.py'}
     names.update(path.name for path in EXP.glob('interior*.js'))

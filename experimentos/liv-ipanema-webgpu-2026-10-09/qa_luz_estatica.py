@@ -123,11 +123,21 @@ def run_case(browser, profile, typology, output, cases):
         # A parede é amostrada no mesmo ponto/UV1 apesar de aparecer em outro pixel.
         result['wall'] = page.evaluate('''async()=>{
           const api=__livInterior, THREE=await import('three/webgpu');api.setMode('visita');await __qaFrame();
+          // Keep this regression pose independent of the Tour's editorial focus.
+          api.camera.rotation.set(0,api.typology==='canto'?4*Math.PI/9:-Math.PI/2,0,'YXZ');api.camera.updateMatrixWorld(true);
           let wall;api.scene.traverse(o=>{if(o.isMesh&&o.userData.livSlot===0)wall=o;});
-          const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(0,.65),api.camera);
-          const hit=ray.intersectObject(wall)[0];if(!hit)throw Error('Parede de referência não encontrada.');
+          const ray=new THREE.Raycaster();let hit;
+          for(const y of [.65,.5,.8,.35]){
+            ray.setFromCamera(new THREE.Vector2(0,y),api.camera);
+            const first=ray.intersectObjects(api.scene.children,true).find(h=>{
+              const m=Array.isArray(h.object.material)?h.object.material[h.face.materialIndex]:h.object.material;
+              return !m.transparent||m.opacity>=.7;
+            });
+            if(first?.object===wall&&first.point.y>2.1){hit=first;break;}
+          }
+          if(!hit)throw Error('Parede visível acima da porta não encontrada na pose de regressão.');
           window.__qaWall={point:hit.point.clone(),wall,rotation:api.camera.rotation.y};
-          return {point:hit.point.toArray(),face:hit.faceIndex,uv1:hit.uv1?.toArray()};
+          return {point:hit.point.toArray(),face:hit.faceIndex,uv1:hit.uv1?.toArray(),firstOpaque:true,regressionYaw:api.camera.rotation.y};
         }''')
         samples = []
         for turn in [0, .08]:
@@ -135,7 +145,13 @@ def run_case(browser, profile, typology, output, cases):
               const api=__livInterior, THREE=await import('three/webgpu');api.camera.rotation.y=__qaWall.rotation+turn;
               await __qaFrame();api.camera.updateMatrixWorld();const p=__qaWall.point.clone().project(api.camera);
               const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(p.x,p.y),api.camera);
-              const hit=ray.intersectObject(__qaWall.wall)[0];return {ndc:p.toArray(),face:hit.faceIndex,uv1:hit.uv1.toArray(),distance:hit.point.distanceTo(__qaWall.point)};
+              const hit=ray.intersectObject(__qaWall.wall)[0];
+              const first=ray.intersectObjects(api.scene.children,true).find(h=>{
+                const m=Array.isArray(h.object.material)?h.object.material[h.face.materialIndex]:h.object.material;
+                return !m.transparent||m.opacity>=.7;
+              });
+              if(first?.object!==__qaWall.wall)throw Error('Uma superfície encobriu o ponto da parede.');
+              return {ndc:p.toArray(),face:hit.faceIndex,uv1:hit.uv1.toArray(),distance:hit.point.distanceTo(__qaWall.point),firstOpaque:true};
             }''', turn)
             pixels = capture(page, prefix.with_name(prefix.name+f'-parede-{turn}.png'))
             x = round((sample['ndc'][0]+1)/2*pixels.shape[1])
@@ -164,7 +180,7 @@ def main():
     args = parser.parse_args();args.saida.mkdir(parents=True, exist_ok=True)
     report = {'recordedAtUtc': datetime.now(timezone.utc).isoformat(), 'status': 'RUNNING', 'physicalMobile': False,
               'sourceSHA256': {name: hashlib.sha256((EXP/name).read_bytes()).hexdigest() for name in
-                ['qa_luz_estatica.py', 'interior-renderer.js', 'material-rgbm.js', 'interiores/catalogo.json']}, 'cases': []}
+                ['qa_luz_estatica.py', 'interior-renderer.js', 'interior-camera.js', 'material-rgbm.js', 'interiores/catalogo.json']}, 'cases': []}
     try:
         with sync_playwright() as pw:
             browser = pw.chromium.launch(executable_path=CHROME, headless=True);report['browserVersion'] = browser.version
