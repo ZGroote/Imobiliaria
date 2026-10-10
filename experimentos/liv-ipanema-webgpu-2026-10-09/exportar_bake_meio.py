@@ -58,9 +58,12 @@ def main():
               const unit=await (await fetch('./interiores/meio/unidade.json')).json(), layout=createLayout(unit);
               await api.renderer.setAnimationLoop(null);
               await import('./exporter-native.js');
-              guardarAlbedoInteriorLiv(api.scene);
-              const slots=[]; api.scene.traverse(mesh=>{if(mesh.isMesh)slots.push(mesh.userData.furnitureId||null);});
-              const data=await exportarCenaInteriorLiv({THREE,root:api.scene,unitId:unit.id,unitHash:options.unitSHA256,
+              const root=api.authoringScene;
+              if(!root)throw Error('Cena nominal anterior ao corte de apresentação ausente.');
+              root.traverse(mesh=>{if(mesh.name==='forro-original')mesh.visible=false;});
+              guardarAlbedoInteriorLiv(root);
+              const slots=[];root.traverse(mesh=>{if(mesh.isMesh)slots.push(mesh.userData.furnitureId||null);});
+              const data=await exportarCenaInteriorLiv({THREE,root,unitId:unit.id,unitHash:options.unitSHA256,
                 unitPath:options.unitPath,height:layout.pd,mode:'planta3d',
                 rooms:layout.rooms.map(r=>({name:r.name,x:r.cx,z:r.cz})),
                 lighting:{name:'LIV Meio, luz diurna ilustrativa e plafons por ambiente',

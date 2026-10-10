@@ -138,7 +138,7 @@ def main():
     args.saida.mkdir(parents=True, exist_ok=True)
     report = {'status': 'RUNNING', 'recordedAtUtc': datetime.now(timezone.utc).isoformat(), 'physicalMobile': False,
               'sourceSHA256': {name: hashlib.sha256((EXP / name).read_bytes()).hexdigest() for name in
-                ('interior-camera.js', 'interior-renderer.js', 'interior.html', 'interior-navigation.js',
+                ('interior-camera.js', 'interior-cutaway.js', 'interior-renderer.js', 'interior.html', 'interior-navigation.js',
                  'interiores/catalogo.json', 'qa_cameras_interiores.py')}, 'cases': []}
     try:
         with sync_playwright() as pw:

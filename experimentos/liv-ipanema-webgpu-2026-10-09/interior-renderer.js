@@ -3,6 +3,7 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,createRGBMTexture} from './material-rgbm.js';
 import {createLayout,createNavigation} from './interior-navigation.js';
 import {planFrame,roomLook} from './interior-camera.js';
+import {createPlanCutaway} from './interior-cutaway.js';
 
 const query=new URLSearchParams(location.search),typology=query.get('tipologia')||'canto',requested=query.get('backend')||'auto';
 const canvas=document.querySelector('#interior-canvas'),stage=document.querySelector('#interior-stage'),status=document.querySelector('#interior-status');
@@ -12,7 +13,7 @@ const state=window.__livInterior={ready:false,error:null,backend:null,typology,m
 let renderer,scene,camera,controls,observer,startup,disposePromise,layout,navigation,entry,catalog,record,source,light,atlas;
 let yaw=0,pitch=0,tourPosition=null,route=[],routeResolve=null,frameBusy=false,framePromise=Promise.resolve(),lastFrame=0,ceiling=[];
 const furniture=[],meshBySlot=new Map(),baked=[],keys=new Set(),touchKeys=new Set();
-let orbitSnapshot=null,pointer=null,shadowLight=null,planAutoFrame=true,routeRoom=null;
+let orbitSnapshot=null,pointer=null,shadowLight=null,planAutoFrame=true,routeRoom=null,presentation=null;
 
 function invalidateShadows(){if(shadowLight)shadowLight.shadow.needsUpdate=true;}
 
@@ -40,7 +41,7 @@ async function cleanup(){
   for(const resource of owned)release(resource);
   await Promise.all([...pendingDisposals]);
   for(const bitmap of bitmaps)closeBitmap(bitmap);
-  scene?.clear();state.ready=false;
+  scene?.clear();state.authoringScene?.clear();state.ready=false;
 }
 state.dispose=function(){
   if(disposePromise)return disposePromise;
@@ -285,6 +286,11 @@ function orbitDefault(){
   state.framing={limits,bounds:[bounds.min.toArray(),bounds.max.toArray()]};
 }
 state.framePlan=function(){if(!state.ready||state.mode!=='planta3d')return false;planAutoFrame=true;orbitSnapshot=null;orbitDefault();return true;};
+state.setWallCut=function(enabled){
+  if(!state.ready||state.mode!=='planta3d'||typeof enabled!=='boolean')return false;
+  presentation.setEnabled(enabled);document.querySelector('#cut-interior').setAttribute('aria-pressed',String(enabled));
+  return true;
+};
 function faceRoom(roomId){
   scene.updateMatrixWorld(true);const eye=new THREE.Vector3(tourPosition[0],1.62,tourPosition[1]),ray=new THREE.Raycaster();
   const look=roomLook(tourPosition,layout,furniture,roomId,candidate=>{
@@ -292,18 +298,18 @@ function faceRoom(roomId){
     return !ray.intersectObjects(scene.children,true).some(hit=>{
       if(hit.object.userData.furnitureId&&hit.object.userData.furnitureId===candidate.id)return false;
       const materials=Array.isArray(hit.object.material)?hit.object.material:[hit.object.material];
-      return materials.some(material=>!material.transparent||material.opacity>=.7);
+      return hit.object.visible&&materials.some(material=>!material.transparent||material.opacity>=.7);
     });
   });
   yaw=look?.yaw??navigation.direction(tourPosition);pitch=look?.pitch??0;state.roomView=look;
 }
 function setTourCamera(){camera.position.set(tourPosition[0],1.62,tourPosition[1]);camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);}
 state.setMode=function(mode){
-  if(!['planta3d','visita'].includes(mode)||!scene||state.disposed)return false;
+  if(!['planta3d','visita'].includes(mode)||!presentation||state.disposed)return false;
   const changed=state.mode!==mode;
   if(state.mode==='planta3d'&&mode==='visita')orbitSnapshot={position:camera.position.toArray(),target:controls.target.toArray()};
-  state.mode=mode;controls.enabled=mode==='planta3d';for(const mesh of ceiling)mesh.visible=mode==='visita';
-  document.querySelector('#frame-interior').hidden=mode!=='planta3d';
+  state.mode=mode;controls.enabled=mode==='planta3d';presentation.setMode(mode);
+  for(const id of ['frame-interior','cut-interior'])document.querySelector(`#${id}`).hidden=mode!=='planta3d';
   if(changed)invalidateShadows();
   keys.clear();touchKeys.clear();stopRoute(false);
   if(mode==='visita'){tourPosition??=[...entry];setTourCamera();}
@@ -366,6 +372,7 @@ function wire(){
   }
   for(const mode of ['planta3d','visita'])listen(document.querySelector(`#mode-${mode}`),'click',()=>state.setMode(mode));
   listen(document.querySelector('#frame-interior'),'click',()=>state.framePlan());
+  listen(document.querySelector('#cut-interior'),'click',()=>state.setWallCut(!presentation.getState().enabled));
   const manualOrbit=()=>{planAutoFrame=false;};controls.addEventListener('start',manualOrbit);listeners.push(()=>controls.removeEventListener('start',manualOrbit));
   listen(document.querySelector('#room-go'),'click',()=>state.goToRoom(document.querySelector('#room-select').value));
   const selected=()=>document.querySelector('#furniture-select').value;
@@ -380,7 +387,7 @@ function geometryInfo(){
 }
 state.getState=function(){return {version:1,typology,mode:state.mode,backend:state.backend,ready:state.ready,error:state.error,disposed:state.disposed,unitSHA256:record?.unitSHA256,sourceSHA256:record?.sourceSHA256,
   geometry:geometryInfo(),camera:camera?{position:camera.position.toArray(),target:controls.target.toArray(),yaw,pitch,autoFrame:planAutoFrame}:null,
-  framing:state.framing||null,roomView:state.roomView||null,
+  framing:state.framing||null,roomView:state.roomView||null,presentation:presentation?.getState()||null,
   ceiling:{visible:ceiling.length>0&&ceiling.every(m=>m.visible),count:ceiling.length},rooms:state.rooms||[],
   furniture:furniture.map(m=>({id:m.id,name:m.name,position:[...m.position],rotation:m.rotation,originalPosition:[...m.originalPosition],originalRotation:m.originalRotation,
     modified:Math.abs(m.position[0]-m.originalPosition[0])>1e-9||Math.abs(m.position[1]-m.originalPosition[1])>1e-9||m.rotation!==m.originalRotation})),
@@ -391,6 +398,9 @@ state.restoreState=function(snapshot){
   for(const transform of snapshot.furniture||[]){const item=furniture.find(m=>m.id===transform.id);if(!item||!Array.isArray(transform.position)||transform.position.length!==2||!transform.position.every(Number.isFinite)||!Number.isInteger(transform.rotation)||transform.rotation<0||transform.rotation>3)return false;}
   for(const transform of snapshot.furniture||[]){const item=furniture.find(m=>m.id===transform.id);item.position=[...transform.position];item.rotation=transform.rotation;furnitureTransform(item);}
   if(snapshot.furniture?.length)furnitureChanged();
+  if(typeof snapshot.presentation?.enabled==='boolean'){
+    presentation.setEnabled(snapshot.presentation.enabled);document.querySelector('#cut-interior').setAttribute('aria-pressed',String(snapshot.presentation.enabled));
+  }
   if(snapshot.camera){
     const p=snapshot.camera.position;if(Array.isArray(p)&&p.length===3&&p.every(Number.isFinite)){
       if(snapshot.mode==='visita'&&navigation.free(p[0],p[2])){tourPosition=[p[0],p[2]];yaw=Number.isFinite(snapshot.camera.yaw)?snapshot.camera.yaw:0;pitch=Math.max(-1.2,Math.min(1.2,snapshot.camera.pitch||0));}
@@ -442,9 +452,16 @@ async function start(){
   }else if(record.geometryKind==='native-factories'){
     const recipe=await load(record.files.recipe,true);check();
     if(recipe.unitSHA256!==record.unitSHA256||record.files.recipe.sha256!==record.sourceSHA256||recipe.runtimeSHA256!==catalog.shared.runtime.sha256||recipe.materialsSHA256!==catalog.shared.materials.sha256||recipe.furnitureSHA256!==catalog.shared.furniture.sha256||recipe.lighting!=='dynamic')throw Error('Receita da planta de meio inválida.');
-    buildNative(native,factory);state.lighting={bakedActive:false,reason:'cena autoral dinâmica da planta de meio'};
+    buildNative(native,factory);
+    // The authoring exporter needs the nominal hierarchy/order/visibility from
+    // before any display cut. Mesh clones share the original PBR/geometry data.
+    state.authoringScene=scene.clone();
+    state.lighting={bakedActive:false,reason:'cena autoral dinâmica da planta de meio'};
   }else throw Error('Formato de geometria interior desconhecido.');
-  check();if(!ceiling.length)throw Error('O interior perdeu o forro para o Tour.');addLights();
+  check();if(!ceiling.length)throw Error('O interior perdeu o forro para o Tour.');
+  const architecture=[];scene.traverse(mesh=>{if(mesh.isMesh&&!mesh.userData.furnitureId)architecture.push(mesh);});
+  presentation=createPlanCutaway({scene,layout,architecture,wallMaterial:native.m0,own});ceiling=presentation.ceiling;
+  addLights();
   navigation=createNavigation(layout,()=>furniture);entry=navigation.entry();tourPosition=[...entry];faceRoom();refreshRooms();
   function resize(){const width=stage.clientWidth,height=stage.clientHeight;if(!width||!height||state.disposed)return;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();}
   observer=new ResizeObserver(resize);observer.observe(stage);resize();orbitDefault();const initialMode=state.mode;state.mode='planta3d';state.setMode(initialMode);

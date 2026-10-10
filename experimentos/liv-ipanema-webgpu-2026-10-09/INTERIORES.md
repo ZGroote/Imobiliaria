@@ -2,6 +2,8 @@
 
 Etapa de 10/10/2026, antecipada pela solicitação do usuário. A escolha **Canto / Meio** é um catálogo de tipologias e permanece independente da seleção de pavimento. O vínculo de cada final com a tipologia e a orientação do espelho continua pendente.
 
+A Planta 3D agora oferece **Paredes baixas**, com corte de apresentação a 1,20 m e móveis na altura original. É possível voltar às paredes inteiras, e o Tour sempre usa a cena completa. Os materiais PBR e atlas próprios continuam preservados; a fonte autoral de Meio foi reproduzida byte a byte. Detalhes e ensaios em [CORTES.md](CORTES.md).
+
 ## Fontes e dimensões
 
 As duas imagens oficiais vêm da galeria da Livon e correspondem à página 14 do [book oficial](https://www.livonincorporadora.com.br/wp-content/uploads/2024/08/BOOK_LIV_Ipanema.pdf). `plantas2d/manifest.json` registra a identidade das cópias sem edição.

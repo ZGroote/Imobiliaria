@@ -2,6 +2,8 @@
 
 Implementação iniciada em 09/10/2026, conforme [plano](../../tasks/liv-ipanema-webgpu/plan.md). A base é a edição `strict-circle-v3` do [endereço indicado pelo usuário](https://imobilaria-deccb-miniaturas--liv-mapa-5km-20261008-onn3ia42.web.app/maquete-liv-ipanema.html). Este diretório separa a evolução do experimento histórico.
 
+Refinamento atual dos interiores: **Paredes baixas** revela a distribuição das duas plantas em 3D, com alternância para paredes inteiras e recuperação da cena completa no Tour. Reutiliza os materiais PBR existentes e conserva os bakes próprios. Ver [CORTES.md](CORTES.md).
+
 ## T01 — reprodução isolada
 
 O preparador histórico confundia o hash/tamanho da publicação minificada com o HTML fonte. Agora valida separadamente:

@@ -180,7 +180,7 @@ def main():
     args = parser.parse_args();args.saida.mkdir(parents=True, exist_ok=True)
     report = {'recordedAtUtc': datetime.now(timezone.utc).isoformat(), 'status': 'RUNNING', 'physicalMobile': False,
               'sourceSHA256': {name: hashlib.sha256((EXP/name).read_bytes()).hexdigest() for name in
-                ['qa_luz_estatica.py', 'interior-renderer.js', 'interior-camera.js', 'material-rgbm.js', 'interiores/catalogo.json']}, 'cases': []}
+                ['qa_luz_estatica.py', 'interior-renderer.js', 'interior-camera.js', 'interior-cutaway.js', 'material-rgbm.js', 'interiores/catalogo.json']}, 'cases': []}
     try:
         with sync_playwright() as pw:
             browser = pw.chromium.launch(executable_path=CHROME, headless=True);report['browserVersion'] = browser.version
