@@ -1,0 +1,877 @@
+{
+  "activeFloor": 0,
+  "floors": [
+    {
+      "floor": 0,
+      "furniture": [
+        {
+          "alturaMm": 950,
+          "cor": "#AAC0B4",
+          "depthMm": 1900,
+          "id": "m1",
+          "nome": "Cama da suíte",
+          "rotDegrees": 270,
+          "tipo3D": "cama",
+          "tipoCatalogo": "cama-casal",
+          "widthMm": 1500,
+          "xMm": 8450,
+          "yMm": 2900
+        },
+        {
+          "alturaMm": 2350,
+          "cor": "#A28B6B",
+          "depthMm": 400,
+          "id": "m2",
+          "nome": "Armário da suíte",
+          "rotDegrees": 0,
+          "tipo3D": "guardaroupa",
+          "tipoCatalogo": "guardaroupa",
+          "widthMm": 2150,
+          "xMm": 8450,
+          "yMm": 4250
+        },
+        {
+          "alturaMm": 550,
+          "cor": "#B3A58F",
+          "depthMm": 400,
+          "id": "m3",
+          "nome": "Criado da suíte 1",
+          "rotDegrees": 0,
+          "tipo3D": "criado",
+          "tipoCatalogo": "criado",
+          "widthMm": 400,
+          "xMm": 9350,
+          "yMm": 1900
+        },
+        {
+          "alturaMm": 550,
+          "cor": "#B3A58F",
+          "depthMm": 400,
+          "id": "m4",
+          "nome": "Criado da suíte 2",
+          "rotDegrees": 0,
+          "tipo3D": "criado",
+          "tipoCatalogo": "criado",
+          "widthMm": 400,
+          "xMm": 9350,
+          "yMm": 3850
+        },
+        {
+          "alturaMm": 950,
+          "cor": "#99B7AA",
+          "depthMm": 1950,
+          "id": "m5",
+          "nome": "Cama do dormitório",
+          "rotDegrees": 0,
+          "tipo3D": "cama",
+          "tipoCatalogo": "cama-solteiro",
+          "widthMm": 900,
+          "xMm": 3600,
+          "yMm": 1400
+        },
+        {
+          "alturaMm": 2350,
+          "cor": "#A28B6B",
+          "depthMm": 400,
+          "id": "m6",
+          "nome": "Armário do dormitório",
+          "rotDegrees": 90,
+          "tipo3D": "guardaroupa",
+          "tipoCatalogo": "guardaroupa",
+          "widthMm": 1650,
+          "xMm": 5400,
+          "yMm": 1200
+        },
+        {
+          "alturaMm": 740,
+          "cor": "#A28B6B",
+          "depthMm": 350,
+          "id": "m7",
+          "nome": "Bancada do dormitório",
+          "rotDegrees": 180,
+          "tipo3D": "mesa",
+          "tipoCatalogo": "escrivaninha",
+          "widthMm": 1500,
+          "xMm": 4050,
+          "yMm": 2600
+        },
+        {
+          "alturaMm": 800,
+          "cor": "#BAC3C8",
+          "depthMm": 800,
+          "id": "m8",
+          "nome": "Sofá da sala TV",
+          "rotDegrees": 180,
+          "tipo3D": "sofa",
+          "tipoCatalogo": "sofa-3",
+          "widthMm": 1750,
+          "xMm": 3650,
+          "yMm": 4750
+        },
+        {
+          "alturaMm": 700,
+          "cor": "#A28B6B",
+          "depthMm": 300,
+          "id": "m9",
+          "nome": "Rack da sala TV",
+          "rotDegrees": 0,
+          "tipo3D": "rack",
+          "tipoCatalogo": "rack-tv",
+          "widthMm": 1600,
+          "xMm": 3750,
+          "yMm": 3100
+        },
+        {
+          "alturaMm": 20,
+          "cor": "#D4D1C7",
+          "depthMm": 1700,
+          "id": "m10",
+          "nome": "Tapete",
+          "rotDegrees": 0,
+          "tipo3D": "tapete",
+          "tipoCatalogo": "tapete-sala",
+          "widthMm": 1700,
+          "xMm": 3650,
+          "yMm": 4050
+        },
+        {
+          "alturaMm": 760,
+          "cor": "#C7C7BB",
+          "depthMm": 900,
+          "id": "m11",
+          "nome": "Mesa de jantar",
+          "rotDegrees": 0,
+          "tipo3D": "mesa",
+          "tipoCatalogo": "mesa-jantar-4",
+          "widthMm": 1200,
+          "xMm": 2050,
+          "yMm": 2700
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#D6D6CC",
+          "depthMm": 400,
+          "id": "m12",
+          "nome": "Cadeira de jantar 1",
+          "rotDegrees": 0,
+          "tipo3D": "cadeira",
+          "tipoCatalogo": "poltrona",
+          "widthMm": 400,
+          "xMm": 1700,
+          "yMm": 2100
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#D6D6CC",
+          "depthMm": 400,
+          "id": "m13",
+          "nome": "Cadeira de jantar 2",
+          "rotDegrees": 0,
+          "tipo3D": "cadeira",
+          "tipoCatalogo": "poltrona",
+          "widthMm": 400,
+          "xMm": 2450,
+          "yMm": 2100
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#D6D6CC",
+          "depthMm": 400,
+          "id": "m14",
+          "nome": "Cadeira de jantar 3",
+          "rotDegrees": 180,
+          "tipo3D": "cadeira",
+          "tipoCatalogo": "poltrona",
+          "widthMm": 400,
+          "xMm": 1700,
+          "yMm": 3300
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#D6D6CC",
+          "depthMm": 400,
+          "id": "m15",
+          "nome": "Cadeira de jantar 4",
+          "rotDegrees": 180,
+          "tipo3D": "cadeira",
+          "tipoCatalogo": "poltrona",
+          "widthMm": 400,
+          "xMm": 2450,
+          "yMm": 3300
+        },
+        {
+          "alturaMm": 920,
+          "cor": "#5D6367",
+          "depthMm": 600,
+          "id": "m16",
+          "nome": "Fogão 4 Bocas",
+          "rotDegrees": 90,
+          "tipo3D": "fogao",
+          "tipoCatalogo": "fogao",
+          "widthMm": 600,
+          "xMm": 350,
+          "yMm": 1950
+        },
+        {
+          "alturaMm": 920,
+          "cor": "#C5C3BD",
+          "depthMm": 600,
+          "id": "m17",
+          "nome": "Bancada e cuba da cozinha",
+          "rotDegrees": 90,
+          "tipo3D": "pia",
+          "tipoCatalogo": "pia-cozinha",
+          "widthMm": 1750,
+          "xMm": 350,
+          "yMm": 3250
+        },
+        {
+          "alturaMm": 1780,
+          "cor": "#D6D9DA",
+          "depthMm": 650,
+          "id": "m18",
+          "nome": "Geladeira Duplex",
+          "rotDegrees": 90,
+          "tipo3D": "geladeira",
+          "tipoCatalogo": "geladeira",
+          "widthMm": 650,
+          "xMm": 350,
+          "yMm": 4850
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#C8C5BF",
+          "depthMm": 400,
+          "id": "m19",
+          "nome": "Lavatório suíte",
+          "rotDegrees": 0,
+          "tipo3D": "pia",
+          "tipoCatalogo": "gabinete-banheiro",
+          "widthMm": 600,
+          "xMm": 6150,
+          "yMm": 1850
+        },
+        {
+          "alturaMm": 800,
+          "cor": "#F2F1EE",
+          "depthMm": 600,
+          "id": "m20",
+          "nome": "Vaso da suíte",
+          "rotDegrees": 180,
+          "tipo3D": "vaso",
+          "tipoCatalogo": "vaso-sanitario",
+          "widthMm": 450,
+          "xMm": 6700,
+          "yMm": 2450
+        },
+        {
+          "alturaMm": 2000,
+          "cor": "#DDE5E4",
+          "depthMm": 800,
+          "id": "m21",
+          "nome": "Box suíte",
+          "rotDegrees": 0,
+          "tipo3D": "box",
+          "tipoCatalogo": "box-chuveiro",
+          "widthMm": 1100,
+          "xMm": 6400,
+          "yMm": 850
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#C8C5BF",
+          "depthMm": 400,
+          "id": "m22",
+          "nome": "Lavatório social",
+          "rotDegrees": 180,
+          "tipo3D": "pia",
+          "tipoCatalogo": "gabinete-banheiro",
+          "widthMm": 600,
+          "xMm": 5850,
+          "yMm": 4950
+        },
+        {
+          "alturaMm": 800,
+          "cor": "#F2F1EE",
+          "depthMm": 600,
+          "id": "m23",
+          "nome": "Vaso social",
+          "rotDegrees": 180,
+          "tipo3D": "vaso",
+          "tipoCatalogo": "vaso-sanitario",
+          "widthMm": 450,
+          "xMm": 6600,
+          "yMm": 4750
+        },
+        {
+          "alturaMm": 2000,
+          "cor": "#DDE5E4",
+          "depthMm": 700,
+          "id": "m24",
+          "nome": "Box social",
+          "rotDegrees": 90,
+          "tipo3D": "box",
+          "tipoCatalogo": "box-chuveiro",
+          "widthMm": 1000,
+          "xMm": 5150,
+          "yMm": 4550
+        },
+        {
+          "alturaMm": 760,
+          "cor": "#C1AB88",
+          "depthMm": 950,
+          "id": "m25",
+          "nome": "Mesa da varanda",
+          "rotDegrees": 0,
+          "tipo3D": "mesa",
+          "tipoCatalogo": "mesa-jantar-4",
+          "widthMm": 950,
+          "xMm": 1800,
+          "yMm": 850
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#8E9D96",
+          "depthMm": 400,
+          "id": "m26",
+          "nome": "Cadeira da varanda 1",
+          "rotDegrees": 0,
+          "tipo3D": "cadeira",
+          "tipoCatalogo": "poltrona",
+          "widthMm": 400,
+          "xMm": 1850,
+          "yMm": 300
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#8E9D96",
+          "depthMm": 400,
+          "id": "m27",
+          "nome": "Cadeira da varanda 2",
+          "rotDegrees": 90,
+          "tipo3D": "cadeira",
+          "tipoCatalogo": "poltrona",
+          "widthMm": 400,
+          "xMm": 1200,
+          "yMm": 1050
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#DCE2E4",
+          "depthMm": 600,
+          "id": "m28",
+          "nome": "Máquina de Lavar",
+          "rotDegrees": 90,
+          "tipo3D": "maquina",
+          "tipoCatalogo": "maquina-lavar",
+          "widthMm": 600,
+          "xMm": 350,
+          "yMm": 350
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#DADBD5",
+          "depthMm": 600,
+          "id": "m29",
+          "nome": "Tanque de Serviço",
+          "rotDegrees": 90,
+          "tipo3D": "pia",
+          "tipoCatalogo": "tanque-lavar",
+          "widthMm": 600,
+          "xMm": 350,
+          "yMm": 1100
+        }
+      ],
+      "leitura": {
+        "ceilingHeightMm": 2700,
+        "geometry": "orthogonal-rectangles",
+        "id": "liv-ipanema-planta-meio-referencia",
+        "openings": [
+          {
+            "heightMm": 2100,
+            "id": "a1",
+            "kind": "door",
+            "offsetMm": 200,
+            "pairedWallId": "c8-east",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 0,
+            "wallId": "c2-west",
+            "widthMm": 750
+          },
+          {
+            "heightMm": 2100,
+            "id": "a2",
+            "kind": "door",
+            "offsetMm": 1900,
+            "pairedWallId": "c8-south",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 0,
+            "wallId": "c3-north",
+            "widthMm": 750
+          },
+          {
+            "heightMm": 2100,
+            "id": "a3",
+            "kind": "door",
+            "offsetMm": 200,
+            "pairedWallId": "c2-south",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 0,
+            "wallId": "c4-north",
+            "widthMm": 700
+          },
+          {
+            "heightMm": 2100,
+            "id": "a4",
+            "kind": "door",
+            "offsetMm": 150,
+            "pairedWallId": "c8-north",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 0,
+            "wallId": "c5-south",
+            "widthMm": 700
+          },
+          {
+            "heightMm": 2100,
+            "id": "a5",
+            "kind": "door",
+            "offsetMm": 1600,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 0,
+            "wallId": "c6-north",
+            "widthMm": 800
+          },
+          {
+            "heightMm": 2200,
+            "id": "a6",
+            "kind": "door",
+            "offsetMm": 900,
+            "pairedWallId": "c6-south",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 0,
+            "wallId": "c9-north",
+            "widthMm": 1950
+          },
+          {
+            "heightMm": 1200,
+            "id": "a7",
+            "kind": "window",
+            "offsetMm": 750,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 1000,
+            "wallId": "c1-south",
+            "widthMm": 1100
+          },
+          {
+            "heightMm": 1200,
+            "id": "a8",
+            "kind": "window",
+            "offsetMm": 850,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 1000,
+            "wallId": "c3-south",
+            "widthMm": 1100
+          },
+          {
+            "heightMm": 700,
+            "id": "a9",
+            "kind": "window",
+            "offsetMm": 600,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 1500,
+            "wallId": "c4-south",
+            "widthMm": 550
+          },
+          {
+            "heightMm": 700,
+            "id": "a10",
+            "kind": "window",
+            "offsetMm": 750,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 1500,
+            "wallId": "c5-east",
+            "widthMm": 450
+          },
+          {
+            "heightMm": 1150,
+            "id": "a11",
+            "kind": "window",
+            "offsetMm": 850,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 1050,
+            "wallId": "c9-south",
+            "widthMm": 2050
+          }
+        ],
+        "provenance": {
+          "kind": "declared",
+          "referenceIds": []
+        },
+        "references": [],
+        "relations": [
+          {
+            "id": "rel-c1-west--c2-east",
+            "kind": "merged",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c1-west",
+            "wallB": "c2-east"
+          },
+          {
+            "id": "rel-c1-west--c4-east",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c1-west",
+            "wallB": "c4-east"
+          },
+          {
+            "id": "rel-c1-west--c5-east",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c1-west",
+            "wallB": "c5-east"
+          },
+          {
+            "id": "rel-c2-north--c5-south",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c2-north",
+            "wallB": "c5-south"
+          },
+          {
+            "id": "rel-c2-south--c4-north",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c2-south",
+            "wallB": "c4-north"
+          },
+          {
+            "id": "rel-c2-west--c8-east",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c2-west",
+            "wallB": "c8-east"
+          },
+          {
+            "id": "rel-c3-east--c4-west",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c3-east",
+            "wallB": "c4-west"
+          },
+          {
+            "id": "rel-c3-north--c7-south",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c3-north",
+            "wallB": "c7-south"
+          },
+          {
+            "id": "rel-c3-north--c8-south",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c3-north",
+            "wallB": "c8-south"
+          },
+          {
+            "id": "rel-c3-west--c6-east",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c3-west",
+            "wallB": "c6-east"
+          },
+          {
+            "id": "rel-c3-west--c9-east",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c3-west",
+            "wallB": "c9-east"
+          },
+          {
+            "id": "rel-c5-south--c8-north",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c5-south",
+            "wallB": "c8-north"
+          },
+          {
+            "id": "rel-c5-west--c7-east",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c5-west",
+            "wallB": "c7-east"
+          },
+          {
+            "id": "rel-c6-east--c7-west",
+            "kind": "merged",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c6-east",
+            "wallB": "c7-west"
+          },
+          {
+            "id": "rel-c6-south--c9-north",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c6-south",
+            "wallB": "c9-north"
+          },
+          {
+            "id": "rel-c7-east--c8-west",
+            "kind": "merged",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c7-east",
+            "wallB": "c8-west"
+          }
+        ],
+        "revision": 47,
+        "rooms": [
+          {
+            "depthMm": 3250,
+            "id": "c1",
+            "name": "Suíte",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c1-east",
+              "north": "c1-north",
+              "south": "c1-south",
+              "west": "c1-west"
+            },
+            "widthMm": 2600,
+            "xMm": 7050,
+            "yMm": 1300
+          },
+          {
+            "depthMm": 1000,
+            "id": "c2",
+            "name": "Suíte",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c2-east",
+              "north": "c2-north",
+              "south": "c2-south",
+              "west": "c2-west"
+            },
+            "widthMm": 1400,
+            "xMm": 5650,
+            "yMm": 2900
+          },
+          {
+            "depthMm": 2600,
+            "id": "c3",
+            "name": "Dormitório 01",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c3-east",
+              "north": "c3-north",
+              "south": "c3-south",
+              "west": "c3-west"
+            },
+            "widthMm": 2650,
+            "xMm": 3000,
+            "yMm": 300
+          },
+          {
+            "depthMm": 2600,
+            "id": "c4",
+            "name": "Banho suíte",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c4-east",
+              "north": "c4-north",
+              "south": "c4-south",
+              "west": "c4-west"
+            },
+            "widthMm": 1400,
+            "xMm": 5650,
+            "yMm": 300
+          },
+          {
+            "depthMm": 1400,
+            "id": "c5",
+            "name": "Banho",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c5-east",
+              "north": "c5-north",
+              "south": "c5-south",
+              "west": "c5-west"
+            },
+            "widthMm": 2300,
+            "xMm": 4750,
+            "yMm": 3900
+          },
+          {
+            "depthMm": 3850,
+            "id": "c6",
+            "name": "Sala integrada",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c6-east",
+              "north": "c6-north",
+              "south": "c6-south",
+              "west": "c6-west"
+            },
+            "widthMm": 3000,
+            "xMm": 0,
+            "yMm": 1450
+          },
+          {
+            "depthMm": 2400,
+            "id": "c7",
+            "name": "Sala integrada",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c7-east",
+              "north": "c7-north",
+              "south": "c7-south",
+              "west": "c7-west"
+            },
+            "widthMm": 1750,
+            "xMm": 3000,
+            "yMm": 2900
+          },
+          {
+            "depthMm": 1000,
+            "id": "c8",
+            "name": "Sala integrada",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c8-east",
+              "north": "c8-north",
+              "south": "c8-south",
+              "west": "c8-west"
+            },
+            "widthMm": 900,
+            "xMm": 4750,
+            "yMm": 2900
+          },
+          {
+            "depthMm": 1450,
+            "id": "c9",
+            "name": "Varanda / serviço",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c9-east",
+              "north": "c9-north",
+              "south": "c9-south",
+              "west": "c9-west"
+            },
+            "widthMm": 3000,
+            "xMm": 0,
+            "yMm": 0
+          }
+        ],
+        "schemaVersion": "1.1.0",
+        "unit": "mm"
+      }
+    }
+  ],
+  "schemaVersion": "1.0.0"
+}

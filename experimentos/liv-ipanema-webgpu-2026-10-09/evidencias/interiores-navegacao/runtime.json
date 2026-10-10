@@ -1,0 +1,397 @@
+{
+  "status": "PASS",
+  "gpuDevices": 0,
+  "renderers": 0,
+  "typologies": 2,
+  "sequentialRoutes": 48,
+  "oracleChecks": 8604,
+  "cases": [
+    "furniture-corner-between-25mm-samples",
+    "furniture-corner-tangent",
+    "wall-capsule-between-25mm-samples",
+    "wall-capsule-tangent",
+    "wall-perpendicular-crossing",
+    "wall-collinear-overlap",
+    "door-capsule-between-25mm-samples",
+    "door-capsule-tangent",
+    "door-perpendicular-crossing",
+    "quarter-turn-0-crossing",
+    "quarter-turn-0-clear",
+    "quarter-turn-1-crossing",
+    "quarter-turn-1-clear",
+    "quarter-turn-2-crossing",
+    "quarter-turn-2-clear",
+    "quarter-turn-3-crossing",
+    "quarter-turn-3-clear",
+    "wall-long-move",
+    "door-long-move",
+    "zero-length-free",
+    "overhead-and-low-items-do-not-block",
+    "cached-grid-blocked-and-reopened",
+    "canto-furniture-edit-invalidates-cached-grid",
+    "meio-furniture-edit-invalidates-cached-grid"
+  ],
+  "elapsedMs": 24484,
+  "sourceSHA256": {
+    "interiores/catalogo.json": "b333126b4b0686ddf750cc554e85d681cbc9fce27f850c21d1e6b99f51b75ffa",
+    "test_interior_navigation.mjs": "380885b048575834c165b2876b6747c3681d7b718aa315b6f0e996e388e6d83e",
+    "interior-navigation.js": "a93e4ddb3dae17a1c82f073ca7f36758b1e94309a3e73f67c9ee4abc5c1702f1",
+    "interiores/shared/runtime.js": "cf84c09e1c243b0d48c31560c1c9d3d4cdd26586777144c559f4868c15f31da2",
+    "interiores/canto/unidade.json": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+    "interiores/meio/unidade.json": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035"
+  },
+  "results": [
+    {
+      "type": "canto",
+      "pattern": "70mm",
+      "roomCount": 6,
+      "steps": 398,
+      "rooms": [
+        {
+          "id": "c1",
+          "name": "Suíte",
+          "steps": 84,
+          "meters": 5.7455
+        },
+        {
+          "id": "c2",
+          "name": "Dormitório 01",
+          "steps": 82,
+          "meters": 5.4919
+        },
+        {
+          "id": "c3",
+          "name": "Banho suíte",
+          "steps": 68,
+          "meters": 4.6098
+        },
+        {
+          "id": "c4",
+          "name": "Banho",
+          "steps": 52,
+          "meters": 3.5074
+        },
+        {
+          "id": "c5",
+          "name": "Sala integrada",
+          "steps": 45,
+          "meters": 3.0648
+        },
+        {
+          "id": "c10",
+          "name": "Varanda / serviço",
+          "steps": 67,
+          "meters": 4.5416
+        }
+      ]
+    },
+    {
+      "type": "canto",
+      "pattern": "25mm",
+      "roomCount": 6,
+      "steps": 1096,
+      "rooms": [
+        {
+          "id": "c1",
+          "name": "Suíte",
+          "steps": 233,
+          "meters": 5.7455
+        },
+        {
+          "id": "c2",
+          "name": "Dormitório 01",
+          "steps": 225,
+          "meters": 5.4919
+        },
+        {
+          "id": "c3",
+          "name": "Banho suíte",
+          "steps": 188,
+          "meters": 4.6098
+        },
+        {
+          "id": "c4",
+          "name": "Banho",
+          "steps": 143,
+          "meters": 3.5074
+        },
+        {
+          "id": "c5",
+          "name": "Sala integrada",
+          "steps": 124,
+          "meters": 3.0648
+        },
+        {
+          "id": "c10",
+          "name": "Varanda / serviço",
+          "steps": 183,
+          "meters": 4.5416
+        }
+      ]
+    },
+    {
+      "type": "canto",
+      "pattern": "14mm",
+      "roomCount": 6,
+      "steps": 1938,
+      "rooms": [
+        {
+          "id": "c1",
+          "name": "Suíte",
+          "steps": 412,
+          "meters": 5.7455
+        },
+        {
+          "id": "c2",
+          "name": "Dormitório 01",
+          "steps": 395,
+          "meters": 5.4919
+        },
+        {
+          "id": "c3",
+          "name": "Banho suíte",
+          "steps": 333,
+          "meters": 4.6098
+        },
+        {
+          "id": "c4",
+          "name": "Banho",
+          "steps": 252,
+          "meters": 3.5074
+        },
+        {
+          "id": "c5",
+          "name": "Sala integrada",
+          "steps": 220,
+          "meters": 3.0648
+        },
+        {
+          "id": "c10",
+          "name": "Varanda / serviço",
+          "steps": 326,
+          "meters": 4.5416
+        }
+      ]
+    },
+    {
+      "type": "canto",
+      "pattern": "variable-frame-time",
+      "roomCount": 6,
+      "steps": 551,
+      "rooms": [
+        {
+          "id": "c1",
+          "name": "Suíte",
+          "steps": 114,
+          "meters": 5.7455
+        },
+        {
+          "id": "c2",
+          "name": "Dormitório 01",
+          "steps": 113,
+          "meters": 5.4919
+        },
+        {
+          "id": "c3",
+          "name": "Banho suíte",
+          "steps": 96,
+          "meters": 4.6098
+        },
+        {
+          "id": "c4",
+          "name": "Banho",
+          "steps": 72,
+          "meters": 3.5074
+        },
+        {
+          "id": "c5",
+          "name": "Sala integrada",
+          "steps": 61,
+          "meters": 3.0648
+        },
+        {
+          "id": "c10",
+          "name": "Varanda / serviço",
+          "steps": 95,
+          "meters": 4.5416
+        }
+      ]
+    },
+    {
+      "type": "meio",
+      "pattern": "70mm",
+      "roomCount": 6,
+      "steps": 332,
+      "rooms": [
+        {
+          "id": "c1",
+          "name": "Suíte",
+          "steps": 57,
+          "meters": 3.9513
+        },
+        {
+          "id": "c3",
+          "name": "Dormitório 01",
+          "steps": 47,
+          "meters": 3.1639
+        },
+        {
+          "id": "c4",
+          "name": "Banho suíte",
+          "steps": 41,
+          "meters": 2.788
+        },
+        {
+          "id": "c5",
+          "name": "Banho",
+          "steps": 45,
+          "meters": 2.8716
+        },
+        {
+          "id": "c6",
+          "name": "Sala integrada",
+          "steps": 44,
+          "meters": 3.0043
+        },
+        {
+          "id": "c9",
+          "name": "Varanda / serviço",
+          "steps": 98,
+          "meters": 6.5746
+        }
+      ]
+    },
+    {
+      "type": "meio",
+      "pattern": "25mm",
+      "roomCount": 6,
+      "steps": 911,
+      "rooms": [
+        {
+          "id": "c1",
+          "name": "Suíte",
+          "steps": 160,
+          "meters": 3.9513
+        },
+        {
+          "id": "c3",
+          "name": "Dormitório 01",
+          "steps": 129,
+          "meters": 3.1639
+        },
+        {
+          "id": "c4",
+          "name": "Banho suíte",
+          "steps": 113,
+          "meters": 2.788
+        },
+        {
+          "id": "c5",
+          "name": "Banho",
+          "steps": 119,
+          "meters": 2.8716
+        },
+        {
+          "id": "c6",
+          "name": "Sala integrada",
+          "steps": 123,
+          "meters": 3.0043
+        },
+        {
+          "id": "c9",
+          "name": "Varanda / serviço",
+          "steps": 267,
+          "meters": 6.5746
+        }
+      ]
+    },
+    {
+      "type": "meio",
+      "pattern": "14mm",
+      "roomCount": 6,
+      "steps": 1608,
+      "rooms": [
+        {
+          "id": "c1",
+          "name": "Suíte",
+          "steps": 283,
+          "meters": 3.9513
+        },
+        {
+          "id": "c3",
+          "name": "Dormitório 01",
+          "steps": 228,
+          "meters": 3.1639
+        },
+        {
+          "id": "c4",
+          "name": "Banho suíte",
+          "steps": 201,
+          "meters": 2.788
+        },
+        {
+          "id": "c5",
+          "name": "Banho",
+          "steps": 208,
+          "meters": 2.8716
+        },
+        {
+          "id": "c6",
+          "name": "Sala integrada",
+          "steps": 216,
+          "meters": 3.0043
+        },
+        {
+          "id": "c9",
+          "name": "Varanda / serviço",
+          "steps": 472,
+          "meters": 6.5746
+        }
+      ]
+    },
+    {
+      "type": "meio",
+      "pattern": "variable-frame-time",
+      "roomCount": 6,
+      "steps": 455,
+      "rooms": [
+        {
+          "id": "c1",
+          "name": "Suíte",
+          "steps": 81,
+          "meters": 3.9513
+        },
+        {
+          "id": "c3",
+          "name": "Dormitório 01",
+          "steps": 62,
+          "meters": 3.1639
+        },
+        {
+          "id": "c4",
+          "name": "Banho suíte",
+          "steps": 54,
+          "meters": 2.788
+        },
+        {
+          "id": "c5",
+          "name": "Banho",
+          "steps": 65,
+          "meters": 2.8716
+        },
+        {
+          "id": "c6",
+          "name": "Sala integrada",
+          "steps": 61,
+          "meters": 3.0043
+        },
+        {
+          "id": "c9",
+          "name": "Varanda / serviço",
+          "steps": 132,
+          "meters": 6.5746
+        }
+      ]
+    }
+  ]
+}

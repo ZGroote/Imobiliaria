@@ -15,7 +15,7 @@ from playwright.sync_api import sync_playwright
 EXP=Path(__file__).resolve().parent
 OUT=EXP/'evidencias'/'fila-integrada'
 CHROME=r'C:\Program Files\Google\Chrome\Application\chrome.exe'
-TOUR='site-baseline/maquete-liv-ipanema.html'
+TOUR='interiores/catalogo.json'
 
 
 class Fixture:
@@ -125,7 +125,7 @@ def run(out):
             assert not errors,errors
             page.screenshot(path=str(out/'fila-maquete.png'),full_page=True)
             report['cases'].append({'name':'real-priority-cache','status':'PASS','initialSceneFirst':True,
-              'preemptedTourRequests':2,'all124Cached':True,'cachedNativeMapNoNetwork':True,
+              'preemptedTourRequests':2,'allCatalogFilesCached':len(manifest['files']),'cachedNativeMapNoNetwork':True,
               'sameInteriorReused':True,'noHiddenScene':True,'errors':errors})
             context.close()
 

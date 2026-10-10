@@ -10,6 +10,20 @@
       "publishedAreaM2": 47.59,
       "typology": "canto",
       "finalAssociation": null
+    },
+    "meio.jpg": {
+      "bytes": 56234,
+      "sha256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
+      "sourceLocal": "v1.5/miniaturas/liv-ipanema/referencias/planta-tipo.jpg",
+      "sourceEvidence": "referencias.json: planta-meio; book oficial p.14",
+      "edited": false,
+      "publishedAreaLabel": "47,5 a 47,89 m²",
+      "publishedAreaRangeM2": [
+        47.5,
+        47.89
+      ],
+      "typology": "meio",
+      "finalAssociation": null
     }
   }
 }

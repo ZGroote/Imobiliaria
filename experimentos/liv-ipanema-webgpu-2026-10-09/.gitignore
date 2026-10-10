@@ -5,3 +5,9 @@
 /evidencias/materiais/pacote-local/
 /.liv-reproducao-*/
 /teste-reproducao-*/
+/interiores/*/source.json
+/interiores/*/source.json.gz
+/interiores/*/geometry-compact.json*
+/interiores/*/irradiance.rgbm.gz
+/interiores/*/autoria.html
+/interiores/*/textures/

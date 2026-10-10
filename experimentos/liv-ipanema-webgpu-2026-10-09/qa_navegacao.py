@@ -34,7 +34,7 @@ def main():
                 page=context.new_page();page.on('pageerror',lambda error,c=case:c['errors'].append(str(error)))
                 page.goto(URL);page.wait_for_function('__livViewer.ready',timeout=120000)
                 assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),width
-                boxes=page.locator('[data-mode],[data-view],#floor,#capture').evaluate_all('(nodes)=>nodes.map(n=>{const r=n.getBoundingClientRect();return {x:r.x,right:r.right,height:r.height};})')
+                boxes=page.locator('[data-mode],[data-view],#floor,#capture,#typology').evaluate_all('(nodes)=>nodes.map(n=>{const r=n.getBoundingClientRect();return {x:r.x,right:r.right,height:r.height};})')
                 assert all(b['x']>=0 and b['right']<=width+1 and b['height']>=44 for b in boxes),boxes
                 page.locator('#floor').select_option('8')
                 before=page.evaluate('__livViewer.frame.contentWindow.__livProva.getState()')

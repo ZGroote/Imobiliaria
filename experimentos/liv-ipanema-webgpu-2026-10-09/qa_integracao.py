@@ -77,23 +77,13 @@ def main():
                         page.locator('[data-mode="maquete"]').click();ready(page,'maquete')
                         continue
                     frame=page.frames[-1]
-                    details=frame.evaluate('''()=>{const m=__maq;return {mode:m.modo(),plantVisible:!!m.planta()?.visible,
-                        exteriorVisible:m.predio.visible,image:!!document.querySelector('#p2d image')?.getAttribute('href'),
-                        orbit:m.orb.th,yaw:m.FP.yaw,walkable:m.modo()==='visita'?m.livre(m.FP.x,m.FP.z):null,
-                        touchDetection:window.__touchDetection,coarseNow:matchMedia('(pointer:coarse)').matches};}''')
+                    details=frame.evaluate('''()=>{const m=__livInterior;return {mode:m.mode,
+                        ready:m.ready,typology:m.typology,backend:m.backend,state:m.getState(),
+                        coarseNow:matchMedia('(pointer:coarse)').matches};}''')
                     case['modes'][mode]=details
-                    assert details['mode']==mode and not details['exteriorVisible'],details
-                    if mode!='planta2d':
-                        assert details['plantVisible'],details
-                        if mode=='planta3d':
-                            assert frame.locator('#fGirar').is_visible() and frame.locator('#fMover').is_visible()
-                            frame.locator('#fMover').click();frame.locator('#fGirar').click()
-                        else:
-                            assert details['walkable'],details
-                            if width==390:frame.locator('#joy').wait_for(state='visible')
-                        drag(page,frame.locator('#c'),width==390)
-                        value=frame.evaluate('__maq.FP.yaw' if mode=='visita' else '__maq.orb.th')
-                        assert abs(value-(details['yaw'] if mode=='visita' else details['orbit']))>.01
+                    assert details['mode']==mode and details['ready'] and details['typology']=='canto',details
+                    assert details['backend']==case['backend'],details
+                    # Detailed navigation, touch and two-layout checks live in qa_interiores.py.
                     with page.expect_download(timeout=15000) as info:page.locator('#capture').click()
                     path=args.saida/f'{backend}-{width}-{mode}.png';info.value.save_as(path)
                     assert path.read_bytes()[:8]==b'\x89PNG\r\n\x1a\n'

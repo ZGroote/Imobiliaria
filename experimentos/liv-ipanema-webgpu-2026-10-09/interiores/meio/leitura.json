@@ -1,0 +1,489 @@
+{
+  "schemaVersion": "1.1.0",
+  "id": "liv-ipanema-planta-meio-referencia",
+  "revision": 47,
+  "unit": "mm",
+  "geometry": "orthogonal-rectangles",
+  "ceilingHeightMm": 2700,
+  "provenance": {
+    "kind": "declared",
+    "referenceIds": []
+  },
+  "references": [],
+  "rooms": [
+    {
+      "id": "c1",
+      "name": "Suíte",
+      "xMm": 7050,
+      "yMm": 1300,
+      "widthMm": 2600,
+      "depthMm": 3250,
+      "walls": {
+        "south": "c1-south",
+        "east": "c1-east",
+        "north": "c1-north",
+        "west": "c1-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c2",
+      "name": "Suíte",
+      "xMm": 5650,
+      "yMm": 2900,
+      "widthMm": 1400,
+      "depthMm": 1000,
+      "walls": {
+        "south": "c2-south",
+        "east": "c2-east",
+        "north": "c2-north",
+        "west": "c2-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c3",
+      "name": "Dormitório 01",
+      "widthMm": 2650,
+      "depthMm": 2600,
+      "xMm": 3000,
+      "yMm": 300,
+      "walls": {
+        "south": "c3-south",
+        "east": "c3-east",
+        "north": "c3-north",
+        "west": "c3-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c4",
+      "name": "Banho suíte",
+      "widthMm": 1400,
+      "depthMm": 2600,
+      "xMm": 5650,
+      "yMm": 300,
+      "walls": {
+        "south": "c4-south",
+        "east": "c4-east",
+        "north": "c4-north",
+        "west": "c4-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c5",
+      "name": "Banho",
+      "widthMm": 2300,
+      "depthMm": 1400,
+      "xMm": 4750,
+      "yMm": 3900,
+      "walls": {
+        "south": "c5-south",
+        "east": "c5-east",
+        "north": "c5-north",
+        "west": "c5-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c6",
+      "name": "Sala integrada",
+      "xMm": 0,
+      "yMm": 1450,
+      "widthMm": 3000,
+      "depthMm": 3850,
+      "walls": {
+        "south": "c6-south",
+        "east": "c6-east",
+        "north": "c6-north",
+        "west": "c6-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c7",
+      "name": "Sala integrada",
+      "xMm": 3000,
+      "yMm": 2900,
+      "widthMm": 1750,
+      "depthMm": 2400,
+      "walls": {
+        "south": "c7-south",
+        "east": "c7-east",
+        "north": "c7-north",
+        "west": "c7-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c8",
+      "name": "Sala integrada",
+      "xMm": 4750,
+      "yMm": 2900,
+      "widthMm": 900,
+      "depthMm": 1000,
+      "walls": {
+        "south": "c8-south",
+        "east": "c8-east",
+        "north": "c8-north",
+        "west": "c8-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c9",
+      "name": "Varanda / serviço",
+      "widthMm": 3000,
+      "depthMm": 1450,
+      "xMm": 0,
+      "yMm": 0,
+      "walls": {
+        "south": "c9-south",
+        "east": "c9-east",
+        "north": "c9-north",
+        "west": "c9-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "rel-c1-west--c2-east",
+      "kind": "merged",
+      "wallA": "c1-west",
+      "wallB": "c2-east",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c1-west--c4-east",
+      "kind": "adjacent",
+      "wallA": "c1-west",
+      "wallB": "c4-east",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c1-west--c5-east",
+      "kind": "adjacent",
+      "wallA": "c1-west",
+      "wallB": "c5-east",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c2-north--c5-south",
+      "kind": "adjacent",
+      "wallA": "c2-north",
+      "wallB": "c5-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c2-south--c4-north",
+      "kind": "adjacent",
+      "wallA": "c2-south",
+      "wallB": "c4-north",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c2-west--c8-east",
+      "kind": "adjacent",
+      "wallA": "c2-west",
+      "wallB": "c8-east",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c3-east--c4-west",
+      "kind": "adjacent",
+      "wallA": "c3-east",
+      "wallB": "c4-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c3-north--c7-south",
+      "kind": "adjacent",
+      "wallA": "c3-north",
+      "wallB": "c7-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c3-north--c8-south",
+      "kind": "adjacent",
+      "wallA": "c3-north",
+      "wallB": "c8-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c3-west--c6-east",
+      "kind": "adjacent",
+      "wallA": "c3-west",
+      "wallB": "c6-east",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c3-west--c9-east",
+      "kind": "adjacent",
+      "wallA": "c3-west",
+      "wallB": "c9-east",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c5-south--c8-north",
+      "kind": "adjacent",
+      "wallA": "c5-south",
+      "wallB": "c8-north",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c5-west--c7-east",
+      "kind": "adjacent",
+      "wallA": "c5-west",
+      "wallB": "c7-east",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c6-east--c7-west",
+      "kind": "merged",
+      "wallA": "c6-east",
+      "wallB": "c7-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c6-south--c9-north",
+      "kind": "adjacent",
+      "wallA": "c6-south",
+      "wallB": "c9-north",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c7-east--c8-west",
+      "kind": "merged",
+      "wallA": "c7-east",
+      "wallB": "c8-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ],
+  "openings": [
+    {
+      "id": "a1",
+      "kind": "door",
+      "wallId": "c2-west",
+      "offsetMm": 200,
+      "widthMm": 750,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "pairedWallId": "c8-east",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a2",
+      "kind": "door",
+      "wallId": "c3-north",
+      "offsetMm": 1900,
+      "widthMm": 750,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "pairedWallId": "c8-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a3",
+      "kind": "door",
+      "wallId": "c4-north",
+      "offsetMm": 200,
+      "widthMm": 700,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "pairedWallId": "c2-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a4",
+      "kind": "door",
+      "wallId": "c5-south",
+      "offsetMm": 150,
+      "widthMm": 700,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "pairedWallId": "c8-north",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a5",
+      "kind": "door",
+      "wallId": "c6-north",
+      "offsetMm": 1600,
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a6",
+      "kind": "door",
+      "wallId": "c9-north",
+      "offsetMm": 900,
+      "widthMm": 1950,
+      "heightMm": 2200,
+      "sillMm": 0,
+      "pairedWallId": "c6-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a7",
+      "kind": "window",
+      "wallId": "c1-south",
+      "offsetMm": 750,
+      "widthMm": 1100,
+      "heightMm": 1200,
+      "sillMm": 1000,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a8",
+      "kind": "window",
+      "wallId": "c3-south",
+      "offsetMm": 850,
+      "widthMm": 1100,
+      "heightMm": 1200,
+      "sillMm": 1000,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a9",
+      "kind": "window",
+      "wallId": "c4-south",
+      "offsetMm": 600,
+      "widthMm": 550,
+      "heightMm": 700,
+      "sillMm": 1500,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a10",
+      "kind": "window",
+      "wallId": "c5-east",
+      "offsetMm": 750,
+      "widthMm": 450,
+      "heightMm": 700,
+      "sillMm": 1500,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a11",
+      "kind": "window",
+      "wallId": "c9-south",
+      "offsetMm": 850,
+      "widthMm": 2050,
+      "heightMm": 1150,
+      "sillMm": 1050,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ]
+}

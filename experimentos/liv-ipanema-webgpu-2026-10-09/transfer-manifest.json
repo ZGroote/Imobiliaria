@@ -18,11 +18,81 @@
   },
   "files": [
     {
-      "path": "site-baseline/maquete-liv-ipanema.html",
+      "path": "interiores/catalogo.json",
       "group": "tour",
-      "bytes": 38378801,
-      "sha256": "31ffb45398aed3ad49b289600823232e37f668086ebfea458b96ecd2e1b9d018",
+      "bytes": 4085,
+      "sha256": "b333126b4b0686ddf750cc554e85d681cbc9fce27f850c21d1e6b99f51b75ffa",
       "essential": true
+    },
+    {
+      "path": "interiores/shared/furniture.json.gz",
+      "group": "tour",
+      "bytes": 201119,
+      "sha256": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd",
+      "essential": false
+    },
+    {
+      "path": "interiores/shared/materials.json.gz",
+      "group": "tour",
+      "bytes": 876068,
+      "sha256": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+      "essential": false
+    },
+    {
+      "path": "interiores/shared/runtime.js",
+      "group": "tour",
+      "bytes": 93877,
+      "sha256": "cf84c09e1c243b0d48c31560c1c9d3d4cdd26586777144c559f4868c15f31da2",
+      "essential": false
+    },
+    {
+      "path": "interiores/canto/geometry-compact.json.gz",
+      "group": "tour",
+      "bytes": 850749,
+      "sha256": "a37b719fe821258f7ca7ad5ce4074afc4029050f65a3ce68b41785d721b19ab0",
+      "essential": false
+    },
+    {
+      "path": "interiores/canto/irradiance.rgbm.gz",
+      "group": "tour",
+      "bytes": 4646752,
+      "sha256": "25a42a2014ae77fe034e65e86585b233335273af7b4309e952a2cd9193e96366",
+      "essential": false
+    },
+    {
+      "path": "interiores/canto/light.json",
+      "group": "tour",
+      "bytes": 1851,
+      "sha256": "fa372d273c42254a0d9cd107db89bdbf8618c785df5f9050d9bfb3a6d9efe4e3",
+      "essential": false
+    },
+    {
+      "path": "interiores/canto/source.json.gz",
+      "group": "tour",
+      "bytes": 1946610,
+      "sha256": "c8c03c3d42a71dbbdef215e20a01072f24d684e6691e610d7e99072e47429b57",
+      "essential": false
+    },
+    {
+      "path": "interiores/canto/unidade.json",
+      "group": "tour",
+      "bytes": 13456,
+      "sha256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "essential": false
+    },
+    {
+      "path": "interiores/meio/recipe.json",
+      "group": "tour",
+      "bytes": 595,
+      "sha256": "dc206ab5c031941b614fd889af9c843ee67a53371311dfcb2a7d61358177609d",
+      "essential": false
+    },
+    {
+      "path": "interiores/meio/unidade.json",
+      "group": "tour",
+      "bytes": 8038,
+      "sha256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+      "essential": false
     },
     {
       "path": "site-baseline/mapa-liv-ipanema-5km.html",
@@ -883,8 +953,15 @@
       "group": "planta2d",
       "bytes": 63548,
       "sha256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971",
-      "essential": true
+      "essential": false
+    },
+    {
+      "path": "plantas2d/meio.jpg",
+      "group": "planta2d",
+      "bytes": 56234,
+      "sha256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
+      "essential": false
     }
   ],
-  "version": "76bf26e2b22c391c40648abc13f384c2c0ddf6d019386fc4204ff1116dd57db9"
+  "version": "3cc8b93bdf760802322e41999c0637e0452a4fba586b6416debff425a2e23962"
 }

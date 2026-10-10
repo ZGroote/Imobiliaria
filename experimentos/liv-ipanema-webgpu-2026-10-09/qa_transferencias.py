@@ -35,16 +35,28 @@ BOOT = """async revision => {
     if(performance.now()>deadline)throw Error('Fixture worker did not claim this page.');
     await new Promise(resolve=>setTimeout(resolve,20));
   }
-  window.transferCommand=(command,group)=>new Promise((resolve,reject)=>{
+  window.transferCommand=(command,group,prefixes)=>new Promise((resolve,reject)=>{
     const channel=new MessageChannel();
     const timer=setTimeout(()=>reject(Error('Transfer command timed out: '+command)),15000);
     channel.port1.onmessage=event=>{
       clearTimeout(timer);channel.port1.close();
       resolve(event.data);
     };
-    navigator.serviceWorker.controller.postMessage({type:'LIV_TRANSFER',command,...(group?{group}:{})},[channel.port2]);
+    navigator.serviceWorker.controller.postMessage({type:'LIV_TRANSFER',command,...(group?{group}:{}),...(prefixes?{prefixes}:{})},[channel.port2]);
   });
   return {controlled:true,scriptURL:navigator.serviceWorker.controller.scriptURL};
+}"""
+
+CLIENT_BOOT = """async () => {
+  window.transferEvents=[];
+  navigator.serviceWorker.addEventListener('message',event=>{
+    if(event.data?.type==='LIV_TRANSFER_STATE')transferEvents.push(event.data.state);
+  });
+  const {transfers}=await import('./transfers.js');
+  if(!await transfers.ensureControlled())throw Error('Production transfer client did not become controlled.');
+  const reply=await transfers.refresh();
+  if(!reply.ok)throw Error('Production transfer client did not obtain worker state.');
+  return transfers.getState();
 }"""
 
 
@@ -72,7 +84,7 @@ class Fixture:
         self.gates: dict[str, threading.Event] = {}
         self.revision = 0
 
-    def configure(self, name: str, *, wrong_hash: bool = False, replacement: bool = False):
+    def configure(self, name: str, *, wrong_hash: bool = False, replacement: bool = False, typologies: bool = False):
         suffix = "replacement" if replacement else name
         paths = {
             "tour": f"site-baseline/{name}-tour.html",
@@ -88,7 +100,13 @@ class Fixture:
             paths["map-detail"]: ("tile-" + suffix).encode() * 2048,
             paths["planta2d"]: png(),
         }
-        records = [{"path": path, "group": "map" if key in ["map-detail", "map-model"] else key,
+        if typologies:
+            previous=paths["tour"]
+            paths["tour"]=f"interiores/canto/{name}-scene.json.gz"
+            bodies[paths["tour"]]=bodies.pop(previous)
+            paths["tour-meio"]=f"interiores/meio/{name}-scene.json.gz"
+            bodies[paths["tour-meio"]]=html("meio")
+        records = [{"path": path, "group": "tour" if key=="tour-meio" else "map" if key in ["map-detail", "map-model"] else key,
                     "bytes": len(bodies[path]), "sha256": sha(bodies[path]),
                     "essential": key != "map-detail"}
                    for key, path in paths.items()]
@@ -148,9 +166,16 @@ self.addEventListener('message',event=>{
  if(event.data?.type==='FIXTURE_DELAY_MATCH'){
   self.__fixtureDelayMatch=true;event.ports[0]?.postMessage({ok:true});
  }
+ if(event.data?.type==='FIXTURE_JOB_STATUS'){
+  const job=[...jobs.values()].find(job=>job.meta.path===event.data.path);
+  event.ports[0]?.postMessage({waiters:job?.waiters.size||0,status:job?.status||null});
+ }
 });
 """
                 body = hook + (EXP / "transfer-worker.js").read_bytes() + f"\n// fixture revision {fixture.revision}\n".encode()
+                content_type = "text/javascript"
+            elif path == "/fixture/transfers.js":
+                body = (EXP / "transfers.js").read_bytes()
                 content_type = "text/javascript"
             elif path == "/fixture/transfer-manifest.json":
                 with fixture.lock:
@@ -206,10 +231,46 @@ def wait_for(predicate, message: str, timeout: float = 15):
     raise AssertionError(message)
 
 
-def command(page, action: str, group: str | None = None):
-    reply = page.evaluate("([action,group])=>transferCommand(action,group)", [action, group])
+def command(page, action: str, group: str | None = None, prefixes: list[str] | None = None):
+    reply = page.evaluate("([action,group,prefixes])=>transferCommand(action,group,prefixes)", [action, group, prefixes])
     assert reply.get("ok"), reply
     return reply.get("state", {})
+
+
+def fixture_job_status(page, path: str):
+    # A fixture-only barrier: wait until both foreground promises joined the job,
+    # rather than relying on a sleep before sending a priority command.
+    return page.evaluate("""path=>new Promise((resolve,reject)=>{
+      const channel=new MessageChannel();
+      const timer=setTimeout(()=>reject(Error('Fixture job status timed out.')),15000);
+      channel.port1.onmessage=event=>{clearTimeout(timer);channel.port1.close();resolve(event.data);};
+      navigator.serviceWorker.controller.postMessage({type:'FIXTURE_JOB_STATUS',path},[channel.port2]);
+    })""", path)
+
+
+def begin_fetch(page, key: str, path: str):
+    page.evaluate("""({key,path})=>{
+      window.fixtureFetches??={};
+      fixtureFetches[key]={settled:false,result:null};
+      fetch(path).then(async response=>{
+        const body=new Uint8Array(await response.arrayBuffer());
+        const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',body))).map(b=>b.toString(16).padStart(2,'0')).join('');
+        return {status:response.status,bytes:body.length,sha256:hash};
+      }).catch(error=>({networkError:String(error),errorName:error.name})).then(result=>{
+        fixtureFetches[key]={settled:true,result};
+      });
+    }""", {"key": key, "path": path})
+
+
+def end_fetch(page, key: str):
+    page.wait_for_function("key=>window.fixtureFetches?.[key]?.settled", arg=key, timeout=15000)
+    return page.evaluate("key=>fixtureFetches[key].result", key)
+
+
+def client_command(page, action: str):
+    reply = page.evaluate("action=>__livTransfers[action]()", action)
+    assert reply.get("ok"), reply
+    return reply["state"]
 
 
 def resource_paths(fixture: Fixture, paths: dict):
@@ -242,21 +303,27 @@ def run(out: Path):
     fixture = Fixture()
     server = serve(fixture)
     origin = f"http://127.0.0.1:{server.server_port}"
+    browser_args = ["--disable-gpu"]
     report = {"recordedAtUtc": datetime.now(timezone.utc).isoformat(), "status": "RUNNING",
-              "workerSHA256": sha(worker.read_bytes()), "origin": origin,
-              "usesGeneratedFixtures": True, "cacheMatchFaultHook": True, "runsLIVScene": False, "cases": []}
+              "workerSHA256": sha(worker.read_bytes()), "clientSHA256": sha((EXP / "transfers.js").read_bytes()),
+              "qaSHA256": sha(Path(__file__).read_bytes()), "browserArgs": browser_args,
+              "origin": origin, "usesGeneratedFixtures": True, "cacheMatchFaultHook": True,
+              "jobWaiterBarrierHook": True, "runsLIVScene": False, "cases": []}
     try:
         with sync_playwright() as pw:
-            browser = pw.chromium.launch(executable_path=CHROME, headless=True, args=["--disable-gpu"])
+            browser = pw.chromium.launch(executable_path=CHROME, headless=True, args=browser_args)
 
-            def setup(name, **options):
+            def setup(name, *, client=False, **options):
                 paths, bodies, manifest = fixture.configure(name, **options)
                 context = browser.new_context(service_workers="allow")
                 page = context.new_page()
                 errors = []
                 page.on("pageerror", lambda error: errors.append(str(error)))
                 page.goto(origin + "/fixture/")
-                page.evaluate(BOOT, fixture.revision)
+                if client:
+                    page.evaluate(CLIENT_BOOT)
+                else:
+                    page.evaluate(BOOT, fixture.revision)
                 case = {"name": name, "manifestVersion": manifest["version"], "errors": errors}
                 report["cases"].append(case)
                 (out / (name + "-manifest.json")).write_text(json.dumps(manifest, indent=2), encoding="utf8")
@@ -286,12 +353,85 @@ def run(out: Path):
             case["status"] = "PASS"
             context.close()
 
+            context, page, case, paths, bodies, manifest = setup("typology", typologies=True)
+            gate=fixture.hold(paths["tour"])
+            command(page,"start")
+            wait_for(lambda:fixture.started(paths["tour"]),"Canto did not start before selecting Meio.")
+            page.evaluate("path=>{window.oldTypology=fetch(path).then(()=>({canceled:false})).catch(()=>({canceled:true}));}",paths["tour"])
+            wait_for(lambda: fixture_job_status(page, paths["tour"])["waiters"] == 1,
+                     "The old typology demand did not join Canto before prioritizing Meio.")
+            result=page.evaluate("""()=>new Promise(resolve=>{
+              const channel=new MessageChannel();channel.port1.onmessage=event=>{channel.port1.close();resolve(event.data);};
+              navigator.serviceWorker.controller.postMessage({type:'LIV_TRANSFER',command:'prioritize',group:'tour',prefixes:['interiores/meio/']},[channel.port2]);
+            })""")
+            assert result['ok'],result
+            assert page.evaluate('()=>oldTypology')['canceled'],"Old typology demand survived selecting Meio."
+            result=fetch_body(page,paths['tour-meio'])
+            assert result['sha256']==sha(bodies[paths['tour-meio']]),result
+            sequence=resource_paths(fixture,paths)
+            assert sequence[:2]==['/fixture/'+paths['tour'],'/fixture/'+paths['tour-meio']],sequence
+            gate.set()
+            wait_for(lambda:completed(page,fixture,manifest),"Typology queue did not resume.")
+            case['selectedTypologyPreemptedSameGroup']=True
+            case['requestOrder']=resource_paths(fixture,paths)
+            case['status']='PASS';context.close()
+
+            context, page_a, case, paths, bodies, manifest = setup("multi-tab-typology", typologies=True)
+            page_b = context.new_page()
+            page_b.on("pageerror", lambda error: case["errors"].append("tab B: " + str(error)))
+            page_b.goto(origin + "/fixture/")
+            page_b.evaluate(BOOT, fixture.revision)
+            canto_gate = fixture.hold(paths["tour"])
+            meio_gate = fixture.hold(paths["tour-meio"])
+            command(page_a, "start")
+            wait_for(lambda: fixture.started(paths["tour"]), "Tab A Canto did not start.")
+            begin_fetch(page_a, "canto", paths["tour"])
+            begin_fetch(page_b, "canto", paths["tour"])
+            wait_for(lambda: fixture_job_status(page_a, paths["tour"])["waiters"] == 2,
+                     "The two tabs did not join the same Canto transfer.")
+            state = command(page_b, "prioritize", "tour", ["interiores/meio/"])
+            canceled = end_fetch(page_b, "canto")
+            assert canceled.get("networkError"), "Tab B did not cancel its own old Canto demand."
+            assert not page_a.evaluate("fixtureFetches.canto.settled"), "Tab B priority canceled Tab A's foreground fetch."
+            assert state["active"]["path"] == paths["tour"], "Tab A's active Canto transfer was interrupted."
+            assert len(fixture.started(paths["tour"])) == 1, "The shared Canto transfer was restarted."
+            begin_fetch(page_b, "meio", paths["tour-meio"])
+            wait_for(lambda: fixture_job_status(page_b, paths["tour-meio"])["waiters"] == 1,
+                     "Tab B's selected Meio demand did not join the queue.")
+            assert not page_a.evaluate("fixtureFetches.canto.settled"), "Tab B's native Meio fetch canceled Tab A."
+            canto_gate.set()
+            canto_result = end_fetch(page_a, "canto")
+            assert canto_result == {"status": 200, "bytes": len(bodies[paths["tour"]]),
+                                    "sha256": sha(bodies[paths["tour"]])}, canto_result
+            wait_for(lambda: fixture.started(paths["tour-meio"]), "Tab B Meio did not start after Tab A Canto.")
+            begin_fetch(page_a, "meio", paths["tour-meio"])
+            wait_for(lambda: fixture_job_status(page_a, paths["tour-meio"])["waiters"] == 2,
+                     "The two tabs did not join the same Meio transfer.")
+            assert len(fixture.started(paths["tour-meio"])) == 1, "The two tabs duplicated Meio on the network."
+            meio_gate.set()
+            expected_meio = {"status": 200, "bytes": len(bodies[paths["tour-meio"]]),
+                             "sha256": sha(bodies[paths["tour-meio"]])}
+            assert end_fetch(page_a, "meio") == expected_meio
+            assert end_fetch(page_b, "meio") == expected_meio
+            wait_for(lambda: completed(page_a, fixture, manifest), "Shared typology queue did not finish.")
+            command(page_a, "pause")
+            assert len(fixture.started(paths["tour"])) == len(fixture.started(paths["tour-meio"])) == 1
+            case["otherTabForegroundSurvivedPriority"] = True
+            case["sameFileNetworkRequests"] = {"canto": 1, "meio": 1}
+            case["tabACanto"] = canto_result
+            case["tabBOldDemand"] = canceled
+            case["requestOrder"] = resource_paths(fixture, paths)
+            assert not case["errors"], case
+            case["status"] = "PASS"
+            context.close()
+
             context, page, case, paths, bodies, manifest = setup("join")
             gate = fixture.hold(paths["tour"])
             command(page, "start")
             wait_for(lambda: fixture.started(paths["tour"]), "Background tour did not start.")
             page.evaluate("path=>{window.joinedFetch=fetch(path).then(async response=>({status:response.status,bytes:(await response.arrayBuffer()).byteLength}));}", paths["tour"])
-            time.sleep(.05)
+            wait_for(lambda: fixture_job_status(page, paths["tour"])["waiters"] == 1,
+                     "Foreground did not join the active background transfer.")
             assert len(fixture.started(paths["tour"])) == 1, "Foreground fetch started a duplicate background request."
             gate.set()
             result = page.evaluate("()=>joinedFetch")
@@ -308,6 +448,8 @@ def run(out: Path):
             command(page, "start")
             wait_for(lambda: fixture.started(paths["tour"]), "Background tour did not start before preemption.")
             page.evaluate("path=>{window.oldDemand=fetch(path).then(()=>({canceled:false})).catch(()=>({canceled:true}));}", paths["tour"])
+            wait_for(lambda: fixture_job_status(page, paths["tour"])["waiters"] == 1,
+                     "The old foreground demand did not join before changing groups.")
             command(page, "prioritize", "map")
             assert page.evaluate('()=>oldDemand')["canceled"], "Old foreground demand survived a different selected group."
             result = fetch_body(page, paths["map"])
@@ -385,7 +527,8 @@ def run(out: Path):
             command(page, "prioritize", "map")
             wait_for(lambda: fixture.started(paths["map-model"]), "Map model prerequisite did not start.")
             page.evaluate("path=>{window.tileDemand=fetch(path).then(async response=>(await response.arrayBuffer()).byteLength);}", paths["map-detail"])
-            time.sleep(.1)
+            wait_for(lambda: fixture_job_status(page, paths["map-detail"])["waiters"] == 1,
+                     "Visible tile did not join while its model prerequisite was active.")
             assert not fixture.started(paths["map-detail"]), "Visible tile interrupted the required map model."
             assert len(fixture.started(paths["map-model"])) == 1
             gate.set()
@@ -433,6 +576,80 @@ def run(out: Path):
             assert result["sha256"] == sha(bodies[paths["tour"]])
             assert len(fixture.started(paths["tour"])) == 2
             case["catalogRefreshedWithoutWorkerReplacement"] = True
+            case["status"] = "PASS"
+            context.close()
+
+            context, page, case, paths, bodies, manifest = setup("worker-restart", client=True)
+            client_command(page, "start")
+            wait_for(lambda: completed(page, fixture, manifest), "Restart fixture initial catalog did not finish.")
+            # Create a real, high client progressVersion before replacing only the
+            # worker script. The new bootstrap keeps exactly the same catalog.
+            for _ in range(12):
+                client_command(page, "refresh")
+            old_state = page.evaluate("__livTransfers.getState()")
+            assert old_state.get("workerInstance"), "Worker state has no bootstrap identity."
+            old_requests = resource_paths(fixture, paths)
+            old_script = page.evaluate("navigator.serviceWorker.controller.scriptURL")
+            old_manifest = json.dumps(fixture.manifest, sort_keys=True)
+            with fixture.lock:
+                fixture.revision += 1
+            new_script = page.evaluate("""async ()=>{
+              const registration=await navigator.serviceWorker.getRegistration();
+              const previous=navigator.serviceWorker.controller;
+              window.fixturePreviousController=previous;
+              let cleanup;
+              const changed=new Promise((resolve,reject)=>{
+                const timer=setTimeout(()=>reject(Error('Fixture replacement worker did not claim this page.')),15000);
+                const listener=()=>{
+                  if(navigator.serviceWorker.controller&&navigator.serviceWorker.controller!==previous)resolve();
+                };
+                cleanup=()=>{clearTimeout(timer);navigator.serviceWorker.removeEventListener('controllerchange',listener);};
+                navigator.serviceWorker.addEventListener('controllerchange',listener);
+              });
+              changed.catch(()=>{});
+              try{await registration.update();await changed;}finally{cleanup();}
+              return navigator.serviceWorker.controller.scriptURL;
+            }""")
+            assert new_script == old_script, "Restart fixture unexpectedly changed the worker URL."
+            assert json.dumps(fixture.manifest, sort_keys=True) == old_manifest, "Restart fixture changed its catalog."
+            new_state = client_command(page, "refresh")
+            client_state = page.evaluate("__livTransfers.getState()")
+            assert new_state.get("workerInstance") and new_state["workerInstance"] != old_state["workerInstance"], new_state
+            assert new_state["version"] == old_state["version"] == manifest["version"], new_state
+            assert new_state["progressVersion"] < old_state["progressVersion"], {"old": old_state, "new": new_state}
+            assert client_state["workerInstance"] == new_state["workerInstance"], "Client rejected the restarted worker's lower counter."
+            assert client_state["progressVersion"] >= new_state["progressVersion"]
+            assert client_state["progressVersion"] < old_state["progressVersion"], "Client retained the previous bootstrap's higher counter."
+            assert client_state["paused"] and not client_state["enabled"], "Client retained the previous bootstrap's running state."
+            assert all(group["cached"] == group["total"] for group in client_state["groups"].values())
+            assert resource_paths(fixture, paths) == old_requests, "Restart unnecessarily downloaded verified cached bodies."
+            # Replay a delayed old-worker broadcast with its actual former source.
+            # Its larger counter must not restore the retired worker's state.
+            after_stale = page.evaluate("""stale=>{
+              navigator.serviceWorker.dispatchEvent(new MessageEvent('message',{
+                source:fixturePreviousController,data:{type:'LIV_TRANSFER_STATE',state:stale}
+              }));
+              return __livTransfers.getState();
+            }""", old_state)
+            assert after_stale == client_state, "A delayed broadcast restored the retired worker's state."
+            # Older updates within the current bootstrap still obey counter order.
+            older_current = {**client_state, "progressVersion": client_state["progressVersion"] - 1,
+                             "paused": False, "error": "fixture obsolete current-instance update"}
+            after_older = page.evaluate("""stale=>{
+              navigator.serviceWorker.dispatchEvent(new MessageEvent('message',{
+                source:navigator.serviceWorker.controller,data:{type:'LIV_TRANSFER_STATE',state:stale}
+              }));
+              return __livTransfers.getState();
+            }""", older_current)
+            assert after_older == client_state, "An older broadcast regressed the current worker's client state."
+            case["oldState"] = old_state
+            case["newState"] = client_state
+            case["sameManifestWorkerReplacement"] = True
+            case["lowerCounterAcceptedFromNewInstance"] = True
+            case["retiredWorkerBroadcastIgnored"] = True
+            case["currentInstanceCounterRemainsMonotonic"] = True
+            case["verifiedCacheReusedAfterRestart"] = True
+            assert not case["errors"], case
             case["status"] = "PASS"
             context.close()
             browser.close()

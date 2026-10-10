@@ -5,6 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 PLANTA_SHA = "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+MEIO_SHA = "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
 
 
 def build(root=ROOT):
@@ -17,7 +18,33 @@ def build(root=ROOT):
             raise ValueError(f"Recurso diverge da fonte preservada: {path}")
         files.append({"path": path, "group": group, **record, "essential": essential})
 
-    add("site-baseline/maquete-liv-ipanema.html", "tour", original["maquete-liv-ipanema.html"])
+    catalog_path="interiores/catalogo.json"
+    catalog_bytes=(root/catalog_path).read_bytes()
+    catalog=json.loads(catalog_bytes)
+    if catalog.get("schema")!="liv-interior-catalog-v1" or set(catalog.get("tipologias",{}))!={"canto","meio"}:
+        raise ValueError("O catálogo deve conter as duas tipologias verificadas.")
+    add(catalog_path,"tour",{"bytes":len(catalog_bytes),"sha256":hashlib.sha256(catalog_bytes).hexdigest()})
+    interior_files={}
+    def collect(value):
+        if isinstance(value,dict):
+            if {"path","bytes","sha256"}.issubset(value):
+                record={key:value[key] for key in ["bytes","sha256"]}
+                path=value["path"]
+                if not path.startswith(("interiores/canto/","interiores/meio/","interiores/shared/")) or ".." in path.split("/"):
+                    raise ValueError("Asset de interior fora do pacote.")
+                if path in interior_files and interior_files[path]!=record:
+                    raise ValueError("Identidades conflitantes de um asset.")
+                interior_files[path]=record
+            for child in value.values():collect(child)
+        elif isinstance(value,list):
+            for child in value:collect(child)
+    collect(catalog)
+    if not interior_files:raise ValueError("Catálogo de interiores sem arquivos.")
+    # Shared inputs precede each independent typology; foreground demands can jump
+    # directly to the chosen typology without treating the other one as a prerequisite.
+    for prefix in ["interiores/shared/","interiores/canto/","interiores/meio/"]:
+        for path in sorted(path for path in interior_files if path.startswith(prefix)):
+            add(path,"tour",interior_files[path],False)
     for path in ["mapa-liv-ipanema-5km.html", "liv-ipanema.glb"]:
         add("site-baseline/" + path, "map", original[path])
     tiles = sorted(path for path in original if path.startswith("quintais/") and path.endswith(".bin"))
@@ -25,7 +52,9 @@ def build(root=ROOT):
         raise ValueError("A versão preservada deve conter 120 tiles do mapa.")
     for path in tiles:
         add("site-baseline/" + path, "map", original[path], False)
-    add("plantas2d/canto.jpg", "planta2d", {"bytes": 63548, "sha256": PLANTA_SHA})
+    add("plantas2d/canto.jpg", "planta2d", {"bytes": 63548, "sha256": PLANTA_SHA},False)
+    meio=(root/"plantas2d/meio.jpg").read_bytes()
+    add("plantas2d/meio.jpg", "planta2d", {"bytes":len(meio),"sha256":MEIO_SHA},False)
     result = {
         "schema": "liv-transfer-manifest-v1",
         "order": ["tour", "map", "planta2d"],

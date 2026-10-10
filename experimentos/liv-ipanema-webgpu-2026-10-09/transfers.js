@@ -3,9 +3,18 @@
 const labels={tour:'Tour 3D',map:'Mapa',planta2d:'Planta 2D'};
 let state={enabled:false,paused:true,active:null,groups:{},error:null},initialization=null,commands=Promise.resolve();
 const listeners=new Set();
-function publish(next){
+const retiredInstances=new Set();
+function publish(next,worker=null){
+  // A replacement worker can reuse the manifest version with a fresh counter.
+  // A queued reply/broadcast from its predecessor must not resurrect old state.
+  if(worker&&worker!==navigator.serviceWorker?.controller)return;
+  if(next.workerInstance&&retiredInstances.has(next.workerInstance))return;
+  if(state.workerInstance&&next.workerInstance&&state.workerInstance!==next.workerInstance) {
+    retiredInstances.add(state.workerInstance);
+  }
   // A broadcast can arrive before the older command acknowledgement.
-  if(next.version&&next.version===state.version&&next.progressVersion<state.progressVersion)return;
+  if(next.workerInstance===state.workerInstance&&next.version&&next.version===state.version&&
+    next.progressVersion<state.progressVersion)return;
   state=next;for(const listener of listeners)listener(state);
 }
 const unavailable=error=>{publish({...state,enabled:false,unavailable:true,error:String(error)});return false;};
@@ -35,21 +44,24 @@ async function ensureControlled(){
   return initialization;
 }
 navigator.serviceWorker?.addEventListener('message',event=>{
-  if(event.data?.type==='LIV_TRANSFER_STATE')publish(event.data.state);
+  if(event.data?.type==='LIV_TRANSFER_STATE')publish(event.data.state,event.source);
 });
-function command(command,group){
+function command(command,group,prefixes){
   const result=commands.catch(()=>{}).then(async()=>{
     if(!await ensureControlled())return {ok:false,state};
-    const channel=new MessageChannel();
+    const channel=new MessageChannel(),worker=navigator.serviceWorker.controller;
     try {
       const reply=await timed(new Promise(resolve=>{
         channel.port1.onmessage=event=>resolve(event.data);
-        navigator.serviceWorker.controller.postMessage({type:'LIV_TRANSFER',command,group},[channel.port2]);
+        worker.postMessage({type:'LIV_TRANSFER',command,group,...(prefixes?{prefixes}:{})},[channel.port2]);
       }),10000,'A preparação dos próximos conteúdos não respondeu.');
-      if(reply.state)publish(reply.state);
-      if(!reply.ok&&reply.error)publish({...state,error:reply.error});
+      if(reply.state)publish(reply.state,worker);
+      if(!reply.ok&&reply.error&&worker===navigator.serviceWorker.controller)publish({...state,error:reply.error});
       return reply;
-    }catch(error){unavailable(error.message);return {ok:false,state};}
+    }catch(error){
+      if(worker===navigator.serviceWorker.controller)unavailable(error.message);
+      return {ok:false,state};
+    }
     finally{channel.port1.close();}
   });
   commands=result;
@@ -57,10 +69,15 @@ function command(command,group){
 }
 export const transfers={
   ensureControlled,start:()=>command('start'),pause:()=>command('pause'),resume:()=>command('resume'),
-  prioritize:group=>command('prioritize',group),refresh:()=>command('status'),getState:()=>state,
+  prioritize:(group,prefixes)=>command('prioritize',group,prefixes),refresh:()=>command('status'),getState:()=>state,
   subscribe(listener){listeners.add(listener);listener(state);return()=>listeners.delete(listener);},
 };
 window.__livTransfers=transfers;
+navigator.serviceWorker?.addEventListener('controllerchange',()=>{
+  // Activation can broadcast before clients.claim updates our controller.
+  // Read the replacement's state after control changes instead of waiting for UI.
+  if(initialization)void transfers.refresh();
+});
 
 export function showTransferStatus(container){
   const text=container.querySelector('[data-transfer-text]'),progress=container.querySelector('progress');

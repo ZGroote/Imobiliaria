@@ -69,6 +69,22 @@
       "sha256": "4e721f9b5d93530f777c7432ec1f2270a51aa8688a0996398594c6b5282b2176",
       "relatedPaths": ["v1.5/miniaturas/liv-ipanema/interior/projeto-planta.json", "v1.5/miniaturas/liv-ipanema/interior/contexto.json", "v1.5/miniaturas/liv-ipanema/interior/README.md"],
       "limitations": ["Reconstrução de canto; não representa automaticamente a planta de meio ou uma unidade comercial."]
+    },
+    {
+      "id": "interior-meio-local",
+      "kind": "reconstrucao-local-da-planta-comercial",
+      "localPath": "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/referencia.json",
+      "sha256": "fe68313ca6c21f8ca78ad326646ba06d188b2d23128d639ab839cc5fb62e7edc",
+      "relatedPaths": [
+        "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/construir-meio.ts",
+        "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/projeto-planta.json",
+        "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/unidade.json",
+        "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/conferencia.json"
+      ],
+      "limitations": [
+        "Distribuição própria de meio, com dimensões inferidas. Sem vínculo por final.",
+        "Não recebe o atlas de canto."
+      ]
     }
   ],
   "evidence": [
@@ -109,9 +125,10 @@
       "confirmationScope": "Existência de planta distinta e intervalo de áreas comercialmente publicado.",
       "sourceRefs": [{"sourceId": "book-oficial", "page": 14}],
       "observed": {"label": "Planta 2 — Apartamentos de meio", "areaPublishedRangeM2": [47.5, 47.89], "publishedComponentsAtRangeEndsM2": [{"apartment": 43.1, "balcony": 4.41}, {"apartment": 43.39, "balcony": 4.51}], "layout": "Distribuição diferente da planta de canto; não é apenas um espelhamento."},
-      "decision": "Criar uma base própria de meio antes de afirmar correspondência interior/unidade. Conservar o intervalo; não escolher uma área exata por final sem evidência.",
+      "decision": "Base própria de meio registrada em interiores/meio/unidade.json e comparação de traçado em conferencia.png. Conservar intervalo publicado; sem área exata ou atribuição por final.",
       "limitations": ["O extremo inferior impresso é 47,5 m², enquanto os componentes impressos somam 47,51 m²; conservar a publicação sem ajustar a geometria para fazê-la coincidir."],
-      "comparisonCapture": null
+      "comparisonCapture": null,
+      "tracingComparison": "interiores/meio/conferencia.png"
     },
     {
       "id": "gardens",
@@ -249,11 +266,12 @@
     "priceDefault": null,
     "assignedParkingDefault": null,
     "unitSpecific3dInteriorEnabled": false,
-    "genericInteriorLabel": "Planta de referência de canto · interior ilustrativo · sem vínculo comercial",
+    "genericInteriorLabel": "Tipologia escolhida · interior ilustrativo · sem vínculo comercial",
     "requiredBeforeUnitPicking": ["Registrar dez zonas de seleção com vínculo ao final e evidência; não deduzir limites pelo centro das varandas.", "Distinguir posição aproximada, tipologia publicada e vínculo validado.", "Testar seleção 3D/lista/ficha com o mesmo ID nos dois backends.", "Não permitir que disponibilidade desconhecida apareça como disponível."],
     "mayProceedWithoutExecutivePlans": ["Paridade WebGPU/WebGL2 do exterior", "Lista de finais por pavimento e realce ilustrativo", "Ficha do empreendimento e catálogo das duas plantas comerciais", "Comparações visuais de fachadas e implantação"],
     "precisionBlockers": ["Limites e dimensões cotados de cada apartamento", "Vínculo tipologia/espelhamento/final", "Contornos e áreas garden por final", "Numeração comercial e relação vaga/unidade", "Azimute e implantação georreferenciada", "Estoque e preços oficiais"],
     "geometryChangedByThisReconciliation": false,
     "commercialRecordsCreatedByThisReconciliation": false
-  }
+  },
+  "interiorEvidence": "INTERIORES.md"
 }

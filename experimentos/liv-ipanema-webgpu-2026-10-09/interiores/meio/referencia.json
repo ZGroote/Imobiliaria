@@ -1,0 +1,180 @@
+{
+  "titulo": "LIV Ipanema · Planta 2 · apartamentos de meio",
+  "tipologia": "meio",
+  "site": "https://www.livonincorporadora.com.br/produtos/liv-ipanema/",
+  "book": {
+    "url": "https://www.livonincorporadora.com.br/wp-content/uploads/2024/08/BOOK_LIV_Ipanema.pdf",
+    "pagina": 14,
+    "sha256": "c7dae676c82eab758370e386cea7fe6bd31dded9fa436eb53ebdfe70be7bb50b"
+  },
+  "imagem": "../../plantas2d/meio.jpg",
+  "imagemOrigem": "v1.5/miniaturas/liv-ipanema/referencias/planta-tipo.jpg",
+  "imagemSha256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
+  "tamanhoImagem": [
+    1000,
+    1000
+  ],
+  "registro": {
+    "origemPx": [
+      95,
+      275
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 11.31422162724767,
+    "gradeMm": 50,
+    "metodoEscala": "Escala uniforme estimada pela caixa aparente da varanda e componente publicado de 4,41 m²; sem cotas executivas.",
+    "caixaCalibracaoPx": [
+      95,
+      275,
+      360,
+      405
+    ],
+    "areaCalibracaoPublicadaM2": 4.41
+  },
+  "areaPublicadaIntervaloM2": [
+    47.5,
+    47.89
+  ],
+  "componentesPublicadosM2": [
+    {
+      "apartamento": 43.1,
+      "varanda": 4.41
+    },
+    {
+      "apartamento": 43.39,
+      "varanda": 4.51
+    }
+  ],
+  "areaContornoNominalAproximadaM2": 44.6,
+  "peDireitoMm": 2700,
+  "limites": [
+    "A fonte comercial confirma uma tipologia distinta de canto; não é um espelhamento da planta existente.",
+    "A publicidade não fornece cotas. Escala, eixos de paredes, pé-direito, altura/largura de vãos e móveis são aproximações.",
+    "A escala usa o extremo inferior do componente varanda, sem atribuir a área de 47,5 m² a uma unidade ou final.",
+    "A área nominal entre eixos tem base diferente da área publicada e não foi deformada para igualar o intervalo comercial.",
+    "No extremo inferior, os componentes impressos somam 47,51 m², enquanto o total publicado é 47,5 m²; conservar ambos.",
+    "O retângulo branco sob a suíte não foi tratado como ambiente habitável ou passagem; uso técnico exato não confirmado.",
+    "Sala, cozinha, jantar e circulação formam um contorno mesclado; quarto e vestíbulo da suíte formam outro.",
+    "O índice 0 é técnico da exportação. Esta reconstrução não representa configuração garden, pavimento comercial ou unidade à venda.",
+    "Não reutilizar o atlas de canto nesta geometria. A integração deve usar luz própria ou materiais com iluminação dinâmica."
+  ],
+  "construtor": {
+    "modelo": "painel/src/components/construtor-planta/modelo.ts",
+    "editor": "painel/src/components/construtor-planta/editorDocument.ts",
+    "apis": [
+      "iniciar",
+      "aplicar",
+      "documento",
+      "exportar",
+      "exportarMoveis",
+      "exportarEditor",
+      "carregarEditorState"
+    ],
+    "roundTrip": true
+  },
+  "captura": {
+    "construtorSHA256": "cef5d70aff9480d78d87991ca990b6bb4f4caa28fe75940869b7352e647c7ad7",
+    "inputsSHA256": {
+      "leitura.json": "eb6c6444028b0b2467859cdf5575648bf531876430a19f9c065aaff6919316bf",
+      "projeto-planta.json": "271d30b63157971807e97b68d4930819f08411f63dc0621c66fa3e56a0450660",
+      "moveis.json": "6490104ff5989cac254aabd30072bc522a4d606b51f78e4ac8c1cd1879b9c898",
+      "contexto.json": "48bf6cac891e21284bf49747f08a7c53ed2740ae782f1d895fb076e1cca7be27"
+    }
+  },
+  "conversao": {
+    "status": "PASS",
+    "normalizer": {
+      "id": "nominal-floor-plan",
+      "version": "1.1.0",
+      "transformations": [
+        "mm-to-m@1",
+        "rectangle-to-ccw-polygon@1",
+        "wall-offset-to-opening-center@1",
+        "sill-height-to-y0-y1@1",
+        "preserve-nominal-axes@1",
+        "merge-parts-to-polygon@1"
+      ]
+    },
+    "comodos": 6,
+    "portas": 6,
+    "janelas": 5,
+    "entrada": "pipeline.avaliar_captura.embrulhar",
+    "validacao": "pipeline.e2e_leitura.resolver_entrada + portoes_do_consumidor",
+    "exportador": "pipeline.e2e_leitura.unidade",
+    "script": "exportar-meio.py",
+    "unidadeSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+    "geometrySourceSHA256": "72e605cea7acfa754e1e70254255e3249a15bda889430e10e4199702826c17d6"
+  },
+  "contagens": {
+    "partes": 9,
+    "gruposMesclados": 2,
+    "aberturas": 11,
+    "moveis": 29
+  },
+  "pontosObservados": {
+    "varandaServico": [
+      95,
+      275,
+      360,
+      405
+    ],
+    "dormitorio": [
+      360,
+      302,
+      596,
+      530
+    ],
+    "banhoSuite": [
+      596,
+      302,
+      720,
+      530
+    ],
+    "suite": [
+      [
+        720,
+        389,
+        949,
+        676
+      ],
+      [
+        596,
+        530,
+        720,
+        621
+      ]
+    ],
+    "banhoSocial": [
+      515,
+      621,
+      720,
+      742
+    ],
+    "salaIntegrada": [
+      [
+        95,
+        405,
+        360,
+        742
+      ],
+      [
+        360,
+        530,
+        515,
+        742
+      ],
+      [
+        515,
+        530,
+        596,
+        621
+      ]
+    ],
+    "vazioNaoHabitavel": [
+      720,
+      676,
+      854,
+      742
+    ]
+  }
+}
