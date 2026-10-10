@@ -10,6 +10,7 @@
 - Cinco câmeras e navegação livre; destaque de térreo e 16 pavimentos tipo; PNG da vista.
 - Planta 2D direta da imagem comercial; Planta 3D/Tour de canto sob demanda, com indicação de referência ilustrativa.
 - Mapa preservado de 5 km, busca e retorno à maquete nova; câmera e pavimento recuperados ao voltar.
+- Fila automática após a primeira cena utilizável: Tour → mapa → Planta 2D. Clique prioriza o modo solicitado; downloads completos são guardados sem abrir cenas em segundo plano. Ver [FILA.md](FILA.md).
 
 Para comparar backends, acrescentar `?backend=webgpu` ou `?backend=webgl`. A [prova técnica](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html) exibe o backend efetivo. A alternativa sem 3D é a imagem da planta.
 
@@ -29,12 +30,13 @@ A [bancada PBR local](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026
 | Carregamento | 37,5% menos conteúdo inicial no servidor local; abertura fria mediana: base 1,51 s, evolução WebGL2 1,88 s, WebGPU 2,80 s. Critério de tempo ainda pendente. Ver [PERF.md](PERF.md). |
 | Materiais padrão | Dez testes Node e quatro perfis de navegador aprovados; GLB/GLTF/pasta, propriedades Physical e mapas preservados, vinte reimportações estáveis. GLB Draco próprio existente de 1.158 malhas aprovado nos dois backends desktop. |
 | Continuação do desempenho | Maquete com materiais padrão reensaiada: base 1,63 s, WebGL2 2,19 s, WebGPU 2,98 s na mediana fria. Antecipação de upload sem ganho consistente revertida; o critério de tempo segue pendente. |
+| Fila por prioridade | Nove casos de worker e quatro cenários com arquivos reais aprovados: primeiro exterior, interrupção/retomada, download compartilhado, 124 recursos em cache, mapa frio com modelo antes dos tiles, mapa sem repetir transferências e abertura do Tour quando o cache falha. Novos QAs de quatro modos e histórico/layout aprovados. |
 
 Ambiente: Chrome 154.0.8037.98, Windows 11, GTX 1650; WebGPU NVIDIA/Turing e WebGL2 ANGLE/D3D11. Evidências JSON em `evidencias/`; capturas e assets binários grandes ficam locais, com hashes nos manifestos. A matriz de referência e reconciliação estão em [referencias.json](referencias.json) e [reconciliacao-unidades.md](reconciliacao-unidades.md).
 
 ## Continuidade do desenvolvimento
 
-O estado detalhado está em [todo.md](../../tasks/liv-ipanema-webgpu/todo.md). T02 permanece parcial até qualificação física/comparação oficial; o [orçamento](orcamento.json) é provisório. T05 começou pela separação de recursos e abertura por modo. O refinamento de fachada/materiais, dia/entardecer, seleção de um pavimento, interiores de meio e catálogo reconciliado continuam pendentes.
+O estado detalhado está em [todo.md](../../tasks/liv-ipanema-webgpu/todo.md). T02 permanece parcial até qualificação física/comparação oficial; o [orçamento](orcamento.json) é provisório. T05 inclui separação, progresso em rede lenta e a fila solicitada; as medições anteriores de peso/tempo antecedem a fila e não medem seu tráfego secundário. O refinamento de fachada/materiais, dia/entardecer, seleção de um pavimento, interiores de meio e catálogo reconciliado continuam pendentes.
 
 A tipologia correta de cada final, seus limites cotados, gardens e numeração comercial não foram confirmados. Preço, disponibilidade e vagas atribuídas dependem de cadastro oficial. O interior de canto continua geral e ilustrativo. A troca de renderer preserva a reconstrução existente e não produz, por si só, uma aparência fotográfica.
 

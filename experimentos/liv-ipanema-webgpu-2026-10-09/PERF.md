@@ -12,7 +12,7 @@
 
 [Dados completos](evidencias/medicao-final/medicao.json), com hashes de fonte, tempos de cada rodada, recursos/cache, backend e canvas. As rodadas frias WebGL2 foram **5.310 / 1.845 / 1.882 ms**; a mediana não elimina o custo observado na primeira abertura. A base teve 2.541 / 1.508 / 1.473 ms. WebGPU teve 2.797 / 2.789 / 2.797 ms.
 
-O conteúdo inicial caiu **37,5%**. Mapa, interiores e planta não foram antecipados. No reload, a transferência registrada foi cerca de 20,1 MB para a evolução e 38,4 MB para a base. O servidor local não comprime HTTP; arquivos `.gz` já vêm comprimidos. A publicação pode usar outra compressão/cache: esses números não comprovam a transferência na hospedagem ou em 4G.
+O conteúdo inicial caiu **37,5%** na versão medida antes da fila automática. Mapa, interiores e planta não foram antecipados nesse ensaio. No reload, a transferência registrada foi cerca de 20,1 MB para a evolução e 38,4 MB para a base. O servidor local não comprime HTTP; arquivos `.gz` já vêm comprimidos. A publicação pode usar outra compressão/cache: esses números não comprovam a transferência na hospedagem ou em 4G. A política atual prepara conteúdo secundário depois da primeira cena utilizável; seu tráfego deve ser medido separadamente, conforme [FILA.md](FILA.md).
 
 **O critério provisório de abertura de T05 ainda não passou:** a mediana deve ficar até 10% acima da base comparável. As variantes novas continuam mais lentas. O ganho de bytes e a cadência registrada não equivalem a ganho de FPS ou aprovação de desempenho. Os canvases também diferem: base 720×390, evolução 920×556. Intervalo entre submissões mede cadência, não execução GPU.
 

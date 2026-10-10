@@ -1,3 +1,4 @@
+import {transfers,showTransferStatus} from './transfers.js';
 const stage=document.getElementById('stage'),overlay=document.getElementById('loading');
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
@@ -15,7 +16,8 @@ try {
     else if(state.view==='livre')state.view='perspectiva';
   }
 } catch(error) {state.storageError=String(error);}
-let generation=0,frameKind=null;
+let generation=0,frameKind=null,openedOnce=false;
+showTransferStatus(document.getElementById('transferStatus'));
 for(let floor=1;floor<=16;floor++) document.getElementById('floor').add(new Option(`${floor}º pavimento tipo`,String(floor)));
 document.getElementById('floor').value=String(state.floor);
 
@@ -33,12 +35,14 @@ function update() {
 }
 function busy(text) {
   state.ready=false;state.error=null;overlay.hidden=false;message.textContent=text;
+  state.loadingProgress=null;document.getElementById('downloadProgress').hidden=true;
   document.getElementById('retry').hidden=true;document.getElementById('fallback').hidden=true;update();
 }
 function showError(error) {
   state.ready=false;state.error=String(error);overlay.hidden=false;message.textContent=error.message||String(error);
   status.textContent='Visualizador indisponível';document.getElementById('retry').hidden=false;
   document.getElementById('fallback').hidden=false;update();
+  document.getElementById('downloadProgress').hidden=true;
 }
 function release() {
   const frame=state.frame;
@@ -62,11 +66,24 @@ function release() {
   }
   stage.querySelector('img')?.remove();frameKind=null;
 }
-async function until(test,token,timeout=90000) {
-  const deadline=performance.now()+timeout;
-  while(performance.now()<deadline) {
+async function until(test,token,{timeout=90000,progress=null,maximum=600000}={}) {
+  const hardDeadline=performance.now()+maximum;
+  let deadline=performance.now()+timeout,lastVersion=-1,lastMessage='';
+  while(performance.now()<hardDeadline) {
     if(token!==generation) throw Error('Navegação substituída.');
+    const current=progress?.();
+    if(current&&current.version!==lastVersion){
+      lastVersion=current.version;deadline=performance.now()+timeout;state.loadingProgress=current;
+      const download=document.getElementById('downloadProgress');
+      const ratio=current.total>0?Math.min(1,current.loaded/current.total):null;
+      download.hidden=ratio===null;
+      if(ratio!==null){download.max=current.total;download.value=current.loaded;}
+      // Announce a phase or each ten percent, rather than every streamed chunk.
+      const text=current.message+(ratio===null?'…':` · ${Math.floor(ratio*10)*10}%`);
+      if(text!==lastMessage){message.textContent=text;lastMessage=text;}
+    }
     const value=test();if(value)return value;
+    if(performance.now()>=deadline)break;
     await new Promise(resolve=>setTimeout(resolve,100));
   }
   throw Error('O visualizador demorou para responder. Tente novamente.');
@@ -85,32 +102,53 @@ async function fallback2D(token) {
   await image.decode();if(token!==generation)return;
   frameKind='image';state.ready=true;state.error=null;state.mode='planta2d';overlay.hidden=true;
   status.textContent='Planta comercial de referência';update();
+  openedOnce=true;void transfers.start();
 }
 async function setMode(mode) {
   if(!['maquete','planta2d','planta3d','visita'].includes(mode))throw Error('Modo inválido.');
   const token=++generation;state.mode=mode;
   busy(mode==='maquete'?'Abrindo a maquete…':'Abrindo a planta de referência…');
   try {
+    const kind=mode==='maquete'?'exterior':mode==='planta2d'?'image':'interior';
+    // Cancel the previous scene immediately, before waiting for the queue ack.
+    if(frameKind!==kind)release();
+    if(mode==='maquete'){
+      // Initial screen starts without waiting for Service Worker registration.
+      if(openedOnce||navigator.serviceWorker?.controller)await transfers.pause();
+    } else await transfers.prioritize(mode==='planta2d'?'planta2d':'tour');
+    if(token!==generation)return;
     if(mode==='planta2d'){await fallback2D(token);return;}
-    const kind=mode==='maquete'?'exterior':'interior';
     if(frameKind!==kind) {
       release();const frame=document.createElement('iframe');frame.title=kind==='exterior'?'Maquete do LIV Ipanema':'Planta e interior de referência do LIV Ipanema';
       frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}`:'site-baseline/maquete-liv-ipanema.html';
       stage.prepend(frame);state.frame=frame;frameKind=kind;
-      if(kind==='exterior') {
+    }
+    const frame=state.frame;
+    if(kind==='exterior') {
         const api=await until(()=>{
           const api=frame.contentWindow?.__livProva;if(api?.error)throw Error(api.error);
           return api?.ready&&api.setFloor?api:null;
-        },token);
-        if(state.exteriorSnapshot)api.restoreState({...state.exteriorSnapshot,floor:state.floor});
-        else {api.setView(state.view);api.setFloor(state.floor);}
+        },token,{progress:()=>frame.contentWindow?.__livProva?.progress});
+        if(!frame.livPrepared){
+          if(state.exteriorSnapshot)api.restoreState({...state.exteriorSnapshot,floor:state.floor});
+          else {api.setView(state.view);api.setFloor(state.floor);}
+          frame.contentWindow.addEventListener('liv-renderer-error',event=>{
+            if(state.frame===frame&&frameKind==='exterior')showError(Error(event.detail.error));
+          });
+          frame.livPrepared=true;
+        }
         state.backend=api.backend;
-        frame.contentWindow.addEventListener('liv-renderer-error',event=>{
-          if(state.frame===frame&&frameKind==='exterior')showError(Error(event.detail.error));
-        });
-      } else {
-        await until(()=>frame.contentWindow?.__maq&&frame.contentWindow?.__livLightmap?.ready,token);
-        adaptLegacy(frame);
+    } else {
+      if(!frame.livPrepared){
+        await until(()=>{
+          const queue=transfers.getState();
+          if(queue.groups?.tour?.downloadFailed)throw Error('Não foi possível preparar o Tour. Tente novamente.');
+          return frame.contentWindow?.__maq&&frame.contentWindow?.__livLightmap?.ready;
+        },token,{timeout:300000,progress:()=>{
+          const active=transfers.getState().active;
+          return active?.group==='tour'?active:null;
+        }});
+        adaptLegacy(frame);frame.livPrepared=true;
       }
     }
     if(kind==='interior') {
@@ -120,6 +158,7 @@ async function setMode(mode) {
     }
     if(token!==generation)return;
     state.ready=true;overlay.hidden=true;status.textContent=mode==='maquete'?'Maquete completa carregada':'Planta de referência de canto';update();
+    openedOnce=true;void transfers.start();
   } catch(error) {
     if(token!==generation)return;
     if(mode==='planta2d') {
@@ -157,8 +196,13 @@ document.getElementById('floor').addEventListener('change',event=>setFloor(event
 document.getElementById('capture').addEventListener('click',()=>capture().catch(error=>{status.textContent='Não foi possível capturar a imagem: '+error.message;}));
 document.getElementById('retry').addEventListener('click',()=>setMode(state.mode));
 document.getElementById('fallback').addEventListener('click',()=>{
-  const token=++generation;busy('Abrindo a planta 2D…');
-  fallback2D(token).catch(error=>{if(token===generation)showError(error);});
+  void setMode('planta2d');
+});
+document.querySelector('.map-link').addEventListener('click',event=>{
+  if(event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+  event.preventDefault();const destination=event.currentTarget.href,token=++generation;
+  state.ready=false;release();busy('Abrindo o mapa…');
+  transfers.prioritize('map').then(()=>{if(token===generation)location.assign(destination);});
 });
 window.addEventListener('pagehide',()=>{
   generation++;state.ready=false;release();

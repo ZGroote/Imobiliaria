@@ -47,9 +47,9 @@ def main():
     report={'recordedAtUtc':datetime.now(timezone.utc).isoformat(),'status':'RUNNING',
         'platform':platform.platform(),'headless':True,'physicalMobile':False,'viewport':[1440,900],
         'network':'loopback sem compressão HTTP; recursos .gz já comprimidos no arquivo',
-        'execution':'sequencial, sem outros QAs em execução',
+        'execution':'sequencial; fila pausada após primeira cena utilizável para isolar a amostra de órbita',
         'limits':'Contexto novo para cache HTTP frio; caches do driver não controlados. Canvas da interface pode diferir; cadência de submissão não é tempo GPU.',
-        'sourceSHA256':{name:hashlib.sha256((EXP/name).read_bytes()).hexdigest() for name in ['renderer.js','material-rgbm.js','viewer.js','maquete-liv-ipanema.html']},
+        'sourceSHA256':{name:hashlib.sha256((EXP/name).read_bytes()).hexdigest() for name in ['renderer.js','material-rgbm.js','viewer.js','maquete-liv-ipanema.html','transfers.js','transfer-worker.js','transfer-manifest.json']},
         'rounds':[]}
     try:
         with sync_playwright() as pw:
@@ -66,13 +66,20 @@ def main():
                         if variant=='base':page.wait_for_function('window.__maq&&window.__livLightmap?.ready',timeout=120000)
                         else:page.wait_for_function('window.__livViewer?.ready',timeout=120000)
                         ready_ms=page.evaluate('performance.now()')
+                        # Snapshot completed initial resources before the orbit sample.
+                        # Background SW traffic is reported separately; ResourceTiming
+                        # in documents cannot measure HTTP-encoded SW response bytes.
+                        resources=[r for f in page.frames for r in f.evaluate(NETWORK)]
+                        resources=list({r['url']:r for r in resources}.values())
+                        queue=None
+                        if variant!='base':
+                            page.evaluate('async()=>{await __livTransfers.pause();}')
+                            queue=page.evaluate('__livTransfers.getState()')
                         frame=page if variant=='base' else page.frames[-1]
                         await_data=frame.evaluate(SAMPLE,args.amostra_ms)
-                        resources=[r for f in page.frames for r in f.evaluate(NETWORK)]
-                        resources={r['url']:r for r in resources}.values()
                         data={'readyMs':ready_ms,'metrics':await_data,'resources':list(resources),
                             'encodedBodyBytes':sum(r['encodedBytes'] for r in resources),
-                            'transferBytes':sum(r['transferBytes'] for r in resources)}
+                            'transferBytes':sum(r['transferBytes'] for r in resources),'queueAtSample':queue}
                         if variant!='base':assert not any('/site-baseline/' in r['url'] for r in resources),data
                         record['phases'][phase]=data
                     assert not errors,errors

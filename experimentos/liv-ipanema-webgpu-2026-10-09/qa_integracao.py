@@ -1,5 +1,6 @@
 """QA do fluxo de quatro modos; usa GPU desktop e toque em viewport emulado."""
 import argparse
+import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -36,7 +37,9 @@ def main():
     parser.add_argument('--ciclos',type=int,default=3)
     parser.add_argument('--perfil',choices=['todos','desktop-webgpu','desktop-webgl','toque'],default='todos')
     args=parser.parse_args();args.saida.mkdir(parents=True,exist_ok=True)
-    report={'recordedAtUtc':datetime.now(timezone.utc).isoformat(),'status':'RUNNING','physicalMobile':False,'cases':[]}
+    report={'recordedAtUtc':datetime.now(timezone.utc).isoformat(),'status':'RUNNING','physicalMobile':False,
+        'sourceSHA256':{name:hashlib.sha256((EXP/name).read_bytes()).hexdigest() for name in
+            ['viewer.js','renderer.js','transfers.js','transfer-worker.js','maquete-liv-ipanema.html']},'cases':[]}
     try:
         with sync_playwright() as pw:
             browser=pw.chromium.launch(executable_path=r'C:\Program Files\Google\Chrome\Application\chrome.exe',headless=True)

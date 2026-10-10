@@ -3,6 +3,10 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,createRGBMTexture} from './material-rgbm.js';
 
 const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION};
+function progress(phase,message,extra={}){
+  if(state.disposed)return;
+  state.progress={version:(state.progress?.version||0)+1,phase,message,...extra};
+}
 const mark=name=>{(state.timings??={})[name]=performance.now();};mark('module');
 const parameters=new URLSearchParams(location.search);
 const requested=parameters.get('backend')||'auto';
@@ -21,7 +25,25 @@ async function loadBytes(name,record) {
   const url=new URL(name,base);url.searchParams.set('v',record.sha256);
   const response=await fetch(url,{signal:requests.signal});
   if(!response.ok) throw Error(`Recurso ${name}: HTTP ${response.status}.`);
-  const bytes=new Uint8Array(await response.arrayBuffer());
+  const message=name==='scene.json.gz'?'Baixando o modelo':name==='irradiance.rgbm.gz'?'Baixando a iluminação':'Baixando os acabamentos';
+  let bytes;
+  if(response.body){
+    const reader=response.body.getReader(),chunks=[];let loaded=0;
+    progress('download',message,{resource:name,loaded,total:record.bytes});
+    try{
+      for(;;){
+        const {value,done}=await reader.read();if(done)break;
+        loaded+=value.length;
+        if(loaded>record.bytes){await reader.cancel();throw Error(`Tamanho do recurso ${name} inválido.`);}
+        chunks.push(value);progress('download',message,{resource:name,loaded,total:record.bytes});
+      }
+      bytes=new Uint8Array(loaded);let offset=0;
+      for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.length;}
+    }finally{reader.releaseLock();}
+  }else{
+    bytes=new Uint8Array(await response.arrayBuffer());
+    progress('download',message,{resource:name,loaded:bytes.length,total:record.bytes});
+  }
   if(record && (bytes.length!==record.bytes || await sha(bytes)!==record.sha256)) throw Error(`Identidade do recurso ${name} inválida.`);
   return bytes;
 }
@@ -61,6 +83,7 @@ function environmentTexture() {
 }
 
 async function start() {
+  progress('backend','Preparando os gráficos');
   if(!['auto','webgpu','webgl'].includes(requested)) throw Error('Backend de diagnóstico inválido.');
   let adapter=null;
   if(requested!=='webgl' && navigator.gpu) {
@@ -97,11 +120,14 @@ async function start() {
     if(state.disposed)return;
     state.ready=false;state.disposed=true;requests.abort();return renderer.dispose();
   };
+  progress('manifest','Conferindo a versão da maquete');
   const response=await fetch(new URL('manifest.json',base),{cache:'no-cache',signal:requests.signal});
   if(!response.ok) throw Error('Manifesto da prova indisponível.');
   const manifest=await response.json();
   if(manifest.schema!=='liv-proof-manifest-v1') throw Error('Manifesto desconhecido.');
-  const encoded=await unzip(await loadBytes('scene.json.gz',manifest.files['scene.json.gz']));
+  const sceneBytes=await loadBytes('scene.json.gz',manifest.files['scene.json.gz']);
+  progress('decode','Preparando o modelo');
+  const encoded=await unzip(sceneBytes);
   if(await sha(encoded)!==manifest.sceneJSONSHA256) throw Error('Cena descomprimida não corresponde ao manifesto.');
   mark('sceneDecoded');
   const data=JSON.parse(new TextDecoder().decode(encoded));mark('sceneParsed');
@@ -109,6 +135,7 @@ async function start() {
   const atlasBytes=await unzip(await loadBytes(data.rgbm.textureURL,manifest.files[data.rgbm.textureURL]));
   if(await sha(atlasBytes)!==data.rgbm.textureSHA256) throw Error('Atlas RGBM corrompido.');
   mark('atlasReady');
+  progress('build','Montando a maquete');
   if(state.disposed)return;
   const atlas=createRGBMTexture(atlasBytes,data.rgbm);
   renderer.setClearAlpha(0);
@@ -334,12 +361,14 @@ async function start() {
     }});
   renderer.setAnimationLoop(()=>{controls.update();orientCamera();renderer.render(scene,camera);});
   mark('sceneBuilt');
+  progress('compile','Preparando a primeira imagem');
   await renderer.compileAsync(scene,camera);mark('compiled');
   if(state.disposed)return;
   renderer.render(scene,camera);
   await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
   if(state.disposed)return;
   mark('ready');state.ready=true;state.activeView='perspectiva';
+  progress('ready','Maquete carregada');
   status.textContent=`Prova carregada — ${state.backend==='webgpu'?'WebGPU':'WebGL2'}, Three.js r${THREE.REVISION}, ${meshes.length} malhas. A paridade visual está em verificação.`;
   for(const button of document.querySelectorAll('button')) button.disabled=false;
   for(const button of document.querySelectorAll('[data-view]')) button.addEventListener('click',()=>setView(button.dataset.view));

@@ -53,6 +53,10 @@ Não foi feita publicação. A reprodução foi registrada no commit `fa4730d`, 
 
 A [maquete integrada](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html) mantém as cinco vistas, câmera livre, destaque de térreo/pavimentos tipo, captura PNG e acesso ao mapa preservado. O exterior usa Three.js **0.186.1**, fixado no lockfile deste diretório, com WebGPU automático e WebGL2 quando necessário. Os interiores 3D/Tour ainda usam a implementação legada de canto, aberta sob demanda. A Planta 2D usa diretamente a imagem comercial de canto; não requer renderer.
 
+Após a tela inicial utilizável, a nova fila prepara automaticamente **Tour → mapa → Planta 2D**, conforme solicitado. O clique interrompe outro grupo e prioriza o escolhido; a preparação somente baixa arquivos, sem abrir cenas. Ver [FILA.md](FILA.md) para cache, interrupção, uso de dados e verificação.
+
+Os nove casos de fila, quatro cenários com arquivos reais, quatro modos nos três perfis e retorno pelo mapa/histórico foram aprovados. Progresso e timeout por inatividade também passaram; a abertura Slow4G emulada levou cerca de 124 s sem abort indevido. Isso não fecha a qualificação física nem o critério de velocidade.
+
 `exportar_cena.py` extrai a cena exterior **efetivamente exibida pela base**, depois de validar o HTML local/HTTP e o bake. Transporta as 56 malhas, 41 com RGBM, geometria/UV/cores/matrizes e 15 grupos instanciados. Não substitui o exterior pelo GLB regional, que representa outro artefato. O atlas continua associado ao modelo `89f552ec…`, em RGBA linear, UV1, faixa RGBM 16, sem mipmaps ou conversão sRGB.
 
 `material-rgbm.js` traduz a contribuição difusa baked para TSL, sem somá-la novamente às luzes diretas/hemisféricas. O PBR especular, sombras e antialiasing de r186 diferem de r168. A comparação em canvas idêntico demonstra a continuidade visual; **não é igualdade de pixels nem aprovação do refinamento artístico**. As dez comparações têm erro absoluto médio RGB no primeiro plano de aproximadamente 3,5–8,8 numa escala de 255. Ver [comparacao.json](evidencias/comparacao-render/comparacao.json).

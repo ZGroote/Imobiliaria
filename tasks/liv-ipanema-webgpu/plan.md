@@ -106,7 +106,7 @@ Medir os bytes realmente transferidos: 38,4 MB é o tamanho do HTML em disco, n�
 
 Aplicar instancing, simplificação de vegetação, resolução de texturas e compressão compatível com os dois backends após registrar a composição do custo. Não trocar indiscriminadamente tudo por um GLB: o arquivo externo existente pode não conter a mesma iluminação e o mesmo detalhamento da cena embutida. Comparar antes de escolher a representação.
 
-Recursos terão versões/hashes e manifesto. Uma publicação conterá todos os arquivos necessários; o cache deverá impedir mistura entre dados e assets de edições diferentes. Na abertura da maquete, não baixar o mapa completo, a cidade municipal, todas as plantas nem os dois estados de luz antecipadamente.
+Recursos terão versões/hashes e manifesto. Uma publicação conterá todos os arquivos necessários; o cache deverá impedir mistura entre dados e assets de edições diferentes. Atualização autorizada pelo usuário em 09/10/2026: a tela inicial tem prioridade; depois de utilizável, uma fila prepara **Tour 3D → mapa → Planta 2D** automaticamente. Abrir um desses modos interrompe a transferência de outro e prioriza o solicitado; arquivos completos são reutilizados em cache. A preparação transfere dados, sem abrir cenas/renderers ocultos. Não inclui cidade municipal, outras plantas, bancada PBR ou estados de luz. Interrupções reiniciam o arquivo incompleto até existir suporte qualificado a retomada por intervalo.
 
 ### Unidades e interação
 
