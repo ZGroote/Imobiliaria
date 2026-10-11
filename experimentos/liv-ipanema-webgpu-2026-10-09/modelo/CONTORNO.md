@@ -10,7 +10,7 @@ O perímetro deixa de ser um retângulo. A autoria inclui 32 vértices, lajes fe
 
 A fonte confirma o contorno visto de cima. **Repetir esse contorno pelos pavimentos é uma hipótese visual**; ainda é preciso conferir a extensão dos rasgos pelas fachadas e pelas plantas. Fundos, profundidades e volumes técnicos da cobertura não estão cotados. Não há confirmação de correspondência entre esses recortes e uma tipologia comercial.
 
-A variante está separada da prévia completa: não carrega `unidades.json` nem aceita seleção por final. Essa proteção evita apresentar as zonas antigas como verificadas sobre a malha nova. As plantas gerais **Canto e Meio**, seus bakes, Planta 3D e Tour continuam na [prévia completa](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html). A portaria permanece simplificada. T06 e T07 não estão concluídas.
+A comparação geométrica continua isolada: seu iframe não carrega cadastro nem aceita seleção por final. A [prévia integrada dos recuos](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=contorno) agora reúne o exterior corrigido, dez posições aproximadas e as plantas gerais **Canto e Meio**, com Planta 2D/3D e Tour. Usa um registro próprio recortado pela laje; não reaproveita os volumes retangulares antigos. Planta, espelhamento e área por final continuam sem vínculo confirmado. A portaria permanece simplificada. T06 e T07 não estão concluídas.
 
 ## Autoria, iluminação e transporte
 
@@ -40,6 +40,16 @@ As faixas pretas na parede bege e nos recuos cinza vinham da irradiância, não 
 
 [A regressão da prévia completa](../evidencias/unidades-contorno-final/runtime.json) passou em três perfis e duas falhas de catálogo, mantendo seleção/sessão, Canto e Meio nos modos Planta 2D/3D e Tour. Os sete testes CPU de unidades/materiais também passaram. A abertura inicial da comparação é a vista de cima da torre.
 
+## Integração do pavimento piloto, 11/10
+
+[registrar_unidades.py](registrar_unidades.py) confere os triângulos superiores da laje exportada contra o contorno anotado, intersecta cada faixa do registro anterior com esse polígono e grava [unidades-contorno.json](unidades-contorno.json). Mantém os mesmos IDs, ordem da prancha, lados e campos comerciais nulos. O cadastro identifica a autoria corrigida `69e51c…`, a imagem e os arquivos usados. Linhas de área zero produzidas pelo recorte junto ao núcleo são excluídas, sem eliminar qualquer região com área.
+
+O picking usa o primeiro encontro com um prisma fechado da torre, incluindo cobertura e planos recuados. Consulta os polígonos apenas no fim do clique/toque; continua sem atribuir o núcleo, corredor, outro pavimento ou bordas compartilhadas. O realce é uma extrusão da zona selecionada e preserva seus rasgos. Os dez realces compartilham dois buffers, com faixas de desenho, e dois materiais padrão sem iluminação/sombra adicionais. Geometria, materiais, UV1 e atlas da torre não são alterados pela seleção. Ver [UNIDADES.md](../UNIDADES.md).
+
+A integração é ativada por `geometria=contorno`; o endereço sem esse parâmetro conserva a edição anterior. Sessões são separadas por edição. Entrar no mapa e retornar conserva a edição e o final selecionado, mas o GLB exibido **dentro do mapa** ainda é o da base. Adaptar/qualificar esse GLB e medir a abertura da nova edição precedem sua adoção como padrão.
+
+[unidades-recuos-integrado/runtime.json](../evidencias/unidades-recuos-integrado/runtime.json) registra lista/fachada/teclado, realce sem preencher os recuos, sessão, descarte, as duas tipologias nos três modos e retorno do mapa. Inclui cadastros ausente, de outra edição e com polígono retangular incompatível. [test_contorno_unidades.mjs](../test_contorno_unidades.mjs) confere também procedência, raios em recuos/cobertura e cobertura dos polígonos pelas tampas reais do realce. Essas provas continuam sendo desktop e toque emulado.
+
 ## Reproduzir no ambiente local
 
 Os scripts reutilizados e a imagem oficial são entradas locais identificadas por SHA. É necessário que estejam presentes, além de Blender, Python com NumPy/xatlas/SciPy/Pillow/Shapely/Playwright e OIDN. O QA de antes/depois também requer o pacote anterior preservado. Os comandos usam destinos isolados e devem executar **sequencialmente**, sobretudo exportação após o denoise e QAs gráficos sem concorrência.
@@ -55,6 +65,8 @@ python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/exportar_variante.py
 python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_luz_quinas.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/contorno-novo-luz
 python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_runtime.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/contorno-novo
 python experimentos/liv-ipanema-webgpu-2026-10-09/qa_unidades.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/unidades-contorno-novo
+python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/registrar_unidades.py
+python experimentos/liv-ipanema-webgpu-2026-10-09/qa_unidades.py --geometria contorno --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/unidades-recuos-novo
 ```
 
-Os relatórios desta revisão são históricos e não devem ser sobrescritos em novas execuções. A próxima integração precisa de cadastro/seleção compatíveis com a variante, GLB no mapa conferido e avaliação do custo antes de torná-la padrão. A versão pública não foi alterada.
+Os relatórios desta revisão são históricos e não devem ser sobrescritos em novas execuções. A seleção aproximada já acompanha a variante na integração opcional; GLB no mapa, custo e ensaio físico continuam pendentes antes de torná-la padrão. A versão pública não foi alterada.

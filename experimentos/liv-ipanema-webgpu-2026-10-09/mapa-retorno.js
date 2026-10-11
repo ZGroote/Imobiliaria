@@ -1,6 +1,10 @@
 import {transfers,showTransferStatus} from './transfers.js';
 // Adapt navigation and transfer priority; preserved map files stay intact.
 const frame=document.getElementById('map'),destination=new URL('./maquete-liv-ipanema.html',location.href);
+if(new URLSearchParams(location.search).get('geometria')==='contorno')destination.searchParams.set('geometria','contorno');
+const failure=document.getElementById('failure');
+failure.querySelector('a[href="maquete-liv-ipanema.html"]').href=destination.href;
+failure.querySelector('a[href="mapa-liv-ipanema-5km.html"]').href=location.href;
 const stopStatus=showTransferStatus(document.getElementById('transferStatus'));
 function redirectLink(anchor) {
   if(!anchor)return;

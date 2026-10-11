@@ -40,3 +40,21 @@ O cadastro mantém `typology`, `plan2d`, `mirroring` e `areaM2` **nulos por fina
 - Duas falhas injetadas verificam cadastro ausente e posições de outra edição: a planta 2D continua acessível, a seleção incompatível é recusada e a recuperação carrega o cadastro/realce sem duplicar recursos.
 
 T08/T09 permanecem parciais: a ordem/realce ilustrativo foi implementada, mas a associação planta/final/espelhamento exige evidência adicional. A reconstrução exterior também conserva as pendências de T06/T07. Toque emulado não substitui o ensaio no Poco X6 ou iPhone; nenhuma publicação foi feita.
+
+## Registro sobre o contorno corrigido — 11/10/2026
+
+A [integração opcional](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=contorno) usa [modelo/unidades-contorno.json](modelo/unidades-contorno.json), esquema `liv-pilot-units-v2`, ligado à autoria `69e51cdf…`. A edição sem parâmetro conserva `unidades.json` e o esquema anterior. Os dez IDs, faixas da prancha, lados e campos nulos são iguais; os volumes de interação mudam para acompanhar os recuos. As hipóteses de altura/extensão dos recuos não viram informação comercial.
+
+[modelo/registrar_unidades.py](modelo/registrar_unidades.py) compara os triângulos superiores da laje real com o contorno registrado e recorta as faixas antigas por esse polígono, excluindo núcleo e corredor. Confere ausência de regiões com área sobreposta e grava procedência/hashes dos insumos. Coordenadas são quantizadas à precisão de 0,00001 m da autoria; isso descreve a representação numérica, sem sugerir precisão do levantamento.
+
+[unit-footprint.js](unit-footprint.js) valida contornos ortogonais simples e calcula o primeiro encontro do raio com o prisma fechado da torre. A cobertura e os demais pavimentos continuam bloqueando escolhas ocultas. O destaque azul extruda o polígono do final; suas tampas não cobrem os rasgos. Os dez destaques compartilham dois buffers e dois materiais padrão, trocando apenas a faixa desenhada. Consultas continuam restritas ao fim do toque/clique, sem acrescentar iluminação ou sombras ao realce.
+
+Os doze testes CPU de unidades/contorno/materiais passaram. A [qualificação da integração](evidencias/unidades-recuos-integrado/runtime.json) passou em WebGPU, WebGL2 e toque emulado: dez escolhas por lista/fachada, teclado/gestos, conferência independente das tampas desenhadas, preservação da torre/UV/atlas/materiais, sessão e descarte único dos quatro recursos. Canto e Meio passaram nos três modos em cada perfil. Três falhas injetadas rejeitam cadastro ausente, edição incompatível e uma zona retangular que preencheria um recuo; Planta 2D e recuperação continuam acessíveis. Retornar do mapa restaura edição e seleção; o modelo **dentro do mapa** ainda é o da base.
+
+```powershell
+python modelo/registrar_unidades.py
+node --test test_unidades.mjs test_contorno_unidades.mjs test_acabamentos.mjs
+python qa_unidades.py --geometria contorno --saida evidencias/unidades-recuos-nova-revisao
+```
+
+Executar a partir deste diretório, com os artefatos locais reproduzidos. Preservar relatórios históricos usando um novo destino. A comparação geométrica isolada continua sem cadastro, e o modo integrado habilita o piloto explicitamente. GLB do mapa, tempo de abertura, refinamento da entrada e ensaios físicos precedem a adoção dessa autoria como padrão. T06–T09 continuam parciais.

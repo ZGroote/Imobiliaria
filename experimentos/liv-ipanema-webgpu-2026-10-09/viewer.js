@@ -6,10 +6,16 @@ const stage=document.getElementById('stage'),overlay=document.getElementById('lo
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
 const backend=['webgpu','webgl'].includes(requested)?requested:'auto';
-const finish=new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
+const geometry=new URLSearchParams(location.search).get('geometria')==='contorno'?'contorno':'base';
+const finish=geometry==='contorno'||new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
 const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
 let units,unitUI;
-const storageKey=`liv-viewer-v1:${location.pathname}`;
+state.geometry=geometry;
+const storageKey=`liv-viewer-v1:${location.pathname}${geometry==='contorno'?':contorno':''}`;
+if(geometry==='contorno'){
+  const mapLink=document.querySelector('.map-link'),destination=new URL(mapLink.href);
+  destination.searchParams.set('geometria','contorno');mapLink.href=destination.href;
+}
 try {
   const saved=JSON.parse(sessionStorage.getItem(storageKey));
   if(saved?.version===1&&['maquete','planta2d','planta3d','visita'].includes(saved.mode)&&
@@ -134,7 +140,7 @@ async function setMode(mode) {
   busy(mode==='maquete'?'Abrindo a maquete…':'Abrindo a planta de referência…');
   try {
     if(!units||mode==='maquete'){
-      const catalog=await loadUnits();if(token!==generation)return;
+      const catalog=await loadUnits(undefined,geometry);if(token!==generation)return;
       units=catalog;state.units=units;
       try{unitById(units,state.selectedUnitId);}catch{state.selectedUnitId=null;}
       if(unitUI)unitUI.setCatalog(units);
@@ -153,7 +159,7 @@ async function setMode(mode) {
     if(mode==='planta2d'){await fallback2D(token);return;}
     if(frameKind!==kind) {
       release();const frame=document.createElement('iframe');frame.title=kind==='exterior'?'Maquete do LIV Ipanema':'Planta e interior de referência do LIV Ipanema';
-      frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}&acabamento=${finish}`:
+      frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=piloto`:
         `interior.html?embed=1&backend=${backend}&tipologia=${state.typology}&modo=${mode}`;
       stage.prepend(frame);state.frame=frame;frameKind=kind;
     }

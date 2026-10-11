@@ -10,13 +10,16 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
+from shapely.geometry import Polygon
+from shapely.ops import unary_union
 
 EXP = Path(__file__).resolve().parent
 ROOT = EXP.parents[1]
 URL = 'http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html'
 CHROME = r'C:\Program Files\Google\Chrome\Application\chrome.exe'
 PROFILES = {'desktop-webgpu': (1440, 900, 'webgpu'), 'desktop-webgl': (1440, 900, 'webgl'), 'toque': (390, 844, 'auto')}
-FILES = ['qa_unidades.py', 'test_unidades.mjs', 'unidades.json', 'unidades.js', 'picking.js', 'unit-ui.js', 'unit-ui.css',
+GEOMETRY = 'base'
+FILES = ['qa_unidades.py', 'test_unidades.mjs', 'unidades.json', 'unidades.js', 'unit-footprint.js', 'picking.js', 'unit-ui.js', 'unit-ui.css',
          'viewer.js', 'renderer.js', 'cameras.js', 'exterior-finishes.js', 'maquete-liv-ipanema.html', 'prova-rgbm.html', 'tipologias.js',
          'assets-prova/manifest.json', 'assets-prova/scene.json.gz', 'assets-prova/irradiance.rgbm.gz',
          'interiores/catalogo.json', 'interior-renderer.js', 'interior-cutaway.js', 'plantas2d/canto.jpg', 'plantas2d/meio.jpg']
@@ -24,6 +27,10 @@ FILES = ['qa_unidades.py', 'test_unidades.mjs', 'unidades.json', 'unidades.js', 
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def address(backend):
+    return f'{URL}?backend={backend}&geometria={GEOMETRY}'
 
 
 def ready(page, mode='maquete'):
@@ -44,7 +51,7 @@ def position(page, unit):
     frame = child(page)
     point = frame.evaluate('''unit=>{
       const p=__livProva, a=unit.bounds.min,b=unit.bounds.max;
-      const point=p.camera.position.clone().set((a[0]+b[0])/2,4.35,unit.side==='lazer'?7.02:-7.02).project(p.camera);
+      const point=p.camera.position.clone().fromArray(unit.pickPoint??[(a[0]+b[0])/2,4.35,unit.side==='lazer'?7.02:-7.02]).project(p.camera);
       const rect=p.renderer.domElement.getBoundingClientRect();
       return {x:rect.left+(point.x+1)*rect.width/2,y:rect.top+(1-point.y)*rect.height/2};
     }''', unit)
@@ -69,6 +76,22 @@ def assert_selected(page, unit):
     assert render['materials'] == ['MeshBasicMaterial', 'LineBasicMaterial'] and not render['casts']
     assert render['position'] == [(a + b) / 2 for a, b in zip(unit['bounds']['min'], unit['bounds']['max'])]
     assert render['scale'] == [b - a for a, b in zip(unit['bounds']['min'], unit['bounds']['max'])]
+    if 'footprint' in unit:
+        triangles = child(page).evaluate('''()=>{
+          const h=__livProva.unitPicking.highlight,g=h.children[0].geometry,a=g.getAttribute('position');
+          h.updateMatrixWorld(true);const points=[],{start,count}=g.drawRange;
+          for(let i=start;i<start+count;i++)points.push(h.position.clone().fromBufferAttribute(a,i).applyMatrix4(h.matrixWorld).toArray());
+          return points;
+        }''')
+        polygon = Polygon(unit['footprint'])
+        caps = []
+        for i in range(0, len(triangles), 3):
+            tri = triangles[i:i+3]
+            if max(p[1] for p in tri) - min(p[1] for p in tri) < 1e-6:
+                shape = Polygon([(p[0], p[2]) for p in tri])
+                assert shape.difference(polygon).area < 1e-5, 'Highlight filled an empty notch'
+                caps.append(shape)
+        assert unary_union(caps).symmetric_difference(polygon).area < 1e-5
     return state
 
 
@@ -91,15 +114,16 @@ def source_snapshot(frame):
 
 
 def run_case(browser, name, width, height, backend, output, report, catalog):
-    case = {'profile': name, 'viewport': [width, height], 'requestedBackend': backend, 'errors': [], 'httpFailures': [], 'status': 'RUNNING'}
+    case = {'profile': name, 'viewport': [width, height], 'requestedBackend': backend, 'errors': [], 'httpFailures': [], 'consoleErrors': [], 'status': 'RUNNING'}
     report['cases'].append(case)
     context = browser.new_context(viewport={'width': width, 'height': height}, has_touch=name == 'toque',
                                   is_mobile=name == 'toque', device_scale_factor=3 if name == 'toque' else 1)
     page = context.new_page()
     page.on('pageerror', lambda error: case['errors'].append(str(error)))
+    page.on('console', lambda message: case['consoleErrors'].append(message.text) if message.type == 'error' else None)
     page.on('response', lambda response: case['httpFailures'].append({'url': response.url, 'status': response.status}) if response.status >= 400 else None)
     try:
-        page.goto(f'{URL}?backend={backend}')
+        page.goto(address(backend))
         ready(page)
         frame = child(page)
         case['actualBackend'] = frame.evaluate('__livProva.backend')
@@ -206,7 +230,7 @@ def run_case(browser, name, width, height, backend, output, report, catalog):
         assert all(math.isclose(a, b, abs_tol=1e-9) for a, b in zip(camera['target'], restored['target']))
         case['sessionAndModeReturn'] = True
         page.evaluate('''()=>{
-          const key=`liv-viewer-v1:${location.pathname}`,saved={version:1,...__livViewer.getState(),
+          const key=`liv-viewer-v1:${location.pathname}${__livViewer.geometry==='contorno'?':contorno':''}`,saved={version:1,...__livViewer.getState(),
             selectedUnitId:'liv-ipanema/pavimento-modelo-01/final-99',exteriorSnapshot:__livViewer.frame.contentWindow.__livProva.getState()};
           // Navigate via an anchor so pagehide normally saves the actual state;
           // the invalid persisted record is tested by the next new page instead.
@@ -239,7 +263,7 @@ def run_case(browser, name, width, height, backend, output, report, catalog):
         # A second tab clones same-origin session storage from its opener without
         # invoking pagehide on the live page and overwriting the invalid record.
         with page.expect_popup() as popup_info:
-            page.evaluate('url=>open(url)', f'{URL}?backend={backend}')
+            page.evaluate('url=>open(url)', address(backend))
         popup = popup_info.value
         ready(popup)
         assert popup.evaluate('__livViewer.selectedUnitId') is None
@@ -247,7 +271,10 @@ def run_case(browser, name, width, height, backend, output, report, catalog):
         popup.evaluate('__livViewer.dispose()')
         popup.close()
         case['unknownSavedIdRejected'] = True
-        assert not case['errors'] and not case['httpFailures'], case
+        if GEOMETRY == 'contorno':
+            case['contourHighlightVerifiedForEverySelection'] = True
+            assert page.locator('.map-link').get_attribute('href').endswith('mapa-liv-ipanema-5km.html?geometria=contorno')
+        assert not case['errors'] and not case['httpFailures'] and not case['consoleErrors'], case
         case['status'] = 'PASS'
         print(f'{name}: PASS', flush=True)
     finally:
@@ -261,10 +288,10 @@ def run_recovery(browser, report, catalog):
     errors=[]
     page.on('pageerror',lambda error:errors.append(str(error)))
     report['recoveryCases']=[]
-    pattern='**/unidades.json'
+    pattern='**/modelo/unidades-contorno.json' if GEOMETRY == 'contorno' else '**/unidades.json'
     try:
         page.route(pattern,lambda route:route.fulfill(status=404,body='Fixture: cadastro ausente'))
-        page.goto(f'{URL}?backend=webgl')
+        page.goto(address('webgl'))
         page.wait_for_function('window.__livViewer?.error',timeout=15000)
         assert 'carregar os finais' in page.evaluate('__livViewer.error')
         assert page.evaluate('__livViewer.frame===null')
@@ -292,23 +319,89 @@ def run_recovery(browser, report, catalog):
         assert_selected(page,catalog['units'][0])
         assert page.evaluate('__livViewer.units.sourceModelSHA256')==catalog['sourceModelSHA256']
         report['recoveryCases'].append({'fixture':'modelo-incompativel','pickingRejected':True,'fallback2D':True,'retryRestoresSelection':True,'status':'PASS'})
+        if GEOMETRY == 'contorno':
+            invalid=json.loads(json.dumps(catalog))
+            unit=invalid['units'][0];a,b=unit['bounds']['min'],unit['bounds']['max']
+            unit['footprint']=[[a[0],a[2]],[b[0],a[2]],[b[0],b[2]],[a[0],b[2]]]
+            page.route(pattern,lambda route:route.fulfill(status=200,content_type='application/json',body=json.dumps(invalid)))
+            page.reload()
+            page.wait_for_function('window.__livViewer?.error',timeout=15000)
+            assert 'inválido' in page.evaluate('__livViewer.error')
+            assert page.evaluate('__livViewer.frame===null')
+            page.locator('#fallback').click();ready(page,'planta2d')
+            page.unroute(pattern)
+            page.locator('[data-mode=maquete]').click();ready(page)
+            assert_selected(page,catalog['units'][0])
+            report['recoveryCases'].append({'fixture':'zona-preenche-recuo','invalidFootprintRejected':True,'fallback2D':True,'retryRestoresSelection':True,'status':'PASS'})
         assert not errors,errors
-        print('Recuperação: 2 PASS',flush=True)
+        print(f'Recuperação: {len(report["recoveryCases"])} PASS',flush=True)
     finally:
         page.evaluate('__livViewer?.dispose()')
         context.close()
 
 
+def run_map_return(browser, report, catalog):
+    context=browser.new_context(viewport={'width':1280,'height':800})
+    page=context.new_page()
+    try:
+        page.goto(address('webgl'));ready(page)
+        page.evaluate('id=>__livViewer.selectUnit(id)',catalog['units'][1]['id'])
+        page.locator('.map-link').click()
+        page.wait_for_function('window.__livMapAdapter?.ready',timeout=120000)
+        destination=page.evaluate('__livMapAdapter.returnURL')
+        assert destination.endswith('maquete-liv-ipanema.html?geometria=contorno')
+        frame=page.locator('#map').element_handle().content_frame()
+        link=frame.locator('a').filter(has_text='Maquete').first
+        assert link.get_attribute('href') == destination and link.get_attribute('target') == '_top'
+        # Navigate through the map's real return control, preserving this tab's
+        # session, rather than constructing a fresh viewer for this assertion.
+        link.click();ready(page)
+        assert page.evaluate('__livViewer.geometry') == 'contorno'
+        assert_selected(page,catalog['units'][1])
+        assert child(page).evaluate('__livProva.data.sourceModelSHA256') == catalog['sourceModelSHA256']
+        report['mapReturn']={'status':'PASS','returnURL':destination,'selectionRestored':True,
+                             'exteriorEditionRestored':True,'mapGeometry':'baseline-preserved'}
+        # A real transfer cache legitimately serves the valid map above. Block
+        # workers only in a separate disposable context for this failure fixture.
+        failure_context=browser.new_context(viewport={'width':1280,'height':800},service_workers='block')
+        failure_page=failure_context.new_page()
+        failure_page.goto(address('webgl'));ready(failure_page)
+        failure_page.evaluate('id=>__livViewer.selectUnit(id)',catalog['units'][1]['id'])
+        failure_page.route('**/site-baseline/mapa-liv-ipanema-5km.html',lambda route:route.fulfill(
+            status=200,content_type='text/html',body='<p>Fixture: mapa indisponível</p>'))
+        failure_page.locator('.map-link').click()
+        failure_page.locator('#failure').wait_for(state='visible',timeout=120000)
+        links=failure_page.locator('#failure a')
+        assert links.nth(0).get_attribute('href').endswith('mapa-liv-ipanema-5km.html?geometria=contorno')
+        assert links.nth(1).get_attribute('href') == destination
+        links.nth(1).click();ready(failure_page)
+        assert_selected(failure_page,catalog['units'][1])
+        report['mapReturn']['failureLinksPreserveEditionAndSelection'] = True
+        report['mapReturn']['failureFixtureServiceWorkersBlocked'] = True
+        failure_page.evaluate('__livViewer?.dispose()');failure_context.close()
+        print('Retorno do mapa: PASS',flush=True)
+    finally:
+        page.evaluate('__livViewer?.dispose()');context.close()
+
+
 def main():
+    global GEOMETRY
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--perfil', choices=['todos', *PROFILES], default='todos')
+    parser.add_argument('--geometria', choices=['base', 'contorno'], default='base')
     parser.add_argument('--saida', type=Path, default=EXP / 'evidencias' / 'unidades-piloto')
     args = parser.parse_args()
+    GEOMETRY = args.geometria
     args.saida.mkdir(parents=True, exist_ok=True)
-    catalog = json.loads((EXP / 'unidades.json').read_text(encoding='utf-8'))
+    if GEOMETRY == 'contorno':
+        FILES.extend(['test_contorno_unidades.mjs', 'modelo/registrar_unidades.py', 'modelo/unidades-contorno.json',
+                      'modelo/contorno-torre.json', 'modelo/contorno.py', 'modelo/variante/modelo.json',
+                      'modelo/variante/assets/manifest.json', 'modelo/variante/assets/scene.json.gz',
+                      'modelo/variante/assets/irradiance.rgbm.gz', 'mapa-retorno.js'])
+    catalog = json.loads((EXP / ('modelo/unidades-contorno.json' if GEOMETRY == 'contorno' else 'unidades.json')).read_text(encoding='utf-8'))
     image = ROOT / 'relatorios/liv-referencias-publicas-2026-10-09/implantacao-finais-e-vagas.png'
     assert digest(image) == catalog['source']['imageSHA256']
-    report = {'recordedAtUtc': datetime.now(timezone.utc).isoformat(), 'status': 'RUNNING', 'physicalMobile': False,
+    report = {'recordedAtUtc': datetime.now(timezone.utc).isoformat(), 'status': 'RUNNING', 'physicalMobile': False, 'geometry': GEOMETRY,
               'sourceSHA256': {name: digest(EXP / name) for name in FILES}, 'reference': catalog['source'],
               'limitations': ['Registro proporcional e zonas aproximadas, sem planta executiva.',
                               'Tipologia/espelhamento por final, área por unidade e dados comerciais pendentes.',
@@ -321,6 +414,8 @@ def main():
                 if args.perfil in ['todos', name]:
                     run_case(browser, name, width, height, backend, args.saida, report, catalog)
             run_recovery(browser,report,catalog)
+            if GEOMETRY == 'contorno':
+                run_map_return(browser,report,catalog)
             browser.close()
         report['status'] = 'PASS'
     except Exception as failure:

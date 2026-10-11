@@ -374,7 +374,7 @@ async function start() {
     if(value!==1)unitPicking?.select(null);
     unitPicking?.refresh();renderer.render(scene,camera);
   }
-  const units=geometryProfile==='base'?await loadUnits(requests.signal):null;
+  const units=geometryProfile==='base'||parameters.get('selecao')==='piloto'?await loadUnits(requests.signal,geometryProfile):null;
   if(state.disposed)return;
   if(units&&units.sourceModelSHA256!==data.sourceModelSHA256)throw Error('As posições dos finais pertencem a outra edição da maquete.');
   if(units)unitPicking=createUnitPicking({scene,canvas,catalog:units,getCamera:()=>camera,getFloor:()=>selectedFloor,
