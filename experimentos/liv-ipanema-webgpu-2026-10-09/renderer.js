@@ -228,6 +228,7 @@ async function start() {
     return renderer.dispose();
   };
   state.finish=finishProfile==='referencia'?applyReferenceFinishes(meshes,materials,data.sourceModelSHA256):{profile:'base',changes:[]};
+  const shadowLights=[];
   for(const spec of data.lights) {
     let light;
     const color=new THREE.Color().fromArray(spec.color);
@@ -241,6 +242,10 @@ async function start() {
       light.shadow.bias=spec.shadow.bias;light.shadow.normalBias=spec.shadow.normalBias;
       light.shadow.mapSize.fromArray(spec.shadow.mapSize);
       Object.assign(light.shadow.camera,spec.shadow.camera);light.shadow.camera.updateProjectionMatrix();
+    }
+    if(light.castShadow) {
+      // Camera, floor tint and selection do not change the static shadow casters.
+      light.shadow.autoUpdate=false;light.shadow.needsUpdate=true;shadowLights.push(light);
     }
     scene.add(light);
   }
@@ -394,6 +399,11 @@ async function start() {
     return unitPicking?.select(id)??false;
   }
   Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,
+    invalidateShadows(){
+      if(state.disposed)return false;
+      for(const light of shadowLights)light.shadow.needsUpdate=true;
+      return true;
+    },
     getState(){return {view:state.activeView,floor:selectedFloor,selectedUnitId:unitPicking?.getState().selectedId??null,backend:state.backend,
       camera:{type:camera.type,fov:camera.fov,near:camera.near,far:camera.far,zoom:camera.zoom,
         left:camera.left,right:camera.right,top:camera.top,bottom:camera.bottom,aspect:camera.aspect,

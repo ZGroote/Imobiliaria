@@ -65,6 +65,8 @@ A [maquete integrada](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026
 
 Após a tela inicial utilizável, a nova fila prepara automaticamente **Tour → mapa → Planta 2D**, conforme solicitado. O clique interrompe outro grupo e prioriza o escolhido; a preparação somente baixa arquivos, sem abrir cenas. Ver [FILA.md](FILA.md) para cache, interrupção, uso de dados e verificação.
 
+A sombra solar exterior agora é reutilizada durante órbita, vistas e seleção, com recálculo explícito ao alterar seus inputs. As duas edições passaram na comparação visual e na regressão dos interiores. [SOMBRAS-EXTERIOR.md](SOMBRAS-EXTERIOR.md) registra os passes removidos e a nova medição comparável: 48,0% menos conteúdo inicial na variante, mas tempo de abertura ainda acima da meta. Não há ganho físico de FPS demonstrado.
+
 Os nove casos de fila, quatro cenários com arquivos reais, quatro modos nos três perfis e retorno pelo mapa/histórico foram aprovados. Progresso e timeout por inatividade também passaram; a abertura Slow4G emulada levou cerca de 124 s sem abort indevido. Isso não fecha a qualificação física nem o critério de velocidade.
 
 Em 10/10, o novo interior de meio foi traçado a partir da sua própria planta oficial e integrado ao catálogo de canto. Planta 2D, Planta 3D e Tour respeitam a escolha do seletor. O primeiro incremento passou em três perfis funcionais, 17 cenários de falha/cancelamento, doze casos do worker e quatro cenários de fila com 135 recursos. Na continuação, Meio recebeu bake próprio de 2048×2048/512 amostras; Canto conserva seu atlas. As sombras solares passam a atualizar quando a cena muda, e a restauração de móveis recalcula as rotas em conjunto. [INTERIORES.md](INTERIORES.md) registra fontes, reprodução e provas por versão.
