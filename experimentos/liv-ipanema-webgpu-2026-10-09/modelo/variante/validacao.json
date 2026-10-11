@@ -124,10 +124,10 @@
       "solver": "Blender EXACT self UNION",
       "inputVertices": 656,
       "inputFaces": 536,
-      "outputVertices": 1297,
-      "outputFaces": 2602,
+      "outputVertices": 1296,
+      "outputFaces": 2588,
       "nonManifoldEdges": 0,
-      "volume": 71.39102233339511,
+      "volume": 70.94416582580335,
       "materials": [
         "cobertura",
         "cinza",
@@ -139,7 +139,7 @@
     }
   },
   "recipeSources": {
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py": "a49c89f18720c8a9a05f9029bcfb24124a3268f2fbf381e46469f32526b9462c",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py": "5698afe2f06c70a54658bfac1d259623850372ea83f9c445312c24cae0b3cb89",
     "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
     "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/unir_paredes.py": "16ddbb49572368f7f752e2d284a1e03314a07b4901b8412a061b90231283d09e",
     "v1.5/miniaturas/blender_maquete_base.py": "656e755d43600072aa5477b44a2531f38963ad1cc3c9169396a9d8889fe6be81",
@@ -148,8 +148,8 @@
   "blender": "5.2.2 LTS",
   "geometries": 88,
   "groups": 88,
-  "web_bytes": 2959256,
-  "glb_bytes": 2280624,
+  "web_bytes": 2942949,
+  "glb_bytes": 2275324,
   "checks": {
     "pavimentos_e_lajes": true,
     "exportacao": true,

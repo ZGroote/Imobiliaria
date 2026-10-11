@@ -1,8 +1,8 @@
 """Package the frozen corner scene and the independently authored middle unit.
 
-No Blender/browser execution. Geometry, albedo and material snapshots of the
-corner unit retain their original byte identity. The middle unit is authored by
-native factories and adopts only its own source/UV1/irradiance after validation.
+No Blender/browser execution. The corner snapshot can adopt its isolated,
+approved molding union; its raw unit, other objects and materials are preserved.
+The middle unit adopts only its own source/UV1/irradiance after validation.
 """
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ import json
 from pathlib import Path
 
 EXP = Path(__file__).resolve().parent
+RECIPE_ROOT = EXP
 ROOT = EXP.parents[1]
 INTERIOR = ROOT / "v1.5/miniaturas/liv-ipanema/interior"
 SHARED = ROOT / "v1.5/renderizador-v16-moveis/interior"
@@ -71,7 +72,18 @@ def generate(typology: str = "all", refresh_shared: bool = False) -> dict:
     destination = EXP / "interiores/catalogo.json"
     catalog = json.loads(destination.read_text(encoding="utf-8")) if destination.exists() else {
         "schema": "liv-interior-catalog-v1", "tipologias": {}}
-    source_bytes = (INTERIOR / "luz/source.json").read_bytes() if typology in ("all", "canto") or refresh_shared or "shared" not in catalog else None
+    corner_bake = INTERIOR / "luz"
+    corner_source = corner_bake / "source.json"
+    own_corner = EXP / "interiores/canto/bake"
+    if (own_corner / "manifest.json").exists():
+        corner_bake = own_corner
+        corner_source = EXP / "interiores/canto/source.json"
+        repair = json.loads(corner_source.read_bytes())["metadata"]["moldingRepair"]
+        expected_sources = {p.relative_to(ROOT).as_posix(): digest(p.read_bytes())
+                            for p in [RECIPE_ROOT / "corrigir_rodateto.py", RECIPE_ROOT / "modelo/unir_paredes.py"]}
+        if repair["parentSourceSHA256"] != digest((INTERIOR / "luz/source.json").read_bytes()) or repair["sources"] != expected_sources:
+            raise ValueError("Corner molding revision uses another original scene or repair recipe")
+    source_bytes = corner_source.read_bytes() if typology in ("all", "canto") or refresh_shared or "shared" not in catalog else None
     source = json.loads(source_bytes) if source_bytes else None
     # Native modules are copied verbatim. They are also used by the authoring viewer.
     if refresh_shared or "shared" not in catalog:
@@ -99,9 +111,9 @@ def generate(typology: str = "all", refresh_shared: bool = False) -> dict:
     if typology in ("all", "canto"):
         unit_bytes = (INTERIOR / "previa/unidade.json").read_bytes()
         unit = json.loads(unit_bytes)
-        compact_bytes = (INTERIOR / "luz/geometry-compact.json").read_bytes()
+        compact_bytes = (corner_bake / "geometry-compact.json").read_bytes()
         compact = json.loads(compact_bytes)
-        light_bytes = (INTERIOR / "luz/manifest.json").read_bytes()
+        light_bytes = (corner_bake / "manifest.json").read_bytes()
         light = json.loads(light_bytes)
         if source["unitSHA256"] != digest(unit_bytes) or light["sourceSHA256"] != digest(source_bytes):
             raise ValueError("Frozen source identity differs from the approved corner unit")
@@ -109,7 +121,13 @@ def generate(typology: str = "all", refresh_shared: bool = False) -> dict:
             raise ValueError("Compact geometry belongs to another scene/unit")
         if light["geometrySHA256"] != digest(compact_bytes) or not light["geometryApproved"] or not light["ready"]:
             raise ValueError("Corner compact/lightmap has no valid approval")
-        atlas = (INTERIOR / "luz/irradiance.rgbm.gz").read_bytes()
+        approval = (corner_bake / "approval.json").read_bytes()
+        approved = json.loads(approval)
+        if (not approved.get("approved") or approved["sourceSHA256"] != digest(source_bytes)
+                or approved["unitSHA256"] != digest(unit_bytes) or light["approvalSHA256"] != digest(approval)
+                or light["colorPass"] is not False):
+            raise ValueError("Corner approval does not identify its actual source/unit/light transport")
+        atlas = (corner_bake / "irradiance.rgbm.gz").read_bytes()
         if digest(gzip.decompress(atlas)) != light["textureSHA256"]:
             raise ValueError("Corner irradiance identity differs from approved manifest")
         catalog["tipologias"]["canto"] = {

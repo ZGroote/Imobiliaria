@@ -1,0 +1,31 @@
+{
+  "schema": "liv-interior-corners-v1",
+  "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+  "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+  "sourcePath": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\interiores\\canto\\source.json",
+  "geometrySHA256": "83325082bb84aff9106f6c2f35687740e3faeb8a7102b0994aa6cbcae962ba2e",
+  "size": 2048,
+  "atlasWidth": 3612,
+  "atlasHeight": 3613,
+  "atlasCount": 1,
+  "utilization": 0.7833982110023499,
+  "objects": 55,
+  "triangles": 70811,
+  "flippedTriangles": 728,
+  "degenerateTrianglesRemoved": 6541,
+  "padding": 12,
+  "effectivePaddingPixels": 6.802103515084418,
+  "recommendedMarginPixels": 3,
+  "recommendedGuardPixels": 3.151051757542209,
+  "uvMaxPixelError": 0.015625238422217136,
+  "compactBytes": 2282531,
+  "compactGzipBytes": 882761,
+  "seconds": 4.241252400097437,
+  "checks": {
+    "geometryFingerprints": true,
+    "cornerOrder": true,
+    "finiteUV": true,
+    "oneAtlas": true,
+    "independentInstanceUV": true
+  }
+}

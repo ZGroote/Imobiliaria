@@ -1,0 +1,62 @@
+{
+  "status": "PASS",
+  "shell": [
+    {
+      "objectIndex": 0,
+      "slot": 0,
+      "name": "mesh-0",
+      "verticalTriangles": 22612,
+      "opposedVerticalNormals": 0,
+      "affectedTrianglesFirst20": [],
+      "geometrySHA256": "f577e8b26f8bdb78cb5d9e9f42c46f04341729f7aea18f80f2e44a917690516d"
+    }
+  ],
+  "rugs": [
+    {
+      "objectIndex": 68,
+      "slot": 68,
+      "name": "mesh-68",
+      "materialNames": [
+        "Tapete LIV"
+      ],
+      "geometrySHA256": "44eae33df07cb3e36869eba72bfc882f11e663032b235138931e553ed814d9f5",
+      "worldBounds": [
+        [
+          -0.4500000184232533,
+          0.03000000022351742,
+          1.099999985471368
+        ],
+        [
+          1.250000018423254,
+          0.04999999977648258,
+          3.0500000145286323
+        ]
+      ],
+      "horizontalTopTriangles": 72,
+      "topPlanes": [
+        {
+          "y": 0.04999999977648258,
+          "triangleAreaSum": 3.2864306114781523,
+          "triangles": 72
+        }
+      ],
+      "coplanarOverlapPairs": 0,
+      "coplanarPairAreaSumSquareMeters": 0,
+      "overlaps": []
+    }
+  ],
+  "opposedShellVerticalNormals": 0,
+  "rugCoplanarOverlapPairs": 0,
+  "criteria": {
+    "shellSlot": 0,
+    "verticalNormalYMax": 0.0001,
+    "opposedDotMax": -0.1,
+    "rugHorizontalToleranceMeters": 1e-05,
+    "rugNormalYMin": 0.99,
+    "coplanarOverlapAreaMinSquareMeters": 1e-07
+  },
+  "scope": "Wall mesh outward winding only; Openings inward winding/outward normals are intentionally excluded",
+  "geometryModified": false,
+  "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+  "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c"
+}

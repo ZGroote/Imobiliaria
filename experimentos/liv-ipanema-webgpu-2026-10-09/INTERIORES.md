@@ -4,6 +4,8 @@ Etapa de 10/10/2026, antecipada pela solicitação do usuário. A escolha **Cant
 
 A Planta 3D agora oferece **Paredes baixas**, com corte de apresentação a 1,20 m e móveis na altura original. É possível voltar às paredes inteiras, e o Tour sempre usa a cena completa. Os materiais PBR e atlas próprios continuam preservados; a fonte autoral de Meio foi reproduzida byte a byte. Detalhes e ensaios em [CORTES.md](CORTES.md).
 
+A revisão de 11/10 une as quinas da moldura de Canto e recalcula sua luz; Meio conserva seu modelo independente. Procedência, imagens e reprodução em [RODATETO.md](RODATETO.md).
+
 ## Fontes e dimensões
 
 As duas imagens oficiais vêm da galeria da Livon e correspondem à página 14 do [book oficial](https://www.livonincorporadora.com.br/wp-content/uploads/2024/08/BOOK_LIV_Ipanema.pdf). `plantas2d/manifest.json` registra a identidade das cópias sem edição.
@@ -35,7 +37,7 @@ O enquadramento considera o volume completo, a proporção da tela e o espaço d
 
 A navegação utiliza as mesmas paredes e aberturas da planta, colisão contínua com paredes/folhas/móveis e rotas dentro dos ambientes. O corpo conserva raio de 30 cm e câmera a 1,62 m; os alvos ficam em pontos livres de cada ambiente. O ajuste de móveis invalida a iluminação baked incompatível e mantém iluminação dinâmica. Restaurar integralmente o layout original permite reativar o bake correspondente. Os ajustes permanecem na sessão da aba e são descartados quando a identidade da fonte muda. Cancelar a reabertura antes de o host concluir o preparo/restauração conserva o último snapshot válido de câmera/móveis, inclusive no intervalo após o interior ficar pronto. Não existe gravação comercial de alterações dos móveis.
 
-O catálogo `interiores/catalogo.json` registra recursos e hashes por tipologia. `gerar_pacote_interiores.py` valida todas as entradas antes de gravar, adota arquivos completos por renomeação e conserva bytes/mtimes nas repetições idênticas. O canto conserva os bytes da cena e iluminação anteriores. Os inputs compartilhados existentes são verificados e preservados; `--atualizar-compartilhados` exige requalificar fontes e bakes vinculados. Os binários grandes ficam locais e identificados pelo catálogo.
+O catálogo `interiores/catalogo.json` registra recursos e hashes por tipologia. `gerar_pacote_interiores.py` valida todas as entradas antes de gravar, adota arquivos completos por renomeação e conserva bytes/mtimes nas repetições idênticas. Canto adota a revisão isolada e aprovada da moldura quando seu bake próprio está presente; fontes, receita, aprovação, UV1 e irradiância precisam corresponder. Os inputs compartilhados existentes são verificados e preservados; `--atualizar-compartilhados` exige requalificar fontes e bakes vinculados. Os binários grandes ficam locais e identificados pelo catálogo.
 
 ## Fila e reprodução
 

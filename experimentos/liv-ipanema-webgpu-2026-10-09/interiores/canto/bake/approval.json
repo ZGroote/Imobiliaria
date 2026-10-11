@@ -1,0 +1,24 @@
+{
+  "schema": "liv-interior-geometry-approval-v1",
+  "approved": true,
+  "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+  "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+  "reviewedAtUtc": "2026-10-11T04:20:38.634472+00:00",
+  "reviewer": "Codex, revisão local de geometria para bake ilustrativo",
+  "basis": [
+    "Cadastro e 62 objetos fora da moldura idênticos à fonte anteriormente revisada",
+    "União exata dos 30 volumes: 40 sobreposições removidas; superfície fechada e sem faces coplanares duplicadas",
+    "Quatro seções independentes conservam o footprint de ambas as faixas e seu volume",
+    "Renderizações PBR antes/depois nas mesmas câmeras da suíte, sala e banho inspecionadas",
+    "Normais das paredes e tapete aprovados em audit-scene.json; UV1 própria em atlas único"
+  ],
+  "geometryQA": {
+    "path": "experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/rodateto-geometria/geometria.json",
+    "sha256": "4315791392e8b28a5a601eff965f71f56cfa7f21bee48f40767deb6a06130cce"
+  },
+  "preview": {
+    "path": "experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/rodateto-autoria/autoria.json",
+    "sha256": "5b056b57482b31c783d10f844aa5990b8a2117187e616656cf808768c75587c5"
+  },
+  "limits": "Aprovação da geometria ilustrativa para bake; aparência da luz final é conferida no navegador após o bake. Dimensões e acabamentos inferidos da planta comercial."
+}

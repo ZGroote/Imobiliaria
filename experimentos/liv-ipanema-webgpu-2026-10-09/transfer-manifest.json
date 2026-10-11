@@ -21,7 +21,7 @@
       "path": "interiores/catalogo.json",
       "group": "tour",
       "bytes": 6377,
-      "sha256": "b320d0d6f64a5e320678604b60e2b738c2ee30aea50a2506d7e859c60ec6d869",
+      "sha256": "977ae20cbdfe565f62cc9628181991c6e9974fbca2b721ea04ece4e603c39a6c",
       "essential": true
     },
     {
@@ -48,29 +48,29 @@
     {
       "path": "interiores/canto/geometry-compact.json.gz",
       "group": "tour",
-      "bytes": 850749,
-      "sha256": "a37b719fe821258f7ca7ad5ce4074afc4029050f65a3ce68b41785d721b19ab0",
+      "bytes": 873741,
+      "sha256": "d9c89dd186fb20c962bcbae6c64a3a5e1738b0bf46665e6857437b9ba0e24d68",
       "essential": false
     },
     {
       "path": "interiores/canto/irradiance.rgbm.gz",
       "group": "tour",
-      "bytes": 4646752,
-      "sha256": "25a42a2014ae77fe034e65e86585b233335273af7b4309e952a2cd9193e96366",
+      "bytes": 4319873,
+      "sha256": "8c689dc306b778a68afec4c9ab82620650b0257decaac574a4c5ff36b9afe8d5",
       "essential": false
     },
     {
       "path": "interiores/canto/light.json",
       "group": "tour",
-      "bytes": 1851,
-      "sha256": "fa372d273c42254a0d9cd107db89bdbf8618c785df5f9050d9bfb3a6d9efe4e3",
+      "bytes": 1864,
+      "sha256": "1ade6244b526999eeee8950c96718223c98aefa64cce687ae5eb4247a891c887",
       "essential": false
     },
     {
       "path": "interiores/canto/source.json.gz",
       "group": "tour",
-      "bytes": 1946610,
-      "sha256": "c8c03c3d42a71dbbdef215e20a01072f24d684e6691e610d7e99072e47429b57",
+      "bytes": 1970203,
+      "sha256": "d55346eaea3a69ae9bd60127a252d2e9f5541503627c653dc4cfb9bc24052137",
       "essential": false
     },
     {
@@ -991,5 +991,5 @@
       "essential": false
     }
   ],
-  "version": "a22346a6f116014947ccedaab092e44db6455caf875b7ae363886d9143de6436"
+  "version": "eba265f7795d3cee211f763e3dc48cff4dd0ecf1734c0d1742597415b094b005"
 }

@@ -1,0 +1,68 @@
+{
+  "schema": "liv-ceiling-molding-qa-v1",
+  "status": "PASS",
+  "atUtc": "2026-10-11T04:14:19.326409+00:00",
+  "beforeOverlappingVolumePairs": 40,
+  "afterCoplanarOverlaps": {
+    "overlappingTrianglePairs": 0,
+    "summedIntersectionAreaModel": 0.0,
+    "examples": [],
+    "positionQuantumMeters": 1e-05,
+    "quantizationSliverPairs": 0,
+    "quantizationSliverAreaModel": 0.0
+  },
+  "topology": {
+    "triangles": 1464,
+    "edges": 2196,
+    "nonManifoldEdges": 0,
+    "degenerateTriangles": 0
+  },
+  "volumeMeters3": 1.0894313551805024,
+  "sections": [
+    {
+      "height": 2.6175,
+      "symmetricDifferenceMeters2": 3.566717523180903e-14,
+      "areaMeters2": 8.859318749999984,
+      "components": 1
+    },
+    {
+      "height": 2.6449,
+      "symmetricDifferenceMeters2": 3.5294169026892547e-14,
+      "areaMeters2": 8.859318750000003,
+      "components": 1
+    },
+    {
+      "height": 2.6451,
+      "symmetricDifferenceMeters2": 3.4912184543785706e-14,
+      "areaMeters2": 10.948500000000008,
+      "components": 1
+    },
+    {
+      "height": 2.6725,
+      "symmetricDifferenceMeters2": 3.484550611017785e-14,
+      "areaMeters2": 10.94849999999999,
+      "components": 1
+    }
+  ],
+  "canto": {
+    "rawUnitPreserved": true,
+    "nonMoldingObjectsUnchanged": 62,
+    "originalStrips": 30,
+    "activeMoldingMeshes": 1
+  },
+  "meio": {
+    "sourceUnchanged": true,
+    "moldingMeshes": 0,
+    "ceilingMeshes": 1
+  },
+  "sources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/qa_rodateto.py": "75ebab5c3ba5f005895627dcfe88cf16ccaf8ec095a6d909ca46c87b0273ae2f",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/corrigir_rodateto.py": "fa8ef379fd50435729bb66e2645786eaae65474f800335869c9532f71d6586ec",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/unir_paredes.py": "16ddbb49572368f7f752e2d284a1e03314a07b4901b8412a061b90231283d09e",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_cobertura.py": "b3ecff6bd39522694212f9129249fc3bbb5c726b3c28cc8fe9130d19b6a8da27",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_paredes.py": "33f3ac56a3d47e18f7eb159c6b1c8fb4a55d28d877a96421987bc38146750a3e",
+    "v1.5/miniaturas/liv-ipanema/interior/luz/source.json": "270d61e914f9f3dfdb7a79327b694409b32ccb475c3187c92cf42490e8ae3fb6",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/canto/source.json": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/source.json": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188"
+  }
+}

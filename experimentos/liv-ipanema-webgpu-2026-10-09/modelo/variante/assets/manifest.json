@@ -1,12 +1,12 @@
 {
   "schema": "liv-proof-manifest-v1",
-  "exportedAtUtc": "2026-10-11T03:34:46.471006+00:00",
-  "sourceModelSHA256": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
-  "sceneJSONSHA256": "46d1abbd35bcdfe2c18c0a51913effe5665b0950fedd4a7ac82d3b2af8a7bbd0",
+  "exportedAtUtc": "2026-10-11T04:32:07.279720+00:00",
+  "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+  "sceneJSONSHA256": "3fc390fa0a5005e6d7e13073381149d6960c3198e85868df27d4b629e2fb03c9",
   "files": {
     "irradiance.rgbm.gz": {
-      "bytes": 13948735,
-      "sha256": "7e62a8ea7a3b6889de8c99a19801ff32deef1f7a21df21a9ec40dd2e4639350d"
+      "bytes": 13377943,
+      "sha256": "f3e027a31fd2313cb611821a8e981d2a72d6d396dd219432ffe38abee5b5a50f"
     },
     "texture-00.png": {
       "bytes": 21667,
@@ -17,8 +17,8 @@
       "sha256": "84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e"
     },
     "scene.json.gz": {
-      "bytes": 2622795,
-      "sha256": "86e48ac513644043bbfa0b30b4a75bbf4ee55c15af91c0d75b485eb792d44242"
+      "bytes": 2623617,
+      "sha256": "a705b53200db87f77f824dba9079f6c398ccabd3137586ffb93de8b53899c7fd"
     }
   },
   "meshCount": 56,
@@ -26,9 +26,9 @@
   "exportPurpose": "Variante inferida: nova geometria, UV1 e bake pr\u00f3prios; sem cadastro comercial.",
   "sources": {
     "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/exportar_variante.py": "f54a980c340b9b7c13ddaa781514b65634891abe7ffbe70cbbe6cf95c8ff70a4",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/manifest.json": "030d810ee0de010acc703e2187cfdd2584ab9975c257d187a8414d3ff486ceaf",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/geometry-compact.json": "94445d4106472c86d29cbd6d4bb9b082144bf21c1d66d8b5e96946f1d3726bc6",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/manifest.json": "a5f5b4e5e46b634bcbfb5599ecfc87e64d314ee55a84ffa28017e9b65afeb5c8",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/geometry-compact.json": "e8979711e417472345394c42258422bff8a4ad97fee803c299da4afdd927626b",
     "experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57"
   }
 }

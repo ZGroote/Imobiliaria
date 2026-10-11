@@ -169,7 +169,7 @@ def main():
     parser.add_argument('--perfil',choices=['todos',*PROFILES],default='todos')
     args=parser.parse_args();args.saida.mkdir(parents=True,exist_ok=True)
     data,audit=audit_transport()
-    files=[OWN/'qa_runtime.py',OWN/'contorno.py',OWN/'contorno-torre.json',OWN/'modelar_exterior.py',OWN/'exportar_variante.py',
+    files=[OWN/'qa_runtime.py',OWN/'contorno.py',OWN/'contorno-torre.json',OWN/'modelar_exterior.py',OWN/'exportar_variante.py',OWN/'preparar_luz_densa.py',
            OWN/'comparacao.html',OWN/'comparacao.js',OWN/'variante/modelo.json',OWN/'variante/assets/manifest.json',
            OWN/'variante/luz/manifest.json',OWN/'variante/luz/geometry-compact.json',EXP/'renderer.js',
            EXP/'material-rgbm.js',EXP/'cameras.js',EXP/'exterior-finishes.js',EXP/'prova-rgbm.html',

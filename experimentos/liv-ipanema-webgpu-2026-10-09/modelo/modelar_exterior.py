@@ -200,13 +200,18 @@ for a,b in zip(outline.points,outline.points[1:]+outline.points[:1]):
     dx,dz=b[0]-a[0],b[1]-a[1];length=math.hypot(dx,dz)
     start=.25 if concave(a) else 0;end=.25 if concave(b) else 0
     x,y=(a[0]+b[0])/2+(end-start)*dx/length/2,(a[1]+b[1])/2+(end-start)*dz/length/2
-    delta=.12 if x>-CORE_X+1.5 else 0
     # Deslocamento para dentro: conserva o contorno exterior das lajes.
     nx,ny=-dz/length,dx/length
-    box(color(x,y),x+nx*.125,H+.49+delta,y+ny*.125,
+    box(color(x,y),x+nx*.125,H+.49,y+ny*.125,
         abs(dx)+start+end if dx else .25,.64,abs(dz)+start+end if dz else .25)
-    box('laje',x+nx*.125,H+.85+delta,y+ny*.125,
-        abs(dx)+.06 if dx else .32,.065,abs(dz)+.06 if dz else .32)
+    # Faixa contínua: 3,5 cm para fora e 28,5 cm para dentro do contorno.
+    # Nas quinas côncavas a extensão acompanha toda a largura interna; nas
+    # convexas acompanha o avanço externo. Todas as tampas apoiam na mesma cota.
+    cap_start=.285 if concave(a) else .035
+    cap_end=.285 if concave(b) else .035
+    cx,cy=(a[0]+b[0])/2+(cap_end-cap_start)*dx/length/2,(a[1]+b[1])/2+(cap_end-cap_start)*dz/length/2
+    box('laje',cx+nx*.125,H+.8425,cy+ny*.125,
+        abs(dx)+cap_start+cap_end if dx else .32,.065,abs(dz)+cap_start+cap_end if dz else .32)
 for sign in [-1,1]:
     face=outline.face(CORE_X,sign);extension=4.0 if sign==1 else .76
     box('bege',CORE_X,H+.17+extension/2,face-sign*.125,CORE_W,extension,.25)

@@ -16,11 +16,11 @@ A comparação geométrica continua isolada: seu iframe não carrega cadastro ne
 
 [modelar_exterior.py](modelar_exterior.py) grava exclusivamente numa subpasta deste estudo. Reutiliza a implantação e as ferramentas de autoria existentes como entradas, sem alterar sua saída canônica. [contorno.py](contorno.py) valida o polígono ortogonal e triangula as tampas sem diagonais sobre outros vértices. O teste de malha detectou e eliminou triângulos degenerados que a primeira tesselação gerava nas cabeceiras.
 
-A variante tem UV1 e irradiância próprios: atlas 4096², 64 amostras, difusa direta/indireta sem cor e OIDN RTLightmap. A revisão das quinas usa padding solicitado de seis pixels (4,03 pixels efetivos), margem de bake de dois pixels e guarda de saída de quatro pixels. Não reutiliza a irradiância da base. [proveniencia-luz-quinas.json](variante/proveniencia-luz-quinas.json) conserva os relatórios e hashes da revisão atual; [proveniencia-luz.json](variante/proveniencia-luz.json) conserva o bake anterior.
+A variante tem UV1 e irradiância próprios: atlas 4096², 64 amostras, difusa direta/indireta sem cor e OIDN RTLightmap. A revisão das quinas usa padding solicitado de seis pixels (4,09 pixels efetivos), margem de bake de dois pixels e guarda de saída de quatro pixels. Não reutiliza a irradiância da base. [proveniencia-luz-quinas.json](variante/proveniencia-luz-quinas.json) conserva os relatórios e hashes da revisão anterior das manchas; [proveniencia-luz.json](variante/proveniencia-luz.json) conserva o bake anterior.
 
 [exportar_variante.py](exportar_variante.py) transporta 1.012 instâncias baked, com posições, normais e UV0/UV1 conferidos contra a autoria e o atlas da mesma edição. Reutiliza os materiais e texturas de superfície da base. Vidros, vegetação e esquadrias continuam com **MeshStandardMaterial padrão**; a calibração de pintura, vidros da implantação e letreiro conserva os valores da prévia. O material próprio RGBM continua limitado à irradiância baked.
 
-Há 56 malhas efetivas: 41 baked e 15 grupos instanciados. Cena, atlas e duas texturas somam **16.614.864 bytes**, contra 21.757.657 bytes da primeira variante e 20.130.835 bytes desses mesmos recursos da base. A geometria preparada para bake passou de 271.909 para 101.535 triângulos. Essas diferenças não são medidas de tempo de abertura ou FPS. O ensaio físico no Poco X6 e o problema de desempenho da versão pública continuam pendentes.
+Há 56 malhas efetivas: 41 baked e 15 grupos instanciados. Cena, atlas e duas texturas somam **16.044.894 bytes**, contra 21.757.657 bytes da primeira variante e 20.130.835 bytes desses mesmos recursos da base. A geometria preparada para bake passou de 271.909 para 101.521 triângulos. Essas diferenças não são medidas de tempo de abertura ou FPS. O ensaio físico no Poco X6 e o problema de desempenho da versão pública continuam pendentes.
 
 ## Correção das manchas nas quinas
 
@@ -42,13 +42,25 @@ As faixas pretas na parede bege e nos recuos cinza vinham da irradiância, não 
 
 ## Integração do pavimento piloto, 11/10
 
-[registrar_unidades.py](registrar_unidades.py) confere os triângulos superiores da laje exportada contra o contorno anotado, intersecta cada faixa do registro anterior com esse polígono e grava [unidades-contorno.json](unidades-contorno.json). Mantém os mesmos IDs, ordem da prancha, lados e campos comerciais nulos. O cadastro identifica a autoria corrigida `69e51c…`, a imagem e os arquivos usados. Linhas de área zero produzidas pelo recorte junto ao núcleo são excluídas, sem eliminar qualquer região com área.
+[registrar_unidades.py](registrar_unidades.py) confere os triângulos superiores da laje exportada contra o contorno anotado, intersecta cada faixa do registro anterior com esse polígono e grava [unidades-contorno.json](unidades-contorno.json). Mantém os mesmos IDs, ordem da prancha, lados e campos comerciais nulos. O cadastro identifica a autoria corrigida `618c4f…`, a imagem e os arquivos usados. Linhas de área zero produzidas pelo recorte junto ao núcleo são excluídas, sem eliminar qualquer região com área.
 
 O picking usa o primeiro encontro com um prisma fechado da torre, incluindo cobertura e planos recuados. Consulta os polígonos apenas no fim do clique/toque; continua sem atribuir o núcleo, corredor, outro pavimento ou bordas compartilhadas. O realce é uma extrusão da zona selecionada e preserva seus rasgos. Os dez realces compartilham dois buffers, com faixas de desenho, e dois materiais padrão sem iluminação/sombra adicionais. Geometria, materiais, UV1 e atlas da torre não são alterados pela seleção. Ver [UNIDADES.md](../UNIDADES.md).
 
 A integração é ativada por `geometria=contorno`; o endereço sem esse parâmetro conserva a edição anterior. Sessões são separadas por edição. Entrar no mapa e retornar conserva a edição e o final selecionado, mas o GLB exibido **dentro do mapa** ainda é o da base. Adaptar/qualificar esse GLB e medir a abertura da nova edição precedem sua adoção como padrão.
 
 [unidades-recuos-integrado/runtime.json](../evidencias/unidades-recuos-integrado/runtime.json) registra lista/fachada/teclado, realce sem preencher os recuos, sessão, descarte, as duas tipologias nos três modos e retorno do mapa. Inclui cadastros ausente, de outra edição e com polígono retangular incompatível. [test_contorno_unidades.mjs](../test_contorno_unidades.mjs) confere também procedência, raios em recuos/cobertura e cobertura dos polígonos pelas tampas reais do realce. Essas provas continuam sendo desktop e toque emulado.
+
+## Cobertura: quinas, vão e bordas finas — 11/10
+
+A cobertura tinha cotas escolhidas por segmento: alguns parapetos começavam 12 cm acima dos vizinhos, deixando 8 cm de ar acima da laje. A faixa branca também ficava separada do apoio por 7,5 mm e suas extensões não acompanhavam a largura nas quinas côncavas. A autoria agora mantém o apoio/altura comuns e uma faixa contínua com avanços de 3,5 cm para fora e 28,5 cm para dentro do contorno. Os volumes técnicos mais altos mantêm sua configuração ilustrativa.
+
+[qa_cobertura.py](qa_cobertura.py) extrai seções dos triângulos reais, sem consultar os parâmetros dos geradores. Confere todo o perímetro e as quinas contra anéis derivados do contorno: [cobertura.json](../evidencias/cobertura-geometria/cobertura.json) registra regiões faltantes antes e nenhuma após o reparo. A regressão [paredes.json](../evidencias/cobertura-geometria/paredes.json) mantém as malhas fechadas, os 34 vãos livres e ausência de faces coplanares sobrepostas.
+
+A inspeção das imagens detectou outra causa de bordas pretas: faces de 6,5 cm tinham menos de um pixel de largura no UV de luz e não recebiam amostras. [preparar_luz_densa.py](preparar_luz_densa.py) reutiliza o algoritmo canônico com densidade linear quatro vezes maior somente nos cinco grupos da cobertura. Essa escala modifica apenas as entradas de xatlas; as posições/normais/índices/matrizes de entrega continuam idênticos. A resolução final continua 4096² e não há novo material ou passe de renderização.
+
+[luz.json](../evidencias/cobertura-luz/luz.json) amostra as 260 faces verticais da faixa fina no atlas: 88 quase pretas antes, nenhuma após o ajuste. As 102 amostras das quinas do núcleo continuam sem ambiguidade/sombreamento preto. [cobertura-final/runtime.json](../evidencias/cobertura-final/runtime.json) registra três câmeras idênticas antes/depois em WebGPU/WebGL2. [cobertura-interface/runtime.json](../evidencias/cobertura-interface/runtime.json) confere transporte exato, vistas, seleção de andar e descarte. [unidades-cobertura/runtime.json](../evidencias/unidades-cobertura/runtime.json) qualifica o piloto com os hashes novos. As provas da integração anterior permanecem históricas.
+
+[proveniencia-cobertura.json](variante/proveniencia-cobertura.json) identifica esta revisão. A autoria atual é `618c4f55…`; UV, atlas e registro do piloto foram conferidos para a mesma geometria. Backups locais `antes-cobertura/` e `antes-densidade/` conservam as versões que reproduzem as duas falhas. A revisão da moldura **interna** de Canto tem fonte/bake próprios, documentados em [RODATETO.md](../RODATETO.md); Meio continua independente.
 
 ## Reproduzir no ambiente local
 
@@ -58,7 +70,7 @@ Os scripts reutilizados e a imagem oficial são entradas locais identificadas po
 & 'C:\Program Files (x86)\Steam\steamapps\common\Blender\blender.exe' -b --factory-startup --python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py -- --no-render
 python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_geometria.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/contorno-novo-geometria
 python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_paredes.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/contorno-novo-geometria
-python v1.5/miniaturas/liv-ipanema/preparar_luz.py --model experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json --out experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz --size 4096 --padding 6
+python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/preparar_luz_densa.py
 & 'C:\Program Files (x86)\Steam\steamapps\common\Blender\blender.exe' -b --factory-startup --python v1.5/miniaturas/liv-ipanema/bake_luz.py -- --out experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz --samples 64
 python v1.5/miniaturas/liv-ipanema/denoise_luz.py --out experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz --output-guard 4
 python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/exportar_variante.py
