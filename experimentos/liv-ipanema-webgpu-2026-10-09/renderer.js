@@ -8,6 +8,7 @@ import {loadUnitCatalog,floorOf} from './catalogo-unidades.js';
 import {createUnitPicking} from './picking.js';
 import {environmentTexture,precomputedEnvironment} from './ambiente.js';
 import {EXTERIOR_EDITIONS} from './edicoes.js';
+import {exteriorAmbience,requestedAmbience} from './ambiencia.js';
 
 const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION};
 function progress(phase,message,extra={}){
@@ -20,6 +21,7 @@ const requested=parameters.get('backend')||'auto';
 const finishProfile=parameters.get('acabamento')||'base';
 const geometryProfile=parameters.get('geometria')||'base';
 const environmentProfile=parameters.get('ambiente')||'precalculado';
+const initialAmbience=requestedAmbience(location.search);
 const recoveryURL=new URL(location.href);recoveryURL.searchParams.set('backend','webgl');
 document.querySelector('#retry').href=recoveryURL.href;
 document.body.classList.toggle('embedded',parameters.get('embed')==='1');
@@ -150,7 +152,7 @@ async function start() {
   renderer.shadowMap.enabled=true;
   renderer.shadowMap.type=THREE.PCFShadowMap;
   const scene=new THREE.Scene();
-  let environment,controls,resizeObserver,unitPicking;
+  let environment,controls,resizeObserver,unitPicking,ambience;
   const textures=[],materials=[],geometries=[];
   state.scene=scene;state.atlas=atlas;
   // Own resources before the first asynchronous environment/texture request.
@@ -158,7 +160,7 @@ async function start() {
   state.dispose=()=>{
     if(state.disposed)return;
     state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);
-    resizeObserver?.disconnect();controls?.dispose();unitPicking?.dispose();
+    resizeObserver?.disconnect();controls?.dispose();unitPicking?.dispose();ambience?.dispose();
     for(const geometry of geometries)geometry.dispose();
     for(const material of materials)material.dispose();
     for(const texture of textures){texture?.dispose();texture?.image?.close?.();}
@@ -431,13 +433,18 @@ async function start() {
     if(id!==null&&floorOf(units,unitById(units,id))!==selectedFloor)throw Error('Selecione o pavimento correspondente antes do final.');
     return unitPicking?.select(id)??false;
   }
-  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,entryDetailBounds:entryBounds,
+  ambience=exteriorAmbience({renderer,scene,materials,stage});ambience.setProfile(initialAmbience);
+  function setAmbience(profile){
+    if(state.disposed)return false;
+    ambience.setProfile(profile);state.ambience=profile;renderer.render(scene,camera);return true;
+  }
+  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,ambience:initialAmbience,ambienceController:ambience,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,entryDetailBounds:entryBounds,
     invalidateShadows(){
       if(state.disposed)return false;
       for(const light of shadowLights)light.shadow.needsUpdate=true;
       return true;
     },
-    getState(){return {view:state.activeView,floor:selectedFloor,selectedUnitId:unitPicking?.getState().selectedId??null,backend:state.backend,
+    getState(){return {view:state.activeView,floor:selectedFloor,selectedUnitId:unitPicking?.getState().selectedId??null,backend:state.backend,ambience:state.ambience,
       camera:{type:camera.type,fov:camera.fov,near:camera.near,far:camera.far,zoom:camera.zoom,
         left:camera.left,right:camera.right,top:camera.top,bottom:camera.bottom,aspect:camera.aspect,
         position:camera.position.toArray(),target:controls.target.toArray()}};},
@@ -449,6 +456,7 @@ async function start() {
       }
       setFloor(snapshot.floor??-1);
       if(unitPicking)setSelectedUnit(snapshot.selectedUnitId??null);
+      if(snapshot.ambience)setAmbience(snapshot.ambience);
     }});
   renderer.setAnimationLoop(()=>{controls.update();orientCamera();renderer.render(scene,camera);});
   mark('sceneBuilt');

@@ -1,11 +1,13 @@
 import {transfers,showTransferStatus} from './transfers.js';
 import {requestedEdition,exteriorEdition} from './edicoes.js';
 import {unitScope} from './catalogo-unidades.js';
+import {requestedAmbience} from './ambiencia-perfis.js';
 // Adapt model edition, navigation and transfer priority; baseline files stay intact.
 const frame=document.getElementById('map'),destination=new URL('./maquete-liv-ipanema.html',location.href);
 const geometry=requestedEdition(location.search);
 if(geometry!=='base')destination.searchParams.set('geometria',geometry);
 if(unitScope(location.search)==='edificio')destination.searchParams.set('unidades','edificio');
+if(requestedAmbience(location.search)==='entardecer')destination.searchParams.set('luz','entardecer');
 const failure=document.getElementById('failure');
 failure.querySelector('a[href="maquete-liv-ipanema.html"]').href=destination.href;
 failure.querySelector('a[href="mapa-liv-ipanema-5km.html"]').href=location.href;

@@ -162,3 +162,5 @@ A medição anterior registrou 23.993.373 bytes iniciais, 37,5% abaixo da base. 
 Referências técnicas consultadas: [WebGPURenderer](https://threejs.org/manual/pages/webgpurenderer.html), [NodeMaterial](https://threejs.org/docs/pages/NodeMaterial.html) e [Renderer: recuperação de contexto](https://threejs.org/docs/pages/Renderer.html). O runtime instalado e fixado é a fonte de compatibilidade efetivamente testada.
 
 Atualização de rede em 11/10: [REDE-MEMORIA.md](REDE-MEMORIA.md) registra três rodadas com gzip, 6 Mb/s e 80 ms: entrada 26,1% menor em corpos comprimidos, 26,6–26,8 s de mediana fria contra 33,3 s da base. Memória não teve ganho geral confirmado, o atlas voltou a trafegar no reload e aparelhos físicos permanecem pendentes.
+
+[AMBIENCIA.md](AMBIENCIA.md): controle de dia e entardecer ilustrativo com PBR padrão, mesmo atlas e sombras fixas. Três perfis aprovados, nove restaurações com diferença zero, duas plantas e retorno do mapa preservados. Não é segundo bake de entardecer nem simulação solar.

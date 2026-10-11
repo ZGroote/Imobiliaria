@@ -5,6 +5,7 @@ import {loadUnitCatalog,floorOf,unitScope} from './catalogo-unidades.js';
 import {createUnitUI} from './unit-ui.js';
 import {requestedEdition,exteriorEdition} from './edicoes.js';
 import {attachCommercial} from './comercial.js';
+import {requestedAmbience,AMBIENCES} from './ambiencia-perfis.js';
 const stage=document.getElementById('stage'),overlay=document.getElementById('loading');
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
@@ -14,15 +15,18 @@ const scope=unitScope(location.search);
 const finish=geometry!=='base'||new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
 const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
 const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
+state.ambience=requestedAmbience(location.search);
 let units,unitUI,mirror;
 let commercialData=null,commercialVersion=0,commercialController=null;
 state.geometry=geometry;
 state.unitScope=scope;
 const storageKey=`liv-viewer-v1:${location.pathname}${geometry==='base'?'':':'+geometry}${scope==='edificio'?':edificio':''}`;
-if(geometry!=='base'||scope==='edificio'){
+function updateMapLink(){
   const mapLink=document.querySelector('.map-link'),destination=new URL(mapLink.href);
   if(geometry!=='base')destination.searchParams.set('geometria',geometry);
-  if(scope==='edificio')destination.searchParams.set('unidades',scope);mapLink.href=destination.href;
+  if(scope==='edificio')destination.searchParams.set('unidades',scope);
+  if(state.ambience==='entardecer')destination.searchParams.set('luz',state.ambience);else destination.searchParams.delete('luz');
+  mapLink.href=destination.href;
 }
 try {
   const saved=JSON.parse(sessionStorage.getItem(storageKey));
@@ -30,6 +34,7 @@ try {
     Number.isInteger(saved.floor)&&saved.floor>=-1&&saved.floor<=16&&
     ['perspectiva','fachada','aerea','portaria','implantacao','varandas','acesso','livre'].includes(saved.view)) {
     state.mode=saved.mode;state.view=saved.view;state.floor=saved.floor;
+    if(!new URLSearchParams(location.search).has('luz')&&Object.hasOwn(AMBIENCES,saved.ambience))state.ambience=saved.ambience;
     if(typeof saved.selectedUnitId==='string'&&(saved.floor===1||(scope==='edificio'&&saved.floor>=0)))state.selectedUnitId=saved.selectedUnitId;
     if(['canto','meio'].includes(saved.typology))state.typology=saved.typology;
     if(saved.interiorSnapshots&&typeof saved.interiorSnapshots==='object')state.interiorSnapshots=saved.interiorSnapshots;
@@ -38,6 +43,7 @@ try {
     else if(state.view==='livre')state.view='perspectiva';
   }
 } catch(error) {state.storageError=String(error);}
+updateMapLink();
 let generation=0,frameKind=null,openedOnce=false;
 showTransferStatus(document.getElementById('transferStatus'));
 for(let floor=1;floor<=16;floor++) document.getElementById('floor').add(new Option(`${floor}º pavimento tipo`,String(floor)));
@@ -45,6 +51,8 @@ document.getElementById('floor').value=String(state.floor);
 document.getElementById('typology').value=state.typology;
 
 function update() {
+  document.getElementById('ambience').value=state.ambience;
+  document.getElementById('ambience').disabled=!state.ready||state.mode!=='maquete';
   for(const button of document.querySelectorAll('[data-mode]')) button.setAttribute('aria-pressed',String(button.dataset.mode===state.mode));
   for(const button of document.querySelectorAll('[data-view]')) {
     button.disabled=!state.ready||state.mode!=='maquete';
@@ -173,7 +181,7 @@ async function setMode(mode) {
     if(mode==='planta2d'){await fallback2D(token);return;}
     if(frameKind!==kind) {
       release();const frame=document.createElement('iframe');frame.title=kind==='exterior'?'Maquete do LIV Ipanema':'Planta e interior de referência do LIV Ipanema';
-      frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}`:
+      frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}&luz=${state.ambience}`:
         `interior.html?embed=1&backend=${backend}&tipologia=${state.typology}&modo=${mode}`;
       stage.prepend(frame);state.frame=frame;frameKind=kind;
     }
@@ -185,7 +193,7 @@ async function setMode(mode) {
         },token,{progress:()=>frame.contentWindow?.__livProva?.progress});
         if(units.sourceModelSHA256!==api.data.sourceModelSHA256)throw Error('O cadastro dos finais pertence a outra edição da maquete.');
         if(!frame.livPrepared){
-          if(state.exteriorSnapshot)api.restoreState({...state.exteriorSnapshot,floor:state.floor,selectedUnitId:state.selectedUnitId});
+          if(state.exteriorSnapshot)api.restoreState({...state.exteriorSnapshot,floor:state.floor,selectedUnitId:state.selectedUnitId,ambience:state.ambience});
           else {api.setView(state.view);api.setFloor(state.floor);}
           if(state.floor===1||scope==='edificio')api.setSelectedUnit(state.selectedUnitId);
           frame.contentWindow.addEventListener('liv-unit-selected',event=>{
@@ -256,6 +264,11 @@ function setView(view) {
   const api=state.frame?.contentWindow?.__livProva;if(!state.ready||!api)return;
   api.setView(view);state.view=view;update();
 }
+function setAmbience(profile){
+  if(!Object.hasOwn(AMBIENCES,profile))throw Error('Ambiência inválida.');
+  state.frame?.contentWindow?.__livProva?.setAmbience(profile);state.ambience=profile;
+  updateMapLink();update();return true;
+}
 function setFloor(floor) {
   const value=Number(floor);
   if(!Number.isInteger(value)||value < -1||value >16)throw Error('Pavimento inválido.');
@@ -318,11 +331,12 @@ async function capture() {
   }
   const link=document.createElement('a');link.href=png;link.download=`liv-ipanema-${state.typology}-${state.mode}.png`;link.click();return png;
 }
-Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,reloadCommercial:refreshCommercial,getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,backend:state.backend}),dispose:release});
+Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,setAmbience,reloadCommercial:refreshCommercial,getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,backend:state.backend,ambience:state.ambience}),dispose:release});
 for(const button of document.querySelectorAll('[data-mode]'))button.addEventListener('click',()=>setMode(button.dataset.mode));
 for(const button of document.querySelectorAll('[data-view]'))button.addEventListener('click',()=>setView(button.dataset.view));
 document.getElementById('floor').addEventListener('change',event=>setFloor(event.target.value));
 document.getElementById('typology').addEventListener('change',event=>setTypology(event.target.value));
+document.getElementById('ambience').addEventListener('change',event=>setAmbience(event.target.value));
 document.getElementById('capture').addEventListener('click',()=>capture().catch(error=>{status.textContent='Não foi possível capturar a imagem: '+error.message;}));
 document.getElementById('retry').addEventListener('click',()=>setMode(state.mode));
 document.getElementById('fallback').addEventListener('click',()=>{
@@ -338,7 +352,7 @@ document.querySelector('.map-link').addEventListener('click',event=>{
 window.addEventListener('pagehide',()=>{
   commercialVersion++;commercialController?.abort();
   generation++;state.ready=false;release();
-  try {sessionStorage.setItem(storageKey,JSON.stringify({version:1,mode:state.mode,typology:state.typology,interiorSnapshots:state.interiorSnapshots,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,exteriorSnapshot:state.exteriorSnapshot}));}
+  try {sessionStorage.setItem(storageKey,JSON.stringify({version:1,mode:state.mode,typology:state.typology,interiorSnapshots:state.interiorSnapshots,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,ambience:state.ambience,exteriorSnapshot:state.exteriorSnapshot}));}
   catch(error) {state.storageError=String(error);}
 });
 window.addEventListener('pageshow',event=>{if(event.persisted)setMode(state.mode);});
