@@ -273,5 +273,25 @@
     "geometryChangedByThisReconciliation": false,
     "commercialRecordsCreatedByThisReconciliation": false
   },
-  "interiorEvidence": "INTERIORES.md"
+  "interiorEvidence": "INTERIORES.md",
+  "pilotImplementation": {
+    "implementedOn": "2026-10-10",
+    "documentation": "UNIDADES.md",
+    "records": "unidades.json",
+    "modelFloorIndex": 1,
+    "technicalRecords": 10,
+    "positionConfidence": "inferido",
+    "registrationSource": {
+      "sourceId": "book-oficial",
+      "page": 15,
+      "imageSHA256": "5ee381ceacbe6d52ece70ac2bf4854c4c07c2f5e287d278d2c92cff8d733a2eb"
+    },
+    "selection": "Lista/teclado/toque em zonas proporcionais, com núcleo excluído; volumes independentes da geometria decorativa.",
+    "unitSpecific3dInteriorEnabled": false,
+    "typologyByFinal": null,
+    "mirroringByFinal": null,
+    "commercialAssignment": null,
+    "browserEvidence": "evidencias/unidades-piloto/runtime.json",
+    "physicalMobileQualified": false
+  }
 }

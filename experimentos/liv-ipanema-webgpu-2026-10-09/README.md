@@ -4,6 +4,8 @@ Implementação iniciada em 09/10/2026, conforme [plano](../../tasks/liv-ipanema
 
 Refinamento atual dos interiores: **Paredes baixas** revela a distribuição das duas plantas em 3D, com alternância para paredes inteiras e recuperação da cena completa no Tour. Reutiliza os materiais PBR existentes e conserva os bakes próprios. Ver [CORTES.md](CORTES.md).
 
+Seleção atual: **Explore os finais** oferece dez posições aproximadas do 1º pavimento tipo por lista, teclado ou toque na fachada, com realce/ficha e retorno entre modos. Canto e Meio continuam referências gerais, com vínculo por final em conferência e dados comerciais não informados. Ver [UNIDADES.md](UNIDADES.md).
+
 ## T01 — reprodução isolada
 
 O preparador histórico confundia o hash/tamanho da publicação minificada com o HTML fonte. Agora valida separadamente:

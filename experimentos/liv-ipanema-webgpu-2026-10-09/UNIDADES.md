@@ -1,0 +1,42 @@
+# LIV Ipanema — seleção do pavimento piloto
+
+10/10/2026. Na [prévia local](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html), **Explore os finais** liga a lista, o clique na maquete, o realce e a ficha do 1º pavimento tipo acima do térreo. A lista enquadra o lado correspondente; o toque na fachada conserva a câmera. A seleção reaparece ao retornar das plantas/Tour ou recarregar a página. Destacar outro pavimento limpa o final.
+
+As dez posições seguem a ordem da página 15 do [book oficial](https://www.livonincorporadora.com.br/wp-content/uploads/2024/08/BOOK_LIV_Ipanema.pdf). **Os volumes são zonas aproximadas de interação, sem comprovação dos limites dos apartamentos.** A ficha mantém planta/espelhamento e área por final em conferência, além de disponibilidade, preço, número comercial e vaga não informados. Nenhum identificador “101” foi criado.
+
+## Registro da prancha sobre o modelo
+
+[unidades.json](unidades.json) preserva procedência, hashes do book/rasterização, dimensões da imagem, âncoras e faixas lidas. [unidades.js](unidades.js) valida dez IDs únicos, lados, volumes sem sobreposição e ausência de dados comerciais ou vínculos inventados.
+
+A rasterização de 2100 × 1051 px foi inspecionada. O eixo longo da torre vai de `v=898` junto à portaria a `v=373` junto ao bosque. Os extremos foram registrados na lâmina atual `x=-23,85..23,85 m`, e o intervalo ilustrado `v=666..708` foi alinhado ao núcleo deslocado do modelo: `CORE_X=-0,13×47,7` e `CORE_W=0,076×47,7`, faixa `x=-8,0136..-4,3884 m`. Esses parâmetros vêm do gerador existente, sem modificá-lo.
+
+O registro usa dois trechos proporcionais: na ala da portaria, `x=-23,85+(898-v)×15,8364/190`; na ala do bosque, `x=-4,3884+(666-v)×28,2384/293`. O núcleo permanece fora das zonas. Isso evita atribuir a circulação a um final quando as proporções da prancha e da reconstrução diferem. A transformação é **inferida**, distinta da transformação em pixels da imagem menor usada pelo autor da implantação. A profundidade usa apenas os lados relativos já registrados no código: ímpares no estacionamento (`z<0`), pares no lazer (`z>0`). Não fornece norte/insolação.
+
+| Finais | Faixa vertical da prancha (px) | Faixa de seleção no eixo longo (m) | Ímpar / par |
+|---|---|---|---|
+| 01 / 02 | 809–898 | −23,85 a −16,43 | Estacionamento / lazer |
+| 03 / 04 | 708–809 | −16,43 a −8,01 | Estacionamento / lazer |
+| 05 / 06 | 564–666 | −4,39 a 5,44 | Estacionamento / lazer |
+| 07 / 08 | 465–564 | 5,44 a 14,98 | Estacionamento / lazer |
+| 09 / 10 | 373–465 | 14,98 a 23,85 | Estacionamento / lazer |
+
+O intervalo ilustrado `v=666..708` foi excluído da seleção, assim como uma faixa central em `z`. As zonas verticais `y=3,02..5,68 m` deixam as lajes fora do clique; o passo de 2,85 m é inferido. O perímetro retangular atual e os recuos da prancha diferem, portanto essas faixas não devem orientar cotas, área, divisórias ou atribuição comercial. Gardens e outros pavimentos não foram cadastrados neste incremento.
+
+## Picking e apresentação
+
+[picking.js](picking.js) usa [Raycaster.setFromCamera](https://threejs.org/docs/pages/Raycaster.html) e [Ray.intersectBox](https://threejs.org/docs/pages/Ray.html) da versão local Three.js 0.186.1. Consulta apenas o envelope e dez zonas no encerramento de um toque/clique. O primeiro encontro com a cobertura ou outro pavimento não seleciona uma posição escondida. A política é conservadora e aproximada: não testa triângulos de paredes, árvores ou mobiliário da implantação.
+
+Arrastes maiores que 6 px, movimento de ida/volta, múltiplos dedos, cancelamento e perda de captura não viram seleção. A lista nativa de botões oferece o mesmo ID por teclado e possui alvos de pelo menos 44 px. A legenda sobre a maquete identifica a escolha; o realce azul usa MeshBasicMaterial e LineBasicMaterial padrão. São duas geometrias pequenas e dois materiais próprios, sem luz ou sombra adicionais, descartados ao sair do exterior. Materiais PBR, posições, normais, UVs e atlas do prédio são preservados.
+
+## Plantas e Tour
+
+O cadastro mantém `typology`, `plan2d`, `mirroring` e `areaM2` **nulos por final**. Escolher um final não altera a tipologia do catálogo. Canto e Meio continuam com suas próprias plantas 2D, geometrias, materiais e bakes, conforme [INTERIORES.md](INTERIORES.md). A ficha informa qual referência geral está sendo exibida e que a associação com o final está em conferência. Nenhum interior foi espelhado automaticamente ou apresentado como unidade validada.
+
+## Verificação
+
+- `node --test test_unidades.mjs`: cinco testes de IDs/procedência, registro não uniforme, raios frontais/oblíquos/laterais, bloqueio por cobertura/outro nível/núcleo, rejeição de registros inválidos e enquadramento em oito combinações de lado/proporção.
+- `python qa_unidades.py`: [relatório](evidencias/unidades-piloto/runtime.json) de WebGPU, WebGL2 e toque emulado. Inclui dez escolhas por lista e dez por fachada em cada perfil, Enter/Espaço, arraste, pinça no perfil de toque, cadastro/sessão, Canto/Meio nos três modos, retorno à câmera, 320/768/1024/1440 px e descarte de cada recurso exatamente uma vez.
+- A edição de modelo é verificada antes de habilitar o picking. O relatório identifica todos os arquivos de execução e fontes testadas; o hash da rasterização foi conferido.
+- Duas falhas injetadas verificam cadastro ausente e posições de outra edição: a planta 2D continua acessível, a seleção incompatível é recusada e a recuperação carrega o cadastro/realce sem duplicar recursos.
+
+T08/T09 permanecem parciais: a ordem/realce ilustrativo foi implementada, mas a associação planta/final/espelhamento exige evidência adicional. A reconstrução exterior também conserva as pendências de T06/T07. Toque emulado não substitui o ensaio no Poco X6 ou iPhone; nenhuma publicação foi feita.

@@ -95,8 +95,10 @@ Convenção de caminhos abaixo: `EXP` = novo diretório `experimentos/liv-ipanem
   - Escopo provável: `EXP/unidades.json`, `EXP/plantas2d/`, `EXP/picking.js`, `EXP/referencias.json`, teste de integridade do cadastro.
   - Aceite: dez finais do pavimento piloto confrontados com a implantação; seleção corresponde à face correta e planta 2D; ambiguidades registradas; nenhuma numeração comercial presumida.
   - Verificar: tabela final → posição → tipologia/planta 2D com fonte; raios de seleção em vistas frontal/lateral e toque; IDs únicos.
+  - Incremento de 10/10: dez IDs técnicos do índice 1 e zonas proporcionais à implantação p.15 em `EXP/unidades.json`, com faixas não uniformes e núcleo excluído. `unidades.js` valida IDs/lados/volumes e rejeita dados comerciais ou vínculos de interiores não confirmados. `picking.js` separa a interação da geometria decorativa e bloqueia seleção através da cobertura/outros pavimentos. Ver `EXP/UNIDADES.md`; associação de planta/espelhamento por final continua pendente, mantendo T08 parcial.
 
 - [ ] **T09 — Integrar realce, ficha e planta no piloto.**
+  - Incremento de 10/10: lista acessível, toque na fachada, realce azul e ficha consomem o mesmo ID, com vista dedicada de cada lado, legenda, limpeza, sessão e retorno de modos. A ficha distingue o final selecionado da referência geral Canto/Meio; nenhum vínculo ou estoque é presumido. Cinco testes CPU, três perfis de navegador e duas falhas injetadas registrados em `EXP/evidencias/unidades-piloto/runtime.json`; ainda faltam vínculo oficial, refinamento final do exterior e qualificação física. T09 permanece parcial.
   - Dependências: T07, T08.
   - Responsabilidade: seleção pela fachada/lista, destaque, ficha física e acesso à planta 2D; disponibilidade desconhecida explícita; Planta 3D/Tour gerais identificados como interior ilustrativo até T10.
   - Escopo provável: `EXP/unit-ui.js`, `EXP/viewer.js`, `EXP/unit-ui.css`, `EXP/index.html`, QA de seleção.

@@ -8,3 +8,12 @@ export function balconyDetailView() {
     position:[target[0]+r*Math.sin(th)*Math.sin(ph),target[1]+r*Math.cos(ph),target[2]+r*Math.cos(th)*Math.sin(ph)],
     target,orbit:{r,th,ph}};
 }
+
+// Frame the pilot facade across the viewport, keeping the ground near the bottom.
+export function pilotFloorView(aspect,side){
+  if(!Number.isFinite(aspect)||aspect<=0||!['lazer','estacionamento'].includes(side))throw Error('Vista do pavimento inválida.');
+  const fov=34,halfHeight=26/aspect,targetY=Math.max(10,halfHeight-2);
+  const distance=halfHeight/Math.tan(fov*Math.PI/360)+7.02;
+  return {type:'PerspectiveCamera',fov,near:.2,far:900,aspect,zoom:1,
+    position:[0,targetY,(side==='lazer'?1:-1)*distance],target:[0,targetY,0]};
+}

@@ -2,7 +2,9 @@ import * as THREE from 'three/webgpu';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,createRGBMTexture} from './material-rgbm.js';
 import {applyReferenceFinishes} from './exterior-finishes.js';
-import {balconyDetailView,BALCONY_DETAIL_BOUNDS} from './cameras.js';
+import {balconyDetailView,BALCONY_DETAIL_BOUNDS,pilotFloorView} from './cameras.js';
+import {loadUnits} from './unidades.js';
+import {createUnitPicking} from './picking.js';
 
 const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION};
 function progress(phase,message,extra={}){
@@ -208,13 +210,13 @@ async function start() {
     building.add(mesh);return mesh;
   });
   scene.add(building);
-  let controls,resizeObserver;
+  let controls,resizeObserver,unitPicking;
   // Install the owner before the reference identity gate can reject a material.
   // Construction errors must release assets even before camera/controls exist.
   state.dispose=()=>{
     if(state.disposed)return;
     state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);
-    resizeObserver?.disconnect();controls?.dispose();
+    resizeObserver?.disconnect();controls?.dispose();unitPicking?.dispose();
     for(const geometry of geometries)geometry.dispose();
     for(const material of materials)material.dispose();
     for(const texture of textures){texture.dispose();texture.image?.close?.();}
@@ -361,10 +363,29 @@ async function start() {
         colors.needsUpdate=true;
       }
     }
-    renderer.render(scene,camera);
+    if(value!==1)unitPicking?.select(null);
+    unitPicking?.refresh();renderer.render(scene,camera);
   }
-  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,building,meshes,materials,atlas,manifest,data,visibleBounds,
-    getState(){return {view:state.activeView,floor:selectedFloor,backend:state.backend,
+  const units=await loadUnits(requests.signal);
+  if(state.disposed)return;
+  if(units.sourceModelSHA256!==data.sourceModelSHA256)throw Error('As posições dos finais pertencem a outra edição da maquete.');
+  unitPicking=createUnitPicking({scene,canvas,catalog:units,getCamera:()=>camera,getFloor:()=>selectedFloor,
+    onSelect:id=>{unitPicking.select(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id}}));}});
+  function setUnitView(side){
+    if(!['lazer','estacionamento'].includes(side))throw Error('Lado do pavimento inválido.');
+    setFloor(1);
+    const rect=stage.getBoundingClientRect(),aspect=rect.width/rect.height;
+    const view=pilotFloorView(aspect,side);camera=makeCamera(view);
+    controls.object=camera;state.camera=camera;controls.target.fromArray(view.target);
+    controls.update();orientCamera();resize();state.activeView='livre';
+  }
+  function setSelectedUnit(id){
+    if(state.disposed)return false;
+    if(id!==null&&selectedFloor!==1)throw Error('Selecione o pavimento piloto antes do final.');
+    return unitPicking.select(id);
+  }
+  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,
+    getState(){return {view:state.activeView,floor:selectedFloor,selectedUnitId:unitPicking.getState().selectedId,backend:state.backend,
       camera:{type:camera.type,fov:camera.fov,near:camera.near,far:camera.far,zoom:camera.zoom,
         left:camera.left,right:camera.right,top:camera.top,bottom:camera.bottom,aspect:camera.aspect,
         position:camera.position.toArray(),target:controls.target.toArray()}};},
@@ -375,6 +396,7 @@ async function start() {
         controls.target.fromArray(snapshot.camera.target);controls.update();orientCamera();resize();state.activeView='livre';
       }
       setFloor(snapshot.floor??-1);
+      if(selectedFloor===1)setSelectedUnit(snapshot.selectedUnitId??null);
     }});
   renderer.setAnimationLoop(()=>{controls.update();orientCamera();renderer.render(scene,camera);});
   mark('sceneBuilt');

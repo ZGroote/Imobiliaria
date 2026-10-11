@@ -1,11 +1,14 @@
 import {transfers,showTransferStatus} from './transfers.js';
 import {typology} from './tipologias.js';
+import {loadUnits,unitById} from './unidades.js';
+import {createUnitUI} from './unit-ui.js';
 const stage=document.getElementById('stage'),overlay=document.getElementById('loading');
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
 const backend=['webgpu','webgl'].includes(requested)?requested:'auto';
 const finish=new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
-const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
+const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
+let units,unitUI;
 const storageKey=`liv-viewer-v1:${location.pathname}`;
 try {
   const saved=JSON.parse(sessionStorage.getItem(storageKey));
@@ -13,6 +16,7 @@ try {
     Number.isInteger(saved.floor)&&saved.floor>=-1&&saved.floor<=16&&
     ['perspectiva','fachada','aerea','portaria','implantacao','varandas','livre'].includes(saved.view)) {
     state.mode=saved.mode;state.view=saved.view;state.floor=saved.floor;
+    if(typeof saved.selectedUnitId==='string'&&saved.floor===1)state.selectedUnitId=saved.selectedUnitId;
     if(['canto','meio'].includes(saved.typology))state.typology=saved.typology;
     if(saved.interiorSnapshots&&typeof saved.interiorSnapshots==='object')state.interiorSnapshots=saved.interiorSnapshots;
     const snapshot=saved.exteriorSnapshot,cam=snapshot?.camera;
@@ -39,6 +43,7 @@ function update() {
   document.getElementById('interiorNote').textContent=`Planta de ${selected.label.toLowerCase()} · ${selected.area} de área publicada · interior ilustrativo, com medidas inferidas · sem vínculo com uma unidade específica.`;
   document.getElementById('hint').textContent=state.mode==='visita'?'Arraste para olhar · use o teclado ou o controle na tela para caminhar':
     state.mode==='planta2d'?`Planta comercial publicada · ${selected.label.toLowerCase()}, ${selected.area} incluindo varanda`:'Arraste para girar · use a roda ou dois dedos para aproximar';
+  unitUI?.update({...state,typology:selected.label.toLowerCase()});
 }
 function busy(text) {
   state.ready=false;state.error=null;overlay.hidden=false;message.textContent=text;
@@ -128,6 +133,14 @@ async function setMode(mode) {
   const token=++generation;state.mode=mode;
   busy(mode==='maquete'?'Abrindo a maquete…':'Abrindo a planta de referência…');
   try {
+    if(!units||mode==='maquete'){
+      const catalog=await loadUnits();if(token!==generation)return;
+      units=catalog;state.units=units;
+      try{unitById(units,state.selectedUnitId);}catch{state.selectedUnitId=null;}
+      if(unitUI)unitUI.setCatalog(units);
+      else unitUI=createUnitUI(units,{onSelect:selectUnit,onClear:()=>selectUnit(null),onSide:showUnitSide});
+      update();
+    }
     const kind=mode==='maquete'?'exterior':mode==='planta2d'?'image':`interior:${state.typology}`;
     // Cancel the previous scene immediately, before waiting for the queue ack.
     if(frameKind!==kind)release();
@@ -150,9 +163,14 @@ async function setMode(mode) {
           const api=frame.contentWindow?.__livProva;if(api?.error)throw Error(api.error);
           return api?.ready&&api.setFloor?api:null;
         },token,{progress:()=>frame.contentWindow?.__livProva?.progress});
+        if(units.sourceModelSHA256!==api.data.sourceModelSHA256)throw Error('O cadastro dos finais pertence a outra edição da maquete.');
         if(!frame.livPrepared){
-          if(state.exteriorSnapshot)api.restoreState({...state.exteriorSnapshot,floor:state.floor});
+          if(state.exteriorSnapshot)api.restoreState({...state.exteriorSnapshot,floor:state.floor,selectedUnitId:state.selectedUnitId});
           else {api.setView(state.view);api.setFloor(state.floor);}
+          if(state.floor===1)api.setSelectedUnit(state.selectedUnitId);
+          frame.contentWindow.addEventListener('liv-unit-selected',event=>{
+            if(state.frame===frame&&state.ready&&state.mode==='maquete')selectUnit(event.detail.id,{frameEvent:true});
+          });
           frame.contentWindow.addEventListener('liv-renderer-error',event=>{
             if(state.frame===frame&&frameKind==='exterior'){
               // Keep the last camera/floor before the renderer releases resources.
@@ -218,8 +236,26 @@ function setView(view) {
   api.setView(view);state.view=view;update();
 }
 function setFloor(floor) {
-  state.frame?.contentWindow?.__livProva?.setFloor(Number(floor));state.floor=Number(floor);
+  const value=Number(floor);
+  if(!Number.isInteger(value)||value < -1||value >16)throw Error('Pavimento inválido.');
+  state.frame?.contentWindow?.__livProva?.setFloor(value);state.floor=value;
+  if(value!==1)state.selectedUnitId=null;
   document.getElementById('floor').value=String(floor);
+  update();
+}
+function showUnitSide(side){
+  const api=state.frame?.contentWindow?.__livProva;
+  if(!state.ready||state.mode!=='maquete'||!api)return false;
+  api.setUnitView(side);state.floor=1;state.view='livre';
+  document.getElementById('floor').value='1';update();return true;
+}
+function selectUnit(id,{frameEvent=false}={}){
+  if(!units)return false;
+  const unit=unitById(units,id),api=state.frame?.contentWindow?.__livProva;
+  if(id!==null&&(!state.ready||state.mode!=='maquete'||!api))return false;
+  // List selection reveals the appropriate face; canvas taps preserve the orbit.
+  if(unit&&!frameEvent)showUnitSide(unit.side);
+  state.selectedUnitId=id;api?.setSelectedUnit(id);update();return true;
 }
 async function setTypology(id){
   typology(id);if(id===state.typology)return;
@@ -239,7 +275,7 @@ async function capture() {
   }
   const link=document.createElement('a');link.href=png;link.download=`liv-ipanema-${state.typology}-${state.mode}.png`;link.click();return png;
 }
-Object.assign(state,{setMode,setView,setFloor,setTypology,capture,getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,backend:state.backend}),dispose:release});
+Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,backend:state.backend}),dispose:release});
 for(const button of document.querySelectorAll('[data-mode]'))button.addEventListener('click',()=>setMode(button.dataset.mode));
 for(const button of document.querySelectorAll('[data-view]'))button.addEventListener('click',()=>setView(button.dataset.view));
 document.getElementById('floor').addEventListener('change',event=>setFloor(event.target.value));
@@ -257,7 +293,7 @@ document.querySelector('.map-link').addEventListener('click',event=>{
 });
 window.addEventListener('pagehide',()=>{
   generation++;state.ready=false;release();
-  try {sessionStorage.setItem(storageKey,JSON.stringify({version:1,mode:state.mode,typology:state.typology,interiorSnapshots:state.interiorSnapshots,view:state.view,floor:state.floor,exteriorSnapshot:state.exteriorSnapshot}));}
+  try {sessionStorage.setItem(storageKey,JSON.stringify({version:1,mode:state.mode,typology:state.typology,interiorSnapshots:state.interiorSnapshots,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,exteriorSnapshot:state.exteriorSnapshot}));}
   catch(error) {state.storageError=String(error);}
 });
 window.addEventListener('pageshow',event=>{if(event.persisted)setMode(state.mode);});
