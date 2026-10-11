@@ -1,0 +1,1584 @@
+{
+  "recordedAtUtc": "2026-10-11T02:31:11.869916+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "sourceSHA256": {
+    "qa_portaria.py": "ae0ee98fb08b91b8193f8677aeacbb7fca403265605cac83f7c449c48bff736e",
+    "qa_refinamento.py": "f8e1407aba9b4023cb490c966560248d1dcc8c8bcda218953ade99aeccce8d3b",
+    "renderer.js": "f30799a759e41dfecb7823ddbd18bfdaf534c7b8491decab1817baffcad38cea",
+    "viewer.js": "87f4cd0f8f6ff0fdf487b641d65803bc6c1b6d79ab5bc5ca2e9272e63bff1ed2",
+    "cameras.js": "6272d526e886a7c32ddca6735007c3dd6f629ee7117fac8e882b6ff4e3dec0dd",
+    "exterior-finishes.js": "43a8bec60381c24652b97b3f817753aa82902f721e6a30f2e6278a6a796ea575",
+    "maquete-liv-ipanema.html": "e297c92f23d56f32edb456fa3e8a1a9ac05443945d538fcc6e171f626575efb8",
+    "prova-rgbm.html": "042b44a38583a06135622c2924d7dbe29adca152245fc556bf17ad9d00087a81",
+    "material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+    "picking.js": "fbcebde126573e7eb8879309ca6035e52e948bdb24c9d4e681296fc2eaf5bb45",
+    "unidades.json": "dcc72736e33fcd2cd613442600324a126bbfc6aa4d35a85097306d8eae24176b",
+    "transfer-manifest.json": "e17ebedd440ce35b8482a9bd0f68aaf2b3511ddc3c64265eb4861235b0b4938d",
+    "interiores/catalogo.json": "b320d0d6f64a5e320678604b60e2b738c2ee30aea50a2506d7e859c60ec6d869",
+    "assets-prova/scene.json.gz": "9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+    "assets-prova/irradiance.rgbm.gz": "ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+    "assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57"
+  },
+  "reference": {
+    "path": "C:\\Users\\respawn\\Desktop\\imobiliaria\\v1.5\\miniaturas\\liv-ipanema\\referencias\\portaria.jpg",
+    "sha256": "5c66690329183ba4adf56401cf0d6c6b470cbb42feba810499ddec7acc379cc2",
+    "source": "https://www.livonincorporadora.com.br/produtos/liv-ipanema/"
+  },
+  "limitations": [
+    "Parâmetros PBR estimados; reflexo/cor não foram medidos na fonte.",
+    "Vidros continuam opacos; forma da entrada, posição da placa e cores da marca pendentes.",
+    "Enquadramento de uma caixa aproximada, sem cotas/câmera executivas.",
+    "Toque emulado; não mede FPS ou ganho de abertura e não qualifica Poco X6/iPhone físicos."
+  ],
+  "cases": [
+    {
+      "profile": "desktop-webgpu",
+      "backendRequested": "webgpu",
+      "viewport": [
+        1440,
+        900
+      ],
+      "status": "PASS",
+      "errors": [],
+      "httpFailures": [],
+      "base": {
+        "capture": {
+          "file": "desktop-webgpu-acesso-base.png",
+          "sha256": "15c35a61159e5cd3bc19ae9efa8797ac8116ca9e72bc2a49b765561853896769",
+          "bytes": 672369,
+          "dimensions": [
+            1440,
+            736
+          ]
+        },
+        "camera": {
+          "type": "PerspectiveCamera",
+          "fov": 50,
+          "near": 0.2,
+          "far": 900,
+          "zoom": 1,
+          "left": null,
+          "right": null,
+          "top": null,
+          "bottom": null,
+          "aspect": 1.9565217391304348,
+          "position": [
+            -32.633680994780846,
+            2.279136186808848,
+            57.5975116738688
+          ],
+          "target": [
+            -29.85,
+            2.4999999999999996,
+            42.29999999999999
+          ]
+        },
+        "finish": {
+          "profile": "base",
+          "changes": []
+        }
+      },
+      "referencia": {
+        "capture": {
+          "file": "desktop-webgpu-acesso-referencia.png",
+          "sha256": "5869a463964139aebb6d0207a647cd97c1ffa73bb97a6c97e7fffa6b15811af7",
+          "bytes": 671114,
+          "dimensions": [
+            1440,
+            736
+          ]
+        },
+        "camera": {
+          "type": "PerspectiveCamera",
+          "fov": 50,
+          "near": 0.2,
+          "far": 900,
+          "zoom": 1,
+          "left": null,
+          "right": null,
+          "top": null,
+          "bottom": null,
+          "aspect": 1.9565217391304348,
+          "position": [
+            -32.633680994780846,
+            2.279136186808848,
+            57.5975116738688
+          ],
+          "target": [
+            -29.85,
+            2.4999999999999996,
+            42.29999999999999
+          ]
+        },
+        "finish": {
+          "profile": "referencia",
+          "revision": "access-finishes-v1",
+          "changes": [
+            {
+              "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+              "sourceMaterialIndex": 0,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.55
+            },
+            {
+              "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+              "sourceMaterialIndex": 4,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.16
+            },
+            {
+              "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+              "sourceMaterialIndex": 0,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.65
+            }
+          ]
+        }
+      },
+      "frames": [
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "points": [
+            [
+              -0.6283315155288809,
+              -0.15118669769251894,
+              0.9945283367952962
+            ],
+            [
+              -0.7117332338421641,
+              -0.225433700930789,
+              0.9910265071028289
+            ],
+            [
+              -0.6272031747013413,
+              0.1201969817440315,
+              0.9945385618102266
+            ],
+            [
+              -0.7096713477175228,
+              0.21258536436440423,
+              0.9910531471673271
+            ],
+            [
+              0.4111597682007509,
+              -0.1430947853062329,
+              0.994909988549943
+            ],
+            [
+              0.9092624329942105,
+              -0.20516349272919204,
+              0.9919825432235737
+            ],
+            [
+              0.41047082555786957,
+              0.11011557207561318,
+              0.9949188898545408
+            ],
+            [
+              0.9069014516429239,
+              0.18738260523517522,
+              0.9920039384163893
+            ]
+          ],
+          "aspect": 0.7920792079207921,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 0.7920792079207921,
+            "position": [
+              -35.17372343338424,
+              2.0776032310897383,
+              71.55612580009583
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "points": [
+            [
+              -0.6894747924371528,
+              -0.1201241178895996,
+              0.9956982036384611
+            ],
+            [
+              -0.6933777935884533,
+              -0.15902251045094618,
+              0.9937355149670691
+            ],
+            [
+              -0.6884906754052545,
+              0.09553674889250924,
+              0.9957046610353073
+            ],
+            [
+              -0.691959624798094,
+              0.15008729348530728,
+              0.9937487823602784
+            ],
+            [
+              0.45746995660600664,
+              -0.11528235876638941,
+              0.9959425033422534
+            ],
+            [
+              0.9137999967668039,
+              -0.14929630834703625,
+              0.9942262680657972
+            ],
+            [
+              0.4568522026410313,
+              0.0887420074617309,
+              0.9959482826153666
+            ],
+            [
+              0.9120721284972935,
+              0.13645373932339655,
+              0.9942376056717446
+            ]
+          ],
+          "aspect": 0.5735294117647058,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 0.5735294117647058,
+            "position": [
+              -36.80002957600206,
+              1.9485682674038074,
+              80.49337013542933
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        },
+        {
+          "viewport": [
+            768,
+            1024
+          ],
+          "points": [
+            [
+              -0.6036077052017669,
+              -0.16374711921638296,
+              0.9940552910672799
+            ],
+            [
+              -0.7205434253124268,
+              -0.2573095533106968,
+              0.9897262452922422
+            ],
+            [
+              -0.6024338851238777,
+              0.13016339319059983,
+              0.9940672838326562
+            ],
+            [
+              -0.7181618364129773,
+              0.24254513545502948,
+              0.9897609374688726
+            ],
+            [
+              0.3927939989159081,
+              -0.15412468232613855,
+              0.994500512166629
+            ],
+            [
+              0.9071817964265109,
+              -0.23078061076552203,
+              0.9909537144977317
+            ],
+            [
+              0.3920851893068714,
+              0.11858807998915463,
+              0.9945108372685642
+            ],
+            [
+              0.9045329542192566,
+              0.21071125080706024,
+              0.9909807773702359
+            ]
+          ],
+          "aspect": 0.8930232558139535,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 0.8930232558139535,
+            "position": [
+              -34.691303173557074,
+              2.1158795919033033,
+              68.90502117630686
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        },
+        {
+          "viewport": [
+            1024,
+            768
+          ],
+          "points": [
+            [
+              -0.45980211110669905,
+              -0.23680458307108757,
+              0.9913038291748162
+            ],
+            [
+              -0.7991732485622767,
+              -0.5417974270453834,
+              0.978121576234816
+            ],
+            [
+              -0.458510125996546,
+              0.18807395198615204,
+              0.9913288888571476
+            ],
+            [
+              -0.7936315306420646,
+              0.5088495667410071,
+              0.9782748293871993
+            ],
+            [
+              0.28987640257290576,
+              -0.2159337180160503,
+              0.9922058995927545
+            ],
+            [
+              0.8909767012432556,
+              -0.4303002397790544,
+              0.9829406536449311
+            ],
+            [
+              0.289144064338741,
+              0.1660256276494377,
+              0.9922261520026775
+            ],
+            [
+              0.8861382602165117,
+              0.39189080055250547,
+              0.9830345013171347
+            ]
+          ],
+          "aspect": 1.695364238410596,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 1.695364238410596,
+            "position": [
+              -32.899833778030995,
+              2.2580189974792235,
+              59.060134480302246
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        },
+        {
+          "viewport": [
+            1440,
+            900
+          ],
+          "points": [
+            [
+              -0.4267119176791748,
+              -0.2536153728424391,
+              0.9906707077249658
+            ],
+            [
+              -0.8286051482569874,
+              -0.6482839765256673,
+              0.9737778369057422
+            ],
+            [
+              -0.42542805028352193,
+              0.20138517663922,
+              0.9906994459461146
+            ],
+            [
+              -0.8217393986435755,
+              0.6080317600606533,
+              0.9739969531733278
+            ],
+            [
+              0.26709724171274385,
+              -0.2296141576747805,
+              0.9916980238670348
+            ],
+            [
+              0.8858262022183644,
+              -0.49371397743748013,
+              0.9803938458883568
+            ],
+            [
+              0.26637981599378874,
+              0.17651589688001493,
+              0.9917209200771588
+            ],
+            [
+              0.8803112210218706,
+              0.44928454341533797,
+              0.9805172938003397
+            ]
+          ],
+          "aspect": 1.9565217391304348,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 1.9565217391304348,
+            "position": [
+              -32.633680994780846,
+              2.279136186808848,
+              57.5975116738688
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        }
+      ],
+      "comparison": {
+        "sameCamera": true,
+        "samePositionUV1IndexGroups": true,
+        "sameMatrices": true,
+        "sameBakedData": true,
+        "unchangedOtherMaterials": true,
+        "changedPixels": 27574,
+        "changedPixelFraction": 0.02601713466183575,
+        "meanAbsoluteRGBDifference255": 0.22419327445652174,
+        "metricMeaning": "Verifica que o material alterou a imagem; não mede fidelidade ou melhoria artística."
+      },
+      "referenceSheet": {
+        "file": "comparativo-acesso.png",
+        "sha256": "2025ecae16918c40a2b0490ac41206fd015cc324b872d0eeabb6878a6c1f3d03"
+      },
+      "disposal": [
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": 1009,
+          "disposed": 1
+        }
+      ],
+      "layout": {
+        "overflow": false,
+        "pressed": "true",
+        "height": 44
+      },
+      "integrated": {
+        "selectionPreserved": "liv-ipanema/pavimento-modelo-01/final-06",
+        "cameraRestored": true,
+        "sessionRestored": true,
+        "manualOrbitPreservedOnResize": true,
+        "oneActiveFrame": true
+      }
+    },
+    {
+      "profile": "desktop-webgl",
+      "backendRequested": "webgl",
+      "viewport": [
+        1440,
+        900
+      ],
+      "status": "PASS",
+      "errors": [],
+      "httpFailures": [],
+      "base": {
+        "capture": {
+          "file": "desktop-webgl-acesso-base.png",
+          "sha256": "1782ad9cc0b46429e71c2ba276974eb6f40c3c3c01127c18a2ea74680165dd6f",
+          "bytes": 671790,
+          "dimensions": [
+            1440,
+            736
+          ]
+        },
+        "camera": {
+          "type": "PerspectiveCamera",
+          "fov": 50,
+          "near": 0.2,
+          "far": 900,
+          "zoom": 1,
+          "left": null,
+          "right": null,
+          "top": null,
+          "bottom": null,
+          "aspect": 1.9565217391304348,
+          "position": [
+            -32.633680994780846,
+            2.279136186808848,
+            57.5975116738688
+          ],
+          "target": [
+            -29.85,
+            2.4999999999999996,
+            42.29999999999999
+          ]
+        },
+        "finish": {
+          "profile": "base",
+          "changes": []
+        }
+      },
+      "referencia": {
+        "capture": {
+          "file": "desktop-webgl-acesso-referencia.png",
+          "sha256": "1a6b79002ad6ebc37072d29a943cfe30e68bad89cc9b12559da148df63ee53c1",
+          "bytes": 670373,
+          "dimensions": [
+            1440,
+            736
+          ]
+        },
+        "camera": {
+          "type": "PerspectiveCamera",
+          "fov": 50,
+          "near": 0.2,
+          "far": 900,
+          "zoom": 1,
+          "left": null,
+          "right": null,
+          "top": null,
+          "bottom": null,
+          "aspect": 1.9565217391304348,
+          "position": [
+            -32.633680994780846,
+            2.279136186808848,
+            57.5975116738688
+          ],
+          "target": [
+            -29.85,
+            2.4999999999999996,
+            42.29999999999999
+          ]
+        },
+        "finish": {
+          "profile": "referencia",
+          "revision": "access-finishes-v1",
+          "changes": [
+            {
+              "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+              "sourceMaterialIndex": 0,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.55
+            },
+            {
+              "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+              "sourceMaterialIndex": 4,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.16
+            },
+            {
+              "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+              "sourceMaterialIndex": 0,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.65
+            }
+          ]
+        }
+      },
+      "frames": [
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "points": [
+            [
+              -0.6283315155288809,
+              -0.15118669769251894,
+              0.9890566735905927
+            ],
+            [
+              -0.7117332338421641,
+              -0.225433700930789,
+              0.982053014205658
+            ],
+            [
+              -0.6272031747013413,
+              0.1201969817440315,
+              0.9890771236204533
+            ],
+            [
+              -0.7096713477175228,
+              0.21258536436440423,
+              0.9821062943346544
+            ],
+            [
+              0.4111597682007509,
+              -0.1430947853062329,
+              0.9898199770998861
+            ],
+            [
+              0.9092624329942105,
+              -0.20516349272919204,
+              0.9839650864471476
+            ],
+            [
+              0.41047082555786957,
+              0.11011557207561318,
+              0.9898377797090822
+            ],
+            [
+              0.9069014516429239,
+              0.18738260523517522,
+              0.9840078768327791
+            ]
+          ],
+          "aspect": 0.7920792079207921,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 0.7920792079207921,
+            "position": [
+              -35.17372343338424,
+              2.0776032310897383,
+              71.55612580009583
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "points": [
+            [
+              -0.6894747924371528,
+              -0.1201241178895996,
+              0.9913964072769226
+            ],
+            [
+              -0.6933777935884533,
+              -0.15902251045094618,
+              0.9874710299341386
+            ],
+            [
+              -0.6884906754052545,
+              0.09553674889250924,
+              0.9914093220706146
+            ],
+            [
+              -0.691959624798094,
+              0.15008729348530728,
+              0.9874975647205572
+            ],
+            [
+              0.45746995660600664,
+              -0.11528235876638941,
+              0.9918850066845072
+            ],
+            [
+              0.9137999967668039,
+              -0.14929630834703625,
+              0.9884525361315943
+            ],
+            [
+              0.4568522026410313,
+              0.0887420074617309,
+              0.9918965652307333
+            ],
+            [
+              0.9120721284972935,
+              0.13645373932339655,
+              0.9884752113434893
+            ]
+          ],
+          "aspect": 0.5735294117647058,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 0.5735294117647058,
+            "position": [
+              -36.80002957600206,
+              1.9485682674038074,
+              80.49337013542933
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        },
+        {
+          "viewport": [
+            768,
+            1024
+          ],
+          "points": [
+            [
+              -0.6036077052017669,
+              -0.16374711921638296,
+              0.9881105821345596
+            ],
+            [
+              -0.7205434253124268,
+              -0.2573095533106968,
+              0.9794524905844848
+            ],
+            [
+              -0.6024338851238777,
+              0.13016339319059983,
+              0.9881345676653126
+            ],
+            [
+              -0.7181618364129773,
+              0.24254513545502948,
+              0.9795218749377456
+            ],
+            [
+              0.3927939989159081,
+              -0.15412468232613855,
+              0.9890010243332585
+            ],
+            [
+              0.9071817964265109,
+              -0.23078061076552203,
+              0.9819074289954635
+            ],
+            [
+              0.3920851893068714,
+              0.11858807998915463,
+              0.9890216745371285
+            ],
+            [
+              0.9045329542192566,
+              0.21071125080706024,
+              0.9819615547404722
+            ]
+          ],
+          "aspect": 0.8930232558139535,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 0.8930232558139535,
+            "position": [
+              -34.691303173557074,
+              2.1158795919033033,
+              68.90502117630686
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        },
+        {
+          "viewport": [
+            1024,
+            768
+          ],
+          "points": [
+            [
+              -0.45980211110669905,
+              -0.23680458307108757,
+              0.9826076583496326
+            ],
+            [
+              -0.7991732485622767,
+              -0.5417974270453834,
+              0.9562431524696323
+            ],
+            [
+              -0.458510125996546,
+              0.18807395198615204,
+              0.9826577777142955
+            ],
+            [
+              -0.7936315306420646,
+              0.5088495667410071,
+              0.9565496587743988
+            ],
+            [
+              0.28987640257290576,
+              -0.2159337180160503,
+              0.9844117991855095
+            ],
+            [
+              0.8909767012432556,
+              -0.4303002397790544,
+              0.9658813072898627
+            ],
+            [
+              0.289144064338741,
+              0.1660256276494377,
+              0.9844523040053551
+            ],
+            [
+              0.8861382602165117,
+              0.39189080055250547,
+              0.9660690026342699
+            ]
+          ],
+          "aspect": 1.695364238410596,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 1.695364238410596,
+            "position": [
+              -32.899833778030995,
+              2.2580189974792235,
+              59.060134480302246
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        },
+        {
+          "viewport": [
+            1440,
+            900
+          ],
+          "points": [
+            [
+              -0.4267119176791748,
+              -0.2536153728424391,
+              0.9813414154499318
+            ],
+            [
+              -0.8286051482569874,
+              -0.6482839765256673,
+              0.9475556738114845
+            ],
+            [
+              -0.42542805028352193,
+              0.20138517663922,
+              0.9813988918922293
+            ],
+            [
+              -0.8217393986435755,
+              0.6080317600606533,
+              0.9479939063466558
+            ],
+            [
+              0.26709724171274385,
+              -0.2296141576747805,
+              0.9833960477340699
+            ],
+            [
+              0.8858262022183644,
+              -0.49371397743748013,
+              0.9607876917767141
+            ],
+            [
+              0.26637981599378874,
+              0.17651589688001493,
+              0.9834418401543179
+            ],
+            [
+              0.8803112210218706,
+              0.44928454341533797,
+              0.96103458760068
+            ]
+          ],
+          "aspect": 1.9565217391304348,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 1.9565217391304348,
+            "position": [
+              -32.633680994780846,
+              2.279136186808848,
+              57.5975116738688
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        }
+      ],
+      "comparison": {
+        "sameCamera": true,
+        "samePositionUV1IndexGroups": true,
+        "sameMatrices": true,
+        "sameBakedData": true,
+        "unchangedOtherMaterials": true,
+        "changedPixels": 27614,
+        "changedPixelFraction": 0.02605487620772947,
+        "meanAbsoluteRGBDifference255": 0.22449646487520128,
+        "metricMeaning": "Verifica que o material alterou a imagem; não mede fidelidade ou melhoria artística."
+      },
+      "disposal": [
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": 1009,
+          "disposed": 1
+        }
+      ],
+      "layout": {
+        "overflow": false,
+        "pressed": "true",
+        "height": 44
+      },
+      "integrated": {
+        "selectionPreserved": "liv-ipanema/pavimento-modelo-01/final-06",
+        "cameraRestored": true,
+        "sessionRestored": true,
+        "manualOrbitPreservedOnResize": true,
+        "oneActiveFrame": true
+      }
+    },
+    {
+      "profile": "toque",
+      "backendRequested": "auto",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "PASS",
+      "errors": [],
+      "httpFailures": [],
+      "base": {
+        "capture": {
+          "file": "toque-acesso-base.png",
+          "sha256": "effb0241ff860410eb00ce17ebab1442ea28a820d3886bc6cc0f3267431ca922",
+          "bytes": 169631,
+          "dimensions": [
+            390,
+            680
+          ]
+        },
+        "camera": {
+          "type": "PerspectiveCamera",
+          "fov": 50,
+          "near": 0.2,
+          "far": 900,
+          "zoom": 1,
+          "left": null,
+          "right": null,
+          "top": null,
+          "bottom": null,
+          "aspect": 0.5735294117647058,
+          "position": [
+            -36.80002957600206,
+            1.9485682674038074,
+            80.49337013542933
+          ],
+          "target": [
+            -29.85,
+            2.4999999999999996,
+            42.29999999999999
+          ]
+        },
+        "finish": {
+          "profile": "base",
+          "changes": []
+        }
+      },
+      "referencia": {
+        "capture": {
+          "file": "toque-acesso-referencia.png",
+          "sha256": "b52074d0ceba9ebfa9b7e2a301a7637a6ac02bc1543290fb29e9eb51a2365970",
+          "bytes": 169290,
+          "dimensions": [
+            390,
+            680
+          ]
+        },
+        "camera": {
+          "type": "PerspectiveCamera",
+          "fov": 50,
+          "near": 0.2,
+          "far": 900,
+          "zoom": 1,
+          "left": null,
+          "right": null,
+          "top": null,
+          "bottom": null,
+          "aspect": 0.5735294117647058,
+          "position": [
+            -36.80002957600206,
+            1.9485682674038074,
+            80.49337013542933
+          ],
+          "target": [
+            -29.85,
+            2.4999999999999996,
+            42.29999999999999
+          ]
+        },
+        "finish": {
+          "profile": "referencia",
+          "revision": "access-finishes-v1",
+          "changes": [
+            {
+              "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+              "sourceMaterialIndex": 0,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.55
+            },
+            {
+              "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+              "sourceMaterialIndex": 4,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.16
+            },
+            {
+              "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+              "sourceMaterialIndex": 0,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.65
+            }
+          ]
+        }
+      },
+      "frames": [
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "points": [
+            [
+              -0.6283315155288809,
+              -0.15118669769251894,
+              0.9945283367952962
+            ],
+            [
+              -0.7117332338421641,
+              -0.225433700930789,
+              0.9910265071028289
+            ],
+            [
+              -0.6272031747013413,
+              0.1201969817440315,
+              0.9945385618102266
+            ],
+            [
+              -0.7096713477175228,
+              0.21258536436440423,
+              0.9910531471673271
+            ],
+            [
+              0.4111597682007509,
+              -0.1430947853062329,
+              0.994909988549943
+            ],
+            [
+              0.9092624329942105,
+              -0.20516349272919204,
+              0.9919825432235737
+            ],
+            [
+              0.41047082555786957,
+              0.11011557207561318,
+              0.9949188898545408
+            ],
+            [
+              0.9069014516429239,
+              0.18738260523517522,
+              0.9920039384163893
+            ]
+          ],
+          "aspect": 0.7920792079207921,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 0.7920792079207921,
+            "position": [
+              -35.17372343338424,
+              2.0776032310897383,
+              71.55612580009583
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "points": [
+            [
+              -0.6894747924371528,
+              -0.1201241178895996,
+              0.9956982036384611
+            ],
+            [
+              -0.6933777935884533,
+              -0.15902251045094618,
+              0.9937355149670691
+            ],
+            [
+              -0.6884906754052545,
+              0.09553674889250924,
+              0.9957046610353073
+            ],
+            [
+              -0.691959624798094,
+              0.15008729348530728,
+              0.9937487823602784
+            ],
+            [
+              0.45746995660600664,
+              -0.11528235876638941,
+              0.9959425033422534
+            ],
+            [
+              0.9137999967668039,
+              -0.14929630834703625,
+              0.9942262680657972
+            ],
+            [
+              0.4568522026410313,
+              0.0887420074617309,
+              0.9959482826153666
+            ],
+            [
+              0.9120721284972935,
+              0.13645373932339655,
+              0.9942376056717446
+            ]
+          ],
+          "aspect": 0.5735294117647058,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 0.5735294117647058,
+            "position": [
+              -36.80002957600206,
+              1.9485682674038074,
+              80.49337013542933
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        },
+        {
+          "viewport": [
+            768,
+            1024
+          ],
+          "points": [
+            [
+              -0.6036077052017669,
+              -0.16374711921638296,
+              0.9940552910672799
+            ],
+            [
+              -0.7205434253124268,
+              -0.2573095533106968,
+              0.9897262452922422
+            ],
+            [
+              -0.6024338851238777,
+              0.13016339319059983,
+              0.9940672838326562
+            ],
+            [
+              -0.7181618364129773,
+              0.24254513545502948,
+              0.9897609374688726
+            ],
+            [
+              0.3927939989159081,
+              -0.15412468232613855,
+              0.994500512166629
+            ],
+            [
+              0.9071817964265109,
+              -0.23078061076552203,
+              0.9909537144977317
+            ],
+            [
+              0.3920851893068714,
+              0.11858807998915463,
+              0.9945108372685642
+            ],
+            [
+              0.9045329542192566,
+              0.21071125080706024,
+              0.9909807773702359
+            ]
+          ],
+          "aspect": 0.8930232558139535,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 0.8930232558139535,
+            "position": [
+              -34.691303173557074,
+              2.1158795919033033,
+              68.90502117630686
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        },
+        {
+          "viewport": [
+            1024,
+            768
+          ],
+          "points": [
+            [
+              -0.45980211110669905,
+              -0.23680458307108757,
+              0.9913038291748162
+            ],
+            [
+              -0.7991732485622767,
+              -0.5417974270453834,
+              0.978121576234816
+            ],
+            [
+              -0.458510125996546,
+              0.18807395198615204,
+              0.9913288888571476
+            ],
+            [
+              -0.7936315306420646,
+              0.5088495667410071,
+              0.9782748293871993
+            ],
+            [
+              0.28987640257290576,
+              -0.2159337180160503,
+              0.9922058995927545
+            ],
+            [
+              0.8909767012432556,
+              -0.4303002397790544,
+              0.9829406536449311
+            ],
+            [
+              0.289144064338741,
+              0.1660256276494377,
+              0.9922261520026775
+            ],
+            [
+              0.8861382602165117,
+              0.39189080055250547,
+              0.9830345013171347
+            ]
+          ],
+          "aspect": 1.695364238410596,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 1.695364238410596,
+            "position": [
+              -32.899833778030995,
+              2.2580189974792235,
+              59.060134480302246
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        },
+        {
+          "viewport": [
+            1440,
+            900
+          ],
+          "points": [
+            [
+              -0.4267119176791748,
+              -0.2536153728424391,
+              0.9906707077249658
+            ],
+            [
+              -0.8286051482569874,
+              -0.6482839765256673,
+              0.9737778369057422
+            ],
+            [
+              -0.42542805028352193,
+              0.20138517663922,
+              0.9906994459461146
+            ],
+            [
+              -0.8217393986435755,
+              0.6080317600606533,
+              0.9739969531733278
+            ],
+            [
+              0.26709724171274385,
+              -0.2296141576747805,
+              0.9916980238670348
+            ],
+            [
+              0.8858262022183644,
+              -0.49371397743748013,
+              0.9803938458883568
+            ],
+            [
+              0.26637981599378874,
+              0.17651589688001493,
+              0.9917209200771588
+            ],
+            [
+              0.8803112210218706,
+              0.44928454341533797,
+              0.9805172938003397
+            ]
+          ],
+          "aspect": 1.9565217391304348,
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 50,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 1.9565217391304348,
+            "position": [
+              -32.633680994780846,
+              2.279136186808848,
+              57.5975116738688
+            ],
+            "target": [
+              -29.85,
+              2.4999999999999996,
+              42.29999999999999
+            ]
+          }
+        }
+      ],
+      "comparison": {
+        "sameCamera": true,
+        "samePositionUV1IndexGroups": true,
+        "sameMatrices": true,
+        "sameBakedData": true,
+        "unchangedOtherMaterials": true,
+        "changedPixels": 12480,
+        "changedPixelFraction": 0.047058823529411764,
+        "meanAbsoluteRGBDifference255": 0.3365196078431373,
+        "metricMeaning": "Verifica que o material alterou a imagem; não mede fidelidade ou melhoria artística."
+      },
+      "disposal": [
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": "MeshStandardMaterial",
+          "disposed": 1
+        },
+        {
+          "type": 1009,
+          "disposed": 1
+        }
+      ],
+      "touchOrbit": true,
+      "layout": {
+        "overflow": false,
+        "pressed": "true",
+        "height": 44
+      },
+      "integrated": {
+        "selectionPreserved": "liv-ipanema/pavimento-modelo-01/final-06",
+        "cameraRestored": true,
+        "sessionRestored": true,
+        "manualOrbitPreservedOnResize": true,
+        "oneActiveFrame": true
+      }
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

@@ -1,4 +1,4 @@
-"""QA da pintura de esquadrias e vista de varandas, sem alterar a cena de origem.
+"""QA dos acabamentos padrão da torre/implantação e vista de varandas, sem alterar a cena de origem.
 
 As capturas base/referencia usam a mesma câmera. A imagem oficial é uma
 referência de acabamento, sem alinhamento suficiente para uma métrica geométrica.
@@ -20,6 +20,10 @@ EXP = Path(__file__).resolve().parent
 ROOT = EXP.parents[1]
 BASE_URL = 'http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/'
 MESH = 'Blender / esquadrias-varandas-esquadria / torre 0'
+ENTRY_GLASS = 'Blender / SITE-implantacao-site-vidro / torre -1'
+LETTERING = 'Blender / LIV-IPANEMA-tipografia / torre -1'
+FINISHES = {MESH: (0, .55, 'painted-frames-v1'), ENTRY_GLASS: (4, .16, 'entry-glass-v1'),
+            LETTERING: (0, .65, 'entry-lettering-v1')}
 SOURCE_SHA = '89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919'
 REFERENCES = [
     ('varanda', ROOT/'relatorios/liv-referencias-publicas-2026-10-09/varanda-render-oficial-1.png'),
@@ -121,36 +125,36 @@ def check_finish(snapshot, profile):
     if profile == 'base':
         assert not changed and not finish['changes'], finish
         return
-    assert len(changed) == 1 and changed[0]['name'] == MESH, changed
-    assert len(finish['changes']) == 1 and finish['changes'][0]['mesh'] == MESH, finish
-    change = finish['changes'][0]
-    assert change['sourceMaterialIndex'] == 0 and change['type'] == 'MeshStandardMaterial', change
-    assert change['metalness'] == 0 and change['roughness'] == .55, change
-    target = changed[0]
-    actual, source = target['materials'][0], target['sourceMaterials'][0]
-    assert not target['baked'] and actual['type'] == source['type'] == 'MeshStandardMaterial', target
-    assert actual['metalness'] == 0 and actual['roughness'] == .55, actual
-    assert source['metalness'] == 1 and abs(source['roughness'] - .38) < 1e-6, source
-    assert actual == {**source, 'metalness': 0, 'roughness': .55}, target
-    assert target['materialUserData'][0] == {**target['sourceMaterialUserData'][0],
-                                           'livReferenceFinish': 'painted-frames-v1'}, target
-    typography = next(m for m in snapshot['meshes'] if 'LIV-IPANEMA-tipografia' in m['name'])
-    assert typography['sourceBinding'] and typography['materials'][0] == source, typography
+    assert {m['name'] for m in changed} == set(FINISHES), changed
+    assert {change['mesh'] for change in finish['changes']} == set(FINISHES), finish
+    assert len(finish['changes']) == 3 and finish['revision'] == 'access-finishes-v1', finish
+    for target in changed:
+        index, roughness, revision = FINISHES[target['name']]
+        change = next(c for c in finish['changes'] if c['mesh'] == target['name'])
+        assert change == {'mesh': target['name'], 'sourceMaterialIndex': index,
+                          'type': 'MeshStandardMaterial', 'metalness': 0, 'roughness': roughness}, change
+        actual, source = target['materials'][0], target['sourceMaterials'][0]
+        assert not target['baked'] and actual['type'] == source['type'] == 'MeshStandardMaterial', target
+        assert actual == {**source, 'metalness': 0, 'roughness': roughness}, target
+        assert target['materialUserData'][0] == {**target['sourceMaterialUserData'][0],
+                                               'livReferenceFinish': revision}, target
+    cars = next(m for m in snapshot['meshes'] if 'SITE-car-vidro' in m['name'])
+    assert cars['sourceBinding'] and cars['sourceMaterialIndices'] == [4], cars
+
 
 
 def compare(base, reference, paths):
     for key in ['geometry', 'sourceSceneSHA256', 'bakedDataSHA256']:
         assert base[key] == reference[key], f'{key} foi alterado pelo acabamento'
     assert same_camera(base['state']['camera'], reference['state']['camera']), 'Câmeras base/referencia diferentes'
-    original = next(m for m in base['meshes'] if m['name'] == MESH)
-    painted = next(m for m in reference['meshes'] if m['name'] == MESH)
-    assert original['userData'] == painted['userData'], 'Metadata da malha da torre foi alterada'
-    assert original['matrix'] == painted['matrix'] and original['instances'] == painted['instances'], 'Transformação das esquadrias foi alterada'
-    assert original['sourceMaterials'] == painted['sourceMaterials'], 'Material original foi alterado'
-    assert original['sourceMaterialUserData'] == painted['sourceMaterialUserData'], 'Metadata do material original foi alterada'
-    expected = [m for m in base['meshes'] if m['name'] != MESH]
-    actual = [m for m in reference['meshes'] if m['name'] != MESH]
-    assert expected == actual, 'Materiais fora das esquadrias da torre foram alterados'
+    for name in FINISHES:
+        original = next(m for m in base['meshes'] if m['name'] == name)
+        refined = next(m for m in reference['meshes'] if m['name'] == name)
+        for key in ['userData', 'matrix', 'instances', 'sourceMaterials', 'sourceMaterialUserData']:
+            assert original[key] == refined[key], f'{name}: {key} foi alterado'
+    expected = [m for m in base['meshes'] if m['name'] not in FINISHES]
+    actual = [m for m in reference['meshes'] if m['name'] not in FINISHES]
+    assert expected == actual, 'Materiais fora dos três grupos de acabamento foram alterados'
     with Image.open(paths[0]) as left, Image.open(paths[1]) as right:
         assert left.size == right.size
         delta = np.abs(np.asarray(left.convert('RGB'), dtype=np.int16) - np.asarray(right.convert('RGB'), dtype=np.int16))
@@ -245,7 +249,7 @@ def main():
               'limitations': ['Viewport de toque emulado; sem aparelho físico.',
                   'Referência oficial é render comercial com câmera/luz distintas; não fornece especificação PBR ou medidas executivas.',
                   'A diferença entre imagens mede alteração do material, sem afirmar ganho artístico, FPS ou fidelidade geométrica.',
-                  'Vidros, atlas, tipologias, estoque comercial e geometria permanecem fora deste incremento.'],
+                  'Atlas, tipologias, estoque comercial e geometria permanecem preservados; vidros seguem opacos.'],
               'cases': []}
     profiles = {'desktop-webgpu': ('webgpu', 1440, 900), 'desktop-webgl': ('webgl', 1440, 900),
                 'toque': ('auto', 390, 844)}

@@ -2,7 +2,7 @@ import * as THREE from 'three/webgpu';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,createRGBMTexture} from './material-rgbm.js';
 import {applyReferenceFinishes} from './exterior-finishes.js';
-import {balconyDetailView,BALCONY_DETAIL_BOUNDS,pilotFloorView} from './cameras.js';
+import {balconyDetailView,BALCONY_DETAIL_BOUNDS,entryDetailView,ENTRY_DETAIL_BOUNDS,pilotFloorView} from './cameras.js';
 import {loadUnits} from './unidades.js';
 import {createUnitPicking} from './picking.js';
 
@@ -141,6 +141,7 @@ async function start() {
   const data=JSON.parse(new TextDecoder().decode(encoded));mark('sceneParsed');
   if(data.schema!=='liv-exterior-proof-v1' || data.sourceModelSHA256!==manifest.sourceModelSHA256 || data.rgbm.sourceSHA256!==manifest.sourceModelSHA256) throw Error('A geometria e o atlas não pertencem à mesma edição.');
   data.views.varandas=balconyDetailView();
+  data.views.acesso=entryDetailView();
   const atlasBytes=await unzip(await loadBytes(data.rgbm.textureURL,manifest.files[data.rgbm.textureURL]));
   if(await sha(atlasBytes)!==data.rgbm.textureSHA256) throw Error('Atlas RGBM corrompido.');
   mark('atlasReady');
@@ -260,17 +261,21 @@ async function start() {
   for(const x of [BALCONY_DETAIL_BOUNDS.min[0],BALCONY_DETAIL_BOUNDS.max[0]])
     for(const y of [BALCONY_DETAIL_BOUNDS.min[1],BALCONY_DETAIL_BOUNDS.max[1]])
       for(const z of [BALCONY_DETAIL_BOUNDS.min[2],BALCONY_DETAIL_BOUNDS.max[2]])detailCorners.push(new THREE.Vector3(x,y,z));
+  const entryCorners=[];
+  for(const x of [ENTRY_DETAIL_BOUNDS.min[0],ENTRY_DETAIL_BOUNDS.max[0]])
+    for(const y of [ENTRY_DETAIL_BOUNDS.min[1],ENTRY_DETAIL_BOUNDS.max[1]])
+      for(const z of [ENTRY_DETAIL_BOUNDS.min[2],ENTRY_DETAIL_BOUNDS.max[2]])entryCorners.push(new THREE.Vector3(x,y,z));
   function fitPreset() {
     const name=camera.userData.viewName;
-    if(!['perspectiva','aerea','implantacao','varandas'].includes(name)) return false;
-    const fittedCorners=name==='varandas'?detailCorners:corners;
+    if(!['perspectiva','aerea','implantacao','varandas','acesso'].includes(name)) return false;
+    const fittedCorners=name==='varandas'?detailCorners:name==='acesso'?entryCorners:corners;
     const source=camera.userData.projectionSource,{th,ph}=source.orbit;
     const st=Math.sin(th),ct=Math.cos(th),sp=Math.sin(ph),cp=Math.cos(ph);
     const direction=new THREE.Vector3(st*sp,cp,ct*sp);
     const right=new THREE.Vector3(ct,0,-st),up=new THREE.Vector3(-st*cp,sp,-ct*cp);
     controls.target.fromArray(source.target);
     let radius=9;
-    if(name!=='varandas'&&Math.abs(camera.aspect-source.aspect)<1e-9) radius=source.orbit.r;
+    if(!['varandas','acesso'].includes(name)&&Math.abs(camera.aspect-source.aspect)<1e-9) radius=source.orbit.r;
     else if(camera.isOrthographicCamera) {
       for(const point of fittedCorners) {
         const delta=point.clone().sub(controls.target);

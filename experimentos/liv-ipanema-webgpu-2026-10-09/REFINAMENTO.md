@@ -1,8 +1,10 @@
 # Primeiro refinamento do exterior — 10/10/2026
 
-O visualizador integrado usa agora um acabamento de pintura nas esquadrias e guarda-corpos da torre e oferece a vista **Varandas**. A geometria das barras já existia; o material representava metal exposto. A revisão aproxima a resposta à luz do acabamento observado no render comercial de varanda do book oficial.
+Este registro descreve o primeiro incremento e seus ensaios históricos. A continuação com **Acesso de perto** e acabamentos do letreiro/vidros da implantação está em [PORTARIA.md](PORTARIA.md).
 
-`exterior-finishes.js` clona somente a atribuição da torre. A identificação valida SHA da edição, nome semântico da malha e assinatura do material fonte; uma edição incompatível é rejeitada. A tipografia da portaria usa o material original. O perfil emprega **MeshStandardMaterial padrão**, convertido pelo renderer nos dois backends. Não adiciona shader, textura, geometria ou efeito de transmissão.
+O visualizador integrado recebeu um acabamento de pintura nas esquadrias e guarda-corpos da torre e a vista **Varandas**. A geometria das barras já existia; o material representava metal exposto. A revisão aproxima a resposta à luz do acabamento observado no render comercial de varanda do book oficial.
+
+Neste primeiro incremento, `exterior-finishes.js` clonava somente a atribuição da torre. A identificação valida SHA da edição, nome semântico da malha e assinatura do material fonte; uma edição incompatível é rejeitada. A tipografia da portaria conservava o material original. O perfil emprega **MeshStandardMaterial padrão**, convertido pelo renderer nos dois backends. Não adiciona shader, textura, geometria ou efeito de transmissão.
 
 Metalness passa de 1 para 0 e roughness de aproximadamente 0,38 para 0,55. São **valores estimados de calibração visual**, não especificação da incorporadora. Cor, posições, matrizes, UV1, materiais baked, atlas e luz continuam iguais. O clone entra no mesmo descarte dos materiais da cena.
 

@@ -223,6 +223,17 @@
       "comparisonCapture": "evidencias/refinamento-exterior-final/runtime.json"
     }
   ],
+  "accessRefinement": {
+    "record": "PORTARIA.md",
+    "camera": "acesso",
+    "referencePath": "v1.5/miniaturas/liv-ipanema/referencias/portaria.jpg",
+    "referenceSHA256": "5c66690329183ba4adf56401cf0d6c6b470cbb42feba810499ddec7acc379cc2",
+    "parameterConfidence": "inferido",
+    "profile": "access-finishes-v1",
+    "scope": "Vidros dos volumes da implantação e letreiro em clones PBR padrão. Materiais fonte/carros e geometria/atlas preservados.",
+    "pending": "Forma/posição do portal e marquise, placa encoberta e reprodução da marca.",
+    "evidence": "evidencias/portaria-final/runtime.json"
+  },
   "currentModelInspection": {
     "sourceId": "modelo-local",
     "geometries": 87,

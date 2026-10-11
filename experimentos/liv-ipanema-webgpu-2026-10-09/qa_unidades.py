@@ -17,7 +17,7 @@ URL = 'http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-
 CHROME = r'C:\Program Files\Google\Chrome\Application\chrome.exe'
 PROFILES = {'desktop-webgpu': (1440, 900, 'webgpu'), 'desktop-webgl': (1440, 900, 'webgl'), 'toque': (390, 844, 'auto')}
 FILES = ['qa_unidades.py', 'test_unidades.mjs', 'unidades.json', 'unidades.js', 'picking.js', 'unit-ui.js', 'unit-ui.css',
-         'viewer.js', 'renderer.js', 'cameras.js', 'maquete-liv-ipanema.html', 'prova-rgbm.html', 'tipologias.js',
+         'viewer.js', 'renderer.js', 'cameras.js', 'exterior-finishes.js', 'maquete-liv-ipanema.html', 'prova-rgbm.html', 'tipologias.js',
          'assets-prova/manifest.json', 'assets-prova/scene.json.gz', 'assets-prova/irradiance.rgbm.gz',
          'interiores/catalogo.json', 'interior-renderer.js', 'interior-cutaway.js', 'plantas2d/canto.jpg', 'plantas2d/meio.jpg']
 

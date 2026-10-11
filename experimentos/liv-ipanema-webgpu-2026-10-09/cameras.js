@@ -9,6 +9,16 @@ export function balconyDetailView() {
     target,orbit:{r,th,ph}};
 }
 
+// Canopy, vehicle portal and sign in the approximate source-locked site model.
+// These bounds frame the access; they are not surveyed building dimensions.
+export const ENTRY_DETAIL_BOUNDS={min:[-36.9,.1,35.5],max:[-22.8,4.55,49.1]};
+export function entryDetailView(){
+  const target=[-29.85,2.5,42.3],r=28,th=-.18,ph=1.585;
+  return {type:'PerspectiveCamera',fov:50,near:.2,far:900,zoom:1,aspect:1.8461538461538463,
+    position:[target[0]+r*Math.sin(th)*Math.sin(ph),target[1]+r*Math.cos(ph),target[2]+r*Math.cos(th)*Math.sin(ph)],
+    target,orbit:{r,th,ph}};
+}
+
 // Frame the pilot facade across the viewport, keeping the ground near the bottom.
 export function pilotFloorView(aspect,side){
   if(!Number.isFinite(aspect)||aspect<=0||!['lazer','estacionamento'].includes(side))throw Error('Vista do pavimento inválida.');

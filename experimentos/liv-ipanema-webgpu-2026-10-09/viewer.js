@@ -14,7 +14,7 @@ try {
   const saved=JSON.parse(sessionStorage.getItem(storageKey));
   if(saved?.version===1&&['maquete','planta2d','planta3d','visita'].includes(saved.mode)&&
     Number.isInteger(saved.floor)&&saved.floor>=-1&&saved.floor<=16&&
-    ['perspectiva','fachada','aerea','portaria','implantacao','varandas','livre'].includes(saved.view)) {
+    ['perspectiva','fachada','aerea','portaria','implantacao','varandas','acesso','livre'].includes(saved.view)) {
     state.mode=saved.mode;state.view=saved.view;state.floor=saved.floor;
     if(typeof saved.selectedUnitId==='string'&&saved.floor===1)state.selectedUnitId=saved.selectedUnitId;
     if(['canto','meio'].includes(saved.typology))state.typology=saved.typology;

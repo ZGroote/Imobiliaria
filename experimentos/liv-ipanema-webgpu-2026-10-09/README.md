@@ -6,6 +6,8 @@ Refinamento atual dos interiores: **Paredes baixas** revela a distribuição das
 
 Seleção atual: **Explore os finais** oferece dez posições aproximadas do 1º pavimento tipo por lista, teclado ou toque na fachada, com realce/ficha e retorno entre modos. Canto e Meio continuam referências gerais, com vínculo por final em conferência e dados comerciais não informados. Ver [UNIDADES.md](UNIDADES.md).
 
+Exterior atual: **Acesso de perto** enquadra a entrada em telas pequenas e grandes; vidros da implantação e letreiro recebem acabamentos PBR padrão independentes dos materiais fonte. A forma da entrada e o contorno da cobertura ainda precisam de reconstrução própria. Ver [PORTARIA.md](PORTARIA.md).
+
 ## T01 — reprodução isolada
 
 O preparador histórico confundia o hash/tamanho da publicação minificada com o HTML fonte. Agora valida separadamente:

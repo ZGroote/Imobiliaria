@@ -1,0 +1,910 @@
+{
+  "recordedAtUtc": "2026-10-11T02:33:19.621643+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "sourceSHA256": {
+    "qa_refinamento.py": "f8e1407aba9b4023cb490c966560248d1dcc8c8bcda218953ade99aeccce8d3b",
+    "renderer.js": "f30799a759e41dfecb7823ddbd18bfdaf534c7b8491decab1817baffcad38cea",
+    "viewer.js": "87f4cd0f8f6ff0fdf487b641d65803bc6c1b6d79ab5bc5ca2e9272e63bff1ed2",
+    "exterior-finishes.js": "43a8bec60381c24652b97b3f817753aa82902f721e6a30f2e6278a6a796ea575",
+    "cameras.js": "6272d526e886a7c32ddca6735007c3dd6f629ee7117fac8e882b6ff4e3dec0dd",
+    "prova-rgbm.html": "042b44a38583a06135622c2924d7dbe29adca152245fc556bf17ad9d00087a81",
+    "maquete-liv-ipanema.html": "e297c92f23d56f32edb456fa3e8a1a9ac05443945d538fcc6e171f626575efb8",
+    "assets-prova/scene.json.gz": "9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+    "assets-prova/irradiance.rgbm.gz": "ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+    "assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57"
+  },
+  "references": [
+    {
+      "id": "varanda",
+      "path": "C:\\Users\\respawn\\Desktop\\imobiliaria\\relatorios\\liv-referencias-publicas-2026-10-09\\varanda-render-oficial-1.png",
+      "sha256": "f335a3b9c16dfc2a6773443ed478afca06a9385bed10cff2449785b8662e8368",
+      "bytes": 1555345,
+      "source": "https://www.livonincorporadora.com.br/wp-content/uploads/2024/08/BOOK_LIV_Ipanema.pdf"
+    },
+    {
+      "id": "fachada",
+      "path": "C:\\Users\\respawn\\Desktop\\imobiliaria\\v1.5\\miniaturas\\liv-ipanema\\referencias\\fachada.jpg",
+      "sha256": "623ab176a612422e618d2a9d6fc0a139256091bac2f2ffb53f12c057af33bd88",
+      "bytes": 87275,
+      "source": "https://www.livonincorporadora.com.br/produtos/liv-ipanema/"
+    }
+  ],
+  "limitations": [
+    "Viewport de toque emulado; sem aparelho físico.",
+    "Referência oficial é render comercial com câmera/luz distintas; não fornece especificação PBR ou medidas executivas.",
+    "A diferença entre imagens mede alteração do material, sem afirmar ganho artístico, FPS ou fidelidade geométrica.",
+    "Atlas, tipologias, estoque comercial e geometria permanecem preservados; vidros seguem opacos."
+  ],
+  "cases": [
+    {
+      "profile": "desktop-webgpu",
+      "backendRequested": "webgpu",
+      "viewport": [
+        1440,
+        900
+      ],
+      "errors": [],
+      "httpFailures": [],
+      "status": "PASS",
+      "base": {
+        "state": {
+          "view": "varandas",
+          "floor": -1,
+          "selectedUnitId": null,
+          "backend": "webgpu",
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 34,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 1.9565217391304348,
+            "position": [
+              -14.82908384419347,
+              25.22577817626578,
+              23.273544673364817
+            ],
+            "target": [
+              -16.25,
+              24.499999999999996,
+              5.549999999999999
+            ]
+          }
+        },
+        "finish": {
+          "profile": "base",
+          "changes": []
+        },
+        "png": {
+          "file": "desktop-webgpu-varandas-base.png",
+          "sha256": "8c262edff8337d0105c6a33902938b9ebff82f65402d456d20fd14e8d97735cf",
+          "bytes": 923317,
+          "dimensions": [
+            1440,
+            736
+          ]
+        },
+        "sourceSceneSHA256": "0f7bfd29f65d95d92a160ad31ee2eb833a5f44cbaefc34ef76a52b54aab4be91",
+        "bakedDataSHA256": "ac8f0346e0249cd169f2818021ecd96354058642610a83b76f2fe9b17fe5b961",
+        "meshCount": 56,
+        "bakedMeshes": 41
+      },
+      "referencia": {
+        "state": {
+          "view": "varandas",
+          "floor": -1,
+          "selectedUnitId": null,
+          "backend": "webgpu",
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 34,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 1.9565217391304348,
+            "position": [
+              -14.82908384419347,
+              25.22577817626578,
+              23.273544673364817
+            ],
+            "target": [
+              -16.25,
+              24.499999999999996,
+              5.549999999999999
+            ]
+          }
+        },
+        "finish": {
+          "profile": "referencia",
+          "revision": "access-finishes-v1",
+          "changes": [
+            {
+              "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+              "sourceMaterialIndex": 0,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.55
+            },
+            {
+              "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+              "sourceMaterialIndex": 4,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.16
+            },
+            {
+              "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+              "sourceMaterialIndex": 0,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.65
+            }
+          ]
+        },
+        "png": {
+          "file": "desktop-webgpu-varandas-referencia.png",
+          "sha256": "093eb2547cb00cff97219ee6bd073d6da89c3665cca64e14c6339ee7589887d7",
+          "bytes": 922885,
+          "dimensions": [
+            1440,
+            736
+          ]
+        },
+        "sourceSceneSHA256": "0f7bfd29f65d95d92a160ad31ee2eb833a5f44cbaefc34ef76a52b54aab4be91",
+        "bakedDataSHA256": "ac8f0346e0249cd169f2818021ecd96354058642610a83b76f2fe9b17fe5b961",
+        "meshCount": 56,
+        "bakedMeshes": 41
+      },
+      "cloneDisposal": {
+        "clone": 1,
+        "source": 1
+      },
+      "comparison": {
+        "sameCamera": true,
+        "samePositionUV1IndexGroups": true,
+        "sameMatrices": true,
+        "sameBakedData": true,
+        "unchangedOtherMaterials": true,
+        "changedPixels": 72704,
+        "changedPixelFraction": 0.06859903381642513,
+        "meanAbsoluteRGBDifference255": 1.3662873641304347,
+        "metricMeaning": "Verifica que o material alterou a imagem; não mede fidelidade ou melhoria artística."
+      },
+      "referenceSheet": {
+        "file": "comparativo-metais.png",
+        "sha256": "f0deb952224171e39d768a24228ac9d98c20a9a7a205d2773e548b1b71019f5e",
+        "bytes": 363982
+      },
+      "integrated": {
+        "initial": {
+          "viewer": {
+            "mode": "maquete",
+            "typology": "canto",
+            "view": "varandas",
+            "floor": 8,
+            "selectedUnitId": null,
+            "backend": "webgpu"
+          },
+          "proof": {
+            "view": "varandas",
+            "floor": 8,
+            "selectedUnitId": null,
+            "backend": "webgpu",
+            "camera": {
+              "type": "PerspectiveCamera",
+              "fov": 34,
+              "near": 0.2,
+              "far": 900,
+              "zoom": 1,
+              "left": null,
+              "right": null,
+              "top": null,
+              "bottom": null,
+              "aspect": 1.6546762589928057,
+              "position": [
+                -14.82908384419347,
+                25.22577817626578,
+                23.27354467336483
+              ],
+              "target": [
+                -16.25,
+                24.499999999999996,
+                5.549999999999999
+              ]
+            }
+          },
+          "finish": {
+            "profile": "referencia",
+            "revision": "access-finishes-v1",
+            "changes": [
+              {
+                "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+                "sourceMaterialIndex": 0,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.55
+              },
+              {
+                "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+                "sourceMaterialIndex": 4,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.16
+              },
+              {
+                "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+                "sourceMaterialIndex": 0,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.65
+              }
+            ]
+          }
+        },
+        "restored": {
+          "viewer": {
+            "mode": "maquete",
+            "typology": "canto",
+            "view": "varandas",
+            "floor": 8,
+            "selectedUnitId": null,
+            "backend": "webgpu"
+          },
+          "proof": {
+            "view": "varandas",
+            "floor": 8,
+            "selectedUnitId": null,
+            "backend": "webgpu",
+            "camera": {
+              "type": "PerspectiveCamera",
+              "fov": 34,
+              "near": 0.2,
+              "far": 900,
+              "zoom": 1,
+              "left": null,
+              "right": null,
+              "top": null,
+              "bottom": null,
+              "aspect": 1.6546762589928057,
+              "position": [
+                -14.82908384419347,
+                25.22577817626578,
+                23.27354467336481
+              ],
+              "target": [
+                -16.25,
+                24.499999999999996,
+                5.549999999999999
+              ]
+            }
+          },
+          "finish": {
+            "profile": "referencia",
+            "revision": "access-finishes-v1",
+            "changes": [
+              {
+                "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+                "sourceMaterialIndex": 0,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.55
+              },
+              {
+                "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+                "sourceMaterialIndex": 4,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.16
+              },
+              {
+                "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+                "sourceMaterialIndex": 0,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.65
+              }
+            ]
+          }
+        },
+        "layout": {
+          "overflow": false,
+          "minControlHeight": 44,
+          "varandasText": "Varandas",
+          "varandasPressed": "true"
+        },
+        "cloneReleasedBefore2D": true,
+        "oneActiveFrame": true,
+        "reloadSessionRestore": true,
+        "singleClickErrorRecovery": true
+      }
+    },
+    {
+      "profile": "desktop-webgl",
+      "backendRequested": "webgl",
+      "viewport": [
+        1440,
+        900
+      ],
+      "errors": [],
+      "httpFailures": [],
+      "status": "PASS",
+      "base": {
+        "state": {
+          "view": "varandas",
+          "floor": -1,
+          "selectedUnitId": null,
+          "backend": "webgl",
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 34,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 1.9565217391304348,
+            "position": [
+              -14.82908384419347,
+              25.22577817626578,
+              23.273544673364825
+            ],
+            "target": [
+              -16.25,
+              24.499999999999996,
+              5.549999999999999
+            ]
+          }
+        },
+        "finish": {
+          "profile": "base",
+          "changes": []
+        },
+        "png": {
+          "file": "desktop-webgl-varandas-base.png",
+          "sha256": "fa3e881f73f6ed05c080ab3b1777127f73370e5234af5005bd2cb3f53ab742e2",
+          "bytes": 922359,
+          "dimensions": [
+            1440,
+            736
+          ]
+        },
+        "sourceSceneSHA256": "0f7bfd29f65d95d92a160ad31ee2eb833a5f44cbaefc34ef76a52b54aab4be91",
+        "bakedDataSHA256": "ac8f0346e0249cd169f2818021ecd96354058642610a83b76f2fe9b17fe5b961",
+        "meshCount": 56,
+        "bakedMeshes": 41
+      },
+      "referencia": {
+        "state": {
+          "view": "varandas",
+          "floor": -1,
+          "selectedUnitId": null,
+          "backend": "webgl",
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 34,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 1.9565217391304348,
+            "position": [
+              -14.82908384419347,
+              25.22577817626578,
+              23.273544673364817
+            ],
+            "target": [
+              -16.25,
+              24.499999999999996,
+              5.549999999999999
+            ]
+          }
+        },
+        "finish": {
+          "profile": "referencia",
+          "revision": "access-finishes-v1",
+          "changes": [
+            {
+              "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+              "sourceMaterialIndex": 0,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.55
+            },
+            {
+              "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+              "sourceMaterialIndex": 4,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.16
+            },
+            {
+              "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+              "sourceMaterialIndex": 0,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.65
+            }
+          ]
+        },
+        "png": {
+          "file": "desktop-webgl-varandas-referencia.png",
+          "sha256": "70f625a7f1fb65ffeafd991fa357ba1aae5022f85be84e3f6f08f87a48a9ba4a",
+          "bytes": 921821,
+          "dimensions": [
+            1440,
+            736
+          ]
+        },
+        "sourceSceneSHA256": "0f7bfd29f65d95d92a160ad31ee2eb833a5f44cbaefc34ef76a52b54aab4be91",
+        "bakedDataSHA256": "ac8f0346e0249cd169f2818021ecd96354058642610a83b76f2fe9b17fe5b961",
+        "meshCount": 56,
+        "bakedMeshes": 41
+      },
+      "cloneDisposal": {
+        "clone": 1,
+        "source": 1
+      },
+      "comparison": {
+        "sameCamera": true,
+        "samePositionUV1IndexGroups": true,
+        "sameMatrices": true,
+        "sameBakedData": true,
+        "unchangedOtherMaterials": true,
+        "changedPixels": 72701,
+        "changedPixelFraction": 0.0685962032004831,
+        "meanAbsoluteRGBDifference255": 1.3666452797906603,
+        "metricMeaning": "Verifica que o material alterou a imagem; não mede fidelidade ou melhoria artística."
+      },
+      "integrated": {
+        "initial": {
+          "viewer": {
+            "mode": "maquete",
+            "typology": "canto",
+            "view": "varandas",
+            "floor": 8,
+            "selectedUnitId": null,
+            "backend": "webgl"
+          },
+          "proof": {
+            "view": "varandas",
+            "floor": 8,
+            "selectedUnitId": null,
+            "backend": "webgl",
+            "camera": {
+              "type": "PerspectiveCamera",
+              "fov": 34,
+              "near": 0.2,
+              "far": 900,
+              "zoom": 1,
+              "left": null,
+              "right": null,
+              "top": null,
+              "bottom": null,
+              "aspect": 1.6546762589928057,
+              "position": [
+                -14.82908384419347,
+                25.225778176265784,
+                23.273544673364846
+              ],
+              "target": [
+                -16.25,
+                24.499999999999996,
+                5.549999999999999
+              ]
+            }
+          },
+          "finish": {
+            "profile": "referencia",
+            "revision": "access-finishes-v1",
+            "changes": [
+              {
+                "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+                "sourceMaterialIndex": 0,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.55
+              },
+              {
+                "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+                "sourceMaterialIndex": 4,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.16
+              },
+              {
+                "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+                "sourceMaterialIndex": 0,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.65
+              }
+            ]
+          }
+        },
+        "restored": {
+          "viewer": {
+            "mode": "maquete",
+            "typology": "canto",
+            "view": "varandas",
+            "floor": 8,
+            "selectedUnitId": null,
+            "backend": "webgl"
+          },
+          "proof": {
+            "view": "varandas",
+            "floor": 8,
+            "selectedUnitId": null,
+            "backend": "webgl",
+            "camera": {
+              "type": "PerspectiveCamera",
+              "fov": 34,
+              "near": 0.2,
+              "far": 900,
+              "zoom": 1,
+              "left": null,
+              "right": null,
+              "top": null,
+              "bottom": null,
+              "aspect": 1.6546762589928057,
+              "position": [
+                -14.82908384419347,
+                25.22577817626578,
+                23.273544673364817
+              ],
+              "target": [
+                -16.25,
+                24.499999999999996,
+                5.549999999999999
+              ]
+            }
+          },
+          "finish": {
+            "profile": "referencia",
+            "revision": "access-finishes-v1",
+            "changes": [
+              {
+                "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+                "sourceMaterialIndex": 0,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.55
+              },
+              {
+                "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+                "sourceMaterialIndex": 4,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.16
+              },
+              {
+                "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+                "sourceMaterialIndex": 0,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.65
+              }
+            ]
+          }
+        },
+        "layout": {
+          "overflow": false,
+          "minControlHeight": 44,
+          "varandasText": "Varandas",
+          "varandasPressed": "true"
+        },
+        "cloneReleasedBefore2D": true,
+        "oneActiveFrame": true,
+        "reloadSessionRestore": true,
+        "singleClickErrorRecovery": true
+      }
+    },
+    {
+      "profile": "toque",
+      "backendRequested": "auto",
+      "viewport": [
+        390,
+        844
+      ],
+      "errors": [],
+      "httpFailures": [],
+      "status": "PASS",
+      "base": {
+        "state": {
+          "view": "varandas",
+          "floor": -1,
+          "selectedUnitId": null,
+          "backend": "webgpu",
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 34,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 0.5735294117647058,
+            "position": [
+              -13.769263268675944,
+              25.767115285654516,
+              36.49302791956247
+            ],
+            "target": [
+              -16.25,
+              24.499999999999996,
+              5.549999999999999
+            ]
+          }
+        },
+        "finish": {
+          "profile": "base",
+          "changes": []
+        },
+        "png": {
+          "file": "toque-varandas-base.png",
+          "sha256": "04f8d87ab0da7023ff0466cfdaa21da32a2926011c1490fade3a51a07c0e3163",
+          "bytes": 284398,
+          "dimensions": [
+            390,
+            680
+          ]
+        },
+        "sourceSceneSHA256": "0f7bfd29f65d95d92a160ad31ee2eb833a5f44cbaefc34ef76a52b54aab4be91",
+        "bakedDataSHA256": "ac8f0346e0249cd169f2818021ecd96354058642610a83b76f2fe9b17fe5b961",
+        "meshCount": 56,
+        "bakedMeshes": 41
+      },
+      "referencia": {
+        "state": {
+          "view": "varandas",
+          "floor": -1,
+          "selectedUnitId": null,
+          "backend": "webgpu",
+          "camera": {
+            "type": "PerspectiveCamera",
+            "fov": 34,
+            "near": 0.2,
+            "far": 900,
+            "zoom": 1,
+            "left": null,
+            "right": null,
+            "top": null,
+            "bottom": null,
+            "aspect": 0.5735294117647058,
+            "position": [
+              -13.769263268675944,
+              25.767115285654516,
+              36.49302791956247
+            ],
+            "target": [
+              -16.25,
+              24.499999999999996,
+              5.549999999999999
+            ]
+          }
+        },
+        "finish": {
+          "profile": "referencia",
+          "revision": "access-finishes-v1",
+          "changes": [
+            {
+              "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+              "sourceMaterialIndex": 0,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.55
+            },
+            {
+              "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+              "sourceMaterialIndex": 4,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.16
+            },
+            {
+              "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+              "sourceMaterialIndex": 0,
+              "type": "MeshStandardMaterial",
+              "metalness": 0,
+              "roughness": 0.65
+            }
+          ]
+        },
+        "png": {
+          "file": "toque-varandas-referencia.png",
+          "sha256": "8ba03abcab206c54c75fec3e4244ccaf1fb46712737faa7dd4a3413e9820171f",
+          "bytes": 283457,
+          "dimensions": [
+            390,
+            680
+          ]
+        },
+        "sourceSceneSHA256": "0f7bfd29f65d95d92a160ad31ee2eb833a5f44cbaefc34ef76a52b54aab4be91",
+        "bakedDataSHA256": "ac8f0346e0249cd169f2818021ecd96354058642610a83b76f2fe9b17fe5b961",
+        "meshCount": 56,
+        "bakedMeshes": 41
+      },
+      "cloneDisposal": {
+        "clone": 1,
+        "source": 1
+      },
+      "comparison": {
+        "sameCamera": true,
+        "samePositionUV1IndexGroups": true,
+        "sameMatrices": true,
+        "sameBakedData": true,
+        "unchangedOtherMaterials": true,
+        "changedPixels": 37774,
+        "changedPixelFraction": 0.14243589743589744,
+        "meanAbsoluteRGBDifference255": 2.222550276520865,
+        "metricMeaning": "Verifica que o material alterou a imagem; não mede fidelidade ou melhoria artística."
+      },
+      "integrated": {
+        "initial": {
+          "viewer": {
+            "mode": "maquete",
+            "typology": "canto",
+            "view": "varandas",
+            "floor": 8,
+            "selectedUnitId": null,
+            "backend": "webgpu"
+          },
+          "proof": {
+            "view": "varandas",
+            "floor": 8,
+            "selectedUnitId": null,
+            "backend": "webgpu",
+            "camera": {
+              "type": "PerspectiveCamera",
+              "fov": 34,
+              "near": 0.2,
+              "far": 900,
+              "zoom": 1,
+              "left": null,
+              "right": null,
+              "top": null,
+              "bottom": null,
+              "aspect": 0.801762114537445,
+              "position": [
+                -14.447237903179827,
+                25.42081815068712,
+                28.036432030400213
+              ],
+              "target": [
+                -16.25,
+                24.499999999999996,
+                5.549999999999999
+              ]
+            }
+          },
+          "finish": {
+            "profile": "referencia",
+            "revision": "access-finishes-v1",
+            "changes": [
+              {
+                "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+                "sourceMaterialIndex": 0,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.55
+              },
+              {
+                "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+                "sourceMaterialIndex": 4,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.16
+              },
+              {
+                "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+                "sourceMaterialIndex": 0,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.65
+              }
+            ]
+          }
+        },
+        "restored": {
+          "viewer": {
+            "mode": "maquete",
+            "typology": "canto",
+            "view": "varandas",
+            "floor": 8,
+            "selectedUnitId": null,
+            "backend": "webgpu"
+          },
+          "proof": {
+            "view": "varandas",
+            "floor": 8,
+            "selectedUnitId": null,
+            "backend": "webgpu",
+            "camera": {
+              "type": "PerspectiveCamera",
+              "fov": 34,
+              "near": 0.2,
+              "far": 900,
+              "zoom": 1,
+              "left": null,
+              "right": null,
+              "top": null,
+              "bottom": null,
+              "aspect": 0.801762114537445,
+              "position": [
+                -14.447237903179827,
+                25.42081815068712,
+                28.036432030400213
+              ],
+              "target": [
+                -16.25,
+                24.499999999999996,
+                5.549999999999999
+              ]
+            }
+          },
+          "finish": {
+            "profile": "referencia",
+            "revision": "access-finishes-v1",
+            "changes": [
+              {
+                "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+                "sourceMaterialIndex": 0,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.55
+              },
+              {
+                "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+                "sourceMaterialIndex": 4,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.16
+              },
+              {
+                "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+                "sourceMaterialIndex": 0,
+                "type": "MeshStandardMaterial",
+                "metalness": 0,
+                "roughness": 0.65
+              }
+            ]
+          }
+        },
+        "layout": {
+          "overflow": false,
+          "minControlHeight": 44,
+          "varandasText": "Varandas",
+          "varandasPressed": "true"
+        },
+        "cloneReleasedBefore2D": true,
+        "oneActiveFrame": true,
+        "reloadSessionRestore": true,
+        "singleClickErrorRecovery": true
+      }
+    }
+  ],
+  "browserVersion": "154.0.8037.98",
+  "rejectedFinish": {
+    "status": "PASS",
+    "ownedResourcesReleased": 111,
+    "bitmapsClosed": 2,
+    "retryPreservesFinishAndEmbed": true,
+    "recoveredProfile": "referencia",
+    "recoveredBackend": "webgl"
+  }
+}
