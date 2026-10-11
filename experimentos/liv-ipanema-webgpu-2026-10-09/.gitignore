@@ -10,6 +10,7 @@
 /evidencias/materiais/pacote-local/
 /.liv-reproducao-*/
 /teste-reproducao-*/
+/entregas/
 /interiores/*/source.json
 /interiores/*/source.json.gz
 /interiores/*/geometry-compact.json*

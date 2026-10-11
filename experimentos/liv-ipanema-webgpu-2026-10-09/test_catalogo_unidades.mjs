@@ -70,4 +70,13 @@ test('building mirror cameras frame the complete model facade in portrait and la
     }
   }
   assert.throws(()=>buildingFacadeView(0,'lazer'));
+  const bounds={min:[-23,-1,-8],max:[23,55,8]};
+  for(const aspect of [.6,1,1.65,2.5])for(const side of ['lazer','estacionamento']){
+    const s=buildingFacadeView(aspect,side,bounds),c=new PerspectiveCamera(s.fov,s.aspect,s.near,s.far);
+    c.position.fromArray(s.position);c.lookAt(new Vector3().fromArray(s.target));c.updateMatrixWorld();
+    for(const x of [bounds.min[0],bounds.max[0]])for(const y of [bounds.min[1],bounds.max[1]])for(const z of [bounds.min[2],bounds.max[2]]){
+      const p=new Vector3(x,y,z).project(c);assert.ok(Math.abs(p.x)<.99&&Math.abs(p.y)<.99);
+    }
+  }
+  assert.throws(()=>buildingFacadeView(1,'lazer',{min:[0,0,0],max:[1,1,NaN]}));
 });

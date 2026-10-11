@@ -29,10 +29,16 @@ export function pilotFloorView(aspect,side){
 }
 
 // The building mirror keeps every model floor visible on the chosen facade.
-export function buildingFacadeView(aspect,side){
+export function buildingFacadeView(aspect,side,bounds=null){
   if(!Number.isFinite(aspect)||aspect<=0||!['lazer','estacionamento'].includes(side))throw Error('Vista da fachada inválida.');
-  const fov=34,halfHeight=Math.max(25.7,26/aspect),targetY=48.45/2;
-  const distance=halfHeight/Math.tan(fov*Math.PI/360)+7.02;
+  let target=[0,48.45/2,0],halfHeight=Math.max(25.7,26/aspect),depth=7.02;
+  if(bounds){
+    const {min,max}=bounds;
+    if(![min,max].every(p=>Array.isArray(p)&&p.length===3&&p.every(Number.isFinite))||max.some((n,i)=>n<=min[i]))throw Error('Limites da torre inválidos.');
+    target=min.map((n,i)=>(n+max[i])/2);
+    halfHeight=Math.max((max[1]-min[1])/2+1.5,((max[0]-min[0])/2+1.5)/aspect);depth=(max[2]-min[2])/2;
+  }
+  const fov=34,distance=halfHeight/Math.tan(fov*Math.PI/360)+depth;
   return {type:'PerspectiveCamera',fov,near:.2,far:900,aspect,zoom:1,
-    position:[0,targetY,(side==='lazer'?1:-1)*distance],target:[0,targetY,0]};
+    position:[target[0],target[1],target[2]+(side==='lazer'?1:-1)*distance],target};
 }

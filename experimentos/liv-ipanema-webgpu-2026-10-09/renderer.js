@@ -281,6 +281,9 @@ async function start() {
   controls.target.fromArray(data.views.perspectiva.target);controls.enableDamping=false;controls.minDistance=9;controls.maxDistance=900;
   controls.maxPolarAngle=Math.PI;controls.update();
   const visibleBounds=new THREE.Box3(new THREE.Vector3().fromArray(data.visibleBounds.min),new THREE.Vector3().fromArray(data.visibleBounds.max));
+  const towerBox=new THREE.Box3();
+  for(const mesh of meshes)if(mesh.userData.tower===0)towerBox.union(new THREE.Box3().setFromObject(mesh));
+  const facadeBounds={min:towerBox.min.toArray(),max:towerBox.max.toArray()};
   const corners=[];
   for(const x of [visibleBounds.min.x,visibleBounds.max.x]) for(const y of [visibleBounds.min.y,visibleBounds.max.y])
     for(const z of [visibleBounds.min.z,visibleBounds.max.z]) corners.push(new THREE.Vector3(x,y,z));
@@ -423,7 +426,7 @@ async function start() {
     if(!units||!units.units.some(unit=>floorOf(units,unit)===floor))throw Error('Pavimento fora do cadastro.');
     setFloor(floor);
     const rect=stage.getBoundingClientRect(),aspect=rect.width/rect.height;
-    const view=(units.schema==='liv-building-units-v1'?buildingFacadeView:pilotFloorView)(aspect,side);camera=makeCamera(view);
+    const view=units.schema==='liv-building-units-v1'?buildingFacadeView(aspect,side,facadeBounds):pilotFloorView(aspect,side);camera=makeCamera(view);
     controls.object=camera;state.camera=camera;controls.target.fromArray(view.target);
     controls.update();orientCamera();resize();state.activeView='livre';
   }
@@ -438,7 +441,7 @@ async function start() {
     if(state.disposed)return false;
     ambience.setProfile(profile);state.ambience=profile;renderer.render(scene,camera);return true;
   }
-  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,ambience:initialAmbience,ambienceController:ambience,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,entryDetailBounds:entryBounds,
+  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,ambience:initialAmbience,ambienceController:ambience,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,facadeBounds,entryDetailBounds:entryBounds,
     invalidateShadows(){
       if(state.disposed)return false;
       for(const light of shadowLights)light.shadow.needsUpdate=true;

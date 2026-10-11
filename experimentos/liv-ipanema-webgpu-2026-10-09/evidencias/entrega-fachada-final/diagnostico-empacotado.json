@@ -1,0 +1,834 @@
+{
+  "schema": "liv-device-diagnostic-v1",
+  "recordedAt": "2026-10-11T22:03:47.131Z",
+  "origin": "http://127.0.0.1:62324",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "secureContext": true,
+  "qualification": "pendente-de-revisao",
+  "openings": [
+    {
+      "device": "Empacotamento QA — desktop",
+      "physicalDevice": false,
+      "executionDeclared": "desktop",
+      "networkDeclared": "",
+      "cacheDeclared": "nao_controlado",
+      "viewport": [
+        1280,
+        900
+      ],
+      "pixelRatio": 1,
+      "hardwareConcurrency": 16,
+      "deviceMemoryGiB": 32,
+      "connection": {
+        "effectiveType": "4g",
+        "rttMs": 100,
+        "downlinkMbps": 1.6,
+        "saveData": false
+      },
+      "edition": "entrada",
+      "backendRequested": "webgl",
+      "cleanupDelayMs": 0,
+      "readyMs": 1740.8000000715256,
+      "modeUponReady": "maquete",
+      "backendEffective": "webgl",
+      "resources": {
+        "viewer": [
+          {
+            "path": "/maquete-liv-ipanema.html",
+            "type": "navigation",
+            "durationMs": 77.10000002384186,
+            "transferBytes": 3728,
+            "encodedBytes": 3428,
+            "decodedBytes": 8971,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/unit-ui.css",
+            "type": "link",
+            "durationMs": 4,
+            "transferBytes": 1173,
+            "encodedBytes": 873,
+            "decodedBytes": 2405,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/viewer.js",
+            "type": "script",
+            "durationMs": 4.5,
+            "transferBytes": 7666,
+            "encodedBytes": 7366,
+            "decodedBytes": 25445,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/transfers.js",
+            "type": "script",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 2444,
+            "encodedBytes": 2144,
+            "decodedBytes": 5424,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/tipologias.js",
+            "type": "script",
+            "durationMs": 7.5,
+            "transferBytes": 688,
+            "encodedBytes": 388,
+            "decodedBytes": 667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/unidades.js",
+            "type": "script",
+            "durationMs": 8.099999904632568,
+            "transferBytes": 1968,
+            "encodedBytes": 1668,
+            "decodedBytes": 4012,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/catalogo-unidades.js",
+            "type": "script",
+            "durationMs": 7.700000047683716,
+            "transferBytes": 1415,
+            "encodedBytes": 1115,
+            "decodedBytes": 2191,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/unit-ui.js",
+            "type": "script",
+            "durationMs": 8.800000071525574,
+            "transferBytes": 1961,
+            "encodedBytes": 1661,
+            "decodedBytes": 5243,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/edicoes.js",
+            "type": "script",
+            "durationMs": 10.600000023841858,
+            "transferBytes": 731,
+            "encodedBytes": 431,
+            "decodedBytes": 873,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/comercial.js",
+            "type": "script",
+            "durationMs": 10.799999952316284,
+            "transferBytes": 1848,
+            "encodedBytes": 1548,
+            "decodedBytes": 3671,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/ambiencia-perfis.js",
+            "type": "script",
+            "durationMs": 12.399999976158142,
+            "transferBytes": 593,
+            "encodedBytes": 293,
+            "decodedBytes": 448,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/vinculos.js",
+            "type": "script",
+            "durationMs": 13.799999952316284,
+            "transferBytes": 1627,
+            "encodedBytes": 1327,
+            "decodedBytes": 2740,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/unit-footprint.js",
+            "type": "script",
+            "durationMs": 3.100000023841858,
+            "transferBytes": 1366,
+            "encodedBytes": 1066,
+            "decodedBytes": 2398,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 4,
+            "transferBytes": 2825,
+            "encodedBytes": 2525,
+            "decodedBytes": 16515,
+            "workerStartMs": 0,
+            "deliveryType": null
+          }
+        ],
+        "scene": [
+          {
+            "path": "/prova-rgbm.html",
+            "type": "navigation",
+            "durationMs": 172.39999997615814,
+            "transferBytes": 1542,
+            "encodedBytes": 1242,
+            "decodedBytes": 2574,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/renderer.js",
+            "type": "script",
+            "durationMs": 3.899999976158142,
+            "transferBytes": 9609,
+            "encodedBytes": 9309,
+            "decodedBytes": 29227,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/node_modules/three/examples/jsm/controls/OrbitControls.js",
+            "type": "script",
+            "durationMs": 7.399999976158142,
+            "transferBytes": 8826,
+            "encodedBytes": 8526,
+            "decodedBytes": 40755,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/node_modules/three/build/three.webgpu.js",
+            "type": "script",
+            "durationMs": 22.699999928474426,
+            "transferBytes": 447845,
+            "encodedBytes": 447545,
+            "decodedBytes": 2284850,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/exterior-finishes.js",
+            "type": "script",
+            "durationMs": 7.700000047683716,
+            "transferBytes": 2051,
+            "encodedBytes": 1751,
+            "decodedBytes": 4026,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/material-rgbm.js",
+            "type": "script",
+            "durationMs": 7.899999976158142,
+            "transferBytes": 1444,
+            "encodedBytes": 1144,
+            "decodedBytes": 2508,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/cameras.js",
+            "type": "script",
+            "durationMs": 18.299999952316284,
+            "transferBytes": 1401,
+            "encodedBytes": 1101,
+            "decodedBytes": 2593,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/unidades.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 1668,
+            "decodedBytes": 4012,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/catalogo-unidades.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 1115,
+            "decodedBytes": 2191,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/picking.js",
+            "type": "script",
+            "durationMs": 18.899999976158142,
+            "transferBytes": 2711,
+            "encodedBytes": 2411,
+            "decodedBytes": 6403,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/ambiente.js",
+            "type": "script",
+            "durationMs": 19.5,
+            "transferBytes": 1755,
+            "encodedBytes": 1455,
+            "decodedBytes": 3323,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/edicoes.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 431,
+            "decodedBytes": 873,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/ambiencia.js",
+            "type": "script",
+            "durationMs": 20.399999976158142,
+            "transferBytes": 1222,
+            "encodedBytes": 922,
+            "decodedBytes": 2111,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/unit-footprint.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 1066,
+            "decodedBytes": 2398,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/node_modules/three/build/three.tsl.js",
+            "type": "script",
+            "durationMs": 4.300000071525574,
+            "transferBytes": 8067,
+            "encodedBytes": 7767,
+            "decodedBytes": 36854,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/ambiencia-perfis.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 293,
+            "decodedBytes": 448,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/node_modules/three/build/three.core.js",
+            "type": "script",
+            "durationMs": 8.200000047683716,
+            "transferBytes": 289397,
+            "encodedBytes": 289097,
+            "decodedBytes": 1458113,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/modelo/entrada/candidato/assets/manifest.json",
+            "type": "fetch",
+            "durationMs": 3.700000047683716,
+            "transferBytes": 1269,
+            "encodedBytes": 969,
+            "decodedBytes": 2139,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/modelo/entrada/candidato/assets/scene.json.gz",
+            "type": "fetch",
+            "durationMs": 30.200000047683716,
+            "transferBytes": 2758568,
+            "encodedBytes": 2758268,
+            "decodedBytes": 2758268,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/modelo/entrada/candidato/assets/irradiance.rgbm.gz",
+            "type": "fetch",
+            "durationMs": 34.799999952316284,
+            "transferBytes": 13290420,
+            "encodedBytes": 13290120,
+            "decodedBytes": 13290120,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/assets-ambiente/manifest.json",
+            "type": "fetch",
+            "durationMs": 3.4000000953674316,
+            "transferBytes": 937,
+            "encodedBytes": 637,
+            "decodedBytes": 1090,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/assets-ambiente/ambiente.f16.gz",
+            "type": "fetch",
+            "durationMs": 3.5999999046325684,
+            "transferBytes": 38154,
+            "encodedBytes": 37854,
+            "decodedBytes": 37854,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/modelo/entrada/candidato/assets/texture-00.png",
+            "type": "fetch",
+            "durationMs": 3.5,
+            "transferBytes": 21967,
+            "encodedBytes": 21667,
+            "decodedBytes": 21667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/modelo/entrada/candidato/assets/texture-01.png",
+            "type": "fetch",
+            "durationMs": 3.799999952316284,
+            "transferBytes": 21967,
+            "encodedBytes": 21667,
+            "decodedBytes": 21667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 3.5,
+            "transferBytes": 2825,
+            "encodedBytes": 2525,
+            "decodedBytes": 16515,
+            "workerStartMs": 0,
+            "deliveryType": null
+          }
+        ],
+        "note": "Tempos dos documentos; não somar como tráfego integral do worker ou pico de rede."
+      },
+      "status": "carregado"
+    }
+  ],
+  "segments": [
+    {
+      "device": "Empacotamento QA — desktop",
+      "physicalDevice": false,
+      "executionDeclared": "desktop",
+      "networkDeclared": "",
+      "cacheDeclared": "nao_controlado",
+      "viewport": [
+        1280,
+        900
+      ],
+      "pixelRatio": 1,
+      "hardwareConcurrency": 16,
+      "deviceMemoryGiB": 32,
+      "connection": {
+        "effectiveType": "4g",
+        "rttMs": 100,
+        "downlinkMbps": 1.6,
+        "saveData": false
+      },
+      "label": "meio:visita",
+      "startedAt": "2026-10-11T22:03:49.011Z",
+      "openMs": 2282,
+      "backendEffective": "webgl",
+      "initialViewerState": {
+        "mode": "visita",
+        "typology": "meio",
+        "view": "perspectiva",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgl",
+        "ambience": "dia"
+      },
+      "measurement": {
+        "backend": "webgl",
+        "durationMs": 6746.600000023842,
+        "hiddenMs": 0,
+        "submissions": 357,
+        "droppedSamples": 0,
+        "submissionIntervalMs": {
+          "count": 356,
+          "p50": 16.699999928474426,
+          "p95": 16.90000009536743,
+          "max": 815.6999999284744
+        },
+        "cpuSubmitMs": {
+          "count": 357,
+          "p50": 1.0999999046325684,
+          "p95": 1.7999999523162842,
+          "max": 26.40000009536743
+        },
+        "intervalsOver33Ms": 1,
+        "intervalMeaning": "Cadência de submissão, incluindo trabalho CPU; não é tempo GPU ou FPS garantido.",
+        "cameraDisplacementMeters": 2.816025568065745,
+        "canvas": [
+          886,
+          465
+        ],
+        "pixelRatio": 1,
+        "memoryPeakSampled": {
+          "rendererTrackedBytes": 39550295,
+          "jsHeapEstimateBytes": 250504385
+        },
+        "memoryMeaning": "Contabilidade do renderer e estimativa do heap JS; não mede VRAM total ou pico exato.",
+        "error": null,
+        "disposed": false
+      },
+      "observation": "",
+      "resources": {
+        "viewer": [
+          {
+            "path": "/maquete-liv-ipanema.html",
+            "type": "navigation",
+            "durationMs": 77.10000002384186,
+            "transferBytes": 3728,
+            "encodedBytes": 3428,
+            "decodedBytes": 8971,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/unit-ui.css",
+            "type": "link",
+            "durationMs": 4,
+            "transferBytes": 1173,
+            "encodedBytes": 873,
+            "decodedBytes": 2405,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/viewer.js",
+            "type": "script",
+            "durationMs": 4.5,
+            "transferBytes": 7666,
+            "encodedBytes": 7366,
+            "decodedBytes": 25445,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/transfers.js",
+            "type": "script",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 2444,
+            "encodedBytes": 2144,
+            "decodedBytes": 5424,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/tipologias.js",
+            "type": "script",
+            "durationMs": 7.5,
+            "transferBytes": 688,
+            "encodedBytes": 388,
+            "decodedBytes": 667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/unidades.js",
+            "type": "script",
+            "durationMs": 8.099999904632568,
+            "transferBytes": 1968,
+            "encodedBytes": 1668,
+            "decodedBytes": 4012,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/catalogo-unidades.js",
+            "type": "script",
+            "durationMs": 7.700000047683716,
+            "transferBytes": 1415,
+            "encodedBytes": 1115,
+            "decodedBytes": 2191,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/unit-ui.js",
+            "type": "script",
+            "durationMs": 8.800000071525574,
+            "transferBytes": 1961,
+            "encodedBytes": 1661,
+            "decodedBytes": 5243,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/edicoes.js",
+            "type": "script",
+            "durationMs": 10.600000023841858,
+            "transferBytes": 731,
+            "encodedBytes": 431,
+            "decodedBytes": 873,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/comercial.js",
+            "type": "script",
+            "durationMs": 10.799999952316284,
+            "transferBytes": 1848,
+            "encodedBytes": 1548,
+            "decodedBytes": 3671,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/ambiencia-perfis.js",
+            "type": "script",
+            "durationMs": 12.399999976158142,
+            "transferBytes": 593,
+            "encodedBytes": 293,
+            "decodedBytes": 448,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/vinculos.js",
+            "type": "script",
+            "durationMs": 13.799999952316284,
+            "transferBytes": 1627,
+            "encodedBytes": 1327,
+            "decodedBytes": 2740,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/unit-footprint.js",
+            "type": "script",
+            "durationMs": 3.100000023841858,
+            "transferBytes": 1366,
+            "encodedBytes": 1066,
+            "decodedBytes": 2398,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 4,
+            "transferBytes": 2825,
+            "encodedBytes": 2525,
+            "decodedBytes": 16515,
+            "workerStartMs": 0,
+            "deliveryType": null
+          }
+        ],
+        "scene": [
+          {
+            "path": "/interior.html",
+            "type": "navigation",
+            "durationMs": 157.59999990463257,
+            "transferBytes": 2089,
+            "encodedBytes": 1789,
+            "decodedBytes": 4834,
+            "workerStartMs": 4,
+            "deliveryType": null
+          },
+          {
+            "path": "/interior-renderer.js",
+            "type": "script",
+            "durationMs": 4,
+            "transferBytes": 14379,
+            "encodedBytes": 14079,
+            "decodedBytes": 42619,
+            "workerStartMs": 13.599999904632568,
+            "deliveryType": null
+          },
+          {
+            "path": "/node_modules/three/examples/jsm/controls/OrbitControls.js",
+            "type": "script",
+            "durationMs": 15.200000047683716,
+            "transferBytes": 0,
+            "encodedBytes": 8526,
+            "decodedBytes": 40755,
+            "workerStartMs": 20.699999928474426,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/node_modules/three/build/three.webgpu.js",
+            "type": "script",
+            "durationMs": 26.700000047683716,
+            "transferBytes": 0,
+            "encodedBytes": 447545,
+            "decodedBytes": 2284850,
+            "workerStartMs": 20.5,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/material-rgbm.js",
+            "type": "script",
+            "durationMs": 15.399999976158142,
+            "transferBytes": 0,
+            "encodedBytes": 1144,
+            "decodedBytes": 2508,
+            "workerStartMs": 20.699999928474426,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/interior-navigation.js",
+            "type": "script",
+            "durationMs": 20.899999976158142,
+            "transferBytes": 4123,
+            "encodedBytes": 3823,
+            "decodedBytes": 9793,
+            "workerStartMs": 20.799999952316284,
+            "deliveryType": null
+          },
+          {
+            "path": "/interior-camera.js",
+            "type": "script",
+            "durationMs": 21.90000009536743,
+            "transferBytes": 1463,
+            "encodedBytes": 1163,
+            "decodedBytes": 2475,
+            "workerStartMs": 20.899999976158142,
+            "deliveryType": null
+          },
+          {
+            "path": "/interior-cutaway.js",
+            "type": "script",
+            "durationMs": 22.100000023841858,
+            "transferBytes": 1631,
+            "encodedBytes": 1331,
+            "decodedBytes": 2843,
+            "workerStartMs": 21,
+            "deliveryType": null
+          },
+          {
+            "path": "/node_modules/three/build/three.tsl.js",
+            "type": "script",
+            "durationMs": 4.800000071525574,
+            "transferBytes": 0,
+            "encodedBytes": 7767,
+            "decodedBytes": 36854,
+            "workerStartMs": 49.89999997615814,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/node_modules/three/build/three.core.js",
+            "type": "script",
+            "durationMs": 5.100000023841858,
+            "transferBytes": 0,
+            "encodedBytes": 289097,
+            "decodedBytes": 1458113,
+            "workerStartMs": 97.29999995231628,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/interiores/catalogo.json",
+            "type": "fetch",
+            "durationMs": 3.299999952316284,
+            "transferBytes": 0,
+            "encodedBytes": 6377,
+            "decodedBytes": 6377,
+            "workerStartMs": 154.69999992847443,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/interiores/shared/runtime.js",
+            "type": "fetch",
+            "durationMs": 1.2999999523162842,
+            "transferBytes": 0,
+            "encodedBytes": 93877,
+            "decodedBytes": 93877,
+            "workerStartMs": 162.59999990463257,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/interiores/meio/unidade.json",
+            "type": "fetch",
+            "durationMs": 14.299999952316284,
+            "transferBytes": 0,
+            "encodedBytes": 8038,
+            "decodedBytes": 8038,
+            "workerStartMs": 170.09999990463257,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/interiores/meio/source.json.gz",
+            "type": "fetch",
+            "durationMs": 18.5,
+            "transferBytes": 0,
+            "encodedBytes": 1366048,
+            "decodedBytes": 1366048,
+            "workerStartMs": 170.29999995231628,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/interiores/meio/light.json",
+            "type": "fetch",
+            "durationMs": 44.10000002384186,
+            "transferBytes": 0,
+            "encodedBytes": 1881,
+            "decodedBytes": 1881,
+            "workerStartMs": 417.6999999284744,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/interiores/meio/geometry-compact.json.gz",
+            "type": "fetch",
+            "durationMs": 12.100000023841858,
+            "transferBytes": 0,
+            "encodedBytes": 418028,
+            "decodedBytes": 418028,
+            "workerStartMs": 479.5,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/interiores/meio/irradiance.rgbm.gz",
+            "type": "fetch",
+            "durationMs": 36.5,
+            "transferBytes": 0,
+            "encodedBytes": 4171499,
+            "decodedBytes": 4171499,
+            "workerStartMs": 479.6999999284744,
+            "deliveryType": "cache-storage"
+          }
+        ],
+        "note": "Tempos dos documentos; não somar como tráfego integral do worker ou pico de rede."
+      },
+      "viewerState": {
+        "mode": "visita",
+        "typology": "meio",
+        "view": "perspectiva",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgl",
+        "ambience": "dia"
+      },
+      "error": null,
+      "interrupted": false
+    }
+  ],
+  "failures": [],
+  "exportedAt": "2026-10-11T22:03:58.072Z"
+}
