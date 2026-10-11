@@ -1,5 +1,7 @@
 # LIV Ipanema — evolução visual e WebGPU
 
+Ensaio no aparelho: [coletor de diagnóstico](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/diagnostico.html) com caminhada independente nas duas plantas e exportação local. [DIAGNOSTICO.md](DIAGNOSTICO.md) registra procedimento, limites e QAs desktop/emulados; qualificação física continua pendente.
+
 Revisão de 11/10: quinas e vão da cobertura corrigidos, UV de luz mais denso nas bordas finas e união da moldura interna de Canto, com bake próprio. Meio mantém seu modelo independente. Detalhes em [modelo/CONTORNO.md](modelo/CONTORNO.md) e [RODATETO.md](RODATETO.md).
 
 Continuação em 11/10: o decoder nativo reduz em 72–73% a etapa de montagem da geometria no desktop e conserva o fallback para navegadores antigos. O lote integrado passa no teto frio provisório e tem reload mediano abaixo da base nos dois backends; rede/memória e aparelhos físicos continuam pendentes. Dados e limites em [BUFFERS.md](BUFFERS.md).

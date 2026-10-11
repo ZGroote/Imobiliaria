@@ -165,6 +165,8 @@ Convenção de caminhos abaixo: `EXP` = novo diretório `experimentos/liv-ipanem
 
 **Checkpoint C4:** T10–T12 no perfil completo. Apresentação completa qualificada, mesmo com dados comerciais ausentes.
 
+Continuação de 11/10, solicitada para todos os pontos restantes: `EXP/diagnostico.html` coleta abertura, caminhada de Canto/Meio, cadência, memória amostrada, tempos de recursos e falhas no navegador, com exportação local. Dois testes do coletor e três perfis funcionais (15 trechos, com caminhada real na cena) passaram em `evidencias/diagnostico-aparelho-final/`. Nenhum desses perfis é aparelho físico; T02/T12 permanecem parciais. Procedimento e limites em `EXP/DIAGNOSTICO.md`.
+
 ## Pacote de entrega e dados comerciais
 
 - [ ] **T13 — Preparar entrega, comparação e recuperação.**
