@@ -4,6 +4,7 @@ import {unitById} from './unidades.js';
 import {loadUnitCatalog,floorOf,unitScope} from './catalogo-unidades.js';
 import {createUnitUI} from './unit-ui.js';
 import {requestedEdition,exteriorEdition} from './edicoes.js';
+import {attachCommercial} from './comercial.js';
 const stage=document.getElementById('stage'),overlay=document.getElementById('loading');
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
@@ -14,6 +15,7 @@ const finish=geometry!=='base'||new URLSearchParams(location.search).get('acabam
 const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
 const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
 let units,unitUI,mirror;
+let commercialData=null,commercialVersion=0,commercialController=null;
 state.geometry=geometry;
 state.unitScope=scope;
 const storageKey=`liv-viewer-v1:${location.pathname}${geometry==='base'?'':':'+geometry}${scope==='edificio'?':edificio':''}`;
@@ -148,7 +150,7 @@ async function setMode(mode) {
   try {
     if(!units||mode==='maquete'){
       const catalog=await loadUnitCatalog(undefined,geometry,scope);if(token!==generation)return;
-      units=catalog;state.units=units;
+      units=commercialData?attachCommercial(catalog,commercialData):catalog;state.units=units;
       try{unitById(units,state.selectedUnitId);}catch{state.selectedUnitId=null;}
       if(unitUI)unitUI.setCatalog(units);
       else unitUI=createUnitUI(units,{onSelect:selectUnit,onClear:()=>selectUnit(null),onSide:showUnitSide});
@@ -156,6 +158,7 @@ async function setMode(mode) {
         const {createBuildingMirror}=await import('./espelho.js');if(token!==generation)return;
         mirror=createBuildingMirror(units,selectUnit);
       }
+      mirror?.setCatalog(units);
       update();
     }
     const kind=mode==='maquete'?'exterior':mode==='planta2d'?'image':`interior:${state.typology}`;
@@ -239,6 +242,7 @@ async function setMode(mode) {
     if(token!==generation)return;
     state.ready=true;overlay.hidden=true;status.textContent=mode==='maquete'?'Maquete completa carregada':`Planta de referência de ${typology(state.typology).label.toLowerCase()}`;update();
     openedOnce=true;void transfers.start();
+    if(scope==='edificio'&&!commercialData)void refreshCommercial();
   } catch(error) {
     if(token!==generation)return;
     if(mode==='planta2d') {
@@ -279,6 +283,28 @@ async function setTypology(id){
   state.typology=id;document.getElementById('typology').value=id;update();
   if(state.mode!=='maquete')await setMode(state.mode);
 }
+async function refreshCommercial(){
+  if(scope!=='edificio'||!units)return false;
+  const version=++commercialVersion;commercialController?.abort();
+  commercialController=new AbortController();
+  try{
+    const response=await fetch(new URL('./comercial.json',import.meta.url),{cache:'no-cache',signal:commercialController.signal});
+    if(!response.ok)throw Error(`Tabela comercial: HTTP ${response.status}.`);
+    const data=await response.json(),next=attachCommercial(units,data);
+    if(version!==commercialVersion)return false;
+    commercialData=data;units=next;state.units=units;state.commercialStatus=next.commercialStatus;state.commercialError=null;
+    document.getElementById('commercialWarning').hidden=true;
+    unitUI?.setCatalog(units);mirror?.setCatalog(units);update();return true;
+  }catch(error){
+    if(version!==commercialVersion)return false;
+    state.commercialError=String(error);
+    document.getElementById('commercialWarning').hidden=false;
+    document.getElementById('commercialWarning').textContent=commercialData?.status==='fornecido'?
+      'Não foi possível atualizar a tabela. As informações da fonte e data indicadas foram preservadas.':
+      'Dados comerciais indisponíveis. Consulte a equipe responsável para confirmar disponibilidade e preço.';
+    return false;
+  }
+}
 async function capture() {
   if(!state.ready)return;
   if(state.mode==='maquete')return state.frame.contentWindow.__livProva.capture();
@@ -292,7 +318,7 @@ async function capture() {
   }
   const link=document.createElement('a');link.href=png;link.download=`liv-ipanema-${state.typology}-${state.mode}.png`;link.click();return png;
 }
-Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,backend:state.backend}),dispose:release});
+Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,reloadCommercial:refreshCommercial,getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,backend:state.backend}),dispose:release});
 for(const button of document.querySelectorAll('[data-mode]'))button.addEventListener('click',()=>setMode(button.dataset.mode));
 for(const button of document.querySelectorAll('[data-view]'))button.addEventListener('click',()=>setView(button.dataset.view));
 document.getElementById('floor').addEventListener('change',event=>setFloor(event.target.value));
@@ -310,6 +336,7 @@ document.querySelector('.map-link').addEventListener('click',event=>{
     .then(()=>{if(token===generation)location.assign(destination);});
 });
 window.addEventListener('pagehide',()=>{
+  commercialVersion++;commercialController?.abort();
   generation++;state.ready=false;release();
   try {sessionStorage.setItem(storageKey,JSON.stringify({version:1,mode:state.mode,typology:state.typology,interiorSnapshots:state.interiorSnapshots,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,exteriorSnapshot:state.exteriorSnapshot}));}
   catch(error) {state.storageError=String(error);}

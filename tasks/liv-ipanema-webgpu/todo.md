@@ -178,6 +178,7 @@ Continuação de 11/10, solicitada para todos os pontos restantes: `EXP/diagnost
   - Verificar: servir o pacote local, QA funcional/HTTP e recuperação da base preservada. Após publicação autorizada, conferir novamente o endereço público e registrar identidade/expiração.
 
 - [ ] **T14 — Integrar tabela comercial oficial/autorizada.**
+  - Preparação de 11/10: schema/importador JSON com modelo de 170 IDs, validação integral antes da gravação, repetição e versão anterior preservada. Ficha/rótulo de fachada/espelho compartilham a mesma fonte, com filtro/cores e recuperação sem inventar ofertas. Cinco testes Node e três perfis com fixtures sintéticas passaram. `EXP/COMERCIAL.md` descreve o fluxo; `comercial.json` permanece ausente. Aceite comercial real depende da tabela fornecida e conferência com o responsável; T14 não está concluída.
   - Dependências: T11; fonte comercial e regras de atualização fornecidas para uso no produto.
   - Responsabilidade: importação inicial validada, vínculo por ID/numeração, disponibilidade, preço/condições, origem e data; resolver associações ambíguas antes de ativar.
   - Escopo provável: `EXP/importar_comercial.py`, schema comercial, dados comerciais separados, `EXP/espelho.js`, testes de importação/sincronização.

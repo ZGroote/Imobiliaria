@@ -1,5 +1,6 @@
 import {unitById} from './unidades.js';
 import {floorOf,floorLabel,unitsAtFloor} from './catalogo-unidades.js';
+import {saleOf,saleLabel} from './comercial.js';
 export function createUnitUI(catalog,{onSelect,onClear,onSide}){
   const list=document.getElementById('unitList');let buttons=[],displayFloor=null;
   function renderFloor(floor){
@@ -20,6 +21,7 @@ export function createUnitUI(catalog,{onSelect,onClear,onSide}){
     renderFloor(building?(floor>=0?floor:displayFloor??1):catalog.floorIndex);
     for(const button of buttons){
       button.disabled=!ready||mode!=='maquete';button.setAttribute('aria-pressed',String(button.dataset.unitId===selectedUnitId));
+      button.dataset.availability=saleOf(unitById(catalog,button.dataset.unitId)).availability;
     }
     for(const button of document.querySelectorAll('[data-unit-side]'))button.disabled=!ready||mode!=='maquete';
     document.getElementById('unitHelp').textContent=mode!=='maquete'?'Volte à maquete para explorar os finais.':
@@ -34,6 +36,16 @@ export function createUnitUI(catalog,{onSelect,onClear,onSide}){
     const label=floorLabel(floorOf(catalog,unit));
     document.getElementById('unitTitle').textContent=`Final ${unit.final} · ${label}`;
     document.getElementById('selectedUnitLabel').textContent=`Final ${unit.final} · ${label} · posição aproximada`;
+    const sale=saleOf(unit),informed=sale.availability!=='nao_informada'||sale.priceCents!==null;
+    document.getElementById('unitSale').textContent=informed?saleLabel(unit):'Não informados';
+    document.getElementById('unitCommercial').textContent=sale.commercialNumber!==null||sale.parking!==null?
+      `${sale.commercialNumber??'Número não informado'} · ${sale.parking??'vaga não informada'}`:'Não informados';
+    if(informed)document.getElementById('selectedUnitLabel').textContent+=` · ${saleLabel(unit)}`;
+    document.getElementById('commercialSource').hidden=!catalog.commercialSource;
+    document.getElementById('commercialSource').textContent=catalog.commercialSource?
+      `Fonte: ${catalog.commercialSource.label} · ${catalog.commercialSource.asOf}`:'';
+    document.getElementById('commercialConditions').hidden=!sale.conditions;
+    document.getElementById('commercialConditions').textContent=sale.conditions||'';
     document.getElementById('gardenNote').hidden=floorOf(catalog,unit)!==0;
     document.getElementById('unitPosition').textContent=unit.side==='lazer'?'Lado do lazer':'Lado do estacionamento';
     document.getElementById('unitReferenceNote').textContent=mode==='maquete'?
