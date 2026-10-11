@@ -123,10 +123,10 @@
       "essential": false
     },
     {
-      "path": "site-baseline/mapa-liv-ipanema-5km.html",
+      "path": "mapa-runtime/mapa-liv-ipanema-5km.html",
       "group": "map",
-      "bytes": 8046477,
-      "sha256": "54dc2fa36732e8efce3c3a21d8370e7bcccbfbf4e075e106170615ed465747e9",
+      "bytes": 8047927,
+      "sha256": "6edfb89919e8114e12304e8a3714aa466ef28b77aa5526c916d9228f46f1f038",
       "essential": true
     },
     {
@@ -134,6 +134,13 @@
       "group": "map",
       "bytes": 2989904,
       "sha256": "f3bef61c2a844aae0062b1c15df7ebb942ed188c572ba455b8cddd86d57fadf1",
+      "essential": true
+    },
+    {
+      "path": "modelo/variante/liv-contorno.glb",
+      "group": "map",
+      "bytes": 2275324,
+      "sha256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686",
       "essential": true
     },
     {
@@ -991,5 +998,5 @@
       "essential": false
     }
   ],
-  "version": "eba265f7795d3cee211f763e3dc48cff4dd0ecf1734c0d1742597415b094b005"
+  "version": "945631d8b28c68fa2f34bc5be60dbcdd4479c0135a9343e0bf31cfb3e9f5756d"
 }

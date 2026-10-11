@@ -1,0 +1,42 @@
+{
+  "schema": "liv-map-runtime-v1",
+  "baselineSHA256": "54dc2fa36732e8efce3c3a21d8370e7bcccbfbf4e075e106170615ed465747e9",
+  "baselineAppSHA256": "a51f9ec7e1134d2b2e1cdb7c1748e4e142edec333d1e833f1b565976f60cecdc",
+  "files": {
+    "mapa-runtime/mapa-liv-ipanema-5km.html": {
+      "bytes": 8047927,
+      "sha256": "6edfb89919e8114e12304e8a3714aa466ef28b77aa5526c916d9228f46f1f038"
+    },
+    "modelo/variante/liv-contorno.glb": {
+      "bytes": 2275324,
+      "sha256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686"
+    }
+  },
+  "models": {
+    "base": {
+      "url": "liv-ipanema.glb",
+      "bytes": 2989904,
+      "sha256": "f3bef61c2a844aae0062b1c15df7ebb942ed188c572ba455b8cddd86d57fadf1",
+      "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919"
+    },
+    "contorno": {
+      "url": "../modelo/variante/liv-contorno.glb",
+      "bytes": 2275324,
+      "sha256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686",
+      "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1"
+    }
+  },
+  "changes": [
+    "verified model loader",
+    "asset provenance",
+    "relative URL base",
+    "keep edition fragment",
+    "cancel POI flight on Centralizar"
+  ],
+  "preserved": "all other embedded blocks, regional geometry/materials, terrain, 120 tiles and remaining camera behavior",
+  "sources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/preparar_mapa.py": "e3e345a88c1efc371c45491fdcf343317f4960e0663453f78f6201007595c7fc",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/mapa-loader.js": "ad5b5e53519e3f647863ac8e463ec96a04f3362b2c4528e4a42d57e547cceee9",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/mapa.json": "5a090b874d8319637a9d553b14c459937913b8974e3beee0e8348432f71c19e6"
+  }
+}

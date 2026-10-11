@@ -1,6 +1,18 @@
 # Plano de desenvolvimento — LIV Ipanema: apresentação visual, WebGPU e unidades
 
-Data: 09/10/2026. Estado: execução autorizada e iniciada. Reprodução isolada e integração técnica do exterior WebGPU/WebGL2 com os quatro modos concluídas no desktop e emulação de toque. Reaproveitamento de materiais padrão/GLTF validado em bancada separada; a aplicação dos acabamentos ao LIV permanece em T06/T07. A qualificação física, o critério de abertura e o piloto de unidades continuam pendentes. Execução em [todo.md](todo.md); identidade verificável em [baseline.json](baseline.json).
+Data do plano original: 09/10/2026. Atualização: 11/10/2026. Execução autorizada e iniciada. Exterior/interiores WebGPU/WebGL2, duas tipologias independentes, fila automática e pavimento piloto ilustrativo estão integrados no desktop e emulação de toque. A variante opcional incorpora recuos, cobertura e rodateto de Canto corrigidos e agora também aparece no mapa regional. Materiais PBR padrão permanecem reaproveitados. T05–T12 continuam parciais: abertura, acabamento final, vínculos por final e qualificação física ainda precisam fechar seus critérios. Execução em [todo.md](todo.md); identidade da base em [baseline.json](baseline.json).
+
+## Prioridades após a revisão de 11/10
+
+A integração do GLB no mapa conclui a divergência entre a variante exibida na maquete e no entorno, com escala/implantação aproximadas preservadas. [MAPA-MODELO.md](../../experimentos/liv-ipanema-webgpu-2026-10-09/MAPA-MODELO.md) registra a revisão. O renderer regional continua no caminho preservado; T15 não foi antecipada. O exterior corrigido continua opcional até a conferência de custo.
+
+1. **Abertura e custo (T02/T05):** medir a variante em três rodadas sequenciais, frio/cache, WebGPU e WebGL2, incluindo peso inicial e fila. Comparar com a base preservada nas mesmas condições. O tempo anterior ainda não atende ao critério; não adotar o contorno como padrão ou ampliar efeitos sem registrar o resultado.
+2. **Entrada e leitura visual (T06/T07):** corrigir forma/posição da portaria e marquise pelas referências disponíveis, revisar paisagismo próximo e enquadramentos. Usar materiais PBR configuráveis; geometria alterada exige UV/bake da própria revisão.
+3. **Dia e entardecer (T07):** produzir dois estados coerentes, carregados pela prioridade já implementada, após a medição. Não apresentar direção artística como simulação solar.
+4. **Vínculos e espelho (T08–T11):** conferir Canto/Meio e espelhamentos por final antes de associar um interior ao apartamento selecionado. Ampliar catálogo/espelho somente a partir do padrão demonstrado; conservar disponibilidade não informada até haver fonte comercial.
+5. **Qualificação e entrega (T12/T13):** caminhada/giro, abertura e alternância no Poco X6 5G informado pelo usuário e em iPhone, além dos perfis desktop. Preparar pacote revisável antes de qualquer publicação solicitada.
+
+As duas plantas já são experiências gerais separadas, com seus próprios bakes. As medidas/posições sem projeto executivo continuam identificadas como inferidas. A condição física permanece aberta; emulação não conta como ensaio no aparelho.
 
 ## Resultado pretendido
 
@@ -210,7 +222,7 @@ Trabalhar em `experimentos/liv-ipanema-webgpu-2026-10-09/` ou diretório de exec
 
 O pacote de entrega incluirá: versão, fontes de referência, diferenças contra a base, métricas, capturas comparativas, resultados por dispositivo/backend, pendências comerciais e instruções de recuperação. Manter o pacote preservado como retorno imediato se a evolução falhar. Expiração/rollback de canal deve ser explícito; não substituir o link-base silenciosamente.
 
-Este pedido gera o plano. Alterações do produto e publicação fazem parte da execução futura, quando solicitada; não foram executadas nesta preparação.
+O plano foi elaborado em 09/10 e sua execução foi autorizada em seguida. As revisões locais estão registradas em `todo.md`; publicação continua uma etapa própria da entrega solicitada.
 
 ## Documentação técnica de apoio
 

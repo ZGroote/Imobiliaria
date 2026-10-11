@@ -1,4 +1,5 @@
 /site-baseline*/
+/mapa-runtime/*.html
 /assets-prova/*
 !/assets-prova/manifest.json
 /evidencias/**/*.png

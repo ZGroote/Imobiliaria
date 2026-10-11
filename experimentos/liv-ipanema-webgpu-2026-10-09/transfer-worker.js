@@ -70,7 +70,7 @@ function validateCatalog(value) {
     if(!GROUP_ORDER.includes(file.group)||typeof file.path!=='string'||
       !/^[A-Za-z0-9._/-]+$/.test(file.path)||file.path.startsWith('/')||
       file.path.split('/').some(part=>!part||part==='.'||part==='..')||
-      !/^(?:site-baseline|plantas2d|interiores)\//.test(file.path)||
+      !(/^(?:site-baseline|plantas2d|interiores|mapa-runtime)\//.test(file.path)||file.path==='modelo/variante/liv-contorno.glb')||
       !Number.isSafeInteger(file.bytes)||file.bytes<=0||file.bytes>150*1024*1024||
       !/^[a-f0-9]{64}$/i.test(file.sha256||'')||typeof file.essential!=='boolean') {
       throw Error('Arquivo de transferência inválido.');
@@ -303,13 +303,15 @@ async function cachedResponse(job) {
 async function foreground(request,clientId='',navigation=false) {
   const epoch=clientPriority(clientId).epoch,versionEpoch=catalogEpoch;
   await ensureCatalog();
-  const job=jobs.get(request.url);
+  // Fragments choose the map edition but are never sent to the HTTP server.
+  const requestURL=new URL(request.url);requestURL.hash='';
+  const job=jobs.get(requestURL.href);
   if(!job)return fetch(request); // Exact allowlist; never cache wrappers or application JS.
   function checkDemand(){
     // Cache lookup is asynchronous. A removed scene must not re-enter the queue
     // after a newer priority command canceled its demands during that lookup.
     const priority=clientPriority(clientId);
-    if(request.signal.aborted||catalogEpoch!==versionEpoch||jobs.get(request.url)!==job||
+    if(request.signal.aborted||catalogEpoch!==versionEpoch||jobs.get(requestURL.href)!==job||
       (epoch!==priority.epoch&&(priority.paused||!selectedForClient(job,priority))))throw abortError();
   }
   checkDemand();
@@ -419,7 +421,7 @@ self.addEventListener('fetch',event=>{
   const relative=url.pathname.slice(SCOPE.pathname.length);
   // This guard also works after the browser has restarted the worker. The catalog
   // then makes the exact URL decision before any cache lookup or queued transfer.
-  if(!/^(?:site-baseline|plantas2d|interiores)\//.test(relative))return;
+  if(!(/^(?:site-baseline|plantas2d|interiores|mapa-runtime)\//.test(relative)||relative==='modelo/variante/liv-contorno.glb'))return;
   const response=foreground(event.request,event.resultingClientId||event.clientId||'',event.request.mode==='navigate');
   event.respondWith(response);
   event.waitUntil(response.then(()=>ensurePump()).catch(()=>ensurePump()));

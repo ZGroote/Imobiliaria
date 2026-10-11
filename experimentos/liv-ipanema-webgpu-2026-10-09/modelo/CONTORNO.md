@@ -46,7 +46,7 @@ As faixas pretas na parede bege e nos recuos cinza vinham da irradiância, não 
 
 O picking usa o primeiro encontro com um prisma fechado da torre, incluindo cobertura e planos recuados. Consulta os polígonos apenas no fim do clique/toque; continua sem atribuir o núcleo, corredor, outro pavimento ou bordas compartilhadas. O realce é uma extrusão da zona selecionada e preserva seus rasgos. Os dez realces compartilham dois buffers, com faixas de desenho, e dois materiais padrão sem iluminação/sombra adicionais. Geometria, materiais, UV1 e atlas da torre não são alterados pela seleção. Ver [UNIDADES.md](../UNIDADES.md).
 
-A integração é ativada por `geometria=contorno`; o endereço sem esse parâmetro conserva a edição anterior. Sessões são separadas por edição. Entrar no mapa e retornar conserva a edição e o final selecionado, mas o GLB exibido **dentro do mapa** ainda é o da base. Adaptar/qualificar esse GLB e medir a abertura da nova edição precedem sua adoção como padrão.
+A integração é ativada por `geometria=contorno`; o endereço sem esse parâmetro conserva a edição anterior. Sessões são separadas por edição. O mapa agora exibe o GLB conferido dessa autoria, e o retorno conserva a edição e o final selecionado. [MAPA-MODELO.md](../MAPA-MODELO.md) registra a conferência de geometria/materiais/instâncias, implantação e fila. Medir a abertura da nova edição precede sua adoção como padrão.
 
 [unidades-recuos-integrado/runtime.json](../evidencias/unidades-recuos-integrado/runtime.json) registra lista/fachada/teclado, realce sem preencher os recuos, sessão, descarte, as duas tipologias nos três modos e retorno do mapa. Inclui cadastros ausente, de outra edição e com polígono retangular incompatível. [test_contorno_unidades.mjs](../test_contorno_unidades.mjs) confere também procedência, raios em recuos/cobertura e cobertura dos polígonos pelas tampas reais do realce. Essas provas continuam sendo desktop e toque emulado.
 
@@ -81,4 +81,4 @@ python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/registrar_unidades.py
 python experimentos/liv-ipanema-webgpu-2026-10-09/qa_unidades.py --geometria contorno --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/unidades-recuos-novo
 ```
 
-Os relatórios desta revisão são históricos e não devem ser sobrescritos em novas execuções. A seleção aproximada já acompanha a variante na integração opcional; GLB no mapa, custo e ensaio físico continuam pendentes antes de torná-la padrão. A versão pública não foi alterada.
+Os relatórios desta revisão são históricos e não devem ser sobrescritos em novas execuções. A seleção aproximada e o GLB no mapa já acompanham a variante na integração opcional; custo e ensaio físico continuam pendentes antes de torná-la padrão. A versão pública não foi alterada.

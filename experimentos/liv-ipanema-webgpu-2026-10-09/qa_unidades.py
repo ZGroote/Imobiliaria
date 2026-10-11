@@ -360,14 +360,14 @@ def run_map_return(browser, report, catalog):
         assert_selected(page,catalog['units'][1])
         assert child(page).evaluate('__livProva.data.sourceModelSHA256') == catalog['sourceModelSHA256']
         report['mapReturn']={'status':'PASS','returnURL':destination,'selectionRestored':True,
-                             'exteriorEditionRestored':True,'mapGeometry':'baseline-preserved'}
+                             'exteriorEditionRestored':True,'mapGeometry':GEOMETRY+'-verified'}
         # A real transfer cache legitimately serves the valid map above. Block
         # workers only in a separate disposable context for this failure fixture.
         failure_context=browser.new_context(viewport={'width':1280,'height':800},service_workers='block')
         failure_page=failure_context.new_page()
         failure_page.goto(address('webgl'));ready(failure_page)
         failure_page.evaluate('id=>__livViewer.selectUnit(id)',catalog['units'][1]['id'])
-        failure_page.route('**/site-baseline/mapa-liv-ipanema-5km.html',lambda route:route.fulfill(
+        failure_page.route('**/mapa-runtime/mapa-liv-ipanema-5km.html',lambda route:route.fulfill(
             status=200,content_type='text/html',body='<p>Fixture: mapa indisponível</p>'))
         failure_page.locator('.map-link').click()
         failure_page.locator('#failure').wait_for(state='visible',timeout=120000)

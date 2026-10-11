@@ -84,7 +84,7 @@ class Fixture:
         self.gates: dict[str, threading.Event] = {}
         self.revision = 0
 
-    def configure(self, name: str, *, wrong_hash: bool = False, replacement: bool = False, typologies: bool = False):
+    def configure(self, name: str, *, wrong_hash: bool = False, replacement: bool = False, typologies: bool = False, map_editions: bool = False):
         suffix = "replacement" if replacement else name
         paths = {
             "tour": f"site-baseline/{name}-tour.html",
@@ -100,13 +100,18 @@ class Fixture:
             paths["map-detail"]: ("tile-" + suffix).encode() * 2048,
             paths["planta2d"]: png(),
         }
+        if map_editions:
+            for key, path in [('map','mapa-runtime/mapa-liv-ipanema-5km.html'), ('map-model','modelo/variante/liv-contorno.glb')]:
+                bodies[path]=bodies.pop(paths[key]);paths[key]=path
+            paths['map-original']='site-baseline/liv-ipanema.glb'
+            bodies[paths['map-original']]=b'previous building'*2048
         if typologies:
             previous=paths["tour"]
             paths["tour"]=f"interiores/canto/{name}-scene.json.gz"
             bodies[paths["tour"]]=bodies.pop(previous)
             paths["tour-meio"]=f"interiores/meio/{name}-scene.json.gz"
             bodies[paths["tour-meio"]]=html("meio")
-        records = [{"path": path, "group": "tour" if key=="tour-meio" else "map" if key in ["map-detail", "map-model"] else key,
+        records = [{"path": path, "group": "tour" if key=="tour-meio" else "map" if key in ["map-detail", "map-model", "map-original"] else key,
                     "bytes": len(bodies[path]), "sha256": sha(bodies[path]),
                     "essential": key != "map-detail"}
                    for key, path in paths.items()]
@@ -537,6 +542,24 @@ def run(out: Path):
             assert len(fixture.started(paths["map-model"])) == 1
             case["modelCompletedBeforeNativeTile"] = True
             case["status"] = "PASS"
+            context.close()
+
+            context, page, case, paths, bodies, manifest = setup('map-edition', map_editions=True)
+            gate=fixture.hold(paths['map-model'])
+            command(page,'prioritize','map',[paths['map'],paths['map-model'],paths['map-detail']])
+            wait_for(lambda:fixture.started(paths['map-model']),'Selected contour GLB did not start.')
+            assert not fixture.started(paths['map-original']), 'Other edition delayed the selected map model.'
+            page.evaluate('path=>{window.editionTile=fetch(path).then(async r=>(await r.arrayBuffer()).byteLength);}',paths['map-detail'])
+            wait_for(lambda:fixture_job_status(page,paths['map-detail'])['waiters']==1,'Selected map tile did not join.')
+            assert not fixture.started(paths['map-detail']), 'Tile interrupted the selected GLB.'
+            gate.set()
+            assert page.evaluate('()=>editionTile')==len(bodies[paths['map-detail']])
+            wait_for(lambda:completed(page,fixture,manifest),'Both edition resources did not finish.')
+            assert len(fixture.started(paths['map-model']))==1
+            result=fetch_body(page,paths['map']+'#contorno')
+            assert result['sha256']==sha(bodies[paths['map']])
+            assert len(fixture.started(paths['map']))==1, 'Edition fragment missed the verified cache.'
+            case.update(status='PASS',selectedModelPrecedesOtherEdition=True,modelCompletedBeforeNativeTile=True,fragmentUsesVerifiedCache=True)
             context.close()
 
             context, page, case, paths, bodies, manifest = setup("version")

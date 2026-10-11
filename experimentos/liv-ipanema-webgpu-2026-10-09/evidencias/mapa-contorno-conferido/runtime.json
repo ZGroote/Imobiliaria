@@ -1,0 +1,1566 @@
+{
+  "status": "PASS",
+  "recordedAtUtc": "2026-10-11T05:14:02.067712+00:00",
+  "physicalMobile": false,
+  "sourceSHA256": {
+    "qa_mapa_modelo.py": "4afca0dae009542ef9d9b2cc7e2bdd19bded924e3c2f13149995d0ad97e62dc2",
+    "mapa-retorno.js": "468fc74b6466b982b210d7811b69c43b31618b4dca06c5e7fff35367ec5959cb",
+    "mapa-loader.js": "ad5b5e53519e3f647863ac8e463ec96a04f3362b2c4528e4a42d57e547cceee9",
+    "preparar_mapa.py": "e3e345a88c1efc371c45491fdcf343317f4960e0663453f78f6201007595c7fc",
+    "modelo/registrar_mapa.py": "a1982edcbb8c211e0f5ba9540028ff5915141515ea6c04fb1b7c20d32bc83795",
+    "modelo/variante/mapa.json": "5a090b874d8319637a9d553b14c459937913b8974e3beee0e8348432f71c19e6",
+    "mapa-runtime/manifest.json": "92106df6500e18adcaf421cfa433210d3d93641d85968def5c9925c7876ee367",
+    "transfer-worker.js": "c3c52b59e332f319ce6be0999690beabdb8580dd11d4690c7b382d352ba9cb3b",
+    "transfer-manifest.json": "be7b47fd33b8b0ccb6ca5cf7fffb5524fe7011907d1fe3ab503c0f3f09b73346"
+  },
+  "cases": [
+    {
+      "name": "base-desktop",
+      "edition": "base",
+      "viewport": [
+        1440,
+        900
+      ],
+      "serviceWorkersBlocked": false,
+      "errors": [],
+      "model": {
+        "sourceMeshes": 1825,
+        "sourceInstances": 1825,
+        "instancedBatches": 87,
+        "fallbackMeshes": 0,
+        "estimatedDrawCalls": 87,
+        "triangles": 443561,
+        "units": "meters",
+        "anchor": "tower-origin",
+        "floorLocalY": 0,
+        "terrainY": 133.6253465234348,
+        "rotationRadians": -1.0471975511965976,
+        "dimensionsInferred": true,
+        "lighting": "map-lights",
+        "boundsLocal": {
+          "min": [
+            -36.71000091731548,
+            -0.949999988079071,
+            -39.75499700467814
+          ],
+          "max": [
+            52.425375152608844,
+            52.55500030517578,
+            49.6072612986009
+          ]
+        },
+        "boundsWorld": {
+          "min": [
+            -3269.7444697410183,
+            132.67534653535574,
+            -3237.149539496519
+          ],
+          "max": [
+            -3147.7867958758698,
+            186.1803468286106,
+            -3115.2749102924454
+          ]
+        },
+        "positionApproximate": true,
+        "placementOffsetMeters": [
+          8,
+          -6
+        ],
+        "floorClearanceMeters": 0.4,
+        "edition": "base",
+        "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+        "assetSHA256": "f3bef61c2a844aae0062b1c15df7ebb942ed188c572ba455b8cddd86d57fadf1",
+        "assetBytes": 2989904,
+        "geometryVerified": true
+      },
+      "frameResources": [
+        {
+          "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/liv-ipanema.glb",
+          "bytes": 2989904
+        }
+      ],
+      "ui": {
+        "viewport": [
+          1440,
+          900
+        ],
+        "bar": {
+          "x": 12,
+          "y": 12,
+          "w": 355.109375,
+          "h": 60,
+          "visible": true
+        },
+        "compass": {
+          "x": 1386,
+          "y": 16,
+          "w": 38,
+          "h": 38,
+          "visible": true
+        },
+        "minimap": {
+          "x": 1254,
+          "y": 704,
+          "w": 170,
+          "h": 170,
+          "visible": true
+        },
+        "nearbyPanel": {
+          "x": 12,
+          "y": 84,
+          "w": 320,
+          "h": 623,
+          "visible": true
+        },
+        "hidden": [
+          {
+            "id": "panel",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "houses",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "hsheet",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "usheet",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "mobileNav",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "mobileHint",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "etapas",
+            "box": null
+          },
+          {
+            "id": "isair",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "hud",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "livLocalizacao",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "mOpcoes",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "tRelief",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          }
+        ],
+        "compare": false,
+        "compareLinks": 0,
+        "text": "LIV Ipanema · São Carlos\nCentralizar\nAbrir maquete",
+        "contract": {
+          "completeOnly": true,
+          "terrainAlwaysOn": true,
+          "inspectionEnabled": false,
+          "version": 1
+        },
+        "actions": [
+          {
+            "text": "Centralizar",
+            "box": {
+              "x": 171.5,
+              "y": 22,
+              "w": 78.359375,
+              "h": 40,
+              "visible": true
+            }
+          },
+          {
+            "text": "Abrir maquete",
+            "box": {
+              "x": 257.859375,
+              "y": 22,
+              "w": 96.25,
+              "h": 40,
+              "visible": true
+            }
+          }
+        ],
+        "search": [
+          {
+            "id": "",
+            "box": {
+              "x": 25,
+              "y": 182.796875,
+              "w": 294,
+              "h": 143.59375,
+              "visible": true
+            },
+            "insideNearby": true
+          },
+          {
+            "id": "livProximosQuery",
+            "box": {
+              "x": 25,
+              "y": 282.390625,
+              "w": 294,
+              "h": 44,
+              "visible": true
+            },
+            "insideNearby": true
+          }
+        ]
+      },
+      "regional": {
+        "radius": 5000,
+        "center": [
+          -3216.4283207855997,
+          -3179.4802476268346
+        ],
+        "pois": 614,
+        "raster": {
+          "ndvi": {
+            "kind": "ndvi",
+            "format": "regional-raster-sparse-v2",
+            "source_grid": {
+              "n": 512,
+              "half_m": 9500
+            },
+            "outside": "not-transmitted",
+            "edge_policy": "nearest-inside",
+            "exported_cells": 56828,
+            "runtime_cells": 262144,
+            "max_sample_radius_m": 4999.985280598586
+          },
+          "elevation": {
+            "kind": "elevation",
+            "format": "regional-raster-sparse-v2",
+            "source_grid": {
+              "n": 80,
+              "half_m": 9500
+            },
+            "outside": "not-transmitted",
+            "edge_policy": "nearest-inside",
+            "exported_cells": 1352,
+            "runtime_cells": 6400,
+            "max_sample_radius_m": 4996.7922349056535
+          }
+        },
+        "circle": {
+          "geometries": 40,
+          "clippedTriangles": 3,
+          "removedTriangles": 0,
+          "outputTriangles": 86590,
+          "center": [
+            -3216.4283207855997,
+            -3179.4802476268346
+          ],
+          "radius": 5000,
+          "sides": 720
+        }
+      },
+      "geometry": {
+        "objects": 165,
+        "terrainObjects": 55,
+        "instanceObjects": 110,
+        "instances": 4387,
+        "vertices": 5253886,
+        "maxRadius": 4999.990445785,
+        "worst": {
+          "name": "liv-chao-circular",
+          "slot": null,
+          "index": 62702,
+          "x": -8207.0927734375,
+          "z": -3484.722412109375
+        },
+        "violations": [],
+        "categories": {
+          "urban": 60,
+          "terrain": 55,
+          "exterior": 25,
+          "arvores": 20,
+          "sombras": 1,
+          "portoes": 4
+        }
+      },
+      "nearby": {
+        "catalogCount": 614,
+        "category": "farmacia",
+        "categoryCount": 18,
+        "selectedId": 10,
+        "max_distance_m": 4996.9687584719595,
+        "emptyState": true,
+        "keyboard": true
+      },
+      "focus": {
+        "target": [
+          -3208.4283207855997,
+          133.2253465234348,
+          -3185.4802476268346
+        ],
+        "model": [
+          -3208.4283207855997,
+          133.6253465234348,
+          -3185.4802476268346
+        ],
+        "visible": true
+      },
+      "terrain": {
+        "amount": 1,
+        "anchor": 133.2253465234348,
+        "floor": 133.6253465234348,
+        "footprint": [
+          133.2253465234348,
+          133.2253465234348,
+          133.2253465234348,
+          133.2253465234348,
+          133.2253465234348
+        ],
+        "outsideDelta": 0
+      },
+      "cacheReload": true,
+      "returnSelection": "liv-ipanema/pavimento-modelo-01/final-01",
+      "status": "PASS"
+    },
+    {
+      "name": "contorno-desktop",
+      "edition": "contorno",
+      "viewport": [
+        1440,
+        900
+      ],
+      "serviceWorkersBlocked": false,
+      "errors": [],
+      "model": {
+        "sourceMeshes": 1826,
+        "sourceInstances": 1826,
+        "instancedBatches": 88,
+        "fallbackMeshes": 0,
+        "estimatedDrawCalls": 88,
+        "triangles": 274317,
+        "units": "meters",
+        "anchor": "tower-origin",
+        "floorLocalY": 0,
+        "terrainY": 133.6253465234348,
+        "rotationRadians": -1.0471975511965976,
+        "dimensionsInferred": true,
+        "lighting": "map-lights",
+        "boundsLocal": {
+          "min": [
+            -36.71000091731548,
+            -0.949999988079071,
+            -39.75499700467814
+          ],
+          "max": [
+            52.425375152608844,
+            52.70000076293945,
+            49.6072612986009
+          ]
+        },
+        "boundsWorld": {
+          "min": [
+            -3269.7444697410183,
+            132.67534653535574,
+            -3237.149539496519
+          ],
+          "max": [
+            -3147.7867958758698,
+            186.32534728637427,
+            -3115.2749102924454
+          ]
+        },
+        "positionApproximate": true,
+        "placementOffsetMeters": [
+          8,
+          -6
+        ],
+        "floorClearanceMeters": 0.4,
+        "edition": "contorno",
+        "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+        "assetSHA256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686",
+        "assetBytes": 2275324,
+        "geometryVerified": true
+      },
+      "frameResources": [
+        {
+          "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/liv-contorno.glb",
+          "bytes": 2275324
+        }
+      ],
+      "ui": {
+        "viewport": [
+          1440,
+          900
+        ],
+        "bar": {
+          "x": 12,
+          "y": 12,
+          "w": 355.109375,
+          "h": 60,
+          "visible": true
+        },
+        "compass": {
+          "x": 1386,
+          "y": 16,
+          "w": 38,
+          "h": 38,
+          "visible": true
+        },
+        "minimap": {
+          "x": 1254,
+          "y": 704,
+          "w": 170,
+          "h": 170,
+          "visible": true
+        },
+        "nearbyPanel": {
+          "x": 12,
+          "y": 84,
+          "w": 320,
+          "h": 623,
+          "visible": true
+        },
+        "hidden": [
+          {
+            "id": "panel",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "houses",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "hsheet",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "usheet",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "mobileNav",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "mobileHint",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "etapas",
+            "box": null
+          },
+          {
+            "id": "isair",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "hud",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "livLocalizacao",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "mOpcoes",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "tRelief",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          }
+        ],
+        "compare": false,
+        "compareLinks": 0,
+        "text": "LIV Ipanema · São Carlos\nCentralizar\nAbrir maquete",
+        "contract": {
+          "completeOnly": true,
+          "terrainAlwaysOn": true,
+          "inspectionEnabled": false,
+          "version": 1
+        },
+        "actions": [
+          {
+            "text": "Centralizar",
+            "box": {
+              "x": 171.5,
+              "y": 22,
+              "w": 78.359375,
+              "h": 40,
+              "visible": true
+            }
+          },
+          {
+            "text": "Abrir maquete",
+            "box": {
+              "x": 257.859375,
+              "y": 22,
+              "w": 96.25,
+              "h": 40,
+              "visible": true
+            }
+          }
+        ],
+        "search": [
+          {
+            "id": "",
+            "box": {
+              "x": 25,
+              "y": 182.796875,
+              "w": 294,
+              "h": 143.59375,
+              "visible": true
+            },
+            "insideNearby": true
+          },
+          {
+            "id": "livProximosQuery",
+            "box": {
+              "x": 25,
+              "y": 282.390625,
+              "w": 294,
+              "h": 44,
+              "visible": true
+            },
+            "insideNearby": true
+          }
+        ]
+      },
+      "regional": {
+        "radius": 5000,
+        "center": [
+          -3216.4283207855997,
+          -3179.4802476268346
+        ],
+        "pois": 614,
+        "raster": {
+          "ndvi": {
+            "kind": "ndvi",
+            "format": "regional-raster-sparse-v2",
+            "source_grid": {
+              "n": 512,
+              "half_m": 9500
+            },
+            "outside": "not-transmitted",
+            "edge_policy": "nearest-inside",
+            "exported_cells": 56828,
+            "runtime_cells": 262144,
+            "max_sample_radius_m": 4999.985280598586
+          },
+          "elevation": {
+            "kind": "elevation",
+            "format": "regional-raster-sparse-v2",
+            "source_grid": {
+              "n": 80,
+              "half_m": 9500
+            },
+            "outside": "not-transmitted",
+            "edge_policy": "nearest-inside",
+            "exported_cells": 1352,
+            "runtime_cells": 6400,
+            "max_sample_radius_m": 4996.7922349056535
+          }
+        },
+        "circle": {
+          "geometries": 40,
+          "clippedTriangles": 3,
+          "removedTriangles": 0,
+          "outputTriangles": 86590,
+          "center": [
+            -3216.4283207855997,
+            -3179.4802476268346
+          ],
+          "radius": 5000,
+          "sides": 720
+        }
+      },
+      "geometry": {
+        "objects": 168,
+        "terrainObjects": 56,
+        "instanceObjects": 112,
+        "instances": 4423,
+        "vertices": 5268289,
+        "maxRadius": 4999.990445785,
+        "worst": {
+          "name": "liv-chao-circular",
+          "slot": null,
+          "index": 62702,
+          "x": -8207.0927734375,
+          "z": -3484.722412109375
+        },
+        "violations": [],
+        "categories": {
+          "urban": 62,
+          "terrain": 56,
+          "exterior": 25,
+          "arvores": 20,
+          "sombras": 1,
+          "portoes": 4
+        }
+      },
+      "nearby": {
+        "catalogCount": 614,
+        "category": "farmacia",
+        "categoryCount": 18,
+        "selectedId": 10,
+        "max_distance_m": 4996.9687584719595,
+        "emptyState": true,
+        "keyboard": true
+      },
+      "focus": {
+        "target": [
+          -3208.4283207855997,
+          133.2253465234348,
+          -3185.4802476268346
+        ],
+        "model": [
+          -3208.4283207855997,
+          133.6253465234348,
+          -3185.4802476268346
+        ],
+        "visible": true
+      },
+      "terrain": {
+        "amount": 1,
+        "anchor": 133.2253465234348,
+        "floor": 133.6253465234348,
+        "footprint": [
+          133.2253465234348,
+          133.2253465234348,
+          133.2253465234348,
+          133.2253465234348,
+          133.2253465234348
+        ],
+        "outsideDelta": 0
+      },
+      "cacheReload": true,
+      "returnSelection": "liv-ipanema/pavimento-modelo-01/final-01",
+      "status": "PASS"
+    },
+    {
+      "name": "contorno-toque",
+      "edition": "contorno",
+      "viewport": [
+        390,
+        844
+      ],
+      "serviceWorkersBlocked": false,
+      "errors": [],
+      "model": {
+        "sourceMeshes": 1826,
+        "sourceInstances": 1826,
+        "instancedBatches": 88,
+        "fallbackMeshes": 0,
+        "estimatedDrawCalls": 88,
+        "triangles": 274317,
+        "units": "meters",
+        "anchor": "tower-origin",
+        "floorLocalY": 0,
+        "terrainY": 133.6253465234348,
+        "rotationRadians": -1.0471975511965976,
+        "dimensionsInferred": true,
+        "lighting": "map-lights",
+        "boundsLocal": {
+          "min": [
+            -36.71000091731548,
+            -0.949999988079071,
+            -39.75499700467814
+          ],
+          "max": [
+            52.425375152608844,
+            52.70000076293945,
+            49.6072612986009
+          ]
+        },
+        "boundsWorld": {
+          "min": [
+            -3269.7444697410183,
+            132.67534653535574,
+            -3237.149539496519
+          ],
+          "max": [
+            -3147.7867958758698,
+            186.32534728637427,
+            -3115.2749102924454
+          ]
+        },
+        "positionApproximate": true,
+        "placementOffsetMeters": [
+          8,
+          -6
+        ],
+        "floorClearanceMeters": 0.4,
+        "edition": "contorno",
+        "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+        "assetSHA256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686",
+        "assetBytes": 2275324,
+        "geometryVerified": true
+      },
+      "frameResources": [
+        {
+          "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/liv-contorno.glb",
+          "bytes": 2275324
+        }
+      ],
+      "ui": {
+        "viewport": [
+          390,
+          844
+        ],
+        "bar": {
+          "x": 12,
+          "y": 12,
+          "w": 310,
+          "h": 81.59375,
+          "visible": true
+        },
+        "compass": {
+          "x": 334,
+          "y": 12,
+          "w": 44,
+          "h": 48,
+          "visible": true
+        },
+        "minimap": {
+          "x": 290,
+          "y": 106,
+          "w": 88,
+          "h": 88,
+          "visible": true
+        },
+        "nearbyPanel": {
+          "x": 12,
+          "y": 393.125,
+          "w": 366,
+          "h": 438.875,
+          "visible": true
+        },
+        "hidden": [
+          {
+            "id": "panel",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "houses",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "hsheet",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "usheet",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "mobileNav",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "mobileHint",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "etapas",
+            "box": null
+          },
+          {
+            "id": "isair",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "hud",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "livLocalizacao",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "mOpcoes",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "tRelief",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          }
+        ],
+        "compare": false,
+        "compareLinks": 0,
+        "text": "LIV Ipanema · São Carlos\nCentralizar\nAbrir maquete",
+        "contract": {
+          "completeOnly": true,
+          "terrainAlwaysOn": true,
+          "inspectionEnabled": false,
+          "version": 1
+        },
+        "actions": [
+          {
+            "text": "Centralizar",
+            "box": {
+              "x": 21,
+              "y": 40.59375,
+              "w": 144,
+              "h": 44,
+              "visible": true
+            }
+          },
+          {
+            "text": "Abrir maquete",
+            "box": {
+              "x": 169,
+              "y": 40.59375,
+              "w": 144,
+              "h": 44,
+              "visible": true
+            }
+          }
+        ],
+        "search": [
+          {
+            "id": "",
+            "box": {
+              "x": 25,
+              "y": 484.515625,
+              "w": 340,
+              "h": 70.796875,
+              "visible": true
+            },
+            "insideNearby": true
+          },
+          {
+            "id": "livProximosQuery",
+            "box": {
+              "x": 199,
+              "y": 505.3125,
+              "w": 166,
+              "h": 44,
+              "visible": true
+            },
+            "insideNearby": true
+          }
+        ]
+      },
+      "regional": {
+        "radius": 5000,
+        "center": [
+          -3216.4283207855997,
+          -3179.4802476268346
+        ],
+        "pois": 614,
+        "raster": {
+          "ndvi": {
+            "kind": "ndvi",
+            "format": "regional-raster-sparse-v2",
+            "source_grid": {
+              "n": 512,
+              "half_m": 9500
+            },
+            "outside": "not-transmitted",
+            "edge_policy": "nearest-inside",
+            "exported_cells": 56828,
+            "runtime_cells": 262144,
+            "max_sample_radius_m": 4999.985280598586
+          },
+          "elevation": {
+            "kind": "elevation",
+            "format": "regional-raster-sparse-v2",
+            "source_grid": {
+              "n": 80,
+              "half_m": 9500
+            },
+            "outside": "not-transmitted",
+            "edge_policy": "nearest-inside",
+            "exported_cells": 1352,
+            "runtime_cells": 6400,
+            "max_sample_radius_m": 4996.7922349056535
+          }
+        },
+        "circle": {
+          "geometries": 40,
+          "clippedTriangles": 3,
+          "removedTriangles": 0,
+          "outputTriangles": 86590,
+          "center": [
+            -3216.4283207855997,
+            -3179.4802476268346
+          ],
+          "radius": 5000,
+          "sides": 720
+        }
+      },
+      "geometry": {
+        "objects": 153,
+        "terrainObjects": 51,
+        "instanceObjects": 102,
+        "instances": 3368,
+        "vertices": 3898623,
+        "maxRadius": 4999.990445785,
+        "worst": {
+          "name": "liv-chao-circular",
+          "slot": null,
+          "index": 62702,
+          "x": -8207.0927734375,
+          "z": -3484.722412109375
+        },
+        "violations": [],
+        "categories": {
+          "urban": 56,
+          "terrain": 51,
+          "exterior": 21,
+          "arvores": 20,
+          "sombras": 1,
+          "portoes": 4
+        }
+      },
+      "nearby": {
+        "catalogCount": 614,
+        "category": "farmacia",
+        "categoryCount": 18,
+        "selectedId": 10,
+        "max_distance_m": 4996.9687584719595,
+        "emptyState": true,
+        "keyboard": true
+      },
+      "focus": {
+        "target": [
+          -3208.4283207855997,
+          133.2253465234348,
+          -3185.4802476268346
+        ],
+        "model": [
+          -3208.4283207855997,
+          133.6253465234348,
+          -3185.4802476268346
+        ],
+        "visible": true
+      },
+      "terrain": {
+        "amount": 1,
+        "anchor": 133.2253465234348,
+        "floor": 133.6253465234348,
+        "footprint": [
+          133.2253465234348,
+          133.2253465234348,
+          133.2253465234348,
+          133.2253465234348,
+          133.2253465234348
+        ],
+        "outsideDelta": 0
+      },
+      "cacheReload": true,
+      "returnSelection": "liv-ipanema/pavimento-modelo-01/final-01",
+      "status": "PASS"
+    },
+    {
+      "name": "contorno-sem-cache",
+      "edition": "contorno",
+      "viewport": [
+        1280,
+        800
+      ],
+      "serviceWorkersBlocked": true,
+      "errors": [],
+      "model": {
+        "sourceMeshes": 1826,
+        "sourceInstances": 1826,
+        "instancedBatches": 88,
+        "fallbackMeshes": 0,
+        "estimatedDrawCalls": 88,
+        "triangles": 274317,
+        "units": "meters",
+        "anchor": "tower-origin",
+        "floorLocalY": 0,
+        "terrainY": 133.6253465234348,
+        "rotationRadians": -1.0471975511965976,
+        "dimensionsInferred": true,
+        "lighting": "map-lights",
+        "boundsLocal": {
+          "min": [
+            -36.71000091731548,
+            -0.949999988079071,
+            -39.75499700467814
+          ],
+          "max": [
+            52.425375152608844,
+            52.70000076293945,
+            49.6072612986009
+          ]
+        },
+        "boundsWorld": {
+          "min": [
+            -3269.7444697410183,
+            132.67534653535574,
+            -3237.149539496519
+          ],
+          "max": [
+            -3147.7867958758698,
+            186.32534728637427,
+            -3115.2749102924454
+          ]
+        },
+        "positionApproximate": true,
+        "placementOffsetMeters": [
+          8,
+          -6
+        ],
+        "floorClearanceMeters": 0.4,
+        "edition": "contorno",
+        "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+        "assetSHA256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686",
+        "assetBytes": 2275324,
+        "geometryVerified": true
+      },
+      "frameResources": [
+        {
+          "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/liv-contorno.glb",
+          "bytes": 2275324
+        }
+      ],
+      "ui": {
+        "viewport": [
+          1280,
+          800
+        ],
+        "bar": {
+          "x": 12,
+          "y": 12,
+          "w": 355.109375,
+          "h": 60,
+          "visible": true
+        },
+        "compass": {
+          "x": 1226,
+          "y": 16,
+          "w": 38,
+          "h": 38,
+          "visible": true
+        },
+        "minimap": {
+          "x": 1094,
+          "y": 604,
+          "w": 170,
+          "h": 170,
+          "visible": true
+        },
+        "nearbyPanel": {
+          "x": 12,
+          "y": 84,
+          "w": 320,
+          "h": 623,
+          "visible": true
+        },
+        "hidden": [
+          {
+            "id": "panel",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "houses",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "hsheet",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "usheet",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "mobileNav",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "mobileHint",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "etapas",
+            "box": null
+          },
+          {
+            "id": "isair",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "hud",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "livLocalizacao",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "mOpcoes",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          },
+          {
+            "id": "tRelief",
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0,
+              "visible": false
+            }
+          }
+        ],
+        "compare": false,
+        "compareLinks": 0,
+        "text": "LIV Ipanema · São Carlos\nCentralizar\nAbrir maquete",
+        "contract": {
+          "completeOnly": true,
+          "terrainAlwaysOn": true,
+          "inspectionEnabled": false,
+          "version": 1
+        },
+        "actions": [
+          {
+            "text": "Centralizar",
+            "box": {
+              "x": 171.5,
+              "y": 22,
+              "w": 78.359375,
+              "h": 40,
+              "visible": true
+            }
+          },
+          {
+            "text": "Abrir maquete",
+            "box": {
+              "x": 257.859375,
+              "y": 22,
+              "w": 96.25,
+              "h": 40,
+              "visible": true
+            }
+          }
+        ],
+        "search": [
+          {
+            "id": "",
+            "box": {
+              "x": 25,
+              "y": 182.796875,
+              "w": 294,
+              "h": 143.59375,
+              "visible": true
+            },
+            "insideNearby": true
+          },
+          {
+            "id": "livProximosQuery",
+            "box": {
+              "x": 25,
+              "y": 282.390625,
+              "w": 294,
+              "h": 44,
+              "visible": true
+            },
+            "insideNearby": true
+          }
+        ]
+      },
+      "regional": {
+        "radius": 5000,
+        "center": [
+          -3216.4283207855997,
+          -3179.4802476268346
+        ],
+        "pois": 614,
+        "raster": {
+          "ndvi": {
+            "kind": "ndvi",
+            "format": "regional-raster-sparse-v2",
+            "source_grid": {
+              "n": 512,
+              "half_m": 9500
+            },
+            "outside": "not-transmitted",
+            "edge_policy": "nearest-inside",
+            "exported_cells": 56828,
+            "runtime_cells": 262144,
+            "max_sample_radius_m": 4999.985280598586
+          },
+          "elevation": {
+            "kind": "elevation",
+            "format": "regional-raster-sparse-v2",
+            "source_grid": {
+              "n": 80,
+              "half_m": 9500
+            },
+            "outside": "not-transmitted",
+            "edge_policy": "nearest-inside",
+            "exported_cells": 1352,
+            "runtime_cells": 6400,
+            "max_sample_radius_m": 4996.7922349056535
+          }
+        },
+        "circle": {
+          "geometries": 40,
+          "clippedTriangles": 3,
+          "removedTriangles": 0,
+          "outputTriangles": 86590,
+          "center": [
+            -3216.4283207855997,
+            -3179.4802476268346
+          ],
+          "radius": 5000,
+          "sides": 720
+        }
+      },
+      "geometry": {
+        "objects": 176,
+        "terrainObjects": 62,
+        "instanceObjects": 114,
+        "instances": 4673,
+        "vertices": 5357665,
+        "maxRadius": 4999.990445785,
+        "worst": {
+          "name": "liv-chao-circular",
+          "slot": null,
+          "index": 62702,
+          "x": -8207.0927734375,
+          "z": -3484.722412109375
+        },
+        "violations": [],
+        "categories": {
+          "urban": 64,
+          "terrain": 62,
+          "exterior": 25,
+          "arvores": 20,
+          "sombras": 1,
+          "portoes": 4
+        }
+      },
+      "nearby": {
+        "catalogCount": 614,
+        "category": "farmacia",
+        "categoryCount": 18,
+        "selectedId": 10,
+        "max_distance_m": 4996.9687584719595,
+        "emptyState": true,
+        "keyboard": true
+      },
+      "focus": {
+        "target": [
+          -3208.4283207855997,
+          133.2253465234348,
+          -3185.4802476268346
+        ],
+        "model": [
+          -3208.4283207855997,
+          133.6253465234348,
+          -3185.4802476268346
+        ],
+        "visible": true
+      },
+      "terrain": {
+        "amount": 1,
+        "anchor": 133.2253465234348,
+        "floor": 133.6253465234348,
+        "footprint": [
+          133.2253465234348,
+          133.2253465234348,
+          133.2253465234348,
+          133.2253465234348,
+          133.2253465234348
+        ],
+        "outsideDelta": 0
+      },
+      "returnSelection": "liv-ipanema/pavimento-modelo-01/final-01",
+      "status": "PASS"
+    }
+  ],
+  "modelManifest": {
+    "base": {
+      "url": "liv-ipanema.glb",
+      "bytes": 2989904,
+      "sha256": "f3bef61c2a844aae0062b1c15df7ebb942ed188c572ba455b8cddd86d57fadf1",
+      "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919"
+    },
+    "contorno": {
+      "url": "../modelo/variante/liv-contorno.glb",
+      "bytes": 2275324,
+      "sha256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686",
+      "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1"
+    }
+  },
+  "corruptModel": {
+    "status": "PASS",
+    "load": {
+      "edition": "contorno",
+      "ready": false,
+      "verified": false,
+      "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+      "error": "O modelo do LIV pertence a outra revisão."
+    },
+    "modelPresent": false
+  }
+}

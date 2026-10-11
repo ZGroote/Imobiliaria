@@ -49,9 +49,11 @@ A [integração opcional](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-
 
 [unit-footprint.js](unit-footprint.js) valida contornos ortogonais simples e calcula o primeiro encontro do raio com o prisma fechado da torre. A cobertura e os demais pavimentos continuam bloqueando escolhas ocultas. O destaque azul extruda o polígono do final; suas tampas não cobrem os rasgos. Os dez destaques compartilham dois buffers e dois materiais padrão, trocando apenas a faixa desenhada. Consultas continuam restritas ao fim do toque/clique, sem acrescentar iluminação ou sombras ao realce.
 
-Os doze testes CPU de unidades/contorno/materiais passaram. A [qualificação da integração](evidencias/unidades-recuos-integrado/runtime.json) passou em WebGPU, WebGL2 e toque emulado: dez escolhas por lista/fachada, teclado/gestos, conferência independente das tampas desenhadas, preservação da torre/UV/atlas/materiais, sessão e descarte único dos quatro recursos. Canto e Meio passaram nos três modos em cada perfil. Três falhas injetadas rejeitam cadastro ausente, edição incompatível e uma zona retangular que preencheria um recuo; Planta 2D e recuperação continuam acessíveis. Retornar do mapa restaura edição e seleção; o modelo **dentro do mapa** ainda é o da base.
+Os doze testes CPU de unidades/contorno/materiais passaram. A [qualificação da integração](evidencias/unidades-recuos-integrado/runtime.json) passou em WebGPU, WebGL2 e toque emulado: dez escolhas por lista/fachada, teclado/gestos, conferência independente das tampas desenhadas, preservação da torre/UV/atlas/materiais, sessão e descarte único dos quatro recursos. Canto e Meio passaram nos três modos em cada perfil. Três falhas injetadas rejeitam cadastro ausente, edição incompatível e uma zona retangular que preencheria um recuo; Planta 2D e recuperação continuam acessíveis. Retornar do mapa restaura edição e seleção. Naquela qualificação, o modelo dentro do mapa ainda era o da base.
 
 A [revalidação após corrigir cobertura e rodateto](evidencias/unidades-cobertura/runtime.json) passou nos mesmos três perfis com a autoria `618c4f55…` e o novo pacote de Canto. Inclui seleção por lista/fachada, recuperação das três falhas e retorno normal e com falha do mapa, preservando a edição do contorno.
+
+A [revisão do mapa](MAPA-MODELO.md) agora transporta o GLB dessa autoria, conferido contra geometria, materiais e todas as instâncias. A [qualificação do mapa atual](evidencias/mapa-contorno-conferido/runtime.json) passou na edição original desktop e na variante desktop/toque emulado/sem cache, incluindo retorno com o mesmo ID selecionado e rejeição de GLB incompatível. Não confirma o vínculo comercial das plantas.
 
 ```powershell
 python modelo/registrar_unidades.py
@@ -59,4 +61,4 @@ node --test test_unidades.mjs test_contorno_unidades.mjs test_acabamentos.mjs
 python qa_unidades.py --geometria contorno --saida evidencias/unidades-recuos-nova-revisao
 ```
 
-Executar a partir deste diretório, com os artefatos locais reproduzidos. Preservar relatórios históricos usando um novo destino. A comparação geométrica isolada continua sem cadastro, e o modo integrado habilita o piloto explicitamente. GLB do mapa, tempo de abertura, refinamento da entrada e ensaios físicos precedem a adoção dessa autoria como padrão. T06–T09 continuam parciais.
+Executar a partir deste diretório, com os artefatos locais reproduzidos. Preservar relatórios históricos usando um novo destino. A comparação geométrica isolada continua sem cadastro, e o modo integrado habilita o piloto explicitamente. O GLB do mapa foi conferido; tempo de abertura, refinamento da entrada e ensaios físicos precedem a adoção dessa autoria como padrão. T06–T09 continuam parciais.
