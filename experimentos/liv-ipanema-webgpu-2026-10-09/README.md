@@ -1,5 +1,7 @@
 # LIV Ipanema — evolução visual e WebGPU
 
+[Catálogo de 170 posições e espelho](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio), com seleção por pavimento/final. [CATALOGO.md](CATALOGO.md) distingue a contagem publicada dos vínculos comerciais/arquitetônicos ainda pendentes.
+
 Ensaio no aparelho: [coletor de diagnóstico](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/diagnostico.html) com caminhada independente nas duas plantas e exportação local. [DIAGNOSTICO.md](DIAGNOSTICO.md) registra procedimento, limites e QAs desktop/emulados; qualificação física continua pendente.
 
 Revisão de 11/10: quinas e vão da cobertura corrigidos, UV de luz mais denso nas bordas finas e união da moldura interna de Canto, com bake próprio. Meio mantém seu modelo independente. Detalhes em [modelo/CONTORNO.md](modelo/CONTORNO.md) e [RODATETO.md](RODATETO.md).

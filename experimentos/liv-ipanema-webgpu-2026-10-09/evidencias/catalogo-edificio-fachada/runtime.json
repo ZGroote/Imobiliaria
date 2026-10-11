@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "physicalMobile": false,
+  "recordedAt": "2026-10-11T20:52:46.546984+00:00",
+  "sources": {
+    "catalogo-unidades.js": "833916dc1fc589fa9a96e2d5b24141aff07386957bf69eed21865d5a4ba6d7eb",
+    "viewer.js": "8d23900823a3a0053190158b9b24753fc1a9136805b9feb64b8517cbcd1be152",
+    "renderer.js": "59ef235825b85fe96311ea779da6ab12e84089b2a07104ce7a7555e686f03008",
+    "picking.js": "a8fa0391cd8618e64322a933a4dbcbbe7bc094d05b092609793ba137c5cec103",
+    "unit-ui.js": "ff6379391d65bf6ef3f2bfe0785f2c7c61d6d0aceb978a2b342c0c30c3d78ab1",
+    "espelho.js": "f9ac4e9cf8c1237f008fa486d9edebdb9350a5a441c01e080bb4b882c0cb7877",
+    "cameras.js": "45e7de2b413e8ab739a2912a5f859ae114cf17472c752f7a97f9c1136456e966",
+    "maquete-liv-ipanema.html": "fc6650a000960461bc49b4e5eb60378370091a202336ccea90a2d1d10df84ef1",
+    "unit-ui.css": "ae06d1d589ed7eaeb77fb92f5e83da7b6a14ca918c2243b8a3764607f25fcaf3",
+    "mapa-retorno.js": "791b1ee55b467fe0851631b0cd2f6ebfd56750259a4b64fd79fbcaf8c2dedc1f",
+    "qa_catalogo.py": "f2a832d46c2ebbd44858bfd69fa9f38736533d1382fea2cfce6460f2e472b99c",
+    "unidades.json": "dcc72736e33fcd2cd613442600324a126bbfc6aa4d35a85097306d8eae24176b",
+    "modelo/unidades-contorno.json": "f4fa09f2931c727cc64dd3cbacdd409957e9b52ab40385fb3e5a43ca78f4fddf",
+    "modelo/entrada/unidades-entrada.json": "b69d88d87307abba45e98446ae95cd2ad2e0fafee65df03ef4a277ba38abf7f9"
+  },
+  "cases": [
+    {
+      "backendRequested": "webgpu",
+      "touchEmulated": false,
+      "status": "PASS",
+      "errors": [],
+      "backendEffective": "webgpu",
+      "synchronizedPositions": 170,
+      "sourceUnchanged": true,
+      "twoTypologiesFourModes": true,
+      "reloadAndMapReturn": true
+    },
+    {
+      "backendRequested": "webgl",
+      "touchEmulated": false,
+      "status": "PASS",
+      "errors": [],
+      "backendEffective": "webgl",
+      "synchronizedPositions": 170,
+      "sourceUnchanged": true,
+      "twoTypologiesFourModes": true,
+      "reloadAndMapReturn": true
+    },
+    {
+      "backendRequested": "auto",
+      "touchEmulated": true,
+      "status": "PASS",
+      "errors": [],
+      "backendEffective": "webgpu",
+      "synchronizedPositions": 170,
+      "sourceUnchanged": true,
+      "twoTypologiesFourModes": true,
+      "reloadAndMapReturn": true
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

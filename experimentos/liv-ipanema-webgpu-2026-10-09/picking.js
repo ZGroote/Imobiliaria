@@ -1,5 +1,6 @@
 import * as THREE from 'three/webgpu';
 import {unitById} from './unidades.js';
+import {floorOf} from './catalogo-unidades.js';
 import {containsPoint,intersectPrism} from './unit-footprint.js';
 
 // Only the first exterior envelope hit can select a zone. The roof and other
@@ -25,16 +26,19 @@ export function createUnitResolver(catalog){
   };
 }
 function contourHighlight(catalog){
-  const fills=[],lines=[],ranges=new Map();
+  const fills=[],lines=[],ranges=new Map(),shared=new Map();
   for(const unit of catalog.units){
     const a=unit.bounds.min,b=unit.bounds.max;
+    const key=JSON.stringify([unit.footprint,a[0],b[0],a[2],b[2]]);
+    if(shared.has(key)){ranges.set(unit.id,shared.get(key));continue;}
     const shape=new THREE.Shape(unit.footprint.map(([x,z])=>new THREE.Vector2(
       (x-(a[0]+b[0])/2)/(b[0]-a[0]),-(z-(a[2]+b[2])/2)/(b[2]-a[2]))));
     const prism=new THREE.ExtrudeGeometry(shape,{depth:1,steps:1,bevelEnabled:false});
     prism.rotateX(-Math.PI/2);prism.translate(0,-.5,0);
     const edge=new THREE.EdgesGeometry(prism);
-    ranges.set(unit.id,{fill:[fills.length/3,prism.getAttribute('position').count],
-      line:[lines.length/3,edge.getAttribute('position').count]});
+    const range={fill:[fills.length/3,prism.getAttribute('position').count],
+      line:[lines.length/3,edge.getAttribute('position').count]};
+    ranges.set(unit.id,range);shared.set(key,range);
     fills.push(...prism.getAttribute('position').array);lines.push(...edge.getAttribute('position').array);
     prism.dispose();edge.dispose();
   }
@@ -58,7 +62,10 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
   scene.add(highlight);
   let selectedId=null,disposed=false,gesture=null;
   const pointers=new Set(),stats={pickQueries:0};
-  function refresh(){highlight.visible=!disposed&&getFloor()===catalog.floorIndex&&selectedId!==null;}
+  const activeFloor=()=>Number.isInteger(getFloor())&&getFloor()>=0&&
+    (catalog.floorIndex===null||getFloor()===catalog.floorIndex);
+  function refresh(){highlight.visible=!disposed&&activeFloor()&&selectedId!==null&&
+    floorOf(catalog,unitById(catalog,selectedId))===getFloor();}
   function select(id){
     if(disposed)return false;
     const unit=unitById(catalog,id);selectedId=id;
@@ -73,12 +80,13 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
     refresh();return true;
   }
   function pick(x,y){
-    if(disposed||getFloor()!==catalog.floorIndex)return null;
+    if(disposed||!activeFloor())return null;
     const rect=canvas.getBoundingClientRect();
     if(!rect.width||!rect.height||x<rect.left||x>rect.right||y<rect.top||y>rect.bottom)return null;
     ndc.set((x-rect.left)/rect.width*2-1,-(y-rect.top)/rect.height*2+1);
     raycaster.setFromCamera(ndc,getCamera());stats.pickQueries++;
-    return resolve(raycaster.ray);
+    const id=resolve(raycaster.ray);
+    return id!==null&&floorOf(catalog,unitById(catalog,id))===getFloor()?id:null;
   }
   function down(event){
     pointers.add(event.pointerId);
@@ -91,7 +99,7 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
   function up(event){
     move(event);pointers.delete(event.pointerId);
     const tap=gesture?.id===event.pointerId&&!gesture.moved&&pointers.size===0;gesture=null;
-    if(tap&&getFloor()===catalog.floorIndex)onSelect(pick(event.clientX,event.clientY));
+    if(tap&&activeFloor())onSelect(pick(event.clientX,event.clientY));
   }
   function cancel(event){pointers.delete(event.pointerId);gesture=null;}
   const events={pointerdown:down,pointermove:move,pointerup:up,pointercancel:cancel,lostpointercapture:cancel};

@@ -1,6 +1,7 @@
 import {transfers,showTransferStatus} from './transfers.js';
 import {typology} from './tipologias.js';
-import {loadUnits,unitById} from './unidades.js';
+import {unitById} from './unidades.js';
+import {loadUnitCatalog,floorOf,unitScope} from './catalogo-unidades.js';
 import {createUnitUI} from './unit-ui.js';
 import {requestedEdition,exteriorEdition} from './edicoes.js';
 const stage=document.getElementById('stage'),overlay=document.getElementById('loading');
@@ -8,15 +9,18 @@ const message=document.getElementById('loadingText'),status=document.getElementB
 const requested=new URLSearchParams(location.search).get('backend');
 const backend=['webgpu','webgl'].includes(requested)?requested:'auto';
 const geometry=requestedEdition(location.search);
+const scope=unitScope(location.search);
 const finish=geometry!=='base'||new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
 const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
 const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
-let units,unitUI;
+let units,unitUI,mirror;
 state.geometry=geometry;
-const storageKey=`liv-viewer-v1:${location.pathname}${geometry==='base'?'':':'+geometry}`;
-if(geometry!=='base'){
+state.unitScope=scope;
+const storageKey=`liv-viewer-v1:${location.pathname}${geometry==='base'?'':':'+geometry}${scope==='edificio'?':edificio':''}`;
+if(geometry!=='base'||scope==='edificio'){
   const mapLink=document.querySelector('.map-link'),destination=new URL(mapLink.href);
-  destination.searchParams.set('geometria',geometry);mapLink.href=destination.href;
+  if(geometry!=='base')destination.searchParams.set('geometria',geometry);
+  if(scope==='edificio')destination.searchParams.set('unidades',scope);mapLink.href=destination.href;
 }
 try {
   const saved=JSON.parse(sessionStorage.getItem(storageKey));
@@ -24,7 +28,7 @@ try {
     Number.isInteger(saved.floor)&&saved.floor>=-1&&saved.floor<=16&&
     ['perspectiva','fachada','aerea','portaria','implantacao','varandas','acesso','livre'].includes(saved.view)) {
     state.mode=saved.mode;state.view=saved.view;state.floor=saved.floor;
-    if(typeof saved.selectedUnitId==='string'&&saved.floor===1)state.selectedUnitId=saved.selectedUnitId;
+    if(typeof saved.selectedUnitId==='string'&&(saved.floor===1||(scope==='edificio'&&saved.floor>=0)))state.selectedUnitId=saved.selectedUnitId;
     if(['canto','meio'].includes(saved.typology))state.typology=saved.typology;
     if(saved.interiorSnapshots&&typeof saved.interiorSnapshots==='object')state.interiorSnapshots=saved.interiorSnapshots;
     const snapshot=saved.exteriorSnapshot,cam=snapshot?.camera;
@@ -52,6 +56,7 @@ function update() {
   document.getElementById('hint').textContent=state.mode==='visita'?'Arraste para olhar · use o teclado ou o controle na tela para caminhar':
     state.mode==='planta2d'?`Planta comercial publicada · ${selected.label.toLowerCase()}, ${selected.area} incluindo varanda`:'Arraste para girar · use a roda ou dois dedos para aproximar';
   unitUI?.update({...state,typology:selected.label.toLowerCase()});
+  mirror?.update(state);
 }
 function busy(text) {
   state.ready=false;state.error=null;overlay.hidden=false;message.textContent=text;
@@ -142,11 +147,15 @@ async function setMode(mode) {
   busy(mode==='maquete'?'Abrindo a maquete…':'Abrindo a planta de referência…');
   try {
     if(!units||mode==='maquete'){
-      const catalog=await loadUnits(undefined,geometry);if(token!==generation)return;
+      const catalog=await loadUnitCatalog(undefined,geometry,scope);if(token!==generation)return;
       units=catalog;state.units=units;
       try{unitById(units,state.selectedUnitId);}catch{state.selectedUnitId=null;}
       if(unitUI)unitUI.setCatalog(units);
       else unitUI=createUnitUI(units,{onSelect:selectUnit,onClear:()=>selectUnit(null),onSide:showUnitSide});
+      if(scope==='edificio'&&!mirror){
+        const {createBuildingMirror}=await import('./espelho.js');if(token!==generation)return;
+        mirror=createBuildingMirror(units,selectUnit);
+      }
       update();
     }
     const kind=mode==='maquete'?'exterior':mode==='planta2d'?'image':`interior:${state.typology}`;
@@ -161,7 +170,7 @@ async function setMode(mode) {
     if(mode==='planta2d'){await fallback2D(token);return;}
     if(frameKind!==kind) {
       release();const frame=document.createElement('iframe');frame.title=kind==='exterior'?'Maquete do LIV Ipanema':'Planta e interior de referência do LIV Ipanema';
-      frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=piloto&ambiente=${environment}`:
+      frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}`:
         `interior.html?embed=1&backend=${backend}&tipologia=${state.typology}&modo=${mode}`;
       stage.prepend(frame);state.frame=frame;frameKind=kind;
     }
@@ -175,7 +184,7 @@ async function setMode(mode) {
         if(!frame.livPrepared){
           if(state.exteriorSnapshot)api.restoreState({...state.exteriorSnapshot,floor:state.floor,selectedUnitId:state.selectedUnitId});
           else {api.setView(state.view);api.setFloor(state.floor);}
-          if(state.floor===1)api.setSelectedUnit(state.selectedUnitId);
+          if(state.floor===1||scope==='edificio')api.setSelectedUnit(state.selectedUnitId);
           frame.contentWindow.addEventListener('liv-unit-selected',event=>{
             if(state.frame===frame&&state.ready&&state.mode==='maquete')selectUnit(event.detail.id,{frameEvent:true});
           });
@@ -247,22 +256,22 @@ function setFloor(floor) {
   const value=Number(floor);
   if(!Number.isInteger(value)||value < -1||value >16)throw Error('Pavimento inválido.');
   state.frame?.contentWindow?.__livProva?.setFloor(value);state.floor=value;
-  if(value!==1)state.selectedUnitId=null;
+  if(state.selectedUnitId&&floorOf(units,unitById(units,state.selectedUnitId))!==value)state.selectedUnitId=null;
   document.getElementById('floor').value=String(floor);
   update();
 }
-function showUnitSide(side){
+function showUnitSide(side,floor=scope==='edificio'&&state.floor>=0?state.floor:1){
   const api=state.frame?.contentWindow?.__livProva;
   if(!state.ready||state.mode!=='maquete'||!api)return false;
-  api.setUnitView(side);state.floor=1;state.view='livre';
-  document.getElementById('floor').value='1';update();return true;
+  api.setUnitView(side,floor);state.floor=floor;state.view='livre';
+  document.getElementById('floor').value=String(floor);update();return true;
 }
 function selectUnit(id,{frameEvent=false}={}){
   if(!units)return false;
   const unit=unitById(units,id),api=state.frame?.contentWindow?.__livProva;
   if(id!==null&&(!state.ready||state.mode!=='maquete'||!api))return false;
   // List selection reveals the appropriate face; canvas taps preserve the orbit.
-  if(unit&&!frameEvent)showUnitSide(unit.side);
+  if(unit&&!frameEvent)showUnitSide(unit.side,floorOf(units,unit));
   state.selectedUnitId=id;api?.setSelectedUnit(id);update();return true;
 }
 async function setTypology(id){

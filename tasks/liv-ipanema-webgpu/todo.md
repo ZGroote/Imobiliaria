@@ -148,6 +148,7 @@ Convenção de caminhos abaixo: `EXP` = novo diretório `experimentos/liv-ipanem
   - T10 permanece parcial: acabamentos finais, espelhamentos/vínculos por final e ensaio físico ainda pendentes. Não associar uma tipologia selecionada a unidade comercial sem T08/T09.
 
 - [ ] **T11 — Expandir catálogo reconciliado e espelho de unidades.**
+  - Continuação de 11/10: catálogo opcional `unidades=edificio`, com 17×10 posições técnicas, espelho/filtro, ficha e seleção na fachada, enquadramento completo e sessão/retorno do mapa. Os mesmos buffers de realce atendem todos os níveis. 21 testes Node; três perfis completos e piloto com recuperação passaram. `EXP/CATALOGO.md` registra a regra do modelo, evidências e limites. Vínculos por final, gardens, numeração/vagas comerciais e qualificação física continuam pendentes; não promover essa repetição a cadastro oficial.
   - Dependências: T08, T10.
   - Responsabilidade: pisos/finais/tipologias, térreo/gardens e exceções explícitas; espelho com filtros e ficha sincronizados.
   - Escopo provável: `EXP/unidades.json`, `EXP/unit-schema.js`, `EXP/espelho.js`, `EXP/unit-ui.js`, testes de integridade/sincronização.

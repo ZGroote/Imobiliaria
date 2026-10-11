@@ -27,3 +27,12 @@ export function pilotFloorView(aspect,side){
   return {type:'PerspectiveCamera',fov,near:.2,far:900,aspect,zoom:1,
     position:[0,targetY,(side==='lazer'?1:-1)*distance],target:[0,targetY,0]};
 }
+
+// The building mirror keeps every model floor visible on the chosen facade.
+export function buildingFacadeView(aspect,side){
+  if(!Number.isFinite(aspect)||aspect<=0||!['lazer','estacionamento'].includes(side))throw Error('Vista da fachada inválida.');
+  const fov=34,halfHeight=Math.max(25.7,26/aspect),targetY=48.45/2;
+  const distance=halfHeight/Math.tan(fov*Math.PI/360)+7.02;
+  return {type:'PerspectiveCamera',fov,near:.2,far:900,aspect,zoom:1,
+    position:[0,targetY,(side==='lazer'?1:-1)*distance],target:[0,targetY,0]};
+}

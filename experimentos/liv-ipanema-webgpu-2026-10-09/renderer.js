@@ -2,8 +2,9 @@ import * as THREE from 'three/webgpu';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,createRGBMTexture} from './material-rgbm.js';
 import {applyReferenceFinishes} from './exterior-finishes.js';
-import {balconyDetailView,BALCONY_DETAIL_BOUNDS,entryDetailView,ENTRY_DETAIL_BOUNDS,pilotFloorView} from './cameras.js';
-import {loadUnits} from './unidades.js';
+import {balconyDetailView,BALCONY_DETAIL_BOUNDS,entryDetailView,ENTRY_DETAIL_BOUNDS,pilotFloorView,buildingFacadeView} from './cameras.js';
+import {unitById} from './unidades.js';
+import {loadUnitCatalog,floorOf} from './catalogo-unidades.js';
 import {createUnitPicking} from './picking.js';
 import {environmentTexture,precomputedEnvironment} from './ambiente.js';
 import {EXTERIOR_EDITIONS} from './edicoes.js';
@@ -404,26 +405,30 @@ async function start() {
         colors.needsUpdate=true;
       }
     }
-    if(value!==1)unitPicking?.select(null);
+    const selectedId=unitPicking?.getState().selectedId;
+    if(selectedId&&floorOf(units,unitById(units,selectedId))!==value)unitPicking.select(null);
     unitPicking?.refresh();renderer.render(scene,camera);
   }
-  const units=geometryProfile==='base'||parameters.get('selecao')==='piloto'?await loadUnits(requests.signal,geometryProfile):null;
+  const selection=parameters.get('selecao');
+  const units=geometryProfile==='base'||['piloto','edificio'].includes(selection)?
+    await loadUnitCatalog(requests.signal,geometryProfile,selection==='edificio'?'edificio':'piloto'):null;
   if(state.disposed)return;
   if(units&&units.sourceModelSHA256!==data.sourceModelSHA256)throw Error('As posições dos finais pertencem a outra edição da maquete.');
   if(units)unitPicking=createUnitPicking({scene,canvas,catalog:units,getCamera:()=>camera,getFloor:()=>selectedFloor,
     onSelect:id=>{unitPicking.select(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id}}));}});
-  function setUnitView(side){
+  function setUnitView(side,floor=1){
     if(!['lazer','estacionamento'].includes(side))throw Error('Lado do pavimento inválido.');
-    setFloor(1);
+    if(!units||!units.units.some(unit=>floorOf(units,unit)===floor))throw Error('Pavimento fora do cadastro.');
+    setFloor(floor);
     const rect=stage.getBoundingClientRect(),aspect=rect.width/rect.height;
-    const view=pilotFloorView(aspect,side);camera=makeCamera(view);
+    const view=(units.schema==='liv-building-units-v1'?buildingFacadeView:pilotFloorView)(aspect,side);camera=makeCamera(view);
     controls.object=camera;state.camera=camera;controls.target.fromArray(view.target);
     controls.update();orientCamera();resize();state.activeView='livre';
   }
   function setSelectedUnit(id){
     if(state.disposed)return false;
     if(id!==null&&!unitPicking)throw Error('Esta edição não carregou as posições verificadas dos finais.');
-    if(id!==null&&selectedFloor!==1)throw Error('Selecione o pavimento piloto antes do final.');
+    if(id!==null&&floorOf(units,unitById(units,id))!==selectedFloor)throw Error('Selecione o pavimento correspondente antes do final.');
     return unitPicking?.select(id)??false;
   }
   Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,entryDetailBounds:entryBounds,
@@ -443,7 +448,7 @@ async function start() {
         controls.target.fromArray(snapshot.camera.target);controls.update();orientCamera();resize();state.activeView='livre';
       }
       setFloor(snapshot.floor??-1);
-      if(selectedFloor===1)setSelectedUnit(snapshot.selectedUnitId??null);
+      if(unitPicking)setSelectedUnit(snapshot.selectedUnitId??null);
     }});
   renderer.setAnimationLoop(()=>{controls.update();orientCamera();renderer.render(scene,camera);});
   mark('sceneBuilt');
