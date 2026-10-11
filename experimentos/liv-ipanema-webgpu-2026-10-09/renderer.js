@@ -15,11 +15,12 @@ const mark=name=>{(state.timings??={})[name]=performance.now();};mark('module');
 const parameters=new URLSearchParams(location.search);
 const requested=parameters.get('backend')||'auto';
 const finishProfile=parameters.get('acabamento')||'base';
+const geometryProfile=parameters.get('geometria')||'base';
 const recoveryURL=new URL(location.href);recoveryURL.searchParams.set('backend','webgl');
 document.querySelector('#retry').href=recoveryURL.href;
 document.body.classList.toggle('embedded',parameters.get('embed')==='1');
 const stage=document.querySelector('#stage'),canvas=document.querySelector('#c'),status=document.querySelector('#status');
-const base=new URL('./assets-prova/',import.meta.url);
+const base=new URL(geometryProfile==='contorno'?'./modelo/variante/assets/':'./assets-prova/',import.meta.url);
 const requests=new AbortController();
 const typedArrays={Float32Array,Float64Array,Uint32Array,Uint16Array,Uint8Array,Int32Array,Int16Array,Int8Array};
 
@@ -93,6 +94,8 @@ async function start() {
   progress('backend','Preparando os gráficos');
   if(!['auto','webgpu','webgl'].includes(requested)) throw Error('Backend de diagnóstico inválido.');
   if(!['base','referencia'].includes(finishProfile))throw Error('Perfil de acabamento inválido.');
+  if(!['base','contorno'].includes(geometryProfile))throw Error('Perfil de geometria inválido.');
+  if(geometryProfile==='contorno'&&finishProfile!=='base')throw Error('A variante já possui calibração própria de materiais.');
   let adapter=null;
   if(requested!=='webgl' && navigator.gpu) {
     try {adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});} catch(error) {state.adapterError=String(error);}
@@ -198,7 +201,7 @@ async function start() {
     if(spec.drawRange.count!==null) geometry.setDrawRange(spec.drawRange.start,spec.drawRange.count);
     geometry.computeBoundingBox();geometry.computeBoundingSphere();return geometry;
   });
-  const building=new THREE.Group();building.name='LIV — exterior da base preservada';
+  const building=new THREE.Group();building.name=geometryProfile==='contorno'?'LIV — contorno em estudo':'LIV — exterior da base preservada';
   const meshes=data.meshes.map(spec=>{
     const material=Array.isArray(spec.material)?spec.material.map(index=>materials[index]):materials[spec.material];
     const mesh=spec.instances?new THREE.InstancedMesh(geometries[spec.geometry],material,spec.instances.count):new THREE.Mesh(geometries[spec.geometry],material);
@@ -371,10 +374,10 @@ async function start() {
     if(value!==1)unitPicking?.select(null);
     unitPicking?.refresh();renderer.render(scene,camera);
   }
-  const units=await loadUnits(requests.signal);
+  const units=geometryProfile==='base'?await loadUnits(requests.signal):null;
   if(state.disposed)return;
-  if(units.sourceModelSHA256!==data.sourceModelSHA256)throw Error('As posições dos finais pertencem a outra edição da maquete.');
-  unitPicking=createUnitPicking({scene,canvas,catalog:units,getCamera:()=>camera,getFloor:()=>selectedFloor,
+  if(units&&units.sourceModelSHA256!==data.sourceModelSHA256)throw Error('As posições dos finais pertencem a outra edição da maquete.');
+  if(units)unitPicking=createUnitPicking({scene,canvas,catalog:units,getCamera:()=>camera,getFloor:()=>selectedFloor,
     onSelect:id=>{unitPicking.select(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id}}));}});
   function setUnitView(side){
     if(!['lazer','estacionamento'].includes(side))throw Error('Lado do pavimento inválido.');
@@ -386,11 +389,12 @@ async function start() {
   }
   function setSelectedUnit(id){
     if(state.disposed)return false;
+    if(id!==null&&!unitPicking)throw Error('A variante de contorno não possui posições comerciais verificadas.');
     if(id!==null&&selectedFloor!==1)throw Error('Selecione o pavimento piloto antes do final.');
-    return unitPicking.select(id);
+    return unitPicking?.select(id)??false;
   }
   Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,
-    getState(){return {view:state.activeView,floor:selectedFloor,selectedUnitId:unitPicking.getState().selectedId,backend:state.backend,
+    getState(){return {view:state.activeView,floor:selectedFloor,selectedUnitId:unitPicking?.getState().selectedId??null,backend:state.backend,
       camera:{type:camera.type,fov:camera.fov,near:camera.near,far:camera.far,zoom:camera.zoom,
         left:camera.left,right:camera.right,top:camera.top,bottom:camera.bottom,aspect:camera.aspect,
         position:camera.position.toArray(),target:controls.target.toArray()}};},

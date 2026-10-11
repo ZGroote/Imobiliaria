@@ -1,0 +1,34 @@
+{
+  "schema": "liv-proof-manifest-v1",
+  "exportedAtUtc": "2026-10-11T03:02:23.389081+00:00",
+  "sourceModelSHA256": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+  "sceneJSONSHA256": "de70666148186ff58eb5d7abeae3b1b0f154ad4fa8ddfbdb0d7ecf7a3f0b5544",
+  "files": {
+    "irradiance.rgbm.gz": {
+      "bytes": 14547860,
+      "sha256": "feb2ce577d6f4602dabb311c6731bfa4fe037079273bc05bb023067250edebae"
+    },
+    "texture-00.png": {
+      "bytes": 21667,
+      "sha256": "84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e"
+    },
+    "texture-01.png": {
+      "bytes": 21667,
+      "sha256": "84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e"
+    },
+    "scene.json.gz": {
+      "bytes": 7166463,
+      "sha256": "8b5520cecd16b77c0697a5a7153d8591ff29aea6eca1b401f34546ee0ed5e7df"
+    }
+  },
+  "meshCount": 56,
+  "bakedMeshes": 41,
+  "exportPurpose": "Variante inferida: nova geometria, UV1 e bake pr\u00f3prios; sem cadastro comercial.",
+  "sources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/exportar_variante.py": "f54a980c340b9b7c13ddaa781514b65634891abe7ffbe70cbbe6cf95c8ff70a4",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/manifest.json": "ea9648419fbfd770142c246245f6a2e4775ad0c6b30b2b51579cb3b584d3dc00",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/geometry-compact.json": "9da623378d9825df61bc544118b8c7c858aef4bbd8eea454b483c0c3d43101e0",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57"
+  }
+}

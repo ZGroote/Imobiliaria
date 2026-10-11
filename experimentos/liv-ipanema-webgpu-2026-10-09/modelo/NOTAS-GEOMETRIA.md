@@ -1,10 +1,11 @@
-# LIV Ipanema — correção futura do perímetro da torre
+# LIV Ipanema — inspeção do perímetro da torre
 
-Data da inspeção: 10 de outubro de 2026. Esta nota prepara a próxima etapa de
-modelagem. Nenhuma geometria foi alterada, nenhuma execução Blender foi feita e
-nenhuma nova validação visual foi aprovada. **T06 continua pendente.** O ajuste
-de material pintado das esquadrias e o enquadramento das varandas são um
-incremento separado; não corrigem o perímetro descrito aqui.
+Data da inspeção: 10 de outubro de 2026. Esta nota registra o diagnóstico antes
+da modelagem. Naquela inspeção não houve nova geometria ou execução Blender.
+Em 11/10, a variante isolada passou a reproduzir os recortes, com autoria,
+UV/bake próprios e comparação navegável descritos em [CONTORNO.md](CONTORNO.md).
+**T06 continua parcial:** a extensão vertical é inferida, a portaria não foi
+reconstruída e a variante ainda não integra o cadastro comercial ou o mapa.
 
 ## Evidência e limite da conclusão
 

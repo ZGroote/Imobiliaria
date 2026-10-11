@@ -6,7 +6,9 @@ Refinamento atual dos interiores: **Paredes baixas** revela a distribuição das
 
 Seleção atual: **Explore os finais** oferece dez posições aproximadas do 1º pavimento tipo por lista, teclado ou toque na fachada, com realce/ficha e retorno entre modos. Canto e Meio continuam referências gerais, com vínculo por final em conferência e dados comerciais não informados. Ver [UNIDADES.md](UNIDADES.md).
 
-Exterior atual: **Acesso de perto** enquadra a entrada em telas pequenas e grandes; vidros da implantação e letreiro recebem acabamentos PBR padrão independentes dos materiais fonte. A forma da entrada e o contorno da cobertura ainda precisam de reconstrução própria. Ver [PORTARIA.md](PORTARIA.md).
+Exterior da prévia completa: **Acesso de perto** enquadra a entrada em telas pequenas e grandes; vidros da implantação e letreiro recebem acabamentos PBR padrão independentes dos materiais fonte. A forma da entrada ainda precisa de reconstrução própria. Ver [PORTARIA.md](PORTARIA.md).
+
+Novo estudo do exterior em 11/10: **Contorno com recuos** reproduz os rasgos laterais e das cabeceiras em lajes, paredes e parapetos, com UV/bake próprios. [Comparação navegável](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/comparacao.html), incluindo vista de cima ampliada, original/variante e uma cena ativa por vez. Extensão vertical inferida; seleção comercial e mapa ainda usam a base. Ver [modelo/CONTORNO.md](modelo/CONTORNO.md).
 
 ## T01 — reprodução isolada
 
@@ -131,13 +133,13 @@ Os parâmetros são calibração visual estimada, sem especificação executiva.
 
 O ensaio final do acabamento passou em WebGPU/WebGL2 desktop e toque emulado, incluindo assinatura incompatível, descarte, recarga de sessão e recuperação com um clique. Nove cenários de falha e a integração dos quatro modos em três perfis passaram novamente com o perfil aplicado. Evidências em `evidencias/refinamento-exterior-final/` e `recuperacao-refinamento-final/`.
 
-A investigação identificou reentrâncias da cobertura que o modelo simplifica. [modelo/NOTAS-GEOMETRIA.md](modelo/NOTAS-GEOMETRIA.md) prepara a correção coordenada e o bake da própria variante. Isso ainda não foi modelado; T06/T07 permanecem parciais.
+A investigação identificou reentrâncias da cobertura que o modelo simplificava. [modelo/NOTAS-GEOMETRIA.md](modelo/NOTAS-GEOMETRIA.md) registra o diagnóstico; [modelo/CONTORNO.md](modelo/CONTORNO.md) descreve a variante modelada e seu bake. T06/T07 permanecem parciais.
 
 ### Qualificação ainda pendente
 
 T02 tem capturas e três rodadas preliminares por viewport/cache em [medicao.json](evidencias/medicao-baseline/medicao.json). A medição inicial ocorreu durante outros QAs e usa rede local; não serve como orçamento definitivo ou comprovação de ganho. Viewport de 390 px e toque emulado não são ensaio de celular físico.
 
-O exterior transporta a geometria da base; volumes, materiais e iluminação ainda precisam de refinamento com as referências. Seleção por final, espelhos/gardens, bake do meio, dia/entardecer e qualificação Android/iPhone permanecem no plano. Tipologia por final, limites cotados, numeração comercial, vaga, preços e estoque não foram confirmados. A indicação de interior ilustrativo permanece explícita.
+O exterior da prévia completa transporta a geometria da base; a variante com recuos está na comparação separada. Demais volumes, materiais e iluminação ainda precisam de refinamento com as referências. Vínculos por final, espelhos/gardens, dia/entardecer e qualificação Android/iPhone permanecem no plano. Tipologia por final, limites cotados, numeração comercial, vaga, preços e estoque não foram confirmados. Canto e Meio já possuem bakes próprios; a indicação de interior ilustrativo permanece explícita.
 
 A medição anterior registrou 23.993.373 bytes iniciais, 37,5% abaixo da base. Com materiais padrão, a nova medição sequencial registrou 23.993.689 bytes; medianas frias de 2.190 ms em WebGL2 e 2.975 ms em WebGPU, contra 1.633 ms na própria base reensaiada. **T05 ainda não atingiu o critério de tempo de abertura**. Antecipar o upload do atlas não melhorou de modo consistente e foi revertido. As medições, o perfil do primeiro quadro e os limites da comparação estão em [PERF.md](PERF.md). Não há comprovação de ganho de FPS.
 

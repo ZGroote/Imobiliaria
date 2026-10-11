@@ -1,0 +1,302 @@
+{
+  "schema": "liv-outline-bake-provenance-v1",
+  "atUtc": "2026-10-11T03:06:12.795561+00:00",
+  "reports": {
+    "unwrap.json": {
+      "schema": "liv-lightmap-corners-v1",
+      "sourceSHA256": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+      "modelPath": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\modelo\\variante\\modelo.json",
+      "size": 4096,
+      "atlasWidth": 5615,
+      "atlasHeight": 5616,
+      "atlasCount": 1,
+      "utilization": 0.8306259512901306,
+      "groups": 73,
+      "instances": 1012,
+      "triangles": 271909,
+      "mappedCorners": 815727,
+      "flippedTriangles": 0,
+      "degenerateTrianglesRemoved": 4102,
+      "padding": 4,
+      "effectivePaddingPixels": 2.9173789173789175,
+      "uvMaxPixelError": 0.03125047684443427,
+      "geometrySHA256": "9da623378d9825df61bc544118b8c7c858aef4bbd8eea454b483c0c3d43101e0",
+      "geometryBytes": 4843332,
+      "geometryGzipBytes": 2513698,
+      "excludedGroups": [
+        {
+          "groupIndex": 5,
+          "geometry": "esquadrias-varandas-esquadria",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 6,
+          "geometry": "esquadrias-varandas-vidro",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 8,
+          "geometry": "esquadrias-varandas-vidro-claro",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 9,
+          "geometry": "esquadrias-varandas-luz-varanda",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 20,
+          "geometry": "entrada-torre-vidro-claro",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 29,
+          "geometry": "SITE-car-vidro",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 47,
+          "geometry": "SITE-organic-site-folha-clara",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 48,
+          "geometry": "SITE-organic-site-folha-escura",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 49,
+          "geometry": "SITE-organic-site-folha-media",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 52,
+          "geometry": "SITE-cylinder-site-tronco-palmeira-0.93-9",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 53,
+          "geometry": "SITE-palmeira-frondes-site-palmeira",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 73,
+          "geometry": "SITE-implantacao-site-agua",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 80,
+          "geometry": "SITE-implantacao-site-vidro",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 82,
+          "geometry": "SITE-implantacao-site-folha-media",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 87,
+          "geometry": "LIV-IPANEMA-tipografia",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        }
+      ],
+      "seconds": 6.581379899987951,
+      "checks": {
+        "oneAtlas": true,
+        "cornerOrderPreserved": true,
+        "finiteUV": true,
+        "UVInUnitSquare": true,
+        "independentInstanceUV": true
+      }
+    },
+    "manifest.json": {
+      "schema": "liv-lightmap-v1",
+      "sourceSHA256": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+      "geometryURL": "luz/geometry-compact.json",
+      "geometryGzipURL": "luz/geometry-compact.json.gz",
+      "geometrySHA256": "9da623378d9825df61bc544118b8c7c858aef4bbd8eea454b483c0c3d43101e0",
+      "textureURL": "luz/irradiance.rgbm.gz",
+      "textureCompression": "gzip",
+      "textureEncoding": "linear-rgbm-u8",
+      "textureSHA256": "5cb4616a64f12ae53b6c8f4ccd916943b35d3235b10d5c8a8186ae8cbc924c00",
+      "width": 4096,
+      "height": 4096,
+      "range": 16.0,
+      "origin": "bottom-left",
+      "premultiplyAlpha": false,
+      "lightMapIntensity": 3.141592653589793,
+      "samples": 64,
+      "passes": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "colorPass": false,
+      "sunWebPosition": [
+        -18,
+        110,
+        55
+      ],
+      "sunWebTarget": [
+        0,
+        22,
+        0
+      ],
+      "sunIntensity": 2.4,
+      "groups": 73,
+      "instances": 1012,
+      "triangles": 271909,
+      "denoise": {
+        "filter": "OIDN RTLightmap",
+        "version": "2.3.3",
+        "inputGuardPixels": 2.0,
+        "outputGuardPixels": 4.0
+      }
+    },
+    "bake.json": {
+      "schema": "liv-lightmap-v1",
+      "sourceSHA256": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+      "geometryURL": "luz/geometry-compact.json",
+      "geometryGzipURL": "luz/geometry-compact.json.gz",
+      "geometrySHA256": "9da623378d9825df61bc544118b8c7c858aef4bbd8eea454b483c0c3d43101e0",
+      "textureURL": "luz/irradiance.rgbm.gz",
+      "textureCompression": "gzip",
+      "textureEncoding": "linear-rgbm-u8",
+      "textureSHA256": "5cb4616a64f12ae53b6c8f4ccd916943b35d3235b10d5c8a8186ae8cbc924c00",
+      "width": 4096,
+      "height": 4096,
+      "range": 16.0,
+      "origin": "bottom-left",
+      "premultiplyAlpha": false,
+      "lightMapIntensity": 3.141592653589793,
+      "samples": 64,
+      "passes": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "colorPass": false,
+      "sunWebPosition": [
+        -18,
+        110,
+        55
+      ],
+      "sunWebTarget": [
+        0,
+        22,
+        0
+      ],
+      "sunIntensity": 2.4,
+      "groups": 73,
+      "instances": 1012,
+      "triangles": 271909,
+      "seconds": 167.43002289999276,
+      "backend": "OPTIX",
+      "devices": [
+        "NVIDIA GeForce GTX 1650"
+      ],
+      "sourceMatchesCurrent": true,
+      "totalSceneTriangles": 446845,
+      "coveragePixels": 8620296,
+      "radianceMin": 0.0,
+      "radianceMax": 1.2632180452346802,
+      "rangeClippedPixels": 0,
+      "rgbmMeanError": 0.00016903567302506417,
+      "rgbmMaxError": 0.0024405717849731445,
+      "textureBytes": 67108864,
+      "textureGzipBytes": 14547860,
+      "checks": {
+        "hashesMatch": true,
+        "sourceMatchesCurrent": true,
+        "directIndirectWithoutColor": true,
+        "finiteRadiance": true,
+        "nonBlackAtlas": true,
+        "independentInstanceUV": true,
+        "noRadianceClipping": true
+      },
+      "denoise": {
+        "filter": "OIDN RTLightmap",
+        "version": "2.3.3",
+        "device": "CPU",
+        "inputGuardPixels": 2.0,
+        "outputGuardPixels": 4.0,
+        "rawIrradiancePreserved": true,
+        "sourceSHA256": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+        "OIDNOutputReused": false,
+        "sourceRadianceSHA256": "6db475d610c93000d988c4cb6d6b492f837574332d740606b47d9dd0c162ad74",
+        "textureSHA256": "5cb4616a64f12ae53b6c8f4ccd916943b35d3235b10d5c8a8186ae8cbc924c00",
+        "seconds": 24.193525700015016,
+        "coveredPixels": 8620296,
+        "inputBorderPixels": 3533220,
+        "outputBorderPixels": 6461417,
+        "farBackgroundPixels": 1695503,
+        "radianceMax": 1.4073578119277954,
+        "rangeClippedPixels": 0,
+        "meanAbsoluteDenoiseChange": 0.004522656090557575,
+        "rgbmMeanError": 0.00016903567302506417,
+        "rgbmMaxError": 0.0024405717849731445,
+        "textureGzipBytes": 14547860,
+        "checks": {
+          "modelHashMatches": true,
+          "UVHashMatches": true,
+          "finiteRadiance": true,
+          "farBackgroundZero": true,
+          "nearestIslandBorder": true,
+          "noRadianceClipping": true
+        }
+      }
+    },
+    "denoise.json": {
+      "filter": "OIDN RTLightmap",
+      "version": "2.3.3",
+      "device": "CPU",
+      "inputGuardPixels": 2.0,
+      "outputGuardPixels": 4.0,
+      "rawIrradiancePreserved": true,
+      "sourceSHA256": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+      "OIDNOutputReused": false,
+      "sourceRadianceSHA256": "6db475d610c93000d988c4cb6d6b492f837574332d740606b47d9dd0c162ad74",
+      "textureSHA256": "5cb4616a64f12ae53b6c8f4ccd916943b35d3235b10d5c8a8186ae8cbc924c00",
+      "seconds": 24.193525700015016,
+      "coveredPixels": 8620296,
+      "inputBorderPixels": 3533220,
+      "outputBorderPixels": 6461417,
+      "farBackgroundPixels": 1695503,
+      "radianceMax": 1.4073578119277954,
+      "rangeClippedPixels": 0,
+      "meanAbsoluteDenoiseChange": 0.004522656090557575,
+      "rgbmMeanError": 0.00016903567302506417,
+      "rgbmMaxError": 0.0024405717849731445,
+      "textureGzipBytes": 14547860,
+      "checks": {
+        "modelHashMatches": true,
+        "UVHashMatches": true,
+        "finiteRadiance": true,
+        "farBackgroundZero": true,
+        "nearestIslandBorder": true,
+        "noRadianceClipping": true
+      }
+    },
+    "audit-transport.json": {
+      "sourceSHA256": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+      "currentModelHashMatches": true,
+      "compactHashMatches": true,
+      "textureDecodedHashMatches": true,
+      "decodedFinite": true,
+      "RGBMMeanError": 0.00016903567302506417,
+      "RGBMMaxError": 0.0024405717849731445,
+      "alphaByteRange": [
+        1,
+        23
+      ],
+      "premultiplyAlpha": false,
+      "bakedColorPass": false,
+      "denoise": "OIDN RTLightmap",
+      "irradianceMin": 0.0,
+      "irradianceMax": 1.4091811180114746
+    }
+  },
+  "recipeSources": {
+    "v1.5/miniaturas/liv-ipanema/preparar_luz.py": "8d486ec498162f56b57d9ee8fc71e40b476e6d604273882b2f3ff463390a1055",
+    "v1.5/miniaturas/liv-ipanema/bake_luz.py": "f3603fdeef9bc00067ab9559c22b248d9728943ba48611d81ac7d92928adceba",
+    "v1.5/miniaturas/liv-ipanema/denoise_luz.py": "b164dd7120fffe16a495be669daa32893d3c64ed411bca3ec99842e9bf8b96fd"
+  }
+}
