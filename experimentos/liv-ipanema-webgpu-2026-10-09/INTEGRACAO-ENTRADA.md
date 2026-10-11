@@ -2,7 +2,9 @@
 
 [Abrir a prévia local](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=entrada). A edição reúne entrada reconstruída, contorno/cobertura corrigidos, seleção ilustrativa dos dez finais, Planta 2D/3D, Tour de Canto/Meio e mapa de 5 km. O endereço sem parâmetro conserva a base. Esta edição continua opcional enquanto rede, memória e ensaios físicos estão pendentes; não houve publicação.
 
-Continuação de desempenho: [INSTANCIAS.md](INSTANCIAS.md) qualifica a política de atributos do próprio Three.js, preservando os materiais. Na página completa, entrada abre em 2.489 ms com WebGPU / 2.643 ms com WebGL2, contra 2.915 ms da base: os dois backends passam no teto provisório de abertura fria **do desktop**. Noventa e nove comparações RGBA são idênticas. T05 continua parcial, inclusive por reload WebGPU e qualificação física; as medições e QAs da integração original abaixo permanecem históricos.
+Continuação do decoder: [BUFFERS.md](BUFFERS.md) registra 72–73% menos tempo de CPU na montagem da geometria e abertura integrada 3.266/2.717 ms frio/reload WebGPU, 3.513/2.400 ms WebGL2, contra base de 4.291/2.826 ms no mesmo lote. A fonte da entrada, os materiais e a fila permanecem os mesmos. T05 continua parcial; ensaios físicos, rede e memória pendentes.
+
+Qualificação anterior das instâncias: [INSTANCIAS.md](INSTANCIAS.md) qualifica a política de atributos do próprio Three.js, preservando os materiais. Na página completa, entrada abre em 2.489 ms com WebGPU / 2.643 ms com WebGL2, contra 2.915 ms da base: os dois backends passam no teto provisório de abertura fria **do desktop**. Noventa e nove comparações RGBA são idênticas. T05 continua parcial, inclusive por reload WebGPU e qualificação física; as medições e QAs da integração original abaixo permanecem históricos.
 
 ## Identidade e navegação
 

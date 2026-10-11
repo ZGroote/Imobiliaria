@@ -67,8 +67,12 @@ async function unzip(bytes) {
 function decodeAttribute(spec,instanced=false) {
   const Type=typedArrays[spec.type];
   if(!Type) throw Error(`Tipo de buffer não suportado: ${spec.type}.`);
-  const binary=atob(spec.base64),bytes=new Uint8Array(binary.length);
-  for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+  let bytes;
+  if(typeof Uint8Array.fromBase64==='function')bytes=Uint8Array.fromBase64(spec.base64);
+  else{
+    const binary=atob(spec.base64);bytes=new Uint8Array(binary.length);
+    for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
+  }
   const values=new Type(bytes.buffer);
   if(values.length!==spec.length) throw Error('Buffer de geometria incompleto.');
   const Attribute=instanced?THREE.InstancedBufferAttribute:THREE.BufferAttribute;
@@ -204,6 +208,7 @@ async function start() {
     material.userData.livBakedTransport=spec.baked;
     materials.push(material);
   });
+  mark('geometryStart');
   data.geometries.forEach(spec=>{
     const geometry=new THREE.BufferGeometry();
     for(const [name,attribute] of Object.entries(spec.attributes)) geometry.setAttribute(name,decodeAttribute(attribute));
@@ -224,6 +229,7 @@ async function start() {
     mesh.castShadow=spec.castShadow;mesh.receiveShadow=spec.receiveShadow;mesh.renderOrder=spec.renderOrder;mesh.userData=spec.userData;
     building.add(mesh);return mesh;
   });
+  mark('geometryReady');
   // r186 gives uniform instance buffers object-specific shader names. Its
   // existing interleaved attribute path shares those vertex programs instead.
   // Scope this policy to our source meshes; keep the actual device limits,

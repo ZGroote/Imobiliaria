@@ -1,0 +1,739 @@
+{
+  "recordedAtUtc": "2026-10-11T18:35:38.579852+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "geometry": "entrada",
+  "sourceSHA256": {
+    "qa_unidades.py": "4bb7e71532c5253a92b38bb238199a5da2731321fbf773cbf391d8843b2a1128",
+    "test_unidades.mjs": "788bff872e9cbfd426f72fdac4698b4c8d1fb0595c6381e2db1ef19307b29d2a",
+    "unidades.json": "dcc72736e33fcd2cd613442600324a126bbfc6aa4d35a85097306d8eae24176b",
+    "unidades.js": "a1191b2f72dbe498a8db5690bea1851d8512f19f6a64c9d10f7cef1eed33cf73",
+    "unit-footprint.js": "312fd2fa1962f004c853ee86c246242460de4b69dcb334978eb013dc2476a5f6",
+    "picking.js": "6aac9a34546a3ec3ae779d2ee396bc028bbe0df8950b0b11b358f72f06913d0a",
+    "unit-ui.js": "ac778a6daefa26bd6de19e7230106e812b52b4459158394c335f40379d61f733",
+    "unit-ui.css": "6781dd40132832d21d703c360250816a05bc2037c1c5b9d93e74ff1fa7a42092",
+    "viewer.js": "7cda21eeb9b7af8642efd1b71e9d042104ce921f171d4960583c03d2474d3979",
+    "renderer.js": "6cd5cb2063df0bf0f1ce63ef8d691b435a3be85a2996d49513e132b23b98c7b6",
+    "cameras.js": "6272d526e886a7c32ddca6735007c3dd6f629ee7117fac8e882b6ff4e3dec0dd",
+    "exterior-finishes.js": "43a8bec60381c24652b97b3f817753aa82902f721e6a30f2e6278a6a796ea575",
+    "maquete-liv-ipanema.html": "e297c92f23d56f32edb456fa3e8a1a9ac05443945d538fcc6e171f626575efb8",
+    "prova-rgbm.html": "042b44a38583a06135622c2924d7dbe29adca152245fc556bf17ad9d00087a81",
+    "tipologias.js": "bead10376b812f56a9e1ee7513049c108664e38c43120aafec5c00d396856403",
+    "assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57",
+    "assets-prova/scene.json.gz": "9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+    "assets-prova/irradiance.rgbm.gz": "ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+    "interiores/catalogo.json": "977ae20cbdfe565f62cc9628181991c6e9974fbca2b721ea04ece4e603c39a6c",
+    "interior-renderer.js": "6fbac9f97c975461a45561176c33cba833b409cb2a3a273553e59d5d4a2e0b58",
+    "interior-cutaway.js": "2581b9382be2fbf8da635cb8da7dbc85b4e41cc5e0c797f30e5b15e426b0ab09",
+    "plantas2d/canto.jpg": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971",
+    "plantas2d/meio.jpg": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
+    "ambiente.js": "0d0d20f2c38fdb073d93363f581e81e9f62c6efddc529b090bb56ccaef0efd41",
+    "assets-ambiente/manifest.json": "9f1b6ed426bc8ea129cb25864409de7f22c317b9e463717e41a186fce3d91b56",
+    "assets-ambiente/ambiente.f16.gz": "33d907b23422b798625ef6674617d7890f9d8addd9bbf51dfc7562fd4526bdb8",
+    "edicoes.js": "8fa10dd06d3bb5421d1ea171fdff6fb692d08a8f3e36113bef9a4e11a910f185",
+    "test_contorno_unidades.mjs": "8fdc75968b465ac062d1767e4a1f0f309d3f960c6ad41fa1b9037591b30e7d2a",
+    "modelo/registrar_unidades.py": "dff3f7d7b4a12937bac0e1e03ea87ddf18d5442555b87ce914974929ed587142",
+    "modelo/entrada/unidades-entrada.json": "b69d88d87307abba45e98446ae95cd2ad2e0fafee65df03ef4a277ba38abf7f9",
+    "modelo/contorno-torre.json": "8e6545269bfd0ebd97b80a82eff7a2feabff5aad6a0fb4a24b220f2d898bf878",
+    "modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
+    "modelo/entrada/candidato/modelo.json": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
+    "modelo/entrada/candidato/assets/manifest.json": "71b76f233cbad92b9851793fdd31cd71d92d0a27085dad6464a6cd9b22241c79",
+    "modelo/entrada/candidato/assets/scene.json.gz": "81f2bd7148320c81bbe6ad8467528f26e773e7d00175ddd0e7f982dd5b08dfb0",
+    "modelo/entrada/candidato/assets/irradiance.rgbm.gz": "04bab00d610c70cdfeea1f86e4d5c695de51eb185d4fc0a356e0d0bcfe742e54",
+    "mapa-retorno.js": "3ce5b6c76f09e29c7abede06d4726b093272cc6159985c519a2beadb43ba5ab8"
+  },
+  "reference": {
+    "url": "https://www.livonincorporadora.com.br/wp-content/uploads/2024/08/BOOK_LIV_Ipanema.pdf",
+    "page": 15,
+    "bookSHA256": "c7dae676c82eab758370e386cea7fe6bd31dded9fa436eb53ebdfe70be7bb50b",
+    "imagePath": "../../relatorios/liv-referencias-publicas-2026-10-09/implantacao-finais-e-vagas.png",
+    "imageSHA256": "5ee381ceacbe6d52ece70ac2bf4854c4c07c2f5e287d278d2c92cff8d733a2eb",
+    "imagePixels": [
+      2100,
+      1051
+    ],
+    "finalOrderConfidence": "confirmado"
+  },
+  "limitations": [
+    "Registro proporcional e zonas aproximadas, sem planta executiva.",
+    "Tipologia/espelhamento por final, área por unidade e dados comerciais pendentes.",
+    "Toque emulado em Chrome desktop; Poco X6 e iPhone físicos não qualificados."
+  ],
+  "cases": [
+    {
+      "profile": "desktop-webgpu",
+      "viewport": [
+        1440,
+        900
+      ],
+      "requestedBackend": "webgpu",
+      "errors": [],
+      "httpFailures": [],
+      "consoleErrors": [],
+      "status": "PASS",
+      "actualBackend": "webgpu",
+      "listSelections": [
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-02",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-03",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-04",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-05",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-06",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-07",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-08",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-09",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-10",
+          "backend": "webgpu"
+        }
+      ],
+      "keyboardSelection": true,
+      "facadeSelections": [
+        "liv-ipanema/pavimento-modelo-01/final-01",
+        "liv-ipanema/pavimento-modelo-01/final-02",
+        "liv-ipanema/pavimento-modelo-01/final-03",
+        "liv-ipanema/pavimento-modelo-01/final-04",
+        "liv-ipanema/pavimento-modelo-01/final-05",
+        "liv-ipanema/pavimento-modelo-01/final-06",
+        "liv-ipanema/pavimento-modelo-01/final-07",
+        "liv-ipanema/pavimento-modelo-01/final-08",
+        "liv-ipanema/pavimento-modelo-01/final-09",
+        "liv-ipanema/pavimento-modelo-01/final-10"
+      ],
+      "dragDoesNotPick": true,
+      "roofDoesNotSelectHiddenFloor": true,
+      "sourcePreserved": {
+        "modelSHA256": "dec4a11b098f36051d36cc43b0acdd0a76da16c853461660624dc7f6700b6548",
+        "meshes": 57,
+        "geometryUVMaterialsAtlasUnchanged": true
+      },
+      "referenceCatalog": [
+        {
+          "typology": "canto",
+          "mode": "planta2d",
+          "source": "plantas2d/canto.jpg"
+        },
+        {
+          "typology": "canto",
+          "mode": "planta3d",
+          "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+          "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+          "presentation": {
+            "enabled": true,
+            "active": true,
+            "height": 1.2,
+            "objects": 4,
+            "capTriangles": 48,
+            "clipShadows": false
+          }
+        },
+        {
+          "typology": "canto",
+          "mode": "visita",
+          "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+          "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+          "presentation": {
+            "enabled": true,
+            "active": false,
+            "height": 1.2,
+            "objects": 4,
+            "capTriangles": 48,
+            "clipShadows": false
+          }
+        },
+        {
+          "typology": "meio",
+          "mode": "planta2d",
+          "source": "plantas2d/meio.jpg"
+        },
+        {
+          "typology": "meio",
+          "mode": "planta3d",
+          "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+          "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+          "presentation": {
+            "enabled": true,
+            "active": true,
+            "height": 1.2,
+            "objects": 4,
+            "capTriangles": 52,
+            "clipShadows": false
+          }
+        },
+        {
+          "typology": "meio",
+          "mode": "visita",
+          "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+          "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+          "presentation": {
+            "enabled": true,
+            "active": false,
+            "height": 1.2,
+            "objects": 4,
+            "capTriangles": 52,
+            "clipShadows": false
+          }
+        }
+      ],
+      "sessionAndModeReturn": true,
+      "layouts": [
+        {
+          "width": 320,
+          "minTouchTarget": 44,
+          "noHorizontalOverflow": true
+        },
+        {
+          "width": 768,
+          "minTouchTarget": 44,
+          "noHorizontalOverflow": true
+        },
+        {
+          "width": 1024,
+          "minTouchTarget": 44,
+          "noHorizontalOverflow": true
+        },
+        {
+          "width": 1440,
+          "minTouchTarget": 44,
+          "noHorizontalOverflow": true
+        }
+      ],
+      "disposed": {
+        "box": 1,
+        "edges": 1,
+        "fill": 1,
+        "line": 1
+      },
+      "unknownSavedIdRejected": true,
+      "contourHighlightVerifiedForEverySelection": true
+    },
+    {
+      "profile": "desktop-webgl",
+      "viewport": [
+        1440,
+        900
+      ],
+      "requestedBackend": "webgl",
+      "errors": [],
+      "httpFailures": [],
+      "consoleErrors": [],
+      "status": "PASS",
+      "actualBackend": "webgl",
+      "listSelections": [
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+          "backend": "webgl"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-02",
+          "backend": "webgl"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-03",
+          "backend": "webgl"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-04",
+          "backend": "webgl"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-05",
+          "backend": "webgl"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-06",
+          "backend": "webgl"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-07",
+          "backend": "webgl"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-08",
+          "backend": "webgl"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-09",
+          "backend": "webgl"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-10",
+          "backend": "webgl"
+        }
+      ],
+      "keyboardSelection": true,
+      "facadeSelections": [
+        "liv-ipanema/pavimento-modelo-01/final-01",
+        "liv-ipanema/pavimento-modelo-01/final-02",
+        "liv-ipanema/pavimento-modelo-01/final-03",
+        "liv-ipanema/pavimento-modelo-01/final-04",
+        "liv-ipanema/pavimento-modelo-01/final-05",
+        "liv-ipanema/pavimento-modelo-01/final-06",
+        "liv-ipanema/pavimento-modelo-01/final-07",
+        "liv-ipanema/pavimento-modelo-01/final-08",
+        "liv-ipanema/pavimento-modelo-01/final-09",
+        "liv-ipanema/pavimento-modelo-01/final-10"
+      ],
+      "dragDoesNotPick": true,
+      "roofDoesNotSelectHiddenFloor": true,
+      "sourcePreserved": {
+        "modelSHA256": "dec4a11b098f36051d36cc43b0acdd0a76da16c853461660624dc7f6700b6548",
+        "meshes": 57,
+        "geometryUVMaterialsAtlasUnchanged": true
+      },
+      "referenceCatalog": [
+        {
+          "typology": "canto",
+          "mode": "planta2d",
+          "source": "plantas2d/canto.jpg"
+        },
+        {
+          "typology": "canto",
+          "mode": "planta3d",
+          "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+          "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+          "presentation": {
+            "enabled": true,
+            "active": true,
+            "height": 1.2,
+            "objects": 4,
+            "capTriangles": 48,
+            "clipShadows": false
+          }
+        },
+        {
+          "typology": "canto",
+          "mode": "visita",
+          "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+          "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+          "presentation": {
+            "enabled": true,
+            "active": false,
+            "height": 1.2,
+            "objects": 4,
+            "capTriangles": 48,
+            "clipShadows": false
+          }
+        },
+        {
+          "typology": "meio",
+          "mode": "planta2d",
+          "source": "plantas2d/meio.jpg"
+        },
+        {
+          "typology": "meio",
+          "mode": "planta3d",
+          "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+          "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+          "presentation": {
+            "enabled": true,
+            "active": true,
+            "height": 1.2,
+            "objects": 4,
+            "capTriangles": 52,
+            "clipShadows": false
+          }
+        },
+        {
+          "typology": "meio",
+          "mode": "visita",
+          "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+          "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+          "presentation": {
+            "enabled": true,
+            "active": false,
+            "height": 1.2,
+            "objects": 4,
+            "capTriangles": 52,
+            "clipShadows": false
+          }
+        }
+      ],
+      "sessionAndModeReturn": true,
+      "layouts": [
+        {
+          "width": 320,
+          "minTouchTarget": 44,
+          "noHorizontalOverflow": true
+        },
+        {
+          "width": 768,
+          "minTouchTarget": 44,
+          "noHorizontalOverflow": true
+        },
+        {
+          "width": 1024,
+          "minTouchTarget": 44,
+          "noHorizontalOverflow": true
+        },
+        {
+          "width": 1440,
+          "minTouchTarget": 44,
+          "noHorizontalOverflow": true
+        }
+      ],
+      "disposed": {
+        "box": 1,
+        "edges": 1,
+        "fill": 1,
+        "line": 1
+      },
+      "unknownSavedIdRejected": true,
+      "contourHighlightVerifiedForEverySelection": true
+    },
+    {
+      "profile": "toque",
+      "viewport": [
+        390,
+        844
+      ],
+      "requestedBackend": "auto",
+      "errors": [],
+      "httpFailures": [],
+      "consoleErrors": [],
+      "status": "PASS",
+      "actualBackend": "webgpu",
+      "listSelections": [
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-02",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-03",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-04",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-05",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-06",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-07",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-08",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-09",
+          "backend": "webgpu"
+        },
+        {
+          "mode": "maquete",
+          "typology": "canto",
+          "view": "livre",
+          "floor": 1,
+          "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-10",
+          "backend": "webgpu"
+        }
+      ],
+      "keyboardSelection": true,
+      "facadeSelections": [
+        "liv-ipanema/pavimento-modelo-01/final-01",
+        "liv-ipanema/pavimento-modelo-01/final-02",
+        "liv-ipanema/pavimento-modelo-01/final-03",
+        "liv-ipanema/pavimento-modelo-01/final-04",
+        "liv-ipanema/pavimento-modelo-01/final-05",
+        "liv-ipanema/pavimento-modelo-01/final-06",
+        "liv-ipanema/pavimento-modelo-01/final-07",
+        "liv-ipanema/pavimento-modelo-01/final-08",
+        "liv-ipanema/pavimento-modelo-01/final-09",
+        "liv-ipanema/pavimento-modelo-01/final-10"
+      ],
+      "dragDoesNotPick": true,
+      "pinchDoesNotPick": true,
+      "roofDoesNotSelectHiddenFloor": true,
+      "sourcePreserved": {
+        "modelSHA256": "dec4a11b098f36051d36cc43b0acdd0a76da16c853461660624dc7f6700b6548",
+        "meshes": 57,
+        "geometryUVMaterialsAtlasUnchanged": true
+      },
+      "referenceCatalog": [
+        {
+          "typology": "canto",
+          "mode": "planta2d",
+          "source": "plantas2d/canto.jpg"
+        },
+        {
+          "typology": "canto",
+          "mode": "planta3d",
+          "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+          "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+          "presentation": {
+            "enabled": true,
+            "active": true,
+            "height": 1.2,
+            "objects": 4,
+            "capTriangles": 48,
+            "clipShadows": false
+          }
+        },
+        {
+          "typology": "canto",
+          "mode": "visita",
+          "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+          "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+          "presentation": {
+            "enabled": true,
+            "active": false,
+            "height": 1.2,
+            "objects": 4,
+            "capTriangles": 48,
+            "clipShadows": false
+          }
+        },
+        {
+          "typology": "meio",
+          "mode": "planta2d",
+          "source": "plantas2d/meio.jpg"
+        },
+        {
+          "typology": "meio",
+          "mode": "planta3d",
+          "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+          "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+          "presentation": {
+            "enabled": true,
+            "active": true,
+            "height": 1.2,
+            "objects": 4,
+            "capTriangles": 52,
+            "clipShadows": false
+          }
+        },
+        {
+          "typology": "meio",
+          "mode": "visita",
+          "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+          "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+          "presentation": {
+            "enabled": true,
+            "active": false,
+            "height": 1.2,
+            "objects": 4,
+            "capTriangles": 52,
+            "clipShadows": false
+          }
+        }
+      ],
+      "sessionAndModeReturn": true,
+      "layouts": [
+        {
+          "width": 320,
+          "minTouchTarget": 44,
+          "noHorizontalOverflow": true
+        },
+        {
+          "width": 768,
+          "minTouchTarget": 44,
+          "noHorizontalOverflow": true
+        },
+        {
+          "width": 1024,
+          "minTouchTarget": 44,
+          "noHorizontalOverflow": true
+        },
+        {
+          "width": 1440,
+          "minTouchTarget": 44,
+          "noHorizontalOverflow": true
+        }
+      ],
+      "disposed": {
+        "box": 1,
+        "edges": 1,
+        "fill": 1,
+        "line": 1
+      },
+      "unknownSavedIdRejected": true,
+      "contourHighlightVerifiedForEverySelection": true
+    }
+  ],
+  "browserVersion": "154.0.8037.98",
+  "recoveryCases": [
+    {
+      "fixture": "cadastro-404",
+      "fallback2D": true,
+      "retryLoadsCatalogAndSelection": true,
+      "status": "PASS"
+    },
+    {
+      "fixture": "modelo-incompativel",
+      "pickingRejected": true,
+      "fallback2D": true,
+      "retryRestoresSelection": true,
+      "status": "PASS"
+    },
+    {
+      "fixture": "zona-preenche-recuo",
+      "invalidFootprintRejected": true,
+      "fallback2D": true,
+      "retryRestoresSelection": true,
+      "status": "PASS"
+    }
+  ],
+  "mapReturn": {
+    "status": "PASS",
+    "returnURL": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=entrada",
+    "selectionRestored": true,
+    "exteriorEditionRestored": true,
+    "mapGeometry": "entrada-verified",
+    "failureLinksPreserveEditionAndSelection": true,
+    "failureFixtureServiceWorkersBlocked": true
+  }
+}

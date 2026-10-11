@@ -1,5 +1,7 @@
 # Compilação das instâncias — 11/10/2026
 
+Complemento posterior: [BUFFERS.md](BUFFERS.md) registra o decoder nativo da geometria, preservando esta política de instâncias. Os resultados abaixo identificam o lote anterior e não devem ser misturados com os novos tempos absolutos.
+
 O exterior agora usa o caminho de atributos intercalados do Three.js para suas instâncias. No ensaio completo, a entrada abre em **2.489 ms com WebGPU / 2.643 ms com WebGL2**, contra **2.915 ms da base preservada**. Os dois backends passam no limite provisório de abertura fria do desktop. T05 continua parcial: rede/hospedagem, memória e aparelhos físicos ainda precisam ser qualificados, e o reload WebGPU permanece mais lento que a base.
 
 [Prévia completa da entrada](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=entrada). A publicação original não foi alterada. Base, contorno e entrada continuam com os mesmos modelos, atlas, materiais padrão, quantidades, matrizes e seleção; Canto e Meio conservam seus interiores independentes.

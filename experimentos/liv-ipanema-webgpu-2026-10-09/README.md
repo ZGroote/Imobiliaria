@@ -2,7 +2,9 @@
 
 Revisão de 11/10: quinas e vão da cobertura corrigidos, UV de luz mais denso nas bordas finas e união da moldura interna de Canto, com bake próprio. Meio mantém seu modelo independente. Detalhes em [modelo/CONTORNO.md](modelo/CONTORNO.md) e [RODATETO.md](RODATETO.md).
 
-O exterior reutiliza sombras fixas, importa os reflexos preparados e agora compartilha programas de vértice pelo caminho de atributos das instâncias. Entrada: 2.489 ms frio em WebGPU / 2.643 ms em WebGL2, contra base de 2.915 ms no mesmo lote. Abertura fria passa no limite provisório do desktop; reload WebGPU, rede/memória e aparelhos físicos continuam pendentes. Noventa e nove comparações de imagem são idênticas. Resultados e receita em [INSTANCIAS.md](INSTANCIAS.md); reflexos em [AMBIENTE.md](AMBIENTE.md).
+Continuação em 11/10: o decoder nativo reduz em 72–73% a etapa de montagem da geometria no desktop e conserva o fallback para navegadores antigos. O lote integrado passa no teto frio provisório e tem reload mediano abaixo da base nos dois backends; rede/memória e aparelhos físicos continuam pendentes. Dados e limites em [BUFFERS.md](BUFFERS.md).
+
+Na qualificação anterior das instâncias, o exterior reutiliza sombras fixas, importa os reflexos preparados e compartilha programas de vértice pelo caminho de atributos das instâncias. Entrada: 2.489 ms frio em WebGPU / 2.643 ms em WebGL2, contra base de 2.915 ms no mesmo lote. Abertura fria passa no limite provisório do desktop; reload WebGPU, rede/memória e aparelhos físicos continuam pendentes. Noventa e nove comparações de imagem são idênticas. Resultados e receita em [INSTANCIAS.md](INSTANCIAS.md); reflexos em [AMBIENTE.md](AMBIENTE.md).
 
 Implementação iniciada em 09/10/2026, conforme [plano](../../tasks/liv-ipanema-webgpu/plan.md). A base é a edição `strict-circle-v3` do [endereço indicado pelo usuário](https://imobilaria-deccb-miniaturas--liv-mapa-5km-20261008-onn3ia42.web.app/maquete-liv-ipanema.html). Este diretório separa a evolução do experimento histórico.
 
