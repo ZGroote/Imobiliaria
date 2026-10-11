@@ -23,7 +23,7 @@ DEFAULT_URL = (
 # first fetch, giving the observer time to attach without intercepting page code.
 INSTRUMENT = r"""(() => {
   const p = window.__livOpeningProfile = {
-    events: [], longTasks: [], errors: [], patched: {}, dropped: 0,
+    events: [], longTasks: [], errors: [], patched: {}, programs: [], dropped: 0,
     initializedAt: performance.now(), stopped: false, rendererAttachedAt: null
   };
   const limit = 12000;
@@ -132,6 +132,41 @@ INSTRUMENT = r"""(() => {
     clearInterval(poll);
     p.rendererAttachedAt = now();
     p.timingsAtAttachment = {...state.timings};
+    patchMethod(renderer.backend, 'createProgram', original => function(program, ...rest) {
+      const start = now(), info = {...context(), stage: program.stage, name: program.name,
+        programId: program.id, codeLength: program.code?.length ?? 0};
+      if (!p.stopped) p.programs.push({stage: program.stage, name: program.name,
+        programId: program.id, code: program.code});
+      try {return original.call(this, program, ...rest);}
+      catch (error) {info.error = String(error); throw error;}
+      finally {span('backend-program', start, info);}
+    }, 'backend.createProgram');
+    patchMethod(renderer._nodes, 'getForRenderAsync', original => function(object, ...rest) {
+      const start = now(), info = {...context(), object: object.object?.name,
+        material: object.material?.name, instanceCount: object.object?.count ?? null,
+        matrixCapacity: object.object?.instanceMatrix?.count ?? null};
+      const result = original.call(this, object, ...rest);
+      result.then(() => span('node-builder-async', start, info),
+        error => span('node-builder-async', start, info, error));
+      return result;
+    }, 'nodes.getForRenderAsync');
+    patchMethod(renderer.backend, 'createRenderPipeline', original => function(object, promises, ...rest) {
+      const start = now(), info = {...context(), object: object.object?.name,
+        material: object.material?.name, instanceCount: object.object?.count ?? null,
+        vertexProgramId: object.pipeline?.vertexProgram?.id,
+        fragmentProgramId: object.pipeline?.fragmentProgram?.id};
+      const previous = promises?.length ?? 0;
+      try {
+        const result = original.call(this, object, promises, ...rest);
+        if (promises?.length > previous) {
+          Promise.all(promises.slice(previous)).then(
+            () => span('backend-pipeline-complete', start, info),
+            error => span('backend-pipeline-complete', start, info, error));
+        }
+        return result;
+      } catch (error) {info.error = String(error); throw error;}
+      finally {span('backend-pipeline-return', start, info);}
+    }, 'backend.createRenderPipeline');
     patchMethod(renderer, 'compileAsync', original => function(...args) {
       const start = now(); compileDepth++;
       record({kind: 'compile-start', start, ...context()});
@@ -275,6 +310,13 @@ def main():
                         if len(proof_frames) != 1:
                             raise AssertionError(f'Esperava uma cena exterior, encontrei {len(proof_frames)}')
                         profile = proof_frames[0].evaluate('window.__livOpeningProfile.snapshot()')
+                        for program in profile['programs']:
+                            code = program.pop('code')
+                            digest = hashlib.sha256(code.encode('utf-8')).hexdigest()
+                            program['codeSHA256'] = digest
+                            shader_path = args.saida/'shaders'/f'{digest}.{program["stage"]}.txt'
+                            shader_path.parent.mkdir(exist_ok=True)
+                            shader_path.write_text(code, encoding='utf-8')
                         summary = summarize(profile)
                         row['phases'][phase] = {'parentReadyMs': parent_ready,
                             'profile': profile, 'summary': summary}

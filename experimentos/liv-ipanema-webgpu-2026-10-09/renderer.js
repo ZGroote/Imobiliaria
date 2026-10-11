@@ -224,6 +224,18 @@ async function start() {
     mesh.castShadow=spec.castShadow;mesh.receiveShadow=spec.receiveShadow;mesh.renderOrder=spec.renderOrder;mesh.userData=spec.userData;
     building.add(mesh);return mesh;
   });
+  // r186 gives uniform instance buffers object-specific shader names. Its
+  // existing interleaved attribute path shares those vertex programs instead.
+  // Scope this policy to our source meshes; keep the actual device limits,
+  // materials, matrices and instance counts intact. Requalify on Three upgrades.
+  if(THREE.REVISION==='186'){
+    const instances=new WeakSet(meshes.filter(mesh=>mesh.isInstancedMesh));
+    const previous=renderer.debug.onNodeBuilderCreated;
+    renderer.debug.onNodeBuilderCreated=(builder,object)=>{
+      previous?.(builder,object);
+      if(instances.has(builder.object))builder.getUniformBufferLimit=()=>0;
+    };
+  }
   scene.add(building);
   state.finish=finishProfile==='referencia'?applyReferenceFinishes(meshes,materials,data.sourceModelSHA256):{profile:'base',changes:[]};
   const shadowLights=[];

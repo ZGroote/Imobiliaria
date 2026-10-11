@@ -1,6 +1,8 @@
 # Entrada na maquete completa — 11/10/2026
 
-[Abrir a prévia local](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=entrada). A edição reúne entrada reconstruída, contorno/cobertura corrigidos, seleção ilustrativa dos dez finais, Planta 2D/3D, Tour de Canto/Meio e mapa de 5 km. O endereço sem parâmetro conserva a base. Esta edição continua opcional enquanto o orçamento de abertura e os ensaios físicos estão pendentes; não houve publicação.
+[Abrir a prévia local](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=entrada). A edição reúne entrada reconstruída, contorno/cobertura corrigidos, seleção ilustrativa dos dez finais, Planta 2D/3D, Tour de Canto/Meio e mapa de 5 km. O endereço sem parâmetro conserva a base. Esta edição continua opcional enquanto rede, memória e ensaios físicos estão pendentes; não houve publicação.
+
+Continuação de desempenho: [INSTANCIAS.md](INSTANCIAS.md) qualifica a política de atributos do próprio Three.js, preservando os materiais. Na página completa, entrada abre em 2.489 ms com WebGPU / 2.643 ms com WebGL2, contra 2.915 ms da base: os dois backends passam no teto provisório de abertura fria **do desktop**. Noventa e nove comparações RGBA são idênticas. T05 continua parcial, inclusive por reload WebGPU e qualificação física; as medições e QAs da integração original abaixo permanecem históricos.
 
 ## Identidade e navegação
 
@@ -34,7 +36,7 @@ Chrome 154.0.8037.98, Windows 11, GTX 1650; backends efetivos WebGPU e WebGL2 re
 | [Fila controlada](evidencias/fila-entrada-fixtures/runtime.json) | 13 cenários: prioridade, integridade, compartilhamento, tipologias/abas, pré-requisitos, versões, atualização e reinício do worker |
 | [Fila com arquivos reais](evidencias/fila-entrada-corrigida/runtime.json) | 5 cenários: primeira cena antes do fundo, 141 arquivos em cache, preempção, mapas frios de contorno/entrada com modelo escolhido primeiro, cache sem duplicar downloads, quota cheia e ausência de Service Worker |
 
-## Medição da interface completa
+## Medição anterior da interface completa, antes da política de instâncias
 
 [medicao-entrada-integrada/medicao.json](evidencias/medicao-entrada-integrada/medicao.json): 15 pares / 30 amostras, três rodadas por tratamento, Chrome novo por rodada, contexto HTTP frio e reload no mesmo contexto. Execução sequencial em ordem fixa base → contorno WebGL2/WebGPU → entrada WebGL2/WebGPU. Mesma interface completa, viewport 1440×900, canvas 720×390, DPR 1, ambiente pré-calculado sem fallback e fonte/backend efetivos conferidos. A fila é pausada depois da primeira cena utilizável, antes da amostra de órbita de quatro segundos.
 
@@ -46,9 +48,9 @@ Chrome 154.0.8037.98, Windows 11, GTX 1650; backends efetivos WebGPU e WebGL2 re
 | Entrada / WebGL2 | 5.123 ms | 1.596 ms | 20.060.395 bytes |
 | Entrada / WebGPU | 3.030 ms | 2.658 ms | 20.060.395 bytes |
 
-A entrada acrescenta 47.185 bytes (+0,24%) ao contorno; sua abertura varia +1,2% frio/−0,7% reload em WebGPU e +3,6%/+1,3% em WebGL2 nesta rodada. O conteúdo inicial é 47,7% menor que o da base. **T05 continua parcial:** contra a base comparável, abertura fria +13,9% em WebGPU / +92,6% em WebGL2 supera o limite provisório de +10%. O protocolo passou, mas o orçamento de abertura não passou. A edição continua opcional.
+A entrada acrescentava 47.185 bytes (+0,24%) ao contorno; sua abertura variou +1,2% frio/−0,7% reload em WebGPU e +3,6%/+1,3% em WebGL2 nesta rodada anterior. O conteúdo inicial era 47,7% menor que o da base. Naquele lote, abertura fria +13,9% em WebGPU / +92,6% em WebGL2 superava o limite provisório de +10%. O protocolo passou, mas o orçamento frio não passou. O novo lote em [INSTANCIAS.md](INSTANCIAS.md) passa nesse critério desktop; T05 e a qualificação física continuam parciais.
 
-O maior intervalo instrumentado da entrada é `sceneBuilt → compiled`: medianas frias 1.645 ms em WebGPU e 3.752 ms em WebGL2. No reload, 1.600/645 ms. Esse intervalo inclui trabalho interno/esperas de `compileAsync`, sem isolar execução GPU ou estabelecer a causa no driver; é o próximo alvo do diagnóstico. Preparar o atlas consome cerca de 365–382 ms, e importar o ambiente preparado, 14–31 ms.
+O maior intervalo instrumentado daquela revisão era `sceneBuilt → compiled`: medianas frias 1.645 ms em WebGPU e 3.752 ms em WebGL2. No reload, 1.600/645 ms. Esse intervalo inclui trabalho interno/esperas de `compileAsync`, sem isolar execução GPU ou estabelecer a causa no driver. A repetição de programas foi tratada na continuação de instâncias; preparar o atlas consumia cerca de 365–382 ms, e importar o ambiente preparado, 14–31 ms.
 
 Conteúdo é a soma de `encodedBodySize` por URL distinta dos documentos até a cena utilizável, em loopback sem compressão HTTP; `.gz` já comprimidos. Não contabiliza tráfego secundário do worker nem mede a hospedagem/rede móvel. Caches do driver e outras aplicações não são controlados; ordem fixa limita a atribuição causal. O p95 da cadência de submissão fica em aproximadamente 16,9 ms, sem medir tempo GPU/FPS. O ensaio é de órbita exterior; não mede caminhada no Poco. Não misturar seus tempos com os ensaios isolados ou históricos de outras condições.
 
