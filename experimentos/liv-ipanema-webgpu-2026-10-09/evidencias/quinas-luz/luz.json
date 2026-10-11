@@ -1,0 +1,1787 @@
+{
+  "schema": "liv-corner-light-qa-v1",
+  "status": "PASS",
+  "atUtc": "2026-10-11T03:35:04.656520+00:00",
+  "scope": "102 amostras nas duas quinas do n\u00facleo frontal; inspe\u00e7\u00e3o visual em seis c\u00e2meras por backend.",
+  "physicalMobile": false,
+  "before": {
+    "sourceSHA256": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+    "atlasSHA256": "5cb4616a64f12ae53b6c8f4ccd916943b35d3235b10d5c8a8186ae8cbc924c00",
+    "samples": [
+      {
+        "floor": 0,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.4835425300487108,
+        "radianceMax": 0.5124224159152454
+      },
+      {
+        "floor": 0,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.2819315775396395,
+        "radianceMax": 0.2963623195190655
+      },
+      {
+        "floor": 0,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.5287464384365562,
+        "radianceMax": 0.5527870922308081
+      },
+      {
+        "floor": 0,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.30392075807522567,
+        "radianceMax": 0.3040058584537807
+      },
+      {
+        "floor": 0,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.2686182505262962,
+        "radianceMax": 0.2712456923380922
+      },
+      {
+        "floor": 0,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.5931880776013988,
+        "radianceMax": 0.6108428112411444
+      },
+      {
+        "floor": 1,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.6608299549782175,
+        "radianceMax": 0.7883014723326536
+      },
+      {
+        "floor": 1,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.004299523784146282,
+        "radianceMax": 0.007411771412491113
+      },
+      {
+        "floor": 1,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.0026762005638072375,
+        "radianceMax": 0.004089370904214418
+      },
+      {
+        "floor": 1,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.5614450056831598,
+        "radianceMax": 0.8054103976546393
+      },
+      {
+        "floor": 1,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.0014974472272933864,
+        "radianceMax": 0.002328840580145532
+      },
+      {
+        "floor": 1,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.000461261842836835,
+        "radianceMax": 0.0029452757585853146
+      },
+      {
+        "floor": 2,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.47532763427777797,
+        "radianceMax": 0.47656639270921214
+      },
+      {
+        "floor": 2,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.4591018119852996,
+        "radianceMax": 0.4708037890571349
+      },
+      {
+        "floor": 2,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.45964113563773473,
+        "radianceMax": 0.47455733081055146
+      },
+      {
+        "floor": 2,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.47014283244470595,
+        "radianceMax": 0.47342270365943956
+      },
+      {
+        "floor": 2,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.47404780017317116,
+        "radianceMax": 0.4823746112574383
+      },
+      {
+        "floor": 2,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.4697411807641609,
+        "radianceMax": 0.46983242439060896
+      },
+      {
+        "floor": 3,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.6354152365714714,
+        "radianceMax": 0.7445729275406352
+      },
+      {
+        "floor": 3,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.0036156761998120232,
+        "radianceMax": 0.012355424338836138
+      },
+      {
+        "floor": 3,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.002529364270211836,
+        "radianceMax": 0.0033145828508698376
+      },
+      {
+        "floor": 3,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.6244573858900061,
+        "radianceMax": 0.740175169670709
+      },
+      {
+        "floor": 3,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.0006516076134484677,
+        "radianceMax": 0.0028181752572024633
+      },
+      {
+        "floor": 3,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.0020268097683571523,
+        "radianceMax": 0.0035728291584662362
+      },
+      {
+        "floor": 4,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.48425725213335963,
+        "radianceMax": 0.48467924238335397
+      },
+      {
+        "floor": 4,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.46916522599283067,
+        "radianceMax": 0.4713442596861575
+      },
+      {
+        "floor": 4,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.4647568315507167,
+        "radianceMax": 0.4856553072418946
+      },
+      {
+        "floor": 4,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.4642976738085444,
+        "radianceMax": 0.47900885998472503
+      },
+      {
+        "floor": 4,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.4663812957130176,
+        "radianceMax": 0.4815820155835889
+      },
+      {
+        "floor": 4,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.4829722870693094,
+        "radianceMax": 0.4857259472499062
+      },
+      {
+        "floor": 5,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.6942531644790271,
+        "radianceMax": 0.7551923403011463
+      },
+      {
+        "floor": 5,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.004388682042033742,
+        "radianceMax": 0.007399035200342696
+      },
+      {
+        "floor": 5,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.0013920599108595115,
+        "radianceMax": 0.0035571400561340955
+      },
+      {
+        "floor": 5,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.6176351413638096,
+        "radianceMax": 0.7434654769969065
+      },
+      {
+        "floor": 5,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.002420051743913867,
+        "radianceMax": 0.0032371240171326274
+      },
+      {
+        "floor": 5,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.0015931595903750319,
+        "radianceMax": 0.002976613338527239
+      },
+      {
+        "floor": 6,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.47784021975668134,
+        "radianceMax": 0.48433935655669824
+      },
+      {
+        "floor": 6,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.47375907348852064,
+        "radianceMax": 0.4842228183477298
+      },
+      {
+        "floor": 6,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.47805352175224347,
+        "radianceMax": 0.4784444096429064
+      },
+      {
+        "floor": 6,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.48777384360592535,
+        "radianceMax": 0.49622330907137746
+      },
+      {
+        "floor": 6,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.47837669772628805,
+        "radianceMax": 0.49131255149505826
+      },
+      {
+        "floor": 6,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.4870615243340741,
+        "radianceMax": 0.48971032298841527
+      },
+      {
+        "floor": 7,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.6642956908009309,
+        "radianceMax": 0.7581525825368355
+      },
+      {
+        "floor": 7,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.0018978988787777724,
+        "radianceMax": 0.005400927968398914
+      },
+      {
+        "floor": 7,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.0024342757963996308,
+        "radianceMax": 0.0027206645714327265
+      },
+      {
+        "floor": 7,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.6080212340209434,
+        "radianceMax": 0.7637584207033826
+      },
+      {
+        "floor": 7,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.0009974953175663694,
+        "radianceMax": 0.004817822073641618
+      },
+      {
+        "floor": 7,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.0003159867391688869,
+        "radianceMax": 0.0024175348526802734
+      },
+      {
+        "floor": 8,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.477097398753322,
+        "radianceMax": 0.4903969012070792
+      },
+      {
+        "floor": 8,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.48901137271121903,
+        "radianceMax": 0.5027121464308869
+      },
+      {
+        "floor": 8,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.49229329758413326,
+        "radianceMax": 0.4943261855677057
+      },
+      {
+        "floor": 8,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.49441163363877516,
+        "radianceMax": 0.5050839859476253
+      },
+      {
+        "floor": 8,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.4992383980115151,
+        "radianceMax": 0.5082652342076687
+      },
+      {
+        "floor": 8,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.4868766305583618,
+        "radianceMax": 0.4968822919157431
+      },
+      {
+        "floor": 9,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.6666515949176599,
+        "radianceMax": 0.7814284951559779
+      },
+      {
+        "floor": 9,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.0022794188508424157,
+        "radianceMax": 0.005402603120778746
+      },
+      {
+        "floor": 9,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.003256151224919861,
+        "radianceMax": 0.003485635495131043
+      },
+      {
+        "floor": 9,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.6620273871037208,
+        "radianceMax": 0.767986222768569
+      },
+      {
+        "floor": 9,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.0035814924468786126,
+        "radianceMax": 0.003589809031988389
+      },
+      {
+        "floor": 9,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.0024938699963658953,
+        "radianceMax": 0.004676659302811171
+      },
+      {
+        "floor": 10,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.49478220410535045,
+        "radianceMax": 0.49759949360948896
+      },
+      {
+        "floor": 10,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.4962381497689419,
+        "radianceMax": 0.5094480214464822
+      },
+      {
+        "floor": 10,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.5013674181244685,
+        "radianceMax": 0.5168288632175938
+      },
+      {
+        "floor": 10,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.4985519056980648,
+        "radianceMax": 0.5111423715907605
+      },
+      {
+        "floor": 10,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.49452789345893583,
+        "radianceMax": 0.5015064478644392
+      },
+      {
+        "floor": 10,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.5092668028439599,
+        "radianceMax": 0.5115315962431276
+      },
+      {
+        "floor": 11,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.5004167343704035,
+        "radianceMax": 0.5133326499544598
+      },
+      {
+        "floor": 11,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.5063936243532029,
+        "radianceMax": 0.5130495163353671
+      },
+      {
+        "floor": 11,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.5083562787449694,
+        "radianceMax": 0.5115913092408152
+      },
+      {
+        "floor": 11,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.5106218947486961,
+        "radianceMax": 0.514014420462681
+      },
+      {
+        "floor": 11,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.5115327451548711,
+        "radianceMax": 0.5188670437805588
+      },
+      {
+        "floor": 11,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.5079227505088236,
+        "radianceMax": 0.5175017690994034
+      },
+      {
+        "floor": 12,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.6247543615057224,
+        "radianceMax": 0.6703540763644336
+      },
+      {
+        "floor": 12,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.017686259626723513,
+        "radianceMax": 0.09655772331901012
+      },
+      {
+        "floor": 12,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.0158068705268869,
+        "radianceMax": 0.12265302503675747
+      },
+      {
+        "floor": 12,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.6062111934327347,
+        "radianceMax": 0.7758978930086674
+      },
+      {
+        "floor": 12,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.0009122563376939117,
+        "radianceMax": 0.004212800027448556
+      },
+      {
+        "floor": 12,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.002042119101384777,
+        "radianceMax": 0.005178147792800263
+      },
+      {
+        "floor": 13,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.49117076854102626,
+        "radianceMax": 0.5013097607866577
+      },
+      {
+        "floor": 13,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.5121967864147269,
+        "radianceMax": 0.5167748822213086
+      },
+      {
+        "floor": 13,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.5173341279350971,
+        "radianceMax": 0.5240951710478853
+      },
+      {
+        "floor": 13,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.4997090033961837,
+        "radianceMax": 0.5129628359586696
+      },
+      {
+        "floor": 13,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.5102109903895194,
+        "radianceMax": 0.5114134514940673
+      },
+      {
+        "floor": 13,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.516378042608757,
+        "radianceMax": 0.5176206234493118
+      },
+      {
+        "floor": 14,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.7234890688082475,
+        "radianceMax": 0.7858491462319029
+      },
+      {
+        "floor": 14,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.006567218700740152,
+        "radianceMax": 0.009659156375055683
+      },
+      {
+        "floor": 14,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.002179351752577233,
+        "radianceMax": 0.006753353015622001
+      },
+      {
+        "floor": 14,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.6681750001157652,
+        "radianceMax": 0.7826602319618887
+      },
+      {
+        "floor": 14,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.0007191787746145963,
+        "radianceMax": 0.0013248706391714845
+      },
+      {
+        "floor": 14,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.0014074411037065394,
+        "radianceMax": 0.0020126206371937753
+      },
+      {
+        "floor": 15,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.5178408339844305,
+        "radianceMax": 0.5200701520367689
+      },
+      {
+        "floor": 15,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.5192617427433283,
+        "radianceMax": 0.5215629338104326
+      },
+      {
+        "floor": 15,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.5117989292597938,
+        "radianceMax": 0.5282545299340609
+      },
+      {
+        "floor": 15,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.512136732404923,
+        "radianceMax": 0.5129457571045831
+      },
+      {
+        "floor": 15,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.5110057202535881,
+        "radianceMax": 0.5121415548217155
+      },
+      {
+        "floor": 15,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.5164346779688068,
+        "radianceMax": 0.5166596959213833
+      },
+      {
+        "floor": 16,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.7342881492160748,
+        "radianceMax": 0.7858098018719496
+      },
+      {
+        "floor": 16,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.0035147855193714654,
+        "radianceMax": 0.010273665545522856
+      },
+      {
+        "floor": 16,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.0017042474842248886,
+        "radianceMax": 0.007212106727598995
+      },
+      {
+        "floor": 16,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 2,
+        "radianceMin": 0.5742431962118678,
+        "radianceMax": 0.67070059934176
+      },
+      {
+        "floor": 16,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 2,
+        "radianceMin": 0.005500341438280318,
+        "radianceMax": 0.01275827414342335
+      },
+      {
+        "floor": 16,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 2,
+        "radianceMin": 0.004917806401853256,
+        "radianceMax": 0.10552735912808313
+      }
+    ],
+    "nearBlackSamples": 32,
+    "minimumRadiance": 0.0003159867391688869,
+    "ambiguousSurfaceSamples": 102
+  },
+  "after": {
+    "sourceSHA256": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+    "atlasSHA256": "855de0d7960d6eb25fe865f640f87faaf7226c99000e0b6cadea72d11b1716c6",
+    "samples": [
+      {
+        "floor": 0,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7793437170938754,
+        "radianceMax": 0.7793437170938754
+      },
+      {
+        "floor": 0,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.3431951673969691,
+        "radianceMax": 0.3431951673969691
+      },
+      {
+        "floor": 0,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.8275649515415973,
+        "radianceMax": 0.8275649515415973
+      },
+      {
+        "floor": 0,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.37147430769774153,
+        "radianceMax": 0.37147430769774153
+      },
+      {
+        "floor": 0,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.32218703348272265,
+        "radianceMax": 0.32218703348272265
+      },
+      {
+        "floor": 0,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.8624457097216257,
+        "radianceMax": 0.8624457097216257
+      },
+      {
+        "floor": 1,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.78666606419661,
+        "radianceMax": 0.78666606419661
+      },
+      {
+        "floor": 1,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7605261526549726,
+        "radianceMax": 0.7605261526549726
+      },
+      {
+        "floor": 1,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7491793679345747,
+        "radianceMax": 0.7491793679345747
+      },
+      {
+        "floor": 1,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7862203479238277,
+        "radianceMax": 0.7862203479238277
+      },
+      {
+        "floor": 1,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7626191234373274,
+        "radianceMax": 0.7626191234373274
+      },
+      {
+        "floor": 1,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7563280198284552,
+        "radianceMax": 0.7563280198284552
+      },
+      {
+        "floor": 2,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7467818491247785,
+        "radianceMax": 0.7467818491247785
+      },
+      {
+        "floor": 2,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7362878711599087,
+        "radianceMax": 0.7362878711599087
+      },
+      {
+        "floor": 2,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7294216241032778,
+        "radianceMax": 0.7294216241032778
+      },
+      {
+        "floor": 2,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7495365955208283,
+        "radianceMax": 0.7495365955208283
+      },
+      {
+        "floor": 2,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7404533424712931,
+        "radianceMax": 0.7404533424712931
+      },
+      {
+        "floor": 2,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7520553203020115,
+        "radianceMax": 0.7520553203020115
+      },
+      {
+        "floor": 3,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7395622449487433,
+        "radianceMax": 0.7395622449487433
+      },
+      {
+        "floor": 3,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7419462152622348,
+        "radianceMax": 0.7419462152622348
+      },
+      {
+        "floor": 3,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.744107118657903,
+        "radianceMax": 0.744107118657903
+      },
+      {
+        "floor": 3,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7431903445885593,
+        "radianceMax": 0.7431903445885593
+      },
+      {
+        "floor": 3,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.749606207481345,
+        "radianceMax": 0.749606207481345
+      },
+      {
+        "floor": 3,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7546026508536757,
+        "radianceMax": 0.7546026508536757
+      },
+      {
+        "floor": 4,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7526110241362901,
+        "radianceMax": 0.7526110241362901
+      },
+      {
+        "floor": 4,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7460630309210496,
+        "radianceMax": 0.7460630309210496
+      },
+      {
+        "floor": 4,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.75168385908266,
+        "radianceMax": 0.75168385908266
+      },
+      {
+        "floor": 4,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7584496352003428,
+        "radianceMax": 0.7584496352003428
+      },
+      {
+        "floor": 4,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7650041314657491,
+        "radianceMax": 0.7650041314657491
+      },
+      {
+        "floor": 4,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7503153489055118,
+        "radianceMax": 0.7503153489055118
+      },
+      {
+        "floor": 5,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7623727917739312,
+        "radianceMax": 0.7623727917739312
+      },
+      {
+        "floor": 5,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7625263069468412,
+        "radianceMax": 0.7625263069468412
+      },
+      {
+        "floor": 5,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7661819980864886,
+        "radianceMax": 0.7661819980864886
+      },
+      {
+        "floor": 5,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7660364802791065,
+        "radianceMax": 0.7660364802791065
+      },
+      {
+        "floor": 5,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7488063498982322,
+        "radianceMax": 0.7488063498982322
+      },
+      {
+        "floor": 5,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7520555992491067,
+        "radianceMax": 0.7520555992491067
+      },
+      {
+        "floor": 6,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7644725567013779,
+        "radianceMax": 0.7644725567013779
+      },
+      {
+        "floor": 6,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7518769653103213,
+        "radianceMax": 0.7518769653103213
+      },
+      {
+        "floor": 6,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7611180618456962,
+        "radianceMax": 0.7611180618456962
+      },
+      {
+        "floor": 6,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7594060894576247,
+        "radianceMax": 0.7594060894576247
+      },
+      {
+        "floor": 6,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7555275962017508,
+        "radianceMax": 0.7555275962017508
+      },
+      {
+        "floor": 6,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7710576658375281,
+        "radianceMax": 0.7710576658375281
+      },
+      {
+        "floor": 7,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7612298361437153,
+        "radianceMax": 0.7612298361437153
+      },
+      {
+        "floor": 7,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7638055759492589,
+        "radianceMax": 0.7638055759492589
+      },
+      {
+        "floor": 7,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.763808665202733,
+        "radianceMax": 0.763808665202733
+      },
+      {
+        "floor": 7,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7659124288909501,
+        "radianceMax": 0.7659124288909501
+      },
+      {
+        "floor": 7,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.757222688675166,
+        "radianceMax": 0.757222688675166
+      },
+      {
+        "floor": 7,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7595936942772014,
+        "radianceMax": 0.7595936942772014
+      },
+      {
+        "floor": 8,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7572739848182192,
+        "radianceMax": 0.7572739848182192
+      },
+      {
+        "floor": 8,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.761163787257467,
+        "radianceMax": 0.761163787257467
+      },
+      {
+        "floor": 8,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.769071482510936,
+        "radianceMax": 0.769071482510936
+      },
+      {
+        "floor": 8,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7722621131193569,
+        "radianceMax": 0.7722621131193569
+      },
+      {
+        "floor": 8,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7695660458765418,
+        "radianceMax": 0.7695660458765418
+      },
+      {
+        "floor": 8,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7676066195245045,
+        "radianceMax": 0.7676066195245045
+      },
+      {
+        "floor": 9,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7695794068073937,
+        "radianceMax": 0.7695794068073937
+      },
+      {
+        "floor": 9,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7658536841953971,
+        "radianceMax": 0.7658536841953971
+      },
+      {
+        "floor": 9,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7628958417639703,
+        "radianceMax": 0.7628958417639703
+      },
+      {
+        "floor": 9,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7696275944266898,
+        "radianceMax": 0.7696275944266898
+      },
+      {
+        "floor": 9,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.769056771275225,
+        "radianceMax": 0.769056771275225
+      },
+      {
+        "floor": 9,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.773014756003103,
+        "radianceMax": 0.773014756003103
+      },
+      {
+        "floor": 10,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7810842073044375,
+        "radianceMax": 0.7810842073044375
+      },
+      {
+        "floor": 10,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7721703229186255,
+        "radianceMax": 0.7721703229186255
+      },
+      {
+        "floor": 10,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7710986953921825,
+        "radianceMax": 0.7710986953921825
+      },
+      {
+        "floor": 10,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7751034372881591,
+        "radianceMax": 0.7751034372881591
+      },
+      {
+        "floor": 10,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7653649779816784,
+        "radianceMax": 0.7653649779816784
+      },
+      {
+        "floor": 10,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7760987501321995,
+        "radianceMax": 0.7760987501321995
+      },
+      {
+        "floor": 11,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.781334386261975,
+        "radianceMax": 0.781334386261975
+      },
+      {
+        "floor": 11,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7734579287160065,
+        "radianceMax": 0.7734579287160065
+      },
+      {
+        "floor": 11,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7795692880346238,
+        "radianceMax": 0.7795692880346238
+      },
+      {
+        "floor": 11,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7828225974117656,
+        "radianceMax": 0.7828225974117656
+      },
+      {
+        "floor": 11,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7788271684536324,
+        "radianceMax": 0.7788271684536324
+      },
+      {
+        "floor": 11,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7739244402712387,
+        "radianceMax": 0.7739244402712387
+      },
+      {
+        "floor": 12,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7857060022832485,
+        "radianceMax": 0.7857060022832485
+      },
+      {
+        "floor": 12,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7784537096529226,
+        "radianceMax": 0.7784537096529226
+      },
+      {
+        "floor": 12,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7749422669290841,
+        "radianceMax": 0.7749422669290841
+      },
+      {
+        "floor": 12,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.779028426417327,
+        "radianceMax": 0.779028426417327
+      },
+      {
+        "floor": 12,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7778047076575422,
+        "radianceMax": 0.7778047076575422
+      },
+      {
+        "floor": 12,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7822509246970416,
+        "radianceMax": 0.7822509246970416
+      },
+      {
+        "floor": 13,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7871547741991257,
+        "radianceMax": 0.7871547741991257
+      },
+      {
+        "floor": 13,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.793387077394964,
+        "radianceMax": 0.793387077394964
+      },
+      {
+        "floor": 13,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7893353881504406,
+        "radianceMax": 0.7893353881504406
+      },
+      {
+        "floor": 13,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7828305285928199,
+        "radianceMax": 0.7828305285928199
+      },
+      {
+        "floor": 13,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.781843005011186,
+        "radianceMax": 0.781843005011186
+      },
+      {
+        "floor": 13,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7836820510998826,
+        "radianceMax": 0.7836820510998826
+      },
+      {
+        "floor": 14,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7856074145435706,
+        "radianceMax": 0.7856074145435706
+      },
+      {
+        "floor": 14,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7876888523806033,
+        "radianceMax": 0.7876888523806033
+      },
+      {
+        "floor": 14,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7869835961773326,
+        "radianceMax": 0.7869835961773326
+      },
+      {
+        "floor": 14,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7848376418195238,
+        "radianceMax": 0.7848376418195238
+      },
+      {
+        "floor": 14,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7850214532272802,
+        "radianceMax": 0.7850214532272802
+      },
+      {
+        "floor": 14,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7897988182397454,
+        "radianceMax": 0.7897988182397454
+      },
+      {
+        "floor": 15,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7902045139759682,
+        "radianceMax": 0.7902045139759682
+      },
+      {
+        "floor": 15,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7857821076966406,
+        "radianceMax": 0.7857821076966406
+      },
+      {
+        "floor": 15,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7937787163949777,
+        "radianceMax": 0.7937787163949777
+      },
+      {
+        "floor": 15,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7861107157257664,
+        "radianceMax": 0.7861107157257664
+      },
+      {
+        "floor": 15,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7903536556428744,
+        "radianceMax": 0.7903536556428744
+      },
+      {
+        "floor": 15,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7971976500824368,
+        "radianceMax": 0.7971976500824368
+      },
+      {
+        "floor": 16,
+        "x": -7.9336,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7937554204367611,
+        "radianceMax": 0.7937554204367611
+      },
+      {
+        "floor": 16,
+        "x": -7.9336,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7914237998375094,
+        "radianceMax": 0.7914237998375094
+      },
+      {
+        "floor": 16,
+        "x": -7.9336,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7960606182864659,
+        "radianceMax": 0.7960606182864659
+      },
+      {
+        "floor": 16,
+        "x": -4.4684,
+        "height": 0.5,
+        "faces": 1,
+        "radianceMin": 0.7885809262771563,
+        "radianceMax": 0.7885809262771563
+      },
+      {
+        "floor": 16,
+        "x": -4.4684,
+        "height": 1.7,
+        "faces": 1,
+        "radianceMin": 0.7935433396916739,
+        "radianceMax": 0.7935433396916739
+      },
+      {
+        "floor": 16,
+        "x": -4.4684,
+        "height": 2.55,
+        "faces": 1,
+        "radianceMin": 0.7887314737289456,
+        "radianceMax": 0.7887314737289456
+      }
+    ],
+    "nearBlackSamples": 0,
+    "minimumRadiance": 0.32218703348272265,
+    "ambiguousSurfaceSamples": 0
+  },
+  "cases": [
+    {
+      "backend": "webgpu",
+      "source": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+      "atlas": "5cb4616a64f12ae53b6c8f4ccd916943b35d3235b10d5c8a8186ae8cbc924c00",
+      "wallMaterialMaps": [
+        {
+          "name": "MAT-cinza",
+          "map": false,
+          "bumpMap": false
+        },
+        {
+          "name": "MAT-bege",
+          "map": false,
+          "bumpMap": false
+        }
+      ],
+      "edition": "antes",
+      "status": "PASS",
+      "views": [
+        "nucleo-frente",
+        "nucleo-fundos",
+        "recuo-cinza",
+        "cabeceira-direita",
+        "cabeceira-esquerda",
+        "cobertura"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "backend": "webgpu",
+      "source": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+      "atlas": "855de0d7960d6eb25fe865f640f87faaf7226c99000e0b6cadea72d11b1716c6",
+      "wallMaterialMaps": [
+        {
+          "name": "MAT-cinza",
+          "map": false,
+          "bumpMap": false
+        },
+        {
+          "name": "MAT-bege",
+          "map": false,
+          "bumpMap": false
+        }
+      ],
+      "edition": "depois",
+      "status": "PASS",
+      "views": [
+        "nucleo-frente",
+        "nucleo-fundos",
+        "recuo-cinza",
+        "cabeceira-direita",
+        "cabeceira-esquerda",
+        "cobertura"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "backend": "webgl",
+      "source": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+      "atlas": "5cb4616a64f12ae53b6c8f4ccd916943b35d3235b10d5c8a8186ae8cbc924c00",
+      "wallMaterialMaps": [
+        {
+          "name": "MAT-cinza",
+          "map": false,
+          "bumpMap": false
+        },
+        {
+          "name": "MAT-bege",
+          "map": false,
+          "bumpMap": false
+        }
+      ],
+      "edition": "antes",
+      "status": "PASS",
+      "views": [
+        "nucleo-frente",
+        "nucleo-fundos",
+        "recuo-cinza",
+        "cabeceira-direita",
+        "cabeceira-esquerda",
+        "cobertura"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "backend": "webgl",
+      "source": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+      "atlas": "855de0d7960d6eb25fe865f640f87faaf7226c99000e0b6cadea72d11b1716c6",
+      "wallMaterialMaps": [
+        {
+          "name": "MAT-cinza",
+          "map": false,
+          "bumpMap": false
+        },
+        {
+          "name": "MAT-bege",
+          "map": false,
+          "bumpMap": false
+        }
+      ],
+      "edition": "depois",
+      "status": "PASS",
+      "views": [
+        "nucleo-frente",
+        "nucleo-fundos",
+        "recuo-cinza",
+        "cabeceira-direita",
+        "cabeceira-esquerda",
+        "cobertura"
+      ],
+      "consoleErrors": []
+    }
+  ],
+  "sources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_luz_quinas.py": "2d9da654278f960f5c8a51d4b76b5bee6226050e7f4848c8b131d1be888bccda",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_paredes.py": "33f3ac56a3d47e18f7eb159c6b1c8fb4a55d28d877a96421987bc38146750a3e",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/unir_paredes.py": "16ddbb49572368f7f752e2d284a1e03314a07b4901b8412a061b90231283d09e",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py": "a49c89f18720c8a9a05f9029bcfb24124a3268f2fbf381e46469f32526b9462c",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/assets/manifest.json": "c289b58805b215bd11dca1ae4c6c1de2d2ef08ff55cb730a922d90f090bb42d9",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/manifest.json": "030d810ee0de010acc703e2187cfdd2584ab9975c257d187a8414d3ff486ceaf",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/geometry-compact.json": "94445d4106472c86d29cbd6d4bb9b082144bf21c1d66d8b5e96946f1d3726bc6",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/antes-quinas/modelo.json": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/antes-quinas/assets-manifest.json": "f821c06ae81538a4ecc550262aec5f7512baba416b4797c0ba415b96b04c3e11",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/antes-quinas/manifest.json": "ea9648419fbfd770142c246245f6a2e4775ad0c6b30b2b51579cb3b584d3dc00",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js": "7b457b5dfdf3d5434ce028c3eb3a4fc4a67a203f2e3c36053028389681c8ccc9",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af"
+  },
+  "browserVersion": "154.0.8037.98"
+}

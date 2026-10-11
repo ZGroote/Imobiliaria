@@ -18,6 +18,7 @@ ROOT = OWN.parents[2]
 CANON = ROOT / 'v1.5/miniaturas/liv-ipanema'
 sys.path[:0] = [str(OWN), str(CANON), str(CANON.parent)]
 from contorno import Outline, triangulate
+from unir_paredes import unite
 from blender_maquete_base import material, box, flush, MATS, buckets, exportar
 
 parser = argparse.ArgumentParser(description=__doc__)
@@ -83,20 +84,38 @@ def color(x, depth):
     return 'cinza' if abs(abs(depth)-D/2)>.1 else 'reboco'
 
 
+def concave(point):
+    i=outline.points.index(point)
+    before,after=outline.points[i-1],outline.points[(i+1)%len(outline.points)]
+    ax,ay=point[0]-before[0],point[1]-before[1]
+    bx,by=after[0]-point[0],after[1]-point[1]
+    return ax*by-ay*bx < -1e-8
+
+
 def long_walls(sign):
-    openings=[(x,1.14,.89,2.12) for x in WINDOWS]
-    openings += [(x,BAL_W,.20,2.68) for x in BALCONIES]
-    openings += [(CORE_X,.86,.99,2.04)]
-    breaks={x for x,z in outline.points}
-    for x,width,z0,z1 in openings:breaks.update([x-width/2,x+width/2])
-    cuts=sorted(breaks)
-    for a,b in zip(cuts,cuts[1:]):
-        if b-a<.001:continue
-        x=(a+b)/2;depth=outline.face(x,sign)
-        opening=next((o for o in openings if abs(x-o[0])<o[1]/2-.0001),None)
-        spans=[(.17,opening[2]),(opening[3],LV)] if opening else [(.17,LV)]
-        for low,high in spans:
-            if high-low>.005:box(color(x,depth),x,(low+high)/2,depth-sign*.125,b-a,high-low,.25)
+    exterior_openings=[(x,1.14,.89,2.12) for x in WINDOWS]
+    exterior_openings += [(x,BAL_W,.20,2.68) for x in BALCONIES]
+    exterior_openings += [(CORE_X,.86,.99,2.04)]
+    for first,last in zip(outline.points,outline.points[1:]+outline.points[:1]):
+        dx=last[0]-first[0]
+        if abs(dx)<1e-8 or (-1 if dx>0 else 1)!=sign:continue
+        lo,hi=sorted([first[0],last[0]]);depth=first[1]
+        # Inclui os retornos horizontais dos rasgos nas cabeceiras. Eles não
+        # recebem os vãos destinados às faces externas longitudinais.
+        openings=exterior_openings if abs(depth-outline.face((lo+hi)/2,sign))<1e-6 else []
+        breaks={lo,hi,*[x for x,z in outline.points if lo<x<hi]}
+        for x,width,z0,z1 in openings:
+            breaks.update(v for v in [x-width/2,x+width/2] if lo<v<hi)
+        cuts=sorted(breaks)
+        for a,b in zip(cuts,cuts[1:]):
+            if b-a<.001:continue
+            x=(a+b)/2
+            opening=next((o for o in openings if abs(x-o[0])<o[1]/2-.0001),None)
+            aa=a-.25 if abs(a-lo)<1e-8 and concave(first if first[0]==lo else last) else a
+            bb=b+.25 if abs(b-hi)<1e-8 and concave(first if first[0]==hi else last) else b
+            spans=[(.17,opening[2]),(opening[3],LV)] if opening else [(.17,LV)]
+            for low,high in spans:
+                if high-low>.005:box(color(x,depth),(aa+bb)/2,(low+high)/2,depth-sign*.125,bb-aa,high-low,.25)
     for x in BALCONIES:
         front=outline.face(x,sign)
         box('recuo',x,1.48,front-sign*1.70,BAL_W,2.64,.22)
@@ -115,11 +134,15 @@ for a,b in zip(outline.points,outline.points[1:]+outline.points[:1]):
     cuts=sorted({lo,hi,*[y+s*w/2 for y,w in holes for s in [-1,1] if lo<y+s*w/2<hi]})
     for c,d in zip(cuts,cuts[1:]):
         y=(c+d)/2;opening=next((h for h in holes if abs(y-h[0])<h[1]/2-.0001),None)
+        cc=c-.25 if abs(c-lo)<1e-8 and concave(a if a[1]==lo else b) else c
+        dd=d+.25 if abs(d-hi)<1e-8 and concave(a if a[1]==hi else b) else d
         spans=[(.17,1),(2.13,LV)] if opening else [(.17,LV)]
         for low,high in spans:
-            box('reboco' if holes else color(x+.0001,(lo+hi)/2),x+inward*.125,(low+high)/2,y,.25,high-low,d-c)
-box('reboco',0,1.48,0,W-.3,2.64,.22)
-for ob in flush('panos',True):
+            box('reboco' if holes else color(x+.0001,(lo+hi)/2),x+inward*.125,(low+high)/2,(cc+dd)/2,.25,high-low,dd-cc)
+corridor_lo,corridor_hi=outline.end(0,-1)+.4,outline.end(0,1)-.4
+box('reboco',(corridor_lo+corridor_hi)/2,1.48,0,corridor_hi-corridor_lo,2.64,.22)
+wall_union = unite(buckets, MATS, 'panos')
+for ob in flush('panos'):
     copies([ob],range(N),'paredes' if ob['acabamento']=='reboco' else 'detalhes-panos')
 prism('laje',0,.17)
 copies(flush('lajes'),range(N+1),'lajes')
@@ -175,12 +198,13 @@ H=N*LV
 prism('cobertura',H+.17,H+.21)
 for a,b in zip(outline.points,outline.points[1:]+outline.points[:1]):
     dx,dz=b[0]-a[0],b[1]-a[1];length=math.hypot(dx,dz)
-    x,y=(a[0]+b[0])/2,(a[1]+b[1])/2
+    start=.25 if concave(a) else 0;end=.25 if concave(b) else 0
+    x,y=(a[0]+b[0])/2+(end-start)*dx/length/2,(a[1]+b[1])/2+(end-start)*dz/length/2
     delta=.12 if x>-CORE_X+1.5 else 0
     # Deslocamento para dentro: conserva o contorno exterior das lajes.
     nx,ny=-dz/length,dx/length
     box(color(x,y),x+nx*.125,H+.49+delta,y+ny*.125,
-        abs(dx) if dx else .25,.64,abs(dz) if dz else .25)
+        abs(dx)+start+end if dx else .25,.64,abs(dz)+start+end if dz else .25)
     box('laje',x+nx*.125,H+.85+delta,y+ny*.125,
         abs(dx)+.06 if dx else .32,.065,abs(dz)+.06 if dz else .32)
 for sign in [-1,1]:
@@ -191,7 +215,8 @@ for sign in [-1,1]:
     box('laje',CORE_X,H+.17+extension+.04,face-sign*.85,CORE_W+.1,.08,1.82)
 box('reboco',CORE_X,H+.92,0,3.0,1.82,3.3)
 box('cobertura',CORE_X,H+1.88,0,3.15,.1,3.45)
-for ob in flush('cobertura',True):ob['tower']=0;ob['role']='cobertura'
+roof_union = unite(buckets, MATS, 'cobertura')
+for ob in flush('cobertura'):ob['tower']=0;ob['role']='cobertura'
 
 # Implantação e base térrea preservadas: o contorno não prova a seção do térreo.
 box('cinza',0,.24,0,W+.30,.40,D+.30)
@@ -221,8 +246,9 @@ metadata={'towers':1,'floors':N,'floorHeight':LV,'width':W,'depth':D,
           'outlineSHA256':hashlib.sha256(outline.path.read_bytes()).hexdigest(),
           'outlineSource':outline.spec['source'],'hypotheses':outline.spec['hypotheses'],
           'windowShifts':[{'oldX':a,'newX':b,'delta':b-a} for a,b in zip(OLD_WINDOWS,WINDOWS)],
+          'wallUnion': {'walls': wall_union, 'roof': roof_union},
           'recipeSources':{p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
-                          for p in [Path(__file__).resolve(),OWN/'contorno.py',CANON.parent/'blender_maquete_base.py',CANON/'modelar_implantacao.py']}}
+                          for p in [Path(__file__).resolve(),OWN/'contorno.py',OWN/'unir_paredes.py',CANON.parent/'blender_maquete_base.py',CANON/'modelar_implantacao.py']}}
 exportar(OUT,'liv-contorno',metadata)
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'liv-contorno.blend'))
 print('LIV_CONTOUR_READY',json.dumps({'output':str(OUT),'variant':metadata['variant'],'floors':N}),flush=True)

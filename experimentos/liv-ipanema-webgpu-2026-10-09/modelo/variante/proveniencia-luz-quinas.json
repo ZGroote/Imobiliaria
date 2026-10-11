@@ -1,0 +1,276 @@
+{
+  "schema": "liv-outline-bake-provenance-v1",
+  "atUtc": "2026-10-11T03:37:25.327799+00:00",
+  "revision": "quinas-unidas-2026-10-11",
+  "reason": "Paredes coplanares duplicadas provocavam faixas quase pretas no bake. Uni\u00e3o exata e novo UV/bake sem altera\u00e7\u00e3o dos materiais.",
+  "sourceSHA256": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+  "previousSourceSHA256": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+  "reports": {
+    "unwrap.json": {
+      "schema": "liv-lightmap-corners-v1",
+      "sourceSHA256": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+      "modelPath": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\modelo\\variante\\modelo.json",
+      "size": 4096,
+      "atlasWidth": 6094,
+      "atlasHeight": 6095,
+      "atlasCount": 1,
+      "utilization": 0.8128901124000549,
+      "groups": 73,
+      "instances": 1012,
+      "triangles": 101535,
+      "mappedCorners": 304605,
+      "flippedTriangles": 1,
+      "degenerateTrianglesRemoved": 22,
+      "padding": 6,
+      "effectivePaddingPixels": 4.0321575061525845,
+      "uvMaxPixelError": 0.03125047684443427,
+      "geometrySHA256": "94445d4106472c86d29cbd6d4bb9b082144bf21c1d66d8b5e96946f1d3726bc6",
+      "geometryBytes": 1952845,
+      "geometryGzipBytes": 1034867,
+      "excludedGroups": [
+        {
+          "groupIndex": 5,
+          "geometry": "esquadrias-varandas-esquadria",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 6,
+          "geometry": "esquadrias-varandas-vidro",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 8,
+          "geometry": "esquadrias-varandas-vidro-claro",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 9,
+          "geometry": "esquadrias-varandas-luz-varanda",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 20,
+          "geometry": "entrada-torre-vidro-claro",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 29,
+          "geometry": "SITE-car-vidro",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 47,
+          "geometry": "SITE-organic-site-folha-clara",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 48,
+          "geometry": "SITE-organic-site-folha-escura",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 49,
+          "geometry": "SITE-organic-site-folha-media",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 52,
+          "geometry": "SITE-cylinder-site-tronco-palmeira-0.93-9",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 53,
+          "geometry": "SITE-palmeira-frondes-site-palmeira",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 73,
+          "geometry": "SITE-implantacao-site-agua",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 80,
+          "geometry": "SITE-implantacao-site-vidro",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 82,
+          "geometry": "SITE-implantacao-site-folha-media",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        },
+        {
+          "groupIndex": 87,
+          "geometry": "LIV-IPANEMA-tipografia",
+          "reason": "dynamic glass/metal/foliage or emissive detail"
+        }
+      ],
+      "seconds": 6.119676399976015,
+      "checks": {
+        "oneAtlas": true,
+        "cornerOrderPreserved": true,
+        "finiteUV": true,
+        "UVInUnitSquare": true,
+        "independentInstanceUV": true
+      }
+    },
+    "bake.json": {
+      "schema": "liv-lightmap-v1",
+      "sourceSHA256": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+      "geometryURL": "luz/geometry-compact.json",
+      "geometryGzipURL": "luz/geometry-compact.json.gz",
+      "geometrySHA256": "94445d4106472c86d29cbd6d4bb9b082144bf21c1d66d8b5e96946f1d3726bc6",
+      "textureURL": "luz/irradiance.rgbm.gz",
+      "textureCompression": "gzip",
+      "textureEncoding": "linear-rgbm-u8",
+      "textureSHA256": "855de0d7960d6eb25fe865f640f87faaf7226c99000e0b6cadea72d11b1716c6",
+      "width": 4096,
+      "height": 4096,
+      "range": 16.0,
+      "origin": "bottom-left",
+      "premultiplyAlpha": false,
+      "lightMapIntensity": 3.141592653589793,
+      "samples": 64,
+      "passes": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "colorPass": false,
+      "sunWebPosition": [
+        -18,
+        110,
+        55
+      ],
+      "sunWebTarget": [
+        0,
+        22,
+        0
+      ],
+      "sunIntensity": 2.4,
+      "groups": 73,
+      "instances": 1012,
+      "triangles": 101535,
+      "seconds": 156.73583819996566,
+      "backend": "OPTIX",
+      "devices": [
+        "NVIDIA GeForce GTX 1650"
+      ],
+      "sourceMatchesCurrent": true,
+      "totalSceneTriangles": 276471,
+      "coveragePixels": 8458839,
+      "radianceMin": 0.0,
+      "radianceMax": 1.2177470922470093,
+      "rangeClippedPixels": 0,
+      "rgbmMeanError": 0.00012444400636013597,
+      "rgbmMaxError": 0.0024831295013427734,
+      "textureBytes": 67108864,
+      "textureGzipBytes": 13948735,
+      "checks": {
+        "hashesMatch": true,
+        "sourceMatchesCurrent": true,
+        "directIndirectWithoutColor": true,
+        "finiteRadiance": true,
+        "nonBlackAtlas": true,
+        "independentInstanceUV": true,
+        "noRadianceClipping": true
+      },
+      "denoise": {
+        "filter": "OIDN RTLightmap",
+        "version": "2.3.3",
+        "device": "CPU",
+        "inputGuardPixels": 2.0,
+        "outputGuardPixels": 4.0,
+        "rawIrradiancePreserved": true,
+        "sourceSHA256": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+        "OIDNOutputReused": false,
+        "sourceRadianceSHA256": "03b2a0148e5a389339ee00fcfcf3ac10fabf2627642934571aab50a327a95541",
+        "textureSHA256": "855de0d7960d6eb25fe865f640f87faaf7226c99000e0b6cadea72d11b1716c6",
+        "seconds": 23.87056399998255,
+        "coveredPixels": 8458839,
+        "inputBorderPixels": 2823487,
+        "outputBorderPixels": 5500143,
+        "farBackgroundPixels": 2818234,
+        "radianceMax": 1.3587491512298584,
+        "rangeClippedPixels": 0,
+        "meanAbsoluteDenoiseChange": 0.003827724140137434,
+        "rgbmMeanError": 0.00012444400636013597,
+        "rgbmMaxError": 0.0024831295013427734,
+        "textureGzipBytes": 13948735,
+        "checks": {
+          "modelHashMatches": true,
+          "UVHashMatches": true,
+          "finiteRadiance": true,
+          "farBackgroundZero": true,
+          "nearestIslandBorder": true,
+          "noRadianceClipping": true
+        }
+      }
+    },
+    "denoise.json": {
+      "filter": "OIDN RTLightmap",
+      "version": "2.3.3",
+      "device": "CPU",
+      "inputGuardPixels": 2.0,
+      "outputGuardPixels": 4.0,
+      "rawIrradiancePreserved": true,
+      "sourceSHA256": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+      "OIDNOutputReused": false,
+      "sourceRadianceSHA256": "03b2a0148e5a389339ee00fcfcf3ac10fabf2627642934571aab50a327a95541",
+      "textureSHA256": "855de0d7960d6eb25fe865f640f87faaf7226c99000e0b6cadea72d11b1716c6",
+      "seconds": 23.87056399998255,
+      "coveredPixels": 8458839,
+      "inputBorderPixels": 2823487,
+      "outputBorderPixels": 5500143,
+      "farBackgroundPixels": 2818234,
+      "radianceMax": 1.3587491512298584,
+      "rangeClippedPixels": 0,
+      "meanAbsoluteDenoiseChange": 0.003827724140137434,
+      "rgbmMeanError": 0.00012444400636013597,
+      "rgbmMaxError": 0.0024831295013427734,
+      "textureGzipBytes": 13948735,
+      "checks": {
+        "modelHashMatches": true,
+        "UVHashMatches": true,
+        "finiteRadiance": true,
+        "farBackgroundZero": true,
+        "nearestIslandBorder": true,
+        "noRadianceClipping": true
+      }
+    },
+    "audit-transport.json": {
+      "sourceSHA256": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+      "currentModelHashMatches": true,
+      "compactHashMatches": true,
+      "textureDecodedHashMatches": true,
+      "decodedFinite": true,
+      "RGBMMeanError": 0.00012444400636013597,
+      "RGBMMaxError": 0.0024831295013427734,
+      "alphaByteRange": [
+        1,
+        22
+      ],
+      "premultiplyAlpha": false,
+      "bakedColorPass": false,
+      "denoise": "OIDN RTLightmap",
+      "irradianceMin": 0.0,
+      "irradianceMax": 1.358738899230957
+    }
+  },
+  "recipeSources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py": "a49c89f18720c8a9a05f9029bcfb24124a3268f2fbf381e46469f32526b9462c",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/unir_paredes.py": "16ddbb49572368f7f752e2d284a1e03314a07b4901b8412a061b90231283d09e",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/exportar_variante.py": "f54a980c340b9b7c13ddaa781514b65634891abe7ffbe70cbbe6cf95c8ff70a4",
+    "v1.5/miniaturas/liv-ipanema/preparar_luz.py": "8d486ec498162f56b57d9ee8fc71e40b476e6d604273882b2f3ff463390a1055",
+    "v1.5/miniaturas/liv-ipanema/bake_luz.py": "f3603fdeef9bc00067ab9559c22b248d9728943ba48611d81ac7d92928adceba",
+    "v1.5/miniaturas/liv-ipanema/denoise_luz.py": "b164dd7120fffe16a495be669daa32893d3c64ed411bca3ec99842e9bf8b96fd"
+  },
+  "previousBakeDirectory": "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/antes-quinas",
+  "previousBakeSHA256": {
+    "modelo.json": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+    "geometry-compact.json": "9da623378d9825df61bc544118b8c7c858aef4bbd8eea454b483c0c3d43101e0",
+    "irradiance.f32": "6db475d610c93000d988c4cb6d6b492f837574332d740606b47d9dd0c162ad74",
+    "irradiance-denoised.f32": "d16a4a03ec1ad6a8ac75fc6c7e002e511127de7a69a4a6d0943e99634f9a974a",
+    "irradiance.rgbm.gz": "feb2ce577d6f4602dabb311c6731bfa4fe037079273bc05bb023067250edebae",
+    "scene.json.gz": "8b5520cecd16b77c0697a5a7153d8591ff29aea6eca1b401f34546ee0ed5e7df",
+    "assets-manifest.json": "f821c06ae81538a4ecc550262aec5f7512baba416b4797c0ba415b96b04c3e11"
+  }
+}

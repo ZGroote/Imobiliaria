@@ -135,6 +135,8 @@ O ensaio final do acabamento passou em WebGPU/WebGL2 desktop e toque emulado, in
 
 A investigação identificou reentrâncias da cobertura que o modelo simplificava. [modelo/NOTAS-GEOMETRIA.md](modelo/NOTAS-GEOMETRIA.md) registra o diagnóstico; [modelo/CONTORNO.md](modelo/CONTORNO.md) descreve a variante modelada e seu bake. T06/T07 permanecem parciais.
 
+Em 11/10, as manchas pretas das quinas da variante foram corrigidas na autoria: paredes sobrepostas passam por união exata, com UV/bake regenerados e os mesmos materiais. Os testes registram zero sobreposições nas paredes e zero amostras quase pretas entre os 102 pontos conferidos, além de capturas antes/depois em seis vistas nos dois backends. A comparação e o toque emulado passaram novamente. O pacote da variante caiu de 21.757.657 para 16.614.864 bytes. Evidências em `evidencias/quinas-geometria/`, `quinas-luz/` e `quinas-interface/`; detalhes e limites em [modelo/CONTORNO.md](modelo/CONTORNO.md).
+
 ### Qualificação ainda pendente
 
 T02 tem capturas e três rodadas preliminares por viewport/cache em [medicao.json](evidencias/medicao-baseline/medicao.json). A medição inicial ocorreu durante outros QAs e usa rede local; não serve como orçamento definitivo ou comprovação de ganho. Viewport de 390 px e toque emulado não são ensaio de celular físico.

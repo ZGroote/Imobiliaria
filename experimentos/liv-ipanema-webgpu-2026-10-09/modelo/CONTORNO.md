@@ -16,31 +16,43 @@ A variante está separada da prévia completa: não carrega `unidades.json` nem 
 
 [modelar_exterior.py](modelar_exterior.py) grava exclusivamente numa subpasta deste estudo. Reutiliza a implantação e as ferramentas de autoria existentes como entradas, sem alterar sua saída canônica. [contorno.py](contorno.py) valida o polígono ortogonal e triangula as tampas sem diagonais sobre outros vértices. O teste de malha detectou e eliminou triângulos degenerados que a primeira tesselação gerava nas cabeceiras.
 
-A variante tem UV1 e irradiância próprios: atlas 4096², 64 amostras, difusa direta/indireta sem cor, OIDN RTLightmap e margem de quatro pixels. Não reutiliza a irradiância da base. [proveniencia-luz.json](variante/proveniencia-luz.json) conserva os relatórios e hashes dos scripts de UV/bake/denoise utilizados.
+A variante tem UV1 e irradiância próprios: atlas 4096², 64 amostras, difusa direta/indireta sem cor e OIDN RTLightmap. A revisão das quinas usa padding solicitado de seis pixels (4,03 pixels efetivos), margem de bake de dois pixels e guarda de saída de quatro pixels. Não reutiliza a irradiância da base. [proveniencia-luz-quinas.json](variante/proveniencia-luz-quinas.json) conserva os relatórios e hashes da revisão atual; [proveniencia-luz.json](variante/proveniencia-luz.json) conserva o bake anterior.
 
 [exportar_variante.py](exportar_variante.py) transporta 1.012 instâncias baked, com posições, normais e UV0/UV1 conferidos contra a autoria e o atlas da mesma edição. Reutiliza os materiais e texturas de superfície da base. Vidros, vegetação e esquadrias continuam com **MeshStandardMaterial padrão**; a calibração de pintura, vidros da implantação e letreiro conserva os valores da prévia. O material próprio RGBM continua limitado à irradiância baked.
 
-Há 56 malhas efetivas: 41 baked e 15 grupos instanciados. Cena, atlas e duas texturas somam **21.757.657 bytes**, contra 20.130.835 bytes desses mesmos recursos da base. A diferença vem da nova geometria/atlas; não é medida de tempo de abertura ou FPS. O ensaio físico no Poco X6 e o problema de desempenho da versão pública continuam pendentes.
+Há 56 malhas efetivas: 41 baked e 15 grupos instanciados. Cena, atlas e duas texturas somam **16.614.864 bytes**, contra 21.757.657 bytes da primeira variante e 20.130.835 bytes desses mesmos recursos da base. A geometria preparada para bake passou de 271.909 para 101.535 triângulos. Essas diferenças não são medidas de tempo de abertura ou FPS. O ensaio físico no Poco X6 e o problema de desempenho da versão pública continuam pendentes.
+
+## Correção das manchas nas quinas
+
+As faixas pretas na parede bege e nos recuos cinza vinham da irradiância, não da textura de pintura: esses dois materiais não têm mapas de cor ou relevo. Substituir temporariamente o atlas por luz uniforme eliminou as manchas; elas já existiam no bake bruto. A inspeção da autoria encontrou superfícies coplanares sobrepostas nas junções de caixas, com mais de um valor de luz no mesmo ponto da parede.
+
+[unir_paredes.py](unir_paredes.py) aplica a união exata do Blender antes de separar as faces por material. Os encontros côncavos recebem continuidade de volume, os retornos horizontais das cabeceiras passam a seguir todas as arestas do contorno e o pano interno termina dentro desses recortes. As paredes e a cobertura usam faces planas, sem os antigos biséis menores que um texel. Cores, materiais padrão, esquadrias, lajes e implantação continuam com suas atribuições; não houve correção artificial de claridade no shader ou pintura do atlas. O UV/bake foi regenerado para essa autoria.
+
+[paredes.json](../evidencias/quinas-geometria/paredes.json) reproduz 871 pares de triângulos sobrepostos no pavimento anterior e nenhum no novo. As paredes e cobertura exportadas são fechadas e não têm triângulos de área zero; 34 posições de vãos continuam livres, os 32 trechos do perímetro têm parede e nenhum pano invade os rasgos. Na cobertura, o teste registra separadamente seis faixas com área total de 0,00000225 unidade², sem interior à tolerância de 10 micrômetros da posição exportada; não as confunde com superfícies duplicadas maiores que a precisão da autoria.
+
+[luz.json](../evidencias/quinas-luz/luz.json) registra 102 amostras nas duas quinas frontais do núcleo: 32 quase pretas antes, nenhuma depois; todas têm uma única superfície na nova malha. Há capturas na mesma câmera, antes/depois, de frente, fundos, recuo cinza, duas cabeceiras e cobertura, em WebGPU e WebGL2. As sombras de janelas e varandas permanecem visíveis. A malha anterior, UV, irradiância bruta, OIDN e pacote anterior foram preservados localmente em `variante/luz/antes-quinas/`.
 
 ## Validação
 
-[geometria.json](../evidencias/contorno-estudo/geometria.json) passou: 124 triângulos da laje, 186 arestas com incidência dois, volume positivo compatível e normais para fora. A projeção dos triângulos exportados coincide com a **anotação manual** em 99,8786%, contra 95,5285% da laje retangular; erro máximo de borda de 0,354 pixel. Essa métrica avalia a reprodução da ilustração, não a precisão de um projeto executivo.
+[geometria.json](../evidencias/quinas-geometria/geometria.json) passou: 124 triângulos da laje, 186 arestas com incidência dois, volume positivo compatível e normais para fora. A projeção dos triângulos exportados coincide com a **anotação manual** em 99,8786%, contra 95,5285% da laje retangular; erro máximo de borda de 0,354 pixel. Essa métrica avalia a reprodução da ilustração, não a precisão de um projeto executivo.
 
-[runtime.json](../evidencias/contorno-interface-final/runtime.json) passou em WebGPU, WebGL2 e toque emulado de 390 px. Confere transporte, materiais nativos, vista de cima/varandas, destaque de andar, alternância original/variante e descarte único de 114 recursos por troca. Um manifesto apontando para a geometria antiga foi rejeitado antes do download do atlas. Capturas acompanham o relatório local; bitmaps e binários são artefatos gerados, ignorados no Git.
+[runtime.json](../evidencias/quinas-interface/runtime.json) passou em WebGPU, WebGL2 e toque emulado de 390 px. Confere transporte, materiais nativos, vista de cima/varandas, destaque de andar, alternância original/variante e descarte único de 114 recursos por troca. Um manifesto apontando para a geometria antiga foi rejeitado antes do download do atlas. Capturas acompanham o relatório local; bitmaps e binários são artefatos gerados, ignorados no Git. A prova anterior está em `evidencias/contorno-interface-final/`; seus hashes são históricos.
 
 [A regressão da prévia completa](../evidencias/unidades-contorno-final/runtime.json) passou em três perfis e duas falhas de catálogo, mantendo seleção/sessão, Canto e Meio nos modos Planta 2D/3D e Tour. Os sete testes CPU de unidades/materiais também passaram. A abertura inicial da comparação é a vista de cima da torre.
 
 ## Reproduzir no ambiente local
 
-Os scripts reutilizados e a imagem oficial são entradas locais identificadas por SHA. É necessário que estejam presentes, além de Blender, Python com NumPy/xatlas/SciPy/Pillow/Playwright e OIDN. Os comandos usam destinos isolados e devem executar **sequencialmente**, sobretudo exportação após o denoise e QAs gráficos sem concorrência.
+Os scripts reutilizados e a imagem oficial são entradas locais identificadas por SHA. É necessário que estejam presentes, além de Blender, Python com NumPy/xatlas/SciPy/Pillow/Shapely/Playwright e OIDN. O QA de antes/depois também requer o pacote anterior preservado. Os comandos usam destinos isolados e devem executar **sequencialmente**, sobretudo exportação após o denoise e QAs gráficos sem concorrência.
 
 ```powershell
 & 'C:\Program Files (x86)\Steam\steamapps\common\Blender\blender.exe' -b --factory-startup --python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py -- --no-render
-python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_geometria.py
-python v1.5/miniaturas/liv-ipanema/preparar_luz.py --model experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json --out experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz --size 4096 --padding 4
+python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_geometria.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/contorno-novo-geometria
+python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_paredes.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/contorno-novo-geometria
+python v1.5/miniaturas/liv-ipanema/preparar_luz.py --model experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json --out experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz --size 4096 --padding 6
 & 'C:\Program Files (x86)\Steam\steamapps\common\Blender\blender.exe' -b --factory-startup --python v1.5/miniaturas/liv-ipanema/bake_luz.py -- --out experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz --samples 64
 python v1.5/miniaturas/liv-ipanema/denoise_luz.py --out experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz --output-guard 4
 python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/exportar_variante.py
+python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_luz_quinas.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/contorno-novo-luz
 python experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_runtime.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/contorno-novo
 python experimentos/liv-ipanema-webgpu-2026-10-09/qa_unidades.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/unidades-contorno-novo
 ```
