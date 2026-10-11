@@ -1,0 +1,36 @@
+{
+  "schema": "liv-proof-manifest-v1",
+  "exportedAtUtc": "2026-10-11T09:03:42.101343+00:00",
+  "sourceModelSHA256": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
+  "sceneJSONSHA256": "07dd93b921ff377ececad6600b26efedd58a7337fa92a1782179234a0ef49f98",
+  "files": {
+    "irradiance.rgbm.gz": {
+      "bytes": 13290120,
+      "sha256": "04bab00d610c70cdfeea1f86e4d5c695de51eb185d4fc0a356e0d0bcfe742e54"
+    },
+    "texture-00.png": {
+      "bytes": 21667,
+      "sha256": "84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e"
+    },
+    "texture-01.png": {
+      "bytes": 21667,
+      "sha256": "84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e"
+    },
+    "scene.json.gz": {
+      "bytes": 2758268,
+      "sha256": "81f2bd7148320c81bbe6ad8467528f26e773e7d00175ddd0e7f982dd5b08dfb0"
+    }
+  },
+  "meshCount": 57,
+  "bakedMeshes": 42,
+  "exportPurpose": "Estudo inferido da entrada: quatro materiais padr\u00e3o, UV/bake pr\u00f3prios; ainda sem integra\u00e7\u00e3o no piloto comercial.",
+  "sources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/exportar_variante.py": "f54a980c340b9b7c13ddaa781514b65634891abe7ffbe70cbbe6cf95c8ff70a4",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/modelo.json": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/luz/manifest.json": "cc607105e9cf8e90cc965dce9671f31961567bcf9018cc79346e3f6cd4aa2f2a",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/luz/geometry-compact.json": "ff4f54dba751cd25e5cf232374690c7b0c43f4c72734dce34317910abae90c12",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/exportar_entrada.py": "6047021db6e4a06002453937ec83c39d1870053b21e7268b631eb1822c40bca5"
+  },
+  "entryMaterialPolicy": "Principled BSDF \u2192 MeshStandardMaterial; RGBM existente somente no transporte de luz."
+}

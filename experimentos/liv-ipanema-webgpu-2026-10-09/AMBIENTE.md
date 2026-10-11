@@ -10,6 +10,8 @@ O renderer passou a possuir os recursos antes das esperas de ambiente/texturas. 
 
 ## Evidência
 
+Os relatórios de ambiente e medição desta seção qualificam a revisão `612819e`. A adição posterior do estudo isolado da entrada e seu enquadramento conserva o caminho das duas edições integradas: regressões atuais em [unidades-entrada-estudo/runtime.json](evidencias/unidades-entrada-estudo/runtime.json) e [sombras-entrada-estudo/runtime.json](evidencias/sombras-entrada-estudo/runtime.json). O estudo usa os mesmos reflexos preparados; sua geometria/luz e medição separadas estão em [entrada/README.md](modelo/entrada/README.md).
+
 [ambiente-precalculado-final/runtime.json](evidencias/ambiente-precalculado-final/runtime.json) compara aberturas independentes: original/contorno em WebGPU, WebGL2 e toque emulado. Cinco vistas e um final selecionado por caso, mesma resolução/câmera, diferença máxima **1/255**. Confere seis recuperações (HTTP, hash e gradiente incompatível nos dois backends), quatro cancelamentos durante ambiente/texturas e descarte único. As rotas de teste são resolvidas após a navegação cancelar o fetch.
 
 [sombras-ambiente-final/runtime.json](evidencias/sombras-ambiente-final/runtime.json) mantém a comparação de sombras reutilizadas/automáticas nas duas edições. [unidades-ambiente-final/runtime.json](evidencias/unidades-ambiente-final/runtime.json) cobre piloto, seleção/sessão, ambos os interiores em Planta 2D/3D/Tour, falhas de catálogo e retorno do mapa.

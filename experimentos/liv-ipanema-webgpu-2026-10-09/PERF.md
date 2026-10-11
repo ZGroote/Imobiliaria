@@ -1,5 +1,7 @@
 # Desempenho — medição e tentativas
 
+O [estudo isolado da entrada](modelo/entrada/README.md) tem medição própria de três rodadas por edição/backend, mesma página/câmera/canvas. Em WebGPU varia +1,2% frio/+3,5% reload contra o contorno, com +0,24% de conteúdo inicial e +0,41% nos bytes contabilizados pelo renderer. Não inclui interface, cadastro ou fila; não altera o resultado integrado abaixo nem aprova T05/aparelhos físicos.
+
 Revisão atual de 11/10: [AMBIENTE.md](AMBIENTE.md) qualifica os reflexos preparados antes da abertura, com recuperação e imagem equivalente. No mesmo ensaio, contorno WebGL2 passa de 4.975 para 4.042 ms frio e 3.680 para 1.324 ms no reload; WebGPU varia de 2.460 para 2.393 ms e 2.175 para 2.186 ms. Conteúdo inicial 20.011.590 bytes. A base comparável abre em 2.152 ms; o critério +10% continua pendente. [SOMBRAS-EXTERIOR.md](SOMBRAS-EXTERIOR.md) registra a remoção de 24 passes redundantes em 24 quadros de órbita na revisão anterior. As medições abaixo são históricas, com condições distintas de processo/cache/canvas.
 
 09/10/2026. Ambiente local declarado no relatório JSON: Chrome 154, Windows 11, GTX 1650, headless, viewport 1440×900, DPR 1. Três rodadas por variante, cache HTTP frio em contexto novo e reload na mesma aba. Execução sequencial, sem outros QAs. Caches do driver não foram controlados; a primeira rodada pode pagar compilação adicional.

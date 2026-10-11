@@ -22,7 +22,7 @@ const recoveryURL=new URL(location.href);recoveryURL.searchParams.set('backend',
 document.querySelector('#retry').href=recoveryURL.href;
 document.body.classList.toggle('embedded',parameters.get('embed')==='1');
 const stage=document.querySelector('#stage'),canvas=document.querySelector('#c'),status=document.querySelector('#status');
-const base=new URL(geometryProfile==='contorno'?'./modelo/variante/assets/':'./assets-prova/',import.meta.url);
+const base=new URL(geometryProfile==='entrada'?'./modelo/entrada/candidato/assets/':geometryProfile==='contorno'?'./modelo/variante/assets/':'./assets-prova/',import.meta.url);
 const requests=new AbortController();
 const typedArrays={Float32Array,Float64Array,Uint32Array,Uint16Array,Uint8Array,Int32Array,Int16Array,Int8Array};
 
@@ -78,9 +78,10 @@ async function start() {
   progress('backend','Preparando os gráficos');
   if(!['auto','webgpu','webgl'].includes(requested)) throw Error('Backend de diagnóstico inválido.');
   if(!['base','referencia'].includes(finishProfile))throw Error('Perfil de acabamento inválido.');
-  if(!['base','contorno'].includes(geometryProfile))throw Error('Perfil de geometria inválido.');
+  if(!['base','contorno','entrada'].includes(geometryProfile))throw Error('Perfil de geometria inválido.');
   if(!['procedural','precalculado'].includes(environmentProfile))throw Error('Perfil de ambiente inválido.');
-  if(geometryProfile==='contorno'&&finishProfile!=='base')throw Error('A variante já possui calibração própria de materiais.');
+  if(geometryProfile!=='base'&&finishProfile!=='base')throw Error('A variante já possui calibração própria de materiais.');
+  if(geometryProfile==='entrada'&&parameters.get('selecao'))throw Error('O estudo da entrada ainda não foi integrado ao cadastro dos finais.');
   let adapter=null;
   if(requested!=='webgl' && navigator.gpu) {
     try {adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});} catch(error) {state.adapterError=String(error);}
@@ -211,7 +212,7 @@ async function start() {
     if(spec.drawRange.count!==null) geometry.setDrawRange(spec.drawRange.start,spec.drawRange.count);
     geometry.computeBoundingBox();geometry.computeBoundingSphere();geometries.push(geometry);
   });
-  const building=new THREE.Group();building.name=geometryProfile==='contorno'?'LIV — contorno em estudo':'LIV — exterior da base preservada';
+  const building=new THREE.Group();building.name=geometryProfile==='entrada'?'LIV — entrada em estudo':geometryProfile==='contorno'?'LIV — contorno em estudo':'LIV — exterior da base preservada';
   const meshes=data.meshes.map(spec=>{
     const material=Array.isArray(spec.material)?spec.material.map(index=>materials[index]):materials[spec.material];
     const mesh=spec.instances?new THREE.InstancedMesh(geometries[spec.geometry],material,spec.instances.count):new THREE.Mesh(geometries[spec.geometry],material);
@@ -267,9 +268,21 @@ async function start() {
     for(const y of [BALCONY_DETAIL_BOUNDS.min[1],BALCONY_DETAIL_BOUNDS.max[1]])
       for(const z of [BALCONY_DETAIL_BOUNDS.min[2],BALCONY_DETAIL_BOUNDS.max[2]])detailCorners.push(new THREE.Vector3(x,y,z));
   const entryCorners=[];
-  for(const x of [ENTRY_DETAIL_BOUNDS.min[0],ENTRY_DETAIL_BOUNDS.max[0]])
-    for(const y of [ENTRY_DETAIL_BOUNDS.min[1],ENTRY_DETAIL_BOUNDS.max[1]])
-      for(const z of [ENTRY_DETAIL_BOUNDS.min[2],ENTRY_DETAIL_BOUNDS.max[2]])entryCorners.push(new THREE.Vector3(x,y,z));
+  let entryBounds=ENTRY_DETAIL_BOUNDS;
+  if(geometryProfile==='entrada'){
+    building.updateWorldMatrix(true,true);
+    const box=new THREE.Box3();
+    for(const mesh of meshes){
+      const assigned=Array.isArray(mesh.material)?mesh.material:[mesh.material];
+      if(assigned.some(m=>m.name.startsWith('MAT-entrada-')))box.union(new THREE.Box3().setFromObject(mesh));
+    }
+    if(box.isEmpty())throw Error('A entrada revisada não possui volumes para enquadrar.');
+    entryBounds={min:box.min.toArray(),max:box.max.toArray()};
+    data.views.acesso.target=box.getCenter(new THREE.Vector3()).toArray();
+  }
+  for(const x of [entryBounds.min[0],entryBounds.max[0]])
+    for(const y of [entryBounds.min[1],entryBounds.max[1]])
+      for(const z of [entryBounds.min[2],entryBounds.max[2]])entryCorners.push(new THREE.Vector3(x,y,z));
   function fitPreset() {
     const name=camera.userData.viewName;
     if(!['perspectiva','aerea','implantacao','varandas','acesso'].includes(name)) return false;
@@ -395,7 +408,7 @@ async function start() {
     if(id!==null&&selectedFloor!==1)throw Error('Selecione o pavimento piloto antes do final.');
     return unitPicking?.select(id)??false;
   }
-  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,
+  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,entryDetailBounds:entryBounds,
     invalidateShadows(){
       if(state.disposed)return false;
       for(const light of shadowLights)light.shadow.needsUpdate=true;

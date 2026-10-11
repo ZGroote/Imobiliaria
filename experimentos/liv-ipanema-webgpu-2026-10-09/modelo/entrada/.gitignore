@@ -1,0 +1,11 @@
+/candidato/*.blend*
+/candidato/*.glb
+/candidato/modelo.json
+/candidato/*.log
+/candidato/luz/*
+!/candidato/luz/manifest.json
+!/candidato/luz/unwrap.json
+!/candidato/luz/bake.json
+!/candidato/luz/denoise.json
+/candidato/assets/*
+!/candidato/assets/manifest.json
