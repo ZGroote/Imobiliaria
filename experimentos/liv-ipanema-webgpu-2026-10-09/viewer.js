@@ -6,6 +6,7 @@ import {createUnitUI} from './unit-ui.js';
 import {requestedEdition,exteriorEdition} from './edicoes.js';
 import {attachCommercial} from './comercial.js';
 import {requestedAmbience,AMBIENCES} from './ambiencia-perfis.js';
+import {attachRelations} from './vinculos.js';
 const stage=document.getElementById('stage'),overlay=document.getElementById('loading');
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
@@ -18,6 +19,7 @@ const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',inte
 state.ambience=requestedAmbience(location.search);
 let units,unitUI,mirror;
 let commercialData=null,commercialVersion=0,commercialController=null;
+let relationsData=null,interiorCatalog=null,relationVersion=0,relationController=null;
 state.geometry=geometry;
 state.unitScope=scope;
 const storageKey=`liv-viewer-v1:${location.pathname}${geometry==='base'?'':':'+geometry}${scope==='edificio'?':edificio':''}`;
@@ -63,6 +65,8 @@ function update() {
   document.getElementById('interiorNote').hidden=state.mode==='maquete';
   const selected=typology(state.typology);
   document.getElementById('interiorNote').textContent=`Planta de ${selected.label.toLowerCase()} · ${selected.area} de área publicada · interior ilustrativo, com medidas inferidas · sem vínculo com uma unidade específica.`;
+  const unit=units?unitById(units,state.selectedUnitId):null,associated=unit?.relation?.typology===state.typology;
+  if(associated)document.getElementById('interiorNote').textContent=`Referência de ${selected.label.toLowerCase()} associada ao final ${unit.final} pelo cadastro fornecido · interior ilustrativo, com medidas inferidas.`;
   document.getElementById('hint').textContent=state.mode==='visita'?'Arraste para olhar · use o teclado ou o controle na tela para caminhar':
     state.mode==='planta2d'?`Planta comercial publicada · ${selected.label.toLowerCase()}, ${selected.area} incluindo varanda`:'Arraste para girar · use a roda ou dois dedos para aproximar';
   unitUI?.update({...state,typology:selected.label.toLowerCase()});
@@ -159,6 +163,7 @@ async function setMode(mode) {
     if(!units||mode==='maquete'){
       const catalog=await loadUnitCatalog(undefined,geometry,scope);if(token!==generation)return;
       units=commercialData?attachCommercial(catalog,commercialData):catalog;state.units=units;
+      if(relationsData){units=attachRelations(units,relationsData,interiorCatalog);state.units=units;}
       try{unitById(units,state.selectedUnitId);}catch{state.selectedUnitId=null;}
       if(unitUI)unitUI.setCatalog(units);
       else unitUI=createUnitUI(units,{onSelect:selectUnit,onClear:()=>selectUnit(null),onSide:showUnitSide});
@@ -251,6 +256,7 @@ async function setMode(mode) {
     state.ready=true;overlay.hidden=true;status.textContent=mode==='maquete'?'Maquete completa carregada':`Planta de referência de ${typology(state.typology).label.toLowerCase()}`;update();
     openedOnce=true;void transfers.start();
     if(scope==='edificio'&&!commercialData)void refreshCommercial();
+    if(scope==='edificio'&&!relationsData)void refreshRelations();
   } catch(error) {
     if(token!==generation)return;
     if(mode==='planta2d') {
@@ -289,7 +295,14 @@ function selectUnit(id,{frameEvent=false}={}){
   if(id!==null&&(!state.ready||state.mode!=='maquete'||!api))return false;
   // List selection reveals the appropriate face; canvas taps preserve the orbit.
   if(unit&&!frameEvent)showUnitSide(unit.side,floorOf(units,unit));
+  if(unit?.relation){state.typology=unit.relation.typology;document.getElementById('typology').value=state.typology;}
   state.selectedUnitId=id;api?.setSelectedUnit(id);update();return true;
+}
+async function openUnitLayout(){
+  const unit=units?unitById(units,state.selectedUnitId):null;
+  if(!unit?.relation||!state.ready)return false;
+  state.typology=unit.relation.typology;document.getElementById('typology').value=state.typology;
+  await setMode('planta2d');return true;
 }
 async function setTypology(id){
   typology(id);if(id===state.typology)return;
@@ -318,6 +331,30 @@ async function refreshCommercial(){
     return false;
   }
 }
+async function refreshRelations(){
+  if(scope!=='edificio'||!units)return false;
+  const version=++relationVersion;relationController?.abort();relationController=new AbortController();
+  try{
+    const response=await fetch(new URL('./vinculos.json',import.meta.url),{cache:'no-cache',signal:relationController.signal});
+    if(!response.ok)throw Error(`Vínculos: HTTP ${response.status}.`);
+    const data=await response.json();let catalog=interiorCatalog;
+    if(data.status==='fornecido'&&!catalog){
+      const response=await fetch(new URL('./interiores/catalogo.json',import.meta.url),{cache:'no-cache',signal:relationController.signal});
+      if(!response.ok)throw Error('Não foi possível conferir a revisão dos interiores.');
+      catalog=await response.json();
+    }
+    const next=attachRelations(units,data,catalog);if(version!==relationVersion)return false;
+    relationsData=data;interiorCatalog=catalog;units=next;state.units=units;state.relationStatus=next.relationStatus;state.relationError=null;
+    document.getElementById('relationWarning').hidden=true;
+    unitUI?.setCatalog(units);mirror?.setCatalog(units);update();return true;
+  }catch(error){
+    if(error.name==='AbortError'||version!==relationVersion)return false;
+    state.relationError=String(error);const warning=document.getElementById('relationWarning');warning.hidden=false;
+    warning.textContent=relationsData?'A associação de plantas não pôde ser atualizada. Os últimos vínculos validados foram mantidos.':
+      'A associação de plantas não pôde ser conferida. Canto e Meio continuam como referências gerais.';
+    return false;
+  }
+}
 async function capture() {
   if(!state.ready)return;
   if(state.mode==='maquete')return state.frame.contentWindow.__livProva.capture();
@@ -331,12 +368,13 @@ async function capture() {
   }
   const link=document.createElement('a');link.href=png;link.download=`liv-ipanema-${state.typology}-${state.mode}.png`;link.click();return png;
 }
-Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,setAmbience,reloadCommercial:refreshCommercial,getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,backend:state.backend,ambience:state.ambience}),dispose:release});
+Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,setAmbience,openUnitLayout,reloadRelations:refreshRelations,reloadCommercial:refreshCommercial,getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,backend:state.backend,ambience:state.ambience}),dispose:release});
 for(const button of document.querySelectorAll('[data-mode]'))button.addEventListener('click',()=>setMode(button.dataset.mode));
 for(const button of document.querySelectorAll('[data-view]'))button.addEventListener('click',()=>setView(button.dataset.view));
 document.getElementById('floor').addEventListener('change',event=>setFloor(event.target.value));
 document.getElementById('typology').addEventListener('change',event=>setTypology(event.target.value));
 document.getElementById('ambience').addEventListener('change',event=>setAmbience(event.target.value));
+document.getElementById('openUnitPlant').addEventListener('click',openUnitLayout);
 document.getElementById('capture').addEventListener('click',()=>capture().catch(error=>{status.textContent='Não foi possível capturar a imagem: '+error.message;}));
 document.getElementById('retry').addEventListener('click',()=>setMode(state.mode));
 document.getElementById('fallback').addEventListener('click',()=>{
@@ -351,6 +389,7 @@ document.querySelector('.map-link').addEventListener('click',event=>{
 });
 window.addEventListener('pagehide',()=>{
   commercialVersion++;commercialController?.abort();
+  relationVersion++;relationController?.abort();
   generation++;state.ready=false;release();
   try {sessionStorage.setItem(storageKey,JSON.stringify({version:1,mode:state.mode,typology:state.typology,interiorSnapshots:state.interiorSnapshots,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,ambience:state.ambience,exteriorSnapshot:state.exteriorSnapshot}));}
   catch(error) {state.storageError=String(error);}

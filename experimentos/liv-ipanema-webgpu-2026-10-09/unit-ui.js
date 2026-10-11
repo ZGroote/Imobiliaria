@@ -1,6 +1,7 @@
 import {unitById} from './unidades.js';
 import {floorOf,floorLabel,unitsAtFloor} from './catalogo-unidades.js';
 import {saleOf,saleLabel} from './comercial.js';
+import {typology as layout} from './tipologias.js';
 export function createUnitUI(catalog,{onSelect,onClear,onSide}){
   const list=document.getElementById('unitList');let buttons=[],displayFloor=null;
   function renderFloor(floor){
@@ -31,7 +32,7 @@ export function createUnitUI(catalog,{onSelect,onClear,onSide}){
     document.getElementById('unitCard').hidden=!unit;
     document.getElementById('selectedUnitLabel').hidden=!unit||mode!=='maquete';
     document.getElementById('clearUnit').disabled=!unit;
-    document.getElementById('unitAnnouncement').textContent=unit?`Final ${unit.final} selecionado, posição aproximada, disponibilidade não informada.`:'Nenhum final selecionado.';
+    document.getElementById('unitAnnouncement').textContent=unit?`Final ${unit.final} selecionado, posição aproximada, ${saleLabel(unit)}.`:'Nenhum final selecionado.';
     if(!unit)return;
     const label=floorLabel(floorOf(catalog,unit));
     document.getElementById('unitTitle').textContent=`Final ${unit.final} · ${label}`;
@@ -48,8 +49,15 @@ export function createUnitUI(catalog,{onSelect,onClear,onSide}){
     document.getElementById('commercialConditions').textContent=sale.conditions||'';
     document.getElementById('gardenNote').hidden=floorOf(catalog,unit)!==0;
     document.getElementById('unitPosition').textContent=unit.side==='lazer'?'Lado do lazer':'Lado do estacionamento';
+    const relation=unit.relation;
+    document.getElementById('unitLayout').textContent=relation?`${layout(relation.typology).label} · orientação original`:'Em conferência';
+    document.getElementById('openUnitPlant').hidden=!relation;document.getElementById('openUnitPlant').disabled=!ready;
+    document.getElementById('relationSource').hidden=!relation;
+    document.getElementById('relationSource').textContent=relation?`Associação informada por ${catalog.relationSource.label} · ${catalog.relationSource.asOf}`:'';
     document.getElementById('unitReferenceNote').textContent=mode==='maquete'?
       'As plantas Canto e Meio são referências gerais. A planta e o espelhamento deste final estão em conferência.':
       `Você está vendo a referência de ${typology}. A associação com o final ${unit.final} está em conferência.`;
+    if(relation)document.getElementById('unitReferenceNote').textContent=`Planta ${layout(relation.typology).label} associada pelo cadastro fornecido. `+
+      (mode!=='maquete'&&typology!==layout(relation.typology).label.toLowerCase()?`Você está vendo a referência geral de ${typology}.`:'O 3D/Tour é ilustrativo, com medidas inferidas.');
   }};
 }
