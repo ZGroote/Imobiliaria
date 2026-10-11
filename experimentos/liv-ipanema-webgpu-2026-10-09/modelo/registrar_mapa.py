@@ -1,4 +1,5 @@
 """Confere o GLB real contra a autoria e registra sua identidade para o mapa."""
+import argparse
 from collections import Counter
 import hashlib
 import json
@@ -150,21 +151,29 @@ def check(glb, model):
             'transforms': 'all instances matched', 'units': 'meters', 'up': 'Y'}
 
 
-def build(own=OWN):
-    model_bytes = (own / 'variante/modelo.json').read_bytes()
+def build(own=OWN,edition='contorno'):
+    if edition not in ['contorno','entrada']:
+        raise ValueError('Edição de registro inválida.')
+    folder=own / ('entrada/candidato' if edition=='entrada' else 'variante')
+    model_path=folder/'modelo.json'
+    model_bytes = model_path.read_bytes()
     model = json.loads(model_bytes)
     assert all(sha((ROOT / p).read_bytes()) == h for p, h in model['metadata']['recipeSources'].items())
-    glb_path = own / 'variante/liv-contorno.glb'
+    glb_path = folder / 'liv-contorno.glb'
     glb = glb_path.read_bytes()
     validation = check(glb, model)
-    return {'schema': 'liv-map-model-v1', 'edition': 'contorno', 'sourceModelSHA256': sha(model_bytes),
-            'asset': {'path': 'modelo/variante/liv-contorno.glb', 'bytes': len(glb), 'sha256': sha(glb)},
+    return {'schema': 'liv-map-model-v1', 'edition': edition, 'sourceModelSHA256': sha(model_bytes),
+            'asset': {'path': glb_path.relative_to(own.parent).as_posix(), 'bytes': len(glb), 'sha256': sha(glb)},
             'validation': validation, 'lighting': 'map-lights', 'dimensionsInferred': True,
             'sources': {p.relative_to(ROOT).as_posix(): sha(p.read_bytes()) for p in
-                        [Path(__file__), own / 'variante/modelo.json', glb_path]}}
+                        [Path(__file__), model_path, glb_path]}}
 
 
 if __name__ == '__main__':
-    result = build()
-    (OWN / 'variante/mapa.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf8')
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--edicao',choices=['contorno','entrada'],default='contorno')
+    args=parser.parse_args()
+    result = build(edition=args.edicao)
+    folder=OWN / ('entrada/candidato' if args.edicao=='entrada' else 'variante')
+    (folder / 'mapa.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf8')
     print(json.dumps(result['validation']))

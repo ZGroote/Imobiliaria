@@ -30,6 +30,14 @@ class MapModelTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             registry.check((EXP / 'site-baseline/liv-ipanema.glb').read_bytes(), self.model)
 
+    def test_entrance_glb_matches_its_own_authoring_and_rejects_previous_gate(self):
+        folder=EXP/'modelo/entrada/candidato'
+        model=json.loads((folder/'modelo.json').read_bytes())
+        result=registry.check((folder/'liv-contorno.glb').read_bytes(),model)
+        self.assertEqual((result['meshes'],result['instances'],result['materials']),(97,1815,54))
+        with self.assertRaises(AssertionError):
+            registry.check(self.glb,model)
+
     def test_changed_geometry_is_rejected(self):
         changed = deepcopy(self.model)
         changed['geometries']['cobertura-bege']['position'][0] += .1

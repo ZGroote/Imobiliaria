@@ -22,7 +22,7 @@
   "lighting": "map-lights",
   "dimensionsInferred": true,
   "sources": {
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/registrar_mapa.py": "a1982edcbb8c211e0f5ba9540028ff5915141515ea6c04fb1b7c20d32bc83795",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/registrar_mapa.py": "61827fa89f29d1047037ad72c01c6574f92f060fda6251ca19147b29d0b2ae09",
     "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
     "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/liv-contorno.glb": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686"
   }

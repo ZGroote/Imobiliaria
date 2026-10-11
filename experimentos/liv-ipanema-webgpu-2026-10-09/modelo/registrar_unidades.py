@@ -2,6 +2,7 @@
 
 Conserva ordem/IDs da prancha, sem atribuir áreas, tipologias ou números comerciais.
 """
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -27,9 +28,11 @@ def ring(poly):
     return [[round(x, 5), round(z, 5)] for x, z in orient(poly, sign=1).exterior.coords[:-1]]
 
 
-def build():
+def build(edition='contorno'):
+    if edition not in ['contorno','entrada']:
+        raise ValueError('Edição de registro inválida.')
     original = EXP / 'unidades.json'
-    model_path = OWN / 'variante/modelo.json'
+    model_path = OWN / ('entrada/candidato/modelo.json' if edition=='entrada' else 'variante/modelo.json')
     outline = Outline(OWN / 'contorno-torre.json', ROOT)
     model = json.loads(model_path.read_text('utf-8'))
     data = json.loads(original.read_text('utf-8'))
@@ -83,6 +86,9 @@ def build():
 
 
 if __name__ == '__main__':
-    output = OWN / 'unidades-contorno.json'
-    output.write_text(json.dumps(build(), ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--edicao',choices=['contorno','entrada'],default='contorno')
+    args=parser.parse_args()
+    output = OWN / ('entrada/unidades-entrada.json' if args.edicao=='entrada' else 'unidades-contorno.json')
+    output.write_text(json.dumps(build(args.edicao), ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({'output': str(output), 'sha256': digest(output), 'units': 10}))

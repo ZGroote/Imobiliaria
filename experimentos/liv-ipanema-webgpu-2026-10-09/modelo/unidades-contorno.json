@@ -52,7 +52,7 @@
       "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
       "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno-torre.json": "8e6545269bfd0ebd97b80a82eff7a2feabff5aad6a0fb4a24b220f2d898bf878",
       "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
-      "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/registrar_unidades.py": "92cd430cacc57d6967eef8052c4475b934567e84c245bddbe940b60b62d1b277"
+      "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/registrar_unidades.py": "dff3f7d7b4a12937bac0e1e03ea87ddf18d5442555b87ce914974929ed587142"
     }
   },
   "units": [
