@@ -2,7 +2,8 @@
 (function () {
   'use strict';
   const assets = __LIV_MAP_ASSETS__;
-  const edition = location.hash === '#contorno' ? 'contorno' : 'base';
+  const requested = location.hash.slice(1);
+  const edition = Object.hasOwn(assets, requested) ? requested : 'base';
   const spec = assets[edition];
   const status = window.__livMapLoad = {edition, ready:false, verified:false, sourceModelSHA256:spec.sourceModelSHA256};
   window.LivVerifiedMap = {

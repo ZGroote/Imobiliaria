@@ -1,4 +1,5 @@
 import {containsPoint,validFootprint} from './unit-footprint.js';
+import {exteriorEdition} from './edicoes.js';
 // Technical pilot records are independent of the decorative meshes and interiors.
 export function validateUnits(data) {
   const fail=()=>{throw Error('Cadastro do pavimento piloto inválido.');};
@@ -54,8 +55,7 @@ export function validateUnits(data) {
   return data;
 }
 export async function loadUnits(signal,geometry='base'){
-  if(!['base','contorno'].includes(geometry))throw Error('Perfil de geometria inválido.');
-  const response=await fetch(new URL(geometry==='contorno'?'./modelo/unidades-contorno.json':'./unidades.json',import.meta.url),{signal,cache:'no-cache'});
+  const response=await fetch(new URL(exteriorEdition(geometry).units,import.meta.url),{signal,cache:'no-cache'});
   if(!response.ok)throw Error('Não foi possível carregar os finais do pavimento piloto.');
   return validateUnits(await response.json());
 }

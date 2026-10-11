@@ -62,3 +62,9 @@ python qa_unidades.py --geometria contorno --saida evidencias/unidades-recuos-no
 ```
 
 Executar a partir deste diretório, com os artefatos locais reproduzidos. Preservar relatórios históricos usando um novo destino. A comparação geométrica isolada continua sem cadastro, e o modo integrado habilita o piloto explicitamente. O GLB do mapa foi conferido; tempo de abertura, refinamento da entrada e ensaios físicos precedem a adoção dessa autoria como padrão. T06–T09 continuam parciais.
+
+## Registro sobre a entrada revisada — 11/10/2026
+
+[modelo/entrada/unidades-entrada.json](modelo/entrada/unidades-entrada.json) vincula os dez finais aproximados à autoria `09407385…`. O registrador aceita `--edicao entrada` e repete a conferência independente da laje real/contorno/fontes. A torre preservada produz os mesmos polígonos, IDs e campos nulos da edição de contorno; a identidade do novo modelo é distinta. [edicoes.js](edicoes.js) escolhe caminhos conhecidos para a cena, cadastro e GLB, rejeitando nomes inválidos antes de fornecer caminhos.
+
+A [prévia integrada](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=entrada) mantém sessão e seleção próprias, inclusive na volta do mapa. Canto e Meio continuam referências gerais; seus bakes e associação comercial pendente são preservados. Qualificação atual dos três perfis, falhas/recuperação e mapa em [INTEGRACAO-ENTRADA.md](INTEGRACAO-ENTRADA.md).

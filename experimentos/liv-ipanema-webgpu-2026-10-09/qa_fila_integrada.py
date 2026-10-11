@@ -84,7 +84,8 @@ def run(out):
     atlas_path=next('assets-prova/'+path for path in runtime['files'] if path.endswith('.rgbm.gz'))
     report={'status':'RUNNING','recordedAtUtc':datetime.now(timezone.utc).isoformat(),'physicalMobile':False,
       'manifestVersion':manifest['version'],'sourceSHA256':{name:hashlib.sha256((EXP/name).read_bytes()).hexdigest()
-      for name in ['qa_fila_integrada.py','transfer-worker.js','transfers.js','viewer.js','mapa-retorno.js','transfer-manifest.json','maquete-liv-ipanema.html','mapa-liv-ipanema-5km.html']},'cases':[]}
+      for name in ['qa_fila_integrada.py','edicoes.js','transfer-worker.js','transfers.js','viewer.js','mapa-retorno.js','transfer-manifest.json',
+                   'maquete-liv-ipanema.html','mapa-liv-ipanema-5km.html','modelo/entrada/candidato/mapa.json']},'cases':[]}
     try:
         with sync_playwright() as pw:
             browser=pw.chromium.launch(executable_path=CHROME,headless=True)
@@ -131,34 +132,37 @@ def run(out):
 
             # Cold map selected while Tour is being prefetched. Native detail
             # demands cannot interrupt the HTML + GLB prerequisites.
-            fixture.gates.clear();tour=fixture.hold(TOUR)
-            model_path='modelo/variante/liv-contorno.glb'
-            model=fixture.hold(model_path)
-            before_model=fixture.count(model_path)
-            map_total=sum(file['group']=='map' for file in manifest['files'])
-            tiles=[file['path'] for file in manifest['files'] if file['group']=='map' and not file['essential']]
-            before_tiles={path:fixture.count(path) for path in tiles}
-            context=browser.new_context(viewport={'width':768,'height':1024});page=context.new_page()
-            errors=[];page.on('pageerror',lambda error:errors.append(str(error)))
-            page.goto(url+'?geometria=contorno');ready(page,'maquete')
-            page.wait_for_function('__livTransfers.getState().active?.group==="tour"')
-            page.locator('.map-link').click()
-            # The current adapter is ready only after the verified GLB is parsed.
-            # Inspect UI readiness while the held model is still incomplete.
-            page.wait_for_function('window.__livMapAdapter?.uiReady',timeout=120000)
-            wait_for(lambda:fixture.count(model_path)==before_model+1,'Cold map model did not start.')
-            assert all(fixture.count(path)==before_tiles[path] for path in tiles),'Detail tile preceded required GLB.'
-            assert page.locator('#transferStatus').is_hidden()
-            model.set()
-            page.wait_for_function('window.__livMapAdapter?.ready',timeout=120000)
-            page.frames[-1].wait_for_function('window.__livNearby?.ready',timeout=120000)
-            page.wait_for_function('total=>__livTransfers.getState().groups.map.cached===total',arg=map_total,timeout=120000)
-            assert fixture.count(model_path)==before_model+1
-            assert all(fixture.count(path)==before_tiles[path]+1 for path in tiles),'Cold map repeated native/background tile requests.'
-            assert not errors,errors
-            report['cases'].append({'name':'cold-map-priority','status':'PASS','edition':'contorno','modelPath':model_path,'modelBefore120Tiles':True,
-              'nativeAndBackgroundDeduplicated':True,'errors':errors})
-            context.close();tour.set()
+            for edition,model_path in [('contorno','modelo/variante/liv-contorno.glb'),('entrada','modelo/entrada/candidato/liv-contorno.glb')]:
+                fixture.gates.clear();tour=fixture.hold(TOUR)
+                model=fixture.hold(model_path)
+                before_model=fixture.count(model_path)
+                map_total=sum(file['group']=='map' for file in manifest['files'])
+                tiles=[file['path'] for file in manifest['files'] if file['group']=='map' and not file['essential']]
+                before_tiles={path:fixture.count(path) for path in tiles}
+                alternatives=[file['path'] for file in manifest['files'] if file['group']=='map' and file['path'].endswith('.glb') and file['path']!=model_path]
+                before_alternatives={path:fixture.count(path) for path in alternatives}
+                context=browser.new_context(viewport={'width':768,'height':1024});page=context.new_page()
+                errors=[];page.on('pageerror',lambda error:errors.append(str(error)))
+                page.goto(url+'?geometria='+edition);ready(page,'maquete')
+                page.wait_for_function('__livTransfers.getState().active?.group==="tour"')
+                page.locator('.map-link').click()
+                # Inspect the real UI while the selected edition's GLB is incomplete.
+                page.wait_for_function('window.__livMapAdapter?.uiReady',timeout=120000)
+                wait_for(lambda:fixture.count(model_path)==before_model+1,'Cold map model did not start.')
+                assert all(fixture.count(path)==before_tiles[path] for path in tiles),'Detail tile preceded required GLB.'
+                assert all(fixture.count(path)==before_alternatives[path] for path in alternatives),'Other edition delayed the selected GLB.'
+                assert page.locator('#transferStatus').is_hidden()
+                model.set()
+                page.wait_for_function('window.__livMapAdapter?.ready',timeout=120000)
+                assert page.evaluate('__livMapAdapter.model.edition')==edition
+                page.frames[-1].wait_for_function('window.__livNearby?.ready',timeout=120000)
+                page.wait_for_function('total=>__livTransfers.getState().groups.map.cached===total',arg=map_total,timeout=120000)
+                assert fixture.count(model_path)==before_model+1
+                assert all(fixture.count(path)==before_tiles[path]+1 for path in tiles),'Cold map repeated native/background tile requests.'
+                assert not errors,errors
+                report['cases'].append({'name':'cold-map-priority','status':'PASS','edition':edition,'modelPath':model_path,'modelBefore120Tiles':True,
+                  'modelBeforeOtherEditions':True,'nativeAndBackgroundDeduplicated':True,'errors':errors})
+                context.close();tour.set()
 
             # A separate browser context has no cache and exercises valid foreground
             # delivery despite a deliberate CacheStorage quota failure in the worker.

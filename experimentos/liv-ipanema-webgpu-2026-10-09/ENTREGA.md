@@ -1,6 +1,8 @@
 # LIV Ipanema — etapa técnica local
 
-09/10/2026. Branch `codex/liv-ipanema-webgpu`. Base: edição pública `strict-circle-v3` indicada pelo usuário, preservada e conferida por hash. Esta entrega corresponde à reprodução e integração do renderer, **antes do piloto de seleção de unidades**. Não há publicação nova.
+Registro histórico de 09/10/2026. Branch `codex/liv-ipanema-webgpu`. Base: edição pública `strict-circle-v3` indicada pelo usuário, preservada e conferida por hash. A etapa descrita abaixo corresponde à reprodução e integração do renderer, **antes do piloto de seleção de unidades**. Não há publicação nova.
+
+Atualização de 11/10: a [prévia opcional da entrada revisada](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=entrada) já integra contorno/cobertura, cadastro aproximado dos dez finais, Canto/Meio em 2D/3D/Tour, mapa correspondente e fila com prioridade da edição desde o clique. Evidências e medição atuais em [INTEGRACAO-ENTRADA.md](INTEGRACAO-ENTRADA.md). Abertura, acabamento final, vínculos comerciais e ensaios físicos continuam pendentes; esta atualização permanece local.
 
 ## Abrir e avaliar
 

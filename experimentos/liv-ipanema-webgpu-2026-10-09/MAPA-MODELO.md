@@ -1,6 +1,6 @@
 # LIV corrigido no mapa — 11/10/2026
 
-O [mapa da variante](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/mapa-liv-ipanema-5km.html?geometria=contorno) agora carrega o mesmo contorno e a mesma cobertura da prévia integrada. O endereço sem parâmetro conserva o GLB original. O renderer regional permanece em WebGL/Three r128; a migração integral do mapa para WebGPU continua em T15.
+O [mapa do contorno](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/mapa-liv-ipanema-5km.html?geometria=contorno) e o [mapa da entrada revisada](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/mapa-liv-ipanema-5km.html?geometria=entrada) carregam a geometria correspondente à prévia integrada. O endereço sem parâmetro conserva o GLB original. O renderer regional permanece em WebGL/Three r128; a migração integral do mapa para WebGPU continua em T15.
 
 ## Autoria e transporte
 
@@ -16,19 +16,20 @@ O [mapa da variante](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-
 
 Centralizar interrompe uma animação anterior da busca antes de focar o LIV. Antes, um clique durante os 900 ms de navegação ao POI podia ser desfeito pelo próximo quadro da animação. A busca por nome/categoria e o movimento normal aos POIs continuam iguais.
 
-O fragmento `#contorno` escolhe a edição dentro do iframe; a URL pública da página externa continua usando `?geometria=contorno`. O fragmento não altera o recurso HTTP: o worker normaliza essa parte antes da consulta ao catálogo/cache. A preparação transfere um único HTML regional compartilhado pelas duas edições. Ao abrir o mapa, HTML e GLB escolhido têm prioridade sobre tiles e o GLB da outra edição.
+Os fragmentos `#contorno`/`#entrada` escolhem a edição dentro do iframe; a página externa usa `?geometria=contorno`/`?geometria=entrada`. O fragmento não altera o recurso HTTP: o worker normaliza essa parte antes da consulta ao catálogo/cache. A preparação transfere um único HTML regional compartilhado pelas três edições. Ao abrir o mapa, HTML e GLB escolhido têm prioridade sobre tiles e os GLBs das outras edições.
 
-O catálogo agora tem **140 recursos / 35.294.664 bytes**; são 2.276.774 bytes a mais que a revisão do rodateto. O fundo prepara também o segundo GLB, conservando a comparação original/variante. O exterior inicial não recebeu esses recursos. A ordem Tour → mapa → Planta 2D e a preempção por interação são preservadas. Contagens não são medida de tráfego comprimido, tempo de abertura ou FPS.
+O catálogo atual tem **141 recursos / 37.830.820 bytes**. Acrescenta 2.536.156 bytes à revisão anterior: GLB da entrada (2.535.936 bytes) e 220 bytes no HTML compartilhado. A preparação completa conserva os três GLBs para comparação; abrir uma edição prioriza seu modelo. O exterior inicial não recebeu esses recursos. A ordem Tour → mapa → Planta 2D e a preempção por interação são preservadas. Contagens não são medida de tráfego comprimido, tempo de abertura ou FPS. Identidades e qualificação atual em [INTEGRACAO-ENTRADA.md](INTEGRACAO-ENTRADA.md).
 
 ## Verificação
 
-- [test_mapa_modelo.py](test_mapa_modelo.py): sete testes de GLB real, rejeição de prédio anterior/posição/geometria/material incompatíveis, preservação regional e repetição sem regravar arquivos.
+- [test_mapa_modelo.py](test_mapa_modelo.py): oito testes de GLB real, incluindo a nova entrada, rejeição de prédio anterior/posição/geometria/material incompatíveis, preservação regional e repetição sem regravar arquivos.
 - [mapa-contorno-conferido/runtime.json](evidencias/mapa-contorno-conferido/runtime.json): edição original no desktop, variante no desktop/toque emulado e sem cache; escala/giro/terreno, recorte de 5 km, busca, Centralizar após POI, capturas, recarga e retorno com seleção. Arquivo GLB corrompido é rejeitado antes de construir o modelo.
 - [fila-mapa-contorno-final/runtime.json](evidencias/fila-mapa-contorno-final/runtime.json): 13 cenários controlados de fila, incluindo prioridade do GLB escolhido sobre a outra edição e os tiles, além de reutilização do cache com fragmento.
 - [fila-mapa-real-conferida/runtime.json](evidencias/fila-mapa-real-conferida/runtime.json): preparação e preempção com os 140 arquivos reais, cache, prioridade da variante antes dos tiles, quota indisponível e ausência de Service Worker.
 
 ```powershell
 python modelo/registrar_mapa.py
+python modelo/registrar_mapa.py --edicao entrada
 python preparar_mapa.py
 python gerar_manifesto_transferencias.py
 python test_mapa_modelo.py
@@ -37,6 +38,6 @@ python qa_transferencias.py --saida evidencias/fila-mapa-nova-revisao
 python qa_fila_integrada.py --saida evidencias/fila-mapa-real-nova-revisao
 ```
 
-Executar a partir deste experimento; QAs gráficos em sequência. Scripts de registro/geração exigem os inputs locais identificados. Capturas, GLB e HTML derivados são artefatos gerados, mantidos neste computador e ignorados pelo Git. Provas emuladas não substituem Poco X6/iPhone físicos. Custo da abertura, entrada/portaria, confirmação arquitetônica e vínculos por final continuam pendentes. Nenhuma publicação foi alterada.
+Executar a partir deste experimento; QAs gráficos em sequência. Scripts de registro/geração exigem os inputs locais identificados. Capturas, GLB e HTML derivados são artefatos gerados, mantidos neste computador e ignorados pelo Git. Provas emuladas não substituem Poco X6/iPhone físicos. Custo da abertura, acabamento visual final, confirmação arquitetônica e vínculos por final continuam pendentes. Nenhuma publicação foi alterada.
 
 Referências técnicas: [glTF 2.0](https://github.com/KhronosGroup/glTF/blob/main/specification/2.0/Specification.adoc), [GLTFLoader.parse](https://threejs.org/docs/pages/GLTFLoader.html) e [cKDTree.query](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.cKDTree.query.html).

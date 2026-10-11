@@ -27,8 +27,9 @@ class MapFrame:
         return getattr(self.page if name == 'screenshot' else self.frame, name)
 
 
-def expected_bounds():
-    model = json.loads((EXP/'modelo/variante/modelo.json').read_bytes())
+def expected_bounds(edition):
+    path = 'modelo/entrada/candidato/modelo.json' if edition=='entrada' else 'modelo/variante/modelo.json'
+    model = json.loads((EXP/path).read_bytes())
     low, high = np.full(3, np.inf), np.full(3, -np.inf)
     for group in model['groups']:
         positions = np.array(model['geometries'][group['geometry']]['position']).reshape(-1, 3)
@@ -50,23 +51,25 @@ def main():
     manifest = json.loads((EXP/'mapa-runtime/manifest.json').read_bytes())
     report = {'status':'RUNNING', 'recordedAtUtc':datetime.now(timezone.utc).isoformat(), 'physicalMobile':False,
               'sourceSHA256':{p:hashlib.sha256((EXP/p).read_bytes()).hexdigest() for p in
-               ['qa_mapa_modelo.py','mapa-retorno.js','mapa-loader.js','preparar_mapa.py','modelo/registrar_mapa.py',
-                'modelo/variante/mapa.json','mapa-runtime/manifest.json','transfer-worker.js','transfer-manifest.json']},
+               ['qa_mapa_modelo.py','edicoes.js','viewer.js','mapa-retorno.js','mapa-loader.js','preparar_mapa.py','modelo/registrar_mapa.py',
+                'modelo/variante/mapa.json','modelo/entrada/candidato/mapa.json','mapa-runtime/manifest.json','transfer-worker.js','transfer-manifest.json']},
               'cases':[], 'modelManifest':manifest['models']}
-    bounds = expected_bounds()
+    bounds = {edition:expected_bounds(edition) for edition in ['contorno','entrada']}
     try:
         with sync_playwright() as pw:
             browser = pw.chromium.launch(executable_path=r'C:\Program Files\Google\Chrome\Application\chrome.exe', headless=True)
             for name, edition, width, height, blocked in [
                 ('base-desktop','base',1440,900,False), ('contorno-desktop','contorno',1440,900,False),
-                ('contorno-toque','contorno',390,844,False), ('contorno-sem-cache','contorno',1280,800,True)]:
+                ('contorno-toque','contorno',390,844,False), ('contorno-sem-cache','contorno',1280,800,True),
+                ('entrada-desktop','entrada',1440,900,False), ('entrada-toque','entrada',390,844,False),
+                ('entrada-sem-cache','entrada',1280,800,True)]:
                 case = {'name':name, 'edition':edition, 'viewport':[width,height], 'serviceWorkersBlocked':blocked, 'errors':[]}
                 report['cases'].append(case)
                 context = browser.new_context(viewport={'width':width,'height':height}, has_touch=width==390,
                                               is_mobile=width==390, service_workers='block' if blocked else 'allow')
                 page = context.new_page()
                 page.on('pageerror', lambda error, c=case: c['errors'].append(str(error)))
-                suffix = '?geometria=contorno' if edition=='contorno' else ''
+                suffix = '?geometria='+edition if edition!='base' else ''
                 viewer_url = URL+'maquete-liv-ipanema.html'+suffix
                 page.goto(viewer_url)
                 page.wait_for_function('window.__livViewer?.ready', timeout=120000)
@@ -85,15 +88,17 @@ def main():
                 model = case['model']
                 assert model['edition']==edition and model['geometryVerified']
                 assert model['assetSHA256']==expected['sha256'] and model['sourceModelSHA256']==expected['sourceModelSHA256']
-                assert model['sourceMeshes']==(1826 if edition=='contorno' else 1825)
-                assert model['instancedBatches']==(88 if edition=='contorno' else 87)
+                expected_counts={'base':(1825,87),'contorno':(1826,88),'entrada':(1815,97)}
+                assert (model['sourceMeshes'],model['instancedBatches'])==expected_counts[edition]
                 assert model['units']=='meters' and model['placementOffsetMeters']==[8,-6]
                 assert abs(model['rotationRadians'] + np.pi/3) < 1e-8 and model['floorClearanceMeters']==.4
-                if edition=='contorno':
-                    assert np.allclose(model['boundsLocal']['min'],bounds[0],atol=4e-4,rtol=0)
-                    assert np.allclose(model['boundsLocal']['max'],bounds[1],atol=4e-4,rtol=0)
+                if edition!='base':
+                    assert np.allclose(model['boundsLocal']['min'],bounds[edition][0],atol=4e-4,rtol=0)
+                    assert np.allclose(model['boundsLocal']['max'],bounds[edition][1],atol=4e-4,rtol=0)
                 case['frameResources'] = child.evaluate("performance.getEntriesByType('resource').filter(r=>r.name.includes('.glb')).map(r=>({url:r.name,bytes:r.decodedBodySize}))")
-                assert len(case['frameResources'])==1 and case['frameResources'][0]['url'].endswith('liv-contorno.glb' if edition=='contorno' else 'liv-ipanema.glb')
+                expected_url={'base':'site-baseline/liv-ipanema.glb','contorno':'modelo/variante/liv-contorno.glb',
+                              'entrada':'modelo/entrada/candidato/liv-contorno.glb'}[edition]
+                assert len(case['frameResources'])==1 and case['frameResources'][0]['url'].endswith(expected_url)
                 case['ui'] = child.evaluate(baseline.UI)
                 baseline.check_ui(case['ui'])
                 case['regional'] = child.evaluate("()=>({radius:__livMapa.raio,center:__livMapa.centro,pois:JSON.parse(document.getElementById('__poidata').textContent).length,raster:__regionalRaster,circle:LivCircle.diagnostics()})")
@@ -122,7 +127,7 @@ def main():
                 if not blocked:
                     page.evaluate('__livTransfers.pause()')
                     # A fresh frame navigation reuses the exact URL allowlist despite its edition fragment.
-                    child.goto(URL+'mapa-runtime/mapa-liv-ipanema-5km.html'+('#contorno' if edition=='contorno' else ''))
+                    child.goto(URL+'mapa-runtime/mapa-liv-ipanema-5km.html'+('#'+edition if edition!='base' else ''))
                     child.wait_for_function('window.__livModel && window.__livMapLoad?.ready', timeout=120000)
                     assert child.evaluate('__livModel.metadata.edition')==edition
                     case['cacheReload']=True
@@ -130,7 +135,7 @@ def main():
                 assert link.get_attribute('href')==viewer_url
                 link.click()
                 page.wait_for_function('window.__livViewer?.ready', timeout=120000)
-                assert page.evaluate('__livViewer.geometry')==('contorno' if edition=='contorno' else 'base')
+                assert page.evaluate('__livViewer.geometry')==edition
                 assert page.evaluate('__livViewer.selectedUnitId')==selected
                 case['returnSelection']=selected
                 assert not case['errors'], case['errors']
@@ -139,18 +144,20 @@ def main():
                 context.close()
                 print(name+': PASS',flush=True)
             # Independent native loading also rejects a damaged GLB when cache is unavailable.
-            context = browser.new_context(viewport={'width':1280,'height':800},service_workers='block')
-            page = context.new_page()
-            page.route('**/modelo/variante/liv-contorno.glb', lambda route: route.fulfill(status=200, body=b'wrong model'))
-            page.goto(URL+'mapa-liv-ipanema-5km.html?geometria=contorno')
-            page.locator('#failure').wait_for(state='visible',timeout=120000)
-            child = next(f for f in page.frames if f.parent_frame==page.main_frame)
-            failure = child.evaluate('({load:__livMapLoad,modelPresent:!!window.__livModel})')
-            assert not failure['load']['verified'] and not failure['modelPresent']
-            assert page.locator('#failure a').nth(1).get_attribute('href').endswith('maquete-liv-ipanema.html?geometria=contorno')
-            report['corruptModel'] = {'status':'PASS', **failure}
-            page.screenshot(path=str(args.saida/'modelo-incompativel.png'))
-            context.close()
+            report['corruptModels']=[]
+            for edition, path in [('contorno','modelo/variante/liv-contorno.glb'),('entrada','modelo/entrada/candidato/liv-contorno.glb')]:
+                context = browser.new_context(viewport={'width':1280,'height':800},service_workers='block')
+                page = context.new_page()
+                page.route('**/'+path, lambda route: route.fulfill(status=200, body=b'wrong model'))
+                page.goto(URL+'mapa-liv-ipanema-5km.html?geometria='+edition)
+                page.locator('#failure').wait_for(state='visible',timeout=120000)
+                child = next(f for f in page.frames if f.parent_frame==page.main_frame)
+                failure = child.evaluate('({load:__livMapLoad,modelPresent:!!window.__livModel})')
+                assert not failure['load']['verified'] and not failure['modelPresent']
+                assert page.locator('#failure a').nth(1).get_attribute('href').endswith('maquete-liv-ipanema.html?geometria='+edition)
+                report['corruptModels'].append({'edition':edition,'status':'PASS', **failure})
+                page.screenshot(path=str(args.saida/f'{edition}-modelo-incompativel.png'))
+                context.close()
             browser.close()
         report['status']='PASS'
     except Exception as error:

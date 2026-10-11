@@ -43,7 +43,7 @@ def main():
     parser.add_argument('--saida',type=Path,default=EXP/'evidencias'/'medicao-final')
     parser.add_argument('--rodadas',type=int,default=3)
     parser.add_argument('--amostra-ms',type=int,default=4000)
-    parser.add_argument('--geometria',choices=['base','contorno','ambas'],default='base')
+    parser.add_argument('--geometria',choices=['base','contorno','entrada','ambas','revisadas'],default='base')
     parser.add_argument('--ambiente',choices=['procedural','precalculado','ambas'],default='procedural')
     parser.add_argument('--base-url',default=URL)
     parser.add_argument('--igualar-canvas',action='store_true',help='Usa 720x390 no exterior novo, como na base preservada.')
@@ -53,15 +53,16 @@ def main():
         'network':'loopback sem compressão HTTP; recursos .gz já comprimidos no arquivo',
         'execution':'sequencial; Chrome novo por rodada, reload no mesmo contexto; fila pausada após primeira cena utilizável para isolar a amostra de órbita',
         'limits':'Contexto novo para cache HTTP frio; caches do driver e outras aplicações não controlados. Cadência de submissão não é tempo GPU. Tráfego do worker não é contabilizado pelos documentos.',
-        'sourceSHA256':{name:hashlib.sha256((EXP/name).read_bytes()).hexdigest() for name in ['medir_runtime.py','renderer.js','material-rgbm.js','viewer.js','maquete-liv-ipanema.html','prova-rgbm.html','transfers.js','transfer-worker.js','transfer-manifest.json','cameras.js','exterior-finishes.js','assets-prova/manifest.json','modelo/variante/assets/manifest.json','unidades.json','modelo/unidades-contorno.json','ambiente.js','assets-ambiente/manifest.json','assets-ambiente/ambiente.f16.gz']},
+        'sourceSHA256':{name:hashlib.sha256((EXP/name).read_bytes()).hexdigest() for name in ['medir_runtime.py','edicoes.js','unidades.js','renderer.js','material-rgbm.js','viewer.js','maquete-liv-ipanema.html','prova-rgbm.html','transfers.js','transfer-worker.js','transfer-manifest.json','cameras.js','exterior-finishes.js','assets-prova/manifest.json','modelo/variante/assets/manifest.json','unidades.json','modelo/unidades-contorno.json','modelo/entrada/candidato/assets/manifest.json','modelo/entrada/unidades-entrada.json','ambiente.js','assets-ambiente/manifest.json','assets-ambiente/ambiente.f16.gz']},
         'matchedCanvas':args.igualar_canvas,'geometrySelection':args.geometria,'environmentSelection':args.ambiente,'baseURL':args.base_url,'rounds':[]}
     try:
         with sync_playwright() as pw:
             variants=[('base','site-baseline/maquete-liv-ipanema.html')]
-            for geometry in (['base','contorno'] if args.geometria=='ambas' else [args.geometria]):
+            geometries={'ambas':['base','contorno'],'revisadas':['contorno','entrada']}.get(args.geometria,[args.geometria])
+            for geometry in geometries:
                 for environment in (['procedural','precalculado'] if args.ambiente=='ambas' else [args.ambiente]):
                     for backend in ['webgl','webgpu']:
-                        label=(backend if geometry=='base' else 'contorno-'+backend) if args.ambiente=='procedural' else f'{geometry}-{environment}-{backend}'
+                        label=(backend if geometry=='base' else geometry+'-'+backend) if args.ambiente=='procedural' else f'{geometry}-{environment}-{backend}'
                         variants.append((label,f'maquete-liv-ipanema.html?backend={backend}&geometria={geometry}&ambiente={environment}'))
             for variant,path in variants:
                 for number in range(args.rodadas):

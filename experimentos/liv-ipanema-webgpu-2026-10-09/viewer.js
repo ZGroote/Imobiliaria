@@ -2,20 +2,21 @@ import {transfers,showTransferStatus} from './transfers.js';
 import {typology} from './tipologias.js';
 import {loadUnits,unitById} from './unidades.js';
 import {createUnitUI} from './unit-ui.js';
+import {requestedEdition,exteriorEdition} from './edicoes.js';
 const stage=document.getElementById('stage'),overlay=document.getElementById('loading');
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
 const backend=['webgpu','webgl'].includes(requested)?requested:'auto';
-const geometry=new URLSearchParams(location.search).get('geometria')==='contorno'?'contorno':'base';
-const finish=geometry==='contorno'||new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
+const geometry=requestedEdition(location.search);
+const finish=geometry!=='base'||new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
 const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
 const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
 let units,unitUI;
 state.geometry=geometry;
-const storageKey=`liv-viewer-v1:${location.pathname}${geometry==='contorno'?':contorno':''}`;
-if(geometry==='contorno'){
+const storageKey=`liv-viewer-v1:${location.pathname}${geometry==='base'?'':':'+geometry}`;
+if(geometry!=='base'){
   const mapLink=document.querySelector('.map-link'),destination=new URL(mapLink.href);
-  destination.searchParams.set('geometria','contorno');mapLink.href=destination.href;
+  destination.searchParams.set('geometria',geometry);mapLink.href=destination.href;
 }
 try {
   const saved=JSON.parse(sessionStorage.getItem(storageKey));
@@ -296,7 +297,8 @@ document.querySelector('.map-link').addEventListener('click',event=>{
   if(event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
   event.preventDefault();const destination=event.currentTarget.href,token=++generation;
   state.ready=false;release();busy('Abrindo o mapa…');
-  transfers.prioritize('map').then(()=>{if(token===generation)location.assign(destination);});
+  transfers.prioritize('map',['mapa-runtime/mapa-liv-ipanema-5km.html',exteriorEdition(geometry).glb,'site-baseline/quintais/'])
+    .then(()=>{if(token===generation)location.assign(destination);});
 });
 window.addEventListener('pagehide',()=>{
   generation++;state.ready=false;release();

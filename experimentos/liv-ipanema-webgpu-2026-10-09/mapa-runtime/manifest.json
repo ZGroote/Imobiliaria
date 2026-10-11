@@ -4,12 +4,16 @@
   "baselineAppSHA256": "a51f9ec7e1134d2b2e1cdb7c1748e4e142edec333d1e833f1b565976f60cecdc",
   "files": {
     "mapa-runtime/mapa-liv-ipanema-5km.html": {
-      "bytes": 8047927,
-      "sha256": "6edfb89919e8114e12304e8a3714aa466ef28b77aa5526c916d9228f46f1f038"
+      "bytes": 8048147,
+      "sha256": "41f411c3d942facf58dcf0a6118803a815b3be4a21b9bdb13f16b407daf1458d"
     },
     "modelo/variante/liv-contorno.glb": {
       "bytes": 2275324,
       "sha256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686"
+    },
+    "modelo/entrada/candidato/liv-contorno.glb": {
+      "bytes": 2535936,
+      "sha256": "4947fee3d6eba10af3619493663a04a3fb478086a0953ae646f685b09e84ba01"
     }
   },
   "models": {
@@ -24,6 +28,12 @@
       "bytes": 2275324,
       "sha256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686",
       "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1"
+    },
+    "entrada": {
+      "url": "../modelo/entrada/candidato/liv-contorno.glb",
+      "bytes": 2535936,
+      "sha256": "4947fee3d6eba10af3619493663a04a3fb478086a0953ae646f685b09e84ba01",
+      "sourceModelSHA256": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a"
     }
   },
   "changes": [
@@ -35,8 +45,9 @@
   ],
   "preserved": "all other embedded blocks, regional geometry/materials, terrain, 120 tiles and remaining camera behavior",
   "sources": {
-    "experimentos/liv-ipanema-webgpu-2026-10-09/preparar_mapa.py": "e3e345a88c1efc371c45491fdcf343317f4960e0663453f78f6201007595c7fc",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/mapa-loader.js": "ad5b5e53519e3f647863ac8e463ec96a04f3362b2c4528e4a42d57e547cceee9",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/mapa.json": "c4d8dcee160eec961be8e5e5546fbccf27999a040552e8497c0a7862d44e8269"
+    "experimentos/liv-ipanema-webgpu-2026-10-09/preparar_mapa.py": "113adcdf491fad29f773dfc5a3edbb5a33eabf7d0764ff5636d9448f79c62451",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/mapa-loader.js": "84a94eb0801dffafe6803bbd5397b38bb167ec58a21221abf001617f379b2226",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/mapa.json": "c4d8dcee160eec961be8e5e5546fbccf27999a040552e8497c0a7862d44e8269",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/mapa.json": "387b7a4ff4fa4dffbb49e81910fa99daff0320182053635aba40145754efc326"
   }
 }

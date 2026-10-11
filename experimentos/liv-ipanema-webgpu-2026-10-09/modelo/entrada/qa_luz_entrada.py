@@ -130,7 +130,11 @@ def rejection(browser,kind):
     page.on('pageerror',lambda error:errors.append(str(error)))
     page.on('request',lambda request:downloads.append(request.url))
     query='?geometria=entrada&backend='+backend
-    if kind=='commercial':query+='&selecao=piloto'
+    if kind=='catalog':
+        query+='&selecao=piloto'
+        catalog=json.loads((HERE/'unidades-entrada.json').read_bytes())
+        catalog['sourceModelSHA256']='0'*64
+        page.route('**/modelo/entrada/unidades-entrada.json',lambda route:route.fulfill(status=200,content_type='application/json',body=json.dumps(catalog)))
     else:
         manifest=json.loads((HERE/'candidato/assets/manifest.json').read_bytes())
         manifest['sourceModelSHA256']='0'*64
@@ -141,8 +145,9 @@ def rejection(browser,kind):
         result=page.evaluate('({error:__livProva.error,ready:__livProva.ready,disposed:__livProva.disposed,retry:document.querySelector("#retry").href})')
         assert not result['ready'] and page.locator('#failure').is_visible()
         assert 'geometria=entrada' in result['retry'] and 'backend=webgl' in result['retry']
-        if kind=='commercial':
-            assert 'cadastro dos finais' in result['error'] and not any('/candidato/assets/' in url for url in downloads)
+        if kind=='catalog':
+            assert 'finais pertencem a outra edição' in result['error'] and result['disposed']
+            assert page.evaluate('__livProva.scene.children.length===0&&!__livProva.unitPicking')
         else:
             assert 'mesma edição' in result['error'] and result['disposed']
             assert not any('/candidato/assets/irradiance' in url for url in downloads)
@@ -154,7 +159,8 @@ def rejection(browser,kind):
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--saida',type=Path,required=True)
     args=parser.parse_args();out=args.saida;out.mkdir(parents=True,exist_ok=True)
-    names=['renderer.js','ambiente.js','assets-ambiente/manifest.json','material-rgbm.js','cameras.js',
+    names=['renderer.js','ambiente.js','assets-ambiente/manifest.json','material-rgbm.js','cameras.js','edicoes.js','unidades.js',
+           'modelo/entrada/unidades-entrada.json',
            'modelo/entrada/qa_luz_entrada.py','modelo/entrada/candidato/prova.html',
            'modelo/entrada/candidato/assets/manifest.json','modelo/entrada/candidato/luz/manifest.json']
     report={'status':'RUNNING','recordedAtUtc':datetime.now(timezone.utc).isoformat(),'physicalMobile':False,
@@ -163,7 +169,7 @@ def main():
         with sync_playwright() as pw:
             browser=pw.chromium.launch(executable_path=CHROME,headless=True);report['browserVersion']=browser.version
             for profile in PROFILES:case(browser,profile,out,report['cases']);print(profile+': PASS',flush=True)
-            report['rejections']=[rejection(browser,kind) for kind in ['commercial','edition']]
+            report['rejections']=[rejection(browser,kind) for kind in ['catalog','edition']]
             browser.close()
         report['status']='PASS'
     except Exception as error:report['status']='FAIL';report['failure']=str(error);raise

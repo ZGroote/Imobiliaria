@@ -19,11 +19,14 @@ URL = 'http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-
 CHROME = r'C:\Program Files\Google\Chrome\Application\chrome.exe'
 PROFILES = {'desktop-webgpu': (1440, 900, 'webgpu'), 'desktop-webgl': (1440, 900, 'webgl'), 'toque': (390, 844, 'auto')}
 GEOMETRY = 'base'
+EDITIONS = {'base': ('assets-prova', 'unidades.json', None),
+            'contorno': ('modelo/variante/assets', 'modelo/unidades-contorno.json', 'modelo/variante/modelo.json'),
+            'entrada': ('modelo/entrada/candidato/assets', 'modelo/entrada/unidades-entrada.json', 'modelo/entrada/candidato/modelo.json')}
 FILES = ['qa_unidades.py', 'test_unidades.mjs', 'unidades.json', 'unidades.js', 'unit-footprint.js', 'picking.js', 'unit-ui.js', 'unit-ui.css',
          'viewer.js', 'renderer.js', 'cameras.js', 'exterior-finishes.js', 'maquete-liv-ipanema.html', 'prova-rgbm.html', 'tipologias.js',
          'assets-prova/manifest.json', 'assets-prova/scene.json.gz', 'assets-prova/irradiance.rgbm.gz',
          'interiores/catalogo.json', 'interior-renderer.js', 'interior-cutaway.js', 'plantas2d/canto.jpg', 'plantas2d/meio.jpg',
-         'ambiente.js', 'assets-ambiente/manifest.json', 'assets-ambiente/ambiente.f16.gz']
+         'ambiente.js', 'assets-ambiente/manifest.json', 'assets-ambiente/ambiente.f16.gz', 'edicoes.js']
 
 
 def digest(path):
@@ -130,7 +133,9 @@ def run_case(browser, name, width, height, backend, output, report, catalog):
         case['actualBackend'] = frame.evaluate('__livProva.backend')
         assert backend == 'auto' or case['actualBackend'] == backend
         initial = source_snapshot(frame)
-        assert initial['source'] == catalog['sourceModelSHA256'] and initial['meshCount'] == 56
+        runtime_manifest=json.loads((EXP/EDITIONS[GEOMETRY][0]/'manifest.json').read_bytes())
+        assert initial['source'] == catalog['sourceModelSHA256'] == runtime_manifest['sourceModelSHA256']
+        assert initial['meshCount'] == runtime_manifest['meshCount']
         case['listSelections'] = []
         for unit in catalog['units']:
             button = page.locator(f'[data-unit-id="{unit["id"]}"]')
@@ -231,7 +236,7 @@ def run_case(browser, name, width, height, backend, output, report, catalog):
         assert all(math.isclose(a, b, abs_tol=1e-9) for a, b in zip(camera['target'], restored['target']))
         case['sessionAndModeReturn'] = True
         page.evaluate('''()=>{
-          const key=`liv-viewer-v1:${location.pathname}${__livViewer.geometry==='contorno'?':contorno':''}`,saved={version:1,...__livViewer.getState(),
+          const key=`liv-viewer-v1:${location.pathname}${__livViewer.geometry==='base'?'':':'+__livViewer.geometry}`,saved={version:1,...__livViewer.getState(),
             selectedUnitId:'liv-ipanema/pavimento-modelo-01/final-99',exteriorSnapshot:__livViewer.frame.contentWindow.__livProva.getState()};
           // Navigate via an anchor so pagehide normally saves the actual state;
           // the invalid persisted record is tested by the next new page instead.
@@ -272,9 +277,9 @@ def run_case(browser, name, width, height, backend, output, report, catalog):
         popup.evaluate('__livViewer.dispose()')
         popup.close()
         case['unknownSavedIdRejected'] = True
-        if GEOMETRY == 'contorno':
+        if GEOMETRY != 'base':
             case['contourHighlightVerifiedForEverySelection'] = True
-            assert page.locator('.map-link').get_attribute('href').endswith('mapa-liv-ipanema-5km.html?geometria=contorno')
+            assert page.locator('.map-link').get_attribute('href').endswith('mapa-liv-ipanema-5km.html?geometria='+GEOMETRY)
         assert not case['errors'] and not case['httpFailures'] and not case['consoleErrors'], case
         case['status'] = 'PASS'
         print(f'{name}: PASS', flush=True)
@@ -289,7 +294,7 @@ def run_recovery(browser, report, catalog):
     errors=[]
     page.on('pageerror',lambda error:errors.append(str(error)))
     report['recoveryCases']=[]
-    pattern='**/modelo/unidades-contorno.json' if GEOMETRY == 'contorno' else '**/unidades.json'
+    pattern='**/'+EDITIONS[GEOMETRY][1]
     try:
         page.route(pattern,lambda route:route.fulfill(status=404,body='Fixture: cadastro ausente'))
         page.goto(address('webgl'))
@@ -320,7 +325,7 @@ def run_recovery(browser, report, catalog):
         assert_selected(page,catalog['units'][0])
         assert page.evaluate('__livViewer.units.sourceModelSHA256')==catalog['sourceModelSHA256']
         report['recoveryCases'].append({'fixture':'modelo-incompativel','pickingRejected':True,'fallback2D':True,'retryRestoresSelection':True,'status':'PASS'})
-        if GEOMETRY == 'contorno':
+        if GEOMETRY != 'base':
             invalid=json.loads(json.dumps(catalog))
             unit=invalid['units'][0];a,b=unit['bounds']['min'],unit['bounds']['max']
             unit['footprint']=[[a[0],a[2]],[b[0],a[2]],[b[0],b[2]],[a[0],b[2]]]
@@ -350,14 +355,14 @@ def run_map_return(browser, report, catalog):
         page.locator('.map-link').click()
         page.wait_for_function('window.__livMapAdapter?.ready',timeout=120000)
         destination=page.evaluate('__livMapAdapter.returnURL')
-        assert destination.endswith('maquete-liv-ipanema.html?geometria=contorno')
+        assert destination.endswith('maquete-liv-ipanema.html?geometria='+GEOMETRY)
         frame=page.locator('#map').element_handle().content_frame()
         link=frame.locator('a').filter(has_text='Maquete').first
         assert link.get_attribute('href') == destination and link.get_attribute('target') == '_top'
         # Navigate through the map's real return control, preserving this tab's
         # session, rather than constructing a fresh viewer for this assertion.
         link.click();ready(page)
-        assert page.evaluate('__livViewer.geometry') == 'contorno'
+        assert page.evaluate('__livViewer.geometry') == GEOMETRY
         assert_selected(page,catalog['units'][1])
         assert child(page).evaluate('__livProva.data.sourceModelSHA256') == catalog['sourceModelSHA256']
         report['mapReturn']={'status':'PASS','returnURL':destination,'selectionRestored':True,
@@ -373,7 +378,7 @@ def run_map_return(browser, report, catalog):
         failure_page.locator('.map-link').click()
         failure_page.locator('#failure').wait_for(state='visible',timeout=120000)
         links=failure_page.locator('#failure a')
-        assert links.nth(0).get_attribute('href').endswith('mapa-liv-ipanema-5km.html?geometria=contorno')
+        assert links.nth(0).get_attribute('href').endswith('mapa-liv-ipanema-5km.html?geometria='+GEOMETRY)
         assert links.nth(1).get_attribute('href') == destination
         links.nth(1).click();ready(failure_page)
         assert_selected(failure_page,catalog['units'][1])
@@ -389,17 +394,17 @@ def main():
     global GEOMETRY
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--perfil', choices=['todos', *PROFILES], default='todos')
-    parser.add_argument('--geometria', choices=['base', 'contorno'], default='base')
+    parser.add_argument('--geometria', choices=list(EDITIONS), default='base')
     parser.add_argument('--saida', type=Path, default=EXP / 'evidencias' / 'unidades-piloto')
     args = parser.parse_args()
     GEOMETRY = args.geometria
     args.saida.mkdir(parents=True, exist_ok=True)
-    if GEOMETRY == 'contorno':
-        FILES.extend(['test_contorno_unidades.mjs', 'modelo/registrar_unidades.py', 'modelo/unidades-contorno.json',
-                      'modelo/contorno-torre.json', 'modelo/contorno.py', 'modelo/variante/modelo.json',
-                      'modelo/variante/assets/manifest.json', 'modelo/variante/assets/scene.json.gz',
-                      'modelo/variante/assets/irradiance.rgbm.gz', 'mapa-retorno.js'])
-    catalog = json.loads((EXP / ('modelo/unidades-contorno.json' if GEOMETRY == 'contorno' else 'unidades.json')).read_text(encoding='utf-8'))
+    assets, units_path, model_path = EDITIONS[GEOMETRY]
+    if GEOMETRY != 'base':
+        FILES.extend(['test_contorno_unidades.mjs', 'modelo/registrar_unidades.py', units_path,
+                      'modelo/contorno-torre.json', 'modelo/contorno.py', model_path,
+                      assets+'/manifest.json', assets+'/scene.json.gz', assets+'/irradiance.rgbm.gz', 'mapa-retorno.js'])
+    catalog = json.loads((EXP / units_path).read_text(encoding='utf-8'))
     image = ROOT / 'relatorios/liv-referencias-publicas-2026-10-09/implantacao-finais-e-vagas.png'
     assert digest(image) == catalog['source']['imageSHA256']
     report = {'recordedAtUtc': datetime.now(timezone.utc).isoformat(), 'status': 'RUNNING', 'physicalMobile': False, 'geometry': GEOMETRY,
@@ -415,7 +420,7 @@ def main():
                 if args.perfil in ['todos', name]:
                     run_case(browser, name, width, height, backend, args.saida, report, catalog)
             run_recovery(browser,report,catalog)
-            if GEOMETRY == 'contorno':
+            if GEOMETRY != 'base':
                 run_map_return(browser,report,catalog)
             browser.close()
         report['status'] = 'PASS'

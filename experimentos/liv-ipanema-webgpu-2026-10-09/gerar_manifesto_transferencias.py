@@ -54,6 +54,7 @@ def build(root=ROOT):
     add("mapa-runtime/mapa-liv-ipanema-5km.html","map",map_runtime["files"]["mapa-runtime/mapa-liv-ipanema-5km.html"])
     add("site-baseline/liv-ipanema.glb","map",original["liv-ipanema.glb"])
     add("modelo/variante/liv-contorno.glb","map",map_runtime["files"]["modelo/variante/liv-contorno.glb"])
+    add("modelo/entrada/candidato/liv-contorno.glb","map",map_runtime["files"]["modelo/entrada/candidato/liv-contorno.glb"])
     tiles = sorted(path for path in original if path.startswith("quintais/") and path.endswith(".bin"))
     if len(tiles) != 120:
         raise ValueError("A versão preservada deve conter 120 tiles do mapa.")

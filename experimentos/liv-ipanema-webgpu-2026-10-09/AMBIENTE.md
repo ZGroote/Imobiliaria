@@ -1,6 +1,6 @@
 # Reflexos preparados antes da abertura — 11/10/2026
 
-O exterior agora importa o mapa de reflexos já filtrado. O gradiente de céu original, os materiais PBR padrão, RGBM, geometria e UVs permanecem iguais. O aparelho deixa de gerar o PMREM desse gradiente a cada criação da cena. Canto e Meio conservam seus próprios recursos e iluminação; a fila secundária continua com 140 arquivos.
+O exterior agora importa o mapa de reflexos já filtrado. O gradiente de céu original, os materiais PBR padrão, RGBM, geometria e UVs permanecem iguais. O aparelho deixa de gerar o PMREM desse gradiente a cada criação da cena. Canto e Meio conservam seus próprios recursos e iluminação; na revisão aqui medida, a fila secundária tinha 140 arquivos. A integração posterior da entrada usa os mesmos reflexos; resultados atuais em [INTEGRACAO-ENTRADA.md](INTEGRACAO-ENTRADA.md).
 
 `preparar_ambiente.py` gera o recurso com Three.js 0.186.1 e WebGPU nativo. Remove o alinhamento de 256 bytes da leitura GPU e reorganiza as faces depois da filtragem para a convenção de CubeUV externo. Inverter o gradiente antes do filtro produzia diferenças de até 4/255; apenas inverter linhas ou omitir o alinhamento produzia erros visíveis. O arquivo qualificado é RGBA float16 little-endian, 336×64: **172.032 bytes brutos / 37.854 bytes gzip**. O manifesto identifica gradiente, recurso, runtime e receitas por SHA-256.
 

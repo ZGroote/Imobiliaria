@@ -1,8 +1,9 @@
 import {transfers,showTransferStatus} from './transfers.js';
+import {requestedEdition,exteriorEdition} from './edicoes.js';
 // Adapt model edition, navigation and transfer priority; baseline files stay intact.
 const frame=document.getElementById('map'),destination=new URL('./maquete-liv-ipanema.html',location.href);
-const contorno=new URLSearchParams(location.search).get('geometria')==='contorno';
-if(contorno)destination.searchParams.set('geometria','contorno');
+const geometry=requestedEdition(location.search);
+if(geometry!=='base')destination.searchParams.set('geometria',geometry);
 const failure=document.getElementById('failure');
 failure.querySelector('a[href="maquete-liv-ipanema.html"]').href=destination.href;
 failure.querySelector('a[href="mapa-liv-ipanema-5km.html"]').href=location.href;
@@ -30,12 +31,12 @@ frame.addEventListener('load',async()=>{
       await new Promise(resolve=>setTimeout(resolve,100));
     }
     const metadata=await frame.contentWindow.__livModelReady;
-    if(metadata.edition!==(contorno?'contorno':'base')||!metadata.geometryVerified)throw Error('Modelo de outra edição.');
+    if(metadata.edition!==geometry||!metadata.geometryVerified)throw Error('Modelo de outra edição.');
     adapter.model=metadata;adapter.ready=true;
   } catch(error) {
     adapter.error=error.message;failure.hidden=false;
   }
 });
 const mapHTML='mapa-runtime/mapa-liv-ipanema-5km.html';
-await transfers.prioritize('map',[mapHTML,contorno?'modelo/variante/liv-contorno.glb':'site-baseline/liv-ipanema.glb','site-baseline/quintais/']);
-frame.src=mapHTML+(contorno?'#contorno':'');
+await transfers.prioritize('map',[mapHTML,exteriorEdition(geometry).glb,'site-baseline/quintais/']);
+frame.src=mapHTML+(geometry==='base'?'':'#'+geometry);

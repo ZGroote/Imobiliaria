@@ -6,6 +6,7 @@ import {balconyDetailView,BALCONY_DETAIL_BOUNDS,entryDetailView,ENTRY_DETAIL_BOU
 import {loadUnits} from './unidades.js';
 import {createUnitPicking} from './picking.js';
 import {environmentTexture,precomputedEnvironment} from './ambiente.js';
+import {EXTERIOR_EDITIONS} from './edicoes.js';
 
 const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION};
 function progress(phase,message,extra={}){
@@ -22,7 +23,7 @@ const recoveryURL=new URL(location.href);recoveryURL.searchParams.set('backend',
 document.querySelector('#retry').href=recoveryURL.href;
 document.body.classList.toggle('embedded',parameters.get('embed')==='1');
 const stage=document.querySelector('#stage'),canvas=document.querySelector('#c'),status=document.querySelector('#status');
-const base=new URL(geometryProfile==='entrada'?'./modelo/entrada/candidato/assets/':geometryProfile==='contorno'?'./modelo/variante/assets/':'./assets-prova/',import.meta.url);
+const base=new URL((Object.hasOwn(EXTERIOR_EDITIONS,geometryProfile)?EXTERIOR_EDITIONS[geometryProfile]:EXTERIOR_EDITIONS.base).assets,import.meta.url);
 const requests=new AbortController();
 const typedArrays={Float32Array,Float64Array,Uint32Array,Uint16Array,Uint8Array,Int32Array,Int16Array,Int8Array};
 
@@ -78,10 +79,9 @@ async function start() {
   progress('backend','Preparando os gráficos');
   if(!['auto','webgpu','webgl'].includes(requested)) throw Error('Backend de diagnóstico inválido.');
   if(!['base','referencia'].includes(finishProfile))throw Error('Perfil de acabamento inválido.');
-  if(!['base','contorno','entrada'].includes(geometryProfile))throw Error('Perfil de geometria inválido.');
+  if(!Object.hasOwn(EXTERIOR_EDITIONS,geometryProfile))throw Error('Perfil de geometria inválido.');
   if(!['procedural','precalculado'].includes(environmentProfile))throw Error('Perfil de ambiente inválido.');
   if(geometryProfile!=='base'&&finishProfile!=='base')throw Error('A variante já possui calibração própria de materiais.');
-  if(geometryProfile==='entrada'&&parameters.get('selecao'))throw Error('O estudo da entrada ainda não foi integrado ao cadastro dos finais.');
   let adapter=null;
   if(requested!=='webgl' && navigator.gpu) {
     try {adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});} catch(error) {state.adapterError=String(error);}
@@ -404,7 +404,7 @@ async function start() {
   }
   function setSelectedUnit(id){
     if(state.disposed)return false;
-    if(id!==null&&!unitPicking)throw Error('A variante de contorno não possui posições comerciais verificadas.');
+    if(id!==null&&!unitPicking)throw Error('Esta edição não carregou as posições verificadas dos finais.');
     if(id!==null&&selectedFloor!==1)throw Error('Selecione o pavimento piloto antes do final.');
     return unitPicking?.select(id)??false;
   }

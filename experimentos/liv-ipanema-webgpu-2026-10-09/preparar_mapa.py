@@ -28,20 +28,23 @@ def build(root=EXP):
     original = json.loads((root / 'manifesto.json').read_bytes())['arquivos']
     html_bytes = checked(root, 'site-baseline/mapa-liv-ipanema-5km.html', original['mapa-liv-ipanema-5km.html'])
     checked(root, 'site-baseline/liv-ipanema.glb', original['liv-ipanema.glb'])
-    model_record = json.loads((root / 'modelo/variante/mapa.json').read_bytes())
-    if model_record.get('schema') != 'liv-map-model-v1' or model_record.get('validation', {}).get('status') != 'PASS':
-        raise ValueError('GLB sem conferência da autoria')
-    for path, fingerprint in model_record['sources'].items():
-        source = ROOT / path
-        if sha(source.read_bytes()) != fingerprint:
-            raise ValueError(f'Conferência desatualizada: {path}')
-    checked(root, model_record['asset']['path'], model_record['asset'])
-    assets = {
-        'base': {'url':'liv-ipanema.glb', **original['liv-ipanema.glb'], 'sourceModelSHA256':SOURCE_SHA},
-        'contorno': {'url':'../' + model_record['asset']['path'],
-                    **{k:model_record['asset'][k] for k in ['bytes', 'sha256']},
-                    'sourceModelSHA256':model_record['sourceModelSHA256']}
-    }
+    registrations = {'contorno':'modelo/variante/mapa.json', 'entrada':'modelo/entrada/candidato/mapa.json'}
+    assets = {'base': {'url':'liv-ipanema.glb', **original['liv-ipanema.glb'], 'sourceModelSHA256':SOURCE_SHA}}
+    model_files = {}
+    for edition, registration in registrations.items():
+        model_record = json.loads((root / registration).read_bytes())
+        if (model_record.get('schema') != 'liv-map-model-v1' or model_record.get('edition') != edition or
+                model_record.get('validation', {}).get('status') != 'PASS'):
+            raise ValueError('GLB sem conferência da autoria e edição')
+        for path, fingerprint in model_record['sources'].items():
+            source = ROOT / path
+            if sha(source.read_bytes()) != fingerprint:
+                raise ValueError(f'Conferência desatualizada: {path}')
+        checked(root, model_record['asset']['path'], model_record['asset'])
+        identity = {k:model_record['asset'][k] for k in ['bytes', 'sha256']}
+        model_files[model_record['asset']['path']] = identity
+        assets[edition] = {'url':'../' + model_record['asset']['path'], **identity,
+                          'sourceModelSHA256':model_record['sourceModelSHA256']}
     loader = (root / 'mapa-loader.js').read_text('utf8')
     if loader.count('__LIV_MAP_ASSETS__') != 1:
         raise ValueError('Contrato do carregador alterado')
@@ -82,12 +85,11 @@ def build(root=EXP):
     output = html.encode('utf8')
     manifest = {
         'schema':'liv-map-runtime-v1', 'baselineSHA256':sha(html_bytes), 'baselineAppSHA256':APP_SHA,
-        'files': {'mapa-runtime/mapa-liv-ipanema-5km.html': {'bytes':len(output), 'sha256':sha(output)},
-                  model_record['asset']['path']: {k:model_record['asset'][k] for k in ['bytes','sha256']}},
+        'files': {'mapa-runtime/mapa-liv-ipanema-5km.html': {'bytes':len(output), 'sha256':sha(output)}, **model_files},
         'models':assets, 'changes':['verified model loader', 'asset provenance', 'relative URL base', 'keep edition fragment', 'cancel POI flight on Centralizar'],
         'preserved':'all other embedded blocks, regional geometry/materials, terrain, 120 tiles and remaining camera behavior',
         'sources': {p.relative_to(ROOT).as_posix():sha(p.read_bytes()) for p in
-                    [Path(__file__), root/'mapa-loader.js', root/'modelo/variante/mapa.json']}
+                    [Path(__file__), root/'mapa-loader.js', *(root/path for path in registrations.values())]}
     }
     return output, manifest
 

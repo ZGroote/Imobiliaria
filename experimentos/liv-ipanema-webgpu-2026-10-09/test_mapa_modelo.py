@@ -72,8 +72,10 @@ class MapModelTests(unittest.TestCase):
         restored = restored.replace('\n    if (livFlight !== window.__livMapFlight) return;', '')
         restored = restored.replace('\n            window.__livMapFlight = (window.__livMapFlight || 0) + 1;', '')
         self.assertEqual(restored, old_app)
-        self.assertIn("location.hash === '#contorno'", prefix)
+        self.assertIn('Object.hasOwn(assets, requested)', prefix)
         self.assertEqual(manifest['models']['contorno']['sourceModelSHA256'], registry.sha((EXP/'modelo/variante/modelo.json').read_bytes()))
+        self.assertEqual(manifest['models']['entrada']['sourceModelSHA256'], registry.sha((EXP/'modelo/entrada/candidato/modelo.json').read_bytes()))
+        self.assertEqual(manifest['models']['entrada']['sha256'], registry.sha((EXP/'modelo/entrada/candidato/liv-contorno.glb').read_bytes()))
 
     def test_repeated_build_does_not_change_bytes_or_files(self):
         before = {p:p.stat().st_mtime_ns for p in [EXP/'mapa-runtime/mapa-liv-ipanema-5km.html', EXP/'mapa-runtime/manifest.json']}

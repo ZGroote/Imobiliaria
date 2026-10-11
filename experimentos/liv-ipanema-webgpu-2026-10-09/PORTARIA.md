@@ -1,6 +1,6 @@
 # Acesso de perto e acabamentos nativos — 10/10/2026
 
-Atualização de 11/10: [entrada revisada](modelo/entrada/README.md) com portal/marquise/guarita corrigidos pela imagem de divulgação, geometria fechada sem sobreposições, quatro PBR padrão e UV/bake próprios. O estudo passou em WebGPU, WebGL2 e toque emulado, com enquadramento em cinco tamanhos. Está separado da maquete integrada enquanto cadastro, mapa e custo são conferidos. O registro abaixo descreve a revisão anterior, preservada.
+Atualização de 11/10: [entrada revisada](modelo/entrada/README.md) com portal/marquise/guarita corrigidos pela imagem de divulgação, geometria fechada sem sobreposições, quatro PBR padrão e UV/bake próprios. A edição opcional `?geometria=entrada` está ligada à maquete completa, cadastro aproximado, mapa e fila; Canto e Meio continuam experiências gerais separadas. Qualificação e custo em [INTEGRACAO-ENTRADA.md](INTEGRACAO-ENTRADA.md). O registro abaixo descreve a revisão anterior, preservada.
 
 A maquete oferece **Acesso de perto**, além da vista ampla **Portaria**. O novo
 enquadramento mira o portal, a marquise e a placa do modelo existente. A distância
