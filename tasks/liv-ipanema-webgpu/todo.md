@@ -226,3 +226,5 @@ node experimentos/mapa-liv-ipanema-5km-2026-10-08/test_busca_proximos.mjs
 ```
 
 `qa_viewer.py` canônico precisa de adaptação para a interface desta base; `verificar_http.py` precisa de saída própria. Não executar publicação, regeneração histórica ou comandos de QA que sobrescrevam evidências antigas como parte da elaboração deste plano.
+
+Continuação T02/T05 em 11/10: medição sequencial com servidor gzip/ETag, rede CDP 6 Mb/s/80 ms, canvas idêntico, três rodadas/18 casos. Entrada WebGPU/WebGL2: 16.933.698/16.933.794 B de corpos comprimidos, redução 26,1%; abertura fria 26,589/26,785 s versus base 33,278 s. Memória JS aumenta e buffers externos variam; não há ganho geral de memória ou aprovação física. Atlas HTTP 200 novamente no reload. Protocolo, limites e hashes em EXP/REDE-MEMORIA.md; ensaio de hosting/aparelhos e orçamento permanecem pendentes.
