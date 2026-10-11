@@ -8,6 +8,7 @@ const requested=new URLSearchParams(location.search).get('backend');
 const backend=['webgpu','webgl'].includes(requested)?requested:'auto';
 const geometry=new URLSearchParams(location.search).get('geometria')==='contorno'?'contorno':'base';
 const finish=geometry==='contorno'||new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
+const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
 const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
 let units,unitUI;
 state.geometry=geometry;
@@ -159,7 +160,7 @@ async function setMode(mode) {
     if(mode==='planta2d'){await fallback2D(token);return;}
     if(frameKind!==kind) {
       release();const frame=document.createElement('iframe');frame.title=kind==='exterior'?'Maquete do LIV Ipanema':'Planta e interior de referência do LIV Ipanema';
-      frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=piloto`:
+      frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=piloto&ambiente=${environment}`:
         `interior.html?embed=1&backend=${backend}&tipologia=${state.typology}&modo=${mode}`;
       stage.prepend(frame);state.frame=frame;frameKind=kind;
     }

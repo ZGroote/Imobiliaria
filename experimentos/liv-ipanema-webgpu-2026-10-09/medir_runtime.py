@@ -44,6 +44,7 @@ def main():
     parser.add_argument('--rodadas',type=int,default=3)
     parser.add_argument('--amostra-ms',type=int,default=4000)
     parser.add_argument('--geometria',choices=['base','contorno','ambas'],default='base')
+    parser.add_argument('--ambiente',choices=['procedural','precalculado','ambas'],default='procedural')
     parser.add_argument('--base-url',default=URL)
     parser.add_argument('--igualar-canvas',action='store_true',help='Usa 720x390 no exterior novo, como na base preservada.')
     args=parser.parse_args();out=args.saida;out.mkdir(parents=True,exist_ok=True)
@@ -52,15 +53,16 @@ def main():
         'network':'loopback sem compressão HTTP; recursos .gz já comprimidos no arquivo',
         'execution':'sequencial; Chrome novo por rodada, reload no mesmo contexto; fila pausada após primeira cena utilizável para isolar a amostra de órbita',
         'limits':'Contexto novo para cache HTTP frio; caches do driver e outras aplicações não controlados. Cadência de submissão não é tempo GPU. Tráfego do worker não é contabilizado pelos documentos.',
-        'sourceSHA256':{name:hashlib.sha256((EXP/name).read_bytes()).hexdigest() for name in ['medir_runtime.py','renderer.js','material-rgbm.js','viewer.js','maquete-liv-ipanema.html','prova-rgbm.html','transfers.js','transfer-worker.js','transfer-manifest.json','cameras.js','exterior-finishes.js','assets-prova/manifest.json','modelo/variante/assets/manifest.json','unidades.json','modelo/unidades-contorno.json']},
-        'matchedCanvas':args.igualar_canvas,'geometrySelection':args.geometria,'baseURL':args.base_url,'rounds':[]}
+        'sourceSHA256':{name:hashlib.sha256((EXP/name).read_bytes()).hexdigest() for name in ['medir_runtime.py','renderer.js','material-rgbm.js','viewer.js','maquete-liv-ipanema.html','prova-rgbm.html','transfers.js','transfer-worker.js','transfer-manifest.json','cameras.js','exterior-finishes.js','assets-prova/manifest.json','modelo/variante/assets/manifest.json','unidades.json','modelo/unidades-contorno.json','ambiente.js','assets-ambiente/manifest.json','assets-ambiente/ambiente.f16.gz']},
+        'matchedCanvas':args.igualar_canvas,'geometrySelection':args.geometria,'environmentSelection':args.ambiente,'baseURL':args.base_url,'rounds':[]}
     try:
         with sync_playwright() as pw:
             variants=[('base','site-baseline/maquete-liv-ipanema.html')]
             for geometry in (['base','contorno'] if args.geometria=='ambas' else [args.geometria]):
-                for backend in ['webgl','webgpu']:
-                    label=backend if geometry=='base' else 'contorno-'+backend
-                    variants.append((label,f'maquete-liv-ipanema.html?backend={backend}&geometria={geometry}'))
+                for environment in (['procedural','precalculado'] if args.ambiente=='ambas' else [args.ambiente]):
+                    for backend in ['webgl','webgpu']:
+                        label=(backend if geometry=='base' else 'contorno-'+backend) if args.ambiente=='procedural' else f'{geometry}-{environment}-{backend}'
+                        variants.append((label,f'maquete-liv-ipanema.html?backend={backend}&geometria={geometry}&ambiente={environment}'))
             for variant,path in variants:
                 for number in range(args.rodadas):
                     browser=pw.chromium.launch(executable_path=r'C:\Program Files\Google\Chrome\Application\chrome.exe',headless=True)
@@ -96,8 +98,11 @@ def main():
                             page.evaluate('async()=>{await __livTransfers.pause();}')
                             queue=page.evaluate('__livTransfers.getState()')
                         frame=page if variant=='base' else page.frames[-1]
-                        identity=frame.evaluate("()=>{const m=window.__livProva;return m?{backend:m.backend,sourceModelSHA256:m.data.sourceModelSHA256,timings:{...m.timings},frameTimeOrigin:performance.timeOrigin,memory:{...m.renderer.info.memory}}:null;}")
+                        identity=frame.evaluate("()=>{const m=window.__livProva;return m?{backend:m.backend,environmentProfile:m.environmentProfile,environmentFallbackError:m.environmentFallbackError,sourceModelSHA256:m.data.sourceModelSHA256,timings:{...m.timings},frameTimeOrigin:performance.timeOrigin,memory:{...m.renderer.info.memory}}:null;}")
                         if identity:assert identity['backend']==('webgpu' if variant.endswith('webgpu') else 'webgl'),identity
+                        if identity and args.ambiente!='procedural':
+                            assert identity['environmentProfile']==('precalculado' if '-precalculado-' in variant else 'procedural'),identity
+                            assert not identity.get('environmentFallbackError'),identity
                         await_data=frame.evaluate(SAMPLE,args.amostra_ms)
                         if args.igualar_canvas:assert await_data['canvas']==[720,390],await_data['canvas']
                         data={'readyMs':ready_ms,'metrics':await_data,'resources':list(resources),

@@ -120,7 +120,8 @@ def main():
     report={'status':'RUNNING','recordedAtUtc':datetime.now(timezone.utc).isoformat(),'physicalMobile':False,
       'sourceSHA256':{name:hashlib.sha256((EXP/name).read_bytes()).hexdigest() for name in
         ['qa_sombras_exterior.py','renderer.js','material-rgbm.js','viewer.js','picking.js',
-         'assets-prova/manifest.json','modelo/variante/assets/manifest.json']},'cases':[]}
+        'assets-prova/manifest.json','modelo/variante/assets/manifest.json',
+        'ambiente.js','assets-ambiente/manifest.json','assets-ambiente/ambiente.f16.gz']},'cases':[]}
     try:
         with sync_playwright() as pw:
             browser=pw.chromium.launch(executable_path=CHROME,headless=True);report['browserVersion']=browser.version

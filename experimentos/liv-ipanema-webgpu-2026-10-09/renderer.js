@@ -5,6 +5,7 @@ import {applyReferenceFinishes} from './exterior-finishes.js';
 import {balconyDetailView,BALCONY_DETAIL_BOUNDS,entryDetailView,ENTRY_DETAIL_BOUNDS,pilotFloorView} from './cameras.js';
 import {loadUnits} from './unidades.js';
 import {createUnitPicking} from './picking.js';
+import {environmentTexture,precomputedEnvironment} from './ambiente.js';
 
 const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION};
 function progress(phase,message,extra={}){
@@ -16,6 +17,7 @@ const parameters=new URLSearchParams(location.search);
 const requested=parameters.get('backend')||'auto';
 const finishProfile=parameters.get('acabamento')||'base';
 const geometryProfile=parameters.get('geometria')||'base';
+const environmentProfile=parameters.get('ambiente')||'precalculado';
 const recoveryURL=new URL(location.href);recoveryURL.searchParams.set('backend','webgl');
 document.querySelector('#retry').href=recoveryURL.href;
 document.body.classList.toggle('embedded',parameters.get('embed')==='1');
@@ -72,29 +74,12 @@ function decodeAttribute(spec,instanced=false) {
   return new Attribute(values,spec.itemSize,spec.normalized);
 }
 
-function environmentTexture() {
-  const width=64,height=32,bytes=new Uint8Array(width*height*4);
-  for(let y=0;y<height;y++) {
-    const t=y/(height-1),horizon=Math.exp(-Math.pow((t-.52)/.09,2));
-    const rgb=[30+130*(1-t)+150*horizon,44+150*(1-t)+155*horizon,66+175*(1-t)+160*horizon];
-    for(let x=0;x<width;x++) {
-      const i=(y*width+x)*4;
-      for(let channel=0;channel<3;channel++) bytes[i+channel]=Math.min(255,rgb[channel]|0);
-      bytes[i+3]=255;
-    }
-  }
-  const texture=new THREE.DataTexture(bytes,width,height,THREE.RGBAFormat);
-  texture.mapping=THREE.EquirectangularReflectionMapping;
-  texture.colorSpace=THREE.SRGBColorSpace;
-  texture.needsUpdate=true;
-  return texture;
-}
-
 async function start() {
   progress('backend','Preparando os gráficos');
   if(!['auto','webgpu','webgl'].includes(requested)) throw Error('Backend de diagnóstico inválido.');
   if(!['base','referencia'].includes(finishProfile))throw Error('Perfil de acabamento inválido.');
   if(!['base','contorno'].includes(geometryProfile))throw Error('Perfil de geometria inválido.');
+  if(!['procedural','precalculado'].includes(environmentProfile))throw Error('Perfil de ambiente inválido.');
   if(geometryProfile==='contorno'&&finishProfile!=='base')throw Error('A variante já possui calibração própria de materiais.');
   let adapter=null;
   if(requested!=='webgl' && navigator.gpu) {
@@ -159,22 +144,47 @@ async function start() {
   renderer.shadowMap.enabled=true;
   renderer.shadowMap.type=THREE.PCFShadowMap;
   const scene=new THREE.Scene();
-  const environment=environmentTexture();
-  // The renderer generates its own PMREM from this source, preserving the gradient
-  // while allowing the pinned WebGPU and WebGL2 implementations to use it.
+  let environment,controls,resizeObserver,unitPicking;
+  const textures=[],materials=[],geometries=[];
+  state.scene=scene;state.atlas=atlas;
+  // Own resources before the first asynchronous environment/texture request.
+  // A mode change during loading must release even a partially built scene.
+  state.dispose=()=>{
+    if(state.disposed)return;
+    state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);
+    resizeObserver?.disconnect();controls?.dispose();unitPicking?.dispose();
+    for(const geometry of geometries)geometry.dispose();
+    for(const material of materials)material.dispose();
+    for(const texture of textures){texture?.dispose();texture?.image?.close?.();}
+    atlas.dispose();environment?.dispose();scene.traverse(o=>o.shadow?.dispose());scene.clear();
+    return renderer.dispose();
+  };
+  state.environmentProfile=environmentProfile;
+  if(environmentProfile==='precalculado'){
+    progress('environment','Preparando os reflexos');
+    try{environment=await precomputedEnvironment(requests.signal);}
+    catch(error){
+      if(state.disposed)return;
+      state.environmentFallbackError=String(error);state.environmentProfile='procedural';
+      environment=environmentTexture();
+    }
+  }else environment=environmentTexture();
+  if(state.disposed){environment.dispose();return;}
+  mark('environmentReady');
   scene.environment=environment;
-  const textures=await Promise.all(data.textures.map(async spec=>{
+  await Promise.all(data.textures.map(async (spec,index)=>{
     const bytes=await loadBytes(spec.url,manifest.files[spec.url]);
     const image=await createImageBitmap(new Blob([bytes],{type:'image/png'}),{imageOrientation:spec.flipY?'flipY':'none',premultiplyAlpha:'none',colorSpaceConversion:'none'});
+    if(state.disposed){image.close();return;}
     const texture=new THREE.Texture(image);
     for(const key of ['colorSpace','premultiplyAlpha','channel','wrapS','wrapT','minFilter','magFilter','generateMipmaps','rotation','anisotropy']) texture[key]=spec[key];
     // ImageBitmap upload ignores flipY; orientation was applied at bitmap creation.
     texture.flipY=false;
     texture.repeat.fromArray(spec.repeat);texture.offset.fromArray(spec.offset);texture.center.fromArray(spec.center);
-    texture.needsUpdate=true;return texture;
+    texture.needsUpdate=true;textures[index]=texture;
   }));
-  if(state.disposed){for(const texture of textures){texture.dispose();texture.image?.close?.();}atlas.dispose();environment.dispose();return;}
-  const materials=data.materials.map(spec=>{
+  if(state.disposed)return;
+  data.materials.forEach(spec=>{
     const props={};
     for(const [key,value] of Object.entries(spec)) {
       if(['type','baked','color','emissive','normalScale','name'].includes(key)) continue;
@@ -191,15 +201,15 @@ async function start() {
     const material=spec.baked?new LivRGBMNodeMaterial(props,atlas,data.rgbm.range,data.rgbm.lightMapIntensity):new StockMaterial(props);
     material.name=spec.name;
     material.userData.livBakedTransport=spec.baked;
-    return material;
+    materials.push(material);
   });
-  const geometries=data.geometries.map(spec=>{
+  data.geometries.forEach(spec=>{
     const geometry=new THREE.BufferGeometry();
     for(const [name,attribute] of Object.entries(spec.attributes)) geometry.setAttribute(name,decodeAttribute(attribute));
     if(spec.index) geometry.setIndex(decodeAttribute(spec.index));
     for(const group of spec.groups) geometry.addGroup(group.start,group.count,group.materialIndex);
     if(spec.drawRange.count!==null) geometry.setDrawRange(spec.drawRange.start,spec.drawRange.count);
-    geometry.computeBoundingBox();geometry.computeBoundingSphere();return geometry;
+    geometry.computeBoundingBox();geometry.computeBoundingSphere();geometries.push(geometry);
   });
   const building=new THREE.Group();building.name=geometryProfile==='contorno'?'LIV — contorno em estudo':'LIV — exterior da base preservada';
   const meshes=data.meshes.map(spec=>{
@@ -214,19 +224,6 @@ async function start() {
     building.add(mesh);return mesh;
   });
   scene.add(building);
-  let controls,resizeObserver,unitPicking;
-  // Install the owner before the reference identity gate can reject a material.
-  // Construction errors must release assets even before camera/controls exist.
-  state.dispose=()=>{
-    if(state.disposed)return;
-    state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);
-    resizeObserver?.disconnect();controls?.dispose();unitPicking?.dispose();
-    for(const geometry of geometries)geometry.dispose();
-    for(const material of materials)material.dispose();
-    for(const texture of textures){texture.dispose();texture.image?.close?.();}
-    atlas.dispose();environment.dispose();scene.traverse(o=>o.shadow?.dispose());scene.clear();
-    return renderer.dispose();
-  };
   state.finish=finishProfile==='referencia'?applyReferenceFinishes(meshes,materials,data.sourceModelSHA256):{profile:'base',changes:[]};
   const shadowLights=[];
   for(const spec of data.lights) {

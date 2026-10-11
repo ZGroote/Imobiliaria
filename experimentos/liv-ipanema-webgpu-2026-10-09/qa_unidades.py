@@ -22,7 +22,8 @@ GEOMETRY = 'base'
 FILES = ['qa_unidades.py', 'test_unidades.mjs', 'unidades.json', 'unidades.js', 'unit-footprint.js', 'picking.js', 'unit-ui.js', 'unit-ui.css',
          'viewer.js', 'renderer.js', 'cameras.js', 'exterior-finishes.js', 'maquete-liv-ipanema.html', 'prova-rgbm.html', 'tipologias.js',
          'assets-prova/manifest.json', 'assets-prova/scene.json.gz', 'assets-prova/irradiance.rgbm.gz',
-         'interiores/catalogo.json', 'interior-renderer.js', 'interior-cutaway.js', 'plantas2d/canto.jpg', 'plantas2d/meio.jpg']
+         'interiores/catalogo.json', 'interior-renderer.js', 'interior-cutaway.js', 'plantas2d/canto.jpg', 'plantas2d/meio.jpg',
+         'ambiente.js', 'assets-ambiente/manifest.json', 'assets-ambiente/ambiente.f16.gz']
 
 
 def digest(path):

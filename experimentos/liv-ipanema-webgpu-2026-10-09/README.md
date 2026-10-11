@@ -2,6 +2,8 @@
 
 Revisão de 11/10: quinas e vão da cobertura corrigidos, UV de luz mais denso nas bordas finas e união da moldura interna de Canto, com bake próprio. Meio mantém seu modelo independente. Detalhes em [modelo/CONTORNO.md](modelo/CONTORNO.md) e [RODATETO.md](RODATETO.md).
 
+O exterior reutiliza sombras fixas e agora importa os reflexos preparados, com recuperação para o gradiente original. WebGL2 melhorou na abertura/recarga; o ganho frio em WebGPU foi pequeno. Comparação visual e limites em [AMBIENTE.md](AMBIENTE.md). O critério de abertura e aparelhos físicos continuam pendentes.
+
 Implementação iniciada em 09/10/2026, conforme [plano](../../tasks/liv-ipanema-webgpu/plan.md). A base é a edição `strict-circle-v3` do [endereço indicado pelo usuário](https://imobilaria-deccb-miniaturas--liv-mapa-5km-20261008-onn3ia42.web.app/maquete-liv-ipanema.html). Este diretório separa a evolução do experimento histórico.
 
 Refinamento atual dos interiores: **Paredes baixas** revela a distribuição das duas plantas em 3D, com alternância para paredes inteiras e recuperação da cena completa no Tour. Reutiliza os materiais PBR existentes e conserva os bakes próprios. Ver [CORTES.md](CORTES.md).

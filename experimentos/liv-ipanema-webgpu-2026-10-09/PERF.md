@@ -1,6 +1,6 @@
 # Desempenho — medição e tentativas
 
-Revisão atual de 11/10: [SOMBRAS-EXTERIOR.md](SOMBRAS-EXTERIOR.md) registra o contorno corrigido, o protocolo com resolução igualada e a reutilização das sombras. A prova remove 24 passes redundantes de sombra em 24 quadros, preservando a imagem. O novo ensaio reduz o conteúdo inicial para 19.969.324 bytes, mas a abertura ainda não atende ao critério: medianas frias 2.220 ms na base, 2.550 ms no contorno WebGPU e 5.194 ms no contorno WebGL2. As medições abaixo são históricas, com condições distintas de processo/cache/canvas.
+Revisão atual de 11/10: [AMBIENTE.md](AMBIENTE.md) qualifica os reflexos preparados antes da abertura, com recuperação e imagem equivalente. No mesmo ensaio, contorno WebGL2 passa de 4.975 para 4.042 ms frio e 3.680 para 1.324 ms no reload; WebGPU varia de 2.460 para 2.393 ms e 2.175 para 2.186 ms. Conteúdo inicial 20.011.590 bytes. A base comparável abre em 2.152 ms; o critério +10% continua pendente. [SOMBRAS-EXTERIOR.md](SOMBRAS-EXTERIOR.md) registra a remoção de 24 passes redundantes em 24 quadros de órbita na revisão anterior. As medições abaixo são históricas, com condições distintas de processo/cache/canvas.
 
 09/10/2026. Ambiente local declarado no relatório JSON: Chrome 154, Windows 11, GTX 1650, headless, viewport 1440×900, DPR 1. Três rodadas por variante, cache HTTP frio em contexto novo e reload na mesma aba. Execução sequencial, sem outros QAs. Caches do driver não foram controlados; a primeira rodada pode pagar compilação adicional.
 
