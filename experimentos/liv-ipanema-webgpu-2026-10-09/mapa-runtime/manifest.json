@@ -5,7 +5,7 @@
   "files": {
     "mapa-runtime/mapa-liv-ipanema-5km.html": {
       "bytes": 8048147,
-      "sha256": "41f411c3d942facf58dcf0a6118803a815b3be4a21b9bdb13f16b407daf1458d"
+      "sha256": "49a837a12db15288cd843e566e2bc949c6250008e660607217bad57cca8ec287"
     },
     "modelo/variante/liv-contorno.glb": {
       "bytes": 2275324,
@@ -40,12 +40,13 @@
     "verified model loader",
     "asset provenance",
     "relative URL base",
+    "tile fetch respects document base",
     "keep edition fragment",
     "cancel POI flight on Centralizar"
   ],
   "preserved": "all other embedded blocks, regional geometry/materials, terrain, 120 tiles and remaining camera behavior",
   "sources": {
-    "experimentos/liv-ipanema-webgpu-2026-10-09/preparar_mapa.py": "113adcdf491fad29f773dfc5a3edbb5a33eabf7d0764ff5636d9448f79c62451",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/preparar_mapa.py": "bbda54524f5cab2cb1a533721da01560c2982b7f09cc086a8d37eabc8d22d5e5",
     "experimentos/liv-ipanema-webgpu-2026-10-09/mapa-loader.js": "84a94eb0801dffafe6803bbd5397b38bb167ec58a21221abf001617f379b2226",
     "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/mapa.json": "c4d8dcee160eec961be8e5e5546fbccf27999a040552e8497c0a7862d44e8269",
     "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/mapa.json": "387b7a4ff4fa4dffbb49e81910fa99daff0320182053635aba40145754efc326"

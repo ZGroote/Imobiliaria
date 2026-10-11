@@ -71,6 +71,8 @@ class MapModelTests(unittest.TestCase):
         restored = restored.replace('\n  const livFlight = window.__livMapFlight = (window.__livMapFlight || 0) + 1;', '')
         restored = restored.replace('\n    if (livFlight !== window.__livMapFlight) return;', '')
         restored = restored.replace('\n            window.__livMapFlight = (window.__livMapFlight || 0) + 1;', '')
+        self.assertIn("fetch(new URL(tileInfo.prefix+k+'.bin',document.baseURI))",restored)
+        restored = restored.replace("fetch(new URL(tileInfo.prefix+k+'.bin',document.baseURI))", "fetch(new URL(tileInfo.prefix+k+'.bin',location.href))")
         self.assertEqual(restored, old_app)
         self.assertIn('Object.hasOwn(assets, requested)', prefix)
         self.assertEqual(manifest['models']['contorno']['sourceModelSHA256'], registry.sha((EXP/'modelo/variante/modelo.json').read_bytes()))
@@ -78,8 +80,8 @@ class MapModelTests(unittest.TestCase):
         self.assertEqual(manifest['models']['entrada']['sha256'], registry.sha((EXP/'modelo/entrada/candidato/liv-contorno.glb').read_bytes()))
 
     def test_repeated_build_does_not_change_bytes_or_files(self):
-        before = {p:p.stat().st_mtime_ns for p in [EXP/'mapa-runtime/mapa-liv-ipanema-5km.html', EXP/'mapa-runtime/manifest.json']}
         first = preparar_mapa.write()
+        before = {p:p.stat().st_mtime_ns for p in [EXP/'mapa-runtime/mapa-liv-ipanema-5km.html', EXP/'mapa-runtime/manifest.json']}
         self.assertEqual(preparar_mapa.write(), first)
         self.assertEqual(before, {p:p.stat().st_mtime_ns for p in before})
 

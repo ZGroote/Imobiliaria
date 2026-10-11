@@ -64,7 +64,9 @@ def build(root=EXP):
         '  function step(now) {\n    const t = Math.min(1, (now - t0) / dur);':
         '  function step(now) {\n    if (livFlight !== window.__livMapFlight) return;\n    const t = Math.min(1, (now - t0) / dur);',
         '          function focus(){':
-        '          function focus(){\n            window.__livMapFlight = (window.__livMapFlight || 0) + 1;'
+        '          function focus(){\n            window.__livMapFlight = (window.__livMapFlight || 0) + 1;',
+        "fetch(new URL(tileInfo.prefix+k+'.bin',location.href))":
+        "fetch(new URL(tileInfo.prefix+k+'.bin',document.baseURI))"
     }
     for before, after in replacements.items():
         if app.count(before) != 1:
@@ -86,7 +88,7 @@ def build(root=EXP):
     manifest = {
         'schema':'liv-map-runtime-v1', 'baselineSHA256':sha(html_bytes), 'baselineAppSHA256':APP_SHA,
         'files': {'mapa-runtime/mapa-liv-ipanema-5km.html': {'bytes':len(output), 'sha256':sha(output)}, **model_files},
-        'models':assets, 'changes':['verified model loader', 'asset provenance', 'relative URL base', 'keep edition fragment', 'cancel POI flight on Centralizar'],
+        'models':assets, 'changes':['verified model loader', 'asset provenance', 'relative URL base', 'tile fetch respects document base', 'keep edition fragment', 'cancel POI flight on Centralizar'],
         'preserved':'all other embedded blocks, regional geometry/materials, terrain, 120 tiles and remaining camera behavior',
         'sources': {p.relative_to(ROOT).as_posix():sha(p.read_bytes()) for p in
                     [Path(__file__), root/'mapa-loader.js', *(root/path for path in registrations.values())]}
