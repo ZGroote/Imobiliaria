@@ -8,6 +8,8 @@ Na página pública, clicar no apartamento da fachada, nos botões do pavimento 
 
 No edifício completo, o clique/toque na fachada identifica o pavimento automaticamente, inclusive com “Sem destaque” escolhido; não é necessário usar a lista antes. O giro da câmera é preservado ao abrir a ficha. Arrastar e gestos com vários dedos não abrem informações. Cobertura, circulação e espaços fora das posições verificadas não recebem apartamento presumido. O piloto histórico continua limitado ao primeiro pavimento tipo.
 
+O filtro **Apartamentos → Disponíveis**, no canto superior esquerdo da maquete, destaca em verde luminoso somente unidades explicitamente cadastradas como disponíveis. A contagem inclui o edifício completo, independentemente do pavimento destacado. Clicar no destaque abre a ficha; **Todos** remove o brilho. Vendidos, reservados, bloqueados e disponibilidade desconhecida não brilham. Venda, revogação pública e falha de atualização retiram o destaque automaticamente. O filtro fica oculto nas plantas e no Tour, retornando ao voltar à maquete. Sem tabela comercial, mostra “Disponibilidade ainda não informada”. Detalhes e evidências em [DISPONIBILIDADE.md](DISPONIBILIDADE.md).
+
 ## Vincular o site ao cadastro
 
 `node configurar_estoque.mjs --imovel ID_DO_IMOVEL` configura o empreendimento deste experimento. Sem `--imovel`, o site aceita `maquete-liv-ipanema.html?geometria=entrada&estoque=ID_DO_IMOVEL`; o ID é o documento do imóvel no painel. O parâmetro ativa automaticamente o edifício completo e acompanha o retorno pelo mapa. A configuração atual não fixa um imóvel: a página sem parâmetro continua usando os arquivos locais de referência e não baixa o SDK Firebase.

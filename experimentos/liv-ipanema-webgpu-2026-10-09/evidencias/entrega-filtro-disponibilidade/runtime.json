@@ -1,0 +1,221 @@
+{
+  "status": "PASS",
+  "recordedAt": "2026-10-12T00:39:30.671587+00:00",
+  "physicalMobile": false,
+  "packageVersion": "d5e50b4379930aa6a09389d6dcd2f0e305105a9b589b93655ae20ae2d8c0e4cb",
+  "packageDirectory": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\entregas\\liv-avaliacao-20261011-v8",
+  "packageManifestSHA256": "01556cc2859fa1ef9e565d4daee2273911364567b65b68deb2d79cce43b03d91",
+  "recipeSHA256": "6ced65c4f7d6d6e6b2be5b68e840ff979e4bd996255a5bf2229b12300e570b02",
+  "cases": [
+    {
+      "backendRequested": "webgpu",
+      "touchEmulated": false,
+      "errors": [],
+      "httpFailures": [],
+      "externalRequests": [],
+      "backendEffective": "webgpu",
+      "directFacadeClicks": [
+        {
+          "id": "liv-ipanema/pavimento-modelo-08/final-02",
+          "floor": 8,
+          "dialog": true,
+          "cameraUnchanged": true,
+          "touch": false
+        },
+        {
+          "id": "liv-ipanema/pavimento-modelo-12/final-02",
+          "floor": 12,
+          "dialog": true,
+          "cameraUnchanged": true,
+          "touch": false
+        }
+      ],
+      "noArtificialParcelFill": true,
+      "facadeBounds": {
+        "min": [
+          -24.007999420166016,
+          0,
+          -8.899999618530273
+        ],
+        "max": [
+          24.007999420166016,
+          52.70000076293945,
+          8.899999618530273
+        ]
+      },
+      "pngSize": [
+        920,
+        556
+      ],
+      "mapTiles": {
+        "walls": 1680,
+        "yards": 240,
+        "wallSegments": 252,
+        "triangles": 1646655,
+        "drawCalls": 74,
+        "groundParcels": 9855,
+        "props": 818,
+        "wallReach": 272.2043298104441,
+        "yardReach": 353.9465869384151,
+        "aerialProps": 35503,
+        "range": 360,
+        "coverage": 2120,
+        "aerialBuilds": 2,
+        "tileSize": 640,
+        "pendingTiles": 0,
+        "models": 65,
+        "placedYards": 28540,
+        "loadedTiles": 39,
+        "tileErrors": 0
+      },
+      "status": "PASS",
+      "positions": 170,
+      "twoTypologiesFourModes": true,
+      "png": true,
+      "mapReturn": true,
+      "sceneIframes": 1
+    },
+    {
+      "backendRequested": "webgl",
+      "touchEmulated": false,
+      "errors": [],
+      "httpFailures": [],
+      "externalRequests": [],
+      "backendEffective": "webgl",
+      "directFacadeClicks": [
+        {
+          "id": "liv-ipanema/pavimento-modelo-08/final-02",
+          "floor": 8,
+          "dialog": true,
+          "cameraUnchanged": true,
+          "touch": false
+        },
+        {
+          "id": "liv-ipanema/pavimento-modelo-12/final-02",
+          "floor": 12,
+          "dialog": true,
+          "cameraUnchanged": true,
+          "touch": false
+        }
+      ],
+      "noArtificialParcelFill": true,
+      "facadeBounds": {
+        "min": [
+          -24.007999420166016,
+          0,
+          -8.899999618530273
+        ],
+        "max": [
+          24.007999420166016,
+          52.70000076293945,
+          8.899999618530273
+        ]
+      },
+      "pngSize": [
+        920,
+        556
+      ],
+      "mapTiles": {
+        "walls": 1680,
+        "yards": 240,
+        "wallSegments": 252,
+        "triangles": 1409930,
+        "drawCalls": 72,
+        "groundParcels": 0,
+        "props": 818,
+        "wallReach": 272.2043298104441,
+        "yardReach": 353.9465869384151,
+        "aerialProps": 0,
+        "range": 360,
+        "coverage": 2120,
+        "aerialBuilds": 1,
+        "tileSize": 640,
+        "pendingTiles": 0,
+        "models": 65,
+        "placedYards": 28540,
+        "loadedTiles": 39,
+        "tileErrors": 0
+      },
+      "status": "PASS",
+      "positions": 170,
+      "twoTypologiesFourModes": true,
+      "png": true,
+      "mapReturn": true,
+      "sceneIframes": 1
+    },
+    {
+      "backendRequested": "auto",
+      "touchEmulated": true,
+      "errors": [],
+      "httpFailures": [],
+      "externalRequests": [],
+      "backendEffective": "webgpu",
+      "directFacadeClicks": [
+        {
+          "id": "liv-ipanema/pavimento-modelo-08/final-02",
+          "floor": 8,
+          "dialog": true,
+          "cameraUnchanged": true,
+          "touch": true
+        },
+        {
+          "id": "liv-ipanema/pavimento-modelo-12/final-02",
+          "floor": 12,
+          "dialog": true,
+          "cameraUnchanged": true,
+          "touch": true
+        }
+      ],
+      "noArtificialParcelFill": true,
+      "facadeBounds": {
+        "min": [
+          -24.007999420166016,
+          0,
+          -8.899999618530273
+        ],
+        "max": [
+          24.007999420166016,
+          52.70000076293945,
+          8.899999618530273
+        ]
+      },
+      "pngSize": [
+        364,
+        454
+      ],
+      "mapTiles": {
+        "walls": 840,
+        "yards": 70,
+        "wallSegments": 128,
+        "triangles": 586560,
+        "drawCalls": 64,
+        "groundParcels": 0,
+        "props": 241,
+        "wallReach": 211.69612206117324,
+        "yardReach": 239.62643883640186,
+        "aerialProps": 0,
+        "range": 240,
+        "coverage": 2120,
+        "aerialBuilds": 1,
+        "tileSize": 640,
+        "pendingTiles": 0,
+        "models": 65,
+        "placedYards": 28540,
+        "loadedTiles": 39,
+        "tileErrors": 0
+      },
+      "status": "PASS",
+      "positions": 170,
+      "twoTypologiesFourModes": true,
+      "png": true,
+      "mapReturn": true,
+      "sceneIframes": 1
+    }
+  ],
+  "httpVerifiedFiles": 240,
+  "browserVersion": "154.0.8037.98",
+  "packagedPbrAndDraco": "PASS",
+  "baselineRecovery": "PASS",
+  "packagedDiagnostic": "PASS",
+  "noGpu2DRecovery": "PASS"
+}

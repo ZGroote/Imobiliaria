@@ -444,7 +444,9 @@ async function start() {
     if(state.disposed)return false;
     ambience.setProfile(profile);state.ambience=profile;renderer.render(scene,camera);return true;
   }
-  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,ambience:initialAmbience,ambienceController:ambience,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,facadeBounds,entryDetailBounds:entryBounds,
+  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,
+    setAvailableUnits:ids=>unitPicking?.availability.setUnits(ids)??false,
+    ambience:initialAmbience,ambienceController:ambience,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,facadeBounds,entryDetailBounds:entryBounds,
     invalidateShadows(){
       if(state.disposed)return false;
       for(const light of shadowLights)light.shadow.needsUpdate=true;

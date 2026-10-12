@@ -60,6 +60,7 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
   highlight.userData.livPresentation=true;
   highlight.add(new THREE.Mesh(geometry,fillMaterial),new THREE.LineSegments(edges,lineMaterial));
   scene.add(highlight);
+  const availability=createAvailabilityHighlight(scene,catalog,contour,geometry,edges);
   let selectedId=null,disposed=false,gesture=null;
   const pointers=new Set(),stats={pickQueries:0};
   const activeFloor=()=>Number.isInteger(getFloor())&&getFloor()>=0&&
@@ -105,9 +106,57 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
   function cancel(event){pointers.delete(event.pointerId);gesture=null;}
   const events={pointerdown:down,pointermove:move,pointerup:up,pointercancel:cancel,lostpointercapture:cancel};
   for(const [name,listener] of Object.entries(events))canvas.addEventListener(name,listener,true);
-  return {select,refresh,pick,highlight,stats,getState:()=>({selectedId,active:highlight.visible}),dispose(){
+  return {select,refresh,pick,highlight,availability,stats,getState:()=>({selectedId,active:highlight.visible}),dispose(){
     if(disposed)return;disposed=true;gesture=null;pointers.clear();
     for(const [name,listener] of Object.entries(events))canvas.removeEventListener(name,listener,true);
-    scene.remove(highlight);geometry.dispose();edges.dispose();fillMaterial.dispose();lineMaterial.dispose();
+    availability.dispose();scene.remove(highlight);geometry.dispose();edges.dispose();fillMaterial.dispose();lineMaterial.dispose();
+  }};
+}
+
+// Two draws for the whole building, rebuilt only when the available ID set
+// changes. Unlit materials preserve the model's PBR and baked illumination.
+function createAvailabilityHighlight(scene,catalog,contour,sourceFill,sourceLine){
+  const fill=new THREE.BufferGeometry(),line=new THREE.BufferGeometry();
+  const fillMaterial=new THREE.MeshBasicMaterial({color:0x5bff9d,toneMapped:false,
+    transparent:true,opacity:.42,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2});
+  const lineMaterial=new THREE.LineBasicMaterial({color:0xafffd1,toneMapped:false,transparent:true,opacity:.95,depthWrite:false});
+  const group=new THREE.Group();group.name='Apartamentos disponíveis';group.userData.livPresentation=true;group.visible=false;
+  group.add(new THREE.Mesh(fill,fillMaterial),new THREE.LineSegments(line,lineMaterial));scene.add(group);
+  let ids=[],signature='',disposed=false;
+  const stats={geometryBuilds:0};
+  function setUnits(requested){
+    if(disposed)return false;
+    if(!Array.isArray(requested))throw Error('Lista de disponibilidade inválida.');
+    const next=[...new Set(requested)].sort(),units=next.map(id=>{
+      const unit=unitById(catalog,id);if(!unit)throw Error('Unidade disponível inválida.');return unit;
+    }),key=JSON.stringify(next);
+    if(key===signature)return false;
+    const positions=[],edges=[];
+    function append(target,source,range,unit,expand){
+      const a=unit.bounds.min,b=unit.bounds.max;
+      const attribute=source.getAttribute('position');
+      for(let i=range[0];i<range[0]+range[1];i++){
+        const vertex=source.index?source.index.getX(i):i;
+        for(let axis=0;axis<3;axis++){
+          const value=attribute.array[vertex*3+axis];
+          target.push((a[axis]+b[axis])/2+value*(b[axis]-a[axis]+expand));
+        }
+      }
+    }
+    for(const unit of units){
+      const range=contour?.ranges.get(unit.id);
+      append(positions,sourceFill,range?.fill??[0,sourceFill.index?.count??sourceFill.getAttribute('position').count],unit,0);
+      append(edges,sourceLine,range?.line??[0,sourceLine.getAttribute('position').count],unit,.025);
+    }
+    // Replacing attributes must also release the previous GPU buffers.
+    fill.dispose();line.dispose();
+    fill.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+    line.setAttribute('position',new THREE.Float32BufferAttribute(edges,3));
+    if(next.length){fill.computeBoundingSphere();line.computeBoundingSphere();}
+    ids=next;signature=key;group.visible=ids.length>0;stats.geometryBuilds++;return true;
+  }
+  return {setUnits,group,stats,getState:()=>({ids:[...ids],active:group.visible}),dispose(){
+    if(disposed)return;disposed=true;group.visible=false;ids=[];scene.remove(group);
+    fill.dispose();line.dispose();fillMaterial.dispose();lineMaterial.dispose();
   }};
 }

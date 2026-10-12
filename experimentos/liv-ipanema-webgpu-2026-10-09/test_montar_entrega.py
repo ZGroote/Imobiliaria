@@ -19,6 +19,7 @@ class Delivery(unittest.TestCase):
             self.assertTrue(root.name.startswith('liv-delivery-test-'))
             (root/'comercial.json').write_text('{"status":"ausente"}',encoding='utf8')
             (root/'vinculos.json').write_text('{"status":"ausente"}',encoding='utf8')
+            (root/'estoque-config.json').write_text('{"propertyId":null}',encoding='utf8')
             (root/'viewer.js').write_bytes(b'primeira versao')
             inventory={'viewer.js':package.identity((root/'viewer.js').read_bytes())}
             with patch.object(package,'review_inventory',return_value={}),patch.object(package,'inventory',return_value=inventory):
@@ -42,6 +43,7 @@ class Delivery(unittest.TestCase):
             root=Path(temporary).resolve();self.assertTrue(root.name.startswith('liv-delivery-test-'))
             (root/'comercial.json').write_text('{"status":"ausente"}',encoding='utf8')
             (root/'vinculos.json').write_text('{"status":"ausente"}',encoding='utf8')
+            (root/'estoque-config.json').write_text('{"propertyId":null}',encoding='utf8')
             with patch.object(package,'review_inventory',return_value={}),patch.object(package,'inventory',return_value={}):package.build('liv-meta',root)
             manifest=root/'entregas/liv-meta/site/entrega-manifest.json'
             data=json.loads(manifest.read_bytes());data['physicalMobileQualified']=True
@@ -53,6 +55,7 @@ class Delivery(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='liv-delivery-test-') as temporary:
             root=Path(temporary).resolve();self.assertTrue(root.name.startswith('liv-delivery-test-'))
             for name in ['comercial.json','vinculos.json']:(root/name).write_text('{"status":"ausente"}',encoding='utf8')
+            (root/'estoque-config.json').write_text('{"propertyId":null}',encoding='utf8')
             with patch.object(package,'review_inventory',return_value={}),patch.object(package,'inventory',return_value={}):
                 result=package.build('liv-zip-teste',root)
             first=package.archive(result);self.assertEqual(package.archive(result),first)

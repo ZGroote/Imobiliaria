@@ -134,7 +134,11 @@ def inventory(root=ROOT):
 
 
 def review_inventory(root=ROOT):
-    names = ['AMBIENCIA.md','CATALOGO.md','COMERCIAL.md','ESTOQUE.md','DIAGNOSTICO.md','VINCULOS.md','REDE-MEMORIA.md','MATERIAIS.md','MAPA-MODELO.md',
+    names = ['AMBIENCIA.md','CATALOGO.md','COMERCIAL.md','ESTOQUE.md','DISPONIBILIDADE.md','DIAGNOSTICO.md','VINCULOS.md','REDE-MEMORIA.md','MATERIAIS.md','MAPA-MODELO.md',
+             'evidencias/disponibilidade-filtro/runtime.json',
+             'evidencias/disponibilidade-filtro/webgpu-False-disponiveis-demonstracao.png',
+             'evidencias/disponibilidade-filtro/webgl-False-disponiveis-demonstracao.png',
+             'evidencias/disponibilidade-filtro/auto-True-disponiveis-demonstracao.png',
              'evidencias/estoque-admin/runtime.json','evidencias/estoque-admin/ficha-publica-desktop.png',
              'evidencias/estoque-admin/ficha-publica-toque.png','evidencias/estoque-admin/painel-estoque-desktop.png',
              'evidencias/mapa-sem-preenchimento/runtime.json','evidencias/mapa-sem-preenchimento/depois.png',

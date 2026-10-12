@@ -31,13 +31,11 @@ export function createUnitUI(catalog,{onSelect,onClear,onSide}){
         `Escolha um final para explorar o ${building?floorLabel(displayFloor).toLowerCase():'1º pavimento tipo'}.`;
     document.getElementById('unitFloorNote').textContent=`${floorLabel(displayFloor)} · posições aproximadas`;
     document.getElementById('unitCard').hidden=!unit;
-    document.getElementById('selectedUnitLabel').hidden=!unit||mode!=='maquete';
     document.getElementById('clearUnit').disabled=!unit;
     document.getElementById('unitAnnouncement').textContent=unit?`Final ${unit.final} selecionado, posição aproximada, ${saleLabel(unit)}.`:'Nenhum final selecionado.';
     if(!unit)return;
     const label=floorLabel(floorOf(catalog,unit));
     document.getElementById('unitTitle').textContent=unit.commercial?.commercialNumber?`Apartamento ${unit.commercial.commercialNumber} · ${label}`:`Final ${unit.final} · ${label}`;
-    document.getElementById('selectedUnitLabel').textContent=`Final ${unit.final} · ${label} · posição aproximada`;
     const sale=saleOf(unit),informed=sale.availability!=='nao_informada'||sale.priceCents!==null;
     const details=unit.salesDetails;
     document.getElementById('unitArea').textContent=details?.areaM2!==null&&details?.areaM2!==undefined?`${new Intl.NumberFormat('pt-BR').format(details.areaM2)} m²`:'A confirmar';
@@ -47,7 +45,6 @@ export function createUnitUI(catalog,{onSelect,onClear,onSide}){
     document.getElementById('unitSale').textContent=informed?saleLabel(unit):'Não informados';
     document.getElementById('unitCommercial').textContent=sale.commercialNumber!==null||sale.parking!==null?
       `${sale.commercialNumber??'Número não informado'} · ${sale.parking??'vaga não informada'}`:'Não informados';
-    if(informed)document.getElementById('selectedUnitLabel').textContent+=` · ${saleLabel(unit)}`;
     document.getElementById('commercialSource').hidden=!catalog.commercialSource;
     document.getElementById('commercialSource').textContent=catalog.commercialSource?
       `Fonte: ${catalog.commercialSource.label} · ${catalog.commercialSource.asOf}`:'';

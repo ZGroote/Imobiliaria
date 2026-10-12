@@ -8,6 +8,7 @@ import {attachCommercial} from './comercial.js';
 import {requestedAmbience,AMBIENCES} from './ambiencia-perfis.js';
 import {attachRelations} from './vinculos.js';
 import {attachStock} from './estoque-adapter.js';
+import {availableUnitIds} from './disponibilidade.js';
 const stage=document.getElementById('stage'),overlay=document.getElementById('loading');
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
@@ -18,6 +19,7 @@ const finish=geometry!=='base'||new URLSearchParams(location.search).get('acabam
 const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
 const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
 state.ambience=requestedAmbience(location.search);
+state.availabilityFilter='todos';
 let units,unitUI,mirror;
 let commercialData=null,commercialVersion=0,commercialController=null;
 let relationsData=null,interiorCatalog=null,relationVersion=0,relationController=null;
@@ -75,7 +77,28 @@ function update() {
     state.mode==='planta2d'?`Planta comercial publicada · ${selected.label.toLowerCase()}, ${selected.area} incluindo varanda`:'Arraste para girar · use a roda ou dois dedos para aproximar';
   unitUI?.update({...state,typology:selected.label.toLowerCase()});
   mirror?.update(state);
+  updateAvailability();
   updateDetails();
+}
+function updateAvailability(){
+  const filter=document.getElementById('availabilityFilter'),select=document.getElementById('availability');
+  filter.hidden=!state.ready||state.mode!=='maquete';select.value=state.availabilityFilter;
+  const unverified=Boolean(stockControlled?state.stockError:state.commercialError);
+  const available=availableUnitIds(units,{unverified}),active=state.availabilityFilter==='disponiveis';
+  state.availableUnitCount=available.length;
+  state.glowingUnitIds=active?available:[];
+  const informed=!unverified&&units?.units.some(unit=>unit.commercial?.availability&&unit.commercial.availability!=='nao_informada');
+  filter.dataset.active=String(active&&available.length>0);
+  document.getElementById('availabilitySummary').textContent=unverified?'Disponibilidade em atualização. Confirme com a equipe.':
+    !informed?'Disponibilidade ainda não informada.':
+    available.length===0?'Nenhum apartamento cadastrado como disponível.':
+    active?`${available.length} ${available.length===1?'disponível':'disponíveis'} em verde · toque para ver a ficha`:
+      `${available.length} ${available.length===1?'disponível':'disponíveis'} · selecione para destacar`;
+  if(state.ready&&state.mode==='maquete')state.frame?.contentWindow?.__livProva?.setAvailableUnits(state.glowingUnitIds);
+}
+function setAvailabilityFilter(value){
+  if(!['todos','disponiveis'].includes(value))throw Error('Filtro de disponibilidade inválido.');
+  state.availabilityFilter=value;update();
 }
 function updateDetails(){
   if(!units)return;
@@ -354,6 +377,7 @@ async function refreshCommercial(){
     document.getElementById('commercialWarning').textContent=commercialData?.status==='fornecido'?
       'Não foi possível atualizar a tabela. As informações da fonte e data indicadas foram preservadas.':
       'Dados comerciais indisponíveis. Consulte a equipe responsável para confirmar disponibilidade e preço.';
+    update();
     return false;
   }
 }
@@ -387,6 +411,7 @@ function stockWarning(message){
   for(const id of ['stockWarning','detailsStockWarning']){
     const warning=document.getElementById(id);warning.hidden=!message;warning.textContent=message;
   }
+  updateAvailability();
 }
 function startStock(){
   if(stockStart)return stockStart;
@@ -435,12 +460,13 @@ async function capture() {
   }
   const link=document.createElement('a');link.href=png;link.download=`liv-ipanema-${state.typology}-${state.mode}.png`;link.click();return png;
 }
-Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,setAmbience,openUnitLayout,reloadRelations:refreshRelations,reloadCommercial:refreshCommercial,getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,backend:state.backend,ambience:state.ambience}),dispose:release});
+Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,setAmbience,setAvailabilityFilter,openUnitLayout,reloadRelations:refreshRelations,reloadCommercial:refreshCommercial,getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,backend:state.backend,ambience:state.ambience,availabilityFilter:state.availabilityFilter}),dispose:release});
 for(const button of document.querySelectorAll('[data-mode]'))button.addEventListener('click',()=>setMode(button.dataset.mode));
 for(const button of document.querySelectorAll('[data-view]'))button.addEventListener('click',()=>setView(button.dataset.view));
 document.getElementById('floor').addEventListener('change',event=>setFloor(event.target.value));
 document.getElementById('typology').addEventListener('change',event=>setTypology(event.target.value));
 document.getElementById('ambience').addEventListener('change',event=>setAmbience(event.target.value));
+document.getElementById('availability').addEventListener('change',event=>setAvailabilityFilter(event.target.value));
 document.getElementById('openUnitPlant').addEventListener('click',openUnitLayout);
 document.getElementById('seeUnitDetails').addEventListener('click',showDetails);
 document.getElementById('closeDetails').addEventListener('click',()=>detailsDialog.close());

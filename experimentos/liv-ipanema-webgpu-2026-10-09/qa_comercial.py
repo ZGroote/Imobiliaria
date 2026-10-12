@@ -42,7 +42,7 @@ def main(output):
                     assert page.evaluate('__livViewer.selectedUnitId') == id_
                     assert page.locator('[data-unit-id][aria-pressed=true]').get_attribute('data-availability') == expected
                     assert page.locator(f'[data-mirror-unit-id="{id_}"]').get_attribute('data-availability') == expected
-                    assert page.locator('#unitSale').inner_text() in page.locator('#selectedUnitLabel').inner_text()
+                    assert page.locator('#unitSale').inner_text() in page.locator('#detailsBody').inner_text()
                     assert 'FIXTURE SINTETICA' in page.locator('#commercialSource').inner_text()
                     assert '<img' in page.locator('#commercialConditions').inner_text()
                     assert page.locator('#commercialConditions img').count() == 0

@@ -1,8 +1,21 @@
 # LIV Ipanema — pacote de avaliação de 11/10/2026
 
+## Revisão v8 — filtro de disponíveis na maquete
+
+A versão para revisão é `entregas/liv-avaliacao-20261011-v8/`. Substitui a etiqueta superior esquerda pelo seletor **Apartamentos → Todos / Disponíveis**. Unidades explicitamente disponíveis brilham em verde; clicar/toque abre a ficha sem mover a câmera. A contagem abrange todo o catálogo, com atualização por venda no painel. Falha de consulta/conexão ou retirada da publicação suspendem o brilho. O efeito mantém materiais e iluminação do prédio, usa dois objetos agrupados e só reconstrói buffers quando muda a seleção de disponíveis. [DISPONIBILIDADE.md](DISPONIBILIDADE.md) descreve funcionamento e limites. A implantação sem preenchimento externo e o clique direto da v7 permanecem.
+
+- Versão: `d5e50b4379930aa6a09389d6dcd2f0e305105a9b589b93655ae20ae2d8c0e4cb`.
+- Site: **240 arquivos / 144.463.634 B**; revisão: **31 arquivos / 4.823.471 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v8-d5e50b437993.zip`, **113.159.196 B**, SHA-256 `e5e38037908c4cf4d8eba6a73d801f29d68e0b8fd6bb4406eace3816cd519cb6`.
+- [Maquete v8](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v8/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio).
+
+[Filtro com oferta sintética](evidencias/disponibilidade-filtro/runtime.json): **PASS** em WebGPU, WebGL e toque emulado, com disponibilidade desconhecida, clique, venda, retirada, erro e retorno de modo. [Painel e consulta em emulador](evidencias/estoque-admin/runtime.json): **PASS**, incluindo brilho sincronizado com venda, desconexão e revogação. Vinte e oito testes Node passaram, incluindo contornos, todas as 170 posições e o adapter de estoque. Quatro testes do empacotamento passaram; seus fixtures agora incluem a configuração opcional do estoque. Conferência independente dos bytes/navegação: [entrega-filtro-disponibilidade/runtime.json](evidencias/entrega-filtro-disponibilidade/runtime.json). Nenhuma oferta real foi cadastrada; vínculo/publicação do estoque e qualificação em celulares físicos continuam pendentes. Capturas de brilho usam somente demonstração interceptada no navegador privado.
+
+A conferência da v8 terminou em **PASS**: 240 recursos por HTTP/hash, três perfis com clique/toque e câmera preservada, duas plantas/Tours, mapa e tiles, retorno, recuperação da base, PBR/Draco, diagnóstico e fallback 2D sem GPU. Os hashes dos sete arquivos de runtime registrados no ensaio de brilho coincidem com os bytes empacotados. A aba existente do responsável foi atualizada para a v8, com o filtro Disponíveis visível e o aviso correto de disponibilidade ainda não informada.
+
 ## Revisão v7 — clique direto na fachada
 
-A versão para revisão é `entregas/liv-avaliacao-20261011-v7/`. Corrige a seleção que antes exigia destacar o pavimento: no edifício completo, clicar/tocar em um apartamento visível identifica seu andar e abre a ficha, inclusive com “Sem destaque”. A câmera permanece na posição escolhida. Arrastes e gestos com vários dedos não selecionam; cobertura e circulação continuam sem atribuição presumida. As correções de terreno da v6 são preservadas.
+A revisão anterior está em `entregas/liv-avaliacao-20261011-v7/`. Corrige a seleção que antes exigia destacar o pavimento: no edifício completo, clicar/tocar em um apartamento visível identifica seu andar e abre a ficha, inclusive com “Sem destaque”. A câmera permanece na posição escolhida. Arrastes e gestos com vários dedos não selecionam; cobertura e circulação continuam sem atribuição presumida. As correções de terreno da v6 são preservadas.
 
 - Versão: `977ac323cf21c0cf500d0bfb4675e0a3d9f9bc30ab5c0ae5efb075dcaa4efd34`.
 - Site: **239 arquivos / 144.457.998 B**; revisão: **26 arquivos / 3.995.879 B**.

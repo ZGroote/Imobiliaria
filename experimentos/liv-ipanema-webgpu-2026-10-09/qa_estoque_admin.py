@@ -88,20 +88,27 @@ def main():
             public.goto(VIEW+f'?geometria=entrada&estoque={PID}&backend=webgpu');ready(public)
             public.wait_for_function('__livViewer.stockStatus==="nao-publicado"')
             assert all(u['commercial']['availability']=='nao_informada' for u in public.evaluate('__livViewer.units.units'))
+            public.locator('#availability').select_option('disponiveis')
+            assert public.evaluate('__livViewer.glowingUnitIds.length')==0
             admin.get_by_role('button',name='Habilitar consulta pública',exact=True).click()
             public.wait_for_function('__livViewer.stockStatus==="ao-vivo"')
+            public.wait_for_function('__livViewer.glowingUnitIds.length===2')
             body=select_public(public,8,2)
             assert 'Disponível' in body.inner_text() and '279.000,02' in body.inner_text() and '47,89 m²' in body.inner_text()
             assert body.locator('img').count()==0 and '<img' in body.inner_text()
             public_context.set_offline(True)
             public.wait_for_function('!document.getElementById("detailsStockWarning").hidden')
             assert 'desatualizada' in public.inner_text('#detailsStockWarning')
+            assert public.evaluate('__livViewer.frame.contentWindow.__livProva.unitPicking.availability.getState().active') is False
             public_context.set_offline(False)
             public.wait_for_function('document.getElementById("detailsStockWarning").hidden',timeout=30000)
+            public.wait_for_function('__livViewer.glowingUnitIds.length===2')
             camera_before=public.evaluate('JSON.stringify(__livViewer.frame.contentWindow.__livProva.getState().camera)')
             # A save in the admin page changes the existing public tab without reload.
             edit_unit(admin,'p08-f02','vendida',number='QA-802')
             public.wait_for_function('document.getElementById("detailsBody").textContent.includes("Vendida")')
+            public.wait_for_function('__livViewer.glowingUnitIds.length===1')
+            assert public.evaluate('__livViewer.frame.contentWindow.__livProva.unitPicking.availability.getState().ids')==['liv-ipanema/pavimento-modelo-08/final-03']
             assert public.evaluate('JSON.stringify(__livViewer.frame.contentWindow.__livProva.getState().camera)')==camera_before
             admin.get_by_role('button',name='Editar Meio',exact=True).click();fill_info(admin,'Preço (R$)','280000,04')
             admin.get_by_role('button',name='Salvar dados comuns',exact=True).click()
@@ -122,12 +129,13 @@ def main():
             admin.get_by_role('button',name='Desabilitar consulta pública',exact=True).click()
             public.wait_for_function('__livViewer.stockStatus==="nao-publicado"')
             assert public.evaluate('__livViewer.units.units.every(u=>u.commercial.availability==="nao_informada"&&u.relation===null)')
+            assert public.evaluate('__livViewer.frame.contentWindow.__livProva.unitPicking.availability.getState().active') is False
             admin.get_by_role('button',name='Habilitar consulta pública',exact=True).click()
             public.wait_for_function('__livViewer.stockStatus==="ao-vivo"')
             public.reload();ready(public);public.wait_for_function('__livViewer.stockStatus==="ao-vivo"')
             select_public(public,8,2);public.screenshot(path=str(OUT/'ficha-publica-desktop.png'))
             admin.screenshot(path=str(OUT/'painel-estoque-desktop.png'),full_page=True)
-            report['cases'].append({'name':'admin-public-desktop','stock':170,'unknown':167,'sold':2,'available':1,'liveStatus':True,'liveProfile':True,'ownOverrides':True,'cameraPreserved':True,'bothTours':True,'revocation':True,'reload':True,'safeText':True,'offlineNoticeInDialog':True,'status':'PASS'})
+            report['cases'].append({'name':'admin-public-desktop','stock':170,'unknown':167,'sold':2,'available':1,'liveStatus':True,'liveProfile':True,'ownOverrides':True,'cameraPreserved':True,'bothTours':True,'revocation':True,'reload':True,'safeText':True,'offlineNoticeInDialog':True,'availabilityGlowLiveSaleOfflineRevocation':True,'status':'PASS'})
             public_context.close()
             for width in [320,390,768]:
                 admin.set_viewport_size({'width':width,'height':900})
@@ -147,7 +155,16 @@ def main():
             assert (EXP/'estoque-config.json').read_bytes()==original
             report['errors']=errors;report['configUnchanged']=True;report['status']='PASS'
     except Exception as error:
-        report['status']='FAIL';report['failure']=repr(error);raise
+        report['status']='FAIL';report['failure']=repr(error)
+        report['errors']=locals().get('errors',[])
+        if 'public' in locals():
+            try:
+                report['publicFailureState']=public.evaluate('''()=>({ready:window.__livViewer?.ready,error:window.__livViewer?.error,
+                  loading:document.getElementById('loadingText')?.textContent,
+                  child:window.__livViewer?.frame?.contentWindow.__livProva?.progress})''')
+                public.screenshot(path=str(OUT/'falha-publica.png'))
+            except Exception:pass
+        raise
     finally:
         report['sources']={str(p.relative_to(EXP.parent.parent)).replace('\\','/'):hashlib.sha256(p.read_bytes()).hexdigest() for p in [EXP/'viewer.js',EXP/'estoque-adapter.js',EXP/'estoque-runtime.js',EXP/'maquete-liv-ipanema.html',EXP.parent.parent/'firebase/firestore.rules',EXP.parent.parent/'painel/src/lib/estoque.ts']}
         (OUT/'runtime.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
