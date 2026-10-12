@@ -1,6 +1,6 @@
 # LIV — paredes em corte na Planta 3D
 
-O corte de apresentação de Canto e Meio revela os móveis atrás das paredes da frente. A altura de **1,20 m** é uma escolha de visualização, sem alterar o pé-direito nominal nem as dimensões ilustrativas das duas fontes. **Paredes baixas** alterna entre corte e paredes inteiras; a preferência acompanha o snapshot da tipologia. O Tour sempre recupera paredes, esquadrias, forro e luminárias completos.
+As plantas Canto e Meio começam com **paredes inteiras**. O botão **Paredes baixas** ativa o corte de apresentação, revelando os móveis atrás das paredes da frente. A altura de **1,20 m** é uma escolha de visualização, sem alterar o pé-direito nominal nem as dimensões ilustrativas das duas fontes. A preferência escolhida acompanha o snapshot da tipologia. O Tour sempre recupera paredes, esquadrias, forro e luminárias completos.
 
 `interior-cutaway.js` usa [ClippingGroup do Three.js](https://threejs.org/docs/pages/ClippingGroup.html), disponível no WebGPURenderer r186.1 usado pelo projeto. O grupo corta paredes e esquadrias, conservando as malhas e os materiais PBR/RGBM existentes. Móveis mantêm sua altura e não entram nesse grupo. Forro, plafons e acabamentos junto ao teto ficam ocultos na Planta 3D; permanecem visíveis no Tour.
 

@@ -56,6 +56,9 @@ try {
 } catch(error) {state.storageError=String(error);}
 updateMapLink();
 let generation=0,frameKind=null,openedOnce=false;
+// At most Canto and Meio are retained while using interiors. Only one renders.
+const parkedInteriors=new Map();
+state.interiorReuseCount=0;
 showTransferStatus(document.getElementById('transferStatus'));
 for(let floor=1;floor<=16;floor++) document.getElementById('floor').add(new Option(`${floor}º pavimento tipo`,String(floor)));
 document.getElementById('floor').value=String(state.floor);
@@ -120,10 +123,12 @@ function showError(error) {
   document.getElementById('fallback').hidden=false;update();
   document.getElementById('downloadProgress').hidden=true;
 }
-function release() {
-  const frame=state.frame;
+function retireFrame(frame) {
+  if(frame?.dataset.disposing==='true')return;
   if(frame) {
-    state.frame=null;let disposal;
+    if(state.frame===frame)state.frame=null;
+    for(const [kind,value]of parkedInteriors)if(value===frame)parkedInteriors.delete(kind);
+    let disposal;
     try {
       const api=frame.contentWindow.__livProva;
       if(api?.getState&&!api.disposed){state.exteriorSnapshot=api.getState();state.view=state.exteriorSnapshot.view;}
@@ -160,7 +165,24 @@ function release() {
       Promise.resolve(disposal).catch(error=>{state.cleanupError=String(error);}).then(remove);
     } else {frame.src='about:blank';frame.remove();}
   }
+}
+function reusableInterior(frame){
+  const api=frame?.contentWindow?.__livInterior;
+  return Boolean(frame?.livPrepared&&api?.ready&&!api.error&&!api.disposed&&typeof api.setActive==='function');
+}
+function release({preserveInteriors=false}={}) {
+  const frame=state.frame;
+  let suspension;
+  if(preserveInteriors&&frameKind?.startsWith('interior:')&&reusableInterior(frame)){
+    const api=frame.contentWindow.__livInterior;
+    state.interiorSnapshots[api.typology]=api.getState();
+    suspension=api.setActive(false);
+    frame.hidden=true;frame.inert=true;frame.dataset.parked='true';
+    parkedInteriors.set(frameKind,frame);state.frame=null;
+  }else retireFrame(frame);
+  if(!preserveInteriors)for(const cached of [...parkedInteriors.values()])retireFrame(cached);
   stage.querySelector('img')?.remove();frameKind=null;
+  return suspension;
 }
 async function until(test,token,{timeout=90000,progress=null,maximum=600000}={}) {
   const hardDeadline=performance.now()+maximum;
@@ -211,19 +233,35 @@ async function setMode(mode) {
     }
     const kind=mode==='maquete'?'exterior':mode==='planta2d'?'image':`interior:${state.typology}`;
     // Cancel the previous scene immediately, before waiting for the queue ack.
-    if(frameKind!==kind)release();
+    if(frameKind!==kind)await release({preserveInteriors:kind.startsWith('interior:')});
+    if(token!==generation)return;
+    const cached=parkedInteriors.get(kind);
+    const warm=kind.startsWith('interior:')&&reusableInterior(frameKind===kind?state.frame:cached);
     if(mode==='maquete'){
       // Initial screen starts without waiting for Service Worker registration.
       if(openedOnce||navigator.serviceWorker?.controller)await transfers.pause();
-    } else await transfers.prioritize(mode==='planta2d'?'planta2d':'tour',mode==='planta2d'?
-      [typology(state.typology).image]:['interiores/catalogo.json','interiores/shared/',`interiores/${state.typology}/`]);
+    } else {
+      const priority=transfers.prioritize(mode==='planta2d'?'planta2d':'tour',mode==='planta2d'?
+        [typology(state.typology).image]:['interiores/catalogo.json','interiores/shared/',`interiores/${state.typology}/`]);
+      // A prepared scene needs no downloads or queue acknowledgement to resume.
+      if(!warm)await priority;
+    }
     if(token!==generation)return;
     if(mode==='planta2d'){await fallback2D(token);return;}
     if(frameKind!==kind) {
-      release();const frame=document.createElement('iframe');frame.title=kind==='exterior'?'Maquete do LIV Ipanema':'Planta e interior de referência do LIV Ipanema';
-      frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}&luz=${state.ambience}`:
-        `interior.html?embed=1&backend=${backend}&tipologia=${state.typology}&modo=${mode}`;
-      stage.prepend(frame);state.frame=frame;frameKind=kind;
+      if(warm){
+        parkedInteriors.delete(kind);state.frame=cached;frameKind=kind;
+        // Keep its browsing context in place; moving an iframe would reload it.
+        cached.hidden=false;cached.inert=false;delete cached.dataset.parked;
+        await cached.contentWindow.__livInterior.setActive(true);
+        if(token!==generation)return;state.interiorReuseCount++;
+      }else{
+        if(cached)retireFrame(cached);
+        const frame=document.createElement('iframe');frame.title=kind==='exterior'?'Maquete do LIV Ipanema':'Planta e interior de referência do LIV Ipanema';
+        frame.src=kind==='exterior'?`prova-rgbm.html?embed=1&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}&luz=${state.ambience}`:
+          `interior.html?embed=1&backend=${backend}&tipologia=${state.typology}&modo=${mode}`;
+        stage.prepend(frame);state.frame=frame;frameKind=kind;
+      }
     }
     const frame=state.frame;
     if(kind==='exterior') {
@@ -276,7 +314,7 @@ async function setMode(mode) {
         frame.contentWindow.addEventListener('liv-renderer-error',event=>{
           if(state.frame===frame&&frameKind.startsWith('interior:')){
             release();showError(Error(event.detail.error));
-          }
+          }else retireFrame(frame);
         });
         frame.livPrepared=true;
       }

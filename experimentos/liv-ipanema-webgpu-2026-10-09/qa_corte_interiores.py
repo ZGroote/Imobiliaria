@@ -47,15 +47,18 @@ def run_case(browser, profile, typology, out, cases):
         case['backend'] = initial['backend']
         case['presentation'] = initial['presentation']
         assert backend == 'auto' or case['backend'] == backend
-        assert initial['presentation']['active'] and initial['lighting']['bakedActive']
+        assert not initial['presentation']['active'] and initial['lighting']['bakedActive']
         assert not initial['presentation']['clipShadows'] and not initial['shadows']['needsUpdate']
         before = scene_identity(page)
         prefix = out / f'{profile}-{typology}'
+        assert page.locator('#cut-interior').get_attribute('aria-pressed') == 'false'
+        full = capture(page, prefix.with_name(prefix.name + '-inteiras.png'))
+        page.locator('#cut-interior').click()
+        assert page.evaluate('__livInterior.getState().presentation.active')
         cut = capture(page, prefix.with_name(prefix.name + '-corte.png'))
         assert page.locator('#cut-interior').get_attribute('aria-pressed') == 'true'
         page.locator('#cut-interior').click()
         assert not page.evaluate('__livInterior.getState().presentation.active')
-        full = capture(page, prefix.with_name(prefix.name + '-inteiras.png'))
         assert full.shape == cut.shape
         # An independent raycast locates an opaque wall in the full source, then
         # a room/furniture surface beyond the display plane. Pixel deltas prove

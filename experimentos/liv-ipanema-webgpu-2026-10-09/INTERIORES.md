@@ -2,7 +2,7 @@
 
 Etapa de 10/10/2026, antecipada pela solicitação do usuário. A escolha **Canto / Meio** é um catálogo de tipologias e permanece independente da seleção de pavimento. O vínculo de cada final com a tipologia e a orientação do espelho continua pendente.
 
-A Planta 3D agora oferece **Paredes baixas**, com corte de apresentação a 1,20 m e móveis na altura original. É possível voltar às paredes inteiras, e o Tour sempre usa a cena completa. Os materiais PBR e atlas próprios continuam preservados; a fonte autoral de Meio foi reproduzida byte a byte. Detalhes e ensaios em [CORTES.md](CORTES.md).
+A Planta 3D começa com **paredes inteiras** e oferece **Paredes baixas**, com corte opcional a 1,20 m e móveis na altura original. O Tour sempre usa a cena completa. Os materiais PBR e atlas próprios continuam preservados; a fonte autoral de Meio foi reproduzida byte a byte. Detalhes e ensaios em [CORTES.md](CORTES.md).
 
 A revisão de 11/10 une as quinas da moldura de Canto e recalcula sua luz; Meio conserva seu modelo independente. Procedência, imagens e reprodução em [RODATETO.md](RODATETO.md).
 
@@ -23,7 +23,7 @@ As imagens não fornecem cotas executivas. O canto conserva a escala inferida de
 
 ## Runtime e iluminação
 
-`interior.html` usa o mesmo Three.js fixado em 0.186.1 e WebGPURenderer, com seleção automática e fallback WebGL2. Planta 3D e Tour compartilham uma cena da tipologia atual; mudar tipologia ou voltar ao exterior encerra a cena anterior. O forro fica oculto na Planta 3D e aparece no Tour.
+`interior.html` usa o mesmo Three.js fixado em 0.186.1 e WebGPURenderer, com seleção automática e fallback WebGL2. Planta 3D e Tour compartilham uma cena por tipologia. Canto e Meio já abertos são reutilizados durante a alternância entre interiores: no máximo duas cenas, uma visível e desenhando, outra oculta/inertizada com loop, entradas, rota e observação de tamanho suspensos. Voltar à maquete, à planta 2D ou descartar o visualizador encerra ambas. Interiores incompletos, com erro ou perda de dispositivo não entram no cache. O forro fica oculto na Planta 3D e aparece no Tour. [TROCA-PLANTAS.md](TROCA-PLANTAS.md) registra o motivo e a medição.
 
 O descarte interrompe o desenho imediatamente. O iframe antigo fica oculto e inerte até a inicialização/renderização pendente assentar e os recursos serem liberados; remover seu contexto antes disso pode abandonar a promessa de `requestDevice`. A vista escolhida continua abrindo durante essa limpeza. Se o driver não responder por 30 s, o host encerra o contexto como último recurso. Esse fallback é teardown do navegador, sem comprovação de memória GPU liberada por contador JavaScript.
 

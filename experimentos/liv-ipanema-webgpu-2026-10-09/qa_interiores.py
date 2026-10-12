@@ -28,12 +28,12 @@ def ready(page, mode, typology=None):
         return api?.ready&&api.mode===expected.mode&&
           (!expected.typology||api.typology===expected.typology);
     }''', arg={'mode': mode, 'typology': typology}, timeout=120000)
-    count = page.locator('#stage iframe').count()
+    count = page.locator('#stage iframe:not([hidden])').count()
     assert count == (0 if mode == 'planta2d' else 1), {'mode': mode, 'iframes': count}
 
 
 def interior_frame(page):
-    return page.locator('#stage iframe').element_handle().content_frame()
+    return page.locator('#stage iframe:not([hidden])').element_handle().content_frame()
 
 
 def snapshot(page):

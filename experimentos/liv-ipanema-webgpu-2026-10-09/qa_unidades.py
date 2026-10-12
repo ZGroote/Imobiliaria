@@ -43,11 +43,11 @@ def ready(page, mode='maquete'):
       return window.__livViewer?.ready&&__livViewer.mode===mode;
     }''', arg=mode, timeout=120000)
     page.wait_for_function('__livViewer.pendingCleanup===0', timeout=35000)
-    assert page.locator('#stage iframe').count() == (0 if mode == 'planta2d' else 1)
+    assert page.locator('#stage iframe:not([hidden])').count() == (0 if mode == 'planta2d' else 1)
 
 
 def child(page):
-    return page.locator('#stage iframe').element_handle().content_frame()
+    return page.locator('#stage iframe:not([hidden])').element_handle().content_frame()
 
 
 def position(page, unit):

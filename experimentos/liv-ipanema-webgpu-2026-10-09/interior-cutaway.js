@@ -39,7 +39,7 @@ export function createPlanCutaway({scene,layout,architecture,wallMaterial,own,he
   const caps=new THREE.Mesh(own(wallCaps(layout,height)),wallMaterial);
   caps.name='Topo do corte das paredes';caps.userData.livPresentation=true;
   caps.castShadow=false;caps.receiveShadow=true;caps.visible=false;scene.add(caps);
-  let mode='visita',enabled=true;
+  let mode='visita',enabled=false;
   function update(){
     group.enabled=mode==='planta3d'&&enabled;caps.visible=group.enabled;
     for(const mesh of ceiling)mesh.visible=mode==='visita';

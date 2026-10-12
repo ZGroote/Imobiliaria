@@ -175,7 +175,7 @@ def ready(page, mode, typology=None):
         if(api?.error)throw Error(api.error);
         return api?.ready&&api.mode===expected.mode&&(!expected.typology||api.typology===expected.typology);
     }''', arg={'mode': mode, 'typology': typology}, timeout=remaining_timeout())
-    assert page.locator('#stage iframe:not([data-disposing])').count() == (0 if mode == 'planta2d' else 1)
+    assert page.locator('#stage iframe:not([hidden])').count() == (0 if mode == 'planta2d' else 1)
 
 
 def handled_error(page, case):

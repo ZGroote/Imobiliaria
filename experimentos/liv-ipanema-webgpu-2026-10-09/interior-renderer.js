@@ -8,9 +8,9 @@ import {createPlanCutaway} from './interior-cutaway.js';
 const query=new URLSearchParams(location.search),typology=query.get('tipologia')||'canto',requested=query.get('backend')||'auto';
 const canvas=document.querySelector('#interior-canvas'),stage=document.querySelector('#interior-stage'),status=document.querySelector('#interior-status');
 const controller=new AbortController(),base=new URL('./',import.meta.url),owned=new Set(),released=new WeakSet(),bitmaps=new Set(),closed=new WeakSet(),listeners=[],pendingDisposals=new Set(),initializedRenderers=new WeakSet();
-const state=window.__livInterior={ready:false,error:null,backend:null,typology,mode:query.get('modo')||'planta3d',disposed:false,
+const state=window.__livInterior={ready:false,error:null,backend:null,typology,mode:query.get('modo')||'planta3d',disposed:false,active:true,
   lighting:{bakedActive:false,reason:'carregando'},ownership:{created:0,disposed:0,bitmapsClosed:0}};
-let renderer,scene,camera,controls,observer,startup,disposePromise,layout,navigation,entry,catalog,record,source,light,atlas;
+let renderer,scene,camera,controls,observer,startup,disposePromise,layout,navigation,entry,catalog,record,source,light,atlas,resizeView;
 let yaw=0,pitch=0,tourPosition=null,route=[],routeResolve=null,frameBusy=false,framePromise=Promise.resolve(),lastFrame=0,ceiling=[];
 const furniture=[],meshBySlot=new Map(),baked=[],keys=new Set(),touchKeys=new Set();
 let orbitSnapshot=null,pointer=null,shadowLight=null,planAutoFrame=true,routeRoom=null,presentation=null;
@@ -45,7 +45,7 @@ async function cleanup(){
 }
 state.dispose=function(){
   if(disposePromise)return disposePromise;
-  state.disposed=true;state.ready=false;controller.abort();keys.clear();touchKeys.clear();stopRoute(false);
+  state.disposed=true;state.ready=false;state.active=false;controller.abort();keys.clear();touchKeys.clear();stopRoute(false);
   renderer?.setAnimationLoop(null);observer?.disconnect();
   disposePromise=Promise.resolve(startup).catch(()=>{}).then(()=>framePromise.catch(()=>{})).then(cleanup);
   return disposePromise;
@@ -304,18 +304,18 @@ function faceRoom(roomId){
   yaw=look?.yaw??navigation.direction(tourPosition);pitch=look?.pitch??0;state.roomView=look;
 }
 function setTourCamera(){camera.position.set(tourPosition[0],1.62,tourPosition[1]);camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);}
-state.setMode=function(mode){
+state.setMode=function(mode,{restoreOrbit=false}={}){
   if(!['planta3d','visita'].includes(mode)||!presentation||state.disposed)return false;
   const changed=state.mode!==mode;
   if(state.mode==='planta3d'&&mode==='visita')orbitSnapshot={position:camera.position.toArray(),target:controls.target.toArray()};
-  state.mode=mode;controls.enabled=mode==='planta3d';presentation.setMode(mode);
+  state.mode=mode;controls.enabled=state.active&&mode==='planta3d';presentation.setMode(mode);
   for(const id of ['frame-interior','cut-interior'])document.querySelector(`#${id}`).hidden=mode!=='planta3d';
   if(changed)invalidateShadows();
   keys.clear();touchKeys.clear();stopRoute(false);
   if(mode==='visita'){tourPosition??=[...entry];setTourCamera();}
   else if(planAutoFrame)orbitDefault();
-  else if(orbitSnapshot)placeOrbit(new THREE.Vector3(...orbitSnapshot.position),new THREE.Vector3(...orbitSnapshot.target));
-  else orbitDefault();
+  else if(orbitSnapshot&&(changed||restoreOrbit))placeOrbit(new THREE.Vector3(...orbitSnapshot.position),new THREE.Vector3(...orbitSnapshot.target));
+  else if(changed)orbitDefault();
   document.querySelector('#touch-pad').hidden=mode!=='visita';
   document.querySelector('#interior-tip').textContent=mode==='visita'?'Arraste para olhar · WASD ou setas para caminhar':'Arraste para girar · dois dedos ou roda para aproximar';
   for(const id of ['planta3d','visita'])document.querySelector(`#mode-${id}`).setAttribute('aria-pressed',String(mode===id));
@@ -360,7 +360,7 @@ function tick(dt){
   setTourCamera();
 }
 function wire(){
-  listen(window,'keydown',event=>{if(state.mode!=='visita'||/^(INPUT|SELECT|TEXTAREA)$/.test(event.target.tagName))return;const key=event.key.toLowerCase();if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(key)){event.preventDefault();keys.add(key);}});
+  listen(window,'keydown',event=>{if(!state.active||state.mode!=='visita'||/^(INPUT|SELECT|TEXTAREA)$/.test(event.target.tagName))return;const key=event.key.toLowerCase();if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(key)){event.preventDefault();keys.add(key);}});
   listen(window,'keyup',event=>keys.delete(event.key.toLowerCase()));listen(window,'blur',()=>{keys.clear();touchKeys.clear();pointer=null;});
   listen(canvas,'pointerdown',event=>{if(state.mode!=='visita')return;pointer={id:event.pointerId,x:event.clientX,y:event.clientY};canvas.setPointerCapture(event.pointerId);canvas.focus();stopRoute(false);});
   listen(canvas,'pointermove',event=>{if(!pointer||pointer.id!==event.pointerId||state.mode!=='visita')return;yaw-=(event.clientX-pointer.x)*.004;pitch=Math.max(-1.2,Math.min(1.2,pitch-(event.clientY-pointer.y)*.004));pointer.x=event.clientX;pointer.y=event.clientY;setTourCamera();});
@@ -385,7 +385,7 @@ function geometryInfo(){
   let objects=0,vertices=0,triangles=0;scene?.traverse(o=>{if(!o.isMesh)return;objects++;vertices+=o.geometry.attributes.position?.count||0;triangles+=(o.geometry.index?.count||o.geometry.attributes.position?.count||0)/3;});
   return {objects,vertices,triangles};
 }
-state.getState=function(){return {version:1,typology,mode:state.mode,backend:state.backend,ready:state.ready,error:state.error,disposed:state.disposed,unitSHA256:record?.unitSHA256,sourceSHA256:record?.sourceSHA256,
+state.getState=function(){return {version:1,typology,mode:state.mode,backend:state.backend,ready:state.ready,error:state.error,disposed:state.disposed,active:state.active,unitSHA256:record?.unitSHA256,sourceSHA256:record?.sourceSHA256,
   geometry:geometryInfo(),camera:camera?{position:camera.position.toArray(),target:controls.target.toArray(),yaw,pitch,autoFrame:planAutoFrame}:null,
   framing:state.framing||null,roomView:state.roomView||null,presentation:presentation?.getState()||null,
   ceiling:{visible:ceiling.length>0&&ceiling.every(m=>m.visible),count:ceiling.length},rooms:state.rooms||[],
@@ -407,9 +407,29 @@ state.restoreState=function(snapshot){
       else if(snapshot.mode==='planta3d'&&Array.isArray(snapshot.camera.target)&&snapshot.camera.target.length===3&&snapshot.camera.target.every(Number.isFinite)){orbitSnapshot={position:p,target:snapshot.camera.target};planAutoFrame=snapshot.camera.autoFrame===true;}
     }
   }
-  return state.setMode(snapshot.mode);
+  return state.setMode(snapshot.mode,{restoreOrbit:true});
 };
 state.capture=async function(){if(!state.ready||state.disposed)throw Error('Interior indisponível para captura.');await framePromise;check();await renderer.renderAsync(scene,camera);check();return canvas.toDataURL('image/png');};
+
+function renderFrame(time){
+  if(state.disposed||!state.active||frameBusy)return;
+  const dt=Math.min(.05,Math.max(0,(time-lastFrame)/1000||0));lastFrame=time;tick(dt);frameBusy=true;
+  framePromise=renderer.renderAsync(scene,camera).catch(fail).finally(()=>{frameBusy=false;});
+}
+state.setActive=async function(active){
+  if(typeof active!=='boolean'||!state.ready||state.disposed)return false;
+  if(state.active===active)return true;
+  state.active=active;keys.clear();touchKeys.clear();stopRoute(false);
+  if(pointer&&canvas.hasPointerCapture(pointer.id))canvas.releasePointerCapture(pointer.id);pointer=null;
+  controls.enabled=active&&state.mode==='planta3d';
+  if(!active){renderer.setAnimationLoop(null);observer.disconnect();await framePromise;return true;}
+  await framePromise;if(!state.active||state.disposed)return false;
+  observer.observe(stage);resizeView();lastFrame=0;
+  // Reuse the prepared renderer and present its current camera before revealing it.
+  framePromise=renderer.renderAsync(scene,camera).catch(fail);await framePromise;
+  if(!state.active||state.disposed)return false;
+  await renderer.setAnimationLoop(renderFrame);return true;
+};
 
 async function start(){
   if(!['canto','meio'].includes(typology)||!['auto','webgpu','webgl'].includes(requested)||!['planta3d','visita'].includes(state.mode))throw Error('Parâmetros do interior inválidos.');
@@ -464,17 +484,14 @@ async function start(){
   addLights();
   navigation=createNavigation(layout,()=>furniture);entry=navigation.entry();tourPosition=[...entry];faceRoom();refreshRooms();
   function resize(){const width=stage.clientWidth,height=stage.clientHeight;if(!width||!height||state.disposed)return;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();}
-  observer=new ResizeObserver(resize);observer.observe(stage);resize();orbitDefault();const initialMode=state.mode;state.mode='planta3d';state.setMode(initialMode);
+  resizeView=resize;observer=new ResizeObserver(resize);observer.observe(stage);resize();orbitDefault();const initialMode=state.mode;state.mode='planta3d';state.setMode(initialMode);
   wire();document.querySelector('#furniture-select').replaceChildren(...furniture.map(m=>{const option=document.createElement('option');option.value=m.id;option.textContent=m.name;return option;}));
   const area=record.areaPublishedRange?record.areaPublishedRange.map(a=>a.toFixed(2).replace('.',',')).join(' a '):record.area.toFixed(2).replace('.',',');
   progress(`${record.label} · ${area} m² · ilustração aproximada`);
   if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();
   check();await renderer.renderAsync(scene,camera);check();state.ready=true;
   for(const element of document.querySelectorAll('#interior-controls button,#interior-controls select,#furniture-panel button,#furniture-panel select'))element.disabled=false;
-  renderer.setAnimationLoop(time=>{
-    if(state.disposed||frameBusy)return;const dt=Math.min(.05,Math.max(0,(time-lastFrame)/1000||0));lastFrame=time;tick(dt);frameBusy=true;
-    framePromise=renderer.renderAsync(scene,camera).catch(fail).finally(()=>{frameBusy=false;});
-  });
+  renderer.setAnimationLoop(renderFrame);
   return state;
 }
 startup=Promise.resolve().then(start);state.readyPromise=startup;

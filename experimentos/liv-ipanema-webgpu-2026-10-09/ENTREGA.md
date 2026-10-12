@@ -1,8 +1,25 @@
 # LIV Ipanema — pacote de avaliação de 11/10/2026
 
+## Revisão v10 — paredes completas e reuso dos interiores
+
+A versão atual para revisão é `entregas/liv-avaliacao-20261011-v10/`. Canto e Meio começam com paredes completas; **Paredes baixas** passa a ser opcional. Tipologias já abertas são reutilizadas em Planta 3D/Tour, com no máximo duas cenas e somente a visível renderizando. Trocas preservam câmera manual, móveis e preferência de paredes; sair para Maquete/Planta 2D encerra ambos os interiores. Cadastro de demonstração e filtro de disponíveis da v9 permanecem. [TROCA-PLANTAS.md](TROCA-PLANTAS.md) descreve causa, medição e limite de memória.
+
+- Versão: `55a77712998e80105e170470db8afc5f5681646ba9ad1a253b364351732e8eda`.
+- Site: **240 arquivos / 144.456.134 B**; revisão: **48 arquivos / 8.111.992 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v10-55a77712998e.zip`, **115.588.452 B**, SHA-256 `6f8cf81adbe4f78c9aa44119387d358738c76beef89b1c7eeaf8b40250daf741`.
+- [Maquete v10 com demonstração](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v10/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio&demonstracao=1).
+
+[Trocas com recursos já baixados](evidencias/troca-plantas-conferida/runtime.json): **PASS** em WebGPU, WebGL e toque emulado. Medianas das trocas após ambas as cenas serem abertas: 6,2 / 6,0 / 6,4 ms, respectivamente; antes, 4.541 ms em WebGPU e 2.600 ms em WebGL2. Reuso de instâncias, ausência de novas requisições nas trocas aquecidas, recursos estáveis, suspensão, preferências/câmera/móveis, seleção rápida, perda do dispositivo suspenso e descarte ao sair foram conferidos. A primeira abertura ainda prepara os recursos gráficos.
+
+[Paredes completas e corte opcional](evidencias/parede-inteira-inicial/runtime.json): **seis casos PASS**, incluindo identidade de geometria/materiais/mapas e Tour completo. [Cancelamento durante inicialização](evidencias/troca-plantas-falhas/cancelamento-init-webgpu/runtime.json) e [erro do renderer](evidencias/troca-plantas-falhas/renderer-error-webgpu/runtime.json): **PASS**. Dois testes Node de câmera/navegação e quatro testes de empacotamento passaram. Qualificação física no Poco/iPhone permanece pendente; nenhum modelo, bake, configuração real de estoque ou implantação de produção foi modificado.
+
+[Conferência independente da v10](evidencias/entrega-troca-plantas/runtime.json): **PASS**, com 240 recursos por HTTP/hash, clique/toque na fachada, duas tipologias nos quatro modos e caminhada, mapa/retorno, PBR/Draco, recuperação da base, diagnóstico e fallback 2D sem GPU nos três perfis.
+
+[Reuso e paredes na própria v10 empacotada](evidencias/troca-plantas-empacotada/runtime.json): **PASS** nos três perfis, incluindo preferências/câmera/móveis, suspensão, seleção rápida, perda do dispositivo suspenso e descarte completo. Na aba existente do responsável, Canto e Meio abriram com **Paredes baixas** desligado, e o retorno a Canto reutilizou o interior preparado. A prévia permanece aberta em Planta 3D.
+
 ## Revisão v9 — ficha única e demonstração de disponibilidade
 
-A versão atual para revisão é `entregas/liv-avaliacao-20261011-v9/`. Remove a lista lateral de finais, a ficha duplicada e o espelho público. A ficha permanece acessível pelo clique/toque no apartamento. O filtro **Disponíveis** destaca o edifício inteiro. Um cadastro separado no emulador local contém 136 vendidos/ocupados e 34 disponíveis, distribuídos aleatoriamente; o painel permite editar e acompanhar a atualização ao vivo. [DEMONSTRACAO.md](DEMONSTRACAO.md) registra configuração, reinício e limites.
+A revisão anterior está em `entregas/liv-avaliacao-20261011-v9/`. Remove a lista lateral de finais, a ficha duplicada e o espelho público. A ficha permanece acessível pelo clique/toque no apartamento. O filtro **Disponíveis** destaca o edifício inteiro. Um cadastro separado no emulador local contém 136 vendidos/ocupados e 34 disponíveis, distribuídos aleatoriamente; o painel permite editar e acompanhar a atualização ao vivo. [DEMONSTRACAO.md](DEMONSTRACAO.md) registra configuração, reinício e limites.
 
 - Versão: `94bfd52d6dbf455a825d10ead64b428a4f392cf23cbfd4970dd4b0e733f14355`.
 - Site: **240 arquivos / 144.453.136 B**; revisão: **40 arquivos / 5.812.490 B**.
