@@ -52,6 +52,27 @@ for(const path of ['unidades.json','modelo/unidades-contorno.json','modelo/entra
     }
     a.dispose();b.dispose();assert.equal(args.scene.children.length,0);
   });
+  test(`${path}: facade taps resolve the floor without selecting it first; drag and multitouch do not pick`,()=>{
+    const data=expandBuildingCatalog(pilot),camera=new PerspectiveCamera(45,800/600,.1,500),events=new Map(),selected=[];
+    let floor=-1;
+    const canvas={getBoundingClientRect:()=>({left:0,top:0,width:800,height:600}),
+      addEventListener:(name,fn)=>events.set(name,fn),removeEventListener:name=>events.delete(name)};
+    const picking=createUnitPicking({scene:new Scene(),canvas,catalog:data,getCamera:()=>camera,getFloor:()=>floor,onSelect:id=>selected.push(id)});
+    for(const unit of data.units){
+      const a=unit.bounds.min,b=unit.bounds.max,point=unit.pickPoint??[(a[0]+b[0])/2,(a[1]+b[1])/2,unit.side==='lazer'?b[2]:a[2]];
+      camera.position.set(point[0],point[1],Math.sign(point[2])*90);camera.lookAt(new Vector3(...point));camera.updateMatrixWorld();
+      assert.equal(picking.pick(400,300),unit.id);floor=1;
+      assert.equal(picking.pick(400,300),unit.id,'A highlighted floor must not lock facade picking.');floor=-1;
+    }
+    const event=(id,x=400,y=300,primary=true)=>({pointerId:id,clientX:x,clientY:y,isPrimary:primary,button:0});
+    const queries=picking.stats.pickQueries;
+    events.get('pointerdown')(event(1));events.get('pointermove')(event(1,430));events.get('pointerup')(event(1,430));
+    events.get('pointerdown')(event(1));events.get('pointerdown')(event(2,410,300,false));
+    events.get('pointerup')(event(2,410,300,false));events.get('pointerup')(event(1));
+    assert.equal(picking.stats.pickQueries,queries);assert.deepEqual(selected,[]);
+    events.get('pointerdown')(event(1));events.get('pointerup')(event(1));assert.equal(selected[0],data.units.at(-1).id);
+    picking.dispose();assert.equal(events.size,0);
+  });
 }
 test('scope is explicit and invalid or unconfirmed pilot inputs fail before expansion',()=>{
   assert.equal(unitScope('?unidades=edificio'),'edificio');assert.equal(unitScope('?unidades=__proto__'),'piloto');

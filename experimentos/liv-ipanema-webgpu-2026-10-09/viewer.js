@@ -318,6 +318,7 @@ function selectUnit(id,{frameEvent=false,showInformation=false}={}){
   if(id!==null&&(!state.ready||state.mode!=='maquete'||!api))return false;
   // List selection reveals the appropriate face; canvas taps preserve the orbit.
   if(unit&&!frameEvent)showUnitSide(unit.side,floorOf(units,unit));
+  if(unit&&frameEvent){state.floor=floorOf(units,unit);document.getElementById('floor').value=String(state.floor);}
   if(unit?.relation){state.typology=unit.relation.typology;document.getElementById('typology').value=state.typology;}
   state.selectedUnitId=id;api?.setSelectedUnit(id);update();
   if(unit&&(frameEvent||showInformation))showDetails();return true;

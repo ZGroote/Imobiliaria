@@ -6,6 +6,8 @@ Preencher os perfis comuns com preço, área, quartos, banheiros, vaga, descriç
 
 Na página pública, clicar no apartamento da fachada, nos botões do pavimento ou no espelho abre uma ficha. Ela mostra os dados recebidos e permite acessar a planta 2D, 3D e Tour correspondentes quando a associação existe. Fechar pelo botão, pela área externa ou por Escape restaura o foco. Informação ausente aparece como desconhecida. Texto de descrição e condições é exibido como texto, sem executar HTML.
 
+No edifício completo, o clique/toque na fachada identifica o pavimento automaticamente, inclusive com “Sem destaque” escolhido; não é necessário usar a lista antes. O giro da câmera é preservado ao abrir a ficha. Arrastar e gestos com vários dedos não abrem informações. Cobertura, circulação e espaços fora das posições verificadas não recebem apartamento presumido. O piloto histórico continua limitado ao primeiro pavimento tipo.
+
 ## Vincular o site ao cadastro
 
 `node configurar_estoque.mjs --imovel ID_DO_IMOVEL` configura o empreendimento deste experimento. Sem `--imovel`, o site aceita `maquete-liv-ipanema.html?geometria=entrada&estoque=ID_DO_IMOVEL`; o ID é o documento do imóvel no painel. O parâmetro ativa automaticamente o edifício completo e acompanha o retorno pelo mapa. A configuração atual não fixa um imóvel: a página sem parâmetro continua usando os arquivos locais de referência e não baixa o SDK Firebase.

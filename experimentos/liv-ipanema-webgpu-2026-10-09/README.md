@@ -1,6 +1,6 @@
 # LIV Ipanema — evolução visual e WebGPU
 
-[Entrega local v6](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v6/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio), com estoque opcional e posicionamento no terreno indicado, sem preenchimento artificial ao redor. Identidade, ZIP, relatórios e limites em [ENTREGA.md](ENTREGA.md).
+[Entrega local v7](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v7/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio), com clique direto nos apartamentos da fachada, estoque opcional e posicionamento no terreno indicado, sem preenchimento artificial ao redor. Identidade, ZIP, relatórios e limites em [ENTREGA.md](ENTREGA.md).
 
 Cadastro de unidades implementado: clicar abre uma ficha; o painel gerencia 170 posições, dois perfis comuns e exceções individuais, com consulta pública ao vivo. Configuração, permissões e ativação em [ESTOQUE.md](ESTOQUE.md). Nenhum dado comercial real foi preenchido ou publicado.
 

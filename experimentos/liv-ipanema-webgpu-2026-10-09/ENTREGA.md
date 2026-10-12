@@ -1,8 +1,19 @@
 # LIV Ipanema — pacote de avaliação de 11/10/2026
 
+## Revisão v7 — clique direto na fachada
+
+A versão para revisão é `entregas/liv-avaliacao-20261011-v7/`. Corrige a seleção que antes exigia destacar o pavimento: no edifício completo, clicar/tocar em um apartamento visível identifica seu andar e abre a ficha, inclusive com “Sem destaque”. A câmera permanece na posição escolhida. Arrastes e gestos com vários dedos não selecionam; cobertura e circulação continuam sem atribuição presumida. As correções de terreno da v6 são preservadas.
+
+- Versão: `977ac323cf21c0cf500d0bfb4675e0a3d9f9bc30ab5c0ae5efb075dcaa4efd34`.
+- Site: **239 arquivos / 144.457.998 B**; revisão: **26 arquivos / 3.995.879 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v7-977ac323cf21.zip`, **112.339.538 B**, SHA-256 `1e4f2c461e1417e9706fabc50831d7b6348f37b07c3baebebffe1420e0dade52`.
+- [Maquete v7](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v7/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio).
+
+[Conferência independente da v7](evidencias/entrega-clique-direto/runtime.json): **PASS**, com clique real ou toque emulado nos pavimentos 8 e 12 sem selecionar andar previamente, ficha aberta e câmera preservada nos três perfis WebGPU/WebGL2/toque. Os 239 recursos foram verificados por HTTP; seleção por espelho, duas plantas/Tours, mapa, diagnóstico e recuperações também passaram. Dezenove testes de cadastro/seleção incluem todas as 170 posições de cada edição, seleção sem destaque, arraste e vários dedos. Na aba existente do responsável, um clique na janela abriu a ficha do final 08, 10º pavimento. O estoque comercial real ainda não foi preenchido ou publicado; aparelhos físicos permanecem pendentes.
+
 ## Revisão v6 — retirada do preenchimento externo
 
-A versão para revisão é `entregas/liv-avaliacao-20261011-v6/`. Remove a faixa de terreno e a linha de divisa artificiais da v5, rejeitadas pelo responsável. A maquete mantém seu piso e enquadramento originais. O mapa conserva o giro, a localização e o pequeno acesso da portaria, sem desenhar o lote como uma placa ao redor do modelo. Pisos de contexto são recortados; o terreno natural de fundo permanece contínuo.
+A revisão anterior está em `entregas/liv-avaliacao-20261011-v6/`. Remove a faixa de terreno e a linha de divisa artificiais da v5, rejeitadas pelo responsável. A maquete mantém seu piso e enquadramento originais. O mapa conserva o giro, a localização e o pequeno acesso da portaria, sem desenhar o lote como uma placa ao redor do modelo. Pisos de contexto são recortados; o terreno natural de fundo permanece contínuo.
 
 - Versão: `d8c347b53a07fd1cfe27672a5054771cd1c4c58d2c7e9423241094c3d597965b`.
 - Site: **239 arquivos / 144.457.642 B**; revisão: **26 arquivos / 3.995.424 B**.

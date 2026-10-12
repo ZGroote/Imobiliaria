@@ -64,6 +64,7 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
   const pointers=new Set(),stats={pickQueries:0};
   const activeFloor=()=>Number.isInteger(getFloor())&&getFloor()>=0&&
     (catalog.floorIndex===null||getFloor()===catalog.floorIndex);
+  const canPick=()=>catalog.floorIndex===null||activeFloor();
   function refresh(){highlight.visible=!disposed&&activeFloor()&&selectedId!==null&&
     floorOf(catalog,unitById(catalog,selectedId))===getFloor();}
   function select(id){
@@ -80,13 +81,13 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
     refresh();return true;
   }
   function pick(x,y){
-    if(disposed||!activeFloor())return null;
+    if(disposed||!canPick())return null;
     const rect=canvas.getBoundingClientRect();
     if(!rect.width||!rect.height||x<rect.left||x>rect.right||y<rect.top||y>rect.bottom)return null;
     ndc.set((x-rect.left)/rect.width*2-1,-(y-rect.top)/rect.height*2+1);
     raycaster.setFromCamera(ndc,getCamera());stats.pickQueries++;
     const id=resolve(raycaster.ray);
-    return id!==null&&floorOf(catalog,unitById(catalog,id))===getFloor()?id:null;
+    return id!==null&&(catalog.floorIndex===null||floorOf(catalog,unitById(catalog,id))===getFloor())?id:null;
   }
   function down(event){
     pointers.add(event.pointerId);
@@ -99,7 +100,7 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
   function up(event){
     move(event);pointers.delete(event.pointerId);
     const tap=gesture?.id===event.pointerId&&!gesture.moved&&pointers.size===0;gesture=null;
-    if(tap&&activeFloor())onSelect(pick(event.clientX,event.clientY));
+    if(tap&&canPick())onSelect(pick(event.clientX,event.clientY));
   }
   function cancel(event){pointers.delete(event.pointerId);gesture=null;}
   const events={pointerdown:down,pointermove:move,pointerup:up,pointercancel:cancel,lostpointercapture:cancel};

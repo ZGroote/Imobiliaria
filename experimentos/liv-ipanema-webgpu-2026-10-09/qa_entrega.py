@@ -19,6 +19,33 @@ def save(output,report):
     (output/'runtime.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
 
 
+def click_facade(page,touch,floor,screenshot=None):
+    frame=child(page)
+    point=frame.evaluate('''floor=>{
+      const p=__livProva,rect=p.renderer.domElement.getBoundingClientRect();p.camera.updateMatrixWorld();
+      for(const u of p.units.units.filter(u=>u.floorIndex===floor)){
+        const a=u.bounds.min,b=u.bounds.max,v=p.camera.position.clone().fromArray(u.pickPoint??[(a[0]+b[0])/2,(a[1]+b[1])/2,u.side==='lazer'?b[2]:a[2]]).project(p.camera);
+        if(Math.abs(v.x)>.95||Math.abs(v.y)>.95)continue;
+        const x=rect.left+(v.x+1)*rect.width/2,y=rect.top+(1-v.y)*rect.height/2;
+        if(p.unitPicking.pick(x,y)===u.id)return {x,y,id:u.id,floor:u.floorIndex};
+      }throw Error('Nenhum apartamento visível para o clique de teste.');
+    }''',floor)
+    box=page.locator('#stage iframe').bounding_box();x,y=box['x']+point['x'],box['y']+point['y']
+    before=frame.evaluate('({position:__livProva.camera.position.toArray(),target:__livProva.controls.target.toArray()})')
+    if touch:page.touchscreen.tap(x,y)
+    else:page.mouse.click(x,y)
+    page.locator('#unitDetails').wait_for(state='visible')
+    assert page.evaluate('__livViewer.selectedUnitId')==point['id']
+    assert page.evaluate('__livViewer.floor')==floor
+    assert page.locator('#floor').input_value()==str(floor)
+    assert frame.evaluate('__livProva.unitPicking.getState().active')
+    assert frame.evaluate('__livProva.camera.position.toArray()')==before['position']
+    assert frame.evaluate('__livProva.controls.target.toArray()')==before['target']
+    if screenshot:page.screenshot(path=str(screenshot))
+    page.locator('#closeDetails').click();assert page.locator('#unitDetails').is_hidden()
+    return {'id':point['id'],'floor':floor,'dialog':True,'cameraUnchanged':True,'touch':touch}
+
+
 def main(package,output):
     package=package.resolve();output.mkdir(parents=True,exist_ok=True);site=package/'site'
     manifest=json.loads((site/'entrega-manifest.json').read_bytes())
@@ -58,6 +85,9 @@ def main(package,output):
                     assert page.evaluate('__livViewer.units.units.every(u=>!u.relation&&u.typology===null&&u.commercial.priceCents===null)')
                     case['backendEffective']=page.evaluate('__livViewer.backend')
                     if backend!='auto':assert case['backendEffective']==backend
+                    assert page.evaluate('__livViewer.floor')==-1
+                    case['directFacadeClicks']=[click_facade(page,touch,8,output/f'{backend}-{touch}-clique-fachada.png'),click_facade(page,touch,12)]
+                    page.locator('#floor').select_option('-1')
                     page.locator('[data-view="implantacao"]').click()
                     assert child(page).evaluate('''()=>{let extra=false;__livProva.scene.traverse(o=>{if(o.name==='liv-parcela-contexto')extra=true;});return !extra;}''')
                     page.wait_for_timeout(400)

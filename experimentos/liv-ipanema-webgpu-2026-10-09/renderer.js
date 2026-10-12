@@ -420,7 +420,10 @@ async function start() {
   if(state.disposed)return;
   if(units&&units.sourceModelSHA256!==data.sourceModelSHA256)throw Error('As posições dos finais pertencem a outra edição da maquete.');
   if(units)unitPicking=createUnitPicking({scene,canvas,catalog:units,getCamera:()=>camera,getFloor:()=>selectedFloor,
-    onSelect:id=>{unitPicking.select(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id}}));}});
+    onSelect:id=>{
+      if(id!==null)setFloor(floorOf(units,unitById(units,id)));
+      unitPicking.select(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id}}));
+    }});
   function setUnitView(side,floor=1){
     if(!['lazer','estacionamento'].includes(side))throw Error('Lado do pavimento inválido.');
     if(!units||!units.units.some(unit=>floorOf(units,unit)===floor))throw Error('Pavimento fora do cadastro.');

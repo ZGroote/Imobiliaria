@@ -26,7 +26,8 @@ export function createUnitUI(catalog,{onSelect,onClear,onSide}){
     }
     for(const button of document.querySelectorAll('[data-unit-side]'))button.disabled=!ready||mode!=='maquete';
     document.getElementById('unitHelp').textContent=mode!=='maquete'?'Volte à maquete para explorar os finais.':
-      (building&&floor>=0)||floor===catalog.floorIndex?'Toque no pavimento destacado ou escolha um final.':
+      building?'Clique ou toque em um apartamento da fachada para abrir a ficha. Arraste para girar.':
+      floor===catalog.floorIndex?'Toque no pavimento destacado ou escolha um final.':
         `Escolha um final para explorar o ${building?floorLabel(displayFloor).toLowerCase():'1º pavimento tipo'}.`;
     document.getElementById('unitFloorNote').textContent=`${floorLabel(displayFloor)} · posições aproximadas`;
     document.getElementById('unitCard').hidden=!unit;
