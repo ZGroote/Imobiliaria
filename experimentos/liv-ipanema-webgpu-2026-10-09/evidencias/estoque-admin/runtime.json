@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "recordedAt": "2026-10-11T23:42:12.653914+00:00",
+  "physicalMobile": false,
+  "project": "demo-painel",
+  "syntheticOnly": true,
+  "cases": [
+    {
+      "name": "admin-public-desktop",
+      "stock": 170,
+      "unknown": 167,
+      "sold": 2,
+      "available": 1,
+      "liveStatus": true,
+      "liveProfile": true,
+      "ownOverrides": true,
+      "cameraPreserved": true,
+      "bothTours": true,
+      "revocation": true,
+      "reload": true,
+      "safeText": true,
+      "offlineNoticeInDialog": true,
+      "status": "PASS"
+    },
+    {
+      "name": "touch-emulated",
+      "dialog": true,
+      "soldVisible": true,
+      "close": true,
+      "status": "PASS"
+    }
+  ],
+  "browserVersion": "154.0.8037.98",
+  "errors": [],
+  "configUnchanged": true,
+  "sources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js": "0f692b8ff40fbcd0e92f875fcdbb89aaf17e89b16acb97e3443bd5d9e9ee161d",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/estoque-adapter.js": "88d7a75e08f3bafe51ea3e88b16592f57bd78b5a3a97cce1f21738a32dc2d47c",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/estoque-runtime.js": "8bf9f7de43b4a5999b1b982d0f4b1f0834465598192ce067119cbe6116d0caa2",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html": "bd3f5be7e4e8fa18dfbc1ab37b064e972ddf816c88fc802fdf20e723bdb4ad3f",
+    "firebase/firestore.rules": "f7888b509a4127dc3c8cb8d105f4d05e3701671181c73d398a8dc53f2ffa173a",
+    "painel/src/lib/estoque.ts": "c00566c958da435403b20c0ccbe39aba7dfd50727fe5b8281138a763eb6e3164"
+  }
+}

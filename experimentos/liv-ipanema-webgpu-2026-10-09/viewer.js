@@ -7,12 +7,13 @@ import {requestedEdition,exteriorEdition} from './edicoes.js';
 import {attachCommercial} from './comercial.js';
 import {requestedAmbience,AMBIENCES} from './ambiencia-perfis.js';
 import {attachRelations} from './vinculos.js';
+import {attachStock} from './estoque-adapter.js';
 const stage=document.getElementById('stage'),overlay=document.getElementById('loading');
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
 const backend=['webgpu','webgl'].includes(requested)?requested:'auto';
 const geometry=requestedEdition(location.search);
-const scope=unitScope(location.search);
+const scope=new URLSearchParams(location.search).has('estoque')?'edificio':unitScope(location.search);
 const finish=geometry!=='base'||new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
 const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
 const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
@@ -20,6 +21,8 @@ state.ambience=requestedAmbience(location.search);
 let units,unitUI,mirror;
 let commercialData=null,commercialVersion=0,commercialController=null;
 let relationsData=null,interiorCatalog=null,relationVersion=0,relationController=null;
+let stockData=null,stockControlled=new URLSearchParams(location.search).has('estoque'),stockStart=null,stopStock=null,stockVersion=0;
+const detailsDialog=document.getElementById('unitDetails');
 state.geometry=geometry;
 state.unitScope=scope;
 const storageKey=`liv-viewer-v1:${location.pathname}${geometry==='base'?'':':'+geometry}${scope==='edificio'?':edificio':''}`;
@@ -27,6 +30,7 @@ function updateMapLink(){
   const mapLink=document.querySelector('.map-link'),destination=new URL(mapLink.href);
   if(geometry!=='base')destination.searchParams.set('geometria',geometry);
   if(scope==='edificio')destination.searchParams.set('unidades',scope);
+  const stockId=new URLSearchParams(location.search).get('estoque');if(stockId)destination.searchParams.set('estoque',stockId);
   if(state.ambience==='entardecer')destination.searchParams.set('luz',state.ambience);else destination.searchParams.delete('luz');
   mapLink.href=destination.href;
 }
@@ -71,7 +75,23 @@ function update() {
     state.mode==='planta2d'?`Planta comercial publicada · ${selected.label.toLowerCase()}, ${selected.area} incluindo varanda`:'Arraste para girar · use a roda ou dois dedos para aproximar';
   unitUI?.update({...state,typology:selected.label.toLowerCase()});
   mirror?.update(state);
+  updateDetails();
 }
+function updateDetails(){
+  if(!units)return;
+  const unit=unitById(units,state.selectedUnitId);
+  if(!unit){if(detailsDialog.open)detailsDialog.close();return;}
+  document.getElementById('detailsTitle').textContent=document.getElementById('unitTitle').textContent;
+  const source=document.getElementById('unitCard'),body=document.getElementById('detailsBody');
+  body.replaceChildren();
+  for(const element of source.children){
+    if(element.tagName==='BUTTON'||element.tagName==='H3'||element.hidden)continue;
+    const copy=element.cloneNode(true);copy.removeAttribute('id');
+    for(const node of copy.querySelectorAll('[id]'))node.removeAttribute('id');body.append(copy);
+  }
+  for(const button of detailsDialog.querySelectorAll('[data-unit-open]')){button.hidden=!unit.relation;button.disabled=!state.ready;}
+}
+function showDetails(){if(state.selectedUnitId&&!detailsDialog.open){updateDetails();detailsDialog.showModal();}}
 function busy(text) {
   state.ready=false;state.error=null;overlay.hidden=false;message.textContent=text;
   state.loadingProgress=null;document.getElementById('downloadProgress').hidden=true;
@@ -154,6 +174,7 @@ async function fallback2D(token) {
   frameKind='image';state.ready=true;state.error=null;state.mode='planta2d';overlay.hidden=true;
   status.textContent='Planta comercial de referência';update();
   openedOnce=true;void transfers.start();
+  if(scope==='edificio')void startStock();
 }
 async function setMode(mode) {
   if(!['maquete','planta2d','planta3d','visita'].includes(mode))throw Error('Modo inválido.');
@@ -164,12 +185,13 @@ async function setMode(mode) {
       const catalog=await loadUnitCatalog(undefined,geometry,scope);if(token!==generation)return;
       units=commercialData?attachCommercial(catalog,commercialData):catalog;state.units=units;
       if(relationsData){units=attachRelations(units,relationsData,interiorCatalog);state.units=units;}
+      if(stockControlled){units=attachStock(units,stockData,interiorCatalog);state.units=units;}
       try{unitById(units,state.selectedUnitId);}catch{state.selectedUnitId=null;}
       if(unitUI)unitUI.setCatalog(units);
-      else unitUI=createUnitUI(units,{onSelect:selectUnit,onClear:()=>selectUnit(null),onSide:showUnitSide});
+      else unitUI=createUnitUI(units,{onSelect:id=>selectUnit(id,{showInformation:true}),onClear:()=>selectUnit(null),onSide:showUnitSide});
       if(scope==='edificio'&&!mirror){
         const {createBuildingMirror}=await import('./espelho.js');if(token!==generation)return;
-        mirror=createBuildingMirror(units,selectUnit);
+        mirror=createBuildingMirror(units,id=>selectUnit(id,{showInformation:true}));
       }
       mirror?.setCatalog(units);
       update();
@@ -255,6 +277,7 @@ async function setMode(mode) {
     if(token!==generation)return;
     state.ready=true;overlay.hidden=true;status.textContent=mode==='maquete'?'Maquete completa carregada':`Planta de referência de ${typology(state.typology).label.toLowerCase()}`;update();
     openedOnce=true;void transfers.start();
+    if(scope==='edificio')void startStock();
     if(scope==='edificio'&&!commercialData)void refreshCommercial();
     if(scope==='edificio'&&!relationsData)void refreshRelations();
   } catch(error) {
@@ -289,14 +312,15 @@ function showUnitSide(side,floor=scope==='edificio'&&state.floor>=0?state.floor:
   api.setUnitView(side,floor);state.floor=floor;state.view='livre';
   document.getElementById('floor').value=String(floor);update();return true;
 }
-function selectUnit(id,{frameEvent=false}={}){
+function selectUnit(id,{frameEvent=false,showInformation=false}={}){
   if(!units)return false;
   const unit=unitById(units,id),api=state.frame?.contentWindow?.__livProva;
   if(id!==null&&(!state.ready||state.mode!=='maquete'||!api))return false;
   // List selection reveals the appropriate face; canvas taps preserve the orbit.
   if(unit&&!frameEvent)showUnitSide(unit.side,floorOf(units,unit));
   if(unit?.relation){state.typology=unit.relation.typology;document.getElementById('typology').value=state.typology;}
-  state.selectedUnitId=id;api?.setSelectedUnit(id);update();return true;
+  state.selectedUnitId=id;api?.setSelectedUnit(id);update();
+  if(unit&&(frameEvent||showInformation))showDetails();return true;
 }
 async function openUnitLayout(){
   const unit=units?unitById(units,state.selectedUnitId):null;
@@ -311,6 +335,7 @@ async function setTypology(id){
 }
 async function refreshCommercial(){
   if(scope!=='edificio'||!units)return false;
+  if(stockControlled)return Boolean(stockData);
   const version=++commercialVersion;commercialController?.abort();
   commercialController=new AbortController();
   try{
@@ -333,6 +358,7 @@ async function refreshCommercial(){
 }
 async function refreshRelations(){
   if(scope!=='edificio'||!units)return false;
+  if(stockControlled)return Boolean(stockData);
   const version=++relationVersion;relationController?.abort();relationController=new AbortController();
   try{
     const response=await fetch(new URL('./vinculos.json',import.meta.url),{cache:'no-cache',signal:relationController.signal});
@@ -355,6 +381,46 @@ async function refreshRelations(){
     return false;
   }
 }
+function stockWarning(message){
+  state.stockError=message||null;
+  for(const id of ['stockWarning','detailsStockWarning']){
+    const warning=document.getElementById(id);warning.hidden=!message;warning.textContent=message;
+  }
+}
+function startStock(){
+  if(stockStart)return stockStart;
+  const version=++stockVersion;
+  stockStart=(async()=>{
+    const response=await fetch(new URL('./estoque-config.json',import.meta.url),{cache:'no-cache'});
+    if(!response.ok)throw Error('Configuração da consulta indisponível.');
+    const config=await response.json();if(version!==stockVersion)return false;
+    // Disabled/default pages do not download the Firebase bundle or contact the database.
+    if(config.mode==='desativado'||(!config.propertyId&&!new URLSearchParams(location.search).get('estoque'))){
+      if(stockControlled)stockWarning('A ligação com o painel ainda não está habilitada nesta versão.');return false;
+    }
+    stockControlled=true;commercialVersion++;commercialController?.abort();relationVersion++;relationController?.abort();
+    units=attachStock(units,null,null);state.units=units;unitUI?.setCatalog(units);mirror?.setCatalog(units);update();
+    const sdk=await import('./estoque-runtime.js');if(version!==stockVersion)return false;
+    const checked=sdk.validarConfig(config,location.search,location.hostname);if(!checked)return false;
+    state.stockPropertyId=checked.id;state.stockStatus='conectando';let latest=0;
+    stopStock=sdk.assinarEstoque(checked,snapshot=>{
+      const sequence=++latest;
+      void (async()=>{
+        if(snapshot?.units.some(u=>u.profileId!==null)&&!interiorCatalog){
+          const response=await fetch(new URL('./interiores/catalogo.json',import.meta.url),{cache:'no-cache'});
+          if(!response.ok)throw Error('Catálogo das plantas indisponível.');interiorCatalog=await response.json();
+        }
+        if(version!==stockVersion||sequence!==latest)return;
+        const next=attachStock(units,snapshot,interiorCatalog);stockData=snapshot;units=next;state.units=units;
+        state.stockStatus=snapshot?'ao-vivo':'nao-publicado';state.commercialStatus=next.commercialStatus;state.relationStatus=next.relationStatus;
+        document.getElementById('commercialWarning').hidden=true;document.getElementById('relationWarning').hidden=true;
+        unitUI?.setCatalog(units);mirror?.setCatalog(units);update();
+      })().catch(()=>{if(version===stockVersion)stockWarning('Não foi possível conferir o cadastro. Confirme a disponibilidade com a equipe responsável.');});
+    },message=>{if(version===stockVersion)stockWarning(message);});
+    return true;
+  })().catch(()=>{if(version===stockVersion)stockWarning('Não foi possível conectar ao painel. A disponibilidade precisa ser confirmada com a equipe responsável.');return false;});
+  return stockStart;
+}
 async function capture() {
   if(!state.ready)return;
   if(state.mode==='maquete')return state.frame.contentWindow.__livProva.capture();
@@ -375,6 +441,17 @@ document.getElementById('floor').addEventListener('change',event=>setFloor(event
 document.getElementById('typology').addEventListener('change',event=>setTypology(event.target.value));
 document.getElementById('ambience').addEventListener('change',event=>setAmbience(event.target.value));
 document.getElementById('openUnitPlant').addEventListener('click',openUnitLayout);
+document.getElementById('seeUnitDetails').addEventListener('click',showDetails);
+document.getElementById('closeDetails').addEventListener('click',()=>detailsDialog.close());
+detailsDialog.addEventListener('click',event=>{
+  if(event.target!==detailsDialog)return;const r=detailsDialog.getBoundingClientRect();
+  if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)detailsDialog.close();
+});
+for(const button of detailsDialog.querySelectorAll('[data-unit-open]'))button.addEventListener('click',async()=>{
+  const unit=unitById(units,state.selectedUnitId);if(!unit?.relation)return;
+  state.typology=unit.relation.typology;document.getElementById('typology').value=state.typology;
+  detailsDialog.close();await setMode(button.dataset.unitOpen);
+});
 document.getElementById('capture').addEventListener('click',()=>capture().catch(error=>{status.textContent='Não foi possível capturar a imagem: '+error.message;}));
 document.getElementById('retry').addEventListener('click',()=>setMode(state.mode));
 document.getElementById('fallback').addEventListener('click',()=>{
@@ -388,6 +465,7 @@ document.querySelector('.map-link').addEventListener('click',event=>{
     .then(()=>{if(token===generation)location.assign(destination);});
 });
 window.addEventListener('pagehide',()=>{
+  stockVersion++;void stopStock?.();stopStock=null;stockStart=null;
   commercialVersion++;commercialController?.abort();
   relationVersion++;relationController?.abort();
   generation++;state.ready=false;release();

@@ -15,3 +15,7 @@
 [data-availability=disponivel]{border-color:#70c49b;background:#16352c}[data-availability=reservada]{border-color:#d6b367;background:#3d3020}[data-availability=vendida]{border-color:#cc8585;background:#3c252b}[data-availability=bloqueada]{border-color:#9f93c9;background:#2e2940}
 
 .data-warnings{max-width:1280px;margin:auto;padding:0 20px}.data-warnings p{color:#edd1a5}
+.unit-details{width:min(620px,calc(100% - 24px));max-height:90vh;overflow:auto;padding:20px;color:#e6edf1;background:#121e29;border:1px solid #415469;border-radius:12px;overscroll-behavior:contain}
+.unit-details::backdrop{background:#050a12b8}.details-head{display:flex;align-items:start;justify-content:space-between;gap:16px}.details-head h2{font-size:20px;margin:0}.details-head button{flex-shrink:0}
+#detailsBody{font-size:14px;overflow-wrap:anywhere}#detailsBody dl{display:grid;grid-template-columns:1fr 1fr;gap:10px}#detailsBody dt{color:#aab9c4}#detailsBody dd{margin:0}#detailsBody a{color:#99ddff}.details-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+@media(max-width:420px){.unit-details{padding:16px}#detailsBody dl{grid-template-columns:1fr}#detailsBody dd{margin-bottom:8px}.details-actions button{width:100%}}

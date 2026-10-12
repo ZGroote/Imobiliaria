@@ -125,8 +125,8 @@
     {
       "path": "mapa-runtime/mapa-liv-ipanema-5km.html",
       "group": "map",
-      "bytes": 8048147,
-      "sha256": "49a837a12db15288cd843e566e2bc949c6250008e660607217bad57cca8ec287",
+      "bytes": 8054703,
+      "sha256": "953de725cc37a394c5ffef8a9259f0cb5578fea575348c188eddfcf536d77f7d",
       "essential": true
     },
     {
@@ -1005,5 +1005,5 @@
       "essential": false
     }
   ],
-  "version": "fe50e42ddd61a2eaa75dbf4d643c9acc681c9abb8e1a9c51e450de479fdcee19"
+  "version": "eb6eda3bfb249b69fd6088df35e244a331ae12bd235504018ca2d29fb4b63e5d"
 }

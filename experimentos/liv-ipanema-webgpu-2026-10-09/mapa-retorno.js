@@ -7,6 +7,7 @@ const frame=document.getElementById('map'),destination=new URL('./maquete-liv-ip
 const geometry=requestedEdition(location.search);
 if(geometry!=='base')destination.searchParams.set('geometria',geometry);
 if(unitScope(location.search)==='edificio')destination.searchParams.set('unidades','edificio');
+const stockId=new URLSearchParams(location.search).get('estoque');if(stockId)destination.searchParams.set('estoque',stockId);
 if(requestedAmbience(location.search)==='entardecer')destination.searchParams.set('luz','entardecer');
 const failure=document.getElementById('failure');
 failure.querySelector('a[href="maquete-liv-ipanema.html"]').href=destination.href;

@@ -1,5 +1,35 @@
 # LIV Ipanema — pacote de avaliação de 11/10/2026
 
+## Revisão v6 — retirada do preenchimento externo
+
+A versão para revisão é `entregas/liv-avaliacao-20261011-v6/`. Remove a faixa de terreno e a linha de divisa artificiais da v5, rejeitadas pelo responsável. A maquete mantém seu piso e enquadramento originais. O mapa conserva o giro, a localização e o pequeno acesso da portaria, sem desenhar o lote como uma placa ao redor do modelo. Pisos de contexto são recortados; o terreno natural de fundo permanece contínuo.
+
+- Versão: `d8c347b53a07fd1cfe27672a5054771cd1c4c58d2c7e9423241094c3d597965b`.
+- Site: **239 arquivos / 144.457.642 B**; revisão: **26 arquivos / 3.995.424 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v6-d8c347b53a07.zip`, **112.339.259 B**, SHA-256 `fa45a7d8c4dee122aab41433ec8dddc124b99b83e6481f34c192f17b7ed22bad`.
+- [Maquete v6](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v6/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio) · [Mapa v6](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v6/site/mapa-liv-ipanema-5km.html?geometria=entrada&unidades=edificio).
+
+Conferência visual e identidade no [relatório do mapa sem preenchimento](evidencias/mapa-sem-preenchimento/runtime.json). Conferência independente dos bytes e navegação da v6 em [entrega-sem-preenchimento/runtime.json](evidencias/entrega-sem-preenchimento/runtime.json). Os relatórios registram o estado das execuções. Estoque real, produção e qualificação de aparelhos físicos continuam desativados/pendentes.
+
+Ambos terminaram em **PASS**. A v6 foi verificada por HTTP nos 239 recursos, com as duas plantas/Tours, ficha, ida/retorno pelo mapa, recuperação e ausência de preenchimento externo em WebGPU, WebGL2 e toque emulado. As capturas de Implantação foram inspecionadas e a aba existente do responsável foi atualizada para a v6.
+
+## Revisão v5 — estoque e terreno indicado
+
+A revisão histórica está em `entregas/liv-avaliacao-20261011-v5/`. Seu preenchimento externo foi rejeitado pelo responsável e corrigido na v6 acima. Acrescentou as fichas por apartamento, o leitor público opcional do estoque administrado no painel e o contorno aproximado indicado pelo responsável. Maquete e mapa usam a mesma referência; o mapa recebe o giro de 180°, a mudança de terreno e o recorte do contexto antigo dentro da área. A escala da torre permanece igual. A v4 abaixo continua preservada como registro histórico.
+
+- Versão: `7d268df4e7e928a1c944dc19f37248ff639a12994cc54e5669310d84ad2a2c44`.
+- Site: **241 arquivos / 144.462.277 B**; revisão: **26 arquivos / 3.990.987 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v5-7d268df4e7e9.zip`, **112.337.752 B**, SHA-256 `3394e20506faf487b9ea3a4eb2dd34fc3e6f7ba501d35acfe50c908f4f1edfe3`.
+- [Maquete v5](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v5/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio) · [Mapa v5](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v5/site/mapa-liv-ipanema-5km.html?geometria=entrada&unidades=edificio).
+
+Operação e ativação em [ESTOQUE.md](ESTOQUE.md). O documento de configuração do estoque tem metadados públicos, incluindo nome e estado de publicação; unidades e perfis só ficam públicos quando habilitados e vinculados a um imóvel ativo. Histórico, atores e índice de números permanecem privados. A configuração v5 não fixa um ID de imóvel, não cadastra ofertas reais e não ativa a produção. O painel e suas novas regras são componentes separados, preparados no repositório; o ZIP contém o site público e a revisão.
+
+Conferências novas: [painel e estoque ao vivo](evidencias/estoque-admin/runtime.json), [implantação no mapa](evidencias/mapa-giro-avenida/runtime.json), [cadastro local preservado](evidencias/comercial-estoque-terreno-final/runtime.json), [vínculos das duas plantas](evidencias/vinculos-estoque-terreno-final/runtime.json) e [bytes e navegação do pacote v5](evidencias/entrega-estoque-terreno-final/runtime.json). Os relatórios específicos registram o estado de cada execução. Nenhum desses ensaios qualifica um celular físico. A imagem de satélite fornece uma amarração aproximada, sem substituir levantamento cadastral ou planta executiva.
+
+Os cinco relatórios acima terminaram em **PASS**. O pacote foi conferido por HTTP nos 241 arquivos e navegou em WebGPU, WebGL2 e toque emulado, com 170 posições, ficha, duas plantas em quatro modos, caminhada, ida/retorno do mapa e zero erro de requisição ou tile. Material padrão/Draco, base de recuperação, exportação do diagnóstico e recuperação 2D sem GPU também passaram. A vista Implantação foi inspecionada na v5: 19 vértices de terreno e escala `[1,1,1]`, com a mesma identidade do contorno do mapa.
+
+## Registro histórico v4
+
 O pacote local está montado em `entregas/liv-avaliacao-20261011-v4/`: `site/`, `revisao/`, configuração própria e instruções. A versão pública antiga não foi substituída. A preparação inclui WebGPU com alternativa WebGL2, as duas plantas e seus Tours, 170 posições técnicas, integração comercial/vínculos preparada, fila e recuperação independente da base.
 
 - Versão do conjunto: `ac93e25ff9739851bed5a6a011a80501414535c367a822235217e6300548d936`.

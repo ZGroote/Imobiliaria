@@ -40,6 +40,8 @@ def main(output):
                 assert page.evaluate('__livViewer.reloadRelations()')
                 assert page.evaluate('__livViewer.units.units.filter(u=>u.relation).length')==0
                 page.locator('[data-unit-id]').first.click();assert page.locator('#openUnitPlant').is_hidden()
+                assert page.locator('#unitDetails').is_visible()
+                page.keyboard.press('Escape');assert page.locator('#unitDetails').is_hidden()
                 payload['data']=fixture;assert page.evaluate('__livViewer.reloadRelations()')
                 for row in fixture['units']:
                     page.evaluate('id=>__livViewer.selectUnit(id)',row['id'])

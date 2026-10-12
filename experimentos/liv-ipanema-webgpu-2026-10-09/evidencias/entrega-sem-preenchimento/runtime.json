@@ -1,0 +1,173 @@
+{
+  "status": "PASS",
+  "recordedAt": "2026-10-12T00:11:54.648166+00:00",
+  "physicalMobile": false,
+  "packageVersion": "d8c347b53a07fd1cfe27672a5054771cd1c4c58d2c7e9423241094c3d597965b",
+  "packageDirectory": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\entregas\\liv-avaliacao-20261011-v6",
+  "packageManifestSHA256": "b5d53471fd858914e3d23def9f081841f13def30a58ba68fc60275ccf09ab26d",
+  "recipeSHA256": "904344d06a7e1117f38ca0f4450b00b969caf633d869a029e1f9dc3895d75165",
+  "cases": [
+    {
+      "backendRequested": "webgpu",
+      "touchEmulated": false,
+      "errors": [],
+      "httpFailures": [],
+      "externalRequests": [],
+      "backendEffective": "webgpu",
+      "noArtificialParcelFill": true,
+      "facadeBounds": {
+        "min": [
+          -24.007999420166016,
+          0,
+          -8.899999618530273
+        ],
+        "max": [
+          24.007999420166016,
+          52.70000076293945,
+          8.899999618530273
+        ]
+      },
+      "pngSize": [
+        920,
+        556
+      ],
+      "mapTiles": {
+        "walls": 1680,
+        "yards": 240,
+        "wallSegments": 252,
+        "triangles": 1409930,
+        "drawCalls": 72,
+        "groundParcels": 0,
+        "props": 818,
+        "wallReach": 272.2043298104441,
+        "yardReach": 353.9465869384151,
+        "aerialProps": 0,
+        "range": 360,
+        "coverage": 2120,
+        "aerialBuilds": 1,
+        "tileSize": 640,
+        "pendingTiles": 0,
+        "models": 65,
+        "placedYards": 28540,
+        "loadedTiles": 39,
+        "tileErrors": 0
+      },
+      "status": "PASS",
+      "positions": 170,
+      "twoTypologiesFourModes": true,
+      "png": true,
+      "mapReturn": true,
+      "sceneIframes": 1
+    },
+    {
+      "backendRequested": "webgl",
+      "touchEmulated": false,
+      "errors": [],
+      "httpFailures": [],
+      "externalRequests": [],
+      "backendEffective": "webgl",
+      "noArtificialParcelFill": true,
+      "facadeBounds": {
+        "min": [
+          -24.007999420166016,
+          0,
+          -8.899999618530273
+        ],
+        "max": [
+          24.007999420166016,
+          52.70000076293945,
+          8.899999618530273
+        ]
+      },
+      "pngSize": [
+        920,
+        556
+      ],
+      "mapTiles": {
+        "walls": 1680,
+        "yards": 240,
+        "wallSegments": 252,
+        "triangles": 1409930,
+        "drawCalls": 72,
+        "groundParcels": 0,
+        "props": 818,
+        "wallReach": 272.2043298104441,
+        "yardReach": 353.9465869384151,
+        "aerialProps": 0,
+        "range": 360,
+        "coverage": 2120,
+        "aerialBuilds": 1,
+        "tileSize": 640,
+        "pendingTiles": 0,
+        "models": 65,
+        "placedYards": 28540,
+        "loadedTiles": 39,
+        "tileErrors": 0
+      },
+      "status": "PASS",
+      "positions": 170,
+      "twoTypologiesFourModes": true,
+      "png": true,
+      "mapReturn": true,
+      "sceneIframes": 1
+    },
+    {
+      "backendRequested": "auto",
+      "touchEmulated": true,
+      "errors": [],
+      "httpFailures": [],
+      "externalRequests": [],
+      "backendEffective": "webgpu",
+      "noArtificialParcelFill": true,
+      "facadeBounds": {
+        "min": [
+          -24.007999420166016,
+          0,
+          -8.899999618530273
+        ],
+        "max": [
+          24.007999420166016,
+          52.70000076293945,
+          8.899999618530273
+        ]
+      },
+      "pngSize": [
+        364,
+        454
+      ],
+      "mapTiles": {
+        "walls": 840,
+        "yards": 70,
+        "wallSegments": 128,
+        "triangles": 586560,
+        "drawCalls": 64,
+        "groundParcels": 0,
+        "props": 241,
+        "wallReach": 211.69612206117324,
+        "yardReach": 239.62643883640186,
+        "aerialProps": 0,
+        "range": 240,
+        "coverage": 2120,
+        "aerialBuilds": 1,
+        "tileSize": 640,
+        "pendingTiles": 0,
+        "models": 65,
+        "placedYards": 28540,
+        "loadedTiles": 39,
+        "tileErrors": 0
+      },
+      "status": "PASS",
+      "positions": 170,
+      "twoTypologiesFourModes": true,
+      "png": true,
+      "mapReturn": true,
+      "sceneIframes": 1
+    }
+  ],
+  "httpVerifiedFiles": 239,
+  "browserVersion": "154.0.8037.98",
+  "packagedPbrAndDraco": "PASS",
+  "baselineRecovery": "PASS",
+  "packagedDiagnostic": "PASS",
+  "noGpu2DRecovery": "PASS"
+}

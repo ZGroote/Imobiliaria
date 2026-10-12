@@ -153,6 +153,123 @@ service cloud.firestore {
       allow delete: if false;                          // arquivar: status = archived
     }
 
+    // Estoque público do LIV: somente dados de oferta. properties/users e o histórico
+    // continuam privados. A autorização consulta o imóvel atual, nunca a agência enviada.
+    function salesProperty(pid) { return get(/databases/$(db)/documents/properties/$(pid)).data; }
+    function salesEdit(pid) { return isStaff() || isManager(salesProperty(pid).agencyId); }
+    function salesRead(pid) { return isStaff() || inAgency(salesProperty(pid).agencyId); }
+    function salesPublic(pid) {
+      return get(/databases/$(db)/documents/salesInventory/$(pid)).data.publicEnabled == true
+        && salesProperty(pid).status == 'active';
+    }
+    function salesText(v, n) { return v == null || (v is string && v.size() > 0 && v.size() <= n); }
+    function salesNumber(v, max, integral) {
+      return v == null || (v is number && v >= 0 && v <= max && (!integral || v is int));
+    }
+    function salesInfo(v) {
+      return v is map && v.keys().hasAll(['priceCents', 'areaM2', 'bedrooms', 'bathrooms', 'parking', 'description', 'conditions'])
+        && v.keys().hasOnly(['priceCents', 'areaM2', 'bedrooms', 'bathrooms', 'parking', 'description', 'conditions'])
+        && salesNumber(v.priceCents, 9007199254740991, true) && salesNumber(v.areaM2, 10000, false)
+        && salesNumber(v.bedrooms, 100, true) && salesNumber(v.bathrooms, 100, true)
+        && salesText(v.parking, 200) && salesText(v.description, 2000) && salesText(v.conditions, 2000);
+    }
+    function salesEmpty(v) {
+      return v.priceCents == null && v.areaM2 == null && v.bedrooms == null && v.bathrooms == null
+        && v.parking == null && v.description == null && v.conditions == null;
+    }
+    function salesStamp() {
+      return stamped() && d().revision is int && d().revision >= 1
+        && d().lastChangeId is string && d().lastChangeId.matches('[A-Za-z0-9]{20}');
+    }
+    function salesAudit(pid, kind, key) {
+      let log = getAfter(/databases/$(db)/documents/salesInventory/$(pid)/history/$(d().lastChangeId)).data;
+      return log.kind == kind && log.key == key && log.revision == d().revision
+        && log.actor == request.auth.uid && log.timestamp == request.time && log.snapshot == d();
+    }
+    function salesInitializing(pid) {
+      let p = getAfter(/databases/$(db)/documents/salesInventory/$(pid)).data;
+      return !exists(/databases/$(db)/documents/salesInventory/$(pid)) && p.revision == 1
+        && p.publicEnabled == false && p.updatedAt == request.time && d().lastChangeId == p.lastChangeId;
+    }
+    function salesSettings() {
+      return d().keys().hasAll(['schema', 'bookSHA256', 'model', 'total', 'title', 'publicEnabled', 'revision', 'updatedAt', 'lastChangeId'])
+        && d().keys().hasOnly(['schema', 'bookSHA256', 'model', 'total', 'title', 'publicEnabled', 'revision', 'updatedAt', 'lastChangeId'])
+        && d().schema == 'liv-sales-v1' && d().model == 'liv-ipanema' && d().total == 170
+        && d().bookSHA256 == 'c7dae676c82eab758370e386cea7fe6bd31dded9fa436eb53ebdfe70be7bb50b'
+        && d().title is string && salesText(d().title, 200) && d().publicEnabled is bool && salesStamp();
+    }
+    function salesUnit(key) {
+      let floors = ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16'];
+      let finals = ['01','02','03','04','05','06','07','08','09','10'];
+      return d().keys().hasAll(['id','floor','final','technicalId','commercialNumber','availability','profileId','overrides','revision','updatedAt','lastChangeId'])
+        && d().keys().hasOnly(['id','floor','final','technicalId','commercialNumber','availability','profileId','overrides','revision','updatedAt','lastChangeId'])
+        && d().floor is int && d().floor >= 0 && d().floor <= 16 && d().final is int && d().final >= 1 && d().final <= 10
+        && key == 'p' + floors[d().floor] + '-f' + finals[d().final - 1] && d().id == key
+        && d().technicalId == 'liv-ipanema/pavimento-modelo-' + floors[d().floor] + '/final-' + finals[d().final - 1]
+        && salesText(d().commercialNumber, 100)
+        && (d().commercialNumber == null || d().commercialNumber.matches('[A-Z0-9 _-]{1,100}'))
+        && d().availability in ['nao_informada','disponivel','reservada','vendida','bloqueada']
+        && (d().profileId == null || d().profileId in ['canto','meio']) && salesInfo(d().overrides) && salesStamp();
+    }
+    function salesProfile(key) {
+      return key in ['canto','meio'] && d().id == key && salesInfo(d().info) && salesStamp()
+        && d().keys().hasAll(['id','info','revision','updatedAt','lastChangeId'])
+        && d().keys().hasOnly(['id','info','revision','updatedAt','lastChangeId']);
+    }
+    match /salesInventory/{pid} {
+      // Endereço público de um estoque específico; sem enumerar cadastros de terceiros.
+      allow get: if true;
+      allow list: if isStaff();
+      allow create: if salesEdit(pid) && exists(/databases/$(db)/documents/properties/$(pid))
+        && salesSettings() && d().publicEnabled == false && d().revision == 1 && salesAudit(pid, 'settings', 'settings');
+      allow update: if salesEdit(pid) && salesSettings() && d().revision == resource.data.revision + 1
+        && changesOnly(['title','publicEnabled','revision','updatedAt','lastChangeId']) && salesAudit(pid, 'settings', 'settings');
+      allow delete: if false;
+      match /units/{key} {
+        allow read: if salesRead(pid) || salesPublic(pid);
+        allow create: if salesEdit(pid) && salesInitializing(pid) && salesUnit(key) && d().revision == 1
+          && d().commercialNumber == null && d().availability == 'nao_informada' && d().profileId == null && salesEmpty(d().overrides);
+        allow update: if salesEdit(pid) && salesUnit(key) && d().revision == resource.data.revision + 1
+          && changesOnly(['commercialNumber','availability','profileId','overrides','revision','updatedAt','lastChangeId'])
+          && (d().commercialNumber == null || getAfter(/databases/$(db)/documents/salesInventory/$(pid)/numbers/$(d().commercialNumber)).data.unitKey == key)
+          && (!changed('commercialNumber') || resource.data.commercialNumber == null
+               || !existsAfter(/databases/$(db)/documents/salesInventory/$(pid)/numbers/$(resource.data.commercialNumber)))
+          && salesAudit(pid, 'units', key);
+        allow delete: if false;
+      }
+      match /numbers/{number} {
+        allow read: if salesRead(pid);
+        allow create, update: if salesEdit(pid) && number.matches('[A-Z0-9 _-]{1,100}')
+          && d().keys().hasOnly(['unitKey']) && d().unitKey is string
+          && getAfter(/databases/$(db)/documents/salesInventory/$(pid)/units/$(d().unitKey)).data.commercialNumber == number
+          && getAfter(/databases/$(db)/documents/salesInventory/$(pid)/units/$(d().unitKey)).data.updatedAt == request.time
+          && (!exists(/databases/$(db)/documents/salesInventory/$(pid)/numbers/$(number)) || resource.data.unitKey == d().unitKey);
+        allow delete: if salesEdit(pid)
+          && getAfter(/databases/$(db)/documents/salesInventory/$(pid)/units/$(resource.data.unitKey)).data.commercialNumber != number
+          && getAfter(/databases/$(db)/documents/salesInventory/$(pid)/units/$(resource.data.unitKey)).data.updatedAt == request.time;
+      }
+      match /profiles/{key} {
+        allow read: if salesRead(pid) || salesPublic(pid);
+        allow create: if salesEdit(pid) && salesInitializing(pid) && salesProfile(key) && d().revision == 1 && salesEmpty(d().info);
+        allow update: if salesEdit(pid) && salesProfile(key) && d().revision == resource.data.revision + 1
+          && changesOnly(['info','revision','updatedAt','lastChangeId']) && salesAudit(pid, 'profiles', key);
+        allow delete: if false;
+      }
+      match /history/{changeId} {
+        allow read: if salesRead(pid);
+        allow create: if salesEdit(pid) && d().actor == request.auth.uid && d().timestamp == request.time
+          && d().keys().hasAll(['kind','key','revision','actor','timestamp','snapshot'])
+          && d().keys().hasOnly(['kind','key','revision','actor','timestamp','snapshot'])
+          && d().kind in ['settings','units','profiles'] && d().snapshot.revision == d().revision
+          && d().snapshot.lastChangeId == changeId && d().snapshot.updatedAt == request.time
+          && ((d().kind == 'settings' && d().key == 'settings'
+               && getAfter(/databases/$(db)/documents/salesInventory/$(pid)).data == d().snapshot)
+            || (d().kind in ['units','profiles'] && d().key is string
+               && getAfter(/databases/$(db)/documents/salesInventory/$(pid)/$(d().kind)/$(d().key)).data == d().snapshot));
+        allow update, delete: if false;
+      }
+    }
+
     // Snapshots M1-D: criação somente pela API autenticada + gate Python M1-0.
     // Admin SDK ignora rules: autorização é repetida na transação da API.
     match /propertyReadings/{id} {

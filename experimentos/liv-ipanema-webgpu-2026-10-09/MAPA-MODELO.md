@@ -1,5 +1,17 @@
 # LIV corrigido no mapa — 11/10/2026
 
+## Implantação conforme contorno indicado pelo responsável
+
+`mapa-parcela.json` registra os 19 pontos do contorno marcado no chat, a identidade da imagem de satélite fornecida e três cruzamentos usados para uma amarração aproximada ao sistema de coordenadas existente. A portaria é voltada para a Miguel Petroni/João de Guzzi após o giro de 180°. O posicionamento é uma referência visual: não representa levantamento cadastral ou medidas executivas do terreno.
+
+O modelo GLB conserva geometria, materiais, instâncias e escala `[1,1,1]`. A implantação original cabe no contorno registrado. O contorno serve para posicionamento e recorte de contexto; não cria uma faixa de chão ou uma divisa visível em volta da maquete. O acesso pequeno conecta a portaria à calçada da avenida. A elevação do modelo no mapa passa de 0,40 para 1,05 m sobre a ilha de terreno: sua base está cerca de 0,95 m abaixo da origem da torre e ficava parcialmente sob o piso regional.
+
+A camada de contexto exclui seis construções e cinco quintais da base por centro dentro do lote, recorta muros e subtrai o contorno dos pisos regionais, preservando atributos dos vértices. Caminhos classificados como serviço são recortados nesse trecho; ruas públicas mantêm seus pontos e classificação. Os blocos de dados e os 120 arquivos de tiles fonte permanecem preservados. A reentrância do limite evita englobar o trecho vizinho indicado no contorno.
+
+`preparar_mapa.py` gera o runtime regional a partir do JSON. A maquete WebGPU/WebGL conserva seu piso e seu enquadramento original. O preenchimento externo e a linha de divisa adicionados na v5 foram rejeitados pelo responsável e removidos; não representam a implantação arquitetônica do LIV. O mapa também não desenha esse preenchimento ou linha, mantendo apenas o acesso da portaria.
+
+`evidencias/mapa-sem-preenchimento/runtime.json` compara a v4 preservada com a revisão sem preenchimento: mesmo GLB e escala, giro de π, mudança de lado, terreno alinhado, tiles completos e ausência de erros de JavaScript/HTTP. O relatório anterior `mapa-giro-avenida/runtime.json` documenta a v5 rejeitada. Os testes de geometria verificam conservação da área fora do recorte, atributos interpolados, muros/caminhos externos preservados e ausência de preenchimento artificial. Capturas são desktop; não qualificam celulares físicos. As verificações históricas abaixo documentam as revisões anteriores.
+
 O [mapa do contorno](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/mapa-liv-ipanema-5km.html?geometria=contorno) e o [mapa da entrada revisada](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/mapa-liv-ipanema-5km.html?geometria=entrada) carregam a geometria correspondente à prévia integrada. O endereço sem parâmetro conserva o GLB original. O renderer regional permanece em WebGL/Three r128; a migração integral do mapa para WebGPU continua em T15.
 
 ## Autoria e transporte

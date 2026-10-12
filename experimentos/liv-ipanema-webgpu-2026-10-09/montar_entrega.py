@@ -120,7 +120,12 @@ def inventory(root=ROOT):
         add(record["path"], record)
     add("comercial.json")
     add("vinculos.json")
+    add("estoque-config.json")
+    sales = json.loads(add("estoque-build.json"))
+    if sales.get('schema') != 'liv-sales-bundle-v1':raise ValueError('Bundle comercial inválido.')
+    add(sales['file']['path'], sales['file'])
     add("mapa-runtime/manifest.json")
+    add("mapa-parcela.json")
     # Include all the preserved payload, for a real independent recovery path.
     baseline = json.loads((root / "manifesto.json").read_bytes())
     for name, record in baseline["arquivos"].items():
@@ -129,7 +134,10 @@ def inventory(root=ROOT):
 
 
 def review_inventory(root=ROOT):
-    names = ['AMBIENCIA.md','CATALOGO.md','COMERCIAL.md','DIAGNOSTICO.md','VINCULOS.md','REDE-MEMORIA.md','MATERIAIS.md','MAPA-MODELO.md',
+    names = ['AMBIENCIA.md','CATALOGO.md','COMERCIAL.md','ESTOQUE.md','DIAGNOSTICO.md','VINCULOS.md','REDE-MEMORIA.md','MATERIAIS.md','MAPA-MODELO.md',
+             'evidencias/estoque-admin/runtime.json','evidencias/estoque-admin/ficha-publica-desktop.png',
+             'evidencias/estoque-admin/ficha-publica-toque.png','evidencias/estoque-admin/painel-estoque-desktop.png',
+             'evidencias/mapa-sem-preenchimento/runtime.json','evidencias/mapa-sem-preenchimento/depois.png',
              'evidencias/rede-memoria-gzip-final/medicao.json','evidencias/ambiencia-conferida/runtime.json',
              'evidencias/vinculos-conferidos/runtime.json','evidencias/comercial-apos-vinculos/runtime.json',
              'evidencias/diagnostico-aparelho-final/runtime.json']
@@ -184,6 +192,8 @@ def build(name="liv-avaliacao", root=ROOT):
               "published": False, "physicalMobileQualified": False,
               "commercialStatus": json.loads((root / "comercial.json").read_bytes())["status"],
               "relationStatus": json.loads((root / "vinculos.json").read_bytes())["status"],
+              "commercialProvider": {"kind":"firebase-opt-in", "configuredPropertyId":json.loads((root/"estoque-config.json").read_bytes()).get("propertyId"),
+                                     "adminBuildValidated":True, "productionActivated":False, "realInventoryRegistered":False},
               "sunset": "ilustrativo-com-bake-diurno", "recipeSHA256":identity(Path(__file__).read_bytes())["sha256"],
               "pending": ["Android/iPhone físicos", "vínculo e espelhamento por final",
                           "medidas executivas/gardens", "tabela comercial confirmada"],
@@ -240,6 +250,7 @@ def build(name="liv-avaliacao", root=ROOT):
             "Diagnóstico físico: abrir diagnostico.html, declarar aparelho e executar as duas caminhadas.\n"
             "Recuperação: servir site/site-baseline/; conteúdo conferido pelo inventário preservado.\n"
             "firebase.json está preparado para um preview separado; nenhum projeto/channel foi publicado.\n"
+            "Estoque ao vivo: ver revisao/ESTOQUE.md; publicar também regras e painel e vincular o ID real antes de ativar.\n"
             f"Versão SHA-256 do conjunto: {fingerprint}\n", encoding="utf8")
         package.rename(target)
     return {"directory": str(target), "version": fingerprint, "files": len(files), "reviewFiles":len(review),

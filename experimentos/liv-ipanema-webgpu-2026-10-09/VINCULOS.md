@@ -1,5 +1,7 @@
 # Vínculo entre posição, planta 2D e interior — 11/10/2026
 
+Associações também podem ser cadastradas pelo painel, junto com a disponibilidade, conforme [ESTOQUE.md](ESTOQUE.md). Com `estoque=ID_DO_IMOVEL`, o cadastro ao vivo substitui o arquivo local e aceita somente associações explicitamente confirmadas de Canto/Meio na orientação original.
+
 O catálogo completo pode receber associações explícitas por ID técnico em `vinculos.json`. O arquivo entregue está **ausente/vazio**: nenhum final foi atribuído por ser uma cabeceira, lado do lazer, número comercial ou semelhança visual. Canto e Meio permanecem referências gerais.
 
 Com uma associação fornecida e validada, selecionar o final escolhe sua tipologia, a ficha mostra fonte/data/orientação e **Ver planta associada** abre a imagem correspondente. Planta 3D/Tour reutilizam a mesma tipologia conferida. Se a pessoa escolher manualmente a outra referência, a ficha distingue essa visualização da associação fornecida. Os interiores continuam ilustrativos, com medidas inferidas; o vínculo não transforma a reconstrução em projeto executivo.

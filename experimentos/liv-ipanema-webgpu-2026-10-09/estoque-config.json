@@ -1,0 +1,10 @@
+{
+  "schema": "liv-sales-config-v1",
+  "mode": "firebase",
+  "propertyId": null,
+  "firebase": {
+    "apiKey": "AIzaSyCBhpvOAOlZ6PD-jYWKRTn4xVM10e00oy4",
+    "projectId": "imobilaria-deccb",
+    "appId": "1:163406298617:web:a78e1724d239a144f55128"
+  }
+}

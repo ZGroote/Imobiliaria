@@ -1,5 +1,11 @@
 # LIV Ipanema — evolução visual e WebGPU
 
+[Entrega local v6](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v6/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio), com estoque opcional e posicionamento no terreno indicado, sem preenchimento artificial ao redor. Identidade, ZIP, relatórios e limites em [ENTREGA.md](ENTREGA.md).
+
+Cadastro de unidades implementado: clicar abre uma ficha; o painel gerencia 170 posições, dois perfis comuns e exceções individuais, com consulta pública ao vivo. Configuração, permissões e ativação em [ESTOQUE.md](ESTOQUE.md). Nenhum dado comercial real foi preenchido ou publicado.
+
+O mapa recebe giro de 180° e mudança para o terreno indicado do outro lado da Miguel Petroni/João de Guzzi. O contorno aproximado da imagem serve para posicionar e recortar o contexto; não gera preenchimento ou borda em volta da maquete. O modelo mantém sua escala e seu piso original. O recorte retira construções, pisos, muros e caminhos de serviço da base que atravessavam a área indicada. Ver [MAPA-MODELO.md](MAPA-MODELO.md).
+
 [Catálogo de 170 posições e espelho](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio), com seleção por pavimento/final. [CATALOGO.md](CATALOGO.md) distingue a contagem publicada dos vínculos comerciais/arquitetônicos ainda pendentes.
 
 Ensaio no aparelho: [coletor de diagnóstico](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/diagnostico.html) com caminhada independente nas duas plantas e exportação local. [DIAGNOSTICO.md](DIAGNOSTICO.md) registra procedimento, limites e QAs desktop/emulados; qualificação física continua pendente.

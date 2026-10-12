@@ -58,9 +58,16 @@ def main(package,output):
                     assert page.evaluate('__livViewer.units.units.every(u=>!u.relation&&u.typology===null&&u.commercial.priceCents===null)')
                     case['backendEffective']=page.evaluate('__livViewer.backend')
                     if backend!='auto':assert case['backendEffective']==backend
+                    page.locator('[data-view="implantacao"]').click()
+                    assert child(page).evaluate('''()=>{let extra=false;__livProva.scene.traverse(o=>{if(o.name==='liv-parcela-contexto')extra=true;});return !extra;}''')
+                    page.wait_for_timeout(400)
+                    page.screenshot(path=str(output/f'{backend}-{touch}-implantacao.png'))
+                    case['noArtificialParcelFill']=True
                     page.locator('#buildingMirror').evaluate('(e)=>e.open=true');page.locator('#mirrorFloor').select_option('8')
                     page.locator('[data-mirror-unit-id]:visible').nth(5).click()
                     selected=page.evaluate('__livViewer.selectedUnitId');assert selected.endswith('/final-06')
+                    assert page.locator('#unitDetails').is_visible()
+                    page.keyboard.press('Escape');assert page.locator('#unitDetails').is_hidden()
                     assert page.evaluate('__livViewer.floor')==8
                     assert child(page).evaluate('__livProva.unitPicking.getState().active')
                     case['facadeBounds']=child(page).evaluate('''()=>{

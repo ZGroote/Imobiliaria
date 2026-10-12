@@ -1,5 +1,7 @@
 # Dados comerciais separados da reconstrução
 
+O cadastro pelo painel e a atualização pública ao vivo estão implementados em [ESTOQUE.md](ESTOQUE.md). Quando `estoque=ID_DO_IMOVEL` está ativo, esse cadastro é a fonte da ficha e substitui a leitura do arquivo local. As instruções abaixo descrevem a alternativa de importação por arquivo.
+
 `comercial.json` permanece com estado **ausente**, sem preço, oferta ou número comercial. A interface não deduz estoque pelas cores artísticas, pela posição ou por anúncios públicos. A tabela fornecida pelo responsável será a fonte escolhida para a atualização.
 
 ## Preparar e importar

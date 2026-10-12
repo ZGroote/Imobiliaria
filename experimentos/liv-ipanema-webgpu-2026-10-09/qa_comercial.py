@@ -46,6 +46,8 @@ def main(output):
                     assert 'FIXTURE SINTETICA' in page.locator('#commercialSource').inner_text()
                     assert '<img' in page.locator('#commercialConditions').inner_text()
                     assert page.locator('#commercialConditions img').count() == 0
+                    assert page.locator('#unitDetails').is_visible()
+                    page.keyboard.press('Escape');assert page.locator('#unitDetails').is_hidden()
                 page.locator('#mirrorAvailability').select_option('vendida')
                 assert page.locator('[data-mirror-unit-id]:visible').count() == 1
                 assert page.locator('[data-mirror-unit-id]:visible').get_attribute('data-mirror-unit-id') == ids[2]
