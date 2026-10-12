@@ -6,7 +6,7 @@ As manchas pretas/cinzentas das quinas eram reproduzíveis também na primeira a
 
 `interior-wall-tops.js` retira as faces superiores antigas da lista de desenho e as substitui por uma única malha triangulada, na mesma altura, com o material PBR nativo da parede. Não há decal, deslocamento, polygon offset ou segunda superfície acima das originais. O topo exposto recebe iluminação normal, em vez de usar os valores conflitantes do bake. As demais faces mantêm atributos, UV1, texturas e RGBM. Tanto a geometria com bake quanto a variante de edição dos móveis recebem a mesma correção. Fontes, arquivos de iluminação, atlas e cadastro permanecem imutáveis.
 
-Os topos unidos acompanham o corte em Planta 3D e permanecem no Tour, sem serem classificados como forro. A reutilização das duas cenas continua limitada, com a inativa suspensa e descarte ao sair dos interiores.
+Os topos unidos acompanham o corte em Planta 3D e permanecem no Tour, sem serem classificados como forro. A reutilização das duas cenas continua limitada, com as inativas suspensas também em Maquete/2D/mapa e descarte ao encerrar a página/visualizador.
 
 Validação:
 

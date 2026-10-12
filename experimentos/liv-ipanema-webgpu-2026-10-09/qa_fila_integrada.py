@@ -72,7 +72,7 @@ def wait_for(predicate,message,seconds=15):
 
 def ready(page,mode):
     page.wait_for_function('mode=>window.__livViewer?.ready&&__livViewer.mode===mode',arg=mode,timeout=120000)
-    assert page.locator('iframe').count()==(0 if mode=='planta2d' else 1)
+    assert page.locator('#stage iframe:not([hidden])').count()==(0 if mode=='planta2d' else 1)
 
 
 def run(out):
@@ -119,7 +119,8 @@ def run(out):
             page.locator('#floor').select_option('8')
             page.locator('.map-link').click();page.wait_for_function('window.__livMapAdapter?.ready',timeout=120000)
             page.frames[-1].wait_for_function('window.__livNearby?.ready',timeout=120000)
-            assert page.locator('#transferStatus').is_hidden(),'Preparation overlay covers the ready map controls.'
+            wrapper=page.locator('#mapPanel iframe').element_handle().content_frame()
+            assert wrapper.locator('#transferStatus').is_hidden(),'Preparation overlay covers the ready map controls.'
             assert all(fixture.count(path)==count_before[path] for path in secondary),'Native map requests missed the verified cache.'
             page.frames[-1].locator('#livMapaBar a').click();ready(page,'maquete')
             assert page.evaluate('__livViewer.floor')==8
@@ -127,7 +128,7 @@ def run(out):
             page.screenshot(path=str(out/'fila-maquete.png'),full_page=True)
             report['cases'].append({'name':'real-priority-cache','status':'PASS','initialSceneFirst':True,
               'preemptedTourRequests':2,'allCatalogFilesCached':len(manifest['files']),'cachedNativeMapNoNetwork':True,
-              'sameInteriorReused':True,'noHiddenScene':True,'errors':errors})
+                'sameInteriorReused':True,'noHiddenSceneRendering':True,'errors':errors})
             context.close()
 
             # Cold map selected while Tour is being prefetched. Native detail
@@ -151,7 +152,8 @@ def run(out):
                 wait_for(lambda:fixture.count(model_path)==before_model+1,'Cold map model did not start.')
                 assert all(fixture.count(path)==before_tiles[path] for path in tiles),'Detail tile preceded required GLB.'
                 assert all(fixture.count(path)==before_alternatives[path] for path in alternatives),'Other edition delayed the selected GLB.'
-                assert page.locator('#transferStatus').is_hidden()
+                wrapper=page.locator('#mapPanel iframe').element_handle().content_frame()
+                assert wrapper.locator('#transferStatus').is_hidden()
                 model.set()
                 page.wait_for_function('window.__livMapAdapter?.ready',timeout=120000)
                 assert page.evaluate('__livMapAdapter.model.edition')==edition

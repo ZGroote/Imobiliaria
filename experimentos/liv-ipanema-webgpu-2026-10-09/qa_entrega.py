@@ -30,7 +30,7 @@ def click_facade(page,touch,floor,screenshot=None):
         if(p.unitPicking.pick(x,y)===u.id)return {x,y,id:u.id,floor:u.floorIndex};
       }throw Error('Nenhum apartamento visível para o clique de teste.');
     }''',floor)
-    box=page.locator('#stage iframe').bounding_box();x,y=box['x']+point['x'],box['y']+point['y']
+    box=page.locator('#stage iframe:not([hidden])').bounding_box();x,y=box['x']+point['x'],box['y']+point['y']
     before=frame.evaluate('({position:__livProva.camera.position.toArray(),target:__livProva.controls.target.toArray()})')
     if touch:page.touchscreen.tap(x,y)
     else:page.mouse.click(x,y)
@@ -127,15 +127,17 @@ def main(package,output):
                     page.reload();ready(page);assert page.evaluate('__livViewer.selectedUnitId')==selected
                     assert page.evaluate('__livViewer.ambience')=='entardecer'
                     page.locator('.map-link').click();page.wait_for_function('window.__livMapAdapter?.ready',timeout=150000)
-                    map_frame=page.locator('#map').element_handle().content_frame()
+                    wrapper=page.locator('#mapPanel iframe').element_handle().content_frame()
+                    map_frame=wrapper.locator('#map').element_handle().content_frame()
                     map_frame.wait_for_function('''window.__int?.exteriors&&(()=>{const s=__int.exteriors.stats();
                       return s.loadedTiles>0&&s.pendingTiles===0&&s.placedYards>0&&s.tileErrors===0;})()''',timeout=120000)
                     case['mapTiles']=map_frame.evaluate('__int.exteriors.stats()')
                     metadata=page.evaluate('__livMapAdapter.model');assert metadata['edition']=='entrada' and metadata['geometryVerified']
                     return_url=page.evaluate('__livMapAdapter.returnURL');assert 'unidades=edificio' in return_url and 'luz=entardecer' in return_url
-                    page.goto(return_url);ready(page);assert page.evaluate('__livViewer.selectedUnitId')==selected
+                    page.locator('#closeMap').click();ready(page);assert page.evaluate('__livViewer.selectedUnitId')==selected
                     page.screenshot(path=str(output/f'{backend}-{touch}-pagina.png'),full_page=not touch)
-                    assert page.locator('iframe').count()==1
+                    assert page.locator('#stage iframe:not([hidden])').count()==1
+                    assert page.locator('#stage iframe').count()<=3
                     assert not case['errors'] and not case['httpFailures'] and not case['externalRequests'],case
                     case.update(status='PASS',positions=170,twoTypologiesFourModes=True,png=True,mapReturn=True,sceneIframes=1)
                     context.close();save(output,report);print(json.dumps(case,ensure_ascii=False),flush=True)

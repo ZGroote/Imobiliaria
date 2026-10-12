@@ -140,6 +140,8 @@ def review_inventory(root=ROOT):
              'evidencias/estabilidade-visual-corrigida/webgpu-0-canto.png',
              'evidencias/estabilidade-visual-corrigida/webgpu-1-meio.png',
              'evidencias/troca-plantas-antes/runtime.json','evidencias/troca-plantas-conferida/runtime.json',
+             'evidencias/retencao-plantas-modos/runtime.json',
+             'evidencias/retencao-falhas-init/runtime.json','evidencias/retencao-falhas-snapshot/runtime.json',
              'evidencias/parede-inteira-inicial/runtime.json',
              'evidencias/parede-inteira-inicial/webgpu-canto-inteiras.png',
              'evidencias/parede-inteira-inicial/webgpu-meio-inteiras.png',

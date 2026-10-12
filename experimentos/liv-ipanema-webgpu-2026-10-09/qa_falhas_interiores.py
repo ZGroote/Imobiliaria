@@ -479,6 +479,9 @@ def run_case(browser, name, catalog, report, output, timeout_ms=None):
                 assert sum((a-b)**2 for a, b in zip(before['camera']['position'], original['camera']['position'])) > .25
                 assert any(item['modified'] for item in before['furniture']) and not before['lighting']['bakedActive']
                 first_index = page.evaluate('__qaInteriorInstances.length-1')
+                # Force a cache miss to test a genuinely new canceled init;
+                # normal navigation now keeps healthy ready scenes suspended.
+                page.evaluate('__livViewer.dispose()')
                 page.locator('[data-mode="planta2d"]').click()
                 ready(page, 'planta2d', 'canto')
                 saved = page.evaluate('__livViewer.interiorSnapshots.canto')

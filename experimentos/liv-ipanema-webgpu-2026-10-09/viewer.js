@@ -3,7 +3,7 @@ import {typology} from './tipologias.js';
 import {unitById} from './unidades.js';
 import {loadUnitCatalog,floorOf,unitScope} from './catalogo-unidades.js';
 import {createUnitUI} from './unit-ui.js';
-import {requestedEdition,exteriorEdition} from './edicoes.js';
+import {requestedEdition} from './edicoes.js';
 import {attachCommercial} from './comercial.js';
 import {requestedAmbience,AMBIENCES} from './ambiencia-perfis.js';
 import {attachRelations} from './vinculos.js';
@@ -56,8 +56,10 @@ try {
 } catch(error) {state.storageError=String(error);}
 updateMapLink();
 let generation=0,frameKind=null,openedOnce=false;
-// At most Canto and Meio are retained while using interiors. Only one renders.
+// Retain at most Canto and Meio across modes; suspended interiors never render.
 const parkedInteriors=new Map();
+const mapPanel=document.getElementById('mapPanel');
+let mapFrame=null,mapReturnMode=null;
 state.interiorReuseCount=0;
 showTransferStatus(document.getElementById('transferStatus'));
 for(let floor=1;floor<=16;floor++) document.getElementById('floor').add(new Option(`${floor}º pavimento tipo`,String(floor)));
@@ -207,7 +209,7 @@ async function until(test,token,{timeout=90000,progress=null,maximum=600000}={})
   throw Error('O visualizador demorou para responder. Tente novamente.');
 }
 async function fallback2D(token) {
-  release();const selected=typology(state.typology),image=new Image();image.alt=selected.imageAlt;
+  await release({preserveInteriors:true});const selected=typology(state.typology),image=new Image();image.alt=selected.imageAlt;
   image.src=selected.image;stage.prepend(image);
   await image.decode();if(token!==generation)return;
   frameKind='image';state.ready=true;state.error=null;state.mode='planta2d';overlay.hidden=true;
@@ -217,6 +219,7 @@ async function fallback2D(token) {
 }
 async function setMode(mode) {
   if(!['maquete','planta2d','planta3d','visita'].includes(mode))throw Error('Modo inválido.');
+  if(state.mapOpen)closeMap({restore:false});
   const token=++generation;state.mode=mode;
   busy(mode==='maquete'?'Abrindo a maquete…':'Abrindo a planta de referência…');
   try {
@@ -233,7 +236,7 @@ async function setMode(mode) {
     }
     const kind=mode==='maquete'?'exterior':mode==='planta2d'?'image':`interior:${state.typology}`;
     // Cancel the previous scene immediately, before waiting for the queue ack.
-    if(frameKind!==kind)await release({preserveInteriors:kind.startsWith('interior:')});
+    if(frameKind!==kind)await release({preserveInteriors:true});
     if(token!==generation)return;
     const cached=parkedInteriors.get(kind);
     const warm=kind.startsWith('interior:')&&reusableInterior(frameKind===kind?state.frame:cached);
@@ -488,7 +491,30 @@ async function capture() {
   }
   const link=document.createElement('a');link.href=png;link.download=`liv-ipanema-${state.typology}-${state.mode}.png`;link.click();return png;
 }
-Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,setAmbience,setAvailabilityFilter,openUnitLayout,reloadRelations:refreshRelations,reloadCommercial:refreshCommercial,getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,backend:state.backend,ambience:state.ambience,availabilityFilter:state.availabilityFilter}),dispose:release});
+function closeMap({restore=true}={}){
+  if(!state.mapOpen)return Promise.resolve();
+  generation++;state.mapOpen=false;
+  mapFrame?.remove();mapFrame=null;delete window.__livMapAdapter;
+  if(mapPanel.open)mapPanel.close();
+  return restore?setMode(mapReturnMode||'maquete'):Promise.resolve();
+}
+async function openMap(){
+  if(state.mapOpen)return;
+  mapReturnMode=state.mode;const token=++generation;
+  state.mapOpen=true;busy('Abrindo o mapa…');mapPanel.showModal();
+  await release({preserveInteriors:true});
+  if(token!==generation||!state.mapOpen)return;
+  const destination=new URL(document.querySelector('.map-link').href);destination.searchParams.set('embed','1');
+  const frame=document.createElement('iframe');frame.title='Mapa do entorno do LIV Ipanema, limitado a 5 km';
+  frame.src=destination.href;mapFrame=frame;mapPanel.append(frame);
+  frame.addEventListener('load',()=>{
+    // Expose the same inspection API used by the standalone map wrapper.
+    if(mapFrame!==frame)return;
+    Object.defineProperty(window,'__livMapAdapter',{configurable:true,get:()=>frame.contentWindow?.__livMapAdapter});
+  });
+}
+function dispose(){generation++;state.ready=false;void closeMap({restore:false});release();}
+Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,setAmbience,setAvailabilityFilter,openUnitLayout,openMap,closeMap,reloadRelations:refreshRelations,reloadCommercial:refreshCommercial,getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,backend:state.backend,ambience:state.ambience,availabilityFilter:state.availabilityFilter}),dispose});
 for(const button of document.querySelectorAll('[data-mode]'))button.addEventListener('click',()=>setMode(button.dataset.mode));
 for(const button of document.querySelectorAll('[data-view]'))button.addEventListener('click',()=>setView(button.dataset.view));
 document.getElementById('floor').addEventListener('change',event=>setFloor(event.target.value));
@@ -512,16 +538,18 @@ document.getElementById('fallback').addEventListener('click',()=>{
 });
 document.querySelector('.map-link').addEventListener('click',event=>{
   if(event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
-  event.preventDefault();const destination=event.currentTarget.href,token=++generation;
-  state.ready=false;release();busy('Abrindo o mapa…');
-  transfers.prioritize('map',['mapa-runtime/mapa-liv-ipanema-5km.html',exteriorEdition(geometry).glb,'site-baseline/quintais/'])
-    .then(()=>{if(token===generation)location.assign(destination);});
+  event.preventDefault();void openMap().catch(error=>{void closeMap();status.textContent='Não foi possível abrir o mapa: '+error.message;});
+});
+document.getElementById('closeMap').addEventListener('click',()=>void closeMap());
+mapPanel.addEventListener('cancel',event=>{event.preventDefault();void closeMap();});
+window.addEventListener('message',event=>{
+  if(event.origin===location.origin&&event.source===mapFrame?.contentWindow&&event.data?.type==='liv-map-return')void closeMap();
 });
 window.addEventListener('pagehide',()=>{
   stockVersion++;void stopStock?.();stopStock=null;stockStart=null;
   commercialVersion++;commercialController?.abort();
   relationVersion++;relationController?.abort();
-  generation++;state.ready=false;release();
+  dispose();
   try {sessionStorage.setItem(storageKey,JSON.stringify({version:1,mode:state.mode,typology:state.typology,interiorSnapshots:state.interiorSnapshots,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,ambience:state.ambience,exteriorSnapshot:state.exteriorSnapshot}));}
   catch(error) {state.storageError=String(error);}
 });

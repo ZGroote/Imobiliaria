@@ -59,7 +59,7 @@ def position(page, unit):
       const rect=p.renderer.domElement.getBoundingClientRect();
       return {x:rect.left+(point.x+1)*rect.width/2,y:rect.top+(1-point.y)*rect.height/2};
     }''', unit)
-    box = page.locator('#stage iframe').bounding_box()
+    box = page.locator('#stage iframe:not([hidden])').bounding_box()
     return box['x'] + point['x'], box['y'] + point['y']
 
 

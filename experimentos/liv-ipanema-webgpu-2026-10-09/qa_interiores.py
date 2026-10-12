@@ -110,8 +110,8 @@ def geometry_signature(page):
     }''')
 
 
-def assert_disposed_old(page):
-    assert page.evaluate('window.__qaOldInterior?.disposed===true'), 'Cena anterior não foi encerrada.'
+def assert_suspended_old(page):
+    assert page.evaluate('window.__qaOldInterior?.ready&&!__qaOldInterior.active&&!__qaOldInterior.disposed'), 'Cena anterior não foi preservada e pausada.'
 
 
 def save_layout(page, out, name, mobile):
@@ -348,7 +348,7 @@ def run_case(browser, profile, width, height, backend, out, report):
             page.evaluate('window.__qaOldInterior=__livViewer.frame.contentWindow.__livInterior')
             page.locator('[data-mode="maquete"]').click()
             ready(page, 'maquete')
-            assert_disposed_old(page)
+            assert_suspended_old(page)
             assert page.evaluate('__livViewer.frame.contentWindow.__livProva.getState().floor') == 8
         canto, meio = case['typologies']['canto'], case['typologies']['meio']
         assert canto['state3D']['unitSHA256'] != meio['state3D']['unitSHA256'], 'Tipologias usam a mesma unidade de origem.'
@@ -364,7 +364,7 @@ def run_case(browser, profile, width, height, backend, out, report):
             return Promise.allSettled(calls);
         }''')
         ready(page, 'visita', 'meio')
-        assert_disposed_old(page)
+        assert_suspended_old(page)
         assert page.locator('#typology').input_value() == 'meio'
         case['rapidTypologyLastWins'] = True
         page.reload(wait_until='load', timeout=120000)

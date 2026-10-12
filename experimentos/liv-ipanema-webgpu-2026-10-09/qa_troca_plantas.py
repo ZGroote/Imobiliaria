@@ -21,7 +21,7 @@ def main(args):
                 page=ctx.new_page();errors=[];requests=[];page.on('pageerror',lambda e:errors.append(str(e)))
                 page.on('request',lambda r:requests.append(r.url) if '/interiores/' in r.url or '/interior.html?' in r.url else None)
                 page.goto(args.url+'?geometria=entrada&unidades=edificio&backend='+backend)
-                page.wait_for_function('window.__livViewer?.ready',timeout=120000)
+                page.wait_for_function('()=>{if(window.__livViewer?.error)throw Error(__livViewer.error);return window.__livViewer?.ready;}',timeout=120000)
                 page.wait_for_function('''()=>{const q=__livTransfers.getState(),g=q.groups?.tour;return g&&g.cached===g.total;}''',timeout=180000)
                 page.evaluate("async()=>{await __livViewer.setMode('planta3d');window.__qaScenes={canto:__livViewer.frame.contentWindow.__livInterior};}")
                 first=page.evaluate('__livViewer.frame.contentWindow.__livInterior.getState()')
@@ -73,12 +73,50 @@ def main(args):
                     assert page.evaluate('__livViewer.ready&&__livViewer.typology==="canto"&&__livViewer.frame.contentWindow.__livInterior===__qaScenes.canto')
                     assert page.locator('#stage iframe:not([hidden])').count()==1
                     assert page.locator('#stage iframe').count()==2
+                    case['otherModes']=[]
+                    for mode in ['planta2d','maquete','mapa']:
+                        request_count=len(requests)
+                        if mode=='mapa':
+                            page.locator('.map-link').click()
+                            page.wait_for_function('window.__livMapAdapter?.ready',timeout=150000)
+                        else:page.evaluate('async m=>__livViewer.setMode(m)',mode)
+                        parked=page.evaluate('''()=>Object.fromEntries(Object.entries(__qaScenes).map(([t,a])=>[t,
+                          {active:a.active,disposed:a.disposed,calls:a.renderer.info.render.calls,camera:a.getState().camera,ownership:a.getState().ownership}]))''')
+                        assert all(not s['active'] and not s['disposed'] for s in parked.values())
+                        page.wait_for_timeout(300)
+                        assert parked==page.evaluate('''()=>Object.fromEntries(Object.entries(__qaScenes).map(([t,a])=>[t,
+                          {active:a.active,disposed:a.disposed,calls:a.renderer.info.render.calls,camera:a.getState().camera,ownership:a.getState().ownership}]))''')
+                        if mode=='mapa':
+                            wrapper=page.locator('#mapPanel iframe').element_handle().content_frame()
+                            runtime=wrapper.locator('#map').element_handle().content_frame()
+                            page.screenshot(path=str(args.saida/f'{backend}-{touch}-mapa-sobre-visualizacao.png'))
+                            runtime.locator('#livMapaBar a').click()
+                            page.wait_for_function('__livViewer.ready&&!__livViewer.mapOpen',timeout=120000)
+                        started=page.evaluate('performance.now()')
+                        page.evaluate("async()=>__livViewer.setMode('planta3d')")
+                        ms=page.evaluate('s=>performance.now()-s',started)
+                        assert page.evaluate('__livViewer.frame.contentWindow.__livInterior===__qaScenes.canto')
+                        after=page.evaluate('__qaScenes.canto.getState()')
+                        assert after['furniture']==saved
+                        assert all(abs(a-b)<1e-7 for field in ['position','target'] for a,b in zip(camera[field],after['camera'][field]))
+                        assert len(requests)==request_count
+                        case['otherModes'].append({'from':mode,'returnMs':ms,'sameInstance':True,'suspendedStable':True,'interiorRequests':0})
+                    # Escape and a close while loading must return without a late map reappearing.
+                    page.locator('.map-link').click();page.keyboard.press('Escape')
+                    page.wait_for_function('__livViewer.ready&&!__livViewer.mapOpen',timeout=120000)
+                    assert page.locator('#mapPanel iframe').count()==0
+                    assert page.evaluate('__livViewer.frame.contentWindow.__livInterior===__qaScenes.canto')
+                    page.locator('#stage').scroll_into_view_if_needed();page.screenshot(path=str(args.saida/f'{backend}-{touch}-retorno.png'))
                     # A lost suspended device is evicted without disrupting the visible Tour.
                     page.evaluate('__qaScenes.meio.renderer.onDeviceLost({reason:"QA: perda no interior suspenso"})')
                     page.wait_for_function('__livViewer.pendingCleanup===0',timeout=35000)
                     assert page.evaluate('__livViewer.ready&&!__livViewer.error&&__qaScenes.meio.disposed')
                     case['rapidSelectionLatestWins']=True;case['suspendedDeviceLossIsolated']=True
                     page.evaluate("async()=>{await __livViewer.setMode('planta2d');}")
+                    page.wait_for_function('__livViewer.pendingCleanup===0',timeout=35000)
+                    assert page.locator('#stage iframe:not([hidden])').count()==0
+                    assert page.evaluate('__qaScenes.canto.ready&&!__qaScenes.canto.active&&!__qaScenes.canto.disposed')
+                    page.evaluate('__livViewer.dispose()')
                     page.wait_for_function('__livViewer.pendingCleanup===0',timeout=35000)
                     assert page.locator('#stage iframe').count()==0
                     assert page.evaluate('Object.values(__qaScenes).every(a=>a.disposed&&a.ownership.created===a.ownership.disposed)')

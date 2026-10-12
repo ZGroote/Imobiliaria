@@ -4,6 +4,7 @@ import {unitScope} from './catalogo-unidades.js';
 import {requestedAmbience} from './ambiencia-perfis.js';
 // Adapt model edition, navigation and transfer priority; baseline files stay intact.
 const frame=document.getElementById('map'),destination=new URL('./maquete-liv-ipanema.html',location.href);
+const embedded=new URLSearchParams(location.search).get('embed')==='1'&&window.parent!==window;
 const geometry=requestedEdition(location.search);
 if(geometry!=='base')destination.searchParams.set('geometria',geometry);
 if(unitScope(location.search)==='edificio')destination.searchParams.set('unidades','edificio');
@@ -21,6 +22,14 @@ function redirectLink(anchor) {
     anchor.href=destination.href;anchor.target='_top';
   }
 }
+function returnToViewer(event){
+  const anchor=event.target.closest?.('a[href]');if(!anchor||!embedded||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+  const url=new URL(anchor.href);
+  if(url.origin===location.origin&&url.pathname===destination.pathname){
+    event.preventDefault();window.parent.postMessage({type:'liv-map-return'},location.origin);
+  }
+}
+failure.addEventListener('click',returnToViewer);
 frame.addEventListener('load',async()=>{
   if(!frame.getAttribute('src'))return;
   const doc=frame.contentDocument;
@@ -29,6 +38,7 @@ frame.addEventListener('load',async()=>{
   stopStatus();document.getElementById('transferStatus').hidden=true;
   for(const anchor of doc.querySelectorAll('a[href]'))redirectLink(anchor);
   doc.addEventListener('click',event=>redirectLink(event.target.closest?.('a[href]')),true);
+  doc.addEventListener('click',returnToViewer,true);
   const adapter=window.__livMapAdapter={ready:false,uiReady:true,runtimeURL:frame.src,returnURL:destination.href};
   try {
     const deadline=performance.now()+30000;

@@ -1,8 +1,21 @@
-# LIV Ipanema — pacote de avaliação de 11/10/2026
+# LIV Ipanema — pacote de avaliação de 12/10/2026
 
-## Revisão v11 — união dos topos das paredes
+## Revisão v12 — interiores preservados entre modos
 
-A versão atual para revisão é `entregas/liv-avaliacao-20261011-v11/`. Corrige superfícies coplanares e manchas de iluminação nas quinas superiores das duas plantas. Os topos repetidos são retirados da lista de desenho e substituídos por uma única união do contorno da fonte, sem segunda camada/offset. Laterais preservam RGBM/UV1; o topo exposto usa o material PBR nativo da parede. Reuso rápido, paredes completas, Tour e estoque de demonstração permanecem. [TOPOS-PAREDES.md](TOPOS-PAREDES.md) registra diagnóstico e validação.
+A versão atual para revisão é `entregas/liv-avaliacao-20261012-v12/`. Canto e Meio preparados permanecem na memória ao mudar para Maquete, Planta 2D ou mapa. Apenas a vista atual renderiza; interiores ocultos pausam caminhada, rota, entradas e observação de tamanho. Retornar reutiliza a mesma cena e recursos gráficos, com câmera, móveis e preferência de paredes preservados. O mapa abre sobre a página atual e fecha pelo botão, Escape ou link interno de retorno. [TROCA-PLANTAS.md](TROCA-PLANTAS.md) registra retenção, limite de duas tipologias e descarte em saída real/erro/perda do dispositivo.
+
+- Versão: `5296304fe56845b476f20b4c683a498dc11ed7eaa37c57f9a05117d02a34e724`.
+- Site: **242 arquivos / 144.467.365 B**; revisão: **56 arquivos / 9.431.934 B**.
+- ZIP: `entregas/liv-avaliacao-20261012-v12-5296304fe568.zip`, **116.225.296 B**, SHA-256 `e4825c621d1968c70b6a529785b6c859bf2c968427dd87aca42505bdf68656b3`.
+- [Maquete v12 com demonstração](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261012-v12/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio&demonstracao=1).
+
+[Retenção no runtime](evidencias/retencao-plantas-modos/runtime.json): **PASS** nos três perfis, com identidade das instâncias, zero requisições adicionais dos interiores, suspensão estável e retorno de Maquete/2D/mapa. [Cancelamento durante inicialização](evidencias/retencao-falhas-init/runtime.json) e [preservação do último estado após cancelamento](evidencias/retencao-falhas-snapshot/runtime.json): **PASS**. Quatro testes de empacotamento passaram. A primeira abertura de uma tipologia ainda prepara seus gráficos. Qualificação em aparelhos físicos permanece pendente; modelos, atlas, estoque real e produção preservados.
+
+[Retenção na própria v12](evidencias/retencao-plantas-empacotada/runtime.json): **PASS** em WebGPU, WebGL2 e toque emulado, incluindo câmera/móveis após Maquete/2D/mapa, identidade das duas cenas, zero novos pedidos de interior, isolamento de perda do dispositivo suspenso e liberação integral ao encerrar. Retornos de 2D/Maquete concluíram em **14–100 ms** no ambiente local; não medem apresentação física do monitor. [Conferência independente](evidencias/entrega-retencao-plantas/runtime.json): **PASS**, 242 recursos HTTP/hash, fachada/ficha, ambas as tipologias nos quatro modos, caminhada, PNG, mapa/retorno, PBR/Draco, base, diagnóstico e fallback sem GPU. O processo foi interrompido após base/PBR; somente diagnóstico e fallback foram retomados pela receita [finalizar_conferencia.py](evidencias/entrega-retencao-plantas/finalizar_conferencia.py), após reconferir os hashes e os três perfis aprovados.
+
+## Histórico v11 — união dos topos das paredes
+
+A versão anterior para revisão é `entregas/liv-avaliacao-20261011-v11/`. Corrige superfícies coplanares e manchas de iluminação nas quinas superiores das duas plantas. Os topos repetidos são retirados da lista de desenho e substituídos por uma única união do contorno da fonte, sem segunda camada/offset. Laterais preservam RGBM/UV1; o topo exposto usa o material PBR nativo da parede. Reuso rápido, paredes completas, Tour e estoque de demonstração permanecem. [TOPOS-PAREDES.md](TOPOS-PAREDES.md) registra diagnóstico e validação.
 
 - Versão: `94b8e5c1ce76b950c74718ccd2fe2526183a107f21ba249946ecf834c4501045`.
 - Site: **242 arquivos / 144.464.641 B**; revisão: **53 arquivos / 9.368.182 B**.
