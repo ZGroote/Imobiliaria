@@ -1,0 +1,954 @@
+{
+  "status": "PASS",
+  "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v11/site/maquete-liv-ipanema.html",
+  "physicalMobile": false,
+  "recordedAt": "2026-10-12T02:30:34.232628+00:00",
+  "cases": [
+    {
+      "backend": "webgpu",
+      "touchEmulated": false,
+      "tourBytesCachedBeforeOpening": true,
+      "firstWallCut": false,
+      "swaps": [
+        {
+          "target": "meio",
+          "ms": 7447.799999952316,
+          "reused": false,
+          "oldDisposed": false,
+          "active": {
+            "typology": "meio",
+            "backend": "webgpu",
+            "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+            "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+            "ownership": {
+              "created": 166,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 52,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                10.181308303775662,
+                5.737011768725263
+              ],
+              "target": [
+                0,
+                1.3799999952316284,
+                -0.006999969482421876
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 73,
+              "framePasses": 3,
+              "totalPasses": 9,
+              "triangles": 65669,
+              "geometries": 39,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 8
+        },
+        {
+          "target": "canto",
+          "ms": 15,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "canto",
+            "backend": "webgpu",
+            "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+            "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+            "ownership": {
+              "created": 203,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 48,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                11.588818004421057,
+                6.662597016523627
+              ],
+              "target": [
+                0,
+                1.3799999952316282,
+                0
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 52,
+              "framePasses": 2,
+              "totalPasses": 13,
+              "triangles": 67136,
+              "geometries": 53,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        },
+        {
+          "target": "meio",
+          "ms": 11.399999976158142,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "meio",
+            "backend": "webgpu",
+            "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+            "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+            "ownership": {
+              "created": 166,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 52,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                10.181308303775662,
+                5.737011768725263
+              ],
+              "target": [
+                0,
+                1.3799999952316284,
+                -0.006999969482421876
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 76,
+              "framePasses": 4,
+              "totalPasses": 17,
+              "triangles": 65910,
+              "geometries": 39,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        },
+        {
+          "target": "canto",
+          "ms": 11.700000047683716,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "canto",
+            "backend": "webgpu",
+            "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+            "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+            "ownership": {
+              "created": 203,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 48,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                11.588818004421057,
+                6.662597016523627
+              ],
+              "target": [
+                0,
+                1.3799999952316282,
+                0
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 104,
+              "framePasses": 4,
+              "totalPasses": 15,
+              "triangles": 134272,
+              "geometries": 53,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        },
+        {
+          "target": "meio",
+          "ms": 11.099999904632568,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "meio",
+            "backend": "webgpu",
+            "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+            "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+            "ownership": {
+              "created": 166,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 52,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                10.181308303775662,
+                5.737011768725263
+              ],
+              "target": [
+                0,
+                1.3799999952316284,
+                -0.006999969482421876
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 114,
+              "framePasses": 6,
+              "totalPasses": 19,
+              "triangles": 98865,
+              "geometries": 39,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        },
+        {
+          "target": "canto",
+          "ms": 10.200000047683716,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "canto",
+            "backend": "webgpu",
+            "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+            "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+            "ownership": {
+              "created": 203,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 48,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                11.588818004421057,
+                6.662597016523627
+              ],
+              "target": [
+                0,
+                1.3799999952316282,
+                0
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 156,
+              "framePasses": 6,
+              "totalPasses": 17,
+              "triangles": 201408,
+              "geometries": 53,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        }
+      ],
+      "rapidSelectionLatestWins": true,
+      "suspendedDeviceLossIsolated": true,
+      "suspendedSceneStable": true,
+      "preferencesAndFurniturePreserved": true,
+      "allResourcesDisposedOnExit": true,
+      "status": "PASS",
+      "errors": []
+    },
+    {
+      "backend": "webgl",
+      "touchEmulated": false,
+      "tourBytesCachedBeforeOpening": true,
+      "firstWallCut": false,
+      "swaps": [
+        {
+          "target": "meio",
+          "ms": 4368.5,
+          "reused": false,
+          "oldDisposed": false,
+          "active": {
+            "typology": "meio",
+            "backend": "webgl",
+            "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+            "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+            "ownership": {
+              "created": 166,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 52,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                10.181308303775662,
+                5.737011768725263
+              ],
+              "target": [
+                0,
+                1.3799999952316284,
+                -0.006999969482421876
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 73,
+              "framePasses": 3,
+              "totalPasses": 9,
+              "triangles": 65669,
+              "geometries": 39,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 8
+        },
+        {
+          "target": "canto",
+          "ms": 11.199999928474426,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "canto",
+            "backend": "webgl",
+            "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+            "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+            "ownership": {
+              "created": 203,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 48,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                11.588818004421057,
+                6.662597016523627
+              ],
+              "target": [
+                0,
+                1.3799999952316282,
+                0
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 52,
+              "framePasses": 2,
+              "totalPasses": 17,
+              "triangles": 67136,
+              "geometries": 53,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        },
+        {
+          "target": "meio",
+          "ms": 7.699999928474426,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "meio",
+            "backend": "webgl",
+            "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+            "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+            "ownership": {
+              "created": 166,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 52,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                10.181308303775662,
+                5.737011768725263
+              ],
+              "target": [
+                0,
+                1.3799999952316284,
+                -0.006999969482421876
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 38,
+              "framePasses": 2,
+              "totalPasses": 63,
+              "triangles": 32955,
+              "geometries": 39,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        },
+        {
+          "target": "canto",
+          "ms": 9.300000071525574,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "canto",
+            "backend": "webgl",
+            "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+            "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+            "ownership": {
+              "created": 203,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 48,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                11.588818004421057,
+                6.662597016523627
+              ],
+              "target": [
+                0,
+                1.3799999952316282,
+                0
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 52,
+              "framePasses": 2,
+              "totalPasses": 61,
+              "triangles": 67136,
+              "geometries": 53,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        },
+        {
+          "target": "meio",
+          "ms": 8.199999928474426,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "meio",
+            "backend": "webgl",
+            "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+            "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+            "ownership": {
+              "created": 166,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 52,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                10.181308303775662,
+                5.737011768725263
+              ],
+              "target": [
+                0,
+                1.3799999952316284,
+                -0.006999969482421876
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 38,
+              "framePasses": 2,
+              "totalPasses": 107,
+              "triangles": 32955,
+              "geometries": 39,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        },
+        {
+          "target": "canto",
+          "ms": 8.799999952316284,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "canto",
+            "backend": "webgl",
+            "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+            "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+            "ownership": {
+              "created": 203,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 48,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                11.588818004421057,
+                6.662597016523627
+              ],
+              "target": [
+                0,
+                1.3799999952316282,
+                0
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 52,
+              "framePasses": 2,
+              "totalPasses": 103,
+              "triangles": 67136,
+              "geometries": 53,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        }
+      ],
+      "rapidSelectionLatestWins": true,
+      "suspendedDeviceLossIsolated": true,
+      "suspendedSceneStable": true,
+      "preferencesAndFurniturePreserved": true,
+      "allResourcesDisposedOnExit": true,
+      "status": "PASS",
+      "errors": []
+    },
+    {
+      "backend": "auto",
+      "touchEmulated": true,
+      "tourBytesCachedBeforeOpening": true,
+      "firstWallCut": false,
+      "swaps": [
+        {
+          "target": "meio",
+          "ms": 7149.799999952316,
+          "reused": false,
+          "oldDisposed": false,
+          "active": {
+            "typology": "meio",
+            "backend": "webgpu",
+            "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+            "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+            "ownership": {
+              "created": 166,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 52,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                16.44220189251719,
+                9.823068637167106
+              ],
+              "target": [
+                0,
+                1.3799999952316284,
+                -0.006999969482421876
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 73,
+              "framePasses": 3,
+              "totalPasses": 9,
+              "triangles": 65669,
+              "geometries": 39,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 8
+        },
+        {
+          "target": "canto",
+          "ms": 12.400000095367432,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "canto",
+            "backend": "webgpu",
+            "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+            "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+            "ownership": {
+              "created": 203,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 48,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                15.440856974152736,
+                9.17655929150641
+              ],
+              "target": [
+                0,
+                1.3799999952316282,
+                0
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 52,
+              "framePasses": 2,
+              "totalPasses": 15,
+              "triangles": 67136,
+              "geometries": 53,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        },
+        {
+          "target": "meio",
+          "ms": 9,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "meio",
+            "backend": "webgpu",
+            "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+            "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+            "ownership": {
+              "created": 166,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 52,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                16.44220189251719,
+                9.823068637167106
+              ],
+              "target": [
+                0,
+                1.3799999952316284,
+                -0.006999969482421876
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 38,
+              "framePasses": 2,
+              "totalPasses": 13,
+              "triangles": 32955,
+              "geometries": 39,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        },
+        {
+          "target": "canto",
+          "ms": 7,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "canto",
+            "backend": "webgpu",
+            "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+            "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+            "ownership": {
+              "created": 203,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 48,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                15.440856974152736,
+                9.17655929150641
+              ],
+              "target": [
+                0,
+                1.3799999952316282,
+                0
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 104,
+              "framePasses": 4,
+              "totalPasses": 21,
+              "triangles": 134272,
+              "geometries": 53,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        },
+        {
+          "target": "meio",
+          "ms": 11.200000047683716,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "meio",
+            "backend": "webgpu",
+            "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+            "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+            "ownership": {
+              "created": 166,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 52,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                16.44220189251719,
+                9.823068637167106
+              ],
+              "target": [
+                0,
+                1.3799999952316284,
+                -0.006999969482421876
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 76,
+              "framePasses": 4,
+              "totalPasses": 15,
+              "triangles": 65910,
+              "geometries": 39,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        },
+        {
+          "target": "canto",
+          "ms": 11.100000023841858,
+          "reused": true,
+          "oldDisposed": false,
+          "active": {
+            "typology": "canto",
+            "backend": "webgpu",
+            "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+            "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+            "ownership": {
+              "created": 203,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            },
+            "presentation": {
+              "enabled": false,
+              "active": false,
+              "height": 1.2,
+              "objects": 5,
+              "capTriangles": 48,
+              "clipShadows": false
+            },
+            "camera": {
+              "position": [
+                0,
+                15.440856974152736,
+                9.17655929150641
+              ],
+              "target": [
+                0,
+                1.3799999952316282,
+                0
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "renderer": {
+              "calls": 156,
+              "framePasses": 6,
+              "totalPasses": 23,
+              "triangles": 201408,
+              "geometries": 53,
+              "textures": 24
+            }
+          },
+          "frames": 2,
+          "interiorRequests": 0
+        }
+      ],
+      "rapidSelectionLatestWins": true,
+      "suspendedDeviceLossIsolated": true,
+      "suspendedSceneStable": true,
+      "preferencesAndFurniturePreserved": true,
+      "allResourcesDisposedOnExit": true,
+      "status": "PASS",
+      "errors": []
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

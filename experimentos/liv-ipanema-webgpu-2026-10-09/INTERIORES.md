@@ -87,4 +87,6 @@ Executar QAs de navegador em sequência. Requerem Playwright, Pillow, Chrome e o
 
 ## Limites
 
+Os topos das paredes Canto/Meio agora usam uma união sem faces coplanares repetidas. As demais superfícies conservam RGBM, UVs e materiais; o topo exposto usa o material PBR da parede. Fontes e atlas permanecem preservados. [TOPOS-PAREDES.md](TOPOS-PAREDES.md) documenta causa, correção e ensaios.
+
 Esta etapa não constitui levantamento arquitetônico, configuração garden, vínculo por final, área útil aferida, estoque ou disponibilidade comercial. Espelhamentos e acabamentos finais ainda precisam de confirmação. Qualificação Android/iPhone físicos e desempenho permanecem no plano. Nenhuma publicação é feita por estes comandos.

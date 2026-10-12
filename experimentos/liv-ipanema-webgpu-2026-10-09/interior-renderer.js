@@ -4,6 +4,7 @@ import {LivRGBMNodeMaterial,createRGBMTexture} from './material-rgbm.js';
 import {createLayout,createNavigation} from './interior-navigation.js';
 import {planFrame,roomLook} from './interior-camera.js';
 import {createPlanCutaway} from './interior-cutaway.js';
+import {repairWallTops} from './interior-wall-tops.js';
 
 const query=new URLSearchParams(location.search),typology=query.get('tipologia')||'canto',requested=query.get('backend')||'auto';
 const canvas=document.querySelector('#interior-canvas'),stage=document.querySelector('#interior-stage'),status=document.querySelector('#interior-status');
@@ -387,7 +388,7 @@ function geometryInfo(){
 }
 state.getState=function(){return {version:1,typology,mode:state.mode,backend:state.backend,ready:state.ready,error:state.error,disposed:state.disposed,active:state.active,unitSHA256:record?.unitSHA256,sourceSHA256:record?.sourceSHA256,
   geometry:geometryInfo(),camera:camera?{position:camera.position.toArray(),target:controls.target.toArray(),yaw,pitch,autoFrame:planAutoFrame}:null,
-  framing:state.framing||null,roomView:state.roomView||null,presentation:presentation?.getState()||null,
+  framing:state.framing||null,roomView:state.roomView||null,presentation:presentation?.getState()||null,wallTopRepair:state.wallTopRepair||null,
   ceiling:{visible:ceiling.length>0&&ceiling.every(m=>m.visible),count:ceiling.length},rooms:state.rooms||[],
   furniture:furniture.map(m=>({id:m.id,name:m.name,position:[...m.position],rotation:m.rotation,originalPosition:[...m.originalPosition],originalRotation:m.originalRotation,
     modified:Math.abs(m.position[0]-m.originalPosition[0])>1e-9||Math.abs(m.position[1]-m.originalPosition[1])>1e-9||m.rotation!==m.originalRotation})),
@@ -479,6 +480,8 @@ async function start(){
     state.lighting={bakedActive:false,reason:'cena autoral dinâmica da planta de meio'};
   }else throw Error('Formato de geometria interior desconhecido.');
   check();if(!ceiling.length)throw Error('O interior perdeu o forro para o Tour.');
+  if(record.geometryKind==='frozen-source')state.wallTopRepair=repairWallTops({scene,typology,
+    sourceSHA256:record.sourceSHA256,baked,wallMaterial:native.m0,color:layout.unit.cores?.parede||'#eee7d9',own});
   const architecture=[];scene.traverse(mesh=>{if(mesh.isMesh&&!mesh.userData.furnitureId)architecture.push(mesh);});
   presentation=createPlanCutaway({scene,layout,architecture,wallMaterial:native.m0,own});ceiling=presentation.ceiling;
   addLights();

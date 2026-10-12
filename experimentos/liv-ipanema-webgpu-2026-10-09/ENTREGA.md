@@ -1,8 +1,21 @@
 # LIV Ipanema — pacote de avaliação de 11/10/2026
 
-## Revisão v10 — paredes completas e reuso dos interiores
+## Revisão v11 — união dos topos das paredes
 
-A versão atual para revisão é `entregas/liv-avaliacao-20261011-v10/`. Canto e Meio começam com paredes completas; **Paredes baixas** passa a ser opcional. Tipologias já abertas são reutilizadas em Planta 3D/Tour, com no máximo duas cenas e somente a visível renderizando. Trocas preservam câmera manual, móveis e preferência de paredes; sair para Maquete/Planta 2D encerra ambos os interiores. Cadastro de demonstração e filtro de disponíveis da v9 permanecem. [TROCA-PLANTAS.md](TROCA-PLANTAS.md) descreve causa, medição e limite de memória.
+A versão atual para revisão é `entregas/liv-avaliacao-20261011-v11/`. Corrige superfícies coplanares e manchas de iluminação nas quinas superiores das duas plantas. Os topos repetidos são retirados da lista de desenho e substituídos por uma única união do contorno da fonte, sem segunda camada/offset. Laterais preservam RGBM/UV1; o topo exposto usa o material PBR nativo da parede. Reuso rápido, paredes completas, Tour e estoque de demonstração permanecem. [TOPOS-PAREDES.md](TOPOS-PAREDES.md) registra diagnóstico e validação.
+
+- Versão: `94b8e5c1ce76b950c74718ccd2fe2526183a107f21ba249946ecf834c4501045`.
+- Site: **242 arquivos / 144.464.641 B**; revisão: **53 arquivos / 9.368.182 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v11-94b8e5c1ce76.zip`, **116.213.632 B**, SHA-256 `00e42f6e5d5a6fa30a9e66913efb06aa6502f5873a242c9e74d5cfc8210c34c8`.
+- [Maquete v11 com demonstração](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v11/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio&demonstracao=1).
+
+Teste independente da geometria: **PASS**, 11.786 raios, 70 amostras antes sobrepostas e agora com uma única cobertura. Área preservada e atributos restantes byte a byte. [Estabilidade visual](evidencias/estabilidade-visual-corrigida/runtime.json): **PASS**, seis trocas por perfil em WebGPU/WebGL/toque emulado, zero pixels alterados no reuso e após restaurar móveis. [Corte/Tour](evidencias/topos-corte-tour/runtime.json): **PASS**, seis casos. Quatro testes do empacotamento passaram. [Conferência independente do pacote](evidencias/entrega-topos-paredes/runtime.json): **PASS**, 242 recursos HTTP/hash, três perfis, clique na fachada, ambas as plantas/Tours, mapa/retorno, PNG, PBR/Draco, diagnóstico e recuperação. Prévia do responsável atualizada e conferida em Canto → Meio → Canto, com paredes completas e quinas limpas. Fontes/atlas/estoque real e publicação permanecem preservados; aparelhos físicos continuam pendentes.
+
+[Reuso na v11 empacotada](evidencias/troca-plantas-topos/runtime.json): **PASS**, três perfis com suspensão, câmera/móveis/preferências, seleção rápida, perda de dispositivo e descarte. Retornos a plantas já abertas: **7–15 ms**; primeira abertura de cada tipologia ainda prepara os gráficos.
+
+## Histórico v10 — paredes completas e reuso dos interiores
+
+A versão anterior para revisão é `entregas/liv-avaliacao-20261011-v10/`. Canto e Meio começam com paredes completas; **Paredes baixas** passa a ser opcional. Tipologias já abertas são reutilizadas em Planta 3D/Tour, com no máximo duas cenas e somente a visível renderizando. Trocas preservam câmera manual, móveis e preferência de paredes; sair para Maquete/Planta 2D encerra ambos os interiores. Cadastro de demonstração e filtro de disponíveis da v9 permanecem. [TROCA-PLANTAS.md](TROCA-PLANTAS.md) descreve causa, medição e limite de memória.
 
 - Versão: `55a77712998e80105e170470db8afc5f5681646ba9ad1a253b364351732e8eda`.
 - Site: **240 arquivos / 144.456.134 B**; revisão: **48 arquivos / 8.111.992 B**.
