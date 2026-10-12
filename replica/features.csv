@@ -1,0 +1,28 @@
+feature,area,priority,original,clone,notes
+Showroom 3D no navegador sem instalar nada,showroom,must,yes,yes,
+Passeio pelo interior da unidade,showroom,must,yes,yes,visita/maquete com WASD e luz assada
+Planta 2D da unidade,showroom,must,yes,yes,LIV: planta 2D/3D/Tour pela ficha
+Planta 3D vista de cima com moveis,showroom,must,yes,yes,
+Ficha da unidade com preco e status,inventario,must,yes,partial,LIV: pronto no painel e no site; ativacao real pendente (ESTOQUE.md)
+Preco e disponibilidade ao vivo vindos do painel,inventario,must,yes,partial,salesInventory no Firestore; ainda nao publicado
+Lista de unidades com filtros,inventario,must,yes,partial,LIV filtra por disponibilidade; preco/quartos/area nao verificados
+Clicar na unidade direto na fachada,showroom,should,unknown,yes,LIV: toque na fachada abre a ficha
+Captura de lead (formulario por projeto),leads,must,yes,no,nao encontrado no repo
+Lead com comportamento (unidades vistas e tempo),leads,must,yes,no,
+Funciona no celular,showroom,must,partial,partial,hauzd gera 6 compressoes (ASTC/ETC2/BC7...) e escolhe pela GPU (rea-hauzd.md); nosso Poco X6/iPhone pendente
+Reserva com pagamento online e trava de estoque,reserva,should,yes,no,
+Sync de estoque e leads com CRM,integracoes,should,yes,no,hauzd: 32 integracoes; Zapier usa crmId por unidade
+Estatisticas no painel,analytics,should,yes,no,
+Vista real pela janela (360 de drone por andar),showroom,should,yes,no,o hibrido 360 do Cycles foi adiado (memoria)
+Troca de acabamento pelo comprador,showroom,could,partial,partial,ha acabamentos PBR; troca pelo comprador nao verificada
+Embed por SDK JS com eventos,integracoes,could,yes,no,
+API REST e webhooks,integracoes,could,yes,no,
+App de totem Windows offline para stand,canais,could,yes,no,
+Apps nativos iOS/Android,canais,could,yes,no,
+Multi-idioma,showroom,could,yes,no,nao verificado no repo
+POIs proximos,showroom,should,yes,yes,Overture Places
+Cidade em 3D ao redor do predio,showroom,could,no,yes,a hauzd poe foto desfocada no lugar; diferencial nosso
+Mobilia automatica a partir da planta,showroom,could,no,yes,diferencial nosso
+Render e video de marketing,servicos,could,yes,skip,servico de produtora; nao produto
+Carteira de projetos e parcerias LatAm,rede,could,yes,skip,rede comercial deles; nao e funcionalidade
+Captacao de drone por projeto,servicos,could,yes,skip,operacao de campo
