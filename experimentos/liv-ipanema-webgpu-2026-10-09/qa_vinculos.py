@@ -39,16 +39,16 @@ def main(output):
                 page.goto(URL+f'?geometria=entrada&unidades=edificio&backend={backend}');ready(page)
                 assert page.evaluate('__livViewer.reloadRelations()')
                 assert page.evaluate('__livViewer.units.units.filter(u=>u.relation).length')==0
-                page.locator('[data-unit-id]').first.click();assert page.locator('#openUnitPlant').is_hidden()
+                page.evaluate('''__livViewer.selectUnit('liv-ipanema/pavimento-modelo-01/final-01',{showInformation:true})''');assert page.locator('[data-unit-open="planta2d"]').is_hidden()
                 assert page.locator('#unitDetails').is_visible()
                 page.keyboard.press('Escape');assert page.locator('#unitDetails').is_hidden()
                 payload['data']=fixture;assert page.evaluate('__livViewer.reloadRelations()')
                 for row in fixture['units']:
-                    page.evaluate('id=>__livViewer.selectUnit(id)',row['id'])
+                    page.evaluate('id=>__livViewer.selectUnit(id,{showInformation:true})',row['id'])
                     assert page.evaluate('__livViewer.typology')==row['typology']
                     assert 'orientação original' in page.locator('#unitLayout').inner_text()
                     assert 'FIXTURE SINTÉTICA' in page.locator('#relationSource').inner_text()
-                    page.locator('#openUnitPlant').click();ready(page,'planta2d')
+                    page.locator('[data-unit-open="planta2d"]').click();ready(page,'planta2d')
                     assert f'plantas2d/{row["typology"]}.jpg' in page.locator('#stage img').get_attribute('src')
                     assert 'associada ao final' in page.locator('#interiorNote').inner_text()
                     for mode in ['planta3d','visita']:
@@ -59,8 +59,9 @@ def main(output):
                     assert page.evaluate('__livViewer.selectedUnitId')==row['id']
                 # A manually chosen other reference remains clearly distinguished.
                 page.evaluate('__livViewer.setTypology("canto")');page.evaluate('__livViewer.setMode("planta2d")');ready(page,'planta2d')
-                assert 'referência geral de canto' in page.locator('#unitReferenceNote').inner_text()
-                page.locator('#openUnitPlant').click();ready(page,'planta2d');assert page.evaluate('__livViewer.typology')=='meio'
+                assert 'Planta de canto' in page.locator('#interiorNote').inner_text()
+                assert 'sem vínculo com uma unidade específica' in page.locator('#interiorNote').inner_text()
+                page.evaluate('__livViewer.openUnitLayout()');ready(page,'planta2d');assert page.evaluate('__livViewer.typology')=='meio'
                 page.locator('[data-mode="maquete"]').click();ready(page)
                 bad=json.loads(json.dumps(fixture));bad['units'][0]['orientation']='espelhada';payload['data']=bad
                 assert not page.evaluate('__livViewer.reloadRelations()');assert page.locator('#relationWarning').is_visible()
@@ -69,7 +70,8 @@ def main(output):
                 assert not page.evaluate('__livViewer.reloadRelations()')
                 payload['data']=json.loads(actual);assert page.evaluate('__livViewer.reloadRelations()')
                 assert page.evaluate('__livViewer.units.units.filter(u=>u.relation).length')==0
-                assert page.locator('#openUnitPlant').is_hidden();assert page.locator('#relationWarning').is_hidden()
+                page.evaluate('id=>__livViewer.selectUnit(id,{showInformation:true})',fixture['units'][0]['id'])
+                assert page.locator('[data-unit-open="planta2d"]').is_hidden();assert page.locator('#relationWarning').is_hidden()
                 assert 'Em conferência' in page.locator('#unitLayout').inner_text()
                 assert not case['errors'],case['errors'];case['status']='PASS';case['typologiesVerified']=['canto','meio']
                 context.close();(output/'runtime.json').write_text(json.dumps(report,indent=2),encoding='utf8');print(json.dumps(case),flush=True)

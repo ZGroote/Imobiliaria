@@ -121,6 +121,7 @@ def inventory(root=ROOT):
     add("comercial.json")
     add("vinculos.json")
     add("estoque-config.json")
+    add("estoque-demo-config.json")
     sales = json.loads(add("estoque-build.json"))
     if sales.get('schema') != 'liv-sales-bundle-v1':raise ValueError('Bundle comercial inválido.')
     add(sales['file']['path'], sales['file'])
@@ -134,7 +135,14 @@ def inventory(root=ROOT):
 
 
 def review_inventory(root=ROOT):
-    names = ['AMBIENCIA.md','CATALOGO.md','COMERCIAL.md','ESTOQUE.md','DISPONIBILIDADE.md','DIAGNOSTICO.md','VINCULOS.md','REDE-MEMORIA.md','MATERIAIS.md','MAPA-MODELO.md',
+    names = ['AMBIENCIA.md','CATALOGO.md','COMERCIAL.md','ESTOQUE.md','DISPONIBILIDADE.md','DEMONSTRACAO.md','DIAGNOSTICO.md','VINCULOS.md','REDE-MEMORIA.md','MATERIAIS.md','MAPA-MODELO.md',
+             'evidencias/demo-disponibilidade/runtime.json','evidencias/demo-disponibilidade/distribuicao.json',
+             'evidencias/demo-disponibilidade/webgpu-False-estacionamento.png',
+             'evidencias/demo-disponibilidade/webgpu-False-lazer.png',
+             'evidencias/demo-disponibilidade/auto-True-estacionamento.png',
+             'evidencias/demo-disponibilidade/painel-136-ocupados-34-disponiveis.png',
+             'evidencias/ficha-sem-blocos-comercial/runtime.json',
+             'evidencias/ficha-sem-blocos-vinculos/runtime.json',
              'evidencias/disponibilidade-filtro/runtime.json',
              'evidencias/disponibilidade-filtro/webgpu-False-disponiveis-demonstracao.png',
              'evidencias/disponibilidade-filtro/webgl-False-disponiveis-demonstracao.png',

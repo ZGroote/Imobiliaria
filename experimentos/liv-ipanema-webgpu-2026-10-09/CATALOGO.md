@@ -1,6 +1,6 @@
-# Espelho e posições do edifício
+# Posições do edifício e seleção pela maquete
 
-[Prévia local com a entrada e o catálogo completo](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio). O parâmetro `unidades=edificio` ativa o espelho e seleção nos 17 níveis. Sem ele, o piloto de dez finais continua disponível. A edição da geometria segue independente: base, contorno ou entrada.
+[Prévia local com a entrada e o catálogo completo](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio). O parâmetro `unidades=edificio` ativa a seleção nos 17 níveis. Sem ele, o piloto de dez finais continua disponível. A edição da geometria segue independente: base, contorno ou entrada.
 
 ## Identidade e limites
 
@@ -12,13 +12,15 @@ Os IDs são `liv-ipanema/pavimento-modelo-00/final-01` até `liv-ipanema/pavimen
 
 ## Fluxo
 
-Espelho, dez botões do pavimento ativo, ficha, destaque e clique na fachada compartilham o mesmo ID. Selecionar no espelho mostra a face correspondente com o edifício completo enquadrado. Alterar o pavimento limpa uma seleção de outro nível. Sem destaque, o picking fica desativado. Laje, cobertura, circulação e faces ocultas continuam sem apartamento presumido.
+O clique/toque na fachada identifica final e pavimento automaticamente e abre a ficha, preservando a câmera. A seleção funciona também com “Sem destaque”. Alterar manualmente o pavimento limpa uma seleção de outro nível. Laje, cobertura, circulação e faces ocultas continuam sem apartamento presumido. A lista lateral de finais, a ficha duplicada e o espelho público foram removidos.
 
-O espelho oferece filtro por pavimento e navegação pelas setas/Enter. Os estados desconhecidos permanecem neutros. Sessão, reload e retorno do mapa preservam `unidades=edificio`, geometria, pavimento e seleção. Canto/Meio continuam experiências gerais independentes, sem serem atribuídos automaticamente ao final selecionado.
+O filtro superior esquerdo destaca todos os disponíveis em verde. Os estados desconhecidos permanecem neutros. Sessão, reload e retorno do mapa preservam `unidades=edificio`, geometria, pavimento e seleção. Canto/Meio continuam experiências gerais independentes, sem serem atribuídos automaticamente ao final selecionado.
 
-Os 170 realces reutilizam as mesmas duas geometrias do piloto e dez contornos normalizados, deslocados/escalados na seleção. Não há um renderer ou uma geometria de destaque por apartamento. A expansão ainda acrescenta registros e elementos de interface; seu custo completo precisa entrar nos ensaios de rede/memória/aparelhos.
+Os 170 realces reutilizam as mesmas duas geometrias do piloto e dez contornos normalizados, deslocados/escalados na seleção. Não há um renderer ou uma geometria de destaque por apartamento. A expansão acrescenta registros; seu custo completo precisa entrar nos ensaios de rede/memória/aparelhos.
 
 ## Verificação
+
+Os ensaios abaixo registram a interface anterior com espelho. A interface atual é verificada por `qa_entrega.py`, `qa_comercial.py`, `qa_vinculos.py` e `qa_demo_disponibilidade.py`, incluindo ausência dos blocos removidos e seleção pela fachada. O teste com 136 ocupados e 34 disponíveis está descrito em [DEMONSTRACAO.md](DEMONSTRACAO.md).
 
 `node --test test_catalogo_unidades.mjs test_unidades.mjs test_contorno_unidades.mjs`: 21 testes sobre três edições, unicidade, 17×10, fonte preservada, gardens pendentes, raios de todos os níveis, limites, câmeras e mesmos buffers de destaque. `python qa_catalogo.py --saida evidencias/catalogo-edificio-fachada`: três perfis, 510 seleções sincronizadas, cliques reais de fachada/espelho em térreo/1º/8º/16º, teclado/filtro, dois interiores nos quatro modos, reload e retorno do mapa. Os testes não declaram aparelho físico.
 

@@ -93,8 +93,8 @@ def main(package,output):
                     page.wait_for_timeout(400)
                     page.screenshot(path=str(output/f'{backend}-{touch}-implantacao.png'))
                     case['noArtificialParcelFill']=True
-                    page.locator('#buildingMirror').evaluate('(e)=>e.open=true');page.locator('#mirrorFloor').select_option('8')
-                    page.locator('[data-mirror-unit-id]:visible').nth(5).click()
+                    assert page.locator('#buildingMirror,#unitList,#unitCard').count()==0
+                    page.evaluate('''__livViewer.selectUnit('liv-ipanema/pavimento-modelo-08/final-06',{showInformation:true})''')
                     selected=page.evaluate('__livViewer.selectedUnitId');assert selected.endswith('/final-06')
                     assert page.locator('#unitDetails').is_visible()
                     page.keyboard.press('Escape');assert page.locator('#unitDetails').is_hidden()
@@ -134,7 +134,6 @@ def main(package,output):
                     metadata=page.evaluate('__livMapAdapter.model');assert metadata['edition']=='entrada' and metadata['geometryVerified']
                     return_url=page.evaluate('__livMapAdapter.returnURL');assert 'unidades=edificio' in return_url and 'luz=entardecer' in return_url
                     page.goto(return_url);ready(page);assert page.evaluate('__livViewer.selectedUnitId')==selected
-                    page.locator('#buildingMirror').evaluate('(e)=>e.open=true')
                     page.screenshot(path=str(output/f'{backend}-{touch}-pagina.png'),full_page=not touch)
                     assert page.locator('iframe').count()==1
                     assert not case['errors'] and not case['httpFailures'] and not case['externalRequests'],case

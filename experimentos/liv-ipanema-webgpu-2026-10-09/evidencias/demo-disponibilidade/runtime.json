@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "syntheticOnly": true,
+  "physicalMobile": false,
+  "project": "demo-painel",
+  "propertyId": "liv-demo-disponibilidade",
+  "recordedAt": "2026-10-12T00:55:47.092065+00:00",
+  "cases": [
+    {
+      "backend": "webgpu",
+      "touchEmulated": false,
+      "sold": 136,
+      "available": 34,
+      "allAvailableHighlightedAcrossAllFloors": true,
+      "bothSides": true,
+      "redundantBlocksAbsent": true,
+      "facadeClick": "liv-ipanema/pavimento-modelo-04/final-10",
+      "singleDialog": true,
+      "cameraPreserved": true,
+      "status": "PASS"
+    },
+    {
+      "backend": "webgl",
+      "touchEmulated": false,
+      "sold": 136,
+      "available": 34,
+      "allAvailableHighlightedAcrossAllFloors": true,
+      "bothSides": true,
+      "redundantBlocksAbsent": true,
+      "facadeClick": "liv-ipanema/pavimento-modelo-04/final-10",
+      "singleDialog": true,
+      "cameraPreserved": true,
+      "status": "PASS"
+    },
+    {
+      "backend": "auto",
+      "touchEmulated": true,
+      "sold": 136,
+      "available": 34,
+      "allAvailableHighlightedAcrossAllFloors": true,
+      "bothSides": true,
+      "redundantBlocksAbsent": true,
+      "facadeClick": "liv-ipanema/pavimento-modelo-04/final-10",
+      "singleDialog": true,
+      "cameraPreserved": true,
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "liveAdminSaleAndRestore": true
+}

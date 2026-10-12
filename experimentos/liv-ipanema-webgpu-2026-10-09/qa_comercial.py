@@ -36,21 +36,19 @@ def main(output):
                 page.route('**/comercial.json', lambda route: route.fulfill(status=payload['status'], content_type='application/json', body=json.dumps(payload['data'])))
                 page.goto(URL + f'?geometria=entrada&unidades=edificio&backend={backend}');ready(page)
                 page.wait_for_function('__livViewer.commercialStatus==="fornecido"')
-                page.locator('#buildingMirror').evaluate('(e)=>e.open=true')
+                assert page.locator('#buildingMirror,#unitList,#unitCard').count()==0
                 for id_, expected in zip(ids, ['disponivel', 'reservada', 'vendida', 'bloqueada']):
-                    page.locator(f'[data-mirror-unit-id="{id_}"]').click()
+                    page.evaluate('id=>__livViewer.selectUnit(id,{showInformation:true})',id_)
                     assert page.evaluate('__livViewer.selectedUnitId') == id_
-                    assert page.locator('[data-unit-id][aria-pressed=true]').get_attribute('data-availability') == expected
-                    assert page.locator(f'[data-mirror-unit-id="{id_}"]').get_attribute('data-availability') == expected
+                    assert page.evaluate('id=>__livViewer.units.units.find(u=>u.id===id).commercial.availability',id_) == expected
                     assert page.locator('#unitSale').inner_text() in page.locator('#detailsBody').inner_text()
                     assert 'FIXTURE SINTETICA' in page.locator('#commercialSource').inner_text()
                     assert '<img' in page.locator('#commercialConditions').inner_text()
                     assert page.locator('#commercialConditions img').count() == 0
                     assert page.locator('#unitDetails').is_visible()
                     page.keyboard.press('Escape');assert page.locator('#unitDetails').is_hidden()
-                page.locator('#mirrorAvailability').select_option('vendida')
-                assert page.locator('[data-mirror-unit-id]:visible').count() == 1
-                assert page.locator('[data-mirror-unit-id]:visible').get_attribute('data-mirror-unit-id') == ids[2]
+                page.locator('#availability').select_option('disponiveis')
+                assert page.evaluate('__livViewer.glowingUnitIds')==[ids[0]]
                 invalid = json.loads(json.dumps(fixture)); invalid['units'].append(invalid['units'][0])
                 payload['data'] = invalid
                 assert page.evaluate('__livViewer.reloadCommercial()') is False
@@ -62,7 +60,7 @@ def main(output):
                 payload.update(data=fixture, status=200)
                 assert page.evaluate('__livViewer.reloadCommercial()') is True
                 assert page.locator('#commercialWarning').is_hidden()
-                page.locator('#mirrorAvailability').select_option('todos')
+                page.locator('#availability').select_option('todos')
                 page.evaluate('__livViewer.setMode("planta2d")');ready(page, 'planta2d')
                 page.evaluate('__livViewer.setMode("maquete")');ready(page)
                 assert len(page.evaluate('__livViewer.units.units.filter(u=>u.commercial.availability!=="nao_informada")')) == 4

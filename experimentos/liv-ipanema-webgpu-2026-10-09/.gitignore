@@ -11,6 +11,7 @@
 /.liv-reproducao-*/
 /teste-reproducao-*/
 /entregas/
+/.demo-emulador/
 /interiores/*/source.json
 /interiores/*/source.json.gz
 /interiores/*/geometry-compact.json*

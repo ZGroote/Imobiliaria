@@ -32,9 +32,8 @@ def edit_unit(page,key,status,profile=None,number=None,price=None):
 
 def select_public(page,floor,final):
     if page.locator('#unitDetails').evaluate('(d)=>d.open'):page.keyboard.press('Escape')
-    page.locator('#buildingMirror').evaluate('(d)=>d.open=true')
     id_=f'liv-ipanema/pavimento-modelo-{floor:02}/final-{final:02}'
-    page.locator(f'[data-mirror-unit-id="{id_}"]').click()
+    page.evaluate('id=>__livViewer.selectUnit(id,{showInformation:true})',id_)
     page.wait_for_function('document.getElementById("unitDetails").open')
     assert page.evaluate('__livViewer.selectedUnitId')==id_
     return page.locator('#detailsBody')

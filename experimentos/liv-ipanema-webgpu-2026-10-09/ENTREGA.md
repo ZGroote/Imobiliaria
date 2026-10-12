@@ -1,8 +1,24 @@
 # LIV Ipanema — pacote de avaliação de 11/10/2026
 
+## Revisão v9 — ficha única e demonstração de disponibilidade
+
+A versão atual para revisão é `entregas/liv-avaliacao-20261011-v9/`. Remove a lista lateral de finais, a ficha duplicada e o espelho público. A ficha permanece acessível pelo clique/toque no apartamento. O filtro **Disponíveis** destaca o edifício inteiro. Um cadastro separado no emulador local contém 136 vendidos/ocupados e 34 disponíveis, distribuídos aleatoriamente; o painel permite editar e acompanhar a atualização ao vivo. [DEMONSTRACAO.md](DEMONSTRACAO.md) registra configuração, reinício e limites.
+
+- Versão: `94bfd52d6dbf455a825d10ead64b428a4f392cf23cbfd4970dd4b0e733f14355`.
+- Site: **240 arquivos / 144.453.136 B**; revisão: **40 arquivos / 5.812.490 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v9-94bfd52d6dbf.zip`, **114.124.540 B**, SHA-256 `da70eca8720c3606895fff7eb7101141343f92728a1816364a68f72429a5408d`.
+- [Maquete v9 com demonstração](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v9/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio&demonstracao=1).
+- [Painel do cadastro fictício](http://127.0.0.1:3017/admin/properties/units?id=liv-demo-disponibilidade).
+
+[Demonstração ao vivo](evidencias/demo-disponibilidade/runtime.json), [ficha comercial única](evidencias/ficha-sem-blocos-comercial/runtime.json) e [duas plantas associadas em dados sintéticos](evidencias/ficha-sem-blocos-vinculos/runtime.json): **PASS** em WebGPU, WebGL e toque emulado. Os 34 IDs disponíveis conferem com os destaques nas duas faces; vender uma unidade pelo painel reduz o conjunto a 33 e restaurar sua disponibilidade retorna a 34. Vinte e três testes Node do filtro/catálogo/cliente e quatro testes de empacotamento passaram. A configuração real continua sem imóvel fixo e sem ofertas fictícias. O parâmetro `demonstracao=1` é exclusivo do teste local e acompanha a ida/volta pelo mapa. Nenhuma oferta ou implantação de produção foi modificada.
+
+[Conferência independente da v9](evidencias/entrega-sem-blocos-demo/runtime.json): **PASS**, com os 240 recursos por HTTP/hash, clique/toque nos pavimentos 8 e 12, ficha e câmera preservada, duas plantas nos quatro modos, caminhada, mapa/retorno, PBR/Draco, base preservada, diagnóstico e recuperação 2D sem GPU. O ensaio de vínculos encontrou um timeout transitório durante abertura do interior no primeiro ciclo; a repetição sequencial passou nos três perfis e a conferência independente do pacote também passou. Qualificação em celulares físicos continua pendente.
+
+[Demonstração executada diretamente na v9 empacotada](evidencias/demo-disponibilidade-empacotada/runtime.json): **PASS** nos três perfis, incluindo os 136/34, as duas faces e venda/restauração pelo painel. As abas de maquete e cadastro fictício ficam abertas para teste local.
+
 ## Revisão v8 — filtro de disponíveis na maquete
 
-A versão para revisão é `entregas/liv-avaliacao-20261011-v8/`. Substitui a etiqueta superior esquerda pelo seletor **Apartamentos → Todos / Disponíveis**. Unidades explicitamente disponíveis brilham em verde; clicar/toque abre a ficha sem mover a câmera. A contagem abrange todo o catálogo, com atualização por venda no painel. Falha de consulta/conexão ou retirada da publicação suspendem o brilho. O efeito mantém materiais e iluminação do prédio, usa dois objetos agrupados e só reconstrói buffers quando muda a seleção de disponíveis. [DISPONIBILIDADE.md](DISPONIBILIDADE.md) descreve funcionamento e limites. A implantação sem preenchimento externo e o clique direto da v7 permanecem.
+A revisão anterior está em `entregas/liv-avaliacao-20261011-v8/`. Substitui a etiqueta superior esquerda pelo seletor **Apartamentos → Todos / Disponíveis**. Unidades explicitamente disponíveis brilham em verde; clicar/toque abre a ficha sem mover a câmera. A contagem abrange todo o catálogo, com atualização por venda no painel. Falha de consulta/conexão ou retirada da publicação suspendem o brilho. O efeito mantém materiais e iluminação do prédio, usa dois objetos agrupados e só reconstrói buffers quando muda a seleção de disponíveis. [DISPONIBILIDADE.md](DISPONIBILIDADE.md) descreve funcionamento e limites. A implantação sem preenchimento externo e o clique direto da v7 permanecem.
 
 - Versão: `d5e50b4379930aa6a09389d6dcd2f0e305105a9b589b93655ae20ae2d8c0e4cb`.
 - Site: **240 arquivos / 144.463.634 B**; revisão: **31 arquivos / 4.823.471 B**.

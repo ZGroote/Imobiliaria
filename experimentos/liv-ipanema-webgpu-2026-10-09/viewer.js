@@ -14,17 +14,19 @@ const message=document.getElementById('loadingText'),status=document.getElementB
 const requested=new URLSearchParams(location.search).get('backend');
 const backend=['webgpu','webgl'].includes(requested)?requested:'auto';
 const geometry=requestedEdition(location.search);
-const scope=new URLSearchParams(location.search).has('estoque')?'edificio':unitScope(location.search);
+const demonstration=new URLSearchParams(location.search).get('demonstracao')==='1';
+const scope=demonstration||new URLSearchParams(location.search).has('estoque')?'edificio':unitScope(location.search);
 const finish=geometry!=='base'||new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
 const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
 const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
 state.ambience=requestedAmbience(location.search);
 state.availabilityFilter='todos';
-let units,unitUI,mirror;
+let units,unitUI;
 let commercialData=null,commercialVersion=0,commercialController=null;
 let relationsData=null,interiorCatalog=null,relationVersion=0,relationController=null;
-let stockData=null,stockControlled=new URLSearchParams(location.search).has('estoque'),stockStart=null,stopStock=null,stockVersion=0;
+let stockData=null,stockControlled=demonstration||new URLSearchParams(location.search).has('estoque'),stockStart=null,stopStock=null,stockVersion=0;
 const detailsDialog=document.getElementById('unitDetails');
+document.getElementById('demonstrationNote').hidden=!demonstration;
 state.geometry=geometry;
 state.unitScope=scope;
 const storageKey=`liv-viewer-v1:${location.pathname}${geometry==='base'?'':':'+geometry}${scope==='edificio'?':edificio':''}`;
@@ -33,6 +35,7 @@ function updateMapLink(){
   if(geometry!=='base')destination.searchParams.set('geometria',geometry);
   if(scope==='edificio')destination.searchParams.set('unidades',scope);
   const stockId=new URLSearchParams(location.search).get('estoque');if(stockId)destination.searchParams.set('estoque',stockId);
+  if(demonstration)destination.searchParams.set('demonstracao','1');
   if(state.ambience==='entardecer')destination.searchParams.set('luz',state.ambience);else destination.searchParams.delete('luz');
   mapLink.href=destination.href;
 }
@@ -74,9 +77,9 @@ function update() {
   const unit=units?unitById(units,state.selectedUnitId):null,associated=unit?.relation?.typology===state.typology;
   if(associated)document.getElementById('interiorNote').textContent=`Referência de ${selected.label.toLowerCase()} associada ao final ${unit.final} pelo cadastro fornecido · interior ilustrativo, com medidas inferidas.`;
   document.getElementById('hint').textContent=state.mode==='visita'?'Arraste para olhar · use o teclado ou o controle na tela para caminhar':
-    state.mode==='planta2d'?`Planta comercial publicada · ${selected.label.toLowerCase()}, ${selected.area} incluindo varanda`:'Arraste para girar · use a roda ou dois dedos para aproximar';
+    state.mode==='planta2d'?`Planta comercial publicada · ${selected.label.toLowerCase()}, ${selected.area} incluindo varanda`:
+    state.mode==='maquete'?'Clique ou toque num apartamento para ver a ficha · arraste para girar':'Arraste para girar · use a roda ou dois dedos para aproximar';
   unitUI?.update({...state,typology:selected.label.toLowerCase()});
-  mirror?.update(state);
   updateAvailability();
   updateDetails();
 }
@@ -103,16 +106,7 @@ function setAvailabilityFilter(value){
 function updateDetails(){
   if(!units)return;
   const unit=unitById(units,state.selectedUnitId);
-  if(!unit){if(detailsDialog.open)detailsDialog.close();return;}
-  document.getElementById('detailsTitle').textContent=document.getElementById('unitTitle').textContent;
-  const source=document.getElementById('unitCard'),body=document.getElementById('detailsBody');
-  body.replaceChildren();
-  for(const element of source.children){
-    if(element.tagName==='BUTTON'||element.tagName==='H3'||element.hidden)continue;
-    const copy=element.cloneNode(true);copy.removeAttribute('id');
-    for(const node of copy.querySelectorAll('[id]'))node.removeAttribute('id');body.append(copy);
-  }
-  for(const button of detailsDialog.querySelectorAll('[data-unit-open]')){button.hidden=!unit.relation;button.disabled=!state.ready;}
+  if(!unit&&detailsDialog.open)detailsDialog.close();
 }
 function showDetails(){if(state.selectedUnitId&&!detailsDialog.open){updateDetails();detailsDialog.showModal();}}
 function busy(text) {
@@ -211,12 +205,8 @@ async function setMode(mode) {
       if(stockControlled){units=attachStock(units,stockData,interiorCatalog);state.units=units;}
       try{unitById(units,state.selectedUnitId);}catch{state.selectedUnitId=null;}
       if(unitUI)unitUI.setCatalog(units);
-      else unitUI=createUnitUI(units,{onSelect:id=>selectUnit(id,{showInformation:true}),onClear:()=>selectUnit(null),onSide:showUnitSide});
-      if(scope==='edificio'&&!mirror){
-        const {createBuildingMirror}=await import('./espelho.js');if(token!==generation)return;
-        mirror=createBuildingMirror(units,id=>selectUnit(id,{showInformation:true}));
-      }
-      mirror?.setCatalog(units);
+      else unitUI=createUnitUI(units);
+
       update();
     }
     const kind=mode==='maquete'?'exterior':mode==='planta2d'?'image':`interior:${state.typology}`;
@@ -369,7 +359,7 @@ async function refreshCommercial(){
     if(version!==commercialVersion)return false;
     commercialData=data;units=next;state.units=units;state.commercialStatus=next.commercialStatus;state.commercialError=null;
     document.getElementById('commercialWarning').hidden=true;
-    unitUI?.setCatalog(units);mirror?.setCatalog(units);update();return true;
+    unitUI?.setCatalog(units);update();return true;
   }catch(error){
     if(version!==commercialVersion)return false;
     state.commercialError=String(error);
@@ -397,7 +387,7 @@ async function refreshRelations(){
     const next=attachRelations(units,data,catalog);if(version!==relationVersion)return false;
     relationsData=data;interiorCatalog=catalog;units=next;state.units=units;state.relationStatus=next.relationStatus;state.relationError=null;
     document.getElementById('relationWarning').hidden=true;
-    unitUI?.setCatalog(units);mirror?.setCatalog(units);update();return true;
+    unitUI?.setCatalog(units);update();return true;
   }catch(error){
     if(error.name==='AbortError'||version!==relationVersion)return false;
     state.relationError=String(error);const warning=document.getElementById('relationWarning');warning.hidden=false;
@@ -417,7 +407,7 @@ function startStock(){
   if(stockStart)return stockStart;
   const version=++stockVersion;
   stockStart=(async()=>{
-    const response=await fetch(new URL('./estoque-config.json',import.meta.url),{cache:'no-cache'});
+    const response=await fetch(new URL(demonstration?'./estoque-demo-config.json':'./estoque-config.json',import.meta.url),{cache:'no-cache'});
     if(!response.ok)throw Error('Configuração da consulta indisponível.');
     const config=await response.json();if(version!==stockVersion)return false;
     // Disabled/default pages do not download the Firebase bundle or contact the database.
@@ -425,7 +415,7 @@ function startStock(){
       if(stockControlled)stockWarning('A ligação com o painel ainda não está habilitada nesta versão.');return false;
     }
     stockControlled=true;commercialVersion++;commercialController?.abort();relationVersion++;relationController?.abort();
-    units=attachStock(units,null,null);state.units=units;unitUI?.setCatalog(units);mirror?.setCatalog(units);update();
+    units=attachStock(units,null,null);state.units=units;unitUI?.setCatalog(units);update();
     const sdk=await import('./estoque-runtime.js');if(version!==stockVersion)return false;
     const checked=sdk.validarConfig(config,location.search,location.hostname);if(!checked)return false;
     state.stockPropertyId=checked.id;state.stockStatus='conectando';let latest=0;
@@ -440,7 +430,7 @@ function startStock(){
         const next=attachStock(units,snapshot,interiorCatalog);stockData=snapshot;units=next;state.units=units;
         state.stockStatus=snapshot?'ao-vivo':'nao-publicado';state.commercialStatus=next.commercialStatus;state.relationStatus=next.relationStatus;
         document.getElementById('commercialWarning').hidden=true;document.getElementById('relationWarning').hidden=true;
-        unitUI?.setCatalog(units);mirror?.setCatalog(units);update();
+        unitUI?.setCatalog(units);update();
       })().catch(()=>{if(version===stockVersion)stockWarning('Não foi possível conferir o cadastro. Confirme a disponibilidade com a equipe responsável.');});
     },message=>{if(version===stockVersion)stockWarning(message);});
     return true;
@@ -467,8 +457,6 @@ document.getElementById('floor').addEventListener('change',event=>setFloor(event
 document.getElementById('typology').addEventListener('change',event=>setTypology(event.target.value));
 document.getElementById('ambience').addEventListener('change',event=>setAmbience(event.target.value));
 document.getElementById('availability').addEventListener('change',event=>setAvailabilityFilter(event.target.value));
-document.getElementById('openUnitPlant').addEventListener('click',openUnitLayout);
-document.getElementById('seeUnitDetails').addEventListener('click',showDetails);
 document.getElementById('closeDetails').addEventListener('click',()=>detailsDialog.close());
 detailsDialog.addEventListener('click',event=>{
   if(event.target!==detailsDialog)return;const r=detailsDialog.getBoundingClientRect();
