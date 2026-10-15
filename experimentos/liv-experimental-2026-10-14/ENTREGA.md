@@ -1,0 +1,161 @@
+# LIV Ipanema — pacote de avaliação de 12/10/2026
+
+## Revisão v12 — interiores preservados entre modos
+
+A versão atual para revisão é `entregas/liv-avaliacao-20261012-v12/`. Canto e Meio preparados permanecem na memória ao mudar para Maquete, Planta 2D ou mapa. Apenas a vista atual renderiza; interiores ocultos pausam caminhada, rota, entradas e observação de tamanho. Retornar reutiliza a mesma cena e recursos gráficos, com câmera, móveis e preferência de paredes preservados. O mapa abre sobre a página atual e fecha pelo botão, Escape ou link interno de retorno. [TROCA-PLANTAS.md](TROCA-PLANTAS.md) registra retenção, limite de duas tipologias e descarte em saída real/erro/perda do dispositivo.
+
+- Versão: `5296304fe56845b476f20b4c683a498dc11ed7eaa37c57f9a05117d02a34e724`.
+- Site: **242 arquivos / 144.467.365 B**; revisão: **56 arquivos / 9.431.934 B**.
+- ZIP: `entregas/liv-avaliacao-20261012-v12-5296304fe568.zip`, **116.225.296 B**, SHA-256 `e4825c621d1968c70b6a529785b6c859bf2c968427dd87aca42505bdf68656b3`.
+- [Maquete v12 com demonstração](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261012-v12/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio&demonstracao=1).
+
+[Retenção no runtime](evidencias/retencao-plantas-modos/runtime.json): **PASS** nos três perfis, com identidade das instâncias, zero requisições adicionais dos interiores, suspensão estável e retorno de Maquete/2D/mapa. [Cancelamento durante inicialização](evidencias/retencao-falhas-init/runtime.json) e [preservação do último estado após cancelamento](evidencias/retencao-falhas-snapshot/runtime.json): **PASS**. Quatro testes de empacotamento passaram. A primeira abertura de uma tipologia ainda prepara seus gráficos. Qualificação em aparelhos físicos permanece pendente; modelos, atlas, estoque real e produção preservados.
+
+[Retenção na própria v12](evidencias/retencao-plantas-empacotada/runtime.json): **PASS** em WebGPU, WebGL2 e toque emulado, incluindo câmera/móveis após Maquete/2D/mapa, identidade das duas cenas, zero novos pedidos de interior, isolamento de perda do dispositivo suspenso e liberação integral ao encerrar. Retornos de 2D/Maquete concluíram em **14–100 ms** no ambiente local; não medem apresentação física do monitor. [Conferência independente](evidencias/entrega-retencao-plantas/runtime.json): **PASS**, 242 recursos HTTP/hash, fachada/ficha, ambas as tipologias nos quatro modos, caminhada, PNG, mapa/retorno, PBR/Draco, base, diagnóstico e fallback sem GPU. O processo foi interrompido após base/PBR; somente diagnóstico e fallback foram retomados pela receita [finalizar_conferencia.py](evidencias/entrega-retencao-plantas/finalizar_conferencia.py), após reconferir os hashes e os três perfis aprovados.
+
+## Histórico v11 — união dos topos das paredes
+
+A versão anterior para revisão é `entregas/liv-avaliacao-20261011-v11/`. Corrige superfícies coplanares e manchas de iluminação nas quinas superiores das duas plantas. Os topos repetidos são retirados da lista de desenho e substituídos por uma única união do contorno da fonte, sem segunda camada/offset. Laterais preservam RGBM/UV1; o topo exposto usa o material PBR nativo da parede. Reuso rápido, paredes completas, Tour e estoque de demonstração permanecem. [TOPOS-PAREDES.md](TOPOS-PAREDES.md) registra diagnóstico e validação.
+
+- Versão: `94b8e5c1ce76b950c74718ccd2fe2526183a107f21ba249946ecf834c4501045`.
+- Site: **242 arquivos / 144.464.641 B**; revisão: **53 arquivos / 9.368.182 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v11-94b8e5c1ce76.zip`, **116.213.632 B**, SHA-256 `00e42f6e5d5a6fa30a9e66913efb06aa6502f5873a242c9e74d5cfc8210c34c8`.
+- [Maquete v11 com demonstração](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v11/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio&demonstracao=1).
+
+Teste independente da geometria: **PASS**, 11.786 raios, 70 amostras antes sobrepostas e agora com uma única cobertura. Área preservada e atributos restantes byte a byte. [Estabilidade visual](evidencias/estabilidade-visual-corrigida/runtime.json): **PASS**, seis trocas por perfil em WebGPU/WebGL/toque emulado, zero pixels alterados no reuso e após restaurar móveis. [Corte/Tour](evidencias/topos-corte-tour/runtime.json): **PASS**, seis casos. Quatro testes do empacotamento passaram. [Conferência independente do pacote](evidencias/entrega-topos-paredes/runtime.json): **PASS**, 242 recursos HTTP/hash, três perfis, clique na fachada, ambas as plantas/Tours, mapa/retorno, PNG, PBR/Draco, diagnóstico e recuperação. Prévia do responsável atualizada e conferida em Canto → Meio → Canto, com paredes completas e quinas limpas. Fontes/atlas/estoque real e publicação permanecem preservados; aparelhos físicos continuam pendentes.
+
+[Reuso na v11 empacotada](evidencias/troca-plantas-topos/runtime.json): **PASS**, três perfis com suspensão, câmera/móveis/preferências, seleção rápida, perda de dispositivo e descarte. Retornos a plantas já abertas: **7–15 ms**; primeira abertura de cada tipologia ainda prepara os gráficos.
+
+## Histórico v10 — paredes completas e reuso dos interiores
+
+A versão anterior para revisão é `entregas/liv-avaliacao-20261011-v10/`. Canto e Meio começam com paredes completas; **Paredes baixas** passa a ser opcional. Tipologias já abertas são reutilizadas em Planta 3D/Tour, com no máximo duas cenas e somente a visível renderizando. Trocas preservam câmera manual, móveis e preferência de paredes; sair para Maquete/Planta 2D encerra ambos os interiores. Cadastro de demonstração e filtro de disponíveis da v9 permanecem. [TROCA-PLANTAS.md](TROCA-PLANTAS.md) descreve causa, medição e limite de memória.
+
+- Versão: `55a77712998e80105e170470db8afc5f5681646ba9ad1a253b364351732e8eda`.
+- Site: **240 arquivos / 144.456.134 B**; revisão: **48 arquivos / 8.111.992 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v10-55a77712998e.zip`, **115.588.452 B**, SHA-256 `6f8cf81adbe4f78c9aa44119387d358738c76beef89b1c7eeaf8b40250daf741`.
+- [Maquete v10 com demonstração](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v10/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio&demonstracao=1).
+
+[Trocas com recursos já baixados](evidencias/troca-plantas-conferida/runtime.json): **PASS** em WebGPU, WebGL e toque emulado. Medianas das trocas após ambas as cenas serem abertas: 6,2 / 6,0 / 6,4 ms, respectivamente; antes, 4.541 ms em WebGPU e 2.600 ms em WebGL2. Reuso de instâncias, ausência de novas requisições nas trocas aquecidas, recursos estáveis, suspensão, preferências/câmera/móveis, seleção rápida, perda do dispositivo suspenso e descarte ao sair foram conferidos. A primeira abertura ainda prepara os recursos gráficos.
+
+[Paredes completas e corte opcional](evidencias/parede-inteira-inicial/runtime.json): **seis casos PASS**, incluindo identidade de geometria/materiais/mapas e Tour completo. [Cancelamento durante inicialização](evidencias/troca-plantas-falhas/cancelamento-init-webgpu/runtime.json) e [erro do renderer](evidencias/troca-plantas-falhas/renderer-error-webgpu/runtime.json): **PASS**. Dois testes Node de câmera/navegação e quatro testes de empacotamento passaram. Qualificação física no Poco/iPhone permanece pendente; nenhum modelo, bake, configuração real de estoque ou implantação de produção foi modificado.
+
+[Conferência independente da v10](evidencias/entrega-troca-plantas/runtime.json): **PASS**, com 240 recursos por HTTP/hash, clique/toque na fachada, duas tipologias nos quatro modos e caminhada, mapa/retorno, PBR/Draco, recuperação da base, diagnóstico e fallback 2D sem GPU nos três perfis.
+
+[Reuso e paredes na própria v10 empacotada](evidencias/troca-plantas-empacotada/runtime.json): **PASS** nos três perfis, incluindo preferências/câmera/móveis, suspensão, seleção rápida, perda do dispositivo suspenso e descarte completo. Na aba existente do responsável, Canto e Meio abriram com **Paredes baixas** desligado, e o retorno a Canto reutilizou o interior preparado. A prévia permanece aberta em Planta 3D.
+
+## Revisão v9 — ficha única e demonstração de disponibilidade
+
+A revisão anterior está em `entregas/liv-avaliacao-20261011-v9/`. Remove a lista lateral de finais, a ficha duplicada e o espelho público. A ficha permanece acessível pelo clique/toque no apartamento. O filtro **Disponíveis** destaca o edifício inteiro. Um cadastro separado no emulador local contém 136 vendidos/ocupados e 34 disponíveis, distribuídos aleatoriamente; o painel permite editar e acompanhar a atualização ao vivo. [DEMONSTRACAO.md](DEMONSTRACAO.md) registra configuração, reinício e limites.
+
+- Versão: `94bfd52d6dbf455a825d10ead64b428a4f392cf23cbfd4970dd4b0e733f14355`.
+- Site: **240 arquivos / 144.453.136 B**; revisão: **40 arquivos / 5.812.490 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v9-94bfd52d6dbf.zip`, **114.124.540 B**, SHA-256 `da70eca8720c3606895fff7eb7101141343f92728a1816364a68f72429a5408d`.
+- [Maquete v9 com demonstração](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v9/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio&demonstracao=1).
+- [Painel do cadastro fictício](http://127.0.0.1:3017/admin/properties/units?id=liv-demo-disponibilidade).
+
+[Demonstração ao vivo](evidencias/demo-disponibilidade/runtime.json), [ficha comercial única](evidencias/ficha-sem-blocos-comercial/runtime.json) e [duas plantas associadas em dados sintéticos](evidencias/ficha-sem-blocos-vinculos/runtime.json): **PASS** em WebGPU, WebGL e toque emulado. Os 34 IDs disponíveis conferem com os destaques nas duas faces; vender uma unidade pelo painel reduz o conjunto a 33 e restaurar sua disponibilidade retorna a 34. Vinte e três testes Node do filtro/catálogo/cliente e quatro testes de empacotamento passaram. A configuração real continua sem imóvel fixo e sem ofertas fictícias. O parâmetro `demonstracao=1` é exclusivo do teste local e acompanha a ida/volta pelo mapa. Nenhuma oferta ou implantação de produção foi modificada.
+
+[Conferência independente da v9](evidencias/entrega-sem-blocos-demo/runtime.json): **PASS**, com os 240 recursos por HTTP/hash, clique/toque nos pavimentos 8 e 12, ficha e câmera preservada, duas plantas nos quatro modos, caminhada, mapa/retorno, PBR/Draco, base preservada, diagnóstico e recuperação 2D sem GPU. O ensaio de vínculos encontrou um timeout transitório durante abertura do interior no primeiro ciclo; a repetição sequencial passou nos três perfis e a conferência independente do pacote também passou. Qualificação em celulares físicos continua pendente.
+
+[Demonstração executada diretamente na v9 empacotada](evidencias/demo-disponibilidade-empacotada/runtime.json): **PASS** nos três perfis, incluindo os 136/34, as duas faces e venda/restauração pelo painel. As abas de maquete e cadastro fictício ficam abertas para teste local.
+
+## Revisão v8 — filtro de disponíveis na maquete
+
+A revisão anterior está em `entregas/liv-avaliacao-20261011-v8/`. Substitui a etiqueta superior esquerda pelo seletor **Apartamentos → Todos / Disponíveis**. Unidades explicitamente disponíveis brilham em verde; clicar/toque abre a ficha sem mover a câmera. A contagem abrange todo o catálogo, com atualização por venda no painel. Falha de consulta/conexão ou retirada da publicação suspendem o brilho. O efeito mantém materiais e iluminação do prédio, usa dois objetos agrupados e só reconstrói buffers quando muda a seleção de disponíveis. [DISPONIBILIDADE.md](DISPONIBILIDADE.md) descreve funcionamento e limites. A implantação sem preenchimento externo e o clique direto da v7 permanecem.
+
+- Versão: `d5e50b4379930aa6a09389d6dcd2f0e305105a9b589b93655ae20ae2d8c0e4cb`.
+- Site: **240 arquivos / 144.463.634 B**; revisão: **31 arquivos / 4.823.471 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v8-d5e50b437993.zip`, **113.159.196 B**, SHA-256 `e5e38037908c4cf4d8eba6a73d801f29d68e0b8fd6bb4406eace3816cd519cb6`.
+- [Maquete v8](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v8/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio).
+
+[Filtro com oferta sintética](evidencias/disponibilidade-filtro/runtime.json): **PASS** em WebGPU, WebGL e toque emulado, com disponibilidade desconhecida, clique, venda, retirada, erro e retorno de modo. [Painel e consulta em emulador](evidencias/estoque-admin/runtime.json): **PASS**, incluindo brilho sincronizado com venda, desconexão e revogação. Vinte e oito testes Node passaram, incluindo contornos, todas as 170 posições e o adapter de estoque. Quatro testes do empacotamento passaram; seus fixtures agora incluem a configuração opcional do estoque. Conferência independente dos bytes/navegação: [entrega-filtro-disponibilidade/runtime.json](evidencias/entrega-filtro-disponibilidade/runtime.json). Nenhuma oferta real foi cadastrada; vínculo/publicação do estoque e qualificação em celulares físicos continuam pendentes. Capturas de brilho usam somente demonstração interceptada no navegador privado.
+
+A conferência da v8 terminou em **PASS**: 240 recursos por HTTP/hash, três perfis com clique/toque e câmera preservada, duas plantas/Tours, mapa e tiles, retorno, recuperação da base, PBR/Draco, diagnóstico e fallback 2D sem GPU. Os hashes dos sete arquivos de runtime registrados no ensaio de brilho coincidem com os bytes empacotados. A aba existente do responsável foi atualizada para a v8, com o filtro Disponíveis visível e o aviso correto de disponibilidade ainda não informada.
+
+## Revisão v7 — clique direto na fachada
+
+A revisão anterior está em `entregas/liv-avaliacao-20261011-v7/`. Corrige a seleção que antes exigia destacar o pavimento: no edifício completo, clicar/tocar em um apartamento visível identifica seu andar e abre a ficha, inclusive com “Sem destaque”. A câmera permanece na posição escolhida. Arrastes e gestos com vários dedos não selecionam; cobertura e circulação continuam sem atribuição presumida. As correções de terreno da v6 são preservadas.
+
+- Versão: `977ac323cf21c0cf500d0bfb4675e0a3d9f9bc30ab5c0ae5efb075dcaa4efd34`.
+- Site: **239 arquivos / 144.457.998 B**; revisão: **26 arquivos / 3.995.879 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v7-977ac323cf21.zip`, **112.339.538 B**, SHA-256 `1e4f2c461e1417e9706fabc50831d7b6348f37b07c3baebebffe1420e0dade52`.
+- [Maquete v7](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v7/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio).
+
+[Conferência independente da v7](evidencias/entrega-clique-direto/runtime.json): **PASS**, com clique real ou toque emulado nos pavimentos 8 e 12 sem selecionar andar previamente, ficha aberta e câmera preservada nos três perfis WebGPU/WebGL2/toque. Os 239 recursos foram verificados por HTTP; seleção por espelho, duas plantas/Tours, mapa, diagnóstico e recuperações também passaram. Dezenove testes de cadastro/seleção incluem todas as 170 posições de cada edição, seleção sem destaque, arraste e vários dedos. Na aba existente do responsável, um clique na janela abriu a ficha do final 08, 10º pavimento. O estoque comercial real ainda não foi preenchido ou publicado; aparelhos físicos permanecem pendentes.
+
+## Revisão v6 — retirada do preenchimento externo
+
+A revisão anterior está em `entregas/liv-avaliacao-20261011-v6/`. Remove a faixa de terreno e a linha de divisa artificiais da v5, rejeitadas pelo responsável. A maquete mantém seu piso e enquadramento originais. O mapa conserva o giro, a localização e o pequeno acesso da portaria, sem desenhar o lote como uma placa ao redor do modelo. Pisos de contexto são recortados; o terreno natural de fundo permanece contínuo.
+
+- Versão: `d8c347b53a07fd1cfe27672a5054771cd1c4c58d2c7e9423241094c3d597965b`.
+- Site: **239 arquivos / 144.457.642 B**; revisão: **26 arquivos / 3.995.424 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v6-d8c347b53a07.zip`, **112.339.259 B**, SHA-256 `fa45a7d8c4dee122aab41433ec8dddc124b99b83e6481f34c192f17b7ed22bad`.
+- [Maquete v6](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v6/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio) · [Mapa v6](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v6/site/mapa-liv-ipanema-5km.html?geometria=entrada&unidades=edificio).
+
+Conferência visual e identidade no [relatório do mapa sem preenchimento](evidencias/mapa-sem-preenchimento/runtime.json). Conferência independente dos bytes e navegação da v6 em [entrega-sem-preenchimento/runtime.json](evidencias/entrega-sem-preenchimento/runtime.json). Os relatórios registram o estado das execuções. Estoque real, produção e qualificação de aparelhos físicos continuam desativados/pendentes.
+
+Ambos terminaram em **PASS**. A v6 foi verificada por HTTP nos 239 recursos, com as duas plantas/Tours, ficha, ida/retorno pelo mapa, recuperação e ausência de preenchimento externo em WebGPU, WebGL2 e toque emulado. As capturas de Implantação foram inspecionadas e a aba existente do responsável foi atualizada para a v6.
+
+## Revisão v5 — estoque e terreno indicado
+
+A revisão histórica está em `entregas/liv-avaliacao-20261011-v5/`. Seu preenchimento externo foi rejeitado pelo responsável e corrigido na v6 acima. Acrescentou as fichas por apartamento, o leitor público opcional do estoque administrado no painel e o contorno aproximado indicado pelo responsável. Maquete e mapa usam a mesma referência; o mapa recebe o giro de 180°, a mudança de terreno e o recorte do contexto antigo dentro da área. A escala da torre permanece igual. A v4 abaixo continua preservada como registro histórico.
+
+- Versão: `7d268df4e7e928a1c944dc19f37248ff639a12994cc54e5669310d84ad2a2c44`.
+- Site: **241 arquivos / 144.462.277 B**; revisão: **26 arquivos / 3.990.987 B**.
+- ZIP: `entregas/liv-avaliacao-20261011-v5-7d268df4e7e9.zip`, **112.337.752 B**, SHA-256 `3394e20506faf487b9ea3a4eb2dd34fc3e6f7ba501d35acfe50c908f4f1edfe3`.
+- [Maquete v5](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v5/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio) · [Mapa v5](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v5/site/mapa-liv-ipanema-5km.html?geometria=entrada&unidades=edificio).
+
+Operação e ativação em [ESTOQUE.md](ESTOQUE.md). O documento de configuração do estoque tem metadados públicos, incluindo nome e estado de publicação; unidades e perfis só ficam públicos quando habilitados e vinculados a um imóvel ativo. Histórico, atores e índice de números permanecem privados. A configuração v5 não fixa um ID de imóvel, não cadastra ofertas reais e não ativa a produção. O painel e suas novas regras são componentes separados, preparados no repositório; o ZIP contém o site público e a revisão.
+
+Conferências novas: [painel e estoque ao vivo](evidencias/estoque-admin/runtime.json), [implantação no mapa](evidencias/mapa-giro-avenida/runtime.json), [cadastro local preservado](evidencias/comercial-estoque-terreno-final/runtime.json), [vínculos das duas plantas](evidencias/vinculos-estoque-terreno-final/runtime.json) e [bytes e navegação do pacote v5](evidencias/entrega-estoque-terreno-final/runtime.json). Os relatórios específicos registram o estado de cada execução. Nenhum desses ensaios qualifica um celular físico. A imagem de satélite fornece uma amarração aproximada, sem substituir levantamento cadastral ou planta executiva.
+
+Os cinco relatórios acima terminaram em **PASS**. O pacote foi conferido por HTTP nos 241 arquivos e navegou em WebGPU, WebGL2 e toque emulado, com 170 posições, ficha, duas plantas em quatro modos, caminhada, ida/retorno do mapa e zero erro de requisição ou tile. Material padrão/Draco, base de recuperação, exportação do diagnóstico e recuperação 2D sem GPU também passaram. A vista Implantação foi inspecionada na v5: 19 vértices de terreno e escala `[1,1,1]`, com a mesma identidade do contorno do mapa.
+
+## Registro histórico v4
+
+O pacote local está montado em `entregas/liv-avaliacao-20261011-v4/`: `site/`, `revisao/`, configuração própria e instruções. A versão pública antiga não foi substituída. A preparação inclui WebGPU com alternativa WebGL2, as duas plantas e seus Tours, 170 posições técnicas, integração comercial/vínculos preparada, fila e recuperação independente da base.
+
+- Versão do conjunto: `ac93e25ff9739851bed5a6a011a80501414535c367a822235217e6300548d936`.
+- Site: **234 arquivos / 143.856.523 B**. Revisão: **19 arquivos / 1.749.628 B**, com fontes de procedimento, métricas, testes e capturas diurnas/entardecer.
+- ZIP: `entregas/liv-avaliacao-20261011-v4-ac93e25ff973.zip`, **110.221.060 B**, SHA-256 `6692619c837eb10e0c2ccf06a6e3cf61ef3da2da18859a74c491e21d855d3a06`.
+- Perfil: avaliação local; publicação e qualificação física **falsas** no manifesto. Entardecer é ilustrativo sobre bake diurno; tabela comercial e vínculos reais estão ausentes.
+
+O tamanho do pacote reúne três edições e a base completa para recuperação. **Não equivale ao download inicial do cliente.** A medição gzip de três rodadas, anterior à ambiência/vínculos/enquadramento final, está em [REDE-MEMORIA.md](REDE-MEMORIA.md): cerca de 16,93 MB na entrada nova contra 22,90 MB da publicação preservada, em rede CDP de 6 Mb/s/80 ms. Memória e aparelhos físicos ainda precisam fechar o orçamento.
+
+## Abrir
+
+[Índice do pacote local](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v4/site/index.html) · [Edifício e plantas](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v4/site/maquete-liv-ipanema.html?geometria=entrada&unidades=edificio) · [Diagnóstico](http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v4/site/diagnostico.html).
+
+Os links usam o servidor local existente e funcionam neste computador. Também é possível servir apenas `site/` com Python, em outro loopback. O QA usa servidor efêmero próprio e os arquivos empacotados, sem buscar recursos no experimento de desenvolvimento.
+
+## Conferência
+
+[Relatório do pacote final](evidencias/entrega-fachada-final/runtime.json). Verificações: inventário/hash por HTTP de todos os recursos; WebGPU, WebGL2 e toque emulado; seleção/espelho, Canto/Meio em quatro modos, caminhada, PNG, sessão, retorno do mapa, PBR padrão/Draco, diagnóstico exportável, base preservada e fallback 2D sem GPU. Nenhum perfil é aparelho físico.
+
+A conferência independente encontrou dois problemas e ampliou o aceite: os tiles do mapa ignoravam `base href`, e a vista de seleção enquadrava 48,45 m de pavimentos sem a cobertura que chega a 52,70 m no modelo. O fetch usa `document.baseURI`; a câmera agora usa a caixa real da torre, com margem. O relatório exige zero erro de tile/pedido pendente e verifica a projeção dos oito cantos da torre. Nenhum material, atlas ou volume foi alterado para corrigir o enquadramento.
+
+`montar_entrega.py` segue uma lista fechada de módulos/assets, valida os manifestos de origem e copia para staging conferido antes de promover o destino. Repetições só aceitam bytes/metadados/configuração iguais. Não inclui autoria Blender, arquivos privados ou todas as dependências da instalação. Quatro testes verificam caminhos, falhas/retenção do destino, declaração física e ZIP. Configuração e revisão também entram na identidade do conjunto; o Git HEAD registrado durante a montagem não substitui os hashes dos arquivos efetivos.
+
+```powershell
+& 'C:/Python314/python.exe' experimentos/liv-ipanema-webgpu-2026-10-09/montar_entrega.py --nome liv-avaliacao-20261011-v4 --zip
+& 'C:/Python314/python.exe' experimentos/liv-ipanema-webgpu-2026-10-09/qa_entrega.py --pacote experimentos/liv-ipanema-webgpu-2026-10-09/entregas/liv-avaliacao-20261011-v4 --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/entrega-nova
+```
+
+Uma alteração futura usa nome novo; não sobrescrever um pacote qualificado. As primeiras montagens locais e o ensaio que expôs os tiles ficam preservados como diagnóstico, sem serem a entrega indicada.
+
+## Preview separado e recuperação
+
+`firebase.json` do pacote aponta explicitamente para o site confirmado `imobilaria-deccb-miniaturas`, com `public: site`; `.firebaserc` usa o projeto existente `imobilaria-deccb`. Essas cópias não alteram a configuração do repositório. Módulos em `node_modules/three/` são recursos do browser e **não devem ser ignorados** no deploy deste pacote.
+
+A publicação é uma etapa separada, a executar quando solicitada, com canal novo e expiração explícita. A configuração está pronta para `hosting:channel:deploy` com `--config`, `--project imobilaria-deccb` e `--expires 7d`; não usar `firebase deploy` para substituir produção. Após publicação: conferir identidade/endereço HTTPS, quatro modos/tiles, diagnóstico no Poco/iPhone e registrar URL/expiração no relatório específico. Não há URL HTTPS nova neste registro.
+
+Recuperação local: `site/site-baseline/` reproduz os recursos preservados e abre independentemente da evolução. Se o preview futuro falhar, usar a base recuperada ou canal anterior ainda válido; manter o pacote preservado como fonte. Não retirar o canal usado pelo cliente para testar a evolução. A expiração antiga, registrada na baseline, é 16/10/2026 às 09:12:58 BRT; nenhum canal foi renovado nesta execução.
+
+## Dependências ainda abertas
+
+1. Caminhada e armazenamento/rede no **Poco X6 e iPhone físicos**, três rodadas no hosting, antes de fixar orçamento/aprovar o produto. [DIAGNOSTICO.md](DIAGNOSTICO.md).
+2. Associação por final, espelhamentos, gardens e medidas. [VINCULOS.md](VINCULOS.md): mecanismo pronto, dados ausentes; espelhamento precisa de geometria/navegação/luz próprias.
+3. Tabela comercial autorizada: preço, disponibilidade, número e vagas. [COMERCIAL.md](COMERCIAL.md): validação/importação preparada, sem ofertas fictícias.
+4. Acabamento artístico final e luz de entardecer com bake próprio, após o orçamento móvel; fachada vertical e paisagismo continuam aproximados onde as fontes não confirmam medidas. [AMBIENCIA.md](AMBIENCIA.md).
+
+Migração integral do mapa para WebGPU e simulação solar por data/hora permanecem extensões condicionais, conforme o plano, depois da qualificação principal e da validação de norte/implantação. O estágio técnico histórico de 09/10 está preservado em [ENTREGA-HISTORICO-20261009.md](ENTREGA-HISTORICO-20261009.md).

@@ -1,0 +1,17 @@
+{
+  "moldingObjects": 0,
+  "collinearOverlapPairs": 0,
+  "overlaps": [],
+  "maxOverlapMeters": 0,
+  "criteria": {
+    "directionDotMin": 0.99999,
+    "centerlineToleranceMeters": 0.001,
+    "sameWidthHeightToleranceMeters": 0.001,
+    "minOverlapMeters": 0.001
+  },
+  "scope": "source-world collinear same-level strips; perpendicular corner joins excluded",
+  "geometryModified": false,
+  "repairsFromOtherBuilding": false,
+  "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+  "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035"
+}

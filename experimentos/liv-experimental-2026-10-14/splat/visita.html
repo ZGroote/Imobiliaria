@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Splat do interior</title>
+<style>html, body { margin: 0; height: 100%; overflow: hidden; background: transparent; } canvas { display: block; width: 100%; height: 100%; }</style>
+<script type="importmap">
+{ "imports": {
+  "three": "./lib/three/build/three.module.js",
+  "three/addons/": "./lib/three/examples/jsm/",
+  "@sparkjsdev/spark": "./lib/spark.module.min.js"
+} }
+</script>
+</head>
+<body>
+<script type="module">
+// Desenha só o splat, com a câmera que o Tour do Liv mandar (interior-splat.js). Sem controles próprios:
+// a navegação, a colisão e os ambientes continuam sendo os do Liv.
+import * as THREE from "three";
+import { SparkRenderer, SplatMesh } from "@sparkjsdev/spark";
+
+const q = new URLSearchParams(location.search);
+const num = (k, padrao) => q.has(k) ? +q.get(k) : padrao;
+const api = window.__splatVisita = { error: null, quadros: 0 };
+let sujo = true;
+
+const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false });
+renderer.setPixelRatio(Math.min(devicePixelRatio, num("dpr", 2)));
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x111111);
+const camera = new THREE.PerspectiveCamera(48, 1, 0.02, 100);
+const ajustes = { renderer, onDirty: () => { sujo = true; } };   // a ordenação termina depois do quadro
+if (q.has("std")) ajustes.maxStdDev = num("std");
+scene.add(new SparkRenderer(ajustes));
+
+// A cena do Blender saiu da mesma geometria do Liv, com Z para cima: girar leva (x, y, z) a (x, z, -y),
+// que é o espaço do three usado pelo interior.
+// Um splat por cômodo: só o atual fica visível; guarda os últimos CACHE carregados e descarta o resto.
+const CACHE = num("cache", 3);
+const malhas = new Map();   // arquivo -> { malha, pronta }
+let atual = null;
+api.pronto = arquivo => !!malhas.get(arquivo)?.pronta;
+api.setArquivo = arquivo => {
+  if (arquivo === atual) return;
+  atual = arquivo;
+  if (!malhas.has(arquivo)) {
+    const item = { pronta: false };
+    item.malha = new SplatMesh({ url: arquivo, onLoad: () => { item.pronta = true; sujo = true; } });
+    item.malha.rotation.x = -Math.PI / 2;
+    scene.add(item.malha); malhas.set(arquivo, item);
+  }
+  const item = malhas.get(arquivo);
+  malhas.delete(arquivo); malhas.set(arquivo, item);          // mais recente no fim
+  for (const [nome, m] of malhas) m.malha.visible = nome === arquivo;
+  while (malhas.size > CACHE) {
+    const [nome, m] = malhas.entries().next().value;
+    scene.remove(m.malha); m.malha.dispose?.(); malhas.delete(nome);
+  }
+  sujo = true;
+};
+api.setArquivo(q.get("arquivo") || "sala.sog");
+Object.defineProperty(api, "ready", { get: () => api.pronto(atual) });
+// O "resize" nem sempre chega a um iframe quando o painel do Liv muda de altura: o tamanho é conferido
+// a cada câmera recebida, e a proporção vem da própria câmera do Tour.
+let largura = 0, altura = 0;
+function tamanho() {
+  const w = document.documentElement.clientWidth, h = document.documentElement.clientHeight;
+  if (w === largura && h === altura) return;
+  largura = w; altura = h; renderer.setSize(w, h, false); sujo = true;
+}
+tamanho();
+
+api.setCamera = (posicao, quaternion, fov, aspecto) => {
+  tamanho();
+  camera.position.fromArray(posicao); camera.quaternion.fromArray(quaternion);
+  const a = aspecto || largura / Math.max(1, altura);
+  if (fov !== camera.fov || a !== camera.aspect) { camera.fov = fov || camera.fov; camera.aspect = a; camera.updateProjectionMatrix(); }
+  sujo = true;
+};
+renderer.setAnimationLoop(() => {
+  if (!sujo) return;           // parado não redesenha: poupa bateria
+  sujo = false; api.quadros++;
+  renderer.render(scene, camera);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,393 @@
+{
+  "schema": "liv-pilot-units-v1",
+  "floorIndex": 1,
+  "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+  "source": {
+    "url": "https://www.livonincorporadora.com.br/wp-content/uploads/2024/08/BOOK_LIV_Ipanema.pdf",
+    "page": 15,
+    "bookSHA256": "c7dae676c82eab758370e386cea7fe6bd31dded9fa436eb53ebdfe70be7bb50b",
+    "imagePath": "../../relatorios/liv-referencias-publicas-2026-10-09/implantacao-finais-e-vagas.png",
+    "imageSHA256": "5ee381ceacbe6d52ece70ac2bf4854c4c07c2f5e287d278d2c92cff8d733a2eb",
+    "imagePixels": [
+      2100,
+      1051
+    ],
+    "finalOrderConfidence": "confirmado"
+  },
+  "registration": {
+    "confidence": "inferido",
+    "method": "Registro proporcional por trechos das duas alas e núcleo da prancha sobre a lâmina atual; faixas de seleção, não limites arquitetônicos.",
+    "imageTowerAxis": {
+      "u": 1491,
+      "gateEndV": 898,
+      "forestEndV": 373
+    },
+    "modelTowerAxis": {
+      "minX": -23.85,
+      "maxX": 23.85,
+      "coreRangeX": [
+        -8.0136,
+        -4.3884
+      ]
+    },
+    "xFromImageV": "v>=708: -23.85+(898-v)*15.8364/190; v<=666: -4.3884+(666-v)*28.2384/293; núcleo excluído entre 666 e 708",
+    "printedCoreGapV": [
+      666,
+      708
+    ],
+    "modelCoreGapX": [
+      -8.0136,
+      -4.3884
+    ],
+    "depthRule": "Ímpares z negativo, pares z positivo; corredor central excluído. Profundidade de seleção ampliada para incluir esquadrias.",
+    "verticalRule": "Índice 1, y=2.85; seleção y=3.02..5.68 exclui lajes.",
+    "limitations": [
+      "Registro manual e medidas proporcionais, sem cotas executivas.",
+      "Contorno retangular simplificado do modelo não coincide com todos os recuos da implantação.",
+      "Não comprova limites, tipologia, espelhamento, gardens, insolação ou numeração comercial."
+    ],
+    "modelCoreSource": "v1.5/miniaturas/liv-ipanema/modelar_liv_ipanema.py: CORE_X=-0.13*47.7, CORE_W=0.076*47.7"
+  },
+  "units": [
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-01",
+      "final": "01",
+      "side": "estacionamento",
+      "positionConfidence": "inferido",
+      "printedBandV": [
+        809,
+        898
+      ],
+      "printedLabelUV": [
+        1460,
+        856
+      ],
+      "bounds": {
+        "min": [
+          -23.85,
+          3.02,
+          -7.02
+        ],
+        "max": [
+          -16.431897,
+          5.68,
+          -0.16
+        ]
+      },
+      "typology": null,
+      "plan2d": null,
+      "mirroring": null,
+      "areaM2": null,
+      "commercialNumber": null,
+      "availability": "nao_informada",
+      "price": null,
+      "parking": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-02",
+      "final": "02",
+      "side": "lazer",
+      "positionConfidence": "inferido",
+      "printedBandV": [
+        809,
+        898
+      ],
+      "printedLabelUV": [
+        1522,
+        856
+      ],
+      "bounds": {
+        "min": [
+          -23.85,
+          3.02,
+          0.16
+        ],
+        "max": [
+          -16.431897,
+          5.68,
+          7.02
+        ]
+      },
+      "typology": null,
+      "plan2d": null,
+      "mirroring": null,
+      "areaM2": null,
+      "commercialNumber": null,
+      "availability": "nao_informada",
+      "price": null,
+      "parking": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-03",
+      "final": "03",
+      "side": "estacionamento",
+      "positionConfidence": "inferido",
+      "printedBandV": [
+        708,
+        809
+      ],
+      "printedLabelUV": [
+        1460,
+        775
+      ],
+      "bounds": {
+        "min": [
+          -16.431897,
+          3.02,
+          -7.02
+        ],
+        "max": [
+          -8.0136,
+          5.68,
+          -0.16
+        ]
+      },
+      "typology": null,
+      "plan2d": null,
+      "mirroring": null,
+      "areaM2": null,
+      "commercialNumber": null,
+      "availability": "nao_informada",
+      "price": null,
+      "parking": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-04",
+      "final": "04",
+      "side": "lazer",
+      "positionConfidence": "inferido",
+      "printedBandV": [
+        708,
+        809
+      ],
+      "printedLabelUV": [
+        1522,
+        775
+      ],
+      "bounds": {
+        "min": [
+          -16.431897,
+          3.02,
+          0.16
+        ],
+        "max": [
+          -8.0136,
+          5.68,
+          7.02
+        ]
+      },
+      "typology": null,
+      "plan2d": null,
+      "mirroring": null,
+      "areaM2": null,
+      "commercialNumber": null,
+      "availability": "nao_informada",
+      "price": null,
+      "parking": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-05",
+      "final": "05",
+      "side": "estacionamento",
+      "positionConfidence": "inferido",
+      "printedBandV": [
+        564,
+        666
+      ],
+      "printedLabelUV": [
+        1460,
+        637
+      ],
+      "bounds": {
+        "min": [
+          -4.3884,
+          3.02,
+          -7.02
+        ],
+        "max": [
+          5.442033,
+          5.68,
+          -0.16
+        ]
+      },
+      "typology": null,
+      "plan2d": null,
+      "mirroring": null,
+      "areaM2": null,
+      "commercialNumber": null,
+      "availability": "nao_informada",
+      "price": null,
+      "parking": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-06",
+      "final": "06",
+      "side": "lazer",
+      "positionConfidence": "inferido",
+      "printedBandV": [
+        564,
+        666
+      ],
+      "printedLabelUV": [
+        1522,
+        637
+      ],
+      "bounds": {
+        "min": [
+          -4.3884,
+          3.02,
+          0.16
+        ],
+        "max": [
+          5.442033,
+          5.68,
+          7.02
+        ]
+      },
+      "typology": null,
+      "plan2d": null,
+      "mirroring": null,
+      "areaM2": null,
+      "commercialNumber": null,
+      "availability": "nao_informada",
+      "price": null,
+      "parking": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-07",
+      "final": "07",
+      "side": "estacionamento",
+      "positionConfidence": "inferido",
+      "printedBandV": [
+        465,
+        564
+      ],
+      "printedLabelUV": [
+        1460,
+        511
+      ],
+      "bounds": {
+        "min": [
+          5.442033,
+          3.02,
+          -7.02
+        ],
+        "max": [
+          14.983335,
+          5.68,
+          -0.16
+        ]
+      },
+      "typology": null,
+      "plan2d": null,
+      "mirroring": null,
+      "areaM2": null,
+      "commercialNumber": null,
+      "availability": "nao_informada",
+      "price": null,
+      "parking": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-08",
+      "final": "08",
+      "side": "lazer",
+      "positionConfidence": "inferido",
+      "printedBandV": [
+        465,
+        564
+      ],
+      "printedLabelUV": [
+        1522,
+        511
+      ],
+      "bounds": {
+        "min": [
+          5.442033,
+          3.02,
+          0.16
+        ],
+        "max": [
+          14.983335,
+          5.68,
+          7.02
+        ]
+      },
+      "typology": null,
+      "plan2d": null,
+      "mirroring": null,
+      "areaM2": null,
+      "commercialNumber": null,
+      "availability": "nao_informada",
+      "price": null,
+      "parking": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-09",
+      "final": "09",
+      "side": "estacionamento",
+      "positionConfidence": "inferido",
+      "printedBandV": [
+        373,
+        465
+      ],
+      "printedLabelUV": [
+        1460,
+        434
+      ],
+      "bounds": {
+        "min": [
+          14.983335,
+          3.02,
+          -7.02
+        ],
+        "max": [
+          23.85,
+          5.68,
+          -0.16
+        ]
+      },
+      "typology": null,
+      "plan2d": null,
+      "mirroring": null,
+      "areaM2": null,
+      "commercialNumber": null,
+      "availability": "nao_informada",
+      "price": null,
+      "parking": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-10",
+      "final": "10",
+      "side": "lazer",
+      "positionConfidence": "inferido",
+      "printedBandV": [
+        373,
+        465
+      ],
+      "printedLabelUV": [
+        1522,
+        434
+      ],
+      "bounds": {
+        "min": [
+          14.983335,
+          3.02,
+          0.16
+        ],
+        "max": [
+          23.85,
+          5.68,
+          7.02
+        ]
+      },
+      "typology": null,
+      "plan2d": null,
+      "mirroring": null,
+      "areaM2": null,
+      "commercialNumber": null,
+      "availability": "nao_informada",
+      "price": null,
+      "parking": null
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "experiment_name": "suite",
+  "method_name": "splatfacto",
+  "checkpoint": "comodo/suite/splatfacto/2026-10-15_160956/nerfstudio_models/step-000029999.ckpt",
+  "results": {
+    "psnr": 38.89688491821289,
+    "psnr_std": 5.485054016113281,
+    "ssim": 0.987957239151001,
+    "ssim_std": 0.005085082724690437,
+    "lpips": 0.026851994916796684,
+    "lpips_std": 0.013875472359359264,
+    "num_rays_per_sec": 43410448.0,
+    "num_rays_per_sec_std": 8812376.0,
+    "fps": 47.10335159301758,
+    "fps_std": 9.562040328979492
+  }
+}

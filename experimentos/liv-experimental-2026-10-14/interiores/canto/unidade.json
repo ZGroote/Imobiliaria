@@ -1,0 +1,911 @@
+{
+ "andar": 0,
+ "cidade": null,
+ "cores": {
+  "parede": "#E2DED5",
+  "piso_frio": "#B4B5B1",
+  "piso_madeira": "#B89369",
+  "teto": "#F2F0EC"
+ },
+ "ficha": {
+  "area_util_m2": 47.59,
+  "banheiros": 2,
+  "empreendimento": "LIV Ipanema",
+  "observacao": "Reconstrução local da planta publicitária; medidas inferidas. Sem unidade comercial selecionada.",
+  "quartos": 2,
+  "suites": 1,
+  "titulo": "LIV Ipanema · planta de referência 47,59 m²"
+ },
+ "id": "liv-ipanema-referencia-47-59",
+ "lote": {
+  "predio": {
+   "largura_m": 47.7,
+   "pavimentos": 17,
+   "profundidade_m": 12.7
+  }
+ },
+ "planta": {
+  "comodos": [
+   {
+    "id": "c1",
+    "nome": "Suíte",
+    "poly": [
+     [
+      0.0,
+      0.3
+     ],
+     [
+      2.7,
+      0.3
+     ],
+     [
+      2.7,
+      3.85
+     ],
+     [
+      0.0,
+      3.85
+     ]
+    ],
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "walls": {
+     "east": "c1-east",
+     "north": "c1-north",
+     "south": "c1-south",
+     "west": "c1-west"
+    }
+   },
+   {
+    "id": "c2",
+    "nome": "Dormitório 01",
+    "poly": [
+     [
+      2.7,
+      0.3
+     ],
+     [
+      5.35,
+      0.3
+     ],
+     [
+      5.35,
+      2.85
+     ],
+     [
+      2.7,
+      2.85
+     ]
+    ],
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "walls": {
+     "east": "c2-east",
+     "north": "c2-north",
+     "south": "c2-south",
+     "west": "c2-west"
+    }
+   },
+   {
+    "id": "c3",
+    "nome": "Banho suíte",
+    "poly": [
+     [
+      0.9,
+      3.85
+     ],
+     [
+      2.25,
+      3.85
+     ],
+     [
+      2.25,
+      6.25
+     ],
+     [
+      0.9,
+      6.25
+     ]
+    ],
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "walls": {
+     "east": "c3-east",
+     "north": "c3-north",
+     "south": "c3-south",
+     "west": "c3-west"
+    }
+   },
+   {
+    "id": "c4",
+    "nome": "Banho",
+    "poly": [
+     [
+      2.25,
+      3.85
+     ],
+     [
+      3.55,
+      3.85
+     ],
+     [
+      3.55,
+      6.25
+     ],
+     [
+      2.25,
+      6.25
+     ]
+    ],
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "walls": {
+     "east": "c4-east",
+     "north": "c4-north",
+     "south": "c4-south",
+     "west": "c4-west"
+    }
+   },
+   {
+    "id": "c5",
+    "nome": "Sala integrada",
+    "parts": [
+     {
+      "id": "c5",
+      "provenance": {
+       "declared": {
+        "kind": "declared",
+        "referenceIds": []
+       },
+       "kind": "derived"
+      },
+      "walls": {
+       "east": "c5-east",
+       "north": "c5-north",
+       "south": "c5-south",
+       "west": "c5-west"
+      }
+     },
+     {
+      "id": "c6",
+      "provenance": {
+       "declared": {
+        "kind": "declared",
+        "referenceIds": []
+       },
+       "kind": "derived"
+      },
+      "walls": {
+       "east": "c6-east",
+       "north": "c6-north",
+       "south": "c6-south",
+       "west": "c6-west"
+      }
+     },
+     {
+      "id": "c7",
+      "provenance": {
+       "declared": {
+        "kind": "declared",
+        "referenceIds": []
+       },
+       "kind": "derived"
+      },
+      "walls": {
+       "east": "c7-east",
+       "north": "c7-north",
+       "south": "c7-south",
+       "west": "c7-west"
+      }
+     },
+     {
+      "id": "c8",
+      "provenance": {
+       "declared": {
+        "kind": "declared",
+        "referenceIds": []
+       },
+       "kind": "derived"
+      },
+      "walls": {
+       "east": "c8-east",
+       "north": "c8-north",
+       "south": "c8-south",
+       "west": "c8-west"
+      }
+     },
+     {
+      "id": "c9",
+      "provenance": {
+       "declared": {
+        "kind": "declared",
+        "referenceIds": []
+       },
+       "kind": "derived"
+      },
+      "walls": {
+       "east": "c9-east",
+       "north": "c9-north",
+       "south": "c9-south",
+       "west": "c9-west"
+      }
+     }
+    ],
+    "poly": [
+     [
+      5.35,
+      1.5
+     ],
+     [
+      8.5,
+      1.5
+     ],
+     [
+      8.5,
+      5.4
+     ],
+     [
+      6.0,
+      5.4
+     ],
+     [
+      6.0,
+      6.25
+     ],
+     [
+      3.55,
+      6.25
+     ],
+     [
+      3.55,
+      3.85
+     ],
+     [
+      2.7,
+      3.85
+     ],
+     [
+      2.7,
+      2.85
+     ],
+     [
+      5.35,
+      2.85
+     ]
+    ]
+   },
+   {
+    "id": "c10",
+    "nome": "Varanda / serviço",
+    "poly": [
+     [
+      5.35,
+      0.0
+     ],
+     [
+      8.5,
+      0.0
+     ],
+     [
+      8.5,
+      1.5
+     ],
+     [
+      5.35,
+      1.5
+     ]
+    ],
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "walls": {
+     "east": "c10-east",
+     "north": "c10-north",
+     "south": "c10-south",
+     "west": "c10-west"
+    }
+   }
+  ],
+  "entrada": {
+   "contentSha256": "308a848dd421d4416d8d5df09f75ceea94dd4b0e90fc94508fa9c67f98970c6e",
+   "normalizer": "nominal-floor-plan@1.1.0",
+   "readingId": "liv-ipanema-referencia-47-59",
+   "readingRevision": 46,
+   "readingVersion": 1,
+   "schemaVersion": "1.1.0"
+  },
+  "janelas": [
+   {
+    "id": "a7",
+    "largura": 1.1,
+    "p": [
+     0.0,
+     2.1
+    ],
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "wallId": "c1-west",
+    "y0": 1.0,
+    "y1": 2.2
+   },
+   {
+    "id": "a8",
+    "largura": 1.15,
+    "p": [
+     3.775,
+     0.3
+    ],
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "wallId": "c2-south",
+    "y0": 1.0,
+    "y1": 2.2
+   },
+   {
+    "id": "a9",
+    "largura": 0.45,
+    "p": [
+     0.9,
+     5.725
+    ],
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "wallId": "c3-west",
+    "y0": 1.5,
+    "y1": 2.2
+   },
+   {
+    "id": "a10",
+    "largura": 2.15,
+    "p": [
+     6.525,
+     0.0
+    ],
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "wallId": "c10-south",
+    "y0": 1.05,
+    "y1": 2.2
+   }
+  ],
+  "moveis": [
+   {
+    "cor": "#AAC0B4",
+    "d": 1.9,
+    "h": 0.95,
+    "nome": "Cama da suíte",
+    "p": [
+     1.1,
+     2.35
+    ],
+    "rot": 1,
+    "tipo": "cama",
+    "w": 1.5
+   },
+   {
+    "cor": "#A28B6B",
+    "d": 0.45,
+    "h": 2.35,
+    "nome": "Armário da suíte",
+    "p": [
+     1.3,
+     0.6
+    ],
+    "rot": 0,
+    "tipo": "guardaroupa",
+    "w": 2.3
+   },
+   {
+    "cor": "#B3A58F",
+    "d": 0.45,
+    "h": 0.55,
+    "nome": "Criado-Mudo",
+    "p": [
+     0.4,
+     1.3
+    ],
+    "rot": 0,
+    "tipo": "criado",
+    "w": 0.45
+   },
+   {
+    "cor": "#B3A58F",
+    "d": 0.45,
+    "h": 0.55,
+    "nome": "Criado-Mudo",
+    "p": [
+     0.4,
+     3.3
+    ],
+    "rot": 0,
+    "tipo": "criado",
+    "w": 0.45
+   },
+   {
+    "cor": "#99B7AA",
+    "d": 1.95,
+    "h": 0.95,
+    "nome": "Cama do dormitório",
+    "p": [
+     4.75,
+     1.4
+    ],
+    "rot": 0,
+    "tipo": "cama",
+    "w": 0.9
+   },
+   {
+    "cor": "#A28B6B",
+    "d": 0.45,
+    "h": 2.35,
+    "nome": "Armário do dormitório",
+    "p": [
+     2.95,
+     1.1
+    ],
+    "rot": 1,
+    "tipo": "guardaroupa",
+    "w": 1.4
+   },
+   {
+    "cor": "#A28B6B",
+    "d": 0.45,
+    "h": 0.74,
+    "nome": "Bancada do dormitório",
+    "p": [
+     4.5,
+     2.6
+    ],
+    "rot": 2,
+    "tipo": "mesa",
+    "w": 1.1
+   },
+   {
+    "cor": "#BAC3C8",
+    "d": 0.9,
+    "h": 0.8,
+    "nome": "Sofá da sala TV",
+    "p": [
+     5.45,
+     5.15
+    ],
+    "rot": 3,
+    "tipo": "sofa",
+    "w": 1.95
+   },
+   {
+    "cor": "#A28B6B",
+    "d": 0.35,
+    "h": 0.7,
+    "nome": "Rack da sala TV",
+    "p": [
+     3.8,
+     5.15
+    ],
+    "rot": 1,
+    "tipo": "rack",
+    "w": 1.8
+   },
+   {
+    "cor": "#D4D1C7",
+    "d": 1.95,
+    "h": 0.02,
+    "nome": "Tapete",
+    "p": [
+     4.65,
+     5.2
+    ],
+    "rot": 0,
+    "tipo": "tapete",
+    "w": 1.7
+   },
+   {
+    "cor": "#C7C7BB",
+    "d": 0.9,
+    "h": 0.76,
+    "nome": "Mesa de jantar",
+    "p": [
+     6.3,
+     2.8
+    ],
+    "rot": 0,
+    "tipo": "mesa",
+    "w": 1.4
+   },
+   {
+    "cor": "#D6D6CC",
+    "d": 0.45,
+    "h": 0.85,
+    "nome": "Cadeira de jantar 1",
+    "p": [
+     5.8,
+     2.2
+    ],
+    "rot": 0,
+    "tipo": "cadeira",
+    "w": 0.45
+   },
+   {
+    "cor": "#D6D6CC",
+    "d": 0.45,
+    "h": 0.85,
+    "nome": "Cadeira de jantar 2",
+    "p": [
+     6.55,
+     2.2
+    ],
+    "rot": 0,
+    "tipo": "cadeira",
+    "w": 0.45
+   },
+   {
+    "cor": "#D6D6CC",
+    "d": 0.45,
+    "h": 0.85,
+    "nome": "Cadeira de jantar 3",
+    "p": [
+     5.8,
+     3.35
+    ],
+    "rot": 2,
+    "tipo": "cadeira",
+    "w": 0.45
+   },
+   {
+    "cor": "#D6D6CC",
+    "d": 0.45,
+    "h": 0.85,
+    "nome": "Cadeira de jantar 4",
+    "p": [
+     6.55,
+     3.35
+    ],
+    "rot": 2,
+    "tipo": "cadeira",
+    "w": 0.45
+   },
+   {
+    "cor": "#5D6367",
+    "d": 0.6,
+    "h": 0.92,
+    "nome": "Fogão 4 Bocas",
+    "p": [
+     8.1,
+     1.95
+    ],
+    "rot": 3,
+    "tipo": "fogao",
+    "w": 0.6
+   },
+   {
+    "cor": "#C5C3BD",
+    "d": 0.6,
+    "h": 0.92,
+    "nome": "Bancada e cuba da cozinha",
+    "p": [
+     8.1,
+     3.4
+    ],
+    "rot": 3,
+    "tipo": "pia",
+    "w": 2.1
+   },
+   {
+    "cor": "#D6D9DA",
+    "d": 0.7,
+    "h": 1.78,
+    "nome": "Geladeira Duplex",
+    "p": [
+     8.05,
+     4.85
+    ],
+    "rot": 3,
+    "tipo": "geladeira",
+    "w": 0.7
+   },
+   {
+    "cor": "#C8C5BF",
+    "d": 0.4,
+    "h": 0.85,
+    "nome": "Lavatório suíte",
+    "p": [
+     1.95,
+     4.4
+    ],
+    "rot": 3,
+    "tipo": "pia",
+    "w": 0.65
+   },
+   {
+    "cor": "#F2F1EE",
+    "d": 0.65,
+    "h": 0.8,
+    "nome": "Vaso Sanitário",
+    "p": [
+     1.8,
+     5.05
+    ],
+    "rot": 3,
+    "tipo": "vaso",
+    "w": 0.45
+   },
+   {
+    "cor": "#DDE5E4",
+    "d": 0.65,
+    "h": 2,
+    "nome": "Box suíte",
+    "p": [
+     1.55,
+     5.85
+    ],
+    "rot": 0,
+    "tipo": "box",
+    "w": 1.15
+   },
+   {
+    "cor": "#C8C5BF",
+    "d": 0.4,
+    "h": 0.85,
+    "nome": "Lavatório social",
+    "p": [
+     2.55,
+     4.4
+    ],
+    "rot": 1,
+    "tipo": "pia",
+    "w": 0.65
+   },
+   {
+    "cor": "#F2F1EE",
+    "d": 0.65,
+    "h": 0.8,
+    "nome": "Vaso Sanitário",
+    "p": [
+     2.75,
+     5.05
+    ],
+    "rot": 1,
+    "tipo": "vaso",
+    "w": 0.45
+   },
+   {
+    "cor": "#DDE5E4",
+    "d": 0.65,
+    "h": 2,
+    "nome": "Box social",
+    "p": [
+     2.95,
+     5.85
+    ],
+    "rot": 0,
+    "tipo": "box",
+    "w": 1.1
+   },
+   {
+    "cor": "#C1AB88",
+    "d": 0.95,
+    "h": 0.76,
+    "nome": "Mesa da varanda",
+    "p": [
+     6.6,
+     0.7
+    ],
+    "rot": 0,
+    "tipo": "mesa",
+    "w": 0.95
+   },
+   {
+    "cor": "#8E9D96",
+    "d": 0.45,
+    "h": 0.85,
+    "nome": "Cadeira da varanda 1",
+    "p": [
+     6.35,
+     0.2
+    ],
+    "rot": 0,
+    "tipo": "cadeira",
+    "w": 0.45
+   },
+   {
+    "cor": "#8E9D96",
+    "d": 0.45,
+    "h": 0.85,
+    "nome": "Cadeira da varanda 2",
+    "p": [
+     6.15,
+     0.9
+    ],
+    "rot": 1,
+    "tipo": "cadeira",
+    "w": 0.45
+   },
+   {
+    "cor": "#DCE2E4",
+    "d": 0.6,
+    "h": 0.85,
+    "nome": "Máquina de Lavar",
+    "p": [
+     8.05,
+     0.35
+    ],
+    "rot": 3,
+    "tipo": "maquina",
+    "w": 0.6
+   },
+   {
+    "cor": "#DADBD5",
+    "d": 0.6,
+    "h": 0.85,
+    "nome": "Tanque de Serviço",
+    "p": [
+     8.05,
+     0.9
+    ],
+    "rot": 3,
+    "tipo": "pia",
+    "w": 0.6
+   }
+  ],
+  "pe_direito": 2.7,
+  "portas": [
+   {
+    "id": "a1",
+    "largura": 0.8,
+    "p": [
+     2.7,
+     3.35
+    ],
+    "pairedWallId": "c5-west",
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "wallId": "c1-east",
+    "y0": 0.0,
+    "y1": 2.1
+   },
+   {
+    "id": "a2",
+    "largura": 0.75,
+    "p": [
+     3.225,
+     2.85
+    ],
+    "pairedWallId": "c5-south",
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "wallId": "c2-north",
+    "y0": 0.0,
+    "y1": 2.1
+   },
+   {
+    "id": "a3",
+    "largura": 0.7,
+    "p": [
+     1.45,
+     3.85
+    ],
+    "pairedWallId": "c1-north",
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "wallId": "c3-south",
+    "y0": 0.0,
+    "y1": 2.1
+   },
+   {
+    "id": "a4",
+    "largura": 0.7,
+    "p": [
+     3.05,
+     3.85
+    ],
+    "pairedWallId": "c5-north",
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "wallId": "c4-south",
+    "y0": 0.0,
+    "y1": 2.1
+   },
+   {
+    "id": "a5",
+    "largura": 0.8,
+    "p": [
+     6.75,
+     5.4
+    ],
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "wallId": "c8-north",
+    "y0": 0.0,
+    "y1": 2.1
+   },
+   {
+    "id": "a6",
+    "largura": 1.5,
+    "p": [
+     6.6,
+     1.5
+    ],
+    "pairedWallId": "c6-south",
+    "provenance": {
+     "declared": {
+      "kind": "declared",
+      "referenceIds": []
+     },
+     "kind": "derived"
+    },
+    "wallId": "c10-north",
+    "y0": 0.0,
+    "y1": 2.2
+   }
+  ]
+ }
+}

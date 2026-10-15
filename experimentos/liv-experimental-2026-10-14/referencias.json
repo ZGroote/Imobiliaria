@@ -1,0 +1,308 @@
+{
+  "schemaVersion": "1.0.0",
+  "project": "LIV Ipanema",
+  "preparedOn": "2026-10-09",
+  "refinementEvidence": "refinamento-exterior.json",
+  "purpose": "Matriz de evidências para T02/T08; não constitui cadastro oficial, tabela comercial ou instrução para alterar geometria.",
+  "confidenceStates": {
+    "confirmado": "Informação explicitamente publicada ou fato verificável nos arquivos locais; o escopo da confirmação consta em cada evidência.",
+    "inferido": "Interpretação para reconstrução visual; não equivale a medida ou vínculo comercial verificado.",
+    "pendente": "Sem fonte suficiente para uma decisão verificável."
+  },
+  "sources": [
+    {
+      "id": "book-oficial",
+      "kind": "publicacao-comercial-oficial",
+      "url": "https://www.livonincorporadora.com.br/wp-content/uploads/2024/08/BOOK_LIV_Ipanema.pdf",
+      "localPath": "relatorios/liv-referencias-publicas-2026-10-09/BOOK_LIV_Ipanema-oficial.pdf",
+      "sha256": "c7dae676c82eab758370e386cea7fe6bd31dded9fa436eb53ebdfe70be7bb50b",
+      "bytes": 3536269,
+      "pageConvention": "Páginas do PDF, numeradas a partir de 1.",
+      "limitations": ["Renders e plantas ilustrativos, sem cotas executivas.", "Implantação com rosa dos ventos não comprova azimute georreferenciado do modelo."]
+    },
+    {
+      "id": "galeria-oficial",
+      "kind": "renders-comerciais-oficiais",
+      "url": "https://www.livonincorporadora.com.br/produtos/liv-ipanema/",
+      "localPaths": ["v1.5/miniaturas/liv-ipanema/referencias/fachada.jpg", "v1.5/miniaturas/liv-ipanema/referencias/aerea.jpg", "v1.5/miniaturas/liv-ipanema/referencias/portaria.jpg"],
+      "limitations": ["O acabamento proposto não comprova o estado de obra na data da filmagem."]
+    },
+    {
+      "id": "obra-agosto-2026",
+      "kind": "filmagem-real-de-obra",
+      "url": "https://www.youtube.com/watch?v=101Jn78Dbiw",
+      "publishedOn": "2026-09-14",
+      "previousVisualInspection": "relatorios/liv-referencias-publicas-2026-10-09/fontes.json",
+      "usefulTimes": {"0:03": "Torre, lote, avenida e vizinhos", "0:36": "Varandas, vãos e guarda-corpos", "0:57": "Lateral, base e terreno"},
+      "limitations": ["Vídeo público inspecionado na pesquisa anterior; não foi baixado.", "Perspectiva sem escala não fornece dimensões exatas.", "Não se afirma que seja o acompanhamento mais recente disponível."]
+    },
+    {
+      "id": "obra-julho-2026",
+      "kind": "filmagem-real-de-obra",
+      "url": "https://www.youtube.com/watch?v=H0vOjCxbkRk",
+      "publishedOn": "2026-08-12",
+      "previousVisualInspection": "relatorios/liv-referencias-publicas-2026-10-09/fontes.json",
+      "usefulTimes": {"0:05": "Rotatória, avenida e lote", "0:23": "Fachada oposta identificada como lado B", "0:29": "Muro de divisa"},
+      "limitations": ["A inspeção anterior identifica trechos úteis; nenhuma nova captura comparativa do modelo foi produzida nesta reconciliação."]
+    },
+    {
+      "id": "obra-junho-2026",
+      "kind": "filmagem-real-de-obra",
+      "url": "https://www.youtube.com/watch?v=PKwZvA2XSCg",
+      "publishedOn": "2026-07-10",
+      "previousVisualInspection": "relatorios/liv-referencias-publicas-2026-10-09/fontes.json",
+      "usefulTimes": {"0:32": "Alvenaria", "0:39": "Interior bruto", "0:46": "Base da piscina"},
+      "limitations": ["Estado de obra parcial; não usar para substituir especificações de acabamento."]
+    },
+    {
+      "id": "modelo-local",
+      "kind": "reconstrucao-local",
+      "localPath": "v1.5/miniaturas/liv-ipanema/modelo.json",
+      "sha256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+      "bytes": 4322662,
+      "limitations": ["Identifica o JSON de autoria inspecionado, não o hash do GLB ou do HTML publicado.", "Dimensões proporcionais inferidas, conforme metadata.dimensions."]
+    },
+    {
+      "id": "interior-canto-local",
+      "kind": "reconstrucao-local-da-planta-comercial",
+      "localPath": "v1.5/miniaturas/liv-ipanema/interior/referencia.json",
+      "sha256": "4e721f9b5d93530f777c7432ec1f2270a51aa8688a0996398594c6b5282b2176",
+      "relatedPaths": ["v1.5/miniaturas/liv-ipanema/interior/projeto-planta.json", "v1.5/miniaturas/liv-ipanema/interior/contexto.json", "v1.5/miniaturas/liv-ipanema/interior/README.md"],
+      "limitations": ["Reconstrução de canto; não representa automaticamente a planta de meio ou uma unidade comercial."]
+    },
+    {
+      "id": "interior-meio-local",
+      "kind": "reconstrucao-local-da-planta-comercial",
+      "localPath": "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/referencia.json",
+      "sha256": "fe68313ca6c21f8ca78ad326646ba06d188b2d23128d639ab839cc5fb62e7edc",
+      "relatedPaths": [
+        "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/construir-meio.ts",
+        "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/projeto-planta.json",
+        "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/unidade.json",
+        "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/conferencia.json"
+      ],
+      "limitations": [
+        "Distribuição própria de meio, com dimensões inferidas. Sem vínculo por final.",
+        "Não recebe o atlas de canto."
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "quantidades",
+      "part": "pavimentos-e-empreendimento",
+      "confidence": "confirmado",
+      "confirmationScope": "Ficha técnica publicada no book, não auditoria cadastral.",
+      "sourceRefs": [{"sourceId": "book-oficial", "page": 16}],
+      "observed": {"towers": 1, "residentialLevels": 17, "groundFloor": 1, "typicalFloorsAboveGround": 16, "unitsPerLevel": 10, "totalUnits": 170, "totalParkingSpaces": 175, "siteAreaPublishedM2": 6921.79},
+      "decision": "Representar térreo mais 16 pavimentos tipo. Não deduzir números comerciais nem distribuição individual de vagas do total.",
+      "comparisonCapture": null
+    },
+    {
+      "id": "ordem-finais",
+      "part": "implantacao-e-finais",
+      "confidence": "confirmado",
+      "confirmationScope": "Posições relativas dos rótulos na implantação comercial.",
+      "sourceRefs": [{"sourceId": "book-oficial", "page": 15}],
+      "observed": "Da extremidade próxima à portaria para a extremidade próxima ao bosque: 01/02, 03/04, 05/06, 07/08, 09/10. Ímpares à esquerda e pares à direita na prancha; lado direito junto à faixa de lazer/Rua João de Guzzi.",
+      "decision": "Conservar esse referencial relativo; não chamar as faces de norte/sul nem converter os finais em números comerciais sem fonte.",
+      "comparisonCapture": null
+    },
+    {
+      "id": "planta-canto",
+      "part": "tipologia-canto",
+      "confidence": "confirmado",
+      "confirmationScope": "Tipo e áreas impressos na planta comercial, sem cotas executivas.",
+      "sourceRefs": [{"sourceId": "book-oficial", "page": 14}],
+      "observed": {"label": "Planta 1 — Apartamentos de canto", "areaPublishedM2": 47.59, "publishedComponentsM2": {"apartment": 43.18, "balcony": 4.41}, "bedrooms": 2, "suites": 1, "bathrooms": 2},
+      "decision": "Reutilizar o interior atual como reconstrução ilustrativa dessa tipologia. Não o atribuir a um final ou a todos os apartamentos por padrão.",
+      "comparisonCapture": null
+    },
+    {
+      "id": "planta-meio",
+      "part": "tipologia-meio",
+      "confidence": "confirmado",
+      "confirmationScope": "Existência de planta distinta e intervalo de áreas comercialmente publicado.",
+      "sourceRefs": [{"sourceId": "book-oficial", "page": 14}],
+      "observed": {"label": "Planta 2 — Apartamentos de meio", "areaPublishedRangeM2": [47.5, 47.89], "publishedComponentsAtRangeEndsM2": [{"apartment": 43.1, "balcony": 4.41}, {"apartment": 43.39, "balcony": 4.51}], "layout": "Distribuição diferente da planta de canto; não é apenas um espelhamento."},
+      "decision": "Base própria de meio registrada em interiores/meio/unidade.json e comparação de traçado em conferencia.png. Conservar intervalo publicado; sem área exata ou atribuição por final.",
+      "limitations": ["O extremo inferior impresso é 47,5 m², enquanto os componentes impressos somam 47,51 m²; conservar a publicação sem ajustar a geometria para fazê-la coincidir."],
+      "comparisonCapture": null,
+      "tracingComparison": "interiores/meio/conferencia.png"
+    },
+    {
+      "id": "gardens",
+      "part": "terreo-e-gardens",
+      "confidence": "confirmado",
+      "confirmationScope": "Book descreve unidades garden no térreo; perímetro e área de cada unidade não publicados neste material.",
+      "sourceRefs": [{"sourceId": "book-oficial", "page": 14}, {"sourceId": "book-oficial", "page": 16}],
+      "observed": {"privateYardPublishedRangeM2": [16.37, 25.09]},
+      "decision": "Tratar térreo como configuração própria. Não multiplicar uma geometria tipo com varanda/guarda-corpo para declarar gardens validados.",
+      "comparisonCapture": null
+    },
+    {
+      "id": "fachada-principal",
+      "part": "fachada-voltada-ao-lazer",
+      "confidence": "inferido",
+      "sourceRefs": [{"sourceId": "book-oficial", "page": 16}, {"sourceId": "galeria-oficial"}, {"sourceId": "obra-agosto-2026", "time": "0:36"}],
+      "observed": "Análise local anterior indica cinco prumadas de varanda em ritmo 2+1+2, núcleo opaco descentrado e cobertura escalonada. O modelo atual reproduz esse ritmo.",
+      "workingMeasures": {"towerLongAxisM": 47.7, "towerShortAxisM": 12.7, "floorPitchM": 2.85},
+      "decision": "Preservar a proporção durante a prova WebGPU. Refinar somente após capturas de câmera equivalente, registrando diferenças de vãos/guarda-corpo/silhueta.",
+      "comparisonCapture": null,
+      "limitations": ["Ritmo observado não delimita cada apartamento.", "Medidas e cores exatas não são confirmadas por perspectiva."]
+    },
+    {
+      "id": "fachada-oposta-e-cabeceiras",
+      "part": "fachada-estacionamento-e-cabeceiras",
+      "confidence": "pendente",
+      "sourceRefs": [{"sourceId": "obra-julho-2026", "time": "0:23"}, {"sourceId": "obra-agosto-2026", "time": "0:57"}],
+      "observed": "O autor local repete o ritmo de vãos nas duas faces longas; a análise anterior registra a face oposta como parcialmente inferida.",
+      "decision": "Confrontar lado B e cabeceiras com os vídeos. Não considerar a simetria atual como fato arquitetônico.",
+      "comparisonCapture": null
+    },
+    {
+      "id": "base-e-acessos",
+      "part": "base-terreo-e-acessos",
+      "confidence": "inferido",
+      "sourceRefs": [{"sourceId": "book-oficial", "page": 15}, {"sourceId": "obra-agosto-2026", "time": "0:57"}, {"sourceId": "modelo-local"}],
+      "observed": "Modelo possui piso/substrato e marquise do hall com role terreo, além de uma repetição de paredes/esquadrias no índice 0. Não possui um cadastro separado dos contornos garden por final.",
+      "decision": "Reconciliar o índice 0 com térreo e conferir acesso/gardens em etapa própria. A presença de role terreo com floor -1 é agrupamento técnico, não um pavimento residencial adicional.",
+      "comparisonCapture": null
+    },
+    {
+      "id": "implantacao-lazer",
+      "part": "implantacao-piscinas-portaria-bosque",
+      "confidence": "confirmado",
+      "confirmationScope": "Relação entre elementos na implantação ilustrativa, sem precisão cadastral.",
+      "sourceRefs": [{"sourceId": "book-oficial", "page": 15}, {"sourceId": "obra-junho-2026", "time": "0:46"}],
+      "observed": "Portaria na extremidade oposta ao bosque; piscinas junto à extremidade do bosque, na faixa de lazer ao lado da rua. Os itens 05/06 são quiosques, não quadra esportiva.",
+      "decision": "Manter o conjunto e essas relações. Não deslocar a implantação existente nem acrescentar equipamentos sem evidência.",
+      "comparisonCapture": null
+    },
+    {
+      "id": "norte-georreferenciado",
+      "part": "orientacao-solar",
+      "confidence": "pendente",
+      "sourceRefs": [{"sourceId": "book-oficial", "page": 15}],
+      "observed": "A prancha contém rosa dos ventos; não foi validado o azimute dessa implantação no modelo regional.",
+      "decision": "Usar faces lazer/estacionamento e extremidades portaria/bosque. Adiar qualificações comerciais de insolação e simulação por data/hora.",
+      "comparisonCapture": null
+    },
+    {
+      "id": "vinculo-tipologia-final",
+      "part": "cadastro-tipologias",
+      "confidence": "inferido",
+      "sourceRefs": [{"sourceId": "book-oficial", "page": 14}, {"sourceId": "book-oficial", "page": 15}],
+      "observed": "Pela posição nas extremidades, 01/02/09/10 são candidatos a canto e 03/04/05/06/07/08 candidatos a meio; o material inspecionado não contém legenda que valide essa associação ou espelhamento por final.",
+      "decision": "Conservar essa hipótese no registro de evidências. A atribuição usada pelo produto permanece pendente até comparação da planta de pavimento ou vínculo oficial.",
+      "comparisonCapture": null
+    },
+    {
+      "id": "cadastro-comercial",
+      "part": "numeros-precos-estoque-vagas",
+      "confidence": "pendente",
+      "sourceRefs": [{"sourceId": "book-oficial", "page": 15}, {"sourceId": "book-oficial", "page": 16}],
+      "observed": "A implantação rotula finais e vagas; não foi encontrado espelho oficial de números completos, estoque, preços ou vínculo vaga/unidade.",
+      "decision": "Usar IDs técnicos de pavimento/final; numeroComercial, preco e vagaAtribuida nulos; disponibilidade não informada.",
+      "comparisonCapture": null
+    },
+    {
+      "id": "guarda-corpos-pintados",
+      "part": "Esquadrias e guarda-corpos da torre",
+      "confidence": "confirmado",
+      "confirmationScope": "Barras verticais e acabamento pintado visíveis no render comercial. Parâmetros PBR são estimados.",
+      "sourceRefs": [
+        {
+          "sourceId": "book-oficial",
+          "page": 12,
+          "localImage": "relatorios/liv-referencias-publicas-2026-10-09/varanda-render-oficial-1.png"
+        }
+      ],
+      "observed": "Guarda-corpo metálico pintado; não substituir as barras por painel de vidro.",
+      "decision": "Clone de material nativo somente na torre: metalness=0 e roughness=.55; sem mudança de malha/UV1/atlas.",
+      "comparisonCapture": "evidencias/refinamento-exterior-final/runtime.json"
+    }
+  ],
+  "accessRefinement": {
+    "record": "PORTARIA.md",
+    "camera": "acesso",
+    "referencePath": "v1.5/miniaturas/liv-ipanema/referencias/portaria.jpg",
+    "referenceSHA256": "5c66690329183ba4adf56401cf0d6c6b470cbb42feba810499ddec7acc379cc2",
+    "parameterConfidence": "inferido",
+    "profile": "access-finishes-v1",
+    "scope": "Vidros dos volumes da implantação e letreiro em clones PBR padrão. Materiais fonte/carros e geometria/atlas preservados.",
+    "pending": "Forma/posição do portal e marquise, placa encoberta e reprodução da marca.",
+    "evidence": "evidencias/portaria-final/runtime.json"
+  },
+  "currentModelInspection": {
+    "sourceId": "modelo-local",
+    "geometries": 87,
+    "materials": 51,
+    "groups": 87,
+    "metadata": {"towers": 1, "floors": 17, "floorHeightM": 2.85, "widthM": 47.7, "depthM": 12.7, "parkingSpaces": 175, "siteDimensionsAreInferred": true},
+    "repeatedWallAndWindowIndices": {"min": 0, "max": 16, "count": 17},
+    "slabIndices": {"min": 0, "max": 17, "count": 18, "upperSlabIsResidentialFloor": false},
+    "floorTranslationRule": "Three.js y = modelFloorIndex * 2.85; passo inferido, não pé-direito livre oficial.",
+    "groundFloorGeometry": "Mesmo módulo repetido de paredes/esquadrias no índice 0, mais entrada-torre/substrato/hall com floor=-1; gardens ainda sem contornos próprios.",
+    "currentUiLabels": {"modelIndex0": "1º", "modelIndex16": "17º", "sourcePath": "v1.5/miniaturas/liv-ipanema/gerar_pagina.py", "sourceLine": 154, "viewerPath": "v1.5/miniaturas/liv-ipanema/liv-viewer.js", "viewerLine": 168},
+    "recommendedSemanticLabels": {"modelIndex0": "Térreo", "modelIndex1Through16": "1º a 16º pavimento tipo acima do térreo; designação comercial pendente"},
+    "runtimeCoordinateReading": {
+      "confidence": "confirmado",
+      "confirmationScope": "Convenção implementada nos scripts locais; não levantamento do prédio.",
+      "threeAxes": {"positiveX": "Em direção ao bosque", "negativeX": "Em direção à portaria", "positiveY": "Altura", "positiveZ": "Faixa de lazer/Rua João de Guzzi", "negativeZ": "Estacionamento do lado esquerdo da prancha"},
+      "sourcePaths": ["v1.5/miniaturas/liv-ipanema/modelar_implantacao.py", "v1.5/miniaturas/blender_maquete_base.py"],
+      "rule": "Imagem local (u,v): x=(432-v)*0.145; z=(u-315)*0.145 após a exportação; escala e pontos de origem inferidos.",
+      "limitation": "A prancha rasterizada do book tem resolução e margens diferentes da imagem local; não reutilizar seus pixels diretamente nessa regra."
+    },
+    "interior": {"sourceId": "interior-canto-local", "typology": "canto", "publishedAreaM2": 47.59, "nominalWallAxisContourAreaM2": 47.235, "inferredMillimetersPerPixel": 11, "inferredClearHeightMm": 2700, "openings": 10, "furniture": 29, "currentCommercialAssignment": null, "areaFieldIssue": "contexto.json usa area_util_m2=47.59; o book publica 43.18 + 4.41 de varanda. Não tratar como área útil aferida."}
+  },
+  "finalRelativePositions": {
+    "confidence": "confirmado",
+    "sourceRefs": [{"sourceId": "book-oficial", "page": 15}],
+    "fromGateTowardForest": [["01", "02"], ["03", "04"], ["05", "06"], ["07", "08"], ["09", "10"]],
+    "leftInPrintedPlan": ["01", "03", "05", "07", "09"],
+    "rightInPrintedPlan": ["02", "04", "06", "08", "10"],
+    "exactApartmentBoundaryCoordinates": null,
+    "cardinalAzimuthDegrees": null,
+    "mirroringByFinal": null,
+    "officialApartmentNumbers": null,
+    "typologyByFinal": null
+  },
+  "pilotContract": {
+    "recommendedModelFloorIndex": 1,
+    "technicalIdExample": "liv-ipanema/pavimento-modelo-01/final-01",
+    "displayLabelExample": "Pavimento tipo 1 · final 01 · posição aproximada",
+    "officialCommercialNumber": null,
+    "availabilityDefault": "nao_informada",
+    "priceDefault": null,
+    "assignedParkingDefault": null,
+    "unitSpecific3dInteriorEnabled": false,
+    "genericInteriorLabel": "Tipologia escolhida · interior ilustrativo · sem vínculo comercial",
+    "requiredBeforeUnitPicking": ["Registrar dez zonas de seleção com vínculo ao final e evidência; não deduzir limites pelo centro das varandas.", "Distinguir posição aproximada, tipologia publicada e vínculo validado.", "Testar seleção 3D/lista/ficha com o mesmo ID nos dois backends.", "Não permitir que disponibilidade desconhecida apareça como disponível."],
+    "mayProceedWithoutExecutivePlans": ["Paridade WebGPU/WebGL2 do exterior", "Lista de finais por pavimento e realce ilustrativo", "Ficha do empreendimento e catálogo das duas plantas comerciais", "Comparações visuais de fachadas e implantação"],
+    "precisionBlockers": ["Limites e dimensões cotados de cada apartamento", "Vínculo tipologia/espelhamento/final", "Contornos e áreas garden por final", "Numeração comercial e relação vaga/unidade", "Azimute e implantação georreferenciada", "Estoque e preços oficiais"],
+    "geometryChangedByThisReconciliation": false,
+    "commercialRecordsCreatedByThisReconciliation": false
+  },
+  "interiorEvidence": "INTERIORES.md",
+  "pilotImplementation": {
+    "implementedOn": "2026-10-10",
+    "documentation": "UNIDADES.md",
+    "records": "unidades.json",
+    "modelFloorIndex": 1,
+    "technicalRecords": 10,
+    "positionConfidence": "inferido",
+    "registrationSource": {
+      "sourceId": "book-oficial",
+      "page": 15,
+      "imageSHA256": "5ee381ceacbe6d52ece70ac2bf4854c4c07c2f5e287d278d2c92cff8d733a2eb"
+    },
+    "selection": "Lista/teclado/toque em zonas proporcionais, com núcleo excluído; volumes independentes da geometria decorativa.",
+    "unitSpecific3dInteriorEnabled": false,
+    "typologyByFinal": null,
+    "mirroringByFinal": null,
+    "commercialAssignment": null,
+    "browserEvidence": "evidencias/unidades-piloto/runtime.json",
+    "physicalMobileQualified": false
+  }
+}

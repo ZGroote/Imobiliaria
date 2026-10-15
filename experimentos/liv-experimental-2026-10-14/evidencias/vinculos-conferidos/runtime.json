@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "physicalMobile": false,
+  "syntheticDataOnly": true,
+  "recordedAt": "2026-10-11T21:38:32.426289+00:00",
+  "sources": {
+    "vinculos.js": "90a8aa69443ea2f7e57b82c86852cc4dd726bfd591197185466fabbc2854aeb9",
+    "vinculos.json": "aac6900d110c2a29f9f5eda39c3e72240e1d67f5daffbf24f725ca648a3225f1",
+    "viewer.js": "ea3a9453757492c919ffb0d2f068e72e727cc7b43df0db89f76120f266d453f0",
+    "unit-ui.js": "b30776e909e3a9a1730bff652f5add9ee008eef8a268c93810b8bf47e6b5ceb0",
+    "maquete-liv-ipanema.html": "d8d7ab6ee3f5f29e8a539dc7c25ed82c346c7b4db64c368efee27fedc7712670",
+    "qa_vinculos.py": "1fa2ddeac1e968ff19259f1ebcdb3dde954a563a4a91978f53ea7eaeb0b65598",
+    "interiores/catalogo.json": "977ae20cbdfe565f62cc9628181991c6e9974fbca2b721ea04ece4e603c39a6c"
+  },
+  "cases": [
+    {
+      "backendRequested": "webgpu",
+      "touchEmulated": false,
+      "errors": [],
+      "status": "PASS",
+      "typologiesVerified": [
+        "canto",
+        "meio"
+      ]
+    },
+    {
+      "backendRequested": "webgl",
+      "touchEmulated": false,
+      "errors": [],
+      "status": "PASS",
+      "typologiesVerified": [
+        "canto",
+        "meio"
+      ]
+    },
+    {
+      "backendRequested": "auto",
+      "touchEmulated": true,
+      "errors": [],
+      "status": "PASS",
+      "typologiesVerified": [
+        "canto",
+        "meio"
+      ]
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

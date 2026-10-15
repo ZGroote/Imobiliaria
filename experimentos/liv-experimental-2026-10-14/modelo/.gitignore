@@ -1,0 +1,7 @@
+/variante/*.blend*
+/variante/*.glb
+/variante/modelo.json
+/variante/*.log
+/variante/luz/
+/variante/assets/*
+!/variante/assets/manifest.json

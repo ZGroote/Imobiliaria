@@ -1,0 +1,3 @@
+# Recursos identificados por SHA-256: preservar bytes no checkout Windows.
+interiores/** -text whitespace=cr-at-eol
+plantas2d/** -text whitespace=cr-at-eol

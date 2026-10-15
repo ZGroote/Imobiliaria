@@ -1,0 +1,17 @@
+{
+  "experiment_name": "sala",
+  "method_name": "splatfacto",
+  "checkpoint": "comodo/sala/splatfacto/2026-10-15_163209/nerfstudio_models/step-000029999.ckpt",
+  "results": {
+    "psnr": 36.48544692993164,
+    "psnr_std": 3.677680253982544,
+    "ssim": 0.9810340404510498,
+    "ssim_std": 0.008181411772966385,
+    "lpips": 0.03767888620495796,
+    "lpips_std": 0.01727200858294964,
+    "num_rays_per_sec": 47892232.0,
+    "num_rays_per_sec_std": 6558725.0,
+    "fps": 51.966400146484375,
+    "fps_std": 7.116672515869141
+  }
+}

@@ -1,0 +1,17 @@
+# saídas pesadas do piloto (render, captura e splat); ficam só no disco local
+teste/
+*.blend
+*.blend1
+*.ply
+*.tgz
+*.log
+__pycache__/
+nuvem/captura/
+nuvem/captura-apto/
+nuvem/eval/
+v1/*.png
+v2/*.png
+tmp-*/
+# visualizador de teste: as variantes (.sog) e as bibliotecas são cópias; o Liv usa ../splat/
+web/*.sog
+web/lib/

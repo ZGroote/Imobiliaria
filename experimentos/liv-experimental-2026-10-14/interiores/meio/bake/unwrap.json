@@ -1,0 +1,31 @@
+{
+  "schema": "liv-interior-corners-v1",
+  "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+  "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+  "sourcePath": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\interiores\\meio\\source.json",
+  "geometrySHA256": "9110a84a7302f5ea6f29cf3a09c0da02d0336d8c7bec0f73de230a44890f01f3",
+  "size": 2048,
+  "atlasWidth": 3410,
+  "atlasHeight": 3420,
+  "atlasCount": 1,
+  "utilization": 0.8011420369148254,
+  "objects": 34,
+  "triangles": 31700,
+  "flippedTriangles": 1022,
+  "degenerateTrianglesRemoved": 5494,
+  "padding": 12,
+  "effectivePaddingPixels": 7.185964912280702,
+  "recommendedMarginPixels": 3,
+  "recommendedGuardPixels": 3.342982456140351,
+  "uvMaxPixelError": 0.015625238422217136,
+  "compactBytes": 1024756,
+  "compactGzipBytes": 421290,
+  "seconds": 2.1188916000537574,
+  "checks": {
+    "geometryFingerprints": true,
+    "cornerOrder": true,
+    "finiteUV": true,
+    "oneAtlas": true,
+    "independentInstanceUV": true
+  }
+}

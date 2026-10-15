@@ -1,0 +1,58 @@
+{
+  "schema": "liv-roof-revision-provenance-v1",
+  "atUtc": "2026-10-11T04:40:18.042312+00:00",
+  "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+  "geometrySHA256": "e8979711e417472345394c42258422bff8a4ad97fee803c299da4afdd927626b",
+  "textureSHA256": "4ed4c4722a6ed68be6c11f5696d2b0084cedb7442c48fa62bd2a52b16d49a90a",
+  "downloadBytes": 16044894,
+  "roofGeometry": "Uniform parapet support and continuous offset cap; exact solid union",
+  "roofUV": {
+    "roofLinearMultiplier": 4,
+    "roofObjects": [
+      "cobertura-cobertura",
+      "cobertura-cinza",
+      "cobertura-laje",
+      "cobertura-reboco",
+      "cobertura-bege"
+    ],
+    "otherObjectsLinearMultiplier": 1,
+    "exportGeometryUnchanged": true,
+    "sources": {
+      "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/preparar_luz_densa.py": "b2abad32253ce583fbeb80f4f1b73b462e2f2dac121fc0562840ea768e9535ce",
+      "v1.5/miniaturas/liv-ipanema/preparar_luz.py": "8d486ec498162f56b57d9ee8fc71e40b476e6d604273882b2f3ff463390a1055"
+    }
+  },
+  "atlasSize": [
+    4096,
+    4096
+  ],
+  "samples": 64,
+  "notes": [
+    "Colors/PBR/native glazing preserved",
+    "Only xatlas input positions are scaled for chart density; delivered geometry unchanged",
+    "Before geometry and undersampled atlas preserved in own luz/antes-cobertura and luz/antes-densidade",
+    "Illustrative roof without executive section; physical mobile performance not qualified"
+  ],
+  "reports": [
+    "evidencias/cobertura-geometria/cobertura.json",
+    "evidencias/cobertura-geometria/geometria.json",
+    "evidencias/cobertura-geometria/paredes.json",
+    "evidencias/cobertura-luz/luz.json",
+    "evidencias/cobertura-final/runtime.json",
+    "evidencias/cobertura-interface/runtime.json",
+    "evidencias/unidades-cobertura/runtime.json"
+  ],
+  "sources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py": "5698afe2f06c70a54658bfac1d259623850372ea83f9c445312c24cae0b3cb89",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/unir_paredes.py": "16ddbb49572368f7f752e2d284a1e03314a07b4901b8412a061b90231283d09e",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/preparar_luz_densa.py": "b2abad32253ce583fbeb80f4f1b73b462e2f2dac121fc0562840ea768e9535ce",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/unwrap.json": "034f034b18f59e615596b64927b6d5386ff59c98614505a77b02dcf758237f5c",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/manifest.json": "a5f5b4e5e46b634bcbfb5599ecfc87e64d314ee55a84ffa28017e9b65afeb5c8",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/geometry-compact.json": "e8979711e417472345394c42258422bff8a4ad97fee803c299da4afdd927626b",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/denoise.json": "c01c4cd601b608e9b3fb8cb65508546d7e217d5cd63a51365f06bef571d855cf",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/assets/manifest.json": "e22c8e38057ebdcfdb1d61c3961dc3a30d1fa394e50b37f83da3e9fbe2d588ea",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/registrar_unidades.py": "92cd430cacc57d6967eef8052c4475b934567e84c245bddbe940b60b62d1b277",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/unidades-contorno.json": "17f0e171c8bf088ca8b7c271baf13d2e36f117f5b2185d516103281b36678bc7"
+  }
+}

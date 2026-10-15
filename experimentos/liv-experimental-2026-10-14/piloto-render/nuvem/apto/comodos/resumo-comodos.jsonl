@@ -1,0 +1,6 @@
+{"nome": "quarto", "gaussianas": 369146, "minutos": 11.5, "psnr": 37.54, "ssim": 0.9818, "lpips": 0.034}
+{"nome": "suite", "gaussianas": 433858, "minutos": 12.0, "psnr": 38.9, "ssim": 0.988, "lpips": 0.0269}
+{"nome": "banho-social", "gaussianas": 253094, "minutos": 10.3, "psnr": 28.02, "ssim": 0.9301, "lpips": 0.137}
+{"nome": "banho-suite", "gaussianas": 213299, "minutos": 10.2, "psnr": 28.96, "ssim": 0.9806, "lpips": 0.0761}
+{"nome": "varanda", "gaussianas": 378238, "minutos": 11.4, "psnr": 32.74, "ssim": 0.9689, "lpips": 0.0577}
+{"nome": "sala", "gaussianas": 520430, "minutos": 12.4, "psnr": 36.49, "ssim": 0.981, "lpips": 0.0377}

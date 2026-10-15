@@ -1,0 +1,17 @@
+{
+  "experiment_name": "varanda",
+  "method_name": "splatfacto",
+  "checkpoint": "comodo/varanda/splatfacto/2026-10-15_163144/nerfstudio_models/step-000029999.ckpt",
+  "results": {
+    "psnr": 32.735164642333984,
+    "psnr_std": 5.297950267791748,
+    "ssim": 0.9688745141029358,
+    "ssim_std": 0.018890291452407837,
+    "lpips": 0.05773632973432541,
+    "lpips_std": 0.03203916549682617,
+    "num_rays_per_sec": 41693044.0,
+    "num_rays_per_sec_std": 12620961.0,
+    "fps": 45.23984909057617,
+    "fps_std": 13.694619178771973
+  }
+}
