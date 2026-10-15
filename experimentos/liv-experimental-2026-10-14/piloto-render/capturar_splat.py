@@ -114,7 +114,7 @@ for i, (p, d) in enumerate(cams):
     cam.rotation_euler = d.to_track_quat("-Z", "Y").to_euler()
     bpy.context.view_layer.update()
     nome = f"images/{arg('--prefixo', 'f')}{i:04d}.png"
-    if "--sem-render" not in argv:
+    if "--sem-render" not in argv and not os.path.exists(os.path.join(SAIDA, nome)):   # retoma (ordem fixa pela semente)
         cena.render.filepath = os.path.join(SAIDA, nome)
         bpy.ops.render.render(write_still=True)
     frames.append({"file_path": nome, "transform_matrix": [list(r) for r in cam.matrix_world], "comodo": comodo_de(p.x, p.y)})

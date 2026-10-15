@@ -10,7 +10,8 @@ export TORCHDYNAMO_DISABLE=1 TORCH_COMPILE_DISABLE=1
 N=$(nvidia-smi -L | wc -l); M=$((N / 2)); [ "$M" -ge 1 ] || M=1
 A=$(seq -s, 0 $((M - 1))); B=$(seq -s, $((N > 1 ? M : 0)) $((N > 1 ? N - 1 : 0)))
 
-capturar() {  # nome zona gpus
+capturar() {  # nome zona gpus (pula se a captura já veio pronta do render local)
+  grep -qs FIM "render-$1.log" && return 0
   CUDA_VISIBLE_DEVICES=$3 ~/blender/blender -b apto-empacotado.blend --python gpu.py --python capturar_splat.py -- \
     --saida "captura-$1" --zona "$2" --unidade unidade.json --passo 0.2 --folga 0.12 --colado 0.35 --rumos 8 \
     --amostras 128 --res 1280x720 > "render-$1.log" 2>&1
