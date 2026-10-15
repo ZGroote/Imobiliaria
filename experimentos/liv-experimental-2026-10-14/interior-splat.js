@@ -17,7 +17,7 @@ const COMODOS = [
 ];
 
 if (st && st.typology === "meio" && query.get("splat") !== "0") {
-  const repasse = ["dpr", "std"].filter(k => query.has(`splat-${k}`)).map(k => `&${k}=${query.get(`splat-${k}`)}`).join("");
+  const repasse = ["dpr", "std", "fps"].filter(k => query.has(`splat-${k}`)).map(k => `&${k}=${query.get(`splat-${k}`)}`).join("");
   // splat/comodos.json diz quais cômodos têm splat próprio ({"sala": "sala.sog", ...}); sem ele, só a sala.
   const arquivos = await fetch("splat/comodos.json").then(r => r.ok ? r.json() : null).catch(() => null)
     ?? { sala: "sala.sog" };

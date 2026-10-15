@@ -71,17 +71,43 @@ function tamanho() {
 }
 tamanho();
 
+// O Tour manda a câmera a cada quadro, parada ou não: só redesenha quando ela mudou.
+let ultima = "";
 api.setCamera = (posicao, quaternion, fov, aspecto) => {
   tamanho();
-  camera.position.fromArray(posicao); camera.quaternion.fromArray(quaternion);
   const a = aspecto || largura / Math.max(1, altura);
+  const chave = `${posicao}|${quaternion}|${fov}|${a}`;
+  if (chave === ultima) return;
+  ultima = chave;
+  camera.position.fromArray(posicao); camera.quaternion.fromArray(quaternion);
   if (fov !== camera.fov || a !== camera.aspect) { camera.fov = fov || camera.fov; camera.aspect = a; camera.updateProjectionMatrix(); }
   sujo = true;
 };
-renderer.setAnimationLoop(() => {
+
+// ?fps=1 (no Liv: &splat-fps=1): mediana dos intervalos entre quadros seguidos (< 250 ms), ou seja, o fps
+// enquanto a câmera anda; parado não conta. Também em __splatVisita.fps para medir por script.
+const painel = q.get("fps") === "1" && document.body.appendChild(Object.assign(document.createElement("div"), {
+  style: "position:fixed;left:6px;top:6px;padding:4px 7px;font:12px/1.35 monospace;color:#fff;background:#000a;white-space:pre;border-radius:4px" }));
+const intervalos = [];
+let anterior = 0;
+api.fps = 0;
+if (painel) setInterval(() => {
+  const m = malhas.get(atual)?.malha, n = m?.packedSplats?.numSplats ?? m?.numSplats;
+  painel.textContent = `${api.fps ? api.fps.toFixed(0) : "–"} fps  ${api.fps ? (1000 / api.fps).toFixed(1) : "–"} ms
+` +
+    `dpr ${renderer.getPixelRatio()}  std ${ajustes.maxStdDev?.toFixed(2) ?? "√8"}
+` +
+    `${renderer.domElement.width}×${renderer.domElement.height} px  ${n ? (n / 1000).toFixed(0) + " mil" : "?"} gauss.`;
+}, 500);
+renderer.setAnimationLoop(t => {
   if (!sujo) return;           // parado não redesenha: poupa bateria
   sujo = false; api.quadros++;
   renderer.render(scene, camera);
+  if (anterior && t - anterior < 250) {
+    intervalos.push(t - anterior); if (intervalos.length > 60) intervalos.shift();
+    api.fps = 1000 / [...intervalos].sort((a, b) => a - b)[intervalos.length >> 1];
+  }
+  anterior = t;
 });
 </script>
 </body>

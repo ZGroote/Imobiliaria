@@ -4,7 +4,8 @@
 Uso:
   blender -b <saida do montar_apartamento>/apartamento.blend --python piloto-render/capturar_splat.py -- \
     --saida captura [--zona apto|"Suíte,Banho"] [--passo 0.35] [--prefixo f] [--amostras 128]
-    [--res 1280x720] [--limite 0] [--sem-render]
+    [--res 1280x720] [--limite 0] [--sem-render] [--folga 0.28] [--colado 0.6] [--rumos 4]
+    [--unidade interiores/meio/unidade.json]   (.blend sem liv_comodos, como o do piloto)
 
 As zonas vêm dos cômodos do cadastro (gravados na cena pelo montar_apartamento.py); cada quadro leva o
 cômodo da câmera em "comodo", que o inspetor usa para agregar a nota por cômodo. --prefixo dá nome novo
@@ -41,7 +42,10 @@ def raio(p, d, longe=50.0):
     ok, loc, n, i, ob, m = cena.ray_cast(dg, p, d, distance=longe)
     return (loc - p).length if ok else longe
 
-def livre(p, folga=0.28):
+FOLGA = float(arg("--folga", "0.28"))     # banheiro: 0.12 (o cômodo tem ~1,5 m de largura)
+COLADO = float(arg("--colado", "0.6"))    # vista mais perto que isso da superfície é descartada
+RUMOS = int(arg("--rumos", "4"))          # direções por ponto; 8 no banheiro pega espelho e box de vários lados
+def livre(p, folga=FOLGA):
     """Ponto dentro do apartamento (piso abaixo, forro acima) e longe de parede e móvel."""
     if raio(p, Vector((0, 0, -1))) > p.z + 0.1 or raio(p, Vector((0, 0, 1))) > 3.0:
         return False
@@ -56,10 +60,12 @@ def livre(p, folga=0.28):
 # todos; --zona "Suíte,Banho" pega os cômodos cujo nome contém algum dos termos. --passo adensa a grade
 # (o inspetor sugere passo menor onde o splat ficou abaixo da meta).
 import sys as _s; _s.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from planta import dentro
-if "liv_comodos" not in cena:
-    sys.exit("cena sem liv_comodos: gere o .blend com montar_apartamento.py")
-COMODOS = json.loads(cena["liv_comodos"])
+from planta import dentro, carregar
+# O .blend do piloto (montar_sala.py, de onde saíram os splats publicados) não grava liv_comodos:
+# --unidade lê os cômodos direto do cadastro, no mesmo referencial.
+if "liv_comodos" in cena: COMODOS = json.loads(cena["liv_comodos"])
+elif arg("--unidade"): COMODOS = carregar(arg("--unidade")).comodos
+else: sys.exit("cena sem liv_comodos: gere o .blend com montar_apartamento.py ou passe --unidade")
 termos = [t.strip().lower() for t in arg("--zona", "apto").split(",")]
 def casa(t):   # nome exato primeiro ("Suíte" não puxa o "Banho suíte"); senão, pedaço do nome
     return [c for c in COMODOS if c["nome"].lower() == t] or [c for c in COMODOS if t in c["nome"].lower()]
@@ -85,11 +91,11 @@ centro = Vector(((X0 + X1) / 2, (Y0 + Y1) / 2, 1.0))
 cams = []
 for p in pontos:
     base = math.degrees(math.atan2(centro.y - p.y, centro.x - p.x))
-    for k in range(4):                      # quatro rumos por ponto, um deles para o centro
-        yaw = math.radians(base + k * 90 + random.uniform(-12, 12))
+    for k in range(RUMOS):                  # rumos por ponto, um deles para o centro
+        yaw = math.radians(base + k * 360 / RUMOS + random.uniform(-12, 12))
         pitch = math.radians(random.uniform(-18, 4) if p.z > 1.4 else random.uniform(-8, 10))
         d = Vector((math.cos(yaw) * math.cos(pitch), math.sin(yaw) * math.cos(pitch), math.sin(pitch)))
-        if raio(p, d) < 0.6: continue       # olhando colado na parede não ensina nada
+        if raio(p, d) < COLADO: continue    # olhando colado na parede não ensina nada
         cams.append((p.copy(), d))
 random.shuffle(cams)
 if LIMITE: cams = cams[:LIMITE]
