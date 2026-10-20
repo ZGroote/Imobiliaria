@@ -9,9 +9,10 @@ autorização própria.
 Base lida: [`tools/buildjob.mjs`](../../tools/buildjob.mjs), [proposta §2, §3, §6–§9](proposta.md),
 [`firebase/firestore.rules`](../../firebase/firestore.rules), a linha do M2 no `tasks/README.md`
 (da `liv-melhorado`), o [plano do religar](religar-2026-10-20.md) e o
-[`deploy/README.md`](../../deploy/README.md). Os materiais que chegam com o pedido (arquivos de
-todo tipo, dados do imóvel, revisão do gerente com foto e áudio) estão em
-[materiais-da-solicitacao.md](materiais-da-solicitacao.md).
+[`deploy/README.md`](../../deploy/README.md). Os materiais que chegam com o pedido estão em
+[materiais-da-solicitacao.md](materiais-da-solicitacao.md): arquivos de todo tipo, que o robô
+processa um por vez e apaga; os dados do imóvel; o endereço que vira lote no mapa; e a revisão
+do gerente com foto e áudio.
 
 Palavras usadas aqui:
 
@@ -57,9 +58,11 @@ Palavras usadas aqui:
 10. **Dependência que precisa ficar clara:**
     - o ciclo automático começa na planta fixada, mas hoje o `e2e_leitura` só gera a maquete
       LEVE local. Não gera tour nem `manifest.json`, e pede dados do imóvel (ficha, andar,
-      prédio, cores) que vão chegar com a solicitação
-      ([materiais-da-solicitacao.md](materiais-da-solicitacao.md));
-    - o **build a partir da planta (M2-R) é pré-requisito** do ciclo automático;
+      lote, cores);
+    - esses dados vão sair dos materiais da solicitação: extraídos pelo robô, com o endereço
+      virando lote no mapa sozinho ([materiais-da-solicitacao.md](materiais-da-solicitacao.md));
+    - o **build a partir da planta (M2-R) e os materiais (MAT-4 a MAT-6) são pré-requisito** do
+      ciclo automático;
     - até ele existir, o robô atende o fluxo legado (`pipelineUnitId`, como o Cedros), que
       começa no clique "Gerar prévia". Daí em diante, a mesma política por conta vale.
 
@@ -109,7 +112,7 @@ a prévia antes do gerente. A proteção passa a ser:
   - hoje, o "Pedir ajuste" leva o pedido para `production`, só com texto;
   - passa a levar para **`internal_review`**, com texto, fotos e áudio;
   - os anexos são materiais do pedido, e o detalhe está em
-    [materiais-da-solicitacao.md](materiais-da-solicitacao.md) §5;
+    [materiais-da-solicitacao.md](materiais-da-solicitacao.md) §7;
   - regra (M2-1): `managerDecision` aceita `agency_review → internal_review`, com o AuditLog
     da mudança listando o texto e os anexos;
   - a equipe é avisada no painel, como no aviso de pedido novo.
@@ -190,7 +193,8 @@ já existe).
 
 | Etapa | Gatilho | Identidade do job | Para quais contas |
 |---|---|---|---|
-| **prévia automática** | pedido em `production` com a planta fixada (`productionInput`; a fixação é o AuditLog `production_input:set` de hoje) | `previa-<requestId>-<readingId>` (a mesma planta não gera build de novo) | todas, depois do M2-R |
+| **extrair** | arquivo novo "na fila" em `requestAssets` | `extrair-<id do arquivo>` | todas ([materiais-da-solicitacao.md](materiais-da-solicitacao.md) §4) |
+| **prévia automática** | pedido em `production` com a planta fixada (`productionInput`; a fixação é o AuditLog `production_input:set` de hoje) e os dados do imóvel fixados (`productionContext`) | `previa-<requestId>-<readingId>-<12 primeiros hex do sha256 dos dados>` (a mesma planta com os mesmos dados não gera build de novo) | todas, depois do M2-R |
 | **prévia por clique** | AuditLog `worker:previa`, gravado pelo botão "Gerar prévia" (equipe) | o id desse AuditLog | todas (fluxo legado, gerar de novo) |
 | **publicar** | pedido em `approved` (só o gerente põe ali) | `publicar-<id do AuditLog status:approved>` (cada aprovação, um job) | todas |
 | **reverter** | AuditLog `worker:reverter` (admin) | o id desse AuditLog | todas |
@@ -225,7 +229,7 @@ peça de novo".
 O tipo cresce sem quebrar o que existe. Um job sem `stage` é um job manual de antes do M2.
 
 ```ts
-export type BuildJobStage = 'preview' | 'publish' | 'rollback'
+export type BuildJobStage = 'extract' | 'preview' | 'publish' | 'rollback'
 export type BuildJobStep = 'build' | 'channel' | 'check_channel' | 'register' | 'state' | 'assemble'
   | 'deploy' | 'check_live'
 
@@ -498,6 +502,10 @@ e as cotas do Firestore são os mesmos de hoje (§14).
       (`FirebaseExtended/action-hosting-deploy`) pede para deploy pelo CLI;
     - `roles/iam.serviceAccountTokenCreator` **sobre a própria conta**, para assinar o token do
       `users/worker` (§6);
+    - `roles/storage.objectAdmin` **só no bucket dos materiais**, para baixar o arquivo de até
+      2 GB direto para o disco, gravar as imagens leves e apagar o original depois da extração
+      ([materiais-da-solicitacao.md](materiais-da-solicitacao.md) §4). O registro de cada
+      passo vai pelas regras, como `users/worker`;
     - ficam de fora, de propósito, o `firebaseauth.admin` e o `run.viewer` da lista da action:
       o domínio da prévia não precisa de login, e o site de imóveis não tem rewrite para o Cloud
       Run;
@@ -589,7 +597,7 @@ e as cotas do Firestore são os mesmos de hoje (§14).
 | **Hosting, tráfego** | **360 MB por dia, dividido com os visitantes** | estimativa abaixo |
 
 Os materiais da solicitação (arquivos de obra, fotos, áudio) moram no Storage, que tem cota e
-custo próprios: [materiais-da-solicitacao.md](materiais-da-solicitacao.md) §7.
+custo próprios: [materiais-da-solicitacao.md](materiais-da-solicitacao.md) §9.
 
 Estimativa do tráfego do robô:
 
@@ -634,19 +642,24 @@ próprio do `users/worker` sem assinatura.
 | **M2-1** | **Contrato e regras.**<br>• `BuildJob` ampliado (§4) em `types.ts` e na proposta §3.<br>• Política do `worker` em `requests`, `properties` e `publications` (§1.2).<br>• Revisão do gerente para `internal_review` (§1.1).<br>• `worker:*` só da equipe e interno; `reverter` só do admin.<br>• `workerLeases` (equipe lê, ninguém escreve).<br>• Índice `auditLogs (action, timestamp)` | `regras.test.mjs`:<br>• `worker` em `production → agency_review`: só passa em imobiliária;<br>• `worker` em `approved → published`: passa nas duas;<br>• `worker` → `approved`: sempre negado;<br>• `worker` em `production`/`approved → internal_review`: passa;<br>• `worker` reverter: negado;<br>• `worker` inativo: tudo negado;<br>• gerente: `agency_review → internal_review` passa, com o AuditLog do texto e dos anexos;<br>• os casos de `worker:*` | testes verdes, e cada regra quebrada de propósito é pega (o padrão da T03) |
 | **M2-2** | **Trava, fila e identidade, sem build.**<br>• `tools/worker.mjs`: pegar, renovar e soltar a trava.<br>• As identidades da §3, com `create`.<br>• `planejarBuildJob` reaproveitado.<br>• Cancelar `pending`; reconciliar trava vencida.<br>• Lista fechada do que escreve pelo Admin SDK.<br>• `tools/buildjob.mjs criar` passa a gravar um `worker:previa`: um caminho só para criar job | relógio falso no emulador. **Prova de concorrência:**<br>• dois robôs ao mesmo tempo, só um pega a trava;<br>• o mesmo fato lido duas vezes dá um job;<br>• a mesma planta fixada de novo não gera job;<br>• aprovar duas vezes dá dois jobs;<br>• trava vencida é assumida;<br>• quem perde a trava para antes do passo seguinte;<br>• escrita fora da lista falha o teste | `npm run test:worker` (novo) verde no CI |
 | **M2-3** | **Prévia do legado, com deploy falso.**<br>• Os scripts de verdade num repositório de teste.<br>• O "canal" é uma pasta servida por um HTTP local; a conferência dos bytes é a de verdade.<br>• Montagem dupla.<br>• Decisão do próximo status e motivo (§1.2, §1.3) como `users/worker` | **a matriz** nas colunas "prévia pronta" e "portão falha na prévia", para as duas contas.<br>Os portões:<br>• `CHANNEL_MISMATCH`;<br>• `BUILD_NOT_REPRODUCIBLE` (montagem falsa que muda);<br>• `NAO_PUBLICAR`;<br>• `REQUEST_CHANGED`;<br>• `PRODUCTION_INPUT_UNSUPPORTED`.<br>O motivo sai no AuditLog interno, e o de status não leva texto técnico. Comandos sempre com `--config firebase.imoveis.json`. Textos sensíveis não aparecem na saída | testes verdes; nenhum deploy real |
-| **M2-4** | **Painel, prévia e revisão.**<br>• "Gerar prévia".<br>• Cartão do job (fila, rodando, último sinal, pronto, motivo em português).<br>• "Enviar para a construtora" a partir de `internal_review`.<br>• "Pedir revisão" do gerente: só texto até o Storage existir; fotos e áudio no MAT-4.<br>• Comandos à mão em "Sem o robô" | testes do painel no emulador:<br>• o motivo só aparece para a equipe;<br>• "Enviar" relê com `lerPreview`;<br>• "Pedir revisão" leva a `internal_review` e avisa a equipe | testes verdes; tela conferida no `painel:dev` |
+| **M2-4** | **Painel, prévia e revisão.**<br>• "Gerar prévia".<br>• Cartão do job (fila, rodando, último sinal, pronto, motivo em português).<br>• "Enviar para a construtora" a partir de `internal_review`.<br>• "Pedir revisão" do gerente: só texto até o Storage existir; fotos e áudio no MAT-7.<br>• Comandos à mão em "Sem o robô" | testes do painel no emulador:<br>• o motivo só aparece para a equipe;<br>• "Enviar" relê com `lerPreview`;<br>• "Pedir revisão" leva a `internal_review` e avisa a equipe | testes verdes; tela conferida no `painel:dev` |
 | **M2-5** | **Publicar, com "ar" e deploy falsos.**<br>• `estado.json`, reconstrução, build do canal, `montar-live`, portão de escopo, deploy, releitura.<br>• `registrarPublicacao` como `worker`.<br>• Medir tempo e memória | **a matriz** nas colunas "gerente aprova" e "portão falha ao publicar", para as duas contas.<br>**Prova de falhas:**<br>• `APPROVAL_MISMATCH`;<br>• `STATE_UNREADABLE` (404 nunca vira vazio);<br>• `STATE_CHANGED`;<br>• `OUT_OF_SCOPE`;<br>• `PREVIEW_GONE`;<br>• **o robô morre depois do deploy:** a execução seguinte registra e marca `succeeded`, sem novo deploy;<br>• **morre antes:** recomeça;<br>• 3ª falha dá `failed` → `internal_review` | testes verdes; tempo e memória anotados aqui |
 | **M2-6** | **Painel, publicação.** "Publicando…", "no ar" e o motivo de uma falha, sem botão de publicar; avisos da §9 | testes do painel: o cartão acompanha o job; nenhuma conta vê botão de publicar | testes verdes |
 | **M2-7** | **Reverter**, no robô e no painel | o esquema do M2-5 com o par anterior; reverter sem anterior dá `blocked` | testes verdes |
-| **M2-R** | **Build a partir da planta fixada.**<br>• O `e2e_leitura` ganha a saída de build (tour + maquete + `manifest.json` em `b/<id>/<build>/`), com a sonda.<br>• Lê os dados do imóvel fixados no pedido ([materiais-da-solicitacao.md](materiais-da-solicitacao.md) §4).<br>• **Precisa de especificação própria antes**: falta decidir como o tour acha o lote no mapa | o `tests/test_e2e_leitura.py` estendido; a matriz da prévia pelo gatilho da planta; `CONTEXT_INVALID` | a imobiliária vai da planta fixada ao `published` com só a aprovação do gerente |
+| **M2-R** | **Build a partir da planta fixada.**<br>• O `e2e_leitura` ganha a saída de build (tour + maquete + `manifest.json` em `b/<id>/<build>/`), com a sonda.<br>• Lê os dados do imóvel fixados no pedido, inclusive o lote vindo do endereço ([materiais-da-solicitacao.md](materiais-da-solicitacao.md) §5 e §6).<br>• O tour recorta o mapa em volta desse lote, sem mexer no dado da cidade no git.<br>• **Precisa de especificação própria antes** | o `tests/test_e2e_leitura.py` estendido; a matriz da prévia pelo gatilho da planta; `CONTEXT_INVALID` | a imobiliária vai da planta fixada ao `published` com só a aprovação do gerente |
 | **M2-8** | **Ligar de verdade**, depois do religar, com o site de imóveis no ar e com `estado.json`. `worker.yml`, provedor de identidade, conta de serviço e `users/worker`: cada um é ação em produção, com autorização | 1º: uma execução com fila vazia; conferir o registro público. 2º: uma **prévia** do Cedros (imobiliária), que vai ao gerente sem live. 3º: um ciclo inteiro, com os cliques do usuário | ciclo inteiro sem comando à mão; registro sem dado sensível; anotar aqui o tempo real |
 | **M2-9** | **Depois, se precisar:** cópia no servidor (§14, perto de ~15 imóveis); plano B no Cloud Run (§11) | cada um com o seu teste | — |
 | **M2-10** | **Inspetor por IA** (ideia do usuário, para depois).<br>• Um portão a mais entre "prévia pronta" e o gerente: um agente olha a casa gerada (screenshots do tour e da maquete, a planta, os materiais) e diz "passa" ou "não passa, porque…".<br>• "Não passa" segue o mesmo caminho de qualquer portão: `internal_review` + motivo.<br>• Entra como portão, sem mudar o resto do fluxo | um conjunto de casas boas e ruins conhecidas; o inspetor tem de acertar as ruins antes de valer | decidir depois do M2-8, com dados de casos reais |
 
-**Depende de:** a pilha #86→#91 na `main` (o `agencies.kind` é do #87); para o M2-8, também o
-religar dos passos 1–4. O ciclo automático pela planta depende do M2-R e dos materiais (MAT-3 e
-MAT-5). Os anexos da revisão (fotos e áudio) dependem do Storage, que pede o Blaze. O resto do M2
-não depende do Blaze.
+**Depende de:**
+
+- a pilha #86→#91 na `main` (o `agencies.kind` é do #87);
+- para o M2-8, também o religar dos passos 1–4;
+- para o ciclo automático pela planta, o M2-R e os materiais (MAT-3 a MAT-6);
+- para a extração dos arquivos e os anexos da revisão (fotos e áudio), o Storage, que pede o
+  Blaze.
+
+O resto do M2 não depende do Blaze.
 
 ---
 
@@ -660,6 +673,10 @@ não depende do Blaze.
    arquivo de obra ([materiais-da-solicitacao.md](materiais-da-solicitacao.md)).
 4. **O botão por conta saiu.** Imobiliária vai direto; o gerente aprova ou pede revisão com
    texto, fotos e áudio. O inspetor por IA fica para depois (M2-10).
+5. **Arquivos:** bucket nos EUA; o robô processa um por vez, extrai e apaga o original. As
+   maquetes ficam, por um tempo a confirmar
+   ([materiais-da-solicitacao.md](materiais-da-solicitacao.md) §11).
+6. **Endereço → lote no mapa, automático** (materiais §6).
 
 **Ainda em aberto:**
 
@@ -667,5 +684,5 @@ não depende do Blaze.
    **"Aprovar"**: nada vai ao ar só porque o gerente não respondeu. Se a ideia era publicar
    sozinho depois de um prazo sem resposta, é outra regra, e muda a garantia "nada vai ao
    público sem o gerente".
-2. **O lote no mapa** para imóveis novos (M2-R): o tour precisa saber onde o imóvel fica no mapa
-   da cidade. O pedido traz o endereço, mas falta decidir quem liga o endereço ao lote.
+2. As perguntas dos materiais (materiais §11): o arquivo que o robô não consegue ler, as
+   imagens leves, o tempo das maquetes, o ponto no mapa geral e a IA.
