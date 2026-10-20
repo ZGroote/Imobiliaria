@@ -169,18 +169,41 @@ export interface RequestAsset {           // requestAssets/{id}
 
 export type BuildJobStatus = 'pending' | 'running' | 'succeeded' | 'blocked' | 'failed' | 'cancelled'
 
-export interface BuildJob {               // buildJobs/{id}; ferramenta/worker Admin SDK
-  id: string
-  requestId: string; propertyId: string; pipelineUnitId: string; agencyId: string
-  productionMode: ProductionMode
-  requestedBy: string; createdBy: string
+// M2 (tasks/painel/m2-worker.md §3 e §4): a etapa do robô e o que disparou o job.
+export type BuildJobStage = 'extract' | 'preview' | 'publish' | 'rollback' | 'retire'
+export type BuildJobStep = 'build' | 'channel' | 'check_channel' | 'register' | 'state' | 'assemble'
+  | 'deploy' | 'check_live'
+
+export interface BuildJob {               // buildJobs/{id}; escrita só pelo robô (Admin SDK)
+  id: string                              // M2: a identidade do fato que disparou (m2-worker.md §3)
+  stage?: BuildJobStage                   // ausente = job manual de antes do M2 (tools/buildjob.mjs criar)
+  trigger?: 'reading' | 'approval' | 'click'
+  requestId?: string                      // rollback e retire não têm pedido
+  propertyId: string; pipelineUnitId?: string; agencyId: string
+  productionInput?: ProductionInput       // a entrada fixada que o job copiou do pedido
+  productionMode?: ProductionMode
+  requestedBy?: string; createdBy: string // createdBy = quem clicou, ou 'worker' no gatilho automático
+  policy?: { kind: TipoDeConta }          // o tipo da conta, lido na hora da decisão
   status: BuildJobStatus
+  attempt?: number                        // 1 a 3
+  step?: BuildJobStep                     // onde está ou onde parou
+  lease?: { owner: string; expiresAt: Timestamp }
+  heartbeatAt?: Timestamp
+  cancelRequested?: boolean
+  commit?: string                         // a main que o robô usou
   inputSha256?: string
   build?: string; manifestSha256?: string; reportPath?: string
+  tourUrl?: string; maqueteUrl?: string; previewExpiresAt?: Timestamp
+  stateBeforeSha256?: string; stateAfterSha256?: string
+  nextStatus?: RequestStatus              // para onde o robô levou o pedido
   error?: { code?: string; type?: string; message: string }
   startedAt?: Timestamp; finishedAt?: Timestamp
   lastAuditId?: string
   createdAt: Timestamp; updatedAt: Timestamp
+}
+
+export interface WorkerLease {            // workerLeases/{id}; a trava do robô (m2-worker.md §5)
+  owner: string; jobId?: string; expiresAt: Timestamp
 }
 
 export interface AuditLog {               // auditLogs/{id}; só cresce

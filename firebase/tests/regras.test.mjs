@@ -822,3 +822,140 @@ test('M1-E revisão. legado também exige o imóvel na agência do pedido para i
   await semRegras((f) => updateDoc(doc(f, 'properties/propA'), { agencyId: 'agA' }));
   await assertSucceeds(mudaStatus(db('op'), 'op', 'legado', 'production'));
 });
+
+// ── M2-1: o robô (users/worker) e os pedidos de trabalho (tasks/painel/m2-worker.md §1.2 e §3) ──
+
+// O robô entra como um usuário do painel: as regras de um clique valem para ele, mais a política dele.
+// A conta B vira construtora; A continua imobiliária (conta sem tipo).
+const comRobo = (extra = {}) => semRegras(async (f) => {
+  await setDoc(doc(f, 'users/worker'), pessoa('platform_admin', null, extra));
+  await setDoc(doc(f, 'agencies/agB'), { name: 'Construtora Fictícia B (dev)', kind: 'construtora', active: true, createdAt: T, updatedAt: T });
+  await setDoc(doc(f, 'requests/prodA'), pedido('agA', 'corA', 'production', { propertyId: 'propA', productionMode: 'leve' }));
+  await setDoc(doc(f, 'requests/prodA2'), pedido('agA', 'corA', 'production', { propertyId: 'propA', productionMode: 'leve' }));
+  await setDoc(doc(f, 'requests/prodB'), pedido('agB', 'corB', 'production', { propertyId: 'propB', productionMode: 'leve' }));
+  await setDoc(doc(f, 'requests/aprB'), pedido('agB', 'corB', 'approved', { propertyId: 'propB', preview: PREVIEW,
+    approvedBuild: BUILD, approvedManifestSha256: MANIFESTO, approvedBy: 'gerB', approvedAt: T }));
+});
+const robo = () => db('worker');
+// O mesmo batch de registrarPublicacao (painel/src/lib/publicar.ts), em qualquer agência.
+function publicaNaAgencia(f, uid, rid, pid, agencyId) {
+  const b = writeBatch(f);
+  const log = doc(collection(f, 'auditLogs'));
+  const pub = doc(collection(f, 'publications'));
+  b.set(log, { agencyId, userId: uid, entityType: 'request', entityId: rid, action: 'status:published', visibility: 'agency', timestamp: now() });
+  b.set(pub, { propertyId: pid, agencyId, requestId: rid, action: 'publish', build: BUILD, publishedBy: uid, publishedAt: now() });
+  b.update(doc(f, 'requests', rid), { status: 'published', lastAuditId: log.id, updatedAt: now() });
+  b.update(doc(f, 'properties', pid), { publishedBuild: BUILD, publishedRequestId: rid, publishedAt: now(),
+    lastPublicationId: pub.id, updatedAt: now() });
+  return b.commit();
+}
+
+test('M2-1 a. robô na imobiliária: prévia direto para a imobiliária, publica o aprovado, cai para a revisão interna', async () => {
+  await comRobo();
+  const f = robo();
+  await assertSucceeds(mudaStatus(f, 'worker', 'prodA', 'agency_review', { preview: PREVIEW }));
+  await assertSucceeds(mudaStatus(f, 'worker', 'prodA2', 'internal_review'));   // portão falhou na prévia
+  await assertSucceeds(publicaNaAgencia(f, 'worker', 'aprA', 'propA', 'agA'));
+  // publicado, o pedido não recebe mais nada do robô sem mudar de status (o admin ainda edita)
+  await assertFails(updateDoc(doc(f, 'requests/aprA'), { notes: 'x', updatedAt: now() }));
+  await assertSucceeds(updateDoc(doc(db('admin'), 'requests/aprA'), { notes: 'x', updatedAt: now() }));
+});
+
+test('M2-1 b. robô na construtora: prévia só para a revisão interna, nunca direto; publica o aprovado', async () => {
+  await comRobo();
+  const f = robo();
+  await assertFails(mudaStatus(f, 'worker', 'prodB', 'agency_review', { preview: PREVIEW }, { agencyId: 'agB' }));
+  await assertSucceeds(mudaStatus(f, 'worker', 'prodB', 'internal_review', { preview: PREVIEW }, { agencyId: 'agB' }));
+  await assertSucceeds(mudaStatus(db('op'), 'op', 'prodB', 'agency_review', {}, { agencyId: 'agB' }));   // a equipe libera
+  await assertSucceeds(publicaNaAgencia(f, 'worker', 'aprB', 'propB', 'agB'));
+});
+
+test('M2-1 c. o robô não aprova, não reverte e só anda pelos caminhos dele', async () => {
+  await comRobo();
+  const f = robo();
+  await assertFails(mudaStatus(f, 'worker', 'revA', 'approved',
+    { approvedBuild: BUILD, approvedManifestSha256: MANIFESTO, approvedBy: 'worker', approvedAt: now() }));
+  // cada um destes o admin faz; o robô não
+  for (const [rid, para] of [['prodA', 'cancelled'], ['revA', 'production'], ['reqA', 'accepted'],
+                             ['revA', 'internal_review'], ['aprA', 'production']]) {
+    await assertFails(mudaStatus(f, 'worker', rid, para));
+  }
+  await assertFails(updateDoc(doc(f, 'requests/prodA'), { notes: 'x', updatedAt: now() }));   // sem mudar o status
+  await assertSucceeds(updateDoc(doc(db('admin'), 'requests/prodA'), { notes: 'x', updatedAt: now() }));
+
+  // URLs do imóvel e reversão são do admin
+  const urls = (g, uid) => {
+    const b = writeBatch(g);
+    const log = doc(collection(g, 'auditLogs'));
+    b.set(log, { agencyId: 'agA', userId: uid, entityType: 'property', entityId: 'propA', action: 'urls', visibility: 'internal', timestamp: now() });
+    b.update(doc(g, 'properties/propA'), { maqueteUrl: 'https://x.example/maquete', lastAuditId: log.id, updatedAt: now() });
+    return b.commit();
+  };
+  await assertFails(urls(f, 'worker'));
+  await assertSucceeds(urls(db('admin'), 'admin'));
+  await publicadoComAnterior();
+  const b = writeBatch(f);
+  const r = doc(collection(f, 'publications'));
+  b.set(r, { propertyId: 'propA', agencyId: 'agA', requestId: 'reqAntigo', action: 'rollback', build: '000000000000',
+    previousBuild: BUILD, publishedBy: 'worker', publishedAt: now() });
+  b.update(doc(f, 'properties/propA'), { publishedBuild: '000000000000', previousBuild: BUILD,
+    publishedRequestId: 'reqAntigo', previousRequestId: 'aprA', publishedAt: now(), lastPublicationId: r.id, updatedAt: now() });
+  await assertFails(b.commit());
+  await assertSucceeds(reverte());
+});
+
+test('M2-1 d. o robô não administra: conta, usuário, convite, imóvel novo e pedido novo', async () => {
+  await comRobo();
+  const tenta = (uid) => {
+    const f = db(uid);
+    return [
+      () => updateDoc(doc(f, 'agencies/agA'), { name: 'Outro nome', updatedAt: now() }),
+      () => updateDoc(doc(f, 'users/corA'), { role: 'agency_manager', updatedAt: now() }),
+      () => setDoc(doc(f, 'invites/outro@a.test'), { email: 'outro@a.test', name: 'Outro', role: 'agent', agencyId: 'agA', createdBy: uid, createdAt: now() }),
+      () => setDoc(doc(f, 'properties/nova-' + uid), { agencyId: 'agA', title: 'Nova', status: 'active', createdAt: now(), updatedAt: now() }),
+      () => setDoc(doc(f, 'requests/novo-' + uid), pedido('agA', uid, 'submitted', { productionMode: 'leve', createdAt: now(), updatedAt: now() })),
+      () => deleteDoc(doc(f, 'invites/novo@a.test')),
+    ];
+  };
+  for (const acao of tenta('worker')) await assertFails(acao());
+  for (const acao of tenta('admin')) await assertSucceeds(acao());     // o admin de verdade, sim
+});
+
+test('M2-1 e. robô inativo: as regras negam o que ele escreve', async () => {
+  await comRobo({ active: false });
+  await assertFails(mudaStatus(robo(), 'worker', 'prodA', 'agency_review', { preview: PREVIEW }));
+  await assertFails(publicaNaAgencia(robo(), 'worker', 'aprA', 'propA', 'agA'));
+});
+
+test('M2-1 f. gerente pede revisão: o pedido volta para a revisão interna (produção continua valendo)', async () => {
+  await assertSucceeds(mudaStatus(db('gerA'), 'gerA', 'revA', 'internal_review'));
+  await assertFails(mudaStatus(db('corA'), 'corA', 'revB', 'internal_review', {}, { agencyId: 'agB' }));
+  await assertFails(mudaStatus(db('gerA'), 'gerA', 'revB', 'internal_review', {}, { agencyId: 'agB' }));   // de outra agência
+  await assertFails(mudaStatus(db('gerA'), 'gerA', 'aprA', 'internal_review'));                          // só de agency_review
+  await assertFails(mudaStatus(db('gerB'), 'gerB', 'revB', 'internal_review', { notes: 'x' }, { agencyId: 'agB' }));
+  await assertSucceeds(mudaStatus(db('gerB'), 'gerB', 'revB', 'internal_review', {}, { agencyId: 'agB' }));
+});
+
+test('M2-1 g. pedido de trabalho (worker:*): só a equipe, sempre interno; reverter, só o admin', async () => {
+  const pede = (uid, action, visibility = 'internal') => setDoc(doc(collection(db(uid), 'auditLogs')),
+    { agencyId: 'agA', userId: uid, entityType: 'request', entityId: 'reqA', action, visibility, timestamp: now() });
+  await assertSucceeds(pede('op', 'worker:previa'));
+  await assertSucceeds(pede('op', 'worker:cancelar'));
+  await assertSucceeds(pede('admin', 'worker:reverter'));
+  await assertFails(pede('op', 'worker:reverter'));
+  await assertFails(pede('op', 'worker:previa', 'agency'));
+  await assertFails(pede('gerA', 'worker:previa', 'agency'));
+  await assertFails(pede('corA', 'worker:cancelar', 'agency'));
+  await assertSucceeds(pede('gerA', 'comentario', 'agency'));   // o resto do auditLogs não muda
+});
+
+test('M2-1 h. workerLeases: a equipe lê; pelo cliente ninguém escreve, nem o robô', async () => {
+  await semRegras((f) => setDoc(doc(f, 'workerLeases/global'), { owner: 'gha-1-1', jobId: 'jobA', expiresAt: T }));
+  await comRobo();
+  for (const uid of ['admin', 'op']) {
+    await assertSucceeds(getDoc(doc(db(uid), 'workerLeases/global')));
+    await assertFails(setDoc(doc(db(uid), 'workerLeases/global'), { owner: uid }));
+  }
+  await assertFails(setDoc(doc(robo(), 'workerLeases/global'), { owner: 'worker' }));
+  for (const uid of ['gerA', 'corA']) await assertFails(getDoc(doc(db(uid), 'workerLeases/global')));
+});

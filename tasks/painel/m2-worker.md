@@ -672,6 +672,20 @@ próprio do `users/worker` sem assinatura.
 | **M2-9** | **Depois, se precisar:** cópia no servidor (§14, perto de ~15 imóveis); plano B no Cloud Run (§11) | cada um com o seu teste | — |
 | **M2-10** | **A IA gerente** (decidido em 20/10): ler, rascunhar a planta, avaliar a prévia, diagnosticar falha. Os incrementos IA-1 a IA-8 estão em [ia-da-criacao.md](ia-da-criacao.md) §8; o IA-1 (o gatilho por evento; o repositório já foi fechado) vem antes do M2-8 | o modo sombra e os conjuntos de referência de lá | a decisão ligada etapa por etapa, com os números |
 
+**Andamento:**
+
+- **M2-1 (20/10), em PR, sem deploy das regras.**
+  - Política do `worker` em pedido, imóvel e publicação.
+  - Gerente pede revisão para `internal_review`, e `production` continua valendo até o painel
+    mudar no M2-4.
+  - `worker:*` só da equipe e interno.
+  - `workerLeases`, índice `auditLogs (action, timestamp)` e o tipo `BuildJob` da §4.
+  - A mais, o robô não grava conta, usuário, convite, imóvel novo nem pedido novo.
+  - **Testes:** 8 testes novos (52 de regras no total, todos passando).
+  - **Quebra de propósito:** 16 de 16 regras novas, todas pegas.
+  - **Ficam de fora, de propósito:** a `vitrine` (o PL-3 precisa que o robô grave nela) e o
+    estoque (`salesInventory`), que o robô não toca.
+
 **Depende de:**
 
 - a pilha #86→#91 na `main` (o `agencies.kind` é do #87);
