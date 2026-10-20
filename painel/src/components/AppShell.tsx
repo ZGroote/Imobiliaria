@@ -3,10 +3,11 @@ import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { doc } from 'firebase/firestore'
+import { AtivarAvisos, contagem, usePedidosNovos } from './AvisoDePedidos'
 import { db } from '@/lib/firebase'
 import { itemAtivo, menuDoPapel } from '@/lib/menu'
 import { sair } from '@/lib/session'
-import { ROTULO_PAPEL, tipoDaConta, type Agency, type User } from '@/lib/types'
+import { interno, ROTULO_PAPEL, tipoDaConta, type Agency, type User } from '@/lib/types'
 import { useDoc } from '@/lib/useFirestore'
 
 export function AppShell({ perfil, children }: { perfil: User; children: ReactNode }) {
@@ -15,6 +16,8 @@ export function AppShell({ perfil, children }: { perfil: User; children: ReactNo
   const conta = useDoc<Agency>(perfil.agencyId ? `conta:${perfil.agencyId}` : null, () => doc(db, 'agencies', perfil.agencyId!))
   const itens = menuDoPapel(perfil.role, conta.dado ? tipoDaConta(conta.dado) : undefined)
   const ativo = itemAtivo(itens, caminho)
+  const equipe = interno(perfil.role)
+  const novos = usePedidosNovos(equipe)
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
@@ -29,8 +32,13 @@ export function AppShell({ perfil, children }: { perfil: User; children: ReactNo
               className={`whitespace-nowrap rounded-md px-3 py-2 text-sm ${ativo === i.href
                 ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'}`}>
               {i.rotulo}
+              {i.href === '/admin/requests' && novos > 0 && (
+                <span className="ml-2 rounded-full bg-amber-500 px-2 py-0.5 text-xs font-semibold text-white"
+                  title="Pedidos novos esperando aceite">{contagem(novos)}</span>
+              )}
             </Link>
           ))}
+          {equipe && <AtivarAvisos />}
           <button onClick={sair} className="rounded-md px-3 py-2 text-left text-sm text-slate-500 hover:bg-slate-100">
             Sair
           </button>

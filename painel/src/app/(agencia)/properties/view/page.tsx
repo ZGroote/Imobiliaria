@@ -28,7 +28,7 @@ function Imovel({ id }: { id: string }) {
       <Estado r={r}>
         {p && (
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <a className="btn" href={'/imoveis/planta?id='+encodeURIComponent(p.id)}>Editar planta e versões</a>
+            {/* A imobiliária só pede: a planta e o 3D são da equipe (o serviço de leituras recusa a conta). */}
             <NoAr p={p} podeEditar={gerente} comPreco={conta.dado ? tipoDaConta(conta.dado) === 'imobiliaria' : false} />
             <LinksPublicos p={p} />
             <Dados p={p} />

@@ -12,8 +12,9 @@ const body={leituraJson,contextoJson,moveisJson,propertyId,agencyId};
 const origin='http://painel.test';
 const db={doc:path=>({get:async()=>({data:()=>path==='users/op'?{active:true,role:'operator'}:
   path==='users/other'?{active:true,role:'agent',agencyId:'outra'}:
+  path==='users/gerente'?{active:true,role:'agency_manager',agencyId}:
   path===`properties/${propertyId}`?{agencyId}:undefined})})};
-const auth={verifyIdToken:async token=>{if(['op','other'].includes(token))return{uid:token};throw Error('invalid');}};
+const auth={verifyIdToken:async token=>{if(['op','other','gerente'].includes(token))return{uid:token};throw Error('invalid');}};
 
 async function servidor(t,allowDemo=false){
   const server=criarServidorLeituras({db,auth,origin,allowDemo});
@@ -42,6 +43,7 @@ test('geração exige autenticação, agência autorizada e contexto no modo cad
   const url=await servidor(t);
   assert.equal((await post(url,body)).status,401);
   assert.equal((await post(url,body,'other')).status,403);
+  assert.equal((await post(url,body,'gerente')).status,403,'a imobiliária só pede: nem o gerente do imóvel gera');
   assert.equal((await post(url,{...body,contextoJson:undefined},'op')).status,422);
   const r=await post(url,{...body,contextoJson:JSON.stringify({...contexto,propertyId:'outro'})},'op');
   assert.equal(r.status,422);

@@ -9,10 +9,12 @@ import type {Session} from '@/components/construtor-planta/modelo'
 import {db,auth} from '@/lib/firebase'
 import {useDoc} from '@/lib/useFirestore'
 import {listarVersoes,salvarVersao,requisitarMaquete3D,type PropertyReading} from '@/lib/leituras'
+import {PAPEIS_DA_AREA} from '@/lib/acesso'
 import type {Property} from '@/lib/types'
 
+// Só a equipe: a imobiliária pede pela solicitação e a equipe desenha e gera (tools/leitura-api.mjs trava igual).
 export default function PlantaDoImovel(){
-  return <Portao papeis={['platform_admin','operator','agency_manager','agent']}>
+  return <Portao papeis={PAPEIS_DA_AREA.admin}>
     {perfil=><ComId>{id=><Imovel key={perfil.id+':'+id} id={id}/>}</ComId>}
   </Portao>
 }
