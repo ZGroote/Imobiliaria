@@ -189,5 +189,12 @@ __pycache__/
 /experimentos/liv-experimental-2026-10-14/splat/apartamento-continuo.sog
 /experimentos/liv-experimental-2026-10-14/splat/piloto-continuo.sog
 /experimentos/liv-experimental-2026-10-14/splat/piloto-previa-gpu.sog
+# Splats por cômodo (19/10): saíram do git pela trava de tamanho; o Tour no ar usa old60k e jateado3
+/experimentos/liv-experimental-2026-10-14/splat/sala.sog
+/experimentos/liv-experimental-2026-10-14/splat/quarto.sog
+/experimentos/liv-experimental-2026-10-14/splat/suite.sog
+/experimentos/liv-experimental-2026-10-14/splat/varanda.sog
+/experimentos/liv-experimental-2026-10-14/splat/banho-social.sog
+/experimentos/liv-experimental-2026-10-14/splat/banho-suite.sog
 /experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/mapa-giro-avenida/cidade-recortada.json
 /experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/buffers-paridade-nativa-final/runtime.json

@@ -117,6 +117,11 @@ marcadas "saiu", e as provas estão nas seções do fim deste documento.
 | 1,13 | `sao-carlos/dados/portoes.json` | E | `pipeline/portoes.py` (etapa 6b) | a montagem | todo imóvel | não |
 | 1,10 | `moveis/moveis_lib.json` | E, entrou em 19/10 (estilos de sofá) | `moveis/moveis.py` (Blender) | o interior (`furniture-param.js`) e `pipeline/mobiliar.py` | todo imóvel com móvel | não testado |
 | 1,10 | `v1.5/miniaturas/castanheiras_blender/castanheiras.blend` | F, leve | `modelar_castanheiras.py` | quem edita o modelo | não | não testado |
+| 2,60 | `experimentos/liv-experimental-2026-10-14/splat/lib/spark.module.min.js` | E, terceiros, entrou em 19/10 | biblioteca Spark (MIT), copiada sem build | `splat/visita.html` e `piloto-render/web/index.html` (importmap) | não | sim, pelo npm (`@sparkjsdev/spark`); a versão não foi registrada |
+| 2,42 | `experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/buffers-paridade-nativa-qualificada/runtime.json` | I, evidência, entrou em 19/10 | `qa_instancias.py --referencia 40317f5` | o `BUFFERS.md` (link da prova) | não | o comando está no `BUFFERS.md`; não testado |
+| 2,42 | `experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/buffers-paridade-fallback-qualificada/runtime.json` | I, evidência, entrou em 19/10 | `qa_instancias.py --referencia 40317f5 --decoder-nativo ausente` | o `BUFFERS.md` (link da prova) | não | o comando está no `BUFFERS.md`; não testado |
+| 1,34 | `experimentos/liv-experimental-2026-10-14/splat/lib/three/build/three.core.js` | E, terceiros, entrou em 19/10 | three r180 (MIT), copiado sem build | `splat/lib/three/build/three.module.js` | não | sim, pelo npm (`three@0.180.0`) |
+| 40,57 (6) | `experimentos/liv-experimental-2026-10-14/splat/{sala,quarto,suite,varanda,banho-social,banho-suite}.sog` | **I, saiu em 19/10**, sem ir para o repositório privado | treino por cômodo (`piloto-render/nuvem/comodos.sh`) | o Tour do experimento, por `splat/comodos.json` | não | não: treino em GPU no servidor. Ficam no disco e no `.gitignore`; o Tour publicado usa `old60k.sog` e `jateado3.sog`, que já estavam fora do git |
 | 15,90 (239) | `v16-moveis/publicado/mapa/quintais/d9ef5bf4b34f/*.bin` | E | `exteriores/v1/dividir_terrenos.py` | o site do mapa; `publicar_imovel.py` e `preparar_piloto.py` copiam para o build por imóvel | o prefixo vai no manifest, e cada arquivo vai para o `estado.json` na publicação | não testado |
 
 ## Provas de regenerabilidade
@@ -237,7 +242,7 @@ Para só conferir o que está no disco, sem rede: `python tools/baixar_artefatos
 
 - um arquivo versionado acima de **1 MiB** não está na lista `GRANDES`;
 - um arquivo da lista **cresce além do teto** dele, que é o tamanho de hoje arredondado para cima até o MiB inteiro;
-- o repositório inteiro passa de **300 MiB** (eram 280,3 na base; 238,3 depois do #37 e 213,5 depois do #39);
+- o repositório inteiro passa de **300 MiB** (eram 280,3 na base; 238,3 depois do #37 e 213,5 depois do #39; 273,9 na `liv-melhorado` em 19/10, depois da saída dos 6 `.sog`);
 - algum arquivo passa de 100 MiB, o limite duro do GitHub;
 - uma entrada da lista não existe mais, ou deixou de estar acima de 1 MiB. A lista é o inventário exato, então quando um arquivo sai ou encolhe, a linha dele sai da lista e do inventário no mesmo PR.
 

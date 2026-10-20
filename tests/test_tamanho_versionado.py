@@ -80,6 +80,14 @@ EXCECOES = {
         (2, 'runtime', 'Portoes consumidos pela montagem da cidade.'),
     'v1.5/miniaturas/castanheiras_blender/castanheiras.blend':
         (2, 'fonte', 'Projeto editavel LEVE; equivalencia de regeneracao nao provada.'),
+    'experimentos/liv-experimental-2026-10-14/splat/lib/spark.module.min.js':
+        (3, 'runtime', 'Biblioteca Spark (MIT) importada pela visita em splat; terceiros, recuperavel pelo npm.'),
+    'experimentos/liv-experimental-2026-10-14/splat/lib/three/build/three.core.js':
+        (2, 'runtime', 'three r180 (MIT) importado pela visita em splat; terceiros, recuperavel pelo npm.'),
+    'experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/buffers-paridade-nativa-qualificada/runtime.json':
+        (3, 'gerado', 'Evidencia da paridade (decoder nativo) citada no BUFFERS.md, que traz o comando do qa_instancias.py.'),
+    'experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/buffers-paridade-fallback-qualificada/runtime.json':
+        (3, 'gerado', 'Evidencia da paridade (fallback) citada no BUFFERS.md, que traz o comando do qa_instancias.py.'),
 }
 GRANDES = {c: dados[0] for c, dados in EXCECOES.items()}
 
