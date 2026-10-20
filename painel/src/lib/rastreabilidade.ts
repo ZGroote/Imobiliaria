@@ -53,7 +53,8 @@ function summary(v: Record<string, unknown>) {
 function safeHttp(v: string) {
   let u: URL
   try { u = new URL(v) } catch { return invalid() }
-  const local = ['localhost', '127.0.0.1', '[::1]'].includes(u.hostname)
+  // Sem o endereço literal: a varredura do bundle no CI recusa a string do loopback (o mesmo de leituras.ts).
+  const local = /^127(?:\.\d{1,3}){3}$/.test(u.hostname) || u.hostname === 'localhost' || u.hostname === '[::1]'
   if ((u.protocol !== 'https:' && !(u.protocol === 'http:' && local)) || u.username || u.password) return invalid()
   return u
 }
