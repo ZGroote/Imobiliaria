@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reverse: auditoria de código"
+  short_description: "Revisar Firebase, permissões e isolamento de dados"
+  default_prompt: "Use $reverse-code-audit para revisar a segurança das regras Firebase e do isolamento entre imobiliárias."
