@@ -69,10 +69,10 @@ export function gerarMaquete(text, contextoJson,options={}){
     child.stdin.on('error',()=>{});child.stdin.end(JSON.stringify(payload))
   })
 }
+// A imobiliária só pede; quem desenha a planta e gera o 3D é a equipe (tasks/painel/mudancas-futuras.md §1).
+// Esconder o botão no painel não basta: a trava é aqui, para /property-readings e /gerar-maquete.
 function authorize(user,property,agencyId){
-  if(user?.active!==true||!property||property.agencyId!==agencyId
-    ||(!['platform_admin','operator'].includes(user.role)
-       &&!(['agency_manager','agent'].includes(user.role)&&user.agencyId===agencyId)))
+  if(user?.active!==true||!property||property.agencyId!==agencyId||!['platform_admin','operator'].includes(user.role))
     throw fail(403,'Sem permissão para este imóvel/agência.')
 }
 export async function criarVersao(db,uid,input){

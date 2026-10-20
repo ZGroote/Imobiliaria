@@ -20,8 +20,8 @@ after(async()=>{await sairDeTodos();await new Promise(r=>server.close(r));});
 async function cliente(uid){const c=await entrar(uid);return {...c,token:await clientAuth(clientApps().at(-1)).currentUser.getIdToken()};}
 const payload=(extra={})=>({saveId:randomUUID(),propertyId:'cedros',agencyId:'agA',leituraJson,...extra});
 const post=(token,data,method='POST')=>fetch(url,{method,headers:{authorization:`Bearer ${token}`,'content-type':'application/json',origin:'http://painel.test'},body:method==='POST'?JSON.stringify(data):undefined});
-test('usuário autenticado salva v1, recarrega via lista e salva v2 mantendo v1 intacta',async()=>{
-  const c=await cliente('corA'),p=payload();
+test('a equipe salva v1, recarrega via lista e salva v2 mantendo v1 intacta',async()=>{
+  const c=await cliente('op'),p=payload();
   const v1=await salvarVersao(url,c.token,p);const original=(await db.doc('propertyReadings/'+v1.id).get()).data();
   const listado=await listarVersoes(c.db,'cedros','agA');assert.equal(listado[0].version,1);
   const next=JSON.parse(leituraJson);next.revision++;next.rooms[0].name='Sala revisada';
@@ -31,19 +31,21 @@ test('usuário autenticado salva v1, recarrega via lista e salva v2 mantendo v1 
   assert.equal((await post(c.token,p)).status,200);assert.equal((await listarVersoes(c.db,'cedros','agA')).length,2);
   assert.equal((await post(c.token,{...p,leituraJson:JSON.stringify(next)})).status,409);
 });
-test('outra agência, inativo, sem token, imóvel ausente e agência incompatível não gravam',async()=>{
-  const b=await cliente('gerB'),a=await cliente('gerA');
+test('imobiliária, outra agência, inativo, sem token, imóvel ausente e agência incompatível não gravam',async()=>{
+  const b=await cliente('gerB'),a=await cliente('op');
   for(const [token,p] of [[b.token,payload()],[a.token,payload({agencyId:'agB'})],[a.token,payload({propertyId:'ausente'})],['invalido',payload()]])
     assert.ok([401,403].includes((await post(token,p)).status));
+  // A imobiliária só pede: nem gerente nem corretor do próprio imóvel gravam leitura.
+  for(const uid of ['gerA','corA'])assert.equal((await post((await cliente(uid)).token,payload())).status,403,uid);
   await assert.rejects(listarVersoes(b.db,'cedros','agA'),/permission/i);
   const first=(await db.collection('propertyReadings').limit(1).get()).docs[0];
   await assert.rejects(getDoc(doc(b.db,'propertyReadings',first.id)),/permission/i);
-  await db.doc('users/gerA').update({active:false});assert.equal((await post(a.token,payload())).status,403);
-  await db.doc('users/gerA').update({active:'true'});assert.equal((await post(a.token,payload())).status,403);
-  await db.doc('users/gerA').update({active:true});
+  await db.doc('users/op').update({active:false});assert.equal((await post(a.token,payload())).status,403);
+  await db.doc('users/op').update({active:'true'});assert.equal((await post(a.token,payload())).status,403);
+  await db.doc('users/op').update({active:true});
 });
 test('Admin e operador usam a mesma autorização, updates/deletes e writes diretas sempre negados',async()=>{
-  for(const uid of ['admin','op','gerA','corA']){
+  for(const uid of ['admin','op']){
     const c=await cliente(uid),saved=await salvarVersao(url,c.token,payload());
     const ref=doc(c.db,'propertyReadings',saved.id);
     await assert.rejects(updateDoc(ref,{revision:999}),/permission/i);
@@ -53,7 +55,7 @@ test('Admin e operador usam a mesma autorização, updates/deletes e writes dire
   }
 });
 test('documento inválido não chega ao Firestore; campos de autoridade não vêm do cliente',async()=>{
-  const c=await cliente('corA'),before=(await db.collection('propertyReadings').get()).size;
+  const c=await cliente('op'),before=(await db.collection('propertyReadings').get()).size;
   const bad=JSON.parse(leituraJson);bad.rooms[0].widthMm=-1;
   const r=await post(c.token,payload({leituraJson:JSON.stringify(bad)}));assert.equal(r.status,422);
   assert.equal((await db.collection('propertyReadings').get()).size,before);
@@ -78,7 +80,7 @@ test('histórico paginado recupera versões antigas sem repetir a fronteira',asy
 });
 
 test('snapshot guarda pisos/móveis com hash próprio e retry recusa companion diferente',async()=>{
-  const c=await cliente('corA'),leitura=JSON.parse(leituraJson);
+  const c=await cliente('op'),leitura=JSON.parse(leituraJson);
   const furniture=[{id:'m1',tipoCatalogo:'sofa-3',tipo3D:'sofa',nome:'Sofá',xMm:1000,yMm:1000,widthMm:1960,depthMm:920,alturaMm:800,rotDegrees:0}];
   const state={schemaVersion:'1.0.0',activeFloor:0,floors:[{floor:0,leitura,furniture},{floor:1,leitura:{...leitura,id:'leitura-superior'},furniture:[]}]};
   const p=payload({editorStateJson:JSON.stringify(state)}),r=await post(c.token,p);
