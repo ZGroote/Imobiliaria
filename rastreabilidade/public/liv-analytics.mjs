@@ -113,20 +113,22 @@ export function installLivAnalytics({win=window,doc=document,measurementId,versi
   let tagRequested=false;
   const box=doc.createElement('aside');box.id='liv-analytics-consent';
   box.setAttribute('aria-label','Privacidade e métricas');
-  box.style.cssText='position:fixed;bottom:16px;left:16px;z-index:100000;max-width:370px;padding:16px;border:1px solid #8c99a6;border-radius:10px;background:#fff;color:#17212b;font:14px/1.5 system-ui;box-shadow:0 4px 24px #0003';
-  const text=doc.createElement('p');text.style.cssText='margin:0 0 12px';
+  // A slim bottom bar; the page gains the same bottom padding so it never hides content.
+  box.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:100000;padding:8px 12px;border-top:1px solid #8c99a6;background:#fff;color:#17212b;font:13px/1.4 system-ui;box-shadow:0 -2px 12px #0002';
+  const text=doc.createElement('p');text.style.cssText='margin:0 0 4px';
   text.textContent='Permitir métricas de uso? Se aceitar, o Google Analytics mede visitas, seções acessadas e tempo de uso ativo. É opcional e não exige cadastro.';
   box.append(text);
   function button(label,handler) {
     const el=doc.createElement('button');el.type='button';el.textContent=label;
-    el.style.cssText='min-height:40px;padding:8px 12px;margin:3px;border:1px solid #657586;border-radius:6px;background:#fff;color:#17212b;cursor:pointer;font:inherit';
+    el.style.cssText='min-height:36px;padding:6px 10px;margin:2px;border:1px solid #657586;border-radius:6px;background:#fff;color:#17212b;cursor:pointer;font:inherit';
     listen(el,'click',handler);return el;
   }
   const acceptButton=button('Aceitar métricas',()=>choose('yes'));
   const rejectButton=button('Continuar sem métricas',()=>choose('no'));
   const revokeButton=button('Revogar e apagar cookies',()=>choose('no'));
-  const closeButton=button('Fechar',()=>{box.hidden=true;privacy.focus();});
-  const privacy=button('Privacidade',()=>{box.hidden=false;(choice==='yes'?revokeButton:acceptButton).focus();});
+  const pad=()=>{doc.body.style.paddingBottom=box.hidden?'48px':`${box.offsetHeight||0}px`;};
+  const closeButton=button('Fechar',()=>{box.hidden=true;pad();privacy.focus();});
+  const privacy=button('Privacidade',()=>{box.hidden=false;pad();(choice==='yes'?revokeButton:acceptButton).focus();});
   privacy.id='liv-analytics-privacy';privacy.style.cssText+=';position:fixed;bottom:8px;left:8px;z-index:99999;font-size:12px;min-height:32px';
   box.append(acceptButton,rejectButton,revokeButton,closeButton);doc.body.append(box,privacy);
   function renderChoice() {
@@ -135,6 +137,7 @@ export function installLivAnalytics({win=window,doc=document,measurementId,versi
     closeButton.hidden=choice===null;
     text.textContent=choice==='yes'?'Você permitiu métricas opcionais de visitas, seções e tempo ativo pelo Google Analytics. Você pode revogar a permissão e apagar os cookies neste navegador.':
       'Permitir métricas de uso? Se aceitar, o Google Analytics mede visitas, seções acessadas e tempo de uso ativo. É opcional e não exige cadastro.';
+    pad();
   }
   function choose(next,{persist=true}={}) {
     if(disposed||!['yes','no'].includes(next))return;
@@ -160,15 +163,16 @@ export function installLivAnalytics({win=window,doc=document,measurementId,versi
   }
   listen(doc,'visibilitychange',()=>ledger?.visible(doc.visibilityState!=='hidden'));
   listen(win,'pagehide',()=>ledger?.pause());
+  listen(win,'resize',()=>{if(!disposed)pad();});
   listen(win,'pageshow',()=>ledger?.visible(doc.visibilityState!=='hidden'));
   listen(win,'storage',event=>{if(event.key===choiceKey)choose(event.newValue==='yes'?'yes':'no',{persist:false});});
   bindTree(win,doc,0);
   const interval=win.setInterval(sync,1000);
   const api={enabled:true,accept:()=>choose('yes'),reject:()=>choose('no'),revoke:()=>choose('no'),
-    showConsent(){if(!disposed){box.hidden=false;(choice==='yes'?revokeButton:acceptButton).focus();}},
+    showConsent(){if(!disposed){box.hidden=false;pad();(choice==='yes'?revokeButton:acceptButton).focus();}},
     getState:()=>({choice,tagRequested,section:sectionOf(win,doc),version}),
     destroy(){if(disposed)return;ledger?.pause();ledger?.consent(false);disposed=true;win.clearInterval(interval);
-      for(const cleanup of cleanups)cleanup();box.remove();privacy.remove();delete win.__livAnalytics;}};
+      for(const cleanup of cleanups)cleanup();box.remove();privacy.remove();doc.body.style.paddingBottom='';delete win.__livAnalytics;}};
   win.__livAnalytics=api;
   const stored=readChoice();if(stored==='yes'||stored==='no')choose(stored,{persist:false});else renderChoice();
   return api;
