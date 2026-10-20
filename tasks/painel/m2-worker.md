@@ -120,7 +120,8 @@ a prévia antes do gerente. A proteção passa a ser:
     [materiais-da-solicitacao.md](materiais-da-solicitacao.md) §7;
   - regra (M2-1): `managerDecision` aceita `agency_review → internal_review`, com o AuditLog
     da mudança listando o texto e os anexos;
-  - a equipe é avisada no painel, como no aviso de pedido novo.
+  - a equipe é avisada no painel, como no aviso de pedido novo, e **um humano revisa** (por
+    enquanto), preenchendo a ocorrência ([ia-da-criacao.md](ia-da-criacao.md) §7).
 
 ### 1.2 Como o robô decide o próximo status
 
@@ -164,7 +165,9 @@ Num só batch, pelas regras de hoje (`auditedAs`):
    `{ jobId, stage, code, message }`, por exemplo `CHANNEL_MISMATCH` com "o canal serve outro
    manifest.json".
 
-O job guarda o mesmo `error`. O painel mostra o motivo à equipe a partir dos dois. A imobiliária
+O job guarda o mesmo `error`, e abre uma **ocorrência** para a equipe preencher com erro, causa e
+solução ([ia-da-criacao.md](ia-da-criacao.md) §7). O painel mostra o motivo à equipe a partir
+dos dois. A imobiliária
 vê só "Revisão interna", como hoje, sem texto técnico.
 
 Um pedido que cai de `approved` perde a aprovação na prática. Publicar exige `approved`, e só o
@@ -667,7 +670,7 @@ próprio do `users/worker` sem assinatura.
 | **M2-R** | **Build a partir da planta fixada.**<br>• O `e2e_leitura` ganha a saída de build (tour + maquete + `manifest.json` em `b/<id>/<build>/`), com a sonda.<br>• Lê os dados do imóvel fixados no pedido, inclusive o lote vindo do endereço ([materiais-da-solicitacao.md](materiais-da-solicitacao.md) §5 e §6).<br>• O tour recorta o mapa em volta desse lote, sem mexer no dado da cidade no git.<br>• **Precisa de especificação própria antes** | o `tests/test_e2e_leitura.py` estendido; a matriz da prévia pelo gatilho da planta; `CONTEXT_INVALID` | a imobiliária vai da planta fixada ao `published` com só a aprovação do gerente |
 | **M2-8** | **Ligar de verdade**, depois do religar, com o site de imóveis no ar e com `estado.json`. `worker.yml`, provedor de identidade, conta de serviço e `users/worker`: cada um é ação em produção, com autorização | 1º: uma execução com fila vazia; conferir o registro público. 2º: uma **prévia** do Cedros (imobiliária), que vai ao gerente sem live. 3º: um ciclo inteiro, com os cliques do usuário | ciclo inteiro sem comando à mão; registro sem dado sensível; anotar aqui o tempo real |
 | **M2-9** | **Depois, se precisar:** cópia no servidor (§14, perto de ~15 imóveis); plano B no Cloud Run (§11) | cada um com o seu teste | — |
-| **M2-10** | **A IA gerente** (decidido em 20/10): ler, rascunhar a planta, avaliar a prévia, diagnosticar falha. Os incrementos IA-1 a IA-7 estão em [ia-da-criacao.md](ia-da-criacao.md) §7; o IA-1 (o gatilho por evento; o repositório já foi fechado) vem antes do M2-8 | o modo sombra e os conjuntos de referência de lá | a decisão ligada etapa por etapa, com os números |
+| **M2-10** | **A IA gerente** (decidido em 20/10): ler, rascunhar a planta, avaliar a prévia, diagnosticar falha. Os incrementos IA-1 a IA-8 estão em [ia-da-criacao.md](ia-da-criacao.md) §8; o IA-1 (o gatilho por evento; o repositório já foi fechado) vem antes do M2-8 | o modo sombra e os conjuntos de referência de lá | a decisão ligada etapa por etapa, com os números |
 
 **Depende de:**
 
@@ -707,4 +710,10 @@ O resto do M2 não depende do Blaze.
     depois do cancelamento, os arquivos ficam 90 dias e o robô os retira
     ([plano-no-ar.md](plano-no-ar.md)).
 
-**Ainda em aberto:** as perguntas da [IA](ia-da-criacao.md) §8.
+13. **IA:** Claude Opus 5.5; teto de ~US$ 3 e 2 rodadas por pedido; modo sombra de 20 pedidos;
+    revisão pedida pelo cliente é humana por enquanto, e cada caso, portão que falha ou chamada
+    da IA abre uma **ocorrência** (erro, causa, solução) que ensina a IA
+    ([ia-da-criacao.md](ia-da-criacao.md) §7).
+
+**Ainda em aberto:** o número que deixa a IA assumir uma categoria de revisão
+([ia-da-criacao.md](ia-da-criacao.md) §9).

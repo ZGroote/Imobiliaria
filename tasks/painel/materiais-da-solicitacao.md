@@ -400,7 +400,9 @@ revisão, o pedido volta para a equipe revisar à mão ([m2-worker.md](m2-worker
   - **fotos**, opcionais; no celular, podem ser tiradas na hora;
   - **um áudio**, opcional, gravado no navegador (`MediaRecorder`), até 5 min.
 - **Para onde vai:** `agency_review → internal_review` (hoje vai para `production`). A equipe é
-  avisada no painel.
+  avisada no painel, e **um humano revisa** (por enquanto, decidido em 20/10). Abre uma
+  ocorrência com erro, causa e solução, que a equipe preenche para o pedido sair da revisão
+  interna ([ia-da-criacao.md](ia-da-criacao.md) §7).
 - **O que fica**, pela regra do "extrai e apaga":
   - o texto, no AuditLog da mudança de status;
   - o áudio, **virado texto**;
@@ -500,4 +502,5 @@ MAT-9 precisa dele.
 9. **A IA gerencia a criação completa**, pela API ([ia-da-criacao.md](ia-da-criacao.md)).
 10. **O Google Maps usa a mesma conta de faturamento do Blaze.**
 
-**Ainda em aberto:** as perguntas da [IA](ia-da-criacao.md) §8 e do [plano](plano-no-ar.md) §4.
+**Ainda em aberto:** só o número que deixa a IA assumir uma categoria de revisão
+([ia-da-criacao.md](ia-da-criacao.md) §9).

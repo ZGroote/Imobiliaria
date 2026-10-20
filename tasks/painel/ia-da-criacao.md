@@ -8,6 +8,10 @@ Pedido do usuário (20/10): "eu preciso que a IA gerencie a criação completa, 
 quebrar ela precisa estar pronta para interferir e avaliar a qualidade também. Veja quanto sai a
 API e se seria melhor já fazer com o repositório fechado."
 
+Decisões do mesmo dia (§9): Claude Opus 5.5; revisão pedida pelo cliente é humana por enquanto,
+e cada caso vira uma ocorrência (erro, causa, solução) que ensina a IA (§7); modo sombra de 20
+pedidos.
+
 ---
 
 ## 0. Resumo
@@ -22,7 +26,7 @@ API e se seria melhor já fazer com o repositório fechado."
 2. **Ela não tem mais poder que o robô.** Age só por uma lista fechada de ferramentas (§3), e as
    regras do banco valem para ela.
    - **Não aprova, não publica sem o gerente e não mexe em portão.**
-3. **Modelo: Claude Opus 5.5, pela API.**
+3. **Modelo: Claude Opus 5.5, pela API** (decidido em 20/10).
    - **~US$ 0,60 por pedido** quando dá certo de primeira, e ~US$ 1,20 com uma rodada de
      conserto;
    - 100 pedidos por mês: **~US$ 60 a 120** (§5).
@@ -34,6 +38,9 @@ API e se seria melhor já fazer com o repositório fechado."
 6. **O repositório foi fechado em 20/10**, com o ok do usuário (§6).
    - Custo medido: zero a ~US$ 7 por mês até ~30 pedidos, e ~US$ 16 a 28 com 100;
    - o robô passa a ser acordado por evento, e não a cada 10 minutos.
+7. **Revisão pedida pelo cliente: um humano revisa, por enquanto.** Cada caso, e cada vez que a
+   IA chama a equipe, abre uma **ocorrência** com erro, causa e solução. É com elas que a IA
+   aprende a resolver sozinha, categoria por categoria, quando os números mostrarem (§7).
 
 ---
 
@@ -50,7 +57,7 @@ custo e o comportamento ficam previsíveis.
 | **Planta** | **rascunho da planta**: o `pipeline/extrair_planta.py` acha as paredes; a IA diz qual cômodo é qual e confere as áreas com os rótulos e a ficha. Salva como versão de leitura, pelo mesmo caminho e o mesmo portão M1-0 da tela, e **fixa** se a conferência fechar | área fora de ~5%, cômodo que não bate com a ficha, desenho ambíguo |
 | **Prévia** | o robô gera e tira **fotos fixas** do tour e da maquete. A IA compara com a planta original e com as fotos do imóvel, pela lista de conferência (§4) | nota abaixo do mínimo depois de até 2 rodadas de conserto |
 | **Falha em qualquer passo** | lê o código de erro e o registro do job e decide: tentar de novo, corrigir a entrada (por exemplo um campo dos dados) ou chamar a equipe | o que não for falha de entrada; 3 tentativas sem sucesso |
-| **Revisão do gerente** | lê o texto, o áudio transcrito e as fotos, e escreve **uma proposta de correção** | sempre: a revisão do gerente vai para a equipe, como decidido. A equipe aceita a proposta com um clique, ou corrige à mão |
+| **Revisão do gerente** | **por enquanto, nada que mude o pedido.** Lê o texto, o áudio transcrito e as fotos, e escreve à sombra o que faria (§7) | sempre: **um humano revisa** e preenche a ocorrência (erro, causa, solução) |
 
 **O que muda na decisão anterior sobre a planta:** antes, a planta era sempre desenhada pela
 equipe. Agora, **a IA faz o rascunho e fixa quando a conferência fecha**, e a equipe entra quando
@@ -243,7 +250,73 @@ de custo é de poucos dólares.
 
 ---
 
-## 7. Incrementos
+## 7. O relatório de ocorrências (decidido em 20/10)
+
+Nas palavras do usuário: "no momento que o cliente solicitar a revisão, precisa de um humano
+revisando por enquanto. Mas vai abrir um dado interno para relatório, onde vai preencher com o
+erro, causa e solução, para que com o tempo a IA possa suprir quaisquer erros também."
+
+**Quando uma ocorrência abre (sozinha):**
+
+- o gerente pede revisão;
+- a IA chama a equipe (passou do teto, deu nota baixa, ficou em dúvida);
+- um job do robô termina `blocked` ou `failed`;
+- a equipe abre à mão, quando acha algo que ninguém apontou.
+
+**O que a equipe preenche:**
+
+| Campo | Exemplo |
+|---|---|
+| **Erro**: o que estava errado, numa frase | "a suíte saiu no lugar da sala" |
+| **Causa**: uma categoria da lista abaixo, mais uma frase | planta: "a IA leu o rótulo da sala como suíte" |
+| **Solução**: o que foi feito | "corrigi o rótulo no capturador e gerei de novo" |
+| **A IA teria resolvido?** Sim, não ou em parte, comparando com o que ela escreveu à sombra | "não: ela sugeriu trocar a cor" |
+
+O resto é automático: pedido, imóvel, conta, etapa, código de erro, job, build antes e depois,
+quem, quando, quanto tempo levou, e as fotos da prévia antes e depois. Essas fotos são do nosso
+próprio render, não arquivo do cliente.
+
+**Categorias de causa** (lista inicial; a equipe pode ampliar):
+
+- **planta:** cômodo, medida, porta ou janela;
+- **dados do imóvel:** ficha, andar, cores;
+- **posição:** lote, pino;
+- **material:** faltando, ilegível;
+- **geração:** build, portão;
+- **aparência:** cor, textura, móvel, luz;
+- **entorno e mapa**;
+- **pedido fora do escopo** do produto;
+- **outro**.
+
+**Regras do uso:**
+
+- **Sair da revisão interna pede a ocorrência preenchida.** O pedido só deixa "Revisão interna"
+  com erro, causa e solução escritos. O painel cobra, e a regra do banco confere que a ocorrência
+  do pedido está fechada.
+- **Onde mora:** `ocorrencias/{id}`. Só a equipe lê e escreve, como as notas internas; a
+  imobiliária não vê.
+  - A coleção só cresce: uma correção vira um campo novo, com quem e quando.
+  - Não guarda arquivo do cliente, só texto e as fotos da nossa prévia. Assim ela pode ficar
+    depois que os materiais saem.
+  - O formulário avisa para não escrever dado pessoal do cliente (nome, telefone).
+
+**Como a IA aprende com isso.** Não é treinar um modelo; é consulta:
+
+1. **Exemplos:** antes de diagnosticar uma falha ou avaliar uma prévia, a IA recebe as
+   ocorrências fechadas mais parecidas (mesma etapa e categoria, as mais recentes), com erro,
+   causa e solução. É o "já vimos isso antes". Isso soma ~2 a 5 mil tokens por chamada, ~US$ 0,01
+   a 0,02.
+2. **Sugestão à sombra:** em cada revisão do cliente, a IA escreve o que faria, **sem mexer em
+   nada**. A equipe resolve do jeito dela e marca se a IA teria resolvido.
+3. **A IA assume uma categoria só com números e com o seu ok.** Por exemplo: com 20 casos e 90%
+   de "teria resolvido" em "aparência: cor", o painel propõe "deixar a IA resolver sozinha as
+   revisões de cor". Liga só com a sua autorização, categoria por categoria.
+4. **Causa que se repete vira conferência do programa.** Se a mesma causa aparece várias vezes, a
+   equipe a transforma num portão novo, que é mais barato e mais confiável que a IA.
+
+---
+
+## 8. Incrementos
 
 Cada um é um PR pequeno, com teste que não gasta dinheiro de IA por padrão: a IA é trocada por
 uma resposta gravada. Os testes com a IA de verdade rodam à parte, com orçamento autorizado.
@@ -255,15 +328,21 @@ uma resposta gravada. Os testes com a IA de verdade rodam à parte, com orçamen
 | **IA-3** | **Leitura de materiais e dados** com a IA | respostas gravadas; com IA de verdade, 20 pedidos de referência com o certo anotado à mão | acerto anotado aqui |
 | **IA-4** | **Rascunho da planta** (paredes pelo `extrair_planta.py`, cômodos pela IA, portão M1-0) | plantas de referência com a leitura certa; erro de área e de cômodo medido | acerto anotado aqui |
 | **IA-5** | **Avaliação da prévia**: fotos fixas, lista de conferência, **modo sombra** | o conjunto de prévias boas e ruins; nenhuma ruim pode passar | taxa de acerto e de "ruim que passou" anotadas |
-| **IA-6** | **Diagnóstico de falha** e proposta para a revisão do gerente | falhas provocadas de propósito (cada código de erro da [m2-worker.md](m2-worker.md) §4) | cada falha termina em conserto certo ou equipe chamada com diagnóstico útil |
+| **IA-6** | **Diagnóstico de falha** e a sugestão à sombra na revisão do cliente | falhas provocadas de propósito (cada código de erro da [m2-worker.md](m2-worker.md) §4) | cada falha termina em conserto certo ou equipe chamada com diagnóstico útil |
 | **IA-7** | **Ligar a decisão** (sair do modo sombra), por etapa | os números do IA-5 | autorização sua, com os números na mão |
+| **IA-8** | **Ocorrências** (§7): a coleção e as regras (só a equipe; só cresce; revisão interna só sai com a ocorrência fechada), a abertura automática, o formulário, os exemplos para a IA e o "teria resolvido" por categoria | no emulador: cada gatilho abre uma ocorrência; a imobiliária não lê; sair da revisão interna sem a ocorrência é negado; a IA recebe as parecidas | testes verdes; vem **antes** do M2-8, para a primeira revisão real já gerar ocorrência |
 
 ---
 
-## 8. Perguntas para você decidir
+## 9. Decisões e perguntas
 
-1. ~~Fechar o repositório?~~ Fechado em 20/10 (§6).
-2. **Modelo:** Opus 5.5 em tudo (recomendado), ou Haiku só no memorial?
-3. **O teto por pedido** de ~US$ 3 e 2 rodadas de conserto está bom?
-4. **Modo sombra:** 20 pedidos com a equipe revisando tudo antes de a IA decidir sozinha está
-   bom?
+**Decididas em 20/10:**
+
+1. **Repositório fechado** (§6).
+2. **Modelo: Claude Opus 5.5** em tudo.
+3. **Teto por pedido:** ~US$ 3 e 2 rodadas de conserto. Não deu certo, a equipe assume.
+4. **Revisão pedida pelo cliente: humana, por enquanto**, com a ocorrência preenchida (§7).
+5. **Modo sombra:** 20 pedidos com a equipe revisando tudo antes de a IA decidir sozinha.
+
+**Ainda em aberto:** o número que deixa a IA assumir uma categoria. A proposta é 20 casos e 90%
+de "teria resolvido"; você pode mudar quando tiver os primeiros casos na mão.
