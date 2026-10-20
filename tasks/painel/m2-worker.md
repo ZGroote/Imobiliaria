@@ -12,7 +12,9 @@ Base lida: [`tools/buildjob.mjs`](../../tools/buildjob.mjs), [proposta §2, §3,
 [`deploy/README.md`](../../deploy/README.md). Os materiais que chegam com o pedido estão em
 [materiais-da-solicitacao.md](materiais-da-solicitacao.md): arquivos de todo tipo, que o robô
 processa um por vez e apaga; os dados do imóvel; o endereço que vira lote no mapa; e a revisão
-do gerente com foto e áudio.
+do gerente com foto e áudio. A IA que gerencia a criação está em
+[ia-da-criacao.md](ia-da-criacao.md), e o plano da conta com as vagas no ar em
+[plano-no-ar.md](plano-no-ar.md).
 
 Palavras usadas aqui:
 
@@ -47,7 +49,9 @@ Palavras usadas aqui:
    revisão interna da construtora.
 6. **Onde roda: GitHub Actions** (decidido em 20/10). São máquinas do GitHub, e o fluxo deixa de
    depender do seu computador. É de graça porque o repositório é público, e funciona no plano
-   Spark. Limites e preços na §11.
+   Spark. Limites e preços na §11. **Com a IA gerente, a recomendação é fechar o repositório:**
+   o custo medido fica em poucos dólares por mês, e o robô passa a ser acordado por evento
+   ([ia-da-criacao.md](ia-da-criacao.md) §6).
 7. **Os bytes ficam onde já estão.** Os builds no ar moram no site de imóveis, e o build em
    revisão mora no canal de prévia. O robô baixa e confere byte a byte.
 8. **Uma trava só para tudo:** um robô por vez. Ela fecha a corrida na criação de jobs (a
@@ -78,7 +82,8 @@ construtora com revisão interna sempre."
 - o botão por conta saiu. A imobiliária vai direto, e só volta para a equipe "se o gerente pedir
   uma revisão (que contém um campo explicativo com envio de fotos, texto e áudio)";
 - na construtora, o robô também publica sozinho depois da aprovação do gerente (resposta "B");
-- mais tarde, um agente de IA pode inspecionar as casas geradas (M2-10).
+- mais tarde, um agente de IA pode inspecionar as casas geradas. Isso virou, ainda em 20/10, a
+  IA que gerencia a criação inteira ([ia-da-criacao.md](ia-da-criacao.md)).
 
 As etapas são as de hoje (`painel/src/lib/status.ts`): `production → internal_review →
 agency_review → approved → published`.
@@ -101,7 +106,7 @@ imóveis (`b/<id>/<build>/` + `manifest.json` + `estado.json`).
 a prévia antes do gerente. A proteção passa a ser:
 - os portões automáticos (§13);
 - o gerente, que aprova ou pede revisão;
-- depois, o inspetor por IA (M2-10).
+- a IA que avalia cada prévia antes de ela seguir ([ia-da-criacao.md](ia-da-criacao.md) §4).
 
 ### 1.1 O que decide o caminho: o tipo da conta, sem botão
 
@@ -129,6 +134,7 @@ prévia pronta e conferida (registra a prévia no mesmo write):
 
 pedido em approved (só o gerente põe ali):
   qualquer conta               -> o robô publica; deu certo -> published (registra no mesmo batch de hoje)
+                                  no ar só se houver vaga no plano; sem vaga, publicado e fora do ar (plano-no-ar.md)
 
 qualquer portão falhou, em qualquer conta -> internal_review + motivo (§1.3)
 ```
@@ -450,6 +456,10 @@ fazer parte do ciclo.** Ele só entra em três casos:
 - a primeira publicação de um site vazio (W8);
 - emergências.
 
+**Repositório fechado (recomendado em 20/10, junto com a IA gerente):** o CI de hoje já gasta
+~1.300 minutos por mês (medido). Os números com o robô, o gatilho por evento no lugar da varredura
+de 10 em 10 minutos e o porquê estão em [ia-da-criacao.md](ia-da-criacao.md) §6.
+
 ### Teto e preço (documentação do GitHub, conferida em 20/10)
 
 | Item | Com o repositório **público** (hoje) | Se o repositório virar **privado** |
@@ -649,7 +659,7 @@ próprio do `users/worker` sem assinatura.
 | **M2-R** | **Build a partir da planta fixada.**<br>• O `e2e_leitura` ganha a saída de build (tour + maquete + `manifest.json` em `b/<id>/<build>/`), com a sonda.<br>• Lê os dados do imóvel fixados no pedido, inclusive o lote vindo do endereço ([materiais-da-solicitacao.md](materiais-da-solicitacao.md) §5 e §6).<br>• O tour recorta o mapa em volta desse lote, sem mexer no dado da cidade no git.<br>• **Precisa de especificação própria antes** | o `tests/test_e2e_leitura.py` estendido; a matriz da prévia pelo gatilho da planta; `CONTEXT_INVALID` | a imobiliária vai da planta fixada ao `published` com só a aprovação do gerente |
 | **M2-8** | **Ligar de verdade**, depois do religar, com o site de imóveis no ar e com `estado.json`. `worker.yml`, provedor de identidade, conta de serviço e `users/worker`: cada um é ação em produção, com autorização | 1º: uma execução com fila vazia; conferir o registro público. 2º: uma **prévia** do Cedros (imobiliária), que vai ao gerente sem live. 3º: um ciclo inteiro, com os cliques do usuário | ciclo inteiro sem comando à mão; registro sem dado sensível; anotar aqui o tempo real |
 | **M2-9** | **Depois, se precisar:** cópia no servidor (§14, perto de ~15 imóveis); plano B no Cloud Run (§11) | cada um com o seu teste | — |
-| **M2-10** | **Inspetor por IA** (ideia do usuário, para depois).<br>• Um portão a mais entre "prévia pronta" e o gerente: um agente olha a casa gerada (screenshots do tour e da maquete, a planta, os materiais) e diz "passa" ou "não passa, porque…".<br>• "Não passa" segue o mesmo caminho de qualquer portão: `internal_review` + motivo.<br>• Entra como portão, sem mudar o resto do fluxo | um conjunto de casas boas e ruins conhecidas; o inspetor tem de acertar as ruins antes de valer | decidir depois do M2-8, com dados de casos reais |
+| **M2-10** | **A IA gerente** (decidido em 20/10): ler, rascunhar a planta, avaliar a prévia, diagnosticar falha. Os incrementos IA-1 a IA-7 estão em [ia-da-criacao.md](ia-da-criacao.md) §7; o IA-1 (fechar o repositório e o gatilho por evento) vem antes do M2-8 | o modo sombra e os conjuntos de referência de lá | a decisão ligada etapa por etapa, com os números |
 
 **Depende de:**
 
@@ -672,13 +682,17 @@ O resto do M2 não depende do Blaze.
 3. **Dados para gerar o 3D:** chegam com a solicitação, num espaço que aceita todo tipo de
    arquivo de obra ([materiais-da-solicitacao.md](materiais-da-solicitacao.md)).
 4. **O botão por conta saiu.** Imobiliária vai direto; o gerente aprova ou pede revisão com
-   texto, fotos e áudio. O inspetor por IA fica para depois (M2-10).
+   texto, fotos e áudio.
 5. **Arquivos:** bucket nos EUA; o robô processa um por vez, extrai e apaga o original. As
    maquetes ficam, por um tempo a confirmar
    ([materiais-da-solicitacao.md](materiais-da-solicitacao.md) §11).
 6. **Posição no mapa, automática**, com o botão "Cadastrar posição" (Google Maps) na
    solicitação, e o imóvel publicado como ponto no mapa geral (materiais §6).
 7. **O gerente clica "Aprovar".** Nada vai ao ar só porque ele não respondeu.
+8. **A IA gerencia a criação completa**, pela API ([ia-da-criacao.md](ia-da-criacao.md)).
+9. **A maquete fica no ar enquanto o plano está pago**, com limite de imóveis no ar e troca com
+   1 h de intervalo ([plano-no-ar.md](plano-no-ar.md)).
+10. **O Google Maps usa a mesma conta de faturamento do Blaze.**
 
-**Ainda em aberto:** as perguntas dos materiais (materiais §11): a IA, o tempo das maquetes e a
-conta do Google Maps.
+**Ainda em aberto:** fechar o repositório (recomendado, [ia-da-criacao.md](ia-da-criacao.md) §6) e
+as perguntas da [IA](ia-da-criacao.md) §8 e do [plano](plano-no-ar.md) §4.

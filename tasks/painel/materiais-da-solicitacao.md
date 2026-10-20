@@ -45,8 +45,8 @@ O que o usuário pediu em 20/10:
    - imagens leves que a equipe precisa ver (a página da planta, fotos reduzidas);
    - o áudio virado texto.
 
-   Isso também sai quando o pedido termina (publicado ou cancelado). **As maquetes ficam**, por
-   um tempo a confirmar.
+   Isso também sai quando o pedido termina (publicado ou cancelado). **As maquetes ficam no ar
+   enquanto o plano do cliente está pago** ([plano-no-ar.md](plano-no-ar.md)).
 5. **Os dados do imóvel** vêm do formulário da solicitação e do que o robô extraiu. Quando os
    dois batem e nada falta, o robô fixa sozinho os dados que o 3D usa. Se brigam ou falta algo,
    a equipe resolve (§5).
@@ -57,10 +57,8 @@ O que o usuário pediu em 20/10:
      grade de lotes de São Carlos.
    - Sem pino e sem endereço achado, a equipe põe o pino.
    - O imóvel publicado também aparece como **ponto no mapa geral da cidade** (§6.1).
-7. **IA para ler texto livre e imagens** (§4.1).
-   - Pela API, custa centavos de dólar por arquivo.
-   - Uma IA própria, na máquina do robô, sai de graça para ler texto, mas é fraca para ler
-     planta.
+7. **A IA gerencia a criação** (decidido em 20/10; §4.1 e [ia-da-criacao.md](ia-da-criacao.md)):
+   lê o que os leitores comuns não leem, rascunha a planta e avalia a prévia, pela API.
 8. **Depende do plano Blaze**, porque o arquivo passa pelo Storage. O bucket fica nos EUA
    (`us-east1`), com 5 GB grátis. Como o original sai logo, o armazenamento quase não é usado
    (§9).
@@ -185,8 +183,9 @@ quando o anterior terminou.
 | Nuvem de pontos, modelo 3D, Revit, SketchUp, desconhecido | nada, no começo | — | fica "não processado" |
 
 - **Ler com IA** (memorial em texto livre, foto da planta, qual cômodo é qual) é a §4.1.
-- O `pipeline/extrair_planta.py` (a máquina acha as paredes na imagem) pode virar um extrator de
-  planta depois. A planta continua sendo desenhada e fixada pela equipe no capturador.
+- O `pipeline/extrair_planta.py` (a máquina acha as paredes na imagem) vira a primeira metade do
+  rascunho da planta. A IA faz a outra metade, dizendo qual cômodo é qual, e a equipe corrige no
+  capturador quando a IA tem dúvida ([ia-da-criacao.md](ia-da-criacao.md) §1).
 
 **Quando o robô não consegue ler** (formato sem extrator, arquivo corrompido, estourou o tempo):
 
@@ -246,13 +245,11 @@ arquivo vai para a Anthropic; isso entra no termo de uso, junto com o Google e o
 - **Licença:** cada modelo aberto tem a sua. Só entra modelo que permite uso comercial,
   conferido antes.
 
-**Recomendação:**
-
-1. leitores comuns em tudo o que der (custo zero);
-2. **IA própria para texto** (memorial, descrição), de graça e sem o dado sair;
-3. a **planta continua com a equipe** no capturador, como já está decidido;
-4. se um dia quiser a IA lendo planta, testar a API (Sonnet ou Opus) em 20 plantas reais
-   contra a IA própria, e decidir com os números.
+**Decidido em 20/10:** a IA vai **gerenciar a criação completa**: ler, rascunhar a planta,
+avaliar a qualidade e intervir quando o fluxo quebrar. Esse papel pede um modelo grande, então é
+**a API (Claude Opus 5.5)**, e a IA própria fica de fora. O detalhe, o custo por pedido e os
+limites estão em [ia-da-criacao.md](ia-da-criacao.md). Os leitores comuns continuam rodando
+primeiro em tudo o que der, de graça.
 
 Todo achado de IA entra como confiança "média". Ele nunca fixa nada sozinho se brigar com o
 formulário (§5).
@@ -457,8 +454,7 @@ Pela página de preços do Firebase, conferida em 20/10:
 | Guardar | o original fica minutos (até a vez dele na fila); o extraído e as imagens leves ficam até o pedido terminar | **zero** na prática |
 | Baixar | o robô baixa cada original uma vez; 100 pedidos com ~300 MB = ~30 GB por mês | **zero** (cota de 100 GB) |
 | Extrair | máquina do GitHub, de graça no repositório público | **zero** |
-| IA própria para texto (§4.1) | na mesma máquina | **zero** |
-| IA pela API (§4.1), se um dia ligar | ~US$ 0,005 (Haiku) a ~US$ 0,25 (Opus) por pedido | ~US$ 0,50 a ~US$ 25 por 100 pedidos |
+| IA gerente pela API ([ia-da-criacao.md](ia-da-criacao.md) §5) | ~US$ 0,60 a 1,20 por pedido (Opus 5.5) | ~US$ 60 a 120 por 100 pedidos |
 | Mapa do Google no "Cadastrar posição" (§6) | uma abertura por pedido | **zero** até a cota grátis do Google (conferir) |
 
 Proteção: o alerta de orçamento do Blaze (o mesmo do [`deploy/README.md`](../../deploy/README.md)).
@@ -479,7 +475,7 @@ auth,firestore,storage`, o mesmo padrão de `npm run test:regras`).
 | **MAT-5** | **Endereço → lote**: o índice do CNEFE, a estimativa na rua, o lote, o rumo e o alfinete da equipe | endereços reais de São Carlos com ponto conhecido; um número entre dois conhecidos cai na estimativa; o 1099 do Cedros (além do último conhecido) vai para o alfinete; fontes que discordam vão para a equipe; outra cidade dá `CIDADE_FORA_DO_MAPA` | testes verdes, com a distância medida contra os pontos conhecidos |
 | **MAT-6** | **Dados fixados** (`productionContext`), pelo robô quando tudo bate e pela equipe no resto, validados pelas regras do `e2e_leitura` | regras no padrão do `productionInputSet`; robô não fixa com briga ou falta; o pedido vai para a revisão interna com a lista | testes verdes; é o que o M2-R consome |
 | **MAT-7** | **"Pedir revisão" com fotos e áudio**, com a transcrição | painel: grava o áudio, sobe as fotos, leva a `internal_review`; a equipe lê a transcrição e vê as fotos reduzidas | testes verdes |
-| **MAT-8** | **Extratores de projeto e IA própria para texto.** IFC e DXF; depois DWG e vídeo. A IA própria lê memorial e descrição na máquina do robô, com um modelo aberto de licença comercial | um arquivo real de cada formato, com o que deveria sair anotado à mão; a IA própria contra 20 memoriais reais, com acerto e tempo medidos | cada extrator acerta o arquivo de referência; acerto e tempo da IA anotados aqui |
+| **MAT-8** | **Extratores de projeto:** IFC e DXF; depois DWG e vídeo. A leitura por IA é do [ia-da-criacao.md](ia-da-criacao.md) (IA-3) | um arquivo real de cada formato, com o que deveria sair anotado à mão | cada extrator acerta o arquivo de referência |
 | **MAT-9** | **Ligar de verdade:** Blaze, bucket em `us-east1`, deploy das regras do Storage, chave do mapa do Google presa ao painel. Cada passo em produção, com autorização | subir um arquivo de teste pela tela e ver o recibo de "processado e apagado"; marcar um pino | um pedido real com materiais e posição |
 | **MAT-10** | **Ponto no mapa geral** (§6.1): `imoveis.json` gerado pela publicação, a camada de pontos no mapa da cidade, "fora do ar" escondendo o ponto | o `imoveis.json` só muda junto com o imóvel publicado; ponto de imóvel fora do ar não aparece; o mapa abre normal sem o arquivo | testes verdes; deploy do mapa à parte, com autorização |
 
@@ -494,19 +490,14 @@ MAT-9 precisa dele.
 
 1. **Bucket nos EUA** (`us-east1`).
 2. **Um arquivo por vez; o original sai logo depois da extração.** Fica só o extraído.
-3. **As maquetes ficam**, por um tempo a confirmar.
+3. **As maquetes ficam no ar enquanto o plano do cliente está pago** ([plano-no-ar.md](plano-no-ar.md)).
 4. **Endereço → lote → mapa, automático** (§6).
-
 5. **Arquivo que o robô não consegue ler fica** até a equipe olhar (§4).
 6. **As imagens leves contam como informação extraída** e ficam até o pedido terminar (§4).
 7. **O imóvel aparece como ponto no mapa geral** (§6.1).
 8. **Botão "Cadastrar posição"** com o mapa do Google no formulário da solicitação (§6).
 
-**Ainda em aberto:**
+9. **A IA gerencia a criação completa**, pela API ([ia-da-criacao.md](ia-da-criacao.md)).
+10. **O Google Maps usa a mesma conta de faturamento do Blaze.**
 
-1. **IA:** seguir a recomendação da §4.1? Seria IA própria, de graça, para ler o texto; a
-   planta com a equipe; e a API só se um dia quiser a IA lendo planta, decidida com números.
-2. **Por quanto tempo as maquetes ficam?** No ar, ficam enquanto o imóvel está publicado. As
-   prévias somem sozinhas em 30 dias.
-3. **Conta do Google Maps:** a chave do mapa pede uma conta de faturamento com cartão no Google.
-   Pode ser a mesma do Blaze?
+**Ainda em aberto:** as perguntas da [IA](ia-da-criacao.md) §8 e do [plano](plano-no-ar.md) §4.
