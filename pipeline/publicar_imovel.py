@@ -41,7 +41,7 @@ RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
 
 from pipeline.build_imovel import (ARQUIVOS, BUILDS, TERRENOS, NAO_PUBLICAR, build_id,  # noqa: E402
-                                   prefixo_publico, SITE as SITE_PUBLICO)
+                                   prefixo_publico, script_vitrine, SITE as SITE_PUBLICO)
 
 SITE = RAIZ / 'publicacao/site'
 # Onde os tiles moram no repositorio: ao lado do mapa publicado (os mesmos 239 que o mapa usa).
@@ -257,13 +257,13 @@ def _titulo(tags):
     return None
 
 
-def ponteiro(tags, url_publica, destino):
-    """HTML pequeno: os metadados do build + ir para ele, levando ?busca e #ancora."""
+def ponteiro(tags, url_publica, destino, slug):
+    """HTML pequeno: os metadados do build + ir para ele, levando ?busca e #ancora -- se o
+    painel nao tirou o imovel do ar (vitrine_ao_vivo.js)."""
     return ('<!doctype html>\n<html lang="pt-BR">\n<head>\n<meta charset="utf-8">\n'
             + ''.join(t + '\n' for t in tags)
             + '<meta property="og:url" content="%s">\n' % escape(url_publica)
-            + '<script>location.replace(%s + location.search + location.hash);</script>\n'
-            % json.dumps(destino)
+            + script_vitrine(slug, destino)
             + '</head>\n<body>\n<noscript><a href="%s">Abrir o imóvel</a></noscript>\n</body>\n</html>\n'
             % escape(destino))
 
@@ -352,7 +352,7 @@ def montar_live(acao, imovel, build, estado, manifest_aprovado=None, builds=BUIL
             tags = _metadados((trabalho / 'b' / i / r['atual'] / 'tour.html').read_bytes())
             for tipo, alvo in PONTEIROS:
                 _grava(trabalho / tipo / i, ponteiro(tags, '%s/%s/%s' % (SITE_PUBLICO, tipo, i),
-                                                     '/b/%s/%s/%s' % (i, r['atual'], alvo)))
+                                                     '/b/%s/%s/%s' % (i, r['atual'], alvo), i))
                 feitos.append('%s/%s' % (tipo, i))
             itens.append((i, _titulo(tags) or i))
         _grava(trabalho / 'index.html', _indice(itens))

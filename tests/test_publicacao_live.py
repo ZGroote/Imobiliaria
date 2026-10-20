@@ -31,16 +31,24 @@ def _sha(b):
     return hashlib.sha256(b).hexdigest()
 
 
-def _destino(html, caminho, busca='', ancora=''):
-    """Roda os <script> da pagina com um `location` falso; devolve o que foi pro replace()."""
+FORA_DO_AR = 'fora do ar'
+
+
+def _destino(html, caminho, busca='', ancora='', vitrine=None):
+    """Roda os <script> da pagina com `location`, `fetch` e `document` falsos; devolve o que
+    foi pro replace(), ou FORA_DO_AR se a pagina cobriu a tela. `vitrine` e o que a REST do
+    Firestore devolveria para vitrine/<slug> (None = 404, imovel sem documento)."""
     if not shutil.which('node'):
         raise unittest.SkipTest('sem node neste ambiente')
     scripts = re.findall(r'<script>(.*?)</script>', html, re.S)
-    js = ("const vm=require('vm');let d=null;"
-          "const ctx={location:{pathname:%s,search:%s,hash:%s,replace:u=>{d=u}}};"
+    js = ("const vm=require('vm');let d=null,coberta=false;const resp=%s;"
+          "const ctx={location:{pathname:%s,search:%s,hash:%s,replace:u=>{d=u}},"
+          "fetch:async()=>({ok:resp!==null,json:async()=>resp}),setTimeout:()=>0,"
+          "document:{body:{appendChild:()=>{coberta=true}},createElement:()=>({setAttribute(){},style:{}})}};"
           "vm.createContext(ctx);for(const s of %s)vm.runInContext(s,ctx);"
-          "process.stdout.write(JSON.stringify(d))") % (
-        json.dumps(caminho), json.dumps(busca), json.dumps(ancora), json.dumps(scripts))
+          "setImmediate(()=>process.stdout.write(JSON.stringify(coberta?%s:d)))") % (
+        json.dumps(vitrine), json.dumps(caminho), json.dumps(busca), json.dumps(ancora),
+        json.dumps(scripts), json.dumps(FORA_DO_AR))
     r = subprocess.run(['node', '-e', js], capture_output=True, text=True, check=True)
     return json.loads(r.stdout)
 
@@ -270,6 +278,11 @@ class LivePromotionTests(unittest.TestCase):
                     html = c.texto('%s/x' % tipo)
                     self.assertEqual(_destino(html, '/%s/x' % tipo, '?teste=1', '#x'),
                                      '/b/x/%s/%s?teste=1#x' % (c.A, alvo))
+                    # o painel tirou do ar: o ponteiro nao leva ao build, cobre a tela
+                    fora = {'fields': {'online': {'booleanValue': False}}}
+                    self.assertEqual(_destino(html, '/%s/x' % tipo, vitrine=fora), FORA_DO_AR)
+                    no_ar = {'fields': {'online': {'booleanValue': True}}}
+                    self.assertEqual(_destino(html, '/%s/x' % tipo, vitrine=no_ar), '/b/x/%s/%s' % (c.A, alvo))
                     # metadados do build aprovado, nao do cadastro; og:url e o ponteiro estavel
                     self.assertIn('<title>x v1</title>', html)
                     self.assertIn('<meta property="og:url" content="%s/%s/x">' % (SITE_PUBLICO, tipo), html)

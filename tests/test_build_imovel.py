@@ -50,6 +50,30 @@ class BuildIdTests(unittest.TestCase):
                             B['build_id'](b'<tour>', b'<maquete 2>'))
 
 
+class VitrineTests(unittest.TestCase):
+    """O tour e a maquete do build levam o vitrine_ao_vivo.js, chamado com o slug do imovel."""
+
+    def test_script_goes_before_the_last_body_close_with_the_slug(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / 'tour.html'
+            p.write_text('<html><body><p>a</p><script>"</body>"</script></body></html>', encoding='utf-8')
+            B['com_vitrine'](p, 'monte-dos-cedros-37')
+            html = p.read_text(encoding='utf-8')
+            self.assertIn('function vitrineAoVivo(', html)
+            self.assertIn('vitrineAoVivo("monte-dos-cedros-37");\n</script>\n</body></html>', html)
+            self.assertEqual(html.count('vitrineAoVivo("'), 1)
+
+    def test_page_without_body_close_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / 'maquete.html'
+            p.write_text('<html>sem fim', encoding='utf-8')
+            with self.assertRaises(ValueError):
+                B['com_vitrine'](p, 'x')
+
+    def test_pointer_call_carries_the_destination(self):
+        self.assertIn('vitrineAoVivo("x", "/b/x/abc/tour.html");', B['script_vitrine']('x', '/b/x/abc/tour.html'))
+
+
 class NaoPublicarTests(unittest.TestCase):
     # mirra-114: origem e autorizacao dos dados nao confirmadas (dados-privados.md). A trava e no
     # build, antes de qualquer leitura: sem build nao ha preview nem live.

@@ -9,6 +9,7 @@ import { editarImovel } from '@/lib/imoveis'
 import { usePessoas } from '@/lib/usePessoas'
 import { useCatalogoInterno } from '@/lib/useEquipe'
 import { HistoricoDePublicacoes, ReverterPublicacao } from '@/components/publicacao'
+import { NoAr } from '@/components/vitrine'
 import { tipoDaConta, type Agency, type Property } from '@/lib/types'
 import { useDoc } from '@/lib/useFirestore'
 
@@ -35,6 +36,7 @@ function Imovel({ id }: { id: string }) {
             {ag.dado && tipoDaConta(ag.dado) === 'construtora' &&
               <a className="btn" href={'/admin/properties/units?id='+encodeURIComponent(p.id)}>Unidades e disponibilidade do empreendimento</a>}
             {editando ? <Editar p={p} fechar={() => setEditando(false)} /> : <Dados p={p} nomeDaAgencia={ag.dado?.name} />}
+            <NoAr p={p} podeEditar comPreco={ag.dado ? tipoDaConta(ag.dado) === 'imobiliaria' : false} />
             <LinksPublicos p={p} />
             <CorretorResponsavel p={p} pessoas={pessoas} />
             <HistoricoDePublicacoes p={p} interno pessoa={cat.pessoa} basePedido="/admin/requests" />

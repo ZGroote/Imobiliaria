@@ -110,6 +110,10 @@ test('revogação da raiz, recibo adulterado e publicação inválida impedem re
   const property=db.data.get('properties/p');db.data.set('properties/p',{...property,pipelineUnitId:'../outro'})
   await assert.rejects(service.abrirVisita({token:link.id,attemptId:'redirect'}),{status:410,code:'LINK_DISABLED'})
   db.data.set('properties/p',property)
+  db.data.set('vitrine/imovel-p',{propertyId:'p',online:false})          // o painel tirou do ar
+  await assert.rejects(service.abrirVisita({token:link.id,attemptId:'fora'}),{status:410,code:'LINK_DISABLED'})
+  db.data.set('vitrine/imovel-p',{propertyId:'p',online:true})
+  await service.abrirVisita({token:link.id,attemptId:'de-volta'})
   await service.revogarLink('brokerA',link.id)
   await assert.rejects(service.abrirVisita({token:a.shareToken,attemptId:'depois'}),{status:410,code:'LINK_DISABLED'})
 })

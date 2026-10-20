@@ -4,10 +4,11 @@ import { Pagina } from '@/components/AppShell'
 import { CorretorResponsavel, Dados, LinksPublicos } from '@/components/imovel'
 import { HistoricoDePublicacoes } from '@/components/publicacao'
 import { Aviso, Cartao, ComId, Estado } from '@/components/ui'
+import { NoAr } from '@/components/vitrine'
 import { db } from '@/lib/firebase'
 import { usePessoas } from '@/lib/usePessoas'
 import { usePerfil } from '@/lib/session'
-import type { Property } from '@/lib/types'
+import { tipoDaConta, type Agency, type Property } from '@/lib/types'
 import { useDoc } from '@/lib/useFirestore'
 
 export default function VerImovel() {
@@ -18,6 +19,7 @@ function Imovel({ id }: { id: string }) {
   const perfil = usePerfil()
   const gerente = perfil.role === 'agency_manager'
   const r = useDoc<Property>(`imovel:${id}`, () => doc(db, 'properties', id))
+  const conta = useDoc<Agency>(perfil.agencyId ? `conta:${perfil.agencyId}` : null, () => doc(db, 'agencies', perfil.agencyId!))
   const { pessoas, nome } = usePessoas(perfil.agencyId, gerente)
   const p = r.dado
   if (p === null) return <Pagina titulo="Imóvel"><Aviso>Imóvel não encontrado.</Aviso></Pagina>
@@ -27,6 +29,7 @@ function Imovel({ id }: { id: string }) {
         {p && (
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <a className="btn" href={'/imoveis/planta?id='+encodeURIComponent(p.id)}>Editar planta e versões</a>
+            <NoAr p={p} podeEditar={gerente} comPreco={conta.dado ? tipoDaConta(conta.dado) === 'imobiliaria' : false} />
             <LinksPublicos p={p} />
             <Dados p={p} />
             {gerente ? <CorretorResponsavel p={p} pessoas={pessoas} />

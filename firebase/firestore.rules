@@ -155,6 +155,27 @@ service cloud.firestore {
       allow delete: if false;                          // arquivar: status = archived
     }
 
+    // ── vitrine (pública) ──
+    // vitrine/{slug}: no ar ou fora, preço e situação do imóvel, lidos pela página pública
+    // (pipeline/vitrine_ao_vivo.js) sem build novo. A chave é o slug público (pipelineUnitId);
+    // o imóvel que o documento aponta tem de ter esse slug, e grava a equipe ou o gerente dele.
+    function vitrineDe() { return get(/databases/$(db)/documents/properties/$(d().propertyId)).data; }
+    match /vitrine/{slug} {
+      allow get: if true;
+      allow list: if isStaff();
+      allow create, update: if stamped()
+        && d().keys().hasOnly(['propertyId', 'online', 'situacao', 'precoCentavos', 'updatedAt'])
+        && d().keys().hasAll(['propertyId', 'online', 'situacao', 'precoCentavos', 'updatedAt'])
+        && d().propertyId is string && (resource == null || d().propertyId == resource.data.propertyId)
+        && vitrineDe().pipelineUnitId == slug
+        && (isStaff() || isManager(vitrineDe().agencyId))
+        && d().online is bool
+        && d().situacao in ['disponivel', 'reservado', 'vendido', 'alugado']
+        && (d().precoCentavos == null
+            || (d().precoCentavos is int && d().precoCentavos >= 0 && d().precoCentavos <= 9007199254740991));
+      allow delete: if false;
+    }
+
     // Estoque público do LIV: somente dados de oferta. properties/users e o histórico
     // continuam privados. A autorização consulta o imóvel atual, nunca a agência enviada.
     function salesProperty(pid) { return get(/databases/$(db)/documents/properties/$(pid)).data; }
