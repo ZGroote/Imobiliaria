@@ -1,5 +1,7 @@
-// BuildJob: cria o contrato persistente a partir de um request já em produção.
-// Escrita via Admin SDK; o painel continua read-only em buildJobs/.
+// BuildJob: o plano do job de prévia de um request já em produção, e o pedido de trabalho que o pede.
+// Desde o M2-2, quem cria o job é só o robô (tools/worker.mjs), com a trava na mão: `criar` grava um
+// pedido de trabalho (AuditLog worker:previa), e o job nasce na próxima execução do robô, com a
+// identidade desse pedido. Escrita via Admin SDK; o painel continua read-only em buildJobs/.
 //
 // Uso real:
 //   node tools/buildjob.mjs criar <requestId> --user <uid> --project imobilaria-deccb
@@ -50,7 +52,8 @@ export function planejarBuildJob(requestId, request, property, userId, user) {
   }
 }
 
-export async function criarBuildJob(db, requestId, userId) {
+// O plano do job a partir do banco: pedido, usuário, imóvel e, se houver, a leitura fixada.
+export async function planejarDoBanco(db, requestId, userId) {
   const requestRef = db.collection('requests').doc(requestId)
   const userRef = db.collection('users').doc(userId)
   const [requestSnap, userSnap] = await Promise.all([requestRef.get(), userRef.get()])
@@ -78,41 +81,20 @@ export async function criarBuildJob(db, requestId, userId) {
       || Object.entries(SNAPSHOT_FIELDS).some(([pin,field]) => plano.productionInput[pin] !== snapshot[field]))
       throw new Error('PRODUCTION_INPUT_MISMATCH')
   }
+  return plano
+}
 
-  // Um request só pode ter um job ativo. Jobs encerrados continuam no histórico e permitem retry explícito.
+// Pede a prévia ao robô. Confere tudo antes, para quem pede saber na hora o que está errado; o robô
+// confere de novo ao criar o job. Um request só tem um job ativo: o robô consome o pedido a mais.
+export async function pedirPrevia(db, requestId, userId) {
+  const plano = await planejarDoBanco(db, requestId, userId)
   const existentes = await db.collection('buildJobs').where('requestId', '==', requestId).get()
   const ativo = existentes.docs.find((d) => ATIVOS.has(d.data().status))
   if (ativo) throw new Error('ACTIVE_BUILDJOB_EXISTS:' + ativo.id)
-
-  const job = db.collection('buildJobs').doc()
-  const log = db.collection('auditLogs').doc()
-  const ts = FieldValue.serverTimestamp()
-  const b = db.batch()
-  b.set(log, {
-    agencyId: plano.agencyId,
-    userId,
-    entityType: 'buildJob',
-    entityId: job.id,
-    action: 'created',
-    visibility: 'internal',
-    after: {
-      status: plano.status,
-      requestId: plano.requestId,
-      propertyId: plano.propertyId,
-      ...(plano.pipelineUnitId ? { pipelineUnitId: plano.pipelineUnitId } : {}),
-      ...(plano.productionInput ? { productionInput: plano.productionInput } : {}),
-      productionMode: plano.productionMode,
-    },
-    timestamp: ts,
-  })
-  b.set(job, {
-    ...plano,
-    lastAuditId: log.id,
-    createdAt: ts,
-    updatedAt: ts,
-  })
-  await b.commit()
-  return { id: job.id, ...plano, lastAuditId: log.id }
+  const pedido = db.collection('auditLogs').doc()
+  await pedido.set({ agencyId: plano.agencyId, userId, entityType: 'request', entityId: requestId,
+    action: 'worker:previa', visibility: 'internal', timestamp: FieldValue.serverTimestamp() })
+  return { commandId: pedido.id, ...plano }
 }
 
 function args(argv) {
@@ -133,8 +115,7 @@ async function main(argv = process.argv.slice(2)) {
   const a = args(argv)
   const app = getApps()[0] ?? initializeApp({ projectId: a.project })
   const db = getFirestore(app)
-  const job = await criarBuildJob(db, a.requestId, a.user)
-  console.log(JSON.stringify(job))
+  console.log(JSON.stringify(await pedirPrevia(db, a.requestId, a.user)))
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
