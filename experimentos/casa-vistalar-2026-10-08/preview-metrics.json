@@ -1,0 +1,21 @@
+{
+  "blender": "5.2.2 LTS",
+  "renderer": "Cycles",
+  "device": "OPTIX",
+  "objects": 808,
+  "mesh_objects": 789,
+  "unique_meshes": 480,
+  "evaluated_triangles": 419564,
+  "materials": 31,
+  "resolution": [
+    1000,
+    625
+  ],
+  "samples_max": 48,
+  "blend_bytes": 12369676,
+  "build_seconds": 4.86,
+  "external_assets": 0,
+  "seed": 2718,
+  "total_seconds": 33.92,
+  "render_path": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\casa-vistalar-2026-10-08\\preview.png"
+}
