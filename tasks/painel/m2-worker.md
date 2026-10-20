@@ -48,10 +48,10 @@ Palavras usadas aqui:
    navegador. As mesmas regras de um clique valem para ele, e uma regra nova o impede de pular a
    revisão interna da construtora.
 6. **Onde roda: GitHub Actions** (decidido em 20/10). São máquinas do GitHub, e o fluxo deixa de
-   depender do seu computador. É de graça porque o repositório é público, e funciona no plano
-   Spark. Limites e preços na §11. **Com a IA gerente, a recomendação é fechar o repositório:**
-   o custo medido fica em poucos dólares por mês, e o robô passa a ser acordado por evento
-   ([ia-da-criacao.md](ia-da-criacao.md) §6).
+   depender do seu computador, e funciona no plano Spark. **O repositório foi fechado em 20/10**
+   (com o ok do usuário), então os minutos passam a contar: poucos dólares por mês na faixa
+   esperada. O robô passa a ser acordado por evento, e não a cada 10 minutos
+   ([ia-da-criacao.md](ia-da-criacao.md) §6). Limites e preços na §11.
 7. **Os bytes ficam onde já estão.** Os builds no ar moram no site de imóveis, e o build em
    revisão mora no canal de prévia. O robô baixa e confere byte a byte.
 8. **Uma trava só para tudo:** um robô por vez. Ela fecha a corrida na criação de jobs (a
@@ -205,6 +205,7 @@ já existe).
 | **publicar** | pedido em `approved` (só o gerente põe ali) | `publicar-<id do AuditLog status:approved>` (cada aprovação, um job) | todas |
 | **reverter** | AuditLog `worker:reverter` (admin) | o id desse AuditLog | todas |
 | **cancelar** | AuditLog `worker:cancelar` (equipe; admin para reverter) | não cria job; marca o job alvo (§10) | todas |
+| **retirar** | conta cancelada há 90 dias ([plano-no-ar.md](plano-no-ar.md) §3); o robô confere a cada varredura | `retirar-<propertyId>-<data do cancelamento>` | todas |
 
 O pedido de trabalho por clique é um documento em `auditLogs`. A regra de criação de hoje já o
 aceita, e o M2-1 a aperta: `worker:*` só da equipe, só com `visibility: 'internal'`, e
@@ -235,7 +236,7 @@ peça de novo".
 O tipo cresce sem quebrar o que existe. Um job sem `stage` é um job manual de antes do M2.
 
 ```ts
-export type BuildJobStage = 'extract' | 'preview' | 'publish' | 'rollback'
+export type BuildJobStage = 'extract' | 'preview' | 'publish' | 'rollback' | 'retire'
 export type BuildJobStep = 'build' | 'channel' | 'check_channel' | 'register' | 'state' | 'assemble'
   | 'deploy' | 'check_live'
 
@@ -456,13 +457,13 @@ fazer parte do ciclo.** Ele só entra em três casos:
 - a primeira publicação de um site vazio (W8);
 - emergências.
 
-**Repositório fechado (recomendado em 20/10, junto com a IA gerente):** o CI de hoje já gasta
-~1.300 minutos por mês (medido). Os números com o robô, o gatilho por evento no lugar da varredura
+**Repositório fechado em 20/10**, com o ok do usuário, antes de qualquer cliente subir arquivo.
+O CI de hoje já gasta ~1.300 minutos por mês (medido). Os números com o robô, o gatilho por evento no lugar da varredura
 de 10 em 10 minutos e o porquê estão em [ia-da-criacao.md](ia-da-criacao.md) §6.
 
 ### Teto e preço (documentação do GitHub, conferida em 20/10)
 
-| Item | Com o repositório **público** (hoje) | Se o repositório virar **privado** |
+| Item | Com o repositório **público** (até 20/10) | Com o repositório **privado** (desde 20/10) |
 |---|---|---|
 | Minutos de máquina | **sem limite e sem custo** com os runners padrão | 2.000 por mês grátis no plano Free; depois, **US$ 0,006 por minuto** (Linux, 2 núcleos) |
 | Tempo máximo de uma execução | 6 h (o robô usa no máximo 60 min) | igual |
@@ -482,7 +483,8 @@ e as cotas do Firestore são os mesmos de hoje (§14).
 ### Como ele roda
 
 - **Por quê o GitHub:**
-  - `ZGroote/Imobiliaria` é **público**;
+  - `ZGroote/Imobiliaria` era público quando a escolha foi feita, e foi fechado em 20/10. Os
+    minutos agora contam, e a conta está na tabela acima;
   - o checkout da `main` já é "o repositório com os dados": as 150 entradas do build, os 239
     tiles e o `pagina_maquete.py`. O PREMIUM do Cedros lê `geometry-compact.json` e
     `lightmap.rgbm.gz`, que estão no git, e não os `source.json` do repositório privado de
@@ -490,11 +492,15 @@ e as cotas do Firestore são os mesmos de hoje (§14).
   - Python 3.14 e Node 24 já sobem no CI (`.github/workflows/ci.yml`);
   - `firebase-tools`, `firebase-admin` e `firebase` vêm do `package.json` da raiz;
   - nada disso depende do Blaze.
-- **Gatilho:**
-  - `schedule` a cada 10 min, mais `workflow_dispatch` para rodar na hora;
-  - fila vazia: a execução termina em ~1 min, sem gastar nada;
-  - o GitHub pode atrasar (e até pular) um agendamento em horário de pico. Como tudo fica no
-    Firestore, uma execução pulada só adia o trabalho para a próxima.
+- **Gatilho** (mudou com o repositório fechado):
+  - **por evento:** uma função pequena no Firebase acorda o robô (`repository_dispatch`) quando
+    há trabalho: arquivo novo, pedido de trabalho, planta fixada, aprovação. Ela precisa do
+    Blaze, que os arquivos já pedem ([ia-da-criacao.md](ia-da-criacao.md) §6);
+  - **varredura de segurança a cada 2 h** (`schedule`), para pegar o que um evento perder;
+  - `workflow_dispatch` para rodar na hora, à mão;
+  - **até o Blaze**, sem a função: varredura a cada 30 min só em horário comercial (~600
+    minutos por mês), para caber na cota junto com o CI;
+  - como tudo fica no Firestore, uma execução atrasada ou pulada só adia o trabalho.
 - **Configuração do workflow:**
   - `permissions: { contents: read, id-token: write }`;
   - `concurrency: { group: worker-imoveis, cancel-in-progress: false }`;
@@ -532,17 +538,19 @@ e as cotas do Firestore são os mesmos de hoje (§14).
     `--config firebase.imoveis.json` e `--only imoveis` / `hosting:imoveis` (M2-3);
   - quem tem escrita na `main` muda o que o robô faz. Isso já vale hoje para o que vai ao ar; a
     proteção continua sendo o ritual de PR com "MERGE AUTORIZADO".
-- **O registro das execuções do Actions é público.**
-  - O robô imprime só: id do job, etapa, passo, slug do imóvel, build, sha e código de erro;
+- **O registro das execuções do Actions**, agora visível só para quem tem acesso ao
+  repositório. A regra continua, porque o registro é guardado e repassado:
+  - o robô imprime só: id do job, etapa, passo, slug do imóvel, build, sha e código de erro;
   - nunca nome de imobiliária, título de pedido, e-mail, nota, motivo por extenso ou mensagem do
     Firestore;
   - o detalhe vai para o job e para o AuditLog interno, que só a equipe lê;
   - um teste (M2-3) roda com textos "sensíveis" de propósito e falha se eles aparecerem na
     saída.
 - **Riscos:**
-  - repositório público sem atividade por 60 dias tem o agendamento desligado. O aviso "a fila
-    está parada" (§9) mostra; religar com `gh workflow enable`;
-  - se o repositório virar privado, vale a tabela acima. A outra saída é o plano B.
+  - **sem cartão no GitHub, ao passar dos 2.000 minutos do mês, o Actions para**, o CI junto.
+    O CI sozinho gasta ~1.300. Com o robô, cadastrar um cartão com teto de gasto, ou cair para
+    o plano B;
+  - o aviso "a fila está parada" (§9) mostra quando o robô não roda.
 
 ### Plano B: Cloud Run Job (com o Blaze ativo)
 
@@ -588,7 +596,7 @@ e as cotas do Firestore são os mesmos de hoje (§14).
 | 5 | identidade da prévia = sha256 dos **bytes servidos** do manifest | `montar-preview` devolve `manifest_sha256`; o painel calcula em `lerPreview` | o robô confere os bytes servidos e registra com `lerPreview`, a mesma função do painel. Na construtora, o "Enviar" da equipe relê de novo |
 | 6 | só o gerente aprova, e exatamente o par do preview | regras: `managerDecision` | igual: o usuário `worker` não passa nessa regra |
 | 7 | promover só o artefato aprovado | `montar-live --manifest-aprovado` recusa manifest local diferente | o robô lê `approvedBuild`/`approvedManifestSha256` no começo e de novo logo antes do deploy. O build vem do canal e é conferido contra o sha aprovado e contra o próprio manifest **antes** do `montar-live`, que confere outra vez |
-| 8 | promover X não mexe em Y | só teste (`test_promoting_x_keeps_y_byte_for_byte`), sem conferência na hora | **portão novo, na hora:** compara o `arquivos` do `estado.json` do ar com o do novo. Só podem mudar `b/X/…`, `imovel/X`, `maquete/X`, `index.html`, `imoveis.json` (o ponto no mapa geral, [materiais](materiais-da-solicitacao.md) §6.1), `quintais/<conjunto novo>/…` e a saída do antigo `anterior` de X. Qualquer outra diferença dá `OUT_OF_SCOPE`, com a lista. Exemplo real: uma mudança no `vitrine_ao_vivo.js` mudaria o ponteiro de Y. Isso vira decisão de alguém, não efeito colateral |
+| 8 | promover X não mexe em Y | só teste (`test_promoting_x_keeps_y_byte_for_byte`), sem conferência na hora | **portão novo, na hora:** compara o `arquivos` do `estado.json` do ar com o do novo. Só podem mudar `b/X/…`, `imovel/X`, `maquete/X`, `index.html`, `imoveis.json` (o ponto no mapa geral, [materiais](materiais-da-solicitacao.md) §6.1), `quintais/<conjunto novo>/…` e a saída do antigo `anterior` de X. Na etapa **retirar** ([plano-no-ar.md](plano-no-ar.md) §3), só a saída de tudo o que é de X. Qualquer outra diferença dá `OUT_OF_SCOPE`, com a lista. Exemplo real: uma mudança no `vitrine_ao_vivo.js` mudaria o ponteiro de Y. Isso vira decisão de alguém, não efeito colateral |
 | 9 | o `estado.json` é o **do ar**, não uma cópia | o operador baixa à mão | o robô baixa sem cache. Os builds no ar baixados são conferidos contra ele (`_confere_contra_estado`). **Logo antes do deploy, relê** e aborta com `STATE_CHANGED` se mudou, o que pega até um deploy à mão no meio-tempo. 404 ou formato errado dá `STATE_UNREADABLE`, nunca "vazio" |
 | 10 | registrar só com o artefato aprovado no ar | `conferirPublicacao` relê o `estado.json` | igual: o robô usa a mesma `registrarPublicacao` |
 | 11 | regras do Firestore | `firebase/firestore.rules` | iguais para todo mundo, inclusive o `worker`, que entra como usuário. Ganham a política por conta (§1.2), a revisão do gerente para `internal_review` (§1.1) e a trava do pedido de trabalho `worker:*` |
@@ -600,7 +608,7 @@ e as cotas do Firestore são os mesmos de hoje (§14).
 
 | Item | Cota grátis | Uso esperado |
 |---|---|---|
-| GitHub Actions | sem limite para repositório público com runner padrão (§11) | ~144 execuções por dia; as vazias levam ~1 min. A montagem dupla (portão 2) dobra o tempo do build, sem custo |
+| GitHub Actions | 2.000 minutos por mês com o repositório privado (desde 20/10); depois, US$ 0,006 por minuto (§11) | o CI já gasta ~1.300 (medido); o robô, ~30 a 50 min por pedido, a medir. A conta por volume está em [ia-da-criacao.md](ia-da-criacao.md) §6 |
 | Firestore (Spark) | 50 mil leituras e 20 mil escritas por dia | execução vazia: ~5 leituras e nenhuma escrita, ~720 leituras/dia. Por job: ~20 escritas (criar, assumir, ~10 sinais de vida, pedido + 2 AuditLogs, encerrar) |
 | Authentication | login por token próprio sem custo | uma entrada por execução com trabalho |
 | Hosting, armazenamento | 10 GB | por imóvel no ar: 2 builds de ~19 MB (tour ~15 MB, maquete 3,3–4,0 MB) mais os ponteiros; os 239 tiles (17 MB) são um conjunto só. Dá ~250 imóveis. Conferir no M2-8 quanto as versões antigas guardadas pelo Hosting e os canais de prévia (~19 MB cada) somam, e limitar a retenção se precisar |
@@ -659,7 +667,7 @@ próprio do `users/worker` sem assinatura.
 | **M2-R** | **Build a partir da planta fixada.**<br>• O `e2e_leitura` ganha a saída de build (tour + maquete + `manifest.json` em `b/<id>/<build>/`), com a sonda.<br>• Lê os dados do imóvel fixados no pedido, inclusive o lote vindo do endereço ([materiais-da-solicitacao.md](materiais-da-solicitacao.md) §5 e §6).<br>• O tour recorta o mapa em volta desse lote, sem mexer no dado da cidade no git.<br>• **Precisa de especificação própria antes** | o `tests/test_e2e_leitura.py` estendido; a matriz da prévia pelo gatilho da planta; `CONTEXT_INVALID` | a imobiliária vai da planta fixada ao `published` com só a aprovação do gerente |
 | **M2-8** | **Ligar de verdade**, depois do religar, com o site de imóveis no ar e com `estado.json`. `worker.yml`, provedor de identidade, conta de serviço e `users/worker`: cada um é ação em produção, com autorização | 1º: uma execução com fila vazia; conferir o registro público. 2º: uma **prévia** do Cedros (imobiliária), que vai ao gerente sem live. 3º: um ciclo inteiro, com os cliques do usuário | ciclo inteiro sem comando à mão; registro sem dado sensível; anotar aqui o tempo real |
 | **M2-9** | **Depois, se precisar:** cópia no servidor (§14, perto de ~15 imóveis); plano B no Cloud Run (§11) | cada um com o seu teste | — |
-| **M2-10** | **A IA gerente** (decidido em 20/10): ler, rascunhar a planta, avaliar a prévia, diagnosticar falha. Os incrementos IA-1 a IA-7 estão em [ia-da-criacao.md](ia-da-criacao.md) §7; o IA-1 (fechar o repositório e o gatilho por evento) vem antes do M2-8 | o modo sombra e os conjuntos de referência de lá | a decisão ligada etapa por etapa, com os números |
+| **M2-10** | **A IA gerente** (decidido em 20/10): ler, rascunhar a planta, avaliar a prévia, diagnosticar falha. Os incrementos IA-1 a IA-7 estão em [ia-da-criacao.md](ia-da-criacao.md) §7; o IA-1 (o gatilho por evento; o repositório já foi fechado) vem antes do M2-8 | o modo sombra e os conjuntos de referência de lá | a decisão ligada etapa por etapa, com os números |
 
 **Depende de:**
 
@@ -694,5 +702,9 @@ O resto do M2 não depende do Blaze.
    1 h de intervalo ([plano-no-ar.md](plano-no-ar.md)).
 10. **O Google Maps usa a mesma conta de faturamento do Blaze.**
 
-**Ainda em aberto:** fechar o repositório (recomendado, [ia-da-criacao.md](ia-da-criacao.md) §6) e
-as perguntas da [IA](ia-da-criacao.md) §8 e do [plano](plano-no-ar.md) §4.
+11. **O repositório foi fechado** em 20/10 ([ia-da-criacao.md](ia-da-criacao.md) §6).
+12. **Vagas:** a vaga liberada só aceita outro imóvel 1 h depois; do cliente, só o gerente mexe;
+    depois do cancelamento, os arquivos ficam 90 dias e o robô os retira
+    ([plano-no-ar.md](plano-no-ar.md)).
+
+**Ainda em aberto:** as perguntas da [IA](ia-da-criacao.md) §8.

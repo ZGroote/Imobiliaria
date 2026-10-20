@@ -231,7 +231,7 @@ arquivo vai para a Anthropic; isso entra no termo de uso, junto com o Google e o
 
 **A nossa própria IA, "no servidor":** dá, com uma condição.
 
-- **Onde rodaria:** na máquina do robô (GitHub Actions), que é de graça no repositório público.
+- **Onde rodaria:** na máquina do robô (GitHub Actions), pelos minutos que o robô já gasta.
   É uma máquina comum, sem placa de vídeo. Ela roda **modelos abertos pequenos**, que se baixam
   uma vez e ficam guardados no cache do GitHub.
 - **Para ler texto** (memorial, descrição do anúncio): **funciona bem e sai de graça.** Um
@@ -453,7 +453,7 @@ Pela página de preços do Firebase, conferida em 20/10:
 |---|---|---|
 | Guardar | o original fica minutos (até a vez dele na fila); o extraído e as imagens leves ficam até o pedido terminar | **zero** na prática |
 | Baixar | o robô baixa cada original uma vez; 100 pedidos com ~300 MB = ~30 GB por mês | **zero** (cota de 100 GB) |
-| Extrair | máquina do GitHub, de graça no repositório público | **zero** |
+| Extrair | máquina do GitHub: minutos do robô ([ia-da-criacao.md](ia-da-criacao.md) §6) | dentro da conta do robô |
 | IA gerente pela API ([ia-da-criacao.md](ia-da-criacao.md) §5) | ~US$ 0,60 a 1,20 por pedido (Opus 5.5) | ~US$ 60 a 120 por 100 pedidos |
 | Mapa do Google no "Cadastrar posição" (§6) | uma abertura por pedido | **zero** até a cota grátis do Google (conferir) |
 

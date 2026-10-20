@@ -31,7 +31,7 @@ API e se seria melhor já fazer com o repositório fechado."
 5. **Antes de decidir sozinha, ela trabalha "à sombra".** Nos primeiros pedidos, ela dá a nota e
    a equipe revisa do mesmo jeito. Só quando o acerto dela for medido e bom, ela passa a decidir
    (§4).
-6. **Repositório: recomendo fechar antes de ligar a IA** (§6).
+6. **O repositório foi fechado em 20/10**, com o ok do usuário (§6).
    - Custo medido: zero a ~US$ 7 por mês até ~30 pedidos, e ~US$ 16 a 28 com 100;
    - o robô passa a ser acordado por evento, e não a cada 10 minutos.
 
@@ -179,9 +179,18 @@ tabela de 06/10/2026:
 
 ---
 
-## 6. Repositório fechado: vale a pena?
+## 6. Repositório fechado (feito em 20/10)
 
-**Recomendo fechar antes de ligar a IA.**
+**Fechado em 20/10/2026, com o ok do usuário.** Antes, foi conferido que:
+
+- o repositório é da conta pessoal `ZGroote`;
+- não havia proteção de branch nem regras do GitHub, que no plano gratuito deixariam de valer
+  num repositório privado;
+- não havia segredos;
+- nada no código aponta para o endereço público.
+
+Depois, o `git` e o Actions continuaram funcionando. O porquê e a conta ficam abaixo, como
+registro.
 
 **Por quê:**
 
@@ -241,7 +250,7 @@ uma resposta gravada. Os testes com a IA de verdade rodam à parte, com orçamen
 
 | # | O quê | Teste | Pronto quando |
 |---|---|---|---|
-| **IA-1** | **Fechar o repositório e o gatilho por evento.** Repositório privado, função que acorda o robô, varredura a cada 2 h. Ação em produção, com autorização | um pedido de trabalho no emulador acorda o robô; sem evento, só a varredura roda | o robô roda por evento; minutos do mês anotados |
+| **IA-1** | **Gatilho por evento** (o repositório já foi fechado em 20/10). Função que acorda o robô e varredura a cada 2 h. Ação em produção, com autorização | um pedido de trabalho no emulador acorda o robô; sem evento, só a varredura roda | o robô roda por evento; minutos do mês anotados |
 | **IA-2** | **As ferramentas da §3**, sem IA: cada uma chamável por teste | no emulador: cada ferramenta respeita as regras como `users/worker`; nenhuma pula portão; o teto por pedido corta | testes verdes |
 | **IA-3** | **Leitura de materiais e dados** com a IA | respostas gravadas; com IA de verdade, 20 pedidos de referência com o certo anotado à mão | acerto anotado aqui |
 | **IA-4** | **Rascunho da planta** (paredes pelo `extrair_planta.py`, cômodos pela IA, portão M1-0) | plantas de referência com a leitura certa; erro de área e de cômodo medido | acerto anotado aqui |
@@ -253,7 +262,7 @@ uma resposta gravada. Os testes com a IA de verdade rodam à parte, com orçamen
 
 ## 8. Perguntas para você decidir
 
-1. **Fechar o repositório agora?** É a recomendação (§6).
+1. ~~Fechar o repositório?~~ Fechado em 20/10 (§6).
 2. **Modelo:** Opus 5.5 em tudo (recomendado), ou Haiku só no memorial?
 3. **O teto por pedido** de ~US$ 3 e 2 rodadas de conserto está bom?
 4. **Modo sombra:** 20 pedidos com a equipe revisando tudo antes de a IA decidir sozinha está
