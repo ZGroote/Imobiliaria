@@ -1,0 +1,50 @@
+{
+  "type": "Feature",
+  "id": 1603515,
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -56.123944491,
+          -15.555758366
+        ],
+        [
+          -56.123991598,
+          -15.555885547
+        ],
+        [
+          -56.124274666,
+          -15.555793986
+        ],
+        [
+          -56.124222986,
+          -15.555654473
+        ],
+        [
+          -56.123944491,
+          -15.555758366
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "inscricao": "021140030160#",
+    "unidades": 1,
+    "fonte": "SIG Cuiabá",
+    "source_url": "https://api.smartgis.net.br/cuiaba/prefeitura/api/PublicLote/Get/1603515",
+    "data_consulta": "2026-10-08",
+    "consolidacao_informada_pela_interface": "21/07/2026 20:25",
+    "area_terreno_cadastro": "920,31",
+    "testada_real_cadastro": "16,40",
+    "area_construida_cadastro": "395,07",
+    "endereco": "CAMOMILA (COND VILLA JARDIM)",
+    "quadra": "05",
+    "numero_lote": "17",
+    "bairro": "AREA DE EXP URB OESTE",
+    "cep": "78042860",
+    "calcada": "C/CALCADA",
+    "muro": "C/MURO",
+    "nota_unidades": "Valores preservados como publicados; campos da API não declaram unidade."
+  }
+}

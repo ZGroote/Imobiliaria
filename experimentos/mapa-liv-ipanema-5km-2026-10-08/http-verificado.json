@@ -1,0 +1,36 @@
+{
+  "base": "https://imobilaria-deccb-miniaturas--liv-mapa-5km-20261008-onn3ia42.web.app",
+  "verificado_utc": "2026-10-09T12:12:42.100401+00:00",
+  "arquivos": {
+    "mapa-liv-ipanema-5km.html": {
+      "status": 200,
+      "bytes": 8046477,
+      "sha256": "54dc2fa36732e8efce3c3a21d8370e7bcccbfbf4e075e106170615ed465747e9",
+      "content_type": "text/html; charset=utf-8"
+    },
+    "maquete-liv-ipanema.html": {
+      "status": 200,
+      "bytes": 38378801,
+      "sha256": "31ffb45398aed3ad49b289600823232e37f668086ebfea458b96ecd2e1b9d018",
+      "content_type": "text/html; charset=utf-8"
+    },
+    "liv-ipanema.glb": {
+      "status": 200,
+      "bytes": 2989904,
+      "sha256": "f3bef61c2a844aae0062b1c15df7ebb942ed188c572ba455b8cddd86d57fadf1",
+      "content_type": "model/gltf-binary"
+    },
+    "quintais/liv-v3-5b9e71f97064a6c5/-10_-7.bin": {
+      "status": 200,
+      "bytes": 30765,
+      "sha256": "8f2333ad0669a0b4ed39510026a95eb0fdb3aa02031f9088f7e6abc4d7f39276",
+      "content_type": "application/octet-stream"
+    }
+  },
+  "ausentes": {
+    "mapa-completo.html": 404,
+    "./quintais/d9ef5bf4b34f/-10_-7.bin": 404,
+    "quintais/liv-d998a9bc0d8b52fe/-10_-7.bin": 404
+  },
+  "status": "PASS"
+}

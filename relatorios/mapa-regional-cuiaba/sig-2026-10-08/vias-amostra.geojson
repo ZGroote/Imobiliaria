@@ -1,0 +1,13 @@
+{
+  "type": "FeatureCollection",
+  "features": [],
+  "source_layer": "pmcba2020:eixos_logradouros",
+  "bbox": [
+    -56.12465,
+    -15.55615,
+    -56.12355,
+    -15.5553
+  ],
+  "data_consulta": "2026-10-08",
+  "source_url": "https://cdn-wms.geocloud.com.br/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=pmcba2020%3Aeixos_logradouros&STYLES=&CRS=CRS%3A84&BBOX=-56.12465,-15.55615,-56.12355,-15.5553&WIDTH=512&HEIGHT=512&FORMAT=application%2Fjson%3Btype%3Dgeojson"
+}

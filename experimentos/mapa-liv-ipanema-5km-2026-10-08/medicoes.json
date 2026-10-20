@@ -1,0 +1,322 @@
+{
+  "cidade": "sao-carlos",
+  "empreendimento": "liv-ipanema",
+  "lat": -21.988640293284593,
+  "lon": -47.921966616665976,
+  "referencia_localizacao": "Ponto Google Maps publicado pela Livon; precisão cadastral não confirmada",
+  "raio_m": 5000,
+  "area_circulo_km2": 78.53981633974483,
+  "centro_m": [
+    -3216.4283207855997,
+    -3179.4802476268346
+  ],
+  "envelope_conservador_com_margem_m": [
+    -8216.26223562963,
+    -7811.857064194013,
+    1828.426,
+    1820.367768274757
+  ],
+  "maquete": {
+    "arquivo": "liv-ipanema.glb",
+    "bytes": 2989904,
+    "sha256": "f3bef61c2a844aae0062b1c15df7ebb942ed188c572ba455b8cddd86d57fadf1",
+    "scale": 1,
+    "rotation_radians": -1.0471975511965976,
+    "offset_m": [
+      8,
+      -6
+    ],
+    "posicao_aproximada": true,
+    "iluminacao": "Luzes do mapa"
+  },
+  "source": "C:\\Users\\respawn\\Desktop\\imobiliaria\\v16-moveis\\publicado\\mapa\\sao-carlos-exteriores-f16b0250b705.html",
+  "sourceSHA256": "68d5b3bad6c16089636f0623574e4d90d372df59f2b0366aa785c3a405310407",
+  "mapa_base_bytes": 13957621,
+  "mapa_regional_bytes": 8046477,
+  "reducao_pct": 42.35,
+  "blocos": {
+    "__cidade": {
+      "antes": 6257,
+      "depois": 6257
+    },
+    "__unidades": {
+      "antes": 49119,
+      "depois": 2
+    },
+    "__luzue": {
+      "antes": 487409,
+      "depois": 2
+    },
+    "__moveis": {
+      "antes": 859896,
+      "depois": 859896
+    },
+    "__textura": {
+      "antes": 261640,
+      "depois": 261640
+    },
+    "__three": {
+      "antes": 678588,
+      "depois": 678588
+    },
+    "__earcut": {
+      "antes": 7132,
+      "depois": 7132
+    },
+    "__imoveis": {
+      "antes": 1832,
+      "depois": 2
+    },
+    "__grounddata": {
+      "antes": 608172,
+      "depois": 357977
+    },
+    "__murosdata": {
+      "antes": 3591232,
+      "depois": 1743957
+    },
+    "__streetdata": {
+      "antes": 4274458,
+      "depois": 1871164
+    },
+    "__elevdata": {
+      "antes": 35533,
+      "depois": 13934
+    },
+    "__portoes": {
+      "antes": 1184776,
+      "depois": 535641
+    },
+    "__vegetacao": {
+      "antes": 349701,
+      "depois": 438875
+    },
+    "__citydata": {
+      "antes": 7075694,
+      "depois": 3315338
+    },
+    "__arvores": {
+      "antes": 478018,
+      "depois": 478018
+    },
+    "__poidata": {
+      "antes": 138390,
+      "depois": 80333
+    },
+    "__urbanModels": {
+      "antes": 5290163,
+      "depois": 908729
+    },
+    "__exteriorModels": {
+      "antes": 5958639,
+      "depois": 5744628
+    },
+    "__listingModels": {
+      "antes": 791790,
+      "depois": 25
+    },
+    "__app": {
+      "antes": 613900,
+      "depois": 762633
+    }
+  },
+  "contagens": {
+    "strict_policy": {
+      "circle_sides": 720,
+      "boundary_error_m": 0.04759639632756496,
+      "geometry_inset_m": 0.15,
+      "building_inset_m": 2.0,
+      "version": "strict-circle-v3",
+      "ground_policy": "continuous-circle"
+    },
+    "roads": [
+      9292,
+      5037
+    ],
+    "ground_polygons": [
+      1117,
+      650
+    ],
+    "predios": [
+      89895,
+      40340
+    ],
+    "quarteiroes": [
+      3876,
+      1862
+    ],
+    "urbanLots": [
+      50277,
+      22061
+    ],
+    "__citydata": [
+      7073849,
+      3314385
+    ],
+    "unidades": [
+      5,
+      0
+    ],
+    "__unidades": [
+      48537,
+      2
+    ],
+    "luzue": [
+      4,
+      4
+    ],
+    "__luzue": [
+      487409,
+      2
+    ],
+    "imoveis": [
+      7,
+      0
+    ],
+    "__imoveis": [
+      1823,
+      2
+    ],
+    "ground_triangles": [
+      18973,
+      9870
+    ],
+    "__grounddata": [
+      608172,
+      357977
+    ],
+    "walls": [
+      251361,
+      121199
+    ],
+    "__murosdata": [
+      3591232,
+      1743957
+    ],
+    "street_triangles": [
+      133811,
+      56339
+    ],
+    "__streetdata": [
+      4274458,
+      1871164
+    ],
+    "gates": [
+      74140,
+      33294
+    ],
+    "__portoes": [
+      1184776,
+      535641
+    ],
+    "pois": [
+      931,
+      614
+    ],
+    "__poidata": [
+      138390,
+      80333
+    ],
+    "urbanModels/assets": [
+      74,
+      40
+    ],
+    "__urbanModels": [
+      5290163,
+      908729
+    ],
+    "exteriorModels/placements": [
+      11657,
+      5113
+    ],
+    "parcelTiles": [
+      239,
+      120
+    ],
+    "__exteriorModels": [
+      5958639,
+      5744568
+    ],
+    "listingModels": [
+      6,
+      0
+    ],
+    "__listingModels": [
+      791761,
+      25
+    ],
+    "ndvi/cells": [
+      262144,
+      56828
+    ],
+    "__vegetacao": [
+      349701,
+      438875
+    ],
+    "elevation/cells": [
+      6400,
+      1352
+    ],
+    "__elevdata": [
+      35533,
+      13934
+    ]
+  },
+  "rasters": {
+    "ndvi": {
+      "format": "regional-raster-sparse-v2",
+      "kind": "ndvi",
+      "source_grid": {
+        "n": 512,
+        "half_m": 9500.0
+      },
+      "center_m": {
+        "x": -3216.4283207855997,
+        "z": -3179.4802476268346
+      },
+      "radius_m": 5000.0,
+      "outside": "masked",
+      "edge_policy": "nearest-inside",
+      "source_cells": 262144,
+      "exported_cells": 56828,
+      "runtime_cells": 262144
+    },
+    "elevation": {
+      "format": "regional-raster-sparse-v2",
+      "kind": "elevation",
+      "source_grid": {
+        "n": 80,
+        "half_m": 9500.0
+      },
+      "center_m": {
+        "x": -3216.4283207855997,
+        "z": -3179.4802476268346
+      },
+      "radius_m": 5000.0,
+      "outside": "masked",
+      "edge_policy": "nearest-inside",
+      "source_cells": 6400,
+      "exported_cells": 1352,
+      "runtime_cells": 6400
+    }
+  },
+  "tiles_regionais": {
+    "prefix": "quintais/liv-v3-5b9e71f97064a6c5/",
+    "arquivos": 120,
+    "bytes": 7539060,
+    "parcelas": 28540,
+    "triangulos_antes": 848591,
+    "triangulos_depois": 383779,
+    "props_antes": 236331,
+    "props_depois": 104995,
+    "max_raio_m": 4999.85048172375
+  },
+  "tiles_base": {
+    "arquivos": 239,
+    "bytes": 16668620
+  },
+  "geometrias": "Geometria cortada antes de download; amostras raster apenas internas; tiles reescritos. Chão contínuo gerado somente dentro do círculo de 5km.",
+  "versao": "strict-circle-v3",
+  "ground_policy": "full-circle",
+  "escopo": "Teste de transferência/renderização com snapshot já montado; consulta espacial em banco ainda não implementada."
+}

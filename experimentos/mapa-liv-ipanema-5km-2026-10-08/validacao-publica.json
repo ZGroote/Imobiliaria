@@ -1,0 +1,138 @@
+{
+  "status": "PASS",
+  "versao": "strict-circle-v3",
+  "verificado_utc": "2026-10-09T12:13:48.853779+00:00",
+  "base": "https://imobilaria-deccb-miniaturas--liv-mapa-5km-20261008-onn3ia42.web.app/",
+  "sha256_mapa": "54dc2fa36732e8efce3c3a21d8370e7bcccbfbf4e075e106170615ed465747e9",
+  "sha256_miniatura": "31ffb45398aed3ad49b289600823232e37f668086ebfea458b96ecd2e1b9d018",
+  "auditoria_dados": "PASS",
+  "http": "PASS",
+  "modos_miniatura": "PASS",
+  "cenarios": [
+    {
+      "name": "desktop",
+      "errors": [],
+      "httpFailures": [],
+      "modeloMalhas": 1825,
+      "modeloLotes": 87,
+      "relevoLigado": true,
+      "chao": {
+        "policy": "continuous-circle",
+        "center": [
+          -3216.4283207855997,
+          -3179.4802476268346
+        ],
+        "radius": 5000,
+        "vertices": 23575,
+        "triangles": 45292,
+        "area_m2": 78538505.33046249,
+        "max_radius_m": 4999.990000000002
+      },
+      "busca": {
+        "catalogCount": 614,
+        "category": "farmacia",
+        "categoryCount": 18,
+        "selectedId": 10,
+        "max_distance_m": 4996.9687584719595,
+        "emptyState": true,
+        "keyboard": true
+      },
+      "maxRaioInicial_m": 4999.998241220218,
+      "maxRaioVistaCompleta_m": 4999.998241220218,
+      "rede": {
+        "tilesPermitidos": 120,
+        "tilesBaixados": 75,
+        "requests": 136,
+        "foraContrato": []
+      },
+      "html": [
+        {
+          "encoded": 5257449,
+          "decoded": 8046477,
+          "transfer": 5257749,
+          "load_ms": 1621.2999999523163
+        }
+      ]
+    },
+    {
+      "name": "mobile",
+      "errors": [],
+      "httpFailures": [],
+      "modeloMalhas": 1825,
+      "modeloLotes": 87,
+      "relevoLigado": true,
+      "chao": {
+        "policy": "continuous-circle",
+        "center": [
+          -3216.4283207855997,
+          -3179.4802476268346
+        ],
+        "radius": 5000,
+        "vertices": 23575,
+        "triangles": 45292,
+        "area_m2": 78538505.33046249,
+        "max_radius_m": 4999.990000000002
+      },
+      "busca": {
+        "catalogCount": 614,
+        "category": "farmacia",
+        "categoryCount": 18,
+        "selectedId": 10,
+        "max_distance_m": 4996.9687584719595,
+        "emptyState": true,
+        "keyboard": true
+      },
+      "maxRaioInicial_m": 4999.998241220218,
+      "maxRaioVistaCompleta_m": 4999.998241220218,
+      "rede": {
+        "tilesPermitidos": 120,
+        "tilesBaixados": 75,
+        "requests": 136,
+        "foraContrato": []
+      },
+      "html": [
+        {
+          "encoded": 5257449,
+          "decoded": 8046477,
+          "transfer": 5257749,
+          "load_ms": 224.5
+        }
+      ]
+    }
+  ],
+  "referencias_miniatura": {
+    "status": "PASS",
+    "seção_removida": true,
+    "imagens_embutidas_removidas": true,
+    "bytes": 38378801,
+    "relatorio": "qa-publica-v3/referencias-removidas.json",
+    "cenarios": [
+      {
+        "name": "desktop",
+        "referenciasPresentes": false,
+        "modes": [
+          "planta2d",
+          "planta3d",
+          "visita",
+          "maquete"
+        ],
+        "errors": [],
+        "visibleMeshes": 56,
+        "siteVisible": 43
+      },
+      {
+        "name": "mobile",
+        "referenciasPresentes": false,
+        "modes": [
+          "planta2d",
+          "planta3d",
+          "visita",
+          "maquete"
+        ],
+        "errors": [],
+        "visibleMeshes": 56,
+        "siteVisible": 43
+      }
+    ]
+  }
+}
