@@ -20,6 +20,9 @@ MIN = AQUI.parents[1] / 'v1.5' / 'miniaturas'
 AR = 'https://imobilaria-deccb-miniaturas.web.app/'
 REV = 'assets/cedros/62549ac12936f290/'
 PAGINA = 'maquete-monte-dos-cedros-37.html'
+# Cedros PBR (experimentos/cedros-pbr-2026-10-04): LEVE + acabamentos do guia, servido como o Hosting serviria.
+# --site nome=pasta acrescenta outras variantes servidas do disco do mesmo jeito.
+SITES = {'pbr': AQUI.parents[1] / 'publicacao' / 'piloto-qualidade-visual-2026-10-04' / 'cedros-v4' / 'site'}
 # latencia somada a cada requisicao (ms), descida e subida (bytes/s), fator de lentidao da CPU
 PERFIS = {
     'referencia': (0, None, None, 1),
@@ -27,7 +30,8 @@ PERFIS = {
     '4g-fraco': (150, 5e6 / 8, 1.5e6 / 8, 1),
     'celular-lighthouse': (562.5, 1474.56 * 1024 / 8, 675 * 1024 / 8, 4),  # o "Slow 4G" + CPU 4x do Lighthouse
 }
-TIPO = {'.html': 'text/html; charset=utf-8', '.json': 'application/json', '.gz': 'application/gzip'}
+TIPO = {'.html': 'text/html; charset=utf-8', '.json': 'application/json', '.gz': 'application/gzip',
+        '.js': 'text/javascript', '.webp': 'image/webp'}
 
 # Injetado antes de qualquer script da pagina. Conta draw call na tela (framebuffer nulo -- o PMREM e
 # a sombra desenham fora dela), estima a memoria de textura/buffer viva pelo formato declarado, cronometra
@@ -119,7 +123,7 @@ INSTR = r"""(() => {
     new PerformanceObserver(l => { for (const e of l.getEntries()) M.longas.push([Math.round(e.startTime), Math.round(e.duration)]); })
       .observe({type: 'longtask', buffered: true});
   } catch (e) {}
-  let ult = 0, ultHeap = 0;
+  let ult = 0, ultHeap = 0, ultPbr = 0;
   const tick = () => {
     const t = agora(); M.raf.push(Math.round(t));
     if (M.drawsTela !== ult) { M.quadros.push([Math.round(t), M.drawsTela - ult]); ult = M.drawsTela; }
@@ -129,6 +133,10 @@ INSTR = r"""(() => {
     if (M.BK && M.BK.BAKE) ev('bake', !!M.BK.BAKE.fila);
     if (window.__exteriorV3) ev('exLuz', fase(window.__exteriorV3));
     if (window.__bakeV3) ev('inLuz', fase(window.__bakeV3));
+    if (window.__pilotoVisual && t - ultPbr > 100) {
+      ultPbr = t; const s = __pilotoVisual.snapshot();
+      ev('pbrMapas', s.loadedMaps); ev('pbr', s.failures.length ? 'erro' : s.installed ? 'pronto' : 'parado');
+    }
     requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
@@ -139,8 +147,8 @@ def sha(b):
     return hashlib.sha256(b).hexdigest()
 
 
-def prepara(cache):
-    """Baixa do ar os bytes brotli do PREMIUM (uma vez), confere com a fonte e comprime o LEVE."""
+def prepara(cache, variantes):
+    """Baixa do ar os bytes brotli do PREMIUM (uma vez), confere com a fonte e comprime o LEVE (e o PBR)."""
     for rel in [PAGINA] + [REV + f for f in ('exterior-uv.json', 'exterior-luz.rgbm.gz', 'interior-uv.json', 'interior-luz.rgbm.gz')]:
         dst = cache / 'premium' / (rel + '.br')
         if not dst.exists():
@@ -157,6 +165,14 @@ def prepara(cache):
     leve = cache / 'leve' / (PAGINA + '.br')
     leve.parent.mkdir(parents=True, exist_ok=True)
     leve.write_bytes(brotli.compress((MIN / 'publicado' / PAGINA).read_bytes(), quality=q))
+    for v in variantes:  # o Hosting comprime tudo, inclusive WebP; sempre refeito, o site muda a cada montagem
+        if v not in SITES:
+            continue
+        for f in SITES[v].rglob('*'):
+            if f.is_file() and f.suffix in ('.html', '.js', '.webp'):
+                dst = cache / v / (f.relative_to(SITES[v]).as_posix() + '.br')
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                dst.write_bytes(brotli.compress(f.read_bytes(), quality=q))
     return q
 
 
@@ -185,6 +201,15 @@ def servidor(cache, faltou):
     s = ThreadingHTTPServer(('127.0.0.1', 0), H)
     threading.Thread(target=s.serve_forever, daemon=True).start()
     return s
+
+
+BANCO = """() => { const r = __maq.ren, gl = r.getContext(), px = new Uint8Array(4), ts = [];
+  const um = () => { r.render(__maq.cena, __maq.cam); gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px); };
+  for (let i = 0; i < 5; i++) um();
+  for (let i = 0; i < 60; i++) { const t0 = performance.now(); um(); ts.push(performance.now() - t0); }
+  ts.sort((a, b) => a - b);
+  return {p50: +ts[30].toFixed(2), p95: +ts[57].toFixed(2), draws: r.info.render.calls, tri: r.info.render.triangles,
+          texturas: r.info.memory.textures, geometrias: r.info.memory.geometries}; }"""
 
 
 def roda(pw, url, perfil, foto=None):
@@ -221,14 +246,18 @@ def roda(pw, url, perfil, foto=None):
         espera(lambda t, e, a: e.get('exLuz') not in ('parado', 'baixando') and not e.get('bake') and a - t['quadro1'] > 1500)
         foto and pg.screenshot(path=foto + '-2-exterior.png')
         time.sleep(1)
+        banco_ext = pg.evaluate(BANCO)
         pg.evaluate("() => { __m.marca('clique'); document.querySelector('#modos button[data-modo=visita]').click(); }")
-        espera(lambda t, e, a: e.get('inLuz') not in ('parado', 'baixando') and not e.get('bake') and a - t['clique'] > 1500)
+        espera(lambda t, e, a: e.get('inLuz') not in ('parado', 'baixando') and e.get('pbr') != 'parado'
+               and not e.get('bake') and a - t['clique'] > 1500)
         foto and pg.screenshot(path=foto + '-3-interior.png')
         time.sleep(1.5)
+        banco_int = pg.evaluate(BANCO)
         d = json.loads(pg.evaluate("""() => { const n = performance.getEntriesByType('navigation')[0];
           return JSON.stringify({m: __m, nav: {resp: n.responseEnd, dcl: n.domContentLoadedEventEnd, rede: n.transferSize},
             res: performance.getEntriesByType('resource').map(e => ({u: e.name.split('/').pop(), ini: e.startTime, fim: e.responseEnd, rede: e.transferSize}))}); }"""))
         d['erros'] = erros
+        d['banco'] = {'exterior': banco_ext, 'interior': banco_int}
         return d
     finally:
         nav.close()
@@ -248,8 +277,10 @@ def resume(d):
     ini2 = quando('bake', True, cl)
     bake2 = quando('bake', False, ini2) if ini2 is not None else None
     luz_in = quando('inLuz', 'pronto', cl)
+    pbr_in = quando('pbr', 'pronto')  # pode instalar antes do clique so se a planta ja existir
+    mapas = quando('pbrMapas', 15)
     quadro_in = next((q[0] for q in m['quadros'] if q[0] > cl), None)
-    pronto_in = luz_in or bake2 or quadro_in
+    pronto_in = luz_in or max((x for x in (bake2, pbr_in) if x is not None), default=None) or quadro_in
     fim_ext = max(x for x in (ext, bake, t['quadro1']) if x is not None)
     gaps = [(b, b - a) for a, b in zip(m['raf'], m['raf'][1:])]
     fim = (pronto_in or cl) + 500
@@ -282,6 +313,12 @@ def resume(d):
         'pior_travada_interior_ms': pior(cl, fim),
         'bloqueio_exterior_ms': bloqueio(t['quadro1'], cl),
         'bloqueio_interior_ms': bloqueio(cl, fim),
+        'mapas_pbr_s': s(mapas),
+        'acabamento_pbr_s': s(pbr_in - cl) if pbr_in else None,
+        'quadro_ext_p50_ms': d['banco']['exterior']['p50'], 'quadro_ext_p95_ms': d['banco']['exterior']['p95'],
+        'quadro_int_p50_ms': d['banco']['interior']['p50'], 'quadro_int_p95_ms': d['banco']['interior']['p95'],
+        'draws_interior': d['banco']['interior']['draws'], 'tri_interior': d['banco']['interior']['tri'],
+        'texturas_interior': d['banco']['interior']['texturas'],
         'erros': len(d['erros']),
     }
 
@@ -292,9 +329,14 @@ def main():
     ap.add_argument('--perfis', default=','.join(PERFIS))
     ap.add_argument('--foto', action='store_true', help='uma rodada extra por variante, sem rede limitada, so pra print')
     ap.add_argument('--cache', default=str(Path(tempfile.gettempdir()) / 'cedros-rede'))
+    ap.add_argument('--variantes', default='leve,premium')
+    ap.add_argument('--saida', default=str(AQUI / 'medicao-rede.json'))
+    ap.add_argument('--site', action='append', default=[], help='nome=pasta do site, relativa a raiz do repositorio')
     a = ap.parse_args()
+    SITES.update((n, AQUI.parents[1] / d) for n, d in (x.split('=', 1) for x in a.site))
     cache = Path(a.cache)
-    q = prepara(cache)
+    variantes = a.variantes.split(',')
+    q = prepara(cache, variantes)
     faltou = []
     srv = servidor(cache, faltou)
     base = f'http://127.0.0.1:{srv.server_port}/'
@@ -302,11 +344,11 @@ def main():
     cru, linhas = [], {}
     with sync_playwright() as pw:
         if a.foto:
-            for v in ('leve', 'premium'):
-                roda(pw, base + f'{v}/{PAGINA}', 'referencia', foto=str(AQUI / f'foto-{v}'))
+            for v in variantes:
+                roda(pw, base + f'{v}/{PAGINA}', 'referencia', foto=str(Path(a.saida).parent / f'foto-{v}'))
         for r in range(a.rodadas):  # intercalado: deriva de clock/termica cai igual nas duas variantes
             for p in perfis:
-                for v in ('leve', 'premium'):
+                for v in variantes:
                     d = roda(pw, base + f'{v}/{PAGINA}', p)
                     x = resume(d)
                     print(f'[{r + 1}/{a.rodadas}] {p:20} {v:8} quadro1={x["primeiro_quadro_s"]}s exterior={x["exterior_pronto_s"]}s '
@@ -317,9 +359,9 @@ def main():
     srv.shutdown()
     medianas = {f'{p}/{v}': {k: (statistics.median(r[k] for r in rs) if all(isinstance(r[k], (int, float)) for r in rs) else [r[k] for r in rs])
                              for k in rs[0]} for (p, v), rs in linhas.items()}
-    saida = {'data': time.strftime('%Y-%m-%d %H:%M'), 'perfis': {p: PERFIS[p] for p in perfis}, 'brotli_leve_qualidade': q,
+    saida = {'data': time.strftime('%Y-%m-%d %H:%M'), 'variantes': variantes, 'perfis': {p: PERFIS[p] for p in perfis}, 'brotli_leve_qualidade': q,
              'viewport': '1280x720 dpr1', '404': sorted(set(faltou)), 'medianas': medianas, 'rodadas': cru}
-    (AQUI / 'medicao-rede.json').write_text(json.dumps(saida, ensure_ascii=False, indent=1), encoding='utf-8')
+    Path(a.saida).write_text(json.dumps(saida, ensure_ascii=False, indent=1), encoding='utf-8')
     print(json.dumps(medianas, ensure_ascii=False, indent=1))
     if faltou:
         print('404:', sorted(set(faltou)))
