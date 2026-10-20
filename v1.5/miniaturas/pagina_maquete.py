@@ -1514,7 +1514,8 @@ function montaMoveisDaPlanta(g) {
     var m = PL_R.moveis[i], def = FURN.MOVEIS[m.tipo];
     if (!def) { console.log("movel sem catalogo: " + m.tipo); continue; }
     var obj = FURN.geoDoMovel(def, m.cor != null ? m.cor : def.cor,
-                              { w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2] });
+                              { w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2],
+                                estilo: m.estilo });
     if (!obj) continue;
     /* A peca mora em (u,v), o referencial do OBB da unidade -- o mesmo em que o
        cadastro a escreveu. `W` leva pro mundo e o giro do OBB entra somado ao `rot`
@@ -1539,7 +1540,8 @@ function montaMoveis(g) {
     if (!def) { console.log("movel sem catalogo: " + m.tipo); continue; }
     var cor = (typeof m.cor === "string" && /^#[0-9a-fA-F]{6}$/.test(m.cor))
             ? parseInt(m.cor.slice(1), 16) : def.cor;
-    var obj = FURN.geoDoMovel(def, cor, { w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2] });
+    var obj = FURN.geoDoMovel(def, cor, { w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2],
+                                          estilo: m.estilo });
     if (!obj) continue;
     // `alto` marca a peca que nasce PENDURADA (aereo, coifa, ripado, box, cortina): o
     // catalogo ja traz a altura cheia dela, entao ela assenta no chao como as outras --

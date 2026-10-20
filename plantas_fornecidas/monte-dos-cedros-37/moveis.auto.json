@@ -2,6 +2,7 @@
  "_gerado_por": "pipeline/mobiliar.py",
  "_nota": "layout automatico; mobilia posta a mao em unidade.json.planta.moveis GANHA deste arquivo",
  "_norma": "folgas conferidas contra ABNT NBR 15575-1 Anexo G (minimo) e NKBA/Panero-Zelnik (conforto)",
+ "_estilo": "rustico",
  "_erros": [],
  "_apertos": [
   "Banho/pia: folga 0.74 m, confortavel e 0.76",
@@ -17,7 +18,9 @@
    "rot": 1,
    "w": 1.95,
    "h": 0.8,
-   "d": 0.92
+   "d": 0.92,
+   "estilo": "nuvem",
+   "cor": "#B7AE9F"
   },
   {
    "tipo": "ripado",
@@ -38,9 +41,10 @@
     2.78
    ],
    "rot": 3,
-   "w": 1.9,
+   "w": 1.4,
    "h": 0.7,
-   "d": 0.38
+   "d": 0.38,
+   "cor": "#5E3F27"
   },
   {
    "tipo": "tv",

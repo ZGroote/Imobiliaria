@@ -52,7 +52,9 @@ function modular() {
   return vm.runInContext(`(() => { ${PRELUDE}
     return FloorPlan.create({inside, shoelace, ESP, ESQ_ANG, ESQ_MARCO, safeInset, obbOf, BUILDING_INSET, PD, anelDoLote, MOVEIS}); })()`, ctx);
 }
-const plain = pl => pl && JSON.stringify({...pl, W: [pl.W(1, 2), pl.W(-3.5, 0.25)], unidade: pl.unidade.id});
+// `estilo` (par de malhas do sofá) é posterior ao monólito: o oráculo não o conhece.
+const plain = pl => pl && JSON.stringify({...pl, W: [pl.W(1, 2), pl.W(-3.5, 0.25)], unidade: pl.unidade.id,
+  moveis: pl.moveis.map(({estilo, ...m}) => m)});
 
 test('unit plan assembly matches the monolith for supplied plans, footprint windings and a lot', () => {
   assert.ok(units.length >= 5);

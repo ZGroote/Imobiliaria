@@ -13,7 +13,7 @@ const assets=['madeira','tecido','frio','parede','madeira_movel'].map(id=>({id,
   maps:Object.fromEntries(['color','normal','roughness'].map(kind=>[kind,{file:`${id}-${kind}.webp`,
     width:512,height:512,bytes:100,sha256:'a'.repeat(64)}]))}));
 
-async function fixture({enabled=true,fail='',deferred=false,lazy=false,bed=false,types=[],customColors={}}={}) {
+async function fixture({enabled=true,fail='',deferred=false,lazy=false,bed=false,types=[],customColors={},calibration,estilo}={}) {
   const requests=[],pending=[],frames=[];
   const document={getElementById(id){assert.equal(id,'__moveis');return {textContent:librarySource};},
     createElement(){throw new Error('O piloto real não deve gerar CanvasTexture');}};
@@ -41,7 +41,7 @@ async function fixture({enabled=true,fail='',deferred=false,lazy=false,bed=false
   FURN=ctx.FurnitureCatalog.create({THREE:T,document,rgbDe,geoDeParts:FP.geoDeParts,getMaterial:()=>original,...FP});
   const furniture=new Map();
   for(const tipo of ['sofa','armario',...(bed?['cama']:[]),...types]) {
-    const def=FURN.MOVEIS[tipo],dims=tipo==='sofa'?{w:2.3,h:.84,d:.95}:{w:def.b[0],h:def.b[1],d:def.b[2]};
+    const def=FURN.MOVEIS[tipo],dims=tipo==='sofa'?{w:2.3,h:.84,d:.95,...(estilo?{estilo}:{})}:{w:def.b[0],h:def.b[1],d:def.b[2]};
     const cor=customColors[tipo]??def.cor,obj=FURN.geoDoMovel(def,cor,dims);
     if(!def.param)obj.scale.set(dims.w/def.b[0],dims.h/def.b[1],dims.d/def.b[2]);
     obj.userData={movel:true,registroMovel:{tipo,...dims,rot:1,cor}};
@@ -53,7 +53,7 @@ async function fixture({enabled=true,fail='',deferred=false,lazy=false,bed=false
   let current=lazy?null:house;
   const maq={planta:()=>current,cam,ren:{capabilities:{getMaxAnisotropy:()=>4}},modo:()=> 'planta3d'};
   vm.runInContext(await readFile(source,'utf8'),ctx,{filename:'visual.js'});
-  const api=ctx.PilotoVisual.start({THREE:T,maq,base:{MAT,matMovel:original,ambientePBR:null,PL_R:{},FURN},assets,assetPath:'assets/',enabled});
+  const api=ctx.PilotoVisual.start({THREE:T,maq,base:{MAT,matMovel:original,ambientePBR:null,PL_R:{},FURN},assets,assetPath:'assets/',enabled,calibration});
   return {T,api,house,MAT,sofa,oldSofa,woodMesh,woodGeo,bedMesh,furniture,FURN,FP,requests,pending,cam,original,
     frame(){current=house;frames.shift()?.();},finish(){pending.splice(0).forEach(fn=>fn());}};
 }
@@ -167,4 +167,42 @@ test('tapete inteiro recebe tecido, cortina preserva trilho e UV respeita largur
   assert.ok(Math.abs((uv.getY(i+1)-uv.getY(i))*.3901-(p.getY(i+1)-p.getY(i)))<.001);assert.equal(f.api.snapshot().maskFallbacks.length,0);
   const horizontal=pairs.find(i=>Math.abs(p.getX(i+1)-p.getX(i))>.01);
   assert.ok(Math.abs((uv.getX(horizontal+1)-uv.getX(horizontal))*.315-(p.getX(horizontal+1)-p.getX(horizontal)))<.001);
+});
+
+test('calibração neutraliza o tint pela cor da planta e acompanha a troca Planta/Visita do Cedros',async()=>{
+  const cal={parede:{neutralizeTint:true,gain:1.2}},f=await fixture({deferred:true,calibration:cal}),wall=f.house.children[0];
+  const visita=wall.geometry,planta=visita.clone(),c=planta.attributes.color;
+  for(let i=0;i<c.count;i++)c.setXYZ(i,.8,.6,.4);
+  const basico=new f.T.MeshBasicMaterial();
+  Object.assign(wall.userData,{geoVisita:visita,geoPlanta:planta,materialVisita:f.MAT.matParede});wall.material=basico;wall.geometry=planta;
+  f.finish();await f.api.ready;
+  const m=wall.userData.materialVisita,want=f.MAT.matParede.color.clone().multiply(new f.T.Color().setRGB(1.2/.8,1.2/.6,1.2/.4));
+  assert.equal(m.name,'piloto-parede');assert.ok(['r','g','b'].every(k=>Math.abs(m.color[k]-want[k])<1e-6));
+  assert.equal(wall.userData.geoVisita.attributes.color,visita.attributes.color);assert.notEqual(wall.userData.geoPlanta,planta);
+  assert.equal(wall.userData.geoPlanta.attributes.uv,wall.userData.geoVisita.attributes.uv);
+  assert.deepEqual(Array.from(wall.userData.geoPlanta.attributes.color.array),Array.from(planta.attributes.color.array));
+  f.api.setEnabled(false);assert.equal(wall.userData.materialVisita,f.MAT.matParede);
+  assert.equal(wall.userData.geoVisita,visita);assert.equal(wall.userData.geoPlanta,planta);
+  const ctx={window:{},requestAnimationFrame:()=>{}};vm.runInNewContext(await readFile(source,'utf8'),ctx);
+  for(const bad of [{parede:{gain:-1}},{vidro:{gain:1}},{tecido:{neutralizeTint:'sim'}}])
+    assert.throws(()=>ctx.window.PilotoVisual.start({THREE:f.T,maq:{planta:()=>null},base:{MAT:f.MAT},assets,assetPath:'assets/',calibration:bad}),/Calibração/);
+});
+
+test('keepTint deixa cada peça com a cor do cadastro e a textura só como trama',async()=>{
+  const f=await fixture({types:['cortina'],calibration:{tecido:{keepTint:true,gain:2}}});await f.api.ready;f.frame();
+  const curtain=f.furniture.get('cortina').children[0].material,wood=f.woodMesh.material;
+  assert.equal(curtain[0].name,'piloto-tecido');assert.equal(curtain[0].vertexColors,true);
+  assert.equal(curtain[0].color.getHex(),new f.T.Color().setScalar(2).getHex());
+  assert.equal(wood[0].vertexColors,false);
+  const body=f.sofa.children[1].children[0].material,want=new f.T.Color(f.FURN.MOVEIS.sofa.cor).multiplyScalar(2);
+  assert.equal(body.vertexColors,false);assert.ok(['r','g','b'].every(k=>Math.abs(body.color[k]-want[k])<1e-6));
+});
+
+test('sofá com estilo da biblioteca recebe tecido pela máscara em vez da troca pela caixa',async()=>{
+  const f=await fixture({estilo:'palito'});await f.api.ready;f.frame();
+  const mesh=f.sofa.children[0],snap=f.api.snapshot();
+  assert.equal(snap.sofas,0);assert.equal(f.sofa.children.length,1);
+  assert.equal(snap.maskFallbacks.length,0);assert.equal(snap.furnitureCoverage.sofa.textured,1);
+  assert.ok(Array.isArray(mesh.material),'tecido + material original (pé de madeira)');
+  assert.equal(mesh.material[0].name,'piloto-tecido');assert.equal(mesh.geometry.groups.length,2);
 });

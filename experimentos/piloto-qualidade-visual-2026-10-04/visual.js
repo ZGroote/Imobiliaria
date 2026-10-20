@@ -2,8 +2,21 @@
 (function (root) {
   'use strict';
 
-  function start({THREE:T, maq, base, assets, assetPath, enabled=true}) {
+  function start({THREE:T, maq, base, assets, assetPath, enabled=true, calibration={}}) {
     if (!T || !maq || !base?.MAT || !Array.isArray(assets)) throw new Error('Ponte do piloto ausente');
+    // Calibração opcional por material. Sem ela vale a do piloto (parede ×1,7, tint do
+    // cadastro preservado). `neutralizeTint` divide paredes e pisos pela cor média por
+    // vértice (o tint do cadastro), mantendo o bake; `gain` (número ou [r,g,b] linear)
+    // multiplica o albedo real e, por canal, tira o matiz da própria textura. `keepTint` nos
+    // móveis mantém a cor de cada peça do cadastro: a textura entra só como trama e relevo.
+    for (const [id,c] of Object.entries(calibration)) {
+      const num=(v,max)=>v===undefined||Number.isFinite(v)&&v>=0&&v<=max;
+      const gain=Array.isArray(c?.gain)?c.gain.length===3&&c.gain.every(v=>num(v,8)):num(c?.gain,8);
+      if (!['madeira','tecido','frio','parede','madeira_movel'].includes(id) || !c || !gain ||
+          !num(c.normalScale,2) || !num(c.roughness,1) ||
+          ['neutralizeTint','keepTint'].some(k=>c[k]!==undefined&&typeof c[k]!=='boolean'))
+        throw new Error('Calibração de material inválida');
+    }
     const catalog=new Map(), records=[], sofas=[], failures=[], finishes=new Map();
     let active=Boolean(enabled), wallsEnabled=true, loading=null, settled=false, installed=null, extraTriangles=0;
     let wallMeshes=0;
@@ -53,23 +66,38 @@
     }
 
     const tileHeight=id=>catalog.get(id).tileHeightMeters??catalog.get(id).tileMeters;
-    function material(original,id,neutral=false) {
-      const m=original.clone(), maps=finishes.get(id);
+    function material(original,id,neutral=false,geo=null) {
+      const m=original.clone(), maps=finishes.get(id), cal=calibration[id]||{};
       Object.assign(m,maps);
       m.name='piloto-'+id;
       m.envMap=original.envMap || base.ambientePBR || null;
-      m.normalScale.setScalar(id==='tecido'?.75:id==='parede'?.65:.5);
+      m.normalScale.setScalar(cal.normalScale??(id==='tecido'?.75:id==='parede'?.65:.5));
       m.bumpMap=null; m.bumpScale=0;
-      m.metalness=0; m.roughness=id==='frio'?.65:id==='parede'?1:.95;
+      m.metalness=0; m.roughness=cal.roughness??(id==='frio'?.65:id==='parede'?1:.95);
       // Calibração específica do reboco desta demonstração: clarear seu albedo
       // real, mantendo tint/bake e iluminação originais (sem emissão ou luz extra).
-      if(id==='parede')m.color.multiplyScalar(1.7);
+      const gain=Array.isArray(cal.gain)?new T.Color().setRGB(...cal.gain):new T.Color().setScalar(cal.gain??(id==='parede'?1.7:1));
+      m.color.multiply(gain);
+      const c=cal.neutralizeTint&&geo?.attributes.color;
+      if(c) {
+        // Média da cor por vértice = tint do cadastro. Dividir por ela deixa na cor por
+        // vértice só a variação do bake, e o albedo real (×gain) decide a superfície.
+        let r=0,g=0,b=0;for(let i=0;i<c.count;i++){r+=c.getX(i);g+=c.getY(i);b+=c.getZ(i);}
+        if(r>0&&g>0&&b>0)m.color.multiply(new T.Color().setRGB(c.count/r,c.count/g,c.count/b));
+      }
       m.onBeforeCompile=original.onBeforeCompile;m.customProgramCacheKey=original.customProgramCacheKey;
       // As cores dos móveis são tint do catálogo, não o bake da casa. O albedo real
       // substitui esse tint só nos grupos de acabamento; ferragens permanecem originais.
-      if(neutral){m.vertexColors=false;m.color.setHex(0xffffff);}
+      if(neutral){m.vertexColors=Boolean(cal.keepTint);m.color.copy(gain);}
       m.needsUpdate=true;
       return m;
+    }
+    // A maquete do Cedros troca material e geometria das malhas da casa a cada quadro
+    // (`luzDaPlanta`): a verdade fica em userData.materialVisita/geoVisita/geoPlanta.
+    const sourceOf=mesh=>({material:mesh.userData.materialVisita||mesh.material,
+      geometry:mesh.userData.geoVisita||mesh.geometry,planta:mesh.userData.geoPlanta||null});
+    function plantaWith(planta,name,attr) {
+      if(!planta)return null;const g=planta.clone();g.setAttribute(name,attr);return g;
     }
 
     function uvProjected(geo, id, scale) {
@@ -91,9 +119,11 @@
     }
 
     function finishWall(mesh) {
-      if(!finishes.has('parede')||!mesh?.isMesh||Array.isArray(mesh.material)||!mesh.geometry.attributes.normal)return;
+      if(!finishes.has('parede')||!mesh?.isMesh)return;
+      const src=sourceOf(mesh);
+      if(Array.isArray(src.material)||!src.geometry.attributes.normal)return;
       try {
-        const g=mesh.geometry.clone(),p=g.attributes.position,n=g.attributes.normal;
+        const g=src.geometry.clone(),p=g.attributes.position,n=g.attributes.normal;
         const uv=new Float32Array(p.count*2),tile=catalog.get('parede').tileMeters;
         // Mantém index/posição/normais e uv1. A tangente à normal horizontal dá
         // metros de parede também quando a casa está girada no referencial global.
@@ -103,23 +133,26 @@
           uv[i*2+1]=(length>.5?y:z)/tileHeight('parede');
         }
         g.setAttribute('uv',new T.BufferAttribute(uv,2));
-        if(mesh.geometry.attributes.color)g.setAttribute('color',mesh.geometry.attributes.color);
-        const m=material(mesh.material,'parede');
-        records.push({mesh,kind:'wall',originalMaterial:mesh.material,originalGeometry:mesh.geometry,
-          nextMaterial:m,nextGeometry:g});wallMeshes++;
+        if(src.geometry.attributes.color)g.setAttribute('color',src.geometry.attributes.color);
+        const m=material(src.material,'parede',false,src.planta||g);
+        records.push({mesh,kind:'wall',originalMaterial:src.material,originalGeometry:src.geometry,
+          nextMaterial:m,nextGeometry:g,originalPlanta:src.planta,nextPlanta:plantaWith(src.planta,'uv',g.attributes.uv)});wallMeshes++;
       }catch(error){failures.push({material:'parede',message:error.message});}
     }
 
     function finishFloor(mesh,id,oldTile) {
-      if (!mesh?.isMesh || !mesh.geometry.attributes.uv || !finishes.has(id)) return;
-      const g=mesh.geometry.clone(), uv=g.attributes.uv, ratio=oldTile/catalog.get(id).tileMeters;
+      if (!mesh?.isMesh || !finishes.has(id)) return;
+      const src=sourceOf(mesh);
+      if (!src.geometry.attributes.uv) return;
+      const g=src.geometry.clone(), uv=g.attributes.uv, ratio=oldTile/catalog.get(id).tileMeters;
       // O bake progressivo pode continuar depois do download. Compartilhar somente
       // a cor mantém a mesma iluminação em A e B; a UV de repetição continua isolada.
-      if(mesh.geometry.attributes.color)g.setAttribute('color',mesh.geometry.attributes.color);
+      if(src.geometry.attributes.color)g.setAttribute('color',src.geometry.attributes.color);
       for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*ratio,uv.getY(i)*oldTile/tileHeight(id));
       uv.needsUpdate=true;
-      records.push({mesh,originalMaterial:mesh.material,originalGeometry:mesh.geometry,
-        nextMaterial:material(mesh.material,id),nextGeometry:g});
+      records.push({mesh,originalMaterial:src.material,originalGeometry:src.geometry,
+        nextMaterial:material(src.material,id,false,src.planta||g),nextGeometry:g,
+        originalPlanta:src.planta,nextPlanta:plantaWith(src.planta,'uv',uv)});
     }
 
     function sourceMask(g,item,wood=false) {
@@ -130,7 +163,7 @@
         for(const i of d.idx){const fixed=override??((d.col[i*3]<<16)|(d.col[i*3+1]<<8)|d.col[i*3+2]);
           mask.push(d.herda[i]||wood&&fixed===0xA9793F?1:0);}return true;
       };
-      if(def?.param)for(const part of def.param({w:item.w,h:item.h,d:item.d})) {
+      if(def?.param)for(const part of def.param({w:item.w,h:item.h,d:item.d,estilo:item.estilo})) {
         if(part.malha){if(!fromLibrary(part.malha,part.c))break;}
         // FurnitureParam.caixaEm tem44triângulos/132vértices por caixa chanfrada.
         else for(let i=0;i<132;i++)mask.push(part.c==null||wood&&part.c===0xA9793F?1:0);
@@ -141,10 +174,12 @@
     }
 
     function finishFurniture(mesh,id,item,scale) {
-      if (!mesh.isMesh || Array.isArray(mesh.material) || !mesh.geometry.attributes.color) return;
+      if (!mesh.isMesh) return;
+      const src=sourceOf(mesh);
+      if (Array.isArray(src.material) || !mesh.geometry.attributes.color) return;
       const g=uvProjected(mesh.geometry,id,scale), c=g.attributes.color;
       const mask=sourceMask(g,item,id==='madeira_movel');if(!mask){g.dispose();return;}
-      const next=material(mesh.material,id,true);
+      const next=material(src.material,id,true);
       // Somente faces que herdam a cor do cadastro recebem o acabamento. Ferragens,
       // pés e peças de cor fixa preservam o material original; não viram madeira.
       const triangles=[[],[]];
@@ -155,8 +190,8 @@
       }
       if(!triangles[0].length){g.dispose();next.dispose();return;}
       groupTriangles(g,triangles);
-      records.push({mesh,originalMaterial:mesh.material,originalGeometry:mesh.geometry,
-        nextMaterial:[next,mesh.material],nextGeometry:g});
+      records.push({mesh,originalMaterial:src.material,originalGeometry:mesh.geometry,
+        nextMaterial:[next,src.material],nextGeometry:g});
     }
 
     function groupTriangles(g,triangles) {
@@ -175,7 +210,9 @@
     }
 
     function finishBed(mesh,item,scale) {
-      if(!mesh.isMesh || Array.isArray(mesh.material) || !mesh.geometry.attributes.color) return;
+      if(!mesh.isMesh) return;
+      const src=sourceOf(mesh);
+      if(Array.isArray(src.material) || !mesh.geometry.attributes.color) return;
       if(!finishes.has('tecido')&&!finishes.has('madeira_movel'))return;
       const clothTile=catalog.get('tecido').tileMeters,woodTile=catalog.get('madeira_movel').tileMeters;
       const g=uvProjected(mesh.geometry,'tecido',scale),p=g.attributes.position,c=g.attributes.color;
@@ -201,9 +238,9 @@
       }
       if(!groups[0].length&&!groups[1].length){g.dispose();return;}
       groupTriangles(g,groups);
-      records.push({mesh,originalMaterial:mesh.material,originalGeometry:mesh.geometry,
-        nextMaterial:[finishes.has('tecido')?material(mesh.material,'tecido',true):mesh.material,
-          finishes.has('madeira_movel')?material(mesh.material,'madeira_movel',true):mesh.material,mesh.material],nextGeometry:g});
+      records.push({mesh,originalMaterial:src.material,originalGeometry:mesh.geometry,
+        nextMaterial:[finishes.has('tecido')?material(src.material,'tecido',true):src.material,
+          finishes.has('madeira_movel')?material(src.material,'madeira_movel',true):src.material,src.material],nextGeometry:g});
     }
 
     function roundedBox(w,h,d,r) {
@@ -214,7 +251,7 @@
       g.translate(0,0,-(d-2*r)/2); return g;
     }
 
-    function merge(parts,id,original) {
+    function merge(parts,id,original,tint) {
       const position=[],normal=[],uv=[];
       for(const part of parts) {
         const source=roundedBox(...part.size,part.radius), g=uvProjected(source,id);
@@ -233,6 +270,8 @@
       g.computeBoundingSphere();
       extraTriangles+=position.length/9;
       const m=material(original,id,true);
+      // A malha própria não tem cor por vértice: a cor da peça entra no material.
+      if(tint){m.vertexColors=false;m.color.multiply(tint);}
       const mesh=new T.Mesh(g,m);mesh.castShadow=true;mesh.receiveShadow=true;return mesh;
     }
 
@@ -255,7 +294,8 @@
       for(const x of [-1,1])for(const z of [-1,1])feet.push({size:[arm*.4,leg,arm*.4],
         at:[x*(w/2-arm*.7),leg/2,z*(d/2-arm*.7)],radius:Math.min(.008,arm*.04)});
       const gr=new T.Group();gr.name='sofa-piloto';
-      const body=merge(parts,'tecido',base.matMovel);
+      const cor=item.cor??base.FURN?.MOVEIS?.[item.tipo]?.cor;
+      const body=merge(parts,'tecido',base.matMovel,calibration.tecido?.keepTint&&cor!=null?new T.Color(cor):null);
       gr.add(body,merge(feet,'madeira_movel',base.matMovel));
       // Dimensões nominais exatas, sem ampliar footprint nem alterar o objeto selecionável.
       gr.updateMatrixWorld(true);
@@ -279,7 +319,10 @@
         if(!obj.userData?.movel || !item)continue;
         const count=furnitureCoverage[item.tipo]??(furnitureCoverage[item.tipo]={total:0,textured:0});count.total++;
         const before=records.length+sofas.length;
-        if(item.tipo==='sofa' && finishes.has('tecido')&&finishes.has('madeira_movel')&&!sofas.length)replaceSofa(obj,item);
+        // Sofá com `estilo` já vem da biblioteca do Blender (pé, braço e encosto do
+        // estilo): recebe o tecido pela máscara, como as outras peças. A troca pela
+        // caixa arredondada daqui fica só para o sofá padrão.
+        if(item.tipo==='sofa' && !item.estilo && finishes.has('tecido')&&finishes.has('madeira_movel')&&!sofas.length)replaceSofa(obj,item);
         else if(item.tipo==='cama')obj.traverse(mesh=>finishBed(mesh,item,obj.scale));
         else {
           const id=['armario','guardaroupa','estante','mesa','criado','ripado','rack','aereo','cadeira','pia','balcao','bancada'].includes(item.tipo)
@@ -292,9 +335,11 @@
     }
 
     function apply() {
-      for(const r of records){const use=active&&(r.kind!=='wall'||wallsEnabled);
+      for(const r of records){const use=active&&(r.kind!=='wall'||wallsEnabled),ud=r.mesh.userData;
         r.mesh.material=use?r.nextMaterial:r.originalMaterial;
-        r.mesh.geometry=use?r.nextGeometry:r.originalGeometry;}
+        r.mesh.geometry=use?r.nextGeometry:r.originalGeometry;
+        if(ud.materialVisita)ud.materialVisita=r.mesh.material;
+        if(r.originalPlanta){ud.geoVisita=r.mesh.geometry;ud.geoPlanta=use?r.nextPlanta:r.originalPlanta;}}
       for(const sofa of sofas){sofa.gr.visible=active;
         for(const r of sofa.originals)r.child.visible=active?false:r.visible;}
     }

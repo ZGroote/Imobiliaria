@@ -115,6 +115,7 @@ marcadas "saiu", e as provas estão nas seções do fim deste documento.
 | 1,33 | `v1.5/miniaturas/monte-das-colinas_blender/modelo.json` | E | `modelar_montes.py` (Blender) | a página das Colinas | Colinas | não testado |
 | 1,26 | `arvores/arvores_lib.json` | E | `arvores/export_arvores.py` (Blender) | a montagem | todo imóvel | não testado |
 | 1,13 | `sao-carlos/dados/portoes.json` | E | `pipeline/portoes.py` (etapa 6b) | a montagem | todo imóvel | não |
+| 1,10 | `moveis/moveis_lib.json` | E, entrou em 19/10 (estilos de sofá) | `moveis/moveis.py` (Blender) | o interior (`furniture-param.js`) e `pipeline/mobiliar.py` | todo imóvel com móvel | não testado |
 | 1,10 | `v1.5/miniaturas/castanheiras_blender/castanheiras.blend` | F, leve | `modelar_castanheiras.py` | quem edita o modelo | não | não testado |
 | 15,90 (239) | `v16-moveis/publicado/mapa/quintais/d9ef5bf4b34f/*.bin` | E | `exteriores/v1/dividir_terrenos.py` | o site do mapa; `publicar_imovel.py` e `preparar_piloto.py` copiam para o build por imóvel | o prefixo vai no manifest, e cada arquivo vai para o `estado.json` na publicação | não testado |
 

@@ -33,7 +33,7 @@ A FRENTE DE TODO MOVEL E O +Z do catalogo, e `rot` gira de 90 em 90 (0 = frente 
 +y da planta, 1 = +x, 2 = -y, 3 = -x). Errar isso encosta a porta do armario na
 parede e mostra o fundo pro comodo -- e nao da erro nenhum.
 """
-import io, json, math, os, sys
+import io, json, math, os, sys, zlib
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = os.path.join(RAIZ, "plantas_fornecidas")
@@ -149,12 +149,17 @@ def projeta(w, p):
     return t, d
 
 
-def livres(w, aberturas):
-    """Trechos da parede onde da pra encostar: o comprimento menos os vaos."""
+def livres(w, aberturas, alto=None):
+    """Trechos da parede onde da pra encostar: o comprimento menos os vaos.
+
+    Com `alto` (altura da peca), janela cujo peitoril passa por cima dela deixa de
+    bloquear: e o que poe a pia embaixo da janela, como em toda cozinha brasileira."""
     blocos = []
     for ab in aberturas:
         t, d = projeta(w, ab["p"])
         if d > 0.30:
+            continue
+        if alto is not None and ab.get("janela") and ab.get("y0", 1.0) >= alto + 0.05:
             continue
         meia = ab.get("largura", 0.9) / 2.0 + FOLGA_VAO
         blocos.append((t - meia, t + meia))
@@ -260,6 +265,9 @@ class Comodo(object):
         self.reservas = []    # a FAIXA DE CIRCULACAO na frente de cada peca
         self.frouxo = False   # segunda volta: aceita invadir a faixa alheia
         self.moveis = []
+        self.E = {}           # ESTILOS[...] da unidade; vazio = moderno
+        self.sofa = {}        # estilo/cor escolhidos ANTES de calcular a ocupacao
+        self.largura_sofa = 0.0
 
     def faixa(self, cx, cy, w, d, rot, prof):
         """AABB da circulacao reservada na frente da peca.
@@ -342,6 +350,8 @@ class Comodo(object):
                 self.reservas.append(self.faixa(cx, cy, w, d, rot, MIN[folga]))
         m = {"tipo": tipo, "p": [cx, cy], "rot": rot,
              "w": round(w, 3), "h": round(h, 3), "d": round(d, 3)}
+        if tipo == "sofa":
+            m.update(self.sofa)
         if cor:
             m["cor"] = cor
         if folga:
@@ -382,6 +392,32 @@ TIPO = [
 VERDE = "#5A6249"      # marcenaria da cozinha (o anuncio diz verde-oliva)
 BRANCO = "#E4DFD5"
 MADEIRA = "#8A6A45"    # painel ripado da sala
+NOGUEIRA = "#5E3F27"   # madeira escura: rack na frente do ripado, sem sumir nele
+
+# ---- estilo da casa (a skill mobiliar-casa, no que o catalogo ja tem) ----
+#
+# O estilo muda QUANTO entra e de que madeira, nao a geometria: zero malha nova.
+# A cozinha fica de fora de proposito -- o verde dela veio do anuncio, e marcenaria
+# planejada e dado do imovel, nao decoracao. `sofas` restringe os pares sofa_mod_<e>;
+# sem a chave, todos. Sorteado por crc32 do id; `planta.estilo` no cadastro ganha.
+ESTILOS = {
+    "moderno":     {},                     # o layout de sempre
+    "minimalista": {"ripado": False, "poltrona": False, "tapete": False,
+                    "rack": 1.40, "sofas": ("tuxedo", "palito")},
+    "rustico":     {"estante": True, "madeira": MADEIRA, "rack_cor": NOGUEIRA,
+                    "rack": 1.40, "sofas": ("nuvem", "palito")},
+}
+
+
+def estilo_de(u):
+    P = u.get("planta") or {}
+    e = P.get("estilo")
+    if e is None:
+        nomes = sorted(ESTILOS)
+        return nomes[zlib.crc32(str(u.get("id", "")).encode("utf-8")) % len(nomes)]
+    if e not in ESTILOS:
+        raise ValueError("planta.estilo %r: use %s" % (e, ", ".join(sorted(ESTILOS))))
+    return e
 
 
 def tipo_de(nome):
@@ -403,6 +439,8 @@ def encosta_onde_couber(c, tipo, w, h, d, cor=None, folga=None, passo=0.15,
     0,90 de bancada mais 0,80 de box sao 1,70 numa parede de 2,33. A unica posicao
     testada era a ocupada, `cabe()` recusava, e o banheiro saia sem box sem que
     nada acusasse -- porque nao ha erro nenhum em nao postar um movel."""
+    # Sofas/poltronas precisam sair da face da parede que fecha o canto tambem.
+    margem = MEIA_PAREDE + RECUO if tipo == "sofa" else 0.0
     for tentativa in (0, 1):
         # SEGUNDA VOLTA SEM AS RESERVAS. Respeitar a circulacao alheia e o certo, mas
         # so ate o ponto em que a peca deixa de existir: cozinha sem geladeira e
@@ -416,10 +454,10 @@ def encosta_onde_couber(c, tipo, w, h, d, cor=None, folga=None, passo=0.15,
         try:
             for wall in (c.paredes if paredes is None else paredes):
                 for a, b in livres(wall, c.aberturas):
-                    if b - a < w:
+                    if b - a < w + 2 * margem:
                         continue
-                    t = a + w / 2.0
-                    while t <= b - w / 2.0 + 1e-6:
+                    t = a + w / 2.0 + margem
+                    while t <= b - w / 2.0 - margem + 1e-6:
                         if c.encosta(tipo, w, h, d, wall, t, cor, folga=folga):
                             return True
                         t += passo
@@ -449,7 +487,7 @@ def cabe_de_frente(c, wa, da, wb, db, folga):
     return vao - da - db >= folga
 
 
-def maior_livre(c, minimo, usadas=(), filtro=None):
+def maior_livre(c, minimo, usadas=(), filtro=None, alto=None):
     """A parede com o maior trecho livre, e onde e o meio desse trecho."""
     melhor = None
     for i, w in enumerate(c.paredes):
@@ -457,7 +495,7 @@ def maior_livre(c, minimo, usadas=(), filtro=None):
             continue
         if filtro and not filtro(w):
             continue
-        for a, b in livres(w, c.aberturas):
+        for a, b in livres(w, c.aberturas, alto):
             if b - a < minimo:
                 continue
             if melhor is None or (b - a) > melhor[3]:
@@ -465,17 +503,10 @@ def maior_livre(c, minimo, usadas=(), filtro=None):
     return melhor
 
 
-def mobilia_cozinha(c):
-    """Bancada corrida na parede mais longa livre; fogao no meio; coifa em cima;
-       aereos onde nao ha coifa; geladeira em outra parede."""
-    alvo = maior_livre(c, 1.10)
-    if not alvo:
-        return
-    i, w, _, _, a, b = alvo
-    corr = b - a
-    # a sequencia: pia (1,30) + fogao (0,62) + balcao no que sobrar
-    pecas = []
-    resto = corr
+def corrida(a, b):
+    """Pia (1,30) + fogao (0,62) + balcao no que sobrar, centrados no trecho [a, b].
+    Devolve (tipo, inicio, largura) ao longo da parede."""
+    pecas, resto = [], b - a
     if resto >= 1.20:
         pecas.append(("pia", min(1.30, resto))); resto -= pecas[-1][1]
     if resto >= 0.62:
@@ -483,20 +514,88 @@ def mobilia_cozinha(c):
     while resto >= 0.60:
         L = min(1.00, resto)
         pecas.append(("balcao", L)); resto -= L
-    t = a + (corr - sum(p[1] for p in pecas)) / 2.0
+    t, run = a + resto / 2.0, []
     for tipo, L in pecas:
+        run.append((tipo, t, L))
+        t += L
+    return run
+
+
+def sob_janela(w, aberturas, a, b, alto):
+    """A bancada com a PIA centrada na janela, ou None.
+
+    Pia e nao fogao: chama perto de janela apaga com vento e cortina pega fogo. A
+    pia cobre a janela com 5 cm de cada lado, entao fogao, coifa e aereo ficam fora
+    do vao por construcao. So vale com UMA janela no trecho -- com duas, a segunda
+    cairia em cima do fogao."""
+    jans = []
+    for ab in aberturas:
+        if not ab.get("janela") or ab.get("y0", 1.0) < alto + 0.05:
+            continue
+        t, d = projeta(w, ab["p"])
+        jl = ab.get("largura", 1.40)
+        if d <= 0.30 and t + jl / 2 > a and t - jl / 2 < b:
+            jans.append((t, jl))
+    # ponytail: acima de 2 m e fachada de sacada, nao janela de cozinha; fica na regra antiga
+    if len(jans) != 1 or jans[0][1] > 2.0:
+        return None
+    t, jl = jans[0]
+    pw = max(1.20, jl + 0.10)
+    p0, p1 = t - pw / 2, t + pw / 2
+    if p0 < a or p1 > b:
+        return None
+    run = [("pia", p0, pw)]
+    esq, dir_ = p0 - a, b - p1
+    # Fogao encostado na pia, do lado mais folgado. O OUTRO lado guarda 0,70 na ponta
+    # pra geladeira: na mirra-114 um balcao de 0,65 ali empurrou ela pra frente da
+    # pia, com 0,30 m de passagem onde a norma pede 0,85.
+    if max(esq, dir_) >= 0.62:
+        if dir_ >= esq:
+            run.append(("fogao", p1, 0.62)); p1 += 0.62; dir_ -= 0.62; esq -= 0.70
+        else:
+            p0 -= 0.62; run.append(("fogao", p0, 0.62)); esq -= 0.62; dir_ -= 0.70
+    while dir_ >= 0.60:
+        L = min(1.00, dir_)
+        run.append(("balcao", p1, L)); p1 += L; dir_ -= L
+    while esq >= 0.60:
+        L = min(1.00, esq)
+        p0 -= L; run.append(("balcao", p0, L)); esq -= L
+    return run
+
+
+def mobilia_cozinha(c):
+    """Bancada corrida na parede mais longa livre; fogao no meio; coifa em cima;
+       aereos onde nao ha coifa; geladeira em outra parede."""
+    # Primeiro tenta a PIA EMBAIXO DA JANELA: o trecho e medido com a janela livre
+    # (o peitoril passa por cima da bancada) e a pia e ancorada nela. Nao dando,
+    # volta a regra antiga, com a janela bloqueando a parede.
+    run, sob = None, False
+    alvo = maior_livre(c, 1.10, alto=0.92)
+    if alvo:
+        i, w, _, _, a, b = alvo
+        run = sob_janela(w, c.aberturas, a, b, 0.92)
+        sob = run is not None
+    if run is None:
+        alvo = maior_livre(c, 1.10)
+        if not alvo:
+            return
+        i, w, _, _, a, b = alvo
+        run = corrida(a, b)
+    for tipo, t, L in run:
         meio = t + L / 2
         prof = 0.60 if tipo != "fogao" else 0.62
-        c.encosta(tipo, L, 0.92, prof, w, meio, VERDE if tipo != "fogao" else None,
-                  folga="cozinha")
+        # Recusada a peca de baixo, nada vai em cima: coifa sem fogao e aereo
+        # flutuando na frente da porta (o balcao que a folha barrou).
+        if not c.encosta(tipo, L, 0.92, prof, w, meio, VERDE if tipo != "fogao" else None,
+                         folga="cozinha"):
+            continue
         if tipo == "fogao":
             # A chamine vai ate o TETO, e teto varia por unidade: com 2,70 fixo ela
             # ATRAVESSA a laje num apartamento de pe-direito 2,60 (o `sanca-135-29`).
             # O defeito nao aparece na vista de planta, so andando por baixo dela.
             c.encosta("coifa", 0.60, c.pd, 0.50, w, meio, aereo=True)
-        elif L >= 0.70:
+        elif L >= 0.70 and not (sob and tipo == "pia"):
             c.encosta("aereo", L, 2.20, 0.35, w, meio, VERDE, aereo=True)
-        t += L
     # GELADEIRA. Outra parede, no canto -- mas so numa parede onde ela nao fique de
     # frente pra bancada sem os 0,85 m da norma entre as duas. Numa cozinha corredor
     # de 1,75 m nenhuma parede oposta serve: 0,60 de bancada + 0,68 de geladeira
@@ -573,13 +672,13 @@ def mobilia_quarto(c):
         # 0,50 de PROFUNDIDADE. A marcenaria planejada brasileira trabalha com
         # 0,55-0,60, e e o que se ve nas fotos: fica o valor de mercado, de
         # proposito, e nao por descuido.
-        c.encosta("guardaroupa", min(2.00, glarg - 0.10), 2.35, 0.60, gw, gmeio, BRANCO,
-                  folga="parede")
+        c.encosta("guardaroupa", min(2.00, glarg - 0.10), 2.35, 0.60, gw, gmeio,
+                  c.E.get("madeira", BRANCO), folga="parede")
     else:
         # Nenhuma parede com fundo pro armario. Ele entra assim mesmo e o aferidor
         # acusa: guarda-roupa e mobiliario MINIMO de dormitorio na norma, e quarto
         # sem armario nao le como quarto sobrio, le como quarto incompleto.
-        encosta_onde_couber(c, "guardaroupa", 1.20, 2.35, 0.60, BRANCO,
+        encosta_onde_couber(c, "guardaroupa", 1.20, 2.35, 0.60, c.E.get("madeira", BRANCO),
                             folga="parede", insistir=True)
     # Mesa de estudo: movel opcional dos dormitorios que nao sao de casal.
     if not casal:
@@ -607,7 +706,7 @@ def mobilia_sala(c):
     if not alvo:
         return
     i, w, meio, larg, _, _ = alvo
-    sofa_w = min(1.95, larg - 0.20)
+    sofa_w = max(c.largura_sofa, min(1.95, larg - 0.20))
     c.encosta("sofa", sofa_w, 0.80, 0.92, w, meio, folga="assento")
     # TV na parede de frente: a que tem normal mais oposta a do sofa
     n = w["n"]
@@ -636,26 +735,36 @@ def mobilia_sala(c):
             # O ripado cola na face da parede (recuo 0); o rack e a TV ficam
             # 5 cm a frente dele, que e a espessura do painel.
             larg = frente[2]
-            c.encosta("ripado", min(2.60, larg - 0.10), min(2.40, c.pd - 0.20), 0.05,
-                      frente[0], frente[1], MADEIRA, aereo=True, recuo=0.0)
-            c.encosta("rack", min(1.90, larg - 0.30), 0.70, 0.38,
-                      frente[0], frente[1], aereo=True, recuo=0.05)
+            rw = min(c.E.get("rack", 1.90), larg - 0.30)
+            # Rustico: estante aberta de cada lado do rack NO LUGAR do ripado -- so se
+            # as duas cabem no trecho livre (`encosta` nao ve janela, quem garante o
+            # vao e esta conta). Nao cabendo, fica o ripado, que tambem e madeira.
+            estante = c.E.get("estante") and larg / 2 >= rw / 2 + 0.05 + 0.95
+            if c.E.get("ripado", True) and not estante:
+                c.encosta("ripado", min(2.60, larg - 0.10), min(2.40, c.pd - 0.20), 0.05,
+                          frente[0], frente[1], MADEIRA, aereo=True, recuo=0.0)
+            c.encosta("rack", rw, 0.70, 0.38,
+                      frente[0], frente[1], c.E.get("rack_cor"), aereo=True, recuo=0.05)
             c.encosta("tv", min(1.35, larg - 0.60), 1.62, 0.14,
                       frente[0], frente[1], aereo=True, recuo=0.05)
+            if estante:
+                for lado in (-1, 1):
+                    c.encosta("estante", 0.95, 1.85, 0.34, frente[0],
+                              frente[1] + lado * (rw / 2 + 0.05 + 0.95 / 2))
     # POLTRONA. Esta na lista de mobiliario de estar da norma (0,80 x 0,70 com braco)
     # e faltava. Vai numa parede PERPENDICULAR a do sofa, que e onde ela esta em toda
     # foto de sala -- na mesma parede ela vira sofa de quatro lugares.
     #
     # Reusa o tipo `sofa`: `sofaParam` monta por MODULO, e com um modulo so ele ja e
-    # uma poltrona. Nao vale menos que ~1,00 porque o param embute os dois bracos e
-    # trava a largura em `2*braco + 0,62` -- pedir 0,80 nao daria uma poltrona
-    # menor, daria a mesma peca com a medida do cadastro mentindo.
-    if c.area >= 12.0:
-        perp = [w2 for j, w2 in enumerate(c.paredes)
+    # uma poltrona. A largura minima vem dos bracos do estilo escolhido: o param
+    # trava em `2*braco + 0,62`. A busca precisa medir essa largura tambem, antes
+    # de encostar e reservar a ocupacao, e exportar a mesma medida.
+    if c.area >= 12.0 and c.E.get("poltrona", True):
+        perp =[w2 for j, w2 in enumerate(c.paredes)
                 if j != i and abs(w2["n"][0] * n[0] + w2["n"][1] * n[1]) < 0.6]
-        encosta_onde_couber(c, "sofa", 1.00, 0.80, 0.92, paredes=perp,
+        encosta_onde_couber(c, "sofa", max(1.00, c.largura_sofa), 0.80, 0.92, paredes=perp,
                             folga="assento")
-    if c.area >= 8.5:
+    if c.area >= 8.5 and c.E.get("tapete", True):
         cx = sum(p[0] for p in c.poly) / len(c.poly)
         cy = sum(p[1] for p in c.poly) / len(c.poly)
         c.poe("tapete", 1.90, 0.02, 1.35, cx, cy, 0)
@@ -756,11 +865,17 @@ def mobilia(u):
         aberturas.append({"p": p["p"], "largura": p.get("largura", 0.85),
                           "vao": p.get("tipo") == "vao"})
     for j in (P.get("janelas") or []):
-        aberturas.append({"p": j["p"], "largura": j.get("largura", 1.40), "janela": True})
+        # peitoril: o mesmo 1,00 que o renderizador assume (floor-plan.js)
+        aberturas.append({"p": j["p"], "largura": j.get("largura", 1.40), "janela": True,
+                          "y0": j.get("y0", 1.00)})
+    E = ESTILOS[estilo_de(u)]
+    sofa, largura_sofa = sofa_de(u, E)
     saida, relato, erros, apertos = [], [], [], []
     for c0 in P["comodos"]:
         t = tipo_de(c0["nome"])
         c = Comodo(c0, aberturas, P.get("pe_direito") or 2.70)
+        c.E = E
+        c.sofa, c.largura_sofa = sofa, largura_sofa
         fn = REGRAS.get(t)
         if fn:
             fn(c)
@@ -774,6 +889,54 @@ def mobilia(u):
         saida.extend(c.moveis)
         relato.append((c0["nome"], t, len(c.moveis)))
     return saida, relato, erros, apertos
+
+
+# ---- estilo do sofa: sorteado, mas FIXO por unidade ----------------------
+#
+# Os estilos sao os pares `sofa_mod_<estilo>` da biblioteca (`moveis/moveis.py`), lidos
+# de la pra nao existir uma segunda lista. O sorteio e crc32 do id, nunca `hash()`:
+# hash de string muda a cada processo e a mesma casa sairia com outro sofa a cada
+# build (foi o que moveu 74 mil portoes). `planta.estilo_sofa` no cadastro ganha.
+# Sofa e poltrona da mesma unidade saem do mesmo estilo, como num jogo de sala.
+CORES_SOFA = {
+    "nuvem":    ["#CFC6B8", "#B7AE9F", "#D9D4CB"],   # linho, areia, off-white
+    "palito":   ["#C9A44A", "#4F6B5A", "#8E5B3E"],   # mostarda, verde, conhaque
+    "tuxedo":   ["#3E4E6E", "#5B5F66", "#2E3440"],   # marinho, chumbo, grafite
+    "canelado": ["#3F7A66", "#7A3B46", "#C7B9A6"],   # esmeralda, vinho, fendi
+}
+
+
+def biblioteca_sofa():
+    try:
+        with io.open(os.path.join(RAIZ, "moveis", "moveis_lib.json"), encoding="utf-8") as f:
+            return json.load(f)["pecas"]
+    except (OSError, ValueError, KeyError):
+        return {}
+
+
+def estilos_sofa(pecas=None):
+    pecas = biblioteca_sofa() if pecas is None else pecas
+    return sorted(k[len("sofa_mod_"):] for k in pecas if k.startswith("sofa_mod_"))
+
+
+def sofa_de(u, E):
+    """Estilo, cor e largura minima do mesmo par que `sofaParam` vai montar."""
+    pecas = biblioteca_sofa()
+    todos = estilos_sofa(pecas)
+    estilos = [e for e in todos if e in E.get("sofas", todos)] or todos
+    if not estilos:
+        return {}, 0.0
+    semente = zlib.crc32(str(u.get("id", "")).encode("utf-8"))
+    e = (u.get("planta") or {}).get("estilo_sofa") or estilos[semente % len(estilos)]
+    # Estilo desconhecido cai no par padrao, como no renderizador.
+    sufixo = "_" + e if "sofa_mod_" + e in pecas else ""
+    braco = pecas.get("sofa_braco" + sufixo)
+    largura = 2 * braco["b"][0] + 0.62 if braco else 0.0
+    sofa = {"estilo": e}
+    cores = CORES_SOFA.get(e)
+    if cores:
+        sofa["cor"] = cores[(semente // len(estilos)) % len(cores)]
+    return sofa, largura
 
 
 def demo():
@@ -855,7 +1018,41 @@ def demo():
     erro, aperto = confere(c)
     assert not erro, erro                      # 2,4 m de folga passa na norma
     assert not aperto, aperto                  # e passa no confortavel tambem
-    print("mobiliar: 6 sondas OK  (folga nas 4 paredes %.2f m)" % vals[0])
+
+    # 6. pia embaixo da janela: ancorada no vao, e fogao/coifa/aereo fora dele. A
+    # porta na parede oposta e pra que a parede da janela seja a unica longa.
+    def cozinha_com(y0):
+        c = Comodo({"nome": "cozinha", "poly": [(0, 0), (3.6, 0), (3.6, 2.4), (0, 2.4)],
+                    "area": 8.64},
+                   [{"p": (1.8, 0.0), "largura": 1.20, "janela": True, "y0": y0},
+                    {"p": (1.8, 2.4), "largura": 0.80}])
+        mobilia_cozinha(c)
+        return [m for m in c.moveis if m["p"][1] < 0.6]     # so a parede da janela
+    noparede = cozinha_com(1.10)
+    pia = [m for m in noparede if m["tipo"] == "pia"]
+    assert pia and abs(pia[0]["p"][0] - 1.8) < 0.01, noparede
+    fora = lambda m: abs(m["p"][0] - 1.8) >= m["w"] / 2 + 0.60 - 0.01
+    assert all(fora(m) for m in noparede if m["tipo"] in ("fogao", "coifa", "aereo")), noparede
+    # peitoril de 0,80 nao passa por cima da bancada: a janela volta a bloquear
+    assert all(fora(m) for m in cozinha_com(0.80)), "bancada na frente de janela baixa"
+
+    # 7. estilo: minimalista tira poltrona/tapete/ripado; rustico troca ripado por estante
+    def sala_de(e):
+        c = Comodo({"nome": "sala", "poly": [(0, 0), (4.5, 0), (4.5, 3.6), (0, 3.6)],
+                    "area": 16.2}, [])
+        c.E = ESTILOS[e]
+        mobilia_sala(c)
+        return [m["tipo"] for m in c.moveis]
+    mod, mini, rus = sala_de("moderno"), sala_de("minimalista"), sala_de("rustico")
+    assert "ripado" in mod and "tapete" in mod and mod.count("sofa") == 2, mod
+    assert mini.count("sofa") == 1 and not set(mini) & {"ripado", "tapete", "estante"}, mini
+    assert rus.count("estante") == 2 and "ripado" not in rus, rus
+    try:
+        estilo_de({"planta": {"estilo": "rústico"}})      # erro de cadastro grita
+        raise AssertionError("estilo invalido passou calado")
+    except ValueError:
+        pass
+    print("mobiliar: 9 sondas OK  (folga nas 4 paredes %.2f m)" % vals[0])
     return 0
 
 
@@ -876,8 +1073,8 @@ def main():
         if not (u.get("planta") or {}).get("comodos"):
             continue
         moveis, relato, erros, apertos = mobilia(u)
-        print("  %-24s %2d moveis   %s" % (
-            nome, len(moveis),
+        print("  %-24s %-11s %2d moveis   %s" % (
+            nome, estilo_de(u), len(moveis),
             "  ".join("%s:%d" % (r[0][:9], r[2]) for r in relato if r[2])))
         # Nenhum dos dois recusa nada: quem decide se um apartamento cabe no
         # gerador e a planta. Mas calar sobre isso era o que fazia o gerador nao
@@ -895,6 +1092,7 @@ def main():
                                   "unidade.json.planta.moveis GANHA deste arquivo",
                          "_norma": "folgas conferidas contra ABNT NBR 15575-1 "
                                    "Anexo G (minimo) e NKBA/Panero-Zelnik (conforto)",
+                         "_estilo": estilo_de(u),
                          "_erros": erros, "_apertos": apertos,
                          "moveis": moveis}, ensure_ascii=False, indent=1))
         n += 1

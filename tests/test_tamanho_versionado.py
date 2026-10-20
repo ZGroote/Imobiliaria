@@ -74,6 +74,8 @@ EXCECOES = {
         (2, 'runtime', 'Modelo LEVE consumido pela maquete de Colinas.'),
     'arvores/arvores_lib.json':
         (2, 'runtime', 'Biblioteca de arvores consumida pela montagem urbana.'),
+    'moveis/moveis_lib.json':
+        (2, 'runtime', 'Biblioteca de moveis (cor por vertice) lida pelo interior; cresceu com os estilos de sofa em 05/10.'),
     'sao-carlos/dados/portoes.json':
         (2, 'runtime', 'Portoes consumidos pela montagem da cidade.'),
     'v1.5/miniaturas/castanheiras_blender/castanheiras.blend':
