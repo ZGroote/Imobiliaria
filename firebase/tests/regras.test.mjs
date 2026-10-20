@@ -250,6 +250,17 @@ test('6. platform_admin acessa e administra todos os tenants', async () => {
   await assertSucceeds(publica(f, 'admin', 'aprA', 'propA', BUILD));
 });
 
+test('6b. tipo da conta: só imobiliaria ou construtora, só o admin muda, e a conta sem tipo continua válida', async () => {
+  const f = db('admin');
+  await assertSucceeds(setDoc(doc(f, 'agencies/agC'), { name: 'C', kind: 'construtora', active: true, createdAt: now(), updatedAt: now() }));
+  await assertSucceeds(updateDoc(doc(f, 'agencies/agC'), { kind: 'imobiliaria', updatedAt: now() }));
+  await assertSucceeds(updateDoc(doc(f, 'agencies/agA'), { name: 'A sem tipo', updatedAt: now() }));
+  await assertFails(setDoc(doc(f, 'agencies/agD'), { name: 'D', kind: 'incorporadora', active: true, createdAt: now(), updatedAt: now() }));
+  await assertFails(updateDoc(doc(f, 'agencies/agC'), { kind: 'Construtora', updatedAt: now() }));
+  await assertFails(updateDoc(doc(f, 'agencies/agC'), { kind: null, updatedAt: now() }));
+  await assertFails(updateDoc(doc(db('gerA'), 'agencies/agA'), { kind: 'construtora', updatedAt: now() }));
+});
+
 // ── identidade (T03 / REVISAO-1.5) ──
 
 test('7. users/{uid} só nasce de convite, com o papel do convite, e o convite é consumido no aceite', async () => {

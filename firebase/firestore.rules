@@ -47,9 +47,11 @@ service cloud.firestore {
     }
 
     // ── agencies ──
+    // kind: imobiliaria | construtora. Ausente = imobiliária (contas anteriores ao campo).
     match /agencies/{agencyId} {
       allow read: if isStaff() || inAgency(agencyId);
-      allow create, update: if isAdmin() && stamped();
+      allow create, update: if isAdmin() && stamped()
+        && (!('kind' in d()) || d().kind in ['imobiliaria', 'construtora']);
       allow delete: if false;                          // desativar: active = false
     }
 
@@ -156,7 +158,11 @@ service cloud.firestore {
     // Estoque público do LIV: somente dados de oferta. properties/users e o histórico
     // continuam privados. A autorização consulta o imóvel atual, nunca a agência enviada.
     function salesProperty(pid) { return get(/databases/$(db)/documents/properties/$(pid)).data; }
-    function salesEdit(pid) { return isStaff() || isManager(salesProperty(pid).agencyId); }
+    // Estoque é módulo de construtora: nem a equipe escreve no de imóvel de imobiliária.
+    function salesConstrutora(pid) {
+      return get(/databases/$(db)/documents/agencies/$(salesProperty(pid).agencyId)).data.get('kind', 'imobiliaria') == 'construtora';
+    }
+    function salesEdit(pid) { return (isStaff() || isManager(salesProperty(pid).agencyId)) && salesConstrutora(pid); }
     function salesRead(pid) { return isStaff() || inAgency(salesProperty(pid).agencyId); }
     function salesPublic(pid) {
       return get(/databases/$(db)/documents/salesInventory/$(pid)).data.publicEnabled == true

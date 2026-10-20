@@ -87,6 +87,7 @@ export type UserRole = 'platform_admin' | 'operator' | 'agency_manager' | 'agent
 
 export interface Agency {                 // agencies/{id}
   id: string; name: string; slug?: string; logoUrl?: string; active: boolean
+  kind?: 'imobiliaria' | 'construtora'    // decide os módulos; ausente = imobiliária (20/10/2026)
   createdAt: Timestamp; updatedAt: Timestamp
 }
 

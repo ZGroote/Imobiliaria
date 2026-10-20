@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { itemAtivo, menuDoPapel } from '../src/lib/menu.ts'
 import { inicioDoPapel } from '../src/lib/acesso.ts'
-import type { UserRole } from '../src/lib/types.ts'
+import { tipoDaConta, type TipoDeConta, type UserRole } from '../src/lib/types.ts'
 
 test('menu: cada papel vê só a sua área; usuários só o admin; equipe só o gerente', () => {
   const rotas = (r: UserRole) => menuDoPapel(r).map((i) => i.href)
@@ -22,4 +22,16 @@ test('menu: o item ativo é o de prefixo mais longo', () => {
   assert.equal(itemAtivo(itens, '/admin/users'), '/admin/users')
   assert.equal(itemAtivo(itens, '/admin/requests/view'), '/admin/requests')
   assert.equal(itemAtivo(itens, '/administrativo'), undefined)
+})
+
+test('menu: imobiliária vê Imóveis, construtora vê Empreendimentos; sem tipo carregado, nenhum dos dois', () => {
+  const rotulos = (r: UserRole, tipo?: TipoDeConta) => menuDoPapel(r, tipo).map((i) => i.rotulo)
+  for (const r of ['agency_manager', 'agent'] as UserRole[]) {
+    assert.ok(rotulos(r, 'imobiliaria').includes('Imóveis') && !rotulos(r, 'imobiliaria').includes('Empreendimentos'), r)
+    assert.ok(rotulos(r, 'construtora').includes('Empreendimentos') && !rotulos(r, 'construtora').includes('Imóveis'), r)
+    assert.ok(!menuDoPapel(r).some((i) => i.href === '/properties'), r)
+    assert.equal(menuDoPapel(r, 'construtora').filter((i) => i.href === '/properties').length, 1, r)
+  }
+  assert.deepEqual(menuDoPapel('platform_admin'), menuDoPapel('platform_admin', 'construtora'))
+  assert.equal(tipoDaConta({}), 'imobiliaria')
 })

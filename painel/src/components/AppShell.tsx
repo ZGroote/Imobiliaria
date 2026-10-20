@@ -1,29 +1,26 @@
 'use client'
-import { useEffect, useState, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import { itemAtivo, menuDoPapel } from '@/lib/menu'
 import { sair } from '@/lib/session'
-import { ROTULO_PAPEL, type User } from '@/lib/types'
+import { ROTULO_PAPEL, tipoDaConta, type Agency, type User } from '@/lib/types'
+import { useDoc } from '@/lib/useFirestore'
 
 export function AppShell({ perfil, children }: { perfil: User; children: ReactNode }) {
   const caminho = usePathname()
-  const itens = menuDoPapel(perfil.role)
+  // Ao vivo: se o admin troca o tipo da conta, o menu muda sem recarregar.
+  const conta = useDoc<Agency>(perfil.agencyId ? `conta:${perfil.agencyId}` : null, () => doc(db, 'agencies', perfil.agencyId!))
+  const itens = menuDoPapel(perfil.role, conta.dado ? tipoDaConta(conta.dado) : undefined)
   const ativo = itemAtivo(itens, caminho)
-  const [agencia, setAgencia] = useState('')
-
-  useEffect(() => {
-    if (!perfil.agencyId) return
-    getDoc(doc(db, 'agencies', perfil.agencyId)).then((s) => setAgencia(s.data()?.name ?? ''), () => {})
-  }, [perfil.agencyId])
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
       <aside className="border-b border-slate-200 bg-white md:w-60 md:shrink-0 md:border-r md:border-b-0">
         <div className="px-5 py-4">
-          <p className="text-sm font-semibold">{agencia || 'Painel'}</p>
+          <p className="text-sm font-semibold">{conta.dado?.name || 'Painel'}</p>
           <p className="text-xs text-slate-500">{perfil.name} · {ROTULO_PAPEL[perfil.role]}</p>
         </div>
         <nav className="flex gap-1 overflow-x-auto px-3 pb-3 md:flex-col">
