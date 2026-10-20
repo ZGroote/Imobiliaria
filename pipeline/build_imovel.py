@@ -53,11 +53,13 @@ def script_vitrine(slug, ir_para=None):
 
 
 def com_vitrine(path, slug):
-    """Poe o script antes do ultimo </body>: depois do que a pagina monta, pra achar a ficha."""
+    """Poe o script antes do ultimo </body>: depois do que a pagina monta, pra achar a ficha. O tour
+    que o montar.py gera nao abre nem fecha <body> (o navegador cria os dois); ai o script vai no fim
+    do documento, que da no mesmo."""
     html = path.read_text(encoding='utf-8')
     i = html.rfind('</body>')
     if i < 0:
-        raise ValueError('%s sem </body>: onde entraria a vitrine?' % path.name)
+        i = len(html)
     path.write_bytes((html[:i] + script_vitrine(slug) + html[i:]).encode('utf-8'))
 
 
