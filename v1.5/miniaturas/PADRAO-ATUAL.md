@@ -11,7 +11,7 @@ Referência aprovada em 23/09/2026: **Monte dos Cedros**, com interior corrigido
 | Luz do conjunto externo | `padrao-atual/exterior-v3.js`, `exterior-v3/` | Duas torres, portaria, destaque do 8º andar, alternância bloco/conjunto |
 | Miniatura e planta estáticas | `padrao-atual/renders/v3/` | Imagens capturadas do visualizador, não substitutos do modelo |
 | Montagem atual | `padrao_atual.py` | HTML online com recursos separados; HTML offline com tudo embutido |
-| Publicação | `preparar_publicacao.py`, `firebase.miniaturas.json` | Lista explícita de 20 arquivos em `publicado-atual/` |
+| Publicação | `preparar_publicacao.py`, `firebase.miniaturas-1.json` | Lista explícita de 20 arquivos em `publicado-atual/` |
 | Rastreabilidade | `padrao-atual/release.json`, `publication-hashes.json` | Hash das fontes, identificador da versão e hashes de cada arquivo público |
 | Evidência de funcionamento | `padrao-atual/qa/` | Desktop, celular emulado, modos, conjunto, offline e pós-publicação |
 
@@ -48,7 +48,7 @@ Na raiz do repositório:
 ```powershell
 python v1.5/miniaturas/preparar_publicacao.py
 python v1.5/miniaturas/qa_padrao_atual.py
-& .\node_modules\.bin\firebase.cmd deploy --only hosting --config firebase.miniaturas.json --project imobilaria-deccb --non-interactive
+& .\node_modules\.bin\firebase.cmd deploy --only hosting --config firebase.miniaturas-1.json --project imobilaria-deccb --non-interactive
 python v1.5/miniaturas/qa_padrao_atual.py https://imobilaria-deccb-miniaturas.web.app
 ```
 

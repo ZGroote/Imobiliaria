@@ -4,7 +4,7 @@ O **Monte dos Cedros** usa o padrão aprovado de luz calculada no exterior, plan
 
 - [Processo completo, fontes, ferramentas, testes e reversão](PADRAO-ATUAL.md)
 - Montador: `padrao_atual.py`; fontes: `padrao-atual/`.
-- Publicação: `python v1.5/miniaturas/preparar_publicacao.py`, QA `qa_padrao_atual.py`, depois Firebase com `firebase.miniaturas.json`.
+- Publicação: `python v1.5/miniaturas/preparar_publicacao.py`, QA `qa_padrao_atual.py`, depois Firebase com `firebase.miniaturas-1.json`.
 - Saída pública atual: `publicado-atual/`, 20 arquivos permitidos. O mapa principal não é publicado por esse fluxo.
 - Fonte e integridade da versão: `padrao-atual/release.json` e `publication-hashes.json`.
 
@@ -22,7 +22,7 @@ O site principal do mapa não é alterado por esta configuração.
 
 ```powershell
 python v1.5/miniaturas/preparar_publicacao.py
-npx firebase deploy --only hosting --config firebase.miniaturas.json --project imobilaria-deccb --non-interactive
+npx firebase deploy --only hosting --config firebase.miniaturas-1.json --project imobilaria-deccb --non-interactive
 ```
 
 O preparador copia uma lista explícita de 13 arquivos para `publicado/` e verifica
