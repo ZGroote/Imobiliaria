@@ -1,5 +1,13 @@
 # Piloto de render — sala e cozinha do Meio
 
+Correção do Tour em 15/10: [estado, evidências e pacote para GPU alugada](../CORRECAO-SPLAT.md).
+
+Execução alugada de 15/10: o plano `cobertura-20261015/piloto-2h/` conserva as 57 posições,
+1280×720 e 128 amostras, usando quatro rumos sem variação angular aleatória (678 vistas).
+O plano de oito rumos/1.355 vistas permanece em `cobertura-20261015/piloto/`.
+`renderizar_plano.py` divide poses previamente geradas entre GPUs; os scripts dessa execução
+guardam lotes de imagens e checkpoints. O estado real está em `piloto-2h/status-remoto.json`.
+
 Passo 1–3 do piloto combinado em 14/10/2026: vestir a sala/cozinha do Meio no Blender e renderizar
 vistas fixas no Cycles, para comparar com o reel de referência antes de decidir pelo Gaussian
 Splatting (`tasks/caminho1-liv/plano-1.md`).

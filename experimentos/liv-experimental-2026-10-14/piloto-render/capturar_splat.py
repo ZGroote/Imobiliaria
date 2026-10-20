@@ -6,6 +6,7 @@ Uso:
     --saida captura [--zona apto|"Suíte,Banho"] [--passo 0.35] [--prefixo f] [--amostras 128]
     [--res 1280x720] [--limite 0] [--sem-render] [--folga 0.28] [--colado 0.6] [--rumos 4]
     [--unidade interiores/meio/unidade.json]   (.blend sem liv_comodos, como o do piloto)
+    [--perfil cobertura] [--planejar]   (plano sem imagens; não gera transforms.json de treino)
 
 As zonas vêm dos cômodos do cadastro (gravados na cena pelo montar_apartamento.py); cada quadro leva o
 cômodo da câmera em "comodo", que o inspetor usa para agregar a nota por cômodo. --prefixo dá nome novo
@@ -13,7 +14,7 @@ cômodo da câmera em "comodo", que o inspetor usa para agregar a nota por cômo
 
 --empacotar só embute as texturas no .blend (para mandar à nuvem) e sai.
 """
-import bpy, json, math, os, random, sys
+import bpy, hashlib, json, math, os, random, sys
 from mathutils import Vector, Matrix
 
 argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
@@ -30,6 +31,10 @@ SAIDA = os.path.abspath(arg("--saida", "captura"))
 AMOSTRAS = int(arg("--amostras", "128"))
 W, H = (int(v) for v in arg("--res", "1280x720").split("x"))
 LIMITE = int(arg("--limite", "0"))
+PERFIL = arg("--perfil", "original")
+if PERFIL not in ("original", "cobertura"): sys.exit("Perfil inválido: original ou cobertura")
+COBERTURA = PERFIL == "cobertura"
+if W <= 0 or H <= 0 or AMOSTRAS <= 0 or LIMITE < 0: sys.exit("Resolução, amostras ou limite inválidos")
 os.makedirs(os.path.join(SAIDA, "images"), exist_ok=True)
 random.seed(11)
 
@@ -42,9 +47,10 @@ def raio(p, d, longe=50.0):
     ok, loc, n, i, ob, m = cena.ray_cast(dg, p, d, distance=longe)
     return (loc - p).length if ok else longe
 
-FOLGA = float(arg("--folga", "0.28"))     # banheiro: 0.12 (o cômodo tem ~1,5 m de largura)
-COLADO = float(arg("--colado", "0.6"))    # vista mais perto que isso da superfície é descartada
-RUMOS = int(arg("--rumos", "4"))          # direções por ponto; 8 no banheiro pega espelho e box de vários lados
+FOLGA = float(arg("--folga", "0.18" if COBERTURA else "0.28"))
+COLADO = float(arg("--colado", "0.25" if COBERTURA else "0.6"))
+RUMOS = int(arg("--rumos", "8" if COBERTURA else "4"))
+if FOLGA <= 0 or COLADO <= 0 or RUMOS <= 0: sys.exit("Folga, distância ou rumos inválidos")
 def livre(p, folga=FOLGA):
     """Ponto dentro do apartamento (piso abaixo, forro acima) e longe de parede e móvel."""
     if raio(p, Vector((0, 0, -1))) > p.z + 0.1 or raio(p, Vector((0, 0, 1))) > 3.0:
@@ -77,51 +83,98 @@ def comodo_de(x, y):
     return next((c["nome"] for c in COMODOS if dentro((x, y), c["poly"])), None)
 def dentro_zona(x, y):
     return any(dentro((x, y), c["poly"]) for c in ZONA)
-PASSO = float(arg("--passo", "0.35"))
+PASSO = float(arg("--passo", "0.55" if COBERTURA else "0.35"))
+if PASSO <= 0: sys.exit("Passo deve ser positivo")
 
 pontos = []
 for x in [X0 + i * PASSO for i in range(int((X1 - X0) / PASSO) + 1)]:
     for y in [Y0 + j * PASSO for j in range(int((Y1 - Y0) / PASSO) + 1)]:
         if not dentro_zona(x, y): continue
-        for z in (1.15, 1.6):
+        for z in ((1.62,) if COBERTURA else (1.15, 1.6)):
             p = Vector((x + random.uniform(-0.06, 0.06), y + random.uniform(-0.06, 0.06), z))
-            if livre(p): pontos.append(p)
+            if dentro_zona(p.x, p.y) and livre(p): pontos.append(p)
+
+if COBERTURA and arg("--unidade"):
+    # Posições de ambos os lados das portas: a grade sozinha pode pular uma passagem estreita.
+    for abertura in carregar(arg("--unidade")).aberturas():
+        if abertura["tipo"] != "porta": continue
+        for comodo, normal in abertura["lados"]:
+            for distancia in (.3, .6):
+                p = Vector((abertura["centro"][0] + normal[0] * distancia,
+                            abertura["centro"][1] + normal[1] * distancia, 1.62))
+                if dentro_zona(p.x, p.y) and livre(p) and all((p-q).length > .1 for q in pontos):
+                    pontos.append(p)
 
 centro = Vector(((X0 + X1) / 2, (Y0 + Y1) / 2, 1.0))
 cams = []
-for p in pontos:
+for ponto_id, p in enumerate(pontos):
     base = math.degrees(math.atan2(centro.y - p.y, centro.x - p.x))
     for k in range(RUMOS):                  # rumos por ponto, um deles para o centro
-        yaw = math.radians(base + k * 360 / RUMOS + random.uniform(-12, 12))
-        pitch = math.radians(random.uniform(-18, 4) if p.z > 1.4 else random.uniform(-8, 10))
-        d = Vector((math.cos(yaw) * math.cos(pitch), math.sin(yaw) * math.cos(pitch), math.sin(pitch)))
-        if raio(p, d) < COLADO: continue    # olhando colado na parede não ensina nada
-        cams.append((p.copy(), d))
+        yaw = math.radians(base + k * 360 / RUMOS + (0 if "--sem-jitter" in argv else random.uniform(-12, 12)))
+        inclinacoes = (-60, 0, 60) if COBERTURA else (random.uniform(-18, 4) if p.z > 1.4 else random.uniform(-8, 10),)
+        for inclinacao in inclinacoes:
+            pitch = math.radians(inclinacao)
+            d = Vector((math.cos(yaw) * math.cos(pitch), math.sin(yaw) * math.cos(pitch), math.sin(pitch)))
+            if raio(p, d) < COLADO: continue
+            cams.append((p.copy(), d, ponto_id, inclinacao))
 random.shuffle(cams)
 if LIMITE: cams = cams[:LIMITE]
 print("PONTOS", len(pontos), "CAMERAS", len(cams))
+if not cams: sys.exit("Nenhuma câmera livre na zona selecionada")
 
-cd = bpy.data.cameras.new("cap"); cd.lens = 18; cd.sensor_width = 36; cd.clip_start = 0.05
+cd = bpy.data.cameras.new("cap"); cd.lens = 16 if COBERTURA else 18; cd.sensor_width = 36; cd.sensor_fit = "HORIZONTAL"; cd.clip_start = 0.05
+cd.dof.use_dof = False
 cam = bpy.data.objects.new("cap", cd); cena.collection.objects.link(cam); cena.camera = cam
 cena.render.resolution_x, cena.render.resolution_y, cena.render.resolution_percentage = W, H, 100
 cena.cycles.samples = AMOSTRAS; cena.cycles.use_denoising = True
 cena.render.image_settings.file_format = "PNG"
+cena.render.image_settings.color_mode = "RGB"
+cena.render.resolution_percentage = 100
+cena.render.pixel_aspect_x = cena.render.pixel_aspect_y = 1
 
 fl = W * cd.lens / cd.sensor_width          # sensor ajustado à largura
+grupos = {}
+for p, d, ponto_id, inclinacao in cams:
+    grupos.setdefault(comodo_de(p.x, p.y), set()).add(ponto_id)
+# A reserva é por cômodo e posição, para não deixar um banheiro ou a varanda sem avaliação.
+ids_aval = {i for ids in grupos.values() if len(ids) > 1 for i in sorted(ids)[::8]}
 frames = []
-for i, (p, d) in enumerate(cams):
+for i, (p, d, ponto_id, inclinacao) in enumerate(cams):
     cam.location = p
     cam.rotation_euler = d.to_track_quat("-Z", "Y").to_euler()
     bpy.context.view_layer.update()
+    split = "eval" if ponto_id in ids_aval else "train"
     nome = f"images/{arg('--prefixo', 'f')}{i:04d}.png"
+    frames.append({"file_path": nome, "transform_matrix": [list(r) for r in cam.matrix_world],
+                   "comodo": comodo_de(p.x, p.y), "position_id": ponto_id, "pitch": inclinacao, "split": split})
+
+meta = {"camera_model": "OPENCV", "w": W, "h": H, "fl_x": fl, "fl_y": fl, "cx": W / 2, "cy": H / 2,
+        "k1": 0, "k2": 0, "p1": 0, "p2": 0, "ply_file_path": "pontos.ply", "frames": frames}
+if COBERTURA:
+    meta.update(train_filenames=[f["file_path"] for f in frames if f["split"] == "train"],
+                val_filenames=[f["file_path"] for f in frames if f["split"] == "eval"],
+                test_filenames=[f["file_path"] for f in frames if f["split"] == "eval"])
+with open(bpy.data.filepath, "rb") as f: fonte_sha = hashlib.file_digest(f, "sha256").hexdigest()
+config = {"source_sha256": fonte_sha, "perfil": PERFIL, "zona": termos, "diagnostico": COBERTURA and LIMITE > 0, "passo": PASSO,
+          "folga": FOLGA, "colado": COLADO, "rumos": RUMOS, "amostras": AMOSTRAS, "dataset": meta}
+if "--sem-jitter" in argv: config["sem_jitter"] = True
+plano_path = os.path.join(SAIDA, "plano-captura.json")
+if os.path.exists(plano_path):
+    with open(plano_path, encoding="utf-8") as f: anterior = json.load(f)
+    if anterior != config: sys.exit("Configuração ou cena mudou: use outra pasta de saída para não reutilizar imagens erradas")
+with open(plano_path, "w", encoding="utf-8") as f: json.dump(config, f, ensure_ascii=False, indent=2)
+if "--planejar" in argv:
+    print("PLANO", plano_path, "SEM IMAGENS; render pendente"); sys.exit(0)
+
+for i, frame in enumerate(frames):
+    cam.matrix_world = Matrix(frame["transform_matrix"])
+    bpy.context.view_layer.update()
+    nome = frame["file_path"]
     if "--sem-render" not in argv and not os.path.exists(os.path.join(SAIDA, nome)):   # retoma (ordem fixa pela semente)
         cena.render.filepath = os.path.join(SAIDA, nome)
         bpy.ops.render.render(write_still=True)
-    frames.append({"file_path": nome, "transform_matrix": [list(r) for r in cam.matrix_world], "comodo": comodo_de(p.x, p.y)})
     print(f"VISTA {i + 1}/{len(cams)}", flush=True)
-    with open(os.path.join(SAIDA, "transforms.json"), "w") as f:   # parcial a cada vista: pode retomar
-        json.dump({"camera_model": "OPENCV", "w": W, "h": H, "fl_x": fl, "fl_y": fl, "cx": W / 2, "cy": H / 2,
-                   "k1": 0, "k2": 0, "p1": 0, "p2": 0, "ply_file_path": "pontos.ply", "frames": frames}, f, indent=1)
+    # transforms só é publicado com o conjunto completo; o plano permite retomar um render interrompido.
 
 # nuvem de pontos inicial: amostras nas superfícies visíveis da zona
 amostras = []
@@ -145,3 +198,6 @@ with open(os.path.join(SAIDA, "pontos.ply"), "w") as f:
             "property float z\nproperty uchar red\nproperty uchar green\nproperty uchar blue\nend_header\n")
     for v in amostras: f.write(f"{v.x:.4f} {v.y:.4f} {v.z:.4f} 200 190 175\n")
 print("PLY", len(amostras), "FIM", SAIDA)
+if "--sem-render" not in argv or not COBERTURA:
+    with open(os.path.join(SAIDA, "transforms.json"), "w", encoding="utf-8") as f:
+        json.dump(meta, f, ensure_ascii=False, indent=1)

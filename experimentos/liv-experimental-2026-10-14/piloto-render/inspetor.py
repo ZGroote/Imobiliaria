@@ -24,6 +24,10 @@ def psnr(a, b):
     mse = float(np.mean((a - b) ** 2))
     return 99.0 if mse == 0 else 10 * math.log10(1.0 / mse)
 
+def escuro_incorreto(a, b):
+    """Percentual da imagem quase preto no splat onde a referência tem superfície clara."""
+    return float(np.mean((b.mean(axis=2) < .025) & (a.mean(axis=2) > .15)) * 100)
+
 def ssim(a, b):
     from skimage.metrics import structural_similarity
     return float(structural_similarity(a, b, channel_axis=2, data_range=1.0))
@@ -44,6 +48,14 @@ def separar_avaliacao(n, fracao=0.9):
     """Índices de teste do nerfstudio (eval_mode=fraction): o que sobra do linspace de treino."""
     treino = np.linspace(0, n - 1, math.ceil(n * fracao), dtype=int)
     return [int(i) for i in np.setdiff1d(np.arange(n), treino)]
+
+def quadros_avaliacao(tr, fracao=0.9):
+    quadros = sorted(tr["frames"], key=lambda f: f["file_path"])
+    if "val_filenames" not in tr: return quadros, separar_avaliacao(len(quadros), fracao)
+    nomes = set(tr["val_filenames"])
+    if not nomes or not nomes <= {f["file_path"] for f in quadros}:
+        raise ValueError("Divisão explícita de avaliação vazia ou com imagens desconhecidas")
+    return quadros, [i for i, f in enumerate(quadros) if f["file_path"] in nomes]
 
 def miniatura(img, w=96):
     return np.asarray(Image.fromarray((img * 255).astype(np.uint8)).resize((w, w * img.shape[0] // img.shape[1])), np.float32) / 255
@@ -69,8 +81,7 @@ def ambiente(pl, pos, comodo):
 
 def medir(a):
     tr = json.load(open(os.path.join(a.captura, "transforms.json"), encoding="utf-8"))
-    quadros = sorted(tr["frames"], key=lambda f: f["file_path"])      # o nerfstudio ordena pelo nome
-    teste = separar_avaliacao(len(quadros), a.fracao)
+    quadros, teste = quadros_avaliacao(tr, a.fracao)
     arquivos = sorted(f for f in os.listdir(a.eval) if f.endswith(".png"))
     if len(arquivos) != len(teste):
         sys.exit(f"{len(arquivos)} imagens em {a.eval}, mas o split de {len(quadros)} quadros dá {len(teste)} de teste")
@@ -92,6 +103,7 @@ def medir(a):
         com = ambiente(pl, pos[:2], com)
         linhas.append({"imagem": arq, "quadro": q["file_path"], "casou": casou, "comodo": com,
                        "pos": [round(v, 2) for v in pos], "psnr": psnr(gt, pred), "ssim": ssim(gt, pred),
+                       "pitch": q.get("pitch"), "escuro_incorreto_pct": escuro_incorreto(gt, pred),
                        "lpips": lp(gt, pred) if lp else None})
         print(f"{arq} {q['file_path']} {com:<20} PSNR {linhas[-1]['psnr']:.2f} SSIM {linhas[-1]['ssim']:.4f}", flush=True)
     if any(l["casou"] is False for l in linhas):

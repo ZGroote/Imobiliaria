@@ -1,0 +1,247 @@
+{
+  "navigation": {
+    "safe": true,
+    "current": [
+      1.0750000000000002,
+      1.85
+    ],
+    "radius": 0.3,
+    "eye": 1.62,
+    "reachableRooms": 6,
+    "totalRooms": 6,
+    "followingRoute": false
+  },
+  "splat": {
+    "ligado": true,
+    "comodo": "banho-social",
+    "error": null,
+    "prefetch": null,
+    "viewer": {
+      "selected": "banho-social.sog",
+      "ready": true,
+      "error": null,
+      "files": [
+        {
+          "file": "quarto.sog",
+          "loaded": true,
+          "error": null
+        },
+        {
+          "file": "banho-suite.sog",
+          "loaded": true,
+          "error": null
+        },
+        {
+          "file": "banho-social.sog",
+          "loaded": true,
+          "error": null
+        }
+      ],
+      "presented": "banho-social.sog",
+      "active": true,
+      "cameraReceived": true,
+      "frames": 768
+    }
+  },
+  "results": [
+    {
+      "room": "Sala integrada",
+      "safe": true,
+      "ligado": true,
+      "comodo": "sala",
+      "error": null,
+      "prefetch": "quarto",
+      "viewer": {
+        "selected": "sala.sog",
+        "ready": true,
+        "error": null,
+        "files": [
+          {
+            "file": "sala.sog",
+            "loaded": true,
+            "error": null
+          },
+          {
+            "file": "quarto.sog",
+            "loaded": true,
+            "error": null
+          }
+        ],
+        "presented": "sala.sog",
+        "active": true,
+        "cameraReceived": true,
+        "frames": 8
+      }
+    },
+    {
+      "room": "Varanda / serviço",
+      "safe": true,
+      "ligado": true,
+      "comodo": "varanda",
+      "error": null,
+      "prefetch": "quarto",
+      "viewer": {
+        "selected": "varanda.sog",
+        "ready": true,
+        "error": null,
+        "files": [
+          {
+            "file": "sala.sog",
+            "loaded": true,
+            "error": null
+          },
+          {
+            "file": "varanda.sog",
+            "loaded": true,
+            "error": null
+          },
+          {
+            "file": "quarto.sog",
+            "loaded": true,
+            "error": null
+          }
+        ],
+        "presented": "varanda.sog",
+        "active": true,
+        "cameraReceived": true,
+        "frames": 288
+      }
+    },
+    {
+      "room": "Suíte",
+      "safe": true,
+      "ligado": true,
+      "comodo": "suite",
+      "error": null,
+      "prefetch": null,
+      "viewer": {
+        "selected": "suite.sog",
+        "ready": true,
+        "error": null,
+        "files": [
+          {
+            "file": "quarto.sog",
+            "loaded": true,
+            "error": null
+          },
+          {
+            "file": "varanda.sog",
+            "loaded": true,
+            "error": null
+          },
+          {
+            "file": "suite.sog",
+            "loaded": true,
+            "error": null
+          }
+        ],
+        "presented": "suite.sog",
+        "active": true,
+        "cameraReceived": true,
+        "frames": 630
+      }
+    },
+    {
+      "room": "Dormitório 01",
+      "safe": true,
+      "ligado": true,
+      "comodo": "quarto",
+      "error": null,
+      "prefetch": "banho-suite",
+      "viewer": {
+        "selected": "quarto.sog",
+        "ready": true,
+        "error": null,
+        "files": [
+          {
+            "file": "suite.sog",
+            "loaded": true,
+            "error": null
+          },
+          {
+            "file": "quarto.sog",
+            "loaded": true,
+            "error": null
+          },
+          {
+            "file": "banho-suite.sog",
+            "loaded": true,
+            "error": null
+          }
+        ],
+        "presented": "quarto.sog",
+        "active": true,
+        "cameraReceived": true,
+        "frames": 669
+      }
+    },
+    {
+      "room": "Banho suíte",
+      "safe": true,
+      "ligado": true,
+      "comodo": "banho-suite",
+      "error": null,
+      "prefetch": null,
+      "viewer": {
+        "selected": "banho-suite.sog",
+        "ready": true,
+        "error": null,
+        "files": [
+          {
+            "file": "suite.sog",
+            "loaded": true,
+            "error": null
+          },
+          {
+            "file": "quarto.sog",
+            "loaded": true,
+            "error": null
+          },
+          {
+            "file": "banho-suite.sog",
+            "loaded": true,
+            "error": null
+          }
+        ],
+        "presented": "banho-suite.sog",
+        "active": true,
+        "cameraReceived": true,
+        "frames": 707
+      }
+    },
+    {
+      "room": "Banho",
+      "safe": true,
+      "ligado": true,
+      "comodo": "banho-social",
+      "error": null,
+      "prefetch": null,
+      "viewer": {
+        "selected": "banho-social.sog",
+        "ready": true,
+        "error": null,
+        "files": [
+          {
+            "file": "quarto.sog",
+            "loaded": true,
+            "error": null
+          },
+          {
+            "file": "banho-suite.sog",
+            "loaded": true,
+            "error": null
+          },
+          {
+            "file": "banho-social.sog",
+            "loaded": true,
+            "error": null
+          }
+        ],
+        "presented": "banho-social.sog",
+        "active": true,
+        "cameraReceived": true,
+        "frames": 767
+      }
+    }
+  ]
+}

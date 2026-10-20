@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8"><title>Teste de formato SOG</title>
+<style>body{background:#142029;color:white;font:14px system-ui}iframe{width:90vw;height:65vh;border:0}pre{white-space:pre-wrap}</style>
+<h1>Teste de formato · modelo de 3 passos</h1>
+<p>Somente compatibilidade do arquivo. Este modelo não serve para avaliação visual.</p>
+<iframe title="SOG de teste" src="../../splat/visita.html?arquivo=../piloto-render/cobertura-20261015/piloto-2h/smoke-formato.sog"></iframe>
+<pre role="status">Carregando…</pre>
+<script>
+const frame=document.querySelector('iframe'),status=document.querySelector('pre');
+setInterval(()=>{
+  const api=frame.contentWindow?.__splatVisita;
+  if(!api)return;
+  api.setCamera([-3,1.62,1],[0,0,0,1],60,frame.clientWidth/frame.clientHeight);
+  const state=api.getState();
+  status.textContent=(state.ready?'PASS · SOG carregado e desenhado':state.error?'FAIL':'Carregando…')+'\n'+JSON.stringify(state,null,2);
+},300);
+</script>
+</html>

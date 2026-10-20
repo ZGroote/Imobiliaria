@@ -18,11 +18,12 @@
 // a navegação, a colisão e os ambientes continuam sendo os do Liv.
 import * as THREE from "three";
 import { SparkRenderer, SplatMesh } from "@sparkjsdev/spark";
+import { createSplatCache } from "./cache.js";
 
 const q = new URLSearchParams(location.search);
 const num = (k, padrao) => q.has(k) ? +q.get(k) : padrao;
-const api = window.__splatVisita = { error: null, quadros: 0 };
-let sujo = true;
+const api = window.__splatVisita = { quadros: 0 };
+let sujo = true, ativo = true, cameraRecebida = false, apresentado = null, falha = null;
 
 const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false });
 renderer.setPixelRatio(Math.min(devicePixelRatio, num("dpr", 2)));
@@ -37,30 +38,41 @@ scene.add(new SparkRenderer(ajustes));
 // A cena do Blender saiu da mesma geometria do Liv, com Z para cima: girar leva (x, y, z) a (x, z, -y),
 // que é o espaço do three usado pelo interior.
 // Um splat por cômodo: só o atual fica visível; guarda os últimos CACHE carregados e descarta o resto.
-const CACHE = num("cache", 3);
-const malhas = new Map();   // arquivo -> { malha, pronta }
-let atual = null;
-api.pronto = arquivo => !!malhas.get(arquivo)?.pronta;
+const cache = createSplatCache({
+  limit: Math.max(1, Math.min(3, num("cache", 3) || 3)),
+  changed: () => { sujo = true; },
+  create: arquivo => {
+    const malha = new SplatMesh({ url: arquivo });
+    malha.rotation.x = -Math.PI / 2;
+    const dispose = malha.dispose.bind(malha);
+    malha.dispose = () => { scene.remove(malha); dispose(); };
+    scene.add(malha);
+    return malha;
+  }
+});
 api.setArquivo = arquivo => {
-  if (arquivo === atual) return;
-  atual = arquivo;
-  if (!malhas.has(arquivo)) {
-    const item = { pronta: false };
-    item.malha = new SplatMesh({ url: arquivo, onLoad: () => { item.pronta = true; sujo = true; } });
-    item.malha.rotation.x = -Math.PI / 2;
-    scene.add(item.malha); malhas.set(arquivo, item);
-  }
-  const item = malhas.get(arquivo);
-  malhas.delete(arquivo); malhas.set(arquivo, item);          // mais recente no fim
-  for (const [nome, m] of malhas) m.malha.visible = nome === arquivo;
-  while (malhas.size > CACHE) {
-    const [nome, m] = malhas.entries().next().value;
-    scene.remove(m.malha); m.malha.dispose?.(); malhas.delete(nome);
-  }
-  sujo = true;
+  if (arquivo === cache.selected) return;
+  apresentado = null;
+  cache.select(arquivo);
 };
+api.prefetch = arquivo => cache.prefetch(arquivo);
+api.setActive = valor => { if (ativo === valor) return; ativo = valor; if (ativo) sujo = true; };
 api.setArquivo(q.get("arquivo") || "sala.sog");
-Object.defineProperty(api, "ready", { get: () => api.pronto(atual) });
+Object.defineProperty(api, "error", { get: () => falha || cache.error });
+Object.defineProperty(api, "ready", { get: () => !api.error && cache.ready && apresentado === cache.selected });
+api.getState = () => ({...cache.snapshot(), ready: api.ready, error: api.error,
+  presented: apresentado, active: ativo, cameraReceived: cameraRecebida, frames: api.quadros,
+  fps: api.fps || null, gaussians: cache.mesh?.packedSplats?.numSplats ?? cache.mesh?.numSplats ?? null});
+// Evidência da vista atual para a página local de inspeção. Captura no mesmo desenho, antes do compositor.
+api.capture = () => {
+  if (!api.ready) throw new Error("Splat ainda indisponível para captura.");
+  renderer.render(scene, camera);
+  return renderer.domElement.toDataURL("image/png");
+};
+renderer.domElement.addEventListener("webglcontextlost", event => {
+  event.preventDefault(); falha = "Contexto WebGL do splat perdido.";
+});
+addEventListener("pagehide", () => { ativo = false; renderer.setAnimationLoop(null); cache.dispose(); renderer.dispose(); });
 // O "resize" nem sempre chega a um iframe quando o painel do Liv muda de altura: o tamanho é conferido
 // a cada câmera recebida, e a proporção vem da própria câmera do Tour.
 let largura = 0, altura = 0;
@@ -74,6 +86,7 @@ tamanho();
 // O Tour manda a câmera a cada quadro, parada ou não: só redesenha quando ela mudou.
 let ultima = "";
 api.setCamera = (posicao, quaternion, fov, aspecto) => {
+  cameraRecebida = true;
   tamanho();
   const a = aspecto || largura / Math.max(1, altura);
   const chave = `${posicao}|${quaternion}|${fov}|${a}`;
@@ -92,7 +105,7 @@ const intervalos = [];
 let anterior = 0;
 api.fps = 0;
 if (painel) setInterval(() => {
-  const m = malhas.get(atual)?.malha, n = m?.packedSplats?.numSplats ?? m?.numSplats;
+  const m = cache.mesh, n = m?.packedSplats?.numSplats ?? m?.numSplats;
   painel.textContent = `${api.fps ? api.fps.toFixed(0) : "–"} fps  ${api.fps ? (1000 / api.fps).toFixed(1) : "–"} ms
 ` +
     `dpr ${renderer.getPixelRatio()}  std ${ajustes.maxStdDev?.toFixed(2) ?? "√8"}
@@ -100,9 +113,12 @@ if (painel) setInterval(() => {
     `${renderer.domElement.width}×${renderer.domElement.height} px  ${n ? (n / 1000).toFixed(0) + " mil" : "?"} gauss.`;
 }, 500);
 renderer.setAnimationLoop(t => {
-  if (!sujo) return;           // parado não redesenha: poupa bateria
+  if (!ativo || !cameraRecebida || !sujo || api.error) return;
   sujo = false; api.quadros++;
-  renderer.render(scene, camera);
+  try {
+    renderer.render(scene, camera);
+    if (cache.ready) apresentado = cache.selected;
+  } catch (error) { falha = String(error); apresentado = null; return; }
   if (anterior && t - anterior < 250) {
     intervalos.push(t - anterior); if (intervalos.length > 60) intervalos.shift();
     api.fps = 1000 / [...intervalos].sort((a, b) => a - b)[intervalos.length >> 1];
