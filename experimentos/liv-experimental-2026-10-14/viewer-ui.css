@@ -69,17 +69,26 @@ progress { accent-color: var(--accent); max-width: 100%; }
 .project-summary { margin-bottom: 12px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
 .project-heading { min-width: 0; padding-right: 52px; }
 .project-address { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; }
-.project-facts { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; padding-top: 12px; margin: 12px 0 0; border-top: 1px solid var(--line); }
-.project-facts dt { margin: 0 0 2px; color: var(--muted); font-size: 10px; }
-.project-facts dd { margin: 0; font-size: 14px; line-height: 1.4; font-weight: 600; color: #c0c8ce; }
+.project-facts { margin: 8px 0 0; color: #c0c8ce; font-size: 13px; }
 .panel-intro { margin: 0 0 12px; color: var(--muted); font-size: 12px; }
 .selected-apartment { margin: 0 0 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); scroll-margin-top: 16px; }
-.apartment-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.project-summary[hidden] + .selected-apartment .apartment-header { padding-right: 52px; }
-.selected-apartment h2 { margin: 0 0 2px; font-size: 16px; line-height: 1.4; font-weight: 600; }
-.apartment-meta, .apartment-sale { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
-.apartment-sale { color: #b8d8ca; }
-.apartment-info { display: inline-flex; align-items: center; justify-content: space-between; gap: 16px; flex-shrink: 0; background: #1b2e27; border-color: #397854; font-size: 12px; }
+.selected-apartment h2 { margin: 0 0 6px; font-size: 18px; line-height: 1.3; font-weight: 600; }
+.apartment-sale { margin: 0; font-size: 16px; font-weight: 600; color: var(--accent); }
+.apartment-meta { margin: 4px 0 0; font-size: 15px; color: var(--ink); }
+.apartment-meta:empty { display: none; }
+.apartment-info { margin-top: 10px; min-height: 36px; padding: 6px 12px; font-size: 12px; background: transparent; }
+.back-to-list { min-height: 36px; margin: 0 0 10px; padding: 6px 10px; font-size: 12px; background: transparent; color: var(--muted); }
+.available-units { margin: 0 0 12px; }
+.available-units h2 { margin: 0 0 8px; font-size: 15px; font-weight: 600; }
+#availableUnitList { max-height: 264px; overflow-y: auto; margin: 0; padding: 0; list-style: none; border: 1px solid var(--line); border-radius: 10px; overscroll-behavior: contain; }
+#availableUnitList li + li { border-top: 1px solid var(--line); }
+#availableUnitList button { display: grid; grid-template-columns: 1.1fr 1fr 1fr 1.2fr; gap: 8px; width: 100%; border: 0; border-radius: 0; background: transparent; text-align: left; font-size: 13px; }
+#availableUnitList button:hover { background: #1b2e27; }
+#availableUnitList span:first-child { font-weight: 600; }
+#availableUnitList span:last-child { color: var(--accent); text-align: right; }
+button.primary { border-color: #36996a; background: #1f6b48; color: #fff; font-weight: 600; }
+button.primary:hover { background: #26805a; }
+#btnBackToMaquete[aria-pressed=true] { display: none; }
 .apartment-note { margin: 8px 0 0; color: var(--muted); font-size: 11px; }
 .apartment-note:empty { display: none; }
 .project-action-row { display: flex; align-items: stretch; gap: 6px; }
@@ -101,8 +110,7 @@ summary { cursor: pointer; min-height: 44px; align-content: center; font-size: 1
 #status { color: #b8d8ca; text-align: right; }
 #transferStatus { margin-top: 6px; color: var(--muted); font-size: 10px; }
 #transferStatus progress { display: block; width: 100%; margin-top: 4px; }
-.scene-cache-status { margin: 6px 0 0; font-size: 10px; color: var(--muted); }
-.scene-cache-status:empty { display: none; }
+.scene-cache-status { display: none; }
 .model-note { margin: 6px 0 0; color: #cbb58b; font-size: 11px; line-height: 1.6; }
 .reference-note { border-left: 2px solid var(--gold); padding-left: 12px; margin: 16px 0 0; color: #c6d0d3; font-size: 12px; }
 .interior-navbar { margin-top: 8px; }
@@ -134,12 +142,13 @@ summary { cursor: pointer; min-height: 44px; align-content: center; font-size: 1
   .panel-toggle { top: 16px; right: 16px; }
   .project-name { font-size: 16px; }
   .project-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-  .apartment-header { flex-wrap: wrap; gap: 10px; }
-  .apartment-info { width: 100%; }
   .project-action-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .project-action-row > button, .map-link { max-width: none; width: 100%; min-width: 0; margin: 0; font-size: 11px; padding-inline: 6px; }
   .map-link { grid-column: 2; grid-row: 1; }
   .apartment-actions, .mode-switch { grid-column: 1 / -1; grid-row: 2; }
+  .project-action-row:has(#btnBackToMaquete[aria-pressed=true]) .apartment-actions { grid-row: 1; }
+  .project-action-row:has(#btnBackToMaquete[aria-pressed=true]) .map-link { grid-column: 1 / -1; grid-row: 2; }
+  #availableUnitList button { font-size: 12px; padding-inline: 10px; }
   .apartment-actions button, .mode-switch button { font-size: 12px; padding-inline: 4px; }
   .viewer-panel[data-collapsed=true] .project-action-row { padding-right: 0; }
   .viewer-panel[data-collapsed=true] .project-action-row > button { grid-column: 1 / -1; width: calc(100% - 52px); }

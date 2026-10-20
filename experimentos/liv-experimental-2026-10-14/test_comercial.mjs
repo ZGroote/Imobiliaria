@@ -11,7 +11,7 @@ test('absent data leaves all 170 offers and numbers unknown',()=>{
   const absent={schema:'liv-commercial-v1',status:'ausente',bookSHA256:catalog.source.bookSHA256,source:null,units:[]};
   const result=attachCommercial(catalog,absent);assert.equal(result.commercialStatus,'ausente');
   assert.ok(result.units.every(unit=>saleOf(unit).priceCents===null&&saleOf(unit).availability==='nao_informada'));
-  assert.equal(saleLabel(result.units[0]),'Não informada · preço não informado');
+  assert.equal(saleLabel(result.units[0]),'Não informada · preço sob consulta');
 });
 test('provided data binds only explicit IDs and retains the source/date and missing fields',()=>{
   const before=JSON.stringify(catalog),result=attachCommercial(catalog,sample());

@@ -46,7 +46,7 @@ def main(output):
                 for row in fixture['units']:
                     page.evaluate('id=>__livViewer.selectUnit(id,{showInformation:true})',row['id'])
                     assert page.evaluate('__livViewer.typology')==row['typology']
-                    assert 'orientação original' in page.locator('#unitLayout').inner_text()
+                    assert page.locator('#unitLayout').inner_text()==row['typology'].capitalize()
                     assert 'FIXTURE SINTÉTICA' in page.locator('#relationSource').inner_text()
                     page.locator('[data-unit-open="planta2d"]').click();ready(page,'planta2d')
                     assert f'plantas2d/{row["typology"]}.jpg' in page.locator('#stage img').get_attribute('src')

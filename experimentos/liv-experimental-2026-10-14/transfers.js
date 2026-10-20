@@ -85,7 +85,7 @@ export function showTransferStatus(container){
   return transfers.subscribe(current=>{
     const active=current.active,groups=Object.values(current.groups||{});
     const done=groups.length>0&&groups.every(group=>group.cached===group.total);
-    container.hidden=!current.enabled&&!current.unavailable&&!current.error;
+    container.hidden=(!current.enabled&&!current.unavailable&&!current.error)||(done&&!active);
     const label=active?`Preparando ${labels[active.group]||'conteúdo'} para abrir mais rápido`:
       current.unavailable?'Os conteúdos serão carregados quando você os abrir.':
       current.error?'Preparação interrompida. Você pode abrir cada conteúdo normalmente.':

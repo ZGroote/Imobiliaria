@@ -53,12 +53,14 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
   const resolve=createUnitResolver(catalog),raycaster=new THREE.Raycaster(),ndc=new THREE.Vector2();
   const contour=catalog.selectionEnvelope?contourHighlight(catalog):null;
   const geometry=contour?.geometry??new THREE.BoxGeometry(1,1,1),edges=contour?.edges??new THREE.EdgesGeometry(geometry);
-  const fillMaterial=new THREE.MeshBasicMaterial({color:0x63caff,transparent:true,opacity:.18,depthWrite:false,
-    polygonOffset:!!contour,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
-  const lineMaterial=new THREE.LineBasicMaterial({color:0x99ddff});
+  // Gold and drawn after the green "available" glow, or the choice drowns in it.
+  const fillMaterial=new THREE.MeshBasicMaterial({color:0xffc84a,toneMapped:false,transparent:true,opacity:.8,depthWrite:false,
+    polygonOffset:!!contour,polygonOffsetFactor:-3,polygonOffsetUnits:-3});
+  const lineMaterial=new THREE.LineBasicMaterial({color:0xffffff,toneMapped:false});
   const highlight=new THREE.Group();highlight.name='Posição aproximada do final selecionado';highlight.visible=false;
   highlight.userData.livPresentation=true;
-  highlight.add(new THREE.Mesh(geometry,fillMaterial),new THREE.LineSegments(edges,lineMaterial));
+  const fillMesh=new THREE.Mesh(geometry,fillMaterial),outline=new THREE.LineSegments(edges,lineMaterial);
+  fillMesh.renderOrder=outline.renderOrder=1;highlight.add(fillMesh,outline);
   scene.add(highlight);
   const availability=createAvailabilityHighlight(scene,catalog,contour,geometry,edges);
   let selectedId=null,disposed=false,gesture=null;

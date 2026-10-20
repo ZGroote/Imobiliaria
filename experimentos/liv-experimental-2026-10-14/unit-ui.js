@@ -18,8 +18,11 @@ export function createUnitUI(catalog){
     document.getElementById('detailsTitle').textContent=title;
     const sale=saleOf(unit),informed=sale.availability!=='nao_informada'||sale.priceCents!==null;
     const details=unit.salesDetails;
-    document.getElementById('unitArea').textContent=details?.areaM2!==null&&details?.areaM2!==undefined?`${new Intl.NumberFormat('pt-BR').format(details.areaM2)} m²`:'A confirmar';
-    document.getElementById('unitRooms').textContent=details?`${details.bedrooms??'—'} quartos · ${details.bathrooms??'—'} banheiros`:'Não informados';
+    const area=details?.areaM2!==null&&details?.areaM2!==undefined?`${new Intl.NumberFormat('pt-BR').format(details.areaM2)} m²`:null;
+    const count=(n,one,many)=>n===null||n===undefined?null:`${n} ${n===1?one:many}`;
+    const rooms=details?[count(details.bedrooms,'quarto','quartos'),count(details.bathrooms,'banheiro','banheiros')].filter(Boolean).join(' · '):'';
+    document.getElementById('unitArea').textContent=area??'A confirmar';
+    document.getElementById('unitRooms').textContent=rooms||'Não informados';
     document.getElementById('unitDescription').hidden=!details?.description;
     document.getElementById('unitDescription').textContent=details?.description||'';
     document.getElementById('unitSale').textContent=informed?saleLabel(unit):'Não informados';
@@ -32,7 +35,7 @@ export function createUnitUI(catalog){
     document.getElementById('commercialConditions').textContent=sale.conditions||'';
     document.getElementById('gardenNote').hidden=floorOf(catalog,unit)!==0;
     document.getElementById('unitPosition').textContent=unit.side==='lazer'?'Lado do lazer':'Lado do estacionamento';
-    document.getElementById('unitLayout').textContent=associated?`${layout(relation.typology).label} · orientação original`:'Em conferência';
+    document.getElementById('unitLayout').textContent=associated?layout(relation.typology).label:'Em conferência';
     document.getElementById('relationSource').hidden=!associated;
     document.getElementById('relationSource').textContent=associated&&catalog.relationSource?`Associação informada por ${catalog.relationSource.label} · ${catalog.relationSource.asOf}`:'';
     const pending=unitScope==='edificio'&&!catalog.relationStatus&&!relationError&&!stockError;
@@ -40,10 +43,11 @@ export function createUnitUI(catalog){
       pending?'Conferindo a planta deste apartamento…':'A planta deste apartamento está em conferência. Consulte a equipe para confirmar.';
     document.getElementById('unitReferenceNote').textContent=note;
     const panelTitle=document.getElementById('selectedApartmentTitle');if(panelTitle)panelTitle.textContent=title;
+    // Buyer card: price and size first; provenance stays in the full sheet.
     const meta=document.getElementById('selectedApartmentMeta');
-    if(meta)meta.textContent=[associated?`Planta ${layout(relation.typology).label}`:'Planta em conferência',
-      unit.side==='lazer'?'Lado do lazer':'Lado do estacionamento',details?.areaM2!==null&&details?.areaM2!==undefined?`${new Intl.NumberFormat('pt-BR').format(details.areaM2)} m²`:null].filter(Boolean).join(' · ');
+    if(meta)meta.textContent=[area,rooms,sale.parking].filter(Boolean).join(' · ');
     const panelSale=document.getElementById('selectedApartmentSale');if(panelSale)panelSale.textContent=informed?saleLabel(unit):'Disponibilidade e preço a confirmar';
-    const panelNote=document.getElementById('selectedApartmentNote');if(panelNote)panelNote.textContent=note;
+    const side=unit.side==='lazer'?'lado do lazer':'lado do estacionamento';
+    const panelNote=document.getElementById('selectedApartmentNote');if(panelNote)panelNote.textContent=associated?`Planta ${layout(relation.typology).label} · ${side}`:note;
   }};
 }

@@ -45,6 +45,6 @@ function formatPrice(cents){
     part.type==='fraction'?String(cents%100).padStart(2,'0'):part.value).join('');
 }
 export function saleLabel(unit){
-  const sale=saleOf(unit);return `${AVAILABILITY[sale.availability]} · ${sale.priceCents===null?'preço não informado':formatPrice(sale.priceCents)}`;
+  const sale=saleOf(unit);return `${AVAILABILITY[sale.availability]} · ${sale.priceCents===null?'preço sob consulta':formatPrice(sale.priceCents)}`;
 }
-export function priceLabel(unit){const sale=saleOf(unit);return sale.priceCents===null?'Não informado':formatPrice(sale.priceCents);}
+export function priceLabel(unit){const sale=saleOf(unit);return sale.priceCents===null?'Sob consulta':formatPrice(sale.priceCents);}

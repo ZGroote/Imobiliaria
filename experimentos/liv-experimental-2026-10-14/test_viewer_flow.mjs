@@ -6,7 +6,7 @@ import {typology} from './tipologias.js';
 import {unitById} from './unidades.js';
 import {expandBuildingCatalog,floorOf,floorLabel,unitScope} from './catalogo-unidades.js';
 import {requestedEdition} from './edicoes.js';
-import {attachCommercial,saleOf,saleLabel} from './comercial.js';
+import {attachCommercial,saleOf,saleLabel,priceLabel} from './comercial.js';
 import {requestedAmbience,AMBIENCES} from './ambiencia-perfis.js';
 import {attachRelations,PLAN_HASH} from './vinculos.js';
 import {attachStock} from './estoque-adapter.js';
@@ -103,7 +103,7 @@ function harness({search='?backend=webgl&unidades=edificio',fetchData=()=>emptyC
       observe(node){this.observed.add(node);}disconnect(){this.observed.clear();}notify(){this.callback();}},
     navigator:{},sessionStorage:{getItem:()=>saved?JSON.stringify(saved):null,setItem:(key,value)=>calls.push({name:'saved-session',value:JSON.parse(value)})},moduleURL:'http://localhost/viewer.js',
     transfers:{pause:async()=>{},prioritize:async()=>{},start:async()=>{},getState:()=>({})},showTransferStatus(){},
-    typology,layout:typology,unitById,floorOf,floorLabel,unitScope,requestedEdition,attachCommercial,saleOf,saleLabel,requestedAmbience,AMBIENCES,attachRelations,attachStock,availableUnitIds,
+    typology,layout:typology,unitById,floorOf,floorLabel,unitScope,requestedEdition,attachCommercial,saleOf,saleLabel,priceLabel,requestedAmbience,AMBIENCES,attachRelations,attachStock,availableUnitIds,
     // The viewer and data validators are real; DOM details, rendering and network are controlled boundaries.
     loadStockSDK:async()=>{
       calls.push({name:'estoque-runtime.js',ready:context.__livViewer.ready});
@@ -280,18 +280,34 @@ test('seleção de Canto e Meio determina todas as plantas e o Tour, sem troca m
   assert.equal(app.element('unitDetails').open,false,'Seleção no modelo mostra o contexto, sem abrir um modal.');
   assert.equal(app.element('selectionPrompt').hidden,true);assert.equal(app.element('selectedApartment').hidden,false);
   assert.match(app.element('selectedApartmentTitle').textContent,/Apartamento TESTE 01/);
-  assert.match(app.element('selectedApartmentMeta').textContent,/Planta Canto/);
+  assert.match(app.element('selectedApartmentNote').textContent,/Planta Canto/);
   assert.equal(app.element('viewModes').hidden,true);assert.equal(app.element('selectedApartmentActions').hidden,false);
   await app.unitButtons[0].click();assert.equal(app.state.mode,'planta2d');assert.equal(app.state.typology,'canto');
   assert.match(app.element('stage').querySelector('img').src,/canto\.jpg/);
   assert.equal(app.element('viewModes').hidden,false);assert.equal(app.element('selectedApartmentActions').hidden,true);
   assert.equal(await app.state.setTypology('meio'),false);assert.equal(app.state.typology,'canto');
   await app.state.setMode('maquete');assert.equal(app.state.selectedUnitId,canto);
-  app.state.selectUnit(meio);assert.equal(app.state.typology,'meio');assert.match(app.element('selectedApartmentMeta').textContent,/Planta Meio/);
+  app.state.selectUnit(meio);assert.equal(app.state.typology,'meio');assert.match(app.element('selectedApartmentNote').textContent,/Planta Meio/);
   await app.state.setMode('planta2d');assert.match(app.element('stage').children.find(child=>child.dataset.plan==='meio'&&!child.hidden).querySelector('img').src,/meio\.jpg/);
   await app.state.setMode('planta3d');assert.match(app.state.frame.src,/tipologia=meio/);
   await app.state.setMode('visita');assert.equal(app.state.frame.contentWindow.__livInterior.mode,'visita');
   assert.match(app.element('interiorUnitTitle').textContent,new RegExp('Final '+pilot.units[1].final));
+});
+
+test('disponíveis acendem de saída e a lista leva ao cartão do apartamento',async()=>{
+  const app=harness({fetchData:name=>name==='comercial.json'?commercialFixture():dualRelations()});
+  await waitFor(()=>app.state.ready&&app.state.commercialStatus==='fornecido');
+  assert.equal(app.state.getState().availabilityFilter,'disponiveis');
+  assert.equal(app.element('availableUnits').hidden,false);
+  assert.equal(app.element('availableUnitsTitle').textContent,'1 apartamento disponível');
+  const rows=app.element('availableUnitList').children;assert.equal(rows.length,1);
+  const cells=rows[0].children[0].children.map(cell=>cell.textContent);
+  assert.equal(cells[0],'TESTE 01');assert.match(cells[3],/R\$\s1\.000,01/);
+  app.state.selectUnit(rows[0].children[0].dataset.unitId);
+  assert.equal(app.element('availableUnits').hidden,true);assert.equal(app.element('selectedApartment').hidden,false);
+  assert.match(app.element('selectedApartmentSale').textContent,/Disponível · R\$\s1\.000,01/);
+  await app.element('btnBackToList').click();
+  assert.equal(app.state.selectedUnitId,null);assert.equal(app.element('availableUnits').hidden,false);
 });
 
 test('informações abre a mesma ficha na maquete e no interior sem alterar a seleção',async()=>{
@@ -405,7 +421,7 @@ test('alteração validada da planta recarrega o interior e retirada do vínculo
   relations=dualRelations();relations.units=[{...relations.units[1],id:pilot.units[0].id}];
   assert.equal(await app.state.reloadRelations(),true);
   await waitFor(()=>app.state.ready&&app.state.mode==='visita'&&app.state.typology==='meio');
-  assert.match(app.state.frame.src,/tipologia=meio/);assert.match(app.element('selectedApartmentMeta').textContent,/Planta Meio/);
+  assert.match(app.state.frame.src,/tipologia=meio/);assert.match(app.element('selectedApartmentNote').textContent,/Planta Meio/);
   relations=emptyRelations;assert.equal(await app.state.reloadRelations(),true);
   await waitFor(()=>app.state.ready&&app.state.mode==='maquete');
   assert.equal(app.element('viewModes').hidden,true);assert.equal(app.element('selectedApartmentActions').hidden,true);

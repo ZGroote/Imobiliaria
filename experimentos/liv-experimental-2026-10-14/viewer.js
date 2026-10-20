@@ -4,7 +4,7 @@ import {unitById} from './unidades.js';
 import {loadUnitCatalog,floorOf,unitScope} from './catalogo-unidades.js';
 import {createUnitUI} from './unit-ui.js';
 import {requestedEdition} from './edicoes.js';
-import {attachCommercial} from './comercial.js';
+import {attachCommercial,priceLabel} from './comercial.js';
 import {requestedAmbience,AMBIENCES} from './ambiencia-perfis.js';
 import {attachRelations} from './vinculos.js';
 import {attachStock} from './estoque-adapter.js';
@@ -23,7 +23,7 @@ const finish=geometry!=='base'||new URLSearchParams(location.search).get('acabam
 const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
 const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,panelCollapsed:false,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
 state.ambience=requestedAmbience(location.search);
-state.availabilityFilter='todos';
+state.availabilityFilter='disponiveis';
 let units,unitUI;
 let commercialData=null,commercialVersion=0,commercialController=null;
 let relationsData=null,interiorCatalog=null,relationVersion=0,relationController=null;
@@ -141,7 +141,7 @@ function update() {
   if(associated)document.getElementById('interiorNote').textContent=`Referência de ${selected.label.toLowerCase()} associada ao final ${unit.final} pelo cadastro fornecido · interior ilustrativo, com medidas inferidas.`;
   document.getElementById('hint').textContent=state.mode==='visita'?'Arraste para olhar · use o teclado ou o controle na tela para caminhar':
     state.mode==='planta2d'?`Planta comercial publicada · ${selected.label.toLowerCase()}, ${selected.area} incluindo varanda`:
-    state.mode==='maquete'?'Clique ou toque num apartamento para conhecer sua planta · arraste para girar':'Arraste para girar · use a roda ou dois dedos para aproximar';
+    state.mode==='maquete'?'Arraste para girar · use a roda ou dois dedos para aproximar':'Arraste para girar · use a roda ou dois dedos para aproximar';
   unitUI?.update({...state,typology:selected.label.toLowerCase()});
   updateAvailability();
   updateDetails();
@@ -230,6 +230,32 @@ function updateAvailability(){
     active?`${available.length} ${available.length===1?'disponível':'disponíveis'} em verde · toque para ver a ficha`:
       `${available.length} ${available.length===1?'disponível':'disponíveis'} · selecione para destacar`;
   if(state.ready&&state.mode==='maquete')state.frame?.contentWindow?.__livProva?.setAvailableUnits(state.glowingUnitIds);
+  renderAvailableList(available);
+}
+// Facade targets are small on a phone: the list is the buyer's main way in.
+let listedUnits=null,listedKey='';
+function renderAvailableList(available){
+  const section=document.getElementById('availableUnits'),list=document.getElementById('availableUnitList');
+  document.getElementById('selectionPrompt').textContent=available.length?'Toque num apartamento verde no prédio ou escolha na lista abaixo.':
+    'Toque num apartamento do prédio para ver a planta e o Tour.';
+  section.hidden=!state.ready||state.mode!=='maquete'||Boolean(selectedApartment())||!available.length;
+  const key=available.join();
+  if(section.hidden||(units===listedUnits&&key===listedKey))return;
+  listedUnits=units;listedKey=key;
+  document.getElementById('availableUnitsTitle').textContent=`${available.length} ${available.length===1?'apartamento disponível':'apartamentos disponíveis'}`;
+  const number=new Intl.NumberFormat('pt-BR');
+  const rows=available.map(id=>unitById(units,id)).sort((a,b)=>floorOf(units,a)-floorOf(units,b)||String(a.final).localeCompare(String(b.final)));
+  list.innerHTML='';
+  for(const unit of rows){
+    const floor=floorOf(units,unit),area=unit.salesDetails?.areaM2;
+    const button=document.createElement('button');button.type='button';button.dataset.unitId=unit.id;
+    const code=unit.commercial?.commercialNumber;
+    for(const text of [code?(/^\d+$/.test(code)?`Apto ${code}`:code):`Final ${unit.final}`,
+      floor===0?'Térreo':`${floor}º andar`,area===null||area===undefined?'—':`${number.format(area)} m²`,priceLabel(unit)]){
+      const cell=document.createElement('span');cell.textContent=text;button.append(cell);
+    }
+    const item=document.createElement('li');item.append(button);list.append(item);
+  }
 }
 function setAvailabilityFilter(value){
   if(!['todos','disponiveis'].includes(value))throw Error('Filtro de disponibilidade inválido.');
@@ -500,7 +526,7 @@ async function setMode(mode,{restore=false}={}) {
     frame.inert=false;frame.setAttribute('aria-hidden','false');delete frame.dataset.parked;
     state.backend=api.backend;
     if(warm){state.sceneReuseCount++;if(kind.startsWith('interior:'))state.interiorReuseCount++;}
-    state.ready=true;overlay.hidden=true;status.textContent=mode==='maquete'?'Maquete completa carregada':`Planta de referência de ${typology(state.typology).label.toLowerCase()}`;update();
+    state.ready=true;overlay.hidden=true;status.textContent='';update();
     openedOnce=true;void transfers.start();refreshOptionalData();scheduleWarmViews();return true;
   } catch(error) {
     if(token!==generation)return;
@@ -736,6 +762,11 @@ document.getElementById('hostFramePlan')?.addEventListener('click',()=>{
 });
 document.getElementById('btnOpenUnitCard')?.addEventListener('click',()=>showDetails());
 document.getElementById('btnApartmentInfo')?.addEventListener('click',()=>showDetails());
+document.getElementById('btnBackToList').addEventListener('click',()=>selectUnit(null));
+document.getElementById('availableUnitList').addEventListener('click',event=>{
+  const button=event.target.closest?.('button[data-unit-id]');
+  if(button&&selectUnit(button.dataset.unitId))revealOnMobile('selectedApartment');
+});
 document.getElementById('closeDetails').addEventListener('click',()=>detailsDialog.close());
 detailsDialog.addEventListener('click',event=>{
   if(event.target!==detailsDialog)return;const r=detailsDialog.getBoundingClientRect();
