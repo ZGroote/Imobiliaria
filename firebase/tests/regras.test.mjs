@@ -261,6 +261,22 @@ test('6b. tipo da conta: só imobiliaria ou construtora, só o admin muda, e a c
   await assertFails(updateDoc(doc(db('gerA'), 'agencies/agA'), { kind: 'construtora', updatedAt: now() }));
 });
 
+test('6c. vitrine: qualquer um lê o imóvel pelo slug; grava a equipe ou o gerente dele, só no slug dele', async () => {
+  const slug = 'vitrine/monte-dos-cedros-37';
+  const v = (extra = {}) => ({ propertyId: 'propA', online: false, situacao: 'disponivel', precoCentavos: 69000000, updatedAt: now(), ...extra });
+  await assertSucceeds(setDoc(doc(db('gerA'), slug), v()));
+  await assertSucceeds(getDoc(doc(anon(), slug)));
+  await assertFails(getDocs(collection(anon(), 'vitrine')));          // ler um, sim; listar todos, não
+  await assertSucceeds(setDoc(doc(db('op'), slug), v({ online: true, situacao: 'vendido', precoCentavos: null })));
+  for (const quem of ['corA', 'gerB']) await assertFails(setDoc(doc(db(quem), slug), v()));
+  await assertFails(setDoc(doc(anon(), slug), v()));
+  await assertFails(setDoc(doc(db('gerA'), 'vitrine/outro-slug'), v()));                    // slug de outro
+  await assertFails(setDoc(doc(db('admin'), slug), v({ propertyId: 'propB' })));            // trocar o imóvel
+  for (const ruim of [{ situacao: 'livre' }, { precoCentavos: -1 }, { precoCentavos: 1.5 }, { online: 'sim' }, { comprador: 'x' }])
+    await assertFails(setDoc(doc(db('gerA'), slug), v(ruim)));
+  await assertFails(deleteDoc(doc(db('admin'), slug)));
+});
+
 // ── identidade (T03 / REVISAO-1.5) ──
 
 test('7. users/{uid} só nasce de convite, com o papel do convite, e o convite é consumido no aceite', async () => {

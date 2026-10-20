@@ -42,6 +42,23 @@ SITE = 'https://imobilaria-deccb-imoveis.web.app'
 # "Navegar pelo mapa" vai pro ponteiro estavel do mapa (B1), nunca pra um mapa versionado.
 MAPA = 'https://imobilaria-deccb.web.app/'
 ARQUIVOS = ('tour.html', 'maquete.html')
+# Liga/desliga do ar, preco e situacao ao vivo, lidos de vitrine/<slug> (ver o proprio arquivo).
+VITRINE = RAIZ / 'pipeline/vitrine_ao_vivo.js'
+
+
+def script_vitrine(slug, ir_para=None):
+    """O vitrine_ao_vivo.js inteiro mais a chamada do imovel; no ponteiro, com o destino."""
+    chamada = 'vitrineAoVivo(%s%s);' % (json.dumps(slug), ', ' + json.dumps(ir_para) if ir_para else '')
+    return '<script>\n' + VITRINE.read_text(encoding='utf-8') + chamada + '\n</script>\n'
+
+
+def com_vitrine(path, slug):
+    """Poe o script antes do ultimo </body>: depois do que a pagina monta, pra achar a ficha."""
+    html = path.read_text(encoding='utf-8')
+    i = html.rfind('</body>')
+    if i < 0:
+        raise ValueError('%s sem </body>: onde entraria a vitrine?' % path.name)
+    path.write_bytes((html[:i] + script_vitrine(slug) + html[i:]).encode('utf-8'))
 
 
 def build_id(tour, maquete):
@@ -129,7 +146,7 @@ def construir(imovel_id, builds=BUILDS, production_mode=None):
     tiles = prefixo_publico(json.loads(TERRENOS.read_text(encoding='utf-8'))['prefix'])
 
     fontes = entradas(config) + [PILOTO, TERRENOS, Path(__file__).resolve(),
-                                 RAIZ / 'pipeline/imovel.py', RAIZ / 'pipeline/recorte.py']
+                                 RAIZ / 'pipeline/imovel.py', RAIZ / 'pipeline/recorte.py', VITRINE]
     fontes += fontes_da_maquete(imovel_id, modo)
     antes = snapshot(fontes)
     pasta = builds / imovel_id
@@ -148,6 +165,7 @@ def construir(imovel_id, builds=BUILDS, production_mode=None):
                         '--mapa', 'tour.html', '--modo', modo],
                        check=True, cwd=str(RAIZ), stdout=sys.stderr)
         for n in ARQUIVOS:
+            com_vitrine(trabalho / n, imovel_id)
             canonicaliza_html(trabalho / n)
         if snapshot(fontes) != antes:
             raise ValueError('uma fonte mudou durante a montagem; repita com fontes estaveis')

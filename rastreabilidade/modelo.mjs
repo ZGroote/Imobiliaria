@@ -118,6 +118,9 @@ export function criarServicoRastreabilidade({db,secret,publicOrigin,now=Date.now
       ||typeof property.pipelineUnitId!=='string'||property.pipelineUnitId.length>128||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(property.pipelineUnitId)
       ||!/^[0-9a-f]{12}$/.test(property.publishedBuild??''))
       throw erro(410,'Publicação indisponível.','LINK_DISABLED')
+    // O painel tirou do ar (vitrine/<slug>, a mesma chave que a página pública lê).
+    if((await get(ref('vitrine',property.pipelineUnitId))).data()?.online===false)
+      throw erro(410,'Imóvel fora do ar.','LINK_DISABLED')
     return {link,property,broker}
   }
   function abertura(visit,context,sourceClass=visit.sourceClass){
