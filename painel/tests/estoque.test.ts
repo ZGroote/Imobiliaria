@@ -2,14 +2,15 @@ import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { initializeApp, deleteApp } from 'firebase/app'
 import { collection, connectFirestoreEmulator, doc, getDoc, getDocs, getFirestore, serverTimestamp, writeBatch } from 'firebase/firestore'
-import { semear } from '../scripts/seed.mjs'
+import { adminDb, semear } from '../scripts/seed.mjs'
 import { entrar, sairDeTodos } from './apoio.ts'
 import { iniciarEstoque, salvarUnidade, salvarPerfil, mostrarEstoque } from '../src/lib/estoque.ts'
 import { BOOK_SHA, centavos, posicoes, resolverInformacoes, totais, validarLista, validarInformacoes, vazias, type Estoque, type PerfilVenda, type UnidadeVenda } from '../src/lib/estoque-modelo.ts'
 
 const app = initializeApp({ projectId: 'demo-painel', apiKey: 'demo-key' }, 'estoque-publico-teste'), anonymous = getFirestore(app)
 connectFirestoreEmulator(anonymous, '127.0.0.1', 8180)
-before(semear)
+// Estoque é módulo de construtora: aqui a conta A (a do Cedros, com gerente e corretor) faz esse papel.
+before(async () => { await semear(); await adminDb().doc('agencies/agA').update({ kind: 'construtora' }) })
 after(async () => { await sairDeTodos(); await deleteApp(app) })
 const stockRef = (db: ReturnType<typeof getFirestore>, id = 'cedros') => doc(db, 'salesInventory', id)
 const unit = async (db: ReturnType<typeof getFirestore>, id = 'p08-f02') => ({ ...(await getDoc(doc(stockRef(db), 'units', id))).data(), id }) as UnidadeVenda
@@ -113,4 +114,18 @@ test('numeração é exclusiva também em duas edições concorrentes de apartam
   const current = await unit(op.db, owner)
   await salvarUnidade(op.db, 'cedros', op.uid, { ...current, commercialNumber: null })
   assert.equal((await getDoc(doc(stockRef(op.db), 'numbers', 'QA-EXCLUSIVO'))).exists(), false)
+})
+
+test('estoque é só de construtora: conta imobiliária ou sem tipo não escreve, nem pela equipe', async () => {
+  const op = await entrar('op'), u = await unit(op.db), conta = adminDb().doc('agencies/agA')
+  await conta.update({ kind: 'imobiliaria' })
+  await assert.rejects(salvarUnidade(op.db, 'cedros', op.uid, { ...u, availability: 'disponivel' }), /permission/i)
+  await assert.rejects(iniciarEstoque(op.db, 'colinas', op.uid, 'Indevido'), /permission/i)
+  const { kind: _kind, ...semTipo } = (await conta.get()).data()!
+  await conta.set(semTipo)
+  await assert.rejects(salvarUnidade(op.db, 'cedros', op.uid, { ...u, availability: 'disponivel' }), /permission/i)
+  assert.equal((await unit(op.db)).revision, u.revision, 'a leitura continua; só a escrita trava')
+  const gerB = await entrar('gerB')
+  await iniciarEstoque(gerB.db, 'imovelB', gerB.uid, 'CONSTRUTORA B — SEM OFERTA REAL')
+  assert.equal((await getDocs(collection(stockRef(gerB.db, 'imovelB'), 'units'))).size, 170)
 })

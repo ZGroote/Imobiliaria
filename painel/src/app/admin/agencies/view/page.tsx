@@ -8,7 +8,7 @@ import { atualizarAgencia } from '@/lib/agencias'
 import { db } from '@/lib/firebase'
 import { imoveisDa } from '@/lib/listas'
 import { usePerfil } from '@/lib/session'
-import { ROTULO_PAPEL, type Agency, type Property, type User } from '@/lib/types'
+import { ROTULO_PAPEL, ROTULO_TIPO_DE_CONTA, TIPOS_DE_CONTA, tipoDaConta, type Agency, type Property, type TipoDeConta, type User } from '@/lib/types'
 import { useColecao, useDoc, usePaginada } from '@/lib/useFirestore'
 
 export default function VerAgencia() {
@@ -29,7 +29,7 @@ function Agencia({ id }: { id: string }) {
   const ag = a.dado
   return (
     <Pagina titulo={ag?.name ?? 'Imobiliária'}
-      sub={ag && (ag.active ? <Selo tom="verde">Ativa</Selo> : <Selo>Desativada</Selo>)}
+      sub={ag && <>{ag.active ? <Selo tom="verde">Ativa</Selo> : <Selo>Desativada</Selo>} <Selo>{ROTULO_TIPO_DE_CONTA[tipoDaConta(ag)]}</Selo></>}
       acoes={admin && ag && (
         <button disabled={ocupado} className="btn" onClick={() => executar(() => atualizarAgencia(db, id, { active: !ag.active }))}>
           {ag.active ? 'Desativar' : 'Reativar'}
@@ -46,6 +46,17 @@ function Agencia({ id }: { id: string }) {
                   Salvar
                 </button>
               </div>
+            </Cartao>
+          )}
+          {admin && ag && (
+            <Cartao titulo="Tipo">
+              <select value={tipoDaConta(ag)} disabled={ocupado} className="campo" aria-label="Tipo da conta"
+                onChange={(e) => executar(() => atualizarAgencia(db, id, { kind: e.target.value as TipoDeConta }))}>
+                {TIPOS_DE_CONTA.map((t) => <option key={t} value={t}>{ROTULO_TIPO_DE_CONTA[t]}</option>)}
+              </select>
+              <p className="mt-2 text-xs text-slate-500">
+                Imobiliária vê Imóveis. Construtora vê Empreendimentos, e os imóveis dela ganham Unidades e disponibilidade.
+              </p>
             </Cartao>
           )}
           <Cartao titulo="Imóveis">

@@ -12,8 +12,15 @@ export const ROTULO_PAPEL: Record<UserRole, string> = {
 }
 export const interno = (r: UserRole) => PAPEIS_INTERNOS.includes(r)
 
+// Tipo da conta: decide os módulos. Conta sem `kind` (anterior ao campo) é imobiliária.
+export type TipoDeConta = 'imobiliaria' | 'construtora'
+export const TIPOS_DE_CONTA: TipoDeConta[] = ['imobiliaria', 'construtora']
+export const ROTULO_TIPO_DE_CONTA: Record<TipoDeConta, string> = { imobiliaria: 'Imobiliária', construtora: 'Construtora' }
+export const tipoDaConta = (a: Pick<Agency, 'kind'>): TipoDeConta => a.kind ?? 'imobiliaria'
+
 export interface Agency {                 // agencies/{id}
   id: string; name: string; slug?: string; logoUrl?: string; active: boolean
+  kind?: TipoDeConta
   createdAt: Timestamp; updatedAt: Timestamp
 }
 

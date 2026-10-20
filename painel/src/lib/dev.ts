@@ -3,8 +3,8 @@
 export const SENHA_DEV = 'senha-do-emulador'
 
 export const AGENCIAS_DEV = [
-  { id: 'agA', name: 'Imobiliária Fictícia A (dev)', slug: 'ficticia-a' },
-  { id: 'agB', name: 'Imobiliária Fictícia B (dev)', slug: 'ficticia-b' },
+  { id: 'agA', name: 'Imobiliária Fictícia A (dev)', slug: 'ficticia-a', kind: 'imobiliaria' },
+  { id: 'agB', name: 'Construtora Fictícia B (dev)', slug: 'ficticia-b', kind: 'construtora' },
 ]
 
 export const USUARIOS_DEV = [
