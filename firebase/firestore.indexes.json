@@ -158,6 +158,7 @@
     { "collectionGroup": "trackingLinks", "fieldPath": "expiresAt", "ttl": true, "indexes": [] },
     { "collectionGroup": "trackingVisits", "fieldPath": "expiresAt", "ttl": true, "indexes": [] },
     { "collectionGroup": "trackingSessions", "fieldPath": "expiresAt", "ttl": true, "indexes": [] },
-    { "collectionGroup": "trackingAttempts", "fieldPath": "expiresAt", "ttl": true, "indexes": [] }
+    { "collectionGroup": "trackingAttempts", "fieldPath": "expiresAt", "ttl": true, "indexes": [] },
+    { "collectionGroup": "leads", "fieldPath": "expiresAt", "ttl": true, "indexes": [] }
   ]
 }

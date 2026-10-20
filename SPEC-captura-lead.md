@@ -6,7 +6,7 @@
 - Duas mudanças em relação ao texto abaixo, ambas para simplificar:
   - O lead é **um por visita** (id = hash da visita e do canal), sem `attemptId`: clicar de novo devolve o mesmo lead.
   - As decisões 2 (180 dias) e 4 (registrar sem aceite) seguiram a sugestão.
-- A remoção pelo TTL de `expiresAt` ainda precisa da política de TTL configurada no Firestore, no deploy.
+- A política de TTL de `leads.expiresAt` está em `firebase/firestore.indexes.json` e vai ao ar com `deploy --only firestore:indexes`.
 
 Objetivo: na página pública do imóvel, o visitante fala com o corretor pelo
 WhatsApp ou deixa seus dados num formulário. Os dois caminhos geram um lead
