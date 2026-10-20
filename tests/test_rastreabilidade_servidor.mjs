@@ -118,6 +118,26 @@ test('revogação da raiz, recibo adulterado e publicação inválida impedem re
   await assert.rejects(service.abrirVisita({token:a.shareToken,attemptId:'depois'}),{status:410,code:'LINK_DISABLED'})
 })
 
+test('lead do WhatsApp: um por visita, exige recibo, sem dado pessoal, e para com o imóvel fora do ar',async()=>{
+  const {service,db}=fixture()
+  const {link}=await service.criarLink('brokerA',{propertyId:'p',attemptId:'raiz'})
+  const a=await service.abrirVisita({token:link.id,attemptId:'a'})
+  assert.equal(a.contact.whatsappNumber,'5511999999999')
+  const clique={visitId:a.visitId,receipt:a.receipt,channel:'whatsapp'}
+  const first=await service.registrarLead(clique)
+  assert.deepEqual(await service.registrarLead(clique),first,'o segundo clique devolve o mesmo lead')
+  const leads=[...db.data.entries()].filter(([k])=>k.startsWith('leads/')).map(([,v])=>v)
+  assert.equal(leads.length,1)
+  assert.deepEqual(Object.keys(leads[0]).sort(),['agencyId','brokerUid','channel','createdAt','expiresAt','id','propertyId','schemaVersion','status','visitId'])
+  assert.deepEqual([leads[0].brokerUid,leads[0].propertyId,leads[0].status],['brokerA','p','novo'])
+  assert.equal(new Date(leads[0].expiresAt)-new Date(leads[0].createdAt),180*86400000)
+  await assert.rejects(service.registrarLead({...clique,receipt:a.receipt.slice(0,-1)+'x'}),{status:403})
+  await assert.rejects(service.registrarLead({...clique,channel:'email'}),{status:400})
+  await assert.rejects(service.registrarLead({...clique,name:'Fulano'}),{status:400})
+  db.data.set('vitrine/imovel-p',{propertyId:'p',online:false})
+  await assert.rejects(service.registrarLead(clique),{status:410,code:'LINK_DISABLED'})
+})
+
 test('limite de linhagem conserva compartilhamento e marca origem limitada',async()=>{
   const {service}=fixture();const {link}=await service.criarLink('brokerA',{propertyId:'p',attemptId:'raiz'})
   let token=link.id,opening

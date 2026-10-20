@@ -186,11 +186,22 @@ test('site base com arquivo fora do inventário é recusado sem produzir publica
   await assert.rejects(montar({workspace,output:join(workspace,'publicacao','rastreabilidade','rodada'),baseSite:base,apiBase:'https://api.test',publicOrigin:origin}),/inventário|inventario/i);
 });
 
-function browser({visible=true,deferredFrame=false}={}) {
+test('WhatsApp: só aparece com número; leva imóvel e link de compartilhar, sem recibo; o clique registra o lead',async()=>{
+  const sem=browser();await boot(sem.win,sem.doc);assert.equal(sem.elements.whatsapp.hidden,true);
+  const b=browser({whatsapp:'5516999990000'});await boot(b.win,b.doc);
+  const wa=b.elements.whatsapp;assert.equal(wa.hidden,false);assert.equal(wa.textContent,'Falar com Corretor');
+  const url=new URL(wa.href);assert.equal(url.origin+url.pathname,'https://wa.me/5516999990000');
+  const text=url.searchParams.get('text');assert.match(text,/Imóvel <teste>/);
+  assert.equal(new URL(text.slice(text.indexOf('http'))).searchParams.get('l'),child);assert.equal(text.includes('rrrr'),false);
+  await wa.dispatch('click');await b.settle();
+  assert.deepEqual(b.requests.filter(r=>r.path==='/leads').map(r=>r.body),[{visitId:'v'.repeat(32),receipt:opening().receipt,channel:'whatsapp'}]);
+});
+
+function browser({visible=true,deferredFrame=false,whatsapp=null}={}) {
   const makeStorage=()=>{const map=new Map();return {getItem:key=>map.get(key)??null,setItem:(key,value)=>map.set(key,value),removeItem:key=>map.delete(key),map};};
   const emitter=()=>{const events=new Map();return {addEventListener:(type,fn)=>{const fs=events.get(type)||[];fs.push(fn);events.set(type,fs);},
     dispatch:async(type,data={})=>{for(const fn of events.get(type)||[])await fn(data);}};};
-  const ids=['configRastreabilidade','estado','conteudo','consentimento','escolha','privacidade','aceitar','recusar','paginaMaquete','paginaTour','copiar','compartilhar','titulo'];
+  const ids=['configRastreabilidade','estado','conteudo','consentimento','escolha','privacidade','aceitar','recusar','paginaMaquete','paginaTour','copiar','compartilhar','whatsapp','titulo'];
   const elements=Object.fromEntries(ids.map(id=>[id,{...emitter(),id,hidden:true,textContent:'',dataset:{},setAttribute(){},removeAttribute(){},focus(){}}]));
   elements.configRastreabilidade.textContent=JSON.stringify({apiBase:'https://api.test/',publicOrigin:origin});
   const anchors=[];const innerDoc={...emitter(),querySelectorAll:()=>anchors};
@@ -206,7 +217,8 @@ function browser({visible=true,deferredFrame=false}={}) {
     history:{replaceState:(_s,_t,url)=>{win.location=new URL(url);}},setInterval:fn=>timers.push(fn),
     navigator:{clipboard:{writeText:async text=>clipboard.push(text)}},
     fetch:async(url,options)=>{const body=JSON.parse(options.body);requests.push({path:new URL(url).pathname,body});
-      const result=new URL(url).pathname==='/open'?opening():new URL(url).pathname==='/sessions'?{sessionId:'s'.repeat(32),nextSeq:1}:{accepted:true,seq:body.seq};
+      const result=new URL(url).pathname==='/open'?{...opening(),contact:{brokerName:'Corretor',whatsappNumber:whatsapp}}
+        :new URL(url).pathname==='/sessions'?{sessionId:'s'.repeat(32),nextSeq:1}:{accepted:true,seq:body.seq};
       return {ok:true,json:async()=>result};}};
   const settle=()=>new Promise(resolve=>setImmediate(resolve));
   return {win,doc,elements,requests,timers,clipboard,anchors,inner,loadFrame,settle,setNow:value=>{clock=value;}};

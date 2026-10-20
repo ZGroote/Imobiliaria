@@ -68,6 +68,14 @@ test('rastreamento HTTP: expiração tem código estável para retomada',async()
     assert.deepEqual(await r.json(),{error:'Sessão expirada.',code:'SESSION_EXPIRED'})
   },{service:{registrarEvento:async()=>{throw Object.assign(new Error('Sessão expirada.'),{status:410,code:'SESSION_EXPIRED'})}}})
 })
+test('rastreamento HTTP: /leads é público e só aceita POST',async()=>{
+  let recebido
+  await gateway(async(base)=>{
+    const r=await fetch(base+'/leads',json({visitId:'v',receipt:'r',channel:'whatsapp'}));assert.equal(r.status,200)
+    assert.deepEqual(recebido,{visitId:'v',receipt:'r',channel:'whatsapp'})
+    assert.equal((await fetch(base+'/leads')).status,405)
+  },{service:{registrarLead:async input=>{recebido=input;return {leadId:'l',status:'novo'}}}})
+})
 test('rastreamento HTTP: payload público não passa por gerenciamento e logs não expõem dados',async()=>{
   await gateway(async(base,logs)=>{
     const body={token:'public-token',receipt:'private-receipt',attemptId:'attempt'}

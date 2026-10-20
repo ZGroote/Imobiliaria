@@ -1,9 +1,11 @@
 'use client'
+import { useState } from 'react'
 import Link from 'next/link'
 import { limit, query, type Query } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { ListaDePedidos } from '@/components/pedido'
-import { Estado } from '@/components/ui'
+import { Aviso, Cartao, Estado, useAcao } from '@/components/ui'
+import { salvarMeuWhatsapp } from '@/lib/contato'
 import { db } from '@/lib/firebase'
 import { pedidosDaAgencia, pedidosNaEtapa, publicadosDa } from '@/lib/listas'
 import { usePessoas } from '@/lib/usePessoas'
@@ -38,12 +40,35 @@ export default function Dashboard() {
             consulta={() => pedidosNaEtapa(db, ag, c.status)} gatilho={recentes.dados} />
         ))}
       </div>
+      {perfil.role === 'agent' && <MeuWhatsapp uid={perfil.id} atual={perfil.publicContact?.whatsapp ?? null} />}
       <h2 className="mb-3 text-sm font-semibold">Movimentações recentes</h2>
       <Estado r={recentes}>
         <ListaDePedidos pedidos={recentes.dados ?? []} base="/requests" imovel={imovel}
           pessoa={(uid) => nome(uid, perfil.id)} />
       </Estado>
     </Pagina>
+  )
+}
+
+// Os links são do corretor: é o número dele que aparece como "Falar com <nome>" na página do imóvel.
+function MeuWhatsapp({ uid, atual }: { uid: string; atual: string | null }) {
+  const { executar, ocupado, erro } = useAcao()
+  const [texto, setTexto] = useState<string | null>(null)
+  return (
+    <div className="mb-8">
+      <Cartao titulo="Seu WhatsApp para compradores">
+        <div className="flex flex-wrap items-end gap-2">
+          <input className="campo w-56" inputMode="tel" placeholder="(16) 99999-0000" aria-label="Seu WhatsApp"
+            value={texto ?? (atual ? '+' + atual : '')} onChange={(e) => setTexto(e.target.value)} />
+          <button className="btn" disabled={ocupado || texto === null}
+            onClick={async () => { if (await executar(async () => salvarMeuWhatsapp(db, uid, texto!))) setTexto(null) }}>Salvar</button>
+        </div>
+        <p className="mt-2 text-xs text-slate-500">
+          Quem abre um imóvel pelo seu link vê o botão &quot;Falar com você&quot; no WhatsApp. Vazio, o botão não aparece.
+        </p>
+        {erro && <Aviso>{erro}</Aviso>}
+      </Cartao>
+    </div>
   )
 }
 

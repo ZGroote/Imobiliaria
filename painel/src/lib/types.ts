@@ -29,6 +29,7 @@ export interface User {                   // users/{uid}: FONTE DE AUTORIZAÇÃO
   agencyId?: string                       // obrigatório para papel de imobiliária; proibido para interno
   name: string; email: string
   role: UserRole; active: boolean
+  publicContact?: { whatsapp: string | null } // E.164 sem "+"; o link por corretor mostra "Falar com <nome>"
   createdAt: Timestamp; updatedAt: Timestamp
 }
 

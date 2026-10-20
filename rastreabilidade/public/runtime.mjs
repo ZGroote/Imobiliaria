@@ -48,6 +48,12 @@ export function shareAddress(current,opening) {
   return url.href;
 }
 
+// "Falar com <corretor>": a mensagem leva o imóvel e o link de compartilhar, nunca o recibo.
+export function whatsappAddress(opening,shareUrl) {
+  const text=`Olá, ${opening.contact.brokerName}! Vi o imóvel ${opening.propertyTitle}: ${shareUrl}`;
+  return `https://wa.me/${opening.contact.whatsappNumber}?text=${encodeURIComponent(text)}`;
+}
+
 export function frameAddress(destination,outer) {
   const url=new URL(destination,new URL(outer).origin),nav=navigation(outer);
   nav.params.delete('pagina');
@@ -188,7 +194,7 @@ export async function boot(win=window,doc=document) {
   }
   function failClosed(message) {
     stopped=true;consentEpoch++;ledger?.consent(false);delivery?.clear();frame.hidden=true;frame.removeAttribute('src');status(message);
-    for(const id of ['paginaTour','paginaMaquete','compartilhar','consentimento','escolha'])el(id).hidden=true;
+    for(const id of ['paginaTour','paginaMaquete','compartilhar','whatsapp','consentimento','escolha'])el(id).hidden=true;
     el('copiar').disabled=true;
   }
   function saveAnalytics(snapshot) {
@@ -279,6 +285,10 @@ export async function boot(win=window,doc=document) {
   el('compartilhar').addEventListener('click',async()=>{
     try{await win.navigator.share({title:opening.propertyTitle,url:shareAddress(win.location.href,opening)});}catch(error){if(error.name!=='AbortError')await copy();}
   });
+  // O registro do clique não segura o WhatsApp: o link abre de qualquer jeito (keepalive no post).
+  el('whatsapp').addEventListener('click',()=>{
+    if(opening)void post('leads',{visitId:opening.visitId,receipt:opening.receipt,channel:'whatsapp'}).catch(()=>{});
+  });
   function bindFrame() {
     if(stopped||!opening)return;
     try {
@@ -338,6 +348,9 @@ export async function boot(win=window,doc=document) {
       const url=shareAddress(win.location.href,opening);win.history.replaceState(null,'',url);
       page=new URL(url).searchParams.get('pagina');el('titulo').textContent=opening.propertyTitle;doc.title=opening.propertyTitle;
       el('copiar').disabled=false;el('compartilhar').hidden=!win.navigator.share;
+      if(opening.contact.whatsappNumber) {
+        const wa=el('whatsapp');wa.href=whatsappAddress(opening,url);wa.textContent='Falar com '+opening.contact.brokerName;wa.hidden=false;
+      }
       consentUI();frame.hidden=false;armFrame(frameAddress(opening.destinations[page],url));status('');
       if(choice==='yes')void startMetrics();
     } catch(error) {
