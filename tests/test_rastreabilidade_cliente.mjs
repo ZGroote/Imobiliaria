@@ -75,6 +75,43 @@ test('seções têm uma fonte principal e transição/estado desconhecido fica c
   assert.equal(primarySection({__int:{ETAPA:{atual:'mapa'},INT:{},MAQ:{}}},'tour'),'mapa');
 });
 
+test('seções do Liv acompanham modos prontos, ficha e mapa sem creditar carregamento',()=>{
+  const dialogs={unitDetails:{open:false},mapPanel:{open:false}};
+  const viewer={ready:true,mode:'maquete',mapReady:false};
+  const frame={__livViewer:viewer,document:{getElementById:id=>dialogs[id]}};
+  for(const mode of ['maquete','planta2d','planta3d','visita']) {
+    viewer.mode=mode;
+    assert.equal(primarySection(frame,'maquete'),mode);
+    viewer.ready=false;
+    assert.equal(primarySection(frame,'maquete'),'carregando');
+    viewer.ready=true;
+  }
+  viewer.mode='desconhecido';
+  assert.equal(primarySection(frame,'maquete'),'carregando');
+  viewer.mode='visita';dialogs.unitDetails.open=true;
+  assert.equal(primarySection(frame,'maquete'),'ficha');
+  viewer.ready=false;
+  assert.equal(primarySection(frame,'maquete'),'ficha','a ficha aberta é a seção principal mesmo com a cena carregando');
+  dialogs.mapPanel.open=true;
+  assert.equal(primarySection(frame,'maquete'),'carregando');
+  viewer.mapReady=true;
+  assert.equal(primarySection(frame,'maquete'),'mapa','mapa modal precede ficha e não depende do ready da cena suspensa');
+  dialogs.mapPanel.open=false;
+  assert.equal(primarySection(frame,'maquete'),'ficha','mapReady residual não mantém o mapa depois de fechar');
+  dialogs.unitDetails.open=false;
+  assert.equal(primarySection(frame,'maquete'),'carregando');
+  viewer.ready=true;
+  assert.equal(primarySection(frame,'maquete'),'visita');
+});
+
+test('Liv precede o estado legado e frames inacessíveis não são observados',()=>{
+  assert.equal(primarySection({__livViewer:{ready:false,mode:'visita'},__maq:{modo:()=> 'maquete'}},'maquete'),'carregando');
+  const inaccessible=new Proxy({}, {get(){throw new DOMException('Blocked a frame','SecurityError');}});
+  assert.equal(primarySection(inaccessible,'maquete'),'carregando');
+  assert.equal(primarySection(inaccessible,'tour'),'carregando');
+  assert.equal(primarySection({__livViewer:{ready:true,mode:'visita'},get document(){throw new DOMException('Blocked a frame','SecurityError');}},'maquete'),'carregando');
+});
+
 test('tempo depende de consentimento/visibilidade, muda sem sobreposição, cessa após 60s inativo',()=>{
   let now=0;const events=[]; const m=createMetrics({now:()=>now,emit:e=>events.push(e),page:'maquete',section:'maquete'});
   now=10000;m.tick();assert.equal(events.length,0);

@@ -1,0 +1,127 @@
+[
+  {
+    "sha256": "4c3d3ac3ccedfad67e255c1886b27481d77dba17001a6634cc2a96a6639b50cc",
+    "path": "interior-renderer.js",
+    "bytes": 46108
+  },
+  {
+    "sha256": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+    "path": "material-rgbm.js",
+    "bytes": 2508
+  },
+  {
+    "sha256": "c918ab11bbe6827f285c448769ed87928a44f0d802d420612bb5e378e600b12b",
+    "path": "interior-navigation.js",
+    "bytes": 9793
+  },
+  {
+    "sha256": "dd071e3a006b6b2105d0bd5de42f38f38cb2f347679761f33ecec0a5066a2947",
+    "path": "interior-camera.js",
+    "bytes": 2475
+  },
+  {
+    "sha256": "40f6bd3c429a949f082b5bfae024d6201c9b8247de59ab7ab94986502d231d8b",
+    "path": "interior-cutaway.js",
+    "bytes": 2900
+  },
+  {
+    "sha256": "b67c7336ff5e5b5a343ac5d25f1ac093d826af3ef543fa9538df3f37965eb828",
+    "path": "interior-wall-tops.js",
+    "bytes": 3391
+  },
+  {
+    "sha256": "65b606039f4cfe9b781eeb3a403db1e202c5422ad4e4731da9a409defc2d4922",
+    "path": "interior-wall-top-contours.js",
+    "bytes": 4877
+  },
+  {
+    "sha256": "6b3412af1727b115625298c6e9d6e4bac67796e988dd78cf3ca170ae6530c301",
+    "path": "interior-cornice.js",
+    "bytes": 6818
+  },
+  {
+    "sha256": "15cfce5c653541704fd9a3463c39d3e8b854bb6265ccd854d7cfe74090625cc6",
+    "path": "node_modules/three/build/three.webgpu.js",
+    "bytes": 2284850
+  },
+  {
+    "sha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6",
+    "path": "node_modules/three/build/three.core.js",
+    "bytes": 1458113
+  },
+  {
+    "sha256": "6e6b92d8ce467818944f73815a96abadc6392fb34de577d479a23810b6aeeed0",
+    "path": "node_modules/three/build/three.tsl.js",
+    "bytes": 36854
+  },
+  {
+    "sha256": "3d79d07ecb686b4e5d93232eedab255331c1beef711e13164eaa1f68655a5f2b",
+    "path": "node_modules/three/examples/jsm/controls/OrbitControls.js",
+    "bytes": 40755
+  },
+  {
+    "sha256": "4e1830dfe1d7a16b3af5943eb7dbb36eb30df4589bb4ebe38a2c3fc50587c9e9",
+    "path": "interiores/catalogo.json",
+    "bytes": 6507
+  },
+  {
+    "sha256": "005547b7bee15a30fd59b7ece8ce64d786ef8294d14eabc8bb2683ec56054c5f",
+    "path": "interiores/shared/runtime.js",
+    "bytes": 93877
+  },
+  {
+    "sha256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+    "path": "interiores/meio/unidade.json",
+    "bytes": 8036
+  },
+  {
+    "sha256": "1304108b7689b7591fae5a39fb447c02ccd844fcdf948fbc5029f609acbc365c",
+    "path": "interiores/meio/source.json.gz",
+    "bytes": 1372249
+  },
+  {
+    "sha256": "1280073e416187d1196f7c26ff46b3913efb5ceeb0a98c30f7004c4548b1bbab",
+    "path": "interiores/meio/geometry-compact.json.gz",
+    "bytes": 420295
+  },
+  {
+    "sha256": "5e42b92f048cc90ab329f19597cec7983878c6438c838325b84390d61ccf38e1",
+    "path": "interiores/meio/light.json",
+    "bytes": 1883
+  },
+  {
+    "sha256": "32638292dc72d64881f9c2c2c7f107da2e7157687e4cc6b24dab1bd815e2cf2b",
+    "path": "interiores/meio/irradiance.rgbm.gz",
+    "bytes": 4123602
+  },
+  {
+    "sha256": "05623cf8d32094f2eb97e7c6babff7d0a51d6aec8f6623f5cfcecc5155e9cc68",
+    "path": "splat/visita.html",
+    "bytes": 6310
+  },
+  {
+    "sha256": "9ee79fee255f3ec1eaf721c64e90289ae6ba5e8bbfc9919c5c8bd2dcb4dec4d1",
+    "path": "splat/cache.js",
+    "bytes": 2251
+  },
+  {
+    "sha256": "96869fab4f2164d5d267b1df1e1b636c05e6499973cb8dddec23387919b38526",
+    "path": "splat/lib/spark.module.min.js",
+    "bytes": 2726433
+  },
+  {
+    "sha256": "c8211c69345d2e9949dc7a8ac969380497aa0600a5a8ac6a459c8cd02dd9cb8a",
+    "path": "splat/lib/three/build/three.module.js",
+    "bytes": 603113
+  },
+  {
+    "sha256": "eb077d2417f61d3e6d9264c317cabc4ea35769ed6b0ab533067292a550784c20",
+    "path": "splat/lib/three/build/three.core.js",
+    "bytes": 1403455
+  },
+  {
+    "sha256": "444b409c235ead986893c472e720da1b779a56985c7d10b279c7944b52bd61c5",
+    "path": "splat/lib/three/examples/jsm/postprocessing/Pass.js",
+    "bytes": 4218
+  }
+]

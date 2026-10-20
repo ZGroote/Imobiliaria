@@ -78,7 +78,16 @@ export function wrapperForDestination(destination,outer,opening) {
 
 export function primarySection(frame,page) {
   try {
-    if(page==='maquete') {const mode=frame.__maq?.modo();return modes.has(mode)?mode:'carregando';}
+    if(page==='maquete') {
+      const liv=frame.__livViewer;
+      if(liv) {
+        const doc=frame.document;
+        if(doc?.getElementById('mapPanel')?.open)return liv.mapReady?'mapa':'carregando';
+        if(doc?.getElementById('unitDetails')?.open)return 'ficha';
+        return liv.ready&&modes.has(liv.mode)?liv.mode:'carregando';
+      }
+      const mode=frame.__maq?.modo();return modes.has(mode)?mode:'carregando';
+    }
     const state=frame.__int;
     if(!state||state.MAQ?.anim||state.INT?.voo)return 'carregando';
     const stage=state.ETAPA?.atual;
