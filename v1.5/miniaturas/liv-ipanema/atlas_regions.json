@@ -1,0 +1,54 @@
+{
+  "sourceTextureAtlas": null,
+  "sourceImagesUsage": "Reference for geometry and color only; no whole-image projection.",
+  "lightAtlasManifest": {
+    "schema": "liv-lightmap-v1",
+    "sourceSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+    "geometryURL": "luz/geometry-compact.json",
+    "geometryGzipURL": "luz/geometry-compact.json.gz",
+    "geometrySHA256": "78ffae95cfd20becceb8c636bce27ab56bba328f347269a86ef1a73b94c0c92e",
+    "textureURL": "luz/irradiance.rgbm.gz",
+    "textureCompression": "gzip",
+    "textureEncoding": "linear-rgbm-u8",
+    "textureSHA256": "3e4e1763f0597ab11f9de615a764e4755e964e827bbe330197d5e6f402edcbfa",
+    "width": 4096,
+    "height": 4096,
+    "range": 16.0,
+    "origin": "bottom-left",
+    "premultiplyAlpha": false,
+    "lightMapIntensity": 3.141592653589793,
+    "samples": 64,
+    "passes": [
+      "DIRECT",
+      "INDIRECT"
+    ],
+    "colorPass": false,
+    "sunWebPosition": [
+      -18,
+      110,
+      55
+    ],
+    "sunWebTarget": [
+      0,
+      22,
+      0
+    ],
+    "sunIntensity": 2.4,
+    "groups": 72,
+    "instances": 1011,
+    "triangles": 266685,
+    "denoise": {
+      "filter": "OIDN RTLightmap",
+      "version": "2.3.3",
+      "inputGuardPixels": 2.0,
+      "outputGuardPixels": 4.0
+    },
+    "guidedExteriorRepair": {
+      "algorithm": "compatible coplanar exterior neighbor",
+      "triangles": 2826,
+      "pixels": 18304
+    }
+  },
+  "UV0": "Material metric UVs from authored surfaces.",
+  "UV1": "Independent light UVs per evaluated instance from xatlas."
+}

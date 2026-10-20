@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "unidadeSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+  "cenaSHA256": "270d61e914f9f3dfdb7a79327b694409b32ccb475c3187c92cf42490e8ae3fb6",
+  "textureSHA256": "1f32fd51333c05cc2ca1405ce45ba529ca0e760e007f7a4fd6464c3c3539cbde",
+  "capturasSHA256": {
+    "qa/interior-planta3d.png": "1c0af444c18cdb9bec27cdf21bd9e5d9378598bbf6d93787ed913e44c3e0c7ce",
+    "qa/interior-topo.png": "3902ebb16f71a0e2048503c67218de9c706af042100275d81e4a8552a5e395bf",
+    "qa/interior-visita.png": "9b94a7815c81bdc81ed85796db3fab169a8511ab4cbb07818c6272e527ac6cdc",
+    "qa/interior-sala.png": "6037d38066d911f618764541a0b0540115f02031cf1fe7527744f41bfc09efce",
+    "qa/interior-suite.png": "1aa3c60690edbcb4d08b411eb07cd2e6428f63da14b52f6d1f01406541bc54d1",
+    "qa/interior-teto.png": "b45e935654673195b01f7f66f24d7aedcbc2272ae2ae3208c7c33e4767a2ccb4"
+  },
+  "observacoes": [
+    "Revisão visual do coordenador e revisão independente interior_review sobre as seis capturas reais do canvas, com o atlas corrigido ativo.",
+    "Faces negras das paredes e faixas quebradas do tapete desapareceram; molduras e quinas contínuas, sem novo defeito bloqueante nas poses revisadas.",
+    "Layout, integração sala/jantar/cozinha/circulação, faixa fria diagonal, cubas, mesa circular e orientação dos móveis coerentes com a planta oficial de 47,59 m².",
+    "Madeira, tecido, móveis arredondados e sombras de contato seguem o padrão visual Cedros fornecido pelo usuário, com geometria e luz próprias do LIV.",
+    "Runtime conferido: 84 alvos ativos; hashes, materiais e layout validados; sem AO duplicado; seis rotas alcançam os seis ambientes; edição preservada com fallback e restauração; tela móvel sem overflow.",
+    "A primeira execução foi retida por defeitos físicos e não sustenta esta aprovação. Fonte, UVs e atlas corrigidos estão identificados pelos hashes acima.",
+    "Gate limitado às seis poses reais inspecionadas. Escala e pé-direito são inferidos da planta publicitária; não são medidas executivas oficiais."
+  ]
+}
