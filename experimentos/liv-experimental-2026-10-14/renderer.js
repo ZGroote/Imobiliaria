@@ -1,6 +1,6 @@
 import * as THREE from 'three/webgpu';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {LivRGBMNodeMaterial,createRGBMTexture} from './material-rgbm.js';
+import {LivRGBMNodeMaterial,createRGBMTexture,replaceRGBMAtlas} from './material-rgbm.js';
 import {applyReferenceFinishes} from './exterior-finishes.js';
 import {balconyDetailView,BALCONY_DETAIL_BOUNDS,entryDetailView,ENTRY_DETAIL_BOUNDS,pilotFloorView,buildingFacadeView} from './cameras.js';
 import {unitById} from './unidades.js';
@@ -140,12 +140,22 @@ async function start() {
   if(data.schema!=='liv-exterior-proof-v1' || data.sourceModelSHA256!==manifest.sourceModelSHA256 || data.rgbm.sourceSHA256!==manifest.sourceModelSHA256) throw Error('A geometria e o atlas não pertencem à mesma edição.');
   data.views.varandas=balconyDetailView();
   data.views.acesso=entryDetailView();
-  const atlasBytes=await unzip(await loadBytes(data.rgbm.textureURL,manifest.files[data.rgbm.textureURL]));
-  if(await sha(atlasBytes)!==data.rgbm.textureSHA256) throw Error('Atlas RGBM corrompido.');
+  // The full atlas is 13 MB. A 1/4-per-side preview lights the first image and
+  // is replaced after it (upgradeAtlas); without a preview, wait for the full one.
+  const previewName='irradiance-previa.rgbm.gz',preview=manifest.files[previewName];
+  const atlasBytes=await unzip(await loadBytes(preview?previewName:data.rgbm.textureURL,preview||manifest.files[data.rgbm.textureURL]));
+  if(await sha(atlasBytes)!==(preview?preview.decodedSHA256:data.rgbm.textureSHA256)) throw Error('Atlas RGBM corrompido.');
   mark('atlasReady');
   progress('build','Montando a maquete');
   if(state.disposed)return;
-  const atlas=createRGBMTexture(atlasBytes,data.rgbm);
+  let atlas=createRGBMTexture(atlasBytes,preview?{...data.rgbm,width:preview.width,height:preview.height}:data.rgbm);
+  async function upgradeAtlas(){
+    const bytes=await unzip(await loadBytes(data.rgbm.textureURL,manifest.files[data.rgbm.textureURL]));
+    if(await sha(bytes)!==data.rgbm.textureSHA256) throw Error('Atlas RGBM corrompido.');
+    if(state.disposed)return;
+    const full=createRGBMTexture(bytes,data.rgbm);
+    replaceRGBMAtlas(atlas,full);atlas.dispose();atlas=state.atlas=full;mark('atlasFull');
+  }
   renderer.setClearAlpha(0);
   renderer.setPixelRatio(1);
   renderer.outputColorSpace=THREE.SRGBColorSpace;
@@ -469,6 +479,8 @@ async function start() {
   mark('ready');state.ready=true;state.activeView='perspectiva';
   state.setActive(state.active);
   progress('ready','Maquete carregada');
+  // A failed upgrade keeps the preview on screen; it never fails the scene.
+  state.fullAtlas=preview?upgradeAtlas().catch(error=>{if(!state.disposed)state.atlasError=String(error);}):Promise.resolve();
   status.textContent=`Prova carregada — ${state.backend==='webgpu'?'WebGPU':'WebGL2'}, Three.js r${THREE.REVISION}, ${meshes.length} malhas. A paridade visual está em verificação.`;
   for(const button of document.querySelectorAll('button')) button.disabled=false;
   for(const button of document.querySelectorAll('[data-view]')) button.addEventListener('click',()=>setView(button.dataset.view));

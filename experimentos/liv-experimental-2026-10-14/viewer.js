@@ -463,12 +463,15 @@ function prepareViews(){
     await Promise.all(['canto','meio'].map(key=>attempt(()=>plans.prepare(key,typology(key)))));
     // Prepare one graphics context at a time. Navigation shares an in-flight
     // preparation instead of creating another copy of the same screen.
-    for(const kind of ['exterior','interior:canto','interior:meio']){
+    // Only the selected apartment's interior: warming both interiors and the
+    // map right after opening froze the maquette for ~10 s. The map and any
+    // other interior are prepared when opened.
+    const unit=selectedApartment(),kinds=['exterior'];
+    if(hasApartmentLayout(unit))kinds.push(`interior:${unit.relation.typology}`);
+    for(const kind of kinds){
       if(cacheStopped||epoch!==cacheEpoch)return false;
       await attempt(()=>prepareScene(kind));
     }
-    if(cacheStopped||epoch!==cacheEpoch)return false;
-    await attempt(prepareMap);
     if(cacheStopped||epoch!==cacheEpoch)return false;
     state.cacheErrors=failures;stage.dataset.cache=failures.length?'partial':'ready';
     cacheStatus.textContent=failures.length?'Algumas visualizações serão preparadas ao abrir.':'Visualizações prontas para reabrir.';
@@ -527,7 +530,8 @@ async function setMode(mode,{restore=false}={}) {
     state.backend=api.backend;
     if(warm){state.sceneReuseCount++;if(kind.startsWith('interior:'))state.interiorReuseCount++;}
     state.ready=true;overlay.hidden=true;status.textContent='';update();
-    openedOnce=true;void transfers.start();refreshOptionalData();scheduleWarmViews();return true;
+    // Background prefetch (Tour, map) waits for the building's full lighting.
+    openedOnce=true;void Promise.resolve(api.fullAtlas).finally(()=>transfers.start());refreshOptionalData();scheduleWarmViews();return true;
   } catch(error) {
     if(token!==generation)return;
     retireFrame(state.frame);frameKind=null;plans.hide();showError(error);
@@ -566,6 +570,7 @@ function selectUnit(id,{frameEvent=false,showInformation=false}={}){
   if(unit&&frameEvent){state.floor=floorOf(units,unit);if(floorControl)floorControl.value=String(state.floor);}
   if(unit?.relation){state.typology=unit.relation.typology;document.getElementById('typology').value=state.typology;}
   state.selectedUnitId=id;api?.setSelectedUnit(id);update();
+  if(hasApartmentLayout(unit))scheduleWarmViews();
   if(unit&&frameEvent)revealOnMobile('selectedApartment');
   if(unit&&showInformation)showDetails();return true;
 }

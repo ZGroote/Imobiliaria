@@ -19,6 +19,14 @@
     "scene.json.gz": {
       "bytes": 2758268,
       "sha256": "81f2bd7148320c81bbe6ad8467528f26e773e7d00175ddd0e7f982dd5b08dfb0"
+    },
+    "irradiance-previa.rgbm.gz": {
+      "bytes": 1923222,
+      "sha256": "21d7885e87535ba6ce6c2271a0d2f2c78ae58e083b89229ed8fcd60b1dd56f3f",
+      "width": 1024,
+      "height": 1024,
+      "decodedSHA256": "7ad15863bca922a1465ac223d819c139befbc28dec2066a006023b5467d765e2",
+      "previewOf": "irradiance.rgbm.gz"
     }
   },
   "meshCount": 57,

@@ -438,15 +438,17 @@ test('escolher outro apartamento durante a consulta cancela a restauração de i
   assert.equal(app.state.typology,'meio');assert.equal(app.element('selectedApartmentActions').hidden,false);
 });
 
-test('preparação mantém todas as cenas e plantas sem reconstruir em navegações repetidas',async()=>{
+test('abertura prepara só o prédio e as cenas abertas são reaproveitadas sem reconstruir',async()=>{
   const app=harness({fetchData:name=>name==='comercial.json'?emptyCommercial:dualRelations()});
   await waitFor(()=>app.state.relationStatus==='fornecido');app.runIdle();
   await waitFor(()=>app.element('stage').dataset.cache==='ready');
-  assert.equal(app.frames.length,4);assert.equal(app.images.length,2);
+  // Interiors and map are heavy: none is built before the visitor asks.
+  assert.equal(app.frames.length,1);assert.equal(app.images.length,2);
   assert.equal(app.metrics.catalogLoads,1);
   assert.ok(app.images.every(image=>image.decodes===1));
-  const firstFrames=[...app.frames],firstImages=[...app.images],exterior=app.state.frame;
+  let firstFrames=null;const firstImages=[...app.images],exterior=app.state.frame;
   for(let cycle=0;cycle<3;cycle++){
+    if(cycle===1){firstFrames=[...app.frames];assert.equal(firstFrames.length,4);}
     for(const id of [pilot.units[0].id,pilot.units[1].id]){
       app.state.selectUnit(id);
       for(const mode of ['planta2d','planta3d','visita']){
@@ -508,6 +510,16 @@ test('medidas permanecem opcionais nas duas plantas e disponíveis com as inform
   assert.equal(meio.querySelector('.plan2d-measurements').hidden,true);app.state.dispose();
 });
 
+test('escolher um apartamento prepara só o interior dele',async()=>{
+  const app=harness({fetchData:name=>name==='comercial.json'?emptyCommercial:dualRelations()});
+  await waitFor(()=>app.state.relationStatus==='fornecido');app.runIdle();
+  await waitFor(()=>app.element('stage').dataset.cache==='ready');
+  app.state.selectUnit(pilot.units[1].id);app.runIdle();
+  await waitFor(()=>app.element('stage').dataset.cache==='ready'&&app.frames.length===2);
+  assert.deepEqual([...app.state.getCacheState().scenes].sort(),['exterior','interior:meio']);
+  assert.equal(app.state.getCacheState().mapReady,false);app.state.dispose();
+});
+
 test('navegação e preparação concorrentes compartilham o mesmo interior pendente',async()=>{
   const app=harness({fetchData:name=>name==='comercial.json'?emptyCommercial:dualRelations(),
     onFrameSource:(node,src)=>{if(src.includes('tipologia=canto'))node.api.interior.ready=false;}});
@@ -519,7 +531,7 @@ test('navegação e preparação concorrentes compartilham o mesmo interior pend
   await opening;await preload;
   assert.equal(app.state.frame,frame);assert.equal(app.state.mode,'visita');
   assert.equal(app.frames.filter(node=>node.dataset.scene==='interior:canto').length,1);
-  assert.equal(app.frames.length,4);app.state.dispose();
+  assert.equal(app.frames.length,2);app.state.dispose();
 });
 
 test('cena pendente substituída fica no cache sem assumir a tela atual',async()=>{
@@ -549,29 +561,29 @@ test('fechar e reabrir mapa durante a preparação reutiliza uma única instânc
 
 test('falha em cena oculta não desmonta as outras e abandono libera o cache inteiro',async()=>{
   const app=harness({fetchData:name=>name==='comercial.json'?emptyCommercial:dualRelations()});
-  await waitFor(()=>app.state.relationStatus==='fornecido');await app.state.prepareViews();
+  await waitFor(()=>app.state.relationStatus==='fornecido');app.state.selectUnit(pilot.units[0].id);await app.state.prepareViews();
   const exterior=app.state.frame,canto=app.frames.find(frame=>frame.dataset.scene==='interior:canto');
   await canto.contentWindow.dispatch('liv-renderer-error',{detail:{error:'Falha sintética oculta'}});
   assert.equal(app.state.ready,true);assert.equal(app.state.frame,exterior);assert.equal(app.state.error,null);
-  app.state.selectUnit(pilot.units[0].id);await app.state.setMode('visita');
-  assert.notEqual(app.state.frame,canto);assert.equal(app.frames.length,5);
+  await app.state.setMode('visita');
+  assert.notEqual(app.state.frame,canto);assert.equal(app.frames.length,3);
   app.events.get('pagehide')();
   assert.equal(app.element('stage').children.filter(node=>node.tagName==='IFRAME'||node.dataset.plan).length,0);
   assert.equal(app.element('mapPanel').children.length,0);
   assert.ok(app.frames.every(frame=>Object.values(frame.api).some(api=>api.disposed)));
   app.events.get('pageshow')({persisted:true});await waitFor(()=>app.state.ready);
-  await app.state.prepareViews();assert.equal(app.state.getCacheState().scenes.length,3);
-  assert.equal(app.element('mapPanel').children.length,1);assert.equal(app.images.length,4);
+  await app.state.prepareViews();assert.equal(app.state.getCacheState().scenes.length,2);
+  assert.equal(app.element('mapPanel').children.length,0);assert.equal(app.images.length,4);
   app.state.dispose();
 });
 
 test('falha ao retomar uma cena quente não marca uma tela vazia como pronta',async()=>{
   const app=harness({fetchData:name=>name==='comercial.json'?emptyCommercial:dualRelations()});
-  await waitFor(()=>app.state.relationStatus==='fornecido');await app.state.prepareViews();app.state.selectUnit(pilot.units[0].id);
+  await waitFor(()=>app.state.relationStatus==='fornecido');app.state.selectUnit(pilot.units[0].id);await app.state.prepareViews();
   const frame=app.frames.find(node=>node.dataset.scene==='interior:canto'),api=frame.api.interior;
   api.setActive=async active=>{if(active){api.ready=false;api.error='Falha sintética ao retomar';return false;}};
   await app.state.setMode('visita');assert.equal(app.state.ready,false);assert.match(app.state.error,/Falha sintética ao retomar/);
-  assert.equal(app.element('retry').hidden,false);assert.equal(app.state.getCacheState().scenes.length,2);
+  assert.equal(app.element('retry').hidden,false);assert.equal(app.state.getCacheState().scenes.length,1);
   await app.element('retry').click();assert.equal(app.state.ready,true);assert.equal(app.state.mode,'visita');
-  assert.notEqual(app.state.frame,frame);assert.equal(app.state.getCacheState().scenes.length,3);app.state.dispose();
+  assert.notEqual(app.state.frame,frame);assert.equal(app.state.getCacheState().scenes.length,2);app.state.dispose();
 });

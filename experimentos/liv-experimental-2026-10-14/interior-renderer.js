@@ -513,11 +513,13 @@ async function start(){
   if(query.get('prewarm')==='1'){
     // Tour exposes the ceiling and full walls. Render both presentations once
     // so their GPU buffers, materials and shadow passes are ready for reuse.
-    state.setMode('visita');check();await renderer.renderAsync(scene,camera);check();
-    state.setMode('planta3d');await renderer.renderAsync(scene,camera);check();
+    // compileAsync links the shaders off the main thread; a bare first render
+    // links them synchronously and froze the host page for ~4.5 s.
+    state.setMode('visita');check();await renderer.compileAsync(scene,camera);check();await renderer.renderAsync(scene,camera);check();
+    state.setMode('planta3d');await renderer.compileAsync(scene,camera);check();await renderer.renderAsync(scene,camera);check();
     state.setMode(initialMode);
   }
-  check();await renderer.renderAsync(scene,camera);check();state.ready=true;
+  check();await renderer.compileAsync(scene,camera);check();await renderer.renderAsync(scene,camera);check();state.ready=true;
   for(const element of document.querySelectorAll('#interior-controls button,#interior-controls select,#furniture-panel button,#furniture-panel select'))element.disabled=false;
   if(state.active)renderer.setAnimationLoop(renderFrame);else observer.disconnect();
   return state;
