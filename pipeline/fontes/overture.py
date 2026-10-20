@@ -40,11 +40,12 @@ def main():
         raise SystemExit(
             "declare `bbox` em padrao/cidades/%s.json: [lon_min, lat_min, lon_max, lat_max].\n"
             "Sem bbox o download do Overture nao tem limite." % CID.slug)
-    saida = CID.caminho("overture_bruto")
+    tipo = sys.argv[1] if len(sys.argv) > 1 else "building"   # "place" = POIs (0.11)
+    saida = CID.caminho({"building": "overture_bruto", "place": "overture_lugares"}[tipo])
     os.makedirs(os.path.dirname(saida), exist_ok=True)   # cidade nova nao tem a pasta
     cmd = [sys.executable, "-m", "overturemaps", "download",
            "--bbox=%s" % ",".join(str(v) for v in bbox),
-           "-f", "geojson", "--type=building", "-o", saida]
+           "-f", "geojson", "--type=%s" % tipo, "-o", saida]
     print(" ".join(cmd))
     r = subprocess.run(cmd)
     if r.returncode:
