@@ -102,3 +102,12 @@ test('rastreamento HTTP: proteção de frequência e configuração restrita',as
     assert.equal((await fetch(base+'/open',json({}))).status,429)
   },{service:{abrirVisita:async()=>({visitId:'v'})},requestsPerMinute:1})
 })
+test('rastreamento HTTP: atrás de proxy, cada visitante tem o seu limite e o X-Forwarded-For forjado não ajuda',async()=>{
+  assert.throws(()=>criarServidorRastreabilidade({service:{},publicOrigin:origin,panelOrigin:panel,proxyHops:-1}),/proxy/)
+  const de=(chain)=>json({},{headers:{origin,'content-type':'application/json','x-forwarded-for':chain}})
+  await gateway(async(base)=>{
+    assert.equal((await fetch(base+'/open',de('203.0.113.1'))).status,200)
+    assert.equal((await fetch(base+'/open',de('203.0.113.2'))).status,200,'outro visitante, mesma conexão do proxy')
+    assert.equal((await fetch(base+'/open',de('1.2.3.4, 203.0.113.1'))).status,429,'o prefixo é do cliente; vale a última entrada')
+  },{service:{abrirVisita:async()=>({visitId:'v'})},requestsPerMinute:1,proxyHops:1})
+})

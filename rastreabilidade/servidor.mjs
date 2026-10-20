@@ -31,9 +31,10 @@ function query(url,allowed){
 }
 
 export function criarServidorRastreabilidade({service,db,auth,secret,publicOrigin,panelOrigin,now=Date.now,
-  requestsPerMinute=240,log=e=>console.log(JSON.stringify(e))}){
+  requestsPerMinute=240,proxyHops=0,log=e=>console.log(JSON.stringify(e))}){
   const origins=new Set([origemExata(publicOrigin),origemExata(panelOrigin)])
   if(!Number.isSafeInteger(requestsPerMinute)||requestsPerMinute<1)throw new Error('Limite de frequência inválido.')
+  if(!Number.isSafeInteger(proxyHops)||proxyHops<0||proxyHops>3)throw new Error('Saltos de proxy inválidos.')
   const ipSalt=randomBytes(32),rates=new Map()
   let load
   const getService=()=>service??(load??=import('./modelo.mjs').then(({criarServicoRastreabilidade})=>
@@ -47,10 +48,17 @@ export function criarServidorRastreabilidade({service,db,auth,secret,publicOrigi
       return verified.uid
     }catch{throw fail(401,'Autenticação necessária.')}
   }
+  // Quem é o cliente. Sem proxy (proxyHops=0), o endereço da conexão. Atrás de N proxies que
+  // acrescentam ao X-Forwarded-For (Cloud Run: conferir no 1º deploy), a N-ésima entrada a partir
+  // da direita: o que vem antes dela o próprio cliente pode escrever e não vale.
+  function cliente(req){
+    if(!proxyHops)return req.socket.remoteAddress
+    const chain=String(req.headers['x-forwarded-for']??'').split(',').map(s=>s.trim()).filter(Boolean)
+    return chain.length>=proxyHops?chain[chain.length-proxyHops]:req.socket.remoteAddress
+  }
   function limitar(req){
     // Apenas digest efêmero em memória; endereço não é persistido nem registrado.
-    // Não confiar em X-Forwarded-For enviado pelo cliente. Limite por conexão/edge.
-    const key=createHmac('sha256',ipSalt).update(req.socket.remoteAddress??'unknown').digest('hex')
+    const key=createHmac('sha256',ipSalt).update(cliente(req)??'unknown').digest('hex')
     const time=Date.now(),old=rates.get(key)
     if(!old||time-old.start>=60000){
       if(rates.size>=5000)for(const [k,v] of rates)if(time-v.start>=60000)rates.delete(k)
@@ -122,7 +130,8 @@ export async function iniciarRastreabilidade(env=process.env){
     import('firebase-admin/app'),import('firebase-admin/firestore'),import('firebase-admin/auth')])
   const app=initializeApp({projectId:project},'rastreabilidade-'+randomUUID())
   const server=criarServidorRastreabilidade({db:getFirestore(app),auth:getAuth(app),secret:env.TRACKING_SECRET,
-    publicOrigin:env.TRACKING_PUBLIC_ORIGIN,panelOrigin:env.TRACKING_PANEL_ORIGIN})
+    publicOrigin:env.TRACKING_PUBLIC_ORIGIN,panelOrigin:env.TRACKING_PANEL_ORIGIN,
+    proxyHops:Number(env.TRACKING_PROXY_HOPS??0),requestsPerMinute:Number(env.TRACKING_RATE_LIMIT??240)})
   const port=Number(env.PORT??5057),host=env.TRACKING_BIND_HOST??'127.0.0.1'
   if(!Number.isInteger(port)||port<1||port>65535)throw new Error('Porta inválida.')
   server.listen(port,host,()=>console.log(JSON.stringify({event:'tracking_ready',entryPoint:'tracking_http',port})))

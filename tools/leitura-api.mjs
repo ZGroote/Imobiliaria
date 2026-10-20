@@ -172,5 +172,6 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
     throw new Error('Emulação exige projeto demo e Auth/Firestore locais juntos.')
   const app=initializeApp({projectId})
   criarServidorLeituras({db:getFirestore(app),auth:getAuth(app),origin,allowDemo:process.env.READINGS_ALLOW_LOCAL_DEMO==='1'})
-    .listen(Number(process.env.PORT??5056),'127.0.0.1',()=>console.log('API de leituras pronta.'))
+    // Local fica no loopback; no Cloud Run, READINGS_BIND_HOST=0.0.0.0 (a demonstração segue só no loopback).
+    .listen(Number(process.env.PORT??5056),process.env.READINGS_BIND_HOST??'127.0.0.1',()=>console.log('API de leituras pronta.'))
 }
