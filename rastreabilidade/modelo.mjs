@@ -1,7 +1,8 @@
 import {randomBytes,createHash,createHmac,timingSafeEqual} from 'node:crypto'
 import {resumir} from './relatorios.mjs'
 
-export const DAY=86400000,RETENTION_DAYS=30,SESSION_IDLE_MS=30*60000,MAX_DEPTH=8
+// Lead é contato comercial: guarda mais que o rastreio (SPEC-captura-lead, decisão 2).
+export const DAY=86400000,RETENTION_DAYS=30,LEAD_RETENTION_DAYS=180,SESSION_IDLE_MS=30*60000,MAX_DEPTH=8
 export const paginas=new Set(['tour','maquete'])
 export const secoes=new Set(['ficha','mapa','interior','planta','maquete','planta2d','planta3d','visita','carregando'])
 export const erro=(status,message,code)=>Object.assign(new Error(message),{status,...(code?{code}:{})})
@@ -166,6 +167,24 @@ export function criarServicoRastreabilidade({db,secret,publicOrigin,now=Date.now
       return abertura(visit,context)
     })
   }
+  // Clique em "Falar com <corretor>" (SPEC-captura-lead, L2). Um por visita: o segundo clique devolve
+  // o mesmo lead. Sem dado pessoal do visitante; vale sem aceite de métricas (preso à visita, que já
+  // existe sem aceite). Só o Admin SDK lê e grava `leads`.
+  async function registrarLead(input){
+    campos(input,['visitId','receipt','channel'])
+    if(!token(input.visitId)||input.channel!=='whatsapp')throw erro(400,'Contato inválido.')
+    const leadRef=ref('leads',digest('lead|whatsapp|'+input.visitId))
+    return db.runTransaction(async tx=>{
+      const get=r=>tx.get(r),visit=await visitar(get,input.visitId,input.receipt)
+      await publicacao(get,visit.canonicalLinkId)
+      const existing=(await get(leadRef)).data()
+      if(existing)return {leadId:leadRef.id,status:existing.status}
+      const createdAt=date()
+      tx.create(leadRef,{id:leadRef.id,schemaVersion:1,propertyId:visit.propertyId,agencyId:visit.agencyId,brokerUid:visit.brokerUid,
+        visitId:visit.id,channel:'whatsapp',status:'novo',createdAt,expiresAt:new Date(createdAt.getTime()+LEAD_RETENTION_DAYS*DAY)})
+      return {leadId:leadRef.id,status:'novo'}
+    })
+  }
   async function criarSessao(input){
     campos(input,['visitId','receipt','visitorKey','page'])
     if(!token(input.visitId)||typeof input.visitorKey!=='string'||!/^[a-zA-Z0-9_-]{16,128}$/.test(input.visitorKey)
@@ -243,5 +262,5 @@ export function criarServicoRastreabilidade({db,secret,publicOrigin,now=Date.now
     return resumir(docs.slice(0,500).map(s=>s.data()),{propertyId:input.propertyId,from:input.from,to:input.to,
       now:now(),truncated:docs.length>500})
   }
-  return {criarLink,listarLinks,revogarLink,abrirVisita,criarSessao,registrarEvento,gerarRelatorio}
+  return {criarLink,listarLinks,revogarLink,abrirVisita,criarSessao,registrarEvento,registrarLead,gerarRelatorio}
 }

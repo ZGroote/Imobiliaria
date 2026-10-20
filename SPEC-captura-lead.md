@@ -1,4 +1,12 @@
-# Spec — captura-lead (PLANO, não implementado)
+# Spec — captura-lead (L1 e L2 implementados em 20/10/2026; L3–L5 em plano)
+
+**Feito (L1 + L2):**
+- O corretor grava o próprio WhatsApp no Início do painel (`lib/contato.ts`). A regra é `contatoOk` em `firestore.rules`.
+- A página do link mostra "Falar com <corretor>" e registra o clique em `POST /leads` (`registrarLead` em `rastreabilidade/modelo.mjs`).
+- Duas mudanças em relação ao texto abaixo, ambas para simplificar:
+  - O lead é **um por visita** (id = hash da visita e do canal), sem `attemptId`: clicar de novo devolve o mesmo lead.
+  - As decisões 2 (180 dias) e 4 (registrar sem aceite) seguiram a sugestão.
+- A política de TTL de `leads.expiresAt` está em `firebase/firestore.indexes.json` e vai ao ar com `deploy --only firestore:indexes`.
 
 Objetivo: na página pública do imóvel, o visitante fala com o corretor pelo
 WhatsApp ou deixa seus dados num formulário. Os dois caminhos geram um lead

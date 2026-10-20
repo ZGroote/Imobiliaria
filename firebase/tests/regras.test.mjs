@@ -328,6 +328,19 @@ test('8. ninguém muda o próprio role, agencyId ou active', async () => {
   await assertFails(updateDoc(doc(f, 'users/corA'), { agencyId: 'naoexiste', updatedAt: now() }));
 });
 
+test('8b. WhatsApp público: cada um grava o próprio, só dígitos com país; ninguém grava o de outro', async () => {
+  const zap = (whatsapp) => ({ publicContact: { whatsapp }, updatedAt: now() });
+  await assertSucceeds(updateDoc(doc(db('corA'), 'users/corA'), zap('5516999990000')));
+  await assertSucceeds(updateDoc(doc(db('corA'), 'users/corA'), zap(null)));             // tirar o número
+  for (const ruim of ['+5516999990000', '(16) 99999-0000', '0016999990000', '1234567', '5'.repeat(16)])
+    await assertFails(updateDoc(doc(db('corA'), 'users/corA'), zap(ruim)));
+  await assertFails(updateDoc(doc(db('corA'), 'users/corA'), { publicContact: { whatsapp: '5516999990000', email: 'x@y.z' }, updatedAt: now() }));
+  await assertFails(updateDoc(doc(db('corA'), 'users/corA2'), zap('5516999990000')));     // o de outro corretor
+  await assertFails(updateDoc(doc(db('gerA'), 'users/corA'), zap('5516999990000')));     // nem o gerente
+  await assertSucceeds(updateDoc(doc(db('admin'), 'users/corA'), zap('5516999990001')));
+  await assertFails(updateDoc(doc(db('admin'), 'users/corA'), zap('abc')));
+});
+
 test('9. inativo e pendente não leem nada (o inativo lê só a si)', async () => {
   const i = db('inativo');
   await assertFails(getDoc(doc(i, 'requests/reqA')));
@@ -554,7 +567,7 @@ test('19. buildJobs: a equipe lê; pelo cliente ninguém escreve', async () => {
 });
 
 test('rastreabilidade: coleções privadas ficam inacessíveis inclusive para equipe e titulares dos links', async () => {
-  const colecoes = ['trackingLinks', 'trackingVisits', 'trackingSessions', 'trackingAttempts'];
+  const colecoes = ['trackingLinks', 'trackingVisits', 'trackingSessions', 'trackingAttempts', 'leads'];
   await env.withSecurityRulesDisabled(async (ctx) => {
     await Promise.all(colecoes.map(c => setDoc(doc(ctx.firestore(), c, 'registro'),
       { agencyId: 'agA', propertyId: 'propA', brokerUid: 'corA' })));

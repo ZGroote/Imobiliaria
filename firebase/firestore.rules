@@ -46,6 +46,14 @@ service cloud.firestore {
           || (u.role in ['platform_admin', 'operator'] && !('agencyId' in u));
     }
 
+    // Contato público do usuário: só o WhatsApp, E.164 sem "+", o mesmo padrão do servidor do link.
+    function contatoOk(u) {
+      return !('publicContact' in u)
+        || (u.publicContact is map && u.publicContact.keys().hasOnly(['whatsapp'])
+            && (u.publicContact.get('whatsapp', null) == null
+                || (u.publicContact.whatsapp is string && u.publicContact.whatsapp.matches('[1-9][0-9]{7,14}'))));
+    }
+
     // ── agencies ──
     // kind: imobiliaria | construtora. Ausente = imobiliária (contas anteriores ao campo).
     match /agencies/{agencyId} {
@@ -86,9 +94,9 @@ service cloud.firestore {
         // e o convite sai no mesmo batch (invite() acima lê o de antes do batch)
         && !existsAfter(/databases/$(db)/documents/invites/$(request.auth.token.email));
 
-      allow update: if stamped() && keeps(['email', 'createdAt'])
+      allow update: if stamped() && keeps(['email', 'createdAt']) && contatoOk(d())
         && ((isAdmin() && validMembership(d()))
-          || (signedIn() && request.auth.uid == uid && changesOnly(['name', 'updatedAt'])));
+          || (signedIn() && request.auth.uid == uid && changesOnly(['name', 'publicContact', 'updatedAt'])));
       allow delete: if false;
     }
 

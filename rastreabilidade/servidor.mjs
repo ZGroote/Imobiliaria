@@ -78,7 +78,7 @@ export function criarServidorRastreabilidade({service,db,auth,secret,publicOrigi
       headers['access-control-allow-methods']='GET, POST, OPTIONS'
       const url=new URL(req.url,'http://localhost'),path=url.pathname
       const revoke=path.match(/^\/links\/([A-Za-z0-9_-]{32})\/revoke$/)
-      route=revoke?'/links/:id/revoke':(['/links','/open','/sessions','/events','/report'].includes(path)?path:'unknown')
+      route=revoke?'/links/:id/revoke':(['/links','/open','/sessions','/events','/leads','/report'].includes(path)?path:'unknown')
       if(route==='unknown')throw fail(404,'Rota não encontrada.')
       if(req.method==='OPTIONS'){respond(204);return}
       const expected=path==='/report'?'GET':path==='/links'?['GET','POST']:'POST'
@@ -96,6 +96,7 @@ export function criarServidorRastreabilidade({service,db,auth,secret,publicOrigi
       else if(path==='/open')result=await api.abrirVisita(input)
       else if(path==='/sessions')result=await api.criarSessao(input)
       else if(path==='/events')result=await api.registrarEvento(input)
+      else if(path==='/leads')result=await api.registrarLead(input)
       else result=await api.gerarRelatorio(uid,input)
       respond(200,result)
     }catch(error){
