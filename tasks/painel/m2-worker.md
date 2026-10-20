@@ -578,7 +578,7 @@ e as cotas do Firestore são os mesmos de hoje (§14).
 | 5 | identidade da prévia = sha256 dos **bytes servidos** do manifest | `montar-preview` devolve `manifest_sha256`; o painel calcula em `lerPreview` | o robô confere os bytes servidos e registra com `lerPreview`, a mesma função do painel. Na construtora, o "Enviar" da equipe relê de novo |
 | 6 | só o gerente aprova, e exatamente o par do preview | regras: `managerDecision` | igual: o usuário `worker` não passa nessa regra |
 | 7 | promover só o artefato aprovado | `montar-live --manifest-aprovado` recusa manifest local diferente | o robô lê `approvedBuild`/`approvedManifestSha256` no começo e de novo logo antes do deploy. O build vem do canal e é conferido contra o sha aprovado e contra o próprio manifest **antes** do `montar-live`, que confere outra vez |
-| 8 | promover X não mexe em Y | só teste (`test_promoting_x_keeps_y_byte_for_byte`), sem conferência na hora | **portão novo, na hora:** compara o `arquivos` do `estado.json` do ar com o do novo. Só podem mudar `b/X/…`, `imovel/X`, `maquete/X`, `index.html`, `quintais/<conjunto novo>/…` e a saída do antigo `anterior` de X. Qualquer outra diferença dá `OUT_OF_SCOPE`, com a lista. Exemplo real: uma mudança no `vitrine_ao_vivo.js` mudaria o ponteiro de Y. Isso vira decisão de alguém, não efeito colateral |
+| 8 | promover X não mexe em Y | só teste (`test_promoting_x_keeps_y_byte_for_byte`), sem conferência na hora | **portão novo, na hora:** compara o `arquivos` do `estado.json` do ar com o do novo. Só podem mudar `b/X/…`, `imovel/X`, `maquete/X`, `index.html`, `imoveis.json` (o ponto no mapa geral, [materiais](materiais-da-solicitacao.md) §6.1), `quintais/<conjunto novo>/…` e a saída do antigo `anterior` de X. Qualquer outra diferença dá `OUT_OF_SCOPE`, com a lista. Exemplo real: uma mudança no `vitrine_ao_vivo.js` mudaria o ponteiro de Y. Isso vira decisão de alguém, não efeito colateral |
 | 9 | o `estado.json` é o **do ar**, não uma cópia | o operador baixa à mão | o robô baixa sem cache. Os builds no ar baixados são conferidos contra ele (`_confere_contra_estado`). **Logo antes do deploy, relê** e aborta com `STATE_CHANGED` se mudou, o que pega até um deploy à mão no meio-tempo. 404 ou formato errado dá `STATE_UNREADABLE`, nunca "vazio" |
 | 10 | registrar só com o artefato aprovado no ar | `conferirPublicacao` relê o `estado.json` | igual: o robô usa a mesma `registrarPublicacao` |
 | 11 | regras do Firestore | `firebase/firestore.rules` | iguais para todo mundo, inclusive o `worker`, que entra como usuário. Ganham a política por conta (§1.2), a revisão do gerente para `internal_review` (§1.1) e a trava do pedido de trabalho `worker:*` |
@@ -676,13 +676,9 @@ O resto do M2 não depende do Blaze.
 5. **Arquivos:** bucket nos EUA; o robô processa um por vez, extrai e apaga o original. As
    maquetes ficam, por um tempo a confirmar
    ([materiais-da-solicitacao.md](materiais-da-solicitacao.md) §11).
-6. **Endereço → lote no mapa, automático** (materiais §6).
+6. **Posição no mapa, automática**, com o botão "Cadastrar posição" (Google Maps) na
+   solicitação, e o imóvel publicado como ponto no mapa geral (materiais §6).
+7. **O gerente clica "Aprovar".** Nada vai ao ar só porque ele não respondeu.
 
-**Ainda em aberto:**
-
-1. **"Se não pedir revisão, ele já autopublica".** O documento assume que o gerente ainda clica
-   **"Aprovar"**: nada vai ao ar só porque o gerente não respondeu. Se a ideia era publicar
-   sozinho depois de um prazo sem resposta, é outra regra, e muda a garantia "nada vai ao
-   público sem o gerente".
-2. As perguntas dos materiais (materiais §11): o arquivo que o robô não consegue ler, as
-   imagens leves, o tempo das maquetes, o ponto no mapa geral e a IA.
+**Ainda em aberto:** as perguntas dos materiais (materiais §11): a IA, o tempo das maquetes e a
+conta do Google Maps.

@@ -15,6 +15,9 @@ O que o usuário pediu em 20/10:
   extrai e depois já exclui, mas as maquetes ficam por tempo a ser confirmado";
 - endereço no mapa: "teria que ser automatizado, já que quando recebemos os dados, recebemos o
   endereço";
+- na solicitação, "uma opção (cadastrar posição) [que] abre um Google Maps, e a pessoa só coloca
+  o pin onde vai ser e dá confirmar"; e o imóvel aparece também no mapa geral;
+- sobre a IA: "quanto custa por arquivo? Não podemos colocar uma no servidor?" (§4.1);
 - o gerente pede revisão "com um campo explicativo com envio de fotos, texto e áudio"
   ([m2-worker.md](m2-worker.md) §1.1).
 
@@ -47,10 +50,18 @@ O que o usuário pediu em 20/10:
 5. **Os dados do imóvel** vêm do formulário da solicitação e do que o robô extraiu. Quando os
    dois batem e nada falta, o robô fixa sozinho os dados que o 3D usa. Se brigam ou falta algo,
    a equipe resolve (§5).
-6. **Endereço → lote → mapa, automático** (§6). Usa o cadastro de endereços do IBGE (CNEFE) e a
-   grade de lotes de São Carlos que já temos. Lançamento novo, que o IBGE ainda não tem, cai
-   numa estimativa ou na equipe, com um alfinete no mapa.
-7. **Depende do plano Blaze**, porque o arquivo passa pelo Storage. O bucket fica nos EUA
+6. **Posição no mapa, automática** (§6).
+   - Na solicitação, o botão **"Cadastrar posição"** abre o Google Maps, e a pessoa põe o pino
+     onde o imóvel vai ser e confirma.
+   - O pino vem primeiro, e o endereço confere o pino, pelo cadastro do IBGE (CNEFE) e pela
+     grade de lotes de São Carlos.
+   - Sem pino e sem endereço achado, a equipe põe o pino.
+   - O imóvel publicado também aparece como **ponto no mapa geral da cidade** (§6.1).
+7. **IA para ler texto livre e imagens** (§4.1).
+   - Pela API, custa centavos de dólar por arquivo.
+   - Uma IA própria, na máquina do robô, sai de graça para ler texto, mas é fraca para ler
+     planta.
+8. **Depende do plano Blaze**, porque o arquivo passa pelo Storage. O bucket fica nos EUA
    (`us-east1`), com 5 GB grátis. Como o original sai logo, o armazenamento quase não é usado
    (§9).
 
@@ -173,9 +184,7 @@ quando o anterior terminou.
 | ZIP, RAR, 7z | **cada arquivo de dentro entra na fila** como se tivesse sido enviado; o compactado sai | com os limites da §8 | zero |
 | Nuvem de pontos, modelo 3D, Revit, SketchUp, desconhecido | nada, no começo | — | fica "não processado" |
 
-- **Ler com IA** (memorial em texto livre, foto da planta, qual cômodo é qual) fica **desligado
-  até você decidir** (§11). O custo é por arquivo, a medir, e o conteúdo sai para o fornecedor
-  da IA.
+- **Ler com IA** (memorial em texto livre, foto da planta, qual cômodo é qual) é a §4.1.
 - O `pipeline/extrair_planta.py` (a máquina acha as paredes na imagem) pode virar um extrator de
   planta depois. A planta continua sendo desenhada e fixada pela equipe no capturador.
 
@@ -185,7 +194,68 @@ quando o anterior terminou.
 - a equipe é avisada no painel;
 - ela abre e decide: apagar, pedir de novo ou extrair à mão.
 
-Assim nada some sem ninguém ter visto. É uma recomendação (§11, pergunta 1).
+Assim nada some sem ninguém ter visto (decidido em 20/10).
+
+### 4.1 IA: quanto custa, e a opção de ter a nossa
+
+A IA só entra onde os leitores comuns (XML, IFC, DXF, texto do PDF, EXIF, cores) não resolvem:
+
+- o **memorial em texto livre** ("apartamento com 3 dormitórios, sendo 1 suíte..."), para virar
+  quartos, suítes e vagas;
+- a **foto ou o PDF da planta**, para dizer qual cômodo é qual.
+
+**Pela API da Anthropic** (preços de 06/10/2026, por milhão de "tokens", os pedacinhos de texto
+que a IA lê e escreve):
+
+| Modelo | Lê (entrada) | Escreve (saída) |
+|---|---|---|
+| Claude Haiku 5.5 (rápido e barato) | US$ 0,10 | US$ 0,50 |
+| Claude Sonnet 5.5 (meio-termo) | US$ 2,00 | US$ 10,00 |
+| Claude Opus 5.5 (o melhor) | US$ 4,00 | US$ 20,00 |
+
+Como isso vira custo por arquivo:
+
+- uma página de PDF conta ~1.500 a 3.000 tokens;
+- uma imagem conta ~1.600 tokens no tamanho máximo;
+- a resposta (os dados em lista) tem ~1.000 a 1.500 tokens;
+- o Opus pensa antes de responder, e o que ele pensa conta como saída.
+
+| Arquivo | Haiku 5.5 | Sonnet 5.5 | Opus 5.5 |
+|---|---|---|---|
+| Memorial de 10 páginas | ~US$ 0,003 | ~US$ 0,06 | ~US$ 0,15 |
+| Foto ou página da planta | ~US$ 0,001 | ~US$ 0,02 | ~US$ 0,05 |
+| **Um pedido típico** (1 memorial + 2 páginas de planta) | **~US$ 0,005** | **~US$ 0,10** | **~US$ 0,25** |
+| 100 pedidos por mês | ~US$ 0,50 | ~US$ 10 | ~US$ 25 |
+
+São estimativas; o número certo sai medindo 20 pedidos reais (MAT-8). Pela API, o conteúdo do
+arquivo vai para a Anthropic; isso entra no termo de uso, junto com o Google e o GitHub (§8).
+
+**A nossa própria IA, "no servidor":** dá, com uma condição.
+
+- **Onde rodaria:** na máquina do robô (GitHub Actions), que é de graça no repositório público.
+  É uma máquina comum, sem placa de vídeo. Ela roda **modelos abertos pequenos**, que se baixam
+  uma vez e ficam guardados no cache do GitHub.
+- **Para ler texto** (memorial, descrição do anúncio): **funciona bem e sai de graça.** Um
+  modelo aberto pequeno deve ler um memorial em ~1 a 3 minutos nessa máquina (estimativa; medir
+  no MAT-8). O conteúdo não sai do nosso processo.
+- **Para ler planta** (qual cômodo é qual, numa imagem): **é o ponto fraco.** Modelos abertos
+  pequenos sem placa de vídeo erram muito em planta. A parte das paredes já é feita sem IA, pelo
+  `pipeline/extrair_planta.py`; o que falta é dizer o nome de cada cômodo.
+- **Uma máquina com placa de vídeo** rodaria modelos maiores, mas cobra por hora ligada. Com
+  poucos pedidos por mês, a API sai mais barata. Vale reavaliar com centenas de pedidos por dia.
+- **Licença:** cada modelo aberto tem a sua. Só entra modelo que permite uso comercial,
+  conferido antes.
+
+**Recomendação:**
+
+1. leitores comuns em tudo o que der (custo zero);
+2. **IA própria para texto** (memorial, descrição), de graça e sem o dado sair;
+3. a **planta continua com a equipe** no capturador, como já está decidido;
+4. se um dia quiser a IA lendo planta, testar a API (Sonnet ou Opus) em 20 plantas reais
+   contra a IA própria, e decidir com os números.
+
+Todo achado de IA entra como confiança "média". Ele nunca fixa nada sozinho se brigar com o
+formulário (§5).
 
 ---
 
@@ -233,10 +303,32 @@ recebemos o endereço."
 **Só São Carlos.** É a única cidade do mapa na versão atual. Endereço de outra cidade dá
 `CIDADE_FORA_DO_MAPA`, e o pedido vai para a equipe.
 
-**Do endereço ao ponto**, nesta ordem, parando na primeira que der certo:
+**O botão "Cadastrar posição"** (pedido do usuário em 20/10), no formulário da solicitação:
+
+1. abre um mapa do Google, já centrado no endereço digitado (ou em São Carlos, se ainda não
+   houver endereço), com a opção de ver a imagem de satélite;
+2. a pessoa arrasta o pino até onde o imóvel vai ser. No lançamento, é o terreno vazio que se
+   vê no satélite, como foi feito à mão no Cedros;
+3. clica **"Confirmar"**. O ponto vai para os dados informados do pedido, com quem marcou e
+   quando;
+4. **na hora**, o painel compara o pino com o endereço digitado. Se os dois ficam a mais de
+   ~150 m um do outro, ou o pino cai fora de São Carlos, a tela avisa e pede para conferir.
+   Quem confirma mesmo assim segue, e a equipe é avisada.
+
+- **O que precisa:**
+  - uma chave da API de mapas do Google, só para mapas (Maps JavaScript API). Ela é pública por
+    natureza e fica presa ao endereço do painel, então não é segredo;
+  - uma conta de faturamento no Google com cartão, a mesma do Blaze.
+- **Custo:** desde março de 2025, o Google dá uma cota grátis por mês para cada produto. Para o
+  mapa interativo, fontes secundárias dizem 10.000 aberturas por mês, e depois ~US$ 7 por mil.
+  Conferir na tabela oficial antes de ligar. Com algumas centenas de pedidos por mês, fica no
+  grátis.
+
+**Do pino e do endereço ao ponto**, nesta ordem, parando na primeira que der certo:
 
 | # | Fonte | Confiança | Observação |
 |---|---|---|---|
+| 0 | **O pino do formulário** ("Cadastrar posição"), conferido contra o endereço | alta, se bater com o endereço; média, se a pessoa confirmou mesmo longe | quem conhece o imóvel marca; o resto da tabela vira conferência |
 | 1 | **CNEFE**, rua + número, com o CEP conferindo | alta | 143.200 endereços de São Carlos. Usa só os níveis de coordenada 1 a 3 (os de endereço; 4 e 5 são quadra e bairro) |
 | 2 | **Estimativa na mesma rua:** entre os dois números vizinhos do mesmo lado (par/ímpar) que o CNEFE tem | média | só **entre** dois números conhecidos; número além do último conhecido não se estima |
 | 3 | **GPS das fotos** (EXIF), como segunda opinião | média | só confirma ou desconfia de 1 e 2; sozinho não decide |
@@ -262,13 +354,38 @@ confianca, confirmado }`. É o mesmo formato que o Cedros já tem no `unidade.js
 - o ponto foi achado à mão: o marcador do site da MRV e o de um agregador concordaram a 35 m um
   do outro, e o lado da avenida saiu da imagem de satélite.
 
-O caminho automático daria o passo 4: a equipe põe o alfinete, uma vez, e o resto segue sozinho.
+Com o botão "Cadastrar posição", quem pediu marca o terreno no satélite (passo 0), e o endereço
+só confere. Sem o pino, o caminho automático daria o passo 4: a equipe põe o alfinete, uma vez,
+e o resto segue sozinho.
 Também por isso o rumo tem uma segunda fonte. Sem lote na grade (terreno vazio, lançamento), ele
 sai do **eixo da rua** no grafo do próprio mapa, como foi feito no Cedros (173,9°).
 
-**"Implementar no mapa":** o build do imóvel (M2-R) recorta o mapa da cidade em volta desse
-ponto e põe a casa no lote. O dado da cidade no git não muda. Mostrar o imóvel também como um
-ponto no mapa geral da cidade é outro passo (§11, pergunta 4).
+**No tour do imóvel:** o build (M2-R) recorta o mapa da cidade em volta desse ponto e põe a
+casa no lote. O dado da cidade no git não muda.
+
+### 6.1 No mapa geral da cidade (decidido em 20/10)
+
+O imóvel publicado também aparece como um **ponto no mapa geral** (`imobilaria-deccb.web.app`).
+Clicar abre o tour dele.
+
+- **De onde o mapa tira a lista:** a publicação passa a gerar um arquivo pequeno e público,
+  `imoveis.json`, no site de imóveis, ao lado do `estado.json`. Ele traz, para cada imóvel no
+  ar:
+  - o slug, o título e o ponto (latitude e longitude do lote fixado);
+  - o link do ponteiro (`/imovel/<slug>`).
+
+  O arquivo entra no inventário do `estado.json` como os outros. No portão "promover X não mexe
+  em Y" ([m2-worker.md](m2-worker.md) §13, portão 8), ele entra na lista do que pode mudar
+  junto com X, como o `index.html`.
+- **O mapa** lê esse arquivo ao abrir, de outro endereço. Por isso o site de imóveis libera a
+  leitura dele para a origem do mapa (o mesmo cabeçalho que hoje libera o `estado.json` para o
+  painel).
+- **"Tirar do ar" continua valendo:** antes de mostrar o ponto, o mapa consulta o `vitrine/<slug>`
+  do imóvel, que é público para leitura. O que estiver fora do ar não aparece. Não precisa de
+  build novo.
+- **O que muda no mapa da cidade:** a página do mapa ganha a camada de pontos de imóvel. É uma
+  mudança no renderizador e um deploy do site do mapa, que o robô **não** faz. É um PR próprio,
+  com o deploy autorizado à parte (MAT-10).
 
 **Peça nova:** um índice de endereços de São Carlos tirado do CNEFE com rua, número, CEP e
 coordenada, gerado uma vez e versionado. O tamanho tem de caber na trava do git
@@ -340,7 +457,9 @@ Pela página de preços do Firebase, conferida em 20/10:
 | Guardar | o original fica minutos (até a vez dele na fila); o extraído e as imagens leves ficam até o pedido terminar | **zero** na prática |
 | Baixar | o robô baixa cada original uma vez; 100 pedidos com ~300 MB = ~30 GB por mês | **zero** (cota de 100 GB) |
 | Extrair | máquina do GitHub, de graça no repositório público | **zero** |
-| IA (se ligar) | por arquivo, a medir | a decidir |
+| IA própria para texto (§4.1) | na mesma máquina | **zero** |
+| IA pela API (§4.1), se um dia ligar | ~US$ 0,005 (Haiku) a ~US$ 0,25 (Opus) por pedido | ~US$ 0,50 a ~US$ 25 por 100 pedidos |
+| Mapa do Google no "Cadastrar posição" (§6) | uma abertura por pedido | **zero** até a cota grátis do Google (conferir) |
 
 Proteção: o alerta de orçamento do Blaze (o mesmo do [`deploy/README.md`](../../deploy/README.md)).
 
@@ -355,15 +474,17 @@ auth,firestore,storage`, o mesmo padrão de `npm run test:regras`).
 |---|---|---|---|
 | **MAT-1** | **Regras.**<br>• Storage: 2 GB; recusa de executáveis pelo nome e pelo tipo; nome com id aleatório; a agência sobe só em "Recebida"/"Aguardando materiais"; `revisao` só pelo gerente em `agency_review`; `derivado-*` só pelo robô.<br>• Firestore: grupos e estados em `requestAssets` | `regras.test.mjs`:<br>• `.dwg` de 1,9 GB entra;<br>• `.exe`, `.js`, `.svg` e `.html` são recusados, inclusive com o tipo mentido;<br>• acima de 2 GB é recusado;<br>• outra agência não lê nem sobe;<br>• sobrescrever é recusado;<br>• a agência não sobe depois de "Aceita" | testes verdes, cada regra quebrada de propósito pega |
 | **MAT-2** | **Área "Materiais" no pedido.** Arrastar e soltar, upload retomável com progresso, lista com o estado de cada arquivo e o recibo | testes do painel: a agência sobe nas etapas dela; o upload interrompido continua; o estado acompanha o arquivo | testes verdes; conferido no `painel:dev` |
-| **MAT-3** | **Dados informados** no formulário da solicitação, e o `requesterEdit` aceitando o campo | regras e painel: a agência edita só nas etapas dela; só os campos da §5 | testes verdes |
+| **MAT-3** | **Dados informados** no formulário da solicitação, com o botão **"Cadastrar posição"** (mapa do Google, pino, confirmar), e o `requesterEdit` aceitando o campo | regras e painel: a agência edita só nas etapas dela; só os campos da §5; pino longe do endereço ou fora de São Carlos pede confirmação; sem chave do Google, o botão some e o resto do formulário funciona | testes verdes; o mapa conferido no `painel:dev` com uma chave de teste |
 | **MAT-4** | **A fila de extração**, com os extratores simples: compactado, imagem, PDF, XML, áudio | no emulador:<br>• o arquivo processado some do Storage e deixa o extraído e o recibo;<br>• dois arquivos nunca são processados ao mesmo tempo;<br>• arquivo corrompido fica e vai para a equipe;<br>• zip-bomba e `../` são recusados;<br>• nada extraído aparece na saída do robô | testes verdes |
 | **MAT-5** | **Endereço → lote**: o índice do CNEFE, a estimativa na rua, o lote, o rumo e o alfinete da equipe | endereços reais de São Carlos com ponto conhecido; um número entre dois conhecidos cai na estimativa; o 1099 do Cedros (além do último conhecido) vai para o alfinete; fontes que discordam vão para a equipe; outra cidade dá `CIDADE_FORA_DO_MAPA` | testes verdes, com a distância medida contra os pontos conhecidos |
 | **MAT-6** | **Dados fixados** (`productionContext`), pelo robô quando tudo bate e pela equipe no resto, validados pelas regras do `e2e_leitura` | regras no padrão do `productionInputSet`; robô não fixa com briga ou falta; o pedido vai para a revisão interna com a lista | testes verdes; é o que o M2-R consome |
 | **MAT-7** | **"Pedir revisão" com fotos e áudio**, com a transcrição | painel: grava o áudio, sobe as fotos, leva a `internal_review`; a equipe lê a transcrição e vê as fotos reduzidas | testes verdes |
-| **MAT-8** | **Extratores de projeto:** IFC e DXF; depois DWG, vídeo e, se decidido, IA | um arquivo real de cada formato, com o que deveria sair anotado à mão | cada extrator acerta o arquivo de referência |
-| **MAT-9** | **Ligar de verdade:** Blaze, bucket em `us-east1`, deploy das regras do Storage. Cada passo em produção, com autorização | subir um arquivo de teste pela tela e ver o recibo de "processado e apagado" | um pedido real com materiais |
+| **MAT-8** | **Extratores de projeto e IA própria para texto.** IFC e DXF; depois DWG e vídeo. A IA própria lê memorial e descrição na máquina do robô, com um modelo aberto de licença comercial | um arquivo real de cada formato, com o que deveria sair anotado à mão; a IA própria contra 20 memoriais reais, com acerto e tempo medidos | cada extrator acerta o arquivo de referência; acerto e tempo da IA anotados aqui |
+| **MAT-9** | **Ligar de verdade:** Blaze, bucket em `us-east1`, deploy das regras do Storage, chave do mapa do Google presa ao painel. Cada passo em produção, com autorização | subir um arquivo de teste pela tela e ver o recibo de "processado e apagado"; marcar um pino | um pedido real com materiais e posição |
+| **MAT-10** | **Ponto no mapa geral** (§6.1): `imoveis.json` gerado pela publicação, a camada de pontos no mapa da cidade, "fora do ar" escondendo o ponto | o `imoveis.json` só muda junto com o imóvel publicado; ponto de imóvel fora do ar não aparece; o mapa abre normal sem o arquivo | testes verdes; deploy do mapa à parte, com autorização |
 
-MAT-1 a MAT-8 rodam inteiros no emulador, sem o Blaze. Só o MAT-9 precisa dele.
+MAT-1 a MAT-8 e MAT-10 rodam sem o Blaze: no emulador e, no MAT-10, com o site de imóveis. Só o
+MAT-9 precisa dele.
 
 ---
 
@@ -376,17 +497,16 @@ MAT-1 a MAT-8 rodam inteiros no emulador, sem o Blaze. Só o MAT-9 precisa dele.
 3. **As maquetes ficam**, por um tempo a confirmar.
 4. **Endereço → lote → mapa, automático** (§6).
 
+5. **Arquivo que o robô não consegue ler fica** até a equipe olhar (§4).
+6. **As imagens leves contam como informação extraída** e ficam até o pedido terminar (§4).
+7. **O imóvel aparece como ponto no mapa geral** (§6.1).
+8. **Botão "Cadastrar posição"** com o mapa do Google no formulário da solicitação (§6).
+
 **Ainda em aberto:**
 
-1. **Arquivo que o robô não consegue ler** (DWG no começo, nuvem de pontos, formato
-   desconhecido, arquivo corrompido). A recomendação é **guardar até a equipe olhar**. Apagar
-   na hora faria o arquivo sumir sem ninguém ter visto. Pode ser assim?
-2. **As imagens leves contam como "informação extraída"?** São a página da planta, as fotos
-   reduzidas e os quadros do vídeo. A proposta é que fiquem até o pedido terminar. Sem elas, a
-   equipe não tem o que olhar para desenhar a planta, e as fotos da revisão do gerente
-   sumiriam.
-3. **Por quanto tempo as maquetes ficam?** No ar, ficam enquanto o imóvel está publicado. As
+1. **IA:** seguir a recomendação da §4.1? Seria IA própria, de graça, para ler o texto; a
+   planta com a equipe; e a API só se um dia quiser a IA lendo planta, decidida com números.
+2. **Por quanto tempo as maquetes ficam?** No ar, ficam enquanto o imóvel está publicado. As
    prévias somem sozinhas em 30 dias.
-4. **O imóvel aparece também como ponto no mapa geral da cidade**, além do tour dele?
-5. **Ligar a IA para ler memorial e fotos?** Ela acha mais coisa que os leitores comuns, custa
-   por arquivo e manda o conteúdo para o fornecedor da IA.
+3. **Conta do Google Maps:** a chave do mapa pede uma conta de faturamento com cartão no Google.
+   Pode ser a mesma do Blaze?
