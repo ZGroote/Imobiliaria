@@ -157,3 +157,37 @@ __pycache__/
 # Referências visuais locais de origem externa e pacotes completos de QA.
 /v1.5/miniaturas/referencias/
 /v1.5/miniaturas/qa/mapa-retorno/
+
+# Organização de 19/10 (tools/quem_mexeu.py): saídas que um comando refaz e material que não
+# vai pro repo público. Tudo continua no disco.
+/.next/
+/tmp/
+/output/
+/sao-carlos/poidata.json
+# Antigravity: maquete de São Carlos, telas de teste, plano de preço e sofás do Blender
+/teste_maquete_sao_carlos/
+/pacote_maquete_sao_carlos_completa/
+/pacote_maquete_sao_carlos_completa.zip
+/mobile_*.png
+/Plano_de_Precificacao_Comercial.docx
+/gerar_plano_precificacao.py
+/atualizar_pacote_3camadas.py
+/montar_e_zipar.py
+/test_e2e_mobile.py
+/blender/
+# Plano de negócio e contrato: privados (o repo é público)
+/founder/
+/documentos/
+# Fotos do site da Livon (terceiros)
+/experimentos/liv-ipanema-2026-10-08/referencias/*.jpg
+/experimentos/liv-ipanema-2026-10-08/referencias/pagina.html
+# Saídas pesadas da casa-vistalar, prévias antigas do splat e as 2 evidências acima de 1 MiB
+/experimentos/casa-vistalar-2026-10-08/*.glb
+/experimentos/casa-vistalar-2026-10-08/*.blend
+/experimentos/casa-vistalar-2026-10-08/*.png
+/experimentos/casa-vistalar-2026-10-08/vendor/
+/experimentos/liv-experimental-2026-10-14/splat/apartamento-continuo.sog
+/experimentos/liv-experimental-2026-10-14/splat/piloto-continuo.sog
+/experimentos/liv-experimental-2026-10-14/splat/piloto-previa-gpu.sog
+/experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/mapa-giro-avenida/cidade-recortada.json
+/experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/buffers-paridade-nativa-final/runtime.json

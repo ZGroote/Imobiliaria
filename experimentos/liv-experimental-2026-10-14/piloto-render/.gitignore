@@ -15,3 +15,27 @@ tmp-*/
 # visualizador de teste: as variantes (.sog) e as bibliotecas são cópias; o Liv usa ../splat/
 web/*.sog
 web/lib/
+# rodadas de 15 a 18/10: capturas, datasets, resultados baixados do servidor e pacotes.
+# Imagem que for evidência entra com `git add -f`.
+*.png
+*.jpg
+*.zip
+*.tar
+*.sog
+*.sftp
+*.extraido/
+dataset*/
+cobertura-20261015/amostra/
+cobertura-20261015/apartamento/
+cobertura-20261015/global-contexto/
+cobertura-20261015/piloto/
+cobertura-20261015/piloto-2h/
+correcao-*/molhados*/
+correcao-*/resultado-servidor*/
+correcao-*/varanda*/
+correcao-*/verificacao-pacote/
+correcao-20261016-antes-fundo/
+correcao-20261016-tentativa1/
+correcao-20261016/execucao-servidor/execucao-servidor/
+correcao-20261016/execucao-servidor/resultados-baixados-*/
+nuvem/captura-*/
