@@ -17,6 +17,9 @@ service cloud.firestore {
     function role() { return me().role; }
     function isAdmin() { return active() && role() == 'platform_admin'; }
     function isStaff() { return active() && role() in ['platform_admin', 'operator']; }
+    // O robô do M2 (tasks/painel/m2-worker.md §6): o usuário users/worker, platform_admin. As regras de
+    // um clique valem para ele; onde aparece isWorker(), elas o prendem ao que a política deixa.
+    function isWorker() { return signedIn() && request.auth.uid == 'worker'; }
     function inAgency(a) {
       return active() && role() in ['agency_manager', 'agent'] && me().agencyId == a;
     }
@@ -58,7 +61,7 @@ service cloud.firestore {
     // kind: imobiliaria | construtora. Ausente = imobiliária (contas anteriores ao campo).
     match /agencies/{agencyId} {
       allow read: if isStaff() || inAgency(agencyId);
-      allow create, update: if isAdmin() && stamped()
+      allow create, update: if isAdmin() && !isWorker() && stamped()
         && (!('kind' in d()) || d().kind in ['imobiliaria', 'construtora']);
       allow delete: if false;                          // desativar: active = false
     }
@@ -95,7 +98,7 @@ service cloud.firestore {
         && !existsAfter(/databases/$(db)/documents/invites/$(request.auth.token.email));
 
       allow update: if stamped() && keeps(['email', 'createdAt']) && contatoOk(d())
-        && ((isAdmin() && validMembership(d()))
+        && ((isAdmin() && !isWorker() && validMembership(d()))
           || (signedIn() && request.auth.uid == uid && changesOnly(['name', 'publicContact', 'updatedAt'])));
       allow delete: if false;
     }
@@ -105,8 +108,8 @@ service cloud.firestore {
       allow read: if isAdmin()
         || (signedIn() && request.auth.token.email == email
             && request.auth.token.email_verified == true);
-      allow create, update: if isAdmin() && d().email == email && validMembership(d());
-      allow delete: if isAdmin() || aceitandoConvite(email);
+      allow create, update: if isAdmin() && !isWorker() && d().email == email && validMembership(d());
+      allow delete: if (isAdmin() && !isWorker()) || aceitandoConvite(email);
     }
 
     // ── properties ──
@@ -152,9 +155,11 @@ service cloud.firestore {
     }
     match /properties/{pid} {
       allow read: if isStaff() || inAgency(resource.data.agencyId);
-      allow create: if isStaff() && born() && !d().keys().hasAny(pubFields())
+      allow create: if isStaff() && !isWorker() && born() && !d().keys().hasAny(pubFields())
         && exists(/databases/$(db)/documents/agencies/$(d().agencyId));
+      // o robô só mexe no imóvel ao publicar: nem URLs, nem reversão, nem cadastro
       allow update: if stamped() && keeps(['createdAt'])
+        && (!isWorker() || publishedAs(pid, 'publish'))
         && ((isAdmin() && (!diffKeys().hasAny(pubFields()) || publicationOk(pid)))
           || (isStaff() && keeps(['agencyId']) && !diffKeys().hasAny(pubFields()))
           || (isManager(resource.data.agencyId)
@@ -406,7 +411,21 @@ service cloud.firestore {
               && d().approvedManifestSha256 == resource.data.preview.get('manifestSha256', null)
               && d().approvedBy == request.auth.uid
               && d().approvedAt == request.time)
-          || (to() == 'production' && changesOnly(['status', 'updatedAt', 'lastAuditId'])));
+          // pedir revisão: volta para a revisão interna (M2), ou para a produção (painel de hoje)
+          || (to() in ['internal_review', 'production'] && changesOnly(['status', 'updatedAt', 'lastAuditId'])));
+    }
+    // O robô só anda por estes caminhos (m2-worker.md §1.2), e sempre mudando o status: prévia pronta
+    // vai direto à imobiliária (construtora passa pela revisão interna), o aprovado vai ao ar, e o
+    // portão que falha leva à revisão interna. Aprovar continua só do gerente (managerDecision), e
+    // publicar só sai de approved (staffEdit). Reverter também não é dele: no imóvel, ele só publica.
+    function workerRequestOk() {
+      return !isWorker()
+        || (changed('status')
+            && ((to() == 'internal_review' && from() in ['production', 'approved'])
+              || (to() == 'agency_review' && from() == 'production'
+                  && get(/databases/$(db)/documents/agencies/$(resource.data.agencyId)).data
+                       .get('kind', 'imobiliaria') == 'imobiliaria')
+              || to() == 'published'));
     }
     function requesterEdit() {
       return inAgency(resource.data.agencyId)
@@ -419,7 +438,7 @@ service cloud.firestore {
     match /requests/{rid} {
       allow read: if isStaff() || inAgency(resource.data.agencyId);
 
-      allow create: if (isStaff() || inAgency(d().agencyId))
+      allow create: if (isStaff() || inAgency(d().agencyId)) && !isWorker()
         && d().requestedBy == request.auth.uid
         && d().status == 'submitted' && born()
         && productionModeOk()
@@ -430,6 +449,7 @@ service cloud.firestore {
                                'productionMode', 'status', 'priority', 'notes', 'createdAt', 'updatedAt']);
 
       allow update: if keeps(['agencyId', 'requestedBy', 'productionMode', 'createdAt']) && stamped()
+        && workerRequestOk()
         && (!changed('status') || auditedAs(rid, 'status:' + to()))
         // trocar o preview tira o pedido de approved: a aprovação é de um build
         && (!changed('preview') || !(to() in ['approved', 'published']))
@@ -474,13 +494,21 @@ service cloud.firestore {
     }
 
     // ── auditLogs (só cresce) ──
+    // Pedido de trabalho para o robô (worker:*, m2-worker.md §3): só a equipe e sempre interno;
+    // reverter, só o admin. O robô confere tudo de novo do lado dele.
+    function workerCommandOk() {
+      let a = d().get('action', null);
+      return !(a is string && a.matches('worker:.*'))
+        || (isStaff() && d().visibility == 'internal' && (a != 'worker:reverter' || isAdmin()));
+    }
     match /auditLogs/{id} {
       allow read: if isStaff()
         || (inAgency(resource.data.agencyId) && resource.data.visibility == 'agency');
       allow create: if active()
         && d().userId == request.auth.uid && d().timestamp == request.time
         && d().visibility in ['internal', 'agency']
-        && (isStaff() || (inAgency(d().agencyId) && d().visibility == 'agency'));
+        && (isStaff() || (inAgency(d().agencyId) && d().visibility == 'agency'))
+        && workerCommandOk();
       allow update, delete: if false;
     }
 
@@ -504,8 +532,15 @@ service cloud.firestore {
     }
 
     // ── buildJobs (Fase 2) ──
-    // Só tools/buildjob.mjs escreve, com o Admin SDK, que não passa por estas regras.
+    // Só o robô escreve (tools/buildjob.mjs e o M2), com o Admin SDK, que não passa por estas regras.
     match /buildJobs/{id} {
+      allow read: if isStaff();
+      allow write: if false;
+    }
+
+    // ── workerLeases (M2): a trava do robô, um robô por vez (m2-worker.md §5) ──
+    // Só o robô escreve, pelo Admin SDK; nem como users/worker pelo cliente.
+    match /workerLeases/{id} {
       allow read: if isStaff();
       allow write: if false;
     }
