@@ -14,11 +14,13 @@
       if (attribute.itemSize > 2) out[i * attribute.itemSize + 2] = attribute.getZ(i);
       if (attribute.itemSize > 3) out[i * attribute.itemSize + 3] = attribute.getW(i);
     }
-    return Array.from(out);
+    // JSON serializes -0 as 0. Fingerprint the same values that a saved source
+    // will contain, so reloading the JSON cannot change its geometry identity.
+    return Array.from(out, value => value === 0 ? 0 : value);
   }
   // Same byte fingerprint is implemented in preparar_luz.py and the runtime hook.
   async function geometryHash(g) {
-    const arrays = ['position', 'normal', 'uv', 'color'].map(k => new Float32Array(g[k] || []));
+    const arrays = ['position', 'normal', 'uv', 'color'].map(k => new Float32Array(Array.from(g[k] || [], value => value === 0 ? 0 : value)));
     const ix = new Uint32Array(g.index || []);
     const lengths = new Uint32Array([...arrays.map(a => a.length), ix.length]);
     const parts = [lengths, ...arrays, ix];

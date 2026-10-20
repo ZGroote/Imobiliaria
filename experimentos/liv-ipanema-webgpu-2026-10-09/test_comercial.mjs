@@ -8,7 +8,7 @@ const catalog=expandBuildingCatalog(JSON.parse(readFileSync(new URL('modelo/entr
 const sample=()=>({schema:'liv-commercial-v1',status:'fornecido',bookSHA256:catalog.source.bookSHA256,
   source:{label:'Fixture sintética de teste',asOf:'2026-10-11'},units:[{id:catalog.units[0].id,commercialNumber:'TESTE-001',availability:'reservada',priceCents:12345678}]});
 test('absent data leaves all 170 offers and numbers unknown',()=>{
-  const absent=JSON.parse(readFileSync(new URL('comercial.json',import.meta.url),'utf8'));
+  const absent={schema:'liv-commercial-v1',status:'ausente',bookSHA256:catalog.source.bookSHA256,source:null,units:[]};
   const result=attachCommercial(catalog,absent);assert.equal(result.commercialStatus,'ausente');
   assert.ok(result.units.every(unit=>saleOf(unit).priceCents===null&&saleOf(unit).availability==='nao_informada'));
   assert.equal(saleLabel(result.units[0]),'Não informada · preço não informado');

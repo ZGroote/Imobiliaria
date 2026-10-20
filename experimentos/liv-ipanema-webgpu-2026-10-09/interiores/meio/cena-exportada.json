@@ -1,22 +1,23 @@
 {
-  "recordedAtUtc": "2026-10-10T20:30:27.345374+00:00",
+  "recordedAtUtc": "2026-10-12T14:08:33.022610+00:00",
   "status": "PASS",
-  "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
-  "recipeSHA256": "dc206ab5c031941b614fd889af9c843ee67a53371311dfcb2a7d61358177609d",
+  "unitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+  "recipeSHA256": "756803f2d9cdef6e7a418639bebda173d0b01b1bca66c805d6a07837273f1875",
   "sharedSHA256": {
-    "runtime": "cf84c09e1c243b0d48c31560c1c9d3d4cdd26586777144c559f4868c15f31da2",
+    "runtime": "005547b7bee15a30fd59b7ece8ce64d786ef8294d14eabc8bb2683ec56054c5f",
     "materials": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
     "furniture": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd"
   },
   "exporterSHA256": "89132446c4b74cabf229c904dff142a0a041b5c1105ff7f810ddab51ba8461f7",
   "nativeFactorySHA256": "8cdcb146c77f61820dea230ce4c9c33f6654171ebb61059cdafb515311bae48a",
   "errors": [],
-  "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
-  "sourceBytes": 12788516,
+  "sourceSHA256": "b953129b5e65264577cc2de9a00f4b2033616cbb749e12625b484991af6fdce5",
+  "sourceBytes": 12765206,
   "objects": 36,
   "bakeObjects": 34,
   "furnitureCount": 29,
   "browserVersion": "154.0.8037.98",
-  "topImageSHA256": "2ff57319089509cf6783b2e30403ded2447b0a8a871eb51d6fc1ba391d86e83c",
-  "tourImageSHA256": "fa2e22899dd9d4fc8c2d38313beeaa49d6e7c74a7d8631b92203e75d2df36036"
+  "validatedExistingSource": false,
+  "topImageSHA256": "c7431b072dadc33fd43a50f66aeabd6d684d3facecea27505de1574f4435c3b8",
+  "tourImageSHA256": "2ecfb820016e8d86bdc0ab23febb56a3e94642682399ac4e580a9db97fd64823"
 }

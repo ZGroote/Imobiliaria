@@ -3,16 +3,16 @@
   "status": "PASS",
   "sourceReadingId": "liv-ipanema-planta-meio-referencia",
   "sourcesSHA256": {
-    "leitura.json": "eb6c6444028b0b2467859cdf5575648bf531876430a19f9c065aaff6919316bf",
-    "projeto-planta.json": "271d30b63157971807e97b68d4930819f08411f63dc0621c66fa3e56a0450660",
+    "leitura.json": "49db16a1e29953bbd14a1320b9b9ac8dfe2c66da2e30270c0da252837c8db741",
+    "projeto-planta.json": "09f807e2c37723556c1047664cc1c3de95c7f2ac43be7f867154b9ea3f260a64",
     "moveis.json": "6490104ff5989cac254aabd30072bc522a4d606b51f78e4ac8c1cd1879b9c898",
     "contexto.json": "48bf6cac891e21284bf49747f08a7c53ed2740ae782f1d895fb076e1cca7be27",
-    "construir-meio.ts": "cef5d70aff9480d78d87991ca990b6bb4f4caa28fe75940869b7352e647c7ad7",
+    "construir-meio.ts": "1c2297001f4eaf2b5f99a01a48037952c10b6b26ac4435e155449f78d53220c5",
     "exportar-meio.py": "bfc60a4bff4165b4679a53e970af62bf7a95c77611ab9779b74dffe0cd941875",
     "imagem2D": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
-    "referenceDefinitionSHA256": "77f7529c2f658b31b4e2c1af99095ce5f42338610d0fe9ab082df2061ff3de59"
+    "referenceDefinitionSHA256": "8462635622c33e25e89d422335c84377c4283879752546f932dd8251f008c0d7"
   },
-  "unidadeSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+  "unidadeSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
   "normalizer": {
     "id": "nominal-floor-plan",
     "version": "1.1.0",
@@ -25,7 +25,7 @@
       "merge-parts-to-polygon@1"
     ]
   },
-  "geometrySourceSHA256": "72e605cea7acfa754e1e70254255e3249a15bda889430e10e4199702826c17d6",
+  "geometrySourceSHA256": "dd8a26ffd417d403555307e1439f1927fb65d967ce90c96014636eb5f6de5623",
   "counts": {
     "comodos": 6,
     "portas": 6,
@@ -39,5 +39,5 @@
     "four-corner-physical-room-containment",
     "furniture-AABB-review"
   ],
-  "sourceOverlaySHA256": "99b121e2c15d34797a4cff835447ef02cf0321a84b91a4e4d1b7c16ded6ed251"
+  "sourceOverlaySHA256": "d499b023dc7d858cb90f4a1efa316725df499faadf2fa702439d00ac765cf38a"
 }

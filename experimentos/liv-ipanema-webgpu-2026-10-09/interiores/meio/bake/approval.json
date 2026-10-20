@@ -1,17 +1,25 @@
 {
   "schema": "liv-interior-geometry-approval-v1",
   "approved": true,
-  "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
-  "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
-  "reviewedAtUtc": "2026-10-10T20:31:00Z",
-  "reviewer": "Codex, conferência local para bake ilustrativo",
+  "sourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+  "unitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+  "geometrySHA256": "5283c11650ad1b94e7040abf1515e7b0fe085efa689ead6a139f350772309f21",
+  "reviewedAtUtc": "2026-10-13T12:11:12.416909+00:00",
+  "reviewer": "Codex, revisao local da geometria e dos contatos",
   "basis": [
-    "unidade própria conferida com a imagem oficial em conferencia.json",
-    "29 grupos de móveis exportados por identidade nominal, sem mapeamento por proximidade",
-    "cena nativa inspecionada em autoria-topo.png e autoria-tour.png",
-    "audit-scene.json PASS: normais verticais coerentes e tapete sem faces coplanares sobrepostas",
-    "unwrap.json: mesmas posições e ordem dos cantos, UV1 própria, atlas único e padding documentado"
+    "Perfil fechado com5cmvisiveis e2cm deprojecaо; encaixe4mm noforro e3mm naparede eliminafacescoplanares",
+    "Todosobjetos,slots,buffersgeométricos,mapasPBR emateriais restantes preservados",
+    "AuditoriaSource/UVPASS, testes helper+CLI e revisaoindependente aprovados",
+    "Diagnostic-sala.png inspecionada: moldura menor e contato fechado no teto; diagnostic-topo mantem layout"
   ],
-  "source2DSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
-  "limits": "Geometria e dimensões inferidas de planta comercial sem cotas; aprovação do pipeline visual, não aprovação executiva ou comercial."
+  "evidence": {
+    "diagnostic-sala.png": "f538dd99b032206626db0652f2d719c9000d19d97b270dd3685aefa3d0e81f4c",
+    "diagnostic-topo.png": "4eae26779987144ac1d60383ad7e3c18008037d6a73f1418be94aef26268e3ae"
+  },
+  "audits": {
+    "rodateto-geometria.json": "eb4e1a47d8a0c73665b6df128e35d6ece6eb551226a9c7bda1a3f5f628d5ff61",
+    "unwrap.json": "3affdc628ebebb743545d5215d756b1e544567fcd5188fe71793cc1b6d3f6b1d",
+    "audit-moldings.json": "06a10a9bf492f477f6fe9db879f7a29eb3b4df4292face659f0f1f47a5a8bf32"
+  },
+  "limits": "BakedTour no navegador sera inspecionado antes da publicacao."
 }

@@ -1,0 +1,20 @@
+{
+  "status": "FAIL",
+  "recordedAtUtc": "2026-10-11T08:50:05.194578+00:00",
+  "physicalMobile": false,
+  "presentation": "GLB/PBR nas duas edi\u00e7\u00f5es; sem bake da entrada nova; n\u00e3o \u00e9 compara\u00e7\u00e3o de luz com o render oficial",
+  "sourceSHA256": {
+    "modelo/entrada/qa_entrada.py": "40fea7b5e9a80aa7ca40d27e3de1499049ac446dda06da6361de4c24dd40c300",
+    "modelo/entrada/comparacao.html": "215c2e8f2f07a7dc7e2a72d239325f86d0504c8f1029c0d102f8e7a3fdf3e329",
+    "modelo/entrada/comparacao.js": "4206eda38174383f1c697a780c08eac361cfd4d01ba9b50d543c034bc03f6cfb",
+    "modelo/entrada/manifest.json": "ab7a2a0f6898372f3a64ea0b6755d477647a2dcd2278714ecd899ac63f495aca",
+    "modelo/entrada/candidato/liv-contorno.glb": "4947fee3d6eba10af3619493663a04a3fb478086a0953ae646f685b09e84ba01",
+    "modelo/variante/liv-contorno.glb": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686",
+    "asset-loader.js": "3edbddc0f8fce01f68509d8d0c78e321b0c4460117a25840dff3781437e2689e",
+    "materials.js": "fae69902b9d9306b795edb2875007cfcf331f1e678e3097b3c210fe7683bd192",
+    "ambiente.js": "0d0d20f2c38fdb073d93363f581e81e9f62c6efddc529b090bb56ccaef0efd41"
+  },
+  "cases": [],
+  "browserVersion": "154.0.8037.98",
+  "failure": "({'attributes': 187, 'attributesSize': 1415220, 'geometries': 98, 'indexAttributes': 62, 'indexAttributesSize': 368148, 'indirectStorageAttributes': 0, 'indirectStorageAttributesSize': 0, 'programs': 8, 'programsSize': 75998, 'readbackBuffers': 0, 'readbackBuffersSize': 0, 'renderTargets': 2, 'storageAttributes': 0, 'storageAttributesSize': 0, 'textures': 6, 'texturesSize': 43894368, 'uniformBuffers': 2940, 'uniformBuffersSize': 433472, 'total': 46187206}, {'ignored': False, 'model': 'candidato', 'assetsInScene': 1, 'memory': {'attributes': 141, 'attributesSize': 1118184, 'geometries': 98, 'indexAttributes': 62, 'indexAttributesSize': 368148, 'indirectStorageAttributes': 0, 'indirectStorageAttributesSize': 0, 'programs': 8, 'programsSize': 75998, 'readbackBuffers': 0, 'readbackBuffersSize': 0, 'renderTargets': 2, 'storageAttributes': 0, 'storageAttributesSize': 0, 'textures': 6, 'texturesSize': 43894368, 'uniformBuffers': 1934, 'uniformBuffersSize': 175936, 'total': 45632634}, 'lastDispose': {'geometries': 88, 'materials': 102, 'textures': 0, 'imageBitmaps': 0, 'skeletons': 0}})"
+}

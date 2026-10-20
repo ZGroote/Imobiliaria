@@ -582,7 +582,7 @@ function quadDoSeg(seg, esp) {
 
    - O peitoril e o caixilho são o que dá ESCALA à janela. Buraco liso na parede não
      tem tamanho; um peitoril de 3 cm com montante no meio tem. */
-const ESQ_ANG   = 78 * Math.PI/180;  // quanto a folha abre
+const ESQ_ANG   = 90 * Math.PI/180;  // quanto a folha abre
 const ESQ_FOLHA = 0.035;             // espessura da folha de porta
 const ESQ_MARCO = 0.030;             // seção do batente que avança pra dentro do vão
 const ESQ_GUARN = 0.055;             // largura da guarnição (o alizar, na face da parede)

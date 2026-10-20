@@ -20,8 +20,8 @@
     {
       "path": "interiores/catalogo.json",
       "group": "tour",
-      "bytes": 6377,
-      "sha256": "977ae20cbdfe565f62cc9628181991c6e9974fbca2b721ea04ece4e603c39a6c",
+      "bytes": 6507,
+      "sha256": "4e1830dfe1d7a16b3af5943eb7dbb36eb30df4589bb4ebe38a2c3fc50587c9e9",
       "essential": true
     },
     {
@@ -42,35 +42,35 @@
       "path": "interiores/shared/runtime.js",
       "group": "tour",
       "bytes": 93877,
-      "sha256": "cf84c09e1c243b0d48c31560c1c9d3d4cdd26586777144c559f4868c15f31da2",
+      "sha256": "005547b7bee15a30fd59b7ece8ce64d786ef8294d14eabc8bb2683ec56054c5f",
       "essential": false
     },
     {
       "path": "interiores/canto/geometry-compact.json.gz",
       "group": "tour",
-      "bytes": 873741,
-      "sha256": "d9c89dd186fb20c962bcbae6c64a3a5e1738b0bf46665e6857437b9ba0e24d68",
+      "bytes": 853375,
+      "sha256": "7b95a21fb17f44c8299ad886c646f925b2444da6f4d798e4ea0848adf80c24a9",
       "essential": false
     },
     {
       "path": "interiores/canto/irradiance.rgbm.gz",
       "group": "tour",
-      "bytes": 4319873,
-      "sha256": "8c689dc306b778a68afec4c9ab82620650b0257decaac574a4c5ff36b9afe8d5",
+      "bytes": 4280892,
+      "sha256": "5331e36dc76a4c52e091d6c7c3b509f9706dd44de03ab20b3732f1e32d064d45",
       "essential": false
     },
     {
       "path": "interiores/canto/light.json",
       "group": "tour",
-      "bytes": 1864,
-      "sha256": "1ade6244b526999eeee8950c96718223c98aefa64cce687ae5eb4247a891c887",
+      "bytes": 1866,
+      "sha256": "a3842361aac913a0cac5fcc333d4c9d55718ab1609fcdc334eb85921f763214b",
       "essential": false
     },
     {
       "path": "interiores/canto/source.json.gz",
       "group": "tour",
-      "bytes": 1970203,
-      "sha256": "d55346eaea3a69ae9bd60127a252d2e9f5541503627c653dc4cfb9bc24052137",
+      "bytes": 1954560,
+      "sha256": "68d12a321462da041c3a3b4e3189c67a8462d58cd04470c19647b965c98d818d",
       "essential": false
     },
     {
@@ -83,43 +83,43 @@
     {
       "path": "interiores/meio/geometry-compact.json.gz",
       "group": "tour",
-      "bytes": 418028,
-      "sha256": "9be16641a2cb189d559124d8f8590b554dbf9a2b40bcccd5ad904bfa1253f51e",
+      "bytes": 420295,
+      "sha256": "1280073e416187d1196f7c26ff46b3913efb5ceeb0a98c30f7004c4548b1bbab",
       "essential": false
     },
     {
       "path": "interiores/meio/irradiance.rgbm.gz",
       "group": "tour",
-      "bytes": 4171499,
-      "sha256": "fca0a7a95292bfccda31893ecfd6164e624c9a7aa1cf58c3d1869eed41d322e9",
+      "bytes": 4123602,
+      "sha256": "32638292dc72d64881f9c2c2c7f107da2e7157687e4cc6b24dab1bd815e2cf2b",
       "essential": false
     },
     {
       "path": "interiores/meio/light.json",
       "group": "tour",
-      "bytes": 1881,
-      "sha256": "1230dcf4dfc6b64364907cafae95e8543a22546a2f25ab34356fe3f119cbe012",
+      "bytes": 1883,
+      "sha256": "5e42b92f048cc90ab329f19597cec7983878c6438c838325b84390d61ccf38e1",
       "essential": false
     },
     {
       "path": "interiores/meio/recipe.json",
       "group": "tour",
       "bytes": 595,
-      "sha256": "dc206ab5c031941b614fd889af9c843ee67a53371311dfcb2a7d61358177609d",
+      "sha256": "a1a5f63ae35cfa8aa9b57413fe48df5042f8becd51c802534c10bb59803b977b",
       "essential": false
     },
     {
       "path": "interiores/meio/source.json.gz",
       "group": "tour",
-      "bytes": 1366048,
-      "sha256": "94b259f6b377d4a06680f61813362abdc5b1b49bf8688e18c247ebe7ad1ed6b7",
+      "bytes": 1372249,
+      "sha256": "1304108b7689b7591fae5a39fb447c02ccd844fcdf948fbc5029f609acbc365c",
       "essential": false
     },
     {
       "path": "interiores/meio/unidade.json",
       "group": "tour",
-      "bytes": 8038,
-      "sha256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+      "bytes": 8036,
+      "sha256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
       "essential": false
     },
     {
@@ -1005,5 +1005,5 @@
       "essential": false
     }
   ],
-  "version": "eb6eda3bfb249b69fd6088df35e244a331ae12bd235504018ca2d29fb4b63e5d"
+  "version": "1556237f114f26c7301a43ac1cbbd5fb101fe7139492bf18c8860e24c6674f25"
 }

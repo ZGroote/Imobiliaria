@@ -1,0 +1,84 @@
+{
+  "recordedAtUtc": "2026-10-09T20:54:35.348477+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "limits": "Casos determinísticos aceleram somente o relógio do parent durante download. Slow 4G usa CDP e relógio normal, servidor local sem compressão HTTP. Não mede celular físico ou melhoria de FPS.",
+  "sourceSHA256": {
+    "viewer.js": "ed3cb9b219b11a85de2c1be4944ea34470f258423c5cea1f5e25570bfa5d1c5d",
+    "renderer.js": "a68f6d4935199226d53ee17ba79dc628e997f6fb4f6088f5b9871f16afda2059",
+    "maquete-liv-ipanema.html": "2bc6c2bea7f537448fbaff1b722252878dff2fcd11b833cfb22002f35db7e2a8",
+    "qa_carregamento.py": "b07c83daa80da64eb505012eae9341cbca0712ad2a42c6f384c6517329f9246b"
+  },
+  "cases": [
+    {
+      "behavior": "steady",
+      "acceleratedParentClock": true,
+      "errors": [],
+      "repeatedMaqueteDuringDownload": "PASS",
+      "final": {
+        "ready": true,
+        "error": null,
+        "clockMs": 237727.40000116825,
+        "progress": {
+          "version": 70,
+          "phase": "ready",
+          "message": "Maquete carregada"
+        },
+        "iframes": 1
+      },
+      "status": "PASS"
+    },
+    {
+      "behavior": "stall",
+      "acceleratedParentClock": true,
+      "errors": [],
+      "final": {
+        "ready": false,
+        "error": "Error: O visualizador demorou para responder. Tente novamente.",
+        "clockMs": 175186.20000112057,
+        "progress": {
+          "version": 25,
+          "phase": "download",
+          "message": "Baixando a iluminação",
+          "resource": "irradiance.rgbm.gz",
+          "loaded": 0,
+          "total": 13023696
+        },
+        "iframes": 0
+      },
+      "fallback2D": "PASS",
+      "status": "PASS"
+    },
+    {
+      "behavior": "interior-to-tour-before-ready",
+      "status": "PASS",
+      "final": {
+        "ready": true,
+        "error": null,
+        "mode": "visita",
+        "iframes": 1
+      }
+    },
+    {
+      "behavior": "slow4g",
+      "acceleratedParentClock": false,
+      "network": {
+        "latencyMs": 150,
+        "downloadBitsPerSecond": 1600000
+      },
+      "errors": [],
+      "final": {
+        "ready": true,
+        "error": null,
+        "readyMs": 124153.89999997616,
+        "progress": {
+          "version": 7450,
+          "phase": "ready",
+          "message": "Maquete carregada"
+        }
+      },
+      "status": "PASS"
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

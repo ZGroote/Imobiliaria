@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
+import {createHash} from 'node:crypto';
 import * as THREE from 'three/webgpu';
 import {unifiedWallTop,removeOriginalWallTop} from './interior-wall-tops.js';
 import {wallTopContours} from './interior-wall-top-contours.js';
@@ -8,7 +9,9 @@ import {wallTopContours} from './interior-wall-top-contours.js';
 let overlaps=0,probes=0;
 for(const typology of ['canto','meio']){
   const profile=wallTopContours[typology];
-  const source=JSON.parse(gunzipSync(readFileSync(new URL(`./interiores/${typology}/source.json.gz`,import.meta.url))));
+  const raw=gunzipSync(readFileSync(new URL(`./interiores/${typology}/source.json.gz`,import.meta.url)));
+  assert.equal(createHash('sha256').update(raw).digest('hex'),profile.sourceSHA256,'Wall contours must match the active source snapshot');
+  const source=JSON.parse(raw);
   const spec=source.geometries[source.objects.find(o=>o.slot===0).geometry];
   const original=new THREE.BufferGeometry();
   for(const [name,size]of [['position',3],['normal',3],['uv',2],['color',3]])

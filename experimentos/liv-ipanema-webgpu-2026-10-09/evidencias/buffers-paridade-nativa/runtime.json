@@ -1,0 +1,26 @@
+{
+  "status": "FAIL",
+  "recordedAtUtc": "2026-10-11T18:02:50.800919+00:00",
+  "referenceGit": "40317f5",
+  "referenceRendererSHA256": "9999d0152dda6e72c3b595f527cc90d52932c23e8bce3aca204e99dee8402a1a",
+  "programExpectation": "iguais",
+  "nativeDecoder": "auto",
+  "sourceSHA256": {
+    "renderer.js": "6cd5cb2063df0bf0f1ce63ef8d691b435a3be85a2996d49513e132b23b98c7b6",
+    "material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+    "ambiente.js": "0d0d20f2c38fdb073d93363f581e81e9f62c6efddc529b090bb56ccaef0efd41",
+    "cameras.js": "6272d526e886a7c32ddca6735007c3dd6f629ee7117fac8e882b6ff4e3dec0dd",
+    "unidades.js": "a1191b2f72dbe498a8db5690bea1851d8512f19f6a64c9d10f7cef1eed33cf73",
+    "picking.js": "6aac9a34546a3ec3ae779d2ee396bc028bbe0df8950b0b11b358f72f06913d0a",
+    "edicoes.js": "8fa10dd06d3bb5421d1ea171fdff6fb692d08a8f3e36113bef9a4e11a910f185",
+    "qa_instancias.py": "2fab82f9dfffea49d075bfa6c02b1be712e056a3adf71ad10f53f0c8a38e4fd0",
+    "assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57",
+    "modelo/variante/assets/manifest.json": "e22c8e38057ebdcfdb1d61c3961dc3a30d1fa394e50b37f83da3e9fbe2d588ea",
+    "modelo/entrada/candidato/assets/manifest.json": "71b76f233cbad92b9851793fdd31cd71d92d0a27085dad6464a6cd9b22241c79"
+  },
+  "method": "Comparação sequencial das capturas RGBA da referência e do candidato; mesma câmera/canvas/atlas/ambiente. Interceptação só no renderer; nenhum tempo deste QA é benchmark.",
+  "physicalMobile": false,
+  "cases": [],
+  "browserVersion": "154.0.8037.98",
+  "failure": "Page.evaluate: Error: Buffer da fonte alterado: 0/index\n    at eval (eval at evaluate (:311:30), <anonymous>:25:15)\n    at async <anonymous>:337:30"
+}

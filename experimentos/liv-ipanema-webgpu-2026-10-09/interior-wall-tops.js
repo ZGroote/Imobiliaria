@@ -1,5 +1,5 @@
 import * as THREE from 'three/webgpu';
-import {wallTopContours} from './interior-wall-top-contours.js';
+import {wallTopContours} from './interior-wall-top-contours.js?rev=2026-10-13-rodateto-selado-final';
 
 export function unifiedWallTop(typology,sourceSHA256,color){
   const profile=wallTopContours[typology];

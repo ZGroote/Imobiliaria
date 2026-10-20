@@ -10,7 +10,7 @@ import {environmentTexture,precomputedEnvironment} from './ambiente.js';
 import {EXTERIOR_EDITIONS} from './edicoes.js';
 import {exteriorAmbience,requestedAmbience} from './ambiencia.js';
 
-const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION};
+const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION,active:new URLSearchParams(location.search).get('prewarm')!=='1'};
 function progress(phase,message,extra={}){
   if(state.disposed)return;
   state.progress={version:(state.progress?.version||0)+1,phase,message,...extra};
@@ -25,6 +25,8 @@ const initialAmbience=requestedAmbience(location.search);
 const recoveryURL=new URL(location.href);recoveryURL.searchParams.set('backend','webgl');
 document.querySelector('#retry').href=recoveryURL.href;
 document.body.classList.toggle('embedded',parameters.get('embed')==='1');
+const darkBackdrop=parameters.get('embed')==='1'&&parameters.get('tema')==='escuro';
+document.body.classList.toggle('dark-theme',darkBackdrop);
 const stage=document.querySelector('#stage'),canvas=document.querySelector('#c'),status=document.querySelector('#status');
 const base=new URL((Object.hasOwn(EXTERIOR_EDITIONS,geometryProfile)?EXTERIOR_EDITIONS[geometryProfile]:EXTERIOR_EDITIONS.base).assets,import.meta.url);
 const requests=new AbortController();
@@ -392,24 +394,7 @@ async function start() {
     const value=Number(floor);
     if(!Number.isInteger(value)||value < -1||value >16) throw Error('Pavimento inválido.');
     selectedFloor=value;
-    const selected=new THREE.Color(.28,.95,.53),white=new THREE.Color(1,1,1);
-    for(const mesh of meshes) {
-      if(mesh.userData.tower!==0) continue;
-      if(mesh.isInstancedMesh) {
-        const floors=mesh.userData.livPavimentos;
-        if(!floors) continue;
-        for(let i=0;i<mesh.count;i++) mesh.setColorAt(i,value>=0&&floors[i]===value?selected:white);
-        if(mesh.instanceColor) mesh.instanceColor.needsUpdate=true;
-      } else {
-        const floors=mesh.geometry.getAttribute('livFloorIndex'),colors=mesh.geometry.getAttribute('color');
-        if(!floors||!colors) continue;
-        for(let i=0;i<floors.count;i++) {
-          const color=value>=0&&floors.getX(i)===value?selected:white;
-          colors.setXYZ(i,color.r,color.g,color.b);
-        }
-        colors.needsUpdate=true;
-      }
-    }
+    // Floor is selection context; only the apartment receives a visual outline.
     const selectedId=unitPicking?.getState().selectedId;
     if(selectedId&&floorOf(units,unitById(units,selectedId))!==value)unitPicking.select(null);
     unitPicking?.refresh();renderer.render(scene,camera);
@@ -439,7 +424,7 @@ async function start() {
     if(id!==null&&floorOf(units,unitById(units,id))!==selectedFloor)throw Error('Selecione o pavimento correspondente antes do final.');
     return unitPicking?.select(id)??false;
   }
-  ambience=exteriorAmbience({renderer,scene,materials,stage});ambience.setProfile(initialAmbience);
+  ambience=exteriorAmbience({renderer,scene,materials,stage,preserveBackdrop:darkBackdrop});ambience.setProfile(initialAmbience);
   function setAmbience(profile){
     if(state.disposed)return false;
     ambience.setProfile(profile);state.ambience=profile;renderer.render(scene,camera);return true;
@@ -466,7 +451,14 @@ async function start() {
       if(unitPicking)setSelectedUnit(snapshot.selectedUnitId??null);
       if(snapshot.ambience)setAmbience(snapshot.ambience);
     }});
-  renderer.setAnimationLoop(()=>{controls.update();orientCamera();renderer.render(scene,camera);});
+  const renderFrame=()=>{if(state.active&&!state.disposed){controls.update();orientCamera();renderer.render(scene,camera);}};
+  state.setActive=function(active){
+    if(typeof active!=='boolean'||state.disposed)return false;
+    state.active=active;controls.enabled=active;
+    renderer.setAnimationLoop(active?renderFrame:null);
+    if(active){resizeObserver.observe(stage);resize();renderFrame();}else resizeObserver.disconnect();
+    return true;
+  };
   mark('sceneBuilt');
   progress('compile','Preparando a primeira imagem');
   await renderer.compileAsync(scene,camera);mark('compiled');
@@ -475,6 +467,7 @@ async function start() {
   await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
   if(state.disposed)return;
   mark('ready');state.ready=true;state.activeView='perspectiva';
+  state.setActive(state.active);
   progress('ready','Maquete carregada');
   status.textContent=`Prova carregada — ${state.backend==='webgpu'?'WebGPU':'WebGL2'}, Three.js r${THREE.REVISION}, ${meshes.length} malhas. A paridade visual está em verificação.`;
   for(const button of document.querySelectorAll('button')) button.disabled=false;

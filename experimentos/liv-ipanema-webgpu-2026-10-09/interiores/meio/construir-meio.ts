@@ -70,7 +70,7 @@ function opening(roomId:string,side:'north'|'south'|'east'|'west',lo:number,hi:n
     offsetMm:along(lo)-start,widthMm:along(hi)-along(lo),heightMm,sillMm})
 }
 // No construtor, north é o lado de maior y; nomes não expressam orientação solar.
-opening(suiteVestibulo,'west',547,617,'door',2100)
+opening(suiteVestibulo,'west',535,605,'door',2100)
 opening(dormitorio,'north',528,596,'door',2100)
 opening(banhoSuite,'north',610,673,'door',2100)
 opening(banhoSocial,'south',530,590,'door',2100)

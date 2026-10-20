@@ -8,6 +8,59 @@ import montar_entrega as package
 
 
 class Delivery(unittest.TestCase):
+    def test_versioned_html_resources_keep_the_local_module_graph(self):
+        source='<script src="mapa-retorno.js?rev=cache"></script><link href="viewer-ui.css?rev=2"><script src="viewer.js"></script>'
+        self.assertEqual(package.HTML_RESOURCE.findall(source),['mapa-retorno.js','viewer-ui.css','viewer.js'])
+
+    def test_versioned_imports_inventory_the_unversioned_files_and_their_dependencies(self):
+        with tempfile.TemporaryDirectory(prefix='liv-inventory-test-') as temporary:
+            root=Path(temporary).resolve()
+            def write(name,content):
+                path=root/name;path.parent.mkdir(parents=True,exist_ok=True)
+                path.write_text(content if isinstance(content,str) else json.dumps(content),encoding='utf8')
+            write('index.html','<script src="viewer.js?rev=medidas"></script>')
+            write('viewer.js',"import {typology} from './tipologias.js?rev=medidas';\n"
+                  "import {createPlan2D} from './planta2d.js?rev=medidas#api';\n"
+                  "import('./opcionais.js#revision');")
+            write('tipologias.js','export const typology={};')
+            write('planta2d.js',"import {schedule} from './frame-scheduler.js?rev=2';\nexport const createPlan2D={};")
+            write('frame-scheduler.js','export const schedule={};')
+            write('opcionais.js',"import('./planta2d.js?rev=outra');")
+            for name in ['transfer-worker.js','node_modules/three/build/three.tsl.js','node_modules/three/LICENSE',
+                         'node_modules/three/examples/jsm/libs/draco/gltf/draco_decoder.js',
+                         'node_modules/three/examples/jsm/libs/draco/gltf/draco_wasm_wrapper.js',
+                         'node_modules/three/examples/jsm/libs/draco/gltf/draco_decoder.wasm',
+                         'node_modules/three/examples/jsm/libs/basis/basis_transcoder.js',
+                         'node_modules/three/examples/jsm/libs/basis/basis_transcoder.wasm']:
+                write(name,'fixture')
+            for directory,units in [('assets-prova','unidades.json'),
+                                    ('modelo/variante/assets','modelo/unidades-contorno.json'),
+                                    ('modelo/entrada/candidato/assets','modelo/entrada/unidades-entrada.json')]:
+                write(directory+'/manifest.json',{'schema':'liv-proof-manifest-v1','files':{}});write(units,{})
+            write('assets-ambiente/fixture.bin','ambiente')
+            write('assets-ambiente/manifest.json',{'file':{'name':'fixture.bin',**package.identity(b'ambiente')}})
+            write('assets-materiais/manifest.json',{'schema':'liv-pbr-fixture-v1','files':{}})
+            transfer={'schema':'liv-transfer-manifest-v1','files':[]}
+            canonical=json.dumps(transfer,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()
+            write('transfer-manifest.json',{**transfer,'version':package.identity(canonical)['sha256']})
+            for name in ['comercial.json','vinculos.json','estoque-config.json','estoque-demo-config.json',
+                         'mapa-runtime/manifest.json','mapa-parcela.json']:
+                write(name,{})
+            write('sales.js','fixture');write('estoque-build.json',{'schema':'liv-sales-bundle-v1',
+                  'file':{'path':'sales.js',**package.identity(b'fixture')}})
+            write('site-baseline/modelo.glb','web geometry')
+            write('site-baseline/modelo.blend','local authoring source')
+            write('manifesto.json',{'arquivos':{
+                'modelo.glb':package.identity(b'web geometry'),
+                'modelo.blend':package.identity(b'local authoring source')}})
+            with patch.object(package,'PAGES',['index.html']):files=package.inventory(root)
+            for name in ['viewer.js','tipologias.js','planta2d.js','frame-scheduler.js','opcionais.js']:
+                self.assertEqual(files[name],package.identity((root/name).read_bytes()))
+            self.assertTrue(all('?' not in name and '#' not in name for name in files))
+            self.assertIn('site-baseline/modelo.glb',files)
+            self.assertNotIn('site-baseline/modelo.blend',files)
+            self.assertFalse((root/'entregas').exists())
+
     def test_unknown_paths(self):
         for name in ['../fora', '/raiz', 'C:/fora', 'ok/../fora', 'ok\\fora', 'a?query', '']:
             with self.assertRaises(ValueError): package.local_path(name)

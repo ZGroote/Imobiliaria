@@ -1,0 +1,64 @@
+{
+  "schema": "liv-transfer-manifest-v1",
+  "version": "53f22367a0af2075e27e06f3b7ae61c2faf3316dd341082412afb326a7332115",
+  "order": [
+    "tour",
+    "map",
+    "planta2d"
+  ],
+  "groups": {
+    "tour": {
+      "label": "Tour 3D"
+    },
+    "map": {
+      "label": "Mapa"
+    },
+    "planta2d": {
+      "label": "Planta 2D"
+    }
+  },
+  "files": [
+    {
+      "path": "site-baseline/map-edition-tour.html",
+      "group": "tour",
+      "bytes": 65622,
+      "sha256": "439322d7dd232b7850ed2c4113ea246f7c78c8072f1b43656bb369313274f746",
+      "essential": true
+    },
+    {
+      "path": "mapa-runtime/mapa-liv-ipanema-5km.html",
+      "group": "map",
+      "bytes": 61525,
+      "sha256": "fbe80ba927858cd43f2b1251f044707688595acd793b7d2a99f857deb3a653be",
+      "essential": true
+    },
+    {
+      "path": "modelo/variante/liv-contorno.glb",
+      "group": "map",
+      "bytes": 34816,
+      "sha256": "2d177f5e8222a32d38dd3e65cef074053e40d6ab0774ac5ccf97460046256c0a",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/map-edition-map.bin",
+      "group": "map",
+      "bytes": 32768,
+      "sha256": "9f05105159b34df06744a383402100be9cd854cbab308d1ffe6c01d7baf566bc",
+      "essential": false
+    },
+    {
+      "path": "plantas2d/map-edition-planta.png",
+      "group": "planta2d",
+      "bytes": 77,
+      "sha256": "0acc39e4f83f9dc702736454906cc8e8dcb1e0cf8f7e325bd10251447cbf5ddf",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/liv-ipanema.glb",
+      "group": "map",
+      "bytes": 34816,
+      "sha256": "1ceda32151104612be557a269533a95ad053a8f143fd04ccc8639b625168787c",
+      "essential": true
+    }
+  ]
+}

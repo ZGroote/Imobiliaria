@@ -1,6 +1,1371 @@
 {
   "schema": "liv-commercial-v1",
-  "status": "ausente",
-  "source": null,
-  "units": []
+  "status": "fornecido",
+  "bookSHA256": "c7dae676c82eab758370e386cea7fe6bd31dded9fa436eb53ebdfe70be7bb50b",
+  "source": {
+    "label": "Disponibilidade e Tabela Comercial LIV Ipanema",
+    "asOf": "2026-10-12"
+  },
+  "units": [
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-01",
+      "commercialNumber": "G01",
+      "availability": "vendida",
+      "priceCents": 29500000,
+      "parking": "Vaga 1",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-02",
+      "commercialNumber": "G02",
+      "availability": "vendida",
+      "priceCents": 29500000,
+      "parking": "Vaga 2",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-03",
+      "commercialNumber": "G03",
+      "availability": "vendida",
+      "priceCents": 28500000,
+      "parking": "Vaga 3",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-04",
+      "commercialNumber": "G04",
+      "availability": "vendida",
+      "priceCents": 28500000,
+      "parking": "Vaga 4",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-05",
+      "commercialNumber": "G05",
+      "availability": "vendida",
+      "priceCents": 28500000,
+      "parking": "Vaga 5",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-06",
+      "commercialNumber": "G06",
+      "availability": "vendida",
+      "priceCents": 28500000,
+      "parking": "Vaga 6",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-07",
+      "commercialNumber": "G07",
+      "availability": "vendida",
+      "priceCents": 28500000,
+      "parking": "Vaga 7",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-08",
+      "commercialNumber": "G08",
+      "availability": "vendida",
+      "priceCents": 28500000,
+      "parking": "Vaga 8",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-09",
+      "commercialNumber": "G09",
+      "availability": "vendida",
+      "priceCents": 29500000,
+      "parking": "Vaga 9",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-10",
+      "commercialNumber": "G10",
+      "availability": "vendida",
+      "priceCents": 29500000,
+      "parking": "Vaga 10",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-01",
+      "commercialNumber": "101",
+      "availability": "vendida",
+      "priceCents": 29950000,
+      "parking": "Vaga 11",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-02",
+      "commercialNumber": "102",
+      "availability": "vendida",
+      "priceCents": 29950000,
+      "parking": "Vaga 12",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-03",
+      "commercialNumber": "103",
+      "availability": "vendida",
+      "priceCents": 28950000,
+      "parking": "Vaga 13",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-04",
+      "commercialNumber": "104",
+      "availability": "vendida",
+      "priceCents": 28950000,
+      "parking": "Vaga 14",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-05",
+      "commercialNumber": "105",
+      "availability": "disponivel",
+      "priceCents": 28950000,
+      "parking": "Vaga 15",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-06",
+      "commercialNumber": "106",
+      "availability": "vendida",
+      "priceCents": 28950000,
+      "parking": "Vaga 16",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-07",
+      "commercialNumber": "107",
+      "availability": "disponivel",
+      "priceCents": 28950000,
+      "parking": "Vaga 17",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-08",
+      "commercialNumber": "108",
+      "availability": "vendida",
+      "priceCents": 28950000,
+      "parking": "Vaga 18",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-09",
+      "commercialNumber": "109",
+      "availability": "vendida",
+      "priceCents": 29950000,
+      "parking": "Vaga 19",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-10",
+      "commercialNumber": "110",
+      "availability": "vendida",
+      "priceCents": 29950000,
+      "parking": "Vaga 20",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-01",
+      "commercialNumber": "201",
+      "availability": "disponivel",
+      "priceCents": 30400000,
+      "parking": "Vaga 21",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-02",
+      "commercialNumber": "202",
+      "availability": "vendida",
+      "priceCents": 30400000,
+      "parking": "Vaga 22",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-03",
+      "commercialNumber": "203",
+      "availability": "vendida",
+      "priceCents": 29400000,
+      "parking": "Vaga 23",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-04",
+      "commercialNumber": "204",
+      "availability": "vendida",
+      "priceCents": 29400000,
+      "parking": "Vaga 24",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-05",
+      "commercialNumber": "205",
+      "availability": "disponivel",
+      "priceCents": 29400000,
+      "parking": "Vaga 25",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-06",
+      "commercialNumber": "206",
+      "availability": "vendida",
+      "priceCents": 29400000,
+      "parking": "Vaga 26",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-07",
+      "commercialNumber": "207",
+      "availability": "vendida",
+      "priceCents": 29400000,
+      "parking": "Vaga 27",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-08",
+      "commercialNumber": "208",
+      "availability": "vendida",
+      "priceCents": 29400000,
+      "parking": "Vaga 28",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-09",
+      "commercialNumber": "209",
+      "availability": "vendida",
+      "priceCents": 30400000,
+      "parking": "Vaga 29",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-10",
+      "commercialNumber": "210",
+      "availability": "vendida",
+      "priceCents": 30400000,
+      "parking": "Vaga 30",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-01",
+      "commercialNumber": "301",
+      "availability": "disponivel",
+      "priceCents": 30850000,
+      "parking": "Vaga 31",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-02",
+      "commercialNumber": "302",
+      "availability": "vendida",
+      "priceCents": 30850000,
+      "parking": "Vaga 32",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-03",
+      "commercialNumber": "303",
+      "availability": "vendida",
+      "priceCents": 29850000,
+      "parking": "Vaga 33",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-04",
+      "commercialNumber": "304",
+      "availability": "vendida",
+      "priceCents": 29850000,
+      "parking": "Vaga 34",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-05",
+      "commercialNumber": "305",
+      "availability": "vendida",
+      "priceCents": 29850000,
+      "parking": "Vaga 35",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-06",
+      "commercialNumber": "306",
+      "availability": "vendida",
+      "priceCents": 29850000,
+      "parking": "Vaga 36",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-07",
+      "commercialNumber": "307",
+      "availability": "vendida",
+      "priceCents": 29850000,
+      "parking": "Vaga 37",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-08",
+      "commercialNumber": "308",
+      "availability": "vendida",
+      "priceCents": 29850000,
+      "parking": "Vaga 38",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-09",
+      "commercialNumber": "309",
+      "availability": "disponivel",
+      "priceCents": 30850000,
+      "parking": "Vaga 39",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-10",
+      "commercialNumber": "310",
+      "availability": "vendida",
+      "priceCents": 30850000,
+      "parking": "Vaga 40",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-01",
+      "commercialNumber": "401",
+      "availability": "vendida",
+      "priceCents": 31300000,
+      "parking": "Vaga 41",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-02",
+      "commercialNumber": "402",
+      "availability": "vendida",
+      "priceCents": 31300000,
+      "parking": "Vaga 42",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-03",
+      "commercialNumber": "403",
+      "availability": "vendida",
+      "priceCents": 30300000,
+      "parking": "Vaga 43",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-04",
+      "commercialNumber": "404",
+      "availability": "vendida",
+      "priceCents": 30300000,
+      "parking": "Vaga 44",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-05",
+      "commercialNumber": "405",
+      "availability": "vendida",
+      "priceCents": 30300000,
+      "parking": "Vaga 45",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-06",
+      "commercialNumber": "406",
+      "availability": "vendida",
+      "priceCents": 30300000,
+      "parking": "Vaga 46",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-07",
+      "commercialNumber": "407",
+      "availability": "vendida",
+      "priceCents": 30300000,
+      "parking": "Vaga 47",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-08",
+      "commercialNumber": "408",
+      "availability": "vendida",
+      "priceCents": 30300000,
+      "parking": "Vaga 48",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-09",
+      "commercialNumber": "409",
+      "availability": "disponivel",
+      "priceCents": 31300000,
+      "parking": "Vaga 49",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-10",
+      "commercialNumber": "410",
+      "availability": "disponivel",
+      "priceCents": 31300000,
+      "parking": "Vaga 50",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-01",
+      "commercialNumber": "501",
+      "availability": "vendida",
+      "priceCents": 31750000,
+      "parking": "Vaga 51",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-02",
+      "commercialNumber": "502",
+      "availability": "disponivel",
+      "priceCents": 31750000,
+      "parking": "Vaga 52",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-03",
+      "commercialNumber": "503",
+      "availability": "vendida",
+      "priceCents": 30750000,
+      "parking": "Vaga 53",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-04",
+      "commercialNumber": "504",
+      "availability": "vendida",
+      "priceCents": 30750000,
+      "parking": "Vaga 54",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-05",
+      "commercialNumber": "505",
+      "availability": "vendida",
+      "priceCents": 30750000,
+      "parking": "Vaga 55",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-06",
+      "commercialNumber": "506",
+      "availability": "vendida",
+      "priceCents": 30750000,
+      "parking": "Vaga 56",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-07",
+      "commercialNumber": "507",
+      "availability": "vendida",
+      "priceCents": 30750000,
+      "parking": "Vaga 57",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-08",
+      "commercialNumber": "508",
+      "availability": "disponivel",
+      "priceCents": 30750000,
+      "parking": "Vaga 58",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-09",
+      "commercialNumber": "509",
+      "availability": "vendida",
+      "priceCents": 31750000,
+      "parking": "Vaga 59",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-10",
+      "commercialNumber": "510",
+      "availability": "vendida",
+      "priceCents": 31750000,
+      "parking": "Vaga 60",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-01",
+      "commercialNumber": "601",
+      "availability": "vendida",
+      "priceCents": 32200000,
+      "parking": "Vaga 61",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-02",
+      "commercialNumber": "602",
+      "availability": "disponivel",
+      "priceCents": 32200000,
+      "parking": "Vaga 62",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-03",
+      "commercialNumber": "603",
+      "availability": "vendida",
+      "priceCents": 31200000,
+      "parking": "Vaga 63",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-04",
+      "commercialNumber": "604",
+      "availability": "vendida",
+      "priceCents": 31200000,
+      "parking": "Vaga 64",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-05",
+      "commercialNumber": "605",
+      "availability": "disponivel",
+      "priceCents": 31200000,
+      "parking": "Vaga 65",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-06",
+      "commercialNumber": "606",
+      "availability": "vendida",
+      "priceCents": 31200000,
+      "parking": "Vaga 66",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-07",
+      "commercialNumber": "607",
+      "availability": "vendida",
+      "priceCents": 31200000,
+      "parking": "Vaga 67",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-08",
+      "commercialNumber": "608",
+      "availability": "vendida",
+      "priceCents": 31200000,
+      "parking": "Vaga 68",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-09",
+      "commercialNumber": "609",
+      "availability": "vendida",
+      "priceCents": 32200000,
+      "parking": "Vaga 69",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-10",
+      "commercialNumber": "610",
+      "availability": "vendida",
+      "priceCents": 32200000,
+      "parking": "Vaga 70",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-01",
+      "commercialNumber": "701",
+      "availability": "vendida",
+      "priceCents": 32650000,
+      "parking": "Vaga 71",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-02",
+      "commercialNumber": "702",
+      "availability": "vendida",
+      "priceCents": 32650000,
+      "parking": "Vaga 72",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-03",
+      "commercialNumber": "703",
+      "availability": "vendida",
+      "priceCents": 31650000,
+      "parking": "Vaga 73",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-04",
+      "commercialNumber": "704",
+      "availability": "disponivel",
+      "priceCents": 31650000,
+      "parking": "Vaga 74",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-05",
+      "commercialNumber": "705",
+      "availability": "vendida",
+      "priceCents": 31650000,
+      "parking": "Vaga 75",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-06",
+      "commercialNumber": "706",
+      "availability": "disponivel",
+      "priceCents": 31650000,
+      "parking": "Vaga 76",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-07",
+      "commercialNumber": "707",
+      "availability": "vendida",
+      "priceCents": 31650000,
+      "parking": "Vaga 77",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-08",
+      "commercialNumber": "708",
+      "availability": "vendida",
+      "priceCents": 31650000,
+      "parking": "Vaga 78",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-09",
+      "commercialNumber": "709",
+      "availability": "vendida",
+      "priceCents": 32650000,
+      "parking": "Vaga 79",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-10",
+      "commercialNumber": "710",
+      "availability": "vendida",
+      "priceCents": 32650000,
+      "parking": "Vaga 80",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-01",
+      "commercialNumber": "801",
+      "availability": "vendida",
+      "priceCents": 33100000,
+      "parking": "Vaga 81",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-02",
+      "commercialNumber": "802",
+      "availability": "vendida",
+      "priceCents": 33100000,
+      "parking": "Vaga 82",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-03",
+      "commercialNumber": "803",
+      "availability": "vendida",
+      "priceCents": 32100000,
+      "parking": "Vaga 83",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-04",
+      "commercialNumber": "804",
+      "availability": "disponivel",
+      "priceCents": 32100000,
+      "parking": "Vaga 84",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-05",
+      "commercialNumber": "805",
+      "availability": "vendida",
+      "priceCents": 32100000,
+      "parking": "Vaga 85",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-06",
+      "commercialNumber": "806",
+      "availability": "vendida",
+      "priceCents": 32100000,
+      "parking": "Vaga 86",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-07",
+      "commercialNumber": "807",
+      "availability": "disponivel",
+      "priceCents": 32100000,
+      "parking": "Vaga 87",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-08",
+      "commercialNumber": "808",
+      "availability": "vendida",
+      "priceCents": 32100000,
+      "parking": "Vaga 88",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-09",
+      "commercialNumber": "809",
+      "availability": "vendida",
+      "priceCents": 33100000,
+      "parking": "Vaga 89",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-10",
+      "commercialNumber": "810",
+      "availability": "vendida",
+      "priceCents": 33100000,
+      "parking": "Vaga 90",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-01",
+      "commercialNumber": "901",
+      "availability": "vendida",
+      "priceCents": 33550000,
+      "parking": "Vaga 91",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-02",
+      "commercialNumber": "902",
+      "availability": "disponivel",
+      "priceCents": 33550000,
+      "parking": "Vaga 92",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-03",
+      "commercialNumber": "903",
+      "availability": "vendida",
+      "priceCents": 32550000,
+      "parking": "Vaga 93",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-04",
+      "commercialNumber": "904",
+      "availability": "disponivel",
+      "priceCents": 32550000,
+      "parking": "Vaga 94",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-05",
+      "commercialNumber": "905",
+      "availability": "vendida",
+      "priceCents": 32550000,
+      "parking": "Vaga 95",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-06",
+      "commercialNumber": "906",
+      "availability": "vendida",
+      "priceCents": 32550000,
+      "parking": "Vaga 96",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-07",
+      "commercialNumber": "907",
+      "availability": "vendida",
+      "priceCents": 32550000,
+      "parking": "Vaga 97",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-08",
+      "commercialNumber": "908",
+      "availability": "vendida",
+      "priceCents": 32550000,
+      "parking": "Vaga 98",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-09",
+      "commercialNumber": "909",
+      "availability": "disponivel",
+      "priceCents": 33550000,
+      "parking": "Vaga 99",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-10",
+      "commercialNumber": "910",
+      "availability": "disponivel",
+      "priceCents": 33550000,
+      "parking": "Vaga 100",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-01",
+      "commercialNumber": "1001",
+      "availability": "disponivel",
+      "priceCents": 34000000,
+      "parking": "Vaga 101",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-02",
+      "commercialNumber": "1002",
+      "availability": "vendida",
+      "priceCents": 34000000,
+      "parking": "Vaga 102",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-03",
+      "commercialNumber": "1003",
+      "availability": "vendida",
+      "priceCents": 33000000,
+      "parking": "Vaga 103",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-04",
+      "commercialNumber": "1004",
+      "availability": "disponivel",
+      "priceCents": 33000000,
+      "parking": "Vaga 104",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-05",
+      "commercialNumber": "1005",
+      "availability": "vendida",
+      "priceCents": 33000000,
+      "parking": "Vaga 105",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-06",
+      "commercialNumber": "1006",
+      "availability": "vendida",
+      "priceCents": 33000000,
+      "parking": "Vaga 106",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-07",
+      "commercialNumber": "1007",
+      "availability": "vendida",
+      "priceCents": 33000000,
+      "parking": "Vaga 107",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-08",
+      "commercialNumber": "1008",
+      "availability": "vendida",
+      "priceCents": 33000000,
+      "parking": "Vaga 108",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-09",
+      "commercialNumber": "1009",
+      "availability": "vendida",
+      "priceCents": 34000000,
+      "parking": "Vaga 109",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-10",
+      "commercialNumber": "1010",
+      "availability": "disponivel",
+      "priceCents": 34000000,
+      "parking": "Vaga 110",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-01",
+      "commercialNumber": "1101",
+      "availability": "disponivel",
+      "priceCents": 34450000,
+      "parking": "Vaga 111",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-02",
+      "commercialNumber": "1102",
+      "availability": "vendida",
+      "priceCents": 34450000,
+      "parking": "Vaga 112",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-03",
+      "commercialNumber": "1103",
+      "availability": "vendida",
+      "priceCents": 33450000,
+      "parking": "Vaga 113",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-04",
+      "commercialNumber": "1104",
+      "availability": "vendida",
+      "priceCents": 33450000,
+      "parking": "Vaga 114",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-05",
+      "commercialNumber": "1105",
+      "availability": "vendida",
+      "priceCents": 33450000,
+      "parking": "Vaga 115",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-06",
+      "commercialNumber": "1106",
+      "availability": "vendida",
+      "priceCents": 33450000,
+      "parking": "Vaga 116",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-07",
+      "commercialNumber": "1107",
+      "availability": "disponivel",
+      "priceCents": 33450000,
+      "parking": "Vaga 117",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-08",
+      "commercialNumber": "1108",
+      "availability": "vendida",
+      "priceCents": 33450000,
+      "parking": "Vaga 118",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-09",
+      "commercialNumber": "1109",
+      "availability": "vendida",
+      "priceCents": 34450000,
+      "parking": "Vaga 119",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-10",
+      "commercialNumber": "1110",
+      "availability": "disponivel",
+      "priceCents": 34450000,
+      "parking": "Vaga 120",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-01",
+      "commercialNumber": "1201",
+      "availability": "vendida",
+      "priceCents": 34900000,
+      "parking": "Vaga 121",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-02",
+      "commercialNumber": "1202",
+      "availability": "vendida",
+      "priceCents": 34900000,
+      "parking": "Vaga 122",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-03",
+      "commercialNumber": "1203",
+      "availability": "vendida",
+      "priceCents": 33900000,
+      "parking": "Vaga 123",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-04",
+      "commercialNumber": "1204",
+      "availability": "vendida",
+      "priceCents": 33900000,
+      "parking": "Vaga 124",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-05",
+      "commercialNumber": "1205",
+      "availability": "vendida",
+      "priceCents": 33900000,
+      "parking": "Vaga 125",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-06",
+      "commercialNumber": "1206",
+      "availability": "vendida",
+      "priceCents": 33900000,
+      "parking": "Vaga 126",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-07",
+      "commercialNumber": "1207",
+      "availability": "vendida",
+      "priceCents": 33900000,
+      "parking": "Vaga 127",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-08",
+      "commercialNumber": "1208",
+      "availability": "vendida",
+      "priceCents": 33900000,
+      "parking": "Vaga 128",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-09",
+      "commercialNumber": "1209",
+      "availability": "vendida",
+      "priceCents": 34900000,
+      "parking": "Vaga 129",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-10",
+      "commercialNumber": "1210",
+      "availability": "vendida",
+      "priceCents": 34900000,
+      "parking": "Vaga 130",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-01",
+      "commercialNumber": "1301",
+      "availability": "vendida",
+      "priceCents": 35350000,
+      "parking": "Vaga 131",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-02",
+      "commercialNumber": "1302",
+      "availability": "disponivel",
+      "priceCents": 35350000,
+      "parking": "Vaga 132",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-03",
+      "commercialNumber": "1303",
+      "availability": "vendida",
+      "priceCents": 34350000,
+      "parking": "Vaga 133",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-04",
+      "commercialNumber": "1304",
+      "availability": "vendida",
+      "priceCents": 34350000,
+      "parking": "Vaga 134",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-05",
+      "commercialNumber": "1305",
+      "availability": "vendida",
+      "priceCents": 34350000,
+      "parking": "Vaga 135",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-06",
+      "commercialNumber": "1306",
+      "availability": "vendida",
+      "priceCents": 34350000,
+      "parking": "Vaga 136",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-07",
+      "commercialNumber": "1307",
+      "availability": "vendida",
+      "priceCents": 34350000,
+      "parking": "Vaga 137",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-08",
+      "commercialNumber": "1308",
+      "availability": "vendida",
+      "priceCents": 34350000,
+      "parking": "Vaga 138",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-09",
+      "commercialNumber": "1309",
+      "availability": "vendida",
+      "priceCents": 35350000,
+      "parking": "Vaga 139",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-10",
+      "commercialNumber": "1310",
+      "availability": "vendida",
+      "priceCents": 35350000,
+      "parking": "Vaga 140",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-01",
+      "commercialNumber": "1401",
+      "availability": "disponivel",
+      "priceCents": 35800000,
+      "parking": "Vaga 141",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-02",
+      "commercialNumber": "1402",
+      "availability": "vendida",
+      "priceCents": 35800000,
+      "parking": "Vaga 142",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-03",
+      "commercialNumber": "1403",
+      "availability": "vendida",
+      "priceCents": 34800000,
+      "parking": "Vaga 143",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-04",
+      "commercialNumber": "1404",
+      "availability": "vendida",
+      "priceCents": 34800000,
+      "parking": "Vaga 144",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-05",
+      "commercialNumber": "1405",
+      "availability": "vendida",
+      "priceCents": 34800000,
+      "parking": "Vaga 145",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-06",
+      "commercialNumber": "1406",
+      "availability": "vendida",
+      "priceCents": 34800000,
+      "parking": "Vaga 146",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-07",
+      "commercialNumber": "1407",
+      "availability": "vendida",
+      "priceCents": 34800000,
+      "parking": "Vaga 147",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-08",
+      "commercialNumber": "1408",
+      "availability": "vendida",
+      "priceCents": 34800000,
+      "parking": "Vaga 148",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-09",
+      "commercialNumber": "1409",
+      "availability": "disponivel",
+      "priceCents": 35800000,
+      "parking": "Vaga 149",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-10",
+      "commercialNumber": "1410",
+      "availability": "vendida",
+      "priceCents": 35800000,
+      "parking": "Vaga 150",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-01",
+      "commercialNumber": "1501",
+      "availability": "vendida",
+      "priceCents": 36250000,
+      "parking": "Vaga 151",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-02",
+      "commercialNumber": "1502",
+      "availability": "vendida",
+      "priceCents": 36250000,
+      "parking": "Vaga 152",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-03",
+      "commercialNumber": "1503",
+      "availability": "vendida",
+      "priceCents": 35250000,
+      "parking": "Vaga 153",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-04",
+      "commercialNumber": "1504",
+      "availability": "vendida",
+      "priceCents": 35250000,
+      "parking": "Vaga 154",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-05",
+      "commercialNumber": "1505",
+      "availability": "disponivel",
+      "priceCents": 35250000,
+      "parking": "Vaga 155",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-06",
+      "commercialNumber": "1506",
+      "availability": "vendida",
+      "priceCents": 35250000,
+      "parking": "Vaga 156",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-07",
+      "commercialNumber": "1507",
+      "availability": "vendida",
+      "priceCents": 35250000,
+      "parking": "Vaga 157",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-08",
+      "commercialNumber": "1508",
+      "availability": "vendida",
+      "priceCents": 35250000,
+      "parking": "Vaga 158",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-09",
+      "commercialNumber": "1509",
+      "availability": "disponivel",
+      "priceCents": 36250000,
+      "parking": "Vaga 159",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-10",
+      "commercialNumber": "1510",
+      "availability": "disponivel",
+      "priceCents": 36250000,
+      "parking": "Vaga 160",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-01",
+      "commercialNumber": "1601",
+      "availability": "vendida",
+      "priceCents": 36700000,
+      "parking": "Vaga 161",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-02",
+      "commercialNumber": "1602",
+      "availability": "disponivel",
+      "priceCents": 36700000,
+      "parking": "Vaga 162",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-03",
+      "commercialNumber": "1603",
+      "availability": "vendida",
+      "priceCents": 35700000,
+      "parking": "Vaga 163",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-04",
+      "commercialNumber": "1604",
+      "availability": "vendida",
+      "priceCents": 35700000,
+      "parking": "Vaga 164",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-05",
+      "commercialNumber": "1605",
+      "availability": "disponivel",
+      "priceCents": 35700000,
+      "parking": "Vaga 165",
+      "conditions": "Entrada facilitada em até 36x direto com a incorporadora."
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-06",
+      "commercialNumber": "1606",
+      "availability": "vendida",
+      "priceCents": 35700000,
+      "parking": "Vaga 166",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-07",
+      "commercialNumber": "1607",
+      "availability": "vendida",
+      "priceCents": 35700000,
+      "parking": "Vaga 167",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-08",
+      "commercialNumber": "1608",
+      "availability": "vendida",
+      "priceCents": 35700000,
+      "parking": "Vaga 168",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-09",
+      "commercialNumber": "1609",
+      "availability": "vendida",
+      "priceCents": 36700000,
+      "parking": "Vaga 169",
+      "conditions": null
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-10",
+      "commercialNumber": "1610",
+      "availability": "vendida",
+      "priceCents": 36700000,
+      "parking": "Vaga 170",
+      "conditions": null
+    }
+  ]
 }

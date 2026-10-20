@@ -1,0 +1,57 @@
+{
+  "schema": "liv-transfer-manifest-v1",
+  "version": "a91e3eb146c3d70307a1c734fa8b2f846021ebfbcc1a2903a92ee9a4f157b197",
+  "order": [
+    "tour",
+    "map",
+    "planta2d"
+  ],
+  "groups": {
+    "tour": {
+      "label": "Tour 3D"
+    },
+    "map": {
+      "label": "Mapa"
+    },
+    "planta2d": {
+      "label": "Planta 2D"
+    }
+  },
+  "files": [
+    {
+      "path": "site-baseline/integrity-tour.html",
+      "group": "tour",
+      "bytes": 57428,
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/integrity-map.html",
+      "group": "map",
+      "bytes": 53331,
+      "sha256": "32cdaa70ef2fc87f069b1985ec4ac20358b3f53b15004b2188ded3da824d90cc",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/integrity-map.glb",
+      "group": "map",
+      "bytes": 30720,
+      "sha256": "93b0a79380e6af1f43ff2d0394c17a4d01b60fbc57a93c88a8e4b1bfdd9f2958",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/integrity-map.bin",
+      "group": "map",
+      "bytes": 28672,
+      "sha256": "8517294daa7cce6a8715f7bc8cc0323ed663bf14fdcf7f8972ff86725e4c32fa",
+      "essential": false
+    },
+    {
+      "path": "plantas2d/integrity-planta.png",
+      "group": "planta2d",
+      "bytes": 77,
+      "sha256": "0acc39e4f83f9dc702736454906cc8e8dcb1e0cf8f7e325bd10251447cbf5ddf",
+      "essential": true
+    }
+  ]
+}

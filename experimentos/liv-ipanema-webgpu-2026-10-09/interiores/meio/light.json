@@ -1,16 +1,16 @@
 {
   "schema": "liv-interior-lightmap-v1",
   "unitId": "liv-ipanema-planta-meio-referencia",
-  "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
-  "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
-  "geometrySHA256": "9110a84a7302f5ea6f29cf3a09c0da02d0336d8c7bec0f73de230a44890f01f3",
+  "unitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+  "sourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+  "geometrySHA256": "5283c11650ad1b94e7040abf1515e7b0fe085efa689ead6a139f350772309f21",
   "geometryApproved": true,
-  "approvalSHA256": "59b75bb0080926111a6336fae8ab5a292718bd6a3f78e3f150c9365205609b2b",
+  "approvalSHA256": "411e493ac023141ae384e94e99fe4062a1530e07cbdc42ecaf9f2b3f73c70a9b",
   "geometryURL": "interior/luz/geometry-compact.json",
   "textureURL": "interior/luz/irradiance.rgbm.gz",
   "textureCompression": "gzip",
   "textureEncoding": "linear-rgbm-u8",
-  "textureSHA256": "5d636586c1d7b1a5c8b2266fb45ee8e88cddcb2670c3516f4dcaff7d117dc870",
+  "textureSHA256": "665156fea8139d87366c2e593b2a46e8f60bbf80c80416650a5c81cfc5faf6e6",
   "width": 2048,
   "height": 2048,
   "range": 16.0,
@@ -23,8 +23,8 @@
     "INDIRECT"
   ],
   "colorPass": false,
-  "objects": 34,
-  "triangles": 31700,
+  "objects": 35,
+  "triangles": 31982,
   "lighting": {
     "name": "LIV Meio, luz diurna ilustrativa e plafons por ambiente",
     "world": {
@@ -64,12 +64,12 @@
       ]
     }
   },
-  "effectivePaddingPixels": 7.185964912280702,
-  "recommendedGuardPixels": 3.342982456140351,
+  "effectivePaddingPixels": 6.989761092150171,
+  "recommendedGuardPixels": 3.2448805460750854,
   "ready": true,
   "denoise": {
     "filter": "OIDN RTLightmap",
-    "guardPixels": 3.342982456140351,
+    "guardPixels": 3.2448805460750854,
     "auxiliaryImages": []
   }
 }

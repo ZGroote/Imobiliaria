@@ -1,0 +1,57 @@
+{
+  "schema": "liv-transfer-manifest-v1",
+  "version": "432b35aa437e29e05de01f233d0c548b4cb44e5efb6765100d81b576ffb38cdd",
+  "order": [
+    "tour",
+    "map",
+    "planta2d"
+  ],
+  "groups": {
+    "tour": {
+      "label": "Tour 3D"
+    },
+    "map": {
+      "label": "Mapa"
+    },
+    "planta2d": {
+      "label": "Planta 2D"
+    }
+  },
+  "files": [
+    {
+      "path": "site-baseline/lookup-race-tour.html",
+      "group": "tour",
+      "bytes": 65622,
+      "sha256": "a8b7ea68eb8db10a047c4f67c79e7ab9c3b4f3b7da7b9b47939d8b5c2d7e63dc",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/lookup-race-map.html",
+      "group": "map",
+      "bytes": 61525,
+      "sha256": "350e1beb54a610f8b01e7abad17ca2038747ed11891f663eb08d0b2fd5b0b68b",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/lookup-race-map.glb",
+      "group": "map",
+      "bytes": 34816,
+      "sha256": "278449c4c2c7e69bb556d446212a06f0f29b18f9d61300bc627d0667f6cd9d32",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/lookup-race-map.bin",
+      "group": "map",
+      "bytes": 32768,
+      "sha256": "075cb3adc6c5f34df93dac2dc73bc71f7ce649fe2f12af1591c37ed73899fc3f",
+      "essential": false
+    },
+    {
+      "path": "plantas2d/lookup-race-planta.png",
+      "group": "planta2d",
+      "bytes": 77,
+      "sha256": "0acc39e4f83f9dc702736454906cc8e8dcb1e0cf8f7e325bd10251447cbf5ddf",
+      "essential": true
+    }
+  ]
+}

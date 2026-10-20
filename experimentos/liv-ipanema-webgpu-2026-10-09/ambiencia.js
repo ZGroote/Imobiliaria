@@ -7,7 +7,7 @@ export {AMBIENCES,requestedAmbience} from './ambiencia-perfis.js';
  * The sunset uses the day bake. It is not a solar/time-of-day simulation.
  * Never replace an imported material or make a shader per material for this.
  */
-export function exteriorAmbience({renderer,scene,materials,stage}){
+export function exteriorAmbience({renderer,scene,materials,stage,preserveBackdrop=false}){
   const exposure=renderer.toneMappingExposure,background=scene.background,css=stage.style.background;
   const originals=[...new Set(materials)].map(material=>({material,color:material.color?.clone(),reflection:material.envMapIntensity}));
   const lights=[];scene.traverse(object=>{if(object.isLight)lights.push({light:object,color:object.color.clone(),intensity:object.intensity,ground:object.groundColor?.clone()});});
@@ -27,8 +27,8 @@ export function exteriorAmbience({renderer,scene,materials,stage}){
       light.color.copy(color).multiply(lightTint);light.intensity=intensity*settings.lightIntensity;
       if(ground)light.groundColor.copy(ground).multiply(lightTint);
     }
-    scene.background=key==='dia'?background:sunsetColor;
-    stage.style.background=key==='dia'?css:'#dec5ae';
+    scene.background=preserveBackdrop||key==='dia'?background:sunsetColor;
+    stage.style.background=preserveBackdrop||key==='dia'?css:'#dec5ae';
     profile=key;return true;
   }
   return {setProfile,getState:()=>({profile,illustrative:profile==='entardecer',sameAtlas:true}),

@@ -54,10 +54,12 @@ metas originais que continuam sem prova.
 
 | Roteiro | Situação |
 |---|---|
+| [LIV Ipanema — visual, WebGPU e unidades](liv-ipanema-webgpu/plan.md) | 09/10: plano baseado no preview `strict-circle-v3` indicado pelo usuário; pacote preservado; reprodução, migração e seleção pendentes. Não altera os roteiros anteriores. |
 | [Fábrica](miniaturas/fabrica.md) M1 | Runner local e relatório implementados |
 | Fábrica M2 | Fonte LEVE implementada nos três perfis piloto; tem significado diferente do M2 operacional acima |
 | Fábrica M3/M4/M5 | PREMIUM por jobs pendente; build existe, ligação do runner ao preview pendente; lote real de 30 pendente |
 | [Modularização](modularizacao/aceite-final.md) | Concluída em 18/09; não reabrir os checklists históricos |
+| [Mudanças futuras do painel](painel/mudancas-futuras.md) | 08/10: imobiliária só solicita (equipe gera o 3D, com notificação) e botão WhatsApp do corretor; nada implementado |
 | [Produto v1.0](v1.0/todo.md) | T01/T02 concluídos; T03 Storage parcial; T04 por imóvel entregue/mapa condicional; T05–T07 links, ficha e OG pendentes; T08–T13 exigem aceite/carga/mobile; T14 offline e T15 release estável pendentes |
 | [Plano urbano de 09/09](plan.md) | Registro histórico; etapas locais de integração documentadas em `modelos_urbanos/v1/integracao/`; biblioteca final e desempenho ainda exigem aceite |
 

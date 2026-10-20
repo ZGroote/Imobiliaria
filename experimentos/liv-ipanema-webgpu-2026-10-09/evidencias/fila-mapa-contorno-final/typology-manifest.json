@@ -1,0 +1,64 @@
+{
+  "schema": "liv-transfer-manifest-v1",
+  "version": "80729aab39cf179b4918948804bb1f58e4d7b20a5e072de5f6b60248a8993b20",
+  "order": [
+    "tour",
+    "map",
+    "planta2d"
+  ],
+  "groups": {
+    "tour": {
+      "label": "Tour 3D"
+    },
+    "map": {
+      "label": "Mapa"
+    },
+    "planta2d": {
+      "label": "Planta 2D"
+    }
+  },
+  "files": [
+    {
+      "path": "interiores/canto/typology-scene.json.gz",
+      "group": "tour",
+      "bytes": 53331,
+      "sha256": "301b5831173294a0d1cc19e0275e4c7564a7073d678a6614826d569235d35f1b",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/typology-map.html",
+      "group": "map",
+      "bytes": 49234,
+      "sha256": "6af59c7f5dd8db4f6364534ae3e7c138ec13fd8de1dbd3ae7c226feca2749aef",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/typology-map.glb",
+      "group": "map",
+      "bytes": 28672,
+      "sha256": "c794bae7b6c0e74e641b99c80ef452561648367d1d335c6138a42bea3d4dcb42",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/typology-map.bin",
+      "group": "map",
+      "bytes": 26624,
+      "sha256": "39a498b5887daf2af235e7bf917c64d1ea30ff22df514746c82f015c349866a8",
+      "essential": false
+    },
+    {
+      "path": "plantas2d/typology-planta.png",
+      "group": "planta2d",
+      "bytes": 77,
+      "sha256": "0acc39e4f83f9dc702736454906cc8e8dcb1e0cf8f7e325bd10251447cbf5ddf",
+      "essential": true
+    },
+    {
+      "path": "interiores/meio/typology-scene.json.gz",
+      "group": "tour",
+      "bytes": 16458,
+      "sha256": "b65452160ffb7d1134a249e496da86bfb44879d552a959e91742b14ccb28290a",
+      "essential": true
+    }
+  ]
+}

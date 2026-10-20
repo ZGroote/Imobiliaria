@@ -15,7 +15,7 @@ export function createLayout(unit) {
   if(!points.length||!points.flat().every(Number.isFinite))throw Error('Contorno da unidade inválido.');
   const min=[0,1].map(i=>Math.min(...points.map(p=>p[i]))),max=[0,1].map(i=>Math.max(...points.map(p=>p[i])));
   const center=min.map((v,i)=>(v+max[i])/2),local=p=>[p[0]-center[0],p[1]-center[1]],pd=source.pe_direito||2.7;
-  const floor=globalThis.FloorPlan.create({inside,shoelace,ESP:.13,ESQ_ANG:78*Math.PI/180,ESQ_MARCO:.03,fecharQuinas:true});
+  const floor=globalThis.FloorPlan.create({inside,shoelace,ESP:.13,ESQ_ANG:90*Math.PI/180,ESQ_MARCO:.03,fecharQuinas:true});
   const openings=[...(source.portas||[]).map(rec=>({rec,porta:true,p:rec.p,largura:rec.largura||.85,y0:rec.y0??0,y1:rec.y1??2.1})),
     ...(source.janelas||[]).map(rec=>({rec,porta:false,p:rec.p,largura:rec.largura||1.4,y0:rec.y0??1,y1:rec.y1??2.2}))];
   const grade=floor.paredesDaGrade(source.comodos,openings,pd);

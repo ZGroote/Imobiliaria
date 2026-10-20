@@ -12,10 +12,11 @@
   button,a{padding:10px 14px;min-height:44px;border:1px solid #a4b4bf;border-radius:6px;background:white;color:#183044;font:inherit}
   button:focus-visible,a:focus-visible{outline:3px solid #097ea6}button:disabled{opacity:.45}#failure{position:absolute;inset:0;display:grid;place-items:center;padding:24px;background:#edf1f0;text-align:center}#failure[hidden]{display:none}
   body.embedded header,body.embedded nav{display:none}body.embedded #stage{height:100vh;min-height:0}
+  body.dark-theme{background:#0e151b}body.dark-theme #stage{background:radial-gradient(ellipse at 50% 45%,#17212b,#0e151b 72%)}
 </style>
 <header><h1>LIV Ipanema — prova do transporte de luz</h1><p>Exterior da base preservada. Comparação técnica antes da integração dos modos e unidades.</p><p id="status" role="status">Carregando geometria e iluminação…</p></header>
 <div id="stage"><canvas id="c" aria-label="Maquete exterior do LIV Ipanema"></canvas><div id="failure" hidden><div><p id="error"></p><p><a id="retry" href="?backend=webgl">Tentar com WebGL2</a></p><p><a href="site-baseline/maquete-liv-ipanema.html">Abrir a versão preservada</a></p></div></div></div>
 <nav aria-label="Vistas da maquete"><button data-view="perspectiva" disabled>Perspectiva</button><button data-view="fachada" disabled>Fachada</button><button data-view="aerea" disabled>Aérea</button><button data-view="portaria" disabled>Portaria</button><button data-view="implantacao" disabled>Implantação</button><button data-view="varandas" disabled>Varandas</button><button data-view="acesso" disabled>Acesso de perto</button><button id="capture" disabled>Fotografar PNG</button></nav>
 <script type="importmap">{"imports":{"three":"./node_modules/three/build/three.webgpu.js","three/webgpu":"./node_modules/three/build/three.webgpu.js","three/tsl":"./node_modules/three/build/three.tsl.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
-<script type="module" src="renderer.js"></script>
+<script type="module" src="renderer.js?rev=2026-10-12-cache"></script>
 </html>

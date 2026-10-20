@@ -1,0 +1,143 @@
+#version 300 es
+
+// Three.js r186 - Node System
+
+
+// extensions
+
+
+// precision
+
+precision highp float;
+precision highp int;
+precision highp sampler2D;
+precision highp sampler3D;
+precision highp samplerCube;
+precision highp sampler2DArray;
+
+precision highp usampler2D;
+precision highp usampler3D;
+precision highp usamplerCube;
+precision highp usampler2DArray;
+
+precision highp isampler2D;
+precision highp isampler3D;
+precision highp isamplerCube;
+precision highp isampler2DArray;
+
+precision highp sampler2DShadow;
+precision highp sampler2DArrayShadow;
+precision highp samplerCubeShadow;
+
+
+// structs
+
+
+
+
+
+// uniforms
+
+layout( std140 ) uniform render {
+	mat4 cameraProjectionMatrix;
+	mat4 cameraViewMatrix;
+	vec3 nodeUniform14;
+	vec3 nodeUniform30;
+	vec3 nodeUniform32;
+	vec3 nodeUniform33;
+	vec3 nodeUniform31;
+	vec3 nodeUniform12;
+	vec3 nodeUniform13;
+	vec3 nodeUniform28;
+	vec3 nodeUniform29;
+	mat4 nodeUniform15;
+	float nodeUniform16;
+	float nodeUniform17;
+	float nodeUniform27;
+	mat4 cameraWorldMatrix;
+	vec2 nodeUniform19;
+	float nodeUniform20;
+	vec2 nodeUniform21;
+};
+
+layout( std140 ) uniform object {
+	vec3 nodeUniform0;
+	float nodeUniform1;
+	float nodeUniform2;
+	float nodeUniform3;
+	mat3 nodeUniform5;
+	vec3 nodeUniform6;
+	float nodeUniform7;
+	mat4 nodeUniform9;
+	uint nodeUniform10;
+	uint nodeUniform22;
+	uint nodeUniform23;
+	uint nodeUniform24;
+	uint nodeUniform25;
+	uint nodeUniform26;
+	float nodeUniform34;
+	mat4 nodeUniform35;
+	float nodeUniform37;
+	float nodeUniform38;
+	uint nodeUniform40;
+	uint nodeUniform41;
+	float nodeUniform42;
+	uint nodeUniform43;
+	uint nodeUniform44;
+	uint nodeUniform46;
+};
+
+
+// varyings
+vec4 v_modelViewProjection;
+vec3 v_positionView;
+vec3 positionLocal;
+out vec3 v_normalViewGeometry;
+out vec3 v_positionViewDirection;
+out vec3 v_positionWorld;
+vec4 VERTEX_v_modelViewProjection;
+out vec4 nodeVarying7;
+out vec2 nodeVarying8;
+
+
+// attributes
+layout( location = 0 ) in vec3 color;
+layout( location = 1 ) in vec3 normal;
+layout( location = 2 ) in vec3 position;
+layout( location = 3 ) in vec2 uv1;
+
+
+// vars
+vec3 normalLocal;
+mat4 modelViewMatrix;
+vec4 VERTEX_nodeVar239;
+
+// codes
+
+
+void main() {
+
+	// transforms
+	
+
+	// flow
+	// code
+
+	nodeVarying7 = vec4( color, 1.0 );
+	normalLocal = normal;
+	v_normalViewGeometry = normalize( ( cameraViewMatrix * vec4( ( nodeUniform5 * normalLocal ), 0.0 ) ).xyz );
+	modelViewMatrix = ( cameraViewMatrix * nodeUniform9 );
+	positionLocal = position;
+	v_positionView = ( modelViewMatrix * vec4( positionLocal, 1.0 ) ).xyz;
+	v_positionViewDirection = ( - v_positionView );
+	v_positionWorld = ( nodeUniform9 * vec4( positionLocal, 1.0 ) ).xyz;
+	nodeVarying8 = uv1;
+	VERTEX_nodeVar239 = ( cameraProjectionMatrix * vec4( v_positionView, 1.0 ) );
+	VERTEX_v_modelViewProjection = VERTEX_nodeVar239;
+
+	// result
+	gl_Position = VERTEX_v_modelViewProjection;
+
+	gl_PointSize = 1.0;
+
+}

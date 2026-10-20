@@ -33,7 +33,7 @@ export function createPlanCutaway({scene,layout,architecture,wallMaterial,own,he
   const ceiling=[],bounds=new THREE.Box3();
   for(const mesh of architecture){
     bounds.setFromObject(mesh);
-    if(!mesh.userData.livWallTop&&(mesh.name==='forro-original'||bounds.min.y>=layout.pd-.25))ceiling.push(mesh);
+    if(!mesh.userData.livWallTop&&!mesh.userData.livCornice&&(mesh.name==='forro-original'||bounds.min.y>=layout.pd-.25))ceiling.push(mesh);
     else if(bounds.max.y>height)group.attach(mesh);
   }
   const caps=new THREE.Mesh(own(wallCaps(layout,height)),wallMaterial);

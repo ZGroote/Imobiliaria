@@ -1,0 +1,787 @@
+{
+  "recordedAtUtc": "2026-10-11T05:09:07.733544+00:00",
+  "status": "FAIL",
+  "workerSHA256": "7f4d62f3dd6eb5f8e39ff6db870895658881ef56c9d18a3d5d8cd08b73c4bab1",
+  "clientSHA256": "d3f18d35513422b0566e55d8fbf60f643686d42c2ec0588ca2bdb2e440abb146",
+  "qaSHA256": "70a202621a8e1eba6116f26b206d36d4fa0de8fa1c70e71caea7ae72b2540afc",
+  "browserArgs": [
+    "--disable-gpu"
+  ],
+  "origin": "http://127.0.0.1:49689",
+  "usesGeneratedFixtures": true,
+  "cacheMatchFaultHook": true,
+  "jobWaiterBarrierHook": true,
+  "runsLIVScene": false,
+  "cases": [
+    {
+      "name": "order",
+      "manifestVersion": "32a4a3173daf58dcad1a21c03e7eb504e5e532f9e76a07dea5e3b19b72859837",
+      "errors": [],
+      "requestOrder": [
+        "/fixture/site-baseline/order-tour.html",
+        "/fixture/site-baseline/order-map.html",
+        "/fixture/site-baseline/order-map.glb",
+        "/fixture/site-baseline/order-map.bin",
+        "/fixture/plantas2d/order-planta.png"
+      ],
+      "repeatNativeCacheHit": true,
+      "status": "PASS"
+    },
+    {
+      "name": "typology",
+      "manifestVersion": "80729aab39cf179b4918948804bb1f58e4d7b20a5e072de5f6b60248a8993b20",
+      "errors": [],
+      "selectedTypologyPreemptedSameGroup": true,
+      "requestOrder": [
+        "/fixture/interiores/canto/typology-scene.json.gz",
+        "/fixture/interiores/meio/typology-scene.json.gz",
+        "/fixture/interiores/canto/typology-scene.json.gz",
+        "/fixture/site-baseline/typology-map.html",
+        "/fixture/site-baseline/typology-map.glb",
+        "/fixture/site-baseline/typology-map.bin",
+        "/fixture/plantas2d/typology-planta.png"
+      ],
+      "status": "PASS"
+    },
+    {
+      "name": "multi-tab-typology",
+      "manifestVersion": "18f680bb262e813e5c228a73f145de1ae59fca5a90ae44d3cc5f760be89d172f",
+      "errors": [],
+      "otherTabForegroundSurvivedPriority": true,
+      "sameFileNetworkRequests": {
+        "canto": 1,
+        "meio": 1
+      },
+      "tabACanto": {
+        "status": 200,
+        "bytes": 94301,
+        "sha256": "06747e91c264d3014b72f646f848a6cb77c9651b38bd8d57d81ee93c748cbbd4"
+      },
+      "tabBOldDemand": {
+        "networkError": "TypeError: Failed to fetch",
+        "errorName": "TypeError"
+      },
+      "requestOrder": [
+        "/fixture/interiores/canto/multi-tab-typology-scene.json.gz",
+        "/fixture/interiores/meio/multi-tab-typology-scene.json.gz",
+        "/fixture/site-baseline/multi-tab-typology-map.html",
+        "/fixture/site-baseline/multi-tab-typology-map.glb",
+        "/fixture/site-baseline/multi-tab-typology-map.bin",
+        "/fixture/plantas2d/multi-tab-typology-planta.png"
+      ],
+      "status": "PASS"
+    },
+    {
+      "name": "join",
+      "manifestVersion": "a30c66248254771c0af8de54f328c47725cbafd5938772fe07dd06ec659f8dc8",
+      "errors": [],
+      "sameFileNetworkRequests": 1,
+      "status": "PASS"
+    },
+    {
+      "name": "preempt",
+      "manifestVersion": "af23e9115e864250deaa82b6a59ea5639097c4e8e1ce9f12d379bfb3e6756a3b",
+      "errors": [],
+      "requestOrder": [
+        "/fixture/site-baseline/preempt-tour.html",
+        "/fixture/site-baseline/preempt-map.html",
+        "/fixture/site-baseline/preempt-map.glb",
+        "/fixture/site-baseline/preempt-map.bin",
+        "/fixture/site-baseline/preempt-tour.html",
+        "/fixture/plantas2d/preempt-planta.png"
+      ],
+      "interruptedTourRestartedOnce": true,
+      "status": "PASS"
+    },
+    {
+      "name": "pause",
+      "manifestVersion": "cf9067c357b84a01da582d70452c2bfbd619f3fa1dd69b8713fe355089de420d",
+      "errors": [],
+      "pausedForegroundStillWorks": true,
+      "status": "PASS"
+    },
+    {
+      "name": "lookup-race",
+      "manifestVersion": "432b35aa437e29e05de01f233d0c548b4cb44e5efb6765100d81b576ffb38cdd",
+      "errors": [],
+      "lateOldCacheLookupCanceled": true,
+      "status": "PASS"
+    },
+    {
+      "name": "integrity",
+      "manifestVersion": "a91e3eb146c3d70307a1c734fa8b2f846021ebfbcc1a2903a92ee9a4f157b197",
+      "errors": [],
+      "wrongHashRejectedWithoutCache": true,
+      "response": {
+        "networkError": "TypeError: Failed to fetch"
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "map-minimum",
+      "manifestVersion": "8679acbb11dc79f613be94f5178a171ed0709edf722815adf1e629945e0bb539",
+      "errors": [],
+      "modelCompletedBeforeNativeTile": true,
+      "status": "PASS"
+    },
+    {
+      "name": "map-edition",
+      "manifestVersion": "53f22367a0af2075e27e06f3b7ae61c2faf3316dd341082412afb326a7332115",
+      "errors": []
+    }
+  ],
+  "failure": "AssertionError('Edition fragment missed the verified cache.')",
+  "httpRequests": [
+    {
+      "path": "/fixture/",
+      "startedAt": 878127.9376516,
+      "sentBytes": 68,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-worker.js",
+      "startedAt": 878127.9759777,
+      "sentBytes": 21917,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878127.9893636,
+      "sentBytes": 1126,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878128.0161448,
+      "sentBytes": 1126,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/order-tour.html",
+      "startedAt": 878128.0191364,
+      "sentBytes": 41040,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/order-map.html",
+      "startedAt": 878128.0242679,
+      "sentBytes": 36943,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/order-map.glb",
+      "startedAt": 878128.0275879,
+      "sentBytes": 22528,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/order-map.bin",
+      "startedAt": 878128.0303408,
+      "sentBytes": 20480,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/plantas2d/order-planta.png",
+      "startedAt": 878128.0328939,
+      "sentBytes": 77,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/",
+      "startedAt": 878128.335215,
+      "sentBytes": 68,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-worker.js",
+      "startedAt": 878128.3648093,
+      "sentBytes": 21917,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878128.3803588,
+      "sentBytes": 1330,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878128.4048551,
+      "sentBytes": 1330,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/interiores/canto/typology-scene.json.gz",
+      "startedAt": 878128.4076387,
+      "sentBytes": 4224,
+      "complete": false,
+      "aborted": true
+    },
+    {
+      "path": "/fixture/interiores/meio/typology-scene.json.gz",
+      "startedAt": 878128.4182071,
+      "sentBytes": 16458,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/interiores/canto/typology-scene.json.gz",
+      "startedAt": 878128.4225118,
+      "sentBytes": 53331,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/typology-map.html",
+      "startedAt": 878128.429525,
+      "sentBytes": 49234,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/typology-map.glb",
+      "startedAt": 878128.4340993,
+      "sentBytes": 28672,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/typology-map.bin",
+      "startedAt": 878128.4384617,
+      "sentBytes": 26624,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/plantas2d/typology-planta.png",
+      "startedAt": 878128.4417907,
+      "sentBytes": 77,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/",
+      "startedAt": 878128.6367393,
+      "sentBytes": 68,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-worker.js",
+      "startedAt": 878128.6672485,
+      "sentBytes": 21917,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878128.6801626,
+      "sentBytes": 1390,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/",
+      "startedAt": 878128.7437366,
+      "sentBytes": 68,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878128.780053,
+      "sentBytes": 1390,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/interiores/canto/multi-tab-typology-scene.json.gz",
+      "startedAt": 878128.7837043,
+      "sentBytes": 94301,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/interiores/meio/multi-tab-typology-scene.json.gz",
+      "startedAt": 878128.8541894,
+      "sentBytes": 16458,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/multi-tab-typology-map.html",
+      "startedAt": 878128.8875011,
+      "sentBytes": 90204,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/multi-tab-typology-map.glb",
+      "startedAt": 878128.8921933,
+      "sentBytes": 49152,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/multi-tab-typology-map.bin",
+      "startedAt": 878128.8966766,
+      "sentBytes": 47104,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/plantas2d/multi-tab-typology-planta.png",
+      "startedAt": 878128.900677,
+      "sentBytes": 77,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/",
+      "startedAt": 878129.1283196,
+      "sentBytes": 68,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-worker.js",
+      "startedAt": 878129.1588654,
+      "sentBytes": 21917,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878129.1728815,
+      "sentBytes": 1121,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878129.199363,
+      "sentBytes": 1121,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/join-tour.html",
+      "startedAt": 878129.2037216,
+      "sentBytes": 36943,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/join-map.html",
+      "startedAt": 878129.220561,
+      "sentBytes": 32846,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/join-map.glb",
+      "startedAt": 878129.2263035,
+      "sentBytes": 20480,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/join-map.bin",
+      "startedAt": 878129.231401,
+      "sentBytes": 18432,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/plantas2d/join-planta.png",
+      "startedAt": 878129.2370607,
+      "sentBytes": 77,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/",
+      "startedAt": 878129.4605756,
+      "sentBytes": 68,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-worker.js",
+      "startedAt": 878129.4895826,
+      "sentBytes": 21917,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878129.5033431,
+      "sentBytes": 1136,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878129.5289039,
+      "sentBytes": 1136,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/preempt-tour.html",
+      "startedAt": 878129.5322259,
+      "sentBytes": 4224,
+      "complete": false,
+      "aborted": true
+    },
+    {
+      "path": "/fixture/site-baseline/preempt-map.html",
+      "startedAt": 878129.5460143,
+      "sentBytes": 45137,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/preempt-map.glb",
+      "startedAt": 878129.5511562,
+      "sentBytes": 26624,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/preempt-map.bin",
+      "startedAt": 878129.555153,
+      "sentBytes": 24576,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/preempt-tour.html",
+      "startedAt": 878129.5588046,
+      "sentBytes": 49234,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/plantas2d/preempt-planta.png",
+      "startedAt": 878129.5629925,
+      "sentBytes": 77,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/",
+      "startedAt": 878129.7762496,
+      "sentBytes": 68,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-worker.js",
+      "startedAt": 878129.8055523,
+      "sentBytes": 21917,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878129.8176543,
+      "sentBytes": 1126,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878129.8444291,
+      "sentBytes": 1126,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/pause-tour.html",
+      "startedAt": 878129.8474635,
+      "sentBytes": 4224,
+      "complete": false,
+      "aborted": true
+    },
+    {
+      "path": "/fixture/plantas2d/pause-planta.png",
+      "startedAt": 878129.8589753,
+      "sentBytes": 77,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/pause-tour.html",
+      "startedAt": 878129.9748703,
+      "sentBytes": 41040,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/pause-map.html",
+      "startedAt": 878129.9803286,
+      "sentBytes": 36943,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/pause-map.glb",
+      "startedAt": 878129.9843413,
+      "sentBytes": 22528,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/pause-map.bin",
+      "startedAt": 878129.9882956,
+      "sentBytes": 20480,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/",
+      "startedAt": 878130.1903784,
+      "sentBytes": 68,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-worker.js",
+      "startedAt": 878130.2201282,
+      "sentBytes": 21917,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878130.2349437,
+      "sentBytes": 1156,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878130.2604283,
+      "sentBytes": 1156,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/lookup-race-tour.html",
+      "startedAt": 878130.2633722,
+      "sentBytes": 4224,
+      "complete": false,
+      "aborted": true
+    },
+    {
+      "path": "/fixture/match-gate",
+      "startedAt": 878130.2724914,
+      "sentBytes": 16384,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/lookup-race-map.html",
+      "startedAt": 878130.297183,
+      "sentBytes": 61525,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/lookup-race-map.glb",
+      "startedAt": 878130.3027618,
+      "sentBytes": 34816,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/lookup-race-map.bin",
+      "startedAt": 878130.3510845,
+      "sentBytes": 32768,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/lookup-race-tour.html",
+      "startedAt": 878130.3552313,
+      "sentBytes": 65622,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/plantas2d/lookup-race-planta.png",
+      "startedAt": 878130.3594395,
+      "sentBytes": 77,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/",
+      "startedAt": 878130.57895,
+      "sentBytes": 68,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-worker.js",
+      "startedAt": 878130.6128778,
+      "sentBytes": 21917,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878130.6283384,
+      "sentBytes": 1146,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/integrity-tour.html",
+      "startedAt": 878130.6608367,
+      "sentBytes": 57428,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/",
+      "startedAt": 878130.878278,
+      "sentBytes": 68,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-worker.js",
+      "startedAt": 878130.9135618,
+      "sentBytes": 21917,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878130.926129,
+      "sentBytes": 1156,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/map-minimum-map.html",
+      "startedAt": 878130.9535262,
+      "sentBytes": 61525,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/map-minimum-map.glb",
+      "startedAt": 878130.9606876,
+      "sentBytes": 34816,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/map-minimum-map.bin",
+      "startedAt": 878130.987978,
+      "sentBytes": 32768,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/map-minimum-tour.html",
+      "startedAt": 878130.9924439,
+      "sentBytes": 65622,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/plantas2d/map-minimum-planta.png",
+      "startedAt": 878130.997506,
+      "sentBytes": 77,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/",
+      "startedAt": 878131.2461256,
+      "sentBytes": 68,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-worker.js",
+      "startedAt": 878131.2816411,
+      "sentBytes": 21918,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/transfer-manifest.json",
+      "startedAt": 878131.2961009,
+      "sentBytes": 1331,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/mapa-runtime/mapa-liv-ipanema-5km.html",
+      "startedAt": 878131.3230608,
+      "sentBytes": 61525,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/modelo/variante/liv-contorno.glb",
+      "startedAt": 878131.3295544,
+      "sentBytes": 34816,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/map-edition-map.bin",
+      "startedAt": 878131.3571131,
+      "sentBytes": 32768,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/liv-ipanema.glb",
+      "startedAt": 878131.3612787,
+      "sentBytes": 34816,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/site-baseline/map-edition-tour.html",
+      "startedAt": 878131.3649837,
+      "sentBytes": 65622,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/plantas2d/map-edition-planta.png",
+      "startedAt": 878131.3697151,
+      "sentBytes": 77,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "/fixture/mapa-runtime/mapa-liv-ipanema-5km.html",
+      "startedAt": 878131.3963706,
+      "sentBytes": 61525,
+      "complete": true,
+      "aborted": false
+    }
+  ]
+}

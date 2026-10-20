@@ -1,10 +1,12 @@
-# Vínculo entre posição, planta 2D e interior — 11/10/2026
+# Vínculo entre posição, planta 2D e interior — 12/10/2026
 
 Associações também podem ser cadastradas pelo painel, junto com a disponibilidade, conforme [ESTOQUE.md](ESTOQUE.md). Com `estoque=ID_DO_IMOVEL`, o cadastro ao vivo substitui o arquivo local e aceita somente associações explicitamente confirmadas de Canto/Meio na orientação original.
 
-O catálogo completo pode receber associações explícitas por ID técnico em `vinculos.json`. O arquivo entregue está **ausente/vazio**: nenhum final foi atribuído por ser uma cabeceira, lado do lazer, número comercial ou semelhança visual. Canto e Meio permanecem referências gerais.
+O catálogo completo recebe associações explícitas por ID técnico em `vinculos.json`. O arquivo local atual foi fornecido com fonte declarada “Implantação e Book Oficial do LIV Ipanema”, data 12/10/2026: 170 posições, 68 Canto e 102 Meio, todas na orientação original. O validador confere IDs, origem e revisões; não verifica por si só a correspondência arquitetônica declarada pela fonte. Não atribuir plantas por cabeceira, lado, número comercial ou semelhança visual.
 
-Com uma associação fornecida e validada, selecionar o final escolhe sua tipologia, a ficha mostra fonte/data/orientação e **Ver planta associada** abre a imagem correspondente. Planta 3D/Tour reutilizam a mesma tipologia conferida. Se a pessoa escolher manualmente a outra referência, a ficha distingue essa visualização da associação fornecida. Os interiores continuam ilustrativos, com medidas inferidas; o vínculo não transforma a reconstrução em projeto executivo.
+Selecionar o apartamento mostra seu contexto e libera **Planta 2D**, **Planta 3D** e **Tour 3D** usando a tipologia do vínculo. **Informações do apartamento** abre a ficha com disponibilidade, preço, vaga, área e demais dados cadastrados, incluindo fonte/data/orientação. A troca manual Canto/Meio fica fora desse fluxo. Ao voltar à maquete, a seleção é mantida; selecionar outro apartamento escolhe a planta de seu cadastro. Os interiores continuam ilustrativos, com medidas inferidas.
+
+Sem seleção, a página apresenta a maquete e a orientação para escolher um apartamento. Enquanto os vínculos carregam, ou se a unidade não possui associação utilizável, o contexto informa essa condição e conserva o acesso à ficha; não abre uma planta presumida. O produto inicia no edifício completo com a geometria de entrada. `unidades=piloto` continua disponível explicitamente para o experimento de dez posições, sem associação de plantas nesse fluxo.
 
 ## Formato a preencher com uma fonte confirmada
 
@@ -25,13 +27,13 @@ Datas inválidas, IDs desconhecidos/duplicados, origem ou revisão diferente e c
 
 ## Evidência
 
-Três testes Node verificam ausência, associação exata sem alterar geometria/campos fonte e rejeições de origem/revisão/duplicata/espelhamento/data. O QA usa **fixtures sintéticas em interceptação privada**, nunca escreve associações reais. Confere Canto e Meio em 2D/3D/Tour, ficha, seleção, retorno, referência manual distinta, rejeições com retenção do último conjunto e remoção dos vínculos. O arquivo real permanece vazio.
+Os testes de vínculos verificam ausência, associação exata sem alterar geometria/campos fonte e rejeições de origem/revisão/duplicata/espelhamento/data. `test_viewer_flow.mjs` cobre o fluxo por apartamento, dados opcionais assíncronos e recuperação. As evidências anteriores de `qa_vinculos.py` usaram fixtures sintéticas e registram a interface com referências gerais e troca manual; não comprovam o fluxo atual por seleção.
 
 ```powershell
 & 'C:/Program Files/nodejs/node.exe' --test experimentos/liv-ipanema-webgpu-2026-10-09/test_vinculos.mjs
 & 'C:/Python314/python.exe' experimentos/liv-ipanema-webgpu-2026-10-09/qa_vinculos.py --saida experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/vinculos-novo
 ```
 
-T08/T09/T10/T11 continuam parciais até receber a associação autorizada e qualificar os aparelhos. O mecanismo de integração está preparado; fonte pública que mostre duas plantas e dez finais não confirma automaticamente seus vínculos.
+Os registros históricos de T08/T09/T10/T11 eram parciais pela associação pendente e pela qualificação dos aparelhos. O cadastro atual permite navegar pelas associações fornecidas; isso não substitui a conferência da fonte por final nem a qualificação física. Uma fonte pública que mostre duas plantas e dez finais não confirma automaticamente seus vínculos.
 
 Resultado em [evidencias/vinculos-conferidos/runtime.json](evidencias/vinculos-conferidos/runtime.json): três perfis aprovados, WebGPU/WebGL2 desktop e toque emulado. A primeira execução localizou um aviso dentro do espelho fechado; os avisos foram movidos para uma região visível e o conjunto completo foi repetido.

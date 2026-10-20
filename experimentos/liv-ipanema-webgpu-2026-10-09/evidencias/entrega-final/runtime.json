@@ -1,0 +1,123 @@
+{
+  "status": "FAIL",
+  "recordedAt": "2026-10-11T21:46:20.606799+00:00",
+  "physicalMobile": false,
+  "packageVersion": "8b755338f718a3e73f3024b77f520d9917a640f448ce70a95143a4cad332968a",
+  "packageDirectory": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\entregas\\liv-avaliacao-20261011",
+  "packageManifestSHA256": "2fec255e55fcebd1ef261a081e59acfe04b57b56710315357ce7f8da7f32abde",
+  "recipeSHA256": "d640ea1edb7380473c130e5d536c580145b01eb71710f4171893d14a80ca21b7",
+  "cases": [
+    {
+      "backendRequested": "webgpu",
+      "touchEmulated": false,
+      "errors": [],
+      "httpFailures": [
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-6_-5.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-5_-5.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-6_-6.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-6_-4.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-7_-5.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-5_-4.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-4_-5.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-7_-6.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-6_-7.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-4_-6.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-7_-4.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-4_-4.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-7_-7.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-6_-3.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-5_-3.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-8_-5.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-8_-6.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-3_-5.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-3_-6.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-7_-3.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-8_-7.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+          404
+        ],
+        [
+          "http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-7_-8.bin",
+          404
+        ]
+      ],
+      "externalRequests": [],
+      "backendEffective": "webgpu",
+      "pngSize": [
+        920,
+        556
+      ]
+    }
+  ],
+  "httpVerifiedFiles": 234,
+  "browserVersion": "154.0.8037.98",
+  "failure": "AssertionError({'backendRequested': 'webgpu', 'touchEmulated': False, 'errors': [], 'httpFailures': [['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-6_-5.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-5_-5.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-6_-6.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-6_-4.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-7_-5.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-5_-4.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-4_-5.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-7_-6.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-6_-7.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-4_-6.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-7_-4.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-4_-4.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-7_-7.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-6_-3.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-5_-3.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-8_-5.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-8_-6.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-3_-5.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-3_-6.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-7_-3.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-8_-7.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin', 404], ['http://127.0.0.1:50919/mapa-runtime/quintais/liv-v3-5b9e71f97064a6c5/-7_-8.bin', 404]], 'externalRequests': [], 'backendEffective': 'webgpu', 'pngSize': (920, 556)})"
+}

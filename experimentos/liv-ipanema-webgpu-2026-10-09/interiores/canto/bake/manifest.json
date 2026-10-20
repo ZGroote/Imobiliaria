@@ -2,15 +2,15 @@
   "schema": "liv-interior-lightmap-v1",
   "unitId": "liv-ipanema-referencia-47-59",
   "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
-  "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
-  "geometrySHA256": "83325082bb84aff9106f6c2f35687740e3faeb8a7102b0994aa6cbcae962ba2e",
+  "sourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+  "geometrySHA256": "2a538f50eeacce70c6619aeee78a8661e7010dc3ddc72a68006459fc027fe9da",
   "geometryApproved": true,
-  "approvalSHA256": "f36a144ffa8fc7259a0d967cf14b61b1b182fbb9fb1f2d3978a464c8006de43d",
+  "approvalSHA256": "58223e00db9ee1dd11cff701f19edc7a0f70d6cdd0d54c30d6afdb7def24504a",
   "geometryURL": "interior/luz/geometry-compact.json",
   "textureURL": "interior/luz/irradiance.rgbm.gz",
   "textureCompression": "gzip",
   "textureEncoding": "linear-rgbm-u8",
-  "textureSHA256": "eaf742f42fbef3301bb1d86efb4ca53e09b3e6f3c8974246cc49fb20f59aa8f3",
+  "textureSHA256": "8f913448990fbd21c99e76bb281f8ff6c6b0367970cceefdd8cb1305d85af0fa",
   "width": 2048,
   "height": 2048,
   "range": 16.0,
@@ -24,7 +24,7 @@
   ],
   "colorPass": false,
   "objects": 55,
-  "triangles": 70811,
+  "triangles": 69587,
   "lighting": {
     "name": "canonical interior style, LIV room positions",
     "world": {
@@ -64,12 +64,12 @@
       ]
     }
   },
-  "effectivePaddingPixels": 6.802103515084418,
-  "recommendedGuardPixels": 3.151051757542209,
+  "effectivePaddingPixels": 6.878253568429891,
+  "recommendedGuardPixels": 3.1891267842149453,
   "ready": true,
   "denoise": {
     "filter": "OIDN RTLightmap",
-    "guardPixels": 3.151051757542209,
+    "guardPixels": 3.1891267842149453,
     "auxiliaryImages": []
   }
 }

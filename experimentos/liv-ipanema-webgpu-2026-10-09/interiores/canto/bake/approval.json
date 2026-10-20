@@ -1,24 +1,25 @@
 {
   "schema": "liv-interior-geometry-approval-v1",
   "approved": true,
-  "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+  "sourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
   "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
-  "reviewedAtUtc": "2026-10-11T04:20:38.634472+00:00",
-  "reviewer": "Codex, revisão local de geometria para bake ilustrativo",
+  "geometrySHA256": "2a538f50eeacce70c6619aeee78a8661e7010dc3ddc72a68006459fc027fe9da",
+  "reviewedAtUtc": "2026-10-13T12:11:12.093952+00:00",
+  "reviewer": "Codex, revisao local da geometria e dos contatos",
   "basis": [
-    "Cadastro e 62 objetos fora da moldura idênticos à fonte anteriormente revisada",
-    "União exata dos 30 volumes: 40 sobreposições removidas; superfície fechada e sem faces coplanares duplicadas",
-    "Quatro seções independentes conservam o footprint de ambas as faixas e seu volume",
-    "Renderizações PBR antes/depois nas mesmas câmeras da suíte, sala e banho inspecionadas",
-    "Normais das paredes e tapete aprovados em audit-scene.json; UV1 própria em atlas único"
+    "Perfil fechado com5cmvisiveis e2cm deprojecaо; encaixe4mm noforro e3mm naparede eliminafacescoplanares",
+    "Todosobjetos,slots,buffersgeométricos,mapasPBR emateriais restantes preservados",
+    "AuditoriaSource/UVPASS, testes helper+CLI e revisaoindependente aprovados",
+    "Diagnostic-sala.png inspecionada: moldura menor e contato fechado no teto; diagnostic-topo mantem layout"
   ],
-  "geometryQA": {
-    "path": "experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/rodateto-geometria/geometria.json",
-    "sha256": "4315791392e8b28a5a601eff965f71f56cfa7f21bee48f40767deb6a06130cce"
+  "evidence": {
+    "diagnostic-sala.png": "44ce057d2d020a05c16435b119e28ba9c686458bfba7ff6ec204a5cbd17cfc0e",
+    "diagnostic-topo.png": "5d7753fa117207978048992ae27a3aaa1ad3f1dfb01040a58350600cf5090844"
   },
-  "preview": {
-    "path": "experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/rodateto-autoria/autoria.json",
-    "sha256": "5b056b57482b31c783d10f844aa5990b8a2117187e616656cf808768c75587c5"
+  "audits": {
+    "rodateto-geometria.json": "41055d95d9637e0602f871ceaa207b826c84d9a23942510311e90037705952c9",
+    "unwrap.json": "63ae00cad2646c537347fb8f8d3270a6cf68cfe913c221b44876bab8e7ede052",
+    "audit-moldings.json": "b575fd5d94ef17b3d43db5d85d2808408907203ff5763fbb8d75339f40be0175"
   },
-  "limits": "Aprovação da geometria ilustrativa para bake; aparência da luz final é conferida no navegador após o bake. Dimensões e acabamentos inferidos da planta comercial."
+  "limits": "BakedTour no navegador sera inspecionado antes da publicacao."
 }

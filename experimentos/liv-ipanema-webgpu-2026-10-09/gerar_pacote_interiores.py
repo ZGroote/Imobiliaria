@@ -2,7 +2,8 @@
 
 No Blender/browser execution. The corner snapshot can adopt its isolated,
 approved molding union; its raw unit, other objects and materials are preserved.
-The middle unit adopts only its own source/UV1/irradiance after validation.
+The middle unit keeps its catalog lighting mode. Adopting its own approved
+source/UV1/irradiance is explicit and requires validation.
 """
 from __future__ import annotations
 
@@ -58,7 +59,12 @@ def furniture_slots(source: dict, unit: dict) -> list[dict]:
     return result
 
 
-def generate(typology: str = "all", refresh_shared: bool = False) -> dict:
+def generate(typology: str = "all", refresh_shared: bool = False,
+             middle_lighting: str | None = None) -> dict:
+    if middle_lighting not in (None, "dynamic", "approved-rgbm"):
+        raise ValueError("Middle lighting must be dynamic or approved-rgbm")
+    if middle_lighting is not None and typology == "canto":
+        raise ValueError("Selecting middle lighting requires typology all or meio")
     planned = {}
 
     def write(relative: str, data: bytes) -> dict:
@@ -72,21 +78,68 @@ def generate(typology: str = "all", refresh_shared: bool = False) -> dict:
     destination = EXP / "interiores/catalogo.json"
     catalog = json.loads(destination.read_text(encoding="utf-8")) if destination.exists() else {
         "schema": "liv-interior-catalog-v1", "tipologias": {}}
+    shared_changed = refresh_shared or "shared" not in catalog
+    needs_corner_source = typology in ("all", "canto") or shared_changed
     corner_bake = INTERIOR / "luz"
     corner_source = corner_bake / "source.json"
     own_corner = EXP / "interiores/canto/bake"
-    if (own_corner / "manifest.json").exists():
+    continuous_corner = None
+    if needs_corner_source and (own_corner / "manifest.json").exists():
         corner_bake = own_corner
         corner_source = EXP / "interiores/canto/source.json"
-        repair = json.loads(corner_source.read_bytes())["metadata"]["moldingRepair"]
+        corner_snapshot = json.loads(corner_source.read_bytes())
+        repair = corner_snapshot["metadata"]["moldingRepair"]
         expected_sources = {p.relative_to(ROOT).as_posix(): digest(p.read_bytes())
                             for p in [RECIPE_ROOT / "corrigir_rodateto.py", RECIPE_ROOT / "modelo/unir_paredes.py"]}
         if repair["parentSourceSHA256"] != digest((INTERIOR / "luz/source.json").read_bytes()) or repair["sources"] != expected_sources:
             raise ValueError("Corner molding revision uses another original scene or repair recipe")
-    source_bytes = corner_source.read_bytes() if typology in ("all", "canto") or refresh_shared or "shared" not in catalog else None
+        continuous_corner = corner_snapshot["metadata"].get("continuousCorniceRepair")
+        if continuous_corner is not None:
+            previous = catalog["tipologias"].get("canto", {})
+            corner_identity = digest(corner_source.read_bytes())
+            same_revision = previous.get("sourceSHA256") == corner_identity
+            expected_parent = previous.get("parentSourceSHA256") if same_revision else previous.get("sourceSHA256")
+            helper_name = "interior-cornice.js"
+            helper_key = (RECIPE_ROOT / helper_name).relative_to(ROOT).as_posix()
+            helper_hash = digest((EXP / helper_name).read_bytes())
+            if (not expected_parent or continuous_corner.get("parentSourceSHA256") != expected_parent
+                    or continuous_corner.get("sources") != {helper_key: helper_hash}
+                    or continuous_corner.get("unitSHA256") != corner_snapshot["unitSHA256"]
+                    or continuous_corner.get("rawUnitPreserved") is not True):
+                raise ValueError("Corner continuous cornice uses another approved parent/unit/helper")
+            if not same_revision:
+                parent_asset = previous["files"]["source"]
+                parent_data = (EXP / parent_asset["path"]).read_bytes()
+                if (len(parent_data) != parent_asset["bytes"] or digest(parent_data) != parent_asset["sha256"]
+                        or digest(gzip.decompress(parent_data)) != expected_parent):
+                    raise ValueError("Corner continuous cornice parent resource is not the approved snapshot")
+            qa_record = continuous_corner["geometryQA"]
+            qa_path = (corner_source.parent / qa_record["path"]).resolve()
+            if not qa_path.is_relative_to(corner_source.parent.resolve()) or qa_path.is_symlink():
+                raise ValueError("Corner continuous cornice QA is outside its source directory")
+            qa_bytes = qa_path.read_bytes()
+            if digest(qa_bytes) != qa_record["sha256"]:
+                raise ValueError("Corner continuous cornice QA identity changed")
+            qa = json.loads(qa_bytes)
+            cornices = [o for o in corner_snapshot["objects"] if o.get("name") == "rodateto-liso-continuo"
+                        and o.get("include", True) and o.get("bake", False)]
+            preserved = qa.get("preservation", {})
+            if (qa.get("schema") != "liv-canto-continuous-cornice-qa-v1" or qa.get("status") != "PASS"
+                    or qa.get("parentSourceSHA256") != expected_parent or qa.get("helperSHA256") != helper_hash
+                    or qa.get("unitSHA256") != corner_snapshot["unitSHA256"] or len(cornices) != 1
+                    or cornices[0]["slot"] != continuous_corner["sourceSlot"] or qa["activeSlot"] != cornices[0]["slot"]
+                    or qa["geometrySHA256"] != corner_snapshot["geometries"][cornices[0]["geometry"]]["sha256"]
+                    or qa["geometrySHA256"] != continuous_corner["geometrySHA256"]
+                    or qa["geometryQA"].get("closedEdges") is not True
+                    or qa["geometryQA"].get("normalsFollowWinding") is not True
+                    or preserved.get("status") != "PASS"
+                    or not all(preserved.get(key) is True for key in ["objectsAndSlotsPreserved", "geometryAttributesPreserved",
+                                "materialTablesPreserved", "texturesPreserved", "unitAndRoomMetadataPreserved"])):
+                raise ValueError("Corner continuous cornice geometry/preservation has no valid qualification")
+    source_bytes = corner_source.read_bytes() if needs_corner_source else None
     source = json.loads(source_bytes) if source_bytes else None
     # Native modules are copied verbatim. They are also used by the authoring viewer.
-    if refresh_shared or "shared" not in catalog:
+    if shared_changed:
         module_names = ["floor-plan.js", "shell-geometry.js", "openings.js", "house-mesh.js",
                         "furniture-param.js", "furniture-catalog.js"]
         runtime = "\n".join((SHARED / name).read_text(encoding="utf-8") for name in module_names)
@@ -145,9 +198,15 @@ def generate(typology: str = "all", refresh_shared: bool = False) -> dict:
                           "decodedSHA256": light["textureSHA256"]},
             },
         }
+        if continuous_corner is not None:
+            catalog["tipologias"]["canto"].update(materialsOrigin="shared-with-additions",
+                parentSourceSHA256=continuous_corner["parentSourceSHA256"])
     # A shared factory/material update also changes the middle recipe identity.
-    # Refresh it when present even in a corner-only run; never leave a stale recipe.
-    if typology in ("all", "meio") or (EXP / "interiores/meio/unidade.json").exists():
+    # Otherwise a corner-only run preserves the unrelated middle package.
+    if typology in ("all", "meio") or (shared_changed and (EXP / "interiores/meio/unidade.json").exists()):
+        lighting = middle_lighting or catalog["tipologias"].get("meio", {}).get("lighting", "dynamic")
+        if lighting not in ("dynamic", "approved-rgbm"):
+            raise ValueError("Middle catalog has an unsupported lighting mode")
         path = EXP / "interiores/meio/unidade.json"
         if not path.exists():
             raise FileNotFoundError("The middle unit must first be authored independently")
@@ -170,7 +229,10 @@ def generate(typology: str = "all", refresh_shared: bool = False) -> dict:
                       "recipe": write("interiores/meio/recipe.json", recipe_bytes)},
         }
         bake_path = EXP / "interiores/meio/bake"
-        if (bake_path / "manifest.json").exists():
+        # Authoring/bake artifacts can belong to older revisions. Dynamic
+        # packages never consume them; only the selected baked mode validates
+        # and adopts them, without silently falling back when invalid/missing.
+        if lighting == "approved-rgbm":
             own_source_bytes = (EXP / "interiores/meio/source.json").read_bytes()
             own_source = json.loads(own_source_bytes)
             compact_bytes = (bake_path / "geometry-compact.json").read_bytes()
@@ -178,6 +240,7 @@ def generate(typology: str = "all", refresh_shared: bool = False) -> dict:
             light_bytes = (bake_path / "manifest.json").read_bytes()
             light = json.loads(light_bytes)
             approval = (bake_path / "approval.json").read_bytes()
+            middle_approved = json.loads(approval)
             atlas = (bake_path / "irradiance.rgbm.gz").read_bytes()
             if (own_source["schema"] != "liv-interior-scene-v1" or own_source["unitId"] != unit["id"]
                     or light["unitId"] != unit["id"] or compact["unitId"] != unit["id"]
@@ -185,7 +248,9 @@ def generate(typology: str = "all", refresh_shared: bool = False) -> dict:
                     or compact["sourceSHA256"] != digest(own_source_bytes) or compact["unitSHA256"] != digest(unit_bytes)
                     or light["unitSHA256"] != digest(unit_bytes) or light["geometrySHA256"] != digest(compact_bytes)
                     or not light["geometryApproved"] or not light["ready"] or light["colorPass"] is not False
-                    or not json.loads(approval).get("approved")
+                    or not middle_approved.get("approved")
+                    or middle_approved.get("sourceSHA256") != digest(own_source_bytes)
+                    or middle_approved.get("unitSHA256") != digest(unit_bytes)
                     or light["approvalSHA256"] != digest(approval) or digest(gzip.decompress(atlas)) != light["textureSHA256"]):
                 raise ValueError("Middle bake identity/approval differs from its own scene/unit")
             metadata = own_source["metadata"]
@@ -196,6 +261,10 @@ def generate(typology: str = "all", refresh_shared: bool = False) -> dict:
             factory_source = renderer_source[renderer_source.index("function nativeFactory("):renderer_source.index("function bindFrozenFurniture(")]
             if metadata["nativeFactorySHA256"] != digest(factory_source.encode()) or metadata["source2DSHA256"] != digest((EXP / "plantas2d/meio.jpg").read_bytes()):
                 raise ValueError("Middle authoring code/reference changed after the approved export")
+            native_dependencies = {name: digest((EXP / name).read_bytes()) for name in ["interior-cornice.js"]
+                                   if (EXP / name).is_file()}
+            if metadata.get("nativeDependencySHA256", {}) != native_dependencies:
+                raise ValueError("Middle native dependencies changed after export; export and qualify it again")
             mappings = metadata["furnitureSlots"]
             owners = {o["slot"]: o.get("furnitureId") for o in own_source["objects"]}
             assigned = [slot for m in mappings for slot in m["slots"]]
@@ -233,8 +302,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tipologia", choices=("all", "canto", "meio"), default="all")
     parser.add_argument("--atualizar-compartilhados", action="store_true", help="Importa fontes atuais; exige requalificar os interiores e bakes vinculados.")
+    parser.add_argument("--iluminacao-meio", choices=("dynamic", "approved-rgbm"),
+                        help="Mantém o modo do catálogo por padrão; approved-rgbm exige um bake próprio válido para a revisão atual.")
     args = parser.parse_args()
-    result = generate(args.tipologia, args.atualizar_compartilhados)
+    result = generate(args.tipologia, args.atualizar_compartilhados, args.iluminacao_meio)
     print(json.dumps({"catalogo": str(EXP / "interiores/catalogo.json"),
                       "tipologias": {key: {"unitSHA256": value["unitSHA256"], "sourceSHA256": value["sourceSHA256"],
                                             "lighting": value["lighting"]} for key, value in result["tipologias"].items()}}, indent=2))

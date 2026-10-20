@@ -108,6 +108,12 @@ npm ci --ignore-scripts --prefix experimentos/liv-ipanema-webgpu-2026-10-09
 python -m http.server 8790 --bind 127.0.0.1 --directory .
 ```
 
+A abertura de `maquete-liv-ipanema.html` diretamente pelo arquivo do projeto
+encaminha para a prévia HTTP em `127.0.0.1:8790`, conservando opções e âncora.
+O servidor acima precisa estar em execução: os módulos JavaScript e dados JSON
+do visualizador dependem de HTTP. As cópias exportadas continuam usando o
+servidor do próprio pacote.
+
 Com o pacote T01 recuperado e o servidor aberto, regenerar os assets se necessário:
 
 ```powershell

@@ -17,7 +17,7 @@ PAGES = ["maquete-liv-ipanema.html", "prova-rgbm.html", "interior.html",
          "diagnostico.html", "materiais.html", "mapa-liv-ipanema-5km.html"]
 STATIC_IMPORT = re.compile(r"(?m)^\s*(?:import\b[^;]*?|export\s+(?:\{[^}]*\}|\*(?:\s+as\s+\w+)?))\s+from\s*['\"]([^'\"\r\n]+)['\"]")
 DYNAMIC_IMPORT = re.compile(r"\bimport\s*\(\s*['\"]([^'\"\r\n]+)['\"]\s*\)")
-HTML_RESOURCE = re.compile(r"(?:src|href)=[\"']([^\"']+\.(?:js|css))[\"']")
+HTML_RESOURCE = re.compile(r"(?:src|href)=[\"']([^\"']+\.(?:js|css))(?:\?[^\"']*)?[\"']")
 THREE = {"three": "node_modules/three/build/three.webgpu.js",
          "three/webgpu": "node_modules/three/build/three.webgpu.js",
          "three/tsl": "node_modules/three/build/three.tsl.js"}
@@ -69,7 +69,9 @@ def inventory(root=ROOT):
             elif spec.startswith("three/addons/"):
                 target = "node_modules/three/examples/jsm/" + spec[len("three/addons/"):]
             elif spec.startswith("./") or spec.startswith("../"):
-                candidate = ((root / name).parent / spec).resolve()
+                # Revision parameters change the browser URL, not the file copied.
+                path_spec = spec.split('?', 1)[0].split('#', 1)[0]
+                candidate = ((root / name).parent / path_spec).resolve()
                 if not candidate.is_relative_to(root.resolve()):
                     raise ValueError(f"Import fora da origem: {name}: {spec}")
                 target = candidate.relative_to(root).as_posix()
@@ -127,9 +129,11 @@ def inventory(root=ROOT):
     add(sales['file']['path'], sales['file'])
     add("mapa-runtime/manifest.json")
     add("mapa-parcela.json")
-    # Include all the preserved payload, for a real independent recovery path.
+    # Preserve the baseline web assets for recovery; authoring files stay local.
     baseline = json.loads((root / "manifesto.json").read_bytes())
     for name, record in baseline["arquivos"].items():
+        if PurePosixPath(name).suffix.lower() == '.blend':
+            continue
         add("site-baseline/" + local_path(name), record)
     return dict(sorted(files.items()))
 
@@ -185,7 +189,7 @@ def verify(folder: Path, expected, manifest=False):
         raise ValueError("Conteúdo da entrega divergente; destino preservado.")
 
 
-LANDING = '''<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>LIV Ipanema — avaliação</title><style>body{font:16px/1.6 system-ui;background:#0c1219;color:#e6edf1;max-width:720px;margin:48px auto;padding:20px}a{display:block;padding:14px;margin:12px 0;border:1px solid #3a4b5d;border-radius:10px;color:#96e2bc}p{color:#acbac7}</style><h1>LIV Ipanema</h1><p>Versão de avaliação. As 170 posições seguem a repetição do modelo; plantas por final, gardens e dados comerciais aguardam confirmação.</p><a href="maquete-liv-ipanema.html?geometria=entrada&amp;unidades=edificio">Explorar o edifício e as duas plantas</a><a href="diagnostico.html">Registrar teste de caminhada no aparelho</a><a href="materiais.html">Conferir materiais de um modelo GLB/GLTF</a><a href="site-baseline/maquete-liv-ipanema.html">Abrir a base preservada</a></html>'''.encode()
+LANDING = '''<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>LIV Ipanema — avaliação</title><style>body{font:16px/1.6 system-ui;background:#0c1219;color:#e6edf1;max-width:720px;margin:48px auto;padding:20px}a{display:block;padding:14px;margin:12px 0;border:1px solid #3a4b5d;border-radius:10px;color:#96e2bc}p{color:#acbac7}</style><h1>LIV Ipanema</h1><p>Prévia interativa do LIV Ipanema. Explore a maquete, o mapa e as plantas de Canto e Meio. Interiores e medidas são ilustrativos e aproximados.</p><a href="maquete-liv-ipanema.html?geometria=entrada&amp;unidades=edificio">Explorar o edifício e as duas plantas</a><a href="diagnostico.html">Registrar teste de caminhada no aparelho</a><a href="materiais.html">Conferir materiais de um modelo GLB/GLTF</a><a href="site-baseline/maquete-liv-ipanema.html">Abrir a base preservada</a></html>'''.encode()
 
 
 def build(name="liv-avaliacao", root=ROOT):

@@ -8,7 +8,8 @@ const fixture={schema:'liv-unit-relations-v1',status:'fornecido',source:{label:'
   bookSHA256:catalog.source.bookSHA256,units:['canto','meio'].map((typology,index)=>({id:catalog.units[index].id,typology,orientation:'original',
     interiorUnitSHA256:interiors.tipologias[typology].unitSHA256,interiorSourceSHA256:interiors.tipologias[typology].sourceSHA256,planSHA256:PLAN_HASH[typology]}))};
 test('ausência mantém todos os finais sem planta atribuída',()=>{
-  const result=attachRelations(catalog,read('./vinculos.json'),interiors);
+  const absent={schema:'liv-unit-relations-v1',status:'ausente',source:null,units:[]};
+  const result=attachRelations(catalog,absent,interiors);
   assert.equal(result.units.filter(u=>u.relation).length,0);assert.equal(result.relationSource,null);
 });
 test('vínculo explícito preserva polígonos, campos comerciais e revisões',()=>{

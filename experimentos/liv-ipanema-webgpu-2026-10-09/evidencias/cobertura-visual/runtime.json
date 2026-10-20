@@ -1,0 +1,212 @@
+{
+  "schema": "liv-roof-visual-qa-v1",
+  "status": "PASS",
+  "atUtc": "2026-10-11T04:20:09.819016+00:00",
+  "physicalMobile": false,
+  "views": {
+    "quina-cabeceira": [
+      [
+        29,
+        54,
+        8
+      ],
+      [
+        23,
+        49.2,
+        1.8
+      ],
+      35
+    ],
+    "faixa-frente": [
+      [
+        15,
+        49.25,
+        15
+      ],
+      [
+        15,
+        49.1,
+        6.35
+      ],
+      25
+    ],
+    "recuo-cinza": [
+      [
+        9,
+        54,
+        12
+      ],
+      [
+        6.5,
+        49.2,
+        5.4
+      ],
+      30
+    ]
+  },
+  "cases": [
+    {
+      "backend": "webgpu",
+      "source": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+      "atlas": "855de0d7960d6eb25fe865f640f87faaf7226c99000e0b6cadea72d11b1716c6",
+      "wallMaterialMaps": [
+        {
+          "name": "MAT-cinza",
+          "map": false,
+          "bumpMap": false
+        },
+        {
+          "name": "MAT-bege",
+          "map": false,
+          "bumpMap": false
+        }
+      ],
+      "edition": "antes",
+      "status": "PASS",
+      "views": [
+        "quina-cabeceira",
+        "faixa-frente",
+        "recuo-cinza"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "backend": "webgpu",
+      "source": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+      "atlas": "242370d71c2866b46d9bc47d21fe2a30f68307ace6ec622fabd9538ee1526021",
+      "wallMaterialMaps": [
+        {
+          "name": "MAT-cinza",
+          "map": false,
+          "bumpMap": false
+        },
+        {
+          "name": "MAT-bege",
+          "map": false,
+          "bumpMap": false
+        }
+      ],
+      "edition": "depois",
+      "status": "PASS",
+      "views": [
+        "quina-cabeceira",
+        "faixa-frente",
+        "recuo-cinza"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "backend": "webgl",
+      "source": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+      "atlas": "855de0d7960d6eb25fe865f640f87faaf7226c99000e0b6cadea72d11b1716c6",
+      "wallMaterialMaps": [
+        {
+          "name": "MAT-cinza",
+          "map": false,
+          "bumpMap": false
+        },
+        {
+          "name": "MAT-bege",
+          "map": false,
+          "bumpMap": false
+        }
+      ],
+      "edition": "antes",
+      "status": "PASS",
+      "views": [
+        "quina-cabeceira",
+        "faixa-frente",
+        "recuo-cinza"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "backend": "webgl",
+      "source": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+      "atlas": "242370d71c2866b46d9bc47d21fe2a30f68307ace6ec622fabd9538ee1526021",
+      "wallMaterialMaps": [
+        {
+          "name": "MAT-cinza",
+          "map": false,
+          "bumpMap": false
+        },
+        {
+          "name": "MAT-bege",
+          "map": false,
+          "bumpMap": false
+        }
+      ],
+      "edition": "depois",
+      "status": "PASS",
+      "views": [
+        "quina-cabeceira",
+        "faixa-frente",
+        "recuo-cinza"
+      ],
+      "consoleErrors": []
+    }
+  ],
+  "browserVersion": "154.0.8037.98",
+  "sources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_cobertura_visual.py": "7d67d17b2a3f1e44cf576d2e2450e63e973dffc5d7498397f5b77c423f17f0b2",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_luz_quinas.py": "2d9da654278f960f5c8a51d4b76b5bee6226050e7f4848c8b131d1be888bccda",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_cobertura.py": "b3ecff6bd39522694212f9129249fc3bbb5c726b3c28cc8fe9130d19b6a8da27",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py": "5698afe2f06c70a54658bfac1d259623850372ea83f9c445312c24cae0b3cb89",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/assets/manifest.json": "6de70ff6d122a50e8fa233ea66ee7ff9bc99aedfb9ebeca2c557d46f235d0356",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js": "1c48c491ff6b86b3e723649bc12491c72a6d32f5a6986847544bcdc9795d4b06",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/antes-cobertura/modelo.json": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/antes-cobertura/assets-manifest.json": "c289b58805b215bd11dca1ae4c6c1de2d2ef08ff55cb730a922d90f090bb42d9"
+  },
+  "images": [
+    {
+      "file": "webgl-antes-faixa-frente.png",
+      "sha256": "55e982deed4dd1ca691250a515d0825a033e52ad6a2280dfc19b55a8091695bb"
+    },
+    {
+      "file": "webgl-antes-quina-cabeceira.png",
+      "sha256": "5266d9bbffc2db50a3024ce8cbace0e42b861c8cf7610f6a7849f1c1ed03a160"
+    },
+    {
+      "file": "webgl-antes-recuo-cinza.png",
+      "sha256": "a8ad4319471d7c2811efc8ea56e77fd9a0b2dde852a223de8f9caaf12054f124"
+    },
+    {
+      "file": "webgl-depois-faixa-frente.png",
+      "sha256": "23ef0716ff747488c6d6255a6b6ccd1bd1adb3a278fbdb3aaeb911a67f1e8eec"
+    },
+    {
+      "file": "webgl-depois-quina-cabeceira.png",
+      "sha256": "2f69bd330c70e499fbef5c4d7e7d9d9caf5c8c6d7ed16c7b7ce96b2e189c9b7c"
+    },
+    {
+      "file": "webgl-depois-recuo-cinza.png",
+      "sha256": "23095897df669202c5851feb6d2eb33f407c8df7c2ece17d1a9cc33b9a11d7e6"
+    },
+    {
+      "file": "webgpu-antes-faixa-frente.png",
+      "sha256": "a4dbe1746159e34e3fa9e4ee264554f6e6977a5feef44fa64c0185ee7701488c"
+    },
+    {
+      "file": "webgpu-antes-quina-cabeceira.png",
+      "sha256": "98d8a8f05ebf1c860bc4fa5fba758af89c50f0404ba24bee501f85c84135e26f"
+    },
+    {
+      "file": "webgpu-antes-recuo-cinza.png",
+      "sha256": "bbd1bd52082ae2a2b763ebf5c7c156584a960a1c1fcc94721a99a4d36009db7a"
+    },
+    {
+      "file": "webgpu-depois-faixa-frente.png",
+      "sha256": "a866fa0725847769e74c3741ec7d09c386b89d52bc4ae643fcf3d99743c07b08"
+    },
+    {
+      "file": "webgpu-depois-quina-cabeceira.png",
+      "sha256": "9cd736a447ef6513f03b3620746334617243e5e71f9c26356411113132cd19c8"
+    },
+    {
+      "file": "webgpu-depois-recuo-cinza.png",
+      "sha256": "5c8cc0d7d58b2602f57f63ac630b62f8692559ba0dea898cdc35377d2b6c9b00"
+    }
+  ]
+}

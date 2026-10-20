@@ -3,13 +3,14 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,createRGBMTexture} from './material-rgbm.js';
 import {createLayout,createNavigation} from './interior-navigation.js';
 import {planFrame,roomLook} from './interior-camera.js';
-import {createPlanCutaway} from './interior-cutaway.js';
-import {repairWallTops} from './interior-wall-tops.js';
+import {createPlanCutaway} from './interior-cutaway.js?rev=2026-10-13-rodateto-selado-final';
+import {repairWallTops} from './interior-wall-tops.js?rev=2026-10-13-rodateto-selado-final';
+import {installCornice} from './interior-cornice.js?rev=2026-10-13-rodateto-selado-final';
 
 const query=new URLSearchParams(location.search),typology=query.get('tipologia')||'canto',requested=query.get('backend')||'auto';
 const canvas=document.querySelector('#interior-canvas'),stage=document.querySelector('#interior-stage'),status=document.querySelector('#interior-status');
 const controller=new AbortController(),base=new URL('./',import.meta.url),owned=new Set(),released=new WeakSet(),bitmaps=new Set(),closed=new WeakSet(),listeners=[],pendingDisposals=new Set(),initializedRenderers=new WeakSet();
-const state=window.__livInterior={ready:false,error:null,backend:null,typology,mode:query.get('modo')||'planta3d',disposed:false,active:true,
+const state=window.__livInterior={ready:false,error:null,backend:null,typology,mode:query.get('modo')||'planta3d',disposed:false,active:query.get('prewarm')!=='1',
   lighting:{bakedActive:false,reason:'carregando'},ownership:{created:0,disposed:0,bitmapsClosed:0}};
 let renderer,scene,camera,controls,observer,startup,disposePromise,layout,navigation,entry,catalog,record,source,light,atlas,resizeView;
 let yaw=0,pitch=0,tourPosition=null,route=[],routeResolve=null,frameBusy=false,framePromise=Promise.resolve(),lastFrame=0,ceiling=[];
@@ -84,6 +85,15 @@ async function load(file,json=false){
   check();return json?JSON.parse(new TextDecoder().decode(bytes)):bytes;
 }
 function bytes64(encoded){const raw=atob(encoded),bytes=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return bytes;}
+function sourceMaterialAdditions(source,native){
+  const materials=Object.fromEntries(Object.entries(source.materials).filter(([id])=>!Object.hasOwn(native,id)));
+  const textures={};
+  for(const material of Object.values(materials))for(const field of ['map','normalMap','roughnessMap','metalnessMap','bumpMap','emissiveMap']){
+    const id=material[field];if(!id)continue;
+    if(!source.textures[id])throw Error('Textura do acabamento adicional ausente.');textures[id]=source.textures[id];
+  }
+  return {materials,textures};
+}
 async function materialsFrom(snapshot){
   const textures={};
   for(const [id,spec]of Object.entries(snapshot.textures)){
@@ -175,14 +185,18 @@ function finishNativeFurniture(group,item,materials){
     cama:'m9',sofa:'m18',poltrona:'m18',tapete:'m21',box:'m27',tv:'m20',
     aereo:'m12',ripado:'m12'})[item.tipo]||'m6';
   const material=own(materials[key].clone());material.color.setRGB(1,1,1);material.vertexColors=true;
+  const textile=['cama','sofa','poltrona','tapete'].includes(item.tipo);
   group.traverse(mesh=>{
     if(!mesh.isMesh)return;const g=mesh.geometry,p=g.attributes.position,n=g.attributes.normal;
-    if(material.map&&!g.attributes.uv){
+    if(material.map&&(textile||!g.attributes.uv)){
       const uv=new Float32Array(p.count*2);
+      // The frozen Canto textiles use roughly three texture cycles per metre.
+      // Generic box UVs stretch one weave across an entire cushion or mattress.
+      const density=textile?3:1;
       for(let i=0;i<p.count;i++){
         const nx=Math.abs(n.getX(i)),ny=Math.abs(n.getY(i)),nz=Math.abs(n.getZ(i));
-        uv[2*i]=nz>=nx||ny>=nx?p.getX(i):p.getZ(i);
-        uv[2*i+1]=ny>=nx&&ny>=nz?p.getZ(i):p.getY(i);
+        uv[2*i]=(nz>=nx||ny>=nx?p.getX(i):p.getZ(i))*density;
+        uv[2*i+1]=(ny>=nx&&ny>=nz?p.getZ(i):p.getY(i))*density;
       }
       g.setAttribute('uv',new THREE.BufferAttribute(uv,2));
     }
@@ -388,7 +402,7 @@ function geometryInfo(){
 }
 state.getState=function(){return {version:1,typology,mode:state.mode,backend:state.backend,ready:state.ready,error:state.error,disposed:state.disposed,active:state.active,unitSHA256:record?.unitSHA256,sourceSHA256:record?.sourceSHA256,
   geometry:geometryInfo(),camera:camera?{position:camera.position.toArray(),target:controls.target.toArray(),yaw,pitch,autoFrame:planAutoFrame}:null,
-  framing:state.framing||null,roomView:state.roomView||null,presentation:presentation?.getState()||null,wallTopRepair:state.wallTopRepair||null,
+  framing:state.framing||null,roomView:state.roomView||null,presentation:presentation?.getState()||null,wallTopRepair:state.wallTopRepair||null,cornice:state.cornice||null,
   ceiling:{visible:ceiling.length>0&&ceiling.every(m=>m.visible),count:ceiling.length},rooms:state.rooms||[],
   furniture:furniture.map(m=>({id:m.id,name:m.name,position:[...m.position],rotation:m.rotation,originalPosition:[...m.originalPosition],originalRotation:m.originalRotation,
     modified:Math.abs(m.position[0]-m.originalPosition[0])>1e-9||Math.abs(m.position[1]-m.originalPosition[1])>1e-9||m.rotation!==m.originalRotation})),
@@ -455,7 +469,7 @@ async function start(){
     record.geometryKind==='native-factories'?load(catalog.shared.furniture,true):Promise.resolve({})]);check();
   if(record.unitSHA256!==record.files.unit.sha256||unit.id!==record.unitId)throw Error('Unidade não pertence à tipologia selecionada.');
   layout=createLayout(unit);scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(48,1,.02,100);state.scene=scene;state.camera=camera;
-  controls=own(new OrbitControls(camera,canvas));controls.enableDamping=true;controls.maxPolarAngle=Math.PI*.48;controls.minDistance=3;controls.maxDistance=32;
+  controls=own(new OrbitControls(camera,canvas));controls.enableDamping=false;controls.maxPolarAngle=Math.PI*.48;controls.minDistance=3;controls.maxDistance=32;
   const native=await materialsFrom(nativeMaterials);check();
   for(const [i,m]of unit.planta.moveis.entries()){
     const position=[m.p[0]-layout.center[0],m.p[1]-layout.center[1]];
@@ -465,6 +479,9 @@ async function start(){
   if(record.geometryKind==='frozen-source'){
     [source,light]=await Promise.all([sourceMaterials?Promise.resolve(nativeMaterials):load(record.files.source,true),load(record.files.light,true)]);check();
     if(source.schema!=='liv-interior-scene-v1'||source.unitSHA256!==record.unitSHA256||record.files.source.decodedSHA256!==record.sourceSHA256)throw Error('Fonte congelada não corresponde à unidade.');
+    // The Canto source contains an old m6 override shared by many other meshes.
+    // Retain its approved runtime palette; only the new cornice material is added.
+    if(record.materialsOrigin==='shared-with-additions')Object.assign(native,await materialsFrom(sourceMaterialAdditions(source,native)));
     buildFrozen(source,native);bindFrozenFurniture();
     // Openings fills only the native collision leaf descriptors. The frozen
     // meshes remain untouched; these temporary construction meshes are released.
@@ -474,11 +491,12 @@ async function start(){
     const recipe=await load(record.files.recipe,true);check();
     if(recipe.unitSHA256!==record.unitSHA256||record.files.recipe.sha256!==record.sourceSHA256||recipe.runtimeSHA256!==catalog.shared.runtime.sha256||recipe.materialsSHA256!==catalog.shared.materials.sha256||recipe.furnitureSHA256!==catalog.shared.furniture.sha256||recipe.lighting!=='dynamic')throw Error('Receita da planta de meio inválida.');
     buildNative(native,factory);
-    // The authoring exporter needs the nominal hierarchy/order/visibility from
-    // before any display cut. Mesh clones share the original PBR/geometry data.
-    state.authoringScene=scene.clone();
     state.lighting={bakedActive:false,reason:'cena autoral dinâmica da planta de meio'};
   }else throw Error('Formato de geometria interior desconhecido.');
+  state.cornice=installCornice({scene,layout,own,baked}).metrics;
+  // Keep the nominal hierarchy before any presentation cut, including finishes
+  // that must contribute to the exported light transport of the new Meio bake.
+  if(record.geometryKind==='native-factories')state.authoringScene=scene.clone();
   check();if(!ceiling.length)throw Error('O interior perdeu o forro para o Tour.');
   if(record.geometryKind==='frozen-source')state.wallTopRepair=repairWallTops({scene,typology,
     sourceSHA256:record.sourceSHA256,baked,wallMaterial:native.m0,color:layout.unit.cores?.parede||'#eee7d9',own});
@@ -492,9 +510,16 @@ async function start(){
   const area=record.areaPublishedRange?record.areaPublishedRange.map(a=>a.toFixed(2).replace('.',',')).join(' a '):record.area.toFixed(2).replace('.',',');
   progress(`${record.label} · ${area} m² · ilustração aproximada`);
   if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();
+  if(query.get('prewarm')==='1'){
+    // Tour exposes the ceiling and full walls. Render both presentations once
+    // so their GPU buffers, materials and shadow passes are ready for reuse.
+    state.setMode('visita');check();await renderer.renderAsync(scene,camera);check();
+    state.setMode('planta3d');await renderer.renderAsync(scene,camera);check();
+    state.setMode(initialMode);
+  }
   check();await renderer.renderAsync(scene,camera);check();state.ready=true;
   for(const element of document.querySelectorAll('#interior-controls button,#interior-controls select,#furniture-panel button,#furniture-panel select'))element.disabled=false;
-  renderer.setAnimationLoop(renderFrame);
+  if(state.active)renderer.setAnimationLoop(renderFrame);else observer.disconnect();
   return state;
 }
 startup=Promise.resolve().then(start);state.readyPromise=startup;
