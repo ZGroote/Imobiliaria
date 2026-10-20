@@ -63,12 +63,18 @@ class VitrineTests(unittest.TestCase):
             self.assertIn('vitrineAoVivo("monte-dos-cedros-37");\n</script>\n</body></html>', html)
             self.assertEqual(html.count('vitrineAoVivo("'), 1)
 
-    def test_page_without_body_close_is_refused(self):
+    def test_page_without_body_close_gets_the_script_at_the_end(self):
+        # O tour que o montar.py gera nao abre nem fecha <body> (o navegador cria os dois): o script
+        # vai no fim do documento, que tambem e depois do que a pagina monta. Antes disso, o build de
+        # todo tour falhava aqui (20/10/2026).
         with tempfile.TemporaryDirectory() as tmp:
-            p = Path(tmp) / 'maquete.html'
-            p.write_text('<html>sem fim', encoding='utf-8')
-            with self.assertRaises(ValueError):
-                B['com_vitrine'](p, 'x')
+            p = Path(tmp) / 'tour.html'
+            p.write_text('<meta charset="utf-8">\n<div id="ficha"></div>\n<script>boot();</script>\n', encoding='utf-8')
+            B['com_vitrine'](p, 'x')
+            html = p.read_text(encoding='utf-8')
+            self.assertTrue(html.startswith('<meta charset="utf-8">\n<div id="ficha"></div>\n<script>boot();</script>\n<script>\n'))
+            self.assertTrue(html.endswith('vitrineAoVivo("x");\n</script>\n'))
+            self.assertEqual(html.count('vitrineAoVivo("'), 1)
 
     def test_pointer_call_carries_the_destination(self):
         self.assertIn('vitrineAoVivo("x", "/b/x/abc/tour.html");', B['script_vitrine']('x', '/b/x/abc/tour.html'))
