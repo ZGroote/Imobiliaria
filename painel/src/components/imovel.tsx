@@ -6,7 +6,9 @@ import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
 import { atribuirCorretor } from '@/lib/imoveis'
 import { estaPublicado } from '@/lib/listas'
-import type { Property, User } from '@/lib/types'
+import { interno, type Property, type User } from '@/lib/types'
+import { usePerfil } from '@/lib/session'
+import { RastreabilidadeImovel } from './rastreabilidade'
 
 export const ROTULO_SITUACAO: Record<Property['status'], string> = { active: 'Ativo', inactive: 'Inativo', archived: 'Arquivado' }
 
@@ -49,18 +51,21 @@ export function CopiarLink({ url, rotulo }: { url?: string; rotulo: string }) {
   )
 }
 
-// Links públicos: sempre os ponteiros estáveis (tourUrl/maqueteUrl), nunca a URL do build.
+// Compartilhamento atribuído passa pela rastreabilidade; URLs canônicas são referência interna.
 export function LinksPublicos({ p }: { p: Property }) {
+  const perfil = usePerfil()
   return (
-    <Cartao titulo="Links para compartilhar">
-      <div className="space-y-2">
-        <CopiarLink url={p.tourUrl} rotulo="Tour" />
-        <CopiarLink url={p.maqueteUrl} rotulo="Maquete" />
-      </div>
-      {estaPublicado(p) && (
-        <p className="mt-3 text-xs text-slate-500">Build no ar: <code>{p.publishedBuild}</code> desde {quando(p.publishedAt)}</p>
-      )}
-    </Cartao>
+    <div className="min-w-0 space-y-6 lg:col-span-2">
+      <RastreabilidadeImovel p={p} />
+      {interno(perfil.role) && <Cartao>
+        <details>
+          <summary className="cursor-pointer text-sm font-medium">Referências internas da publicação</summary>
+          <p className="mt-2 text-xs text-slate-500">Estes endereços não atribuem acessos a um corretor. Para compartilhar, use um link criado acima.</p>
+          <div className="mt-3 space-y-2"><CopiarLink url={p.tourUrl} rotulo="Tour" /><CopiarLink url={p.maqueteUrl} rotulo="Maquete" /></div>
+          {estaPublicado(p) && <p className="mt-3 text-xs text-slate-500">Build registrado: <code>{p.publishedBuild}</code> desde {quando(p.publishedAt)}</p>}
+        </details>
+      </Cartao>}
+    </div>
   )
 }
 

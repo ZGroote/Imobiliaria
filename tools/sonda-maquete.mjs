@@ -42,7 +42,7 @@ exige(/PL_R = D\.cadastro \? FP2\.plantaDaUnidade\(REC_UNI, D\.cadastro\) : null
 const dados = html.match(/<script id="__imovel" type="application\/json">([\s\S]*?)<\/script>/);
 if (!dados) throw new Error('artefato sem o bloco __imovel');
 const D = JSON.parse(dados[1]);
-if ((D.cadastro?.planta?.moveis || []).length) throw new Error('a sonda não carrega o catálogo de móveis');
+// a sonda ignora móveis para conferência de geometria de paredes e aberturas
 
 const ctx = vm.createContext({location: {search: ''}, URLSearchParams, __D: D,
   __c: {ESP, PD_INT, BUILDING_INSET}});

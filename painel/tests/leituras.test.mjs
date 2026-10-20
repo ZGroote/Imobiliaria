@@ -76,3 +76,21 @@ test('histórico paginado recupera versões antigas sem repetir a fronteira',asy
   assert.equal(first.length,50);assert.equal(first[0].version,52);
   assert.deepEqual(second.map(v=>v.version),[2,1]);
 });
+
+test('snapshot guarda pisos/móveis com hash próprio e retry recusa companion diferente',async()=>{
+  const c=await cliente('corA'),leitura=JSON.parse(leituraJson);
+  const furniture=[{id:'m1',tipoCatalogo:'sofa-3',tipo3D:'sofa',nome:'Sofá',xMm:1000,yMm:1000,widthMm:1960,depthMm:920,alturaMm:800,rotDegrees:0}];
+  const state={schemaVersion:'1.0.0',activeFloor:0,floors:[{floor:0,leitura,furniture},{floor:1,leitura:{...leitura,id:'leitura-superior'},furniture:[]}]};
+  const p=payload({editorStateJson:JSON.stringify(state)}),r=await post(c.token,p);
+  assert.equal(r.status,200);
+  const saved=await r.json(),snap=(await db.doc('propertyReadings/'+saved.id).get()).data();
+  assert.deepEqual(snap.editorState,state);
+  assert.equal(saved.editorStateSha256,snap.editorStateSha256);
+  assert.match(saved.editorStateSha256,/^[0-9a-f]{64}$/);
+  assert.deepEqual(await (await post(c.token,p)).json(),saved);
+  state.floors[0].furniture[0].xMm=1500;
+  assert.equal((await post(c.token,{...p,editorStateJson:JSON.stringify(state)})).status,409);
+  state.floors[1].leitura.rooms[0].widthMm=-1;
+  assert.equal((await post(c.token,payload({editorStateJson:JSON.stringify(state)}))).status,422);
+  assert.deepEqual((await db.doc('propertyReadings/'+saved.id).get()).data(),snap);
+});

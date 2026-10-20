@@ -13,7 +13,7 @@
 .app .primario{background:#115e59;color:white;border-color:#115e59}
 .app .primario:hover:not(:disabled){background:#134e4a}
 
-.barra{grid-column:1/-1;display:flex;align-items:center;gap:6px;padding:6px 8px;background:white;
+.barra{grid-column:1/-1;display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:6px 8px;background:white;
   border-bottom:1px solid #dbe2e8;min-width:0}
 .barra svg{width:22px;height:22px}
 .espaco{flex:1}
@@ -83,3 +83,108 @@
 .app .botaoSeparar:hover:not(:disabled){background:#fef2f2}
 .app .botaoAcaoMesclar{background:#047857;color:white;border-color:#047857;font-size:13px}
 .app .botaoAcaoMesclar:hover:not(:disabled){background:#065f46}
+
+/* Pavimentos (Térreo / Superior) */
+.seletorPavimento{display:flex;align-items:center;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:2px;gap:2px}
+.app .tabPavimento{min-height:44px;min-width:68px;padding:4px 8px;font-size:12px;font-weight:600;border:none;border-radius:6px;background:transparent;color:#475569}
+.app .tabPavimento:hover:not(:disabled){background:#e2e8f0}
+.app .tabPavimentoAtiva{min-height:44px;min-width:68px;padding:4px 8px;font-size:12px;font-weight:700;border:none;border-radius:6px;background:white;color:#0f766e;box-shadow:0 1px 3px rgba(15,23,42,0.14)}
+
+/* Sugestões de nomes rápidos */
+.sugestoesNomes{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+.app .chipNome{min-height:32px;min-width:auto;padding:3px 10px;font-size:12px;font-weight:500;border-radius:16px;background:#f1f5f9;border:1px solid #cbd5e1;color:#334155}
+.app .chipNome:hover:not(:disabled){background:#e2e8f0;border-color:#94a3b8}
+
+/* Medida flutuante ao desenhar parede com dedo */
+.badgeCota{position:absolute;z-index:35;pointer-events:none;background:#0f766e;color:white;font-weight:700;font-size:12px;padding:4px 8px;border-radius:6px;box-shadow:0 4px 12px rgba(15,23,42,0.25);transform:translate(-50%,-140%);white-space:nowrap}
+
+/* Informações de cômodo poligonal */
+.infoPoligono{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px}
+.itemInfoPoligono{display:flex;flex-direction:column;align-items:center;text-align:center}
+.rotuloInfoPoligono{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.5px}
+.itemInfoPoligono strong{font-size:15px;color:#0f172a;margin-top:2px}
+
+/* Controles extras na faixa de desenho de parede */
+.botoesFaixa{display:flex;gap:6px;align-items:center}
+.app .botaoSecundarioFaixa{background:#f1f5f9;color:#334155;border-color:#cbd5e1;font-size:12px;padding:4px 8px;min-height:32px}
+.app .botaoSecundarioFaixa:hover:not(:disabled){background:#e2e8f0}
+.app .botaoDestaqueFaixa{background:#0f766e;color:white;border-color:#0f766e;font-size:12px;font-weight:700;padding:4px 10px;min-height:32px}
+.app .botaoDestaqueFaixa:hover:not(:disabled){background:#0d655e}
+
+/* Barra de micro-ajuste de aberturas (Portas e Janelas Móveis) */
+.faixaAbertura{position:fixed;left:10px;right:10px;bottom:10px;z-index:25;background:white;
+  border:1.5px solid #0f766e;border-radius:14px;padding:8px 12px;box-shadow:0 8px 24px rgba(15,23,42,.18);
+  display:flex;flex-direction:column;gap:6px}
+@media(min-width:700px){.faixaAbertura{left:50%;right:auto;width:580px;transform:translateX(-50%)}}
+.linhaInfoAbertura{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;border-bottom:1px solid #f1f5f9;padding-bottom:5px}
+.rotuloAbertura{font-weight:700;color:#0f766e;display:flex;align-items:center;gap:4px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.valoresAbertura{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.tagCota{font-size:12px;color:#0f172a;background:#f0fdfa;border:1px solid #ccfbf1;padding:2px 6px;border-radius:6px}
+.tagLargura{font-size:12px;color:#0f172a;background:#f8fafc;border:1px solid #e2e8f0;padding:2px 6px;border-radius:6px}
+.controlesAbertura{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
+.grupoSetas{display:flex;align-items:center;gap:3px}
+.rotuloGrupo{font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-right:2px}
+.app .botaoNudge{min-height:32px;min-width:auto;padding:2px 7px;font-size:12px;font-weight:700;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;color:#0f172a}
+.app .botaoNudge:hover:not(:disabled){background:#f1f5f9;border-color:#94a3b8}
+.grupoAcoesAbertura{display:flex;align-items:center;gap:4px;margin-left:auto}
+.app .botaoFocarAbertura{min-height:32px;min-width:auto;padding:2px 8px;font-size:12px;font-weight:600;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;color:#334155}
+.app .botaoFocarAbertura:hover:not(:disabled){background:#f1f5f9}
+.app .botaoTipoAbertura{min-height:32px;min-width:auto;padding:2px 8px;font-size:12px;font-weight:600;background:#f0fdfa;border:1px solid #99f6e4;color:#0f766e;border-radius:6px}
+.app .botaoTipoAbertura:hover:not(:disabled){background:#ccfbf1}
+.app .botaoExcluirAbertura{min-height:32px;min-width:auto;padding:2px 8px;font-size:13px;background:#fff1f2;border:1px solid #fecaca;color:#b42318;border-radius:6px}
+.app .botaoExcluirAbertura:hover:not(:disabled){background:#fee2e2}
+.app .botaoMaisAbertura{min-height:32px;min-width:auto;padding:2px 8px;font-size:12px;font-weight:700;background:#0f766e;border:1px solid #0f766e;color:white;border-radius:6px}
+.app .botao3D{background:linear-gradient(135deg,#0d9488 0%,#0f766e 100%);color:white;border:1px solid #14b8a6;box-shadow:0 2px 8px rgba(13,148,136,0.3);font-weight:700}
+.app .botao3D:hover:not(:disabled){background:linear-gradient(135deg,#0f766e 0%,#115e59 100%);box-shadow:0 3px 12px rgba(13,148,136,0.45)}
+
+/* Modal imersivo da Maquete 3D */
+.overlay3D{position:fixed;inset:0;z-index:90;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);display:flex;flex-direction:column;animation:fadeIn 0.2s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:scale(0.98)}to{opacity:1;transform:scale(1)}}
+.cabecalho3D{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:10px 16px;background:#0f172a;border-bottom:1px solid #334155;color:white;flex-shrink:0;gap:12px}
+.info3D{display:flex;flex-wrap:wrap;align-items:center;gap:10px;min-width:0}
+.titulo3D{font-size:16px;font-weight:700;letter-spacing:-0.2px;color:#f8fafc}
+.tagStatus3D{font-size:11px;font-weight:600;padding:2px 8px;border-radius:12px;background:#14b8a6;color:#042f2e;white-space:nowrap}
+.acoes3D{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:auto}
+.app .botaoAcao3D{min-height:36px;padding:4px 12px;font-size:13px;font-weight:600;background:#1e293b;border:1px solid #475569;color:#e2e8f0;border-radius:8px}
+.app .botaoAcao3D:hover:not(:disabled){background:#334155;color:white}
+.app .botaoFechar3D{min-height:36px;min-width:36px;padding:0;font-size:18px;font-weight:700;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);color:#fca5a5;border-radius:8px}
+.app .botaoFechar3D:hover:not(:disabled){background:#ef4444;color:white;border-color:#ef4444}
+.corpo3D{flex:1;position:relative;width:100%;height:100%;background:#020617;overflow:hidden}
+.iframe3D{width:100%;height:100%;border:none;display:block}
+
+/* Catálogo de Móveis 2D Humanizados */
+.containerCatalogoMoveis{display:flex;flex-direction:column;gap:12px;padding:4px 0 12px}
+.abasCategoriasMoveis{display:flex;align-items:center;gap:6px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+.app .abaCategoria{min-height:36px;padding:4px 12px;font-size:13px;font-weight:600;border:1px solid #cbd5e1;border-radius:20px;background:#f8fafc;color:#475569;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.app .abaCategoria:hover:not(:disabled){background:#f1f5f9;border-color:#94a3b8}
+.app .abaCategoriaAtiva{min-height:36px;padding:4px 12px;font-size:13px;font-weight:700;border:1.5px solid #0f766e;border-radius:20px;background:#f0fdfa;color:#0f766e;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;box-shadow:0 1px 4px rgba(15,118,110,0.15)}
+.iconeAba{font-size:15px}
+
+.gradeMoveis{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;max-height:50dvh;overflow-y:auto;padding-right:2px}
+.cartaoMovel{display:flex;flex-direction:column;align-items:center;padding:10px;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;cursor:pointer;transition:transform 0.15s ease,border-color 0.15s ease,box-shadow 0.15s ease;text-align:center}
+.cartaoMovel:hover{transform:translateY(-2px);border-color:#0f766e;box-shadow:0 6px 16px rgba(15,118,110,0.12)}
+.cartaoMovel:focus-visible{outline:3px solid #0f766e;outline-offset:2px}
+.miniaturaMovel{width:100px;height:80px;display:flex;align-items:center;justify-content:center;background:#f8fafc;border-radius:8px;padding:6px;margin-bottom:8px}
+.svgMiniatura{width:100%;height:100%;display:block}
+.infoMovel{display:flex;flex-direction:column;gap:2px;margin-bottom:8px;width:100%}
+.nomeMovel{font-size:13px;font-weight:700;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.medidaMovel{font-size:11px;font-weight:600;color:#64748b}
+.app .botaoInserirMovel{min-height:30px;width:100%;padding:2px 8px;font-size:12px;font-weight:700;background:#0f766e;color:white;border:1px solid #0f766e;border-radius:6px}
+.app .botaoInserirMovel:hover:not(:disabled){background:#115e59}
+
+/* Barra de Ajuste e Seleção do Móvel */
+.faixaMovel{position:fixed;left:10px;right:10px;bottom:10px;z-index:25;background:white;
+  border:1.5px solid #0f766e;border-radius:14px;padding:8px 12px;box-shadow:0 8px 24px rgba(15,23,42,.18);
+  display:flex;flex-direction:column;gap:6px}
+@media(min-width:700px){.faixaMovel{left:50%;right:auto;width:580px;transform:translateX(-50%)}}
+.linhaInfoMovel{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;border-bottom:1px solid #f1f5f9;padding-bottom:5px}
+.rotuloMovel{font-weight:700;color:#0f766e;display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.valoresMovel{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.tagMovelMedida{font-size:12px;color:#0f172a;background:#f8fafc;border:1px solid #e2e8f0;padding:2px 6px;border-radius:6px}
+.tagMovelGiro{font-size:12px;font-weight:700;color:#0f766e;background:#f0fdfa;border:1px solid #ccfbf1;padding:2px 6px;border-radius:6px}
+.controlesMovel{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
+.grupoAcoesMovel{display:flex;align-items:center;gap:4px;margin-left:auto}
+.app .botaoGirarMovel{min-height:32px;min-width:auto;padding:2px 10px;font-size:12px;font-weight:700;background:#f0fdfa;border:1px solid #99f6e4;color:#0f766e;border-radius:6px}
+.app .botaoGirarMovel:hover:not(:disabled){background:#ccfbf1}
+.app .botaoExcluirMovel{min-height:32px;min-width:auto;padding:2px 8px;font-size:13px;background:#fff1f2;border:1px solid #fecaca;color:#b42318;border-radius:6px}
+.app .botaoExcluirMovel:hover:not(:disabled){background:#fee2e2}

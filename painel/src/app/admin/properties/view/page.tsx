@@ -32,6 +32,7 @@ function Imovel({ id }: { id: string }) {
         {p && (
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <a className="btn" href={'/imoveis/planta?id='+encodeURIComponent(p.id)}>Editar planta e versões</a>
+            <a className="btn" href={'/admin/properties/units?id='+encodeURIComponent(p.id)}>Unidades e disponibilidade do empreendimento</a>
             {editando ? <Editar p={p} fechar={() => setEditando(false)} /> : <Dados p={p} nomeDaAgencia={ag.dado?.name} />}
             <LinksPublicos p={p} />
             <CorretorResponsavel p={p} pessoas={pessoas} />

@@ -1,9 +1,11 @@
 // Feedback local e edição. O gate normativo continua sendo pipeline.validar_leitura.
+import {CATALOGO_MOVEIS} from './catalogoMoveis.ts'
 export type Room = {id:string; name:string; xMm:number; yMm:number; widthMm:number; depthMm:number}
 export type OpeningInput = {kind:'door'|'window';wallId:string;offsetMm:number;widthMm:number;heightMm:number;sillMm:number}
 export type Opening = OpeningInput & {id:string;pairedWallId?:string}
-export type Layout = {rooms:Room[]; openings:Opening[]; ceilingHeightMm:number|null; mergedGroups?:string[][]}
-export type Session = {id:string; revision:number; nextId:number; nextOpeningId:number; present:Layout; past:Layout[]; future:Layout[]}
+export type FurnitureItem = {id:string; tipoCatalogo:string; tipo3D:string; nome:string; xMm:number; yMm:number; widthMm:number; depthMm:number; alturaMm?:number; rotDegrees:number; cor?:string}
+export type Layout = {rooms:Room[]; openings:Opening[]; ceilingHeightMm:number|null; mergedGroups?:string[][]; furniture?:FurnitureItem[]}
+export type Session = {id:string; revision:number; nextId:number; nextOpeningId:number; nextFurnitureId?:number; present:Layout; past:Layout[]; future:Layout[]}
 type Measures = {name:string; widthMm:number; depthMm:number; ceilingHeightMm:number}
 // `add` sem posição mantém o comportamento antigo (à direita do conjunto); com posição, é o
 // cômodo solto na planta (M1.1-B), em mm inteiro como qualquer gesto.
@@ -13,6 +15,11 @@ export type Action = ({type:'add'; xMm?:number; yMm?:number} & Measures) | ({typ
   | ({type:'opening-add'} & OpeningInput) | ({type:'opening-edit';id:string} & OpeningInput)
   | {type:'opening-delete';id:string}
   | {type:'merge'; roomAId:string; roomBId:string} | {type:'unmerge'; roomId:string}
+  | {type:'add-poligono'; name:string; ceilingHeightMm:number; retangulos:{xMm:number;yMm:number;widthMm:number;depthMm:number}[]}
+  | {type:'furniture-add'; item:Omit<FurnitureItem,'id'>}
+  | {type:'furniture-move'; id:string; xMm:number; yMm:number}
+  | {type:'furniture-rotate'; id:string; deltaDegrees?:number}
+  | {type:'furniture-delete'; id:string}
 export type Problem = {code:string; message:string; ids:string[]}
 const declared = () => ({kind:'declared' as const, referenceIds:[] as string[]})
 const integer = (n:number, min:number, max:number) => Number.isSafeInteger(n) && n>=min && n<=max
@@ -94,6 +101,136 @@ export function grupoDoComodo(groups: string[][] | undefined, roomId: string): s
   return g ? g.filter(id => id !== roomId) : []
 }
 
+export function decomporPoligonoOrtogonal(vertices: Array<{x: number; y: number}>): Array<{xMm: number; yMm: number; widthMm: number; depthMm: number}> {
+  if (vertices.length < 4) return []
+  const xs = Array.from(new Set(vertices.map(v => v.x))).sort((a, b) => a - b)
+  const ys = Array.from(new Set(vertices.map(v => v.y))).sort((a, b) => a - b)
+
+  function pontoNoPoligono(px: number, py: number): boolean {
+    let dentro = false
+    const n = vertices.length
+    for (let i = 0, j = n - 1; i < n; j = i++) {
+      const xi = vertices[i].x, yi = vertices[i].y
+      const xj = vertices[j].x, yj = vertices[j].y
+      const intersecta = ((yi > py) !== (yj > py)) && (px < (xj - xi) * (py - yi) / (yj - yi) + xi)
+      if (intersecta) dentro = !dentro
+    }
+    return dentro
+  }
+
+  const nx = xs.length - 1
+  const ny = ys.length - 1
+  const grid: boolean[][] = Array.from({ length: nx }, () => Array(ny).fill(false))
+  const coberto: boolean[][] = Array.from({ length: nx }, () => Array(ny).fill(false))
+
+  for (let i = 0; i < nx; i++) {
+    for (let j = 0; j < ny; j++) {
+      const mx = (xs[i] + xs[i + 1]) / 2
+      const my = (ys[j] + ys[j + 1]) / 2
+      if (pontoNoPoligono(mx, my)) {
+        grid[i][j] = true
+      }
+    }
+  }
+
+  const retangulos: Array<{xMm: number; yMm: number; widthMm: number; depthMm: number}> = []
+  for (let j = 0; j < ny; j++) {
+    for (let i = 0; i < nx; i++) {
+      if (grid[i][j] && !coberto[i][j]) {
+        let w = 1
+        while (i + w < nx && grid[i + w][j] && !coberto[i + w][j]) {
+          w++
+        }
+        let h = 1
+        let podeExpandir = true
+        while (j + h < ny && podeExpandir) {
+          for (let k = 0; k < w; k++) {
+            if (!grid[i + k][j + h] || coberto[i + k][j + h]) {
+              podeExpandir = false
+              break;
+            }
+          }
+          if (podeExpandir) h++
+        }
+        for (let dy = 0; dy < h; dy++) {
+          for (let dx = 0; dx < w; dx++) {
+            coberto[i + dx][j + dy] = true
+          }
+        }
+        retangulos.push({
+          xMm: xs[i],
+          yMm: ys[j],
+          widthMm: xs[i + w] - xs[i],
+          depthMm: ys[j + h] - ys[j]
+        })
+      }
+    }
+  }
+  return retangulos
+}
+
+export function contornoPoligono(retangulos: Array<{xMm: number; yMm: number; widthMm: number; depthMm: number}>): [number, number][] | null {
+  if (!retangulos.length) return null
+  const xs = Array.from(new Set(retangulos.flatMap(r => [r.xMm, r.xMm + r.widthMm]))).sort((a, b) => a - b)
+  const ys = Array.from(new Set(retangulos.flatMap(r => [r.yMm, r.yMm + r.depthMm]))).sort((a, b) => a - b)
+  const nx = xs.length - 1, ny = ys.length - 1
+  const cheio = new Set<string>()
+
+  for (let i = 0; i < nx; i++) {
+    for (let j = 0; j < ny; j++) {
+      const x0 = xs[i], x1 = xs[i + 1], y0 = ys[j], y1 = ys[j + 1]
+      if (retangulos.some(r => r.xMm <= x0 && x1 <= r.xMm + r.widthMm && r.yMm <= y0 && y1 <= r.yMm + r.depthMm)) {
+        cheio.add(`${i},${j}`)
+      }
+    }
+  }
+
+  const seguinte = new Map<string, [number, number]>()
+  for (let i = 0; i < nx; i++) {
+    for (let j = 0; j < ny; j++) {
+      if (!cheio.has(`${i},${j}`)) continue
+      const x0 = xs[i], x1 = xs[i + 1], y0 = ys[j], y1 = ys[j + 1]
+      const vizinhas: Array<{viz: string; a: [number, number]; b: [number, number]}> = [
+        { viz: `${i},${j - 1}`, a: [x0, y0], b: [x1, y0] },
+        { viz: `${i + 1},${j}`, a: [x1, y0], b: [x1, y1] },
+        { viz: `${i},${j + 1}`, a: [x1, y1], b: [x0, y1] },
+        { viz: `${i - 1},${j}`, a: [x0, y1], b: [x0, y0] }
+      ]
+      for (const { viz, a, b } of vizinhas) {
+        if (!cheio.has(viz)) {
+          seguinte.set(`${a[0]},${a[1]}`, b)
+        }
+      }
+    }
+  }
+
+  if (seguinte.size === 0) return null
+
+  const pontos = Array.from(seguinte.keys()).map(k => k.split(',').map(Number) as [number, number])
+  pontos.sort((a, b) => a[1] !== b[1] ? a[1] - b[1] : a[0] - b[0])
+  const inicio = pontos[0]
+
+  const laco: [number, number][] = [inicio]
+  let proximo = seguinte.get(`${inicio[0]},${inicio[1]}`)
+  while (proximo && (proximo[0] !== inicio[0] || proximo[1] !== inicio[1]) && laco.length < seguinte.size) {
+    laco.push(proximo)
+    proximo = seguinte.get(`${proximo[0]},${proximo[1]}`)
+  }
+
+  if (!proximo || proximo[0] !== inicio[0] || proximo[1] !== inicio[1] || laco.length !== seguinte.size) {
+    return null
+  }
+
+  const n = laco.length
+  return laco.filter((pt, k) => {
+    const prev = laco[(k - 1 + n) % n]
+    const next = laco[(k + 1) % n]
+    const colinearX = prev[0] === pt[0] && pt[0] === next[0]
+    const colinearY = prev[1] === pt[1] && pt[1] === next[1]
+    return !colinearX && !colinearY
+  })
+}
+
 export function metrosParaMm(text:string,allowZero=false):number {
   const match=/^(\d+)(?:[.,](\d{1,3}))?$/.exec(text.trim())
   if(!match) throw new Error('Use metros com até três casas decimais, como 4,20.')
@@ -106,9 +243,34 @@ export const metros = (mm:number) => {
   return (mm<0?'-':'')+(rest ? whole+','+rest : String(whole))
 }
 export const iniciar = (id:string):Session => ({
-  id, revision:1, nextId:1, nextOpeningId:1, present:{rooms:[],openings:[],ceilingHeightMm:null}, past:[], future:[],
+  id, revision:1, nextId:1, nextOpeningId:1, nextFurnitureId:1, present:{rooms:[],openings:[],ceilingHeightMm:null,furniture:[]}, past:[], future:[],
 })
 export function aplicar(s:Session,a:Action):Session {
+  if(a.type==='furniture-add'){
+    const currFurniture = s.present.furniture ?? []
+    const nextFId = s.nextFurnitureId ?? (Math.max(0, ...currFurniture.map(f => Number(f.id.replace(/\D/g, '')))) + 1)
+    const id = 'm' + nextFId
+    const novo: FurnitureItem = { ...a.item, id }
+    return confirmar(s, { ...s.present, furniture: [...currFurniture, novo] }, s.nextId, s.nextOpeningId, nextFId + 1)
+  }
+  if(a.type==='furniture-move'){
+    const currFurniture = s.present.furniture ?? []
+    if(!currFurniture.some(f => f.id === a.id)) throw new Error('Selecione um móvel existente.')
+    const furniture = currFurniture.map(f => f.id === a.id ? { ...f, xMm: Math.round(a.xMm), yMm: Math.round(a.yMm) } : f)
+    return confirmar(s, { ...s.present, furniture }, s.nextId, s.nextOpeningId, s.nextFurnitureId)
+  }
+  if(a.type==='furniture-rotate'){
+    const currFurniture = s.present.furniture ?? []
+    if(!currFurniture.some(f => f.id === a.id)) throw new Error('Selecione um móvel existente.')
+    const delta = a.deltaDegrees ?? 90
+    const furniture = currFurniture.map(f => f.id === a.id ? { ...f, rotDegrees: (((f.rotDegrees + delta) % 360) + 360) % 360 } : f)
+    return confirmar(s, { ...s.present, furniture }, s.nextId, s.nextOpeningId, s.nextFurnitureId)
+  }
+  if(a.type==='furniture-delete'){
+    const currFurniture = s.present.furniture ?? []
+    const furniture = currFurniture.filter(f => f.id !== a.id)
+    return confirmar(s, { ...s.present, furniture }, s.nextId, s.nextOpeningId, s.nextFurnitureId)
+  }
   if(a.type==='merge'){
     const {roomAId,roomBId}=a
     if(roomAId===roomBId) throw new Error('Selecione dois cômodos diferentes para mesclar.')
@@ -186,6 +348,37 @@ export function aplicar(s:Session,a:Action):Session {
   }
   let rooms=s.present.rooms, ceilingHeightMm=s.present.ceilingHeightMm
   let mergedGroups=s.present.mergedGroups
+  if(a.type==='add-poligono'){
+    if(!a.name.trim() || a.name.trim().length>100) throw new Error('Informe um nome com até 100 caracteres.')
+    if(!integer(a.ceilingHeightMm,1,1000000)) throw new Error('Declare pé-direito válido.')
+    if(!a.retangulos || a.retangulos.length===0) throw new Error('O polígono precisa de pelo menos uma parte.')
+    if(rooms.length + a.retangulos.length > 100) throw new Error('O limite desta planta é de 100 cômodos.')
+    ceilingHeightMm = a.ceilingHeightMm
+    const novosIds: string[] = []
+    let currId = s.nextId
+    const novosRooms: Room[] = []
+    for(const rect of a.retangulos){
+      const id = 'c' + currId
+      currId++
+      novosIds.push(id)
+      novosRooms.push({
+        id,
+        name: a.name.trim(),
+        xMm: rect.xMm,
+        yMm: rect.yMm,
+        widthMm: rect.widthMm,
+        depthMm: rect.depthMm
+      })
+    }
+    rooms = [...rooms, ...novosRooms]
+    let nextGroups = mergedGroups ? mergedGroups.map(g=>[...g]) : []
+    if (novosIds.length >= 2) {
+      nextGroups.push(novosIds)
+    }
+    const normalized = reconstruirGrupos(rooms, nextGroups)
+    mergedGroups = normalized.length ? normalized : undefined
+    return confirmar(s, {rooms, openings: reparear(rooms, s.present.openings, mergedGroups), ceilingHeightMm, mergedGroups}, currId, s.nextOpeningId)
+  }
   if(a.type==='add'||a.type==='edit'){
     if(!a.name.trim() || a.name.trim().length>100) throw new Error('Informe um nome com até 100 caracteres.')
     if(![a.widthMm,a.depthMm,a.ceilingHeightMm].every(n=>integer(n,1,1000000)))
@@ -220,7 +413,17 @@ export function aplicar(s:Session,a:Action):Session {
     }
     if(a.type==='move'){
       if(!Number.isSafeInteger(a.xMm)||!Number.isSafeInteger(a.yMm)) throw new Error('A posição precisa usar milímetros inteiros.')
-      rooms=rooms.map(r=>r.id===a.id?{...r,xMm:a.xMm,yMm:a.yMm}:r)
+      const rTarget=rooms.find(r=>r.id===a.id)
+      if(rTarget){
+        const dx=a.xMm-rTarget.xMm, dy=a.yMm-rTarget.yMm
+        const g=grupoDoComodo(mergedGroups,a.id)
+        if(g.length>0){
+          const targetIds=new Set([a.id,...g])
+          rooms=rooms.map(r=>targetIds.has(r.id)?{...r,xMm:r.xMm+dx,yMm:r.yMm+dy}:r)
+        }else{
+          rooms=rooms.map(r=>r.id===a.id?{...r,xMm:a.xMm,yMm:a.yMm}:r)
+        }
+      }
     }
   }
   // Excluir dono remove suas aberturas na mesma ação; undo restaura tudo. As demais
@@ -228,9 +431,13 @@ export function aplicar(s:Session,a:Action):Session {
   const proprias=a.type==='delete'?s.present.openings.filter(o=>!Object.values(paredes(a.id)).includes(o.wallId)):s.present.openings
   return confirmar(s,{rooms,openings:reparear(rooms,proprias,mergedGroups),ceilingHeightMm,mergedGroups},s.nextId+(a.type==='add'?1:0),s.nextOpeningId)
 }
-function confirmar(s:Session,present:Layout,nextId:number,nextOpeningId:number):Session{
-  if(JSON.stringify(present)===JSON.stringify(s.present)) return s
-  return {...s,present,revision:s.revision+1,nextId,nextOpeningId,past:[...s.past,s.present],future:[]}
+function confirmar(s:Session,present:Layout,nextId:number,nextOpeningId:number,nextFurnitureId:number=s.nextFurnitureId??1):Session{
+  const layoutComMoveis: Layout = {
+    ...present,
+    furniture: present.furniture !== undefined ? present.furniture : (s.present.furniture ?? [])
+  }
+  if(JSON.stringify(layoutComMoveis)===JSON.stringify(s.present)) return s
+  return {...s,present:layoutComMoveis,revision:s.revision+1,nextId,nextOpeningId,nextFurnitureId,past:[...s.past,s.present],future:[]}
 }
 export function desfazer(s:Session):Session {
   if(!s.past.length) return s
@@ -478,6 +685,25 @@ export function documento(s:Session) {
 }
 export type Leitura=ReturnType<typeof documento>
 export const exportar=(s:Session)=>JSON.stringify(documento(s),null,2)+'\n'
+export function exportarMoveis(s:Session):string {
+  const moveis = (s.present.furniture ?? []).map(f => {
+    const alturaMm=f.alturaMm??CATALOGO_MOVEIS.find(d=>d.id===f.tipoCatalogo)?.alturaMm
+    if(alturaMm===undefined) throw new Error('A altura deste móvel não está disponível para a prévia 3D.')
+    return {
+    tipo: f.tipo3D,
+    p: [Number((f.xMm / 1000).toFixed(3)), Number((f.yMm / 1000).toFixed(3))],
+    rot: Math.round(((f.rotDegrees % 360) / 90)) % 4,
+    w: Number((f.widthMm / 1000).toFixed(3)),
+    h:Number((alturaMm / 1000).toFixed(3)),
+    d: Number((f.depthMm / 1000).toFixed(3)),
+    cor: f.cor,
+    nome: f.nome,
+  }})
+  return JSON.stringify({
+    _gerado_por: "capturador-2d",
+    moveis
+  }, null, 2) + '\n'
+}
 const sorted=(v:unknown):unknown=>Array.isArray(v)?v.map(sorted):v&&typeof v==='object'
   ?Object.fromEntries(Object.entries(v).sort(([a],[b])=>a<b?-1:a>b?1:0).map(([k,x])=>[k,sorted(x)])):v
 // Recebe somente snapshot já validado no servidor; round-trip impede perda silenciosa
@@ -525,7 +751,8 @@ export function carregar(leitura:Leitura | any):Session{
     const s:Session={...iniciar(leitura.id),revision:leitura.revision,
       nextId:Math.max(0,...rooms.map((r:any)=>Number(r.id.slice(1))))+1,
       nextOpeningId:Math.max(0,...openings.map((o:any)=>Number(o.id.slice(1))))+1,
-      present:{rooms,openings,ceilingHeightMm:leitura.ceilingHeightMm,mergedGroups:normalized.length?normalized:undefined}}
+      nextFurnitureId:1,
+      present:{rooms,openings,ceilingHeightMm:leitura.ceilingHeightMm,mergedGroups:normalized.length?normalized:undefined,furniture:[]}}
     if(JSON.stringify(sorted(documento(s)))!==JSON.stringify(sorted(leitura))) throw new Error()
     return s
   }catch{throw new Error('Esta leitura contém conteúdo não suportado pelo editor; nenhum dado foi descartado.')}

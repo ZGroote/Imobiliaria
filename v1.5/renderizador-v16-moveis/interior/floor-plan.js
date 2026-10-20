@@ -294,9 +294,12 @@ function moveisDaUnidade(P, mcx, mcz) {
   for (const m of (P.moveis || [])) {
     const def = MOVEIS[m.tipo];
     if (!def || !m.p) continue;
-    out.push({ tipo: m.tipo, u: m.p[0] - mcx, v: m.p[1] - mcz, rot: (m.rot || 0) & 3,
-               w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2],
-               cor: m.cor ? parseInt(String(m.cor).replace("#", ""), 16) : def.cor });
+    const item = { tipo: m.tipo, u: m.p[0] - mcx, v: m.p[1] - mcz, rot: (m.rot || 0) & 3,
+                   w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2],
+                   cor: m.cor ? parseInt(String(m.cor).replace("#", ""), 16) : def.cor };
+    // Altura acompanha a própria peça; índices mudam quando um tipo não existe no catálogo.
+    if (m.y != null) item.y = m.y;
+    out.push(item);
   }
   return out;
 }

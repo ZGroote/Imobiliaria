@@ -5,23 +5,68 @@ import {fileURLToPath,pathToFileURL} from 'node:url'
 import {initializeApp} from 'firebase-admin/app'
 import {getAuth} from 'firebase-admin/auth'
 import {getFirestore,FieldValue} from 'firebase-admin/firestore'
+import {carregarSnapshot} from '../painel/src/components/construtor-planta/editorDocument.ts'
 
 const ROOT=fileURLToPath(new URL('..',import.meta.url))
 const LIMIT=384*1024
 const id=v=>typeof v==='string'&&/^[a-zA-Z0-9_-]{1,128}$/.test(v)
 const fail=(status,message)=>Object.assign(new Error(message),{status})
-export function prepararLeitura(text){
+export function prepararLeitura(text,editorStateJson){
   if(typeof text!=='string'||Buffer.byteLength(text)>LIMIT) return Promise.reject(fail(413,'Leitura excede 384 KiB.'))
+  if(editorStateJson!==undefined&&(typeof editorStateJson!=='string'||Buffer.byteLength(editorStateJson)>LIMIT))
+    return Promise.reject(fail(413,'Estado do editor excede 384 KiB ou é inválido.'))
   return new Promise((resolve,reject)=>{
-    const child=execFile(process.env.PYTHON??'python',['-m','pipeline.preparar_leitura'],
-      {cwd:ROOT,timeout:10000,maxBuffer:1024*1024,windowsHide:true},(err,out)=>{
+    const args=['-m','pipeline.preparar_leitura',...(editorStateJson!==undefined?['--envelope']:[])]
+    const child=execFile(process.env.PYTHON??'python',args,
+      {cwd:ROOT,timeout:10000,maxBuffer:1024*1024,windowsHide:true,env:{...process.env,PYTHONUTF8:'1'}},(err,out)=>{
         if(err){
           if(err.code===2){try{reject(fail(422,JSON.parse(out).errors.map(e=>`${e.code}: ${e.message}`).join(' ')));return}catch{}}
           reject(fail(503,'Validador indisponível; nenhuma versão foi salva.'));return
         }
-        try{resolve(JSON.parse(out))}catch{reject(fail(503,'Resposta inválida do validador.'))}
+        let prepared
+        try{prepared=JSON.parse(out)}catch{reject(fail(503,'Resposta inválida do validador.'));return}
+        if(prepared.editorState!==undefined){
+          try{carregarSnapshot(prepared.leitura,prepared.editorState)}
+          catch{reject(fail(422,'EDITOR_STATE_NAO_REABRIVEL: O projeto contém dados que o editor não consegue reabrir sem perda; nenhuma versão foi salva.'));return}
+        }
+        resolve(prepared)
       })
-    child.stdin.on('error',()=>{});child.stdin.end(text)
+    child.stdin.on('error',()=>{});child.stdin.end(editorStateJson!==undefined?JSON.stringify({leituraJson:text,editorStateJson}):text)
+  })
+}
+export function gerarMaquete(text, contextoJson,options={}){
+  if(typeof text!=='string'||Buffer.byteLength(text)>LIMIT) return Promise.reject(fail(413,'Leitura excede 384 KiB.'))
+  for(const value of [contextoJson,options.moveisJson]) if(value!==undefined&&(typeof value!=='string'||Buffer.byteLength(value)>LIMIT))
+    return Promise.reject(fail(413,'Contexto ou móveis excedem 384 KiB ou são inválidos.'))
+  let context
+  if(contextoJson!==undefined){
+    try{context=JSON.parse(contextoJson)}catch{return Promise.reject(fail(422,'Contexto JSON inválido.'))}
+  }
+  const payload={leituraJson:text,...(contextoJson!==undefined?{contextoJson}:{}),
+    ...(options.moveisJson!==undefined?{moveisJson:options.moveisJson}:{}),demo:options.demo===true,
+    propertyId:options.propertyId??context?.propertyId??'demo-local',agencyId:options.agencyId??context?.agencyId??'demo-local'}
+  return new Promise((resolve,reject)=>{
+    const args=['-m','pipeline.gerar_maquete','-','--json','--envelope']
+    const child=execFile(process.env.PYTHON??'python',args,
+      {cwd:ROOT,timeout:35000,maxBuffer:10*1024*1024,windowsHide:true,env:{...process.env,PYTHONUTF8:'1'}},(err,out)=>{
+        if(err){
+          if(err.code===2) try{
+            const parsed=JSON.parse(out)
+            const msg=parsed.errors?.map(e=>`${e.code}: ${e.message}`).join(' ')||'Recusa na maquete 3D.'
+            reject(fail(422,msg));return
+          }catch{}
+          reject(fail(503,'Gerador 3D indisponível; nenhuma prévia foi criada.'));return
+        }
+        try{
+          const res=JSON.parse(out)
+          if(!res.ok){
+            const msg=res.errors?.map(e=>`${e.code}: ${e.message}`).join(' ')||'Recusa na maquete.'
+            reject(fail(422,msg));return
+          }
+          resolve(res)
+        }catch{reject(fail(500,'Resposta inválida do gerador 3D.'))}
+      })
+    child.stdin.on('error',()=>{});child.stdin.end(JSON.stringify(payload))
   })
 }
 function authorize(user,property,agencyId){
@@ -32,13 +77,13 @@ function authorize(user,property,agencyId){
 }
 export async function criarVersao(db,uid,input){
   if(!input||typeof input!=='object'||Array.isArray(input)
-    ||Object.keys(input).some(k=>!['saveId','propertyId','agencyId','leituraJson','basedOnVersionId'].includes(k))
+    ||Object.keys(input).some(k=>!['saveId','propertyId','agencyId','leituraJson','basedOnVersionId','editorStateJson'].includes(k))
     ||!id(input.propertyId)||!id(input.agencyId)||!id(input.saveId)
     ||(input.basedOnVersionId!==undefined&&!id(input.basedOnVersionId))) throw fail(400,'Campos de gravação inválidos.')
   const {propertyId,agencyId,saveId,basedOnVersionId}=input
   const userRef=db.doc('users/'+uid),propertyRef=db.doc('properties/'+propertyId)
   const [u,p]=await Promise.all([userRef.get(),propertyRef.get()]);authorize(u.data(),p.data(),agencyId)
-  const prepared=await prepararLeitura(input.leituraJson)
+  const prepared=await prepararLeitura(input.leituraJson,input.editorStateJson)
   const ref=db.doc('propertyReadings/'+saveId),counter=db.doc('propertyReadingCounters/'+propertyId)
   return db.runTransaction(async tx=>{
     const [user,property,existing,count]=await tx.getAll(userRef,propertyRef,ref,counter)
@@ -51,22 +96,28 @@ export async function criarVersao(db,uid,input){
     if(existing.exists){
       const old=existing.data()
       if(old.createdBy!==uid||old.propertyId!==propertyId||old.agencyId!==agencyId
-        ||old.contentSha256!==prepared.contentSha256||old.basedOnVersionId!== (basedOnVersionId??null))
+        ||old.contentSha256!==prepared.contentSha256||old.basedOnVersionId!== (basedOnVersionId??null)
+        ||(old.editorStateSha256??null)!==(prepared.editorStateSha256??null))
         throw fail(409,'Identificador de gravação já utilizado com outro conteúdo.')
-      return {id:ref.id,version:old.version}
+      return {id:ref.id,version:old.version,...(old.editorStateSha256?{editorStateSha256:old.editorStateSha256}:{})}
     }
     const version=(count.data()?.version??0)+1
     tx.create(ref,{propertyId,agencyId,version,createdBy:uid,createdByName:user.data().name,
       createdAt:FieldValue.serverTimestamp(),schemaVersion:prepared.leitura.schemaVersion,
       revision:prepared.leitura.revision,contentSha256:prepared.contentSha256,leitura:prepared.leitura,
-      basedOnVersionId:basedOnVersionId??null})
+      basedOnVersionId:basedOnVersionId??null,...(prepared.editorState?{editorState:prepared.editorState,editorStateSha256:prepared.editorStateSha256}:{})})
     tx.set(counter,{version})
-    return {id:ref.id,version}
+    return {id:ref.id,version,...(prepared.editorStateSha256?{editorStateSha256:prepared.editorStateSha256}:{})}
   })
 }
-export function criarServidorLeituras({db,auth,origin}){
+export function criarServidorLeituras({db,auth,origin,allowDemo=false}){
   if(!origin||new URL(origin).origin!==origin) throw new Error('Configure uma origem exata para o painel.')
-  let running=0
+  const running={'/property-readings':0,'/gerar-maquete':0}
+  const authenticate=async req=>{
+    if(!req.headers.authorization?.startsWith('Bearer ')) throw fail(401,'Autenticação necessária.')
+    try{return await auth.verifyIdToken(req.headers.authorization.slice(7),true)}
+    catch{throw fail(401,'Sessão inválida ou expirada.')}
+  }
   const server=http.createServer(async(req,res)=>{
     const headers={'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff','vary':'Origin'}
     const respond=(status,data)=>res.writeHead(status,headers).end(JSON.stringify(data))
@@ -74,22 +125,41 @@ export function criarServidorLeituras({db,auth,origin}){
     headers['access-control-allow-origin']=origin
     headers['access-control-allow-headers']='Authorization, Content-Type'
     headers['access-control-allow-methods']='POST, OPTIONS'
-    if(req.url!=='/property-readings'){respond(404,{error:'Rota inexistente.'});return}
+    if(!Object.hasOwn(running,req.url)){respond(404,{error:'Rota inexistente.'});return}
     if(req.method==='OPTIONS'){respond(204,{});return}
-    if(req.method!=='POST'){respond(405,{error:'Somente criação de versão é permitida.'});return}
-    if(running>=4){respond(429,{error:'Tente novamente em instantes.'});return}
-    running++
+    if(req.method!=='POST'){respond(405,{error:'Somente POST é permitido.'});return}
+    if(running[req.url]>=4){respond(429,{error:'Tente novamente em instantes.'});return}
+    running[req.url]++
     try{
-      if(!req.headers.authorization?.startsWith('Bearer ')) throw fail(401,'Autenticação necessária.')
-      let token
-      try{token=await auth.verifyIdToken(req.headers.authorization.slice(7),true)}catch{throw fail(401,'Sessão inválida ou expirada.')}
+      const token=req.url==='/property-readings'||!allowDemo?await authenticate(req):null
       if(!req.headers['content-type']?.startsWith('application/json')) throw fail(415,'Envie JSON.')
       let size=0;const chunks=[]
-      for await(const chunk of req){size+=chunk.length;if(size>512*1024) throw fail(413,'Requisição muito grande.');chunks.push(chunk)}
+      for await(const chunk of req){size+=chunk.length;if(size>1024*1024) throw fail(413,'Requisição muito grande.');chunks.push(chunk)}
       let input;try{input=JSON.parse(Buffer.concat(chunks).toString('utf8'))}catch{throw fail(400,'JSON inválido.')}
-      respond(200,await criarVersao(db,token.uid,input))
-    }catch(e){respond(e.status??500,{error:e.status?e.message:'Não foi possível salvar a versão.'})}
-    finally{running--}
+      if(req.url==='/property-readings'){
+        respond(200,await criarVersao(db,token.uid,input))
+      }else{
+        if(!input||typeof input!=='object'||Array.isArray(input)
+          ||Object.keys(input).some(k=>!['leituraJson','contextoJson','moveisJson','demo','propertyId','agencyId'].includes(k))
+          ||typeof input.leituraJson!=='string'||(input.demo!==undefined&&typeof input.demo!=='boolean'))
+          throw fail(400,'Campos de geração inválidos.')
+        const demo=input.demo===true,addr=req.socket.remoteAddress
+        if(demo&&(!allowDemo||!['127.0.0.1','::1','::ffff:127.0.0.1'].includes(addr)))
+          throw fail(403,'Demonstração precisa estar habilitada em um servidor local.')
+        if(demo&&input.contextoJson!==undefined)
+          throw fail(422,'CONTEXTO_INVALIDO: Não combine demonstração com contexto declarado.')
+        const hasProperty=input.propertyId!==undefined||input.agencyId!==undefined
+        if(!demo||hasProperty){
+          const session=token??await authenticate(req)
+          if(!id(input.propertyId)||!id(input.agencyId)) throw fail(400,'Informe o imóvel e a agência da prévia.')
+          const [u,p]=await Promise.all([db.doc('users/'+session.uid).get(),db.doc('properties/'+input.propertyId).get()])
+          authorize(u.data(),p.data(),input.agencyId)
+        }
+        if(!demo&&typeof input.contextoJson!=='string') throw fail(422,'Declare o contexto completo do imóvel para gerar a prévia.')
+        respond(200,await gerarMaquete(input.leituraJson,input.contextoJson,input))
+      }
+    }catch(e){respond(e.status??500,{error:e.status?e.message:'Não foi possível concluir a operação.'})}
+    finally{running[req.url]--}
   })
   server.requestTimeout=15000;server.headersTimeout=15000
   return server
@@ -101,5 +171,6 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
   if(emulated&&(!projectId.startsWith('demo-')||!process.env.FIRESTORE_EMULATOR_HOST||!process.env.FIREBASE_AUTH_EMULATOR_HOST))
     throw new Error('Emulação exige projeto demo e Auth/Firestore locais juntos.')
   const app=initializeApp({projectId})
-  criarServidorLeituras({db:getFirestore(app),auth:getAuth(app),origin}).listen(Number(process.env.PORT??5056),'127.0.0.1',()=>console.log('API de leituras pronta.'))
+  criarServidorLeituras({db:getFirestore(app),auth:getAuth(app),origin,allowDemo:process.env.READINGS_ALLOW_LOCAL_DEMO==='1'})
+    .listen(Number(process.env.PORT??5056),'127.0.0.1',()=>console.log('API de leituras pronta.'))
 }
