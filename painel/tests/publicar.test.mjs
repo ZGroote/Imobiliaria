@@ -1,12 +1,12 @@
-// M2-5: a etapa de publicar do robô (tools/worker_publicar.mjs; tasks/painel/m2-worker.md §3, §8, §9 e
-// §13), no emulador. Builds, montar-preview e montar-live são os scripts de verdade (Python); o "ar" e
+// M2-5 e M2-7: as etapas de publicar e de reverter do robô (tools/worker_publicar.mjs; tasks/painel/
+// m2-worker.md §3, §8, §9 e §13), no emulador. Builds, montar-preview e montar-live são os scripts de verdade (Python); o "ar" e
 // o canal são pastas servidas por um HTTP local, e o deploy falso copia a pasta montada para o ar. O
 // gerente aprova pelo SDK do navegador; o robô entra como users/worker, e as regras valem para os dois.
 import { test, before, beforeEach, afterEach, after } from 'node:test'
 import assert from 'node:assert/strict'
 import http from 'node:http'
 import { createHash } from 'node:crypto'
-import { cp, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { cp, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join, normalize, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -18,16 +18,18 @@ import { entrarComoRobo } from '../scripts/robo.mjs'
 import { EMULADOR } from '../src/lib/ambiente.ts'
 import { aprovar } from '../src/lib/aprovacao.ts'
 import { lerPreview } from '../src/lib/publicacao.ts'
+import { registrarReversao } from '../src/lib/publicar.ts'
+import { pedirReversaoAoRobo } from '../src/lib/robo.ts'
 import { rodar, TravaPerdida, PRAZO_MS } from '../../tools/worker.mjs'
 import { pipeline } from '../../tools/worker_previa.mjs'
-import { executorPublicar, foraDoEscopo, comandoDeploy } from '../../tools/worker_publicar.mjs'
+import { executorPublicar, executorReverter, foraDoEscopo, comandoDeploy } from '../../tools/worker_publicar.mjs'
 import { entrar, sairDeTodos } from './apoio.ts'
 
 const RAIZ = fileURLToPath(new URL('../../', import.meta.url))
 const X = 'monte-dos-cedros-37', Y = 'monte-das-colinas-39'
 const db = () => adminDb()
 const sha = (b) => createHash('sha256').update(b).digest('hex')
-let servidor, porta, raizServida, fixo, buildX, appRobo, dbRobo, trabalho, deploys
+let servidor, porta, raizServida, fixo, buildX, buildX2, appRobo, dbRobo, trabalho, deploys
 
 // http://127.0.0.1:<porta>/ar/ é o site no ar; /canal/<imovel>/ é o canal de prévia.
 before(async () => {
@@ -48,7 +50,32 @@ before(async () => {
   await pipeline('python', RAIZ, ['pipeline/publicar_imovel.py', 'montar-live', 'promover', Y, buildY, '--estado-vazio',
     '--manifest-aprovado', sha(await readFile(join(builds, Y, buildY, 'manifest.json'))), '--builds', builds, '--site', join(fixo, 'ar')])
   await pipeline('python', RAIZ, ['pipeline/publicar_imovel.py', 'montar-preview', X, buildX, '--builds', builds, '--site', join(fixo, 'canal')])
+  // M2-7: X no ar com um par (atual = uma segunda versão válida do build, anterior = buildX)
+  buildX2 = await variante(builds, X, buildX)
+  const promove = async (b, de, para) => pipeline('python', RAIZ, ['pipeline/publicar_imovel.py', 'montar-live', 'promover', X, b,
+    '--estado', join(fixo, de, 'estado.json'), '--manifest-aprovado', sha(await readFile(join(builds, X, b, 'manifest.json'))),
+    '--builds', builds, '--site', join(fixo, para)])
+  await promove(buildX, 'ar', 'ar-x1')
+  await promove(buildX2, 'ar-x1', 'ar-par')
 })
+
+// Uma segunda versão do build, válida para o montar-live: a maquete com um comentário a mais, o build
+// e o manifest recalculados (como os builds de mentira de tests/test_publicacao_live.py).
+async function variante(builds, imovel, build) {
+  const de = join(builds, imovel, build)
+  const tour = await readFile(join(de, 'tour.html'))
+  const maquete = Buffer.concat([await readFile(join(de, 'maquete.html')), Buffer.from('\n<!-- variante -->\n')])
+  const novo = sha(Buffer.concat([tour, maquete])).slice(0, 12)
+  const m = JSON.parse(await readFile(join(de, 'manifest.json'), 'utf-8'))
+  m.build = novo
+  m.arquivos['maquete.html'] = { bytes: maquete.length, sha256: sha(maquete) }
+  const para = join(builds, imovel, novo)
+  await mkdir(para, { recursive: true })
+  await writeFile(join(para, 'tour.html'), tour)
+  await writeFile(join(para, 'maquete.html'), maquete)
+  await writeFile(join(para, 'manifest.json'), JSON.stringify(m, null, 2) + '\n')
+  return novo
+}
 after(async () => {
   servidor.close()
   await rm(raizServida, { recursive: true, force: true })
@@ -383,4 +410,120 @@ test('M2-5 deploy: o comando é sempre o do site de imóveis', () => {
   assert.deepEqual(c.slice(0, 2), ['firebase', 'deploy'])
   for (const [k, v] of [['--only', 'hosting:imoveis'], ['--config', 'firebase.imoveis.json'], ['--project', 'imobilaria-deccb']])
     assert.equal(c[c.indexOf(k) + 1], v)
+})
+
+// ── M2-7: reverter ──
+
+const rodaVolta = (opcoes = {}) => rodar(db(), { dono: 'A', sinalMs: 0, executores: { rollback: executorReverter({
+  db: db(), raiz: RAIZ, ar: AR(), deploy: deployFalso, site: join(trabalho, 'site'), releituras: 3, esperaMs: 0, ...opcoes,
+}) } })
+// X no ar com o par: atual buildX2 (pedAprovado), anterior buildX (pedCedros); o Firestore diz o mesmo.
+async function comPar() {
+  await rm(arDir(), { recursive: true, force: true })
+  await cp(join(fixo, 'ar-par'), arDir(), { recursive: true })
+  const m = async (b) => sha(await readFile(join(fixo, 'builds', X, b, 'manifest.json')))
+  await db().doc('requests/pedCedros').update({ status: 'published', approvedBuild: buildX, approvedManifestSha256: await m(buildX) })
+  await db().doc('requests/pedAprovado').update({ status: 'published', approvedBuild: buildX2, approvedManifestSha256: await m(buildX2) })
+  await db().doc('properties/cedros').update({ publishedBuild: buildX2, publishedRequestId: 'pedAprovado',
+    previousBuild: buildX, previousRequestId: 'pedCedros' })
+}
+async function pedeVolta() {
+  const admin = await entrar('admin')
+  await pedirReversaoAoRobo(admin.db, 'admin', { id: 'cedros', ...(await ler('properties/cedros')) })
+  const s = await db().collection('auditLogs').where('action', '==', 'worker:reverter').get()
+  return { admin, id: s.docs.map((d) => d.id).sort((a, b) => s.docs.find((d) => d.id === a).data().timestamp.toMillis()
+    - s.docs.find((d) => d.id === b).data().timestamp.toMillis()).at(-1) }
+}
+const noArDeX = async () => JSON.parse(await readFile(join(arDir(), 'estado.json'))).imoveis[X]
+
+test('M2-7 reverter: o admin pede, o robô volta o ar ao anterior sem registrar; o admin confere e registra', async () => {
+  await comPar()
+  const antes = await arvore()
+  const { admin, id } = await pedeVolta()
+  assert.equal((await rodaVolta()).encerrados, 1)
+  const j = await ler('buildJobs/' + id)
+  assert.deepEqual([j.stage, j.status, j.build, j.createdBy, deploys], ['rollback', 'succeeded', buildX, 'admin', 1])
+  assert.deepEqual(await noArDeX(), { ...(await noArDeX()), atual: buildX, anterior: buildX2 })
+  // só os ponteiros de X, o índice e o estado mudaram; os dois builds de X e o Y ficam byte a byte
+  const depois = await arvore()
+  const mudou = Object.keys({ ...antes, ...depois }).filter((k) => antes[k] !== depois[k])
+  assert.deepEqual(mudou.filter((k) => ![`imovel/${X}`, `maquete/${X}`, 'index.html', 'estado.json'].includes(k)), [])
+  assert.ok(mudou.includes(`imovel/${X}`))
+  // o robô não registra: o imóvel continua dizendo o par de antes
+  assert.deepEqual([(await ler('properties/cedros')).publishedBuild, (await ler('properties/cedros')).previousBuild], [buildX2, buildX])
+
+  // pedir de novo antes de registrar: o ar já mostra o anterior, então termina sem novo deploy
+  const outro = await pedeVolta()
+  await rodaVolta({ deploy: async () => { throw new Error('não devia fazer deploy de novo') } })
+  assert.equal((await ler('buildJobs/' + outro.id)).status, 'succeeded')
+
+  // o admin confere o site e registra a volta, como antes do robô
+  await registrarReversao(admin.db, 'admin', { id: 'cedros', ...(await ler('properties/cedros')) }, AR())
+  const p = await ler('properties/cedros')
+  assert.deepEqual([p.publishedBuild, p.previousBuild, p.publishedRequestId], [buildX, buildX2, 'pedCedros'])
+})
+
+test('M2-7 reverter sem anterior: o job nasce bloqueado; e o anterior que some depois do pedido também bloqueia', async () => {
+  const admin = await entrar('admin')
+  await assert.rejects(async () => pedirReversaoAoRobo(admin.db, 'admin', { id: 'cedros', ...(await ler('properties/cedros')) }),
+    /anterior/)
+  const c = await db().collection('auditLogs').add({ agencyId: 'agA', userId: 'admin', entityType: 'property', entityId: 'cedros',
+    action: 'worker:reverter', visibility: 'internal', timestamp: Timestamp.now() })
+  await rodaVolta()
+  assert.deepEqual([(await ler('buildJobs/' + c.id)).status, (await ler('buildJobs/' + c.id)).error.code], ['blocked', 'NO_PREVIOUS_BUILD'])
+
+  await comPar()
+  const { id } = await pedeVolta()
+  await rodar(db(), { dono: 'A', sinalMs: 0 })                       // só cria o job
+  await db().doc('properties/cedros').update({ previousBuild: null, previousRequestId: null })
+  await rodaVolta()
+  assert.deepEqual([(await ler('buildJobs/' + id)).error.code, deploys], ['NO_PREVIOUS_BUILD', 0])
+})
+
+test('M2-7 portões: o ar sem o par, o anterior que não é o aprovado, o imóvel que muda, o admin que sai', async () => {
+  await comPar()
+  await rm(arDir(), { recursive: true, force: true })
+  await cp(join(fixo, 'ar'), arDir(), { recursive: true })              // X nem está no ar
+  const a = (await pedeVolta()).id
+  await rodaVolta()
+  assert.equal((await ler('buildJobs/' + a)).error.code, 'STATE_CHANGED')
+
+  await comPar()
+  await db().doc('requests/pedCedros').update({ approvedManifestSha256: 'a'.repeat(64) })
+  const b = (await pedeVolta()).id
+  await rodaVolta()
+  assert.equal((await ler('buildJobs/' + b)).error.code, 'APPROVAL_MISMATCH')
+  assert.equal(deploys, 0)
+  assert.equal((await noArDeX()).atual, buildX2)
+
+  // o imóvel mudou de build durante a montagem: para antes do deploy
+  await comPar()
+  const c = (await pedeVolta()).id
+  const muda = async (args) => {
+    const r = await pipeline('python', RAIZ, args)
+    if (args[1] === 'montar-live') await db().doc('properties/cedros').update({ publishedBuild: 'ffffffffffff' })
+    return r
+  }
+  await rodaVolta({ script: muda })
+  assert.deepEqual([(await ler('buildJobs/' + c)).error.code, deploys], ['PROPERTY_CHANGED', 0])
+
+  // quem pediu deixou de ser admin ativo antes de o robô começar
+  await comPar()
+  const d = (await pedeVolta()).id
+  await rodar(db(), { dono: 'A', sinalMs: 0 })                       // só cria o job
+  await db().doc('users/admin').update({ active: false })
+  await rodaVolta()
+  assert.deepEqual([(await ler('buildJobs/' + d)).error.code, deploys], ['NOT_ADMIN', 0])
+})
+
+test('M2-7 o robô morre depois do deploy da volta: a execução seguinte encerra, sem novo deploy e sem registrar', async () => {
+  await comPar()
+  const { id } = await pedeVolta()
+  const morre = async (site) => { await deployFalso(site); throw new TravaPerdida() }
+  assert.equal((await rodaVolta({ deploy: morre })).travaPerdida, true)
+  assert.deepEqual([(await ler('buildJobs/' + id)).status, (await ler('buildJobs/' + id)).step], ['running', 'deploy'])
+  await db().doc('buildJobs/' + id).update({ heartbeatAt: Timestamp.fromMillis(Date.now() - PRAZO_MS - 60_000) })
+  await rodaVolta({ deploy: async () => { throw new Error('não devia fazer deploy de novo') } })
+  assert.deepEqual([(await ler('buildJobs/' + id)).status, deploys, (await noArDeX()).atual], ['succeeded', 1, buildX])
+  assert.equal((await ler('properties/cedros')).publishedBuild, buildX2)
 })

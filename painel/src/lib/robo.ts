@@ -2,7 +2,7 @@ import { collection, doc, query, serverTimestamp, setDoc, where, writeBatch, typ
 import { registrarPreview } from './aprovacao.ts'
 import { lerPreview } from './publicacao.ts'
 import { noBatch } from './status.ts'
-import type { AuditLog, BuildJob, BuildJobStatus, Preview, Request } from './types.ts'
+import type { AuditLog, BuildJob, BuildJobStatus, Preview, Property, Request } from './types.ts'
 
 // O robô do M2 (tasks/painel/m2-worker.md): o que o painel pede a ele, o que mostra dele, e o que ele
 // mesmo escreve no pedido. Ele entra como o usuário users/worker, então as escritas dele passam pelas
@@ -14,8 +14,8 @@ type Pedido = Pick<Request, 'id' | 'agencyId' | 'status'>
 
 // Pedido de trabalho: um AuditLog worker:* interno. O robô cria o job na próxima execução, com a
 // identidade deste pedido; as regras só deixam a equipe pedir.
-function pedirAoRobo(db: Firestore, uid: string, agencyId: string, entityType: 'request' | 'buildJob', entityId: string,
-  action: 'worker:previa' | 'worker:cancelar') {
+function pedirAoRobo(db: Firestore, uid: string, agencyId: string, entityType: 'request' | 'buildJob' | 'property',
+  entityId: string, action: 'worker:previa' | 'worker:cancelar' | 'worker:reverter') {
   return setDoc(doc(collection(db, 'auditLogs')), {
     agencyId, userId: uid, entityType, entityId, action, visibility: 'internal', timestamp: serverTimestamp(),
   })
@@ -29,10 +29,19 @@ export function pedirPreviaAoRobo(db: Firestore, uid: string, r: Pedido) {
 export const cancelarJob = (db: Firestore, uid: string, job: Pick<BuildJob, 'id' | 'agencyId'>) =>
   pedirAoRobo(db, uid, job.agencyId, 'buildJob', job.id, 'worker:cancelar')
 
+// Voltar ao build anterior (M2-7): só o admin pede (regras). O robô troca atual e anterior no ar; o
+// registro da volta continua sendo do admin, depois de conferir o site (registrarReversao).
+export function pedirReversaoAoRobo(db: Firestore, uid: string, p: Pick<Property, 'id' | 'agencyId' | 'publishedBuild' | 'previousBuild'>) {
+  if (!p.publishedBuild || !p.previousBuild) throw new Error('Não há build anterior para voltar.')
+  return pedirAoRobo(db, uid, p.agencyId, 'property', p.id, 'worker:reverter')
+}
+
 // ── o que o painel mostra dele (§7) ──
 
 export const jobsDoPedido = (db: Firestore, requestId: string) =>
   query(collection(db, 'buildJobs'), where('requestId', '==', requestId))
+export const jobsDoImovel = (db: Firestore, propertyId: string) =>
+  query(collection(db, 'buildJobs'), where('propertyId', '==', propertyId))
 
 export const jobAtivo = (j: Pick<BuildJob, 'status'>) => j.status === 'pending' || j.status === 'running'
 
@@ -41,6 +50,11 @@ export const ROTULO_JOB: Record<BuildJobStatus, string> = {
 }
 export const TOM_JOB: Record<BuildJobStatus, 'cinza' | 'verde' | 'ambar' | 'azul' | 'vermelho'> = {
   pending: 'azul', running: 'azul', succeeded: 'verde', blocked: 'ambar', failed: 'vermelho', cancelled: 'cinza',
+}
+export const ROTULO_PASSO: Record<string, string> = {
+  build: 'montando o 3D', channel: 'subindo no canal de prévia', check_channel: 'conferindo o canal',
+  register: 'registrando', state: 'lendo o site no ar', assemble: 'montando o site', deploy: 'publicando',
+  check_live: 'conferindo o site no ar',
 }
 export const ROTULO_ETAPA: Record<string, string> = {
   extract: 'Ler materiais', preview: 'Prévia', publish: 'Publicar', rollback: 'Voltar ao anterior', retire: 'Retirar do site',
@@ -68,6 +82,8 @@ const MOTIVOS: Record<string, string> = {
   STATE_CHANGED: 'O site no ar mudou enquanto o robô trabalhava.',
   OUT_OF_SCOPE: 'A publicação mexeria em outro imóvel do site.',
   LIVE_DIFFERENT: 'Depois do deploy, o site não mostrava o que foi publicado.',
+  NO_PREVIOUS_BUILD: 'O imóvel não tem build anterior para voltar.',
+  PROPERTY_CHANGED: 'O imóvel mudou de build enquanto o robô trabalhava.',
   DUPLICATE: 'Já havia outro trabalho em andamento para este pedido.',
   CANCELLED: 'Cancelado pela equipe.',
   LEASE_LOST: 'O robô parou sem sinal de vida.',
@@ -102,19 +118,33 @@ export const FILA_PARADA_MS = 30 * MIN          // um fato sem job há mais que 
 export const EXPIRA_MS = 48 * 60 * MIN           // o robô ignora pedido de trabalho mais velho (tools/worker.mjs)
 export const VENCE_LOGO_MS = 5 * 24 * 60 * MIN   // a prévia do canal vence em menos que isto
 
-// Os pedidos de prévia deste pedido. São internos: só a equipe lê.
+// Os pedidos de prévia de um pedido e os de volta de um imóvel. São internos: só a equipe lê.
 export const pedidosDePrevia = (db: Firestore, requestId: string) =>
   query(collection(db, 'auditLogs'), where('entityId', '==', requestId), where('action', '==', 'worker:previa'))
+export const pedidosDeReversao = (db: Firestore, propertyId: string) =>
+  query(collection(db, 'auditLogs'), where('entityId', '==', propertyId), where('action', '==', 'worker:reverter'))
 
 type Comando = Pick<AuditLog, 'id'> & { timestamp?: { toMillis(): number } | null }
 type JobVisto = Pick<BuildJob, 'id' | 'stage' | 'status' | 'build' | 'previewExpiresAt'>
 
 // Um fato que o robô ainda não pegou: espera normal até 30 min; depois, a fila está parada.
-function espera(desde: number, agora: number, oQue: string, texto: string) {
+type Fato = { aviso?: string; esperando?: string }
+function espera(desde: number, agora: number, oQue: string, texto: string): Fato {
   const idade = agora - desde
   return idade > FILA_PARADA_MS
     ? { aviso: `A fila está parada: ${oQue} espera o robô há ${Math.round(idade / MIN)} min. Veja o Actions.` }
     : { esperando: texto }
+}
+
+// O último clique que ainda não virou job: espera, fila parada ou, passadas 48 h, expirado (o robô
+// ignora pedido mais velho). Um timestamp ainda pendente é um clique de agora.
+function ultimoSemJob(comandos: Comando[], tem: Set<string>, agora: number, oQue: string, texto: string): Fato | null {
+  const ms = (c: Comando) => c.timestamp?.toMillis() ?? agora
+  const ultimo = [...comandos].sort((a, b) => ms(b) - ms(a))[0]
+  if (!ultimo || tem.has(ultimo.id)) return null
+  return agora - ms(ultimo) > EXPIRA_MS
+    ? { aviso: `O ${oQue} passou de 48 h sem o robô e expirou: peça de novo.` }
+    : espera(ms(ultimo), agora, `o ${oQue}`, texto)
 }
 
 // O que o painel diz do robô neste pedido, calculado do pedido, dos jobs e dos pedidos de prévia.
@@ -122,15 +152,11 @@ function espera(desde: number, agora: number, oQue: string, texto: string) {
 export function situacaoDoRobo(r: Pick<Request, 'status' | 'lastAuditId' | 'approvedAt' | 'preview'>,
   jobs: JobVisto[], comandos: Comando[], agora: number) {
   const tem = new Set(jobs.map((j) => j.id))
-  const fatos: { aviso?: string; esperando?: string }[] = []
-  // o último clique em "Gerar prévia"; um timestamp ainda pendente é um clique de agora
-  const ms = (c: Comando) => c.timestamp?.toMillis() ?? agora
-  const ultimo = [...comandos].sort((a, b) => ms(b) - ms(a))[0]
-  if (r.status === 'production' && ultimo && !tem.has(ultimo.id)) {
-    fatos.push(agora - ms(ultimo) > EXPIRA_MS
-      ? { aviso: 'O pedido de prévia passou de 48 h sem o robô e expirou: peça de novo.' }
-      : espera(ms(ultimo), agora, 'o pedido de prévia', 'Pedido enviado. O robô começa na próxima execução, em alguns minutos.'))
-  }
+  const fatos: Fato[] = []
+  // o último clique em "Gerar prévia"
+  const previa = r.status === 'production'
+    && ultimoSemJob(comandos, tem, agora, 'pedido de prévia', 'Pedido enviado. O robô começa na próxima execução, em alguns minutos.')
+  if (previa) fatos.push(previa)
   // cada aprovação vira um job de publicar com a identidade dela (tools/worker.mjs, coletar)
   if (r.status === 'approved' && r.lastAuditId && !tem.has('publicar-' + r.lastAuditId)) {
     fatos.push(espera(r.approvedAt?.toMillis() ?? agora, agora, 'a aprovação', 'Aprovado. O robô publica na próxima execução.'))
@@ -146,6 +172,13 @@ export function situacaoDoRobo(r: Pick<Request, 'status' | 'lastAuditId' | 'appr
     }
   }
   return { esperando: fatos.find((f) => f.esperando)?.esperando ?? null, avisos: fatos.flatMap((f) => f.aviso ?? []) }
+}
+
+// O mesmo para "Voltar ao build anterior", num imóvel.
+export function situacaoDaReversao(jobs: Pick<BuildJob, 'id'>[], comandos: Comando[], agora: number) {
+  const f = ultimoSemJob(comandos, new Set(jobs.map((j) => j.id)), agora, 'pedido de volta',
+    'Pedido enviado. O robô volta o site na próxima execução, em alguns minutos.')
+  return { esperando: f?.esperando ?? null, avisos: f?.aviso ? [f.aviso] : [] }
 }
 
 // ── a equipe libera a prévia que parou na revisão interna ──

@@ -4,16 +4,11 @@ import { Aviso, Cartao, Selo, useAcao } from './ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
 import { cancelarJob, cancelavel, jobAtivo, jobsDoPedido, motivoDoJob, pedidosDePrevia, pedirPreviaAoRobo, ROTULO_ETAPA, ROTULO_JOB,
-  situacaoDoRobo, TOM_JOB } from '@/lib/robo'
+  ROTULO_PASSO, situacaoDoRobo, TOM_JOB } from '@/lib/robo'
 import { usePerfil } from '@/lib/session'
 import type { AuditLog, BuildJob, Request } from '@/lib/types'
 import { useColecao } from '@/lib/useFirestore'
 
-const PASSO: Record<string, string> = {
-  build: 'montando o 3D', channel: 'subindo no canal de prévia', check_channel: 'conferindo o canal',
-  register: 'registrando a prévia', state: 'lendo o site no ar', assemble: 'montando o site', deploy: 'publicando',
-  check_live: 'conferindo o site no ar',
-}
 const ha = (ms: number) => {
   const s = Math.max(0, Math.round(ms / 1000))
   return s < 60 ? `há ${s} s` : s < 3600 ? `há ${Math.round(s / 60)} min` : `há ${Math.round(s / 3600)} h`
@@ -48,7 +43,7 @@ export function CartaoDoRobo({ r }: { r: Request }) {
                 <div className="flex flex-wrap items-center gap-2">
                   <Selo tom={TOM_JOB[j.status]}>{ROTULO_JOB[j.status]}</Selo>
                   <span>{(j.stage && ROTULO_ETAPA[j.stage]) ?? 'Build manual'}</span>
-                  {j.status === 'running' && j.step && <span className="text-slate-500">· {PASSO[j.step] ?? j.step}</span>}
+                  {j.status === 'running' && j.step && <span className="text-slate-500">· {ROTULO_PASSO[j.step] ?? j.step}</span>}
                   <span className="text-xs text-slate-500">{quando(j.createdAt)}</span>
                 </div>
                 {j.status === 'running' && j.heartbeatAt && (

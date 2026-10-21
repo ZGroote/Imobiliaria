@@ -1,15 +1,17 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { collection, doc, orderBy, query, where } from 'firebase/firestore'
-import { Aviso, Cartao, Estado, useAcao } from './ui'
+import { Aviso, Cartao, Estado, Selo, useAcao } from './ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
 import { comandoPromover, comandoReverter } from '@/lib/publicacao'
 import { APROVACAO_SEM_MANIFEST, conferirPublicacao, conferirReversao, faseDaPublicacao, registrarPublicacao,
   registrarReversao, TEXTO_DA_FASE } from '@/lib/publicar'
+import { jobAtivo, jobsDoImovel, motivoDoJob, pedidosDeReversao, pedirReversaoAoRobo, ROTULO_JOB, ROTULO_PASSO,
+  situacaoDaReversao, TOM_JOB } from '@/lib/robo'
 import { usePerfil } from '@/lib/session'
-import type { Property, Publication, Request } from '@/lib/types'
+import type { AuditLog, BuildJob, Property, Publication, Request } from '@/lib/types'
 import { useColecao, useDoc } from '@/lib/useFirestore'
 import type { Vitrine } from '@/lib/vitrine'
 
@@ -88,20 +90,48 @@ export function RegistrarPublicacao({ r, imovel }: { r: Request; imovel?: Proper
   )
 }
 
-// Volta o ponteiro para o build anterior (que continua no ar). Mesmo rito: pipeline, conferir, registrar.
+// Voltar ao build anterior (M2-7; o anterior continua no ar): o admin pede ao robô, que troca atual e
+// anterior no site; depois o admin confere o site e registra a volta. O comando à mão fica em "Sem o
+// robô". Os avisos (pedido enviado, fila parada, expirado) são os da m2-worker.md §9.
 export function ReverterPublicacao({ p }: { p: Property }) {
   const perfil = usePerfil()
   const { executar, ocupado, erro } = useAcao()
   const [conferido, setConferido] = useState('')
-  if (perfil.role !== 'platform_admin' || !p.previousBuild || !p.previousRequestId || !p.publishedBuild
-    || !p.pipelineUnitId || !SITE) return null
+  const [agora, setAgora] = useState(() => Date.now())
+  useEffect(() => { const t = setInterval(() => setAgora(Date.now()), 15_000); return () => clearInterval(t) }, [])
+  const admin = perfil.role === 'platform_admin'
+  const jobs = useColecao<BuildJob>(admin ? `jobs-imovel:${p.id}` : null, () => jobsDoImovel(db, p.id))
+  const pedidos = useColecao<AuditLog>(admin ? `voltas:${p.id}` : null, () => pedidosDeReversao(db, p.id))
+  if (!admin || !p.previousBuild || !p.previousRequestId || !p.publishedBuild || !p.pipelineUnitId || !SITE) return null
+  const voltas = (jobs.dados ?? []).filter((j) => j.stage === 'rollback')
+    .sort((a, b) => (b.createdAt?.toMillis() ?? 0) - (a.createdAt?.toMillis() ?? 0))
+  const ativo = voltas.find(jobAtivo)
+  const { esperando, avisos } = situacaoDaReversao(voltas, pedidos.dados ?? [], agora)
   const comando = comandoReverter(p.pipelineUnitId)
   const chave = `${p.pipelineUnitId}:${p.publishedBuild}:${p.previousBuild}`
   return (
-    <Cartao titulo="Reverter">
-      <p className="text-sm">No ar: <code>{p.publishedBuild}</code>. Anterior: <code>{p.previousBuild}</code>.</p>
-      <pre className="mt-1 overflow-x-auto rounded bg-slate-100 p-2 text-xs">{comando}</pre>
-      <div className="mt-3 flex flex-wrap gap-2">
+    <Cartao titulo="Voltar ao build anterior">
+      <div className="space-y-3 text-sm">
+      <p>No ar: <code>{p.publishedBuild}</code>. Anterior: <code>{p.previousBuild}</code>.</p>
+      {(jobs.erro || pedidos.erro) && <Aviso>{jobs.erro ?? pedidos.erro}</Aviso>}
+      {voltas.slice(0, 2).map((j) => (
+        <div key={j.id} data-job={j.id} className="space-y-1">
+          <p className="flex flex-wrap items-center gap-2">
+            <Selo tom={TOM_JOB[j.status]}>{ROTULO_JOB[j.status]}</Selo>
+            {j.status === 'running' && j.step && <span className="text-slate-500">{ROTULO_PASSO[j.step] ?? j.step}</span>}
+            <span className="text-xs text-slate-500">{quando(j.createdAt)}</span>
+          </p>
+          {j.status !== 'succeeded' && motivoDoJob(j) && <p className="text-amber-800">{motivoDoJob(j)}</p>}
+        </div>
+      ))}
+      {esperando && <p className="rounded bg-sky-50 p-2 text-sky-900">{esperando}</p>}
+      {avisos.map((a) => <p key={a} className="rounded bg-amber-50 p-2 text-amber-900">{a}</p>)}
+      {!ativo && !esperando && (
+        <button disabled={ocupado} className="btn" onClick={() => confirm('Voltar o site deste imóvel ao build anterior?')
+          && executar(() => pedirReversaoAoRobo(db, perfil.id, p))}>Voltar ao build anterior</button>
+      )}
+      <p className="text-xs text-slate-500">Depois que o robô voltar o site, confira e registre a volta.</p>
+      <div className="flex flex-wrap gap-2">
         <button disabled={ocupado} className="btn" onClick={() => executar(async () => {
           setConferido('')
           await conferirReversao(db, p, SITE)
@@ -110,7 +140,12 @@ export function ReverterPublicacao({ p }: { p: Property }) {
         {conferido === chave && <button disabled={ocupado} className="btn-primario"
           onClick={() => executar(() => registrarReversao(db, perfil.id, p, SITE))}>Registrar reversão</button>}
       </div>
+      <details>
+        <summary className="cursor-pointer text-xs font-semibold text-slate-600">Sem o robô: o comando à mão</summary>
+        <pre className="mt-1 overflow-x-auto rounded bg-slate-100 p-2 text-xs">{comando}</pre>
+      </details>
       {erro && <Aviso>{erro}</Aviso>}
+      </div>
     </Cartao>
   )
 }
