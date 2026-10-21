@@ -712,6 +712,27 @@ próprio do `users/worker` sem assinatura.
   - **Testes:** 10 no emulador com os scripts reais (`painel/tests/previa.test.mjs`, ~4 min) e 1
     do "ao falhar" no `worker.test.mjs`. O `test:painel` passa a levar ~7 min.
   - **Quebra de propósito:** 16 de 16 trechos pegos.
+- **M2-4 (20/10), em PR, sem nada no ar.**
+  - **Cartão "Robô" no pedido, só da equipe:**
+    - os trabalhos ao vivo: na fila, rodando com o passo e o último sinal de vida, pronto, ou
+      parado com o motivo em português;
+    - "Gerar prévia" (grava o `worker:previa`) e "Cancelar" (grava o `worker:cancelar`).
+  - **Na revisão interna**, "Enviar para a revisão do cliente" relê a prévia no canal antes de
+    enviar.
+  - **O gerente "Pede revisão"** (antes "Pedir ajuste"): o pedido vai para a revisão interna,
+    com o texto no histórico.
+  - **O menu avisa a equipe** dos pedidos na revisão interna, ao lado dos pedidos novos.
+  - **O registro da prévia à mão** fica fechado em "Sem o robô".
+  - Um fato que não passa na criação do job (por exemplo, imóvel sem o id do pipeline) não mexe
+    no pedido: o motivo aparece no cartão, para quem clicou.
+  - **Testes:** 5 no emulador (`painel/tests/robo.test.ts`) e o de aprovação atualizado.
+  - **Quebra de propósito:** 6 de 6 trechos pegos (o do motivo em português escapava: o teste
+    aceitava a mensagem crua, que já tinha a palavra "canal").
+  - **Conferido no `painel:dev`:**
+    - o clique gravou o pedido de trabalho;
+    - o robô de verdade criou o job, e o cartão mostrou o motivo na hora;
+    - rodando, cancelar, enviar à revisão do cliente, pedir revisão como gerente e o selo do menu
+      funcionaram, sem erro no console.
 
 **Depende de:**
 

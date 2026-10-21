@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { doc } from 'firebase/firestore'
-import { AtivarAvisos, contagem, usePedidosNovos } from './AvisoDePedidos'
+import { AtivarAvisos, contagem, usePedidosParaAEquipe } from './AvisoDePedidos'
 import { db } from '@/lib/firebase'
 import { itemAtivo, menuDoPapel } from '@/lib/menu'
 import { sair } from '@/lib/session'
@@ -17,7 +17,7 @@ export function AppShell({ perfil, children }: { perfil: User; children: ReactNo
   const itens = menuDoPapel(perfil.role, conta.dado ? tipoDaConta(conta.dado) : undefined)
   const ativo = itemAtivo(itens, caminho)
   const equipe = interno(perfil.role)
-  const novos = usePedidosNovos(equipe)
+  const { novos, revisao } = usePedidosParaAEquipe(equipe)
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
@@ -35,6 +35,10 @@ export function AppShell({ perfil, children }: { perfil: User; children: ReactNo
               {i.href === '/admin/requests' && novos > 0 && (
                 <span className="ml-2 rounded-full bg-amber-500 px-2 py-0.5 text-xs font-semibold text-white"
                   title="Pedidos novos esperando aceite">{contagem(novos)}</span>
+              )}
+              {i.href === '/admin/requests' && revisao > 0 && (
+                <span className="ml-1 rounded-full bg-sky-600 px-2 py-0.5 text-xs font-semibold text-white"
+                  title="Pedidos na revisão interna">{contagem(revisao)}</span>
               )}
             </Link>
           ))}
