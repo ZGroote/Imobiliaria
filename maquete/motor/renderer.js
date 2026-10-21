@@ -37,7 +37,8 @@ document.body.classList.toggle('embedded',parameters.get('embed')==='1');
 const darkBackdrop=parameters.get('embed')==='1'&&parameters.get('tema')==='escuro';
 document.body.classList.toggle('dark-theme',darkBackdrop);
 const stage=document.querySelector('#stage'),canvas=document.querySelector('#c'),status=document.querySelector('#status');
-const base=new URL((Object.hasOwn(EXTERIOR_EDITIONS,geometryProfile)?EXTERIOR_EDITIONS[geometryProfile]:EXTERIOR_EDITIONS.base).assets,import.meta.url);
+const edition=Object.hasOwn(EXTERIOR_EDITIONS,geometryProfile)?EXTERIOR_EDITIONS[geometryProfile]:EXTERIOR_EDITIONS[dados.edicaoPadrao];
+const base=new URL(edition.assets,import.meta.url);
 const requests=new AbortController();
 const typedArrays={Float32Array,Float64Array,Uint32Array,Uint16Array,Uint8Array,Int32Array,Int16Array,Int8Array};
 
@@ -161,17 +162,18 @@ async function start() {
   if(manifest.schema!=='liv-proof-manifest-v1') throw Error('Manifesto desconhecido.');
   const data=await decode('scene.json.gz',manifest.files['scene.json.gz'],manifest.sceneJSONSHA256,true);
   mark('sceneDecoded');mark('sceneParsed');
-  if(data.schema!=='liv-exterior-proof-v1' || data.sourceModelSHA256!==manifest.sourceModelSHA256 || data.rgbm.sourceSHA256!==manifest.sourceModelSHA256) throw Error('A geometria e o atlas não pertencem à mesma edição.');
+  if(data.schema!=='liv-exterior-proof-v1' || data.sourceModelSHA256!==manifest.sourceModelSHA256 || (data.rgbm && data.rgbm.sourceSHA256!==manifest.sourceModelSHA256)) throw Error('A geometria e o atlas não pertencem à mesma edição.');
   for(const [name,view] of Object.entries(dados.vistasExtras))data.views[name]=orbitView(view);
+  // Without baked light (rgbm: null) the scene is lit by its own sun and shadow at runtime.
   // The full atlas is 13 MB. A 1/4-per-side preview lights the first image and
   // is replaced after it (upgradeAtlas); without a preview, wait for the full one.
-  const previewName='irradiance-previa.rgbm.gz',preview=manifest.files[previewName];
-  const atlasBytes=await decode(preview?previewName:data.rgbm.textureURL,preview||manifest.files[data.rgbm.textureURL],
+  const previewName='irradiance-previa.rgbm.gz',preview=data.rgbm&&manifest.files[previewName];
+  const atlasBytes=data.rgbm&&await decode(preview?previewName:data.rgbm.textureURL,preview||manifest.files[data.rgbm.textureURL],
     preview?preview.decodedSHA256:data.rgbm.textureSHA256);
   mark('atlasReady');
   progress('build','Montando a maquete');
   if(state.disposed)return;
-  let atlas=createRGBMTexture(atlasBytes,preview?{...data.rgbm,width:preview.width,height:preview.height}:data.rgbm);
+  let atlas=data.rgbm?createRGBMTexture(atlasBytes,preview?{...data.rgbm,width:preview.width,height:preview.height}:data.rgbm):null;
   async function upgradeAtlas(){
     const bytes=await decode(data.rgbm.textureURL,manifest.files[data.rgbm.textureURL],data.rgbm.textureSHA256);
     if(state.disposed)return;
@@ -198,7 +200,7 @@ async function start() {
     for(const geometry of geometries)geometry.dispose();
     for(const material of materials)material.dispose();
     for(const texture of textures){texture?.dispose();texture?.image?.close?.();}
-    atlas.dispose();environment?.dispose();scene.traverse(o=>o.shadow?.dispose());scene.clear();
+    atlas?.dispose();environment?.dispose();scene.traverse(o=>o.shadow?.dispose());scene.clear();
     return renderer.dispose();
   };
   state.environmentProfile=environmentProfile;
@@ -240,6 +242,7 @@ async function start() {
     const StockMaterial={MeshBasicMaterial:THREE.MeshBasicMaterial,
       MeshStandardMaterial:THREE.MeshStandardMaterial,MeshPhysicalMaterial:THREE.MeshPhysicalMaterial}[spec.type];
     if(!spec.baked&&!StockMaterial)throw Error(`Material não suportado: ${spec.type}.`);
+    if(spec.baked&&!atlas)throw Error(`O material ${spec.name} pede a luz pré-calculada, e esta edição não tem.`);
     const material=spec.baked?new LivRGBMNodeMaterial(props,atlas,data.rgbm.range,data.rgbm.lightMapIntensity):new StockMaterial(props);
     material.name=spec.name;
     material.userData.livBakedTransport=spec.baked;
@@ -428,7 +431,7 @@ async function start() {
   let selectedFloor=-1;
   function setFloor(floor=-1) {
     const value=Number(floor);
-    if(!Number.isInteger(value)||value < -1||value >dados.predio.pavimentos-1) throw Error('Pavimento inválido.');
+    if(!Number.isInteger(value)||value < -1||value >(dados.predio?.pavimentos??0)-1) throw Error('Pavimento inválido.');
     selectedFloor=value;
     // Floor is selection context; only the apartment receives a visual outline.
     const selectedId=unitPicking?.getState().selectedId;
@@ -436,7 +439,8 @@ async function start() {
     unitPicking?.refresh();renderer.render(scene,camera);
   }
   const selection=parameters.get('selecao');
-  const units=geometryProfile==='base'||['piloto','edificio'].includes(selection)?
+  // A single-unit property (dados.tipo casa or apartamento) has no unit catalog: nothing to pick.
+  const units=edition.units&&(geometryProfile==='base'||['piloto','edificio'].includes(selection))?
     await loadUnitCatalog(requests.signal,geometryProfile,selection==='edificio'?'edificio':'piloto'):null;
   if(state.disposed)return;
   if(units&&units.sourceModelSHA256!==data.sourceModelSHA256)throw Error('As posições dos finais pertencem a outra edição da maquete.');

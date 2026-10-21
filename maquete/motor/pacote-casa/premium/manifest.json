@@ -1,0 +1,18 @@
+{
+  "schema": "liv-proof-manifest-v1",
+  "origem": "maquete/motor/gerar_pacote_teste.mjs",
+  "sourceModelSHA256": "c29afc024c52a979a1deb3d7ec34f6f4e5091dc415ee2132e95b99e9613261f7",
+  "sceneJSONSHA256": "ec9216ea721af85c0d5fb88644536fa8a99055c32671b7ae5ed7a475836651b0",
+  "files": {
+    "irradiance.rgbm.gz": {
+      "bytes": 1012,
+      "sha256": "35f8ae62765d3070423a31eb20952f988ae95a2c4c2fade354fb4a55bd9f0dd7"
+    },
+    "scene.json.gz": {
+      "bytes": 1702,
+      "sha256": "a2ccea3dd9c280e40360fe7035b59845846183a33b58080fc5931cfeac1eadd7"
+    }
+  },
+  "meshCount": 3,
+  "bakedMeshes": 2
+}
