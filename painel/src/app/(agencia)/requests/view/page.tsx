@@ -6,6 +6,7 @@ import { Pagina } from '@/components/AppShell'
 import { DadosDoPedido, EditarPedido } from '@/components/pedido'
 import { AcoesDeStatus, Historico } from '@/components/status'
 import { PreviewEmRevisao } from '@/components/aprovacao'
+import { CartaoDaPublicacao } from '@/components/publicacao'
 import { Aviso, ComId, Estado } from '@/components/ui'
 import { db } from '@/lib/firebase'
 import { usePessoas } from '@/lib/usePessoas'
@@ -45,6 +46,7 @@ function Solicitacao({ id }: { id: string }) {
                   : p.propertyId ? '…' : 'Ainda não cadastrado'} />
             )}
             <div className="space-y-6">
+              <CartaoDaPublicacao r={p} imovel={im.dado} />
               <PreviewEmRevisao r={p} pessoa={autor} />
               <AcoesDeStatus r={p} />
               <Historico r={p} interno={false} pessoa={autor} />

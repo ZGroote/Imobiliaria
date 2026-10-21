@@ -2,7 +2,7 @@ import { collection, doc, query, serverTimestamp, setDoc, where, writeBatch, typ
 import { registrarPreview } from './aprovacao.ts'
 import { lerPreview } from './publicacao.ts'
 import { noBatch } from './status.ts'
-import type { BuildJob, BuildJobStatus, Preview, Request } from './types.ts'
+import type { AuditLog, BuildJob, BuildJobStatus, Preview, Request } from './types.ts'
 
 // O robô do M2 (tasks/painel/m2-worker.md): o que o painel pede a ele, o que mostra dele, e o que ele
 // mesmo escreve no pedido. Ele entra como o usuário users/worker, então as escritas dele passam pelas
@@ -77,6 +77,75 @@ const MOTIVOS: Record<string, string> = {
 export function motivoDoJob(j: Pick<BuildJob, 'error'>) {
   if (!j.error) return null
   return (j.error.code && MOTIVOS[j.error.code]) || j.error.message
+}
+
+// Depois que o deploy do live começa, o robô não para mais (m2-worker.md §10): o botão some.
+export const cancelavel = (j: Pick<BuildJob, 'stage' | 'status' | 'step' | 'cancelRequested'>) =>
+  jobAtivo(j) && !j.cancelRequested && !(j.status === 'running'
+    && (j.step === 'deploy' || j.step === 'check_live' || (j.stage !== 'preview' && j.step === 'register')))
+
+// Os AuditLogs worker:* no histórico da equipe.
+export function descreverDoRobo(l: Pick<AuditLog, 'action' | 'after'>) {
+  if (l.action === 'worker:previa') return 'Pediu a prévia ao robô'
+  if (l.action === 'worker:cancelar') return 'Pediu para cancelar um trabalho do robô'
+  if (l.action === 'worker:reverter') return 'Pediu ao robô para voltar ao build anterior'
+  if (l.action !== 'worker:retido') return null
+  const a = (l.after ?? {}) as { stage?: string; code?: string; message?: string }
+  return `O robô parou ${a.stage === 'publish' ? 'ao publicar' : 'na prévia'}: `
+    + motivoDoJob({ error: { code: a.code ?? '', message: a.message ?? '' } })
+}
+
+// ── o que ainda espera o robô, e os avisos (m2-worker.md §9) ──
+
+const MIN = 60_000
+export const FILA_PARADA_MS = 30 * MIN          // um fato sem job há mais que isto: o robô não está rodando
+export const EXPIRA_MS = 48 * 60 * MIN           // o robô ignora pedido de trabalho mais velho (tools/worker.mjs)
+export const VENCE_LOGO_MS = 5 * 24 * 60 * MIN   // a prévia do canal vence em menos que isto
+
+// Os pedidos de prévia deste pedido. São internos: só a equipe lê.
+export const pedidosDePrevia = (db: Firestore, requestId: string) =>
+  query(collection(db, 'auditLogs'), where('entityId', '==', requestId), where('action', '==', 'worker:previa'))
+
+type Comando = Pick<AuditLog, 'id'> & { timestamp?: { toMillis(): number } | null }
+type JobVisto = Pick<BuildJob, 'id' | 'stage' | 'status' | 'build' | 'previewExpiresAt'>
+
+// Um fato que o robô ainda não pegou: espera normal até 30 min; depois, a fila está parada.
+function espera(desde: number, agora: number, oQue: string, texto: string) {
+  const idade = agora - desde
+  return idade > FILA_PARADA_MS
+    ? { aviso: `A fila está parada: ${oQue} espera o robô há ${Math.round(idade / MIN)} min. Veja o Actions.` }
+    : { esperando: texto }
+}
+
+// O que o painel diz do robô neste pedido, calculado do pedido, dos jobs e dos pedidos de prévia.
+// `esperando`: o fato que o robô ainda vai pegar. `avisos`: o que precisa de alguém.
+export function situacaoDoRobo(r: Pick<Request, 'status' | 'lastAuditId' | 'approvedAt' | 'preview'>,
+  jobs: JobVisto[], comandos: Comando[], agora: number) {
+  const tem = new Set(jobs.map((j) => j.id))
+  const fatos: { aviso?: string; esperando?: string }[] = []
+  // o último clique em "Gerar prévia"; um timestamp ainda pendente é um clique de agora
+  const ms = (c: Comando) => c.timestamp?.toMillis() ?? agora
+  const ultimo = [...comandos].sort((a, b) => ms(b) - ms(a))[0]
+  if (r.status === 'production' && ultimo && !tem.has(ultimo.id)) {
+    fatos.push(agora - ms(ultimo) > EXPIRA_MS
+      ? { aviso: 'O pedido de prévia passou de 48 h sem o robô e expirou: peça de novo.' }
+      : espera(ms(ultimo), agora, 'o pedido de prévia', 'Pedido enviado. O robô começa na próxima execução, em alguns minutos.'))
+  }
+  // cada aprovação vira um job de publicar com a identidade dela (tools/worker.mjs, coletar)
+  if (r.status === 'approved' && r.lastAuditId && !tem.has('publicar-' + r.lastAuditId)) {
+    fatos.push(espera(r.approvedAt?.toMillis() ?? agora, agora, 'a aprovação', 'Aprovado. O robô publica na próxima execução.'))
+  }
+  // o canal da prévia nasce com --expires 30d; vencido, o gerente não vê e o robô não publica
+  if (r.preview && (r.status === 'internal_review' || r.status === 'agency_review' || r.status === 'approved')) {
+    const vence = jobs.filter((j) => j.stage === 'preview' && j.status === 'succeeded' && j.build === r.preview!.build)
+      .map((j) => j.previewExpiresAt?.toMillis()).filter((x): x is number => x !== undefined).sort((a, b) => b - a)[0]
+    if (vence !== undefined && vence <= agora) fatos.push({ aviso: 'A prévia venceu no canal: gere de novo.' })
+    else if (vence !== undefined && vence - agora < VENCE_LOGO_MS) {
+      const d = Math.ceil((vence - agora) / (24 * 60 * MIN))
+      fatos.push({ aviso: `A prévia vence no canal em ${d} dia${d > 1 ? 's' : ''}.` })
+    }
+  }
+  return { esperando: fatos.find((f) => f.esperando)?.esperando ?? null, avisos: fatos.flatMap((f) => f.aviso ?? []) }
 }
 
 // ── a equipe libera a prévia que parou na revisão interna ──

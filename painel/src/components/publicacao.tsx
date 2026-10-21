@@ -1,23 +1,47 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { collection, orderBy, query, where } from 'firebase/firestore'
+import { collection, doc, orderBy, query, where } from 'firebase/firestore'
 import { Aviso, Cartao, Estado, useAcao } from './ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
 import { comandoPromover, comandoReverter } from '@/lib/publicacao'
-import { APROVACAO_SEM_MANIFEST, conferirPublicacao, conferirReversao, registrarPublicacao, registrarReversao }
-  from '@/lib/publicar'
+import { APROVACAO_SEM_MANIFEST, conferirPublicacao, conferirReversao, faseDaPublicacao, registrarPublicacao,
+  registrarReversao, TEXTO_DA_FASE } from '@/lib/publicar'
 import { usePerfil } from '@/lib/session'
 import type { Property, Publication, Request } from '@/lib/types'
-import { useColecao } from '@/lib/useFirestore'
+import { useColecao, useDoc } from '@/lib/useFirestore'
+import type { Vitrine } from '@/lib/vitrine'
 
 // Site de imóveis (proposta §7): estado.json e os ponteiros /imovel/<id> e /maquete/<id>.
 const SITE = process.env.NEXT_PUBLIC_SITE_IMOVEIS ?? ''
 
-// O admin registra a publicação depois que o pipeline pôs o build no ar, e o painel confere
-// isso no estado.json do site antes de gravar (§2). "Conferir o site" é visual e vale só para a
-// chave conferida: mudou o imóvel, o build ou o manifest, o botão some. Registrar relê o site.
+// A publicação deste pedido, para a equipe e para a imobiliária. Depois da aprovação, o robô publica
+// sozinho (m2-worker.md §7): aqui só se acompanha, não há botão de publicar.
+export function CartaoDaPublicacao({ r, imovel }: { r: Request; imovel?: Property | null }) {
+  const slug = imovel?.pipelineUnitId
+  const v = useDoc<Vitrine>(r.status === 'published' && slug ? `vitrine:${slug}` : null, () => doc(db, 'vitrine', slug!))
+  const f = faseDaPublicacao(r, imovel, v.dado)
+  if (!f) return null
+  return (
+    <Cartao titulo="Publicação">
+      <div className="space-y-2 text-sm" data-fase={f.fase}>
+        <p>{TEXTO_DA_FASE[f.fase]}</p>
+        {'tourUrl' in f && (
+          <p className="flex flex-wrap gap-4">
+            {f.tourUrl && <a href={f.tourUrl} target="_blank" rel="noopener" className="text-sky-700 hover:underline">Abrir o tour</a>}
+            {f.maqueteUrl && <a href={f.maqueteUrl} target="_blank" rel="noopener" className="text-sky-700 hover:underline">Abrir a maquete</a>}
+          </p>
+        )}
+      </div>
+    </Cartao>
+  )
+}
+
+// Sem o robô: o admin registra a publicação depois que o pipeline pôs o build no ar, e o painel
+// confere isso no estado.json do site antes de gravar (§2). "Conferir o site" é visual e vale só para
+// a chave conferida: mudou o imóvel, o build ou o manifest, o botão some. Registrar relê o site. Fica
+// fechado: com o robô, a publicação é automática depois da aprovação.
 export function RegistrarPublicacao({ r, imovel }: { r: Request; imovel?: Property }) {
   const perfil = usePerfil()
   const { executar, ocupado, erro } = useAcao()
@@ -29,7 +53,10 @@ export function RegistrarPublicacao({ r, imovel }: { r: Request; imovel?: Proper
     ? comandoPromover(unidade, r.approvedBuild, r.approvedManifestSha256) : ''
   const chave = `${unidade}:${r.approvedBuild}:${r.approvedManifestSha256}`
   return (
-    <Cartao titulo="Publicação">
+    <Cartao>
+      <details>
+      <summary className="cursor-pointer text-sm font-semibold">Sem o robô: registrar a publicação à mão</summary>
+      <div className="mt-3">
       {!SITE ? <Aviso>Site de imóveis não configurado (NEXT_PUBLIC_SITE_IMOVEIS).</Aviso>
         : !imovel || !unidade ? <p className="text-sm text-slate-600">O pedido precisa de um imóvel com id do pipeline.</p>
         : !r.approvedManifestSha256 ? <Aviso>{APROVACAO_SEM_MANIFEST}</Aviso> : (
@@ -55,6 +82,8 @@ export function RegistrarPublicacao({ r, imovel }: { r: Request; imovel?: Proper
         </>
       )}
       {erro && <Aviso>{erro}</Aviso>}
+      </div>
+      </details>
     </Cartao>
   )
 }

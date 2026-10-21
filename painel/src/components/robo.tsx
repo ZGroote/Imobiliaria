@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react'
 import { Aviso, Cartao, Selo, useAcao } from './ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
-import { cancelarJob, jobAtivo, jobsDoPedido, motivoDoJob, pedirPreviaAoRobo, ROTULO_ETAPA, ROTULO_JOB, TOM_JOB } from '@/lib/robo'
+import { cancelarJob, cancelavel, jobAtivo, jobsDoPedido, motivoDoJob, pedidosDePrevia, pedirPreviaAoRobo, ROTULO_ETAPA, ROTULO_JOB,
+  situacaoDoRobo, TOM_JOB } from '@/lib/robo'
 import { usePerfil } from '@/lib/session'
-import type { BuildJob, Request } from '@/lib/types'
+import type { AuditLog, BuildJob, Request } from '@/lib/types'
 import { useColecao } from '@/lib/useFirestore'
 
 const PASSO: Record<string, string> = {
@@ -18,29 +19,27 @@ const ha = (ms: number) => {
   return s < 60 ? `há ${s} s` : s < 3600 ? `há ${Math.round(s / 60)} min` : `há ${Math.round(s / 3600)} h`
 }
 
-// O robô neste pedido (só a equipe): os trabalhos dele, ao vivo, e os pedidos que a equipe faz a ele.
+// O robô neste pedido (só a equipe): os trabalhos dele, ao vivo, os pedidos que a equipe faz a ele e
+// os avisos da m2-worker.md §9, calculados do pedido e dos jobs (valem depois de recarregar a página).
 // O motivo de um trabalho que parou aparece em português; a imobiliária não vê nada disto.
 export function CartaoDoRobo({ r }: { r: Request }) {
   const perfil = usePerfil()
   const { executar, ocupado, erro } = useAcao()
-  const [pediuCom, setPediuCom] = useState<number | null>(null)   // quantos trabalhos havia quando pediu
   const [agora, setAgora] = useState(() => Date.now())
   useEffect(() => { const t = setInterval(() => setAgora(Date.now()), 15_000); return () => clearInterval(t) }, [])
   const jobs = useColecao<BuildJob>(`jobs:${r.id}`, () => jobsDoPedido(db, r.id))
+  const previas = useColecao<AuditLog>(`previas:${r.id}`, () => pedidosDePrevia(db, r.id))
   const lista = [...(jobs.dados ?? [])].sort((a, b) => (b.createdAt?.toMillis() ?? 0) - (a.createdAt?.toMillis() ?? 0))
   const ativo = lista.find(jobAtivo)
-  const esperando = pediuCom !== null && lista.length === pediuCom
-  if (!lista.length && r.status !== 'production') return null
+  const { esperando, avisos } = situacaoDoRobo(r, lista, previas.dados ?? [], agora)
+  if (!lista.length && r.status !== 'production' && !esperando && !avisos.length) return null
   return (
     <Cartao titulo="Robô">
       <div className="space-y-3 text-sm">
-        {jobs.erro && <Aviso>{jobs.erro}</Aviso>}
+        {(jobs.erro || previas.erro) && <Aviso>{jobs.erro ?? previas.erro}</Aviso>}
         {!lista.length && !esperando && <p className="text-slate-600">O robô ainda não trabalhou neste pedido.</p>}
-        {esperando && (
-          <p className="rounded bg-sky-50 p-2 text-sky-900">
-            Pedido enviado. O robô começa na próxima execução, em alguns minutos.
-          </p>
-        )}
+        {esperando && <p className="rounded bg-sky-50 p-2 text-sky-900">{esperando}</p>}
+        {avisos.map((a) => <p key={a} className="rounded bg-amber-50 p-2 text-amber-900">{a}</p>)}
         <ul className="space-y-3">
           {lista.slice(0, 3).map((j) => {
             const motivo = j.status === 'succeeded' ? null : motivoDoJob(j)
@@ -56,6 +55,9 @@ export function CartaoDoRobo({ r }: { r: Request }) {
                   <p className="text-xs text-slate-500">Último sinal de vida {ha(agora - j.heartbeatAt.toMillis())}</p>
                 )}
                 {j.cancelRequested && jobAtivo(j) && <p className="text-xs text-slate-500">Cancelamento pedido.</p>}
+                {jobAtivo(j) && !j.cancelRequested && !cancelavel(j) && (
+                  <p className="text-xs text-slate-500">O deploy já começou: não dá mais para cancelar.</p>
+                )}
                 {motivo && <p className="text-amber-800">{motivo}</p>}
                 {j.build && <p className="text-xs text-slate-500">Build <code>{j.build}</code></p>}
               </li>
@@ -64,11 +66,10 @@ export function CartaoDoRobo({ r }: { r: Request }) {
         </ul>
         <div className="flex flex-wrap gap-2">
           {r.status === 'production' && !ativo && (
-            <button className="btn-primario" disabled={ocupado || esperando} onClick={async () => {
-              if (await executar(() => pedirPreviaAoRobo(db, perfil.id, r))) setPediuCom(lista.length)
-            }}>Gerar prévia</button>
+            <button className="btn-primario" disabled={ocupado || !!esperando}
+              onClick={() => executar(() => pedirPreviaAoRobo(db, perfil.id, r))}>Gerar prévia</button>
           )}
-          {ativo && !ativo.cancelRequested && (
+          {ativo && cancelavel(ativo) && (
             <button className="btn" disabled={ocupado}
               onClick={() => confirm('Cancelar este trabalho do robô?') && executar(() => cancelarJob(db, perfil.id, ativo))}>
               Cancelar
