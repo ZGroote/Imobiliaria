@@ -12,7 +12,9 @@ maquete de todo imóvel. Aqui o motor foi separado dos dados do LIV, sem mudar o
   - `topos-de-parede.js`: os contornos de topo de parede por tipologia (gerado por
     `gerar_topos_paredes.py`).
 - **O motor**: os módulos que `viewer.js`, `renderer.js`, `interior-renderer.js`, `mapa-retorno.js` e as
-  páginas internas (`interior.html`, `prova-rgbm.html`) carregam. Eles leem `dados/` e não têm nome,
+  páginas internas (`interior.html`, `prova-rgbm.html`) carregam, e os dois ajudantes em paralelo
+  (`decodificar-worker.js` e o service worker `transfer-worker.js`, que só prepara o que
+  `dados.transferencias` e as edições permitem). Eles leem `dados/` e não têm nome,
   medida, caminho nem número de imóvel nenhum.
 - `test_motor_sem_dados.mjs` segue esses módulos e falha se achar dado do LIV neles.
 

@@ -1,3 +1,8 @@
+import dados from './dados/maquete.js';
+// What this worker may prepare: the property's folders (dados.transferencias.pastas) and its edition models.
+const PREPARABLE_FOLDERS=dados.transferencias?.pastas??[];
+const PREPARABLE_FILES=new Set(Object.values(dados.edicoes).map(edition=>edition.glb).filter(Boolean));
+const preparable=path=>PREPARABLE_FOLDERS.some(folder=>path.startsWith(folder))||PREPARABLE_FILES.has(path);
 /* One verified transfer at a time. This worker never opens a scene or renderer. */
 const GROUP_ORDER=['tour','map','planta2d'];
 const SCOPE=new URL('./',self.location.href);
@@ -70,7 +75,7 @@ function validateCatalog(value) {
     if(!GROUP_ORDER.includes(file.group)||typeof file.path!=='string'||
       !/^[A-Za-z0-9._/-]+$/.test(file.path)||file.path.startsWith('/')||
       file.path.split('/').some(part=>!part||part==='.'||part==='..')||
-      !(/^(?:site-baseline|plantas2d|interiores|mapa-runtime)\//.test(file.path)||file.path==='modelo/variante/liv-contorno.glb'||file.path==='modelo/entrada/candidato/liv-contorno.glb')||
+      !preparable(file.path)||
       !Number.isSafeInteger(file.bytes)||file.bytes<=0||file.bytes>150*1024*1024||
       !/^[a-f0-9]{64}$/i.test(file.sha256||'')||typeof file.essential!=='boolean') {
       throw Error('Arquivo de transferência inválido.');
@@ -421,7 +426,7 @@ self.addEventListener('fetch',event=>{
   const relative=url.pathname.slice(SCOPE.pathname.length);
   // This guard also works after the browser has restarted the worker. The catalog
   // then makes the exact URL decision before any cache lookup or queued transfer.
-  if(!(/^(?:site-baseline|plantas2d|interiores|mapa-runtime)\//.test(relative)||relative==='modelo/variante/liv-contorno.glb'||relative==='modelo/entrada/candidato/liv-contorno.glb'))return;
+  if(!preparable(relative))return;
   const response=foreground(event.request,event.resultingClientId||event.clientId||'',event.request.mode==='navigate');
   event.respondWith(response);
   event.waitUntil(response.then(()=>ensurePump()).catch(()=>ensurePump()));

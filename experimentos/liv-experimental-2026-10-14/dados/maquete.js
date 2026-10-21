@@ -47,7 +47,9 @@ export default {
     entrada:{assets:'modelo/entrada/candidato/assets/',units:'modelo/entrada/unidades-entrada.json',glb:'modelo/entrada/candidato/liv-contorno.glb',nome:'LIV — entrada em estudo'},
   },
   edicaoPadrao:'base',                               // a do renderizador sem ?geometria
-  edicaoDaMaquete:'entrada',                         // a que a página da maquete abre sem ?geometria
+  edicaoDaMaquete:'entrada',
+  // o que o service worker de preparação pode baixar antes (Tour, mapa, Planta 2D), além dos modelos das edições
+  transferencias:{pastas:['site-baseline/','plantas2d/','interiores/','mapa-runtime/']},                         // a que a página da maquete abre sem ?geometria
 
   // O prédio: pavimentos 0 (térreo) a 16, o pavimento piloto do cadastro técnico e o espelho dele.
   predio:{

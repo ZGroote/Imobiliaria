@@ -11,7 +11,8 @@ import dados from './dados/maquete.js';
 const pasta=new URL('./',import.meta.url);
 const ler=nome=>readFileSync(new URL(nome,pasta),'utf8');
 const PAGINAS=['interior.html','prova-rgbm.html'];
-const ENTRADAS=['viewer.js','renderer.js','interior-renderer.js','mapa-retorno.js'];
+// Os ajudantes em paralelo são registrados por endereço, não por import: entram à mão.
+const ENTRADAS=['viewer.js','renderer.js','interior-renderer.js','mapa-retorno.js','decodificar-worker.js','transfer-worker.js'];
 // Exceção, dita com clareza: o leitor do estoque é gerado (compilar_estoque.mjs) a partir do modelo de
 // estoque do painel (painel/src/lib/estoque-modelo.ts), que ainda descreve só o prédio do LIV
 // (salesInventory liv-sales-v1, 170 posições, também nas regras do banco). Generalizar é do painel e
