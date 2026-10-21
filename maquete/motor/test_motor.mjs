@@ -1,5 +1,5 @@
-// MG-2 (tasks/painel/maquete-geral.md §10): o motor da maquete, com o pacote de teste. Roda no CI, sem
-// placa de vídeo; abrir no WebGPU e no WebGL2 é o qa_abrir.py, que precisa dela.
+// MG-2 e MG-3 (tasks/painel/maquete-geral.md §10): o motor da maquete, com os pacotes de teste. Roda no CI,
+// sem placa de vídeo; abrir no WebGPU e no WebGL2 é o qa_abrir.py (o prédio) e o qa_casa.py (a casa).
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {mkdtempSync,readFileSync,rmSync} from 'node:fs';
@@ -10,7 +10,8 @@ import {fileURLToPath} from 'node:url';
 import {gunzipSync} from 'node:zlib';
 import {test} from 'node:test';
 import dados from './dados/maquete.js';
-import {gerar} from './gerar_pacote_teste.mjs';
+import {gerar,gerarCasa} from './gerar_pacote_teste.mjs';
+import casa from './pacote-casa/maquete.js';
 import {EXTERIOR_EDITIONS,requestedEdition} from './edicoes.js';
 import {validateUnits} from './unidades.js';
 import {expandBuildingCatalog,floorLabel} from './catalogo-unidades.js';
@@ -23,7 +24,7 @@ const sha=b=>createHash('sha256').update(b).digest('hex');
 
 // ── o motor não tem dado de imóvel ──
 
-const PAGINAS=['interior.html','prova-rgbm.html'];
+const PAGINAS=['interior.html','prova-rgbm.html','maquete.html'];
 const ENTRADAS=['viewer.js','renderer.js','interior-renderer.js','decodificar-worker.js','transfer-worker.js'];
 // O leitor do estoque (estoque-runtime.js) é do LIV e não veio para a main: ele é gerado do modelo de
 // estoque do painel, que ainda descreve só o prédio do LIV. O viewer.js só o carrega com o estoque ligado.
@@ -33,7 +34,7 @@ function motor(){
   for(const p of PAGINAS)for(const [,src] of ler(p).toString().matchAll(/<script[^>]*\ssrc="([^"?]+)/g))fila.push(src);
   while(fila.length){
     const nome=fila.pop().replace(/^\.\//,'');
-    if(vistos.has(nome)||nome.startsWith('dados/')||FORA.has(nome))continue;
+    if(vistos.has(nome)||nome.startsWith('dados/')||nome.startsWith('pacote-casa/')||FORA.has(nome))continue;
     vistos.add(nome);
     for(const [,dep] of ler(nome).toString().matchAll(/(?:\bfrom\s*|\bimport\s*\(\s*)['"](\.\/[^'"?]+)/g))fila.push(dep);
   }
@@ -61,12 +62,14 @@ test('o motor não tem nome, medida, caminho nem número de imóvel', () => {
 
 // ── o pacote de teste ──
 
-test('o pacote de teste sai igual ao gerar de novo', () => {
-  const tmp=mkdtempSync(join(tmpdir(),'pacote-teste-'));
-  try{
-    const novo=gerar(tmp);
-    for(const nome of Object.keys(novo))assert.equal(novo[nome],sha(ler('dados/'+nome)),`${nome} mudou: rode gerar_pacote_teste.mjs`);
-  }finally{rmSync(tmp,{recursive:true,force:true});}
+test('os pacotes de teste saem iguais ao gerar de novo', () => {
+  for(const [pasta,gerador] of [['dados/',gerar],['pacote-casa/',gerarCasa]]){
+    const tmp=mkdtempSync(join(tmpdir(),'pacote-teste-'));
+    try{
+      const novo=gerador(tmp);
+      for(const nome of Object.keys(novo))assert.equal(novo[nome],sha(ler(pasta+nome)),`${pasta}${nome} mudou: rode gerar_pacote_teste.mjs`);
+    }finally{rmSync(tmp,{recursive:true,force:true});}
+  }
 });
 
 test('as identidades do manifesto batem com os arquivos', () => {
@@ -84,6 +87,48 @@ test('as identidades do manifesto batem com os arquivos', () => {
   // toda malha com luz pré-calculada tem a UV dela
   for(const malha of cena.meshes)if(cena.materials[malha.material].baked)assert.ok(cena.geometries[malha.geometry].attributes.uv1,malha.name);
   assert.deepEqual(Object.keys(cena.views).sort(),Object.keys(dados.vistasDaCena).sort());
+});
+
+// ── a casa (MG-3): uma unidade, sem e com luz pré-calculada ──
+
+test('a casa sem luz pré-calculada: nenhum material a pede, e o sol da cena faz a sombra', () => {
+  const edicao=nome=>{
+    const m=JSON.parse(ler(`pacote-casa/${nome}/manifest.json`)),cena=JSON.parse(gunzipSync(ler(`pacote-casa/${nome}/scene.json.gz`)));
+    assert.equal(sha(gunzipSync(ler(`pacote-casa/${nome}/scene.json.gz`))),m.sceneJSONSHA256);
+    return {m,cena};
+  };
+  const leve=edicao('leve'),premium=edicao('premium');
+  assert.deepEqual([Object.keys(leve.m.files),leve.m.bakedMeshes,leve.cena.rgbm],[['scene.json.gz'],0,null]);
+  assert.ok(leve.cena.materials.every(m=>!m.baked));
+  assert.ok(leve.cena.geometries.every(g=>!g.attributes.uv1),'sem luz pré-calculada, nenhuma malha leva a UV dela');
+  const sol=leve.cena.lights.filter(l=>l.castShadow);
+  assert.deepEqual(sol.map(l=>l.type),['DirectionalLight']);
+  assert.ok(leve.cena.meshes.some(m=>m.castShadow)&&leve.cena.meshes.some(m=>m.receiveShadow&&!m.castShadow),'a casa projeta, o chão recebe');
+  // A premium é o mesmo modelo, com a luz.
+  assert.equal(premium.m.sourceModelSHA256,leve.m.sourceModelSHA256);
+  assert.deepEqual([premium.m.bakedMeshes,premium.cena.rgbm.textureURL],[2,'irradiance.rgbm.gz']);
+  // O que a página da casa (maquete.html) lê dos dados.
+  assert.equal(casa.tipo,'casa');
+  assert.ok(Object.values(casa.edicoes).every(e=>e.units===null),'uma unidade não tem cadastro de pavimento');
+  assert.deepEqual(Object.keys(casa.edicoes).map(e=>casa.edicoes[e].assets),['dados/leve/','dados/premium/']);
+  assert.equal(casa.edicaoPadrao,'leve');
+  assert.ok(casa.ficha.preco&&casa.ficha.linhas.length&&casa.planta.comodos.length&&casa.mapa.pagina);
+});
+
+test('a Planta 2D sai da planta do cadastro pelo floor-plan.js do v16', async () => {
+  globalThis.location??={search:''};               // o floor-plan.js lê a URL ao ser criado
+  const {desenharPlanta}=await import('./planta-desenho.js');
+  const conta=(svg,classe)=>svg.split(`class="${classe}"`).length-1;
+  const svg=desenharPlanta(casa.planta,800,520);
+  // 4 portas de giro com folha e arco; as 2 passagens largas (sala-cozinha, sala-circulação) sem nada.
+  assert.deepEqual(['comodo','janela','folha','arco','correr','rotulo','area'].map(c=>conta(svg,c)),[6,5,4,4,0,6,6]);
+  assert.ok(conta(svg,'parede')>=casa.planta.comodos.length);
+  // Só o corte a 1,2 m: cada janela parte a parede em duas, e o peitoril e a verga dela não são desenhados.
+  const semJanela=desenharPlanta({...casa.planta,janelas:[]},800,520);
+  assert.equal(conta(svg,'parede'),conta(semJanela,'parede')+casa.planta.janelas.length);
+  // O nome vem do cadastro: marcação nele não pode virar marcação no SVG.
+  const nomes=desenharPlanta({...casa.planta,comodos:casa.planta.comodos.map((c,i)=>i?c:{...c,nome:'<b>Sala & Jantar</b>'})},800,520);
+  assert.ok(nomes.includes('&lt;b&gt;Sala &amp; Jantar&lt;/b&gt;')&&!nomes.includes('<b>'));
 });
 
 // O ajudante que baixa, confere e descomprime (decodificar-worker.js), rodado de verdade no Node.

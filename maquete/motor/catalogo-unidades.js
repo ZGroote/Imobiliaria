@@ -1,6 +1,7 @@
 import dados from './dados/maquete.js';
 import {loadUnits,validateUnits} from './unidades.js';
-const P=dados.predio,lastFloor=P.pavimentos-1;
+// A single-unit property has no building: no floors, and the building catalog is never expanded.
+const P=dados.predio??{},lastFloor=(P.pavimentos??0)-1;
 export function unitScope(search){return new URLSearchParams(search).get('unidades')==='edificio'?'edificio':'piloto';}
 export function floorOf(catalog,unit){return unit?.floorIndex??catalog.floorIndex;}
 export function floorLabel(index){
