@@ -80,12 +80,13 @@ export function desenharPlanta(planta,largura,altura){
     if(area>.4&&small*3.6<2*p.d*scale)out.push(`<text class="area" x="${f(X(p.x))}" y="${f(y+small*1.18)}" text-anchor="middle" `+
       `font-family="system-ui,sans-serif" font-size="${f(small)}" fill="${TEXT}.48)">${area.toFixed(1).replace('.',',')} m²</text>`);
   }
-  // The scale bar: the nearest round step to a fifth of the width, redrawn at the drawing's scale.
+  // The scale bar: the nearest round step to a fifth of the width, redrawn at the drawing's scale. It and
+  // its label stay inside the bottom strip: above the bar, the label fell on a plan that reaches the strip.
   const step=[1,2,5,10,20].filter(m=>m*scale<=(largura-2*M)*.2).pop()??1;
-  const bx=M+2,by=altura-M/2-5,bw=step*scale;
+  const bx=M+2,by=altura-12,bw=step*scale;
   out.push(`<path class="escala" d="M ${bx} ${by-4} V ${by+4} M ${bx} ${by} H ${f(bx+bw)} M ${f(bx+bw)} ${by-4} V ${by+4}" `+
     `fill="none" stroke="${TEXT}.45)" stroke-width="1.5"/>`,
-    `<text x="${f(bx+bw/2)}" y="${by-8}" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="${TEXT}.6)">${step} m</text>`);
+    `<text x="${f(bx+bw+6)}" y="${by+4}" font-family="system-ui,sans-serif" font-size="11" fill="${TEXT}.6)">${step} m</text>`);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${largura} ${altura}" width="${largura}" height="${altura}" `+
     `role="img" aria-label="Planta baixa">${out.join('')}</svg>`;
 }
