@@ -1,0 +1,3 @@
+# Recursos identificados por SHA-256 (o motor confere os bytes): preservar no checkout do Windows.
+interiores/** -text whitespace=cr-at-eol
+dados/** -text whitespace=cr-at-eol
