@@ -13,6 +13,16 @@ import { registrarPreviaDoRobo, reterNaRevisaoInterna } from '../painel/src/lib/
 
 const sha = (b) => createHash('sha256').update(b).digest('hex')
 
+// Portão falhou (ou a 3ª tentativa): o pedido vai para a revisão interna, com o motivo (§1.3). Pedido
+// que já saiu do status em que a etapa o pegou não é tocado.
+export async function reter(db, dbRobo, job, erro, status) {
+  if (erro.code === 'REQUEST_CHANGED') return
+  const s = await db.doc('requests/' + job.requestId).get()
+  if (s.data()?.status !== status) return
+  await reterNaRevisaoInterna(dbRobo, { id: s.id, ...s.data() },
+    { jobId: job.id, stage: job.stage, code: erro.code ?? 'FAILED', message: String(erro.message).slice(0, 500) })
+}
+
 // Um script do pipeline: a última linha do stdout é o JSON do resultado; o progresso vai para o
 // stderr e fica aqui dentro, fora do registro público. Recusa do script (saída 1 sem Traceback) é
 // portão; Traceback ou o processo que não sobe é falha de infraestrutura, e tenta de novo.
@@ -137,15 +147,7 @@ export function executorPrevia({ db, dbRobo, raiz, canal, python = 'python', bus
     } }
   }
 
-  // Portão falhou (ou a 3ª tentativa): o pedido vai para a revisão interna, com o motivo (§1.3).
-  // Pedido que já mudou não é tocado.
-  previa.aoFalhar = async (job, erro) => {
-    if (erro.code === 'REQUEST_CHANGED') return
-    const s = await db.doc('requests/' + job.requestId).get()
-    if (s.data()?.status !== 'production') return
-    await reterNaRevisaoInterna(dbRobo, { id: s.id, ...s.data() },
-      { jobId: job.id, stage: 'preview', code: erro.code ?? 'FAILED', message: String(erro.message).slice(0, 500) })
-  }
+  previa.aoFalhar = (job, erro) => reter(db, dbRobo, job, erro, 'production')
 
   // Robô morto no meio: se o pedido já tem esta prévia, o registro aconteceu (§9).
   previa.reconciliar = async (job) => {

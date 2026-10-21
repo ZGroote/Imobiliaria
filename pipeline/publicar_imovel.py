@@ -6,6 +6,8 @@
     python pipeline/publicar_imovel.py montar-live promover <id> <build> --estado estado.json
     python pipeline/publicar_imovel.py montar-live reverter <id> --estado estado.json
 
+`--builds` e `--site` trocam as pastas padrao (o robo do M2 monta numa pasta temporaria).
+
 Por enquanto so monta, sem Firebase e sem rede: `publicacao/site/` vira exatamente o que o
 proximo deploy sobe (o `public` do firebase.imoveis.json).
 
@@ -391,6 +393,9 @@ def main(argv=None):
     rv = acoes.add_parser('reverter', help='troca atual e anterior do imovel')
     rv.add_argument('imovel')
     rv.add_argument('--estado', required=True, help='estado.json do snapshot anterior')
+    for a in (pr, rv):
+        a.add_argument('--builds', type=Path, default=BUILDS, help='pasta dos builds (padrao: publicacao/builds)')
+        a.add_argument('--site', type=Path, default=SITE, help='pasta montada (padrao: publicacao/site)')
     args = parser.parse_args(argv)
     try:
         if args.comando == 'montar-preview':
@@ -399,7 +404,8 @@ def main(argv=None):
             anterior = ({'schema': 1, 'imoveis': {}} if getattr(args, 'estado_vazio', False)
                         else json.loads(Path(args.estado).read_text(encoding='utf-8')))
             resultado = montar_live(args.acao, args.imovel, getattr(args, 'build', None), anterior,
-                                    manifest_aprovado=getattr(args, 'manifest_aprovado', None))
+                                    manifest_aprovado=getattr(args, 'manifest_aprovado', None),
+                                    builds=args.builds, site=args.site)
     except (ValueError, OSError) as exc:
         parser.exit(1, str(exc) + '\n')
     print(json.dumps(resultado, ensure_ascii=False))

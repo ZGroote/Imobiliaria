@@ -196,25 +196,36 @@ async function cancelarJob(db, dono, id, agora) {
 // O job acabou mal (portão, ou a 3ª falha): a etapa avisa o pedido (`aoFalhar`, por exemplo a
 // revisão interna com o motivo, m2-worker.md §1.3), com a trava conferida antes. Se o aviso falhar,
 // o motivo fica no próprio job.
-async function falhou(db, dono, job, executor, status, error, agora) {
-  if (executor?.aoFalhar) {
-    if (!(await renovarTrava(db, dono, agora, job.id))) throw new TravaPerdida()
-    try { await executor.aoFalhar(job, error) } catch (e) { error = { ...error, escalation: String(e.message) } }
-  }
-  return encerrar(db, dono, job.id, status, { error }, agora)
+async function avisar(db, dono, job, executor, error, agora) {
+  if (!executor?.aoFalhar) return error
+  if (!(await renovarTrava(db, dono, agora, job.id))) throw new TravaPerdida()
+  try { await executor.aoFalhar(job, error) } catch (e) { return { ...error, escalation: String(e.message) } }
+  return error
 }
+
+const falhou = async (db, dono, job, executor, status, error, agora) =>
+  encerrar(db, dono, job.id, status, { error: await avisar(db, dono, job, executor, error, agora) }, agora)
 
 // Falha de infraestrutura: volta para a fila até a 3ª tentativa; depois, `failed`.
 const tentarDeNovo = (db, dono, job, executor, error, agora) => (job.attempt ?? 0) < TENTATIVAS
   ? encerrar(db, dono, job.id, 'pending', { error }, agora)
   : falhou(db, dono, job, executor, 'failed', error, agora)
 
-// Job `running` sem sinal de vida (§9): a etapa decide pelo que o mundo mostra (`reconciliar`);
-// sem isso, recomeça do zero.
+// Job `running` sem sinal de vida (§9): a etapa decide pelo que o mundo mostra (`reconciliar`, que
+// pode registrar o que faltou: com a trava conferida antes); sem isso, recomeça do zero.
 async function reconciliar(db, dono, doc, executores, agora) {
   const job = { id: doc.id, ...doc.data() }
   const executor = executores[job.stage]
-  const decisao = executor?.reconciliar ? await executor.reconciliar(job) : null
+  let decisao = null
+  if (executor?.reconciliar) {
+    if (!(await renovarTrava(db, dono, agora, job.id))) throw new TravaPerdida()
+    try {
+      decisao = await executor.reconciliar(job)
+    } catch (e) {
+      if (e instanceof Bloqueio) return falhou(db, dono, job, executor, 'blocked', { code: e.code, message: e.message }, agora)
+      return tentarDeNovo(db, dono, job, executor, { code: e.code ?? 'NETWORK', message: String(e.message) }, agora)
+    }
+  }
   if (decisao?.status) return encerrar(db, dono, job.id, decisao.status, decisao.campos ?? {}, agora)
   return tentarDeNovo(db, dono, job, executor, { code: 'LEASE_LOST', message: 'o robô anterior parou sem sinal de vida' }, agora)
 }
@@ -238,9 +249,12 @@ async function executar(db, dono, job, executor, agora, sinalMs) {
   }, sinalMs) : null
   const ref = db.doc('buildJobs/' + job.id)
   // Fronteira de passo: a trava ainda é minha? Pediram para cancelar? Só então o passo seguinte.
+  // Depois que o deploy do live começa, não se cancela: ele termina e é conferido (§10).
+  let semVolta = false
   const passo = async (step) => {
     if (perdida || !(await renovarTrava(db, dono, agora(), job.id))) throw new TravaPerdida()
-    if ((await ref.get()).data().cancelRequested) throw new Cancelado()
+    if (!semVolta && (await ref.get()).data().cancelRequested) throw new Cancelado()
+    if (step === 'deploy') semVolta = true
     if (step) await ref.update({ step, updatedAt: ts(agora()) })
   }
   try {
@@ -268,8 +282,15 @@ export async function rodar(db, { dono, agora = Date.now, executores = {}, limit
     for (const d of c.mortos) await reconciliar(db, dono, d, executores, agora())
     for (const id of c.cancelar) await cancelarJob(db, dono, id, agora())
     for (const f of c.novos) {
-      await criarJob(db, dono, f.id, await planejar(db, f), agora())
+      const dados = await planejar(db, f)
+      const status = await criarJob(db, dono, f.id, dados, agora())
       feito.criados++
+      // A aprovação que não passa: ninguém clicou para ver o motivo no cartão, então o pedido volta
+      // para a equipe, como num portão (§1.3). O clique que não passa não mexe no pedido.
+      if (status === 'blocked' && f.trigger !== 'click') {
+        const error = await avisar(db, dono, { id: f.id, ...dados }, executores[f.stage], dados.error, agora())
+        if (error.escalation) await db.doc('buildJobs/' + f.id).update({ error, updatedAt: ts(agora()) })
+      }
     }
     const fila = (await db.collection('buildJobs').where('status', '==', 'pending').get()).docs
       .filter((d) => executores[d.data().stage])

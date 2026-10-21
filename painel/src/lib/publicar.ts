@@ -26,8 +26,9 @@ export async function conferirPublicacao(r: Request, p: Property, site: string, 
 // Registro da publicação no Firestore (só platform_admin). Quem põe no ar é o pipeline
 // (publicar_imovel.py montar-live promover); aqui se registra o que o estado.json do site mostra.
 // Um batch: pedido -> published (+ AuditLog), imóvel aponta o build, e o registro em publications.
+// O robô (tools/worker_publicar.mjs) registra com esta mesma função, e o id do job dele vai no AuditLog.
 export async function registrarPublicacao(db: Firestore, uid: string, r: Request, p: Property, site: string,
-  buscar?: Buscar) {
+  buscar?: Buscar, jobId?: string) {
   const { build, unidade } = await conferirPublicacao(r, p, site, buscar)
   const links = linksPublicos(site, unidade)
   // O par que estava no ar (build, pedido) vira o anterior: é para ele que a reversão volta.
@@ -42,7 +43,7 @@ export async function registrarPublicacao(db: Firestore, uid: string, r: Request
     ...(p.publishedBuild ? { previousBuild: p.publishedBuild } : {}), ...links,
     publishedBy: uid, publishedAt: serverTimestamp(),
   })
-  noBatch(b, db, uid, r, 'published', {}, { build })
+  noBatch(b, db, uid, r, 'published', {}, { build, ...(jobId ? { jobId } : {}) })
   b.update(doc(db, 'properties', p.id), {
     publishedBuild: build, ...anterior, publishedRequestId: r.id, publishedAt: serverTimestamp(),
     ...links, publicUrl: links.tourUrl, lastPublicationId: pub.id, updatedAt: serverTimestamp(),

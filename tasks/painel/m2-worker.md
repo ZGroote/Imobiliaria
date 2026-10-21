@@ -327,7 +327,7 @@ execução (`gha-<run_id>-<run_attempt>`, ou `local-<máquina>-<pid>`).
     (`LEASE_LOST`).
 - **Antes de cada efeito externo** (deploy do canal, deploy do live, escrita no pedido): uma
   transação confere `owner == eu` e pelo menos 10 min de prazo, e relê o pedido e a conta. O
-  deploy leva ~1–2 min (medir no M2-5).
+  tempo do deploy de verdade só se mede no M2-8: o M2-5 usa um deploy falso.
 - **Soltar** no fim, numa transação: só apaga se `owner == eu`.
 - **Criar job, assumir job e encerrar job** acontecem com a trava na mão. Assim a criação é
   feita uma de cada vez, e a regra "um job ativo por pedido" (`ACTIVE_BUILDJOB_EXISTS`) deixa
@@ -622,9 +622,11 @@ custo próprios: [materiais-da-solicitacao.md](materiais-da-solicitacao.md) §9.
 
 Estimativa do tráfego do robô:
 
-- **Pedir compressão é obrigatório.** O robô baixa com `Accept-Encoding: gzip`. Medido aqui: a
-  maquete de 4,0 MB cai para 688 KB em gzip. A compressão do tour não foi medida; a estimativa é
-  ~4 MB, e o número certo sai do M2-5.
+- **Pedir compressão é obrigatório.** O robô baixa com `Accept-Encoding: gzip`, que o `fetch` do
+  Node já pede sozinho (conferido no M2-5). Medido:
+  - a maquete de 4,0 MB cai para 688 KB em gzip;
+  - no M2-5, o tour de 14,2 MB cai para 4,5 MB, e a maquete de 3,2 MB para 0,65 MB: **um build
+    baixa ~5,1 MB**.
 - **Os tiles nunca são baixados.** Vêm do git.
 - **Prévia:** ~5 MB, a conferência dos bytes servidos no canal. O upload não conta como
   tráfego.
@@ -733,6 +735,41 @@ próprio do `users/worker` sem assinatura.
     - o robô de verdade criou o job, e o cartão mostrou o motivo na hora;
     - rodando, cancelar, enviar à revisão do cliente, pedir revisão como gerente e o selo do menu
       funcionaram, sem erro no console.
+- **M2-5 (20/10), em PR, sem nada no ar.**
+  - **Etapa de publicar** (`tools/worker_publicar.mjs`), na ordem da §3:
+    - baixa o `estado.json` do ar: 404 ou formato errado dá `STATE_UNREADABLE`, nunca "site vazio";
+    - baixa os builds no ar e traz o aprovado do canal, conferido contra o sha aprovado
+      (`PREVIEW_GONE`) e contra o próprio manifest;
+    - roda o `montar-live promover` de sempre, que ganhou `--builds` e `--site`;
+    - **portão de escopo:** compara o `arquivos` do ar com o novo. Só passa o que é de X, o
+      índice, o `imoveis.json` e quintais que entram ou saem (`OUT_OF_SCOPE`, com a lista);
+    - relê o pedido e o `estado.json` logo antes do deploy (`STATE_CHANGED`);
+    - faz o deploy (só `hosting:imoveis` pelo `firebase.imoveis.json`), relê o ar até ver o novo
+      (`LIVE_DIFFERENT`) e registra com a `registrarPublicacao` do painel, como `users/worker`.
+  - **Sem deploy duplicado:** se o aprovado já está no ar (uma tentativa anterior fez o deploy),
+    o robô só registra. Robô morto: a reconciliação da §9, pelo `estado.json`.
+  - **Depois que o deploy começa, o cancelamento não para o job** (§10).
+  - **A aprovação que não passa** (por exemplo, sem o manifest) leva o pedido à revisão interna
+    com o motivo, como um portão: ninguém clicou para ver o motivo no cartão. O clique que não
+    passa continua sem mexer no pedido.
+  - O vínculo com as vagas do plano (PL-3, [plano-no-ar.md](plano-no-ar.md)) fica para quando
+    as vagas existirem.
+  - **Testes:** 15 no emulador (`painel/tests/publicar.test.mjs`, ~5 min aqui), com os scripts de
+    verdade, o "ar" e o canal servidos por um HTTP local e um deploy falso que copia a pasta para
+    o ar. Cobrem a matriz das duas contas e as provas de falha da tabela acima, e mais:
+    `CHANNEL_MISMATCH`, `LIVE_DIFFERENT`, o pedido que muda durante a montagem, o 503 do ar
+    (tenta de novo), o registro que já tinha acontecido e a reconciliação que acha o ar mudado.
+  - **Quebra de propósito:** 19 de 19 trechos pegos, cada um pelo teste que devia pegá-lo.
+  - **Defeito dos testes achado no caminho:** o servidor falso do teste da prévia (M2-3)
+    respondia "200" antes de ler o arquivo. Num arquivo que não existe, ele travava em vez de
+    dar 404, e o robô via "falha de rede" depois de 5 min. Consertado nos dois testes.
+  - **Medido** (uma publicação, com um outro imóvel no ar, neste Windows):
+    - ~18 s no total, 16 s deles no `montar-live`;
+    - desses 16 s, quase tudo é o Windows abrindo arquivo recém-gravado (~7 ms cada, o
+      antivírus); o script em si leva menos de 1 s. No Linux do Actions deve cair bastante, e o
+      número de lá se anota no M2-8;
+    - memória: pico de 70 MB no Python e de 224 MB no Node (com os clientes do Firebase);
+    - baixados 34 MB sem compressão (os dois builds), ~10 MB com gzip.
 
 **Depende de:**
 
