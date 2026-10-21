@@ -809,4 +809,13 @@ window.addEventListener('pagehide',()=>{
 window.addEventListener('pageshow',event=>{if(event.persisted)setMode(state.mode);});
 // Saved interiors are restored only after their apartment association has been
 // validated by the optional records. The first usable scene is always exterior.
-setMode('maquete',{restore:true});
+// The 3D frame (1 MB of script) starts after the page's first contentful paint,
+// so it never competes with it. A hidden tab never paints; the timeout is a ceiling.
+let opened=false;const openFirstScene=()=>{if(!opened){opened=true;setMode('maquete',{restore:true});}};
+if(document.visibilityState==='hidden'||typeof PerformanceObserver==='undefined')openFirstScene();
+else{
+  new PerformanceObserver((list,observer)=>{
+    if(list.getEntries().some(entry=>entry.name==='first-contentful-paint')){observer.disconnect();openFirstScene();}
+  }).observe({type:'paint',buffered:true});
+  setTimeout(openFirstScene,1000);
+}

@@ -6,5 +6,8 @@
   "description": "Experimento isolado do LIV; runtime fixado para prova WebGPU e WebGL2",
   "dependencies": {
     "three": "0.186.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.10"
   }
 }

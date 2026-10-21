@@ -41,7 +41,7 @@ async function loadBytes(name,record) {
   const url=new URL(name,base);url.searchParams.set('v',record.sha256);
   const response=await fetch(url,{signal:requests.signal});
   if(!response.ok) throw Error(`Recurso ${name}: HTTP ${response.status}.`);
-  const message=name==='scene.json.gz'?'Baixando o modelo':name==='irradiance.rgbm.gz'?'Baixando a iluminação':'Baixando os acabamentos';
+  const message=downloadMessage(name);
   let bytes;
   if(response.body){
     const reader=response.body.getReader(),chunks=[];let loaded=0;
@@ -64,21 +64,40 @@ async function loadBytes(name,record) {
   return bytes;
 }
 
-async function unzip(bytes) {
-  if(typeof DecompressionStream==='undefined') throw Error('Este navegador não possui o decodificador de recursos comprimidos.');
-  return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
+function downloadMessage(name) {
+  return name==='scene.json.gz'?'Baixando o modelo':name==='irradiance.rgbm.gz'?'Baixando a iluminação':'Baixando os acabamentos';
+}
+
+// Scene and atlases are downloaded, verified, unzipped and parsed in a worker:
+// on a phone that work blocked the page for ~0.5 s, plus ~0.7 s for the full atlas.
+const decoder=new Worker(new URL('./decodificar-worker.js',import.meta.url),{type:'module'}),decoding=new Map();
+let decodeSerial=0;
+decoder.onmessage=({data})=>{
+  const job=decoding.get(data.id);if(!job)return;
+  if(data.progress){job.progress(data.progress);return;}
+  decoding.delete(data.id);
+  if(data.error)job.reject(Error(data.error));else job.resolve(data.data??data.bytes);
+};
+decoder.onerror=()=>{for(const job of decoding.values())job.reject(Error('O decodificador de recursos não pôde ser iniciado.'));decoding.clear();};
+requests.signal.addEventListener('abort',()=>decoder.terminate());
+
+function decode(name,record,decodedSHA256,scene=false) {
+  if(!record||!Number.isInteger(record.bytes)||!/^[a-f0-9]{64}$/.test(record.sha256))throw Error(`Identidade do recurso ${name} ausente no manifesto.`);
+  const url=new URL(name,base);url.searchParams.set('v',record.sha256);
+  return new Promise((resolve,reject)=>{
+    const id=++decodeSerial;
+    decoding.set(id,{resolve,reject,progress:({loaded,total})=>{
+      progress('download',downloadMessage(name),{resource:name,loaded,total});
+      if(scene&&loaded===total)progress('decode','Preparando o modelo');
+    }});
+    decoder.postMessage({id,url:url.href,name,bytes:record.bytes,sha256:record.sha256,decodedSHA256,scene});
+  });
 }
 
 function decodeAttribute(spec,instanced=false) {
   const Type=typedArrays[spec.type];
   if(!Type) throw Error(`Tipo de buffer não suportado: ${spec.type}.`);
-  let bytes;
-  if(typeof Uint8Array.fromBase64==='function')bytes=Uint8Array.fromBase64(spec.base64);
-  else{
-    const binary=atob(spec.base64);bytes=new Uint8Array(binary.length);
-    for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
-  }
-  const values=new Type(bytes.buffer);
+  const values=new Type(spec.buffer);
   if(values.length!==spec.length) throw Error('Buffer de geometria incompleto.');
   const Attribute=instanced?THREE.InstancedBufferAttribute:THREE.BufferAttribute;
   return new Attribute(values,spec.itemSize,spec.normalized);
@@ -131,27 +150,22 @@ async function start() {
   if(!response.ok) throw Error('Manifesto da prova indisponível.');
   const manifest=await response.json();
   if(manifest.schema!=='liv-proof-manifest-v1') throw Error('Manifesto desconhecido.');
-  const sceneBytes=await loadBytes('scene.json.gz',manifest.files['scene.json.gz']);
-  progress('decode','Preparando o modelo');
-  const encoded=await unzip(sceneBytes);
-  if(await sha(encoded)!==manifest.sceneJSONSHA256) throw Error('Cena descomprimida não corresponde ao manifesto.');
-  mark('sceneDecoded');
-  const data=JSON.parse(new TextDecoder().decode(encoded));mark('sceneParsed');
+  const data=await decode('scene.json.gz',manifest.files['scene.json.gz'],manifest.sceneJSONSHA256,true);
+  mark('sceneDecoded');mark('sceneParsed');
   if(data.schema!=='liv-exterior-proof-v1' || data.sourceModelSHA256!==manifest.sourceModelSHA256 || data.rgbm.sourceSHA256!==manifest.sourceModelSHA256) throw Error('A geometria e o atlas não pertencem à mesma edição.');
   data.views.varandas=balconyDetailView();
   data.views.acesso=entryDetailView();
   // The full atlas is 13 MB. A 1/4-per-side preview lights the first image and
   // is replaced after it (upgradeAtlas); without a preview, wait for the full one.
   const previewName='irradiance-previa.rgbm.gz',preview=manifest.files[previewName];
-  const atlasBytes=await unzip(await loadBytes(preview?previewName:data.rgbm.textureURL,preview||manifest.files[data.rgbm.textureURL]));
-  if(await sha(atlasBytes)!==(preview?preview.decodedSHA256:data.rgbm.textureSHA256)) throw Error('Atlas RGBM corrompido.');
+  const atlasBytes=await decode(preview?previewName:data.rgbm.textureURL,preview||manifest.files[data.rgbm.textureURL],
+    preview?preview.decodedSHA256:data.rgbm.textureSHA256);
   mark('atlasReady');
   progress('build','Montando a maquete');
   if(state.disposed)return;
   let atlas=createRGBMTexture(atlasBytes,preview?{...data.rgbm,width:preview.width,height:preview.height}:data.rgbm);
   async function upgradeAtlas(){
-    const bytes=await unzip(await loadBytes(data.rgbm.textureURL,manifest.files[data.rgbm.textureURL]));
-    if(await sha(bytes)!==data.rgbm.textureSHA256) throw Error('Atlas RGBM corrompido.');
+    const bytes=await decode(data.rgbm.textureURL,manifest.files[data.rgbm.textureURL],data.rgbm.textureSHA256);
     if(state.disposed)return;
     const full=createRGBMTexture(bytes,data.rgbm);
     replaceRGBMAtlas(atlas,full);atlas.dispose();atlas=state.atlas=full;mark('atlasFull');
@@ -230,7 +244,10 @@ async function start() {
     if(spec.index) geometry.setIndex(decodeAttribute(spec.index));
     for(const group of spec.groups) geometry.addGroup(group.start,group.count,group.materialIndex);
     if(spec.drawRange.count!==null) geometry.setDrawRange(spec.drawRange.start,spec.drawRange.count);
-    geometry.computeBoundingBox();geometry.computeBoundingSphere();geometries.push(geometry);
+    // Bounds were computed by the decoder worker with Three's own formula.
+    const {min,max,center,radius}=spec.bounds;
+    geometry.boundingBox=new THREE.Box3(new THREE.Vector3().fromArray(min),new THREE.Vector3().fromArray(max));
+    geometry.boundingSphere=new THREE.Sphere(new THREE.Vector3().fromArray(center),radius);geometries.push(geometry);
   });
   const building=new THREE.Group();building.name=geometryProfile==='entrada'?'LIV — entrada em estudo':geometryProfile==='contorno'?'LIV — contorno em estudo':'LIV — exterior da base preservada';
   const meshes=data.meshes.map(spec=>{
@@ -471,6 +488,17 @@ async function start() {
   };
   mark('sceneBuilt');
   progress('compile','Preparando a primeira imagem');
+  // Compile one building mesh at a time: compiling the whole scene starts every
+  // shader build in the same task (~90 ms on a phone before Three's first yield).
+  // Nothing is presented yet, so the temporary visibility is never on screen.
+  const shown=meshes.filter(mesh=>mesh.visible);
+  for(const mesh of shown)mesh.visible=false;
+  try{
+    for(const mesh of shown){
+      mesh.visible=true;await renderer.compileAsync(scene,camera);mesh.visible=false;
+      if(state.disposed)return;
+    }
+  }finally{for(const mesh of shown)mesh.visible=true;}
   await renderer.compileAsync(scene,camera);mark('compiled');
   if(state.disposed)return;
   renderer.render(scene,camera);
