@@ -30,7 +30,8 @@ before(async () => {
   servidor = http.createServer(async (req, res) => {
     const caminho = normalize(join(pastaCanal, decodeURIComponent(new URL(req.url, 'http://x').pathname)))
     if (!caminho.startsWith(pastaCanal)) return res.writeHead(403).end()
-    try { res.writeHead(200).end(await readFile(caminho)) } catch { res.writeHead(404).end() }
+    const corpo = await readFile(caminho).catch(() => null)          // o 200 só depois de ler
+    res.writeHead(corpo ? 200 : 404).end(corpo ?? undefined)
   })
   await new Promise((ok) => servidor.listen(0, '127.0.0.1', ok))
   porta = servidor.address().port
