@@ -66,7 +66,7 @@ export function rotuloDaAcao(de: RequestStatus, para: RequestStatus) {
 
 // A ÚNICA escrita de status: pedido + AuditLog no mesmo batch, do mesmo autor, na mesma hora
 // (regras: auditedAs). `detalhes` vai para o log (ex.: o build revisado, o motivo de um ajuste).
-type Detalhes = { nota?: string; build?: string; manifestSha256?: string }
+type Detalhes = { nota?: string; build?: string; manifestSha256?: string; jobId?: string }
 
 export function mudarStatus(db: Firestore, uid: string, r: Pick<Request, 'id' | 'agencyId' | 'status'>,
   para: RequestStatus, extra: Record<string, unknown> = {}, detalhes: Detalhes = {}) {

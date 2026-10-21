@@ -210,13 +210,15 @@ def construir(imovel_id, builds=BUILDS, production_mode=None):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument('imovel', help='id do cadastro, ex.: monte-dos-cedros-37')
+    # O robo do M2 monta duas vezes, em pastas separadas, e exige o mesmo build (m2-worker.md §13).
+    parser.add_argument('--builds', type=Path, default=BUILDS, help='pasta dos builds (padrao: publicacao/builds)')
     parser.add_argument('--modo', choices=modo_producao.MODOS,
                         help='produto explícito; ausente preserva o comportamento histórico')
     args = parser.parse_args(argv)
     try:
         # Cadastro, montador e recorte imprimem progresso no stdout, que e so da linha final.
         with contextlib.redirect_stdout(sys.stderr):
-            resultado = construir(args.imovel, production_mode=args.modo)
+            resultado = construir(args.imovel, builds=args.builds, production_mode=args.modo)
     except ValueError as exc:
         parser.exit(1, str(exc) + '\n')
     print(json.dumps(resultado, ensure_ascii=False))

@@ -376,6 +376,8 @@ def main(argv=None):
     p = sub.add_parser('montar-preview', help='monta publicacao/site/ com um build e os tiles')
     p.add_argument('imovel')
     p.add_argument('build')
+    p.add_argument('--builds', type=Path, default=BUILDS, help='pasta dos builds (padrao: publicacao/builds)')
+    p.add_argument('--site', type=Path, default=SITE, help='pasta montada (padrao: publicacao/site)')
     live = sub.add_parser('montar-live', help='monta publicacao/site/ com o snapshot do site no ar')
     acoes = live.add_subparsers(dest='acao', required=True)
     pr = acoes.add_parser('promover', help='poe o build no ar; o atual vira anterior')
@@ -392,7 +394,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         if args.comando == 'montar-preview':
-            resultado = montar_preview(args.imovel, args.build)
+            resultado = montar_preview(args.imovel, args.build, builds=args.builds, site=args.site)
         else:
             anterior = ({'schema': 1, 'imoveis': {}} if getattr(args, 'estado_vazio', False)
                         else json.loads(Path(args.estado).read_text(encoding='utf-8')))
