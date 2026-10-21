@@ -1,4 +1,4 @@
-# O motor da maquete (MG-2, MG-3)
+# O motor da maquete (MG-2, MG-3, MG-4)
 
 O motor que mostra a maquete de qualquer imóvel, a partir da [maquete geral](../../tasks/painel/maquete-geral.md):
 
@@ -45,6 +45,50 @@ O motor que mostra a maquete de qualquer imóvel, a partir da [maquete geral](..
   alugado);
 - quando o imóvel sai do ar, ela cobre a página inteira, inclusive a maquete.
 
+## O exportador (MG-4)
+
+O `pipeline/maquete_dados.py` transforma a maquete de hoje num pacote de dados deste motor:
+
+```
+python pipeline/maquete_dados.py <imovel> --modo leve|premium --saida PASTA
+```
+
+1. **Monta a página de hoje** com o `pagina_maquete.py`, como o build: no LEVE, a do cadastro; no
+   PREMIUM, a do padrão do Cedros, com a luz calculada dele.
+2. **Abre a página num Chrome sem janela** e lê a cena dela (`window.__maq`), como o `exportar_cena.py`
+   do LIV.
+   - Não precisa de placa de vídeo: o gráfico roda no processador (SwiftShader).
+   - O relógio dos quadros fica parado: a maquete de hoje gira sozinha e pulsa o andar da unidade, e isso
+     mudaria a câmera e a cor a cada exportação.
+3. **Grava o pacote**:
+   - `maquete.js`: a ficha e a planta, lidas da própria página;
+   - `exterior/`: a cena, o manifesto e as texturas;
+   - no PREMIUM, também a luz do Cedros. O arquivo do padrão tem 8 bytes de cabeçalho (largura e altura)
+     antes das cores; o motor lê só as cores e confere o tamanho, então o cabeçalho sai.
+
+**Exportar duas vezes na mesma máquina dá os mesmos bytes**: chaves em ordem, gzip sem data e nenhum
+horário no manifesto.
+
+**Medido em 21/10, neste computador**:
+
+| | LEVE (Monte das Colinas) | PREMIUM (Cedros) |
+|---|---|---|
+| Montar a página de hoje | 3,2 s | 6,9 s |
+| Abrir e ler a cena | 4,5 s | 5,8 s |
+| Gravar o pacote | menos de 0,1 s | 3,6 s (comprimir a luz de 4096²) |
+| Memória do navegador (JS) | 10 MB | 37 MB |
+| Pacote | 0,25 MB (cena de 163 KB e 4 texturas) | 8,2 MB (cena de 1,4 MB e luz de 6,7 MB) |
+| A página de hoje, para comparar | 3,3 MB | 43,7 MB |
+
+- O Python chegou a 211 MB de pico exportando os três casos duas vezes.
+- Na máquina do GitHub, o tempo e a instalação do Chrome e do Playwright ainda são a medir, no MG-5.
+
+**Diferenças conhecidas para a página de hoje:**
+- **As linhas verdes do andar da unidade não vêm.** O motor só desenha malhas. No LEVE, o andar continua
+  pintado de verde, porque a cor está nas próprias paredes. No PREMIUM, as linhas eram o único realce do
+  andar, então ele some.
+- **O reflexo do céu é o do motor**, e não o da página.
+
 ## Como conferir
 
 - **No CI** (`npm test` na raiz), sem placa de vídeo, `test_motor.mjs` confere:
@@ -73,6 +117,11 @@ O motor que mostra a maquete de qualquer imóvel, a partir da [maquete geral](..
       "fora do ar" cobrindo a tela.
   - Até o #88 chegar à main, o `qa_casa.py` pega o `vitrine_ao_vivo.js` e a regra de `vitrine/<slug>` do
     galho dele (`origin/feat/imovel-no-ar`).
+  - O `qa_exportados.py` exporta duas vezes o Monte das Colinas (LEVE) e o Cedros (LEVE e PREMIUM), e
+    confere que os bytes são os mesmos. Depois abre cada pacote no motor, no WebGPU e no WebGL2, e grava
+    um print lado a lado com a página de hoje.
+- **O exportador sem navegador** (`tests/test_maquete_dados.py`, no CI): o pacote sai igual da mesma
+  cena, os manifestos batem, a luz do Cedros vira o formato do motor, e cada produto leva só a luz dele.
 
 ## O que ficou de fora, por enquanto
 
