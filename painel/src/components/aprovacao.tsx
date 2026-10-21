@@ -1,10 +1,11 @@
 'use client'
 import { useState } from 'react'
 import { Aviso, Cartao, useAcao } from './ui'
-import { aprovar, pedirAjuste, registrarPreview } from '@/lib/aprovacao'
+import { aprovar, pedirRevisao, registrarPreview } from '@/lib/aprovacao'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
 import { comandosPreview, lerPreview } from '@/lib/publicacao'
+import { enviarParaRevisaoDoCliente } from '@/lib/robo'
 import { usePerfil } from '@/lib/session'
 import type { Preview, Property, Request } from '@/lib/types'
 
@@ -12,12 +13,16 @@ const Link = ({ href, children }: { href: string; children: string }) =>
   <a href={href} target="_blank" rel="noopener noreferrer" className="text-sky-700 hover:underline">{children}</a>
 
 // O build em revisão e a decisão do gerente. Aprovar vale para ESTE build (hash), não para o pedido.
-export function PreviewEmRevisao({ r, pessoa }: { r: Request; pessoa: (uid: string) => string }) {
+// Na revisão interna (o robô parou ali, ou o gerente pediu revisão), a equipe libera a prévia para o
+// cliente revisar; o painel relê o canal antes.
+export function PreviewEmRevisao({ r, pessoa, imovel }: { r: Request; pessoa: (uid: string) => string; imovel?: Property | null }) {
   const perfil = usePerfil()
   const { executar, ocupado, erro } = useAcao()
   const [ajuste, setAjuste] = useState<string | null>(null)
   if (!r.preview) return null
   const decide = perfil.role === 'agency_manager' && r.status === 'agency_review'
+  const libera = (perfil.role === 'platform_admin' || perfil.role === 'operator') && r.status === 'internal_review'
+    && !!imovel?.pipelineUnitId
   return (
     <Cartao titulo={r.status === 'agency_review' ? 'Preview para revisão' : 'Preview'}>
       <div className="space-y-1 text-sm">
@@ -35,20 +40,28 @@ export function PreviewEmRevisao({ r, pessoa }: { r: Request; pessoa: (uid: stri
             confirm(`Aprovar o build ${r.preview!.build} para publicação?`) && executar(() => aprovar(db, perfil.id, r))}>
             Aprovar este build
           </button>
-          <button disabled={ocupado} className="btn" onClick={() => setAjuste('')}>Pedir ajuste</button>
+          <button disabled={ocupado} className="btn" onClick={() => setAjuste('')}>Pedir revisão</button>
         </div>
       )}
       {decide && ajuste !== null && (
         <div className="mt-4 space-y-2">
           <textarea rows={3} value={ajuste} onChange={(e) => setAjuste(e.target.value)} className="campo"
-            placeholder="O que precisa mudar no tour?" />
+            placeholder="O que precisa mudar no tour? A equipe revisa e manda de novo." />
           <div className="flex gap-2">
             <button disabled={ocupado} className="btn-primario"
-              onClick={async () => { if (await executar(() => pedirAjuste(db, perfil.id, r, ajuste))) setAjuste(null) }}>
-              Enviar pedido de ajuste
+              onClick={async () => { if (await executar(() => pedirRevisao(db, perfil.id, r, ajuste))) setAjuste(null) }}>
+              Enviar pedido de revisão
             </button>
             <button className="btn" onClick={() => setAjuste(null)}>Cancelar</button>
           </div>
+        </div>
+      )}
+      {libera && (
+        <div className="mt-4">
+          <button disabled={ocupado} className="btn-primario" onClick={() =>
+            executar(() => enviarParaRevisaoDoCliente(db, perfil.id, r, imovel!.pipelineUnitId!))}>
+            Enviar para a revisão do cliente
+          </button>
         </div>
       )}
       {erro && <Aviso>{erro}</Aviso>}
@@ -56,7 +69,8 @@ export function PreviewEmRevisao({ r, pessoa }: { r: Request; pessoa: (uid: stri
   )
 }
 
-// Equipe: cola a URL do tour publicada no canal de preview; o painel lê o manifest.json ao lado.
+// Sem o robô: a equipe cola a URL do tour publicada no canal de preview; o painel lê o manifest.json
+// ao lado. Fica fechado: com o robô, o caminho é o "Gerar prévia" do cartão do robô.
 export function RegistrarPreview({ r, imovel }: { r: Request; imovel?: Property | null }) {
   const perfil = usePerfil()
   const { executar, ocupado, erro } = useAcao()
@@ -68,8 +82,12 @@ export function RegistrarPreview({ r, imovel }: { r: Request; imovel?: Property 
       Para registrar o preview, vincule um imóvel que tenha o id do pipeline.</p></Cartao>
   }
   return (
-    <Cartao titulo={r.preview ? 'Trocar o preview' : 'Registrar preview'}>
-      <div className="mb-2 space-y-1 text-xs text-slate-500">
+    <Cartao>
+      <details>
+      <summary className="cursor-pointer text-sm font-semibold">
+        Sem o robô: {r.preview ? 'trocar a prévia à mão' : 'registrar a prévia à mão'}
+      </summary>
+      <div className="mt-3 mb-2 space-y-1 text-xs text-slate-500">
         <p>Monte o preview do build e depois suba só no canal de preview deste imóvel (nunca no live):</p>
         <pre className="overflow-x-auto rounded bg-slate-100 p-2">{comandosPreview(imovel.pipelineUnitId).join('\n')}</pre>
         <p>Cole aqui o endereço do tour que o canal publicou.</p>
@@ -90,6 +108,7 @@ export function RegistrarPreview({ r, imovel }: { r: Request; imovel?: Property 
         </div>
       )}
       {erro && <Aviso>{erro}</Aviso>}
+      </details>
     </Cartao>
   )
 }

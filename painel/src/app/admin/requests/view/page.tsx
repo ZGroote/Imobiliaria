@@ -7,6 +7,7 @@ import { DadosDoPedido, EditarPedido, ROTULO_PRIORIDADE } from '@/components/ped
 import { AcoesDeStatus, Historico } from '@/components/status'
 import { PreviewEmRevisao, RegistrarPreview } from '@/components/aprovacao'
 import { RegistrarPublicacao } from '@/components/publicacao'
+import { CartaoDoRobo } from '@/components/robo'
 import { Aviso, Cartao, ComId, Estado, Selo, useAcao } from '@/components/ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
@@ -46,7 +47,8 @@ function Solicitacao({ id }: { id: string }) {
             <div className="space-y-6">
               <AcoesDeStatus r={p} bloqueio={{ production: bloqueioDaProducao(p, imovel) }} />
               {p.propertyId && <EntradaDaPlanta p={p} pessoa={cat.pessoa} />}
-              <PreviewEmRevisao r={p} pessoa={cat.pessoa} />
+              <CartaoDoRobo r={p} />
+              <PreviewEmRevisao r={p} pessoa={cat.pessoa} imovel={imovel} />
               <RegistrarPublicacao r={p} imovel={imovel} />
               <RegistrarPreview r={p} imovel={imovel} />
               <Producao p={p} cat={cat} />

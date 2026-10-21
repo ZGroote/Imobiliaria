@@ -2,7 +2,7 @@ import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { doc, getDoc, type Firestore } from 'firebase/firestore'
-import { aprovar, pedirAjuste, registrarPreview } from '../src/lib/aprovacao.ts'
+import { aprovar, pedirRevisao, registrarPreview } from '../src/lib/aprovacao.ts'
 import { lerPreview, validarManifesto } from '../src/lib/publicacao.ts'
 import { editarPedidoInterno } from '../src/lib/pedidos.ts'
 import { mudarStatus } from '../src/lib/status.ts'
@@ -47,7 +47,7 @@ test('manifest: descreve este imóvel e este build, na pasta do build', async ()
   await assert.rejects(lerPreview('javascript:alert(1)', UNID, servir({})), /https/)
 })
 
-test('aprovação: só o gerente da agência, só o build em revisão; ajuste volta para produção', async () => {
+test('aprovação: só o gerente da agência, só o build em revisão; pedir revisão volta para a revisão interna', async () => {
   const op = await entrar('op'), gerA = await entrar('gerA'), corA = await entrar('corA'), gerB = await entrar('gerB')
   await mudarStatus(op.db, 'op', await ler(op.db, 'pedCedros'), 'accepted')
   await mudarStatus(op.db, 'op', await ler(op.db, 'pedCedros'), 'production')
@@ -64,11 +64,11 @@ test('aprovação: só o gerente da agência, só o build em revisão; ajuste vo
   await assert.rejects(aprovar(corA.db, 'corA', await ler(corA.db, 'pedCedros')), /permission/i)
   await assert.rejects(aprovar(gerB.db, 'gerB', await ler(op.db, 'pedCedros')), /permission/i)
   await assert.rejects(aprovar(op.db, 'op', await ler(op.db, 'pedCedros')), /permission/i)
-  await pedirAjuste(gerA.db, 'gerA', await ler(gerA.db, 'pedCedros'), 'Faltou a varanda.')
+  await pedirRevisao(gerA.db, 'gerA', await ler(gerA.db, 'pedCedros'), 'Faltou a varanda.')
   const r = await ler(op.db, 'pedCedros')
   const log = (await getDoc(doc(op.db, 'auditLogs', r.lastAuditId!))).data()!
-  assert.deepEqual([r.status, log.after.nota, log.after.build], ['production', 'Faltou a varanda.', 'a1b2c3d4e5f6'])
-  assert.throws(() => pedirAjuste(gerA.db, 'gerA', r, '  '), /precisa mudar/)
+  assert.deepEqual([r.status, log.after.nota, log.after.build], ['internal_review', 'Faltou a varanda.', 'a1b2c3d4e5f6'])
+  assert.throws(() => pedirRevisao(gerA.db, 'gerA', r, '  '), /precisa mudar/)
 
   const previewB = await lerPreview(site('0f9e8d7c6b5a'), UNID, servir(manifesto('0f9e8d7c6b5a')))
   await registrarPreview(op.db, 'op', await ler(op.db, 'pedCedros'), previewB)

@@ -23,8 +23,10 @@ export function aprovar(db: Firestore, uid: string, r: Pedido) {
     { build, manifestSha256 })
 }
 
-// Gerente: devolve para a produção. O motivo fica no histórico (o pedido em si não guarda).
-export function pedirAjuste(db: Firestore, uid: string, r: Pedido, motivo: string) {
+// Gerente: pede revisão. O pedido volta para a revisão interna, e a equipe revisa à mão (decisão de
+// 20/10; tasks/painel/m2-worker.md §1.1). O motivo fica no histórico (o pedido em si não guarda).
+// Fotos e áudio entram com os materiais (materiais-da-solicitacao.md §7).
+export function pedirRevisao(db: Firestore, uid: string, r: Pedido, motivo: string) {
   if (!motivo.trim()) throw new Error('Diga o que precisa mudar.')
-  return mudarStatus(db, uid, r, 'production', {}, { nota: motivo.trim(), ...(r.preview ? { build: r.preview.build } : {}) })
+  return mudarStatus(db, uid, r, 'internal_review', {}, { nota: motivo.trim(), ...(r.preview ? { build: r.preview.build } : {}) })
 }
