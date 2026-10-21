@@ -178,6 +178,35 @@ test('M2-2 falhas: infraestrutura tenta de novo até a 3ª; portão bloqueia na 
   assert.deepEqual([(await job(c2)).status, (await job(c2)).attempt, (await job(c2)).error.code], ['blocked', 1, 'CHANNEL_MISMATCH'])
 })
 
+test('M2-3 ao falhar: portão e 3ª falha avisam a etapa uma vez; trava perdida não avisa; aviso que dá erro fica no job', async () => {
+  const avisos = []
+  const comAviso = (fn, aviso = async (j, e) => { avisos.push([j.id, e.code]) }) => Object.assign(fn, { aoFalhar: aviso })
+  const c1 = await emProducao()
+  await roda({ executores: { preview: comAviso(async () => { throw new Bloqueio('CHANNEL_MISMATCH') }) } })
+  assert.deepEqual(avisos, [[c1, 'CHANNEL_MISMATCH']])
+
+  const c2 = await pede()
+  const rede = comAviso(async () => { throw new Error('rede caiu') })
+  for (let i = 0; i < TENTATIVAS; i++) await roda({ executores: { preview: rede } })
+  assert.deepEqual(avisos.at(-1), [c2, 'NETWORK'])
+  assert.equal(avisos.length, 2)                                   // só na 3ª
+
+  const c3 = await pede()                                          // perdeu a trava antes de avisar
+  await roda({ executores: { preview: comAviso(async () => {
+    await db().doc('workerLeases/global').set({ owner: 'B', jobId: null, expiresAt: Timestamp.fromMillis(Date.now() + PRAZO_MS) })
+    throw new Bloqueio('CHANNEL_MISMATCH')
+  }) } })
+  assert.equal(avisos.length, 2)
+  assert.equal((await job(c3)).status, 'running')
+
+  await db().doc('workerLeases/global').delete()
+  await db().doc('buildJobs/' + c3).update({ status: 'cancelled' })
+  const c4 = await pede()                                          // o aviso falhou: o motivo fica no job
+  await roda({ executores: { preview: comAviso(async () => { throw new Bloqueio('CHANNEL_MISMATCH') },
+    async () => { throw new Error('regra negou') }) } })
+  assert.deepEqual([(await job(c4)).status, (await job(c4)).error.escalation], ['blocked', 'regra negou'])
+})
+
 test('M2-2 escrita: pelo Admin SDK, o robô só toca buildJobs, workerLeases e auditLogs', async () => {
   const fotografia = async () => {
     const r = {}

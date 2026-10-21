@@ -193,19 +193,30 @@ async function cancelarJob(db, dono, id, agora) {
   if (job?.status === 'running') return db.doc('buildJobs/' + id).update({ cancelRequested: true, updatedAt: ts(agora) })
 }
 
+// O job acabou mal (portão, ou a 3ª falha): a etapa avisa o pedido (`aoFalhar`, por exemplo a
+// revisão interna com o motivo, m2-worker.md §1.3), com a trava conferida antes. Se o aviso falhar,
+// o motivo fica no próprio job.
+async function falhou(db, dono, job, executor, status, error, agora) {
+  if (executor?.aoFalhar) {
+    if (!(await renovarTrava(db, dono, agora, job.id))) throw new TravaPerdida()
+    try { await executor.aoFalhar(job, error) } catch (e) { error = { ...error, escalation: String(e.message) } }
+  }
+  return encerrar(db, dono, job.id, status, { error }, agora)
+}
+
 // Falha de infraestrutura: volta para a fila até a 3ª tentativa; depois, `failed`.
-const tentarDeNovo = (db, dono, job, error, agora) => (job.attempt ?? 0) < TENTATIVAS
+const tentarDeNovo = (db, dono, job, executor, error, agora) => (job.attempt ?? 0) < TENTATIVAS
   ? encerrar(db, dono, job.id, 'pending', { error }, agora)
-  : encerrar(db, dono, job.id, 'failed', { error }, agora)
+  : falhou(db, dono, job, executor, 'failed', error, agora)
 
 // Job `running` sem sinal de vida (§9): a etapa decide pelo que o mundo mostra (`reconciliar`);
 // sem isso, recomeça do zero.
 async function reconciliar(db, dono, doc, executores, agora) {
   const job = { id: doc.id, ...doc.data() }
-  const decidir = executores[job.stage]?.reconciliar
-  const decisao = decidir ? await decidir(job) : null
+  const executor = executores[job.stage]
+  const decisao = executor?.reconciliar ? await executor.reconciliar(job) : null
   if (decisao?.status) return encerrar(db, dono, job.id, decisao.status, decisao.campos ?? {}, agora)
-  return tentarDeNovo(db, dono, job, { code: 'LEASE_LOST', message: 'o robô anterior parou sem sinal de vida' }, agora)
+  return tentarDeNovo(db, dono, job, executor, { code: 'LEASE_LOST', message: 'o robô anterior parou sem sinal de vida' }, agora)
 }
 
 function assumir(db, dono, id, agora) {
@@ -238,8 +249,8 @@ async function executar(db, dono, job, executor, agora, sinalMs) {
   } catch (e) {
     if (e instanceof TravaPerdida) throw e
     if (e instanceof Cancelado) return encerrar(db, dono, job.id, 'cancelled', { error: { code: 'CANCELLED', message: 'cancelado pela equipe' } }, agora())
-    if (e instanceof Bloqueio) return encerrar(db, dono, job.id, 'blocked', { error: { code: e.code, message: e.message } }, agora())
-    return tentarDeNovo(db, dono, job, { code: e.code ?? 'NETWORK', message: String(e.message) }, agora())
+    if (e instanceof Bloqueio) return falhou(db, dono, job, executor, 'blocked', { code: e.code, message: e.message }, agora())
+    return tentarDeNovo(db, dono, job, executor, { code: e.code ?? 'NETWORK', message: String(e.message) }, agora())
   } finally {
     if (timer) clearInterval(timer)
   }

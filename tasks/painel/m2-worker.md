@@ -695,6 +695,23 @@ próprio do `users/worker` sem assinatura.
   - **Testes:** 11 no emulador (`painel/tests/worker.test.mjs`) e os 3 do `buildjob`
     atualizados.
   - **Quebra de propósito:** 15 de 15 trechos críticos, todos pegos.
+- **M2-3 (20/10), em PR, sem nada no ar.**
+  - `tools/worker_previa.mjs`, a etapa de prévia do fluxo legado:
+    - monta duas vezes, em pastas separadas, e exige o mesmo build;
+    - roda o `montar-preview`, sobe no canal e confere os bytes servidos;
+    - registra a prévia como `users/worker`, com o próximo status pela conta.
+  - Portão que falha leva o pedido à revisão interna, com o motivo num log interno. Pedido que
+    mudou não é tocado.
+  - `painel/src/lib/robo.ts` traz as escritas do robô no pedido; `painel/scripts/robo.mjs`, a
+    entrada como `users/worker` por token próprio.
+  - O `build_imovel.py` e o `montar-preview` aceitam `--builds` e `--site`.
+  - O canal de verdade (`firebase hosting:channel:deploy`) está escrito e testado só no comando;
+    a primeira subida de verdade é no M2-8.
+  - **Defeito achado no caminho:** o build de todo tour falhava desde o #88 (vitrine antes do
+    `</body>`, que o tour não tem). Foi consertado no PR #95, sobre o #91, e trazido para cá.
+  - **Testes:** 10 no emulador com os scripts reais (`painel/tests/previa.test.mjs`, ~4 min) e 1
+    do "ao falhar" no `worker.test.mjs`. O `test:painel` passa a levar ~7 min.
+  - **Quebra de propósito:** 16 de 16 trechos pegos.
 
 **Depende de:**
 
