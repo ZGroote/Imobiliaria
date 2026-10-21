@@ -1,4 +1,5 @@
 import * as THREE from 'three/webgpu';
+import dados from './dados/maquete.js';
 import {unitById} from './unidades.js';
 import {floorOf} from './catalogo-unidades.js';
 import {containsPoint,intersectPrism} from './unit-footprint.js';
@@ -6,7 +7,7 @@ import {containsPoint,intersectPrism} from './unit-footprint.js';
 // Only the first exterior envelope hit can select a zone. The roof and other
 // floors must not become transparent to picking when seen from above or obliquely.
 export function createUnitResolver(catalog){
-  const envelope=new THREE.Box3(new THREE.Vector3(-23.85,0,-7.02),new THREE.Vector3(23.85,48.45,7.02));
+  const box=dados.predio.caixaDoClique,envelope=new THREE.Box3(new THREE.Vector3().fromArray(box.min),new THREE.Vector3().fromArray(box.max));
   const zones=catalog.units.map(unit=>({unit,box:new THREE.Box3(
     new THREE.Vector3().fromArray(unit.bounds.min),new THREE.Vector3().fromArray(unit.bounds.max))}));
   const point=new THREE.Vector3();

@@ -1,7 +1,8 @@
 import {unitById} from './unidades.js';
 import {floorOf,floorLabel} from './catalogo-unidades.js';
 import {saleOf,saleLabel} from './comercial.js';
-import {typology as layout} from './tipologias.js';
+import dados from './dados/maquete.js';
+import {typology as layout,typologyIds} from './tipologias.js';
 export function createUnitUI(catalog){
   return {setCatalog(data){catalog=data;},update({selectedUnitId,ready,mode,relationError,stockError,unitScope}){
     const unit=unitById(catalog,selectedUnitId);
@@ -9,7 +10,7 @@ export function createUnitUI(catalog){
     const panel=document.getElementById('selectedApartment'),prompt=document.getElementById('selectionPrompt');
     if(panel)panel.hidden=!unit;if(prompt)prompt.hidden=Boolean(unit);
     const info=document.getElementById('btnApartmentInfo');if(info){info.hidden=!unit;info.disabled=!unit;}
-    const relation=unit?.relation,associated=Boolean(relation&&['canto','meio'].includes(relation.typology)&&relation.orientation==='original');
+    const relation=unit?.relation,associated=Boolean(relation&&typologyIds.includes(relation.typology)&&relation.orientation==='original');
     for(const button of document.querySelectorAll('[data-unit-open]')){button.hidden=!associated;button.disabled=!ready||!associated;}
     const actions=document.getElementById('selectedApartmentActions');if(actions)actions.hidden=!associated||mode!=='maquete';
     if(!unit)return;
@@ -34,7 +35,7 @@ export function createUnitUI(catalog){
     document.getElementById('commercialConditions').hidden=!sale.conditions;
     document.getElementById('commercialConditions').textContent=sale.conditions||'';
     document.getElementById('gardenNote').hidden=floorOf(catalog,unit)!==0;
-    document.getElementById('unitPosition').textContent=unit.side==='lazer'?'Lado do lazer':'Lado do estacionamento';
+    document.getElementById('unitPosition').textContent=dados.lados[unit.side].rotulo;
     document.getElementById('unitLayout').textContent=associated?layout(relation.typology).label:'Em conferência';
     document.getElementById('relationSource').hidden=!associated;
     document.getElementById('relationSource').textContent=associated&&catalog.relationSource?`Associação informada por ${catalog.relationSource.label} · ${catalog.relationSource.asOf}`:'';
@@ -47,7 +48,7 @@ export function createUnitUI(catalog){
     const meta=document.getElementById('selectedApartmentMeta');
     if(meta)meta.textContent=[area,rooms,sale.parking].filter(Boolean).join(' · ');
     const panelSale=document.getElementById('selectedApartmentSale');if(panelSale)panelSale.textContent=informed?saleLabel(unit):'Disponibilidade e preço a confirmar';
-    const side=unit.side==='lazer'?'lado do lazer':'lado do estacionamento';
+    const side=dados.lados[unit.side].rotulo.replace(/^./,c=>c.toLowerCase());
     const panelNote=document.getElementById('selectedApartmentNote');if(panelNote)panelNote.textContent=associated?`Planta ${layout(relation.typology).label} · ${side}`:note;
   }};
 }

@@ -76,7 +76,7 @@ def case(browser,profile,out,cases):
             framing=page.evaluate('''async()=>{
               await new Promise(requestAnimationFrame);await new Promise(requestAnimationFrame);
               const api=__livProva,THREE=await import('three/webgpu');api.setView('acesso');
-              const b=api.entryDetailBounds,projected=[];
+              const b=api.extraViewBounds.acesso,projected=[];
               for(const x of [b.min[0],b.max[0]])for(const y of [b.min[1],b.max[1]])for(const z of [b.min[2],b.max[2]]){
                 const p=new THREE.Vector3(x,y,z).project(api.camera);projected.push(p.toArray());}
               return {bounds:b,projected};}''')

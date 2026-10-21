@@ -1,5 +1,6 @@
 import {transfers,showTransferStatus} from './transfers.js';
-import {typology} from './tipologias.js?rev=2026-10-13-medidas2';
+import {typology,typologyIds} from './tipologias.js?rev=2026-10-13-medidas2';
+import dados from './dados/maquete.js';
 import {unitById} from './unidades.js';
 import {loadUnitCatalog,floorOf,unitScope} from './catalogo-unidades.js';
 import {createUnitUI} from './unit-ui.js';
@@ -16,12 +17,13 @@ const floorControl=document.getElementById('floor'),ambienceControl=document.get
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
 const backend=['webgpu','webgl'].includes(requested)?requested:'auto';
-const geometry=new URLSearchParams(location.search).has('geometria')?requestedEdition(location.search):'entrada';
+const geometry=new URLSearchParams(location.search).has('geometria')?requestedEdition(location.search):dados.edicaoDaMaquete;
+const lastFloor=dados.predio.pavimentos-1,pilotFloor=dados.predio.pavimentoPiloto;
 const demonstration=new URLSearchParams(location.search).get('demonstracao')==='1';
 const scope=demonstration||new URLSearchParams(location.search).has('estoque')||!new URLSearchParams(location.search).has('unidades')?'edificio':unitScope(location.search);
 const finish=geometry!=='base'||new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
 const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
-const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,panelCollapsed:false,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
+const state=window.__livViewer={ready:false,mode:'maquete',typology:typologyIds[0],interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,panelCollapsed:false,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
 state.ambience=requestedAmbience(location.search);
 state.availabilityFilter='disponiveis';
 let units,unitUI;
@@ -47,14 +49,14 @@ function updateMapLink(){
 try {
   const saved=JSON.parse(sessionStorage.getItem(storageKey));
   if(saved?.version===1&&['maquete','planta2d','planta3d','visita'].includes(saved.mode)&&
-    Number.isInteger(saved.floor)&&saved.floor>=-1&&saved.floor<=16&&
-    ['perspectiva','fachada','aerea','portaria','implantacao','varandas','acesso','livre'].includes(saved.view)) {
+    Number.isInteger(saved.floor)&&saved.floor>=-1&&saved.floor<=lastFloor&&
+    [...Object.keys(dados.vistasDaCena),...Object.keys(dados.vistasExtras),'livre'].includes(saved.view)) {
     state.view=saved.view;state.floor=saved.floor;
     if(typeof saved.panelCollapsed==='boolean')state.panelCollapsed=saved.panelCollapsed;
     if(!new URLSearchParams(location.search).has('luz')&&Object.hasOwn(AMBIENCES,saved.ambience))state.ambience=saved.ambience;
-    if(typeof saved.selectedUnitId==='string'&&(saved.floor===1||(scope==='edificio'&&saved.floor>=0)))state.selectedUnitId=saved.selectedUnitId;
+    if(typeof saved.selectedUnitId==='string'&&(saved.floor===pilotFloor||(scope==='edificio'&&saved.floor>=0)))state.selectedUnitId=saved.selectedUnitId;
     if(saved.mode!=='maquete'&&state.selectedUnitId)restoredInterior={mode:saved.mode,unitId:state.selectedUnitId};
-    if(['canto','meio'].includes(saved.typology))state.typology=saved.typology;
+    if(typologyIds.includes(saved.typology))state.typology=saved.typology;
     if(saved.interiorSnapshots&&typeof saved.interiorSnapshots==='object')state.interiorSnapshots=saved.interiorSnapshots;
     const snapshot=saved.exteriorSnapshot,cam=snapshot?.camera;
     if(snapshot&&cam&&[cam.position,cam.target].every(v=>Array.isArray(v)&&v.length===3&&v.every(Number.isFinite)))state.exteriorSnapshot=snapshot;
@@ -75,14 +77,14 @@ state.interiorReuseCount=0;
 state.sceneReuseCount=0;
 showTransferStatus(document.getElementById('transferStatus'));
 if(floorControl){
-  for(let floor=1;floor<=16;floor++)floorControl.add(new Option(`${floor}º pavimento tipo`,String(floor)));
+  for(let floor=1;floor<=lastFloor;floor++)floorControl.add(new Option(`${floor}º pavimento tipo`,String(floor)));
   floorControl.value=String(state.floor);
 }
 document.getElementById('typology').value=state.typology;
 
 function selectedApartment(){return units?unitById(units,state.selectedUnitId):null;}
 function hasApartmentLayout(unit=selectedApartment()){
-  return Boolean(unit?.relation&&['canto','meio'].includes(unit.relation.typology)&&unit.relation.orientation==='original');
+  return Boolean(unit?.relation&&typologyIds.includes(unit.relation.typology)&&unit.relation.orientation==='original');
 }
 function revealOnMobile(id){
   if(!window.matchMedia?.('(max-width: 760px)').matches)return;
@@ -404,7 +406,7 @@ function prepareScene(kind){
   const epoch=cacheEpoch,key=kind.split(':')[1],exterior=kind==='exterior';
   const frame=document.createElement('iframe');frame.dataset.scene=kind;frame.dataset.instance=String(++sceneSerial);frame.dataset.parked='true';frame.inert=true;
   frame.setAttribute('aria-hidden','true');
-  frame.title=exterior?'Maquete do LIV Ipanema':`Planta e Tour do LIV Ipanema · ${typology(key).label}`;
+  frame.title=exterior?`Maquete do ${dados.nome}`:`Planta e Tour do ${dados.nome} · ${typology(key).label}`;
   frame.src=exterior?`prova-rgbm.html?embed=1&prewarm=1&tema=escuro&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}&luz=${state.ambience}`:
     `interior.html?embed=1&prewarm=1&backend=${backend}&tipologia=${key}&modo=planta3d`;
   sceneCache.set(kind,frame);stage.prepend(frame);
@@ -419,7 +421,7 @@ function prepareScene(kind){
       if(units.sourceModelSHA256!==api.data.sourceModelSHA256)throw Error('O cadastro dos finais pertence a outra edição da maquete.');
       if(state.exteriorSnapshot)api.restoreState({...state.exteriorSnapshot,floor:state.floor,selectedUnitId:state.selectedUnitId,ambience:state.ambience});
       else {api.setView(state.view);api.setFloor(state.floor);}
-      if(state.floor===1||scope==='edificio')api.setSelectedUnit(state.selectedUnitId);
+      if(state.floor===pilotFloor||scope==='edificio')api.setSelectedUnit(state.selectedUnitId);
       frame.contentWindow.addEventListener('liv-unit-selected',event=>{
         if(state.frame===frame&&state.ready&&state.mode==='maquete')selectUnit(event.detail.id,{frameEvent:true});
       });
@@ -459,8 +461,8 @@ function prepareViews(){
   cacheStatus.textContent='Preparando as visualizações…';stage.dataset.cache='preparing';
   const job=(async()=>{
     const failures=[];
-    const attempt=async task=>{try {await task();}catch(error){failures.push(String(error));if(!cacheStopped&&epoch===cacheEpoch)console.warn('Preparação de uma visualização do LIV:',error);}};
-    await Promise.all(['canto','meio'].map(key=>attempt(()=>plans.prepare(key,typology(key)))));
+    const attempt=async task=>{try {await task();}catch(error){failures.push(String(error));if(!cacheStopped&&epoch===cacheEpoch)console.warn('Preparação de uma visualização:',error);}};
+    await Promise.all(typologyIds.map(key=>attempt(()=>plans.prepare(key,typology(key)))));
     // Prepare one graphics context at a time. Navigation shares an in-flight
     // preparation instead of creating another copy of the same screen.
     // Only the selected apartment's interior: warming both interiors and the
@@ -519,7 +521,7 @@ async function setMode(mode,{restore=false}={}) {
     const frame=await prepared;if(token!==generation)return;
     const api=sceneAPI(frame);
     if(kind==='exterior'){
-      api.setFloor(state.floor);if(state.floor===1||scope==='edificio')api.setSelectedUnit(state.selectedUnitId);
+      api.setFloor(state.floor);if(state.floor===pilotFloor||scope==='edificio')api.setSelectedUnit(state.selectedUnitId);
       if(api.ambience!==state.ambience)api.setAmbience?.(state.ambience);
     }else await api.setMode(mode);
     if(token!==generation)return;
@@ -548,13 +550,13 @@ function setAmbience(profile){
 }
 function setFloor(floor) {
   const value=Number(floor);
-  if(!Number.isInteger(value)||value < -1||value >16)throw Error('Pavimento inválido.');
+  if(!Number.isInteger(value)||value < -1||value >lastFloor)throw Error('Pavimento inválido.');
   state.frame?.contentWindow?.__livProva?.setFloor(value);state.floor=value;
   if(state.selectedUnitId&&floorOf(units,unitById(units,state.selectedUnitId))!==value)state.selectedUnitId=null;
   if(floorControl)floorControl.value=String(floor);
   update();
 }
-function showUnitSide(side,floor=scope==='edificio'&&state.floor>=0?state.floor:1){
+function showUnitSide(side,floor=scope==='edificio'&&state.floor>=0?state.floor:pilotFloor){
   const api=state.frame?.contentWindow?.__livProva;
   if(!state.ready||state.mode!=='maquete'||!api)return false;
   api.setUnitView(side,floor);state.floor=floor;state.view='livre';
@@ -688,7 +690,7 @@ async function capture() {
   } else {
     png=await state.frame.contentWindow.__livInterior.capture();
   }
-  const link=document.createElement('a');link.href=png;link.download=`liv-ipanema-${state.typology}-${state.mode}.png`;link.click();return png;
+  const link=document.createElement('a');link.href=png;link.download=`${dados.arquivo}-${state.typology}-${state.mode}.png`;link.click();return png;
 }
 function discardMap(){
   mapFrame?.contentWindow?.__livMapAdapter?.dispose?.();mapFrame?.remove();mapFrame=null;mapLoad=null;mapURL=null;
@@ -703,7 +705,7 @@ function prepareMap(){
     if(mapLoad)return mapLoad;
   }
   discardMap();const epoch=cacheEpoch;
-  const frame=document.createElement('iframe');frame.title='Mapa do entorno do LIV Ipanema, limitado a 5 km';
+  const frame=document.createElement('iframe');frame.title=dados.mapa.titulo;
   frame.dataset.scene='map';frame.dataset.instance=String(++sceneSerial);frame.src=destination.href;mapFrame=frame;mapURL=destination.href;
   Object.defineProperty(window,'__livMapAdapter',{configurable:true,get:()=>mapFrame?.contentWindow?.__livMapAdapter});
   mapPanel.append(frame);

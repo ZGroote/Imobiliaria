@@ -2,7 +2,8 @@ import * as THREE from 'three/webgpu';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,createRGBMTexture,replaceRGBMAtlas} from './material-rgbm.js';
 import {applyReferenceFinishes} from './exterior-finishes.js';
-import {balconyDetailView,BALCONY_DETAIL_BOUNDS,entryDetailView,ENTRY_DETAIL_BOUNDS,pilotFloorView,buildingFacadeView} from './cameras.js';
+import {orbitView,pilotFloorView,buildingFacadeView} from './cameras.js';
+import dados from './dados/maquete.js';
 import {unitById} from './unidades.js';
 import {loadUnitCatalog,floorOf} from './catalogo-unidades.js';
 import {createUnitPicking} from './picking.js';
@@ -19,11 +20,19 @@ const mark=name=>{(state.timings??={})[name]=performance.now();};mark('module');
 const parameters=new URLSearchParams(location.search);
 const requested=parameters.get('backend')||'auto';
 const finishProfile=parameters.get('acabamento')||'base';
-const geometryProfile=parameters.get('geometria')||'base';
+const geometryProfile=parameters.get('geometria')||dados.edicaoPadrao;
 const environmentProfile=parameters.get('ambiente')||'precalculado';
 const initialAmbience=requestedAmbience(location.search);
 const recoveryURL=new URL(location.href);recoveryURL.searchParams.set('backend','webgl');
 document.querySelector('#retry').href=recoveryURL.href;
+// The page is generic; the property's name and its preserved version come from its data.
+document.title=`${dados.nome} — prova isolada RGBM/TSL`;document.querySelector('h1').textContent=`${dados.nome} — prova do transporte de luz`;
+document.querySelector('#c').setAttribute('aria-label',`Maquete exterior do ${dados.nome}`);
+if(dados.paginaPreservada){const link=document.querySelector('#preserved');link.href=dados.paginaPreservada;link.hidden=false;}
+for(const [view,label] of [...Object.entries(dados.vistasDaCena),...Object.entries(dados.vistasExtras).map(([v,x])=>[v,x.rotulo])]){
+  const button=document.createElement('button');button.dataset.view=view;button.disabled=true;button.textContent=label;
+  document.querySelector('#capture').before(button);
+}
 document.body.classList.toggle('embedded',parameters.get('embed')==='1');
 const darkBackdrop=parameters.get('embed')==='1'&&parameters.get('tema')==='escuro';
 document.body.classList.toggle('dark-theme',darkBackdrop);
@@ -153,8 +162,7 @@ async function start() {
   const data=await decode('scene.json.gz',manifest.files['scene.json.gz'],manifest.sceneJSONSHA256,true);
   mark('sceneDecoded');mark('sceneParsed');
   if(data.schema!=='liv-exterior-proof-v1' || data.sourceModelSHA256!==manifest.sourceModelSHA256 || data.rgbm.sourceSHA256!==manifest.sourceModelSHA256) throw Error('A geometria e o atlas não pertencem à mesma edição.');
-  data.views.varandas=balconyDetailView();
-  data.views.acesso=entryDetailView();
+  for(const [name,view] of Object.entries(dados.vistasExtras))data.views[name]=orbitView(view);
   // The full atlas is 13 MB. A 1/4-per-side preview lights the first image and
   // is replaced after it (upgradeAtlas); without a preview, wait for the full one.
   const previewName='irradiance-previa.rgbm.gz',preview=manifest.files[previewName];
@@ -249,7 +257,7 @@ async function start() {
     geometry.boundingBox=new THREE.Box3(new THREE.Vector3().fromArray(min),new THREE.Vector3().fromArray(max));
     geometry.boundingSphere=new THREE.Sphere(new THREE.Vector3().fromArray(center),radius);geometries.push(geometry);
   });
-  const building=new THREE.Group();building.name=geometryProfile==='entrada'?'LIV — entrada em estudo':geometryProfile==='contorno'?'LIV — contorno em estudo':'LIV — exterior da base preservada';
+  const building=new THREE.Group();building.name=(dados.edicoes[geometryProfile]??dados.edicoes[dados.edicaoPadrao]).nome;
   const meshes=data.meshes.map(spec=>{
     const material=Array.isArray(spec.material)?spec.material.map(index=>materials[index]):materials[spec.material];
     const mesh=spec.instances?new THREE.InstancedMesh(geometries[spec.geometry],material,spec.instances.count):new THREE.Mesh(geometries[spec.geometry],material);
@@ -316,37 +324,38 @@ async function start() {
   const corners=[];
   for(const x of [visibleBounds.min.x,visibleBounds.max.x]) for(const y of [visibleBounds.min.y,visibleBounds.max.y])
     for(const z of [visibleBounds.min.z,visibleBounds.max.z]) corners.push(new THREE.Vector3(x,y,z));
-  const detailCorners=[];
-  for(const x of [BALCONY_DETAIL_BOUNDS.min[0],BALCONY_DETAIL_BOUNDS.max[0]])
-    for(const y of [BALCONY_DETAIL_BOUNDS.min[1],BALCONY_DETAIL_BOUNDS.max[1]])
-      for(const z of [BALCONY_DETAIL_BOUNDS.min[2],BALCONY_DETAIL_BOUNDS.max[2]])detailCorners.push(new THREE.Vector3(x,y,z));
-  const entryCorners=[];
-  let entryBounds=ENTRY_DETAIL_BOUNDS;
-  if(geometryProfile==='entrada'){
-    building.updateWorldMatrix(true,true);
-    const box=new THREE.Box3();
-    for(const mesh of meshes){
-      const assigned=Array.isArray(mesh.material)?mesh.material:[mesh.material];
-      if(assigned.some(m=>m.name.startsWith('MAT-entrada-')))box.union(new THREE.Box3().setFromObject(mesh));
+  // The property's own detail views frame their bounds (dados.vistasExtras). In an edition that names
+  // materials for a view, the bounds come from the volumes with those materials instead.
+  const extraViewBounds={},extraCorners={};
+  for(const [name,view] of Object.entries(dados.vistasExtras)){
+    let bounds=view.limites;const prefix=view.materiaisPorEdicao?.[geometryProfile];
+    if(prefix){
+      building.updateWorldMatrix(true,true);
+      const box=new THREE.Box3();
+      for(const mesh of meshes){
+        const assigned=Array.isArray(mesh.material)?mesh.material:[mesh.material];
+        if(assigned.some(m=>m.name.startsWith(prefix)))box.union(new THREE.Box3().setFromObject(mesh));
+      }
+      if(box.isEmpty())throw Error(`A vista ${name} não possui volumes para enquadrar nesta edição.`);
+      bounds={min:box.min.toArray(),max:box.max.toArray()};
+      data.views[name].target=box.getCenter(new THREE.Vector3()).toArray();
     }
-    if(box.isEmpty())throw Error('A entrada revisada não possui volumes para enquadrar.');
-    entryBounds={min:box.min.toArray(),max:box.max.toArray()};
-    data.views.acesso.target=box.getCenter(new THREE.Vector3()).toArray();
+    extraViewBounds[name]=bounds;extraCorners[name]=[];
+    for(const x of [bounds.min[0],bounds.max[0]])
+      for(const y of [bounds.min[1],bounds.max[1]])
+        for(const z of [bounds.min[2],bounds.max[2]])extraCorners[name].push(new THREE.Vector3(x,y,z));
   }
-  for(const x of [entryBounds.min[0],entryBounds.max[0]])
-    for(const y of [entryBounds.min[1],entryBounds.max[1]])
-      for(const z of [entryBounds.min[2],entryBounds.max[2]])entryCorners.push(new THREE.Vector3(x,y,z));
   function fitPreset() {
     const name=camera.userData.viewName;
-    if(!['perspectiva','aerea','implantacao','varandas','acesso'].includes(name)) return false;
-    const fittedCorners=name==='varandas'?detailCorners:name==='acesso'?entryCorners:corners;
+    if(!['perspectiva','aerea','implantacao'].includes(name)&&!Object.hasOwn(extraCorners,name)) return false;
+    const fittedCorners=extraCorners[name]??corners;
     const source=camera.userData.projectionSource,{th,ph}=source.orbit;
     const st=Math.sin(th),ct=Math.cos(th),sp=Math.sin(ph),cp=Math.cos(ph);
     const direction=new THREE.Vector3(st*sp,cp,ct*sp);
     const right=new THREE.Vector3(ct,0,-st),up=new THREE.Vector3(-st*cp,sp,-ct*cp);
     controls.target.fromArray(source.target);
     let radius=9;
-    if(!['varandas','acesso'].includes(name)&&Math.abs(camera.aspect-source.aspect)<1e-9) radius=source.orbit.r;
+    if(!Object.hasOwn(extraCorners,name)&&Math.abs(camera.aspect-source.aspect)<1e-9) radius=source.orbit.r;
     else if(camera.isOrthographicCamera) {
       for(const point of fittedCorners) {
         const delta=point.clone().sub(controls.target);
@@ -412,14 +421,14 @@ async function start() {
     renderer.render(scene,camera);
     const png=canvas.toDataURL('image/png');
     if(download) {
-      const link=document.createElement('a');link.href=png;link.download=`liv-ipanema-${state.activeView||'livre'}-${state.backend}.png`;link.click();
+      const link=document.createElement('a');link.href=png;link.download=`${dados.arquivo}-${state.activeView||'livre'}-${state.backend}.png`;link.click();
     }
     return png;
   }
   let selectedFloor=-1;
   function setFloor(floor=-1) {
     const value=Number(floor);
-    if(!Number.isInteger(value)||value < -1||value >16) throw Error('Pavimento inválido.');
+    if(!Number.isInteger(value)||value < -1||value >dados.predio.pavimentos-1) throw Error('Pavimento inválido.');
     selectedFloor=value;
     // Floor is selection context; only the apartment receives a visual outline.
     const selectedId=unitPicking?.getState().selectedId;
@@ -436,8 +445,8 @@ async function start() {
       if(id!==null)setFloor(floorOf(units,unitById(units,id)));
       unitPicking.select(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id}}));
     }});
-  function setUnitView(side,floor=1){
-    if(!['lazer','estacionamento'].includes(side))throw Error('Lado do pavimento inválido.');
+  function setUnitView(side,floor=dados.predio.pavimentoPiloto){
+    if(!Object.hasOwn(dados.lados,side))throw Error('Lado do pavimento inválido.');
     if(!units||!units.units.some(unit=>floorOf(units,unit)===floor))throw Error('Pavimento fora do cadastro.');
     setFloor(floor);
     const rect=stage.getBoundingClientRect(),aspect=rect.width/rect.height;
@@ -458,7 +467,7 @@ async function start() {
   }
   Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,
     setAvailableUnits:ids=>unitPicking?.availability.setUnits(ids)??false,
-    ambience:initialAmbience,ambienceController:ambience,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,facadeBounds,entryDetailBounds:entryBounds,
+    ambience:initialAmbience,ambienceController:ambience,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,facadeBounds,extraViewBounds,
     invalidateShadows(){
       if(state.disposed)return false;
       for(const light of shadowLights)light.shadow.needsUpdate=true;

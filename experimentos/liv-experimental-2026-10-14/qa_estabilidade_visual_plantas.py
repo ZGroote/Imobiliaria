@@ -32,7 +32,7 @@ def main(args):
                 page = ctx.new_page(); errors = []
                 if args.verificar and 'sourceSHA256' not in report:
                     report['sourceSHA256']={}
-                    for name in ('interior-renderer.js','interior-cutaway.js','interior-wall-tops.js','interior-wall-top-contours.js'):
+                    for name in ('interior-renderer.js','interior-cutaway.js','interior-wall-tops.js','dados/topos-de-parede.js'):
                         response=ctx.request.get(args.url.rsplit('/',1)[0]+'/'+name)
                         assert response.ok
                         report['sourceSHA256'][name]=hashlib.sha256(response.body()).hexdigest()
