@@ -770,11 +770,33 @@ próprio do `users/worker` sem assinatura.
       número de lá se anota no M2-8;
     - memória: pico de 70 MB no Python e de 224 MB no Node (com os clientes do Firebase);
     - baixados 34 MB sem compressão (os dois builds), ~10 MB com gzip.
-- **M2-6 (21/10), em andamento, sem nada no ar.** Cartão "Publicação" (equipe e imobiliária):
+- **M2-6 (21/10), em PR, sem nada no ar.** Cartão "Publicação" (equipe e imobiliária):
   "Publicando…", "No ar" com os links, "fora do ar" pela vitrine. Avisos da §9 calculados do pedido e
   dos jobs (pedido enviado, fila parada, pedido expirado, prévia vencendo). "Cancelar" some depois do
   deploy. Motivo do robô em português no histórico. Registro à mão em "Sem o robô". Testes: 7 novos
   em `robo.test.ts`; 11 de 11 quebras pegas; conferido no `painel:dev`.
+- **M2-7 (21/10), em PR, sem nada no ar.**
+  - **No robô** (`executorReverter`, em `tools/worker_publicar.mjs`), com as peças do publicar:
+    - confere de novo que quem pediu é admin ativo, que o imóvel tem o par e que o pedido anterior
+      diz o manifest aprovado do build anterior;
+    - confere que o ar mostra esse par, com esse manifest;
+    - roda o `montar-live reverter`, o mesmo portão de escopo, relê o imóvel e o ar logo antes do
+      deploy (`PROPERTY_CHANGED`, `STATE_CHANGED`) e relê o ar depois.
+  - **O robô não registra a volta**, que continua sendo do admin. Se o ar já mostra o anterior, o
+    job termina sem deploy; a reconciliação da §9 vale igual.
+  - **No painel**, só o admin:
+    - "Voltar ao build anterior" grava o `worker:reverter`;
+    - o cartão acompanha o job e mostra os avisos da §9 (pedido enviado, fila parada, expirado);
+    - depois, "Conferir o site" e "Registrar reversão", como antes;
+    - o comando à mão fica em "Sem o robô".
+  - **Testes:**
+    - no emulador, com os scripts de verdade: a volta com os outros imóveis byte a byte e o
+      registro do admin; sem anterior; o ar sem o par; o anterior que não é o aprovado; o imóvel que
+      muda; o admin desativado; o robô que morre depois do deploy;
+    - no painel: só o admin pede, e os avisos.
+  - **Quebra de propósito:** 9 de 9 trechos pegos.
+  - **Conferido no `painel:dev`:** o cartão com a volta anterior parada e o motivo; o clique gravou o
+    pedido ("Pedido enviado"); o robô de verdade criou o job, e o cartão mostrou "Na fila".
 
 **Depende de:**
 

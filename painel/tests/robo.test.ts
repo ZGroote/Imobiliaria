@@ -4,8 +4,9 @@ import { test, beforeEach, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { collection, doc, getDoc, getDocs, query, where, type Firestore } from 'firebase/firestore'
-import { cancelarJob, cancelavel, descreverDoRobo, enviarParaRevisaoDoCliente, jobsDoPedido, motivoDoJob, pedidosDePrevia,
-  pedirPreviaAoRobo, situacaoDoRobo, FILA_PARADA_MS, EXPIRA_MS } from '../src/lib/robo.ts'
+import { cancelarJob, cancelavel, descreverDoRobo, enviarParaRevisaoDoCliente, jobsDoImovel, jobsDoPedido, motivoDoJob,
+  pedidosDePrevia, pedidosDeReversao, pedirPreviaAoRobo, pedirReversaoAoRobo, situacaoDaReversao, situacaoDoRobo, FILA_PARADA_MS,
+  EXPIRA_MS } from '../src/lib/robo.ts'
 import { aprovar } from '../src/lib/aprovacao.ts'
 import { lerPreview } from '../src/lib/publicacao.ts'
 import { faseDaPublicacao } from '../src/lib/publicar.ts'
@@ -210,4 +211,33 @@ test('M2-6 pedidos de prévia: a equipe lê para saber o que espera o robô; a i
   assert.equal(cmds.length, 1)
   assert.match(situacaoDoRobo(await ler(op.db, 'pedCedros'), [], cmds, Date.now()).esperando!, /Pedido enviado/)
   await assert.rejects(getDocs(pedidosDePrevia(gerA.db, 'pedCedros')), /permission/i)
+})
+
+// ── M2-7 ──
+
+test('M2-7 voltar ao build anterior: só o admin pede, com o par; a equipe acompanha os jobs do imóvel', async () => {
+  const admin = await entrar('admin'), op = await entrar('op'), gerA = await entrar('gerA')
+  const imovel = async () => ({ id: 'cedros', ...(await getDoc(doc(admin.db, 'properties', 'cedros'))).data() }) as Property
+  assert.throws(() => pedirReversaoAoRobo(admin.db, 'admin', { id: 'cedros', agencyId: 'agA' }), /anterior/)
+  await adminDb().doc('properties/cedros').update({ publishedBuild: 'b2b2b2b2b2b2', previousBuild: 'a1a1a1a1a1a1' })
+  await pedirReversaoAoRobo(admin.db, 'admin', await imovel())
+  const cmds = (await getDocs(pedidosDeReversao(admin.db, 'cedros'))).docs.map((d) => ({ id: d.id, ...d.data() }) as AuditLog)
+  assert.deepEqual(cmds.map((c) => [c.action, c.entityType, c.visibility, c.userId]), [['worker:reverter', 'property', 'internal', 'admin']])
+  await assert.rejects(pedirReversaoAoRobo(op.db, 'op', await imovel()), /permission/i)   // a equipe não reverte; só o admin
+  assert.match(situacaoDaReversao([], cmds, Date.now()).esperando!, /volta o site/)
+
+  await adminDb().doc('buildJobs/' + cmds[0].id).set({ propertyId: 'cedros', agencyId: 'agA', stage: 'rollback', status: 'pending',
+    createdBy: 'admin', createdAt: Timestamp.now(), updatedAt: Timestamp.now() })
+  const jobs = (await getDocs(jobsDoImovel(op.db, 'cedros'))).docs.map((d) => ({ id: d.id, ...d.data() }) as BuildJob)
+  assert.deepEqual(jobs.map((j) => j.stage), ['rollback'])
+  assert.deepEqual(situacaoDaReversao(jobs, cmds, Date.now()), { esperando: null, avisos: [] })
+  await assert.rejects(getDocs(jobsDoImovel(gerA.db, 'cedros')), /permission/i)
+})
+
+test('M2-7 avisos da volta: pedido enviado, fila parada e expirado', () => {
+  const cmd = (ms: number) => [{ id: 'v1', timestamp: ts(ms) }]
+  assert.match(situacaoDaReversao([], cmd(T0 - MIN), T0).esperando!, /Pedido enviado/)
+  assert.match(situacaoDaReversao([], cmd(T0 - FILA_PARADA_MS - MIN), T0).avisos[0], /fila está parada: o pedido de volta/)
+  assert.match(situacaoDaReversao([], cmd(T0 - EXPIRA_MS - MIN), T0).avisos[0], /pedido de volta passou de 48 h/)
+  assert.deepEqual(situacaoDaReversao([{ id: 'v1' }], cmd(T0 - EXPIRA_MS - MIN), T0), { esperando: null, avisos: [] })
 })
