@@ -39,6 +39,8 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.txt
       - run: npm ci --no-audit --no-fund
+      # o three fixado do motor da maquete: o build leva os arquivos dele (tests/test_build_imovel.py)
+      - run: npm ci --prefix maquete/motor --no-audit --no-fund
       - run: pip install -r requirements.txt
       - name: Tamanho dos arquivos versionados (indice Git)
         run: python -m unittest discover -s tests -p test_tamanho_versionado.py

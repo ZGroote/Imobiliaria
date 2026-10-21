@@ -1,4 +1,4 @@
-# O motor da maquete (MG-2, MG-3, MG-4)
+# O motor da maquete (MG-2 a MG-5)
 
 O motor que mostra a maquete de qualquer imóvel, a partir da [maquete geral](../../tasks/painel/maquete-geral.md):
 
@@ -89,6 +89,39 @@ horário no manifesto.
   andar, então ele some.
 - **O reflexo do céu é o do motor**, e não o da página.
 
+## O build novo (MG-5)
+
+`python pipeline/build_imovel.py <imóvel>` monta, por padrão, o build da maquete geral (schema 2). **A pasta
+do build é a pasta deste motor**, com:
+- `maquete.html` (a entrada da casa) e os arquivos do motor;
+- `dados/`, que o exportador gera da maquete de hoje;
+- `tour.html`, o mapa da cidade, como sempre;
+- `manifest.json`, schema 2.
+
+Assim nenhum arquivo do motor precisa ser reescrito, e os ponteiros `/imovel/<id>` e `/maquete/<id>`
+continuam os mesmos.
+
+- **Quais arquivos do motor vão**: `arquivos_do_motor()` segue, a partir de `maquete.html` e
+  `prova-rgbm.html`, tudo o que eles carregam: módulos, ajudantes, `assets-ambiente/` e o three pelo
+  importmap. Hoje são 24 arquivos e 3,8 MB, quase tudo do three (o MG-8 enxuga). Texto vai com fim de
+  linha LF, então o build sai igual em qualquer sistema.
+- **O `floor-plan.js` é cópia fiel do v16**, para a pasta do motor bastar num build. O `test_motor.mjs`
+  exige que a cópia continue idêntica.
+- **O manifesto schema 2**:
+  - lista todos os arquivos, cada um com bytes e sha256;
+  - `build` = sha256 da lista "caminho sha256", uma linha por arquivo, em ordem de caminho (12 dígitos);
+  - `entradas` = `tour.html` e `maquete.html`;
+  - `motor` é o hash dos arquivos do motor; `formato` é `maquete-geral-v1`.
+- **A reserva**: `--formato 1` monta o build antigo (a página de hoje), até o MG-8 medir.
+- **A publicação** (`publicar_imovel.py`) e o painel aceitam os dois schemas. Um build schema 2 é
+  conferido arquivo por arquivo, e é recusado se:
+  - tiver arquivo a mais ou a menos;
+  - algum caminho sair da pasta ou começar com ponto (o Hosting não subiria esse arquivo);
+  - as entradas forem outras.
+- **Medido** com o Monte das Colinas (LEVE):
+  - o build novo leva 14 s; o antigo, 11 s;
+  - a pasta nova tem 32 arquivos e 17,4 MB; a antiga, 16,6 MB. O tour.html é a maior parte das duas.
+
 ## Como conferir
 
 - **No CI** (`npm test` na raiz), sem placa de vídeo, `test_motor.mjs` confere:
@@ -122,6 +155,13 @@ horário no manifesto.
     um print lado a lado com a página de hoje.
 - **O exportador sem navegador** (`tests/test_maquete_dados.py`, no CI): o pacote sai igual da mesma
   cena, os manifestos batem, a luz do Cedros vira o formato do motor, e cada produto leva só a luz dele.
+- **O build novo**:
+  - no CI: `tests/test_build_imovel.py` (a identidade schema 2 e a lista de arquivos do motor);
+    `tests/test_publicacao_live.py` (builds de vários arquivos, promover X mantém Y byte a byte, voltar
+    a um build schema 1); o `aprovacao.test.ts` do painel;
+  - com placa de vídeo: `python maquete/motor/qa_build.py` monta o build antigo e o novo de um imóvel.
+    Monta o novo duas vezes e exige o mesmo build. Depois leva o novo do canal ao ar, abre
+    `/maquete/<imóvel>` e reverte para o antigo.
 
 ## O que ficou de fora, por enquanto
 
@@ -131,8 +171,10 @@ horário no manifesto.
 - **O adaptador do mapa de 5 km** (`mapa-retorno.js`) é do LIV. Para a imobiliária, o mapa é o
   `tour.html` do build.
 - **O interior da casa** (Planta 3D e Tour) vem da planta fixada, no MG-7.
-- **O build** passa a montar a pasta com o motor, os dados e a vitrine no MG-5. Ele também leva o
-  `floor-plan.js`, que mora fora desta pasta.
+- **A vitrine ao vivo no build novo**: o #88 (que não está na main) põe o `vitrine_ao_vivo.js` nas
+  páginas do build. Quando ele se juntar a este, a maquete do schema 2 precisa recebê-lo como
+  `<script type="module">` depois do `casa.js` (ver acima).
+- **O robô** confere e baixa todos os arquivos do build no MG-6.
 - **O otimizador da publicação** entra no MG-8, já lendo a página dos dados. Hoje ele cita a página do
   LIV pelo nome.
 

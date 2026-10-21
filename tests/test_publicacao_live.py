@@ -89,6 +89,28 @@ class Cenario:
         (pasta / 'manifest.json').write_text(json.dumps(manifesto, indent=2) + '\n', encoding='utf-8')
         return build
 
+    def cria2(self, imovel, n):
+        """Um build da maquete geral (schema 2): o tour, o motor e os dados, numa pasta com o hash de
+        todos os arquivos. Devolve (build, nomes)."""
+        tour = ('<meta charset="utf-8">\n<title>%s v%d (motor)</title>\n<meta property="og:title" content="%s v%d">\n'
+                '<canvas id="c"></canvas>\n' % (imovel, n, imovel, n)).encode('utf-8')
+        arquivos = {'tour.html': tour, 'maquete.html': b'<script type="module" src="casa.js"></script>\n',
+                    'casa.js': b"import dados from './dados/maquete.js';\n",
+                    'node_modules/three/build/three.webgpu.js': b'export const REVISION="186";\n',
+                    'dados/maquete.js': ('export default {imovel:%s,versao:%d};\n' % (json.dumps(imovel), n)).encode(),
+                    'dados/exterior/scene.json.gz': bytes([0x1f, 0x8b, n, 0, 255])}
+        shas = {k: _sha(v) for k, v in arquivos.items()}
+        build = P['build_id_v2'](shas)
+        pasta = self.builds / imovel / build
+        for k, v in arquivos.items():
+            (pasta / k).parent.mkdir(parents=True, exist_ok=True)
+            (pasta / k).write_bytes(v)
+        manifesto = {'schema': 2, 'formato': 'maquete-geral-v1', 'imovel': imovel, 'build': build,
+                     'entradas': {'tour': 'tour.html', 'maquete': 'maquete.html'}, 'tiles': '/quintais/%s/' % H1,
+                     'arquivos': {k: {'bytes': len(v), 'sha256': shas[k]} for k, v in sorted(arquivos.items())}}
+        (pasta / 'manifest.json').write_text(json.dumps(manifesto, indent=2) + '\n', encoding='utf-8')
+        return build, sorted(arquivos) + ['manifest.json']
+
     def caminhos(self):
         return dict(builds=self.builds, tiles_origem=self.tiles, terrenos=self.terrenos, site=self.site)
 
@@ -319,6 +341,106 @@ class LivePromotionTests(unittest.TestCase):
             self.assertEqual(_destino(html, '/b/x/000000000000/tour.html', '?q=1', '#a'), '/imovel/x?q=1#a')
             self.assertIsNone(_destino(html, '/qualquer/outra'), 'fora de /b/ nao redireciona')
             self.assertIn('href="/"', html)
+
+
+class MaqueteGeralTests(unittest.TestCase):
+    """MG-5: o build da maquete geral (schema 2) tem muitos arquivos, e convive no ar com o schema 1."""
+
+    def test_the_multi_file_build_goes_to_the_preview_whole(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            c = Cenario(tmp)
+            N, nomes = c.cria2('x', 1)
+            r = P['montar_preview']('x', N, **c.caminhos())
+            self.assertEqual(c.arvore(), sorted(['b/x/%s/%s' % (N, n) for n in nomes] + TILES))
+            for n in nomes:
+                self.assertEqual((c.site / 'b' / 'x' / N / n).read_bytes(), (c.builds / 'x' / N / n).read_bytes(), n)
+            self.assertEqual((r['tour'], r['maquete']), ('/b/x/%s/tour.html' % N, '/b/x/%s/maquete.html' % N))
+
+    def test_every_file_of_the_build_is_checked(self):
+        def quebra(c, N, como):
+            pasta = c.builds / 'x' / N
+            m = json.loads((pasta / 'manifest.json').read_text(encoding='utf-8'))
+            if como == 'byte trocado':
+                dado = bytearray((pasta / 'dados/maquete.js').read_bytes()); dado[0] ^= 1
+                (pasta / 'dados/maquete.js').write_bytes(bytes(dado))
+            elif como == 'arquivo a mais':
+                (pasta / 'dados/sobra.js').write_bytes(b'x')
+            elif como == 'arquivo a menos':
+                (pasta / 'casa.js').unlink()
+            elif como in ('caminho para fora', 'arquivo oculto'):
+                nome = '../fora.js' if como == 'caminho para fora' else 'dados/.oculto'
+                m['arquivos'][nome] = m['arquivos']['casa.js']
+            elif como == 'schema desconhecido':
+                m['schema'] = 3
+            elif como == 'outra entrada':
+                m['entradas'] = {'tour': 'tour.html', 'maquete': 'casa.js'}
+            elif como == 'outro nome':
+                # arquivos e manifesto coerentes entre si, mas a pasta e o build dizem ser outro conteudo
+                m['build'] = 'ffffffffffff'
+                pasta = pasta.rename(pasta.parent / 'ffffffffffff')
+            (pasta / 'manifest.json').write_text(json.dumps(m, indent=2) + '\n', encoding='utf-8')
+            return m['build']
+        for como, motivo in (('byte trocado', 'nao bate com o manifest'), ('arquivo a mais', 'fora do manifest'),
+                             ('arquivo a menos', 'falta casa.js'), ('caminho para fora', 'caminho de arquivo invalido'),
+                             ('arquivo oculto', 'caminho de arquivo invalido'), ('schema desconhecido', 'schema desconhecido'),
+                             ('outra entrada', 'fora do formato'), ('outro nome', 'nao e o do build')):
+            with self.subTest(como), tempfile.TemporaryDirectory() as tmp:
+                c = Cenario(tmp)
+                N, _ = c.cria2('x', 1)
+                N = quebra(c, N, como)
+                with self.assertRaisesRegex(ValueError, motivo):
+                    P['montar_preview']('x', N, **c.caminhos())
+                self.assertFalse(c.site.parent.exists(), 'recusado antes de montar qualquer coisa')
+
+    def test_the_new_build_goes_live_and_the_old_schema1_comes_back(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            c = Cenario(tmp)
+            c.promove('x', c.A, VAZIO)                       # no ar desde antes: schema 1
+            N, nomes = c.cria2('x', 1)
+            c.promove('x', N, c.estado())
+            self.assertEqual(c.no_ar('x'), (N, c.A))
+            self.assertLessEqual(set('b/x/%s/%s' % (N, n) for n in nomes) | set(_b('x', c.A)), set(c.arvore()))
+            self.assertEqual(_destino(c.texto('maquete/x'), '/maquete/x'), '/b/x/%s/maquete.html' % N)
+            self.assertIn('<title>x v1 (motor)</title>', c.texto('imovel/x'))
+            # o estado registra todos os arquivos do build novo
+            arquivos = c.estado()['arquivos']
+            for n in nomes:
+                self.assertEqual(arquivos['b/x/%s/%s' % (N, n)], _sha((c.builds / 'x' / N / n).read_bytes()), n)
+            # o anterior antigo volta, e o novo fica de anterior, inteiro
+            c.reverte('x', c.estado())
+            self.assertEqual(c.no_ar('x'), (c.A, N))
+            self.assertEqual(_destino(c.texto('maquete/x'), '/maquete/x'), '/b/x/%s/maquete.html' % c.A)
+            self.assertLessEqual(set('b/x/%s/%s' % (N, n) for n in nomes), set(c.arvore()))
+            # e vai de novo ao ar sem gerar nada
+            c.reverte('x', c.estado())
+            self.assertEqual(c.no_ar('x'), (N, c.A))
+
+    def test_promoting_x_keeps_y_byte_for_byte_in_both_formats(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            c = Cenario(tmp)
+            Y2, _ = c.cria2('y', 2)
+            c.promove('y', c.Y, VAZIO)
+            c.promove('y', Y2, c.estado())                   # y: atual schema 2, anterior schema 1
+            y = c.bytes_de(('b/y/', 'imovel/y', 'maquete/y'))
+            N, _ = c.cria2('x', 1)
+            c.promove('x', N, c.estado())
+            c.promove('x', c.A, c.estado())
+            c.reverte('x', c.estado())
+            self.assertEqual(c.bytes_de(('b/y/', 'imovel/y', 'maquete/y')), y)
+
+    def test_a_live_build_that_changed_locally_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            c = Cenario(tmp)
+            N, _ = c.cria2('x', 1)
+            c.promove('x', N, VAZIO)
+            c.promove('x', c.A, c.estado())                  # N fica de anterior
+            antes = c.bytes_de(('',))
+            dado = c.builds / 'x' / N / 'node_modules/three/build/three.webgpu.js'
+            dado.write_bytes(dado.read_bytes().replace(b'186', b'187'))
+            with self.assertRaises(ValueError):
+                c.reverte('x', c.estado())
+            self.assertEqual(c.bytes_de(('',)), antes, 'o site anterior continua inteiro')
+            self.assertEqual(c.sobras(), [])
 
 
 class NaoPublicarTests(unittest.TestCase):

@@ -115,6 +115,12 @@ test('a casa sem luz pré-calculada: nenhum material a pede, e o sol da cena faz
   assert.ok(casa.ficha.preco&&casa.ficha.linhas.length&&casa.planta.comodos.length&&casa.mapa.pagina);
 });
 
+test('o floor-plan.js do motor é o do v16, byte a byte', () => {
+  // O motor leva uma cópia para a pasta dele bastar num build. Mudou o do v16? Copie de novo.
+  const v16=readFileSync(new URL('../../v1.5/renderizador-v16-moveis/interior/floor-plan.js',import.meta.url));
+  assert.ok(ler('floor-plan.js').equals(v16),'copie v1.5/renderizador-v16-moveis/interior/floor-plan.js para maquete/motor/');
+});
+
 test('a Planta 2D sai da planta do cadastro pelo floor-plan.js do v16', async () => {
   globalThis.location??={search:''};               // o floor-plan.js lê a URL ao ser criado
   const {desenharPlanta}=await import('./planta-desenho.js');

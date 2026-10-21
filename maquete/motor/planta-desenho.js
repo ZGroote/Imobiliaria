@@ -1,7 +1,9 @@
 // The Planta 2D of a single-unit property (MG-3), drawn from the registered plan (dados.planta) by the v16
 // floor-plan.js: walls come from the same 5 cm grid and doors open to the same side as in the 3D interior.
 // SVG, so it stays sharp at any zoom and screen density.
-import '../../v1.5/renderizador-v16-moveis/interior/floor-plan.js';
+// floor-plan.js is a byte-for-byte copy of v1.5/renderizador-v16-moveis/interior/floor-plan.js (test_motor.mjs
+// checks it), so the motor folder is self-contained and a build can carry it as is.
+import './floor-plan.js';
 
 // The v16 values: wall thickness of the maquete page, door frame and leaf opening of interior/openings.js.
 const ESP=.13,ESQ_ANG=78*Math.PI/180,ESQ_MARCO=.03,CUT=1.2;
