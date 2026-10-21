@@ -50,6 +50,45 @@ class BuildIdTests(unittest.TestCase):
                             B['build_id'](b'<tour>', b'<maquete 2>'))
 
 
+class MaqueteGeralBuildTests(unittest.TestCase):
+    """MG-5: o build schema 2 e a pasta do motor com os dados do imovel."""
+
+    def test_the_v2_id_is_the_content_of_every_file(self):
+        shas = {'tour.html': 'a' * 64, 'dados/maquete.js': 'b' * 64, 'casa.js': 'c' * 64}
+        lista = 'casa.js %s\ndados/maquete.js %s\ntour.html %s\n' % ('c' * 64, 'b' * 64, 'a' * 64)
+        self.assertEqual(B['build_id_v2'](shas), hashlib.sha256(lista.encode()).hexdigest()[:12])
+        self.assertEqual(B['build_id_v2'](dict(reversed(list(shas.items())))), B['build_id_v2'](shas),
+                         'a ordem em que os arquivos aparecem nao muda o build')
+        for mudanca in ({'casa.js': 'd' * 64}, {'outro.js': 'e' * 64}):
+            self.assertNotEqual(B['build_id_v2']({**shas, **mudanca}), B['build_id_v2'](shas))
+        sem_um = dict(shas)
+        del sem_um['casa.js']
+        self.assertNotEqual(B['build_id_v2'](sem_um), B['build_id_v2'](shas))
+
+    def test_the_build_carries_what_the_motor_pages_load_and_nothing_else(self):
+        if not (RAIZ / 'maquete/motor/node_modules/three').is_dir():
+            self.skipTest('sem npm ci --prefix maquete/motor')
+        motor = B['arquivos_do_motor']()
+        esperado = {'maquete.html', 'casa.js', 'planta-desenho.js', 'floor-plan.js', 'edicoes.js', 'prova-rgbm.html',
+                    'renderer.js', 'decodificar-worker.js', 'material-rgbm.js', 'ambiente.js',
+                    'assets-ambiente/manifest.json', 'assets-ambiente/ambiente.f16.gz',
+                    'node_modules/three/build/three.webgpu.js', 'node_modules/three/build/three.core.js',
+                    'node_modules/three/build/three.tsl.js', 'node_modules/three/examples/jsm/controls/OrbitControls.js'}
+        self.assertLessEqual(esperado, set(motor))
+        # nem os dados (vem do exportador), nem teste, gerador, conferencia ou a pagina do predio
+        self.assertEqual([n for n in motor if n.startswith(('dados/', 'pacote-casa/')) or n.startswith(('test_', 'qa_', 'gerar_'))
+                          or n in ('viewer.js', 'interior.html', 'README.md', 'package.json')], [])
+        self.assertTrue(all(p.is_file() and p.is_relative_to(RAIZ / 'maquete/motor') for p in motor.values()))
+
+    def test_text_goes_with_lf_and_binary_as_is(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            texto, binario = Path(tmp) / 'a.js', Path(tmp) / 'b.gz'
+            texto.write_bytes(b'a\r\nb\n')
+            binario.write_bytes(b'\x1f\x8b\r\n')
+            self.assertEqual(B['bytes_publicados'](texto), b'a\nb\n')
+            self.assertEqual(B['bytes_publicados'](binario), b'\x1f\x8b\r\n')
+
+
 class NaoPublicarTests(unittest.TestCase):
     # mirra-114: origem e autorizacao dos dados nao confirmadas (dados-privados.md). A trava e no
     # build, antes de qualquer leitura: sem build nao ha preview nem live.
