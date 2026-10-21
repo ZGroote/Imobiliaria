@@ -4,6 +4,7 @@ import { Aviso, Cartao, Estado, useAcao } from './ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
 import { usePerfil } from '@/lib/session'
+import { descreverDoRobo, ROBO } from '@/lib/robo'
 import { mudarStatus, proximos, ROTULO_STATUS, rotuloDaAcao } from '@/lib/status'
 import type { AuditLog, Request, RequestStatus } from '@/lib/types'
 import { useColecao } from '@/lib/useFirestore'
@@ -49,7 +50,7 @@ export function Historico({ r, interno, pessoa }: { r: Request; interno: boolean
               <li key={l.id} className="border-l-2 border-slate-200 pl-3">
                 <p>{descrever(l)}</p>
                 {typeof l.after?.nota === 'string' && <p className="whitespace-pre-wrap text-slate-600">“{l.after.nota}”</p>}
-                <p className="text-xs text-slate-500">{pessoa(l.userId)} · {quando(l.timestamp)}</p>
+                <p className="text-xs text-slate-500">{l.userId === ROBO ? 'Robô' : pessoa(l.userId)} · {quando(l.timestamp)}</p>
               </li>
             ))}
           </ol>
@@ -69,5 +70,5 @@ function descrever(l: AuditLog) {
     const de = typeof l.before?.readingVersion === 'number' ? `v${l.before.readingVersion} → ` : ''
     return `Entrada da planta: ${de}v${l.after?.readingVersion}`
   }
-  return l.action
+  return descreverDoRobo(l) ?? l.action
 }

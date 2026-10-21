@@ -770,6 +770,11 @@ próprio do `users/worker` sem assinatura.
       número de lá se anota no M2-8;
     - memória: pico de 70 MB no Python e de 224 MB no Node (com os clientes do Firebase);
     - baixados 34 MB sem compressão (os dois builds), ~10 MB com gzip.
+- **M2-6 (21/10), em andamento, sem nada no ar.** Cartão "Publicação" (equipe e imobiliária):
+  "Publicando…", "No ar" com os links, "fora do ar" pela vitrine. Avisos da §9 calculados do pedido e
+  dos jobs (pedido enviado, fila parada, pedido expirado, prévia vencendo). "Cancelar" some depois do
+  deploy. Motivo do robô em português no histórico. Registro à mão em "Sem o robô". Testes: 7 novos
+  em `robo.test.ts`; 11 de 11 quebras pegas; conferido no `painel:dev`.
 
 **Depende de:**
 

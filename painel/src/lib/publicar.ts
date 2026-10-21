@@ -3,6 +3,23 @@ import { comandoPromover, comandoReverter, conferirNoAr, lerEstado, linksPublico
 import { noBatch } from './status.ts'
 import type { Property, Request } from './types.ts'
 
+// A publicação vista do pedido, pela equipe e pela imobiliária (m2-worker.md §7): depois da aprovação o
+// robô publica sozinho, e ninguém tem botão de publicar. `v` é o vitrine/<slug> do imóvel: sem
+// documento, o imóvel está no ar.
+export function faseDaPublicacao(r: Pick<Request, 'id' | 'status'>,
+  p?: Pick<Property, 'publishedRequestId' | 'tourUrl' | 'maqueteUrl'> | null, v?: { online?: boolean } | null) {
+  if (r.status === 'approved') return { fase: 'publicando' as const }
+  if (r.status !== 'published' || !p) return null
+  if (p.publishedRequestId !== r.id) return { fase: 'substituido' as const }
+  return { fase: v?.online === false ? 'fora_do_ar' as const : 'no_ar' as const, tourUrl: p.tourUrl, maqueteUrl: p.maqueteUrl }
+}
+export const TEXTO_DA_FASE = {
+  publicando: 'Publicando… O imóvel vai ao ar em seguida, sem nada a fazer do seu lado.',
+  no_ar: 'No ar.',
+  fora_do_ar: 'Publicado, mas fora do ar: desligado na vitrine do imóvel.',
+  substituido: 'Publicado. Depois, outro pedido pôs no ar uma versão mais nova deste imóvel.',
+}
+
 export const APROVACAO_SEM_MANIFEST = 'Esta aprovação é de antes da identidade do manifest.json e não diz qual '
   + 'artefato foi aprovado. Registre o preview de novo e peça uma nova aprovação ao gerente.'
 
