@@ -38,7 +38,7 @@ O motor que mostra a maquete de qualquer imóvel, a partir da [maquete geral](..
 - **`interior.html`**: o interior de uma tipologia.
 
 **A vitrine ao vivo** (`pipeline/vitrine_ao_vivo.js`, do #88) não é do motor: o build a põe na
-`maquete.html` (MG-5). Para isso:
+`maquete.html` (`com_vitrine(..., modulo=True)` no `build_imovel.py`, desde a junção do #108). Assim:
 - ela entra **depois** do `casa.js`, como `<script type="module">`, para rodar depois que a ficha está
   preenchida. Como script comum, ela poderia procurar o preço antes de ele existir;
 - ela troca o último texto de `#fPreco` pelo preço do painel, ou pela situação (reservado, vendido,
@@ -148,8 +148,9 @@ continuam os mesmos.
     - um telefone sem rolagem para o lado;
     - a vitrine lendo `vitrine/casa-de-teste` no emulador: o preço do painel, "Vendido" no lugar dele e o
       "fora do ar" cobrindo a tela.
-  - Até o #88 chegar à main, o `qa_casa.py` pega o `vitrine_ao_vivo.js` e a regra de `vitrine/<slug>` do
-    galho dele (`origin/feat/imovel-no-ar`).
+  - O `qa_casa.py` usa o `vitrine_ao_vivo.js` e a regra de `vitrine/<slug>` do próprio repositório. Onde o
+    #88 ainda não chegou (a linha do MG-2 ao MG-5), ele os pega do galho do #88
+    (`origin/feat/imovel-no-ar`).
   - O `qa_exportados.py` exporta duas vezes o Monte das Colinas (LEVE) e o Cedros (LEVE e PREMIUM), e
     confere que os bytes são os mesmos. Depois abre cada pacote no motor, no WebGPU e no WebGL2, e grava
     um print lado a lado com a página de hoje.
@@ -171,10 +172,9 @@ continuam os mesmos.
 - **O adaptador do mapa de 5 km** (`mapa-retorno.js`) é do LIV. Para a imobiliária, o mapa é o
   `tour.html` do build.
 - **O interior da casa** (Planta 3D e Tour) vem da planta fixada, no MG-7.
-- **A vitrine ao vivo no build novo**: o #88 (que não está na main) põe o `vitrine_ao_vivo.js` nas
-  páginas do build. Quando ele se juntar a este, a maquete do schema 2 precisa recebê-lo como
-  `<script type="module">` depois do `casa.js` (ver acima).
-- **O robô** confere e baixa todos os arquivos do build no MG-6.
+- **O robô na máquina do GitHub** (M2-8) vai precisar do Chrome e do Playwright para montar o formato
+  novo, e do `npm ci --prefix maquete/motor`. Os testes do robô no CI montam no formato antigo, para não
+  gastar minutos de Actions com o Chrome (`tasks/painel/m2-worker.md`, andamento do MG-6).
 - **O otimizador da publicação** entra no MG-8, já lendo a página dos dados. Hoje ele cita a página do
   LIV pelo nome.
 

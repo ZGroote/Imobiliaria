@@ -19,6 +19,7 @@ import { pedirPrevia } from '../../tools/buildjob.mjs'
 import { rodar, Bloqueio, PRAZO_MS } from '../../tools/worker.mjs'
 import { executorPrevia, pipeline, comandoCanal, lerSaidaCanal } from '../../tools/worker_previa.mjs'
 import { sairDeTodos } from './apoio.ts'
+import { formatoNovo } from './formato-novo.mjs'
 
 const RAIZ = fileURLToPath(new URL('../../', import.meta.url))
 const db = () => adminDb()
@@ -65,8 +66,10 @@ const canal = ({ estraga = null } = {}) => async (imovel, site) => {
   }
   return { url: `http://127.0.0.1:${porta}/${imovel}/`, expira: '2026-11-19T12:00:00Z' }
 }
+// Os builds de verdade daqui são do formato antigo (formato: 1): o novo pede o Chrome do exportador, que o CI
+// não tem. O formato novo entra pelo formatoNovo, nos testes do MG-6.
 const roda = (opcoes = {}) => rodar(db(), { dono: 'A', sinalMs: 0, executores: { preview: executorPrevia({
-  db: db(), dbRobo, raiz: RAIZ, canal: canal(), builds: join(trabalho, 'builds'), site: join(trabalho, 'site'), ...opcoes,
+  db: db(), dbRobo, raiz: RAIZ, canal: canal(), builds: join(trabalho, 'builds'), site: join(trabalho, 'site'), formato: 1, ...opcoes,
 }) } })
 const ler = async (p) => (await db().doc(p).get()).data()
 async function emProducao(rid, campos = {}) {
@@ -230,4 +233,40 @@ test('M2-3 script: recusa é portão (blocked); Traceback é falha de infraestru
   const quebra = await pipeline('python', RAIZ, ['-c', 'raise RuntimeError("quebrou")']).catch((e) => e)
   assert.deepEqual([quebra.constructor.name, quebra.code], ['Error', undefined])
   assert.deepEqual(await pipeline('python', RAIZ, ['-c', 'print("progresso"); print(\'{"ok": 1}\')']), { ok: 1 })
+})
+
+// ── MG-6: o build novo (a maquete geral, manifest schema 2) ──
+
+test('MG-6 o robô monta no formato novo por padrão; o antigo fica de reserva', async () => {
+  for (const [opcao, esperado] of [[{}, '2'], [{ formato: 1 }, '1']]) {
+    await semear()
+    await emProducao('pedCedros')
+    const vistos = []
+    const script = async (args) => { vistos.push(args); throw new Bloqueio('BUILD_REFUSED', 'só o argumento interessa') }
+    await rodar(db(), { dono: 'A', sinalMs: 0, executores: { preview: executorPrevia({
+      db: db(), dbRobo, raiz: RAIZ, canal: canal(), builds: join(trabalho, 'builds'), site: join(trabalho, 'site'), script, ...opcao,
+    }) } })
+    assert.equal(vistos[0][vistos[0].indexOf('--formato') + 1], esperado)
+  }
+})
+
+test('MG-6 prévia de um build do formato novo: o canal confere todos os arquivos; um de dados trocado é CHANNEL_MISMATCH', async () => {
+  const builds = join(trabalho, 'builds'), X = 'monte-dos-cedros-37'
+  const antigo = (await pipeline('python', RAIZ, ['pipeline/build_imovel.py', X, '--modo', 'leve', '--formato', '1', '--builds', builds])).build
+  const novo = await formatoNovo(builds, X, antigo)
+  // as duas montagens do robô dão o build novo; a montagem do canal e a conferência são as de verdade
+  const script = async (args) => args[0].endsWith('build_imovel.py') ? { build: novo } : pipeline('python', RAIZ, args)
+  const id = await emProducao('pedCedros')
+  await roda({ script })
+  const j = await ler('buildJobs/' + id)
+  assert.deepEqual([j.status, j.build], ['succeeded', novo])
+  assert.equal((await ler('requests/pedCedros')).preview.build, novo)
+
+  await db().doc('properties/colinas').update({ pipelineUnitId: X })
+  const outro = await emProducao('pedColinas')
+  await roda({ script, canal: canal({ estraga: 'dados/maquete.js' }) })
+  const k = await ler('buildJobs/' + outro)
+  assert.deepEqual([k.status, k.error.code], ['blocked', 'CHANNEL_MISMATCH'])
+  assert.match(k.error.message, /dados\/maquete\.js/)
+  await retido('pedColinas', outro, 'CHANNEL_MISMATCH')
 })

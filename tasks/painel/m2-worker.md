@@ -627,12 +627,30 @@ Estimativa do tráfego do robô:
   - a maquete de 4,0 MB cai para 688 KB em gzip;
   - no M2-5, o tour de 14,2 MB cai para 4,5 MB, e a maquete de 3,2 MB para 0,65 MB: **um build
     baixa ~5,1 MB**.
+- **Com o build da maquete geral (MG-6, medido em 21/10 com builds de verdade, cada arquivo comprimido
+  como o Hosting serve):**
+
+  | Imóvel | Build antigo (3 arquivos) | Build novo (33–34 arquivos) |
+  |---|---|---|
+  | Monte das Colinas (LEVE) | 4,9 MB | 5,3 MB: tour 4,2 + motor e dados 1,05 |
+  | Cedros (PREMIUM) | 21,4 MB | 13,5 MB: tour 4,5 + luz 6,7 (já comprimida) + cena e motor 2,3 |
+
+  - O LEVE cresce 0,4 MB por build, porque o motor (o three) vai em cada build.
+  - O PREMIUM cai 8 MB, porque a luz deixa de ir dentro da página.
+  - O motor compartilhado por hash (D2 da [maquete geral](maquete-geral.md)) e o otimizador (MG-8) tiram a
+    maior parte desse 0,4 MB.
 - **Os tiles nunca são baixados.** Vêm do git.
 - **Prévia:** ~5 MB, a conferência dos bytes servidos no canal. O upload não conta como
   tráfego.
 - **Publicar:** ~10 MB por imóvel no ar (atual + anterior), mais ~5 MB do build aprovado. Com 1
   imóvel, ~15 MB; com 10, ~105 MB.
-- **Teto:** perto de **~15 imóveis no ar**, uma publicação passa de 1/3 da cota diária. Aí vem o
+- **Com o build novo (MG-6):**
+  - a prévia confere todos os arquivos no canal: ~5,3 MB num LEVE, ~13,5 MB num PREMIUM;
+  - publicar baixa os dois builds de cada imóvel no ar, mais o aprovado: ~10,6 MB por imóvel LEVE no ar,
+    mais 5,3 MB. Com 1 imóvel, ~16 MB; com 10, ~111 MB;
+  - cada imóvel PREMIUM no ar pesa ~27 MB, no lugar de ~43 MB.
+- **Teto:** perto de **~11 imóveis LEVE no ar** com o build novo (~15 com o antigo), uma publicação passa
+  de 1/3 da cota diária. Aí vem o
   M2-9: cópia no servidor. Pela API REST do Hosting (documentação conferida em 20/10):
   - `versions.clone` copia a versão no ar sem baixar nada; com `finalize: false`, a versão
     nasce `CREATED`;
@@ -797,6 +815,27 @@ próprio do `users/worker` sem assinatura.
   - **Quebra de propósito:** 9 de 9 trechos pegos.
   - **Conferido no `painel:dev`:** o cartão com a volta anterior parada e o motivo; o clique gravou o
     pedido ("Pedido enviado"); o robô de verdade criou o job, e o cartão mostrou "Na fila".
+- **MG-6 (21/10), o robô com o build da maquete geral, em PR, sem nada no ar.** Vem depois da junção do
+  robô com a maquete geral (PR #108).
+  - **O robô monta no formato novo** (manifest schema 2, a pasta do motor com os dados do imóvel). O formato
+    antigo fica de reserva (`executorPrevia({ formato: 1 })`) até o MG-8.
+  - **A prévia** confere o manifest pelo sha256 e, depois, cada arquivo que ele lista no canal: no formato
+    antigo, tour e maquete; no novo, todos.
+  - **Publicar e reverter** baixam de cada build o manifest primeiro e depois o que ele lista. Nenhum nome
+    de arquivo pode cair fora da pasta: caminho com `..` ou começando com ponto é recusado antes de gravar
+    (`arquivosDoBuild`, em `painel/src/lib/publicacao.ts`, a mesma regra do `publicar_imovel.py`).
+  - **Os builds de verdade dos testes continuam no formato antigo.** O novo pede o Chrome do exportador, e o
+    CI não tem; instalar custaria minutos de Actions a cada execução (§14). O formato novo entra pelo
+    `painel/tests/formato-novo.mjs`: o tour de verdade, o resto pequeno, o manifest de verdade. O exportador
+    e o motor no navegador são conferidos à parte, com placa de vídeo (`qa_exportados.py`, `qa_build.py`).
+  - **Testes:**
+    - prévia: o padrão é o formato novo; um build novo passa no canal, e um arquivo de dados trocado dá
+      `CHANNEL_MISMATCH`;
+    - publicar: o aprovado do formato novo vai ao ar inteiro, com Y (formato antigo) byte a byte; o canal que
+      perde um arquivo dá `PREVIEW_GONE`, e o que serve outro dá `CHANNEL_MISMATCH`, sem deploy;
+    - reverter com o par misturado (atual novo, anterior antigo); um manifest no ar com caminho para fora
+      dá `STATE_UNREADABLE`, sem gravar nada.
+  - **Tráfego** medido e anotado na §14.
 
 **Depende de:**
 

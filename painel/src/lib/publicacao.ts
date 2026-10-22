@@ -26,6 +26,20 @@ function url(texto: string) {
   return u
 }
 
+// Os arquivos de um build, além do manifest.json, como o publicar_imovel.py confere (arquivos_do_build): no
+// schema 1, os dois HTMLs; no schema 2, todos os que o manifesto lista. Caminho relativo, sem `..` e sem trecho
+// começando com ponto: o robô grava o que baixa com esses nomes, e nada pode cair fora da pasta do build.
+const CAMINHO = /^[A-Za-z0-9_][A-Za-z0-9_.-]*(\/[A-Za-z0-9_][A-Za-z0-9_.-]*)*$/
+export function arquivosDoBuild(m: Pick<Manifesto, 'schema' | 'arquivos'>): string[] {
+  if (m.schema === 1) return ['tour.html', 'maquete.html']
+  if (m.schema !== 2) throw new Error('manifest.json fora do formato esperado (schema 1 ou 2).')
+  const nomes = Object.keys(m.arquivos ?? {}).sort()
+  const ruim = nomes.find((n) => !CAMINHO.test(n) || n === 'manifest.json')
+  if (ruim !== undefined) throw new Error(`manifest.json com um caminho de arquivo inválido: ${JSON.stringify(ruim)}.`)
+  if (!nomes.includes('tour.html') || !nomes.includes('maquete.html')) throw new Error('O build não tem tour.html e maquete.html.')
+  return nomes
+}
+
 // O manifest precisa descrever ESTE imóvel e ESTE build, e o endereço precisa ser o do build.
 export function validarManifesto(m: unknown, esperado: { imovel: string; pasta: string }): Manifesto {
   const x = m as Partial<Manifesto> | null
