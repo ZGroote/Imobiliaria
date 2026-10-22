@@ -7,16 +7,15 @@ import { spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { Bloqueio } from './worker.mjs'
 import { pipeline, reter } from './worker_previa.mjs'
-import { BUILD, noAr } from '../painel/src/lib/publicacao.ts'
+import { BUILD, arquivosDoBuild, noAr } from '../painel/src/lib/publicacao.ts'
 import { registrarPublicacao } from '../painel/src/lib/publicar.ts'
 import { ROBO } from '../painel/src/lib/robo.ts'
 
 const sha = (b) => createHash('sha256').update(b).digest('hex')
 const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/, SHA256 = /^[0-9a-f]{64}$/
-const PUBLICADOS = ['tour.html', 'maquete.html', 'manifest.json']
 
 // O site no ar, visto pelo robô: o estado.json, os builds e a releitura depois do deploy, sem cache.
 function oAr(buscar, ar) {
@@ -37,14 +36,24 @@ function oAr(buscar, ar) {
     return { bytes, sha: sha(bytes), estado }
   }
 
-  // Os arquivos de um build, de uma pasta b/<id>/<build>/ servida para `destino`.
+  // Os arquivos de um build, de uma pasta b/<id>/<build>/ servida para `destino`: o manifest.json primeiro,
+  // e depois o que ele lista (no formato antigo, tour e maquete; no da maquete geral, todos). Quem confere
+  // os bytes é o montar-live; aqui só nenhum nome pode cair fora de `destino` (arquivosDoBuild).
   async function baixar(origem, destino, falta) {
-    await mkdir(destino, { recursive: true })
-    for (const n of PUBLICADOS) {
+    const traz = async (n) => {
       const r = await buscar(new URL(n, origem).href, { cache: 'no-store' })
       if (!r.ok) throw new Bloqueio(falta, `${origem.pathname}${n} não está lá (HTTP ${r.status})`)
-      await writeFile(join(destino, n), Buffer.from(await r.arrayBuffer()))
+      const b = Buffer.from(await r.arrayBuffer())
+      await mkdir(dirname(join(destino, n)), { recursive: true })
+      await writeFile(join(destino, n), b)
+      return b
     }
+    let nomes
+    try { nomes = arquivosDoBuild(JSON.parse((await traz('manifest.json')).toString('utf-8'))) } catch (e) {
+      if (e instanceof Bloqueio) throw e
+      throw new Bloqueio(falta, `${origem.pathname}manifest.json fora do formato: ${e.message}`)
+    }
+    for (const n of nomes) await traz(n)
   }
 
   // Todo build que o estado.json do ar lista (atual e anterior de cada imóvel), em builds/<id>/<build>/.
@@ -177,8 +186,8 @@ export function executorPublicar({ db, dbRobo, raiz, ar, deploy, python = 'pytho
         await o.baixar(new URL('./', r.preview.tourUrl), aprovado, 'PREVIEW_GONE')
         const m = await readFile(join(aprovado, 'manifest.json'))
         if (sha(m) !== job.manifestSha256) throw new Bloqueio('PREVIEW_GONE', 'o canal tem outra prévia')
-        const { arquivos } = JSON.parse(m)
-        for (const n of ['tour.html', 'maquete.html']) {
+        const manifesto = JSON.parse(m), { arquivos } = manifesto
+        for (const n of arquivosDoBuild(manifesto)) {
           const b = await readFile(join(aprovado, n))
           if (b.length !== arquivos[n].bytes || sha(b) !== arquivos[n].sha256) throw new Bloqueio('CHANNEL_MISMATCH', `o canal serve outro ${n}`)
         }

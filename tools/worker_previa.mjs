@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { Timestamp } from 'firebase-admin/firestore'
 import { Bloqueio } from './worker.mjs'
-import { lerPreview } from '../painel/src/lib/publicacao.ts'
+import { arquivosDoBuild, lerPreview } from '../painel/src/lib/publicacao.ts'
 import { registrarPreviaDoRobo, reterNaRevisaoInterna } from '../painel/src/lib/robo.ts'
 
 const sha = (b) => createHash('sha256').update(b).digest('hex')
@@ -68,8 +68,9 @@ export function canalFirebase({ raiz, projeto }) {
   })
 }
 
-// Os bytes que o canal serve são os montados? O manifest pelo sha256 que o montar-preview devolveu,
-// tour e maquete pelo manifest. A prévia sai do mesmo lerPreview do painel.
+// Os bytes que o canal serve são os montados? O manifest pelo sha256 que o montar-preview devolveu, e
+// cada arquivo do build pelo manifest: no formato antigo, tour e maquete; no da maquete geral (MG-6), todos
+// os que ele lista. A prévia sai do mesmo lerPreview do painel.
 export async function conferirCanal(buscar, base, imovel, montado) {
   const pasta = new URL(`b/${imovel}/${montado.build}/`, base.endsWith('/') ? base : base + '/')
   const bytes = async (nome) => {
@@ -77,8 +78,10 @@ export async function conferirCanal(buscar, base, imovel, montado) {
     if (!r.ok) throw new Bloqueio('CHANNEL_MISMATCH', `o canal não serve ${nome} (HTTP ${r.status})`)
     return Buffer.from(await r.arrayBuffer())
   }
-  const m = JSON.parse((await bytes('manifest.json')).toString('utf-8'))
-  for (const n of ['tour.html', 'maquete.html']) {
+  const manifesto = await bytes('manifest.json')
+  if (sha(manifesto) !== montado.manifest_sha256) throw new Bloqueio('CHANNEL_MISMATCH', 'o canal serve outro manifest.json')
+  const m = JSON.parse(manifesto.toString('utf-8'))
+  for (const n of arquivosDoBuild(m)) {
     const b = await bytes(n)
     if (b.length !== m.arquivos[n].bytes || sha(b) !== m.arquivos[n].sha256) {
       throw new Bloqueio('CHANNEL_MISMATCH', `o canal serve outro ${n}`)
@@ -92,7 +95,8 @@ export async function conferirCanal(buscar, base, imovel, montado) {
 // db: Admin SDK (leituras e o próprio job). dbRobo: o Firestore do cliente como users/worker
 // (painel/scripts/robo.mjs). canal(imovel, site) -> { url, expira }. script(args): um script do
 // pipeline, por padrão o de verdade.
-export function executorPrevia({ db, dbRobo, raiz, canal, python = 'python', buscar = fetch, builds, site,
+// formato: o do build (2, a maquete geral; 1, a página antiga, a reserva até o MG-8 medir).
+export function executorPrevia({ db, dbRobo, raiz, canal, python = 'python', buscar = fetch, builds, site, formato = 2,
   script = (args) => pipeline(python, raiz, args) }) {
   builds ??= join(raiz, 'publicacao/builds')
   site ??= join(raiz, 'publicacao/site')
@@ -110,9 +114,7 @@ export function executorPrevia({ db, dbRobo, raiz, canal, python = 'python', bus
   async function previa(job, { passo }) {
     if (!job.pipelineUnitId) throw new Bloqueio('PRODUCTION_INPUT_UNSUPPORTED', 'só leitura fixada: o build pela planta é o M2-R')
     await pedido(job)
-    // O formato antigo do build (a página de hoje) até o MG-6: o robô ainda confere e baixa só tour,
-    // maquete e manifest de cada build, e o build da maquete geral tem muitos arquivos.
-    const imovel = job.pipelineUnitId, modo = ['--modo', job.productionMode, '--formato', '1']
+    const imovel = job.pipelineUnitId, modo = ['--modo', job.productionMode, '--formato', String(formato)]
 
     await passo('build')
     const segunda = await mkdtemp(join(tmpdir(), 'build-'))

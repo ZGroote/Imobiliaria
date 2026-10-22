@@ -24,12 +24,13 @@ import { rodar, TravaPerdida, PRAZO_MS } from '../../tools/worker.mjs'
 import { pipeline } from '../../tools/worker_previa.mjs'
 import { executorPublicar, executorReverter, foraDoEscopo, comandoDeploy } from '../../tools/worker_publicar.mjs'
 import { entrar, sairDeTodos } from './apoio.ts'
+import { formatoNovo } from './formato-novo.mjs'
 
 const RAIZ = fileURLToPath(new URL('../../', import.meta.url))
 const X = 'monte-dos-cedros-37', Y = 'monte-das-colinas-39'
 const db = () => adminDb()
 const sha = (b) => createHash('sha256').update(b).digest('hex')
-let servidor, porta, raizServida, fixo, buildX, buildX2, appRobo, dbRobo, trabalho, deploys
+let servidor, porta, raizServida, fixo, buildX, buildX2, buildN, appRobo, dbRobo, trabalho, deploys
 
 // http://127.0.0.1:<porta>/ar/ é o site no ar; /canal/<imovel>/ é o canal de prévia.
 before(async () => {
@@ -45,7 +46,8 @@ before(async () => {
   // Uma vez: os builds de X e Y; Y no ar (a primeira publicação de um site, à mão); X no canal.
   fixo = await mkdtemp(join(tmpdir(), 'fixo-'))
   const builds = join(fixo, 'builds')
-  // no formato antigo, o que o robô monta até o MG-6
+  // Os builds de verdade daqui são do formato antigo: o novo pede o Chrome do exportador, que o CI não tem.
+  // O formato novo vem do formatoNovo (o tour de verdade, o resto pequeno, o manifesto de verdade).
   const formato1 = ['--modo', 'leve', '--formato', '1', '--builds', builds]
   buildX = (await pipeline('python', RAIZ, ['pipeline/build_imovel.py', X, ...formato1])).build
   const buildY = (await pipeline('python', RAIZ, ['pipeline/build_imovel.py', Y, ...formato1])).build
@@ -59,6 +61,10 @@ before(async () => {
     '--builds', builds, '--site', join(fixo, para)])
   await promove(buildX, 'ar', 'ar-x1')
   await promove(buildX2, 'ar-x1', 'ar-par')
+  // MG-6: X no formato novo, no canal e no ar com o par misturado (atual o novo, anterior o antigo)
+  buildN = await formatoNovo(builds, X, buildX)
+  await pipeline('python', RAIZ, ['pipeline/publicar_imovel.py', 'montar-preview', X, buildN, '--builds', builds, '--site', join(fixo, 'canal-novo')])
+  await promove(buildN, 'ar-x1', 'ar-novo')
 })
 
 // Uma segunda versão do build, válida para o montar-live: a maquete com um comentário a mais, o build
@@ -123,8 +129,8 @@ async function arvore(pasta = arDir()) {
 }
 
 // A equipe registra a prévia de X no pedido (lida do canal), e o gerente da conta aprova.
-async function aprova(rid, gerente) {
-  const preview = await lerPreview(`http://127.0.0.1:${porta}/canal/${X}/b/${X}/${buildX}/tour.html`, X)
+async function aprova(rid, gerente, build = buildX) {
+  const preview = await lerPreview(`http://127.0.0.1:${porta}/canal/${X}/b/${X}/${build}/tour.html`, X)
   await db().doc('requests/' + rid).update({ status: 'agency_review', preview })
   const g = await entrar(gerente)
   await aprovar(g.db, gerente, { id: rid, ...(await ler('requests/' + rid)) })
@@ -419,14 +425,15 @@ test('M2-5 deploy: o comando é sempre o do site de imóveis', () => {
 const rodaVolta = (opcoes = {}) => rodar(db(), { dono: 'A', sinalMs: 0, executores: { rollback: executorReverter({
   db: db(), raiz: RAIZ, ar: AR(), deploy: deployFalso, site: join(trabalho, 'site'), releituras: 3, esperaMs: 0, ...opcoes,
 }) } })
-// X no ar com o par: atual buildX2 (pedAprovado), anterior buildX (pedCedros); o Firestore diz o mesmo.
-async function comPar() {
+// X no ar com o par: atual buildX2 (pedAprovado), anterior buildX (pedCedros); o Firestore diz o mesmo. Com
+// 'ar-novo', o atual é o build do formato novo (MG-6).
+async function comPar(fixtura = 'ar-par', atual = buildX2) {
   await rm(arDir(), { recursive: true, force: true })
-  await cp(join(fixo, 'ar-par'), arDir(), { recursive: true })
+  await cp(join(fixo, fixtura), arDir(), { recursive: true })
   const m = async (b) => sha(await readFile(join(fixo, 'builds', X, b, 'manifest.json')))
   await db().doc('requests/pedCedros').update({ status: 'published', approvedBuild: buildX, approvedManifestSha256: await m(buildX) })
-  await db().doc('requests/pedAprovado').update({ status: 'published', approvedBuild: buildX2, approvedManifestSha256: await m(buildX2) })
-  await db().doc('properties/cedros').update({ publishedBuild: buildX2, publishedRequestId: 'pedAprovado',
+  await db().doc('requests/pedAprovado').update({ status: 'published', approvedBuild: atual, approvedManifestSha256: await m(atual) })
+  await db().doc('properties/cedros').update({ publishedBuild: atual, publishedRequestId: 'pedAprovado',
     previousBuild: buildX, previousRequestId: 'pedCedros' })
 }
 async function pedeVolta() {
@@ -528,4 +535,78 @@ test('M2-7 o robô morre depois do deploy da volta: a execução seguinte encerr
   await rodaVolta({ deploy: async () => { throw new Error('não devia fazer deploy de novo') } })
   assert.deepEqual([(await ler('buildJobs/' + id)).status, deploys, (await noArDeX()).atual], ['succeeded', 1, buildX])
   assert.equal((await ler('properties/cedros')).publishedBuild, buildX2)
+})
+
+// ── MG-6: o build novo (a maquete geral, manifest schema 2) misturado com o antigo no ar ──
+
+const arquivosDe = async (b) => Object.keys(JSON.parse(await readFile(join(fixo, 'builds', X, b, 'manifest.json'))).arquivos)
+const comCanalNovo = async () => {
+  await rm(join(raizServida, 'canal', X), { recursive: true, force: true })
+  await cp(join(fixo, 'canal-novo'), join(raizServida, 'canal', X), { recursive: true })
+}
+
+test('MG-6 o aprovado é do formato novo: o robô traz o build inteiro do canal, e Y (formato antigo) fica byte a byte', async () => {
+  await comCanalNovo()
+  const id = await aprova('pedCedros', 'gerA', buildN)
+  const antes = await arvore()
+  assert.equal((await roda()).encerrados, 1)
+  const j = await ler('buildJobs/' + id), estado = JSON.parse(await readFile(join(arDir(), 'estado.json')))
+  assert.deepEqual([j.status, j.build, estado.imoveis[X].atual, deploys], ['succeeded', buildN, buildN, 1])
+  assert.equal((await ler('properties/cedros')).publishedBuild, buildN)
+  // o build novo inteiro no ar, cada arquivo como o manifesto diz, e inventariado no estado.json
+  const depois = await arvore(), nomes = await arquivosDe(buildN)
+  assert.ok(nomes.includes('dados/maquete.js') && nomes.length > 3)
+  for (const n of [...nomes, 'manifest.json']) {
+    assert.equal(depois[`b/${X}/${buildN}/${n}`], sha(await readFile(join(fixo, 'builds', X, buildN, n))), n)
+    assert.equal(estado.arquivos[`b/${X}/${buildN}/${n}`], depois[`b/${X}/${buildN}/${n}`], n)
+  }
+  const mudou = Object.keys({ ...antes, ...depois }).filter((k) => antes[k] !== depois[k])
+  assert.deepEqual(mudou.filter((k) => !k.startsWith(`b/${X}/`) && ![`imovel/${X}`, `maquete/${X}`, 'index.html', 'estado.json'].includes(k)), [])
+})
+
+test('MG-6 o canal do formato novo perde um arquivo, ou serve outro: blocked e revisão interna, sem deploy', async () => {
+  for (const [estraga, code, mensagem] of [
+    [(p) => rm(join(p, 'dados/maquete.js')), 'PREVIEW_GONE', /dados\/maquete\.js/],
+    [async (p) => writeFile(join(p, 'casa.js'), (await readFile(join(p, 'casa.js'), 'utf-8')) + '// outro\n'), 'CHANNEL_MISMATCH', /casa\.js/],
+  ]) {
+    await semear()                                               // semear apaga o users/worker: volta
+    await db().doc('users/worker').set({ name: 'Worker', email: '', role: 'platform_admin', active: true,
+      createdAt: Timestamp.now(), updatedAt: Timestamp.now() })
+    deploys = 0
+    await comCanalNovo()
+    await estraga(join(raizServida, 'canal', X, 'b', X, buildN))
+    const antes = await arvore(), id = await aprova('pedCedros', 'gerA', buildN)
+    await roda()
+    const j = await ler('buildJobs/' + id)
+    assert.deepEqual([j.status, j.error.code, deploys], ['blocked', code, 0])
+    assert.match(j.error.message, mensagem)
+    await retido('pedCedros', id, code)
+    assert.deepEqual(await arvore(), antes, 'o ar não mudou')
+  }
+})
+
+test('MG-6 reverter com o par misturado: o atual do formato novo volta ao anterior do formato antigo, inteiro', async () => {
+  await comPar('ar-novo', buildN)
+  const antes = await arvore()
+  const { id } = await pedeVolta()
+  assert.equal((await rodaVolta()).encerrados, 1)
+  assert.deepEqual([(await ler('buildJobs/' + id)).status, deploys], ['succeeded', 1])
+  assert.deepEqual(await noArDeX(), { ...(await noArDeX()), atual: buildX, anterior: buildN })
+  // o robô baixou os dois builds de X do ar e remontou: os dois ficam byte a byte, só os ponteiros mudam
+  const depois = await arvore()
+  const mudou = Object.keys({ ...antes, ...depois }).filter((k) => antes[k] !== depois[k])
+  assert.deepEqual(mudou.filter((k) => ![`imovel/${X}`, `maquete/${X}`, 'index.html', 'estado.json'].includes(k)), [])
+  assert.ok((await arquivosDe(buildN)).every((n) => depois[`b/${X}/${buildN}/${n}`]))
+})
+
+test('MG-6 um manifest no ar com caminho para fora da pasta: o robô recusa antes de gravar qualquer coisa dele', async () => {
+  await comPar('ar-novo', buildN)
+  const m = join(arDir(), 'b', X, buildN, 'manifest.json'), manifesto = JSON.parse(await readFile(m))
+  manifesto.arquivos['../../fora.js'] = manifesto.arquivos['casa.js']
+  await writeFile(m, JSON.stringify(manifesto, null, 2) + '\n')
+  const { id } = await pedeVolta()
+  await rodaVolta()
+  const j = await ler('buildJobs/' + id)
+  assert.deepEqual([j.status, j.error.code, deploys], ['blocked', 'STATE_UNREADABLE', 0])
+  assert.match(j.error.message, /caminho de arquivo inválido/)
 })
