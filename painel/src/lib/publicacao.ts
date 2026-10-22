@@ -7,9 +7,12 @@ export const BUILD = /^[0-9a-f]{12}$/
 const SHA256 = /^[0-9a-f]{64}$/
 const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/
 
+// schema 1: tour.html e a página antiga. schema 2 (maquete geral, MG-5): a pasta do motor com os dados do
+// imóvel; as entradas têm os mesmos nomes. Os dois convivem no ar (o anterior de um imóvel pode ser do 1).
 export interface Manifesto {
-  schema: 1; imovel: string; build: string
+  schema: 1 | 2; imovel: string; build: string
   arquivos: Record<string, { bytes: number; sha256: string }>
+  entradas?: { tour: 'tour.html'; maquete: 'maquete.html' }
 }
 
 export type Buscar = (url: string, init?: RequestInit) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }>
@@ -26,7 +29,10 @@ function url(texto: string) {
 // O manifest precisa descrever ESTE imóvel e ESTE build, e o endereço precisa ser o do build.
 export function validarManifesto(m: unknown, esperado: { imovel: string; pasta: string }): Manifesto {
   const x = m as Partial<Manifesto> | null
-  if (!x || x.schema !== 1) throw new Error('manifest.json fora do formato esperado (schema 1).')
+  if (!x || (x.schema !== 1 && x.schema !== 2)) throw new Error('manifest.json fora do formato esperado (schema 1 ou 2).')
+  if (x.schema === 2 && (x.entradas?.tour !== 'tour.html' || x.entradas?.maquete !== 'maquete.html')) {
+    throw new Error('manifest.json (schema 2) sem as entradas tour.html e maquete.html.')
+  }
   if (typeof x.imovel !== 'string' || !SLUG.test(x.imovel)) throw new Error('manifest.json sem o id do imóvel.')
   if (x.imovel !== esperado.imovel) {
     throw new Error(`Este preview é de "${x.imovel}", mas o imóvel do pedido é "${esperado.imovel}".`)

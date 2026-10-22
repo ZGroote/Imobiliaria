@@ -45,8 +45,10 @@ before(async () => {
   // Uma vez: os builds de X e Y; Y no ar (a primeira publicação de um site, à mão); X no canal.
   fixo = await mkdtemp(join(tmpdir(), 'fixo-'))
   const builds = join(fixo, 'builds')
-  buildX = (await pipeline('python', RAIZ, ['pipeline/build_imovel.py', X, '--modo', 'leve', '--builds', builds])).build
-  const buildY = (await pipeline('python', RAIZ, ['pipeline/build_imovel.py', Y, '--modo', 'leve', '--builds', builds])).build
+  // no formato antigo, o que o robô monta até o MG-6
+  const formato1 = ['--modo', 'leve', '--formato', '1', '--builds', builds]
+  buildX = (await pipeline('python', RAIZ, ['pipeline/build_imovel.py', X, ...formato1])).build
+  const buildY = (await pipeline('python', RAIZ, ['pipeline/build_imovel.py', Y, ...formato1])).build
   await pipeline('python', RAIZ, ['pipeline/publicar_imovel.py', 'montar-live', 'promover', Y, buildY, '--estado-vazio',
     '--manifest-aprovado', sha(await readFile(join(builds, Y, buildY, 'manifest.json'))), '--builds', builds, '--site', join(fixo, 'ar')])
   await pipeline('python', RAIZ, ['pipeline/publicar_imovel.py', 'montar-preview', X, buildX, '--builds', builds, '--site', join(fixo, 'canal')])

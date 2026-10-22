@@ -32,6 +32,13 @@ test('manifest: descreve este imóvel e este build, na pasta do build', async ()
   assert.throws(() => validarManifesto(manifesto('XYZ'), { imovel: UNID, pasta }), /12 hex/)
   assert.throws(() => validarManifesto(manifesto('ffffffffffff'), { imovel: UNID, pasta }), /endereço não é o do build/)
   assert.throws(() => validarManifesto({ ...manifesto('a1b2c3d4e5f6'), arquivos: {} }, { imovel: UNID, pasta }), /tour.html/)
+  // MG-5: o build da maquete geral (schema 2) também passa, com as mesmas entradas; outro schema, não.
+  const novo = { ...manifesto('a1b2c3d4e5f6'), schema: 2, entradas: { tour: 'tour.html', maquete: 'maquete.html' } }
+  assert.equal(validarManifesto(novo, { imovel: UNID, pasta }).schema, 2)
+  assert.throws(() => validarManifesto({ ...novo, entradas: { tour: 'tour.html', maquete: 'casa.js' } }, { imovel: UNID, pasta }), /entradas/)
+  assert.throws(() => validarManifesto({ ...novo, entradas: undefined }, { imovel: UNID, pasta }), /entradas/)
+  assert.throws(() => validarManifesto({ ...novo, schema: 3 }, { imovel: UNID, pasta }), /schema 1 ou 2/)
+  assert.throws(() => validarManifesto({ ...novo, arquivos: { 'tour.html': { bytes: 1, sha256: 'x' } } }, { imovel: UNID, pasta }), /tour.html/)
 
   const texto = JSON.stringify(manifesto('a1b2c3d4e5f6'))
   const p = await lerPreview(site('a1b2c3d4e5f6'), UNID, servirTexto(texto))

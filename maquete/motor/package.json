@@ -1,0 +1,13 @@
+{
+  "name": "maquete-motor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "O motor da maquete geral (tasks/painel/maquete-geral.md); runtime fixado para WebGPU e WebGL2",
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.10"
+  }
+}

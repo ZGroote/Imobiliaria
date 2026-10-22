@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="data:,">
+<title>Maquete 3D</title>
+<style>
+  :root{--fundo:#0E141B;--linha:rgba(255,255,255,.14);--texto:#E7EBF0;--destaque:#4BDB7C;color-scheme:dark;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--texto);background:var(--fundo)}
+  *{box-sizing:border-box}body{margin:0;background:var(--fundo)}[hidden]{display:none!important}
+  #palco{position:relative;height:min(64vh,680px);min-height:280px;background:radial-gradient(ellipse at 50% 45%,#17212b,#0e151b 72%)}
+  #exterior{display:block;width:100%;height:100%;border:0}
+  /* A planta não depende do 3D: ela cobre também o aviso de carregamento dele. */
+  #planta{position:absolute;inset:0;z-index:1;background:var(--fundo)}#planta svg{display:block;width:100%;height:100%}
+  #carregando,#falha{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;font-size:14px;color:rgba(231,235,240,.75)}
+  #falha{background:var(--fundo)}
+  #ficha{max-width:960px;margin:0 auto;padding:18px 16px 24px}
+  .topo{display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px 16px}.topo>div:first-child{flex:1 1 240px;min-width:0}
+  .tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#FFC24B}
+  h1{margin:4px 0 2px;font-size:19px;font-weight:650;overflow-wrap:anywhere}.sub{margin:0;font-size:13px;opacity:.65;overflow-wrap:anywhere}
+  .preco{margin-left:auto;text-align:right;font-size:21px;font-weight:700}
+  .preco small{display:block;font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+  dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px 16px;margin:16px 0}dt{font-size:11px;opacity:.6}dd{margin:2px 0 0;font-size:14px}
+  nav{display:flex;flex-wrap:wrap;gap:8px}
+  button,nav a{min-height:44px;padding:10px 16px;border:1px solid var(--linha);border-radius:8px;background:rgba(255,255,255,.04);
+    color:inherit;font:inherit;font-size:14px;text-decoration:none;cursor:pointer}
+  button[aria-pressed="true"]{border-color:var(--destaque);color:var(--destaque)}
+  button:focus-visible,a:focus-visible{outline:3px solid #6FC6F5;outline-offset:2px}nav a{margin-left:auto}
+  @media (max-width:560px){.preco{width:100%;margin:6px 0 0;text-align:left}.preco small{display:inline;margin-right:8px}nav a{margin-left:0}}
+</style>
+<div id="palco">
+  <iframe id="exterior" title="Maquete 3D"></iframe>
+  <div id="planta" hidden></div>
+  <div id="carregando" role="status"><p id="carregandoTexto">Carregando a maquete…</p></div>
+  <div id="falha" role="alert" hidden><p id="erro"></p></div>
+</div>
+<section id="ficha" aria-labelledby="fTitulo">
+  <div class="topo">
+    <div><span class="tag" id="fTag"></span><h1 id="fTitulo"></h1><p class="sub" id="fSub"></p></div>
+    <div class="preco" id="fPreco"><small>Valor</small></div>
+  </div>
+  <dl id="fLinhas"></dl>
+  <nav aria-label="Modos da maquete">
+    <button type="button" data-modo="maquete" aria-pressed="true">Maquete</button>
+    <button type="button" data-modo="planta" aria-pressed="false">Planta</button>
+    <a id="perto" href="tour.html">O que tem por perto?</a>
+  </nav>
+</section>
+<script type="module" src="casa.js"></script>
+</html>

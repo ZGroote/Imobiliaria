@@ -42,16 +42,19 @@ import tempfile
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
 
-from pipeline.build_imovel import (ARQUIVOS, BUILDS, TERRENOS, NAO_PUBLICAR, build_id,  # noqa: E402
-                                   prefixo_publico, script_vitrine, SITE as SITE_PUBLICO)
+from pipeline.build_imovel import (ARQUIVOS, BUILDS, FORMATO, TERRENOS, NAO_PUBLICAR, build_id,  # noqa: E402
+                                   build_id_v2, prefixo_publico, script_vitrine, SITE as SITE_PUBLICO)
 
 SITE = RAIZ / 'publicacao/site'
 # Onde os tiles moram no repositorio: ao lado do mapa publicado (os mesmos 239 que o mapa usa).
 TILES = RAIZ / 'v16-moveis/publicado/mapa'
-PUBLICADOS = ARQUIVOS + ('manifest.json',)
 SLUG = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')        # o mesmo do painel (src/lib/publicacao.ts)
 BUILD = re.compile(r'^[0-9a-f]{12}$')
 PONTEIROS = (('imovel', 'tour.html'), ('maquete', 'maquete.html'))
+ENTRADAS = {'tour': 'tour.html', 'maquete': 'maquete.html'}
+# Caminho de arquivo de um build schema 2: relativo, sem `..`, e nenhum trecho comecando com
+# ponto (o Hosting ignora `**/.*`: o arquivo nao subiria).
+CAMINHO = re.compile(r'^[A-Za-z0-9_][A-Za-z0-9_.-]*(/[A-Za-z0-9_][A-Za-z0-9_.-]*)*$')
 
 
 def _sha(caminho):
@@ -64,6 +67,26 @@ def _grava(caminho, texto):
     caminho.write_bytes(texto.encode('utf-8'))
 
 
+def arquivos_do_build(manifesto):
+    """Os arquivos de um build, alem do manifest.json: no schema 1, os dois HTMLs; no schema 2
+    (a maquete geral), todos os que o manifesto lista. Os dois convivem no ar: o anterior de um
+    imovel pode ser do schema 1, e reverter para ele tem de continuar funcionando."""
+    schema = manifesto.get('schema')
+    if schema == 1:
+        return list(ARQUIVOS)
+    if schema != 2:
+        raise ValueError('manifest.json com schema desconhecido: %r' % schema)
+    if manifesto.get('formato') != FORMATO or manifesto.get('entradas') != ENTRADAS:
+        raise ValueError('manifest.json schema 2 fora do formato %s' % FORMATO)
+    nomes = sorted(manifesto.get('arquivos') or {})
+    for n in nomes:
+        if not CAMINHO.match(n) or n == 'manifest.json':
+            raise ValueError('caminho de arquivo invalido no manifest.json: %r' % n)
+    if not set(ENTRADAS.values()) <= set(nomes):
+        raise ValueError('o build nao tem tour.html e maquete.html')
+    return nomes
+
+
 def confere_build(pasta, imovel, build):
     """O build e o que o manifest.json dele diz ser, byte a byte; devolve o manifesto."""
     # Builds antigos tambem passam aqui, inclusive os preservados no snapshot live.
@@ -74,15 +97,33 @@ def confere_build(pasta, imovel, build):
     if (manifesto.get('imovel'), manifesto.get('build')) != (imovel, build):
         raise ValueError('manifest.json de %s/%s diz ser %s/%s' % (
             imovel, build, manifesto.get('imovel'), manifesto.get('build')))
-    dados = {}
-    for n in ARQUIVOS:
+    nomes = arquivos_do_build(manifesto)
+    dados, shas = {}, {}
+    for n in nomes:
+        if not (pasta / n).is_file():
+            raise ValueError('falta %s em %s/%s' % (n, imovel, build))
         dados[n] = (pasta / n).read_bytes()
+        shas[n] = hashlib.sha256(dados[n]).hexdigest()
         esperado = manifesto['arquivos'][n]
-        if (len(dados[n]), hashlib.sha256(dados[n]).hexdigest()) != (esperado['bytes'], esperado['sha256']):
+        if (len(dados[n]), shas[n]) != (esperado['bytes'], esperado['sha256']):
             raise ValueError('%s de %s/%s nao bate com o manifest.json' % (n, imovel, build))
-    if build_id(*(dados[n] for n in ARQUIVOS)) != build:
+    if manifesto['schema'] == 1:
+        conteudo = build_id(*(dados[n] for n in ARQUIVOS))
+    else:
+        # A pasta inteira e o build: arquivo a mais e pasta alterada fora dele.
+        extras = sorted({p.relative_to(pasta).as_posix() for p in pasta.rglob('*') if p.is_file()}
+                        - set(nomes) - {'manifest.json'})
+        if extras:
+            raise ValueError('%s/%s tem arquivos fora do manifest.json: %s' % (imovel, build, extras[:5]))
+        conteudo = build_id_v2(shas)
+    if conteudo != build:
         raise ValueError('o conteudo de %s/%s nao e o do build %s' % (imovel, build, build))
     return manifesto
+
+
+def _publicados(pasta):
+    """Os arquivos que vao ao site por um build: os dele e o manifest.json."""
+    return arquivos_do_build(json.loads((pasta / 'manifest.json').read_text(encoding='utf-8'))) + ['manifest.json']
 
 
 def troca_site(novo, site):
@@ -159,12 +200,14 @@ def _copia_build(origem, trabalho, imovel, build):
     continua batendo com ele. E o que o painel le para provar qual build revisa."""
     b = trabalho / 'b' / imovel / build
     b.mkdir(parents=True)
-    for n in PUBLICADOS:
+    publicados = _publicados(origem)
+    for n in publicados:
+        (b / n).parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(origem / n, b / n)
         if (b / n).read_bytes() != (origem / n).read_bytes():
             raise ValueError('%s de %s/%s mudou na copia' % (n, imovel, build))
     confere_build(b, imovel, build)
-    return ['b/%s/%s/%s' % (imovel, build, n) for n in PUBLICADOS]
+    return ['b/%s/%s/%s' % (imovel, build, n) for n in publicados]
 
 
 def _instala(site, preenche):
@@ -305,7 +348,7 @@ def _confere_contra_estado(estado, imovel, build, pasta):
     """Um build que ja esta no ar tem de ser, byte a byte, o que o estado.json registrou --
     manifest incluido. Outra materializacao do mesmo build nao serve."""
     registrados = estado.get('arquivos') or {}
-    for n in PUBLICADOS:
+    for n in _publicados(pasta):
         chave = 'b/%s/%s/%s' % (imovel, build, n)
         if chave not in registrados:
             raise ValueError('o estado lista %s/%s mas nao registra o hash de %s' % (imovel, build, n))

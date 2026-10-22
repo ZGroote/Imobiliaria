@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
 """Build imutavel de um imovel: tour + maquete numa pasta com o hash do conteudo.
 
-    python pipeline/build_imovel.py monte-dos-cedros-37
+    python pipeline/build_imovel.py monte-dos-cedros-37 [--formato 1|2]
 
-Sai em `publicacao/builds/<imovel>/<build>/` (tour.html, maquete.html, manifest.json),
-com `<build> = sha256(tour.html + maquete.html)[:12]`. O ID e o conteudo: sem data,
-sem caminho, sem commit. Ponteiro mutavel nao mora aqui -- isso e o promover/reverter
-(B4) -- e nada do Firebase entra.
+Sai em `publicacao/builds/<imovel>/<build>/`. O ID e o conteudo: sem data, sem caminho, sem
+commit. Ponteiro mutavel nao mora aqui -- isso e o promover/reverter (B4) -- e nada do
+Firebase entra. Dois formatos (tasks/painel/maquete-geral.md, secao 5):
+
+- 2, o padrao (a maquete geral, MG-5): a pasta e a do motor (maquete/motor), com a maquete
+  de hoje exportada para `dados/` (pipeline/maquete_dados.py), mais o tour.html. O
+  manifest.json (schema 2) lista todos os arquivos, e `<build>` = sha256 da lista
+  "caminho sha256", uma linha por arquivo, em ordem de caminho, 12 primeiros digitos.
+- 1, a reserva ate o MG-8: tour.html e a pagina antiga (maquete.html), com
+  `<build> = sha256(tour.html + maquete.html)[:12]`.
 
 O build nasce numa pasta temporaria ao lado e so no fim ganha o nome. Pasta existente
 nunca e sobrescrita: o mesmo conteudo reaproveita o build que ja esta la, e o mesmo ID
@@ -20,6 +26,8 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path, PurePosixPath
+import posixpath
+import re
 import runpy
 import shutil
 import subprocess
@@ -29,7 +37,7 @@ import tempfile
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
 
-from pipeline import artefatos_leve, fonte_leve, imovel, modo_producao  # noqa: E402
+from pipeline import artefatos_leve, fonte_leve, imovel, maquete_dados, modo_producao  # noqa: E402
 from pipeline.build.config import resolve  # noqa: E402
 from pipeline.build.manifest import entradas, snapshot  # noqa: E402
 
@@ -44,27 +52,100 @@ MAPA = 'https://imobilaria-deccb.web.app/'
 ARQUIVOS = ('tour.html', 'maquete.html')
 # Liga/desliga do ar, preco e situacao ao vivo, lidos de vitrine/<slug> (ver o proprio arquivo).
 VITRINE = RAIZ / 'pipeline/vitrine_ao_vivo.js'
+MOTOR = RAIZ / 'maquete/motor'
+# As paginas que o motor abre para um imovel de uma unidade: a entrada e o exterior dentro dela.
+ENTRADAS_DO_MOTOR = ('maquete.html', 'prova-rgbm.html')
+FORMATO = 'maquete-geral-v1'
 
 
-def script_vitrine(slug, ir_para=None):
-    """O vitrine_ao_vivo.js inteiro mais a chamada do imovel; no ponteiro, com o destino."""
+def script_vitrine(slug, ir_para=None, modulo=False):
+    """O vitrine_ao_vivo.js inteiro mais a chamada do imovel; no ponteiro, com o destino. Como modulo
+    (a maquete do motor), ele roda so depois dos modulos de antes dele: o casa.js ja preencheu a ficha."""
     chamada = 'vitrineAoVivo(%s%s);' % (json.dumps(slug), ', ' + json.dumps(ir_para) if ir_para else '')
-    return '<script>\n' + VITRINE.read_text(encoding='utf-8') + chamada + '\n</script>\n'
+    return (('<script type="module">\n' if modulo else '<script>\n')
+            + VITRINE.read_text(encoding='utf-8') + chamada + '\n</script>\n')
 
 
-def com_vitrine(path, slug):
+def com_vitrine(path, slug, modulo=False):
     """Poe o script antes do ultimo </body>: depois do que a pagina monta, pra achar a ficha. O tour
     que o montar.py gera nao abre nem fecha <body> (o navegador cria os dois); ai o script vai no fim
-    do documento, que da no mesmo."""
+    do documento, que da no mesmo. A maquete do motor tambem nao tem <body>: vai depois do casa.js."""
     html = path.read_text(encoding='utf-8')
     i = html.rfind('</body>')
     if i < 0:
         i = len(html)
-    path.write_bytes((html[:i] + script_vitrine(slug) + html[i:]).encode('utf-8'))
+    path.write_bytes((html[:i] + script_vitrine(slug, modulo=modulo) + html[i:]).encode('utf-8'))
 
 
 def build_id(tour, maquete):
     return hashlib.sha256(tour + maquete).hexdigest()[:12]
+
+
+def lista_de_arquivos(shas):
+    """O conteudo de um conjunto de arquivos: "caminho sha256", uma linha por arquivo, em ordem."""
+    return ''.join('%s %s\n' % (c, shas[c]) for c in sorted(shas)).encode()
+
+
+def build_id_v2(shas):
+    """schema 2: `shas` e {caminho: sha256}. Mudou um byte de qualquer arquivo, muda o build."""
+    return hashlib.sha256(lista_de_arquivos(shas)).hexdigest()[:12]
+
+
+# Declaracoes de import/export no comeco da linha (inclusive as de varias linhas) e import()
+# relativo: o three tem a palavra "import" solta no meio do codigo.
+IMPORTA = re.compile(r'''^\s*(?:import|export)\b[^;'"]*?\bfrom\s*['"]([^'"]+)['"]'''
+                     r'''|^\s*import\s*['"]([^'"]+)['"]|\bimport\(\s*['"](\.{1,2}/[^'"]+)['"]\s*\)''', re.M)
+URL_DO_MODULO = re.compile(r'''new URL\(\s*['"]([^'"]+)['"]\s*,\s*import\.meta\.url''')
+SCRIPT_SRC = re.compile(r'<script[^>]*\ssrc="([^"]+)"')
+IMPORTMAP = re.compile(r'<script type="importmap">(.*?)</script>', re.S)
+
+
+def arquivos_do_motor(motor=MOTOR):
+    """{caminho: arquivo} do que as paginas do motor carregam, seguindo os imports a partir das
+    entradas: modulos, ajudantes (`new URL(..., import.meta.url)`), as pastas que eles leem e
+    o three pelo importmap. `dados/` fica de fora: e o pacote do imovel."""
+    mapa, achados, fila = {}, {}, list(ENTRADAS_DO_MOTOR)
+    for entrada in ENTRADAS_DO_MOTOR:
+        for bloco in IMPORTMAP.findall((motor / entrada).read_text(encoding='utf-8')):
+            mapa.update(json.loads(bloco)['imports'])
+
+    def resolve(especificador, de):
+        if especificador.startswith(('./', '../')):
+            return posixpath.normpath(posixpath.join(posixpath.dirname(de), especificador))
+        alvo = mapa.get(especificador) or next(
+            (mapa[k] + especificador[len(k):] for k in mapa if k.endswith('/') and especificador.startswith(k)), None)
+        if alvo is None:
+            raise ValueError('%s importa %r, que nao e relativo nem esta no importmap' % (de, especificador))
+        return posixpath.normpath(alvo)
+
+    while fila:
+        rel = fila.pop().split('?')[0]
+        if rel in achados or rel.startswith('dados/'):
+            continue
+        caminho = motor / rel
+        if rel.endswith('/') or caminho.is_dir():
+            fila += [posixpath.join(rel, f.name) for f in sorted(caminho.iterdir()) if f.is_file()]
+            continue
+        if not caminho.is_file():
+            raise ValueError('o motor carrega %s, que nao existe (rode npm ci --prefix maquete/motor?)' % rel)
+        achados[rel] = caminho
+        if rel.endswith('.html'):
+            texto = caminho.read_text(encoding='utf-8')
+            fila += [posixpath.normpath(s) for s in SCRIPT_SRC.findall(texto)]
+        elif rel.endswith('.js'):
+            texto = caminho.read_text(encoding='utf-8')
+            fila += [resolve(''.join(e), rel) for e in IMPORTA.findall(texto)]
+            fila += [posixpath.normpath(posixpath.join(posixpath.dirname(rel), u)) + ('/' if u.endswith('/') else '')
+                     for u in URL_DO_MODULO.findall(texto)]
+    return dict(sorted(achados.items()))
+
+
+def bytes_publicados(caminho):
+    """Texto vai com fim de linha LF, binario como esta: o mesmo build em qualquer sistema."""
+    dado = caminho.read_bytes()
+    if caminho.suffix in ('.html', '.js', '.mjs', '.json', '.css'):
+        dado = dado.replace(b'\r\n', b'\n')
+    return dado
 
 
 def prefixo_publico(prefixo):
@@ -135,7 +216,7 @@ NAO_PUBLICAR = {
 }
 
 
-def construir(imovel_id, builds=BUILDS, production_mode=None):
+def construir(imovel_id, builds=BUILDS, production_mode=None, formato=2):
     if imovel_id in NAO_PUBLICAR:
         raise ValueError('%s nao se publica ate confirmar a origem: %s'
                          % (imovel_id, NAO_PUBLICAR[imovel_id]))
@@ -150,6 +231,11 @@ def construir(imovel_id, builds=BUILDS, production_mode=None):
     fontes = entradas(config) + [PILOTO, TERRENOS, Path(__file__).resolve(),
                                  RAIZ / 'pipeline/imovel.py', RAIZ / 'pipeline/recorte.py', VITRINE]
     fontes += fontes_da_maquete(imovel_id, modo)
+    if formato == 2:
+        motor = arquivos_do_motor()
+        fontes += [Path(maquete_dados.__file__).resolve()] + list(motor.values())
+    elif formato != 1:
+        raise ValueError('formato desconhecido: %r' % formato)
     antes = snapshot(fontes)
     pasta = builds / imovel_id
     pasta.mkdir(parents=True, exist_ok=True)
@@ -162,24 +248,37 @@ def construir(imovel_id, builds=BUILDS, production_mode=None):
             # sem a hora que o montador poria: e ela que mudaria o ID a cada minuto
             carimbo='%s / %s / %s' % (config.slug, config.versao, imovel_id))
         Path(gerado).rename(trabalho / 'tour.html')
-        subprocess.run([sys.executable, str(MAQUETE), '--cidade', piloto['cidade'],
-                        '--unidade', imovel_id, '--saida', str(trabalho / 'maquete.html'),
-                        '--mapa', 'tour.html', '--modo', modo],
-                       check=True, cwd=str(RAIZ), stdout=sys.stderr)
-        for n in ARQUIVOS:
-            com_vitrine(trabalho / n, imovel_id)
-            canonicaliza_html(trabalho / n)
+        com_vitrine(trabalho / 'tour.html', imovel_id)
+        canonicaliza_html(trabalho / 'tour.html')
+        if formato == 1:
+            subprocess.run([sys.executable, str(MAQUETE), '--cidade', piloto['cidade'],
+                            '--unidade', imovel_id, '--saida', str(trabalho / 'maquete.html'),
+                            '--mapa', 'tour.html', '--modo', modo],
+                           check=True, cwd=str(RAIZ), stdout=sys.stderr)
+            com_vitrine(trabalho / 'maquete.html', imovel_id)
+            canonicaliza_html(trabalho / 'maquete.html')
+        else:
+            for rel, origem in motor.items():
+                (trabalho / rel).parent.mkdir(parents=True, exist_ok=True)
+                (trabalho / rel).write_bytes(bytes_publicados(origem))
+            com_vitrine(trabalho / 'maquete.html', imovel_id, modulo=True)
+            maquete_dados.exportar(imovel_id, modo, trabalho / 'dados', cidade=piloto['cidade'])
         if snapshot(fontes) != antes:
             raise ValueError('uma fonte mudou durante a montagem; repita com fontes estaveis')
 
-        build = build_id(*((trabalho / n).read_bytes() for n in ARQUIVOS))
+        nomes = (ARQUIVOS if formato == 1 else
+                 sorted(p.relative_to(trabalho).as_posix() for p in trabalho.rglob('*') if p.is_file()))
+        if formato == 1:
+            build = build_id(*((trabalho / n).read_bytes() for n in ARQUIVOS))
+        else:
+            build = build_id_v2({n: _arquivo(trabalho / n)['sha256'] for n in nomes})
         alvo = pasta / build
         resultado = {'imovel': imovel_id, 'build': build, 'reutilizado': alvo.exists(),
                      'productionMode': modo,
                      'pasta': (alvo.relative_to(RAIZ).as_posix() if alvo.is_relative_to(RAIZ)
                                else str(alvo))}
         if alvo.exists():
-            for n in ARQUIVOS:
+            for n in nomes:
                 if not (alvo / n).is_file() or (alvo / n).read_bytes() != (trabalho / n).read_bytes():
                     raise ValueError('build %s ja existe com outro %s: colisao ou pasta '
                                      'alterada fora do build' % (build, n))
@@ -187,16 +286,23 @@ def construir(imovel_id, builds=BUILDS, production_mode=None):
             return resultado
 
         manifesto = {
-            'schema': 1,
+            'schema': formato,
             'imovel': imovel_id,
             'build': build,
             'gerado_em': datetime.now(timezone.utc).isoformat(timespec='seconds'),
             'commit': _commit(),
             'fontes': {Path(k).relative_to(RAIZ).as_posix(): v for k, v in antes.items()},
-            'arquivos': {n: _arquivo(trabalho / n) for n in ARQUIVOS},
+            'arquivos': {n: _arquivo(trabalho / n) for n in nomes},
             'tiles': tiles,
             'publico': {'tour': '/imovel/' + imovel_id, 'maquete': '/maquete/' + imovel_id},
         }
+        if formato == 2:
+            # Os nomes de entrada nao mudam: os ponteiros /imovel/<id> e /maquete/<id> tambem nao.
+            # `motor` e a versao do motor: o hash dos arquivos dele como sairam de maquete/motor, antes
+            # da vitrine do imovel entrar na maquete.html.
+            manifesto.update(formato=FORMATO, entradas={'tour': 'tour.html', 'maquete': 'maquete.html'},
+                             motor=hashlib.sha256(lista_de_arquivos(
+                                 {n: hashlib.sha256(bytes_publicados(o)).hexdigest() for n, o in motor.items()})).hexdigest())
         (trabalho / 'manifest.json').write_text(
             json.dumps(manifesto, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         trabalho.rename(alvo)       # no Windows falha se o destino existir: nunca sobrescreve
@@ -214,11 +320,14 @@ def main(argv=None):
     parser.add_argument('--builds', type=Path, default=BUILDS, help='pasta dos builds (padrao: publicacao/builds)')
     parser.add_argument('--modo', choices=modo_producao.MODOS,
                         help='produto explícito; ausente preserva o comportamento histórico')
+    parser.add_argument('--formato', type=int, choices=(1, 2), default=2,
+                        help='2: o motor da maquete geral (padrão); 1: a página antiga, de reserva')
     args = parser.parse_args(argv)
     try:
         # Cadastro, montador e recorte imprimem progresso no stdout, que e so da linha final.
         with contextlib.redirect_stdout(sys.stderr):
-            resultado = construir(args.imovel, builds=args.builds, production_mode=args.modo)
+            resultado = construir(args.imovel, builds=args.builds, production_mode=args.modo,
+                                  formato=args.formato)
     except ValueError as exc:
         parser.exit(1, str(exc) + '\n')
     print(json.dumps(resultado, ensure_ascii=False))

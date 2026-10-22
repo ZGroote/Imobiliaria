@@ -110,7 +110,9 @@ export function executorPrevia({ db, dbRobo, raiz, canal, python = 'python', bus
   async function previa(job, { passo }) {
     if (!job.pipelineUnitId) throw new Bloqueio('PRODUCTION_INPUT_UNSUPPORTED', 'só leitura fixada: o build pela planta é o M2-R')
     await pedido(job)
-    const imovel = job.pipelineUnitId, modo = ['--modo', job.productionMode]
+    // O formato antigo do build (a página de hoje) até o MG-6: o robô ainda confere e baixa só tour,
+    // maquete e manifest de cada build, e o build da maquete geral tem muitos arquivos.
+    const imovel = job.pipelineUnitId, modo = ['--modo', job.productionMode, '--formato', '1']
 
     await passo('build')
     const segunda = await mkdtemp(join(tmpdir(), 'build-'))
