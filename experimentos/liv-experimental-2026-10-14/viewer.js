@@ -10,6 +10,8 @@ import {attachRelations} from './vinculos.js';
 import {attachStock} from './estoque-adapter.js';
 import {availableUnitIds} from './disponibilidade.js';
 import {createPlan2D} from './planta2d.js?rev=2026-10-13-medidas2';
+import {createBuyerUI} from './experiencia-compra.js';
+const buyerUI=createBuyerUI({document,location,navigator});
 const stage=document.getElementById('stage'),overlay=document.getElementById('loading');
 const projectPanel=document.getElementById('projectPanel'),panelDetails=document.getElementById('projectPanelDetails'),panelFooter=document.getElementById('projectPanelFooter'),panelToggle=document.getElementById('toggleProjectPanel');
 const floorControl=document.getElementById('floor'),ambienceControl=document.getElementById('ambience'),captureControl=document.getElementById('capture');
@@ -34,7 +36,7 @@ document.getElementById('demonstrationNote').hidden=!demonstration;
 state.geometry=geometry;
 state.unitScope=scope;
 const storageKey=`liv-viewer-v1:${location.pathname}${geometry==='base'?'':':'+geometry}${scope==='edificio'?':edificio':''}`;
-let restoredInterior=null;
+let restoredInterior=null,pendingBuyerLayout=null;
 function updateMapLink(){
   const mapLink=document.querySelector('.map-link'),destination=new URL(mapLink.href);
   if(geometry!=='base')destination.searchParams.set('geometria',geometry);
@@ -147,6 +149,11 @@ function update() {
   updateDetails();
   updateNavbar();
   updateInfoPanel();
+  buyerUI.update(unit,unit?floorOf(units,unit):null,state.mode);
+  // EXPERIMENTO-COMPRA-20261023: só ações do visitante abrem a planta automaticamente.
+  if(buyerUI.enabled&&pendingBuyerLayout===unit?.id&&state.ready&&exterior&&associated){
+    pendingBuyerLayout=null;state.panelCollapsed=false;void setMode('planta2d');
+  }
   if(restoredInterior&&state.ready&&exterior&&associated&&restoredInterior.unitId===state.selectedUnitId){
     const mode=restoredInterior.mode;restoredInterior=null;void setMode(mode,{restore:true});
   }
@@ -227,7 +234,7 @@ function updateAvailability(){
   document.getElementById('availabilitySummary').textContent=unverified?'Disponibilidade em atualização. Confirme com a equipe.':
     !informed?'Disponibilidade ainda não informada.':
     available.length===0?'Nenhum apartamento cadastrado como disponível.':
-    active?`${available.length} ${available.length===1?'disponível':'disponíveis'} em verde · toque para ver a ficha`:
+    active?`${available.length} ${available.length===1?'disponível':'disponíveis'} em verde · ${buyerUI.enabled?'2 toques abrem a planta':'toque para ver a ficha'}`:
       `${available.length} ${available.length===1?'disponível':'disponíveis'} · selecione para destacar`;
   if(state.ready&&state.mode==='maquete')state.frame?.contentWindow?.__livProva?.setAvailableUnits(state.glowingUnitIds);
   renderAvailableList(available);
@@ -236,8 +243,9 @@ function updateAvailability(){
 let listedUnits=null,listedKey='';
 function renderAvailableList(available){
   const section=document.getElementById('availableUnits'),list=document.getElementById('availableUnitList');
-  document.getElementById('selectionPrompt').textContent=available.length?'Toque num apartamento verde no prédio ou escolha na lista abaixo.':
-    'Toque num apartamento do prédio para ver a planta e o Tour.';
+  document.getElementById('selectionPrompt').textContent=buyerUI.enabled?
+    'Um toque seleciona. Dois toques no mesmo apartamento abrem a planta. Você também pode escolher na lista.':
+    available.length?'Toque num apartamento verde no prédio ou escolha na lista abaixo.':'Toque num apartamento do prédio para ver a planta e o Tour.';
   section.hidden=!state.ready||state.mode!=='maquete'||Boolean(selectedApartment())||!available.length;
   const key=available.join();
   if(section.hidden||(units===listedUnits&&key===listedKey))return;
@@ -405,7 +413,7 @@ function prepareScene(kind){
   const frame=document.createElement('iframe');frame.dataset.scene=kind;frame.dataset.instance=String(++sceneSerial);frame.dataset.parked='true';frame.inert=true;
   frame.setAttribute('aria-hidden','true');
   frame.title=exterior?'Maquete do LIV Ipanema':`Planta e Tour do LIV Ipanema · ${typology(key).label}`;
-  frame.src=exterior?`prova-rgbm.html?embed=1&prewarm=1&tema=escuro&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}&luz=${state.ambience}`:
+  frame.src=exterior?`prova-rgbm.html?embed=1&prewarm=1&tema=escuro&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}&luz=${state.ambience}&experiencia=${buyerUI.enabled?'nova':'original'}`:
     `interior.html?embed=1&prewarm=1&backend=${backend}&tipologia=${key}&modo=planta3d`;
   sceneCache.set(kind,frame);stage.prepend(frame);
   const current=()=>!cacheStopped&&cacheEpoch===epoch&&sceneCache.get(kind)===frame;
@@ -421,7 +429,7 @@ function prepareScene(kind){
       else {api.setView(state.view);api.setFloor(state.floor);}
       if(state.floor===1||scope==='edificio')api.setSelectedUnit(state.selectedUnitId);
       frame.contentWindow.addEventListener('liv-unit-selected',event=>{
-        if(state.frame===frame&&state.ready&&state.mode==='maquete')selectUnit(event.detail.id,{frameEvent:true});
+        if(state.frame===frame&&state.ready&&state.mode==='maquete')selectUnit(event.detail.id,{frameEvent:true,openLayout:buyerUI.enabled&&event.detail.activate===true});
       });
     }else{
       const snapshot=state.interiorSnapshots[key];
@@ -498,6 +506,11 @@ async function setMode(mode,{restore=false}={}) {
     if(!units){
       const catalog=await loadUnitCatalog(undefined,geometry,scope);if(token!==generation)return;
       units=commercialData?attachCommercial(catalog,commercialData):catalog;state.units=units;
+      const address=new URLSearchParams(location.search),requestedUnit=address.get('unidade');
+      if(units.units.some(unit=>unit.id===requestedUnit)){
+        state.selectedUnitId=requestedUnit;state.floor=floorOf(units,unitById(units,requestedUnit));
+        const mode=address.get('modo');restoredInterior=['planta2d','planta3d','visita'].includes(mode)?{mode,unitId:requestedUnit}:null;
+      }
       if(relationsData){units=attachRelations(units,relationsData,interiorCatalog);state.units=units;}
       if(stockControlled){units=attachStock(units,stockData,interiorCatalog);state.units=units;}
       try{unitById(units,state.selectedUnitId);}catch{state.selectedUnitId=null;restoredInterior=null;}
@@ -560,16 +573,18 @@ function showUnitSide(side,floor=scope==='edificio'&&state.floor>=0?state.floor:
   api.setUnitView(side,floor);state.floor=floor;state.view='livre';
   if(floorControl)floorControl.value=String(floor);update();return true;
 }
-function selectUnit(id,{frameEvent=false,showInformation=false}={}){
+function selectUnit(id,{frameEvent=false,showInformation=false,openLayout=false}={}){
   if(!units)return false;
   const unit=unitById(units,id),api=state.frame?.contentWindow?.__livProva;
   if(id!==null&&(!state.ready||state.mode!=='maquete'||!api))return false;
   restoredInterior=null;
+  pendingBuyerLayout=buyerUI.enabled&&openLayout?id:null;
   // List selection reveals the appropriate face; canvas taps preserve the orbit.
   if(unit&&!frameEvent)showUnitSide(unit.side,floorOf(units,unit));
   if(unit&&frameEvent){state.floor=floorOf(units,unit);if(floorControl)floorControl.value=String(state.floor);}
   if(unit?.relation){state.typology=unit.relation.typology;document.getElementById('typology').value=state.typology;}
   state.selectedUnitId=id;api?.setSelectedUnit(id);update();
+  if(unit&&openLayout)panelDetails.scrollTop=0;
   if(hasApartmentLayout(unit))scheduleWarmViews();
   if(unit&&frameEvent)revealOnMobile('selectedApartment');
   if(unit&&showInformation)showDetails();return true;
@@ -741,6 +756,7 @@ function dispose(){
   warmJob=null;void closeMap({restore:false});discardMap();release();sceneLoads.clear();plans.dispose();
 }
 Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,setAmbience,setAvailabilityFilter,openUnitLayout,openMap,closeMap,reloadRelations:refreshRelations,reloadCommercial:refreshCommercial,prepareViews,getCacheState:()=>({scenes:[...sceneCache.keys()],plans:plans.getState(),mapReady:Boolean(mapFrame?.dataset.ready),reuses:state.sceneReuseCount}),getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,panelCollapsed:state.panelCollapsed,backend:state.backend,ambience:state.ambience,availabilityFilter:state.availabilityFilter}),dispose});
+state.setContact=context=>{buyerUI.setContact(context);const unit=selectedApartment();buyerUI.update(unit,unit?floorOf(units,unit):null,state.mode);};
 panelToggle?.addEventListener('click',()=>{state.panelCollapsed=!state.panelCollapsed;updateInfoPanel();});
 for(const button of document.querySelectorAll('[data-mode]'))button.addEventListener('click',()=>{
   const opening=setMode(button.dataset.mode);
@@ -767,7 +783,9 @@ document.getElementById('hostFramePlan')?.addEventListener('click',()=>{
 });
 document.getElementById('btnOpenUnitCard')?.addEventListener('click',()=>showDetails());
 document.getElementById('btnApartmentInfo')?.addEventListener('click',()=>showDetails());
-document.getElementById('btnBackToList').addEventListener('click',()=>selectUnit(null));
+document.getElementById('btnBackToList').addEventListener('click',()=>{
+  selectUnit(null);state.panelCollapsed=false;updateInfoPanel();
+});
 document.getElementById('availableUnitList').addEventListener('click',event=>{
   const button=event.target.closest?.('button[data-unit-id]');
   if(button&&selectUnit(button.dataset.unitId))revealOnMobile('selectedApartment');

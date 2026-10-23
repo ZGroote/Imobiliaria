@@ -12,6 +12,7 @@ import {attachRelations,PLAN_HASH} from './vinculos.js';
 import {attachStock} from './estoque-adapter.js';
 import {validarConfig} from './estoque-runtime.js';
 import {availableUnitIds} from './disponibilidade.js';
+import {createBuyerUI} from './experiencia-compra.js';
 
 const read=name=>JSON.parse(readFileSync(new URL(name,import.meta.url),'utf8'));
 const pilot=read('./unidades.json'),interiors=read('./interiores/catalogo.json');
@@ -103,7 +104,7 @@ function harness({search='?backend=webgl&unidades=edificio',fetchData=()=>emptyC
       observe(node){this.observed.add(node);}disconnect(){this.observed.clear();}notify(){this.callback();}},
     navigator:{},sessionStorage:{getItem:()=>saved?JSON.stringify(saved):null,setItem:(key,value)=>calls.push({name:'saved-session',value:JSON.parse(value)})},moduleURL:'http://localhost/viewer.js',
     transfers:{pause:async()=>{},prioritize:async()=>{},start:async()=>{},getState:()=>({})},showTransferStatus(){},
-    typology,layout:typology,unitById,floorOf,floorLabel,unitScope,requestedEdition,attachCommercial,saleOf,saleLabel,priceLabel,requestedAmbience,AMBIENCES,attachRelations,attachStock,availableUnitIds,
+    createBuyerUI,typology,layout:typology,unitById,floorOf,floorLabel,unitScope,requestedEdition,attachCommercial,saleOf,saleLabel,priceLabel,requestedAmbience,AMBIENCES,attachRelations,attachStock,availableUnitIds,
     // The viewer and data validators are real; DOM details, rendering and network are controlled boundaries.
     loadStockSDK:async()=>{
       calls.push({name:'estoque-runtime.js',ready:context.__livViewer.ready});
@@ -273,7 +274,7 @@ test('produto sem parâmetros usa a edição de entrada e associa os 170 apartam
 });
 
 test('seleção de Canto e Meio determina todas as plantas e o Tour, sem troca manual',async()=>{
-  const app=harness({fetchData:name=>name==='comercial.json'?commercialFixture():dualRelations()});
+  const app=harness({search:'?unidades=edificio&experiencia=original',fetchData:name=>name==='comercial.json'?commercialFixture():dualRelations()});
   await waitFor(()=>app.state.ready&&app.state.relationStatus==='fornecido'&&app.state.commercialStatus==='fornecido');
   const canto=pilot.units[0].id,meio=pilot.units[1].id;
   await app.frames[0].contentWindow.dispatch('liv-unit-selected',{detail:{id:canto}});
@@ -292,6 +293,85 @@ test('seleção de Canto e Meio determina todas as plantas e o Tour, sem troca m
   await app.state.setMode('planta3d');assert.match(app.state.frame.src,/tipologia=meio/);
   await app.state.setMode('visita');assert.equal(app.state.frame.contentWindow.__livInterior.mode,'visita');
   assert.match(app.element('interiorUnitTitle').textContent,new RegExp('Final '+pilot.units[1].final));
+});
+
+test('um toque seleciona na fachada; somente o toque duplo abre a planta',async()=>{
+  const app=harness({fetchData:name=>name==='comercial.json'?commercialFixture():dualRelations()});
+  await waitFor(()=>app.state.ready&&app.state.relationStatus==='fornecido');
+  const id=pilot.units[0].id;app.state.panelCollapsed=true;
+  assert.match(app.element('selectionPrompt').textContent,/Dois toques/);
+  await app.frames[0].contentWindow.dispatch('liv-unit-selected',{detail:{id}});
+  assert.equal(app.state.mode,'maquete');assert.equal(app.state.selectedUnitId,id);
+  assert.equal(app.element('selectedApartment').hidden,false);
+  await app.frames[0].contentWindow.dispatch('liv-unit-selected',{detail:{id,activate:true}});
+  await waitFor(()=>app.state.ready&&app.state.mode==='planta2d');
+  assert.equal(app.state.selectedUnitId,id);assert.equal(app.state.panelCollapsed,false);
+  assert.equal(app.element('buyerContact').hidden,false);
+  assert.match(app.element('experienceCompare').href,/experiencia=original/);
+  await app.element('btnBackToList').click();await waitFor(()=>app.state.ready&&app.state.mode==='maquete');
+  assert.equal(app.state.selectedUnitId,null);assert.equal(app.element('availableUnits').hidden,false);
+});
+
+test('toque duplo aguarda a relação e abre a planta correta uma única vez',async()=>{
+  let resolveRelations;const pending=new Promise(resolve=>{resolveRelations=resolve;});
+  const app=harness({fetchData:name=>name==='comercial.json'?commercialFixture():pending});
+  await waitFor(()=>app.state.ready&&app.state.commercialStatus==='fornecido');
+  const id=pilot.units[0].id;
+  await app.frames[0].contentWindow.dispatch('liv-unit-selected',{detail:{id,activate:true}});
+  assert.equal(app.state.mode,'maquete');resolveRelations(dualRelations());
+  await waitFor(()=>app.state.ready&&app.state.mode==='planta2d');
+  assert.equal(app.state.typology,'canto');await app.state.setMode('maquete');
+  assert.equal(app.state.mode,'maquete','Voltar ao prédio não reabre a planta automaticamente.');
+});
+
+test('escolha na lista apenas seleciona; o botão Ver planta confirma a abertura',async()=>{
+  const app=harness({fetchData:name=>name==='comercial.json'?commercialFixture():dualRelations()});
+  await waitFor(()=>app.state.ready&&app.state.relationStatus==='fornecido');
+  const id=pilot.units[1].id,button={dataset:{unitId:id}};
+  await app.element('availableUnitList').dispatch('click',{target:{closest:()=>button}});
+  assert.equal(app.state.mode,'maquete');assert.equal(app.state.selectedUnitId,id);
+  await app.unitButtons[0].click();assert.equal(app.state.mode,'planta2d');assert.equal(app.state.typology,'meio');
+});
+
+test('interesse direto restaura a unidade e contato individual usa apenas telefone público válido',async()=>{
+  const id=pilot.units[0].id;
+  const app=harness({search:'?unidades=edificio&unidade='+encodeURIComponent(id)+'&modo=planta2d',fetchData:name=>name==='comercial.json'?commercialFixture():dualRelations()});
+  await waitFor(()=>app.state.ready&&app.state.mode==='planta2d');
+  assert.equal(app.state.selectedUnitId,id);
+  app.state.setContact({contact:{brokerName:'Responsável de teste',whatsappNumber:'5581999990000'},shareUrl:'http://localhost/acesso.html?l='+ 'a'.repeat(32)});
+  assert.equal(app.element('buyerContactLink').hidden,false);
+  const wa=new URL(app.element('buyerContactLink').href);
+  assert.equal(wa.hostname,'wa.me');assert.match(wa.searchParams.get('text'),/TESTE 01/);
+  assert.match(wa.searchParams.get('text'),/l=aaaaaaaa/);
+  app.state.setContact({contact:{brokerName:'Teste',whatsappNumber:'javascript:alert(1)'},shareUrl:'http://localhost/acesso.html?l='+ 'a'.repeat(32)});
+  assert.equal(app.element('buyerContactLink').hidden,true);assert.equal(app.element('buyerContactCopy').hidden,false);
+});
+
+test('contato atualiza o número quando a tabela comercial chega depois da seleção',async()=>{
+  let resolveCommercial;const pending=new Promise(resolve=>{resolveCommercial=resolve;});
+  const app=harness({fetchData:name=>name==='comercial.json'?pending:dualRelations()});
+  await waitFor(()=>app.state.ready&&app.state.relationStatus==='fornecido');
+  app.state.selectUnit(pilot.units[0].id);
+  assert.match(app.element('buyerContactCopy').textContent,/final/);
+  resolveCommercial(commercialFixture());await waitFor(()=>app.state.commercialStatus==='fornecido');
+  assert.match(app.element('buyerContactCopy').textContent,/TESTE 01/);
+});
+
+test('recorte mantém a imagem original e o indicador de entrada acompanha o zoom',async()=>{
+  const app=harness({fetchData:name=>name==='comercial.json'?commercialFixture():dualRelations()});
+  app.element('stage').getBoundingClientRect=()=>({width:800,height:600});
+  await waitFor(()=>app.state.ready&&app.state.relationStatus==='fornecido');
+  app.state.selectUnit(pilot.units[0].id);await app.state.setMode('planta2d');
+  const image=app.images.at(-1);image.naturalWidth=1000;image.naturalHeight=1000;
+  await app.element('plan2dReset').click();
+  const marker=app.element('stage').querySelector('.plan2d-entry');
+  assert.match(image.src,/canto\.jpg$/);assert.match(image.style.maskImage,/canto-recorte\.svg/);
+  assert.equal(marker.getAttribute('aria-label'),'Entrada do apartamento');
+  const offset=value=>Number(value.match(/\+ ([-\d.]+)px/)[1]);
+  assert.ok(Math.abs(offset(marker.style.left)-135.3)<.001);
+  await app.element('plan2dZoomIn').click();
+  assert.ok(Math.abs(offset(marker.style.left)-169.125)<.001);
+  assert.ok(Math.abs(offset(marker.style.top)-177.75)<.001);
 });
 
 test('disponíveis acendem de saída e a lista leva ao cartão do apartamento',async()=>{

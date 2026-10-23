@@ -25,8 +25,10 @@ const meioMeasurements=[
 // Catalog choices describe the published layouts; no final/unit assignment is inferred.
 export const typologies=Object.freeze({
   canto:Object.freeze({id:'canto',label:'Canto',area:'47,59 m²',image:'plantas2d/canto.jpg',
+    imageMask:'plantas2d/canto-recorte.svg',entryMarker:{x:.7255,y:.737},
     imageAlt:'Planta 1 de canto do LIV Ipanema, área publicada 47,59 m², incluindo varanda',measurements:cantoMeasurements}),
   meio:Object.freeze({id:'meio',label:'Meio',area:'47,5–47,89 m²',image:'plantas2d/meio.jpg',
+    imageMask:'plantas2d/meio-recorte.svg',entryMarker:{x:.267,y:.7625},
     imageAlt:'Planta 2 de meio do LIV Ipanema, área publicada de 47,5 a 47,89 m², incluindo varanda',measurements:meioMeasurements}),
 });
 export function typology(id){

@@ -22,6 +22,8 @@
 <body>
   <a class="skip-link" href="#stage">Ir para o visualizador</a>
   <h1 class="sr-only">LIV Ipanema · São Carlos</h1>
+  <!-- EXPERIMENTO-COMPRA-20261023: comparação removível, sem alterar estoque ou links existentes. -->
+  <div id="experienceBar" class="experience-bar" hidden><span id="experienceLabel"></span><a id="experienceCompare" href="?experiencia=original">Usar versão anterior</a></div>
   <p id="demonstrationNote" class="demo-note" hidden>Demonstração · dados fictícios para teste visual.</p>
   <main class="layout">
     <section class="visual" aria-label="Visualizador do empreendimento">
@@ -77,6 +79,12 @@
         </div>
         <div id="hostPlanControls" class="host-plan-controls"><button type="button" id="hostCutParedes" aria-pressed="false">Paredes baixas</button><button type="button" id="hostFramePlan">Centralizar</button></div>
       </nav>
+      <section id="buyerContact" class="buyer-contact" hidden aria-label="Conversar sobre este apartamento">
+        <a id="buyerContactLink" class="buyer-contact-action" target="_blank" rel="noopener noreferrer" hidden></a>
+        <button type="button" id="buyerContactCopy" class="buyer-contact-action" hidden></button>
+        <p id="buyerContactNote"></p><p id="buyerContactStatus" role="status"></p>
+        <textarea id="buyerContactMessage" aria-label="Mensagem sobre o apartamento para copiar" readonly hidden></textarea>
+      </section>
       <div id="referenceControls" hidden>
         <div id="typologyControls" class="setting-field"><label for="typology">Planta do apartamento</label><select id="typology"><option value="canto">Canto · 47,59 m²</option><option value="meio">Meio · 47,5–47,89 m²</option></select></div>
         <p id="interiorNote" class="reference-note">Interior ilustrativo · medidas inferidas a partir das plantas publicadas.</p>
@@ -86,6 +94,7 @@
         <div id="transferStatus" hidden><span data-transfer-text role="status"></span><progress aria-label="Preparação dos próximos conteúdos" hidden></progress></div>
         <p id="sceneCacheStatus" class="scene-cache-status" role="status" aria-live="polite"></p>
         <p class="model-note">Maquete baseada nas imagens da Livon. Dimensões e implantação aproximadas; planta 3D e Tour ilustrativos.</p>
+        <p id="buyerGroundNote" class="buyer-ground-note" hidden>Base visual ilustrativa · consulte o mapa para conhecer a região.</p>
       </div>
     </aside>
   </main>

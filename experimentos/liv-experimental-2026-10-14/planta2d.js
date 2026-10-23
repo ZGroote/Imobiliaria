@@ -25,8 +25,13 @@ export function createPlan2D(stage,controls){
     record.view=constrainPlanView(record.view,area(),size(record));
     const {scale,x,y}=record.view;
     record.image.style.transform=`translate(${x}px, ${y}px) scale(${scale})`;
+    const bounds=area(),image=size(record),fit=Math.min(bounds.width/image.width,bounds.height/image.height);
+    if(record.entry){
+      record.entry.style.left=`calc(50% + ${x+(record.entryMarker.x-.5)*image.width*fit*scale}px)`;
+      record.entry.style.top=`calc(50% + ${y+(record.entryMarker.y-.5)*image.height*fit*scale}px)`;
+      record.entry.style.fontSize=`${Math.max(12,27*fit*scale)}px`;
+    }
     if(record.measurements){
-      const bounds=area(),image=size(record),fit=Math.min(bounds.width/image.width,bounds.height/image.height);
       // Match the contained image's drawn rectangle, not its full CSS box.
       // Labels stay legible while their anchors follow zoom and pan exactly.
       record.measurements.style.width=`${image.width*fit*scale}px`;
@@ -68,6 +73,13 @@ export function createPlan2D(stage,controls){
     layer.setAttribute('aria-label','Planta 2D: use + e − para ampliar e as setas para mover.');
     image.alt=spec.imageAlt;image.draggable=false;image.src=spec.image;layer.append(image);stage.append(layer);
     const record={key,layer,image,view:{scale:1,x:0,y:0},loaded:false,pointers:new Map(),gesture:null};records.set(key,record);
+    // FUNDO-2D-20261023: recorta só a margem na exibição; o JPEG oficial permanece intacto.
+    if(spec.imageMask){image.style.maskImage=`url("${spec.imageMask}")`;image.style.webkitMaskImage=image.style.maskImage;}
+    if(spec.imageMask&&spec.entryMarker){
+      const entry=document.createElement('span');entry.className='plan2d-entry';entry.textContent='▲';
+      entry.setAttribute('role','img');entry.setAttribute('aria-label','Entrada do apartamento');layer.append(entry);
+      record.entry=entry;record.entryMarker=spec.entryMarker;
+    }
     if(spec.measurements?.length){
       const measures=document.createElement('div');measures.className='plan2d-measurements';measures.hidden=true;
       measures.setAttribute('role','group');measures.setAttribute('aria-label','Dimensões aproximadas dos ambientes, entre eixos das paredes');

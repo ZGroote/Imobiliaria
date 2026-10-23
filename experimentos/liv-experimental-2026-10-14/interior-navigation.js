@@ -68,7 +68,7 @@ function crossesBox(a,b,hw,hd){
 }
 const overhead=new Set(['aereo','coifa','cortina','ripado','tv','rack','box']);
 
-export function createNavigation(layout,furniture,{radius=.3,step=.05}={}) {
+export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}) {
   const within=(x,z)=>layout.rooms.some(c=>inside(c.poly,x,z));
   function free(x,z){
     if(!Number.isFinite(x)||!Number.isFinite(z)||!within(x,z))return false;

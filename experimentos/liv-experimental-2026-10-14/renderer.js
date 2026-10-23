@@ -9,6 +9,7 @@ import {createUnitPicking} from './picking.js';
 import {environmentTexture,precomputedEnvironment} from './ambiente.js';
 import {EXTERIOR_EDITIONS} from './edicoes.js';
 import {exteriorAmbience,requestedAmbience} from './ambiencia.js';
+import {buyerExperienceEnabled} from './experiencia-compra.js';
 
 const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION,active:new URLSearchParams(location.search).get('prewarm')!=='1'};
 function progress(phase,message,extra={}){
@@ -17,6 +18,7 @@ function progress(phase,message,extra={}){
 }
 const mark=name=>{(state.timings??={})[name]=performance.now();};mark('module');
 const parameters=new URLSearchParams(location.search);
+const buyerExperience=buyerExperienceEnabled(location.search);
 const requested=parameters.get('backend')||'auto';
 const finishProfile=parameters.get('acabamento')||'base';
 const geometryProfile=parameters.get('geometria')||'base';
@@ -276,6 +278,7 @@ async function start() {
   }
   scene.add(building);
   state.finish=finishProfile==='referencia'?applyReferenceFinishes(meshes,materials,data.sourceModelSHA256):{profile:'base',changes:[]};
+  const groundHeight=data.visibleBounds.min[1]-.03;
   const shadowLights=[];
   for(const spec of data.lights) {
     let light;
@@ -309,6 +312,7 @@ async function start() {
   controls=new OrbitControls(camera,canvas);
   controls.target.fromArray(data.views.perspectiva.target);controls.enableDamping=false;controls.minDistance=9;controls.maxDistance=900;
   controls.maxPolarAngle=Math.PI;controls.update();
+  if(buyerExperience)controls.screenSpacePanning=false;
   const visibleBounds=new THREE.Box3(new THREE.Vector3().fromArray(data.visibleBounds.min),new THREE.Vector3().fromArray(data.visibleBounds.max));
   const towerBox=new THREE.Box3();
   for(const mesh of meshes)if(mesh.userData.tower===0)towerBox.union(new THREE.Box3().setFromObject(mesh));
@@ -370,6 +374,7 @@ async function start() {
     return true;
   }
   function orientCamera() {
+    if(buyerExperience){camera.position.y=Math.max(camera.position.y,groundHeight+.8);controls.target.y=Math.max(controls.target.y,groundHeight+.8);}
     // Use the same spherical tangent as the base, including the north of the top view.
     const offset=camera.position.clone().sub(controls.target).normalize();
     const horizontal=Math.hypot(offset.x,offset.z);
@@ -432,9 +437,9 @@ async function start() {
   if(state.disposed)return;
   if(units&&units.sourceModelSHA256!==data.sourceModelSHA256)throw Error('As posições dos finais pertencem a outra edição da maquete.');
   if(units)unitPicking=createUnitPicking({scene,canvas,catalog:units,getCamera:()=>camera,getFloor:()=>selectedFloor,
-    onSelect:id=>{
+    onSelect:(id,{activate})=>{
       if(id!==null)setFloor(floorOf(units,unitById(units,id)));
-      unitPicking.select(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id}}));
+      unitPicking.select(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id,activate}}));
     }});
   function setUnitView(side,floor=1){
     if(!['lazer','estacionamento'].includes(side))throw Error('Lado do pavimento inválido.');
