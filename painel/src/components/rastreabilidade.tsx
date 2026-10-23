@@ -4,7 +4,7 @@ import { collection, query, where } from 'firebase/firestore'
 import { auth, db } from '@/lib/firebase'
 import { usePerfil } from '@/lib/session'
 import { useColecao } from '@/lib/useFirestore'
-import { baseRastreabilidade, corretoresAtivos, criarClienteRastreabilidade, periodo30Dias,
+import { baseRastreabilidade, responsaveisAtivos, criarClienteRastreabilidade, periodo30Dias,
   type TrackingLink, type TrackingReport, type TrackingScope, type TrackingSection, type SourceClass } from '@/lib/rastreabilidade'
 import type { Property, User } from '@/lib/types'
 import { Aviso, Carregando, Cartao, Selo, Tabela, Td } from './ui'
@@ -34,6 +34,7 @@ export function RastreabilidadeImovel({ p }: { p: Property }) {
 
 function LinksERelatorio({ p, perfil }: { p: Property; perfil: User }) {
   const agente = perfil.role === 'agent'
+  const interno = ['platform_admin', 'operator'].includes(perfil.role)
   const config = useMemo(() => {
     try { return { base: baseRastreabilidade(process.env.NEXT_PUBLIC_TRACKING_API_URL), invalida: false } }
     catch { return { base: null, invalida: true } }
@@ -44,9 +45,9 @@ function LinksERelatorio({ p, perfil }: { p: Property; perfil: User }) {
   } }) : null, [config.base, perfil.id])
   const scope = useMemo<TrackingScope>(() => ({ propertyId: p.id, agencyId: p.agencyId,
     ...(agente ? { brokerUid: perfil.id } : {}) }), [p.id, p.agencyId, agente, perfil.id])
-  const pessoas = useColecao<User>(api && !agente ? `rastreabilidade:corretores:${p.agencyId}` : null,
-    () => query(collection(db, 'users'), where('agencyId', '==', p.agencyId)))
-  const corretores = corretoresAtivos(pessoas.dados ?? [], p.agencyId)
+  const pessoas = useColecao<User>(api && !agente ? `rastreabilidade:responsaveis:${p.agencyId}:${interno}` : null,
+    () => interno ? query(collection(db, 'users')) : query(collection(db, 'users'), where('agencyId', '==', p.agencyId)))
+  const corretores = responsaveisAtivos(pessoas.dados ?? [], p.agencyId, interno)
   const [escolha, setEscolha] = useState('')
   const escolhido = corretores.some(u => u.id === escolha) ? escolha : corretores[0]?.id ?? ''
   const [links, setLinks] = useState<Resultado<{ links: TrackingLink[]; truncated: boolean }>>({ carregando: true })
@@ -113,22 +114,22 @@ function LinksERelatorio({ p, perfil }: { p: Property; perfil: User }) {
     } catch { if (!controller.signal.aborted) setErroAcao('Não foi possível copiar. Abra o link e copie o endereço pela barra do navegador.') }
   }
 
-  if (!api) return <Cartao titulo="Links por corretor e acessos">
+  if (!api) return <Cartao titulo="Links individuais e acessos">
     <p className="text-sm text-slate-600">{config.invalida
       ? 'A rastreabilidade precisa de uma configuração válida. Avise a equipe responsável.'
-      : 'Recurso preparado. Os links por corretor e os relatórios estarão disponíveis quando a equipe ativar a rastreabilidade.'}</p>
+      : 'Os links individuais e os relatórios estarão disponíveis quando a equipe ativar a rastreabilidade.'}</p>
     <p className="mt-2 text-xs text-slate-500">Ainda não é possível criar links atribuídos ou consultar acessos por aqui.</p>
   </Cartao>
 
   return <div className="min-w-0 space-y-6">
-    <Cartao titulo="Links por corretor">
+    <Cartao titulo="Links individuais">
       <p className="mb-3 text-sm text-slate-600">{agente ? 'Seus links para este imóvel. Cada link mantém sua atribuição nos sublinks.'
-        : 'Este imóvel pode ter vários links. Cada um pertence a um corretor da imobiliária.'}</p>
+        : 'Este imóvel pode ter vários links. Cada um identifica um corretor ou membro da equipe.'}</p>
       <div className="mb-4 flex flex-wrap items-end gap-2">
-        {!agente && <label className="min-w-0 text-sm">Corretor do novo link
+        {!agente && <label className="min-w-0 text-sm">Responsável pelo novo link
           <select className="campo mt-1 max-w-full" value={escolhido} disabled={!!ocupado || pessoas.dados === undefined || !!pessoas.erro}
             onChange={e => setEscolha(e.target.value)}>
-            {!corretores.length && <option value="">{pessoas.dados === undefined ? 'Carregando corretores…' : 'Nenhum corretor ativo'}</option>}
+            {!corretores.length && <option value="">{pessoas.dados === undefined ? 'Carregando equipe…' : 'Nenhum responsável ativo'}</option>}
             {corretores.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
           </select>
         </label>}
@@ -185,8 +186,8 @@ function Relatorio({ report: r, agente }: { report: TrackingReport; agente: bool
     <p className="mb-3 text-xs text-slate-600">Métricas apenas de visitantes que aceitaram a coleta. Navegadores estimados não equivalem a pessoas únicas. O tempo ativo considera a página visível e atividade recente.</p>
     {resumo.sessions === 0 && <p className="mb-3 text-sm text-slate-600">Nenhuma sessão observada no período. Isso não significa que ninguém abriu os links.</p>}
     {!agente && r.byBroker.length > 0 && <div className="mb-4">
-      <h3 className="mb-2 text-sm font-medium">Por corretor</h3>
-      <Tabela cabecalho={['Corretor', 'Sessões', 'Navegadores estimados', 'Tempo ativo']}>
+      <h3 className="mb-2 text-sm font-medium">Por responsável</h3>
+      <Tabela cabecalho={['Responsável', 'Sessões', 'Navegadores estimados', 'Tempo ativo']}>
         {r.byBroker.map(b => <tr key={b.brokerUid}><Td>{b.brokerName}</Td><Td>{numero(b.sessions)}</Td><Td>{numero(b.estimatedVisitors)}</Td><Td>{tempo(b.activeMs)}</Td></tr>)}
       </Tabela>
       <p className="mt-2 text-xs text-slate-500">O total deduplica navegadores no período; somar as linhas pode contar o mesmo navegador mais de uma vez.</p>

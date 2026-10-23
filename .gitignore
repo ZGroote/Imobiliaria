@@ -162,6 +162,8 @@ __pycache__/
 # vai pro repo público. Tudo continua no disco.
 /.next/
 /tmp/
+/rastreabilidade/functions/lib/
+/rastreabilidade/functions/publication.json
 /output/
 /sao-carlos/poidata.json
 # Antigravity: maquete de São Carlos, telas de teste, plano de preço e sofás do Blender

@@ -4,7 +4,7 @@ import {mkdtemp, readFile, mkdir, writeFile, rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {boot,validateOpening, shareAddress, frameAddress, createOpeningStore, primarySection,
-  wrapperForDestination} from '../rastreabilidade/public/runtime.mjs';
+  wrapperForDestination,canonicalAddress} from '../rastreabilidade/public/runtime.mjs';
 import {createMetrics, createDelivery} from '../rastreabilidade/public/metricas.mjs';
 import {montar} from '../tools/montar_rastreabilidade.mjs';
 import {createHash} from 'node:crypto';
@@ -14,6 +14,16 @@ const opening=()=>({visitId:'v'.repeat(32),receipt:'v'.repeat(32)+'.'+'r'.repeat
   shareUrl:origin+'/acesso.html?l='+child+'&pagina=maquete', sourceClass:'root',
   destinations:{tour:'/b/cedros-37/012345abcdef/tour.html',maquete:'/b/cedros-37/012345abcdef/maquete.html'},
   publishedBuild:'012345abcdef',propertyTitle:'Imóvel <teste>',contact:{brokerName:'Corretor',whatsappNumber:null}});
+
+test('migração de domínio conserva token e navegação e recusa destinos externos',()=>{
+  const from='https://imobilaria-deccb-miniaturas.web.app/acesso.html?l='+token+'&pagina=tour#vista';
+  const to='https://conectaimoveis3d.com.br';
+  assert.equal(canonicalAddress(from,to),from.replace('https://imobilaria-deccb-miniaturas.web.app',to));
+  assert.equal(canonicalAddress(from,new URL(from).origin),null);
+  assert.throws(()=>canonicalAddress(from,'https://evil.test'));
+  assert.throws(()=>canonicalAddress(from.replace('/acesso.html','/outra.html'),to));
+  assert.equal(primarySection({__livMapAdapter:{ready:true}},'tour'),'mapa');
+});
 
 test('destinos precisam ser o mesmo imóvel/build e origem, sem redirecionamento nem parâmetros',()=>{
   assert.equal(validateOpening(opening(),origin).publishedBuild,'012345abcdef');
@@ -40,6 +50,20 @@ test('barra e iframe preservam página/modo/hash e nunca compartilham o recibo',
   assert.equal(frame.searchParams.get('imovel'),'cedros-37');
   assert.equal(frame.searchParams.has('modo'),false,'modo da maquete não pode acionar deep link legado do tour');
   assert.equal(frame.hash,'#vista');
+});
+
+test('comparação conserva token filho e contato vem da abertura validada, sem consentimento analítico',async()=>{
+  const shared=new URL(shareAddress(origin+'/acesso.html?l='+token+'&experiencia=original',opening()));
+  assert.equal(shared.searchParams.get('l'),child);assert.equal(shared.searchParams.get('experiencia'),'original');
+  assert.equal(new URL(frameAddress(opening().destinations.maquete,shared.href)).searchParams.get('experiencia'),'original');
+  const b=browser();const contacts=[];
+  b.inner.__livViewer={ready:true,mode:'maquete',selectedUnitId:null,setContact:value=>contacts.push(value)};
+  b.inner.document={getElementById:()=>null};
+  await boot(b.win,b.doc);await b.elements.conteudo.dispatch('load');
+  await b.elements.recusar.dispatch('click');b.timers[0]();await b.settle();
+  assert.ok(contacts.length);assert.deepEqual(contacts.at(-1).contact,opening().contact);
+  assert.equal(new URL(contacts.at(-1).shareUrl).searchParams.get('l'),child);
+  assert.equal(b.requests.filter(request=>request.path==='/sessions').length,0);
 });
 
 test('recibo privado retoma por token original ou pela barra substituída; retry mantém intento',()=>{
@@ -296,6 +320,40 @@ test('API tardia aplica planta2d realmente uma vez antes de sobrescrever a barra
   assert.equal(b.win.location.searchParams.get('modo'),'planta2d');
   mode='visita';await b.win.dispatch('pageshow');b.timers[0]();assert.equal(calls,1);
   assert.equal(b.win.location.searchParams.get('modo'),'visita');
+});
+
+test('LIV restaura unidade e modo uma vez e depois acompanha as mudanças do visitante',async()=>{
+  const b=browser(),unit='liv-ipanema/pavimento-modelo-01/final-1';
+  b.win.location.searchParams.set('modo','planta2d');b.win.location.searchParams.set('unidade',unit);
+  let calls=0;
+  b.inner.__livViewer={ready:true,mode:'maquete',selectedUnitId:null,units:{units:[{id:unit}]},
+    selectUnit(id){this.selectedUnitId=id;},setMode(mode){this.mode=mode;calls++;}};
+  b.inner.document={getElementById:()=>null};
+  await boot(b.win,b.doc);await b.elements.conteudo.dispatch('load');b.timers[0]();
+  assert.equal(b.inner.__livViewer.selectedUnitId,unit);assert.equal(calls,1);
+  assert.equal(b.win.location.searchParams.get('modo'),'planta2d');
+  b.inner.__livViewer.mode='visita';b.timers[0]();
+  assert.equal(b.win.location.searchParams.get('modo'),'visita');assert.equal(calls,1);
+});
+
+test('LIV repete restauração recusada enquanto a relação da planta ainda está carregando',async()=>{
+  const b=browser(),unit='liv-ipanema/pavimento-modelo-01/final-1';
+  b.win.location.searchParams.set('modo','planta2d');b.win.location.searchParams.set('unidade',unit);
+  let associated=false,calls=0,refuse;
+  b.inner.__livViewer={ready:true,mode:'maquete',selectedUnitId:null,units:{units:[{id:unit}]},
+    selectUnit(id){this.selectedUnitId=id;},async setMode(mode){
+      calls++;if(!associated)return new Promise(resolve=>{refuse=()=>resolve(false);});
+      this.mode=mode;return true;
+    }};
+  b.inner.document={getElementById:()=>null};
+  await boot(b.win,b.doc);await b.elements.conteudo.dispatch('load');
+  b.timers[0]();assert.equal(calls,1,'não inicia outra tentativa antes de a primeira terminar');
+  refuse();await b.settle();assert.equal(b.win.location.searchParams.get('modo'),'planta2d');
+  associated=true;b.timers[0]();await b.settle();b.timers[0]();
+  assert.equal(b.inner.__livViewer.mode,'planta2d');assert.equal(calls,2);
+  b.inner.__livViewer.mode='visita';b.timers[0]();
+  assert.equal(b.win.location.searchParams.get('modo'),'visita');assert.equal(calls,2);
+  assert.equal(b.requests.filter(r=>r.path==='/sessions').length,0);
 });
 
 test('target blank conserva abertura nova aba com href rastreável',async()=>{

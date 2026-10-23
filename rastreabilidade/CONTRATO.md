@@ -1,8 +1,8 @@
 # Contrato v1 — rastreabilidade
 
 Mapa aprovado: [CAPABILITIES-rastreabilidade](../CAPABILITIES-rastreabilidade.md).
-Implementação isolada, Node 24/Firebase Admin existentes, sem dependência nova.
-Dados de produção e publicações permanecem inalterados durante esta entrega.
+Serviço Node/Firebase Admin; o adaptador de publicação usa Node 22 no Firebase Functions.
+Os cadastros de usuários e imóveis são preservados; a rastreabilidade grava suas próprias coleções.
 
 ## HTTP
 
@@ -114,3 +114,9 @@ Tipos/build: `npm --prefix painel exec -- tsc --noEmit` e
 Rodada congelada: `python tools/preparar_sessoes_m1_1a.py --verificar publicacao/m1-1a/rodada-2026-10-04`.
 Demonstrar localmente dois corretores, visitante da raiz, repasse com cópia da
 barra, reload idempotente, pausa, relatório isolado e revogação da raiz.
+
+## Responsáveis e publicações avulsas
+
+Desde a ativação de 22/10/2026, links também podem pertencer a gestores ativos da mesma imobiliária ou à equipe interna ativa (administrador/operador). Somente a equipe interna pode atribuir um link a outro membro interno. O corretor continua restrito aos próprios links; a imobiliária e o imóvel continuam sendo verificados no servidor. Os nomes técnicos `brokerUid` e `brokerName` permanecem compatíveis.
+
+Publicações avulsas, como o LIV Clássico, podem ser registradas em configuração confiável da API quando os dois metadados de esteira estão ausentes no imóvel. Os destinos continuam limitados a `/b/<unidade>/<build>/tour.html` e `maquete.html`. Consulte `PUBLICACAO.md` para preparar e migrar o domínio sem mudar os tokens.
