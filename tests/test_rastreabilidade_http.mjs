@@ -1,7 +1,8 @@
 import {test} from 'node:test'
 import assert from 'node:assert/strict'
-import {request} from 'node:http'
+import {request,createServer} from 'node:http'
 import {criarServidorRastreabilidade} from '../rastreabilidade/servidor.mjs'
+import {encaminharFirebase} from '../rastreabilidade/firebase-http.mjs'
 
 const origin='http://127.0.0.1:5058',panel='http://127.0.0.1:3000'
 async function gateway(run,{service={},auth={verifyIdToken:async()=>({uid:'agent-a'})},...options}={}){
@@ -12,6 +13,24 @@ async function gateway(run,{service={},auth={verifyIdToken:async()=>({uid:'agent
   try{await run(base,logs)}finally{await new Promise(resolve=>{server.close(resolve);server.closeAllConnections()})}
 }
 const json=(body,extra={})=>({method:'POST',headers:{origin,'content-type':'application/json'},body:JSON.stringify(body),...extra})
+
+test('adaptador Firebase reaproveita rawBody e mantém limite, autenticação e CORS',async()=>{
+  const api=criarServidorRastreabilidade({service:{abrirVisita:async input=>({received:input.token})},
+    auth:{},publicOrigin:origin,panelOrigin:panel,log:()=>{}})
+  const outer=createServer(async(req,res)=>{
+    const chunks=[];for await(const chunk of req)chunks.push(chunk)
+    req.rawBody=Buffer.concat(chunks);encaminharFirebase(api,req,res)
+  })
+  await new Promise(resolve=>outer.listen(0,'127.0.0.1',resolve))
+  try{
+    const base=`http://127.0.0.1:${outer.address().port}`
+    const ok=await fetch(base+'/open',json({token:'teste'}))
+    assert.equal(ok.status,200);assert.deepEqual(await ok.json(),{received:'teste'})
+    assert.equal((await fetch(base+'/links?propertyId=p')).status,401)
+    assert.equal((await fetch(base+'/open',json({x:'x'.repeat(8192)}))).status,413)
+    assert.equal((await fetch(base+'/open',json({}, {headers:{origin:'https://evil.test','content-type':'application/json'}}))).status,403)
+  }finally{await new Promise(resolve=>{outer.close(resolve);outer.closeAllConnections()});api.close()}
+})
 
 test('rastreamento HTTP: gerenciamento exige Firebase Auth, público não concede leitura',async()=>{
   await gateway(async(base)=>{
@@ -37,6 +56,22 @@ test('rastreamento HTTP: origem exata, preflight e cache privado',async()=>{
     assert.equal(preflight.headers.get('cache-control'),'no-store')
   })
 })
+test('migração do painel aceita as duas origens exatas e recusa domínio parecido',async()=>{
+  const legacy='https://imobilaria-deccb-painel.web.app'
+  const current='https://painel.conectaimoveis3d.com.br'
+  await gateway(async base=>{
+    for(const allowed of [legacy,current]){
+      const r=await fetch(base+'/links',{method:'OPTIONS',headers:{origin:allowed}})
+      assert.equal(r.status,204)
+      assert.equal(r.headers.get('access-control-allow-origin'),allowed)
+    }
+    const denied=await fetch(base+'/links',{method:'OPTIONS',headers:{origin:current+'.evil.test'}})
+    assert.equal(denied.status,403)
+    assert.equal(denied.headers.get('access-control-allow-origin'),null)
+    assert.equal((await fetch(base+'/links?propertyId=p1',{headers:{origin:current}})).status,401)
+  },{panelOrigin:current,legacyPanelOrigin:legacy})
+})
+
 test('rastreamento HTTP: GET e HEAD em open não criam visita',async()=>{
   await gateway(async(base)=>{
     for(const method of ['GET','HEAD'])assert.equal((await fetch(base+'/open',{method})).status,405)

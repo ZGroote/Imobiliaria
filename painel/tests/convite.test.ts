@@ -1,7 +1,8 @@
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
-import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import { aceitarConvite, lerConvite } from '../src/lib/convite.ts'
+import { convidar } from '../src/lib/usuarios.ts'
 import { semear } from '../scripts/seed.mjs'
 import { entrar, novaConta, sairDeTodos, verificarEmail } from './apoio.ts'
 import type { Invite } from '../src/lib/types.ts'
@@ -9,10 +10,10 @@ import type { Invite } from '../src/lib/types.ts'
 before(semear)
 after(sairDeTodos)
 
-test('convite: só com e-mail verificado; users/{uid} nasce com o papel do convite e o convite sai', async () => {
-  const admin = await entrar('admin')
-  await setDoc(doc(admin.db, 'invites/novo@painel.test'), { email: 'novo@painel.test', name: 'Novo', role: 'agent',
-    agencyId: 'agA', agencyName: 'Imobiliária Fictícia A (dev)', createdBy: 'admin', createdAt: serverTimestamp() })
+test('convite do gerente: só com e-mail verificado; perfil nasce como corretor da agência e consome convite', async () => {
+  const admin = await entrar('admin'), gerente = await entrar('gerA')
+  await convidar(gerente.db, gerente.uid, { email: 'novo@painel.test', name: 'Novo', role: 'agent',
+    agencyId: 'agA', agencyName: 'Imobiliária Fictícia A (dev)' })
 
   const novo = await novaConta('novo@painel.test')
   await assert.rejects(lerConvite(novo.db, 'novo@painel.test'), /permission/i)   // e-mail ainda não verificado

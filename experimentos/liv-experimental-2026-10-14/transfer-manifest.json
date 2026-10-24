@@ -125,8 +125,8 @@
     {
       "path": "mapa-runtime/mapa-liv-ipanema-5km.html",
       "group": "map",
-      "bytes": 8054703,
-      "sha256": "953de725cc37a394c5ffef8a9259f0cb5578fea575348c188eddfcf536d77f7d",
+      "bytes": 8054699,
+      "sha256": "01846f74a056f5f87fdc4bf562a49b3c9caf54cc2a11204063eb8c905c7734e2",
       "essential": true
     },
     {
@@ -146,8 +146,8 @@
     {
       "path": "modelo/entrada/candidato/liv-contorno.glb",
       "group": "map",
-      "bytes": 2535936,
-      "sha256": "4947fee3d6eba10af3619493663a04a3fb478086a0953ae646f685b09e84ba01",
+      "bytes": 2536272,
+      "sha256": "1e43cf429a4ea1408c2f2e16f96cd40d3a3640fac18e41aee3bb816d15647941",
       "essential": true
     },
     {
@@ -1005,5 +1005,5 @@
       "essential": false
     }
   ],
-  "version": "1556237f114f26c7301a43ac1cbbd5fb101fe7139492bf18c8860e24c6674f25"
+  "version": "d09174555d835e7713c616a5e729f4802db29686e57299e1666081141d51229d"
 }

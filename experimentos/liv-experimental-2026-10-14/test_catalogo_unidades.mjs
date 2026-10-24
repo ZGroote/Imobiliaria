@@ -74,6 +74,40 @@ for(const path of ['unidades.json','modelo/unidades-contorno.json','modelo/entra
     picking.dispose();assert.equal(events.size,0);
   });
 }
+for(const pointerType of ['mouse','touch'])test(`${pointerType}: two nearby taps on the same unit activate; other gestures never confirm`,()=>{
+  const data=expandBuildingCatalog(JSON.parse(readFileSync(new URL('modelo/entrada/unidades-entrada.json',import.meta.url),'utf8')));
+  const camera=new PerspectiveCamera(45,800/600,.1,500),events=new Map(),selected=[];
+  const canvas={getBoundingClientRect:()=>({left:0,top:0,width:800,height:600}),
+    addEventListener:(name,fn)=>events.set(name,fn),removeEventListener:name=>events.delete(name)};
+  const picker=createUnitPicking({scene:new Scene(),canvas,catalog:data,getCamera:()=>camera,getFloor:()=>-1,
+    onSelect:(id,{activate})=>selected.push({id,activate})});
+  function aim(unit){
+    const point=unit.pickPoint;
+    camera.position.set(point[0],point[1],Math.sign(point[2])*90);camera.lookAt(new Vector3(...point));camera.updateMatrixWorld();
+  }
+  const event=(time,x=400,id=1,primary=true)=>({pointerType,timeStamp:time,pointerId:id,clientX:x,clientY:300,isPrimary:primary,button:0});
+  function tap(time,x=400){events.get('pointerdown')(event(time,x));events.get('pointerup')(event(time+20,x));
+    events.get('lostpointercapture')(event(time+21,x));}
+  const first=data.units[0],second=data.units[1];aim(first);
+  tap(100);assert.deepEqual(selected.at(-1),{id:first.id,activate:false});
+  tap(300);assert.deepEqual(selected.at(-1),{id:first.id,activate:true});
+  tap(400);assert.equal(selected.at(-1).activate,false,'A third tap starts a new pair.');
+  tap(1000);assert.equal(selected.at(-1).activate,false,'Slow taps do not confirm.');
+  aim(second);tap(1100);assert.deepEqual(selected.at(-1),{id:second.id,activate:false});
+  aim(first);tap(1200);assert.equal(selected.at(-1).activate,false,'Different units do not form a pair.');
+  events.get('pointerdown')(event(1300));events.get('pointermove')(event(1320,430));events.get('pointerup')(event(1340,430));
+  tap(1400);assert.equal(selected.at(-1).activate,false,'Dragging cancels the pending pair.');
+  events.get('pointerdown')(event(1500));events.get('pointerdown')(event(1510,410,2,false));
+  events.get('pointerup')(event(1520,410,2,false));events.get('pointerup')(event(1530));
+  tap(1600);assert.equal(selected.at(-1).activate,false,'Pinching cancels the pending pair.');
+  events.get('pointerdown')(event(1700));events.get('pointercancel')(event(1710));
+  tap(1800);assert.equal(selected.at(-1).activate,false,'Canceled gestures cannot confirm.');
+  tap(1900,10000);assert.equal(selected.at(-1).id,null);
+  tap(2000);assert.equal(selected.at(-1).activate,false,'A background tap cancels the pair.');
+  tap(2100,425);assert.equal(selected.at(-1).activate,false,'Two distant screen positions do not form a pair.');
+  const count=selected.length;picker.dispose();assert.equal(events.size,0);assert.equal(selected.length,count);
+});
+
 test('scope is explicit and invalid or unconfirmed pilot inputs fail before expansion',()=>{
   assert.equal(unitScope('?unidades=edificio'),'edificio');assert.equal(unitScope('?unidades=__proto__'),'piloto');
   assert.equal(floorLabel(0),'Térreo');assert.equal(floorLabel(16),'16º pavimento tipo');

@@ -64,9 +64,12 @@ Falhas de rede podem reduzir a cobertura: a fila local é limitada a 64 eventos
 e o tempo que não foi observado não é reconstruído.
 
 `Opening.contact` já resolve o corretor da raiz e o número público opcional em
-`users/{brokerUid}.publicContact.whatsapp` (dígitos E.164, sem '+'). O futuro
-botão poderá abrir a conversa com esse corretor inclusive após repasses.
-Não há botão nem envio de mensagem nesta entrega.
+`users/{brokerUid}.publicContact.whatsapp` (dígitos E.164, sem '+'). O responsável
+cadastra nome e celular em **Meu perfil**, no painel. O botão verde de WhatsApp
+na experiência abre a conversa com esse responsável, inclusive após repasses,
+com o nome do imóvel e o link público atual. Não inclui recibos ou dados de sessão
+e funciona sem aceite de métricas. Sem número válido, o botão fica oculto.
+Nenhuma mensagem é enviada automaticamente.
 
 Fontes: [History.replaceState](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState),
 [Page Visibility](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event),

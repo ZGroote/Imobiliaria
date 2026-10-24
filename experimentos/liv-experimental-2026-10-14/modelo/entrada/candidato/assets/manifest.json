@@ -1,12 +1,12 @@
 {
   "schema": "liv-proof-manifest-v1",
-  "exportedAtUtc": "2026-10-11T09:03:42.101343+00:00",
-  "sourceModelSHA256": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
-  "sceneJSONSHA256": "07dd93b921ff377ececad6600b26efedd58a7337fa92a1782179234a0ef49f98",
+  "exportedAtUtc": "2026-10-24T03:47:29.440660+00:00",
+  "sourceModelSHA256": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+  "sceneJSONSHA256": "98200b814f7b0b346c4c3b999ea32110373b74850b5b0556a5cb1e368d1a7d0a",
   "files": {
     "irradiance.rgbm.gz": {
-      "bytes": 13290120,
-      "sha256": "04bab00d610c70cdfeea1f86e4d5c695de51eb185d4fc0a356e0d0bcfe742e54"
+      "bytes": 13306085,
+      "sha256": "562b96a78b3bb5658a05177cf8a1862fecaac2ca1b998b4f7210c385f1f522b7"
     },
     "texture-00.png": {
       "bytes": 21667,
@@ -17,15 +17,15 @@
       "sha256": "84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e"
     },
     "scene.json.gz": {
-      "bytes": 2758268,
-      "sha256": "81f2bd7148320c81bbe6ad8467528f26e773e7d00175ddd0e7f982dd5b08dfb0"
+      "bytes": 2783149,
+      "sha256": "b8ccec85bca8b60baf0a0edfcd489e6e47b324993260b3cefe32ea6a1dcbaecf"
     },
     "irradiance-previa.rgbm.gz": {
-      "bytes": 1923222,
-      "sha256": "21d7885e87535ba6ce6c2271a0d2f2c78ae58e083b89229ed8fcd60b1dd56f3f",
+      "bytes": 1925670,
+      "sha256": "e2afb1cf1755c1a8fa1194342021c3dcd586bd8363eb66139ab3d08644c98f2e",
       "width": 1024,
       "height": 1024,
-      "decodedSHA256": "7ad15863bca922a1465ac223d819c139befbc28dec2066a006023b5467d765e2",
+      "decodedSHA256": "3c669aa65b34b9031eea098b863ce4358ba8dda8689a61f2003da256030b5ded",
       "previewOf": "irradiance.rgbm.gz"
     }
   },
@@ -33,12 +33,12 @@
   "bakedMeshes": 42,
   "exportPurpose": "Estudo inferido da entrada: quatro materiais padr\u00e3o, UV/bake pr\u00f3prios; ainda sem integra\u00e7\u00e3o no piloto comercial.",
   "sources": {
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/exportar_variante.py": "f54a980c340b9b7c13ddaa781514b65634891abe7ffbe70cbbe6cf95c8ff70a4",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/modelo.json": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/luz/manifest.json": "cc607105e9cf8e90cc965dce9671f31961567bcf9018cc79346e3f6cd4aa2f2a",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/luz/geometry-compact.json": "ff4f54dba751cd25e5cf232374690c7b0c43f4c72734dce34317910abae90c12",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/exportar_entrada.py": "6047021db6e4a06002453937ec83c39d1870053b21e7268b631eb1822c40bca5"
+    "experimentos/liv-experimental-2026-10-14/modelo/exportar_variante.py": "f54a980c340b9b7c13ddaa781514b65634891abe7ffbe70cbbe6cf95c8ff70a4",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/candidato/modelo.json": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/candidato/luz/manifest.json": "7a898ae1eb238cb63ab22744aac2a4b53df09d6f253c1103b6d59c675a2b9ab9",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/candidato/luz/geometry-compact.json": "c20fecf9ce865089c6c17b091c169cd4d736d3340388bad28ba0c0fbbf2a86a3",
+    "experimentos/liv-experimental-2026-10-14/assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/exportar_entrada.py": "6047021db6e4a06002453937ec83c39d1870053b21e7268b631eb1822c40bca5"
   },
   "entryMaterialPolicy": "Principled BSDF \u2192 MeshStandardMaterial; RGBM existente somente no transporte de luz."
 }

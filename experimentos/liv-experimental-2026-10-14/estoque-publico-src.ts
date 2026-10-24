@@ -1,7 +1,7 @@
 // Entrada compilada; Firebase Auth e operações de escrita não entram no leitor público.
 import { initializeApp, deleteApp } from 'firebase/app'
 import { getFirestore, connectFirestoreEmulator, doc, collection, onSnapshot, terminate } from 'firebase/firestore'
-import { validarEstoque, validarLista, validarInformacoes, resolverInformacoes, type Estoque, type UnidadeVenda, type PerfilVenda } from '../../painel/src/lib/estoque-modelo.ts'
+import { validarEstoque, validarLista, validarInformacoes, validarVagas, resolverInformacoes, type Estoque, type UnidadeVenda, type PerfilVenda } from '../../painel/src/lib/estoque-modelo.ts'
 
 export { resolverInformacoes }
 export function validarConfig(input: unknown, search = '', hostname = '') {
@@ -15,12 +15,15 @@ export function validarConfig(input: unknown, search = '', hostname = '') {
   if (c.mode === 'firebase' && c.firebase.projectId?.startsWith('demo-')) throw Error('Projeto de teste não pode usar produção.')
   return { id, mode: c.mode, options: c.firebase as { apiKey: string; projectId: string; appId?: string }, emulatorPort: c.emulatorPort }
 }
-export function validarSnapshot(settings: unknown, units: UnidadeVenda[], profiles: PerfilVenda[]) {
+export function validarSnapshot(settings: unknown, units: UnidadeVenda[], profiles: PerfilVenda[], parking: unknown = { spaces: {} }) {
   const stock = validarEstoque(settings)
   validarLista(units)
   if (profiles.length !== 2 || new Set(profiles.map(p => p.id)).size !== 2 || profiles.some(p => !['canto', 'meio'].includes(p.id))) throw Error('Faltam as duas plantas do cadastro.')
   const checked = profiles.map(p => ({ ...p, info: validarInformacoes(p.info) }))
-  return { settings: stock, units, profiles: checked }
+  // Mapa de vagas malformado some sozinho; não derruba a disponibilidade.
+  let spaces: Record<string, string> = {}
+  try { spaces = validarVagas(parking) } catch { /* sem vagas */ }
+  return { settings: stock, units, profiles: checked, parking: spaces }
 }
 type Snapshot = ReturnType<typeof validarSnapshot>
 export function assinarEstoque(config: NonNullable<ReturnType<typeof validarConfig>>, receive: (s: Snapshot | null) => void,
@@ -28,8 +31,8 @@ export function assinarEstoque(config: NonNullable<ReturnType<typeof validarConf
   const app = initializeApp(config.options, `liv-stock-${config.id}-${Math.random().toString(36).slice(2)}`), db = getFirestore(app)
   if (config.mode === 'emulador') connectFirestoreEmulator(db, '127.0.0.1', config.emulatorPort!)
   let stopped = false, fingerprint = '', childStops: (() => void)[] = []
-  let settings: Estoque | null = null, units: UnidadeVenda[] | null = null, profiles: PerfilVenda[] | null = null
-  const fresh = { settings: false, units: false, profiles: false }
+  let settings: Estoque | null = null, units: UnidadeVenda[] | null = null, profiles: PerfilVenda[] | null = null, parking: unknown = null
+  const fresh = { settings: false, units: false, profiles: false, parking: false }
   const error = (e: { code?: string }) => {
     if (stopped) return
     const denied = e.code === 'permission-denied'
@@ -37,18 +40,18 @@ export function assinarEstoque(config: NonNullable<ReturnType<typeof validarConf
     notice(denied ? 'Consulta de disponibilidade desabilitada ou sem permissão.' : 'Não foi possível atualizar a disponibilidade. Confirme com a equipe responsável.', denied)
   }
   function apply() {
-    if (stopped || !settings?.publicEnabled || !units || !profiles) return
+    if (stopped || !settings?.publicEnabled || !units || !profiles || !parking) return
     if (!Object.values(fresh).every(Boolean)) { notice('Sem confirmação atual do servidor. Disponibilidade sujeita a confirmação.'); return }
     try {
-      const s = validarSnapshot(settings, units, profiles)
-      const key = JSON.stringify([settings.revision, units.map(u => [u.id, u.revision]), profiles.map(p => [p.id, p.revision])])
+      const s = validarSnapshot(settings, units, profiles, parking)
+      const key = JSON.stringify([settings.revision, units.map(u => [u.id, u.revision]), profiles.map(p => [p.id, p.revision]), (parking as { revision?: number }).revision ?? 0])
       // Metadata changes clear an offline notice even when the records did not change.
       if (key !== fingerprint) { fingerprint = key; receive(s) }
       notice('')
     } catch { notice('Cadastro incompleto ou inconsistente. Confirme a disponibilidade com a equipe responsável.') }
   }
   const parent = doc(db, 'salesInventory', config.id)
-  function stopChildren() { childStops.forEach(stop => stop()); childStops = []; units = null; profiles = null; fresh.units = false; fresh.profiles = false }
+  function stopChildren() { childStops.forEach(stop => stop()); childStops = []; units = null; profiles = null; parking = null; fresh.units = false; fresh.profiles = false; fresh.parking = false }
   const stopParent = onSnapshot(parent, { includeMetadataChanges: true }, snapshot => {
     if (stopped) return
     try { settings = snapshot.exists() ? validarEstoque(snapshot.data()) : null } catch { error({}); return }
@@ -65,6 +68,12 @@ export function assinarEstoque(config: NonNullable<ReturnType<typeof validarConf
         profiles = s.docs.map(d => ({ ...d.data(), id: d.id })) as PerfilVenda[]
         fresh.profiles = !s.metadata.fromCache && !s.metadata.hasPendingWrites; apply()
       }, error))
+      // Sem documento ainda = nenhuma vaga ligada. As vagas são complemento: falhar ao lê-las
+      // (regras antigas, por exemplo) não pode esconder a disponibilidade.
+      childStops.push(onSnapshot(doc(parent, 'parking', 'mapa'), { includeMetadataChanges: true }, s => {
+        parking = s.exists() ? s.data() : { spaces: {} }
+        fresh.parking = !s.metadata.fromCache && !s.metadata.hasPendingWrites; apply()
+      }, () => { if (!stopped) { parking = { spaces: {} }; fresh.parking = true; apply() } }))
     }
     apply()
   }, error)

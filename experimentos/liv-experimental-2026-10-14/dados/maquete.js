@@ -33,6 +33,7 @@ const meioMeasurements=[
 export default {
   schema:'maquete-dados-v1',
   nome:'LIV Ipanema',
+  cidade:'São Carlos',                               // a mensagem de interesse do apartamento
   nomeCurto:'LIV',                                   // nomes internos de materiais, grupos e luzes
   arquivo:'liv-ipanema',                             // prefixo dos PNG que a maquete baixa
   pagina:'maquete-liv-ipanema.html',                 // a página de entrada deste imóvel
@@ -44,7 +45,8 @@ export default {
   edicoes:{
     base:{assets:'assets-prova/',units:'unidades.json',glb:'site-baseline/liv-ipanema.glb',nome:'LIV — exterior da base preservada'},
     contorno:{assets:'modelo/variante/assets/',units:'modelo/unidades-contorno.json',glb:'modelo/variante/liv-contorno.glb',nome:'LIV — contorno em estudo'},
-    entrada:{assets:'modelo/entrada/candidato/assets/',units:'modelo/entrada/unidades-entrada.json',glb:'modelo/entrada/candidato/liv-contorno.glb',nome:'LIV — entrada em estudo'},
+    entrada:{assets:'modelo/entrada/candidato/assets/',units:'modelo/entrada/unidades-entrada.json',glb:'modelo/entrada/candidato/liv-contorno.glb',nome:'LIV — entrada em estudo',
+      vagas:'modelo/entrada/candidato/vagas.json'},   // as 175 vagas da implantação oficial (vagas_oficiais.py),
   },
   edicaoPadrao:'base',                               // a do renderizador sem ?geometria
   edicaoDaMaquete:'entrada',
@@ -82,9 +84,11 @@ export default {
   // Catalog choices describe the published layouts; no final/unit assignment is inferred.
   tipologias:{
     canto:{id:'canto',label:'Canto',area:'47,59 m²',image:'plantas2d/canto.jpg',
+      imageMask:'plantas2d/canto-recorte.svg',entryMarker:{x:.7255,y:.737},
       imageAlt:'Planta 1 de canto do LIV Ipanema, área publicada 47,59 m², incluindo varanda',measurements:cantoMeasurements,
       planSHA256:'a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971'},
     meio:{id:'meio',label:'Meio',area:'47,5–47,89 m²',image:'plantas2d/meio.jpg',
+      imageMask:'plantas2d/meio-recorte.svg',entryMarker:{x:.267,y:.7625},
       imageAlt:'Planta 2 de meio do LIV Ipanema, área publicada de 47,5 a 47,89 m², incluindo varanda',measurements:meioMeasurements,
       planSHA256:'bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a',tourEmSplat:true},
   },

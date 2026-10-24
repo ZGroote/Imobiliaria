@@ -64,7 +64,7 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
   fillMesh.renderOrder=outline.renderOrder=1;highlight.add(fillMesh,outline);
   scene.add(highlight);
   const availability=createAvailabilityHighlight(scene,catalog,contour,geometry,edges);
-  let selectedId=null,disposed=false,gesture=null;
+  let selectedId=null,disposed=false,gesture=null,lastTap=null;
   const pointers=new Set(),stats={pickQueries:0};
   const activeFloor=()=>Number.isInteger(getFloor())&&getFloor()>=0&&
     (catalog.floorIndex===null||getFloor()===catalog.floorIndex);
@@ -95,22 +95,33 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
   }
   function down(event){
     pointers.add(event.pointerId);
-    if(pointers.size!==1||!event.isPrimary||event.button!==0){gesture=null;return;}
+    if(pointers.size!==1||!event.isPrimary||event.button!==0){gesture=null;lastTap=null;return;}
     gesture={id:event.pointerId,x:event.clientX,y:event.clientY,moved:false};
   }
   function move(event){
-    if(gesture?.id===event.pointerId&&Math.hypot(event.clientX-gesture.x,event.clientY-gesture.y)>6)gesture.moved=true;
+    if(gesture?.id===event.pointerId&&Math.hypot(event.clientX-gesture.x,event.clientY-gesture.y)>6){gesture.moved=true;lastTap=null;}
   }
   function up(event){
     move(event);pointers.delete(event.pointerId);
     const tap=gesture?.id===event.pointerId&&!gesture.moved&&pointers.size===0;gesture=null;
-    if(tap&&canPick())onSelect(pick(event.clientX,event.clientY));
+    if(tap&&canPick()){
+      // DUPLO-TOQUE-20261023: selection is immediate; opening needs a second deliberate tap.
+      const id=pick(event.clientX,event.clientY),time=event.timeStamp;
+      const activate=id!==null&&lastTap?.id===id&&lastTap.pointerType===event.pointerType&&
+        time>=lastTap.time&&time-lastTap.time<=500&&Math.hypot(event.clientX-lastTap.x,event.clientY-lastTap.y)<=24;
+      lastTap=id!==null&&!activate?{id,time,pointerType:event.pointerType,x:event.clientX,y:event.clientY}:null;
+      onSelect(id,{activate});
+    }
   }
-  function cancel(event){pointers.delete(event.pointerId);gesture=null;}
+  function cancel(event){
+    // Touch capture is normally released after a successful pointerup; preserve that tap.
+    if(gesture?.id===event.pointerId||pointers.has(event.pointerId)){gesture=null;lastTap=null;}
+    pointers.delete(event.pointerId);
+  }
   const events={pointerdown:down,pointermove:move,pointerup:up,pointercancel:cancel,lostpointercapture:cancel};
   for(const [name,listener] of Object.entries(events))canvas.addEventListener(name,listener,true);
   return {select,refresh,pick,highlight,availability,stats,getState:()=>({selectedId,active:highlight.visible}),dispose(){
-    if(disposed)return;disposed=true;gesture=null;pointers.clear();
+    if(disposed)return;disposed=true;gesture=null;lastTap=null;pointers.clear();
     for(const [name,listener] of Object.entries(events))canvas.removeEventListener(name,listener,true);
     availability.dispose();scene.remove(highlight);geometry.dispose();edges.dispose();fillMaterial.dispose();lineMaterial.dispose();
   }};

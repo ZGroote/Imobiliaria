@@ -1,6 +1,6 @@
 # Mudanças futuras do painel — 08/10/2026
 
-Estado: registradas a pedido do usuário. Nada implementado.
+Estado: registradas a pedido do usuário. O item 2 foi implementado em 23/10/2026; o item 1 continua pendente.
 
 ## 1. Primeira fase: a imobiliária só solicita, a equipe gera o 3D
 
@@ -31,21 +31,19 @@ Falta:
 Verificação: no emulador, um `agent` não abre o Capturador nem consegue chamar
 `/gerar-maquete` direto (403); um pedido novo dispara uma notificação.
 
-## 2. Botão de WhatsApp do corretor na página pública
+## 2. Botão de WhatsApp do corretor na página pública — implementado em 23/10/2026
 
 O servidor já resolve o corretor da raiz, mesmo após repasses, e devolve
 `contact.whatsappNumber` ([modelo.mjs:125](../../rastreabilidade/modelo.mjs)).
 
-Falta:
+Entregue:
 
-- [ ] Botão em `rastreabilidade/public/acesso.html` e preenchimento em
-  `rastreabilidade/public/runtime.mjs` (onde `open()` recebe a abertura):
-  `https://wa.me/<número>?text=<mensagem com o nome do imóvel>`. Sem número,
-  o botão não aparece.
-- [ ] Cadastro do número no perfil do painel. `firebase/firestore.rules:88` só
-  deixa o usuário mudar `name`; liberar `publicContact.whatsapp`, só dígitos
-  E.164 sem `+`.
-- [ ] Teste de regra: ninguém grava o número de outra pessoa.
-
-Bloqueio real: o painel e a API de rastreabilidade estão offline. O botão só
-serve depois da ativação pública.
+- [x] Botão verde com símbolo do WhatsApp em `rastreabilidade/public/acesso.html`,
+  preenchido por `runtime.mjs` com o contato do responsável original. Funciona em
+  maquete, mapa e visita, sem aceite de métricas. Sem número, fica oculto.
+- [x] Página **Meu perfil** para nome e celular. O painel normaliza o telefone e
+  grava `publicContact.whatsapp` em dígitos E.164, sem `+`.
+- [x] Regras e testes: o usuário edita somente seu próprio contato, sem mudar
+  permissões; links e encaminhamentos consultam o contato atual do responsável.
+- [x] Mensagem de interesse contém nome do imóvel e link público; recibos e
+  identificadores privados de sessão ficam de fora.

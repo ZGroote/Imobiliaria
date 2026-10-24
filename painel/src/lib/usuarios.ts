@@ -2,12 +2,12 @@ import { deleteDoc, deleteField, doc, serverTimestamp, setDoc, updateDoc, type F
 import { idDoConvite } from './convite.ts'
 import { interno, type UserRole } from './types.ts'
 
-// Tudo aqui é de platform_admin (regras: invites e users). Papel interno não tem agência;
-// papel de imobiliária tem uma que existe. As regras conferem as duas coisas (validMembership).
+// O gerente convida só corretores da própria agência; administrar usuários é do platform_admin.
+// As regras conferem papel, agência e autoria, inclusive ao substituir um convite pendente.
 
 export interface NovoConvite { email: string; name: string; role: UserRole; agencyId?: string; agencyName?: string }
 
-export function convidar(db: Firestore, adminUid: string, c: NovoConvite) {
+export function convidar(db: Firestore, autorUid: string, c: NovoConvite) {
   const email = idDoConvite(c.email), name = c.name.trim()
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new Error('E-mail inválido.')
   if (!name) throw new Error('Informe o nome.')
@@ -16,7 +16,7 @@ export function convidar(db: Firestore, adminUid: string, c: NovoConvite) {
   return setDoc(doc(db, 'invites', email), {
     email, name, role: c.role,
     ...(deAgencia ? { agencyId: c.agencyId, ...(c.agencyName ? { agencyName: c.agencyName } : {}) } : {}),
-    createdBy: adminUid, createdAt: serverTimestamp(),
+    createdBy: autorUid, createdAt: serverTimestamp(),
   })
 }
 

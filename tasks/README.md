@@ -6,6 +6,11 @@ da consolidação estão em [organização](organizacao-2026-10-04.md).
 
 As publicações públicas identificadas estão offline, conforme o
 [relatório de desativação e dados de acesso](../relatorios/desativacao-e-acessos-2026-10-04.md).
+**Atualização de 23/10/2026:** a raiz do domínio próprio passou a servir a
+[fachada institucional](https://conectaimoveis3d.com.br), com planos sob consulta
+e contato por WhatsApp. [Registro da publicação](../fachada/PUBLICACAO.md).
+O domínio usa o Hosting `imobilaria-deccb-miniaturas`, compartilhado com o LIV e
+os links individuais. A estrutura atual está em [Conecta](../conecta/CONTINUIDADE.md).
 O pacote M1.1-A continua preparado localmente; as sessões físicas usarão o
 pacote local/LAN, com as publicações públicas permanecendo desativadas.
 
@@ -19,7 +24,7 @@ para uma entrega futura; a rodada M1.1-A continua preservada, em 0/5 sessões.
 O [piloto de qualidade visual](../experimentos/piloto-qualidade-visual-2026-10-04/SPEC.md)
 foi autorizado como demonstração sintética separada, com planta de dois quartos,
 materiais CC0 e comparação Base/Acabamentos. Seu preview temporário de sete dias
-é a única exceção ao estado offline anterior; não ativa o produto ou a API de
+foi uma exceção ao estado offline anterior; não ativa o produto ou a API de
 rastreabilidade. A [entrega e verificação pública](../experimentos/piloto-qualidade-visual-2026-10-04/ENTREGA.md)
 registra a primeira publicação do piloto.
 O [refinamento de paredes](../experimentos/piloto-qualidade-visual-2026-10-04/PAREDES.md)

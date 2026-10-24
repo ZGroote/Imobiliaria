@@ -198,6 +198,16 @@ oldSamplesAreFree(leaf.nav, leafA, leafB);
 collisionCase('door-capsule-between-25mm-samples', leaf, leafA, leafB, false);
 collisionCase('door-capsule-tangent', leaf, [-.215, -.1], [-.215, .1], true);
 collisionCase('door-perpendicular-crossing', leaf, [.5, -1], [.5, 1], false);
+// The Tour uses the default walking policy: visible furniture is not an obstacle.
+const walkthrough = createNavigation(corner.layout);
+assert.equal(corner.nav.free(0, 0), false, 'fixture contains a furniture obstacle');
+assert.equal(walkthrough.free(0, 0), true, 'walking can enter the furniture footprint');
+assert.equal(walkthrough.segment([-3, 0], [3, 0]), true);
+assert.ok(length(walkthrough.move([-3, 0], 6, 0), [3, 0]) < 1e-6);
+assert.equal(walkthrough.free(6, 0), false, 'walking remains inside the apartment');
+assert.equal(createNavigation(wall.layout).segment([-1, .5], [1, .5]), false, 'walls still block');
+assert.equal(createNavigation(leaf.layout).segment([.5, -1], [.5, 1]), false, 'door leaves still block');
+cases.push('tour-walks-through-furniture-with-architectural-limits');
 for (const rotation of [0, 1, 2, 3]) {
   const value = fixture({furniture: [{...box, w: .5, d: 1.4, rotation}]});
   collisionCase(`quarter-turn-${rotation}-crossing`, value, [-3, 0], [3, 0], false);

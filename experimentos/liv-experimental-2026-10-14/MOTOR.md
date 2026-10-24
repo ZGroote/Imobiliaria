@@ -6,8 +6,9 @@ maquete de todo imóvel. Aqui o motor foi separado dos dados do LIV, sem mudar o
 ## O que é o quê
 
 - **Dados do imóvel** (`dados/`):
-  - `maquete.js`: nome, página, mapa, edições do exterior, prédio, cadastro das unidades, lados da
-    fachada, tipologias, vistas próprias e acabamentos. É um módulo, e não um JSON, para carregar igual
+  - `maquete.js`: nome, cidade, página, mapa, edições do exterior (com o mapa de vagas, quando a edição
+    tem), prédio, cadastro das unidades, lados da fachada, tipologias (com o recorte e a entrada da
+    Planta 2D), vistas próprias e acabamentos. É um módulo, e não um JSON, para carregar igual
     no navegador (inclusive Safari antigo), nos testes do Node e no otimizador da publicação;
   - `topos-de-parede.js`: os contornos de topo de parede por tipologia (gerado por
     `gerar_topos_paredes.py`).

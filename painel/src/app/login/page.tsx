@@ -1,10 +1,11 @@
 'use client'
 import { useEffect, useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import { useSessao } from '@/lib/session'
 import { mensagemDoAuth } from '@/lib/erros'
+import { enviarVerificacaoEmail } from '@/lib/verificacaoEmail'
 import AtalhosDev from '@/components/AtalhosDev'   // na build de produção vira Nada (next.config.ts)
 
 export default function Login() {
@@ -25,7 +26,7 @@ export default function Login() {
     setOcupado(true); setErro('')
     try {
       if (modo === 'entrar') await signInWithEmailAndPassword(auth, email, senha)
-      else await sendEmailVerification((await createUserWithEmailAndPassword(auth, email, senha)).user)
+      else await enviarVerificacaoEmail((await createUserWithEmailAndPassword(auth, email, senha)).user)
     } catch (e) {
       setErro(mensagemDoAuth(e))
     } finally {

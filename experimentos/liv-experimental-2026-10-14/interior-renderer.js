@@ -281,7 +281,8 @@ state.rotateFurniture=function(id){if(!state.ready)return false;const item=furni
 state.resetFurniture=function(){if(!state.ready)return false;for(const item of furniture){item.position=[...item.originalPosition];item.rotation=item.originalRotation;furnitureTransform(item);}furnitureChanged();return true;};
 
 function addLights(){
-  scene.background=new THREE.Color('#e8ede9');
+  // FUNDO-3D-20261023: o CSS fornece o fundo, sem passar pelo ajuste de exposição da cena.
+  scene.background=null;
   const environment=own(new THREE.DataTexture(new Uint8Array([156,180,206,255,210,211,190,255,135,150,160,255,185,181,160,255]),2,2,THREE.RGBAFormat));
   environment.colorSpace=THREE.SRGBColorSpace;environment.mapping=THREE.EquirectangularReflectionMapping;environment.needsUpdate=true;scene.environment=environment;scene.environmentIntensity=.55;
   const hemi=new THREE.HemisphereLight(0xc8ddff,0x817664,1.2);scene.add(hemi);
@@ -457,7 +458,7 @@ async function start(){
   progress('Preparando os gráficos…');let adapter=null;
   if(requested!=='webgl'&&navigator.gpu){try{adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});}catch(error){state.adapterError=String(error);}}
   check();if(requested==='webgpu'&&!adapter)throw Error('WebGPU não está disponível neste dispositivo.');
-  const options={canvas,alpha:false,antialias:true,forceWebGL:requested==='webgl'||!adapter};renderer=createRenderer(options);state.renderer=renderer;
+  const options={canvas,alpha:true,antialias:true,forceWebGL:requested==='webgl'||!adapter};renderer=createRenderer(options);renderer.setClearAlpha(0);state.renderer=renderer;
   try{await initializeRenderer(renderer);}catch(error){if(requested!=='auto'||options.forceWebGL)throw error;check();await release(renderer);renderer=createRenderer({...options,forceWebGL:true});state.renderer=renderer;await initializeRenderer(renderer);}
   check();state.backend=renderer.backend.isWebGPUBackend?'webgpu':'webgl';if(requested==='webgpu'&&state.backend!=='webgpu')throw Error('O backend WebGPU exigido não foi ativado.');
   renderer.onError=error=>fail(error);renderer.onDeviceLost=info=>fail(Error(`Dispositivo gráfico perdido: ${info?.message||info?.reason||'desconhecido'}`));
@@ -509,7 +510,8 @@ async function start(){
   const architecture=[];scene.traverse(mesh=>{if(mesh.isMesh&&!mesh.userData.furnitureId)architecture.push(mesh);});
   presentation=createPlanCutaway({scene,layout,architecture,wallMaterial:native.m0,own});ceiling=presentation.ceiling;
   addLights();
-  navigation=createNavigation(layout,()=>furniture);entry=navigation.entry();tourPosition=[...entry];faceRoom();refreshRooms();
+  // Walking respects walls and openings; furniture stays visible without blocking passage.
+  navigation=createNavigation(layout);entry=navigation.entry();tourPosition=[...entry];faceRoom();refreshRooms();
   function resize(){const width=stage.clientWidth,height=stage.clientHeight;if(!width||!height||state.disposed)return;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();}
   resizeView=resize;observer=new ResizeObserver(resize);observer.observe(stage);resize();orbitDefault();const initialMode=state.mode;state.mode='planta3d';state.setMode(initialMode);
   wire();document.querySelector('#furniture-select').replaceChildren(...furniture.map(m=>{const option=document.createElement('option');option.value=m.id;option.textContent=m.name;return option;}));

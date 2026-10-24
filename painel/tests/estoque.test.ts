@@ -4,8 +4,8 @@ import { initializeApp, deleteApp } from 'firebase/app'
 import { collection, connectFirestoreEmulator, doc, getDoc, getDocs, getFirestore, serverTimestamp, writeBatch } from 'firebase/firestore'
 import { semear } from '../scripts/seed.mjs'
 import { entrar, sairDeTodos } from './apoio.ts'
-import { iniciarEstoque, salvarUnidade, salvarPerfil, mostrarEstoque } from '../src/lib/estoque.ts'
-import { BOOK_SHA, centavos, posicoes, resolverInformacoes, totais, validarLista, validarInformacoes, vazias, type Estoque, type PerfilVenda, type UnidadeVenda } from '../src/lib/estoque-modelo.ts'
+import { iniciarEstoque, salvarUnidade, salvarPerfil, mostrarEstoque, salvarVagas } from '../src/lib/estoque.ts'
+import { BOOK_SHA, lerVagas, vagasDaUnidade, validarVagas, centavos, posicoes, resolverInformacoes, totais, validarLista, validarInformacoes, vazias, type Estoque, type PerfilVenda, type UnidadeVenda } from '../src/lib/estoque-modelo.ts'
 
 const app = initializeApp({ projectId: 'demo-painel', apiKey: 'demo-key' }, 'estoque-publico-teste'), anonymous = getFirestore(app)
 connectFirestoreEmulator(anonymous, '127.0.0.1', 8180)
@@ -113,4 +113,47 @@ test('numeração é exclusiva também em duas edições concorrentes de apartam
   const current = await unit(op.db, owner)
   await salvarUnidade(op.db, 'cedros', op.uid, { ...current, commercialNumber: null })
   assert.equal((await getDoc(doc(stockRef(op.db), 'numbers', 'QA-EXCLUSIVO'))).exists(), false)
+})
+
+test('modelo: vagas de 1 a 175, sem repetir e no máximo quatro por apartamento', () => {
+  assert.deepEqual(lerVagas(' 13, 12;12 '), [12, 13]); assert.deepEqual(lerVagas(''), [])
+  for (const bad of ['0', '176', '12a', '1,2,3,4,5', '-3']) assert.throws(() => lerVagas(bad))
+  assert.deepEqual(vagasDaUnidade({ 87: 'p01-f01', 3: 'p01-f01', 4: 'p02-f01' }, 'p01-f01'), [3, 87])
+  assert.throws(() => validarVagas({ spaces: { 176: 'p01-f01' } })); assert.throws(() => validarVagas({ spaces: { 1: 'p17-f01' } }))
+  assert.throws(() => validarVagas({ spaces: { 1: 'p01-f01', 2: 'p01-f01', 3: 'p01-f01', 4: 'p01-f01', 5: 'p01-f01' } }))
+})
+
+test('vaga pertence a um apartamento só; público lê o mapa e corretor não escreve', async () => {
+  const op = await entrar('op'), manager = await entrar('gerA'), cor = await entrar('corA')
+  const mapa = async (db = op.db) => (await getDoc(doc(stockRef(db), 'parking', 'mapa'))).data()?.spaces ?? {}
+  await salvarVagas(op.db, 'cedros', op.uid, 'p02-f01', [12, 13])
+  await assert.rejects(salvarVagas(manager.db, 'cedros', manager.uid, 'p02-f02', [13]), /já pertence/)
+  await salvarVagas(manager.db, 'cedros', manager.uid, 'p02-f02', [87])
+  assert.deepEqual(await mapa(), { 12: 'p02-f01', 13: 'p02-f01', 87: 'p02-f02' })
+  await salvarVagas(op.db, 'cedros', op.uid, 'p02-f01', [13])
+  assert.deepEqual(vagasDaUnidade(await mapa(), 'p02-f01'), [13])
+  await assert.rejects(salvarVagas(cor.db, 'cedros', cor.uid, 'p03-f01', [40]), /permission/i)
+  await assert.rejects(salvarVagas(op.db, 'cedros', op.uid, 'p03-f01', [176]), /1 a 175/)
+  // Escrita direta com vaga ou unidade fora do cadastro é recusada pelas regras.
+  const atual = (await getDoc(doc(stockRef(op.db), 'parking', 'mapa'))).data()!
+  for (const spaces of [{ ...atual.spaces, 176: 'p02-f01' }, { ...atual.spaces, 50: 'p17-f01' }, { ...atual.spaces, 50: 7 }]) {
+    const b = writeBatch(op.db), history = doc(collection(stockRef(op.db), 'history'))
+    const next = { ...atual, spaces, revision: atual.revision + 1, updatedAt: serverTimestamp(), lastChangeId: history.id }
+    b.set(doc(stockRef(op.db), 'parking', 'mapa'), next)
+    b.set(history, { kind: 'parking', key: 'mapa', actor: op.uid, revision: next.revision, timestamp: serverTimestamp(), snapshot: next })
+    await assert.rejects(b.commit(), /permission/i)
+  }
+  await mostrarEstoque(op.db, 'cedros', op.uid, await settings(op.db), true)
+  assert.deepEqual(vagasDaUnidade(await mapa(anonymous), 'p02-f02'), [87])
+  await mostrarEstoque(op.db, 'cedros', op.uid, await settings(op.db), false)
+  await assert.rejects(mapa(anonymous), /permission/i)
+})
+
+test('duas pessoas ligando apartamentos diferentes ao mesmo tempo não perdem nenhuma vaga', async () => {
+  const op = await entrar('op'), manager = await entrar('gerA')
+  await Promise.all([salvarVagas(op.db, 'cedros', op.uid, 'p04-f01', [101]), salvarVagas(manager.db, 'cedros', manager.uid, 'p04-f02', [102])])
+  const spaces = (await getDoc(doc(stockRef(op.db), 'parking', 'mapa'))).data()!.spaces
+  assert.equal(spaces[101], 'p04-f01'); assert.equal(spaces[102], 'p04-f02')
+  const results = await Promise.allSettled([salvarVagas(op.db, 'cedros', op.uid, 'p04-f03', [150]), salvarVagas(manager.db, 'cedros', manager.uid, 'p04-f04', [150])])
+  assert.equal(results.filter(r => r.status === 'fulfilled').length, 1)
 })

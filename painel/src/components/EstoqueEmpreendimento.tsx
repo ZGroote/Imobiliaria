@@ -7,7 +7,7 @@ import { db } from '@/lib/firebase'
 import { useColecao, useDoc } from '@/lib/useFirestore'
 import { usePerfil } from '@/lib/session'
 import { iniciarEstoque, mostrarEstoque } from '@/lib/estoque'
-import { SITUACOES, totais, validarEstoque, validarLista, type Estoque, type PerfilVenda, type UnidadeVenda } from '@/lib/estoque-modelo'
+import { SITUACOES, TOTAL_VAGAS, totais, vagasDaUnidade, validarEstoque, validarLista, validarVagas, type Estoque, type PerfilVenda, type UnidadeVenda, type VagasVenda } from '@/lib/estoque-modelo'
 import type { Property } from '@/lib/types'
 
 export function EstoqueEmpreendimento({ property }: { property: Property }) {
@@ -15,6 +15,7 @@ export function EstoqueEmpreendimento({ property }: { property: Property }) {
   const settings = useDoc<Estoque>(`estoque:${property.id}`, () => doc(db, 'salesInventory', property.id))
   const unitsQuery = useColecao<UnidadeVenda>(settings.dado ? `estoque-unidades:${property.id}` : null, () => collection(db, 'salesInventory', property.id, 'units'))
   const profilesQuery = useColecao<PerfilVenda>(settings.dado ? `estoque-perfis:${property.id}` : null, () => collection(db, 'salesInventory', property.id, 'profiles'))
+  const parkingQuery = useDoc<VagasVenda>(settings.dado ? `estoque-vagas:${property.id}` : null, () => doc(db, 'salesInventory', property.id, 'parking', 'mapa'))
   const [floor, setFloor] = useState('todos'), [status, setStatus] = useState('todos'), [search, setSearch] = useState('')
   const [unit, setUnit] = useState<UnidadeVenda | null>(null), [profile, setProfile] = useState<PerfilVenda | null>(null)
   const editor = useRef<HTMLDivElement>(null), lastButton = useRef<HTMLButtonElement | null>(null)
@@ -29,15 +30,17 @@ export function EstoqueEmpreendimento({ property }: { property: Property }) {
     {erro && <Aviso>{erro}</Aviso>}
   </Cartao>
   const stock = settings.dado, units = unitsQuery.dados, profiles = profilesQuery.dados
-  if (unitsQuery.erro || profilesQuery.erro) return <Aviso>{unitsQuery.erro || profilesQuery.erro}</Aviso>
-  if (!units || !profiles) return <Estado r={unitsQuery}>Carregando unidades…</Estado>
-  try { validarEstoque(stock); validarLista(units) } catch (e) { return <Aviso>{(e as Error).message}</Aviso> }
+  if (unitsQuery.erro || profilesQuery.erro || parkingQuery.erro) return <Aviso>{unitsQuery.erro || profilesQuery.erro || parkingQuery.erro}</Aviso>
+  if (!units || !profiles || parkingQuery.dado === undefined) return <Estado r={unitsQuery}>Carregando unidades…</Estado>
+  let spaces: Record<string, string>
+  try { validarEstoque(stock); validarLista(units); spaces = parkingQuery.dado ? validarVagas(parkingQuery.dado) : {} } catch (e) { return <Aviso>{(e as Error).message}</Aviso> }
   const counts = totais(units), shown = units.filter(u => (floor === 'todos' || u.floor === Number(floor)) &&
     (status === 'todos' || u.availability === status) && `${u.commercialNumber ?? ''} ${u.id}`.toLocaleLowerCase('pt-BR').includes(search.toLocaleLowerCase('pt-BR')))
     .sort((a, b) => a.floor - b.floor || a.final - b.final)
   return <div className="space-y-6">
     <Cartao titulo="Estoque de apartamentos">
       <p className="text-sm">{units.length} unidades cadastradas · {counts.disponivel} disponíveis · {counts.vendida} vendidas · {counts.reservada} reservadas · {counts.bloqueada} bloqueadas · {counts.nao_informada} sem informação</p>
+      <p className="mt-1 text-sm">{Object.keys(spaces).length} de {TOTAL_VAGAS} vagas da implantação ligadas a um apartamento</p>
       <p className="mt-2 text-xs text-slate-500">Pavimentos 0–16 são posições do modelo. A numeração comercial confirmada aparece para o público quando cadastrada.</p>
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <Selo tom={stock.publicEnabled ? 'verde' : 'cinza'}>{stock.publicEnabled ? 'Consulta pública habilitada' : 'Consulta pública desabilitada'}</Selo>
@@ -53,7 +56,7 @@ export function EstoqueEmpreendimento({ property }: { property: Property }) {
         onClick={e => { lastButton.current = e.currentTarget; setProfile(p) }}>Editar {p.id === 'canto' ? 'Canto' : 'Meio'}</button>)}</div>
     </Cartao>
     {(unit || profile) && <div ref={editor} tabIndex={-1} aria-label="Editor do cadastro" className="outline-offset-4">
-      {unit && <EditorDeUnidade unit={unit} units={units} profiles={profiles} propertyId={property.id} uid={uid} close={close} />}
+      {unit && <EditorDeUnidade unit={unit} units={units} profiles={profiles} spaces={spaces} propertyId={property.id} uid={uid} close={close} />}
       {profile && <EditorDePerfil profile={profile} propertyId={property.id} uid={uid} close={close} />}
     </div>}
     <Cartao titulo="Todas as unidades">
@@ -65,9 +68,9 @@ export function EstoqueEmpreendimento({ property }: { property: Property }) {
         <label className="text-sm">Número / posição<input className="campo mt-1" value={search} onChange={e => setSearch(e.target.value)} /></label>
       </div>
       <p className="mb-2 text-xs text-slate-500" role="status">{shown.length} de {units.length} unidades</p>
-      <Tabela cabecalho={['Apartamento', 'Pavimento / final', 'Planta', 'Disponibilidade', 'Cadastro']}>
+      <Tabela cabecalho={['Apartamento', 'Pavimento / final', 'Planta', 'Vagas', 'Disponibilidade', 'Cadastro']}>
         {shown.map(u => <tr key={u.id}><Td>{u.commercialNumber || 'Número a confirmar'}</Td><Td>{u.floor} / {String(u.final).padStart(2, '0')}</Td>
-          <Td>{u.profileId === 'canto' ? 'Canto' : u.profileId === 'meio' ? 'Meio' : 'Em conferência'}</Td><Td><Selo tom={u.availability === 'disponivel' ? 'verde' : u.availability === 'vendida' ? 'vermelho' : 'cinza'}>{SITUACOES[u.availability]}</Selo></Td>
+          <Td>{u.profileId === 'canto' ? 'Canto' : u.profileId === 'meio' ? 'Meio' : 'Em conferência'}</Td><Td>{vagasDaUnidade(spaces, u.id).join(', ') || '—'}</Td><Td><Selo tom={u.availability === 'disponivel' ? 'verde' : u.availability === 'vendida' ? 'vermelho' : 'cinza'}>{SITUACOES[u.availability]}</Selo></Td>
           <Td><button className="btn" disabled={!!unit || !!profile} aria-label={`Editar ${u.commercialNumber || u.id}`} onClick={e => { lastButton.current = e.currentTarget; setUnit(u) }}>Editar</button></Td></tr>)}
       </Tabela>
     </Cartao>

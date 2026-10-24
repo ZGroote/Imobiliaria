@@ -1,12 +1,13 @@
 import {unitById} from './unidades.js';
-import {floorOf,floorLabel} from './catalogo-unidades.js';
+import {floorOf} from './catalogo-unidades.js';
 import {saleOf,saleLabel} from './comercial.js';
 import dados from './dados/maquete.js';
 import {typology as layout,typologyIds} from './tipologias.js';
 export function createUnitUI(catalog){
   return {setCatalog(data){catalog=data;},update({selectedUnitId,ready,mode,relationError,stockError,unitScope}){
     const unit=unitById(catalog,selectedUnitId);
-    document.getElementById('unitAnnouncement').textContent=unit?`Final ${unit.final} selecionado, posição aproximada, ${saleLabel(unit)}.`:'Nenhum final selecionado.';
+    const title=unit?(unit.commercial?.commercialNumber?`Apartamento ${unit.commercial.commercialNumber}`:`Final ${unit.final}`):'';
+    document.getElementById('unitAnnouncement').textContent=unit?`${title} selecionado, posição aproximada, ${saleLabel(unit)}.`:'Nenhum apartamento selecionado.';
     const panel=document.getElementById('selectedApartment'),prompt=document.getElementById('selectionPrompt');
     if(panel)panel.hidden=!unit;if(prompt)prompt.hidden=Boolean(unit);
     const info=document.getElementById('btnApartmentInfo');if(info){info.hidden=!unit;info.disabled=!unit;}
@@ -14,10 +15,10 @@ export function createUnitUI(catalog){
     for(const button of document.querySelectorAll('[data-unit-open]')){button.hidden=!associated;button.disabled=!ready||!associated;}
     const actions=document.getElementById('selectedApartmentActions');if(actions)actions.hidden=!associated||mode!=='maquete';
     if(!unit)return;
-    const label=floorLabel(floorOf(catalog,unit));
-    const title=unit.commercial?.commercialNumber?`Apartamento ${unit.commercial.commercialNumber} · ${label}`:`Final ${unit.final} · ${label}`;
     document.getElementById('detailsTitle').textContent=title;
     const sale=saleOf(unit),informed=sale.availability!=='nao_informada'||sale.priceCents!==null;
+    // Vagas ligadas pelo painel (números da implantação) valem mais que o texto livre da ficha.
+    const spaces=unit.parkingSpaces??[],parking=spaces.length?`${spaces.length===1?'Vaga':'Vagas'} ${new Intl.ListFormat('pt-BR').format(spaces.map(String))}`:sale.parking;
     const details=unit.salesDetails;
     const area=details?.areaM2!==null&&details?.areaM2!==undefined?`${new Intl.NumberFormat('pt-BR').format(details.areaM2)} m²`:null;
     const count=(n,one,many)=>n===null||n===undefined?null:`${n} ${n===1?one:many}`;
@@ -27,8 +28,8 @@ export function createUnitUI(catalog){
     document.getElementById('unitDescription').hidden=!details?.description;
     document.getElementById('unitDescription').textContent=details?.description||'';
     document.getElementById('unitSale').textContent=informed?saleLabel(unit):'Não informados';
-    document.getElementById('unitCommercial').textContent=sale.commercialNumber!==null||sale.parking!==null?
-      `${sale.commercialNumber??'Número não informado'} · ${sale.parking??'vaga não informada'}`:'Não informados';
+    document.getElementById('unitCommercial').textContent=sale.commercialNumber!==null||parking!==null?
+      `${sale.commercialNumber??'Número não informado'} · ${parking??'vaga não informada'}`:'Não informados';
     document.getElementById('commercialSource').hidden=!catalog.commercialSource;
     document.getElementById('commercialSource').textContent=catalog.commercialSource?
       `Fonte: ${catalog.commercialSource.label} · ${catalog.commercialSource.asOf}`:'';
@@ -46,7 +47,7 @@ export function createUnitUI(catalog){
     const panelTitle=document.getElementById('selectedApartmentTitle');if(panelTitle)panelTitle.textContent=title;
     // Buyer card: price and size first; provenance stays in the full sheet.
     const meta=document.getElementById('selectedApartmentMeta');
-    if(meta)meta.textContent=[area,rooms,sale.parking].filter(Boolean).join(' · ');
+    if(meta)meta.textContent=[area,rooms,parking].filter(Boolean).join(' · ');
     const panelSale=document.getElementById('selectedApartmentSale');if(panelSale)panelSale.textContent=informed?saleLabel(unit):'Disponibilidade e preço a confirmar';
     const side=dados.lados[unit.side].rotulo.replace(/^./,c=>c.toLowerCase());
     const panelNote=document.getElementById('selectedApartmentNote');if(panelNote)panelNote.textContent=associated?`Planta ${layout(relation.typology).label} · ${side}`:note;

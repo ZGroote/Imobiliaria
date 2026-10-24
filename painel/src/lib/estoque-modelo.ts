@@ -73,6 +73,28 @@ export function validarLista(units: UnidadeVenda[]) {
   if (new Set(numbers).size !== numbers.length) throw Error('Número comercial repetido. Confira o cadastro.')
   return units
 }
+// Vagas numeradas da implantação oficial (1–175). Um documento só guarda vaga → unidade,
+// então a mesma vaga nunca pertence a dois apartamentos.
+export const TOTAL_VAGAS = 175, VAGAS_POR_UNIDADE = 4
+export interface VagasVenda extends Registro { id: 'mapa'; spaces: Record<string, string> }
+export function validarVagas(v: unknown): Record<string, string> {
+  const spaces = objeto(objeto(v).spaces), unidades = new Set(posicoes().map(p => p.id)), contagem = new Map<string, number>()
+  for (const [vaga, unidade] of Object.entries(spaces)) {
+    if (!/^[1-9]\d{0,2}$/.test(vaga) || Number(vaga) > TOTAL_VAGAS || typeof unidade !== 'string' || !unidades.has(unidade)) throw Error('Mapa de vagas inválido.')
+    contagem.set(unidade, (contagem.get(unidade) ?? 0) + 1)
+  }
+  if ([...contagem.values()].some(n => n > VAGAS_POR_UNIDADE)) throw Error('Mapa de vagas inválido.')
+  return spaces as Record<string, string>
+}
+export const vagasDaUnidade = (spaces: Record<string, string>, unitKey: string) =>
+  Object.keys(spaces).filter(k => spaces[k] === unitKey).map(Number).sort((a, b) => a - b)
+export function lerVagas(texto: string): number[] {
+  const partes = texto.split(/[\s,;]+/).filter(Boolean)
+  if (partes.some(p => !/^\d{1,3}$/.test(p) || Number(p) < 1 || Number(p) > TOTAL_VAGAS)) throw Error(`Use números de vaga de 1 a ${TOTAL_VAGAS}, separados por vírgula.`)
+  const vagas = [...new Set(partes.map(Number))].sort((a, b) => a - b)
+  if (vagas.length > VAGAS_POR_UNIDADE) throw Error(`No máximo ${VAGAS_POR_UNIDADE} vagas por apartamento.`)
+  return vagas
+}
 export function totais(units: UnidadeVenda[]) {
   return Object.fromEntries(Object.keys(SITUACOES).map(k => [k, units.filter(u => u.availability === k).length])) as Record<Situacao, number>
 }

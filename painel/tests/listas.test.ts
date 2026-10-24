@@ -91,3 +91,36 @@ test('equipe: filtros no servidor, imóveis de todas e o Kanban com o total real
   const producao = colunaDoKanban(admin.db, ['accepted', 'production'])
   assert.equal((await getCountFromServer(producao)).data().count, 25)    // 20 + pedB aceitos, 3 + pedColinas em produção
 })
+
+test('Publicado: só as últimas 48h, desde a publicação, com paginação e contador iguais', async () => {
+  const admin = await entrar('admin')
+  const agora = Date.UTC(2026, 9, 24, 12)
+  const corte = agora - 48 * 60 * 60 * 1000
+  const adm = adminDb(), b = adm.batch()
+  for (const [id, publishedAt] of [['expirado', corte - 1], ['limite', corte], ['recente', corte + 1],
+    ['legado', undefined]] as const) {
+    b.set(adm.doc(`requests/${id}`), {
+      agencyId: 'agA', requestedBy: 'corA', title: id, status: 'published',
+      createdAt: Timestamp.fromMillis(corte - 1000), updatedAt: Timestamp.fromMillis(agora),
+      ...(publishedAt === undefined ? {} : { publishedAt: Timestamp.fromMillis(publishedAt) }),
+    })
+  }
+  for (let i = 0; i < 55; i++) b.set(adm.doc(`requests/publicado${i}`), {
+    agencyId: 'agA', requestedBy: 'corA', title: `Publicado ${i}`, status: 'published',
+    createdAt: Timestamp.fromMillis(agora), updatedAt: Timestamp.fromMillis(agora),
+    publishedAt: Timestamp.fromMillis(agora - i),
+  })
+  await b.commit()
+
+  const publicados = colunaDoKanban(admin.db, ['published'], agora)
+  const todos = await ler(publicados, 100)
+  assert.equal((await ler(publicados)).length, PAGINA)
+  assert.equal(todos.length, 56)
+  assert.equal(todos.at(-1)?.id, 'recente')
+  assert.equal((await getCountFromServer(publicados)).data().count, todos.length)
+  for (const id of ['expirado', 'limite', 'legado']) assert.ok(!ids(todos).includes(id))
+  // O relógio avança sem escrita no banco: o último cartão também vence.
+  assert.equal((await ler(colunaDoKanban(admin.db, ['published'], agora + 1), 100)).length, 55)
+  // Some só do Kanban; o histórico segue na lista de pedidos.
+  assert.equal((await ler(pedidosInternos(admin.db, { status: 'published' }), 100)).length, 59)
+})

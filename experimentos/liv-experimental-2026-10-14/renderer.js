@@ -7,9 +7,11 @@ import dados from './dados/maquete.js';
 import {unitById} from './unidades.js';
 import {loadUnitCatalog,floorOf} from './catalogo-unidades.js';
 import {createUnitPicking} from './picking.js';
+import {createParkingHighlight} from './vagas.js';
 import {environmentTexture,precomputedEnvironment} from './ambiente.js';
 import {EXTERIOR_EDITIONS} from './edicoes.js';
 import {exteriorAmbience,requestedAmbience} from './ambiencia.js';
+import {buyerExperienceEnabled} from './experiencia-compra.js';
 
 const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION,active:new URLSearchParams(location.search).get('prewarm')!=='1'};
 function progress(phase,message,extra={}){
@@ -18,6 +20,7 @@ function progress(phase,message,extra={}){
 }
 const mark=name=>{(state.timings??={})[name]=performance.now();};mark('module');
 const parameters=new URLSearchParams(location.search);
+const buyerExperience=buyerExperienceEnabled(location.search);
 const requested=parameters.get('backend')||'auto';
 const finishProfile=parameters.get('acabamento')||'base';
 const geometryProfile=parameters.get('geometria')||dados.edicaoPadrao;
@@ -186,7 +189,7 @@ async function start() {
   renderer.shadowMap.enabled=true;
   renderer.shadowMap.type=THREE.PCFShadowMap;
   const scene=new THREE.Scene();
-  let environment,controls,resizeObserver,unitPicking,ambience;
+  let environment,controls,resizeObserver,unitPicking,ambience,parking,pendingSpaces=[];
   const textures=[],materials=[],geometries=[];
   state.scene=scene;state.atlas=atlas;
   // Own resources before the first asynchronous environment/texture request.
@@ -194,7 +197,7 @@ async function start() {
   state.dispose=()=>{
     if(state.disposed)return;
     state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);
-    resizeObserver?.disconnect();controls?.dispose();unitPicking?.dispose();ambience?.dispose();
+    resizeObserver?.disconnect();controls?.dispose();unitPicking?.dispose();parking?.dispose();ambience?.dispose();
     for(const geometry of geometries)geometry.dispose();
     for(const material of materials)material.dispose();
     for(const texture of textures){texture?.dispose();texture?.image?.close?.();}
@@ -284,6 +287,7 @@ async function start() {
   }
   scene.add(building);
   state.finish=finishProfile==='referencia'?applyReferenceFinishes(meshes,materials,data.sourceModelSHA256):{profile:'base',changes:[]};
+  const groundHeight=data.visibleBounds.min[1]-.03;
   const shadowLights=[];
   for(const spec of data.lights) {
     let light;
@@ -317,6 +321,7 @@ async function start() {
   controls=new OrbitControls(camera,canvas);
   controls.target.fromArray(data.views.perspectiva.target);controls.enableDamping=false;controls.minDistance=9;controls.maxDistance=900;
   controls.maxPolarAngle=Math.PI;controls.update();
+  if(buyerExperience)controls.screenSpacePanning=false;
   const visibleBounds=new THREE.Box3(new THREE.Vector3().fromArray(data.visibleBounds.min),new THREE.Vector3().fromArray(data.visibleBounds.max));
   const towerBox=new THREE.Box3();
   for(const mesh of meshes)if(mesh.userData.tower===0)towerBox.union(new THREE.Box3().setFromObject(mesh));
@@ -379,6 +384,7 @@ async function start() {
     return true;
   }
   function orientCamera() {
+    if(buyerExperience){camera.position.y=Math.max(camera.position.y,groundHeight+.8);controls.target.y=Math.max(controls.target.y,groundHeight+.8);}
     // Use the same spherical tangent as the base, including the north of the top view.
     const offset=camera.position.clone().sub(controls.target).normalize();
     const horizontal=Math.hypot(offset.x,offset.z);
@@ -441,10 +447,20 @@ async function start() {
   if(state.disposed)return;
   if(units&&units.sourceModelSHA256!==data.sourceModelSHA256)throw Error('As posições dos finais pertencem a outra edição da maquete.');
   if(units)unitPicking=createUnitPicking({scene,canvas,catalog:units,getCamera:()=>camera,getFloor:()=>selectedFloor,
-    onSelect:id=>{
+    onSelect:(id,{activate})=>{
       if(id!==null)setFloor(floorOf(units,unitById(units,id)));
-      unitPicking.select(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id}}));
+      unitPicking.select(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id,activate}}));
     }});
+  // Só a edição que traz o mapa de vagas as mostra; a primeira imagem não espera por elas.
+  const vagas=dados.edicoes[geometryProfile]?.vagas;
+  if(vagas)fetch(new URL(vagas,import.meta.url),{signal:requests.signal}).then(r=>{if(!r.ok)throw Error('vagas.json '+r.status);return r.json();})
+    .then(json=>{if(state.disposed)return;parking=state.parking=createParkingHighlight(scene,json);parking.setSpaces(pendingSpaces);})
+    .catch(error=>{if(!state.disposed)state.parkingError=String(error);});
+  function setParkingSpaces(numbers){
+    if(state.disposed)return false;
+    pendingSpaces=Array.isArray(numbers)?numbers.filter(Number.isInteger):[];
+    return parking?parking.setSpaces(pendingSpaces):null;
+  }
   function setUnitView(side,floor=dados.predio.pavimentoPiloto){
     if(!Object.hasOwn(dados.lados,side))throw Error('Lado do pavimento inválido.');
     if(!units||!units.units.some(unit=>floorOf(units,unit)===floor))throw Error('Pavimento fora do cadastro.');
@@ -465,7 +481,7 @@ async function start() {
     if(state.disposed)return false;
     ambience.setProfile(profile);state.ambience=profile;renderer.render(scene,camera);return true;
   }
-  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,
+  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,setParkingSpaces,
     setAvailableUnits:ids=>unitPicking?.availability.setUnits(ids)??false,
     ambience:initialAmbience,ambienceController:ambience,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,facadeBounds,extraViewBounds,
     invalidateShadows(){

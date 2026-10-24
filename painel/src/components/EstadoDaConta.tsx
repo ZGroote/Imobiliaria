@@ -1,10 +1,10 @@
 'use client'
 import { useState } from 'react'
-import { sendEmailVerification } from 'firebase/auth'
 import { aceitarConvite } from '@/lib/convite'
 import { db } from '@/lib/firebase'
 import { sair, useSessao, type Sessao } from '@/lib/session'
 import { ROTULO_PAPEL } from '@/lib/types'
+import { enviarVerificacaoEmail } from '@/lib/verificacaoEmail'
 
 // Telas de quem está logado mas ainda não pode usar o painel.
 export function EstadoDaConta({ sessao }: { sessao: Exclude<Sessao, { tipo: 'ativo' | 'carregando' | 'fora' }> }) {
@@ -23,7 +23,7 @@ export function EstadoDaConta({ sessao }: { sessao: Exclude<Sessao, { tipo: 'ati
       texto = `Enviamos um link para ${sessao.user.email}. Abra o link e depois clique em "Já confirmei".`
       acoes = <>
         <button disabled={ocupado} onClick={() => agir(reavaliar)} className="btn-primario">Já confirmei</button>
-        <button disabled={ocupado} onClick={() => agir(() => sendEmailVerification(sessao.user), 'Link reenviado.')}
+        <button disabled={ocupado} onClick={() => agir(() => enviarVerificacaoEmail(sessao.user), 'Link reenviado.')}
           className="btn">Reenviar link</button>
       </>
       break
@@ -35,7 +35,7 @@ export function EstadoDaConta({ sessao }: { sessao: Exclude<Sessao, { tipo: 'ati
       break
     case 'sem-acesso':
       titulo = 'Sem acesso'
-      texto = `Não há convite para ${sessao.user.email}. Peça um convite ao administrador do painel.`
+      texto = `Não há convite para ${sessao.user.email}. Peça um convite ao gerente da sua imobiliária ou ao administrador do painel.`
       break
     case 'inativo':
       titulo = 'Acesso desativado'

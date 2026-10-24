@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{base_404}}
+  <title>{{titulo}} · {{nome}}</title>
+  <meta name="description" content="{{descricao}}">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#173f35">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="{{titulo}} · {{nome}}">
+  <meta property="og:description" content="{{descricao}}">
+  <meta property="og:url" content="{{url}}">
+  <meta property="og:image" content="{{dominio}}/institucional/assets/compartilhar.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{nome}}: antes da visita, uma nova perspectiva, com a ilustração de uma maquete">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="assets/marca.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/site.js" defer></script>
+</head>
+<body data-pagina="{{pagina}}">
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <header class="cabecalho">
+    <div class="container barra">
+      <a class="marca" href="index.html" aria-label="{{nome}} — início"><img src="assets/marca.svg" width="34" height="34" alt=""><span>{{nome}}<small>UMA NOVA PERSPECTIVA.</small></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navegacao" hidden>Menu <span aria-hidden="true">☰</span></button>
+      <nav id="navegacao" class="navegacao" aria-label="Navegação principal">
+        <a href="index.html" {{ativo_index}}>A experiência</a>
+        <a href="planos.html" {{ativo_planos}}>Planos</a>
+        <a href="contato.html" {{ativo_contato}}>Contato</a>
+        <a class="botao botao-pequeno" href="/painel">Acessar painel <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main id="conteudo" tabindex="-1">{{conteudo}}</main>
+  <footer class="rodape">
+    <div class="container rodape-topo">
+      <div><a class="marca" href="index.html"><img src="assets/marca.svg" width="30" height="30" alt=""><span>{{nome}}</span></a><p>Um novo jeito de apresentar.<br>Uma forma mais clara de escolher.</p></div>
+      <nav aria-label="Explore o site"><strong>Explore</strong><a href="index.html">A experiência</a><a href="planos.html">Planos</a><a href="contato.html">Contato</a><a href="/maquetes/liv/">LIV Ipanema</a><a href="/painel">Painel administrativo</a></nav>
+      <nav aria-label="Informações legais"><strong>Transparência</strong><a href="termos.html">Termos de uso</a><a href="privacidade.html">Privacidade</a><a href="cookies.html">Cookies e navegação</a></nav>
+      <div><strong>Vamos conversar?</strong><a class="rodape-whats" href="{{whatsapp}}" target="_blank" rel="noopener noreferrer">WhatsApp <span aria-hidden="true">↗</span><span class="sr-only"> em nova aba</span></a><span>{{telefone}}</span></div>
+    </div>
+    <div class="container rodape-base"><span>© 2026 {{nome}}.</span><span>Tecnologia para aproximar pessoas e espaços.</span></div>
+  </footer>
+  <a class="whatsapp-flutuante" href="{{whatsapp}}" target="_blank" rel="noopener noreferrer" aria-label="Conversar pelo WhatsApp, em nova aba"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 11.6a8.1 8.1 0 0 1-12 7.1L3 20l1.4-4.9a8.1 8.1 0 1 1 15.8-3.5Z"/><path d="M8.1 7.6c.3-.3.7-.2.9.2l.8 1.6c.1.3 0 .5-.4.9-.3.3-.3.5 0 .9.6.9 1.5 1.6 2.5 2 .4.2.6.1.9-.3.3-.4.5-.7.8-.6l1.8.9c.4.2.4.5.2.9-.4 1-1.2 1.5-2.3 1.3-2.9-.5-5.9-3.3-6.3-5.7-.2-1 .3-1.8 1.1-2.1Z"/></svg><span>Vamos conversar</span></a>
+</body>
+</html>

@@ -19,6 +19,7 @@ const options = EM_EMULADOR ? configDoEmulador() : configDeProducao({
 
 export const app = getApps().length ? getApp() : initializeApp(options)
 export const auth = getAuth(app)
+auth.languageCode = 'pt-BR'
 export const db = getFirestore(app)
 
 // O recarregamento do dev reavalia o módulo; conectar duas vezes lança erro.

@@ -33,7 +33,8 @@ export function useDoc<T>(chave: string | null, ref: () => DocumentReference) {
 // Lista ao vivo paginada por limite crescente: 50, 100, 150... sob um único onSnapshot. Mudou a
 // chave (filtro, agência): volta à primeira página. Enquanto o limite maior não chega, a lista de
 // antes continua na tela (carregando = true) em vez de piscar para "Carregando".
-export function usePaginada<T>(chave: string | null, consulta: () => Query) {
+// `revisao` renova a consulta pelo relógio sem zerar o limite carregado.
+export function usePaginada<T>(chave: string | null, consulta: () => Query, revisao?: number) {
   const [pedido, setPedido] = useState({ chave, limite: PAGINA })
   // O limite é da chave atual. Sem zerar aqui, voltar a um filtro já expandido traria o limite dele.
   if (pedido.chave !== chave) setPedido({ chave, limite: PAGINA })
@@ -46,7 +47,7 @@ export function usePaginada<T>(chave: string | null, consulta: () => Query) {
       (s) => setEstado({ chave, limite, dados: s.docs.map((d) => comId<T>(d)) }),
       (e) => setEstado({ chave, limite, erro: e.code === 'permission-denied' ? 'Sem permissão para ver estes dados.' : e.message }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chave, limite])
+  }, [chave, limite, revisao])
   const r = estado.chave === chave ? estado : { chave, limite: 0, dados: undefined, erro: undefined }
   return {
     dados: r.dados, erro: r.erro,

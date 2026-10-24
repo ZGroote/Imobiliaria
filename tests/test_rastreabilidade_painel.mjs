@@ -1,6 +1,6 @@
 import {test} from 'node:test'
 import assert from 'node:assert/strict'
-import {baseRastreabilidade, corretoresAtivos, criarClienteRastreabilidade, periodo30Dias,
+import {baseRastreabilidade, corretoresAtivos, responsaveisAtivos, criarClienteRastreabilidade, periodo30Dias,
   validarLink, validarRelatorio} from '../painel/src/lib/rastreabilidade.ts'
 import {resumir} from '../rastreabilidade/relatorios.mjs'
 
@@ -32,7 +32,23 @@ test('painel tracking: seleção de corretor não reutiliza responsável e exclu
     {id:'gerA',agencyId:'agA',role:'agency_manager',active:true,name:'Gerente'},
     {id:'old',agencyId:'agA',role:'agent',active:false,name:'Inativo'}]
   assert.deepEqual(corretoresAtivos(users,'agA').map(x=>x.id),['corA'])
+  users.push({id:'staff',role:'operator',active:true,name:'Equipe'},{id:'other',agencyId:'agB',role:'agency_manager',active:true,name:'Outro gestor'})
+  assert.deepEqual(responsaveisAtivos(users,'agA').map(x=>x.id),['corA','gerA'])
+  assert.deepEqual(responsaveisAtivos(users,'agA',true).map(x=>x.id),['corA','gerA','staff'])
   assert.deepEqual(periodo30Dias(new Date('2026-10-04T12:00:00Z')),range())
+})
+
+test('painel tracking: produção exige HTTPS inclusive para endpoints locais',()=>{
+  const previous=process.env.NODE_ENV
+  process.env.NODE_ENV='production'
+  try {
+    for(const url of ['http://localhost:5057','http://127.0.0.1:5057','http://[::1]:5057'])
+      assert.throws(()=>baseRastreabilidade(url))
+    assert.equal(baseRastreabilidade('https://api.example'),'https://api.example')
+  } finally {
+    if(previous===undefined)delete process.env.NODE_ENV
+    else process.env.NODE_ENV=previous
+  }
 })
 
 test('painel tracking: link válido é fechado e vinculado a imóvel/agência/corretor',()=>{

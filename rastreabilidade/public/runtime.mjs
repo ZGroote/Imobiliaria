@@ -3,7 +3,7 @@ import {createMetrics,createDelivery} from './metricas.mjs';
 const opaque=/^[A-Za-z0-9_-]{32,128}$/;
 const modes=new Set(['maquete','planta2d','planta3d','visita']);
 const stages=new Set(['mapa','interior','planta']);
-const navKeys=['pagina','modo','etapa','em','r','p','t','noite'];
+const navKeys=['pagina','modo','etapa','em','r','p','t','noite','geometria','unidades','unidade','estoque','luz','experiencia'];
 const openingKey='tracking.openings.v1',choicePrefix='tracking.choice.v1.',visitorKey='tracking.visitor.v1';
 
 export function validateOpening(value,origin) {
@@ -12,7 +12,8 @@ export function validateOpening(value,origin) {
     ||!['root','forwarded','own_return','uncertain'].includes(value.sourceClass)
     ||!/^[0-9a-f]{12}$/.test(value.publishedBuild)||typeof value.propertyTitle!=='string'
     ||!value.contact||typeof value.contact.brokerName!=='string'
-    ||!(value.contact.whatsappNumber===null||/^[1-9][0-9]{7,14}$/.test(value.contact.whatsappNumber)))throw Error('Abertura inválida');
+    ||!(value.contact.whatsappNumber===null||(typeof value.contact.whatsappNumber==='string'
+      &&/^[1-9][0-9]{7,14}$/.test(value.contact.whatsappNumber))))throw Error('Abertura inválida');
   const base=new URL(origin);let unit;
   for(const page of ['tour','maquete']) {
     const raw=value.destinations?.[page];
@@ -46,6 +47,13 @@ export function shareAddress(current,opening) {
   const source=new URL(current),url=new URL('/acesso.html',source.origin),nav=navigation(current);
   url.search=nav.params.toString();url.searchParams.set('l',opening.shareToken);url.hash=nav.hash;
   return url.href;
+}
+
+export function whatsappAddress(current,opening) {
+  const phone=opening.contact?.whatsappNumber;
+  if(typeof phone!=='string'||!/^[1-9][0-9]{7,14}$/.test(phone))return null;
+  const message=`Olá! Tenho interesse em ${opening.propertyTitle}.\n${shareAddress(current,opening)}`;
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 
 export function frameAddress(destination,outer) {
@@ -88,6 +96,7 @@ export function primarySection(frame,page) {
       }
       const mode=frame.__maq?.modo();return modes.has(mode)?mode:'carregando';
     }
+    if(frame.__livMapAdapter)return frame.__livMapAdapter.ready?'mapa':'carregando';
     const state=frame.__int;
     if(!state||state.MAQ?.anim||state.INT?.voo)return 'carregando';
     const stage=state.ETAPA?.atual;
@@ -100,6 +109,14 @@ export function primarySection(frame,page) {
 
 export function randomId(crypto=globalThis.crypto) {
   return Array.from(crypto.getRandomValues(new Uint8Array(24)),byte=>byte.toString(16).padStart(2,'0')).join('');
+}
+
+export function canonicalAddress(current,publicOrigin){
+  const url=new URL(current),origin=new URL(publicOrigin)
+  const hosts=new Set(['https://imobilaria-deccb-miniaturas.web.app','https://imobilaria-deccb-miniaturas.firebaseapp.com','https://conectaimoveis3d.com.br'])
+  if(url.origin===origin.origin)return null
+  if(!hosts.has(url.origin)||!hosts.has(origin.origin)||origin.href!==origin.origin+'/'||url.pathname!=='/acesso.html')throw Error('Origem inválida')
+  return origin.origin+url.pathname+url.search+url.hash
 }
 
 export function createOpeningStore(storage,random=randomId) {
@@ -149,13 +166,33 @@ export async function boot(win=window,doc=document) {
     }catch{return false;}
   }
   function armFrame(url) {
-    frameRequest={mode:new URL(url).searchParams.get('modo'),before:frame.contentDocument,complete:false,attempted:false};
+    const requested=new URL(url).searchParams;
+    frameRequest={mode:requested.get('modo'),unit:requested.get('unidade'),before:frame.contentDocument,complete:false,attempted:false};
     frame.src=url;
   }
   function initializeFrame() {
     if(!approvedFrame())return false;
+    // EXPERIMENTO-COMPRA-20261023: somente o contato público do responsável validado pela API.
+    if(page==='maquete')frame.contentWindow.__livViewer?.setContact?.({contact:opening.contact,shareUrl:shareAddress(win.location.href,opening)});
     if(!frameRequest||frameRequest.complete)return true;
     if(frame.contentDocument===frameRequest.before)return false;
+    const liv=page==='maquete'&&frame.contentWindow.__livViewer;
+    if(liv) {
+      if(!liv.ready)return false;
+      if(frameRequest.unit&&liv.selectedUnitId!==frameRequest.unit
+        &&liv.units?.units?.some(unit=>unit.id===frameRequest.unit)&&typeof liv.selectUnit==='function')liv.selectUnit(frameRequest.unit);
+      const requested=modes.has(frameRequest.mode)&&liv.selectedUnitId?frameRequest.mode:'maquete';
+      if(liv.mode!==requested&&!frameRequest.attempted&&typeof liv.setMode==='function') {
+        const request=frameRequest;request.attempted=true;
+        // A cena pode estar pronta antes de chegar a relação do apartamento com a planta.
+        void Promise.resolve(liv.setMode(requested)).then(result=>{
+          if(result===false)request.attempted=false;
+        },()=>{request.attempted=false;});
+        return false;
+      }
+      if(liv.mode!==requested||!liv.ready)return false;
+      frameRequest.complete=true;return true;
+    }
     if(page==='maquete'&&modes.has(frameRequest.mode)) {
       const api=frame.contentWindow.__maq;
       if(!api||typeof api.modo!=='function'||typeof api.vaiPara!=='function')return false;
@@ -174,6 +211,8 @@ export async function boot(win=window,doc=document) {
   try {
     config=JSON.parse(el('configRastreabilidade').textContent);
     const api=new URL(config.apiBase),pub=new URL(config.publicOrigin);
+    const canonical=canonicalAddress(win.location.href,config.publicOrigin);
+    if(canonical){win.location.replace(canonical);return;}
     if(pub.origin!==win.location.origin||pub.href!==pub.origin+'/'||api.username||api.password||api.search||api.hash
       ||!(api.protocol==='https:'||(api.protocol==='http:'&&['localhost','127.0.0.1','[::1]'].includes(api.hostname))))throw Error('Configuração inválida');
     config.apiBase=api.href.endsWith('/')?api.href:api.href+'/';
@@ -188,7 +227,8 @@ export async function boot(win=window,doc=document) {
   }
   function failClosed(message) {
     stopped=true;consentEpoch++;ledger?.consent(false);delivery?.clear();frame.hidden=true;frame.removeAttribute('src');status(message);
-    for(const id of ['paginaTour','paginaMaquete','compartilhar','consentimento','escolha'])el(id).hidden=true;
+    for(const id of ['paginaTour','paginaMaquete','compartilhar','consentimento','escolha','whatsapp'])el(id).hidden=true;
+    el('whatsapp').removeAttribute('href');
     el('copiar').disabled=true;
   }
   function saveAnalytics(snapshot) {
@@ -245,11 +285,29 @@ export async function boot(win=window,doc=document) {
   el('recusar').addEventListener('click',()=>changeChoice('no'));
   el('escolha').addEventListener('click',()=>{el('consentimento').hidden=false;el('aceitar').focus();});
 
+  function syncContact() {
+    const link=el('whatsapp'),address=whatsappAddress(win.location.href,opening);
+    let inside=false;
+    try {
+      const inner=page==='maquete'&&frame.contentDocument;
+      const contact=inner?.getElementById?.('buyerContact'),action=inner?.getElementById?.('buyerContactLink');
+      inside=contact?.hidden===false&&action?.hidden===false&&action?.dataset.whatsappFloating==='true';
+    }catch{}
+    link.hidden=!address||inside;
+    if(address) {
+      link.href=address;
+      link.setAttribute('aria-label',`Conversar com ${opening.contact.brokerName} pelo WhatsApp, em nova aba`);
+      link.title=`WhatsApp de ${opening.contact.brokerName}`;
+    } else link.removeAttribute('href');
+  }
   function syncNavigation() {
     if(!initializeFrame()){ledger?.context(page,'carregando');return;}
     const current=new URL(shareAddress(win.location.href,opening));current.searchParams.set('pagina',page);
     const section=primarySection(frame.contentWindow,page);
     if(page==='maquete'&&modes.has(section))current.searchParams.set('modo',section);
+    const liv=page==='maquete'&&frame.contentWindow.__livViewer;
+    if(liv?.selectedUnitId)current.searchParams.set('unidade',liv.selectedUnitId);
+    else if(liv)current.searchParams.delete('unidade');
     if(page==='tour'&&stages.has(section)) {
       if(section==='mapa')current.searchParams.delete('etapa');else current.searchParams.set('etapa',section);
     }
@@ -258,7 +316,7 @@ export async function boot(win=window,doc=document) {
       const link=new URL(current);link.searchParams.set('pagina',targetPage);el(id).href=link.href;el(id).hidden=false;
       if(targetPage===page)el(id).setAttribute('aria-current','page');else el(id).removeAttribute('aria-current');
     }
-    ledger?.context(page,section);
+    syncContact();ledger?.context(page,section);
   }
   function navigate(nextPage,destination) {
     if(!opening||stopped)return;
@@ -337,6 +395,7 @@ export async function boot(win=window,doc=document) {
       choice=get(sessionStorage,choiceKey);
       const url=shareAddress(win.location.href,opening);win.history.replaceState(null,'',url);
       page=new URL(url).searchParams.get('pagina');el('titulo').textContent=opening.propertyTitle;doc.title=opening.propertyTitle;
+      syncContact();
       el('copiar').disabled=false;el('compartilhar').hidden=!win.navigator.share;
       consentUI();frame.hidden=false;armFrame(frameAddress(opening.destinations[page],url));status('');
       if(choice==='yes')void startMetrics();

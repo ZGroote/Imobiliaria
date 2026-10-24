@@ -35,6 +35,7 @@ function motor(){
 const PROIBIDOS=[
   [/ipanema/i,'o nome do empreendimento'],
   [/\bLIV\b/,'o nome do empreendimento'],
+  [/São Carlos/,'a cidade do empreendimento'],
   [/['"`](canto|meio)['"`]/,'uma tipologia do LIV'],
   [/['"`](lazer|estacionamento)['"`]/,'um lado da fachada do LIV'],
   [/['"`](varandas|acesso|portaria)['"`]/,'uma vista própria do LIV'],
@@ -56,7 +57,7 @@ test('MG-1: o motor não tem nome, medida, caminho nem número do LIV', () => {
 
 test('MG-1: os dados do LIV têm o que o motor lê', () => {
   assert.equal(dados.schema,'maquete-dados-v1');
-  for(const chave of ['nome','nomeCurto','arquivo','pagina','mapa','edicoes','edicaoPadrao','edicaoDaMaquete','predio','unidades','lados',
+  for(const chave of ['nome','cidade','nomeCurto','arquivo','pagina','mapa','edicoes','edicaoPadrao','edicaoDaMaquete','predio','unidades','lados',
     'tipologias','vistasDaCena','vistasExtras','vistaDoPavimento','vistaDaFachada'])assert.ok(chave in dados,chave);
   assert.ok(dados.edicoes[dados.edicaoPadrao]&&dados.edicoes[dados.edicaoDaMaquete]);
   for(const t of Object.values(dados.tipologias))assert.match(t.planSHA256,/^[a-f0-9]{64}$/);
