@@ -34,6 +34,8 @@
         </div>
         <button type="button" id="plan2dMeasurements" class="plan2d-measures-toggle" hidden aria-pressed="false" aria-label="Mostrar medidas estimadas da planta 2D" title="Mostrar ou ocultar medidas aproximadas"><span aria-hidden="true">↔</span> Medidas</button>
         <p id="plan2dMeasurementsNote" class="plan2d-measures-note" hidden title="Estimativas entre eixos das paredes, inferidas a partir da planta ilustrativa.">Medidas aproximadas</p>
+        <button type="button" id="plan2dRuler" class="plan2d-ruler-toggle" hidden aria-pressed="false" aria-controls="plan2dRulerControls">Régua</button>
+        <div id="plan2dRulerControls" class="plan2d-ruler-controls" hidden><p id="plan2dRulerHint" role="status" aria-live="polite"></p><div><button type="button" id="plan2dRulerUndo" aria-label="Desfazer última medida" title="Desfazer última medida" disabled>Desfazer</button><button type="button" id="plan2dRulerClear" aria-label="Limpar todas as medidas" title="Limpar todas as medidas" disabled>Limpar</button><button type="button" id="plan2dRulerDone">Concluir</button></div><small>Setas movem o cursor · Enter marca · Esc cancela o ponto</small></div>
         <div class="overlay" id="loading" role="status">
           <div><span class="loading-mark" aria-hidden="true"></span><p id="loadingText">Abrindo a maquete…</p><progress id="downloadProgress" aria-label="Download do recurso atual" hidden></progress><div class="recovery-actions"><button type="button" id="retry" hidden>Tentar novamente</button><button type="button" id="fallback" hidden>Ver planta 2D</button></div></div>
         </div>
@@ -58,7 +60,7 @@
           <p id="selectedApartmentSale" class="apartment-sale"></p><p id="selectedApartmentMeta" class="apartment-meta"></p>
           <p id="selectedApartmentNote" class="apartment-note" role="status"></p>
           <button type="button" id="btnApartmentInfo" class="apartment-info">Ficha completa</button>
-          <section id="inlineUnitDetails" class="inline-unit-details" hidden aria-labelledby="inlineDetailsTitle"><h3 id="inlineDetailsTitle">Ficha completa</h3></section>
+          <details id="inlineUnitDetails" class="inline-unit-details" hidden><summary id="inlineDetailsTitle">Ficha completa</summary></details>
         </section>
       </div>
       <div class="project-action-row">

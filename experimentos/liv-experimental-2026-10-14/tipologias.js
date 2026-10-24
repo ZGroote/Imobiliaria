@@ -22,14 +22,32 @@ const meioMeasurements=[
   {name:'Sala TV · trecho',x:.4375,y:.636,widthMm:1750,depthMm:2400},
   {name:'Varanda/serviço',x:.2275,y:.340,widthMm:3000,depthMm:1450},
 ];
+// Registro da imagem comercial (1000²) e cantos entre eixos aparentes das paredes.
+// Mesmas referências das medidas acima; não são cotas executivas.
+const cantoRuler={width:1000,height:1000,mmPerPixel:11,paths:[
+  [[105,250],[349,250],[349,576],[105,576]],
+  [[349,250],[590,250],[590,484],[349,484]],
+  [[187,576],[308,576],[308,795],[187,795]],
+  [[308,576],[429,576],[429,795],[308,795]],
+  [[590,225],[876,225],[876,362],[590,362]],
+  [[590,362],[876,362],[876,716],[650,716],[650,795],[429,795],[429,576],[349,576],[349,484],[590,484]],
+]};
+const meioRuler={width:1000,height:1000,mmPerPixel:11.31422162724767,paths:[
+  [[95,275],[360,275],[360,405],[95,405]],
+  [[360,302],[596,302],[596,530],[360,530]],
+  [[596,302],[720,302],[720,530],[596,530]],
+  [[720,389],[949,389],[949,676],[720,676],[720,621],[596,621],[596,530],[720,530]],
+  [[515,621],[720,621],[720,742],[515,742]],
+  [[95,405],[360,405],[360,530],[596,530],[596,621],[515,621],[515,742],[95,742]],
+]};
 // Catalog choices describe the published layouts; no final/unit assignment is inferred.
 export const typologies=Object.freeze({
   canto:Object.freeze({id:'canto',label:'Canto',area:'47,59 m²',image:'plantas2d/canto.jpg',
     imageMask:'plantas2d/canto-recorte.svg',entryMarker:{x:.7255,y:.737},
-    imageAlt:'Planta 1 de canto do LIV Ipanema, área publicada 47,59 m², incluindo varanda',measurements:cantoMeasurements}),
+    imageAlt:'Planta 1 de canto do LIV Ipanema, área publicada 47,59 m², incluindo varanda',measurements:cantoMeasurements,ruler:cantoRuler}),
   meio:Object.freeze({id:'meio',label:'Meio',area:'47,5–47,89 m²',image:'plantas2d/meio.jpg',
     imageMask:'plantas2d/meio-recorte.svg',entryMarker:{x:.267,y:.7625},
-    imageAlt:'Planta 2 de meio do LIV Ipanema, área publicada de 47,5 a 47,89 m², incluindo varanda',measurements:meioMeasurements}),
+    imageAlt:'Planta 2 de meio do LIV Ipanema, área publicada de 47,5 a 47,89 m², incluindo varanda',measurements:meioMeasurements,ruler:meioRuler}),
 });
 export function typology(id){
   if(!Object.hasOwn(typologies,id))throw Error('Tipologia inválida.');

@@ -73,7 +73,8 @@ let generation=0,frameKind=null,openedOnce=false;
 // browsing contexts in place: moving an iframe would reload its resources.
 const sceneCache=new Map(),sceneLoads=new Map();
 let cacheEpoch=0,cacheStopped=false,warmJob=null,warmHandle=null,sceneSerial=0;
-const planControls={in:document.getElementById('plan2dZoomIn'),out:document.getElementById('plan2dZoomOut'),reset:document.getElementById('plan2dReset'),value:document.getElementById('plan2dZoomValue'),measurements:document.getElementById('plan2dMeasurements'),measurementsNote:document.getElementById('plan2dMeasurementsNote')};
+const planControls={in:document.getElementById('plan2dZoomIn'),out:document.getElementById('plan2dZoomOut'),reset:document.getElementById('plan2dReset'),value:document.getElementById('plan2dZoomValue'),measurements:document.getElementById('plan2dMeasurements'),measurementsNote:document.getElementById('plan2dMeasurementsNote'),
+  ruler:document.getElementById('plan2dRuler'),rulerControls:document.getElementById('plan2dRulerControls'),rulerHint:document.getElementById('plan2dRulerHint'),rulerUndo:document.getElementById('plan2dRulerUndo'),rulerClear:document.getElementById('plan2dRulerClear'),rulerDone:document.getElementById('plan2dRulerDone')};
 let plans=createPlan2D(stage,planControls);
 const mapPanel=document.getElementById('mapPanel');
 let mapFrame=null,mapLoad=null,mapReturnMode=null,mapURL=null;
@@ -285,7 +286,7 @@ function updateDetails(){
 }
 function showDetails(){
   if(!selectedApartment())return false;
-  if(inlineDetails&&!inlineDetails.hidden){state.panelCollapsed=false;updateInfoPanel();return true;}
+  if(inlineDetails&&!inlineDetails.hidden){inlineDetails.open=true;state.panelCollapsed=false;updateInfoPanel();return true;}
   if(!detailsDialog.open){updateDetails();detailsDialog.showModal();return true;}return false;
 }
 function busy(text,{warm=false}={}) {

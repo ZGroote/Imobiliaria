@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {test} from 'node:test';
 import vm from 'node:vm';
+import * as planRuler from './plan-ruler.js';
 import {typology} from './tipologias.js';
 import {unitById} from './unidades.js';
 import {expandBuildingCatalog,floorOf,floorLabel,unitScope} from './catalogo-unidades.js';
@@ -34,7 +35,7 @@ const source=readFileSync(new URL('./viewer.js',import.meta.url),'utf8')
   .replace(/^import .*;\r?\n/gm,'').replaceAll('import.meta.url','moduleURL')
   .replace("import('./estoque-runtime.js')",'loadStockSDK()');
 const uiSource=readFileSync(new URL('./unit-ui.js',import.meta.url),'utf8').replace(/^import .*;\r?\n/gm,'').replace('export function','function');
-const planSource=readFileSync(new URL('./planta2d.js',import.meta.url),'utf8').replaceAll('export function','function');
+const planSource=readFileSync(new URL('./planta2d.js',import.meta.url),'utf8').replace(/^import .*;\r?\n/gm,'').replaceAll('export function','function');
 
 class Element {
   constructor(tag='div'){this.tagName=tag.toUpperCase();this.dataset={};this.attributes={};this.children=[];
@@ -97,7 +98,7 @@ function harness({search='?backend=webgl&unidades=edificio',fetchData=()=>emptyC
     }
     return node;
   };
-  const document={getElementById:element,createElement,querySelector:()=>element('mapLink'),
+  const document={getElementById:element,createElement,createElementNS:(_,tag)=>{const node=createElement(tag);node.ownerDocument=document;return node;},querySelector:()=>element('mapLink'),
     querySelectorAll:selector=>selector==='[data-mode]'?modes:selector==='[data-unit-open]'?unitButtons:[]};
   const location={search,pathname:'/maquete-liv-ipanema.html',origin:'http://localhost',hostname:'localhost'};
   const context=vm.createContext({document,location,URL,URLSearchParams,AbortController,performance,setTimeout,clearTimeout,
@@ -107,7 +108,7 @@ function harness({search='?backend=webgl&unidades=edificio',fetchData=()=>emptyC
       observe(node){this.observed.add(node);}disconnect(){this.observed.clear();}notify(){this.callback();}},
     navigator:{},matchMedia:query=>query.includes('min-width: 1000px')?inlineMedia:{matches:false},sessionStorage:{getItem:()=>saved?JSON.stringify(saved):null,setItem:(key,value)=>calls.push({name:'saved-session',value:JSON.parse(value)})},moduleURL:'http://localhost/viewer.js',
     transfers:{pause:async()=>{},prioritize:async()=>{},start:async()=>{},getState:()=>({})},showTransferStatus(){},
-    createBuyerUI,typology,layout:typology,unitById,floorOf,floorLabel,unitScope,requestedEdition,attachCommercial,saleOf,saleLabel,priceLabel,requestedAmbience,AMBIENCES,attachRelations,attachStock,availableUnitIds,
+    ...planRuler,createBuyerUI,typology,layout:typology,unitById,floorOf,floorLabel,unitScope,requestedEdition,attachCommercial,saleOf,saleLabel,priceLabel,requestedAmbience,AMBIENCES,attachRelations,attachStock,availableUnitIds,
     // The viewer and data validators are real; DOM details, rendering and network are controlled boundaries.
     loadStockSDK:async()=>{
       calls.push({name:'estoque-runtime.js',ready:context.__livViewer.ready});
@@ -450,11 +451,13 @@ test('ficha ocupa o painel no desktop e retorna ao modal ao diminuir a tela',asy
   assert.equal(slot.hidden,true);
   app.state.selectUnit(pilot.units[0].id);
   assert.equal(slot.hidden,false);assert.equal(body.parentElement,slot);
+  assert.equal(slot.open,false);
   await app.state.setMode('planta3d');
   assert.equal(body.parentElement,slot);assert.equal(app.element('unitDetails').open,false);
   assert.equal(app.element('interiorUnitTitle').textContent,'Apartamento TESTE 01');
   await app.element('toggleProjectPanel').click();
   await app.element('btnApartmentInfo').click();
+  assert.equal(slot.open,true);
   assert.equal(app.state.panelCollapsed,false);assert.equal(app.element('unitDetails').open,false);
   app.setInlineDetails(false);
   assert.equal(slot.hidden,true);assert.equal(body.parentElement,app.element('modalUnitDetails'));
@@ -650,6 +653,52 @@ test('medidas permanecem opcionais nas duas plantas e disponíveis com as inform
   await app.state.openMap();assert.equal(button.hidden,true);assert.equal(note.hidden,true);await app.state.closeMap();
   assert.equal(button.hidden,false);assert.equal(button.getAttribute('aria-pressed'),'false');
   assert.equal(meio.querySelector('.plan2d-measurements').hidden,true);app.state.dispose();
+});
+
+test('régua usa dois toques, mantém cotas sob zoom e separa medições das duas plantas',async()=>{
+  const app=harness({fetchData:name=>name==='comercial.json'?emptyCommercial:dualRelations()});
+  const bounds={width:1000,height:700,left:0,top:0};app.element('stage').getBoundingClientRect=()=>bounds;
+  await waitFor(()=>app.state.relationStatus==='fornecido');app.state.selectUnit(pilot.units[0].id);await app.state.setMode('planta2d');
+  const layer=app.element('stage').children.find(node=>node.dataset.plan==='canto');layer.getBoundingClientRect=()=>bounds;
+  const ruler=app.element('plan2dRuler'),hint=app.element('plan2dRulerHint');
+  assert.equal(ruler.hidden,false);await ruler.click();assert.equal(ruler.getAttribute('aria-pressed'),'true');
+  const tap=async(x,y)=>{
+    const view=app.state.getCacheState().plans.plans.canto;
+    const p=planRuler.planToScreen({x,y},view,bounds,typology('canto').ruler),event={pointerId:1,button:0,clientX:p.x+500,clientY:p.y+350,preventDefault(){}};
+    await layer.dispatch('pointerdown',event);await layer.dispatch('pointerup',event);
+  };
+  await tap(108,253);assert.match(hint.textContent,/Primeiro ponto marcado no canto/);
+  await app.element('plan2dZoomIn').click();await tap(349,250);
+  const plans=()=>app.state.getCacheState().plans.plans;
+  assert.equal(plans().canto.rulerMeasures.length,1);assert.equal(plans().canto.rulerMeasures[0].a.x,105);
+  assert.match(hint.textContent,/2,68 m/);await app.element('plan2dZoomIn').click();
+  assert.equal(plans().canto.rulerMeasures[0].b.x,349);
+  await app.state.setMode('maquete');assert.equal(ruler.hidden,true);assert.equal(app.element('plan2dRulerControls').hidden,true);
+  app.state.selectUnit(pilot.units[1].id);await app.state.setMode('planta2d');assert.equal(plans().meio.rulerMeasures.length,0);
+  await app.state.setMode('maquete');app.state.selectUnit(pilot.units[0].id);await app.state.setMode('planta2d');
+  assert.equal(plans().canto.rulerMeasures.length,1);await ruler.click();await app.element('plan2dRulerUndo').click();
+  assert.equal(plans().canto.rulerMeasures.length,0);assert.equal(app.element('plan2dRulerUndo').disabled,true);
+  await tap(105,250);await layer.dispatch('keydown',{key:'Escape',preventDefault(){}});
+  assert.equal(app.element('plan2dRulerUndo').disabled,true);
+  for(const key of ['Enter','ArrowRight','ArrowRight','ArrowDown','Enter'])await layer.dispatch('keydown',{key,shiftKey:true,preventDefault(){}});
+  assert.equal(plans().canto.rulerMeasures.length,1);await app.element('plan2dRulerClear').click();
+  assert.equal(plans().canto.rulerMeasures.length,0);app.state.dispose();
+});
+
+test('arrastar, pinçar ou cancelar toque não grava pontos da régua',async()=>{
+  const app=harness({fetchData:name=>name==='comercial.json'?emptyCommercial:relationFixture()});
+  const bounds={width:1000,height:700,left:0,top:0};app.element('stage').getBoundingClientRect=()=>bounds;
+  await waitFor(()=>app.state.relationStatus==='fornecido');app.state.selectUnit(pilot.units[0].id);await app.state.setMode('planta2d');
+  const layer=app.element('stage').children.find(node=>node.dataset.plan==='canto');layer.getBoundingClientRect=()=>bounds;
+  await app.element('plan2dRuler').click();
+  const event=(id,x,y)=>({pointerId:id,button:0,clientX:x,clientY:y,preventDefault(){}});
+  await layer.dispatch('pointerdown',event(1,300,250));await layer.dispatch('pointermove',event(1,350,270));await layer.dispatch('pointerup',event(1,350,270));
+  assert.equal(app.element('plan2dRulerUndo').disabled,true);
+  await layer.dispatch('pointerdown',event(1,300,250));await layer.dispatch('pointerdown',event(2,400,250));
+  await layer.dispatch('pointermove',event(2,500,250));await layer.dispatch('pointerup',event(1,300,250));await layer.dispatch('pointerup',event(2,500,250));
+  assert.equal(app.element('plan2dRulerUndo').disabled,true);
+  await layer.dispatch('pointerdown',event(1,300,250));await layer.dispatch('pointercancel',event(1,300,250));
+  assert.equal(app.element('plan2dRulerUndo').disabled,true);app.state.dispose();
 });
 
 test('escolher um apartamento prepara só o interior dele',async()=>{
