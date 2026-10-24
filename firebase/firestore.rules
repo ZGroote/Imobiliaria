@@ -119,7 +119,7 @@ service cloud.firestore {
     // ── properties ──
     function pubFields() {
       return ['tourUrl', 'maqueteUrl', 'publicUrl', 'publishedBuild', 'previousBuild',
-              'publishedRequestId', 'previousRequestId', 'publishedAt', 'lastPublicationId'];
+              'publishedRequestId', 'previousRequestId', 'publishedAt', 'lastPublicationId', 'publicationReady'];
     }
     // O que uma reversão pode mudar. Todo outro campo de publicação (URLs, ponteiros) fica igual.
     function rollbackFields() {
@@ -155,18 +155,35 @@ service cloud.firestore {
                 && !diffKeys().hasAny(pubFields().removeAll(rollbackFields())))
           || (auditedAs(pid, 'urls')
                 && keeps(['publishedBuild', 'previousBuild', 'publishedRequestId', 'previousRequestId',
-                          'publishedAt', 'lastPublicationId']));
+                          'publishedAt', 'lastPublicationId', 'publicationReady']));
+    }
+    function publicationPrepared(p) {
+      return p.get('publicationReady', p.get('publishedBuild', '') is string && p.get('publishedBuild', '') != '');
+    }
+    function visibilityAudit(pid) {
+      let log = getAfter(/databases/$(db)/documents/auditLogs/$(d().lastAuditId)).data;
+      return auditedAs(pid, d().status == 'active' ? 'publication:resume' : 'publication:pause')
+        && log.entityType == 'property' && log.agencyId == resource.data.agencyId && log.visibility == 'agency'
+        && log.before.status == resource.data.status && log.after.status == d().status;
+    }
+    function publicationVisibilityEdit(pid) {
+      return isManager(resource.data.agencyId) && changed('status') && publicationPrepared(resource.data)
+        && resource.data.status in ['active', 'inactive'] && d().status in ['active', 'inactive']
+        && changesOnly(['status', 'lastAuditId', 'updatedAt']) && visibilityAudit(pid);
     }
     match /properties/{pid} {
       allow read: if isStaff() || inAgency(resource.data.agencyId);
       allow create: if isStaff() && born() && !d().keys().hasAny(pubFields())
         && exists(/databases/$(db)/documents/agencies/$(d().agencyId));
       allow update: if stamped() && keeps(['createdAt'])
-        && ((isAdmin() && (!diffKeys().hasAny(pubFields()) || publicationOk(pid)))
+        // Só o gerente da própria imobiliária pausa/reativa conteúdo preparado, com auditoria atômica.
+        && (publicationVisibilityEdit(pid)
+          || ((!changed('status') || !publicationPrepared(resource.data))
+            && ((isAdmin() && (!diffKeys().hasAny(pubFields()) || publicationOk(pid)))
           || (isStaff() && keeps(['agencyId']) && !diffKeys().hasAny(pubFields()))
           || (isManager(resource.data.agencyId)
               && changesOnly(['assignedAgentId', 'updatedAt'])
-              && get(userPath(d().assignedAgentId)).data.agencyId == resource.data.agencyId));
+              && get(userPath(d().assignedAgentId)).data.agencyId == resource.data.agencyId))));
       allow delete: if false;                          // arquivar: status = archived
     }
 
@@ -429,6 +446,9 @@ service cloud.firestore {
 
       allow update: if keeps(['agencyId', 'requestedBy', 'productionMode', 'createdAt']) && stamped()
         && (!changed('status') || auditedAs(rid, 'status:' + to()))
+        // O relógio do Kanban só começa ao publicar; editar o pedido não reinicia as 48h.
+        && (!changed('publishedAt')
+            || (from() != 'published' && to() == 'published' && d().publishedAt == request.time))
         // trocar o preview tira o pedido de approved: a aprovação é de um build
         && (!changed('preview') || !(to() in ['approved', 'published']))
         // o imóvel vinculado é sempre da imobiliária do pedido, na criação e em toda troca

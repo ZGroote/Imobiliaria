@@ -28,6 +28,9 @@ type Resultado<T> = { carregando: boolean; dado?: T; erro?: string }
 
 export function RastreabilidadeImovel({ p }: { p: Property }) {
   const perfil = usePerfil()
+  if (p.status !== 'active') return <Cartao titulo="Links individuais">
+    <p className="text-sm text-slate-600">A publicação está fora do ar. Os links e o histórico foram preservados e voltam a ficar disponíveis ao colocar o imóvel no ar novamente.</p>
+  </Cartao>
   // Trocar imóvel ou papel encerra operações e descarta dados do escopo anterior.
   return <LinksERelatorio key={`${p.id}:${p.agencyId}:${perfil.id}:${perfil.role}:${perfil.agencyId ?? ''}`} p={p} perfil={perfil} />
 }

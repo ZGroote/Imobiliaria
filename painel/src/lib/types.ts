@@ -39,6 +39,7 @@ export interface Property {               // properties/{id}
   assignedAgentId?: string
   pipelineUnitId?: string                 // plantas_fornecidas/<id>/; também é o slug público
   status: 'active' | 'inactive' | 'archived'
+  publicationReady?: boolean             // há conteúdo preparado, inclusive publicação avulsa do servidor
   tourUrl?: string; maqueteUrl?: string; publicUrl?: string
   publishedBuild?: string; previousBuild?: string
   publishedRequestId?: string             // o pedido que aprovou o publishedBuild
@@ -85,6 +86,7 @@ export interface Request {                // requests/{id}
   productionInput?: ProductionInput       // só a equipe, só em accepted/production, sempre com AuditLog
   approvedBuild?: string; approvedBy?: string; approvedAt?: Timestamp
   approvedManifestSha256?: string         // o artefato congelado pela aprovação; a promoção parte dele
+  publishedAt?: Timestamp                 // início das 48h no Kanban; ausente nos pedidos antigos
   lastAuditId?: string
   createdAt: Timestamp; updatedAt: Timestamp
 }

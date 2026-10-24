@@ -215,7 +215,8 @@ export interface AuditLog {               // auditLogs/{id}; só cresce
 |---|---|
 | requests | agencyId, updatedAt ↓ |
 | requests | agencyId, status, updatedAt ↓ |
-| requests | status, updatedAt ↓ (Kanban) |
+| requests | status, updatedAt ↓ (Kanban); status, publishedAt ↓ (Publicado: últimas 48h) |
+| properties | agencyId, status, publicationReady (contador de publicações ativas) |
 | properties | agencyId, status, updatedAt ↓ |
 | requestAssets | agencyId, requestId, createdAt |
 | auditLogs | agencyId, visibility, entityId, timestamp ↓ |
@@ -820,7 +821,31 @@ firebase.painel.json           site imobilaria-deccb-painel (só hosting)
   - Produção: `accepted`, `production`
   - Revisão: `internal_review`
   - Aprovação: `agency_review`, `approved`
-  - Publicado: `published`
+  - Publicado: `published`, durante as 48h após `requests.publishedAt`. Depois sai só do Kanban;
+    o pedido e os registros de publicação continuam no histórico. Pedidos antigos sem esse campo
+    ficam fora da coluna. A consulta aplica o corte antes da paginação e do contador; o relógio
+    reconsulta no vencimento dos cartões visíveis, ao voltar à janela e a cada minuto para atualizar
+    também o total além da página, preservando a quantidade de cartões carregada.
+
+Na lista de imóveis e na ficha, somente o gerente da própria imobiliária altera a visibilidade.
+A chave fica cinza à esquerda quando desligada e verde à direita quando ligada. Administrador,
+operador e corretor consultam o estado, sem poder alterá-lo, inclusive por acesso direto ao banco.
+Essas ações alternam `properties.status` entre `inactive` e `active`, com AuditLog atômico.
+O servidor consulta esse estado em cada abertura de página pública e de link individual, incluindo encaminhamentos;
+os tokens, seus prazos, os builds e o histórico não são alterados. Reativar permite usar os mesmos
+endereços novamente, enquanto o link não tiver sido revogado ou expirado por suas próprias regras.
+O prazo de 48h dos cartões do Kanban não muda ao pausar ou reativar um imóvel.
+Registrar ou reverter um build preserva o estado escolhido pelo gerente.
+Os HTMLs públicos do LIV são servidos pela função, com consulta privada ao Firestore e sem cache;
+o Hosting entrega os demais recursos e não publica esses HTMLs como arquivos estáticos.
+
+`publicationReady: true` identifica conteúdo preparado, inclusive publicação avulsa cadastrada
+no servidor (LIV). Uma publicação convencional grava esse campo junto com o build aprovado.
+A implantação preenche somente esse marcador nos imóveis existentes cujo conteúdo foi conferido;
+não fixa o build do LIV no documento, para preservar a atualização pela configuração do servidor.
+`publicationReady: false` prevalece sobre metadados antigos de um Hosting que já foi desativado.
+O contador de publicados exige esse marcador e `status == active`. Imóvel sem conteúdo preparado
+mostra o motivo e acesso às solicitações aprovadas; a ação não declara uma publicação inexistente.
 - **`PublishPanel`** só habilita "Registrar publicação" quando o `estado.json` do site
   mostra o `approvedBuild` no ar com o `approvedManifestSha256`.
 - **`CopyLinkButton`** copia sempre `tourUrl`/`maqueteUrl` (ponteiros), nunca a URL de

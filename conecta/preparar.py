@@ -69,6 +69,18 @@ def prepare(release=RELEASE):
     headers[:] = [rule for rule in headers if rule.get('source') not in INSTITUTIONAL_ROUTES]
     headers.extend({'source': route, 'headers': INSTITUTIONAL_HEADERS} for route in INSTITUTIONAL_ROUTES)
     config['hosting']['cleanUrls'] = False
+    # HTMLs do LIV passam pelo servidor; arquivos estáticos teriam prioridade sobre as rewrites.
+    guarded = ['maquetes/liv', 'liv-classico', 'liv-novo', 'b/liv-ipanema']
+    ignored = config['hosting'].setdefault('ignore', [])
+    rewrites = config['hosting'].setdefault('rewrites', [])
+    for prefix in guarded:
+        pattern = f'{prefix}/**/*.html'
+        if pattern not in ignored:
+            ignored.append(pattern)
+        route = f'/{prefix}' + '{,/**}'
+        rewrites[:] = [rule for rule in rewrites if rule.get('source') != route]
+        rewrites.insert(0, {'source': route, 'function': {
+            'functionId': 'conectaTracking', 'region': 'southamerica-east1'}})
     config_path.write_text(json.dumps(config, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     files = {}
     for path in [*institutional_files, alias_path, config_path]:

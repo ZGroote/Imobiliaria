@@ -43,6 +43,17 @@ Publicar novas alterações somente quando autorizado.
 Novas maquetes podem receber outras entradas em `/maquetes/<nome>/`. Este ajuste
 cria a entrada do LIV; não acrescenta uma tela de cadastro de URLs ao painel.
 
+Desde 24/10, os HTMLs do LIV (entrada pública, clássico, novo e builds anteriores)
+são servidos pela função `conectaTracking`, que consulta a disponibilidade no Firestore
+em cada abertura. O preparador exclui esses HTMLs do Hosting estático e instala as
+rewrites; os originais permanecem no payload para compilar a função. A pausa é exclusiva
+do gerente da imobiliária e também bloqueia os links individuais. Reativar recupera
+os mesmos endereços. Respostas dinâmicas não são armazenadas em cache.
+Ao atualizar HTMLs do LIV, compile e publique a função junto com o Hosting; somente
+os recursos estáticos continuam sendo publicados diretamente pelo Hosting. Mudanças
+em páginas existentes exigem republicar a função; novos recursos/builds devem estar
+disponíveis no Hosting antes de a função apontar para eles.
+
 A fachada foi publicada no domínio próprio em 23/10/2026. Os cabeçalhos CSP e
 `noindex` são limitados às páginas institucionais e a `/institucional/**`, sem
 alterar as políticas do visualizador ou do acesso por token. O `robots.txt` do

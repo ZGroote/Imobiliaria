@@ -1,4 +1,5 @@
-import { collection, doc, getDoc, serverTimestamp, writeBatch, type Firestore } from 'firebase/firestore'
+import { collection, doc, getDoc, runTransaction, serverTimestamp, writeBatch, type Firestore } from 'firebase/firestore'
+import { temPublicacao } from './listas.ts'
 import { comandoPromover, comandoReverter, conferirNoAr, lerEstado, linksPublicos, type Buscar } from './publicacao.ts'
 import { noBatch } from './status.ts'
 import type { Property, Request } from './types.ts'
@@ -42,12 +43,34 @@ export async function registrarPublicacao(db: Firestore, uid: string, r: Request
     ...(p.publishedBuild ? { previousBuild: p.publishedBuild } : {}), ...links,
     publishedBy: uid, publishedAt: serverTimestamp(),
   })
-  noBatch(b, db, uid, r, 'published', {}, { build })
+  noBatch(b, db, uid, r, 'published', { publishedAt: serverTimestamp() }, { build })
   b.update(doc(db, 'properties', p.id), {
+    publicationReady: true,
     publishedBuild: build, ...anterior, publishedRequestId: r.id, publishedAt: serverTimestamp(),
     ...links, publicUrl: links.tourUrl, lastPublicationId: pub.id, updatedAt: serverTimestamp(),
   })
   return b.commit()
+}
+
+// A API de acesso revalida properties.status em toda abertura, inclusive dos encaminhamentos.
+// Pausar não revoga tokens nem altera o build: os mesmos links voltam quando o imóvel é reativado.
+export function alterarDisponibilidadePublicacao(db: Firestore, uid: string, propertyId: string, publicar: boolean) {
+  const ref = doc(db, 'properties', propertyId)
+  return runTransaction(db, async (t) => {
+    const s = await t.get(ref), p = s.data()
+    if (!p) throw new Error('Imóvel não encontrado.')
+    if (!temPublicacao(p)) throw new Error('Este imóvel ainda não tem conteúdo preparado para publicar.')
+    if (p.status === 'archived') throw new Error('Desarquive o imóvel antes de alterar sua publicação.')
+    const status = publicar ? 'active' : 'inactive'
+    if (p.status === status) return
+    const log = doc(collection(db, 'auditLogs'))
+    t.set(log, {
+      agencyId: p.agencyId, userId: uid, entityType: 'property', entityId: propertyId,
+      action: publicar ? 'publication:resume' : 'publication:pause', visibility: 'agency',
+      before: { status: p.status }, after: { status }, timestamp: serverTimestamp(),
+    })
+    t.update(ref, { status, lastAuditId: log.id, updatedAt: serverTimestamp() })
+  })
 }
 
 // A volta confere o mesmo que a publicação: o artefato que volta é o que o pedido anterior aprovou,
