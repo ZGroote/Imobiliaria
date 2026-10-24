@@ -3,7 +3,8 @@
 Entrada institucional do domínio `conectaimoveis3d.com.br` no Hosting existente
 `imobilaria-deccb-miniaturas`, projeto `imobilaria-deccb`.
 
-- `/`: página em construção.
+- `/`: site institucional com apresentação, planos sob consulta, contato por
+  WhatsApp, termos de uso, privacidade e cookies.
 - `/painel` e `/login`: encaminham para o login existente do painel administrativo.
 - `/maquetes/liv/`: maquete clássica com endereço próprio; usa os mesmos módulos e
   recursos de `/liv-classico/`, sem copiar modelos. Os endereços anteriores continuam válidos.
@@ -27,8 +28,10 @@ As mudanças estão marcadas com `EXPERIMENTO-COMPRA-20261023`; instruções de 
 e recuperação em `../experimentos/liv-experimental-2026-10-14/EXPERIMENTO-COMPRA.md`.
 
 Preparar: `python conecta/preparar.py`. Testar: `python -m unittest discover -s tests -p test_conecta.py`.
-O preparador preserva a entrada e a configuração anteriores em
-`publicacao/liv-duplo-20261017/backup-antes-conecta-20261022/`, e registra os hashes em
+O preparador monta as fontes de `fachada/`, instala os recursos em
+`/institucional/assets/` e preserva os arquivos do produto. A entrada e a
+configuração anteriores ficam em `backup-antes-fachada-20261023/` no pacote;
+o backup original de 22/10 também permanece. Os hashes ficam em
 `conecta-build.json`. A configuração de deploy é a do próprio pacote,
 `publicacao/liv-duplo-20261017/firebase.json`; a configuração raiz publica outro produto.
 
@@ -39,6 +42,12 @@ Publicar novas alterações somente quando autorizado.
 
 Novas maquetes podem receber outras entradas em `/maquetes/<nome>/`. Este ajuste
 cria a entrada do LIV; não acrescenta uma tela de cadastro de URLs ao painel.
+
+A fachada foi publicada no domínio próprio em 23/10/2026. Os cabeçalhos CSP e
+`noindex` são limitados às páginas institucionais e a `/institucional/**`, sem
+alterar as políticas do visualizador ou do acesso por token. O `robots.txt` do
+preview isolado não é copiado para o domínio compartilhado. Registro e comando
+de atualização em [fachada/PUBLICACAO.md](../fachada/PUBLICACAO.md).
 
 O painel foi reativado e a API dos links individuais foi publicada. Os links de
 corretores e equipe são criados em Imóveis → LIV Ipanema → Links individuais.

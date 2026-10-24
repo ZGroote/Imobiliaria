@@ -14,6 +14,9 @@ do produto. O v15 (`renderizador/`) saiu do `HEAD` no #49: o histórico do git �
 
 - **Painel** (`painel/`): Next.js estático no Firebase Hosting, com Firestore e regras em
   `firebase/`. Arquitetura e estado de produção: [tasks/painel/proposta.md](tasks/painel/proposta.md).
+- **Site institucional** (`fachada/`): apresentação, planos sob consulta, contato pelo WhatsApp
+  e rascunhos dos documentos de uso. [Publicação provisória](https://conectaimoveis3d.com.br);
+  execução e configuração: [fachada/README.md](fachada/README.md).
 - **Publicação de imóveis**: `pipeline/build_imovel.py` gera o build; `pipeline/publicar_imovel.py`
   monta o preview e o live do site de imóveis (proposta §6–§9).
 

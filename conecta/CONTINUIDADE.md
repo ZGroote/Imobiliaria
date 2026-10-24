@@ -6,10 +6,13 @@ chat. Branch: `liv-melhorado`; remoto: `origin` no repositório
 
 ## O que está no ar
 
-- `https://conectaimoveis3d.com.br/`: página em construção.
-- `/maquetes/liv/`: LIV Clássico; `/painel` e `/login` encaminham ao painel existente.
+- `https://conectaimoveis3d.com.br/`: site institucional, planos sob consulta,
+  contato por WhatsApp e documentos em revisão. Fontes em `fachada/`.
+- `/maquetes/liv/`: LIV Clássico; `/painel` e `/login` encaminham para
+  `https://painel.conectaimoveis3d.com.br/login`. Migração e validações em
+  `conecta/DOMINIO-PAINEL.md`.
 - Projeto Firebase `imobilaria-deccb`; Hosting `imobilaria-deccb-miniaturas`.
-- Hosting `04705d5089ca4a87`; pacote `9ef2933d11872c83`;
+- Hosting `195edc2296de2a20`; pacote clássico `9ef2933d11872c83`;
   build individual `2b69f90177ac`; runtime de acesso `2c01428ab8507259`.
 - API `conectaTracking` ACTIVE, revisão `conectatracking-00010-jor`, região
   `southamerica-east1`, Node 22. **Preservar TRACKING_SECRET versão 2**, tokens
@@ -45,7 +48,8 @@ chat. Branch: `liv-melhorado`; remoto: `origin` no repositório
 - Comparação e reversão: `EXPERIMENTO-COMPRA.md` nessa pasta, com os marcadores
   `EXPERIMENTO-COMPRA-20261023`, `FUNDO-3D-20261023`, `FUNDO-2D-20261023` e
   `DUPLO-TOQUE-20261023`.
-- Entrada institucional: `conecta/README.md`, `index.html` e `preparar.py`.
+- Entrada institucional: fontes em `fachada/`; instalação e preservação do
+  pacote em `conecta/preparar.py`. O antigo `conecta/index.html` foi substituído.
 - API, runtime e preparação: `rastreabilidade/PUBLICACAO.md` e preparadores.
 - O pacote publicado e seus backups/evidências estão em
   `publicacao/liv-duplo-20261017/`, ignorado pelo Git e preservado neste computador.
@@ -76,6 +80,13 @@ e serviço de rastreabilidade, mais três testes Python da entrada Conecta.
 O diff passou na conferência de espaços e na busca por credenciais privadas
 reconhecíveis. Pacotes gerados, backups e configurações sensíveis continuam locais.
 
-O usuário quer evoluir o rosto institucional, hoje em construção, mas ainda não
-definiu a proposta visual/conteúdo. E-mail no domínio é uma intenção futura e
-não foi implantado. Nenhuma dessas intenções autoriza envios a terceiros.
+O rosto institucional foi entregue em 23/10/2026 e está no domínio próprio.
+Planos sob consulta, WhatsApp (16) 98128-8075 e documentos em revisão.
+Os 573 arquivos anteriores, exceto a raiz substituída, mantiveram os hashes no
+Hosting; maquetes, builds, runtime e API preservados. Histórico e validação em
+`fachada/PUBLICACAO.md`. Atualizações usam o pacote existente, nunca um deploy
+isolado só da pasta `fachada/public`, pois isso apagaria as rotas do produto.
+Atualização de 23/10: e-mails implantados com Resend e caixas `avisos`, `contato`
+e `diretoria`. Convites e confirmação de cadastro usam o domínio próprio;
+detalhes em `emails/README.md` e `conecta/DOMINIO-PAINEL.md`. Isso não autoriza
+envios não solicitados a terceiros.
