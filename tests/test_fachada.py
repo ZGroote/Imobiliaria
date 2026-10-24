@@ -68,6 +68,25 @@ class FachadaTests(unittest.TestCase):
                     if url.fragment:
                         self.assertTrue(any(a.get("id") == url.fragment for _, a in paginas[alvo].tags), endereco)
 
+    def test_previa_de_link_e_favicon(self):
+        with tempfile.TemporaryDirectory(dir=self.temporarios) as pasta:
+            destino = montar(Path(pasta))
+            self.assertTrue((destino / "favicon.ico").is_file())
+            for slug in PAGINAS:
+                metas = {a.get("property", a.get("name")): a.get("content") for t, a in Pagina((destino / f"{slug}.html").read_text(encoding="utf-8")).tags if t == "meta"}
+                self.assertEqual(metas["og:image"], "https://conectaimoveis3d.com.br/institucional/assets/compartilhar.png", slug)
+                self.assertEqual(metas["og:url"], "https://conectaimoveis3d.com.br/" + ("" if slug == "index" else f"{slug}.html"))
+                self.assertEqual(metas["twitter:card"], "summary_large_image")
+            from PIL import Image
+            with Image.open(RAIZ / "assets" / "compartilhar.png") as imagem:
+                self.assertEqual(imagem.size, (1200, 630))
+            self.assertLess((RAIZ / "assets" / "compartilhar.png").stat().st_size, 300_000, "WhatsApp recusa prévia pesada")
+
+    def test_dominio_invalido_falha(self):
+        for dominio in ("http://conectaimoveis3d.com.br", "https://conectaimoveis3d.com.br/", "conectaimoveis3d.com.br"):
+            with self.subTest(dominio=dominio), tempfile.TemporaryDirectory(dir=self.temporarios) as pasta, self.assertRaises(ValueError):
+                montar(pasta, {"nome": "Teste", "whatsapp": "5516981288075", "dominio": dominio})
+
     def test_nome_da_marca_e_escapado_e_nao_vira_template(self):
         with tempfile.TemporaryDirectory(dir=self.temporarios) as pasta:
             montar(pasta, {"nome": '<script>{{numero}}</script> & "marca"', "whatsapp": "5516981288075"})

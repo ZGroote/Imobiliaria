@@ -78,6 +78,11 @@ class ConectaTests(unittest.TestCase):
                 self.assertIn('href="/maquetes/liv/"', text)
                 self.assertIn('src="/institucional/assets/site.js"', text)
             self.assertTrue((root / 'payload/institucional/assets/site.js').is_file())
+            self.assertTrue((root / 'payload/favicon.ico').is_file(), 'O navegador pede /favicon.ico na raiz.')
+            self.assertIn('payload/favicon.ico', record['files'])
+            index = (root / 'payload/index.html').read_text(encoding='utf-8')
+            self.assertIn('<meta property="og:image" content="https://conectaimoveis3d.com.br/institucional/assets/compartilhar.png">', index)
+            self.assertTrue((root / 'payload/institucional/assets/compartilhar.png').is_file())
             self.assertFalse((root / 'payload/robots.txt').exists(), 'O robots da fachada não pode bloquear os produtos.')
             config = json.loads((root / 'firebase.json').read_text(encoding='utf-8'))['hosting']
             self.assertEqual(config['site'], 'imobilaria-deccb-miniaturas')

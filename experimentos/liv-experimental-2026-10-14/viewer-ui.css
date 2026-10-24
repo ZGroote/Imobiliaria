@@ -156,6 +156,10 @@ summary { cursor: pointer; min-height: 44px; align-content: center; font-size: 1
   .stage-toolbar { top: 8px; left: 8px; right: 8px; gap: 8px; }
   .stage-badge { padding-inline: 8px; font-size: 11px; }
   .viewer-panel { max-height: 55%; padding: 16px; }
+  /* Com 55% o resumo e o rodapé deixavam uma linha da lista (nenhuma em 360×740); :where não vence o painel lateral. */
+  .viewer-panel:where(:has(#availableUnits:not([hidden]))) { max-height: 62%; }
+  .project-summary { margin-bottom: 8px; padding-bottom: 8px; }
+  .project-address { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .panel-toggle { top: 16px; right: 16px; }
   .project-name { font-size: 16px; }
   .project-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }

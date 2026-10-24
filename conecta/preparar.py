@@ -61,6 +61,9 @@ def prepare(release=RELEASE):
     assets = payload / 'institucional/assets'
     shutil.copytree(build / 'assets', assets, dirs_exist_ok=True)
     institutional_files.extend(sorted(assets.iterdir()))
+    # /favicon.ico na raiz do domínio, pedido pelo navegador em qualquer página (inclusive na maquete).
+    shutil.copy2(build / 'favicon.ico', payload / 'favicon.ico')
+    institutional_files.append(payload / 'favicon.ico')
     # As políticas restritivas são só da fachada: LIV e acesso individual usam outros recursos.
     headers = config['hosting'].setdefault('headers', [])
     headers[:] = [rule for rule in headers if rule.get('source') not in INSTITUTIONAL_ROUTES]

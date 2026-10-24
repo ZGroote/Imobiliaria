@@ -28,15 +28,22 @@ def montar(destino=None, configuracao=None):
         raise ValueError("Informe o nome do site.")
     if not isinstance(numero, str) or not re.fullmatch(r"55[1-9]{2}9[0-9]{8}", numero):
         raise ValueError("WhatsApp deve conter 55, DDD e celular de nove dígitos, somente números.")
+    # A prévia de link (og:image/og:url) precisa de endereço absoluto: o crawler não conhece a página.
+    dominio = config.get("dominio", "https://conectaimoveis3d.com.br")
+    if not isinstance(dominio, str) or not re.fullmatch(r"https://[a-z0-9.-]+\.[a-z]{2,}", dominio):
+        raise ValueError("Domínio deve ser https://nome.dominio, sem barra no fim.")
     destino = Path(destino) if destino is not None else RAIZ / "public"
     destino = destino.resolve()
     if destino == RAIZ or destino in RAIZ.parents or destino.is_relative_to(RAIZ / "paginas") or destino.is_relative_to(RAIZ / "assets"):
         raise ValueError("O destino não pode sobrescrever as fontes.")
     destino.mkdir(parents=True, exist_ok=True)
     shutil.copytree(RAIZ / "assets", destino / "assets", dirs_exist_ok=True)
+    # Navegadores e apps pedem /favicon.ico na raiz, mesmo com o ícone em SVG declarado.
+    shutil.copy2(RAIZ / "assets" / "favicon.ico", destino / "favicon.ico")
     layout = (RAIZ / "layout.html").read_text(encoding="utf-8")
     substituicoes = {
         "nome": html.escape(nome),
+        "dominio": dominio,
         "numero": numero,
         "telefone": html.escape(config.get("whatsapp_exibicao", numero)),
         "whatsapp": f"https://wa.me/{numero}?text={quote('Olá! Gostaria de conhecer as apresentações de imóveis e os planos.')}",
@@ -44,7 +51,8 @@ def montar(destino=None, configuracao=None):
     for pagina, (titulo, descricao) in PAGINAS.items():
         conteudo = (RAIZ / "paginas" / f"{pagina}.html").read_text(encoding="utf-8")
         texto = layout.replace("{{conteudo}}", conteudo)
-        valores = substituicoes | {"titulo": html.escape(titulo), "descricao": html.escape(descricao), "pagina": pagina, "base_404": '<base href="/">' if pagina == "404" else ""}
+        valores = substituicoes | {"titulo": html.escape(titulo), "descricao": html.escape(descricao), "pagina": pagina, "base_404": '<base href="/">' if pagina == "404" else "",
+                                   "url": f"{dominio}/" if pagina == "index" else f"{dominio}/{pagina}.html"}
         valores |= {f"ativo_{aba}": 'aria-current="page"' if pagina == aba else "" for aba in ("index", "planos", "contato")}
         # Uma única passagem impede que o nome da marca seja interpretado como template.
         texto = re.sub(r"\{\{(\w+)\}\}", lambda m: valores[m[1]], texto)
