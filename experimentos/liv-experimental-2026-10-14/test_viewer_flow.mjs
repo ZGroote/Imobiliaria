@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {test} from 'node:test';
 import vm from 'node:vm';
-import {typology} from './tipologias.js';
+import {typology,typologyIds} from './tipologias.js';
+import dados from './dados/maquete.js';
 import {unitById} from './unidades.js';
 import {expandBuildingCatalog,floorOf,floorLabel,unitScope} from './catalogo-unidades.js';
 import {requestedEdition} from './edicoes.js';
@@ -107,7 +108,7 @@ function harness({search='?backend=webgl&unidades=edificio',fetchData=()=>emptyC
       observe(node){this.observed.add(node);}disconnect(){this.observed.clear();}notify(){this.callback();}},
     navigator:{},matchMedia:query=>query.includes('min-width: 1000px')?inlineMedia:{matches:false},sessionStorage:{getItem:()=>saved?JSON.stringify(saved):null,setItem:(key,value)=>calls.push({name:'saved-session',value:JSON.parse(value)})},moduleURL:'http://localhost/viewer.js',
     transfers:{pause:async()=>{},prioritize:async()=>{},start:async()=>{},getState:()=>({})},showTransferStatus(){},
-    createBuyerUI,typology,layout:typology,unitById,floorOf,floorLabel,unitScope,requestedEdition,attachCommercial,saleOf,saleLabel,priceLabel,requestedAmbience,AMBIENCES,attachRelations,attachStock,availableUnitIds,
+    createBuyerUI,typology,typologyIds,dados,layout:typology,unitById,floorOf,floorLabel,unitScope,requestedEdition,attachCommercial,saleOf,saleLabel,priceLabel,requestedAmbience,AMBIENCES,attachRelations,attachStock,availableUnitIds,
     // The viewer and data validators are real; DOM details, rendering and network are controlled boundaries.
     loadStockSDK:async()=>{
       calls.push({name:'estoque-runtime.js',ready:context.__livViewer.ready});

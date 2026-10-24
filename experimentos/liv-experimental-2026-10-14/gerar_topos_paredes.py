@@ -14,7 +14,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     for typology in ('canto','meio'):
         parser.add_argument('--source-'+typology,type=Path,default=EXP/f'interiores/{typology}/source.json.gz')
-    parser.add_argument('--out',type=Path,default=EXP/'interior-wall-top-contours.js')
+    parser.add_argument('--out',type=Path,default=EXP/'dados'/'topos-de-parede.js')
     args=parser.parse_args()
     profiles={}
     for typology in ('canto','meio'):

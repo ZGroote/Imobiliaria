@@ -1,4 +1,5 @@
 import contatoPublico from './contato-publico.json' with {type:'json'};
+import dados from './dados/maquete.js';
 // EXPERIMENTO-COMPRA-20261023: desligar esta chave remove o novo fluxo de navegação.
 export const EXPERIENCE_DEFAULT=true;
 export function buyerExperienceEnabled(search=''){
@@ -17,7 +18,7 @@ export function apartmentContact(unit,floor,{contact={},shareUrl}={}){
   if(url.pathname==='/acesso.html')url.searchParams.set('pagina','maquete');
   url.hash='';
   const area=unit.salesDetails?.areaM2;
-  const description=[`Olá! Tenho interesse no ${label} do LIV Ipanema, em São Carlos.`,
+  const description=[`Olá! Tenho interesse no ${label} do ${dados.nome}, em ${dados.cidade}.`,
     Number.isFinite(area)?`${new Intl.NumberFormat('pt-BR').format(area)} m².`:'',
     'Gostaria de confirmar disponibilidade, valor e condições.',url.href].filter(Boolean).join('\n');
   const phone=typeof contact.whatsappNumber==='string'&&/^[1-9][0-9]{7,14}$/.test(contact.whatsappNumber)?contact.whatsappNumber:null;

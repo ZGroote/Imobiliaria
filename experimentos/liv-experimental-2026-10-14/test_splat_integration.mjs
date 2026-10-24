@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import vm from 'node:vm';
+import dados from './dados/maquete.js';
 
 // Exercita a ponte real, sem GPU: câmera deve chegar antes de ready e erro deve devolver a malha.
-const source = await fs.readFile(new URL('./interior-splat.js', import.meta.url), 'utf8');
+// os imports do módulo viram nomes no sandbox, como no test_viewer_flow
+const source = (await fs.readFile(new URL('./interior-splat.js', import.meta.url), 'utf8')).replace(/^import .*;\r?\n/gm, '');
 const frames = new Map(), handlers = {};
 let serial = 0, meshFrames = 0, removed = false, cameraSent = false, active = false;
 const render = async () => { meshFrames++; };
@@ -18,7 +20,7 @@ const state = {ready: true, active: true, mode: 'visita', typology: 'meio',
     fov: 48, aspect: 1.7, updateProjectionMatrix() {},
     position: {x: -3, z: 1, toArray: () => [-3,1.62,1]}, quaternion: {toArray: () => [0,0,0,1]}
   }};
-const context = vm.createContext({URLSearchParams, location: {search: ''}, window: {__livInterior: state},
+const context = vm.createContext({dados, URLSearchParams, location: {search: ''}, window: {__livInterior: state},
   fetch: async () => ({ok: true, json: async () => ({sala:'sala.sog'})}),
   document: {querySelector: () => ({offsetLeft:0,offsetTop:0,offsetWidth:900,offsetHeight:600,after() {}}), createElement: () => iframe},
   ResizeObserver: class { observe() {} disconnect() {} },

@@ -1,7 +1,7 @@
 import * as THREE from 'three/webgpu';
 
 // Vagas do apartamento escolhido piscando no amarelo do destaque do final.
-// As posições vêm de vagas.json, gerado junto com o modelo (modelo/entrada/vagas_oficiais.py).
+// As posições vêm do mapa de vagas da edição (dados.edicoes[*].vagas), gerado junto com o modelo.
 export function validarVagas(data){
   if(data?.schema!=='liv-parking-v1'||!Array.isArray(data.vagas))throw Error('Mapa de vagas inválido.');
   const byNumber=new Map();

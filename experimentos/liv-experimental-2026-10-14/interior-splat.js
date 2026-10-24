@@ -1,7 +1,8 @@
-// Tour em Gaussian Splatting para o apartamento de meio (experimento de 15/10/2026).
-// O Tour do Liv continua cuidando de tudo (setas, arrastar, ambientes, colisão); este módulo só cobre o
+// Tour em Gaussian Splatting para a tipologia que tem um (dados.tipologias[x].tourEmSplat; experimento de
+// 15/10/2026). O Tour da maquete continua cuidando de tudo (setas, arrastar, ambientes, colisão); este módulo só cobre o
 // canvas com splat/visita.html, copia a câmera a cada quadro e pausa o desenho da malha enquanto o splat
 // estiver à vista. Um splat por cômodo, escolhido pela posição da câmera. ?splat=0 desliga.
+import dados from './dados/maquete.js';
 const query = new URLSearchParams(location.search);
 const st = window.__livInterior;
 
@@ -105,6 +106,6 @@ async function iniciar() {
   st.splat = { get ligado() { return ligado; }, get comodo() { return comodo; }, quadro,
     getState: () => ({ligado, comodo, error, manifesto, prefetch: proximo, viewer: splat?.getState() || null}) };
 }
-if (st && st.typology === "meio" && query.get("splat") !== "0") {
+if (st && dados.tipologias[st.typology]?.tourEmSplat && query.get("splat") !== "0") {
   iniciar().catch(error => { st.splat = {ligado: false, getState: () => ({ligado: false, error: String(error)})}; });
 }

@@ -4,7 +4,7 @@ import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
 import * as THREE from 'three/webgpu';
 import {unifiedWallTop,removeOriginalWallTop} from './interior-wall-tops.js';
-import {wallTopContours} from './interior-wall-top-contours.js';
+import {wallTopContours} from './dados/topos-de-parede.js';
 
 let overlaps=0,probes=0;
 for(const typology of ['canto','meio']){

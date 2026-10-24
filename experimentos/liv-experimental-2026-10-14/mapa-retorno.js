@@ -3,8 +3,9 @@ import {requestedEdition,exteriorEdition} from './edicoes.js';
 import {unitScope} from './catalogo-unidades.js';
 import {requestedAmbience} from './ambiencia-perfis.js';
 import {createFrameScheduler} from './frame-scheduler.js';
+import dados from './dados/maquete.js';
 // Adapt model edition, navigation and transfer priority; baseline files stay intact.
-const frame=document.getElementById('map'),destination=new URL('./maquete-liv-ipanema.html',location.href);
+const frame=document.getElementById('map'),destination=new URL('./'+dados.pagina,location.href);
 const embedded=new URLSearchParams(location.search).get('embed')==='1'&&window.parent!==window;
 const geometry=requestedEdition(location.search);
 if(geometry!=='base')destination.searchParams.set('geometria',geometry);
@@ -13,8 +14,8 @@ const stockId=new URLSearchParams(location.search).get('estoque');if(stockId)des
 if(new URLSearchParams(location.search).get('demonstracao')==='1')destination.searchParams.set('demonstracao','1');
 if(requestedAmbience(location.search)==='entardecer')destination.searchParams.set('luz','entardecer');
 const failure=document.getElementById('failure');
-failure.querySelector('a[href="maquete-liv-ipanema.html"]').href=destination.href;
-failure.querySelector('a[href="mapa-liv-ipanema-5km.html"]').href=location.href;
+failure.querySelector(`a[href="${dados.pagina}"]`).href=destination.href;
+failure.querySelector(`a[href="${dados.mapa.pagina}"]`).href=location.href;
 const stopStatus=showTransferStatus(document.getElementById('transferStatus'));
 let scheduler=null,disposed=false,active=new URLSearchParams(location.search).get('prewarm')!=='1';
 const adapter=window.__livMapAdapter={ready:false,uiReady:false,returnURL:destination.href,
@@ -36,7 +37,7 @@ adapter.active=active;frame.dataset.active=String(active);
 function redirectLink(anchor) {
   if(!anchor)return;
   const url=new URL(anchor.getAttribute('href')||'',frame.contentWindow.location.href);
-  if(url.origin===location.origin&&url.pathname.endsWith('/maquete-liv-ipanema.html')) {
+  if(url.origin===location.origin&&url.pathname.endsWith('/'+dados.pagina)) {
     anchor.href=destination.href;anchor.target='_top';
   }
 }
@@ -79,6 +80,6 @@ frame.addEventListener('load',async()=>{
     scheduler?.setActive(false);
   }
 });
-const mapHTML='mapa-runtime/mapa-liv-ipanema-5km.html';
-await transfers.prioritize('map',[mapHTML,exteriorEdition(geometry).glb,'site-baseline/quintais/']);
+const mapHTML=dados.mapa.runtime;
+await transfers.prioritize('map',[mapHTML,exteriorEdition(geometry).glb,...(dados.mapa.preparar??[])]);
 frame.src=mapHTML+(geometry==='base'?'':'#'+geometry);

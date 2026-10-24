@@ -1,7 +1,8 @@
+import dados from './dados/maquete.js';
 import {typology} from './tipologias.js';
 
-export const PLAN_HASH=Object.freeze({canto:'a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971',
-  meio:'bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a'});
+// The published 2D plan of each typology, by its hash (dados.tipologias).
+export const PLAN_HASH=Object.freeze(Object.fromEntries(Object.entries(dados.tipologias).map(([key,t])=>[key,t.planSHA256])));
 const fields=new Set(['id','typology','orientation','interiorUnitSHA256','interiorSourceSHA256','planSHA256']);
 export function validateRelations(input,catalog,interiors){
   const fail=message=>{throw Error(message||'Vínculos de plantas inválidos.');};
