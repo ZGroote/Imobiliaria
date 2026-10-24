@@ -16,7 +16,8 @@ export const conectaTracking=onRequest({region:'southamerica-east1',minInstances
   if(!server){
     const app=initializeApp(),db=getFirestore(app)
     const service=criarServicoRastreabilidade({db,secret:secret.value(),publicOrigin:config.publicOrigin,publications:config.publications})
-    server=criarServidorRastreabilidade({service,auth:getAuth(app),publicOrigin:config.publicOrigin,panelOrigin:config.panelOrigin})
+    server=criarServidorRastreabilidade({service,auth:getAuth(app),publicOrigin:config.publicOrigin,
+      panelOrigin:config.panelOrigin,legacyPanelOrigin:config.legacyPanelOrigin})
   }
   encaminharFirebase(server,req,res)
 })

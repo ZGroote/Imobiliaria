@@ -10,7 +10,7 @@
         "source": "/b/**/manifest.json",
         "headers": [
           { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
-          { "key": "Access-Control-Allow-Origin", "value": "https://imobilaria-deccb-painel.web.app" }
+          { "key": "Access-Control-Allow-Origin", "value": "https://painel.conectaimoveis3d.com.br" }
         ]
       },
       {
@@ -27,7 +27,7 @@
         "source": "/estado.json",
         "headers": [
           { "key": "Cache-Control", "value": "no-cache" },
-          { "key": "Access-Control-Allow-Origin", "value": "https://imobilaria-deccb-painel.web.app" }
+          { "key": "Access-Control-Allow-Origin", "value": "https://painel.conectaimoveis3d.com.br" }
         ]
       },
       { "source": "/", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] },

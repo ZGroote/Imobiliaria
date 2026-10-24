@@ -56,6 +56,22 @@ test('rastreamento HTTP: origem exata, preflight e cache privado',async()=>{
     assert.equal(preflight.headers.get('cache-control'),'no-store')
   })
 })
+test('migração do painel aceita as duas origens exatas e recusa domínio parecido',async()=>{
+  const legacy='https://imobilaria-deccb-painel.web.app'
+  const current='https://painel.conectaimoveis3d.com.br'
+  await gateway(async base=>{
+    for(const allowed of [legacy,current]){
+      const r=await fetch(base+'/links',{method:'OPTIONS',headers:{origin:allowed}})
+      assert.equal(r.status,204)
+      assert.equal(r.headers.get('access-control-allow-origin'),allowed)
+    }
+    const denied=await fetch(base+'/links',{method:'OPTIONS',headers:{origin:current+'.evil.test'}})
+    assert.equal(denied.status,403)
+    assert.equal(denied.headers.get('access-control-allow-origin'),null)
+    assert.equal((await fetch(base+'/links?propertyId=p1',{headers:{origin:current}})).status,401)
+  },{panelOrigin:current,legacyPanelOrigin:legacy})
+})
+
 test('rastreamento HTTP: GET e HEAD em open não criam visita',async()=>{
   await gateway(async(base)=>{
     for(const method of ['GET','HEAD'])assert.equal((await fetch(base+'/open',{method})).status,405)

@@ -67,6 +67,12 @@ service cloud.firestore {
         && existsAfter(/databases/$(db)/documents/users/$(request.auth.uid))
         && getAfter(/databases/$(db)/documents/users/$(request.auth.uid)).data.email == email;
     }
+    function validPublicContact(u) {
+      return !('publicContact' in u) || (u.publicContact is map
+        && u.publicContact.keys().hasOnly(['whatsapp'])
+        && u.publicContact.whatsapp is string
+        && u.publicContact.whatsapp.matches('^[1-9][0-9]{7,14}$'));
+    }
     match /users/{uid} {
       allow read: if isStaff()
         || (signedIn() && request.auth.uid == uid)
@@ -84,19 +90,30 @@ service cloud.firestore {
         // e o convite sai no mesmo batch (invite() acima lê o de antes do batch)
         && !existsAfter(/databases/$(db)/documents/invites/$(request.auth.token.email));
 
-      allow update: if stamped() && keeps(['email', 'createdAt'])
+      allow update: if stamped() && keeps(['email', 'createdAt']) && validPublicContact(d())
         && ((isAdmin() && validMembership(d()))
-          || (signedIn() && request.auth.uid == uid && changesOnly(['name', 'updatedAt'])));
+          || (signedIn() && request.auth.uid == uid && changesOnly(['name', 'publicContact', 'updatedAt'])));
       allow delete: if false;
     }
 
     // ── invites ──
+    function managerInvite(i) {
+      return i.role == 'agent' && isManager(i.agencyId);
+    }
     match /invites/{email} {
       allow read: if isAdmin()
+        || managerInvite(resource.data)
         || (signedIn() && request.auth.token.email == email
             && request.auth.token.email_verified == true);
-      allow create, update: if isAdmin() && d().email == email && validMembership(d());
-      allow delete: if isAdmin() || aceitandoConvite(email);
+      // Só a função de e-mail escreve o resultado do envio (Admin SDK).
+      allow create: if !d().keys().hasAny(['emailDelivery']) && d().email == email && validMembership(d())
+        && (isAdmin() || (managerInvite(d()) && d().createdBy == request.auth.uid
+                         && d().createdAt == request.time));
+      // Conferir o convite anterior impede tomar um e-mail de outra agência ou de outro papel.
+      allow update: if !d().keys().hasAny(['emailDelivery']) && d().email == email && validMembership(d())
+        && (isAdmin() || (managerInvite(resource.data) && managerInvite(d())
+                         && d().createdBy == request.auth.uid && d().createdAt == request.time));
+      allow delete: if isAdmin() || managerInvite(resource.data) || aceitandoConvite(email);
     }
 
     // ── properties ──

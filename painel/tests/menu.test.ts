@@ -9,6 +9,7 @@ test('menu: cada papel vê só a sua área; usuários só o admin; equipe só o 
   for (const r of ['platform_admin', 'operator', 'agency_manager', 'agent'] as UserRole[]) {
     const area = inicioDoPapel(r)
     assert.ok(rotas(r).every((h) => (area === '/admin') === h.startsWith('/admin')), r)
+    assert.ok(rotas(r).includes(area === '/admin' ? '/admin/profile' : '/profile'), r)
   }
   assert.ok(rotas('platform_admin').includes('/admin/users'))
   assert.ok(!rotas('operator').includes('/admin/users'))

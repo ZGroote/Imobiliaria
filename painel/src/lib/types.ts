@@ -22,13 +22,15 @@ export interface User {                   // users/{uid}: FONTE DE AUTORIZAÇÃO
   agencyId?: string                       // obrigatório para papel de imobiliária; proibido para interno
   name: string; email: string
   role: UserRole; active: boolean
+  publicContact?: { whatsapp: string }    // público nos links deste responsável; dígitos internacionais sem +
   createdAt: Timestamp; updatedAt: Timestamp
 }
 
-export interface Invite {                 // invites/{email}; só platform_admin escreve
+export interface Invite {                 // invites/{email}; admin ou gerente (corretores da própria agência)
   email: string; name: string; role: UserRole; agencyId?: string
   agencyName?: string                     // só para exibir: o convidado ainda não lê agencies/
   createdBy: string; createdAt: Timestamp
+  emailDelivery?: { status: 'processing' | 'accepted' | 'failed'; eventId: string; updatedAt: Timestamp; messageId?: string; code?: string }
 }
 
 export interface Property {               // properties/{id}
