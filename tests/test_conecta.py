@@ -4,6 +4,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from xml.etree import ElementTree
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('conecta', ROOT / 'conecta/preparar.py')
@@ -83,11 +84,53 @@ class ConectaTests(unittest.TestCase):
             index = (root / 'payload/index.html').read_text(encoding='utf-8')
             self.assertIn('<meta property="og:image" content="https://conectaimoveis3d.com.br/institucional/assets/compartilhar.png">', index)
             self.assertTrue((root / 'payload/institucional/assets/compartilhar.png').is_file())
-            self.assertFalse((root / 'payload/robots.txt').exists(), 'O robots da fachada não pode bloquear os produtos.')
+            self.assertEqual((root / 'payload/robots.txt').read_text(encoding='utf-8'),
+                             'User-agent: *\nAllow: /\n\nSitemap: https://conectaimoveis3d.com.br/sitemap.xml\n')
+            self.assertIn('payload/robots.txt', record['files'])
             config = json.loads((root / 'firebase.json').read_text(encoding='utf-8'))['hosting']
             self.assertEqual(config['site'], 'imobilaria-deccb-miniaturas')
             self.assertFalse(config['cleanUrls'])
             self.assertEqual((root / 'backup-antes-fachada-20261023/index.html').read_text(encoding='utf-8'), 'entrada anterior')
+
+    def test_buscas_publicas_liberadas_sem_alterar_preview_ou_protecoes(self):
+        with tempfile.TemporaryDirectory(dir=self.temporarios) as directory:
+            root = Path(directory)
+            self.fixture(root)
+            conecta.prepare(root)
+            for pagina in conecta.PAGINAS:
+                robots = 'noindex, follow' if pagina == '404' else 'index, follow'
+                public = (root / 'payload' / f'{pagina}.html').read_text(encoding='utf-8')
+                self.assertIn(f'<meta name="robots" content="{robots}">', public)
+                preview = (root / 'fachada-build' / f'{pagina}.html').read_text(encoding='utf-8')
+                self.assertIn('<meta name="robots" content="noindex, nofollow">', preview)
+            self.assertIn('Disallow: /', (root / 'fachada-build/robots.txt').read_text(encoding='utf-8'))
+            config = json.loads((root / 'firebase.json').read_text(encoding='utf-8'))['hosting']
+            for rule in config['headers'][1:]:
+                headers = {header['key']: header['value'] for header in rule['headers']}
+                self.assertNotIn('X-Robots-Tag', headers)
+                self.assertEqual(headers['X-Frame-Options'], 'DENY')
+                self.assertIn("default-src 'self'", headers['Content-Security-Policy'])
+
+    def test_descoberta_e_canonicos_usam_so_o_dominio_proprio(self):
+        with tempfile.TemporaryDirectory(dir=self.temporarios) as directory:
+            root = Path(directory)
+            self.fixture(root)
+            record = conecta.prepare(root)
+            sitemap = ElementTree.parse(root / 'payload/sitemap.xml')
+            urls = [element.text for element in sitemap.findall('.//{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
+            expected = ['https://conectaimoveis3d.com.br/', *(
+                f'https://conectaimoveis3d.com.br/{pagina}.html' for pagina in conecta.PAGINAS if pagina not in ('index', '404')),
+                'https://conectaimoveis3d.com.br/maquetes/liv/']
+            self.assertEqual(urls, expected)
+            for pagina, url in [('index.html', expected[0]), ('planos.html', expected[1]),
+                                ('maquetes/liv/index.html', expected[-1])]:
+                text = (root / 'payload' / pagina).read_text(encoding='utf-8')
+                self.assertEqual(text.count('<link rel="canonical"'), 1)
+                self.assertIn(f'<link rel="canonical" href="{url}">', text)
+            verification = (root / 'payload' / conecta.VERIFICATION_FILE).read_bytes()
+            self.assertEqual(verification, (conecta.SOURCE / conecta.VERIFICATION_FILE).read_bytes())
+            self.assertIn('payload/sitemap.xml', record['files'])
+            self.assertIn('payload/' + conecta.VERIFICATION_FILE, record['files'])
 
 
 if __name__ == '__main__':

@@ -63,3 +63,63 @@ o rollback do Hosting para a versão anterior após verificar alterações poste
 **Não desativar `imobilaria-deccb-miniaturas` para retirar somente a fachada:**
 o mesmo site serve as maquetes e os links individuais. Não fazer deploy de uma
 pasta contendo apenas o institucional sobre o domínio compartilhado.
+
+## Atualização: buscas e análises automatizadas — 24/10/2026
+
+A pedido do usuário, o domínio público passou a permitir robôs. O preparador
+`conecta/preparar.py` instala `/robots.txt` com `User-agent: *` e `Allow: /`,
+troca as diretivas das páginas públicas para `index, follow` e remove
+`X-Robots-Tag: noindex, nofollow` das três regras institucionais do Hosting.
+A página 404 usa `noindex, follow`. O preview isolado continua restrito.
+
+- Versão publicada: `9dc0e9aa2d482dd1`; release `1792818101529000`.
+- Horário: 24/10/2026 às 02:00:09, America/Sao_Paulo (`2026-10-24T05:00:09Z`).
+- Versão anterior, disponível para recuperação: `19d3f1960e8b14ba`.
+- Sete HTMLs alterados somente na diretiva de robôs; um `robots.txt` adicionado.
+  Os outros 597 arquivos conservaram os hashes da versão publicada anterior.
+- 13 testes locais aprovados. Oito arquivos conferidos por HTTPS contra os
+  hashes locais; cabeçalhos de segurança preservados e restrição de robôs removida.
+- Raiz e maquete HTTP 200; `/painel` e `/login` HTTP 302 para o painel existente.
+  O script de publicação permanece fora do payload público, com HTTP 404.
+
+A publicação reutilizou o inventário completo da versão que estava no ar e
+recusaria prosseguir se outra publicação ocorresse durante o envio. Evidências,
+configuração anterior e script local em `publicacao/qa-buscas-20261024/`,
+ignorado pelo Git. Não houve alteração de autenticação, tokens ou função.
+
+### Validação no próprio Google AI Studio
+
+Em 24/10, o teste foi executado no Playground com Gemini 3.8 Flash, URL Context
+ativado e Google Search desativado. O domínio próprio falhou na raiz, no robots
+e na maquete. O endereço do mesmo Hosting em
+`https://imobilaria-deccb-miniaturas.web.app/` foi recuperado: a raiz apresentou
+o título institucional e `/maquetes/liv/` forneceu endereço, quartos, suíte e
+instruções de interação correspondentes ao HTML publicado. Essa comparação não
+resolveu o acesso ao domínio próprio; os endereços técnicos não são a solução
+definitiva. Capturas e cópias textuais estão no diretório
+local `publicacao/qa-buscas-20261024/`, fora do payload público.
+
+### Configuração do domínio próprio no Google
+
+Ainda em 24/10, com autorização explícita do usuário, a propriedade
+`https://conectaimoveis3d.com.br/` foi verificada no Search Console pelo arquivo
+HTML fornecido pelo Google. O preparador preserva esse arquivo em cada build.
+Também publica o sitemap com sete URLs do domínio próprio e os links canônicos
+das páginas institucionais e da maquete. O Google processou o sitemap e encontrou
+as sete páginas. Isso não garante leitura imediata pelo URL Context do AI Studio.
+
+Hosting: `38ec02b6239089fb`, release `1792820191188000`, publicado em
+24/10/2026 às 02:34:59, America/Sao_Paulo. Dez arquivos conferidos por HTTPS;
+os outros 597 mantiveram os hashes. Configuração de segurança e redirecionamentos
+preservados. Os 14 testes locais do preparador e da fachada passaram.
+Inventário anterior, manifesto e evidências em
+`publicacao/qa-dominio-google-20261024/`, ignorado pelo Git.
+
+O teste ao vivo da raiz no Search Console confirmou “O URL está disponível
+para o Google” e “É possível indexar a página”. Os pedidos de indexação da
+raiz e de `/maquetes/liv/` foram aceitos na fila de rastreamento prioritário.
+O índice ainda informava “Detectada, mas não indexada no momento” para ambas.
+Novo teste no AI Studio continuou falhando nas URLs principais e nos arquivos
+`index.html` do domínio próprio. A causa específica no URL Context permanece
+sem confirmação; configuração publicada e fila de indexação não equivalem a
+resolução confirmada dessa leitura.

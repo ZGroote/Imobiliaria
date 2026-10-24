@@ -54,11 +54,27 @@ os recursos estáticos continuam sendo publicados diretamente pelo Hosting. Muda
 em páginas existentes exigem republicar a função; novos recursos/builds devem estar
 disponíveis no Hosting antes de a função apontar para eles.
 
-A fachada foi publicada no domínio próprio em 23/10/2026. Os cabeçalhos CSP e
-`noindex` são limitados às páginas institucionais e a `/institucional/**`, sem
-alterar as políticas do visualizador ou do acesso por token. O `robots.txt` do
-preview isolado não é copiado para o domínio compartilhado. Registro e comando
-de atualização em [fachada/PUBLICACAO.md](../fachada/PUBLICACAO.md).
+A fachada foi publicada no domínio próprio em 23/10/2026. A pedido do usuário,
+as páginas públicas permitem buscas e análises automatizadas desde 24/10/2026:
+o preparador instala `robots.txt` com `User-agent: *` e `Allow: /`, libera
+`index, follow` nas páginas e remove o cabeçalho `X-Robots-Tag` restritivo.
+A página 404 mantém `noindex, follow`. O preview isolado continua bloqueado.
+Os cabeçalhos de segurança, as maquetes e o acesso por token são preservados.
+Registro e comando de atualização em
+[fachada/PUBLICACAO.md](../fachada/PUBLICACAO.md).
+
+O endereço principal para buscas e análises é `https://conectaimoveis3d.com.br`.
+O preparador declara esse domínio nos links canônicos das páginas públicas e
+da maquete, gera `/sitemap.xml` com sete URLs e o anuncia no `robots.txt`.
+O arquivo de verificação do Google em `conecta/` é copiado para o payload e
+precisa ser preservado nas publicações futuras. O domínio próprio foi verificado
+no Search Console em 24/10/2026; o Google processou o sitemap e encontrou as
+sete páginas. Os endereços técnicos do Hosting foram usados só na comparação
+do erro, sem substituir o domínio próprio como solução.
+O teste ao vivo do Google aprovou a página inicial e os pedidos de indexação
+da raiz e da maquete foram aceitos. A leitura pelo URL Context do AI Studio
+ainda falhou no teste seguinte, inclusive pelos arquivos `index.html`; não
+tratar o pedido de indexação como confirmação de que essa falha foi resolvida.
 
 O painel foi reativado e a API dos links individuais foi publicada. Os links de
 corretores e equipe são criados em Imóveis → LIV Ipanema → Links individuais.

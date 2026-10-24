@@ -10,10 +10,11 @@ sys.path.insert(0, str(SOURCE.parent))
 from fachada.montar import PAGINAS, montar
 
 RELEASE = SOURCE.parent / 'publicacao/liv-duplo-20261017'
+PUBLIC_ORIGIN = 'https://conectaimoveis3d.com.br'
 PANEL_LOGIN = 'https://painel.conectaimoveis3d.com.br/login'
+VERIFICATION_FILE = 'googled4c6adc6ff873f84.html'
 INSTITUTIONAL_ROUTES = ['/', '/{' + ','.join(PAGINAS) + '}.html', '/institucional/**']
 INSTITUTIONAL_HEADERS = [
-    {'key': 'X-Robots-Tag', 'value': 'noindex, nofollow'},
     {'key': 'X-Frame-Options', 'value': 'DENY'},
     {'key': 'Permissions-Policy', 'value': 'camera=(), microphone=(), geolocation=()'},
     {'key': 'Content-Security-Policy', 'value': "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'"},
@@ -30,7 +31,8 @@ def prepare(release=RELEASE):
     classic = (payload / 'liv-classico/maquete-liv-ipanema.html').read_text(encoding='utf-8')
     if classic.count('<head>') != 1 or '<base ' in classic:
         raise ValueError('Cabeçalho inesperado na maquete clássica.')
-    alias = classic.replace('<head>', '<head>\n  <base href="/liv-classico/">', 1)
+    alias = classic.replace('<head>', '<head>\n  <base href="/liv-classico/">\n'
+                            f'  <link rel="canonical" href="{PUBLIC_ORIGIN}/maquetes/liv/">', 1)
     alias = alias.replace('href="#stage"', 'href="/maquetes/liv/#stage"')
     build = montar(release / 'fachada-build')
     # Keep the original root and hosting configuration available for recovery.
@@ -56,6 +58,13 @@ def prepare(release=RELEASE):
     for pagina in PAGINAS:
         path = payload / f'{pagina}.html'
         text = (build / path.name).read_text(encoding='utf-8')
+        robots = 'noindex, follow' if pagina == '404' else 'index, follow'
+        text = text.replace('<meta name="robots" content="noindex, nofollow">',
+                            f'<meta name="robots" content="{robots}">')
+        if pagina != '404':
+            canonical = PUBLIC_ORIGIN + ('/' if pagina == 'index' else f'/{pagina}.html')
+            text = text.replace('<meta name="robots"',
+                                f'<link rel="canonical" href="{canonical}">\n  <meta name="robots"', 1)
         path.write_text(text.replace('="assets/', '="/institucional/assets/'), encoding='utf-8')
         institutional_files.append(path)
     assets = payload / 'institucional/assets'
@@ -64,6 +73,19 @@ def prepare(release=RELEASE):
     # /favicon.ico na raiz do domínio, pedido pelo navegador em qualquer página (inclusive na maquete).
     shutil.copy2(build / 'favicon.ico', payload / 'favicon.ico')
     institutional_files.append(payload / 'favicon.ico')
+    # O domínio público permite robôs; o robots restritivo fica só no preview isolado.
+    robots_path = payload / 'robots.txt'
+    robots_path.write_text(f'User-agent: *\nAllow: /\n\nSitemap: {PUBLIC_ORIGIN}/sitemap.xml\n', encoding='utf-8')
+    institutional_files.append(robots_path)
+    paths = ['/', *(f'/{pagina}.html' for pagina in PAGINAS if pagina not in ('index', '404')), '/maquetes/liv/']
+    sitemap_path = payload / 'sitemap.xml'
+    sitemap_path.write_text('<?xml version="1.0" encoding="UTF-8"?>\n'
+                            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                            + ''.join(f'  <url><loc>{PUBLIC_ORIGIN}{path}</loc></url>\n' for path in paths)
+                            + '</urlset>\n', encoding='utf-8')
+    institutional_files.append(sitemap_path)
+    shutil.copy2(SOURCE / VERIFICATION_FILE, payload / VERIFICATION_FILE)
+    institutional_files.append(payload / VERIFICATION_FILE)
     # As políticas restritivas são só da fachada: LIV e acesso individual usam outros recursos.
     headers = config['hosting'].setdefault('headers', [])
     headers[:] = [rule for rule in headers if rule.get('source') not in INSTITUTIONAL_ROUTES]
