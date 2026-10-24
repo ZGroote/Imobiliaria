@@ -1,7 +1,7 @@
 {
   "schema": "liv-pilot-units-v2",
   "floorIndex": 1,
-  "sourceModelSHA256": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
+  "sourceModelSHA256": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
   "source": {
     "url": "https://www.livonincorporadora.com.br/wp-content/uploads/2024/08/BOOK_LIV_Ipanema.pdf",
     "page": 15,
@@ -48,11 +48,11 @@
     ],
     "modelCoreSource": "v1.5/miniaturas/liv-ipanema/modelar_liv_ipanema.py: CORE_X=-0.13*47.7, CORE_W=0.076*47.7",
     "sources": {
-      "experimentos/liv-ipanema-webgpu-2026-10-09/unidades.json": "dcc72736e33fcd2cd613442600324a126bbfc6aa4d35a85097306d8eae24176b",
-      "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/modelo.json": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
-      "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno-torre.json": "8e6545269bfd0ebd97b80a82eff7a2feabff5aad6a0fb4a24b220f2d898bf878",
-      "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
-      "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/registrar_unidades.py": "dff3f7d7b4a12937bac0e1e03ea87ddf18d5442555b87ce914974929ed587142"
+      "experimentos/liv-experimental-2026-10-14/unidades.json": "dcc72736e33fcd2cd613442600324a126bbfc6aa4d35a85097306d8eae24176b",
+      "experimentos/liv-experimental-2026-10-14/modelo/entrada/candidato/modelo.json": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+      "experimentos/liv-experimental-2026-10-14/modelo/contorno-torre.json": "8e6545269bfd0ebd97b80a82eff7a2feabff5aad6a0fb4a24b220f2d898bf878",
+      "experimentos/liv-experimental-2026-10-14/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
+      "experimentos/liv-experimental-2026-10-14/modelo/registrar_unidades.py": "dff3f7d7b4a12937bac0e1e03ea87ddf18d5442555b87ce914974929ed587142"
     }
   },
   "units": [

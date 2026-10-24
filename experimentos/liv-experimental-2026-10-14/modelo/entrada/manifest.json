@@ -8,8 +8,8 @@
     },
     "candidato": {
       "path": "candidato/liv-contorno.glb",
-      "bytes": 2535936,
-      "sha256": "4947fee3d6eba10af3619493663a04a3fb478086a0953ae646f685b09e84ba01"
+      "bytes": 2536272,
+      "sha256": "1e43cf429a4ea1408c2f2e16f96cd40d3a3640fac18e41aee3bb816d15647941"
     }
   },
   "lights": [
@@ -111,21 +111,22 @@
     }
   ],
   "exposure": 1.02,
-  "sourceModelSHA256": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
-  "geometryReportSHA256": "092ddfb693a69fdb290cc997d25544b5fd4305169dad3b5b61e8d1eaf498700b",
+  "sourceModelSHA256": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+  "geometryReportSHA256": "175eb19625ad6c8dc04d41373502f55670996c4de6396a4f8ea4d2dcaee954c2",
   "sources": {
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/registrar_entrada.py": "070b07103b5aa9726bd3850332f24d44f1405bee16e07e5f324f7d8e81c546c8",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/modelo.json": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py": "5698afe2f06c70a54658bfac1d259623850372ea83f9c445312c24cae0b3cb89",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/unir_paredes.py": "16ddbb49572368f7f752e2d284a1e03314a07b4901b8412a061b90231283d09e",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/registrar_entrada.py": "070b07103b5aa9726bd3850332f24d44f1405bee16e07e5f324f7d8e81c546c8",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/candidato/modelo.json": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+    "experimentos/liv-experimental-2026-10-14/modelo/variante/modelo.json": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+    "experimentos/liv-experimental-2026-10-14/modelo/modelar_exterior.py": "5698afe2f06c70a54658bfac1d259623850372ea83f9c445312c24cae0b3cb89",
+    "experimentos/liv-experimental-2026-10-14/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
+    "experimentos/liv-experimental-2026-10-14/modelo/unir_paredes.py": "16ddbb49572368f7f752e2d284a1e03314a07b4901b8412a061b90231283d09e",
     "v1.5/miniaturas/blender_maquete_base.py": "656e755d43600072aa5477b44a2531f38963ad1cc3c9169396a9d8889fe6be81",
     "v1.5/miniaturas/liv-ipanema/modelar_implantacao.py": "90a8a5081c601786ea3f908d88ae49a3cb6420ffca2c2fed81464cf4cdf1a3d1",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/modelar_entrada.py": "baa92ca49d67e13d63e81bb2d0b53024d545ea9668d4eb1f782894be30cd4ab3",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/entrada_site.py": "3becb22b75c453672abde6d8a20b989b28285062c6b00db2b651e9a62804c435",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/modelar_entrada.py": "06ade05735e05dbd13f989b5c20a025297c52140d637600938a06618f67813f6",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/entrada_site.py": "3becb22b75c453672abde6d8a20b989b28285062c6b00db2b651e9a62804c435",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/vagas_oficiais.py": "37bb19a045a703daa652b4526d0e12d27b47f9b7adef0b59ca91261342c8dd2f",
     "v1.5/miniaturas/liv-ipanema/referencias/portaria.jpg": "5c66690329183ba4adf56401cf0d6c6b470cbb42feba810499ddec7acc379cc2",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/assets/manifest.json": "e22c8e38057ebdcfdb1d61c3961dc3a30d1fa394e50b37f83da3e9fbe2d588ea",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/assets/scene.json.gz": "a705b53200db87f77f824dba9079f6c398ccabd3137586ffb93de8b53899c7fd"
+    "experimentos/liv-experimental-2026-10-14/modelo/variante/assets/manifest.json": "e22c8e38057ebdcfdb1d61c3961dc3a30d1fa394e50b37f83da3e9fbe2d588ea",
+    "experimentos/liv-experimental-2026-10-14/modelo/variante/assets/scene.json.gz": "a705b53200db87f77f824dba9079f6c398ccabd3137586ffb93de8b53899c7fd"
   }
 }

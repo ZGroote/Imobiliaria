@@ -156,6 +156,7 @@ function update() {
     state.mode==='maquete'?'Arraste para girar · use a roda ou dois dedos para aproximar':'Arraste para girar · use a roda ou dois dedos para aproximar';
   unitUI?.update({...state,typology:selected.label.toLowerCase()});
   updateAvailability();
+  if(state.ready&&exterior)state.frame?.contentWindow?.__livProva?.setParkingSpaces?.(unit?.parkingSpaces??[]);
   updateDetails();
   updateNavbar();
   updateInfoPanel();

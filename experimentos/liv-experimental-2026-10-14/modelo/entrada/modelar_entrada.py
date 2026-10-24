@@ -18,6 +18,7 @@ sys.path[:0]=[str(HERE),str(OWN),str(CANON),str(CANON.parent)]
 import blender_maquete_base as base
 import modelar_implantacao as site
 from entrada_site import build_entry,STATS
+import vagas_oficiais as vagas
 
 baseline=OWN/'variante/modelo.json'
 source=json.loads(baseline.read_bytes())
@@ -84,11 +85,17 @@ def export(out,slug,metadata):
     metadata['entryStudy']={**STATS,'adaptations':adaptations,'baselineModelSHA256':hashlib.sha256(baseline.read_bytes()).hexdigest(),
       'reference':{'path':reference.relative_to(ROOT).as_posix(),'sha256':hashlib.sha256(reference.read_bytes()).hexdigest()},
       'status':'inferido; sem projeto executivo; sem qualificação do bake desta entrada'}
-    for path in [Path(__file__).resolve(),HERE/'entrada_site.py']:
+    planta=ROOT/'relatorios/liv-referencias-publicas-2026-10-09/implantacao-finais-e-vagas.png'
+    fonte={'path':planta.relative_to(ROOT).as_posix(),'sha256':hashlib.sha256(planta.read_bytes()).hexdigest()}
+    metadata['parkingStudy']={'spaces':len(vagas.vagas()),'numbering':fonte,'file':'vagas.json',
+      'status':'centros medidos na implantação oficial; dimensões inferidas'}
+    vagas.gravar_json(HERE/'candidato/vagas.json',fonte)
+    for path in [Path(__file__).resolve(),HERE/'entrada_site.py',HERE/'vagas_oficiais.py']:
         metadata['recipeSources'][path.relative_to(ROOT).as_posix()]=hashlib.sha256(path.read_bytes()).hexdigest()
     return original_export(out,slug,metadata)
 
 
 site._entry_and_quiosques=entry_and_quiosques;site.palm=palm;site.fence=fence;base.box=box;base.exportar=export
+site._parking=lambda rng:vagas.construir(site,rng)
 sys.argv=[str(AUTHOR),'--','--saida',str(HERE/'candidato'),'--no-render']
 runpy.run_path(str(AUTHOR),run_name='__main__')

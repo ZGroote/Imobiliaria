@@ -1,0 +1,120 @@
+{
+  "status": "PASS",
+  "schema": "liv-entry-geometry-qa-v1",
+  "sourceModelSHA256": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+  "baselineModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+  "reference": {
+    "path": "v1.5/miniaturas/liv-ipanema/referencias/portaria.jpg",
+    "sha256": "5c66690329183ba4adf56401cf0d6c6b470cbb42feba810499ddec7acc379cc2"
+  },
+  "inferred": true,
+  "preservedTowerGroups": 22,
+  "preservedTowerInstances": 196,
+  "structures": {
+    "portal": {
+      "triangles": 318,
+      "nonManifoldEdges": 0,
+      "degenerateTriangles": 0,
+      "signedVolume": 2.8180485578030954,
+      "coplanarOverlappingTrianglePairs": 0,
+      "intersectionArea": 0.0
+    },
+    "guarita-marquise": {
+      "triangles": 168,
+      "nonManifoldEdges": 0,
+      "degenerateTriangles": 0,
+      "signedVolume": 20.635948018048822,
+      "coplanarOverlappingTrianglePairs": 0,
+      "intersectionArea": 0.0
+    },
+    "janela": {
+      "triangles": 12,
+      "nonManifoldEdges": 0,
+      "degenerateTriangles": 0,
+      "signedVolume": 0.3819965532259825,
+      "coplanarOverlappingTrianglePairs": 0,
+      "intersectionArea": 0.0
+    },
+    "caixilho": {
+      "triangles": 172,
+      "nonManifoldEdges": 0,
+      "degenerateTriangles": 0,
+      "signedVolume": 0.04274759145736273,
+      "coplanarOverlappingTrianglePairs": 0,
+      "intersectionArea": 0.0
+    },
+    "portao-entrada": {
+      "triangles": 1564,
+      "nonManifoldEdges": 0,
+      "degenerateTriangles": 0,
+      "signedVolume": 0.10839186371358422,
+      "coplanarOverlappingTrianglePairs": 0,
+      "intersectionArea": 0.0
+    },
+    "portao-saida": {
+      "triangles": 1732,
+      "nonManifoldEdges": 0,
+      "degenerateTriangles": 0,
+      "signedVolume": 0.12041236313135299,
+      "coplanarOverlappingTrianglePairs": 0,
+      "intersectionArea": 0.0
+    },
+    "pedestres": {
+      "triangles": 500,
+      "nonManifoldEdges": 0,
+      "degenerateTriangles": 0,
+      "signedVolume": 0.029585087844835045,
+      "coplanarOverlappingTrianglePairs": 0,
+      "intersectionArea": 0.0
+    },
+    "piso": {
+      "triangles": 16,
+      "nonManifoldEdges": 0,
+      "degenerateTriangles": 0,
+      "signedVolume": 7.115280545659988,
+      "coplanarOverlappingTrianglePairs": 0,
+      "intersectionArea": 0.0
+    },
+    "placa": {
+      "triangles": 12,
+      "nonManifoldEdges": 0,
+      "degenerateTriangles": 0,
+      "signedVolume": 0.7571044191880182,
+      "coplanarOverlappingTrianglePairs": 0,
+      "intersectionArea": 0.0
+    },
+    "jardim": {
+      "triangles": 12,
+      "nonManifoldEdges": 0,
+      "degenerateTriangles": 0,
+      "signedVolume": 0.14118003638850496,
+      "coplanarOverlappingTrianglePairs": 0,
+      "intersectionArea": 0.0
+    }
+  },
+  "portalOpeningSamples": 9,
+  "windowOpeningSamples": 9,
+  "footprint": [
+    {
+      "label": "portal",
+      "verticesInsideIllustratedLot": 954
+    },
+    {
+      "label": "guarita-marquise",
+      "verticesInsideIllustratedLot": 504
+    },
+    {
+      "label": "piso",
+      "verticesInsideIllustratedLot": 48
+    },
+    {
+      "label": "placa",
+      "verticesInsideIllustratedLot": 36
+    }
+  ],
+  "sources": {
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/registrar_entrada.py": "070b07103b5aa9726bd3850332f24d44f1405bee16e07e5f324f7d8e81c546c8",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/candidato/modelo.json": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+    "experimentos/liv-experimental-2026-10-14/modelo/variante/modelo.json": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1"
+  }
+}

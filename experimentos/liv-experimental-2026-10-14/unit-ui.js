@@ -16,6 +16,8 @@ export function createUnitUI(catalog){
     if(!unit)return;
     document.getElementById('detailsTitle').textContent=title;
     const sale=saleOf(unit),informed=sale.availability!=='nao_informada'||sale.priceCents!==null;
+    // Vagas ligadas pelo painel (números da implantação) valem mais que o texto livre da ficha.
+    const spaces=unit.parkingSpaces??[],parking=spaces.length?`${spaces.length===1?'Vaga':'Vagas'} ${new Intl.ListFormat('pt-BR').format(spaces.map(String))}`:sale.parking;
     const details=unit.salesDetails;
     const area=details?.areaM2!==null&&details?.areaM2!==undefined?`${new Intl.NumberFormat('pt-BR').format(details.areaM2)} m²`:null;
     const count=(n,one,many)=>n===null||n===undefined?null:`${n} ${n===1?one:many}`;
@@ -25,8 +27,8 @@ export function createUnitUI(catalog){
     document.getElementById('unitDescription').hidden=!details?.description;
     document.getElementById('unitDescription').textContent=details?.description||'';
     document.getElementById('unitSale').textContent=informed?saleLabel(unit):'Não informados';
-    document.getElementById('unitCommercial').textContent=sale.commercialNumber!==null||sale.parking!==null?
-      `${sale.commercialNumber??'Número não informado'} · ${sale.parking??'vaga não informada'}`:'Não informados';
+    document.getElementById('unitCommercial').textContent=sale.commercialNumber!==null||parking!==null?
+      `${sale.commercialNumber??'Número não informado'} · ${parking??'vaga não informada'}`:'Não informados';
     document.getElementById('commercialSource').hidden=!catalog.commercialSource;
     document.getElementById('commercialSource').textContent=catalog.commercialSource?
       `Fonte: ${catalog.commercialSource.label} · ${catalog.commercialSource.asOf}`:'';
@@ -44,7 +46,7 @@ export function createUnitUI(catalog){
     const panelTitle=document.getElementById('selectedApartmentTitle');if(panelTitle)panelTitle.textContent=title;
     // Buyer card: price and size first; provenance stays in the full sheet.
     const meta=document.getElementById('selectedApartmentMeta');
-    if(meta)meta.textContent=[area,rooms,sale.parking].filter(Boolean).join(' · ');
+    if(meta)meta.textContent=[area,rooms,parking].filter(Boolean).join(' · ');
     const panelSale=document.getElementById('selectedApartmentSale');if(panelSale)panelSale.textContent=informed?saleLabel(unit):'Disponibilidade e preço a confirmar';
     const side=unit.side==='lazer'?'lado do lazer':'lado do estacionamento';
     const panelNote=document.getElementById('selectedApartmentNote');if(panelNote)panelNote.textContent=associated?`Planta ${layout(relation.typology).label} · ${side}`:note;

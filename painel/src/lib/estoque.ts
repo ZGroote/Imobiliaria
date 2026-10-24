@@ -1,5 +1,5 @@
-import { collection, doc, getDocFromServer, runTransaction, serverTimestamp, type Firestore } from 'firebase/firestore'
-import { BOOK_SHA, posicoes, validarInformacoes, validarUnidade, vazias, type Estoque, type PerfilVenda, type UnidadeVenda } from './estoque-modelo.ts'
+import { collection, doc, getDocFromServer, runTransaction, serverTimestamp, type DocumentReference, type Firestore } from 'firebase/firestore'
+import { BOOK_SHA, lerVagas, posicoes, validarInformacoes, validarUnidade, validarVagas, vazias, type Estoque, type PerfilVenda, type UnidadeVenda } from './estoque-modelo.ts'
 
 // Todo write passa pelas regras e registra uma mudança no mesmo commit.
 // expectedRevision impede que duas telas sobrescrevam dados sem avisar.
@@ -51,7 +51,34 @@ async function alterar(db: Firestore, propertyId: string, uid: string, kind: 'se
     throw e
   }
 }
-export const salvarUnidade = (db: Firestore, propertyId: string, uid: string, unit: UnidadeVenda) => {
+// Lê o mapa atual dentro da transação e troca só as vagas desta unidade: editar
+// apartamentos diferentes ao mesmo tempo não conflita, mas a mesma vaga sim.
+export async function salvarVagas(db: Firestore, propertyId: string, uid: string, unitKey: string, vagas: number[]) {
+  const parent = doc(db, 'salesInventory', propertyId), ref = doc(parent, 'parking', 'mapa'), change = doc(collection(parent, 'history'))
+  if (!posicoes().some(p => p.id === unitKey)) throw Error('Unidade inválida.')
+  vagas = lerVagas(vagas.join(','))
+  // As regras recusam o commit que perdeu a corrida (revisão velha) sem o SDK repetir;
+  // repetir relê o mapa. Sem permissão de verdade, a última tentativa repassa o erro.
+  for (let tentativa = 1; ; tentativa++) {
+    try { return await gravarVagas(db, ref, change, uid, unitKey, vagas) } catch (e) {
+      if ((e as { code?: string }).code !== 'permission-denied' || tentativa === 3) throw e
+    }
+  }
+}
+function gravarVagas(db: Firestore, ref: DocumentReference, change: DocumentReference, uid: string, unitKey: string, vagas: number[]) {
+  return runTransaction(db, async tx => {
+    const snapshot = await tx.get(ref), current = snapshot.exists() ? snapshot.data() : null
+    const spaces = current ? validarVagas(current) : {}
+    const ocupada = vagas.find(n => spaces[n] && spaces[n] !== unitKey)
+    if (ocupada) throw Error(`A vaga ${ocupada} já pertence a outro apartamento (${spaces[ocupada]}). Libere-a primeiro.`)
+    const next = Object.fromEntries(Object.entries(spaces).filter(([, u]) => u !== unitKey))
+    for (const n of vagas) next[n] = unitKey
+    const record = { id: 'mapa', spaces: next, revision: (current?.revision ?? 0) + 1, updatedAt: serverTimestamp(), lastChangeId: change.id }
+    tx.set(ref, record)
+    tx.set(change, { kind: 'parking', key: 'mapa', revision: record.revision, actor: uid, timestamp: serverTimestamp(), snapshot: record })
+  })
+}
+export const salvarUnidade =(db: Firestore, propertyId: string, uid: string, unit: UnidadeVenda) => {
   const valid = validarUnidade(unit)
   return alterar(db, propertyId, uid, 'units', unit.id, unit.revision, { commercialNumber: valid.commercialNumber,
     availability: valid.availability, profileId: valid.profileId, overrides: valid.overrides })

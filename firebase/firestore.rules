@@ -233,6 +233,14 @@ service cloud.firestore {
         && d().keys().hasAll(['id','info','revision','updatedAt','lastChangeId'])
         && d().keys().hasOnly(['id','info','revision','updatedAt','lastChangeId']);
     }
+    // Mapa vaga → unidade: as chaves são os números da implantação e os valores, posições do cadastro.
+    function salesParking(key) {
+      return key == 'mapa' && d().id == key && d().spaces is map && salesStamp()
+        && d().keys().hasAll(['id','spaces','revision','updatedAt','lastChangeId'])
+        && d().keys().hasOnly(['id','spaces','revision','updatedAt','lastChangeId'])
+        && d().spaces.keys().hasOnly(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '100', '101', '102', '103', '104', '105', '106', '107', '108', '109', '110', '111', '112', '113', '114', '115', '116', '117', '118', '119', '120', '121', '122', '123', '124', '125', '126', '127', '128', '129', '130', '131', '132', '133', '134', '135', '136', '137', '138', '139', '140', '141', '142', '143', '144', '145', '146', '147', '148', '149', '150', '151', '152', '153', '154', '155', '156', '157', '158', '159', '160', '161', '162', '163', '164', '165', '166', '167', '168', '169', '170', '171', '172', '173', '174', '175'])
+        && d().spaces.values().hasOnly(['p00-f01', 'p00-f02', 'p00-f03', 'p00-f04', 'p00-f05', 'p00-f06', 'p00-f07', 'p00-f08', 'p00-f09', 'p00-f10', 'p01-f01', 'p01-f02', 'p01-f03', 'p01-f04', 'p01-f05', 'p01-f06', 'p01-f07', 'p01-f08', 'p01-f09', 'p01-f10', 'p02-f01', 'p02-f02', 'p02-f03', 'p02-f04', 'p02-f05', 'p02-f06', 'p02-f07', 'p02-f08', 'p02-f09', 'p02-f10', 'p03-f01', 'p03-f02', 'p03-f03', 'p03-f04', 'p03-f05', 'p03-f06', 'p03-f07', 'p03-f08', 'p03-f09', 'p03-f10', 'p04-f01', 'p04-f02', 'p04-f03', 'p04-f04', 'p04-f05', 'p04-f06', 'p04-f07', 'p04-f08', 'p04-f09', 'p04-f10', 'p05-f01', 'p05-f02', 'p05-f03', 'p05-f04', 'p05-f05', 'p05-f06', 'p05-f07', 'p05-f08', 'p05-f09', 'p05-f10', 'p06-f01', 'p06-f02', 'p06-f03', 'p06-f04', 'p06-f05', 'p06-f06', 'p06-f07', 'p06-f08', 'p06-f09', 'p06-f10', 'p07-f01', 'p07-f02', 'p07-f03', 'p07-f04', 'p07-f05', 'p07-f06', 'p07-f07', 'p07-f08', 'p07-f09', 'p07-f10', 'p08-f01', 'p08-f02', 'p08-f03', 'p08-f04', 'p08-f05', 'p08-f06', 'p08-f07', 'p08-f08', 'p08-f09', 'p08-f10', 'p09-f01', 'p09-f02', 'p09-f03', 'p09-f04', 'p09-f05', 'p09-f06', 'p09-f07', 'p09-f08', 'p09-f09', 'p09-f10', 'p10-f01', 'p10-f02', 'p10-f03', 'p10-f04', 'p10-f05', 'p10-f06', 'p10-f07', 'p10-f08', 'p10-f09', 'p10-f10', 'p11-f01', 'p11-f02', 'p11-f03', 'p11-f04', 'p11-f05', 'p11-f06', 'p11-f07', 'p11-f08', 'p11-f09', 'p11-f10', 'p12-f01', 'p12-f02', 'p12-f03', 'p12-f04', 'p12-f05', 'p12-f06', 'p12-f07', 'p12-f08', 'p12-f09', 'p12-f10', 'p13-f01', 'p13-f02', 'p13-f03', 'p13-f04', 'p13-f05', 'p13-f06', 'p13-f07', 'p13-f08', 'p13-f09', 'p13-f10', 'p14-f01', 'p14-f02', 'p14-f03', 'p14-f04', 'p14-f05', 'p14-f06', 'p14-f07', 'p14-f08', 'p14-f09', 'p14-f10', 'p15-f01', 'p15-f02', 'p15-f03', 'p15-f04', 'p15-f05', 'p15-f06', 'p15-f07', 'p15-f08', 'p15-f09', 'p15-f10', 'p16-f01', 'p16-f02', 'p16-f03', 'p16-f04', 'p16-f05', 'p16-f06', 'p16-f07', 'p16-f08', 'p16-f09', 'p16-f10']);
+    }
     match /salesInventory/{pid} {
       // Endereço público de um estoque específico; sem enumerar cadastros de terceiros.
       allow get: if true;
@@ -272,16 +280,24 @@ service cloud.firestore {
           && changesOnly(['info','revision','updatedAt','lastChangeId']) && salesAudit(pid, 'profiles', key);
         allow delete: if false;
       }
+      match /parking/{key} {
+        allow read: if salesRead(pid) || salesPublic(pid);
+        allow create: if salesEdit(pid) && exists(/databases/$(db)/documents/salesInventory/$(pid))
+          && salesParking(key) && d().revision == 1 && salesAudit(pid, 'parking', key);
+        allow update: if salesEdit(pid) && salesParking(key) && d().revision == resource.data.revision + 1
+          && changesOnly(['spaces','revision','updatedAt','lastChangeId']) && salesAudit(pid, 'parking', key);
+        allow delete: if false;
+      }
       match /history/{changeId} {
         allow read: if salesRead(pid);
         allow create: if salesEdit(pid) && d().actor == request.auth.uid && d().timestamp == request.time
           && d().keys().hasAll(['kind','key','revision','actor','timestamp','snapshot'])
           && d().keys().hasOnly(['kind','key','revision','actor','timestamp','snapshot'])
-          && d().kind in ['settings','units','profiles'] && d().snapshot.revision == d().revision
+          && d().kind in ['settings','units','profiles','parking'] && d().snapshot.revision == d().revision
           && d().snapshot.lastChangeId == changeId && d().snapshot.updatedAt == request.time
           && ((d().kind == 'settings' && d().key == 'settings'
                && getAfter(/databases/$(db)/documents/salesInventory/$(pid)).data == d().snapshot)
-            || (d().kind in ['units','profiles'] && d().key is string
+            || (d().kind in ['units','profiles','parking'] && d().key is string
                && getAfter(/databases/$(db)/documents/salesInventory/$(pid)/$(d().kind)/$(d().key)).data == d().snapshot));
         allow update, delete: if false;
       }

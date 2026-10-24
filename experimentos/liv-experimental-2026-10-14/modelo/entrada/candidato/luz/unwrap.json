@@ -1,24 +1,24 @@
 {
   "schema": "liv-lightmap-corners-v1",
-  "sourceSHA256": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
-  "modelPath": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\modelo\\entrada\\candidato\\modelo.json",
+  "sourceSHA256": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+  "modelPath": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-experimental-2026-10-14\\modelo\\entrada\\candidato\\modelo.json",
   "size": 4096,
-  "atlasWidth": 6044,
-  "atlasHeight": 6037,
+  "atlasWidth": 5999,
+  "atlasHeight": 6000,
   "atlasCount": 1,
-  "utilization": 0.8088331818580627,
+  "utilization": 0.8106465935707092,
   "groups": 82,
-  "instances": 995,
-  "triangles": 105307,
-  "mappedCorners": 315921,
+  "instances": 1007,
+  "triangles": 105811,
+  "mappedCorners": 317433,
   "flippedTriangles": 1,
   "degenerateTrianglesRemoved": 22,
   "padding": 6,
-  "effectivePaddingPixels": 4.066181336863004,
+  "effectivePaddingPixels": 4.096,
   "uvMaxPixelError": 0.03125047684443427,
-  "geometrySHA256": "ff4f54dba751cd25e5cf232374690c7b0c43f4c72734dce34317910abae90c12",
-  "geometryBytes": 2074052,
-  "geometryGzipBytes": 1095371,
+  "geometrySHA256": "c20fecf9ce865089c6c17b091c169cd4d736d3340388bad28ba0c0fbbf2a86a3",
+  "geometryBytes": 2086345,
+  "geometryGzipBytes": 1106047,
   "excludedGroups": [
     {
       "groupIndex": 5,
@@ -96,7 +96,7 @@
       "reason": "dynamic glass/metal/foliage or emissive detail"
     }
   ],
-  "seconds": 5.043650300009176,
+  "seconds": 7.406221900018863,
   "checks": {
     "oneAtlas": true,
     "cornerOrderPreserved": true,
@@ -116,8 +116,8 @@
     "otherObjectsLinearMultiplier": 1,
     "exportGeometryUnchanged": true,
     "sources": {
-      "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/preparar_luz_densa.py": "b2abad32253ce583fbeb80f4f1b73b462e2f2dac121fc0562840ea768e9535ce",
-      "v1.5/miniaturas/liv-ipanema/preparar_luz.py": "8d486ec498162f56b57d9ee8fc71e40b476e6d604273882b2f3ff463390a1055"
+      "experimentos/liv-experimental-2026-10-14/modelo/preparar_luz_densa.py": "b2abad32253ce583fbeb80f4f1b73b462e2f2dac121fc0562840ea768e9535ce",
+      "v1.5/miniaturas/liv-ipanema/preparar_luz.py": "b968ca9f4cf286e3c9a98690f334ddaf97ec023d12730143ed022d9940879be7"
     }
   }
 }

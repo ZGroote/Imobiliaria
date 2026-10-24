@@ -3,12 +3,13 @@ import { useState, type FormEvent } from 'react'
 import { Aviso, Cartao, useAcao } from './ui'
 import { CamposDaFicha, lerInformacoes } from './EstoqueCampos'
 import { db } from '@/lib/firebase'
-import { salvarPerfil, salvarUnidade } from '@/lib/estoque'
-import { resolverInformacoes, SITUACOES, validarLista, type Planta, type PerfilVenda, type UnidadeVenda } from '@/lib/estoque-modelo'
+import { salvarPerfil, salvarUnidade, salvarVagas } from '@/lib/estoque'
+import { lerVagas, resolverInformacoes, SITUACOES, TOTAL_VAGAS, vagasDaUnidade, validarLista, type Planta, type PerfilVenda, type UnidadeVenda } from '@/lib/estoque-modelo'
 
-export function EditorDeUnidade({ unit, units, profiles, propertyId, uid, close }: {
-  unit: UnidadeVenda; units: UnidadeVenda[]; profiles: PerfilVenda[]; propertyId: string; uid: string; close: () => void
+export function EditorDeUnidade({ unit, units, profiles, spaces, propertyId, uid, close }: {
+  unit: UnidadeVenda; units: UnidadeVenda[]; profiles: PerfilVenda[]; spaces: Record<string, string>; propertyId: string; uid: string; close: () => void
 }) {
+  const vagasAtuais = vagasDaUnidade(spaces, unit.id)
   const { executar, ocupado, erro } = useAcao()
   const [profileId, setProfileId] = useState<Planta | null>(unit.profileId), [confirmed, setConfirmed] = useState(!!unit.profileId)
   async function submit(e: FormEvent<HTMLFormElement>) {
@@ -18,6 +19,9 @@ export function EditorDeUnidade({ unit, units, profiles, propertyId, uid, close 
       const next: UnidadeVenda = { ...unit, profileId, overrides: lerInformacoes(form), commercialNumber: String(form.get('commercialNumber') ?? '').trim() || null,
         availability: String(form.get('availability')) as UnidadeVenda['availability'] }
       validarLista(units.map(u => u.id === unit.id ? next : u))
+      const vagas = lerVagas(String(form.get('parkingSpaces') ?? ''))
+      // Vagas primeiro: se a vaga for de outro apartamento, nada é gravado.
+      if (vagas.join() !== vagasAtuais.join()) await salvarVagas(db, propertyId, uid, unit.id, vagas)
       await salvarUnidade(db, propertyId, uid, next)
     })
     if (ok) close()
@@ -28,6 +32,9 @@ export function EditorDeUnidade({ unit, units, profiles, propertyId, uid, close 
       <p className="text-xs text-slate-500">Posição técnica: {unit.id}. Preencha a numeração comercial confirmada. Esta ficha contém somente informações públicas.</p>
       <fieldset disabled={ocupado} className="space-y-3">
         <label className="block text-sm">Número comercial<input className="campo mt-1" name="commercialNumber" maxLength={100} defaultValue={unit.commercialNumber ?? ''} /></label>
+        <label className="block text-sm">Vagas na implantação<input className="campo mt-1" name="parkingSpaces" inputMode="numeric"
+          defaultValue={vagasAtuais.join(', ')} placeholder="Ex.: 87 ou 12, 13" />
+          <span className="mt-1 block text-xs text-slate-500">Números de 1 a {TOTAL_VAGAS} da planta de implantação. Na maquete, estas vagas piscam junto com o apartamento.</span></label>
         <label className="block text-sm">Disponibilidade<select aria-label="Disponibilidade" className="campo mt-1" name="availability" defaultValue={unit.availability}>
           {Object.entries(SITUACOES).map(([k, label]) => <option key={k} value={k}>{label}</option>)}
         </select></label>

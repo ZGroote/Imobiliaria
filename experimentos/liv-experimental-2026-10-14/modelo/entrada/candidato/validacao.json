@@ -12,9 +12,9 @@
     "cars": 36,
     "trees": 146,
     "palms": 13,
-    "site_objects": 1619,
+    "site_objects": 1631,
     "unique_site_meshes": 75,
-    "unique_site_vertices": 12331,
+    "unique_site_vertices": 12315,
     "official_site_area_m2": 6921.79,
     "site_dimensions_are_inferred": true,
     "amenities": [
@@ -139,13 +139,14 @@
     }
   },
   "recipeSources": {
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py": "5698afe2f06c70a54658bfac1d259623850372ea83f9c445312c24cae0b3cb89",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/unir_paredes.py": "16ddbb49572368f7f752e2d284a1e03314a07b4901b8412a061b90231283d09e",
+    "experimentos/liv-experimental-2026-10-14/modelo/modelar_exterior.py": "5698afe2f06c70a54658bfac1d259623850372ea83f9c445312c24cae0b3cb89",
+    "experimentos/liv-experimental-2026-10-14/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
+    "experimentos/liv-experimental-2026-10-14/modelo/unir_paredes.py": "16ddbb49572368f7f752e2d284a1e03314a07b4901b8412a061b90231283d09e",
     "v1.5/miniaturas/blender_maquete_base.py": "656e755d43600072aa5477b44a2531f38963ad1cc3c9169396a9d8889fe6be81",
     "v1.5/miniaturas/liv-ipanema/modelar_implantacao.py": "90a8a5081c601786ea3f908d88ae49a3cb6420ffca2c2fed81464cf4cdf1a3d1",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/modelar_entrada.py": "baa92ca49d67e13d63e81bb2d0b53024d545ea9668d4eb1f782894be30cd4ab3",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/entrada_site.py": "3becb22b75c453672abde6d8a20b989b28285062c6b00db2b651e9a62804c435"
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/modelar_entrada.py": "06ade05735e05dbd13f989b5c20a025297c52140d637600938a06618f67813f6",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/entrada_site.py": "3becb22b75c453672abde6d8a20b989b28285062c6b00db2b651e9a62804c435",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/vagas_oficiais.py": "37bb19a045a703daa652b4526d0e12d27b47f9b7adef0b59ca91261342c8dd2f"
   },
   "entryStudy": {
     "dimensionsAreInferred": true,
@@ -394,11 +395,20 @@
     },
     "status": "inferido; sem projeto executivo; sem qualificação do bake desta entrada"
   },
-  "blender": "5.2.2 LTS",
+  "parkingStudy": {
+    "spaces": 175,
+    "numbering": {
+      "path": "relatorios/liv-referencias-publicas-2026-10-09/implantacao-finais-e-vagas.png",
+      "sha256": "5ee381ceacbe6d52ece70ac2bf4854c4c07c2f5e287d278d2c92cff8d733a2eb"
+    },
+    "file": "vagas.json",
+    "status": "centros medidos na implantação oficial; dimensões inferidas"
+  },
+  "blender": "5.2.3 LTS",
   "geometries": 97,
   "groups": 97,
-  "web_bytes": 3569993,
-  "glb_bytes": 2535936,
+  "web_bytes": 3825540,
+  "glb_bytes": 2536272,
   "checks": {
     "pavimentos_e_lajes": true,
     "exportacao": true,

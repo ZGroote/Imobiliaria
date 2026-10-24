@@ -6,6 +6,7 @@ import {balconyDetailView,BALCONY_DETAIL_BOUNDS,entryDetailView,ENTRY_DETAIL_BOU
 import {unitById} from './unidades.js';
 import {loadUnitCatalog,floorOf} from './catalogo-unidades.js';
 import {createUnitPicking} from './picking.js';
+import {createParkingHighlight} from './vagas.js';
 import {environmentTexture,precomputedEnvironment} from './ambiente.js';
 import {EXTERIOR_EDITIONS} from './edicoes.js';
 import {exteriorAmbience,requestedAmbience} from './ambiencia.js';
@@ -180,7 +181,7 @@ async function start() {
   renderer.shadowMap.enabled=true;
   renderer.shadowMap.type=THREE.PCFShadowMap;
   const scene=new THREE.Scene();
-  let environment,controls,resizeObserver,unitPicking,ambience;
+  let environment,controls,resizeObserver,unitPicking,ambience,parking,pendingSpaces=[];
   const textures=[],materials=[],geometries=[];
   state.scene=scene;state.atlas=atlas;
   // Own resources before the first asynchronous environment/texture request.
@@ -188,7 +189,7 @@ async function start() {
   state.dispose=()=>{
     if(state.disposed)return;
     state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);
-    resizeObserver?.disconnect();controls?.dispose();unitPicking?.dispose();ambience?.dispose();
+    resizeObserver?.disconnect();controls?.dispose();unitPicking?.dispose();parking?.dispose();ambience?.dispose();
     for(const geometry of geometries)geometry.dispose();
     for(const material of materials)material.dispose();
     for(const texture of textures){texture?.dispose();texture?.image?.close?.();}
@@ -441,6 +442,15 @@ async function start() {
       if(id!==null)setFloor(floorOf(units,unitById(units,id)));
       unitPicking.select(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id,activate}}));
     }});
+  // Só a edição entrada tem as vagas da implantação oficial; a primeira imagem não espera por elas.
+  if(geometryProfile==='entrada')fetch(new URL('../vagas.json',base),{signal:requests.signal}).then(r=>{if(!r.ok)throw Error('vagas.json '+r.status);return r.json();})
+    .then(json=>{if(state.disposed)return;parking=state.parking=createParkingHighlight(scene,json);parking.setSpaces(pendingSpaces);})
+    .catch(error=>{if(!state.disposed)state.parkingError=String(error);});
+  function setParkingSpaces(numbers){
+    if(state.disposed)return false;
+    pendingSpaces=Array.isArray(numbers)?numbers.filter(Number.isInteger):[];
+    return parking?parking.setSpaces(pendingSpaces):null;
+  }
   function setUnitView(side,floor=1){
     if(!['lazer','estacionamento'].includes(side))throw Error('Lado do pavimento inválido.');
     if(!units||!units.units.some(unit=>floorOf(units,unit)===floor))throw Error('Pavimento fora do cadastro.');
@@ -461,7 +471,7 @@ async function start() {
     if(state.disposed)return false;
     ambience.setProfile(profile);state.ambience=profile;renderer.render(scene,camera);return true;
   }
-  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,
+  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,setParkingSpaces,
     setAvailableUnits:ids=>unitPicking?.availability.setUnits(ids)??false,
     ambience:initialAmbience,ambienceController:ambience,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,facadeBounds,entryDetailBounds:entryBounds,
     invalidateShadows(){

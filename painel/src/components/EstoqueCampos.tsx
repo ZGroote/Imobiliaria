@@ -17,7 +17,7 @@ export function CamposDaFicha({ values, inherited }: { values: Informacoes; inhe
       defaultValue={values.areaM2 ?? ''} placeholder={String(inherited?.areaM2 ?? 'Não informada')} /></label>
     {(['bedrooms', 'bathrooms'] as const).map((key, i) => <label key={key} className="block text-sm">{i === 0 ? 'Quartos' : 'Banheiros'}
       <input className="campo mt-1" type="number" name={key} min="0" max="100" step="1" defaultValue={values[key] ?? ''} placeholder={String(inherited?.[key] ?? 'Não informado')} /></label>)}
-    <label className="block text-sm sm:col-span-2">Vaga / estacionamento<input className="campo mt-1" name="parking" maxLength={200}
+    <label className="block text-sm sm:col-span-2">Vaga / estacionamento (descrição)<input className="campo mt-1" name="parking" maxLength={200}
       defaultValue={values.parking ?? ''} placeholder={inherited?.parking ?? 'Não informado'} /></label>
     {(['description', 'conditions'] as const).map((key, i) => <label key={key} className="block text-sm sm:col-span-2">{i === 0 ? 'Descrição pública' : 'Condições públicas'}
       <textarea className="campo mt-1" name={key} maxLength={2000} rows={3} defaultValue={values[key] ?? ''} placeholder={inherited?.[key] ?? 'Não informadas'} /></label>)}

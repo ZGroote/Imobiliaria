@@ -4,16 +4,16 @@
   "baselineAppSHA256": "a51f9ec7e1134d2b2e1cdb7c1748e4e142edec333d1e833f1b565976f60cecdc",
   "files": {
     "mapa-runtime/mapa-liv-ipanema-5km.html": {
-      "bytes": 8054703,
-      "sha256": "953de725cc37a394c5ffef8a9259f0cb5578fea575348c188eddfcf536d77f7d"
+      "bytes": 8054699,
+      "sha256": "01846f74a056f5f87fdc4bf562a49b3c9caf54cc2a11204063eb8c905c7734e2"
     },
     "modelo/variante/liv-contorno.glb": {
       "bytes": 2275324,
       "sha256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686"
     },
     "modelo/entrada/candidato/liv-contorno.glb": {
-      "bytes": 2535936,
-      "sha256": "4947fee3d6eba10af3619493663a04a3fb478086a0953ae646f685b09e84ba01"
+      "bytes": 2536272,
+      "sha256": "1e43cf429a4ea1408c2f2e16f96cd40d3a3640fac18e41aee3bb816d15647941"
     }
   },
   "models": {
@@ -31,9 +31,9 @@
     },
     "entrada": {
       "url": "../modelo/entrada/candidato/liv-contorno.glb",
-      "bytes": 2535936,
-      "sha256": "4947fee3d6eba10af3619493663a04a3fb478086a0953ae646f685b09e84ba01",
-      "sourceModelSHA256": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a"
+      "bytes": 2536272,
+      "sha256": "1e43cf429a4ea1408c2f2e16f96cd40d3a3640fac18e41aee3bb816d15647941",
+      "sourceModelSHA256": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac"
     }
   },
   "changes": [
@@ -49,11 +49,11 @@
   ],
   "preserved": "source data blocks, streets, regional context outside the parcel, 120 tile source files, unchanged GLB geometry/materials and scale",
   "sources": {
-    "experimentos/liv-ipanema-webgpu-2026-10-09/preparar_mapa.py": "aedd91a349586dea2db2709dd14c045e232dc0de695d9321bbc059df28b4b0d9",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/mapa-loader.js": "84a94eb0801dffafe6803bbd5397b38bb167ec58a21221abf001617f379b2226",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/mapa-implantacao.js": "736bc1a1eae9f936ddd0510cfcc1adf5ef69e2b598144c4df7961090923fde07",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/mapa-parcela.json": "14220fd5fe195830394c278e3984df7a669f2ba99473656c74f11897f94f3bef",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/mapa.json": "c4d8dcee160eec961be8e5e5546fbccf27999a040552e8497c0a7862d44e8269",
-    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/mapa.json": "387b7a4ff4fa4dffbb49e81910fa99daff0320182053635aba40145754efc326"
+    "experimentos/liv-experimental-2026-10-14/preparar_mapa.py": "aedd91a349586dea2db2709dd14c045e232dc0de695d9321bbc059df28b4b0d9",
+    "experimentos/liv-experimental-2026-10-14/mapa-loader.js": "84a94eb0801dffafe6803bbd5397b38bb167ec58a21221abf001617f379b2226",
+    "experimentos/liv-experimental-2026-10-14/mapa-implantacao.js": "736bc1a1eae9f936ddd0510cfcc1adf5ef69e2b598144c4df7961090923fde07",
+    "experimentos/liv-experimental-2026-10-14/mapa-parcela.json": "14220fd5fe195830394c278e3984df7a669f2ba99473656c74f11897f94f3bef",
+    "experimentos/liv-experimental-2026-10-14/modelo/variante/mapa.json": "c4d8dcee160eec961be8e5e5546fbccf27999a040552e8497c0a7862d44e8269",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/candidato/mapa.json": "c6a5ff9e605fad429b5cefc149eac50bcb8661e45ec2c205259075221304f53c"
   }
 }
