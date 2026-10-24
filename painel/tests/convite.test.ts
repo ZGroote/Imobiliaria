@@ -6,9 +6,30 @@ import { convidar } from '../src/lib/usuarios.ts'
 import { semear } from '../scripts/seed.mjs'
 import { entrar, novaConta, sairDeTodos, verificarEmail } from './apoio.ts'
 import type { Invite } from '../src/lib/types.ts'
+import { inicioDoPapel } from '../src/lib/acesso.ts'
 
 before(semear)
 after(sairDeTodos)
+
+test('convites: os quatro papéis entram pela mesma porta e recebem somente a área do papel aceito', async () => {
+  const admin = await entrar('admin')
+  for (const role of ['platform_admin', 'operator', 'agency_manager', 'agent'] as const) {
+    const email = `convite-${role}@painel.test`
+    const agencyId = ['agency_manager', 'agent'].includes(role) ? 'agA' : undefined
+    await convidar(admin.db, admin.uid, { email, name: 'Convidado de teste', role, agencyId })
+    const novo = await novaConta(email)
+    await verificarEmail(novo.auth)
+    const convite = await lerConvite(novo.db, email)
+    assert.ok(convite)
+    await aceitarConvite(novo.db, novo.uid, convite)
+    const perfil = (await getDoc(doc(novo.db, 'users', novo.uid))).data()!
+    assert.equal(perfil.role, role)
+    assert.equal(perfil.active, true)
+    assert.equal(perfil.agencyId, agencyId)
+    assert.equal(inicioDoPapel(perfil.role), agencyId ? '/dashboard' : '/admin')
+    assert.equal((await getDoc(doc(admin.db, 'invites', email))).exists(), false)
+  }
+})
 
 test('convite do gerente: só com e-mail verificado; perfil nasce como corretor da agência e consome convite', async () => {
   const admin = await entrar('admin'), gerente = await entrar('gerA')
