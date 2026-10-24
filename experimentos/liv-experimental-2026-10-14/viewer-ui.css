@@ -89,7 +89,7 @@ progress { accent-color: var(--accent); max-width: 100%; }
 .available-units h2 { margin: 0 0 8px; font-size: 15px; font-weight: 600; }
 #availableUnitList { margin: 0; padding: 0; list-style: none; border: 1px solid var(--line); border-radius: 10px; }
 #availableUnitList li + li { border-top: 1px solid var(--line); }
-#availableUnitList button { display: grid; grid-template-columns: 1.1fr 1fr 1fr 1.2fr; gap: 8px; width: 100%; border: 0; border-radius: 0; background: transparent; text-align: left; font-size: 13px; }
+#availableUnitList button { display: grid; grid-template-columns: 1.1fr 1fr 1.2fr; gap: 8px; width: 100%; border: 0; border-radius: 0; background: transparent; text-align: left; font-size: 13px; }
 #availableUnitList button:hover { background: #1b2e27; }
 #availableUnitList span:first-child { font-weight: 600; }
 #availableUnitList span:last-child { color: var(--accent); text-align: right; }
@@ -140,6 +140,17 @@ summary { cursor: pointer; min-height: 44px; align-content: center; font-size: 1
 #mapPanel iframe { flex: 1; min-height: 0; width: 100%; border: 0; }
 .source-details { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 8px; }
 .source-details a { display: inline-block; padding-block: 8px; }
+/* FICHA-LATERAL-20261023: dados completos no espaço livre, sem duplicar a ficha. */
+.selected-apartment:has(.inline-unit-details:not([hidden])) .apartment-info { display: none; }
+.selected-apartment:has(.inline-unit-details:not([hidden])) { margin-bottom: 8px; padding-bottom: 8px; }
+.inline-unit-details { margin-top: 8px; }
+.inline-unit-details h3 { margin: 0; font-size: 13px; font-weight: 600; }
+.inline-unit-details #detailsBody { font-size: 12px; line-height: 1.4; }
+.inline-unit-details #detailsBody dl { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 4px 12px; margin: 6px 0; padding-block: 8px; }
+.inline-unit-details #detailsBody p { margin-block: 6px; }
+.inline-unit-details #detailsBody dt:first-child, .inline-unit-details #unitSale { display: none; }
+.inline-unit-details .source-details { margin-top: 8px; padding-top: 0; }
+.inline-unit-details .source-details summary { color: var(--muted); }
 @media (max-width: 760px) {
   .layout { width: calc(100% - 24px); gap: 8px; }
   .stage-toolbar { top: 8px; left: 8px; right: 8px; gap: 8px; }

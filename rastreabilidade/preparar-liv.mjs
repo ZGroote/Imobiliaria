@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto'
 
 const root=resolve(fileURLToPath(new URL('..',import.meta.url)))
 export async function prepararLiv({release=join(root,'publicacao/liv-duplo-20261017'),
-  publicOrigin='https://imobilaria-deccb-miniaturas.web.app'}={}){
+  publicOrigin='https://conectaimoveis3d.com.br'}={}){
   if(new URL(publicOrigin).origin!==publicOrigin||!publicOrigin.startsWith('https://'))throw Error('Origem HTTPS exata necessária.')
   const payload=join(release,'payload'),classic=join(payload,'liv-classico')
   const [viewer,map,adapter,manifest,self]=await Promise.all([
@@ -28,7 +28,8 @@ export async function prepararLiv({release=join(root,'publicacao/liv-duplo-20261
   if(maquete===viewer||tour===map||mapAdapter===adapter)throw Error('Formato do LIV mudou; revise a entrada rastreável.')
   await mkdir(directory,{recursive:true})
   await Promise.all([writeFile(join(directory,'maquete.html'),maquete),writeFile(join(directory,'tour.html'),tour),writeFile(join(directory,'mapa-retorno.js'),mapAdapter)])
-  const config={publicOrigin,panelOrigin:'https://imobilaria-deccb-painel.web.app',
+  const config={publicOrigin,panelOrigin:'https://painel.conectaimoveis3d.com.br',
+    legacyPanelOrigin:'https://imobilaria-deccb-painel.web.app',
     publications:{'liv-ipanema':{pipelineUnitId:'liv-ipanema',publishedBuild:build}}}
   await writeFile(join(root,'rastreabilidade/functions/publication.json'),JSON.stringify(config,null,2)+'\n')
   await writeFile(join(release,'tracking-publication.json'),JSON.stringify(config,null,2)+'\n')

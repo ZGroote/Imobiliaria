@@ -1,11 +1,12 @@
 import {unitById} from './unidades.js';
-import {floorOf,floorLabel} from './catalogo-unidades.js';
+import {floorOf} from './catalogo-unidades.js';
 import {saleOf,saleLabel} from './comercial.js';
 import {typology as layout} from './tipologias.js';
 export function createUnitUI(catalog){
   return {setCatalog(data){catalog=data;},update({selectedUnitId,ready,mode,relationError,stockError,unitScope}){
     const unit=unitById(catalog,selectedUnitId);
-    document.getElementById('unitAnnouncement').textContent=unit?`Final ${unit.final} selecionado, posição aproximada, ${saleLabel(unit)}.`:'Nenhum final selecionado.';
+    const title=unit?(unit.commercial?.commercialNumber?`Apartamento ${unit.commercial.commercialNumber}`:`Final ${unit.final}`):'';
+    document.getElementById('unitAnnouncement').textContent=unit?`${title} selecionado, posição aproximada, ${saleLabel(unit)}.`:'Nenhum apartamento selecionado.';
     const panel=document.getElementById('selectedApartment'),prompt=document.getElementById('selectionPrompt');
     if(panel)panel.hidden=!unit;if(prompt)prompt.hidden=Boolean(unit);
     const info=document.getElementById('btnApartmentInfo');if(info){info.hidden=!unit;info.disabled=!unit;}
@@ -13,8 +14,6 @@ export function createUnitUI(catalog){
     for(const button of document.querySelectorAll('[data-unit-open]')){button.hidden=!associated;button.disabled=!ready||!associated;}
     const actions=document.getElementById('selectedApartmentActions');if(actions)actions.hidden=!associated||mode!=='maquete';
     if(!unit)return;
-    const label=floorLabel(floorOf(catalog,unit));
-    const title=unit.commercial?.commercialNumber?`Apartamento ${unit.commercial.commercialNumber} · ${label}`:`Final ${unit.final} · ${label}`;
     document.getElementById('detailsTitle').textContent=title;
     const sale=saleOf(unit),informed=sale.availability!=='nao_informada'||sale.priceCents!==null;
     const details=unit.salesDetails;

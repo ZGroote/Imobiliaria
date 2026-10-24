@@ -14,7 +14,7 @@ test('HTML de build anterior continua utilizável com o bundle compartilhado atu
 test('mensagem conserva token público e apartamento, descartando recibos e dados privados',()=>{
   const unit={id:'liv-ipanema/pavimento-modelo-14/final-06',final:'06',commercial:{commercialNumber:'1406'},salesDetails:{areaM2:47.89}};
   const result=apartmentContact(unit,14,{contact:{brokerName:'Equipe',whatsappNumber:'5581999990000'},shareUrl:'https://conectaimoveis3d.com.br/acesso.html?l=token-publico&receipt=privado&visitId=segredo&experiencia=original#stage'});
-  assert.match(result.message,/apartamento 1406/);assert.match(result.message,/14º andar/);assert.match(result.message,/47,89 m²/);
+  assert.match(result.message,/apartamento 1406/);assert.doesNotMatch(result.message.split('\n').slice(0,-1).join('\n'),/andar|pavimento|Térreo/);assert.match(result.message,/47,89 m²/);
   const address=new URL(result.message.split('\n').at(-1));
   assert.equal(address.searchParams.get('l'),'token-publico');assert.equal(address.searchParams.get('unidade'),unit.id);
   assert.equal(address.searchParams.get('experiencia'),'original');assert.equal(address.searchParams.get('modo'),'planta2d');

@@ -11,16 +11,45 @@ Marcador em todas as integrações: `EXPERIMENTO-COMPRA-20261023`.
   `picking.js`; `renderer.js` comunica a confirmação e `viewer.js` decide a abertura.
 - As ações do visitante abrem a planta. Restauração dos links, seleção pela API e
   retorno ao prédio continuam sob controle explícito, sem reabrir a planta em loop.
-- Contato monta mensagem com apartamento, andar, área e endereço público. Em links
+- Contato monta mensagem com apartamento, área e endereço público. Em links
   individuais usa somente o telefone público e o responsável revalidados pela API.
   Sem telefone cadastrado, permite copiar a mensagem ou selecioná-la manualmente.
-  Não configura telefone, não envia mensagem sozinho e não adiciona um atendente IA.
+  A entrada pública independente usa o contato institucional de `contato-publico.json`;
+  iframes dos links individuais aguardam somente o contato validado da API. A ação
+  de contato usa somente o ícone redondo e flutuante do WhatsApp, sem texto visível.
+  No link individual, a barra externa oculta seu ícone quando o visualizador já
+  mostra o contato, evitando duplicação. Não envia mensagem sozinho.
 - A base neutra sob o terreno foi retirada em 23/10 a pedido do usuário, que
   identificou a mancha verde no fundo. Depois de confirmar que a navegação voltou
   ao normal ao reabrir o site, ele cancelou a alteração de movimento; os controles
   ficaram como estavam. O mapa existente mostra a região real.
 - Ações internas em uma linha; painel lateral também no celular deitado. Mantém
   o limite da página à tela e a rolagem interna das informações.
+- A entrada pública mostra **← Voltar ao site**, com destino fixo à página
+  principal da Conecta. O botão também aparece na comparação anterior e adapta
+  a faixa superior a telas menores. Links individuais dentro da página de acesso
+  continuam usando somente o WhatsApp do corretor validado pela API, antes e
+  depois de selecionar um apartamento. Não usam o contato institucional como
+  substituto quando o corretor está sem telefone. Marcador
+  `VOLTAR-AO-SITE-20261023`; preservar essa navegação ao remover o experimento.
+- A ficha completa fica aberta no painel em telas a partir de 1000 × 720 px,
+  com espaçamento compacto para caber junto aos controles. Em telas menores,
+  o botão abre a mesma ficha em uma janela. Marcador `FICHA-LATERAL-20261023`.
+  Títulos, lista, leitor de tela e mensagem de interesse identificam o apartamento
+  pelo número, sem acrescentar o pavimento.
+  Validação local: 43 testes do fluxo/contato e 25 estados no Chrome passaram;
+  nos cinco tamanhos de desktop entre 1024 × 768 e 1920 × 920, os quatro modos
+  couberam sem rolagem da ficha e com os controles visíveis. Telas menores usam
+  a janela, incluindo 1280 × 700. Sem erros de JavaScript e sem aparelho físico.
+  Evidências locais em `publicacao/qa-ficha-lateral-20261023/`. Na suíte ampliada,
+  133 testes passaram; três testes de geração do rodateto ficaram bloqueados
+  por arquivos `source.json` ausentes nas fontes 3D seladas, sem relação com a ficha.
+  Publicado em 23/10/2026 no domínio `conectaimoveis3d.com.br`, build
+  `66a70f0c7a53`, incluindo a entrada pública e os links individuais. No painel,
+  situação e preço ficam no resumo acima da ficha, evitando repetir essa linha.
+  Conferência online com dados reais: nove estados de desktop, ficha do celular,
+  12 arquivos por HTTPS e ausência de erros de JavaScript. Hosting
+  `d9631933c8760eb7`; função ativa na revisão `conectatracking-00012-rop`.
 
 ## Comparar e desligar
 

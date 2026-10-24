@@ -49,4 +49,38 @@ Verifique no navegador autenticado: Imóveis → LIV Ipanema → Links individua
 
 Validação automatizada: `npm run test:rastreabilidade` usa Auth e Firestore locais com projeto `demo-painel`. Nunca semear usuários ou imóveis no projeto de produção para testar.
 
+### Perfil, convites e WhatsApp — 23/10/2026
+
+Publicação autorizada pelo usuário nesta conversa. Painel na versão
+`07b18b72710774e7`, Hosting das miniaturas `89b83c700c20d479`, runtime de acesso
+`5d63f526c8818948`. Ruleset do Firestore `d1016f72-494c-4b7c-b75c-049d4f6163cc`,
+SHA-256 `a48cd0f4dadd1afc29dbfe4c3e29bc96af0df4e04e0b2f0d9cc90b27258cb91b`.
+Função, segredo, tokens e build do LIV `2b69f90177ac` continuam os mesmos.
+
+- **Equipe:** gerente convida e cancela convites de corretores somente da própria imobiliária.
+- **Meu perfil:** cada usuário edita nome e celular/WhatsApp; o contato público é validado pelas regras.
+- **Experiência individual:** botão verde com símbolo do WhatsApp aponta para o responsável original
+  e leva nome do imóvel e endereço público atual. Funciona sem aceitar métricas; sem celular válido, fica oculto.
+- O número (16) 98128-8075 foi salvo nos dois perfis existentes, João e imobiliaria,
+  a pedido do usuário. Novos perfis cadastram o próprio contato.
+
+Passaram 43 testes das regras, 56 do painel e 71 da rastreabilidade, além de
+typecheck e build. Perfil salvo e recarregado no emulador; botão conferido no link
+real e em tela estreita, sem erros de console. O endereço do botão foi conferido;
+nenhuma mensagem foi enviada. Hashes de oito recursos/páginas publicados e das
+regras foram comparados com os arquivos locais. A preparação mudou somente
+`acesso.html` e adicionou os dois módulos versionados, preservando 583 arquivos.
+Backups e evidências locais: `publicacao/qa-perfil-whatsapp-20261023/` (ignorado pelo Git).
+
+Complemento de 23/10, após as capturas do usuário: a entrada pública independente
+também usa o WhatsApp institucional de `experimentos/liv-experimental-2026-10-14/contato-publico.json`.
+Links individuais continuam usando somente o perfil resolvido pela API, sem esse fallback.
+A pedido do usuário, o contato ficou apenas com o ícone circular flutuante no canto inferior direito,
+sem faixa nem texto. O runtime `f7894a394dfed8ef` oculta o ícone externo quando o
+visualizador já apresenta o seu, mantendo somente um contato visível.
+Pacote clássico `f4b6ae93f1bf4304`; build, função e segredo permanecem iguais.
+Passaram 75 testes de experiência, fluxo e cliente. No link publicado, foram conferidos
+ícone interno visível, texto vazio e ícone externo oculto. Backups adicionais e hashes em
+`backup-icone/`, `icone.json` e `pacote-icone.json` dentro da pasta de evidências acima.
+
 Referências oficiais: [opções e limites das funções](https://firebase.google.com/docs/functions/manage-functions), [requisições HTTP](https://firebase.google.com/docs/functions/http-events) e [rawBody](https://firebase.google.com/docs/reference/functions/2nd-gen/node/firebase-functions.https.request).

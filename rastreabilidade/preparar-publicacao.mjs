@@ -7,7 +7,7 @@ import {montar} from '../tools/montar_rastreabilidade.mjs'
 
 const root=resolve(fileURLToPath(new URL('..',import.meta.url)))
 const release=join(root,'publicacao/liv-duplo-20261017'),payload=join(release,'payload')
-const publicOrigin=process.argv[2]??'https://imobilaria-deccb-miniaturas.web.app'
+const publicOrigin=process.argv[2]??'https://conectaimoveis3d.com.br'
 const apiBase='https://southamerica-east1-imobilaria-deccb.cloudfunctions.net/conectaTracking'
 const publication=await prepararLiv({release,publicOrigin})
 const result=await montar({output:join(root,'publicacao/rastreabilidade','conecta-'+Date.now()),publicOrigin,apiBase})

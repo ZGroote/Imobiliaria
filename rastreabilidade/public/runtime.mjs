@@ -12,7 +12,8 @@ export function validateOpening(value,origin) {
     ||!['root','forwarded','own_return','uncertain'].includes(value.sourceClass)
     ||!/^[0-9a-f]{12}$/.test(value.publishedBuild)||typeof value.propertyTitle!=='string'
     ||!value.contact||typeof value.contact.brokerName!=='string'
-    ||!(value.contact.whatsappNumber===null||/^[1-9][0-9]{7,14}$/.test(value.contact.whatsappNumber)))throw Error('Abertura inválida');
+    ||!(value.contact.whatsappNumber===null||(typeof value.contact.whatsappNumber==='string'
+      &&/^[1-9][0-9]{7,14}$/.test(value.contact.whatsappNumber))))throw Error('Abertura inválida');
   const base=new URL(origin);let unit;
   for(const page of ['tour','maquete']) {
     const raw=value.destinations?.[page];
@@ -46,6 +47,13 @@ export function shareAddress(current,opening) {
   const source=new URL(current),url=new URL('/acesso.html',source.origin),nav=navigation(current);
   url.search=nav.params.toString();url.searchParams.set('l',opening.shareToken);url.hash=nav.hash;
   return url.href;
+}
+
+export function whatsappAddress(current,opening) {
+  const phone=opening.contact?.whatsappNumber;
+  if(typeof phone!=='string'||!/^[1-9][0-9]{7,14}$/.test(phone))return null;
+  const message=`Olá! Tenho interesse em ${opening.propertyTitle}.\n${shareAddress(current,opening)}`;
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 
 export function frameAddress(destination,outer) {
@@ -219,7 +227,8 @@ export async function boot(win=window,doc=document) {
   }
   function failClosed(message) {
     stopped=true;consentEpoch++;ledger?.consent(false);delivery?.clear();frame.hidden=true;frame.removeAttribute('src');status(message);
-    for(const id of ['paginaTour','paginaMaquete','compartilhar','consentimento','escolha'])el(id).hidden=true;
+    for(const id of ['paginaTour','paginaMaquete','compartilhar','consentimento','escolha','whatsapp'])el(id).hidden=true;
+    el('whatsapp').removeAttribute('href');
     el('copiar').disabled=true;
   }
   function saveAnalytics(snapshot) {
@@ -276,6 +285,21 @@ export async function boot(win=window,doc=document) {
   el('recusar').addEventListener('click',()=>changeChoice('no'));
   el('escolha').addEventListener('click',()=>{el('consentimento').hidden=false;el('aceitar').focus();});
 
+  function syncContact() {
+    const link=el('whatsapp'),address=whatsappAddress(win.location.href,opening);
+    let inside=false;
+    try {
+      const inner=page==='maquete'&&frame.contentDocument;
+      const contact=inner?.getElementById?.('buyerContact'),action=inner?.getElementById?.('buyerContactLink');
+      inside=contact?.hidden===false&&action?.hidden===false&&action?.dataset.whatsappFloating==='true';
+    }catch{}
+    link.hidden=!address||inside;
+    if(address) {
+      link.href=address;
+      link.setAttribute('aria-label',`Conversar com ${opening.contact.brokerName} pelo WhatsApp, em nova aba`);
+      link.title=`WhatsApp de ${opening.contact.brokerName}`;
+    } else link.removeAttribute('href');
+  }
   function syncNavigation() {
     if(!initializeFrame()){ledger?.context(page,'carregando');return;}
     const current=new URL(shareAddress(win.location.href,opening));current.searchParams.set('pagina',page);
@@ -292,7 +316,7 @@ export async function boot(win=window,doc=document) {
       const link=new URL(current);link.searchParams.set('pagina',targetPage);el(id).href=link.href;el(id).hidden=false;
       if(targetPage===page)el(id).setAttribute('aria-current','page');else el(id).removeAttribute('aria-current');
     }
-    ledger?.context(page,section);
+    syncContact();ledger?.context(page,section);
   }
   function navigate(nextPage,destination) {
     if(!opening||stopped)return;
@@ -371,6 +395,7 @@ export async function boot(win=window,doc=document) {
       choice=get(sessionStorage,choiceKey);
       const url=shareAddress(win.location.href,opening);win.history.replaceState(null,'',url);
       page=new URL(url).searchParams.get('pagina');el('titulo').textContent=opening.propertyTitle;doc.title=opening.propertyTitle;
+      syncContact();
       el('copiar').disabled=false;el('compartilhar').hidden=!win.navigator.share;
       consentUI();frame.hidden=false;armFrame(frameAddress(opening.destinations[page],url));status('');
       if(choice==='yes')void startMetrics();

@@ -33,8 +33,9 @@ publishedBuild,propertyTitle,contact,lineageLimited?}`. `destinations` contém
 `Link.createdAt` é ISO UTC string; status `active|revoked`.
 `contact={brokerName,whatsappNumber:null|string}` consulta somente
 o perfil do corretor original (`users.publicContact.whatsapp`, opcional,
-dígitos E.164 sem '+'); não expõe e-mail/UID. Não há botão de contato nesta
-etapa, apenas esse ponto de extensão validado no servidor.
+dígitos E.164 sem '+'); não expõe e-mail/UID. O botão de WhatsApp usa somente
+esse contato validado e o endereço público de encaminhamento, sem recibos,
+independentemente da escolha de métricas. Sem número, fica oculto.
 
 `sourceClass=root|forwarded|own_return|uncertain`. Entrada por raiz não comprova
 envio direto pelo corretor. Token público, recibo privado e URL original são

@@ -210,11 +210,11 @@ test('site base com arquivo fora do inventário é recusado sem produzir publica
   await assert.rejects(montar({workspace,output:join(workspace,'publicacao','rastreabilidade','rodada'),baseSite:base,apiBase:'https://api.test',publicOrigin:origin}),/inventário|inventario/i);
 });
 
-function browser({visible=true,deferredFrame=false}={}) {
+function browser({visible=true,deferredFrame=false,contact=opening().contact}={}) {
   const makeStorage=()=>{const map=new Map();return {getItem:key=>map.get(key)??null,setItem:(key,value)=>map.set(key,value),removeItem:key=>map.delete(key),map};};
   const emitter=()=>{const events=new Map();return {addEventListener:(type,fn)=>{const fs=events.get(type)||[];fs.push(fn);events.set(type,fs);},
     dispatch:async(type,data={})=>{for(const fn of events.get(type)||[])await fn(data);}};};
-  const ids=['configRastreabilidade','estado','conteudo','consentimento','escolha','privacidade','aceitar','recusar','paginaMaquete','paginaTour','copiar','compartilhar','titulo'];
+  const ids=['configRastreabilidade','estado','conteudo','consentimento','escolha','privacidade','aceitar','recusar','paginaMaquete','paginaTour','copiar','compartilhar','titulo','whatsapp'];
   const elements=Object.fromEntries(ids.map(id=>[id,{...emitter(),id,hidden:true,textContent:'',dataset:{},setAttribute(){},removeAttribute(){},focus(){}}]));
   elements.configRastreabilidade.textContent=JSON.stringify({apiBase:'https://api.test/',publicOrigin:origin});
   const anchors=[];const innerDoc={...emitter(),querySelectorAll:()=>anchors};
@@ -230,11 +230,44 @@ function browser({visible=true,deferredFrame=false}={}) {
     history:{replaceState:(_s,_t,url)=>{win.location=new URL(url);}},setInterval:fn=>timers.push(fn),
     navigator:{clipboard:{writeText:async text=>clipboard.push(text)}},
     fetch:async(url,options)=>{const body=JSON.parse(options.body);requests.push({path:new URL(url).pathname,body});
-      const result=new URL(url).pathname==='/open'?opening():new URL(url).pathname==='/sessions'?{sessionId:'s'.repeat(32),nextSeq:1}:{accepted:true,seq:body.seq};
+      const result=new URL(url).pathname==='/open'?{...opening(),contact}:new URL(url).pathname==='/sessions'?{sessionId:'s'.repeat(32),nextSeq:1}:{accepted:true,seq:body.seq};
       return {ok:true,json:async()=>result};}};
   const settle=()=>new Promise(resolve=>setImmediate(resolve));
   return {win,doc,elements,requests,timers,clipboard,anchors,inner,loadFrame,settle,setNow:value=>{clock=value;}};
 }
+
+test('WhatsApp usa o responsável da abertura e compartilha só endereço público, sem depender de métricas',async()=>{
+  const b=browser({contact:{brokerName:'Responsável do link',whatsappNumber:'5516999990000'}});
+  b.win.location=new URL(origin+'/acesso.html?l='+token+'&receipt=privado&visitId=segredo');
+  await boot(b.win,b.doc);await b.elements.recusar.dispatch('click');
+  assert.equal(b.elements.whatsapp.hidden,false);
+  const url=new URL(b.elements.whatsapp.href);
+  assert.equal(url.origin,'https://wa.me');assert.equal(url.pathname,'/5516999990000');
+  const text=url.searchParams.get('text');assert.ok(text.includes(opening().propertyTitle));
+  const shared=new URL(text.split('\n').at(-1));
+  assert.equal(shared.searchParams.get('l'),child);
+  assert.equal(shared.searchParams.has('receipt'),false);assert.equal(shared.searchParams.has('visitId'),false);
+  assert.equal(b.requests.filter(request=>request.path==='/sessions').length,0);
+});
+
+test('WhatsApp mostra só um ícone quando o próprio visualizador já tem o botão flutuante',async()=>{
+  const b=browser({contact:{brokerName:'Responsável',whatsappNumber:'5516999990000'}});
+  await boot(b.win,b.doc);
+  const section={hidden:false},action={hidden:false,dataset:{whatsappFloating:'true'}};
+  b.elements.conteudo.contentDocument.getElementById=id=>id==='buyerContact'?section:id==='buyerContactLink'?action:null;
+  await b.elements.conteudo.dispatch('load');
+  assert.equal(b.elements.whatsapp.hidden,true);
+  section.hidden=true;b.timers[0]();
+  assert.equal(b.elements.whatsapp.hidden,false);
+});
+
+test('WhatsApp fica oculto sem número ou quando a abertura falha',async()=>{
+  for(const contact of [opening().contact,{brokerName:'X',whatsappNumber:'javascript:alert(1)'}]) {
+    const b=browser({contact});await boot(b.win,b.doc);
+    assert.equal(b.elements.whatsapp.hidden,true);
+    assert.equal(b.elements.whatsapp.href,undefined);
+  }
+});
 
 test('page visible abre apenas uma vez; sem aceite não há identidade nem métricas; cópia só leva filho',async()=>{
   const b=browser({visible:false});await boot(b.win,b.doc);assert.equal(b.requests.length,0);

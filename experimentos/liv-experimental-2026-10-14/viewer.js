@@ -11,7 +11,7 @@ import {attachStock} from './estoque-adapter.js';
 import {availableUnitIds} from './disponibilidade.js';
 import {createPlan2D} from './planta2d.js?rev=2026-10-13-medidas2';
 import {createBuyerUI} from './experiencia-compra.js';
-const buyerUI=createBuyerUI({document,location,navigator});
+const buyerUI=createBuyerUI({document,location,navigator,standalone:window.parent===window});
 const stage=document.getElementById('stage'),overlay=document.getElementById('loading');
 const projectPanel=document.getElementById('projectPanel'),panelDetails=document.getElementById('projectPanelDetails'),panelFooter=document.getElementById('projectPanelFooter'),panelToggle=document.getElementById('toggleProjectPanel');
 const floorControl=document.getElementById('floor'),ambienceControl=document.getElementById('ambience'),captureControl=document.getElementById('capture');
@@ -32,6 +32,10 @@ let relationsData=null,interiorCatalog=null,relationVersion=0,relationController
 let commercialLoad=null,relationLoad=null;
 let stockData=null,stockControlled=demonstration||new URLSearchParams(location.search).has('estoque'),stockStart=null,stopStock=null,stockVersion=0;
 const detailsDialog=document.getElementById('unitDetails');
+// FICHA-LATERAL-20261023: a mesma ficha ocupa o painel quando há espaço na tela.
+const inlineDetails=document.getElementById('inlineUnitDetails'),detailsBody=document.getElementById('detailsBody');
+const inlineDetailsMedia=window.matchMedia?.('(min-width: 1000px) and (min-height: 720px)');
+inlineDetailsMedia?.addEventListener('change',()=>updateInfoPanel());
 document.getElementById('demonstrationNote').hidden=!demonstration;
 state.geometry=geometry;
 state.unitScope=scope;
@@ -94,6 +98,12 @@ function revealOnMobile(id){
 
 function updateInfoPanel(){
   if(!projectPanel||!panelDetails||!panelFooter||!panelToggle)return;
+  if(inlineDetails){
+    const inline=Boolean(inlineDetailsMedia?.matches),target=inline?inlineDetails:document.getElementById('modalUnitDetails');
+    if(detailsBody.parentElement!==target)target.appendChild(detailsBody);
+    inlineDetails.hidden=!inline||!selectedApartment();
+    if(inline&&detailsDialog.open)detailsDialog.close();
+  }
   const collapsed=state.panelCollapsed,label=collapsed?'Restaurar informações':'Minimizar informações';
   panelToggle.setAttribute('aria-expanded',String(!collapsed));
   panelToggle.setAttribute('aria-label',label);panelToggle.title=label;
@@ -190,10 +200,8 @@ function updateNavbar(){
   const sel=typology(state.typology);
   const associated=hasApartmentLayout(unit);
   if(associated){
-    const f=floorOf(units,unit);
-    const fl=f===0?'Térreo':(f+'º pavimento');
     const num=unit.commercial?.commercialNumber?('Apartamento '+unit.commercial.commercialNumber):('Final '+unit.final);
-    if(title)title.textContent=num+' · '+fl;
+    if(title)title.textContent=num;
     if(subtitle)subtitle.textContent='Planta '+sel.label+' · interior ilustrativo';
   } else {
     if(title)title.textContent='Planta de referência · '+sel.label;
@@ -255,11 +263,11 @@ function renderAvailableList(available){
   const rows=available.map(id=>unitById(units,id)).sort((a,b)=>floorOf(units,a)-floorOf(units,b)||String(a.final).localeCompare(String(b.final)));
   list.innerHTML='';
   for(const unit of rows){
-    const floor=floorOf(units,unit),area=unit.salesDetails?.areaM2;
+    const area=unit.salesDetails?.areaM2;
     const button=document.createElement('button');button.type='button';button.dataset.unitId=unit.id;
     const code=unit.commercial?.commercialNumber;
     for(const text of [code?(/^\d+$/.test(code)?`Apto ${code}`:code):`Final ${unit.final}`,
-      floor===0?'Térreo':`${floor}º andar`,area===null||area===undefined?'—':`${number.format(area)} m²`,priceLabel(unit)]){
+      area===null||area===undefined?'—':`${number.format(area)} m²`,priceLabel(unit)]){
       const cell=document.createElement('span');cell.textContent=text;button.append(cell);
     }
     const item=document.createElement('li');item.append(button);list.append(item);
@@ -274,7 +282,11 @@ function updateDetails(){
   const unit=unitById(units,state.selectedUnitId);
   if(!unit&&detailsDialog.open)detailsDialog.close();
 }
-function showDetails(){if(selectedApartment()&&!detailsDialog.open){updateDetails();detailsDialog.showModal();return true;}return false;}
+function showDetails(){
+  if(!selectedApartment())return false;
+  if(inlineDetails&&!inlineDetails.hidden){state.panelCollapsed=false;updateInfoPanel();return true;}
+  if(!detailsDialog.open){updateDetails();detailsDialog.showModal();return true;}return false;
+}
 function busy(text,{warm=false}={}) {
   state.ready=false;state.error=null;overlay.hidden=warm;message.textContent=text;
   state.loadingProgress=null;document.getElementById('downloadProgress').hidden=true;
