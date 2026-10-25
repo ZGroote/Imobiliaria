@@ -1,6 +1,8 @@
 """Monta o site institucional estático, sem dependências ou acesso ao Firebase."""
 
 import argparse
+import base64
+import hashlib
 import html
 import json
 from pathlib import Path
@@ -18,6 +20,16 @@ PAGINAS = {
     "cookies": ("Cookies e navegação", "Saiba como esta versão do site funciona sem cookies de publicidade, ferramentas de análise ou armazenamento dos dados do formulário."),
     "404": ("Página não encontrada", "Volte ao início ou fale com a equipe pelo WhatsApp."),
 }
+
+
+def css():
+    """O CSS vai embutido no HTML: se um arquivo separado não chegar, a página abria crua."""
+    return (RAIZ / "assets" / "site.css").read_text(encoding="utf-8")
+
+
+def css_hash():
+    """Valor que o CSP precisa liberar para o <style> embutido (o navegador lê o HTML com LF)."""
+    return "'sha256-" + base64.b64encode(hashlib.sha256(css().encode("utf-8")).digest()).decode() + "'"
 
 
 def montar(destino=None, configuracao=None):
@@ -43,6 +55,7 @@ def montar(destino=None, configuracao=None):
     layout = (RAIZ / "layout.html").read_text(encoding="utf-8")
     substituicoes = {
         "nome": html.escape(nome),
+        "css": css(),
         "dominio": dominio,
         "numero": numero,
         "telefone": html.escape(config.get("whatsapp_exibicao", numero)),

@@ -1,4 +1,6 @@
 """Confere a entrada Conecta sem rede ou mudanças no Hosting real."""
+import base64
+import hashlib
 import importlib.util
 import json
 import tempfile
@@ -110,6 +112,12 @@ class ConectaTests(unittest.TestCase):
                 self.assertNotIn('X-Robots-Tag', headers)
                 self.assertEqual(headers['X-Frame-Options'], 'DENY')
                 self.assertIn("default-src 'self'", headers['Content-Security-Policy'])
+            # A página não pode depender de um CSS separado: ele vai embutido e o CSP libera o hash exato.
+            index = (root / 'payload/index.html').read_bytes().replace(b'\r\n', b'\n').decode('utf-8')
+            estilo = index.split('<style>', 1)[1].split('</style>', 1)[0]
+            self.assertNotIn('rel="stylesheet"', index)
+            digest = "'sha256-" + base64.b64encode(hashlib.sha256(estilo.encode('utf-8')).digest()).decode() + "'"
+            self.assertIn(f"style-src 'self' {digest};", headers['Content-Security-Policy'])
 
     def test_descoberta_e_canonicos_usam_so_o_dominio_proprio(self):
         with tempfile.TemporaryDirectory(dir=self.temporarios) as directory:

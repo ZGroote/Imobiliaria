@@ -7,7 +7,7 @@ from pathlib import Path
 
 SOURCE = Path(__file__).resolve().parent
 sys.path.insert(0, str(SOURCE.parent))
-from fachada.montar import PAGINAS, montar
+from fachada.montar import PAGINAS, css_hash, montar
 
 RELEASE = SOURCE.parent / 'publicacao/liv-duplo-20261017'
 PUBLIC_ORIGIN = 'https://conectaimoveis3d.com.br'
@@ -17,7 +17,7 @@ INSTITUTIONAL_ROUTES = ['/', '/{' + ','.join(PAGINAS) + '}.html', '/instituciona
 INSTITUTIONAL_HEADERS = [
     {'key': 'X-Frame-Options', 'value': 'DENY'},
     {'key': 'Permissions-Policy', 'value': 'camera=(), microphone=(), geolocation=()'},
-    {'key': 'Content-Security-Policy', 'value': "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'"},
+    {'key': 'Content-Security-Policy', 'value': "default-src 'self'; script-src 'self'; style-src 'self' " + css_hash() + "; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'"},
 ]
 
 
