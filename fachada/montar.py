@@ -24,7 +24,8 @@ PAGINAS = {
 
 def css():
     """O CSS vai embutido no HTML: se um arquivo separado não chegar, a página abria crua."""
-    return (RAIZ / "assets" / "site.css").read_text(encoding="utf-8")
+    return "\n".join((RAIZ / "assets" / nome).read_text(encoding="utf-8")
+                     for nome in ("site.css", "visual-novo.css"))
 
 
 def css_hash():

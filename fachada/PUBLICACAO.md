@@ -1,5 +1,39 @@
 # Publicação no domínio próprio — 23/10/2026
 
+## Atualização: alternância de visual e marca oficial — 26/10/2026
+
+O cabeçalho oferece **Experimentar novo visual** e **Voltar ao visual atual**.
+O visual original continua como padrão; `?visual=novo` ativa a proposta azul e
+roxa e acompanha os links institucionais, conservando plano e âncoras. Não usa
+cookies nem armazenamento local e não recarrega o formulário durante a troca.
+
+O logo oficial fornecido aparece no cabeçalho e no rodapé. A aba Planta usa a
+segunda referência detalhada enviada pelo usuário. A imagem escura da marca
+foi instalada no topo da entrada pública do LIV, com link ao site e ajuste para
+celular. Seu módulo é compartilhado em `/institucional/assets/marca-liv.js`;
+o viewer canônico inicia o mesmo módulo. A lógica do visualizador foi preservada.
+
+- Hosting: `imobilaria-deccb-miniaturas`, projeto `imobilaria-deccb`.
+- Versão final: `7e5634813cb7ae83`; release `1792983602892000`.
+- Versão anterior: `4f28b84195063474`, a primeira entrega da alternância.
+- Primeira versão anterior à entrega: `0d0aae7886d21dee`.
+- A atualização final alterou 14 caminhos, incluindo cinco recursos novos;
+  os outros **597 arquivos mantiveram seus hashes**, totalizando 611 arquivos.
+- O inventário publicado foi reaproveitado pela API do Hosting porque o pacote
+  local não continha todos os arquivos das publicações anteriores. A configuração
+  remota foi preservada, atualizando apenas o hash do CSS nas três regras CSP
+  institucionais. Nenhuma função ou configuração de acesso foi republicada.
+- 64 testes aprovados, incluindo fachada, integração, alternância e fluxo do LIV.
+  Conferência das três páginas nos dois visuais e da marca no LIV a 320, 768,
+  1024 e 1440 px. Os 14 arquivos finais foram conferidos por HTTPS contra os
+  hashes locais; CSP e encaminhamento do painel verificados. Planta, logo e
+  marca do LIV confirmados no navegador público, sem erros de console.
+
+Registros e backups locais em
+`publicacao/liv-duplo-20261017/visual-alternativo-20261025/` (primeira entrega) e
+`publicacao/liv-duplo-20261017/marca-e-planta-20261026/` (entrega final).
+Essas pastas não fazem parte do payload público e permanecem fora do Git.
+
 **Endereço correto: https://conectaimoveis3d.com.br/**
 
 - Projeto Firebase: `imobilaria-deccb`.
