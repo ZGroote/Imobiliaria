@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="data:,">
+  <title>LIV Ipanema · estudo gráfico</title>
+  <link rel="stylesheet" href="studio.css">
+</head>
+<body>
+  <header class="masthead">
+    <a class="wordmark" href="./" aria-label="LIV Ipanema, início do estudo">liv<span>IPANEMA</span></a>
+    <p>ARQUITETURA EM PERSPECTIVA</p>
+    <span class="study-tag"><i aria-hidden="true"></i> Estudo gráfico · 01</span>
+  </header>
+  <main>
+    <aside class="sidebar" aria-label="Configurar visualização">
+      <div class="intro"><p class="eyebrow">SÃO CARLOS / SP</p><h1>LIV<br>Ipanema.</h1><p class="intro-note">Estudo de luz e materiais.<br>Maquete e plantas em detalhe.</p></div>
+      <section class="setting"><h2>01 <span>Explore o projeto</span></h2>
+        <nav class="views" aria-label="Visualizações">
+          <button data-mode="maquete" aria-pressed="true"><span aria-hidden="true">▥</span> Maquete <b aria-hidden="true">↗</b></button>
+          <button data-mode="planta3d" aria-pressed="false"><span aria-hidden="true">◇</span> Planta 3D <b aria-hidden="true">↗</b></button>
+          <button data-mode="planta2d" aria-pressed="false"><span aria-hidden="true">⊞</span> Planta 2D <b aria-hidden="true">↗</b></button>
+        </nav>
+      </section>
+      <section id="typology-setting" class="setting" hidden><h2>02 <span>Escolha a planta</span></h2><div class="segmented" role="group" aria-label="Tipologia"><button data-type="canto" aria-pressed="true">Canto</button><button data-type="meio" aria-pressed="false">Meio</button></div><p id="area">47,59 m² · 2 quartos · 1 suíte</p></section>
+      <section class="setting"><h2 id="appearance-title">02 <span>Compare o resultado</span></h2>
+        <div class="segmented appearance" role="group" aria-label="Tratamento gráfico"><button id="original" aria-pressed="false">Atual</button><button id="enhanced" aria-pressed="true">Estudo</button></div>
+        <p id="treatment-note">Iluminação de estúdio, reflexos suaves e sombras de contato.</p>
+      </section>
+      <div class="sidebar-footer"><span class="fine-line"></span><p>Uma experiência em desenvolvimento.</p><a href="https://conectaimoveis3d.com.br/maquetes/liv/" target="_blank" rel="noopener">Abrir a versão publicada <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <section class="workspace" aria-label="Visualizador do LIV Ipanema">
+      <header class="scene-heading"><div><p class="eyebrow" id="scene-index">01 / VOLUMETRIA</p><h2 id="scene-title">O projeto, por inteiro.</h2></div><span class="scene-badge" id="profile-badge">ESTUDO GRÁFICO</span></header>
+      <div id="viewport">
+        <div id="scene-host"></div>
+        <div id="plan-host" hidden><img id="plan-image" alt="" draggable="false"></div>
+        <div id="loading" role="status"><span class="loading-ring" aria-hidden="true"></span><p id="load-text">Preparando luz e materiais…</p></div>
+        <div id="scene-controls" class="scene-controls" aria-label="Enquadramento">
+          <button id="reset" aria-label="Centralizar visualização" title="Centralizar">↺</button>
+          <button id="aerial" aria-label="Ver implantação de cima" title="Vista aérea">⊞</button>
+          <button id="facade" aria-label="Ver fachada de perto" title="Fachada">▥</button>
+          <button id="low-walls" hidden aria-pressed="false">Paredes baixas</button>
+          <button id="zoom-out" hidden aria-label="Diminuir planta">−</button>
+          <button id="zoom-in" hidden aria-label="Ampliar planta">+</button>
+        </div>
+        <p class="scene-instruction" id="instruction">Arraste para girar · role para aproximar</p>
+      </div>
+      <footer class="scene-footer"><p><span id="ready-dot" aria-hidden="true"></span><span id="render-status" role="status" aria-live="polite">Carregando o estudo</span></p><p id="scene-footnote">LIV Ipanema · Livon Incorporadora</p></footer>
+      <p class="disclaimer">Representação ilustrativa. Geometria e medidas aproximadas a partir das referências publicadas.</p>
+    </section>
+  </main>
+  <script type="module" src="studio.js"></script>
+</body>
+</html>
