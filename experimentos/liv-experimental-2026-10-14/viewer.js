@@ -11,6 +11,8 @@ import {attachStock} from './estoque-adapter.js';
 import {availableUnitIds} from './disponibilidade.js';
 import {createPlan2D} from './planta2d.js?rev=2026-10-13-medidas2';
 import {createBuyerUI} from './experiencia-compra.js';
+import {normalizeHour,solarState,unitSolarContext} from './horario-solar.js';
+import {createTimeControl} from './horario-ui.js';
 const buyerUI=createBuyerUI({document,location,navigator,standalone:window.parent===window});
 const stage=document.getElementById('stage'),overlay=document.getElementById('loading');
 const projectPanel=document.getElementById('projectPanel'),panelDetails=document.getElementById('projectPanelDetails'),panelFooter=document.getElementById('projectPanelFooter'),panelToggle=document.getElementById('toggleProjectPanel');
@@ -25,6 +27,10 @@ const finish=geometry!=='base'||new URLSearchParams(location.search).get('acabam
 const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
 const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,panelCollapsed:false,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
 state.ambience=requestedAmbience(location.search);
+const timeQuery=new URLSearchParams(location.search);
+state.hour=normalizeHour(timeQuery.get('hora'),state.ambience==='entardecer'?17.5:14);
+try {state.solarDate=solarState(state.hour,timeQuery.has('data')?{date:timeQuery.get('data')}:{}).date;}
+catch {state.solarDate=solarState(state.hour).date;}
 state.availabilityFilter='disponiveis';
 let units,unitUI;
 let commercialData=null,commercialVersion=0,commercialController=null;
@@ -48,6 +54,7 @@ function updateMapLink(){
   const stockId=new URLSearchParams(location.search).get('estoque');if(stockId)destination.searchParams.set('estoque',stockId);
   if(demonstration)destination.searchParams.set('demonstracao','1');
   if(state.ambience==='entardecer')destination.searchParams.set('luz',state.ambience);else destination.searchParams.delete('luz');
+  destination.searchParams.set('hora',String(state.hour));destination.searchParams.set('data',state.solarDate);
   mapLink.href=destination.href;
 }
 try {
@@ -56,6 +63,8 @@ try {
     Number.isInteger(saved.floor)&&saved.floor>=-1&&saved.floor<=16&&
     ['perspectiva','fachada','aerea','portaria','implantacao','varandas','acesso','livre'].includes(saved.view)) {
     state.view=saved.view;state.floor=saved.floor;
+    if(!timeQuery.has('hora'))state.hour=normalizeHour(saved.hour,state.hour);
+    if(!timeQuery.has('data')&&saved.solarDate){try{state.solarDate=solarState(state.hour,{date:saved.solarDate}).date;}catch{}}
     if(typeof saved.panelCollapsed==='boolean')state.panelCollapsed=saved.panelCollapsed;
     if(!new URLSearchParams(location.search).has('luz')&&Object.hasOwn(AMBIENCES,saved.ambience))state.ambience=saved.ambience;
     if(typeof saved.selectedUnitId==='string'&&(saved.floor===1||(scope==='edificio'&&saved.floor>=0)))state.selectedUnitId=saved.selectedUnitId;
@@ -67,6 +76,8 @@ try {
     else if(state.view==='livre')state.view='perspectiva';
   }
 } catch(error) {state.storageError=String(error);}
+const timeControl=createTimeControl(stage,hour=>setTimeOfDay(hour));
+timeControl.update({hour:state.hour,date:state.solarDate,ready:false});
 updateMapLink();
 let generation=0,frameKind=null,openedOnce=false;
 // One exterior, two interiors, two decoded plans and one map per page. Keep
@@ -88,6 +99,21 @@ if(floorControl){
 document.getElementById('typology').value=state.typology;
 
 function selectedApartment(){return units?unitById(units,state.selectedUnitId):null;}
+function applyTimeToFrame(frame) {
+  const api=sceneAPI(frame);if(!api?.ready||!api.setTimeOfDay)return;
+  const unit=selectedApartment(),interior=frame.dataset.scene?.startsWith('interior:');
+  if(interior&&!unit)return;
+  const key=`${state.solarDate}:${state.hour}:${interior?unit.id:'exterior'}`;
+  if(frame.livSolarKey===key)return;
+  api.setTimeOfDay(state.hour,interior?unitSolarContext(unit):null,{date:state.solarDate});frame.livSolarKey=key;
+}
+function setTimeOfDay(hour,{date=state.solarDate}={}) {
+  const solar=solarState(normalizeHour(hour,state.hour),{date});
+  state.hour=solar.hour;state.solarDate=solar.date;
+  applyTimeToFrame(state.frame);
+  timeControl.update({hour:state.hour,date:state.solarDate,ready:state.ready,visible:state.mode!=='planta2d'&&!state.mapOpen});
+  updateMapLink();return solar;
+}
 function hasApartmentLayout(unit=selectedApartment()){
   return Boolean(unit?.relation&&['canto','meio'].includes(unit.relation.typology)&&unit.relation.orientation==='original');
 }
@@ -126,6 +152,8 @@ const panelResize=typeof ResizeObserver==='function'?new ResizeObserver(updateIn
 function update() {
   const exterior=state.mode==='maquete';
   const unit=selectedApartment(),associated=hasApartmentLayout(unit);
+  timeControl.update({hour:state.hour,date:state.solarDate,ready:state.ready,visible:state.mode!=='planta2d'&&!state.mapOpen});
+  if(state.ready)applyTimeToFrame(state.frame);
   if(!exterior&&associated&&state.typology!==unit.relation.typology){void setMode(state.mode);return;}
   if(associated){state.typology=unit.relation.typology;document.getElementById('typology').value=state.typology;}
   // A removed association or a cleared selection must never leave an unrelated
@@ -427,7 +455,7 @@ function prepareScene(kind){
   const frame=document.createElement('iframe');frame.dataset.scene=kind;frame.dataset.instance=String(++sceneSerial);frame.dataset.parked='true';frame.inert=true;
   frame.setAttribute('aria-hidden','true');
   frame.title=exterior?'Maquete do LIV Ipanema':`Planta e Tour do LIV Ipanema · ${typology(key).label}`;
-  frame.src=exterior?`prova-rgbm.html?embed=1&prewarm=1&tema=escuro&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}&luz=${state.ambience}&experiencia=${buyerUI.enabled?'nova':'original'}`:
+  frame.src=exterior?`prova-rgbm.html?embed=1&prewarm=1&tema=escuro&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}&luz=${state.ambience}&hora=${state.hour}&data=${state.solarDate}&experiencia=${buyerUI.enabled?'nova':'original'}`:
     `interior.html?embed=1&prewarm=1&backend=${backend}&tipologia=${key}&modo=planta3d`;
   sceneCache.set(kind,frame);stage.prepend(frame);
   const current=()=>!cacheStopped&&cacheEpoch===epoch&&sceneCache.get(kind)===frame;
@@ -459,6 +487,7 @@ function prepareScene(kind){
         }
       });
     }
+    applyTimeToFrame(frame);
     frame.contentWindow.addEventListener('liv-renderer-error',event=>sceneFailure(frame,Error(event.detail.error)));
     await api.setActive(false);
     if(!current())throw Error('Visualizador encerrado.');
@@ -547,9 +576,9 @@ async function setMode(mode,{restore=false}={}) {
     const api=sceneAPI(frame);
     if(kind==='exterior'){
       api.setFloor(state.floor);if(state.floor===1||scope==='edificio')api.setSelectedUnit(state.selectedUnitId);
-      if(api.ambience!==state.ambience)api.setAmbience?.(state.ambience);
     }else await api.setMode(mode);
     if(token!==generation)return;
+    applyTimeToFrame(frame);
     const activated=await api.setActive(true);
     if(token!==generation){if(state.frame!==frame)await parkFrame(frame);return;}
     if(activated===false||!api.ready||api.error||api.disposed||state.frame!==frame)throw Error(api.error||'Não foi possível retomar esta visualização.');
@@ -570,7 +599,7 @@ function setView(view) {
 }
 function setAmbience(profile){
   if(!Object.hasOwn(AMBIENCES,profile))throw Error('Ambiência inválida.');
-  state.frame?.contentWindow?.__livProva?.setAmbience(profile);state.ambience=profile;
+  state.ambience=profile;setTimeOfDay(profile==='entardecer'?17.5:14);
   updateMapLink();update();return true;
 }
 function setFloor(floor) {
@@ -769,7 +798,7 @@ function dispose(){
   if(warmHandle!==null){window.cancelIdleCallback?.(warmHandle);clearTimeout(warmHandle);warmHandle=null;}
   warmJob=null;void closeMap({restore:false});discardMap();release();sceneLoads.clear();plans.dispose();
 }
-Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,setAmbience,setAvailabilityFilter,openUnitLayout,openMap,closeMap,reloadRelations:refreshRelations,reloadCommercial:refreshCommercial,prepareViews,getCacheState:()=>({scenes:[...sceneCache.keys()],plans:plans.getState(),mapReady:Boolean(mapFrame?.dataset.ready),reuses:state.sceneReuseCount}),getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,panelCollapsed:state.panelCollapsed,backend:state.backend,ambience:state.ambience,availabilityFilter:state.availabilityFilter}),dispose});
+Object.assign(state,{setMode,setView,setFloor,setTypology,selectUnit,showUnitSide,capture,setAmbience,setTimeOfDay,setAvailabilityFilter,openUnitLayout,openMap,closeMap,reloadRelations:refreshRelations,reloadCommercial:refreshCommercial,prepareViews,getCacheState:()=>({scenes:[...sceneCache.keys()],plans:plans.getState(),mapReady:Boolean(mapFrame?.dataset.ready),reuses:state.sceneReuseCount}),getState:()=>({mode:state.mode,typology:state.typology,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,panelCollapsed:state.panelCollapsed,backend:state.backend,ambience:state.ambience,hour:state.hour,solarDate:state.solarDate,availabilityFilter:state.availabilityFilter}),dispose});
 state.setContact=context=>{buyerUI.setContact(context);const unit=selectedApartment();buyerUI.update(unit,unit?floorOf(units,unit):null,state.mode);};
 panelToggle?.addEventListener('click',()=>{state.panelCollapsed=!state.panelCollapsed;updateInfoPanel();});
 for(const button of document.querySelectorAll('[data-mode]'))button.addEventListener('click',()=>{
@@ -835,7 +864,7 @@ window.addEventListener('pagehide',()=>{
   relationVersion++;relationController?.abort();
   commercialLoad=null;relationLoad=null;
   dispose();
-  try {sessionStorage.setItem(storageKey,JSON.stringify({version:1,mode:state.mode,typology:state.typology,interiorSnapshots:state.interiorSnapshots,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,panelCollapsed:state.panelCollapsed,ambience:state.ambience,exteriorSnapshot:state.exteriorSnapshot}));}
+  try {sessionStorage.setItem(storageKey,JSON.stringify({version:1,mode:state.mode,typology:state.typology,interiorSnapshots:state.interiorSnapshots,view:state.view,floor:state.floor,selectedUnitId:state.selectedUnitId,panelCollapsed:state.panelCollapsed,ambience:state.ambience,hour:state.hour,solarDate:state.solarDate,exteriorSnapshot:state.exteriorSnapshot}));}
   catch(error) {state.storageError=String(error);}
 });
 window.addEventListener('pageshow',event=>{if(event.persisted)setMode(state.mode);});

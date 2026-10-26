@@ -32,7 +32,8 @@ export function createLayout(unit) {
   for(const v of grade.vaos){
     const d=floor.decideVao(source.comodos,v,pd);if(!d)continue;
     const a=local(v.a),b=local(v.b),L=Math.hypot(b[0]-a[0],b[1]-a[1]);
-    joinery.push({tipo:d.tipo,lado:d.lado,eixo:d.eixo,porta:!!v.src.porta,y0:v.y0,y1:v.y1,
+    // A porta sem parede pareada dá para fora do apartamento: é a entrada.
+    joinery.push({id:v.src.rec?.id??null,entrada:Boolean(v.src.porta&&v.src.rec&&!v.src.rec.pairedWallId),tipo:d.tipo,lado:d.lado,eixo:d.eixo,porta:!!v.src.porta,y0:v.y0,y1:v.y1,
       a,b,L,ux:(b[0]-a[0])/L,uz:(b[1]-a[1])/L,nx:-(b[1]-a[1])/L,nz:(b[0]-a[0])/L,
       remateA:v.remateA,remateB:v.remateB});
   }

@@ -1,0 +1,82 @@
+{
+  "path": "ambiente-jantar-limpo.hdr",
+  "bytes": 1417693,
+  "sha256": "5ab4dc733374993b71b8987de0b0c912dfe1829743f17b4bc9a9ea65e5180617",
+  "kind": "local-interior-radiance-probe",
+  "encoding": "Radiance RGBE; scene-linear Rec.709; EV 0",
+  "sourceBlend": "experimentos/liv-luz-natural-2026-10-26/entrega/LIV_Luz_Natural.blend",
+  "sourceBlendSHA256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88",
+  "sourceScene": "03 | Sala e jantar",
+  "sourceWorld": "R3 | Ceu fisico e um unico sol",
+  "sourceCamera": "CAM | 03 | Sala e jantar",
+  "capturePositionPolicy": "Dining table top center + 0.10 m; table excluded from capture copy only",
+  "excludedCaptureObjects": [
+    "R3 | Mesa jantar | pe_mesa_1_1",
+    "R3 | Mesa jantar | pe_mesa_1_-1",
+    "R3 | Mesa jantar | pe_mesa_-1_1",
+    "R3 | Mesa jantar | pe_mesa_-1_-1",
+    "R3 | Mesa jantar | saia_y1",
+    "R3 | Mesa jantar | saia_y0",
+    "R3 | Mesa jantar | saia_x1",
+    "R3 | Mesa jantar | saia_x0",
+    "R3 | Mesa jantar | tampo"
+  ],
+  "sourcePositionBlender": [
+    2.049999952316284,
+    0.32499998807907104,
+    0.8899999856948853
+  ],
+  "sourcePositionThree": [
+    2.049999952316284,
+    0.8899999856948853,
+    -0.32499998807907104
+  ],
+  "sourceExposureEV": 3.0,
+  "outputExposureEV": 0,
+  "sunDisc": false,
+  "sunDiscCamera": false,
+  "sunDiscIndirect": true,
+  "worldRayPolicy": "Only Is Camera Ray uses sky without solar disc; all indirect and light-sampling rays retain the approved World including sunlight.",
+  "reason": "Capture geometry-occluded local radiance and approved solar bounce; the website already has one moving directional sun.",
+  "geometryIncluded": true,
+  "width": 1024,
+  "height": 512,
+  "samples": 128,
+  "device": "GPU",
+  "denoising": true,
+  "denoiser": "OPENIMAGEDENOISE",
+  "purpose": "Diagnostic derivative only; not activated in catalog",
+  "comparisonSource": "ambiente-interior.hdr",
+  "computeBackend": "OPTIX",
+  "panoramaRotationBlender": [
+    1.5707963705062866,
+    0.0,
+    -1.5707963705062866
+  ],
+  "linearRGBMean": [
+    0.7654825448989868,
+    0.5193638801574707,
+    0.2946759760379791
+  ],
+  "linearRGBSolidAngleMean": [
+    0.6392393262232277,
+    0.4609583287640006,
+    0.29714156828999344
+  ],
+  "exteriorLinearRGBMean": [
+    1.5448014736175537,
+    2.439192771911621,
+    3.910871982574463
+  ],
+  "ratioToExteriorRGBMean": [
+    0.4955216304308739,
+    0.2129244913063758,
+    0.07534789615997575
+  ],
+  "linearRGBMax": 21.5,
+  "sourceUnchanged": true,
+  "protectedGLBs": 17,
+  "catalogSHA256Before": "f68e4040fd9dbd5aac16b9ed22b16682ea1aa0f4291a0e3ab5fa7cb95da65b88",
+  "catalogSHA256After": "c87f1f07b5d8c7c208e44757e46bc5c980ecdfaf04042da675473017c4b5936c",
+  "catalogWrittenByExport": false
+}

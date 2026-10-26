@@ -1,0 +1,19 @@
+{
+  "hour": 8,
+  "sequence": [
+    8,
+    17,
+    20,
+    8
+  ],
+  "region": [
+    180,
+    200,
+    710,
+    525
+  ],
+  "max_rgb_difference": 0,
+  "exact": true,
+  "legacy_query": "luz=entardecer",
+  "browser_errors": []
+}

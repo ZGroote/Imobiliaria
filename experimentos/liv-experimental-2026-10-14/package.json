@@ -9,5 +9,9 @@
   },
   "devDependencies": {
     "esbuild": "0.25.10"
+  },
+  "scripts": {
+    "test:horario": "node --test ../../tests/test_liv_horario_solar.mjs testes/horario-*.test.mjs",
+    "test:melhorias": "node --test testes/melhorias.test.mjs testes/portas.test.mjs"
   }
 }

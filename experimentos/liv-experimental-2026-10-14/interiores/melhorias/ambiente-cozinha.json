@@ -1,0 +1,71 @@
+{
+  "path": "ambiente-cozinha.hdr",
+  "bytes": 1463935,
+  "sha256": "4e484424fceef05bb30f44ace94319172a6bfb2e14a7014c22f6e710502482e4",
+  "kind": "local-interior-radiance-probe",
+  "encoding": "Radiance RGBE; scene-linear Rec.709; EV 0",
+  "sourceBlend": "experimentos/liv-luz-natural-2026-10-26/entrega/LIV_Luz_Natural.blend",
+  "sourceBlendSHA256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88",
+  "sourceScene": "03 | Sala e jantar",
+  "sourceWorld": "R3 | Ceu fisico e um unico sol",
+  "sourceCamera": "CAM | 03 | Sala e jantar",
+  "capturePositionPolicy": "Kitchen counter front, between fridge, sink and stove (Blender 2.95, -0.25, 1.05)",
+  "sourcePositionBlender": [
+    2.950000047683716,
+    -0.25,
+    1.0499999523162842
+  ],
+  "sourcePositionThree": [
+    2.950000047683716,
+    1.0499999523162842,
+    0.25
+  ],
+  "sourceExposureEV": 3.0,
+  "outputExposureEV": 0,
+  "sunDisc": false,
+  "sunDiscCamera": false,
+  "sunDiscIndirect": true,
+  "worldRayPolicy": "Only Is Camera Ray uses sky without solar disc; all indirect and light-sampling rays retain the approved World including sunlight.",
+  "reason": "Capture geometry-occluded local radiance and approved solar bounce; the website already has one moving directional sun.",
+  "geometryIncluded": true,
+  "width": 1024,
+  "height": 512,
+  "samples": 128,
+  "device": "GPU",
+  "denoising": true,
+  "denoiser": "OPENIMAGEDENOISE",
+  "purpose": "Diagnostic derivative only; not activated in catalog",
+  "comparisonSource": "ambiente-interior.hdr",
+  "computeBackend": "OPTIX",
+  "panoramaRotationBlender": [
+    1.5707963705062866,
+    0.0,
+    -1.5707963705062866
+  ],
+  "linearRGBMean": [
+    0.35586175322532654,
+    0.273969829082489,
+    0.19229941070079803
+  ],
+  "linearRGBSolidAngleMean": [
+    0.38928148311808086,
+    0.3127015516677051,
+    0.23346311488822402
+  ],
+  "exteriorLinearRGBMean": [
+    1.5448014736175537,
+    2.439192771911621,
+    3.910871982574463
+  ],
+  "ratioToExteriorRGBMean": [
+    0.23036083231587284,
+    0.11231987575454153,
+    0.04917046928603643
+  ],
+  "linearRGBMax": 47.75,
+  "sourceUnchanged": true,
+  "protectedGLBs": 17,
+  "catalogSHA256Before": "dc7796a3e936f120c05f088a552d85eb9aa941f51a8e937af360b26155000022",
+  "catalogSHA256After": "dc7796a3e936f120c05f088a552d85eb9aa941f51a8e937af360b26155000022",
+  "catalogWrittenByExport": false
+}

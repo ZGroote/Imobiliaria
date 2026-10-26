@@ -1,5 +1,31 @@
 import * as THREE from 'three/webgpu';
-import {texture, uv, float, vec3, diffuseContribution} from 'three/tsl';
+import {texture, texture3D, uv, float, int, uniform, uniformArray, vec2, vec3, clamp, select, dot, positionWorld, normalWorld, diffuseContribution} from 'three/tsl';
+
+// Uniforms preserve program sharing while scrubbing the clock. Defaults retain the frozen bake.
+// ambient separa o céu sintético do sol: a luz gravada por hora já contém o céu, mas não o sol direto.
+const bakeGain=uniform(1),directGain=uniform(0),ambientGain=uniform(0);
+export function setRGBMTimeLighting({bake=1,direct=0,ambient=direct}={}) {
+  bakeGain.value=Math.max(0,bake);directGain.value=Math.max(0,direct);ambientGain.value=Math.max(0,ambient);
+}
+
+// O reflexo vem de uma foto 360 só, tirada no meio da sala: dentro da cuba ou no canto do fogão ele
+// refletia a janela. Normalização de sonda de reflexo: o reflexo cai na proporção entre a luz gravada
+// que chega ali e a que a própria foto 360 daria na mesma normal (só reduz; desligada no exterior).
+const reflectionNormalize=uniform(0);
+export function setReflectionNormalization(enabled){reflectionNormalize.value=enabled?1:0;}
+
+/** Duas horas gravadas + a noite numa só expressão; trocar hora muda texturas e pesos, não o shader. */
+export function createTimeIrradiance({range,intensity}) {
+  const placeholder=new THREE.DataTexture(new Uint8Array(4),1,1);placeholder.channel=1;placeholder.needsUpdate=true;
+  const samples=[0,1,2].map(()=>texture(placeholder,uv(1))),weights=[0,1,2].map(()=>uniform(0));
+  const decode=(sample,weight)=>sample.rgb.mul(sample.a).mul(weight);
+  const node=decode(samples[0],weights[0]).add(decode(samples[1],weights[1])).add(decode(samples[2],weights[2])).mul(float(range*intensity));
+  return {node,
+    set({a,b,night,wa,wb,wn}){
+      [a,b,night].forEach((value,index)=>{samples[index].value=value;});
+      [wa,wb,wn].forEach((value,index)=>{weights[index].value=Math.max(0,value);});
+    }};
+}
 
 // Equal RGBM expressions must share node identity: NodeMaterial includes its
 // child nodes in the program cache key. Keep distinct atlases/parameters apart.
@@ -21,29 +47,79 @@ export function replaceRGBMAtlas(previous,next) {
   irradianceByAtlas.set(next,irradianceByAtlas.get(previous));samplesByAtlas.set(next,samplesByAtlas.get(previous));
 }
 
-/** Diffuse-only RGBM transport matching the frozen r168 shader; specular remains lit. */
-export class LivRGBMNodeMaterial extends THREE.MeshStandardNodeMaterial {
-  constructor(parameters, atlas, range, intensity) {
-    super(parameters);
-    this.isLivRGBMNodeMaterial = true;
-    // Keep lightMap null: the normal lightMap path would add a second diffuse term.
-    this.livIrradiance = irradianceNode(atlas,range,intensity);
-  }
-
+/** Diffuse-only baked transport; specular remains lit. Works for standard and physical (sheen) models. */
+const withBakedIrradiance = Base => class extends Base {
   setupLightingModel(builder) {
     const model = super.setupLightingModel(builder);
     const irradiance = this.livIrradiance;
     // Override the returned model, avoiding a second copy of Three's internal modules.
     model.indirect = function (builder) {
       const context = builder.context;
-      context.reflectedLight.directDiffuse.assign(vec3(0));
+      context.reflectedLight.directDiffuse.mulAssign(directGain);
+      // toVar fixa o valor aqui, antes de zerar iblIrradiance (o TSL calcula onde a expressão é usada).
+      const luminance=vec3(.2126,.7152,.0722),probe=dot(context.iblIrradiance,luminance).max(1e-4).toVar('livProbeIrradiance');
+      const occlusion=clamp(dot(irradiance.mul(bakeGain),luminance).div(probe),0,1).toVar('livReflectionOcclusion');
       context.iblIrradiance.assign(vec3(0));
-      context.reflectedLight.indirectDiffuse.assign(irradiance.mul(diffuseContribution).mul(1 / Math.PI));
+      context.reflectedLight.indirectDiffuse.assign(irradiance.mul(bakeGain).add(context.irradiance.mul(ambientGain)).mul(diffuseContribution).mul(1 / Math.PI));
       this.indirectSpecular(builder);
+      context.reflectedLight.indirectSpecular.mulAssign(select(reflectionNormalize.greaterThan(0),occlusion,float(1)));
       this.ambientOcclusion(builder);
     };
     return model;
   }
+};
+
+/** Diffuse-only RGBM transport matching the frozen r168 shader. */
+export class LivRGBMNodeMaterial extends withBakedIrradiance(THREE.MeshStandardNodeMaterial) {
+  constructor(parameters, atlas, range, intensity, irradiance = irradianceNode(atlas,range,intensity)) {
+    super(parameters);
+    this.isLivRGBMNodeMaterial = true;
+    // Keep lightMap null: the normal lightMap path would add a second diffuse term.
+    this.livIrradiance = irradiance;
+  }
+}
+
+/** Same transport for physical materials (the approved fabrics keep their sheen). */
+export class LivBakedPhysicalNodeMaterial extends withBakedIrradiance(THREE.MeshPhysicalNodeMaterial) {
+  constructor(parameters, irradiance) {
+    super(parameters);
+    this.isLivRGBMNodeMaterial = true;
+    this.livIrradiance = irradiance;
+  }
+}
+
+/** Ambient cube from the per-room probe grid: room map (top view) picks the grid, so walls never leak.
+ * Texture z = face * rows + room offset + row; faces +x -x +y -y +z -z. Values are E/π like the atlas. */
+export function createProbeIrradiance(probes, intensity) {
+  const map = probes.roomMap, bytes = Uint8Array.from(atob(map.data), c => c.charCodeAt(0));
+  const rooms = new THREE.DataTexture(bytes, map.width, map.height, THREE.RedFormat, THREE.UnsignedByteType);
+  rooms.minFilter = rooms.magFilter = THREE.NearestFilter; rooms.generateMipmaps = false; rooms.flipY = false; rooms.needsUpdate = true;
+  const origin = uniformArray(probes.rooms.map(r => new THREE.Vector4(r.origin[0], r.origin[1], r.origin[2], r.n[0])), 'vec4');
+  const step = uniformArray(probes.rooms.map(r => new THREE.Vector4(r.step[0], r.step[1], r.step[2], r.n[2])), 'vec4');
+  const offset = uniformArray(probes.rooms.map(r => r.zOffset), 'float');
+  const placeholder = new THREE.Data3DTexture(new Uint16Array(4), 1, 1, 1);
+  placeholder.type = THREE.HalfFloatType; placeholder.needsUpdate = true;
+  const volumes = [0, 1, 2].map(() => placeholder), weights = [0, 1, 2].map(() => uniform(0)), samplers = [];
+  const p = positionWorld, n = normalWorld;
+  const room = int(texture(rooms, vec2(p.x.sub(map.x0).div(map.width * map.cell), p.z.sub(map.z0).div(map.height * map.cell))).r.mul(255).add(.5));
+  const o = origin.element(room), s = step.element(room);
+  const gx = clamp(p.x.sub(o.x).div(s.x), 0, o.w.sub(1)), gy = clamp(p.y.sub(o.y).div(s.y), 0, probes.height - 1);
+  const gz = clamp(p.z.sub(o.z).div(s.z), 0, s.w.sub(1)).add(offset.element(room));
+  const coordinate = face => vec3(gx.add(.5).div(probes.width), gy.add(.5).div(probes.height), gz.add(face * probes.rows + .5).div(probes.depth));
+  const n2 = n.mul(n);
+  const cube = index => {
+    const sample = face => {const node = texture3D(placeholder, coordinate(face));samplers.push([index, node]);return node.rgb;};
+    return select(n.x.greaterThan(0), sample(0), sample(1)).mul(n2.x)
+      .add(select(n.y.greaterThan(0), sample(2), sample(3)).mul(n2.y))
+      .add(select(n.z.greaterThan(0), sample(4), sample(5)).mul(n2.z));
+  };
+  const node = cube(0).mul(weights[0]).add(cube(1).mul(weights[1])).add(cube(2).mul(weights[2])).mul(float(intensity));
+  return {node, rooms,
+    set({a, b, night, wa, wb, wn}) {
+      const next = [a, b, night];
+      for (const [index, sampler] of samplers) sampler.value = next[index];
+      [wa, wb, wn].forEach((value, index) => {weights[index].value = Math.max(0, value);});
+    }};
 }
 
 export function createRGBMTexture(bytes, manifest) {

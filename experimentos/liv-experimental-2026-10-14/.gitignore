@@ -28,3 +28,12 @@
 /interiores/*/bake/geometry-compact.json*
 /interiores/*/bake/irradiance.rgbm.gz
 /interiores/*/bake/textures/
+/interiores/*/luz-horario/*.rgbm.gz
+/interiores/*/luz-horario/*-sondas.bin.gz
+# Binários do Blender (GLB, sondas HDR, LUT) e capturas: fora do git pela trava de 300 MiB
+# (tests/test_tamanho_versionado.py). Os catálogos JSON guardam tamanho e SHA de cada um.
+/interiores/melhorias/*.glb
+/interiores/melhorias/*.hdr
+/interiores/melhorias/*.bin
+/evidencias-horario/**/*.png
+/evidencias-horario/**/*.hdr

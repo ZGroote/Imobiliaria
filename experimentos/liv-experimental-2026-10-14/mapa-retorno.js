@@ -3,6 +3,7 @@ import {requestedEdition,exteriorEdition} from './edicoes.js';
 import {unitScope} from './catalogo-unidades.js';
 import {requestedAmbience} from './ambiencia-perfis.js';
 import {createFrameScheduler} from './frame-scheduler.js';
+import {normalizeHour,solarState} from './horario-solar.js';
 // Adapt model edition, navigation and transfer priority; baseline files stay intact.
 const frame=document.getElementById('map'),destination=new URL('./maquete-liv-ipanema.html',location.href);
 const embedded=new URLSearchParams(location.search).get('embed')==='1'&&window.parent!==window;
@@ -12,6 +13,9 @@ if(unitScope(location.search)==='edificio')destination.searchParams.set('unidade
 const stockId=new URLSearchParams(location.search).get('estoque');if(stockId)destination.searchParams.set('estoque',stockId);
 if(new URLSearchParams(location.search).get('demonstracao')==='1')destination.searchParams.set('demonstracao','1');
 if(requestedAmbience(location.search)==='entardecer')destination.searchParams.set('luz','entardecer');
+const timeQuery=new URLSearchParams(location.search);
+if(timeQuery.has('hora'))destination.searchParams.set('hora',String(normalizeHour(timeQuery.get('hora'))));
+if(timeQuery.has('data')){try{destination.searchParams.set('data',solarState(12,{date:timeQuery.get('data')}).date);}catch{}}
 const failure=document.getElementById('failure');
 failure.querySelector('a[href="maquete-liv-ipanema.html"]').href=destination.href;
 failure.querySelector('a[href="mapa-liv-ipanema-5km.html"]').href=location.href;

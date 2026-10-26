@@ -1,0 +1,2793 @@
+{
+  "schema": "liv-interior-improvements-v1",
+  "complete": true,
+  "assets": [
+    {
+      "id": "sofa",
+      "path": "sofa.glb",
+      "types": [
+        "sofa"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 1.9499599933624268,
+        "h": 0.799641480966784,
+        "d": 0.8997961580753326
+      },
+      "source": {
+        "objects": [
+          "R3 | Sofa linho | almofada_dir",
+          "R3 | Sofa linho | almofada_esq",
+          "R3 | Sofa linho | encosto_dir",
+          "R3 | Sofa linho | encosto_esq",
+          "R3 | Sofa linho | encosto_base",
+          "R3 | Sofa linho | braco_dir",
+          "R3 | Sofa linho | braco_esq",
+          "R3 | Sofa linho | assento_dir",
+          "R3 | Sofa linho | assento_esq"
+        ],
+        "pivotBlender": [
+          1.1999520063400269,
+          -2.0249998569488525,
+          0.02502080798149109
+        ],
+        "positionThree": [
+          1.1999520063400269,
+          0.02502080798149109,
+          2.0249998569488525
+        ],
+        "rotationQuarterTurns": 3,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [
+        "movel-7"
+      ],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 0,
+        "warnings": [],
+        "method": "native image-based PBR",
+        "sheenCorrections": [
+          {
+            "sourceMaterial": "linho_almofada",
+            "weight": 0.4000000059604645,
+            "tintRGB": [
+              1,
+              1,
+              1
+            ],
+            "before": [
+              1,
+              1,
+              1
+            ],
+            "after": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "roughnessPreserved": 0.5
+          },
+          {
+            "sourceMaterial": "linho_greige",
+            "weight": 0.4000000059604645,
+            "tintRGB": [
+              1,
+              1,
+              1
+            ],
+            "before": [
+              1,
+              1,
+              1
+            ],
+            "after": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "roughnessPreserved": 0.5
+          }
+        ]
+      },
+      "bytes": 4705588,
+      "sha256": "6b6e386b3cef6d3f8c91b2c33cdad84d5165dfb4ef7530f54c5c33f09c11c424",
+      "triangles": 59990,
+      "meshes": 9,
+      "textures": 4,
+      "materials": [
+        "linho_almofada.001",
+        "linho_greige.001"
+      ],
+      "referenceFootprintCanto": {
+        "w": 1.95,
+        "h": 0.8,
+        "d": 0.9
+      },
+      "canonicalBounds": {
+        "min": [
+          -0.9749804139137268,
+          -0.000012984796740056481,
+          -0.4499029815196991
+        ],
+        "max": [
+          0.9749795794487,
+          0.799628496170044,
+          0.44989317655563354
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          0.7500588297843931,
+          0.025007823184751032,
+          1.0500194430351257
+        ],
+        "max": [
+          1.6498549878597262,
+          0.824649304151535,
+          2.9999794363975525
+        ]
+      }
+    },
+    {
+      "id": "geladeira",
+      "path": "geladeira.glb",
+      "types": [
+        "geladeira"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.7000000476837158,
+        "h": 1.7799999713897705,
+        "d": 0.7000000774860382
+      },
+      "source": {
+        "objects": [
+          "R3 | Geladeira | pe_dir",
+          "R3 | Geladeira | pe_esq",
+          "R3 | Geladeira | icone_4",
+          "R3 | Geladeira | icone_3",
+          "R3 | Geladeira | icone_2",
+          "R3 | Geladeira | icone_1",
+          "R3 | Geladeira | icone_0",
+          "R3 | Geladeira | painel",
+          "R3 | Geladeira | pux_dir_col1",
+          "R3 | Geladeira | pux_dir_col0",
+          "R3 | Geladeira | pux_dir",
+          "R3 | Geladeira | pux_esq_col1",
+          "R3 | Geladeira | pux_esq_col0",
+          "R3 | Geladeira | pux_esq",
+          "R3 | Geladeira | gaveta",
+          "R3 | Geladeira | porta_dir",
+          "R3 | Geladeira | porta_esq",
+          "R3 | Geladeira | vedacao",
+          "R3 | Geladeira | corpo"
+        ],
+        "pivotBlender": [
+          3.8000001907348633,
+          -1.7250001430511475,
+          0.029999999329447746
+        ],
+        "positionThree": [
+          3.8000001907348633,
+          0.029999999329447746,
+          1.7250001430511475
+        ],
+        "rotationQuarterTurns": 3,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [
+        "movel-17"
+      ],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 6,
+        "warnings": [],
+        "method": "material-channel bake; image PBR preserved"
+      },
+      "bytes": 265168,
+      "sha256": "3e6bd1d6cdde7ffd23f19aa4eb7066437394ce1dcc57eb55d85a5a811e16811d",
+      "triangles": 2948,
+      "meshes": 19,
+      "textures": 15,
+      "materials": [
+        "corpo.001 | WEB",
+        "inox_preto.001 | WEB",
+        "icone.001 | WEB.004",
+        "icone.001 | WEB.003",
+        "icone.001 | WEB.002",
+        "icone.001 | WEB.001",
+        "icone.001 | WEB",
+        "vidro_painel.001 | WEB",
+        "pe_plastico.001 | WEB",
+        "pe_plastico.001 | WEB.001",
+        "inox_preto.001 | WEB.001",
+        "inox_preto.001 | WEB.002",
+        "inox.001 | WEB.004",
+        "inox.001 | WEB.001",
+        "inox.001 | WEB",
+        "inox.001 | WEB.005",
+        "inox.001 | WEB.003",
+        "inox.001 | WEB.002",
+        "vedacao.001 | WEB"
+      ],
+      "referenceFootprintCanto": {
+        "w": 0.7,
+        "h": 1.78,
+        "d": 0.7
+      },
+      "canonicalBounds": {
+        "min": [
+          -0.3500000238418579,
+          0,
+          -0.3500002324581146
+        ],
+        "max": [
+          0.3500000238418579,
+          1.7799999713897705,
+          0.3499998450279236
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          3.4500003457069397,
+          0.029999999329447746,
+          1.3750001192092896
+        ],
+        "max": [
+          4.150000423192978,
+          1.8099999707192183,
+          2.0750001668930054
+        ]
+      },
+      "environment": "cozinha"
+    },
+    {
+      "id": "fogao",
+      "path": "fogao.glb",
+      "types": [
+        "fogao"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.46000003814697266,
+        "h": 0.9199999570846558,
+        "d": 0.5800002217292786
+      },
+      "source": {
+        "objects": [
+          "R3 | Fogao | pe_td",
+          "R3 | Fogao | pe_te",
+          "R3 | Fogao | pe_fd",
+          "R3 | Fogao | pe_fe",
+          "R3 | Fogao | dedo_1_-160_60",
+          "R3 | Fogao | dedo_1_-160_-60",
+          "R3 | Fogao | dedo_1_-345_60",
+          "R3 | Fogao | dedo_1_-345_-60",
+          "R3 | Fogao | grelha_1_196_-455",
+          "R3 | Fogao | grelha_1_5_-455.001",
+          "R3 | Fogao | grelha_1_5_-58",
+          "R3 | Fogao | grelha_1_5_-455",
+          "R3 | Fogao | dedo_0_-160_60",
+          "R3 | Fogao | dedo_0_-160_-60",
+          "R3 | Fogao | dedo_0_-345_60",
+          "R3 | Fogao | dedo_0_-345_-60",
+          "R3 | Fogao | grelha_0_-13_-455",
+          "R3 | Fogao | grelha_0_-204_-455.001",
+          "R3 | Fogao | grelha_0_-204_-58",
+          "R3 | Fogao | grelha_0_-204_-455",
+          "R3 | Fogao | queimador_aro_3",
+          "R3 | Fogao | queimador_3",
+          "R3 | Fogao | queimador_aro_2",
+          "R3 | Fogao | queimador_2",
+          "R3 | Fogao | queimador_aro_1",
+          "R3 | Fogao | queimador_1",
+          "R3 | Fogao | queimador_aro_0",
+          "R3 | Fogao | queimador_0",
+          "R3 | Fogao | encosto",
+          "R3 | Fogao | mesa",
+          "R3 | Fogao | botao_pega_4",
+          "R3 | Fogao | botao_aro_4",
+          "R3 | Fogao | botao_4",
+          "R3 | Fogao | botao_pega_3",
+          "R3 | Fogao | botao_aro_3",
+          "R3 | Fogao | botao_3",
+          "R3 | Fogao | botao_pega_2",
+          "R3 | Fogao | botao_aro_2",
+          "R3 | Fogao | botao_2",
+          "R3 | Fogao | botao_pega_1",
+          "R3 | Fogao | botao_aro_1",
+          "R3 | Fogao | botao_1",
+          "R3 | Fogao | botao_pega_0",
+          "R3 | Fogao | botao_aro_0",
+          "R3 | Fogao | botao_0",
+          "R3 | Fogao | rodape",
+          "R3 | Fogao | gaveta",
+          "R3 | Fogao | pux_suporte_1",
+          "R3 | Fogao | pux_suporte_0",
+          "R3 | Fogao | puxador",
+          "R3 | Fogao | grade_borda_1",
+          "R3 | Fogao | grade_1_8",
+          "R3 | Fogao | grade_1_7",
+          "R3 | Fogao | grade_1_6",
+          "R3 | Fogao | grade_1_5",
+          "R3 | Fogao | grade_1_4",
+          "R3 | Fogao | grade_1_3",
+          "R3 | Fogao | grade_1_2",
+          "R3 | Fogao | grade_1_1",
+          "R3 | Fogao | grade_1_0",
+          "R3 | Fogao | grade_borda_0",
+          "R3 | Fogao | grade_0_8",
+          "R3 | Fogao | grade_0_7",
+          "R3 | Fogao | grade_0_6",
+          "R3 | Fogao | grade_0_5",
+          "R3 | Fogao | grade_0_4",
+          "R3 | Fogao | grade_0_3",
+          "R3 | Fogao | grade_0_2",
+          "R3 | Fogao | grade_0_1",
+          "R3 | Fogao | grade_0_0",
+          "R3 | Fogao | forno_lado_d",
+          "R3 | Fogao | forno_lado_e",
+          "R3 | Fogao | forno_piso",
+          "R3 | Fogao | forno_teto",
+          "R3 | Fogao | forno_fundo",
+          "R3 | Fogao | visor",
+          "R3 | Fogao | porta_baixo",
+          "R3 | Fogao | porta_cima",
+          "R3 | Fogao | porta_dir",
+          "R3 | Fogao | porta_esq",
+          "R3 | Fogao | painel_botoes",
+          "R3 | Fogao | miolo_cima",
+          "R3 | Fogao | miolo_baixo",
+          "R3 | Fogao | vinco_1_1",
+          "R3 | Fogao | vinco_1_-1",
+          "R3 | Fogao | vinco_0_1",
+          "R3 | Fogao | vinco_0_-1",
+          "R3 | Fogao | fundo",
+          "R3 | Fogao | lateral_dir",
+          "R3 | Fogao | lateral_esq"
+        ],
+        "pivotBlender": [
+          3.8600001335144043,
+          1.1749998331069946,
+          0.029999999329447746
+        ],
+        "positionThree": [
+          3.8600001335144043,
+          0.029999999329447746,
+          -1.1749998331069946
+        ],
+        "rotationQuarterTurns": 3,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [
+        "movel-15"
+      ],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 1,
+        "warnings": [],
+        "method": "material-channel bake; image PBR preserved"
+      },
+      "bytes": 724748,
+      "sha256": "90335d281c58364298aed9d66a0239152ef1620a25bccbe5e5b013312974c587",
+      "triangles": 10760,
+      "meshes": 90,
+      "textures": 2,
+      "materials": [
+        "botao.001 | WEB.009",
+        "botao.001 | WEB.007",
+        "botao.001 | WEB.005",
+        "botao.001 | WEB.003",
+        "botao.001 | WEB.001",
+        "cromo.001 | WEB.008",
+        "cromo.001 | WEB.007",
+        "cromo.001 | WEB.006",
+        "cromo.001 | WEB.005",
+        "cromo.001 | WEB.004",
+        "botao.001 | WEB.008",
+        "botao.001 | WEB.006",
+        "botao.001 | WEB.004",
+        "botao.001 | WEB.002",
+        "botao.001 | WEB",
+        "grelha.001 | WEB.006",
+        "grelha.001 | WEB.007",
+        "grelha.001 | WEB.008",
+        "grelha.001 | WEB.009",
+        "grelha.001 | WEB",
+        "grelha.001 | WEB.001",
+        "grelha.001 | WEB.002",
+        "grelha.001 | WEB.003",
+        "preto_brilho.001 | WEB",
+        "forno_dentro.001 | WEB.004",
+        "forno_dentro.001 | WEB",
+        "forno_dentro.001 | WEB.001",
+        "forno_dentro.001 | WEB.002",
+        "forno_dentro.001 | WEB.003",
+        "grafite_lateral.001 | WEB.006",
+        "grafite_lateral.001 | WEB.001",
+        "grade_forno.001 | WEB.019",
+        "grade_forno.001 | WEB.018",
+        "grade_forno.001 | WEB.017",
+        "grade_forno.001 | WEB.016",
+        "grade_forno.001 | WEB.015",
+        "grade_forno.001 | WEB.014",
+        "grade_forno.001 | WEB.013",
+        "grade_forno.001 | WEB.012",
+        "grade_forno.001 | WEB.011",
+        "grade_forno.001 | WEB.009",
+        "grade_forno.001 | WEB.008",
+        "grade_forno.001 | WEB.007",
+        "grade_forno.001 | WEB.006",
+        "grade_forno.001 | WEB.005",
+        "grade_forno.001 | WEB.004",
+        "grade_forno.001 | WEB.003",
+        "grade_forno.001 | WEB.002",
+        "grade_forno.001 | WEB.001",
+        "grade_forno.001 | WEB.010",
+        "grade_forno.001 | WEB",
+        "grelha.001 | WEB.014",
+        "grelha.001 | WEB.010",
+        "grelha.001 | WEB.011",
+        "grelha.001 | WEB.015",
+        "grelha.001 | WEB.004",
+        "grelha.001 | WEB.005",
+        "grelha.001 | WEB.013",
+        "grelha.001 | WEB.012",
+        "grafite_lateral.001 | WEB.007",
+        "grafite_lateral.001 | WEB.008",
+        "inox_mesa.001 | WEB",
+        "forno_dentro.001 | WEB.006",
+        "forno_dentro.001 | WEB.005",
+        "painel.001 | WEB",
+        "pe_fogao.001 | WEB.002",
+        "pe_fogao.001 | WEB.003",
+        "pe_fogao.001 | WEB",
+        "pe_fogao.001 | WEB.001",
+        "preto_brilho.001 | WEB.001",
+        "preto_brilho.001 | WEB.002",
+        "preto_brilho.001 | WEB.003",
+        "preto_brilho.001 | WEB.004",
+        "puxador_fogao.001 | WEB.001",
+        "puxador_fogao.001 | WEB",
+        "puxador_fogao.001 | WEB.002",
+        "queimador.001 | WEB.003",
+        "queimador.001 | WEB.002",
+        "queimador.001 | WEB.001",
+        "queimador.001 | WEB",
+        "cromo.001 | WEB.003",
+        "cromo.001 | WEB.002",
+        "cromo.001 | WEB.001",
+        "cromo.001 | WEB",
+        "grafite_lateral.001 | WEB",
+        "grafite_lateral.001 | WEB.004",
+        "grafite_lateral.001 | WEB.005",
+        "grafite_lateral.001 | WEB.002",
+        "grafite_lateral.001 | WEB.003",
+        "vidro_visor.001 | WEB"
+      ],
+      "referenceFootprintCanto": {
+        "w": 0.6,
+        "h": 0.92,
+        "d": 0.6
+      },
+      "canonicalBounds": {
+        "min": [
+          -0.23000000417232513,
+          0,
+          -0.2900001108646393
+        ],
+        "max": [
+          0.23000003397464752,
+          0.9199999570846558,
+          0.2900001108646393
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          3.570000022649765,
+          0.029999999329447746,
+          -1.4049998372793198
+        ],
+        "max": [
+          4.150000244379044,
+          0.9499999564141035,
+          -0.9449997991323471
+        ]
+      },
+      "environment": "cozinha"
+    },
+    {
+      "id": "mesa-jantar",
+      "path": "mesa-jantar.glb",
+      "types": [
+        "mesa"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 1.4000000953674316,
+        "h": 0.7600000500679016,
+        "d": 0.9000001549720764
+      },
+      "source": {
+        "objects": [
+          "R3 | Mesa jantar | pe_mesa_1_1",
+          "R3 | Mesa jantar | pe_mesa_1_-1",
+          "R3 | Mesa jantar | pe_mesa_-1_1",
+          "R3 | Mesa jantar | pe_mesa_-1_-1",
+          "R3 | Mesa jantar | saia_y1",
+          "R3 | Mesa jantar | saia_y0",
+          "R3 | Mesa jantar | saia_x1",
+          "R3 | Mesa jantar | saia_x0",
+          "R3 | Mesa jantar | tampo"
+        ],
+        "pivotBlender": [
+          2.049999952316284,
+          0.32499998807907104,
+          0.029999999329447746
+        ],
+        "positionThree": [
+          2.049999952316284,
+          0.029999999329447746,
+          -0.32499998807907104
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [
+        "movel-10"
+      ],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 8,
+        "warnings": [],
+        "method": "material-channel bake; image PBR preserved"
+      },
+      "bytes": 438368,
+      "sha256": "15a89900c3e774bba3412eadee2b50287878b93b0a29b8348a3ac1ccad2731d6",
+      "triangles": 1052,
+      "meshes": 9,
+      "textures": 16,
+      "materials": [
+        "madeira_escura.002 | WEB",
+        "madeira_escura.002 | WEB.001",
+        "madeira_escura.002 | WEB.002",
+        "madeira_escura.002 | WEB.003",
+        "madeira_escura.002 | WEB.007",
+        "madeira_escura.002 | WEB.006",
+        "madeira_escura.002 | WEB.005",
+        "madeira_escura.002 | WEB.004",
+        "laca_branca.001 | WEB"
+      ],
+      "namePattern": "jantar",
+      "referenceFootprintCanto": {
+        "w": 1.4,
+        "h": 0.76,
+        "d": 0.9
+      },
+      "canonicalBounds": {
+        "min": [
+          -0.7000000476837158,
+          0,
+          -0.4500000774860382
+        ],
+        "max": [
+          0.7000000476837158,
+          0.7600000500679016,
+          0.4500000774860382
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          1.3499999046325684,
+          0.029999999329447746,
+          -0.7750000655651093
+        ],
+        "max": [
+          2.75,
+          0.7900000493973494,
+          0.12500008940696716
+        ]
+      },
+      "environment": "jantar"
+    },
+    {
+      "id": "cadeira-jantar",
+      "path": "cadeira-jantar.glb",
+      "types": [
+        "cadeira"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.44974344968795776,
+        "h": 0.8799999952316284,
+        "d": 0.48605817556381226
+      },
+      "source": {
+        "objects": [
+          "R3 | Cadeira 1 | cad_e0_botao3",
+          "R3 | Cadeira 1 | cad_e0_encosto",
+          "R3 | Cadeira 1 | cad_e0_botao2",
+          "R3 | Cadeira 1 | cad_e0_botao1",
+          "R3 | Cadeira 1 | cad_e0_botao0",
+          "R3 | Cadeira 1 | cad_e0_assento",
+          "R3 | Cadeira 1 | cad_e0_quadro",
+          "R3 | Cadeira 1 | cad_e0_pt1",
+          "R3 | Cadeira 1 | cad_e0_pf1",
+          "R3 | Cadeira 1 | cad_e0_pt-1",
+          "R3 | Cadeira 1 | cad_e0_pf-1"
+        ],
+        "pivotBlender": [
+          1.5499978065490723,
+          0.9231370687484741,
+          0.029999999329447746
+        ],
+        "positionThree": [
+          1.5499978065490723,
+          0.029999999329447746,
+          -0.9231370687484741
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [
+        "movel-11",
+        "movel-12",
+        "movel-13",
+        "movel-14",
+        "movel-25"
+      ],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 7,
+        "warnings": [],
+        "method": "material-channel bake; image PBR preserved",
+        "sheenCorrections": [
+          {
+            "sourceMaterial": "tecido_cadeira",
+            "weight": 0.4000000059604645,
+            "tintRGB": [
+              1,
+              1,
+              1
+            ],
+            "before": [
+              1,
+              1,
+              1
+            ],
+            "after": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "roughnessPreserved": 0.5
+          },
+          {
+            "sourceMaterial": "tecido_cadeira",
+            "weight": 0.4000000059604645,
+            "tintRGB": [
+              1,
+              1,
+              1
+            ],
+            "before": [
+              1,
+              1,
+              1
+            ],
+            "after": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "roughnessPreserved": 0.5
+          }
+        ]
+      },
+      "bytes": 3348360,
+      "sha256": "102ff3a7b6289209cd4a8f343f388f1f91a0338834cc403290a27728d46611a2",
+      "triangles": 23868,
+      "meshes": 11,
+      "textures": 14,
+      "materials": [
+        "tecido_cadeira.001 | WEB.001",
+        "botao_cadeira.001 | WEB.003",
+        "botao_cadeira.001 | WEB.002",
+        "botao_cadeira.001 | WEB.001",
+        "botao_cadeira.001 | WEB",
+        "tecido_cadeira.001 | WEB",
+        "madeira_escura.002 | WEB.001",
+        "madeira_escura.002 | WEB.002",
+        "madeira_escura.002 | WEB.003",
+        "madeira_escura.002 | WEB.004",
+        "madeira_escura.002 | WEB"
+      ],
+      "referenceFootprintCanto": {
+        "w": 0.45,
+        "h": 0.85,
+        "d": 0.45
+      },
+      "instances": [
+        {
+          "furnitureId": "movel-11",
+          "positionThree": [
+            1.549997866153717,
+            0.029999999329447746,
+            -0.9231370985507965
+          ],
+          "rotationQuarterTurns": 0
+        },
+        {
+          "furnitureId": "movel-12",
+          "positionThree": [
+            2.299997925758362,
+            0.029999999329447746,
+            -0.9231370985507965
+          ],
+          "rotationQuarterTurns": 0
+        },
+        {
+          "furnitureId": "movel-13",
+          "positionThree": [
+            1.5500021576881409,
+            0.029999999329447746,
+            0.22313711047172546
+          ],
+          "rotationQuarterTurns": 2
+        },
+        {
+          "furnitureId": "movel-14",
+          "positionThree": [
+            2.3000022172927856,
+            0.029999999329447746,
+            0.22313711047172546
+          ],
+          "rotationQuarterTurns": 2
+        },
+        {
+          "furnitureId": "movel-25",
+          "positionThree": [
+            2.099997878074646,
+            0.029999999329447746,
+            -2.923137068748474
+          ],
+          "rotationQuarterTurns": 0
+        }
+      ],
+      "canonicalBounds": {
+        "min": [
+          -0.2248716503381729,
+          0,
+          -0.24302911758422852
+        ],
+        "max": [
+          0.22487179934978485,
+          0.8799999952316284,
+          0.24302905797958374
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          1.3251261562108994,
+          0.029999999329447746,
+          -1.1661661863327026
+        ],
+        "max": [
+          1.7748696058988571,
+          0.9099999945610762,
+          -0.6801080107688904
+        ]
+      },
+      "namePattern": "jantar|varanda.*1"
+    },
+    {
+      "id": "pia-cozinha",
+      "path": "pia-cozinha.glb",
+      "types": [
+        "pia"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 2.0999999046325684,
+        "h": 1.6634999513626099,
+        "d": 0.646000325679779
+      },
+      "source": {
+        "objects": [
+          "R2 | R3 Fundo gabinete",
+          "R2 | R3 Lateral gabinete",
+          "R2 | R3 Lateral gabinete.001",
+          "R2 | R3 Piso gabinete",
+          "R2 | R3 Travessa gabinete",
+          "R2 | R3 Travessa gabinete.001",
+          "R2 | R3 Rodape recuado",
+          "R2 | R3 Porta gabinete",
+          "R2 | R3 Puxador gabinete",
+          "R2 | R3 Porta gabinete.001",
+          "R2 | R3 Puxador gabinete.001",
+          "R2 | R3 Porta gabinete.002",
+          "R2 | R3 Puxador gabinete.002",
+          "R2 | R3 Bancada quartzo",
+          "R2 | R3 Cuba inox",
+          "R2 | R3 Ralo",
+          "R3 | Torneira",
+          "R2 | R3 Base torneira",
+          "R2 | R3 Alavanca torneira",
+          "R2 | R3 Fundo backsplash",
+          "R2 | R3 Azulejo",
+          "R2 | R3 Azulejo.001",
+          "R2 | R3 Azulejo.002",
+          "R2 | R3 Azulejo.003",
+          "R2 | R3 Azulejo.004",
+          "R2 | R3 Azulejo.005",
+          "R2 | R3 Azulejo.006",
+          "R2 | R3 Azulejo.007",
+          "R2 | R3 Azulejo.008",
+          "R2 | R3 Azulejo.009",
+          "R2 | R3 Azulejo.010",
+          "R2 | R3 Azulejo.011",
+          "R2 | R3 Azulejo.012",
+          "R2 | R3 Azulejo.013",
+          "R2 | R3 Azulejo.014",
+          "R2 | R3 Azulejo.015",
+          "R2 | R3 Azulejo.016",
+          "R2 | R3 Azulejo.017",
+          "R2 | R3 Azulejo.018",
+          "R2 | R3 Azulejo.019",
+          "R2 | R3 Azulejo.020",
+          "R2 | R3 Azulejo.021",
+          "R2 | R3 Azulejo.022",
+          "R2 | R3 Azulejo.023",
+          "R2 | R3 Azulejo.024",
+          "R2 | R3 Azulejo.025",
+          "R2 | R3 Azulejo.026",
+          "R2 | R3 Azulejo.027",
+          "R2 | R3 Azulejo.028",
+          "R2 | R3 Azulejo.029",
+          "R2 | R3 Prateleira"
+        ],
+        "pivotBlender": [
+          3.8530001640319824,
+          -0.2749999761581421,
+          0.030000001192092896
+        ],
+        "positionThree": [
+          3.8530001640319824,
+          0.030000001192092896,
+          0.2749999761581421
+        ],
+        "rotationQuarterTurns": 3,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [
+        "movel-16"
+      ],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 33,
+        "warnings": [],
+        "method": "material-channel bake; image PBR preserved"
+      },
+      "bytes": 1919844,
+      "sha256": "91e3d4fb4f5cadfae8433b129dc1cb6812b7a1538471b071566371c78d490759",
+      "triangles": 10306,
+      "meshes": 51,
+      "textures": 33,
+      "materials": [
+        "R2 | R3 Inox pia.001 | WEB.001",
+        "R2 | R3 Ceramica acetinada.001 | WEB",
+        "R2 | R3 Ceramica acetinada.001 | WEB.001",
+        "R2 | R3 Ceramica acetinada.001 | WEB.002",
+        "R2 | R3 Ceramica acetinada.001 | WEB.003",
+        "R2 | R3 Ceramica acetinada.001 | WEB.004",
+        "R2 | R3 Ceramica acetinada.001 | WEB.005",
+        "R2 | R3 Ceramica acetinada.001 | WEB.006",
+        "R2 | R3 Ceramica acetinada.001 | WEB.007",
+        "R2 | R3 Ceramica acetinada.001 | WEB.008",
+        "R2 | R3 Ceramica acetinada.001 | WEB.009",
+        "R2 | R3 Ceramica acetinada.001 | WEB.010",
+        "R2 | R3 Ceramica acetinada.001 | WEB.011",
+        "R2 | R3 Ceramica acetinada.001 | WEB.012",
+        "R2 | R3 Ceramica acetinada.001 | WEB.013",
+        "R2 | R3 Ceramica acetinada.001 | WEB.014",
+        "R2 | R3 Ceramica acetinada.001 | WEB.015",
+        "R2 | R3 Ceramica acetinada.001 | WEB.016",
+        "R2 | R3 Ceramica acetinada.001 | WEB.017",
+        "R2 | R3 Ceramica acetinada.001 | WEB.018",
+        "R2 | R3 Ceramica acetinada.001 | WEB.019",
+        "R2 | R3 Ceramica acetinada.001 | WEB.020",
+        "R2 | R3 Ceramica acetinada.001 | WEB.021",
+        "R2 | R3 Ceramica acetinada.001 | WEB.022",
+        "R2 | R3 Ceramica acetinada.001 | WEB.023",
+        "R2 | R3 Ceramica acetinada.001 | WEB.024",
+        "R2 | R3 Ceramica acetinada.001 | WEB.025",
+        "R2 | R3 Ceramica acetinada.001 | WEB.026",
+        "R2 | R3 Ceramica acetinada.001 | WEB.027",
+        "R2 | R3 Ceramica acetinada.001 | WEB.028",
+        "R2 | R3 Ceramica acetinada.001 | WEB.029",
+        "R2 | R3 Quartzo.001 | WEB",
+        "R2 | R3 Inox pia.001 | WEB",
+        "R2 | R3 Inox pia.001 | WEB.006",
+        "R2 | R3 Rejunte.001 | WEB",
+        "R2 | R3 Laca greige.001 | WEB.005",
+        "R2 | R3 Laca greige.001 | WEB",
+        "R2 | R3 Laca greige.001 | WEB.001",
+        "R2 | R3 Laca greige.001 | WEB.006",
+        "R2 | R3 Laca greige.001 | WEB.002",
+        "R2 | R3 Laca greige.001 | WEB.003",
+        "R2 | R3 Laca greige.001 | WEB.004",
+        "madeira_escura.002 | WEB",
+        "R2 | R3 Inox pia.001 | WEB.002",
+        "R2 | R3 Inox pia.001 | WEB.003",
+        "R2 | R3 Inox pia.001 | WEB.004",
+        "R2 | R3 Rodape e ralos.001 | WEB",
+        "R2 | R3 Rodape e ralos.001 | WEB.001",
+        "R2 | R3 Laca greige.001 | WEB.007",
+        "R2 | R3 Laca greige.001 | WEB.008",
+        "R2 | R3 Inox pia.001 | WEB.005"
+      ],
+      "namePattern": "cozinha",
+      "fitHeightReference": 0.91,
+      "referenceFootprintCanto": {
+        "w": 2.1,
+        "h": 0.92,
+        "d": 0.6
+      },
+      "canonicalBounds": {
+        "min": [
+          -1.0499999523162842,
+          0,
+          -0.3229999542236328
+        ],
+        "max": [
+          1.0499999523162842,
+          1.6634999513626099,
+          0.32300037145614624
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          3.529999792575836,
+          0.030000001192092896,
+          -0.7749999761581422
+        ],
+        "max": [
+          4.176000118255615,
+          1.6934999525547028,
+          1.3249999284744263
+        ]
+      },
+      "environment": "cozinha"
+    },
+    {
+      "id": "planta",
+      "path": "planta.glb",
+      "types": [
+        "planta"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.4999999701976776,
+        "h": 1.0500000720477267,
+        "d": 0.46000005304813385
+      },
+      "source": {
+        "objects": [
+          "R3 | Planta Poly Haven | potted_plant_01_leaves",
+          "R3 | Planta Poly Haven | potted_plant_01_pebbles",
+          "R3 | Planta Poly Haven | potted_plant_01_pot",
+          "R3 | Planta Poly Haven | potted_plant_01_stem"
+        ],
+        "pivotBlender": [
+          1.4199998378753662,
+          1.2200000286102295,
+          0.030000001192092896
+        ],
+        "positionThree": [
+          1.4199998378753662,
+          0.030000001192092896,
+          -1.2200000286102295
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 0,
+        "warnings": [
+          {
+            "material": "potted_plant_01_leaves.001 | WEB",
+            "limit": "glTF surface keeps leaf alpha, color and normal maps; separate Translucent BSDF is not portable."
+          }
+        ],
+        "method": "material-channel bake; image PBR preserved"
+      },
+      "bytes": 9368148,
+      "sha256": "101423a2d964116055a7ea16d3d38df34b461f4d310ded40efee5cf922e52d9e",
+      "triangles": 59997,
+      "meshes": 4,
+      "textures": 12,
+      "materials": [
+        "potted_plant_01_leaves.001 | WEB",
+        "potted_plant_01_pot.001 | WEB",
+        "potted_plant_01_pot.001 | WEB.001",
+        "potted_plant_01_pot.001 | WEB.002"
+      ],
+      "texturePrecisionConversion": [
+        {
+          "image": "potted_plant_01_leaves_nor_gl_1k",
+          "size": [
+            1024,
+            1024
+          ],
+          "beforeBytes": 4012816,
+          "afterBytes": 1263775,
+          "precision": "16 to 8 bits; no spatial resize"
+        },
+        {
+          "image": "potted_plant_01_pot_nor_gl_1k",
+          "size": [
+            1024,
+            1024
+          ],
+          "beforeBytes": 4818586,
+          "afterBytes": 1608573,
+          "precision": "16 to 8 bits; no spatial resize"
+        },
+        {
+          "image": "potted_plant_01_pot_diff_1k",
+          "size": [
+            1024,
+            1024
+          ],
+          "beforeBytes": 4849826,
+          "afterBytes": 1536745,
+          "precision": "16 to 8 bits; no spatial resize"
+        }
+      ],
+      "canonicalBounds": {
+        "min": [
+          -0.24999991059303284,
+          -5.22152987514346e-10,
+          -0.23000001907348633
+        ],
+        "max": [
+          0.2500000596046448,
+          1.0500000715255737,
+          0.23000003397464752
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          1.1699999272823334,
+          0.030000000669939908,
+          -1.4500000476837158
+        ],
+        "max": [
+          1.669999897480011,
+          1.0800000727176666,
+          -0.989999994635582
+        ]
+      }
+    },
+    {
+      "id": "quadro",
+      "path": "quadro.glb",
+      "types": [
+        "quadro"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 1.1200000047683716,
+        "h": 0.7200000286102295,
+        "d": 0.040700240060687065
+      },
+      "source": {
+        "objects": [
+          "R2 | R3 Moldura arte",
+          "R2 | R3 Papel arte",
+          "R3 | Traco impresso"
+        ],
+        "pivotBlender": [
+          0.30000001192092896,
+          -3.0176501274108887,
+          1.2999999523162842
+        ],
+        "positionThree": [
+          0.30000001192092896,
+          1.2999999523162842,
+          3.0176501274108887
+        ],
+        "rotationQuarterTurns": 2,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 2,
+        "warnings": [],
+        "method": "material-channel bake; image PBR preserved"
+      },
+      "bytes": 675096,
+      "sha256": "512b8a07ff627c904ad6838bcf3a9545d98d03d337e393ed4543d80285eb3fd6",
+      "triangles": 2110,
+      "meshes": 3,
+      "textures": 2,
+      "materials": [
+        "R2 | Carvalho painel.001 | WEB",
+        "R2 | R3 Aquarela impressa.001 | WEB",
+        "R2 | R3 Tinta arte.001 | WEB"
+      ],
+      "canonicalBounds": {
+        "min": [
+          -0.5600000023841858,
+          0,
+          -0.020350022241473198
+        ],
+        "max": [
+          0.5600000023841858,
+          0.7200000286102295,
+          0.020350217819213867
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          -0.25999999046325684,
+          1.2999999523162842,
+          2.997299909591675
+        ],
+        "max": [
+          0.8600000143051147,
+          2.0199999809265137,
+          3.038000149652362
+        ]
+      }
+    },
+    {
+      "id": "acabamentos",
+      "path": "acabamentos.glb",
+      "types": [],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 3.200000047683716,
+        "h": 0.019999999552965164,
+        "d": 1
+      },
+      "source": {
+        "objects": [
+          "WEB approved sample | wall",
+          "WEB approved sample | wood-floor",
+          "WEB approved sample | tile-floor"
+        ],
+        "pivotBlender": [
+          1.600000023841858,
+          0.5,
+          0
+        ],
+        "positionThree": [
+          1.600000023841858,
+          0,
+          -0.5
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 4,
+        "warnings": [],
+        "method": "material-channel bake; image PBR preserved"
+      },
+      "bytes": 2438220,
+      "sha256": "e88c22d2ec22e5c448b6187c0ffd4f5fe3bcaaa6a99634ecef4417d29d30f112",
+      "triangles": 6,
+      "meshes": 3,
+      "textures": 4,
+      "materials": [
+        "web-tile-floor",
+        "web-wall",
+        "web-wood-floor"
+      ],
+      "canonicalBounds": {
+        "min": [
+          -1.600000023841858,
+          0,
+          -0.5
+        ],
+        "max": [
+          1.600000023841858,
+          0.019999999552965164,
+          0.5
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          0,
+          0,
+          -1
+        ],
+        "max": [
+          3.200000047683716,
+          0.019999999552965164,
+          0
+        ]
+      }
+    },
+    {
+      "id": "mesa-varanda",
+      "path": "mesa-varanda.glb",
+      "types": [
+        "mesa"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.949999988079071,
+        "h": 0.7599999308586121,
+        "d": 0.949999988079071
+      },
+      "source": {
+        "objects": [
+          "mesh-83",
+          "mesh-84",
+          "mesh-85",
+          "mesh-86",
+          "mesh-87"
+        ],
+        "pivotBlender": [
+          2.3499999046325684,
+          2.424999952316284,
+          0.030000001192092896
+        ],
+        "positionThree": [
+          2.3499999046325684,
+          0.030000001192092896,
+          -2.424999952316284
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [
+        "movel-24"
+      ],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 5,
+        "warnings": [],
+        "method": "material-channel bake; image PBR preserved"
+      },
+      "bytes": 650248,
+      "sha256": "0da832b79865a4fe5f07df485db97357ff14aff0833dce097fbf61c5f83f0bdd",
+      "triangles": 960,
+      "meshes": 5,
+      "textures": 5,
+      "materials": [
+        "LIV | Mesa circular LIV.001 | WEB",
+        "LIV | Mesa circular LIV.001 | WEB.001",
+        "LIV | Mesa circular LIV.001 | WEB.002",
+        "LIV | Mesa circular LIV.001 | WEB.003",
+        "LIV | Mesa circular LIV.001 | WEB.004"
+      ],
+      "namePattern": "varanda",
+      "referenceFootprintCanto": {
+        "w": 0.95,
+        "h": 0.76,
+        "d": 0.95
+      },
+      "canonicalBounds": {
+        "min": [
+          -0.4749999940395355,
+          0,
+          -0.4749999940395355
+        ],
+        "max": [
+          0.4749999940395355,
+          0.7599999308586121,
+          0.4749999940395355
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          1.8749999105930328,
+          0.030000001192092896,
+          -2.8999999463558197
+        ],
+        "max": [
+          2.824999898672104,
+          0.789999932050705,
+          -1.9499999582767487
+        ]
+      }
+    },
+    {
+      "id": "mesa-apoio",
+      "path": "mesa-apoio.glb",
+      "types": [],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.6200000047683716,
+        "h": 0.4899999797344208,
+        "d": 0.6200000047683716
+      },
+      "source": {
+        "objects": [
+          "R2 | Mesa de apoio redonda",
+          "R2 | Tampo carvalho mesa de apoio",
+          "R2 | Vaso mesa de apoio"
+        ],
+        "pivotBlender": [
+          0.12000000476837158,
+          -2.0799999237060547,
+          0.05000000074505806
+        ],
+        "positionThree": [
+          0.12000000476837158,
+          0.05000000074505806,
+          2.0799999237060547
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 2,
+        "warnings": [],
+        "method": "material-channel bake; image PBR preserved"
+      },
+      "bytes": 219984,
+      "sha256": "fb2c3a85e0a0a115458f843aff8910aef3c2191090c25d39d335e4e6da75aef2",
+      "triangles": 788,
+      "meshes": 3,
+      "textures": 2,
+      "materials": [
+        "R2 | Metal grafite.001 | WEB",
+        "R2 | Carvalho painel.001 | WEB",
+        "R2 | Ceramica areia.001 | WEB"
+      ],
+      "canonicalBounds": {
+        "min": [
+          -0.3100000023841858,
+          0,
+          -0.3100000023841858
+        ],
+        "max": [
+          0.3100000023841858,
+          0.4899999797344208,
+          0.3100000023841858
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          -0.1899999976158142,
+          0.05000000074505806,
+          1.769999921321869
+        ],
+        "max": [
+          0.4300000071525574,
+          0.5399999804794788,
+          2.3899999260902405
+        ]
+      }
+    },
+    {
+      "id": "livros-rack",
+      "path": "livros-rack.glb",
+      "types": [],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.23499999195337296,
+        "h": 0.08000002056360245,
+        "d": 0.314999982714653
+      },
+      "source": {
+        "objects": [
+          "R2 | Livro verde",
+          "R2 | Livro areia"
+        ],
+        "pivotBlender": [
+          -0.4375,
+          -2.547499895095825,
+          0.7325000166893005
+        ],
+        "positionThree": [
+          -0.4375,
+          0.7325000166893005,
+          2.547499895095825
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 1,
+        "warnings": [],
+        "method": "material-channel bake; image PBR preserved"
+      },
+      "bytes": 85416,
+      "sha256": "5d6988058abd46b304beed5d1f406dcaae5d151e278a8e2057a1da77bcc6e449",
+      "triangles": 376,
+      "meshes": 2,
+      "textures": 1,
+      "materials": [
+        "R2 | Papel livros.001 | WEB",
+        "R2 | Almofada oliva.001 | WEB"
+      ],
+      "canonicalBounds": {
+        "min": [
+          -0.11749999970197678,
+          -2.2351741790771484e-8,
+          -0.15749992430210114
+        ],
+        "max": [
+          0.11749999225139618,
+          0.07999999821186066,
+          0.15750005841255188
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          -0.5549999997019768,
+          0.7324999943375587,
+          2.389999970793724
+        ],
+        "max": [
+          -0.3200000077486038,
+          0.8125000149011612,
+          2.704999953508377
+        ]
+      }
+    },
+    {
+      "id": "cadeira-varanda-lateral",
+      "path": "cadeira-varanda-lateral.glb",
+      "types": [
+        "cadeira"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.4897207021713257,
+        "h": 0.8799999952316284,
+        "d": 0.44893398880958557
+      },
+      "source": {
+        "objects": [
+          "R3 | Cadeira 6 | cad_e0_pf-1",
+          "R3 | Cadeira 6 | cad_e0_pt-1",
+          "R3 | Cadeira 6 | cad_e0_pf1",
+          "R3 | Cadeira 6 | cad_e0_pt1",
+          "R3 | Cadeira 6 | cad_e0_quadro",
+          "R3 | Cadeira 6 | cad_e0_assento",
+          "R3 | Cadeira 6 | cad_e0_encosto",
+          "R3 | Cadeira 6 | cad_e0_botao0",
+          "R3 | Cadeira 6 | cad_e0_botao1",
+          "R3 | Cadeira 6 | cad_e0_botao2",
+          "R3 | Cadeira 6 | cad_e0_botao3"
+        ],
+        "pivotBlender": [
+          1.9004337787628174,
+          2.2249977588653564,
+          0.029999999329447746
+        ],
+        "positionThree": [
+          1.9004337787628174,
+          0.029999999329447746,
+          -2.2249977588653564
+        ],
+        "rotationQuarterTurns": 1,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "replaces": [
+        "movel-26"
+      ],
+      "materialConversion": {
+        "bakeLighting": false,
+        "bakedImages": 7,
+        "warnings": [],
+        "method": "material-channel bake; image PBR preserved",
+        "sheenCorrections": [
+          {
+            "sourceMaterial": "tecido_cadeira",
+            "weight": 0.4000000059604645,
+            "tintRGB": [
+              1,
+              1,
+              1
+            ],
+            "before": [
+              1,
+              1,
+              1
+            ],
+            "after": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "roughnessPreserved": 0.5
+          },
+          {
+            "sourceMaterial": "tecido_cadeira",
+            "weight": 0.4000000059604645,
+            "tintRGB": [
+              1,
+              1,
+              1
+            ],
+            "before": [
+              1,
+              1,
+              1
+            ],
+            "after": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "roughnessPreserved": 0.5
+          }
+        ]
+      },
+      "bytes": 3348364,
+      "sha256": "92827b3b02ea43534e73699de4c688c0d776eff08b4e45e34652fbf0c06fe396",
+      "triangles": 23868,
+      "meshes": 11,
+      "textures": 14,
+      "materials": [
+        "tecido_cadeira.001 | WEB",
+        "botao_cadeira.001 | WEB",
+        "botao_cadeira.001 | WEB.001",
+        "botao_cadeira.001 | WEB.002",
+        "botao_cadeira.001 | WEB.003",
+        "tecido_cadeira.001 | WEB.001",
+        "madeira_escura.002 | WEB.001",
+        "madeira_escura.002 | WEB",
+        "madeira_escura.002 | WEB.004",
+        "madeira_escura.002 | WEB.003",
+        "madeira_escura.002 | WEB.002"
+      ],
+      "namePattern": "varanda.*2",
+      "referenceFootprintCanto": {
+        "w": 0.45,
+        "h": 0.85,
+        "d": 0.45
+      },
+      "instances": [
+        {
+          "furnitureId": "movel-26",
+          "positionThree": [
+            1.9004338383674622,
+            0.029999999329447746,
+            -2.2249977588653564
+          ],
+          "rotationQuarterTurns": 1
+        }
+      ],
+      "canonicalBounds": {
+        "min": [
+          -0.2448604702949524,
+          0,
+          -0.2244669497013092
+        ],
+        "max": [
+          0.2448602318763733,
+          0.8799999952316284,
+          0.22446703910827637
+        ]
+      },
+      "worldBoundsCanto": {
+        "min": [
+          1.6759668290615082,
+          0.029999999329447746,
+          -2.4698579907417297
+        ],
+        "max": [
+          2.1249008178710938,
+          0.9099999945610762,
+          -1.980137288570404
+        ]
+      }
+    },
+    {
+      "id": "cortinas-janela",
+      "path": "cortinas-janela.glb",
+      "types": [],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 2.060976028442383,
+        "h": 2.5299999713897705,
+        "d": 0.09100008010864258
+      },
+      "source": {
+        "objects": [
+          "R2 | Cortina linho",
+          "R2 | Cortina linho.001"
+        ],
+        "pivotBlender": [
+          2.2895119190216064,
+          1.5605000257492065,
+          0.05999999865889549
+        ],
+        "positionThree": [
+          2.2895119190216064,
+          0.05999999865889549,
+          -1.5605000257492065
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "sourceAnchorCanto": "janela da sala",
+      "worldBoundsCanto": {
+        "min": [
+          1.259023904800415,
+          0.05999999865889549,
+          -1.6060000658035278
+        ],
+        "max": [
+          3.319999933242798,
+          2.589999970048666,
+          -1.5149999856948853
+        ]
+      },
+      "sourceWorldBoundsCanto": {
+        "min": [
+          1.259023904800415,
+          0.05999999865889549,
+          -1.6060000658035278
+        ],
+        "max": [
+          3.319999933242798,
+          2.5899999141693115,
+          -1.5149999856948853
+        ]
+      },
+      "sourcePoseMaxAbsErrorMeters": 5.587935447692871e-8,
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "source material-channel bake in CPU; geometry unchanged",
+        "bakedImages": 2,
+        "warnings": [],
+        "materialBakeReuse": [],
+        "thinTranslucency": {
+          "sourceUsed": false,
+          "introduced": false,
+          "note": "Source R2 materials use opaque Principled (Alpha=1, Transmission=0); no separate Translucent lobe exists or is approximated."
+        },
+        "sourceNgonsTriangulatedForTangents": []
+      },
+      "bytes": 1899312,
+      "sha256": "49c2dc49e65b8d3eff1c96c6fd1dad625c9a3fcc41567b4b961f01a1240ef212",
+      "triangles": 776,
+      "meshes": 2,
+      "textures": 2,
+      "materials": [
+        "R2 | Linho cru.001 | WEB",
+        "R2 | Linho cru.001 | WEB.001"
+      ],
+      "canonicalBounds": {
+        "min": [
+          -1.0304880142211914,
+          0,
+          -0.04550004005432129
+        ],
+        "max": [
+          1.0304880142211914,
+          2.5299999713897705,
+          0.04550004005432129
+        ]
+      }
+    },
+    {
+      "id": "pendente-jantar",
+      "path": "pendente-jantar.glb",
+      "types": [],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.5199999809265137,
+        "h": 0.7300000190734863,
+        "d": 0.5199999809265137
+      },
+      "source": {
+        "objects": [
+          "R2 | Pendente jantar",
+          "R2 | Cabo pendente"
+        ],
+        "pivotBlender": [
+          2.049999952316284,
+          0.3199999928474426,
+          1.9600000381469727
+        ],
+        "positionThree": [
+          2.049999952316284,
+          1.9600000381469727,
+          -0.3199999928474426
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "sourceAnchorCanto": "mesa de jantar",
+      "worldBoundsCanto": {
+        "min": [
+          1.7899999618530273,
+          1.9600000381469727,
+          -0.5799999833106995
+        ],
+        "max": [
+          2.309999942779541,
+          2.690000057220459,
+          -0.06000000238418579
+        ]
+      },
+      "sourceWorldBoundsCanto": {
+        "min": [
+          1.7899999618530273,
+          1.9600000381469727,
+          -0.5799999833106995
+        ],
+        "max": [
+          2.309999942779541,
+          2.690000057220459,
+          -0.06000000238418579
+        ]
+      },
+      "sourcePoseMaxAbsErrorMeters": 0,
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "source material-channel bake in CPU; geometry unchanged",
+        "bakedImages": 1,
+        "warnings": [],
+        "materialBakeReuse": [],
+        "thinTranslucency": {
+          "sourceUsed": false,
+          "introduced": false,
+          "note": "Source R2 materials use opaque Principled (Alpha=1, Transmission=0); no separate Translucent lobe exists or is approximated."
+        },
+        "sourceNgonsTriangulatedForTangents": [
+          "R2 | Pendente jantar",
+          "R2 | Cabo pendente"
+        ]
+      },
+      "bytes": 96648,
+      "sha256": "7f1b6884d2eeb564750d8b83190a2b857cb5e25b3de319bb0d64acebdffd7640",
+      "triangles": 352,
+      "meshes": 2,
+      "textures": 1,
+      "materials": [
+        "R2 | Metal grafite.001 | WEB",
+        "R2 | Ceramica areia.001 | WEB"
+      ],
+      "canonicalBounds": {
+        "min": [
+          -0.25999999046325684,
+          0,
+          -0.25999999046325684
+        ],
+        "max": [
+          0.25999999046325684,
+          0.7300000190734863,
+          0.25999999046325684
+        ]
+      }
+    },
+    {
+      "id": "fruteira-jantar",
+      "path": "fruteira-jantar.glb",
+      "types": [],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.2800000011920929,
+        "h": 0.07000000029802322,
+        "d": 0.2800000011920929
+      },
+      "source": {
+        "objects": [
+          "R2 | Fruteira"
+        ],
+        "pivotBlender": [
+          2.430000066757202,
+          0.27000001072883606,
+          0.7900000214576721
+        ],
+        "positionThree": [
+          2.430000066757202,
+          0.7900000214576721,
+          -0.27000001072883606
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "sourceAnchorCanto": "mesa de jantar",
+      "worldBoundsCanto": {
+        "min": [
+          2.2900000661611557,
+          0.7900000214576721,
+          -0.4100000113248825
+        ],
+        "max": [
+          2.5700000673532486,
+          0.8600000217556953,
+          -0.1300000101327896
+        ]
+      },
+      "sourceWorldBoundsCanto": {
+        "min": [
+          2.2899999618530273,
+          0.7900000214576721,
+          -0.4100000262260437
+        ],
+        "max": [
+          2.570000171661377,
+          0.8600000143051147,
+          -0.1300000101327896
+        ]
+      },
+      "sourcePoseMaxAbsErrorMeters": 1.043081283569336e-7,
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "source material-channel bake in CPU; geometry unchanged",
+        "bakedImages": 1,
+        "warnings": [],
+        "materialBakeReuse": [],
+        "thinTranslucency": {
+          "sourceUsed": false,
+          "introduced": false,
+          "note": "Source R2 materials use opaque Principled (Alpha=1, Transmission=0); no separate Translucent lobe exists or is approximated."
+        },
+        "sourceNgonsTriangulatedForTangents": [
+          "R2 | Fruteira"
+        ]
+      },
+      "bytes": 65324,
+      "sha256": "d755e614749777bc5a0cec26590864bbc877ccf5567511e0a5b3a70356b1e58b",
+      "triangles": 236,
+      "meshes": 1,
+      "textures": 1,
+      "materials": [
+        "R2 | Linho cru.002 | WEB"
+      ],
+      "canonicalBounds": {
+        "min": [
+          -0.14000000059604645,
+          0,
+          -0.14000000059604645
+        ],
+        "max": [
+          0.14000000059604645,
+          0.07000000029802322,
+          0.14000000059604645
+        ]
+      }
+    },
+    {
+      "id": "painel-tv-ripas",
+      "path": "painel-tv-ripas.glb",
+      "types": [],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.014000000432133675,
+        "h": 2.509999990463257,
+        "d": 1.90500009059906
+      },
+      "source": {
+        "objects": [
+          "R2 | Ripado painel TV",
+          "R2 | Ripado painel TV.001",
+          "R2 | Ripado painel TV.002",
+          "R2 | Ripado painel TV.003",
+          "R2 | Ripado painel TV.004",
+          "R2 | Ripado painel TV.005",
+          "R2 | Ripado painel TV.006",
+          "R2 | Ripado painel TV.007",
+          "R2 | Ripado painel TV.008",
+          "R2 | Ripado painel TV.009",
+          "R2 | Ripado painel TV.010",
+          "R2 | Ripado painel TV.011",
+          "R2 | Ripado painel TV.012",
+          "R2 | Ripado painel TV.013",
+          "R2 | Ripado painel TV.014",
+          "R2 | Ripado painel TV.015",
+          "R2 | Ripado painel TV.016",
+          "R2 | Ripado painel TV.017",
+          "R2 | Ripado painel TV.018",
+          "R2 | Ripado painel TV.019",
+          "R2 | Ripado painel TV.020",
+          "R2 | Ripado painel TV.021",
+          "R2 | Ripado painel TV.022",
+          "R2 | Ripado painel TV.023",
+          "R2 | Ripado painel TV.024",
+          "R2 | Ripado painel TV.025",
+          "R2 | Ripado painel TV.026",
+          "R2 | Ripado painel TV.027"
+        ],
+        "pivotBlender": [
+          -0.6140000224113464,
+          -2.0384998321533203,
+          0.09500002861022949
+        ],
+        "positionThree": [
+          -0.6140000224113464,
+          0.09500002861022949,
+          2.0384998321533203
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "sourceAnchorCanto": "parede do painel TV",
+      "worldBoundsCanto": {
+        "min": [
+          -0.6210000226274133,
+          0.09500002861022949,
+          1.0859999656677246
+        ],
+        "max": [
+          -0.6070000221952796,
+          2.6050000190734863,
+          2.9910000562667847
+        ]
+      },
+      "sourceWorldBoundsCanto": {
+        "min": [
+          -0.6210000514984131,
+          0.09500002861022949,
+          1.0859999656677246
+        ],
+        "max": [
+          -0.6069999933242798,
+          2.6050000190734863,
+          2.990999937057495
+        ]
+      },
+      "sourcePoseMaxAbsErrorMeters": 1.1920928955078125e-7,
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "source material-channel bake in CPU; geometry unchanged",
+        "bakedImages": 1,
+        "warnings": [],
+        "materialBakeReuse": [
+          {
+            "object": "R2 | Ripado painel TV.001",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.002",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.003",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.004",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.005",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.006",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.007",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.008",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.009",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.010",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.011",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.012",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.013",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.014",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.015",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.016",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.017",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.018",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.019",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.020",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.021",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.022",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.023",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.024",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.025",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.026",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.027",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          }
+        ],
+        "thinTranslucency": {
+          "sourceUsed": false,
+          "introduced": false,
+          "note": "Source R2 materials use opaque Principled (Alpha=1, Transmission=0); no separate Translucent lobe exists or is approximated."
+        },
+        "sourceNgonsTriangulatedForTangents": []
+      },
+      "bytes": 625856,
+      "sha256": "f83f3a81514fd915f5825611b5a2f5f2bd577f9a9503f49e580f03d58e5dfaef",
+      "triangles": 5264,
+      "meshes": 28,
+      "textures": 1,
+      "materials": [
+        "R2 | Carvalho painel.001 | WEB"
+      ],
+      "canonicalBounds": {
+        "min": [
+          -0.007000000216066837,
+          0,
+          -0.9524998664855957
+        ],
+        "max": [
+          0.007000000216066837,
+          2.509999990463257,
+          0.9525002241134644
+        ]
+      }
+    }
+  ],
+  "decorations": [
+    {
+      "assetId": "planta",
+      "typology": "canto",
+      "position": [
+        1.4199998378753662,
+        0.030000001192092896,
+        -1.2200000286102295
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.4999999701976776,
+        "h": 1.0500000720477267,
+        "d": 0.46000005304813385
+      }
+    },
+    {
+      "assetId": "planta",
+      "typology": "meio",
+      "anchorType": "mesa",
+      "anchorNamePattern": "jantar",
+      "offset": [
+        -0.63,
+        0,
+        -0.895
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.4999999701976776,
+        "h": 1.0500000720477267,
+        "d": 0.46000005304813385
+      }
+    },
+    {
+      "assetId": "quadro",
+      "typology": "canto",
+      "position": [
+        0.30000001192092896,
+        1.2999999523162842,
+        3.0176501274108887
+      ],
+      "yaw": 3.141592653589793,
+      "dimensions": {
+        "w": 1.1200000047683716,
+        "h": 0.7200000286102295,
+        "d": 0.040700240060687065
+      }
+    },
+    {
+      "assetId": "quadro",
+      "typology": "meio",
+      "position": [
+        -1.175,
+        1.3,
+        2.58
+      ],
+      "yaw": 3.141592653589793,
+      "dimensions": {
+        "w": 1.1200000047683716,
+        "h": 0.7200000286102295,
+        "d": 0.040700240060687065
+      }
+    },
+    {
+      "assetId": "mesa-apoio",
+      "typology": "canto",
+      "position": [
+        0.12000000476837158,
+        0.05000000074505806,
+        2.0799999237060547
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.6200000047683716,
+        "h": 0.4899999797344208,
+        "d": 0.6200000047683716
+      }
+    },
+    {
+      "assetId": "mesa-apoio",
+      "typology": "meio",
+      "anchorType": "sofa",
+      "offset": [
+        0.05500006675720235,
+        0.02497919276356697,
+        1.0799520015716553
+      ],
+      "yaw": -4.71238898038469,
+      "dimensions": {
+        "w": 0.6200000047683716,
+        "h": 0.4899999797344208,
+        "d": 0.6200000047683716
+      }
+    },
+    {
+      "assetId": "livros-rack",
+      "typology": "canto",
+      "position": [
+        -0.4375,
+        0.7325000166893005,
+        2.547499895095825
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.23499999195337296,
+        "h": 0.08000002056360245,
+        "d": 0.314999982714653
+      }
+    },
+    {
+      "assetId": "livros-rack",
+      "typology": "meio",
+      "anchorType": "rack",
+      "offset": [
+        -0.5224998950958253,
+        0.7025000166893005,
+        0.012500000000000042
+      ],
+      "yaw": -1.5707963267948966,
+      "dimensions": {
+        "w": 0.23499999195337296,
+        "h": 0.08000002056360245,
+        "d": 0.314999982714653
+      }
+    },
+    {
+      "assetId": "cortinas-janela",
+      "typology": "canto",
+      "position": [
+        2.2895119190216064,
+        0.05999999865889549,
+        -1.5605000257492065
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 2.060976028442383,
+        "h": 2.5299999713897705,
+        "d": 0.09100008010864258
+      }
+    },
+    {
+      "assetId": "pendente-jantar",
+      "typology": "canto",
+      "position": [
+        2.049999952316284,
+        1.9600000381469727,
+        -0.3199999928474426
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.5199999809265137,
+        "h": 0.7300000190734863,
+        "d": 0.5199999809265137
+      }
+    },
+    {
+      "assetId": "fruteira-jantar",
+      "typology": "canto",
+      "position": [
+        2.430000066757202,
+        0.7900000214576721,
+        -0.27000001072883606
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.2800000011920929,
+        "h": 0.07000000029802322,
+        "d": 0.2800000011920929
+      }
+    },
+    {
+      "assetId": "painel-tv-ripas",
+      "typology": "canto",
+      "position": [
+        -0.6140000224113464,
+        0.09500002861022949,
+        2.0384998321533203
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.014000000432133675,
+        "h": 2.509999990463257,
+        "d": 1.90500009059906
+      }
+    }
+  ],
+  "materialOverrides": [
+    {
+      "target": "wall",
+      "assetId": "acabamentos",
+      "materialName": "web-wall"
+    },
+    {
+      "target": "wood-floor",
+      "assetId": "acabamentos",
+      "materialName": "web-wood-floor",
+      "textureRepeat": [
+        0.7874015748031497,
+        1.968503937007874
+      ]
+    },
+    {
+      "target": "tile-floor",
+      "assetId": "acabamentos",
+      "materialName": "web-tile-floor",
+      "textureRepeat": [
+        1.968503937007874,
+        1.968503937007874
+      ]
+    }
+  ],
+  "sourceBlendSha256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88",
+  "sourceBlend": {
+    "path": "experimentos/liv-luz-natural-2026-10-26/entrega/LIV_Luz_Natural.blend",
+    "scene": "03 | Sala e jantar",
+    "sha256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88"
+  },
+  "environment": {
+    "path": "ambiente-interior-limpo.hdr",
+    "bytes": 1466914,
+    "sha256": "7836696edeb23bf3807192de0a34fe0bd3dc411cd301b0c2600313109959ccfd",
+    "kind": "local-interior-radiance-probe",
+    "encoding": "Radiance RGBE; scene-linear Rec.709; EV 0",
+    "sourceBlend": "experimentos/liv-luz-natural-2026-10-26/entrega/LIV_Luz_Natural.blend",
+    "sourceBlendSHA256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88",
+    "sourceScene": "03 | Sala e jantar",
+    "sourceWorld": "R3 | Ceu fisico e um unico sol",
+    "sourceCamera": "CAM | 03 | Sala e jantar",
+    "sourcePositionBlender": [
+      -0.550000011920929,
+      -0.3499999940395355,
+      1.4299999475479126
+    ],
+    "sourcePositionThree": [
+      -0.550000011920929,
+      1.4299999475479126,
+      0.3499999940395355
+    ],
+    "sourceExposureEV": 3,
+    "outputExposureEV": 0,
+    "sunDisc": false,
+    "sunDiscCamera": false,
+    "sunDiscIndirect": true,
+    "worldRayPolicy": "Only Is Camera Ray uses sky without solar disc; all indirect and light-sampling rays retain the approved World including sunlight.",
+    "reason": "Capture geometry-occluded local radiance and approved solar bounce; the website already has one moving directional sun.",
+    "geometryIncluded": true,
+    "width": 1024,
+    "height": 512,
+    "samples": 128,
+    "device": "GPU",
+    "denoising": true,
+    "denoiser": "OPENIMAGEDENOISE",
+    "purpose": "Diagnostic derivative only; not activated in catalog",
+    "comparisonSource": "ambiente-interior.hdr",
+    "computeBackend": "OPTIX",
+    "panoramaRotationBlender": [
+      1.5707963705062866,
+      0,
+      -1.5707963705062866
+    ],
+    "linearRGBMean": [
+      0.2877388000488281,
+      0.19619114696979523,
+      0.10793330520391464
+    ],
+    "linearRGBSolidAngleMean": [
+      0.26268962438429583,
+      0.1867619061863491,
+      0.11204608008800042
+    ],
+    "exteriorLinearRGBMean": [
+      1.5448014736175537,
+      2.439192771911621,
+      3.910871982574463
+    ],
+    "ratioToExteriorRGBMean": [
+      0.18626263954488148,
+      0.08043281745871941,
+      0.02759827109780871
+    ],
+    "linearRGBMax": 15.4375,
+    "sourceUnchanged": true,
+    "protectedGLBs": 13,
+    "catalogSHA256Before": "f68e4040fd9dbd5aac16b9ed22b16682ea1aa0f4291a0e3ab5fa7cb95da65b88",
+    "catalogSHA256After": "f68e4040fd9dbd5aac16b9ed22b16682ea1aa0f4291a0e3ab5fa7cb95da65b88",
+    "catalogWrittenByExport": false
+  },
+  "hiddenSourceObjects": [
+    {
+      "name": "mesh-69",
+      "sourceSlot": 69
+    },
+    {
+      "name": "mesh-74",
+      "sourceSlot": 74
+    },
+    {
+      "name": "mesh-75",
+      "sourceSlot": 75
+    },
+    {
+      "name": "mesh-76",
+      "sourceSlot": 76
+    },
+    {
+      "name": "LIV | sofa | Geom3D",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | sofa | Geom3D.001",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | sofa | Geom3D.002",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | sofa | Geom3D.003",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | sofa | Geom3D.004",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | sofa | Geom3D.005",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | sofa | Geom3D.006",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | sofa | Geom3D.007",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | sofa | Geom3D.008",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | sofa | Geom3D.009",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | sofa | Geom3D.010",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-1",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-2",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-4",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-1.001",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-2.001",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-4.001",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-1.002",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-2.002",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-4.002",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-1.003",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-2.003",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-4.003",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-1.004",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-2.004",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-4.004",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-1.005",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-2.005",
+      "sourceSlot": -1
+    },
+    {
+      "name": "LIV | chair | 3DGeom-4.005",
+      "sourceSlot": -1
+    }
+  ],
+  "legacyHideSourceSlots": [
+    69,
+    74,
+    75,
+    76
+  ],
+  "legacyHideNodeNames": [
+    "mesh-69",
+    "mesh-74",
+    "mesh-75",
+    "mesh-76",
+    "LIV | sofa | Geom3D",
+    "LIV | sofa | Geom3D.001",
+    "LIV | sofa | Geom3D.002",
+    "LIV | sofa | Geom3D.003",
+    "LIV | sofa | Geom3D.004",
+    "LIV | sofa | Geom3D.005",
+    "LIV | sofa | Geom3D.006",
+    "LIV | sofa | Geom3D.007",
+    "LIV | sofa | Geom3D.008",
+    "LIV | sofa | Geom3D.009",
+    "LIV | sofa | Geom3D.010",
+    "LIV | chair | 3DGeom-1",
+    "LIV | chair | 3DGeom-2",
+    "LIV | chair | 3DGeom-4",
+    "LIV | chair | 3DGeom-1.001",
+    "LIV | chair | 3DGeom-2.001",
+    "LIV | chair | 3DGeom-4.001",
+    "LIV | chair | 3DGeom-1.002",
+    "LIV | chair | 3DGeom-2.002",
+    "LIV | chair | 3DGeom-4.002",
+    "LIV | chair | 3DGeom-1.003",
+    "LIV | chair | 3DGeom-2.003",
+    "LIV | chair | 3DGeom-4.003",
+    "LIV | chair | 3DGeom-1.004",
+    "LIV | chair | 3DGeom-2.004",
+    "LIV | chair | 3DGeom-4.004",
+    "LIV | chair | 3DGeom-1.005",
+    "LIV | chair | 3DGeom-2.005",
+    "LIV | chair | 3DGeom-4.005"
+  ],
+  "background": {
+    "path": "ceu.hdr",
+    "bytes": 515401,
+    "sha256": "1443ff27e6bb21c124a81a58771eddcdf43ef0e97eb1e0bd04bd7b2bbf87c48c",
+    "sourceBlendSHA256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88",
+    "sourceWorld": "R3 | Ceu fisico e um unico sol",
+    "sourceExposureEV": 3,
+    "sourceSkyType": "MULTIPLE_SCATTERING",
+    "sunDisc": false,
+    "reason": "The website already has one moving directional sun.",
+    "width": 1024,
+    "height": 512,
+    "linearRGBMean": [
+      1.5448014736175537,
+      2.439192771911621,
+      3.910871982574463
+    ],
+    "linearRGBMax": 30.875,
+    "sourceUnchanged": true
+  },
+  "reflectionEnvironments": {
+    "jantar": {
+      "path": "ambiente-jantar-limpo.hdr",
+      "bytes": 1417693,
+      "sha256": "5ab4dc733374993b71b8987de0b0c912dfe1829743f17b4bc9a9ea65e5180617",
+      "kind": "local-interior-radiance-probe",
+      "encoding": "Radiance RGBE; scene-linear Rec.709; EV 0",
+      "sourceBlend": "experimentos/liv-luz-natural-2026-10-26/entrega/LIV_Luz_Natural.blend",
+      "sourceBlendSHA256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88",
+      "sourceScene": "03 | Sala e jantar",
+      "sourceWorld": "R3 | Ceu fisico e um unico sol",
+      "sourceCamera": "CAM | 03 | Sala e jantar",
+      "capturePositionPolicy": "Dining table top center + 0.10 m; table excluded from capture copy only",
+      "excludedCaptureObjects": [
+        "R3 | Mesa jantar | pe_mesa_1_1",
+        "R3 | Mesa jantar | pe_mesa_1_-1",
+        "R3 | Mesa jantar | pe_mesa_-1_1",
+        "R3 | Mesa jantar | pe_mesa_-1_-1",
+        "R3 | Mesa jantar | saia_y1",
+        "R3 | Mesa jantar | saia_y0",
+        "R3 | Mesa jantar | saia_x1",
+        "R3 | Mesa jantar | saia_x0",
+        "R3 | Mesa jantar | tampo"
+      ],
+      "sourcePositionBlender": [
+        2.049999952316284,
+        0.32499998807907104,
+        0.8899999856948853
+      ],
+      "sourcePositionThree": [
+        2.049999952316284,
+        0.8899999856948853,
+        -0.32499998807907104
+      ],
+      "sourceExposureEV": 3,
+      "outputExposureEV": 0,
+      "sunDisc": false,
+      "sunDiscCamera": false,
+      "sunDiscIndirect": true,
+      "worldRayPolicy": "Only Is Camera Ray uses sky without solar disc; all indirect and light-sampling rays retain the approved World including sunlight.",
+      "reason": "Capture geometry-occluded local radiance and approved solar bounce; the website already has one moving directional sun.",
+      "geometryIncluded": true,
+      "width": 1024,
+      "height": 512,
+      "samples": 128,
+      "device": "GPU",
+      "denoising": true,
+      "denoiser": "OPENIMAGEDENOISE",
+      "purpose": "Diagnostic derivative only; not activated in catalog",
+      "comparisonSource": "ambiente-interior.hdr",
+      "computeBackend": "OPTIX",
+      "panoramaRotationBlender": [
+        1.5707963705062866,
+        0,
+        -1.5707963705062866
+      ],
+      "linearRGBMean": [
+        0.7654825448989868,
+        0.5193638801574707,
+        0.2946759760379791
+      ],
+      "linearRGBSolidAngleMean": [
+        0.6392393262232277,
+        0.4609583287640006,
+        0.29714156828999344
+      ],
+      "exteriorLinearRGBMean": [
+        1.5448014736175537,
+        2.439192771911621,
+        3.910871982574463
+      ],
+      "ratioToExteriorRGBMean": [
+        0.4955216304308739,
+        0.2129244913063758,
+        0.07534789615997575
+      ],
+      "linearRGBMax": 21.5,
+      "sourceUnchanged": true,
+      "protectedGLBs": 17,
+      "catalogSHA256Before": "f68e4040fd9dbd5aac16b9ed22b16682ea1aa0f4291a0e3ab5fa7cb95da65b88",
+      "catalogSHA256After": "c87f1f07b5d8c7c208e44757e46bc5c980ecdfaf04042da675473017c4b5936c",
+      "catalogWrittenByExport": false
+    },
+    "cozinha": {
+      "path": "ambiente-cozinha.hdr",
+      "bytes": 1463935,
+      "sha256": "4e484424fceef05bb30f44ace94319172a6bfb2e14a7014c22f6e710502482e4",
+      "kind": "local-interior-radiance-probe",
+      "encoding": "Radiance RGBE; scene-linear Rec.709; EV 0",
+      "sourceBlend": "experimentos/liv-luz-natural-2026-10-26/entrega/LIV_Luz_Natural.blend",
+      "sourceBlendSHA256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88",
+      "sourceScene": "03 | Sala e jantar",
+      "sourceWorld": "R3 | Ceu fisico e um unico sol",
+      "sourceCamera": "CAM | 03 | Sala e jantar",
+      "capturePositionPolicy": "Kitchen counter front, between fridge, sink and stove (Blender 2.95, -0.25, 1.05)",
+      "sourcePositionBlender": [
+        2.950000047683716,
+        -0.25,
+        1.0499999523162842
+      ],
+      "sourcePositionThree": [
+        2.950000047683716,
+        1.0499999523162842,
+        0.25
+      ],
+      "sourceExposureEV": 3,
+      "outputExposureEV": 0,
+      "sunDisc": false,
+      "sunDiscCamera": false,
+      "sunDiscIndirect": true,
+      "worldRayPolicy": "Only Is Camera Ray uses sky without solar disc; all indirect and light-sampling rays retain the approved World including sunlight.",
+      "reason": "Capture geometry-occluded local radiance and approved solar bounce; the website already has one moving directional sun.",
+      "geometryIncluded": true,
+      "width": 1024,
+      "height": 512,
+      "samples": 128,
+      "device": "GPU",
+      "denoising": true,
+      "denoiser": "OPENIMAGEDENOISE",
+      "purpose": "Diagnostic derivative only; not activated in catalog",
+      "comparisonSource": "ambiente-interior.hdr",
+      "computeBackend": "OPTIX",
+      "panoramaRotationBlender": [
+        1.5707963705062866,
+        0,
+        -1.5707963705062866
+      ],
+      "linearRGBMean": [
+        0.35586175322532654,
+        0.273969829082489,
+        0.19229941070079803
+      ],
+      "linearRGBSolidAngleMean": [
+        0.38928148311808086,
+        0.3127015516677051,
+        0.23346311488822402
+      ],
+      "exteriorLinearRGBMean": [
+        1.5448014736175537,
+        2.439192771911621,
+        3.910871982574463
+      ],
+      "ratioToExteriorRGBMean": [
+        0.23036083231587284,
+        0.11231987575454153,
+        0.04917046928603643
+      ],
+      "linearRGBMax": 47.75,
+      "sourceUnchanged": true,
+      "protectedGLBs": 17,
+      "catalogSHA256Before": "dc7796a3e936f120c05f088a552d85eb9aa941f51a8e937af360b26155000022",
+      "catalogSHA256After": "dc7796a3e936f120c05f088a552d85eb9aa941f51a8e937af360b26155000022",
+      "catalogWrittenByExport": false
+    }
+  },
+  "look": {
+    "schema": "liv-color-look-log3d-v1",
+    "path": "look-agx-medio-baixo.bin",
+    "bytes": 4194304,
+    "sha256": "20f371c7f5b21b89b58ef29d2cac87012331aafff03593c2cc31a964c0cc3c61",
+    "edge": 64,
+    "domainMinEV": -16,
+    "domainMaxEV": 8,
+    "axisOrder": "X=red, Y=green, Z=blue; red fastest, then green, then blue",
+    "encoding": "little-endian float32 RGBA; RGB is linear-sRGB display light after inverse sRGB transfer; A=1",
+    "input": "linear-sRGB scene radiance after external exposure gain; negatives clamp to domain minimum",
+    "output": "linear-sRGB for one later renderer sRGB output conversion; do not sRGB-decode the LUT again",
+    "sourceLook": "AgX - Medium Low Contrast",
+    "sourceViewTransform": "AgX",
+    "sourceDisplayDevice": "sRGB",
+    "sourceExposureEV": 3,
+    "lookupExposureEV": 0,
+    "sourceBlendSHA256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88",
+    "validationPassed": true
+  }
+}

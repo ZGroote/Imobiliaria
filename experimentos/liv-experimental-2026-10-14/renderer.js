@@ -11,6 +11,8 @@ import {environmentTexture,precomputedEnvironment} from './ambiente.js';
 import {EXTERIOR_EDITIONS} from './edicoes.js';
 import {exteriorAmbience,requestedAmbience} from './ambiencia.js';
 import {buyerExperienceEnabled} from './experiencia-compra.js';
+import {exteriorTimeLighting} from './horario-exterior.js';
+import {addRoofLogo} from './marca-telhado.js';
 
 const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION,active:new URLSearchParams(location.search).get('prewarm')!=='1'};
 function progress(phase,message,extra={}){
@@ -313,11 +315,42 @@ async function start() {
   controls=new OrbitControls(camera,canvas);
   controls.target.fromArray(data.views.perspectiva.target);controls.enableDamping=false;controls.minDistance=9;controls.maxDistance=900;
   controls.maxPolarAngle=Math.PI;controls.update();
+  // O pan do OrbitControls tirava o centro do giro da maquete. O botão direito agora desloca a
+  // imagem (lente da câmera, setViewOffset): a maquete anda na tela e continua girando em volta
+  // do próprio centro. Cada câmera nova (vista pronta) nasce sem deslocamento.
+  controls.enablePan=false;controls.mouseButtons.RIGHT=null;controls.touches.TWO=THREE.TOUCH.DOLLY_ROTATE;
+  function applyPan(){
+    const pan=camera.userData.pan,rect=stage.getBoundingClientRect();
+    if(!pan||(!pan.x&&!pan.y)){if(camera.view?.enabled)camera.clearViewOffset();return;}
+    camera.setViewOffset(rect.width,rect.height,-pan.x,-pan.y,rect.width,rect.height);
+  }
+  let panPointer=null;
+  canvas.addEventListener('contextmenu',event=>event.preventDefault(),{signal:requests.signal});
+  canvas.addEventListener('pointerdown',event=>{
+    if(event.button!==2||event.pointerType!=='mouse')return;
+    panPointer={id:event.pointerId,x:event.clientX,y:event.clientY};canvas.setPointerCapture(event.pointerId);
+    camera.userData.viewName=null;state.activeView='livre';
+  },{signal:requests.signal});
+  canvas.addEventListener('pointermove',event=>{
+    if(!panPointer||event.pointerId!==panPointer.id)return;
+    const rect=stage.getBoundingClientRect(),pan=camera.userData.pan??={x:0,y:0};
+    // Até 45% da tela para cada lado: a maquete nunca some.
+    pan.x=Math.max(-rect.width*.45,Math.min(rect.width*.45,pan.x+event.clientX-panPointer.x));
+    pan.y=Math.max(-rect.height*.45,Math.min(rect.height*.45,pan.y+event.clientY-panPointer.y));
+    panPointer.x=event.clientX;panPointer.y=event.clientY;applyPan();
+  },{signal:requests.signal});
+  for(const type of ['pointerup','pointercancel'])canvas.addEventListener(type,event=>{if(panPointer?.id===event.pointerId)panPointer=null;},{signal:requests.signal});
   if(buyerExperience)controls.screenSpacePanning=false;
   const visibleBounds=new THREE.Box3(new THREE.Vector3().fromArray(data.visibleBounds.min),new THREE.Vector3().fromArray(data.visibleBounds.max));
   const towerBox=new THREE.Box3();
   for(const mesh of meshes)if(mesh.userData.tower===0)towerBox.union(new THREE.Box3().setFromObject(mesh));
   const facadeBounds={min:towerBox.min.toArray(),max:towerBox.max.toArray()};
+  let roofSign=null;
+  addRoofLogo({scene,towerMeshes:meshes.filter(mesh=>mesh.userData.tower===0),url:new URL('./marca-telhado.webp',import.meta.url)})
+    .then(sign=>{
+      roofSign=sign;state.roofLogo=sign.name;sign.setNight(state.solar?.night??0);
+      for(const light of shadowLights)light.shadow.needsUpdate=true;  // o letreiro faz sombra na laje
+    }).catch(error=>{state.roofLogoError=String(error.message||error);});
   const corners=[];
   for(const x of [visibleBounds.min.x,visibleBounds.max.x]) for(const y of [visibleBounds.min.y,visibleBounds.max.y])
     for(const z of [visibleBounds.min.z,visibleBounds.max.z]) corners.push(new THREE.Vector3(x,y,z));
@@ -394,7 +427,7 @@ async function start() {
       camera.left=-halfHeight*camera.aspect;camera.right=halfHeight*camera.aspect;
       camera.top=centerY+halfHeight;camera.bottom=centerY-halfHeight;
     }
-    camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix();applyPan();
   }
   resizeObserver=new ResizeObserver(resize);
   resizeObserver.observe(stage);resize();
@@ -471,15 +504,22 @@ async function start() {
     if(state.disposed)return false;
     ambience.setProfile(profile);state.ambience=profile;renderer.render(scene,camera);return true;
   }
-  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,setParkingSpaces,
+  const clock=exteriorTimeLighting({scene,renderer,materials,data,shadowLights,invalidateShadows:()=>{for(const light of shadowLights)light.shadow.needsUpdate=true;}});
+  function setTimeOfDay(hour,context=null,options={}) {
+    if(state.disposed)return false;
+    if(!state.solar||state.ambience!=='dia'){ambience.setProfile('dia');state.ambience='dia';}
+    state.solar=clock.setTime(hour,options);roofSign?.setNight(state.solar.night);return state.solar;
+  }
+  if(parameters.has('hora'))setTimeOfDay(parameters.get('hora'),null,parameters.has('data')?{date:parameters.get('data')}:{});
+  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,setTimeOfDay,setParkingSpaces,
     setAvailableUnits:ids=>unitPicking?.availability.setUnits(ids)??false,
-    ambience:initialAmbience,ambienceController:ambience,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,facadeBounds,entryDetailBounds:entryBounds,
+    ambience:state.solar?'dia':initialAmbience,ambienceController:ambience,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,facadeBounds,entryDetailBounds:entryBounds,
     invalidateShadows(){
       if(state.disposed)return false;
       for(const light of shadowLights)light.shadow.needsUpdate=true;
       return true;
     },
-    getState(){return {view:state.activeView,floor:selectedFloor,selectedUnitId:unitPicking?.getState().selectedId??null,backend:state.backend,ambience:state.ambience,
+    getState(){return {view:state.activeView,floor:selectedFloor,selectedUnitId:unitPicking?.getState().selectedId??null,backend:state.backend,ambience:state.ambience,solar:state.solar,
       camera:{type:camera.type,fov:camera.fov,near:camera.near,far:camera.far,zoom:camera.zoom,
         left:camera.left,right:camera.right,top:camera.top,bottom:camera.bottom,aspect:camera.aspect,
         position:camera.position.toArray(),target:controls.target.toArray()}};},
@@ -492,6 +532,7 @@ async function start() {
       setFloor(snapshot.floor??-1);
       if(unitPicking)setSelectedUnit(snapshot.selectedUnitId??null);
       if(snapshot.ambience)setAmbience(snapshot.ambience);
+      if(snapshot.solar)setTimeOfDay(snapshot.solar.hour,null,{date:snapshot.solar.date});
     }});
   const renderFrame=()=>{if(state.active&&!state.disposed){controls.update();orientCamera();renderer.render(scene,camera);}};
   state.setActive=function(active){

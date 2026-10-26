@@ -1,25 +1,53 @@
 import * as THREE from 'three/webgpu';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {LivRGBMNodeMaterial,createRGBMTexture} from './material-rgbm.js';
-import {createLayout,createNavigation} from './interior-navigation.js';
+import {LivRGBMNodeMaterial,LivBakedPhysicalNodeMaterial,setRGBMTimeLighting,setReflectionNormalization} from './material-rgbm.js';
+import {createTimeLightmaps} from './interior-luz-horario.js';
+import {createLayout,createNavigation,inside} from './interior-navigation.js';
+import {createDoors} from './interior-portas.js';
+import {applyVeneer} from './folheado.js';
 import {planFrame,roomLook} from './interior-camera.js';
 import {createPlanCutaway} from './interior-cutaway.js?rev=2026-10-13-rodateto-selado-final';
 import {repairWallTops} from './interior-wall-tops.js?rev=2026-10-13-rodateto-selado-final';
 import {installCornice} from './interior-cornice.js?rev=2026-10-13-rodateto-selado-final';
 import {createFurnitureEditor,dimensionsOf,validFurnitureDimensions,sameFurnitureDimensions} from './furniture-editor.js';
+import {createInteriorSolarLighting,interiorTimeState} from './horario-interior.js';
+import {loadInteriorImprovements} from './interior-melhorias.js';
+import {installInteriorLook} from './interior-look.js';
 
 const query=new URLSearchParams(location.search),typology=query.get('tipologia')||'canto',requested=query.get('backend')||'auto';
 const canvas=document.querySelector('#interior-canvas'),stage=document.querySelector('#interior-stage'),status=document.querySelector('#interior-status');
 const controller=new AbortController(),base=new URL('./',import.meta.url),owned=new Set(),released=new WeakSet(),bitmaps=new Set(),closed=new WeakSet(),listeners=[],pendingDisposals=new Set(),initializedRenderers=new WeakSet();
 const state=window.__livInterior={ready:false,error:null,backend:null,typology,mode:query.get('modo')||'planta3d',disposed:false,active:query.get('prewarm')!=='1',
   lighting:{bakedActive:false,reason:'carregando'},ownership:{created:0,disposed:0,bitmapsClosed:0}};
-let renderer,scene,camera,controls,observer,startup,disposePromise,layout,navigation,entry,catalog,record,source,light,atlas,resizeView;
+let renderer,scene,camera,controls,observer,startup,disposePromise,layout,navigation,entry,catalog,record,source,light,timeLight,resizeView;
 let yaw=0,pitch=0,tourPosition=null,route=[],routeResolve=null,frameBusy=false,framePromise=Promise.resolve(),lastFrame=0,ceiling=[];
-const furniture=[],meshBySlot=new Map(),baked=[],keys=new Set(),touchKeys=new Set();
+const furniture=[],meshBySlot=new Map(),baked=[],probeLit=[],keys=new Set(),touchKeys=new Set();
 let orbitSnapshot=null,pointer=null,shadowLight=null,planAutoFrame=true,routeRoom=null,presentation=null;
-let furnitureFactory,furnitureMaterials,furnitureEditor;
+let furnitureFactory,furnitureMaterials,furnitureEditor,solarLighting,improvements,improvementsNotice,doors,doorButton;
+let timeOfDay=interiorTimeState(14);
 
-function invalidateShadows(){if(shadowLight)shadowLight.shadow.needsUpdate=true;}
+function invalidateShadows(){if(solarLighting)solarLighting.invalidateShadows();else if(shadowLight)shadowLight.shadow.needsUpdate=true;}
+state.setTimeOfDay=function(hour,unitContext=timeOfDay?.context,options={}){
+  if(state.disposed)return false;
+  let next;
+  try{next=interiorTimeState(hour,unitContext,{date:options.date??timeOfDay?.date});}catch(error){state.timeError=String(error.message||error);return false;}
+  timeOfDay=next;state.timeOfDay=structuredClone(next);state.timeError=null;
+  if(solarLighting){
+    const {weights}=applyTimeLight();improvements?.setEnvironmentIntensity(scene.environmentIntensity);solarLighting.syncPresentation(state.mode);
+    // As horas deste lado ainda não chegaram: segue dinâmico e troca quando baixar.
+    if(timeLight&&(!weights||weights.stale))timeLight.ensure(next).then(()=>{if(!state.disposed&&timeOfDay===next)applyTimeLight();})
+      .catch(error=>{if(!state.disposed)state.timeLightError=String(error.message||error);});
+  }
+  return true;
+};
+/** Luz gravada no Cycles (céu + rebatimento) com o sol medido; móveis fora do lugar voltam ao modo dinâmico. */
+function applyTimeLight(){
+  const weights=timeLight?.apply(timeOfDay)||null,active=Boolean(weights)&&layoutOriginal();
+  setBaked(active,active?'luz gravada no Cycles por hora':weights?'móveis alterados: iluminação dinâmica':'horário solar: materiais e sombras dinâmicos');
+  solarLighting.apply(timeOfDay,{sunIrradiance:active?weights.sun:null});
+  setReflectionNormalization(active);
+  return {weights,active};
+}
 
 function check(){if(controller.signal.aborted||state.disposed)throw new DOMException('Interior cancelado.','AbortError');}
 function own(value){if(value&&!owned.has(value)){owned.add(value);state.ownership.created++;}return value;}
@@ -39,8 +67,15 @@ function release(value){
 function closeBitmap(value){if(closed.has(value))return;closed.add(value);value.close();state.ownership.bitmapsClosed++;}
 function listen(target,type,handler,options){target.addEventListener(type,handler,options);listeners.push(()=>target.removeEventListener(type,handler,options));}
 function progress(message,phase='download',extra={}){if(!state.disposed){status.textContent=message;state.progress={version:(state.progress?.version||0)+1,phase,message,at:performance.now(),...extra};}}
+function showInteriorWarning(message,detail){
+  if(!improvementsNotice){improvementsNotice=document.createElement('p');improvementsNotice.id='interior-improvements-warning';improvementsNotice.setAttribute('role','status');
+    Object.assign(improvementsNotice.style,{position:'absolute',left:'12px',bottom:'12px',maxWidth:'calc(100% - 24px)',margin:'0',padding:'9px 12px',borderRadius:'6px',background:'#3d2b1ef2',color:'#ffe1b5',fontSize:'12px',zIndex:'20'});stage.append(improvementsNotice);}
+  improvementsNotice.textContent=message;improvementsNotice.title=detail;
+}
 async function cleanup(){
   furnitureEditor?.dispose();
+  solarLighting?.dispose();
+  improvementsNotice?.remove();doorButton?.remove();
   observer?.disconnect();renderer?.setAnimationLoop(null);
   for(const off of listeners.splice(0))off();
   for(const resource of owned)release(resource);
@@ -65,23 +100,25 @@ function fail(error){
   state.dispose().catch(error=>{state.disposalError=String(error);});
 }
 const retry=new URL(location.href);retry.searchParams.set('backend','webgl');document.querySelector('#retry-interior').href=retry.href;
+if(query.get('embed')==='1')document.querySelector('#touch-pad').style.right='96px';
 
 async function sha(bytes){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');}
 async function unzip(bytes){return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());}
-async function load(file,json=false){
+async function load(file,json=false,quiet=false){
   if(!file||!/^interiores\/(?:shared|canto|meio)\/[a-zA-Z0-9._/-]+$/.test(file.path)||file.path.split('/').includes('..')||!/^[a-f0-9]{64}$/.test(file.sha256)||!Number.isInteger(file.bytes))throw Error('Identidade de recurso interior inválida.');
-  check();const url=new URL(file.path,base);
+  // A luz gravada muda de conteúdo sem mudar de nome: o SHA no endereço evita a cópia velha do cache.
+  check();const url=new URL(file.path,base);if(quiet)url.searchParams.set('v',file.sha256);
   const response=await fetch(url,{signal:controller.signal});if(!response.ok)throw Error(`${file.path}: HTTP ${response.status}.`);
   let bytes;
   if(response.body){
     const reader=response.body.getReader(),chunks=[];let loaded=0;
-    try{for(;;){const {value,done}=await reader.read();if(done)break;check();loaded+=value.length;if(loaded>file.bytes){await reader.cancel();throw Error(`Tamanho do recurso ${file.path} inválido.`);}chunks.push(value);progress('Baixando o interior selecionado…','download',{resource:file.path,loaded,total:file.bytes});}}
+    try{for(;;){const {value,done}=await reader.read();if(done)break;check();loaded+=value.length;if(loaded>file.bytes){await reader.cancel();throw Error(`Tamanho do recurso ${file.path} inválido.`);}chunks.push(value);if(!quiet)progress('Baixando o interior selecionado…','download',{resource:file.path,loaded,total:file.bytes});}}
     finally{reader.releaseLock();}
     bytes=new Uint8Array(loaded);let at=0;for(const chunk of chunks){bytes.set(chunk,at);at+=chunk.length;}
   }else bytes=new Uint8Array(await response.arrayBuffer());check();
   if(bytes.length!==file.bytes||await sha(bytes)!==file.sha256)throw Error(`Identidade do recurso ${file.path} inválida.`);
   if(file.compression==='gzip'){
-    progress('Preparando os recursos do interior…','decode',{resource:file.path});
+    if(!quiet)progress('Preparando os recursos do interior…','decode',{resource:file.path});
     bytes=await unzip(bytes);check();
     if(bytes.length!==file.decodedBytes||await sha(bytes)!==file.decodedSHA256)throw Error(`Conteúdo comprimido ${file.path} inválido.`);
   }
@@ -117,6 +154,13 @@ async function materialsFrom(snapshot){
     for(const field of ['map','normalMap','roughnessMap','metalnessMap','bumpMap','emissiveMap'])if(spec[field])params[field]=textures[spec[field]];
     materials[id]=own(new THREE[spec.type](params));
     if(id==='m5')materials[id].depthWrite=false;
+    // Valores do LIV_Luz_Natural.blend: vidro com transmissão 1 e caixilho fosco sem metal.
+    // A folha de correr empilha 4 faces; 17% em cada escurecia a varanda pela metade.
+    if(id==='m5'){materials[id].opacity=.06;materials[id].color.setRGB(.97,.99,.99);}
+    if(id==='m4'){materials[id].metalness=0;materials[id].roughness=.32;}
+    // O box do chuveiro (2 m, encostado na janela do banho) era painel branco opaco e barrava o sol: vira vidro.
+    // Vidro limpo quase não espalha luz: cor quase preta, fica o reflexo (com o sol medido, branco estourava).
+    if(id==='m27')Object.assign(materials[id],{transparent:true,opacity:.18,roughness:.05,metalness:0,depthWrite:false}),materials[id].color.setRGB(.02,.025,.025);
   }
   return materials;
 }
@@ -137,7 +181,7 @@ function buildFrozen(source,materials){
     const list=object.materials.map(id=>materials[id]);if(list.some(x=>!x))throw Error('Material da fonte interior ausente.');
     const mesh=new THREE.Mesh(geometries.get(object.geometry),list.length===1?list[0]:list);
     mesh.name=object.name;mesh.matrix.fromArray(object.matrix);mesh.matrix.decompose(mesh.position,mesh.quaternion,mesh.scale);
-    mesh.visible=object.visible;mesh.castShadow=mesh.receiveShadow=!object.materials.every(id=>id==='m5');
+    mesh.visible=object.visible;mesh.castShadow=mesh.receiveShadow=!list.every(material=>material.transparent);
     if(object.materials.every(id=>id==='m5'))mesh.renderOrder=3;mesh.userData.livSlot=object.slot;
     meshBySlot.set(object.slot,mesh);scene.add(mesh);if(object.name==='forro-original')ceiling.push(mesh);
   }
@@ -176,7 +220,7 @@ function buildNative(materials,factory){
     finishNativeFurniture(group,item,materials);
     if(!def.param)group.scale.set(item.w/def.b[0],item.h/def.b[1],item.d/def.b[2]);
     group.position.set(item.position[0],.03,item.position[1]);group.rotation.y=item.rotation*Math.PI/2;
-    group.traverse(o=>{if(o.isMesh){o.castShadow=o.receiveShadow=true;o.userData.furnitureId=item.id;}});registerTree(group);scene.add(group);item.group=group;
+    group.traverse(o=>{if(o.isMesh){o.castShadow=!o.material.transparent;o.receiveShadow=true;o.userData.furnitureId=item.id;}});registerTree(group);scene.add(group);item.group=group;
   }
 }
 // Reuse the native PBR maps on the independently generated furniture. UVs
@@ -187,7 +231,7 @@ function finishNativeFurniture(group,item,materials){
     bancada:'m24',pia:'m24',fogao:'m23',geladeira:'m25',vaso:'m26',maquina:'m29',
     cama:'m9',sofa:'m18',poltrona:'m18',tapete:'m21',box:'m27',tv:'m20',
     aereo:'m12',ripado:'m12'})[item.tipo]||'m6';
-  const material=own(materials[key].clone());material.color.setRGB(1,1,1);material.vertexColors=true;
+  const material=own(materials[key].clone());if(!material.userData.livVeneer){material.color.setRGB(1,1,1);material.vertexColors=true;}
   const textile=['cama','sofa','poltrona','tapete'].includes(item.tipo);
   group.traverse(mesh=>{
     if(!mesh.isMesh)return;const g=mesh.geometry,p=g.attributes.position,n=g.attributes.normal;
@@ -230,24 +274,77 @@ function expandedGeometry(spec,corner){
 function installBake(compact){
   if(!light.ready||!light.geometryApproved||light.colorPass!==false||light.sourceSHA256!==record.sourceSHA256||light.unitSHA256!==record.unitSHA256||compact.sourceSHA256!==record.sourceSHA256||compact.unitSHA256!==record.unitSHA256||light.geometrySHA256!==record.files.compact.decodedSHA256||light.textureSHA256!==record.files.atlas.decodedSHA256)throw Error('Identidade do bake interior não corresponde à unidade.');
   if(compact.schema!=='liv-interior-corners-v1'||compact.uvScale!==65535||compact.objects.length!==light.objects)throw Error('Contrato do bake interior inválido.');
-  const nodeMaterials=new Map();
+  // Só o UV1 do atlas antigo é reaproveitado; a luz vem de luz-horario/.
   for(const corner of compact.objects){
     const object=source.objects[corner.objectIndex],mesh=meshBySlot.get(corner.slot);
     if(!mesh||!object?.bake||object.slot!==corner.slot||object.instance!==corner.instance||object.geometry!==corner.geometry)throw Error('Alvo RGBM perdeu identidade.');
-    const geometry=expandedGeometry(source.geometries[object.geometry],corner),original=mesh.material;
-    const list=(Array.isArray(original)?original:[original]).map(native=>{
+    baked.push({mesh,originalGeometry:mesh.geometry,originalMaterial:mesh.material,geometry:expandedGeometry(source.geometries[object.geometry],corner),material:null});
+  }
+}
+/** Depois dos acabamentos aprovados: cada material da casca ganha a versão que lê a luz gravada. */
+function bindTimeLight(){
+  const nodeMaterials=new Map();
+  for(const target of baked){
+    const list=(Array.isArray(target.originalMaterial)?target.originalMaterial:[target.originalMaterial]).map(native=>{
       if(!native.isMeshStandardMaterial)throw Error('RGBM requer um material PBR nativo.');
-      if(!nodeMaterials.has(native)){const node=own(new LivRGBMNodeMaterial({},atlas,light.range,light.lightMapIntensity));node.copy(native);nodeMaterials.set(native,node);}
+      if(!nodeMaterials.has(native)){const node=own(new LivRGBMNodeMaterial({},null,0,0,timeLight.irradiance));node.copy(native);nodeMaterials.set(native,node);}
       return nodeMaterials.get(native);
     });
-    baked.push({mesh,originalGeometry:mesh.geometry,originalMaterial:original,geometry,material:list.length===1?list[0]:list});
+    target.material=list.length===1?list[0]:list;
   }
-  setBaked(true,`atlas aprovado da planta de ${typology}`);
+  // O atlas tem céu e rebatimento; o sol e os plafons diretos continuam em tempo real.
+  setRGBMTimeLighting({bake:1,direct:1,ambient:0});
+}
+/** Moldura (5 cm), batentes/guarnições e aros de gesso dos plafons têm menos de 1 texel de largura no atlas
+ * de 1024 e pegam a luz da ilha vizinha (a faixa branca no teto): leem as sondas como os móveis. */
+function dropThinBakes(){
+  const thin=new Set([furnitureMaterials.m3,furnitureMaterials.m6]),recorded=new Set(timeLight.targets);
+  for(let i=baked.length-1;i>=0;i--){
+    const target=baked[i],materials=[target.originalMaterial].flat();
+    // Peças antigas fora da cena aprovada (as camas foram trocadas no Blender) não têm luz gravada: o atlas é preto ali.
+    const missing=recorded.size>0&&!recorded.has(target.mesh.name);
+    // Vidro (box) também sai do atlas: fica com o material transparente e o reflexo do ambiente.
+    if(!missing&&!target.mesh.userData.livCornice&&!materials.every(material=>thin.has(material)||material.transparent))continue;
+    target.mesh.geometry=target.originalGeometry;target.mesh.material=target.originalMaterial;baked.splice(i,1);
+    state.thinBakes=(state.thinBakes||[]).concat(target.mesh.name);
+  }
+}
+/** O que não tem UV1 (móveis aprovados, portas, moldura, caixilhos) lê a mesma hora nas sondas do cômodo. */
+function bindProbeLight(){
+  if(!timeLight?.probeIrradiance)return;
+  dropThinBakes();
+  const bakedMeshes=new Set(baked.map(target=>target.mesh)),copies=new Map();
+  scene.traverse(mesh=>{
+    if(!mesh.isMesh||bakedMeshes.has(mesh)||mesh.userData.livSolarFixture)return;
+    const list=Array.isArray(mesh.material)?mesh.material:[mesh.material];
+    if(list.some(material=>!material.isMeshStandardMaterial||material.isLivRGBMNodeMaterial||material.transparent))return;
+    const pairs=list.map(native=>{
+      if(!copies.has(native)){
+        const node=own(native.isMeshPhysicalMaterial?new LivBakedPhysicalNodeMaterial({},timeLight.probeIrradiance):new LivRGBMNodeMaterial({},null,0,0,timeLight.probeIrradiance));
+        node.copy(native);copies.set(native,node);
+      }
+      return [copies.get(native),native];
+    });
+    probeLit.push({mesh,originalMaterial:mesh.material,material:Array.isArray(mesh.material)?pairs.map(pair=>pair[0]):pairs[0][0],pairs});
+  });
+}
+async function loadTimeManifest(){
+  const response=await fetch(new URL(`interiores/${typology}/luz-horario/manifest.json`,base),{signal:controller.signal,cache:'no-cache'});
+  if(response.status===404)return null;if(!response.ok)throw Error(`Luz gravada: HTTP ${response.status}.`);
+  const manifest=await response.json();
+  if(manifest.schema!=='liv-interior-time-lightmaps-v1'||manifest.typology!==typology||manifest.sourceSHA256!==record.sourceSHA256||manifest.geometrySHA256!==record.files.compact.decodedSHA256||!manifest.keys?.length||!manifest.night)throw Error('Luz gravada de outra revisão do interior.');
+  return manifest;
 }
 function layoutOriginal(){return furniture.every(m=>Math.abs(m.position[0]-m.originalPosition[0])<1e-9&&Math.abs(m.position[1]-m.originalPosition[1])<1e-9&&m.rotation===m.originalRotation&&sameFurnitureDimensions(m,m.originalDimensions));}
 function setBaked(active,reason){
+  if(active&&!baked.every(target=>target.material))active=false;
   const changed=state.lighting.bakedActive!==active;
   for(const target of baked){target.mesh.geometry=active?target.geometry:target.originalGeometry;target.mesh.material=active?target.material:target.originalMaterial;}
+  for(const target of probeLit){
+    target.mesh.material=active?target.material:target.originalMaterial;
+    // O ganho do ambiente local muda com a hora nos originais; a cópia acompanha.
+    if(active)for(const [copy,native]of target.pairs)copy.envMapIntensity=native.envMapIntensity;
+  }
   state.lighting={bakedActive:active,reason};
   if(changed)invalidateShadows();
 }
@@ -261,7 +358,7 @@ function furnitureChanged(){
   // Restore/reset applies all transforms before rebuilding collision/routes.
   navigation.invalidate();stopRoute(false);
   if(tourPosition&&!navigation.free(...tourPosition))tourPosition=navigation.entry();
-  const original=layoutOriginal();setBaked(baked.length>0&&original,original?(baked.length?`atlas aprovado da planta de ${typology}`:'iluminação dinâmica'):'móveis alterados: iluminação dinâmica');
+  const original=layoutOriginal();if(solarLighting)applyTimeLight();else setBaked(false,original?'iluminação dinâmica':'móveis alterados: iluminação dinâmica');
   const note=document.querySelector('#furniture-lighting');
   note.hidden=original;note.textContent=original?'':'Móveis alterados: iluminação dinâmica.';
   furnitureEditor?.refresh();
@@ -287,13 +384,16 @@ function resizeFurniture(item,dimensions){
   const original=sameFurnitureDimensions(dimensions,item.originalDimensions);
   let group=item.originalGroup;
   if(!original){
-    const def=furnitureFactory.catalog.MOVEIS[item.tipo];if(!def)return false;
-    group=furnitureFactory.catalog.geoDoMovel(def,item.cor,{...dimensions,estilo:item.estilo});
-    let meshes=0;group.traverse(mesh=>{if(mesh.isMesh)meshes++;});if(!meshes)return false;
-    finishNativeFurniture(group,item,furnitureMaterials);
-    if(!def.param)group.scale.set(dimensions.w/def.b[0],dimensions.h/def.b[1],dimensions.d/def.b[2]);
-    group.position.y=.03;
-    group.traverse(mesh=>{if(mesh.isMesh){mesh.castShadow=mesh.receiveShadow=true;mesh.userData.furnitureId=item.id;}});
+    group=furnitureFactory.improvements?.createFurniture(item,dimensions);
+    if(!group){
+      const def=furnitureFactory.catalog.MOVEIS[item.tipo];if(!def)return false;
+      group=furnitureFactory.catalog.geoDoMovel(def,item.cor,{...dimensions,estilo:item.estilo});
+      let meshes=0;group.traverse(mesh=>{if(mesh.isMesh)meshes++;});if(!meshes)return false;
+      finishNativeFurniture(group,item,furnitureMaterials);
+      if(!def.param)group.scale.set(dimensions.w/def.b[0],dimensions.h/def.b[1],dimensions.d/def.b[2]);
+      group.position.y=.03;
+    }
+    group.traverse(mesh=>{if(mesh.isMesh){mesh.castShadow=![mesh.material].flat().every(material=>material.transparent);mesh.receiveShadow=true;mesh.userData.furnitureId=item.id;}});
     registerTree(group);
   }
   if(!group)return false;
@@ -324,14 +424,8 @@ state.finishFurnitureEditing=async function(){
 function addLights(){
   // FUNDO-3D-20261023: o CSS fornece o fundo, sem passar pelo ajuste de exposição da cena.
   scene.background=null;
-  const environment=own(new THREE.DataTexture(new Uint8Array([156,180,206,255,210,211,190,255,135,150,160,255,185,181,160,255]),2,2,THREE.RGBAFormat));
-  environment.colorSpace=THREE.SRGBColorSpace;environment.mapping=THREE.EquirectangularReflectionMapping;environment.needsUpdate=true;scene.environment=environment;scene.environmentIntensity=.55;
-  const hemi=new THREE.HemisphereLight(0xc8ddff,0x817664,1.2);scene.add(hemi);
-  const sun=own(new THREE.DirectionalLight(0xffffff,light?.lighting?.sun?.energy||2.2));sun.position.fromArray(light?.lighting?.sun?.position||[-7,9,10]);sun.castShadow=true;
-  sun.name='Sol estático LIV';sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-7,right:7,top:7,bottom:-7,near:.5,far:35});sun.shadow.bias=-.0003;sun.shadow.normalBias=.012;
-  sun.shadow.autoUpdate=false;sun.shadow.needsUpdate=true;shadowLight=sun;scene.add(sun,sun.target);
-  const fill=new THREE.DirectionalLight(0xe3eaff,.6);fill.position.set(4,5,-4);scene.add(fill);
-  for(const room of layout.rooms){const lamp=new THREE.PointLight(0xfff2dc,10,8,2);lamp.position.set(room.cx,layout.pd-.14,room.cz);scene.add(lamp);}
+  solarLighting=createInteriorSolarLighting({scene,layout,own,ceiling,environment:improvements?.environment,backgroundEnvironment:improvements?.backgroundEnvironment,environmentExposureEV:improvements?.environmentExposureEV});shadowLight=solarLighting.sun;
+  state.setTimeOfDay(timeOfDay.hour,timeOfDay.context,{date:timeOfDay.date});
 }
 function placeOrbit(position,target){
   // Settle old gesture inertia before applying a saved or newly framed pose.
@@ -352,6 +446,7 @@ state.framePlan=function(){if(!state.ready||state.mode!=='planta3d')return false
 state.setWallCut=function(enabled){
   if(!state.ready||state.mode!=='planta3d'||typeof enabled!=='boolean')return false;
   presentation.setEnabled(enabled);document.querySelector('#cut-interior').setAttribute('aria-pressed',String(enabled));
+  solarLighting?.syncPresentation(state.mode);invalidateShadows();
   return true;
 };
 function faceRoom(roomId){
@@ -371,7 +466,10 @@ state.setMode=function(mode,{restoreOrbit=false}={}){
   if(!['planta3d','visita'].includes(mode)||!presentation||state.disposed)return false;
   const changed=state.mode!==mode;
   if(state.mode==='planta3d'&&mode==='visita')orbitSnapshot={position:camera.position.toArray(),target:controls.target.toArray()};
-  state.mode=mode;document.documentElement.dataset.mode=mode;controls.enabled=state.active&&mode==='planta3d';presentation.setMode(mode);
+  state.mode=mode;document.documentElement.dataset.mode=mode;controls.enabled=state.active&&mode==='planta3d';presentation.setMode(mode);solarLighting?.syncPresentation(state.mode);
+  // O topo unido das paredes fica 6 cm acima do forro: no Tour ele só aparecia pela fresta da moldura,
+  // aceso pelo sol que o forro não cobre. Na Planta 3D, sem forro, ele é o acabamento das paredes.
+  scene.traverse(mesh=>{if(mesh.userData.livWallTop)mesh.visible=mode!=='visita';});
   if(mode==='visita')furnitureEditor?.stop();else furnitureEditor?.refresh();
   for(const id of ['frame-interior','cut-interior'])document.querySelector(`#${id}`).hidden=mode!=='planta3d';
   if(changed)invalidateShadows();
@@ -395,7 +493,10 @@ function refreshRooms(){
   state.rooms=routes.map(({id,name,reachable,target})=>({id,name,reachable,target}));
 }
 state.goToRoom=function(id,{instant=false}={}){
-  if(!state.ready)return Promise.resolve(false);state.setMode('visita');const target=state.getRoomRoutes().find(r=>r.id===id);
+  if(!state.ready)return Promise.resolve(false);state.setMode('visita');
+  // A rota não atravessa folha fechada: "Ir ao ambiente" abre as portas de dentro.
+  if(doors?.doors.some(door=>!door.entrance&&door.target<.5)){for(const door of doors.doors)if(!door.entrance)doors.setOpen(door.id,true,{instant:true});navigation.invalidate();invalidateShadows();}
+  const target=state.getRoomRoutes().find(r=>r.id===id);
   if(!target?.reachable)return Promise.resolve(false);stopRoute(false);
   if(instant){tourPosition=[...target.target];faceRoom(id);setTourCamera();return Promise.resolve(true);}
   route=target.path.slice(1);routeRoom=id;pitch=0;return new Promise(resolve=>{routeResolve=resolve;if(!route.length){faceRoom(id);setTourCamera();stopRoute(true);}});
@@ -407,7 +508,8 @@ state.move=function(dx,dz){
 };
 state.navigationDiagnostics=function(){return navigation?{safe:navigation.free(...(tourPosition||entry)),current:[...(tourPosition||entry)],radius:navigation.radius,eye:1.62,reachableRooms:state.rooms?.filter(r=>r.reachable).length||0,totalRooms:layout.rooms.length,followingRoute:route.length>0}:null;};
 function tick(dt){
-  if(state.mode!=='visita'){controls.update();return;}
+  if(doors?.update(dt)){invalidateShadows();navigation.invalidate();}
+  if(state.mode!=='visita'){controls.update();showDoorButton(null);return;}
   let forward=(keys.has('w')||keys.has('arrowup')||touchKeys.has('forward')?1:0)-(keys.has('s')||keys.has('arrowdown')||touchKeys.has('back')?1:0);
   let right=(keys.has('d')||keys.has('arrowright')||touchKeys.has('right')?1:0)-(keys.has('a')||keys.has('arrowleft')||touchKeys.has('left')?1:0);
   if(forward||right){stopRoute(false);const scale=1.4*dt/Math.hypot(forward,right);state.move({forward:forward*scale,right:right*scale});}
@@ -421,10 +523,30 @@ function tick(dt){
     }
     if(!route.length&&routeResolve){faceRoom(routeRoom);stopRoute(true);}
   }
-  setTourCamera();
+  setTourCamera();showDoorButton(doors?.nearest(tourPosition[0],tourPosition[1],yaw)||null);
 }
+/** Perto de uma porta de quarto ou banheiro, um botão (ou a tecla E) abre e fecha a folha. */
+function showDoorButton(door){
+  if(!doorButton){
+    if(!door)return;
+    doorButton=document.createElement('button');doorButton.id='door-toggle';doorButton.type='button';
+    Object.assign(doorButton.style,{position:'absolute',left:'50%',bottom:'16px',transform:'translateX(-50%)',zIndex:'20',padding:'10px 16px',minHeight:'44px',
+      border:'1px solid #ffffff55',borderRadius:'8px',background:'#10191fdd',color:'#f1f5fa',font:'600 13px system-ui,sans-serif',cursor:'pointer'});
+    listen(doorButton,'click',()=>{if(doorButton.dataset.door)toggleDoor(doorButton.dataset.door);});stage.append(doorButton);
+  }
+  doorButton.hidden=!door;if(!door)return;
+  const text=`${door.target>.5?'Fechar':'Abrir'} porta${door.room?` · ${door.room}`:''} (E)`;
+  if(doorButton.dataset.door!==door.id||doorButton.textContent!==text){doorButton.dataset.door=door.id;doorButton.textContent=text;}
+}
+function toggleDoor(id){if(doors?.toggle(id))canvas.focus();}
+/** A entrada fica sempre fechada; as de dentro abrem e fecham. */
+state.setDoorOpen=function(id,open,{instant=false}={}){
+  const door=doors?.doors.find(item=>item.id===id);if(!state.ready||!door||door.entrance||typeof open!=='boolean')return false;
+  doors.setOpen(id,open,{instant});if(instant){navigation.invalidate();invalidateShadows();}return true;
+};
 function wire(){
-  listen(window,'keydown',event=>{if(!state.active||state.mode!=='visita'||/^(INPUT|SELECT|TEXTAREA)$/.test(event.target.tagName))return;const key=event.key.toLowerCase();if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(key)){event.preventDefault();keys.add(key);}});
+  listen(window,'keydown',event=>{if(!state.active||state.mode!=='visita'||/^(INPUT|SELECT|TEXTAREA)$/.test(event.target.tagName))return;const key=event.key.toLowerCase();if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(key)){event.preventDefault();keys.add(key);}
+    if(key==='e'&&!event.repeat&&doorButton?.dataset.door&&!doorButton.hidden){event.preventDefault();toggleDoor(doorButton.dataset.door);}});
   listen(window,'keyup',event=>keys.delete(event.key.toLowerCase()));listen(window,'blur',()=>{keys.clear();touchKeys.clear();pointer=null;});
   listen(canvas,'pointerdown',event=>{if(state.mode!=='visita')return;pointer={id:event.pointerId,x:event.clientX,y:event.clientY};canvas.setPointerCapture(event.pointerId);canvas.focus();stopRoute(false);});
   listen(canvas,'pointermove',event=>{if(!pointer||pointer.id!==event.pointerId||state.mode!=='visita')return;yaw-=(event.clientX-pointer.x)*.004;pitch=Math.max(-1.2,Math.min(1.2,pitch-(event.clientY-pointer.y)*.004));pointer.x=event.clientX;pointer.y=event.clientY;setTourCamera();});
@@ -453,15 +575,22 @@ state.getState=function(){return {version:1,typology,mode:state.mode,backend:sta
   geometry:geometryInfo(),camera:camera?{position:camera.position.toArray(),target:controls.target.toArray(),yaw,pitch,autoFrame:planAutoFrame}:null,
   framing:state.framing||null,roomView:state.roomView||null,presentation:presentation?.getState()||null,wallTopRepair:state.wallTopRepair||null,cornice:state.cornice||null,
   ceiling:{visible:ceiling.length>0&&ceiling.every(m=>m.visible),count:ceiling.length},rooms:state.rooms||[],
-  furniture:furniture.map(m=>({id:m.id,name:m.name,position:[...m.position],rotation:m.rotation,...dimensionsOf(m),originalDimensions:{...m.originalDimensions},originalPosition:[...m.originalPosition],originalRotation:m.originalRotation,
+  furniture:furniture.map(m=>({id:m.id,name:m.name,improvementAsset:m.improvementAsset||null,position:[...m.position],rotation:m.rotation,...dimensionsOf(m),originalDimensions:{...m.originalDimensions},originalPosition:[...m.originalPosition],originalRotation:m.originalRotation,
     modified:Math.abs(m.position[0]-m.originalPosition[0])>1e-9||Math.abs(m.position[1]-m.originalPosition[1])>1e-9||m.rotation!==m.originalRotation||!sameFurnitureDimensions(m,m.originalDimensions)})),
-  lighting:{...state.lighting},shadows:shadowLight?{autoUpdate:shadowLight.shadow.autoUpdate,needsUpdate:shadowLight.shadow.needsUpdate,mapSize:shadowLight.shadow.mapSize.toArray()}:null,
+  improvements:improvements?.getState()||state.improvements||null,doors:doors?.getState()||null,look:state.look||null,lighting:{...state.lighting,solar:solarLighting?.getState()||null,timeLight:timeLight?.getState()||null,timeLightError:state.timeLightError||null},timeOfDay:structuredClone(timeOfDay),shadows:shadowLight?{autoUpdate:shadowLight.shadow.autoUpdate,needsUpdate:shadowLight.shadow.needsUpdate,mapSize:shadowLight.shadow.mapSize.toArray()}:null,
   navigation:state.navigationDiagnostics(),renderer:{calls:renderer?.info.render.drawCalls||0,framePasses:renderer?.info.render.frameCalls||0,totalPasses:renderer?.info.render.calls||0,triangles:renderer?.info.render.triangles||0,geometries:renderer?.info.memory.geometries||0,textures:renderer?.info.memory.textures||0},ownership:{...state.ownership}};};
 state.restoreState=function(snapshot){
   if(!state.ready||snapshot?.typology!==typology||snapshot.unitSHA256!==record.unitSHA256||snapshot.sourceSHA256!==record.sourceSHA256)return false;
-  for(const transform of snapshot.furniture||[]){const item=furniture.find(m=>m.id===transform.id);if(!item||!Array.isArray(transform.position)||transform.position.length!==2||!transform.position.every(Number.isFinite)||!Number.isInteger(transform.rotation)||transform.rotation<0||transform.rotation>3||(['w','h','d'].some(key=>key in transform)&&!validFurnitureDimensions(transform,layout.pd)))return false;}
-  for(const transform of snapshot.furniture||[]){const item=furniture.find(m=>m.id===transform.id);if('w' in transform&&!resizeFurniture(item,dimensionsOf(transform)))return false;item.position=[...transform.position];item.rotation=transform.rotation;furnitureTransform(item);}
-  if(snapshot.furniture?.length)furnitureChanged();
+  let restoredTime;
+  if(snapshot.timeOfDay){try{restoredTime=interiorTimeState(snapshot.timeOfDay.hour,snapshot.timeOfDay.context,{date:snapshot.timeOfDay.date});}catch{return false;}}
+  const currentRevision=improvements?.getState().revision;
+  const transforms=(snapshot.furniture||[]).filter(transform=>!(currentRevision&&snapshot.improvements?.revision!==currentRevision&&transform.modified===false&&furniture.find(item=>item.id===transform.id)?.improvementAsset));
+  for(const transform of transforms){const item=furniture.find(m=>m.id===transform.id);if(!item||!Array.isArray(transform.position)||transform.position.length!==2||!transform.position.every(Number.isFinite)||!Number.isInteger(transform.rotation)||transform.rotation<0||transform.rotation>3||(['w','h','d'].some(key=>key in transform)&&!validFurnitureDimensions(transform,layout.pd)))return false;}
+  for(const transform of transforms){const item=furniture.find(m=>m.id===transform.id);if('w' in transform&&!resizeFurniture(item,dimensionsOf(transform)))return false;item.position=[...transform.position];item.rotation=transform.rotation;furnitureTransform(item);}
+  if(transforms.length)furnitureChanged();
+  for(const door of snapshot.doors?.doors||[])if(!door.entrance)doors?.setOpen(door.id,door.open,{instant:true});
+  if(snapshot.doors)navigation.invalidate();
+  if(restoredTime)state.setTimeOfDay(restoredTime.hour,restoredTime.context,{date:restoredTime.date});
   if(typeof snapshot.presentation?.enabled==='boolean'){
     presentation.setEnabled(snapshot.presentation.enabled);document.querySelector('#cut-interior').setAttribute('aria-pressed',String(snapshot.presentation.enabled));
   }
@@ -504,7 +633,7 @@ async function start(){
   try{await initializeRenderer(renderer);}catch(error){if(requested!=='auto'||options.forceWebGL)throw error;check();await release(renderer);renderer=createRenderer({...options,forceWebGL:true});state.renderer=renderer;await initializeRenderer(renderer);}
   check();state.backend=renderer.backend.isWebGPUBackend?'webgpu':'webgl';if(requested==='webgpu'&&state.backend!=='webgpu')throw Error('O backend WebGPU exigido não foi ativado.');
   renderer.onError=error=>fail(error);renderer.onDeviceLost=info=>fail(Error(`Dispositivo gráfico perdido: ${info?.message||info?.reason||'desconhecido'}`));
-  renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.toneMapping=THREE.AgXToneMapping;renderer.toneMappingExposure=1;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
   progress('Baixando o interior selecionado…');
   const response=await fetch(new URL('interiores/catalogo.json',base),{signal:controller.signal});if(!response.ok)throw Error(`Catálogo interior: HTTP ${response.status}.`);catalog=await response.json();check();
   if(catalog.schema!=='liv-interior-catalog-v1'||!catalog.tipologias?.[typology])throw Error('Tipologia interior ausente do catálogo.');record=catalog.tipologias[typology];
@@ -520,6 +649,8 @@ async function start(){
   layout=createLayout(unit);scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(48,1,.02,100);state.scene=scene;state.camera=camera;
   controls=own(new OrbitControls(camera,canvas));controls.enableDamping=false;controls.maxPolarAngle=Math.PI*.48;controls.minDistance=3;controls.maxDistance=32;
   const native=await materialsFrom(nativeMaterials);check();
+  // Antes de montar os móveis: as cópias de m12 (guarda-roupa, aéreos) herdam a nogueira.
+  await applyVeneer(native.m12,{load:file=>load(file,false,true),own,onBitmap:bitmap=>bitmaps.add(bitmap)});check();
   for(const [i,m]of unit.planta.moveis.entries()){
     const position=[m.p[0]-layout.center[0],m.p[1]-layout.center[1]];
     furniture.push({...m,id:`movel-${i}`,name:m.nome||m.tipo,position,originalPosition:[...position],rotation:m.rot||0,originalRotation:m.rot||0,originalDimensions:dimensionsOf(m)});
@@ -536,13 +667,36 @@ async function start(){
     // Openings fills only the native collision leaf descriptors. The frozen
     // meshes remain untouched; these temporary construction meshes are released.
     for(const mesh of factory.openings.geoDasEsquadrias(layout.house)){own(mesh.geometry);release(mesh.geometry);}
-    const [compact,atlasBytes]=await Promise.all([load(record.files.compact,true),load(record.files.atlas)]);check();atlas=own(createRGBMTexture(atlasBytes,light));installBake(compact);
+    const [compact,manifest]=await Promise.all([load(record.files.compact,true),loadTimeManifest().catch(error=>{state.timeLightError=String(error.message||error);return null;})]);check();
+    installBake(compact);if(manifest)timeLight=createTimeLightmaps({manifest,own,load:file=>load(file,false,true)});
   }else if(record.geometryKind==='native-factories'){
     const recipe=await load(record.files.recipe,true);check();
     if(recipe.unitSHA256!==record.unitSHA256||record.files.recipe.sha256!==record.sourceSHA256||recipe.runtimeSHA256!==catalog.shared.runtime.sha256||recipe.materialsSHA256!==catalog.shared.materials.sha256||recipe.furnitureSHA256!==catalog.shared.furniture.sha256||recipe.lighting!=='dynamic')throw Error('Receita da planta de meio inválida.');
     buildNative(native,factory);
     state.lighting={bakedActive:false,reason:'cena autoral dinâmica da planta de meio'};
   }else throw Error('Formato de geometria interior desconhecido.');
+  progress('Carregando os móveis e acabamentos aprovados…','melhorias');
+  improvements=await loadInteriorImprovements({base,signal:controller.signal,own,onBitmap:bitmap=>bitmaps.add(bitmap),onStatus:report=>{
+    state.improvements=report;
+    if(report.status==='loading')progress('Carregando os móveis e acabamentos aprovados…','melhorias',{loaded:report.loaded,total:report.assets});
+    if(report.errors.length){
+      showInteriorWarning('Parte dos móveis, acabamentos ou ambiente aprovado não carregou. Reabra a planta para tentar novamente.',report.errors.map(error=>`${error.assetId}: ${error.message}`).join('\n'));
+    }
+  }});check();
+  progress('Preparando o acabamento de cor aprovado…','look');
+  state.look=await installInteriorLook({renderer,base,record:improvements.lookRecord,signal:controller.signal,own,onStatus:report=>{
+    if(report.status==='fallback')showInteriorWarning('O acabamento de cor aprovado não carregou. Usando AgX padrão.',report.error);
+  }});check();
+  furnitureFactory.improvements=improvements;
+  improvements.replaceFurniture(furniture,scene,typology);improvements.applyFinishes(native,scene);
+  improvements.addDecorations(furniture,scene,typology);
+  for(const target of baked)target.originalMaterial=target.mesh.material;
+  if(timeLight){
+    bindTimeLight();
+    // As duas horas vizinhas e a noite chegam antes da compilação final; as demais seguem em segundo plano.
+    progress('Baixando a luz gravada do horário…','luz');
+    await timeLight.ensure(timeOfDay).catch(error=>{state.timeLightError=String(error.message||error);});check();
+  }
   state.cornice=installCornice({scene,layout,own,baked}).metrics;
   // Keep the nominal hierarchy before any presentation cut, including finishes
   // that must contribute to the exported light transport of the new Meio bake.
@@ -550,9 +704,13 @@ async function start(){
   check();if(!ceiling.length)throw Error('O interior perdeu o forro para o Tour.');
   if(record.geometryKind==='frozen-source')state.wallTopRepair=repairWallTops({scene,typology,
     sourceSHA256:record.sourceSHA256,baked,wallMaterial:native.m0,color:layout.unit.cores?.parede||'#eee7d9',own});
-  const architecture=[];scene.traverse(mesh=>{if(mesh.isMesh&&!mesh.userData.furnitureId)architecture.push(mesh);});
+  const doorMeshes=material=>{const list=[];scene.traverse(mesh=>{if(mesh.isMesh&&!mesh.userData.furnitureId&&mesh.material===material)list.push(mesh);});return list;};
+  doors=createDoors({scene,layout,paint:doorMeshes(native.m3),alu:doorMeshes(native.m4),doorColor:new THREE.Color(layout.unit.cores?.porta??0xEDE7DD),baked,own,roomAt:(x,z)=>layout.rooms.find(room=>inside(room.poly,x,z))?.name||null});
+  for(const door of doors.doors)if(door.entrance)doors.setOpen(door.id,false,{instant:true});
+  // Cada porta entra no corte inteira: o corte reparenta, e a folha solta pararia de girar.
+  const architecture=doors.doors.map(door=>door.group);scene.traverse(mesh=>{if(mesh.isMesh&&!mesh.userData.furnitureId&&!mesh.parent?.userData.livDoor)architecture.push(mesh);});
   presentation=createPlanCutaway({scene,layout,architecture,wallMaterial:native.m0,own});ceiling=presentation.ceiling;
-  addLights();
+  addLights();bindProbeLight();if(timeLight)applyTimeLight();
   // Walking respects walls and openings; furniture stays visible without blocking passage.
   navigation=createNavigation(layout);entry=navigation.entry();tourPosition=[...entry];faceRoom();refreshRooms();
   function resize(){const width=stage.clientWidth,height=stage.clientHeight;if(!width||!height||state.disposed)return;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();}
