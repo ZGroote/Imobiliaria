@@ -37,12 +37,79 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def encode(rgba, guard):
+def hidden_wall_top(size, below=.04, across=3, down=5):
+    """Parede acima do forro: a gravação não tem laje, esse trecho via o céu (100x a luz de dentro) e o OIDN e o
+    bilinear desciam o claro e o azul para a junta com o teto. Cada texel da parede acima de pé-direito - below
+    recebe a média de uma janela da mesma face logo abaixo do corte (2*across+1 texels de largura, down de altura):
+    copiar um texel só repetia o ruído dele na vertical e o OIDN guardava como listra. Depois a borda (margin
+    EXTEND do Cycles, que nos cantos da ilha ainda trazia o céu) refaz a cópia do coberto mais próximo, já corrigido.
+    4 cm ficam atrás do rodateto (5 cm) nas duas plantas. Devolve (destinos, origens [n, k, 2], pesos [n, k])."""
+    web = ROOT.parent / 'liv-experimental-2026-10-14'
+    record = json.loads((web / 'interiores/catalogo.json').read_text(encoding='utf8'))['tipologias'][TYPOLOGY]
+    source = json.loads((web / f'interiores/{TYPOLOGY}/source.json').read_text(encoding='utf8'))
+    compact = json.loads(gzip.decompress((web / record['files']['compact']['path']).read_bytes()))
+    top = json.loads((web / f'interiores/{TYPOLOGY}/unidade.json').read_text(encoding='utf8'))['planta']['pe_direito'] - below
+    covered = np.zeros((size, size), bool); dsts, origins = [], []
+    window = np.array([(a, b) for a in range(-across, across + 1) for b in range(down)], np.float64)
+    for rec in compact['objects']:
+        so = source['objects'][rec['objectIndex']]; geo = source['geometries'][so['geometry']]
+        m = np.asarray(so['matrix'], np.float64).reshape(4, 4).T
+        p = np.asarray(geo['position'], np.float64).reshape(-1, 3); p = p @ m[:3, :3].T + m[:3, 3]
+        tris = p[np.frombuffer(base64.b64decode(rec['indicesU32']), dtype='<u4').reshape(-1, 3)]
+        uvs = np.frombuffer(base64.b64decode(rec['uv1U16']), dtype='<u2').astype(np.float64).reshape(-1, 3, 2) / 65535 * size
+        for w, t in zip(tris, uvs):
+            x0, y0 = np.floor(t.min(0)).astype(int).clip(0, size - 1); x1, y1 = np.ceil(t.max(0)).astype(int).clip(0, size - 1)
+            e = np.array([t[1] - t[0], t[2] - t[0]]).T; det = np.linalg.det(e)
+            if abs(det) < 1e-12:
+                continue
+            gx, gy = np.meshgrid(np.arange(x0, x1 + 1) + .5, np.arange(y0, y1 + 1) + .5)
+            b = np.linalg.solve(e, np.stack([gx.ravel() - t[0, 0], gy.ravel() - t[0, 1]]))
+            inside = (b[0] >= 0) & (b[1] >= 0) & (b.sum(0) <= 1)
+            ix, iy = gx.ravel()[inside].astype(int), gy.ravel()[inside].astype(int); covered[iy, ix] = True
+            normal = np.cross(w[1] - w[0], w[2] - w[0]); normal /= np.linalg.norm(normal)
+            if w[:, 1].max() <= top or abs(normal[1]) > .5:
+                continue  # abaixo do corte, forro ou topo da parede
+            b = b[:, inside]; y = w[0, 1] + b[0] * (w[1, 1] - w[0, 1]) + b[1] * (w[2, 1] - w[0, 1]); high = y > top
+            if not high.any():
+                continue
+            up = np.array([0, 1, 0]) - normal[1] * normal; up /= np.linalg.norm(up); side = np.cross(up, normal)
+            # A mesma face (o mapa afim do triângulo se estende ao quad), em texels por metro.
+            j = e @ np.linalg.pinv(np.array([w[1] - w[0], w[2] - w[0]]).T)
+            step_up, step_side = j @ up, j @ side
+            # Um texel abaixo do corte: o centro do texel de origem não pode cair de novo acima dele.
+            drop = max(.015, 1 / np.linalg.norm(step_up))
+            base = np.stack([ix[high] + .5, iy[high] + .5], 1) + ((top - drop - y[high]) / up[1])[:, None] * step_up
+            unit_up, unit_side = step_up / np.linalg.norm(step_up), step_side / np.linalg.norm(step_side)
+            offsets = window[:, :1] * unit_side - window[:, 1:] * unit_up
+            dsts.append(np.stack([iy[high], ix[high]], 1))
+            origins.append(np.floor(base[:, None] + offsets[None]).astype(int).clip(0, size - 1)[..., ::-1])
+    dst = np.concatenate(dsts); origin = np.concatenate(origins)
+    hidden = np.zeros((size, size), bool); hidden[dst[:, 0], dst[:, 1]] = True
+    weight = covered[origin[..., 0], origin[..., 1]] & ~hidden[origin[..., 0], origin[..., 1]]
+    weight[:, (across * down)] |= ~weight.any(1)  # sem vizinho válido: fica a origem logo abaixo
+    _, near = ndimage.distance_transform_edt(~covered, return_indices=True)
+    margin = ~covered & ndimage.binary_dilation(hidden, iterations=4)
+    edge = np.argwhere(margin); edge_origin = np.stack([near[0][margin], near[1][margin]], 1)[:, None]
+    print('PAREDE_ACIMA_DO_FORRO', TYPOLOGY, 'corte', round(top, 3), 'texels', len(dst), 'borda', len(edge),
+          'origens por texel', round(float(weight.sum(1).mean()), 1), flush=True)
+    return (dst, origin, weight), (edge, edge_origin, np.ones(edge_origin.shape[:2], bool))
+
+
+def fill(image, hidden):
+    """Parede escondida = média ponderada das origens; borda = o coberto mais próximo (já preenchido)."""
+    for dst, origin, weight in hidden:
+        values = image[origin[..., 0], origin[..., 1], :3] * weight[..., None]
+        image[dst[:, 0], dst[:, 1], :3] = values.sum(1) / weight.sum(1)[:, None]
+
+
+def encode(rgba, guard, hidden):
+    fill(rgba, hidden)
     mask = rgba[:, :, 3] > 0
     distance, nearest = ndimage.distance_transform_edt(~mask, return_indices=True)
     border = (~mask) & (distance <= guard)
     rgb = np.ascontiguousarray(rgba[:, :, :3]); rgb[border] = rgba[nearest[0][border], nearest[1][border], :3]
     denoised = oidn_filter(rgb, OIDN); denoised[~mask] = 0
+    fill(denoised, hidden)
     denoised[border] = denoised[nearest[0][border], nearest[1][border]]
     clipped = int((denoised.max(axis=2) > RANGE).sum())
     if clipped:
@@ -124,6 +191,7 @@ def main():
     DEST.mkdir(parents=True, exist_ok=True)
     spec = json.loads((RAW / 'sondas.json').read_text(encoding='utf8'))
     rooms, dims = probe_layout(spec)
+    hidden = hidden_wall_top(size)
     entries = []
     for key in [*keys['keys'], {'id': 'noite'}]:
         info = measured['keys'].get(key['id'])
@@ -132,7 +200,7 @@ def main():
         raw = (RAW / f'{key["id"]}.f32').read_bytes()
         if sha(raw) != info['rawSHA256']:
             raise RuntimeError(f'{key["id"]}: bruto diferente do registrado')
-        texture, peak = encode(np.frombuffer(raw, dtype=np.float32).reshape(size, size, 4).copy(), guard)
+        texture, peak = encode(np.frombuffer(raw, dtype=np.float32).reshape(size, size, 4).copy(), guard, hidden)
         packed = gzip.compress(texture, compresslevel=9, mtime=0)
         (DEST / f'{key["id"]}.rgbm.gz').write_bytes(packed)
         entry = {k: v for k, v in info.items() if k not in ('rawSHA256', 'seconds', 'max')}

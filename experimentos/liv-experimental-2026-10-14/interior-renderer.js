@@ -164,12 +164,31 @@ async function materialsFrom(snapshot){
   }
   return materials;
 }
+/** As esquadrias da fonte (batentes, caixilhos, vidros e folhas) vêm com TODOS os triângulos girando contra a
+ * normal. Com DoubleSide o Three tomava o lado de dentro por verso e virava a normal para fora: a porta lia a
+ * sonda do lado de fora e estourava de branco. Só vira malha inteira ao contrário; a mista (folha de planta) fica. */
+function windWithNormals(geometry){
+  const p=geometry.attributes.position,n=geometry.attributes.normal,index=geometry.index;if(!n)return geometry;
+  const at=i=>index?index.getX(i):i,count=index?index.count:p.count,a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3(),s=new THREE.Vector3(),t=new THREE.Vector3();
+  let against=0,total=0;
+  for(let i=0;i<count;i+=3){
+    a.fromBufferAttribute(p,at(i));b.fromBufferAttribute(p,at(i+1)).sub(a);c.fromBufferAttribute(p,at(i+2)).sub(a);b.cross(c);
+    s.fromBufferAttribute(n,at(i)).add(t.fromBufferAttribute(n,at(i+1))).add(t.fromBufferAttribute(n,at(i+2)));
+    const d=b.dot(s);if(Math.abs(d)<1e-12)continue;total++;if(d<0)against++;
+  }
+  if(!total||against<total)return geometry;
+  if(index){for(let i=0;i<count;i+=3){const k=index.getX(i+1);index.setX(i+1,index.getX(i+2));index.setX(i+2,k);}}
+  else for(const attribute of Object.values(geometry.attributes))for(let i=0;i<count;i+=3)for(let k=0;k<attribute.itemSize;k++){
+    const v=attribute.getComponent(i+1,k);attribute.setComponent(i+1,k,attribute.getComponent(i+2,k));attribute.setComponent(i+2,k,v);
+  }
+  geometry.userData.livRewound=total;return geometry;
+}
 function geometryFrom(spec){
   const geometry=own(new THREE.BufferGeometry());
   for(const [name,size]of [['position',3],['normal',3],['uv',2],['color',3]])if(spec[name]?.length)geometry.setAttribute(name,new THREE.Float32BufferAttribute(spec[name],size));
   if(spec.index)geometry.setIndex(new THREE.Uint32BufferAttribute(spec.index,1));
   for(const group of spec.groups||[])geometry.addGroup(group.start,group.count,group.materialIndex);
-  geometry.computeBoundingSphere();return geometry;
+  geometry.computeBoundingSphere();return windWithNormals(geometry);
 }
 function registerTree(root){root.traverse(o=>{if(o.geometry)own(o.geometry);if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])own(m);});}
 function buildFrozen(source,materials){
@@ -276,7 +295,7 @@ function expandedGeometry(spec,corner){
     geometry.setAttribute(name,new THREE.BufferAttribute(data,size));
   }
   geometry.setAttribute('uv1',new THREE.BufferAttribute(Float32Array.from(uvs,x=>x/65535),2));
-  for(const group of corner.groups)geometry.addGroup(group.start,group.count,group.materialIndex);geometry.computeBoundingSphere();return geometry;
+  for(const group of corner.groups)geometry.addGroup(group.start,group.count,group.materialIndex);geometry.computeBoundingSphere();return windWithNormals(geometry);
 }
 function installBake(compact){
   if(!light.ready||!light.geometryApproved||light.colorPass!==false||light.sourceSHA256!==record.sourceSHA256||light.unitSHA256!==record.unitSHA256||compact.sourceSHA256!==record.sourceSHA256||compact.unitSHA256!==record.unitSHA256||light.geometrySHA256!==record.files.compact.decodedSHA256||light.textureSHA256!==record.files.atlas.decodedSHA256)throw Error('Identidade do bake interior não corresponde à unidade.');

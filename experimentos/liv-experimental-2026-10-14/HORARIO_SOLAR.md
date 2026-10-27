@@ -68,6 +68,14 @@ ela, senão o azulejo do fundo da pia some.
 O atlas por hora usa `linear-rgbm2-u8` (luz = rgb · a² · 16). Com o multiplicador linear, o passo de
 a=1 para a=2 na parede escura dobrava a luz entre texels vizinhos e o filtro bilinear riscava um contorno
 claro em degraus (forte no Meio, fraco em volta do quadro do Canto). Cada hora ficou ~35% maior.
+A cena de gravação não tem laje: a parede acima do forro (2,70 a 2,76 m) via o céu, 100x a luz de
+dentro, e o OIDN e o bilinear desciam esse claro (e o azul do céu, que virava borrão roxo) para baixo da
+moldura. O empacotador (27/10) troca cada texel da parede acima de pé-direito − 4 cm pela média de uma
+janela de 7 × 5 texels da mesma face logo abaixo, e refaz a borda da ilha em volta (o EXTEND do Cycles
+levava o céu para os cantos). Copiar um texel só repetia o ruído dele na vertical e o OIDN guardava como
+listra. As esquadrias da fonte (batentes, caixilhos, vidros e folhas) vinham com todos os triângulos
+contra a normal: o Three tomava o lado de dentro por verso e a porta de entrada lia a sonda de fora e
+estourava de branco. `windWithNormals` (interior-renderer.js) desvira a malha que está inteira ao contrário.
 
 Refazer, na raiz, depois de mudar a cena aprovada ou o interior:
 
