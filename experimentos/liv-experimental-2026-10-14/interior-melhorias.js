@@ -74,7 +74,7 @@ export async function loadInteriorImprovements({base,signal,own=value=>value,onB
   const emit=()=>onStatus(structuredClone(report));emit();
   const templates=new Map(),decorations=[],instanceCounts=new Map(),hdrResources=new Map(),reflectionTextures=new Map(),reflectionMaterials=new Set(),loader=new GLTFLoader();let catalog,environment=null,backgroundEnvironment=null,activeTypology='canto';
   const assetFor=item=>{
-    const candidates=(catalog?.assets||[]).filter(asset=>asset.types.includes(item.tipo)&&(!asset.namePattern||new RegExp(asset.namePattern,'i').test(item.name||item.nome||''))&&templates.has(asset.id));
+    const candidates=(catalog?.assets||[]).filter(asset=>asset.types.includes(item.tipo)&&(!asset.typology||asset.typology===activeTypology)&&(!asset.namePattern||new RegExp(asset.namePattern,'i').test(item.name||item.nome||''))&&templates.has(asset.id));
     return candidates.find(asset=>asset.replaces?.length===1&&asset.replaces[0]===item.id)||candidates[0];
   };
   function resourceURL(record,extension='glb'){
@@ -225,12 +225,26 @@ export async function loadInteriorImprovements({base,signal,own=value=>value,onB
         authorial.position=[authorial.position[0]-back.x*inside,authorial.position[1]-back.z*inside];
         group.position.x=authorial.position[0];group.position.z=authorial.position[1];
       };
+      // O giro do guarda-roupa no cadastro diverge entre as plantas (no Meio ele abria para a parede): a frente
+      // vai para o lado em que a parede está mais longe.
+      const faceRoom=(item,group)=>{
+        const angle=item.rotation*Math.PI/2,front=new THREE.Vector3(Math.sin(angle),0,Math.cos(angle)),origin=new THREE.Vector3(item.position[0],1,item.position[1]);
+        const reach=direction=>{ray.set(origin,direction);ray.far=4;const hit=ray.intersectObjects(walls,false)[0];ray.far=.6;return hit?.distance??Infinity;};
+        if(reach(front)<reach(front.clone().negate())){item.rotation=item.originalRotation=(item.rotation+2)%4;group.rotation.y=item.rotation*Math.PI/2;}
+      };
       instanceCounts.clear();
       for(const item of furniture){const asset=assetFor(item);if(asset)instanceCounts.set(asset.id,(instanceCounts.get(asset.id)||0)+1);}
+      // O cadastro grava o criado sempre com giro 0 (a caixa antiga não tinha frente): a gaveta olha para onde a cama olha.
+      const beds=furniture.filter(item=>item.tipo==='cama');
+      for(const item of furniture.filter(item=>item.tipo==='criado')){
+        const bed=beds.reduce((best,bed)=>{const d=Math.hypot(bed.position[0]-item.position[0],bed.position[1]-item.position[1]);return d<(best?.d??1.6)?{bed,d}:best;},null)?.bed;
+        if(bed)item.rotation=item.originalRotation=bed.originalRotation??bed.rotation;
+      }
       for(const item of furniture){
         try{
           const group=this.createFurniture(item);if(!group)continue;
           const authorial=group.userData.livAuthorialPlacement;
+          if(!authorial&&item.tipo==='guardaroupa'&&walls.length)faceRoom(item,group);
           if(authorial){
             if(typology!=='canto')backToWall(group,authorial);
             Object.assign(item,authorial.dimensions);item.originalDimensions={...authorial.dimensions};

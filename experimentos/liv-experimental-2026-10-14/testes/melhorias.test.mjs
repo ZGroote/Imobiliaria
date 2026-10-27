@@ -91,6 +91,44 @@ test('biblioteca aplica modelos e acabamentos, conserva bancadas e exclui luzes 
   for(const resource of owned)resource.dispose?.();native.m0.dispose();ceiling.geometry.dispose();
 });
 
+test('criado gravado com giro 0 olha para onde a cama vizinha olha; o longe da cama fica como veio',async()=>{
+  const catalog={schema:'liv-interior-improvements-v1',assets:[{id:'criado',path:'criado.glb',types:['criado'],dimensions:{w:.45,h:.55,d:.4}}]};
+  const library=await loadInteriorImprovements({base:new URL('https://example.invalid/liv/'),
+    fetchImpl:async url=>String(url).endsWith('catalogo.json')?{ok:true,json:async()=>catalog}:{ok:true,arrayBuffer:async()=>blankGLB()},
+    parseGLB:async()=>({scene:model()})});
+  const scene=new THREE.Scene(),furniture=[
+    {id:'cama',tipo:'cama',name:'Cama da suíte',position:[3.6,.25],rotation:3,originalRotation:3,w:1.5,h:.95,d:1.9,group:new THREE.Group()},
+    {id:'perto',tipo:'criado',name:'Criado 1',position:[4.5,-.75],rotation:0,originalRotation:0,w:.4,h:.55,d:.4,group:new THREE.Group()},
+    {id:'longe',tipo:'criado',name:'Criado 2',position:[0,0],rotation:0,originalRotation:0,w:.4,h:.55,d:.4,group:new THREE.Group()},
+  ];
+  for(const item of furniture)scene.add(item.group);
+  assert.equal(library.replaceFurniture(furniture,scene),2);
+  assert.equal(furniture[1].rotation,3);assert.equal(furniture[1].originalRotation,3);near(furniture[1].group.rotation.y,3*Math.PI/2);
+  assert.equal(furniture[2].rotation,0);
+});
+
+test('móvel de uma planta só entra nela; guarda-roupa vira a frente para longe da parede',async()=>{
+  const catalog={schema:'liv-interior-improvements-v1',assets:[
+    {id:'criado-canto',path:'a.glb',types:['criado'],typology:'canto',dimensions:{w:.45,h:.55,d:.4}},
+    {id:'criado-meio',path:'b.glb',types:['criado'],typology:'meio',dimensions:{w:.45,h:.55,d:.4}},
+    {id:'armario',path:'c.glb',types:['guardaroupa'],dimensions:{w:1.5,h:2.2,d:.6}}]};
+  const library=await loadInteriorImprovements({base:new URL('https://example.invalid/liv/'),
+    fetchImpl:async url=>String(url).endsWith('catalogo.json')?{ok:true,json:async()=>catalog}:{ok:true,arrayBuffer:async()=>blankGLB()},
+    parseGLB:async()=>({scene:model()})});
+  // Parede logo atrás de z=+0,3: com giro 0 (frente +Z) o armário abriria para ela.
+  const wall=new THREE.Mesh(new THREE.PlaneGeometry(6,3),new THREE.MeshBasicMaterial({side:THREE.DoubleSide}));wall.position.set(0,1.5,.3);
+  const far=new THREE.Mesh(new THREE.PlaneGeometry(6,3),new THREE.MeshBasicMaterial({side:THREE.DoubleSide}));far.position.set(0,1.5,-3);
+  const scene=new THREE.Scene();scene.add(wall,far);
+  const furniture=[
+    {id:'criado',tipo:'criado',name:'Criado',position:[2,2],rotation:0,originalRotation:0,w:.4,h:.55,d:.4,group:new THREE.Group()},
+    {id:'armario',tipo:'guardaroupa',name:'Armário da suíte',position:[0,0],rotation:0,originalRotation:0,w:2.15,h:2.35,d:.4,group:new THREE.Group()},
+  ];
+  for(const item of furniture)scene.add(item.group);
+  assert.equal(library.replaceFurniture(furniture,scene,'meio',[wall,far]),2);
+  assert.equal(furniture[0].improvementAsset,'criado-meio');
+  assert.equal(furniture[1].rotation,2);near(furniture[1].group.rotation.y,Math.PI);
+});
+
 test('falha de GLB fica registrada no estado e no callback visível, sem trocar o móvel original',async()=>{
   const catalog={schema:'liv-interior-improvements-v1',assets:[{id:'sofa',path:'sofa.glb',types:['sofa'],dimensions:{w:2,h:1,d:1}}]},statuses=[];
   const library=await loadInteriorImprovements({base:new URL('https://example.invalid/liv/'),onStatus:value=>statuses.push(value),

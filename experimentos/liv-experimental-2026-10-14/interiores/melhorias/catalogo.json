@@ -108,7 +108,7 @@
       "canonicalBounds": {
         "min": [
           -0.9749804139137268,
-          -0.000012984796740056481,
+          -1.2984796740056481e-05,
           -0.4499029815196991
         ],
         "max": [
@@ -1431,7 +1431,7 @@
       "canonicalBounds": {
         "min": [
           -0.11749999970197678,
-          -2.2351741790771484e-8,
+          -2.2351741790771484e-08,
           -0.15749992430210114
         ],
         "max": [
@@ -1658,7 +1658,7 @@
           -1.5149999856948853
         ]
       },
-      "sourcePoseMaxAbsErrorMeters": 5.587935447692871e-8,
+      "sourcePoseMaxAbsErrorMeters": 5.587935447692871e-08,
       "replaces": [],
       "materialConversion": {
         "bakeLighting": false,
@@ -1842,7 +1842,7 @@
           -0.1300000101327896
         ]
       },
-      "sourcePoseMaxAbsErrorMeters": 1.043081283569336e-7,
+      "sourcePoseMaxAbsErrorMeters": 1.043081283569336e-07,
       "replaces": [],
       "materialConversion": {
         "bakeLighting": false,
@@ -1960,7 +1960,7 @@
           2.990999937057495
         ]
       },
-      "sourcePoseMaxAbsErrorMeters": 1.1920928955078125e-7,
+      "sourcePoseMaxAbsErrorMeters": 1.1920928955078125e-07,
       "replaces": [],
       "materialConversion": {
         "bakeLighting": false,
@@ -2131,6 +2131,215 @@
           0.9525002241134644
         ]
       }
+    },
+    {
+      "id": "cama-casal-estofada",
+      "path": "cama-casal-estofada.glb",
+      "types": [
+        "cama"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 1.1103572845458984,
+        "h": 1.0030001401901245,
+        "d": 2.000000373172952
+      },
+      "source": {
+        "library": "SketchUp Content Library",
+        "title": "Upholstered Bed",
+        "page": "https://3dwarehouse.sketchup.com/model/7b91ee7e-a801-4763-af54-71d781cead67",
+        "glbSHA256": "c4a13c04bcdd201a546c52d4d45bfa1699e4c70665f2128f1208cb7b3e2d49ae",
+        "copies": 1
+      },
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "glTF do Warehouse reexportado (JPEG)"
+      },
+      "bytes": 754036,
+      "sha256": "2cabe5d155bad24725f7e6836ec2fd7bd5c35374a9ea3ae671efbfeda55340c3",
+      "triangles": 5652,
+      "meshes": 8,
+      "namePattern": "su.te"
+    },
+    {
+      "id": "cama-solteiro-escura",
+      "path": "cama-solteiro-escura.glb",
+      "types": [
+        "cama"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.9200000166893006,
+        "h": 0.9500001072883606,
+        "d": 2.0050002420818345
+      },
+      "source": {
+        "library": "SketchUp Content Library",
+        "title": "Bed",
+        "page": "https://3dwarehouse.sketchup.com/model/c8b399e7-a06f-487c-a410-2dec1b152945",
+        "glbSHA256": "ad222da43bc8ee08557a2373f8d5388cb38ca9f274b29258bb74ccf4fbab01ad",
+        "copies": 1
+      },
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "glTF do Warehouse reexportado (JPEG)"
+      },
+      "bytes": 924084,
+      "sha256": "3f3e29ee9e8bc77d48cf379bf1cec8286ef4e406a81dc681b62bc46b8bf8d0f4",
+      "triangles": 2630,
+      "meshes": 4,
+      "namePattern": "dormit"
+    },
+    {
+      "id": "criado-madeira-metal",
+      "path": "criado-madeira-metal.glb",
+      "types": [
+        "criado"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.6000000238418579,
+        "h": 0.8000001907348633,
+        "d": 0.5285751106342147
+      },
+      "source": {
+        "library": "SketchUp Content Library",
+        "title": "Nightstand",
+        "page": "https://3dwarehouse.sketchup.com/model/11114c91-c36a-45bc-8ef7-9f6fbe2014b3",
+        "glbSHA256": "e2b0d7f4c7510f8f2bef09024bd4fab20e4f5923a3d31737e3f9db07a33a9c5d",
+        "copies": 1
+      },
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "glTF do Warehouse reexportado (JPEG)"
+      },
+      "bytes": 400460,
+      "sha256": "f12316098b3560dbc3417e6656c7598a6cc1748990c2d85d2647fc615a9a9ff9",
+      "triangles": 364,
+      "meshes": 8,
+      "typology": "meio"
+    },
+    {
+      "id": "criado-gaveta-branca",
+      "path": "criado-gaveta-branca.glb",
+      "types": [
+        "criado"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.492000013589859,
+        "h": 0.5000001192092896,
+        "d": 0.45000014466546645
+      },
+      "source": {
+        "library": "SketchUp Content Library",
+        "title": "Bedside Table",
+        "page": "https://3dwarehouse.sketchup.com/model/070ea6ca-f1ad-453f-aebf-498037fafc44",
+        "glbSHA256": "e70079dc9610fd55645d42983209bcf9c69d9c12224610c404f907099af72d62",
+        "copies": 1
+      },
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "glTF do Warehouse reexportado (JPEG)"
+      },
+      "bytes": 118940,
+      "sha256": "a4011c48d172373a75b282c4c96f8ada5e00656e27ac422d1ea5517782575cab",
+      "triangles": 218,
+      "meshes": 3,
+      "typology": "canto"
+    },
+    {
+      "id": "rack-gavetas",
+      "path": "rack-gavetas.glb",
+      "types": [
+        "rack"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 1.5,
+        "h": 0.5000001124913469,
+        "d": 0.34500006598733535
+      },
+      "source": {
+        "library": "SketchUp Content Library",
+        "title": "TV Cabinet",
+        "page": "https://3dwarehouse.sketchup.com/model/170a2d1d-1c52-438c-bcc6-c723ae95f5ac",
+        "glbSHA256": "4804e823e887f74d88c32bf361823e352b9c4e7dd7671b9612bb453628d62879",
+        "copies": 1
+      },
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "glTF do Warehouse reexportado (JPEG)"
+      },
+      "bytes": 374928,
+      "sha256": "b166bf404630b95124c4fdfa36559b1d4836d46f4f7af93c98a0dc4d52e518de",
+      "triangles": 808,
+      "meshes": 15
+    },
+    {
+      "id": "guarda-roupa-gavetas",
+      "path": "guarda-roupa-gavetas.glb",
+      "types": [
+        "guardaroupa"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 1.5,
+        "h": 2.200000286102295,
+        "d": 0.6185753917198724
+      },
+      "source": {
+        "library": "SketchUp Content Library",
+        "title": "Wardrobe",
+        "page": "https://3dwarehouse.sketchup.com/model/434f5253-9316-4738-8e1c-6a0f470ead33",
+        "glbSHA256": "f2d102feda5cb50fa4002a32177aab08d5c38466d227c4303f159e1623c07f1d",
+        "copies": 1
+      },
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "glTF do Warehouse reexportado (JPEG)"
+      },
+      "bytes": 279868,
+      "sha256": "9c74fd8b83bacdc40d59b5d4a897dd30add59c8b2583bdfd001b5ce66b7a0353",
+      "triangles": 537,
+      "meshes": 11,
+      "namePattern": "su.te"
+    },
+    {
+      "id": "guarda-roupa-simples",
+      "path": "guarda-roupa-simples.glb",
+      "types": [
+        "guardaroupa"
+      ],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 1.600000023841858,
+        "h": 2.0000002380155024,
+        "d": 0.44957524574286367
+      },
+      "source": {
+        "library": "SketchUp Content Library",
+        "title": "Simple Wardrobe",
+        "page": "https://3dwarehouse.sketchup.com/model/a5ce6b59-7896-4cc0-9578-d86206536231",
+        "glbSHA256": "9bce920ada063b650c3a5896125e23cb8a29c2d9d9a76a378219f180788e64c1",
+        "copies": 2
+      },
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "glTF do Warehouse reexportado (JPEG)"
+      },
+      "bytes": 475016,
+      "sha256": "d3e2460caec3084bd82cbc17766dca8433b37ad9126eddc473900ee3d17232a6",
+      "triangles": 1000,
+      "meshes": 30,
+      "namePattern": "dormit"
     }
   ],
   "decorations": [
