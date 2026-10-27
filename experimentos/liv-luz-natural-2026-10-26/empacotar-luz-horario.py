@@ -31,6 +31,7 @@ OIDN = Path(os.environ['LOCALAPPDATA']) / 'CodexBlenderStudy/oidn-2.3.3.x64.wind
 RANGE = 16.0
 # Ilhas do UV1 têm 6,8 px de folga em 2048 (unwrap.json); a guarda fica abaixo da metade na resolução usada.
 GUARD_AT_2048 = 3.15
+SPECKLE_FROM = 2.2  # m: da altura de porta e janela para cima
 
 
 def sha(data):
@@ -49,7 +50,7 @@ def hidden_wall_top(size, below=.04, across=3, down=5):
     source = json.loads((web / f'interiores/{TYPOLOGY}/source.json').read_text(encoding='utf8'))
     compact = json.loads(gzip.decompress((web / record['files']['compact']['path']).read_bytes()))
     top = json.loads((web / f'interiores/{TYPOLOGY}/unidade.json').read_text(encoding='utf8'))['planta']['pe_direito'] - below
-    covered = np.zeros((size, size), bool); dsts, origins = [], []
+    covered = np.zeros((size, size), bool); band = np.zeros((size, size), bool); dsts, origins = [], []
     window = np.array([(a, b) for a in range(-across, across + 1) for b in range(down)], np.float64)
     for rec in compact['objects']:
         so = source['objects'][rec['objectIndex']]; geo = source['geometries'][so['geometry']]
@@ -67,9 +68,10 @@ def hidden_wall_top(size, below=.04, across=3, down=5):
             inside = (b[0] >= 0) & (b[1] >= 0) & (b.sum(0) <= 1)
             ix, iy = gx.ravel()[inside].astype(int), gy.ravel()[inside].astype(int); covered[iy, ix] = True
             normal = np.cross(w[1] - w[0], w[2] - w[0]); normal /= np.linalg.norm(normal)
-            if w[:, 1].max() <= top or abs(normal[1]) > .5:
-                continue  # abaixo do corte, forro ou topo da parede
+            if w[:, 1].max() <= SPECKLE_FROM or abs(normal[1]) > .5:
+                continue  # baixo demais, forro ou topo da parede
             b = b[:, inside]; y = w[0, 1] + b[0] * (w[1, 1] - w[0, 1]) + b[1] * (w[2, 1] - w[0, 1]); high = y > top
+            band[iy[~high & (y > SPECKLE_FROM)], ix[~high & (y > SPECKLE_FROM)]] = True
             if not high.any():
                 continue
             up = np.array([0, 1, 0]) - normal[1] * normal; up /= np.linalg.norm(up); side = np.cross(up, normal)
@@ -85,14 +87,33 @@ def hidden_wall_top(size, below=.04, across=3, down=5):
             origins.append(np.floor(base[:, None] + offsets[None]).astype(int).clip(0, size - 1)[..., ::-1])
     dst = np.concatenate(dsts); origin = np.concatenate(origins)
     hidden = np.zeros((size, size), bool); hidden[dst[:, 0], dst[:, 1]] = True
-    weight = covered[origin[..., 0], origin[..., 1]] & ~hidden[origin[..., 0], origin[..., 1]]
+    # Só vale origem da MESMA ilha do UV1: em cima de porta e janela a face tem 5 texels de largura, e a janela
+    # de ±3 caía na ilha vizinha do atlas (às vezes uma face de fora, ao sol) e acendia o canto embaixo do rodateto.
+    islands = ndimage.label(covered)[0]
+    weight = (covered[origin[..., 0], origin[..., 1]] & ~hidden[origin[..., 0], origin[..., 1]]
+              & (islands[origin[..., 0], origin[..., 1]] == islands[dst[:, 0], dst[:, 1]][:, None]))
     weight[:, (across * down)] |= ~weight.any(1)  # sem vizinho válido: fica a origem logo abaixo
     _, near = ndimage.distance_transform_edt(~covered, return_indices=True)
     margin = ~covered & ndimage.binary_dilation(hidden, iterations=4)
     edge = np.argwhere(margin); edge_origin = np.stack([near[0][margin], near[1][margin]], 1)[:, None]
     print('PAREDE_ACIMA_DO_FORRO', TYPOLOGY, 'corte', round(top, 3), 'texels', len(dst), 'borda', len(edge),
           'origens por texel', round(float(weight.sum(1).mean()), 1), flush=True)
-    return (dst, origin, weight), (edge, edge_origin, np.ones(edge_origin.shape[:2], bool))
+    return [(dst, origin, weight), (edge, edge_origin, np.ones(edge_origin.shape[:2], bool))], (band, islands)
+
+
+def despeckle(image, speckle, radius=3, factor=2.5):
+    """Pico isolado no alto da parede vira a mediana da vizinhança da mesma ilha. Em cima de porta e janela a cena de
+    gravação tem fresta na junta com o forro (o site tapa com o reparo do topo e o rodateto, que ela não tem) e o céu
+    acendia texels a 200x os vizinhos; céu e rebatido variam devagar na parede, pico assim é a fresta."""
+    band, islands = speckle; ys, xs = np.nonzero(band); size = band.shape[0]
+    lum = image[:, :, :3] @ np.array([.2126, .7152, .0722], np.float32)
+    span = np.arange(-radius, radius + 1); dy, dx = [a.ravel() for a in np.meshgrid(span, span)]
+    ny = np.clip(ys[:, None] + dy, 0, size - 1); nx = np.clip(xs[:, None] + dx, 0, size - 1)
+    near = np.where((islands[ny, nx] == islands[ys, xs][:, None]) & (image[ny, nx, 3] > 0) & (lum[ny, nx] > 1e-6), lum[ny, nx], np.nan)
+    median = np.nanmedian(near, axis=1); own = lum[ys, xs]
+    hot = own > factor * median + 1e-3
+    image[ys[hot], xs[hot], :3] *= (median[hot] / own[hot])[:, None]
+    return int(hot.sum())
 
 
 def fill(image, hidden):
@@ -102,8 +123,20 @@ def fill(image, hidden):
         image[dst[:, 0], dst[:, 1], :3] = values.sum(1) / weight.sum(1)[:, None]
 
 
-def encode(rgba, guard, hidden):
-    fill(rgba, hidden)
+def fill_holes(rgba, islands):
+    """Texel dentro da ilha que o Cycles não gravou ou gravou preto (face estreita em cima de porta) copia o
+    gravado mais próximo da mesma ilha. Antes ele saía preto no site e escurecia a mediana dos vizinhos."""
+    # Preto exato também é buraco: a face entra em outra peça na cena de gravação (junta de porta e parede).
+    baked = (rgba[:, :, 3] > 0) & (rgba[:, :, :3].max(axis=2) > 1e-6); holes = (islands > 0) & ~baked
+    _, near = ndimage.distance_transform_edt(~baked, return_indices=True)
+    ys, xs = np.nonzero(holes); sy, sx = near[0][ys, xs], near[1][ys, xs]
+    same = islands[sy, sx] == islands[ys, xs]
+    rgba[ys[same], xs[same], :3] = rgba[sy[same], sx[same], :3]; rgba[ys[same], xs[same], 3] = 1
+    return int(same.sum())
+
+
+def encode(rgba, guard, hidden, speckle):
+    holes = fill_holes(rgba, speckle[1]); fill(rgba, hidden); spikes = despeckle(rgba, speckle)
     mask = rgba[:, :, 3] > 0
     distance, nearest = ndimage.distance_transform_edt(~mask, return_indices=True)
     border = (~mask) & (distance <= guard)
@@ -121,7 +154,7 @@ def encode(rgba, guard, hidden):
     encoded = np.empty((*rgba.shape[:2], 4), dtype=np.uint8)
     encoded[:, :, :3] = np.rint(np.clip(denoised / scale[:, :, None], 0, 1) * 255).astype(np.uint8)
     encoded[:, :, 3] = alpha.astype(np.uint8)
-    return encoded.tobytes(), float(denoised.max())
+    return encoded.tobytes(), float(denoised.max()), (holes, spikes)
 
 
 def probe_layout(spec):
@@ -191,7 +224,7 @@ def main():
     DEST.mkdir(parents=True, exist_ok=True)
     spec = json.loads((RAW / 'sondas.json').read_text(encoding='utf8'))
     rooms, dims = probe_layout(spec)
-    hidden = hidden_wall_top(size)
+    hidden, speckle = hidden_wall_top(size)
     entries = []
     for key in [*keys['keys'], {'id': 'noite'}]:
         info = measured['keys'].get(key['id'])
@@ -200,7 +233,7 @@ def main():
         raw = (RAW / f'{key["id"]}.f32').read_bytes()
         if sha(raw) != info['rawSHA256']:
             raise RuntimeError(f'{key["id"]}: bruto diferente do registrado')
-        texture, peak = encode(np.frombuffer(raw, dtype=np.float32).reshape(size, size, 4).copy(), guard, hidden)
+        texture, peak, spikes = encode(np.frombuffer(raw, dtype=np.float32).reshape(size, size, 4).copy(), guard, hidden, speckle)
         packed = gzip.compress(texture, compresslevel=9, mtime=0)
         (DEST / f'{key["id"]}.rgbm.gz').write_bytes(packed)
         entry = {k: v for k, v in info.items() if k not in ('rawSHA256', 'seconds', 'max')}
@@ -216,7 +249,7 @@ def main():
                            'bytes': len(probe_packed), 'sha256': sha(probe_packed), 'compression': 'gzip',
                            'decodedBytes': len(volume), 'decodedSHA256': sha(volume)}
         entries.append(entry)
-        print(key['id'], len(packed), len(probe_packed), round(peak, 3), flush=True)
+        print(key['id'], len(packed), len(probe_packed), round(peak, 3), 'buracos/picos', spikes, flush=True)
     manifest = {'schema': 'liv-interior-time-lightmaps-v1', 'typology': TYPOLOGY,
                 'sourceSHA256': measured['sourceSHA256'], 'geometrySHA256': measured['geometrySHA256'],
                 'blendSHA256': measured['blendSHA256'], 'targets': measured['targets'],

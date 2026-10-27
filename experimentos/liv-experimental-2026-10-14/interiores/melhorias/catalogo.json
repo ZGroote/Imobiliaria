@@ -2141,9 +2141,9 @@
       "pivot": "center-xz-base-y",
       "front": "+Z",
       "dimensions": {
-        "w": 1.1103572845458984,
+        "w": 1.2083162665367126,
         "h": 1.0030001401901245,
-        "d": 2.000000373172952
+        "d": 2.074042931842996
       },
       "source": {
         "library": "SketchUp Content Library",
@@ -2156,9 +2156,9 @@
         "bakeLighting": false,
         "method": "glTF do Warehouse reexportado (JPEG)"
       },
-      "bytes": 754036,
-      "sha256": "2cabe5d155bad24725f7e6836ec2fd7bd5c35374a9ea3ae671efbfeda55340c3",
-      "triangles": 5652,
+      "bytes": 1081372,
+      "sha256": "570e8e64cd3c8d99d90c737064e72a4206031fe12315b93e1a23a94904b3408c",
+      "triangles": 8986,
       "meshes": 8,
       "namePattern": "su.te"
     },
@@ -2171,9 +2171,9 @@
       "pivot": "center-xz-base-y",
       "front": "+Z",
       "dimensions": {
-        "w": 0.9200000166893006,
+        "w": 0.9951333291828632,
         "h": 0.9500001072883606,
-        "d": 2.0050002420818345
+        "d": 2.060956367341234
       },
       "source": {
         "library": "SketchUp Content Library",
@@ -2186,9 +2186,9 @@
         "bakeLighting": false,
         "method": "glTF do Warehouse reexportado (JPEG)"
       },
-      "bytes": 924084,
-      "sha256": "3f3e29ee9e8bc77d48cf379bf1cec8286ef4e406a81dc681b62bc46b8bf8d0f4",
-      "triangles": 2630,
+      "bytes": 967628,
+      "sha256": "df2e40ace8af7e7c03e36d3801310f1793255a1ac4842256c1c6a6be42a5bf74",
+      "triangles": 3742,
       "meshes": 4,
       "namePattern": "dormit"
     },
