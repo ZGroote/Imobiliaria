@@ -31,7 +31,9 @@ export function createBuyerUI({document:doc,location,navigator,standalone=false}
   // A entrada institucional tem contato próprio; links individuais sempre aguardam o responsável da API.
   let context=standalone?{contact:contatoPublico}:null,current=null,lastKey='';
   doc.documentElement?.setAttribute('data-experiencia-compra',String(enabled));
-  el('experienceBar').hidden=false;
+  // 27/10: a versão nova virou a oficial e o aviso "Experiência em teste / Usar versão anterior" saiu da página;
+  // a barra só fica para o "Voltar ao site" da entrada pública. ?experiencia=original segue abrindo a anterior.
+  el('experienceBar').hidden=!standalone;el('experienceLabel').hidden=el('experienceCompare').hidden=true;
   // VOLTAR-AO-SITE-20261023: a entrada pública retorna ao site; links de corretores usam o contato da API.
   if(standalone){
     const home=doc.createElement('a');home.id='siteHomeLink';home.href='https://conectaimoveis3d.com.br/';
@@ -39,11 +41,6 @@ export function createBuyerUI({document:doc,location,navigator,standalone=false}
     home.style.cssText='display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:6px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font-size:12px;text-decoration:none';
     el('experienceBar').prepend(home);el('experienceBar').style.flexWrap='wrap';
   }
-  el('experienceLabel').textContent=enabled?'Experiência em teste':'Experiência anterior';
-  const comparison=new URL(location.href||location.pathname+location.search,location.origin);
-  comparison.searchParams.set('experiencia',enabled?'original':'nova');
-  el('experienceCompare').href=comparison.href;
-  el('experienceCompare').textContent=enabled?'Usar versão anterior':'Voltar ao teste';
   if(enabled){
     el('btnBackToMaquete').textContent='← Prédio';el('btnBackToMaquete').setAttribute('aria-label','Voltar ao prédio');
     for(const button of doc.querySelectorAll('[data-mode="planta2d"]'))button.textContent='Planta';
@@ -58,8 +55,6 @@ export function createBuyerUI({document:doc,location,navigator,standalone=false}
   });
   return {enabled,setContact(value){context=value;},update(unit,floor,mode='maquete'){
     doc.documentElement?.setAttribute('data-buyer-mode',mode);
-    if(unit)comparison.searchParams.set('unidade',unit.id);else comparison.searchParams.delete('unidade');
-    comparison.searchParams.set('modo',mode);el('experienceCompare').href=comparison.href;
     delete el('experienceCompare').dataset.trackingDestination;
     el('buyerContact').hidden=!enabled||!unit;
     if(!enabled||!unit){current=null;lastKey='';return;}

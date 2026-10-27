@@ -312,7 +312,7 @@ test('um toque seleciona na fachada; somente o toque duplo abre a planta',async(
   await waitFor(()=>app.state.ready&&app.state.mode==='planta2d');
   assert.equal(app.state.selectedUnitId,id);assert.equal(app.state.panelCollapsed,false);
   assert.equal(app.element('buyerContact').hidden,false);
-  assert.match(app.element('experienceCompare').href,/experiencia=original/);
+  assert.equal(app.element('experienceCompare').hidden,true,'O aviso de versão em teste não aparece mais.');
   await app.element('btnBackToList').click();await waitFor(()=>app.state.ready&&app.state.mode==='maquete');
   assert.equal(app.state.selectedUnitId,null);assert.equal(app.element('availableUnits').hidden,false);
 });

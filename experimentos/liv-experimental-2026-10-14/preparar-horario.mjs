@@ -18,7 +18,7 @@ const overlay = [
   'viewer.js', 'renderer.js', 'interior-renderer.js', 'interior-melhorias.js', 'interior-look.js', 'material-rgbm.js', 'mapa-retorno.js',
   'horario-solar.js', 'horario-ui.js', 'horario-ui.css',
   'horario-exterior.js', 'horario-interior.js', 'interior-luz-horario.js', 'interior-portas.js', 'interior-navigation.js',
-  'marca-telhado.js', 'marca-telhado.webp', 'folheado.js',
+  'marca-telhado.js', 'marca-telhado.webp', 'folheado.js', 'experiencia-compra.js',
 ];
 const pages = [
   ['liv-classico/maquete-liv-ipanema.html', 'viewer.js', 'viewer.bundle.js'],
