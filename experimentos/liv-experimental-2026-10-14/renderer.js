@@ -564,7 +564,9 @@ async function start() {
   state.setActive(state.active);
   progress('ready','Maquete carregada');
   // A failed upgrade keeps the preview on screen; it never fails the scene.
-  state.fullAtlas=preview?upgradeAtlas().catch(error=>{if(!state.disposed)state.atlasError=String(error);}):Promise.resolve();
+  // Com o relógio do sol o atlas fica com peso 0 (horario-exterior.js): o completo seriam 13 MB
+  // baixados e 67 MB descomprimidos sem aparecer, pressão de memória que o iPhone não perdoa.
+  state.fullAtlas=preview&&!state.solar?upgradeAtlas().catch(error=>{if(!state.disposed)state.atlasError=String(error);}):Promise.resolve();
   status.textContent=`Prova carregada — ${state.backend==='webgpu'?'WebGPU':'WebGL2'}, Three.js r${THREE.REVISION}, ${meshes.length} malhas. A paridade visual está em verificação.`;
   for(const button of document.querySelectorAll('button')) button.disabled=false;
   for(const button of document.querySelectorAll('[data-view]')) button.addEventListener('click',()=>setView(button.dataset.view));

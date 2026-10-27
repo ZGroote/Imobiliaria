@@ -19,7 +19,7 @@ const projectPanel=document.getElementById('projectPanel'),panelDetails=document
 const floorControl=document.getElementById('floor'),ambienceControl=document.getElementById('ambience'),captureControl=document.getElementById('capture');
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
-const backend=['webgpu','webgl'].includes(requested)?requested:'auto';
+let backend=['webgpu','webgl'].includes(requested)?requested:'auto';
 const geometry=new URLSearchParams(location.search).has('geometria')?requestedEdition(location.search):'entrada';
 const demonstration=new URLSearchParams(location.search).get('demonstracao')==='1';
 const scope=demonstration||new URLSearchParams(location.search).has('estoque')||!new URLSearchParams(location.search).has('unidades')?'edificio':unitScope(location.search);
@@ -444,6 +444,9 @@ async function refreshOptionalData(){
 function sceneFailure(frame,error){
   const foreground=state.frame===frame;
   retireFrame(frame);
+  // Este aviso só chega com a cena já aberta: é o contexto gráfico que caiu (memória, app em segundo plano).
+  // Uma vez por visita, reabre em WebGL2 antes de mostrar o erro.
+  if(backend==='auto'){backend='webgl';if(foreground){frameKind=null;void setMode(state.mode);}return;}
   if(foreground){frameKind=null;showError(error);}
 }
 function prepareScene(kind){
@@ -571,6 +574,8 @@ async function setMode(mode,{restore=false}={}) {
     }
     if(token!==generation)return;
     if(mode==='planta2d'){await fallback2D(token);return true;}
+    // Os pacotes 3D vêm em gzip, aberto pelo navegador (Safari só a partir do iOS 16.4); a planta 2D não precisa.
+    if(typeof DecompressionStream==='undefined')throw Error('Este navegador é antigo demais para a maquete 3D. No iPhone, atualize para o iOS 16.4 ou mais novo.');
     const prepared=prepareScene(kind);state.frame=sceneCache.get(kind);frameKind=kind;
     const frame=await prepared;if(token!==generation)return;
     const api=sceneAPI(frame);
