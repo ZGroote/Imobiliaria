@@ -71,21 +71,25 @@ if(libraryCatalog.look){
 // Folheado de nogueira (folheado.js confere o SHA de cada mapa ao carregar).
 const veneerFiles = ['color', 'normal', 'roughness'].map(name => `interiores/shared/folheado-nogueira/${name}.webp`);
 const veneerBytes = new Map(await Promise.all(veneerFiles.map(async path => [path, await readFile(join(source, path))])));
-// Luz gravada por hora (bake-luz-horario.py + empacotar-luz-horario.py); sem ela o interior segue dinâmico.
-const timeLightPath = 'interiores/canto/luz-horario', timeLightFiles = new Map();
-try {
-  const manifestBytes = await readFile(join(source, timeLightPath, 'manifest.json'));
-  const manifest = JSON.parse(manifestBytes);
-  timeLightFiles.set('manifest.json', manifestBytes);
-  for (const entry of [...manifest.keys, manifest.night].flatMap(item => item.probes ? [item, item.probes] : [item])) {
-    const name = basename(entry.path), bytes = await readFile(join(source, timeLightPath, name));
-    assert.equal(entry.path, `${timeLightPath}/${name}`, 'Caminho da luz gravada inválido.');
-    assert.equal(bytes.length, entry.bytes, `${entry.id}: tamanho da luz gravada`);
-    assert.equal(hash(bytes), entry.sha256, `${entry.id}: SHA da luz gravada`);
-    timeLightFiles.set(name, bytes);
+// Luz gravada por hora (bake-luz-horario.py + empacotar-luz-horario.py), por planta; sem ela o interior segue dinâmico.
+const timeLightFiles = new Map();
+for (const typology of ['canto', 'meio']) {
+  const timeLightPath = `interiores/${typology}/luz-horario`;
+  try {
+    const manifestBytes = await readFile(join(source, timeLightPath, 'manifest.json'));
+    const manifest = JSON.parse(manifestBytes);
+    assert.equal(manifest.typology, typology, `${timeLightPath}: manifesto de outra planta`);
+    timeLightFiles.set(`${timeLightPath}/manifest.json`, manifestBytes);
+    for (const entry of [...manifest.keys, manifest.night].flatMap(item => item.probes ? [item, item.probes] : [item])) {
+      const name = basename(entry.path), bytes = await readFile(join(source, timeLightPath, name));
+      assert.equal(entry.path, `${timeLightPath}/${name}`, 'Caminho da luz gravada inválido.');
+      assert.equal(bytes.length, entry.bytes, `${entry.id}: tamanho da luz gravada`);
+      assert.equal(hash(bytes), entry.sha256, `${entry.id}: SHA da luz gravada`);
+      timeLightFiles.set(`${timeLightPath}/${name}`, bytes);
+    }
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
   }
-} catch (error) {
-  if (error.code !== 'ENOENT') throw error;
 }
 const originals = new Map(await Promise.all(pages.map(async ([path]) => [path, await readFile(join(published, path), 'utf8')])));
 assert(!originals.get('liv-classico/interior.html').includes('interior-splat.js'), 'A base precisa ser o interior clássico publicado.');
@@ -112,9 +116,9 @@ for (const [path, bytes] of veneerBytes) {
   await mkdir(dirname(join(classic, path)), {recursive: true}); await writeFile(join(classic, path), bytes);
   fingerprints[path] = {bytes: bytes.length, sha256: hash(bytes)};
 }
-for (const [name, bytes] of timeLightFiles) {
-  const destination = join(classic, timeLightPath, name); await mkdir(dirname(destination), {recursive: true});
-  await writeFile(destination, bytes); fingerprints[`${timeLightPath}/${name}`] = {bytes: bytes.length, sha256: hash(bytes)};
+for (const [path, bytes] of timeLightFiles) {
+  const destination = join(classic, path); await mkdir(dirname(destination), {recursive: true});
+  await writeFile(destination, bytes); fingerprints[path] = {bytes: bytes.length, sha256: hash(bytes)};
 }
 // O selo da marca saiu do topo da página (26/10): o logo agora fica na laje da torre (marca-telhado.js).
 const viewerPath = join(classic, 'viewer.js');

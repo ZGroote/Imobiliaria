@@ -213,8 +213,18 @@ export async function loadInteriorImprovements({base,signal,own=value=>value,onB
       if(authorial&&!item.improvementAsset)group.userData.livAuthorialPlacement={dimensions:target,position:[...pose.position],baseY:group.position.y,rotation:pose.rotation||0};
       return group;
     },
-    replaceFurniture(furniture,scene,typology='canto'){
+    replaceFurniture(furniture,scene,typology='canto',walls=[]){
       activeTypology=typology;
+      // Fora do Canto o cadastro encosta o móvel 2-4 cm dentro da parede: o azulejo no fundo da pia sumia nela.
+      const ray=new THREE.Raycaster();ray.far=.6;scene.updateMatrixWorld(true);
+      const backToWall=(group,authorial)=>{
+        const angle=authorial.rotation*Math.PI/2,back=new THREE.Vector3(-Math.sin(angle),0,-Math.cos(angle));
+        ray.set(new THREE.Vector3(authorial.position[0],.5,authorial.position[1]),back);
+        const hit=ray.intersectObjects(walls,false)[0],inside=hit?authorial.dimensions.d/2-hit.distance+.002:0;
+        if(inside<=0||inside>.1)return;
+        authorial.position=[authorial.position[0]-back.x*inside,authorial.position[1]-back.z*inside];
+        group.position.x=authorial.position[0];group.position.z=authorial.position[1];
+      };
       instanceCounts.clear();
       for(const item of furniture){const asset=assetFor(item);if(asset)instanceCounts.set(asset.id,(instanceCounts.get(asset.id)||0)+1);}
       for(const item of furniture){
@@ -222,6 +232,7 @@ export async function loadInteriorImprovements({base,signal,own=value=>value,onB
           const group=this.createFurniture(item);if(!group)continue;
           const authorial=group.userData.livAuthorialPlacement;
           if(authorial){
+            if(typology!=='canto')backToWall(group,authorial);
             Object.assign(item,authorial.dimensions);item.originalDimensions={...authorial.dimensions};
             item.position=[...authorial.position];item.originalPosition=[...authorial.position];item.baseY=authorial.baseY;
             item.rotation=item.originalRotation=authorial.rotation;

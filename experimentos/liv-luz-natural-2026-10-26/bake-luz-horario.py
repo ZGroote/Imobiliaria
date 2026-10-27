@@ -1,9 +1,12 @@
-"""Grava no Cycles a luz do Canto por hora, menos o sol direto, que o site desenha em tempo real.
+"""Grava no Cycles a luz de uma planta (Canto ou Meio) por hora, menos o sol direto, que o site desenha em tempo real.
 
-& 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Blender\\blender.exe' -b entrega/LIV_Luz_Natural.blend --python bake-luz-horario.py -- [--size 1024 --samples 256 --so lazer-08]
+& 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Blender\\blender.exe' -b entrega/LIV_Luz_Natural.blend --python bake-luz-horario.py -- [--tipologia meio --size 1024 --samples 256 --so lazer-08]
 
 Fonte: a cena aprovada `03 | Sala e jantar`, sem salvar o .blend. As superfícies gravadas recebem a
 malha exata do site (source.json + UV1 de geometry-compact) para o atlas casar com o navegador.
+O Meio não tem cena aprovada própria: usa céu, câmera e luz da `03 | Sala e jantar` com as paredes e os
+móveis antigos do Meio (interiores/meio/bake/interior-source.blend, a mesma fonte do site), saída em
+fontes/luz-horario-meio/.
 Cada chave vira fontes/luz-horario/<id>.f32 (RGBA float32, origem embaixo):
   dia   = céu sem disco (direto + rebatido) + rebatido de um Sun com a irradiância medida do disco;
   noite = rebatido dos seis plafons do site, sem céu.
@@ -34,6 +37,7 @@ sys.path.insert(0, str(ROOT.parents[1] / 'v1.5/miniaturas/liv-ipanema/interior')
 from bake_luz import BASIS, compute_device, topology  # noqa: E402  (mesmo recorte de triângulos do UV1)
 
 SCENE = '03 | Sala e jantar'
+MEIO_BLEND = WEB / 'interiores/meio/bake/interior-source.blend'
 
 
 def sha(data):
@@ -48,9 +52,9 @@ def aim_along(obj, direction):
 PROBE_SPACING, PROBE_LEVELS, PROBE_INSET, PROBE_BLOCK = .4, 6, .12, 2
 
 
-def unit_rooms():
+def unit_rooms(typology):
     """Cômodos em coordenadas do site (createLayout: centro da caixa de todos os polígonos)."""
-    plan = json.loads((WEB / 'interiores/canto/unidade.json').read_text(encoding='utf8'))
+    plan = json.loads((WEB / f'interiores/{typology}/unidade.json').read_text(encoding='utf8'))
     points = [p for c in plan['planta']['comodos'] for p in c['poly']]
     center = [(min(p[i] for p in points) + max(p[i] for p in points)) / 2 for i in (0, 1)]
     rooms = [{'id': c.get('id'), 'name': c['nome'], 'poly': [[p[0] - center[0], p[1] - center[1]] for p in c['poly']]}
@@ -125,6 +129,13 @@ def install_web_meshes(scene, source, compact, entrance, door_color):
         uv0 = mesh.uv_layers.new(name='UVMap')
         if geo.get('uv'):
             uv0.data.foreach_set('uv', np.asarray(geo['uv'], dtype=np.float32).reshape(-1, 2)[indices].reshape(-1))
+        # Materiais que multiplicam a cor por vértice (os do Meio) ficariam pretos sem o atributo.
+        for name in {n.layer_name for m in materials if m and m.node_tree for n in m.node_tree.nodes if n.type == 'VERTEX_COLOR'}:
+            if colors is None:
+                raise RuntimeError(f'{so["name"]}: material pede cor por vértice e a fonte não tem')
+            attribute = mesh.color_attributes.new(name or 'Color', 'FLOAT_COLOR', 'CORNER')
+            corner = np.ones((len(indices) * 3, 4), dtype=np.float32); corner[:, :3] = colors[indices].reshape(-1, 3)
+            attribute.data.foreach_set('color', corner.reshape(-1))
         uv1 = mesh.uv_layers.new(name='Lightmap')
         uv1.data.foreach_set('uv', np.frombuffer(base64.b64decode(record['uv1U16']), dtype='<u2').astype(np.float32) / 65535)
         uv0.active_render = True; mesh.uv_layers.active = uv1
@@ -249,17 +260,42 @@ def build_probes(scene, rooms, depsgraph):
     return obj, image, spec
 
 
-def rotate_entrance_handles(scene, door):
-    """As maçanetas da entrada (malha de alumínio, fora do UV1) acompanham a folha fechada."""
-    obj = scene.objects['mesh-4']; mesh = obj.data; moved = 0
-    if obj.matrix_world != Matrix.Identity(4):
-        raise RuntimeError('mesh-4 fora da origem')
+def rotate_entrance_handles(scene, door, name):
+    """As maçanetas da entrada (malha de alumínio m4, fora do UV1) acompanham a folha fechada."""
+    obj = scene.objects[name]; mesh = obj.data; moved = 0
+    # No Canto a malha está na origem; a do Meio guarda a matriz do site no objeto.
+    world, local = obj.matrix_world.copy(), obj.matrix_world.inverted()
     for v in mesh.vertices:
-        x, z, y = v.co.x, -v.co.y, v.co.z
+        co = world @ v.co; x, z, y = co.x, -co.y, co.z
         if math.hypot(x - door['hinge'][0], z - door['hinge'][1]) <= .8 and .95 < y < 1.13:
-            x, z = turn(x, z, door['hinge'], door['closedRotation']); v.co.x, v.co.y = x, -z; moved += 1
+            x, z = turn(x, z, door['hinge'], door['closedRotation']); v.co = local @ Vector((x, -z, y)); moved += 1
     mesh.update()
     return moved
+
+
+def meio_scene(base):
+    """Cena nova com o mundo e a câmera aprovados da base e as malhas do Meio (nomes do site: mesh-N)."""
+    scene = bpy.data.scenes.new('LIV luz horario | Meio'); scene.world = base.world; scene.render.engine = 'CYCLES'
+    for attr in ('view_transform', 'look', 'exposure', 'gamma'):
+        setattr(scene.view_settings, attr, getattr(base.view_settings, attr))
+    scene.display_settings.display_device = base.display_settings.display_device
+    for attr in ('max_bounces', 'diffuse_bounces', 'glossy_bounces', 'transmission_bounces', 'volume_bounces', 'transparent_max_bounces',
+                 'caustics_reflective', 'caustics_refractive', 'blur_glossy', 'sample_clamp_direct', 'sample_clamp_indirect'):
+        setattr(scene.cycles, attr, getattr(base.cycles, attr))
+    with bpy.data.libraries.load(str(MEIO_BLEND), link=False) as (src, dst):
+        wanted = [n for n in src.objects if n.startswith('mesh-') or n in ('forro-original', 'rodateto-liso-continuo')]
+    for name in wanted:  # os do Canto saem do caminho para os do Meio entrarem com o nome do site
+        if name in bpy.data.objects:
+            bpy.data.objects[name].name = name + ' | canto'
+    with bpy.data.libraries.load(str(MEIO_BLEND), link=False) as (src, dst):
+        dst.objects = list(wanted)  # o Blender troca os nomes da lista pelos objetos
+    for obj in dst.objects:
+        scene.collection.objects.link(obj)
+    missing = sorted({i.filepath for i in bpy.data.images if i.source == 'FILE' and i.users and not Path(bpy.path.abspath(i.filepath, library=i.library)).is_file()})
+    print('LIV_LUZ_HORARIO_MEIO', len(dst.objects), 'texturas ausentes', missing, sorted(set(wanted) - {o.name for o in dst.objects}), flush=True)
+    if sorted(o.name for o in dst.objects) != sorted(wanted):
+        raise RuntimeError('Malhas do Meio entraram com outro nome')
+    return scene
 
 
 def main():
@@ -268,23 +304,28 @@ def main():
     parser.add_argument('--samples', type=int, default=256)
     parser.add_argument('--texture-limit', default='256')
     parser.add_argument('--so', default=None, help='grava só esta chave (ex.: lazer-08 ou noite)')
+    parser.add_argument('--tipologia', default='canto', choices=('canto', 'meio'))
     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else [])
     blend = Path(bpy.data.filepath)
     if blend.resolve() != (ROOT / 'entrega/LIV_Luz_Natural.blend').resolve():
         raise RuntimeError('Abra entrega/LIV_Luz_Natural.blend')
-    record = json.loads((WEB / 'interiores/catalogo.json').read_text(encoding='utf8'))['tipologias']['canto']
-    source_bytes = (WEB / 'interiores/canto/source.json').read_bytes()
+    typology = args.tipologia; out = OUT if typology == 'canto' else ROOT / 'fontes/luz-horario-meio'
+    record = json.loads((WEB / 'interiores/catalogo.json').read_text(encoding='utf8'))['tipologias'][typology]
+    source_bytes = (WEB / f'interiores/{typology}/source.json').read_bytes()
     compact_bytes = gzip.decompress((WEB / record['files']['compact']['path']).read_bytes())
     if sha(source_bytes) != record['sourceSHA256'] or sha(compact_bytes) != record['files']['compact']['decodedSHA256']:
-        raise RuntimeError('Fonte ou UV1 do Canto diferem do catálogo do site')
+        raise RuntimeError(f'Fonte ou UV1 do {typology} diferem do catálogo do site')
     source, compact = json.loads(source_bytes), json.loads(compact_bytes)
-    keys = json.loads((OUT / 'chaves.json').read_text(encoding='utf8'))['keys']
-    plafons = json.loads((OUT / 'plafons-web.json').read_text(encoding='utf8'))
-    entrance = next(d for d in json.loads((OUT / 'portas-web.json').read_text(encoding='utf8')) if d['entrance'])
-    plan, center, rooms = unit_rooms()
+    keys = json.loads((out / 'chaves.json').read_text(encoding='utf8'))['keys']
+    plafons = json.loads((out / 'plafons-web.json').read_text(encoding='utf8'))
+    entrance = next(d for d in json.loads((out / 'portas-web.json').read_text(encoding='utf8')) if d['entrance'])
+    plan, center, rooms = unit_rooms(typology)
     door_color = np.asarray(srgb_linear(((plan.get('cores') or {}).get('porta') or '#EDE7DD').lstrip('#')), dtype=np.float32)
 
-    scene = bpy.data.scenes[SCENE]; bpy.context.window.scene = scene
+    scene = bpy.data.scenes[SCENE]
+    if typology == 'meio':
+        scene = meio_scene(scene)
+    bpy.context.window.scene = scene
     backend, devices = compute_device(scene)
     scene.cycles.samples = args.samples; scene.cycles.use_adaptive_sampling = False; scene.cycles.seed = 31
     scene.render.use_persistent_data = True
@@ -293,14 +334,16 @@ def main():
     # O box do chuveiro é vidro no site (26/10): na gravação ele sai de cena, como vidro claro.
     # Opaco, ele tapava a janela do banho da suíte e o interior do box saía escuro.
     glass = [o.name for o in scene.objects if o.type == 'MESH' and any(s.material and s.material.name == 'LIV | Acabamento box' for s in o.material_slots)]
+    glass += [so['name'] for so in source['objects'] if so['name'] in scene.objects and so['name'] not in glass
+              and any(source['materials'][m].get('name') == 'Acabamento box' for m in so['materials'])]
     for name in glass:
         scene.objects[name].hide_render = True
     print('LIV_LUZ_HORARIO_VIDRO', glass, flush=True)
     targets, target_names = install_web_meshes(scene, source, compact, entrance, door_color)
-    handles = rotate_entrance_handles(scene, entrance)
+    handles = rotate_entrance_handles(scene, entrance, next(so['name'] for so in source['objects'] if so['materials'] == ['m4']))
     portals = add_portals(scene, plan, center, rooms)
     probes, probe_image, probe_spec = build_probes(scene, rooms, bpy.context.evaluated_depsgraph_get())
-    (OUT / 'sondas.json').write_text(json.dumps(probe_spec), encoding='utf8')
+    (out / 'sondas.json').write_text(json.dumps(probe_spec), encoding='utf8')
     print('LIV_LUZ_HORARIO_SONDAS', probe_spec['probes'], sum(sum(r['valid']) for r in probe_spec['rooms']), portals, 'macanetas', handles, flush=True)
     nodes = scene.world.node_tree.nodes
     sky = next(n for n in nodes if n.type == 'TEX_SKY'); background = next(n for n in nodes if n.type == 'BACKGROUND')
@@ -331,8 +374,8 @@ def main():
 
     image = bpy.data.images.new('LIV luz horario', args.size, args.size, alpha=True, float_buffer=True)
     image.colorspace_settings.name = 'Non-Color'
-    OUT.mkdir(parents=True, exist_ok=True)
-    measured_path = OUT / 'medidas.json'
+    out.mkdir(parents=True, exist_ok=True)
+    measured_path = out / 'medidas.json'
     measured = json.loads(measured_path.read_text(encoding='utf8')) if measured_path.is_file() else {}
     measured.update(size=args.size, samples=args.samples, backend=backend, devices=devices,
                     blendSHA256=sha(blend.read_bytes()), sourceSHA256=record['sourceSHA256'],
@@ -380,8 +423,8 @@ def main():
                      'daylight': key['daylight'], 'sunStrength': key['sunStrength'], 'sunIrradianceRGB': irradiance.tolist()}
         if not np.isfinite(pixels).all() or not (pixels[:, :, 3] > 0).any():
             raise RuntimeError(f'{key["id"]}: bake vazio ou inválido')
-        raw = np.ascontiguousarray(pixels, dtype=np.float32).tobytes(); (OUT / f'{key["id"]}.f32').write_bytes(raw)
-        probe_raw = np.ascontiguousarray(probe_pixels, dtype=np.float32).tobytes(); (OUT / f'{key["id"]}-sondas.f32').write_bytes(probe_raw)
+        raw = np.ascontiguousarray(pixels, dtype=np.float32).tobytes(); (out / f'{key["id"]}.f32').write_bytes(raw)
+        probe_raw = np.ascontiguousarray(probe_pixels, dtype=np.float32).tobytes(); (out / f'{key["id"]}-sondas.f32').write_bytes(probe_raw)
         entry.update(rawSHA256=sha(raw), probesSHA256=sha(probe_raw), seconds=time.perf_counter() - started, max=float(pixels[:, :, :3].max()))
         measured['keys'][key['id']] = entry
         measured_path.write_text(json.dumps(measured, indent=2), encoding='utf8')

@@ -18,7 +18,9 @@ export function setReflectionNormalization(enabled){reflectionNormalize.value=en
 export function createTimeIrradiance({range,intensity}) {
   const placeholder=new THREE.DataTexture(new Uint8Array(4),1,1);placeholder.channel=1;placeholder.needsUpdate=true;
   const samples=[0,1,2].map(()=>texture(placeholder,uv(1))),weights=[0,1,2].map(()=>uniform(0));
-  const decode=(sample,weight)=>sample.rgb.mul(sample.a).mul(weight);
+  // Multiplicador ao quadrado (linear-rgbm2-u8): no escuro o passo de 1/255 para 2/255 dobrava a luz entre
+  // texels vizinhos e o filtro bilinear riscava uma linha 12% mais clara na parede; ao quadrado o passo fica ~13%.
+  const decode=(sample,weight)=>sample.rgb.mul(sample.a).mul(sample.a).mul(weight);
   const node=decode(samples[0],weights[0]).add(decode(samples[1],weights[1])).add(decode(samples[2],weights[2])).mul(float(range*intensity));
   return {node,
     set({a,b,night,wa,wb,wn}){

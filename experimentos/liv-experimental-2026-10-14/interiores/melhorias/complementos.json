@@ -600,6 +600,71 @@
         "h": 2.509999990463257,
         "d": 1.90500009059906
       }
+    },
+    {
+      "assetId": "cortinas-janela",
+      "typology": "meio",
+      "position": [
+        -2.95,
+        0.06,
+        -1.1355
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 2.060976028442383,
+        "h": 2.5299999713897705,
+        "d": 0.09100008010864258
+      }
+    },
+    {
+      "assetId": "pendente-jantar",
+      "typology": "meio",
+      "anchorType": "mesa",
+      "anchorNamePattern": "jantar",
+      "offset": [
+        0,
+        1.93,
+        0.005
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.5199999809265137,
+        "h": 0.7300000190734863,
+        "d": 0.5199999809265137
+      }
+    },
+    {
+      "assetId": "fruteira-jantar",
+      "typology": "meio",
+      "anchorType": "mesa",
+      "anchorNamePattern": "jantar",
+      "offset": [
+        0.38,
+        0.76,
+        0.055
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.2800000011920929,
+        "h": 0.07000000029802322,
+        "d": 0.2800000011920929
+      }
+    },
+    {
+      "assetId": "painel-tv-ripas",
+      "typology": "meio",
+      "anchorType": "rack",
+      "offset": [
+        -0.0135,
+        0.065,
+        -0.139
+      ],
+      "yaw": -1.5707963267948966,
+      "dimensions": {
+        "w": 0.014000000432133675,
+        "h": 2.509999990463257,
+        "d": 1.90500009059906
+      }
     }
   ],
   "sourceBlendSHA256After": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88"

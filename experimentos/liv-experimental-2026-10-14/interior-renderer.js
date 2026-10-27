@@ -160,7 +160,7 @@ async function materialsFrom(snapshot){
     if(id==='m4'){materials[id].metalness=0;materials[id].roughness=.32;}
     // O box do chuveiro (2 m, encostado na janela do banho) era painel branco opaco e barrava o sol: vira vidro.
     // Vidro limpo quase não espalha luz: cor quase preta, fica o reflexo (com o sol medido, branco estourava).
-    if(id==='m27')Object.assign(materials[id],{transparent:true,opacity:.18,roughness:.05,metalness:0,depthWrite:false}),materials[id].color.setRGB(.02,.025,.025);
+    if(spec.name==='Acabamento box')Object.assign(materials[id],{transparent:true,opacity:.18,roughness:.05,metalness:0,depthWrite:false}),materials[id].color.setRGB(.02,.025,.025);
   }
   return materials;
 }
@@ -226,12 +226,19 @@ function buildNative(materials,factory){
 // Reuse the native PBR maps on the independently generated furniture. UVs
 // are projected from local metre coordinates, so the material does not depend
 // on the dimensions or room positions of the corner apartment.
+/** Os ids mN são do Canto (materials.json); o Meio numera os próprios: lá o m27 é uma pia e o box é m26/m29.
+ * Procura pelo nome do material do Canto; no Canto o id já bate e nada muda. */
+const CANTO_NAMES={m6:'gesso-rodateto',m9:'Algodao cru',m12:'Acabamento guardaroupa',m13:'Acabamento criado',m16:'Acabamento mesa',m18:'Tecido LIV',
+  m19:'Acabamento rack',m20:'Acabamento tv',m21:'Tapete LIV',m22:'Acabamento cadeira',m23:'Acabamento fogao',m24:'Acabamento pia',
+  m25:'Acabamento geladeira',m26:'Acabamento vaso',m27:'Acabamento box',m29:'Acabamento maquina'};
+const byRole=(materials,id)=>materials[id]?.name===CANTO_NAMES[id]?materials[id]:Object.values(materials).find(material=>material.name===CANTO_NAMES[id])||materials[id];
+const named=(materials,name)=>Object.values(materials).filter(material=>material.name===name);
 function finishNativeFurniture(group,item,materials){
   const key=({guardaroupa:'m12',criado:'m13',mesa:'m16',cadeira:'m22',rack:'m19',
     bancada:'m24',pia:'m24',fogao:'m23',geladeira:'m25',vaso:'m26',maquina:'m29',
     cama:'m9',sofa:'m18',poltrona:'m18',tapete:'m21',box:'m27',tv:'m20',
     aereo:'m12',ripado:'m12'})[item.tipo]||'m6';
-  const material=own(materials[key].clone());if(!material.userData.livVeneer){material.color.setRGB(1,1,1);material.vertexColors=true;}
+  const material=own(byRole(materials,key).clone());if(!material.userData.livVeneer){material.color.setRGB(1,1,1);material.vertexColors=true;}
   const textile=['cama','sofa','poltrona','tapete'].includes(item.tipo);
   group.traverse(mesh=>{
     if(!mesh.isMesh)return;const g=mesh.geometry,p=g.attributes.position,n=g.attributes.normal;
@@ -298,7 +305,7 @@ function bindTimeLight(){
 /** Moldura (5 cm), batentes/guarnições e aros de gesso dos plafons têm menos de 1 texel de largura no atlas
  * de 1024 e pegam a luz da ilha vizinha (a faixa branca no teto): leem as sondas como os móveis. */
 function dropThinBakes(){
-  const thin=new Set([furnitureMaterials.m3,furnitureMaterials.m6]),recorded=new Set(timeLight.targets);
+  const thin=new Set([furnitureMaterials.m3,...named(furnitureMaterials,'gesso-rodateto')]),recorded=new Set(timeLight.targets);
   for(let i=baked.length-1;i>=0;i--){
     const target=baked[i],materials=[target.originalMaterial].flat();
     // Peças antigas fora da cena aprovada (as camas foram trocadas no Blender) não têm luz gravada: o atlas é preto ali.
@@ -332,7 +339,7 @@ async function loadTimeManifest(){
   const response=await fetch(new URL(`interiores/${typology}/luz-horario/manifest.json`,base),{signal:controller.signal,cache:'no-cache'});
   if(response.status===404)return null;if(!response.ok)throw Error(`Luz gravada: HTTP ${response.status}.`);
   const manifest=await response.json();
-  if(manifest.schema!=='liv-interior-time-lightmaps-v1'||manifest.typology!==typology||manifest.sourceSHA256!==record.sourceSHA256||manifest.geometrySHA256!==record.files.compact.decodedSHA256||!manifest.keys?.length||!manifest.night)throw Error('Luz gravada de outra revisão do interior.');
+  if(manifest.schema!=='liv-interior-time-lightmaps-v1'||manifest.typology!==typology||manifest.encoding!=='linear-rgbm2-u8'||manifest.sourceSHA256!==record.sourceSHA256||manifest.geometrySHA256!==record.files.compact.decodedSHA256||!manifest.keys?.length||!manifest.night)throw Error('Luz gravada de outra revisão do interior.');
   return manifest;
 }
 function layoutOriginal(){return furniture.every(m=>Math.abs(m.position[0]-m.originalPosition[0])<1e-9&&Math.abs(m.position[1]-m.originalPosition[1])<1e-9&&m.rotation===m.originalRotation&&sameFurnitureDimensions(m,m.originalDimensions));}
@@ -649,8 +656,8 @@ async function start(){
   layout=createLayout(unit);scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(48,1,.02,100);state.scene=scene;state.camera=camera;
   controls=own(new OrbitControls(camera,canvas));controls.enableDamping=false;controls.maxPolarAngle=Math.PI*.48;controls.minDistance=3;controls.maxDistance=32;
   const native=await materialsFrom(nativeMaterials);check();
-  // Antes de montar os móveis: as cópias de m12 (guarda-roupa, aéreos) herdam a nogueira.
-  await applyVeneer(native.m12,{load:file=>load(file,false,true),own,onBitmap:bitmap=>bitmaps.add(bitmap)});check();
+  // Antes de montar os móveis: as cópias do guarda-roupa (aéreos também) herdam a nogueira.
+  await applyVeneer(named(native,'Acabamento guardaroupa'),{load:file=>load(file,false,true),own,onBitmap:bitmap=>bitmaps.add(bitmap)});check();
   for(const [i,m]of unit.planta.moveis.entries()){
     const position=[m.p[0]-layout.center[0],m.p[1]-layout.center[1]];
     furniture.push({...m,id:`movel-${i}`,name:m.nome||m.tipo,position,originalPosition:[...position],rotation:m.rot||0,originalRotation:m.rot||0,originalDimensions:dimensionsOf(m)});
@@ -688,7 +695,8 @@ async function start(){
     if(report.status==='fallback')showInteriorWarning('O acabamento de cor aprovado não carregou. Usando AgX padrão.',report.error);
   }});check();
   furnitureFactory.improvements=improvements;
-  improvements.replaceFurniture(furniture,scene,typology);improvements.applyFinishes(native,scene);
+  const walls=[];scene.traverse(mesh=>{if(mesh.isMesh&&native.m0&&[mesh.material].flat().includes(native.m0))walls.push(mesh);});
+  improvements.replaceFurniture(furniture,scene,typology,walls);improvements.applyFinishes(native,scene);
   improvements.addDecorations(furniture,scene,typology);
   for(const target of baked)target.originalMaterial=target.mesh.material;
   if(timeLight){

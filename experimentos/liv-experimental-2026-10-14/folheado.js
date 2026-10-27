@@ -12,7 +12,7 @@ export const NOGUEIRA={
 };
 
 /** As UVs dos móveis estão em metros e a nogueira cobre 1 m; o veio sobe na vertical. */
-export async function applyVeneer(material,{load,own=value=>value,onBitmap=()=>{}}){
+export async function applyVeneer(materials,{load,own=value=>value,onBitmap=()=>{}}){
   const maps={};
   for(const [field,file]of Object.entries({map:NOGUEIRA.color,normalMap:NOGUEIRA.normal,roughnessMap:NOGUEIRA.roughness})){
     const bitmap=await createImageBitmap(new Blob([await load(file)],{type:'image/webp'}),{colorSpaceConversion:'none'});onBitmap(bitmap);
@@ -20,7 +20,10 @@ export async function applyVeneer(material,{load,own=value=>value,onBitmap=()=>{
     texture.colorSpace=field==='map'?THREE.SRGBColorSpace:THREE.NoColorSpace;texture.center.set(.5,.5);texture.rotation=Math.PI/2;
     texture.anisotropy=8;texture.needsUpdate=true;maps[field]=texture;
   }
-  Object.assign(material,maps,{vertexColors:false,roughness:1,metalness:0});material.color.setRGB(...NOGUEIRA.tint);
-  material.userData.livVeneer=true;material.needsUpdate=true;
-  return material;
+  // Um material ou vários (o Meio tem dois guarda-roupas): os mesmos mapas para todos.
+  for(const material of [materials].flat()){
+    Object.assign(material,maps,{vertexColors:false,roughness:1,metalness:0});material.color.setRGB(...NOGUEIRA.tint);
+    material.userData.livVeneer=true;material.needsUpdate=true;
+  }
+  return materials;
 }

@@ -59,7 +59,15 @@ mistura as duas horas vizinhas e reescala pela luz do dia do momento.
 O sol do site passa a usar a irradiância do disco medida no Cycles, com os mesmos
 3 EV da câmera aprovada. Móvel mexido volta ao modo dinâmico anterior, como no
 atlas antigo. O atlas antigo de 4,3 MB não é mais baixado; o UV1 dele é reaproveitado.
-Meio continua dinâmico (não tem UV1 de luz).
+O Meio (26/10) tem a mesma luz gravada, em `interiores/meio/luz-horario/`. Ele não tem cena aprovada
+no Blender: o bake usa céu, câmera e exposição da `03 | Sala e jantar` com as paredes e os móveis antigos
+do Meio (`interiores/meio/bake/interior-source.blend`, a mesma fonte do site). Os ids `mN` são de cada
+planta (no Meio o `m27` é pia e o box é `m26`/`m29`): box, folheado e moldura são achados pelo nome.
+O cadastro do Meio enterra pia, geladeira e fogão 1 a 4 cm na parede; o móvel aprovado é empurrado até
+ela, senão o azulejo do fundo da pia some.
+O atlas por hora usa `linear-rgbm2-u8` (luz = rgb · a² · 16). Com o multiplicador linear, o passo de
+a=1 para a=2 na parede escura dobrava a luz entre texels vizinhos e o filtro bilinear riscava um contorno
+claro em degraus (forte no Meio, fraco em volta do quadro do Canto). Cada hora ficou ~35% maior.
 
 Refazer, na raiz, depois de mudar a cena aprovada ou o interior:
 
@@ -67,6 +75,8 @@ Refazer, na raiz, depois de mudar a cena aprovada ou o interior:
 node experimentos/liv-experimental-2026-10-14/chaves-luz-horario.mjs > experimentos/liv-luz-natural-2026-10-26/fontes/luz-horario/chaves.json
 & 'C:\Program Files (x86)\Steam\steamapps\common\Blender\blender.exe' -b experimentos/liv-luz-natural-2026-10-26/entrega/LIV_Luz_Natural.blend --python experimentos/liv-luz-natural-2026-10-26/bake-luz-horario.py -- --size 1024 --samples 1024  # ~2 h no total; feche o navegador (a GPU é disputada)
 python experimentos/liv-luz-natural-2026-10-26/empacotar-luz-horario.py
+# Meio: o mesmo com --tipologia meio no Blender e `empacotar-luz-horario.py meio`;
+# portas-web.json e plafons-web.json do Meio ficam em fontes/luz-horario-meio/.
 node experimentos/liv-experimental-2026-10-14/preparar-horario.mjs
 ```
 
