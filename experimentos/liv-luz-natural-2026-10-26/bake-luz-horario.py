@@ -94,6 +94,42 @@ def close_entrance(positions, normals, colors, door, color):
     return hits
 
 
+def flat_corners(positions, normals, indices):
+    """Normal por canto; triângulo de piso, parede ou teto (face a menos de 1° de um eixo) usa a normal da face.
+    A fonte do Canto tem vértice de piso com a normal inclinada até 55° (o leque de triângulos herda a média das
+    paredes vizinhas) e o bake gravava cada triângulo com outra luz: "raios" retos no chão."""
+    corner = normals[indices].copy()
+    face = np.cross(positions[indices[:, 1]] - positions[indices[:, 0]], positions[indices[:, 2]] - positions[indices[:, 0]])
+    face /= np.linalg.norm(face, axis=1, keepdims=True); k = np.abs(face).argmax(1); rows = np.arange(len(face))
+    axis = np.abs(face[rows, k]) > .99985
+    snap = np.zeros_like(face); snap[rows, k] = np.sign(face[rows, k])
+    corner[axis] = snap[axis][:, None, :]
+    return corner
+
+
+def swap_furniture(scene, typology, record, source, out):
+    """Os móveis que o site trocou saem da cena e entram os do site, na posição final (moveis-site-<planta>.glb,
+    exportado do Tour com a cor média de cada material). Sem isso a sombra do móvel antigo ficava gravada onde hoje
+    não tem nada (mancha preta atrás do ripado, retângulos no chão)."""
+    replaced = set(json.loads((out / f'moveis-site-{typology}.json').read_text(encoding='utf8'))['replaced'])
+    slots = {slot for item in record.get('furnitureSlots', []) if f'movel-{item["index"]}' in replaced for slot in item['slots']}
+    names = {so['name'] for so in source['objects'] if so.get('slot') in slots}
+    catalog = json.loads((WEB / 'interiores/melhorias/catalogo.json').read_text(encoding='utf8'))
+    names |= {name for asset in catalog['assets'] for name in (asset.get('source') or {}).get('objects', []) if isinstance(name, str)}
+    hidden = [o.name for o in scene.objects if o.name in names and o.type == 'MESH' and not o.hide_render]
+    for name in hidden:
+        scene.objects[name].hide_render = True
+    before = set(bpy.data.objects)
+    bpy.ops.import_scene.gltf(filepath=str(out / f'moveis-site-{typology}.glb'))
+    added = [o for o in bpy.data.objects if o not in before and o.type == 'MESH']
+    for obj in added:
+        if obj.name not in scene.collection.all_objects:
+            scene.collection.objects.link(obj)
+    print('LIV_LUZ_HORARIO_MOVEIS', typology, 'trocados', len(replaced), 'objetos', len(names), 'escondidos', len(hidden), sorted(hidden)[:12],
+          'do site', len(added), flush=True)
+    return len(hidden), len(added)
+
+
 def install_web_meshes(scene, source, compact, entrance, door_color):
     targets = []; closed = 0
     for record in compact['objects']:
@@ -125,7 +161,7 @@ def install_web_meshes(scene, source, compact, entrance, door_color):
             mesh.materials.append(material)
         for face, index in zip(mesh.polygons, face_materials):
             face.material_index = int(index); face.use_smooth = True
-        mesh.normals_split_custom_set(normals[indices].reshape(-1, 3).tolist())
+        mesh.normals_split_custom_set(flat_corners(positions, normals, indices).reshape(-1, 3).tolist())
         uv0 = mesh.uv_layers.new(name='UVMap')
         if geo.get('uv'):
             uv0.data.foreach_set('uv', np.asarray(geo['uv'], dtype=np.float32).reshape(-1, 2)[indices].reshape(-1))
@@ -339,6 +375,8 @@ def main():
     for name in glass:
         scene.objects[name].hide_render = True
     print('LIV_LUZ_HORARIO_VIDRO', glass, flush=True)
+    # Antes de juntar as superfícies: no Meio o móvel antigo tem UV1 e entraria junto, como oclusor.
+    swap_furniture(scene, typology, record, source, out)
     targets, target_names = install_web_meshes(scene, source, compact, entrance, door_color)
     handles = rotate_entrance_handles(scene, entrance, next(so['name'] for so in source['objects'] if so['materials'] == ['m4']))
     portals = add_portals(scene, plan, center, rooms)

@@ -32,6 +32,7 @@ RANGE = 16.0
 # Ilhas do UV1 têm 6,8 px de folga em 2048 (unwrap.json); a guarda fica abaixo da metade na resolução usada.
 GUARD_AT_2048 = 3.15
 SPECKLE_FROM = 2.2  # m: da altura de porta e janela para cima
+FLOOR_SOFT = .30  # m: penumbra da luz que entra pela porta no piso
 
 
 def sha(data):
@@ -50,7 +51,7 @@ def hidden_wall_top(size, below=.04, across=3, down=5):
     source = json.loads((web / f'interiores/{TYPOLOGY}/source.json').read_text(encoding='utf8'))
     compact = json.loads(gzip.decompress((web / record['files']['compact']['path']).read_bytes()))
     top = json.loads((web / f'interiores/{TYPOLOGY}/unidade.json').read_text(encoding='utf8'))['planta']['pe_direito'] - below
-    covered = np.zeros((size, size), bool); band = np.zeros((size, size), bool); dsts, origins = [], []
+    covered = np.zeros((size, size), bool); band = np.zeros((size, size), bool); dsts, origins, floor = [], [], []
     window = np.array([(a, b) for a in range(-across, across + 1) for b in range(down)], np.float64)
     for rec in compact['objects']:
         so = source['objects'][rec['objectIndex']]; geo = source['geometries'][so['geometry']]
@@ -68,6 +69,9 @@ def hidden_wall_top(size, below=.04, across=3, down=5):
             inside = (b[0] >= 0) & (b[1] >= 0) & (b.sum(0) <= 1)
             ix, iy = gx.ravel()[inside].astype(int), gy.ravel()[inside].astype(int); covered[iy, ix] = True
             normal = np.cross(w[1] - w[0], w[2] - w[0]); normal /= np.linalg.norm(normal)
+            if normal[1] > .9 and w[:, 1].max() < .1:  # piso: posição em planta de cada texel, para suavizar
+                bf = b[:, inside]; at = lambda k: w[0, k] + bf[0] * (w[1, k] - w[0, k]) + bf[1] * (w[2, k] - w[0, k])
+                floor.append(np.stack([iy, ix, at(0), at(2)], 1))
             if w[:, 1].max() <= SPECKLE_FROM or abs(normal[1]) > .5:
                 continue  # baixo demais, forro ou topo da parede
             b = b[:, inside]; y = w[0, 1] + b[0] * (w[1, 1] - w[0, 1]) + b[1] * (w[2, 1] - w[0, 1]); high = y > top
@@ -98,7 +102,37 @@ def hidden_wall_top(size, below=.04, across=3, down=5):
     edge = np.argwhere(margin); edge_origin = np.stack([near[0][margin], near[1][margin]], 1)[:, None]
     print('PAREDE_ACIMA_DO_FORRO', TYPOLOGY, 'corte', round(top, 3), 'texels', len(dst), 'borda', len(edge),
           'origens por texel', round(float(weight.sum(1).mean()), 1), flush=True)
-    return [(dst, origin, weight), (edge, edge_origin, np.ones(edge_origin.shape[:2], bool))], (band, islands)
+    return [(dst, origin, weight), (edge, edge_origin, np.ones(edge_origin.shape[:2], bool))], (band, islands), np.concatenate(floor)
+
+
+def floor_grid(spec, floor, cell=.025):
+    """Texel de piso -> célula de 2,5 cm em planta e cômodo (o mesmo mapa das sondas, para não cruzar parede)."""
+    iy, ix = floor[:, 0].astype(int), floor[:, 1].astype(int); x, z = floor[:, 2], floor[:, 3]; m = room_map(spec)
+    labels = np.frombuffer(base64.b64decode(m['data']), np.uint8).reshape(m['height'], m['width'])
+    room = labels[np.clip(((z - m['z0']) / m['cell']).astype(int), 0, m['height'] - 1),
+                  np.clip(((x - m['x0']) / m['cell']).astype(int), 0, m['width'] - 1)]
+    gx = ((x - x.min()) / cell).astype(int); gz = ((z - z.min()) / cell).astype(int)
+    return iy, ix, gx, gz, room, (int(gz.max()) + 1, int(gx.max()) + 1), cell
+
+
+def soften_floor(image, grid, islands, radius=FLOOR_SOFT):
+    """Luz do piso borrada em planta, cômodo a cômodo (média normalizada, só sobre piso). A luz da janela de outro
+    cômodo entra pela porta recortada pelos batentes e o Cycles grava o leque com borda de faca no corredor; a
+    gaussiana de 30 cm dá a penumbra que se vê de verdade e atravessa as divisas dos triângulos do piso."""
+    iy, ix, gx, gz, room, shape, cell = grid; out = image[iy, ix, :3].copy()
+    for r in np.unique(room):
+        sel = room == r; acc = np.zeros((*shape, 3)); count = np.zeros(shape)
+        np.add.at(acc, (gz[sel], gx[sel]), image[iy[sel], ix[sel], :3]); np.add.at(count, (gz[sel], gx[sel]), 1)
+        acc = np.stack([ndimage.gaussian_filter(acc[..., c], radius / cell) for c in range(3)], -1)
+        count = ndimage.gaussian_filter(count, radius / cell)
+        out[sel] = acc[gz[sel], gx[sel]] / np.maximum(count[gz[sel], gx[sel]], 1e-9)[:, None]
+    image[iy, ix, :3] = out
+    # A margem que o Cycles estendeu em volta das ilhas do piso ficava com a luz antiga, e o bilinear do site
+    # desenhava a borda de cada ilha (as do corredor são giradas e de texel grande) como linha nítida.
+    covered = islands > 0; on_floor = np.zeros_like(covered); on_floor[iy, ix] = True
+    distance, near = ndimage.distance_transform_edt(~covered, return_indices=True)
+    margin = ~covered & (distance <= 4) & on_floor[near[0], near[1]]
+    image[margin, :3] = image[near[0][margin], near[1][margin], :3]
 
 
 def despeckle(image, speckle, radius=3, factor=2.5):
@@ -135,8 +169,8 @@ def fill_holes(rgba, islands):
     return int(same.sum())
 
 
-def encode(rgba, guard, hidden, speckle):
-    holes = fill_holes(rgba, speckle[1]); fill(rgba, hidden); spikes = despeckle(rgba, speckle)
+def encode(rgba, guard, hidden, speckle, grid):
+    holes = fill_holes(rgba, speckle[1]); fill(rgba, hidden); spikes = despeckle(rgba, speckle); soften_floor(rgba, grid, speckle[1])
     mask = rgba[:, :, 3] > 0
     distance, nearest = ndimage.distance_transform_edt(~mask, return_indices=True)
     border = (~mask) & (distance <= guard)
@@ -224,7 +258,7 @@ def main():
     DEST.mkdir(parents=True, exist_ok=True)
     spec = json.loads((RAW / 'sondas.json').read_text(encoding='utf8'))
     rooms, dims = probe_layout(spec)
-    hidden, speckle = hidden_wall_top(size)
+    hidden, speckle, floor = hidden_wall_top(size); grid = floor_grid(spec, floor)
     entries = []
     for key in [*keys['keys'], {'id': 'noite'}]:
         info = measured['keys'].get(key['id'])
@@ -233,7 +267,7 @@ def main():
         raw = (RAW / f'{key["id"]}.f32').read_bytes()
         if sha(raw) != info['rawSHA256']:
             raise RuntimeError(f'{key["id"]}: bruto diferente do registrado')
-        texture, peak, spikes = encode(np.frombuffer(raw, dtype=np.float32).reshape(size, size, 4).copy(), guard, hidden, speckle)
+        texture, peak, spikes = encode(np.frombuffer(raw, dtype=np.float32).reshape(size, size, 4).copy(), guard, hidden, speckle, grid)
         packed = gzip.compress(texture, compresslevel=9, mtime=0)
         (DEST / f'{key["id"]}.rgbm.gz').write_bytes(packed)
         entry = {k: v for k, v in info.items() if k not in ('rawSHA256', 'seconds', 'max')}

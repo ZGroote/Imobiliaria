@@ -33,6 +33,8 @@ SPECS = [
     {'id': 'guarda-roupa-gavetas', 'source': 'wardrobe', 'types': ['guardaroupa'], 'namePattern': 'su.te'},
     # 80 cm de largura contra 1,40-1,65 m do dormitório: dois lado a lado em vez de esticar as portas.
     {'id': 'guarda-roupa-simples', 'source': 'simplewardrobe', 'types': ['guardaroupa'], 'namePattern': 'dormit', 'copies': 2},
+    # TV de parede em cima do rack (decoração; o cadastro não tem TV): sem os pés de mesa do modelo.
+    {'id': 'tv-parede', 'source': 'flatscreentv', 'types': [], 'keep': lambda lo, hi: lo[2] > .05},
 ]
 
 

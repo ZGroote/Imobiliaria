@@ -2340,6 +2340,33 @@
       "triangles": 1000,
       "meshes": 30,
       "namePattern": "dormit"
+    },
+    {
+      "id": "tv-parede",
+      "path": "tv-parede.glb",
+      "types": [],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.718999981880188,
+        "h": 0.43400006741285324,
+        "d": 0.051000041887164116
+      },
+      "source": {
+        "library": "SketchUp Content Library",
+        "title": "Flat Screen TV",
+        "page": "https://3dwarehouse.sketchup.com/model/e5ef92e9-bc73-4607-a772-7c76aa400db9",
+        "glbSHA256": "b5850b8059b883725bc8b2b59f9864f322f7e5f7ab375e7318d4b2301b923b04",
+        "copies": 1
+      },
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "glTF do Warehouse reexportado (JPEG)"
+      },
+      "bytes": 6744,
+      "sha256": "69557f129b0bf595c13f737b41161cd6640c4a1b32bc4c5107437e08766c72c7",
+      "triangles": 58,
+      "meshes": 2
     }
   ],
   "decorations": [
@@ -2590,6 +2617,20 @@
         "w": 0.014000000432133675,
         "h": 2.509999990463257,
         "d": 1.90500009059906
+      }
+    },
+    {
+      "assetId": "tv-parede",
+      "anchorType": "rack",
+      "offset": [
+        0,
+        0.95,
+        -0.1
+      ],
+      "dimensions": {
+        "w": 1.12,
+        "h": 0.66,
+        "d": 0.06
       }
     }
   ],

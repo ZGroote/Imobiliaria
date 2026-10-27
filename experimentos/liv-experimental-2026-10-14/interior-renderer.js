@@ -183,12 +183,35 @@ function windWithNormals(geometry){
   }
   geometry.userData.livRewound=total;return geometry;
 }
+/** Vértice que só serve a triângulos de piso, parede ou teto (face a menos de 1° de um eixo) recebe a normal do eixo.
+ * A fonte do Canto tem vértice de piso inclinado até 55° (o leque herda a média das paredes): o sol e o reflexo
+ * acendiam cada triângulo de um jeito e o chão ganhava "raios" retos. O lado vem da normal, não da ordem dos cantos. */
+function flattenAxisNormals(geometry){
+  const p=geometry.attributes.position,n=geometry.attributes.normal,index=geometry.index;if(!n)return geometry;
+  const at=i=>index?index.getX(i):i,count=index?index.count:p.count,want=new Map();
+  const a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3(),s=new THREE.Vector3(),t=new THREE.Vector3();
+  for(let i=0;i<count;i+=3){
+    const ids=[at(i),at(i+1),at(i+2)];
+    a.fromBufferAttribute(p,ids[0]);b.fromBufferAttribute(p,ids[1]).sub(a);c.fromBufferAttribute(p,ids[2]).sub(a);b.cross(c);
+    const length=b.length();let key=-1;
+    if(length>1e-12){
+      b.divideScalar(length);const f=[b.x,b.y,b.z],k=f.map(Math.abs).indexOf(Math.max(...f.map(Math.abs)));
+      s.fromBufferAttribute(n,ids[0]).add(t.fromBufferAttribute(n,ids[1])).add(t.fromBufferAttribute(n,ids[2]));
+      if(Math.abs(f[k])>.99985)key=k*2+(f[k]*[s.x,s.y,s.z][k]>0?(f[k]>0?1:0):(f[k]>0?0:1));
+    }
+    for(const id of ids){const prev=want.get(id);want.set(id,prev===undefined||prev===key?key:-1);}
+  }
+  let flattened=0;
+  for(const [id,key]of want){if(key<0)continue;const v=[0,0,0];v[key>>1]=key&1?1:-1;n.setXYZ(id,...v);flattened++;}
+  if(flattened)n.needsUpdate=true;
+  return geometry;
+}
 function geometryFrom(spec){
   const geometry=own(new THREE.BufferGeometry());
   for(const [name,size]of [['position',3],['normal',3],['uv',2],['color',3]])if(spec[name]?.length)geometry.setAttribute(name,new THREE.Float32BufferAttribute(spec[name],size));
   if(spec.index)geometry.setIndex(new THREE.Uint32BufferAttribute(spec.index,1));
   for(const group of spec.groups||[])geometry.addGroup(group.start,group.count,group.materialIndex);
-  geometry.computeBoundingSphere();return windWithNormals(geometry);
+  geometry.computeBoundingSphere();return flattenAxisNormals(windWithNormals(geometry));
 }
 function registerTree(root){root.traverse(o=>{if(o.geometry)own(o.geometry);if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])own(m);});}
 function buildFrozen(source,materials){
@@ -295,7 +318,7 @@ function expandedGeometry(spec,corner){
     geometry.setAttribute(name,new THREE.BufferAttribute(data,size));
   }
   geometry.setAttribute('uv1',new THREE.BufferAttribute(Float32Array.from(uvs,x=>x/65535),2));
-  for(const group of corner.groups)geometry.addGroup(group.start,group.count,group.materialIndex);geometry.computeBoundingSphere();return windWithNormals(geometry);
+  for(const group of corner.groups)geometry.addGroup(group.start,group.count,group.materialIndex);geometry.computeBoundingSphere();return flattenAxisNormals(windWithNormals(geometry));
 }
 function installBake(compact){
   if(!light.ready||!light.geometryApproved||light.colorPass!==false||light.sourceSHA256!==record.sourceSHA256||light.unitSHA256!==record.unitSHA256||compact.sourceSHA256!==record.sourceSHA256||compact.unitSHA256!==record.unitSHA256||light.geometrySHA256!==record.files.compact.decodedSHA256||light.textureSHA256!==record.files.atlas.decodedSHA256)throw Error('Identidade do bake interior não corresponde à unidade.');

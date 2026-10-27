@@ -76,6 +76,18 @@ levava o céu para os cantos). Copiar um texel só repetia o ruído dele na vert
 listra. As esquadrias da fonte (batentes, caixilhos, vidros e folhas) vinham com todos os triângulos
 contra a normal: o Three tomava o lado de dentro por verso e a porta de entrada lia a sonda de fora e
 estourava de branco. `windWithNormals` (interior-renderer.js) desvira a malha que está inteira ao contrário.
+A gravação (27/10, segunda rodada) troca os móveis que o site substituiu pelos do próprio Tour:
+`moveis-site-<planta>.glb` (exportado da cena do site, posição final e cor média de cada material) e
+`moveis-site-<planta>.json` (quais `movel-N` foram trocados). Sem isso a sombra da peça antiga ficava gravada
+onde hoje não há nada (mancha preta atrás do ripado do Meio). No Meio o móvel antigo tinha UV1 e era juntado às
+superfícies gravadas: a troca vem antes da junção. Piso, parede e teto (face a menos de 1° de um eixo) gravam
+com a normal da face (no Canto o vértice de piso chegava a 55°); o site faz o mesmo ao carregar
+(`flattenAxisNormals`). Isso NÃO tirou os "raios" do chão do corredor do Canto: eles continuam no atlas bruto,
+no mesmo lugar, e são a luz da janela de outro cômodo passando pela porta, recortada em leque pelos batentes
+(com o sol de tempo real desligado eles ficam iguais). O empacotador suaviza a luz do piso em planta
+(gaussiana de 30 cm, cômodo a cômodo pelo mapa das sondas, atravessando as divisas dos triângulos) e refaz a
+margem das ilhas do piso; sem refazer a margem, a borda das ilhas giradas do corredor seguia nítida. A TV de parede é
+decoração presa ao rack (`tv-parede`, Flat Screen TV da SketchUp Content Library, sem os pés).
 
 Refazer, na raiz, depois de mudar a cena aprovada ou o interior:
 
