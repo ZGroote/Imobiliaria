@@ -393,10 +393,16 @@ function release({preserveCache=false}={}) {
   return suspension;
 }
 async function until(test,token,{timeout=90000,progress=null,maximum=600000,current:stillCurrent=()=>token===generation}={}) {
-  const hardDeadline=performance.now()+maximum;
+  let hardDeadline=performance.now()+maximum;
   let deadline=performance.now()+timeout,lastVersion=-1,lastMessage='';
+  let checked=performance.now(),hidden=document.hidden;
   while(performance.now()<hardDeadline) {
     if(!stillCurrent()) throw Error('Navegação substituída.');
+    // A hidden tab draws no frames, so loading stops with it; the clock stops too.
+    // An interval that starts or ends hidden counts as hidden (throttled timers wake late).
+    const now=performance.now(),wasHidden=hidden;hidden=document.hidden;
+    if(wasHidden||hidden){deadline+=now-checked;hardDeadline+=now-checked;}
+    checked=now;
     const current=progress?.();
     if(current&&current.version!==lastVersion){
       lastVersion=current.version;deadline=performance.now()+timeout;state.loadingProgress=current;
