@@ -16,6 +16,13 @@ o logo novo (cabeçalho, rodapé, favicon, `marca.svg`, prévia de link) e a fot
   `publicacao/qa-site-azul-oficial-20261028/`, fora do Git.
 - `/institucional/assets/visual.js` continua no ar, sem uso.
 
+Correção da foto, no mesmo dia: o preenchimento da faixa de miniaturas deixava a
+mesa flutuando. A versão `1f6879fa161a509e` (release `1793158556537000`, anterior
+`8431f64abb5f5edf`) troca só `/institucional/assets/novo-tour.webp`. A foto agora
+é aproximada até logo abaixo da mesa, e o botão de navegação foi recolocado. Os outros
+1.188 arquivos e a config ficaram iguais. Script em
+`publicacao/qa-site-foto-aproximada-20261028/`.
+
 ## Atualização: alternância de visual e marca oficial — 26/10/2026
 
 O cabeçalho oferece **Experimentar novo visual** e **Voltar ao visual atual**.
