@@ -214,7 +214,7 @@ def furniture_test(frame, typology):
     frame.locator('#furniture-right').click()
     moved = interior_state(frame)
     assert moved['furniture'] != furniture, 'O botão de mover não alterou o móvel.'
-    assert not moved['lighting']['bakedActive'] and moved['lighting']['reason'], moved['lighting']
+    assert moved['lighting']['bakedActive'], 'Mover o móvel desligou a luz gravada.'
     frame.locator('#furniture-rotate').click()
     rotated = interior_state(frame)
     assert rotated['furniture'] != moved['furniture'], 'O botão de girar não alterou o móvel.'

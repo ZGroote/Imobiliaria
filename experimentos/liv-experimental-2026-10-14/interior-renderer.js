@@ -40,10 +40,11 @@ state.setTimeOfDay=function(hour,unitContext=timeOfDay?.context,options={}){
   }
   return true;
 };
-/** Luz gravada no Cycles (céu + rebatimento) com o sol medido; móveis fora do lugar voltam ao modo dinâmico. */
+/** Luz gravada no Cycles (céu + rebatimento) com o sol medido. Móvel movido segue nela: as sondas são lidas
+ *  pela posição do pixel, e o sol (sombra do móvel) é em tempo real; só fica a sombra suave antiga no piso. */
 function applyTimeLight(){
-  const weights=timeLight?.apply(timeOfDay)||null,active=Boolean(weights)&&layoutOriginal();
-  setBaked(active,active?'luz gravada no Cycles por hora':weights?'móveis alterados: iluminação dinâmica':'horário solar: materiais e sombras dinâmicos');
+  const weights=timeLight?.apply(timeOfDay)||null,active=Boolean(weights);
+  setBaked(active,active?'luz gravada no Cycles por hora':'horário solar: materiais e sombras dinâmicos');
   solarLighting.apply(timeOfDay,{sunIrradiance:active?weights.sun:null});
   setReflectionNormalization(active);
   return {weights,active};
@@ -359,11 +360,11 @@ function dropThinBakes(){
   }
 }
 /** O que não tem UV1 (móveis aprovados, portas, moldura, caixilhos) lê a mesma hora nas sondas do cômodo. */
-function bindProbeLight(){
+function bindProbeLight(root=scene){
   if(!timeLight?.probeIrradiance)return;
-  dropThinBakes();
+  if(root===scene)dropThinBakes();
   const bakedMeshes=new Set(baked.map(target=>target.mesh)),copies=new Map();
-  scene.traverse(mesh=>{
+  root.traverse(mesh=>{
     if(!mesh.isMesh||bakedMeshes.has(mesh)||mesh.userData.livSolarFixture)return;
     const list=Array.isArray(mesh.material)?mesh.material:[mesh.material];
     if(list.some(material=>!material.isMeshStandardMaterial||material.isLivRGBMNodeMaterial||material.transparent))return;
@@ -409,7 +410,8 @@ function furnitureChanged(){
   if(tourPosition&&!navigation.free(...tourPosition))tourPosition=navigation.entry();
   const original=layoutOriginal();if(solarLighting)applyTimeLight();else setBaked(false,original?'iluminação dinâmica':'móveis alterados: iluminação dinâmica');
   const note=document.querySelector('#furniture-lighting');
-  note.hidden=original;note.textContent=original?'':'Móveis alterados: iluminação dinâmica.';
+  const dynamic=!original&&!state.lighting.bakedActive;
+  note.hidden=!dynamic;note.textContent=dynamic?'Móveis alterados: iluminação dinâmica.':'';
   furnitureEditor?.refresh();
   invalidateShadows();
   refreshRooms();
@@ -443,7 +445,7 @@ function resizeFurniture(item,dimensions){
       group.position.y=.03;
     }
     group.traverse(mesh=>{if(mesh.isMesh){mesh.castShadow=![mesh.material].flat().every(material=>material.transparent);mesh.receiveShadow=true;mesh.userData.furnitureId=item.id;}});
-    registerTree(group);
+    registerTree(group);bindProbeLight(group);
   }
   if(!group)return false;
   setBaked(false,'móveis alterados: iluminação dinâmica');
@@ -451,7 +453,11 @@ function resizeFurniture(item,dimensions){
   const previous=item.group;scene.remove(previous);scene.add(group);item.group=group;
   item.baseRotation=original?item.originalBaseRotation:item.originalRotation;
   Object.assign(item,dimensions);furnitureTransform(item);
-  if(previous!==item.originalGroup)disposeEditedGroup(previous);
+  if(previous!==item.originalGroup){
+    // A peça redimensionada sai das sondas com o material nativo, que é o que disposeEditedGroup libera.
+    for(let i=probeLit.length-1;i>=0;i--){let o=probeLit[i].mesh;while(o&&o!==previous)o=o.parent;if(o){probeLit[i].mesh.material=probeLit[i].originalMaterial;probeLit.splice(i,1);}}
+    disposeEditedGroup(previous);
+  }
   return true;
 }
 state.resizeFurniture=function(id,dimensions){

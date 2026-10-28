@@ -65,7 +65,7 @@ def main(args):
                 assert not errors,errors
                 if args.verificar:
                     frame.evaluate('()=>__livInterior.rotateFurniture(__livInterior.getState().furniture[0].id)')
-                    assert not frame.evaluate('__livInterior.getState().lighting.bakedActive')
+                    assert frame.evaluate('__livInterior.getState().lighting.bakedActive'), 'Girar o móvel desligou a luz gravada.'
                     frame.evaluate('__livInterior.resetFurniture()')
                     reset=capture(frame,args.saida/f'{profile}-meio-moveis-restaurados.png')
                     assert frame.evaluate('__livInterior.getState().lighting.bakedActive')

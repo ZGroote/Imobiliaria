@@ -30,9 +30,10 @@ test('largura reconstrói portas e assentos e restaurar recupera a malha congela
   smallSofa.children[0].geometry.dispose();largeSofa.children[0].geometry.dispose();
   const scene=new THREE.Scene(),original=new THREE.Group();original.add(new THREE.Mesh(new THREE.BoxGeometry(2,2,.6),material));scene.add(original);
   const item={id:'movel-0',tipo:'guardaroupa',cor:0xeeeeee,w:2,h:2,d:.6,originalDimensions:{w:2,h:2,d:.6},group:original,baseRotation:0,originalRotation:1,rotation:1,position:[1,2]};
-  let bakedActive=true;const released=[];
+  let bakedActive=true;const released=[],probeLit=[];
   const context=vm.createContext({THREE,scene,furnitureFactory:{catalog},furnitureMaterials:{},framePromise:Promise.resolve(),sameFurnitureDimensions,
-    setBaked:active=>bakedActive=active,release:r=>released.push(r),registerTree(){},
+    setBaked:active=>bakedActive=active,release:r=>released.push(r),registerTree(){},probeLit,
+    bindProbeLight:group=>group.traverse(mesh=>{if(mesh.isMesh)probeLit.push({mesh,originalMaterial:mesh.material});}),
     finishNativeFurniture(){},item});
   vm.runInContext(source.slice(source.indexOf('function furnitureTransform('),source.indexOf('function furnitureChanged('))+source.slice(source.indexOf('function disposeEditedGroup('),source.indexOf('state.resizeFurniture=')),context);
   assert.equal(vm.runInContext('resizeFurniture(item,{w:3,h:2,d:.6})',context),true);
@@ -41,6 +42,7 @@ test('largura reconstrói portas e assentos e restaurar recupera a malha congela
   assert.equal(wider.rotation.y,Math.PI/2);assert.deepEqual(wider.scale.toArray(),[1,1,1]);
   assert.equal(vm.runInContext('resizeFurniture(item,{w:1,h:2,d:.6})',context),true);
   assert.ok(item.group.children[0].geometry.attributes.position.count<largeCount,'Quantidade de portas deve responder à largura.');
+  assert.ok(probeLit.length&&probeLit.every(target=>target.mesh.parent===item.group),'A peça descartada deve sair das sondas.');
   assert.equal(vm.runInContext('resizeFurniture(item,item.originalDimensions)',context),true);
   assert.equal(item.group,original);assert.equal(item.baseRotation,0);assert.deepEqual(dimensionsOf(item),item.originalDimensions);
   await new Promise(resolve=>setImmediate(resolve));assert.ok(released.length>=2);

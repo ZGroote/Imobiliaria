@@ -364,7 +364,7 @@ def run_case(browser, name, catalog, report, output, timeout_ms=None):
                 }''')
                 page.wait_for_timeout(200)
                 before = state(page)
-                assert not before['lighting']['bakedActive'], 'O cenário precisa de layout modificado antes da falha.'
+                assert any(item['modified'] for item in before['furniture']) and before['lighting']['bakedActive'], 'O cenário precisa de layout modificado (com a luz gravada) antes da falha.'
                 old_index = page.evaluate('__qaInteriorInstances.length-1')
                 if name.startswith('device-lost-'):
                     page.evaluate("__livViewer.frame.contentWindow.__livInterior.renderer.onDeviceLost({api:'WebGPU',reason:'unknown',message:'QA: callback de perda'})")
@@ -477,7 +477,7 @@ def run_case(browser, name, catalog, report, output, timeout_ms=None):
                 }''')
                 before = state(page)
                 assert sum((a-b)**2 for a, b in zip(before['camera']['position'], original['camera']['position'])) > .25
-                assert any(item['modified'] for item in before['furniture']) and not before['lighting']['bakedActive']
+                assert any(item['modified'] for item in before['furniture']) and before['lighting']['bakedActive']
                 first_index = page.evaluate('__qaInteriorInstances.length-1')
                 # Force a cache miss to test a genuinely new canceled init;
                 # normal navigation now keeps healthy ready scenes suspended.
@@ -535,7 +535,7 @@ def run_case(browser, name, catalog, report, output, timeout_ms=None):
                 }''')
                 before = state(page)
                 assert sum((a-b)**2 for a, b in zip(before['camera']['position'], original['camera']['position'])) > .25
-                assert any(item['modified'] for item in before['furniture']) and not before['lighting']['bakedActive']
+                assert any(item['modified'] for item in before['furniture']) and before['lighting']['bakedActive']
                 first_index = page.evaluate('__qaInteriorInstances.length-1')
                 page.locator('[data-mode="planta2d"]').click()
                 ready(page, 'planta2d', 'canto')
@@ -582,7 +582,7 @@ def run_case(browser, name, catalog, report, output, timeout_ms=None):
                     const api=__livViewer.frame.contentWindow.__livInterior;
                     api.moveFurniture(api.getState().furniture[0].id,.2,0);
                 }''')
-                assert not state(page)['lighting']['bakedActive']
+                assert any(item['modified'] for item in state(page)['furniture']) and state(page)['lighting']['bakedActive']
                 page.locator('[data-mode="planta2d"]').click()
                 ready(page, 'planta2d', 'canto')
                 page.evaluate('''()=>{

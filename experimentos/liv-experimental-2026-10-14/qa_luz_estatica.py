@@ -95,7 +95,7 @@ def run_case(browser, profile, typology, output, cases):
           await check('mesmo modo',()=>api.setMode('planta3d'));
           window.__qaNominal=api.getState();window.__qaFurniture=__qaNominal.furniture[0].id;
           await check('móvel deslocado',()=>{if(!api.moveFurniture(__qaFurniture,.1,0))throw Error('Móvel não deslocou.');});
-          if(api.getState().lighting.bakedActive)throw Error('Bake incompatível permaneceu ativo.');
+          if(!api.getState().lighting.bakedActive)throw Error('Mover o móvel desligou a luz gravada.');
           return stats;
         }''')
         for item in result['refresh']:
