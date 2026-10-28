@@ -9,7 +9,8 @@ import {build} from 'esbuild';
 
 const source = dirname(fileURLToPath(import.meta.url));
 const root = resolve(source, '../..');
-const published = join(root, 'publicacao/liv-duplo-20261017/payload');
+// Desde 27/10 o payload do clássico JÁ é o horário promovido; a base limpa é o backup de antes da promoção.
+const published = join(root, 'publicacao/liv-duplo-20261017/backup-antes-horario-oficial-20261027');
 const preview = join(root, 'publicacao/liv-horario-20261026');
 const payload = join(preview, 'payload');
 const classic = join(payload, 'liv-classico');
