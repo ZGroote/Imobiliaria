@@ -55,35 +55,28 @@ Abra `http://127.0.0.1:8787/`. Este preview contém somente o institucional;
 e telefone em `config.json`; layout compartilhado em `layout.html`; conteúdo em
 `paginas/`; estilos, scripts e ilustrações SVG conceituais autorais em `assets/`.
 
-## Alternar a aparência
+## Aparência
 
-O botão **Experimentar novo visual**, no cabeçalho, alterna a identidade original
-com a proposta azul e roxa das referências fornecidas. **Voltar ao visual atual**
-restaura a apresentação original. A troca acontece na mesma página e preserva
-os campos preenchidos, a ilustração selecionada e o plano de interesse.
-
-A opção acompanha os links institucionais pelo parâmetro `?visual=novo`, sem
-cookies, `localStorage` ou `sessionStorage`. A raiz sem esse parâmetro continua
-com o visual original. Painel, maquetes e links de WhatsApp mantêm seus destinos.
-O script `assets/visual.js` aplica a opção antes da exibição do conteúdo; os
-estilos de `assets/visual-novo.css` são embutidos pelo montador junto ao CSS
-original, mantendo o hash da política CSP. Sem JavaScript, o site abre no visual
-original e o botão permanece oculto.
+Desde 28/10 o visual azul e roxo é o oficial: `layout.html` já sai com
+`<html data-visual="novo">`, então o site abre nele mesmo sem JavaScript. O botão
+de alternar e o `assets/visual.js` saíram. O visual verde original está guardado
+na tag git `site-visual-verde`. O `site.css` dele continua como base embutida, sob
+as regras de `assets/visual-novo.css`. Ele não foi editado, para o hash do CSP não
+mudar. As regras `.alternar-visual` e `.visual-original` ficaram sem uso.
 
 As imagens `assets/novo-*.webp` são recortes otimizados das referências visuais
 fornecidas para esta proposta. São ilustrações conceituais, sem vínculo com os
 imóveis reais do visualizador. Textos, links, formulário, perguntas e controles
 permanecem em HTML acessível e se ajustam à largura da tela.
 
-Verificação da alternância: `node --test tests/test_fachada_visual.mjs`.
-
-O logo oficial fornecido está em `assets/logo-conecta.webp` e aparece nos dois
-visuais. A aba Planta do novo visual usa `assets/novo-planta.webp`, a referência
-detalhada fornecida depois dos PDFs.
+O logo oficial (trocado em 28/10, fonte em `marca-fonte/`) está em `assets/logo-conecta.webp` e aparece no cabeçalho
+e no rodapé. A aba Planta do novo visual usa `assets/novo-planta.webp`, a referência
+detalhada fornecida depois dos PDFs. Em 28/10 o selo "360°" e a faixa de
+miniaturas, desenhados dentro de `assets/novo-tour.webp`, foram apagados da foto:
+o fundo (teto, sanca, parede e tapete) foi refeito na própria imagem.
 
 Desde 26/10 o LIV não mostra mais o selo escuro no topo da página: o viewer não
-importa `marca-liv.js`, e o logo (`logo-conecta.webp`, copiado como
-`marca-telhado.webp`) virou um letreiro em pé na laje da torre, com estrutura
+importa `marca-liv.js`, e a arte do logo (`marca-telhado.webp`) virou um letreiro em pé na laje da torre, com estrutura
 de aço e luz à noite, na maquete 3D
 (`experimentos/liv-experimental-2026-10-14/marca-telhado.js`). `marca-liv.*`
 continuam em `assets/` até a próxima publicação do LIV.

@@ -4,8 +4,9 @@ import * as THREE from 'three/webgpu';
    Painel em pé sobre estrutura de aço, voltado para +z (lado da vista principal), na metade
    leste da cobertura (48,66 m), livre da caixa d'água (x -8..-5) e dos poços do meio.
    À noite a face acende como letreiro com luz por trás (setNight).
+   Logo novo (27/10) é quase quadrado: 10 m de largura dá 8,1 m de altura, a mesma área do de 15 x 5,7.
    ponytail: posição e medidas medidas nesta edição da maquete; outra torre pede medir a laje de novo. */
-const CENTER=[10,3],WIDTH=15,DEPTH=.3,LIFT=1.2,TUBE=.2,GLOW=1.6;
+const CENTER=[10,3],WIDTH=10,DEPTH=.3,LIFT=1.2,TUBE=.2,GLOW=1.6;
 
 function beam(from,to,size,material){
   const length=from.distanceTo(to),mesh=new THREE.Mesh(new THREE.BoxGeometry(size,size,length),material);

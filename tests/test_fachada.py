@@ -34,7 +34,7 @@ class FachadaTests(unittest.TestCase):
                 paginas[f"{slug}.html"] = pagina
                 self.assertEqual(sum(tag == "h1" for tag, _ in pagina.tags), 1, slug)
                 self.assertEqual(sum(tag == "main" for tag, _ in pagina.tags), 1, slug)
-                self.assertIn(("html", {"lang": "pt-BR"}), pagina.tags)
+                self.assertIn(("html", {"lang": "pt-BR", "data-visual": "novo"}), pagina.tags)
                 ids = [attrs["id"] for _, attrs in pagina.tags if "id" in attrs]
                 self.assertEqual(len(ids), len(set(ids)), slug)
                 for tag, attrs in pagina.tags:
