@@ -73,8 +73,9 @@ O logo oficial (trocado em 28/10, fonte em `marca-fonte/`) está em `assets/logo
 e no rodapé. A aba Planta do novo visual usa `assets/novo-planta.webp`, a referência
 detalhada fornecida depois dos PDFs. Em 28/10 o selo "360°" e a faixa de
 miniaturas, desenhados dentro de `assets/novo-tour.webp`, foram apagados da foto:
-o fundo foi preenchido pelo LaMa (modelo de preenchimento de imagem,
-`Carve/LaMa-ONNX`, rodado localmente), que refez teto, parede, tapete e a sombra da mesa.
+o canto do selo foi preenchido pelo LaMa (`Carve/LaMa-ONNX`, local), e a
+foto foi aproximada até logo abaixo da mesa, para não inventar o que as
+miniaturas escondiam. O botão de navegação foi recolocado da foto original.
 
 Desde 26/10 o LIV não mostra mais o selo escuro no topo da página: o viewer não
 importa `marca-liv.js`, e a arte do logo (`marca-telhado.webp`) virou um letreiro em pé na laje da torre, com estrutura
