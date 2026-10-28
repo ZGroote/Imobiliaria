@@ -1,5 +1,21 @@
 # Publicação no domínio próprio — 23/10/2026
 
+## Atualização: visual azul oficial e logo novo — 28/10/2026
+
+O site abre direto no visual azul e roxo; o botão de alternar e o `visual.js`
+saíram do HTML. O verde original fica na tag git `site-visual-verde`. Foram juntos
+o logo novo (cabeçalho, rodapé, favicon, `marca.svg`, prévia de link) e a foto
+`novo-tour.webp` sem o selo "360°" e sem a faixa de miniaturas.
+
+- Versão: `8431f64abb5f5edf`; release `1793157526047000`; anterior `8b951b62fbd8c14b`.
+- 13 arquivos (7 páginas, 5 em `/institucional/assets/`, `/favicon.ico`); os outros
+  1.176 mantiveram os hashes. Config do ar intacta: o CSS não mudou e o CSP já
+  liberava o mesmo hash.
+- Pacote montado com `conecta/preparar.prepare()` numa pasta própria, sem tocar
+  em `liv-duplo-20261017/payload/`. Script e evidências em
+  `publicacao/qa-site-azul-oficial-20261028/`, fora do Git.
+- `/institucional/assets/visual.js` continua no ar, sem uso.
+
 ## Atualização: alternância de visual e marca oficial — 26/10/2026
 
 O cabeçalho oferece **Experimentar novo visual** e **Voltar ao visual atual**.
