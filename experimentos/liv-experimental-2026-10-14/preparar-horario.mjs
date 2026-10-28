@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import {cp, mkdir, readFile, writeFile} from 'node:fs/promises';
 import {basename, dirname, join, relative, resolve, sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {build} from 'esbuild';
+import {build, transform} from 'esbuild';
 
 const source = dirname(fileURLToPath(import.meta.url));
 const root = resolve(source, '../..');
@@ -19,7 +19,7 @@ const overlay = [
   'viewer.js', 'renderer.js', 'interior-renderer.js', 'interior-melhorias.js', 'interior-look.js', 'material-rgbm.js', 'mapa-retorno.js',
   'horario-solar.js', 'horario-ui.js', 'horario-ui.css',
   'horario-exterior.js', 'horario-interior.js', 'interior-luz-horario.js', 'interior-portas.js', 'interior-navigation.js',
-  'marca-telhado.js', 'marca-telhado.webp', 'folheado.js', 'experiencia-compra.js',
+  'marca-telhado.js', 'marca-telhado.webp', 'folheado.js', 'experiencia-compra.js', 'viewer-ui.css',
 ];
 const pages = [
   ['liv-classico/maquete-liv-ipanema.html', 'viewer.js', 'viewer.bundle.js'],
@@ -153,16 +153,25 @@ function preloads(entry) {
   return output.imports.filter(item => item.kind === 'import-statement' && !item.external)
     .map(item => `<link rel="modulepreload" href="${basename(item.path)}">`).join('');
 }
+// O viewer-ui.css vai embutido (minificado) na maquete: troca o bloco da base pelo da fonte.
+const embeddedCss = async path => `<style>${(await transform(await readFile(path, 'utf8'), {loader: 'css', minify: true})).code.trim()}</style>`;
+const [baseCss, sourceCss] = [await embeddedCss(join(published, 'liv-classico/viewer-ui.css')), await embeddedCss(join(source, 'viewer-ui.css'))];
+let cssPages = 0;
 const pageHashes = {};
 for (const [path, entry, bundle] of pages) {
   let html = originals.get(path);
   const script = pageScript(entry, bundle);
+  if (html.includes(baseCss)) {
+    assert.equal(html.split(baseCss).length, 2, `CSS embutido repetido: ${path}`);
+    html = html.replace(baseCss, () => sourceCss); cssPages++;
+  }
   html = html.replace(/<link rel="modulepreload" href="chunk-[^"]+\.js">/g, '');
   html = html.replace(script, preloads(entry) + `<script type="module" src="${bundle}"></script>`);
   await writeFile(join(payload, path), html);
   pageHashes[path] = {publishedSHA256: hash(originals.get(path)), previewSHA256: hash(html)};
 }
 assert((await readFile(join(payload, 'maquetes/liv/index.html'), 'utf8')).includes('<base href="/liv-classico/">'));
+assert.equal(cssPages, 2, 'As duas maquetes (clássico e /maquetes/liv/) levam o viewer-ui.css embutido.');
 assert(!(await readFile(join(classic, 'interior.html'), 'utf8')).includes('interior-splat.js'));
 assert.equal(hash(await readFile(join(payload, modelPath))), hash(publishedModel), 'O modelo de entrada foi alterado na prévia.');
 const report = {
