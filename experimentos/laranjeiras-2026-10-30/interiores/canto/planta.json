@@ -1,0 +1,76 @@
+{
+  "id": "laranjeiras-planta-canto-tipo",
+  "titulo": "Parque das Laranjeiras · planta tipo canto · 39,12 m²",
+  "imagem": "../../../../plantas_fornecidas/parque-das-laranjeiras/fonte/planta-tipo-canto.jpg",
+  "imagemSha256": "9be0ffe3f419d2812550bc476cf83cc44885dc733adbb3823501493a86aa0e11",
+  "calibracao": {
+    "areaM2": 39.12,
+    "contornoFacesPx": [[57, 48, 1203, 1198], [722, 20, 1050, 48]],
+    "conferencia": [
+      "vaso 68x128 px contra 0,37x0,68 m: 184-188 px/m",
+      "cooktop 4 bocas 108x94 px contra 0,58x0,51 m: 184-186 px/m"
+    ]
+  },
+  "origemPx": [44, 18],
+  "gradeMm": 50,
+  "peDireitoMm": 2600,
+  "comodos": [
+    {"nome": "Dormitório casal", "partes": [[44, 35, 706, 533], [483, 533, 706, 600]]},
+    {"nome": "Banho", "partes": [[44, 533, 483, 801]]},
+    {"nome": "Dormitório 02", "partes": [[44, 801, 706, 1211]]},
+    {"nome": "Sala integrada", "partes": [[706, 360, 1216, 1211], [483, 600, 706, 801]]},
+    {"nome": "Varanda gourmet", "partes": [[706, 18, 1050, 360], [1050, 35, 1216, 360]]}
+  ],
+  "aberturas": [
+    {"comodo": "Dormitório casal", "parte": 1, "lado": "north", "de": 517, "ate": 670, "tipo": "door", "alturaMm": 2100},
+    {"comodo": "Dormitório 02", "lado": "south", "de": 517, "ate": 670, "tipo": "door", "alturaMm": 2100},
+    {"comodo": "Banho", "lado": "east", "de": 632, "ate": 770, "tipo": "door", "alturaMm": 2100},
+    {"comodo": "Varanda gourmet", "lado": "north", "de": 760, "ate": 1050, "tipo": "door", "alturaMm": 2200},
+    {"comodo": "Sala integrada", "lado": "north", "de": 975, "ate": 1125, "tipo": "door", "alturaMm": 2100},
+    {"comodo": "Dormitório casal", "lado": "west", "de": 180, "ate": 410, "tipo": "window", "alturaMm": 1200, "peitorilMm": 1000},
+    {"comodo": "Banho", "lado": "west", "de": 635, "ate": 740, "tipo": "window", "alturaMm": 600, "peitorilMm": 1500},
+    {"comodo": "Dormitório 02", "lado": "west", "de": 890, "ate": 1115, "tipo": "window", "alturaMm": 1200, "peitorilMm": 1000},
+    {"comodo": "Varanda gourmet", "lado": "south", "de": 722, "ate": 1050, "tipo": "window", "alturaMm": 1150, "peitorilMm": 1050}
+  ],
+  "moveis": [
+    {"catalogo": "cama-casal", "x": 302, "y": 235, "w": 1380, "d": 1900, "cor": "#E4E1DA", "nome": "Cama do casal"},
+    {"catalogo": "criado", "x": 110, "y": 95, "w": 450, "d": 400, "cor": "#8A5A3C", "nome": "Criado 1"},
+    {"catalogo": "criado", "x": 494, "y": 95, "w": 450, "d": 400, "cor": "#8A5A3C", "nome": "Criado 2"},
+    {"catalogo": "guardaroupa", "x": 645, "y": 228, "rot": 270, "w": 1500, "d": 500, "cor": "#7A4A30", "nome": "Guarda-roupa do casal"},
+    {"catalogo": "box-chuveiro", "x": 131, "y": 667, "rot": 90, "w": 1220, "d": 800, "cor": "#DDE5E4", "nome": "Box"},
+    {"catalogo": "vaso-sanitario", "x": 296, "y": 612, "w": 400, "d": 650, "cor": "#F2F1EE", "nome": "Vaso"},
+    {"catalogo": "gabinete-banheiro", "x": 405, "y": 590, "w": 550, "d": 400, "cor": "#F2F1EE", "nome": "Lavatório"},
+    {"catalogo": "cama-solteiro", "x": 152, "y": 1007, "w": 900, "d": 1950, "cor": "#E4E1DA", "nome": "Cama do dormitório 02"},
+    {"catalogo": "escrivaninha", "x": 318, "y": 1150, "rot": 180, "w": 800, "d": 480, "cor": "#8A5A3C", "nome": "Escrivaninha"},
+    {"catalogo": "guardaroupa", "x": 540, "y": 1150, "rot": 180, "w": 1500, "d": 500, "cor": "#7A4A30", "nome": "Guarda-roupa do dormitório 02"},
+    {"catalogo": "sofa-2", "x": 790, "y": 195, "rot": 90, "w": 1450, "d": 650, "cor": "#CFC8BC", "nome": "Sofá da varanda"},
+    {"catalogo": "tanque-lavar", "x": 1150, "y": 285, "rot": 270, "w": 600, "d": 550, "cor": "#DADBD5", "nome": "Tanque"},
+    {"catalogo": "fogao", "x": 1148, "y": 445, "rot": 270, "w": 600, "d": 580, "cor": "#5D6367", "nome": "Cooktop"},
+    {"catalogo": "pia-cozinha", "x": 1150, "y": 615, "rot": 270, "w": 1150, "d": 580, "cor": "#C9C3BA", "nome": "Bancada e cuba da cozinha"},
+    {"catalogo": "geladeira", "x": 1146, "y": 810, "rot": 270, "w": 700, "d": 650, "cor": "#D6D9DA", "nome": "Geladeira"},
+    {"catalogo": "mesa-jantar-4", "x": 836, "y": 548, "w": 1200, "d": 750, "cor": "#8A5A3C", "nome": "Mesa de jantar"},
+    {"catalogo": "poltrona", "x": 775, "y": 462, "w": 400, "d": 400, "cor": "#E8E6E1", "nome": "Cadeira de jantar 1"},
+    {"catalogo": "poltrona", "x": 892, "y": 462, "w": 400, "d": 400, "cor": "#E8E6E1", "nome": "Cadeira de jantar 2"},
+    {"catalogo": "poltrona", "x": 775, "y": 634, "rot": 180, "w": 400, "d": 400, "cor": "#E8E6E1", "nome": "Cadeira de jantar 3"},
+    {"catalogo": "poltrona", "x": 892, "y": 634, "rot": 180, "w": 400, "d": 400, "cor": "#E8E6E1", "nome": "Cadeira de jantar 4"},
+    {"catalogo": "sofa-3", "x": 801, "y": 1000, "rot": 90, "w": 2000, "d": 880, "cor": "#E4E1DA", "nome": "Sofá da sala"},
+    {"catalogo": "rack-tv", "x": 1167, "y": 1050, "rot": 270, "w": 1600, "d": 350, "cor": "#8A5A3C", "nome": "Rack da TV"},
+    {"catalogo": "tapete-sala", "x": 960, "y": 1020, "w": 1300, "d": 1300, "cor": "#DCD8D2", "nome": "Tapete da sala"}
+  ],
+  "ficha": {
+    "titulo": "Parque das Laranjeiras · planta tipo canto · 39,12 m²",
+    "empreendimento": "Parque das Laranjeiras",
+    "area_publicada_m2": 39.12, "quartos": 2, "suites": 0, "banheiros": 1,
+    "observacao": "Reconstrução ilustrativa da planta tipo canto (1º ao último pavimento). Medidas inferidas pela área do book; sem final ou unidade comercial atribuídos."
+  },
+  "cores": {"parede": "#E2DED5", "piso_frio": "#B4B5B1", "piso_madeira": "#B89369", "teto": "#F2F0EC"},
+  "lote": {"predio": {"largura_m": 40.0, "profundidade_m": 15.0, "pavimentos": 13}},
+  "limites": [
+    "Planta humanizada sem cotas. Escala, eixos de parede, vãos e móveis são aproximações.",
+    "A escala supõe que os 39,12 m² do book são a área dentro das faces internas das paredes externas; vaso e cooktop conferem.",
+    "O corredor de distribuição faz parte da sala integrada (piso contínuo, sem divisória).",
+    "Varanda gourmet e área de serviço formam um contorno só; o guarda-corpo é registrado como janela com peitoril de 1,05 m.",
+    "A porta de entrada é a da parede de baixo da imagem; a TV fica na parede da direita, que é divisa com o vizinho.",
+    "Pé-direito de 2,60 m é o do book. A pegada do prédio em lote é provisória até a implantação ser traçada."
+  ]
+}

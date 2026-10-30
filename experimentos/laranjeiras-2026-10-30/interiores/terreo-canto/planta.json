@@ -1,0 +1,35 @@
+{
+  "base": "canto",
+  "id": "laranjeiras-planta-canto-terreo",
+  "titulo": "Parque das Laranjeiras · planta térreo canto · 60,11 m²",
+  "comparacao": {
+    "imagemTerreo": "../../../../plantas_fornecidas/parque-das-laranjeiras/fonte/planta-terreo-canto.jpg",
+    "imagemTerreoSha256": "c5c82be0a679b507361ca7d02bc28c41976180d448e36fc6451b0bc801b21fe1",
+    "caixaTipoPx": [57, 48, 1203, 1198],
+    "caixaTerreoPx": [297, 313, 1255, 1274],
+    "iouParedes": 0.704,
+    "imagem": "comparacao-tipo.png",
+    "leitura": "Paredes pretas coincidem nas duas imagens; a diferença é borda de 1-2 px e detalhe de móvel. O apartamento do térreo é o do tipo."
+  },
+  "jardim": {
+    "descricao": "Jardim privativo em L: faixa de cima (lado da varanda) e faixa da esquerda (lado dos dormitórios), com calçada junto às paredes.",
+    "poly_m": [[-1.66, -1.58], [6.29, -1.58], [6.29, 0.0], [-0.13, 0.0], [-0.13, 6.41], [-1.66, 6.41]],
+    "areaM2": 22.4,
+    "areaBookM2": 20.99,
+    "calcada_m": 0.48,
+    "referencial": "metros do traçado da base (mesma origem e eixos do unidade.json do canto)"
+  },
+  "ficha": {
+    "titulo": "Parque das Laranjeiras · planta térreo canto · 60,11 m²",
+    "empreendimento": "Parque das Laranjeiras",
+    "area_publicada_m2": 60.11, "area_apartamento_m2": 39.12, "area_jardim_m2": 20.99,
+    "quartos": 2, "suites": 0, "banheiros": 1,
+    "observacao": "Reconstrução ilustrativa da planta térreo canto: o apartamento tipo canto mais o jardim privativo. Medidas inferidas pela área do book."
+  },
+  "limites": [
+    "O apartamento é o mesmo traçado do tipo canto (comparacao-tipo.png); só o jardim é novo.",
+    "A área do jardim (60,11 - 39,12 = 20,99 m²) confere com o L medido na imagem (22,4 m² até a borda externa, contando parede).",
+    "A varanda mantém o guarda-corpo do tipo; a imagem do térreo mostra uma linha fina no mesmo lugar.",
+    "O jardim fica registrado em referencia.json para a maquete externa; ele não vira cômodo, porque cômodo ganha parede de 2,60 m."
+  ]
+}

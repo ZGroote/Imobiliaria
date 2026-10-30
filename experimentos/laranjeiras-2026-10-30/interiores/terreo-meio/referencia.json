@@ -1,0 +1,129 @@
+{
+  "titulo": "Parque das Laranjeiras · planta térreo meio · até 54,17 m²",
+  "tipologia": "terreo-meio",
+  "imagem": "../../../../plantas_fornecidas/parque-das-laranjeiras/fonte/planta-tipo-meio.jpg",
+  "imagemSha256": "703d9d71e7e3fc807d527e5fe8989a6c9e0938a9ead1b8477b3689594ac59396",
+  "registro": {
+    "origemPx": [
+      45,
+      65
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 6.286099506711448,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        75,
+        78,
+        790,
+        205
+      ],
+      [
+        45,
+        205,
+        790,
+        300
+      ],
+      [
+        45,
+        300,
+        930,
+        502
+      ],
+      [
+        75,
+        502,
+        930,
+        930
+      ],
+      [
+        163,
+        930,
+        930,
+        1355
+      ]
+    ],
+    "areaCalibracaoM2": 40.79,
+    "conferencia": [
+      "vaso 110 px de comprimento contra 0,68 m: 162 px/m",
+      "cooktop 4 bocas 80x100 px contra 0,51x0,58 m: 157-172 px/m"
+    ]
+  },
+  "areaContornoNominalAproximadaM2": 42.8325,
+  "peDireitoMm": 2600,
+  "limites": [
+    "O apartamento é o mesmo traçado do tipo meio (comparacao-tipo.png); só o jardim é novo.",
+    "A área do jardim (54,17 - 40,79 = 13,38 m², no máximo) confere com o polígono medido na imagem (14,46 m² até a borda externa, contando parede).",
+    "O book diz 'de até 54,17 m²': o tamanho do jardim muda entre unidades do térreo e só o maior foi traçado.",
+    "O jardim fica registrado em referencia.json para a maquete externa; ele não vira cômodo, porque cômodo ganha parede de 2,60 m."
+  ],
+  "base": "meio",
+  "jardim": {
+    "descricao": "Jardim privativo na lateral da varanda e dos dormitórios, entrando no recuo ao lado do dormitório casal; calçada junto às paredes.",
+    "poly_m": [
+      [
+        -1.58,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        5.44
+      ],
+      [
+        0.6,
+        5.44
+      ],
+      [
+        0.6,
+        8.13
+      ],
+      [
+        -1.58,
+        8.13
+      ]
+    ],
+    "areaM2": 14.46,
+    "areaBookM2": 13.38,
+    "calcada_m": 0.45,
+    "referencial": "metros do traçado da base (mesma origem e eixos do unidade.json do meio)"
+  },
+  "comparacao": {
+    "imagemTerreo": "../../../../plantas_fornecidas/parque-das-laranjeiras/fonte/planta-terreo-meio.jpg",
+    "imagemTerreoSha256": "c28e9e83b952f325eaed1f0eae81282e2f6e037e4a3b92be1006cdca962e2210",
+    "caixaTipoPx": [
+      45,
+      78,
+      930,
+      1355
+    ],
+    "caixaTerreoPx": [
+      268,
+      36,
+      1105,
+      1247
+    ],
+    "iouParedes": 0.702,
+    "imagem": "comparacao-tipo.png",
+    "leitura": "Paredes pretas coincidem; o bloco vermelho embaixo à esquerda é o recuo do dormitório casal, que no tipo é fundo preto e no térreo é jardim."
+  },
+  "captura": {
+    "construtorSHA256": "c338b1159a5f6f9365a12a296b0d53c9421746465667d938ea46f41be0bbfb8f",
+    "inputsSHA256": {
+      "planta.json": "8186bc130a237b8297c8e5aa2305aabbd5ffad07a1889df96e497725cb84bde0",
+      "leitura.json": "244d27bb41c84cdaabba598274c102b88940f12eacc10e70f058ad5a0d781647",
+      "projeto-planta.json": "fe2d86efa8454c0dbc61de6080cd2b540ccee3a3686f660af3ec325513b8b58f",
+      "moveis.json": "78206885f1bac261f8399d59de34171cf6f5b153600cc323ef442250cefcfb7d",
+      "contexto.json": "994493fd703261e1354c320e47ac8999906fd29a314bee56d7fe9a407cbc05cb"
+    }
+  },
+  "contagens": {
+    "partes": 9,
+    "aberturas": 9,
+    "moveis": 22
+  }
+}

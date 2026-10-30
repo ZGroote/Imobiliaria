@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "propertyId": "laranjeiras-planta-meio-terreo",
+  "agencyId": "referencia-publica-local",
+  "andar": 0,
+  "ficha": {
+    "titulo": "Parque das Laranjeiras · planta térreo meio · até 54,17 m²",
+    "empreendimento": "Parque das Laranjeiras",
+    "area_publicada_max_m2": 54.17,
+    "area_apartamento_max_m2": 40.79,
+    "area_jardim_max_m2": 13.38,
+    "quartos": 2,
+    "suites": 0,
+    "banheiros": 1,
+    "observacao": "Reconstrução ilustrativa da planta térreo meio: o apartamento tipo meio mais o jardim privativo. O book diz 'de até', então o jardim varia por unidade; aqui está o maior."
+  },
+  "cores": {
+    "parede": "#E2DED5",
+    "piso_frio": "#B4B5B1",
+    "piso_madeira": "#B89369",
+    "teto": "#F2F0EC"
+  },
+  "lote": {
+    "predio": {
+      "largura_m": 40,
+      "profundidade_m": 15,
+      "pavimentos": 13
+    }
+  }
+}

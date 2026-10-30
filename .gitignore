@@ -200,3 +200,6 @@ __pycache__/
 /experimentos/liv-experimental-2026-10-14/splat/banho-suite.sog
 /experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/mapa-giro-avenida/cidade-recortada.json
 /experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/buffers-paridade-nativa-final/runtime.json
+
+# Book do Parque das Laranjeiras (9,4 MiB): fica no disco, o sha256 está em plantas_fornecidas/parque-das-laranjeiras/LEIA-ME.md
+plantas_fornecidas/parque-das-laranjeiras/fonte/book.pdf

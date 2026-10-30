@@ -9,3 +9,6 @@ experimentos/comparativo-planos-3d/*.json text eol=lf
 experimentos/comparativo-planos-3d/*.py text eol=lf
 # Evidência recuperável com SHA documentado no Windows.
 experimentos/maquete-cosmetica-procedural-2026-10-04/*.patch text eol=lf -whitespace
+experimentos/laranjeiras-2026-10-30/**/*.json text eol=lf
+experimentos/laranjeiras-2026-10-30/**/*.ts text eol=lf
+experimentos/laranjeiras-2026-10-30/**/*.py text eol=lf
