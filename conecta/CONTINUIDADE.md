@@ -44,6 +44,38 @@ chat. Branch: `liv-melhorado`; remoto: `origin` no repositório
 
 ## Fontes e publicação
 
+- Ajuste móvel de 30/10/2026: Hosting `413e94e1dca58ef4`, build
+  `ebe5d94bb969`, função ACTIVE `conectatracking-00022-cox`; segredo versão 2,
+  outros produtos e estoque preservados. No celular, filtro/site/orientação ficam
+  em uma única faixa, canvas chega ao fundo e o cartão da unidade fica compacto
+  abaixo da orientação. Nas vistas internas, “Maquete” retorna ao prédio.
+  Desktop conserva o layout anterior. Cookies de métricas continuam opcionais:
+  não há aviso automático nem botão flutuante de privacidade no celular;
+  preferências ficam dentro de Informações. Escolhas anteriores são respeitadas;
+  entrada, permanência ou passagem de tempo não registram aceite.
+  Passaram 87 testes e QA público em 320/390/844 px, com aceite/revogação sem
+  transmissão de métricas de teste, retorno ao prédio e restauração do desktop.
+  Relatórios, capturas, versão anterior e cópias para reversão em
+  `publicacao/qa-mobile-cookies-20261030/` (ignorado pelo Git).
+
+- Atualização de interface de 30/10/2026: Hosting `d3576575b2bc8de6`, build
+  individual `d34b6d9634c6`, função ACTIVE `conectatracking-00021-xut`;
+  TRACKING_SECRET versão 2, conta de serviço e outras publicações preservados.
+  Informações começam recolhidas; controles compactos; lista e região saíram da
+  tela; abertura às 6h30; apartamento 3D com mais margem; editor à esquerda
+  reserva espaço próprio. Botões mantêm os textos anteriores, com folga simétrica.
+  Foram preservados 1186 recursos remotos. Backup de Hosting anterior
+  `1c1f0d960ef8be31`, payload/HTML/configuração anteriores e relatórios em
+  `publicacao/qa-interface-compacta-20261030/` (ignorado pelo Git).
+- Cadastro autorizado em 30/10: os 48 apartamentos disponíveis receberam preços,
+  condições informadas e vagas da tabela local de 12/10/2026, com disponibilidade,
+  tipologias e dados existentes preservados. 46 novos vínculos somados aos quatro
+  existentes: mapa com 50 vagas, incluindo duas de apartamentos vendidos já
+  vinculadas antes. As 122 unidades restantes e os perfis não foram alterados.
+  A gravação atômica gerou 49 registros de histórico com ator
+  `codex-autorizado-20261030`; planos, cópias anteriores e verificação ficam na
+  mesma pasta. A tabela local não representa a disponibilidade online atual.
+
 - Viewer: `experimentos/liv-experimental-2026-10-14/`.
 - Comparação e reversão: `EXPERIMENTO-COMPRA.md` nessa pasta, com os marcadores
   `EXPERIMENTO-COMPRA-20261023`, `FUNDO-3D-20261023`, `FUNDO-2D-20261023` e
