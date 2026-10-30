@@ -12,3 +12,4 @@ experimentos/maquete-cosmetica-procedural-2026-10-04/*.patch text eol=lf -whites
 experimentos/laranjeiras-2026-10-30/**/*.json text eol=lf
 experimentos/laranjeiras-2026-10-30/**/*.ts text eol=lf
 experimentos/laranjeiras-2026-10-30/**/*.py text eol=lf
+experimentos/laranjeiras-2026-10-30/site/interiores/** -text
