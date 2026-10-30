@@ -68,6 +68,6 @@
     {"n": 13, "nome": "ADN Shop", "px": [765, 555, 825, 590], "tipo": "edificio", "altura": 3.0},
     {"n": 14, "nome": "Car wash", "px": [1040, 255, 1110, 305], "tipo": "piso"},
     {"n": null, "nome": "Apoio (gás / lixo)", "px": [825, 1095, 965, 1150], "tipo": "edificio", "altura": 3.0},
-    {"n": null, "nome": "Reservatório", "px": [970, 1090, 1030, 1150], "tipo": "reservatorio", "altura": 6.0}
+    {"n": null, "nome": "Reservatório", "px": [970, 1090, 1030, 1150], "tipo": "reservatorio", "altura": 2.5}
   ]
 }

@@ -203,3 +203,8 @@ __pycache__/
 
 # Book do Parque das Laranjeiras (9,4 MiB): fica no disco, o sha256 está em plantas_fornecidas/parque-das-laranjeiras/LEIA-ME.md
 plantas_fornecidas/parque-das-laranjeiras/fonte/book.pdf
+
+# Laranjeiras: saidas do Blender (regeneraveis por modelo/modelar_laranjeiras.py)
+experimentos/laranjeiras-2026-10-30/modelo/laranjeiras.blend*
+experimentos/laranjeiras-2026-10-30/modelo/laranjeiras.glb
+experimentos/laranjeiras-2026-10-30/modelo/modelo.json

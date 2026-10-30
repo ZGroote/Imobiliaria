@@ -1,0 +1,64 @@
+{
+  "towers": 3,
+  "floors": 13,
+  "floorHeight": 2.8,
+  "width": 33.1,
+  "depth": 14.3,
+  "units_per_floor": 8,
+  "units": 312,
+  "vagas_desenhadas": 285,
+  "rumo_cima_graus": 152,
+  "lote_centro_m": [
+    83.245,
+    40.934333333333335
+  ],
+  "lote_geo": [
+    [
+      -21.9895218,
+      -47.9235167
+    ],
+    [
+      -21.9901423,
+      -47.9247751
+    ],
+    [
+      -21.9898901,
+      -47.9249405
+    ],
+    [
+      -21.9896904,
+      -47.9245355
+    ],
+    [
+      -21.9892368,
+      -47.9247956
+    ],
+    [
+      -21.988808,
+      -47.923926
+    ]
+  ],
+  "source": "book ADN Parque das Laranjeiras (out/2026)",
+  "finais": {
+    "08": "canto",
+    "06": "meio",
+    "04": "meio",
+    "02": "canto",
+    "07": "canto",
+    "05": "meio",
+    "03": "meio",
+    "01": "canto"
+  },
+  "blender": "5.2.3 LTS",
+  "geometries": 40,
+  "groups": 62,
+  "web_bytes": 6209040,
+  "glb_bytes": 4970340,
+  "checks": {
+    "pavimentos_e_lajes": true,
+    "exportacao": true,
+    "finite_geometry": true,
+    "normals_uv_indices": true,
+    "glb_header": true
+  }
+}

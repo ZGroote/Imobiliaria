@@ -69,7 +69,33 @@ e o CNEFE confirma a rua.
 
 A sobreposição no satélite (Esri World Imagery) serviu só para medir e não está no git.
 
+## Modelo 3D por fora (primeira passada)
+
+```
+& 'C:\Program Files (x86)\Steam\steamapps\common\Blender\blender.exe' --background --factory-startup --python experimentos/laranjeiras-2026-10-30/modelo/modelar_laranjeiras.py -- [--no-render]
+```
+
+O modelo segue o mesmo caminho do LIV (`v1.5/miniaturas/liv-ipanema/modelar_liv_ipanema.py`) e usa as
+mesmas ferramentas: `blender_maquete_base` (caixa, material, exportação para `modelo.json` e GLB) e, da
+implantação do LIV, árvore, palmeira e carro.
+
+- **A fachada sai das plantas.** Cada andar coloca as 8 plantas do book no lugar dos finais. Os cantos
+  (01, 02, 07, 08) ficam nas pontas, e os meios (03 a 06) junto do núcleo, com a fachada no lado
+  comprido. As plantas são espelhadas e giradas conforme o final. As paredes e janelas de cada cômodo
+  viram as paredes e janelas da torre. Uma grade de 10 cm diz o que é fachada (não há nada do outro
+  lado) e o que é parede interna. É daí que saem o recuo do quarto do meio e o H com o núcleo recuado.
+- **Varanda:** a janela-guarda-corpo vira vão aberto com guarda-corpo branco, e a varanda leva a faixa
+  cinza-escuro dos renders. O núcleo leva o friso vermelho.
+- **Terreno:** sai de `implantacao-m.json`: gramado no L, vias com guia, 285 vagas com carros, árvores a
+  cada 3 vagas e nas divisas, lazer (quiosques, vestiários, piscina, playground, pet), reservatório,
+  muro de 2,2 m nas divisas e mureta com gradil na frente.
+- `preview-aerea.jpg`, `preview-piscina.jpg` (do mesmo ponto do render da piscina do book) e
+  `preview-rua.jpg`. O `.blend`, o GLB e o `modelo.json` são gerados e ficam fora do git.
+
+Falta neste passo: os jardins privativos do térreo, a cor final (ela é ajustada no visualizador, como
+no LIV), a portaria com o letreiro e os detalhes do lazer.
+
 ## Próximos passos
 
-Torres por fora com os 312 apartamentos; interiores no visualizador do LIV; luz gravada por hora;
-celular e publicação em endereço de teste.
+Luz do exterior gravada no Cycles e exportação para o visualizador WebGPU (cópia do LIV); os 312
+apartamentos clicáveis; interiores; luz gravada por hora; celular e publicação em endereço de teste.
