@@ -5,7 +5,7 @@ import {typology as layout} from './tipologias.js';
 export function createUnitUI(catalog){
   return {setCatalog(data){catalog=data;},update({selectedUnitId,ready,mode,relationError,stockError,unitScope}){
     const unit=unitById(catalog,selectedUnitId);
-    const title=unit?(unit.commercial?.commercialNumber?`Apartamento ${unit.commercial.commercialNumber}`:`Final ${unit.final}`):'';
+    const title=unit?(unit.commercial?.commercialNumber?`Apartamento ${unit.commercial.commercialNumber}`:`${unit.towerName} · ${unit.floorIndex===0?'térreo':unit.floorIndex+'º pavimento'} · final ${unit.final}`):'';
     document.getElementById('unitAnnouncement').textContent=unit?`${title} selecionado, posição aproximada, ${saleLabel(unit)}.`:'Nenhum apartamento selecionado.';
     const panel=document.getElementById('selectedApartment'),prompt=document.getElementById('selectionPrompt');
     if(panel)panel.hidden=!unit;if(prompt)prompt.hidden=Boolean(unit);
@@ -18,7 +18,8 @@ export function createUnitUI(catalog){
     const sale=saleOf(unit),informed=sale.availability!=='nao_informada'||sale.priceCents!==null;
     // Vagas ligadas pelo painel (números da implantação) valem mais que o texto livre da ficha.
     const spaces=unit.parkingSpaces??[],parking=spaces.length?`${spaces.length===1?'Vaga':'Vagas'} ${new Intl.ListFormat('pt-BR').format(spaces.map(String))}`:sale.parking;
-    const details=unit.salesDetails;
+    // Sem estoque ao vivo, a ficha usa o que o book dá: área por planta (térreo com jardim), 2 quartos, 1 banheiro.
+    const details=unit.salesDetails??{areaM2:unit.areaM2??null,bedrooms:2,bathrooms:1,description:null};
     const area=details?.areaM2!==null&&details?.areaM2!==undefined?`${new Intl.NumberFormat('pt-BR').format(details.areaM2)} m²`:null;
     const count=(n,one,many)=>n===null||n===undefined?null:`${n} ${n===1?one:many}`;
     const rooms=details?[count(details.bedrooms,'quarto','quartos'),count(details.bathrooms,'banheiro','banheiros')].filter(Boolean).join(' · '):'';

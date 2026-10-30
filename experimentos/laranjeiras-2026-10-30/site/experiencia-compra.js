@@ -17,7 +17,7 @@ export function apartmentContact(unit,floor,{contact={},shareUrl}={}){
   if(url.pathname==='/acesso.html')url.searchParams.set('pagina','maquete');
   url.hash='';
   const area=unit.salesDetails?.areaM2;
-  const description=[`Olá! Tenho interesse no ${label} do LIV Ipanema, em São Carlos.`,
+  const description=[`Olá! Tenho interesse no ${label} do Parque das Laranjeiras, em São Carlos.`,
     Number.isFinite(area)?`${new Intl.NumberFormat('pt-BR').format(area)} m².`:'',
     'Gostaria de confirmar disponibilidade, valor e condições.',url.href].filter(Boolean).join('\n');
   const phone=typeof contact.whatsappNumber==='string'&&/^[1-9][0-9]{7,14}$/.test(contact.whatsappNumber)?contact.whatsappNumber:null;

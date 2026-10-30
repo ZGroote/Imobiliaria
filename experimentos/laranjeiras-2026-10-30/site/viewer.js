@@ -20,10 +20,10 @@ const floorControl=document.getElementById('floor'),ambienceControl=document.get
 const message=document.getElementById('loadingText'),status=document.getElementById('status');
 const requested=new URLSearchParams(location.search).get('backend');
 let backend=['webgpu','webgl'].includes(requested)?requested:'auto';
-const geometry=new URLSearchParams(location.search).has('geometria')?requestedEdition(location.search):'entrada';
+const geometry='base';  // Laranjeiras: uma edição só
 const demonstration=new URLSearchParams(location.search).get('demonstracao')==='1';
 const scope=demonstration||new URLSearchParams(location.search).has('estoque')||!new URLSearchParams(location.search).has('unidades')?'edificio':unitScope(location.search);
-const finish=geometry!=='base'||new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
+const finish='base';    // o acabamento 'referencia' é calibrado nos materiais do LIV
 const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
 const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,panelCollapsed:true,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
 state.ambience=requestedAmbience(location.search);
@@ -45,7 +45,7 @@ inlineDetailsMedia?.addEventListener('change',()=>updateInfoPanel());
 document.getElementById('demonstrationNote').hidden=!demonstration;
 state.geometry=geometry;
 state.unitScope=scope;
-const storageKey=`liv-viewer-v1:${location.pathname}${geometry==='base'?'':':'+geometry}${scope==='edificio'?':edificio':''}`;
+const storageKey=`laranjeiras-viewer-v1:${location.pathname}${geometry==='base'?'':':'+geometry}${scope==='edificio'?':edificio':''}`;
 let restoredInterior=null,pendingBuyerLayout=null;
 function updateMapLink(){
   const mapLink=document.querySelector('.map-link'),destination=new URL(mapLink.href);
@@ -134,7 +134,7 @@ function updateInfoPanel(){
   projectPanel.dataset.mode=state.mode;
   const summary=document.getElementById('panelSummary');
   if(summary)summary.textContent=unit?
-    document.getElementById('selectedApartmentTitle').textContent:'LIV Ipanema · Informações';
+    document.getElementById('selectedApartmentTitle').textContent:'Parque das Laranjeiras · Informações';
   const collapsed=state.panelCollapsed,label=collapsed?'Expandir informações':'Recolher informações';
   panelToggle.setAttribute('aria-expanded',String(!collapsed));
   panelToggle.setAttribute('aria-label',label);panelToggle.title=label;
@@ -431,7 +431,7 @@ function prepareScene(kind){
   const epoch=cacheEpoch,key=kind.split(':')[1],exterior=kind==='exterior';
   const frame=document.createElement('iframe');frame.dataset.scene=kind;frame.dataset.instance=String(++sceneSerial);frame.dataset.parked='true';frame.inert=true;
   frame.setAttribute('aria-hidden','true');
-  frame.title=exterior?'Maquete do LIV Ipanema':`Planta e Tour do LIV Ipanema · ${typology(key).label}`;
+  frame.title=exterior?'Maquete do Parque das Laranjeiras':`Planta e Tour do Parque das Laranjeiras · ${typology(key).label}`;
   frame.src=exterior?`prova-rgbm.html?embed=1&prewarm=1&tema=escuro&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}&luz=${state.ambience}&hora=${state.hour}&data=${state.solarDate}&experiencia=${buyerUI.enabled?'nova':'original'}`:
     `interior.html?embed=1&prewarm=1&backend=${backend}&tipologia=${key}&modo=planta3d`;
   sceneCache.set(kind,frame);stage.prepend(frame);
@@ -659,6 +659,8 @@ async function refreshCommercial(){
 }
 async function refreshRelations(){
   if(scope!=='edificio'||!units)return false;
+  // Laranjeiras: a planta de cada final vem no próprio cadastro (implantação do book); não há vinculos.json.
+  if(units.relationSource&&units.units.every(unit=>unit.relation)){state.relationStatus=units.relationStatus;state.relationError=null;update();return true;}
   if(stockControlled)return Boolean(stockData);
   const version=++relationVersion;relationController?.abort();relationController=new AbortController();
   try{
@@ -735,7 +737,7 @@ async function capture() {
   } else {
     png=await state.frame.contentWindow.__livInterior.capture();
   }
-  const link=document.createElement('a');link.href=png;link.download=`liv-ipanema-${state.typology}-${state.mode}.png`;link.click();return png;
+  const link=document.createElement('a');link.href=png;link.download=`parque-das-laranjeiras-${state.typology}-${state.mode}.png`;link.click();return png;
 }
 function discardMap(){
   mapFrame?.contentWindow?.__livMapAdapter?.dispose?.();mapFrame?.remove();mapFrame=null;mapLoad=null;mapURL=null;
@@ -750,7 +752,7 @@ function prepareMap(){
     if(mapLoad)return mapLoad;
   }
   discardMap();const epoch=cacheEpoch;
-  const frame=document.createElement('iframe');frame.title='Mapa do entorno do LIV Ipanema, limitado a 5 km';
+  const frame=document.createElement('iframe');frame.title='Mapa do entorno do Parque das Laranjeiras, limitado a 5 km';
   frame.dataset.scene='map';frame.dataset.instance=String(++sceneSerial);frame.src=destination.href;mapFrame=frame;mapURL=destination.href;
   Object.defineProperty(window,'__livMapAdapter',{configurable:true,get:()=>mapFrame?.contentWindow?.__livMapAdapter});
   mapPanel.append(frame);

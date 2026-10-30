@@ -25,6 +25,12 @@ function timed(promise,ms,message){
 async function ensureControlled(){
   if(initialization)return initialization;
   initialization=(async()=>{
+    // Laranjeiras: sem transfer-manifest.json próprio ainda, o worker do LIV recusaria plantas2d/.
+    // Desliga o cache de preparação e solta um registro antigo deste escopo.
+    if('serviceWorker' in navigator)for(const registration of await navigator.serviceWorker.getRegistrations().catch(()=>[]))
+      if(registration.scope===new URL('./',import.meta.url).href)await registration.unregister();
+    return unavailable('Cache de preparação desligado nesta versão.');
+    // eslint-disable-next-line no-unreachable
     if(!isSecureContext||!('serviceWorker' in navigator))return unavailable('Cache de preparação indisponível neste navegador.');
     try {
       const workerURL=new URL('./transfer-worker.js',import.meta.url),scope=new URL('./',import.meta.url).href;

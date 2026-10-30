@@ -47,7 +47,7 @@ async function opening(){
     }
     frame=document.createElement('iframe');frame.title='LIV Ipanema em teste';
     const navigationStart=performance.now();sample.cleanupDelayMs=navigationStart-start;
-    frame.src=`maquete-liv-ipanema.html?geometria=${sample.edition}&backend=${sample.backendRequested}`;
+    frame.src=`maquete-laranjeiras.html?geometria=${sample.edition}&backend=${sample.backendRequested}`;
     element('stage').append(frame);const viewer=await ready();
     Object.assign(sample,{readyMs:performance.now()-navigationStart,modeUponReady:viewer.mode,
       backendEffective:viewer.backend,resources:resources(),status:'carregado'});

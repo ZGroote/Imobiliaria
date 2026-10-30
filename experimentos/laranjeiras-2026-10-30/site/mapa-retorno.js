@@ -5,7 +5,7 @@ import {requestedAmbience} from './ambiencia-perfis.js';
 import {createFrameScheduler} from './frame-scheduler.js';
 import {normalizeHour,solarState} from './horario-solar.js';
 // Adapt model edition, navigation and transfer priority; baseline files stay intact.
-const frame=document.getElementById('map'),destination=new URL('./maquete-liv-ipanema.html',location.href);
+const frame=document.getElementById('map'),destination=new URL('./maquete-laranjeiras.html',location.href);
 const embedded=new URLSearchParams(location.search).get('embed')==='1'&&window.parent!==window;
 const geometry=requestedEdition(location.search);
 if(geometry!=='base')destination.searchParams.set('geometria',geometry);
@@ -17,7 +17,7 @@ const timeQuery=new URLSearchParams(location.search);
 if(timeQuery.has('hora'))destination.searchParams.set('hora',String(normalizeHour(timeQuery.get('hora'))));
 if(timeQuery.has('data')){try{destination.searchParams.set('data',solarState(12,{date:timeQuery.get('data')}).date);}catch{}}
 const failure=document.getElementById('failure');
-failure.querySelector('a[href="maquete-liv-ipanema.html"]').href=destination.href;
+failure.querySelector('a[href="maquete-laranjeiras.html"]').href=destination.href;
 failure.querySelector('a[href="mapa-liv-ipanema-5km.html"]').href=location.href;
 const stopStatus=showTransferStatus(document.getElementById('transferStatus'));
 let scheduler=null,disposed=false,active=new URLSearchParams(location.search).get('prewarm')!=='1';
@@ -40,7 +40,7 @@ adapter.active=active;frame.dataset.active=String(active);
 function redirectLink(anchor) {
   if(!anchor)return;
   const url=new URL(anchor.getAttribute('href')||'',frame.contentWindow.location.href);
-  if(url.origin===location.origin&&url.pathname.endsWith('/maquete-liv-ipanema.html')) {
+  if(url.origin===location.origin&&url.pathname.endsWith('/maquete-laranjeiras.html')) {
     anchor.href=destination.href;anchor.target='_top';
   }
 }

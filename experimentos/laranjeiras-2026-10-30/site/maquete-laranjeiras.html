@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <link rel="icon" href="data:,">
-  <title>LIV Ipanema — maquete interativa</title>
-  <meta name="description" content="Maquete 3D interativa do LIV Ipanema, em São Carlos: escolha o apartamento na fachada e veja planta, preço e o Tour 3D dos 2 quartos com suíte.">
+  <title>Parque das Laranjeiras — maquete interativa</title>
+  <meta name="description" content="Maquete 3D interativa do Parque das Laranjeiras, em São Carlos: escolha o apartamento nas 3 torres e veja a planta dos 2 quartos com varanda gourmet.">
   <script>
     // File pages cannot load the ES modules and JSON used by the viewer.
     // Forward only this workspace entry; exported packages use their own server.
-    const localPreviewPath='/experimentos/liv-experimental-2026-10-14/maquete-liv-ipanema.html';
+    const localPreviewPath='/experimentos/laranjeiras-2026-10-30/site/maquete-laranjeiras.html';
     if(location.protocol==='file:'&&location.pathname.endsWith(localPreviewPath)){
-      const localPreview=new URL(localPreviewPath,'http://127.0.0.1:8790');
+      const localPreview=new URL(localPreviewPath,'http://localhost:8765');
       localPreview.search=location.search;localPreview.hash=location.hash;
       location.replace(localPreview.href);
     }
@@ -32,7 +32,7 @@
 </head>
 <body>
   <a class="skip-link" href="#stage">Ir para o visualizador</a>
-  <h1 class="sr-only">LIV Ipanema · São Carlos</h1>
+  <h1 class="sr-only">Parque das Laranjeiras · São Carlos</h1>
   <header id="mobileToolbar" class="mobile-toolbar" aria-label="Navegação da maquete" hidden>
     <div id="mobileAvailability"></div>
     <div id="mobileHome"><button type="button" id="mobileBackToBuilding" hidden>Maquete</button></div>
@@ -52,7 +52,7 @@
     <section class="visual" aria-label="Visualizador do empreendimento">
       <div class="stage" id="stage" tabindex="-1">
         <div class="stage-toolbar">
-          <p class="stage-badge"><span aria-hidden="true"></span>LIV Ipanema</p>
+          <p class="stage-badge"><span aria-hidden="true"></span>Parque das Laranjeiras</p>
           <div id="availabilityFilter" hidden><label for="availability">Apartamentos</label><select id="availability" aria-describedby="availabilitySummary"><option value="todos">Todos os apartamentos</option><option value="disponiveis">Disponíveis (em verde)</option></select><p id="availabilitySummary" class="sr-only" role="status" aria-live="polite"></p></div>
         </div>
         <button type="button" id="plan2dMeasurements" class="plan2d-measures-toggle" hidden aria-pressed="false" aria-label="Mostrar medidas estimadas da planta 2D" title="Mostrar ou ocultar medidas aproximadas"><span aria-hidden="true">↔</span> Medidas</button>
@@ -70,10 +70,10 @@
       <button type="button" id="toggleProjectPanel" class="panel-toggle" aria-expanded="false" aria-controls="projectPanelDetails projectPanelFooter" aria-label="Expandir informações" title="Expandir informações"><span id="panelToggleIcon" aria-hidden="true">+</span></button>
       <div id="projectPanelDetails" hidden>
         <section id="projectSummary" class="project-summary" aria-label="Informações do empreendimento">
-          <div class="project-heading"><span class="eyebrow">Empreendimento · Livon Incorporadora</span><span class="project-name">LIV Ipanema · São Carlos</span><span class="project-address">Rua João de Guzzy, 5151 · Jardim Bandeirantes · São Carlos, SP</span></div>
-          <p class="project-facts">2 quartos (1 suíte) · 47,50 a 47,89 m² · 17 andares</p>
-          <details class="typology-info"><summary>Planta Meio</summary><p>47,50 a 47,89 m², incluindo varanda · 2 quartos (1 suíte).</p><p>Sala, cozinha, banheiros e varanda com área de serviço.</p></details>
-          <details class="typology-info"><summary>Planta Canto</summary><p>47,59 m², incluindo varanda · 2 quartos (1 suíte).</p><p>Sala, cozinha, banheiros e varanda com área de serviço.</p></details>
+          <div class="project-heading"><span class="eyebrow">Empreendimento · ADN Construtora</span><span class="project-name">Parque das Laranjeiras · São Carlos</span><span class="project-address">Rua José Quatrochi, s/n · Loteamento Habitacional São Carlos 1 · São Carlos, SP</span></div>
+          <p class="project-facts">2 quartos · varanda gourmet · 39,12 e 40,79 m² · 3 torres de térreo + 12 · 312 apartamentos</p>
+          <details class="typology-info"><summary>Planta Meio</summary><p>Até 40,79 m² · 2 quartos · 1 banheiro. No térreo, até 54,17 m² com jardim.</p><p>Sala e cozinha integradas, varanda gourmet com área de serviço. Finais 03 a 06.</p></details>
+          <details class="typology-info"><summary>Planta Canto</summary><p>39,12 m² · 2 quartos · 1 banheiro. No térreo, 60,11 m² com jardim.</p><p>Sala e cozinha integradas, varanda gourmet com área de serviço. Finais 01, 02, 07 e 08.</p></details>
         </section>
         <section id="selectedApartment" class="selected-apartment" hidden aria-labelledby="selectedApartmentTitle">
           <p class="eyebrow">Apartamento selecionado</p><h2 id="selectedApartmentTitle"></h2>
@@ -94,10 +94,10 @@
       <div class="project-action-row">
         <button type="button" id="btnBackToMaquete" data-mode="maquete" aria-pressed="true">← Voltar ao prédio</button>
         <div id="selectedApartmentActions" class="apartment-actions" aria-label="Conhecer o apartamento selecionado" hidden>
-          <button type="button" data-unit-open="planta2d" class="primary">Ver planta</button><button type="button" data-unit-open="planta3d">Planta 3D</button><button type="button" data-unit-open="visita">Tour 3D</button>
+          <button type="button" data-unit-open="planta2d" class="primary">Ver planta</button><!-- Planta 3D e Tour: interiores do Laranjeiras ainda não ligados. -->
         </div>
         <nav id="viewModes" class="mode-switch" aria-label="Visualizações do apartamento selecionado" hidden>
-          <button type="button" data-mode="planta2d" aria-pressed="false">Planta 2D</button><button type="button" data-mode="planta3d" id="btnModePlanta3d" aria-pressed="false">Planta 3D</button><button type="button" data-mode="visita" id="btnModeVisita" aria-pressed="false">Tour 3D</button>
+          <button type="button" data-mode="planta2d" aria-pressed="false">Planta 2D</button><button type="button" data-mode="planta3d" id="btnModePlanta3d" aria-pressed="false" hidden>Planta 3D</button><button type="button" data-mode="visita" id="btnModeVisita" aria-pressed="false" hidden>Tour 3D</button>
         </nav>
         <a class="map-link" href="mapa-liv-ipanema-5km.html" hidden>O que tem por perto?</a>
       </div>
@@ -117,7 +117,7 @@
         <textarea id="buyerContactMessage" aria-label="Mensagem sobre o apartamento para copiar" readonly hidden></textarea>
       </section>
       <div id="referenceControls" hidden>
-        <div id="typologyControls" class="setting-field"><label for="typology">Planta do apartamento</label><select id="typology"><option value="canto">Canto · 47,59 m²</option><option value="meio">Meio · 47,5–47,89 m²</option></select></div>
+        <div id="typologyControls" class="setting-field"><label for="typology">Planta do apartamento</label><select id="typology"><option value="canto">Canto · 39,12 m²</option><option value="meio">Meio · até 40,79 m²</option></select></div>
         <p id="interiorNote" class="reference-note">Interior ilustrativo · medidas inferidas a partir das plantas publicadas.</p>
       </div>
     </div>
@@ -128,13 +128,13 @@
     <p id="detailsStockWarning" class="mirror-note" role="status" hidden></p>
     <div id="modalUnitDetails"><div id="detailsBody">
       <dl><dt>Situação e preço</dt><dd id="unitSale">Não informados</dd><dt>Área</dt><dd id="unitArea">A confirmar</dd><dt>Quartos / banheiros</dt><dd id="unitRooms">Não informados</dd><dt>Número e vaga</dt><dd id="unitCommercial">Não informados</dd><dt>Planta</dt><dd id="unitLayout">Em conferência</dd><dt>Posição</dt><dd id="unitPosition"></dd></dl>
-      <p id="gardenNote" class="note" hidden>Quintal do térreo: limites e área deste final em conferência.</p>
+      <p id="gardenNote" class="note" hidden>Térreo: a área inclui o jardim privativo (book da ADN).</p>
       <p id="unitDescription" hidden></p><p id="commercialConditions" hidden></p>
-      <details class="source-details"><summary>Origem dos dados</summary><p class="note">Posição aproximada, conforme a ordem da implantação.</p><p id="unitReferenceNote" class="note"></p><p id="commercialSource" class="note" hidden></p><p id="relationSource" class="note" hidden></p><a href="https://www.livonincorporadora.com.br/wp-content/uploads/2024/08/BOOK_LIV_Ipanema.pdf#page=15" target="_blank" rel="noopener">Implantação oficial · página 15 ↗</a></details>
+      <details class="source-details"><summary>Origem dos dados</summary><p class="note">Posição aproximada, conforme a ordem da implantação.</p><p id="unitReferenceNote" class="note"></p><p id="commercialSource" class="note" hidden></p><p id="relationSource" class="note" hidden></p><span>Fonte: book digital da ADN Construtora.</span></details>
     </div>
-    </div><div class="details-actions"><button type="button" data-unit-open="planta2d" class="primary" hidden>Ver planta</button><button type="button" data-unit-open="planta3d" hidden>Planta 3D</button><button type="button" data-unit-open="visita" hidden>Tour 3D</button></div>
+    </div><div class="details-actions"><button type="button" data-unit-open="planta2d" class="primary" hidden>Ver planta</button></div>
   </dialog>
-  <dialog id="mapPanel" aria-labelledby="mapTitle" aria-hidden="true" inert><div class="map-panel-head"><h2 id="mapTitle">Entorno do LIV Ipanema</h2><button type="button" id="closeMap" autofocus>← Voltar ao LIV</button></div></dialog>
+  <dialog id="mapPanel" aria-labelledby="mapTitle" aria-hidden="true" inert><div class="map-panel-head"><h2 id="mapTitle">Entorno do Parque das Laranjeiras</h2><button type="button" id="closeMap" autofocus>← Voltar à maquete</button></div></dialog>
   <script type="module" src="orientacao.js?rev=2026-10-28"></script>
   <script type="module" src="viewer.js?rev=2026-10-13-medidas2"></script>
 </body>

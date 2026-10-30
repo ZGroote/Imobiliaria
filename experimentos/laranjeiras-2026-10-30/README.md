@@ -142,7 +142,27 @@ O cadastro do LIV era fixo: uma torre, 17 pavimentos, 10 finais, espaçamento de
 
 Conferência: `node --test experimentos/laranjeiras-2026-10-30/site/test_cadastro.mjs`.
 
+## Página completa
+
+`site/maquete-laranjeiras.html` (antes `maquete-liv-ipanema.html`) abre a maquete com o painel, a seleção
+de apartamento, a ficha, a planta 2D e o relógio do sol. Abre em
+`http://localhost:8765/experimentos/laranjeiras-2026-10-30/site/maquete-laranjeiras.html`.
+
+- **Textos:** nome, endereço, incorporadora, plantas e áreas do Laranjeiras. A ficha mostra torre, pavimento,
+  final, área do book (o térreo inclui o jardim), 2 quartos e 1 banheiro, e o lado da fachada.
+- **Planta 2D:** `interiores/gerar_plantas2d.py` gera `site/plantas2d/` (imagem do book, recorte, régua,
+  medidas e entrada) a partir dos mesmos `planta.json` do construtor; `tipologias.js` lê `plantas2d/dados.js`.
+- **Dados do LIV desligados:** a tabela comercial está "ausente" (sem preço nem situação), não há `vinculos.json`
+  (a planta de cada final vem do cadastro, pela implantação do book), o estoque ao vivo continua desligado,
+  e o link do mapa segue oculto (o mapa ainda é o do LIV).
+- **Edição única:** só a `base`; o acabamento `referencia` do LIV saiu, e a cor vem do modelo.
+- **Cache de preparação desligado:** o service worker do LIV só entrega arquivos listados num
+  `transfer-manifest.json` próprio e bloqueava `plantas2d/`. `transfers.js` agora não registra o worker e solta
+  um registro antigo deste escopo. Para religar, é preciso gerar o manifesto do Laranjeiras.
+- **Planta 3D e Tour:** os botões ficam ocultos até os interiores serem ligados. Até lá, a página tenta aquecer
+  `interiores/catalogo.json` e recebe 404, sem efeito na maquete.
+
 ## Próximos passos
 
-A página completa (`maquete-liv-ipanema.html`) com os textos, o estoque e o mapa do Laranjeiras;
-interiores; luz por hora; celular; publicação em endereço de teste.
+Interiores (Planta 3D e Tour) com as 4 plantas; mapa do entorno; luz por hora; celular; publicação em
+endereço de teste.

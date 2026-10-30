@@ -104,6 +104,7 @@ def cadastro(md, sha_modelo):
     return {'schema': 'laranjeiras-units-v1', 'floorIndex': None, 'sourceModelSHA256': sha_modelo,
             'floors': md['floors'], 'towers': torres, 'units': units,
             'source': {'label': 'Book digital ADN, Parque das Laranjeiras', 'pages': [9, 12, 14, 16]},
+            'relationStatus': 'fornecido', 'relationSource': {'label': 'implantação do book da ADN (p. 12)', 'asOf': '2026-10-05'},
             'limitations': ['Posição de cada final pela implantação do book; numeração comercial não informada.',
                             'Canto = finais 01, 02, 07, 08; meio = 03 a 06 (implantação, p. 12).',
                             'Área do térreo inclui o jardim privativo; o meio do térreo é "de até" 54,17 m².']}
