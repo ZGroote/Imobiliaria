@@ -21,7 +21,7 @@ export async function installInteriorLook({renderer,base,record,signal,own=value
     validate(record);
     if(typeof record.path!=='string'||!(/^[a-zA-Z0-9._/-]+\.bin$/.test(record.path))||record.path.startsWith('/')||record.path.split('/').includes('..'))throw Error('Caminho do acabamento de cor inválido.');
     const path=record.path.startsWith('interiores/melhorias/')?record.path.slice('interiores/melhorias/'.length):record.path;
-    const url=new URL(path,new URL('interiores/melhorias/catalogo.json',base));url.searchParams.set('v',record.sha256);
+    const url=new URL(path,new URL('../../liv-experimental-2026-10-14/interiores/melhorias/catalogo.json',base));url.searchParams.set('v',record.sha256);
     const response=await fetchImpl(url,{signal});if(!response.ok)throw Error(`Acabamento de cor: HTTP ${response.status}.`);
     const bytes=await response.arrayBuffer();if(bytes.byteLength!==record.bytes)throw Error('Arquivo do acabamento de cor incompleto.');
     const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(value=>value.toString(16).padStart(2,'0')).join('');

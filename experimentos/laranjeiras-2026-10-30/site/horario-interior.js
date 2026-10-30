@@ -3,7 +3,7 @@ import {solarState,unitSolarContext,interiorSunDirection,facadeExposure} from '.
 import {inside} from './interior-navigation.js';
 
 export function interiorTimeState(hour,unitContext,{date}={}){
-  const input=unitContext||{side:'estacionamento'};
+  const input=unitContext||{side:'-z'};  // sem apartamento escolhido: fachada SSE (varanda do canto)
   const context=unitSolarContext({...input,id:input.unitId??input.id});
   if(input.yaw!==undefined){
     if(!Number.isFinite(input.yaw))throw new RangeError('Rotação da unidade inválida.');

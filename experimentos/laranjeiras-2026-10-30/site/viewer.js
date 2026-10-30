@@ -225,7 +225,7 @@ function updateNavbar(){
   const sel=typology(state.typology);
   const associated=hasApartmentLayout(unit);
   if(associated){
-    const num=unit.commercial?.commercialNumber?('Apartamento '+unit.commercial.commercialNumber):('Final '+unit.final);
+    const num=unit.commercial?.commercialNumber?('Apartamento '+unit.commercial.commercialNumber):`${unit.towerName} · ${unit.floorIndex===0?'térreo':unit.floorIndex+'º pavimento'} · final ${unit.final}`;
     if(title)title.textContent=num;
     if(subtitle)subtitle.textContent='Planta '+sel.label+' · interior ilustrativo';
   } else {

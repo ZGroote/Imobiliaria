@@ -70,7 +70,7 @@ export function fitImprovedFurniture(template,item,dimensions,{own=value=>value,
 
 export async function loadInteriorImprovements({base,signal,own=value=>value,onBitmap=()=>{},onStatus=()=>{},
   fetchImpl=globalThis.fetch,parseGLB}={}){
-  const catalogURL=new URL('interiores/melhorias/catalogo.json',base),report={status:'loading',assets:0,loaded:0,assetIds:[],sourceBlendSHA256:null,revision:null,replaced:0,decorations:0,finishes:0,environment:null,environmentExposureEV:null,background:null,reflectionEnvironments:{},reflectionEnvironmentIntensity:1,errors:[],warnings:[]};
+  const catalogURL=new URL('../../liv-experimental-2026-10-14/interiores/melhorias/catalogo.json',base),report={status:'loading',assets:0,loaded:0,assetIds:[],sourceBlendSHA256:null,revision:null,replaced:0,decorations:0,finishes:0,environment:null,environmentExposureEV:null,background:null,reflectionEnvironments:{},reflectionEnvironmentIntensity:1,errors:[],warnings:[]};
   const emit=()=>onStatus(structuredClone(report));emit();
   const templates=new Map(),decorations=[],instanceCounts=new Map(),hdrResources=new Map(),reflectionTextures=new Map(),reflectionMaterials=new Set(),loader=new GLTFLoader();let catalog,environment=null,backgroundEnvironment=null,activeTypology='canto';
   const assetFor=item=>{
@@ -196,16 +196,16 @@ export async function loadInteriorImprovements({base,signal,own=value=>value,onB
       let pose=item,target=dimensions;
       if(authorial&&!item.improvementAsset){
         const reference=asset.referenceFootprintCanto||asset.dimensions;
-        const ratio=key=>activeTypology==='canto'?1:dimensions[key]/reference[key];
+        const ratio=key=>dimensions[key]/reference[key];
         target={w:entry.size.x*ratio('w'),h:entry.size.y*ratio('h'),d:entry.size.z*ratio('d')};
         const instance=asset.instances?.find(instance=>instance.furnitureId===item.id);
         const sourcePose=instance||((instanceCounts.get(asset.id)||1)===1?asset.source:null);
         const sourcePosition=sourcePose?.positionThree,sourceRotation=sourcePose?.rotationQuarterTurns;
         pose={...item};
-        if(activeTypology==='canto'&&Array.isArray(sourcePosition)&&sourcePosition.length===3&&sourcePosition.every(Number.isFinite)){
+        if(false&&Array.isArray(sourcePosition)&&sourcePosition.length===3&&sourcePosition.every(Number.isFinite)){
           pose.position=[sourcePosition[0],sourcePosition[2]];pose.baseY=sourcePosition[1];
         }
-        if(activeTypology==='canto'&&Number.isInteger(sourceRotation)&&sourceRotation>=0&&sourceRotation<=3)pose.rotation=sourceRotation;
+        if(false&&Number.isInteger(sourceRotation)&&sourceRotation>=0&&sourceRotation<=3)pose.rotation=sourceRotation;
       }
       // Depois do rebase, altura significa a altura real completa, inclusive a torneira/prateleira.
       const group=fitImprovedFurniture(entry.root,pose,target,{own,asset:authorial?{...asset,fitHeightReference:undefined}:asset});
@@ -246,7 +246,7 @@ export async function loadInteriorImprovements({base,signal,own=value=>value,onB
           const authorial=group.userData.livAuthorialPlacement;
           if(!authorial&&item.tipo==='guardaroupa'&&walls.length)faceRoom(item,group);
           if(authorial){
-            if(typology!=='canto')backToWall(group,authorial);
+            backToWall(group,authorial);
             Object.assign(item,authorial.dimensions);item.originalDimensions={...authorial.dimensions};
             item.position=[...authorial.position];item.originalPosition=[...authorial.position];item.baseY=authorial.baseY;
             item.rotation=item.originalRotation=authorial.rotation;
@@ -288,6 +288,7 @@ export async function loadInteriorImprovements({base,signal,own=value=>value,onB
       updateStatus();return report.finishes;
     },
     addDecorations(furniture,scene,typology){
+      return report.decorations;  // Laranjeiras: decorações do LIV têm coordenadas do apartamento do LIV
       if(decorations.length)return report.decorations;
       for(const [index,placement]of (catalog?.decorations||[]).entries()){
         if(placement.typology&&placement.typology!==typology)continue;

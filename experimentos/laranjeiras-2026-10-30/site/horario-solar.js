@@ -53,6 +53,9 @@ function vector(direction) {
   return direction;
 }
 
+// Direções [x, z] das fachadas do Laranjeiras na cena.
+const AXES = { '+x': [1, 0], '-x': [-1, 0], '+z': [0, 1], '-z': [0, -1] };
+
 function rotateY(direction, yaw) {
   const [x, y, z] = vector(direction);
   const c = Math.cos(yaw), s = Math.sin(yaw);
@@ -63,7 +66,7 @@ function rotateY(direction, yaw) {
  * Fonte: https://gml.noaa.gov/grad/solcalc/solareqns.PDF
  * shortcut: implantação e rotação manuais; validar levantamento antes de estudar insolação executiva.
  */
-export function solarState(hour, { date, latitude = -21.98896655, longitude = -47.92314270, timezone = -3, buildingYaw = 120 } = {}) {
+export function solarState(hour, { date, latitude = -21.98896655, longitude = -47.92314270, timezone = -3, buildingYaw = -152 } = {}) {
   hour = normalizeHour(hour);
   const calendar = calendarDate(date);
   const lat = boundedNumber(latitude, -90, 90, 'Latitude') * RAD;
@@ -105,12 +108,18 @@ export function unitSolarContext(unit) {
   const finalNumber = finalValue === undefined || finalValue === null ? null : Number(finalValue);
   if (finalNumber !== null && (!Number.isInteger(finalNumber) || finalNumber < 1 || finalNumber > 10)) throw new RangeError('Final da unidade inválido.');
   const final = finalNumber === null ? null : String(finalNumber).padStart(2, '0');
-  const side = unit.side ?? (finalNumber === null ? null : finalNumber % 2 === 0 ? 'lazer' : 'estacionamento');
-  if (!['lazer', 'estacionamento'].includes(side)) throw new RangeError('Lado da unidade inválido.');
+  // Laranjeiras: side = 'torre-0N:±x|±z', a direção da fachada na cena.
+  const side = /(?:^|:)([+-][xz])$/.exec(unit.side ?? '')?.[1] ?? null;
+  if (!side) throw new RangeError('Lado da unidade inválido.');
   const idFloor = typeof unitId === 'string' ? /(?:pavimento-modelo-|^p)(\d+)/.exec(unitId)?.[1] : undefined;
   const floorIndex = unit.floorIndex ?? unit.floor ?? (idFloor === undefined ? null : Number(idFloor));
   if (floorIndex !== null && (!Number.isInteger(floorIndex) || floorIndex < 0)) throw new RangeError('Pavimento da unidade inválido.');
-  return { unitId, side, final, floorIndex, yaw: side === 'lazer' ? Math.PI : 0, approximate: true };
+  // A planta tem a fachada em -Z (canto, varanda em cima) ou em -X (meio): o yaw leva a fachada real até ela.
+  // Finais espelhados usam a planta sem espelho: a fachada fica certa, esquerda e direita trocam.
+  const typology = unit.typology ?? unit.relation?.typology;
+  const facing = AXES[side], plan = typology === 'meio' ? [-1, 0] : [0, -1];
+  const yaw = Math.atan2(plan[1], plan[0]) - Math.atan2(facing[1], facing[0]);
+  return { unitId, side, final, floorIndex, yaw, approximate: true };
 }
 
 export function interiorSunDirection(direction, context) {
@@ -121,7 +130,8 @@ export function interiorSunDirection(direction, context) {
 
 /** Potencial direto na normal da fachada, sem sombras de sacadas ou vizinhos. */
 export function facadeExposure(direction, side) {
-  const [, y, z] = vector(direction);
-  if (!['lazer', 'estacionamento'].includes(side)) throw new RangeError('Lado da fachada inválido.');
-  return y <= 0 ? 0 : clamp(side === 'lazer' ? z : -z);
+  const [x, y, z] = vector(direction);
+  const facing = AXES[side];
+  if (!facing) throw new RangeError('Lado da fachada inválido.');
+  return y <= 0 ? 0 : clamp(x * facing[0] + z * facing[1]);
 }

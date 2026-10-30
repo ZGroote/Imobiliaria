@@ -1,0 +1,72 @@
+{
+  "schema": "liv-interior-catalog-v1",
+  "shared": {
+    "runtime": {
+      "path": "interiores/shared/runtime.js",
+      "bytes": 93877,
+      "sha256": "005547b7bee15a30fd59b7ece8ce64d786ef8294d14eabc8bb2683ec56054c5f"
+    },
+    "materials": {
+      "path": "interiores/shared/materials.json.gz",
+      "bytes": 876068,
+      "sha256": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+      "compression": "gzip",
+      "decodedBytes": 1180661,
+      "decodedSHA256": "a04aecc426677a81f2cc41f64c224e9f1a0cdba634762a58cb91ade4b6bf3217"
+    },
+    "furniture": {
+      "path": "interiores/shared/furniture.json.gz",
+      "bytes": 201119,
+      "sha256": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd",
+      "compression": "gzip",
+      "decodedBytes": 1155377,
+      "decodedSHA256": "8affa3dc2b6f105282ec5b744729bd3f35193680d04eb85cb05a57bb693fbdc7"
+    }
+  },
+  "tipologias": {
+    "canto": {
+      "id": "canto",
+      "label": "Apartamento de canto",
+      "area": 39.12,
+      "unitId": "laranjeiras-planta-canto-tipo",
+      "unitSHA256": "d4e6256773aee72bad2e27f70dae1bfdcd42abddbc8c7a3aedb0248c51fa0e87",
+      "sourceSHA256": "178a06fbf4ce0d6d1535e100fc3f5dc662194f7d3fee2de3ab03c66c2f421012",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/canto/unidade.json",
+          "bytes": 6770,
+          "sha256": "d4e6256773aee72bad2e27f70dae1bfdcd42abddbc8c7a3aedb0248c51fa0e87"
+        },
+        "recipe": {
+          "path": "interiores/canto/recipe.json",
+          "bytes": 590,
+          "sha256": "178a06fbf4ce0d6d1535e100fc3f5dc662194f7d3fee2de3ab03c66c2f421012"
+        }
+      }
+    },
+    "meio": {
+      "id": "meio",
+      "label": "Apartamento de meio",
+      "area": 40.79,
+      "unitId": "laranjeiras-planta-meio-tipo",
+      "unitSHA256": "96e12485c076cc652da5927a31fc5932154eb9716fb2856a459a1b069e3233fb",
+      "sourceSHA256": "3d37d6c0453213a471c68768390ade8a93d31d94807326844f9268a7408459ec",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/meio/unidade.json",
+          "bytes": 6806,
+          "sha256": "96e12485c076cc652da5927a31fc5932154eb9716fb2856a459a1b069e3233fb"
+        },
+        "recipe": {
+          "path": "interiores/meio/recipe.json",
+          "bytes": 589,
+          "sha256": "3d37d6c0453213a471c68768390ade8a93d31d94807326844f9268a7408459ec"
+        }
+      }
+    }
+  }
+}

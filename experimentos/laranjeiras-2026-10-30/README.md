@@ -159,10 +159,30 @@ de apartamento, a ficha, a planta 2D e o relógio do sol. Abre em
 - **Cache de preparação desligado:** o service worker do LIV só entrega arquivos listados num
   `transfer-manifest.json` próprio e bloqueava `plantas2d/`. `transfers.js` agora não registra o worker e solta
   um registro antigo deste escopo. Para religar, é preciso gerar o manifesto do Laranjeiras.
-- **Planta 3D e Tour:** os botões ficam ocultos até os interiores serem ligados. Até lá, a página tenta aquecer
-  `interiores/catalogo.json` e recebe 404, sem efeito na maquete.
+## Interiores (Planta 3D e Tour)
+
+```
+python experimentos/laranjeiras-2026-10-30/interiores/gerar_pacote.py
+```
+
+O pacote segue o modo `native-factories` do LIV, o mesmo do Meio dele com luz dinâmica. O interior é
+montado no navegador a partir do `unidade.json`, com os materiais, móveis e fábricas compartilhados do LIV
+(`site/interiores/shared/`, copiados sem alteração e conferidos pelo hash). Não há bake de interior.
+
+Na cópia do interior:
+
+- **Móveis aprovados do LIV** (`interiores/melhorias/`, 45 MB em GLB, fora do git também no LIV) são lidos
+  da pasta do LIV no ambiente local. Na tipologia `canto`, o LIV punha cada móvel na posição em que foi
+  desenhado no Canto dele; aqui todo móvel segue o cadastro do Laranjeiras e encosta na parede. As decorações
+  (livros, fruteira) ficam desligadas, porque têm coordenadas do apartamento do LIV.
+- **Sol por apartamento:** o giro do terreno é −152° (no LIV era 120°). O lado do apartamento é a direção real
+  da fachada (`±x`/`±z`), e o giro do interior leva essa direção até a fachada da planta (canto em −Z, meio em −X).
+  Os finais espelhados usam a planta sem espelho: a fachada fica certa, mas esquerda e direita trocam.
+
+Testado no navegador: canto e meio em Planta 3D (15 móveis aprovados trocados, 3 acabamentos, sem aviso) e o
+Tour aberto pela página (Torre 03, 7º pavimento, final 05).
 
 ## Próximos passos
 
-Interiores (Planta 3D e Tour) com as 4 plantas; mapa do entorno; luz por hora; celular; publicação em
-endereço de teste.
+Enquadramento inicial do Tour (começa colado no sofá); mapa do entorno; luz por hora gravada; celular;
+publicação em endereço de teste.
