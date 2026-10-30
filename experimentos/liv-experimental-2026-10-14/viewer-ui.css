@@ -12,9 +12,10 @@
   color: var(--ink);
   background: var(--page);
 }
-* { box-sizing: border-box; }
+* { box-sizing: border-box; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+input, textarea, [contenteditable]:not([contenteditable="false"]), [contenteditable]:not([contenteditable="false"]) * { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
 html { height: 100%; overflow: hidden; }
-body { margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+body { margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) 0 env(safe-area-inset-left, 0px); }
 [hidden] { display: none !important; }
 button, select, a { font: inherit; }
 button, select, .map-link {
@@ -32,6 +33,10 @@ button[aria-pressed=true] { border-color: #36996a; background: #1b3b30; color: #
 button:focus-visible, select:focus-visible, a:focus-visible, summary:focus-visible {
   outline: 3px solid var(--accent); outline-offset: 3px;
 }
+.orientation-controls { display: flex; flex: 0 0 auto; align-items: center; gap: 8px; width: calc(100% - 24px); max-width: 1440px; margin: 4px auto 0; }
+.orientation-controls p { flex: 1; min-width: 0; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.3; }
+.orientation-options { display: flex; flex-shrink: 0; gap: 4px; }
+.orientation-options button { min-height: 44px; padding: 6px 10px; font-size: 12px; }
 .layout { width: 82%; max-width: 1040px; margin: 8px auto max(8px, env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 12px; }
 .visual { min-width: 0; min-height: 0; flex: 1; }
 .stage { position: relative; height: 100%; overflow: hidden; background: var(--page); scroll-margin-top: 12px; user-select: none; -webkit-user-select: none; }
@@ -92,7 +97,7 @@ button:focus-visible, select:focus-visible, a:focus-visible, summary:focus-visib
 .recovery-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 progress { accent-color: var(--accent); max-width: 100%; }
 .viewer-panel { position: relative; display: flex; flex-direction: column; flex: 0 1 auto; min-height: 0; max-height: 52%; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); container: project / inline-size; }
-#projectPanelDetails { min-height: 0; margin-right: 52px; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+#projectPanelDetails { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
 #projectPanelDetails:has(#selectedApartment:not([hidden])) .project-summary { display: none; }
 #projectPanelDetails:has(#availableUnits:not([hidden])) #selectionPrompt { display: none; }
 .project-action-row, .interior-navbar, #projectPanelFooter { flex-shrink: 0; }
@@ -101,7 +106,7 @@ progress { accent-color: var(--accent); max-width: 100%; }
 .eyebrow { display: block; margin: 0 0 4px; color: var(--gold); font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
 .project-name { display: block; font-size: 17px; line-height: 1.4; font-weight: 600; }
 .project-summary { margin-bottom: 12px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
-.project-heading { min-width: 0; }
+.project-heading { min-width: 0; padding-right: 52px; }
 .project-address { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; }
 .project-facts { margin: 8px 0 0; color: #c0c8ce; font-size: 13px; }
 .panel-intro { margin: 0 0 12px; color: var(--muted); font-size: 12px; }
@@ -158,7 +163,7 @@ summary { cursor: pointer; min-height: 44px; align-content: center; font-size: 1
 .demo-note { max-width: 1040px; margin: 16px auto; }
 .skip-link { position: absolute; left: 16px; top: -100px; z-index: 100; color: var(--ink); background: var(--surface); padding: 12px; }
 .skip-link:focus { top: 12px; }
-#mapPanel { position: fixed; inset: 0; width: 100%; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: var(--page); color: var(--ink); }
+#mapPanel { position: fixed; inset: 0; width: 100%; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); border: 0; background: var(--page); color: var(--ink); }
 #mapPanel[open] { display: flex; flex-direction: column; }
 #mapPanel:not([open]) { display: flex; flex-direction: column; visibility: hidden; pointer-events: none; }
 #mapPanel::backdrop { background: var(--page); }
@@ -258,10 +263,58 @@ html[data-experiencia-compra=true]:not([data-buyer-mode=maquete]) .mode-switch b
 html[data-experiencia-compra=true]:not([data-buyer-mode=maquete]) .map-link { display: none; }
 @media (max-height: 650px) { .buyer-contact #buyerContactNote, .buyer-ground-note { display: none; } }
 @media (max-height: 650px) { html[data-experiencia-compra=true]:not([data-buyer-mode=maquete]) #projectPanelFooter { display: none; } }
-@media (min-width: 700px) and (max-width: 999px) and (max-height: 500px) {
-  html[data-experiencia-compra=true] .layout { flex-direction: row; }
-  html[data-experiencia-compra=true] .viewer-panel { width: 340px; flex: 0 0 340px; height: 100%; max-height: 100%; }
-  html[data-experiencia-compra=true] #projectPanelDetails { flex: 1; }
-  html[data-experiencia-compra=true] .layout:has(.viewer-panel[data-collapsed=true]) { flex-direction: column; }
-  html[data-experiencia-compra=true] .viewer-panel[data-collapsed=true] { width: 100%; flex: 0 0 auto; height: auto; max-height: 80%; }
+@media (orientation: landscape) and (max-height: 600px) and (max-width: 1366px) {
+  body:has(#orientationControls:not([hidden])) .experience-bar { position: absolute; top: max(4px, env(safe-area-inset-top, 0px)); left: max(8px, env(safe-area-inset-left, 0px)); z-index: 5; padding: 0; }
+  .orientation-controls { justify-content: flex-end; height: 44px; min-height: 44px; }
+  .orientation-controls p { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  body:has(#orientationControls:not([hidden])):has(#liv-analytics-consent[hidden]) { padding-bottom: 0 !important; }
+  body:has(#orientationControls:not([hidden])) #liv-analytics-privacy { top: max(4px, env(safe-area-inset-top, 0px)) !important; left: calc(128px + env(safe-area-inset-left, 0px)) !important; bottom: auto !important; min-height: 44px !important; margin: 0 !important; }
+  body:has(#orientationControls:not([hidden])) [data-whatsapp-floating=true] { top: max(4px, env(safe-area-inset-top, 0px)) !important; left: calc(228px + env(safe-area-inset-left, 0px)) !important; right: auto !important; bottom: auto !important; width: 44px !important; height: 44px !important; min-height: 44px !important; }
+  .layout, .layout:has(.viewer-panel[data-collapsed=true]) { --compact-panel-width: 216px; width: calc(100% - 16px); max-width: none; flex-direction: row; gap: 8px; }
+  .layout:has(.viewer-panel[data-collapsed=true]) { --compact-panel-width: 184px; }
+  .viewer-panel, .viewer-panel[data-collapsed=true] { width: 216px; flex: 0 0 216px; height: 100%; max-height: 100%; padding: 8px; overflow: hidden; }
+  .viewer-panel[data-collapsed=true] { width: 184px; flex-basis: 184px; height: auto; align-self: flex-start; }
+  #projectPanelDetails { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+  .panel-toggle { position: static; align-self: flex-end; flex: 0 0 44px; margin: 0 0 4px; }
+  .viewer-panel[data-collapsed=true] .project-action-row { padding-right: 0; }
+  .viewer-panel[data-collapsed=true] .project-action-row > button { grid-column: auto; }
+  .viewer-panel[data-collapsed=true] .map-link { grid-column: 1 / -1; grid-row: auto; }
+  .project-action-row { gap: 4px; }
+  .project-action-row > button, .map-link, .apartment-actions button, .mode-switch button { min-height: 44px; padding: 4px; font-size: 11px; line-height: 1.2; white-space: normal; }
+  .apartment-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+  html[data-experiencia-compra=true]:not([data-buyer-mode=maquete]) .project-action-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .project-action-row > #btnBackToMaquete, .back-to-list { position: absolute; top: 8px; left: 8px; width: calc(100% - 120px); margin: 0; }
+  .viewer-panel[data-collapsed=true] .project-action-row > #btnBackToMaquete { width: calc(100% - 68px); }
+  .viewer-panel:has(#btnBackToMaquete[aria-pressed=false]) .back-to-list { display: none; }
+  body:has(#selectedApartment:not([hidden])) .viewer-panel[data-collapsed=true]:has(#btnBackToMaquete[aria-pressed=true]) .map-link { position: absolute; top: 8px; left: 8px; width: calc(100% - 68px); }
+  .interior-navbar { flex-shrink: 0; margin-top: 4px; }
+  .host-tour-controls, .host-plan-controls, .host-plan2d-controls { flex-wrap: nowrap; gap: 4px; }
+  .interior-navbar button, .interior-navbar select { min-width: 0; min-height: 44px; padding: 4px; font-size: 11px; line-height: 1.2; }
+  .host-plan-controls > button { flex: 1; }
+  #hostRoomGo { flex: 0 0 64px; }
+  #plan2dZoomIn, #plan2dZoomOut { flex: 0 0 44px; }
+  #plan2dReset { flex: 1; padding-inline: 2px; }
+  .host-plan2d-controls output { position: absolute; width: 1px; height: 1px; min-width: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+  .buyer-contact { flex-shrink: 0; margin-top: 0; }
+  .buyer-contact-action { padding: 4px; font-size: 11px; }
+  .project-summary { margin-bottom: 6px; padding-bottom: 6px; }
+  .selected-apartment { margin: 0; padding: 0; border: 0; }
+  .selected-apartment > .eyebrow, .apartment-meta, .apartment-note { display: none; }
+  .selected-apartment h2 { margin: 0; font-size: 14px; line-height: 1.3; }
+  .apartment-sale { margin: 0; font-size: 12px; line-height: 1.4; }
+  .apartment-info { position: absolute; top: 8px; right: 60px; width: 44px; min-height: 44px; margin: 0; padding: 0; font-size: 0; }
+  .apartment-info::before { content: 'Ficha'; font-size: 11px; }
+  .project-heading { padding-right: 0; }
+  .project-name { font-size: 14px; }
+  .available-units h2 { margin-bottom: 4px; font-size: 13px; }
+  .project-address, .project-facts, .project-summary .eyebrow, .panel-intro, #projectPanelFooter, .stage-badge { display: none; }
+  .back-to-list { min-height: 44px; max-width: 100%; padding-inline: 4px; font-size: 11px; }
+  #availabilityFilter label { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  #availabilityFilter { position: fixed; top: calc(64px + env(safe-area-inset-top, 0px)); right: calc(68px + env(safe-area-inset-right, 0px)); width: calc(var(--compact-panel-width) - 68px); z-index: 6; }
+  #availabilityFilter select { width: 100%; min-width: 0; max-width: none; padding-inline: 8px; }
+  body:has(#selectedApartment:not([hidden])) #availabilityFilter { display: none; }
+}
+@media (orientation: landscape) and (max-height: 260px) {
+  .viewer-panel:has(#selectedApartment:not([hidden])) { overflow-y: auto; overscroll-behavior: contain; }
+  .viewer-panel:has(#selectedApartment:not([hidden])) #projectPanelDetails { flex: 0 0 auto; overflow: visible; }
 }

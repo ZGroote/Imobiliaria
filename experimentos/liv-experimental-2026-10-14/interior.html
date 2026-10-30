@@ -6,7 +6,8 @@
 <title>LIV Ipanema — interior</title>
 <style>
   /* FUNDO-3D-20261023: mesma cor de fundo da página principal, inclusive durante a carga. */
-  :root{font-family:system-ui,sans-serif;color:#edf1ef;background:#0e151b;color-scheme:dark}*{box-sizing:border-box}body{margin:0}
+  :root{font-family:system-ui,sans-serif;color:#edf1ef;background:#0e151b;color-scheme:dark}*{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}body{margin:0}
+  input,textarea,[contenteditable]:not([contenteditable="false"]),[contenteditable]:not([contenteditable="false"]) *{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
   #interior-stage{position:relative;width:100%;height:100dvh;min-height:300px;overflow:hidden;background:radial-gradient(ellipse at 50% 45%,#17212b,#0e151b 72%)}
   #interior-canvas{display:block;width:100%;height:100%;touch-action:none}
   #interior-controls{position:absolute;left:12px;right:12px;top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;pointer-events:none}
@@ -21,16 +22,32 @@
   .furniture-dimensions input:focus-visible{outline:3px solid #e4c58c;outline-offset:2px}#furniture-finish{margin-top:8px;width:100%;border-color:#63dba2}
   /* EDITOR-DESKTOP-20261024: disponível também no iframe, somente na Planta 3D com mouse/trackpad. */
   @media(min-width:480px) and (hover:hover) and (pointer:fine){:root[data-mode="planta3d"] #furniture-panel{display:block}}
-  #touch-pad{position:absolute;right:12px;bottom:74px;display:grid;grid-template-columns:44px 44px 44px;gap:4px}#touch-pad[hidden]{display:none}#touch-forward{grid-column:2}#touch-left{grid-row:2;grid-column:1}#touch-back{grid-row:2;grid-column:2}#touch-right{grid-row:2;grid-column:3}
+  #touch-pad{position:absolute;right:12px;bottom:74px;display:grid;grid-template-columns:44px 44px 44px;gap:4px}#touch-pad button{touch-action:none}#touch-pad[hidden]{display:none}#touch-forward{grid-column:2}#touch-left{grid-row:2;grid-column:1}#touch-back{grid-row:2;grid-column:2}#touch-right{grid-row:2;grid-column:3}
   #interior-stage:has(#furniture-panel[open]) #interior-note{display:none}
   #failure{position:absolute;inset:0;display:grid;place-items:center;text-align:center;background:#10191f;padding:24px}#failure[hidden]{display:none}#failure a{display:inline-block;margin:8px}
   @media(max-width:600px){#interior-controls{gap:4px;left:8px;right:8px;top:8px}button,select{font-size:12px;padding:8px}#room-select{max-width:160px}#furniture-panel{right:8px;bottom:8px;max-width:210px}#interior-note{bottom:8px;left:8px;max-width:calc(100% - 160px)}#capture-interior{display:none}}
   :root[data-embedded="1"] #interior-controls,
   :root[data-embedded="1"] #interior-note{display:none!important}
+  :root[data-embedded="1"] #interior-stage{min-height:0}
+  /* Editor à esquerda, acima da barra, deixando o contato e o sol livres. */
+  :root[data-embedded="1"] #furniture-panel{left:12px;right:auto;bottom:96px;max-height:calc(100% - 184px)}
+  @media(min-width:480px) and (hover:hover) and (pointer:fine){:root[data-embedded="1"] #interior-stage:has(#furniture-panel[open]) #interior-canvas{width:calc(100% - 304px);margin-left:304px}}
+  @media(min-width:480px) and (max-width:600px) and (hover:hover) and (pointer:fine){:root[data-embedded="1"] #interior-stage:has(#furniture-panel[open]) #interior-canvas{width:calc(100% - 234px);margin-left:234px}}
+  @media(max-height:600px){:root[data-embedded="1"] #furniture-panel{bottom:136px;max-height:calc(100% - 208px)}}
 </style>
 <script>
   if(new URLSearchParams(location.search).get('embed')==='1'||window.self!==window.top){
     document.documentElement.dataset.embedded='1';
+  }
+</script>
+<script id="experience-interaction">
+  // Segurar os controles não deve iniciar seleção nem o menu nativo de toque prolongado.
+  for (const type of ['selectstart', 'contextmenu']) {
+    document.addEventListener(type, event => {
+      if (!event.target.closest?.('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) {
+        event.preventDefault();
+      }
+    }, true);
   }
 </script>
 <main id="interior-stage">

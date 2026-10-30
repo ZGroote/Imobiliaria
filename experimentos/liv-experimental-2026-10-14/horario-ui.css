@@ -11,5 +11,16 @@
 /* Com a luz gravada o interior ficou claro de dia: texto escuro com halo claro, como na maquete; branco só fora do dia. */
 .liv-clock{text-shadow:0 0 2px #fff,0 0 6px #fffc,0 1px 2px #fffc}
 .liv-clock:not([data-phase=dia]){color:#f1f5fa;text-shadow:0 0 2px #000,0 0 6px #000c,0 1px 3px #000e}
+.liv-clock-toggle{display:none}
 @media(max-width:600px){.liv-clock{right:4px;width:72px;height:min(240px,calc(100% - 24px))}.liv-clock-heading label{font-size:9px}.liv-clock output{font-size:16px}}
 @media(max-height:550px){.liv-clock{height:min(220px,calc(100% - 16px))}.liv-clock-detail{display:none}}
+@media (orientation:landscape) and (max-height:600px) and (max-width:1366px){
+  .liv-clock,.liv-clock:not([data-phase=dia]){top:auto;right:8px;bottom:8px;transform:none;width:84px;height:auto;max-height:calc(100% - 16px);align-items:stretch;gap:4px;color:var(--ink);text-shadow:none}
+  .liv-clock-toggle{display:flex;align-items:center;justify-content:center;order:4;flex:0 0 44px;width:100%;min-height:44px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:#131c23f2;color:var(--ink);font:12px/1.2 system-ui,sans-serif;text-shadow:none;cursor:pointer}
+  .liv-clock:not([data-expanded=true])>:not(.liv-clock-toggle){display:none}
+  .liv-clock[data-expanded=true]{width:96px;height:min(252px,calc(100% - 16px));padding:6px;border:1px solid var(--line);border-radius:8px;background:#131c23f5}
+  .liv-clock[data-expanded=true] .liv-clock-heading{gap:1px;flex-shrink:0}
+  .liv-clock[data-expanded=true] .liv-clock-scale{margin-inline:auto;min-height:44px}
+  .liv-clock[data-expanded=true] output{font-size:16px}
+  .liv-clock[data-expanded=true] p{flex-shrink:0;line-height:1.2}
+}

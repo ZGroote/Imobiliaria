@@ -489,10 +489,10 @@ function placeOrbit(position,target){
 }
 function orbitDefault(){
   scene.updateMatrixWorld(true);const bounds=new THREE.Box3().setFromObject(scene);
-  const area=stage.getBoundingClientRect(),toolbar=document.querySelector('#interior-controls').getBoundingClientRect();
+  const area=canvas.getBoundingClientRect(),toolbar=document.querySelector('#interior-controls').getBoundingClientRect();
   const bottom=[...document.querySelectorAll('#interior-note')].filter(element=>element.getClientRects().length).map(element=>area.bottom-element.getBoundingClientRect().top);
   const inset=Math.max(toolbar.bottom-area.top,...bottom)+16;
-  const limits={x:Math.max(.5,1-32/area.width),y:Math.max(.3,1-2*inset/area.height)};
+  const limits={x:.7*Math.max(.5,1-32/area.width),y:.7*Math.max(.3,1-2*inset/area.height)};
   const pose=planFrame(bounds,camera.fov,camera.aspect,limits);
   controls.maxDistance=Math.max(32,pose.distance*1.5);placeOrbit(pose.position,pose.target);
   state.framing={limits,bounds:[bounds.min.toArray(),bounds.max.toArray()]};
@@ -769,8 +769,8 @@ async function start(){
   addLights();bindProbeLight();if(timeLight)applyTimeLight();
   // Walking respects walls and openings; furniture stays visible without blocking passage.
   navigation=createNavigation(layout);entry=navigation.entry();tourPosition=[...entry];faceRoom();refreshRooms();
-  function resize(){const width=stage.clientWidth,height=stage.clientHeight;if(!width||!height||state.disposed)return;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();}
-  resizeView=resize;observer=new ResizeObserver(resize);observer.observe(stage);resize();orbitDefault();const initialMode=state.mode;state.mode='planta3d';state.setMode(initialMode);
+  function resize(){const width=canvas.clientWidth,height=canvas.clientHeight;if(!width||!height||state.disposed)return;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();}
+  resizeView=resize;observer=new ResizeObserver(resize);observer.observe(stage);observer.observe(canvas);resize();orbitDefault();const initialMode=state.mode;state.mode='planta3d';state.setMode(initialMode);
   wire();document.querySelector('#furniture-select').replaceChildren(...furniture.map(m=>{const option=document.createElement('option');option.value=m.id;option.textContent=m.name;return option;}));
   furnitureEditor=createFurnitureEditor({canvas,camera,scene,furniture,state,listen});
   const area=record.areaPublishedRange?record.areaPublishedRange.map(a=>a.toFixed(2).replace('.',',')).join(' a '):record.area.toFixed(2).replace('.',',');

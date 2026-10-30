@@ -4,7 +4,7 @@ import {unitById} from './unidades.js';
 import {loadUnitCatalog,floorOf,unitScope} from './catalogo-unidades.js';
 import {createUnitUI} from './unit-ui.js';
 import {requestedEdition} from './edicoes.js';
-import {attachCommercial,priceLabel} from './comercial.js';
+import {attachCommercial} from './comercial.js';
 import {requestedAmbience,AMBIENCES} from './ambiencia-perfis.js';
 import {attachRelations} from './vinculos.js';
 import {attachStock} from './estoque-adapter.js';
@@ -25,10 +25,10 @@ const demonstration=new URLSearchParams(location.search).get('demonstracao')==='
 const scope=demonstration||new URLSearchParams(location.search).has('estoque')||!new URLSearchParams(location.search).has('unidades')?'edificio':unitScope(location.search);
 const finish=geometry!=='base'||new URLSearchParams(location.search).get('acabamento')==='base'?'base':'referencia';
 const environment=new URLSearchParams(location.search).get('ambiente')==='procedural'?'procedural':'precalculado';
-const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,panelCollapsed:false,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
+const state=window.__livViewer={ready:false,mode:'maquete',typology:'canto',interiorSnapshots:{},view:'perspectiva',floor:-1,selectedUnitId:null,panelCollapsed:true,frame:null,error:null,backend:null,pendingCleanup:0,cleanupTimeouts:0};
 state.ambience=requestedAmbience(location.search);
 const timeQuery=new URLSearchParams(location.search);
-state.hour=normalizeHour(timeQuery.get('hora'),state.ambience==='entardecer'?17.5:14);
+state.hour=6.5;
 try {state.solarDate=solarState(state.hour,timeQuery.has('data')?{date:timeQuery.get('data')}:{}).date;}
 catch {state.solarDate=solarState(state.hour).date;}
 state.availabilityFilter='disponiveis';
@@ -63,9 +63,7 @@ try {
     Number.isInteger(saved.floor)&&saved.floor>=-1&&saved.floor<=16&&
     ['perspectiva','fachada','aerea','portaria','implantacao','varandas','acesso','livre'].includes(saved.view)) {
     state.view=saved.view;state.floor=saved.floor;
-    if(!timeQuery.has('hora'))state.hour=normalizeHour(saved.hour,state.hour);
     if(!timeQuery.has('data')&&saved.solarDate){try{state.solarDate=solarState(state.hour,{date:saved.solarDate}).date;}catch{}}
-    if(typeof saved.panelCollapsed==='boolean')state.panelCollapsed=saved.panelCollapsed;
     if(!new URLSearchParams(location.search).has('luz')&&Object.hasOwn(AMBIENCES,saved.ambience))state.ambience=saved.ambience;
     if(typeof saved.selectedUnitId==='string'&&(saved.floor===1||(scope==='edificio'&&saved.floor>=0)))state.selectedUnitId=saved.selectedUnitId;
     if(saved.mode!=='maquete'&&state.selectedUnitId)restoredInterior={mode:saved.mode,unitId:state.selectedUnitId};
@@ -131,21 +129,18 @@ function updateInfoPanel(){
     inlineDetails.hidden=!inline||!selectedApartment();
     if(inline&&detailsDialog.open)detailsDialog.close();
   }
-  const collapsed=state.panelCollapsed,label=collapsed?'Restaurar informações':'Minimizar informações';
+  const unit=selectedApartment();
+  projectPanel.dataset.apartment=String(Boolean(unit));
+  projectPanel.dataset.mode=state.mode;
+  const summary=document.getElementById('panelSummary');
+  if(summary)summary.textContent=unit?
+    document.getElementById('selectedApartmentTitle').textContent:'LIV Ipanema · Informações';
+  const collapsed=state.panelCollapsed,label=collapsed?'Expandir informações':'Recolher informações';
   panelToggle.setAttribute('aria-expanded',String(!collapsed));
   panelToggle.setAttribute('aria-label',label);panelToggle.title=label;
   document.getElementById('panelToggleIcon').textContent=collapsed?'+':'−';
-  projectPanel.dataset.collapsed='false';panelDetails.hidden=false;panelFooter.hidden=false;
-  let gained=0;
-  if(collapsed){
-    // Measure both layouts in one task, before painting. Wrapping, selected
-    // apartment data and mode controls determine the actual space recovered.
-    const expandedHeight=projectPanel.getBoundingClientRect().height;
-    projectPanel.dataset.collapsed='true';panelDetails.hidden=true;panelFooter.hidden=true;
-    gained=Math.max(0,expandedHeight-projectPanel.getBoundingClientRect().height);
-  }
-  const space=`${gained}px`;
-  if(stage.style.getPropertyValue('--panel-space')!==space)stage.style.setProperty('--panel-space',space);
+  projectPanel.dataset.collapsed=String(collapsed);
+  panelDetails.hidden=collapsed;panelFooter.hidden=collapsed;
 }
 const panelResize=typeof ResizeObserver==='function'?new ResizeObserver(updateInfoPanel):null;
 
@@ -275,33 +270,6 @@ function updateAvailability(){
     active?`${available.length} ${available.length===1?'disponível':'disponíveis'} em verde · ${buyerUI.enabled?'2 toques abrem a planta':'toque para ver a ficha'}`:
       `${available.length} ${available.length===1?'disponível':'disponíveis'} · selecione para destacar`;
   if(state.ready&&state.mode==='maquete')state.frame?.contentWindow?.__livProva?.setAvailableUnits(state.glowingUnitIds);
-  renderAvailableList(available);
-}
-// Facade targets are small on a phone: the list is the buyer's main way in.
-let listedUnits=null,listedKey='';
-function renderAvailableList(available){
-  const section=document.getElementById('availableUnits'),list=document.getElementById('availableUnitList');
-  document.getElementById('selectionPrompt').textContent=buyerUI.enabled?
-    'Um toque seleciona. Dois toques no mesmo apartamento abrem a planta. Você também pode escolher na lista.':
-    available.length?'Toque num apartamento verde no prédio ou escolha na lista abaixo.':'Toque num apartamento do prédio para ver a planta e o Tour.';
-  section.hidden=!state.ready||state.mode!=='maquete'||Boolean(selectedApartment())||!available.length;
-  const key=available.join();
-  if(section.hidden||(units===listedUnits&&key===listedKey))return;
-  listedUnits=units;listedKey=key;
-  document.getElementById('availableUnitsTitle').textContent=`${available.length} ${available.length===1?'apartamento disponível':'apartamentos disponíveis'}`;
-  const number=new Intl.NumberFormat('pt-BR');
-  const rows=available.map(id=>unitById(units,id)).sort((a,b)=>floorOf(units,a)-floorOf(units,b)||String(a.final).localeCompare(String(b.final)));
-  list.innerHTML='';
-  for(const unit of rows){
-    const area=unit.salesDetails?.areaM2;
-    const button=document.createElement('button');button.type='button';button.dataset.unitId=unit.id;
-    const code=unit.commercial?.commercialNumber;
-    for(const text of [code?(/^\d+$/.test(code)?`Apto ${code}`:code):`Final ${unit.final}`,
-      area===null||area===undefined?'—':`${number.format(area)} m²`,priceLabel(unit)]){
-      const cell=document.createElement('span');cell.textContent=text;button.append(cell);
-    }
-    const item=document.createElement('li');item.append(button);list.append(item);
-  }
 }
 function setAvailabilityFilter(value){
   if(!['todos','disponiveis'].includes(value))throw Error('Filtro de disponibilidade inválido.');
@@ -561,7 +529,7 @@ async function setMode(mode,{restore=false}={}) {
       const address=new URLSearchParams(location.search),requestedUnit=address.get('unidade');
       if(units.units.some(unit=>unit.id===requestedUnit)){
         state.selectedUnitId=requestedUnit;state.floor=floorOf(units,unitById(units,requestedUnit));
-        const mode=address.get('modo');restoredInterior=['planta2d','planta3d','visita'].includes(mode)?{mode,unitId:requestedUnit}:null;
+        const mode=address.get('modo')||'planta2d';restoredInterior=['planta2d','planta3d','visita'].includes(mode)?{mode,unitId:requestedUnit}:null;
       }
       if(relationsData){units=attachRelations(units,relationsData,interiorCatalog);state.units=units;}
       if(stockControlled){units=attachStock(units,stockData,interiorCatalog);state.units=units;}
@@ -837,13 +805,6 @@ document.getElementById('hostFramePlan')?.addEventListener('click',()=>{
 });
 document.getElementById('btnOpenUnitCard')?.addEventListener('click',()=>showDetails());
 document.getElementById('btnApartmentInfo')?.addEventListener('click',()=>showDetails());
-document.getElementById('btnBackToList').addEventListener('click',()=>{
-  selectUnit(null);state.panelCollapsed=false;updateInfoPanel();
-});
-document.getElementById('availableUnitList').addEventListener('click',event=>{
-  const button=event.target.closest?.('button[data-unit-id]');
-  if(button&&selectUnit(button.dataset.unitId))revealOnMobile('selectedApartment');
-});
 document.getElementById('closeDetails').addEventListener('click',()=>detailsDialog.close());
 detailsDialog.addEventListener('click',event=>{
   if(event.target!==detailsDialog)return;const r=detailsDialog.getBoundingClientRect();

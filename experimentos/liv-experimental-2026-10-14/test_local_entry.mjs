@@ -11,7 +11,7 @@ function open(address){
     replace:destination=>destinations.push(destination)};
   // Classic scripts run for file:// pages even when ES modules are blocked.
   for(const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)){
-    if(!/\b(?:src|type)\s*=/.test(match[1]))vm.runInNewContext(match[2],{location,URL});
+    if(!/\b(?:src|type)\s*=/.test(match[1]))vm.runInNewContext(match[2],{location,URL,document:{addEventListener(){}}});
   }
   return destinations;
 }

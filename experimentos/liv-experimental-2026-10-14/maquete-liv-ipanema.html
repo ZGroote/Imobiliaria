@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <link rel="icon" href="data:,">
   <title>LIV Ipanema — maquete interativa</title>
   <meta name="description" content="Maquete 3D interativa do LIV Ipanema, em São Carlos: escolha o apartamento na fachada e veja planta, preço e o Tour 3D dos 2 quartos com suíte.">
@@ -16,12 +16,35 @@
       location.replace(localPreview.href);
     }
   </script>
-  <link rel="stylesheet" href="unit-ui.css">
-  <link rel="stylesheet" href="viewer-ui.css?rev=2026-10-13-medidas2">
+  <script id="experience-interaction">
+    // Segurar os controles não deve iniciar seleção nem o menu nativo de toque prolongado.
+    for (const type of ['selectstart', 'contextmenu']) {
+      document.addEventListener(type, event => {
+        if (!event.target.closest?.('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) {
+          event.preventDefault();
+        }
+      }, true);
+    }
+  </script>
+  <link rel="stylesheet" href="unit-ui.css?rev=2026-10-28-orientacao">
+  <link rel="stylesheet" href="viewer-ui.css?rev=2026-10-28-orientacao">
+  <link rel="stylesheet" href="viewer-compact.css?rev=2026-10-30">
 </head>
 <body>
   <a class="skip-link" href="#stage">Ir para o visualizador</a>
   <h1 class="sr-only">LIV Ipanema · São Carlos</h1>
+  <header id="mobileToolbar" class="mobile-toolbar" aria-label="Navegação da maquete" hidden>
+    <div id="mobileAvailability"></div>
+    <div id="mobileHome"><button type="button" id="mobileBackToBuilding" hidden>Maquete</button></div>
+    <div id="mobileOrientation"></div>
+  </header>
+  <header id="orientationControls" class="orientation-controls" hidden>
+    <p id="orientationHint" role="status" aria-live="polite">Mais espaço na horizontal.</p>
+    <div class="orientation-options" role="group" aria-label="Orientação preferida da maquete">
+      <button type="button" id="orientationLandscape" aria-pressed="true">Horizontal</button>
+      <button type="button" id="orientationPortrait" aria-pressed="false">Vertical</button>
+    </div>
+  </header>
   <!-- EXPERIMENTO-COMPRA-20261023: comparação removível, sem alterar estoque ou links existentes. -->
   <div id="experienceBar" class="experience-bar" hidden><span id="experienceLabel"></span><a id="experienceCompare" href="?experiencia=original">Usar versão anterior</a></div>
   <p id="demonstrationNote" class="demo-note" hidden>Demonstração · dados fictícios para teste visual.</p>
@@ -42,20 +65,17 @@
       </div>
       <p id="unitAnnouncement" class="sr-only" role="status"></p>
     </section>
-    <aside id="projectPanel" class="viewer-panel" aria-label="Opções de exploração">
-      <button type="button" id="toggleProjectPanel" class="panel-toggle" aria-expanded="true" aria-controls="projectPanelDetails projectPanelFooter" aria-label="Minimizar informações" title="Minimizar informações"><span id="panelToggleIcon" aria-hidden="true">−</span></button>
-      <div id="projectPanelDetails">
+    <aside id="projectPanel" class="viewer-panel" data-collapsed="true" aria-label="Opções de exploração">
+      <p id="panelSummary" class="panel-summary">Informações do empreendimento</p>
+      <button type="button" id="toggleProjectPanel" class="panel-toggle" aria-expanded="false" aria-controls="projectPanelDetails projectPanelFooter" aria-label="Expandir informações" title="Expandir informações"><span id="panelToggleIcon" aria-hidden="true">+</span></button>
+      <div id="projectPanelDetails" hidden>
         <section id="projectSummary" class="project-summary" aria-label="Informações do empreendimento">
           <div class="project-heading"><span class="eyebrow">Empreendimento · Livon Incorporadora</span><span class="project-name">LIV Ipanema · São Carlos</span><span class="project-address">Rua João de Guzzy, 5151 · Jardim Bandeirantes · São Carlos, SP</span></div>
           <p class="project-facts">2 quartos (1 suíte) · 47,50 a 47,89 m² · 17 andares</p>
-        </section>
-        <p id="selectionPrompt" class="panel-intro">Toque num apartamento do prédio para ver a planta e o Tour.</p>
-        <section id="availableUnits" class="available-units" hidden aria-labelledby="availableUnitsTitle">
-          <h2 id="availableUnitsTitle"></h2>
-          <ul id="availableUnitList"></ul>
+          <details class="typology-info"><summary>Planta Meio</summary><p>47,50 a 47,89 m², incluindo varanda · 2 quartos (1 suíte).</p><p>Sala, cozinha, banheiros e varanda com área de serviço.</p></details>
+          <details class="typology-info"><summary>Planta Canto</summary><p>47,59 m², incluindo varanda · 2 quartos (1 suíte).</p><p>Sala, cozinha, banheiros e varanda com área de serviço.</p></details>
         </section>
         <section id="selectedApartment" class="selected-apartment" hidden aria-labelledby="selectedApartmentTitle">
-          <button type="button" id="btnBackToList" class="back-to-list">← Ver outros apartamentos</button>
           <p class="eyebrow">Apartamento selecionado</p><h2 id="selectedApartmentTitle"></h2>
           <p id="selectedApartmentSale" class="apartment-sale"></p><p id="selectedApartmentMeta" class="apartment-meta"></p>
           <p id="selectedApartmentNote" class="apartment-note" role="status"></p>
@@ -63,6 +83,14 @@
           <details id="inlineUnitDetails" class="inline-unit-details" hidden><summary id="inlineDetailsTitle">Ficha completa</summary></details>
         </section>
       </div>
+      <div id="projectPanelFooter" class="sr-only">
+        <div class="viewer-caption"><p class="hint" id="hint">Selecione um apartamento · arraste para girar</p><p id="status" role="status" aria-live="polite">Preparando visualizador…</p></div>
+        <div id="transferStatus" hidden><span data-transfer-text role="status"></span><progress aria-label="Preparação dos próximos conteúdos" hidden></progress></div>
+        <p id="sceneCacheStatus" class="scene-cache-status" role="status" aria-live="polite"></p>
+        <p id="buyerGroundNote" class="buyer-ground-note" hidden>Base visual ilustrativa · consulte o mapa para conhecer a região.</p>
+      </div>
+    </aside>
+    <div class="viewer-controls" role="group" aria-label="Controles da visualização">
       <div class="project-action-row">
         <button type="button" id="btnBackToMaquete" data-mode="maquete" aria-pressed="true">← Voltar ao prédio</button>
         <div id="selectedApartmentActions" class="apartment-actions" aria-label="Conhecer o apartamento selecionado" hidden>
@@ -71,7 +99,7 @@
         <nav id="viewModes" class="mode-switch" aria-label="Visualizações do apartamento selecionado" hidden>
           <button type="button" data-mode="planta2d" aria-pressed="false">Planta 2D</button><button type="button" data-mode="planta3d" id="btnModePlanta3d" aria-pressed="false">Planta 3D</button><button type="button" data-mode="visita" id="btnModeVisita" aria-pressed="false">Tour 3D</button>
         </nav>
-        <a class="map-link" href="mapa-liv-ipanema-5km.html">O que tem por perto?</a>
+        <a class="map-link" href="mapa-liv-ipanema-5km.html" hidden>O que tem por perto?</a>
       </div>
       <nav id="interiorNavbar" class="interior-navbar" hidden aria-label="Controles da planta">
         <div class="interior-info-box sr-only"><strong id="interiorUnitTitle">Planta de referência</strong><span id="interiorUnitSubtitle">Interior ilustrativo</span></div>
@@ -92,14 +120,7 @@
         <div id="typologyControls" class="setting-field"><label for="typology">Planta do apartamento</label><select id="typology"><option value="canto">Canto · 47,59 m²</option><option value="meio">Meio · 47,5–47,89 m²</option></select></div>
         <p id="interiorNote" class="reference-note">Interior ilustrativo · medidas inferidas a partir das plantas publicadas.</p>
       </div>
-      <div id="projectPanelFooter">
-        <div class="viewer-caption"><p class="hint" id="hint">Selecione um apartamento · arraste para girar</p><p id="status" role="status" aria-live="polite">Preparando visualizador…</p></div>
-        <div id="transferStatus" hidden><span data-transfer-text role="status"></span><progress aria-label="Preparação dos próximos conteúdos" hidden></progress></div>
-        <p id="sceneCacheStatus" class="scene-cache-status" role="status" aria-live="polite"></p>
-        <p class="model-note">Maquete baseada nas imagens da Livon. Dimensões e implantação aproximadas; planta 3D e Tour ilustrativos.</p>
-        <p id="buyerGroundNote" class="buyer-ground-note" hidden>Base visual ilustrativa · consulte o mapa para conhecer a região.</p>
-      </div>
-    </aside>
+    </div>
   </main>
   <div class="data-warnings"><p id="stockWarning" class="mirror-note" role="status" hidden></p><p id="commercialWarning" class="mirror-note" role="status" hidden></p><p id="relationWarning" class="mirror-note" role="status" hidden></p></div>
   <dialog id="unitDetails" class="unit-details" aria-labelledby="detailsTitle">
@@ -114,6 +135,7 @@
     </div><div class="details-actions"><button type="button" data-unit-open="planta2d" class="primary" hidden>Ver planta</button><button type="button" data-unit-open="planta3d" hidden>Planta 3D</button><button type="button" data-unit-open="visita" hidden>Tour 3D</button></div>
   </dialog>
   <dialog id="mapPanel" aria-labelledby="mapTitle" aria-hidden="true" inert><div class="map-panel-head"><h2 id="mapTitle">Entorno do LIV Ipanema</h2><button type="button" id="closeMap" autofocus>← Voltar ao LIV</button></div></dialog>
+  <script type="module" src="orientacao.js?rev=2026-10-28"></script>
   <script type="module" src="viewer.js?rev=2026-10-13-medidas2"></script>
 </body>
 </html>

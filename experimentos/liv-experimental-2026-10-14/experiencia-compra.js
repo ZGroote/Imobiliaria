@@ -48,12 +48,36 @@ export function createBuyerUI({document:doc,location,navigator,standalone=false}
     for(const button of doc.querySelectorAll('[data-mode="visita"], [data-unit-open="visita"]')){button.textContent='Entrar';button.setAttribute('aria-label','Entrar no apartamento · Tour 3D');}
     doc.querySelector('.map-link').textContent='Conhecer a região';
   }
+  const toolbar=el('mobileToolbar'),media=doc.defaultView?.matchMedia?.('(any-pointer: coarse) and (max-width: 1100px), (max-width: 760px)');
+  const availability=el('availabilityFilter'),orientation=doc.querySelector('.orientation-options');
+  const availabilityParent=availability?.parentElement,orientationParent=orientation?.parentElement;
+  const homeText=el('siteHomeLink')?.textContent;
+  let currentMode='maquete';
+  function mobileToolbar(){
+    if(!toolbar||!media||!orientation)return;
+    const home=el('siteHomeLink'),back=el('mobileBackToBuilding');
+    toolbar.hidden=!media.matches;
+    if(media.matches){
+      el('mobileAvailability').append(availability);el('mobileOrientation').append(orientation);
+      if(home){el('mobileHome').append(home);home.textContent='Voltar ao site';home.hidden=currentMode!=='maquete';}
+      back.hidden=currentMode==='maquete';
+    }else{
+      availabilityParent?.append(availability);orientationParent?.append(orientation);
+      if(home){el('experienceBar').prepend(home);home.textContent=homeText;home.hidden=false;}
+      back.hidden=true;
+    }
+  }
+  if(toolbar&&media){
+    el('mobileBackToBuilding')?.addEventListener('click',()=>el('btnBackToMaquete').click());
+    media.addEventListener('change',mobileToolbar);mobileToolbar();
+  }
   el('buyerContactCopy').addEventListener('click',async()=>{
     if(!current)return;
     try{await navigator.clipboard.writeText(current.message);el('buyerContactStatus').textContent='Mensagem copiada. Envie ao seu corretor.';}
     catch{el('buyerContactMessage').value=current.message;el('buyerContactMessage').hidden=false;el('buyerContactStatus').textContent='Selecione e copie a mensagem abaixo para enviar ao seu corretor.';}
   });
   return {enabled,setContact(value){context=value;},update(unit,floor,mode='maquete'){
+    currentMode=mode;mobileToolbar();
     doc.documentElement?.setAttribute('data-buyer-mode',mode);
     delete el('experienceCompare').dataset.trackingDestination;
     el('buyerContact').hidden=!enabled||!unit;

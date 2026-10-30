@@ -14,6 +14,7 @@ import {attachStock} from './estoque-adapter.js';
 import {validarConfig} from './estoque-runtime.js';
 import {availableUnitIds} from './disponibilidade.js';
 import {createBuyerUI} from './experiencia-compra.js';
+import {normalizeHour,solarState,unitSolarContext} from './horario-solar.js';
 
 const read=name=>JSON.parse(readFileSync(new URL(name,import.meta.url),'utf8'));
 const pilot=read('./unidades.json'),interiors=read('./interiores/catalogo.json');
@@ -101,7 +102,7 @@ function harness({search='?backend=webgl&unidades=edificio',fetchData=()=>emptyC
   const document={getElementById:element,createElement,createElementNS:(_,tag)=>{const node=createElement(tag);node.ownerDocument=document;return node;},querySelector:()=>element('mapLink'),
     querySelectorAll:selector=>selector==='[data-mode]'?modes:selector==='[data-unit-open]'?unitButtons:[]};
   const location={search,pathname:'/maquete-liv-ipanema.html',origin:'http://localhost',hostname:'localhost'};
-  const context=vm.createContext({document,location,URL,URLSearchParams,AbortController,performance,setTimeout,clearTimeout,
+  const context=vm.createContext({document,location,URL,URLSearchParams,AbortController,DecompressionStream,performance,setTimeout,clearTimeout,
     Option:class extends Element {constructor(text,value){super('option');this.textContent=text;this.value=value;}},
     Image:class extends Element {constructor(){super('img');this.naturalWidth=1200;this.naturalHeight=900;images.push(this);}decode(){this.decodes=(this.decodes||0)+1;return Promise.resolve();}},
     ResizeObserver:class {constructor(callback){this.callback=callback;this.observed=new Set();observers.push(this);}
@@ -109,6 +110,7 @@ function harness({search='?backend=webgl&unidades=edificio',fetchData=()=>emptyC
     navigator:{},matchMedia:query=>query.includes('min-width: 1000px')?inlineMedia:{matches:false},sessionStorage:{getItem:()=>saved?JSON.stringify(saved):null,setItem:(key,value)=>calls.push({name:'saved-session',value:JSON.parse(value)})},moduleURL:'http://localhost/viewer.js',
     transfers:{pause:async()=>{},prioritize:async()=>{},start:async()=>{},getState:()=>({})},showTransferStatus(){},
     ...planRuler,createBuyerUI,typology,layout:typology,unitById,floorOf,floorLabel,unitScope,requestedEdition,attachCommercial,saleOf,saleLabel,priceLabel,requestedAmbience,AMBIENCES,attachRelations,attachStock,availableUnitIds,
+    normalizeHour,solarState,unitSolarContext,createTimeControl:()=>({update(){},dispose(){}}),
     // The viewer and data validators are real; DOM details, rendering and network are controlled boundaries.
     loadStockSDK:async()=>{
       calls.push({name:'estoque-runtime.js',ready:context.__livViewer.ready});
@@ -304,7 +306,6 @@ test('um toque seleciona na fachada; somente o toque duplo abre a planta',async(
   const app=harness({fetchData:name=>name==='comercial.json'?commercialFixture():dualRelations()});
   await waitFor(()=>app.state.ready&&app.state.relationStatus==='fornecido');
   const id=pilot.units[0].id;app.state.panelCollapsed=true;
-  assert.match(app.element('selectionPrompt').textContent,/Dois toques/);
   await app.frames[0].contentWindow.dispatch('liv-unit-selected',{detail:{id}});
   assert.equal(app.state.mode,'maquete');assert.equal(app.state.selectedUnitId,id);
   assert.equal(app.element('selectedApartment').hidden,false);
@@ -313,8 +314,8 @@ test('um toque seleciona na fachada; somente o toque duplo abre a planta',async(
   assert.equal(app.state.selectedUnitId,id);assert.equal(app.state.panelCollapsed,false);
   assert.equal(app.element('buyerContact').hidden,false);
   assert.equal(app.element('experienceCompare').hidden,true,'O aviso de versão em teste não aparece mais.');
-  await app.element('btnBackToList').click();await waitFor(()=>app.state.ready&&app.state.mode==='maquete');
-  assert.equal(app.state.selectedUnitId,null);assert.equal(app.element('availableUnits').hidden,false);
+  await app.state.setMode('maquete');
+  assert.equal(app.state.selectedUnitId,id);
 });
 
 test('toque duplo aguarda a relação e abre a planta correta uma única vez',async()=>{
@@ -329,11 +330,11 @@ test('toque duplo aguarda a relação e abre a planta correta uma única vez',as
   assert.equal(app.state.mode,'maquete','Voltar ao prédio não reabre a planta automaticamente.');
 });
 
-test('escolha na lista apenas seleciona; o botão Ver planta confirma a abertura',async()=>{
+test('seleção na fachada permite abrir a planta pelo botão Ver planta',async()=>{
   const app=harness({fetchData:name=>name==='comercial.json'?commercialFixture():dualRelations()});
   await waitFor(()=>app.state.ready&&app.state.relationStatus==='fornecido');
-  const id=pilot.units[1].id,button={dataset:{unitId:id}};
-  await app.element('availableUnitList').dispatch('click',{target:{closest:()=>button}});
+  const id=pilot.units[1].id;
+  await app.frames[0].contentWindow.dispatch('liv-unit-selected',{detail:{id}});
   assert.equal(app.state.mode,'maquete');assert.equal(app.state.selectedUnitId,id);
   await app.unitButtons[0].click();assert.equal(app.state.mode,'planta2d');assert.equal(app.state.typology,'meio');
 });
@@ -371,6 +372,17 @@ test('WhatsApp acompanha o corretor validado sem usar telefone da URL nem o cont
   }
   app.state.setContact({contact:{brokerName:'Sem telefone',whatsappNumber:null},shareUrl:'http://localhost/acesso.html?l='+ 'a'.repeat(32)});
   assert.equal(app.element('buyerContactLink').hidden,true);assert.equal(app.element('buyerContactCopy').hidden,false);
+});
+
+test('link de unidade sem modo abre a planta e mantém a seleção entre visualizações',async()=>{
+  const id=pilot.units[0].id;
+  const app=harness({search:'?unidades=edificio&unidade='+encodeURIComponent(id),fetchData:()=>dualRelations()});
+  await waitFor(()=>app.state.ready&&app.state.mode==='planta2d');
+  for(const mode of ['planta3d','visita','maquete','planta2d']){
+    await app.state.setMode(mode);assert.equal(app.state.selectedUnitId,id);
+  }
+  assert.equal(app.element('projectPanel').dataset.apartment,'true');
+  assert.equal(app.element('projectPanel').dataset.mode,'planta2d');
 });
 
 test('interesse direto restaura a unidade e contato individual usa apenas telefone público válido',async()=>{
@@ -414,22 +426,24 @@ test('recorte mantém a imagem original e o indicador de entrada acompanha o zoo
   assert.ok(Math.abs(offset(marker.style.top)-177.75)<.001);
 });
 
-test('disponíveis acendem de saída e a lista leva ao cartão do apartamento',async()=>{
+test('disponíveis acendem de saída e a fachada leva ao cartão do apartamento',async()=>{
   const app=harness({fetchData:name=>name==='comercial.json'?commercialFixture():dualRelations()});
   await waitFor(()=>app.state.ready&&app.state.commercialStatus==='fornecido');
   assert.equal(app.state.getState().availabilityFilter,'disponiveis');
-  assert.equal(app.element('availableUnits').hidden,false);
-  assert.equal(app.element('availableUnitsTitle').textContent,'1 apartamento disponível');
-  const rows=app.element('availableUnitList').children;assert.equal(rows.length,1);
-  const cells=rows[0].children[0].children.map(cell=>cell.textContent);
-  assert.equal(cells.length,3);assert.equal(cells[0],'TESTE 01');assert.match(cells[2],/R\$\s1\.000,01/);
-  app.state.selectUnit(rows[0].children[0].dataset.unitId);
-  assert.equal(app.element('availableUnits').hidden,true);assert.equal(app.element('selectedApartment').hidden,false);
-  assert.match(app.element('selectedApartmentSale').textContent,/Disponível · R\$\s1\.000,01/);
+  assert.equal(app.state.glowingUnitIds.length,1);
+  const id=pilot.units[0].id;app.state.selectUnit(id);
+  assert.equal(app.element('selectedApartment').hidden,false);
+  assert.match(app.element('selectedApartmentSale').textContent,/Disponível/);
   assert.equal(app.element('selectedApartmentTitle').textContent,'Apartamento TESTE 01');
   assert.equal(app.element('detailsTitle').textContent,'Apartamento TESTE 01');
-  await app.element('btnBackToList').click();
-  assert.equal(app.state.selectedUnitId,null);assert.equal(app.element('availableUnits').hidden,false);
+});
+
+test('abertura fixa 6h30, ignora horário antigo e mantém o controle do sol utilizável',async()=>{
+  const app=harness({search:'?hora=18',saved:{version:1,mode:'maquete',floor:-1,view:'perspectiva',hour:20}});
+  await waitFor(()=>app.state.ready);
+  assert.equal(app.state.hour,6.5);
+  assert.equal(new URL(app.frames[0].src,'http://localhost').searchParams.get('hora'),'6.5');
+  app.state.setTimeOfDay(9);assert.equal(app.state.hour,9);
 });
 
 test('informações abre a mesma ficha na maquete e no interior sem alterar a seleção',async()=>{
@@ -467,7 +481,7 @@ test('ficha ocupa o painel no desktop e retorna ao modal ao diminuir a tela',asy
   app.state.selectUnit(null);assert.equal(slot.hidden,true);
 });
 
-test('minimizar transfere a altura liberada à experiência nos quatro modos e preserva a seleção',async()=>{
+test('recolher informações preserva seleção e controles nos quatro modos sem redimensionar a cena',async()=>{
   const app=harness({fetchData:name=>name==='comercial.json'?emptyCommercial:relationFixture()});
   await waitFor(()=>app.state.ready&&app.state.relationStatus==='fornecido');
   const id=pilot.units[0].id;app.state.selectUnit(id);
@@ -475,10 +489,10 @@ test('minimizar transfere a altura liberada à experiência nos quatro modos e p
   const compact={maquete:82,planta2d:82,planta3d:134,visita:130};
   app.element('projectPanel').getBoundingClientRect=()=>({height:
     (app.element('projectPanelDetails').hidden?compact:expanded)[app.state.mode]});
-  await app.element('toggleProjectPanel').click();
+  assert.equal(app.state.panelCollapsed,true);
   for(const mode of ['maquete','planta2d','planta3d','visita']){
     await app.state.setMode(mode);
-    assert.equal(app.element('stage').style.getPropertyValue('--panel-space'),`${expanded[mode]-compact[mode]}px`);
+    assert.equal(app.element('stage').style.getPropertyValue('--panel-space'),'');
     assert.equal(app.element('projectPanelDetails').hidden,true);assert.equal(app.element('projectPanelFooter').hidden,true);
     assert.equal(app.element('toggleProjectPanel').attributes['aria-expanded'],'false');
     assert.equal(app.element('projectSummary').hidden,mode!=='maquete');
@@ -487,10 +501,19 @@ test('minimizar transfere a altura liberada à experiência nos quatro modos e p
     assert.equal(app.element('interiorNavbar').hidden,mode==='maquete');
   }
   await app.element('toggleProjectPanel').click();
-  assert.equal(app.element('stage').style.getPropertyValue('--panel-space'),'0px');
+  assert.equal(app.element('stage').style.getPropertyValue('--panel-space'),'');
   assert.equal(app.element('projectPanelDetails').hidden,false);assert.equal(app.element('projectPanelFooter').hidden,false);
   assert.equal(app.element('projectSummary').hidden,true);assert.equal(app.state.mode,'visita');
   await app.state.setMode('maquete');assert.equal(app.element('projectSummary').hidden,false);
+});
+
+test('painel começa fechado mesmo quando a sessão anterior estava aberta',async()=>{
+  const app=harness({saved:{version:1,mode:'maquete',floor:-1,view:'perspectiva',panelCollapsed:false}});
+  await waitFor(()=>app.state.ready);
+  assert.equal(app.state.panelCollapsed,true);
+  assert.equal(app.element('projectPanelDetails').hidden,true);
+  await app.element('toggleProjectPanel').click();
+  assert.equal(app.element('projectPanelDetails').hidden,false);
 });
 
 test('painel minimizado se ajusta à nova largura e restaura a preferência após recarregar',async()=>{
@@ -499,9 +522,9 @@ test('painel minimizado se ajusta à nova largura e restaura a preferência apó
   let expanded=400,compact=82;
   app.element('projectPanel').getBoundingClientRect=()=>({height:app.element('projectPanelDetails').hidden?compact:expanded});
   const observer=app.observers.find(item=>item.observed.has(app.element('projectPanel')));observer.notify();
-  assert.equal(app.element('stage').style.getPropertyValue('--panel-space'),'318px');
+  assert.equal(app.element('stage').style.getPropertyValue('--panel-space'),'');
   expanded=560;compact=182;observer.notify();
-  assert.equal(app.element('stage').style.getPropertyValue('--panel-space'),'378px');
+  assert.equal(app.element('stage').style.getPropertyValue('--panel-space'),'');
   app.events.get('pagehide')();assert.equal(observer.observed.size,0);
   assert.equal(app.calls.find(call=>call.name==='saved-session').value.panelCollapsed,true);
   app.events.get('pageshow')({persisted:true});
@@ -643,7 +666,7 @@ test('medidas permanecem opcionais nas duas plantas e disponíveis com as inform
   assert.equal(canto.querySelector('.plan2d-measurements').hidden,true);
   await button.click();assert.equal(button.getAttribute('aria-pressed'),'true');assert.equal(note.hidden,false);
   assert.equal(canto.querySelector('.plan2d-measurements').hidden,false);
-  await app.element('toggleProjectPanel').click();assert.equal(app.state.panelCollapsed,true);
+  assert.equal(app.state.panelCollapsed,true);
   assert.equal(app.element('hostPlan2dControls').hidden,false);assert.equal(button.hidden,false);assert.equal(note.hidden,false);
   await app.state.setMode('visita');assert.equal(button.hidden,true);assert.equal(note.hidden,true);
   await app.state.setMode('planta2d');assert.equal(button.hidden,false);assert.equal(button.getAttribute('aria-pressed'),'true');
