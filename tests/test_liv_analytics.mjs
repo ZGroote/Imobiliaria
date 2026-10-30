@@ -17,12 +17,14 @@ function node(tag) {
     focus(){this.focused=true;}});
   return value;
 }
-function fixture({version='novo',measurementId='G-TEST123',initialChoice=null,nativeTag=false}={}) {
+function fixture({version='novo',measurementId='G-TEST123',initialChoice=null,nativeTag=false,mobile=null}={}) {
   let time=0,cookie='_ga=old; _ga_TEST123=old; preference=ok';
   const stored=new Map(initialChoice?[['liv.analytics.choice.v1',initialChoice]]:[]),commands=[],loads=[],cookieWrites=[];
   const makeDocument=()=>target({visibilityState:'visible',body:node('body'),head:node('head'),frames:[],ids:new Map(),
     createElement:node,getElementById(id){return this.ids.get(id);},querySelectorAll(selector){assert.equal(selector,'iframe');return this.frames;}});
   const doc=makeDocument();
+  const media=target({matches:mobile});
+  if(mobile!==null)doc.ids.set('projectPanelDetails',node('div'));
   Object.defineProperty(doc,'cookie',{get:()=>cookie,set:value=>cookieWrites.push(value)});
   const href='https://visita.test/liv-novo/maquete-liv-ipanema.html?email=secret@example.com&apartamento=908#position=3,4,5';
   const timers=new Map();let timerId=0;
@@ -30,11 +32,12 @@ function fixture({version='novo',measurementId='G-TEST123',initialChoice=null,na
     localStorage:{getItem:key=>stored.get(key)??null,setItem:(key,value)=>stored.set(key,value)},
     __livViewer:{ready:true,mode:'maquete',selectedUnitId:'908',position:[3,4,5]},
     setInterval(fn){timers.set(++timerId,fn);return timerId;},clearInterval:id=>timers.delete(id)});
+  if(mobile!==null)win.matchMedia=()=>media;
   const options={win,doc,version,measurementId,send:(...args)=>commands.push(args)};
   if(!nativeTag)options.loadTag=payload=>loads.push(payload.measurementId);
   const api=installLivAnalytics(options);
   function tick(ms) {const end=time+ms;while(time<end){time=Math.min(time+1000,end);for(const fn of [...timers.values()])fn();}}
-  return {api,doc,win,commands,loads,stored,cookieWrites,
+  return {api,doc,win,commands,loads,stored,cookieWrites,media,
     advance(ms){time+=ms;},tick,
     hidden(value){doc.visibilityState=value?'hidden':'visible';doc.fire('visibilitychange');},
     section(value){win.__livViewer.mode=value;tick(1000);},
@@ -62,6 +65,33 @@ test('antes do aceite e na recusa não carrega Google, não cria identidade e n�
   f.api.reject();f.tick(90000);f.activity();
   assert.equal(f.commands.length,0);assert.equal(f.loads.length,0);assert.equal(f.win.dataLayer,undefined);
   assert.deepEqual([...f.stored],[['liv.analytics.choice.v1','no']]);
+});
+
+test('celular abre sem aviso, faixa reservada ou aceite automático',()=>{
+  const f=fixture({version:'classico',mobile:true});
+  assert.equal(f.doc.body.children[0].hidden,true);
+  assert.equal(f.doc.body.children[1].hidden,true);
+  assert.equal(f.doc.body.style.paddingBottom,'0px');
+  assert.equal(f.api.getState().choice,null);
+  f.tick(600000);assert.equal(f.loads.length,0);assert.equal(f.commands.length,0);assert.equal(f.stored.size,0);
+  const settings=f.doc.getElementById('projectPanelDetails').children[0];assert.equal(settings.hidden,false);
+  settings.fire('click');assert.equal(f.doc.body.children[0].hidden,false);
+});
+
+test('preferências no celular permitem aceitar e revogar sem botão flutuante',()=>{
+  const f=fixture({version:'classico',mobile:true});
+  f.api.showConsent();f.api.accept();assert.equal(f.loads.length,1);assert.equal(f.stored.get('liv.analytics.choice.v1'),'yes');
+  assert.equal(f.doc.body.children[0].hidden,true);assert.equal(f.doc.body.children[1].hidden,true);
+  f.api.showConsent();f.api.revoke();assert.equal(f.api.getState().choice,'no');assert.equal(f.stored.get('liv.analytics.choice.v1'),'no');
+  assert.ok(f.cookieWrites.length>0);assert.equal(f.doc.body.style.paddingBottom,'0px');
+});
+
+test('celular respeita escolha anterior e desktop mantém o aviso sem aceitar por mudança de tela',()=>{
+  const accepted=fixture({version:'classico',mobile:true,initialChoice:'yes'});
+  assert.equal(accepted.loads.length,1);assert.equal(accepted.doc.body.children[0].hidden,true);
+  const f=fixture({version:'classico',mobile:true});f.media.matches=false;f.media.fire('change');
+  assert.equal(f.doc.body.children[0].hidden,false);assert.equal(f.doc.body.children[1].hidden,false);
+  assert.equal(f.loads.length,0);assert.equal(f.stored.size,0);
 });
 
 test('tag carrega apenas após consentimento e configuração desliga publicidade e pageview automático',()=>{

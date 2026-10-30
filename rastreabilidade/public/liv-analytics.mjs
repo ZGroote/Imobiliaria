@@ -46,6 +46,9 @@ export function installLivAnalytics({win=window,doc=document,measurementId,versi
   let choice=null,loaded=false,disposed=false,lastPageSection=null,entrySent=false,ledger;
   const cleanups=[],boundDocuments=new WeakSet(),boundFrames=new WeakSet();
   const origin=new URL(win.location.href).origin;
+  const mobile=win.matchMedia?.('(any-pointer: coarse) and (max-width: 1100px), (max-width: 760px)');
+  const infoPanel=doc.getElementById('projectPanelDetails');
+  const compact=()=>version==='classico'&&Boolean(infoPanel)&&Boolean(mobile?.matches);
   const rootPath=`/liv-${version==='novo'?'novo':'classico'}/`;
   const now=()=>win.performance.now();
   const command=(...args)=>{try{if(send)send(...args);else win.gtag(...args);}catch{}};
@@ -126,22 +129,39 @@ export function installLivAnalytics({win=window,doc=document,measurementId,versi
   const acceptButton=button('Aceitar métricas',()=>choose('yes'));
   const rejectButton=button('Continuar sem métricas',()=>choose('no'));
   const revokeButton=button('Revogar e apagar cookies',()=>choose('no'));
-  const pad=()=>{doc.body.style.paddingBottom=box.hidden?'48px':`${box.offsetHeight||0}px`;};
-  const closeButton=button('Fechar',()=>{box.hidden=true;pad();privacy.focus();});
+  const pad=()=>{doc.body.style.paddingBottom=compact()?'0px':box.hidden?'48px':`${box.offsetHeight||0}px`;};
+  const closeButton=button('Fechar',()=>{box.hidden=true;pad();(compact()?settings:privacy).focus();});
   const privacy=button('Privacidade',()=>{box.hidden=false;pad();(choice==='yes'?revokeButton:acceptButton).focus();});
   privacy.id='liv-analytics-privacy';privacy.style.cssText+=';position:fixed;bottom:8px;left:8px;z-index:99999;font-size:12px;min-height:32px';
   box.append(acceptButton,rejectButton,revokeButton,closeButton);doc.body.append(box,privacy);
+  const settings=button('Cookies e privacidade',()=>api.showConsent());
+  settings.id='liv-cookie-settings';settings.hidden=true;
+  settings.style.cssText='min-height:44px;margin-top:8px;padding:8px 0;background:transparent;border:0;color:var(--muted,#a5afb6);font:inherit;text-align:left;cursor:pointer';
+  if(version==='classico'&&infoPanel){
+    infoPanel.append(settings);
+    const style=doc.createElement('style');
+    style.textContent='@media(any-pointer:coarse) and (max-width:1100px),(max-width:760px){#liv-analytics-consent{left:8px!important;right:8px!important;bottom:8px!important;max-height:calc(100dvh - 16px);overflow:auto;padding:16px!important;border:1px solid #40504e!important;border-radius:12px;background:#131c23!important;color:#e5eaee!important;font:13px/1.5 system-ui!important}#liv-analytics-consent>button{min-height:44px!important;margin:8px 4px 0 0!important;padding:8px 12px!important;background:#212c34!important;color:#e5eaee!important;border-color:#607078!important}#liv-cookie-settings{min-height:44px;margin-top:8px;padding:8px 0;background:transparent;border:0;color:var(--muted,#a5afb6);font:inherit;cursor:pointer}}';
+    doc.head.append(style);cleanups.push(()=>style.remove());
+  }
   function renderChoice() {
-    box.hidden=choice==='yes'||choice==='no';
+    box.hidden=compact()||choice==='yes'||choice==='no';
+    privacy.hidden=compact();settings.hidden=!compact();
     acceptButton.hidden=choice==='yes';rejectButton.hidden=choice==='yes';revokeButton.hidden=choice!=='yes';
-    closeButton.hidden=choice===null;
-    text.textContent=choice==='yes'?'Você permitiu métricas opcionais de visitas, seções e tempo ativo pelo Google Analytics. Você pode revogar a permissão e apagar os cookies neste navegador.':
+    closeButton.hidden=!compact()&&choice===null;
+    acceptButton.textContent=compact()?'Permitir métricas':'Aceitar métricas';
+    rejectButton.textContent=compact()?'Usar sem métricas':'Continuar sem métricas';
+    revokeButton.textContent=compact()?'Desativar métricas e apagar cookies':'Revogar e apagar cookies';
+    text.textContent=compact()?(choice==='yes'?
+      'Cookies e privacidade: você permitiu ao Google Analytics medir visitas, telas acessadas e tempo de uso. Pode desativar as métricas e apagar os cookies a qualquer momento.':
+      'Cookies e privacidade: a maquete funciona sem métricas. Se você permitir, o Google Analytics poderá medir visitas, telas acessadas e tempo de uso. Entrar ou continuar navegando não ativa essa opção.'):
+      choice==='yes'?'Você permitiu métricas opcionais de visitas, seções e tempo ativo pelo Google Analytics. Você pode revogar a permissão e apagar os cookies neste navegador.':
       'Permitir métricas de uso? Se aceitar, o Google Analytics mede visitas, seções acessadas e tempo de uso ativo. É opcional e não exige cadastro.';
     pad();
   }
   function choose(next,{persist=true}={}) {
     if(disposed||!['yes','no'].includes(next))return;
-    if(next===choice){renderChoice();return;}
+    const restoreFocus=compact()&&[acceptButton,rejectButton,revokeButton].includes(doc.activeElement);
+    if(next===choice){renderChoice();if(restoreFocus)settings.focus();return;}
     choice=next;if(persist)storeChoice(choice);
     if(choice==='yes') {
       startTag();lastPageSection=null;
@@ -160,10 +180,12 @@ export function installLivAnalytics({win=window,doc=document,measurementId,versi
       forgetAnalyticsCookies(win,doc);
     }
     renderChoice();
+    if(restoreFocus)settings.focus();
   }
   listen(doc,'visibilitychange',()=>ledger?.visible(doc.visibilityState!=='hidden'));
   listen(win,'pagehide',()=>ledger?.pause());
   listen(win,'resize',()=>{if(!disposed)pad();});
+  if(mobile)listen(mobile,'change',()=>{if(!disposed)renderChoice();});
   listen(win,'pageshow',()=>ledger?.visible(doc.visibilityState!=='hidden'));
   listen(win,'storage',event=>{if(event.key===choiceKey)choose(event.newValue==='yes'?'yes':'no',{persist:false});});
   bindTree(win,doc,0);
@@ -172,7 +194,7 @@ export function installLivAnalytics({win=window,doc=document,measurementId,versi
     showConsent(){if(!disposed){box.hidden=false;pad();(choice==='yes'?revokeButton:acceptButton).focus();}},
     getState:()=>({choice,tagRequested,section:sectionOf(win,doc),version}),
     destroy(){if(disposed)return;ledger?.pause();ledger?.consent(false);disposed=true;win.clearInterval(interval);
-      for(const cleanup of cleanups)cleanup();box.remove();privacy.remove();doc.body.style.paddingBottom='';delete win.__livAnalytics;}};
+      for(const cleanup of cleanups)cleanup();box.remove();privacy.remove();settings.remove();doc.body.style.paddingBottom='';delete win.__livAnalytics;}};
   win.__livAnalytics=api;
   const stored=readChoice();if(stored==='yes'||stored==='no')choose(stored,{persist:false});else renderChoice();
   return api;
