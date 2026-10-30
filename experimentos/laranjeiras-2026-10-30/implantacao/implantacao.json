@@ -1,0 +1,73 @@
+{
+  "titulo": "Parque das Laranjeiras · implantação",
+  "imagem": "../../../plantas_fornecidas/parque-das-laranjeiras/fonte/implantacao.jpg",
+  "imagemSha256": "4d0f37acbf76f8e4b75835df904fd4dce5cf55984d30c7478951c479f914a3f6",
+  "registro": {
+    "pxPorM": 13.2,
+    "rumoCimaGraus": 152,
+    "ancoraPx": [33, 1210],
+    "ancoraGeo": [-21.988808, -47.923926],
+    "metodo": "Rumo pela rosa dos ventos do book (cima da imagem ~ SSE), ajustado 5° para a borda da frente correr junto com a Rua José Quatrochi. Âncora: quina norte do lote (rua x cerca da obra vizinha). Escala: a que faz o L caber na quadra 608 do cadastro (frente ~146 m até a rua sudoeste, fundo até os quintais das casas).",
+    "divergencias": [
+      "Na escala 13,2 px/m o L mede ~10.700 m²; o book diz 11.894,40 m² (12,5 px/m). Em 12,5 o fundo entra ~12 m nos quintais das casas da quadra.",
+      "As torres desenhadas no book saem ~10% menores que a soma das plantas; a torre é montada pelo tamanho real dos apartamentos, centrada onde o book a desenha.",
+      "A ponta do braço do estacionamento passa ~8 m sobre um galpão branco que aparece no satélite (talvez demolido depois)."
+    ]
+  },
+  "lote": [[33, 22], [1975, 22], [2000, 455], [1375, 455], [1375, 1210], [33, 1210]],
+  "torres": [
+    {"id": "torre-01", "nome": "Torre 01", "centroPx": [508, 625], "girada": false, "desenhoPx": [300, 545, 715, 705]},
+    {"id": "torre-02", "nome": "Torre 02", "centroPx": [1208, 686], "girada": true, "desenhoPx": [1125, 478, 1290, 895]},
+    {"id": "torre-03", "nome": "Torre 03", "centroPx": [508, 160], "girada": false, "desenhoPx": [300, 68, 715, 240]}
+  ],
+  "finais": {
+    "nota": "Torres 01 e 03: cima da imagem = SSE. Torre 02: girada 90°, finais 01/02 na ponta de cima. Canto = 01, 02, 07, 08; meio = 03 a 06.",
+    "torre-01": {"08": "canto", "06": "meio", "04": "meio", "02": "canto", "07": "canto", "05": "meio", "03": "meio", "01": "canto"},
+    "torre-03": {"08": "canto", "06": "meio", "04": "meio", "02": "canto", "07": "canto", "05": "meio", "03": "meio", "01": "canto"},
+    "torre-02": {"02": "canto", "01": "canto", "04": "meio", "03": "meio", "06": "meio", "05": "meio", "08": "canto", "07": "canto"},
+    "posicaoPx": {
+      "torre-01": {"08": [345, 588], "06": [440, 588], "04": [585, 588], "02": [680, 588], "07": [345, 668], "05": [440, 668], "03": [585, 668], "01": [680, 668]},
+      "torre-03": {"08": [345, 118], "06": [440, 118], "04": [585, 118], "02": [680, 118], "07": [345, 197], "05": [440, 197], "03": [585, 197], "01": [680, 197]},
+      "torre-02": {"02": [1168, 510], "01": [1245, 510], "04": [1168, 605], "03": [1245, 605], "06": [1168, 750], "05": [1245, 750], "08": [1168, 845], "07": [1245, 845]}
+    }
+  },
+  "vias": [
+    {"id": "acesso", "largura": 66, "linha": [[70, 1210], [70, 1060], [147, 1000], [147, 60]]},
+    {"id": "transversal-meio", "largura": 72, "linha": [[147, 402], [965, 402]]},
+    {"id": "transversal-baixo", "largura": 55, "linha": [[147, 872], [965, 872]]},
+    {"id": "vertical-direita", "largura": 68, "linha": [[965, 872], [965, 135]]},
+    {"id": "braco-cima", "largura": 68, "linha": [[745, 135], [1960, 135]]},
+    {"id": "braco-baixo", "largura": 55, "linha": [[965, 342], [1985, 342]]}
+  ],
+  "estacionamento": [
+    {"id": "braco-topo", "px": [750, 30, 1970, 100], "fileiras": 1},
+    {"id": "braco-meio", "px": [1000, 175, 1960, 310], "fileiras": 2},
+    {"id": "braco-fundo", "px": [1000, 375, 1990, 445], "fileiras": 1},
+    {"id": "esquerda-externa", "px": [40, 60, 105, 1100], "fileiras": 1},
+    {"id": "esquerda-interna", "px": [185, 60, 250, 900], "fileiras": 1},
+    {"id": "abaixo-torre-03", "px": [255, 300, 920, 360], "fileiras": 1},
+    {"id": "acima-torre-01", "px": [255, 445, 920, 500], "fileiras": 1},
+    {"id": "lado-torre-01", "px": [860, 500, 920, 760], "fileiras": 1},
+    {"id": "abaixo-torre-01", "px": [255, 765, 920, 830], "fileiras": 1},
+    {"id": "acima-lazer", "px": [230, 900, 1000, 960], "fileiras": 1},
+    {"id": "lado-torre-02", "px": [1000, 380, 1060, 900], "fileiras": 1}
+  ],
+  "lazer": [
+    {"n": 1, "nome": "Portaria 24h", "px": [103, 1000, 165, 1100], "tipo": "edificio", "altura": 3.2},
+    {"n": 2, "nome": "Espaço relax", "px": [255, 1040, 300, 1085], "tipo": "piso"},
+    {"n": 3, "nome": "Playground", "px": [305, 990, 495, 1080], "tipo": "piso"},
+    {"n": 4, "nome": "Quiosque steak house", "px": [565, 995, 650, 1075], "tipo": "edificio", "altura": 3.0},
+    {"n": 5, "nome": "Quiosque happy hour", "px": [650, 995, 735, 1075], "tipo": "edificio", "altura": 3.0},
+    {"n": 6, "nome": "Horta", "px": [745, 975, 790, 1010], "tipo": "piso"},
+    {"n": 7, "nome": "Espaço fitness", "px": [760, 1010, 870, 1070], "tipo": "piso"},
+    {"n": 8, "nome": "Pet place / pet care", "px": [900, 990, 1050, 1080], "tipo": "piso"},
+    {"n": 9, "nome": "Web garden", "px": [1010, 880, 1065, 925], "tipo": "piso"},
+    {"n": 10, "nome": "Vestiários", "px": [1100, 960, 1245, 1010], "tipo": "edificio", "altura": 3.0},
+    {"n": 11, "nome": "Piscinas adulto e infantil", "px": [1135, 1030, 1270, 1130], "tipo": "piscina"},
+    {"n": 12, "nome": "Redário", "px": [1265, 955, 1310, 1000], "tipo": "piso"},
+    {"n": 13, "nome": "ADN Shop", "px": [765, 555, 825, 590], "tipo": "edificio", "altura": 3.0},
+    {"n": 14, "nome": "Car wash", "px": [1040, 255, 1110, 305], "tipo": "piso"},
+    {"n": null, "nome": "Apoio (gás / lixo)", "px": [825, 1095, 965, 1150], "tipo": "edificio", "altura": 3.0},
+    {"n": null, "nome": "Reservatório", "px": [970, 1090, 1030, 1150], "tipo": "reservatorio", "altura": 6.0}
+  ]
+}

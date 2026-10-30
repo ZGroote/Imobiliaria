@@ -39,7 +39,37 @@ Como cada coisa foi aproximada:
 - **Móveis:** do catálogo do construtor, no lugar e na medida do desenho. Os guarda-roupas seguem o book
   ("até 1,50 m"). A churrasqueira e a bancada comprida do meio ficaram de fora, porque o catálogo não tem.
 
+## Implantação e posição no mapa (feito)
+
+```
+python experimentos/laranjeiras-2026-10-30/implantacao/montar.py
+```
+
+`implantacao/implantacao.json` guarda o que foi lido na implantação do book, em pixels: lote em L,
+3 torres com os finais 01–08, 6 vias, 11 áreas de vaga e os 14 itens de lazer, mais apoio e reservatório.
+O script grava `implantacao-m.json` em metros e em latitude/longitude, e `conferencia.jpg` com tudo
+desenhado por cima do book.
+
+O terreno fica do lado de cá da avenida, atrás do LIV Ipanema: é o campo cercado na Rua José Quatrochi,
+entre a obra de terra vermelha (na esquina da rotatória) e as casas. Quina norte em
+−21,988808, −47,923926. A foto aérea do book confirma a vizinhança (obra ao lado, avenida à esquerda),
+e o CNEFE confirma a rua.
+
+- **Rumo:** a rosa dos ventos do book põe o alto da imagem para o SSE. Ajustei 5° para a frente correr
+  junto com a rua (rumo 152°).
+- **Escala: 13,2 px/m.** É a que faz o L caber na quadra 608 do cadastro, com a frente até a rua do
+  sudoeste e o fundo até os quintais das casas. Duas medidas independentes conferem: vaga de 4,5 m de
+  comprimento, e 285 vagas contadas nas fileiras desenhadas contra 290 no book.
+- **O que não fecha:** nessa escala o lote dá 10.672 m², contra 11.894 m² no book (12,5 px/m). A ponta do
+  braço do estacionamento passa ~8 m sobre um galpão branco que aparece na foto de satélite.
+- **Torres:** montadas pelo tamanho real das plantas, centradas onde o book as desenha. A ala tem
+  canto 6,35 m + meio 8,2 m. O fundo são duas fileiras de 6,5 m mais um corredor de 1,3 m. Com o núcleo
+  de 4 m, a torre fica com 33,1 × 14,3 m, cerca de 10% maior que o desenho do book. A Torre 02 é girada 90°.
+  Os cantos são os finais 01, 02, 07 e 08; os meios, 03 a 06.
+
+A sobreposição no satélite (Esri World Imagery) serviu só para medir e não está no git.
+
 ## Próximos passos
 
-Implantação em metros e posição no mapa de São Carlos; torres por fora com os 312 apartamentos;
-interiores no visualizador do LIV; luz gravada por hora; celular e publicação em endereço de teste.
+Torres por fora com os 312 apartamentos; interiores no visualizador do LIV; luz gravada por hora;
+celular e publicação em endereço de teste.
