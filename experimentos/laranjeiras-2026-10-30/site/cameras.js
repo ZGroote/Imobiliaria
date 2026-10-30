@@ -42,3 +42,13 @@ export function buildingFacadeView(aspect,side,bounds=null){
   return {type:'PerspectiveCamera',fov,near:.2,far:900,aspect,zoom:1,
     position:[target[0],target[1],target[2]+(side==='lazer'?1:-1)*distance],target};
 }
+
+// Laranjeiras: enquadra a face de uma torre. dir = '+x'|'-x'|'+z'|'-z' (lado para onde o apartamento dá).
+export function towerFacadeView(aspect,dir,bounds){
+  if(!Number.isFinite(aspect)||aspect<=0||!/^[+-][xz]$/.test(dir))throw Error('Vista da fachada inválida.');
+  const {min,max}=bounds,target=min.map((n,i)=>(n+max[i])/2),axis=dir[1]==='x'?0:2,across=axis===0?2:0;
+  const halfHeight=Math.max((max[1]-min[1])/2+1.5,((max[across]-min[across])/2+1.5)/aspect);
+  const fov=34,distance=halfHeight/Math.tan(fov*Math.PI/360)+(max[axis]-min[axis])/2;
+  const position=[...target];position[axis]+=(dir[0]==='+'?1:-1)*distance;
+  return {type:'PerspectiveCamera',fov,near:.2,far:900,aspect,zoom:1,position,target};
+}

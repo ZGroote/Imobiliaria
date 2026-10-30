@@ -1,6 +1,6 @@
 // Paths for a complete exterior edition. Runtime manifests bind actual identities.
 export const EXTERIOR_EDITIONS=Object.freeze({
-  base:Object.freeze({assets:'../assets/',units:null,glb:'../modelo/laranjeiras.glb'}),  // cadastro dos 312 finais: próximo passo
+  base:Object.freeze({assets:'../assets/',units:'../assets/unidades.json',glb:'../modelo/laranjeiras.glb'}),
   contorno:Object.freeze({assets:'modelo/variante/assets/',units:'modelo/unidades-contorno.json',glb:'modelo/variante/liv-contorno.glb'}),
   entrada:Object.freeze({assets:'modelo/entrada/candidato/assets/',units:'modelo/entrada/unidades-entrada.json',glb:'modelo/entrada/candidato/liv-contorno.glb'})
 });

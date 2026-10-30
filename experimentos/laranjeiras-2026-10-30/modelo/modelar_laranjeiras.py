@@ -456,7 +456,14 @@ metadata = {'towers': len(TORRES), 'floors': N, 'floorHeight': LV, 'width': COMP
             'units_per_floor': 8, 'units': len(TORRES)*N*8, 'vagas_desenhadas': vagas,
             'rumo_cima_graus': IMPL['registro']['rumoCimaGraus'], 'lote_centro_m': [cx, cz],
             'lote_geo': IMPL['loteGeo'], 'source': 'book ADN Parque das Laranjeiras (out/2026)',
-            'finais': {u['final']: u['tipologia'] for u in unidades}}
+            'finais': {u['final']: u['tipologia'] for u in unidades},
+            # Caixa de cada final no andar (coordenadas da torre) e posição das torres: base do cadastro de cliques.
+            'unidades_local': {u['final']: {'tipologia': u['tipologia'],
+                               'ret': [min(p[0] for c in u['comodos'] for p in c['poly']), min(p[1] for c in u['comodos'] for p in c['poly']),
+                                       max(p[0] for c in u['comodos'] for p in c['poly']), max(p[1] for c in u['comodos'] for p in c['poly'])]}
+                               for u in unidades},
+            'envelope_local': [X0, Y0], 'laje': LAJE,
+            'torres_arq': [{'id': t['id'], 'nome': t['nome'], 'centro': list(arq(t['centroM'])), 'girada': t['girada']} for t in TORRES]}
 exportar(OUT, 'laranjeiras', metadata)
 
 # Render de inspeção (mesma geometria), luz de estúdio como no LIV.

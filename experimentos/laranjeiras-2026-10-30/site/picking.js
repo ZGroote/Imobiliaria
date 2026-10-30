@@ -1,27 +1,27 @@
 import * as THREE from 'three/webgpu';
 import {unitById} from './unidades.js';
 import {floorOf} from './catalogo-unidades.js';
-import {containsPoint,intersectPrism} from './unit-footprint.js';
 
 // Only the first exterior envelope hit can select a zone. The roof and other
 // floors must not become transparent to picking when seen from above or obliquely.
 export function createUnitResolver(catalog){
-  const envelope=new THREE.Box3(new THREE.Vector3(-23.85,0,-7.02),new THREE.Vector3(23.85,48.45,7.02));
+  // Uma caixa por torre: só o primeiro envelope atingido escolhe; corredor, núcleo e recuo não têm final.
+  const towers=catalog.towers.map(tower=>({id:tower.id,box:new THREE.Box3(
+    new THREE.Vector3().fromArray(tower.bounds.min),new THREE.Vector3().fromArray(tower.bounds.max))}));
   const zones=catalog.units.map(unit=>({unit,box:new THREE.Box3(
     new THREE.Vector3().fromArray(unit.bounds.min),new THREE.Vector3().fromArray(unit.bounds.max))}));
-  const point=new THREE.Vector3();
+  const point=new THREE.Vector3(),hit=new THREE.Vector3();
   return ray=>{
-    if(catalog.selectionEnvelope){
-      if(!intersectPrism(ray,catalog.selectionEnvelope,point))return null;
-      const matches=zones.filter(({unit,box})=>point.y>=box.min.y&&point.y<=box.max.y&&
-        containsPoint(unit.footprint,point.x,point.z));
-      return matches.length===1?matches[0].unit.id:null;
+    let best=null,distance=Infinity;
+    for(const tower of towers){
+      if(tower.box.containsPoint(ray.origin)||!ray.intersectBox(tower.box,hit))continue;
+      const d=hit.distanceToSquared(ray.origin);
+      if(d<distance){distance=d;best=tower;point.copy(hit);}
     }
-    if(envelope.containsPoint(ray.origin)||!ray.intersectBox(envelope,point))return null;
+    if(!best)return null;
     // Floating point intersection can land a few ulps beyond an exterior face.
-    point.clamp(envelope.min,envelope.max);
-    // Boundaries and the central corridor have no implied apartment assignment.
-    const matches=zones.filter(({box})=>box.containsPoint(point));
+    point.clamp(best.box.min,best.box.max);
+    const matches=zones.filter(({unit,box})=>unit.tower===best.id&&box.containsPoint(point));
     return matches.length===1?matches[0].unit.id:null;
   };
 }

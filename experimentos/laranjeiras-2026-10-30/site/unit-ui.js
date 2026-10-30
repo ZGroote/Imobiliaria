@@ -35,7 +35,7 @@ export function createUnitUI(catalog){
     document.getElementById('commercialConditions').hidden=!sale.conditions;
     document.getElementById('commercialConditions').textContent=sale.conditions||'';
     document.getElementById('gardenNote').hidden=floorOf(catalog,unit)!==0;
-    document.getElementById('unitPosition').textContent=unit.side==='lazer'?'Lado do lazer':'Lado do estacionamento';
+    document.getElementById('unitPosition').textContent=`${unit.towerName} · ${unit.sideLabel}`;
     document.getElementById('unitLayout').textContent=associated?layout(relation.typology).label:'Em conferência';
     document.getElementById('relationSource').hidden=!associated;
     document.getElementById('relationSource').textContent=associated&&catalog.relationSource?`Associação informada por ${catalog.relationSource.label} · ${catalog.relationSource.asOf}`:'';
@@ -48,7 +48,7 @@ export function createUnitUI(catalog){
     const meta=document.getElementById('selectedApartmentMeta');
     if(meta)meta.textContent=[area,rooms,parking].filter(Boolean).join(' · ');
     const panelSale=document.getElementById('selectedApartmentSale');if(panelSale)panelSale.textContent=informed?saleLabel(unit):'Disponibilidade e preço a confirmar';
-    const side=unit.side==='lazer'?'lado do lazer':'lado do estacionamento';
+    const side=`${unit.towerName}, ${unit.floorIndex===0?'térreo':unit.floorIndex+'º pavimento'}`;
     const panelNote=document.getElementById('selectedApartmentNote');if(panelNote)panelNote.textContent=associated?`Planta ${layout(relation.typology).label} · ${side}`:note;
   }};
 }

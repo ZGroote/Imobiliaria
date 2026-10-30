@@ -2,7 +2,7 @@ import * as THREE from 'three/webgpu';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,createRGBMTexture,replaceRGBMAtlas} from './material-rgbm.js';
 import {applyReferenceFinishes} from './exterior-finishes.js';
-import {balconyDetailView,BALCONY_DETAIL_BOUNDS,entryDetailView,ENTRY_DETAIL_BOUNDS,pilotFloorView,buildingFacadeView} from './cameras.js';
+import {balconyDetailView,BALCONY_DETAIL_BOUNDS,entryDetailView,ENTRY_DETAIL_BOUNDS,pilotFloorView,buildingFacadeView,towerFacadeView} from './cameras.js';
 import {unitById} from './unidades.js';
 import {loadUnitCatalog,floorOf} from './catalogo-unidades.js';
 import {createUnitPicking} from './picking.js';
@@ -385,8 +385,8 @@ async function start() {
       for(const z of [entryBounds.min[2],entryBounds.max[2]])entryCorners.push(new THREE.Vector3(x,y,z));
   function fitPreset() {
     const name=camera.userData.viewName;
-    if(name==='unit:lazer'||name==='unit:estacionamento'){
-      const side=name.slice(5),view=units.schema==='liv-building-units-v1'?buildingFacadeView(camera.aspect,side,facadeBounds):pilotFloorView(camera.aspect,side);
+    if(name?.startsWith('unit:')&&units){
+      const view=towerView(camera.aspect,name.slice(5));
       camera.position.fromArray(view.position);controls.target.fromArray(view.target);
       controls.update();orientCamera();return true;
     }
@@ -472,7 +472,7 @@ async function start() {
   let selectedFloor=-1;
   function setFloor(floor=-1) {
     const value=Number(floor);
-    if(!Number.isInteger(value)||value < -1||value >16) throw Error('Pavimento inválido.');
+    if(!Number.isInteger(value)||value < -1||value >=(units?.floors??13)) throw Error('Pavimento inválido.');
     selectedFloor=value;
     // Floor is selection context; only the apartment receives a visual outline.
     const selectedId=unitPicking?.getState().selectedId;
@@ -499,12 +499,17 @@ async function start() {
     pendingSpaces=Array.isArray(numbers)?numbers.filter(Number.isInteger):[];
     return parking?parking.setSpaces(pendingSpaces):null;
   }
+  // side = 'torre-02:+x': torre e lado da fachada (cadastro do Laranjeiras).
+  function towerView(aspect,side){
+    const [id,dir]=side.split(':'),tower=units?.towers.find(t=>t.id===id);
+    if(!tower)throw Error('Lado do pavimento inválido.');
+    return towerFacadeView(aspect,dir,tower.bounds);
+  }
   function setUnitView(side,floor=1){
-    if(!['lazer','estacionamento'].includes(side))throw Error('Lado do pavimento inválido.');
     if(!units||!units.units.some(unit=>floorOf(units,unit)===floor))throw Error('Pavimento fora do cadastro.');
     setFloor(floor);
     const rect=stage.getBoundingClientRect(),aspect=rect.width/rect.height;
-    const view=units.schema==='liv-building-units-v1'?buildingFacadeView(aspect,side,facadeBounds):pilotFloorView(aspect,side);camera=makeCamera(view,'unit:'+side);
+    const view=towerView(aspect,side);camera=makeCamera(view,'unit:'+side);
     controls.object=camera;state.camera=camera;controls.target.fromArray(view.target);
     controls.update();orientCamera();resize();state.activeView='livre';
   }

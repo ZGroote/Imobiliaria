@@ -60,7 +60,7 @@ function updateMapLink(){
 try {
   const saved=JSON.parse(sessionStorage.getItem(storageKey));
   if(saved?.version===1&&['maquete','planta2d','planta3d','visita'].includes(saved.mode)&&
-    Number.isInteger(saved.floor)&&saved.floor>=-1&&saved.floor<=16&&
+    Number.isInteger(saved.floor)&&saved.floor>=-1&&saved.floor<=12&&
     ['perspectiva','fachada','aerea','portaria','implantacao','varandas','acesso','livre'].includes(saved.view)) {
     state.view=saved.view;state.floor=saved.floor;
     if(!timeQuery.has('data')&&saved.solarDate){try{state.solarDate=solarState(state.hour,{date:saved.solarDate}).date;}catch{}}
@@ -91,7 +91,7 @@ state.interiorReuseCount=0;
 state.sceneReuseCount=0;
 showTransferStatus(document.getElementById('transferStatus'));
 if(floorControl){
-  for(let floor=1;floor<=16;floor++)floorControl.add(new Option(`${floor}º pavimento tipo`,String(floor)));
+  for(let floor=0;floor<=12;floor++)floorControl.add(new Option(floor===0?'Térreo':`${floor}º pavimento`,String(floor)));
   floorControl.value=String(state.floor);
 }
 document.getElementById('typology').value=state.typology;
@@ -593,7 +593,7 @@ function setAmbience(profile){
 }
 function setFloor(floor) {
   const value=Number(floor);
-  if(!Number.isInteger(value)||value < -1||value >16)throw Error('Pavimento inválido.');
+  if(!Number.isInteger(value)||value < -1||value >12)throw Error('Pavimento inválido.');
   state.frame?.contentWindow?.__livProva?.setFloor(value);state.floor=value;
   if(state.selectedUnitId&&floorOf(units,unitById(units,state.selectedUnitId))!==value)state.selectedUnitId=null;
   if(floorControl)floorControl.value=String(floor);

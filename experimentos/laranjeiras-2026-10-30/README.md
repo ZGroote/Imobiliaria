@@ -125,8 +125,24 @@ Com o servidor na raiz do repositório (`python -m http.server 8765`), o exterio
 `http://localhost:8765/experimentos/laranjeiras-2026-10-30/site/prova-rgbm.html`. Testado em WebGPU, sem
 erro no console.
 
+## Os 312 apartamentos clicáveis
+
+O modelador grava, nos metadados do `modelo.json`, a caixa de cada final no andar e a posição das torres.
+O `exportar_cena.py` gera `assets/unidades.json` (schema `laranjeiras-units-v1`) com o mesmo
+`sourceModelSHA256` da cena: 3 torres × 13 pavimentos × 8 finais. Cada apartamento tem torre, pavimento,
+final, planta (canto ou meio), área do book (térreo com o jardim) e o lado da fachada (`torre-02:+x`).
+
+O cadastro do LIV era fixo: uma torre, 17 pavimentos, 10 finais, espaçamento de 2,85 m. Na cópia mudou:
+
+- `unidades.js` e `catalogo-unidades.js`: validador e carga do cadastro novo; os pavimentos vão de 0 a 12.
+- `picking.js`: uma caixa de clique por torre. Só a primeira torre atingida escolhe, e corredor, núcleo e
+  recuo não têm final.
+- `cameras.js`: `towerFacadeView` enquadra a face de qualquer torre (±x ou ±z); a Torre 02 é girada.
+- `renderer.js`, `viewer.js`, `unit-ui.js`: andares 0–12; a ficha mostra torre e lado da fachada.
+
+Conferência: `node --test experimentos/laranjeiras-2026-10-30/site/test_cadastro.mjs`.
+
 ## Próximos passos
 
-Cadastro dos 312 apartamentos (3 torres × 13 pavimentos × 8): o cadastro do LIV é de uma torre de
-17 pavimentos e 10 finais. Depois: a página completa (`maquete-liv-ipanema.html`) com textos, estoque e
-mapa do Laranjeiras; interiores; luz por hora; celular; publicação em endereço de teste.
+A página completa (`maquete-liv-ipanema.html`) com os textos, o estoque e o mapa do Laranjeiras;
+interiores; luz por hora; celular; publicação em endereço de teste.

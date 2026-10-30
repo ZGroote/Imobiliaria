@@ -56,6 +56,59 @@ def vista(tipo, alvo, th, ph, r, fov=34, **extra):
     return v
 
 
+AREA = {('canto', False): 39.12, ('meio', False): 40.79, ('canto', True): 60.11, ('meio', True): 54.17}
+
+
+def cadastro(md, sha_modelo):
+    """312 apartamentos: caixa de clique em coordenadas da web (x, altura, z), por torre/pavimento/final."""
+    X0, Y0 = md['envelope_local']
+    lv, laje = md['floorHeight'], md['laje']
+    folga = .15               # a caixa da torre envolve a face externa da parede
+
+    def mundo(t, lx, ly):     # coordenada da torre -> web (x, z); Torre 02 girada 90° (ver modelar_laranjeiras.py)
+        cx, cy = t['centro']
+        return (cx+ly, cy-lx) if t['girada'] else (cx+lx, cy+ly)
+
+    def caixa(t, x0, y0, x1, y1, f0, f1):
+        a, b = mundo(t, x0, y0), mundo(t, x1, y1)
+        return {'min': [round(min(a[0], b[0]), 4), round(f0, 4), round(min(a[1], b[1]), 4)],
+                'max': [round(max(a[0], b[0]), 4), round(f1, 4), round(max(a[1], b[1]), 4)]}
+
+    def direcao(t, nx, ny):
+        x, z = mundo({**t, 'centro': [0, 0]}, nx, ny)
+        return ('+' if x+z > 0 else '-')+('x' if abs(x) > abs(z) else 'z')
+
+    torres, units = [], []
+    for ti, t in enumerate(md['torres_arq']):
+        torres.append({'id': t['id'], 'nome': t['nome'],
+                       'bounds': caixa(t, -X0-folga, -Y0-folga, X0+folga, Y0+folga, 0, md['floors']*lv)})
+        for f in range(md['floors']):
+            for final, u in sorted(md['unidades_local'].items()):
+                x0, y0, x1, y1 = u['ret']
+                # Lado da fachada comprida = fileira; a caixa vai até a face externa da torre.
+                y0, y1 = (-Y0-folga, y1) if y1 < 0 else (y0, Y0+folga)
+                if abs(abs(x0)-X0) < .3: x0 = -X0-folga
+                if abs(abs(x1)-X0) < .3: x1 = X0+folga
+                dirc = direcao(t, 0, -1 if (y0+y1) < 0 else 1)
+                terreo = f == 0
+                units.append({
+                    'id': f'laranjeiras/{t["id"]}/pavimento-{f:02d}/final-{final}', 'tower': t['id'], 'towerIndex': ti,
+                    'towerName': t['nome'], 'final': final, 'floorIndex': f, 'side': f'{t["id"]}:{dirc}',
+                    'sideLabel': 'Fachada de cima da implantação (SSE)' if (y0+y1) < 0 else 'Fachada da Rua José Quatrochi (NNO)',
+                    'bounds': caixa(t, x0, y0, x1, y1, f*lv+laje, (f+1)*lv),
+                    'typology': u['tipologia'], 'areaM2': AREA[(u['tipologia'], terreo)],
+                    'garden': {'areaM2': round(AREA[(u['tipologia'], True)]-AREA[(u['tipologia'], False)], 2), 'confidence': 'book'} if terreo else None,
+                    'relation': {'typology': u['tipologia'], 'orientation': 'original'},
+                    'positionConfidence': 'inferido', 'commercialNumber': None, 'availability': 'nao_informada',
+                    'price': None, 'parking': None})
+    return {'schema': 'laranjeiras-units-v1', 'floorIndex': None, 'sourceModelSHA256': sha_modelo,
+            'floors': md['floors'], 'towers': torres, 'units': units,
+            'source': {'label': 'Book digital ADN, Parque das Laranjeiras', 'pages': [9, 12, 14, 16]},
+            'limitations': ['Posição de cada final pela implantação do book; numeração comercial não informada.',
+                            'Canto = finais 01, 02, 07, 08; meio = 03 a 06 (implantação, p. 12).',
+                            'Área do térreo inclui o jardim privativo; o meio do térreo é "de até" 54,17 m².']}
+
+
 def main():
     modelo_bytes = (AQUI/'modelo.json').read_bytes()
     modelo = json.loads(modelo_bytes)
@@ -176,6 +229,8 @@ def main():
                                'rumoCimaGraus': md['rumo_cima_graus'], 'loteCentroM': md['lote_centro_m']}}
     SAIDA.mkdir(parents=True, exist_ok=True)
     (SAIDA/'irradiance.rgbm.gz').write_bytes(atlas_gz)
+    cat = cadastro(md, data['sourceModelSHA256'])
+    (SAIDA/'unidades.json').write_text(json.dumps(cat, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
     encoded = json.dumps(data, ensure_ascii=True, separators=(',', ':')).encode()
     (SAIDA/'scene.json.gz').write_bytes(gzip.compress(encoded, compresslevel=6, mtime=0))
     files = {p.name: {'bytes': p.stat().st_size, 'sha256': sha(p.read_bytes())}
