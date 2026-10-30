@@ -50,10 +50,10 @@
     "01": "canto"
   },
   "blender": "5.2.3 LTS",
-  "geometries": 40,
-  "groups": 62,
-  "web_bytes": 6209040,
-  "glb_bytes": 4970340,
+  "geometries": 39,
+  "groups": 59,
+  "web_bytes": 3411615,
+  "glb_bytes": 2315396,
   "checks": {
     "pavimentos_e_lajes": true,
     "exportacao": true,

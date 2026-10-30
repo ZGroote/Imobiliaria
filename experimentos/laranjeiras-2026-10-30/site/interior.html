@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:,">
+<title>LIV Ipanema — interior</title>
+<style>
+  /* FUNDO-3D-20261023: mesma cor de fundo da página principal, inclusive durante a carga. */
+  :root{font-family:system-ui,sans-serif;color:#edf1ef;background:#0e151b;color-scheme:dark}*{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}body{margin:0}
+  input,textarea,[contenteditable]:not([contenteditable="false"]),[contenteditable]:not([contenteditable="false"]) *{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+  #interior-stage{position:relative;width:100%;height:100dvh;min-height:300px;overflow:hidden;background:radial-gradient(ellipse at 50% 45%,#17212b,#0e151b 72%)}
+  #interior-canvas{display:block;width:100%;height:100%;touch-action:none}
+  #interior-controls{position:absolute;left:12px;right:12px;top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;pointer-events:none}
+  #interior-controls>*{pointer-events:auto}button,select,a{font:inherit;font-size:13px;border:1px solid #344650;background:#17242cf2;color:#edf1ef;border-radius:6px;padding:9px 12px;min-height:44px}
+  button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #e4c58c;outline-offset:3px}button[aria-pressed=true]{background:#34352c;color:#f8e8c8;border-color:#e4c58c}button:disabled{opacity:.45}
+  #interior-note{position:absolute;bottom:12px;left:12px;max-width:calc(100% - 130px);background:#17242ce8;padding:8px 12px;border-radius:6px;font-size:12px;line-height:1.5;pointer-events:none}
+  #interior-status{margin:0}#furniture-panel{display:none;position:absolute;right:12px;bottom:12px;background:#17242cf0;padding:8px;border:1px solid #344650;border-radius:6px;max-width:280px}
+  #furniture-panel summary{cursor:pointer;min-height:44px;padding:12px 0;font-size:13px}#furniture-panel summary:focus-visible{outline:3px solid #e4c58c;outline-offset:3px}#furniture-panel select{max-width:100%;width:100%;margin:5px 0}.furniture-buttons{display:flex;gap:4px;flex-wrap:wrap}#furniture-lighting,#furniture-editor-status{font-size:12px;max-width:264px}
+  #furniture-panel{max-height:calc(100% - 24px);overflow:auto;overscroll-behavior:contain}
+  .furniture-dimensions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0}
+  .furniture-dimensions label{font-size:11px;display:grid;gap:4px}.furniture-dimensions input{width:100%;min-width:0;min-height:36px;font:inherit;color:inherit;background:#17242c;border:1px solid #344650;border-radius:4px;padding:6px}
+  .furniture-dimensions input:focus-visible{outline:3px solid #e4c58c;outline-offset:2px}#furniture-finish{margin-top:8px;width:100%;border-color:#63dba2}
+  /* EDITOR-DESKTOP-20261024: disponível também no iframe, somente na Planta 3D com mouse/trackpad. */
+  @media(min-width:480px) and (hover:hover) and (pointer:fine){:root[data-mode="planta3d"] #furniture-panel{display:block}}
+  #touch-pad{position:absolute;right:12px;bottom:74px;display:grid;grid-template-columns:44px 44px 44px;gap:4px}#touch-pad button{touch-action:none}#touch-pad[hidden]{display:none}#touch-forward{grid-column:2}#touch-left{grid-row:2;grid-column:1}#touch-back{grid-row:2;grid-column:2}#touch-right{grid-row:2;grid-column:3}
+  #interior-stage:has(#furniture-panel[open]) #interior-note{display:none}
+  #failure{position:absolute;inset:0;display:grid;place-items:center;text-align:center;background:#10191f;padding:24px}#failure[hidden]{display:none}#failure a{display:inline-block;margin:8px}
+  @media(max-width:600px){#interior-controls{gap:4px;left:8px;right:8px;top:8px}button,select{font-size:12px;padding:8px}#room-select{max-width:160px}#furniture-panel{right:8px;bottom:8px;max-width:210px}#interior-note{bottom:8px;left:8px;max-width:calc(100% - 160px)}#capture-interior{display:none}}
+  :root[data-embedded="1"] #interior-controls,
+  :root[data-embedded="1"] #interior-note{display:none!important}
+  :root[data-embedded="1"] #interior-stage{min-height:0}
+  /* Editor à esquerda, acima da barra, deixando o contato e o sol livres. */
+  :root[data-embedded="1"] #furniture-panel{left:12px;right:auto;bottom:96px;max-height:calc(100% - 184px)}
+  @media(min-width:480px) and (hover:hover) and (pointer:fine){:root[data-embedded="1"] #interior-stage:has(#furniture-panel[open]) #interior-canvas{width:calc(100% - 304px);margin-left:304px}}
+  @media(min-width:480px) and (max-width:600px) and (hover:hover) and (pointer:fine){:root[data-embedded="1"] #interior-stage:has(#furniture-panel[open]) #interior-canvas{width:calc(100% - 234px);margin-left:234px}}
+  @media(max-height:600px){:root[data-embedded="1"] #furniture-panel{bottom:136px;max-height:calc(100% - 208px)}}
+</style>
+<script>
+  if(new URLSearchParams(location.search).get('embed')==='1'||window.self!==window.top){
+    document.documentElement.dataset.embedded='1';
+  }
+</script>
+<script id="experience-interaction">
+  // Segurar os controles não deve iniciar seleção nem o menu nativo de toque prolongado.
+  for (const type of ['selectstart', 'contextmenu']) {
+    document.addEventListener(type, event => {
+      if (!event.target.closest?.('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) {
+        event.preventDefault();
+      }
+    }, true);
+  }
+</script>
+<main id="interior-stage">
+  <canvas id="interior-canvas" tabindex="0" aria-label="Interior tridimensional do apartamento LIV Ipanema"></canvas>
+  <nav id="interior-controls" aria-label="Controles do interior">
+    <button id="mode-planta3d" disabled>Planta 3D</button><button id="mode-visita" disabled>Tour</button><button id="frame-interior" disabled>Enquadrar</button><button id="cut-interior" aria-pressed="false" title="Alternar paredes baixas e inteiras na Planta 3D" disabled>Paredes baixas</button>
+    <select id="room-select" aria-label="Ambiente" disabled></select><button id="room-go" disabled>Ir ao ambiente</button><button id="capture-interior" disabled>Fotografar</button>
+  </nav>
+  <div id="interior-note"><p id="interior-status" role="status">Carregando interior…</p><span id="interior-tip">Arraste para girar · dois dedos ou roda para aproximar</span></div>
+  <div id="touch-pad" hidden aria-label="Caminhar"><button id="touch-forward" aria-label="Avançar">↑</button><button id="touch-left" aria-label="Mover à esquerda">←</button><button id="touch-back" aria-label="Recuar">↓</button><button id="touch-right" aria-label="Mover à direita">→</button></div>
+  <details id="furniture-panel"><summary>Ajustar móveis</summary><select id="furniture-select" aria-label="Móvel" disabled></select>
+  <div class="furniture-dimensions"><label>Largura (m)<input id="furniture-w" type="number" min="0.2" max="3.5" step="0.01" disabled></label><label>Profundidade (m)<input id="furniture-d" type="number" min="0.2" max="3.5" step="0.01" disabled></label><label>Altura (m)<input id="furniture-h" type="number" min="0.01" step="0.01" disabled></label></div><div class="furniture-buttons">
+    <button id="furniture-place" aria-pressed="false" disabled>Mover na planta</button>
+    <button id="furniture-left" aria-label="Mover móvel à esquerda" disabled>←</button><button id="furniture-right" aria-label="Mover móvel à direita" disabled>→</button><button id="furniture-forward" aria-label="Mover móvel para frente" disabled>↑</button><button id="furniture-back" aria-label="Mover móvel para trás" disabled>↓</button><button id="furniture-rotate" disabled>Girar</button><button id="furniture-reset" disabled>Restaurar</button>
+  </div><button id="furniture-finish" disabled>Concluir</button><p id="furniture-editor-status" role="status">Selecione na lista ou clique em um móvel na planta. As medidas mudam sua aparência na hora.</p><p id="furniture-lighting" role="status" hidden></p></details>
+  <div id="failure" hidden><div><p id="interior-error"></p><a id="retry-interior" href="?backend=webgl">Tentar com WebGL2</a></div></div>
+</main>
+<script type="importmap">{"imports":{"three":"../../liv-experimental-2026-10-14/node_modules/three/build/three.webgpu.js","three/webgpu":"../../liv-experimental-2026-10-14/node_modules/three/build/three.webgpu.js","three/tsl":"../../liv-experimental-2026-10-14/node_modules/three/build/three.tsl.js","three/addons/":"../../liv-experimental-2026-10-14/node_modules/three/examples/jsm/"}}</script>
+<script type="module" src="interior-renderer.js?rev=2026-10-27-piso-plano"></script>
+<script type="module" src="interior-splat.js?rev=2026-10-15"></script>
+</html>

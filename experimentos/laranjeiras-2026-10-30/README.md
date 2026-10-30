@@ -95,7 +95,38 @@ implantação do LIV, árvore, palmeira e carro.
 Falta neste passo: os jardins privativos do térreo, a cor final (ela é ajustada no visualizador, como
 no LIV), a portaria com o letreiro e os detalhes do lazer.
 
+## Luz do exterior e visualizador WebGPU (cópia do LIV)
+
+Os scripts de luz do LIV são genéricos e rodam sobre o `modelo.json` do Laranjeiras:
+
+```
+python v1.5/miniaturas/liv-ipanema/preparar_luz.py --model experimentos/laranjeiras-2026-10-30/modelo/modelo.json --out experimentos/laranjeiras-2026-10-30/modelo/luz --size 4096
+& 'C:\Program Files (x86)\Steam\steamapps\common\Blender\blender.exe' --background --python v1.5/miniaturas/liv-ipanema/bake_luz.py -- --out experimentos/laranjeiras-2026-10-30/modelo/luz --samples 64
+python v1.5/miniaturas/liv-ipanema/denoise_luz.py --out experimentos/laranjeiras-2026-10-30/modelo/luz --output-guard 4
+python experimentos/laranjeiras-2026-10-30/modelo/exportar_cena.py
+```
+
+Medido em 30/10: o UV de luz teve 863 instâncias, 211 mil triângulos e 78% de aproveitamento do atlas
+de 4096². O bake levou 106 s (OptiX, 64 amostras) e o tira-ruído 24 s (OIDN).
+
+`modelo/exportar_cena.py` faz em Python o que no LIV passava pela página antiga e pelo Playwright
+(`liv-lightmap.js` + `exportar_cena.py`). Ele grava `assets/scene.json.gz` (4,8 MB), `irradiance.rgbm.gz`
+(18,2 MB) e `manifest.json` no formato `liv-exterior-proof-v1` que o `renderer.js` do LIV lê. São 55 malhas,
+42 delas com luz gravada. `assets/` e `modelo/luz/` são regeráveis e ficam fora do git.
+
+`site/` é a cópia do código da página do LIV (sem testes, QAs nem dados grandes). Até aqui mudou:
+
+- `edicoes.js`: a edição base aponta para `../assets/` e ainda não tem cadastro de finais (`units: null`).
+- `renderer.js`: sem cadastro de finais, a maquete abre sem seleção de apartamento.
+- O letreiro do telhado do LIV (`marca-telhado.webp`) foi removido.
+- Os importmaps usam o three da pasta do LIV (`../../liv-experimental-2026-10-14/node_modules/three/`).
+
+Com o servidor na raiz do repositório (`python -m http.server 8765`), o exterior abre em
+`http://localhost:8765/experimentos/laranjeiras-2026-10-30/site/prova-rgbm.html`. Testado em WebGPU, sem
+erro no console.
+
 ## Próximos passos
 
-Luz do exterior gravada no Cycles e exportação para o visualizador WebGPU (cópia do LIV); os 312
-apartamentos clicáveis; interiores; luz gravada por hora; celular e publicação em endereço de teste.
+Cadastro dos 312 apartamentos (3 torres × 13 pavimentos × 8): o cadastro do LIV é de uma torre de
+17 pavimentos e 10 finais. Depois: a página completa (`maquete-liv-ipanema.html`) com textos, estoque e
+mapa do Laranjeiras; interiores; luz por hora; celular; publicação em endereço de teste.

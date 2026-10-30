@@ -192,7 +192,9 @@ def andar():
             fachada = bool(fora)
             normal = fora[0] if fora else 1
             varanda = any('Varanda' in nm for nm in nomes)
-            cor = ('escuro' if varanda else 'reboco') if fachada else 'interno'
+            if not fachada:
+                continue      # parede interna não aparece por fora e só tomaria espaço no atlas de luz
+            cor = 'escuro' if varanda else 'reboco'
             eixo = 0 if horizontal else 1
             lo, hi = sorted([a[eixo], b[eixo]])
             furos = []
@@ -230,34 +232,61 @@ def andar():
         janela((0, s*(NUC_Y+.01)), 1.2, LAJE+1.0, LAJE+2.2, True, s)
 
 
-def laje(z=0.0, mat='laje'):
-    """Laje do andar: a ocupação rasterizada, juntada em faixas."""
+def faixas():
+    """Ocupação do andar como retângulos grandes: colunas com as mesmas faixas são juntadas."""
+    col = []
     for i in range(NX):
-        j = 0
+        runs, j = [], 0
         while j < NY:
             if occ[i, j]:
                 k = j
                 while k < NY and occ[i, k]:
                     k += 1
-                x = (i-20)*G-COMP/2+G/2
-                y0, y1 = (j-20)*G-FUNDO/2, (k-20)*G-FUNDO/2
-                box(mat, x, z+LAJE/2, (y0+y1)/2, G, LAJE, y1-y0)
-                j = k
+                runs.append((j, k)); j = k
             else:
                 j += 1
+        col.append(tuple(runs))
+    rets, i = [], 0
+    while i < NX:
+        k = i
+        while k < NX and col[k] == col[i]:
+            k += 1
+        for j0, j1 in col[i]:
+            rets.append(((i-20)*G-COMP/2, (j0-20)*G-FUNDO/2, (k-20)*G-COMP/2, (j1-20)*G-FUNDO/2))
+        i = k
+    return rets
+
+
+def laje(z=0.0, mat='laje'):
+    for x0, y0, x1, y1 in faixas():
+        box(mat, (x0+x1)/2, z+LAJE/2, (y0+y1)/2, x1-x0, LAJE, y1-y0)
 
 
 def contorno_externo():
-    """Arestas da fachada (para platibanda)."""
+    """Bordas da ocupação (para a platibanda), juntadas em trechos retos."""
     segs = []
-    for i in range(NX-1):
-        for j in range(NY-1):
+    for i in range(NX-1):          # bordas verticais: troca entre coluna i e i+1
+        j = 0
+        while j < NY:
             if occ[i, j] != occ[i+1, j]:
+                k = j
+                while k < NY and occ[i, k] != occ[i+1, k] and occ[i, k] == occ[i, j]:
+                    k += 1
                 x = (i+1-20)*G-COMP/2
-                segs.append(('v', x, (j-20)*G-FUNDO/2))
+                segs.append(('v', x, (j-20)*G-FUNDO/2, (k-20)*G-FUNDO/2)); j = k
+            else:
+                j += 1
+    for j in range(NY-1):          # bordas horizontais
+        i = 0
+        while i < NX:
             if occ[i, j] != occ[i, j+1]:
+                k = i
+                while k < NX and occ[k, j] != occ[k, j+1] and occ[k, j] == occ[i, j]:
+                    k += 1
                 y = (j+1-20)*G-FUNDO/2
-                segs.append(('h', (i-20)*G-COMP/2, y))
+                segs.append(('h', y, (i-20)*G-COMP/2, (k-20)*G-COMP/2)); i = k
+            else:
+                i += 1
     return segs
 
 
@@ -293,11 +322,11 @@ coloca(flush('lajes'), 'lajes', range(N+1))
 
 # Cobertura: platibanda no contorno, caixa d'água e casa de máquinas sobre o núcleo.
 H = N*LV
-for kind, a, b in contorno_externo():
+for kind, c, a, b in contorno_externo():
     if kind == 'v':
-        box('reboco', a, H+LAJE+.5, b+G/2, .15, 1.0, G)
+        box('reboco', c, H+LAJE+.5, (a+b)/2, .15, 1.0, b-a)
     else:
-        box('reboco', a+G/2, H+LAJE+.5, b, G, 1.0, .15)
+        box('reboco', (a+b)/2, H+LAJE+.5, c, b-a, 1.0, .15)
 box('reboco', 0, H+2.0, 0, NUCLEO+.4, 3.6, 2*NUC_Y)
 box('cobertura', 0, H+3.85, 0, NUCLEO+.6, .1, 2*NUC_Y+.2)
 coloca(flush('cobertura'), 'cobertura', [0])
