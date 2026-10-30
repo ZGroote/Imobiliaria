@@ -192,9 +192,11 @@ def andar():
             fachada = bool(fora)
             normal = fora[0] if fora else 1
             varanda = any('Varanda' in nm for nm in nomes)
-            if not fachada:
-                continue      # parede interna não aparece por fora e só tomaria espaço no atlas de luz
-            cor = 'escuro' if varanda else 'reboco'
+            # Parede interna não aparece por fora e só tomaria espaço no atlas de luz. A exceção é a varanda:
+            # ela é aberta, e o fundo dela (a parede da sala, com a porta de vidro) e as laterais aparecem.
+            if not fachada and not varanda:
+                continue
+            cor = 'escuro' if varanda and fachada else 'reboco'   # fundo e laterais da varanda: claros, como nos renders
             eixo = 0 if horizontal else 1
             lo, hi = sorted([a[eixo], b[eixo]])
             furos = []
