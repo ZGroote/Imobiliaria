@@ -277,5 +277,6 @@ nenhum pedido fora de `/laranjeiras/`.
 
 ## Próximos passos
 
-enquadramento inicial do Tour (começa colado no sofá); mapa do entorno; luz por hora gravada; celular;
-publicação em endereço de teste.
+Feitos: enquadramento do Tour, celular, luz por hora gravada e o endereço de teste. Faltam: mapa do entorno
+(está oculto), portaria e letreiro, plantas espelhadas dos finais 01, 02 e 07, e a leve mancha nas faixas estreitas
+de parede ao lado das janelas (atlas de 1024; 2048 quadruplica o peso).
