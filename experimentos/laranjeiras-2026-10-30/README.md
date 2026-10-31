@@ -262,7 +262,9 @@ Gera `publicacao/laranjeiras-<data>/payload/laranjeiras/` (fora do git) com tudo
 Os caminhos que no desenvolvimento apontam para a pasta do LIV (o three e os móveis) passam a apontar para
 dentro do pacote. Ao lado do pacote fica `inventario.json`, com o tamanho e o SHA de cada arquivo.
 
-Em 31/10, o pacote tinha 141 arquivos e 70,5 MB. Servido da própria pasta (`.claude/launch.json`,
+Com a luz gravada por hora dos interiores (101 MB das duas plantas), o pacote de 31/10 passou a ter 263 arquivos
+e 177,9 MB; servido sozinho, a maquete e o Tour do meio abriram com a luz gravada e os 15 móveis aprovados, sem
+pedido fora de `/laranjeiras/`. Antes da luz por hora, o pacote tinha 141 arquivos e 70,5 MB. Servido da própria pasta (`.claude/launch.json`,
 `laranjeiras-pacote`, porta 8796), abriu a maquete com os 312 apartamentos e o Tour com os móveis aprovados, sem
 nenhum pedido fora de `/laranjeiras/`.
 
