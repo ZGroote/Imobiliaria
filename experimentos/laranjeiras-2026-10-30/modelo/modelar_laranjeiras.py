@@ -411,6 +411,33 @@ for t in TORRES:
     w, d = t['larguraM']+3.0, t['profundidadeM']+3.0
     box('site-piso', x, .09, y, w, .06, d)
 
+# Jardins privativos do térreo (plantas térreo canto/meio do book): o contorno medido em
+# interiores/terreo-<tipologia>/referencia.json vai para cada final do térreo com o mesmo giro/espelho
+# da planta. Grama acima da calçada e mureta só nas bordas de fora (não encosta no prédio).
+JARDIM = {tip: json.loads((EXP/'interiores'/f'terreo-{tip}'/'referencia.json').read_text(encoding='utf-8'))['jardim']['poly_m']
+          for tip in ('canto', 'meio')}
+for t in TORRES:
+    cx_, cy_ = arq(t['centroM'])
+    paraArq = (lambda p, cx_=cx_, cy_=cy_, g=t['girada']: (cx_+p[1], cy_-p[0]) if g else (cx_+p[0], cy_+p[1]))
+    for f in FINAIS:
+        tip, T = posicao(f)
+        largura = CW if tip == 'canto' else MW
+        fundo = CD if tip == 'canto' else max(p[1] for c in PLANTAS['meio']['comodos'] for p in c['poly'])
+        poly = JARDIM[tip]
+        pts = [paraArq(T(p)) for p in poly]
+        if sum(a[0]*b[1]-b[0]*a[1] for a, b in zip(pts, pts[1:]+pts[:1])) < 0:
+            pts = pts[::-1]        # espelho inverte o sentido; a face de cima precisa do mesmo sentido sempre
+        poligono('site-grama', pts, .14, .05)
+        for a, b, pa, pb in zip(poly, poly[1:]+poly[:1], pts, pts[1:]+pts[:1]):
+            mx, my_ = (a[0]+b[0])/2, (a[1]+b[1])/2
+            if -.25 <= mx <= largura+.25 and -.25 <= my_ <= fundo+.25:
+                continue           # borda encostada no apartamento
+            L = math.hypot(pb[0]-pa[0], pb[1]-pa[1])
+            if abs(pb[1]-pa[1]) < abs(pb[0]-pa[0]):
+                box('site-muro', (pa[0]+pb[0])/2, .45, (pa[1]+pb[1])/2, L, .9, .12)
+            else:
+                box('site-muro', (pa[0]+pb[0])/2, .45, (pa[1]+pb[1])/2, .12, .9, L)
+
 for l in IMPL['lazer']:
     (x0, z0), (x1, z1) = l['m']
     (ax, ay), (bx, by) = arq((x0, z0)), arq((x1, z1))

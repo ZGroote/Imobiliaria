@@ -158,10 +158,10 @@
     }
   ],
   "blender": "5.2.3 LTS",
-  "geometries": 39,
-  "groups": 59,
-  "web_bytes": 3510806,
-  "glb_bytes": 2398824,
+  "geometries": 63,
+  "groups": 83,
+  "web_bytes": 3659824,
+  "glb_bytes": 2505876,
   "checks": {
     "pavimentos_e_lajes": true,
     "exportacao": true,

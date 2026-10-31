@@ -143,6 +143,18 @@ export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}
   }
   function entry(){
     const room=layout.rooms.find(r=>/^(sala|estar|living)/i.test(r.name))||layout.rooms[0];
+    // Laranjeiras: o Tour começa logo depois da porta de entrada (90 cm para dentro), como numa visita;
+    // o centro da sala punha a câmera colada no sofá. Sem porta de entrada, vale o centro da sala.
+    const door=layout.joinery.find(j=>j.entrada);
+    if(door){
+      const mid=[(door.a[0]+door.b[0])/2,(door.a[1]+door.b[1])/2];
+      for(const s of [1,-1]){
+        const p=[mid[0]+door.nx*.9*s,mid[1]+door.nz*.9*s],inner=layout.rooms.find(r=>inside(r.poly,...p));
+        if(!inner)continue;
+        const id=nearest(p,inner);
+        if(id>=0)return grid.at(id);
+      }
+    }
     const id=nearest([room.cx,room.cz],room);
     if(id<0)throw Error('A unidade não possui entrada caminhável na sala.');
     return grid.at(id);

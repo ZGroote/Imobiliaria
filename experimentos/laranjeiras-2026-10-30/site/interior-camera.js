@@ -31,9 +31,11 @@ export function roomLook(position,layout,furniture,roomId,visible=()=>true){
   candidates.sort((a,b)=>a.priority-b.priority||Math.hypot(b.point[0]-position[0],b.point[2]-position[1])-Math.hypot(a.point[0]-position[0],a.point[2]-position[1]));
   for(const candidate of candidates){
     const [x,y,z]=candidate.point,dx=x-position[0],dz=z-position[1],distance=Math.hypot(dx,dz);
-    if(distance<.65||!inside(room.poly,x,z)||!visible(candidate))continue;
+    // Laranjeiras: plantas pequenas punham o sofá a 65 cm do ponto de entrada e a câmera olhava para baixo,
+    // colada nele. Foco a menos de 1,6 m fica de fora (vale o próximo ou a direção mais aberta) e a inclinação é suave.
+    if(distance<1.6||!inside(room.poly,x,z)||!visible(candidate))continue;
     return {roomId:room.id,focusId:candidate.id,target:candidate.point,
-      yaw:Math.atan2(-dx,-dz),pitch:Math.max(-.55,Math.atan2(y-1.62,distance))};
+      yaw:Math.atan2(-dx,-dz),pitch:Math.max(-.3,Math.atan2(y-1.62,distance))};
   }
   return null;
 }
