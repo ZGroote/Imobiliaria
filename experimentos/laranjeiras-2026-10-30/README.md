@@ -182,7 +182,25 @@ Na cópia do interior:
 Testado no navegador: canto e meio em Planta 3D (15 móveis aprovados trocados, 3 acabamentos, sem aviso) e o
 Tour aberto pela página (Torre 03, 7º pavimento, final 05).
 
+## SketchUp
+
+`sketchup/modelar_laranjeiras.rb` monta o condomínio no SketchUp 2026 pela extensão MCP, no mesmo caminho
+da entrega do LIV (`liv-sketchup-2026-10-26/modelar_liv.rb`). A diferença é que lê o `modelo/modelo.json`, que
+tem instâncias, e não a cena com a luz expandida. Cada geometria vira um componente, e cada pavimento de cada
+torre é uma instância dele: editar um andar edita todos. Etiquetas: Torre 01, 02, 03 e Implantação. Cenas:
+Perspectiva, Implantação (de cima) e Rua José Quatrochi.
+
+```
+load '.../sketchup/modelar_laranjeiras.rb'; Laranjeiras.init
+Laranjeiras.build(0, 10); Laranjeiras.build(10, 25); Laranjeiras.build(35, 24)
+Laranjeiras.scenes; Laranjeiras.save
+```
+
+Saída: `sketchup/entrega/Parque_das_Laranjeiras.skp` (1,5 MB, fora do git): 39 componentes, 1.657 instâncias
+e 29.500 faces. Ainda não tem o apartamento decorado. O interior do Laranjeiras é montado no navegador e não
+tem um `source.json` congelado como o Canto do LIV, então é preciso exportar a cena do interior antes.
+
 ## Próximos passos
 
-Enquadramento inicial do Tour (começa colado no sofá); mapa do entorno; luz por hora gravada; celular;
+Apartamento decorado no SketchUp; enquadramento inicial do Tour (começa colado no sofá); mapa do entorno; luz por hora gravada; celular;
 publicação em endereço de teste.
