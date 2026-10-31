@@ -138,6 +138,114 @@ module Laranjeiras
     {pages: @model.pages.map(&:name)}
   end
 
+  # ---------- Apartamento decorado (cena real do interior, exportada por exportar_apartamentos.py) ----------
+  AREA = {'canto' => '39,12', 'meio' => '40,79'} unless const_defined?(:AREA)
+
+  def self.apartamento_init(tip, deslocamento_m)
+    @model = Sketchup.active_model
+    @apt ||= {}
+    @apt_done ||= {}
+    path = File.join(ROOT, 'dados', "apartamento-#{tip}.json")
+    data = JSON.parse(File.read(path, encoding: 'UTF-8'))
+    tag = @model.layers.add("Laranjeiras | Apartamento #{tip} #{AREA[tip]} m2")
+    @ceiling_tag = @model.layers.add('Laranjeiras | Teto dos apartamentos')
+    @ceiling_tag.visible = false
+    group = @model.entities.add_group
+    group.name = "Parque das Laranjeiras | Apartamento #{tip} #{AREA[tip]} m2 (decorado)"
+    group.layer = tag
+    # Ao lado do condomínio, no nível do chão: o apartamento é a planta de referência, não um final específico.
+    group.transform!(Geom::Transformation.translation([deslocamento_m.m, 0, 0]))
+    group.set_attribute('Laranjeiras', 'fonte', 'Cena do interior do site (FloorPlan + HouseMesh + moveis aprovados do LIV)')
+    @apt[tip] = {data: data, group: group, defs: {}, mats: {}}
+    {tipologia: tip, objetos: data['objects'].length, geometrias: data['geometries'].length}
+  end
+
+  def self.apt_material(tip, id)
+    a = @apt[tip]
+    return a[:mats][id] if a[:mats][id]&.valid?
+    spec = a[:data]['materials'][id]
+    mat = @model.materials.add("Laranjeiras #{tip} | #{spec['name']}")
+    mat.color = Sketchup::Color.new(*spec['color'])
+    if spec['texture'] && File.file?(spec['texture']['path'])
+      mat.texture = [spec['texture']['path'], 1.m, 1.m]
+      mat.color = Sketchup::Color.new(*spec['color']) if spec['color'] != [255, 255, 255]
+    end
+    mat.alpha = spec['opacity'] if spec['opacity'] < 1
+    a[:mats][id] = mat
+  end
+
+  def self.apt_definition(tip, item)
+    a = @apt[tip]
+    key = item['geometry'] + '/' + item['material']
+    return a[:defs][key] if a[:defs][key]&.valid?
+    spec = a[:data]['geometries'][item['geometry']]
+    mat = apt_material(tip, item['material'])
+    pos = spec['position']
+    idx = spec['index'] || (0...pos.length / 3).to_a
+    texture = a[:data]['materials'][item['material']]['texture']
+    rep = texture ? texture['repeat'] : [1, 1]
+    off = texture ? texture['offset'] : [0, 0]
+    mesh = Geom::PolygonMesh.new(pos.length / 3, idx.length / 3)
+    map = []
+    pos.each_slice(3).with_index do |v, i|
+      n = mesh.add_point(point(v))
+      map << n
+      if texture && spec['uv'] && spec['uv'].length > i * 2 + 1
+        mesh.set_uv(n, Geom::Point3d.new(spec['uv'][i * 2] * rep[0] + off[0], spec['uv'][i * 2 + 1] * rep[1] + off[1], 1), true)
+      end
+    end
+    idx.each_slice(3) do |tri|
+      poly = tri.map { |i| map[i] }
+      mesh.add_polygon(poly) if poly.uniq.length == 3
+    end
+    definition = @model.definitions.add("Laranjeiras #{tip} | #{item['name']}")
+    definition.entities.fill_from_mesh(mesh, true, 0, mat, mat)
+    definition.entities.grep(Sketchup::Edge).each do |edge|
+      if edge.faces.length == 2 && edge.faces[0].normal.dot(edge.faces[1].normal) > 0.5
+        edge.soft = true
+        edge.smooth = true
+      end
+    end
+    a[:defs][key] = definition
+  end
+
+  def self.apartamento_build(tip, first, count)
+    started = Time.now
+    a = @apt[tip]
+    @model.start_operation("Laranjeiras | apartamento #{tip} #{first}", true)
+    a[:data]['objects'][first, count].to_a.each do |item|
+      next if @apt_done["#{tip}/#{item['slot']}"]
+      instance = a[:group].entities.add_instance(apt_definition(tip, item), transform(item['matrix']))
+      instance.name = item['name']
+      instance.layer = @ceiling_tag if item['ceiling']
+      @apt_done["#{tip}/#{item['slot']}"] = true
+    end
+    @model.commit_operation
+    {tipologia: tip, montados: @apt_done.keys.count { |k| k.start_with?(tip + '/') }, total: a[:data]['objects'].length,
+     segundos: (Time.now - started).round(2)}
+  rescue StandardError
+    @model.abort_operation
+    raise
+  end
+
+  # Planta decorada: corte a 1,15 m só dentro do apartamento, câmera de cima em perspectiva leve.
+  def self.apartamento_cena(tip, numero)
+    a = @apt[tip]
+    group = a[:group]
+    plane = group.entities.add_section_plane([group.bounds.center.x, group.bounds.center.y, 1.15.m], [0, 0, -1])
+    plane.name = 'Corte 1,15 m'
+    group.entities.active_section_plane = plane
+    b = group.bounds
+    c = b.center
+    camera = Sketchup::Camera.new([c.x + 6.m, c.y - 9.m, 15.m], [c.x, c.y, 0.5.m], Z_AXIS, true)
+    camera.fov = 45
+    @model.active_view.camera = camera
+    name = format('%02d Planta %s', numero, tip)
+    page = @model.pages[name] || @model.pages.add(name)
+    page.update
+    {cena: name}
+  end
+
   def self.save
     path = File.join(ROOT, 'entrega', 'Parque_das_Laranjeiras.skp')
     Dir.mkdir(File.dirname(path)) unless Dir.exist?(File.dirname(path))

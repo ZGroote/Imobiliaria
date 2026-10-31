@@ -196,11 +196,25 @@ Laranjeiras.build(0, 10); Laranjeiras.build(10, 25); Laranjeiras.build(35, 24)
 Laranjeiras.scenes; Laranjeiras.save
 ```
 
-Saída: `sketchup/entrega/Parque_das_Laranjeiras.skp` (1,5 MB, fora do git): 39 componentes, 1.657 instâncias
-e 29.500 faces. Ainda não tem o apartamento decorado. O interior do Laranjeiras é montado no navegador e não
-tem um `source.json` congelado como o Canto do LIV, então é preciso exportar a cena do interior antes.
+**Apartamento decorado.** O interior do Laranjeiras é montado no navegador, então
+`sketchup/exportar_apartamentos.py` abre `interior.html` com o Playwright e exporta a cena de autoria do canto e do
+meio pelo `exporter-native.js` do LIV, já com os móveis aprovados no lugar. Ele grava `sketchup/dados/` (cerca de
+31 MB por planta, com 86 texturas, fora do git). Precisa do servidor `python -m http.server 8765` na raiz.
+
+```
+Laranjeiras.apartamento_init('canto', <x em m>); Laranjeiras.apartamento_build('canto', 0, 120) ...
+Laranjeiras.apartamento_init('meio', <x>); Laranjeiras.apartamento_build('meio', 0, 120) ...  # init e build na MESMA chamada
+Laranjeiras.apartamento_cena('canto', 4); Laranjeiras.apartamento_cena('meio', 5); Laranjeiras.save
+```
+
+O SketchUp apaga grupo vazio no fim da operação. Por isso, o `apartamento_init` e o primeiro `build` de cada planta
+vão na mesma chamada. Os apartamentos ficam ao lado do condomínio, com as etiquetas "Apartamento canto/meio" e
+"Teto dos apartamentos" (o teto fica oculto). Cada apartamento tem um corte de planta a 1,15 m. Cenas novas:
+04 Planta canto e 05 Planta meio.
+
+Saída: `sketchup/entrega/Parque_das_Laranjeiras.skp` (fora do git).
 
 ## Próximos passos
 
-Apartamento decorado no SketchUp; enquadramento inicial do Tour (começa colado no sofá); mapa do entorno; luz por hora gravada; celular;
+Enquadramento inicial do Tour (começa colado no sofá); mapa do entorno; luz por hora gravada; celular;
 publicação em endereço de teste.
