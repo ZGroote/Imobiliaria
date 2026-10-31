@@ -322,8 +322,10 @@ function expandedGeometry(spec,corner){
   for(const group of corner.groups)geometry.addGroup(group.start,group.count,group.materialIndex);geometry.computeBoundingSphere();return flattenAxisNormals(windWithNormals(geometry));
 }
 function installBake(compact){
-  if(!light.ready||!light.geometryApproved||light.colorPass!==false||light.sourceSHA256!==record.sourceSHA256||light.unitSHA256!==record.unitSHA256||compact.sourceSHA256!==record.sourceSHA256||compact.unitSHA256!==record.unitSHA256||light.geometrySHA256!==record.files.compact.decodedSHA256||light.textureSHA256!==record.files.atlas.decodedSHA256)throw Error('Identidade do bake interior não corresponde à unidade.');
-  if(compact.schema!=='liv-interior-corners-v1'||compact.uvScale!==65535||compact.objects.length!==light.objects)throw Error('Contrato do bake interior inválido.');
+  // Laranjeiras (time-rgbm): sem o atlas estático do LIV, a identidade é a da fonte e do UV1.
+  if(record.lighting==='time-rgbm'){if(compact.sourceSHA256!==record.sourceSHA256||compact.unitSHA256!==record.unitSHA256)throw Error('UV1 interior não corresponde à fonte.');}
+  else if(!light.ready||!light.geometryApproved||light.colorPass!==false||light.sourceSHA256!==record.sourceSHA256||light.unitSHA256!==record.unitSHA256||compact.sourceSHA256!==record.sourceSHA256||compact.unitSHA256!==record.unitSHA256||light.geometrySHA256!==record.files.compact.decodedSHA256||light.textureSHA256!==record.files.atlas.decodedSHA256)throw Error('Identidade do bake interior não corresponde à unidade.');
+  if(compact.schema!=='liv-interior-corners-v1'||compact.uvScale!==65535||(light&&compact.objects.length!==light.objects))throw Error('Contrato do bake interior inválido.');
   // Só o UV1 do atlas antigo é reaproveitado; a luz vem de luz-horario/.
   for(const corner of compact.objects){
     const object=source.objects[corner.objectIndex],mesh=meshBySlot.get(corner.slot);
@@ -713,7 +715,7 @@ async function start(){
   const factory=nativeFactory(native,library);
   furnitureFactory=factory;furnitureMaterials=native;state.ceilingHeight=layout.pd;
   if(record.geometryKind==='frozen-source'){
-    [source,light]=await Promise.all([sourceMaterials?Promise.resolve(nativeMaterials):load(record.files.source,true),load(record.files.light,true)]);check();
+    [source,light]=await Promise.all([sourceMaterials?Promise.resolve(nativeMaterials):load(record.files.source,true),record.files.light?load(record.files.light,true):null]);check();
     if(source.schema!=='liv-interior-scene-v1'||source.unitSHA256!==record.unitSHA256||record.files.source.decodedSHA256!==record.sourceSHA256)throw Error('Fonte congelada não corresponde à unidade.');
     // The Canto source contains an old m6 override shared by many other meshes.
     // Retain its approved runtime palette; only the new cornice material is added.
@@ -758,7 +760,8 @@ async function start(){
   // that must contribute to the exported light transport of the new Meio bake.
   if(record.geometryKind==='native-factories')state.authoringScene=scene.clone();
   check();if(!ceiling.length)throw Error('O interior perdeu o forro para o Tour.');
-  if(record.geometryKind==='frozen-source')state.wallTopRepair=repairWallTops({scene,typology,
+  // O topo unificado das paredes é um perfil por fonte do LIV; a fonte do Laranjeiras já tem o topo do construtor.
+  if(record.geometryKind==='frozen-source'&&record.lighting!=='time-rgbm')state.wallTopRepair=repairWallTops({scene,typology,
     sourceSHA256:record.sourceSHA256,baked,wallMaterial:native.m0,color:layout.unit.cores?.parede||'#eee7d9',own});
   const doorMeshes=material=>{const list=[];scene.traverse(mesh=>{if(mesh.isMesh&&!mesh.userData.furnitureId&&mesh.material===material)list.push(mesh);});return list;};
   doors=createDoors({scene,layout,paint:doorMeshes(native.m3),alu:doorMeshes(native.m4),doorColor:new THREE.Color(layout.unit.cores?.porta??0xEDE7DD),baked,own,roomAt:(x,z)=>layout.rooms.find(room=>inside(room.poly,x,z))?.name||null});

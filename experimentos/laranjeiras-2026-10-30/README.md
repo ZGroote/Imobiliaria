@@ -167,7 +167,8 @@ python experimentos/laranjeiras-2026-10-30/interiores/gerar_pacote.py
 
 O pacote segue o modo `native-factories` do LIV, o mesmo do Meio dele com luz dinâmica. O interior é
 montado no navegador a partir do `unidade.json`, com os materiais, móveis e fábricas compartilhados do LIV
-(`site/interiores/shared/`, copiados sem alteração e conferidos pelo hash). Não há bake de interior.
+(`site/interiores/shared/`, copiados sem alteração e conferidos pelo hash). Depois do bake por hora (abaixo), a
+planta abre pela fonte congelada com a luz do Cycles; a montagem pelas fábricas fica só para exportar a fonte.
 
 Na cópia do interior:
 
@@ -181,6 +182,35 @@ Na cópia do interior:
 
 Testado no navegador: canto e meio em Planta 3D (15 móveis aprovados trocados, 3 acabamentos, sem aviso) e o
 Tour aberto pela página (Torre 03, 7º pavimento, final 05).
+
+### Luz gravada por hora (Cycles)
+
+Mesmo caminho do Canto e do Meio do LIV (`liv-luz-natural-2026-10-26/bake-luz-horario.py`): o céu e o rebatimento
+de cada hora vêm do Cycles; o sol direto continua em tempo real, com a irradiância medida no Cycles. Da raiz:
+
+```
+python experimentos/laranjeiras-2026-10-30/interiores/luz/exportar_fonte.py
+node experimentos/laranjeiras-2026-10-30/interiores/luz/chaves.mjs
+C:/Python314/python.exe v1.5/miniaturas/liv-ipanema/interior/preparar_luz.py --source experimentos/laranjeiras-2026-10-30/interiores/luz/canto/source.json --out experimentos/laranjeiras-2026-10-30/interiores/luz/canto/bake --size 1024
+python experimentos/laranjeiras-2026-10-30/interiores/gerar_pacote.py
+& 'C:\Program Files (x86)\Steam\steamapps\common\Blender\blender.exe' -b --factory-startup experimentos/liv-luz-natural-2026-10-26/entrega/LIV_Luz_Natural.blend --python experimentos/laranjeiras-2026-10-30/interiores/luz/bake_horario.py -- --tipologia canto
+C:/Python314/python.exe experimentos/laranjeiras-2026-10-30/interiores/luz/empacotar_horario.py canto
+```
+
+(o `preparar_luz.py` e o bake repetem para `meio`; o Python 3.14 do usuário tem o xatlas e o OIDN.)
+
+- **Fonte congelada:** `exportar_fonte.py` monta a planta pelas fábricas no navegador (com o catálogo de móveis
+  aprovados vazio na rota) e grava a cena de autoria em `interiores/luz/<planta>/source.json`. Sai igual byte a
+  byte quando repetido. Os móveis do cadastro e o alumínio ficam fora do atlas e leem as sondas, como no LIV; no
+  bake, os móveis trocados saem e entram os aprovados (`moveis-site.glb`, cor média de cada textura), e a porta de
+  entrada é gravada fechada.
+- **Quatro lados:** cada apartamento olha para `±x` ou `±z` da cena. São 7 horas (6h a 18h, de 2 em 2) por lado,
+  mais a noite: 29 chaves por planta. O site escolhe as chaves pelo lado do apartamento aberto.
+- **No site:** com a fonte e o UV1 prontos, `gerar_pacote.py` passa a planta para `frozen-source` com
+  `lighting: 'time-rgbm'`. O `interior-renderer.js` dessa cópia aceita esse modo sem o atlas estático e sem o
+  topo de parede unificado do LIV (os dois são perfis das fontes do LIV).
+- **Fora do git, como no LIV:** a fonte, os brutos do Cycles, o `.glb` dos móveis e os `.gz` do site. Ficam no
+  git o `manifest.json` da luz e o catálogo.
 
 ## SketchUp
 

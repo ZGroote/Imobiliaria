@@ -212,3 +212,11 @@ experimentos/laranjeiras-2026-10-30/modelo/luz/
 experimentos/laranjeiras-2026-10-30/assets/
 experimentos/laranjeiras-2026-10-30/sketchup/entrega/
 experimentos/laranjeiras-2026-10-30/sketchup/dados/
+# Laranjeiras: luz por hora dos interiores (regeneravel por interiores/luz/*; fica no disco, como no LIV)
+experimentos/laranjeiras-2026-10-30/interiores/luz/*/source.json
+experimentos/laranjeiras-2026-10-30/interiores/luz/*/moveis-site.glb
+experimentos/laranjeiras-2026-10-30/interiores/luz/*/gravado/*.f32
+experimentos/laranjeiras-2026-10-30/interiores/luz/*/bake/
+experimentos/laranjeiras-2026-10-30/site/interiores/*/source.json.gz
+experimentos/laranjeiras-2026-10-30/site/interiores/*/geometry-compact.json.gz
+experimentos/laranjeiras-2026-10-30/site/interiores/*/luz-horario/*.gz

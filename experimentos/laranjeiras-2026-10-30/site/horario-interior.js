@@ -3,7 +3,8 @@ import {solarState,unitSolarContext,interiorSunDirection,facadeExposure} from '.
 import {inside} from './interior-navigation.js';
 
 export function interiorTimeState(hour,unitContext,{date}={}){
-  const input=unitContext||{side:'-z'};  // sem apartamento escolhido: fachada SSE (varanda do canto)
+  // Sem apartamento escolhido: fachada SSE, no giro da planta aberta (a do meio tem a fachada em -X).
+  const input=unitContext||{side:'-z',typology:new URLSearchParams(globalThis.location?.search||'').get('tipologia')};
   const context=unitSolarContext({...input,id:input.unitId??input.id});
   if(input.yaw!==undefined){
     if(!Number.isFinite(input.yaw))throw new RangeError('Rotação da unidade inválida.');
