@@ -44,11 +44,24 @@ export function buildingFacadeView(aspect,side,bounds=null){
 }
 
 // Laranjeiras: enquadra a face de uma torre. dir = '+x'|'-x'|'+z'|'-z' (lado para onde o apartamento dá).
-export function towerFacadeView(aspect,dir,bounds){
+// Se outra torre fica na frente dessa face, a câmera para antes dela (2 m de folga), abre o ângulo até 75° e
+// centraliza no pavimento escolhido; sem obstáculo, o enquadramento é o mesmo de antes.
+export function towerFacadeView(aspect,dir,bounds,others=[],focusY=null){
   if(!Number.isFinite(aspect)||aspect<=0||!/^[+-][xz]$/.test(dir))throw Error('Vista da fachada inválida.');
-  const {min,max}=bounds,target=min.map((n,i)=>(n+max[i])/2),axis=dir[1]==='x'?0:2,across=axis===0?2:0;
-  const halfHeight=Math.max((max[1]-min[1])/2+1.5,((max[across]-min[across])/2+1.5)/aspect);
-  const fov=34,distance=halfHeight/Math.tan(fov*Math.PI/360)+(max[axis]-min[axis])/2;
-  const position=[...target];position[axis]+=(dir[0]==='+'?1:-1)*distance;
+  const {min,max}=bounds,target=min.map((n,i)=>(n+max[i])/2),axis=dir[1]==='x'?0:2,across=axis===0?2:0,sign=dir[0]==='+'?1:-1;
+  let halfHeight=Math.max((max[1]-min[1])/2+1.5,((max[across]-min[across])/2+1.5)/aspect),fov=34;
+  const depth=(max[axis]-min[axis])/2;
+  let distance=halfHeight/Math.tan(fov*Math.PI/360);
+  let free=Infinity;
+  for(const other of others){
+    const gap=sign>0?other.min[axis]-max[axis]:min[axis]-other.max[axis];
+    if(gap>0&&other.min[across]<max[across]&&other.max[across]>min[across])free=Math.min(free,gap-2);
+  }
+  if(distance>free&&free>4){
+    distance=free;
+    if(Number.isFinite(focusY))target[1]=focusY;
+    fov=Math.min(75,2*Math.atan(halfHeight/distance)*180/Math.PI);
+  }
+  const position=[...target];position[axis]+=sign*(distance+depth);
   return {type:'PerspectiveCamera',fov,near:.2,far:900,aspect,zoom:1,position,target};
 }

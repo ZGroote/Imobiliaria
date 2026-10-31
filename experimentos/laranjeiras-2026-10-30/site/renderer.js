@@ -503,7 +503,9 @@ async function start() {
   function towerView(aspect,side){
     const [id,dir]=side.split(':'),tower=units?.towers.find(t=>t.id===id);
     if(!tower)throw Error('Lado do pavimento inválido.');
-    return towerFacadeView(aspect,dir,tower.bounds);
+    const others=units.towers.filter(t=>t!==tower).map(t=>t.bounds);
+    const floorY=selectedFloor>=0?(selectedFloor+.5)*(tower.bounds.max[1]/units.floors):null;
+    return towerFacadeView(aspect,dir,tower.bounds,others,floorY);
   }
   function setUnitView(side,floor=1){
     if(!units||!units.units.some(unit=>floorOf(units,unit)===floor))throw Error('Pavimento fora do cadastro.');

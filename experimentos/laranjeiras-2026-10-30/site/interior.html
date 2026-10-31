@@ -34,6 +34,8 @@
   @media(min-width:480px) and (hover:hover) and (pointer:fine){:root[data-embedded="1"] #interior-stage:has(#furniture-panel[open]) #interior-canvas{width:calc(100% - 304px);margin-left:304px}}
   @media(min-width:480px) and (max-width:600px) and (hover:hover) and (pointer:fine){:root[data-embedded="1"] #interior-stage:has(#furniture-panel[open]) #interior-canvas{width:calc(100% - 234px);margin-left:234px}}
   @media(max-height:600px){:root[data-embedded="1"] #furniture-panel{bottom:136px;max-height:calc(100% - 208px)}}
+  /* Laranjeiras: em retrato a barra da página (planta/3D/entrar + ambiente) tem ~115 px e cobria as setas. */
+  @media(max-width:600px) and (orientation:portrait){:root[data-embedded="1"] #touch-pad{bottom:128px}}
 </style>
 <script>
   if(new URLSearchParams(location.search).get('embed')==='1'||window.self!==window.top){
