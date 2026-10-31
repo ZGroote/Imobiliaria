@@ -214,7 +214,29 @@ vão na mesma chamada. Os apartamentos ficam ao lado do condomínio, com as etiq
 
 Saída: `sketchup/entrega/Parque_das_Laranjeiras.skp` (fora do git).
 
+## Pacote para publicar (ainda não publicado)
+
+```
+node experimentos/laranjeiras-2026-10-30/publicar/preparar_pacote.mjs
+```
+
+Gera `publicacao/laranjeiras-<data>/payload/laranjeiras/` (fora do git) com tudo dentro, no mesmo caminho do
+`otimizar_publicacao.mjs` do LIV:
+
+- o JS das três páginas juntado e minificado pelo esbuild, com o three dentro do pacote;
+- o CSS embutido na página;
+- a cena, o atlas de luz e o cadastro em `assets/`;
+- os móveis aprovados que o catálogo usa, conferidos pelo SHA;
+- `noindex` em todas as páginas e `index.html` igual à maquete.
+
+Os caminhos que no desenvolvimento apontam para a pasta do LIV (o three e os móveis) passam a apontar para
+dentro do pacote. Ao lado do pacote fica `inventario.json`, com o tamanho e o SHA de cada arquivo.
+
+Em 31/10, o pacote tinha 141 arquivos e 70,5 MB. Servido da própria pasta (`.claude/launch.json`,
+`laranjeiras-pacote`, porta 8796), abriu a maquete com os 312 apartamentos e o Tour com os móveis aprovados, sem
+nenhum pedido fora de `/laranjeiras/`.
+
 ## Próximos passos
 
-Enquadramento inicial do Tour (começa colado no sofá); mapa do entorno; luz por hora gravada; celular;
+Publicar o pacote num endereço de teste (a combinar); enquadramento inicial do Tour (começa colado no sofá); mapa do entorno; luz por hora gravada; celular;
 publicação em endereço de teste.
