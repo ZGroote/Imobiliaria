@@ -10,6 +10,13 @@ export function interiorTimeState(hour,unitContext,{date}={}){
     if(!Number.isFinite(input.yaw))throw new RangeError('Rotação da unidade inválida.');
     context.yaw=input.yaw;
   }
+  // Torres vizinhas já no referencial do interior (viewer.js, towerOccluders): só fazem sombra do sol.
+  if(input.occluders!==undefined){
+    const finite=(list,n)=>Array.isArray(list)&&list.length===n&&list.every(Number.isFinite);
+    if(!Array.isArray(input.occluders)||input.occluders.length>8||!input.occluders.every(o=>finite(o?.center,3)&&finite(o?.size,3)&&Number.isFinite(o.yaw)))
+      throw new RangeError('Torres vizinhas inválidas.');
+    context.occluders=input.occluders.map(o=>({center:[...o.center],size:[...o.size],yaw:o.yaw}));
+  }
   const solar=solarState(hour,{date});
   return {...solar,context,directionGlobal:[...solar.direction],direction:interiorSunDirection(solar.direction,context),
     facadeExposure:facadeExposure(solar.direction,context.side)};
@@ -41,8 +48,11 @@ export function createInteriorSolarLighting({scene,layout,own=value=>value,ceili
   const sun=add(own(new THREE.DirectionalLight(0xffffff,0)));
   sun.name='Sol LIV por horário';sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);
   const bounds=layout.bounds,radius=Math.hypot(bounds.x1-bounds.x0,bounds.z1-bounds.z0)/2+1;
-  Object.assign(sun.shadow.camera,{left:-radius,right:radius,top:radius,bottom:-radius,near:.1,far:50});
-  sun.shadow.camera.updateProjectionMatrix();sun.shadow.bias=-.0003;sun.shadow.normalBias=.02;
+  // O sol fica a 250 m: a sombra precisa enxergar a torre vizinha (até ~100 m e 39 m de altura) entre ele e a janela.
+  // O bias é da profundidade normalizada: com far 10x maior, 10x menor para dar os mesmos 1,5 cm.
+  const SUN_DISTANCE=250;
+  Object.assign(sun.shadow.camera,{left:-radius,right:radius,top:radius,bottom:-radius,near:.1,far:2*SUN_DISTANCE});
+  sun.shadow.camera.updateProjectionMatrix();sun.shadow.bias=-.00003;sun.shadow.normalBias=.02;
   sun.shadow.autoUpdate=false;sun.shadow.needsUpdate=true;sun.target.position.set(0,layout.pd/2,0);add(sun.target);
 
   const diffuser=own(new THREE.MeshStandardMaterial({name:'Difusor de plafon LIV por horário',color:0xf0f0ec,roughness:.72,
@@ -89,7 +99,17 @@ export function createInteriorSolarLighting({scene,layout,own=value=>value,ceili
     blocker.position.y+=.08;
     blocker.castShadow=true;blocker.userData.livSolarOccluder=true;roofShadows.push({mesh,blocker});
   }
-  let current=null,disposed=false,presentationMode='planta3d';
+  let current=null,disposed=false,presentationMode='planta3d',occluderKey='[]';
+  const occluders=[],boxGeometry=own(new THREE.BoxGeometry(1,1,1));
+  function setOccluders(list){
+    const key=JSON.stringify(list);if(key===occluderKey)return;occluderKey=key;
+    for(const mesh of occluders.splice(0))scene.remove(mesh);
+    for(const o of list){
+      const mesh=add(new THREE.Mesh(boxGeometry,blockerMaterial));mesh.name='Torre vizinha · sombra solar';
+      mesh.position.fromArray(o.center);mesh.scale.fromArray(o.size);mesh.rotation.y=o.yaw;
+      mesh.castShadow=true;mesh.userData.livSolarOccluder=true;occluders.push(mesh);
+    }
+  }
   function syncPresentation(mode){
     if(mode)presentationMode=mode;
     for(const {blocker}of roofShadows)blocker.visible=true;  // só faz sombra; vale com e sem forro à vista
@@ -104,7 +124,8 @@ export function createInteriorSolarLighting({scene,layout,own=value=>value,ceili
       if(disposed)return false;
       current=structuredClone(time);
       const direct=time.sunStrength;
-      sun.position.fromArray(time.direction).multiplyScalar(20).add(sun.target.position);
+      sun.position.fromArray(time.direction).multiplyScalar(SUN_DISTANCE).add(sun.target.position);
+      setOccluders(time.context?.occluders||[]);
       if(sunIrradiance){const peak=Math.max(...sunIrradiance);sun.intensity=peak;if(peak>0)sun.color.setRGB(...sunIrradiance.map(value=>value/peak));}
       else{sun.intensity=3.2*direct;sun.color.setRGB(1,.78+.22*direct,.55+.45*direct);}
       sun.shadow.needsUpdate=true;
@@ -121,7 +142,7 @@ export function createInteriorSolarLighting({scene,layout,own=value=>value,ceili
     getState(){return {time:current?structuredClone(current):null,sunIntensity:sun.intensity,skyIntensity:sky.intensity,
       environmentIntensity:scene.environmentIntensity,artificialIntensity:spots.reduce((sum,lamp)=>sum+lamp.intensity,0),
       fixtures:fixtures.length,existingFixtures:originals.length,spots:spots.length,spotShadowSize:512,
-      shadowAutoUpdate:false,roofShadowBlockers:roofShadows.length,approximate:true};},
+      shadowAutoUpdate:false,roofShadowBlockers:roofShadows.length,towerOccluders:occluders.length,approximate:true};},
     dispose(){
       if(disposed)return;disposed=true;
       for(const {mesh,material}of originals)mesh.material=material;

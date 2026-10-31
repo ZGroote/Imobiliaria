@@ -1,7 +1,7 @@
 import {unitById} from './unidades.js';
 import {floorOf} from './catalogo-unidades.js';
 import {saleOf,saleLabel} from './comercial.js';
-import {typology as layout} from './tipologias.js';
+import {typology as layout,typologies} from './tipologias.js';
 export function createUnitUI(catalog){
   return {setCatalog(data){catalog=data;},update({selectedUnitId,ready,mode,relationError,stockError,unitScope}){
     const unit=unitById(catalog,selectedUnitId);
@@ -10,7 +10,7 @@ export function createUnitUI(catalog){
     const panel=document.getElementById('selectedApartment'),prompt=document.getElementById('selectionPrompt');
     if(panel)panel.hidden=!unit;if(prompt)prompt.hidden=Boolean(unit);
     const info=document.getElementById('btnApartmentInfo');if(info){info.hidden=!unit;info.disabled=!unit;}
-    const relation=unit?.relation,associated=Boolean(relation&&['canto','meio'].includes(relation.typology)&&relation.orientation==='original');
+    const relation=unit?.relation,associated=Boolean(relation&&Object.hasOwn(typologies,relation.typology));
     for(const button of document.querySelectorAll('[data-unit-open]')){button.hidden=!associated;button.disabled=!ready||!associated;}
     const actions=document.getElementById('selectedApartmentActions');if(actions)actions.hidden=!associated||mode!=='maquete';
     if(!unit)return;

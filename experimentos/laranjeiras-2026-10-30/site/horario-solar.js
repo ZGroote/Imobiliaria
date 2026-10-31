@@ -117,7 +117,8 @@ export function unitSolarContext(unit) {
   // A planta tem a fachada em -Z (canto, varanda em cima) ou em -X (meio): o yaw leva a fachada real até ela.
   // Finais espelhados usam a planta sem espelho: a fachada fica certa, esquerda e direita trocam.
   const typology = unit.typology ?? unit.relation?.typology;
-  const facing = AXES[side], plan = typology === 'meio' ? [-1, 0] : [0, -1];
+  // A espelhada mantém a fachada da original (canto espelha em X, meio em Z).
+  const facing = AXES[side], plan = String(typology).startsWith('meio') ? [-1, 0] : [0, -1];
   const yaw = Math.atan2(plan[1], plan[0]) - Math.atan2(facing[1], facing[0]);
   return { unitId, side, final, floorIndex, yaw, approximate: true };
 }

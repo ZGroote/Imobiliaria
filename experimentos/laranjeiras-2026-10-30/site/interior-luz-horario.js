@@ -22,7 +22,7 @@ export function timeLightWeights(manifest,time){
 /** Baixa as horas do lado pedido sob demanda; a mistura troca só texturas e pesos, sem recompilar. */
 export function createTimeLightmaps({manifest,load,own=value=>value}){
   const textures=new Map(),pending=new Map();let last=null;
-  const irradiance=createTimeIrradiance({range:manifest.range,intensity:manifest.lightMapIntensity});
+  const irradiance=createTimeIrradiance({range:manifest.range,intensity:manifest.lightMapIntensity,width:manifest.width,height:manifest.height});
   // Móveis, portas e moldura não têm UV1: leem a mesma hora nas sondas do cômodo.
   const probes=manifest.probes?createProbeIrradiance(manifest.probes,manifest.lightMapIntensity):null;
   if(probes)own(probes.rooms);
@@ -39,6 +39,7 @@ export function createTimeLightmaps({manifest,load,own=value=>value}){
     const entry=entries.get(id);
     if(!pending.has(id))pending.set(id,Promise.all([load(entry),probes&&entry.probes?load(entry.probes):null]).then(([bytes,probeBytes])=>{
       const texture=own(createRGBMTexture(bytes,manifest));texture.name=`LIV luz gravada · ${id}`;
+      texture.minFilter=texture.magFilter=THREE.NearestFilter;  // o shader faz o bilinear já decodificado
       const value={atlas:texture,volume:probeBytes?volume(probeBytes):null};textures.set(id,value);return value;
     }).catch(error=>{pending.delete(id);throw error;}));
     return pending.get(id);

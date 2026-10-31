@@ -8,7 +8,8 @@ import {interiorSunDirection, solarState, unitSolarContext} from '../../site/hor
 
 const here = dirname(fileURLToPath(import.meta.url));
 const date = '2026-10-31', hours = [6, 8, 10, 12, 14, 16, 18], sides = ['+x', '-x', '+z', '-z'];
-for (const typology of ['canto', 'meio']) {
+// A espelhada mantém a fachada da original: mesmas direções de sol (unitSolarContext olha o prefixo).
+for (const typology of ['canto', 'meio', 'canto-espelhado', 'meio-espelhado']) {
   const keys = [];
   for (const side of sides) {
     const context = unitSolarContext({side, typology});

@@ -1,5 +1,5 @@
 import {transfers,showTransferStatus} from './transfers.js';
-import {typology} from './tipologias.js?rev=2026-10-13-medidas2';
+import {typology,typologies} from './tipologias.js?rev=2026-10-13-medidas2';
 import {unitById} from './unidades.js';
 import {loadUnitCatalog,floorOf,unitScope} from './catalogo-unidades.js';
 import {createUnitUI} from './unit-ui.js';
@@ -67,7 +67,7 @@ try {
     if(!new URLSearchParams(location.search).has('luz')&&Object.hasOwn(AMBIENCES,saved.ambience))state.ambience=saved.ambience;
     if(typeof saved.selectedUnitId==='string'&&(saved.floor===1||(scope==='edificio'&&saved.floor>=0)))state.selectedUnitId=saved.selectedUnitId;
     if(saved.mode!=='maquete'&&state.selectedUnitId)restoredInterior={mode:saved.mode,unitId:state.selectedUnitId};
-    if(['canto','meio'].includes(saved.typology))state.typology=saved.typology;
+    if(Object.hasOwn(typologies,saved.typology))state.typology=saved.typology;
     if(saved.interiorSnapshots&&typeof saved.interiorSnapshots==='object')state.interiorSnapshots=saved.interiorSnapshots;
     const snapshot=saved.exteriorSnapshot,cam=snapshot?.camera;
     if(snapshot&&cam&&[cam.position,cam.target].every(v=>Array.isArray(v)&&v.length===3&&v.every(Number.isFinite)))state.exteriorSnapshot=snapshot;
@@ -97,13 +97,23 @@ if(floorControl){
 document.getElementById('typology').value=state.typology;
 
 function selectedApartment(){return units?unitById(units,state.selectedUnitId):null;}
+/** As outras torres no referencial do interior (centro da planta no chão do apartamento, giro do sol do final):
+ *  o interior põe caixas que só fazem sombra, e a sombra da torre vizinha entra pela janela com a hora. */
+function towerOccluders(unit,yaw){
+  const b=unit.bounds,cx=(b.min[0]+b.max[0])/2,cz=(b.min[2]+b.max[2])/2,c=Math.cos(-yaw),s=Math.sin(-yaw);
+  return (units?.towers||[]).filter(tower=>tower.id!==unit.tower).map(({bounds:t})=>{
+    const x=(t.min[0]+t.max[0])/2-cx,z=(t.min[2]+t.max[2])/2-cz;
+    return {center:[c*x+s*z,(t.min[1]+t.max[1])/2-b.min[1],-s*x+c*z],size:[t.max[0]-t.min[0],t.max[1]-t.min[1],t.max[2]-t.min[2]],yaw:-yaw};
+  });
+}
+function interiorSolarContext(unit){const context=unitSolarContext(unit);return {...context,occluders:towerOccluders(unit,context.yaw)};}
 function applyTimeToFrame(frame) {
   const api=sceneAPI(frame);if(!api?.ready||!api.setTimeOfDay)return;
   const unit=selectedApartment(),interior=frame.dataset.scene?.startsWith('interior:');
   if(interior&&!unit)return;
   const key=`${state.solarDate}:${state.hour}:${interior?unit.id:'exterior'}`;
   if(frame.livSolarKey===key)return;
-  api.setTimeOfDay(state.hour,interior?unitSolarContext(unit):null,{date:state.solarDate});frame.livSolarKey=key;
+  api.setTimeOfDay(state.hour,interior?interiorSolarContext(unit):null,{date:state.solarDate});frame.livSolarKey=key;
 }
 function setTimeOfDay(hour,{date=state.solarDate}={}) {
   const solar=solarState(normalizeHour(hour,state.hour),{date});
@@ -113,7 +123,7 @@ function setTimeOfDay(hour,{date=state.solarDate}={}) {
   updateMapLink();return solar;
 }
 function hasApartmentLayout(unit=selectedApartment()){
-  return Boolean(unit?.relation&&['canto','meio'].includes(unit.relation.typology)&&unit.relation.orientation==='original');
+  return Boolean(unit?.relation&&Object.hasOwn(typologies,unit.relation.typology));
 }
 function revealOnMobile(id){
   if(!window.matchMedia?.('(max-width: 760px)').matches)return;

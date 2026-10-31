@@ -150,7 +150,7 @@ def main():
     parser.add_argument('--samples', type=int, default=256)
     parser.add_argument('--texture-limit', default='256')
     parser.add_argument('--so', default=None, help='grava só esta chave (ex.: maisx-08 ou noite)')
-    parser.add_argument('--tipologia', default='canto', choices=('canto', 'meio'))
+    parser.add_argument('--tipologia', default='canto', choices=('canto', 'meio', 'canto-espelhado', 'meio-espelhado'))
     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else [])
     blend = Path(bpy.data.filepath)
     if blend.resolve() != (LIV_LUZ / 'entrega/LIV_Luz_Natural.blend').resolve():

@@ -59,6 +59,11 @@ def vista(tipo, alvo, th, ph, r, fov=34, **extra):
 AREA = {('canto', False): 39.12, ('meio', False): 40.79, ('canto', True): 60.11, ('meio', True): 54.17}
 
 
+# Finais cuja planta é o ESPELHO da do book (posicao() em modelar_laranjeiras.py: transformação com determinante
+# -1). Os outros são a mesma planta girada. O espelho mantém a fachada: o giro do sol é o da planta original.
+ESPELHADOS = {'02', '07', '03', '06'}
+
+
 def cadastro(md, sha_modelo):
     """312 apartamentos: caixa de clique em coordenadas da web (x, altura, z), por torre/pavimento/final."""
     X0, Y0 = md['envelope_local']
@@ -98,7 +103,8 @@ def cadastro(md, sha_modelo):
                     'bounds': caixa(t, x0, y0, x1, y1, f*lv+laje, (f+1)*lv),
                     'typology': u['tipologia'], 'areaM2': AREA[(u['tipologia'], terreo)],
                     'garden': {'areaM2': round(AREA[(u['tipologia'], True)]-AREA[(u['tipologia'], False)], 2), 'confidence': 'book'} if terreo else None,
-                    'relation': {'typology': u['tipologia'], 'orientation': 'original'},
+                    'relation': {'typology': u['tipologia']+'-espelhado', 'orientation': 'espelhada'} if final in ESPELHADOS else
+                                {'typology': u['tipologia'], 'orientation': 'original'},
                     'positionConfidence': 'inferido', 'commercialNumber': None, 'availability': 'nao_informada',
                     'price': None, 'parking': None})
     return {'schema': 'laranjeiras-units-v1', 'floorIndex': None, 'sourceModelSHA256': sha_modelo,

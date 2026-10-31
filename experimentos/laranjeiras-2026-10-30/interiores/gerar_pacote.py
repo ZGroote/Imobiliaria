@@ -16,8 +16,9 @@ AQUI = Path(__file__).resolve().parent
 SITE = AQUI.parent/'site'
 LIV = AQUI.parents[1]/'liv-experimental-2026-10-14'/'interiores'
 LUZ = AQUI/'luz'  # fonte congelada + UV1 da luz por hora (luz/exportar_fonte.py, preparar_luz.py)
-ROTULO = {'canto': 'Apartamento de canto', 'meio': 'Apartamento de meio'}
-AREA = {'canto': 39.12, 'meio': 40.79}
+ROTULO = {'canto': 'Apartamento de canto', 'meio': 'Apartamento de meio',
+          'canto-espelhado': 'Apartamento de canto (espelhado)', 'meio-espelhado': 'Apartamento de meio (espelhado)'}
+AREA = {'canto': 39.12, 'meio': 40.79, 'canto-espelhado': 39.12, 'meio-espelhado': 40.79}
 
 
 def sha(b):
@@ -46,7 +47,7 @@ def main():
         if sha((LIV.parent/rec['path']).read_bytes()) != rec['sha256']:
             raise SystemExit(f'Recurso compartilhado do LIV mudou: {chave}')
     catalogo = {'schema': 'liv-interior-catalog-v1', 'shared': shared, 'tipologias': {}}
-    for tip in ('canto', 'meio'):
+    for tip in ROTULO:  # as espelhadas saem de espelhar.py
         unit_bytes = (AQUI/tip/'unidade.json').read_bytes()
         unit = json.loads(unit_bytes)
         recipe = {'schema': 'liv-interior-native-recipe-v1', 'unitId': unit['id'], 'unitSHA256': sha(unit_bytes),

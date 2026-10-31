@@ -422,6 +422,405 @@
           ]
         }
       ]
+    },
+    "canto-espelhado": {
+      "id": "canto-espelhado",
+      "label": "Apartamento de canto (espelhado)",
+      "area": 39.12,
+      "unitId": "laranjeiras-planta-canto-tipo-espelhada",
+      "unitSHA256": "3a22c7e963b87aebb65107a01f0bce070b1b27f7dbf52a32dca9ab685475ad17",
+      "sourceSHA256": "5b69f7f3865c37b652b8edbf4fc0d5c3f37ff93f722fe114b883ecc9478c6eca",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
+      "files": {
+        "unit": {
+          "path": "interiores/canto-espelhado/unidade.json",
+          "bytes": 15511,
+          "sha256": "3a22c7e963b87aebb65107a01f0bce070b1b27f7dbf52a32dca9ab685475ad17"
+        },
+        "recipe": {
+          "path": "interiores/canto-espelhado/recipe.json",
+          "bytes": 600,
+          "sha256": "2f10267ecba7de035bc59933bf69e78447b42614fd559bdbc01b1fce09ae9579"
+        },
+        "source": {
+          "path": "interiores/canto-espelhado/source.json.gz",
+          "bytes": 3841280,
+          "sha256": "a3ef355df209f5b4a23a658cce58b579d9f5c5e670bf5ec4d9b1acbab99da6b7",
+          "compression": "gzip",
+          "decodedBytes": 15166909,
+          "decodedSHA256": "5b69f7f3865c37b652b8edbf4fc0d5c3f37ff93f722fe114b883ecc9478c6eca"
+        },
+        "compact": {
+          "path": "interiores/canto-espelhado/geometry-compact.json.gz",
+          "bytes": 30037,
+          "sha256": "db89f71eb9eb88dde98db1db0a739437e22f784d0a8f4bdc2464fcd6c055cd80",
+          "compression": "gzip",
+          "decodedBytes": 61434,
+          "decodedSHA256": "db8a550cf1b65daeecdbc7ed7e7cd68202223c502f02c04554c6dcc41f021ee1"
+        }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "2f10267ecba7de035bc59933bf69e78447b42614fd559bdbc01b1fce09ae9579",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        }
+      ]
+    },
+    "meio-espelhado": {
+      "id": "meio-espelhado",
+      "label": "Apartamento de meio (espelhado)",
+      "area": 40.79,
+      "unitId": "laranjeiras-planta-meio-tipo-espelhada",
+      "unitSHA256": "8f621eadb36a956b4ccccb49b0a15d16146a22411ce0a35b7e82dbe3879a7552",
+      "sourceSHA256": "e47c3ef7c1235a8469c22258720743f7e603758f5e48462f1253bff44ec7a8e5",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
+      "files": {
+        "unit": {
+          "path": "interiores/meio-espelhado/unidade.json",
+          "bytes": 15423,
+          "sha256": "8f621eadb36a956b4ccccb49b0a15d16146a22411ce0a35b7e82dbe3879a7552"
+        },
+        "recipe": {
+          "path": "interiores/meio-espelhado/recipe.json",
+          "bytes": 599,
+          "sha256": "facf22b05d366afe4b77a2a6ef9bdf89c98eaacad2221a1a1773beae4de4734c"
+        },
+        "source": {
+          "path": "interiores/meio-espelhado/source.json.gz",
+          "bytes": 3832790,
+          "sha256": "1f96ac2aa425913c53435b8e8d72e9ad2c1b8a4bfa4d5daff07c350300a47c55",
+          "compression": "gzip",
+          "decodedBytes": 15023335,
+          "decodedSHA256": "e47c3ef7c1235a8469c22258720743f7e603758f5e48462f1253bff44ec7a8e5"
+        },
+        "compact": {
+          "path": "interiores/meio-espelhado/geometry-compact.json.gz",
+          "bytes": 29248,
+          "sha256": "6f4c66d2e329d7edb3cf44ecd6c52ed86f303f3d378254f0b4a890950cd830e1",
+          "compression": "gzip",
+          "decodedBytes": 59129,
+          "decodedSHA256": "747815a4becdbf3484c69a5c085b92c4ff40738e50087b16db40daa76a08837b"
+        }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "facf22b05d366afe4b77a2a6ef9bdf89c98eaacad2221a1a1773beae4de4734c",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        }
+      ]
     }
   }
 }

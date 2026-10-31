@@ -9,8 +9,11 @@ const catalog=JSON.parse(readFileSync(new URL('../assets/unidades.json',import.m
 test('312 apartamentos: 3 torres x 13 pavimentos x 8 finais, canto nas pontas', () => {
   validateUnits(catalog);
   assert.equal(catalog.units.length, 312);
-  for (const unit of catalog.units)
+  for (const unit of catalog.units) {
     assert.equal(unit.typology, ['01','02','07','08'].includes(unit.final) ? 'canto' : 'meio', unit.id);
+    // 02/07 (canto) e 03/06 (meio) são o espelho da planta do book; 01/04/05 são ela girada.
+    assert.equal(unit.relation.typology, unit.typology + (['02','07','03','06'].includes(unit.final) ? '-espelhado' : ''), unit.id);
+  }
   const areas = new Set(catalog.units.filter(u => u.floorIndex === 0).map(u => u.areaM2));
   assert.deepEqual([...areas].sort(), [54.17, 60.11]);
 });

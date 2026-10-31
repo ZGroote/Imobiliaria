@@ -211,6 +211,32 @@ C:/Python314/python.exe experimentos/laranjeiras-2026-10-30/interiores/luz/empac
   topo de parede unificado do LIV (os dois são perfis das fontes do LIV).
 - **Fora do git, como no LIV:** a fonte, os brutos do Cycles, o `.glb` dos móveis e os `.gz` do site. Ficam no
   git o `manifest.json` da luz e o catálogo.
+- **Manchas (01/11):** duas causas, as duas fora do Cycles.
+  - *Contornos em degrau em toda parede, em toda hora:* o site filtrava (bilinear do hardware) o RGBM ainda
+    codificado; onde o multiplicador muda entre texels vizinhos a média sai errada. Agora o atlas vem em
+    `NearestFilter` e `createTimeIrradiance` (material-rgbm.js) lê os 4 texels, decodifica e só então mistura.
+  - *Faixa empelotada ao lado das esquadrias (batente, verga):* o OIDN filtra o atlas inteiro e, na ilha estreita
+    (13 cm = 2-4 texels), puxava a luz das ilhas vizinhas. `empacotar_horario.py` suaviza cada ilha só com ela mesma
+    depois do OIDN (4 passadas nas largas, 24 nas estreitas) e refaz a borda.
+
+### Plantas espelhadas
+
+`node experimentos/laranjeiras-2026-10-30/interiores/espelhar.mjs` gera `canto-espelhado/` e `meio-espelhado/`
+a partir da unidade construída. Pela `posicao()` do modelo, os finais **02 e 07** (canto) e **03 e 06** (meio) são o
+espelho da planta do book; 01, 04 e 05 são ela girada. O espelho mantém a fachada (canto espelha em X, meio em Y da
+planta), então o giro do sol é o da original e as chaves de luz são as mesmas. A dobradiça de cada porta de giro é a
+da original, espelhada e gravada na planta: a regra do construtor desempata pela primeira ponta do vão e, no meio, a
+folha de entrada passava a bater na parede (virava vão). No site são duas plantas a mais no catálogo, no seletor e no
+cadastro (`relation.typology`); a Planta 2D continua a do book (o desenho tem texto). Cada espelhada tem a sua luz
+gravada (29 chaves, ~36 min com o navegador fechado).
+
+### Sombra das outras torres
+
+O sol do interior é em tempo real; a maquete passa, junto com a hora, as outras torres já no referencial daquele
+apartamento (`towerOccluders` em viewer.js: caixa da torre menos o centro do apartamento, girada pelo giro do final).
+O interior põe caixas que só fazem sombra (`livSolarOccluder`) e o sol fica a 250 m para a sombra alcançá-las.
+Conferido na Torre 01, 1º pavimento, final 01: às 15h nada muda; às 17h a mancha de sol some da porta do quarto
+(12% da imagem). Limite: o rebatimento do sol já gravado no atlas continua; só o sol direto some.
 
 ## SketchUp
 
@@ -277,6 +303,7 @@ nenhum pedido fora de `/laranjeiras/`.
 
 ## Próximos passos
 
-Feitos: enquadramento do Tour, celular, luz por hora gravada e o endereço de teste. Faltam: mapa do entorno
-(está oculto), portaria e letreiro, plantas espelhadas dos finais 01, 02 e 07, e a leve mancha nas faixas estreitas
-de parede ao lado das janelas (atlas de 1024; 2048 quadruplica o peso).
+Feitos: enquadramento do Tour, celular, luz por hora gravada, endereço de teste, plantas espelhadas, manchas e
+sombra das outras torres. Faltam: mapa do entorno (está oculto), portaria e letreiro; na sombra de outra torre o
+rebatimento do sol gravado continua (separar o sol do céu no bake dobraria as chaves); as portas a4 e a5 do meio
+ficam paradas (a folha não se separa da esquadria, já era assim).

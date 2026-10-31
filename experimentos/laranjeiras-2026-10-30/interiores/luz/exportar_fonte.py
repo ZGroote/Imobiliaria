@@ -9,7 +9,7 @@ pelas fábricas nativas e o exporter-native.js grava a cena. Saem, por planta, e
   portas-web.json  dobradiça e giro da porta de entrada (o bake grava fechada, como o site mostra);
   plafons-web.json os plafons de cada cômodo (a chave da noite).
 Precisa do servidor na raiz do repositório (python -m http.server 8765).
-python experimentos/laranjeiras-2026-10-30/interiores/luz/exportar_fonte.py [canto meio]
+python experimentos/laranjeiras-2026-10-30/interiores/luz/exportar_fonte.py [canto meio canto-espelhado meio-espelhado]
 """
 import base64
 import json
@@ -123,7 +123,7 @@ def abrir(browser, tip, sem_melhorias):
 
 
 def main():
-    tips = sys.argv[1:] or ['canto', 'meio']
+    tips = sys.argv[1:] or ['canto', 'meio', 'canto-espelhado', 'meio-espelhado']
     with sync_playwright() as pw:
         browser = pw.chromium.launch(executable_path=CHROME, headless=True)
         for tip in tips:

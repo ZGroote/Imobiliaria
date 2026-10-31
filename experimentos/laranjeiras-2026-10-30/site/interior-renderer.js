@@ -106,7 +106,7 @@ if(query.get('embed')==='1')document.querySelector('#touch-pad').style.right='96
 async function sha(bytes){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');}
 async function unzip(bytes){return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());}
 async function load(file,json=false,quiet=false){
-  if(!file||!/^interiores\/(?:shared|canto|meio)\/[a-zA-Z0-9._/-]+$/.test(file.path)||file.path.split('/').includes('..')||!/^[a-f0-9]{64}$/.test(file.sha256)||!Number.isInteger(file.bytes))throw Error('Identidade de recurso interior inválida.');
+  if(!file||!/^interiores\/(?:shared|canto|meio|canto-espelhado|meio-espelhado)\/[a-zA-Z0-9._/-]+$/.test(file.path)||file.path.split('/').includes('..')||!/^[a-f0-9]{64}$/.test(file.sha256)||!Number.isInteger(file.bytes))throw Error('Identidade de recurso interior inválida.');
   // A luz gravada muda de conteúdo sem mudar de nome: o SHA no endereço evita a cópia velha do cache.
   check();const url=new URL(file.path,base);if(quiet)url.searchParams.set('v',file.sha256);
   const response=await fetch(url,{signal:controller.signal});if(!response.ok)throw Error(`${file.path}: HTTP ${response.status}.`);
@@ -490,7 +490,8 @@ function placeOrbit(position,target){
   controls.target.copy(target);camera.position.copy(position);controls.update();controls.enableDamping=damping;
 }
 function orbitDefault(){
-  scene.updateMatrixWorld(true);const bounds=new THREE.Box3().setFromObject(scene);
+  // Sem o que só faz sombra (torres vizinhas a 100 m): a planta ficava um ponto no meio da tela.
+  scene.updateMatrixWorld(true);const bounds=new THREE.Box3();scene.traverse(o=>{if(o.isMesh&&!o.userData.livSolarOccluder)bounds.expandByObject(o);});
   const area=canvas.getBoundingClientRect(),toolbar=document.querySelector('#interior-controls').getBoundingClientRect();
   const bottom=[...document.querySelectorAll('#interior-note')].filter(element=>element.getClientRects().length).map(element=>area.bottom-element.getBoundingClientRect().top);
   const inset=Math.max(toolbar.bottom-area.top,...bottom)+16;
@@ -682,7 +683,7 @@ state.setActive=async function(active){
 };
 
 async function start(){
-  if(!['canto','meio'].includes(typology)||!['auto','webgpu','webgl'].includes(requested)||!['planta3d','visita'].includes(state.mode))throw Error('Parâmetros do interior inválidos.');
+  if(!['canto','meio','canto-espelhado','meio-espelhado'].includes(typology)||!['auto','webgpu','webgl'].includes(requested)||!['planta3d','visita'].includes(state.mode))throw Error('Parâmetros do interior inválidos.');
   progress('Preparando os gráficos…');let adapter=null;
   if(requested!=='webgl'&&navigator.gpu){try{adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});}catch(error){state.adapterError=String(error);}}
   check();if(requested==='webgpu'&&!adapter)throw Error('WebGPU não está disponível neste dispositivo.');
@@ -746,8 +747,10 @@ async function start(){
   }});check();
   furnitureFactory.improvements=improvements;
   const walls=[];scene.traverse(mesh=>{if(mesh.isMesh&&native.m0&&[mesh.material].flat().includes(native.m0))walls.push(mesh);});
-  improvements.replaceFurniture(furniture,scene,typology,walls);improvements.applyFinishes(native,scene);
-  improvements.addDecorations(furniture,scene,typology);
+  // A espelhada usa os móveis aprovados da planta original.
+  const baseTypology=typology.replace(/-espelhado$/,'');
+  improvements.replaceFurniture(furniture,scene,baseTypology,walls);improvements.applyFinishes(native,scene);
+  improvements.addDecorations(furniture,scene,baseTypology);
   for(const target of baked)target.originalMaterial=target.mesh.material;
   if(timeLight){
     bindTimeLight();
