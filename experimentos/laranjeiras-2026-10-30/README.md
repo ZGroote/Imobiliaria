@@ -244,7 +244,14 @@ vão na mesma chamada. Os apartamentos ficam ao lado do condomínio, com as etiq
 
 Saída: `sketchup/entrega/Parque_das_Laranjeiras.skp` (fora do git).
 
-## Pacote para publicar (ainda não publicado)
+## Publicado em endereço de teste
+
+Em 31/10 foi ao ar em **https://conectaimoveis3d.com.br/laranjeiras/** (sem link no site, `noindex`, sem estatística),
+pelo `publicacao/qa-laranjeiras-20261031/hosting.mjs` (preflight → prepare → deploy → verify): só acrescenta
+`/laranjeiras/` e confere que os outros 1.207 arquivos do site ficaram iguais. Hosting `ae02e90c16116e89`
+(anterior `413e94e1dca58ef4`, para voltar). Republicar = pacote novo + um `hosting.mjs` que troca só `/laranjeiras/`.
+
+## Pacote para publicar
 
 ```
 node experimentos/laranjeiras-2026-10-30/publicar/preparar_pacote.mjs
@@ -270,5 +277,5 @@ nenhum pedido fora de `/laranjeiras/`.
 
 ## Próximos passos
 
-Publicar o pacote num endereço de teste (a combinar); enquadramento inicial do Tour (começa colado no sofá); mapa do entorno; luz por hora gravada; celular;
+enquadramento inicial do Tour (começa colado no sofá); mapa do entorno; luz por hora gravada; celular;
 publicação em endereço de teste.

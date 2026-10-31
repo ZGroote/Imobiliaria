@@ -32,7 +32,8 @@ const edit = async (file, pairs) => {
 // 1) Site, sem testes nem ferramentas de bancada.
 await rm(out, {recursive: true, force: true});
 await mkdir(out, {recursive: true});
-const skip = name => /^(test_|qa_)|\.test\.|^diagnostico|^materiais\.html$|^materials-viewer\.js$|^mapa-liv-ipanema-5km\.html$/.test(name);
+// prova-splat/interior-splat: Tour em splat do LIV, que o Laranjeiras não tem.
+const skip = name => /^(test_|qa_)|\.test\.|^diagnostico|^materiais\.html$|^materials-viewer\.js$|^mapa-liv-ipanema-5km\.html$|^(prova|interior)-splat\./.test(name);
 await cp(join(exp, 'site'), out, {recursive: true, filter: src => !skip(src.split(/[\\/]/).pop())});
 
 // 2) Cena, atlas, manifesto e cadastro dos 312 apartamentos (gerados por modelo/exportar_cena.py).
