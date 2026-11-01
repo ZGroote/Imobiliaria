@@ -1,4 +1,5 @@
 import * as THREE from 'three/webgpu';
+import {matchesImprovementAsset,selectImprovementAssets,selectPreparedDelivery,createPackedImageLoader,imageURI} from './improvement-delivery.js';
 import {decodePreparedHDR} from './prepared-hdr.js';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {HDRLoader} from 'three/addons/loaders/HDRLoader.js';
@@ -20,13 +21,15 @@ function assetURL(path,catalogURL,extension='glb'){
   return new URL(path.startsWith('interiores/melhorias/')?path.slice('interiores/melhorias/'.length):path,catalogURL);
 }
 
-function validateGLB(bytes){
+function validateGLB(bytes,approvedImages=[]){
   const view=new DataView(bytes);
   if(bytes.byteLength<20||view.getUint32(0,true)!==0x46546c67||view.getUint32(4,true)!==2||view.getUint32(8,true)!==bytes.byteLength||view.getUint32(16,true)!==0x4e4f534a)throw Error('Modelo detalhado não é um GLB2 válido.');
   const length=view.getUint32(12,true);
   if(length>bytes.byteLength-20)throw Error('Cabeçalho do modelo detalhado incompleto.');
   const json=JSON.parse(new TextDecoder().decode(new Uint8Array(bytes,20,length)));
-  for(const entry of [...(json.buffers||[]),...(json.images||[])])if(entry.uri&&!entry.uri.startsWith('data:'))throw Error('O modelo detalhado precisa conter suas próprias texturas.');
+  for(const entry of json.buffers||[])if(entry.uri&&!entry.uri.startsWith('data:'))throw Error('Buffer externo não autorizado.');
+  const allowed=new Set(approvedImages.map(image=>imageURI(image.sha256)));
+  for(const entry of json.images||[])if(entry.uri&&!entry.uri.startsWith('data:')&&!allowed.has(entry.uri))throw Error('O modelo detalhado precisa conter suas próprias texturas.');
   return json;
 }
 
@@ -36,6 +39,7 @@ async function shareEmbeddedTextures(gltf,bytes,metadata,shared){
   if(!gltf.parser?.associations)return;
   const base=28+new DataView(bytes).getUint32(12,true);
   const hashes=await Promise.all((metadata.images||[]).map(async image=>{
+    const external=image.uri?.match(/^texturas\/([a-f0-9]{64})$/)?.[1];if(external)return external;
     const view=metadata.bufferViews?.[image.bufferView];
     if(!view||view.buffer!==0)return null;
     return sha256(bytes.slice(base+(view.byteOffset||0),base+(view.byteOffset||0)+view.byteLength));
@@ -89,11 +93,11 @@ export function fitImprovedFurniture(template,item,dimensions,{own=value=>value,
 }
 
 export async function loadInteriorImprovements({base,signal,typology=null,items=null,own=value=>value,onBitmap=()=>{},onStatus=()=>{},
-  fetchImpl=globalThis.fetch,parseGLB}={}){
+  fetchImpl=globalThis.fetch,parseGLB,includeDecorations=true}={}){
   const catalogURL=new URL('interiores/melhorias/catalogo.json',base),report={status:'loading',assets:0,loaded:0,assetIds:[],sourceBlendSHA256:null,revision:null,replaced:0,decorations:0,finishes:0,environment:null,environmentExposureEV:null,background:null,reflectionEnvironments:{},reflectionEnvironmentIntensity:1,errors:[],warnings:[]};
   const emit=()=>onStatus(structuredClone(report));emit();
-  const sharedTextures=new Map(),templates=new Map(),decorations=[],instanceCounts=new Map(),hdrResources=new Map(),reflectionTextures=new Map(),reflectionMaterials=new Set(),loader=new GLTFLoader();let catalog,environment=null,backgroundEnvironment=null,activeTypology=typology||'canto';
-  const matches=(asset,item)=>asset.types.includes(item.tipo)&&(!asset.typology||asset.typology===activeTypology)&&(!asset.namePattern||new RegExp(asset.namePattern,'i').test(item.name||item.nome||''));
+  const sharedTextures=new Map(),templates=new Map(),decorations=[],instanceCounts=new Map(),hdrResources=new Map(),reflectionTextures=new Map(),reflectionMaterials=new Set(),loader=new GLTFLoader();let catalog,environment=null,backgroundEnvironment=null,activeTypology=typology||'canto',packedImages=null;
+  const matches=(asset,item)=>matchesImprovementAsset(asset,item,activeTypology);
   const assetFor=item=>{
     const candidates=(catalog?.assets||[]).filter(asset=>matches(asset,item)&&templates.has(asset.id));
     return candidates.find(asset=>asset.replaces?.length===1&&asset.replaces[0]===item.id)||candidates[0];
@@ -155,7 +159,8 @@ export async function loadInteriorImprovements({base,signal,typology=null,items=
       const sourceEV=catalog.environment.sourceExposureEV,outputEV=catalog.environment.outputExposureEV||0;
       if(Number.isFinite(sourceEV)&&Number.isFinite(outputEV))report.environmentExposureEV=sourceEV-outputEV;
     }
-    report.revision='authorial-v1:'+await sha256(new TextEncoder().encode(JSON.stringify(catalog)));
+    const {delivery:_transport,...authorialCatalog}=catalog;
+    report.revision='authorial-v1:'+await sha256(new TextEncoder().encode(JSON.stringify(authorialCatalog)));
     if(catalog.complete===false)report.errors.push({assetId:'catalogo',message:'A exportação dos móveis aprovados ainda está incompleta.'});
     report.assets=catalog.assets.length;
     const reflectionDefinitions=catalog.reflectionEnvironments||{};
@@ -168,12 +173,18 @@ export async function loadInteriorImprovements({base,signal,typology=null,items=
       if(asset.namePattern)new RegExp(asset.namePattern,'i');
       if(asset.environment!==undefined&&(typeof asset.environment!=='string'||!Object.hasOwn(reflectionDefinitions,asset.environment)))report.errors.push({assetId:asset.id,message:'Ambiente local do móvel ausente do catálogo.'});
     }
-    const required=new Set([...(catalog.materialOverrides||[]).map(o=>o.assetId),...(catalog.decorations||[]).filter(o=>!o.typology||o.typology===activeTypology).map(o=>o.assetId)]);
-    const assets=items?catalog.assets.filter(asset=>required.has(asset.id)||items.some(item=>matches(asset,item))):catalog.assets;
+    const assets=selectImprovementAssets(catalog,{items,typology:activeTypology,includeDecorations});
+    const delivery=selectPreparedDelivery(catalog,assets,activeTypology);
+    if(delivery){
+      packedImages=createPackedImageLoader({delivery,resource,signal,onBitmap});
+      loader.manager.addHandler(/^texturas\/[a-f0-9]{64}$/,packedImages.handler);
+    }
     report.assets=assets.length;
     const environments=new Set(assets.map(asset=>asset.environment));
     const jobs=assets.map(async asset=>{
-      const {bytes,url}=await resource(asset),metadata=validateGLB(bytes);
+      const prepared=delivery?.models[asset.id],record=prepared?.model||asset;
+      const {bytes,url}=await resource(record),metadata=validateGLB(bytes,prepared?.images);
+      if(prepared)await packedImages.prepare(prepared.images);
       const gltf=await (parseGLB?parseGLB(bytes,url):loader.parseAsync(bytes,new URL('.',url).href));
       await shareEmbeddedTextures(gltf,bytes,metadata,sharedTextures);aborted(signal);
       registerModel(gltf.scene,own,onBitmap);aborted(signal);
@@ -209,7 +220,7 @@ export async function loadInteriorImprovements({base,signal,typology=null,items=
     if(signal?.aborted||error.name==='AbortError')throw error;
     catalog=null;
     report.errors.push({assetId:'catalogo',message:String(error.message||error)});
-  }
+  }finally{packedImages?.release();}
   function updateStatus(){report.status=report.errors.length?(report.loaded?'partial':'error'):'ready';emit();}
   updateStatus();
   return {
@@ -322,6 +333,7 @@ export async function loadInteriorImprovements({base,signal,typology=null,items=
       updateStatus();return report.finishes;
     },
     addDecorations(furniture,scene,typology){
+      if(!includeDecorations)return report.decorations;
       if(decorations.length)return report.decorations;
       for(const [index,placement]of (catalog?.decorations||[]).entries()){
         if(placement.typology&&placement.typology!==typology)continue;

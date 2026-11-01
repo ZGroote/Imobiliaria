@@ -40,7 +40,7 @@ const config=(await api.get('/'+version)).body.config,files=await list(version);
 assert(files['/liv-classico/viewer.bundle.js'],'O LIV deve existir no site selecionado.');
 const raw=new Map();
 async function add(prefix,name){raw.set('/'+prefix+'/'+name,await readFile(join(packages,prefix,name)));}
-const sources=['interior.html','viewer.js','renderer.js','shader-scheduler.js','interior-renderer.js','interior-navigation.js','interior-melhorias.js',
+const sources=['interior.html','maquete-liv-ipanema.html','prova-rgbm.html','viewer.js','renderer.js','shader-scheduler.js','interior-renderer.js','interior-navigation.js','interior-melhorias.js','improvement-delivery.js',
   'interior-luz-horario.js','material-rgbm.js','classic-renderer.js','classic-lighting.js','probe-code.js','interior-geometry.js','prepared-scene.js','prepared-hdr.js','interior-look.js','horario-interior.js','transfers.js','transfer-worker.js','transfer-manifest.json'];
 for(const name of sources)await add('liv-classico',name);
 for(const name of ['interiores/catalogo.json','interiores/melhorias/catalogo.json'])await add('liv-classico',name);
@@ -48,6 +48,10 @@ const interiors=JSON.parse(raw.get('/liv-classico/interiores/catalogo.json'));
 for(const record of Object.values(interiors.tipologias))if(record.files.runtimeScene)await add('liv-classico',record.files.runtimeScene.path);
 const improvements=JSON.parse(raw.get('/liv-classico/interiores/melhorias/catalogo.json'));
 for(const record of [improvements.environment,improvements.background,...Object.values(improvements.reflectionEnvironments||{})].filter(Boolean))if(record.prepared)await add('liv-classico',record.prepared.path);
+if(improvements.delivery){
+  for(const {model}of Object.values(improvements.delivery.models))await add('liv-classico',model.path);
+  for(const entry of Object.values(improvements.delivery.typologies))for(const pack of entry.packs)await add('liv-classico',pack.path);
+}
 
 // Só os chunks referidos pelos novos bundles: conservar os antigos para HTML/abas já abertos.
 async function bundle(name){
@@ -64,6 +68,21 @@ async function walk(dir,relative=''){
   }
 }
 await walk(join(packages,'laranjeiras'));
+
+// O alias público tem HTML próprio. Conservar seus bytes e atualizar só os preloads.
+const entryPath='/maquetes/liv/index.html',entryOutput=join(out,'maquetes-liv-index.html');
+if(!process.argv.includes('--publicar')){
+  const response=await fetch(origin+'/maquetes/liv/',{cache:'no-store'});assert.equal(response.status,200);
+  const original=await response.text(),withoutPreloads=html=>html.replace(/<link rel="modulepreload"[^>]*>/g,'');
+  const prepared=await readFile(join(packages,'liv-classico/maquete-liv-ipanema.html'),'utf8');
+  const preloads=(prepared.match(/<link rel="modulepreload"[^>]*>/g)||[]).join('');assert(preloads,'Preloads do viewer ausentes.');
+  const script='<script type="module" src="viewer.bundle.js"></script>';
+  assert.equal(original.split(script).length,2,'Entrada pública inesperada.');
+  const updated=withoutPreloads(original).replace(script,preloads+script);
+  assert.equal(withoutPreloads(updated),withoutPreloads(original));
+  await writeFile(join(out,'maquetes-liv-original.html'),original);await writeFile(entryOutput,updated);
+}
+raw.set(entryPath,await readFile(entryOutput));
 const proposed={...files},uploads=new Map(),inventory={};
 for(const [path,bytes]of raw){
   const packed=gzipSync(bytes,{level:9}),hash=sha(packed);
@@ -82,7 +101,7 @@ if(!process.argv.includes('--publicar')){
     // Older releases retained obsolete preload names. Allow exactly that known
     // HTML difference, preserving every other byte of the published page.
     const withoutPreloads=bytes=>bytes.toString('utf8').replace(/<link rel="modulepreload"[^>]*>/g,'');
-    const onlyPreloads=path==='/liv-classico/interior.html'&&previousBytes&&withoutPreloads(currentBytes)===withoutPreloads(previousBytes);
+    const onlyPreloads=path.endsWith('.html')&&previousBytes&&withoutPreloads(currentBytes)===withoutPreloads(previousBytes);
     assert(current===inventory[path].sha256||current===previous||onlyPreloads,'O LIV publicado difere da base preservada: '+path);
     checks.push({path,current,base:previous,onlyPreloads:Boolean(onlyPreloads)});
   }
@@ -120,7 +139,7 @@ for(const [path,hash]of Object.entries(files))if(!raw.has(path))assert.equal(aft
 await json('integridade-hosting.json',{status:'PASS',version:finalized.name,total:Object.keys(after).length,
   untouched:Object.keys(files).filter(path=>!raw.has(path)).length,configPreserved:true});
 const checks=[];
-for(const path of Object.keys(inventory).filter(path=>changed.includes(path)&&(/\.js$|manifest\.json$|catalogo\.json$|\.html$|\.bin\.gz$/.test(path)))){
+for(const path of Object.keys(inventory).filter(path=>changed.includes(path)&&(/\.js$|\.glb$|manifest\.json$|catalogo\.json$|\.html$|\.bin\.gz$/.test(path)))){
   const response=await fetch(origin+path,{cache:'no-store'});assert.equal(response.status,200,path);
   assert.equal(sha(Buffer.from(await response.arrayBuffer())),inventory[path].sha256,'Resposta pública difere do pacote: '+path);
   checks.push(path);

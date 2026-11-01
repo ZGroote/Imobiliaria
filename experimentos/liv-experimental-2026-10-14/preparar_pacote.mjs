@@ -6,6 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {empacotarRuntime} from '../../pipeline/empacotar_runtime.mjs';
+import {prepararBiblioteca} from '../../pipeline/preparar_biblioteca.mjs';
 import {prepararInteriores} from '../../pipeline/preparar_interiores.mjs';
 
 const source=dirname(fileURLToPath(import.meta.url)),root=resolve(source,'../..');
@@ -15,9 +16,10 @@ const fromBase=relative(base,out);
 if(!fromBase||fromBase!=='..'&&!fromBase.startsWith('..'+sep)&&!isAbsolute(fromBase))throw Error('O destino deve ser independente da base.');
 await mkdir(out,{recursive:true});if((await readdir(out)).length)throw Error('Destino ocupado.');
 await cp(base,out,{recursive:true,filter:path=>!path.split(/[\\/]/).includes('node_modules')});
-for(const name of ['viewer.js','renderer.js','interior-renderer.js','interior-navigation.js','interior-melhorias.js',
+for(const name of ['viewer.js','renderer.js','interior-renderer.js','interior-navigation.js','interior-melhorias.js','improvement-delivery.js',
   'interior-luz-horario.js','material-rgbm.js','classic-renderer.js','classic-lighting.js','probe-code.js','interior-look.js','interior-geometry.js','prepared-scene.js','prepared-hdr.js','horario-interior.js','shader-scheduler.js','transfers.js','transfer-worker.js'])await cp(join(source,name),join(out,name));
 console.log(JSON.stringify({prepared:await prepararInteriores(out)}));
+console.log(JSON.stringify({library:await prepararBiblioteca(out,{includeDecorations:true})}));
 const result=await empacotarRuntime(out,join(source,'node_modules/three'));
 const rewrite=(html,entry)=>{
   const output=Object.values(result.metafile.outputs).find(o=>o.entryPoint&&basename(o.entryPoint)===entry+'.js');

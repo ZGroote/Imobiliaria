@@ -7,6 +7,34 @@ from pipeline.transfer_manifest import build
 
 
 class TransferManifestTest(unittest.TestCase):
+    def test_biblioteca_preparada_baixa_apenas_modelos_usados_e_pacotes_unicos(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            def put(path, data=b"fixture"):
+                file = root / path
+                file.parent.mkdir(parents=True, exist_ok=True)
+                file.write_bytes(data)
+                return {"path": path, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
+            def save(path, value):
+                return put(path, json.dumps(value).encode())
+            unit = put("interiores/canto/unidade.json")
+            model = put("interiores/melhorias/otimizado/sofa.glb")
+            pack = put("interiores/melhorias/otimizado/imagens.bin.gz")
+            save("interiores/catalogo.json", {"schema": "liv-interior-catalog-v1", "shared": {},
+                "tipologias": {"canto": {"files": {"unit": unit}}}})
+            save("interiores/melhorias/catalogo.json", {"assets": [{"path": "original.glb"}],
+                "delivery": {"schema": "liv-improvement-delivery-v1", "models": {
+                    "sofa": {"model": model}, "inutil": {"model": {"path": "nao_existe.glb"}}},
+                    "typologies": {"canto": {"assetIds": ["sofa"], "packs": [pack]},
+                        "meio": {"assetIds": ["sofa"], "packs": [pack]}}}})
+            records = build(root)["files"]
+            self.assertEqual(sum(f["path"] == pack["path"] for f in records), 1)
+            self.assertIn(model["path"], [f["path"] for f in records])
+            self.assertNotIn("original.glb", [f["path"] for f in records])
+            (root / pack["path"]).write_bytes(b"corrompido")
+            with self.assertRaisesRegex(ValueError, "diferente de seu catálogo"):
+                build(root)
+
     def test_pacote_usa_horarios_e_biblioteca_sem_antecipar_todos_os_downloads(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)

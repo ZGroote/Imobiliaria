@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
+import {createHash} from 'node:crypto';
 import * as THREE from '../node_modules/three/build/three.webgpu.js';
 import {fitImprovedFurniture,loadInteriorImprovements} from '../interior-melhorias.js';
 
@@ -31,6 +32,31 @@ function smallHDR(pixels=[128,96,64,129,64,96,128,129]){
   const header=new TextEncoder().encode('#?RADIANCE\nFORMAT=32-bit_rle_rgbe\n\n-Y 1 +X 2\n'),hdr=new Uint8Array(header.length+8);
   hdr.set(header);hdr.set(pixels,header.length);return hdr;
 }
+
+test('transporte preparado conserva revisão autoral e volta ao original se o pacote não corresponde ao móvel',async()=>{
+  const bytes=blankGLB(),sha=createHash('sha256').update(new Uint8Array(bytes)).digest('hex');
+  const asset={id:'sofa',path:'sofa.glb',bytes:bytes.byteLength,sha256:sha,types:['sofa'],dimensions:{w:1,h:1,d:1}};
+  const original={schema:'liv-interior-improvements-v1',assets:[asset]},prepared={...original,delivery:{schema:'liv-improvement-delivery-v1',
+    models:{sofa:{sourceSHA256:sha,model:{path:'otimizado/sofa.glb',bytes:bytes.byteLength,sha256:sha},images:[]}},typologies:{canto:{assetIds:['sofa'],packs:[]}}}};
+  const results=[];
+  for(const catalog of [original,prepared,{...prepared,delivery:{...prepared.delivery,models:{sofa:{...prepared.delivery.models.sofa,sourceSHA256:'velho'}}}}]){
+    const requests=[],owned=new Set();
+    const library=await loadInteriorImprovements({base:new URL('https://example.invalid/liv/'),typology:'canto',items:[{tipo:'sofa'}],own:v=>{owned.add(v);return v;},
+      fetchImpl:async url=>String(url).endsWith('catalogo.json')?{ok:true,json:async()=>catalog}:{ok:true,arrayBuffer:async()=>{requests.push(String(url));return bytes;}},
+      parseGLB:async()=>({scene:model()})});
+    assert.equal(library.getState().status,'ready');results.push({revision:library.getState().revision,requests});for(const v of owned)v.dispose?.();
+  }
+  assert.equal(results[0].revision,results[1].revision);assert.equal(results[0].revision,results[2].revision);
+  assert.ok(results[1].requests[0].includes('/otimizado/sofa.glb'));assert.ok(!results[2].requests[0].includes('/otimizado/'));
+});
+
+test('Laranjeiras não busca as decorações do LIV, mas mantém um modelo que também é móvel cadastrado',async()=>{
+  assert.match(readFileSync(new URL('../../laranjeiras-2026-10-30/site/interior-melhorias.js',import.meta.url),'utf8'),/parseGLB,includeDecorations=false/);
+  const catalog={schema:'liv-interior-improvements-v1',assets:['planta','tv'].map(id=>({id,path:id+'.glb',types:id==='tv'?['tv']:[],dimensions:{w:1,h:1,d:1}})),decorations:[{assetId:'planta'},{assetId:'tv'}]},requests=[];
+  const library=await loadInteriorImprovements({includeDecorations:false,base:new URL('https://example.invalid/lar/'),typology:'canto',items:[{tipo:'tv'}],
+    fetchImpl:async url=>String(url).endsWith('catalogo.json')?{ok:true,json:async()=>catalog}:{ok:true,arrayBuffer:async()=>{requests.push(String(url));return blankGLB();}},parseGLB:async()=>({scene:model()})});
+  assert.equal(library.getState().status,'ready');assert.deepEqual(library.getState().assetIds,['tv']);assert.equal(requests.length,1);assert.ok(requests[0].includes('/tv.glb'));
+});
 
 test('carrega dependências da tipologia e conserva alternativas compatíveis de fallback',async()=>{
   const asset=(id,types=[],extra={})=>({id,path:id+'.glb',types,dimensions:{w:1,h:1,d:1},...extra});

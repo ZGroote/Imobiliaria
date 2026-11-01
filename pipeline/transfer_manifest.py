@@ -59,7 +59,15 @@ def build(root):
     library_path = "interiores/melhorias/catalogo.json"
     library = json.loads((root / library_path).read_text(encoding="utf-8"))
     add(library_path)
-    resources = library["assets"] + [library.get("environment"), library.get("background"),
+    delivery = library.get("delivery")
+    if delivery and delivery.get("schema") == "liv-improvement-delivery-v1":
+        used = set().union(*(set(t["assetIds"]) for t in delivery["typologies"].values()))
+        models = [delivery["models"][key]["model"] for key in sorted(used)]
+        packs = {p["path"]: p for t in delivery["typologies"].values() for p in t["packs"]}
+        models += list(packs.values())
+    else:
+        models = library["assets"]
+    resources = models + [library.get("environment"), library.get("background"),
         library.get("look"), *library.get("reflectionEnvironments", {}).values()]
     for record in filter(None, resources):
         record = record.get("prepared", record)

@@ -75,6 +75,24 @@ O mesmo fluxo converte HDR pelo HDRLoader fixado para pixels half-float gzip,
 sem mudar exposição, tamanho ou bits. O manifesto prefere esses recursos e
 mantém os originais disponíveis para leitores antigos.
 
+Os dois preparadores também executam `pipeline/preparar_biblioteca.mjs`.
+Ele separa os PNG/JPEG/WebP dos GLBs sem recomprimir imagens ou modificar os
+bytes dos accessors, materiais, samplers, UVs, nomes e poses. As imagens únicas
+da tipologia são agrupadas em pacotes de aproximadamente 4 MiB, identificados
+por SHA. `improvement-delivery.js` compartilha download e ImageBitmap, confere
+limites e MIME, e libera os buffers codificados depois de montar os templates.
+O manifesto de transferência usa modelos preparados e pacotes únicos; os GLBs
+originais continuam disponíveis. O transporte fica em `catalog.delivery` e não
+altera a revisão autoral usada por snapshots. Edições que exigem recursos fora
+da seleção preparada recorrem aos originais. O preparo falha explicitamente em
+layouts GLB externos ou comprimidos que ainda não suporta.
+
+A seleção é a mesma no gerador e no runtime: móveis compatíveis, acabamentos e
+decorações ativas. O Laranjeiras mantém suas posições próprias e não carrega as
+decorações específicas do LIV que já não eram instanciadas nele. Uma dependência
+que também corresponde a móvel ou acabamento continua selecionada.
+Resultados desta etapa: `tasks/desempenho-entrada/etapa-assets.md`.
+
 Interiores `auto`/`webgl` usam o WebGLRenderer direto, preservando os materiais
 PBR, a iluminação gravada, sondas e LUT de cor em um alvo HDR antes da conversão
 final. Isso evita montar grafos TSL por material durante a abertura. WebGPU
