@@ -1,98 +1,101 @@
-# Entrada 3D — etapa rápida em implementação
+# Entrada 3D — implementação e publicação concluídas
 
-Usuário rejeitou 42 s como suficiente e pediu aproveitar melhor os celulares.
-Implementação/publicação de LIV, Laranjeiras e gerador continua autorizada.
-Não confundir CPU limitada/viewport mobile com homologação em aparelho físico.
+Entregue em 01/11/2026. LIV e Parque das Laranjeiras publicados na versão
+`65f0ba3ccdc9fced`, com as mesmas mudanças nas fontes e nos preparadores normais
+dos pacotes. Commits de implementação: `380200b`, `ec18075`, `6bb7bcb`, `e0e04a8`.
+A branch compartilhada não foi trocada. As 16 pendências rastreadas de outras
+sessões foram preservadas byte a byte. Acompanhamento automático já inexistente,
+confirmado pela ferramenta de automações; nenhuma mensagem enviada ao Claude.
 
-Base publicada: c9d002294057220d; fontes e87b6d7. Trabalho isolado em
-`codex/entrada3d-rapida-20261101`, `_to_delete/worktree-desempenho`.
-Checkout principal tem pendências de outras sessões; preservar e não mudar branch.
-`quem_mexeu.py` executado. Sem agentes auxiliares. Ruflo indisponível.
+## Resultado medido nas URLs públicas
 
-Evidências: pasta durável `entrada-rapida/`, ao lado dos relatórios anteriores.
+Três aberturas por site, contextos novos de Chrome desktop, CPU nativa, worker
+paralelo ativo confirmado e sem injeções experimentais:
 
-Resultados exploratórios:
-- perfil.json: TSL atual 41,59 s CPU4; lote de 8 ms 26,93 s; ainda insuficiente.
-- pai.json INVALID_TREATMENT_NOT_APPLIED: o HTML carregava bundle, ignorando a
-  alteração de viewer.js. A suposta vitória de visibilidade foi retirada e o usuário
-  avisado. Não usar esses tempos como prova. Nenhuma mudança de visibilidade mantida.
-- GLSL dentro do TSL: 28,82 s, insuficiente; protótipo removido das fontes.
-- Renderer WebGL direto, sem construção TSL por material, preservando PBR, RGBM,
-  sondas, HDR linear, mistura/transparência e LUT aprovada: classico.json PASS
-  14,38 s CPU4, compilação 2,38 s. Imagem próxima, não idêntica em todos os pixels.
-- Geometria binária preparada no gerador: classico-preparado.json PASS 12,07 s.
-- Geometria + rotas iniciais + HDR preparados: classico-preparado3.json PASS
-  10,16 s CPU4. refreshRooms caiu de 2111,5 ms para 2,5 ms. Falta A/B repetido dos
-  pacotes finais, e não apenas estes overlays de diagnóstico.
+| Site | Repetições | Mediana | Primeira abertura após publicar |
+| --- | --- | --- | --- |
+| LIV | 4,86 / 3,02 / 3,48 s | 3,48 s | 16,09 s |
+| Laranjeiras | 3,11 / 2,70 / 3,14 s | 3,11 s | 14,95 s |
 
-Correções implementadas localmente:
-- Bindings independentes por canal de luz, mesmo com textura inicial compartilhada.
-  Testes RED/GREEN reais. Laranjeiras conserva interpolação de texels já decodificados.
-- WebGL clássico para interiores auto/webgl; WebGPU explícito e caminho diagnóstico
-  TSL conservados. Fallback entre backends usa contexto novo uma vez.
-- Fontes de geometria comuns e formato validado por SHA/revisão/bounds, sem cópia de
-  arrays preparados; originais mantidos para leitores antigos.
-- Rotas iniciais preparadas pela navegação específica de cada prédio, com chave
-  de layout/folhas/colisão/versão; invalidação recalcula depois de mudança de porta.
-- HDR convertido pelo mesmo HDRLoader no gerador, preservando bits half-float.
-- Dois empacotadores normais chamam pipeline/preparar_interiores.mjs. Manifesto de
-  transferências prefere arquivos preparados, evitando baixar os originais redundantes.
-- Publicador inclui catálogos, binários novos e fontes; preserva Hosting compartilhado.
+Esses tempos variam com rede e caches de CDN/driver. Contexto novo não limpa esses
+caches. Não são homologação em celulares físicos nem garantia de 3 s para qualquer
+aparelho/conexão. O Pixel 9 em 4 s e as entradas acima de 80 s foram relatos do
+usuário, não medições reproduzidas em aparelho por esta sessão.
 
-Pacotes novos gerados pelo fluxo normal em `entrada-rapida/pacotes/`:
-LIV 455 arquivos, Laranjeiras 403. Testes unitários existentes 59 PASS;
-4 testes novos de codec/revisão/HDR/rotas PASS; 2 Python do manifesto PASS.
+A etapa local anterior mediu CPU4 em ~9,93/8,25 s, contra medianas anteriores
+36,85/28,60 s. Esses números não incluíam toda a rede pública. A abertura pública
+ainda demorava 34,45/32,22 s com a fila serial. Um ensaio com o worker bloqueado
+caiu para 8,69/7,27 s e confirmou a espera adicional da fila. A fila limitada foi
+então implementada, testada e publicada; não foi desligado o cache do produto.
 
-QA integrado em andamento: primeira rodada encontrou falha na alternância
-Tour à noite -> planta. Reproduzindo com captura de diagnóstico; resolver antes
-publicação. Falta oráculo de bits real das seis plantas, revisão visual completa,
-WebGPU/semGPU/context loss/câmera/edição/colisão, A/B final e integração/commit/deploy.
-Nada desta etapa foi publicado ou commitado ainda.
+Experimentos de HTTP versionado/cache padrão e registro antecipado do worker
+não demonstraram ganho adicional consistente e não foram incorporados. O antigo
+ensaio `pai.json` está invalidado: a alteração de viewer não executara porque o
+HTML ainda carregava bundle. Nenhuma conclusão depende desse ensaio.
 
-Fontes oficiais: Three r186 Renderer/NodeBuilder/WebGLRenderer, MDN WebGL best
-practices e Arm Mobile GPU Guide. Sem alterar dependências ou reduzir DPR/modelos.
+## Implementação
 
+- WebGLRenderer direto nos interiores auto/WebGL, evitando construir grafos TSL
+  por material no momento da entrada. WebGPU explícito continua funcionando.
+- PBR, RGBM, sondas por cômodo, transparência em HDR e LUT aprovada preservados.
+  Canais de luz usam menos samplers, cabendo no limite de 16 testado. O atlas só
+  reserva camadas distintas. Bindings WebGPU mantêm identidade por canal.
+- Alvo HDR verifica os formatos suportados e escolhe MSAA disponível; ausência de
+  HDR aciona recuperação. No hardware ensaiado, a imagem ficou idêntica antes e
+  depois dessa seleção de formatos. Não houve redução de DPR ou de modelos.
+- `pipeline/preparar_interiores.mjs` prepara geometria/UV1/PNGs/rotas e HDR no
+  gerador. Leitor binário usa vistas tipadas sem nova conversão de todos os vértices,
+  valida fonte/UV/SHA/tipos/bounds. Rotas específicas de cada prédio são reutilizadas
+  só com chave de colisão compatível e são invalidadas ao mudar uma porta.
+- HDR convertido pelo mesmo HDRLoader para os mesmos bits half-float. Originais
+  permanecem disponíveis; a fila evita baixar fonte/UV redundantes. Cena preparada
+  usa URL com SHA para não receber uma revisão antiga do cache HTTP.
+- Worker com até quatro urgentes e orçamento de 16 MiB de buffers de transferência;
+  um arquivo maior roda sozinho. Fundo fica em um download. Tamanho/SHA continuam
+  verificados antes da entrega; requisições iguais compartilham trabalho e cancelar
+  um consumidor preserva outro. Nenhum renderer é criado pelo worker.
 
-Checkpoint seguinte (01/11): `pacotes3/` regenerados pelos dois preparadores normais.
-QA integrado PASS: seis plantas × seis vistas (dia/noite/amanhecer/Tour/planta),
-edição/restauração, contextos por unidade, WebGPU real em ambos. 138 testes Node
-PASS; dois Python PASS. Oráculo real PASS: 1471 atributos de geometria, PNGs,
-rotas nas seis plantas e 8 ambientes HDR com os mesmos bits.
+Os dois comandos normais geraram saídas novas em `entrada-rapida/fila/`, 455
+arquivos LIV e 403 Laranjeiras. A prévia LEVE/PREMIUM usa outra família de templates,
+sem o gargalo TSL, e mantém o padrão próprio descrito em `pipeline/MAQUETES.md`.
 
-A validação encontrou e corrigiu o limite de 16 samplers no WebGL noturno:
-canais de atlas numa textura array, canais de sondas agrupados em X numa textura
-3D (sem aumentar a profundidade). Texturas inativas não geram downloads.
-Em seguida, candidato atual passou a guardar somente camadas distintas do atlas;
-teste de uma -> duas -> uma camada, descarte e mistura PASS. Precisa regenerar e
-validar esse último ajuste (fonte posterior a pacotes3), depois medir de novo.
+## Validação
 
-A/B de pacotes3 em andamento: LIV CPU4 [49,16;36,85;35,98] s antes e
-[11,89;11,75;10,54] depois; CPU1 6,50 -> 2,68 s. Laranjeiras primeiras rodadas
-38,60/28,60 -> 9,15/8,28 s. Não usar resultados incompletos como teste concluído.
-Diferença visual do LIV inicial: alfa igual; erro RGB médio no objeto 0,436/255,
-1,95% dos pixels do objeto com diferença >8 em algum canal, sobretudo bordas.
-Não declarar imagem pixel-idêntica entre backends.
+- 145 testes Node e dois Python do manifesto aprovados.
+- Oráculo real de seis plantas: 1471 atributos, UVs/índices/grupos/esferas, PNGs e
+  oito ambientes HDR conservam os dados anteriores; rotas iguais e segmentos seguros.
+- Seis plantas × seis vistas/horários, edição/restauração e WebGPU real nos dois
+  sites aprovados localmente e nas URLs públicas da versão final.
+- Corte reversível, hora/lado reversíveis, OrbitControls, caminhada, toque, portas,
+  desenho parado sem novas submissões, perda de contexto e recuperação aprovados.
+- Falta de GPU -> seleção/2D; limites de dois contextos -> troca entre quatro tipos
+  com dimensões editadas restauradas. Um teste de link 2D falhou uma vez antes de
+  capturar diagnóstico; repetição integral e oito contextos novos passaram.
+- Worker real: pico de quatro transferências, oito arquivos em ~0,72 s na fixture,
+  sem downloads duplicados, corrupção rejeitada/retry e outra aba preservada após
+  abortar um consumidor. Orçamento, arquivo grande e pré-requisito também testados.
+- Comparação inicial entre renderers não é pixel-idêntica: erro RGB médio no objeto
+  ~0,44/255 LIV e ~0,41/255 Laranjeiras, alfa igual; diferenças em bordas/sombras.
 
-HTML público do LIV interior contém preloads antigos. Download preservado em
-`interior-publico-antes.html`; comparação confirmou que só os preloads diferem da
-base. Publicador inclui o HTML com os nomes atuais e aceita exatamente essa
-variação pré-existente, sem tolerar outras mudanças no HTML. Mantém chunks antigos.
-Ainda sem commit/publicação desta etapa. Falta candidato final, estabilidade,
-interação, comparação final, revisão, integração preservando pendências e deploy.
+## Publicação e integridade
 
+`deploy-fila/` registra a versão anterior `77cfc77ad88b6603`, inventário, configuração,
+publicação e hashes HTTP. A versão final tem 1684 arquivos, 21 mudanças nesta última
+etapa, 1241 arquivos fora do pacote preservados e configuração integral conservada.
+As etapas anteriores estão em `deploy-final/` e `deploy-cache/`. Chunks antigos
+foram conservados para páginas já abertas. URLs verificadas: `/`, `/maquetes/liv/`,
+`/laranjeiras/`, `/checkup/liv.html`. Laranjeiras continua com noindex.
 
-Checkpoint de rede (01/11): publicação 77cfc77ad88b6603 correta graficamente,
-mas entrada fria pública CPU1 ainda 34,45 s LIV e 32,22 s Laranjeiras. Corrigida a
-interpretação: 9,93/8,25 s locais CPU4 não representam a entrada pública completa.
-Teste controlado com worker bloqueado, mesmos assets/renderer: 8,69/7,27 s.
-Gargalo confirmado na fila serial, não apenas em processamento/renderização.
+O procedimento existente de reversão verifica a versão atual antes de restaurar
+a anterior. Não usar o firebase.json da raiz para essas maquetes.
 
-Nova fila implementada nas duas fontes: quatro urgentes em paralelo, orçamento
-16 MiB de buffers, arquivo maior sozinho, um download de fundo. Cache, SHA,
-pré-requisitos, compartilhamento e cancelamentos conservados. 145 testes Node PASS;
-fixture real observou pico 4, oito arquivos em ~0,72 s, nenhum download duplicado,
-rejeitou corrupção, permitiu retry e preservou a segunda aba após abortar a primeira.
-Pacotes normais em `entrada-rapida/fila/`: seis plantas × seis vistas, edição e
-WebGPU em ambos PASS. Preflight `deploy-fila/` sobre 77cfc..., 21 alterações.
-Ainda falta publicar esta fila e medir a entrada real com ela ativa. Não declarar
-fim da tarefa nem desempenho público a partir dos tempos de CPU local.
+Evidências completas ficam em:
+`C:/Users/respawn/.codex/visualizations/2026/10/31/01a193a3-c81d-79f2-8f50-40b6061cd0c2/entrada-rapida/`.
+Arquivos principais: `resultado-publico.json`, `entrada-publica-repeticoes.json`,
+`qa-publico/report.json`, `qa-fila-compartilhada/report.json`, `estabilidade.json`,
+`capacidades.json`, `oraculo-binarios.json`, `testes-fila.log`, `deploy-fila/`.
+
+Fontes técnicas consultadas: Three.js r186 no ambiente e fontes oficiais;
+[Arm Mobile GPUs](https://arm-software.github.io/magog/docs/03_mobile_gpus/),
+[MDN WebGL best practices](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices)
+e [MDN Request.cache](https://developer.mozilla.org/en-US/docs/Web/API/Request/cache).
