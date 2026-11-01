@@ -30,6 +30,11 @@ let frameDirty=true;
 let yaw=0,pitch=0,tourPosition=null,route=[],routeResolve=null,frameBusy=false,framePromise=Promise.resolve(),lastFrame=0,ceiling=[];
 const furniture=[],meshBySlot=new Map(),baked=[],probeLit=[],keys=new Set(),touchKeys=new Set();
 let orbitSnapshot=null,pointer=null,shadowLight=null,planAutoFrame=true,routeRoom=null,presentation=null;
+/* Tour: o ângulo é de LARGURA. O vertical fixo de 48° dava ~70° de largura no computador e só ~23° no celular em pé
+   (efeito binóculo). Roda do mouse ou pinça com dois dedos mudam a largura; a escolha fica neste aparelho. */
+const TOUR_WIDTH={padrao:80,min:45,max:110},FOV_KEY='liv-tour-largura';
+let tourWidth=TOUR_WIDTH.padrao,pinch=null;const touches=new Map();
+try{const saved=Number(localStorage.getItem(FOV_KEY));if(saved>=TOUR_WIDTH.min&&saved<=TOUR_WIDTH.max)tourWidth=saved;}catch{}
 let furnitureFactory,furnitureMaterials,furnitureEditor,solarLighting,improvements,improvementsNotice,doors,doorButton;
 let timeOfDay=interiorTimeState(14),lightingCompile=Promise.resolve();
 const compiledLighting=new Set();
@@ -488,12 +493,22 @@ function faceRoom(roomId){
   });
   yaw=look?.yaw??navigation.direction(tourPosition);pitch=look?.pitch??0;state.roomView=look;
 }
+/** Planta 3D fica nos 48° verticais do enquadramento; no Tour o vertical sai da largura escolhida (30° a 100°). */
+function applyFov(){
+  const half=THREE.MathUtils.degToRad(tourWidth)/2;
+  const fov=state.mode==='visita'?Math.min(100,Math.max(30,THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(half)/camera.aspect)))):48;
+  if(Math.abs(camera.fov-fov)>1e-6){camera.fov=fov;camera.updateProjectionMatrix();frameDirty=true;}
+}
+function setTourWidth(width){
+  tourWidth=Math.min(TOUR_WIDTH.max,Math.max(TOUR_WIDTH.min,width));applyFov();
+  try{localStorage.setItem(FOV_KEY,String(Math.round(tourWidth)));}catch{}
+}
 function setTourCamera(){if(camera.position.x!==tourPosition[0]||camera.position.y!==1.62||camera.position.z!==tourPosition[1]||camera.rotation.x!==pitch||camera.rotation.y!==yaw)frameDirty=true;camera.position.set(tourPosition[0],1.62,tourPosition[1]);camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);}
 state.setMode=function(mode,{restoreOrbit=false}={}){
   if(!['planta3d','visita'].includes(mode)||!presentation||state.disposed)return false;
   const changed=state.mode!==mode;
   if(state.mode==='planta3d'&&mode==='visita')orbitSnapshot={position:camera.position.toArray(),target:controls.target.toArray()};
-  frameDirty=true;state.mode=mode;document.documentElement.dataset.mode=mode;controls.enabled=state.active&&mode==='planta3d';presentation.setMode(mode);solarLighting?.syncPresentation(state.mode);
+  frameDirty=true;state.mode=mode;document.documentElement.dataset.mode=mode;controls.enabled=state.active&&mode==='planta3d';presentation.setMode(mode);solarLighting?.syncPresentation(state.mode);applyFov();
   // O topo unido das paredes fica 6 cm acima do forro: no Tour ele só aparecia pela fresta da moldura,
   // aceso pelo sol que o forro não cobre. Na Planta 3D, sem forro, ele é o acabamento das paredes.
   scene.traverse(mesh=>{if(mesh.userData.livWallTop)mesh.visible=mode!=='visita';});
@@ -507,7 +522,7 @@ state.setMode=function(mode,{restoreOrbit=false}={}){
   else if(orbitSnapshot&&(changed||restoreOrbit))placeOrbit(new THREE.Vector3(...orbitSnapshot.position),new THREE.Vector3(...orbitSnapshot.target));
   else if(changed)orbitDefault();
   document.querySelector('#touch-pad').hidden=mode!=='visita';
-  document.querySelector('#interior-tip').textContent=mode==='visita'?'Arraste para olhar · WASD ou setas para caminhar':'Arraste para girar · dois dedos ou roda para aproximar';
+  document.querySelector('#interior-tip').textContent=mode==='visita'?'Arraste para olhar · WASD ou setas para caminhar · roda ou pinça: zoom':'Arraste para girar · dois dedos ou roda para aproximar';
   for(const id of ['planta3d','visita'])document.querySelector(`#mode-${id}`).setAttribute('aria-pressed',String(mode===id));
   window.dispatchEvent(new CustomEvent('liv-interior-mode',{detail:{mode,typology}}));
   return true;
@@ -576,9 +591,16 @@ function wire(){
   listen(window,'keydown',event=>{if(!state.active||state.mode!=='visita'||/^(INPUT|SELECT|TEXTAREA)$/.test(event.target.tagName))return;const key=event.key.toLowerCase();if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(key)){event.preventDefault();keys.add(key);}
     if(key==='e'&&!event.repeat&&doorButton?.dataset.door&&!doorButton.hidden){event.preventDefault();toggleDoor(doorButton.dataset.door);}});
   listen(window,'keyup',event=>keys.delete(event.key.toLowerCase()));listen(window,'blur',()=>{keys.clear();touchKeys.clear();pointer=null;});
-  listen(canvas,'pointerdown',event=>{if(state.mode!=='visita')return;pointer={id:event.pointerId,x:event.clientX,y:event.clientY};canvas.setPointerCapture(event.pointerId);canvas.focus();stopRoute(false);});
-  listen(canvas,'pointermove',event=>{if(!pointer||pointer.id!==event.pointerId||state.mode!=='visita')return;yaw-=(event.clientX-pointer.x)*.004;pitch=Math.max(-1.2,Math.min(1.2,pitch-(event.clientY-pointer.y)*.004));pointer.x=event.clientX;pointer.y=event.clientY;setTourCamera();});
-  for(const event of ['pointerup','pointercancel'])listen(canvas,event,()=>{pointer=null;});
+  const spread=()=>{const [a,b]=[...touches.values()];return Math.hypot(a.x-b.x,a.y-b.y)||1;};
+  listen(canvas,'pointerdown',event=>{if(state.mode!=='visita')return;touches.set(event.pointerId,{x:event.clientX,y:event.clientY});
+    if(touches.size===2){pinch={spread:spread(),width:tourWidth};pointer=null;}else if(!pinch)pointer={id:event.pointerId,x:event.clientX,y:event.clientY};
+    canvas.setPointerCapture(event.pointerId);canvas.focus();stopRoute(false);});
+  listen(canvas,'pointermove',event=>{
+    if(touches.has(event.pointerId))touches.set(event.pointerId,{x:event.clientX,y:event.clientY});
+    if(pinch&&touches.size>=2){setTourWidth(pinch.width*pinch.spread/spread());return;}  // abrir os dedos aproxima
+    if(!pointer||pointer.id!==event.pointerId||state.mode!=='visita')return;yaw-=(event.clientX-pointer.x)*.004;pitch=Math.max(-1.2,Math.min(1.2,pitch-(event.clientY-pointer.y)*.004));pointer.x=event.clientX;pointer.y=event.clientY;setTourCamera();});
+  for(const event of ['pointerup','pointercancel'])listen(canvas,event,ev=>{touches.delete(ev.pointerId);if(touches.size<2)pinch=null;pointer=null;});
+  listen(canvas,'wheel',event=>{if(state.mode!=='visita')return;event.preventDefault();setTourWidth(tourWidth*Math.exp(event.deltaY*.001));},{passive:false});
   for(const direction of ['forward','back','left','right']){
     const button=document.querySelector(`#touch-${direction}`);
     listen(button,'pointerdown',event=>{event.preventDefault();button.setPointerCapture(event.pointerId);touchKeys.add(direction);});
@@ -752,7 +774,7 @@ async function start(){
   const preparedNavigation=source?.preparedNavigation;source=null;meshBySlot.clear();
   // Walking respects walls and openings; furniture stays visible without blocking passage.
   navigation=createNavigation(layout,()=>[],{prepared:preparedNavigation});entry=navigation.entry();tourPosition=[...entry];faceRoom();refreshRooms();
-  function resize(){frameDirty=true;const width=canvas.clientWidth,height=canvas.clientHeight;if(!width||!height||state.disposed)return;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();}
+  function resize(){frameDirty=true;const width=canvas.clientWidth,height=canvas.clientHeight;if(!width||!height||state.disposed)return;camera.aspect=width/height;camera.updateProjectionMatrix();applyFov();renderer.setSize(width,height,false);if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();}
   resizeView=resize;observer=new ResizeObserver(resize);observer.observe(stage);observer.observe(canvas);resize();orbitDefault();const initialMode=state.mode;state.mode='planta3d';state.setMode(initialMode);
   wire();document.querySelector('#furniture-select').replaceChildren(...furniture.map(m=>{const option=document.createElement('option');option.value=m.id;option.textContent=m.name;return option;}));
   furnitureEditor=createFurnitureEditor({canvas,camera,scene,furniture,state,listen});

@@ -238,6 +238,22 @@ O interior põe caixas que só fazem sombra (`livSolarOccluder`) e o sol fica a 
 Conferido na Torre 01, 1º pavimento, final 01: às 15h nada muda; às 17h a mancha de sol some da porta do quarto
 (12% da imagem). Limite: o rebatimento do sol já gravado no atlas continua; só o sol direto some.
 
+### Corredor atrás da entrada
+
+A folha da entrada fechada não cobre o vão: no canto sobram 5,5 cm do lado da maçaneta (vão de 80 cm, folha de
+73 cm) e 1,2 cm embaixo. Com a unidade solta no céu, a gravação deixava céu e sol entrarem por ali (faixa clara
+forte no piso em frente à porta) e o site mostrava o fundo branco pela fresta. Agora há uma caixa de corredor atrás
+da entrada nos dois lados: cinza fosca no bake (`corridor` em bake_horario.py) e escura só no Tour do site
+(`corridorBox` em interior-renderer.js; some na Planta 3D e fica fora do enquadramento). As medidas são as mesmas
+nos dois arquivos (boca 4 cm dentro da parede, 1,5 m de fundo, 50 cm de sobra para cada lado, até 2,7 m).
+
+### Campo de visão do Tour
+
+O Tour fixava 48° na vertical: ~70° de largura no computador, só ~23° no celular em pé. Agora o ângulo é de largura
+(80° de saída, 45° a 110°), com o vertical limitado a 30°-100°; roda do mouse ou pinça com dois dedos mudam, e a
+escolha fica no aparelho (`liv-tour-largura`). A Planta 3D continua nos 48° do enquadramento. O controle do sol
+não fica mais azul ao ser segurado no celular (a página libera seleção em todo `input`; horario-ui.css tira no relógio).
+
 ## SketchUp
 
 `sketchup/modelar_laranjeiras.rb` monta o condomínio no SketchUp 2026 pela extensão MCP, no mesmo caminho

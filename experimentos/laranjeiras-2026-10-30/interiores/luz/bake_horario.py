@@ -3,7 +3,7 @@
 & 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Blender\\blender.exe' -b experimentos/liv-luz-natural-2026-10-26/entrega/LIV_Luz_Natural.blend --python experimentos/laranjeiras-2026-10-30/interiores/luz/bake_horario.py -- --tipologia canto [--so maisx-08]
 
 Mesmo bake do LIV (liv-luz-natural-2026-10-26/bake-luz-horario.py, cujas funções este importa): céu, câmera e
-exposição da cena aprovada `03 | Sala e jantar`; as malhas vêm da fonte congelada (interiores/luz/<planta>/
+exposição da cena aprovada `03 | Sala e jantar`, com o corredor do prédio atrás da entrada; as malhas vêm da fonte congelada (interiores/luz/<planta>/
 source.json, exportar_fonte.py) com o UV1 do preparar_luz.py (bake/geometry-compact.json). Os móveis que o site
 troca saem e entram os aprovados (moveis-site.glb); a porta de entrada é gravada fechada. Saída em
 interiores/luz/<planta>/gravado/: <id>.f32 e <id>-sondas.f32, medidas.json e sondas.json (empacotar_horario.py).
@@ -58,6 +58,39 @@ def new_scene(base):
                  'caustics_reflective', 'caustics_refractive', 'blur_glossy', 'sample_clamp_direct', 'sample_clamp_indirect'):
         setattr(scene.cycles, attr, getattr(base.cycles, attr))
     return scene
+
+
+# Mesmas medidas de corridorBox em site/interior-renderer.js (m): boca dentro da espessura da parede, fundo, sobra
+# para cada lado do vão, piso e teto.
+CORREDOR = {'boca': .04, 'fundo': 1.5, 'margem': .5, 'piso': -.005, 'teto': 2.7}
+
+
+def corridor(scene, plan, center, door_id):
+    """Corredor do prédio atrás da entrada. A folha fechada não cobre o vão inteiro (5,5 cm do lado da maçaneta,
+    1,2 cm embaixo) e, com a unidade solta no céu, céu e sol entravam por ali: faixa clara forte no piso em frente
+    à porta. Caixa cinza fechada, aberta só para a parede (a boca fica dentro da espessura dela)."""
+    door = next(d for d in plan['planta']['portas'] if d['id'] == door_id)
+    x, z = door['p'][0] - center[0], door['p'][1] - center[1]
+    across_z = door['wallId'].endswith(('-north', '-south'))  # parede ao longo de x: o corredor fica em ±z
+    line, along = (z, x) if across_z else (x, z)
+    sign = math.copysign(1, line); half = door['largura'] / 2 + CORREDOR['margem']
+    near, far = line + sign * CORREDOR['boca'], line + sign * CORREDOR['fundo']
+    corners = []
+    for n in (near, far):
+        for a in (along - half, along + half):
+            for y in (CORREDOR['piso'], CORREDOR['teto']):
+                sx, sz = (a, n) if across_z else (n, a)
+                corners.append((sx, -sz, y))  # site (x, y, z) -> Blender (x, -z, y)
+    # Índice = 4*fundo + 2*lado + teto; cinco faces (a da boca fica aberta).
+    faces = [(4, 5, 7, 6), (0, 1, 5, 4), (2, 3, 7, 6), (0, 2, 6, 4), (1, 3, 7, 5)]
+    mesh = bpy.data.meshes.new('Laranjeiras corredor'); mesh.from_pydata(corners, [], faces); mesh.update()
+    material = bpy.data.materials.new('Laranjeiras corredor'); material.use_nodes = True
+    bsdf = next(n for n in material.node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
+    bsdf.inputs['Base Color'].default_value = (.35, .35, .35, 1); bsdf.inputs['Roughness'].default_value = 1
+    mesh.materials.append(material)
+    obj = bpy.data.objects.new('Laranjeiras corredor', mesh); scene.collection.objects.link(obj)
+    print('LARANJEIRAS_LUZ_CORREDOR', door_id, 'z' if across_z else 'x', round(near, 3), round(far, 3), flush=True)
+    return obj
 
 
 def close_handles(site, door):
@@ -174,6 +207,7 @@ def main():
     # O rebatimento só depende da cor média; subir as texturas grandes a cada gravação custava minutos no LIV.
     scene.render.use_simplify = True; scene.cycles.texture_limit_render = args.texture_limit
     targets, target_names = build(scene, source, compact, work, typology, door, door_color)
+    corridor(scene, plan, center, door['id'])
     # A planta do meio tem janela em parede de cômodo que não existe (a6: 'c2-west'): o portal vai para o cômodo
     # cuja borda passa mais perto da janela, na mesma face (west/east/...).
     ids = {r['id'] for r in rooms}
