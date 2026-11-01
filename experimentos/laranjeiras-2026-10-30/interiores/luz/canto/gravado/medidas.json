@@ -26,21 +26,21 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        161.1519775390625,
+        161.15199279785156,
         138.52066040039062,
         109.34911346435547
       ],
-      "rawSHA256": "2d72ba984d17feaa24f96c40cc5de35a56cb7e0e170d3cf3f53a6a6e18c14ce6",
-      "probesSHA256": "ccaf88a00f6afa2536fac60fbd4d71d1d8f77043e0bcd253d8b7fc35ce8f8003",
-      "seconds": 90.33629489999976,
-      "max": 18.737308502197266
+      "rawSHA256": "1799370c83d3190084754c32a61680bf46205260d9154fce427031154ce92b45",
+      "probesSHA256": "cb5e292436fe280c20eb68e0995f015dde0c0b8325146698967b902cc99e7508",
+      "seconds": 124.26336680000531,
+      "max": 12.912471771240234
     },
     "noite": {
       "kind": "noite",
-      "rawSHA256": "aa73ad520cee50ff0f131216e453a0f3be23adb5d6af7da9d22bbd3d9e8dd852",
-      "probesSHA256": "e0e8b8aad335c9230b704b7b808187216390df4df63c651abd11547f11f80901",
-      "seconds": 40.575754999999845,
-      "max": 3.4006152153015137
+      "rawSHA256": "4a658cf1018829bc64f1142d412b3d36050094edbc0682ecfc6b158adadc5732",
+      "probesSHA256": "1d9de02a63d203912650583b9959da30f67c403a9eb1ed02393c2581aab38e07",
+      "seconds": 52.199770599996555,
+      "max": 3.40061616897583
     },
     "maisx-06": {
       "kind": "dia",
@@ -54,10 +54,10 @@
         46.55799102783203,
         13.73263168334961
       ],
-      "rawSHA256": "478a79b8240813de50c826db0019541abe86f4e2e4c2140d625597a01ef9e2e7",
-      "probesSHA256": "92214daf8b1bf612e7474b149a85f642268565e453ed856fb15607a64115a7ca",
-      "seconds": 70.23590890000003,
-      "max": 18.088348388671875
+      "rawSHA256": "868d27e43573d3c0f982ee8225467c8d8a9177dded1fa13ce21e8cd4ad79d7a7",
+      "probesSHA256": "0dbed26b4d463afef3e6c29b7bf56ac413448b6781c4a9284fbb945a48b215db",
+      "seconds": 85.09951100000762,
+      "max": 11.269171714782715
     },
     "maisx-08": {
       "kind": "dia",
@@ -71,10 +71,10 @@
         126.34078216552734,
         92.16179656982422
       ],
-      "rawSHA256": "af333d3d49a2df780a9b6c473e446e3b452d23c912dde31915e5ad28c5650411",
-      "probesSHA256": "dc114c12e909fe0e91ebe5d33f9e00f2adf4dbb3d0925f558af8f848a2e44798",
-      "seconds": 75.69258510000009,
-      "max": 22.601816177368164
+      "rawSHA256": "df8f9a7657a3c9e486bf1d4718dfc701cf1415019403d2cab4da4478fd3810ec",
+      "probesSHA256": "8e882da679651693f572ef1446bb34c21bddf97971646b8560a8b4eddcaa7f88",
+      "seconds": 98.60504570000921,
+      "max": 12.82807731628418
     },
     "maisx-10": {
       "kind": "dia",
@@ -84,14 +84,14 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        161.66714477539062,
+        161.6671600341797,
         139.16305541992188,
         110.20145416259766
       ],
-      "rawSHA256": "27c604d2784b43b389fd662b981c55b2332851669a14222a4296e1701afb2f26",
-      "probesSHA256": "f055ad12833ee7f1d4df4c6d5f82b41cbbcab0fd14938695a55d1f0d822a4bf0",
-      "seconds": 76.52139169999998,
-      "max": 18.574867248535156
+      "rawSHA256": "36fff597395de6e676b1a98c44e96912fd10c85f42f7bd4c2b0363e9d8ac2540",
+      "probesSHA256": "3868ad148e852ab35f0986ef17673ebc2ed10c719c10bb21cd292c9c37e28efd",
+      "seconds": 94.2434079000086,
+      "max": 12.888677597045898
     },
     "maisx-12": {
       "kind": "dia",
@@ -105,10 +105,10 @@
         141.57525634765625,
         113.82984924316406
       ],
-      "rawSHA256": "666ca00b4904b4c697b129b0686a486162c2a7281cda3a48f896f137114e4907",
-      "probesSHA256": "189c53982afe1b73ce84abb3358cca18da7c1f8fa8a6cc408c912d7e5c4a6a83",
-      "seconds": 75.76613430000009,
-      "max": 12.442642211914062
+      "rawSHA256": "8328ab32e111673da2702543e47a328c81ef06723afac4891ff7f95819e3bb2d",
+      "probesSHA256": "56c9d778c9725e82bc8b298ffe3e9e86c941d851841ce2ffaca5edf23154f82e",
+      "seconds": 98.35767610000039,
+      "max": 12.442643165588379
     },
     "maisx-14": {
       "kind": "dia",
@@ -118,14 +118,14 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        161.19595336914062,
+        161.19593811035156,
         138.54437255859375,
-        109.3304672241211
+        109.33047485351562
       ],
-      "rawSHA256": "856c6288c383b6503cc583c6b82992ec0dce711d7e133c95582845c8073e2b7c",
-      "probesSHA256": "4b31af5205d932af3ff9d9d54af12eddea123095761071294dfead184a0b7bef",
-      "seconds": 78.8390667000001,
-      "max": 12.840361595153809
+      "rawSHA256": "c7c7325420d2a18701b49c09c3f5d07d4a9db4cf95ca23d07e168559be63f570",
+      "probesSHA256": "99fe2f1dcd1da1bef3ed930136dddf4800cd1bdffb03974a8dca9497772e4c4f",
+      "seconds": 117.7331678000046,
+      "max": 12.840362548828125
     },
     "maisx-16": {
       "kind": "dia",
@@ -136,13 +136,13 @@
       "sunStrength": 1,
       "sunIrradianceRGB": [
         150.7425079345703,
-        124.24246215820312,
+        124.24243927001953,
         89.3973617553711
       ],
-      "rawSHA256": "c251e09f59cfefd951e3e1a52d144d0a7e8122e1dc8968a00485beb9658a2f49",
-      "probesSHA256": "fd786a8b8c79ee2c9a634bfb5ea42f17ac21c41dd555bf44d1c9b869c21f1a6b",
-      "seconds": 75.60544200000004,
-      "max": 18.148080825805664
+      "rawSHA256": "2deb958ad6931a9c7b7bf11525c9d5e8c7dcb51d455875da4e329c8c334836c8",
+      "probesSHA256": "d1fc4bab54f9973e1c154142b33b091a4f05b2cf447932b666d9638add2170ea",
+      "seconds": 106.76742419999209,
+      "max": 18.142892837524414
     },
     "maisx-18": {
       "kind": "dia",
@@ -152,14 +152,14 @@
       "daylight": 0.9341351945403994,
       "sunStrength": 0.18497669631868058,
       "sunIrradianceRGB": [
-        62.52921676635742,
-        28.98790740966797,
+        62.529212951660156,
+        28.98790168762207,
         4.96162223815918
       ],
-      "rawSHA256": "7d242aa1d003b5fcb84470d85bec2ec9ac33b989bbade4f8a822a95e44df9f55",
-      "probesSHA256": "3ff41ab861b2dd0759a40df054b5899664feebbe41f4fd12f87a08d87f56b519",
-      "seconds": 75.18172720000007,
-      "max": 10.006624221801758
+      "rawSHA256": "b2294f50d7a6b58cf12d123a7a44c0613a8ba51e22f330715e430d2195fd3400",
+      "probesSHA256": "18c877a4792232454af8e71205fedcaa2d30f1fe86413fa05846288c7bd836dd",
+      "seconds": 97.82173539999349,
+      "max": 10.006620407104492
     },
     "menosx-06": {
       "kind": "dia",
@@ -173,10 +173,10 @@
         46.63104248046875,
         13.765941619873047
       ],
-      "rawSHA256": "299181386f69bdbdf3bffdf2b651f8b8d7c8733340fcb7020cafaa6a18b15a1f",
-      "probesSHA256": "63b8aba9df8793833105a7d21067324f58cc4848c0b7508011009af8b644cc4a",
-      "seconds": 73.77612799999997,
-      "max": 11.977151870727539
+      "rawSHA256": "b0ef9b3a6f1011cfcc5ceb91ac7941b9dbaae4466a776553d68563003a011b69",
+      "probesSHA256": "8fdb8f5c0cba7761f465d20776c2ceca202a4068913964cc6531f204f83b2f61",
+      "seconds": 98.24482810001064,
+      "max": 11.977149963378906
     },
     "menosx-08": {
       "kind": "dia",
@@ -187,12 +187,12 @@
       "sunStrength": 1,
       "sunIrradianceRGB": [
         152.17068481445312,
-        126.15941619873047,
-        91.96128845214844
+        126.1594009399414,
+        91.96129608154297
       ],
-      "rawSHA256": "93adff6fa32e61a911e951cb3c2502c4a1ad5eb5d43acf16e5307488cde13597",
-      "probesSHA256": "a8f508bedad974d0512223990908940c2d4c3ed373438267ba3bbc75437a0e6d",
-      "seconds": 74.33981259999996,
+      "rawSHA256": "5c77835c10a2dee8ed53d9a5b666eceb6bebc41fa807affca7c9ee493efdf65f",
+      "probesSHA256": "156672f334e8d9e0cb0efec911a09cae9f4fee5ea148601d671b4e8a6cbe9b2a",
+      "seconds": 94.92217629999504,
       "max": 13.332082748413086
     },
     "menosx-10": {
@@ -204,13 +204,13 @@
       "sunStrength": 1,
       "sunIrradianceRGB": [
         161.4854278564453,
-        138.9884490966797,
-        110.01737976074219
+        138.98846435546875,
+        110.01738739013672
       ],
-      "rawSHA256": "23bd00ba2f9ffce5e78207dd071ae924bdbeb0173d0fb5f07e7813228b4cb5aa",
-      "probesSHA256": "69567c39ce6df1881fc613c526add9c4aacb8575b2f61f79f73b76ff7e1cdd2f",
-      "seconds": 78.85093129999996,
-      "max": 12.926058769226074
+      "rawSHA256": "ecf3b96c8209cc7bf8e9ceef5e7ed5e92fefcea1b3b796059a41f30742db9338",
+      "probesSHA256": "d4f7b5af08824380d4c25eefd916b6d300f58ce24c096a433eae9c147649d89d",
+      "seconds": 99.88476139999693,
+      "max": 12.926063537597656
     },
     "menosx-12": {
       "kind": "dia",
@@ -220,14 +220,14 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        163.40536499023438,
-        141.65283203125,
+        163.4053955078125,
+        141.65284729003906,
         113.93232727050781
       ],
-      "rawSHA256": "712f75add145162c0f38bd4496a70b1b70e69b9e7c45825e30f9e43d9da9fb3e",
-      "probesSHA256": "16fafaa7961036d317eb42e7749dc856c7ef9ebe21ff0d9943636c9bb29a058b",
-      "seconds": 81.43167089999997,
-      "max": 12.437503814697266
+      "rawSHA256": "48f8b41f077ff3f94ba4b187cf778dbbafd3e0c7cf446e697a9b1e345d8860fe",
+      "probesSHA256": "e0eefdf6d83bd33bd276ed12ebb5e208c2207e2a04797170036dc4ac89b6526c",
+      "seconds": 134.71732199999678,
+      "max": 12.437505722045898
     },
     "menosx-14": {
       "kind": "dia",
@@ -237,14 +237,14 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        161.2271270751953,
-        138.5740966796875,
+        161.22711181640625,
+        138.57408142089844,
         109.38033294677734
       ],
-      "rawSHA256": "96d6caf976e2e88f556bdbc9da55e1f7c5fe424910b54ba77f79fb96014a423c",
-      "probesSHA256": "da2dc81e1577c92cd85f4105c1b8762a6f8e9664a28983166848067ba884937c",
-      "seconds": 83.48006220000002,
-      "max": 21.529552459716797
+      "rawSHA256": "ea3de34f3180ffdf8c88e4a653e4962977553bf1760057712351408c26bf1adc",
+      "probesSHA256": "8ccb635be0ac2b26aa858cbf594be43a92e5f0c647bd787f1e826eedba861d07",
+      "seconds": 157.0935987999983,
+      "max": 12.768119812011719
     },
     "menosx-16": {
       "kind": "dia",
@@ -258,10 +258,10 @@
         124.14539337158203,
         89.40011596679688
       ],
-      "rawSHA256": "88c2f4be2573d4a4f314b82a87f04e5a68082dd569e5452d1b9ee860c9d36b69",
-      "probesSHA256": "83029a857dd2bc9dbbe0c13b2a088a3d74f208b8673ca75249c7d668fb1bb23a",
-      "seconds": 85.85452920000012,
-      "max": 21.693456649780273
+      "rawSHA256": "aed14c3e421d62ff78a854d41648f91125da5cb279ae56da336ee1df34c86664",
+      "probesSHA256": "b902e242c055367574234feb5a1e36c6e50732ea052e0f121e5fe5e5346830b1",
+      "seconds": 118.46015069998975,
+      "max": 12.91962718963623
     },
     "menosx-18": {
       "kind": "dia",
@@ -271,14 +271,14 @@
       "daylight": 0.9341351945403994,
       "sunStrength": 0.18497669631868058,
       "sunIrradianceRGB": [
-        62.36355972290039,
+        62.363548278808594,
         28.840513229370117,
-        4.897582530975342
+        4.897581577301025
       ],
-      "rawSHA256": "e7106b54f137af74022dac2431961c26a29e8fecefb73849875510153c5c0930",
-      "probesSHA256": "f97b79e7e0e09e3cdf0f157ba869672378ed658e89fe75182f91e301e686ea8b",
-      "seconds": 84.52613469999983,
-      "max": 13.431892395019531
+      "rawSHA256": "f994db3f4d3d7a2d38a845c4974fa814f4f91984760f91f89904b962f01ab905",
+      "probesSHA256": "45466cefafae9d760256afbeb5f1b26aa48eb7a66900e2ec564c90cb37bdf0e4",
+      "seconds": 130.27693819999695,
+      "max": 8.596107482910156
     },
     "maisz-06": {
       "kind": "dia",
@@ -289,13 +289,13 @@
       "sunStrength": 0.36869017715512936,
       "sunIrradianceRGB": [
         82.70987701416016,
-        46.369632720947266,
+        46.369625091552734,
         13.71565055847168
       ],
-      "rawSHA256": "8ff53c08ca37545c587eb5ff8d004a469853e47ab9bf8d16bdd381603939bd31",
-      "probesSHA256": "dabb716c502a1544dcbd2d0b4948f972396886d8b9b3b2342439470b0478f443",
-      "seconds": 84.87431259999994,
-      "max": 16.104524612426758
+      "rawSHA256": "e38ba83e6b1e80d6ab226f9ae7e4c04b829d284ec4b64ed4889ff4f37904831b",
+      "probesSHA256": "d3d826036c03d69fcce71cc00db00876bff4cd416f73095d9f6c24989ed60cac",
+      "seconds": 133.75180040000123,
+      "max": 11.442119598388672
     },
     "maisz-08": {
       "kind": "dia",
@@ -309,10 +309,10 @@
         126.12190246582031,
         91.96243286132812
       ],
-      "rawSHA256": "2e2de3f2214b031a0261a6672d4a090b9d9720095c411463d771a60e53970c88",
-      "probesSHA256": "ba4d9e1f15e58745fac3212f6295d3df2c55f63d809f6b10cc18aa2f4e318a38",
-      "seconds": 82.85886050000022,
-      "max": 19.51065444946289
+      "rawSHA256": "39a2e3389d5dc3b9686ff18c77eb6d4410c33752efcdfd78851c9b6e4c9735ac",
+      "probesSHA256": "476568f183da9edddeaad17bdab390257de42d51afcd78d2017407e5bf0ce912",
+      "seconds": 139.5739346999908,
+      "max": 12.393568992614746
     },
     "maisz-10": {
       "kind": "dia",
@@ -324,12 +324,12 @@
       "sunIrradianceRGB": [
         161.5187225341797,
         139.01063537597656,
-        110.04713439941406
+        110.047119140625
       ],
-      "rawSHA256": "02b85f8373b1f477f52a05f1a01925feb6a8395b2ad764afe0fc34c66a0297c3",
-      "probesSHA256": "b686abc41cff4e76dd7fdaa06402bef7b130b713273cffac44ac934507dfbe92",
-      "seconds": 81.46662500000002,
-      "max": 14.51124382019043
+      "rawSHA256": "a6d66850d46ccaefa0917da15b8660b364cc09389a14584b6874346973f76a64",
+      "probesSHA256": "f93a69a170a37d12f3733dc2b3b8957deec588de3261047442c92cf307ff7427",
+      "seconds": 133.54999669999233,
+      "max": 12.893935203552246
     },
     "maisz-12": {
       "kind": "dia",
@@ -341,12 +341,12 @@
       "sunIrradianceRGB": [
         163.42019653320312,
         141.67051696777344,
-        113.95691680908203
+        113.95693969726562
       ],
-      "rawSHA256": "591ae2f24d19704e99fb03efde26c4a5f2fdcc1b41a0a212cf60b969a0167a58",
-      "probesSHA256": "f705b80acc8f79332659a943ea1aad4fe7387307149f81910c93fc5d3b248d21",
-      "seconds": 91.40544379999983,
-      "max": 12.448139190673828
+      "rawSHA256": "3be35f1f001f0599e9d57647da6b3cdc5108f7f58b9a3239c2eddc2d34986c1f",
+      "probesSHA256": "04d2bad1cbf03bd94bd6b43b7d3ce1587f708ea22836ad5c1018b2a3789108e2",
+      "seconds": 132.1774507000082,
+      "max": 12.448138236999512
     },
     "maisz-14": {
       "kind": "dia",
@@ -360,9 +360,9 @@
         138.50123596191406,
         109.26354217529297
       ],
-      "rawSHA256": "cb7c45c50debca6629ac08ac11fea5d36e2ec33764556d67015ce015a08d8696",
-      "probesSHA256": "0fc506d1f290c358e95a817a9bc88b9525417ec439707aadfb41c6c58a786a76",
-      "seconds": 93.36881040000026,
+      "rawSHA256": "95010a7ee4b7a38262209e61101ab8c9e50483696276f7b3b39ad146d3c4414e",
+      "probesSHA256": "4b501d347737b5d556f94a4d0c2c852c6cc475bd110b401c79b9bdcad673790c",
+      "seconds": 123.06343600001128,
       "max": 12.77161979675293
     },
     "maisz-16": {
@@ -374,13 +374,13 @@
       "sunStrength": 1,
       "sunIrradianceRGB": [
         150.7383270263672,
-        124.26705932617188,
-        89.41217041015625
+        124.26704406738281,
+        89.41216278076172
       ],
-      "rawSHA256": "599d824f05886e07577205790d943acb8d1a9cfe5e5b77e93474cdbc5e94504a",
-      "probesSHA256": "36b9708ec0bd881d2c5ba4544ea07d87ca8375fdc1ff07a9dc8d37a5833895a5",
-      "seconds": 91.1874256000001,
-      "max": 15.664464950561523
+      "rawSHA256": "36d6ffa0b3617a4fdafd0890d444005f0c4390126db7bcf0d004b1c0c67098d7",
+      "probesSHA256": "30264372637d7989861bf6d8df7112ad4613f23b28bca65a68a135515ca12da7",
+      "seconds": 139.05979680000746,
+      "max": 15.664466857910156
     },
     "maisz-18": {
       "kind": "dia",
@@ -394,10 +394,10 @@
         28.88831329345703,
         4.940622806549072
       ],
-      "rawSHA256": "3d1c82b742e009176dea0e8a282c0c9486d9c036ca834d5a002a1d56ca26f70d",
-      "probesSHA256": "58ec46ccf3b5427e96f5837ac51e893cc77cba45fedb86f48411618319651500",
-      "seconds": 89.3534881999999,
-      "max": 8.477157592773438
+      "rawSHA256": "ef395b42f4d1e31a1ea2c2c32cf0d98231bfd614d4e3ad16611facebcb377c49",
+      "probesSHA256": "cedfb96dbfc8c4da959228df1eb8bb0d8a69eda00107e08ade5d4974e64f7ae6",
+      "seconds": 131.1364210999891,
+      "max": 8.477158546447754
     },
     "menosz-06": {
       "kind": "dia",
@@ -409,12 +409,12 @@
       "sunIrradianceRGB": [
         82.71133422851562,
         46.38129806518555,
-        13.71159839630127
+        13.711599349975586
       ],
-      "rawSHA256": "f7cba1bed692df9431132d7bbe4e77dd4af9ab70f3b387cb1939c013d1d5deaa",
-      "probesSHA256": "cdc1233c3b335929e3851738e6667c12ac91af0abea325be1cb18cd98c0f53f6",
-      "seconds": 85.55412550000028,
-      "max": 15.495887756347656
+      "rawSHA256": "ef3765add817b3e2327f61fc348644fce4075593efb89e00307c0841ee93aab0",
+      "probesSHA256": "87d2037e51440672d4801332fcd55a9622394892220c06ec08bcf2d366758766",
+      "seconds": 125.66604029999871,
+      "max": 15.495889663696289
     },
     "menosz-08": {
       "kind": "dia",
@@ -424,14 +424,14 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        151.94371032714844,
+        151.9437255859375,
         126.00891876220703,
-        91.89959716796875
+        91.89960479736328
       ],
-      "rawSHA256": "611040f24cc047f4e1799e3df20f06256f05e6d2337cc595c3209f5dcf559e9c",
-      "probesSHA256": "eda1f104f8f203da744aaffc404aa409c3962bc1e544edac52631ca39bad9dd0",
-      "seconds": 88.43635219999987,
-      "max": 18.537010192871094
+      "rawSHA256": "4746a8f35f33f324de16bc9a53d3cfe078e641b898d523b2b65e931b0eed9045",
+      "probesSHA256": "1c61b9ed38e5a1db08460fd7cbb784ceb4d68647cdfac6958b3a888507053c4f",
+      "seconds": 130.6662088999874,
+      "max": 18.53701400756836
     },
     "menosz-10": {
       "kind": "dia",
@@ -441,14 +441,14 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        161.48233032226562,
+        161.48236083984375,
         138.96163940429688,
-        109.99092864990234
+        109.99091339111328
       ],
-      "rawSHA256": "8c07642dcd62bd70df7eeba5afe82369002ae263eaacf5b014871824e66a2a89",
-      "probesSHA256": "92266cc7673e420230b7c78ed7187ecb38b584f6ea1214d9eb0bd7f9a11c7920",
-      "seconds": 85.51697409999997,
-      "max": 12.905975341796875
+      "rawSHA256": "c3bd137d45017a002e25f734b32ded22967291bbd7a28872ac47327007d1769d",
+      "probesSHA256": "7e8191d3de743408fe93aa07e7d8f59dded6e56b172b59b9f2b3402fc2c20a8d",
+      "seconds": 137.36270009999862,
+      "max": 12.905973434448242
     },
     "menosz-12": {
       "kind": "dia",
@@ -460,12 +460,12 @@
       "sunIrradianceRGB": [
         163.5031280517578,
         141.7281951904297,
-        113.9781494140625
+        113.97816467285156
       ],
-      "rawSHA256": "7f25ecb5694e4fb8a24dda76fd5843ae0c4a48bfdbb2c2cbcd1f6d4923c158d9",
-      "probesSHA256": "d12a6b0aa3259a03a43cdae1cc2e69db758c2325e72a7994b9f801ae60416a55",
-      "seconds": 84.99574810000013,
-      "max": 12.426004409790039
+      "rawSHA256": "251848a202c7a6646788debf09bdace64666706eb85b468b29d3e0165e805c43",
+      "probesSHA256": "08c58f607d8594e8d5d94c68b0992c627dbdf34091532edab81aa394a7140413",
+      "seconds": 139.87773480000033,
+      "max": 12.39003849029541
     },
     "menosz-16": {
       "kind": "dia",
@@ -475,14 +475,14 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        150.56021118164062,
+        150.5602264404297,
         124.10884094238281,
         89.30756378173828
       ],
-      "rawSHA256": "4c1d2dd192b57f02b729f7123dfa99d7a0d9085eb39a250e24353f98fc62c27e",
-      "probesSHA256": "c859a58e5d38f1b72a92f672f0bbb89d545f1dc0b98ca4ccbdbb3f0c999df299",
-      "seconds": 91.93225940000002,
-      "max": 18.42877769470215
+      "rawSHA256": "46eded509f8cefd8a11779b8d28d88d07c8f06d46f6be9866b0bdb1b4efaa348",
+      "probesSHA256": "79f01f95196c23186741d68cb0418bfc93e37870e8e8b158db7c8ae96083756e",
+      "seconds": 143.9709337999957,
+      "max": 12.521093368530273
     },
     "menosz-18": {
       "kind": "dia",
@@ -494,12 +494,12 @@
       "sunIrradianceRGB": [
         62.52647399902344,
         28.972946166992188,
-        4.9471330642700195
+        4.947134017944336
       ],
-      "rawSHA256": "c10f3927fee52147db70c2573c1f11893c8595c9e69adf638e4355e89b9ac372",
-      "probesSHA256": "6137d914afc2f5a1b39ae7e509cf82b11c1050fc779bfcc9eb74ad3fa2f12321",
-      "seconds": 93.74132359999976,
-      "max": 9.755081176757812
+      "rawSHA256": "83aeee8459e6a0b6f33728a1d80981481e14b1f2f9d81f334812da747f7a0cfe",
+      "probesSHA256": "d8cc4268a90a2bb50c7e97cb886a9829e5fbe9f61b48f777616a3bf2fdf34972",
+      "seconds": 111.54828180000186,
+      "max": 8.863842010498047
     }
   },
   "v1": 0.3183097839355469
