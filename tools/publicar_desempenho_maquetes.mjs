@@ -31,7 +31,7 @@ const version=(await hosting.getChannel(project,site,'live')).release.version.na
 const json=async(name,value)=>writeFile(join(out,name),JSON.stringify(value,null,2)+'\n');
 if(process.argv.includes('--desfazer')){
   const published=JSON.parse(await readFile(join(out,'publicado.json'),'utf8'));
-  assert.equal(version,published.version,'Há publicação posterior; não desfazer alterações de outra sessão.');
+  assert.equal(version.split('/').at(-1),published.version.split('/').at(-1),'Há publicação posterior; não desfazer alterações de outra sessão.');
   const release=await hosting.createRelease(site,'live',published.previousVersion,{});
   await json('desfeito.json',{version:published.previousVersion,release:release.name,at:new Date().toISOString()});
   console.log('Versão anterior restaurada.');process.exit(0);

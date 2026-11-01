@@ -1,7 +1,7 @@
 // Regenera o runtime sobre uma release preservada, sem perder dados, HTML ou ajustes já publicados.
 // node preparar_pacote.mjs <base liv-classico> <novo destino>
 import {cp,mkdir,readFile,readdir,writeFile} from 'node:fs/promises';
-import {resolve,relative,isAbsolute,join,dirname,basename} from 'node:path';
+import {resolve,relative,isAbsolute,sep,join,dirname,basename} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
@@ -11,7 +11,7 @@ const source=dirname(fileURLToPath(import.meta.url)),root=resolve(source,'../..'
 if(process.argv.length!==4)throw Error('uso: node preparar_pacote.mjs <base liv-classico> <novo destino>');
 const base=resolve(process.argv[2]),out=resolve(process.argv[3]);
 const fromBase=relative(base,out);
-if(!fromBase||!fromBase.startsWith('..')&&!isAbsolute(fromBase))throw Error('O destino deve ser independente da base.');
+if(!fromBase||fromBase!=='..'&&!fromBase.startsWith('..'+sep)&&!isAbsolute(fromBase))throw Error('O destino deve ser independente da base.');
 await mkdir(out,{recursive:true});if((await readdir(out)).length)throw Error('Destino ocupado.');
 await cp(base,out,{recursive:true,filter:path=>!path.split(/[\\/]/).includes('node_modules')});
 for(const name of ['viewer.js','interior-renderer.js','interior-navigation.js','interior-melhorias.js',
