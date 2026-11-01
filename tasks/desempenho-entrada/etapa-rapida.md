@@ -79,3 +79,20 @@ base. Publicador inclui o HTML com os nomes atuais e aceita exatamente essa
 variação pré-existente, sem tolerar outras mudanças no HTML. Mantém chunks antigos.
 Ainda sem commit/publicação desta etapa. Falta candidato final, estabilidade,
 interação, comparação final, revisão, integração preservando pendências e deploy.
+
+
+Checkpoint de rede (01/11): publicação 77cfc77ad88b6603 correta graficamente,
+mas entrada fria pública CPU1 ainda 34,45 s LIV e 32,22 s Laranjeiras. Corrigida a
+interpretação: 9,93/8,25 s locais CPU4 não representam a entrada pública completa.
+Teste controlado com worker bloqueado, mesmos assets/renderer: 8,69/7,27 s.
+Gargalo confirmado na fila serial, não apenas em processamento/renderização.
+
+Nova fila implementada nas duas fontes: quatro urgentes em paralelo, orçamento
+16 MiB de buffers, arquivo maior sozinho, um download de fundo. Cache, SHA,
+pré-requisitos, compartilhamento e cancelamentos conservados. 145 testes Node PASS;
+fixture real observou pico 4, oito arquivos em ~0,72 s, nenhum download duplicado,
+rejeitou corrupção, permitiu retry e preservou a segunda aba após abortar a primeira.
+Pacotes normais em `entrada-rapida/fila/`: seis plantas × seis vistas, edição e
+WebGPU em ambos PASS. Preflight `deploy-fila/` sobre 77cfc..., 21 alterações.
+Ainda falta publicar esta fila e medir a entrada real com ela ativa. Não declarar
+fim da tarefa nem desempenho público a partir dos tempos de CPU local.

@@ -89,3 +89,15 @@ após decodificação RGBM e sua entrada de Tour junto à porta.
 Evidência e resultados desta etapa estão em `tasks/desempenho-entrada/etapa-rapida.md`.
 A prévia LEVE/PREMIUM usa seus próprios templates e não precisa da construção TSL
 que originou este gargalo; não recebe este adaptador de renderer moderno.
+
+
+A fila também separa os arquivos urgentes das transferências de fundo. Até quatro
+arquivos pedidos pelo cliente avançam em paralelo, com orçamento de 16 MiB para
+os buffers declarados em trânsito; um arquivo maior roda sozinho. Sem pedidos,
+segue apenas um download de fundo. O cache e a conferência de tamanho/SHA continuam
+antes da entrega; pedidos iguais compartilham o download, e cancelar um consumidor
+não cancela outro. Pré-requisitos e trocas de catálogo continuam sendo respeitados.
+`tests/test_transfer_queue.mjs` cobre orçamento/pré-requisitos/fundo;
+`tests/qa_maquete_cache.py` exercita o worker no navegador, paralelismo, integridade,
+reutilização e cancelamento entre abas. O tempo de abertura pública precisa ser
+medido com o worker ativo: tempos locais de CPU não incluem a fila e a rede reais.

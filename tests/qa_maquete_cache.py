@@ -26,17 +26,34 @@ def run(out):
                 digest = hashlib.sha256(payload).hexdigest()
                 resource = "/assets/interiores/current.bin"
                 requests = []
+                parallel = {f"/assets/interiores/p{i}.bin": (f"resource-{i}:".encode() + b"x" * 65536) for i in range(10)}
+                lock = threading.Lock()
+                network = {"active": 0, "peak": 0, "corrupt": True}
                 manifest = {"schema": "liv-transfer-manifest-v1", "version": digest,
                     "order": ["tour", "map", "planta2d"],
                     "groups": {name: {"label": name} for name in ["tour", "map", "planta2d"]},
                     "files": [{"path": "interiores/current.bin", "group": "tour", "essential": False,
                         "background": False, "bytes": len(payload), "sha256": digest}]}
 
+                for path, body in parallel.items():
+                    manifest["files"].append({"path": path.removeprefix("/assets/"), "group": "tour", "essential": False,
+                        "background": False, "bytes": len(body), "sha256": hashlib.sha256(body).hexdigest()})
+
                 class Handler(BaseHTTPRequestHandler):
                     def log_message(self, *_): pass
                     def do_GET(self):
                         path = urlsplit(self.path).path
-                        if path == resource:
+                        counted = path in parallel
+                        if counted:
+                            with lock:
+                                network["active"] += 1
+                                network["peak"] = max(network["peak"], network["active"])
+                            requests.append(self.path)
+                            time.sleep(.35)
+                            body = parallel[path]
+                            if path.endswith("p8.bin") and network["corrupt"]: body = b"!" + body[1:]
+                            kind = "application/octet-stream"
+                        elif path == resource:
                             requests.append(self.path)
                             body, kind = payload, "application/octet-stream"
                         elif path.endswith("transfer-manifest.json"):
@@ -50,7 +67,11 @@ def run(out):
                         self.send_header("Content-Length", str(len(body)))
                         self.send_header("Cache-Control", "no-store")
                         self.end_headers()
-                        self.wfile.write(body)
+                        try: self.wfile.write(body)
+                        except (BrokenPipeError, ConnectionResetError): pass
+                        finally:
+                            if counted:
+                                with lock: network["active"] -= 1
 
                 server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
                 threading.Thread(target=server.serve_forever, daemon=True).start()
@@ -88,9 +109,35 @@ def run(out):
                     assert page.evaluate("events.some(e=>e.type==='LIV_TRANSFER_STATE'&&e.state.groups.tour.cached===1)")
                     stale = frame.evaluate(fetch, resource + "?v=" + "0" * 64)
                     assert stale["sha"] is None and len(requests) == 2, requests
+                    paths = [path + "?v=" + hashlib.sha256(body).hexdigest() for path, body in list(parallel.items())[:8]]
+                    begun = time.monotonic()
+                    many = frame.evaluate("""async paths=>Promise.all([...paths,paths[0],paths[1]].map(async path=>{
+                        const r=await fetch(path);return {sha:r.headers.get('X-Liv-Sha256'),bytes:(await r.arrayBuffer()).byteLength};}))""", paths)
+                    parallel_seconds = time.monotonic() - begun
+                    assert 2 <= network["peak"] <= 4, network
+                    assert all(r["sha"] and r["bytes"] == len(next(iter(parallel.values()))) for r in many), many
+                    for path in list(parallel)[:8]: assert sum(urlsplit(r).path == path for r in requests) == 1, requests
+                    bad = list(parallel)[8] + "?v=" + hashlib.sha256(list(parallel.values())[8]).hexdigest()
+                    failure = frame.evaluate("async path=>fetch(path).then(()=>null,e=>String(e))", bad)
+                    assert failure, "Arquivo corrompido foi entregue como válido."
+                    network["corrupt"] = False
+                    repaired = frame.evaluate(fetch, bad)
+                    assert repaired["sha"] == hashlib.sha256(list(parallel.values())[8]).hexdigest(), repaired
+                    assert sum(urlsplit(r).path == list(parallel)[8] for r in requests) == 2, requests
+                    shared = list(parallel)[9] + "?v=" + hashlib.sha256(list(parallel.values())[9]).hexdigest()
+                    other = context.new_page();other.goto(origin + "/assets/other.html");other.wait_for_function("navigator.serviceWorker.controller!==null")
+                    frame.evaluate("""path=>{window.stopShared=new AbortController();window.firstShared=fetch(path,{signal:stopShared.signal}).then(()=>null,e=>e.name);}""", shared)
+                    other.evaluate("""path=>{window.secondShared=fetch(path).then(async r=>({sha:r.headers.get('X-Liv-Sha256'),bytes:(await r.arrayBuffer()).byteLength}));}""", shared)
+                    page.wait_for_timeout(100);frame.evaluate("stopShared.abort()")
+                    assert frame.evaluate("firstShared") == "AbortError"
+                    shared_result = other.evaluate("secondShared")
+                    assert shared_result["sha"] == hashlib.sha256(list(parallel.values())[9]).hexdigest()
+                    assert sum(urlsplit(r).path == list(parallel)[9] for r in requests) == 1, requests
+                    other.close()
                     assert not errors, errors
                     report["cases"].append({"runtime": runtime, "status": "PASS", "startSeconds": elapsed,
-                        "outsideScope": True, "onDemandOnly": True, "hashURLReused": True,
+                        "outsideScope": True, "onDemandOnly": True, "foregroundPeak": network["peak"],
+                        "parallelSeconds": parallel_seconds, "sharedRequests": True, "abortedConsumerPreservesOtherTab": True, "corruptionRejectedAndRetried": True, "hashURLReused": True,
                         "staleHashBypassed": True, "parentReceivedProgress": True, "requests": requests})
                     print(runtime, "PASS", flush=True)
                 finally:

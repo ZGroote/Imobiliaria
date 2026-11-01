@@ -1,12 +1,13 @@
-/* One verified transfer at a time. This worker never opens a scene or renderer. */
+/* Bounded foreground transfers; one background job. No scene or renderer here. */
 const GROUP_ORDER=['tour','map','planta2d'];
 const SCOPE=new URL('./',self.location.href);
 const MANIFEST_URL=new URL('transfer-manifest.json',SCOPE).href;
 const CACHE_PREFIX='liv-transfer-';
 const WORKER_INSTANCE=crypto.randomUUID();
-const jobs=new Map();
+const jobs=new Map(),running=new Map();
+const FOREGROUND_LIMIT=4,BUFFER_BUDGET=16*1024*1024;
 const clientDemands=new Map();
-let catalog=null,catalogPromise=null,cache=null,pumpPromise=null,active=null,commandQueue=Promise.resolve();
+let catalog=null,catalogPromise=null,cache=null,pumpPromise=null,pumpWake=null,commandQueue=Promise.resolve();
 const subscribers=new Set();
 let enabled=false,paused=true,preferredGroup=null,storageFailed=false,error=null;
 let preferredFiles=null;
@@ -31,8 +32,10 @@ function groupState(group) {
   return counts;
 }
 function snapshot() {
+  const active=[...running.values()].find(context=>context.job.waiters.size)||running.values().next().value;
   return {enabled,paused,version:catalog?.version||null,workerInstance:WORKER_INSTANCE,progressVersion,preferredGroup,
     preferredFiles:preferredFiles?[...preferredFiles].map(url=>jobs.get(url)?.meta.path):null,
+    activeCount:running.size,foregroundLimit:FOREGROUND_LIMIT,bufferBudget:BUFFER_BUDGET,
     active:active?{group:active.job.meta.group,path:active.job.meta.path,loaded:active.job.loaded,
       total:active.job.meta.bytes,version:progressVersion,message:active.message}:null,
     groups:Object.fromEntries(GROUP_ORDER.map(group=>[group,groupState(group)])),
@@ -189,8 +192,8 @@ function updateClientPriority(clientId,priority) {
 function selectedForClient(job,priority) {
   return job.meta.group===priority.group&&(!priority.files||priority.files.has(job.meta.url));
 }
-function interruptActive() {
-  if(active&&!active.controller.signal.aborted)active.controller.abort(abortError());
+function interruptActive(predicate=()=>true) {
+  for(const context of running.values())if(predicate(context.job)&&!context.controller.signal.aborted)context.controller.abort(abortError());
 }
 function selectedJob(job){
   return job.meta.group===preferredGroup&&(!preferredFiles||preferredFiles.has(job.meta.url));
@@ -199,14 +202,19 @@ function pickJob() {
   const candidates=[...jobs.values()].filter(job=>job.status==='pending');
   const demanded=candidates.filter(job=>job.waiters.size).sort((a,b)=>a.demandOrder-b.demandOrder);
   if(demanded.length){
-    const requested=demanded[0];
-    // The chosen map needs its HTML/model before its many visible detail tiles.
-    const prerequisite=candidates.filter(job=>job.meta.group===requested.meta.group&&job.meta.essential&&
-      (!preferredFiles||job.meta.group!==preferredGroup||preferredFiles.has(job.meta.url)))
-      .sort((a,b)=>a.meta.index-b.meta.index)[0];
-    return prerequisite||requested;
+    const used=[...running.keys()].reduce((sum,job)=>sum+job.meta.bytes,0);
+    const fits=job=>!running.size||used+job.meta.bytes<=BUFFER_BUDGET;
+    for(const requested of demanded){
+      // A prerequisite may already be downloading in another slot.
+      const prerequisite=job=>job.meta.group===requested.meta.group&&job.meta.essential&&
+        (!preferredFiles||job.meta.group!==preferredGroup||preferredFiles.has(job.meta.url));
+      if([...running.keys()].some(prerequisite))continue;
+      const first=candidates.filter(prerequisite).sort((a,b)=>a.meta.index-b.meta.index)[0]||requested;
+      if(fits(first))return first;
+    }
+    return null;
   }
-  if(!enabled||paused||storageFailed)return null;
+  if(running.size||!enabled||paused||storageFailed)return null;
   const order=preferredGroup?[preferredGroup,...GROUP_ORDER.filter(group=>group!==preferredGroup)]:GROUP_ORDER;
   return candidates.filter(job=>job.meta.background!==false).sort((a,b)=>order.indexOf(a.meta.group)-order.indexOf(b.meta.group)||
     Number(selectedJob(b))-Number(selectedJob(a))||
@@ -218,7 +226,7 @@ function hex(buffer) {
 async function download(job) {
   const controller=new AbortController();
   const context={job,controller,message:`Baixando ${catalog.groups[job.meta.group].label}`};
-  active=context;job.status='downloading';job.loaded=0;job.error=null;job.failureKind=null;changed(true);
+  running.set(job,context);job.status='downloading';job.loaded=0;job.error=null;job.failureKind=null;changed(true);
   let reader=null;
   try {
     const response=await fetch(job.meta.url,{cache:'no-store',credentials:'same-origin',redirect:'error',
@@ -268,17 +276,26 @@ async function download(job) {
       settleWaiters(job,null,failure);
     }
   } finally {
-    if(active===context)active=null;
+    running.delete(job);
     changed(true);
   }
 }
 function ensurePump() {
-  if(pumpPromise)return pumpPromise;
+  if(pumpPromise){pumpWake?.();return pumpPromise;}
   pumpPromise=(async()=>{
-    let job;
-    while((job=pickJob()))await download(job);
+    const tasks=new Set();
+    for(;;){
+      let job;
+      while(running.size<FOREGROUND_LIMIT&&(job=pickJob())){
+        const task=download(job);tasks.add(task);task.then(()=>tasks.delete(task),()=>tasks.delete(task));
+      }
+      if(!tasks.size)break;
+      // New native requests can fill free slots without waiting for a large file.
+      const wake=new Promise(resolve=>{pumpWake=resolve;});
+      await Promise.race([...tasks,wake]);pumpWake=null;
+    }
   })().finally(()=>{
-    pumpPromise=null;
+    pumpPromise=null;pumpWake=null;
     // A demand can arrive just as the previous loop becomes idle.
     if(pickJob())return ensurePump();
   });
@@ -331,8 +348,8 @@ async function foreground(request,clientId='',navigation=false) {
     const waiter={resolve,reject,clientId,navigation,order:++demandSequence};
     const onAbort=()=>{
       removeWaiters(job,value=>value===waiter);
-      if(active?.job===job&&!job.waiters.size&&
-        (paused||!enabled||storageFailed||preferredGroup&&!selectedJob(job)))interruptActive();
+      if(running.has(job)&&!job.waiters.size&&
+        (paused||!enabled||storageFailed||preferredGroup&&!selectedJob(job)))interruptActive(value=>value===job);
       changed(true);void ensurePump();
     };
     waiter.detach=()=>request.signal.removeEventListener('abort',onAbort);
@@ -342,12 +359,12 @@ async function foreground(request,clientId='',navigation=false) {
   // Rejections are also awaited below; this handler prevents cancellation races from
   // creating an unhandled promise before respondWith has attached its continuation.
   response.catch(()=>{});
-  const sameGroupPrerequisite=active?.job.meta.group===job.meta.group&&active.job.meta.essential&&!job.meta.essential;
-  if(active&&active.job!==job&&!sameGroupPrerequisite&&(!active.job.waiters.size||active.job.meta.group!==job.meta.group)) {
-    if(active.job.meta.group!==job.meta.group)cancelForeground(old=>old.meta.group!==job.meta.group,clientId);
-    // A priority change in another tab must not cancel or restart a shared
-    // foreground download. Its selected job runs next, after this verified file.
-    if(!active.job.waiters.size)interruptActive();
+  for(const active of running.values()){
+    const sameGroupPrerequisite=active.job.meta.group===job.meta.group&&active.job.meta.essential&&!job.meta.essential;
+    if(active.job!==job&&!sameGroupPrerequisite&&(!active.job.waiters.size||active.job.meta.group!==job.meta.group)){
+      if(active.job.meta.group!==job.meta.group)cancelForeground(old=>old.meta.group!==job.meta.group,clientId);
+      if(!active.job.waiters.size)interruptActive(value=>value===active.job);
+    }
   }
   void ensurePump();
   return response;
@@ -377,7 +394,7 @@ async function command(message,clientId='') {
       preferredGroup=group;preferredFiles=selected;
       updateClientPriority(clientId,{paused:false,group,files:selected});
       cancelForeground(job=>!selectedJob(job),clientId);
-      if(active&&!selectedJob(active.job)&&!active.job.waiters.size)interruptActive();
+      interruptActive(job=>!selectedJob(job)&&!job.waiters.size);
       for(const job of jobs.values())if(job.meta.group===group&&job.status==='failed') {
         job.status='pending';job.error=null;job.failureKind=null;job.loaded=0;
       }
@@ -386,7 +403,7 @@ async function command(message,clientId='') {
     case 'pause':
       updateClientPriority(clientId,{paused:true,group:null,files:null});
       paused=true;preferredGroup=null;preferredFiles=null;cancelForeground(()=>true,clientId);
-      if(active&&!active.job.waiters.size)interruptActive();
+      interruptActive(job=>!job.waiters.size);
       break;
     case 'status':break;
     default:throw Error('Comando de transferência inválido.');
