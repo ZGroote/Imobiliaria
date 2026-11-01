@@ -32,6 +32,24 @@ function smallHDR(pixels=[128,96,64,129,64,96,128,129]){
   hdr.set(header);hdr.set(pixels,header.length);return hdr;
 }
 
+test('carrega dependências da tipologia e conserva alternativas compatíveis de fallback',async()=>{
+  const asset=(id,types=[],extra={})=>({id,path:id+'.glb',types,dimensions:{w:1,h:1,d:1},...extra});
+  const catalog={schema:'liv-interior-improvements-v1',assets:[
+    asset('sofa',['sofa']),asset('sofa-especifico',['sofa'],{replaces:['movel-1']}),
+    asset('sofa-canto',['sofa'],{typology:'canto'}),asset('armario',['guardaroupa']),
+    asset('parede'),asset('decor-meio'),asset('decor-canto')],
+    materialOverrides:[{assetId:'parede',target:'wall',materialName:'PBR aprovado'}],
+    decorations:[{assetId:'decor-meio',typology:'meio',position:[0,0,0]},{assetId:'decor-canto',typology:'canto',position:[0,0,0]}]};
+  const asked=[],owned=new Set();
+  const library=await loadInteriorImprovements({base:new URL('https://example.invalid/liv/'),typology:'meio',items:[{id:'movel-1',tipo:'sofa',name:'Sofá'}],
+    own:value=>{owned.add(value);return value;},
+    fetchImpl:async url=>String(url).endsWith('catalogo.json')?{ok:true,json:async()=>catalog}:{ok:true,arrayBuffer:async()=>{asked.push(new URL(url).pathname.split('/').at(-1));return blankGLB();}},
+    parseGLB:async()=>({scene:model()})});
+  assert.deepEqual(asked.sort(),['decor-meio.glb','parede.glb','sofa-especifico.glb','sofa.glb']);
+  assert.equal(library.getState().assets,4);assert.equal(library.getState().loaded,4);
+  for(const resource of owned)resource.dispose?.();
+});
+
 test('GLB preserva centro, base, giro e footprint cadastral com PBR independente por instância',()=>{
   const template=model(),source=template.children[0],owned=new Set();
   const item={id:'movel-7',name:'Sofá',position:[-1.2,2.7],rotation:3,w:1.95,h:.8,d:.9};

@@ -38,12 +38,26 @@ test('a troca de lado mantém a última luz até as horas do outro lado chegarem
   const lights=createTimeLightmaps({manifest:tiny,load});
   assert.equal(lights.apply(time(9)),null,'sem textura não há luz gravada');
   const first=lights.ensure(time(9));
-  assert.deepEqual(asked.slice(0,3),['lazer-8','lazer-10','noite']);
+  assert.deepEqual(asked.slice(0,3),['lazer-8','lazer-10']);
   for(const release of releases.values())release();await first;
   assert.equal(lights.apply(time(9)).stale,undefined);
   const other=lights.apply(time(9,{context:{side:'estacionamento'}}));
   assert.equal(other.stale,true);assert.equal(other.a,'lazer-8');
   lights.ensure(time(9));assert.equal(asked.filter(id=>id==='lazer-8').length,1);
+});
+
+test('concluir as urgentes não dispara horários que ninguém pediu',async()=>{
+  const {createTimeLightmaps}=await import('../interior-luz-horario.js');
+  const entry=(id,extra)=>({id,path:`interiores/canto/luz-horario/${id}.rgbm.gz`,...extra});
+  const tiny={...manifest,width:1,height:1,range:16,lightMapIntensity:Math.PI,
+    keys:manifest.keys.map(k=>entry(k.id,k)),night:entry('noite',{})};
+  const asked=[],releases=new Map();
+  const load=file=>{asked.push(file.id);return new Promise(resolve=>releases.set(file.id,()=>resolve(new Uint8Array(4))));};
+  const lights=createTimeLightmaps({manifest:tiny,load});
+  const first=lights.ensure(time(9));
+  assert.deepEqual(asked,['lazer-8','lazer-10'],'Só as urgentes enquanto a abertura espera.');
+  for(const release of releases.values())release();await first;await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(asked.length,2,'Os demais horários agora são sob demanda.');
 });
 
 test('só carrega as horas usadas e limita o cache, sem descartar a mistura ativa',async()=>{
@@ -53,10 +67,24 @@ test('só carrega as horas usadas e limita o cache, sem descartar a mistura ativ
     keys:Array.from({length:10},(_,i)=>key('lazer',i*2)),night:{id:'noite'}};
   const lights=createTimeLightmaps({manifest:tiny,load:async file=>{asked.push(file.id);return new Uint8Array(4);},release:value=>{released.push(value);value.dispose();}});
   await lights.ensure(time(1));lights.apply(time(1));
-  assert.deepEqual(asked,['lazer-0','lazer-2','noite'],'Nenhuma outra hora compete com a abertura.');
+  assert.deepEqual(asked,['lazer-0','lazer-2'],'Nenhuma outra hora compete com a abertura.');
   for(const hour of [5,9,13,17]){await lights.ensure(time(hour));assert.ok(!lights.apply(time(hour)).stale);}
   assert.ok(lights.getState().loaded.length<=5);assert.ok(released.length>0);
   const loaded=lights.getState().loaded;
-  assert.ok(loaded.includes('lazer-16')&&loaded.includes('lazer-18')&&loaded.includes('noite'));
+  assert.ok(loaded.includes('lazer-16')&&loaded.includes('lazer-18'));
   const before=asked.length;await lights.ensure(time(17));assert.equal(asked.length,before,'Mistura ativa permanece reaproveitável.');
+});
+
+
+test('peso zero não baixa luz sem contribuição e a noite continua disponível ao trocar a hora',async()=>{
+  const {createTimeLightmaps}=await import('../interior-luz-horario.js');
+  const asked=[],tiny={...manifest,width:1,height:1,range:16,lightMapIntensity:Math.PI};
+  const lights=createTimeLightmaps({manifest:tiny,load:async file=>{asked.push(file.id);return new Uint8Array(4);}});
+  await lights.ensure(time(10));const noon=lights.apply(time(10));
+  assert.deepEqual(asked,['lazer-10']);assert.equal(noon.wa,0);assert.equal(noon.wb,8);
+  const dark=time(22,{daylight:0,sunStrength:0,night:1});
+  assert.equal(lights.apply(dark).stale,true);await lights.ensure(dark);
+  assert.deepEqual(asked,['lazer-10','noite']);assert.equal(lights.apply(dark).wn,1);
+  await lights.ensure(time(9));assert.equal(lights.apply(time(9)).stale,undefined);
+  assert.deepEqual(asked,['lazer-10','noite','lazer-8']);
 });

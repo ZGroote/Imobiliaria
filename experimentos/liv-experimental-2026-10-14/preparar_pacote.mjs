@@ -14,8 +14,8 @@ const fromBase=relative(base,out);
 if(!fromBase||fromBase!=='..'&&!fromBase.startsWith('..'+sep)&&!isAbsolute(fromBase))throw Error('O destino deve ser independente da base.');
 await mkdir(out,{recursive:true});if((await readdir(out)).length)throw Error('Destino ocupado.');
 await cp(base,out,{recursive:true,filter:path=>!path.split(/[\\/]/).includes('node_modules')});
-for(const name of ['viewer.js','interior-renderer.js','interior-navigation.js','interior-melhorias.js',
-  'interior-luz-horario.js','horario-interior.js','transfers.js','transfer-worker.js'])await cp(join(source,name),join(out,name));
+for(const name of ['viewer.js','renderer.js','interior-renderer.js','interior-navigation.js','interior-melhorias.js',
+  'interior-luz-horario.js','horario-interior.js','shader-scheduler.js','transfers.js','transfer-worker.js'])await cp(join(source,name),join(out,name));
 const result=await empacotarRuntime(out,join(source,'node_modules/three'));
 const rewrite=(html,entry)=>{
   const output=Object.values(result.metafile.outputs).find(o=>o.entryPoint&&basename(o.entryPoint)===entry+'.js');

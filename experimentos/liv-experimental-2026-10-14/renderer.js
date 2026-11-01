@@ -1,3 +1,4 @@
+import {installShaderScheduler} from './shader-scheduler.js';
 import * as THREE from 'three/webgpu';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,createRGBMTexture,replaceRGBMAtlas} from './material-rgbm.js';
@@ -14,6 +15,7 @@ import {buyerExperienceEnabled} from './experiencia-compra.js';
 import {exteriorTimeLighting} from './horario-exterior.js';
 import {addRoofLogo} from './marca-telhado.js';
 
+const restoreShaderScheduler=installShaderScheduler();
 const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION,active:new URLSearchParams(location.search).get('prewarm')!=='1'};
 function progress(phase,message,extra={}){
   if(state.disposed)return;
@@ -122,15 +124,12 @@ async function start() {
   if(requested==='webgpu' && !adapter) throw Error('WebGPU não está disponível neste navegador/dispositivo.');
   state.adapterInfo=adapter?{vendor:adapter.info?.vendor,architecture:adapter.info?.architecture,device:adapter.info?.device,description:adapter.info?.description}:null;
   const options={canvas,alpha:true,antialias:true,powerPreference:'high-performance',forceWebGL:requested==='webgl'||!adapter};
-  let renderer=new THREE.WebGPURenderer(options);
-  try {await renderer.init();}
-  catch(error) {
-    if(requested!=='auto' || options.forceWebGL) throw error;
-    state.webgpuInitError=String(error);
-    renderer.dispose();
-    renderer=new THREE.WebGPURenderer({...options,forceWebGL:true});
-    await renderer.init();
-  }
+  const renderer=new THREE.WebGPURenderer(options);
+  state.renderer=renderer;state.backendAttempt=options.forceWebGL?'webgl':'webgpu';
+  let initialized=false;const setLoop=renderer.setAnimationLoop.bind(renderer);
+  renderer.setAnimationLoop=callback=>initialized?setLoop(callback):Promise.resolve();
+  state.dispose=()=>{if(state.disposed)return;state.disposed=true;requests.abort();restoreShaderScheduler();return renderer.dispose();};
+  await renderer.init();initialized=true;
   mark('backendReady');
   state.backend=renderer.backend.isWebGPUBackend?'webgpu':'webgl';
   if(requested==='webgpu' && state.backend!=='webgpu') throw Error('O renderer não ativou o backend WebGPU exigido.');
@@ -148,7 +147,7 @@ async function start() {
   state.renderer=renderer;
   state.dispose=()=>{
     if(state.disposed)return;
-    state.ready=false;state.disposed=true;requests.abort();return renderer.dispose();
+    state.ready=false;state.disposed=true;requests.abort();restoreShaderScheduler();return renderer.dispose();
   };
   progress('manifest','Conferindo a versão da maquete');
   const response=await fetch(new URL('manifest.json',base),{cache:'no-cache',signal:requests.signal});
@@ -190,7 +189,7 @@ async function start() {
   // A mode change during loading must release even a partially built scene.
   state.dispose=()=>{
     if(state.disposed)return;
-    state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);
+    state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);restoreShaderScheduler();
     resizeObserver?.disconnect();controls?.dispose();unitPicking?.dispose();parking?.dispose();ambience?.dispose();
     for(const geometry of geometries)geometry.dispose();
     for(const material of materials)material.dispose();
@@ -345,15 +344,24 @@ async function start() {
   const towerBox=new THREE.Box3();
   for(const mesh of meshes)if(mesh.userData.tower===0)towerBox.union(new THREE.Box3().setFromObject(mesh));
   const facadeBounds={min:towerBox.min.toArray(),max:towerBox.max.toArray()};
+  const corners=[];
+  function updateVisibleCorners(){
+    corners.length=0;
+    for(const x of [visibleBounds.min.x,visibleBounds.max.x])for(const y of [visibleBounds.min.y,visibleBounds.max.y])
+      for(const z of [visibleBounds.min.z,visibleBounds.max.z])corners.push(new THREE.Vector3(x,y,z));
+  }
+  updateVisibleCorners();
   let roofSign=null;
   addRoofLogo({scene,towerMeshes:meshes.filter(mesh=>mesh.userData.tower===0),url:new URL('./marca-telhado.webp',import.meta.url)})
     .then(sign=>{
+      if(state.disposed)return;
       roofSign=sign;state.roofLogo=sign.name;sign.setNight(state.solar?.night??0);
+      const roofBounds=new THREE.Box3().setFromObject(sign.group);
+      towerBox.union(roofBounds);facadeBounds.min=towerBox.min.toArray();facadeBounds.max=towerBox.max.toArray();
+      visibleBounds.union(roofBounds);updateVisibleCorners();
+      if(camera.userData.viewName)resize();
       for(const light of shadowLights)light.shadow.needsUpdate=true;  // o letreiro faz sombra na laje
     }).catch(error=>{state.roofLogoError=String(error.message||error);});
-  const corners=[];
-  for(const x of [visibleBounds.min.x,visibleBounds.max.x]) for(const y of [visibleBounds.min.y,visibleBounds.max.y])
-    for(const z of [visibleBounds.min.z,visibleBounds.max.z]) corners.push(new THREE.Vector3(x,y,z));
   const detailCorners=[];
   for(const x of [BALCONY_DETAIL_BOUNDS.min[0],BALCONY_DETAIL_BOUNDS.max[0]])
     for(const y of [BALCONY_DETAIL_BOUNDS.min[1],BALCONY_DETAIL_BOUNDS.max[1]])
@@ -376,6 +384,11 @@ async function start() {
       for(const z of [entryBounds.min[2],entryBounds.max[2]])entryCorners.push(new THREE.Vector3(x,y,z));
   function fitPreset() {
     const name=camera.userData.viewName;
+    if(name==='unit:lazer'||name==='unit:estacionamento'){
+      const side=name.slice(5),view=units.schema==='liv-building-units-v1'?buildingFacadeView(camera.aspect,side,facadeBounds):pilotFloorView(camera.aspect,side);
+      camera.position.fromArray(view.position);controls.target.fromArray(view.target);
+      controls.update();orientCamera();return true;
+    }
     if(!['perspectiva','aerea','implantacao','varandas','acesso'].includes(name)) return false;
     const fittedCorners=name==='varandas'?detailCorners:name==='acesso'?entryCorners:corners;
     const source=camera.userData.projectionSource,{th,ph}=source.orbit;
@@ -384,7 +397,7 @@ async function start() {
     const right=new THREE.Vector3(ct,0,-st),up=new THREE.Vector3(-st*cp,sp,-ct*cp);
     controls.target.fromArray(source.target);
     let radius=9;
-    if(!['varandas','acesso'].includes(name)&&Math.abs(camera.aspect-source.aspect)<1e-9) radius=source.orbit.r;
+    if(!roofSign&&!['varandas','acesso'].includes(name)&&Math.abs(camera.aspect-source.aspect)<1e-9) radius=source.orbit.r;
     else if(camera.isOrthographicCamera) {
       for(const point of fittedCorners) {
         const delta=point.clone().sub(controls.target);
@@ -489,7 +502,7 @@ async function start() {
     if(!units||!units.units.some(unit=>floorOf(units,unit)===floor))throw Error('Pavimento fora do cadastro.');
     setFloor(floor);
     const rect=stage.getBoundingClientRect(),aspect=rect.width/rect.height;
-    const view=units.schema==='liv-building-units-v1'?buildingFacadeView(aspect,side,facadeBounds):pilotFloorView(aspect,side);camera=makeCamera(view);
+    const view=units.schema==='liv-building-units-v1'?buildingFacadeView(aspect,side,facadeBounds):pilotFloorView(aspect,side);camera=makeCamera(view,'unit:'+side);
     controls.object=camera;state.camera=camera;controls.target.fromArray(view.target);
     controls.update();orientCamera();resize();state.activeView='livre';
   }
@@ -575,13 +588,15 @@ async function start() {
 
 function fail(error) {
   if(state.disposed)return;
+  state.graphicsFailure=['backend','compile'].includes(state.progress?.phase)||Boolean(state.backend&&state.ready);
   state.ready=false;state.error=String(error);state.renderer?.setAnimationLoop(null);
   status.textContent='A prova 3D não pôde ser carregada.';
-  document.querySelector('#error').textContent=String(error.message||error);
+  document.querySelector('#error').textContent=state.graphicsFailure?'Este aparelho não conseguiu iniciar os gráficos 3D. Tente novamente em WebGL2 ou abra a planta 2D na página do empreendimento.':String(error.message||error);
   document.querySelector('#failure').hidden=false;
   if(requested==='webgl') document.querySelector('#retry').textContent='Tentar novamente com WebGL2';
   window.dispatchEvent(new CustomEvent('liv-renderer-error',{detail:{error:state.error}}));
   Promise.resolve(state.dispose?.()).catch(error=>{state.cleanupError=String(error);});
+  if(requested==='auto'&&state.graphicsFailure&&state.backendAttempt==='webgpu'&&parameters.get('embed')!=='1')location.replace(recoveryURL.href);
 }
 
 start().catch(fail);

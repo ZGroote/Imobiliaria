@@ -91,6 +91,7 @@ export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}
     return true;
   }
   function segment(a,b){
+    if(!Number.isFinite(a[0])||!Number.isFinite(a[1])||!Number.isFinite(b[0])||!Number.isFinite(b[1]))return false;
     // Continuous swept tests prevent a compacted diagonal route grazing a
     // furniture corner between the discrete samples used for floor containment.
     for(const w of layout.walls){
@@ -100,7 +101,7 @@ export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}
     }
     for(const v of layout.joinery){
       const f=v.folha;if(!f)continue;
-      if(segmentDistance(a,b,[f.x+f.dx*.12,f.z+f.dz*.12],[f.x+f.dx*f.larg,f.z+f.dz*f.larg])<.215-1e-7)return false;
+      if(segmentDistance(a,b,[f.x+f.dx*.12,f.z+f.dz*.12],[f.x+f.dx*f.larg,f.z+f.dz*f.larg])<.215)return false;
     }
     for(const m of furniture()){
       if(m.h<.35||overhead.has(m.tipo))continue;
@@ -109,7 +110,8 @@ export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}
       if(crossesBox(local(a),local(b),m.w/2+radius*.8,m.d/2+radius*.8))return false;
     }
     const n=Math.max(1,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/.025));
-    for(let i=0;i<=n;i++)if(!free(a[0]+(b[0]-a[0])*i/n,a[1]+(b[1]-a[1])*i/n))return false;
+    // As colisões já foram verificadas continuamente; falta só a contenção no contorno.
+    for(let i=0;i<=n;i++)if(!within(a[0]+(b[0]-a[0])*i/n,a[1]+(b[1]-a[1])*i/n))return false;
     return true;
   }
   function move(a,dx,dz){

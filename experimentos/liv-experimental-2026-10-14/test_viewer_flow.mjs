@@ -814,3 +814,62 @@ test('falha ao retomar uma cena quente não marca uma tela vazia como pronta',as
   await app.element('retry').click();assert.equal(app.state.ready,true);assert.equal(app.state.mode,'visita');
   assert.notEqual(app.state.frame,frame);assert.equal(app.state.getCacheState().scenes.length,2);app.state.dispose();
 });
+
+test('abrir a planta de outra tipologia cancela a preparação pendente da anterior',async()=>{
+  const app=harness({fetchData:name=>name==='comercial.json'?emptyCommercial:dualRelations(),
+    onFrameSource:(node,src)=>{if(src.includes('tipologia=canto'))node.api.interior.ready=false;}});
+  await waitFor(()=>app.state.relationStatus==='fornecido');app.state.selectUnit(pilot.units[0].id);
+  const opening=app.state.setMode('planta3d');await waitFor(()=>app.state.frame?.dataset.scene==='interior:canto');
+  const canto=app.state.frame;await app.state.setMode('maquete');
+  assert.equal(app.state.selectUnit(pilot.units[1].id),true);await app.state.setMode('planta3d');await opening;
+  assert.equal(canto.api.interior.disposed,true,'A planta pendente de canto disputaria o aparelho com a de meio.');
+  assert.equal(app.state.frame.dataset.scene,'interior:meio');assert.equal(app.state.mode,'planta3d');
+  assert.deepEqual([...app.state.getCacheState().scenes].sort(),['exterior','interior:meio']);
+  app.state.dispose();
+});
+
+test('planta já pronta de outra tipologia continua guardada para voltar na hora',async()=>{
+  const app=harness({fetchData:name=>name==='comercial.json'?emptyCommercial:dualRelations()});
+  await waitFor(()=>app.state.relationStatus==='fornecido');app.state.selectUnit(pilot.units[0].id);
+  await app.state.setMode('planta3d');const canto=app.state.frame;await app.state.setMode('maquete');
+  assert.equal(app.state.selectUnit(pilot.units[1].id),true);await app.state.setMode('planta3d');
+  assert.notEqual(canto.api.interior.disposed,true);
+  assert.deepEqual([...app.state.getCacheState().scenes].sort(),['exterior','interior:canto','interior:meio']);
+  await app.state.setMode('maquete');app.state.selectUnit(pilot.units[0].id);await app.state.setMode('planta3d');assert.equal(app.state.frame,canto);
+  app.state.dispose();
+});
+
+test('falha gráfica inicial do WebGPU tenta WebGL uma vez em iframe novo',async()=>{
+  const app=harness({search:'?unidades=edificio',onFrameSource:(node,src)=>{
+    if(src.includes('backend=auto'))Object.assign(node.api.exterior,{ready:false,error:'GPUCanvasContext.configure falhou',graphicsFailure:true,backendAttempt:'webgpu'});
+  }});
+  await waitFor(()=>app.state.ready);
+  assert.equal(app.frames.length,2);assert.equal(app.frames[0].api.exterior.disposed,true);
+  assert.match(app.frames[1].src,/backend=webgl/);assert.equal(app.state.error,null);app.state.dispose();
+});
+
+test('falha de dados na entrada não dispara tentativa gráfica extra',async()=>{
+  const app=harness({search:'?unidades=edificio',onFrameSource:(node,src)=>{
+    if(src.includes('prova-rgbm'))Object.assign(node.api.exterior,{ready:false,error:'Catálogo inválido',graphicsFailure:false,backendAttempt:'webgpu'});
+  }});
+  await waitFor(()=>app.state.error);assert.equal(app.frames.length,1);app.state.dispose();
+});
+
+test('sem GPU carrega vínculos, oferece seleção validada e abre 2D sem renderer',async()=>{
+  const app=harness({search:'?unidades=edificio',fetchData:name=>name==='comercial.json'?emptyCommercial:dualRelations(),onFrameSource:(node,src)=>{
+    if(src.includes('prova-rgbm'))Object.assign(node.api.exterior,{ready:false,error:"Cannot read properties of null (reading 'getSupportedExtensions')",graphicsFailure:true,backendAttempt:'webgl'});
+  }});
+  await waitFor(()=>app.state.error&&app.state.relationStatus==='fornecido');
+  assert.equal(app.frames.length,1);assert.match(app.element('loadingText').textContent,/gráficos 3D/);
+  const select=app.element('loading').querySelector('select');assert.ok(select);assert.equal(select.children.length,3);
+  select.value=pilot.units[1].id;await select.dispatch('change');
+  await waitFor(()=>app.state.ready&&app.state.mode==='planta2d');
+  assert.equal(app.state.selectedUnitId,pilot.units[1].id);assert.equal(app.state.typology,'meio');app.runIdle();await app.state.prepareViews();
+  assert.equal(app.frames.length,1,'2D não dispara outro contexto quebrado em segundo plano.');app.state.dispose();
+});
+
+test('link 2D conhecido valida associação e abre sem construir maquete',async()=>{
+  const app=harness({search:'?unidades=edificio&unidade='+encodeURIComponent(pilot.units[0].id)+'&modo=planta2d',fetchData:name=>name==='comercial.json'?emptyCommercial:dualRelations()});
+  await waitFor(()=>app.state.ready&&app.state.mode==='planta2d');assert.equal(app.frames.length,0);
+  app.runIdle();await app.state.prepareViews();assert.equal(app.frames.length,0);app.state.dispose();
+});

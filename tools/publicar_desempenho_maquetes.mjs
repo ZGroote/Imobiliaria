@@ -40,7 +40,7 @@ const config=(await api.get('/'+version)).body.config,files=await list(version);
 assert(files['/liv-classico/viewer.bundle.js'],'O LIV deve existir no site selecionado.');
 const raw=new Map();
 async function add(prefix,name){raw.set('/'+prefix+'/'+name,await readFile(join(packages,prefix,name)));}
-const sources=['viewer.js','interior-renderer.js','interior-navigation.js','interior-melhorias.js',
+const sources=['viewer.js','renderer.js','shader-scheduler.js','interior-renderer.js','interior-navigation.js','interior-melhorias.js',
   'interior-luz-horario.js','horario-interior.js','transfers.js','transfer-worker.js','transfer-manifest.json'];
 for(const name of sources)await add('liv-classico',name);
 // Só os chunks referidos pelos novos bundles: conservar os antigos para HTML/abas já abertos.

@@ -48,3 +48,18 @@ Em 31/10/2026 foram gerados pacotes novos pelos dois comandos, com QA integrado
 registrado em `tasks/desempenho-maquetes/plan.md`. A prévia LEVE também foi gerada
 pelo seu comando normal, sem alterar o padrão visual do Cedros. Ensaios desktop
 e viewport mobile não substituem homologação em aparelho físico.
+
+
+A revisão da entrada de 31/10 também vive nessas fontes: `shader-scheduler.js`
+completa apenas a API de agendamento ausente; cada interior carrega móveis da sua
+tipologia e canais de luz com peso positivo; referências de autoria são liberadas
+após a montagem. O viewer conserva até dois interiores, salva snapshots no descarte
+e recupera falhas iniciais WebGPU em um iframe WebGL novo, uma única vez. Links de
+unidades para 2D validam os vínculos sem abrir primeiro o renderer exterior. Sem
+GPU, a seleção de apartamentos com planta validada fica disponível no aviso.
+
+Os testes de entrada e recuperação estão em `test_viewer_flow.mjs`, nos testes do
+scheduler/iluminação/biblioteca do LIV e em `tests/test_maquetes_desempenho.mjs`.
+O desenho interior só é reenviado à GPU quando há mudança; o acompanhamento de
+teclado, toque, portas e rotas continua ativo. Esses mecanismos usam as APIs dos
+runtimes modernos; o template LEVE usa outro Three e não constrói grafos TSL.

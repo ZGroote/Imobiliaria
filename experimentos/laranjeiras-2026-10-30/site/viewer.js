@@ -1,7 +1,7 @@
 import {transfers,showTransferStatus} from './transfers.js';
 import {typology,typologies} from './tipologias.js?rev=2026-10-13-medidas2';
 import {unitById} from './unidades.js';
-import {loadUnitCatalog,floorOf,unitScope} from './catalogo-unidades.js';
+import {loadUnitCatalog,floorOf,floorLabel,unitScope} from './catalogo-unidades.js';
 import {createUnitUI} from './unit-ui.js';
 import {requestedEdition} from './edicoes.js';
 import {attachCommercial} from './comercial.js';
@@ -154,7 +154,29 @@ function updateInfoPanel(){
 }
 const panelResize=typeof ResizeObserver==='function'?new ResizeObserver(updateInfoPanel):null;
 
+let recoveryPicker=null,recoverySignature='';
+function updateRecovery(){
+  document.getElementById('fallback').hidden=!state.error||!hasApartmentLayout();
+  const available=state.sceneUnavailable?(units?.units||[]).filter(hasApartmentLayout):[];
+  if(!available.length){if(recoveryPicker)recoveryPicker.hidden=true;return;}
+  if(!recoveryPicker){
+    recoveryPicker=document.createElement('label');recoveryPicker.textContent='Apartamento para abrir a planta 2D';
+    const select=document.createElement('select');select.id='recoveryUnit';select.setAttribute('aria-label','Apartamento para abrir a planta 2D');
+    Object.assign(select.style,{display:'block',width:'100%',maxWidth:'420px',marginTop:'8px',padding:'10px',color:'#fff',background:'#243345'});
+    recoveryPicker.append(select);(message.parentElement||overlay).append(recoveryPicker);
+    select.addEventListener('change',()=>{if(select.value&&selectUnit(select.value))void setMode('planta2d');});
+  }
+  recoveryPicker.hidden=!state.error;
+  const select=recoveryPicker.children[0],signature=available.map(u=>u.id+':'+(u.commercialNumber||'')).join('|');
+  if(signature!==recoverySignature){
+    recoverySignature=signature;select.innerHTML='';select.append(new Option('Selecione o apartamento',''));
+    for(const unit of available)select.append(new Option(`${unit.tower?unit.tower+' · ':''}${floorLabel(floorOf(units,unit))} · final ${unit.final}${unit.commercialNumber?' · '+unit.commercialNumber:''}`,unit.id));
+  }
+  select.value=state.selectedUnitId||'';
+}
+
 function update() {
+  updateRecovery();
   const exterior=state.mode==='maquete';
   const unit=selectedApartment(),associated=hasApartmentLayout(unit);
   timeControl.update({hour:state.hour,date:state.solarDate,ready:state.ready,visible:state.mode!=='planta2d'&&!state.mapOpen});
@@ -173,7 +195,7 @@ function update() {
   if(ambienceControl){ambienceControl.value=state.ambience;ambienceControl.disabled=!state.ready||!exterior;}
   for(const button of document.querySelectorAll('[data-mode]')) {
     button.setAttribute('aria-pressed',String(button.dataset.mode===state.mode));
-    button.disabled=button.dataset.mode!=='maquete'&&(!state.ready||!associated);
+    button.disabled=button.dataset.mode!=='maquete'&&(!associated||(!state.ready&&!(state.sceneUnavailable&&button.dataset.mode==='planta2d')));
   }
   for(const button of document.querySelectorAll('[data-view]')) {
     button.disabled=!state.ready||state.mode!=='maquete';
@@ -301,7 +323,9 @@ function busy(text,{warm=false}={}) {
   document.getElementById('retry').hidden=true;document.getElementById('fallback').hidden=true;update();
 }
 function showError(error) {
-  state.ready=false;state.error=String(error);overlay.hidden=false;message.textContent=error.message||String(error);
+  state.ready=false;state.sceneUnavailable=true;state.error=String(error);overlay.hidden=false;
+  message.textContent=error.graphicsFailure?'Não foi possível iniciar os gráficos 3D neste aparelho. Tente novamente ou selecione um apartamento para ver a planta 2D.':error.message||String(error);
+  if(!stockStart||(!stockControlled&&!relationVersion))void refreshOptionalData();
   status.textContent='Visualizador indisponível';document.getElementById('retry').hidden=false;
   document.getElementById('fallback').hidden=!hasApartmentLayout();update();
   document.getElementById('downloadProgress').hidden=true;
@@ -435,9 +459,13 @@ function sceneFailure(frame,error){
 }
 function prepareScene(kind){
   const cached=sceneCache.get(kind);
-  if(reusableScene(cached))return Promise.resolve(cached);
+  if(reusableScene(cached)){sceneCache.delete(kind);sceneCache.set(kind,cached);return Promise.resolve(cached);}
   if(sceneLoads.has(kind))return sceneLoads.get(kind);
   if(cached)retireFrame(cached);
+  if(kind.startsWith('interior:')){
+    const interiors=[...sceneCache].filter(([key])=>key.startsWith('interior:'));
+    while(interiors.length>=2){const index=interiors.findIndex(([,frame])=>frame!==state.frame);if(index<0)break;retireFrame(interiors.splice(index,1)[0][1]);}
+  }
   const epoch=cacheEpoch,key=kind.split(':')[1],exterior=kind==='exterior';
   const frame=document.createElement('iframe');frame.dataset.scene=kind;frame.dataset.instance=String(++sceneSerial);frame.dataset.parked='true';frame.inert=true;
   frame.setAttribute('aria-hidden','true');
@@ -448,7 +476,7 @@ function prepareScene(kind){
   const current=()=>!cacheStopped&&cacheEpoch===epoch&&sceneCache.get(kind)===frame;
   const job=(async()=>{
     const api=await until(()=>{
-      const api=sceneAPI(frame);if(api?.error)throw Error(api.error);
+      const api=sceneAPI(frame);if(api?.error)throw Object.assign(Error(api.error),{graphicsFailure:api.graphicsFailure,backendAttempt:api.backendAttempt});
       return api?.ready?api:null;
     },null,{current,progress:()=>state.frame===frame?sceneAPI(frame)?.progress:null});
     if(!current())throw Error('Visualizador encerrado.');
@@ -513,8 +541,8 @@ function prepareViews(){
     // Only the selected apartment's interior: warming both interiors and the
     // map right after opening froze the maquette for ~10 s. The map and any
     // other interior are prepared when opened.
-    const unit=selectedApartment(),kinds=['exterior'];
-    if(hasApartmentLayout(unit))kinds.push(`interior:${unit.relation.typology}`);
+    const unit=selectedApartment(),kinds=!state.sceneUnavailable&&(sceneCache.has('exterior')||!timeQuery.has('unidade'))?['exterior']:[];
+    if(!state.sceneUnavailable&&state.mode!=='planta2d'&&hasApartmentLayout(unit))kinds.push(`interior:${unit.relation.typology}`);
     for(const kind of kinds){
       if(cacheStopped||epoch!==cacheEpoch)return false;
       await attempt(()=>prepareScene(kind));
@@ -555,6 +583,13 @@ async function setMode(mode,{restore=false}={}) {
       try{unitById(units,state.selectedUnitId);}catch{state.selectedUnitId=null;restoredInterior=null;}
       if(unitUI)unitUI.setCatalog(units);else unitUI=createUnitUI(units);
       update();
+      if(restoredInterior&&requestedUnit===state.selectedUnitId){
+        const direct=restoredInterior;restoredInterior=null;
+        await refreshOptionalData();
+        if(scope==='edificio')try{await until(()=>hasApartmentLayout()||state.relationStatus||state.relationError||state.stockError||['ao-vivo','nao-publicado'].includes(state.stockStatus),token,{timeout:15000,maximum:15000});}catch{}
+        if(token!==generation)return;
+        if(hasApartmentLayout())return setMode(direct.mode,{restore:true});
+      }
     }
     const kind=mode==='maquete'?'exterior':mode==='planta2d'?'image':`interior:${state.typology}`;
     const warm=kind==='image'?plans.getState().plans[state.typology]?.ready:reusableScene(sceneCache.get(kind));
@@ -584,12 +619,14 @@ async function setMode(mode,{restore=false}={}) {
     frame.inert=false;frame.setAttribute('aria-hidden','false');delete frame.dataset.parked;
     state.backend=api.backend;
     if(warm){state.sceneReuseCount++;if(kind.startsWith('interior:'))state.interiorReuseCount++;}
-    state.ready=true;overlay.hidden=true;status.textContent='';update();
+    state.sceneUnavailable=false;state.ready=true;overlay.hidden=true;status.textContent='';update();
     // Background prefetch (Tour, map) waits for the building's full lighting.
     openedOnce=true;void Promise.resolve(api.fullAtlas).finally(()=>transfers.start());refreshOptionalData();scheduleWarmViews();return true;
   } catch(error) {
     if(token!==generation)return;
-    retireFrame(state.frame);frameKind=null;plans.hide();showError(error);
+    retireFrame(state.frame);frameKind=null;plans.hide();
+    if(backend==='auto'&&error.graphicsFailure&&error.backendAttempt==='webgpu'){backend='webgl';return setMode(mode,{restore:true});}
+    showError(error);
   }
 }
 function setView(view) {
@@ -618,7 +655,8 @@ function showUnitSide(side,floor=scope==='edificio'&&state.floor>=0?state.floor:
 function selectUnit(id,{frameEvent=false,showInformation=false,openLayout=false}={}){
   if(!units)return false;
   const unit=unitById(units,id),api=state.frame?.contentWindow?.__livProva;
-  if(id!==null&&(!state.ready||state.mode!=='maquete'||!api))return false;
+  if(id!==null&&!state.sceneUnavailable&&(!state.ready||state.mode!=='maquete'||!api))return false;
+  if(state.sceneUnavailable&&unit){state.floor=floorOf(units,unit);if(floorControl)floorControl.value=String(state.floor);}
   restoredInterior=null;
   pendingBuyerLayout=buyerUI.enabled&&openLayout?id:null;
   // List selection reveals the appropriate face; canvas taps preserve the orbit.
@@ -627,7 +665,7 @@ function selectUnit(id,{frameEvent=false,showInformation=false,openLayout=false}
   if(unit?.relation){state.typology=unit.relation.typology;document.getElementById('typology').value=state.typology;}
   state.selectedUnitId=id;api?.setSelectedUnit(id);update();
   if(unit&&openLayout)panelDetails.scrollTop=0;
-  if(hasApartmentLayout(unit))scheduleWarmViews();
+  if(!state.sceneUnavailable&&hasApartmentLayout(unit))scheduleWarmViews();
   if(unit&&frameEvent)revealOnMobile('selectedApartment');
   if(unit&&showInformation)showDetails();return true;
 }

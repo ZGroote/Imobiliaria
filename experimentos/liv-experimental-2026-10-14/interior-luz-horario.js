@@ -43,21 +43,29 @@ export function createTimeLightmaps({manifest,load,own=value=>value,release=valu
     }).catch(error=>{pending.delete(id);throw error;}));
     return pending.get(id);
   }
+  const required=weights=>{
+    const ids=new Set();
+    if(weights.wa>0)ids.add(weights.a);if(weights.wb>0)ids.add(weights.b);if(weights.wn>0)ids.add(manifest.night.id);
+    // Mesmo uma mistura preta precisa de samplers válidos no shader.
+    if(!ids.size)ids.add(manifest.night.id);return ids;
+  };
   return {irradiance:irradiance.node,probeIrradiance:probes?.node||null,targets:manifest.targets||[],
-    // A noite e as horas mais próximas chegam primeiro.
+    // Só canais com contribuição precisam baixar ou ocupar a GPU.
     ensure(time){
-      const {a,b}=timeLightWeights(manifest,time);
-      return Promise.all([...new Set([a,b,manifest.night.id])].map(fetchKey));
+      return Promise.all([...required(timeLightWeights(manifest,time))].map(fetchKey));
     },
     /** Sem as texturas da hora pedida, devolve a última mistura (stale): trocar de lado não pisca nem recompila. */
     apply(time){
       const weights=timeLightWeights(manifest,time);
-      const a=textures.get(weights.a),b=textures.get(weights.b),night=textures.get(manifest.night.id);
-      if(!a||!b||!night)return last&&{...last,stale:true};
+      const active=required(weights);
+      if([...active].some(id=>!textures.has(id)))return last&&{...last,stale:true};
+      const fallback=textures.get(active.values().next().value);
+      // Canais de peso zero compartilham um sampler carregado; a soma fica idêntica.
+      const a=weights.wa>0?textures.get(weights.a):fallback,b=weights.wb>0?textures.get(weights.b):fallback,
+        night=weights.wn>0?textures.get(manifest.night.id):fallback;
       irradiance.set({a:a.atlas,b:b.atlas,night:night.atlas,wa:weights.wa,wb:weights.wb,wn:weights.wn});
       if(probes&&a.volume&&b.volume&&night.volume)probes.set({a:a.volume,b:b.volume,night:night.volume,wa:weights.wa,wb:weights.wb,wn:weights.wn});
-      // Duas vizinhas e noite ficam ativas; conserva só mais duas horas para voltar sem baixar.
-      const active=new Set([weights.a,weights.b,manifest.night.id]);
+      // Conserva até cinco horas, sem descartar os samplers da mistura ativa.
       for(const [id,value] of textures){
         if(textures.size<=5)break;
         if(active.has(id))continue;

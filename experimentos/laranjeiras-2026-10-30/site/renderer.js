@@ -1,3 +1,4 @@
+import {installShaderScheduler} from './shader-scheduler.js';
 import * as THREE from 'three/webgpu';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,createRGBMTexture,replaceRGBMAtlas} from './material-rgbm.js';
@@ -14,6 +15,7 @@ import {buyerExperienceEnabled} from './experiencia-compra.js';
 import {exteriorTimeLighting} from './horario-exterior.js';
 import {addRoofLogo} from './marca-telhado.js';
 
+const restoreShaderScheduler=installShaderScheduler();
 const state=window.__livProva={ready:false,backend:null,error:null,runtime:THREE.REVISION,active:new URLSearchParams(location.search).get('prewarm')!=='1'};
 function progress(phase,message,extra={}){
   if(state.disposed)return;
@@ -122,15 +124,12 @@ async function start() {
   if(requested==='webgpu' && !adapter) throw Error('WebGPU não está disponível neste navegador/dispositivo.');
   state.adapterInfo=adapter?{vendor:adapter.info?.vendor,architecture:adapter.info?.architecture,device:adapter.info?.device,description:adapter.info?.description}:null;
   const options={canvas,alpha:true,antialias:true,powerPreference:'high-performance',forceWebGL:requested==='webgl'||!adapter};
-  let renderer=new THREE.WebGPURenderer(options);
-  try {await renderer.init();}
-  catch(error) {
-    if(requested!=='auto' || options.forceWebGL) throw error;
-    state.webgpuInitError=String(error);
-    renderer.dispose();
-    renderer=new THREE.WebGPURenderer({...options,forceWebGL:true});
-    await renderer.init();
-  }
+  const renderer=new THREE.WebGPURenderer(options);
+  state.renderer=renderer;state.backendAttempt=options.forceWebGL?'webgl':'webgpu';
+  let initialized=false;const setLoop=renderer.setAnimationLoop.bind(renderer);
+  renderer.setAnimationLoop=callback=>initialized?setLoop(callback):Promise.resolve();
+  state.dispose=()=>{if(state.disposed)return;state.disposed=true;requests.abort();restoreShaderScheduler();return renderer.dispose();};
+  await renderer.init();initialized=true;
   mark('backendReady');
   state.backend=renderer.backend.isWebGPUBackend?'webgpu':'webgl';
   if(requested==='webgpu' && state.backend!=='webgpu') throw Error('O renderer não ativou o backend WebGPU exigido.');
@@ -148,7 +147,7 @@ async function start() {
   state.renderer=renderer;
   state.dispose=()=>{
     if(state.disposed)return;
-    state.ready=false;state.disposed=true;requests.abort();return renderer.dispose();
+    state.ready=false;state.disposed=true;requests.abort();restoreShaderScheduler();return renderer.dispose();
   };
   progress('manifest','Conferindo a versão da maquete');
   const response=await fetch(new URL('manifest.json',base),{cache:'no-cache',signal:requests.signal});
@@ -190,7 +189,7 @@ async function start() {
   // A mode change during loading must release even a partially built scene.
   state.dispose=()=>{
     if(state.disposed)return;
-    state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);
+    state.ready=false;state.disposed=true;requests.abort();renderer.setAnimationLoop(null);restoreShaderScheduler();
     resizeObserver?.disconnect();controls?.dispose();unitPicking?.dispose();parking?.dispose();ambience?.dispose();
     for(const geometry of geometries)geometry.dispose();
     for(const material of materials)material.dispose();
@@ -597,13 +596,15 @@ async function start() {
 
 function fail(error) {
   if(state.disposed)return;
+  state.graphicsFailure=['backend','compile'].includes(state.progress?.phase)||Boolean(state.backend&&state.ready);
   state.ready=false;state.error=String(error);state.renderer?.setAnimationLoop(null);
   status.textContent='A prova 3D não pôde ser carregada.';
-  document.querySelector('#error').textContent=String(error.message||error);
+  document.querySelector('#error').textContent=state.graphicsFailure?'Este aparelho não conseguiu iniciar os gráficos 3D. Tente novamente em WebGL2 ou abra a planta 2D na página do empreendimento.':String(error.message||error);
   document.querySelector('#failure').hidden=false;
   if(requested==='webgl') document.querySelector('#retry').textContent='Tentar novamente com WebGL2';
   window.dispatchEvent(new CustomEvent('liv-renderer-error',{detail:{error:state.error}}));
   Promise.resolve(state.dispose?.()).catch(error=>{state.cleanupError=String(error);});
+  if(requested==='auto'&&state.graphicsFailure&&state.backendAttempt==='webgpu'&&parameters.get('embed')!=='1')location.replace(recoveryURL.href);
 }
 
 start().catch(fail);

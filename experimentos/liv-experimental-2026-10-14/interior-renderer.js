@@ -13,13 +13,16 @@ import {createFurnitureEditor,dimensionsOf,validFurnitureDimensions,sameFurnitur
 import {createInteriorSolarLighting,interiorTimeState} from './horario-interior.js';
 import {loadInteriorImprovements} from './interior-melhorias.js';
 import {installInteriorLook} from './interior-look.js';
+import {installShaderScheduler} from './shader-scheduler.js';
 
 const query=new URLSearchParams(location.search),typology=query.get('tipologia')||'canto',requested=query.get('backend')||'auto';
 const canvas=document.querySelector('#interior-canvas'),stage=document.querySelector('#interior-stage'),status=document.querySelector('#interior-status');
 const controller=new AbortController(),base=new URL('./',import.meta.url),owned=new Set(),released=new WeakSet(),bitmaps=new Set(),closed=new WeakSet(),listeners=[],pendingDisposals=new Set(),initializedRenderers=new WeakSet();
 const state=window.__livInterior={ready:false,error:null,backend:null,typology,mode:query.get('modo')||'planta3d',disposed:false,active:query.get('prewarm')!=='1',
   lighting:{bakedActive:false,reason:'carregando'},ownership:{created:0,disposed:0,bitmapsClosed:0}};
+const restoreShaderScheduler=installShaderScheduler();
 let renderer,scene,camera,controls,observer,startup,disposePromise,layout,navigation,entry,catalog,record,source,light,timeLight,resizeView;
+let frameDirty=true;
 let yaw=0,pitch=0,tourPosition=null,route=[],routeResolve=null,frameBusy=false,framePromise=Promise.resolve(),lastFrame=0,ceiling=[];
 const furniture=[],meshBySlot=new Map(),baked=[],probeLit=[],keys=new Set(),touchKeys=new Set();
 let orbitSnapshot=null,pointer=null,shadowLight=null,planAutoFrame=true,routeRoom=null,presentation=null;
@@ -28,7 +31,7 @@ let timeOfDay=interiorTimeState(14),lightingCompile=Promise.resolve();
 const compiledLighting=new Set();
 const lightingKey=()=>solarLighting.getState().lightingVariant+':'+state.mode;
 
-function invalidateShadows(){if(solarLighting)solarLighting.invalidateShadows();else if(shadowLight)shadowLight.shadow.needsUpdate=true;}
+function invalidateShadows(){frameDirty=true;if(solarLighting)solarLighting.invalidateShadows();else if(shadowLight)shadowLight.shadow.needsUpdate=true;}
 state.setTimeOfDay=function(hour,unitContext=timeOfDay?.context,options={}){
   if(state.disposed)return false;
   let next;
@@ -46,6 +49,7 @@ state.setTimeOfDay=function(hour,unitContext=timeOfDay?.context,options={}){
 /** Luz gravada no Cycles (céu + rebatimento) com o sol medido. Móvel movido segue nela: as sondas são lidas
  *  pela posição do pixel, e o sol (sombra do móvel) é em tempo real; só fica a sombra suave antiga no piso. */
 function applyTimeLight(){
+  frameDirty=true;
   const weights=timeLight?.apply(timeOfDay)||null,active=Boolean(weights);
   setBaked(active,active?'luz gravada no Cycles por hora':'horário solar: materiais e sombras dinâmicos');
   solarLighting.apply(timeOfDay,{sunIrradiance:active?weights.sun:null});
@@ -84,7 +88,7 @@ function release(value){
   pendingDisposals.add(disposal);disposal.then(()=>pendingDisposals.delete(disposal),()=>{});return disposal;
 }
 function closeBitmap(value){if(closed.has(value))return;closed.add(value);value.close();state.ownership.bitmapsClosed++;}
-function listen(target,type,handler,options){target.addEventListener(type,handler,options);listeners.push(()=>target.removeEventListener(type,handler,options));}
+function listen(target,type,handler,options){const changed=event=>{frameDirty=true;return handler(event);};target.addEventListener(type,changed,options);listeners.push(()=>target.removeEventListener(type,changed,options));}
 function progress(message,phase='download',extra={}){if(!state.disposed){status.textContent=message;state.progress={version:(state.progress?.version||0)+1,phase,message,at:performance.now(),...extra};}}
 function showInteriorWarning(message,detail){
   if(!improvementsNotice){improvementsNotice=document.createElement('p');improvementsNotice.id='interior-improvements-warning';improvementsNotice.setAttribute('role','status');
@@ -100,7 +104,8 @@ async function cleanup(){
   for(const resource of owned)release(resource);
   await Promise.all([...pendingDisposals]);
   for(const bitmap of bitmaps)closeBitmap(bitmap);
-  scene?.clear();state.authoringScene?.clear();state.ready=false;
+  scene?.clear();state.authoringScene?.clear();state.ready=false;source=null;meshBySlot.clear();
+  restoreShaderScheduler();
 }
 state.dispose=function(){
   if(disposePromise)return disposePromise;
@@ -111,12 +116,14 @@ state.dispose=function(){
 };
 function fail(error){
   if(state.disposed||state.error)return;
+  state.graphicsFailure=['backend','compile'].includes(state.progress?.phase)||Boolean(state.backend&&state.ready);
   state.error=String(error?.message||error);state.ready=false;
-  document.querySelector('#interior-error').textContent=state.error;document.querySelector('#failure').hidden=false;
+  document.querySelector('#interior-error').textContent=state.graphicsFailure?'Este aparelho não conseguiu iniciar os gráficos 3D. Tente novamente em WebGL2 ou abra a planta 2D na página do empreendimento.':state.error;document.querySelector('#failure').hidden=false;
   progress('Não foi possível abrir este interior.');
   const detail={error:state.error,backend:state.backend,typology,mode:state.mode};
   window.dispatchEvent(new CustomEvent('liv-renderer-error',{detail}));
   state.dispose().catch(error=>{state.disposalError=String(error);});
+  if(requested==='auto'&&state.graphicsFailure&&state.backendAttempt==='webgpu'&&query.get('embed')!=='1')location.replace(retry.href);
 }
 const retry=new URL(location.href);retry.searchParams.set('backend','webgl');document.querySelector('#retry-interior').href=retry.href;
 if(query.get('embed')==='1')document.querySelector('#touch-pad').style.right='96px';
@@ -535,12 +542,12 @@ function faceRoom(roomId){
   });
   yaw=look?.yaw??navigation.direction(tourPosition);pitch=look?.pitch??0;state.roomView=look;
 }
-function setTourCamera(){camera.position.set(tourPosition[0],1.62,tourPosition[1]);camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);}
+function setTourCamera(){if(camera.position.x!==tourPosition[0]||camera.position.y!==1.62||camera.position.z!==tourPosition[1]||camera.rotation.x!==pitch||camera.rotation.y!==yaw)frameDirty=true;camera.position.set(tourPosition[0],1.62,tourPosition[1]);camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);}
 state.setMode=function(mode,{restoreOrbit=false}={}){
   if(!['planta3d','visita'].includes(mode)||!presentation||state.disposed)return false;
   const changed=state.mode!==mode;
   if(state.mode==='planta3d'&&mode==='visita')orbitSnapshot={position:camera.position.toArray(),target:controls.target.toArray()};
-  state.mode=mode;document.documentElement.dataset.mode=mode;controls.enabled=state.active&&mode==='planta3d';presentation.setMode(mode);solarLighting?.syncPresentation(state.mode);
+  frameDirty=true;state.mode=mode;document.documentElement.dataset.mode=mode;controls.enabled=state.active&&mode==='planta3d';presentation.setMode(mode);solarLighting?.syncPresentation(state.mode);
   // O topo unido das paredes fica 6 cm acima do forro: no Tour ele só aparecia pela fresta da moldura,
   // aceso pelo sol que o forro não cobre. Na Planta 3D, sem forro, ele é o acabamento das paredes.
   scene.traverse(mesh=>{if(mesh.userData.livWallTop)mesh.visible=mode!=='visita';});
@@ -681,7 +688,7 @@ state.capture=async function(){if(!state.ready||state.disposed)throw Error('Inte
 
 function renderFrame(time){
   if(state.disposed||!state.active||frameBusy)return;
-  const dt=Math.min(.05,Math.max(0,(time-lastFrame)/1000||0));lastFrame=time;tick(dt);frameBusy=true;
+  const dt=Math.min(.05,Math.max(0,(time-lastFrame)/1000||0));lastFrame=time;tick(dt);if(!frameDirty)return;frameDirty=false;frameBusy=true;
   framePromise=renderer.renderAsync(scene,camera).catch(fail).finally(()=>{frameBusy=false;});
 }
 state.setActive=async function(active){
@@ -704,11 +711,11 @@ async function start(){
   if(!['canto','meio'].includes(typology)||!['auto','webgpu','webgl'].includes(requested)||!['planta3d','visita'].includes(state.mode))throw Error('Parâmetros do interior inválidos.');
   timeOfDay=interiorTimeState(query.get('hora')??14,query.has('contexto')?JSON.parse(query.get('contexto')):undefined,{date:query.get('data')??undefined});
   state.timeOfDay=structuredClone(timeOfDay);
-  progress('Preparando os gráficos…');let adapter=null;
+  progress('Preparando os gráficos…','backend');let adapter=null;
   if(requested!=='webgl'&&navigator.gpu){try{adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});}catch(error){state.adapterError=String(error);}}
   check();if(requested==='webgpu'&&!adapter)throw Error('WebGPU não está disponível neste dispositivo.');
   const options={canvas,alpha:true,antialias:true,forceWebGL:requested==='webgl'||!adapter};renderer=createRenderer(options);renderer.setClearAlpha(0);state.renderer=renderer;
-  try{await initializeRenderer(renderer);}catch(error){if(requested!=='auto'||options.forceWebGL)throw error;check();await release(renderer);renderer=createRenderer({...options,forceWebGL:true});state.renderer=renderer;await initializeRenderer(renderer);}
+  state.backendAttempt=options.forceWebGL?'webgl':'webgpu';await initializeRenderer(renderer);
   check();state.backend=renderer.backend.isWebGPUBackend?'webgpu':'webgl';if(requested==='webgpu'&&state.backend!=='webgpu')throw Error('O backend WebGPU exigido não foi ativado.');
   renderer.onError=error=>fail(error);renderer.onDeviceLost=info=>fail(Error(`Dispositivo gráfico perdido: ${info?.message||info?.reason||'desconhecido'}`));
   renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.toneMapping=THREE.AgXToneMapping;renderer.toneMappingExposure=1;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
@@ -725,7 +732,7 @@ async function start(){
     load(catalog.shared.furniture,true)]);check();
   if(record.unitSHA256!==record.files.unit.sha256||unit.id!==record.unitId)throw Error('Unidade não pertence à tipologia selecionada.');
   layout=createLayout(unit);scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(48,1,.02,100);state.scene=scene;state.camera=camera;
-  controls=own(new OrbitControls(camera,canvas));controls.enableDamping=false;controls.maxPolarAngle=Math.PI*.48;controls.minDistance=3;controls.maxDistance=32;
+  controls=own(new OrbitControls(camera,canvas));listen(controls,'change',()=>{frameDirty=true;});controls.enableDamping=false;controls.maxPolarAngle=Math.PI*.48;controls.minDistance=3;controls.maxDistance=32;
   const native=await materialsFrom(nativeMaterials);check();
   // Antes de montar os móveis: as cópias do guarda-roupa (aéreos também) herdam a nogueira.
   await applyVeneer(named(native,'Acabamento guardaroupa'),{load:file=>load(file,false,true),own,onBitmap:bitmap=>bitmaps.add(bitmap)});check();
@@ -754,7 +761,7 @@ async function start(){
     state.lighting={bakedActive:false,reason:'cena autoral dinâmica da planta de meio'};
   }else throw Error('Formato de geometria interior desconhecido.');
   progress('Carregando os móveis e acabamentos aprovados…','melhorias');
-  improvements=await loadInteriorImprovements({base,signal:controller.signal,own,onBitmap:bitmap=>bitmaps.add(bitmap),onStatus:report=>{
+  improvements=await loadInteriorImprovements({base,signal:controller.signal,typology,items:furniture,own,onBitmap:bitmap=>bitmaps.add(bitmap),onStatus:report=>{
     state.improvements=report;
     if(report.status==='loading')progress('Carregando os móveis e acabamentos aprovados…','melhorias',{loaded:report.loaded,total:report.assets});
     if(report.errors.length){
@@ -790,25 +797,38 @@ async function start(){
   const architecture=doors.doors.map(door=>door.group);scene.traverse(mesh=>{if(mesh.isMesh&&!mesh.userData.furnitureId&&!mesh.parent?.userData.livDoor)architecture.push(mesh);});
   presentation=createPlanCutaway({scene,layout,architecture,wallMaterial:native.m0,own});ceiling=presentation.ceiling;
   addLights();bindProbeLight();if(timeLight)applyTimeLight();
+  source=null;meshBySlot.clear();
   // Walking respects walls and openings; furniture stays visible without blocking passage.
   navigation=createNavigation(layout);entry=navigation.entry();tourPosition=[...entry];faceRoom();refreshRooms();
-  function resize(){const width=canvas.clientWidth,height=canvas.clientHeight;if(!width||!height||state.disposed)return;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();}
+  function resize(){frameDirty=true;const width=canvas.clientWidth,height=canvas.clientHeight;if(!width||!height||state.disposed)return;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();}
   resizeView=resize;observer=new ResizeObserver(resize);observer.observe(stage);observer.observe(canvas);resize();orbitDefault();const initialMode=state.mode;state.mode='planta3d';state.setMode(initialMode);
   wire();document.querySelector('#furniture-select').replaceChildren(...furniture.map(m=>{const option=document.createElement('option');option.value=m.id;option.textContent=m.name;return option;}));
   furnitureEditor=createFurnitureEditor({canvas,camera,scene,furniture,state,listen});
   const area=record.areaPublishedRange?record.areaPublishedRange.map(a=>a.toFixed(2).replace('.',',')).join(' a '):record.area.toFixed(2).replace('.',',');
-  progress(`${record.label} · ${area} m² · ilustração aproximada`);
+  const label=`${record.label} · ${area} m² · ilustração aproximada`;
+  progress(label);
   if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();
-  if(query.get('prewarm')==='1'){
+  // A compilação é a maior espera no celular (~49 s no Poco X6, checkup de 29/10) e não dava notícia:
+  // a tela parava no rótulo, e o viewer desiste após 90 s sem progresso. Pesos medidos no Poco X6.
+  progress('Preparando o 3D do apartamento','compile');
+  const prewarm=query.get('prewarm')==='1',weights=prewarm?[.35,.6,.05]:[1];let compiled=0;
+  const compile=async index=>{
+    const weight=weights.at(index);
+    await renderer.compileAsync(scene,camera,null,event=>{
+      if(event.total>0)progress('Preparando o 3D do apartamento','compile',{loaded:Math.round((compiled+weight*event.loaded/event.total)*1000),total:1000});
+    });
+    compiled+=weight;compiledLighting.add(lightingKey());
+  };
+  if(prewarm){
     // Tour exposes the ceiling and full walls. Render both presentations once
     // so their GPU buffers, materials and shadow passes are ready for reuse.
     // compileAsync links the shaders off the main thread; a bare first render
     // links them synchronously and froze the host page for ~4.5 s.
-    state.setMode('visita');check();await renderer.compileAsync(scene,camera);check();compiledLighting.add(lightingKey());await renderer.renderAsync(scene,camera);check();
-    state.setMode('planta3d');await renderer.compileAsync(scene,camera);check();compiledLighting.add(lightingKey());await renderer.renderAsync(scene,camera);check();
+    state.setMode('visita');check();await compile(0);check();await renderer.renderAsync(scene,camera);check();
+    state.setMode('planta3d');await compile(1);check();await renderer.renderAsync(scene,camera);check();
     state.setMode(initialMode);
   }
-  check();await renderer.compileAsync(scene,camera);check();await renderer.renderAsync(scene,camera);check();compiledLighting.add(lightingKey());state.ready=true;
+  check();await compile(prewarm?2:0);check();await renderer.renderAsync(scene,camera);check();progress(label);compiledLighting.add(lightingKey());state.ready=true;
   for(const element of document.querySelectorAll('#interior-controls button,#interior-controls select,#furniture-panel button,#furniture-panel select,#furniture-panel input'))element.disabled=false;
   if(state.active)renderer.setAnimationLoop(renderFrame);else observer.disconnect();
   return state;

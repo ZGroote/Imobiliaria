@@ -87,13 +87,14 @@ export function fitImprovedFurniture(template,item,dimensions,{own=value=>value,
   return group;
 }
 
-export async function loadInteriorImprovements({base,signal,own=value=>value,onBitmap=()=>{},onStatus=()=>{},
+export async function loadInteriorImprovements({base,signal,typology=null,items=null,own=value=>value,onBitmap=()=>{},onStatus=()=>{},
   fetchImpl=globalThis.fetch,parseGLB}={}){
   const catalogURL=new URL('../../liv-experimental-2026-10-14/interiores/melhorias/catalogo.json',base),report={status:'loading',assets:0,loaded:0,assetIds:[],sourceBlendSHA256:null,revision:null,replaced:0,decorations:0,finishes:0,environment:null,environmentExposureEV:null,background:null,reflectionEnvironments:{},reflectionEnvironmentIntensity:1,errors:[],warnings:[]};
   const emit=()=>onStatus(structuredClone(report));emit();
-  const sharedTextures=new Map(),templates=new Map(),decorations=[],instanceCounts=new Map(),hdrResources=new Map(),reflectionTextures=new Map(),reflectionMaterials=new Set(),loader=new GLTFLoader();let catalog,environment=null,backgroundEnvironment=null,activeTypology='canto';
+  const sharedTextures=new Map(),templates=new Map(),decorations=[],instanceCounts=new Map(),hdrResources=new Map(),reflectionTextures=new Map(),reflectionMaterials=new Set(),loader=new GLTFLoader();let catalog,environment=null,backgroundEnvironment=null,activeTypology=typology||'canto';
+  const matches=(asset,item)=>asset.types.includes(item.tipo)&&(!asset.typology||asset.typology===activeTypology)&&(!asset.namePattern||new RegExp(asset.namePattern,'i').test(item.name||item.nome||''));
   const assetFor=item=>{
-    const candidates=(catalog?.assets||[]).filter(asset=>asset.types.includes(item.tipo)&&(!asset.typology||asset.typology===activeTypology)&&(!asset.namePattern||new RegExp(asset.namePattern,'i').test(item.name||item.nome||''))&&templates.has(asset.id));
+    const candidates=(catalog?.assets||[]).filter(asset=>matches(asset,item)&&templates.has(asset.id));
     return candidates.find(asset=>asset.replaces?.length===1&&asset.replaces[0]===item.id)||candidates[0];
   };
   function resourceURL(record,extension='glb'){
@@ -159,7 +160,11 @@ export async function loadInteriorImprovements({base,signal,own=value=>value,onB
       if(asset.namePattern)new RegExp(asset.namePattern,'i');
       if(asset.environment!==undefined&&(typeof asset.environment!=='string'||!Object.hasOwn(reflectionDefinitions,asset.environment)))report.errors.push({assetId:asset.id,message:'Ambiente local do móvel ausente do catálogo.'});
     }
-    const jobs=catalog.assets.map(async asset=>{
+    const required=new Set([...(catalog.materialOverrides||[]).map(o=>o.assetId),...(catalog.decorations||[]).filter(o=>!o.typology||o.typology===activeTypology).map(o=>o.assetId)]);
+    const assets=items?catalog.assets.filter(asset=>required.has(asset.id)||items.some(item=>matches(asset,item))):catalog.assets;
+    report.assets=assets.length;
+    const environments=new Set(assets.map(asset=>asset.environment));
+    const jobs=assets.map(async asset=>{
       const {bytes,url}=await resource(asset),metadata=validateGLB(bytes);
       const gltf=await (parseGLB?parseGLB(bytes,url):loader.parseAsync(bytes,new URL('.',url).href));
       await shareEmbeddedTextures(gltf,bytes,metadata,sharedTextures);aborted(signal);
@@ -168,7 +173,7 @@ export async function loadInteriorImprovements({base,signal,own=value=>value,onB
       if(asset.types.length&&![size.x,size.y,size.z].every(positive))throw Error(`${asset.id}: volume vazio.`);
       templates.set(asset.id,{asset,root:gltf.scene,size});report.loaded++;report.assetIds.push(asset.id);emit();
     });
-    const jobIds=catalog.assets.map(asset=>asset.id);
+    const jobIds=assets.map(asset=>asset.id);
     if(catalog.environment){jobIds.push('environment');jobs.push((async()=>{
       const loaded=await hdrResource(catalog.environment);environment=loaded.texture;
       report.environment={loaded:true,path:catalog.environment.path,width:loaded.width,height:loaded.height};emit();
@@ -178,6 +183,7 @@ export async function loadInteriorImprovements({base,signal,own=value=>value,onB
       report.background={loaded:true,path:catalog.background.path,width:loaded.width,height:loaded.height};emit();
     })());}
     for(const [name,record]of Object.entries(reflectionDefinitions)){
+      if(items&&!environments.has(name))continue;
       jobIds.push(`reflectionEnvironments.${name}`);jobs.push((async()=>{
         try{
           const loaded=await hdrResource(record);reflectionTextures.set(name,loaded.texture);

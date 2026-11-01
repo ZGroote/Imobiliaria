@@ -9,6 +9,32 @@ import {createHash} from 'node:crypto';
 const runtimes=['liv-experimental-2026-10-14','laranjeiras-2026-10-30/site'];
 for(const runtime of runtimes){
   const source=readFileSync(new URL(`../experimentos/${runtime}/interior-renderer.js`,import.meta.url),'utf8');
+  test(`${runtime}: segmento testa colisões uma vez e mantém obstáculos/contorno`,async()=>{
+    const {createNavigation}=await import(`../experimentos/${runtime}/interior-navigation.js`);
+    let visits=0;const wall={y0:0,y1:2,get a(){visits++;return [-2,-4];},get b(){visits++;return [-2,4];}};
+    const layout={bounds:{x0:-5,x1:5,z0:-5,z1:5},rooms:[{poly:[[-5,-5],[5,-5],[5,5],[-5,5]]}],walls:[wall],joinery:[]};
+    const nav=createNavigation(layout);
+    assert.equal(nav.segment([0,0],[4,0]),true);assert.ok(visits<8,'Não repetir paredes nas 160 amostras do mesmo segmento.');
+    assert.equal(nav.segment([0,0],[-4,0]),false);assert.equal(nav.segment([0,0],[6,0]),false);
+    layout.joinery.push({folha:{x:2,z:-1,dx:0,dz:1,larg:2}});assert.equal(nav.segment([0,0],[4,0]),false);
+    const furniture=[{tipo:'sofa',position:[2,0],rotation:1,w:1,d:2,h:1}];layout.joinery=[];
+    assert.equal(createNavigation(layout,()=>furniture).segment([0,0],[4,0]),false);
+  });
+  test(`${runtime}: cena imóvel não envia novos quadros e mudanças durante render não se perdem`,async()=>{
+    const context=vm.createContext({});
+    const code=source.slice(source.indexOf('function renderFrame('),source.indexOf('state.setActive='));
+    vm.runInContext(`let frameDirty=true,frameBusy=false,lastFrame=0,framePromise=Promise.resolve(),draws=0,ticks=0,finish;
+      const state={disposed:false,active:true},scene={},camera={};
+      const renderer={renderAsync(){draws++;return new Promise(resolve=>finish=resolve);}};
+      function tick(){ticks++;}function fail(error){throw error;}
+      ${code}
+      globalThis.api={frame:renderFrame,dirty(){frameDirty=true;},finish(){finish();return framePromise;},get draws(){return draws;},get ticks(){return ticks;}};`,context);
+    const api=context.api;api.frame(16);assert.equal(api.draws,1);
+    api.dirty();api.frame(32);assert.equal(api.draws,1,'Aguardar o quadro em voo.');await api.finish();
+    api.frame(48);assert.equal(api.draws,2,'Mudança durante o quadro precisa aparecer no seguinte.');await api.finish();
+    api.frame(64);api.frame(80);assert.equal(api.draws,2);assert.equal(api.ticks,4,'Portas e movimento continuam sendo acompanhados.');
+    api.dirty();api.frame(96);assert.equal(api.draws,3);await api.finish();
+  });
   test(`${runtime}: descarte concluído deixa de reter os buffers na coleção de recursos`,async()=>{
     const context=vm.createContext({});
     vm.runInContext(`const owned=new Set(),released=new WeakSet(),pendingDisposals=new Set();
