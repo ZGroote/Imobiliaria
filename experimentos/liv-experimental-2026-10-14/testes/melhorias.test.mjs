@@ -40,11 +40,11 @@ test('GLB preserva centro, base, giro e footprint cadastral com PBR independente
   near(center.x,item.position[0]);near(center.z,item.position[1]);near(box.min.y,.03);
   near(size.x,item.d);near(size.z,item.w);near(size.y,item.h);near(group.rotation.y,3*Math.PI/2);
   let instance;group.traverse(mesh=>{if(mesh.isMesh)instance=mesh;});
-  assert.notEqual(instance.geometry,source.geometry);assert.notEqual(instance.material,source.material);
+  assert.equal(instance.geometry,source.geometry);assert.notEqual(instance.material,source.material);
   assert.equal(instance.material.color.getHex(),source.material.color.getHex());assert.equal(instance.material.roughness,.31);
   assert.equal(instance.userData.furnitureId,item.id);assert.equal(instance.castShadow,true);assert.equal(instance.receiveShadow,true);
   const resized=fitImprovedFurniture(template,item,{w:2.2,h:.9,d:1},{asset:{id:'sofa'}});
-  assert.notEqual(resized.children[0].children[0].children[0].geometry,instance.geometry);
+  assert.equal(resized.children[0].children[0].children[0].geometry,instance.geometry);
   assert.equal(template.children[0].position.x,3,'O template aprovado não muda ao editar a instância.');
   for(const resource of owned)resource.dispose();
   resized.traverse(mesh=>{if(mesh.isMesh){mesh.geometry.dispose();mesh.material.dispose();}});source.geometry.dispose();source.material.dispose();

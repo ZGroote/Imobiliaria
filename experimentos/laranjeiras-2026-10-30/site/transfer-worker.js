@@ -7,6 +7,7 @@ const WORKER_INSTANCE=crypto.randomUUID();
 const jobs=new Map();
 const clientDemands=new Map();
 let catalog=null,catalogPromise=null,cache=null,pumpPromise=null,active=null,commandQueue=Promise.resolve();
+const subscribers=new Set();
 let enabled=false,paused=true,preferredGroup=null,storageFailed=false,error=null;
 let preferredFiles=null;
 let progressVersion=0,demandSequence=0,catalogEpoch=0,lastBroadcast=0,broadcastTimer=null;
@@ -15,7 +16,7 @@ function abortError(message='Transferência substituída.') {
   return new DOMException(message,'AbortError');
 }
 function groupState(group) {
-  const entries=[...jobs.values()].filter(job=>job.meta.group===group);
+  const entries=[...jobs.values()].filter(job=>job.meta.group===group&&(job.meta.background!==false||job.status!=='pending'||job.waiters.size));
   const counts={label:catalog?.groups[group]?.label||({tour:'Tour 3D',map:'Mapa',planta2d:'Planta 2D'})[group],
     total:entries.length,pending:0,downloading:0,cached:0,failed:0,downloadFailed:0,bytesTotal:0,bytesCached:0,error:null};
   for(const job of entries) {
@@ -42,7 +43,7 @@ async function broadcast() {
   const message={type:'LIV_TRANSFER_STATE',state:snapshot()};
   try {
     for(const client of await self.clients.matchAll({type:'window',includeUncontrolled:true})) {
-      if(client.url.startsWith(SCOPE.href))client.postMessage(message);
+      if(client.url.startsWith(SCOPE.href)||subscribers.has(client.id))client.postMessage(message);
     }
   } catch(_) { /* A closing page must not fail a valid download. */ }
 }
@@ -72,7 +73,7 @@ function validateCatalog(value) {
       file.path.split('/').some(part=>!part||part==='.'||part==='..')||
       !(/^(?:site-baseline|plantas2d|interiores|mapa-runtime)\//.test(file.path)||file.path==='modelo/variante/liv-contorno.glb'||file.path==='modelo/entrada/candidato/liv-contorno.glb')||
       !Number.isSafeInteger(file.bytes)||file.bytes<=0||file.bytes>150*1024*1024||
-      !/^[a-f0-9]{64}$/i.test(file.sha256||'')||typeof file.essential!=='boolean') {
+      !/^[a-f0-9]{64}$/i.test(file.sha256||'')||typeof file.essential!=='boolean'||(file.background!==undefined&&typeof file.background!=='boolean')) {
       throw Error('Arquivo de transferência inválido.');
     }
     const url=new URL(file.path,SCOPE);
@@ -130,7 +131,7 @@ async function ensureCatalog() {
 }
 function catalogIdentity(value) {
   return JSON.stringify({version:value.version,order:value.order,groups:value.groups,
-    files:value.files.map(({path,group,bytes,sha256,essential})=>({path,group,bytes,sha256,essential}))});
+    files:value.files.map(({path,group,bytes,sha256,essential,background})=>({path,group,bytes,sha256,essential,...(background===false?{background:false}:{})}))});
 }
 async function refreshCatalog() {
   await ensureCatalog();
@@ -207,7 +208,7 @@ function pickJob() {
   }
   if(!enabled||paused||storageFailed)return null;
   const order=preferredGroup?[preferredGroup,...GROUP_ORDER.filter(group=>group!==preferredGroup)]:GROUP_ORDER;
-  return candidates.sort((a,b)=>order.indexOf(a.meta.group)-order.indexOf(b.meta.group)||
+  return candidates.filter(job=>job.meta.background!==false).sort((a,b)=>order.indexOf(a.meta.group)-order.indexOf(b.meta.group)||
     Number(selectedJob(b))-Number(selectedJob(a))||
     Number(b.meta.essential)-Number(a.meta.essential)||a.meta.index-b.meta.index)[0]||null;
 }
@@ -304,8 +305,9 @@ async function foreground(request,clientId='',navigation=false) {
   const epoch=clientPriority(clientId).epoch,versionEpoch=catalogEpoch;
   await ensureCatalog();
   // Fragments choose the map edition but are never sent to the HTTP server.
-  const requestURL=new URL(request.url);requestURL.hash='';
+  const requestURL=new URL(request.url),requestedHash=requestURL.searchParams.get('v');requestURL.hash='';requestURL.search='';
   const job=jobs.get(requestURL.href);
+  if(requestedHash&&requestedHash!==job?.meta.sha256)return fetch(request);
   if(!job)return fetch(request); // Exact allowlist; never cache wrappers or application JS.
   function checkDemand(){
     // Cache lookup is asynchronous. A removed scene must not re-enter the queue
@@ -399,6 +401,7 @@ self.addEventListener('activate',event=>event.waitUntil((async()=>{
 })()));
 self.addEventListener('message',event=>{
   const message=event.data;if(message?.type!=='LIV_TRANSFER')return;
+  if(event.source?.id)subscribers.add(event.source.id);
   const port=event.ports?.[0];
   // Reply after scheduling, never after downloading the group.
   const lifecycle=(async()=>{
@@ -417,7 +420,8 @@ self.addEventListener('message',event=>{
 self.addEventListener('fetch',event=>{
   if(event.request.method!=='GET')return;
   const url=new URL(event.request.url);
-  if(url.origin!==SCOPE.origin||url.search||!url.href.startsWith(SCOPE.href))return;
+  if(url.origin!==SCOPE.origin||!url.href.startsWith(SCOPE.href))return;
+  if(url.search&&(!/^[a-f0-9]{64}$/i.test(url.searchParams.get('v')||'')||[...url.searchParams].length!==1))return;
   const relative=url.pathname.slice(SCOPE.pathname.length);
   // This guard also works after the browser has restarted the worker. The catalog
   // then makes the exact URL decision before any cache lookup or queued transfer.

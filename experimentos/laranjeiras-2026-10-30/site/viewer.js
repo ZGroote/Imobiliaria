@@ -443,7 +443,7 @@ function prepareScene(kind){
   frame.setAttribute('aria-hidden','true');
   frame.title=exterior?'Maquete do Parque das Laranjeiras':`Planta e Tour do Parque das Laranjeiras · ${typology(key).label}`;
   frame.src=exterior?`prova-rgbm.html?embed=1&prewarm=1&tema=escuro&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}&luz=${state.ambience}&hora=${state.hour}&data=${state.solarDate}&experiencia=${buyerUI.enabled?'nova':'original'}`:
-    `interior.html?embed=1&prewarm=1&backend=${backend}&tipologia=${key}&modo=planta3d`;
+    `interior.html?embed=1&prewarm=1&backend=${backend}&tipologia=${key}&modo=planta3d&hora=${state.hour}&data=${state.solarDate}&contexto=${encodeURIComponent(JSON.stringify(interiorSolarContext(selectedApartment())))}`;
   sceneCache.set(kind,frame);stage.prepend(frame);
   const current=()=>!cacheStopped&&cacheEpoch===epoch&&sceneCache.get(kind)===frame;
   const job=(async()=>{

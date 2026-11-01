@@ -26,6 +26,27 @@ function validateGLB(bytes){
   if(length>bytes.byteLength-20)throw Error('Cabeçalho do modelo detalhado incompleto.');
   const json=JSON.parse(new TextDecoder().decode(new Uint8Array(bytes,20,length)));
   for(const entry of [...(json.buffers||[]),...(json.images||[])])if(entry.uri&&!entry.uri.startsWith('data:'))throw Error('O modelo detalhado precisa conter suas próprias texturas.');
+  return json;
+}
+
+
+// Mesmo conteúdo e mesmo sampler/UV podem usar uma textura, inclusive entre GLBs distintos.
+async function shareEmbeddedTextures(gltf,bytes,metadata,shared){
+  if(!gltf.parser?.associations)return;
+  const base=28+new DataView(bytes).getUint32(12,true);
+  const hashes=await Promise.all((metadata.images||[]).map(async image=>{
+    const view=metadata.bufferViews?.[image.bufferView];
+    if(!view||view.buffer!==0)return null;
+    return sha256(bytes.slice(base+(view.byteOffset||0),base+(view.byteOffset||0)+view.byteLength));
+  }));
+  const materials=new Set();gltf.scene.traverse(mesh=>{if(mesh.isMesh)for(const material of [mesh.material].flat())materials.add(material);});
+  for(const material of materials)for(const [field,texture]of Object.entries(material)){
+    if(!texture?.isTexture)continue;
+    const index=gltf.parser.associations.get(texture)?.textures,hash=hashes[metadata.textures?.[index]?.source];
+    if(!hash)continue;
+    const key=JSON.stringify([hash,...['mapping','channel','wrapS','wrapT','wrapR','magFilter','minFilter','anisotropy','format','type','internalFormat','generateMipmaps','flipY','premultiplyAlpha','unpackAlignment','colorSpace','compareFunction','matrixAutoUpdate'].map(k=>texture[k]),texture.offset.toArray(),texture.repeat.toArray(),texture.center.toArray(),texture.rotation,texture.matrix.toArray()]);
+    if(shared.has(key))material[field]=shared.get(key);else shared.set(key,texture);
+  }
 }
 
 function registerModel(root,own,onBitmap){
@@ -48,11 +69,9 @@ function registerModel(root,own,onBitmap){
 /** Ajusta o móvel aprovado ao footprint cadastral, sem substituir seus materiais. */
 export function fitImprovedFurniture(template,item,dimensions,{own=value=>value,asset={}}={}){
   if(!['w','h','d'].every(key=>positive(dimensions[key])))throw Error('Medidas do móvel detalhado inválidas.');
-  const model=template.clone(true),geometries=new Map(),materials=new Map();
+  const model=template.clone(true),materials=new Map();
   model.traverse(mesh=>{
     if(!mesh.isMesh)return;
-    if(!geometries.has(mesh.geometry))geometries.set(mesh.geometry,own(mesh.geometry.clone()));
-    mesh.geometry=geometries.get(mesh.geometry);
     const copy=material=>{if(!materials.has(material))materials.set(material,own(material.clone()));return materials.get(material);};
     mesh.material=Array.isArray(mesh.material)?mesh.material.map(copy):copy(mesh.material);
     mesh.castShadow=mesh.receiveShadow=true;mesh.userData.furnitureId=item.id;
@@ -64,7 +83,7 @@ export function fitImprovedFurniture(template,item,dimensions,{own=value=>value,
   fitted.scale.set(dimensions.w/size.x,dimensions.h/(asset.fitHeightReference||size.y),dimensions.d/size.z);
   const group=new THREE.Group();group.name=item.name||asset.id||'Móvel detalhado';group.add(fitted);
   group.position.set(item.position[0],item.baseY??.03,item.position[1]);group.rotation.y=(item.rotation||0)*Math.PI/2;
-  group.userData.livImprovementAsset=asset.id;group.userData.furnitureId=item.id;
+  group.userData.livImprovementAsset=asset.id;group.userData.furnitureId=item.id;group.userData.livSharedGeometry=true;
   return group;
 }
 
@@ -72,7 +91,7 @@ export async function loadInteriorImprovements({base,signal,own=value=>value,onB
   fetchImpl=globalThis.fetch,parseGLB}={}){
   const catalogURL=new URL('../../liv-experimental-2026-10-14/interiores/melhorias/catalogo.json',base),report={status:'loading',assets:0,loaded:0,assetIds:[],sourceBlendSHA256:null,revision:null,replaced:0,decorations:0,finishes:0,environment:null,environmentExposureEV:null,background:null,reflectionEnvironments:{},reflectionEnvironmentIntensity:1,errors:[],warnings:[]};
   const emit=()=>onStatus(structuredClone(report));emit();
-  const templates=new Map(),decorations=[],instanceCounts=new Map(),hdrResources=new Map(),reflectionTextures=new Map(),reflectionMaterials=new Set(),loader=new GLTFLoader();let catalog,environment=null,backgroundEnvironment=null,activeTypology='canto';
+  const sharedTextures=new Map(),templates=new Map(),decorations=[],instanceCounts=new Map(),hdrResources=new Map(),reflectionTextures=new Map(),reflectionMaterials=new Set(),loader=new GLTFLoader();let catalog,environment=null,backgroundEnvironment=null,activeTypology='canto';
   const assetFor=item=>{
     const candidates=(catalog?.assets||[]).filter(asset=>asset.types.includes(item.tipo)&&(!asset.typology||asset.typology===activeTypology)&&(!asset.namePattern||new RegExp(asset.namePattern,'i').test(item.name||item.nome||''))&&templates.has(asset.id));
     return candidates.find(asset=>asset.replaces?.length===1&&asset.replaces[0]===item.id)||candidates[0];
@@ -141,8 +160,9 @@ export async function loadInteriorImprovements({base,signal,own=value=>value,onB
       if(asset.environment!==undefined&&(typeof asset.environment!=='string'||!Object.hasOwn(reflectionDefinitions,asset.environment)))report.errors.push({assetId:asset.id,message:'Ambiente local do móvel ausente do catálogo.'});
     }
     const jobs=catalog.assets.map(async asset=>{
-      const {bytes,url}=await resource(asset);validateGLB(bytes);
+      const {bytes,url}=await resource(asset),metadata=validateGLB(bytes);
       const gltf=await (parseGLB?parseGLB(bytes,url):loader.parseAsync(bytes,new URL('.',url).href));
+      await shareEmbeddedTextures(gltf,bytes,metadata,sharedTextures);aborted(signal);
       registerModel(gltf.scene,own,onBitmap);aborted(signal);
       const bounds=new THREE.Box3().setFromObject(gltf.scene),size=bounds.getSize(new THREE.Vector3());
       if(asset.types.length&&![size.x,size.y,size.z].every(positive))throw Error(`${asset.id}: volume vazio.`);

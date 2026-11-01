@@ -20,7 +20,7 @@ export function timeLightWeights(manifest,time){
 }
 
 /** Baixa as horas do lado pedido sob demanda; a mistura troca só texturas e pesos, sem recompilar. */
-export function createTimeLightmaps({manifest,load,own=value=>value}){
+export function createTimeLightmaps({manifest,load,own=value=>value,release=value=>value.dispose()}){
   const textures=new Map(),pending=new Map();let last=null;
   const irradiance=createTimeIrradiance({range:manifest.range,intensity:manifest.lightMapIntensity,width:manifest.width,height:manifest.height});
   // Móveis, portas e moldura não têm UV1: leem a mesma hora nas sondas do cômodo.
@@ -44,16 +44,11 @@ export function createTimeLightmaps({manifest,load,own=value=>value}){
     }).catch(error=>{pending.delete(id);throw error;}));
     return pending.get(id);
   }
-  const idsFor=side=>[...manifest.keys.filter(key=>key.side===side).map(key=>key.id),manifest.night.id];
   return {irradiance:irradiance.node,probeIrradiance:probes?.node||null,targets:manifest.targets||[],
     // A noite e as horas mais próximas chegam primeiro.
     ensure(time){
       const {a,b}=timeLightWeights(manifest,time);
-      const order=[...new Set([a,b,manifest.night.id,...idsFor(time.context.side)])],first=order.slice(0,order.indexOf(manifest.night.id)+1);
-      const urgent=Promise.all(first.map(fetchKey));
-      // As demais horas só depois das urgentes: as 17 juntas (9,4 MB) disputavam a banda da abertura.
-      urgent.then(()=>{for(const id of order.slice(first.length))fetchKey(id).catch(()=>{});},()=>{});
-      return urgent;
+      return Promise.all([...new Set([a,b,manifest.night.id])].map(fetchKey));
     },
     /** Sem as texturas da hora pedida, devolve a última mistura (stale): trocar de lado não pisca nem recompila. */
     apply(time){
@@ -62,6 +57,13 @@ export function createTimeLightmaps({manifest,load,own=value=>value}){
       if(!a||!b||!night)return last&&{...last,stale:true};
       irradiance.set({a:a.atlas,b:b.atlas,night:night.atlas,wa:weights.wa,wb:weights.wb,wn:weights.wn});
       if(probes&&a.volume&&b.volume&&night.volume)probes.set({a:a.volume,b:b.volume,night:night.volume,wa:weights.wa,wb:weights.wb,wn:weights.wn});
+      // Duas vizinhas e noite ficam ativas; conserva só mais duas horas para voltar sem baixar.
+      const active=new Set([weights.a,weights.b,manifest.night.id]);
+      for(const [id,value] of textures){
+        if(textures.size<=5)break;
+        if(active.has(id))continue;
+        textures.delete(id);pending.delete(id);release(value.atlas);if(value.volume)release(value.volume);
+      }
       return last=weights;
     },
     getState:()=>({keys:entries.size,loaded:[...textures.keys()],date:manifest.date,width:manifest.width,samples:manifest.samples}),

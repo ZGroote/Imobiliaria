@@ -45,3 +45,18 @@ test('a troca de lado mantém a última luz até as horas do outro lado chegarem
   assert.equal(other.stale,true);assert.equal(other.a,'lazer-8');
   lights.ensure(time(9));assert.equal(asked.filter(id=>id==='lazer-8').length,1);
 });
+
+test('só carrega as horas usadas e limita o cache, sem descartar a mistura ativa',async()=>{
+  const {createTimeLightmaps}=await import('../interior-luz-horario.js');
+  const asked=[],released=[];
+  const tiny={width:1,height:1,range:16,lightMapIntensity:Math.PI,exposureEV:0,
+    keys:Array.from({length:10},(_,i)=>key('lazer',i*2)),night:{id:'noite'}};
+  const lights=createTimeLightmaps({manifest:tiny,load:async file=>{asked.push(file.id);return new Uint8Array(4);},release:value=>{released.push(value);value.dispose();}});
+  await lights.ensure(time(1));lights.apply(time(1));
+  assert.deepEqual(asked,['lazer-0','lazer-2','noite'],'Nenhuma outra hora compete com a abertura.');
+  for(const hour of [5,9,13,17]){await lights.ensure(time(hour));assert.ok(!lights.apply(time(hour)).stale);}
+  assert.ok(lights.getState().loaded.length<=5);assert.ok(released.length>0);
+  const loaded=lights.getState().loaded;
+  assert.ok(loaded.includes('lazer-16')&&loaded.includes('lazer-18')&&loaded.includes('noite'));
+  const before=asked.length;await lights.ensure(time(17));assert.equal(asked.length,before,'Mistura ativa permanece reaproveitável.');
+});

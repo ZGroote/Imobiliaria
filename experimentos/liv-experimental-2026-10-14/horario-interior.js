@@ -113,13 +113,13 @@ export function createInteriorSolarLighting({scene,layout,own=value=>value,ceili
       // this indirect term; camera, dynamic sun and artificial lights stay unchanged.
       scene.environmentIntensity=environment&&environmentExposureEV!==null?2**environmentExposureEV*time.daylight:.06+.215*time.daylight;
       diffuser.emissiveIntensity=1.6*time.night;
-      for(const lamp of spots)lamp.intensity=lamp.userData.livDayIntensity*time.night;
+      for(const lamp of spots){lamp.intensity=lamp.userData.livDayIntensity*time.night;lamp.visible=lamp.intensity>0;}
       syncPresentation();return true;
     },
     syncPresentation,invalidateShadows,
     getState(){return {time:current?structuredClone(current):null,sunIntensity:sun.intensity,skyIntensity:sky.intensity,
       environmentIntensity:scene.environmentIntensity,artificialIntensity:spots.reduce((sum,lamp)=>sum+lamp.intensity,0),
-      fixtures:fixtures.length,existingFixtures:originals.length,spots:spots.length,spotShadowSize:512,
+      fixtures:fixtures.length,existingFixtures:originals.length,spots:spots.length,visibleSpots:spots.filter(lamp=>lamp.visible).length,lightingVariant:spots.some(lamp=>lamp.visible)?'noite':'dia',spotShadowSize:512,
       shadowAutoUpdate:false,roofShadowBlockers:roofShadows.length,approximate:true};},
     dispose(){
       if(disposed)return;disposed=true;

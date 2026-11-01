@@ -24,7 +24,9 @@ let yaw=0,pitch=0,tourPosition=null,route=[],routeResolve=null,frameBusy=false,f
 const furniture=[],meshBySlot=new Map(),baked=[],probeLit=[],keys=new Set(),touchKeys=new Set();
 let orbitSnapshot=null,pointer=null,shadowLight=null,planAutoFrame=true,routeRoom=null,presentation=null;
 let furnitureFactory,furnitureMaterials,furnitureEditor,solarLighting,improvements,improvementsNotice,doors,doorButton;
-let timeOfDay=interiorTimeState(14);
+let timeOfDay=interiorTimeState(14),lightingCompile=Promise.resolve();
+const compiledLighting=new Set();
+const lightingKey=()=>solarLighting.getState().lightingVariant+':'+state.mode;
 
 function invalidateShadows(){if(solarLighting)solarLighting.invalidateShadows();else if(shadowLight)shadowLight.shadow.needsUpdate=true;}
 state.setTimeOfDay=function(hour,unitContext=timeOfDay?.context,options={}){
@@ -34,6 +36,7 @@ state.setTimeOfDay=function(hour,unitContext=timeOfDay?.context,options={}){
   timeOfDay=next;state.timeOfDay=structuredClone(next);state.timeError=null;
   if(solarLighting){
     const {weights}=applyTimeLight();improvements?.setEnvironmentIntensity(scene.environmentIntensity);solarLighting.syncPresentation(state.mode);
+    if(state.ready)void prepareLighting();
     // As horas deste lado ainda não chegaram: segue dinâmico e troca quando baixar.
     if(timeLight&&(!weights||weights.stale))timeLight.ensure(next).then(()=>{if(!state.disposed&&timeOfDay===next)applyTimeLight();})
       .catch(error=>{if(!state.disposed)state.timeLightError=String(error.message||error);});
@@ -51,6 +54,21 @@ function applyTimeLight(){
 }
 
 function check(){if(controller.signal.aborted||state.disposed)throw new DOMException('Interior cancelado.','AbortError');}
+// Uma variante nova compila antes do próximo quadro, sem travar a troca dia/noite no render síncrono.
+function prepareLighting(){
+  if(!solarLighting||state.disposed||compiledLighting.has(lightingKey()))return lightingCompile;
+  renderer.setAnimationLoop(null);
+  const job=lightingCompile=lightingCompile.then(async()=>{
+    await framePromise;
+    while(!state.disposed){
+      const variant=lightingKey();if(compiledLighting.has(variant))break;
+      await renderer.compileAsync(scene,camera);check();compiledLighting.add(variant);
+    }
+  }).catch(error=>{if(!state.disposed)fail(error);}).finally(()=>{
+    if(lightingCompile===job&&state.active&&!state.disposed)renderer.setAnimationLoop(renderFrame);
+  });
+  return job;
+}
 function own(value){if(value&&!owned.has(value)){owned.add(value);state.ownership.created++;}return value;}
 function createRenderer(options){
   const value=own(new THREE.WebGPURenderer(options)),setLoop=value.setAnimationLoop.bind(value);
@@ -62,7 +80,7 @@ function createRenderer(options){
 async function initializeRenderer(value){await value.init();initializedRenderers.add(value);}
 function release(value){
   if(!value||released.has(value))return;released.add(value);
-  const disposal=Promise.resolve().then(()=>value.dispose?.()).then(()=>{state.ownership.disposed++;});
+  const disposal=Promise.resolve().then(()=>value.dispose?.()).then(()=>{owned.delete(value);state.ownership.disposed++;});
   pendingDisposals.add(disposal);disposal.then(()=>pendingDisposals.delete(disposal),()=>{});return disposal;
 }
 function closeBitmap(value){if(closed.has(value))return;closed.add(value);value.close();state.ownership.bitmapsClosed++;}
@@ -88,7 +106,7 @@ state.dispose=function(){
   if(disposePromise)return disposePromise;
   state.disposed=true;state.ready=false;state.active=false;controller.abort();keys.clear();touchKeys.clear();stopRoute(false);
   renderer?.setAnimationLoop(null);observer?.disconnect();
-  disposePromise=Promise.resolve(startup).catch(()=>{}).then(()=>framePromise.catch(()=>{})).then(cleanup);
+  disposePromise=Promise.resolve(startup).catch(()=>{}).then(()=>framePromise.catch(()=>{})).then(()=>lightingCompile).then(cleanup);
   return disposePromise;
 };
 function fail(error){
@@ -405,16 +423,14 @@ function furnitureTransform(item){
   item.group.rotation.y=((item.baseRotation??item.originalRotation)+item.rotation-item.originalRotation)*Math.PI/2;
 }
 function furnitureChanged(){
-  // Restore/reset applies all transforms before rebuilding collision/routes.
-  navigation.invalidate();stopRoute(false);
-  if(tourPosition&&!navigation.free(...tourPosition))tourPosition=navigation.entry();
+  // Os móveis não bloqueiam a navegação; só portas e paredes invalidam suas rotas.
+  stopRoute(false);
   const original=layoutOriginal();if(solarLighting)applyTimeLight();else setBaked(false,original?'iluminação dinâmica':'móveis alterados: iluminação dinâmica');
   const note=document.querySelector('#furniture-lighting');
   const dynamic=!original&&!state.lighting.bakedActive;
   note.hidden=!dynamic;note.textContent=dynamic?'Móveis alterados: iluminação dinâmica.':'';
   furnitureEditor?.refresh();
   invalidateShadows();
-  refreshRooms();
 }
 state.moveFurniture=function(id,dx,dz){
   if(!state.ready)return false;const item=furniture.find(m=>m.id===id);if(!item||![dx,dz].every(Number.isFinite))return false;
@@ -427,7 +443,14 @@ state.moveFurniture=function(id,dx,dz){
 function pointIn(poly,x,z){let b=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const a=poly[i],q=poly[j];if((a[1]>z)!==(q[1]>z)&&x<(q[0]-a[0])*(z-a[1])/(q[1]-a[1])+a[0])b=!b;}return b;}
 state.rotateFurniture=function(id){if(!state.ready)return false;const item=furniture.find(m=>m.id===id);if(!item)return false;item.rotation=(item.rotation+1)%4;furnitureTransform(item);furnitureChanged();return true;};
 function disposeEditedGroup(group){
-  const resources=new Set();group.traverse(mesh=>{if(mesh.geometry)resources.add(mesh.geometry);if(mesh.material)for(const material of Array.isArray(mesh.material)?mesh.material:[mesh.material])resources.add(material);});
+  const resources=new Set();
+  for(let i=probeLit.length-1;i>=0;i--){
+    const target=probeLit[i];let parent=target.mesh;while(parent&&parent!==group)parent=parent.parent;
+    if(!parent)continue;
+    for(const material of [target.material].flat())resources.add(material);
+    target.mesh.material=target.originalMaterial;probeLit.splice(i,1);
+  }
+  group.traverse(mesh=>{if(mesh.geometry&&!group.userData.livSharedGeometry)resources.add(mesh.geometry);if(mesh.material)for(const material of [mesh.material].flat())resources.add(material);});
   framePromise.catch(()=>{}).then(()=>{for(const resource of resources)release(resource);});
 }
 function resizeFurniture(item,dimensions){
@@ -453,11 +476,7 @@ function resizeFurniture(item,dimensions){
   const previous=item.group;scene.remove(previous);scene.add(group);item.group=group;
   item.baseRotation=original?item.originalBaseRotation:item.originalRotation;
   Object.assign(item,dimensions);furnitureTransform(item);
-  if(previous!==item.originalGroup){
-    // A peça redimensionada sai das sondas com o material nativo, que é o que disposeEditedGroup libera.
-    for(let i=probeLit.length-1;i>=0;i--){let o=probeLit[i].mesh;while(o&&o!==previous)o=o.parent;if(o){probeLit[i].mesh.material=probeLit[i].originalMaterial;probeLit.splice(i,1);}}
-    disposeEditedGroup(previous);
-  }
+  if(previous!==item.originalGroup)disposeEditedGroup(previous);
   return true;
 }
 state.resizeFurniture=function(id,dimensions){
@@ -528,6 +547,7 @@ state.setMode=function(mode,{restoreOrbit=false}={}){
   if(mode==='visita')furnitureEditor?.stop();else furnitureEditor?.refresh();
   for(const id of ['frame-interior','cut-interior'])document.querySelector(`#${id}`).hidden=mode!=='planta3d';
   if(changed)invalidateShadows();
+  if(state.ready)void prepareLighting();
   keys.clear();touchKeys.clear();stopRoute(false);
   if(mode==='visita'){tourPosition??=[...entry];setTourCamera();}
   else if(planAutoFrame)orbitDefault();
@@ -657,7 +677,7 @@ state.restoreState=function(snapshot){
   }
   return state.setMode(snapshot.mode,{restoreOrbit:true});
 };
-state.capture=async function(){if(!state.ready||state.disposed)throw Error('Interior indisponível para captura.');await framePromise;check();await renderer.renderAsync(scene,camera);check();return canvas.toDataURL('image/png');};
+state.capture=async function(){if(!state.ready||state.disposed)throw Error('Interior indisponível para captura.');await lightingCompile;await framePromise;check();await renderer.renderAsync(scene,camera);check();return canvas.toDataURL('image/png');};
 
 function renderFrame(time){
   if(state.disposed||!state.active||frameBusy)return;
@@ -672,6 +692,7 @@ state.setActive=async function(active){
   controls.enabled=active&&state.mode==='planta3d';
   if(!active){renderer.setAnimationLoop(null);observer.disconnect();await framePromise;return true;}
   await framePromise;if(!state.active||state.disposed)return false;
+  await prepareLighting();if(!state.active||state.disposed)return false;
   observer.observe(stage);resizeView();lastFrame=0;
   // Reuse the prepared renderer and present its current camera before revealing it.
   framePromise=renderer.renderAsync(scene,camera).catch(fail);await framePromise;
@@ -681,6 +702,8 @@ state.setActive=async function(active){
 
 async function start(){
   if(!['canto','meio'].includes(typology)||!['auto','webgpu','webgl'].includes(requested)||!['planta3d','visita'].includes(state.mode))throw Error('Parâmetros do interior inválidos.');
+  timeOfDay=interiorTimeState(query.get('hora')??14,query.has('contexto')?JSON.parse(query.get('contexto')):undefined,{date:query.get('data')??undefined});
+  state.timeOfDay=structuredClone(timeOfDay);
   progress('Preparando os gráficos…');let adapter=null;
   if(requested!=='webgl'&&navigator.gpu){try{adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});}catch(error){state.adapterError=String(error);}}
   check();if(requested==='webgpu'&&!adapter)throw Error('WebGPU não está disponível neste dispositivo.');
@@ -723,7 +746,7 @@ async function start(){
     // meshes remain untouched; these temporary construction meshes are released.
     for(const mesh of factory.openings.geoDasEsquadrias(layout.house)){own(mesh.geometry);release(mesh.geometry);}
     const [compact,manifest]=await Promise.all([load(record.files.compact,true),loadTimeManifest().catch(error=>{state.timeLightError=String(error.message||error);return null;})]);check();
-    installBake(compact);if(manifest)timeLight=createTimeLightmaps({manifest,own,load:file=>load(file,false,true)});
+    installBake(compact);if(manifest)timeLight=createTimeLightmaps({manifest,own,load:file=>load(file,false,true),release:value=>framePromise.catch(()=>{}).then(()=>release(value))});
   }else if(record.geometryKind==='native-factories'){
     const recipe=await load(record.files.recipe,true);check();
     if(recipe.unitSHA256!==record.unitSHA256||record.files.recipe.sha256!==record.sourceSHA256||recipe.runtimeSHA256!==catalog.shared.runtime.sha256||recipe.materialsSHA256!==catalog.shared.materials.sha256||recipe.furnitureSHA256!==catalog.shared.furniture.sha256||recipe.lighting!=='dynamic')throw Error('Receita da planta de meio inválida.');
@@ -781,11 +804,11 @@ async function start(){
     // so their GPU buffers, materials and shadow passes are ready for reuse.
     // compileAsync links the shaders off the main thread; a bare first render
     // links them synchronously and froze the host page for ~4.5 s.
-    state.setMode('visita');check();await renderer.compileAsync(scene,camera);check();await renderer.renderAsync(scene,camera);check();
-    state.setMode('planta3d');await renderer.compileAsync(scene,camera);check();await renderer.renderAsync(scene,camera);check();
+    state.setMode('visita');check();await renderer.compileAsync(scene,camera);check();compiledLighting.add(lightingKey());await renderer.renderAsync(scene,camera);check();
+    state.setMode('planta3d');await renderer.compileAsync(scene,camera);check();compiledLighting.add(lightingKey());await renderer.renderAsync(scene,camera);check();
     state.setMode(initialMode);
   }
-  check();await renderer.compileAsync(scene,camera);check();await renderer.renderAsync(scene,camera);check();state.ready=true;
+  check();await renderer.compileAsync(scene,camera);check();await renderer.renderAsync(scene,camera);check();compiledLighting.add(lightingKey());state.ready=true;
   for(const element of document.querySelectorAll('#interior-controls button,#interior-controls select,#furniture-panel button,#furniture-panel select,#furniture-panel input'))element.disabled=false;
   if(state.active)renderer.setAnimationLoop(renderFrame);else observer.disconnect();
   return state;

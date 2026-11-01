@@ -4,8 +4,10 @@
 // aprovados dentro do pacote e marca as páginas com noindex.
 //   node experimentos/laranjeiras-2026-10-30/publicar/preparar_pacote.mjs [pasta de saída]
 import {createRequire} from 'node:module';
+import {execFileSync} from 'node:child_process';
+import {empacotarRuntime} from '../../../pipeline/empacotar_runtime.mjs';
 import {createHash} from 'node:crypto';
-import {cp, mkdir, readFile, readdir, rm, stat, writeFile} from 'node:fs/promises';
+import {cp, mkdir, readFile, readdir, stat, writeFile} from 'node:fs/promises';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
@@ -13,7 +15,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const exp = resolve(here, '..');
 const root = resolve(exp, '../..');
 const liv = join(root, 'experimentos/liv-experimental-2026-10-14');
-const {build, transform} = createRequire(join(liv, 'package.json'))('esbuild');
+const {transform} = createRequire(join(liv, 'package.json'))('esbuild');
 const three = join(liv, 'node_modules/three');
 const today = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10).replaceAll('-', '');
 const out = resolve(process.argv[2] ?? join(root, `publicacao/laranjeiras-${today}/payload/laranjeiras`));
@@ -30,8 +32,8 @@ const edit = async (file, pairs) => {
 };
 
 // 1) Site, sem testes nem ferramentas de bancada.
-await rm(out, {recursive: true, force: true});
 await mkdir(out, {recursive: true});
+if((await readdir(out)).length)throw Error('Destino ocupado. Escolha uma pasta nova ou vazia.');
 // prova-splat/interior-splat: Tour em splat do LIV, que o Laranjeiras não tem.
 const skip = name => /^(test_|qa_)|\.test\.|^diagnostico|^materiais\.html$|^materials-viewer\.js$|^mapa-liv-ipanema-5km\.html$|^(prova|interior)-splat\./.test(name);
 await cp(join(exp, 'site'), out, {recursive: true, filter: src => !skip(src.split(/[\\/]/).pop())});
@@ -63,15 +65,7 @@ await edit('interior-melhorias.js', [[libraryURL, "new URL('interiores/melhorias
 await edit('interior-look.js', [[libraryURL, "new URL('interiores/melhorias/catalogo.json',base)"]]);
 
 // 4) JS das três páginas em pacotes minificados; o three entra no pacote (sem node_modules publicado).
-const result = await build({
-  entryPoints: {'viewer.bundle': join(out, 'viewer.js'), 'renderer.bundle': join(out, 'renderer.js'),
-    'interior-renderer.bundle': join(out, 'interior-renderer.js')},
-  outdir: out, bundle: true, splitting: true, format: 'esm', target: 'es2022', minify: true, charset: 'utf8',
-  chunkNames: 'chunk-[hash]', metafile: true, legalComments: 'eof', sourcemap: 'linked', sourcesContent: false,
-  alias: {'three/webgpu': join(three, 'build/three.webgpu.js'), 'three/tsl': join(three, 'build/three.tsl.js'),
-    three: join(three, 'build/three.webgpu.js'), 'three/addons': join(three, 'examples/jsm')},
-  external: ['./estoque-runtime.js'],
-});
+const result = await empacotarRuntime(out,three);
 const css = async name => (await transform(await readFile(join(out, name), 'utf8'), {loader: 'css', minify: true})).code.trim();
 const noindex = '<meta name="robots" content="noindex, nofollow">';
 let page = await readFile(join(out, 'maquete-laranjeiras.html'), 'utf8');
@@ -92,6 +86,9 @@ for (const [file, entry] of [['prova-rgbm.html', 'renderer'], ['interior.html', 
 await writeFile(join(out, 'interior.html'), (await readFile(join(out, 'interior.html'), 'utf8')).replace(/<script type="module" src="interior-splat\.js[^"]*"><\/script>\n?/, ''));
 for (const name of ['decodificar-worker.js', 'transfer-worker.js'])
   await writeFile(join(out, name), (await transform(await readFile(join(out, name), 'utf8'), {loader: 'js', minify: true, charset: 'utf8', legalComments: 'none'})).code);
+
+// O mesmo catálogo verificável serve aos próximos prédios gerados por este fluxo.
+execFileSync('python',['-m','pipeline.transfer_manifest',out],{cwd:root,stdio:'pipe'});
 
 // 5) Inventário (tamanho e SHA de cada arquivo) para conferir antes e depois de subir.
 const inventory = {};

@@ -433,7 +433,7 @@ function prepareScene(kind){
   frame.setAttribute('aria-hidden','true');
   frame.title=exterior?'Maquete do LIV Ipanema':`Planta e Tour do LIV Ipanema · ${typology(key).label}`;
   frame.src=exterior?`prova-rgbm.html?embed=1&prewarm=1&tema=escuro&backend=${backend}&acabamento=${finish}&geometria=${geometry}&selecao=${scope}&ambiente=${environment}&luz=${state.ambience}&hora=${state.hour}&data=${state.solarDate}&experiencia=${buyerUI.enabled?'nova':'original'}`:
-    `interior.html?embed=1&prewarm=1&backend=${backend}&tipologia=${key}&modo=planta3d`;
+    `interior.html?embed=1&prewarm=1&backend=${backend}&tipologia=${key}&modo=planta3d&hora=${state.hour}&data=${state.solarDate}&contexto=${encodeURIComponent(JSON.stringify(unitSolarContext(selectedApartment())))}`;
   sceneCache.set(kind,frame);stage.prepend(frame);
   const current=()=>!cacheStopped&&cacheEpoch===epoch&&sceneCache.get(kind)===frame;
   const job=(async()=>{
@@ -473,6 +473,15 @@ function prepareScene(kind){
   sceneLoads.set(kind,job);
   job.catch(()=>{if(sceneCache.get(kind)===frame)retireFrame(frame);}).finally(()=>{if(sceneLoads.get(kind)===job)sceneLoads.delete(kind);});
   return job;
+}
+// Uma planta por vez: no Poco X6, duas plantas preparadas juntas disputaram a GPU e o processador
+// (checkup de 29/10). Ao abrir uma planta, cancela a preparação ainda não pronta das outras; uma planta já
+// pronta continua guardada para voltar na hora.
+function cancelOtherInteriors(kind){
+  for(const [other,frame] of [...sceneCache]){
+    if(other===kind||!other.startsWith('interior:')||!sceneLoads.has(other)||sceneAPI(frame)?.ready)continue;
+    retireFrame(frame);
+  }
 }
 function scheduleWarmViews(){
   if(cacheStopped||warmJob||warmHandle!==null)return;
@@ -550,6 +559,7 @@ async function setMode(mode,{restore=false}={}) {
     if(mode==='planta2d'){await fallback2D(token);return true;}
     // Os pacotes 3D vêm em gzip, aberto pelo navegador (Safari só a partir do iOS 16.4); a planta 2D não precisa.
     if(typeof DecompressionStream==='undefined')throw Error('Este navegador é antigo demais para a maquete 3D. No iPhone, atualize para o iOS 16.4 ou mais novo.');
+    if(kind.startsWith('interior:'))cancelOtherInteriors(kind);
     const prepared=prepareScene(kind);state.frame=sceneCache.get(kind);frameKind=kind;
     const frame=await prepared;if(token!==generation)return;
     const api=sceneAPI(frame);

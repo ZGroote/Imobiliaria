@@ -4,10 +4,16 @@ const labels={tour:'Tour 3D',map:'Mapa',planta2d:'Planta 2D'};
 let state={enabled:false,paused:true,active:null,groups:{},error:null},initialization=null,commands=Promise.resolve();
 const listeners=new Set();
 const retiredInstances=new Set();
+const workerURL=new URL('./transfer-worker.js',import.meta.url);
+let workerRegistration=null;
+function activeWorker(){
+  const controller=navigator.serviceWorker?.controller;
+  return controller?.scriptURL===workerURL.href?controller:workerRegistration?.active;
+}
 function publish(next,worker=null){
   // A replacement worker can reuse the manifest version with a fresh counter.
   // A queued reply/broadcast from its predecessor must not resurrect old state.
-  if(worker&&worker!==navigator.serviceWorker?.controller)return;
+  if(worker&&worker!==activeWorker())return;
   if(next.workerInstance&&retiredInstances.has(next.workerInstance))return;
   if(state.workerInstance&&next.workerInstance&&state.workerInstance!==next.workerInstance) {
     retiredInstances.add(state.workerInstance);
@@ -27,17 +33,22 @@ async function ensureControlled(){
   initialization=(async()=>{
     if(!isSecureContext||!('serviceWorker' in navigator))return unavailable('Cache de preparação indisponível neste navegador.');
     try {
-      const workerURL=new URL('./transfer-worker.js',import.meta.url),scope=new URL('./',import.meta.url).href;
-      await timed(navigator.serviceWorker.register(workerURL,{scope,type:'module',updateViaCache:'none'}),10000,'Não foi possível preparar o cache.');
-      const controlled=()=>navigator.serviceWorker.controller?.scriptURL===workerURL.href;
-      if(!controlled()){
-        let changed;
-        try{await timed(new Promise(resolve=>{
-          changed=()=>{if(controlled())resolve();};
-          navigator.serviceWorker.addEventListener('controllerchange',changed);changed();
-        }),10000,'O cache de preparação não assumiu esta página.');}
-        finally{navigator.serviceWorker.removeEventListener('controllerchange',changed);}
-      }
+      const scope=new URL('./',import.meta.url).href;
+      workerRegistration=await timed(navigator.serviceWorker.register(workerURL,{scope,type:'module',updateViaCache:'none'}),10000,'Não foi possível preparar o cache.');
+      const waitForActivation=worker=>new Promise((resolve,reject)=>{
+        if(!worker)return reject(Error('Worker de preparação indisponível.'));
+        const changed=()=>{
+          if(worker.state==='activated'){worker.removeEventListener('statechange',changed);resolve();}
+          else if(worker.state==='redundant'){worker.removeEventListener('statechange',changed);reject(Error('Worker de preparação substituído.'));}
+        };
+        worker.addEventListener('statechange',changed);changed();
+      });
+      await timed(waitForActivation(workerRegistration.active||workerRegistration.installing||workerRegistration.waiting),10000,'O cache de preparação não ativou.');
+      // A página /maquetes/liv/ usa assets em /liv-classico/: comunica com o registro, sem ampliar seu escopo.
+      workerRegistration.addEventListener('updatefound',()=>{
+        const next=workerRegistration.installing;
+        waitForActivation(next).then(()=>transfers.refresh()).catch(()=>{});
+      });
       return true;
     } catch(error){return unavailable(error.message);}
   })();
@@ -49,17 +60,17 @@ navigator.serviceWorker?.addEventListener('message',event=>{
 function command(command,group,prefixes){
   const result=commands.catch(()=>{}).then(async()=>{
     if(!await ensureControlled())return {ok:false,state};
-    const channel=new MessageChannel(),worker=navigator.serviceWorker.controller;
+    const channel=new MessageChannel(),worker=activeWorker();
     try {
       const reply=await timed(new Promise(resolve=>{
         channel.port1.onmessage=event=>resolve(event.data);
         worker.postMessage({type:'LIV_TRANSFER',command,group,...(prefixes?{prefixes}:{})},[channel.port2]);
       }),10000,'A preparação dos próximos conteúdos não respondeu.');
       if(reply.state)publish(reply.state,worker);
-      if(!reply.ok&&reply.error&&worker===navigator.serviceWorker.controller)publish({...state,error:reply.error});
+      if(!reply.ok&&reply.error&&worker===activeWorker())publish({...state,error:reply.error});
       return reply;
     }catch(error){
-      if(worker===navigator.serviceWorker.controller)unavailable(error.message);
+      if(worker===activeWorker())unavailable(error.message);
       return {ok:false,state};
     }
     finally{channel.port1.close();}

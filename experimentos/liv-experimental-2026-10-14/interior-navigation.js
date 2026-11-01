@@ -123,7 +123,7 @@ export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}
     }
     return p;
   }
-  let grid=null;
+  let grid=null,lastRoutes=null;
   function buildGrid(){
     const b=layout.bounds,nx=Math.ceil((b.x1-b.x0)/step)+1,nz=Math.ceil((b.z1-b.z0)/step)+1,valid=new Uint8Array(nx*nz);
     const point=id=>[b.x0+(id%nz)*step,b.z0+Math.floor(id/nz)*step];
@@ -162,8 +162,9 @@ export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}
     return {parents,start:id};
   }
   function routes(start){
+    if(lastRoutes&&start[0]===lastRoutes.start[0]&&start[1]===lastRoutes.start[1])return structuredClone(lastRoutes.value);
     const g=grid||buildGrid(),f=flood(start);
-    return layout.rooms.map(room=>{
+    const value=layout.rooms.map(room=>{
       let best=-1,score=Infinity;
       for(let id=0;id<g.valid.length;id++)if(f.parents[id]!==-2){
         const p=g.at(id);if(!inside(room.poly,...p))continue;
@@ -174,6 +175,7 @@ export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}
       while(at<path.length-1){let next=at+1;while(next+1<path.length&&segment(path[at],path[next+1]))next++;compact.push(path[next]);at=next;}
       return {id:room.id,name:room.name,reachable:best>=0,target:best>=0?g.at(best):null,path:compact};
     });
+    lastRoutes={start:[...start],value};return structuredClone(value);
   }
   function direction(p){
     let longest=-1,yaw=0;
@@ -184,5 +186,5 @@ export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}
     }
     return yaw;
   }
-  return {free,segment,move,entry,routes,direction,invalidate(){grid=null;},radius,step};
+  return {free,segment,move,entry,routes,direction,invalidate(){grid=null;lastRoutes=null;},radius,step};
 }

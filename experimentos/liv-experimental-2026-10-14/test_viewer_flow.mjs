@@ -446,6 +446,19 @@ test('abertura fixa 6h30, ignora horário antigo e mantém o controle do sol uti
   app.state.setTimeOfDay(9);assert.equal(app.state.hour,9);
 });
 
+test('iframe do apartamento recebe hora, data e lado antes de iniciar a preparação',async()=>{
+  const app=harness({fetchData:name=>name==='comercial.json'?commercialFixture():relationFixture()});
+  await waitFor(()=>app.state.ready&&app.state.relationStatus==='fornecido');
+  app.state.selectUnit(pilot.units[0].id);app.state.setTimeOfDay(7.5);
+  await app.state.setMode('planta3d');
+  const address=new URL(app.state.frame.src,'http://localhost');
+  assert.equal(address.searchParams.get('hora'),'7.5');
+  assert.equal(address.searchParams.get('data'),app.state.solarDate);
+  const context=JSON.parse(address.searchParams.get('contexto'));
+  assert.equal(context.unitId,pilot.units[0].id);
+  assert.equal(context.side,unitSolarContext(pilot.units[0]).side);
+});
+
 test('informações abre a mesma ficha na maquete e no interior sem alterar a seleção',async()=>{
   const app=harness({fetchData:name=>name==='comercial.json'?commercialFixture():relationFixture()});
   await waitFor(()=>app.state.ready&&app.state.relationStatus==='fornecido'&&app.state.commercialStatus==='fornecido');

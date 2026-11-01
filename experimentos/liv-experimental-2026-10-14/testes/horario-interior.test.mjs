@@ -94,9 +94,11 @@ for(const typology of ['canto','meio'])test(`${typology}: plafons motivam spots 
   const noon=interiorTimeState(12,{side:'estacionamento'},{date});
   rig.apply(noon);const day=rig.getState();
   assert.equal(day.artificialIntensity,0);assert.ok(day.sunIntensity>0);
+  assert.equal(day.visibleSpots,0);assert.equal(day.lightingVariant,'dia');assert.ok(spots.every(spot=>!spot.visible));
   for(const fixture of fixtures){assert.equal(fixture.material.isMeshStandardMaterial,true);assert.equal(fixture.material.emissiveIntensity,0);}
   const night=interiorTimeState(0,{side:'lazer'},{date});rig.apply(night);
   assert.equal(rig.getState().sunIntensity,0);assert.ok(rig.getState().artificialIntensity>0);
+  assert.equal(rig.getState().visibleSpots,6);assert.equal(rig.getState().lightingVariant,'noite');
   for(const fixture of fixtures)assert.equal(fixture.material.emissiveIntensity,1.6);
   for(const spot of spots)spot.shadow.needsUpdate=false;
   rig.apply(interiorTimeState(1,{side:'lazer'},{date}));
