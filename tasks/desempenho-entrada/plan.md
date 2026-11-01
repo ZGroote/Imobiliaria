@@ -8,12 +8,12 @@ Auditoria e dados: `C:/Users/respawn/.codex/visualizations/2026/10/31/01a193a3-c
 
 1. [x] Entrada: verificar o agendamento da construção dos shaders, repetição de grafos e trabalho bloqueante. A dependência local usa `scheduler.yield()` quando disponível e **requestAnimationFrame** em outros navegadores, nove esperas por builder: medir substituto cooperativo por tarefas, sem bloquear render/UI e sem esperar repaint de iframe estacionado. Não desligar pré-compilação como solução já provada: A/B anterior foi inconsistente.
 2. [x] Navegação: eliminar testes contínuos repetidos nas amostras do segmento, conservar segurança de portas/móveis/contorno. Ampliar oráculo e testar casos de fronteira.
-3. [ ] Recursos: biblioteca de móveis só com dependências da tipologia, autoria temporária liberada, luz só com canais de peso positivo e samplers válidos; preservar edição/fallback.
+3. [x] Recursos: biblioteca de móveis só com dependências da tipologia, autoria temporária liberada, luz só com canais de peso positivo e samplers válidos; preservar edição/fallback.
 4. [x] Estabilidade: falha inicial WebGPU troca para iframe/contexto novo WebGL uma vez; erro sem GPU compreensível; seleção/2D e links conhecidos independentes de renderização 3D.
-5. [ ] Retenção e desenho: limite de interiores preparados com snapshot/câmera preservados, cancelamento real de preparação obsoleta; desenho sob demanda com eventos/portas/movimento corretos.
+5. [x] Retenção e desenho: limite de interiores preparados com snapshot/câmera preservados, cancelamento real de preparação obsoleta; desenho sob demanda com eventos/portas/movimento corretos.
 6. [x] Gerador: fontes e empacotadores, saída nova normal. Preservar os ajustes já publicados de renderer/picking ao incorporar novos imports.
-7. [ ] Comparação: entrada do clique ao primeiro quadro com CPU limitada e scheduler ausente/presente, WebGL/WebGPU, imagens, unidades/lados/espelhadas, navegação, edição, relógio, perda de contexto, falta total de GPU, versões frio/quente.
-8. [ ] Revisar, commitar, reconciliar checkout principal, construir pacotes e publicar ambos com versão anterior/inventário/configuração preservados; verificar URLs/hashes e fluxos públicos.
+7. [x] Comparação: entrada do clique ao primeiro quadro com CPU limitada e scheduler ausente/presente, WebGL/WebGPU, imagens, unidades/lados/espelhadas, navegação, edição, relógio, perda de contexto, falta total de GPU, versões frio/quente.
+8. [x] Revisar, commitar, reconciliar checkout principal, construir pacotes e publicar ambos com versão anterior/inventário/configuração preservados; verificar URLs/hashes e fluxos públicos.
 
 Não aplicar DPR menor ou simplificação de aparência sem ganho e QA visual. Shader de sondas 18→9 não melhorou a entrada no ensaio anterior; só manter se benefício medido justificar. O acompanhamento anterior foi excluído; não voltar a esperar Claude.
 
@@ -34,3 +34,17 @@ restauradas após descarte. Corrigida na validação real uma importação ausen
 rótulo de pavimento no seletor de recuperação. Validação de interação/desenho parado,
 comparação de entrada e repetição integral dos pacotes finais ainda em andamento.
 Nenhuma mudança desta segunda rodada foi publicada neste checkpoint.
+
+
+Concluído: publicação `c9d002294057220d` (01/11 às 01:48:34 UTC), anterior
+`4c56bcec8bc6c6db`. 38 alterações, 35 uploads, 1.209 arquivos externos e toda a
+configuração preservados. QA público PASS: oito casos de plantas/backends e nove
+casos de falhas/recuperação/cache, além dos mesmos ensaios locais. A última
+conferência encontrou a mesma versão, 1.621 arquivos e zero diferenças dos pacotes.
+128 testes Node + teste Python passaram no checkout integrado; fonte no commit
+`63d1955`. As quatro capturas A/B RGBA são idênticas. Relatório de resultados e
+limitações em `resultado.md`; evidências completas em `implementacao-entrada/` e
+`deploy-entrada/`, na pasta durável já indicada. Nenhuma homologação física foi
+realizada: com CPU 4× os casos ainda levaram 35–42 s. Não generalizar os ganhos dos
+ensaios para todos os dispositivos. Alterações de outras sessões preservadas;
+nenhum acompanhamento automático ativo desta tarefa.
