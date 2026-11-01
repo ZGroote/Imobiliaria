@@ -873,3 +873,14 @@ test('link 2D conhecido valida associação e abre sem construir maquete',async(
   await waitFor(()=>app.state.ready&&app.state.mode==='planta2d');assert.equal(app.frames.length,0);
   app.runIdle();await app.state.prepareViews();assert.equal(app.frames.length,0);app.state.dispose();
 });
+
+test('falha WebGL do interior tenta WebGPU uma vez e encerra se também falhar',async()=>{
+  let interiors=0;const attempts=[];
+  const app=harness({search:'?unidades=edificio',fetchData:name=>name==='comercial.json'?emptyCommercial:dualRelations(),onFrameSource:(node,src)=>{
+    if(!src.includes('interior.html'))return;
+    interiors++;attempts.push(src);Object.assign(node.api.interior,{ready:false,error:'Falha gráfica injetada',graphicsFailure:true,backendAttempt:src.includes('backend=webgpu')?'webgpu':'webgl'});
+  }});
+  await waitFor(()=>app.state.ready&&app.state.relationStatus==='fornecido');
+  app.state.selectUnit(pilot.units[0].id);await app.state.setMode('planta3d');
+  assert.equal(interiors,2);assert.match(attempts.at(-1),/backend=webgpu/);assert.ok(app.state.error);app.state.dispose();
+});

@@ -40,9 +40,15 @@ const config=(await api.get('/'+version)).body.config,files=await list(version);
 assert(files['/liv-classico/viewer.bundle.js'],'O LIV deve existir no site selecionado.');
 const raw=new Map();
 async function add(prefix,name){raw.set('/'+prefix+'/'+name,await readFile(join(packages,prefix,name)));}
-const sources=['viewer.js','renderer.js','shader-scheduler.js','interior-renderer.js','interior-navigation.js','interior-melhorias.js',
-  'interior-luz-horario.js','horario-interior.js','transfers.js','transfer-worker.js','transfer-manifest.json'];
+const sources=['interior.html','viewer.js','renderer.js','shader-scheduler.js','interior-renderer.js','interior-navigation.js','interior-melhorias.js',
+  'interior-luz-horario.js','material-rgbm.js','classic-renderer.js','classic-lighting.js','probe-code.js','interior-geometry.js','prepared-scene.js','prepared-hdr.js','interior-look.js','horario-interior.js','transfers.js','transfer-worker.js','transfer-manifest.json'];
 for(const name of sources)await add('liv-classico',name);
+for(const name of ['interiores/catalogo.json','interiores/melhorias/catalogo.json'])await add('liv-classico',name);
+const interiors=JSON.parse(raw.get('/liv-classico/interiores/catalogo.json'));
+for(const record of Object.values(interiors.tipologias))if(record.files.runtimeScene)await add('liv-classico',record.files.runtimeScene.path);
+const improvements=JSON.parse(raw.get('/liv-classico/interiores/melhorias/catalogo.json'));
+for(const record of [improvements.environment,improvements.background,...Object.values(improvements.reflectionEnvironments||{})].filter(Boolean))if(record.prepared)await add('liv-classico',record.prepared.path);
+
 // Só os chunks referidos pelos novos bundles: conservar os antigos para HTML/abas já abertos.
 async function bundle(name){
   if(raw.has('/liv-classico/'+name))return;
@@ -71,10 +77,14 @@ if(!process.argv.includes('--publicar')){
   for(const path of Object.keys(inventory).filter(path=>path.startsWith('/liv-classico/')&&!path.endsWith('.map'))){
     if(!files[path])continue;
     const response=await fetch(origin+path,{cache:'no-store'});assert.equal(response.status,200,path);
-    const current=sha(Buffer.from(await response.arrayBuffer()));
-    let previous=null;try{previous=sha(await readFile(join(base,path.slice('/liv-classico/'.length))));}catch(e){if(e.code!=='ENOENT')throw e;}
-    assert(current===inventory[path].sha256||current===previous,'O LIV publicado difere da base preservada: '+path);
-    checks.push({path,current,base:previous});
+    const currentBytes=Buffer.from(await response.arrayBuffer()),current=sha(currentBytes);
+    let previous=null,previousBytes;try{previousBytes=await readFile(join(base,path.slice('/liv-classico/'.length)));previous=sha(previousBytes);}catch(e){if(e.code!=='ENOENT')throw e;}
+    // Older releases retained obsolete preload names. Allow exactly that known
+    // HTML difference, preserving every other byte of the published page.
+    const withoutPreloads=bytes=>bytes.toString('utf8').replace(/<link rel="modulepreload"[^>]*>/g,'');
+    const onlyPreloads=path==='/liv-classico/interior.html'&&previousBytes&&withoutPreloads(currentBytes)===withoutPreloads(previousBytes);
+    assert(current===inventory[path].sha256||current===previous||onlyPreloads,'O LIV publicado difere da base preservada: '+path);
+    checks.push({path,current,base:previous,onlyPreloads:Boolean(onlyPreloads)});
   }
   await json('preflight.json',{version,config,files,inventory,changed,checks,at:new Date().toISOString()});
   console.log(JSON.stringify({mode:'preflight',version,total:Object.keys(files).length,packageFiles:raw.size,changed:changed.length,
@@ -110,7 +120,7 @@ for(const [path,hash]of Object.entries(files))if(!raw.has(path))assert.equal(aft
 await json('integridade-hosting.json',{status:'PASS',version:finalized.name,total:Object.keys(after).length,
   untouched:Object.keys(files).filter(path=>!raw.has(path)).length,configPreserved:true});
 const checks=[];
-for(const path of Object.keys(inventory).filter(path=>changed.includes(path)&&(/\.js$|manifest\.json$|catalogo\.json$|index\.html$/.test(path)))){
+for(const path of Object.keys(inventory).filter(path=>changed.includes(path)&&(/\.js$|manifest\.json$|catalogo\.json$|\.html$|\.bin\.gz$/.test(path)))){
   const response=await fetch(origin+path,{cache:'no-store'});assert.equal(response.status,200,path);
   assert.equal(sha(Buffer.from(await response.arrayBuffer())),inventory[path].sha256,'Resposta pública difere do pacote: '+path);
   checks.push(path);

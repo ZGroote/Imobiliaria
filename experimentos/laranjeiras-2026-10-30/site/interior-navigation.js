@@ -69,7 +69,12 @@ function crossesBox(a,b,hw,hd){
 }
 const overhead=new Set(['aereo','coifa','cortina','ripado','tv','rack','box']);
 
-export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}) {
+// Change this version whenever collision or path selection rules change.
+export const NAVIGATION_VERSION='laranjeiras-navigation-v2';
+export function navigationKey(layout,furniture,radius,step){return JSON.stringify([NAVIGATION_VERSION,radius,step,layout.rooms,layout.walls,layout.joinery,furniture]);}
+export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05,prepared=null}={}) {
+  const initial=prepared?.key===navigationKey(layout,furniture(),radius,step)?prepared:null;
+  let preparedEntry=initial?.entry;
   const within=(x,z)=>layout.rooms.some(c=>inside(c.poly,x,z));
   function free(x,z){
     if(!Number.isFinite(x)||!Number.isFinite(z)||!within(x,z))return false;
@@ -125,7 +130,7 @@ export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}
     }
     return p;
   }
-  let grid=null,lastRoutes=null;
+  let grid=null,lastRoutes=initial?{start:[...initial.entry],value:initial.routes}:null;
   function buildGrid(){
     const b=layout.bounds,nx=Math.ceil((b.x1-b.x0)/step)+1,nz=Math.ceil((b.z1-b.z0)/step)+1,valid=new Uint8Array(nx*nz);
     const point=id=>[b.x0+(id%nz)*step,b.z0+Math.floor(id/nz)*step];
@@ -144,6 +149,7 @@ export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}
     return best;
   }
   function entry(){
+    if(preparedEntry)return [...preparedEntry];
     const room=layout.rooms.find(r=>/^(sala|estar|living)/i.test(r.name))||layout.rooms[0];
     // Laranjeiras: o Tour começa logo depois da porta de entrada (90 cm para dentro), como numa visita;
     // o centro da sala punha a câmera colada no sofá. Sem porta de entrada, vale o centro da sala.
@@ -200,5 +206,5 @@ export function createNavigation(layout,furniture=()=>[],{radius=.3,step=.05}={}
     }
     return yaw;
   }
-  return {free,segment,move,entry,routes,direction,invalidate(){grid=null;lastRoutes=null;},radius,step};
+  return {free,segment,move,entry,routes,direction,invalidate(){grid=null;lastRoutes=null;preparedEntry=null;},radius,step};
 }

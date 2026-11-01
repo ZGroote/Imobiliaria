@@ -8,7 +8,7 @@ export function empacotarRuntime(dir,three){
       'interior-renderer.bundle':join(dir,'interior-renderer.js')},
     outdir:dir,bundle:true,splitting:true,format:'esm',target:'es2022',minify:true,charset:'utf8',
     chunkNames:'chunk-[hash]',metafile:true,legalComments:'eof',sourcemap:'linked',sourcesContent:false,
-    alias:{'three/webgpu':join(three,'build/three.webgpu.js'),'three/tsl':join(three,'build/three.tsl.js'),
+    alias:{'three/webgl':join(three,'build/three.module.js'),'three/webgpu':join(three,'build/three.webgpu.js'),'three/tsl':join(three,'build/three.tsl.js'),
       three:join(three,'build/three.webgpu.js'),'three/addons':join(three,'examples/jsm')},
     external:['./estoque-runtime.js'],
   });

@@ -45,6 +45,8 @@ def build(root):
     for typology, entry in catalog["tipologias"].items():
         timed = root / "interiores" / typology / "luz-horario/manifest.json"
         for name, record in entry["files"].items():
+            if entry["files"].get("runtimeScene") and name in {"source", "compact"}:
+                continue  # A saída binária já inclui as geometrias finais e os UVs.
             if name == "atlas" and timed.exists():
                 continue  # O runtime usa só os UVs antigos; a luz vem do horário.
             collect(record)
@@ -60,6 +62,7 @@ def build(root):
     resources = library["assets"] + [library.get("environment"), library.get("background"),
         library.get("look"), *library.get("reflectionEnvironments", {}).values()]
     for record in filter(None, resources):
+        record = record.get("prepared", record)
         path = record["path"]
         if not path.startswith("interiores/melhorias/"):
             path = "interiores/melhorias/" + path

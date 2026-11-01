@@ -42,5 +42,32 @@ class TransferManifestTest(unittest.TestCase):
                 build(root)
 
 
+    def test_cena_preparada_substitui_fonte_e_uvs_na_fila(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            def put(path, data=b"fixture"):
+                file = root / path
+                file.parent.mkdir(parents=True, exist_ok=True)
+                file.write_bytes(data)
+                return {"path": path, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
+            def save(path, value):
+                return put(path, json.dumps(value).encode())
+            prepared = put("interiores/canto/scene-runtime.bin.gz")
+            unit = put("interiores/canto/unidade.json")
+            runtime = put("interiores/shared/runtime.js")
+            save("interiores/catalogo.json", {"schema": "liv-interior-catalog-v1", "shared": {"runtime": runtime},
+                "tipologias": {"canto": {"files": {"unit": unit, "runtimeScene": prepared,
+                    "source": {"path": "interiores/canto/source.json.gz", "bytes": 1, "sha256": "0" * 64},
+                    "compact": {"path": "interiores/canto/geometry-compact.json.gz", "bytes": 1, "sha256": "0" * 64}}}}})
+            save("interiores/melhorias/catalogo.json", {"assets": []})
+            files = {f["path"]: f for f in build(root)["files"]}
+            self.assertIn(prepared["path"], files)
+            self.assertNotIn("interiores/canto/source.json.gz", files)
+            self.assertNotIn("interiores/canto/geometry-compact.json.gz", files)
+            (root / prepared["path"]).write_bytes(b"corrompido")
+            with self.assertRaisesRegex(ValueError, "diferente de seu catálogo"):
+                build(root)
+
+
 if __name__ == "__main__":
     unittest.main()

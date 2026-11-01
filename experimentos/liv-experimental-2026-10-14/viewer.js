@@ -615,7 +615,7 @@ async function setMode(mode,{restore=false}={}) {
   } catch(error) {
     if(token!==generation)return;
     retireFrame(state.frame);frameKind=null;plans.hide();
-    if(backend==='auto'&&error.graphicsFailure&&error.backendAttempt==='webgpu'){backend='webgl';return setMode(mode,{restore:true});}
+    if(backend==='auto'&&error.graphicsFailure&&(error.backendAttempt==='webgpu'||mode!=='maquete'&&error.backendAttempt==='webgl')){backend=error.backendAttempt==='webgpu'?'webgl':'webgpu';return setMode(mode,{restore:true});}
     showError(error);
   }
 }

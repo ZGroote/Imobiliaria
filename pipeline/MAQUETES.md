@@ -63,3 +63,29 @@ scheduler/iluminação/biblioteca do LIV e em `tests/test_maquetes_desempenho.mj
 O desenho interior só é reenviado à GPU quando há mudança; o acompanhamento de
 teclado, toque, portas e rotas continua ativo. Esses mecanismos usam as APIs dos
 runtimes modernos; o template LEVE usa outro Three e não constrói grafos TSL.
+
+
+Na revisão de 01/11/2026, ambos os preparadores passaram a executar
+`pipeline/preparar_interiores.mjs` antes do empacotamento. Ele conserva as fontes
+originais e cria `scene-runtime.bin.gz`: posições, normais corrigidas, índices,
+UV1, PNGs embutidos e rotas iniciais prontas. O leitor valida SHA da fonte e do UV,
+bounds e tipos; as rotas só são reutilizadas quando versão, layout, portas e
+parâmetros de colisão coincidem. Mudar uma porta invalida o cache normalmente.
+O mesmo fluxo converte HDR pelo HDRLoader fixado para pixels half-float gzip,
+sem mudar exposição, tamanho ou bits. O manifesto prefere esses recursos e
+mantém os originais disponíveis para leitores antigos.
+
+Interiores `auto`/`webgl` usam o WebGLRenderer direto, preservando os materiais
+PBR, a iluminação gravada, sondas e LUT de cor em um alvo HDR antes da conversão
+final. Isso evita montar grafos TSL por material durante a abertura. WebGPU
+explícito continua disponível, e falha gráfica tenta o outro backend uma única
+vez em contexto novo. `motor=nodes` mantém o caminho TSL para diagnóstico.
+Os canais temporais são agrupados em uma textura array (atlas) e em X numa
+textura 3D (sondas), usando menos samplers inclusive sob o limite de 16, sem
+perder texels ou aumentar a profundidade 3D. Só camadas distintas do atlas ocupam memória e são enviadas à GPU;
+nenhum canal de peso zero dispara download. O Laranjeiras conserva o bilinear
+após decodificação RGBM e sua entrada de Tour junto à porta.
+
+Evidência e resultados desta etapa estão em `tasks/desempenho-entrada/etapa-rapida.md`.
+A prévia LEVE/PREMIUM usa seus próprios templates e não precisa da construção TSL
+que originou este gargalo; não recebe este adaptador de renderer moderno.

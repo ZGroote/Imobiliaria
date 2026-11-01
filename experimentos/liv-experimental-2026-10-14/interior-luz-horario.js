@@ -22,10 +22,11 @@ export function timeLightWeights(manifest,time){
 /** Baixa as horas do lado pedido sob demanda; a mistura troca só texturas e pesos, sem recompilar. */
 export function createTimeLightmaps({manifest,load,own=value=>value,release=value=>value.dispose()}){
   const textures=new Map(),pending=new Map();let last=null;
-  const irradiance=createTimeIrradiance({range:manifest.range,intensity:manifest.lightMapIntensity});
+  const irradiance=createTimeIrradiance({range:manifest.range,intensity:manifest.lightMapIntensity,width:manifest.width,height:manifest.height});
   // Móveis, portas e moldura não têm UV1: leem a mesma hora nas sondas do cômodo.
   const probes=manifest.probes?createProbeIrradiance(manifest.probes,manifest.lightMapIntensity):null;
   if(probes)own(probes.rooms);
+  for(const resource of [...(irradiance.resources||[]),...(probes?.resources||[])])own(resource);
   const volume=bytes=>{
     const {width,height,depth}=manifest.probes,data=new Uint16Array(bytes.buffer,bytes.byteOffset,bytes.byteLength/2);
     if(data.length!==width*height*depth*4)throw Error('Sondas de luz com tamanho inválido.');

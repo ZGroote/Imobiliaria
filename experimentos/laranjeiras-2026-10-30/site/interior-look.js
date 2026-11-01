@@ -42,8 +42,9 @@ export async function installInteriorLook({renderer,base,record,signal,own=value
       const normalized=color.mul(exposure).max(2**lo).log2().sub(lo).div(span).clamp(0,1);
       return lookup.sample(normalized.mul((size-1)/size).add(.5/size)).rgb;
     });
-    renderer.library.addToneMapping(toneMapping,THREE.CustomToneMapping);
-    if(renderer.library.getToneMappingFunction(THREE.CustomToneMapping)!==toneMapping)throw Error('Não foi possível registrar o acabamento de cor.');
+    if(renderer.installInteriorLook)renderer.installInteriorLook({texture,lo,span,size});
+    else {renderer.library.addToneMapping(toneMapping,THREE.CustomToneMapping);
+    if(renderer.library.getToneMappingFunction(THREE.CustomToneMapping)!==toneMapping)throw Error('Não foi possível registrar o acabamento de cor.');}
     renderer.toneMapping=THREE.CustomToneMapping;
     Object.assign(state,{status:'ready',toneMapping:'CustomToneMapping',edge:size,domainEV:[lo,record.domainMaxEV],storage:'RGBA16F',output:'linear-sRGB',sha256:hash});
     emit();return state;

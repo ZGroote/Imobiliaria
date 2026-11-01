@@ -5,6 +5,7 @@
 //   node experimentos/laranjeiras-2026-10-30/publicar/preparar_pacote.mjs [pasta de saída]
 import {createRequire} from 'node:module';
 import {execFileSync} from 'node:child_process';
+import {prepararInteriores} from '../../../pipeline/preparar_interiores.mjs';
 import {empacotarRuntime} from '../../../pipeline/empacotar_runtime.mjs';
 import {createHash} from 'node:crypto';
 import {cp, mkdir, readFile, readdir, stat, writeFile} from 'node:fs/promises';
@@ -65,6 +66,7 @@ await edit('interior-melhorias.js', [[libraryURL, "new URL('interiores/melhorias
 await edit('interior-look.js', [[libraryURL, "new URL('interiores/melhorias/catalogo.json',base)"]]);
 
 // 4) JS das três páginas em pacotes minificados; o three entra no pacote (sem node_modules publicado).
+console.log(JSON.stringify({prepared:await prepararInteriores(out)}));
 const result = await empacotarRuntime(out,three);
 const css = async name => (await transform(await readFile(join(out, name), 'utf8'), {loader: 'css', minify: true})).code.trim();
 const noindex = '<meta name="robots" content="noindex, nofollow">';

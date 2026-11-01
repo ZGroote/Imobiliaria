@@ -1,6 +1,9 @@
+import {geometryFromSpec,expandedGeometryFromSpec} from './interior-geometry.js';
+import {decodePreparedScene} from './prepared-scene.js';
+import {createClassicInteriorRenderer} from './classic-renderer.js';
 import * as THREE from 'three/webgpu';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {LivRGBMNodeMaterial,LivBakedPhysicalNodeMaterial,setRGBMTimeLighting,setReflectionNormalization} from './material-rgbm.js';
+import {LivRGBMNodeMaterial,LivBakedPhysicalNodeMaterial,setRGBMTimeLighting,setReflectionNormalization,setBakedMaterialBackend} from './material-rgbm.js';
 import {createTimeLightmaps} from './interior-luz-horario.js';
 import {createLayout,createNavigation,inside} from './interior-navigation.js';
 import {createDoors} from './interior-portas.js';
@@ -21,6 +24,7 @@ const controller=new AbortController(),base=new URL('./',import.meta.url),owned=
 const state=window.__livInterior={ready:false,error:null,backend:null,typology,mode:query.get('modo')||'planta3d',disposed:false,active:query.get('prewarm')!=='1',
   lighting:{bakedActive:false,reason:'carregando'},ownership:{created:0,disposed:0,bitmapsClosed:0}};
 const restoreShaderScheduler=installShaderScheduler();
+const classicRequested=requested!=='webgpu'&&query.get('motor')!=='nodes';
 let renderer,scene,camera,controls,observer,startup,disposePromise,layout,navigation,entry,catalog,record,source,light,timeLight,resizeView;
 let frameDirty=true;
 let yaw=0,pitch=0,tourPosition=null,route=[],routeResolve=null,frameBusy=false,framePromise=Promise.resolve(),lastFrame=0,ceiling=[];
@@ -75,7 +79,7 @@ function prepareLighting(){
 }
 function own(value){if(value&&!owned.has(value)){owned.add(value);state.ownership.created++;}return value;}
 function createRenderer(options){
-  const value=own(new THREE.WebGPURenderer(options)),setLoop=value.setAnimationLoop.bind(value);
+  const value=own(classicRequested?createClassicInteriorRenderer(options):new THREE.WebGPURenderer(options)),setLoop=value.setAnimationLoop.bind(value);
   // r186's dispose calls setAnimationLoop without awaiting it. A null loop
   // before init settles must not launch another init or leak a rejected promise.
   value.setAnimationLoop=callback=>initializedRenderers.has(value)?setLoop(callback):Promise.resolve();
@@ -123,7 +127,7 @@ function fail(error){
   const detail={error:state.error,backend:state.backend,typology,mode:state.mode};
   window.dispatchEvent(new CustomEvent('liv-renderer-error',{detail}));
   state.dispose().catch(error=>{state.disposalError=String(error);});
-  if(requested==='auto'&&state.graphicsFailure&&state.backendAttempt==='webgpu'&&query.get('embed')!=='1')location.replace(retry.href);
+  if(requested==='auto'&&state.graphicsFailure&&query.get('embed')!=='1'){retry.searchParams.set('backend',state.backendAttempt==='webgl'?'webgpu':'webgl');location.replace(retry.href);}
 }
 const retry=new URL(location.href);retry.searchParams.set('backend','webgl');document.querySelector('#retry-interior').href=retry.href;
 if(query.get('embed')==='1')document.querySelector('#touch-pad').style.right='96px';
@@ -163,7 +167,7 @@ function sourceMaterialAdditions(source,native){
 async function materialsFrom(snapshot){
   const textures={};
   for(const [id,spec]of Object.entries(snapshot.textures)){
-    check();const bytes=bytes64(spec.data.split(',')[1]);if(await sha(bytes)!==spec.pngSHA256)throw Error(`Textura ${id} alterada.`);
+    check();const bytes=spec.preparedPNG||bytes64(spec.data.split(',')[1]);if(await sha(bytes)!==spec.pngSHA256)throw Error(`Textura ${id} alterada.`);
     const bitmap=await createImageBitmap(new Blob([bytes],{type:'image/png'}),{imageOrientation:spec.flipY?'flipY':'none',premultiplyAlpha:'none',colorSpaceConversion:'none'});
     bitmaps.add(bitmap);check();
     if(bitmap.width!==spec.width||bitmap.height!==spec.height)throw Error(`Dimensões da textura ${id} inválidas.`);
@@ -193,52 +197,7 @@ async function materialsFrom(snapshot){
 /** As esquadrias da fonte (batentes, caixilhos, vidros e folhas) vêm com TODOS os triângulos girando contra a
  * normal. Com DoubleSide o Three tomava o lado de dentro por verso e virava a normal para fora: a porta lia a
  * sonda do lado de fora e estourava de branco. Só vira malha inteira ao contrário; a mista (folha de planta) fica. */
-function windWithNormals(geometry){
-  const p=geometry.attributes.position,n=geometry.attributes.normal,index=geometry.index;if(!n)return geometry;
-  const at=i=>index?index.getX(i):i,count=index?index.count:p.count,a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3(),s=new THREE.Vector3(),t=new THREE.Vector3();
-  let against=0,total=0;
-  for(let i=0;i<count;i+=3){
-    a.fromBufferAttribute(p,at(i));b.fromBufferAttribute(p,at(i+1)).sub(a);c.fromBufferAttribute(p,at(i+2)).sub(a);b.cross(c);
-    s.fromBufferAttribute(n,at(i)).add(t.fromBufferAttribute(n,at(i+1))).add(t.fromBufferAttribute(n,at(i+2)));
-    const d=b.dot(s);if(Math.abs(d)<1e-12)continue;total++;if(d<0)against++;
-  }
-  if(!total||against<total)return geometry;
-  if(index){for(let i=0;i<count;i+=3){const k=index.getX(i+1);index.setX(i+1,index.getX(i+2));index.setX(i+2,k);}}
-  else for(const attribute of Object.values(geometry.attributes))for(let i=0;i<count;i+=3)for(let k=0;k<attribute.itemSize;k++){
-    const v=attribute.getComponent(i+1,k);attribute.setComponent(i+1,k,attribute.getComponent(i+2,k));attribute.setComponent(i+2,k,v);
-  }
-  geometry.userData.livRewound=total;return geometry;
-}
-/** Vértice que só serve a triângulos de piso, parede ou teto (face a menos de 1° de um eixo) recebe a normal do eixo.
- * A fonte do Canto tem vértice de piso inclinado até 55° (o leque herda a média das paredes): o sol e o reflexo
- * acendiam cada triângulo de um jeito e o chão ganhava "raios" retos. O lado vem da normal, não da ordem dos cantos. */
-function flattenAxisNormals(geometry){
-  const p=geometry.attributes.position,n=geometry.attributes.normal,index=geometry.index;if(!n)return geometry;
-  const at=i=>index?index.getX(i):i,count=index?index.count:p.count,want=new Map();
-  const a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3(),s=new THREE.Vector3(),t=new THREE.Vector3();
-  for(let i=0;i<count;i+=3){
-    const ids=[at(i),at(i+1),at(i+2)];
-    a.fromBufferAttribute(p,ids[0]);b.fromBufferAttribute(p,ids[1]).sub(a);c.fromBufferAttribute(p,ids[2]).sub(a);b.cross(c);
-    const length=b.length();let key=-1;
-    if(length>1e-12){
-      b.divideScalar(length);const f=[b.x,b.y,b.z],k=f.map(Math.abs).indexOf(Math.max(...f.map(Math.abs)));
-      s.fromBufferAttribute(n,ids[0]).add(t.fromBufferAttribute(n,ids[1])).add(t.fromBufferAttribute(n,ids[2]));
-      if(Math.abs(f[k])>.99985)key=k*2+(f[k]*[s.x,s.y,s.z][k]>0?(f[k]>0?1:0):(f[k]>0?0:1));
-    }
-    for(const id of ids){const prev=want.get(id);want.set(id,prev===undefined||prev===key?key:-1);}
-  }
-  let flattened=0;
-  for(const [id,key]of want){if(key<0)continue;const v=[0,0,0];v[key>>1]=key&1?1:-1;n.setXYZ(id,...v);flattened++;}
-  if(flattened)n.needsUpdate=true;
-  return geometry;
-}
-function geometryFrom(spec){
-  const geometry=own(new THREE.BufferGeometry());
-  for(const [name,size]of [['position',3],['normal',3],['uv',2],['color',3]])if(spec[name]?.length)geometry.setAttribute(name,new THREE.Float32BufferAttribute(spec[name],size));
-  if(spec.index)geometry.setIndex(new THREE.Uint32BufferAttribute(spec.index,1));
-  for(const group of spec.groups||[])geometry.addGroup(group.start,group.count,group.materialIndex);
-  geometry.computeBoundingSphere();return flattenAxisNormals(windWithNormals(geometry));
-}
+const geometryFrom=spec=>geometryFromSpec(spec,own);
 function registerTree(root){root.traverse(o=>{if(o.geometry)own(o.geometry);if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])own(m);});}
 function buildFrozen(source,materials){
   const geometries=new Map();
@@ -332,20 +291,7 @@ function bindFrozenFurniture(){
     item.group=group;item.baseRotation=0;
   }
 }
-function expandedGeometry(spec,corner){
-  const indicesBytes=bytes64(corner.indicesU32),uvBytes=bytes64(corner.uv1U16);
-  if(indicesBytes.byteLength%4||uvBytes.byteLength%2)throw Error('Buffers compactos inválidos.');
-  const indices=new Uint32Array(indicesBytes.buffer),uvs=new Uint16Array(uvBytes.buffer);
-  if(indices.length!==corner.triangleCount*3||uvs.length!==indices.length*2||corner.sourceVertexCount!==spec.position.length/3||corner.sourceGeometrySHA256!==spec.sha256)throw Error('UV compacto não pertence à geometria original.');
-  const geometry=own(new THREE.BufferGeometry());
-  for(const [name,size]of [['position',3],['normal',3],['uv',2],['color',3]])if(spec[name]?.length){
-    const data=new Float32Array(indices.length*size);
-    for(let i=0;i<indices.length;i++){if(indices[i]>=corner.sourceVertexCount)throw Error('Índice compacto fora da fonte.');for(let k=0;k<size;k++)data[i*size+k]=spec[name][indices[i]*size+k];}
-    geometry.setAttribute(name,new THREE.BufferAttribute(data,size));
-  }
-  geometry.setAttribute('uv1',new THREE.BufferAttribute(Float32Array.from(uvs,x=>x/65535),2));
-  for(const group of corner.groups)geometry.addGroup(group.start,group.count,group.materialIndex);geometry.computeBoundingSphere();return flattenAxisNormals(windWithNormals(geometry));
-}
+const expandedGeometry=(spec,corner)=>expandedGeometryFromSpec(spec,corner,own);
 function installBake(compact){
   // Laranjeiras (time-rgbm): sem o atlas estático do LIV, a identidade é a da fonte e do UV1.
   if(record.lighting==='time-rgbm'){if(compact.sourceSHA256!==record.sourceSHA256||compact.unitSHA256!==record.unitSHA256)throw Error('UV1 interior não corresponde à fonte.');}
@@ -663,7 +609,7 @@ state.getState=function(){return {version:1,typology,mode:state.mode,backend:sta
   furniture:furniture.map(m=>({id:m.id,name:m.name,improvementAsset:m.improvementAsset||null,position:[...m.position],rotation:m.rotation,...dimensionsOf(m),originalDimensions:{...m.originalDimensions},originalPosition:[...m.originalPosition],originalRotation:m.originalRotation,
     modified:Math.abs(m.position[0]-m.originalPosition[0])>1e-9||Math.abs(m.position[1]-m.originalPosition[1])>1e-9||m.rotation!==m.originalRotation||!sameFurnitureDimensions(m,m.originalDimensions)})),
   improvements:improvements?.getState()||state.improvements||null,doors:doors?.getState()||null,look:state.look||null,lighting:{...state.lighting,solar:solarLighting?.getState()||null,timeLight:timeLight?.getState()||null,timeLightError:state.timeLightError||null},timeOfDay:structuredClone(timeOfDay),shadows:shadowLight?{autoUpdate:shadowLight.shadow.autoUpdate,needsUpdate:shadowLight.shadow.needsUpdate,mapSize:shadowLight.shadow.mapSize.toArray()}:null,
-  navigation:state.navigationDiagnostics(),renderer:{calls:renderer?.info.render.drawCalls||0,framePasses:renderer?.info.render.frameCalls||0,totalPasses:renderer?.info.render.calls||0,triangles:renderer?.info.render.triangles||0,geometries:renderer?.info.memory.geometries||0,textures:renderer?.info.memory.textures||0},ownership:{...state.ownership}};};
+  navigation:state.navigationDiagnostics(),renderer:{calls:renderer?.info.render.drawCalls??renderer?.info.render.calls??0,framePasses:renderer?.info.render.frameCalls??renderer?.info.render.calls??0,totalPasses:renderer?.info.render.calls||0,triangles:renderer?.info.render.triangles||0,geometries:renderer?.info.memory.geometries||0,textures:renderer?.info.memory.textures||0},ownership:{...state.ownership}};};
 state.restoreState=function(snapshot){
   if(!state.ready||snapshot?.typology!==typology||snapshot.unitSHA256!==record.unitSHA256||snapshot.sourceSHA256!==record.sourceSHA256)return false;
   let restoredTime;
@@ -710,16 +656,22 @@ state.setActive=async function(active){
   await renderer.setAnimationLoop(renderFrame);return true;
 };
 
+async function loadSceneSource(){
+  if(!record.files.runtimeScene)return load(record.files.source,true);
+  const bytes=await load(record.files.runtimeScene);check();
+  return decodePreparedScene(bytes,{sourceSHA:record.sourceSHA256,compactSHA:record.files.compact.decodedSHA256});
+}
+
 async function start(){
   if(!['canto','meio','canto-espelhado','meio-espelhado'].includes(typology)||!['auto','webgpu','webgl'].includes(requested)||!['planta3d','visita'].includes(state.mode))throw Error('Parâmetros do interior inválidos.');
   timeOfDay=interiorTimeState(query.get('hora')??14,query.has('contexto')?JSON.parse(query.get('contexto')):undefined,{date:query.get('data')??undefined});
   state.timeOfDay=structuredClone(timeOfDay);
   progress('Preparando os gráficos…','backend');let adapter=null;
-  if(requested!=='webgl'&&navigator.gpu){try{adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});}catch(error){state.adapterError=String(error);}}
+  if(!classicRequested&&requested!=='webgl'&&navigator.gpu){try{adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});}catch(error){state.adapterError=String(error);}}
   check();if(requested==='webgpu'&&!adapter)throw Error('WebGPU não está disponível neste dispositivo.');
-  const options={canvas,alpha:true,antialias:true,forceWebGL:requested==='webgl'||!adapter};renderer=createRenderer(options);renderer.setClearAlpha(0);state.renderer=renderer;
-  state.backendAttempt=options.forceWebGL?'webgl':'webgpu';await initializeRenderer(renderer);
-  check();state.backend=renderer.backend.isWebGPUBackend?'webgpu':'webgl';if(requested==='webgpu'&&state.backend!=='webgpu')throw Error('O backend WebGPU exigido não foi ativado.');
+  const options={canvas,alpha:true,antialias:true,forceWebGL:classicRequested||requested==='webgl'||!adapter};state.backendAttempt=options.forceWebGL?'webgl':'webgpu';renderer=createRenderer(options);renderer.setClearAlpha(0);state.renderer=renderer;
+  await initializeRenderer(renderer);
+  check();setBakedMaterialBackend(Boolean(renderer.isClassicInteriorRenderer));state.backend=renderer.backend.isWebGPUBackend?'webgpu':'webgl';if(requested==='webgpu'&&state.backend!=='webgpu')throw Error('O backend WebGPU exigido não foi ativado.');
   renderer.onError=error=>fail(error);renderer.onDeviceLost=info=>fail(Error(`Dispositivo gráfico perdido: ${info?.message||info?.reason||'desconhecido'}`));
   renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.toneMapping=THREE.AgXToneMapping;renderer.toneMappingExposure=1;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
   progress('Baixando o interior selecionado…');
@@ -731,7 +683,7 @@ async function start(){
   try{await import(runtimeURL);}finally{URL.revokeObjectURL(runtimeURL);}check();
   const sourceMaterials=record.geometryKind==='frozen-source'&&record.materialsOrigin==='source';
   const [unit,nativeMaterials,library]=await Promise.all([load(record.files.unit,true),
-    load(sourceMaterials?record.files.source:catalog.shared.materials,true),
+    sourceMaterials?loadSceneSource():load(catalog.shared.materials,true),
     load(catalog.shared.furniture,true)]);check();
   if(record.unitSHA256!==record.files.unit.sha256||unit.id!==record.unitId)throw Error('Unidade não pertence à tipologia selecionada.');
   layout=createLayout(unit);scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(48,1,.02,100);state.scene=scene;state.camera=camera;
@@ -746,7 +698,7 @@ async function start(){
   const factory=nativeFactory(native,library);
   furnitureFactory=factory;furnitureMaterials=native;state.ceilingHeight=layout.pd;
   if(record.geometryKind==='frozen-source'){
-    [source,light]=await Promise.all([sourceMaterials?Promise.resolve(nativeMaterials):load(record.files.source,true),record.files.light?load(record.files.light,true):null]);check();
+    [source,light]=await Promise.all([sourceMaterials?Promise.resolve(nativeMaterials):loadSceneSource(),record.files.light?load(record.files.light,true):null]);check();
     if(source.schema!=='liv-interior-scene-v1'||source.unitSHA256!==record.unitSHA256||record.files.source.decodedSHA256!==record.sourceSHA256)throw Error('Fonte congelada não corresponde à unidade.');
     // The Canto source contains an old m6 override shared by many other meshes.
     // Retain its approved runtime palette; only the new cornice material is added.
@@ -755,7 +707,7 @@ async function start(){
     // Openings fills only the native collision leaf descriptors. The frozen
     // meshes remain untouched; these temporary construction meshes are released.
     for(const mesh of factory.openings.geoDasEsquadrias(layout.house)){own(mesh.geometry);release(mesh.geometry);}
-    const [compact,manifest]=await Promise.all([load(record.files.compact,true),loadTimeManifest().catch(error=>{state.timeLightError=String(error.message||error);return null;})]);check();
+    const [compact,manifest]=await Promise.all([source.preparedBake?Promise.resolve(source.preparedBake):load(record.files.compact,true),loadTimeManifest().catch(error=>{state.timeLightError=String(error.message||error);return null;})]);check();
     installBake(compact);if(manifest)timeLight=createTimeLightmaps({manifest,own,load:file=>load(file,false,true),release:value=>framePromise.catch(()=>{}).then(()=>release(value))});
   }else if(record.geometryKind==='native-factories'){
     const recipe=await load(record.files.recipe,true);check();
@@ -803,9 +755,9 @@ async function start(){
   const architecture=doors.doors.map(door=>door.group);scene.traverse(mesh=>{if(mesh.isMesh&&!mesh.userData.furnitureId&&!mesh.parent?.userData.livDoor)architecture.push(mesh);});
   presentation=createPlanCutaway({scene,layout,architecture,wallMaterial:native.m0,own});ceiling=presentation.ceiling;
   addLights();bindProbeLight();if(timeLight)applyTimeLight();
-  source=null;meshBySlot.clear();
+  const preparedNavigation=source?.preparedNavigation;source=null;meshBySlot.clear();
   // Walking respects walls and openings; furniture stays visible without blocking passage.
-  navigation=createNavigation(layout);entry=navigation.entry();tourPosition=[...entry];faceRoom();refreshRooms();
+  navigation=createNavigation(layout,()=>[],{prepared:preparedNavigation});entry=navigation.entry();tourPosition=[...entry];faceRoom();refreshRooms();
   function resize(){frameDirty=true;const width=canvas.clientWidth,height=canvas.clientHeight;if(!width||!height||state.disposed)return;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);if(state.mode==='planta3d'&&planAutoFrame)orbitDefault();}
   resizeView=resize;observer=new ResizeObserver(resize);observer.observe(stage);observer.observe(canvas);resize();orbitDefault();const initialMode=state.mode;state.mode='planta3d';state.setMode(initialMode);
   wire();document.querySelector('#furniture-select').replaceChildren(...furniture.map(m=>{const option=document.createElement('option');option.value=m.id;option.textContent=m.name;return option;}));

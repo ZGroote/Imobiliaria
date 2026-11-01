@@ -1,4 +1,5 @@
 import * as THREE from 'three/webgpu';
+import {decodePreparedHDR} from './prepared-hdr.js';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {HDRLoader} from 'three/addons/loaders/HDRLoader.js';
 
@@ -15,7 +16,7 @@ function repeatPair(value){
 }
 
 function assetURL(path,catalogURL,extension='glb'){
-  if(typeof path!=='string'||!(/^[a-zA-Z0-9._/-]+\.(?:glb|hdr)$/i.test(path))||!path.toLowerCase().endsWith(`.${extension}`)||path.startsWith('/')||path.split('/').includes('..'))throw Error('Caminho de recurso detalhado inválido.');
+  if(typeof path!=='string'||!(/^[a-zA-Z0-9._/-]+\.(?:glb|hdr|bin\.gz)$/i.test(path))||!path.toLowerCase().endsWith(`.${extension}`)||path.startsWith('/')||path.split('/').includes('..'))throw Error('Caminho de recurso detalhado inválido.');
   return new URL(path.startsWith('interiores/melhorias/')?path.slice('interiores/melhorias/'.length):path,catalogURL);
 }
 
@@ -114,14 +115,21 @@ export async function loadInteriorImprovements({base,signal,typology=null,items=
   async function hdrResource(record){
     const key=resourceURL(record,'hdr').href;
     if(!hdrResources.has(key))hdrResources.set(key,(async()=>{
-      const {bytes}=await resource(record,'hdr'),data=new HDRLoader().parse(bytes);
+      if(record.prepared&&record.prepared.sourceSHA256!==record.sha256)throw Error('Ambiente preparado não corresponde ao HDR aprovado.');
+      const source=record.prepared||record,{bytes}=await resource(source,record.prepared?'bin.gz':'hdr');
+      let data;
+      if(record.prepared){
+        const decoded=new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
+        if(decoded.length!==source.decodedBytes||await sha256(decoded)!==source.decodedSHA256)throw Error('Ambiente preparado de outra revisão.');
+        data={...decodePreparedHDR(decoded),type:THREE.HalfFloatType,colorSpace:THREE.LinearSRGBColorSpace,minFilter:THREE.LinearFilter,magFilter:THREE.LinearFilter,generateMipmaps:false,flipY:true};
+      }else data=new HDRLoader().parse(bytes);
       const texture=own(new THREE.DataTexture(data.data,data.width,data.height,THREE.RGBAFormat,data.type));
       for(const field of ['colorSpace','minFilter','magFilter','generateMipmaps','flipY'])texture[field]=data[field];
       texture.name='Ambiente HDR aprovado do Blender LIV';texture.mapping=THREE.EquirectangularReflectionMapping;texture.needsUpdate=true;
       aborted(signal);return {texture,width:data.width,height:data.height,bytes:bytes.byteLength};
     })());
     const loaded=await hdrResources.get(key);
-    if(record.bytes!==undefined&&loaded.bytes!==record.bytes)throw Error(`${record.path}: arquivo incompleto.`);
+    if(!record.prepared&&record.bytes!==undefined&&loaded.bytes!==record.bytes)throw Error(`${record.path}: arquivo incompleto.`);
     return loaded;
   }
   function bindReflectionMaterial(material,asset){
