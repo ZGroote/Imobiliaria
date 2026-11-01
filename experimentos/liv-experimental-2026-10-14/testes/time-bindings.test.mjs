@@ -5,10 +5,10 @@ import {createTimeIrradiance,createProbeIrradiance} from '../material-rgbm.js';
 const builder=()=>{const nodes=new Map();return {getNodeFromHash:key=>nodes.get(key),setHashNode:(node,key)=>nodes.set(key,node)};};
 const textures=node=>{const out=[];node.traverse(child=>{if(child.isTextureNode&&!out.includes(child))out.push(child);});return out;};
 test('canais de atlas mantêm bindings distintos quando partem da mesma textura',()=>{
- const api=createTimeIrradiance({range:16,intensity:Math.PI}),shared=new THREE.DataTexture(new Uint8Array(4),1,1);
+ const api=createTimeIrradiance({range:16,intensity:Math.PI,width:1,height:1}),shared=new THREE.DataTexture(new Uint8Array(4),1,1);
  api.set({a:shared,b:shared,night:shared,wa:1,wb:0,wn:0});
  const samples=textures(api.node),cache=builder(),bindings=samples.map(n=>n.getSharedNode(cache));
- assert.equal(samples.length,3);assert.equal(new Set(bindings).size,3,'Pesos que viram positivos depois precisam de samplers independentes.');
+ assert.equal(samples.length,12);assert.equal(new Set(bindings).size,3,'Os quatro vizinhos compartilham o canal; horas diferentes têm samplers independentes.');
  const next=[0,1,2].map(()=>new THREE.DataTexture(new Uint8Array(4),1,1));
  api.set({a:next[0],b:next[1],night:next[2],wa:.2,wb:.3,wn:.5});
  assert.deepEqual(new Set(bindings.map(n=>n.value)),new Set(next));

@@ -1,6 +1,6 @@
 import {classicAtlas,classicProbes,classicBakedMaterial,setClassicGains,setClassicNormalization} from './classic-lighting.js';
 import * as THREE from 'three/webgpu';
-import {texture, texture3D, uv, float, int, uniform, uniformArray, vec2, vec3, clamp, select, dot, positionWorld, normalWorld, diffuseContribution} from 'three/tsl';
+import {texture, texture3D, uv, float, int, uniform, uniformArray, vec2, vec3, clamp, select, dot, floor, fract, mix, positionWorld, normalWorld, diffuseContribution} from 'three/tsl';
 
 let classicBackend=false;
 export function setBakedMaterialBackend(classic){classicBackend=classic;}
@@ -21,16 +21,22 @@ export function setReflectionNormalization(enabled){setClassicNormalization(enab
 
 /** Duas horas gravadas + a noite numa só expressão; trocar hora muda texturas e pesos, não o shader. */
 export function createTimeIrradiance({range,intensity,width,height}) {
-  if(classicBackend)return classicAtlas({range,intensity,width,height});
+  if(classicBackend)return classicAtlas({range,intensity,width,height,manualBilinear:true});
   const placeholder=new THREE.DataTexture(new Uint8Array(4),1,1);placeholder.channel=1;placeholder.needsUpdate=true;
-  const samples=[0,1,2].map(()=>{const node=texture(placeholder,uv(1));node.getUniformHash=()=>node.uuid;return node;}),weights=[0,1,2].map(()=>uniform(0));
-  // Multiplicador ao quadrado (linear-rgbm2-u8): no escuro o passo de 1/255 para 2/255 dobrava a luz entre
-  // texels vizinhos e o filtro bilinear riscava uma linha 12% mais clara na parede; ao quadrado o passo fica ~13%.
-  const decode=(sample,weight)=>sample.rgb.mul(sample.a).mul(sample.a).mul(weight);
+  // Decodifica os 4 texels vizinhos e só então mistura. O bilinear do hardware misturava o RGBM
+  // codificado: onde o multiplicador muda entre vizinhos a média saía errada e a parede ganhava contornos em
+  // degrau (curva de nível) em toda hora. Os atlas vêm em NearestFilter (interior-luz-horario.js).
+  const size=vec2(width,height),st=uv(1).mul(size).sub(.5),base=floor(st),f=fract(st);
+  const at=(dx,dy)=>base.add(vec2(dx,dy)).add(.5).div(size);
+  const hashes=[0,1,2].map(()=>THREE.MathUtils.generateUUID());
+  const samples=[0,1,2].map(channel=>[at(0,0),at(1,0),at(0,1),at(1,1)].map(coord=>{const node=texture(placeholder,coord);node.getUniformHash=()=>hashes[channel];return node;})),weights=[0,1,2].map(()=>uniform(0));
+  // Multiplicador ao quadrado (linear-rgbm2-u8): luz = rgb·a²·range.
+  const texel=sample=>sample.rgb.mul(sample.a).mul(sample.a);
+  const decode=([s00,s10,s01,s11],weight)=>mix(mix(texel(s00),texel(s10),f.x),mix(texel(s01),texel(s11),f.x),f.y).mul(weight);
   const node=decode(samples[0],weights[0]).add(decode(samples[1],weights[1])).add(decode(samples[2],weights[2])).mul(float(range*intensity));
   return {node,
     set({a,b,night,wa,wb,wn}){
-      [a,b,night].forEach((value,index)=>{samples[index].value=value;});
+      [a,b,night].forEach((value,index)=>{for(const sample of samples[index])sample.value=value;});
       [wa,wb,wn].forEach((value,index)=>{weights[index].value=Math.max(0,value);});
     }};
 }

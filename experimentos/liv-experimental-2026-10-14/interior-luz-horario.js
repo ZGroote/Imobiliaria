@@ -40,6 +40,7 @@ export function createTimeLightmaps({manifest,load,own=value=>value,release=valu
     const entry=entries.get(id);
     if(!pending.has(id))pending.set(id,Promise.all([load(entry),probes&&entry.probes?load(entry.probes):null]).then(([bytes,probeBytes])=>{
       const texture=own(createRGBMTexture(bytes,manifest));texture.name=`LIV luz gravada · ${id}`;
+      texture.minFilter=texture.magFilter=THREE.NearestFilter; // o shader interpola depois de decodificar RGBM
       const value={atlas:texture,volume:probeBytes?volume(probeBytes):null};textures.set(id,value);return value;
     }).catch(error=>{pending.delete(id);throw error;}));
     return pending.get(id);

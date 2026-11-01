@@ -26,6 +26,7 @@ RAW = ROOT / ('fontes/luz-horario' if TYPOLOGY == 'canto' else 'fontes/luz-horar
 DEST = ROOT.parent / f'liv-experimental-2026-10-14/interiores/{TYPOLOGY}/luz-horario'
 sys.path.insert(0, str(ROOT.parents[1] / 'v1.5/miniaturas/liv-ipanema/interior'))
 from denoise_luz import oidn_filter  # noqa: E402
+from suavizar_paredes import scene_wall_filters, soften_walls, encode_rgbm2, WALL_DENOISE  # noqa: E402
 
 OIDN = Path(os.environ['LOCALAPPDATA']) / 'CodexBlenderStudy/oidn-2.3.3.x64.windows/bin'
 RANGE = 16.0
@@ -102,7 +103,7 @@ def hidden_wall_top(size, below=.04, across=3, down=5):
     edge = np.argwhere(margin); edge_origin = np.stack([near[0][margin], near[1][margin]], 1)[:, None]
     print('PAREDE_ACIMA_DO_FORRO', TYPOLOGY, 'corte', round(top, 3), 'texels', len(dst), 'borda', len(edge),
           'origens por texel', round(float(weight.sum(1).mean()), 1), flush=True)
-    return [(dst, origin, weight), (edge, edge_origin, np.ones(edge_origin.shape[:2], bool))], (band, islands), np.concatenate(floor)
+    return [(dst, origin, weight), (edge, edge_origin, np.ones(edge_origin.shape[:2], bool))], (band, islands), np.concatenate(floor), scene_wall_filters(source, compact, size)[0]
 
 
 def floor_grid(spec, floor, cell=.025):
@@ -169,7 +170,7 @@ def fill_holes(rgba, islands):
     return int(same.sum())
 
 
-def encode(rgba, guard, hidden, speckle, grid):
+def encode(rgba, guard, hidden, speckle, grid, walls):
     holes = fill_holes(rgba, speckle[1]); fill(rgba, hidden); spikes = despeckle(rgba, speckle); soften_floor(rgba, grid, speckle[1])
     mask = rgba[:, :, 3] > 0
     distance, nearest = ndimage.distance_transform_edt(~mask, return_indices=True)
@@ -178,16 +179,13 @@ def encode(rgba, guard, hidden, speckle, grid):
     denoised = oidn_filter(rgb, OIDN); denoised[~mask] = 0
     fill(denoised, hidden)
     denoised[border] = denoised[nearest[0][border], nearest[1][border]]
+    soften_walls(denoised, walls, speckle[1])
     clipped = int((denoised.max(axis=2) > RANGE).sum())
     if clipped:
         raise RuntimeError(f'RGBM {RANGE} cortaria {clipped} pixels')
     # linear-rgbm2-u8: luz = rgb * a² * RANGE. Com a linear, o passo de a=1 para a=2 no escuro dobrava a luz
     # entre vizinhos e o bilinear do site desenhava um contorno claro em degraus na parede.
-    alpha = np.clip(np.ceil(np.sqrt(denoised.max(axis=2) / RANGE) * 255), 1, 255)
-    scale = (alpha / 255) ** 2 * RANGE
-    encoded = np.empty((*rgba.shape[:2], 4), dtype=np.uint8)
-    encoded[:, :, :3] = np.rint(np.clip(denoised / scale[:, :, None], 0, 1) * 255).astype(np.uint8)
-    encoded[:, :, 3] = alpha.astype(np.uint8)
+    encoded = encode_rgbm2(denoised, RANGE)
     return encoded.tobytes(), float(denoised.max()), (holes, spikes)
 
 
@@ -258,7 +256,7 @@ def main():
     DEST.mkdir(parents=True, exist_ok=True)
     spec = json.loads((RAW / 'sondas.json').read_text(encoding='utf8'))
     rooms, dims = probe_layout(spec)
-    hidden, speckle, floor = hidden_wall_top(size); grid = floor_grid(spec, floor)
+    hidden, speckle, floor, walls = hidden_wall_top(size); grid = floor_grid(spec, floor)
     entries = []
     for key in [*keys['keys'], {'id': 'noite'}]:
         info = measured['keys'].get(key['id'])
@@ -267,7 +265,7 @@ def main():
         raw = (RAW / f'{key["id"]}.f32').read_bytes()
         if sha(raw) != info['rawSHA256']:
             raise RuntimeError(f'{key["id"]}: bruto diferente do registrado')
-        texture, peak, spikes = encode(np.frombuffer(raw, dtype=np.float32).reshape(size, size, 4).copy(), guard, hidden, speckle, grid)
+        texture, peak, spikes = encode(np.frombuffer(raw, dtype=np.float32).reshape(size, size, 4).copy(), guard, hidden, speckle, grid, walls)
         packed = gzip.compress(texture, compresslevel=9, mtime=0)
         (DEST / f'{key["id"]}.rgbm.gz').write_bytes(packed)
         entry = {k: v for k, v in info.items() if k not in ('rawSHA256', 'seconds', 'max')}
@@ -288,14 +286,14 @@ def main():
                 'sourceSHA256': measured['sourceSHA256'], 'geometrySHA256': measured['geometrySHA256'],
                 'blendSHA256': measured['blendSHA256'], 'targets': measured['targets'],
                 'date': keys['date'], 'hours': keys['hours'],
-                'width': size, 'height': size, 'samples': measured['samples'], 'encoding': 'linear-rgbm2-u8',
+                'width': size, 'height': size, 'samples': measured['samples'], 'encoding': 'linear-rgbm2-u8', 'wallDenoise': WALL_DENOISE,
                 'compression': 'gzip', 'origin': 'bottom-left', 'range': RANGE,
                 'lightMapIntensity': 1 / measured['v1'], 'exposureEV': measured['exposureEV'],
                 'note': 'Dia: céu sem disco (direto+rebatido) + rebatido do sol medido; o sol direto é do site. '
                         'Noite: rebatido dos plafons do site. sunIrradianceRGB em W/m² do Blender, antes da exposição.',
                 'probes': {**dims, 'encoding': 'rgba-float16', 'faceOrder': spec['faceOrder'], 'rooms': rooms, 'roomMap': room_map(spec)},
                 'keys': [e for e in entries if e['kind'] == 'dia'], 'night': next(e for e in entries if e['kind'] == 'noite')}
-    (DEST / 'manifest.json').write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf8')
+    (DEST / 'manifest.json').write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf8', newline='\n')
     print('LIV_LUZ_HORARIO_EMPACOTADA', sum(e['bytes'] + e['probes']['bytes'] for e in entries), flush=True)
 
 
