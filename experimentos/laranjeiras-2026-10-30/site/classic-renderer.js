@@ -1,9 +1,15 @@
 import {WebGLRenderer,WebGLRenderTarget,ShaderMaterial,Scene,Mesh,PlaneGeometry,OrthographicCamera,Data3DTexture,Vector3,HalfFloatType,RGBAFormat,LinearSRGBColorSpace,SRGBColorSpace,NoToneMapping,NoBlending} from 'three/webgl';
 export function createClassicInteriorRenderer(options){
  const renderer=new WebGLRenderer({...options,antialias:false});renderer.isClassicInteriorRenderer=true;
- renderer.backend={isWebGPUBackend:false,isWebGLBackend:true,gl:renderer.getContext()};
+ const gl=renderer.getContext();
+ if(!renderer.extensions.has('EXT_color_buffer_float')&&!renderer.extensions.has('EXT_color_buffer_half_float')){
+  renderer.dispose();renderer.forceContextLoss();throw Error('Este contexto WebGL2 não suporta o alvo HDR do interior.');
+ }
+ const samples=options.antialias?Math.max(0,...Array.from(gl.getInternalformatParameter(gl.RENDERBUFFER,gl.RGBA16F,gl.SAMPLES)||[]).filter(value=>value<=4)):0;
+ renderer.interiorCapabilities={colorBuffer:'RGBA16F',samples,maxTextureUnits:renderer.capabilities.maxTextures};
+ renderer.backend={isWebGPUBackend:false,isWebGLBackend:true,gl};
  renderer.localClippingEnabled=true;renderer.info.autoReset=false;renderer.toneMapping=NoToneMapping;renderer.outputColorSpace=SRGBColorSpace;
- const target=new WebGLRenderTarget(1,1,{type:HalfFloatType,format:RGBAFormat,samples:options.antialias?4:0,depthBuffer:true,stencilBuffer:false});target.texture.colorSpace=LinearSRGBColorSpace;
+ const target=new WebGLRenderTarget(1,1,{type:HalfFloatType,format:RGBAFormat,samples,depthBuffer:true,stencilBuffer:false});target.texture.colorSpace=LinearSRGBColorSpace;
  const placeholder=new Data3DTexture(new Uint16Array(4),1,1,1);placeholder.type=HalfFloatType;placeholder.needsUpdate=true;
  const uniforms={tColor:{value:target.texture},livLook:{value:placeholder},livLookInfo:{value:new Vector3(-10,20,2)},livUseLook:{value:0},toneMappingExposure:{value:1}};
  const material=new ShaderMaterial({uniforms,depthTest:false,depthWrite:false,blending:NoBlending,toneMapped:false,
