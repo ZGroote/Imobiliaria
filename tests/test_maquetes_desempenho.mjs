@@ -164,4 +164,16 @@ for(const runtime of runtimes){
     assert.equal(outputs[0],outputs[1]);assert.notEqual(outputs[0],outputs[2]);assert.notEqual(outputs[0],outputs[3]);
     for(const texture of new Set(outputs))texture.dispose();
   });
+  test(`${runtime}: revisão da cena preparada evita resposta obsoleta do cache HTTP`,async()=>{
+    const cache=new Map(),urls=[];let data=new Uint8Array([1]);
+    const record={files:{}},context=vm.createContext({URL,TextDecoder,Uint8Array,base:new URL('https://example.test/maquete/'),record,
+      controller:{signal:undefined},check(){},progress(){},sha:async bytes=>createHash('sha256').update(bytes).digest('hex'),
+      fetch:async url=>{urls.push(url.href);if(!cache.has(url.href))cache.set(url.href,data.slice());return {ok:true,arrayBuffer:async()=>cache.get(url.href).slice().buffer};}});
+    vm.runInContext(source.slice(source.indexOf('async function load('),source.indexOf('function bytes64('))+';globalThis.loadScene=load;',context);
+    const descriptor=()=>({path:'interiores/canto/scene-runtime.bin.gz',bytes:1,sha256:createHash('sha256').update(data).digest('hex')});
+    record.files.runtimeScene=descriptor();assert.deepEqual([...await context.loadScene(record.files.runtimeScene)],[1]);
+    data=new Uint8Array([2]);record.files.runtimeScene=descriptor();assert.deepEqual([...await context.loadScene(record.files.runtimeScene)],[2]);
+    assert.notEqual(urls[0],urls[1]);assert.equal(new URL(urls[1]).searchParams.get('v'),record.files.runtimeScene.sha256);
+  });
+
 }

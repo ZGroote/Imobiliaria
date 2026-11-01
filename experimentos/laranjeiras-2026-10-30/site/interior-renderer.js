@@ -137,7 +137,7 @@ async function unzip(bytes){return new Uint8Array(await new Response(new Blob([b
 async function load(file,json=false,quiet=false){
   if(!file||!/^interiores\/(?:shared|canto|meio|canto-espelhado|meio-espelhado)\/[a-zA-Z0-9._/-]+$/.test(file.path)||file.path.split('/').includes('..')||!/^[a-f0-9]{64}$/.test(file.sha256)||!Number.isInteger(file.bytes))throw Error('Identidade de recurso interior inválida.');
   // A luz gravada muda de conteúdo sem mudar de nome: o SHA no endereço evita a cópia velha do cache.
-  check();const url=new URL(file.path,base);if(quiet)url.searchParams.set('v',file.sha256);
+  check();const url=new URL(file.path,base);if(quiet||file.path===record?.files?.runtimeScene?.path)url.searchParams.set('v',file.sha256);
   const response=await fetch(url,{signal:controller.signal});if(!response.ok)throw Error(`${file.path}: HTTP ${response.status}.`);
   let bytes;
   if(response.body){
