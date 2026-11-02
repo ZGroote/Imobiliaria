@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fffffe" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0d131b" media="(prefers-color-scheme: dark)">
+    <meta name="description" content="Maquete 3D, planta com medidas e tour pelos ambientes, num link que abre no celular. Conheça a Conecta Imóveis 3D.">
+    <title>Conecta — viver antes</title>
+    <link rel="icon" href="data:,">
+    <link rel="preload" href="fonts/Satoshi-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <script>document.documentElement.classList.add("js")</script>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="site.js"></script>
+  </head>
+  <body>
+    <a class="pular" href="#demonstracao">Pular para a demonstração</a>
+
+    <header class="topo">
+      <a class="marca" href="#inicio" aria-label="Conecta, início">conecta<span aria-hidden="true">.</span></a>
+      <nav class="menu" aria-label="Seções">
+        <a href="#demonstracao">Demonstração</a>
+        <a href="#entregas">O que entregamos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#planos">Planos</a>
+        <a href="#duvidas">Dúvidas</a>
+      </nav>
+      <a class="botao botao-cheio botao-topo" data-whatsapp href="https://wa.me/5516981288075" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <details class="menu-celular">
+        <summary aria-label="Abrir menu"><span></span><span></span></summary>
+        <nav aria-label="Seções">
+          <a href="#demonstracao">Demonstração</a>
+          <a href="#entregas">O que entregamos</a>
+          <a href="#como-funciona">Como funciona</a>
+          <a href="#planos">Planos</a>
+          <a href="#duvidas">Dúvidas</a>
+        </nav>
+      </details>
+    </header>
+
+    <main>
+      <section class="abertura" id="inicio" aria-labelledby="titulo">
+        <div class="abertura-texto">
+          <p class="rotulo">Apresentação imobiliária em 3D</p>
+          <h1 id="titulo">Pessoas escolhem com certeza quando podem <em>viver antes.</em></h1>
+          <p class="abertura-sub">Transformamos plantas e projetos numa experiência que a pessoa explora sozinha, do prédio ao sofá da sala, antes de marcar a visita.</p>
+          <div class="acoes">
+            <a class="botao botao-cheio" href="#demonstracao" data-abrir-maquete>Explorar a maquete <span aria-hidden="true">↓</span></a>
+            <a class="botao botao-linha" data-whatsapp href="https://wa.me/5516981288075" target="_blank" rel="noopener">Falar com a equipe <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <figure class="abertura-planta">
+          <canvas width="640" height="360" aria-hidden="true"></canvas>
+          <img src="frames-hero/frame_00081.webp" width="640" height="360" alt="Planta de um apartamento de dois quartos, mobiliada, vista de cima." fetchpriority="high">
+          <figcaption><span data-etapa="0">Estrutura</span><span data-etapa="1">Acabamentos</span><span data-etapa="2">Experiência</span></figcaption>
+        </figure>
+      </section>
+
+      <section class="vitrine" id="demonstracao" aria-labelledby="titulo-vitrine">
+        <div class="vitrine-cabeca">
+          <div>
+            <p class="rotulo rotulo-claro">Demonstração ao vivo</p>
+            <h2 id="titulo-vitrine">Não precisa imaginar. <em>Pode entrar.</em></h2>
+          </div>
+          <p>Não é vídeo nem foto: é a maquete funcionando aqui dentro, igual ao que o seu cliente recebe. O Vila Aurora é um prédio de demonstração, com preços e disponibilidade ilustrativos.</p>
+        </div>
+
+        <div class="abas" role="tablist" aria-label="O que mostrar na maquete">
+          <button type="button" role="tab" aria-selected="true" data-modo="predio">Prédio</button>
+          <button type="button" role="tab" aria-selected="false" data-modo="planta">Planta</button>
+          <button type="button" role="tab" aria-selected="false" data-modo="apartamento">Apartamento 3D</button>
+          <button type="button" role="tab" aria-selected="false" data-modo="tour">Tour</button>
+        </div>
+
+        <div class="janela" data-carregada="false" data-ativa="false">
+          <img class="janela-capa" src="assets/telas/predio.webp" width="1200" height="699" alt="" decoding="async">
+          <iframe title="Maquete interativa do Vila Aurora, prédio de demonstração" allow="fullscreen; xr-spatial-tracking"></iframe>
+          <button class="janela-ativar" type="button"><span>Explorar a maquete aqui</span></button>
+          <button class="janela-tela-cheia" type="button">Tela cheia <span aria-hidden="true">↗</span></button>
+        </div>
+        <p class="vitrine-dica" aria-live="polite">Toque num apartamento verde para ver a ficha. Dois toques seguidos abrem a planta.</p>
+      </section>
+
+      <section class="secao" id="entregas" aria-labelledby="titulo-entregas">
+        <div class="secao-cabeca">
+          <p class="rotulo">O que entregamos</p>
+          <h2 id="titulo-entregas">Um link. <em>O imóvel inteiro.</em></h2>
+          <p>Tudo o que você viu acima, montado a partir da planta e do projeto do seu imóvel.</p>
+        </div>
+        <div class="entregas">
+          <article class="entrega" data-revelar>
+            <img src="assets/telas/predio.webp" width="1200" height="699" alt="Fachada do prédio em 3D com os apartamentos disponíveis em verde." loading="lazy" decoding="async">
+            <h3>Prédio interativo</h3>
+            <p>A fachada mostra quais apartamentos estão disponíveis. Um toque abre a ficha com preço e vaga.</p>
+          </article>
+          <article class="entrega" data-revelar>
+            <img src="assets/telas/planta.webp" width="1200" height="699" alt="Planta 2D do apartamento com os nomes dos cômodos." loading="lazy" decoding="async">
+            <h3>Planta com medidas</h3>
+            <p>A planta vem com régua: a pessoa mede qualquer parede direto na tela.</p>
+          </article>
+          <article class="entrega" data-revelar>
+            <img src="assets/telas/apartamento.webp" width="1200" height="699" alt="Apartamento mobiliado em 3D, visto de cima, sem o teto." loading="lazy" decoding="async">
+            <h3>Apartamento em 3D</h3>
+            <p>O apartamento mobiliado, visto de cima, para entender como os cômodos se ligam.</p>
+          </article>
+          <article class="entrega" data-revelar>
+            <img src="assets/telas/tour.webp" width="1200" height="699" alt="Vista de dentro da sala durante o tour, com o sofá e o controle de horário do sol." loading="lazy" decoding="async">
+            <h3>Tour pelos ambientes</h3>
+            <p>Caminhar pela sala e pelos quartos, e ver a luz do sol mudar com a hora do dia.</p>
+          </article>
+          <article class="entrega entrega-texto" data-revelar>
+            <span class="entrega-numero" aria-hidden="true">01</span>
+            <h3>Um link para cada corretor</h3>
+            <p>Cada corretor divulga o imóvel pelo próprio link, e o contato chega para quem indicou.</p>
+          </article>
+          <article class="entrega entrega-texto" data-revelar>
+            <span class="entrega-numero" aria-hidden="true">02</span>
+            <h3>Sem instalar nada</h3>
+            <p>Abre no navegador do celular ou do computador. Dá para mandar no WhatsApp como qualquer link.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="secao publico" id="para-quem" aria-labelledby="titulo-publico">
+        <div class="secao-cabeca">
+          <p class="rotulo">Para quem</p>
+          <h2 id="titulo-publico">Para quem transforma imóveis em <em>oportunidades.</em></h2>
+        </div>
+        <ul class="publico-lista">
+          <li data-revelar><h3>Incorporadoras</h3><p>Lançamento apresentado antes da obra: o comprador escolhe o apartamento vendo a fachada, a planta e o sol.</p></li>
+          <li data-revelar><h3>Imobiliárias</h3><p>Imóveis que se destacam no anúncio e uma conversa que começa com o cliente já entendendo o espaço.</p></li>
+          <li data-revelar><h3>Corretores</h3><p>Mais argumento na negociação e menos visita perdida com quem não tinha entendido a planta.</p></li>
+        </ul>
+      </section>
+
+      <section class="secao passos" id="como-funciona" aria-labelledby="titulo-passos">
+        <div class="secao-cabeca">
+          <p class="rotulo rotulo-claro">Como funciona</p>
+          <h2 id="titulo-passos">Você traz o imóvel. <em>A gente constrói o próximo olhar.</em></h2>
+        </div>
+        <ol class="passos-lista">
+          <li data-revelar><span>01</span><h3>Conte o que você precisa</h3><p>Conhecemos o imóvel, os materiais disponíveis e o objetivo da apresentação.</p></li>
+          <li data-revelar><span>02</span><h3>Definimos a proposta</h3><p>Alinhamos plano, entregas, valores e prazos antes de iniciar a produção.</p></li>
+          <li data-revelar><span>03</span><h3>Produzimos e revisamos juntos</h3><p>A apresentação passa pela sua avaliação antes da publicação combinada.</p></li>
+          <li data-revelar><span>04</span><h3>Publicamos o link</h3><p>Seu imóvel pronto para ser explorado, no celular ou no computador.</p></li>
+        </ol>
+      </section>
+
+      <section class="secao" id="planos" aria-labelledby="titulo-planos">
+        <div class="secao-cabeca">
+          <p class="rotulo">Planos</p>
+          <h2 id="titulo-planos">O seu imóvel. <em>A apresentação certa.</em></h2>
+          <p>Do essencial a uma produção com mais detalhes. Cada imóvel tem suas particularidades, então o valor sai numa proposta.</p>
+        </div>
+        <div class="planos">
+          <article class="plano" data-revelar>
+            <p class="rotulo">01 · Essencial para apresentar</p>
+            <h3>LEVE</h3>
+            <p>Clareza para entender o imóvel, com foco na distribuição dos espaços.</p>
+            <ul>
+              <li>Foco na leitura da planta e dos volumes</li>
+              <li>Representação simplificada dos ambientes</li>
+              <li>Produção a partir dos materiais acordados</li>
+              <li>Revisão da apresentação com a sua equipe</li>
+            </ul>
+            <p class="plano-preco">Sob consulta</p>
+            <a class="botao botao-linha" data-whatsapp="Quero conversar sobre o plano LEVE." href="https://wa.me/5516981288075" target="_blank" rel="noopener">Conversar sobre o LEVE <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="plano plano-destaque" data-revelar>
+            <p class="rotulo rotulo-claro">02 · Mais detalhes na experiência</p>
+            <h3>PREMIUM</h3>
+            <p>Uma produção dedicada para explorar o caráter e os detalhes do imóvel.</p>
+            <ul>
+              <li>Maior detalhamento conforme a proposta</li>
+              <li>Materiais e acabamentos definidos no escopo</li>
+              <li>Avaliação das referências disponíveis</li>
+              <li>Revisão da apresentação com a sua equipe</li>
+            </ul>
+            <p class="plano-preco">Sob consulta</p>
+            <a class="botao botao-branco" data-whatsapp="Quero conversar sobre o plano PREMIUM." href="https://wa.me/5516981288075" target="_blank" rel="noopener">Conversar sobre o PREMIUM <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+      </section>
+
+      <section class="secao duvidas" id="duvidas" aria-labelledby="titulo-duvidas">
+        <div class="secao-cabeca">
+          <p class="rotulo">Dúvidas</p>
+          <h2 id="titulo-duvidas">Boas perguntas. <em>Respostas diretas.</em></h2>
+        </div>
+        <div class="duvidas-lista">
+          <details>
+            <summary>O que preciso enviar para uma proposta?</summary>
+            <p>Conte qual é o imóvel, o que você pretende apresentar e quais materiais já tem. Plantas, medidas, fotos e referências ajudam a avaliar a viabilidade. O material necessário é combinado antes da produção.</p>
+          </details>
+          <details>
+            <summary>Qual é o valor e o prazo de entrega?</summary>
+            <p>Os dois são definidos na proposta comercial, conforme o imóvel, o plano e as entregas. Fale com a equipe pelo WhatsApp para uma avaliação.</p>
+          </details>
+          <details>
+            <summary>A apresentação substitui a visita ao imóvel?</summary>
+            <p>Ela complementa a apresentação comercial. Medidas, acabamentos, condições do imóvel e informações de negociação devem ser conferidos com o responsável pelo anúncio e na documentação.</p>
+          </details>
+          <details>
+            <summary>Posso pedir mais de um imóvel?</summary>
+            <p>Sim, avaliamos uma proposta para um conjunto de imóveis. A sequência de produção e as condições são combinadas no atendimento.</p>
+          </details>
+          <details>
+            <summary>O PREMIUM reproduz todos os detalhes reais?</summary>
+            <p>A fidelidade depende dos materiais disponíveis e do escopo aprovado. O que é representado, simplificado ou ilustrativo consta da proposta.</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="chamada" aria-labelledby="titulo-chamada">
+        <h2 id="titulo-chamada">Seu próximo imóvel pode ser visto <em>de outro jeito.</em></h2>
+        <a class="botao botao-branco" data-whatsapp href="https://wa.me/5516981288075" target="_blank" rel="noopener">Vamos conversar <span aria-hidden="true">↗</span></a>
+        <p>WhatsApp (16) 98128-8075</p>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <p><strong>conecta.</strong> Conecta Imóveis 3D</p>
+      <p>O Vila Aurora é um empreendimento fictício, criado só para esta demonstração.</p>
+      <nav aria-label="Documentos">
+        <a href="https://conectaimoveis3d.com.br/termos.html">Termos</a>
+        <a href="https://conectaimoveis3d.com.br/privacidade.html">Privacidade</a>
+        <a href="https://conectaimoveis3d.com.br/cookies.html">Cookies</a>
+      </nav>
+    </footer>
+
+    <dialog class="maquete-dialogo" id="maquete" aria-label="Maquete interativa do Vila Aurora">
+      <button class="maquete-voltar" type="button">← Voltar à apresentação</button>
+      <iframe title="Maquete interativa do Vila Aurora em tela cheia" allow="fullscreen; xr-spatial-tracking"></iframe>
+    </dialog>
+  </body>
+</html>
