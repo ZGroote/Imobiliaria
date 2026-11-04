@@ -2,3 +2,4 @@
 build/
 site/modelos/*.glb
 site/mp/
+site/modelos/*.gltf.json

@@ -44,6 +44,11 @@ ou desce para apoiar nos ombros do corpo.
 | `blender/foto_sintetica.py` | Gera uma "foto" de manequim com medidas conhecidas para testar o site |
 | `site/index.html` | O provador: foto → medidas → manequim → jaqueta → veredito por região |
 
+Versão publicada (privada): https://claude.ai/artifact/LQKjpjQxHsP3XF9ZpZafsU.
+Esse host não serve `.glb` nem `.task`, então ali os modelos vão como glTF em
+JSON (`blender/glb_para_json.py`) e o detector de pose vai em base64 num `.txt`.
+O site tenta os formatos nessa ordem.
+
 O Blender usado é o módulo `bpy` 5.2.3, que roda sem interface. Para montar:
 `./montar.sh`. Os GLBs, as texturas e o detector de pose ficam fora do git porque
 passam de 1 MiB (ver `tasks/higiene-repositorio/arquivos-grandes.md`).

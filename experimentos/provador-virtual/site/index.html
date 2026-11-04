@@ -263,7 +263,9 @@ const chao = new THREE.Mesh(new THREE.CircleGeometry(1.6, 64), new THREE.ShadowM
 chao.rotation.x = -Math.PI / 2; chao.receiveShadow = true; cena.add(chao);
 
 const loader = new GLTFLoader();
-const [gm, gj] = await Promise.all([loader.loadAsync("modelos/manequim.glb"), loader.loadAsync("modelos/jaqueta.glb")]);
+// .glb no uso local; .gltf.json (buffer embutido) onde o host não serve binários
+const carregar = (nome) => loader.loadAsync(`modelos/${nome}.glb`).catch(() => loader.loadAsync(`modelos/${nome}.gltf.json`));
+const [gm, gj] = await Promise.all([carregar("manequim"), carregar("jaqueta")]);
 const malhas = (g) => { const l = []; g.scene.traverse((o) => { if (o.isMesh) { o.castShadow = o.receiveShadow = true; l.push(o); } }); return l; };
 const manequim = malhas(gm);
 malhas(gj).forEach((m) => { m.material.side = THREE.DoubleSide; m.material.envMapIntensity = 0.55; });
@@ -303,13 +305,20 @@ let detector = null;
 async function obterDetector() {
   if (detector) return detector;
   const mp = await import("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.20/vision_bundle.mjs");
-  const local = await fetch("mp/pose_landmarker_lite.task", { method: "HEAD" }).then((r) => r.ok).catch(() => false);
+  // modelo: arquivo local, ou base64 em .txt (hosts que não servem binários), ou CDN
+  let base = null;
+  const r = await fetch("mp/pose_landmarker_lite.task").catch(() => null);
+  if (r?.ok) base = { modelAssetBuffer: new Uint8Array(await r.arrayBuffer()) };
+  else {
+    const t = await fetch("mp/pose_landmarker_lite.task.b64.txt").catch(() => null);
+    if (t?.ok) base = { modelAssetBuffer: Uint8Array.from(atob((await t.text()).trim()), (c) => c.charCodeAt(0)) };
+  }
+  const local = !!base;
   const wasm = local ? new URL("mp", location.href).href : "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.20/wasm";
-  const modelo = local ? "mp/pose_landmarker_lite.task"
-    : "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
+  base ??= { modelAssetPath: "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task" };
   const fs = await mp.FilesetResolver.forVisionTasks(wasm);
   detector = await mp.PoseLandmarker.createFromOptions(fs, {
-    baseOptions: { modelAssetPath: modelo, delegate: "GPU" }, runningMode: "IMAGE", numPoses: 1, outputSegmentationMasks: true,
+    baseOptions: { ...base, delegate: "GPU" }, runningMode: "IMAGE", numPoses: 1, outputSegmentationMasks: true,
   });
   return detector;
 }
