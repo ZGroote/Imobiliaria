@@ -1,0 +1,92 @@
+[
+ {
+  "tamanho": "PP",
+  "corpo": {
+   "altura": 1.6,
+   "ombros": 0.39,
+   "busto": 0.84,
+   "cintura": 0.7,
+   "quadril": 0.88
+  },
+  "folga_cm": {
+   "peito": 17.5,
+   "cintura": 23.5,
+   "barra": 12.2
+  },
+  "ombro_cm": 5.0,
+  "estiramento_p95_pct": 0.7,
+  "segundos": 34.9
+ },
+ {
+  "tamanho": "P",
+  "corpo": {
+   "altura": 1.68,
+   "ombros": 0.41,
+   "busto": 0.91,
+   "cintura": 0.77,
+   "quadril": 0.94
+  },
+  "folga_cm": {
+   "peito": 10.5,
+   "cintura": 16.5,
+   "barra": 5.8
+  },
+  "ombro_cm": 3.0,
+  "estiramento_p95_pct": 1.2,
+  "segundos": 37.4
+ },
+ {
+  "tamanho": "M",
+  "corpo": {
+   "altura": 1.75,
+   "ombros": 0.44,
+   "busto": 0.98,
+   "cintura": 0.84,
+   "quadril": 0.99
+  },
+  "folga_cm": {
+   "peito": 3.5,
+   "cintura": 9.5,
+   "barra": 0.1
+  },
+  "ombro_cm": 0.0,
+  "estiramento_p95_pct": 1.2,
+  "segundos": 40.1
+ },
+ {
+  "tamanho": "G",
+  "corpo": {
+   "altura": 1.8,
+   "ombros": 0.46,
+   "busto": 1.06,
+   "cintura": 0.94,
+   "quadril": 1.05
+  },
+  "folga_cm": {
+   "peito": -4.5,
+   "cintura": -0.2,
+   "barra": -7.4
+  },
+  "ombro_cm": -2.0,
+  "estiramento_p95_pct": 9.9,
+  "segundos": 65.0
+ },
+ {
+  "tamanho": "GG",
+  "corpo": {
+   "altura": 1.85,
+   "ombros": 0.48,
+   "busto": 1.14,
+   "cintura": 1.04,
+   "quadril": 1.12
+  },
+  "folga_cm": {
+   "peito": -12.5,
+   "cintura": -10.0,
+   "barra": -15.5
+  },
+  "ombro_cm": -4.0,
+  "estiramento_p95_pct": 34.4,
+  "segundos": 104.7
+ }
+]

@@ -1,0 +1,4 @@
+# Gerados por montar.sh (acima de 1 MiB; ver tasks/higiene-repositorio/arquivos-grandes.md)
+build/
+site/modelos/*.glb
+site/mp/

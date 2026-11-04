@@ -1,0 +1,413 @@
+<meta charset="utf-8">
+<title>Provador da Jaqueta Sherpa</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: provador de alfaiataria — coluna de etiqueta/fita métrica à esquerda, palco 3D à direita */
+:root {
+  --papel: #e9edf1;        /* papel de molde, frio */
+  --cartao: #f7f9fb;
+  --tinta: #16213a;        /* azul-marinho de giz */
+  --tinta-2: #4d5872;
+  --linha: #c9d0da;
+  --cobre: #a8562a;        /* botão de cobre da jaqueta */
+  --cobre-claro: #f3e2d6;
+  --palco: #dfe4ea;
+  --ok: #2f7d4f; --ok-bg: #dcefe3;
+  --alerta: #9a6a08; --alerta-bg: #f6ebcf;
+  --ruim: #b23a2e; --ruim-bg: #f6dcd8;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --texto: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --dado: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --papel: #0f1524; --cartao: #161e31; --tinta: #e6ebf3; --tinta-2: #9aa6bd; --linha: #2a3550;
+  --cobre: #e08a55; --cobre-claro: #3a2618; --palco: #121a2b;
+  --ok: #6fcf97; --ok-bg: #173826; --alerta: #e6b84f; --alerta-bg: #3a2f12; --ruim: #f08473; --ruim-bg: #42201c;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --papel: #0f1524; --cartao: #161e31; --tinta: #e6ebf3; --tinta-2: #9aa6bd; --linha: #2a3550;
+  --cobre: #e08a55; --cobre-claro: #3a2618; --palco: #121a2b;
+  --ok: #6fcf97; --ok-bg: #173826; --alerta: #e6b84f; --alerta-bg: #3a2f12; --ruim: #f08473; --ruim-bg: #42201c;
+  color-scheme: dark }
+
+* { box-sizing: border-box }
+[hidden] { display: none !important }
+html, body { height: 100% }
+body { background: var(--papel); color: var(--tinta); font: 15px/1.5 var(--texto); }
+.app { display: grid; grid-template-columns: minmax(320px, 420px) 1fr; gap: 0; min-height: 100%;
+  padding-left: max(0px, env(safe-area-inset-left, 0px)); padding-right: max(0px, env(safe-area-inset-right, 0px)); }
+.lateral { padding-block: 24px 32px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: 20px;
+  display: flex; flex-direction: column; gap: 22px; min-width: 0; border-right: 1px solid var(--linha); }
+h1 { font: 800 2.6rem/0.95 var(--display); letter-spacing: 0.01em; text-transform: uppercase; margin: 0; text-wrap: balance }
+h1 span { color: var(--cobre) }
+.sub { color: var(--tinta-2); margin: 6px 0 0; max-width: 40ch }
+h2 { font: 600 1.25rem/1.1 var(--display); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 10px;
+  display: flex; align-items: baseline; gap: 8px }
+h2 .passo { font: 500 0.75rem var(--dado); color: var(--cobre); letter-spacing: 0 }
+
+/* etiqueta da peça */
+.etiqueta { background: var(--cartao); border: 1px dashed var(--linha); border-radius: 4px; padding: 12px 14px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px 10px; font-family: var(--dado); font-size: 0.8rem }
+.etiqueta .rot { color: var(--tinta-2); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em }
+.etiqueta b { font-weight: 500; font-size: 1rem; font-variant-numeric: tabular-nums }
+.etiqueta .nota { grid-column: 1 / -1; color: var(--tinta-2); font-family: var(--texto); font-size: 0.78rem; margin-top: 6px }
+
+/* foto */
+.soltar { border: 1.5px dashed var(--linha); border-radius: 6px; padding: 14px; display: grid; gap: 10px; background: var(--cartao) }
+.soltar.arrastando { border-color: var(--cobre); background: var(--cobre-claro) }
+.linha-foto { display: flex; gap: 10px; flex-wrap: wrap; align-items: end }
+label.campo { display: grid; gap: 4px; font-size: 0.8rem; color: var(--tinta-2) }
+input[type=number] { font: 500 1rem var(--dado); width: 7.5em; padding: 7px 8px; border: 1px solid var(--linha); border-radius: 4px;
+  background: var(--papel); color: var(--tinta) }
+.botao { font: 600 0.9rem var(--texto); border: 0; border-radius: 4px; padding: 9px 14px; cursor: pointer;
+  background: var(--tinta); color: var(--papel) }
+.botao.sec { background: transparent; color: var(--tinta); border: 1px solid var(--linha) }
+.botao:focus-visible, input:focus-visible { outline: 2px solid var(--cobre); outline-offset: 2px }
+#canvasFoto { width: 100%; max-height: 340px; object-fit: contain; border-radius: 4px; background: var(--palco) }
+.status { font-size: 0.82rem; color: var(--tinta-2); min-height: 1.2em }
+.status.erro { color: var(--ruim) }
+.privado { font-size: 0.75rem; color: var(--tinta-2) }
+
+/* fitas métricas */
+.fitas { display: grid; gap: 12px }
+.fita { display: grid; grid-template-columns: 78px 1fr 64px; align-items: center; gap: 10px }
+.fita .nome { font-size: 0.85rem }
+.fita output { font: 500 0.95rem var(--dado); text-align: right; font-variant-numeric: tabular-nums }
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 22px; background: transparent; cursor: pointer }
+input[type=range]::-webkit-slider-runnable-track { height: 14px; border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--tinta-2) 0 1px, transparent 1px 10%), linear-gradient(var(--cobre-claro), var(--cobre-claro));
+  border: 1px solid var(--linha) }
+input[type=range]::-moz-range-track { height: 14px; border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--tinta-2) 0 1px, transparent 1px 10%), linear-gradient(var(--cobre-claro), var(--cobre-claro));
+  border: 1px solid var(--linha) }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 6px; height: 24px; margin-top: -6px; background: var(--cobre); border-radius: 1px }
+input[type=range]::-moz-range-thumb { width: 6px; height: 24px; background: var(--cobre); border: 0; border-radius: 1px }
+.origem { font-size: 0.75rem; color: var(--tinta-2) }
+
+/* caimento */
+.veredito { font: 800 1.9rem/1 var(--display); text-transform: uppercase; letter-spacing: 0.02em }
+.tabela { display: grid; gap: 6px }
+.reg { display: grid; grid-template-columns: 74px 1fr auto; gap: 10px; align-items: center; font-size: 0.86rem }
+.reg .num { font: 500 0.85rem var(--dado); color: var(--tinta-2); font-variant-numeric: tabular-nums }
+.selo { font: 600 0.72rem var(--texto); text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 99px; white-space: nowrap }
+.s-ok { color: var(--ok); background: var(--ok-bg) } .s-al { color: var(--alerta); background: var(--alerta-bg) } .s-ru { color: var(--ruim); background: var(--ruim-bg) }
+.dica { font-size: 0.82rem; color: var(--tinta-2); margin: 8px 0 0 }
+
+/* palco */
+.palco { position: sticky; top: 0; height: 100dvh; background: radial-gradient(ellipse at 50% 35%, var(--cartao), var(--palco) 70%); min-height: 520px }
+#vista { position: absolute; inset: 0; width: 100%; height: 100% }
+.hud { position: absolute; left: 16px; right: 16px; top: 14px; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; pointer-events: none }
+.hud > * { pointer-events: auto }
+.chip { font: 500 0.78rem var(--dado); background: var(--cartao); border: 1px solid var(--linha); border-radius: 99px; padding: 5px 11px }
+.chave { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; background: var(--cartao); border: 1px solid var(--linha); border-radius: 99px; padding: 5px 12px; cursor: pointer }
+.carregando { position: absolute; inset: 0; display: grid; place-items: center; font: 500 0.9rem var(--dado); color: var(--tinta-2) }
+
+@media (max-width: 860px) {
+  .app { grid-template-columns: 1fr }
+  .lateral { border-right: 0; padding-right: max(16px, env(safe-area-inset-right, 0px)); order: 2 }
+  .palco { order: 1; position: relative; height: 64vh; min-height: 420px }
+  .etiqueta { grid-template-columns: repeat(2, 1fr) }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<div class="app">
+  <aside class="lateral">
+    <header>
+      <h1>Provador <span>Sherpa</span></h1>
+      <p class="sub">Envie uma foto de corpo inteiro. A página estima suas medidas, ajusta o manequim ao seu corpo e veste nele a jaqueta, no tamanho real da peça.</p>
+    </header>
+
+    <section aria-labelledby="t-peca">
+      <h2 id="t-peca"><span class="passo">peça</span>Trucker jeans com gola sherpa</h2>
+      <div class="etiqueta" id="etiqueta"></div>
+    </section>
+
+    <section aria-labelledby="t-foto">
+      <h2 id="t-foto"><span class="passo">1</span>Sua foto</h2>
+      <div class="soltar" id="soltar">
+        <div class="linha-foto">
+          <label class="campo" for="altura-foto">Sua altura (cm)
+            <input type="number" id="altura-foto" min="145" max="205" step="1" value="175">
+          </label>
+          <label class="botao" for="arquivo" tabindex="0">Escolher foto</label>
+          <input type="file" id="arquivo" accept="image/*" hidden>
+        </div>
+        <canvas id="canvasFoto" width="600" height="400" hidden></canvas>
+        <div class="status" id="status" role="status">De frente, corpo inteiro, braços um pouco afastados do corpo, roupa justa. Ou arraste a foto para cá.</div>
+        <div class="privado">A foto é analisada no seu navegador e não é enviada a nenhum servidor.</div>
+      </div>
+    </section>
+
+    <section aria-labelledby="t-medidas">
+      <h2 id="t-medidas"><span class="passo">2</span>Suas medidas</h2>
+      <div class="fitas" id="fitas"></div>
+      <p class="origem" id="origem">Exemplo: corpo de referência M. Envie a foto ou ajuste as fitas.</p>
+    </section>
+
+    <section aria-labelledby="t-caimento">
+      <h2 id="t-caimento"><span class="passo">3</span>Como a jaqueta fica</h2>
+      <div class="veredito" id="veredito">—</div>
+      <div class="tabela" id="tabela"></div>
+      <p class="dica" id="dica"></p>
+    </section>
+  </aside>
+
+  <main class="palco">
+    <canvas id="vista" aria-label="Manequim 3D vestindo a jaqueta"></canvas>
+    <div class="carregando" id="carregando">carregando manequim e jaqueta…</div>
+    <div class="hud">
+      <span class="chip" id="chipMedidas">—</span>
+      <label class="chave" for="vestir"><input type="checkbox" id="vestir" checked> Vestir jaqueta</label>
+    </div>
+  </main>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+const $ = (id) => document.getElementById(id);
+const dados = await (await fetch("modelos/provador.json")).json();
+const PARAMS = ["altura", "ombros", "busto", "cintura", "quadril"];
+const NOMES = { altura: "Altura", ombros: "Ombros", busto: "Peito", cintura: "Cintura", quadril: "Quadril" };
+const medidas = { ...dados.corpos_referencia.M };
+
+// ---------------------------------------------------------------- etiqueta da peça
+const P = dados.peca, cm = (m) => Math.round(m * 100);
+$("etiqueta").innerHTML = [
+  ["Ombro", cm(P.ombros)], ["Peito", cm(P.peito)], ["Barra", cm(P.barra)], ["Manga", cm(P.manga)],
+].map(([r, v]) => `<div><div class="rot">${r}</div><b>${v}</b> cm</div>`).join("") +
+  `<div class="nota">Medidas da peça estimadas pela foto do produto, usando o cabide (≈44 cm) e os botões como régua. Margem de ±3 cm.</div>`;
+
+// ---------------------------------------------------------------- fitas
+const fitas = $("fitas");
+for (const k of PARAMS) {
+  const [lo, hi] = dados.faixas[k];
+  const id = "fita-" + k;
+  fitas.insertAdjacentHTML("beforeend", `<div class="fita">
+    <label class="nome" for="${id}">${NOMES[k]}</label>
+    <input type="range" id="${id}" min="${cm(lo)}" max="${cm(hi)}" step="1">
+    <output for="${id}" id="out-${k}"></output></div>`);
+  $(id).addEventListener("input", (e) => { medidas[k] = e.target.value / 100; $("origem").textContent = "Ajustado à mão."; atualizar(); });
+}
+function sincronizarFitas() { for (const k of PARAMS) { $("fita-" + k).value = cm(medidas[k]); $("out-" + k).textContent = cm(medidas[k]) + " cm"; } }
+
+// ---------------------------------------------------------------- caimento
+function circCorpo(regiao) {
+  const c = dados.corpo_coef[regiao];
+  return c.const + PARAMS.reduce((s, k) => s + c[k] * medidas[k], 0);
+}
+function classe(folga) {
+  if (folga < 0) return ["Não fecha", "s-ru", 4];
+  if (folga < 4) return ["Justo", "s-al", 2];
+  if (folga <= 12) return ["Confortável", "s-ok", 0];
+  if (folga <= 20) return ["Folgado", "s-al", 1];
+  return ["Muito folgado", "s-ru", 3];
+}
+function avaliar() {
+  const linhas = [];
+  for (const [reg, nome] of [["peito", "Peito"], ["cintura", "Cintura"], ["barra", "Barra"]]) {
+    const f = (dados.jaqueta_interna[reg] - circCorpo(reg)) * 100;
+    linhas.push([nome, `${f >= 0 ? "+" : ""}${f.toFixed(0)} cm de folga`, ...classe(f)]);
+  }
+  const o = (P.ombros - medidas.ombros) * 100;
+  linhas.push(["Ombros", `${o >= 0 ? "+" : ""}${o.toFixed(0)} cm`, ...(o < -2 ? ["Aperta", "s-ru", 4] : o > 3 ? ["Caído", "s-al", 1] : ["No lugar", "s-ok", 0])]);
+  // manga: alcance da manga a partir do ombro versus braço até o punho
+  const m = (dados.manga_alcance_m - 0.03 - 0.332 * medidas.altura) * 100;
+  linhas.push(["Mangas", `${m >= 0 ? "+" : ""}${m.toFixed(0)} cm além do punho`, ...(m < -2 ? ["Curtas", "s-ru", 3] : m > 6 ? ["Compridas", "s-al", 1] : ["Certas", "s-ok", 0])]);
+  $("tabela").innerHTML = linhas.map(([n, t, s, c]) => `<div class="reg"><span>${n}</span><span class="num">${t}</span><span class="selo ${c}">${s}</span></div>`).join("");
+  const pior = Math.max(...linhas.map((l) => l[4]));
+  const folgaPeito = (dados.jaqueta_interna.peito - circCorpo("peito")) * 100;
+  $("veredito").textContent = pior >= 4 ? "Fica apertada" : pior === 3 ? "Não serve bem" : folgaPeito > 12 ? "Fica folgada" : pior === 2 ? "Fica justa" : "Veste bem";
+  $("veredito").style.color = pior >= 3 ? "var(--ruim)" : pior >= 1 ? "var(--alerta)" : "var(--ok)";
+  const ji = dados.jaqueta_interna.peito * 100;
+  $("dica").textContent = `Esta peça veste confortável quem tem entre ${Math.round(ji - 12)} e ${Math.round(ji - 4)} cm de peito. As folgas descontam o forro de sherpa (≈7 mm).`;
+}
+
+// ---------------------------------------------------------------- 3D
+const canvas = $("vista");
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.8;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+const cena = new THREE.Scene();
+cena.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+const camera = new THREE.PerspectiveCamera(30, 1, 0.05, 50);
+camera.position.set(-1.6, 1.4, 5.2);
+const controles = new OrbitControls(camera, canvas);
+controles.target.set(0, 1.12, 0);
+controles.enableDamping = true;
+controles.minDistance = 1.2; controles.maxDistance = 7;
+controles.maxPolarAngle = Math.PI * 0.55;
+const sol = new THREE.DirectionalLight(0xfff3e6, 1.6);
+sol.position.set(-2, 4, 3); sol.castShadow = true;
+sol.shadow.mapSize.set(2048, 2048);
+Object.assign(sol.shadow.camera, { left: -1.2, right: 1.2, top: 2.4, bottom: -0.2, near: 0.5, far: 10 });
+sol.shadow.bias = -0.0004;
+cena.add(sol, new THREE.HemisphereLight(0xdfe8ff, 0x8a8070, 0.35));
+const chao = new THREE.Mesh(new THREE.CircleGeometry(1.6, 64), new THREE.ShadowMaterial({ opacity: 0.18 }));
+chao.rotation.x = -Math.PI / 2; chao.receiveShadow = true; cena.add(chao);
+
+const loader = new GLTFLoader();
+const [gm, gj] = await Promise.all([loader.loadAsync("modelos/manequim.glb"), loader.loadAsync("modelos/jaqueta.glb")]);
+const malhas = (g) => { const l = []; g.scene.traverse((o) => { if (o.isMesh) { o.castShadow = o.receiveShadow = true; l.push(o); } }); return l; };
+const manequim = malhas(gm);
+malhas(gj).forEach((m) => { m.material.side = THREE.DoubleSide; m.material.envMapIntensity = 0.55; });
+manequim.forEach((m) => { m.material.envMapIntensity = 0.7; });
+cena.add(gm.scene, gj.scene);
+$("carregando").hidden = true;
+
+function aplicar3D() {
+  for (const m of manequim) {
+    const dic = m.morphTargetDictionary;
+    for (const k of PARAMS) {
+      const [lo, hi] = dados.faixas[k];
+      m.morphTargetInfluences[dic[k]] = (medidas[k] - lo) / (hi - lo);
+    }
+  }
+  gj.scene.position.y = dados.fator_deslocamento * (medidas.altura - dados.jaqueta_altura_base);
+  controles.target.y = 0.56 * medidas.altura;
+}
+function atualizar() {
+  sincronizarFitas(); avaliar(); aplicar3D();
+  $("chipMedidas").textContent = `${cm(medidas.altura)} cm · peito ${cm(medidas.busto)} · cintura ${cm(medidas.cintura)}`;
+}
+$("vestir").addEventListener("change", (e) => { gj.scene.visible = e.target.checked; });
+
+function redimensionar() {
+  const r = canvas.parentElement.getBoundingClientRect();
+  renderer.setSize(r.width, r.height, false);
+  camera.aspect = r.width / r.height; camera.updateProjectionMatrix();
+}
+new ResizeObserver(redimensionar).observe(canvas.parentElement);
+redimensionar();
+renderer.setAnimationLoop(() => { controles.update(); renderer.render(cena, camera); });
+atualizar();
+
+// ---------------------------------------------------------------- foto -> medidas
+let detector = null;
+async function obterDetector() {
+  if (detector) return detector;
+  const mp = await import("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.20/vision_bundle.mjs");
+  const local = await fetch("mp/pose_landmarker_lite.task", { method: "HEAD" }).then((r) => r.ok).catch(() => false);
+  const wasm = local ? new URL("mp", location.href).href : "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.20/wasm";
+  const modelo = local ? "mp/pose_landmarker_lite.task"
+    : "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
+  const fs = await mp.FilesetResolver.forVisionTasks(wasm);
+  detector = await mp.PoseLandmarker.createFromOptions(fs, {
+    baseOptions: { modelAssetPath: modelo, delegate: "GPU" }, runningMode: "IMAGE", numPoses: 1, outputSegmentationMasks: true,
+  });
+  return detector;
+}
+
+const status = (t, erro = false) => { $("status").textContent = t; $("status").classList.toggle("erro", erro); };
+const perimetro = (larg, k) => { const a = larg / 2, b = k * a; return Math.PI * (3 * (a + b) - Math.sqrt((3 * a + b) * (a + 3 * b))); };
+const limitar = (k, v) => Math.min(dados.faixas[k][1], Math.max(dados.faixas[k][0], v));
+
+async function processarFoto(arquivo) {
+  if (!arquivo || !arquivo.type.startsWith("image/")) { status("Esse arquivo não é uma imagem. Escolha uma foto JPG ou PNG.", true); return; }
+  const altura = Number($("altura-foto").value) / 100;
+  if (!(altura >= 1.45 && altura <= 2.05)) { status("Informe sua altura entre 145 e 205 cm; ela serve de escala para a foto.", true); return; }
+  const bmp = await createImageBitmap(arquivo, { imageOrientation: "from-image" });
+  const esc = Math.min(1, 1024 / Math.max(bmp.width, bmp.height));
+  const cv = $("canvasFoto"), ctx = cv.getContext("2d");
+  cv.width = Math.round(bmp.width * esc); cv.height = Math.round(bmp.height * esc);
+  ctx.drawImage(bmp, 0, 0, cv.width, cv.height);
+  cv.hidden = false;
+  status("Procurando a pessoa na foto…");
+  let res;
+  try { res = (await obterDetector()).detect(cv); }
+  catch (e) { status("Não consegui carregar o detector de pose neste navegador. Ajuste as fitas à mão.", true); console.error(e); return; }
+  if (!res.landmarks?.length) { status("Não encontrei uma pessoa de corpo inteiro. Tente uma foto de frente, com os pés e a cabeça visíveis.", true); return; }
+  const L = res.landmarks[0].map((p) => ({ x: p.x * cv.width, y: p.y * cv.height, v: p.visibility ?? 1 }));
+  const W = cv.width, H = cv.height;
+  const mask = res.segmentationMasks[0].getAsFloat32Array();
+  const dentro = (x, y) => x >= 0 && x < W && y >= 0 && y < H && mask[(y | 0) * W + (x | 0)] > 0.5;
+
+  // escala: do topo da cabeça (máscara) ao chão (calcanhares/pontas dos pés)
+  const xc = (L[11].x + L[12].x + L[23].x + L[24].x) / 4;
+  let topo = L[0].y;
+  while (topo > 0 && (dentro(xc, topo - 1) || dentro(L[0].x, topo - 1))) topo--;
+  const pes = Math.max(L[29].y, L[30].y, L[31].y, L[32].y);
+  if (Math.min(L[29].v, L[30].v, L[31].v, L[32].v) < 0.3 || pes > H * 1.02) { status("Os pés não aparecem bem. A foto precisa mostrar o corpo inteiro.", true); return; }
+  const cmPx = altura / (pes - topo); // metros por pixel
+
+  const yO = (L[11].y + L[12].y) / 2, yQ = (L[23].y + L[24].y) / 2, tor = yQ - yO;
+  const largura = (y) => {
+    const x0 = xc + (y - yO) / tor * 0;
+    let e = x0, d = x0;
+    if (!dentro(x0, y)) return null;
+    while (dentro(e - 1, y)) e--;
+    while (dentro(d + 1, y)) d++;
+    return { e, d, w: (d - e) * cmPx };
+  };
+  const ombroJ = Math.hypot(L[11].x - L[12].x, L[11].y - L[12].y) * cmPx;
+  // fração da altura (no manequim) de uma linha t entre ombros (0) e quadris (1)
+  const fracDe = (t) => 0.81 - 0.31 * t;
+  const linhas = { cintura: yO + 0.68 * tor, quadril: yQ + 0.10 * tor };
+  const larg = Object.fromEntries(Object.entries(linhas).map(([k, y]) => [k, largura(y)]));
+  // peito: t=0.30 é a linha do peito; com os braços colados, desce até a primeira linha livre
+  let peito = null;
+  for (const t of [0.30, 0.35, 0.40, 0.45, 0.50]) {
+    const l = largura(yO + t * tor);
+    if (l && l.w < ombroJ * 1.25) { peito = { ...l, t }; linhas.busto = yO + t * tor; larg.busto = l; break; }
+  }
+  const bracosColados = !peito || !larg.cintura || !larg.quadril || larg.cintura.w > ombroJ * 1.25;
+  const novo = { altura, ombros: limitar("ombros", ombroJ * 1.05 + 0.04) };
+  if (bracosColados) {
+    // braços encostados no tronco: usa proporções médias a partir dos ombros
+    novo.busto = limitar("busto", novo.ombros * 2.23);
+    novo.cintura = limitar("cintura", novo.busto * 0.86);
+    novo.quadril = limitar("quadril", novo.busto * 1.01);
+  } else {
+    novo.cintura = limitar("cintura", perimetro(larg.cintura.w, 0.78));
+    // no manequim, o anel nessa altura mistura peito (wB) e cintura (wC)
+    const w = Math.min(1, Math.max(0, (fracDe(peito.t) - 0.665) / 0.05));
+    const wB = w + (1 - w) * 0.55, wC = (1 - w) * 0.45;
+    novo.busto = limitar("busto", (perimetro(peito.w, 0.70 * w + 0.73 * (1 - w)) - wC * novo.cintura) / wB);
+    novo.quadril = limitar("quadril", perimetro(larg.quadril.w, 0.74));
+  }
+  Object.assign(medidas, novo);
+
+  // desenha o que foi medido
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "#e08a55"; ctx.fillStyle = "#e08a55";
+  for (const [k, y] of Object.entries(linhas)) {
+    const l = larg[k]; if (!l || bracosColados) continue;
+    ctx.beginPath(); ctx.moveTo(l.e, y); ctx.lineTo(l.d, y); ctx.stroke();
+    ctx.font = "600 15px IBM Plex Mono, monospace"; ctx.fillText(`${NOMES[k]} ${cm(novo[k])}`, l.d + 6, y + 5);
+  }
+  ctx.beginPath(); ctx.moveTo(L[11].x, L[11].y); ctx.lineTo(L[12].x, L[12].y); ctx.stroke();
+  ctx.strokeStyle = "#6fa8ff"; ctx.setLineDash([6, 5]);
+  ctx.beginPath(); ctx.moveTo(xc - 40, topo); ctx.lineTo(xc + 40, topo); ctx.moveTo(xc - 40, pes); ctx.lineTo(xc + 40, pes); ctx.stroke();
+  ctx.setLineDash([]);
+
+  $("origem").textContent = bracosColados
+    ? "Estimado pela foto (braços encostados no corpo: peito, cintura e quadril vieram de proporções médias). Confira com uma fita métrica."
+    : "Estimado pela foto. Margem típica de ±5 cm; confira com uma fita métrica se puder.";
+  status(bracosColados ? "Medidas estimadas. Para mais precisão, use uma foto com os braços afastados do corpo." : "Pronto. O manequim agora tem as suas medidas.");
+  atualizar();
+}
+
+$("arquivo").addEventListener("change", (e) => processarFoto(e.target.files[0]));
+document.querySelector('label[for="arquivo"]').addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("arquivo").click(); } });
+const zona = $("soltar");
+zona.addEventListener("dragover", (e) => { e.preventDefault(); zona.classList.add("arrastando"); });
+zona.addEventListener("dragleave", () => zona.classList.remove("arrastando"));
+zona.addEventListener("drop", (e) => { e.preventDefault(); zona.classList.remove("arrastando"); processarFoto(e.dataTransfer.files[0]); });
+window.__provador = { medidas, processarFoto, atualizar };
+</script>
