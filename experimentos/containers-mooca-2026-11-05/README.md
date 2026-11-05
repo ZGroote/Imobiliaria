@@ -101,3 +101,21 @@ python experimentos/containers-mooca-2026-11-05/implantacao/montar.py
 - `preview-aerea.jpg` e `preview-patio.jpg` são renders de conferência (Cycles, 32 amostras).
 - **Falta:** os caminhos de concreto, os bancos, os postes e as mesas do pátio que aparecem nos renders
   do caderno.
+
+## Luz do exterior e cena (feito)
+
+Os scripts de luz do LIV rodam sem mudança sobre o `modelo.json` dos containers (atlas de 2048 px:
+o conjunto é pequeno, 17.588 triângulos com luz gravada):
+
+```
+python v1.5/miniaturas/liv-ipanema/preparar_luz.py --model experimentos/containers-mooca-2026-11-05/modelo/modelo.json --out experimentos/containers-mooca-2026-11-05/modelo/luz --size 2048
+& 'C:\Program Files (x86)\Steam\steamapps\common\Blender\blender.exe' --background --python v1.5/miniaturas/liv-ipanema/bake_luz.py -- --out experimentos/containers-mooca-2026-11-05/modelo/luz --samples 64
+python v1.5/miniaturas/liv-ipanema/denoise_luz.py --out experimentos/containers-mooca-2026-11-05/modelo/luz --output-guard 4
+python experimentos/containers-mooca-2026-11-05/modelo/exportar_cena.py
+```
+
+O bake leva 16 s (OptiX, GTX 1650), e o denoise 7 s. `exportar_cena.py` é a cópia do Laranjeiras com
+outro cadastro: `assets/unidades.json` (schema `containers-mooca-units-v1`) tem 20 dormitórios, um por
+container, com a caixa de clique do container, o tipo, a área e o aluguel da p. 41. O conjunto é uma
+"torre" só (`conjunto`), porque o seletor do LIV agrupa por torre. O pavimento é o nível do container
+(0 ou 1), e o "final" é o número do dormitório (01..20). A cena tem 0,5 MB e o atlas 3,3 MB (gzip).
