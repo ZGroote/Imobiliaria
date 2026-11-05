@@ -1,0 +1,103 @@
+{
+  "status": "PASS",
+  "areaNominalM2": 14.8225,
+  "registro": {
+    "origemPx": [
+      1240,
+      1188
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 5.687137932375704,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        1240,
+        1188,
+        2302,
+        1618
+      ]
+    ],
+    "areaCalibracaoM2": 14.77,
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "moveis": [
+    {
+      "id": "m1",
+      "nome": "Banheira",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m2",
+      "nome": "Vaso",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m3",
+      "nome": "Lavatório",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m4",
+      "nome": "Copa com pia e frigobar",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m5",
+      "nome": "Escrivaninha",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m6",
+      "nome": "Cama de casal",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m7",
+      "nome": "Criado 1",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m8",
+      "nome": "Criado 2",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    }
+  ],
+  "sobreposicoes": [],
+  "vaos": {
+    "portas": 2,
+    "janelas": 2
+  },
+  "conferenciaJPG": "93643e611c0ac1d1978a2d5279f666fe4c44579389e075070893c06816371136",
+  "unidadeSHA256": "19b62a085ae7e46ea18c2a1befa5547ec5239a4c0446b9c766a85da7fdad3fe5",
+  "limites": [
+    "Sobreposição na imagem do book; não é conferência executiva.",
+    "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
+  ]
+}

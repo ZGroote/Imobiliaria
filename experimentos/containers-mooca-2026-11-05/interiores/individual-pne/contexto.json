@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "propertyId": "containers-mooca-individual-pne",
+  "agencyId": "referencia-publica-local",
+  "andar": 0,
+  "ficha": {
+    "titulo": "Containers da Mooca · dormitório individual PNE · 14,8 m²",
+    "empreendimento": "Moradia estudantil em containers (Mooca)",
+    "tipo": "individual-pne",
+    "area_publicada_m2": 14.8,
+    "quartos": 1,
+    "banheiros": 1,
+    "aluguel_mensal": 500,
+    "acessivel": true,
+    "observacao": "Reconstrução ilustrativa a partir do TCC de Tamires Ruffino (Escola da Cidade, 2025). Medidas pela área do container."
+  },
+  "cores": {
+    "parede": "#E6E3DC",
+    "piso_frio": "#C9C7C2",
+    "piso_madeira": "#B08A62",
+    "teto": "#EFEDE8"
+  },
+  "lote": {
+    "predio": {
+      "largura_m": 45,
+      "profundidade_m": 40,
+      "pavimentos": 2
+    }
+  }
+}

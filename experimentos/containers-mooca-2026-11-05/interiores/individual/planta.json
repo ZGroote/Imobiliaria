@@ -1,0 +1,198 @@
+{
+  "id": "containers-mooca-individual",
+  "titulo": "Containers da Mooca · dormitório individual · 14,8 m²",
+  "imagem": "../../../../plantas_fornecidas/containers-mooca/fonte/dorm-individual-pne-e-individual.png",
+  "imagemSha256": "873a21addabcd8c54a9b1ba9a4935b397425a761c4ce57403bf9509d84b6844c",
+  "calibracao": {
+    "areaM2": 14.77,
+    "contornoFacesPx": [
+      [
+        1330,
+        802,
+        1634,
+        1565
+      ]
+    ],
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "origemPx": [
+    1330,
+    802
+  ],
+  "gradeMm": 50,
+  "peDireitoMm": 2350,
+  "comodos": [
+    {
+      "nome": "Banho",
+      "partes": [
+        [
+          1330,
+          802,
+          1634,
+          1022
+        ]
+      ]
+    },
+    {
+      "nome": "Dormitório",
+      "partes": [
+        [
+          1330,
+          1022,
+          1634,
+          1565
+        ]
+      ]
+    }
+  ],
+  "aberturas": [
+    {
+      "comodo": "Banho",
+      "lado": "north",
+      "de": 1505,
+      "ate": 1610,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Dormitório",
+      "lado": "east",
+      "de": 1040,
+      "ate": 1150,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Dormitório",
+      "lado": "east",
+      "de": 1260,
+      "ate": 1420,
+      "tipo": "window",
+      "alturaMm": 1200,
+      "peitorilMm": 1000
+    },
+    {
+      "comodo": "Banho",
+      "lado": "south",
+      "de": 1340,
+      "ate": 1450,
+      "tipo": "window",
+      "alturaMm": 500,
+      "peitorilMm": 1600
+    }
+  ],
+  "moveis": [
+    {
+      "catalogo": "box-chuveiro",
+      "x": 1395,
+      "y": 908,
+      "rot": 90,
+      "w": 1600,
+      "d": 800,
+      "cor": "#DDE5E4",
+      "nome": "Box"
+    },
+    {
+      "catalogo": "vaso-sanitario",
+      "x": 1493,
+      "y": 852,
+      "rot": 0,
+      "w": 400,
+      "d": 650,
+      "cor": "#F2F1EE",
+      "nome": "Vaso"
+    },
+    {
+      "catalogo": "gabinete-banheiro",
+      "x": 1582,
+      "y": 845,
+      "rot": 0,
+      "w": 650,
+      "d": 500,
+      "cor": "#F2F1EE",
+      "nome": "Lavatório"
+    },
+    {
+      "catalogo": "fogao",
+      "x": 1372,
+      "y": 1167,
+      "rot": 90,
+      "w": 560,
+      "d": 560,
+      "cor": "#5D6367",
+      "nome": "Cooktop"
+    },
+    {
+      "catalogo": "pia-cozinha",
+      "x": 1372,
+      "y": 1290,
+      "rot": 90,
+      "w": 1000,
+      "d": 560,
+      "cor": "#C9C3BA",
+      "nome": "Copa com pia e frigobar"
+    },
+    {
+      "catalogo": "escrivaninha",
+      "x": 1370,
+      "y": 1494,
+      "rot": 90,
+      "w": 1000,
+      "d": 560,
+      "cor": "#A57A52",
+      "nome": "Escrivaninha"
+    },
+    {
+      "catalogo": "cama-solteiro",
+      "x": 1574,
+      "y": 1418,
+      "rot": 180,
+      "w": 900,
+      "d": 1950,
+      "cor": "#D9D4CC",
+      "nome": "Cama"
+    },
+    {
+      "catalogo": "guardaroupa",
+      "x": 1600,
+      "y": 1214,
+      "rot": 270,
+      "w": 1000,
+      "d": 520,
+      "cor": "#A57A52",
+      "nome": "Armário"
+    }
+  ],
+  "ficha": {
+    "titulo": "Containers da Mooca · dormitório individual · 14,8 m²",
+    "empreendimento": "Moradia estudantil em containers (Mooca)",
+    "tipo": "individual",
+    "area_publicada_m2": 14.8,
+    "quartos": 1,
+    "banheiros": 1,
+    "aluguel_mensal": 500,
+    "observacao": "Reconstrução ilustrativa a partir do TCC de Tamires Ruffino (Escola da Cidade, 2025). Medidas pela área do container."
+  },
+  "cores": {
+    "parede": "#E6E3DC",
+    "piso_frio": "#C9C7C2",
+    "piso_madeira": "#B08A62",
+    "teto": "#EFEDE8"
+  },
+  "lote": {
+    "predio": {
+      "largura_m": 45.0,
+      "profundidade_m": 40.0,
+      "pavimentos": 2
+    }
+  },
+  "limites": [
+    "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas.",
+    "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
+    "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
+    "O prédio declarado (45 x 40 m, 2 pavimentos) é a pegada do conjunto na planta 1:200; o container não é o prédio.",
+    "A porta de entrada e a janela do dormitório são aproximadas: o caderno não marca a esquadria do individual."
+  ]
+}

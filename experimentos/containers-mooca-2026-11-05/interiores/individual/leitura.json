@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "containers-mooca-individual",
+  "revision": 15,
+  "unit": "mm",
+  "geometry": "orthogonal-rectangles",
+  "ceilingHeightMm": 2350,
+  "provenance": {
+    "kind": "declared",
+    "referenceIds": []
+  },
+  "references": [],
+  "rooms": [
+    {
+      "id": "c1",
+      "name": "Banho",
+      "widthMm": 2450,
+      "depthMm": 1750,
+      "xMm": 0,
+      "yMm": 0,
+      "walls": {
+        "south": "c1-south",
+        "east": "c1-east",
+        "north": "c1-north",
+        "west": "c1-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c2",
+      "name": "Dormitório",
+      "widthMm": 2450,
+      "depthMm": 4350,
+      "xMm": 0,
+      "yMm": 1750,
+      "walls": {
+        "south": "c2-south",
+        "east": "c2-east",
+        "north": "c2-north",
+        "west": "c2-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "rel-c1-north--c2-south",
+      "kind": "adjacent",
+      "wallA": "c1-north",
+      "wallB": "c2-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ],
+  "openings": [
+    {
+      "id": "a1",
+      "kind": "door",
+      "wallId": "c1-north",
+      "offsetMm": 1400,
+      "widthMm": 850,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "pairedWallId": "c2-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a2",
+      "kind": "door",
+      "wallId": "c2-east",
+      "offsetMm": 150,
+      "widthMm": 900,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a3",
+      "kind": "window",
+      "wallId": "c2-east",
+      "offsetMm": 1900,
+      "widthMm": 1300,
+      "heightMm": 1200,
+      "sillMm": 1000,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a4",
+      "kind": "window",
+      "wallId": "c1-south",
+      "offsetMm": 100,
+      "widthMm": 850,
+      "heightMm": 500,
+      "sillMm": 1600,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ]
+}

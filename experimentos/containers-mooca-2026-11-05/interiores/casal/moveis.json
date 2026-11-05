@@ -1,0 +1,109 @@
+{
+  "_gerado_por": "capturador-2d",
+  "moveis": [
+    {
+      "tipo": "box",
+      "p": [
+        0.8,
+        0.4
+      ],
+      "rot": 0,
+      "w": 1.6,
+      "h": 2,
+      "d": 0.75,
+      "cor": "#DDE5E4",
+      "nome": "Banheira"
+    },
+    {
+      "tipo": "vaso",
+      "p": [
+        0.4,
+        1.2
+      ],
+      "rot": 1,
+      "w": 0.4,
+      "h": 0.8,
+      "d": 0.65,
+      "cor": "#F2F1EE",
+      "nome": "Vaso"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        0.35,
+        1.95
+      ],
+      "rot": 1,
+      "w": 0.8,
+      "h": 0.85,
+      "d": 0.5,
+      "cor": "#F2F1EE",
+      "nome": "Lavatório"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        3,
+        0.3
+      ],
+      "rot": 0,
+      "w": 1.2,
+      "h": 0.92,
+      "d": 0.56,
+      "cor": "#C9C3BA",
+      "nome": "Copa com pia e frigobar"
+    },
+    {
+      "tipo": "mesa",
+      "p": [
+        2.3,
+        2.15
+      ],
+      "rot": 2,
+      "w": 1.1,
+      "h": 0.74,
+      "d": 0.56,
+      "cor": "#A57A52",
+      "nome": "Escrivaninha"
+    },
+    {
+      "tipo": "cama",
+      "p": [
+        4.6,
+        1.05
+      ],
+      "rot": 3,
+      "w": 1.6,
+      "h": 0.95,
+      "d": 2,
+      "cor": "#D9D4CC",
+      "nome": "Cama de casal"
+    },
+    {
+      "tipo": "criado",
+      "p": [
+        5.85,
+        0.35
+      ],
+      "rot": 3,
+      "w": 0.4,
+      "h": 0.55,
+      "d": 0.35,
+      "cor": "#A57A52",
+      "nome": "Criado 1"
+    },
+    {
+      "tipo": "criado",
+      "p": [
+        5.85,
+        1.75
+      ],
+      "rot": 3,
+      "w": 0.4,
+      "h": 0.55,
+      "d": 0.35,
+      "cor": "#A57A52",
+      "nome": "Criado 2"
+    }
+  ]
+}

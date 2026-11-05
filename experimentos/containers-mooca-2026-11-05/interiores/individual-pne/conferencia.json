@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "areaNominalM2": 14.64,
+  "registro": {
+    "origemPx": [
+      451,
+      795
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 7.902050256837785,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        451,
+        795,
+        757,
+        1568
+      ]
+    ],
+    "areaCalibracaoM2": 14.77,
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "moveis": [
+    {
+      "id": "m1",
+      "nome": "Cama",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m2",
+      "nome": "Escrivaninha",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m3",
+      "nome": "Armário",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m4",
+      "nome": "Área de banho",
+      "comodos": [
+        "Banho acessível"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m5",
+      "nome": "Vaso",
+      "comodos": [
+        "Banho acessível"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m6",
+      "nome": "Lavatório",
+      "comodos": [
+        "Banho acessível"
+      ],
+      "contido": true
+    }
+  ],
+  "sobreposicoes": [],
+  "vaos": {
+    "portas": 2,
+    "janelas": 2
+  },
+  "conferenciaJPG": "2f6827a082e2b602a25697ae6985677b3c3f0e1e7cab0aa1c4e20bad0a035782",
+  "unidadeSHA256": "7fc9f83607066aa3a751443cb71405fb180f028f354ec8932a0522811f6d64e7",
+  "limites": [
+    "Sobreposição na imagem do book; não é conferência executiva.",
+    "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
+  ]
+}

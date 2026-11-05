@@ -1,0 +1,52 @@
+{
+  "titulo": "Containers da Mooca · dormitório individual · 14,8 m²",
+  "tipologia": "individual",
+  "imagem": "../../../../plantas_fornecidas/containers-mooca/fonte/dorm-individual-pne-e-individual.png",
+  "imagemSha256": "873a21addabcd8c54a9b1ba9a4935b397425a761c4ce57403bf9509d84b6844c",
+  "registro": {
+    "origemPx": [
+      1330,
+      802
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 7.9797849374829015,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        1330,
+        802,
+        1634,
+        1565
+      ]
+    ],
+    "areaCalibracaoM2": 14.77,
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "areaContornoNominalAproximadaM2": 14.945,
+  "peDireitoMm": 2350,
+  "limites": [
+    "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas.",
+    "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
+    "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
+    "O prédio declarado (45 x 40 m, 2 pavimentos) é a pegada do conjunto na planta 1:200; o container não é o prédio.",
+    "A porta de entrada e a janela do dormitório são aproximadas: o caderno não marca a esquadria do individual."
+  ],
+  "captura": {
+    "construtorSHA256": "bfc8a7f45d9221b711f1810527e9c6aa2e5359e1d3ec7f891fb11ff3f02417ec",
+    "inputsSHA256": {
+      "planta.json": "a9eaa2e251a73c3108fab00f1590bdf9893e44a416075983eab1447605b1fc6c",
+      "leitura.json": "5d3b25d668315a283df876f9ace12a160e33d14afa87f297ed5425d8e1c57a1c",
+      "projeto-planta.json": "4b4fabdb2168ad0231a3ecbd581769da30c7d7fb005f7d78aa63cd6d0eb5eb74",
+      "moveis.json": "4b722508671a81d8a9690542956a9ca769bd7f7cdd49afc3207682cafe1eee4c",
+      "contexto.json": "474af82033a951fb0a13da84bf219e9437ffc5027b22e54f03aeff81f7711a3b"
+    }
+  },
+  "contagens": {
+    "partes": 2,
+    "aberturas": 4,
+    "moveis": 8
+  }
+}

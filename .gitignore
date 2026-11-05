@@ -220,3 +220,6 @@ experimentos/laranjeiras-2026-10-30/interiores/luz/*/bake/
 experimentos/laranjeiras-2026-10-30/site/interiores/*/source.json.gz
 experimentos/laranjeiras-2026-10-30/site/interiores/*/geometry-compact.json.gz
 experimentos/laranjeiras-2026-10-30/site/interiores/*/luz-horario/*.gz
+
+# Caderno do TCC dos containers da Mooca (80 MiB): fica no disco, o sha256 está em plantas_fornecidas/containers-mooca/LEIA-ME.md
+plantas_fornecidas/containers-mooca/fonte/caderno.pdf

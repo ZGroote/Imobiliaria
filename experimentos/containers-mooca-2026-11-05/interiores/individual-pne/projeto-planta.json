@@ -1,0 +1,207 @@
+{
+  "activeFloor": 0,
+  "floors": [
+    {
+      "floor": 0,
+      "furniture": [
+        {
+          "alturaMm": 950,
+          "cor": "#D9D4CC",
+          "depthMm": 1950,
+          "id": "m1",
+          "nome": "Cama",
+          "rotDegrees": 0,
+          "tipo3D": "cama",
+          "tipoCatalogo": "cama-solteiro",
+          "widthMm": 900,
+          "xMm": 550,
+          "yMm": 1200
+        },
+        {
+          "alturaMm": 740,
+          "cor": "#A57A52",
+          "depthMm": 560,
+          "id": "m2",
+          "nome": "Escrivaninha",
+          "rotDegrees": 90,
+          "tipo3D": "mesa",
+          "tipoCatalogo": "escrivaninha",
+          "widthMm": 1000,
+          "xMm": 350,
+          "yMm": 2800
+        },
+        {
+          "alturaMm": 2350,
+          "cor": "#A57A52",
+          "depthMm": 520,
+          "id": "m3",
+          "nome": "Armário",
+          "rotDegrees": 0,
+          "tipo3D": "guardaroupa",
+          "tipoCatalogo": "guardaroupa",
+          "widthMm": 1000,
+          "xMm": 1850,
+          "yMm": 350
+        },
+        {
+          "alturaMm": 2000,
+          "cor": "#DDE5E4",
+          "depthMm": 900,
+          "id": "m4",
+          "nome": "Área de banho",
+          "rotDegrees": 0,
+          "tipo3D": "box",
+          "tipoCatalogo": "box-chuveiro",
+          "widthMm": 900,
+          "xMm": 750,
+          "yMm": 4100
+        },
+        {
+          "alturaMm": 800,
+          "cor": "#F2F1EE",
+          "depthMm": 650,
+          "id": "m5",
+          "nome": "Vaso",
+          "rotDegrees": 180,
+          "tipo3D": "vaso",
+          "tipoCatalogo": "vaso-sanitario",
+          "widthMm": 400,
+          "xMm": 500,
+          "yMm": 5550
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#F2F1EE",
+          "depthMm": 500,
+          "id": "m6",
+          "nome": "Lavatório",
+          "rotDegrees": 180,
+          "tipo3D": "pia",
+          "tipoCatalogo": "gabinete-banheiro",
+          "widthMm": 650,
+          "xMm": 1950,
+          "yMm": 5750
+        }
+      ],
+      "leitura": {
+        "ceilingHeightMm": 2350,
+        "geometry": "orthogonal-rectangles",
+        "id": "containers-mooca-individual-pne",
+        "openings": [
+          {
+            "heightMm": 2100,
+            "id": "a1",
+            "kind": "door",
+            "offsetMm": 2400,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 0,
+            "wallId": "c1-east",
+            "widthMm": 900
+          },
+          {
+            "heightMm": 2100,
+            "id": "a2",
+            "kind": "door",
+            "offsetMm": 1500,
+            "pairedWallId": "c2-south",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 0,
+            "wallId": "c1-north",
+            "widthMm": 850
+          },
+          {
+            "heightMm": 1200,
+            "id": "a3",
+            "kind": "window",
+            "offsetMm": 850,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 1000,
+            "wallId": "c1-west",
+            "widthMm": 1400
+          },
+          {
+            "heightMm": 500,
+            "id": "a4",
+            "kind": "window",
+            "offsetMm": 1250,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 1600,
+            "wallId": "c2-west",
+            "widthMm": 800
+          }
+        ],
+        "provenance": {
+          "kind": "declared",
+          "referenceIds": []
+        },
+        "references": [],
+        "relations": [
+          {
+            "id": "rel-c1-north--c2-south",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c1-north",
+            "wallB": "c2-south"
+          }
+        ],
+        "revision": 13,
+        "rooms": [
+          {
+            "depthMm": 3350,
+            "id": "c1",
+            "name": "Dormitório",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c1-east",
+              "north": "c1-north",
+              "south": "c1-south",
+              "west": "c1-west"
+            },
+            "widthMm": 2400,
+            "xMm": 0,
+            "yMm": 0
+          },
+          {
+            "depthMm": 2750,
+            "id": "c2",
+            "name": "Banho acessível",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c2-east",
+              "north": "c2-north",
+              "south": "c2-south",
+              "west": "c2-west"
+            },
+            "widthMm": 2400,
+            "xMm": 0,
+            "yMm": 3350
+          }
+        ],
+        "schemaVersion": "1.0.0",
+        "unit": "mm"
+      }
+    }
+  ],
+  "schemaVersion": "1.0.0"
+}

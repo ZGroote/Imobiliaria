@@ -1,0 +1,53 @@
+{
+  "titulo": "Containers da Mooca · dormitório quádruplo · 29,7 m²",
+  "tipologia": "quadruplo",
+  "imagem": "../../../../plantas_fornecidas/containers-mooca/fonte/dorm-quadruplo-e-casal-bebe.png",
+  "imagemSha256": "4674ddb731e7913f5bb36a7a8d67ee84ee8e7be16e6169a9a66ed7a95c454066",
+  "registro": {
+    "origemPx": [
+      545,
+      277
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 7.19176595051712,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        545,
+        277,
+        2281,
+        608
+      ]
+    ],
+    "areaCalibracaoM2": 29.72,
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "areaContornoNominalAproximadaM2": 30,
+  "peDireitoMm": 2350,
+  "limites": [
+    "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas.",
+    "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
+    "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
+    "O prédio declarado (45 x 40 m, 2 pavimentos) é a pegada do conjunto na planta 1:200; o container não é o prédio.",
+    "Os dois beliches viraram camas de solteiro (o catálogo não tem beliche); a ficha registra 4 moradores.",
+    "Quarto e estudo são um cômodo só: a divisória do meio do container não chega à bancada de estudo."
+  ],
+  "captura": {
+    "construtorSHA256": "bfc8a7f45d9221b711f1810527e9c6aa2e5359e1d3ec7f891fb11ff3f02417ec",
+    "inputsSHA256": {
+      "planta.json": "aeb6d540875543585f0df13205484313d1383aa31e45f1f9120fb24ce3d05862",
+      "leitura.json": "63b2dda4549db3440673d11527e0d0e565818dce4f7b638e49ded7b42ac166de",
+      "projeto-planta.json": "3590e0a9d24dbfcd907c73ac491f9ffb743f2df48cbf55f9ddf32b6598f996b1",
+      "moveis.json": "817fbd41041d1ce9510280b2d8af59d91dcd2be0cc476847cbc722735b643f9d",
+      "contexto.json": "0e4d622fc052786c830f7328cbf269e5e0bc031063d0024b7643622db88008a3"
+    }
+  },
+  "contagens": {
+    "partes": 2,
+    "aberturas": 4,
+    "moveis": 10
+  }
+}

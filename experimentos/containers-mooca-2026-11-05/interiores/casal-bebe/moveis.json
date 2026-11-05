@@ -1,0 +1,122 @@
+{
+  "_gerado_por": "capturador-2d",
+  "moveis": [
+    {
+      "tipo": "cama",
+      "p": [
+        1.55,
+        1.25
+      ],
+      "rot": 2,
+      "w": 1.6,
+      "h": 0.95,
+      "d": 2,
+      "cor": "#D9D4CC",
+      "nome": "Cama de casal"
+    },
+    {
+      "tipo": "cama",
+      "p": [
+        3.9,
+        0.45
+      ],
+      "rot": 1,
+      "w": 0.65,
+      "h": 0.95,
+      "d": 1.25,
+      "cor": "#D9D4CC",
+      "nome": "Berço"
+    },
+    {
+      "tipo": "guardaroupa",
+      "p": [
+        4.55,
+        2.15
+      ],
+      "rot": 2,
+      "w": 2.7,
+      "h": 2.35,
+      "d": 0.5,
+      "cor": "#A57A52",
+      "nome": "Armário"
+    },
+    {
+      "tipo": "mesa",
+      "p": [
+        8.3,
+        0.35
+      ],
+      "rot": 0,
+      "w": 2.4,
+      "h": 0.74,
+      "d": 0.56,
+      "cor": "#A57A52",
+      "nome": "Bancada de estudo"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        8.1,
+        2.15
+      ],
+      "rot": 2,
+      "w": 3.2,
+      "h": 0.92,
+      "d": 0.56,
+      "cor": "#C9C3BA",
+      "nome": "Copa com pia e cooktop"
+    },
+    {
+      "tipo": "geladeira",
+      "p": [
+        10.1,
+        2.15
+      ],
+      "rot": 2,
+      "w": 0.55,
+      "h": 1.78,
+      "d": 0.55,
+      "cor": "#D6D9DA",
+      "nome": "Geladeira"
+    },
+    {
+      "tipo": "box",
+      "p": [
+        11.3,
+        2.05
+      ],
+      "rot": 2,
+      "w": 1.6,
+      "h": 2,
+      "d": 0.7,
+      "cor": "#DDE5E4",
+      "nome": "Banheira"
+    },
+    {
+      "tipo": "vaso",
+      "p": [
+        11.8,
+        1.25
+      ],
+      "rot": 3,
+      "w": 0.4,
+      "h": 0.8,
+      "d": 0.6,
+      "cor": "#F2F1EE",
+      "nome": "Vaso"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        11.9,
+        0.55
+      ],
+      "rot": 3,
+      "w": 0.65,
+      "h": 0.85,
+      "d": 0.5,
+      "cor": "#F2F1EE",
+      "nome": "Lavatório"
+    }
+  ]
+}
