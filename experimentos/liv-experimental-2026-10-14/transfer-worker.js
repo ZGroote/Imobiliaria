@@ -74,7 +74,7 @@ function validateCatalog(value) {
     if(!GROUP_ORDER.includes(file.group)||typeof file.path!=='string'||
       !/^[A-Za-z0-9._/-]+$/.test(file.path)||file.path.startsWith('/')||
       file.path.split('/').some(part=>!part||part==='.'||part==='..')||
-      !(/^(?:site-baseline|plantas2d|interiores|mapa-runtime)\//.test(file.path)||file.path==='modelo/variante/liv-contorno.glb'||file.path==='modelo/entrada/candidato/liv-contorno.glb')||
+      !(/^(?:site-baseline|plantas2d|interiores|mapa-runtime|mapa-modelos|mapa-compartilhado)\//.test(file.path)||['mapa-2d.js','mapa-2d.css','mapa-pois.json','mapa-edificio.bundle.js','vendor/maplibre/maplibre-gl.js','vendor/maplibre/maplibre-gl.css','vendor/maplibre/LICENSE.txt','horario-solar.js'].includes(file.path)||file.path==='modelo/variante/liv-contorno.glb'||file.path==='modelo/entrada/candidato/liv-contorno.glb')||
       !Number.isSafeInteger(file.bytes)||file.bytes<=0||file.bytes>150*1024*1024||
       !/^[a-f0-9]{64}$/i.test(file.sha256||'')||typeof file.essential!=='boolean'||(file.background!==undefined&&typeof file.background!=='boolean')) {
       throw Error('Arquivo de transferência inválido.');
@@ -319,8 +319,9 @@ async function cachedResponse(job) {
   return null;
 }
 async function foreground(request,clientId='',navigation=false) {
-  const epoch=clientPriority(clientId).epoch,versionEpoch=catalogEpoch;
+  const epoch=clientPriority(clientId).epoch;
   await ensureCatalog();
+  const versionEpoch=catalogEpoch;
   // Fragments choose the map edition but are never sent to the HTTP server.
   const requestURL=new URL(request.url),requestedHash=requestURL.searchParams.get('v');requestURL.hash='';requestURL.search='';
   const job=jobs.get(requestURL.href);
@@ -442,8 +443,11 @@ self.addEventListener('fetch',event=>{
   const relative=url.pathname.slice(SCOPE.pathname.length);
   // This guard also works after the browser has restarted the worker. The catalog
   // then makes the exact URL decision before any cache lookup or queued transfer.
-  if(!(/^(?:site-baseline|plantas2d|interiores|mapa-runtime)\//.test(relative)||relative==='modelo/variante/liv-contorno.glb'||relative==='modelo/entrada/candidato/liv-contorno.glb'))return;
-  const response=foreground(event.request,event.resultingClientId||event.clientId||'',event.request.mode==='navigate');
+  if(!(/^(?:site-baseline|plantas2d|interiores|mapa-runtime|mapa-modelos|mapa-compartilhado)\//.test(relative)||relative==='modelo/variante/liv-contorno.glb'||relative==='modelo/entrada/candidato/liv-contorno.glb'))return;
+  // A demand the worker dropped (another group, new priority) must not surface as
+  // a network error in a page that still wants the file: only the page may cancel.
+  const response=foreground(event.request,event.resultingClientId||event.clientId||'',event.request.mode==='navigate')
+    .catch(error=>{if(event.request.signal.aborted)throw error;return fetch(event.request);});
   event.respondWith(response);
   event.waitUntil(response.then(()=>ensurePump()).catch(()=>ensurePump()));
 });

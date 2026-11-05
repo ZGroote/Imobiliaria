@@ -127,7 +127,7 @@ def inventory(root=ROOT):
     sales = json.loads(add("estoque-build.json"))
     if sales.get('schema') != 'liv-sales-bundle-v1':raise ValueError('Bundle comercial inválido.')
     add(sales['file']['path'], sales['file'])
-    add("mapa-runtime/manifest.json")
+    add("mapa-2d-manifest.json")
     add("mapa-parcela.json")
     # Preserve the baseline web assets for recovery; authoring files stay local.
     baseline = json.loads((root / "manifesto.json").read_bytes())

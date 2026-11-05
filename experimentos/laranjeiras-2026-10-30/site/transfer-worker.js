@@ -440,10 +440,15 @@ self.addEventListener('fetch',event=>{
   if(url.origin!==SCOPE.origin||!url.href.startsWith(SCOPE.href))return;
   if(url.search&&(!/^[a-f0-9]{64}$/i.test(url.searchParams.get('v')||'')||[...url.searchParams].length!==1))return;
   const relative=url.pathname.slice(SCOPE.pathname.length);
+  // The light manifest can change independently of its geometry and cached atlases.
+  if(/^interiores\/[^/]+\/luz-horario\/manifest\.json$/.test(relative))return;
   // This guard also works after the browser has restarted the worker. The catalog
   // then makes the exact URL decision before any cache lookup or queued transfer.
   if(!(/^(?:site-baseline|plantas2d|interiores|mapa-runtime)\//.test(relative)||relative==='modelo/variante/liv-contorno.glb'||relative==='modelo/entrada/candidato/liv-contorno.glb'))return;
-  const response=foreground(event.request,event.resultingClientId||event.clientId||'',event.request.mode==='navigate');
+  // A demand the worker dropped (another group, new priority) must not surface as
+  // a network error in a page that still wants the file: only the page may cancel.
+  const response=foreground(event.request,event.resultingClientId||event.clientId||'',event.request.mode==='navigate')
+    .catch(error=>{if(event.request.signal.aborted)throw error;return fetch(event.request);});
   event.respondWith(response);
   event.waitUntil(response.then(()=>ensurePump()).catch(()=>ensurePump()));
 });

@@ -37,8 +37,29 @@ const edit = async (file, pairs) => {
 await mkdir(out, {recursive: true});
 if((await readdir(out)).length)throw Error('Destino ocupado. Escolha uma pasta nova ou vazia.');
 // prova-splat/interior-splat: Tour em splat do LIV, que o Laranjeiras não tem.
-const skip = name => /^(test_|qa_)|\.test\.|^diagnostico|^materiais\.html$|^materials-viewer\.js$|^mapa-liv-ipanema-5km\.html$|^(prova|interior)-splat\./.test(name);
+const skip = name => /^(test_|qa_)|\.test\.|^diagnostico|^materiais\.html$|^materials-viewer\.js$|^(prova|interior)-splat\./.test(name);
 await cp(join(exp, 'site'), out, {recursive: true, filter: src => !skip(src.split(/[\\/]/).pop())});
+
+// Mapa compartilhado em um namespace: não substituir o cálculo solar do Laranjeiras.
+execFileSync('python',[join(liv,'preparar_mapa_2d.py')],{cwd:root,stdio:'pipe'});
+const sharedMap=JSON.parse(await readFile(join(liv,'mapa-2d-manifest.json'),'utf8'));
+const mapFiles=[];
+for(const [name,record] of Object.entries(sharedMap.files)){
+  if(name.startsWith('/')||name.split('/').includes('..'))throw Error('Arquivo do mapa fora do pacote.');
+  const bytes=await readFile(join(liv,name));if(bytes.length!==record.bytes||hash(bytes)!==record.sha256)throw Error('Recurso do mapa divergente: '+name);
+  const target='mapa-compartilhado/'+name;await mkdir(dirname(join(out,target)),{recursive:true});await writeFile(join(out,target),bytes);
+  mapFiles.push({path:target,group:'map',...record,essential:false,background:false});
+}
+await cp(join(liv,'mapa-retorno.js'),join(out,'mapa-retorno.js'));
+await cp(join(liv,'transfer-worker.js'),join(out,'transfer-worker.js'));
+await edit('mapa-liv-ipanema-5km.html',[
+  ['data-map-runtime="../../liv-experimental-2026-10-14/mapa-runtime/mapa-2d.html"','data-map-runtime="mapa-compartilhado/mapa-runtime/mapa-2d.html" data-map-assets="mapa-compartilhado/"'],
+  ['src="../../liv-experimental-2026-10-14/mapa-retorno.js"','src="mapa-retorno.js"'],
+]);
+const queuePath=join(out,'transfer-manifest.json');
+let queue={schema:'liv-transfer-manifest-v1',order:['tour','map','planta2d'],groups:{tour:{label:'Tour 3D'},map:{label:'Mapa'},planta2d:{label:'Planta 2D'}},files:[]};
+try{queue=JSON.parse(await readFile(queuePath,'utf8'));}catch(error){if(error.code!=='ENOENT')throw error;}
+queue.files=[...queue.files.filter(file=>file.group!=='map'),...mapFiles];await writeFile(queuePath,JSON.stringify(queue));
 
 // 2) Cena, atlas, manifesto e cadastro dos 312 apartamentos (gerados por modelo/exportar_cena.py).
 await cp(join(exp, 'assets'), join(out, 'assets'), {recursive: true});

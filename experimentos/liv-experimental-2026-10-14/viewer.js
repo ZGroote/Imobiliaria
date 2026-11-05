@@ -876,7 +876,9 @@ document.querySelector('.map-link').addEventListener('click',event=>{
 document.getElementById('closeMap').addEventListener('click',()=>void closeMap());
 mapPanel.addEventListener('cancel',event=>{event.preventDefault();void closeMap();});
 window.addEventListener('message',event=>{
-  if(event.origin===location.origin&&event.source===mapFrame?.contentWindow&&event.data?.type==='liv-map-return')void closeMap();
+  if(event.origin!==location.origin||event.source!==mapFrame?.contentWindow)return;
+  if(event.data?.type==='liv-map-return')void closeMap();
+  if(event.data?.type==='liv-map-solar'&&typeof event.data.hour==='number'&&Number.isFinite(event.data.hour)){try{setTimeOfDay(event.data.hour,{date:event.data.date});}catch{}}
 });
 window.addEventListener('pagehide',()=>{
   stockVersion++;void stopStock?.();stopStock=null;stockStart=null;

@@ -45,21 +45,11 @@ def build(root=ROOT):
     for prefix in ["interiores/shared/","interiores/canto/","interiores/meio/"]:
         for path in sorted(path for path in interior_files if path.startswith(prefix)):
             add(path,"tour",interior_files[path],False)
-    map_runtime=json.loads((root/"mapa-runtime/manifest.json").read_bytes())
-    if map_runtime.get("schema")!="liv-map-runtime-v1" or map_runtime.get("baselineSHA256")!=original["mapa-liv-ipanema-5km.html"]["sha256"]:
-        raise ValueError("Runtime regional de outra base.")
-    for path, fingerprint in map_runtime["sources"].items():
-        if hashlib.sha256((ROOT.parents[1]/path).read_bytes()).hexdigest()!=fingerprint:
-            raise ValueError(f"Runtime regional desatualizado: {path}")
-    add("mapa-runtime/mapa-liv-ipanema-5km.html","map",map_runtime["files"]["mapa-runtime/mapa-liv-ipanema-5km.html"])
-    add("site-baseline/liv-ipanema.glb","map",original["liv-ipanema.glb"])
-    add("modelo/variante/liv-contorno.glb","map",map_runtime["files"]["modelo/variante/liv-contorno.glb"])
-    add("modelo/entrada/candidato/liv-contorno.glb","map",map_runtime["files"]["modelo/entrada/candidato/liv-contorno.glb"])
-    tiles = sorted(path for path in original if path.startswith("quintais/") and path.endswith(".bin"))
-    if len(tiles) != 120:
-        raise ValueError("A versão preservada deve conter 120 tiles do mapa.")
-    for path in tiles:
-        add("site-baseline/" + path, "map", original[path], False)
+    map_runtime=json.loads((root/"mapa-2d-manifest.json").read_bytes())
+    if map_runtime.get("schema")!="liv-map-2d-v1":
+        raise ValueError("Manifesto do mapa 2D inválido.")
+    for path, record in map_runtime["files"].items():
+        add(path,"map",record)
     add("plantas2d/canto.jpg", "planta2d", {"bytes": 63548, "sha256": PLANTA_SHA},False)
     meio=(root/"plantas2d/meio.jpg").read_bytes()
     add("plantas2d/meio.jpg", "planta2d", {"bytes":len(meio),"sha256":MEIO_SHA},False)

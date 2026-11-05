@@ -33,7 +33,7 @@
   width: max-content; max-width: min(760px, calc(100% - 208px));
   padding: 8px; border: 1px solid var(--line); border-radius: 12px; background: #131c23f5;
 }
-.layout .viewer-controls:not(:has(#selectedApartmentActions:not([hidden]), #viewModes:not([hidden]))) { display: none; }
+.layout .viewer-controls:not(:has(#selectedApartmentActions:not([hidden]), #viewModes:not([hidden]), .map-link:not([hidden]))) { display: none; }
 .layout .project-action-row { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 6px; }
 .layout .project-action-row > button, .layout .map-link { position: static; width: auto; margin: 0; max-width: none; padding: 8px 12px; font-size: 12px; }
 .layout .viewer-controls #btnBackToMaquete { position: static; width: auto; max-width: none; }

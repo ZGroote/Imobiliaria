@@ -37,3 +37,5 @@
 /interiores/melhorias/*.bin
 /evidencias-horario/**/*.png
 /evidencias-horario/**/*.hdr
+
+!/mapa-runtime/mapa-2d.html
