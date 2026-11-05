@@ -54,8 +54,9 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
   const contour=catalog.selectionEnvelope?contourHighlight(catalog):null;
   const geometry=contour?.geometry??new THREE.BoxGeometry(1,1,1),edges=contour?.edges??new THREE.EdgesGeometry(geometry);
   // Gold and drawn after the green "available" glow, or the choice drowns in it.
+  // Keep a constant depth bias: slope bias pulls edge-on prism caps through the tower.
   const fillMaterial=new THREE.MeshBasicMaterial({color:0xffc84a,toneMapped:false,transparent:true,opacity:.8,depthWrite:false,
-    polygonOffset:!!contour,polygonOffsetFactor:-3,polygonOffsetUnits:-3});
+    polygonOffset:!!contour,polygonOffsetFactor:0,polygonOffsetUnits:-3});
   const lineMaterial=new THREE.LineBasicMaterial({color:0xffffff,toneMapped:false});
   const highlight=new THREE.Group();highlight.name='Posição aproximada do final selecionado';highlight.visible=false;
   highlight.userData.livPresentation=true;
@@ -131,7 +132,7 @@ export function createUnitPicking({scene,canvas,catalog,getCamera,getFloor,onSel
 function createAvailabilityHighlight(scene,catalog,contour,sourceFill,sourceLine){
   const fill=new THREE.BufferGeometry(),line=new THREE.BufferGeometry();
   const fillMaterial=new THREE.MeshBasicMaterial({color:0x5bff9d,toneMapped:false,
-    transparent:true,opacity:.42,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2});
+    transparent:true,opacity:.42,depthWrite:false,polygonOffset:true,polygonOffsetFactor:0,polygonOffsetUnits:-2});
   const lineMaterial=new THREE.LineBasicMaterial({color:0xafffd1,toneMapped:false,transparent:true,opacity:.95,depthWrite:false});
   const group=new THREE.Group();group.name='Apartamentos disponíveis';group.userData.livPresentation=true;group.visible=false;
   group.add(new THREE.Mesh(fill,fillMaterial),new THREE.LineSegments(line,lineMaterial));scene.add(group);
