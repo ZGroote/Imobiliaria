@@ -99,8 +99,19 @@ python experimentos/containers-mooca-2026-11-05/implantacao/montar.py
   pergolados, escadas de 15 degraus até +2,69 e 5 árvores no pátio.
 - O conjunto fica centrado na origem da cena; `metadata.origemM` guarda o deslocamento até a esquina.
 - `preview-aerea.jpg` e `preview-patio.jpg` são renders de conferência (Cycles, 32 amostras).
-- **Falta:** os caminhos de concreto, os bancos, os postes e as mesas do pátio que aparecem nos renders
-  do caderno.
+- **Pátio** (planta do térreo e render 7 do caderno):
+  - caminho de concreto em L entre os gramados;
+  - banco sinuoso de 11 pufes redondos de concreto;
+  - 3 mesas de piquenique, nos retângulos brancos da planta;
+  - 5 postes de 4,5 m com globo, na beira do caminho.
+
+  As posições estão na mesma leitura ampliada da implantação.
+- **Árvores e texturas** (para chegar perto dos renders do caderno sem sair do tempo real):
+  - As árvores do pátio têm 8 a 10 m, com tronco, 5 galhos e uma copa de 230 cartões com a textura de um
+    galho de folhas (`texturas/folhas.webp`). Elas ficam fora da luz gravada e são iluminadas em tempo
+    real, com sombra.
+  - Grama, caminho, calçada e deck têm textura de cor e de relevo (`texturas/`, CC0 do ambientCG; ver o
+    `LEIA-ME.md` de lá). São 330 KB no total.
 
 ## Luz do exterior e cena (feito)
 
@@ -194,3 +205,14 @@ python experimentos/containers-mooca-2026-11-05/mapa/preparar_mapa.py [--baixar]
 Laranjeiras ficam como estão. São 6.316 estabelecimentos do OpenStreetMap num raio de 5 km. O modelo fica
 no centro do conjunto, com o norte para cima como na planta do caderno, e aparece sobre o terreno da
 esquina usada como âncora.
+
+## Acabamentos do caderno (piso, armário)
+
+- **Piso de madeira tauari:** o `exportar.py` marca `piso: "madeira"` em todo cômodo que não é banho.
+  O LIV decide o piso pelo nome do cômodo ("Suíte", "Dormitório", "Sala", "Circulação"), então
+  "Quarto e estudo" e "Quarto" saíam com porcelanato. A cópia de `site/interior-navigation.js` agora
+  segue o campo `piso` quando ele existe. A textura é a madeira aprovada do LIV (`web-wood-floor`), e a cor
+  da planta (`piso_madeira`) foi para #C9A57B, mais clara, como o tauari.
+- **Armário:** o guarda-roupa paramétrico tinha a altura do pé-direito (2,35 m) contada da laje e, com o
+  piso, furava o forro em 3 cm. A planta agora pode dar a altura do móvel (`h`, lida pelo `construir.ts`),
+  e os guarda-roupas ficam com 2,30 m.

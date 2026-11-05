@@ -14,7 +14,7 @@ ROOT = EXP.parents[1]
 LIV = ROOT/'v1.5'/'miniaturas'/'liv-ipanema'
 sys.path.insert(0, str(LIV.parent))
 sys.path.insert(0, str(LIV))
-from blender_maquete_base import material, box, flush, exportar
+from blender_maquete_base import material, box, flush, exportar, MATS
 import modelar_implantacao as mi
 mi.xy = lambda u, v: (u, v)          # aqui as coordenadas já são metros, como no Laranjeiras
 
@@ -170,12 +170,97 @@ for f in IMPL['superficies']:
                 box('escada', ax+frac*L, alt-.04, z, L/n, .06, d*.9)
         box('guarda-corpo', x, NIVEL1/2+1, z, .04 if comprido_z else w, .04, d if comprido_z else .04)
 
+_folhas = material('folhas-cartao', (255, 255, 255), .8, 0)   # cor e recorte de texturas/folhas.webp
+_nos = _folhas.node_tree.nodes
+_img = _nos.new('ShaderNodeTexImage'); _img.image = bpy.data.images.load(str(OUT/'texturas'/'folhas.webp'))
+_bsdf = next(n for n in _nos if n.type == 'BSDF_PRINCIPLED')
+_folhas.node_tree.links.new(_img.outputs['Color'], _bsdf.inputs['Base Color'])
+_folhas.node_tree.links.new(_img.outputs['Alpha'], _bsdf.inputs['Alpha'])
+
+
+def arvore(x, y, h, raio, rng, cartoes=230, lado=1.3):
+    """Árvore alta e de copa estreita, como as dos renders do caderno: tronco, 5 galhos e a copa em cartões
+    com o galho de folhas (folhas.webp). Cada cartão aponta o pé para o miolo da copa. O material tem "folha"
+    no nome: fica fora da luz gravada (preparar_luz.py) e é iluminado em tempo real, como o vidro."""
+    from mathutils import Vector
+    topo = h*.55
+    mi.rod('site-tronco', (x, y, 0), (x, y, topo), .13, .7, detail='arvore')
+    cy = h*.68                                   # centro da copa
+    for k in range(5):
+        ang = k*math.tau/5+rng.uniform(-.4, .4)
+        alvo = (x+math.cos(ang)*raio*.6, y+math.sin(ang)*raio*.6, cy+rng.uniform(-.5, 1.2))
+        mi.rod('site-tronco', (x, y, topo*.85), alvo, .05, .5, detail='arvore')
+    verts, faces, uvs = [], [], []
+    centro = Vector((x, -y, cy))
+    for _ in range(cartoes):
+        while True:                              # ponto no elipsoide, mais denso perto da casca
+            d = Vector((rng.uniform(-1, 1), rng.uniform(-1, 1), rng.uniform(-1, 1)))
+            if .25 < d.length <= 1:
+                break
+        p = centro+Vector((d.x*raio, d.y*raio, d.z*h*.3))
+        v = (p-centro+Vector((0, 0, .6))).normalized()
+        u = v.cross(Vector((rng.uniform(-1, 1), rng.uniform(-1, 1), rng.uniform(-1, 1)))).normalized()
+        b = len(verts)
+        for su, sv in ((-.5, -.5), (.5, -.5), (.5, .5), (-.5, .5)):
+            verts.append(tuple(p+u*su*lado+v*sv*lado))
+        faces.append((b, b+1, b+2, b+3))
+        uvs += [(0, 0), (1, 0), (1, 1), (0, 1)]
+    me = bpy.data.meshes.new('SITE-copa-cartoes')
+    me.from_pydata(verts, [], faces); me.update()
+    me.materials.append(MATS['folhas-cartao'])
+    camada = me.uv_layers.new(name='UVMap')
+    for i, loop in enumerate(me.loops):
+        camada.data[i].uv = uvs[loop.vertex_index]
+    ob = bpy.data.objects.new('GEO-SITE-copa', me); scene.collection.objects.link(ob)
+    ob['acabamento'] = 'folhas-cartao'
+    mi._tag(ob, 'arvore')
+
+
 # Árvores do pátio (renders do caderno: copas altas sobre os decks e o pátio central).
 PATIO = {f['id']: f['ret'] for f in IMPL['superficies']}
 for nome, fr in [('patio-central', [(.25, .2), (.7, .55), (.3, .85)]), ('patio-norte', [(.4, .45)]), ('patio-leste', [(.75, .5)])]:
     x0, z0, x1, z1 = PATIO[nome]
     for a, b in fr:
-        mi.tree(*arq(x0+(x1-x0)*a, z0+(z1-z0)*b), rng.uniform(6, 8), rng.uniform(2, 2.6), rng)
+        arvore(*arq(x0+(x1-x0)*a, z0+(z1-z0)*b), rng.uniform(8, 10), rng.uniform(2.2, 2.8), rng)
+# Mobiliário do pátio (planta do térreo e render 7 do caderno): caminho de concreto em L entre os gramados,
+# banco sinuoso de pufes de concreto, 3 mesas de piquenique e postes de globo. Coordenadas na mesma leitura
+# ampliada 2x da implantação (leitura_da_planta.py).
+REG = json.loads((EXP/'implantacao'/'implantacao.json').read_text(encoding='utf-8'))['registro']
+
+
+def lido(zx, zy):
+    u, v = 640+zx/2, 240+zy/2
+    return arq((u-REG['ancoraPx'][0])/REG['pxPorM'], (v-REG['ancoraPx'][1])/REG['pxPorM'])
+
+
+material('concreto-claro', (214, 210, 200), .85, 0)
+material('madeira-mesa', (128, 88, 56), .75, 0)
+material('poste', (48, 50, 52), .45, .7)
+material('globo', (240, 238, 228), .3, 0)
+for z0x, z0y, z1x, z1y in [(895, 130, 955, 1270), (955, 545, 1490, 595)]:      # caminho em L
+    (ax, az), (bx, bz) = lido(z0x, z0y), lido(z1x, z1y)
+    box('piso-pátio', (ax+bx)/2, .065, (az+bz)/2, bx-ax, .07, bz-az)
+# Banco sinuoso: pufes redondos de concreto (Ø 0,84 m) em zigue-zague, como a "onda" branca da planta.
+(bx0, bz0), (bx1, bz1) = lido(980, 774), lido(1074, 1174)
+for k in range(11):
+    t = k/10
+    x = (bx0+bx1)/2+math.sin(t*math.pi*4)*(bx1-bx0)*.28
+    zz = bz0+t*(bz1-bz0)
+    mi.rod('concreto-claro', (x, zz, 0), (x, zz, .45), radius=.42, sides=16, detail='banco-sinuoso')
+# Mesas de piquenique: tampo 2,0 x 0,8 a 0,75 m e dois bancos 2,0 x 0,3 a 0,45 m.
+for zx, zy in [(1172, 456), (1186, 866), (1346, 1086)]:
+    x, z = lido(zx, zy)
+    box('madeira-mesa', x, .74, z, 2.0, .05, .8)
+    for dz in (-.62, .62):
+        box('madeira-mesa', x, .44, z+dz, 2.0, .04, .3)
+    for dx in (-.8, .8):
+        box('poste', x+dx, .37, z, .06, .72, 1.6)
+# Postes de 4,5 m com globo, na beira do caminho (render 7).
+for zx, zy in [(925, 250), (925, 700), (925, 1150), (1180, 600), (1440, 600)]:
+    x, z = lido(zx, zy)
+    box('poste', x, 2.25, z, .1, 4.5, .1)
+    mi.sphere('globo', x, z, 4.68, .2, .2, .2, detail='poste')
+
 # Chão do lote: terreno em volta + calçada contínua.
 box('terreno', 0, .0, 0, (cx1-cx0)+14, .02, (cz1-cz0)+14)
 for ob in flush('implantacao'):

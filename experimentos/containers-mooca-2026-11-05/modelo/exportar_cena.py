@@ -104,6 +104,63 @@ def cadastro(md, sha_modelo):
                             'Valores de aluguel da p. 41 do caderno (proposta acadêmica, não oferta).']}
 
 
+TEX = AQUI/'texturas'
+# Material do modelo -> (cor, relevo, metros por repetição, extras). A UV das caixas sai em metros (flush do LIV).
+TEXTURAS = {
+    'grama': ('grama-cor.webp', 'grama-normal.webp', 2.0, {}),
+    'piso-pátio': ('concreto-cor.webp', 'concreto-normal.webp', 2.5, {}),
+    'calcada': ('concreto-cor.webp', 'concreto-normal.webp', 2.5, {}),
+    'deck': (AQUI.parents[1]/'moveis-referencia/web/materiais/madeira_nature-cor-512.webp',
+             AQUI.parents[1]/'moveis-referencia/web/materiais/madeira_nature-nor-512.webp', 1.2, {}),
+    # Cartões da copa (modelar_containers.arvore): UV 0..1 por cartão, recorte por alphaTest, os dois lados.
+    'folhas-cartao': ('folhas.webp', None, 1.0, {'alphaTest': .5, 'side': 2}),
+}
+
+
+def texturizar(materials, modelo):
+    """Põe cor e relevo dos materiais de TEXTURAS na cena (o renderer já lê data.textures). A cor do material vira
+    (cor calibrada do modelo / média linear da textura): a média da superfície continua no tom de antes."""
+    from PIL import Image
+    textures, por_arquivo = [], {}
+
+    def tex(caminho, srgb, metros):
+        caminho = Path(caminho) if Path(caminho).is_absolute() else TEX/caminho
+        k = (caminho.name, metros)
+        if k not in por_arquivo:
+            nome = 'tex-'+caminho.name
+            (SAIDA/nome).write_bytes(caminho.read_bytes())
+            por_arquivo[k] = len(textures)
+            textures.append({'url': nome, 'colorSpace': 'srgb' if srgb else '', 'premultiplyAlpha': False, 'channel': 0,
+                             'wrapS': 1000, 'wrapT': 1000, 'minFilter': 1008, 'magFilter': 1006, 'generateMipmaps': True,
+                             'rotation': 0, 'anisotropy': 8, 'repeat': [1/metros, 1/metros], 'offset': [0, 0],
+                             'center': [0, 0], 'flipY': False})
+        return por_arquivo[k]
+
+    def media(caminho):
+        caminho = Path(caminho) if Path(caminho).is_absolute() else TEX/caminho
+        px = np.asarray(Image.open(caminho).convert('RGBA'), np.float64).reshape(-1, 4)
+        px = px[px[:, 3] > 0, :3]/255
+        return np.where(px <= .04045, px/12.92, ((px+.055)/1.055)**2.4).mean(0).tolist()
+
+    SAIDA.mkdir(parents=True, exist_ok=True)
+    for spec in materials:
+        nome = spec['name'].removeprefix('MAT-')
+        if nome not in TEXTURAS:
+            continue
+        cor, relevo, metros, extras = TEXTURAS[nome]
+        if 'alphaTest' in extras:            # folhas: a cor é a da própria textura
+            spec['color'] = [.9, .9, .9]
+        else:
+            alvo, m = modelo['materials']['MAT-'+nome]['color'], media(cor)
+            spec['color'] = [round(min(a/b, 4), 4) for a, b in zip(alvo, m)]
+        spec['map'] = tex(cor, True, metros)
+        if relevo:
+            spec['normalMap'] = tex(relevo, False, metros)
+            spec['normalScale'] = [1, 1]
+        spec.update(extras)
+    return textures
+
+
 def main():
     modelo_bytes = (AQUI/'modelo.json').read_bytes()
     modelo = json.loads(modelo_bytes)
@@ -212,8 +269,9 @@ def main():
         'portaria': vista('PerspectiveCamera', [centro[0], 2, centro[2]], -.6, 1.52, 22, fov=60),
         'implantacao': vista('OrthographicCamera', centro, 0, 0, raio, fov=90, left=-raio*1.6, right=raio*1.6, top=raio, bottom=-raio),
     }
+    textures = texturizar(materials, modelo)
     data = {'schema': 'liv-exterior-proof-v1', 'sourceModelSHA256': sha(modelo_bytes), 'originalRuntime': 'containers-mooca-python',
-            'geometries': geometries, 'materials': materials, 'textures': [], 'meshes': meshes, 'lights': lights,
+            'geometries': geometries, 'materials': materials, 'textures': textures, 'meshes': meshes, 'lights': lights,
             'visibleBounds': {'min': mins.tolist(), 'max': maxs.tolist()}, 'camera': views['perspectiva'],
             'canvasBounds': {}, 'renderer': {'exposure': 1.02, 'toneMapping': 4, 'pixelRatio': 1},
             'bake': {'ready': True, 'textureHashVerified': True, 'geometryHashVerified': True},
