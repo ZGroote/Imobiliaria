@@ -7,6 +7,7 @@ import {LivRGBMNodeMaterial,LivBakedPhysicalNodeMaterial,setRGBMTimeLighting,set
 import {createTimeLightmaps} from './interior-luz-horario.js';
 import {createLayout,createNavigation,inside} from './interior-navigation.js';
 import {createDoors} from './interior-portas.js';
+import {repairFrozenJoins} from './interior-reparo-encaixes.js';
 import {applyVeneer} from './folheado.js';
 import {planFrame,roomLook} from './interior-camera.js';
 import {createPlanCutaway} from './interior-cutaway.js?rev=2026-10-13-rodateto-selado-final';
@@ -357,7 +358,8 @@ function bindProbeLight(root=scene){
   });
 }
 async function loadTimeManifest(){
-  const response=await fetch(new URL(`interiores/${typology}/luz-horario/manifest.json`,base),{signal:controller.signal,cache:'no-cache'});
+  // A query other than v bypasses earlier workers while their replacement activates.
+  const response=await fetch(new URL(`interiores/${typology}/luz-horario/manifest.json?light-manifest=1`,base),{signal:controller.signal,cache:'no-cache'});
   if(response.status===404)return null;if(!response.ok)throw Error(`Luz gravada: HTTP ${response.status}.`);
   const manifest=await response.json();
   if(manifest.schema!=='liv-interior-time-lightmaps-v1'||manifest.typology!==typology||manifest.encoding!=='linear-rgbm2-u8'||manifest.sourceSHA256!==record.sourceSHA256||manifest.geometrySHA256!==record.files.compact.decodedSHA256||!manifest.keys?.length||!manifest.night)throw Error('Luz gravada de outra revisão do interior.');
@@ -571,9 +573,8 @@ function tick(dt){
   }
   setTourCamera();showDoorButton(doors?.nearest(tourPosition[0],tourPosition[1],yaw)||null);
 }
-/** Corredor do prédio atrás da entrada, só no Tour: a folha fechada não cobre o vão inteiro (5,5 cm do lado da
- *  maçaneta, 1,2 cm embaixo) e pela fresta aparecia o céu, branco. Mesmas medidas de CORREDOR no bake_horario.py,
- *  que grava a luz com esta caixa no lugar. */
+/** Corredor do prédio atrás da entrada, visível no Tour ao abrir a porta ou pela folga junto ao piso.
+ *  Mesmas medidas de CORREDOR no bake_horario.py, que grava a luz com esta caixa no lugar. */
 function corridorBox(layout){
   const door=layout.joinery.find(v=>v.entrada);if(!door)return null;
   const [a,b]=[door.a,door.b],acrossZ=Math.abs(a[1]-b[1])<Math.abs(a[0]-b[0]),k=acrossZ?1:0,line=a[k],sign=Math.sign(line);
@@ -786,6 +787,7 @@ async function start(){
   doors=createDoors({scene,layout,paint:doorMeshes(native.m3),alu:doorMeshes(native.m4),doorColor:new THREE.Color(layout.unit.cores?.porta??0xEDE7DD),baked,own,roomAt:(x,z)=>layout.rooms.find(room=>inside(room.poly,x,z))?.name||null});
   for(const door of doors.doors)if(door.entrance)doors.setOpen(door.id,false,{instant:true});
   const corridor=corridorBox(layout);if(corridor){own(corridor.geometry);own(corridor.material);scene.add(corridor);}
+  if(record.geometryKind==='frozen-source')state.fitRepairs=repairFrozenJoins({THREE,scene,layout,typology,sourceSHA256:record.sourceSHA256,furniture,materials:native,own});
   // Cada porta entra no corte inteira: o corte reparenta, e a folha solta pararia de girar.
   const architecture=doors.doors.map(door=>door.group);scene.traverse(mesh=>{if(mesh.isMesh&&!mesh.userData.furnitureId&&!mesh.parent?.userData.livDoor)architecture.push(mesh);});
   presentation=createPlanCutaway({scene,layout,architecture,wallMaterial:native.m0,own});ceiling=presentation.ceiling;

@@ -6,7 +6,7 @@ from scipy import ndimage
 WALL_DENOISE = 'surface-plane-v1'
 
 
-def scene_wall_filters(source, compact, size):
+def scene_wall_filters(source, compact, size, corner_points=None):
     """Lê geometria e UV1 reais; também marca as outras ilhas para proteger suas margens."""
     covered = np.zeros((size, size), bool)
     owners = np.full((size, size), -1, int)
@@ -52,7 +52,7 @@ def scene_wall_filters(source, compact, size):
                                np.stack([x + .5, y + .5]) - triangle[0, :, None])
         world = vertices[0] + bary.T @ (vertices[1:] - vertices[0])
         faces[index] = (vertices, normal, np.r_[samples, np.c_[y, x, world, np.zeros(len(y))]])
-    return wall_filters(faces), ndimage.label(covered)[0]
+    return wall_filters(faces, corner_points=corner_points), ndimage.label(covered)[0]
 
 
 def encode_rgbm2(rgb, value_range):
@@ -66,7 +66,7 @@ def encode_rgbm2(rgb, value_range):
     return encoded
 
 
-def wall_filters(faces, cell=.025):
+def wall_filters(faces, cell=.025, corner_points=None):
     """Agrupa faces coplanares com a mesma orientação; vãos desconectados ficam separados."""
     planes = {}
     for vertices, normal, samples in faces:
@@ -78,10 +78,17 @@ def wall_filters(faces, cell=.025):
             valid = samples[:, 5] if samples.shape[1] > 5 else np.ones(len(samples))
             plane[1].append(np.c_[samples[:, :2], samples[:, 2:5] @ tangent, samples[:, 3], valid])
     filters = []
-    for triangles, parts in planes.values():
+    for plane, (triangles, parts) in planes.items():
         if not parts:
             continue
         samples = np.concatenate(parts)
+        corner_distance = None
+        if corner_points is not None:
+            nx, _, nz, offset = plane
+            on_plane = np.abs(corner_points @ [nx, nz] - offset) <= .04
+            if on_plane.any():
+                projected = corner_points[on_plane] @ [-nz, nx]
+                corner_distance = np.abs(samples[:, 2, None] - projected).min(axis=1)
         triangles = np.asarray(triangles)
         origin = np.minimum(triangles.min(axis=(0, 1)), samples[:, 2:4].min(0))
         triangles = (triangles - origin) / cell
@@ -105,22 +112,31 @@ def wall_filters(faces, cell=.025):
         _, nearest = ndimage.distance_transform_edt(~domain, return_indices=True)
         labels = labels[nearest[0], nearest[1]]
         filters.append((samples[:, :2].astype(int), grid, coordinates, labels,
-                        samples[:, 3], cell, observations))
+                        samples[:, 3], cell, observations, corner_distance))
     return filters
 
 
-def soften_walls(image, filters, islands, radius=.12, start=2.0, feather=.15):
-    """Só a faixa alta recebe o filtro; faces opostas, quinas e planos distintos não se misturam."""
+def soften_walls(image, filters, islands, radius=.12, start=2.0, feather=.15, edge_guard=0.0):
+    """Suaviza a faixa alta; edge_guard preserva o rebatimento original nas bordas do plano."""
     on_wall = np.zeros(islands.shape, bool)
-    for pixels, grid, coordinates, labels, height, cell, observations in filters:
+    for pixels, grid, coordinates, labels, height, cell, observations, corner_distance in filters:
         iy, ix = pixels.T
         gx, gy = grid.T
         room = labels[gy, gx]
         values = image[iy, ix, :3]
         out = values.copy()
+        blend = np.clip((height - start) / feather, 0, 1)
         for label in np.unique(room):
             selected = room == label
             observed = selected & observations
+            if edge_guard and observed.any():
+                across = coordinates[selected, 0]
+                observed_across = coordinates[observed, 0]
+                distance = np.minimum(across - observed_across.min(), observed_across.max() - across) * cell
+                if corner_distance is not None:
+                    distance = np.minimum(distance, corner_distance[selected])
+                fade = np.clip((distance - edge_guard) / radius, 0, 1)
+                blend[selected] *= fade * fade * (3 - 2 * fade)
             count = np.zeros(labels.shape)
             accumulated = np.zeros((*labels.shape, 3))
             np.add.at(count, (gy[observed], gx[observed]), 1)
@@ -133,7 +149,6 @@ def soften_walls(image, filters, islands, radius=.12, start=2.0, feather=.15):
             for channel in range(3):
                 blurred = ndimage.gaussian_filter(accumulated[..., channel], radius / cell, mode='constant')
                 out[selected, channel] = ndimage.map_coordinates(blurred, at, order=1, mode='nearest') / np.maximum(weight, 1e-12)
-        blend = np.clip((height - start) / feather, 0, 1)
         image[iy, ix, :3] = values + (out - values) * blend[:, None]
         on_wall[iy[blend > 0], ix[blend > 0]] = True
     # O bilinear também lê a margem do atlas: ela precisa acompanhar a superfície corrigida.

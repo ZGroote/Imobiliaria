@@ -7,6 +7,7 @@ python experimentos/laranjeiras-2026-10-30/interiores/luz/empacotar_horario.py c
 """
 from pathlib import Path
 import sys
+from corrigir_quinas import EDGE_GUARD, GUARDED_DENOISE, room_corner_positions
 
 AQUI = Path(__file__).resolve().parent
 LIV = AQUI.parents[3] / 'experimentos/liv-luz-natural-2026-10-26/empacotar-luz-horario.py'
@@ -17,11 +18,19 @@ TROCAS = [
      "DEST = SITE / f'interiores/{TYPOLOGY}/luz-horario'"),
     ("    web = ROOT.parent / 'liv-experimental-2026-10-14'\n", "    web = SITE\n"),
     ("    record = json.loads((web / 'interiores/catalogo.json').read_text(encoding='utf8'))['tipologias'][TYPOLOGY]\n", ""),
+    ("    top = json.loads((web / f'interiores/{TYPOLOGY}/unidade.json').read_text(encoding='utf8'))['planta']['pe_direito'] - below\n",
+     "    unit = json.loads((web / f'interiores/{TYPOLOGY}/unidade.json').read_text(encoding='utf8'))\n"
+     "    top = unit['planta']['pe_direito'] - below\n"),
     ("(web / f'interiores/{TYPOLOGY}/source.json')", "(WORK / 'source.json')"),
     ("gzip.decompress((web / record['files']['compact']['path']).read_bytes())", "(WORK / 'bake/geometry-compact.json').read_bytes()"),
     ("(ROOT.parent / f'liv-experimental-2026-10-14/interiores/{TYPOLOGY}/unidade.json')", "(SITE / f'interiores/{TYPOLOGY}/unidade.json')"),
     ("(RAW / 'chaves.json')", "(WORK / 'chaves.json')"),
     ("if TYPOLOGY not in ('canto', 'meio'):", "if TYPOLOGY not in ('canto', 'meio', 'canto-espelhado', 'meio-espelhado'):"),
+    ("scene_wall_filters(source, compact, size)[0]",
+     "scene_wall_filters(source, compact, size, corner_points=CORNERS(unit))[0]"),
+    ("soften_walls(denoised, walls, speckle[1])",
+     f"soften_walls(denoised, walls, speckle[1], edge_guard={EDGE_GUARD!r})"),
+    ("'wallDenoise': WALL_DENOISE", f"'wallDenoise': {GUARDED_DENOISE!r}"),
     # Prova: `canto menosz-14` empacota só essas horas (e a noite).
     ("    size = measured['size']; guard", "    keys['keys'] = [k for k in keys['keys'] if k['id'] in SO] if SO else keys['keys']\n    size = measured['size']; guard"),
     # Depois do OIDN, cada ilha é suavizada só com ela mesma (suavizar_ilhas) e a borda é refeita.
@@ -68,4 +77,7 @@ for de, para in TROCAS:
         raise SystemExit(f'O empacotador do LIV mudou: {de!r} aparece {texto.count(de)} vezes')
     texto = texto.replace(de, para)
 sys.argv[0] = str(LIV)
-exec(compile(texto, str(LIV), 'exec'), {'__name__': '__main__', '__file__': str(LIV), 'SO': SO, 'SUAVIZAR': suavizar_ilhas})
+exec(compile(texto, str(LIV), 'exec'), {
+    '__name__': '__main__', '__file__': str(LIV), 'SO': SO,
+    'SUAVIZAR': suavizar_ilhas, 'CORNERS': room_corner_positions,
+})

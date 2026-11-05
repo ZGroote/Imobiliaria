@@ -12,7 +12,7 @@ spec.loader.exec_module(walls)
 
 
 class WallLightTests(unittest.TestCase):
-    def plane(self, split=False, disconnected=False, opposite=False):
+    def plane(self, split=False, disconnected=False, opposite=False, corner_points=None):
         image = np.zeros((80, 90, 3), np.float32)
         islands = np.zeros(image.shape[:2], int)
         faces = []
@@ -32,7 +32,7 @@ class WallLightTests(unittest.TestCase):
                       (np.array([a, c, d]), normal, np.empty((0, 5)))]
             image[iy, ix] = 1 + part * 2 if split else 2
             islands[iy, ix] = part + 1
-        return image, islands, walls.wall_filters(faces)
+        return image, islands, walls.wall_filters(faces, corner_points=corner_points)
 
     def test_continuous_wall_crosses_atlas_islands_without_a_step(self):
         image, islands, filters = self.plane(split=True)
@@ -46,6 +46,21 @@ class WallLightTests(unittest.TestCase):
         image, islands, filters = self.plane()
         walls.soften_walls(image, filters, islands)
         np.testing.assert_allclose(image[islands > 0], 2, atol=1e-6)
+
+    def test_edge_guard_keeps_corner_shading_and_still_smooths_interior_seams(self):
+        image, islands, filters = self.plane(split=True)
+        image[3:33, 3:6] = .1
+        before = image.copy()
+        walls.soften_walls(image, filters, islands, edge_guard=.10)
+        np.testing.assert_array_equal(image[3:33, 3:6], before[3:33, 3:6])
+        self.assertLess(abs(float(image[25, 22, 0] - image[25, 48, 0])), .2)
+
+    def test_room_corner_inside_a_continuous_plane_keeps_original_light(self):
+        image, islands, filters = self.plane(corner_points=np.array([[0, .225]]))
+        image[3:33, 11:14] = .1
+        before = image.copy()
+        walls.soften_walls(image, filters, islands, edge_guard=.10)
+        np.testing.assert_array_equal(image[3:33, 11:14], before[3:33, 11:14])
 
     def test_disconnected_surfaces_do_not_exchange_light(self):
         image, islands, filters = self.plane(split=True, disconnected=True)
