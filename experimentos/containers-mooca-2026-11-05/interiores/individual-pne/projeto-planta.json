@@ -81,6 +81,19 @@
           "widthMm": 650,
           "xMm": 1950,
           "yMm": 5750
+        },
+        {
+          "alturaMm": 20,
+          "cor": "#CFC6B8",
+          "depthMm": 1200,
+          "id": "m7",
+          "nome": "Tapete",
+          "rotDegrees": 0,
+          "tipo3D": "tapete",
+          "tipoCatalogo": "tapete-sala",
+          "widthMm": 1000,
+          "xMm": 1650,
+          "yMm": 1600
         }
       ],
       "leitura": {
@@ -92,20 +105,20 @@
             "heightMm": 2100,
             "id": "a1",
             "kind": "door",
-            "offsetMm": 2400,
+            "offsetMm": 1300,
             "provenance": {
               "kind": "declared",
               "referenceIds": []
             },
             "sillMm": 0,
             "wallId": "c1-east",
-            "widthMm": 900
+            "widthMm": 850
           },
           {
             "heightMm": 2100,
             "id": "a2",
             "kind": "door",
-            "offsetMm": 1500,
+            "offsetMm": 850,
             "pairedWallId": "c2-south",
             "provenance": {
               "kind": "declared",
@@ -113,7 +126,7 @@
             },
             "sillMm": 0,
             "wallId": "c1-north",
-            "widthMm": 850
+            "widthMm": 800
           },
           {
             "heightMm": 1200,
@@ -159,7 +172,7 @@
             "wallB": "c2-south"
           }
         ],
-        "revision": 13,
+        "revision": 14,
         "rooms": [
           {
             "depthMm": 3350,

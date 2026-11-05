@@ -87,6 +87,14 @@
         "Dormitório"
       ],
       "contido": true
+    },
+    {
+      "id": "m9",
+      "nome": "Tapete",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
     }
   ],
   "sobreposicoes": [],
@@ -94,8 +102,8 @@
     "portas": 2,
     "janelas": 2
   },
-  "conferenciaJPG": "13e5896030ca051096098d80a3992b8584531fc4e9d1a2e41e96bf2299a6dff1",
-  "unidadeSHA256": "61ddf75fedb97c035fbe1b77d3df91c493277b53271ecf39c4bc8310264a8369",
+  "conferenciaJPG": "cb2fa9bc3481aedce2881623a2a8a326fa754dba14c33023e09b027bbaef7bcf",
+  "unidadeSHA256": "6591e0de13560b822bda82b7b93993d1a42ee219e092755c320c736a4cdae560",
   "limites": [
     "Sobreposição na imagem do book; não é conferência executiva.",
     "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."

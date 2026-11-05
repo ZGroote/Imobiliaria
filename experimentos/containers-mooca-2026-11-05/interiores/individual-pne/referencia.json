@@ -32,21 +32,22 @@
     "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
     "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
     "O prédio declarado (45 x 40 m, 2 pavimentos) é a pegada do conjunto na planta 1:200; o container não é o prédio.",
-    "Sem copa: a planta do PNE troca a copa pelo banheiro acessível."
+    "Sem copa: a planta do PNE troca a copa pelo banheiro acessível.",
+    "Entrada e porta do banho afastadas 1,4 m (o interior do site só separa a folha de portas com ~1 m entre si); no caderno a entrada fica junto da divisória."
   ],
   "captura": {
     "construtorSHA256": "bfc8a7f45d9221b711f1810527e9c6aa2e5359e1d3ec7f891fb11ff3f02417ec",
     "inputsSHA256": {
-      "planta.json": "a1f73ea2ea273da73ff61a64a64bb6608f367d4dc25978dbf2a7bbdd5457ade3",
-      "leitura.json": "2e9b60d57ad002ecc1878f381425bcb5b52a159839ad59f1ed104d19c3101888",
-      "projeto-planta.json": "a72ea2337229ef19ef0d96411ed031de9da7d71c208c5626512c6e892580bf07",
-      "moveis.json": "ac910a2760673d402ac2e6f4097f72acf23475565c4bce4e0218201cc8300d88",
+      "planta.json": "8ebfa8c13267fd1a657fb4fbb3ec599a4426736e8dd0ef68c2cc3f4f2eadc13c",
+      "leitura.json": "ed2fb5812578424fb0d8ead595caf92071bf4042dae8783e3108dafd645e6f04",
+      "projeto-planta.json": "af7179c70a4cc0c24ecfbd1bfd86fe3a2c6bf6082a99a06124ea083eda843f33",
+      "moveis.json": "29904f43eac1bd1b315b629aa0f0339c76bdc128ef5e63638436fa1cd5dd97c4",
       "contexto.json": "ebffb8e8d353b1f9615aa56c5b73867167b2b3abf49a4b5223ee8b98d8b2b5bb"
     }
   },
   "contagens": {
     "partes": 2,
     "aberturas": 4,
-    "moveis": 6
+    "moveis": 7
   }
 }

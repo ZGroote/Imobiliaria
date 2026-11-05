@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "id": "containers-mooca-individual",
-  "revision": 15,
+  "revision": 16,
   "unit": "mm",
   "geometry": "orthogonal-rectangles",
   "ceilingHeightMm": 2350,
@@ -78,9 +78,9 @@
     {
       "id": "a2",
       "kind": "door",
-      "wallId": "c2-east",
-      "offsetMm": 150,
-      "widthMm": 900,
+      "wallId": "c2-north",
+      "offsetMm": 650,
+      "widthMm": 800,
       "heightMm": 2100,
       "sillMm": 0,
       "provenance": {

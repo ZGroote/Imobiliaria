@@ -163,6 +163,16 @@
       "d": 350,
       "cor": "#A57A52",
       "nome": "Criado 2"
+    },
+    {
+      "catalogo": "tapete-sala",
+      "x": 1770,
+      "y": 1400,
+      "rot": 0,
+      "w": 1200,
+      "d": 1000,
+      "cor": "#CFC6B8",
+      "nome": "Tapete"
     }
   ],
   "ficha": {

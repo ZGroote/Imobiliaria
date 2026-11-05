@@ -71,6 +71,14 @@
         "Banho acessível"
       ],
       "contido": true
+    },
+    {
+      "id": "m7",
+      "nome": "Tapete",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
     }
   ],
   "sobreposicoes": [],
@@ -78,8 +86,8 @@
     "portas": 2,
     "janelas": 2
   },
-  "conferenciaJPG": "2f6827a082e2b602a25697ae6985677b3c3f0e1e7cab0aa1c4e20bad0a035782",
-  "unidadeSHA256": "7fc9f83607066aa3a751443cb71405fb180f028f354ec8932a0522811f6d64e7",
+  "conferenciaJPG": "4295a0f5f79e238aa418496a7751e8caefdf71992997999cb0a73988a6a62664",
+  "unidadeSHA256": "2b8eaa90f474f51a7305775a5e8ddb19ad16848f6cab42d42fbae7d71024cfbc",
   "limites": [
     "Sobreposição na imagem do book; não é conferência executiva.",
     "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."

@@ -32,21 +32,21 @@
     "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
     "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
     "O prédio declarado (45 x 40 m, 2 pavimentos) é a pegada do conjunto na planta 1:200; o container não é o prédio.",
-    "A porta de entrada e a janela do dormitório são aproximadas: o caderno não marca a esquadria do individual."
+    "A porta de entrada (parede curta, entre a escrivaninha e a cama) e a janela do dormitório são aproximadas: o caderno não marca a esquadria do individual. A entrada fica longe da porta do banho porque o interior do site só separa a folha de portas com ~1 m entre si."
   ],
   "captura": {
     "construtorSHA256": "bfc8a7f45d9221b711f1810527e9c6aa2e5359e1d3ec7f891fb11ff3f02417ec",
     "inputsSHA256": {
-      "planta.json": "a9eaa2e251a73c3108fab00f1590bdf9893e44a416075983eab1447605b1fc6c",
-      "leitura.json": "5d3b25d668315a283df876f9ace12a160e33d14afa87f297ed5425d8e1c57a1c",
-      "projeto-planta.json": "4b4fabdb2168ad0231a3ecbd581769da30c7d7fb005f7d78aa63cd6d0eb5eb74",
-      "moveis.json": "4b722508671a81d8a9690542956a9ca769bd7f7cdd49afc3207682cafe1eee4c",
+      "planta.json": "cb1569d655d61e66fd3043e6b23d12c8abf3e0d262a5751d0db06c1e53e818d8",
+      "leitura.json": "8abdd3f7e13dfcc1055085f9fd6324f870eed85289239d0c2a8909e70ee5588a",
+      "projeto-planta.json": "4f43c877d8fcbe8d3d22777d775b9ff6feb06a7574333b2a9f324a1ec5153aac",
+      "moveis.json": "d789314abccaf9bd88ea9a188e0b92b6293114bc5e9aa67a03ad5c1c58976f5c",
       "contexto.json": "474af82033a951fb0a13da84bf219e9437ffc5027b22e54f03aeff81f7711a3b"
     }
   },
   "contagens": {
     "partes": 2,
     "aberturas": 4,
-    "moveis": 8
+    "moveis": 9
   }
 }

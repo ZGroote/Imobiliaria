@@ -118,7 +118,9 @@ export function unitSolarContext(unit) {
   // Finais espelhados usam a planta sem espelho: a fachada fica certa, esquerda e direita trocam.
   const typology = unit.typology ?? unit.relation?.typology;
   // A espelhada mantém a fachada da original (canto espelha em X, meio em Z).
-  const facing = AXES[side], plan = [0, -1];
+  // Lado da janela grande na planta do construtor (x direita, z para baixo da imagem): o individual tem o vidro a
+  // leste, o PNE a oeste; casal, quádruplo e casal com bebê têm o vidro no lado comprido de cima (-Z).
+  const facing = AXES[side], plan = {individual: [1, 0], 'individual-pne': [-1, 0]}[typology] ?? [0, -1];
   const yaw = Math.atan2(plan[1], plan[0]) - Math.atan2(facing[1], facing[0]);
   return { unitId, side, final, floorIndex, yaw, approximate: true };
 }

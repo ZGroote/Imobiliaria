@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "id": "containers-mooca-quadruplo",
-  "revision": 17,
+  "revision": 18,
   "unit": "mm",
   "geometry": "orthogonal-rectangles",
   "ceilingHeightMm": 2350,

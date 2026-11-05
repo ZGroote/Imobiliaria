@@ -51,16 +51,16 @@
     {
       "comodo": "Dormitório",
       "lado": "east",
-      "de": 1100,
-      "ate": 1210,
+      "de": 960,
+      "ate": 1070,
       "tipo": "door",
       "alturaMm": 2100
     },
     {
       "comodo": "Dormitório",
       "lado": "north",
-      "de": 640,
-      "ate": 750,
+      "de": 560,
+      "ate": 660,
       "tipo": "door",
       "alturaMm": 2100
     },
@@ -143,6 +143,16 @@
       "d": 500,
       "cor": "#F2F1EE",
       "nome": "Lavatório"
+    },
+    {
+      "catalogo": "tapete-sala",
+      "x": 660,
+      "y": 1000,
+      "rot": 0,
+      "w": 1000,
+      "d": 1200,
+      "cor": "#CFC6B8",
+      "nome": "Tapete"
     }
   ],
   "ficha": {
@@ -174,6 +184,7 @@
     "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
     "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
     "O prédio declarado (45 x 40 m, 2 pavimentos) é a pegada do conjunto na planta 1:200; o container não é o prédio.",
-    "Sem copa: a planta do PNE troca a copa pelo banheiro acessível."
+    "Sem copa: a planta do PNE troca a copa pelo banheiro acessível.",
+    "Entrada e porta do banho afastadas 1,4 m (o interior do site só separa a folha de portas com ~1 m entre si); no caderno a entrada fica junto da divisória."
   ]
 }

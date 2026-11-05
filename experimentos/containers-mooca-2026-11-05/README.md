@@ -138,8 +138,8 @@ O que mudou em relação ao Laranjeiras:
 - **Rótulos:** "Dormitório 12 · Quádruplo · 1º pavimento". O preço vira "aluguel de R$ 1.000,00/mês
   (proposta do caderno)". O botão "← Prédio" virou "← Conjunto". Os textos do cabeçalho são os do
   caderno, com a autora e a escola.
-- **Ainda não funciona:** "Ver em 3D" e "Entrar", porque os interiores são a próxima etapa. O mapa
-  também falta, porque o `mapa-retorno.js` do LIV só aceita o LIV e o Laranjeiras.
+- "Ver em 3D", "Entrar" e "Conhecer a região" funcionam desde as etapas de interiores e de mapa
+  (abaixo).
 
 ## Interiores (Planta 3D e Tour, luz dinâmica)
 
@@ -160,3 +160,37 @@ Tour começa na porta. Dá para ver a copa, a geladeira, a bancada de estudo jun
 
 Ficou para ajustar: o piso sai porcelanato (o caderno pede madeira tauari), e o armário aprovado do LIV
 fica mais alto que o pé-direito de 2,35 m do container.
+
+## Luz por hora dos interiores (feito)
+
+```
+node experimentos/containers-mooca-2026-11-05/interiores/luz/chaves.mjs
+bash experimentos/containers-mooca-2026-11-05/interiores/luz/gravar_todos.sh [tipos...]
+```
+
+São os scripts do Laranjeiras com a lista dos 5 tipos: 28 horas por tipo (7 horários × 4 fachadas) e mais
+a noite, com cerca de 30 min de Blender por tipo. Os atlas ficam em
+`site/interiores/<tipo>/luz-horario/` (fora do git, ~45 MB por tipo). O catálogo está em `frozen-source`.
+
+Diferenças em relação ao Laranjeiras:
+- **Porta de entrada:** o bake achava a folha pelo número do material (`m3`). No quádruplo e no casal com
+  bebê há um material a menos antes da porta, então agora `leaf_material` acha a folha pela cor junto à
+  dobradiça. Ele também gira só a peça presa à dobradiça, porque no casal com bebê o batente do banho
+  fica a 0,7 m e a regra do LIV (tudo a até 0,8 m) o girava junto.
+- **Teto do RGBM:** às 6h o sol entra rasante e deixa de 37 a 134 texels (de ~1,6 milhão) acima de 16.
+  O empacotador corta esses pixels no teto e escreve `RGBM_CORTE`; se passarem de 200, ele recusa.
+- **Tapete:** a auditoria do atlas do LIV exige um tapete por planta, e o `escrever_plantas.py` põe um.
+
+Testado no navegador: os 5 tipos abrem no Tour, cada um com a luz da própria fachada às 10h, e o
+console fica sem erro.
+
+## Mapa do entorno (feito)
+
+```
+python experimentos/containers-mooca-2026-11-05/mapa/preparar_mapa.py [--baixar]
+```
+
+É uma cópia do runtime do mapa 2D do LIV, com o empreendimento padrão e os textos trocados, e o LIV e o
+Laranjeiras ficam como estão. São 6.316 estabelecimentos do OpenStreetMap num raio de 5 km. O modelo fica
+no centro do conjunto, com o norte para cima como na planta do caderno, e aparece sobre o terreno da
+esquina usada como âncora.

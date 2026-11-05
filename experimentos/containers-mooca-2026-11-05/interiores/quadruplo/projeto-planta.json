@@ -133,6 +133,19 @@
           "widthMm": 650,
           "xMm": 12150,
           "yMm": 1950
+        },
+        {
+          "alturaMm": 20,
+          "cor": "#CFC6B8",
+          "depthMm": 1000,
+          "id": "m11",
+          "nome": "Tapete",
+          "rotDegrees": 0,
+          "tipo3D": "tapete",
+          "tipoCatalogo": "tapete-sala",
+          "widthMm": 2000,
+          "xMm": 5450,
+          "yMm": 1250
         }
       ],
       "leitura": {
@@ -211,7 +224,7 @@
             "wallB": "c2-west"
           }
         ],
-        "revision": 17,
+        "revision": 18,
         "rooms": [
           {
             "depthMm": 2400,

@@ -58,9 +58,9 @@
     },
     {
       "comodo": "Dormitório",
-      "lado": "east",
-      "de": 1040,
-      "ate": 1150,
+      "lado": "north",
+      "de": 1410,
+      "ate": 1512,
       "tipo": "door",
       "alturaMm": 2100
     },
@@ -163,6 +163,16 @@
       "d": 520,
       "cor": "#A57A52",
       "nome": "Armário"
+    },
+    {
+      "catalogo": "tapete-sala",
+      "x": 1462,
+      "y": 1180,
+      "rot": 0,
+      "w": 800,
+      "d": 1400,
+      "cor": "#CFC6B8",
+      "nome": "Tapete"
     }
   ],
   "ficha": {
@@ -193,6 +203,6 @@
     "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
     "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
     "O prédio declarado (45 x 40 m, 2 pavimentos) é a pegada do conjunto na planta 1:200; o container não é o prédio.",
-    "A porta de entrada e a janela do dormitório são aproximadas: o caderno não marca a esquadria do individual."
+    "A porta de entrada (parede curta, entre a escrivaninha e a cama) e a janela do dormitório são aproximadas: o caderno não marca a esquadria do individual. A entrada fica longe da porta do banho porque o interior do site só separa a folha de portas com ~1 m entre si."
   ]
 }

@@ -103,6 +103,14 @@
         "Banho"
       ],
       "contido": true
+    },
+    {
+      "id": "m11",
+      "nome": "Tapete",
+      "comodos": [
+        "Quarto e estudo"
+      ],
+      "contido": true
     }
   ],
   "sobreposicoes": [],
@@ -110,8 +118,8 @@
     "portas": 2,
     "janelas": 2
   },
-  "conferenciaJPG": "dc1777c338808511f25d7b1b83994544723f57e3a5ddcb2cee9ad17491d69b83",
-  "unidadeSHA256": "a62276b365c039749cd34edf02eba8203d1c49892b742c4beff7583baa8a86a1",
+  "conferenciaJPG": "4bcba90c0fcee06d3c8dc447ba01c33f81822e66da47bd18f2424684ae6b579c",
+  "unidadeSHA256": "a92324255b4da85c03d341abec5c6101c8da9b31b82e6dae2e47cc6be02d118f",
   "limites": [
     "Sobreposição na imagem do book; não é conferência executiva.",
     "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."

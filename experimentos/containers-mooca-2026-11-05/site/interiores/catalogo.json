@@ -29,110 +29,532 @@
       "label": "Dormitório individual",
       "area": 14.8,
       "unitId": "containers-mooca-individual",
-      "unitSHA256": "61ddf75fedb97c035fbe1b77d3df91c493277b53271ecf39c4bc8310264a8369",
-      "sourceSHA256": "85db26d8cabad306c166cd1696d1f9518c015ef26c110997e5dfcc9491df83b6",
-      "geometryKind": "native-factories",
-      "lighting": "dynamic",
+      "unitSHA256": "6591e0de13560b822bda82b7b93993d1a42ee219e092755c320c736a4cdae560",
+      "sourceSHA256": "f872be65636865b1f7419cbc6cd6ba26ceec21c7d30e2e01f7f2b4668fd97d81",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/individual/unidade.json",
-          "bytes": 2839,
-          "sha256": "61ddf75fedb97c035fbe1b77d3df91c493277b53271ecf39c4bc8310264a8369"
+          "bytes": 2935,
+          "sha256": "6591e0de13560b822bda82b7b93993d1a42ee219e092755c320c736a4cdae560"
         },
         "recipe": {
           "path": "interiores/individual/recipe.json",
           "bytes": 588,
-          "sha256": "85db26d8cabad306c166cd1696d1f9518c015ef26c110997e5dfcc9491df83b6"
+          "sha256": "652754c6b21939961963447ee2d5b35801180335e89cd661486d68e00b50eb8d"
+        },
+        "source": {
+          "path": "interiores/individual/source.json.gz",
+          "bytes": 3533029,
+          "sha256": "ecfd894ca5f5b74eced87db75616037eda2221c533e10ca9d4dbbd7b9449ca5c",
+          "compression": "gzip",
+          "decodedBytes": 7597518,
+          "decodedSHA256": "f872be65636865b1f7419cbc6cd6ba26ceec21c7d30e2e01f7f2b4668fd97d81"
+        },
+        "compact": {
+          "path": "interiores/individual/geometry-compact.json.gz",
+          "bytes": 12845,
+          "sha256": "3fe5bdaf9b1d7fcf14ee90977719fba6b621b02285700820710155fdd6094649",
+          "compression": "gzip",
+          "decodedBytes": 27428,
+          "decodedSHA256": "1f9c5802e53d62e6f1fdd265537382899faa62097a29b88bd34e178f359475be"
         }
-      }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "652754c6b21939961963447ee2d5b35801180335e89cd661486d68e00b50eb8d",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        }
+      ]
     },
     "individual-pne": {
       "id": "individual-pne",
       "label": "Dormitório individual PNE",
       "area": 14.8,
       "unitId": "containers-mooca-individual-pne",
-      "unitSHA256": "7fc9f83607066aa3a751443cb71405fb180f028f354ec8932a0522811f6d64e7",
-      "sourceSHA256": "e0a6c50e19918a0e399f5da3e1d4644898dba1cee99c4bf47494200e9f75b2ba",
-      "geometryKind": "native-factories",
-      "lighting": "dynamic",
+      "unitSHA256": "2b8eaa90f474f51a7305775a5e8ddb19ad16848f6cab42d42fbae7d71024cfbc",
+      "sourceSHA256": "cb284fc0006a5a42faf6aefdca751186de87b02a4a42d78b62eb51fad8872405",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/individual-pne/unidade.json",
-          "bytes": 2676,
-          "sha256": "7fc9f83607066aa3a751443cb71405fb180f028f354ec8932a0522811f6d64e7"
+          "bytes": 2772,
+          "sha256": "2b8eaa90f474f51a7305775a5e8ddb19ad16848f6cab42d42fbae7d71024cfbc"
         },
         "recipe": {
           "path": "interiores/individual-pne/recipe.json",
           "bytes": 592,
-          "sha256": "e0a6c50e19918a0e399f5da3e1d4644898dba1cee99c4bf47494200e9f75b2ba"
+          "sha256": "b98b013cf7dd8471af1667162d4af244b4b0f9cd790ff2a22dd2f0d715397a7d"
+        },
+        "source": {
+          "path": "interiores/individual-pne/source.json.gz",
+          "bytes": 3509277,
+          "sha256": "f3900ca92bac8384451bbe291a41c89d489adf7b7f0cbc4e2d69d823aa65baf1",
+          "compression": "gzip",
+          "decodedBytes": 6877573,
+          "decodedSHA256": "cb284fc0006a5a42faf6aefdca751186de87b02a4a42d78b62eb51fad8872405"
+        },
+        "compact": {
+          "path": "interiores/individual-pne/geometry-compact.json.gz",
+          "bytes": 13551,
+          "sha256": "3d810188b9249879123ed288722e0beeb111af98d703e9e0ee03dcd2db3cbd5f",
+          "compression": "gzip",
+          "decodedBytes": 28776,
+          "decodedSHA256": "9ab0571f2f8a81d246eff9a5f644916135e6712fce81d07e74255269933472f2"
         }
-      }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "b98b013cf7dd8471af1667162d4af244b4b0f9cd790ff2a22dd2f0d715397a7d",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        }
+      ]
     },
     "casal": {
       "id": "casal",
       "label": "Dormitório casal",
       "area": 14.8,
       "unitId": "containers-mooca-casal",
-      "unitSHA256": "19b62a085ae7e46ea18c2a1befa5547ec5239a4c0446b9c766a85da7fdad3fe5",
-      "sourceSHA256": "cde328cb62de88a93477cee86feaea6a9642cf0a0b395d994538416f8773eb78",
-      "geometryKind": "native-factories",
-      "lighting": "dynamic",
+      "unitSHA256": "7fc09b4f17da06e25dad231e3d489b6956725eae3148b63183540ce2acd8b6cd",
+      "sourceSHA256": "303dfdf165ca849801b3eb5081e79e1db7162a34129f39eada91762b716afd93",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/casal/unidade.json",
-          "bytes": 2835,
-          "sha256": "19b62a085ae7e46ea18c2a1befa5547ec5239a4c0446b9c766a85da7fdad3fe5"
+          "bytes": 2928,
+          "sha256": "7fc09b4f17da06e25dad231e3d489b6956725eae3148b63183540ce2acd8b6cd"
         },
         "recipe": {
           "path": "interiores/casal/recipe.json",
           "bytes": 583,
-          "sha256": "cde328cb62de88a93477cee86feaea6a9642cf0a0b395d994538416f8773eb78"
+          "sha256": "94f5f793abc4296cfd3ea97f40e7f50e7bba38d29580b78abf1a82e8f9ef3841"
+        },
+        "source": {
+          "path": "interiores/casal/source.json.gz",
+          "bytes": 1038873,
+          "sha256": "f6c51f98ee7fd3eb303c93dc2bc79a4be68a1f1a06bbde8cf89514fa9006c6a4",
+          "compression": "gzip",
+          "decodedBytes": 4533540,
+          "decodedSHA256": "303dfdf165ca849801b3eb5081e79e1db7162a34129f39eada91762b716afd93"
+        },
+        "compact": {
+          "path": "interiores/casal/geometry-compact.json.gz",
+          "bytes": 12842,
+          "sha256": "1bb7965c2a3155ad9ee2a398ee0d0d9aafd0d5f7259e78dfb28bccda84923b9f",
+          "compression": "gzip",
+          "decodedBytes": 27423,
+          "decodedSHA256": "95fb29ea76c5eb6753896e095747e4e6f7f35f5eb35d847f6509bff12ad5bc65"
         }
-      }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "94f5f793abc4296cfd3ea97f40e7f50e7bba38d29580b78abf1a82e8f9ef3841",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        }
+      ]
     },
     "quadruplo": {
       "id": "quadruplo",
       "label": "Dormitório quádruplo",
       "area": 29.7,
       "unitId": "containers-mooca-quadruplo",
-      "unitSHA256": "a62276b365c039749cd34edf02eba8203d1c49892b742c4beff7583baa8a86a1",
-      "sourceSHA256": "3a974e889f92aeaca44d2ac8961dbcde23a1a1b6059e2ee83d41048d99c894f8",
-      "geometryKind": "native-factories",
-      "lighting": "dynamic",
+      "unitSHA256": "a92324255b4da85c03d341abec5c6101c8da9b31b82e6dae2e47cc6be02d118f",
+      "sourceSHA256": "a42df1e19d54be8862f4c612feffa301dd3f6563adb08a218906fd9bf6b34530",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/quadruplo/unidade.json",
-          "bytes": 3099,
-          "sha256": "a62276b365c039749cd34edf02eba8203d1c49892b742c4beff7583baa8a86a1"
+          "bytes": 3194,
+          "sha256": "a92324255b4da85c03d341abec5c6101c8da9b31b82e6dae2e47cc6be02d118f"
         },
         "recipe": {
           "path": "interiores/quadruplo/recipe.json",
           "bytes": 587,
-          "sha256": "3a974e889f92aeaca44d2ac8961dbcde23a1a1b6059e2ee83d41048d99c894f8"
+          "sha256": "56fcdfd9a46d5394daf4b36de3e80040290da9d4f351a754ccd1a991d42f41aa"
+        },
+        "source": {
+          "path": "interiores/quadruplo/source.json.gz",
+          "bytes": 3474291,
+          "sha256": "1b7cc779bc4b3c9fdea03c139773ee12c8f273f701fd556e8eb52af744ca6dff",
+          "compression": "gzip",
+          "decodedBytes": 8951151,
+          "decodedSHA256": "a42df1e19d54be8862f4c612feffa301dd3f6563adb08a218906fd9bf6b34530"
+        },
+        "compact": {
+          "path": "interiores/quadruplo/geometry-compact.json.gz",
+          "bytes": 18263,
+          "sha256": "19ae41cd63b7bb0e1049a472d73d7e39326607b6e348483ee9be0f46d9a185b7",
+          "compression": "gzip",
+          "decodedBytes": 40493,
+          "decodedSHA256": "c53e799ebb82171cd8a93ea838a52befb6dcdc311a759a98c5db50c246988f5c"
         }
-      }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "56fcdfd9a46d5394daf4b36de3e80040290da9d4f351a754ccd1a991d42f41aa",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            6
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            16
+          ]
+        }
+      ]
     },
     "casal-bebe": {
       "id": "casal-bebe",
       "label": "Dormitório casal com bebê",
       "area": 29.7,
       "unitId": "containers-mooca-casal-bebe",
-      "unitSHA256": "97828ad98cbaadff9592c7eff95f51f7c1a9a9d4a578baab69903fde20bcc955",
-      "sourceSHA256": "c237e42dbb4dde9a8b5a59bbf812602595b5c2c009d42fbddce224be01ad6ce2",
-      "geometryKind": "native-factories",
-      "lighting": "dynamic",
+      "unitSHA256": "9f8ac1425877d707666cc3005b05e257016d37ccb98a6ced681d2d50b24dd24c",
+      "sourceSHA256": "3f58de6ddba5e2ec6a5cdf1b356565b845253e32cb06b2fd0b218b29bebb7ff0",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/casal-bebe/unidade.json",
-          "bytes": 3401,
-          "sha256": "97828ad98cbaadff9592c7eff95f51f7c1a9a9d4a578baab69903fde20bcc955"
+          "bytes": 3498,
+          "sha256": "9f8ac1425877d707666cc3005b05e257016d37ccb98a6ced681d2d50b24dd24c"
         },
         "recipe": {
           "path": "interiores/casal-bebe/recipe.json",
           "bytes": 588,
-          "sha256": "c237e42dbb4dde9a8b5a59bbf812602595b5c2c009d42fbddce224be01ad6ce2"
+          "sha256": "cffaf0acfb0acf958380a82023982c1747a86f777cb2912f44ae9f5d382f7c58"
+        },
+        "source": {
+          "path": "interiores/casal-bebe/source.json.gz",
+          "bytes": 3468249,
+          "sha256": "fd5697c500148542437cd55a294f4e16519c25b768f0b37bd61201c4c77011d5",
+          "compression": "gzip",
+          "decodedBytes": 8732120,
+          "decodedSHA256": "3f58de6ddba5e2ec6a5cdf1b356565b845253e32cb06b2fd0b218b29bebb7ff0"
+        },
+        "compact": {
+          "path": "interiores/casal-bebe/geometry-compact.json.gz",
+          "bytes": 22154,
+          "sha256": "dbdaeddaa13f5efe793e304110d5cd7c2efb44b712c5f6f4451d71c85d3ada7f",
+          "compression": "gzip",
+          "decodedBytes": 50160,
+          "decodedSHA256": "dddf38fec974387ab4e33553b5ed7d8ad04792bd283209f83657ee74c488994d"
         }
-      }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "cffaf0acfb0acf958380a82023982c1747a86f777cb2912f44ae9f5d382f7c58",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            6
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            15
+          ]
+        }
+      ]
     }
   }
 }

@@ -37,16 +37,16 @@
   "captura": {
     "construtorSHA256": "bfc8a7f45d9221b711f1810527e9c6aa2e5359e1d3ec7f891fb11ff3f02417ec",
     "inputsSHA256": {
-      "planta.json": "5ab1d0645a5be2af6af8610529bc659c845ecccb65ddc8129e328d325e936095",
-      "leitura.json": "5b33611aa1ad6eea339f1319f28dc2d8f1778f23dd5f4750fad4380e26258f7b",
-      "projeto-planta.json": "3d6346e6c39aa36b5c0859a92f73b4f6464ad503b2500f27815e6caf73712df7",
-      "moveis.json": "f00ff76268db161f1d4911c0d26df63abfce03e5081f289639c9095bd6969f93",
+      "planta.json": "47dcf20b2e80f12d5a03e7f41d80cbbbc21855c107b9e2d3f078606ba2e1e0f9",
+      "leitura.json": "65bb1cf89cfd11b88d48d272bbdf0f468bc0b6e173bdeeaa32e25e3b4796c922",
+      "projeto-planta.json": "147123029244bf4a48b74c5aeb5b6324f950eeb4de8338de59433241daccdc96",
+      "moveis.json": "774bc4d5d4ca71cf176957e04a9f07fd5be97692f97d88806f22243c0ecd31dd",
       "contexto.json": "d3951fa20009d13de2260d044f77ba94491e54c7a5487fb27a6803981b1e6372"
     }
   },
   "contagens": {
     "partes": 3,
     "aberturas": 5,
-    "moveis": 9
+    "moveis": 10
   }
 }

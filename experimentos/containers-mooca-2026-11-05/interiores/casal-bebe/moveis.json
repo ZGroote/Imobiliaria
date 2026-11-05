@@ -117,6 +117,19 @@
       "d": 0.5,
       "cor": "#F2F1EE",
       "nome": "Lavatório"
+    },
+    {
+      "tipo": "tapete",
+      "p": [
+        3.1,
+        1.3
+      ],
+      "rot": 0,
+      "w": 1.4,
+      "h": 0.02,
+      "d": 0.8,
+      "cor": "#CFC6B8",
+      "nome": "Tapete"
     }
   ]
 }

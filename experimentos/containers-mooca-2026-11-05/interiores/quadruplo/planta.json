@@ -183,6 +183,16 @@
       "d": 500,
       "cor": "#F2F1EE",
       "nome": "Lavatório"
+    },
+    {
+      "catalogo": "tapete-sala",
+      "x": 1300,
+      "y": 450,
+      "rot": 0,
+      "w": 2000,
+      "d": 1000,
+      "cor": "#CFC6B8",
+      "nome": "Tapete"
     }
   ],
   "ficha": {

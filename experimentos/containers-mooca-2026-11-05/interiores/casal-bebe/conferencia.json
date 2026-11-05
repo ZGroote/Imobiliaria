@@ -95,6 +95,14 @@
         "Banho"
       ],
       "contido": true
+    },
+    {
+      "id": "m10",
+      "nome": "Tapete",
+      "comodos": [
+        "Quarto"
+      ],
+      "contido": true
     }
   ],
   "sobreposicoes": [],
@@ -102,8 +110,8 @@
     "portas": 3,
     "janelas": 2
   },
-  "conferenciaJPG": "480eb616cbb045d40b27d3e0849be2f7a75a95d2cddee06c5f0e20a6783bcb5f",
-  "unidadeSHA256": "97828ad98cbaadff9592c7eff95f51f7c1a9a9d4a578baab69903fde20bcc955",
+  "conferenciaJPG": "543200e3f7a81fe179ecfa40acc7f2fc4a66908e7103f4932ce56d1977b9cc0a",
+  "unidadeSHA256": "9f8ac1425877d707666cc3005b05e257016d37ccb98a6ced681d2d50b24dd24c",
   "limites": [
     "Sobreposição na imagem do book; não é conferência executiva.",
     "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
