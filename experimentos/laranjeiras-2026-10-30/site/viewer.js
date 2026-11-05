@@ -36,7 +36,7 @@ let units,unitUI;
 let commercialData=null,commercialVersion=0,commercialController=null;
 let relationsData=null,interiorCatalog=null,relationVersion=0,relationController=null;
 let commercialLoad=null,relationLoad=null;
-let stockData=null,stockControlled=demonstration||new URLSearchParams(location.search).has('estoque'),stockStart=null,stopStock=null,stockVersion=0;
+let stockData=null,stockControlled=false,stockStart=null,stopStock=null,stockVersion=0;
 const detailsDialog=document.getElementById('unitDetails');
 // FICHA-LATERAL-20261023: a mesma ficha ocupa o painel quando há espaço na tela.
 const inlineDetails=document.getElementById('inlineUnitDetails'),detailsBody=document.getElementById('detailsBody');
@@ -210,9 +210,9 @@ function update() {
   document.getElementById('hint').textContent=state.mode==='visita'?'Arraste para olhar · use o teclado ou o controle na tela para caminhar':
     state.mode==='planta2d'?`Planta comercial publicada · ${selected.label.toLowerCase()}, ${selected.area} incluindo varanda`:
     state.mode==='maquete'?'Arraste para girar · use a roda ou dois dedos para aproximar':'Arraste para girar · use a roda ou dois dedos para aproximar';
-  unitUI?.update({...state,typology:selected.label.toLowerCase()});
+  const parking=sceneCache.get('exterior')?.contentWindow?.__livProva?.parking;
+  unitUI?.update({...state,typology:selected.label.toLowerCase(),parkingSpaces:parking?.spacesFor(unit?.id),parkingSimulated:parking?.simulated});
   updateAvailability();
-  if(state.ready&&exterior)state.frame?.contentWindow?.__livProva?.setParkingSpaces?.(unit?.parkingSpaces??[]);
   updateDetails();
   updateNavbar();
   updateInfoPanel();
@@ -289,15 +289,25 @@ function updateNavbar(){
 }
 function updateAvailability(){
   const filter=document.getElementById('availabilityFilter'),select=document.getElementById('availability');
-  filter.hidden=!state.ready||state.mode!=='maquete';select.value=state.availabilityFilter;
+  filter.hidden=!state.ready||state.mode!=='maquete';
   const unverified=Boolean(stockControlled?state.stockError:state.commercialError);
-  const available=availableUnitIds(units,{unverified}),active=state.availabilityFilter==='disponiveis';
+  const available=availableUnitIds(units,{unverified});
+  const informed=!unverified&&units?.units.some(unit=>unit.commercial?.availability&&unit.commercial.availability!=='nao_informada');
+  const active=informed&&state.availabilityFilter==='disponiveis';
+  const simulated=units?.commercialStatus==='simulado';
+  const note=document.getElementById('demonstrationNote');
+  note.hidden=!demonstration&&!simulated;
+  if(simulated)note.textContent='Demonstração · disponibilidade e vagas simuladas.';
+  select.value=informed?state.availabilityFilter:'todos';
+  select.disabled=!informed;
+  select.options[0].textContent=informed?'Todos os apartamentos':'Estoque sob consulta';
+  select.options[1].hidden=!informed;
+  select.options[1].textContent=simulated?'Disponíveis na simulação':'Disponíveis (em verde)';
   state.availableUnitCount=available.length;
   state.glowingUnitIds=active?available:[];
-  const informed=!unverified&&units?.units.some(unit=>unit.commercial?.availability&&unit.commercial.availability!=='nao_informada');
   filter.dataset.active=String(active&&available.length>0);
-  document.getElementById('availabilitySummary').textContent=unverified?'Disponibilidade em atualização. Confirme com a equipe.':
-    !informed?'Disponibilidade ainda não informada.':
+  document.getElementById('availabilitySummary').textContent=!informed?'Disponibilidade sob consulta.':
+    simulated?`${available.length} disponíveis na simulação.`:
     available.length===0?'Nenhum apartamento cadastrado como disponível.':
     active?`${available.length} ${available.length===1?'disponível':'disponíveis'} em verde · ${buyerUI.enabled?'2 toques abrem a planta':'toque para ver a ficha'}`:
       `${available.length} ${available.length===1?'disponível':'disponíveis'} · selecione para destacar`;
@@ -488,6 +498,7 @@ function prepareScene(kind){
       frame.contentWindow.addEventListener('liv-unit-selected',event=>{
         if(state.frame===frame&&state.ready&&state.mode==='maquete')selectUnit(event.detail.id,{frameEvent:true,openLayout:buyerUI.enabled&&event.detail.activate===true});
       });
+      frame.contentWindow.addEventListener('liv-parking-ready',()=>{if(current()&&state.selectedUnitId)update();});
     }else{
       const snapshot=state.interiorSnapshots[key];
       if(snapshot){
@@ -579,7 +590,7 @@ async function setMode(mode,{restore=false}={}) {
         const mode=address.get('modo')||'planta2d';restoredInterior=['planta2d','planta3d','visita'].includes(mode)?{mode,unitId:requestedUnit}:null;
       }
       if(relationsData){units=attachRelations(units,relationsData,interiorCatalog);state.units=units;}
-      if(stockControlled){units=attachStock(units,stockData,interiorCatalog);state.units=units;}
+      if(stockControlled){units=attachStock(units,stockData);state.units=units;}
       try{unitById(units,state.selectedUnitId);}catch{state.selectedUnitId=null;restoredInterior=null;}
       if(unitUI)unitUI.setCatalog(units);else unitUI=createUnitUI(units);
       update();
@@ -747,29 +758,22 @@ function startStock(){
     const response=await fetch(new URL(demonstration?'./estoque-demo-config.json':'./estoque-config.json',import.meta.url),{cache:'no-cache'});
     if(!response.ok)throw Error('Configuração da consulta indisponível.');
     const config=await response.json();if(version!==stockVersion)return false;
-    // Disabled/default pages do not download the Firebase bundle or contact the database.
-    if(config.mode==='desativado'||(!config.propertyId&&!new URLSearchParams(location.search).get('estoque'))){
-      if(stockControlled)stockWarning('A ligação com o painel ainda não está habilitada nesta versão.');return false;
-    }
-    stockControlled=true;commercialVersion++;commercialController?.abort();relationVersion++;relationController?.abort();
-    units=attachStock(units,null,null);state.units=units;unitUI?.setCatalog(units);update();
+    if(config.mode==='desativado'||config.mode==='demonstracao'||!config.propertyId)return false;
     const sdk=await import('./estoque-runtime.js');if(version!==stockVersion)return false;
-    const checked=sdk.validarConfig(config,location.search,location.hostname);if(!checked)return false;
-    state.stockPropertyId=checked.id;state.stockStatus='conectando';let latest=0;
+    const checked=sdk.validarConfig(config,'',location.hostname);
+    if(!checked||checked.model!=='parque-das-laranjeiras')throw Error('Estoque de outro empreendimento.');
+    stockControlled=true;commercialVersion++;commercialController?.abort();relationVersion++;relationController?.abort();
+    units=attachStock(units,null);state.units=units;unitUI?.setCatalog(units);update();
+    state.stockPropertyId=checked.id;state.stockStatus='conectando';
     stopStock=sdk.assinarEstoque(checked,snapshot=>{
-      const sequence=++latest;
-      void (async()=>{
-        if(snapshot?.units.some(u=>u.profileId!==null)&&!interiorCatalog){
-          const response=await fetch(new URL('./interiores/catalogo.json',import.meta.url),{cache:'no-cache'});
-          if(!response.ok)throw Error('Catálogo das plantas indisponível.');interiorCatalog=await response.json();
-        }
-        if(version!==stockVersion||sequence!==latest)return;
-        const next=attachStock(units,snapshot,interiorCatalog);stockData=snapshot;units=next;state.units=units;
-        state.stockStatus=snapshot?'ao-vivo':'nao-publicado';state.commercialStatus=next.commercialStatus;state.relationStatus=next.relationStatus;
+      if(version!==stockVersion)return;
+      try{
+        const next=attachStock(units,snapshot);stockData=snapshot;units=next;state.units=units;
+        state.stockStatus=snapshot?'ao-vivo':'nao-publicado';state.commercialStatus=next.commercialStatus;
         document.getElementById('commercialWarning').hidden=true;document.getElementById('relationWarning').hidden=true;
         unitUI?.setCatalog(units);update();
-      })().catch(()=>{if(version===stockVersion)stockWarning('Não foi possível conferir o cadastro. Confirme a disponibilidade com a equipe responsável.');});
-    },message=>{if(version===stockVersion)stockWarning(message);});
+      }catch{stockWarning('Não foi possível conferir o cadastro. Confirme a disponibilidade com a equipe responsável.');}
+    },message=>{if(version===stockVersion)stockWarning(state.stockStatus==='nao-publicado'?'':message);});
     return true;
   })().catch(()=>{if(version===stockVersion)stockWarning('Não foi possível conectar ao painel. A disponibilidade precisa ser confirmada com a equipe responsável.');return false;});
   return stockStart;

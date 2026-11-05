@@ -29,6 +29,7 @@ function Imovel({ id }: { id: string }) {
             <a className="btn" href={'/imoveis/planta?id='+encodeURIComponent(p.id)}>Editar planta e versões</a>
             <PublicacaoDoImovel p={p} />
             <LinksPublicos p={p} />
+            {gerente && <a className="btn" href={'/properties/units?id='+encodeURIComponent(p.id)}>Preços e vendas das unidades</a>}
             <Dados p={p} />
             {gerente ? <CorretorResponsavel p={p} pessoas={pessoas} />
               : <Cartao titulo="Corretor responsável"><p className="text-sm">{nome(p.assignedAgentId, perfil.id)}</p></Cartao>}

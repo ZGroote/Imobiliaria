@@ -1,0 +1,2571 @@
+{
+  "schema": "liv-parking-v1",
+  "simulated": true,
+  "vagas": [
+    {
+      "x": -27.643,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 1,
+      "unitId": "laranjeiras/torre-01/pavimento-12/final-02"
+    },
+    {
+      "x": -25.076,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 2,
+      "unitId": "laranjeiras/torre-01/pavimento-00/final-04"
+    },
+    {
+      "x": -22.509,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 3,
+      "unitId": "laranjeiras/torre-02/pavimento-04/final-05"
+    },
+    {
+      "x": -19.941,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 4,
+      "unitId": "laranjeiras/torre-03/pavimento-03/final-02"
+    },
+    {
+      "x": -17.374,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 5,
+      "unitId": "laranjeiras/torre-02/pavimento-03/final-08"
+    },
+    {
+      "x": -14.807,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 6,
+      "unitId": "laranjeiras/torre-03/pavimento-04/final-04"
+    },
+    {
+      "x": -12.239,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 7,
+      "unitId": "laranjeiras/torre-03/pavimento-04/final-08"
+    },
+    {
+      "x": -9.672,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 8,
+      "unitId": "laranjeiras/torre-03/pavimento-12/final-03"
+    },
+    {
+      "x": -7.105,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 9,
+      "unitId": "laranjeiras/torre-01/pavimento-10/final-06"
+    },
+    {
+      "x": -4.537,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 10,
+      "unitId": "laranjeiras/torre-02/pavimento-07/final-04"
+    },
+    {
+      "x": -1.97,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 11,
+      "unitId": "laranjeiras/torre-01/pavimento-05/final-01"
+    },
+    {
+      "x": 0.597,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 12,
+      "unitId": "laranjeiras/torre-01/pavimento-00/final-06"
+    },
+    {
+      "x": 3.165,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 13,
+      "unitId": "laranjeiras/torre-02/pavimento-12/final-07"
+    },
+    {
+      "x": 5.732,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 14,
+      "unitId": "laranjeiras/torre-01/pavimento-04/final-05"
+    },
+    {
+      "x": 8.299,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 15,
+      "unitId": "laranjeiras/torre-01/pavimento-03/final-07"
+    },
+    {
+      "x": 10.867,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 16,
+      "unitId": "laranjeiras/torre-01/pavimento-11/final-01"
+    },
+    {
+      "x": 13.434,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 17,
+      "unitId": "laranjeiras/torre-03/pavimento-12/final-04"
+    },
+    {
+      "x": 16.001,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 18,
+      "unitId": "laranjeiras/torre-03/pavimento-08/final-08"
+    },
+    {
+      "x": 18.569,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 19,
+      "unitId": "laranjeiras/torre-02/pavimento-02/final-07"
+    },
+    {
+      "x": 21.136,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 20,
+      "unitId": "laranjeiras/torre-02/pavimento-07/final-05"
+    },
+    {
+      "x": 23.703,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 21,
+      "unitId": "laranjeiras/torre-01/pavimento-10/final-01"
+    },
+    {
+      "x": 26.271,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 22,
+      "unitId": "laranjeiras/torre-03/pavimento-06/final-07"
+    },
+    {
+      "x": 28.838,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 23,
+      "unitId": "laranjeiras/torre-01/pavimento-08/final-07"
+    },
+    {
+      "x": 31.405,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 24,
+      "unitId": "laranjeiras/torre-01/pavimento-08/final-01"
+    },
+    {
+      "x": 33.973,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 25,
+      "unitId": "laranjeiras/torre-03/pavimento-07/final-05"
+    },
+    {
+      "x": 36.54,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 26,
+      "unitId": "laranjeiras/torre-01/pavimento-02/final-04"
+    },
+    {
+      "x": 39.107,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 27,
+      "unitId": "laranjeiras/torre-01/pavimento-01/final-08"
+    },
+    {
+      "x": 41.675,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 28,
+      "unitId": "laranjeiras/torre-01/pavimento-12/final-08"
+    },
+    {
+      "x": 44.242,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 29,
+      "unitId": "laranjeiras/torre-03/pavimento-08/final-02"
+    },
+    {
+      "x": 46.809,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 30,
+      "unitId": "laranjeiras/torre-02/pavimento-04/final-07"
+    },
+    {
+      "x": 49.377,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 31,
+      "unitId": "laranjeiras/torre-03/pavimento-00/final-06"
+    },
+    {
+      "x": 51.944,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 32,
+      "unitId": "laranjeiras/torre-03/pavimento-10/final-04"
+    },
+    {
+      "x": 54.511,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 33,
+      "unitId": "laranjeiras/torre-03/pavimento-07/final-01"
+    },
+    {
+      "x": 57.079,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 34,
+      "unitId": "laranjeiras/torre-01/pavimento-01/final-02"
+    },
+    {
+      "x": 59.646,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 35,
+      "unitId": "laranjeiras/torre-01/pavimento-07/final-02"
+    },
+    {
+      "x": 62.213,
+      "z": -37.677,
+      "largura": 2.311,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 36,
+      "unitId": "laranjeiras/torre-03/pavimento-00/final-05"
+    },
+    {
+      "x": -8.733,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 37,
+      "unitId": "laranjeiras/torre-03/pavimento-08/final-06"
+    },
+    {
+      "x": -6.225,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 38,
+      "unitId": "laranjeiras/torre-03/pavimento-12/final-02"
+    },
+    {
+      "x": -3.717,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 39,
+      "unitId": "laranjeiras/torre-02/pavimento-01/final-02"
+    },
+    {
+      "x": -1.21,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 40,
+      "unitId": "laranjeiras/torre-02/pavimento-00/final-04"
+    },
+    {
+      "x": 1.298,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 41,
+      "unitId": "laranjeiras/torre-02/pavimento-03/final-05"
+    },
+    {
+      "x": 3.806,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 42,
+      "unitId": "laranjeiras/torre-01/pavimento-09/final-01"
+    },
+    {
+      "x": 6.314,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 43,
+      "unitId": "laranjeiras/torre-02/pavimento-12/final-01"
+    },
+    {
+      "x": 8.822,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 44,
+      "unitId": "laranjeiras/torre-03/pavimento-09/final-02"
+    },
+    {
+      "x": 11.33,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 45,
+      "unitId": "laranjeiras/torre-03/pavimento-01/final-07"
+    },
+    {
+      "x": 13.837,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 46,
+      "unitId": "laranjeiras/torre-01/pavimento-12/final-06"
+    },
+    {
+      "x": 16.345,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 47,
+      "unitId": "laranjeiras/torre-02/pavimento-03/final-04"
+    },
+    {
+      "x": 18.853,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 48,
+      "unitId": "laranjeiras/torre-03/pavimento-12/final-08"
+    },
+    {
+      "x": 21.361,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 49,
+      "unitId": "laranjeiras/torre-01/pavimento-04/final-08"
+    },
+    {
+      "x": 23.869,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 50,
+      "unitId": "laranjeiras/torre-01/pavimento-08/final-03"
+    },
+    {
+      "x": 26.376,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 51,
+      "unitId": "laranjeiras/torre-01/pavimento-09/final-04"
+    },
+    {
+      "x": 28.884,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 52,
+      "unitId": "laranjeiras/torre-03/pavimento-11/final-02"
+    },
+    {
+      "x": 31.392,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 53,
+      "unitId": "laranjeiras/torre-03/pavimento-08/final-04"
+    },
+    {
+      "x": 33.9,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 54,
+      "unitId": "laranjeiras/torre-02/pavimento-00/final-03"
+    },
+    {
+      "x": 36.408,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 55,
+      "unitId": "laranjeiras/torre-01/pavimento-11/final-02"
+    },
+    {
+      "x": 38.916,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 56,
+      "unitId": "laranjeiras/torre-01/pavimento-12/final-03"
+    },
+    {
+      "x": 41.423,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 57,
+      "unitId": "laranjeiras/torre-02/pavimento-02/final-04"
+    },
+    {
+      "x": 43.931,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 58,
+      "unitId": "laranjeiras/torre-03/pavimento-00/final-03"
+    },
+    {
+      "x": 46.439,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 59,
+      "unitId": "laranjeiras/torre-02/pavimento-05/final-03"
+    },
+    {
+      "x": 48.947,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 60,
+      "unitId": "laranjeiras/torre-03/pavimento-03/final-06"
+    },
+    {
+      "x": 51.455,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 61,
+      "unitId": "laranjeiras/torre-02/pavimento-01/final-04"
+    },
+    {
+      "x": 53.963,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 62,
+      "unitId": "laranjeiras/torre-01/pavimento-09/final-08"
+    },
+    {
+      "x": 56.47,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 63,
+      "unitId": "laranjeiras/torre-03/pavimento-02/final-07"
+    },
+    {
+      "x": 58.978,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 64,
+      "unitId": "laranjeiras/torre-03/pavimento-01/final-04"
+    },
+    {
+      "x": 61.486,
+      "z": -26.787,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 65,
+      "unitId": "laranjeiras/torre-02/pavimento-06/final-05"
+    },
+    {
+      "x": -8.733,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 66,
+      "unitId": "laranjeiras/torre-01/pavimento-12/final-04"
+    },
+    {
+      "x": -6.225,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 67,
+      "unitId": "laranjeiras/torre-02/pavimento-11/final-05"
+    },
+    {
+      "x": -3.717,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 68,
+      "unitId": "laranjeiras/torre-02/pavimento-02/final-02"
+    },
+    {
+      "x": -1.21,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 69,
+      "unitId": "laranjeiras/torre-03/pavimento-10/final-02"
+    },
+    {
+      "x": 1.298,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 70,
+      "unitId": "laranjeiras/torre-02/pavimento-08/final-01"
+    },
+    {
+      "x": 3.806,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 71,
+      "unitId": "laranjeiras/torre-02/pavimento-10/final-06"
+    },
+    {
+      "x": 6.314,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 72,
+      "unitId": "laranjeiras/torre-01/pavimento-04/final-07"
+    },
+    {
+      "x": 8.822,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 73,
+      "unitId": "laranjeiras/torre-02/pavimento-09/final-05"
+    },
+    {
+      "x": 11.33,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 74,
+      "unitId": "laranjeiras/torre-03/pavimento-05/final-04"
+    },
+    {
+      "x": 13.837,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 75,
+      "unitId": "laranjeiras/torre-02/pavimento-01/final-05"
+    },
+    {
+      "x": 16.345,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 76,
+      "unitId": "laranjeiras/torre-02/pavimento-01/final-01"
+    },
+    {
+      "x": 18.853,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 77,
+      "unitId": "laranjeiras/torre-01/pavimento-06/final-06"
+    },
+    {
+      "x": 21.361,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 78,
+      "unitId": "laranjeiras/torre-02/pavimento-05/final-01"
+    },
+    {
+      "x": 23.869,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 79,
+      "unitId": "laranjeiras/torre-01/pavimento-06/final-01"
+    },
+    {
+      "x": 26.376,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 80,
+      "unitId": "laranjeiras/torre-02/pavimento-07/final-01"
+    },
+    {
+      "x": 28.884,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 81,
+      "unitId": "laranjeiras/torre-02/pavimento-05/final-07"
+    },
+    {
+      "x": 31.392,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 82,
+      "unitId": "laranjeiras/torre-02/pavimento-10/final-08"
+    },
+    {
+      "x": 33.9,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 83,
+      "unitId": "laranjeiras/torre-01/pavimento-08/final-05"
+    },
+    {
+      "x": 36.408,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 84,
+      "unitId": "laranjeiras/torre-01/pavimento-01/final-06"
+    },
+    {
+      "x": 38.916,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 85,
+      "unitId": "laranjeiras/torre-03/pavimento-02/final-04"
+    },
+    {
+      "x": 41.423,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 86,
+      "unitId": "laranjeiras/torre-03/pavimento-01/final-02"
+    },
+    {
+      "x": 43.931,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 87,
+      "unitId": "laranjeiras/torre-02/pavimento-08/final-03"
+    },
+    {
+      "x": 46.439,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 88,
+      "unitId": "laranjeiras/torre-03/pavimento-04/final-01"
+    },
+    {
+      "x": 48.947,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 89,
+      "unitId": "laranjeiras/torre-01/pavimento-03/final-05"
+    },
+    {
+      "x": 51.455,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 90,
+      "unitId": "laranjeiras/torre-03/pavimento-09/final-06"
+    },
+    {
+      "x": 53.963,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 91,
+      "unitId": "laranjeiras/torre-02/pavimento-03/final-01"
+    },
+    {
+      "x": 56.47,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 92,
+      "unitId": "laranjeiras/torre-01/pavimento-06/final-05"
+    },
+    {
+      "x": 58.978,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 93,
+      "unitId": "laranjeiras/torre-03/pavimento-05/final-06"
+    },
+    {
+      "x": 61.486,
+      "z": -21.673,
+      "largura": 2.257,
+      "comprimento": 4.704,
+      "sentido": "z",
+      "numero": 94,
+      "unitId": "laranjeiras/torre-01/pavimento-02/final-06"
+    },
+    {
+      "x": -8.737,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 95,
+      "unitId": "laranjeiras/torre-03/pavimento-03/final-05"
+    },
+    {
+      "x": -6.237,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 96,
+      "unitId": "laranjeiras/torre-03/pavimento-10/final-01"
+    },
+    {
+      "x": -3.737,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 97,
+      "unitId": "laranjeiras/torre-03/pavimento-07/final-02"
+    },
+    {
+      "x": -1.237,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 98,
+      "unitId": "laranjeiras/torre-01/pavimento-02/final-07"
+    },
+    {
+      "x": 1.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 99,
+      "unitId": "laranjeiras/torre-02/pavimento-06/final-06"
+    },
+    {
+      "x": 3.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 100,
+      "unitId": "laranjeiras/torre-01/pavimento-12/final-07"
+    },
+    {
+      "x": 6.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 101,
+      "unitId": "laranjeiras/torre-01/pavimento-00/final-02"
+    },
+    {
+      "x": 8.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 102,
+      "unitId": "laranjeiras/torre-02/pavimento-10/final-05"
+    },
+    {
+      "x": 11.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 103,
+      "unitId": "laranjeiras/torre-01/pavimento-01/final-04"
+    },
+    {
+      "x": 13.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 104,
+      "unitId": "laranjeiras/torre-03/pavimento-04/final-07"
+    },
+    {
+      "x": 16.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 105,
+      "unitId": "laranjeiras/torre-01/pavimento-12/final-01"
+    },
+    {
+      "x": 18.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 106,
+      "unitId": "laranjeiras/torre-03/pavimento-09/final-01"
+    },
+    {
+      "x": 21.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 107,
+      "unitId": "laranjeiras/torre-02/pavimento-07/final-08"
+    },
+    {
+      "x": 23.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 108,
+      "unitId": "laranjeiras/torre-03/pavimento-03/final-08"
+    },
+    {
+      "x": 26.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 109,
+      "unitId": "laranjeiras/torre-01/pavimento-05/final-04"
+    },
+    {
+      "x": 28.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 110,
+      "unitId": "laranjeiras/torre-02/pavimento-09/final-04"
+    },
+    {
+      "x": 31.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 111,
+      "unitId": "laranjeiras/torre-03/pavimento-11/final-03"
+    },
+    {
+      "x": 33.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 112,
+      "unitId": "laranjeiras/torre-03/pavimento-11/final-04"
+    },
+    {
+      "x": 36.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 113,
+      "unitId": "laranjeiras/torre-03/pavimento-00/final-04"
+    },
+    {
+      "x": 38.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 114,
+      "unitId": "laranjeiras/torre-03/pavimento-07/final-08"
+    },
+    {
+      "x": 41.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 115,
+      "unitId": "laranjeiras/torre-01/pavimento-10/final-02"
+    },
+    {
+      "x": 43.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 116,
+      "unitId": "laranjeiras/torre-02/pavimento-00/final-01"
+    },
+    {
+      "x": 46.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 117,
+      "unitId": "laranjeiras/torre-03/pavimento-05/final-03"
+    },
+    {
+      "x": 48.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 118,
+      "unitId": "laranjeiras/torre-01/pavimento-07/final-01"
+    },
+    {
+      "x": 51.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 119,
+      "unitId": "laranjeiras/torre-02/pavimento-08/final-08"
+    },
+    {
+      "x": 53.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 120,
+      "unitId": "laranjeiras/torre-01/pavimento-07/final-03"
+    },
+    {
+      "x": 56.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 121,
+      "unitId": "laranjeiras/torre-02/pavimento-09/final-01"
+    },
+    {
+      "x": 58.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 122,
+      "unitId": "laranjeiras/torre-02/pavimento-00/final-07"
+    },
+    {
+      "x": 61.263,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 123,
+      "unitId": "laranjeiras/torre-02/pavimento-03/final-06"
+    },
+    {
+      "x": 63.763,
+      "z": -11.541,
+      "largura": 2.25,
+      "comprimento": 4.879,
+      "sentido": "z",
+      "numero": 124,
+      "unitId": "laranjeiras/torre-03/pavimento-02/final-02"
+    },
+    {
+      "x": -80.252,
+      "z": -36.785,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 125,
+      "unitId": "laranjeiras/torre-01/pavimento-10/final-03"
+    },
+    {
+      "x": -80.252,
+      "z": -34.243,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 126,
+      "unitId": "laranjeiras/torre-03/pavimento-01/final-03"
+    },
+    {
+      "x": -80.252,
+      "z": -31.701,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 127,
+      "unitId": "laranjeiras/torre-02/pavimento-08/final-04"
+    },
+    {
+      "x": -80.252,
+      "z": -29.16,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 128,
+      "unitId": "laranjeiras/torre-01/pavimento-11/final-08"
+    },
+    {
+      "x": -80.252,
+      "z": -26.618,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 129,
+      "unitId": "laranjeiras/torre-02/pavimento-05/final-04"
+    },
+    {
+      "x": -80.252,
+      "z": -24.077,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 130,
+      "unitId": "laranjeiras/torre-03/pavimento-07/final-07"
+    },
+    {
+      "x": -80.252,
+      "z": -21.535,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 131,
+      "unitId": "laranjeiras/torre-03/pavimento-08/final-03"
+    },
+    {
+      "x": -80.252,
+      "z": -18.994,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 132,
+      "unitId": "laranjeiras/torre-02/pavimento-10/final-01"
+    },
+    {
+      "x": -80.252,
+      "z": -16.452,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 133,
+      "unitId": "laranjeiras/torre-01/pavimento-07/final-05"
+    },
+    {
+      "x": -80.252,
+      "z": -13.911,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 134,
+      "unitId": "laranjeiras/torre-03/pavimento-02/final-06"
+    },
+    {
+      "x": -80.252,
+      "z": -11.369,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 135,
+      "unitId": "laranjeiras/torre-02/pavimento-00/final-02"
+    },
+    {
+      "x": -80.252,
+      "z": -8.828,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 136,
+      "unitId": "laranjeiras/torre-03/pavimento-03/final-07"
+    },
+    {
+      "x": -80.252,
+      "z": -6.286,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 137,
+      "unitId": "laranjeiras/torre-03/pavimento-06/final-02"
+    },
+    {
+      "x": -80.252,
+      "z": -3.744,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 138,
+      "unitId": "laranjeiras/torre-01/pavimento-03/final-02"
+    },
+    {
+      "x": -80.252,
+      "z": -1.203,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 139,
+      "unitId": "laranjeiras/torre-02/pavimento-07/final-03"
+    },
+    {
+      "x": -80.252,
+      "z": 1.339,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 140,
+      "unitId": "laranjeiras/torre-02/pavimento-12/final-06"
+    },
+    {
+      "x": -80.252,
+      "z": 3.88,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 141,
+      "unitId": "laranjeiras/torre-03/pavimento-00/final-01"
+    },
+    {
+      "x": -80.252,
+      "z": 6.422,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 142,
+      "unitId": "laranjeiras/torre-02/pavimento-12/final-08"
+    },
+    {
+      "x": -80.252,
+      "z": 8.963,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 143,
+      "unitId": "laranjeiras/torre-03/pavimento-02/final-08"
+    },
+    {
+      "x": -80.252,
+      "z": 11.505,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 144,
+      "unitId": "laranjeiras/torre-03/pavimento-02/final-01"
+    },
+    {
+      "x": -80.252,
+      "z": 14.046,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 145,
+      "unitId": "laranjeiras/torre-02/pavimento-00/final-05"
+    },
+    {
+      "x": -80.252,
+      "z": 16.588,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 146,
+      "unitId": "laranjeiras/torre-02/pavimento-04/final-06"
+    },
+    {
+      "x": -80.252,
+      "z": 19.13,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 147,
+      "unitId": "laranjeiras/torre-03/pavimento-10/final-05"
+    },
+    {
+      "x": -80.252,
+      "z": 21.671,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 148,
+      "unitId": "laranjeiras/torre-01/pavimento-10/final-05"
+    },
+    {
+      "x": -80.252,
+      "z": 24.213,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 149,
+      "unitId": "laranjeiras/torre-03/pavimento-05/final-01"
+    },
+    {
+      "x": -80.252,
+      "z": 26.754,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 150,
+      "unitId": "laranjeiras/torre-01/pavimento-09/final-06"
+    },
+    {
+      "x": -80.252,
+      "z": 29.296,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 151,
+      "unitId": "laranjeiras/torre-03/pavimento-08/final-05"
+    },
+    {
+      "x": -80.252,
+      "z": 31.837,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 152,
+      "unitId": "laranjeiras/torre-02/pavimento-11/final-02"
+    },
+    {
+      "x": -80.252,
+      "z": 34.379,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 153,
+      "unitId": "laranjeiras/torre-03/pavimento-05/final-07"
+    },
+    {
+      "x": -80.252,
+      "z": 36.92,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 154,
+      "unitId": "laranjeiras/torre-02/pavimento-11/final-08"
+    },
+    {
+      "x": -80.252,
+      "z": 39.462,
+      "largura": 2.287,
+      "comprimento": 4.531,
+      "sentido": "x",
+      "numero": 155,
+      "unitId": "laranjeiras/torre-03/pavimento-07/final-04"
+    },
+    {
+      "x": -69.268,
+      "z": -36.783,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 156,
+      "unitId": "laranjeiras/torre-02/pavimento-08/final-05"
+    },
+    {
+      "x": -69.268,
+      "z": -34.237,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 157,
+      "unitId": "laranjeiras/torre-02/pavimento-05/final-08"
+    },
+    {
+      "x": -69.268,
+      "z": -31.692,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 158,
+      "unitId": "laranjeiras/torre-02/pavimento-03/final-03"
+    },
+    {
+      "x": -69.268,
+      "z": -29.146,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 159,
+      "unitId": "laranjeiras/torre-01/pavimento-06/final-02"
+    },
+    {
+      "x": -69.268,
+      "z": -26.601,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 160,
+      "unitId": "laranjeiras/torre-03/pavimento-06/final-05"
+    },
+    {
+      "x": -69.268,
+      "z": -24.055,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 161,
+      "unitId": "laranjeiras/torre-02/pavimento-05/final-02"
+    },
+    {
+      "x": -69.268,
+      "z": -21.51,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 162,
+      "unitId": "laranjeiras/torre-01/pavimento-08/final-08"
+    },
+    {
+      "x": -69.268,
+      "z": -18.965,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 163,
+      "unitId": "laranjeiras/torre-01/pavimento-09/final-03"
+    },
+    {
+      "x": -69.268,
+      "z": -16.419,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 164,
+      "unitId": "laranjeiras/torre-01/pavimento-08/final-02"
+    },
+    {
+      "x": -69.268,
+      "z": -13.874,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 165,
+      "unitId": "laranjeiras/torre-03/pavimento-08/final-01"
+    },
+    {
+      "x": -69.268,
+      "z": -11.328,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 166,
+      "unitId": "laranjeiras/torre-01/pavimento-09/final-07"
+    },
+    {
+      "x": -69.268,
+      "z": -8.783,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 167,
+      "unitId": "laranjeiras/torre-02/pavimento-08/final-06"
+    },
+    {
+      "x": -69.268,
+      "z": -6.237,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 168,
+      "unitId": "laranjeiras/torre-03/pavimento-10/final-03"
+    },
+    {
+      "x": -69.268,
+      "z": -3.692,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 169,
+      "unitId": "laranjeiras/torre-03/pavimento-11/final-01"
+    },
+    {
+      "x": -69.268,
+      "z": -1.146,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 170,
+      "unitId": "laranjeiras/torre-02/pavimento-04/final-01"
+    },
+    {
+      "x": -69.268,
+      "z": 1.399,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 171,
+      "unitId": "laranjeiras/torre-02/pavimento-02/final-08"
+    },
+    {
+      "x": -69.268,
+      "z": 3.944,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 172,
+      "unitId": "laranjeiras/torre-01/pavimento-06/final-03"
+    },
+    {
+      "x": -69.268,
+      "z": 6.49,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 173,
+      "unitId": "laranjeiras/torre-02/pavimento-12/final-03"
+    },
+    {
+      "x": -69.268,
+      "z": 9.035,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 174,
+      "unitId": "laranjeiras/torre-03/pavimento-06/final-08"
+    },
+    {
+      "x": -69.268,
+      "z": 11.581,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 175,
+      "unitId": "laranjeiras/torre-02/pavimento-03/final-02"
+    },
+    {
+      "x": -69.268,
+      "z": 14.126,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 176,
+      "unitId": "laranjeiras/torre-01/pavimento-05/final-05"
+    },
+    {
+      "x": -69.268,
+      "z": 16.672,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 177,
+      "unitId": "laranjeiras/torre-03/pavimento-04/final-02"
+    },
+    {
+      "x": -69.268,
+      "z": 19.217,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 178,
+      "unitId": "laranjeiras/torre-01/pavimento-02/final-03"
+    },
+    {
+      "x": -69.268,
+      "z": 21.763,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 179,
+      "unitId": "laranjeiras/torre-02/pavimento-09/final-03"
+    },
+    {
+      "x": -69.268,
+      "z": 24.308,
+      "largura": 2.291,
+      "comprimento": 4.53,
+      "sentido": "x",
+      "numero": 180,
+      "unitId": "laranjeiras/torre-03/pavimento-04/final-03"
+    },
+    {
+      "x": -65.168,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 181,
+      "unitId": "laranjeiras/torre-01/pavimento-08/final-04"
+    },
+    {
+      "x": -62.649,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 182,
+      "unitId": "laranjeiras/torre-02/pavimento-01/final-06"
+    },
+    {
+      "x": -60.13,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 183,
+      "unitId": "laranjeiras/torre-01/pavimento-01/final-07"
+    },
+    {
+      "x": -57.611,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 184,
+      "unitId": "laranjeiras/torre-01/pavimento-06/final-07"
+    },
+    {
+      "x": -55.092,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 185,
+      "unitId": "laranjeiras/torre-02/pavimento-02/final-05"
+    },
+    {
+      "x": -52.573,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 186,
+      "unitId": "laranjeiras/torre-01/pavimento-02/final-08"
+    },
+    {
+      "x": -50.054,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 187,
+      "unitId": "laranjeiras/torre-03/pavimento-04/final-05"
+    },
+    {
+      "x": -47.535,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 188,
+      "unitId": "laranjeiras/torre-03/pavimento-01/final-01"
+    },
+    {
+      "x": -45.016,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 189,
+      "unitId": "laranjeiras/torre-03/pavimento-02/final-05"
+    },
+    {
+      "x": -42.497,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 190,
+      "unitId": "laranjeiras/torre-03/pavimento-04/final-06"
+    },
+    {
+      "x": -39.978,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 191,
+      "unitId": "laranjeiras/torre-02/pavimento-07/final-02"
+    },
+    {
+      "x": -37.459,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 192,
+      "unitId": "laranjeiras/torre-01/pavimento-00/final-05"
+    },
+    {
+      "x": -34.94,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 193,
+      "unitId": "laranjeiras/torre-02/pavimento-02/final-01"
+    },
+    {
+      "x": -32.421,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 194,
+      "unitId": "laranjeiras/torre-02/pavimento-07/final-07"
+    },
+    {
+      "x": -29.902,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 195,
+      "unitId": "laranjeiras/torre-02/pavimento-09/final-06"
+    },
+    {
+      "x": -27.383,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 196,
+      "unitId": "laranjeiras/torre-01/pavimento-09/final-02"
+    },
+    {
+      "x": -24.864,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 197,
+      "unitId": "laranjeiras/torre-02/pavimento-09/final-07"
+    },
+    {
+      "x": -22.345,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 198,
+      "unitId": "laranjeiras/torre-03/pavimento-05/final-08"
+    },
+    {
+      "x": -19.826,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 199,
+      "unitId": "laranjeiras/torre-02/pavimento-05/final-06"
+    },
+    {
+      "x": -17.307,
+      "z": -17.601,
+      "largura": 2.267,
+      "comprimento": 4.181,
+      "sentido": "z",
+      "numero": 200,
+      "unitId": "laranjeiras/torre-02/pavimento-10/final-02"
+    },
+    {
+      "x": -65.168,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 201,
+      "unitId": "laranjeiras/torre-03/pavimento-03/final-01"
+    },
+    {
+      "x": -62.649,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 202,
+      "unitId": "laranjeiras/torre-02/pavimento-10/final-03"
+    },
+    {
+      "x": -60.13,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 203,
+      "unitId": "laranjeiras/torre-03/pavimento-00/final-07"
+    },
+    {
+      "x": -57.611,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 204,
+      "unitId": "laranjeiras/torre-03/pavimento-01/final-08"
+    },
+    {
+      "x": -55.092,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 205,
+      "unitId": "laranjeiras/torre-02/pavimento-01/final-03"
+    },
+    {
+      "x": -52.573,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 206,
+      "unitId": "laranjeiras/torre-01/pavimento-11/final-03"
+    },
+    {
+      "x": -50.054,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 207,
+      "unitId": "laranjeiras/torre-03/pavimento-09/final-07"
+    },
+    {
+      "x": -47.535,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 208,
+      "unitId": "laranjeiras/torre-03/pavimento-11/final-05"
+    },
+    {
+      "x": -45.016,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 209,
+      "unitId": "laranjeiras/torre-01/pavimento-10/final-08"
+    },
+    {
+      "x": -42.497,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 210,
+      "unitId": "laranjeiras/torre-01/pavimento-02/final-01"
+    },
+    {
+      "x": -39.978,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 211,
+      "unitId": "laranjeiras/torre-03/pavimento-03/final-03"
+    },
+    {
+      "x": -37.459,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 212,
+      "unitId": "laranjeiras/torre-01/pavimento-06/final-08"
+    },
+    {
+      "x": -34.94,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 213,
+      "unitId": "laranjeiras/torre-03/pavimento-12/final-05"
+    },
+    {
+      "x": -32.421,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 214,
+      "unitId": "laranjeiras/torre-01/pavimento-11/final-06"
+    },
+    {
+      "x": -29.902,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 215,
+      "unitId": "laranjeiras/torre-02/pavimento-04/final-04"
+    },
+    {
+      "x": -27.383,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 216,
+      "unitId": "laranjeiras/torre-01/pavimento-10/final-04"
+    },
+    {
+      "x": -24.864,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 217,
+      "unitId": "laranjeiras/torre-02/pavimento-03/final-07"
+    },
+    {
+      "x": -22.345,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 218,
+      "unitId": "laranjeiras/torre-03/pavimento-00/final-02"
+    },
+    {
+      "x": -19.826,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 219,
+      "unitId": "laranjeiras/torre-03/pavimento-12/final-01"
+    },
+    {
+      "x": -17.307,
+      "z": -6.806,
+      "largura": 2.267,
+      "comprimento": 3.834,
+      "sentido": "z",
+      "numero": 220,
+      "unitId": "laranjeiras/torre-01/pavimento-11/final-05"
+    },
+    {
+      "x": -18.321,
+      "z": -3.315,
+      "largura": 2.532,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 221,
+      "unitId": "laranjeiras/torre-01/pavimento-12/final-05"
+    },
+    {
+      "x": -18.321,
+      "z": -0.502,
+      "largura": 2.532,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 222,
+      "unitId": "laranjeiras/torre-01/pavimento-11/final-07"
+    },
+    {
+      "x": -18.321,
+      "z": 2.312,
+      "largura": 2.532,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 223,
+      "unitId": "laranjeiras/torre-03/pavimento-10/final-08"
+    },
+    {
+      "x": -18.321,
+      "z": 5.126,
+      "largura": 2.532,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 224,
+      "unitId": "laranjeiras/torre-02/pavimento-06/final-03"
+    },
+    {
+      "x": -18.321,
+      "z": 7.94,
+      "largura": 2.532,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 225,
+      "unitId": "laranjeiras/torre-03/pavimento-02/final-03"
+    },
+    {
+      "x": -18.321,
+      "z": 10.754,
+      "largura": 2.532,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 226,
+      "unitId": "laranjeiras/torre-01/pavimento-00/final-07"
+    },
+    {
+      "x": -18.321,
+      "z": 13.568,
+      "largura": 2.532,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 227,
+      "unitId": "laranjeiras/torre-02/pavimento-07/final-06"
+    },
+    {
+      "x": -65.168,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 228,
+      "unitId": "laranjeiras/torre-01/pavimento-02/final-02"
+    },
+    {
+      "x": -62.649,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 229,
+      "unitId": "laranjeiras/torre-01/pavimento-05/final-02"
+    },
+    {
+      "x": -60.13,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 230,
+      "unitId": "laranjeiras/torre-02/pavimento-10/final-04"
+    },
+    {
+      "x": -57.611,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 231,
+      "unitId": "laranjeiras/torre-03/pavimento-12/final-06"
+    },
+    {
+      "x": -55.092,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 232,
+      "unitId": "laranjeiras/torre-01/pavimento-04/final-02"
+    },
+    {
+      "x": -52.573,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 233,
+      "unitId": "laranjeiras/torre-03/pavimento-00/final-08"
+    },
+    {
+      "x": -50.054,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 234,
+      "unitId": "laranjeiras/torre-01/pavimento-04/final-04"
+    },
+    {
+      "x": -47.535,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 235,
+      "unitId": "laranjeiras/torre-01/pavimento-07/final-07"
+    },
+    {
+      "x": -45.016,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 236,
+      "unitId": "laranjeiras/torre-03/pavimento-09/final-05"
+    },
+    {
+      "x": -42.497,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 237,
+      "unitId": "laranjeiras/torre-02/pavimento-06/final-02"
+    },
+    {
+      "x": -39.978,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 238,
+      "unitId": "laranjeiras/torre-02/pavimento-11/final-01"
+    },
+    {
+      "x": -37.459,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 239,
+      "unitId": "laranjeiras/torre-01/pavimento-07/final-06"
+    },
+    {
+      "x": -34.94,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 240,
+      "unitId": "laranjeiras/torre-03/pavimento-10/final-07"
+    },
+    {
+      "x": -32.421,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 241,
+      "unitId": "laranjeiras/torre-01/pavimento-05/final-06"
+    },
+    {
+      "x": -29.902,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 242,
+      "unitId": "laranjeiras/torre-01/pavimento-01/final-03"
+    },
+    {
+      "x": -27.383,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 243,
+      "unitId": "laranjeiras/torre-01/pavimento-04/final-06"
+    },
+    {
+      "x": -24.864,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 244,
+      "unitId": "laranjeiras/torre-03/pavimento-01/final-06"
+    },
+    {
+      "x": -22.345,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 245,
+      "unitId": "laranjeiras/torre-03/pavimento-12/final-07"
+    },
+    {
+      "x": -19.826,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 246,
+      "unitId": "laranjeiras/torre-02/pavimento-10/final-07"
+    },
+    {
+      "x": -17.307,
+      "z": 17.816,
+      "largura": 2.267,
+      "comprimento": 4.53,
+      "sentido": "z",
+      "numero": 247,
+      "unitId": "laranjeiras/torre-03/pavimento-11/final-06"
+    },
+    {
+      "x": -67.053,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 248,
+      "unitId": "laranjeiras/torre-02/pavimento-00/final-08"
+    },
+    {
+      "x": -64.517,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 249,
+      "unitId": "laranjeiras/torre-02/pavimento-06/final-08"
+    },
+    {
+      "x": -61.98,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 250,
+      "unitId": "laranjeiras/torre-01/pavimento-01/final-01"
+    },
+    {
+      "x": -59.444,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 251,
+      "unitId": "laranjeiras/torre-02/pavimento-12/final-04"
+    },
+    {
+      "x": -56.908,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 252,
+      "unitId": "laranjeiras/torre-03/pavimento-06/final-01"
+    },
+    {
+      "x": -54.372,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 253,
+      "unitId": "laranjeiras/torre-01/pavimento-01/final-05"
+    },
+    {
+      "x": -51.835,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 254,
+      "unitId": "laranjeiras/torre-02/pavimento-11/final-06"
+    },
+    {
+      "x": -49.299,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 255,
+      "unitId": "laranjeiras/torre-01/pavimento-07/final-08"
+    },
+    {
+      "x": -46.763,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 256,
+      "unitId": "laranjeiras/torre-02/pavimento-02/final-03"
+    },
+    {
+      "x": -44.227,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 257,
+      "unitId": "laranjeiras/torre-02/pavimento-12/final-05"
+    },
+    {
+      "x": -41.69,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 258,
+      "unitId": "laranjeiras/torre-01/pavimento-03/final-03"
+    },
+    {
+      "x": -39.154,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 259,
+      "unitId": "laranjeiras/torre-03/pavimento-10/final-06"
+    },
+    {
+      "x": -36.618,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 260,
+      "unitId": "laranjeiras/torre-03/pavimento-05/final-05"
+    },
+    {
+      "x": -34.081,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 261,
+      "unitId": "laranjeiras/torre-03/pavimento-11/final-08"
+    },
+    {
+      "x": -31.545,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 262,
+      "unitId": "laranjeiras/torre-01/pavimento-11/final-04"
+    },
+    {
+      "x": -29.009,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 263,
+      "unitId": "laranjeiras/torre-01/pavimento-03/final-08"
+    },
+    {
+      "x": -26.473,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 264,
+      "unitId": "laranjeiras/torre-03/pavimento-09/final-08"
+    },
+    {
+      "x": -23.936,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 265,
+      "unitId": "laranjeiras/torre-03/pavimento-05/final-02"
+    },
+    {
+      "x": -21.4,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 266,
+      "unitId": "laranjeiras/torre-02/pavimento-01/final-08"
+    },
+    {
+      "x": -18.864,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 267,
+      "unitId": "laranjeiras/torre-01/pavimento-03/final-06"
+    },
+    {
+      "x": -16.328,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 268,
+      "unitId": "laranjeiras/torre-02/pavimento-01/final-07"
+    },
+    {
+      "x": -13.791,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 269,
+      "unitId": "laranjeiras/torre-03/pavimento-09/final-04"
+    },
+    {
+      "x": -11.255,
+      "z": 27.854,
+      "largura": 2.283,
+      "comprimento": 4.182,
+      "sentido": "z",
+      "numero": 270,
+      "unitId": "laranjeiras/torre-03/pavimento-06/final-03"
+    },
+    {
+      "x": -7.715,
+      "z": -12.5,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 271,
+      "unitId": "laranjeiras/torre-01/pavimento-07/final-04"
+    },
+    {
+      "x": -7.715,
+      "z": -9.874,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 272,
+      "unitId": "laranjeiras/torre-01/pavimento-00/final-08"
+    },
+    {
+      "x": -7.715,
+      "z": -7.248,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 273,
+      "unitId": "laranjeiras/torre-02/pavimento-11/final-07"
+    },
+    {
+      "x": -7.715,
+      "z": -4.621,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 274,
+      "unitId": "laranjeiras/torre-01/pavimento-08/final-06"
+    },
+    {
+      "x": -7.715,
+      "z": -1.995,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 275,
+      "unitId": "laranjeiras/torre-01/pavimento-06/final-04"
+    },
+    {
+      "x": -7.715,
+      "z": 0.631,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 276,
+      "unitId": "laranjeiras/torre-02/pavimento-04/final-02"
+    },
+    {
+      "x": -7.715,
+      "z": 3.257,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 277,
+      "unitId": "laranjeiras/torre-01/pavimento-10/final-07"
+    },
+    {
+      "x": -7.715,
+      "z": 5.884,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 278,
+      "unitId": "laranjeiras/torre-02/pavimento-06/final-01"
+    },
+    {
+      "x": -7.715,
+      "z": 8.51,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 279,
+      "unitId": "laranjeiras/torre-02/pavimento-06/final-07"
+    },
+    {
+      "x": -7.715,
+      "z": 11.136,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 280,
+      "unitId": "laranjeiras/torre-02/pavimento-05/final-05"
+    },
+    {
+      "x": -7.715,
+      "z": 13.762,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 281,
+      "unitId": "laranjeiras/torre-01/pavimento-05/final-08"
+    },
+    {
+      "x": -7.715,
+      "z": 16.389,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 282,
+      "unitId": "laranjeiras/torre-02/pavimento-12/final-02"
+    },
+    {
+      "x": -7.715,
+      "z": 19.015,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 283,
+      "unitId": "laranjeiras/torre-02/pavimento-11/final-04"
+    },
+    {
+      "x": -7.715,
+      "z": 21.641,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 284,
+      "unitId": "laranjeiras/torre-02/pavimento-02/final-06"
+    },
+    {
+      "x": -7.715,
+      "z": 24.268,
+      "largura": 2.364,
+      "comprimento": 4.181,
+      "sentido": "x",
+      "numero": 285,
+      "unitId": "laranjeiras/torre-01/pavimento-00/final-03"
+    }
+  ]
+}

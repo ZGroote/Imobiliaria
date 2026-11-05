@@ -1,6 +1,7 @@
 // Modelo canônico (tasks/painel/proposta.md, §3). As regras em firebase/firestore.rules são a
 // autoridade: estes tipos só descrevem o que elas aceitam.
 import type { Timestamp } from 'firebase/firestore'
+import type { Regiao } from './regiao.ts'
 
 export type UserRole = 'platform_admin' | 'operator' | 'agency_manager' | 'agent'
 export const PAPEIS_INTERNOS: UserRole[] = ['platform_admin', 'operator']
@@ -15,6 +16,7 @@ export const interno = (r: UserRole) => PAPEIS_INTERNOS.includes(r)
 export interface Agency {                 // agencies/{id}
   id: string; name: string; slug?: string; logoUrl?: string; active: boolean
   createdAt: Timestamp; updatedAt: Timestamp
+  region?: Regiao
 }
 
 export interface User {                   // users/{uid}: FONTE DE AUTORIZAÇÃO

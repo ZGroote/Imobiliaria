@@ -1,6 +1,1259 @@
 {
   "schema": "liv-commercial-v1",
-  "status": "ausente",
-  "source": null,
-  "units": []
+  "status": "simulado",
+  "bookSHA256": "c90d9d22d6252f86a4597fb33ac22f9ea1d11ee2a5c8608fda8e7552af956911",
+  "source": {
+    "label": "Demonstração com dados simulados",
+    "asOf": "2026-11-05"
+  },
+  "units": [
+    {
+      "id": "laranjeiras/torre-01/pavimento-00/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-00/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-00/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-00/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-00/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-00/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-00/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-00/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-01/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-01/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-01/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-01/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-01/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-01/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-01/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-01/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-02/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-02/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-02/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-02/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-02/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-02/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-02/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-02/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-03/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-03/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-03/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-03/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-03/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-03/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-03/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-03/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-04/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-04/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-04/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-04/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-04/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-04/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-04/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-04/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-05/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-05/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-05/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-05/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-05/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-05/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-05/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-05/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-06/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-06/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-06/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-06/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-06/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-06/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-06/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-06/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-07/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-07/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-07/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-07/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-07/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-07/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-07/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-07/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-08/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-08/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-08/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-08/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-08/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-08/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-08/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-08/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-09/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-09/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-09/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-09/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-09/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-09/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-09/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-09/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-10/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-10/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-10/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-10/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-10/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-10/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-10/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-10/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-11/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-11/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-11/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-11/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-11/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-11/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-11/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-11/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-12/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-12/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-12/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-12/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-12/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-12/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-12/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-01/pavimento-12/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-00/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-00/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-00/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-00/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-00/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-00/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-00/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-00/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-01/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-01/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-01/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-01/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-01/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-01/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-01/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-01/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-02/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-02/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-02/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-02/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-02/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-02/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-02/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-02/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-03/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-03/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-03/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-03/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-03/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-03/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-03/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-03/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-04/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-04/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-04/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-04/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-04/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-04/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-04/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-04/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-05/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-05/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-05/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-05/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-05/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-05/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-05/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-05/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-06/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-06/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-06/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-06/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-06/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-06/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-06/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-06/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-07/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-07/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-07/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-07/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-07/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-07/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-07/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-07/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-08/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-08/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-08/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-08/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-08/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-08/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-08/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-08/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-09/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-09/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-09/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-09/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-09/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-09/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-09/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-09/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-10/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-10/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-10/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-10/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-10/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-10/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-10/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-10/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-11/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-11/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-11/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-11/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-11/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-11/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-11/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-11/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-12/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-12/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-12/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-12/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-12/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-12/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-12/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-02/pavimento-12/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-00/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-00/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-00/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-00/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-00/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-00/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-00/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-00/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-01/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-01/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-01/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-01/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-01/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-01/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-01/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-01/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-02/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-02/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-02/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-02/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-02/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-02/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-02/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-02/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-03/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-03/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-03/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-03/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-03/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-03/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-03/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-03/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-04/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-04/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-04/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-04/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-04/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-04/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-04/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-04/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-05/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-05/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-05/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-05/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-05/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-05/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-05/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-05/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-06/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-06/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-06/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-06/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-06/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-06/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-06/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-06/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-07/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-07/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-07/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-07/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-07/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-07/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-07/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-07/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-08/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-08/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-08/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-08/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-08/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-08/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-08/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-08/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-09/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-09/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-09/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-09/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-09/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-09/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-09/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-09/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-10/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-10/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-10/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-10/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-10/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-10/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-10/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-10/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-11/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-11/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-11/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-11/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-11/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-11/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-11/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-11/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-12/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-12/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-12/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-12/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-12/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-12/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-12/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "laranjeiras/torre-03/pavimento-12/final-08",
+      "availability": "disponivel"
+    }
+  ]
 }

@@ -1,17 +1,18 @@
 import { collection, doc, getDocFromServer, runTransaction, serverTimestamp, type DocumentReference, type Firestore } from 'firebase/firestore'
-import { BOOK_SHA, lerVagas, posicoes, validarInformacoes, validarUnidade, validarVagas, vazias, type Estoque, type PerfilVenda, type UnidadeVenda } from './estoque-modelo.ts'
+import { CATALOGOS_ESTOQUE, MODELO_LARANJEIRAS, lerVagas, posicoes, validarInformacoes, validarUnidade, validarVagas, vazias, type Estoque, type ModeloEstoque, type PerfilVenda, type UnidadeVenda } from './estoque-modelo.ts'
 
 // Todo write passa pelas regras e registra uma mudança no mesmo commit.
 // expectedRevision impede que duas telas sobrescrevam dados sem avisar.
-export async function iniciarEstoque(db: Firestore, propertyId: string, uid: string, title: string) {
+export async function iniciarEstoque(db: Firestore, propertyId: string, uid: string, title: string, model: ModeloEstoque = 'liv-ipanema') {
   const parent = doc(db, 'salesInventory', propertyId), change = doc(collection(parent, 'history'))
+  const { bookSHA256, total } = CATALOGOS_ESTOQUE[model]
   return runTransaction(db, async tx => {
     if ((await tx.get(parent)).exists()) throw Error('Este estoque já foi cadastrado. Atualize a página.')
-    const settings = { schema: 'liv-sales-v1', bookSHA256: BOOK_SHA, model: 'liv-ipanema', total: 170, title: title.trim(),
+    const settings = { schema: 'liv-sales-v1', bookSHA256, model, total, title: title.trim(),
       publicEnabled: false, revision: 1, updatedAt: serverTimestamp(), lastChangeId: change.id }
     if (!settings.title || settings.title.length > 200) throw Error('Informe o nome do empreendimento.')
     tx.set(parent, settings)
-    for (const p of posicoes()) tx.set(doc(parent, 'units', p.id), { ...p, commercialNumber: null, availability: 'nao_informada',
+    for (const p of posicoes(model)) tx.set(doc(parent, 'units', p.id), { ...p, commercialNumber: null, availability: 'nao_informada',
       profileId: null, overrides: vazias(), revision: 1, updatedAt: serverTimestamp(), lastChangeId: change.id })
     for (const id of ['canto', 'meio']) tx.set(doc(parent, 'profiles', id), { id, info: vazias(), revision: 1, updatedAt: serverTimestamp(), lastChangeId: change.id })
     tx.set(change, { kind: 'settings', key: 'settings', revision: 1, actor: uid, timestamp: serverTimestamp(), snapshot: settings })
@@ -26,12 +27,12 @@ async function alterar(db: Firestore, propertyId: string, uid: string, kind: 'se
     if (!snapshot.exists()) throw Error('Cadastro não encontrado.')
     const current = snapshot.data()
     if (current.revision !== expectedRevision) throw Error('Outra pessoa atualizou este cadastro. Reabra a ficha antes de salvar.')
-    if (kind === 'units' && fields.commercialNumber !== null) {
+    if (kind === 'units' && typeof fields.commercialNumber === 'string') {
       const numberRef = doc(parent, 'numbers', fields.commercialNumber as string), number = await tx.get(numberRef)
       if (number.exists() && number.data().unitKey !== key) throw Error('Esse número comercial já pertence a outro apartamento.')
     }
     const next = { ...current, ...fields, revision: expectedRevision + 1, updatedAt: serverTimestamp(), lastChangeId: change.id }
-    if (kind === 'units' && fields.commercialNumber !== current.commercialNumber) {
+    if (kind === 'units' && Object.hasOwn(fields, 'commercialNumber') && fields.commercialNumber !== current.commercialNumber) {
       if (current.commercialNumber !== null) tx.delete(doc(parent, 'numbers', current.commercialNumber))
       if (fields.commercialNumber !== null) tx.set(doc(parent, 'numbers', fields.commercialNumber as string), { unitKey: key })
     }
@@ -79,11 +80,17 @@ function gravarVagas(db: Firestore, ref: DocumentReference, change: DocumentRefe
   })
 }
 export const salvarUnidade =(db: Firestore, propertyId: string, uid: string, unit: UnidadeVenda) => {
-  const valid = validarUnidade(unit)
+  const valid = validarUnidade(unit, unit.tower === undefined ? 'liv-ipanema' : MODELO_LARANJEIRAS)
   return alterar(db, propertyId, uid, 'units', unit.id, unit.revision, { commercialNumber: valid.commercialNumber,
     availability: valid.availability, profileId: valid.profileId, overrides: valid.overrides })
 }
 export const salvarPerfil = (db: Firestore, propertyId: string, uid: string, profile: PerfilVenda) =>
   alterar(db, propertyId, uid, 'profiles', profile.id, profile.revision, { info: validarInformacoes(profile.info) })
+
+export const salvarComercial = (db: Firestore, propertyId: string, uid: string, unit: UnidadeVenda, priceCents: number | null, availability: UnidadeVenda['availability']) => {
+  const next = validarUnidade({ ...unit, availability, overrides: { ...unit.overrides, priceCents } }, unit.tower === undefined ? 'liv-ipanema' : MODELO_LARANJEIRAS)
+  if (availability !== unit.availability && !['disponivel', 'vendida'].includes(availability)) throw Error('Escolha disponível ou vendida.')
+  return alterar(db, propertyId, uid, 'units', unit.id, unit.revision, { availability, overrides: next.overrides })
+}
 export const mostrarEstoque = (db: Firestore, propertyId: string, uid: string, settings: Estoque, enabled: boolean) =>
   alterar(db, propertyId, uid, 'settings', 'settings', settings.revision, { publicEnabled: enabled })

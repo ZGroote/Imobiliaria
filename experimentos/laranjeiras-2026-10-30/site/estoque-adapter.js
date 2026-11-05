@@ -1,26 +1,34 @@
-import {attachCommercial} from './comercial.js';
-import {attachRelations,PLAN_HASH} from './vinculos.js';
-const fields=['priceCents','areaM2','bedrooms','bathrooms','parking','description','conditions'];
-export function attachStock(catalog,snapshot,interiors){
-  if(!snapshot)return {...attachRelations(attachCommercial(catalog,{schema:'liv-commercial-v1',status:'ausente',source:null,units:[]}),
-    {schema:'liv-unit-relations-v1',status:'ausente',source:null,units:[]},null),units:catalog.units.map(u=>({...u,commercial:{commercialNumber:null,availability:'nao_informada',priceCents:null,parking:null,conditions:null},relation:null,salesDetails:null,parkingSpaces:[]}))};
-  if(snapshot.settings.bookSHA256!==catalog.source.bookSHA256)throw Error('Cadastro de outro empreendimento ou revisão.');
-  const profiles=new Map(snapshot.profiles.map(p=>[p.id,p.info]));
-  const details=new Map(snapshot.units.map(u=>[u.technicalId,Object.fromEntries(fields.map(k=>[k,u.overrides[k]??profiles.get(u.profileId)?.[k]??null]))]));
-  const rows=snapshot.units.map(u=>({id:u.technicalId,commercialNumber:u.commercialNumber,availability:u.availability,
-    priceCents:details.get(u.technicalId).priceCents,parking:details.get(u.technicalId).parking,conditions:details.get(u.technicalId).conditions}));
-  const dates=[snapshot.settings,...snapshot.units,...snapshot.profiles].map(v=>v.updatedAt?.toDate?.()).filter(v=>v instanceof Date&&Number.isFinite(v.getTime()));
-  if(!dates.length)throw Error('Data do cadastro indisponível.');
-  const source={label:`Cadastro do responsável · ${snapshot.settings.title}`,asOf:new Date(Math.max(...dates.map(v=>v.getTime()))).toISOString().slice(0,10)};
-  let next=attachCommercial(catalog,{schema:'liv-commercial-v1',status:'fornecido',bookSHA256:snapshot.settings.bookSHA256,source,units:rows});
-  const associated=snapshot.units.filter(u=>u.profileId!==null).map(u=>{
-    const interior=interiors?.tipologias?.[u.profileId];if(!interior)throw Error('Catálogo de interiores ausente.');
-    return {id:u.technicalId,typology:u.profileId,orientation:'original',interiorUnitSHA256:interior.unitSHA256,interiorSourceSHA256:interior.sourceSHA256,planSHA256:PLAN_HASH[u.profileId]};
+import {attachCommercial,BOOK_SHA_LARANJEIRAS} from './comercial.js';
+
+const semTabela={schema:'liv-commercial-v1',status:'ausente',source:null,units:[]};
+
+export function attachStock(catalog,snapshot){
+  if(!snapshot){
+    const next=attachCommercial(catalog,semTabela);
+    return {...next,units:next.units.map(unit=>({...unit,salesDetails:null}))};
+  }
+  const {settings,units,profiles}=snapshot;
+  if(settings.model!=='parque-das-laranjeiras'||settings.bookSHA256!==BOOK_SHA_LARANJEIRAS||
+      units.length!==catalog.units.length)throw Error('Estoque de outro empreendimento ou revisão.');
+
+  const base=new Map(profiles.map(profile=>[profile.id,profile.info]));
+  const details=new Map();
+  const rows=units.map(unit=>{
+    const get=field=>unit.overrides[field]??base.get(unit.profileId)?.[field]??null;
+    details.set(unit.technicalId,{areaM2:get('areaM2'),bedrooms:get('bedrooms'),bathrooms:get('bathrooms'),
+      description:get('description')});
+    return {id:unit.technicalId,commercialNumber:unit.commercialNumber,availability:unit.availability,
+      priceCents:get('priceCents'),parking:get('parking'),conditions:get('conditions')};
   });
-  next=attachRelations(next,{schema:'liv-unit-relations-v1',status:associated.length?'fornecido':'ausente',bookSHA256:snapshot.settings.bookSHA256,
-    source:associated.length?source:null,units:associated},interiors);
-  // Mapa vaga → chave da unidade (p00-f01) vira, em cada unidade, a lista de números das suas vagas.
-  const keys=new Map(snapshot.units.map(u=>[u.id,u.technicalId])),spaces=new Map();
-  for(const [number,key] of Object.entries(snapshot.parking??{})){const id=keys.get(key);if(id)spaces.set(id,[...(spaces.get(id)??[]),Number(number)].sort((a,b)=>a-b));}
-  return {...next,units:next.units.map(u=>({...u,salesDetails:details.get(u.id),parkingSpaces:spaces.get(u.id)??[]}))};
+  const dates=[settings,...units,...profiles].map(row=>row.updatedAt?.toDate?.())
+    .filter(date=>date instanceof Date&&Number.isFinite(date.getTime()));
+  if(!dates.length)throw Error('Data do cadastro indisponível.');
+  const source={label:`Cadastro do responsável · ${settings.title}`,asOf:new Date(Math.max(...dates.map(d=>d.getTime()))).toISOString().slice(0,10)};
+  const next=attachCommercial(catalog,{schema:'liv-commercial-v1',status:'fornecido',bookSHA256:settings.bookSHA256,source,units:rows});
+  // O estoque comercial nunca muda a tipologia ou o espelhamento definidos na maquete.
+  return {...next,units:next.units.map(unit=>{
+    const info=details.get(unit.id);
+    return {...unit,salesDetails:{areaM2:info.areaM2??unit.areaM2??null,bedrooms:info.bedrooms??2,
+      bathrooms:info.bathrooms??1,description:info.description}};
+  })};
 }

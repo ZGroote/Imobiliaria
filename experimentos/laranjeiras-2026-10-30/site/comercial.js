@@ -1,4 +1,5 @@
 export const AVAILABILITY=Object.freeze({nao_informada:'Não informada',disponivel:'Disponível',reservada:'Reservada',vendida:'Vendida',bloqueada:'Bloqueada'});
+export const BOOK_SHA_LARANJEIRAS='c90d9d22d6252f86a4597fb33ac22f9ea1d11ee2a5c8608fda8e7552af956911';
 const empty=Object.freeze({commercialNumber:null,availability:'nao_informada',priceCents:null,parking:null,conditions:null});
 const fields=new Set(['id','commercialNumber','availability','priceCents','parking','conditions']);
 function text(value,max){
@@ -12,13 +13,13 @@ function date(value){
 }
 export function validateCommercial(data,catalog){
   const fail=message=>{throw Error(message||'Tabela comercial inválida.');};
-  if(data?.schema!=='liv-commercial-v1'||!['ausente','fornecido'].includes(data.status)||
+  if(data?.schema!=='liv-commercial-v1'||!['ausente','fornecido','simulado'].includes(data.status)||
     !Array.isArray(data.units)||data.units.length>catalog.units.length)fail();
   if(data.status==='ausente'){
     if(data.units.length||data.source!==null)fail('Tabela ausente não pode atribuir ofertas.');
     return {schema:data.schema,status:'ausente',source:null,units:[]};
   }
-  if(data.bookSHA256!==catalog.source.bookSHA256||!data.units.length||!date(data.source?.asOf))fail('Origem, revisão ou data comercial ausente.');
+  if(data.bookSHA256!==BOOK_SHA_LARANJEIRAS||!data.units.length||!date(data.source?.asOf))fail('Origem, revisão ou data comercial ausente.');
   const label=text(data.source.label,200);if(!label)fail('Identifique a tabela fornecida.');
   const known=new Set(catalog.units.map(unit=>unit.id)),ids=new Set(),numbers=new Set();
   const units=data.units.map(row=>{
@@ -26,12 +27,14 @@ export function validateCommercial(data,catalog){
     const availability=row.availability??'nao_informada',priceCents=row.priceCents??null;
     if(!Object.hasOwn(AVAILABILITY,availability)||(priceCents!==null&&(!Number.isSafeInteger(priceCents)||priceCents<0)))fail('Disponibilidade ou preço em centavos inválido.');
     const commercialNumber=text(row.commercialNumber,100),parking=text(row.parking,200),conditions=text(row.conditions,2000);
+    if(data.status==='simulado'&&[priceCents,commercialNumber,parking,conditions].some(value=>value!==null))
+      fail('A simulação aceita somente a disponibilidade.');
     const numberKey=commercialNumber?.normalize('NFKC').toLocaleUpperCase('pt-BR');
     if(numberKey&&numbers.has(numberKey))fail('Número comercial atribuído a mais de uma posição.');
     if(numberKey)numbers.add(numberKey);ids.add(row.id);
     return {id:row.id,commercialNumber,availability,priceCents,parking,conditions};
   });
-  return {schema:data.schema,status:'fornecido',bookSHA256:data.bookSHA256,source:{label,asOf:data.source.asOf},units};
+  return {schema:data.schema,status:data.status,bookSHA256:data.bookSHA256,source:{label,asOf:data.source.asOf},units};
 }
 export function attachCommercial(catalog,input){
   const data=validateCommercial(input,catalog),rows=new Map(data.units.map(row=>[row.id,row]));
@@ -44,7 +47,9 @@ function formatPrice(cents){
   return money.formatToParts(BigInt(cents)/100n).map(part=>
     part.type==='fraction'?String(cents%100).padStart(2,'0'):part.value).join('');
 }
-export function saleLabel(unit){
-  const sale=saleOf(unit);return `${AVAILABILITY[sale.availability]} · ${sale.priceCents===null?'preço sob consulta':formatPrice(sale.priceCents)}`;
+export function saleLabel(unit,simulated=false){
+  const sale=saleOf(unit);
+  const status=AVAILABILITY[sale.availability]+(simulated?' (simulação)':'');
+  return `${status} · ${sale.priceCents===null?'preço sob consulta':formatPrice(sale.priceCents)}`;
 }
 export function priceLabel(unit){const sale=saleOf(unit);return sale.priceCents===null?'Sob consulta':formatPrice(sale.priceCents);}

@@ -182,7 +182,7 @@ async function start() {
   renderer.shadowMap.enabled=true;
   renderer.shadowMap.type=THREE.PCFShadowMap;
   const scene=new THREE.Scene();
-  let environment,controls,resizeObserver,unitPicking,ambience,parking,pendingSpaces=[];
+  let environment,controls,resizeObserver,unitPicking,ambience,parking;
   const textures=[],materials=[],geometries=[];
   state.scene=scene;state.atlas=atlas;
   // Own resources before the first asynchronous environment/texture request.
@@ -475,7 +475,7 @@ async function start() {
     selectedFloor=value;
     // Floor is selection context; only the apartment receives a visual outline.
     const selectedId=unitPicking?.getState().selectedId;
-    if(selectedId&&floorOf(units,unitById(units,selectedId))!==value)unitPicking.select(null);
+    if(selectedId&&floorOf(units,unitById(units,selectedId))!==value)setSelectedUnit(null);
     unitPicking?.refresh();renderer.render(scene,camera);
   }
   const selection=parameters.get('selecao');
@@ -487,17 +487,8 @@ async function start() {
   if(units)unitPicking=createUnitPicking({scene,canvas,catalog:units,getCamera:()=>camera,getFloor:()=>selectedFloor,
     onSelect:(id,{activate})=>{
       if(id!==null)setFloor(floorOf(units,unitById(units,id)));
-      unitPicking.select(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id,activate}}));
+      setSelectedUnit(id);window.dispatchEvent(new CustomEvent('liv-unit-selected',{detail:{id,activate}}));
     }});
-  // Só a edição entrada tem as vagas da implantação oficial; a primeira imagem não espera por elas.
-  if(geometryProfile==='entrada')fetch(new URL('../vagas.json',base),{signal:requests.signal}).then(r=>{if(!r.ok)throw Error('vagas.json '+r.status);return r.json();})
-    .then(json=>{if(state.disposed)return;parking=state.parking=createParkingHighlight(scene,json);parking.setSpaces(pendingSpaces);})
-    .catch(error=>{if(!state.disposed)state.parkingError=String(error);});
-  function setParkingSpaces(numbers){
-    if(state.disposed)return false;
-    pendingSpaces=Array.isArray(numbers)?numbers.filter(Number.isInteger):[];
-    return parking?parking.setSpaces(pendingSpaces):null;
-  }
   // side = 'torre-02:+x': torre e lado da fachada (cadastro do Laranjeiras).
   function towerView(aspect,side){
     const [id,dir]=side.split(':'),tower=units?.towers.find(t=>t.id===id);
@@ -518,7 +509,9 @@ async function start() {
     if(state.disposed)return false;
     if(id!==null&&!unitPicking)throw Error('Esta edição não carregou as posições verificadas dos finais.');
     if(id!==null&&floorOf(units,unitById(units,id))!==selectedFloor)throw Error('Selecione o pavimento correspondente antes do final.');
-    return unitPicking?.select(id)??false;
+    const selected=unitPicking?.select(id)??false;
+    if(selected)parking?.setUnit(id);
+    return selected;
   }
   ambience=exteriorAmbience({renderer,scene,materials,stage,preserveBackdrop:darkBackdrop});ambience.setProfile(initialAmbience);
   function setAmbience(profile){
@@ -532,7 +525,7 @@ async function start() {
     state.solar=clock.setTime(hour,options);roofSign?.setNight(state.solar.night);return state.solar;
   }
   if(parameters.has('hora'))setTimeOfDay(parameters.get('hora'),null,parameters.has('data')?{date:parameters.get('data')}:{});
-  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,setTimeOfDay,setParkingSpaces,
+  Object.assign(state,{renderer,scene,camera,controls,setView,setFloor,capture,setUnitView,setSelectedUnit,setAmbience,setTimeOfDay,
     setAvailableUnits:ids=>unitPicking?.availability.setUnits(ids)??false,
     ambience:state.solar?'dia':initialAmbience,ambienceController:ambience,unitPicking,units,building,meshes,materials,atlas,manifest,data,visibleBounds,facadeBounds,entryDetailBounds:entryBounds,
     invalidateShadows(){
@@ -584,6 +577,15 @@ async function start() {
   mark('ready');state.ready=true;state.activeView='perspectiva';
   state.setActive(state.active);
   progress('ready','Maquete carregada');
+  if(units)fetch(new URL('./vagas.json',import.meta.url),{signal:requests.signal,cache:'no-cache'}).then(async response=>{
+    if(response.status===404)return;
+    if(!response.ok)throw Error('vagas.json '+response.status);
+    const catalog=await response.json();
+    if(state.disposed)return;
+    parking=state.parking=createParkingHighlight(scene,catalog,units.units);
+    parking.setUnit(unitPicking.getState().selectedId);
+    window.dispatchEvent(new Event('liv-parking-ready'));
+  }).catch(error=>{if(!state.disposed)state.parkingError=String(error);});
   // A failed upgrade keeps the preview on screen; it never fails the scene.
   // Com o relógio do sol o atlas fica com peso 0 (horario-exterior.js): o completo seriam 13 MB
   // baixados e 67 MB descomprimidos sem aparecer, pressão de memória que o iPhone não perdoa.

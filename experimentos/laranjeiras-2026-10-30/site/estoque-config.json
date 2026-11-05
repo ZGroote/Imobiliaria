@@ -1,5 +1,6 @@
 {
   "schema": "liv-sales-config-v1",
-  "mode": "desativado",
+  "mode": "demonstracao",
+  "model": "parque-das-laranjeiras",
   "propertyId": "parque-das-laranjeiras"
 }

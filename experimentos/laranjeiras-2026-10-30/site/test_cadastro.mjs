@@ -3,6 +3,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {validateUnits} from './unidades.js';
+import {attachStock} from './estoque-adapter.js';
+import {attachCommercial,BOOK_SHA_LARANJEIRAS} from './comercial.js';
+import {availableUnitIds} from './disponibilidade.js';
 
 const catalog=JSON.parse(readFileSync(new URL('../assets/unidades.json',import.meta.url),'utf8'));
 
@@ -34,4 +37,42 @@ test('cadastro adulterado é recusado', () => {
   const broken = structuredClone(catalog);
   broken.units.pop();
   assert.throws(() => validateUnits(broken), /quantidade/);
+});
+
+test('o estoque atualiza só a torre correta e preserva as plantas ao ligar ou desligar', () => {
+  const id='laranjeiras/torre-02/pavimento-10/final-03';
+  const similar='laranjeiras/torre-01/pavimento-10/final-03';
+  const settings={model:'parque-das-laranjeiras',bookSHA256:BOOK_SHA_LARANJEIRAS,title:'Teste',
+    updatedAt:{toDate:()=>new Date('2026-11-05T00:00:00Z')}};
+  const snapshot={settings,profiles:[],units:catalog.units.map(({id:technicalId})=>({
+    technicalId,commercialNumber:null,availability:technicalId===id?'disponivel':'nao_informada',
+    overrides:{priceCents:technicalId===id?25000000:null}
+  }))};
+  const next=attachStock(catalog,snapshot);
+  assert.deepEqual(availableUnitIds(next),[id]);
+  assert.equal(next.units.find(u=>u.id===similar).commercial.availability,'nao_informada');
+  assert.equal(next.units.find(u=>u.id===id).relation.typology,'meio-espelhado');
+  assert.equal(next.units.find(u=>u.id===id).salesDetails.areaM2,40.79);
+  const disabled=attachStock(next,null);
+  assert.deepEqual(availableUnitIds(disabled),[]);
+  assert.equal(disabled.units.find(u=>u.id===id).commercial.priceCents,null);
+  assert.deepEqual(disabled.units.map(u=>u.relation),catalog.units.map(u=>u.relation));
+  assert.throws(()=>attachStock(catalog,{...snapshot,settings:{...settings,model:'liv-ipanema'}}),/outro empreendimento/);
+});
+
+test('a demonstração tem vagas únicas e todas as unidades disponíveis recebem uma vaga', () => {
+  const ler=nome=>JSON.parse(readFileSync(new URL(nome,import.meta.url),'utf8'));
+  const tabela=ler('comercial.json'), mapa=ler('vagas.json');
+  const unidades=attachCommercial(catalog,tabela);
+  const ids=new Set(catalog.units.map(u=>u.id)), vinculadas=new Set(mapa.vagas.map(v=>v.unitId));
+  assert.equal(unidades.commercialStatus,'simulado');
+  assert.equal(tabela.units.length,312);
+  assert.equal(availableUnitIds(unidades).length,187);
+  assert.equal(mapa.simulated,true);
+  assert.equal(mapa.vagas.length,285);
+  assert.equal(new Set(mapa.vagas.map(v=>v.numero)).size,285);
+  assert.equal(vinculadas.size,285);
+  assert([...vinculadas].every(id=>ids.has(id)));
+  assert(availableUnitIds(unidades).every(id=>vinculadas.has(id)));
+  assert(unidades.units.every(u=>u.commercial.priceCents===null));
 });
