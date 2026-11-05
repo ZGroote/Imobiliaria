@@ -78,3 +78,26 @@ python experimentos/containers-mooca-2026-11-05/implantacao/montar.py
   térreo, perto da entrada sul, e os 2 casais no bloco noroeste de cima. Para os 12 m, a proporção 3:1
   entre quádruplos e casal com bebê é a do diagrama da p. 77.
 - **Ficaram de fora:** o volume da escada oeste (7,3 m, que não é container) virou passarela.
+
+## Modelo externo (feito)
+
+`modelo/modelar_containers.py` monta o conjunto no Blender com as ferramentas do LIV
+(`v1.5/miniaturas/blender_maquete_base` + árvores de `liv-ipanema/modelar_implantacao`) e exporta
+`modelo.json` + `containers.glb` (fora do git, regeneráveis).
+
+```
+& 'C:\Program Files (x86)\Steam\steamapps\common\Blender\blender.exe' --background --factory-startup --python-exit-code 1 --python experimentos/containers-mooca-2026-11-05/modelo/modelar_containers.py
+```
+
+- Cada container tem a medida real (6,058 ou 12,192 × 2,438 × 2,591 m), com chapa corrugada (passo de
+  30 cm), quadro e colunas de canto.
+- Os dormitórios têm porta e vidro nos dois lados compridos. As áreas comuns têm uma faixa de vidro
+  maior. A posição exata das esquadrias de cada container não está no caderno.
+- **Cores:** dormitório em chapa branca e área comum em azul "Oceano Pacífico" (Suvinil, aproximado
+  pelos renders: a amostra da p. 79 é de madeira).
+- Decks de madeira, passarelas de grade com guarda-corpo e pilares, terraço sobre o refeitório coberto,
+  pergolados, escadas de 15 degraus até +2,69 e 5 árvores no pátio.
+- O conjunto fica centrado na origem da cena; `metadata.origemM` guarda o deslocamento até a esquina.
+- `preview-aerea.jpg` e `preview-patio.jpg` são renders de conferência (Cycles, 32 amostras).
+- **Falta:** os caminhos de concreto, os bancos, os postes e as mesas do pátio que aparecem nos renders
+  do caderno.

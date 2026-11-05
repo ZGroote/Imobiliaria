@@ -223,3 +223,10 @@ experimentos/laranjeiras-2026-10-30/site/interiores/*/luz-horario/*.gz
 
 # Caderno do TCC dos containers da Mooca (80 MiB): fica no disco, o sha256 está em plantas_fornecidas/containers-mooca/LEIA-ME.md
 plantas_fornecidas/containers-mooca/fonte/caderno.pdf
+
+# Containers da Mooca: saídas do Blender e da luz (regeneráveis por modelo/modelar_containers.py e pelos scripts de luz do LIV)
+experimentos/containers-mooca-2026-11-05/modelo/containers.blend*
+experimentos/containers-mooca-2026-11-05/modelo/containers.glb
+experimentos/containers-mooca-2026-11-05/modelo/modelo.json
+experimentos/containers-mooca-2026-11-05/modelo/luz/
+experimentos/containers-mooca-2026-11-05/assets/
