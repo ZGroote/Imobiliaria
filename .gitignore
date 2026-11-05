@@ -230,3 +230,13 @@ experimentos/containers-mooca-2026-11-05/modelo/containers.glb
 experimentos/containers-mooca-2026-11-05/modelo/modelo.json
 experimentos/containers-mooca-2026-11-05/modelo/luz/
 experimentos/containers-mooca-2026-11-05/assets/
+# Containers da Mooca: luz por hora dos interiores (regenerável por interiores/luz/*; fica no disco, como no LIV)
+experimentos/containers-mooca-2026-11-05/interiores/luz/*/source.json
+experimentos/containers-mooca-2026-11-05/interiores/luz/*/moveis-site.glb
+experimentos/containers-mooca-2026-11-05/interiores/luz/*/gravado/*.f32
+experimentos/containers-mooca-2026-11-05/interiores/luz/*/bake/
+experimentos/containers-mooca-2026-11-05/interiores/luz/logs/
+experimentos/containers-mooca-2026-11-05/site/interiores/*/source.json.gz
+experimentos/containers-mooca-2026-11-05/site/interiores/*/geometry-compact.json.gz
+experimentos/containers-mooca-2026-11-05/site/interiores/*/luz-horario/*.gz
+experimentos/containers-mooca-2026-11-05/mapa/osm-pois.json
