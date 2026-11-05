@@ -1,0 +1,138 @@
+{
+  "schema": "liv-interior-catalog-v1",
+  "shared": {
+    "runtime": {
+      "path": "interiores/shared/runtime.js",
+      "bytes": 93877,
+      "sha256": "005547b7bee15a30fd59b7ece8ce64d786ef8294d14eabc8bb2683ec56054c5f"
+    },
+    "materials": {
+      "path": "interiores/shared/materials.json.gz",
+      "bytes": 876068,
+      "sha256": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+      "compression": "gzip",
+      "decodedBytes": 1180661,
+      "decodedSHA256": "a04aecc426677a81f2cc41f64c224e9f1a0cdba634762a58cb91ade4b6bf3217"
+    },
+    "furniture": {
+      "path": "interiores/shared/furniture.json.gz",
+      "bytes": 201119,
+      "sha256": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd",
+      "compression": "gzip",
+      "decodedBytes": 1155377,
+      "decodedSHA256": "8affa3dc2b6f105282ec5b744729bd3f35193680d04eb85cb05a57bb693fbdc7"
+    }
+  },
+  "tipologias": {
+    "individual": {
+      "id": "individual",
+      "label": "Dormitório individual",
+      "area": 14.8,
+      "unitId": "containers-mooca-individual",
+      "unitSHA256": "61ddf75fedb97c035fbe1b77d3df91c493277b53271ecf39c4bc8310264a8369",
+      "sourceSHA256": "85db26d8cabad306c166cd1696d1f9518c015ef26c110997e5dfcc9491df83b6",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/individual/unidade.json",
+          "bytes": 2839,
+          "sha256": "61ddf75fedb97c035fbe1b77d3df91c493277b53271ecf39c4bc8310264a8369"
+        },
+        "recipe": {
+          "path": "interiores/individual/recipe.json",
+          "bytes": 588,
+          "sha256": "85db26d8cabad306c166cd1696d1f9518c015ef26c110997e5dfcc9491df83b6"
+        }
+      }
+    },
+    "individual-pne": {
+      "id": "individual-pne",
+      "label": "Dormitório individual PNE",
+      "area": 14.8,
+      "unitId": "containers-mooca-individual-pne",
+      "unitSHA256": "7fc9f83607066aa3a751443cb71405fb180f028f354ec8932a0522811f6d64e7",
+      "sourceSHA256": "e0a6c50e19918a0e399f5da3e1d4644898dba1cee99c4bf47494200e9f75b2ba",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/individual-pne/unidade.json",
+          "bytes": 2676,
+          "sha256": "7fc9f83607066aa3a751443cb71405fb180f028f354ec8932a0522811f6d64e7"
+        },
+        "recipe": {
+          "path": "interiores/individual-pne/recipe.json",
+          "bytes": 592,
+          "sha256": "e0a6c50e19918a0e399f5da3e1d4644898dba1cee99c4bf47494200e9f75b2ba"
+        }
+      }
+    },
+    "casal": {
+      "id": "casal",
+      "label": "Dormitório casal",
+      "area": 14.8,
+      "unitId": "containers-mooca-casal",
+      "unitSHA256": "19b62a085ae7e46ea18c2a1befa5547ec5239a4c0446b9c766a85da7fdad3fe5",
+      "sourceSHA256": "cde328cb62de88a93477cee86feaea6a9642cf0a0b395d994538416f8773eb78",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/casal/unidade.json",
+          "bytes": 2835,
+          "sha256": "19b62a085ae7e46ea18c2a1befa5547ec5239a4c0446b9c766a85da7fdad3fe5"
+        },
+        "recipe": {
+          "path": "interiores/casal/recipe.json",
+          "bytes": 583,
+          "sha256": "cde328cb62de88a93477cee86feaea6a9642cf0a0b395d994538416f8773eb78"
+        }
+      }
+    },
+    "quadruplo": {
+      "id": "quadruplo",
+      "label": "Dormitório quádruplo",
+      "area": 29.7,
+      "unitId": "containers-mooca-quadruplo",
+      "unitSHA256": "a62276b365c039749cd34edf02eba8203d1c49892b742c4beff7583baa8a86a1",
+      "sourceSHA256": "3a974e889f92aeaca44d2ac8961dbcde23a1a1b6059e2ee83d41048d99c894f8",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/quadruplo/unidade.json",
+          "bytes": 3099,
+          "sha256": "a62276b365c039749cd34edf02eba8203d1c49892b742c4beff7583baa8a86a1"
+        },
+        "recipe": {
+          "path": "interiores/quadruplo/recipe.json",
+          "bytes": 587,
+          "sha256": "3a974e889f92aeaca44d2ac8961dbcde23a1a1b6059e2ee83d41048d99c894f8"
+        }
+      }
+    },
+    "casal-bebe": {
+      "id": "casal-bebe",
+      "label": "Dormitório casal com bebê",
+      "area": 29.7,
+      "unitId": "containers-mooca-casal-bebe",
+      "unitSHA256": "97828ad98cbaadff9592c7eff95f51f7c1a9a9d4a578baab69903fde20bcc955",
+      "sourceSHA256": "c237e42dbb4dde9a8b5a59bbf812602595b5c2c009d42fbddce224be01ad6ce2",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/casal-bebe/unidade.json",
+          "bytes": 3401,
+          "sha256": "97828ad98cbaadff9592c7eff95f51f7c1a9a9d4a578baab69903fde20bcc955"
+        },
+        "recipe": {
+          "path": "interiores/casal-bebe/recipe.json",
+          "bytes": 588,
+          "sha256": "c237e42dbb4dde9a8b5a59bbf812602595b5c2c009d42fbddce224be01ad6ce2"
+        }
+      }
+    }
+  }
+}

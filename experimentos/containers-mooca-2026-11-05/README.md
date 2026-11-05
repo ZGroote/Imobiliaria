@@ -140,3 +140,23 @@ O que mudou em relação ao Laranjeiras:
   caderno, com a autora e a escola.
 - **Ainda não funciona:** "Ver em 3D" e "Entrar", porque os interiores são a próxima etapa. O mapa
   também falta, porque o `mapa-retorno.js` do LIV só aceita o LIV e o Laranjeiras.
+
+## Interiores (Planta 3D e Tour, luz dinâmica)
+
+```
+python experimentos/containers-mooca-2026-11-05/interiores/gerar_pacote.py
+```
+
+É a cópia do `gerar_pacote.py` do Laranjeiras para os 5 dormitórios, no modo `native-factories` do LIV
+(luz dinâmica). Os recursos compartilhados do LIV são copiados sem alteração e conferidos pelo hash.
+
+No site:
+- `interior-renderer.js` aceita os 5 tipos no lugar de canto/meio.
+- **Sombra dos vizinhos:** `viewer.js` passa ao interior só os 8 containers mais perto (`towerOccluders`).
+  O interior aceita no máximo 8, e são 29 vizinhos.
+
+Testado no navegador: no dormitório 12 (quádruplo), a Planta 3D abre com paredes inteiras e baixas, e o
+Tour começa na porta. Dá para ver a copa, a geladeira, a bancada de estudo junto do vidro e os armários.
+
+Ficou para ajustar: o piso sai porcelanato (o caderno pede madeira tauari), e o armário aprovado do LIV
+fica mais alto que o pé-direito de 2,35 m do container.

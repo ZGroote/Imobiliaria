@@ -19,7 +19,7 @@ import {loadInteriorImprovements} from './interior-melhorias.js';
 import {installInteriorLook} from './interior-look.js';
 import {installShaderScheduler} from './shader-scheduler.js';
 
-const query=new URLSearchParams(location.search),typology=query.get('tipologia')||'canto',requested=query.get('backend')||'auto';
+const query=new URLSearchParams(location.search),typology=query.get('tipologia')||'individual',requested=query.get('backend')||'auto';
 const canvas=document.querySelector('#interior-canvas'),stage=document.querySelector('#interior-stage'),status=document.querySelector('#interior-status');
 const controller=new AbortController(),base=new URL('./',import.meta.url),owned=new Set(),released=new WeakSet(),bitmaps=new Set(),closed=new WeakSet(),listeners=[],pendingDisposals=new Set(),initializedRenderers=new WeakSet();
 const state=window.__livInterior={ready:false,error:null,backend:null,typology,mode:query.get('modo')||'planta3d',disposed:false,active:query.get('prewarm')!=='1',
@@ -141,7 +141,7 @@ if(query.get('embed')==='1')document.querySelector('#touch-pad').style.right='96
 async function sha(bytes){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');}
 async function unzip(bytes){return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());}
 async function load(file,json=false,quiet=false){
-  if(!file||!/^interiores\/(?:shared|canto|meio|canto-espelhado|meio-espelhado)\/[a-zA-Z0-9._/-]+$/.test(file.path)||file.path.split('/').includes('..')||!/^[a-f0-9]{64}$/.test(file.sha256)||!Number.isInteger(file.bytes))throw Error('Identidade de recurso interior inválida.');
+  if(!file||!/^interiores\/(?:shared|individual|individual-pne|casal|quadruplo|casal-bebe)\/[a-zA-Z0-9._/-]+$/.test(file.path)||file.path.split('/').includes('..')||!/^[a-f0-9]{64}$/.test(file.sha256)||!Number.isInteger(file.bytes))throw Error('Identidade de recurso interior inválida.');
   // A luz gravada muda de conteúdo sem mudar de nome: o SHA no endereço evita a cópia velha do cache.
   check();const url=new URL(file.path,base);if(quiet||file.path===record?.files?.runtimeScene?.path)url.searchParams.set('v',file.sha256);
   const response=await fetch(url,{signal:controller.signal});if(!response.ok)throw Error(`${file.path}: HTTP ${response.status}.`);
@@ -698,7 +698,7 @@ async function loadSceneSource(){
 }
 
 async function start(){
-  if(!['canto','meio','canto-espelhado','meio-espelhado'].includes(typology)||!['auto','webgpu','webgl'].includes(requested)||!['planta3d','visita'].includes(state.mode))throw Error('Parâmetros do interior inválidos.');
+  if(!['individual','individual-pne','casal','quadruplo','casal-bebe'].includes(typology)||!['auto','webgpu','webgl'].includes(requested)||!['planta3d','visita'].includes(state.mode))throw Error('Parâmetros do interior inválidos.');
   timeOfDay=interiorTimeState(query.get('hora')??14,query.has('contexto')?JSON.parse(query.get('contexto')):undefined,{date:query.get('data')??undefined});
   state.timeOfDay=structuredClone(timeOfDay);
   progress('Preparando os gráficos…','backend');let adapter=null;

@@ -104,7 +104,8 @@ function towerOccluders(unit,yaw){
   return (units?.towers||[]).filter(tower=>tower.id!==unit.tower).map(({bounds:t})=>{
     const x=(t.min[0]+t.max[0])/2-cx,z=(t.min[2]+t.max[2])/2-cz;
     return {center:[c*x+s*z,(t.min[1]+t.max[1])/2-b.min[1],-s*x+c*z],size:[t.max[0]-t.min[0],t.max[1]-t.min[1],t.max[2]-t.min[2]],yaw:-yaw};
-  });
+  // Containers: são 29 vizinhos e o interior aceita 8; os mais perto são os que fazem sombra na janela.
+  }).sort((p,q)=>Math.hypot(p.center[0],p.center[2])-Math.hypot(q.center[0],q.center[2])).slice(0,8);
 }
 function interiorSolarContext(unit){const context=unitSolarContext(unit);return {...context,occluders:towerOccluders(unit,context.yaw)};}
 function applyTimeToFrame(frame) {
