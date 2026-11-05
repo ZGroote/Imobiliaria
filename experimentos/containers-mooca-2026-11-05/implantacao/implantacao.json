@@ -1,0 +1,622 @@
+{
+ "titulo": "Moradia estudantil em containers (Mooca) · implantação",
+ "imagem": "../../../plantas_fornecidas/containers-mooca/fonte/planta-terreo.png",
+ "imagemSha256": "4ee05061d95fdf44f072462aa2babe50e048ca86f9de4ac5febfdeffd725feae",
+ "registro": {
+  "pxPorM": 18.9,
+  "rumoCimaGraus": 0,
+  "ancoraPx": [
+   989.0,
+   1701.0
+  ],
+  "ancoraGeo": [
+   -23.5581268,
+   -46.6057803
+  ],
+  "metodo": "Escala pelos containers (6,058 x 2,438 m e 12,192 x 2,438 m) medidos na planta 1:200. Norte para cima (seta da p. 90; a Rua Guaratinguetá corre leste-oeste no OSM e na planta). Âncora: esquina das ruas Guaratinguetá e João Antônio de Oliveira (eixo das vias no OSM) no cruzamento dos eixos das duas faixas hachuradas da planta.",
+  "divergencias": [
+   "O trecho diagonal da Rua João Antônio mede ~58 m na planta e ~61 m no OSM.",
+   "O lote da planta não tem cota; o caderno diz 2.179,7 m²."
+  ]
+ },
+ "niveis": {
+  "0": 0.0,
+  "1": 2.69,
+  "cobertura": 5.38
+ },
+ "containers": [
+  {
+   "id": "c01",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Banheiros coletivos",
+   "px": [
+    672.5,
+    260.0,
+    717.5,
+    375.0
+   ]
+  },
+  {
+   "id": "c02",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Refeitório",
+   "px": [
+    672.5,
+    375.0,
+    717.5,
+    490.0
+   ]
+  },
+  {
+   "id": "c03",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Cozinha compartilhada",
+   "px": [
+    717.5,
+    445.0,
+    835.0,
+    490.0
+   ]
+  },
+  {
+   "id": "c04",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Sala de convivência",
+   "px": [
+    835.0,
+    260.0,
+    880.0,
+    375.0
+   ]
+  },
+  {
+   "id": "c05",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Copa e despensa",
+   "px": [
+    835.0,
+    375.0,
+    880.0,
+    490.0
+   ]
+  },
+  {
+   "id": "c06",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Sala de convivência (oeste)",
+   "px": [
+    845.0,
+    590.0,
+    892.5,
+    702.5
+   ]
+  },
+  {
+   "id": "c07",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Escada e depósito",
+   "px": [
+    842.5,
+    705.0,
+    957.5,
+    750.0
+   ]
+  },
+  {
+   "id": "c08",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Administração",
+   "px": [
+    957.5,
+    705.0,
+    1072.5,
+    750.0
+   ]
+  },
+  {
+   "id": "c09",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Lavanderia",
+   "px": [
+    842.5,
+    750.0,
+    890.0,
+    865.0
+   ]
+  },
+  {
+   "id": "c10",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Sala de estudos",
+   "px": [
+    1025.0,
+    755.0,
+    1070.0,
+    867.5
+   ]
+  },
+  {
+   "id": "d01",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual",
+   "px": [
+    1032.5,
+    307.5,
+    1077.5,
+    422.5
+   ]
+  },
+  {
+   "id": "d02",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual",
+   "px": [
+    1217.5,
+    307.5,
+    1262.5,
+    422.5
+   ]
+  },
+  {
+   "id": "d03",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual",
+   "px": [
+    1385.0,
+    365.0,
+    1500.0,
+    410.0
+   ]
+  },
+  {
+   "id": "d04",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual",
+   "px": [
+    1385.0,
+    540.0,
+    1500.0,
+    585.0
+   ]
+  },
+  {
+   "id": "d05",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual",
+   "px": [
+    1387.5,
+    725.0,
+    1502.5,
+    770.0
+   ]
+  },
+  {
+   "id": "d06",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual",
+   "px": [
+    1387.5,
+    902.5,
+    1502.5,
+    947.5
+   ]
+  },
+  {
+   "id": "d07",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual-pne",
+   "px": [
+    1105.0,
+    877.5,
+    1150.0,
+    990.0
+   ]
+  },
+  {
+   "id": "d08",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual-pne",
+   "px": [
+    1280.0,
+    877.5,
+    1325.0,
+    990.0
+   ]
+  },
+  {
+   "id": "d09",
+   "nivel": 1,
+   "tipo": "c12",
+   "uso": "quadruplo",
+   "px": [
+    1031.5,
+    330.0,
+    1262.5,
+    375.0
+   ]
+  },
+  {
+   "id": "d10",
+   "nivel": 1,
+   "tipo": "c12",
+   "uso": "quadruplo",
+   "px": [
+    1417.5,
+    367.5,
+    1464.0,
+    595.0
+   ]
+  },
+  {
+   "id": "d11",
+   "nivel": 1,
+   "tipo": "c12",
+   "uso": "casal-bebe",
+   "px": [
+    1417.5,
+    725.0,
+    1464.0,
+    955.0
+   ]
+  },
+  {
+   "id": "d12",
+   "nivel": 1,
+   "tipo": "c12",
+   "uso": "quadruplo",
+   "px": [
+    1097.5,
+    912.5,
+    1330.0,
+    957.5
+   ]
+  },
+  {
+   "id": "d13",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "individual",
+   "px": [
+    671.0,
+    260.0,
+    717.5,
+    374.0
+   ]
+  },
+  {
+   "id": "d14",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "casal",
+   "px": [
+    671.0,
+    376.0,
+    717.5,
+    490.0
+   ]
+  },
+  {
+   "id": "d15",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "casal",
+   "px": [
+    829.0,
+    260.0,
+    945.0,
+    305.0
+   ]
+  },
+  {
+   "id": "d16",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "individual",
+   "px": [
+    777.5,
+    445.0,
+    890.0,
+    490.0
+   ]
+  },
+  {
+   "id": "d17",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "individual",
+   "px": [
+    842.5,
+    637.5,
+    890.0,
+    751.0
+   ]
+  },
+  {
+   "id": "d18",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "individual",
+   "px": [
+    842.5,
+    752.0,
+    890.0,
+    865.0
+   ]
+  },
+  {
+   "id": "d19",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "individual",
+   "px": [
+    1024.0,
+    637.5,
+    1071.0,
+    752.0
+   ]
+  },
+  {
+   "id": "d20",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "individual",
+   "px": [
+    1024.0,
+    753.0,
+    1071.0,
+    867.5
+   ]
+  }
+ ],
+ "superficies": [
+  {
+   "id": "deck-norte",
+   "nivel": 0,
+   "tipo": "deck",
+   "px": [
+    1077.5,
+    302.5,
+    1217.5,
+    422.5
+   ]
+  },
+  {
+   "id": "deck-leste-1",
+   "nivel": 0,
+   "tipo": "deck",
+   "px": [
+    1385.0,
+    410.0,
+    1500.0,
+    540.0
+   ]
+  },
+  {
+   "id": "deck-leste-2",
+   "nivel": 0,
+   "tipo": "deck",
+   "px": [
+    1385.0,
+    770.0,
+    1507.5,
+    902.5
+   ]
+  },
+  {
+   "id": "deck-sul",
+   "nivel": 0,
+   "tipo": "deck",
+   "px": [
+    1150.0,
+    877.5,
+    1280.0,
+    990.0
+   ]
+  },
+  {
+   "id": "deck-estudos",
+   "nivel": 0,
+   "tipo": "deck",
+   "px": [
+    890.0,
+    750.0,
+    1025.0,
+    865.0
+   ]
+  },
+  {
+   "id": "refeitorio-coberto",
+   "nivel": 0,
+   "tipo": "piso",
+   "px": [
+    717.5,
+    260.0,
+    835.0,
+    445.0
+   ]
+  },
+  {
+   "id": "patio-norte",
+   "nivel": 0,
+   "tipo": "jardim",
+   "px": [
+    880.0,
+    305.0,
+    1087.5,
+    490.0
+   ]
+  },
+  {
+   "id": "patio-leste",
+   "nivel": 0,
+   "tipo": "jardim",
+   "px": [
+    1117.5,
+    422.5,
+    1385.0,
+    512.5
+   ]
+  },
+  {
+   "id": "patio-central",
+   "nivel": 0,
+   "tipo": "jardim",
+   "px": [
+    1115.0,
+    537.5,
+    1385.0,
+    837.5
+   ]
+  },
+  {
+   "id": "patio-oeste",
+   "nivel": 0,
+   "tipo": "jardim",
+   "px": [
+    1072.5,
+    535.0,
+    1087.5,
+    875.0
+   ]
+  },
+  {
+   "id": "pergolado",
+   "nivel": 0,
+   "tipo": "pergolado",
+   "px": [
+    1337.5,
+    587.5,
+    1387.5,
+    717.5
+   ]
+  },
+  {
+   "id": "pergolado-leste",
+   "nivel": 0,
+   "tipo": "pergolado",
+   "px": [
+    1445.0,
+    585.0,
+    1500.0,
+    640.0
+   ]
+  },
+  {
+   "id": "passarela-norte",
+   "nivel": 1,
+   "tipo": "passarela",
+   "px": [
+    1262.5,
+    365.0,
+    1385.0,
+    422.5
+   ]
+  },
+  {
+   "id": "passarela-leste",
+   "nivel": 1,
+   "tipo": "passarela",
+   "px": [
+    1385.0,
+    410.0,
+    1417.5,
+    890.0
+   ]
+  },
+  {
+   "id": "passarela-sul",
+   "nivel": 1,
+   "tipo": "passarela",
+   "px": [
+    1102.5,
+    875.0,
+    1387.5,
+    912.5
+   ]
+  },
+  {
+   "id": "passarela-oeste",
+   "nivel": 1,
+   "tipo": "passarela",
+   "px": [
+    887.5,
+    752.5,
+    1025.0,
+    790.0
+   ]
+  },
+  {
+   "id": "circulacao-oeste",
+   "nivel": 1,
+   "tipo": "passarela",
+   "px": [
+    887.5,
+    705.0,
+    1025.0,
+    752.5
+   ]
+  },
+  {
+   "id": "terraco-noroeste",
+   "nivel": 1,
+   "tipo": "deck",
+   "px": [
+    737.5,
+    262.5,
+    835.0,
+    422.5
+   ]
+  },
+  {
+   "id": "escada-leste",
+   "nivel": 0,
+   "tipo": "escada",
+   "px": [
+    1335.0,
+    295.0,
+    1382.5,
+    365.0
+   ]
+  },
+  {
+   "id": "escada-sul",
+   "nivel": 0,
+   "tipo": "escada",
+   "px": [
+    1337.5,
+    927.5,
+    1390.0,
+    1010.0
+   ]
+  },
+  {
+   "id": "escada-noroeste",
+   "nivel": 0,
+   "tipo": "escada",
+   "px": [
+    880.0,
+    380.0,
+    920.0,
+    460.0
+   ]
+  }
+ ]
+}

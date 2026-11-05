@@ -1,0 +1,864 @@
+{
+ "schema": "containers-mooca-implantacao-v1",
+ "fonte": "implantacao.json",
+ "fonteSha256": "c5743aa8f9564ea175b708a500a32a771577ab5611f0318ea0109f430449121d",
+ "eixos": "x para leste, z para o sul, em metros a partir da esquina das ruas (âncora)",
+ "ancoraGeo": [
+  -23.5581268,
+  -46.6057803
+ ],
+ "niveis": {
+  "0": 0.0,
+  "1": 2.69,
+  "cobertura": 5.38
+ },
+ "alturaContainer": 2.591,
+ "resumo": {
+  "containers": 30,
+  "dormitorios": 20,
+  "porTipo": {
+   "casal": 2,
+   "casal-bebe": 1,
+   "individual": 12,
+   "individual-pne": 2,
+   "quadruplo": 3
+  },
+  "caixaM": [
+   -16.81,
+   -76.27,
+   27.16,
+   -37.57
+  ],
+  "pegadaM": [
+   43.97,
+   38.71
+  ]
+ },
+ "avisos": [],
+ "containers": [
+  {
+   "id": "c01",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Banheiros coletivos",
+   "centro": [
+    -15.556,
+    -73.201
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5574692,
+    -46.6059327
+   ]
+  },
+  {
+   "id": "c02",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Refeitório",
+   "centro": [
+    -15.556,
+    -67.116
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5575239,
+    -46.6059327
+   ]
+  },
+  {
+   "id": "c03",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Cozinha compartilhada",
+   "centro": [
+    -11.257,
+    -65.265
+   ],
+   "larguraX": 6.058,
+   "profundidadeZ": 2.438,
+   "deitado": true,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5575405,
+    -46.6058906
+   ]
+  },
+  {
+   "id": "c04",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Sala de convivência",
+   "centro": [
+    -6.958,
+    -73.201
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5574692,
+    -46.6058485
+   ]
+  },
+  {
+   "id": "c05",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Copa e despensa",
+   "centro": [
+    -6.958,
+    -67.116
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5575239,
+    -46.6058485
+   ]
+  },
+  {
+   "id": "c06",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Sala de convivência (oeste)",
+   "centro": [
+    -6.362,
+    -55.807
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5576255,
+    -46.6058427
+   ]
+  },
+  {
+   "id": "c07",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Escada e depósito",
+   "centro": [
+    -4.709,
+    -51.508
+   ],
+   "larguraX": 6.058,
+   "profundidadeZ": 2.438,
+   "deitado": true,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5576641,
+    -46.6058264
+   ]
+  },
+  {
+   "id": "c08",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Administração",
+   "centro": [
+    1.376,
+    -51.508
+   ],
+   "larguraX": 6.058,
+   "profundidadeZ": 2.438,
+   "deitado": true,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5576641,
+    -46.6057668
+   ]
+  },
+  {
+   "id": "c09",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Lavanderia",
+   "centro": [
+    -6.495,
+    -47.275
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5577021,
+    -46.6058439
+   ]
+  },
+  {
+   "id": "c10",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "Sala de estudos",
+   "centro": [
+    3.095,
+    -47.077
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5577039,
+    -46.60575
+   ]
+  },
+  {
+   "id": "d01",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual",
+   "centro": [
+    3.492,
+    -70.688
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5574918,
+    -46.6057461
+   ]
+  },
+  {
+   "id": "d02",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual",
+   "centro": [
+    13.28,
+    -70.688
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5574918,
+    -46.6056502
+   ]
+  },
+  {
+   "id": "d03",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual",
+   "centro": [
+    23.995,
+    -69.497
+   ],
+   "larguraX": 6.058,
+   "profundidadeZ": 2.438,
+   "deitado": true,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5575025,
+    -46.6055452
+   ]
+  },
+  {
+   "id": "d04",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual",
+   "centro": [
+    23.995,
+    -60.238
+   ],
+   "larguraX": 6.058,
+   "profundidadeZ": 2.438,
+   "deitado": true,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5575857,
+    -46.6055452
+   ]
+  },
+  {
+   "id": "d05",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual",
+   "centro": [
+    24.127,
+    -50.45
+   ],
+   "larguraX": 6.058,
+   "profundidadeZ": 2.438,
+   "deitado": true,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5576736,
+    -46.6055439
+   ]
+  },
+  {
+   "id": "d06",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual",
+   "centro": [
+    24.127,
+    -41.058
+   ],
+   "larguraX": 6.058,
+   "profundidadeZ": 2.438,
+   "deitado": true,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.557758,
+    -46.6055439
+   ]
+  },
+  {
+   "id": "d07",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual-pne",
+   "centro": [
+    7.328,
+    -40.595
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5577621,
+    -46.6057085
+   ]
+  },
+  {
+   "id": "d08",
+   "nivel": 0,
+   "tipo": "c6",
+   "uso": "individual-pne",
+   "centro": [
+    16.587,
+    -40.595
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 0.0,
+   "topo": 2.591,
+   "geoCentro": [
+    -23.5577621,
+    -46.6056177
+   ]
+  },
+  {
+   "id": "d09",
+   "nivel": 1,
+   "tipo": "c12",
+   "uso": "quadruplo",
+   "centro": [
+    8.36,
+    -71.349
+   ],
+   "larguraX": 12.192,
+   "profundidadeZ": 2.438,
+   "deitado": true,
+   "base": 2.69,
+   "topo": 5.281,
+   "geoCentro": [
+    -23.5574859,
+    -46.6056984
+   ]
+  },
+  {
+   "id": "d10",
+   "nivel": 1,
+   "tipo": "c12",
+   "uso": "quadruplo",
+   "centro": [
+    23.902,
+    -64.537
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 12.192,
+   "deitado": false,
+   "base": 2.69,
+   "topo": 5.281,
+   "geoCentro": [
+    -23.5575471,
+    -46.6055461
+   ]
+  },
+  {
+   "id": "d11",
+   "nivel": 1,
+   "tipo": "c12",
+   "uso": "casal-bebe",
+   "centro": [
+    23.902,
+    -45.556
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 12.192,
+   "deitado": false,
+   "base": 2.69,
+   "topo": 5.281,
+   "geoCentro": [
+    -23.5577176,
+    -46.6055461
+   ]
+  },
+  {
+   "id": "d12",
+   "nivel": 1,
+   "tipo": "c12",
+   "uso": "quadruplo",
+   "centro": [
+    11.892,
+    -40.529
+   ],
+   "larguraX": 12.192,
+   "profundidadeZ": 2.438,
+   "deitado": true,
+   "base": 2.69,
+   "topo": 5.281,
+   "geoCentro": [
+    -23.5577627,
+    -46.6056638
+   ]
+  },
+  {
+   "id": "d13",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "individual",
+   "centro": [
+    -15.595,
+    -73.228
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 2.69,
+   "topo": 5.281,
+   "geoCentro": [
+    -23.557469,
+    -46.6059331
+   ]
+  },
+  {
+   "id": "d14",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "casal",
+   "centro": [
+    -15.595,
+    -67.09
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 2.69,
+   "topo": 5.281,
+   "geoCentro": [
+    -23.5575241,
+    -46.6059331
+   ]
+  },
+  {
+   "id": "d15",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "casal",
+   "centro": [
+    -5.397,
+    -75.053
+   ],
+   "larguraX": 6.058,
+   "profundidadeZ": 2.438,
+   "deitado": true,
+   "base": 2.69,
+   "topo": 5.281,
+   "geoCentro": [
+    -23.5574526,
+    -46.6058332
+   ]
+  },
+  {
+   "id": "d16",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "individual",
+   "centro": [
+    -8.214,
+    -65.265
+   ],
+   "larguraX": 6.058,
+   "profundidadeZ": 2.438,
+   "deitado": true,
+   "base": 2.69,
+   "topo": 5.281,
+   "geoCentro": [
+    -23.5575405,
+    -46.6058608
+   ]
+  },
+  {
+   "id": "d17",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "individual",
+   "centro": [
+    -6.495,
+    -53.267
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 2.69,
+   "topo": 5.281,
+   "geoCentro": [
+    -23.5576483,
+    -46.6058439
+   ]
+  },
+  {
+   "id": "d18",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "individual",
+   "centro": [
+    -6.495,
+    -47.222
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 2.69,
+   "topo": 5.281,
+   "geoCentro": [
+    -23.5577026,
+    -46.6058439
+   ]
+  },
+  {
+   "id": "d19",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "individual",
+   "centro": [
+    3.095,
+    -53.241
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 2.69,
+   "topo": 5.281,
+   "geoCentro": [
+    -23.5576485,
+    -46.60575
+   ]
+  },
+  {
+   "id": "d20",
+   "nivel": 1,
+   "tipo": "c6",
+   "uso": "individual",
+   "centro": [
+    3.095,
+    -47.13
+   ],
+   "larguraX": 2.438,
+   "profundidadeZ": 6.058,
+   "deitado": false,
+   "base": 2.69,
+   "topo": 5.281,
+   "geoCentro": [
+    -23.5577034,
+    -46.60575
+   ]
+  }
+ ],
+ "superficies": [
+  {
+   "id": "deck-norte",
+   "nivel": 0,
+   "tipo": "deck",
+   "ret": [
+    4.683,
+    -73.995,
+    12.09,
+    -67.646
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "deck-leste-1",
+   "nivel": 0,
+   "tipo": "deck",
+   "ret": [
+    20.952,
+    -68.307,
+    27.037,
+    -61.429
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "deck-leste-2",
+   "nivel": 0,
+   "tipo": "deck",
+   "ret": [
+    20.952,
+    -49.259,
+    27.434,
+    -42.249
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "deck-sul",
+   "nivel": 0,
+   "tipo": "deck",
+   "ret": [
+    8.519,
+    -43.571,
+    15.397,
+    -37.619
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "deck-estudos",
+   "nivel": 0,
+   "tipo": "deck",
+   "ret": [
+    -5.238,
+    -50.317,
+    1.905,
+    -44.233
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "refeitorio-coberto",
+   "nivel": 0,
+   "tipo": "piso",
+   "ret": [
+    -14.365,
+    -76.243,
+    -8.148,
+    -66.455
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "patio-norte",
+   "nivel": 0,
+   "tipo": "jardim",
+   "ret": [
+    -5.767,
+    -73.862,
+    5.212,
+    -64.074
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "patio-leste",
+   "nivel": 0,
+   "tipo": "jardim",
+   "ret": [
+    6.799,
+    -67.646,
+    20.952,
+    -62.884
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "patio-central",
+   "nivel": 0,
+   "tipo": "jardim",
+   "ret": [
+    6.667,
+    -61.561,
+    20.952,
+    -45.688
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "patio-oeste",
+   "nivel": 0,
+   "tipo": "jardim",
+   "ret": [
+    4.418,
+    -61.693,
+    5.212,
+    -43.704
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "pergolado",
+   "nivel": 0,
+   "tipo": "pergolado",
+   "ret": [
+    18.439,
+    -58.915,
+    21.085,
+    -52.037
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "pergolado-leste",
+   "nivel": 0,
+   "tipo": "pergolado",
+   "ret": [
+    24.127,
+    -59.048,
+    27.037,
+    -56.138
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "passarela-norte",
+   "nivel": 1,
+   "tipo": "passarela",
+   "ret": [
+    14.471,
+    -70.688,
+    20.952,
+    -67.646
+   ],
+   "base": 2.69
+  },
+  {
+   "id": "passarela-leste",
+   "nivel": 1,
+   "tipo": "passarela",
+   "ret": [
+    20.952,
+    -68.307,
+    22.672,
+    -42.91
+   ],
+   "base": 2.69
+  },
+  {
+   "id": "passarela-sul",
+   "nivel": 1,
+   "tipo": "passarela",
+   "ret": [
+    6.005,
+    -43.704,
+    21.085,
+    -41.72
+   ],
+   "base": 2.69
+  },
+  {
+   "id": "passarela-oeste",
+   "nivel": 1,
+   "tipo": "passarela",
+   "ret": [
+    -5.37,
+    -50.185,
+    1.905,
+    -48.201
+   ],
+   "base": 2.69
+  },
+  {
+   "id": "circulacao-oeste",
+   "nivel": 1,
+   "tipo": "passarela",
+   "ret": [
+    -5.37,
+    -52.698,
+    1.905,
+    -50.185
+   ],
+   "base": 2.69
+  },
+  {
+   "id": "terraco-noroeste",
+   "nivel": 1,
+   "tipo": "deck",
+   "ret": [
+    -13.307,
+    -76.111,
+    -8.148,
+    -67.646
+   ],
+   "base": 2.69
+  },
+  {
+   "id": "escada-leste",
+   "nivel": 0,
+   "tipo": "escada",
+   "ret": [
+    18.307,
+    -74.392,
+    20.82,
+    -70.688
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "escada-sul",
+   "nivel": 0,
+   "tipo": "escada",
+   "ret": [
+    18.439,
+    -40.926,
+    21.217,
+    -36.561
+   ],
+   "base": 0.0
+  },
+  {
+   "id": "escada-noroeste",
+   "nivel": 0,
+   "tipo": "escada",
+   "ret": [
+    -5.767,
+    -69.894,
+    -3.651,
+    -65.661
+   ],
+   "base": 0.0
+  }
+ ]
+}

@@ -47,3 +47,34 @@ Como cada coisa foi aproximada:
   e o container não serve como prédio.
 - O desenho preto da folha dos dormitórios 6 m (dois vasos, quatro lavatórios, copa e dois armários)
   não é um dos cinco tipos do caderno e ficou de fora.
+
+## Implantação (feito)
+
+`implantacao/leitura_da_planta.py` registra o que foi lido nas duas plantas gerais 1:200, gravando
+`implantacao.json`. Depois, `implantacao/montar.py` assenta cada container com a medida real, centrado
+onde o caderno o desenha, e grava `implantacao-m.json` (metros + coordenadas geográficas) e
+`conferencia.jpg`. O térreo aparece em azul, o 1º pavimento em vermelho e as superfícies em cor clara.
+
+```
+python experimentos/containers-mooca-2026-11-05/implantacao/montar.py
+```
+
+- **Escala:** 18,9 px/m na `planta-terreo.png`, medida pelos próprios containers. Com ela, o lote dá
+  ~2.150 m² (o caderno diz 2.179,7 m²), e o trecho diagonal da Rua João Antônio de Oliveira mede 58 m
+  (61 m no OSM).
+- **Rumo:** norte para cima (seta da p. 90). A Rua Guaratinguetá corre leste-oeste na planta e no OSM.
+- **Âncora:** esquina das ruas Guaratinguetá e João Antônio de Oliveira (−23,5581268, −46,6057803), no
+  cruzamento das duas faixas hachuradas da planta. O conjunto fica 37 a 76 m ao norte dela. O bloco
+  noroeste fica 7 m a leste da rua, do lado de dentro do lote.
+- **1º pavimento:** a imagem dele está deslocada (58, −58) px em relação ao térreo. O deslocamento foi
+  achado por correlação das linhas, e a leitura já foi feita com as duas plantas sobrepostas.
+- **Conjunto:** 30 containers, sendo 20 dormitórios e 10 áreas comuns, numa pegada de 44 × 39 m.
+  - Térreo: 6 individuais, 2 PNE e as áreas comuns (banheiros coletivos, refeitório, cozinha,
+    convivência, administração, lavanderia e estudos).
+  - 1º pavimento: 3 quádruplos, 1 casal com bebê, 2 casais e 6 individuais. Os 12 m passam por cima
+    dos 6 m do térreo, como no caderno.
+  - Decks de madeira, passarelas de grade, pergolados, escadas e pátio verde.
+- **Tipos aproximados:** o caderno não diz qual dormitório 6 m é de qual tipo. Os 2 PNE ficaram no
+  térreo, perto da entrada sul, e os 2 casais no bloco noroeste de cima. Para os 12 m, a proporção 3:1
+  entre quádruplos e casal com bebê é a do diagrama da p. 77.
+- **Ficaram de fora:** o volume da escada oeste (7,3 m, que não é container) virou passarela.
