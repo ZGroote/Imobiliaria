@@ -65,28 +65,33 @@ NOME = {'individual': 'Individual', 'individual-pne': 'Individual PNE', 'casal':
 def cadastro(md, sha_modelo):
     """20 dormitórios: caixa de clique em coordenadas da web (x, altura, z), uma por container.
 
-    O conjunto é uma "torre" só (o seletor do LIV agrupa por torre); o pavimento é o nível do container
-    e o "final" é o número do dormitório (d01..d20 da implantação).
+    Cada container é uma "torre" do seletor do LIV (o clique acha primeiro a torre atingida e depois a unidade
+    dentro dela): os 10 containers de área comum também são torres, sem unidade, e só barram o clique.
+    O pavimento é o nível do container e o "final" é o número do dormitório (d01..d20 da implantação).
     """
     folga = .05
-    cont = [c for c in md['containers'] if c['id'].startswith('d')]
-    allx = [c['centro'][0]+s*c['larguraX']/2 for c in md['containers'] for s in (-1, 1)]
-    allz = [c['centro'][1]+s*c['profundidadeZ']/2 for c in md['containers'] for s in (-1, 1)]
-    torres = [{'id': 'conjunto', 'nome': 'Conjunto', 'bounds': {
-        'min': [round(min(allx), 4), 0, round(min(allz), 4)],
-        'max': [round(max(allx), 4), round(max(c['topo'] for c in md['containers']), 4), round(max(allz), 4)]}}]
-    units = []
-    for c in cont:
+
+    def caixa(c):
         x, z = c['centro']
         w, d = c['larguraX']/2+folga, c['profundidadeZ']/2+folga
-        lado = ('+' if (x if c['larguraX'] < c['profundidadeZ'] else z) > 0 else '-')+('x' if c['larguraX'] < c['profundidadeZ'] else 'z')
+        return {'min': [round(x-w, 4), round(c['base'], 4), round(z-d, 4)],
+                'max': [round(x+w, 4), round(c['topo'], 4), round(z+d, 4)]}
+    torres = [{'id': c['id'], 'nome': (f"Dormitório {c['id'][1:]}" if c['id'].startswith('d') else c['uso']),
+               'bounds': caixa(c)} for c in md['containers']]
+    units = []
+    for c in md['containers']:
+        if not c['id'].startswith('d'):
+            continue
+        x, z = c['centro']
+        pe = c['larguraX'] < c['profundidadeZ']          # comprido no sentido norte-sul: o lado comprido dá para ±x
+        lado = ('+' if (x if pe else z) > 0 else '-')+('x' if pe else 'z')
         tipo = c['uso']
         units.append({
-            'id': f'containers-mooca/conjunto/pavimento-{c["nivel"]:02d}/final-{c["id"]}', 'tower': 'conjunto',
-            'towerIndex': 0, 'towerName': 'Conjunto', 'final': c['id'][1:], 'floorIndex': c['nivel'],
-            'side': f'conjunto:{lado}', 'sideLabel': 'Lado comprido do container',
-            'bounds': {'min': [round(x-w, 4), round(c['base'], 4), round(z-d, 4)],
-                       'max': [round(x+w, 4), round(c['topo'], 4), round(z+d, 4)]},
+            'id': f'containers-mooca/{c["id"]}/pavimento-{c["nivel"]:02d}/final-{c["id"][1:]}', 'tower': c['id'],
+            'towerIndex': next(i for i, t in enumerate(torres) if t['id'] == c['id']), 'towerName': f"Dormitório {c['id'][1:]}",
+            'final': c['id'][1:], 'floorIndex': c['nivel'],
+            'side': f'{c["id"]}:{lado}', 'sideLabel': 'Lado comprido do container',
+            'bounds': caixa(c),
             'typology': tipo, 'typologyLabel': NOME[tipo], 'areaM2': AREA[tipo], 'container': c['tipo'],
             'garden': None, 'relation': {'typology': tipo, 'orientation': 'original'},
             'positionConfidence': 'caderno', 'commercialNumber': None, 'availability': 'nao_informada',

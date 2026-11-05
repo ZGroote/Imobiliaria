@@ -119,3 +119,24 @@ outro cadastro: `assets/unidades.json` (schema `containers-mooca-units-v1`) tem 
 container, com a caixa de clique do container, o tipo, a área e o aluguel da p. 41. O conjunto é uma
 "torre" só (`conjunto`), porque o seletor do LIV agrupa por torre. O pavimento é o nível do container
 (0 ou 1), e o "final" é o número do dormitório (01..20). A cena tem 0,5 MB e o atlas 3,3 MB (gzip).
+
+## Página (feito: maquete + planta 2D)
+
+`site/` é a cópia do código do site do Laranjeiras (só os arquivos versionados, sem interiores), e a
+página é `site/maquete-containers.html` (servidor `mapa`, porta 8765, raiz do repositório):
+<http://localhost:8765/experimentos/containers-mooca-2026-11-05/site/maquete-containers.html>
+
+O que mudou em relação ao Laranjeiras:
+- `tipologias.js`: os 5 tipos de dormitório. As plantas 2D vêm de `interiores/gerar_plantas2d.py`,
+  que recorta o container da folha do caderno e põe a entrada na porta do contorno externo.
+- `unidades.js`: schema `containers-mooca-units-v1` (20 dormitórios, final de 2 dígitos, 5 tipos).
+  `test_cadastro.mjs` confere 8 + 12, os tipos, a área e se os containers do mesmo nível se cruzam.
+- **Clique:** o seletor do LIV acha primeiro a "torre" atingida e depois a unidade dentro dela. Por
+  isso cada container é uma torre (30). Os 10 de área comum não têm unidade e só barram o clique.
+- `horario-solar.js`: latitude/longitude da Mooca, `buildingYaw` 0 (a planta tem o norte para cima),
+  finais até 99.
+- **Rótulos:** "Dormitório 12 · Quádruplo · 1º pavimento". O preço vira "aluguel de R$ 1.000,00/mês
+  (proposta do caderno)". O botão "← Prédio" virou "← Conjunto". Os textos do cabeçalho são os do
+  caderno, com a autora e a escola.
+- **Ainda não funciona:** "Ver em 3D" e "Entrar", porque os interiores são a próxima etapa. O mapa
+  também falta, porque o `mapa-retorno.js` do LIV só aceita o LIV e o Laranjeiras.
