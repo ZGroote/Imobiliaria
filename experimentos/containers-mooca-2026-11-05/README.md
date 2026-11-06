@@ -193,6 +193,10 @@ Diferenças em relação ao Laranjeiras:
   A convivência, com a janela para o oeste, chega a 478 às 16h.
 - **Navegador fechado:** um Tour 3D aberto disputa a placa de vídeo e cada chave sobe de 75 s para 276 s.
 - **Tapete:** a auditoria do atlas do LIV exige um tapete por planta, e o `escrever_plantas.py` põe um.
+- **Sondas abaixo do forro:** a grade de sondas da biblioteca compartilhada vai de 0,15 a 2,55 m, feita
+  para o pé-direito do LIV. No container (2,35 m) a camada de cima ficava acima do forro, via o céu e
+  acendia a sanca e o topo do armário. O `bake_horario.py` troca essa linha ao carregar o bake e leva o
+  topo para o pé-direito menos 0,15 m; se a linha mudar na biblioteca, ele recusa em vez de gravar errado.
 
 Testado no navegador: os 5 tipos abrem no Tour, cada um com a luz da própria fachada às 10h, e o
 console fica sem erro.
@@ -228,3 +232,17 @@ Desenhadas da folha de áreas comuns do caderno (`areas-comuns-b.png`) e tratada
 interior, com a luz por hora gravada. No cadastro entram como os containers c02 (refeitório) e c04
 (convivência), com tipologia "Área comum" e "área comum dos moradores" no lugar do aluguel.
 O catálogo não tem mesa redonda nem pufe: as mesas de 6 viraram mesas de 4 e os pufes, poltronas.
+
+## Aparência do interior (parede do caderno)
+
+Medido contra o render 10 do caderno: a parede lá fica em ~(175, 169, 158), quente; a nossa saía
+(197, 203, 206), fria. Mudar só a cor da tinta quase não aparecia, porque o look AgX comprime os claros
+(24% de albedo virava 4% na tela). No `interior-renderer.js`:
+- `OLHAR`: exposição 0,6 e um balanço de branco quente (`[1.22, 1, .76]`) aplicado antes do look, nos dois
+  caminhos (`classic-renderer.js` e `interior-look.js`).
+- `REBOCO`: a parede ganha uma textura de manchas largas e fracas (128 px, repete a cada 2 m) na cor
+  #e3d9c8; a sanca usa a mesma cor.
+
+A luz gravada é só irradiância, então trocar cor e textura não pede regravar.
+Resultado na mesma câmera: parede (189, 185, 175).
+Falta: a janela estoura em branco, a roupa de cama é toda branca e o veio do armário sai laranja.

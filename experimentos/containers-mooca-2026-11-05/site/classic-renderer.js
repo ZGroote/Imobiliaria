@@ -11,12 +11,13 @@ export function createClassicInteriorRenderer(options){
  renderer.localClippingEnabled=true;renderer.info.autoReset=false;renderer.toneMapping=NoToneMapping;renderer.outputColorSpace=SRGBColorSpace;
  const target=new WebGLRenderTarget(1,1,{type:HalfFloatType,format:RGBAFormat,samples,depthBuffer:true,stencilBuffer:false});target.texture.colorSpace=LinearSRGBColorSpace;
  const placeholder=new Data3DTexture(new Uint16Array(4),1,1,1);placeholder.type=HalfFloatType;placeholder.needsUpdate=true;
- const uniforms={tColor:{value:target.texture},livLook:{value:placeholder},livLookInfo:{value:new Vector3(-10,20,2)},livUseLook:{value:0},toneMappingExposure:{value:1}};
+ const uniforms={tColor:{value:target.texture},livLook:{value:placeholder},livLookInfo:{value:new Vector3(-10,20,2)},livUseLook:{value:0},toneMappingExposure:{value:1},livBalance:{value:new Vector3(1,1,1)}};
+ renderer.whiteBalance=uniforms.livBalance.value;  // Containers: ganho por canal antes da curva (balanço de branco)
  const material=new ShaderMaterial({uniforms,depthTest:false,depthWrite:false,blending:NoBlending,toneMapped:false,
   vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.0,1.0);}',
-  fragmentShader:`precision highp sampler3D;varying vec2 vUv;uniform sampler2D tColor;uniform sampler3D livLook;uniform vec3 livLookInfo;uniform float livUseLook;
+  fragmentShader:`precision highp sampler3D;varying vec2 vUv;uniform sampler2D tColor;uniform sampler3D livLook;uniform vec3 livLookInfo;uniform float livUseLook;uniform vec3 livBalance;
    #include <tonemapping_pars_fragment>
-   void main(){vec4 color=texture2D(tColor,vUv);vec3 linear=color.rgb;
+   void main(){vec4 color=texture2D(tColor,vUv);vec3 linear=color.rgb*livBalance;
     if(livUseLook>0.5){vec3 p=clamp((log2(max(linear*toneMappingExposure,vec3(exp2(livLookInfo.x))))-livLookInfo.x)/livLookInfo.y,0.0,1.0);linear=texture(livLook,p*((livLookInfo.z-1.0)/livLookInfo.z)+0.5/livLookInfo.z).rgb;}
     else linear=AgXToneMapping(linear);
     gl_FragColor=vec4(linear,color.a);

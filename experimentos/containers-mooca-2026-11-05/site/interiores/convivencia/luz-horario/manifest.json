@@ -58,7 +58,7 @@
         ],
         "step": [
           0.43200000000000005,
-          0.48,
+          0.41000000000000003,
           0.394
         ],
         "n": [
@@ -88,25 +88,25 @@
       "sunStrength": 0.518882121866173,
       "sunIrradianceRGB": [
         94.31956481933594,
-        57.69603729248047,
+        57.696044921875,
         21.174787521362305
       ],
       "id": "maisx-06",
       "path": "interiores/convivencia/luz-horario/maisx-06.rgbm.gz",
-      "bytes": 1435746,
-      "sha256": "19f910421916c87ce88420f73d8aca3357e25d0a2e65aa057ff0a6d179362526",
+      "bytes": 1435761,
+      "sha256": "53d2793083405eca21ef2288663ca049cb8b5ce782ad5c774f5cb1acb6bc76d6",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "7ea7d6b77e519339615cbf7f8acdd61d9cac33b790380776ffd3314977bed22d",
-      "peak": 9.98490047454834,
+      "decodedSHA256": "945867e9596a8f4717a25600c3901bd59d570cc98254d85aeef01bfe2cdfe4f8",
+      "peak": 9.984903335571289,
       "probes": {
         "id": "maisx-06-sondas",
         "path": "interiores/convivencia/luz-horario/maisx-06-sondas.bin.gz",
-        "bytes": 20175,
-        "sha256": "16a6c54370065d388362522a1811a8b787469e7681645ad190d5012b2cf2c696",
+        "bytes": 20120,
+        "sha256": "203fe6f622303688803cc4e506b02501c5e75d7d0d66147223adf0f756476dab",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "f1c9b008e634c435c5a886f6e035f7994c2e5d41c6938e825ce55bbc5e135b5d"
+        "decodedSHA256": "a26e4db98a58653e131f604ad22d8c1ae884afea0bfdc4d5fb836e0efc57a804"
       }
     },
     {
@@ -118,25 +118,25 @@
       "sunStrength": 1,
       "sunIrradianceRGB": [
         152.8367919921875,
-        127.12113952636719,
+        127.12112426757812,
         93.32830810546875
       ],
       "id": "maisx-08",
       "path": "interiores/convivencia/luz-horario/maisx-08.rgbm.gz",
-      "bytes": 1479134,
-      "sha256": "165d0962458bc50b1b988c97d505479b9ea7f15f7d1b4bf550e0baae5f3dc7dc",
+      "bytes": 1479142,
+      "sha256": "25d210623fc9cad1cf99f90692a3a7b58e2b30dcd12b025f6dafaecaea2175cb",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "74131e140f1ee5f03c989874281fad2c3d9181748f24c2dd27588277a4625833",
-      "peak": 13.703685760498047,
+      "decodedSHA256": "674d2a66e8b44ffd904bc71a98ff74d2ad5671d5a39bee528388b7f32545d62b",
+      "peak": 13.703689575195312,
       "probes": {
         "id": "maisx-08-sondas",
         "path": "interiores/convivencia/luz-horario/maisx-08-sondas.bin.gz",
-        "bytes": 19886,
-        "sha256": "20ef8ed6595be253039e647572307150b1502278bdc092bb75dde6711463a78e",
+        "bytes": 19714,
+        "sha256": "e13d6a45c03386045b18cb4a1be2a5f6abbac41be7072a536f269e6bb161df86",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "fdcc09b0e465dee06cb2f9d681b2b0dd26f0fe878c5fb26a724f73e8c39dec92"
+        "decodedSHA256": "40ced9bb78098acfd09bd4e9a817778d24b89944950a24719466eb8dfa11ba68"
       }
     },
     {
@@ -148,25 +148,25 @@
       "sunStrength": 1,
       "sunIrradianceRGB": [
         161.51878356933594,
-        139.07049560546875,
+        139.0704803466797,
         110.20014953613281
       ],
       "id": "maisx-10",
       "path": "interiores/convivencia/luz-horario/maisx-10.rgbm.gz",
-      "bytes": 1496694,
-      "sha256": "220bc7b531fb0a5928c7b03453aa32a61c77f5ad076c11a068dcb1b9f40eca97",
+      "bytes": 1496714,
+      "sha256": "3cf81696cb9d532457be564a4909f83b91c2a7a9e70539a085e44552fa055bad",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "3c66c06d7ec7dc72eb24ca95c3e56fc1f51bbfc3d345027fb52069359094be53",
+      "decodedSHA256": "36790b96531a04bcae9163674cb20ae50a6c02a7fb9a1d8b1e2137c4627f87f2",
       "peak": 16.0,
       "probes": {
         "id": "maisx-10-sondas",
         "path": "interiores/convivencia/luz-horario/maisx-10-sondas.bin.gz",
-        "bytes": 19967,
-        "sha256": "f7d8f821c03bd0b800bef850db5107b8adb0a9ba7962d65bd640841a068054ca",
+        "bytes": 19916,
+        "sha256": "1beb3a9b18ef5e1f60f4448e9e6662060f53842f55ab14689542ad6bf1b51e70",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "a2a6d3596457a9c41eb96b6ae332611f2e26631741a1b91c0e30902eb8db7f24"
+        "decodedSHA256": "7e320b273bb74362d502835c7e6b2e522469d138fd632518af7b06b6a38c1bed"
       }
     },
     {
@@ -177,26 +177,26 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        163.2852783203125,
-        141.48887634277344,
-        113.69184112548828
+        163.28526306152344,
+        141.4888916015625,
+        113.69182586669922
       ],
       "id": "maisx-12",
       "path": "interiores/convivencia/luz-horario/maisx-12.rgbm.gz",
       "bytes": 1430892,
-      "sha256": "a42caee68fc174db3ca855306f9971ffcd552b6c5e159277e9820e7b5c1fdf2c",
+      "sha256": "c818e87a1ca74b1453cca3ff29175d3b350e5b4d0783073379d156faf5b53031",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "0f30e7297ca6f7234d2efc126da51fdfc56e9b1df4d9d11759047c7440698d34",
+      "decodedSHA256": "c96d73a6ad36cec8c1f992f497f8efc17fea6eb7f5a22b30008a9a24b744449f",
       "peak": 10.163272857666016,
       "probes": {
         "id": "maisx-12-sondas",
         "path": "interiores/convivencia/luz-horario/maisx-12-sondas.bin.gz",
-        "bytes": 20020,
-        "sha256": "87e87288e3f9c6e4aea9c5bfaf72c9d0d8bf33ccbc2da22c4c914bd1806b0b45",
+        "bytes": 20093,
+        "sha256": "56023fdaeca783304dbacc334309c2b9cf9d60baa9cc3277728233f7042bfbbf",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "e39a0bd2e7dd4309598597449e36aee091d010d0fcb8c9b1a7b0b8d8efcfd637"
+        "decodedSHA256": "a05ce2c2fa7d9edd0ffbc7491ebef4069215f7a489279b6ff65f3d058a451762"
       }
     },
     {
@@ -209,24 +209,24 @@
       "sunIrradianceRGB": [
         160.89552307128906,
         138.1519012451172,
-        108.78594207763672
+        108.78594970703125
       ],
       "id": "maisx-14",
       "path": "interiores/convivencia/luz-horario/maisx-14.rgbm.gz",
-      "bytes": 1403041,
-      "sha256": "f82868538f391c0340cc848914f17fb360556a15cdb571d758a0fd7e2fabfc84",
+      "bytes": 1403036,
+      "sha256": "6f7c253a5de05cdbfc18c38369c75a29bd9308dad11581bb73ee9382cceec936",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "32070a087b15cbd50ca894a860d2f530001cdbb956530764827b3481cebf8338",
-      "peak": 10.107807159423828,
+      "decodedSHA256": "e72be339c89eddc09c23c886422702298238d7f82a68e901b6b635866cd64bc0",
+      "peak": 10.107819557189941,
       "probes": {
         "id": "maisx-14-sondas",
         "path": "interiores/convivencia/luz-horario/maisx-14-sondas.bin.gz",
-        "bytes": 20044,
-        "sha256": "cd7cb5373f6efc7cd1da69a8c400d1d8f0868123ef1c3e6e2ca86fc193116954",
+        "bytes": 20050,
+        "sha256": "4a1a297f7b712f5f0c9ca670e6ff06e48d7595696dfc59819db697be9eee6724",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "f60869ed9fe51726cef925b47b53e67f6dd7740d4070ae8ef40a7fd9e01ce449"
+        "decodedSHA256": "8bc56e749d08d98adb9b85fa29feedcd277f247bf9b2705c23428a905c2738ef"
       }
     },
     {
@@ -243,20 +243,20 @@
       ],
       "id": "maisx-16",
       "path": "interiores/convivencia/luz-horario/maisx-16.rgbm.gz",
-      "bytes": 1425864,
-      "sha256": "f880410fa6b67c1895b9b270fcfba9bece00ab95149de4e9a95fd77d08cb013c",
+      "bytes": 1425848,
+      "sha256": "3236e61695e145119f1307164126204cd491f30ee62f84eb2790da6be67aac40",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "3e2b5c57bd3e54021426f9a5007812a0303ad30db920de4e1c04e28762d69388",
-      "peak": 15.696554183959961,
+      "decodedSHA256": "d4807b3ea2f53870ae239a95cae6bca7917fe99e793ef5b55b3c2abb9cff6ef3",
+      "peak": 15.696565628051758,
       "probes": {
         "id": "maisx-16-sondas",
         "path": "interiores/convivencia/luz-horario/maisx-16-sondas.bin.gz",
-        "bytes": 20151,
-        "sha256": "2d6f7ecae6cf24a075b451e6777bd3ddda957144bf6cadb3c4a42bf877e51e31",
+        "bytes": 20140,
+        "sha256": "7edfeb00972e033c90ac5cb08e0da8f07e0cfb00ecf343a386b8980707e0e0a4",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "50883a91b42daf0740b862d904142dd2e0ffa7bbaad9ab65dbcf37fd0daff9af"
+        "decodedSHA256": "8432e795cf3949993d3718c2c8591962b8fd0e36430f87cf6acabffd34b6722b"
       }
     },
     {
@@ -268,25 +268,25 @@
       "sunStrength": 0.12450122889467755,
       "sunIrradianceRGB": [
         52.50182342529297,
-        21.644195556640625,
-        2.404587984085083
+        21.64419174194336,
+        2.4045889377593994
       ],
       "id": "maisx-18",
       "path": "interiores/convivencia/luz-horario/maisx-18.rgbm.gz",
-      "bytes": 1543718,
-      "sha256": "9afb835c3171280165ae5af8b9c0015e7a82831e2e3eebdec246dd3245c5b04b",
+      "bytes": 1543722,
+      "sha256": "8b9a5176c4b8b89348792017a740961398a18b298c424648c57e9415ba253b2a",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "21c8c3190cf0d05e385f40ce44474b6ae8ff9dc992541bd87d030c5ba5a1095f",
-      "peak": 7.376755714416504,
+      "decodedSHA256": "a677558e67a6db878e8020c5ef7c4feda9cff15991455419fd0769a24825c669",
+      "peak": 7.3767523765563965,
       "probes": {
         "id": "maisx-18-sondas",
         "path": "interiores/convivencia/luz-horario/maisx-18-sondas.bin.gz",
-        "bytes": 20348,
-        "sha256": "596ada5d82c57440ad15f06637bb9bb8728a4818ed7e2cecbc184c94d876fc4e",
+        "bytes": 20270,
+        "sha256": "d03d01ba8373acd0052fda670e9385313fa55f1b4b9dfe2eb41194618e071516",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "5b86a1175ede00a8059c9a904acda1de7b6b30454bd9d8dc4229dbcfe718d520"
+        "decodedSHA256": "93b1fffdb0c7d3a12024a570f9ac0921a89eaab1553eb176d42f2061d3db8928"
       }
     },
     {
@@ -298,25 +298,25 @@
       "sunStrength": 0.518882121866173,
       "sunIrradianceRGB": [
         94.2615737915039,
-        57.66862487792969,
-        21.172544479370117
+        57.66863250732422,
+        21.17254638671875
       ],
       "id": "menosx-06",
       "path": "interiores/convivencia/luz-horario/menosx-06.rgbm.gz",
-      "bytes": 1456859,
-      "sha256": "20121ac98d8faef28f7ab0a26abe45892af23d0d628c4a798e3ff8806a6844bd",
+      "bytes": 1456870,
+      "sha256": "2224ba747b9b1bb7efefebe4583b51cd988847cf77462eb51bdfeb129bfe9d34",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "5eb5cc800b039c71c3836f4600735febcfefbaf5934b7f861cad0cf8a21f30da",
-      "peak": 7.845545291900635,
+      "decodedSHA256": "c027a02373edff6c26b8fb209077324d69c2cff83975cde989ac5c32a00987b7",
+      "peak": 7.84553861618042,
       "probes": {
         "id": "menosx-06-sondas",
         "path": "interiores/convivencia/luz-horario/menosx-06-sondas.bin.gz",
-        "bytes": 20251,
-        "sha256": "abb232778e0d74ac2377b12222280649a0ff225df1cccb63f04d3c7ffca74acf",
+        "bytes": 20142,
+        "sha256": "8dfe0ace90eaf7b5648e7c99b84e3728a9a7045ff47bb3f6c7e6620199ef37c4",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "eee807a46ffbcec84ce963d17b0581db01b7759c4819fbbd26aea37c6b877315"
+        "decodedSHA256": "6c88a041be5f310214467da7e3b05563e1742475f952c5d04f958ea96c549c10"
       }
     },
     {
@@ -328,25 +328,25 @@
       "sunStrength": 1,
       "sunIrradianceRGB": [
         152.79214477539062,
-        127.11212158203125,
-        93.34668731689453
+        127.11213684082031,
+        93.34671020507812
       ],
       "id": "menosx-08",
       "path": "interiores/convivencia/luz-horario/menosx-08.rgbm.gz",
-      "bytes": 1406003,
-      "sha256": "f6785ebb09ffa8e91e72f35208361150311f09f8acd6e757ad69a3f0a09b4e0c",
+      "bytes": 1406022,
+      "sha256": "42af1ea35033f45c43ac47226e9a9f01796c077cec136bc06ea189b1a1a4701c",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "5c429c4dad044703bf3b8b0edc5cfdc762f97302541cb186af86cfcd52eb5ad6",
-      "peak": 8.835755348205566,
+      "decodedSHA256": "47002c01254abfa6a67cea9e199a4e5c2fe50f021ef29928b0d13f0a13b73653",
+      "peak": 8.8357572555542,
       "probes": {
         "id": "menosx-08-sondas",
         "path": "interiores/convivencia/luz-horario/menosx-08-sondas.bin.gz",
-        "bytes": 20162,
-        "sha256": "23936472ef3f6e4d56026d31b13034f7754cffa550816c1472b95b710c44b8c5",
+        "bytes": 20145,
+        "sha256": "ff27567f458c60ae9f798f2a00237db5983c1568f6cb48dc17565c4ef48e309e",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "9691ecde889d1917287eee138939feeba7c4420c4f63a08673b9cb3efa98873e"
+        "decodedSHA256": "461dfdc577044904dcd52fe4ceae0370cd72000770eb110eaccc09842fc0e3df"
       }
     },
     {
@@ -358,25 +358,25 @@
       "sunStrength": 1,
       "sunIrradianceRGB": [
         161.58949279785156,
-        139.10797119140625,
-        110.19401550292969
+        139.1079559326172,
+        110.19403839111328
       ],
       "id": "menosx-10",
       "path": "interiores/convivencia/luz-horario/menosx-10.rgbm.gz",
-      "bytes": 1448086,
-      "sha256": "0efcf6577dd54ccf2c10bb9a91c8955b4d06a1d5c721405d9c2a256f6b44d82d",
+      "bytes": 1448077,
+      "sha256": "3746f9968ec011c5c7260a957bf748832e3b59cf5e19fb08c462a34cbd174874",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "ddbe83673734d0bd99dcb573e686b64929aea5ab55e01c5695664457df0daec9",
+      "decodedSHA256": "5235c628f1719f28891c6f936462673ea12ab7b30c6867ab1a5cc6d6846e2322",
       "peak": 16.0,
       "probes": {
         "id": "menosx-10-sondas",
         "path": "interiores/convivencia/luz-horario/menosx-10-sondas.bin.gz",
-        "bytes": 20085,
-        "sha256": "41bea89cd655ef32efea9b0df4ea85b4effd545aa9801b408f0da792f3ed1c62",
+        "bytes": 20187,
+        "sha256": "fa58aa35693a558e94042ad77af718c631cf15fcf9ceaa9c1076b38a6fd7ef02",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "59a32dc5dd019b7f2e64a754e061134aa0fe49e546de3d34e359035e1c3ac8d2"
+        "decodedSHA256": "5b2dffcf0ca58e5363fb45ee16432c6c2b42be44c96e23758b30261e5de18080"
       }
     },
     {
@@ -388,25 +388,25 @@
       "sunStrength": 1,
       "sunIrradianceRGB": [
         163.2552490234375,
-        141.4953155517578,
+        141.49533081054688,
         113.7571029663086
       ],
       "id": "menosx-12",
       "path": "interiores/convivencia/luz-horario/menosx-12.rgbm.gz",
-      "bytes": 1479186,
-      "sha256": "824b6f66d1d587c7bb722a4758788d8be2a57fc65a5a2cb2b420193258398fed",
+      "bytes": 1479187,
+      "sha256": "b802354261783d800dd907065b9a64f0f13680c488a75a3a5e5efd14666858dd",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "6116e29548d8560b6f13a8ae0786f8989a484ecbb45cac0eb097588e20a1f049",
+      "decodedSHA256": "199913cc59a51e7ad9dc35c3ac10730e8a4b33f5db2f4aeeab846336ca4669c4",
       "peak": 16.0,
       "probes": {
         "id": "menosx-12-sondas",
         "path": "interiores/convivencia/luz-horario/menosx-12-sondas.bin.gz",
-        "bytes": 20071,
-        "sha256": "ecbd42e35090a0127ebc266260261a2eaa100f9ce95f759350b69a057abfdd27",
+        "bytes": 20098,
+        "sha256": "35269bdc252406fc767f1f53665cca73aa55a9ed391f3b8b9299973d012c17bb",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "4cf7daa452526cfdf577eecd0e5c7f3e81e78e12316d34b813e3870d686502a3"
+        "decodedSHA256": "db9c96027525b27715c0fe84f0ce0385932ed390de75d5ad3a214ea82e0c3784"
       }
     },
     {
@@ -417,26 +417,26 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        160.85337829589844,
+        160.85336303710938,
         138.1114044189453,
         108.77674865722656
       ],
       "id": "menosx-14",
       "path": "interiores/convivencia/luz-horario/menosx-14.rgbm.gz",
-      "bytes": 1504267,
-      "sha256": "eafd78ee5dd055f87071db476a27c61b0340ab8c5296da19d34ec4418c7c267d",
+      "bytes": 1504275,
+      "sha256": "5af99f3a75eb528ba8ecbc04c21c65abecd01cdb47131acecc32e9b5dc7306df",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "9a6f7c6d634778d4f18077c04a39d90e7ba239f01fbab472a00739ccfa6d935e",
+      "decodedSHA256": "a077cf323cd509a3df1a9c0d3970d4dd8549ceb6ea001777002ea68b77c33eae",
       "peak": 16.0,
       "probes": {
         "id": "menosx-14-sondas",
         "path": "interiores/convivencia/luz-horario/menosx-14-sondas.bin.gz",
-        "bytes": 19975,
-        "sha256": "883dc5c68f62b7556578b9a74ed0e81f53aad7571ebed4c0910da3555ba03bee",
+        "bytes": 19929,
+        "sha256": "16fd4d9dd7d6ffe69df2daa4531494175ee26df81cd14667de7d991d3d944a7d",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "c639174195297366644441a2442fdd4a12a2d3e1d9e44f9bb8e92b5e51e0c447"
+        "decodedSHA256": "84174bd4b69ebfb93cf0b196f1eaeef6de201483f651b974900ef2606e1d431f"
       }
     },
     {
@@ -449,24 +449,24 @@
       "sunIrradianceRGB": [
         149.74285888671875,
         122.97382354736328,
-        87.7971420288086
+        87.79714965820312
       ],
       "id": "menosx-16",
       "path": "interiores/convivencia/luz-horario/menosx-16.rgbm.gz",
-      "bytes": 1474159,
-      "sha256": "89765c1f6bda66ecb6236a12de017e0f408dc03528dba565a1dd000d4469b000",
+      "bytes": 1474152,
+      "sha256": "784c6a6ee8849d1b38dd7c93fafb90cd5927e1eecd35c551b10c7d5ca879f7ce",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "c926e1454ec689692c26ffb472bf94bb9564f0c4e3c0d78b6a2ccb0afaf5eb01",
+      "decodedSHA256": "ac3d89e3ab5957b7555ab3adf446db672ae3b3b8db5c3f7a8368918891f034ad",
       "peak": 12.924593925476074,
       "probes": {
         "id": "menosx-16-sondas",
         "path": "interiores/convivencia/luz-horario/menosx-16-sondas.bin.gz",
-        "bytes": 19935,
-        "sha256": "bee0cc9f4a75111f39d605051712817f656b2c4930b167eb2ea5af65e1b6688d",
+        "bytes": 19782,
+        "sha256": "f65e75de4da0e9701b337911752f736d24b5413785b2e20fdb422ed06727509d",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "fe97951676bbc76bcf73b59dc27e1f7be0f23ebe6228231542a93a4f972f45d4"
+        "decodedSHA256": "12f5621899ff0cef19982ff619c00ddb0cc58f8e8af819936d678c6968e1d637"
       }
     },
     {
@@ -478,25 +478,25 @@
       "sunStrength": 0.12450122889467755,
       "sunIrradianceRGB": [
         52.62834167480469,
-        21.737348556518555,
+        21.73734474182129,
         2.4389426708221436
       ],
       "id": "menosx-18",
       "path": "interiores/convivencia/luz-horario/menosx-18.rgbm.gz",
-      "bytes": 1378627,
-      "sha256": "f475be5e8d1d0f49412577ba58b793df39dbfb5514894a7191dc58f15c4b6d40",
+      "bytes": 1378606,
+      "sha256": "4cf74a7b5700f168ab3d62f5cfe5faf4c9aec2a13264184dbb3f4d31c387c5f2",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "750ca4447e560dc0271d731bef20c33f4fde9de8dea67dca5267ede8962acf5e",
-      "peak": 9.750208854675293,
+      "decodedSHA256": "60f145a6a710644acb89dd645c59add9f6f160322c51e56b7dc7f8f5b36eaf33",
+      "peak": 9.750210762023926,
       "probes": {
         "id": "menosx-18-sondas",
         "path": "interiores/convivencia/luz-horario/menosx-18-sondas.bin.gz",
-        "bytes": 20406,
-        "sha256": "26f09bcadd78024ba33f7d81dcf3f569cf474252c46832b8d7b3eb5738707f8b",
+        "bytes": 20358,
+        "sha256": "164f6aa37289096ef34e178850f74a1b4db1b0bb7199342a1c4b663b5fd8aafa",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "f7e4d8f61a2382a8cfc5f062ced0fddbd10576a07beeb92d5b1dd52e5ebc17de"
+        "decodedSHA256": "d6ad10ea86b1de3c14f9a924686422b90e9d96fbef7cae6e61460c8ecfba6b3a"
       }
     },
     {
@@ -508,25 +508,25 @@
       "sunStrength": 0.518882121866173,
       "sunIrradianceRGB": [
         94.46891784667969,
-        57.749996185302734,
+        57.750003814697266,
         21.139667510986328
       ],
       "id": "maisz-06",
       "path": "interiores/convivencia/luz-horario/maisz-06.rgbm.gz",
       "bytes": 1561796,
-      "sha256": "f7bb8f95d9b25d3707c653fb4a5dbfde5b59424f5bfcc5366ac0d87828717711",
+      "sha256": "c31d4102499102f0216d54ac9d801e66274d11f363a4183297b9070284fb5ae8",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "45e02a956d6a86094b5bee0230a9dcfff58655dcafdd270460423787a547aa72",
-      "peak": 7.654908180236816,
+      "decodedSHA256": "05d3f80dfcb93a871b3281228bac13168d07ac43a583cc37395c9f78303c347d",
+      "peak": 7.65491247177124,
       "probes": {
         "id": "maisz-06-sondas",
         "path": "interiores/convivencia/luz-horario/maisz-06-sondas.bin.gz",
-        "bytes": 20454,
-        "sha256": "59acc22ca5ba2491fce22fc8501f102b16047875be08143e1aac293b11c3250a",
+        "bytes": 20273,
+        "sha256": "5a91f07215e4075d751921d2dd3c2972d7e1eef23dd83d226c1ccb5386a145de",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "baecc022caa5f902f17d73a67d5aef0d2ffc6029f23cfd5f508fb3318c6c4e8b"
+        "decodedSHA256": "4740bfbd2df593f385baddb01c28fe3a1decd2f6d105f903afd7c710799dd4c6"
       }
     },
     {
@@ -538,25 +538,25 @@
       "sunStrength": 1,
       "sunIrradianceRGB": [
         152.68409729003906,
-        126.99754333496094,
-        93.23344421386719
+        126.99755859375,
+        93.23345947265625
       ],
       "id": "maisz-08",
       "path": "interiores/convivencia/luz-horario/maisz-08.rgbm.gz",
-      "bytes": 1498211,
-      "sha256": "489f888713fd2e301051e48942bd07b301ab5fcb186b3c5dd85f5ce8a1181685",
+      "bytes": 1498190,
+      "sha256": "95a171898d911ea595586e97f8f0c5a410b8fe55135f440c7c2dc1e31ede536e",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "2b8bf291a0d28fce7065f047953dcdeba0a740e78b3d61acbe20c95766e9a580",
-      "peak": 11.623564720153809,
+      "decodedSHA256": "1b58e1d9680508112a1f20bb5b3ac4ec6e5478c5ec824ae3befb971c2fb05e2d",
+      "peak": 11.62355899810791,
       "probes": {
         "id": "maisz-08-sondas",
         "path": "interiores/convivencia/luz-horario/maisz-08-sondas.bin.gz",
-        "bytes": 20193,
-        "sha256": "ccc048a35b2a090e07997279eb7300d80dad94885beb79a320ed58db03886aca",
+        "bytes": 20198,
+        "sha256": "dfbec0c54b9d32bd6b32b902df2af3757d1045d7d27f61b6d4a2fe46072e4655",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "3fe388068fbfb96bab144ccda061291f5c8a369aa3297eb154a2a73a110c56b1"
+        "decodedSHA256": "20148ff070e62dac712cf5f5c73556daad6e88bc5d7d6dd6b7bb6c8cb14330a1"
       }
     },
     {
@@ -568,25 +568,25 @@
       "sunStrength": 1,
       "sunIrradianceRGB": [
         161.737548828125,
-        139.2728729248047,
+        139.27288818359375,
         110.36334991455078
       ],
       "id": "maisz-10",
       "path": "interiores/convivencia/luz-horario/maisz-10.rgbm.gz",
-      "bytes": 1458472,
-      "sha256": "fe8e24f41f79664dde982b75267526c1753fd39ddb68ce043bb1684d03a8c70c",
+      "bytes": 1458497,
+      "sha256": "08e6104aae04d660b39b016eb64711af704b7b9b9a280a345c6c7a3c9e59e6e9",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "f8a7e678a052e377e1e424c81d0dcdeaa7c8f874ae4c61933249c090b40d3f07",
-      "peak": 10.376708030700684,
+      "decodedSHA256": "3adddfa98e7b2b6e8fedad6ccc6b2c9d5e49c44ad8a5e16d0ad6bc792e835465",
+      "peak": 10.376712799072266,
       "probes": {
         "id": "maisz-10-sondas",
         "path": "interiores/convivencia/luz-horario/maisz-10-sondas.bin.gz",
-        "bytes": 20088,
-        "sha256": "b29dfaf7b82797f306b5eea06136b327567534547f5e36d97689b7215cf05daa",
+        "bytes": 20146,
+        "sha256": "d985198b10a924cd1fddfca6c4017bc1d2a29a09cc6a49ed2d091dd4b388dbea",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "1cd7521bd0710565178f7b11e434a007c6191fc54bee0a650b45b4cfd393a4ea"
+        "decodedSHA256": "394659b6f9b7fc36902cc5c1b2e2816bb54d2f71b7f43f45bd6b3daaefd59451"
       }
     },
     {
@@ -598,25 +598,25 @@
       "sunStrength": 1,
       "sunIrradianceRGB": [
         163.33023071289062,
-        141.54110717773438,
-        113.7605209350586
+        141.5410919189453,
+        113.76053619384766
       ],
       "id": "maisz-12",
       "path": "interiores/convivencia/luz-horario/maisz-12.rgbm.gz",
-      "bytes": 1413886,
-      "sha256": "84dfcaf3a73fece277812c02567176cb5454ccf66df9b7453b6694e974f830b3",
+      "bytes": 1413893,
+      "sha256": "03b73d2e3c032994724b25d0454b2b3b1bba5fc84f4e832661243833a153829a",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "8d732c6896defd62b4921ad370649a4d0285cc419a40b27a42ead8efee99b535",
+      "decodedSHA256": "e157353296f8be7fc73a53d3d855ab6099ddbe48ed45a02d6033e8b35c806ecb",
       "peak": 16.0,
       "probes": {
         "id": "maisz-12-sondas",
         "path": "interiores/convivencia/luz-horario/maisz-12-sondas.bin.gz",
-        "bytes": 20091,
-        "sha256": "d639881c1fdcc99eb8b987e00513acf8f0ef02c2f1907008f8839f4e8584bcc0",
+        "bytes": 20129,
+        "sha256": "4e4716cf9a00b92288cf7221444d7f2e6fc3f91bfd3e069eb59dc33805d12859",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "b4253490f6f228e0730c4d10b10cf8b9228a09c3358cfc06770b62c8eabe9ea3"
+        "decodedSHA256": "ac10185f02e626b52422a013cf2097f1eeb43805d7ace09e393912c525734be3"
       }
     },
     {
@@ -629,24 +629,24 @@
       "sunIrradianceRGB": [
         160.82388305664062,
         138.07164001464844,
-        108.6942138671875
+        108.6942367553711
       ],
       "id": "maisz-14",
       "path": "interiores/convivencia/luz-horario/maisz-14.rgbm.gz",
       "bytes": 1548868,
-      "sha256": "d4abc5024a717c0e5a4d158f5149ab5c6901ed330d86102e34b546b8b2b77d49",
+      "sha256": "987f8ebc0907def6cb53a67269ff347e11e1077e2c17ac35b83dc3abc6554666",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "2c02de1c89dddf79e5d1301a438c12c678ffdf8f200ef7638319b6eb3db34120",
+      "decodedSHA256": "5037be01e7793c142d93aaef99a9c7a8263a8eabb482edc74a79394e36d36d7d",
       "peak": 16.0,
       "probes": {
         "id": "maisz-14-sondas",
         "path": "interiores/convivencia/luz-horario/maisz-14-sondas.bin.gz",
-        "bytes": 20256,
-        "sha256": "445f54e7db75020e0cc9f6d9c5020fc583ba7c963b453104d2085b0cd6d52b53",
+        "bytes": 20324,
+        "sha256": "77ee8a6385fa6464dcee60b109d5902e5dd4f447958624699d3d46fa4a99e84c",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "caf797c605d5fc5b4427ac0e54fcea22a014c179a080a570bb46095a0566a5d6"
+        "decodedSHA256": "4946aeb562ed2508807f570a9e730ba4671403297ee1622e9c7cda85de9d2ce1"
       }
     },
     {
@@ -664,19 +664,19 @@
       "id": "maisz-16",
       "path": "interiores/convivencia/luz-horario/maisz-16.rgbm.gz",
       "bytes": 1552484,
-      "sha256": "0a49c5a018eddfce1c9bc387cef0c1d846d2e6263c59a95d6b9921a4e9a5bdd6",
+      "sha256": "4f8084ed52ea165f1ee774a2ab058e67278d20706c5058462e03fb250ff91d4e",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "065185a8905ef839f2c604ffb05dffb20458aac56567b3fbf2d52295eade9533",
-      "peak": 13.89012622833252,
+      "decodedSHA256": "3f3e04bf33408abfe4906bfd892c4afa8621f7864003a77789ecacf95949ad14",
+      "peak": 13.890119552612305,
       "probes": {
         "id": "maisz-16-sondas",
         "path": "interiores/convivencia/luz-horario/maisz-16-sondas.bin.gz",
-        "bytes": 20224,
-        "sha256": "774ea04eff764dc27581dbdeb94d89d9ae4f97d2ef1ab108bce315d68a98fc81",
+        "bytes": 20188,
+        "sha256": "7a8a7d04fdd18e96a31d2ae11958a7d17a395de18b3184dc1e3a9d98d4256bb4",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "336393574296243acbb928e00021c715772788cd5750fb09f96cbfc7838bcd05"
+        "decodedSHA256": "ebf3ae19de8eaf55a41174f71e89518917d3e8413bd3041fb1eff84a49699706"
       }
     },
     {
@@ -693,20 +693,20 @@
       ],
       "id": "maisz-18",
       "path": "interiores/convivencia/luz-horario/maisz-18.rgbm.gz",
-      "bytes": 1417366,
-      "sha256": "c11bd9001fe61981320a086b613a29fc4d03135de77171282b3e579743bac64b",
+      "bytes": 1417358,
+      "sha256": "81506989b7f6b5da6c3d485b37a99ce080cd8a469a3e1e9ef432716edab900e9",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "3fad9e87e37192391a6b8965cd73f6110e24ee8efe7ebfc3228e2d613f0b9b74",
+      "decodedSHA256": "afe15297deac6823cd692faecf849764b06ddda47316b0fc7a33360068808546",
       "peak": 7.901000499725342,
       "probes": {
         "id": "maisz-18-sondas",
         "path": "interiores/convivencia/luz-horario/maisz-18-sondas.bin.gz",
-        "bytes": 20376,
-        "sha256": "ad83f860304b358490076b56b79334e696081aae826c1bd07b54f3dbd2c18bf8",
+        "bytes": 20444,
+        "sha256": "ea6b858419ee6699dda219dd7028b33ae3c414bfd418706b42ad6ecd62c259a0",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "2dc0ebbc5beef920507fab6be0243d4b0136758c4a8624e47a9b0eb26fc132e6"
+        "decodedSHA256": "49b5dce90ffa61c9684643569728e5936d5bbc21516fe36d9ae16400055ff6b3"
       }
     },
     {
@@ -717,26 +717,26 @@
       "daylight": 1,
       "sunStrength": 0.518882121866173,
       "sunIrradianceRGB": [
-        94.36160278320312,
+        94.36161804199219,
         57.76829147338867,
         21.233633041381836
       ],
       "id": "menosz-06",
       "path": "interiores/convivencia/luz-horario/menosz-06.rgbm.gz",
-      "bytes": 1494055,
-      "sha256": "936d8c26a19e7c3966fbb79ba3577e9fd46081ee93c07362e56ed07a1d56cfd9",
+      "bytes": 1494075,
+      "sha256": "6aa80a9e9c477aa23d4eca5fc94436d681be96d0bb2afa52c505de9aa5a850b7",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "888f53e094ce88969b77fa21598245767aa41183f0a7b0a724a8ed20dbbdeed5",
+      "decodedSHA256": "cae1e3680aaefabfc83d95a038b53eda3d3b9b99392dee7beb148fa0ba8f4bbd",
       "peak": 9.325580596923828,
       "probes": {
         "id": "menosz-06-sondas",
         "path": "interiores/convivencia/luz-horario/menosz-06-sondas.bin.gz",
-        "bytes": 20203,
-        "sha256": "9d4062d1958f9cc10c7b19f3352e432cf3a82cd9185ced4390c097b3e42e6a4f",
+        "bytes": 20172,
+        "sha256": "c5d2dfbe3d076369f00cae9750d3131361ecce9416bc5a9c13f040031c849942",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "05caaff6b65ab5451a57a129d47013cf94cb912ea22705e0789d5ece8fb6477e"
+        "decodedSHA256": "5f7b4ee82e809b41b2b3bc2ebebc6661ecef659122058945665dbbce27658fce"
       }
     },
     {
@@ -747,26 +747,26 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        152.91299438476562,
+        152.9129638671875,
         127.19145965576172,
         93.36590576171875
       ],
       "id": "menosz-08",
       "path": "interiores/convivencia/luz-horario/menosz-08.rgbm.gz",
-      "bytes": 1558908,
-      "sha256": "a1ab399131cf841f321bf32f6c5417319502f8c63c1aa8483fcb7a6db61eb6a8",
+      "bytes": 1558922,
+      "sha256": "d831f817f013c028dedf99d9584cf08870efeca273821929ed0419c94b097b39",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "22149d1c64372e4ee017946674f950e60e654c4ecfc188a0c0ebade67c9511fc",
-      "peak": 10.994476318359375,
+      "decodedSHA256": "9f5b2c6aba2b9a7cfdc4c731874b9da6f894b1ce8f973077dc5d64fcfd45ba96",
+      "peak": 10.994479179382324,
       "probes": {
         "id": "menosz-08-sondas",
         "path": "interiores/convivencia/luz-horario/menosz-08-sondas.bin.gz",
-        "bytes": 20217,
-        "sha256": "9df614739b550f1969dffbe4c85e590a13b59051c331e65c32fe93d0873371ec",
+        "bytes": 20295,
+        "sha256": "1cdf371975a13369bc1ba72b2fc8f1bef59d5e229abbcc57c6c5ad60f956b622",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "3a69136d4a8d42e523a6d015b3a7a6b778cdbd2397155eec89e3a140a44cc19f"
+        "decodedSHA256": "61882c3d346b622a0b8255e550a172e4903d041d9ad945da8f7d99072aa23183"
       }
     },
     {
@@ -777,26 +777,26 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        161.65478515625,
-        139.22032165527344,
+        161.65480041503906,
+        139.2203369140625,
         110.31343841552734
       ],
       "id": "menosz-10",
       "path": "interiores/convivencia/luz-horario/menosz-10.rgbm.gz",
-      "bytes": 1538016,
-      "sha256": "0984f310d3619b0d3ccaf774624f90d72079f160d1902328954cc4156490d8ab",
+      "bytes": 1538034,
+      "sha256": "d06bc7fcfc285d987d43bcac9a9e815b33306b30025ce46856efbb314da07e2b",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "0743f9bbc59882dd907ff4b38c8c0c04a2ab80f1dec577b81ca7242a1dc93a24",
+      "decodedSHA256": "f2aad069b4b16526146fa99e935836440ca62601ff8c725ba7105ad2a4b3aa26",
       "peak": 16.0,
       "probes": {
         "id": "menosz-10-sondas",
         "path": "interiores/convivencia/luz-horario/menosz-10-sondas.bin.gz",
-        "bytes": 20204,
-        "sha256": "fb7cff7a8c2ddf6351a6cbf42adbdf7db33a1c8179034f93464fd1fb5fc760d6",
+        "bytes": 20212,
+        "sha256": "cd4e5d3e99fcf275401db5cd66d1f555198ff3e61688f39335a62c25b5100fbd",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "40ed93f96713d2f6dada9673b76b5072ab8e6cd10001575fc14229edf02b9937"
+        "decodedSHA256": "7537661ff9b4513dac8312e5f1492f06ae08a05c81df634be52629f0af76479f"
       }
     },
     {
@@ -813,20 +813,20 @@
       ],
       "id": "menosz-12",
       "path": "interiores/convivencia/luz-horario/menosz-12.rgbm.gz",
-      "bytes": 1502872,
-      "sha256": "7b36fc848c97b33efba77023ccbc8e13003b6efe92f509dd31570fb857991bb8",
+      "bytes": 1502890,
+      "sha256": "036ce071d9c54fd5ec1c742d179fbd233f20c50e9b1545acc9b6b9c1cc42fed0",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "46dacf54440662b7189b4f4bbaf0c8bf03befbe9560dd2fa9db3c64bb3ddcd2d",
+      "decodedSHA256": "3d2b659ff9fa27121c1513e5a08b841cf6054dfa39d06dd6536b6a67dd64427d",
       "peak": 16.0,
       "probes": {
         "id": "menosz-12-sondas",
         "path": "interiores/convivencia/luz-horario/menosz-12-sondas.bin.gz",
-        "bytes": 20012,
-        "sha256": "aa6812f55f393de54cad66c12746d74e84874bb51b6bf70a157c8c863c25ef5f",
+        "bytes": 19993,
+        "sha256": "bbd850b25ceaf1de15f34d5f66d9500d94459f15df4dba29657a2a892599450d",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "a68868718838978ecb406444c5bd3b21457553fe73ea3c8652fe5585fe29e26f"
+        "decodedSHA256": "5bf98c0a1455b3ed922e478b84206114c465fbe491408d39a6e9592080d9a9b3"
       }
     },
     {
@@ -839,24 +839,24 @@
       "sunIrradianceRGB": [
         160.84019470214844,
         138.12557983398438,
-        108.804931640625
+        108.80494689941406
       ],
       "id": "menosz-14",
       "path": "interiores/convivencia/luz-horario/menosz-14.rgbm.gz",
-      "bytes": 1494904,
-      "sha256": "cfd349a7018845de173f7854ecc26aa9f17c08e59534e2bb0743c5e437539749",
+      "bytes": 1494877,
+      "sha256": "f456f6d25ca27933499e78a1a04b083a3af5adecf0f8b4099b574d0b6a6ae22a",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "6c09f4798f4f7a619d2e30aab493b2075b0f0b0784e0f11c02b9a0a7f7437216",
+      "decodedSHA256": "26a1b8062ca440015c4c3df9d6ba779ca22df338050f75652ac8c37694ae3790",
       "peak": 16.0,
       "probes": {
         "id": "menosz-14-sondas",
         "path": "interiores/convivencia/luz-horario/menosz-14-sondas.bin.gz",
-        "bytes": 20066,
-        "sha256": "a72ea0cc3a67e8cc3878858d31ccfa97c2d4045c4a1ffa6931390be490371b1a",
+        "bytes": 20092,
+        "sha256": "565f0ef2fcff51a480f89e15d50f0444321e80086bec31aa639cff39d0db6f53",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "1cbd31e1a77c5f28ec1ab04aa56fcdc4c21821c8e1b8fbeabf9238c3b68ea846"
+        "decodedSHA256": "a83425741a918c18576d77b3a2536c1894e1602a073ff577d361120c8dd21875"
       }
     },
     {
@@ -867,26 +867,26 @@
       "daylight": 1,
       "sunStrength": 1,
       "sunIrradianceRGB": [
-        149.50257873535156,
-        122.7319107055664,
+        149.50259399414062,
+        122.73190307617188,
         87.56439971923828
       ],
       "id": "menosz-16",
       "path": "interiores/convivencia/luz-horario/menosz-16.rgbm.gz",
-      "bytes": 1496517,
-      "sha256": "9995e66596ce5129b788d7acf3bb93b863e427626d4dbf023181ebe491eac6c6",
+      "bytes": 1496518,
+      "sha256": "1d3f07306e97a125e3b89e8598d1fb62f9681441654363ca088845a6dc173d76",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "a9701af446fe120dc487fad61c7c4febbe97b686ca402f0f576d8f2800a9cb39",
-      "peak": 8.396590232849121,
+      "decodedSHA256": "1f7c8f17b826196659b7d65e200e5198eddf5feb1f45b4cf523f6e6585844301",
+      "peak": 8.39657974243164,
       "probes": {
         "id": "menosz-16-sondas",
         "path": "interiores/convivencia/luz-horario/menosz-16-sondas.bin.gz",
-        "bytes": 20227,
-        "sha256": "6dc8c143d3db04cb10f59c4dfabcce7f83a7c4240539890193748fc830eef9c6",
+        "bytes": 20215,
+        "sha256": "8bd302b4b143a12ff59504c41861823efbdd29adee8dff319c9eb9d42f15e882",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "f63f0a36fff7618383dac3a36c79bc503c97c46f6526cb835620168785a6e79b"
+        "decodedSHA256": "6ebe7133d0d46c1560bb573a07f7823ded1460cbbd6c9e1e047944cc233511d8"
       }
     },
     {
@@ -897,26 +897,26 @@
       "daylight": 0.8716632758569401,
       "sunStrength": 0.12450122889467755,
       "sunIrradianceRGB": [
-        52.56645965576172,
+        52.56646728515625,
         21.66230010986328,
         2.3917629718780518
       ],
       "id": "menosz-18",
       "path": "interiores/convivencia/luz-horario/menosz-18.rgbm.gz",
-      "bytes": 1562928,
-      "sha256": "638d3c772cd0f769bb02ec9cd7b86b8a57b78f783a6e774dba1a4b4ac932a847",
+      "bytes": 1562922,
+      "sha256": "b383bfc9dcffcd51e13530c1af298c1afefcdbe1e71ccc34812ee5e9134e1f48",
       "compression": "gzip",
       "decodedBytes": 4194304,
-      "decodedSHA256": "953b4317077656f46527da4a46bb08c045b25b9a72231f7244be361772dced46",
-      "peak": 7.299164772033691,
+      "decodedSHA256": "db7b73f12b2ba03d2167f084bdb8848d3101c63a3cb614ae6b901249060d5720",
+      "peak": 7.299157619476318,
       "probes": {
         "id": "menosz-18-sondas",
         "path": "interiores/convivencia/luz-horario/menosz-18-sondas.bin.gz",
-        "bytes": 20448,
-        "sha256": "119fe7c6573694137bb6ed3d239b67d52318df7dfa236666d107eb16a28de4ef",
+        "bytes": 20382,
+        "sha256": "23c59ad45a31c47f042e32cd0ae40a3e2eb3f029a67b938e00e63005fe9f2375",
         "compression": "gzip",
         "decodedBytes": 27648,
-        "decodedSHA256": "2355e00321b5a787ade9f1c481fbf422dca70b4039c3bcea7d29a335baa46d37"
+        "decodedSHA256": "8db5547e905a498cfcd19ce3f04b6e64c02de52246e2fcc4d1193d8e60dedc9d"
       }
     }
   ],
@@ -925,19 +925,19 @@
     "id": "noite",
     "path": "interiores/convivencia/luz-horario/noite.rgbm.gz",
     "bytes": 1316230,
-    "sha256": "506139fc74dc84e4377968bb6ccdc5e0ddad47a70447bf5720098094ff9eeab2",
+    "sha256": "17033d98439e59b3f5fc3ee1dbc99af41bc89b952d2650dd2d42f5a255d67387",
     "compression": "gzip",
     "decodedBytes": 4194304,
-    "decodedSHA256": "72e93f498f05f2989e23c8b3a75dd5d94c567182f90665f337e08860d7c2f979",
+    "decodedSHA256": "25716837734952a311fc5c437af8a83361b91aa2b0f8e893661d62176883f1c6",
     "peak": 1.4065221548080444,
     "probes": {
       "id": "noite-sondas",
       "path": "interiores/convivencia/luz-horario/noite-sondas.bin.gz",
-      "bytes": 17893,
-      "sha256": "fcb5772d335c07e59efc55d8582a8fdf23a2083a170a8bdbc3aa322b19a0b8b5",
+      "bytes": 19964,
+      "sha256": "559813ecd4c45f21a19519c65f142f0bbbeaa2a00bc7a8fdabceb9fd0e4075b7",
       "compression": "gzip",
       "decodedBytes": 27648,
-      "decodedSHA256": "63364ded992a28de287a392b7de3a8c89cf3492c4114a44c0ea029e694418058"
+      "decodedSHA256": "fe47a8c9926ef58d27ba2800e008fde1ea7fc2b60dfb509d660b57ff8685d62b"
     }
   }
 }

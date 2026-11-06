@@ -30,7 +30,15 @@ sys.path.insert(0, str(REPO / 'v1.5/miniaturas/liv-ipanema/interior'))
 from bake_luz import BASIS, compute_device, create_material, topology  # noqa: E402
 
 spec = importlib.util.spec_from_file_location('liv_horario', LIV_LUZ / 'bake-luz-horario.py')
-liv = importlib.util.module_from_spec(spec); spec.loader.exec_module(liv)
+liv = importlib.util.module_from_spec(spec)
+# A grade de sondas do LIV vai de 0,15 a 2,55 m, feita para o pé-direito dele. O container tem 2,35 m: a camada
+# de 2,55 ficava acima do forro, via o céu, e a sanca (2,3 m, lida pelas sondas) acendia como uma faixa branca.
+# Aqui o topo é o pé-direito da fonte menos 0,15 m (mesma folga do piso).
+SONDA_LIV = 'ys = np.linspace(.15, 2.55, PROBE_LEVELS)'
+_texto = spec.loader.get_data(str(LIV_LUZ / 'bake-luz-horario.py')).decode('utf8')
+if _texto.count(SONDA_LIV) != 1:
+    raise SystemExit('O bake do LIV mudou: a grade de sondas não está mais em ' + SONDA_LIV)
+exec(compile(_texto.replace(SONDA_LIV, 'ys = np.linspace(.15, PROBE_TOP, PROBE_LEVELS)'), spec.origin, 'exec'), liv.__dict__)
 SCENE = liv.SCENE
 
 
@@ -272,6 +280,7 @@ def main():
             window['wallId'] = min(rooms, key=gap)['id'] + '-' + face
             print('LARANJEIRAS_LUZ_JANELA', window['id'], room_id, '->', window['wallId'], flush=True)
     portals = liv.add_portals(scene, plan, center, rooms)
+    liv.PROBE_TOP = source['height'] - .15
     probes, probe_image, probe_spec = liv.build_probes(scene, rooms, bpy.context.evaluated_depsgraph_get())
     out.mkdir(parents=True, exist_ok=True)
     (out / 'sondas.json').write_text(json.dumps(probe_spec), encoding='utf8')

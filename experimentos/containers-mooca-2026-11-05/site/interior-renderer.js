@@ -84,6 +84,35 @@ function prepareLighting(){
   return job;
 }
 function own(value){if(value&&!owned.has(value)){owned.add(value);state.ownership.created++;}return value;}
+/** Containers: a parede do caderno é reboco quente e manchado (render 10: média ~#AFA99E, vermelho 15 acima do
+ * azul); a do LIV é cinza neutro liso (#DDDDD8) e, sob o céu, saía azulada (#C7CCCF). Tinge a `web-wall`
+ * (parede e forro) e põe uma mancha larga e fraca, gerada aqui (128 px, sem arquivo), que repete a cada 2 m. */
+const REBOCO={cor:'#e3d9c8',repeticaoM:2,manchas:[[4,.07],[16,.025]]};
+/** Containers: exposição e balanço de branco do caderno. Com exposição 1 a parede caía no ombro da curva de cor
+ * (tela ~200, e escurecer a cor 24% mexia só 4%); 0,6 leva a parede a ~185, perto dos ~175 do render 10. O céu
+ * deixava a luz azul (verde e azul acima do vermelho); o ganho quente antes da curva devolve o tom de reboco. */
+const OLHAR={exposicao:.6,balanco:[1.22,1,.76]};
+function rebocoDoCaderno(scene){
+  const N=128,data=new Uint8Array(N*N*4),hash=(x,y,s)=>{const v=Math.sin(x*127.1+y*311.7+s*74.7)*43758.5453;return v-Math.floor(v);};
+  const ruido=(x,y,p,s)=>{  // valor suave, periódico em p células: emenda sem costura na repetição
+    const fx=x*p/N,fy=y*p/N,ix=Math.floor(fx),iy=Math.floor(fy),tx=fx-ix,ty=fy-iy,sx=tx*tx*(3-2*tx),sy=ty*ty*(3-2*ty);
+    const h=(i,j)=>hash((ix+i)%p,(iy+j)%p,s);
+    return (h(0,0)*(1-sx)+h(1,0)*sx)*(1-sy)+(h(0,1)*(1-sx)+h(1,1)*sx)*sy-.5;
+  };
+  let soma=0;
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){
+    const v=Math.round(230*(1+REBOCO.manchas.reduce((a,[p,amp],s)=>a+2*amp*ruido(x,y,p,s),0))),i=(y*N+x)*4;
+    data[i]=data[i+1]=data[i+2]=v;data[i+3]=255;soma+=((v/255+.055)/1.055)**2.4;
+  }
+  const media=soma/(N*N),mapa=own(new THREE.DataTexture(data,N,N));
+  mapa.colorSpace=THREE.SRGBColorSpace;mapa.wrapS=mapa.wrapT=THREE.RepeatWrapping;mapa.repeat.set(1/REBOCO.repeticaoM,1/REBOCO.repeticaoM);
+  mapa.magFilter=THREE.LinearFilter;mapa.minFilter=THREE.LinearMipmapLinearFilter;mapa.generateMipmaps=true;mapa.needsUpdate=true;
+  const feitos=new Set();
+  scene.traverse(mesh=>{if(mesh.isMesh)for(const m of [mesh.material].flat())if(m.name==='web-wall'&&!feitos.has(m)){
+    feitos.add(m);m.map=mapa;m.color.set(REBOCO.cor).multiplyScalar(1/media);m.needsUpdate=true;
+  }});
+  state.reboco={materiais:feitos.size,mediaLinear:+media.toFixed(3)};
+}
 function createRenderer(options){
   const value=own(classicRequested?createClassicInteriorRenderer(options):new THREE.WebGPURenderer(options)),setLoop=value.setAnimationLoop.bind(value);
   // r186's dispose calls setAnimationLoop without awaiting it. A null loop
@@ -708,7 +737,7 @@ async function start(){
   await initializeRenderer(renderer);
   check();setBakedMaterialBackend(Boolean(renderer.isClassicInteriorRenderer));state.backend=renderer.backend.isWebGPUBackend?'webgpu':'webgl';if(requested==='webgpu'&&state.backend!=='webgpu')throw Error('O backend WebGPU exigido não foi ativado.');
   renderer.onError=error=>fail(error);renderer.onDeviceLost=info=>fail(Error(`Dispositivo gráfico perdido: ${info?.message||info?.reason||'desconhecido'}`));
-  renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.toneMapping=THREE.AgXToneMapping;renderer.toneMappingExposure=1;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.toneMapping=THREE.AgXToneMapping;renderer.toneMappingExposure=OLHAR.exposicao;(renderer.whiteBalance||(renderer.whiteBalance=new THREE.Vector3())).set(...OLHAR.balanco);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
   progress('Baixando o interior selecionado…');
   const response=await fetch(new URL('interiores/catalogo.json',base),{signal:controller.signal});if(!response.ok)throw Error(`Catálogo interior: HTTP ${response.status}.`);catalog=await response.json();check();
   if(catalog.schema!=='liv-interior-catalog-v1'||!catalog.tipologias?.[typology])throw Error('Tipologia interior ausente do catálogo.');record=catalog.tipologias[typology];
@@ -774,6 +803,7 @@ async function start(){
   // A espelhada usa os móveis aprovados da planta original.
   const baseTypology=typology.replace(/-espelhado$/,'');
   improvements.replaceFurniture(furniture,scene,baseTypology,walls);improvements.applyFinishes(native,scene,finishIds(record));
+  rebocoDoCaderno(scene);
   improvements.addDecorations(furniture,scene,baseTypology);
   for(const target of baked)target.originalMaterial=target.mesh.material;
   if(timeLight){
@@ -782,7 +812,7 @@ async function start(){
     progress('Baixando a luz gravada do horário…','luz');
     await timeLight.ensure(timeOfDay).catch(error=>{state.timeLightError=String(error.message||error);});check();
   }
-  state.cornice=installCornice({scene,layout,own,baked}).metrics;
+  state.cornice=installCornice({scene,layout,own,baked,color:REBOCO.cor}).metrics;
   // Keep the nominal hierarchy before any presentation cut, including finishes
   // that must contribute to the exported light transport of the new Meio bake.
   if(record.geometryKind==='native-factories')state.authoringScene=scene.clone();

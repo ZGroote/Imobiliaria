@@ -1,5 +1,5 @@
 import * as THREE from 'three/webgpu';
-import {Fn,texture3D} from 'three/tsl';
+import {Fn,texture3D,uniform} from 'three/tsl';
 
 function validate(record){
   if(record?.schema!=='liv-color-look-log3d-v1'||!Number.isInteger(record.edge)||record.edge<2||record.edge>128||
@@ -37,9 +37,10 @@ export async function installInteriorLook({renderer,base,record,signal,own=value
     texture.name='LIV · AgX Medium Low Contrast aprovado';texture.type=THREE.HalfFloatType;texture.format=THREE.RGBAFormat;
     texture.colorSpace=THREE.NoColorSpace;texture.minFilter=texture.magFilter=THREE.LinearFilter;
     texture.wrapS=texture.wrapT=texture.wrapR=THREE.ClampToEdgeWrapping;texture.generateMipmaps=false;texture.flipY=false;texture.needsUpdate=true;
+    const balance=uniform(renderer.whiteBalance||(renderer.whiteBalance=new THREE.Vector3(1,1,1)));  // Containers: balanço de branco
     const lookup=texture3D(texture),lo=record.domainMinEV,span=record.domainMaxEV-lo,size=record.edge;
     const toneMapping=Fn(([color,exposure])=>{
-      const normalized=color.mul(exposure).max(2**lo).log2().sub(lo).div(span).clamp(0,1);
+      const normalized=color.mul(exposure).mul(balance).max(2**lo).log2().sub(lo).div(span).clamp(0,1);
       return lookup.sample(normalized.mul((size-1)/size).add(.5/size)).rgb;
     });
     if(renderer.installInteriorLook)renderer.installInteriorLook({texture,lo,span,size});
