@@ -6,10 +6,12 @@ os.chdir(sys.argv[1])
 F = "../../../plantas_fornecidas/containers-mooca/fonte/"
 SHA = {"ind": "873a21addabcd8c54a9b1ba9a4935b397425a761c4ce57403bf9509d84b6844c",
        "casal": "5ff30a5f04636a579e2e30a4307dde2726072d7b5e48e59dae1abd858d77098b",
-       "q": "4674ddb731e7913f5bb36a7a8d67ee84ee8e7be16e6169a9a66ed7a95c454066"}
-IMG = {"ind": F+"dorm-individual-pne-e-individual.png", "casal": F+"dorm-casal.png", "q": F+"dorm-quadruplo-e-casal-bebe.png"}
+       "q": "4674ddb731e7913f5bb36a7a8d67ee84ee8e7be16e6169a9a66ed7a95c454066",
+       "comuns": "41ae76bf271d80c4f1aa6d9d062ed87d59a183ac0a24b13e27308a460cbc4231"}
+IMG = {"ind": F+"dorm-individual-pne-e-individual.png", "casal": F+"dorm-casal.png", "q": F+"dorm-quadruplo-e-casal-bebe.png",
+       "comuns": F+"areas-comuns-b.png"}
 C6, C12 = 6.058*2.438, 12.192*2.438
-cores = {"parede": "#E6E3DC", "piso_frio": "#C9C7C2", "piso_madeira": "#B08A62", "teto": "#EFEDE8"}
+cores = {"parede": "#E6E3DC", "piso_frio": "#C9C7C2", "piso_madeira": "#C9A57B", "teto": "#EFEDE8"}
 LIM = ["Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas.",
        "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
        "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
@@ -18,7 +20,8 @@ LIM = ["Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m²,
 
 # Tapete no espaço livre de cada quarto: o atlas de luz do LIV (auditar_cena.py) exige um tapete por planta.
 TAPETE = {"individual": (1462, 1180, 800, 1400), "individual-pne": (660, 1000, 1000, 1200), "casal": (1770, 1400, 1200, 1000),
-          "quadruplo": (1300, 450, 2000, 1000), "casal-bebe": (1060, 1540, 1400, 800)}
+          "quadruplo": (1300, 450, 2000, 1000), "casal-bebe": (1060, 1540, 1400, 800),
+          "refeitorio": (1056, 1462, 1600, 2000), "convivencia": (1990, 940, 1100, 1600)}
 
 
 def W(nome, img, area, contorno, comodos, aberturas, moveis, titulo, ficha, lim):
@@ -44,7 +47,10 @@ def J(c, l, de, ate, h=1200, p=1000):
 
 
 def M(cat, x, y, rot, w, d, cor, nome):
-    return {"catalogo": cat, "x": x, "y": y, "rot": rot, "w": w, "d": d, "cor": cor, "nome": nome}
+    m = {"catalogo": cat, "x": x, "y": y, "rot": rot, "w": w, "d": d, "cor": cor, "nome": nome}
+    if cat == "guardaroupa":
+        m["h"] = 2300  # o padrão é o pé-direito (2,35 m) medido da laje: com o piso, furava o forro em 3 cm
+    return m
 
 
 MAD, BR, TEC, BOX, BANC = "#A57A52", "#F2F1EE", "#D9D4CC", "#DDE5E4", "#C9C3BA"
@@ -111,4 +117,26 @@ W("casal-bebe", "q", C12, [620, 1355, 2335, 1700],
   "Containers da Mooca · dormitório casal com bebê · 29,7 m²",
   {"tipo": "casal-bebe", "area_publicada_m2": 29.7, "quartos": 1, "banheiros": 1, "aluguel_mensal": 900},
   ["O berço é uma cama de solteiro pequena (o catálogo não tem berço)."])
+# Áreas comuns (folha areas-comuns-b, 1:50): as duas das imagens de referência do caderno. Sem aluguel.
+# Refeitório (6 m), em pé: x 915..1197, y 1102..1822. Abre a leste para o refeitório coberto (pergolado).
+W("refeitorio", "comuns", C6, [915, 1102, 1197, 1822],
+  [{"nome": "Refeitório", "partes": [[915, 1102, 1197, 1822]]}],
+  [D("Refeitório", "east", 1540, 1640), J("Refeitório", "east", 1130, 1500, 1500, 600), J("Refeitório", "east", 1665, 1800, 1500, 600),
+   J("Refeitório", "west", 1250, 1700)],
+  [M("mesa-jantar-4", 1050, 1250, 90, 1200, 800, MAD, "Mesa 1"), M("mesa-jantar-4", 1050, 1462, 90, 1200, 800, MAD, "Mesa 2"),
+   M("mesa-jantar-4", 1050, 1690, 90, 1200, 800, MAD, "Mesa 3")],
+  "Containers da Mooca · refeitório · 14,8 m²",
+  {"tipo": "refeitorio", "area_publicada_m2": 14.8, "quartos": 0, "banheiros": 0, "uso": "área comum"},
+  ["As 3 mesas redondas de 6 lugares do caderno viraram mesas de 4 lugares do catálogo (não há mesa redonda)."])
+# Convivência (6 m), em pé: x 1892..2165, y 425..1125. Abre a oeste para o refeitório coberto.
+W("convivencia", "comuns", C6, [1892, 425, 2165, 1125],
+  [{"nome": "Convivência", "partes": [[1892, 425, 2165, 1125]]}],
+  [D("Convivência", "west", 760, 860), J("Convivência", "west", 450, 640, 1500, 600), J("Convivência", "west", 900, 1100, 1500, 600),
+   J("Convivência", "south", 1930, 2125)],
+  [M("sofa-3", 2096, 560, 270, 1960, 920, TEC, "Sofá"), M("poltrona", 2103, 840, 270, 800, 800, "#55595D", "Poltrona 1"),
+   M("criado", 2120, 940, 270, 450, 400, MAD, "Mesinha"), M("poltrona", 2103, 1040, 270, 800, 800, "#55595D", "Poltrona 2"),
+   M("poltrona", 1954, 700, 90, 800, 800, "#B9B2A8", "Pufe")],
+  "Containers da Mooca · sala de convivência · 14,8 m²",
+  {"tipo": "convivencia", "area_publicada_m2": 14.8, "quartos": 0, "banheiros": 0, "uso": "área comum"},
+  ["Os pufes redondos do caderno viraram uma poltrona clara (o catálogo não tem pufe)."])
 print("ok")

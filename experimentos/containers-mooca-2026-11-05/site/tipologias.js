@@ -12,6 +12,8 @@ export const typologies=Object.freeze({
   casal:tipo('casal','Casal','14,8 m²','6 m','cama de casal, copa, escrivaninha e banheiro'),
   quadruplo:tipo('quadruplo','Quádruplo','29,7 m²','12 m','dois beliches, bancada de estudo para 4, copa e banheiro'),
   'casal-bebe':tipo('casal-bebe','Casal com bebê','29,7 m²','12 m','cama de casal, berço, estudo, copa e banheiro'),
+  refeitorio:tipo('refeitorio','Refeitório','14,8 m²','6 m','mesas para as refeições, aberto para o refeitório coberto'),
+  convivencia:tipo('convivencia','Sala de convivência','14,8 m²','6 m','sofá, poltronas e mesinha, aberta para o refeitório coberto'),
 });
 export function typology(id){
   if(!Object.hasOwn(typologies,id))throw Error('Tipologia inválida.');

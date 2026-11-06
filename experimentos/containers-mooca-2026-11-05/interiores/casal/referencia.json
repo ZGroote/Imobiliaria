@@ -35,13 +35,13 @@
     "A banheira do caderno virou o box do catálogo (o catálogo não tem banheira)."
   ],
   "captura": {
-    "construtorSHA256": "bfc8a7f45d9221b711f1810527e9c6aa2e5359e1d3ec7f891fb11ff3f02417ec",
+    "construtorSHA256": "b0b29a9032fb6e65933909944fc2c6adbf942333cb17cd249ebd012e94b83b93",
     "inputsSHA256": {
-      "planta.json": "05d082082967a5db3d0e93d2af031eb789e7a05ce37fc3c6109d4b146bff6f60",
+      "planta.json": "07a7585178591153a56e2508a72657878315e22d59c5d90dd030f371b62a9e85",
       "leitura.json": "20653095e67e3a5f7caf7a4fa7480281097a40769b37502a4f9cba4de445dc31",
       "projeto-planta.json": "afb85d01fe39de4bf5cae01eebd901c168627980c41f07689f3913d87fd7f00d",
       "moveis.json": "2eba210010cd58ef22d7ca7e38c5475dd1f1e4f3ac1bdff91540801cc0e58d91",
-      "contexto.json": "f423e5242b5d01f8e3af5727e6a1f45c82b2b008a978e812fc1fa7588d3d43de"
+      "contexto.json": "8d6e880ac2eeac0928621bacf02f1ec455a35112b4573fcdeab27b03c76de1bb"
     }
   },
   "contagens": {

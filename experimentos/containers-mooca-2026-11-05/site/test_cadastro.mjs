@@ -7,10 +7,10 @@ import {typology} from './tipologias.js';
 
 const catalog=JSON.parse(readFileSync(new URL('../assets/unidades.json',import.meta.url),'utf8'));
 
-test('20 dormitórios: 8 no térreo, 12 no 1º pavimento, tipos e aluguel do caderno', () => {
+test('20 dormitórios + 2 áreas comuns: 10 no térreo, 12 no 1º pavimento, tipos e aluguel do caderno', () => {
   validateUnits(catalog);
-  assert.equal(catalog.units.length, 20);
-  assert.equal(catalog.units.filter(u => u.floorIndex === 0).length, 8);
+  assert.equal(catalog.units.length, 22);
+  assert.equal(catalog.units.filter(u => u.floorIndex === 0).length, 10);
   const porTipo = {};
   for (const u of catalog.units) {
     typology(u.typology);
@@ -18,7 +18,9 @@ test('20 dormitórios: 8 no térreo, 12 no 1º pavimento, tipos e aluguel do cad
     assert.equal(u.areaM2, u.container === 'c12' ? 29.7 : 14.8, u.id);
     assert.ok(u.bounds.max[1] - u.bounds.min[1] > 2.5, u.id);
   }
-  assert.deepEqual(porTipo, {individual: 12, 'individual-pne': 2, casal: 2, quadruplo: 3, 'casal-bebe': 1});
+  assert.deepEqual(porTipo, {individual: 12, 'individual-pne': 2, casal: 2, quadruplo: 3, 'casal-bebe': 1, refeitorio: 1, convivencia: 1});
+  // Área comum não tem aluguel; dormitório tem.
+  for (const u of catalog.units) assert.equal(u.rentMonthlyBRL === null, u.typologyLabel === 'Área comum', u.id);
   // Containers não se cruzam: caixas do mesmo nível sem sobreposição.
   for (const a of catalog.units) for (const b of catalog.units) {
     if (a === b || a.floorIndex !== b.floorIndex) continue;

@@ -56,10 +56,13 @@ def vista(tipo, alvo, th, ph, r, fov=34, **extra):
     return v
 
 
-AREA = {'individual': 14.8, 'individual-pne': 14.8, 'casal': 14.8, 'quadruplo': 29.7, 'casal-bebe': 29.7}
-ALUGUEL = {'individual': 500, 'individual-pne': 500, 'casal': 800, 'quadruplo': 1000, 'casal-bebe': 900}
+AREA = {'individual': 14.8, 'individual-pne': 14.8, 'casal': 14.8, 'quadruplo': 29.7, 'casal-bebe': 29.7, 'refeitorio': 14.8, 'convivencia': 14.8}
+ALUGUEL = {'individual': 500, 'individual-pne': 500, 'casal': 800, 'quadruplo': 1000, 'casal-bebe': 900, 'refeitorio': None, 'convivencia': None}
 NOME = {'individual': 'Individual', 'individual-pne': 'Individual PNE', 'casal': 'Casal', 'quadruplo': 'Quádruplo',
-        'casal-bebe': 'Casal com bebê'}
+        'casal-bebe': 'Casal com bebê', 'refeitorio': 'Área comum', 'convivencia': 'Área comum'}
+
+
+COMUNS = {'c02': ('refeitorio', '+x'), 'c04': ('convivencia', '-x')}
 
 
 def cadastro(md, sha_modelo):
@@ -80,15 +83,19 @@ def cadastro(md, sha_modelo):
                'bounds': caixa(c)} for c in md['containers']]
     units = []
     for c in md['containers']:
-        if not c['id'].startswith('d'):
+        comum = COMUNS.get(c['id'])                       # área comum com interior (refeitório e convivência)
+        if not c['id'].startswith('d') and not comum:
             continue
         x, z = c['centro']
         pe = c['larguraX'] < c['profundidadeZ']          # comprido no sentido norte-sul: o lado comprido dá para ±x
         lado = ('+' if (x if pe else z) > 0 else '-')+('x' if pe else 'z')
         tipo = c['uso']
+        if comum:
+            tipo, lado = comum                            # o lado é o do vidro grande, voltado ao refeitório coberto
         units.append({
             'id': f'containers-mooca/{c["id"]}/pavimento-{c["nivel"]:02d}/final-{c["id"][1:]}', 'tower': c['id'],
-            'towerIndex': next(i for i, t in enumerate(torres) if t['id'] == c['id']), 'towerName': f"Dormitório {c['id'][1:]}",
+            'towerIndex': next(i for i, t in enumerate(torres) if t['id'] == c['id']),
+            'towerName': c['uso'] if comum else f"Dormitório {c['id'][1:]}",
             'final': c['id'][1:], 'floorIndex': c['nivel'],
             'side': f'{c["id"]}:{lado}', 'sideLabel': 'Lado comprido do container',
             'bounds': caixa(c),

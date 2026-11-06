@@ -130,6 +130,9 @@ def main(tipologia):
     if errors:
         raise ValueError(errors)
     result = unidade(derived, wrapped['pedido'], context)
+    # Caderno: piso de madeira tauari nos dormitórios; o banho fica com o piso frio.
+    for room in result['planta']['comodos']:
+        room['piso'] = 'frio' if 'banho' in room['nome'].lower() else 'madeira'
     payload = serializar(result)
     tmp = pasta/'unidade.json.tmp'
     tmp.write_bytes(payload)

@@ -14,7 +14,7 @@ export function validateUnits(data) {
     if(!/^\d{2}$/.test(unit.final)||!towers.has(unit.tower)||ids.has(unit.id)||
       unit.id!==`containers-mooca/${unit.tower}/pavimento-${String(unit.floorIndex).padStart(2,'0')}/final-${unit.final}`||
       !Number.isInteger(unit.floorIndex)||unit.floorIndex<0||unit.floorIndex>=data.floors||
-      !['individual','individual-pne','casal','quadruplo','casal-bebe'].includes(unit.typology)||!box(unit.bounds)||!/^[\w-]+:[+-][xz]$/.test(unit.side))fail(unit.id);
+      !['individual','individual-pne','casal','quadruplo','casal-bebe','refeitorio','convivencia'].includes(unit.typology)||!box(unit.bounds)||!/^[\w-]+:[+-][xz]$/.test(unit.side))fail(unit.id);
     ids.add(unit.id);
   }
   return data;

@@ -36,13 +36,13 @@
     "Quarto e estudo são um cômodo só: a divisória do meio do container não chega à bancada de estudo."
   ],
   "captura": {
-    "construtorSHA256": "bfc8a7f45d9221b711f1810527e9c6aa2e5359e1d3ec7f891fb11ff3f02417ec",
+    "construtorSHA256": "b0b29a9032fb6e65933909944fc2c6adbf942333cb17cd249ebd012e94b83b93",
     "inputsSHA256": {
-      "planta.json": "5befcac39a981a35295290a47c879e25096362e2dffd04d4cd0778a8d23d0526",
+      "planta.json": "e227138d651e410050eb38ff684b0ae4a2d85677fe605365ba3fdde9ef55f686",
       "leitura.json": "4ba1e7042904a413f3c3ca80be46fc37a4161cfe24aa3010459fdf406a7186ad",
-      "projeto-planta.json": "25be1a1722a8fadf7e4534f849efca227b04db940fcf1b42e9560574bff04cc0",
-      "moveis.json": "5a1ad7935373e4a797bfc2cddd6c204cd3d4ee9a943ddc6a8bdab9e54e9d308b",
-      "contexto.json": "0e4d622fc052786c830f7328cbf269e5e0bc031063d0024b7643622db88008a3"
+      "projeto-planta.json": "152d0dff888362037b7625a18e52a5ad255fbc0d4b518e832df11b8a9b6c42dd",
+      "moveis.json": "155bbae0414e6cf49c9f2722a31ec8165c492ee71e0a8fc91115c39e845a4f84",
+      "contexto.json": "2e71abab2107972cfdcadcc4d2867a82c0377af3455c5c566493cced72cf4e61"
     }
   },
   "contagens": {

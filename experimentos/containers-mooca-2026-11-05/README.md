@@ -179,7 +179,7 @@ node experimentos/containers-mooca-2026-11-05/interiores/luz/chaves.mjs
 bash experimentos/containers-mooca-2026-11-05/interiores/luz/gravar_todos.sh [tipos...]
 ```
 
-São os scripts do Laranjeiras com a lista dos 5 tipos: 28 horas por tipo (7 horários × 4 fachadas) e mais
+São os scripts do Laranjeiras com a lista dos 7 tipos (5 dormitórios + refeitório e convivência): 28 horas por tipo (7 horários × 4 fachadas) e mais
 a noite, com cerca de 30 min de Blender por tipo. Os atlas ficam em
 `site/interiores/<tipo>/luz-horario/` (fora do git, ~45 MB por tipo). O catálogo está em `frozen-source`.
 
@@ -189,7 +189,9 @@ Diferenças em relação ao Laranjeiras:
   dobradiça. Ele também gira só a peça presa à dobradiça, porque no casal com bebê o batente do banho
   fica a 0,7 m e a regra do LIV (tudo a até 0,8 m) o girava junto.
 - **Teto do RGBM:** às 6h o sol entra rasante e deixa de 37 a 134 texels (de ~1,6 milhão) acima de 16.
-  O empacotador corta esses pixels no teto e escreve `RGBM_CORTE`; se passarem de 200, ele recusa.
+  O empacotador corta esses pixels no teto e escreve `RGBM_CORTE`; se passarem de 1000, ele recusa.
+  A convivência, com a janela para o oeste, chega a 478 às 16h.
+- **Navegador fechado:** um Tour 3D aberto disputa a placa de vídeo e cada chave sobe de 75 s para 276 s.
 - **Tapete:** a auditoria do atlas do LIV exige um tapete por planta, e o `escrever_plantas.py` põe um.
 
 Testado no navegador: os 5 tipos abrem no Tour, cada um com a luz da própria fachada às 10h, e o
@@ -216,3 +218,13 @@ esquina usada como âncora.
 - **Armário:** o guarda-roupa paramétrico tinha a altura do pé-direito (2,35 m) contada da laje e, com o
   piso, furava o forro em 3 cm. A planta agora pode dar a altura do móvel (`h`, lida pelo `construir.ts`),
   e os guarda-roupas ficam com 2,30 m.
+- **Acabamento pelo número do material:** o LIV troca parede e pisos pelos ids fixos `m0`/`m1`/`m2`. Numa
+  fonte congelada os ids pulam o piso que não existe, e as áreas comuns (só madeira) recebiam porcelanato.
+  `finishIds` no `interior-renderer.js` calcula os ids de verdade.
+
+## Áreas comuns (refeitório e convivência)
+
+Desenhadas da folha de áreas comuns do caderno (`areas-comuns-b.png`) e tratadas como mais 2 tipos do
+interior, com a luz por hora gravada. No cadastro entram como os containers c02 (refeitório) e c04
+(convivência), com tipologia "Área comum" e "área comum dos moradores" no lugar do aluguel.
+O catálogo não tem mesa redonda nem pufe: as mesas de 6 viraram mesas de 4 e os pufes, poltronas.

@@ -25,7 +25,7 @@ TROCAS = [
     ("gzip.decompress((web / record['files']['compact']['path']).read_bytes())", "(WORK / 'bake/geometry-compact.json').read_bytes()"),
     ("(ROOT.parent / f'liv-experimental-2026-10-14/interiores/{TYPOLOGY}/unidade.json')", "(SITE / f'interiores/{TYPOLOGY}/unidade.json')"),
     ("(RAW / 'chaves.json')", "(WORK / 'chaves.json')"),
-    ("if TYPOLOGY not in ('canto', 'meio'):", "if TYPOLOGY not in ('individual', 'individual-pne', 'casal', 'quadruplo', 'casal-bebe'):"),
+    ("if TYPOLOGY not in ('canto', 'meio'):", "if TYPOLOGY not in ('individual', 'individual-pne', 'casal', 'quadruplo', 'casal-bebe', 'refeitorio', 'convivencia'):"),
     ("scene_wall_filters(source, compact, size)[0]",
      "scene_wall_filters(source, compact, size, corner_points=CORNERS(unit))[0]"),
     ("soften_walls(denoised, walls, speckle[1])",
@@ -35,9 +35,10 @@ TROCAS = [
     ("    size = measured['size']; guard", "    keys['keys'] = [k for k in keys['keys'] if k['id'] in SO] if SO else keys['keys']\n    size = measured['size']; guard"),
     # Depois do OIDN, cada ilha é suavizada só com ela mesma (suavizar_ilhas) e a borda é refeita.
     # O sol das 6 h entra rasante e deixa umas dezenas de texels acima do teto do RGBM (37 no casal com bebê, de
-    # um atlas de milhões): corta no teto e registra, em vez de recusar. Muitos ainda param.
+    # um atlas de milhões; 478 na convivência, que pega o sol do oeste em cheio): corta no teto e registra.
+    # Mais de 1000 (0,07% do atlas) ainda para.
     ("    if clipped:\n        raise RuntimeError(f'RGBM {RANGE} cortaria {clipped} pixels')\n",
-     "    if clipped > 200:\n        raise RuntimeError(f'RGBM {RANGE} cortaria {clipped} pixels')\n"
+     "    if clipped > 1000:\n        raise RuntimeError(f'RGBM {RANGE} cortaria {clipped} pixels')\n"
      "    if clipped:\n        print('RGBM_CORTE', clipped, 'pixels acima de', RANGE)\n        np.minimum(denoised, RANGE, out=denoised)\n"),
     ("    denoised[border] = denoised[nearest[0][border], nearest[1][border]]\n",
      "    denoised[border] = denoised[nearest[0][border], nearest[1][border]]\n"

@@ -162,7 +162,8 @@
       "w": 1000,
       "d": 520,
       "cor": "#A57A52",
-      "nome": "Armário"
+      "nome": "Armário",
+      "h": 2300
     },
     {
       "catalogo": "tapete-sala",
@@ -188,7 +189,7 @@
   "cores": {
     "parede": "#E6E3DC",
     "piso_frio": "#C9C7C2",
-    "piso_madeira": "#B08A62",
+    "piso_madeira": "#C9A57B",
     "teto": "#EFEDE8"
   },
   "lote": {

@@ -36,13 +36,13 @@
     "Entrada e porta do banho afastadas 1,4 m (o interior do site só separa a folha de portas com ~1 m entre si); no caderno a entrada fica junto da divisória."
   ],
   "captura": {
-    "construtorSHA256": "bfc8a7f45d9221b711f1810527e9c6aa2e5359e1d3ec7f891fb11ff3f02417ec",
+    "construtorSHA256": "b0b29a9032fb6e65933909944fc2c6adbf942333cb17cd249ebd012e94b83b93",
     "inputsSHA256": {
-      "planta.json": "8ebfa8c13267fd1a657fb4fbb3ec599a4426736e8dd0ef68c2cc3f4f2eadc13c",
+      "planta.json": "01ab9c2f77930723bfb719290cfb0eccb8f9407ba17ff64b0e3256589c19209b",
       "leitura.json": "ed2fb5812578424fb0d8ead595caf92071bf4042dae8783e3108dafd645e6f04",
-      "projeto-planta.json": "af7179c70a4cc0c24ecfbd1bfd86fe3a2c6bf6082a99a06124ea083eda843f33",
-      "moveis.json": "29904f43eac1bd1b315b629aa0f0339c76bdc128ef5e63638436fa1cd5dd97c4",
-      "contexto.json": "ebffb8e8d353b1f9615aa56c5b73867167b2b3abf49a4b5223ee8b98d8b2b5bb"
+      "projeto-planta.json": "858b9fd36fdcd149bb21b9a9c81f8ffd51960e0c6b2adff8983c1109a259a7d9",
+      "moveis.json": "8d6cc9835da37f069d770ea4f0a2b6a3c64c850dfb40a2cf9e1cecbdaaefb01c",
+      "contexto.json": "b0b079452c8dbae427967bc98574e76092113580f2e2af781c3c87a9e6a59185"
     }
   },
   "contagens": {

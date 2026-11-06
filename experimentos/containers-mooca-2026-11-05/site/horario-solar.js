@@ -120,7 +120,7 @@ export function unitSolarContext(unit) {
   // A espelhada mantém a fachada da original (canto espelha em X, meio em Z).
   // Lado da janela grande na planta do construtor (x direita, z para baixo da imagem): o individual tem o vidro a
   // leste, o PNE a oeste; casal, quádruplo e casal com bebê têm o vidro no lado comprido de cima (-Z).
-  const facing = AXES[side], plan = {individual: [1, 0], 'individual-pne': [-1, 0]}[typology] ?? [0, -1];
+  const facing = AXES[side], plan = {individual: [1, 0], 'individual-pne': [-1, 0], refeitorio: [1, 0], convivencia: [-1, 0]}[typology] ?? [0, -1];
   const yaw = Math.atan2(plan[1], plan[0]) - Math.atan2(facing[1], facing[0]);
   return { unitId, side, final, floorIndex, yaw, approximate: true };
 }

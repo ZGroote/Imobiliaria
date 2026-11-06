@@ -141,7 +141,7 @@ if(query.get('embed')==='1')document.querySelector('#touch-pad').style.right='96
 async function sha(bytes){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');}
 async function unzip(bytes){return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());}
 async function load(file,json=false,quiet=false){
-  if(!file||!/^interiores\/(?:shared|individual|individual-pne|casal|quadruplo|casal-bebe)\/[a-zA-Z0-9._/-]+$/.test(file.path)||file.path.split('/').includes('..')||!/^[a-f0-9]{64}$/.test(file.sha256)||!Number.isInteger(file.bytes))throw Error('Identidade de recurso interior inválida.');
+  if(!file||!/^interiores\/(?:shared|individual|individual-pne|casal|quadruplo|casal-bebe|refeitorio|convivencia)\/[a-zA-Z0-9._/-]+$/.test(file.path)||file.path.split('/').includes('..')||!/^[a-f0-9]{64}$/.test(file.sha256)||!Number.isInteger(file.bytes))throw Error('Identidade de recurso interior inválida.');
   // A luz gravada muda de conteúdo sem mudar de nome: o SHA no endereço evita a cópia velha do cache.
   check();const url=new URL(file.path,base);if(quiet||file.path===record?.files?.runtimeScene?.path)url.searchParams.set('v',file.sha256);
   const response=await fetch(url,{signal:controller.signal});if(!response.ok)throw Error(`${file.path}: HTTP ${response.status}.`);
@@ -698,7 +698,7 @@ async function loadSceneSource(){
 }
 
 async function start(){
-  if(!['individual','individual-pne','casal','quadruplo','casal-bebe'].includes(typology)||!['auto','webgpu','webgl'].includes(requested)||!['planta3d','visita'].includes(state.mode))throw Error('Parâmetros do interior inválidos.');
+  if(!['individual','individual-pne','casal','quadruplo','casal-bebe','refeitorio','convivencia'].includes(typology)||!['auto','webgpu','webgl'].includes(requested)||!['planta3d','visita'].includes(state.mode))throw Error('Parâmetros do interior inválidos.');
   timeOfDay=interiorTimeState(query.get('hora')??14,query.has('contexto')?JSON.parse(query.get('contexto')):undefined,{date:query.get('data')??undefined});
   state.timeOfDay=structuredClone(timeOfDay);
   progress('Preparando os gráficos…','backend');let adapter=null;
@@ -713,6 +713,13 @@ async function start(){
   const response=await fetch(new URL('interiores/catalogo.json',base),{signal:controller.signal});if(!response.ok)throw Error(`Catálogo interior: HTTP ${response.status}.`);catalog=await response.json();check();
   if(catalog.schema!=='liv-interior-catalog-v1'||!catalog.tipologias?.[typology])throw Error('Tipologia interior ausente do catálogo.');record=catalog.tipologias[typology];
   const runtime=await load(catalog.shared.runtime);check();
+  // Acabamento aprovado por material: na fonte congelada os pisos saem na ordem parede, frio, madeira, pulando
+  // o que a planta não tem (refeitório e convivência só têm madeira: ela vira m1, não m2).
+  const finishIds=record=>{
+    if(record.geometryKind!=='frozen-source'||record.materialsOrigin!=='source')return null;
+    const pisos=new Set(layout.rooms.map(room=>room.pisoTipo));
+    return {wall:'m0','tile-floor':pisos.has('frio')?'m1':null,'wood-floor':pisos.has('madeira')?(pisos.has('frio')?'m2':'m1'):null};
+  };
   // Execute the exact bytes checked above, retaining the native factory APIs.
   const runtimeURL=URL.createObjectURL(new Blob([runtime],{type:'text/javascript'}));
   try{await import(runtimeURL);}finally{URL.revokeObjectURL(runtimeURL);}check();
@@ -766,7 +773,7 @@ async function start(){
   const walls=[];scene.traverse(mesh=>{if(mesh.isMesh&&native.m0&&[mesh.material].flat().includes(native.m0))walls.push(mesh);});
   // A espelhada usa os móveis aprovados da planta original.
   const baseTypology=typology.replace(/-espelhado$/,'');
-  improvements.replaceFurniture(furniture,scene,baseTypology,walls);improvements.applyFinishes(native,scene);
+  improvements.replaceFurniture(furniture,scene,baseTypology,walls);improvements.applyFinishes(native,scene,finishIds(record));
   improvements.addDecorations(furniture,scene,baseTypology);
   for(const target of baked)target.originalMaterial=target.mesh.material;
   if(timeLight){

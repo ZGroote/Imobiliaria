@@ -12,7 +12,7 @@ from PIL import Image
 
 AQUI = Path(__file__).resolve().parent
 SAIDA = AQUI.parent/'site'/'plantas2d'
-TIPOS = ('individual', 'individual-pne', 'casal', 'quadruplo', 'casal-bebe')
+TIPOS = ('individual', 'individual-pne', 'casal', 'quadruplo', 'casal-bebe', 'refeitorio', 'convivencia')
 PAREDE_PX = 8      # meia parede do container, para o recorte não comer o traço
 MARGEM_PX = 60
 

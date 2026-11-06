@@ -21,7 +21,7 @@ type Spec={id:string,titulo:string,imagem:string,imagemSha256:string,
   origemPx:[number,number],gradeMm:number,peDireitoMm:number,
   comodos:{nome:string,partes:Rect[]}[],
   aberturas:{comodo:string,parte?:number,lado:Lado,de:number,ate:number,tipo:'door'|'window',alturaMm:number,peitorilMm?:number}[],
-  moveis:{catalogo:string,x:number,y:number,rot?:number,w?:number,d?:number,cor?:string,nome?:string}[],
+  moveis:{catalogo:string,x:number,y:number,rot?:number,w?:number,d?:number,cor?:string,nome?:string,h?:number}[],
   ficha:Record<string,unknown>,cores:Record<string,string>,lote:Record<string,unknown>,limites:string[],
   base?:string,jardim?:unknown,comparacao?:unknown}
 
@@ -68,7 +68,7 @@ for(const m of spec.moveis){
   if(!def)throw Error('Catálogo não contém '+m.catalogo)
   s=aplicar(s,{type:'furniture-add',item:{tipoCatalogo:def.id,tipo3D:def.tipo3D,nome:m.nome??def.nome,
     xMm:X(m.x),yMm:Y(m.y),widthMm:m.w??def.widthMm,depthMm:m.d??def.depthMm,
-    alturaMm:def.alturaMm,rotDegrees:m.rot??0,cor:m.cor??def.corPadrao}})
+    alturaMm:m.h??def.alturaMm,rotDegrees:m.rot??0,cor:m.cor??def.corPadrao}})
 }
 
 const erros=problemas(s.present)

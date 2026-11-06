@@ -49,4 +49,4 @@ export function saleLabel(unit){
 }
 export function priceLabel(unit){const sale=saleOf(unit);return sale.priceCents===null?rentLabel(unit):formatPrice(sale.priceCents);}
 // Aluguel mensal proposto no caderno (p. 41); não é oferta.
-function rentLabel(unit){return Number.isFinite(unit?.rentMonthlyBRL)?`aluguel de ${money.format(unit.rentMonthlyBRL)}/mês (proposta do caderno)`:'preço sob consulta';}
+function rentLabel(unit){if(unit?.typologyLabel==='Área comum')return 'área comum dos moradores';return Number.isFinite(unit?.rentMonthlyBRL)?`aluguel de ${money.format(unit.rentMonthlyBRL)}/mês (proposta do caderno)`:'preço sob consulta';}

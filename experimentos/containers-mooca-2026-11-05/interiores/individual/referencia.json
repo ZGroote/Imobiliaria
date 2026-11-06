@@ -35,13 +35,13 @@
     "A porta de entrada (parede curta, entre a escrivaninha e a cama) e a janela do dormitório são aproximadas: o caderno não marca a esquadria do individual. A entrada fica longe da porta do banho porque o interior do site só separa a folha de portas com ~1 m entre si."
   ],
   "captura": {
-    "construtorSHA256": "bfc8a7f45d9221b711f1810527e9c6aa2e5359e1d3ec7f891fb11ff3f02417ec",
+    "construtorSHA256": "b0b29a9032fb6e65933909944fc2c6adbf942333cb17cd249ebd012e94b83b93",
     "inputsSHA256": {
-      "planta.json": "cb1569d655d61e66fd3043e6b23d12c8abf3e0d262a5751d0db06c1e53e818d8",
+      "planta.json": "e4b414e87c931d6dbba13d83ebc6e8e7002b153ef4b3bd755777bcbe1b2e622d",
       "leitura.json": "8abdd3f7e13dfcc1055085f9fd6324f870eed85289239d0c2a8909e70ee5588a",
-      "projeto-planta.json": "4f43c877d8fcbe8d3d22777d775b9ff6feb06a7574333b2a9f324a1ec5153aac",
-      "moveis.json": "d789314abccaf9bd88ea9a188e0b92b6293114bc5e9aa67a03ad5c1c58976f5c",
-      "contexto.json": "474af82033a951fb0a13da84bf219e9437ffc5027b22e54f03aeff81f7711a3b"
+      "projeto-planta.json": "bf671eb1673abbb0436bcc1087c66a12d46adf68bddd9cdbfe7bbb8b6a15d136",
+      "moveis.json": "9b412d1ceb7b70e65202c449af27c84ed8c92c8c1b294d4a28e22cae30e25e56",
+      "contexto.json": "3eeb380e40c3726acf76d42e742a90ab665bbfd5e1edeff1fd176a628f751c51"
     }
   },
   "contagens": {

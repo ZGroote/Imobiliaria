@@ -17,8 +17,9 @@ SITE = AQUI.parent/'site'
 LIV = AQUI.parents[1]/'liv-experimental-2026-10-14'/'interiores'
 LUZ = AQUI/'luz'  # fonte congelada + UV1 da luz por hora (luz/exportar_fonte.py, preparar_luz.py)
 ROTULO = {'individual': 'Dormitório individual', 'individual-pne': 'Dormitório individual PNE', 'casal': 'Dormitório casal',
-          'quadruplo': 'Dormitório quádruplo', 'casal-bebe': 'Dormitório casal com bebê'}
-AREA = {'individual': 14.8, 'individual-pne': 14.8, 'casal': 14.8, 'quadruplo': 29.7, 'casal-bebe': 29.7}
+          'quadruplo': 'Dormitório quádruplo', 'casal-bebe': 'Dormitório casal com bebê',
+          'refeitorio': 'Refeitório', 'convivencia': 'Sala de convivência'}
+AREA = {'individual': 14.8, 'individual-pne': 14.8, 'casal': 14.8, 'quadruplo': 29.7, 'casal-bebe': 29.7, 'refeitorio': 14.8, 'convivencia': 14.8}
 
 
 def sha(b):

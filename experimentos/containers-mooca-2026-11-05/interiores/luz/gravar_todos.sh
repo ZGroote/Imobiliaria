@@ -5,7 +5,7 @@ set -e
 cd "$(dirname "$0")/../../../.."
 L=experimentos/containers-mooca-2026-11-05/interiores/luz
 BLENDER="/c/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe"
-for t in ${@:-individual individual-pne casal quadruplo casal-bebe}; do
+for t in ${@:-individual individual-pne casal quadruplo casal-bebe refeitorio convivencia}; do
   echo "== $t $(date +%H:%M)"
   "$BLENDER" -b --factory-startup experimentos/liv-luz-natural-2026-10-26/entrega/LIV_Luz_Natural.blend --python-exit-code 1 \
     --python $L/bake_horario.py -- --tipologia $t > $L/logs/bake-$t.log 2>&1

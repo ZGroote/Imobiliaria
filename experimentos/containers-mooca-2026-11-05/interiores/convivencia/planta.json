@@ -1,0 +1,168 @@
+{
+  "id": "containers-mooca-convivencia",
+  "titulo": "Containers da Mooca · sala de convivência · 14,8 m²",
+  "imagem": "../../../../plantas_fornecidas/containers-mooca/fonte/areas-comuns-b.png",
+  "imagemSha256": "41ae76bf271d80c4f1aa6d9d062ed87d59a183ac0a24b13e27308a460cbc4231",
+  "calibracao": {
+    "areaM2": 14.77,
+    "contornoFacesPx": [
+      [
+        1892,
+        425,
+        2165,
+        1125
+      ]
+    ],
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "origemPx": [
+    1892,
+    425
+  ],
+  "gradeMm": 50,
+  "peDireitoMm": 2350,
+  "comodos": [
+    {
+      "nome": "Convivência",
+      "partes": [
+        [
+          1892,
+          425,
+          2165,
+          1125
+        ]
+      ]
+    }
+  ],
+  "aberturas": [
+    {
+      "comodo": "Convivência",
+      "lado": "west",
+      "de": 760,
+      "ate": 860,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Convivência",
+      "lado": "west",
+      "de": 450,
+      "ate": 640,
+      "tipo": "window",
+      "alturaMm": 1500,
+      "peitorilMm": 600
+    },
+    {
+      "comodo": "Convivência",
+      "lado": "west",
+      "de": 900,
+      "ate": 1100,
+      "tipo": "window",
+      "alturaMm": 1500,
+      "peitorilMm": 600
+    },
+    {
+      "comodo": "Convivência",
+      "lado": "south",
+      "de": 1930,
+      "ate": 2125,
+      "tipo": "window",
+      "alturaMm": 1200,
+      "peitorilMm": 1000
+    }
+  ],
+  "moveis": [
+    {
+      "catalogo": "sofa-3",
+      "x": 2096,
+      "y": 560,
+      "rot": 270,
+      "w": 1960,
+      "d": 920,
+      "cor": "#D9D4CC",
+      "nome": "Sofá"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 2103,
+      "y": 840,
+      "rot": 270,
+      "w": 800,
+      "d": 800,
+      "cor": "#55595D",
+      "nome": "Poltrona 1"
+    },
+    {
+      "catalogo": "criado",
+      "x": 2120,
+      "y": 940,
+      "rot": 270,
+      "w": 450,
+      "d": 400,
+      "cor": "#A57A52",
+      "nome": "Mesinha"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 2103,
+      "y": 1040,
+      "rot": 270,
+      "w": 800,
+      "d": 800,
+      "cor": "#55595D",
+      "nome": "Poltrona 2"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 1954,
+      "y": 700,
+      "rot": 90,
+      "w": 800,
+      "d": 800,
+      "cor": "#B9B2A8",
+      "nome": "Pufe"
+    },
+    {
+      "catalogo": "tapete-sala",
+      "x": 1990,
+      "y": 940,
+      "rot": 0,
+      "w": 1100,
+      "d": 1600,
+      "cor": "#CFC6B8",
+      "nome": "Tapete"
+    }
+  ],
+  "ficha": {
+    "titulo": "Containers da Mooca · sala de convivência · 14,8 m²",
+    "empreendimento": "Moradia estudantil em containers (Mooca)",
+    "tipo": "convivencia",
+    "area_publicada_m2": 14.8,
+    "quartos": 0,
+    "banheiros": 0,
+    "uso": "área comum",
+    "observacao": "Reconstrução ilustrativa a partir do TCC de Tamires Ruffino (Escola da Cidade, 2025). Medidas pela área do container."
+  },
+  "cores": {
+    "parede": "#E6E3DC",
+    "piso_frio": "#C9C7C2",
+    "piso_madeira": "#C9A57B",
+    "teto": "#EFEDE8"
+  },
+  "lote": {
+    "predio": {
+      "largura_m": 45.0,
+      "profundidade_m": 40.0,
+      "pavimentos": 2
+    }
+  },
+  "limites": [
+    "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas.",
+    "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
+    "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
+    "O prédio declarado (45 x 40 m, 2 pavimentos) é a pegada do conjunto na planta 1:200; o container não é o prédio.",
+    "Os pufes redondos do caderno viraram uma poltrona clara (o catálogo não tem pufe)."
+  ]
+}

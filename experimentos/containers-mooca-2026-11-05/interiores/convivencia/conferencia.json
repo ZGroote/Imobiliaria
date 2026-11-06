@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "areaNominalM2": 14.76,
+  "registro": {
+    "origemPx": [
+      1892,
+      425
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 8.791437725956847,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        1892,
+        425,
+        2165,
+        1125
+      ]
+    ],
+    "areaCalibracaoM2": 14.77,
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "moveis": [
+    {
+      "id": "m1",
+      "nome": "Sofá",
+      "comodos": [
+        "Convivência"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m2",
+      "nome": "Poltrona 1",
+      "comodos": [
+        "Convivência"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m3",
+      "nome": "Mesinha",
+      "comodos": [
+        "Convivência"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m4",
+      "nome": "Poltrona 2",
+      "comodos": [
+        "Convivência"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m5",
+      "nome": "Pufe",
+      "comodos": [
+        "Convivência"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m6",
+      "nome": "Tapete",
+      "comodos": [
+        "Convivência"
+      ],
+      "contido": true
+    }
+  ],
+  "sobreposicoes": [],
+  "vaos": {
+    "portas": 1,
+    "janelas": 3
+  },
+  "conferenciaJPG": "feac6b1f011ae127b45eadb43b0cc22868860dd590ff8af94d96ba061dc6a83e",
+  "unidadeSHA256": "08b1a0c0c41ae504db4a63d4e740c3354335d2809241e60b8ab994c8bb026907",
+  "limites": [
+    "Sobreposição na imagem do book; não é conferência executiva.",
+    "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
+  ]
+}

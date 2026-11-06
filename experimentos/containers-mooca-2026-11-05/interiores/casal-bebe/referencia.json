@@ -35,13 +35,13 @@
     "O berço é uma cama de solteiro pequena (o catálogo não tem berço)."
   ],
   "captura": {
-    "construtorSHA256": "bfc8a7f45d9221b711f1810527e9c6aa2e5359e1d3ec7f891fb11ff3f02417ec",
+    "construtorSHA256": "b0b29a9032fb6e65933909944fc2c6adbf942333cb17cd249ebd012e94b83b93",
     "inputsSHA256": {
-      "planta.json": "47dcf20b2e80f12d5a03e7f41d80cbbbc21855c107b9e2d3f078606ba2e1e0f9",
+      "planta.json": "c67d0ff5e8fe088abf8c239b9b0448a933f45c3b1dadddd890dd0f1319d050ea",
       "leitura.json": "65bb1cf89cfd11b88d48d272bbdf0f468bc0b6e173bdeeaa32e25e3b4796c922",
-      "projeto-planta.json": "147123029244bf4a48b74c5aeb5b6324f950eeb4de8338de59433241daccdc96",
-      "moveis.json": "774bc4d5d4ca71cf176957e04a9f07fd5be97692f97d88806f22243c0ecd31dd",
-      "contexto.json": "d3951fa20009d13de2260d044f77ba94491e54c7a5487fb27a6803981b1e6372"
+      "projeto-planta.json": "5b5450939c1634cc7fbccea0799680c7af635348a9893854d8e35d04f4e8d10b",
+      "moveis.json": "10ad89e4afca037336b2068be2e72c24b0ac1175ef58efcbddcfd2c0bfce6a1b",
+      "contexto.json": "735c5bde7f6795e257f7b78105c483713aabc8fe6b8ddbb0688a6bb5dde02df7"
     }
   },
   "contagens": {

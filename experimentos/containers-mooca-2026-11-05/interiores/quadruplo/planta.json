@@ -112,7 +112,8 @@
       "w": 1800,
       "d": 520,
       "cor": "#A57A52",
-      "nome": "Armário 1"
+      "nome": "Armário 1",
+      "h": 2300
     },
     {
       "catalogo": "guardaroupa",
@@ -122,7 +123,8 @@
       "w": 1800,
       "d": 520,
       "cor": "#A57A52",
-      "nome": "Armário 2"
+      "nome": "Armário 2",
+      "h": 2300
     },
     {
       "catalogo": "escrivaninha",
@@ -209,7 +211,7 @@
   "cores": {
     "parede": "#E6E3DC",
     "piso_frio": "#C9C7C2",
-    "piso_madeira": "#B08A62",
+    "piso_madeira": "#C9A57B",
     "teto": "#EFEDE8"
   },
   "lote": {
