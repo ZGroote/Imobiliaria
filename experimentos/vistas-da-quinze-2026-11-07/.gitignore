@@ -16,3 +16,9 @@ interiores/luz/logs/
 site/interiores/*/luz-horario/*.gz
 site/interiores/*/source.json.gz
 site/interiores/*/geometry-compact.json.gz
+archicad/*.pln
+archicad/*.bak
+archicad/*.lck
+archicad/__pycache__/
+archicad/*.ifc
+archicad/*.bpn

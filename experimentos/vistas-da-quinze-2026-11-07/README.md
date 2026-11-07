@@ -259,5 +259,36 @@ python experimentos/vistas-da-quinze-2026-11-07/mapa/preparar_mapa.py
 - **Falta na publicação:** passar a página pelo `tools/minificar_html.mjs` e medir com rede emulada
   servindo comprimido (o `http.server` daqui não comprime).
 
+## 10. Archicad (feito)
+
+```
+python -I experimentos/vistas-da-quinze-2026-11-07/archicad/modelar_archicad.py
+python -I experimentos/vistas-da-quinze-2026-11-07/archicad/prints.py
+```
+
+- **BIM nativo, não malha:** com o Archicad 30 aberto em `archicad/vistas-da-quinze.pln` (Tapir na porta
+  19723), o script cria paredes, portas, janelas, lajes, zonas e volumes do próprio Archicad pela conexão,
+  sem o seletor de arquivo. Ele lê as mesmas fontes do Blender e do site: `implantacao-m.json` (torre,
+  degraus, núcleo, embasamento e lazer, com as regras de `modelar_vistas.py`) e os `unidade.json` das
+  plantas.
+- **Cada planta no seu apartamento:** fachada para fora, entrada no corredor, terraço na ponta e espelhada
+  nos ímpares, como no Blender. Paredes repetidas (cômodo com cômodo, vizinho com vizinho) viram uma só, e
+  trechos alinhados se juntam. Cada cômodo vira uma zona com o número do apartamento (`1107`, ...).
+- **Resultado:** 22 andares (3 de garagem, 3º ao 20º e cobertura), 2.066 paredes, 1.057 portas, 688
+  janelas, 43 lajes, 1.118 zonas e 38 volumes (spas, piscina e caixa d'água). No fim, o script salva o `.pln` e
+  exporta `vistas-da-quinze.ifc` (IFC4 Design Transfer, projeto inteiro). O tradutor padrão só levava o
+  que aparece no 3D e perdia as zonas. O `.pln` e o `.ifc` ficam fora do git, e as imagens ficam em
+  `archicad/conferencia/`.
+- **Aproximações:**
+  - T03, T04 e T05 têm 6,5 m de fundo na planta e 5,6 m na ala: a planta é comprimida no fundo (14%).
+  - A T06 tem o terraço na frente, e a torre pede o terraço do lado, então ela entra só como apartamento +
+    terraço, com a porta e as janelas da frente.
+  - A planta da T02 tem um vão sem cômodo junto da fachada (1,45 × 4,1 m). O contorno do apartamento fecha
+    a fachada, e o vão vira um poço fechado.
+  - O núcleo (escadas e elevadores) é um bloco aproximado.
+  - Portas e janelas usam a peça padrão da biblioteca, sem material de fachada.
+- **Projeto do Codex:** o `archicad/Tipologias.pln` da raiz (conversa do Codex de 06/11) não foi tocado. O
+  projeto novo saiu de uma cópia do `AC30 Template.tpl`, porque a conexão só abre `.pln` ou `.pla`.
+
 Commit ao fim de cada etapa. Nada publicado sem o OK do usuário (e, sendo um lançamento real de outra
 incorporadora, sem o OK do cliente).
