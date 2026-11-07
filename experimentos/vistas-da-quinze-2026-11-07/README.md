@@ -72,5 +72,34 @@ node experimentos/vistas-da-quinze-2026-11-07/interiores/construir.ts T01   # ..
 - **Faltam no catálogo:** banheira de hidromassagem, churrasqueira, vasos de planta e pufe (virou poltrona).
   Entram na etapa dos interiores.
 
+## 2. Implantação (feito)
+
+```
+python experimentos/vistas-da-quinze-2026-11-07/implantacao/montar.py
+```
+
+`implantacao.json` guarda as hipóteses. `montar.py` grava `implantacao-m.json` (258 apartamentos com caixa
+em metros, terraço e coordenada geográfica), `conferencia.jpg` (3º andar sobre o pavimento do lazer) e
+`fachadas.jpg` (as faces do pátio andar por andar, na cor da tipologia).
+
+- **Lugar:** a origem é o cruzamento das ruas Quinze de Novembro e Major Manoel Antônio de Mattos no OSM
+  (−22,012203, −47,880943). As duas correm quase exatamente leste-oeste e norte-sul. O pino do Google no
+  site oficial cai uma quadra a oeste. O lote (62 × 48 m) fica a sudeste da esquina, e o L ocupa as bordas
+  sul e leste, com o pátio da piscina virado para a esquina.
+- **Perspectiva numerada:** 18 finais por andar, do 3º ao 20º. A ala sul tem os finais 01..10 (ímpares no
+  pátio, pares fora, 01/02 junto do núcleo). A ala leste tem os 11..18.
+- **A ala leste é de T02 (7,0 m):** na imagem do pavimento ela tem ~40 m, o que fecha com 4 apartamentos de
+  7,0 m e não com os 8,4 m da T01. Isso também responde onde fica a planta de 1 dormitório.
+- **Degraus:** a partir do 9º andar na ala sul e do 15º na leste, cada andar recua a ponta em 1/3 de
+  apartamento (2,8 e 2,33 m), e o recuo vira o terraço do andar de cima. O par da ponta tem um corpo de
+  4/3, 3/3 ou 2/3 de apartamento, nessa ordem a cada 3 andares, e isso reproduz as cores da perspectiva
+  número por número (909 verde, 1007 roxo, 1107 laranja, ..., 1913 roxo, 2013 laranja).
+- **Tipologia da ponta (hipótese):** roxo = corpo de 4/3 = T04; laranja = 3/3 = T03 no pátio e T05 fora;
+  verde = 2/3 = T06. O amarelo (o apartamento antes do degrau) ficou com a planta da ala.
+- **Total:** 258 apartamentos: 104 T01, 118 T02, 12 T04, 12 T06, 6 T03 e 6 T05.
+- **Limites:** na conferência, a ala leste passa ~1,7 m da ponta norte desenhada. O pavimento do lazer
+  tem um apartamento a mais no canto, e esse não aparece na numeração. O embasamento foi suposto com 2
+  pavimentos (6,4 m).
+
 Commit ao fim de cada etapa. Nada publicado sem o OK do usuário (e, sendo um lançamento real de outra
 incorporadora, sem o OK do cliente).
