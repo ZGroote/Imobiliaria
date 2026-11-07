@@ -615,30 +615,30 @@
             "widthMm": 1750
           },
           {
-            "heightMm": 1150,
+            "heightMm": 1550,
             "id": "a12",
             "kind": "window",
-            "offsetMm": 150,
+            "offsetMm": 0,
             "provenance": {
               "kind": "declared",
               "referenceIds": []
             },
             "sillMm": 1050,
             "wallId": "c10-east",
-            "widthMm": 5400
+            "widthMm": 6500
           },
           {
-            "heightMm": 1150,
+            "heightMm": 1550,
             "id": "a13",
             "kind": "window",
-            "offsetMm": 150,
+            "offsetMm": 0,
             "provenance": {
               "kind": "declared",
               "referenceIds": []
             },
             "sillMm": 1050,
             "wallId": "c10-south",
-            "widthMm": 2600
+            "widthMm": 2850
           }
         ],
         "provenance": {

@@ -171,5 +171,34 @@ python experimentos/vistas-da-quinze-2026-11-07/modelo/exportar_cena.py
 - **Testado no navegador:** a página abre do lado do pátio. Clicar na face do pátio seleciona o apartamento
   (por exemplo "Ala sul · 14º andar · final 05", a T03 da ponta), e "Ver planta" abre a T03 com o terraço.
 
+## 6. Interiores (feito, luz dinâmica)
+
+```
+python experimentos/vistas-da-quinze-2026-11-07/interiores/gerar_pacote.py
+```
+
+- É a cópia do gerador do Mooca para as 6 plantas, no modo `native-factories` do LIV. A pasta e o id do
+  site são minúsculos (`t01`..`t06`), como no cadastro.
+- **Piso:** "laminado de madeira e piso frio" (anúncio). Fica madeira nos quartos e no escritório, e
+  porcelanato na sala/cozinha, nos banhos e no terraço (`exportar.py`). Do Mooca vieram o campo `piso`
+  em `interior-navigation.js` e os `finishIds` em `interior-renderer.js` e `interior-melhorias.js`.
+  A cara do caderno do Mooca não veio (reboco quente, armário branco, cama colorida): o Vistas tem parede
+  clara neutra, como nos renders.
+- **Terraço descoberto** (`abrirTerracos` em `interior-renderer.js`):
+  - o motor do LIV põe um forro só para o apartamento inteiro, e cada terraço virava um cômodo fechado
+    com uma janela em cima da mureta;
+  - agora a borda de fora do terraço é um vão que vai do peitoril de 1,05 m até o forro, ocupando a borda
+    inteira;
+  - depois da montagem e antes da cópia que vai para a luz gravada, o site apaga os triângulos da casa
+    acima de 1,12 m dentro do terraço (forro, rodateto, o vão e o teto oculto da sombra do sol, que usa a
+    geometria do forro), menos no lado da porta de correr;
+  - o plafon do terraço some.
+  
+  Resultado: céu e sol entram, com 292 a 298 triângulos a menos por planta.
+- **Spa** (`spaNosTerracos`): a banheira de hidromassagem (casco branco de 1,9 m, água e apoios
+  grafite) fica no fundo do terraço, longe da porta, como nas plantas. Ela não existe no catálogo.
+- **Testado:** as 6 plantas abrem no Tour sem erro, com 5 a 8 móveis trocados pelos aprovados do LIV.
+  Na T03, dá para entrar pela porta de correr num terraço aberto com o spa.
+
 Commit ao fim de cada etapa. Nada publicado sem o OK do usuário (e, sendo um lançamento real de outra
 incorporadora, sem o OK do cliente).

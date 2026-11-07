@@ -5,6 +5,7 @@ Rodado por construir.ts; à mão: python exportar.py <tipologia>.
 """
 import hashlib
 import itertools
+import re
 import json
 import sys
 from pathlib import Path
@@ -130,9 +131,10 @@ def main(tipologia):
     if errors:
         raise ValueError(errors)
     result = unidade(derived, wrapped['pedido'], context)
-    # Caderno: piso de madeira tauari nos dormitórios; o banho fica com o piso frio.
+    # Anúncio: "laminado de madeira e piso frio". Renders (galeria-03/12/13): madeira nos quartos e no escritório,
+    # porcelanato claro na sala/cozinha, nos banhos e no terraço.
     for room in result['planta']['comodos']:
-        room['piso'] = 'frio' if 'banho' in room['nome'].lower() else 'madeira'
+        room['piso'] = 'madeira' if re.match(r'(su[ií]te|dormit|escrit)', room['nome'], re.I) else 'frio'
     payload = serializar(result)
     tmp = pasta/'unidade.json.tmp'
     tmp.write_bytes(payload)

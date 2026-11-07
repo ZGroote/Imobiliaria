@@ -21,7 +21,8 @@ export function createLayout(unit) {
   const grade=floor.paredesDaGrade(source.comodos,openings,pd);
   const rooms=source.comodos.map((c,i)=>{
     const poly=c.poly.map(local),xs=poly.map(p=>p[0]),zs=poly.map(p=>p[1]);
-    const wood=/^(su[ií]te|dormit[oó]rio|sala|circula)/i.test(c.nome||'');
+    // O campo `piso` da planta manda (Vistas: madeira só nos quartos e no escritório); sem ele, vale o nome.
+    const wood=c.piso?c.piso==='madeira':/^(su[ií]te|dormit[oó]rio|sala|circula)/i.test(c.nome||'');
     return {id:c.id||`ambiente-${i}`,name:c.nome,nome:c.nome,poly,area:Math.abs(shoelace(poly))/2,
       cx:poly.reduce((s,p)=>s+p[0],0)/poly.length,cz:poly.reduce((s,p)=>s+p[1],0)/poly.length,
       pisoTipo:wood?'madeira':'frio',piso:parseInt((unit.cores?.[wood?'piso_madeira':'piso_frio']||'#B4B5B1').replace('#',''),16),

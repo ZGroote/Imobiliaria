@@ -301,10 +301,11 @@ export async function loadInteriorImprovements({base,signal,typology=null,items=
       }
       updateStatus();return report.replaced;
     },
-    applyFinishes(native,scene){
+    applyFinishes(native,scene,ids=null){
       for(const override of catalog?.materialOverrides||[]){
         try{
-          const id=({'wall':'m0','tile-floor':'m1','wood-floor':'m2'})[override.target],entry=templates.get(override.assetId);
+          const id=(ids||{'wall':'m0','tile-floor':'m1','wood-floor':'m2'})[override.target],entry=templates.get(override.assetId);
+          if(id===null)continue;   // a planta não tem esse piso
           if(!id||!entry||!native[id])throw Error('Acabamento aprovado ausente da biblioteca.');
           let imported;
           entry.root.traverse(mesh=>{if(mesh.isMesh)for(const material of Array.isArray(mesh.material)?mesh.material:[mesh.material])if(material.name===override.materialName)imported=material;});

@@ -19,7 +19,7 @@ import {loadInteriorImprovements} from './interior-melhorias.js';
 import {installInteriorLook} from './interior-look.js';
 import {installShaderScheduler} from './shader-scheduler.js';
 
-const query=new URLSearchParams(location.search),typology=query.get('tipologia')||'canto',requested=query.get('backend')||'auto';
+const query=new URLSearchParams(location.search),typology=query.get('tipologia')||'t01',requested=query.get('backend')||'auto';
 const canvas=document.querySelector('#interior-canvas'),stage=document.querySelector('#interior-stage'),status=document.querySelector('#interior-status');
 const controller=new AbortController(),base=new URL('./',import.meta.url),owned=new Set(),released=new WeakSet(),bitmaps=new Set(),closed=new WeakSet(),listeners=[],pendingDisposals=new Set(),initializedRenderers=new WeakSet();
 const state=window.__livInterior={ready:false,error:null,backend:null,typology,mode:query.get('modo')||'planta3d',disposed:false,active:query.get('prewarm')!=='1',
@@ -141,7 +141,7 @@ if(query.get('embed')==='1')document.querySelector('#touch-pad').style.right='96
 async function sha(bytes){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');}
 async function unzip(bytes){return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());}
 async function load(file,json=false,quiet=false){
-  if(!file||!/^interiores\/(?:shared|canto|meio|canto-espelhado|meio-espelhado)\/[a-zA-Z0-9._/-]+$/.test(file.path)||file.path.split('/').includes('..')||!/^[a-f0-9]{64}$/.test(file.sha256)||!Number.isInteger(file.bytes))throw Error('Identidade de recurso interior inválida.');
+  if(!file||!/^interiores\/(?:shared|t01|t02|t03|t04|t05|t06)\/[a-zA-Z0-9._/-]+$/.test(file.path)||file.path.split('/').includes('..')||!/^[a-f0-9]{64}$/.test(file.sha256)||!Number.isInteger(file.bytes))throw Error('Identidade de recurso interior inválida.');
   // A luz gravada muda de conteúdo sem mudar de nome: o SHA no endereço evita a cópia velha do cache.
   check();const url=new URL(file.path,base);if(quiet||file.path===record?.files?.runtimeScene?.path)url.searchParams.set('v',file.sha256);
   const response=await fetch(url,{signal:controller.signal});if(!response.ok)throw Error(`${file.path}: HTTP ${response.status}.`);
@@ -205,6 +205,67 @@ async function materialsFrom(snapshot){
  * sonda do lado de fora e estourava de branco. Só vira malha inteira ao contrário; a mista (folha de planta) fica. */
 const geometryFrom=spec=>geometryFromSpec(spec,own);
 function registerTree(root){root.traverse(o=>{if(o.geometry)own(o.geometry);if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])own(m);});}
+/** Vistas da Quinze: abre os terraços (cômodo "Terraço…"). Apaga os triângulos da casa acima do peitoril (1,12 m)
+ * dentro do terraço e na faixa da parede de fora (20 cm): forro, rodateto, a parede acima do vão e o vão
+ * (vidro/esquadria) do guarda-corpo. O lado encostado em outro cômodo (a porta de correr da sala) fica. O teto
+ * oculto da sombra do sol usa a geometria do forro, então o sol também entra. Móveis e portas não são tocados. */
+function abrirTerracos(scene,layout,furniture){
+  const terr=layout.rooms.filter(room=>/^terra/i.test(room.nome||''));
+  if(!terr.length)return null;
+  const outros=layout.rooms.filter(room=>!terr.includes(room)),M=.2,PEITORIL=1.12;
+  const cruza=(a0,a1,b0,b1)=>Math.min(a1,b1)-Math.max(a0,b0)>.3;
+  const zonas=terr.map(({f})=>({f,
+    u0:outros.some(o=>Math.abs(o.f.u1-f.u0)<.05&&cruza(o.f.v0,o.f.v1,f.v0,f.v1)),u1:outros.some(o=>Math.abs(o.f.u0-f.u1)<.05&&cruza(o.f.v0,o.f.v1,f.v0,f.v1)),
+    v0:outros.some(o=>Math.abs(o.f.v1-f.v0)<.05&&cruza(o.f.u0,o.f.u1,f.u0,f.u1)),v1:outros.some(o=>Math.abs(o.f.v0-f.v1)<.05&&cruza(o.f.u0,o.f.u1,f.u0,f.u1))}));
+  const aberto=(x,y,z)=>y>PEITORIL&&zonas.some(({f,u0,u1,v0,v1})=>x>f.u0-M&&x<f.u1+M&&z>f.v0-M&&z<f.v1+M&&
+    !(u0&&x<f.u0+M)&&!(u1&&x>f.u1-M)&&!(v0&&z<f.v0+M)&&!(v1&&z>f.v1-M));
+  const moveis=new Set();
+  for(const item of furniture)item.group?.traverse(o=>moveis.add(o));
+  const malhas=[];
+  scene.traverse(mesh=>{if(mesh.isMesh&&!moveis.has(mesh)&&!mesh.userData.furnitureId&&!mesh.parent?.userData?.livDoor)malhas.push(mesh);});
+  const p=new THREE.Vector3(),q=new THREE.Vector3(),r=new THREE.Vector3(),feitas=new Set();let removidos=0;
+  for(const mesh of malhas){
+    const g=mesh.geometry;if(feitas.has(g)||!g?.attributes?.position)continue;feitas.add(g);
+    mesh.updateWorldMatrix(true,false);
+    const P=g.attributes.position,idx=g.index?Array.from(g.index.array):Array.from({length:P.count},(_,i)=>i),fica=[];
+    for(let i=0;i+2<idx.length;i+=3){
+      p.fromBufferAttribute(P,idx[i]).applyMatrix4(mesh.matrixWorld);q.fromBufferAttribute(P,idx[i+1]).applyMatrix4(mesh.matrixWorld);
+      r.fromBufferAttribute(P,idx[i+2]).applyMatrix4(mesh.matrixWorld);
+      if(aberto((p.x+q.x+r.x)/3,(p.y+q.y+r.y)/3,(p.z+q.z+r.z)/3))removidos++;else fica.push(idx[i],idx[i+1],idx[i+2]);
+    }
+    if(fica.length!==idx.length){
+      // Os grupos de material (parede de várias cores) somem com o índice novo: só malha de um material é cortada.
+      if(g.groups.length>1){removidos-=(idx.length-fica.length)/3;continue;}
+      g.setIndex(fica);g.computeBoundingSphere();g.computeBoundingBox();
+    }
+  }
+  return {comodos:terr.map(room=>room.nome),triangulosRemovidos:removidos};
+}
+/** Vistas da Quinze: a banheira de hidromassagem de cada terraço (plantas T03..T06 e render galeria-01), que o
+ * catálogo do construtor não tem. Fica no lado do terraço oposto à porta de correr: casco branco de 1,9 m,
+ * água e 4 apoios de cabeça grafite. */
+function spaNosTerracos(scene,layout,own){
+  const terr=layout.rooms.filter(room=>/^terra/i.test(room.nome||''));
+  if(!terr.length)return null;
+  const casco=own(new THREE.MeshStandardMaterial({name:'spa-casco',color:0xf2f1ee,roughness:.35}));
+  const agua=own(new THREE.MeshStandardMaterial({name:'spa-agua',color:0x7cc4d6,roughness:.08,metalness:0}));
+  const apoio=own(new THREE.MeshStandardMaterial({name:'spa-apoio',color:0x3a3b3d,roughness:.7}));
+  const L=1.9,H=.85,feitos=[];
+  for(const {f,nome} of terr){
+    const outros=layout.rooms.filter(o=>o.nome!==nome);
+    const encosta=(fx,gx)=>outros.some(o=>Math.abs(o.f[gx]-f[fx])<.05);
+    // Porta de correr no lado u0 (terraço lateral): spa no fundo (v0), centrado em u. Porta em v1 (T06): spa em u0.
+    const lateral=encosta('u0','u1')||encosta('u1','u0');
+    const cx=lateral?(f.u0+f.u1)/2:f.u0+.15+L/2, cz=f.v0+.15+L/2;
+    const g=new THREE.Group();g.name=`Spa · ${nome}`;g.position.set(cx,0,cz);
+    const box=(mat,w,h,d,x,y,z)=>{const m=new THREE.Mesh(own(new THREE.BoxGeometry(w,h,d)),mat);m.position.set(x,y,z);m.castShadow=m.receiveShadow=true;g.add(m);return m;};
+    box(casco,L,H,L,0,H/2,0);
+    box(agua,L-.3,.02,L-.3,0,H-.06,0);
+    for(const [sx,sz] of [[-1,-1],[1,1],[-1,1],[1,-1]].slice(0,4))box(apoio,.32,.08,.32,sx*(L/2-.22),H+.01,sz*(L/2-.22));
+    scene.add(g);feitos.push(nome);
+  }
+  return {terracos:feitos};
+}
 function buildFrozen(source,materials){
   const geometries=new Map();
   for(const object of source.objects){
@@ -698,7 +759,7 @@ async function loadSceneSource(){
 }
 
 async function start(){
-  if(!['canto','meio','canto-espelhado','meio-espelhado'].includes(typology)||!['auto','webgpu','webgl'].includes(requested)||!['planta3d','visita'].includes(state.mode))throw Error('Parâmetros do interior inválidos.');
+  if(!['t01','t02','t03','t04','t05','t06'].includes(typology)||!['auto','webgpu','webgl'].includes(requested)||!['planta3d','visita'].includes(state.mode))throw Error('Parâmetros do interior inválidos.');
   timeOfDay=interiorTimeState(query.get('hora')??14,query.has('contexto')?JSON.parse(query.get('contexto')):undefined,{date:query.get('data')??undefined});
   state.timeOfDay=structuredClone(timeOfDay);
   progress('Preparando os gráficos…','backend');let adapter=null;
@@ -766,7 +827,14 @@ async function start(){
   const walls=[];scene.traverse(mesh=>{if(mesh.isMesh&&native.m0&&[mesh.material].flat().includes(native.m0))walls.push(mesh);});
   // A espelhada usa os móveis aprovados da planta original.
   const baseTypology=typology.replace(/-espelhado$/,'');
-  improvements.replaceFurniture(furniture,scene,baseTypology,walls);improvements.applyFinishes(native,scene);
+  // Acabamento aprovado por material (do Mooca): na fonte congelada os pisos saem na ordem parede, frio, madeira,
+  // pulando o que a planta não tem.
+  const finishIds=record=>{
+    if(record.geometryKind!=='frozen-source'||record.materialsOrigin!=='source')return null;
+    const pisos=new Set(layout.rooms.map(room=>room.pisoTipo));
+    return {wall:'m0','tile-floor':pisos.has('frio')?'m1':null,'wood-floor':pisos.has('madeira')?(pisos.has('frio')?'m2':'m1'):null};
+  };
+  improvements.replaceFurniture(furniture,scene,baseTypology,walls);improvements.applyFinishes(native,scene,finishIds(record));
   improvements.addDecorations(furniture,scene,baseTypology);
   for(const target of baked)target.originalMaterial=target.mesh.material;
   if(timeLight){
@@ -776,6 +844,10 @@ async function start(){
     await timeLight.ensure(timeOfDay).catch(error=>{state.timeLightError=String(error.message||error);});check();
   }
   state.cornice=installCornice({scene,layout,own,baked}).metrics;
+  // Vistas: os terraços dos degraus são descobertos. Antes da cópia que vai para a luz gravada, tira o forro, o
+  // rodateto e o vão do guarda-corpo acima do peitoril (o céu entra), menos na parede da porta de correr.
+  state.terracos=abrirTerracos(scene,layout,furniture);
+  state.spa=spaNosTerracos(scene,layout,own);
   // Keep the nominal hierarchy before any presentation cut, including finishes
   // that must contribute to the exported light transport of the new Meio bake.
   if(record.geometryKind==='native-factories')state.authoringScene=scene.clone();
@@ -792,6 +864,10 @@ async function start(){
   const architecture=doors.doors.map(door=>door.group);scene.traverse(mesh=>{if(mesh.isMesh&&!mesh.userData.furnitureId&&!mesh.parent?.userData.livDoor)architecture.push(mesh);});
   presentation=createPlanCutaway({scene,layout,architecture,wallMaterial:native.m0,own});ceiling=presentation.ceiling;
   addLights();bindProbeLight();if(timeLight)applyTimeLight();
+  // O plafon do terraço ficaria pendurado no céu.
+  for(const nome of state.terracos?.comodos??[])for(const prefixo of ['Plafon LIV · ','Luz do plafon LIV · ']){
+    const ob=scene.getObjectByName(prefixo+nome);if(ob){ob.visible=false;if(ob.isLight)ob.intensity=0;}
+  }
   const preparedNavigation=source?.preparedNavigation;source=null;meshBySlot.clear();
   // Walking respects walls and openings; furniture stays visible without blocking passage.
   navigation=createNavigation(layout,()=>[],{prepared:preparedNavigation});entry=navigation.entry();tourPosition=[...entry];faceRoom();refreshRooms();

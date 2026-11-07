@@ -1,0 +1,160 @@
+{
+  "schema": "liv-interior-catalog-v1",
+  "shared": {
+    "runtime": {
+      "path": "interiores/shared/runtime.js",
+      "bytes": 93877,
+      "sha256": "005547b7bee15a30fd59b7ece8ce64d786ef8294d14eabc8bb2683ec56054c5f"
+    },
+    "materials": {
+      "path": "interiores/shared/materials.json.gz",
+      "bytes": 876068,
+      "sha256": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+      "compression": "gzip",
+      "decodedBytes": 1180661,
+      "decodedSHA256": "a04aecc426677a81f2cc41f64c224e9f1a0cdba634762a58cb91ade4b6bf3217"
+    },
+    "furniture": {
+      "path": "interiores/shared/furniture.json.gz",
+      "bytes": 201119,
+      "sha256": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd",
+      "compression": "gzip",
+      "decodedBytes": 1155377,
+      "decodedSHA256": "8affa3dc2b6f105282ec5b744729bd3f35193680d04eb85cb05a57bb693fbdc7"
+    }
+  },
+  "tipologias": {
+    "t01": {
+      "id": "t01",
+      "label": "T01 · 2 dormitórios",
+      "area": 44.79,
+      "unitId": "vistas-da-quinze-t01",
+      "unitSHA256": "93be694c84fe17011a1602fcb9afe18023791b378aeacf818d5ee575d0794d54",
+      "sourceSHA256": "91063fdebf294fd4a1df16c06d5a07d95582c583b58b73c16ef9f6288ba377fd",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/t01/unidade.json",
+          "bytes": 6601,
+          "sha256": "93be694c84fe17011a1602fcb9afe18023791b378aeacf818d5ee575d0794d54"
+        },
+        "recipe": {
+          "path": "interiores/t01/recipe.json",
+          "bytes": 581,
+          "sha256": "91063fdebf294fd4a1df16c06d5a07d95582c583b58b73c16ef9f6288ba377fd"
+        }
+      }
+    },
+    "t02": {
+      "id": "t02",
+      "label": "T02 · 1 dormitório",
+      "area": 31.53,
+      "unitId": "vistas-da-quinze-t02",
+      "unitSHA256": "8459ca4af4d2b771f4cbd8c1c42cc49220b204e2f837a292fecc69d1cd4032e0",
+      "sourceSHA256": "95054dba2bf411b50251d8904115c2da7335cfe8f2ac296da1e9f86607330097",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/t02/unidade.json",
+          "bytes": 4739,
+          "sha256": "8459ca4af4d2b771f4cbd8c1c42cc49220b204e2f837a292fecc69d1cd4032e0"
+        },
+        "recipe": {
+          "path": "interiores/t02/recipe.json",
+          "bytes": 581,
+          "sha256": "95054dba2bf411b50251d8904115c2da7335cfe8f2ac296da1e9f86607330097"
+        }
+      }
+    },
+    "t03": {
+      "id": "t03",
+      "label": "T03 · 2 dormitórios com terraço",
+      "area": 62.29,
+      "unitId": "vistas-da-quinze-t03",
+      "unitSHA256": "f613f90cd836fe5f19bae475986b33d9f8a9f28508207e3f0347ef8841b8e3b3",
+      "sourceSHA256": "951804b1adbbafb4e808a0523a32e23c4e3719a94f230298a60a4bd1790e1e47",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/t03/unidade.json",
+          "bytes": 7919,
+          "sha256": "f613f90cd836fe5f19bae475986b33d9f8a9f28508207e3f0347ef8841b8e3b3"
+        },
+        "recipe": {
+          "path": "interiores/t03/recipe.json",
+          "bytes": 581,
+          "sha256": "951804b1adbbafb4e808a0523a32e23c4e3719a94f230298a60a4bd1790e1e47"
+        }
+      }
+    },
+    "t04": {
+      "id": "t04",
+      "label": "T04 · 2 dormitórios e escritório com terraço",
+      "area": 77.65,
+      "unitId": "vistas-da-quinze-t04",
+      "unitSHA256": "229b5da72b4dbfe466468dcddba1bf0581b187bba97d46bb6ad862d3bc198fd2",
+      "sourceSHA256": "af7b4e3e79f0252f6a43bd78b4d77649244945853b44257261c03555b2610a0c",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/t04/unidade.json",
+          "bytes": 9181,
+          "sha256": "229b5da72b4dbfe466468dcddba1bf0581b187bba97d46bb6ad862d3bc198fd2"
+        },
+        "recipe": {
+          "path": "interiores/t04/recipe.json",
+          "bytes": 581,
+          "sha256": "af7b4e3e79f0252f6a43bd78b4d77649244945853b44257261c03555b2610a0c"
+        }
+      }
+    },
+    "t05": {
+      "id": "t05",
+      "label": "T05 · 2 dormitórios com terraço",
+      "area": 62.43,
+      "unitId": "vistas-da-quinze-t05",
+      "unitSHA256": "c824e668448f1418f99dbdf488e6235fc47c6bff4a40990f39678a5b12ff71ff",
+      "sourceSHA256": "1ed9151a788ea9e3c281a9e309950cf03330a970f2cbef7c09ee08cbc3be0815",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/t05/unidade.json",
+          "bytes": 7830,
+          "sha256": "c824e668448f1418f99dbdf488e6235fc47c6bff4a40990f39678a5b12ff71ff"
+        },
+        "recipe": {
+          "path": "interiores/t05/recipe.json",
+          "bytes": 581,
+          "sha256": "1ed9151a788ea9e3c281a9e309950cf03330a970f2cbef7c09ee08cbc3be0815"
+        }
+      }
+    },
+    "t06": {
+      "id": "t06",
+      "label": "T06 · 2 dormitórios com terraço frontal",
+      "area": 71.1,
+      "unitId": "vistas-da-quinze-t06",
+      "unitSHA256": "0eca9cd07ba46ac94d6c26942c56a0db9d34e2d8690b6181852a8bd16e6a71b4",
+      "sourceSHA256": "f5b64b0539fd1f1c4da99812d403185ceab09fbb9d5db5a399d5a6ca3bae2ef5",
+      "geometryKind": "native-factories",
+      "lighting": "dynamic",
+      "files": {
+        "unit": {
+          "path": "interiores/t06/unidade.json",
+          "bytes": 7682,
+          "sha256": "0eca9cd07ba46ac94d6c26942c56a0db9d34e2d8690b6181852a8bd16e6a71b4"
+        },
+        "recipe": {
+          "path": "interiores/t06/recipe.json",
+          "bytes": 581,
+          "sha256": "f5b64b0539fd1f1c4da99812d403185ceab09fbb9d5db5a399d5a6ca3bae2ef5"
+        }
+      }
+    }
+  }
+}

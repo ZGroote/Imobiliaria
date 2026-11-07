@@ -181,19 +181,19 @@
     {
       "comodo": "Terraço",
       "lado": "south",
-      "de": 10,
-      "ate": 380,
+      "de": 4,
+      "ate": 427,
       "tipo": "window",
-      "alturaMm": 1150,
+      "alturaMm": 1550,
       "peitorilMm": 1050
     },
     {
       "comodo": "Terraço",
       "lado": "west",
-      "de": 10,
-      "ate": 155,
+      "de": 4,
+      "ate": 160,
       "tipo": "window",
-      "alturaMm": 1150,
+      "alturaMm": 1550,
       "peitorilMm": 1050
     }
   ],
@@ -495,7 +495,7 @@
     "Pé-direito de 2,60 m é suposto. A pegada do prédio é provisória até a implantação.",
     "Mesmo corpo do T01 com o terraço na frente. A imagem está 9-10% maior; a escala vem dos 44,79 m² do T01 aplicados ao corpo.",
     "Os quartos têm a janela para o terraço.",
-    "O terraço é descoberto no prédio (degrau da torre); aqui ele é um cômodo com guarda-corpo registrado como janela de peitoril 1,05 m.",
+    "O terraço é descoberto no prédio (degrau da torre). Aqui ele é um cômodo cuja borda de fora é um vão do peitoril de 1,05 m até o forro; o site tira o forro e o vão (interior-renderer.js, abrirTerracos).",
     "A banheira de hidromassagem, as plantas e a churrasqueira não existem no catálogo do construtor e entram na etapa dos interiores."
   ]
 }

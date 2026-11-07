@@ -33,15 +33,15 @@
     "Pé-direito de 2,60 m é suposto. A pegada do prédio é provisória até a implantação.",
     "Mesmo corpo do T01 com o terraço na frente. A imagem está 9-10% maior; a escala vem dos 44,79 m² do T01 aplicados ao corpo.",
     "Os quartos têm a janela para o terraço.",
-    "O terraço é descoberto no prédio (degrau da torre); aqui ele é um cômodo com guarda-corpo registrado como janela de peitoril 1,05 m.",
+    "O terraço é descoberto no prédio (degrau da torre). Aqui ele é um cômodo cuja borda de fora é um vão do peitoril de 1,05 m até o forro; o site tira o forro e o vão (interior-renderer.js, abrirTerracos).",
     "A banheira de hidromassagem, as plantas e a churrasqueira não existem no catálogo do construtor e entram na etapa dos interiores."
   ],
   "captura": {
     "construtorSHA256": "cf9d5b86b9288c02a9d9e93f6c101e61ea6dd5897b698c958c48dca554d4dc84",
     "inputsSHA256": {
-      "planta.json": "8558511ddb94d9536141a650ebf8936e0906a724ee373f91037b369da6a215a1",
-      "leitura.json": "b9ca4930561348ae2c1c6c0382c409e8a9fe6c11ffd735c4508637ce07b519e7",
-      "projeto-planta.json": "d31e9eaa7a4e97bb29da78f3ebeba52d9f22e9af9ad96dc3e73dca5d41bbf10d",
+      "planta.json": "c77c3295182c90e9b6b0720ec82301277074020d3820e8e39ae3cbaefc80d365",
+      "leitura.json": "5a2572b0af652e90e9db3b7fa4d11f5273e7414b859a56148c993e59fe2e556a",
+      "projeto-planta.json": "f2e8504466fe4cdd67cb95b0dd7c3cb8507443a7923c80c678cf2f9d08dbdde0",
       "moveis.json": "b125c6d16e2fa74e75b68d569c642825170a06155c7d9d5c0629aa1c1cd56b3c",
       "contexto.json": "c7bfeef04a99d35988ccbfa88971974dd316c1103d8aff334bcc22487a247acf"
     }
