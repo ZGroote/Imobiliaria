@@ -5,3 +5,12 @@ modelo/*.blend
 modelo/*.blend1
 modelo/luz/
 assets/
+mapa/osm-pois.json
+site/mapa-modelos/
+modelo/vistas-mapa.glb
+interiores/luz/*/source.json
+interiores/luz/*/moveis-site.glb
+interiores/luz/*/bake/
+interiores/luz/*/gravado/
+interiores/luz/logs/
+site/interiores/*/luz-horario/*.gz

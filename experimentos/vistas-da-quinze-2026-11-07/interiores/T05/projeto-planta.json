@@ -434,7 +434,7 @@
             "heightMm": 2100,
             "id": "a5",
             "kind": "door",
-            "offsetMm": 150,
+            "offsetMm": 450,
             "provenance": {
               "kind": "declared",
               "referenceIds": []

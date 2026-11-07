@@ -152,8 +152,8 @@
     {
       "comodo": "Sala integrada",
       "lado": "north",
-      "de": 188,
-      "ate": 228,
+      "de": 202,
+      "ate": 242,
       "tipo": "door",
       "alturaMm": 2100,
       "parte": 2

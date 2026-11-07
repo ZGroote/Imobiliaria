@@ -69,7 +69,7 @@ def main():
             'files': {'unit': {'path': f'interiores/{tip}/unidade.json', 'bytes': len(unit_bytes), 'sha256': sha(unit_bytes)},
                       'recipe': {'path': f'interiores/{tip}/recipe.json', 'bytes': len(recipe_bytes), 'sha256': sha(recipe_bytes)}}}
         # Com a fonte congelada pronta, a planta passa a ler a luz gravada por hora (como o Canto e o Meio do LIV).
-        fonte, uv1 = LUZ/TIP/'source.json', LUZ/TIP/'bake/geometry-compact.json'
+        fonte, uv1 = LUZ/tip/'source.json', LUZ/tip/'bake/geometry-compact.json'
         if fonte.is_file() and uv1.is_file():
             source_bytes, compact_bytes = fonte.read_bytes(), uv1.read_bytes()
             source, compact = json.loads(source_bytes), json.loads(compact_bytes)

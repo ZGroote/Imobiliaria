@@ -387,7 +387,7 @@
       "id": "a5",
       "kind": "door",
       "wallId": "c8-north",
-      "offsetMm": 150,
+      "offsetMm": 450,
       "widthMm": 900,
       "heightMm": 2100,
       "sillMm": 0,

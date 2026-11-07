@@ -1,0 +1,28 @@
+"""GLB do prédio para o mapa 2D: a torre, o embasamento e o lazer, sem o chão, as ruas e as palmeiras da maquete.
+
+No mapa o entorno é o satélite; o gramado de 150 m e as ruas do modelo tapavam o bairro. Lê modelo/vistas.blend
+(gravado por modelar_vistas.py) e não mexe no modelo.json da luz gravada.
+& 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Blender\\blender.exe' -b experimentos/vistas-da-quinze-2026-11-07/modelo/vistas.blend --python-exit-code 1 --python experimentos/vistas-da-quinze-2026-11-07/mapa/exportar_glb_mapa.py
+"""
+from pathlib import Path
+
+import bpy
+from mathutils import Vector
+
+SAIDA = Path(__file__).resolve().parents[1]/'modelo'/'vistas-mapa.glb'
+ACIMA_M = 5.0   # árvore da praça e vaso de terraço ficam acima do chão; palmeira da rua e gramado, não
+
+bpy.ops.object.select_all(action='DESELECT')
+fica = 0
+for ob in bpy.data.objects:
+    if ob.type != 'MESH' or ob.name.startswith('GEO-implantacao'):
+        continue
+    if ob.name.startswith('GEO-SITE'):
+        base = min((ob.matrix_world @ Vector(c)).z for c in ob.bound_box)
+        if base < ACIMA_M:
+            continue
+    ob.select_set(True)
+    fica += 1
+bpy.ops.export_scene.gltf(filepath=str(SAIDA), export_format='GLB', use_selection=True, export_apply=True,
+                          export_cameras=False, export_lights=False)
+print('VISTAS_MAPA_GLB', fica, SAIDA.stat().st_size, flush=True)

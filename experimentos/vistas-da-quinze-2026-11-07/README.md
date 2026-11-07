@@ -200,5 +200,22 @@ python experimentos/vistas-da-quinze-2026-11-07/interiores/gerar_pacote.py
 - **Testado:** as 6 plantas abrem no Tour sem erro, com 5 a 8 móveis trocados pelos aprovados do LIV.
   Na T03, dá para entrar pela porta de correr num terraço aberto com o spa.
 
+## 8. Mapa do entorno (feito)
+
+```
+& 'C:\Program Files (x86)\Steam\steamapps\common\Blenderlender.exe' -b experimentos/vistas-da-quinze-2026-11-07/modelo/vistas.blend --python-exit-code 1 --python experimentos/vistas-da-quinze-2026-11-07/mapa/exportar_glb_mapa.py
+python experimentos/vistas-da-quinze-2026-11-07/mapa/preparar_mapa.py
+```
+
+- É o mapa 2D próprio, copiado do Mooca (o runtime do LIV é copiado, e o LIV, o Laranjeiras e o Mooca
+  não mudam). A página é `site/mapa-liv-ipanema-5km.html`, o mesmo nome do link "O que tem por perto?".
+- **Estabelecimentos:** vêm de `sao-carlos/poidata.json` (OSM + Overture Places, etapa 0g), num raio de
+  5 km. São 7.381, contra 817 do OpenStreetMap sozinho. Sem esse arquivo, o script cai no Overpass, como
+  no Mooca.
+- **Modelo:** `exportar_glb_mapa.py` exporta só a torre, o embasamento e o lazer, sem o gramado de 150 m, as
+  ruas e as palmeiras da maquete, que tapavam o bairro no satélite. Ele lê o `vistas.blend` e não mexe no
+  `modelo.json` da luz.
+- **Peso:** o GLB tem 7,8 MB. O mapa já tem o decodificador meshopt; comprimir fica para a etapa 9.
+
 Commit ao fim de cada etapa. Nada publicado sem o OK do usuário (e, sendo um lançamento real de outra
 incorporadora, sem o OK do cliente).
