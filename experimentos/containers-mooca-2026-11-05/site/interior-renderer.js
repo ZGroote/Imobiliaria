@@ -8,7 +8,6 @@ import {createTimeLightmaps} from './interior-luz-horario.js';
 import {createLayout,createNavigation,inside} from './interior-navigation.js';
 import {createDoors} from './interior-portas.js';
 import {repairFrozenJoins} from './interior-reparo-encaixes.js';
-import {applyVeneer} from './folheado.js';
 import {planFrame,roomLook} from './interior-camera.js';
 import {createPlanCutaway} from './interior-cutaway.js?rev=2026-10-13-rodateto-selado-final';
 import {repairWallTops} from './interior-wall-tops.js?rev=2026-10-13-rodateto-selado-final';
@@ -112,6 +111,31 @@ function rebocoDoCaderno(scene){
     feitos.add(m);m.map=mapa;m.color.set(REBOCO.cor).multiplyScalar(1/media);m.needsUpdate=true;
   }});
   state.reboco={materiais:feitos.size,mediaLinear:+media.toFixed(3)};
+}
+/** Containers: cama do caderno. A cama do LIV é uma malha só, toda "Algodao cru", e as partes vêm pela cor de
+ * vértice: pés (0,17), estrutura (0,69: base, cabeceira e a manta por cima) e tecido (0,95: colchão e travesseiros).
+ * O render 10 (PNE) tem base de madeira, colchão grafite e travesseiro branco; o do quádruplo, manta cinza; o casal
+ * fica creme. Pinta pela cor e pela altura: base abaixo de 0,37 m; travesseiro = tecido acima do colchão (0,51 m) na metade da cabeceira. */
+const CAMA={armario:'#e9e5dd',base:'#8a6a4c',cabeceira:'#b9ad9b',
+  tecido:{individual:'#46474b','individual-pne':'#46474b',quadruplo:'#8e8c87'}};
+function camaDoCaderno(scene,tipologia){
+  const feitas=new Set(),tom=hex=>new THREE.Color(hex),cor=CAMA.tecido[tipologia];
+  scene.traverse(mesh=>{
+    const g=mesh.geometry,C=g?.attributes?.color,P=g?.attributes?.position;
+    if(!mesh.isMesh||!C||feitas.has(g)||![mesh.material].flat().some(m=>m.name==='Algodao cru'))return;
+    feitas.add(g);
+    let topo=-1,cab=0;  // a cabeceira é o lado onde a estrutura sobe mais
+    for(let i=0;i<C.count;i++)if(Math.abs(C.getX(i)-.69)<.03&&P.getY(i)>topo){topo=P.getY(i);cab=Math.sign(P.getZ(i));}
+    g.computeBoundingBox();const meia=Math.max(Math.abs(g.boundingBox.min.z),Math.abs(g.boundingBox.max.z));
+    for(let i=0;i<C.count;i++){
+      const r=C.getX(i),y=P.getY(i),lado=P.getZ(i)*cab/meia,naCabeceira=lado>.6;let c=null;
+      if(Math.abs(r-.69)<.03)c=y<.37?tom(CAMA.base):naCabeceira?tom(CAMA.cabeceira):cor&&tom(cor);  // o resto é a manta
+      else if(Math.abs(r-.95)<.03&&cor&&!(lado>.3&&y>.515))c=tom(cor);
+      if(c)C.setXYZ(i,c.r,c.g,c.b);
+    }
+    C.needsUpdate=true;
+  });
+  state.cama={malhas:feitas.size};
 }
 function createRenderer(options){
   const value=own(classicRequested?createClassicInteriorRenderer(options):new THREE.WebGPURenderer(options)),setLoop=value.setAnimationLoop.bind(value);
@@ -760,8 +784,8 @@ async function start(){
   layout=createLayout(unit);scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(48,1,.02,100);state.scene=scene;state.camera=camera;
   controls=own(new OrbitControls(camera,canvas));listen(controls,'change',()=>{frameDirty=true;});controls.enableDamping=false;controls.maxPolarAngle=Math.PI*.48;controls.minDistance=3;controls.maxDistance=32;
   const native=await materialsFrom(nativeMaterials);check();
-  // Antes de montar os móveis: as cópias do guarda-roupa (aéreos também) herdam a nogueira.
-  await applyVeneer(named(native,'Acabamento guardaroupa'),{load:file=>load(file,false,true),own,onBitmap:bitmap=>bitmaps.add(bitmap)});check();
+  // Containers: armário branco do caderno (renders 9 a 11) no lugar da nogueira do LIV; os aéreos copiam este material.
+  for(const m of named(native,'Acabamento guardaroupa')){Object.assign(m,{map:null,normalMap:null,roughnessMap:null,vertexColors:false,roughness:.55,metalness:0});m.color.set(CAMA.armario);}
   for(const [i,m]of unit.planta.moveis.entries()){
     const position=[m.p[0]-layout.center[0],m.p[1]-layout.center[1]];
     furniture.push({...m,id:`movel-${i}`,name:m.nome||m.tipo,position,originalPosition:[...position],rotation:m.rot||0,originalRotation:m.rot||0,originalDimensions:dimensionsOf(m)});
@@ -804,6 +828,7 @@ async function start(){
   const baseTypology=typology.replace(/-espelhado$/,'');
   improvements.replaceFurniture(furniture,scene,baseTypology,walls);improvements.applyFinishes(native,scene,finishIds(record));
   rebocoDoCaderno(scene);
+  camaDoCaderno(scene,baseTypology);
   improvements.addDecorations(furniture,scene,baseTypology);
   for(const target of baked)target.originalMaterial=target.mesh.material;
   if(timeLight){

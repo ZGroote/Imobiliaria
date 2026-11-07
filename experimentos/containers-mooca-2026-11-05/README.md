@@ -245,4 +245,9 @@ Medido contra o render 10 do caderno: a parede lá fica em ~(175, 169, 158), que
 
 A luz gravada é só irradiância, então trocar cor e textura não pede regravar.
 Resultado na mesma câmera: parede (189, 185, 175).
-Falta: a janela estoura em branco, a roupa de cama é toda branca e o veio do armário sai laranja.
+- `CAMA`: armário branco (#e9e5dd, sem a nogueira do LIV), como nos renders do caderno. A cama do LIV é uma
+  malha só; as partes vêm pela cor de vértice (pés 0,17, estrutura 0,69, tecido 0,95) e são pintadas pela altura:
+  base de madeira, cabeceira bege, travesseiro e lençol brancos, manta grafite no individual e no PNE, cinza no
+  quádruplo; o casal fica creme.
+
+A janela clara não foi mexida: nos renders 9 e 10 do caderno ela também estoura.
