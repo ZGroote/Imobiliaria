@@ -12,6 +12,8 @@ import gzip
 import hashlib
 import json
 import math
+import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -327,6 +329,7 @@ def main():
     (SAIDA/'unidades.json').write_text(json.dumps(cat, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
     encoded = json.dumps(data, ensure_ascii=True, separators=(',', ':')).encode()
     (SAIDA/'scene.json.gz').write_bytes(gzip.compress(encoded, compresslevel=6, mtime=0))
+    (SAIDA/'irradiance-previa.rgbm.gz').unlink(missing_ok=True)  # refeita abaixo, a partir do atlas novo
     files = {p.name: {'bytes': p.stat().st_size, 'sha256': sha(p.read_bytes())}
              for p in SAIDA.iterdir() if p.is_file() and p.name != 'manifest.json'}
     manifest = {'schema': 'liv-proof-manifest-v1', 'exportedAtUtc': datetime.now(timezone.utc).isoformat(),
@@ -334,6 +337,9 @@ def main():
                 'meshCount': len(meshes), 'bakedMeshes': sum(m['instances'] is None for m in meshes),
                 'exportPurpose': 'Vistas da Quinze: cena gerada direto do modelo.json.'}
     (SAIDA/'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+    # Prévia 1024² (2 MB) do LIV: o prédio acende com ela e o renderer troca pelo atlas de 11 MB quando chega.
+    previa = Path(__file__).resolve().parents[2]/'liv-experimental-2026-10-14'/'modelo'/'gerar_previa_luz.py'
+    subprocess.run([sys.executable, '-I', str(previa), str(SAIDA)], check=True)
     print(json.dumps({k: manifest[k] for k in ('meshCount', 'bakedMeshes')} |
                      {'sceneMB': round(files['scene.json.gz']['bytes']/2**20, 1),
                       'atlasMB': round(files['irradiance.rgbm.gz']['bytes']/2**20, 1)}))

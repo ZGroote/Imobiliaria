@@ -647,7 +647,7 @@ function setAmbience(profile){
 }
 function setFloor(floor) {
   const value=Number(floor);
-  if(!Number.isInteger(value)||value < -1||value >12)throw Error('Pavimento inválido.');
+  if(!Number.isInteger(value)||value < -1||value >(units?.floors??13)-1)throw Error('Pavimento inválido.');
   state.frame?.contentWindow?.__livProva?.setFloor(value);state.floor=value;
   if(state.selectedUnitId&&floorOf(units,unitById(units,state.selectedUnitId))!==value)state.selectedUnitId=null;
   if(floorControl)floorControl.value=String(floor);

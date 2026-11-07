@@ -23,6 +23,12 @@ for ob in bpy.data.objects:
             continue
     ob.select_set(True)
     fica += 1
+# Peso (etapa 9): no mapa o prédio é uma peça só. Juntar as 417 malhas numa (uma primitiva por material) troca
+# 417 desenhos por 28, e sem textura no GLB o UV é peso morto. O .blend não é salvo.
+bpy.ops.object.duplicate()
+bpy.ops.object.convert(target='MESH')  # aplica modificadores e solta instâncias de malha compartilhada
+bpy.context.view_layer.objects.active = bpy.context.selected_objects[0]
+bpy.ops.object.join()
 bpy.ops.export_scene.gltf(filepath=str(SAIDA), export_format='GLB', use_selection=True, export_apply=True,
-                          export_cameras=False, export_lights=False)
+                          export_cameras=False, export_lights=False, export_texcoords=False)
 print('VISTAS_MAPA_GLB', fica, SAIDA.stat().st_size, flush=True)

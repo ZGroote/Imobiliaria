@@ -577,7 +577,8 @@ async function start() {
   mark('ready');state.ready=true;state.activeView='perspectiva';
   state.setActive(state.active);
   progress('ready','Maquete carregada');
-  if(units)fetch(new URL('./vagas.json',import.meta.url),{signal:requests.signal,cache:'no-cache'}).then(async response=>{
+  // Vistas: a garagem fica no embasamento e não tem mapa vaga→apartamento; sem o pedido, sem 404 no console.
+  if(units&&units.schema!=='vistas-da-quinze-units-v1')fetch(new URL('./vagas.json',import.meta.url),{signal:requests.signal,cache:'no-cache'}).then(async response=>{
     if(response.status===404)return;
     if(!response.ok)throw Error('vagas.json '+response.status);
     const catalog=await response.json();

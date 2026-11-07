@@ -235,7 +235,29 @@ python experimentos/vistas-da-quinze-2026-11-07/mapa/preparar_mapa.py
 - **Modelo:** `exportar_glb_mapa.py` exporta só a torre, o embasamento e o lazer, sem o gramado de 150 m, as
   ruas e as palmeiras da maquete, que tapavam o bairro no satélite. Ele lê o `vistas.blend` e não mexe no
   `modelo.json` da luz.
-- **Peso:** o GLB tem 7,8 MB. O mapa já tem o decodificador meshopt; comprimir fica para a etapa 9.
+- **Peso:** ver a etapa 9.
+
+## 9. Peso e celular (feito)
+
+- **Prévia do atlas:** `exportar_cena.py` termina chamando o `gerar_previa_luz.py` do LIV
+  (`irradiance-previa.rgbm.gz`, 1024², 2 MB). Com o relógio do sol (é como a página abre), o atlas do
+  exterior fica com peso 0 (`horario-exterior.js`: o prédio é iluminado pelo sol em tempo real), e o
+  renderer só troca a prévia pelo completo sem o relógio. Antes, a página esperava os 11 MB do atlas para não
+  usar nada; agora baixa 2 MB.
+- **GLB do mapa:** `exportar_glb_mapa.py` junta as 417 malhas numa só (28 materiais = 28 desenhos, eram
+  417) e exporta sem UV (o mapa não tem textura): 7,8 → 6,6 MB, que o Hosting entrega em brotli
+  (conferido num GLB do Laranjeiras no ar: `Content-Encoding: br`), uns 0,9 MB. O mapa não liga decodificador
+  Draco nem meshopt (o bundle tem o código, mas não chama `setMeshoptDecoder`), então GLB comprimido não abriria
+  e o `gltfpack` não foi preciso.
+- **Andares acima do 12º:** `setFloor` do `viewer.js` vinha do Laranjeiras com teto fixo em 12 e recusava os
+  84 apartamentos do 13º ao 20º escolhidos pela lista. Agora o teto é `floors` do cadastro (21).
+- **vagas.json:** o Vistas não tem mapa de vagas; o `renderer.js` não pede mais o arquivo (era um 404 no
+  console).
+- `rev` novo no `maquete-vistas.html` e no `prova-rgbm.html`, para o navegador não ficar com a cópia velha.
+- **Testado em 375×812 (celular emulado):** a maquete abre em 2,8 s (local), o toque escolhe o
+  apartamento, o 20º andar abre a T05 com a luz gravada, sem erro no console.
+- **Falta na publicação:** passar a página pelo `tools/minificar_html.mjs` e medir com rede emulada
+  servindo comprimido (o `http.server` daqui não comprime).
 
 Commit ao fim de cada etapa. Nada publicado sem o OK do usuário (e, sendo um lançamento real de outra
 incorporadora, sem o OK do cliente).
