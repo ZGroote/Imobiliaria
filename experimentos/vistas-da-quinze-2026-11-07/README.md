@@ -215,7 +215,8 @@ python experimentos/vistas-da-quinze-2026-11-07/interiores/gerar_pacote.py
 - **Exposição por planta** (`expor` em `gerar_pacote.py`): o vão aberto do terraço põe de 2 a 3 vezes mais
   luz na sala do que na T01, e com o EV do Laranjeiras (3,0) o sofá e o piso ficavam brancos. O pacote mede
   a mediana da luz gravada (10, 12 e 14 h) e baixa o `exposureEV` do manifesto até o nível da T01/T02,
-  como um fotógrafo faria: T01 3,0 · T02 2,97 · T03 1,35 · T04 1,95 · T05 1,75 · T06 1,53. O valor original
+  como um fotógrafo faria: T01 3,0 · T02 2,97 · T03 1,38 · T04 1,95 · T05 1,78 · T06 1,63 (depois da
+  regravação das portas, etapa 11). O valor original
   fica em `exposureEVGravado`, então rodar de novo não acumula.
 - **Testado:** as 6 plantas abrem com `luz gravada no Cycles por hora` às 7, 10, 15, 17 e 20 h, sem erro.
   Vista de cima, o terraço ao sol continua bem claro (céu aberto), mas o spa e as poltronas aparecem.
@@ -289,6 +290,37 @@ python -I experimentos/vistas-da-quinze-2026-11-07/archicad/prints.py
   - Portas e janelas usam a peça padrão da biblioteca, sem material de fachada.
 - **Projeto do Codex:** o `archicad/Tipologias.pln` da raiz (conversa do Codex de 06/11) não foi tocado. O
   projeto novo saiu de uma cópia do `AC30 Template.tpl`, porque a conexão só abre `.pln` ou `.pla`.
+
+## 11. Portas na quina e interruptores (feito, depois do plano)
+
+```
+python experimentos/vistas-da-quinze-2026-11-07/interiores/folga_portas.py --corrigir
+bash experimentos/vistas-da-quinze-2026-11-07/interiores/luz/regravar.sh t03 t04 t05 t06
+```
+
+- **Fresta entre duas portas na quina** (print do usuário): com o eixo da porta a 10 cm da parede vizinha,
+  sobravam ~4 cm de parede, e os batentes e as guarnições das duas portas se cruzavam. `folga_portas.py` mede
+  a folga em `unidade.json` e afasta a porta no `planta.json` até 15 cm (meia parede 6,5 + guarnição 5,5,
+  arredondado na grade de 5 cm do construtor); se o trecho é curto, encolhe a porta (mínimo 60 cm). Mexeu em
+  10 portas da T03 à T06. Sobra a T03 `a3` (banho da suíte, 60 cm num trecho de 85 cm, 10/15 cm), que não
+  tem outra porta na quina.
+- **Luz regravada:** porta mudou, a geometria mudou, então `regravar.sh` refaz fonte → UV1 → Cycles → pacote
+  só das plantas pedidas. Levou cerca de 80 min por planta (13h00 a 18h04 para as 4).
+- **Interruptor em cada cômodo:** o banheiro é interno (tem shaft, não janela) e ficava escuro de dia.
+  `site/interior-interruptores.js` põe uma placa a 1,10 m na parede ao lado da porta de cada cômodo com
+  plafon (lado da maçaneta, por dentro; a porta do quarto é do quarto e a entrada é da sala; terraço
+  descoberto fica sem). Chegando perto e de frente, aparece o botão "Acender/Apagar luz · cômodo (L)",
+  como o da porta (E).
+- **Como acende:** a claridade não vem da spot em tempo real (fraca demais nessa escala), e sim da noite
+  gravada no Cycles, que já tem os plafons acesos, aplicada só no cômodo. O peso da noite agora é por
+  cômodo (`createNightRooms` em `material-rgbm.js` e `classicNightRooms` em `classic-lighting.js`), lido no
+  mapa de cômodos das sondas, 12 cm à frente da face, para a parede pegar o próprio cômodo. Sem interruptor
+  mexido, todos seguem o relógio e a imagem é a mesma de antes. A spot e o difusor do plafon acompanham o
+  interruptor, e a spot dá a sombra dos móveis. Os shaders dos móveis reaproveitam o mapa de cômodos das
+  sondas: um segundo mapa passava do limite de 16 texturas do WebGPU.
+- **Testado:** T03 às 14 h, banheiro acende e apaga sem vazar para o quarto; T01 às 21 h, a sala apaga e
+  acende. Nos dois motores (WebGL padrão e `?motor=nodes`/WebGPU). As 6 plantas abrem sem erro, com um
+  interruptor por cômodo. Archicad refeito com as plantas novas (mesmas contagens).
 
 Commit ao fim de cada etapa. Nada publicado sem o OK do usuário (e, sendo um lançamento real de outra
 incorporadora, sem o OK do cliente).

@@ -44,9 +44,9 @@
   "captura": {
     "construtorSHA256": "cf9d5b86b9288c02a9d9e93f6c101e61ea6dd5897b698c958c48dca554d4dc84",
     "inputsSHA256": {
-      "planta.json": "11dddd603de9d233d2c93bf6ac4f1cf75080653cddcfff61be16f74de1666f8b",
-      "leitura.json": "bd308468843478320bf1ede9e5c85d75b56bd7349229b8fc6ed50c89f984b345",
-      "projeto-planta.json": "c1ff3d654d1f65fb51b17d91c4546e2c7d12a021ce97d6a867745b2b938df278",
+      "planta.json": "42db8888aab0de54763cdb68332b058d20dfc41f040f068219f1b316e7ba1465",
+      "leitura.json": "432e77e6866383315f8861284abd0c2b29f492b6d1d9cd63d9b058c13decc82c",
+      "projeto-planta.json": "b5965c2a6403c1aa7d9d6f949325ca90eadb2c5f727169904746a87649863e8c",
       "moveis.json": "c66a59091b18290e7c289fdc497030a9ac5528f7a4df4703f27b233e9f8a20e9",
       "contexto.json": "ad48094d6b03f6735e22c05602e1c430c686408741959a72a8f435d68ec5bc34"
     }

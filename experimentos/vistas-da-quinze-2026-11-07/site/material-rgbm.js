@@ -1,4 +1,4 @@
-import {classicAtlas,classicProbes,classicBakedMaterial,setClassicGains,setClassicNormalization} from './classic-lighting.js';
+import {classicAtlas,classicProbes,classicBakedMaterial,setClassicGains,setClassicNormalization,classicNightRooms,NIGHT_ROOMS} from './classic-lighting.js';
 import * as THREE from 'three/webgpu';
 import {texture, texture3D, uv, float, int, uniform, uniformArray, vec2, vec3, clamp, select, dot, floor, fract, mix, positionWorld, normalWorld, diffuseContribution} from 'three/tsl';
 
@@ -20,8 +20,19 @@ const reflectionNormalize=uniform(0);
 export function setReflectionNormalization(enabled){setClassicNormalization(enabled);reflectionNormalize.value=enabled?1:0;}
 
 /** Duas horas gravadas + a noite numa só expressão; trocar hora muda texturas e pesos, não o shader. */
-export function createTimeIrradiance({range,intensity,width,height}) {
-  if(classicBackend)return classicAtlas({range,intensity,width,height,manualBilinear:true});
+/** Peso da noite gravada por cômodo (interruptor); ver classicNightRooms. */
+export function createNightRooms(map) {
+  if(classicBackend)return classicNightRooms(map);
+  const bytes=Uint8Array.from(atob(map.data),c=>c.charCodeAt(0)),rooms=new THREE.DataTexture(bytes,map.width,map.height,THREE.RedFormat,THREE.UnsignedByteType);
+  rooms.minFilter=rooms.magFilter=THREE.NearestFilter;rooms.generateMipmaps=false;rooms.flipY=false;rooms.needsUpdate=true;
+  const level=uniformArray(new Array(NIGHT_ROOMS).fill(0),'float');
+  const q=positionWorld.xz.add(normalWorld.xz.mul(.12)).sub(vec2(map.x0,map.z0)).div(vec2(map.width*map.cell,map.height*map.cell));
+  const room=int(texture(rooms,q).r.mul(255).add(.5)).min(NIGHT_ROOMS-1);
+  return {node:level.element(room),at:index=>level.element(index.min(NIGHT_ROOMS-1)),resources:[rooms],
+    set(levels){levels.forEach((value,index)=>{level.array[index]=value;});}};
+}
+export function createTimeIrradiance({range,intensity,width,height,night=null}) {
+  if(classicBackend)return classicAtlas({range,intensity,width,height,manualBilinear:true,night});
   const placeholder=new THREE.DataTexture(new Uint8Array(4),1,1);placeholder.channel=1;placeholder.needsUpdate=true;
   // Laranjeiras: decodifica os 4 texels vizinhos e só então mistura. O bilinear do hardware misturava o RGBM
   // codificado: onde o multiplicador muda entre vizinhos a média saía errada e a parede ganhava contornos em
@@ -33,7 +44,7 @@ export function createTimeIrradiance({range,intensity,width,height}) {
   // Multiplicador ao quadrado (linear-rgbm2-u8): luz = rgb·a²·range.
   const texel=sample=>sample.rgb.mul(sample.a).mul(sample.a);
   const decode=([s00,s10,s01,s11],weight)=>mix(mix(texel(s00),texel(s10),f.x),mix(texel(s01),texel(s11),f.x),f.y).mul(weight);
-  const node=decode(samples[0],weights[0]).add(decode(samples[1],weights[1])).add(decode(samples[2],weights[2])).mul(float(range*intensity));
+  const node=decode(samples[0],weights[0]).add(decode(samples[1],weights[1])).add(decode(samples[2],night?night.node:weights[2])).mul(float(range*intensity));
   return {node,
     set({a,b,night,wa,wb,wn}){
       [a,b,night].forEach((value,index)=>{for(const sample of samples[index])sample.value=value;});
@@ -106,8 +117,8 @@ export class LivBakedPhysicalNodeMaterial extends withBakedIrradiance(THREE.Mesh
 
 /** Ambient cube from the per-room probe grid: room map (top view) picks the grid, so walls never leak.
  * Texture z = face * rows + room offset + row; faces +x -x +y -y +z -z. Values are E/π like the atlas. */
-export function createProbeIrradiance(probes, intensity) {
-  if(classicBackend)return classicProbes(probes,intensity);
+export function createProbeIrradiance(probes, intensity, night=null) {
+  if(classicBackend)return classicProbes(probes,intensity,night);
   const map = probes.roomMap, bytes = Uint8Array.from(atob(map.data), c => c.charCodeAt(0));
   const rooms = new THREE.DataTexture(bytes, map.width, map.height, THREE.RedFormat, THREE.UnsignedByteType);
   rooms.minFilter = rooms.magFilter = THREE.NearestFilter; rooms.generateMipmaps = false; rooms.flipY = false; rooms.needsUpdate = true;
@@ -131,7 +142,7 @@ export function createProbeIrradiance(probes, intensity) {
       .add(select(n.y.greaterThan(0), sample(2), sample(3)).mul(n2.y))
       .add(select(n.z.greaterThan(0), sample(4), sample(5)).mul(n2.z));
   };
-  const node = cube(0).mul(weights[0]).add(cube(1).mul(weights[1])).add(cube(2).mul(weights[2])).mul(float(intensity));
+  const node = cube(0).mul(weights[0]).add(cube(1).mul(weights[1])).add(cube(2).mul(night ? night.at(room) : weights[2])).mul(float(intensity));
   return {node, rooms,
     set({a, b, night, wa, wb, wn}) {
       const next = [a, b, night];

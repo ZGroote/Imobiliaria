@@ -121,16 +121,16 @@
     {
       "comodo": "Banho social",
       "lado": "east",
-      "de": 328,
-      "ate": 360,
+      "de": 329,
+      "ate": 361,
       "tipo": "door",
       "alturaMm": 2100
     },
     {
       "comodo": "Suíte",
       "lado": "west",
-      "de": 326,
-      "ate": 356,
+      "de": 322,
+      "ate": 352,
       "tipo": "door",
       "alturaMm": 2100,
       "parte": 1

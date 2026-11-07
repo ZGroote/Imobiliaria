@@ -36,7 +36,7 @@ function roomCenter(room){
 /** Um único rig reutilizado em todo input; os recursos são liberados pelo own do renderer. */
 export function createInteriorSolarLighting({scene,layout,own=value=>value,ceiling=[],environment=null,backgroundEnvironment=environment,environmentExposureEV=null}){
   if(environmentExposureEV!==null&&!Number.isFinite(environmentExposureEV))throw new RangeError('Exposição do ambiente importado inválida.');
-  const objects=[],fixtures=[],spots=[],originals=[],roofShadows=[];
+  const objects=[],fixtures=[],spots=[],originals=[],roofShadows=[],lights=[];
   const add=object=>{scene.add(object);objects.push(object);return object;};
   const oldEnvironment=scene.environment,oldEnvironmentIntensity=scene.environmentIntensity,oldBackground=scene.background;
   const oldBackgroundIntensity=scene.backgroundIntensity;
@@ -67,12 +67,14 @@ export function createInteriorSolarLighting({scene,layout,own=value=>value,ceili
       .sort((a,b)=>a.getWorldPosition(new THREE.Vector3()).distanceToSquared(new THREE.Vector3(center[0],layout.pd,center[1]))-
         b.getWorldPosition(new THREE.Vector3()).distanceToSquared(new THREE.Vector3(center[0],layout.pd,center[1])))[0];
     let fixture=real;
+    // Um difusor por cômodo: o interruptor acende um plafon só.
+    const material=own(diffuser.clone());
     if(real){
-      used.add(real);originals.push({mesh:real,material:real.material});real.material=diffuser;
+      used.add(real);originals.push({mesh:real,material:real.material});real.material=material;
       const p=real.getWorldPosition(new THREE.Vector3());center[0]=p.x;center[1]=p.z;
     }else{
       fixtureGeometry??=own(new THREE.CylinderGeometry(.13,.13,.035,24));
-      fixture=add(new THREE.Mesh(fixtureGeometry,diffuser));fixture.name=`Plafon LIV · ${room.name}`;
+      fixture=add(new THREE.Mesh(fixtureGeometry,material));fixture.name=`Plafon LIV · ${room.name}`;
       fixture.position.set(center[0],layout.pd-.045,center[1]);fixture.receiveShadow=true;ceiling.push(fixture);
     }
     fixture.userData.livSolarFixture=true;fixtures.push(fixture);
@@ -86,8 +88,20 @@ export function createInteriorSolarLighting({scene,layout,own=value=>value,ceili
     lamp.shadow.mapSize.set(512,512);lamp.shadow.camera.near=.04;lamp.shadow.camera.far=lamp.distance;
     lamp.shadow.bias=-.0005;lamp.shadow.normalBias=.025;lamp.shadow.radius=2;lamp.shadow.autoUpdate=false;lamp.shadow.needsUpdate=true;
     lamp.userData.livDayIntensity=24*Math.min(1.3,Math.max(.65,Math.sqrt(room.area/9)));
-    spots.push(lamp);
+    spots.push(lamp);lights.push({name:room.name,fixture,lamp,material,manual:null,off:false});
   }
+  // Interruptor: manual true/false vence o relógio; null segue a noite. Todas as spots ficam visíveis juntas
+  // (intensidade 0 nas apagadas) para o shader ter só dois estados de luz e não recompilar a cada clique.
+  function refreshLamps(){
+    const night=current?.night??0;
+    for(const light of lights){
+      const level=light.off?0:light.manual===null?night:Number(light.manual);
+      light.lamp.intensity=light.lamp.userData.livDayIntensity*level;light.material.emissiveIntensity=1.6*level;
+    }
+    const lit=lights.some(light=>light.lamp.intensity>0);for(const lamp of spots)lamp.visible=lit;
+    for(const lamp of spots)lamp.shadow.needsUpdate=true;
+  }
+  const lightByName=name=>lights.find(light=>light.name===name&&!light.off);
   // A planta oculta o teto apenas na apresentação; ele continua barrando o sol.
   const blockerMaterial=own(new THREE.MeshBasicMaterial({colorWrite:false,depthWrite:false,side:THREE.DoubleSide}));
   for(const mesh of ceiling){
@@ -134,10 +148,20 @@ export function createInteriorSolarLighting({scene,layout,own=value=>value,ceili
       // Local probes are linear EV 0. Carry the approved source's exposure into
       // this indirect term; camera, dynamic sun and artificial lights stay unchanged.
       scene.environmentIntensity=environment&&environmentExposureEV!==null?2**environmentExposureEV*time.daylight:.06+.215*time.daylight;
-      diffuser.emissiveIntensity=1.6*time.night;
-      for(const lamp of spots){lamp.intensity=lamp.userData.livDayIntensity*time.night;lamp.visible=lamp.intensity>0;}
-      syncPresentation();return true;
+      refreshLamps();syncPresentation();return true;
     },
+    /** on: true acende, false apaga, null volta ao automático (acende à noite). */
+    setRoomLight(name,on){
+      const light=lightByName(name);if(!light||![true,false,null].includes(on))return false;
+      light.manual=on;refreshLamps();return true;
+    },
+    isRoomLit:name=>Boolean(lightByName(name)?.lamp.intensity>0),
+    /** Terraço descoberto: o plafon ficaria pendurado no céu. */
+    disableRoom(name){
+      const light=lights.find(item=>item.name===name);if(!light)return false;
+      light.off=true;light.fixture.visible=false;refreshLamps();return true;
+    },
+    roomsWithLight:()=>lights.filter(light=>!light.off).map(light=>light.name),
     syncPresentation,invalidateShadows,
     getState(){return {time:current?structuredClone(current):null,sunIntensity:sun.intensity,skyIntensity:sky.intensity,
       environmentIntensity:scene.environmentIntensity,artificialIntensity:spots.reduce((sum,lamp)=>sum+lamp.intensity,0),

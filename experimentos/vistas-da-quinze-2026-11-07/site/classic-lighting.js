@@ -11,9 +11,20 @@ export function setClassicGains({bake=1,direct=0,ambient=direct}={}){gain.bake.v
 export function setClassicNormalization(enabled){gain.normalize.value=enabled?1:0;}
 // Mobile WebGL2 may expose only 16 samplers. Pack temporal channels into one
 // texture binding; retain every source texel and the existing interpolation.
-export function classicAtlas({range,intensity,width,height,manualBilinear=false}){
+/** Peso da noite gravada por cômodo (interruptor): o cômodo vem do mapa das sondas, um pouco à frente da face
+ * (p + n·12 cm), para a parede pegar o cômodo que ela ilumina e não o vizinho. */
+export const NIGHT_ROOMS=16;
+export function classicNightRooms(map){
+ const bytes=Uint8Array.from(atob(map.data),c=>c.charCodeAt(0)),rooms=new THREE.DataTexture(bytes,map.width,map.height,THREE.RedFormat,THREE.UnsignedByteType);
+ rooms.minFilter=rooms.magFilter=THREE.NearestFilter;rooms.generateMipmaps=false;rooms.flipY=false;rooms.needsUpdate=true;
+ const uniforms={livNightRooms:{value:rooms},livNightBounds:{value:new THREE.Vector4(map.x0,map.z0,map.width*map.cell,map.height*map.cell)},livNightLevel:{value:new Array(NIGHT_ROOMS).fill(0)}};
+ const shader=`uniform sampler2D livNightRooms;uniform vec4 livNightBounds;uniform float livNightLevel[${NIGHT_ROOMS}];
+ float livNightWeight(vec3 p,vec3 n){vec2 q=(p.xz+n.xz*0.12-livNightBounds.xy)/livNightBounds.zw;return livNightLevel[min(int(texture(livNightRooms,q).r*255.0+0.5),${NIGHT_ROOMS-1})];}`;
+ return {uniforms,shader,resources:[rooms],set(levels){levels.forEach((value,index)=>{uniforms.livNightLevel.value[index]=value;});}};
+}
+export function classicAtlas({range,intensity,width,height,manualBilinear=false,night=null}){
  let atlas=new THREE.DataArrayTexture(new Uint8Array(4),1,1,1),previous=[];
- const uniforms={livAtlas:{value:atlas},livWeights:{value:new THREE.Vector3()},livLayers:{value:new THREE.Vector3()}};
+ const uniforms={livAtlas:{value:atlas},livWeights:{value:new THREE.Vector3()},livLayers:{value:new THREE.Vector3()},...night?.uniforms};
  const owner={dispose(){atlas.dispose();previous=[];}};
  const sampling=manualBilinear?`
  vec3 livTexel(vec4 p){return (p.rgb*p.a)*p.a;}
@@ -21,8 +32,9 @@ export function classicAtlas({range,intensity,width,height,manualBilinear=false}
   return mix(mix(livTexel(texture(livAtlas,vec3((b+vec2(0.5,0.5))/size,layer))),livTexel(texture(livAtlas,vec3((b+vec2(1.5,0.5))/size,layer))),f.x),mix(livTexel(texture(livAtlas,vec3((b+vec2(0.5,1.5))/size,layer))),livTexel(texture(livAtlas,vec3((b+vec2(1.5,1.5))/size,layer))),f.x),f.y);}`:
  `vec3 livSample(float layer){vec4 p=texture(livAtlas,vec3(vLivUV,layer));return (p.rgb*p.a)*p.a;}`;
  const shader=`uniform highp sampler2DArray livAtlas;uniform vec3 livWeights,livLayers;varying vec2 vLivUV;
+ ${night?night.shader:''}
  ${sampling}
- vec3 livIrradiance(vec3 p,vec3 n){return ((livSample(livLayers.x)*livWeights.x+livSample(livLayers.y)*livWeights.y)+livSample(livLayers.z)*livWeights.z)*${range*intensity};}`;
+ vec3 livIrradiance(vec3 p,vec3 n){return ((livSample(livLayers.x)*livWeights.x+livSample(livLayers.y)*livWeights.y)+livSample(livLayers.z)*${night?'livNightWeight(p,n)':'livWeights.z'})*${range*intensity};}`;
  return {node:{kind:'atlas',uniforms,shader},resources:[owner],set({a,b,night,wa,wb,wn}){
   const channels=[a,b,night],unique=[...new Set(channels)];
   if(unique.some((texture,index)=>previous[index]!==texture)||unique.length!==previous.length){
@@ -39,7 +51,7 @@ export function classicAtlas({range,intensity,width,height,manualBilinear=false}
   uniforms.livLayers.value.set(...channels.map(texture=>unique.indexOf(texture)));uniforms.livWeights.value.set(wa,wb,wn);
  }};
 }
-export function classicProbes(probes,intensity){
+export function classicProbes(probes,intensity,night=null){
  const map=probes.roomMap,bytes=Uint8Array.from(atob(map.data),c=>c.charCodeAt(0));
  const rooms=new THREE.DataTexture(bytes,map.width,map.height,THREE.RedFormat,THREE.UnsignedByteType);
  rooms.minFilter=rooms.magFilter=THREE.NearestFilter;rooms.generateMipmaps=false;rooms.flipY=false;rooms.needsUpdate=true;
@@ -47,11 +59,12 @@ export function classicProbes(probes,intensity){
  volume.type=THREE.HalfFloatType;volume.minFilter=volume.magFilter=THREE.LinearFilter;volume.generateMipmaps=false;volume.flipY=false;volume.unpackAlignment=1;volume.needsUpdate=true;
  const uniforms={livRooms:{value:rooms},livVolume:{value:volume},livWeights:{value:new THREE.Vector3()},
   livOrigin:{value:probes.rooms.map(r=>new THREE.Vector4(...r.origin,r.n[0]))},livStep:{value:probes.rooms.map(r=>new THREE.Vector4(...r.step,r.n[2]))},livOffset:{value:probes.rooms.map(r=>new THREE.Vector4(r.zOffset,0,0,0))},
-  livBounds:{value:new THREE.Vector4(map.x0,map.z0,map.width*map.cell,map.height*map.cell)},livGrid:{value:new THREE.Vector4(width,height,depth,probes.rows)}};
+  livBounds:{value:new THREE.Vector4(map.x0,map.z0,map.width*map.cell,map.height*map.cell)},livGrid:{value:new THREE.Vector4(width,height,depth,probes.rows)},...(night&&{livNightLevel:night.uniforms.livNightLevel})};
  const code=probeShaderCode(probes.rooms.length),cube=code.cube.replace('float rows)', 'float rows,float channel)').replace('(q.x+0.5)/size.x','(q.x+0.5+channel*size.x)/(size.x*3.0)');
- const transport=code.transport.replace('sampler3D a,sampler3D b,sampler3D night','sampler3D volume').replace('livAmbientCube(a,q,n,grid.xyz,grid.w)','livAmbientCube(volume,q,n,grid.xyz,grid.w,0.0)').replace('livAmbientCube(b,q,n,grid.xyz,grid.w)','livAmbientCube(volume,q,n,grid.xyz,grid.w,1.0)').replace('livAmbientCube(night,q,n,grid.xyz,grid.w)','livAmbientCube(volume,q,n,grid.xyz,grid.w,2.0)');
+ const transport=code.transport.replace('sampler3D a,sampler3D b,sampler3D night','sampler3D volume').replace('livAmbientCube(a,q,n,grid.xyz,grid.w)','livAmbientCube(volume,q,n,grid.xyz,grid.w,0.0)').replace('livAmbientCube(b,q,n,grid.xyz,grid.w)','livAmbientCube(volume,q,n,grid.xyz,grid.w,1.0)').replace('livAmbientCube(night,q,n,grid.xyz,grid.w)','livAmbientCube(volume,q,n,grid.xyz,grid.w,2.0)').replace('*weights.z;',night?'*livNightWeight(p,n);':'*weights.z;');
  const shader=`uniform sampler2D livRooms;uniform highp sampler3D livVolume;uniform vec3 livWeights;
  uniform vec4 livOrigin[${probes.rooms.length}],livStep[${probes.rooms.length}],livOffset[${probes.rooms.length}];uniform vec4 livBounds,livGrid;
+ ${night?night.shader.replace('uniform sampler2D livNightRooms;uniform vec4 livNightBounds;','').replaceAll('livNightRooms','livRooms').replaceAll('livNightBounds','livBounds'):''}
  ${cube}
  ${transport}
  vec3 livIrradiance(vec3 p,vec3 n){return livProbeTransport(p,n,livRooms,livVolume,livOrigin,livStep,livOffset,livBounds,livGrid,livWeights,${intensity});}`;
@@ -64,7 +77,7 @@ export function classicProbes(probes,intensity){
 export function classicBakedMaterial(physical,parameters,irradiance){
  const material=new (physical?THREE.MeshPhysicalMaterial:THREE.MeshStandardMaterial)(parameters);
  material.isLivRGBMNodeMaterial=true;material.livIrradiance=irradiance;
- material.customProgramCacheKey=()=>`liv-classic-v3:${irradiance.kind}:${irradiance.count||0}`;
+ material.customProgramCacheKey=()=>`liv-classic-v4:${irradiance.kind}:${irradiance.count||0}:${'livNightLevel' in irradiance.uniforms}`;
  material.clone=()=>classicBakedMaterial(physical,{},irradiance).copy(material);
  material.onBeforeCompile=shader=>{
   Object.assign(shader.uniforms,irradiance.uniforms,{livBakeGain:gain.bake,livDirectGain:gain.direct,livAmbientGain:gain.ambient,livNormalize:gain.normalize});

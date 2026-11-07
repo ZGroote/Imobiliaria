@@ -138,8 +138,8 @@
     {
       "comodo": "Suíte",
       "lado": "east",
-      "de": 107,
-      "ate": 147,
+      "de": 110,
+      "ate": 144,
       "tipo": "door",
       "alturaMm": 2100
     },
@@ -154,16 +154,16 @@
     {
       "comodo": "Banho suíte",
       "lado": "west",
-      "de": 155,
-      "ate": 185,
+      "de": 156,
+      "ate": 184,
       "tipo": "door",
       "alturaMm": 2100
     },
     {
       "comodo": "Banho social",
       "lado": "south",
-      "de": 158,
-      "ate": 190,
+      "de": 155,
+      "ate": 187,
       "tipo": "door",
       "alturaMm": 2100
     },

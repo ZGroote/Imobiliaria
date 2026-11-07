@@ -1,5 +1,5 @@
 import * as THREE from 'three/webgpu';
-import {createRGBMTexture,createTimeIrradiance,createProbeIrradiance} from './material-rgbm.js';
+import {createRGBMTexture,createTimeIrradiance,createProbeIrradiance,createNightRooms} from './material-rgbm.js';
 
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 const lerp=(a,b,t)=>a+(b-a)*t;
@@ -22,11 +22,15 @@ export function timeLightWeights(manifest,time){
 /** Baixa as horas do lado pedido sob demanda; a mistura troca só texturas e pesos, sem recompilar. */
 export function createTimeLightmaps({manifest,load,own=value=>value,release=value=>value.dispose()}){
   const textures=new Map(),pending=new Map();let last=null;
-  const irradiance=createTimeIrradiance({range:manifest.range,intensity:manifest.lightMapIntensity,width:manifest.width,height:manifest.height});
+  // Interruptor: a noite gravada (com os plafons acesos no Cycles) entra cômodo a cômodo pelo mapa das sondas.
+  const night=manifest.probes?createNightRooms(manifest.probes.roomMap):null,manual=new Map();
+  const roomNames=manifest.probes?.rooms.map(room=>room.name)||[];
+  const anyOn=()=>night!==null&&[...manual.values()].some(Boolean);
+  const irradiance=createTimeIrradiance({range:manifest.range,intensity:manifest.lightMapIntensity,width:manifest.width,height:manifest.height,night});
   // Móveis, portas e moldura não têm UV1: leem a mesma hora nas sondas do cômodo.
-  const probes=manifest.probes?createProbeIrradiance(manifest.probes,manifest.lightMapIntensity):null;
+  const probes=manifest.probes?createProbeIrradiance(manifest.probes,manifest.lightMapIntensity,night):null;
   if(probes)own(probes.rooms);
-  for(const resource of [...(irradiance.resources||[]),...(probes?.resources||[])])own(resource);
+  for(const resource of [...(irradiance.resources||[]),...(probes?.resources||[]),...(night?.resources||[])])own(resource);
   const volume=bytes=>{
     const {width,height,depth}=manifest.probes,data=new Uint16Array(bytes.buffer,bytes.byteOffset,bytes.byteLength/2);
     if(data.length!==width*height*depth*4)throw Error('Sondas de luz com tamanho inválido.');
@@ -47,7 +51,7 @@ export function createTimeLightmaps({manifest,load,own=value=>value,release=valu
   }
   const required=weights=>{
     const ids=new Set();
-    if(weights.wa>0)ids.add(weights.a);if(weights.wb>0)ids.add(weights.b);if(weights.wn>0)ids.add(manifest.night.id);
+    if(weights.wa>0)ids.add(weights.a);if(weights.wb>0)ids.add(weights.b);if(weights.wn>0||anyOn())ids.add(manifest.night.id);
     // Mesmo uma mistura preta precisa de samplers válidos no shader.
     if(!ids.size)ids.add(manifest.night.id);return ids;
   };
@@ -64,9 +68,10 @@ export function createTimeLightmaps({manifest,load,own=value=>value,release=valu
       const fallback=textures.get(active.values().next().value);
       // Canais de peso zero compartilham um sampler carregado; a soma fica idêntica.
       const a=weights.wa>0?textures.get(weights.a):fallback,b=weights.wb>0?textures.get(weights.b):fallback,
-        night=weights.wn>0?textures.get(manifest.night.id):fallback;
-      irradiance.set({a:a.atlas,b:b.atlas,night:night.atlas,wa:weights.wa,wb:weights.wb,wn:weights.wn});
-      if(probes&&a.volume&&b.volume&&night.volume)probes.set({a:a.volume,b:b.volume,night:night.volume,wa:weights.wa,wb:weights.wb,wn:weights.wn});
+        nightLight=weights.wn>0||anyOn()?textures.get(manifest.night.id):fallback;
+      irradiance.set({a:a.atlas,b:b.atlas,night:nightLight.atlas,wa:weights.wa,wb:weights.wb,wn:weights.wn});
+      if(probes&&a.volume&&b.volume&&nightLight.volume)probes.set({a:a.volume,b:b.volume,night:nightLight.volume,wa:weights.wa,wb:weights.wb,wn:weights.wn});
+      night?.set(roomNames.map(name=>manual.has(name)?Number(manual.get(name)):weights.wn));
       // Conserva até cinco horas, sem descartar os samplers da mistura ativa.
       for(const [id,value] of textures){
         if(textures.size<=5)break;
@@ -74,6 +79,12 @@ export function createTimeLightmaps({manifest,load,own=value=>value,release=valu
         textures.delete(id);pending.delete(id);release(value.atlas);if(value.volume)release(value.volume);
       }
       return last=weights;
+    },
+    /** on: true/false fixa o cômodo; null devolve ao relógio. Vale no próximo apply. */
+    setRoomLight(name,on){
+      if(!night||!roomNames.includes(name))return false;
+      if(on===null)manual.delete(name);else manual.set(name,Boolean(on));
+      return true;
     },
     getState:()=>({keys:entries.size,loaded:[...textures.keys()],date:manifest.date,width:manifest.width,samples:manifest.samples}),
   };

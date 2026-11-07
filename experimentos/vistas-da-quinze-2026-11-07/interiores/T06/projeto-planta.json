@@ -392,7 +392,7 @@
             "heightMm": 2100,
             "id": "a2",
             "kind": "door",
-            "offsetMm": 100,
+            "offsetMm": 150,
             "pairedWallId": "c7-west",
             "provenance": {
               "kind": "declared",
@@ -400,13 +400,13 @@
             },
             "sillMm": 0,
             "wallId": "c2-east",
-            "widthMm": 650
+            "widthMm": 600
           },
           {
             "heightMm": 2100,
             "id": "a3",
             "kind": "door",
-            "offsetMm": 100,
+            "offsetMm": 0,
             "pairedWallId": "c6-east",
             "provenance": {
               "kind": "declared",
@@ -414,7 +414,7 @@
             },
             "sillMm": 0,
             "wallId": "c4-west",
-            "widthMm": 550
+            "widthMm": 600
           },
           {
             "heightMm": 2100,

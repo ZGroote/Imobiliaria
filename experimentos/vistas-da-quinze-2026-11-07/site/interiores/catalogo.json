@@ -414,40 +414,40 @@
       "label": "T03 · 2 dormitórios com terraço",
       "area": 62.29,
       "unitId": "vistas-da-quinze-t03",
-      "unitSHA256": "f613f90cd836fe5f19bae475986b33d9f8a9f28508207e3f0347ef8841b8e3b3",
-      "sourceSHA256": "5f34a5d2da8ff8e32851e4e7c88d174ec6c29c146eeef840c68b88e344175023",
+      "unitSHA256": "33d71387884dc2a8342460308e948323213f99a87e34cfacf01e1a7437c1e3d1",
+      "sourceSHA256": "97cc1f8aff15ed8ef8995c9430af450ce2676d34ad82c8b0559db04ef04bb969",
       "geometryKind": "frozen-source",
       "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/t03/unidade.json",
-          "bytes": 7919,
-          "sha256": "f613f90cd836fe5f19bae475986b33d9f8a9f28508207e3f0347ef8841b8e3b3"
+          "bytes": 7916,
+          "sha256": "33d71387884dc2a8342460308e948323213f99a87e34cfacf01e1a7437c1e3d1"
         },
         "recipe": {
           "path": "interiores/t03/recipe.json",
           "bytes": 581,
-          "sha256": "951804b1adbbafb4e808a0523a32e23c4e3719a94f230298a60a4bd1790e1e47"
+          "sha256": "0d22a71b29d16f76c95a463adde8413db1a23d67de4500823f9c147b029c72c8"
         },
         "source": {
           "path": "interiores/t03/source.json.gz",
-          "bytes": 3900360,
-          "sha256": "714b29ff3c6815f457dcc9b2741e45a722bc2a0dacd159eb3af7e1675ae3bb82",
+          "bytes": 3901327,
+          "sha256": "b4d086a56fdc97ba00e0695a96d71eca9c2b8f23f7b017a31c3b543a527f3ac8",
           "compression": "gzip",
-          "decodedBytes": 16108729,
-          "decodedSHA256": "5f34a5d2da8ff8e32851e4e7c88d174ec6c29c146eeef840c68b88e344175023"
+          "decodedBytes": 16125058,
+          "decodedSHA256": "97cc1f8aff15ed8ef8995c9430af450ce2676d34ad82c8b0559db04ef04bb969"
         },
         "compact": {
           "path": "interiores/t03/geometry-compact.json.gz",
-          "bytes": 34605,
-          "sha256": "f2c2ed3b035f6fa206f25e77e82ec144dd7250beaba43df028e11173428f4d22",
+          "bytes": 34969,
+          "sha256": "7bdb667323d914d561851b40c5a52ff3e66f82963a0650b399b1aae450c839f9",
           "compression": "gzip",
-          "decodedBytes": 71993,
-          "decodedSHA256": "1487127d07a1a0e90f4339e7b96b672c17e713525801ecb80bd795cef67aee28"
+          "decodedBytes": 72889,
+          "decodedSHA256": "026affdafebac6cbf72bd728769b4aced8df6929f50b1d0901d827c55be9456e"
         }
       },
       "materialsOrigin": "source",
-      "nativeRecipeSHA256": "951804b1adbbafb4e808a0523a32e23c4e3719a94f230298a60a4bd1790e1e47",
+      "nativeRecipeSHA256": "0d22a71b29d16f76c95a463adde8413db1a23d67de4500823f9c147b029c72c8",
       "furnitureSlots": [
         {
           "id": "movel-0",
@@ -645,40 +645,40 @@
       "label": "T04 · 2 dormitórios e escritório com terraço",
       "area": 77.65,
       "unitId": "vistas-da-quinze-t04",
-      "unitSHA256": "229b5da72b4dbfe466468dcddba1bf0581b187bba97d46bb6ad862d3bc198fd2",
-      "sourceSHA256": "02fb9b0642f4ad9f87f17671ed94c7ade9b8144d8a45851932c5fb436042d8a3",
+      "unitSHA256": "b7267a6b2bfd394cee99ee1d90fbab2956cffcba017d0009b976af3ed43fd3bd",
+      "sourceSHA256": "a175f4b00ce71fb88e23aeae06b951ad4e4801cec5d361a31213fa8322ef175e",
       "geometryKind": "frozen-source",
       "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/t04/unidade.json",
-          "bytes": 9181,
-          "sha256": "229b5da72b4dbfe466468dcddba1bf0581b187bba97d46bb6ad862d3bc198fd2"
+          "bytes": 9178,
+          "sha256": "b7267a6b2bfd394cee99ee1d90fbab2956cffcba017d0009b976af3ed43fd3bd"
         },
         "recipe": {
           "path": "interiores/t04/recipe.json",
           "bytes": 581,
-          "sha256": "af7b4e3e79f0252f6a43bd78b4d77649244945853b44257261c03555b2610a0c"
+          "sha256": "33f8ca5792c658a775340c3104e490787de298e6531d509a943c33b195f8328e"
         },
         "source": {
           "path": "interiores/t04/source.json.gz",
-          "bytes": 4038946,
-          "sha256": "28add4d2fc54732e41eb54b45aa5970cfaf77c79b8b54f9c480d32b4df7f3956",
+          "bytes": 4039326,
+          "sha256": "8af49a8d2cf8c10affa3681202099e5b122058eb5ce2102baf253ffde861aeb7",
           "compression": "gzip",
-          "decodedBytes": 18741014,
-          "decodedSHA256": "02fb9b0642f4ad9f87f17671ed94c7ade9b8144d8a45851932c5fb436042d8a3"
+          "decodedBytes": 18767975,
+          "decodedSHA256": "a175f4b00ce71fb88e23aeae06b951ad4e4801cec5d361a31213fa8322ef175e"
         },
         "compact": {
           "path": "interiores/t04/geometry-compact.json.gz",
-          "bytes": 39902,
-          "sha256": "7f9c3845c0ec8807364b416de2786d95653f93e230f594b5aedf663df8c81c8e",
+          "bytes": 40560,
+          "sha256": "4a560534b4ad291d5296ccaa78188012f5cc688c6a454d0552bc4f824339c010",
           "compression": "gzip",
-          "decodedBytes": 83257,
-          "decodedSHA256": "0d65f8ea2f35892cdf68e409c50d1100d50d53d7800e85508bfe0eb1222fba2e"
+          "decodedBytes": 84537,
+          "decodedSHA256": "03dcf55f36565656e235640b3001efb67011ca0c933362ab03a42c374be6bc23"
         }
       },
       "materialsOrigin": "source",
-      "nativeRecipeSHA256": "af7b4e3e79f0252f6a43bd78b4d77649244945853b44257261c03555b2610a0c",
+      "nativeRecipeSHA256": "33f8ca5792c658a775340c3104e490787de298e6531d509a943c33b195f8328e",
       "furnitureSlots": [
         {
           "id": "movel-0",
@@ -932,40 +932,40 @@
       "label": "T05 · 2 dormitórios com terraço",
       "area": 62.43,
       "unitId": "vistas-da-quinze-t05",
-      "unitSHA256": "9f4345c195ba1d89945dbd347fcce9ec6a027396ae3164dc61eda4a756505fc5",
-      "sourceSHA256": "9fb34d38d0197aeb23b8f675c519d3838262eb9611515d08e9fbceec5479f4ca",
+      "unitSHA256": "5b84c10e53aacae568618f6eba5f75d5901704961ccfced2662bb55b4bc2ab45",
+      "sourceSHA256": "4b35982b2a75b19cec6698829c057bb3505368c64815aad15adec3091ca50b0a",
       "geometryKind": "frozen-source",
       "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/t05/unidade.json",
-          "bytes": 7830,
-          "sha256": "9f4345c195ba1d89945dbd347fcce9ec6a027396ae3164dc61eda4a756505fc5"
+          "bytes": 7827,
+          "sha256": "5b84c10e53aacae568618f6eba5f75d5901704961ccfced2662bb55b4bc2ab45"
         },
         "recipe": {
           "path": "interiores/t05/recipe.json",
           "bytes": 581,
-          "sha256": "8bd0952bf8e932f6d5285c59084e9d898f9776b1494fa24b3983f5f124ea9f87"
+          "sha256": "12c50ba284eb3e87a2b2426bc62514a99f9885d6b7fd254516a7ad9f77daaf4c"
         },
         "source": {
           "path": "interiores/t05/source.json.gz",
-          "bytes": 3959343,
-          "sha256": "e91396389b022d8c20f32957a05df9f1f6dabb60410a43498af485abaa31345b",
+          "bytes": 3960015,
+          "sha256": "3fb202503d8c3f2eaa1ef759366cd18b94bbe91600db4dbc438ac61a4c78c7f3",
           "compression": "gzip",
-          "decodedBytes": 16821671,
-          "decodedSHA256": "9fb34d38d0197aeb23b8f675c519d3838262eb9611515d08e9fbceec5479f4ca"
+          "decodedBytes": 16840691,
+          "decodedSHA256": "4b35982b2a75b19cec6698829c057bb3505368c64815aad15adec3091ca50b0a"
         },
         "compact": {
           "path": "interiores/t05/geometry-compact.json.gz",
-          "bytes": 34107,
-          "sha256": "a30a550a4a1dc7455301ef700d331eb60ec00d17c6cd92655d19cf85288462a5",
+          "bytes": 34755,
+          "sha256": "d47f22383de63cb7b6bdbb722e07a818d51bb82072279aa550cf556209c408e8",
           "compression": "gzip",
-          "decodedBytes": 70969,
-          "decodedSHA256": "50f23394c265fe13fe88154a4ba67cae99d313bbe1301e6acfcfbe284dbd9ff0"
+          "decodedBytes": 72249,
+          "decodedSHA256": "f42ddd74bc81614725ecc5f09f5b089835e5666b127560b7e8e67dce6db6da82"
         }
       },
       "materialsOrigin": "source",
-      "nativeRecipeSHA256": "8bd0952bf8e932f6d5285c59084e9d898f9776b1494fa24b3983f5f124ea9f87",
+      "nativeRecipeSHA256": "12c50ba284eb3e87a2b2426bc62514a99f9885d6b7fd254516a7ad9f77daaf4c",
       "furnitureSlots": [
         {
           "id": "movel-0",
@@ -1170,40 +1170,40 @@
       "label": "T06 · 2 dormitórios com terraço frontal",
       "area": 71.1,
       "unitId": "vistas-da-quinze-t06",
-      "unitSHA256": "0eca9cd07ba46ac94d6c26942c56a0db9d34e2d8690b6181852a8bd16e6a71b4",
-      "sourceSHA256": "00093b50d61743f0d2feb16f6b63eae9779ea74f89d5387416529a708fdc365a",
+      "unitSHA256": "86bc6bace82847b0ac58be355b885fdfec7478be42dd7a91d5c11fe4b4dfcd3b",
+      "sourceSHA256": "16a71548a5e71eb0d7deb842e986e708b6d1d1c68c80df63928aa21834a1e2c6",
       "geometryKind": "frozen-source",
       "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/t06/unidade.json",
-          "bytes": 7682,
-          "sha256": "0eca9cd07ba46ac94d6c26942c56a0db9d34e2d8690b6181852a8bd16e6a71b4"
+          "bytes": 7677,
+          "sha256": "86bc6bace82847b0ac58be355b885fdfec7478be42dd7a91d5c11fe4b4dfcd3b"
         },
         "recipe": {
           "path": "interiores/t06/recipe.json",
           "bytes": 581,
-          "sha256": "f5b64b0539fd1f1c4da99812d403185ceab09fbb9d5db5a399d5a6ca3bae2ef5"
+          "sha256": "d596867b2061cb33317ac4f83f1ef999535477828b904ce727a2ccc6f0ca1671"
         },
         "source": {
           "path": "interiores/t06/source.json.gz",
-          "bytes": 3933107,
-          "sha256": "076a544278d3f0ac6b708ab079d39f3fff6cc01c56a58272cb31d15ac031fd8e",
+          "bytes": 3934528,
+          "sha256": "798387e38f53a500dca90ac86810bdf5c320d774cbf0201c0212b65c3969eca0",
           "compression": "gzip",
-          "decodedBytes": 16417858,
-          "decodedSHA256": "00093b50d61743f0d2feb16f6b63eae9779ea74f89d5387416529a708fdc365a"
+          "decodedBytes": 16443961,
+          "decodedSHA256": "16a71548a5e71eb0d7deb842e986e708b6d1d1c68c80df63928aa21834a1e2c6"
         },
         "compact": {
           "path": "interiores/t06/geometry-compact.json.gz",
-          "bytes": 31240,
-          "sha256": "9037d4312413890c453e5d0ae8dc3b0352520d49520b69ef87a5a23ca598290e",
+          "bytes": 32361,
+          "sha256": "24818560c768eb5f8f5264334adfde43429a39250d7ff2f9521c4d442de51bee",
           "compression": "gzip",
-          "decodedBytes": 65400,
-          "decodedSHA256": "c29c0d063b0803b609af611abdba486dbc3a0242b6ff8f9e42386615878f2de7"
+          "decodedBytes": 67577,
+          "decodedSHA256": "e0b158c59841c5457b960976283c55d2f5a885198a845d8539fd34d3775b2108"
         }
       },
       "materialsOrigin": "source",
-      "nativeRecipeSHA256": "f5b64b0539fd1f1c4da99812d403185ceab09fbb9d5db5a399d5a6ca3bae2ef5",
+      "nativeRecipeSHA256": "d596867b2061cb33317ac4f83f1ef999535477828b904ce727a2ccc6f0ca1671",
       "furnitureSlots": [
         {
           "id": "movel-0",

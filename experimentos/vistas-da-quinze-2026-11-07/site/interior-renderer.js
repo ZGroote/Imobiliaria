@@ -1,6 +1,7 @@
 import {geometryFromSpec,expandedGeometryFromSpec} from './interior-geometry.js';
 import {decodePreparedScene} from './prepared-scene.js';
 import {createClassicInteriorRenderer} from './classic-renderer.js';
+import {createSwitches} from './interior-interruptores.js';
 import * as THREE from 'three/webgpu';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {LivRGBMNodeMaterial,LivBakedPhysicalNodeMaterial,setRGBMTimeLighting,setReflectionNormalization,setBakedMaterialBackend} from './material-rgbm.js';
@@ -36,7 +37,7 @@ let orbitSnapshot=null,pointer=null,shadowLight=null,planAutoFrame=true,routeRoo
 const TOUR_WIDTH={padrao:80,min:45,max:110},FOV_KEY='liv-tour-largura';
 let tourWidth=TOUR_WIDTH.padrao,pinch=null;const touches=new Map();
 try{const saved=Number(localStorage.getItem(FOV_KEY));if(saved>=TOUR_WIDTH.min&&saved<=TOUR_WIDTH.max)tourWidth=saved;}catch{}
-let furnitureFactory,furnitureMaterials,furnitureEditor,solarLighting,improvements,improvementsNotice,doors,doorButton;
+let furnitureFactory,furnitureMaterials,furnitureEditor,solarLighting,improvements,improvementsNotice,doors,doorButton,switches,lightButton;
 let timeOfDay=interiorTimeState(14),lightingCompile=Promise.resolve();
 const compiledLighting=new Set();
 const lightingKey=()=>solarLighting.getState().lightingVariant+':'+state.mode;
@@ -108,7 +109,7 @@ function showInteriorWarning(message,detail){
 async function cleanup(){
   furnitureEditor?.dispose();
   solarLighting?.dispose();
-  improvementsNotice?.remove();doorButton?.remove();
+  improvementsNotice?.remove();doorButton?.remove();lightButton?.remove();
   observer?.disconnect();renderer?.setAnimationLoop(null);
   for(const off of listeners.splice(0))off();
   for(const resource of owned)release(resource);
@@ -618,7 +619,8 @@ state.move=function(dx,dz){
 state.navigationDiagnostics=function(){return navigation?{safe:navigation.free(...(tourPosition||entry)),current:[...(tourPosition||entry)],radius:navigation.radius,eye:1.62,reachableRooms:state.rooms?.filter(r=>r.reachable).length||0,totalRooms:layout.rooms.length,followingRoute:route.length>0}:null;};
 function tick(dt){
   if(doors?.update(dt)){invalidateShadows();navigation.invalidate();}
-  if(state.mode!=='visita'){controls.update();showDoorButton(null);return;}
+  if(switches)switches.mesh.visible=state.mode==='visita';  // na Planta 3D a parede é cortada e a placa boiaria
+  if(state.mode!=='visita'){controls.update();showDoorButton(null);showLightButton(null);return;}
   let forward=(keys.has('w')||keys.has('arrowup')||touchKeys.has('forward')?1:0)-(keys.has('s')||keys.has('arrowdown')||touchKeys.has('back')?1:0);
   let right=(keys.has('d')||keys.has('arrowright')||touchKeys.has('right')?1:0)-(keys.has('a')||keys.has('arrowleft')||touchKeys.has('left')?1:0);
   if(forward||right){stopRoute(false);const scale=1.4*dt/Math.hypot(forward,right);state.move({forward:forward*scale,right:right*scale});}
@@ -633,6 +635,7 @@ function tick(dt){
     if(!route.length&&routeResolve){faceRoom(routeRoom);stopRoute(true);}
   }
   setTourCamera();showDoorButton(doors?.nearest(tourPosition[0],tourPosition[1],yaw)||null);
+  showLightButton(switches?.nearest(tourPosition[0],tourPosition[1],yaw)||null);
 }
 /** Corredor do prédio atrás da entrada, visível no Tour ao abrir a porta ou pela folga junto ao piso.
  *  Mesmas medidas de CORREDOR no bake_horario.py, que grava a luz com esta caixa no lugar. */
@@ -659,6 +662,29 @@ function showDoorButton(door){
   if(doorButton.dataset.door!==door.id||doorButton.textContent!==text){doorButton.dataset.door=door.id;doorButton.textContent=text;}
 }
 function toggleDoor(id){if(doors?.toggle(id))canvas.focus();}
+/** Perto do interruptor de um cômodo, outro botão (ou a tecla L) acende e apaga o plafon; fica acima do da porta. */
+function showLightButton(item){
+  if(!lightButton){
+    if(!item)return;
+    lightButton=document.createElement('button');lightButton.id='light-toggle';lightButton.type='button';
+    Object.assign(lightButton.style,{position:'absolute',left:'50%',transform:'translateX(-50%)',zIndex:'20',padding:'10px 16px',minHeight:'44px',
+      border:'1px solid #ffffff55',borderRadius:'8px',background:'#10191fdd',color:'#f1f5fa',font:'600 13px system-ui,sans-serif',cursor:'pointer'});
+    listen(lightButton,'click',()=>{if(lightButton.dataset.room)toggleLight(lightButton.dataset.room);});stage.append(lightButton);
+  }
+  lightButton.hidden=!item;if(!item)return;
+  lightButton.style.bottom=doorButton&&!doorButton.hidden?'68px':'16px';
+  const text=`${solarLighting.isRoomLit(item.room)?'Apagar':'Acender'} luz · ${item.room} (L)`;
+  if(lightButton.dataset.room!==item.room||lightButton.textContent!==text){lightButton.dataset.room=item.room;lightButton.textContent=text;}
+}
+function toggleLight(room){if(state.setRoomLight(room,!solarLighting.isRoomLit(room)))canvas.focus();}
+/** true acende, false apaga, null devolve ao relógio (acende à noite). */
+state.setRoomLight=function(room,on){
+  if(!state.ready||!solarLighting?.setRoomLight(room,on))return false;
+  // A claridade vem da noite gravada (plafons acesos no Cycles) só neste cômodo; a spot dá a sombra dos móveis.
+  // Refaz a hora atual: baixa a noite se faltar e compila o conjunto novo de luzes, como na troca de hora.
+  timeLight?.setRoomLight(room,on);
+  invalidateShadows();state.setTimeOfDay(timeOfDay.hour,timeOfDay.context,{date:timeOfDay.date});return true;
+};
 /** A entrada fica sempre fechada; as de dentro abrem e fecham. */
 state.setDoorOpen=function(id,open,{instant=false}={}){
   const door=doors?.doors.find(item=>item.id===id);if(!state.ready||!door||door.entrance||typeof open!=='boolean')return false;
@@ -666,7 +692,8 @@ state.setDoorOpen=function(id,open,{instant=false}={}){
 };
 function wire(){
   listen(window,'keydown',event=>{if(!state.active||state.mode!=='visita'||/^(INPUT|SELECT|TEXTAREA)$/.test(event.target.tagName))return;const key=event.key.toLowerCase();if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(key)){event.preventDefault();keys.add(key);}
-    if(key==='e'&&!event.repeat&&doorButton?.dataset.door&&!doorButton.hidden){event.preventDefault();toggleDoor(doorButton.dataset.door);}});
+    if(key==='e'&&!event.repeat&&doorButton?.dataset.door&&!doorButton.hidden){event.preventDefault();toggleDoor(doorButton.dataset.door);}
+    if(key==='l'&&!event.repeat&&lightButton?.dataset.room&&!lightButton.hidden){event.preventDefault();toggleLight(lightButton.dataset.room);}});
   listen(window,'keyup',event=>keys.delete(event.key.toLowerCase()));listen(window,'blur',()=>{keys.clear();touchKeys.clear();pointer=null;});
   const spread=()=>{const [a,b]=[...touches.values()];return Math.hypot(a.x-b.x,a.y-b.y)||1;};
   listen(canvas,'pointerdown',event=>{if(state.mode!=='visita')return;touches.set(event.pointerId,{x:event.clientX,y:event.clientY});
@@ -863,11 +890,11 @@ async function start(){
   // Cada porta entra no corte inteira: o corte reparenta, e a folha solta pararia de girar.
   const architecture=doors.doors.map(door=>door.group);scene.traverse(mesh=>{if(mesh.isMesh&&!mesh.userData.furnitureId&&!mesh.parent?.userData.livDoor)architecture.push(mesh);});
   presentation=createPlanCutaway({scene,layout,architecture,wallMaterial:native.m0,own});ceiling=presentation.ceiling;
-  addLights();bindProbeLight();if(timeLight)applyTimeLight();
+  addLights();
   // O plafon do terraço ficaria pendurado no céu.
-  for(const nome of state.terracos?.comodos??[])for(const prefixo of ['Plafon LIV · ','Luz do plafon LIV · ']){
-    const ob=scene.getObjectByName(prefixo+nome);if(ob){ob.visible=false;if(ob.isLight)ob.intensity=0;}
-  }
+  for(const nome of state.terracos?.comodos??[])solarLighting.disableRoom(nome);
+  switches=createSwitches({scene,layout,doors,rooms:solarLighting.roomsWithLight(),own});
+  bindProbeLight();if(timeLight)applyTimeLight();
   const preparedNavigation=source?.preparedNavigation;source=null;meshBySlot.clear();
   // Walking respects walls and openings; furniture stays visible without blocking passage.
   navigation=createNavigation(layout,()=>[],{prepared:preparedNavigation});entry=navigation.entry();tourPosition=[...entry];faceRoom();refreshRooms();
