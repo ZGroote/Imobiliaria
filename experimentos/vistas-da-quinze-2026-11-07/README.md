@@ -129,5 +129,47 @@ Roda em 30 s. Grava `modelo.json`, `vistas.glb` e `vistas.blend`, que ficam fora
 - **Implantação revista:** comparando com `galeria-15`, o pátio estava longo demais. O lote passou a
   57 × 42 m, com a quina da torre em (62, 47).
 
+## 4. Luz do exterior (feito)
+
+```
+python v1.5/miniaturas/liv-ipanema/preparar_luz.py --model experimentos/vistas-da-quinze-2026-11-07/modelo/modelo.json --out experimentos/vistas-da-quinze-2026-11-07/modelo/luz --size 4096
+& 'C:\Program Files (x86)\Steam\steamapps\common\Blenderlender.exe' --background --factory-startup --python-exit-code 1 --python v1.5/miniaturas/liv-ipanema/bake_luz.py -- --out experimentos/vistas-da-quinze-2026-11-07/modelo/luz --samples 64 --sun=-45,110,-60
+python v1.5/miniaturas/liv-ipanema/denoise_luz.py --out experimentos/vistas-da-quinze-2026-11-07/modelo/luz --output-guard 4
+python experimentos/vistas-da-quinze-2026-11-07/modelo/exportar_cena.py
+```
+
+- **Números:** 106 mil triângulos com luz gravada num atlas de 4096 px, com 82% de aproveitamento.
+  A gravação leva 2 min (OptiX) e a limpeza 27 s, sem nenhum pixel acima do teto do RGBM.
+- **Sol:** o `bake_luz.py` do LIV gravava com o sol fixo do sul, em `(-18, 110, 55)`, o lado bom do LIV.
+  Aqui o pátio olha para o norte e para o oeste, então ficava na sombra. A opção nova `--sun` (posição na
+  web) mantém o padrão do LIV, e o Vistas grava com o sol de noroeste (`-45,110,-60`, à tarde). Por isso a
+  página abre às 15h.
+- **Peso:** a cena tem 2,7 MB e o atlas 10,5 MB (gzip). Isso fica para a etapa 9.
+
+## 5. Cena, cadastro e página (feito)
+
+- **Cena:** `modelo/exportar_cena.py` é a cópia do Mooca com o cadastro das duas alas.
+  - A cena junta numa malha só, por material e ala, os grupos de uma instância só (o vidro e a água do spa de
+    cada andar). Isso baixa de 120 para 50 chamadas de desenho.
+  - As câmeras ficam do lado do pátio (noroeste) e o raio sai da torre, não do terreno.
+- **Cadastro** (`assets/unidades.json`, schema `vistas-da-quinze-units-v1`):
+  - 258 apartamentos, cada ala é uma "torre" do seletor;
+  - `floorIndex` é o andar real (3..20), num prédio de 21 pavimentos (0..2 são as garagens). Com isso a
+    conta de altura do LIV (andar × altura/21) bate com o prédio a menos de 20 cm;
+  - o número comercial é andar + final, como na perspectiva.
+- **Site** (`site/`) é a cópia do **Laranjeiras**, não a do Mooca: a do Laranjeiras é a mais nova na parte
+  de venda (vagas por apartamento, estoque simulado), e a do Mooca foi feita para aluguel. A página é
+  `site/maquete-vistas.html` (servidor `vistas`, porta 8811):
+  <http://localhost:8811/experimentos/vistas-da-quinze-2026-11-07/site/maquete-vistas.html>
+  - `tipologias.js` traz as 6 plantas, e as plantas 2D saem de `interiores/gerar_plantas2d.py`, com a
+    imagem pública ampliada 3x.
+  - `catalogo-unidades.js` escreve "Nº andar" (0..2 = garagem); `horario-solar.js` tem a lat/lon da
+    esquina, yaw 0 e finais até 18.
+  - Comercial ausente e estoque desativado; `vagas.json` não existe (a página ignora o 404).
+  - **Clique:** o seletor do LIV acha primeiro a caixa da ala, que acima dos degraus é ar. No Vistas
+    (`picking.js`), o escolhido é o primeiro apartamento que o raio atravessa.
+- **Testado no navegador:** a página abre do lado do pátio. Clicar na face do pátio seleciona o apartamento
+  (por exemplo "Ala sul · 14º andar · final 05", a T03 da ponta), e "Ver planta" abre a T03 com o terraço.
+
 Commit ao fim de cada etapa. Nada publicado sem o OK do usuário (e, sendo um lançamento real de outra
 incorporadora, sem o OK do cliente).

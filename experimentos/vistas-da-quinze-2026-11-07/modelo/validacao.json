@@ -1,6 +1,6 @@
 {
   "towers": 0,
-  "floors": 18,
+  "floors": 21,
   "floorHeight": 2.88,
   "baseHeight": 9.0,
   "firstFloor": 3,
@@ -46,7 +46,7 @@
   "blender": "5.2.3 LTS",
   "geometries": 421,
   "groups": 421,
-  "web_bytes": 10074822,
+  "web_bytes": 10074887,
   "glb_bytes": 7880304,
   "checks": {
     "pavimentos_e_lajes": true,

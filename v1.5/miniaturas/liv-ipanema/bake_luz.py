@@ -54,6 +54,8 @@ def main():
     parser.add_argument('--out', type=Path, default=HERE / 'luz')
     parser.add_argument('--samples', type=int, default=64)
     parser.add_argument('--range', type=float, default=16.)
+    parser.add_argument('--sun', type=lambda v: [float(c) for c in v.split(',')], default=[-18., 110., 55.],
+                        help='Posição do sol na web (x leste, y altura, z sul), mirando (0, 22, 0). Padrão = LIV.')
     parser.add_argument('--allow-source-snapshot', action='store_true',
                         help='Testing only: report stale model instead of rejecting it')
     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else [])
@@ -148,8 +150,8 @@ def main():
     light.color = (1., .97, .91)
     sun = bpy.data.objects.new(light.name, light)
     scene.collection.objects.link(sun)
-    # Web (-18, 110, 55), matching the viewer sun direction.
-    sun.location = (-18, -55, 110)
+    # Web (x, y, z) -> Blender (x, -z, y); padrão (-18, 110, 55), a direção do sol do visualizador do LIV.
+    sun.location = (args.sun[0], -args.sun[2], args.sun[1])
     aim(sun, (0, 0, 22))
     bpy.ops.mesh.primitive_plane_add(size=400, location=(0, 0, -.08))
     ground = bpy.context.object
@@ -219,7 +221,7 @@ def main():
                 'origin': 'bottom-left', 'premultiplyAlpha': False,
                 'lightMapIntensity': math.pi, 'samples': args.samples,
                 'passes': ['DIRECT', 'INDIRECT'], 'colorPass': False,
-                'sunWebPosition': [-18, 110, 55], 'sunWebTarget': [0, 22, 0],
+                'sunWebPosition': args.sun, 'sunWebTarget': [0, 22, 0],
                 'sunIntensity': 2.4, 'groups': report['groups'], 'instances': report['instances'],
                 'triangles': len(target.data.polygons)}
     (output / 'manifest.json').write_text(json.dumps(manifest, indent=2), encoding='utf8')

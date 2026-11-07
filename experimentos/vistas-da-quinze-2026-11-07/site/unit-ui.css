@@ -1,0 +1,13 @@
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#availabilityFilter{padding:12px;background:#101b22;border:1px solid #415469;border-radius:6px;font-size:13px}
+#availabilityFilter[hidden]{display:none}#availabilityFilter label{display:block;margin:0 0 6px;color:#dce8ef;font-size:12px}
+#availabilityFilter select{width:100%;min-height:44px;margin:0;cursor:pointer}
+#availabilitySummary{margin:8px 0 0;line-height:1.4;color:#b9c9d4;font-size:12px}
+#availabilityFilter[data-active=true]{border-color:#7ef5b7}#availabilityFilter[data-active=true] #availabilitySummary{color:#a3f9c9}
+
+.data-warnings{max-width:1280px;margin:auto;padding:0 20px}.data-warnings p{color:#edd1a5}
+.unit-details{inset:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);width:min(620px,calc(100% - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px) - 24px));max-width:none;max-height:min(90dvh,calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 24px));margin:auto;overflow:auto;padding:24px;color:#e6edf1;background:#17242c;border:1px solid #415469;border-radius:8px;overscroll-behavior:contain}
+.unit-details::backdrop{background:#050a12b8}.details-head{display:flex;align-items:start;justify-content:space-between;gap:16px}.details-head h2{font-size:20px;margin:0}.details-head button{flex-shrink:0}
+#detailsBody{font-size:14px;overflow-wrap:anywhere}#detailsBody dl{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;padding-block:16px;border-block:1px solid #344650}#detailsBody dt{color:#aab9c4}#detailsBody dd{margin:0}#detailsBody a{color:#e4c58c}.details-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.details-actions button{flex:1;min-width:140px}
+@media(max-width:420px){.unit-details{padding:16px}#detailsBody dl{gap:10px 12px}.details-actions button{width:100%}}
+.demo-note{max-width:1240px;margin:0 auto 16px;padding:8px 16px;color:#f3d397;background:#352c1b;border:1px solid #76633f;border-radius:8px;font-size:13px}

@@ -1,0 +1,111 @@
+/* Os controles flutuam sem reservar uma coluna do visualizador. */
+.layout, .layout:has(.viewer-panel[data-collapsed=true]) {
+  position: relative; width: calc(100% - 24px); max-width: none;
+  display: block; margin: 8px 12px max(12px, env(safe-area-inset-bottom, 0px));
+}
+.layout .visual { width: 100%; height: 100%; }
+.layout .viewer-panel, .layout .viewer-panel[data-collapsed=true] {
+  position: absolute; z-index: 8; top: 12px; right: 12px;
+  width: 304px; height: auto; max-height: calc(100% - 180px);
+  padding: 12px; overflow: auto; background: #131c23f5;
+  display: block; container-type: normal;
+}
+.layout #projectPanelDetails { overflow: visible; scrollbar-gutter: auto; }
+.layout .panel-summary { min-height: 44px; margin: 0; padding-right: 48px; display: flex; align-items: center; font-weight: 600; }
+.layout .panel-toggle { position: absolute; top: 12px; right: 12px; margin: 0; }
+.layout .project-heading { padding-right: 0; }
+.layout .project-address, .layout .project-facts, .layout .project-summary .eyebrow { display: block; }
+.layout .project-summary { margin-top: 8px; }
+.layout .selected-apartment { margin: 8px 0 0; padding: 0; border: 0; }
+.layout .selected-apartment > .eyebrow { display: none; }
+.layout .selected-apartment h2 { display: none; }
+.layout .apartment-sale { font-size: 14px; }
+.layout .apartment-meta { display: block; font-size: 13px; }
+.layout .apartment-note { display: block; }
+.layout .apartment-note:empty { display: none; }
+.layout .apartment-info { position: static; width: auto; font-size: 12px; margin-top: 8px; }
+.layout .apartment-info::before { content: none; }
+.layout .typology-info { border-top: 1px solid var(--line); margin-top: 8px; }
+.layout .typology-info p { margin: 4px 0 8px; color: var(--muted); font-size: 12px; }
+.layout .viewer-controls {
+  position: absolute; z-index: 8; bottom: 12px; left: 0; right: 0; margin-inline: auto;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px;
+  width: max-content; max-width: min(760px, calc(100% - 208px));
+  padding: 8px; border: 1px solid var(--line); border-radius: 12px; background: #131c23f5;
+}
+.layout .viewer-controls:not(:has(#selectedApartmentActions:not([hidden]), #viewModes:not([hidden]), .map-link:not([hidden]))) { display: none; }
+.layout .project-action-row { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.layout .project-action-row > button, .layout .map-link { position: static; width: auto; margin: 0; max-width: none; padding: 8px 12px; font-size: 12px; }
+.layout .viewer-controls #btnBackToMaquete { position: static; width: auto; max-width: none; }
+.layout .apartment-actions, .layout .mode-switch { display: flex; gap: 6px; }
+.layout .apartment-actions button, .layout .mode-switch button {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: 1 0 auto; min-width: max-content; padding: 8px 12px; font-size: 12px; text-align: center;
+}
+.layout .apartment-actions { flex: 0 1 auto; flex-wrap: wrap; }
+html[data-experiencia-compra=true]:not([data-buyer-mode=maquete]) .layout .project-action-row { display: flex; flex-wrap: wrap; }
+.layout .interior-navbar { margin: 0; }
+.layout .host-plan-controls, .layout .host-tour-controls, .layout .host-plan2d-controls { gap: 6px; }
+.layout .buyer-contact { margin: 0; max-width: 280px; }
+.layout #availabilityFilter { position: static; width: auto; }
+.layout #availabilityFilter select { width: auto; max-width: 180px; }
+.layout:has(#selectedApartment:not([hidden])) #availabilityFilter { display: flex; }
+.layout .stage-toolbar { right: 332px; }
+@media (min-width: 761px) and (min-height: 601px) {
+  .layout .viewer-panel, .layout .viewer-panel[data-collapsed=true] { right: 108px; }
+}
+@media (max-width: 760px) {
+  .layout, .layout:has(.viewer-panel[data-collapsed=true]) { width: calc(100% - 16px); margin-inline: 8px; }
+  .layout .viewer-panel, .layout .viewer-panel[data-collapsed=true] { top: 64px; right: 8px; width: min(280px, calc(100% - 16px)); max-height: calc(100% - 252px); }
+  .layout .viewer-controls { left: 8px; right: auto; margin-inline: 0; bottom: 8px; max-width: calc(100% - 108px); gap: 4px; padding: 6px; }
+  .layout .project-action-row, .layout .apartment-actions, .layout .mode-switch { gap: 4px; flex-wrap: wrap; }
+  .layout .project-action-row > button, .layout .map-link, .layout .apartment-actions button, .layout .mode-switch button { padding: 6px 8px; font-size: 11px; }
+  .layout .stage-toolbar { right: 8px; }
+  .layout .stage-badge { display: none; }
+  .layout .buyer-contact p { display: none; }
+}
+@media (orientation: landscape) and (max-height: 600px) {
+  .layout .viewer-panel, .layout .viewer-panel[data-collapsed=true] { top: 8px; width: 248px; max-height: calc(100% - 100px); }
+  .layout .viewer-controls { left: 8px; right: auto; margin-inline: 0; bottom: 8px; max-width: calc(100% - 120px); }
+  .layout .stage-toolbar { right: 276px; }
+}
+.layout .viewer-panel[data-apartment=true]:not([data-mode=maquete]) {
+  top: 8px; left: 12px; right: auto; padding: 0 12px; width: 304px;
+}
+.layout .viewer-panel[data-apartment=true]:not([data-mode=maquete]) .panel-toggle { top: 0; right: 0; }
+.layout .viewer-panel[data-apartment=true]:not([data-mode=maquete])[data-collapsed=false] { padding-bottom: 12px; }
+@media (max-width: 760px) {
+  .layout .viewer-panel[data-apartment=true]:not([data-mode=maquete]) { left: 8px; width: min(280px, calc(100% - 108px)); }
+  .layout #plan2dRuler { top: 64px; right: 8px; }
+}
+/* Uma única faixa no celular; o canvas usa todo o espaço abaixo dela. */
+@media (any-pointer: coarse) and (max-width: 1100px), (max-width: 760px) {
+  body { padding-bottom: 0 !important; }
+  body > #orientationControls, body > .experience-bar { display: none !important; }
+  #mobileToolbar { display: flex; align-items: center; justify-content: space-between; flex: 0 0 auto; gap: 4px; height: 52px; padding: 4px; z-index: 20; }
+  #mobileAvailability { flex: 1; min-width: 0; }
+  #mobileAvailability:has([hidden]), #mobileHome:not(:has(a:not([hidden]),button:not([hidden]))) { display: none; }
+  #mobileOrientation, #mobileHome { flex-shrink: 0; }
+  #mobileToolbar .orientation-options { gap: 3px; }
+  #mobileToolbar button, #mobileToolbar #siteHomeLink, #mobileToolbar select { min-height: 44px; padding: 4px; font-size: 10px !important; white-space: nowrap; }
+  #mobileToolbar #siteHomeLink { padding-inline: 4px !important; }
+  #mobileToolbar #availabilityFilter { position: static; display: block; width: auto; font-size: 10px; }
+  #mobileToolbar #availabilityFilter label { display: none; }
+  #mobileToolbar #availabilityFilter select { width: 100%; max-width: none; padding-inline: 3px; background: var(--surface); border-color: #36996a; }
+  body .layout, body .layout:has(.viewer-panel[data-collapsed=true]) { width: 100%; max-width: none; margin: 0; }
+  body .layout .stage-badge { display: none; }
+  body #projectPanel.viewer-panel { top: 4px; left: auto; right: 4px; padding: 0 4px; width: max-content; max-width: calc(100% - 8px); max-height: calc(100% - 180px); }
+  body #projectPanel.viewer-panel[data-collapsed=false] { width: min(280px,calc(100% - 8px)); padding: 0 8px 8px; }
+  body #projectPanel .panel-summary { min-height: 44px; padding-right: 44px; font-size: 11px; white-space: nowrap; }
+  body #projectPanel .panel-toggle { top: 0; right: 0; width: 40px; min-width: 40px; }
+  body .layout .viewer-controls { bottom: max(8px,env(safe-area-inset-bottom,0px)); max-width: calc(100% - 88px); }
+  body .layout .viewer-controls #btnBackToMaquete { display: none !important; }
+  body .layout #plan2dMeasurements { top: 56px; right: auto; left: 4px; }
+  body .layout #plan2dRuler { top: 56px; right: auto; left: 104px; }
+  body .layout .plan2d-measures-note { top: 104px; left: 4px; }
+  body [data-whatsapp-floating=true] { top: auto !important; left: auto !important; right: 8px !important; bottom: max(8px,env(safe-area-inset-bottom,0px)) !important; }
+}
+@media (any-pointer: coarse) and (max-width: 1100px) and (orientation: landscape) and (max-height: 600px), (max-width: 760px) and (orientation: landscape) and (max-height: 600px) {
+  #stage .liv-clock { bottom: 80px; }
+  #stage .liv-clock[data-expanded=true] { height: min(252px,calc(100% - 144px)); }
+}

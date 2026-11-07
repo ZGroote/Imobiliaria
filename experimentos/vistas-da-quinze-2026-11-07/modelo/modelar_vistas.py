@@ -346,7 +346,7 @@ def laje_ala(ala, andar, z):
 
 def marcar(objs, torre, andar, role):
     for ob in objs:
-        ob['tower'] = torre; ob['floor'] = andar-A0; ob['role'] = role if ob['acabamento'] == 'reboco' or role != 'paredes' else 'detalhes-panos'
+        ob['tower'] = torre; ob['floor'] = andar; ob['role'] = role if ob['acabamento'] == 'reboco' or role != 'paredes' else 'detalhes-panos'
 
 
 # ---------- Torre: andar por andar (geometria diferente em cada um por causa dos degraus) ----------
@@ -492,7 +492,7 @@ for t_i, ala in enumerate(('sul', 'leste')):
     else:
         (x0, y0), (x1, y1) = arq(QX-FUNDO, QZ-FUNDO-comp), arq(QX, QZ-FUNDO)
     alas_md.append({'id': ala, 'indice': t_i, 'caixa': [x0, y0, x1, y1]})
-metadata = {'towers': 0, 'floors': A1-A0+1, 'floorHeight': LV, 'baseHeight': H0, 'firstFloor': A0, 'laje': LAJE,
+metadata = {'towers': 0, 'floors': A1+1, 'floorHeight': LV, 'baseHeight': H0, 'firstFloor': A0, 'laje': LAJE,
             'units': len(UNIDADES), 'origemM': [CX, CZ], 'ancoraGeo': IMPL['registro']['origemGeo'],
             'rumo_cima_graus': 0, 'alas': alas_md, 'quinaSE': [QX, QZ], 'fundoAla': FUNDO,
             'source': 'Plantas e renders públicos do Grupo Plano (grupoplano.eng.br, nov/2026)'}
