@@ -1,0 +1,53 @@
+{
+  "titulo": "Vistas da Quinze · T01 · 2 dormitórios sem terraço · 44,79 m²",
+  "tipologia": "T01",
+  "imagem": "../../../../plantas_fornecidas/vistas-da-quinze/anexos/bfb10206-b423-443d-9120-5a01807b430f.png",
+  "imagemSha256": "7aa9e027edfd16c2f11caabf909ffd6b380be04d29c047722d91397136b682cc",
+  "registro": {
+    "origemPx": [
+      3,
+      4
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 21.94568074190925,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        7,
+        8,
+        382,
+        256
+      ]
+    ],
+    "areaCalibracaoM2": 44.79,
+    "conferencia": [
+      "Área de 44,79 m² do anúncio (2 dormitórios, 1 suíte, sem terraço) contra as faces internas do contorno.",
+      "Cama de solteiro 40 x 82 px contra 0,88 x 1,88 m: 44-45 px/m."
+    ]
+  },
+  "areaContornoNominalAproximadaM2": 47.04,
+  "peDireitoMm": 2600,
+  "limites": [
+    "Planta humanizada de 390 px sem cotas (~45 px/m). Eixos de parede, vãos e móveis são aproximações de ±5 cm.",
+    "A escala supõe que os 44,79 m² do anúncio são a área dentro das faces internas das paredes externas; as camas de solteiro conferem.",
+    "Embaixo na imagem fica o corredor do andar (porta de entrada); em cima, a fachada.",
+    "O banho da direita abre para a cozinha, como no desenho, e é chamado de banho da suíte só pela posição.",
+    "Pé-direito de 2,60 m é suposto. A pegada do prédio é provisória até a implantação."
+  ],
+  "captura": {
+    "construtorSHA256": "cf9d5b86b9288c02a9d9e93f6c101e61ea6dd5897b698c958c48dca554d4dc84",
+    "inputsSHA256": {
+      "planta.json": "0b01437c06a318339897709e88e007c55c7f001efec8895e1daaf7a67db24eae",
+      "leitura.json": "33561cf336b9bf891afd7f0e881c693a2d50d7689b072499f60e52803cf3ee17",
+      "projeto-planta.json": "929124449d881e64f00b2faf4811148aaf6b794d46ca52e4112e98ecb0b562f4",
+      "moveis.json": "2b5151ed9a8d102b12472660c278915473b0fca31b66bd8f8fac125782887653",
+      "contexto.json": "a0965262d6eea265e99aa1c7962dce6a3dee7953f3faf56ed1953feef8c1a837"
+    }
+  },
+  "contagens": {
+    "partes": 8,
+    "aberturas": 8,
+    "moveis": 24
+  }
+}
