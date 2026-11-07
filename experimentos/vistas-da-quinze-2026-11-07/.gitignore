@@ -1,0 +1,6 @@
+# Regeneráveis por modelar_vistas.py e pela etapa da luz (pesados)
+modelo/modelo.json
+modelo/*.glb
+modelo/*.blend
+modelo/*.blend1
+modelo/luz/

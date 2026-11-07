@@ -101,5 +101,33 @@ em metros, terraço e coordenada geográfica), `conferencia.jpg` (3º andar sobr
   tem um apartamento a mais no canto, e esse não aparece na numeração. O embasamento foi suposto com 2
   pavimentos (6,4 m).
 
+## 3. Modelo externo (feito)
+
+```
+& 'C:\Program Files (x86)\Steam\steamapps\common\Blenderlender.exe' --background --factory-startup --python-exit-code 1 --python experimentos/vistas-da-quinze-2026-11-07/modelo/modelar_vistas.py
+```
+
+Roda em 30 s. Grava `modelo.json`, `vistas.glb` e `vistas.blend`, que ficam fora do git, e as prévias
+`preview-aerea.jpg`, `preview-patio.jpg` e `preview-terraco.jpg`, nas câmeras dos renders `galeria-00`,
+`galeria-15` e `galeria-01` do site.
+
+- **Andar por andar:** cada andar tem geometria própria por causa dos degraus. As duas alas são as
+  "torres" 0 (sul, com o núcleo) e 1 (leste), e o andar 3 é o `floor` 0.
+- **Fachada:**
+  - as janelas saem da frente de cada planta (T01..T06), espelhadas a cada apartamento como no render;
+  - cada janela tem esquadria branca e uma condensadora preta ao lado;
+  - a testa da ala tem janela; com terraço, tem porta de correr.
+- **Cores dos renders:** reboco branco, faixas grafite e quadros fendi com moldura escura. Os painéis são
+  a cor da própria parede no trecho, e não uma placa na frente: como placa, eles tapavam as janelas.
+- **Terraços dos degraus:** ficam sobre a laje do andar de baixo. Essa laje vai até a ponta de baixo, porque
+  é o teto dele. Cada terraço tem guarda-corpo de réguas brancas com rodapé de madeira, spa, vaso com árvore
+  e uma mureta bege de 15 cm no eixo do corredor.
+- **Embasamento:** 3 andares de garagem (9,0 m), com as faixas escuras nas fachadas das ruas e a
+  platibanda branca.
+- **Lazer:** piscina com deck, academia e espaço gourmet com telhado escuro, playground, a praça com 3
+  árvores de folha e a pista "RUN FAST".
+- **Implantação revista:** comparando com `galeria-15`, o pátio estava longo demais. O lote passou a
+  57 × 42 m, com a quina da torre em (62, 47).
+
 Commit ao fim de cada etapa. Nada publicado sem o OK do usuário (e, sendo um lançamento real de outra
 incorporadora, sem o OK do cliente).

@@ -82,16 +82,17 @@ def main():
     def geo(x, z):
         return [round(lat0-z/111320, 7), round(lon0+x/(111320*math.cos(math.radians(lat0))), 7)]
 
+    qx, qz = t['quinaSE']     # a quina sudeste da torre fica em (160, 115) px na imagem
+
     def px(x, z):
-        return 160+(67-x)*s, 115+(53-z)*s
+        return 160+(qx-x)*s, 115+(qz-z)*s
 
     def m(p):
-        return [round(67-(p[0]-160)/s, 2), round(53-(p[1]-115)/s, 2)]
+        return [round(qx-(p[0]-160)/s, 2), round(qz-(p[1]-115)/s, 2)]
 
     us = unidades(t)
     for u in us:
         u['centroGeo'] = geo(sum(u['x'])/2, sum(u['z'])/2)
-    qx, qz = t['quinaSE']
     fundo = 2*t['profundidadeUnidadeM']+t['corredorM']
     lazer = [{**z, 'm': m(z['px'][:2])+m(z['px'][2:])} for z in d['lazer']]
     for z in lazer:   # a imagem é girada: ordena para [x0, z0, x1, z1] crescente
