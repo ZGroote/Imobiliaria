@@ -37,6 +37,29 @@ def packed(path, rel, raw):
             'decodedBytes': len(raw), 'decodedSHA256': sha(raw)}
 
 
+REF_LUZ = 0.048  # mediana gravada (10/12/14 h) da T01 e da T02, que saem com o contraste do Laranjeiras
+
+
+def expor(tip):
+    """Exposição por planta, como fotógrafo: o vão de 1,55 m do terraço põe 2-3x a luz da T01 na sala e o EV
+    do Laranjeiras lavava sofá e piso. A mediana da luz gravada volta ao nível de REF_LUZ."""
+    import numpy as np
+    path = SITE/'interiores'/tip/'luz-horario'/'manifest.json'
+    if not path.is_file():
+        return None
+    m = json.loads(path.read_text(encoding='utf-8'))
+    meds = []
+    for k in m['keys']:
+        if k['hour'] in (10, 12, 14):
+            a = np.frombuffer(gzip.decompress((SITE/k['path']).read_bytes()), np.uint8).reshape(-1, 4)/255
+            lum = (a[:, :3] @ np.array([.2126, .7152, .0722]))*a[:, 3]**2*m['range']
+            meds.append(np.median(lum[lum > 0]))
+    base = m.setdefault('exposureEVGravado', m['exposureEV'])
+    m['exposureEV'] = round(base - max(0.0, float(np.log2(np.median(meds)/REF_LUZ))), 2)
+    path.write_text(json.dumps(m, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+    return m['exposureEV']
+
+
 def main():
     destino = SITE/'interiores'
     # luz-horario/ (empacotar_horario.py) fica: só o compartilhado e os arquivos da planta são refeitos.
@@ -81,6 +104,7 @@ def main():
                           furnitureSlots=source['metadata']['furnitureSlots'])
             record['files']['source'] = packed(pasta/'source.json.gz', f'interiores/{tip}/source.json.gz', source_bytes)
             record['files']['compact'] = packed(pasta/'geometry-compact.json.gz', f'interiores/{tip}/geometry-compact.json.gz', compact_bytes)
+            print(tip, 'exposureEV', expor(tip))
     (destino/'catalogo.json').write_text(json.dumps(catalogo, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
     print({t: (v['unitSHA256'][:12], v['geometryKind']) for t, v in catalogo['tipologias'].items()})
 

@@ -11,6 +11,8 @@ modelo/vistas-mapa.glb
 interiores/luz/*/source.json
 interiores/luz/*/moveis-site.glb
 interiores/luz/*/bake/
-interiores/luz/*/gravado/
+interiores/luz/*/gravado/*.f32
 interiores/luz/logs/
 site/interiores/*/luz-horario/*.gz
+site/interiores/*/source.json.gz
+site/interiores/*/geometry-compact.json.gz

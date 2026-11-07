@@ -30,9 +30,9 @@
       "area": 44.79,
       "unitId": "vistas-da-quinze-t01",
       "unitSHA256": "93be694c84fe17011a1602fcb9afe18023791b378aeacf818d5ee575d0794d54",
-      "sourceSHA256": "91063fdebf294fd4a1df16c06d5a07d95582c583b58b73c16ef9f6288ba377fd",
-      "geometryKind": "native-factories",
-      "lighting": "dynamic",
+      "sourceSHA256": "1e051a7ab527e8b355f4cc0ed0e6f802a1fed2b327d85a6e3e9e87459014e94d",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/t01/unidade.json",
@@ -43,8 +43,196 @@
           "path": "interiores/t01/recipe.json",
           "bytes": 581,
           "sha256": "91063fdebf294fd4a1df16c06d5a07d95582c583b58b73c16ef9f6288ba377fd"
+        },
+        "source": {
+          "path": "interiores/t01/source.json.gz",
+          "bytes": 3873905,
+          "sha256": "10800d26ee4d2d524f860ae631274e735badf3817b7ff9d9ae8875162e1db99b",
+          "compression": "gzip",
+          "decodedBytes": 15050052,
+          "decodedSHA256": "1e051a7ab527e8b355f4cc0ed0e6f802a1fed2b327d85a6e3e9e87459014e94d"
+        },
+        "compact": {
+          "path": "interiores/t01/geometry-compact.json.gz",
+          "bytes": 30525,
+          "sha256": "02a5bf8ed77f593da55d6e6a1bf50e934b29530b4c618a027aaadd1d8cc09099",
+          "compression": "gzip",
+          "decodedBytes": 61350,
+          "decodedSHA256": "e4b774a0724f580c6d5b2bd38b4ac43f391cac877855aebb91ccb1743f92cacb"
         }
-      }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "91063fdebf294fd4a1df16c06d5a07d95582c583b58b73c16ef9f6288ba377fd",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        },
+        {
+          "id": "movel-23",
+          "index": 23,
+          "slots": [
+            30
+          ]
+        }
+      ]
     },
     "t02": {
       "id": "t02",
@@ -52,9 +240,9 @@
       "area": 31.53,
       "unitId": "vistas-da-quinze-t02",
       "unitSHA256": "8459ca4af4d2b771f4cbd8c1c42cc49220b204e2f837a292fecc69d1cd4032e0",
-      "sourceSHA256": "95054dba2bf411b50251d8904115c2da7335cfe8f2ac296da1e9f86607330097",
-      "geometryKind": "native-factories",
-      "lighting": "dynamic",
+      "sourceSHA256": "9771d9e0d9bba897324d469d6e110cf530000510d5c9c41745dccff9a3c3a93e",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/t02/unidade.json",
@@ -65,8 +253,161 @@
           "path": "interiores/t02/recipe.json",
           "bytes": 581,
           "sha256": "95054dba2bf411b50251d8904115c2da7335cfe8f2ac296da1e9f86607330097"
+        },
+        "source": {
+          "path": "interiores/t02/source.json.gz",
+          "bytes": 3706726,
+          "sha256": "1b7c9b6c799ef98e8dd6b3f8f04f32a3629464435172d31f66f455d35e868b06",
+          "compression": "gzip",
+          "decodedBytes": 12218125,
+          "decodedSHA256": "9771d9e0d9bba897324d469d6e110cf530000510d5c9c41745dccff9a3c3a93e"
+        },
+        "compact": {
+          "path": "interiores/t02/geometry-compact.json.gz",
+          "bytes": 19536,
+          "sha256": "308377e94a912e3d817df328f0628570a4b479ca55445072ef20a72db6b92422",
+          "compression": "gzip",
+          "decodedBytes": 40291,
+          "decodedSHA256": "3b2b2fd6b6d5dd08bf435ecbac82f4f32dbd390ca794afa2038a61c5f3abae73"
         }
-      }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "95054dba2bf411b50251d8904115c2da7335cfe8f2ac296da1e9f86607330097",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        }
+      ]
     },
     "t03": {
       "id": "t03",
@@ -74,9 +415,9 @@
       "area": 62.29,
       "unitId": "vistas-da-quinze-t03",
       "unitSHA256": "f613f90cd836fe5f19bae475986b33d9f8a9f28508207e3f0347ef8841b8e3b3",
-      "sourceSHA256": "951804b1adbbafb4e808a0523a32e23c4e3719a94f230298a60a4bd1790e1e47",
-      "geometryKind": "native-factories",
-      "lighting": "dynamic",
+      "sourceSHA256": "5f34a5d2da8ff8e32851e4e7c88d174ec6c29c146eeef840c68b88e344175023",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/t03/unidade.json",
@@ -87,8 +428,217 @@
           "path": "interiores/t03/recipe.json",
           "bytes": 581,
           "sha256": "951804b1adbbafb4e808a0523a32e23c4e3719a94f230298a60a4bd1790e1e47"
+        },
+        "source": {
+          "path": "interiores/t03/source.json.gz",
+          "bytes": 3900360,
+          "sha256": "714b29ff3c6815f457dcc9b2741e45a722bc2a0dacd159eb3af7e1675ae3bb82",
+          "compression": "gzip",
+          "decodedBytes": 16108729,
+          "decodedSHA256": "5f34a5d2da8ff8e32851e4e7c88d174ec6c29c146eeef840c68b88e344175023"
+        },
+        "compact": {
+          "path": "interiores/t03/geometry-compact.json.gz",
+          "bytes": 34605,
+          "sha256": "f2c2ed3b035f6fa206f25e77e82ec144dd7250beaba43df028e11173428f4d22",
+          "compression": "gzip",
+          "decodedBytes": 71993,
+          "decodedSHA256": "1487127d07a1a0e90f4339e7b96b672c17e713525801ecb80bd795cef67aee28"
         }
-      }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "951804b1adbbafb4e808a0523a32e23c4e3719a94f230298a60a4bd1790e1e47",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        },
+        {
+          "id": "movel-23",
+          "index": 23,
+          "slots": [
+            30
+          ]
+        },
+        {
+          "id": "movel-24",
+          "index": 24,
+          "slots": [
+            31
+          ]
+        },
+        {
+          "id": "movel-25",
+          "index": 25,
+          "slots": [
+            32
+          ]
+        },
+        {
+          "id": "movel-26",
+          "index": 26,
+          "slots": [
+            33
+          ]
+        }
+      ]
     },
     "t04": {
       "id": "t04",
@@ -96,9 +646,9 @@
       "area": 77.65,
       "unitId": "vistas-da-quinze-t04",
       "unitSHA256": "229b5da72b4dbfe466468dcddba1bf0581b187bba97d46bb6ad862d3bc198fd2",
-      "sourceSHA256": "af7b4e3e79f0252f6a43bd78b4d77649244945853b44257261c03555b2610a0c",
-      "geometryKind": "native-factories",
-      "lighting": "dynamic",
+      "sourceSHA256": "02fb9b0642f4ad9f87f17671ed94c7ade9b8144d8a45851932c5fb436042d8a3",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/t04/unidade.json",
@@ -109,8 +659,273 @@
           "path": "interiores/t04/recipe.json",
           "bytes": 581,
           "sha256": "af7b4e3e79f0252f6a43bd78b4d77649244945853b44257261c03555b2610a0c"
+        },
+        "source": {
+          "path": "interiores/t04/source.json.gz",
+          "bytes": 4038946,
+          "sha256": "28add4d2fc54732e41eb54b45aa5970cfaf77c79b8b54f9c480d32b4df7f3956",
+          "compression": "gzip",
+          "decodedBytes": 18741014,
+          "decodedSHA256": "02fb9b0642f4ad9f87f17671ed94c7ade9b8144d8a45851932c5fb436042d8a3"
+        },
+        "compact": {
+          "path": "interiores/t04/geometry-compact.json.gz",
+          "bytes": 39902,
+          "sha256": "7f9c3845c0ec8807364b416de2786d95653f93e230f594b5aedf663df8c81c8e",
+          "compression": "gzip",
+          "decodedBytes": 83257,
+          "decodedSHA256": "0d65f8ea2f35892cdf68e409c50d1100d50d53d7800e85508bfe0eb1222fba2e"
         }
-      }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "af7b4e3e79f0252f6a43bd78b4d77649244945853b44257261c03555b2610a0c",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        },
+        {
+          "id": "movel-23",
+          "index": 23,
+          "slots": [
+            30
+          ]
+        },
+        {
+          "id": "movel-24",
+          "index": 24,
+          "slots": [
+            31
+          ]
+        },
+        {
+          "id": "movel-25",
+          "index": 25,
+          "slots": [
+            32
+          ]
+        },
+        {
+          "id": "movel-26",
+          "index": 26,
+          "slots": [
+            33
+          ]
+        },
+        {
+          "id": "movel-27",
+          "index": 27,
+          "slots": [
+            34
+          ]
+        },
+        {
+          "id": "movel-28",
+          "index": 28,
+          "slots": [
+            35
+          ]
+        },
+        {
+          "id": "movel-29",
+          "index": 29,
+          "slots": [
+            36
+          ]
+        },
+        {
+          "id": "movel-30",
+          "index": 30,
+          "slots": [
+            37
+          ]
+        },
+        {
+          "id": "movel-31",
+          "index": 31,
+          "slots": [
+            38
+          ]
+        },
+        {
+          "id": "movel-32",
+          "index": 32,
+          "slots": [
+            39
+          ]
+        },
+        {
+          "id": "movel-33",
+          "index": 33,
+          "slots": [
+            40
+          ]
+        },
+        {
+          "id": "movel-34",
+          "index": 34,
+          "slots": [
+            41
+          ]
+        }
+      ]
     },
     "t05": {
       "id": "t05",
@@ -118,9 +933,9 @@
       "area": 62.43,
       "unitId": "vistas-da-quinze-t05",
       "unitSHA256": "9f4345c195ba1d89945dbd347fcce9ec6a027396ae3164dc61eda4a756505fc5",
-      "sourceSHA256": "8bd0952bf8e932f6d5285c59084e9d898f9776b1494fa24b3983f5f124ea9f87",
-      "geometryKind": "native-factories",
-      "lighting": "dynamic",
+      "sourceSHA256": "9fb34d38d0197aeb23b8f675c519d3838262eb9611515d08e9fbceec5479f4ca",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/t05/unidade.json",
@@ -131,8 +946,224 @@
           "path": "interiores/t05/recipe.json",
           "bytes": 581,
           "sha256": "8bd0952bf8e932f6d5285c59084e9d898f9776b1494fa24b3983f5f124ea9f87"
+        },
+        "source": {
+          "path": "interiores/t05/source.json.gz",
+          "bytes": 3959343,
+          "sha256": "e91396389b022d8c20f32957a05df9f1f6dabb60410a43498af485abaa31345b",
+          "compression": "gzip",
+          "decodedBytes": 16821671,
+          "decodedSHA256": "9fb34d38d0197aeb23b8f675c519d3838262eb9611515d08e9fbceec5479f4ca"
+        },
+        "compact": {
+          "path": "interiores/t05/geometry-compact.json.gz",
+          "bytes": 34107,
+          "sha256": "a30a550a4a1dc7455301ef700d331eb60ec00d17c6cd92655d19cf85288462a5",
+          "compression": "gzip",
+          "decodedBytes": 70969,
+          "decodedSHA256": "50f23394c265fe13fe88154a4ba67cae99d313bbe1301e6acfcfbe284dbd9ff0"
         }
-      }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "8bd0952bf8e932f6d5285c59084e9d898f9776b1494fa24b3983f5f124ea9f87",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        },
+        {
+          "id": "movel-23",
+          "index": 23,
+          "slots": [
+            30
+          ]
+        },
+        {
+          "id": "movel-24",
+          "index": 24,
+          "slots": [
+            31
+          ]
+        },
+        {
+          "id": "movel-25",
+          "index": 25,
+          "slots": [
+            32
+          ]
+        },
+        {
+          "id": "movel-26",
+          "index": 26,
+          "slots": [
+            33
+          ]
+        },
+        {
+          "id": "movel-27",
+          "index": 27,
+          "slots": [
+            34
+          ]
+        }
+      ]
     },
     "t06": {
       "id": "t06",
@@ -140,9 +1171,9 @@
       "area": 71.1,
       "unitId": "vistas-da-quinze-t06",
       "unitSHA256": "0eca9cd07ba46ac94d6c26942c56a0db9d34e2d8690b6181852a8bd16e6a71b4",
-      "sourceSHA256": "f5b64b0539fd1f1c4da99812d403185ceab09fbb9d5db5a399d5a6ca3bae2ef5",
-      "geometryKind": "native-factories",
-      "lighting": "dynamic",
+      "sourceSHA256": "00093b50d61743f0d2feb16f6b63eae9779ea74f89d5387416529a708fdc365a",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
       "files": {
         "unit": {
           "path": "interiores/t06/unidade.json",
@@ -153,8 +1184,224 @@
           "path": "interiores/t06/recipe.json",
           "bytes": 581,
           "sha256": "f5b64b0539fd1f1c4da99812d403185ceab09fbb9d5db5a399d5a6ca3bae2ef5"
+        },
+        "source": {
+          "path": "interiores/t06/source.json.gz",
+          "bytes": 3933107,
+          "sha256": "076a544278d3f0ac6b708ab079d39f3fff6cc01c56a58272cb31d15ac031fd8e",
+          "compression": "gzip",
+          "decodedBytes": 16417858,
+          "decodedSHA256": "00093b50d61743f0d2feb16f6b63eae9779ea74f89d5387416529a708fdc365a"
+        },
+        "compact": {
+          "path": "interiores/t06/geometry-compact.json.gz",
+          "bytes": 31240,
+          "sha256": "9037d4312413890c453e5d0ae8dc3b0352520d49520b69ef87a5a23ca598290e",
+          "compression": "gzip",
+          "decodedBytes": 65400,
+          "decodedSHA256": "c29c0d063b0803b609af611abdba486dbc3a0242b6ff8f9e42386615878f2de7"
         }
-      }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "f5b64b0539fd1f1c4da99812d403185ceab09fbb9d5db5a399d5a6ca3bae2ef5",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        },
+        {
+          "id": "movel-23",
+          "index": 23,
+          "slots": [
+            30
+          ]
+        },
+        {
+          "id": "movel-24",
+          "index": 24,
+          "slots": [
+            31
+          ]
+        },
+        {
+          "id": "movel-25",
+          "index": 25,
+          "slots": [
+            32
+          ]
+        },
+        {
+          "id": "movel-26",
+          "index": 26,
+          "slots": [
+            33
+          ]
+        },
+        {
+          "id": "movel-27",
+          "index": 27,
+          "slots": [
+            34
+          ]
+        }
+      ]
     }
   }
 }

@@ -200,6 +200,26 @@ python experimentos/vistas-da-quinze-2026-11-07/interiores/gerar_pacote.py
 - **Testado:** as 6 plantas abrem no Tour sem erro, com 5 a 8 móveis trocados pelos aprovados do LIV.
   Na T03, dá para entrar pela porta de correr num terraço aberto com o spa.
 
+## 7. Luz gravada por hora (feito)
+
+```
+bash experimentos/vistas-da-quinze-2026-11-07/interiores/luz/gravar_todos.sh t01 t02 t03 t04 t05 t06
+python experimentos/vistas-da-quinze-2026-11-07/interiores/gerar_pacote.py
+```
+
+- São os scripts do Mooca em `interiores/luz/` (exportar a fonte → preparar o UV1 → gravar no Cycles →
+  empacotar em RGBM²), com o `corrigir_quinas.py` junto. Cada planta tem 29 chaves: 7 horas (6 a 18 h)
+  × 4 lados, mais a noite. Levou cerca de 35 min por planta com o navegador fechado, 5h30 no total.
+- Cada planta tem uns 50 MB de luz (`.gz`, fora do git, como no Laranjeiras); o site baixa só o lado e as
+  duas horas em uso. O corte do RGBM ficou em 4 pixels (T06).
+- **Exposição por planta** (`expor` em `gerar_pacote.py`): o vão aberto do terraço põe de 2 a 3 vezes mais
+  luz na sala do que na T01, e com o EV do Laranjeiras (3,0) o sofá e o piso ficavam brancos. O pacote mede
+  a mediana da luz gravada (10, 12 e 14 h) e baixa o `exposureEV` do manifesto até o nível da T01/T02,
+  como um fotógrafo faria: T01 3,0 · T02 2,97 · T03 1,35 · T04 1,95 · T05 1,75 · T06 1,53. O valor original
+  fica em `exposureEVGravado`, então rodar de novo não acumula.
+- **Testado:** as 6 plantas abrem com `luz gravada no Cycles por hora` às 7, 10, 15, 17 e 20 h, sem erro.
+  Vista de cima, o terraço ao sol continua bem claro (céu aberto), mas o spa e as poltronas aparecem.
+
 ## 8. Mapa do entorno (feito)
 
 ```
