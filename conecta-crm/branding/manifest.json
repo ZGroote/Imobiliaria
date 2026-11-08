@@ -1,0 +1,62 @@
+[
+  {
+    "sha256": "d9bd0e2fbbea7fd8b10d40eca19bb0b7ae48878defc0db19f72e0eb70581b6a5",
+    "locale": "pt-BR",
+    "name": "Modelo_de_contrato.docx",
+    "kind": "original"
+  },
+  {
+    "sha256": "d9939ecefbdb21a57f1d8558749814f08175ff17b42ee28bb4ef88153c8ba8cb",
+    "locale": "pt-BR",
+    "name": "Papel_Timbrado_Conecta_Imoveis_3D (1).docx",
+    "kind": "original"
+  },
+  {
+    "sha256": "6c8224f631744f48909e2e0d2f7811b76a4f7964a4da53162ad2aefcdcb20607",
+    "locale": "pt-BR",
+    "name": "Paleta de Cores Beyond Reality (1) (1).png",
+    "kind": "original"
+  },
+  {
+    "sha256": "c83eb05313a4cf29e1b64dc0384244a6110483c0fa00faefd4dcc0d389efd7b1",
+    "locale": "pt-BR",
+    "name": "Cartão digital - trás (1).png",
+    "kind": "original"
+  },
+  {
+    "sha256": "5199ad9f94e99b06e2fa6c0350ef9fb5a990606937aac07195ee54471b9309e4",
+    "locale": "pt-BR",
+    "name": "Cartão digital - frente (1).png",
+    "kind": "original"
+  },
+  {
+    "sha256": "ddd20fc88e38556f85c1c9d58a98173e68c9c02a4f563e1546d13ec9a05bd53e",
+    "locale": "pt-BR",
+    "name": "Assinatura de E-mail - Tamanho normal.png",
+    "kind": "original"
+  },
+  {
+    "commercial_stage": "delivery",
+    "name": "Modelo de Entrega Final.docx",
+    "display_name": "Modelo de Entrega Final.docx",
+    "sha256": "873b10c30bf0f39504ee835b881f8340ddb53b627c6c64e5b00cd0b5b93331eb",
+    "kind": "original",
+    "locale": "pt-BR"
+  },
+  {
+    "commercial_stage": "after_sale",
+    "name": "Mensagem_de_p%C3%B3s-venda_e_solicita%C3%A7%C3%A3o_de_feedback.docx",
+    "display_name": "Mensagem de pós-venda e solicitação de feedback.docx",
+    "sha256": "e74d1b99c36157f6fc75c3595b9470cccaade9b0e8b02370352af8fbddb905b2",
+    "kind": "original",
+    "locale": "pt-BR"
+  },
+  {
+    "commercial_stage": "briefing",
+    "name": "BRIEFING_T%C3%89CNICO_DO_IM%C3%93VEL.docx",
+    "display_name": "Briefing técnico do imóvel.docx",
+    "sha256": "00f878131cf4854d444bc833d31c53b88b286d1806a954c8a26002cb6ab80eba",
+    "kind": "original",
+    "locale": "pt-BR"
+  }
+]
