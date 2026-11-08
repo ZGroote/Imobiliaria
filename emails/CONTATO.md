@@ -1,8 +1,15 @@
 # Formulário internacional — 03/11/2026
 
-Publicado em `https://conectaimoveis3d.com/#contato`. O “Let’s talk” e os atalhos
-de contato da apresentação inglesa levam ao formulário. A página brasileira
-mantém seu atendimento por WhatsApp.
+Publicado em `https://conectaimoveis3d.com/#contato` e, desde 08/11/2026, também em
+`https://conectaimoveis3d.com.br/#contato`. O “Let’s talk” e os atalhos de contato da
+apresentação inglesa levam ao formulário. A página brasileira mostra o mesmo
+formulário (mensagens em português, `locale: pt-BR`) ao lado do WhatsApp, com aviso
+próprio em `assets/aviso-contato.html`. Publicação em
+`publicacao/internacionalizacao-20261108-contato-b/`.
+
+A chave `RESEND_API_KEY` precisa ser a chave inteira mostrada uma única vez na
+criação, não o texto encurtado da lista do Resend (`re_xxxx...`). Falhas de chave
+e de envio agora aparecem no log da função `receberContato`.
 
 O formulário pede nome, e-mail, empresa opcional e mensagem. Faz POST JSON para
 `/api/contact`, reescrito pelo Hosting para o serviço Cloud Run `recebercontato`

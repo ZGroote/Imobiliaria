@@ -53,7 +53,8 @@ export const receberContato = onRequest({
     const app = getApps()[0] ?? initializeApp(), segredo = chaveContato.value(), api = clienteResend(chave.value())
     return await criarHandlerContato({db:getFirestore(app), segredo,
       enviar:(mensagem,id) => api('POST','/emails',mensagem,id)})(req, res)
-  } catch {
+  } catch (e) {
+    console.error('receberContato:', e?.message) // as mensagens não carregam a chave
     res.set('Cache-Control', 'no-store')
     return res.status(503).json({status:'failed', error:'unavailable'})
   }

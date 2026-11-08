@@ -1,191 +1,130 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-visual="novo">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#fffffe" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#0d131b" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f5f8ff">
     <meta name="description" content="Maquete 3D, planta com medidas e tour pelos ambientes, num link que abre no celular. Conheça a Conecta Imóveis 3D.">
     <title>Conecta — viver antes</title>
-    <link rel="icon" href="data:,">
+    <link rel="canonical" href="https://conectaimoveis3d.com.br/">
+    <link rel="alternate" hreflang="pt-BR" href="https://conectaimoveis3d.com.br/">
+    <link rel="alternate" hreflang="en" href="https://conectaimoveis3d.com/">
+    <link rel="alternate" hreflang="x-default" href="https://conectaimoveis3d.com/">
+    <link rel="icon" href="assets/marca.svg" type="image/svg+xml">
     <link rel="preload" href="fonts/Satoshi-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <script>document.documentElement.classList.add("js")</script>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="site.js"></script>
+    <link rel="stylesheet" href="styles.css?rev=20261108-contato">
+    <script defer src="i18n.js"></script>
+    <script defer src="idiomas.js"></script>
+    <script defer src="site.js?rev=20261103-vagas"></script>
+    <script defer src="contato.js?rev=20261108-contato"></script>
   </head>
   <body>
     <a class="pular" href="#demonstracao">Pular para a demonstração</a>
 
     <header class="topo">
-      <a class="marca" href="#inicio" aria-label="Conecta, início">conecta<span aria-hidden="true">.</span></a>
+      <a class="marca" href="#inicio" aria-label="Conecta, início"><img src="assets/logo-conecta.webp" width="883" height="236" alt="Conecta Imóveis 3D — Uma nova perspectiva."></a>
       <nav class="menu" aria-label="Seções">
         <a href="#demonstracao">Demonstração</a>
-        <a href="#entregas">O que entregamos</a>
         <a href="#como-funciona">Como funciona</a>
-        <a href="#planos">Planos</a>
         <a href="#duvidas">Dúvidas</a>
       </nav>
-      <a class="botao botao-cheio botao-topo" data-whatsapp href="https://wa.me/5516981288075" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <a class="botao botao-linha botao-topo" data-whatsapp data-contato-en href="https://wa.me/5516981288075" target="_blank" rel="noopener">Vamos conversar <span aria-hidden="true">↗</span></a>
+      <nav class="idiomas" aria-label="Idioma">
+        <a data-idioma="pt-BR" href="https://conectaimoveis3d.com.br/?lang=pt-BR" lang="pt-BR" hreflang="pt-BR" aria-label="Português" aria-current="page">PT</a>
+        <a data-idioma="en" href="https://conectaimoveis3d.com/?lang=en" lang="en" hreflang="en" aria-label="English">EN</a>
+      </nav>
       <details class="menu-celular">
         <summary aria-label="Abrir menu"><span></span><span></span></summary>
         <nav aria-label="Seções">
           <a href="#demonstracao">Demonstração</a>
-          <a href="#entregas">O que entregamos</a>
           <a href="#como-funciona">Como funciona</a>
-          <a href="#planos">Planos</a>
           <a href="#duvidas">Dúvidas</a>
+          <a href="#contato" data-english-only hidden>Vamos conversar</a>
         </nav>
       </details>
     </header>
 
     <main>
-      <section class="abertura" id="inicio" aria-labelledby="titulo">
-        <div class="abertura-texto">
-          <p class="rotulo">Apresentação imobiliária em 3D</p>
-          <h1 id="titulo">Pessoas escolhem com certeza quando podem <em>viver antes.</em></h1>
-          <p class="abertura-sub">Transformamos plantas e projetos numa experiência que a pessoa explora sozinha, do prédio ao sofá da sala, antes de marcar a visita.</p>
+      <section class="vitrine" id="demonstracao" aria-labelledby="titulo">
+      <div class="abertura" id="inicio">
+        <div class="abertura-titulo">
+          <p class="rotulo"><span class="rotulo-ponto" aria-hidden="true"></span> Apresentações que aproximam</p>
+          <h1 id="titulo"><span class="titulo-entrada">Seu imóvel,</span><br><em>em uma nova perspectiva.</em></h1>
+        </div>
+        <div class="abertura-convite">
+          <p class="abertura-sub">Convide seu cliente a conhecer cada espaço. Do primeiro olhar ao passeio por dentro, tudo em um só link.</p>
           <div class="acoes">
-            <a class="botao botao-cheio" href="#demonstracao" data-abrir-maquete>Explorar a maquete <span aria-hidden="true">↓</span></a>
-            <a class="botao botao-linha" data-whatsapp href="https://wa.me/5516981288075" target="_blank" rel="noopener">Falar com a equipe <span aria-hidden="true">↗</span></a>
+            <a class="link-explorar" href="#explorar" data-abrir-maquete>Experimente abaixo <span aria-hidden="true">↓</span></a>
           </div>
         </div>
-        <figure class="abertura-planta">
-          <canvas width="640" height="360" aria-hidden="true"></canvas>
-          <img src="frames-hero/frame_00081.webp" width="640" height="360" alt="Planta de um apartamento de dois quartos, mobiliada, vista de cima." fetchpriority="high">
-          <figcaption><span data-etapa="0">Estrutura</span><span data-etapa="1">Acabamentos</span><span data-etapa="2">Experiência</span></figcaption>
-        </figure>
-      </section>
+      </div>
 
-      <section class="vitrine" id="demonstracao" aria-labelledby="titulo-vitrine">
-        <div class="vitrine-cabeca">
-          <div>
-            <p class="rotulo rotulo-claro">Demonstração ao vivo</p>
-            <h2 id="titulo-vitrine">Não precisa imaginar. <em>Pode entrar.</em></h2>
+        <div class="demo-workbench" id="explorar">
+          <aside class="demo-navegacao" aria-label="Explore o imóvel">
+            <div class="demo-nome"><p class="rotulo">Explore por você</p><h2 id="titulo-vitrine">Vila Aurora<span aria-hidden="true"> ↘</span></h2></div>
+            <div class="abas" role="tablist" aria-label="O que mostrar na maquete">
+              <button type="button" role="tab" id="aba-predio" aria-selected="true" aria-controls="painel-demonstracao" tabindex="0" data-modo="predio"><span class="aba-numero" aria-hidden="true">01</span><span class="aba-texto"><strong>Prédio</strong><span class="aba-detalhe">O primeiro olhar.</span><span class="aba-preparo" data-preparo="predio" data-pronto="false">Preparando</span></span><span class="aba-seta" aria-hidden="true">↗</span></button>
+              <button type="button" role="tab" id="aba-planta" aria-selected="false" aria-controls="painel-demonstracao" tabindex="-1" data-modo="planta"><span class="aba-numero" aria-hidden="true">02</span><span class="aba-texto"><strong>Planta</strong><span class="aba-detalhe">Cada espaço, uma possibilidade.</span><span class="aba-preparo" data-preparo="planta" data-pronto="false">Preparando</span></span><span class="aba-seta" aria-hidden="true">↗</span></button>
+              <button type="button" role="tab" id="aba-apartamento" aria-label="Apartamento 3D" aria-selected="false" aria-controls="painel-demonstracao" tabindex="-1" data-modo="apartamento"><span class="aba-numero" aria-hidden="true">03</span><span class="aba-texto"><strong><span class="aba-nome-longo">Apartamento</span><span class="aba-nome-curto">Apto.</span> <span class="aba-3d">3D</span></strong><span class="aba-detalhe">Um novo ponto de vista.</span><span class="aba-preparo" data-preparo="apartamento" data-pronto="false">Preparando</span></span><span class="aba-seta" aria-hidden="true">↗</span></button>
+              <button type="button" role="tab" id="aba-tour" aria-selected="false" aria-controls="painel-demonstracao" tabindex="-1" data-modo="tour"><span class="aba-numero" aria-hidden="true">04</span><span class="aba-texto"><strong>Tour</strong><span class="aba-detalhe">Entre. Sinta-se em casa.</span><span class="aba-preparo" data-preparo="tour" data-pronto="false">Preparando</span></span><span class="aba-seta" aria-hidden="true">↗</span></button>
+            </div>
+            <div class="demo-preparo"><progress class="demo-progresso" max="4" value="0" aria-label="Preparação das visualizações"></progress><p class="demo-preparo-texto" role="status">Preparando os quatro olhares…</p></div>
+          <div class="demo-resumo">
+            <div><p class="demo-etapa">Etapa 01 de 04</p><h3 class="demo-titulo">Um primeiro olhar para o prédio.</h3><p class="demo-descricao">Gire a fachada e descubra os apartamentos disponíveis.</p></div>
+            <p class="demo-status" role="status">Preparando a experiência</p>
           </div>
-          <p>Não é vídeo nem foto: é a maquete funcionando aqui dentro, igual ao que o seu cliente recebe. O Vila Aurora é um prédio de demonstração, com preços e disponibilidade ilustrativos.</p>
+          </aside>
+        <div class="demo-painel" id="painel-demonstracao" role="tabpanel" aria-labelledby="aba-predio">
+          <dialog open class="janela" aria-label="Maquete interativa do Vila Aurora" data-estado="inicial" data-ativa="false">
+            <div class="janela-barra">
+              <p class="janela-projeto"><span aria-hidden="true"></span> Ao vivo <span class="janela-projeto-detalhe">Arraste para descobrir</span></p>
+              <div class="janela-acoes">
+                <button class="janela-pausar" type="button" aria-label="Liberar rolagem da página" hidden>Rolar</button>
+                <button class="janela-tela-cheia" type="button">Ampliar <span aria-hidden="true">↗</span></button>
+                <button class="maquete-voltar" type="button">← Voltar à apresentação</button>
+              </div>
+            </div>
+            <div class="demo-passeio-barra">
+              <button class="demo-passeio" type="button" aria-pressed="false">Iniciar passeio guiado</button>
+              <span class="demo-passeio-etapa" role="status"></span>
+              <progress class="demo-passeio-progresso" max="1" value="0" aria-label="Progresso do passeio guiado" hidden></progress>
+            </div>
+            <div class="janela-palco">
+              <img class="janela-capa" src="assets/predio-real.jpg" width="1280" height="720" alt="" decoding="async">
+              <iframe title="Maquete interativa do Vila Aurora, prédio de demonstração" tabindex="-1" aria-hidden="true" allow="fullscreen; xr-spatial-tracking"></iframe>
+              <div class="janela-espera"><span class="janela-carregando" aria-hidden="true"></span><p class="janela-mensagem" role="status">Preparando sua experiência…</p><button class="janela-repetir" type="button" hidden>Tentar novamente</button></div>
+              <button class="janela-ativar" type="button"><span>Explorar o prédio</span><small>Você controla a experiência.</small></button>
+            </div>
+          </dialog>
+          <div class="demo-rodape"><p class="vitrine-dica" aria-live="polite">Toque num apartamento verde para ver a ficha. Dois toques seguidos abrem a planta.</p><button class="demo-proxima" type="button">Próximo: planta <span aria-hidden="true">→</span></button></div>
         </div>
-
-        <div class="abas" role="tablist" aria-label="O que mostrar na maquete">
-          <button type="button" role="tab" aria-selected="true" data-modo="predio">Prédio</button>
-          <button type="button" role="tab" aria-selected="false" data-modo="planta">Planta</button>
-          <button type="button" role="tab" aria-selected="false" data-modo="apartamento">Apartamento 3D</button>
-          <button type="button" role="tab" aria-selected="false" data-modo="tour">Tour</button>
         </div>
-
-        <div class="janela" data-carregada="false" data-ativa="false">
-          <img class="janela-capa" src="assets/telas/predio.webp" width="1200" height="699" alt="" decoding="async">
-          <iframe title="Maquete interativa do Vila Aurora, prédio de demonstração" allow="fullscreen; xr-spatial-tracking"></iframe>
-          <button class="janela-ativar" type="button"><span>Explorar a maquete aqui</span></button>
-          <button class="janela-tela-cheia" type="button">Tela cheia <span aria-hidden="true">↗</span></button>
-        </div>
-        <p class="vitrine-dica" aria-live="polite">Toque num apartamento verde para ver a ficha. Dois toques seguidos abrem a planta.</p>
-      </section>
-
-      <section class="secao" id="entregas" aria-labelledby="titulo-entregas">
-        <div class="secao-cabeca">
-          <p class="rotulo">O que entregamos</p>
-          <h2 id="titulo-entregas">Um link. <em>O imóvel inteiro.</em></h2>
-          <p>Tudo o que você viu acima, montado a partir da planta e do projeto do seu imóvel.</p>
-        </div>
-        <div class="entregas">
-          <article class="entrega" data-revelar>
-            <img src="assets/telas/predio.webp" width="1200" height="699" alt="Fachada do prédio em 3D com os apartamentos disponíveis em verde." loading="lazy" decoding="async">
-            <h3>Prédio interativo</h3>
-            <p>A fachada mostra quais apartamentos estão disponíveis. Um toque abre a ficha com preço e vaga.</p>
-          </article>
-          <article class="entrega" data-revelar>
-            <img src="assets/telas/planta.webp" width="1200" height="699" alt="Planta 2D do apartamento com os nomes dos cômodos." loading="lazy" decoding="async">
-            <h3>Planta com medidas</h3>
-            <p>A planta vem com régua: a pessoa mede qualquer parede direto na tela.</p>
-          </article>
-          <article class="entrega" data-revelar>
-            <img src="assets/telas/apartamento.webp" width="1200" height="699" alt="Apartamento mobiliado em 3D, visto de cima, sem o teto." loading="lazy" decoding="async">
-            <h3>Apartamento em 3D</h3>
-            <p>O apartamento mobiliado, visto de cima, para entender como os cômodos se ligam.</p>
-          </article>
-          <article class="entrega" data-revelar>
-            <img src="assets/telas/tour.webp" width="1200" height="699" alt="Vista de dentro da sala durante o tour, com o sofá e o controle de horário do sol." loading="lazy" decoding="async">
-            <h3>Tour pelos ambientes</h3>
-            <p>Caminhar pela sala e pelos quartos, e ver a luz do sol mudar com a hora do dia.</p>
-          </article>
-          <article class="entrega entrega-texto" data-revelar>
-            <span class="entrega-numero" aria-hidden="true">01</span>
-            <h3>Um link para cada corretor</h3>
-            <p>Cada corretor divulga o imóvel pelo próprio link, e o contato chega para quem indicou.</p>
-          </article>
-          <article class="entrega entrega-texto" data-revelar>
-            <span class="entrega-numero" aria-hidden="true">02</span>
-            <h3>Sem instalar nada</h3>
-            <p>Abre no navegador do celular ou do computador. Dá para mandar no WhatsApp como qualquer link.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="secao publico" id="para-quem" aria-labelledby="titulo-publico">
-        <div class="secao-cabeca">
-          <p class="rotulo">Para quem</p>
-          <h2 id="titulo-publico">Para quem transforma imóveis em <em>oportunidades.</em></h2>
-        </div>
-        <ul class="publico-lista">
-          <li data-revelar><h3>Incorporadoras</h3><p>Lançamento apresentado antes da obra: o comprador escolhe o apartamento vendo a fachada, a planta e o sol.</p></li>
-          <li data-revelar><h3>Imobiliárias</h3><p>Imóveis que se destacam no anúncio e uma conversa que começa com o cliente já entendendo o espaço.</p></li>
-          <li data-revelar><h3>Corretores</h3><p>Mais argumento na negociação e menos visita perdida com quem não tinha entendido a planta.</p></li>
-        </ul>
+        <p class="vitrine-aviso">Uma demonstração da Conecta. Vila Aurora é um empreendimento fictício; valores e disponibilidade são ilustrativos.</p>
+        <noscript><p class="vitrine-aviso">Ative o JavaScript para explorar a maquete interativa. As informações de contratação continuam disponíveis abaixo.</p></noscript>
       </section>
 
       <section class="secao passos" id="como-funciona" aria-labelledby="titulo-passos">
+        <figure class="passos-imagem" data-revelar><img src="assets/arquitetura.webp" width="2000" height="1125" alt="Estudo arquitetônico de uma casa contemporânea com madeira, vidro e iluminação ao entardecer" loading="lazy" decoding="async"><figcaption>Estudo de visualização arquitetônica <span>Conecta / 2026</span></figcaption></figure>
+        <div class="passos-conteudo">
         <div class="secao-cabeca">
-          <p class="rotulo rotulo-claro">Como funciona</p>
-          <h2 id="titulo-passos">Você traz o imóvel. <em>A gente constrói o próximo olhar.</em></h2>
+          <p class="rotulo rotulo-claro">Feito para o seu projeto</p>
+          <h2 id="titulo-passos">A próxima visita<br><em>começa aqui.</em></h2>
+          <p>Transformamos seus materiais em uma experiência que ajuda o cliente a se imaginar no imóvel.</p>
         </div>
         <ol class="passos-lista">
           <li data-revelar><span>01</span><h3>Conte o que você precisa</h3><p>Conhecemos o imóvel, os materiais disponíveis e o objetivo da apresentação.</p></li>
-          <li data-revelar><span>02</span><h3>Definimos a proposta</h3><p>Alinhamos plano, entregas, valores e prazos antes de iniciar a produção.</p></li>
+          <li data-revelar><span>02</span><h3>Definimos a proposta</h3><p>Alinhamos as entregas, os valores e os prazos antes de iniciar a produção.</p></li>
           <li data-revelar><span>03</span><h3>Produzimos e revisamos juntos</h3><p>A apresentação passa pela sua avaliação antes da publicação combinada.</p></li>
           <li data-revelar><span>04</span><h3>Publicamos o link</h3><p>Seu imóvel pronto para ser explorado, no celular ou no computador.</p></li>
         </ol>
-      </section>
-
-      <section class="secao" id="planos" aria-labelledby="titulo-planos">
-        <div class="secao-cabeca">
-          <p class="rotulo">Planos</p>
-          <h2 id="titulo-planos">O seu imóvel. <em>A apresentação certa.</em></h2>
-          <p>Do essencial a uma produção com mais detalhes. Cada imóvel tem suas particularidades, então o valor sai numa proposta.</p>
-        </div>
-        <div class="planos">
-          <article class="plano" data-revelar>
-            <p class="rotulo">01 · Essencial para apresentar</p>
-            <h3>LEVE</h3>
-            <p>Clareza para entender o imóvel, com foco na distribuição dos espaços.</p>
-            <ul>
-              <li>Foco na leitura da planta e dos volumes</li>
-              <li>Representação simplificada dos ambientes</li>
-              <li>Produção a partir dos materiais acordados</li>
-              <li>Revisão da apresentação com a sua equipe</li>
-            </ul>
-            <p class="plano-preco">Sob consulta</p>
-            <a class="botao botao-linha" data-whatsapp="Quero conversar sobre o plano LEVE." href="https://wa.me/5516981288075" target="_blank" rel="noopener">Conversar sobre o LEVE <span aria-hidden="true">↗</span></a>
-          </article>
-          <article class="plano plano-destaque" data-revelar>
-            <p class="rotulo rotulo-claro">02 · Mais detalhes na experiência</p>
-            <h3>PREMIUM</h3>
-            <p>Uma produção dedicada para explorar o caráter e os detalhes do imóvel.</p>
-            <ul>
-              <li>Maior detalhamento conforme a proposta</li>
-              <li>Materiais e acabamentos definidos no escopo</li>
-              <li>Avaliação das referências disponíveis</li>
-              <li>Revisão da apresentação com a sua equipe</li>
-            </ul>
-            <p class="plano-preco">Sob consulta</p>
-            <a class="botao botao-branco" data-whatsapp="Quero conversar sobre o plano PREMIUM." href="https://wa.me/5516981288075" target="_blank" rel="noopener">Conversar sobre o PREMIUM <span aria-hidden="true">↗</span></a>
-          </article>
         </div>
       </section>
 
-      <section class="secao duvidas" id="duvidas" aria-labelledby="titulo-duvidas">
+<section class="secao duvidas" id="duvidas" aria-labelledby="titulo-duvidas">
         <div class="secao-cabeca">
           <p class="rotulo">Dúvidas</p>
-          <h2 id="titulo-duvidas">Boas perguntas. <em>Respostas diretas.</em></h2>
+          <h2 id="titulo-duvidas">Antes de<br> <em>dar o próximo passo.</em></h2>
         </div>
         <div class="duvidas-lista">
           <details>
@@ -194,7 +133,7 @@
           </details>
           <details>
             <summary>Qual é o valor e o prazo de entrega?</summary>
-            <p>Os dois são definidos na proposta comercial, conforme o imóvel, o plano e as entregas. Fale com a equipe pelo WhatsApp para uma avaliação.</p>
+            <p>Os dois são definidos na proposta comercial, conforme o imóvel e as entregas. Fale com a equipe pelo WhatsApp para uma avaliação.</p>
           </details>
           <details>
             <summary>A apresentação substitui a visita ao imóvel?</summary>
@@ -205,32 +144,56 @@
             <p>Sim, avaliamos uma proposta para um conjunto de imóveis. A sequência de produção e as condições são combinadas no atendimento.</p>
           </details>
           <details>
-            <summary>O PREMIUM reproduz todos os detalhes reais?</summary>
+            <summary>A apresentação reproduz todos os detalhes reais?</summary>
             <p>A fidelidade depende dos materiais disponíveis e do escopo aprovado. O que é representado, simplificado ou ilustrativo consta da proposta.</p>
           </details>
         </div>
       </section>
 
-      <section class="chamada" aria-labelledby="titulo-chamada">
-        <h2 id="titulo-chamada">Seu próximo imóvel pode ser visto <em>de outro jeito.</em></h2>
-        <a class="botao botao-branco" data-whatsapp href="https://wa.me/5516981288075" target="_blank" rel="noopener">Vamos conversar <span aria-hidden="true">↗</span></a>
-        <p>WhatsApp (16) 98128-8075</p>
+      <section class="chamada" id="contato" tabindex="-1" aria-labelledby="titulo-chamada">
+        <div class="chamada-copy">
+        <p class="rotulo">Vamos tirar sua ideia do papel?</p>
+        <h2 id="titulo-chamada">O próximo olhar<br>pode ser para <em>o seu imóvel.</em></h2>
+        <a class="botao botao-cheio" data-whatsapp data-contato-en href="https://wa.me/5516981288075" target="_blank" rel="noopener">Conte seu projeto <span aria-hidden="true">↗</span></a>
+        <p class="chamada-numero" data-portuguese-only>WhatsApp (16) 98128-8075</p>
+        <p class="contato-intro">Seu nome, e-mail e uma breve descrição. Respondemos por e-mail.</p>
+        </div>
+        <div class="contato-card" role="region" aria-labelledby="contato-titulo">
+          <form class="contato-form" data-contato-form method="post" action="/api/contact" novalidate aria-labelledby="contato-titulo" aria-describedby="contato-nota">
+            <h3 id="contato-titulo">Vamos conhecer seu projeto.</h3>
+            <p id="contato-nota" class="contato-nota">Os campos com asterisco são obrigatórios.</p>
+            <div class="contato-campos">
+              <label for="contato-nome"><span>Nome <span aria-hidden="true">*</span></span><input id="contato-nome" name="name" type="text" autocomplete="name" maxlength="120" required></label>
+              <label for="contato-email"><span>E-mail <span aria-hidden="true">*</span></span><input id="contato-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required></label>
+              <label class="contato-largo" for="contato-empresa"><span>Empresa <span class="contato-opcional">(opcional)</span></span><input id="contato-empresa" name="company" type="text" autocomplete="organization" maxlength="160"></label>
+              <label class="contato-largo" for="contato-mensagem"><span>Seu projeto <span aria-hidden="true">*</span></span><textarea id="contato-mensagem" name="message" rows="5" minlength="10" maxlength="5000" placeholder="Conte sobre o imóvel e o que você gostaria de apresentar." required aria-describedby="contato-mensagem-ajuda"></textarea><span class="contato-ajuda" id="contato-mensagem-ajuda">De 10 a 5.000 caracteres.</span></label>
+            </div>
+            <div class="contato-armadilha" aria-hidden="true"><label for="contato-website">Website<input id="contato-website" name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+            <p class="contato-privacidade">Usaremos seus dados para responder à sua solicitação. <a href="assets/aviso-contato.html" data-contact-privacy-en>Veja como este formulário usa seus dados.</a></p>
+            <button class="botao botao-cheio contato-enviar" type="submit" disabled><span data-contato-submit-text>Enviar mensagem</span><span aria-hidden="true">→</span></button>
+            <p class="contato-status" data-contato-status role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
+            <p class="contato-alternativa">Prefere enviar um e-mail? <a href="mailto:contact@conectaimoveis3d.com">contact@conectaimoveis3d.com</a></p>
+            <noscript><p class="contato-nota">Ative o JavaScript para enviar o formulário ou escreva para o e-mail acima.</p></noscript>
+          </form>
+        </div>
       </section>
     </main>
 
     <footer class="rodape">
-      <p><strong>conecta.</strong> Conecta Imóveis 3D</p>
+      <a class="marca" href="#inicio" aria-label="Conecta, início"><img src="assets/logo-conecta.webp" width="883" height="236" alt="Conecta Imóveis 3D — Uma nova perspectiva."></a>
       <p>O Vila Aurora é um empreendimento fictício, criado só para esta demonstração.</p>
       <nav aria-label="Documentos">
         <a href="https://conectaimoveis3d.com.br/termos.html">Termos</a>
-        <a href="https://conectaimoveis3d.com.br/privacidade.html">Privacidade</a>
+        <a href="https://conectaimoveis3d.com.br/privacidade.html" data-contact-privacy-en>Privacidade</a>
         <a href="https://conectaimoveis3d.com.br/cookies.html">Cookies</a>
       </nav>
+      <p class="rodape-creditos">Veículos no estudo arquitetônico: <a href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CarConcept" target="_blank" rel="noopener">CarConcept — Eric Chadwick / Darmstadt Graphics Group</a>, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.</p>
     </footer>
 
-    <dialog class="maquete-dialogo" id="maquete" aria-label="Maquete interativa do Vila Aurora">
-      <button class="maquete-voltar" type="button">← Voltar à apresentação</button>
-      <iframe title="Maquete interativa do Vila Aurora em tela cheia" allow="fullscreen; xr-spatial-tracking"></iframe>
-    </dialog>
+    <aside class="idioma-sugestao" aria-labelledby="idioma-sugestao-titulo" hidden>
+      <p id="idioma-sugestao-titulo"></p>
+      <div><a data-idioma-sugerido href="index.en.html"></a><button type="button" data-idioma-manter></button></div>
+    </aside>
+
   </body>
 </html>

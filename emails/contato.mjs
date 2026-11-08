@@ -135,6 +135,7 @@ export async function processarContato(input, {db, enviar, segredo, agora = Date
     return {status: 'accepted'}
   } catch (error) {
     const retryable = error.repetir !== false
+    console.error('contato: envio falhou:', error?.message) // só status/código do provedor
     await registrar('failed', {retryable})
     throw new ErroContato(503, 'send_failed', retryable ? 60 : undefined)
   }

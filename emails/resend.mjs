@@ -9,6 +9,8 @@ export class ErroResend extends Error {
 }
 
 export function clienteResend(chave, requisitar = fetch) {
+  // Colar o segredo no terminal pode deixar uma quebra de linha no fim.
+  if (typeof chave === 'string') chave = chave.trim()
   if (typeof chave !== 'string' || !/^re_[a-zA-Z0-9_]+$/.test(chave)) throw new Error('Configure RESEND_API_KEY no servidor.')
   return async (metodo, caminho, corpo, idempotencia) => {
     if (!/^\/(emails|domains|inboxes)(\/[-a-zA-Z0-9]+)?(\?[-a-zA-Z0-9=&]+)?$/.test(caminho)) throw new Error('Rota Resend inválida.')
