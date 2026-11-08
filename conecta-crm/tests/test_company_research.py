@@ -38,7 +38,8 @@ def test_focused_packet_contains_only_public_identity_and_is_idempotent(focused)
     bundle=client.get('/api/jobs/'+row['id']+'/export').json();serial=json.dumps(bundle)
     assert 'FICTITIOUS_SECRET' not in serial and '/private/path' not in serial and '#PRIVATE' not in serial
     assert bundle['target_company']==row['target_company'] and cid in bundle['prompt']
-    assert client.get('/api/jobs').json()['items'][0]['target_company_name']=='Contract test company'
+    listed=next(item for item in client.get('/api/jobs').json()['items'] if item['id']==row['id'])
+    assert listed['target_company_name']=='Contract test company'
     with app.state.engine.connect() as c:
         assert c.execute(text('SELECT count(*) FROM agent_runs')).scalar_one()==0
         assert c.execute(text('SELECT count(*) FROM real_deliveries')).scalar_one()==0

@@ -130,7 +130,9 @@ Publicação concluída no [PR #113](https://github.com/ZGroote/Imobiliaria/pull
 ## Pesquisa direcionada de empresa cadastrada
 
 - [x] 43. Vínculo/snapshot público, preparação idempotente, guardas e testes de pesquisa focada.
-- [ ] 44. Formulário na empresa, navegação para tarefa e edição protegida.
+- [x] 44. Formulário na empresa, navegação para tarefa e edição protegida.
 - [ ] 45. QA fictício, suíte/build, documentação, atualização com backups e publicação separada.
 
 Base/API: 46 casos de pesquisa e fila passaram, incluindo 12 casos novos focados. Conferidos request idempotente, estado cadastrado, origem pública sem caminhos/query/fragmentos, domínio exato (www normalizado), identidade/atuação alterada antes ou depois do executor fictício, importação atômica, confirmação do vínculo existente e ausência de atualização automática de contatos/empreendimentos/envios. Nenhum modelo real executado.
+
+Interface/QA: preparação na ficha, seleção restrita a estados conferidos, troca de modo bloqueada durante edição, navegação automática, cancelamento sem prender a navegação, Claude manual e JSON mínimo baixado. Codex fictício aguardou confirmação/fila e trouxe uma candidata pendente; identidade alterada bloqueou exportação/aprovação e o resultado persistiu. 320/768/1024/1440 px sem overflow no formulário e detalhe, console limpo. Banco de QA encerrado: uma empresa fictícia, uma nova candidata pendente, zero contatos/empreendimentos/rascunhos/envios e uma execução simulada concluída. 508 testes passaram após corrigir uma suposição de ordenação no teste; build aprovado.
