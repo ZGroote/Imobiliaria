@@ -74,7 +74,7 @@ def build(row,reviewed=False):
         if not start or not end or not section:raise HTTPException(409,'Estrutura do timbrado incompatível.')
         document=raw[:start.end()]+b''.join(parts)+section.group()+raw[end.start():]
         footer=original.read('word/footer1.xml')
-        if us:footer=footer.replace(b'conectaimoveis3d.com.br',b'conectaimoveis3d.com').replace(b'UMA NOVA PERSPECTIVA.',b'A NEW PERSPECTIVE.')
+        if us:footer=footer.replace(b'conectaimoveis3d.com.br',b'conectaimoveis3d.com').replace(b'UMA NOVA PERSPECTIVA.',b'A NEW PERSPECTIVE.').replace(b'(16) 98128-8075',b'+55 (16) 98128-8075')
         footer_status=status+' · '+reference+(' · No client acceptance recorded' if us else ' · Não registra aceite do cliente')
         footer=footer.replace(b'</w:ftr>',paragraph(footer_status,'footer',reviewed)+b'</w:ftr>')
         output=io.BytesIO()

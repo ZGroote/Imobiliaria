@@ -10,6 +10,7 @@ from sqlalchemy import text
 from . import commercial, proposals
 from .commercial_api import today
 from .proposal_docx import build
+from .proposal_pdf import build as build_pdf
 from .research_contract import Data
 
 router=APIRouter()
@@ -126,12 +127,21 @@ def approve(proposal_id: str,body: Approval,request: Request):
         return proposals.view(c,proposal_id,today(request))
 
 
-@router.get('/api/proposals/{proposal_id}/docx')
-def export(proposal_id: str,request: Request,version: int | None=Query(None,ge=1),reviewed: bool=False):
+def export_file(proposal_id,request,version,reviewed,file_format):
     with request.app.state.engine.begin() as c:
         row=proposals.view(c,proposal_id,today(request),version)
         if reviewed and not row['approval_current']:raise HTTPException(409,'A versão revisada exige aprovação vigente e dados atuais da oportunidade.')
-        content=build(row,reviewed)
-        commercial.event(c,row['snapshot']['company_id'],'proposal_exported',dict(proposal_id=proposal_id,version=row['selected_version'],reviewed=reviewed),request.app.state.clock(),row['opportunity_id'])
-    filename='proposta-'+proposal_id[:12]+'-v'+str(row['selected_version'])+('-revisada' if reviewed else '-rascunho')+'.docx'
-    return Response(content,media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document',headers={'Content-Disposition':'attachment; filename="'+filename+'"'})
+        content=(build_pdf if file_format=='pdf' else build)(row,reviewed)
+        commercial.event(c,row['snapshot']['company_id'],'proposal_exported',dict(proposal_id=proposal_id,version=row['selected_version'],reviewed=reviewed,file_format=file_format),request.app.state.clock(),row['opportunity_id'])
+    filename='proposta-'+proposal_id[:12]+'-v'+str(row['selected_version'])+('-revisada' if reviewed else '-rascunho')+'.'+file_format
+    return Response(content,media_type='application/pdf' if file_format=='pdf' else 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',headers={'Content-Disposition':'attachment; filename="'+filename+'"','Cache-Control':'no-store'})
+
+
+@router.get('/api/proposals/{proposal_id}/docx')
+def export(proposal_id:str,request:Request,version:int|None=Query(None,ge=1),reviewed:bool=False):
+    return export_file(proposal_id,request,version,reviewed,'docx')
+
+
+@router.get('/api/proposals/{proposal_id}/pdf')
+def export_pdf(proposal_id:str,request:Request,version:int|None=Query(None,ge=1),reviewed:bool=False):
+    return export_file(proposal_id,request,version,reviewed,'pdf')
