@@ -5,7 +5,8 @@ export class ErroVerificacao extends Error {
   constructor(codigo, mensagem) { super(mensagem); this.codigo = codigo }
 }
 
-export async function solicitarVerificacao(uid, {db, auth, enviar, agora = Date.now}) {
+export async function solicitarVerificacao(uid, {db, auth, enviar, agora = Date.now, locale = 'pt-BR'}) {
+  if (!['pt-BR','en'].includes(locale)) throw new ErroVerificacao('invalid-argument', 'Idioma inválido.')
   if (typeof uid !== 'string' || !/^[^/]{1,128}$/.test(uid)) throw new ErroVerificacao('unauthenticated', 'Entre na sua conta para confirmar o e-mail.')
   const user = await auth.getUser(uid)
   if (user.disabled || !user.email || !/^[^@\s<>]+@[^@\s<>]+\.[^@\s<>]+$/.test(user.email)) {
@@ -34,11 +35,12 @@ export async function solicitarVerificacao(uid, {db, auth, enviar, agora = Date.
       || !link.searchParams.get('oobCode')) throw new Error('Formato inesperado do link de confirmação.')
   link.hostname = new URL(PAINEL).hostname
   link.searchParams.set('continueUrl', PAINEL)
-  link.searchParams.set('lang', 'pt-BR')
+  link.searchParams.set('lang', locale)
   const id = createHash('sha256').update(`${uid}/${dia}/${numero}`).digest('hex')
-  await enviar({from:`Conecta Imóveis 3D <avisos@${DOMINIO}>`, to:[user.email], reply_to:`contato@${DOMINIO}`,
-    subject:'Confirme seu e-mail — Conecta Imóveis 3D',
-    text:`Confirme seu e-mail para acessar o painel administrativo da Conecta Imóveis 3D.\n\nAbra ${link.href}\n\nDepois, volte ao painel para aceitar seu convite.\n\nSe você não solicitou este cadastro, ignore a mensagem.\n\nConecta Imóveis 3D`,
+  await enviar({from:`Conecta Imóveis 3D <noreply@${DOMINIO}>`, to:[user.email], reply_to:`contact@${DOMINIO}`,
+    subject:locale === 'en' ? 'Verify your email — Conecta Imóveis 3D' : 'Confirme seu e-mail — Conecta Imóveis 3D',
+    text:locale === 'en' ? `Verify your email to access the Conecta Imóveis 3D dashboard.\n\nOpen ${link.href}\n\nThen return to the dashboard to accept your invitation.\n\nIf you did not create this account, ignore this message.\n\nConecta Imóveis 3D`
+      : `Confirme seu e-mail para acessar o painel administrativo da Conecta Imóveis 3D.\n\nAbra ${link.href}\n\nDepois, volte ao painel para aceitar seu convite.\n\nSe você não solicitou este cadastro, ignore a mensagem.\n\nConecta Imóveis 3D`,
   }, `verificacao/${id}`)
   return {sent:true}
 }

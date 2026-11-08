@@ -1,10 +1,15 @@
 # E-mails da Conecta
 
-Provedor: Resend. Domínio: `conectaimoveis3d.com.br`. Caixas escolhidas:
+Provedor: Resend. Domínio de e-mail: `conectaimoveis3d.com` (desde 07/11/2026;
+antes era `conectaimoveis3d.com.br`, que continua verificado no Resend mas sem
+caixas). Registros em [dns-com.json](dns-com.json). Caixas:
 
-- `avisos@conectaimoveis3d.com.br`: confirmação de cadastro e avisos gerais.
-- `contato@conectaimoveis3d.com.br`: atendimento.
-- `diretoria@conectaimoveis3d.com.br`: remetente e respostas dos convites do painel.
+- `noreply@conectaimoveis3d.com`: remetente da confirmação de cadastro e do formulário.
+- `contact@conectaimoveis3d.com`: atendimento; recebe o formulário e as respostas à confirmação.
+- `team@conectaimoveis3d.com`: remetente e respostas dos convites do painel.
+
+O site e o painel continuam no `.com.br`; só o e-mail mudou. O formulário da
+apresentação inglesa está em [CONTATO.md](CONTATO.md).
 
 O código está em `config.mjs`, `resend.mjs` e `convites.mjs`. `index.mjs` liga o
 processador à escrita de `invites/{email}` no Firestore. A criação/recriação do
@@ -24,8 +29,8 @@ Para convidar alguém como administrador, abrir o
 [painel](https://painel.conectaimoveis3d.com.br/login), entrar em
 **Usuários e convites**, informar e-mail, nome, papel e imobiliária quando
 solicitada, e clicar em **Convidar**. O gerente usa **Equipe → Convidar corretor**.
-O envio é automático, identificado como **Diretoria Conecta Imóveis 3D**;
-respostas ao convite chegam em `diretoria@conectaimoveis3d.com.br`.
+O envio é automático, identificado como **Conecta Imóveis 3D**;
+respostas ao convite chegam em `team@conectaimoveis3d.com`.
 O texto do convite começa com "Você recebeu um convite para acessar o painel
 administrativo da Conecta Imóveis 3D.", sem mencionar o papel do destinatário.
 O link público é `https://painel.conectaimoveis3d.com.br/login`. Os atalhos

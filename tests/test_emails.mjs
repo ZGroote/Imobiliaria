@@ -5,10 +5,10 @@ import {clienteResend} from '../emails/resend.mjs'
 
 const convite = {email:'pessoa@example.com', name:'Maria', role:'agent'}
 test('as três caixas usam o domínio próprio; convite sai e recebe respostas pela diretoria', () => {
-  assert.deepEqual(CAIXAS.map(c => c.email_address), ['avisos', 'contato', 'diretoria'].map(n => `${n}@conectaimoveis3d.com.br`))
+  assert.deepEqual(CAIXAS.map(c => c.email_address), ['noreply', 'contact', 'team'].map(n => `${n}@conectaimoveis3d.com`))
   const m = mensagemConvite(convite)
-  assert.equal(m.from, 'Diretoria Conecta Imóveis 3D <diretoria@conectaimoveis3d.com.br>')
-  assert.equal(m.reply_to, 'diretoria@conectaimoveis3d.com.br')
+  assert.equal(m.from, 'Conecta Imóveis 3D <team@conectaimoveis3d.com>')
+  assert.equal(m.reply_to, 'team@conectaimoveis3d.com')
   assert.deepEqual(m.to, [convite.email])
   assert.equal(PAINEL, 'https://painel.conectaimoveis3d.com.br/login')
   assert.ok(m.text.includes(PAINEL))

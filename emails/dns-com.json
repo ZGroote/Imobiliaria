@@ -1,0 +1,12 @@
+{
+  "domain": "conectaimoveis3d.com",
+  "resendDomainId": "ce78c17b-995d-41ea-b694-4dcab3e22a38",
+  "region": "sa-east-1",
+  "records": [
+    {"type":"TXT","name":"resend._domainkey","content":"p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDd8eEo2Lqy1m0MUlllzxw6hQYTVcNFMygfiosmwI2zUqbojY3nEKdTzxzcQ5Ckhg8vvMHGYZCydIAr5Em14lDuy/zW6Ini7Xo6YYkUtPJ0xZBEA19zUP5M9AfCUwvXyNmmjT3BFGOT1iYzihvjQ6as/TzGEFDvzH414CmL4rF1ywIDAQAB"},
+    {"type":"CNAME","name":"rsend","content":"rsend-sae1.forge.rmta.net"},
+    {"type":"CNAME","name":"send","content":"send.forge.rmta.net"},
+    {"type":"MX","name":"@","content":"receive-sae1.forge.rmta.net","priority":10},
+    {"type":"TXT","name":"_dmarc","content":"v=DMARC1; p=none;","optional":true}
+  ]
+}
