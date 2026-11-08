@@ -1,5 +1,10 @@
 # Tarefas assistidas e empresas
 
+## Atualização: agentes e comunicações autorizadas
+
+Pesquisa pode executar Codex isolado e agendado, com cancelamento e importação automática para candidatos pendentes. Veja [execução de agentes](AGENT_EXECUTION.md). Claude permanece por importação manual; resultados não cadastram empresa nem autorizam contato.
+
+
 O fluxo funciona sem executor de IA: preparar tarefa → exportar prompt e schema → pesquisar em sessão assistida escolhida pelo operador → importar JSON → revisar candidato → cadastrar empresa. Esta etapa não inicia Codex/Claude, não agenda pesquisa, não acessa mensagens/credenciais e não consulta as URLs importadas. O teste de e-mail bem-sucedido não altera essas permissões nem habilita a fila comercial.
 
 ## No painel

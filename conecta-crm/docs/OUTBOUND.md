@@ -1,5 +1,10 @@
 # Rascunhos e fila de simulação
 
+## Atualização: agentes e comunicações autorizadas
+
+A simulação descrita abaixo permanece separada. Existe também uma fila de [envios reais autorizados](REAL_DELIVERY.md), inicialmente pausada, com permissão do destinatário e aprovação específica da prévia. Aprovar somente o texto ou realizar teste individual não libera envio.
+
+
 Esta etapa prepara conteúdo e testa a fila local. Não importa clientes fictícios, não envia e-mails, não cria rascunhos no Resend e não tem acesso ao Gerenciador de Credenciais. Todos os dados de rascunhos ficam no cache local fora do repositório.
 
 ## Fluxo no painel

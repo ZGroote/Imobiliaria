@@ -100,6 +100,7 @@ def test_prepare_approve_and_global_resume_are_separate_before_single_attempt(re
     refreshed=client.post('/api/real-deliveries/'+delivery['id']+'/refresh',json=dict(confirm=True))
     assert refreshed.status_code==200,refreshed.text
     assert refreshed.json()['status']=='delivered' and len(state['posts'])==1
+    assert client.get('/api/real-deliveries/control').json()['error']==''
     with app.state.engine.connect() as c:
         assert c.execute(text("SELECT count(*) FROM messages WHERE direction='outbound'")).scalar_one()==1
         assert c.execute(text('SELECT count(*) FROM classification_reviews')).scalar_one()==0

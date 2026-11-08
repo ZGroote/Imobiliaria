@@ -181,4 +181,6 @@ def reconcile(c,row,remote,when):
         suppress(c,payload['recipient'],'provider_'+value['status'],None,payload['account_id'])
     if value['status']!='rejected':sent_copy(c,load(c,row['id']),when,value['remote_message_id'])
     if row['status']!=value['status'] or row['remote_event']!=value['remote_event']:event(c,row['id'],'provider_'+value['remote_event'],when)
+    if not c.execute(text("SELECT count(*) FROM real_deliveries WHERE status IN ('unknown','sending')")).scalar_one():
+        c.execute(text("UPDATE real_delivery_control SET last_error=NULL WHERE last_error IN ('delivery_unknown','interrupted_attempt')"))
     return view(c,row['id'])

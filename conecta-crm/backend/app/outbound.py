@@ -88,7 +88,7 @@ def view(c, draft):
     value["metadata"] = json.loads(draft["metadata"])
     value["review_errors"] = review_errors(c,draft)
     value["send_enabled"] = False
-    value["send_blockers"] = ["Fila em modo de simulação; transporte real não habilitado.","Autorização de remetente e entregabilidade ainda precisam ser verificadas."]
+    value["send_blockers"] = ["Este editor aprova somente o texto. Prepare e aprove uma prévia na aba Envios reais.","Envio exige permissão válida do destinatário e conferência atual do remetente."]
     value["history"] = [dict(r) for r in c.execute(text("SELECT version,action,actor,occurred_at FROM outbound_history WHERE draft_id=:id ORDER BY id DESC"),dict(id=draft["id"])).mappings()]
     return value
 

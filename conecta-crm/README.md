@@ -4,6 +4,10 @@ Implementação incremental do plano v2 de 08/11/2026, preservado em `docs/`. Ap
 
 ## O que funciona
 
+- Codex isolado por MXC, pesquisa pública automática, agenda e cancelamento; resultados continuam pendentes de conferência.
+- Envios autorizados pelo Resend com permissão versionada, prévia imutável, campanhas, pausas, registro anterior à tentativa e reconciliação sem reenvio automático.
+
+
 - API FastAPI, SQLite com WAL, chaves estrangeiras e migração Alembic versionada.
 - Adaptador de leitura substituível e mock com 100 mensagens fictícias, 25 conversas e quatro pastas.
 - Sincronização incremental transacional e idempotente; retomada após mudança de UIDVALIDITY sem perder o histórico. Falha de leitura reverte o lote.
@@ -12,7 +16,7 @@ Implementação incremental do plano v2 de 08/11/2026, preservado em `docs/`. Ap
 - Etiquetas P0–P3, filtro por classificação e evidência vinculada à mensagem de origem. O texto novo da resposta tem precedência sobre o assunto herdado e o histórico citado.
 - Lista global de bloqueio com normalização de endereço, descadastro/recusa detectados durante importação e bloqueio manual confirmado pelo operador. Reimportar ou classificar de novo não duplica o bloqueio nem seu evento de auditoria.
 - Interface React/TypeScript com as cores fornecidas, estados vazios, erros e layouts responsivos.
-- Perfis BR/US com idioma e site separados; envio de campanhas desabilitado.
+- Perfis BR/US com idioma e site separados; campanhas autorizadas começam pausadas e exigem aprovação de cada mensagem.
 - Contas `contact`, `team` e `noreply` registradas conforme confirmação do operador. `contact` e `team` podem ser conectadas pelo painel; `noreply` aparece somente como referência de notificações.
 - Leitura real pela API oficial de Inboxes do Resend, com mensagens recebidas/enviadas, pastas, paginação, agrupamento remoto e retomada em lotes de até 10 conversas.
 - Rotina local de sincronização automática por caixa, com intervalo, pausa, retomada, tentativas espaçadas e aviso de novidades sem interromper edições. Funciona enquanto o servidor estiver aberto.
@@ -27,7 +31,7 @@ Implementação incremental do plano v2 de 08/11/2026, preservado em `docs/`. Ap
 - Fila de **simulação**, inicialmente pausada, com horários no fuso do destinatário, intervalo mínimo de 30 minutos e até 16 primeiros contatos por dia. Rodar atrasado não executa todos os primeiros contatos acumulados de uma vez.
 - Bloqueios revalidados na aprovação, no agendamento e na simulação; descadastro cancela itens pendentes em todas as caixas. Nova resposta recebida pausa seguimentos que precisam de revisão.
 - Diagnóstico de identidade, domínio, SPF/DKIM no Resend e consulta pública de DMARC. Teste individual de texto fixo para endereço do próprio operador, com prévia e aprovação específica; registro da tentativa antes da chamada externa, até três tentativas por dia e sem repetição automática.
-- Tarefas assistidas de pesquisa por estado dos EUA, meta e porte; exportação de prompt/schema para Codex ou Claude, importação local de JSON e revisão individual com fontes. Sem executor automático ou acesso ao e-mail.
+- Tarefas assistidas de pesquisa por estado dos EUA, meta e porte; exportação de prompt/schema para Codex ou Claude, importação local de JSON e revisão individual com fontes. Execução opcional do Codex com isolamento MXC, agenda, cancelamento e importação para revisão. Claude continua por pacote manual; pesquisa não acessa a caixa de e-mail.
 - Cadastro de empresas após revisão humana, busca por nome/domínio, filtro estadual e vínculo entre estados com confirmação de identidade. Dados e decisões de origem preservados, sem autorização de contato implícita.
 - Funil de oportunidades com etapas, próxima ação, data, notas e valor estimado opcional BRL/USD. Versões impedem sobrescrita concorrente; histórico registra mudanças.
 - Vínculos manuais entre conversas, empresas e oportunidades, navegação entre fichas e preservação dos contextos no agrupamento posterior de conversas. Sem alterações no provedor ou aprovação de candidatos.
@@ -35,13 +39,13 @@ Implementação incremental do plano v2 de 08/11/2026, preservado em `docs/`. Ap
 - Indicadores comerciais locais: etapas, próximas ações, candidatos pendentes, propostas revisadas e estimativas separadas em BRL/USD.
 - Acompanhamento de produção por oportunidade: briefing, origem comercial preservada, etapas manuais, orientações/link/data de entrega, pós-venda, feedback e histórico. Visão de projetos com busca, filtros e próximas datas.
 - Revisão humana por mensagem recebida, correção de categoria com histórico, natureza humana/automática/incerta e contagens de respostas confirmadas. Regras posteriores preservam a decisão; correção não remove bloqueios.
-- Análise assistida de trechos de conversa, com seleção/revisão antes da exportação manual, pacote JSON para Codex/Claude, importação de resumo/categoria sugeridos e citações literais. Sem executar agente ou alterar a triagem humana.
+- Análise assistida de trechos de conversa, com seleção/revisão antes da exportação manual, pacote JSON para Codex/Claude, importação de resumo/categoria sugeridos e citações literais. Execução opcional do Codex somente após confirmar os trechos revisados; sem pesquisa web ou alteração da triagem humana.
 - Qualificação comercial com notas manuais, fontes por critério, pesos configuráveis, histórico e ordenação de avaliações completas na base cadastrada. Ausências permanecem desconhecidas; mudanças pedem nova conferência.
 - Contatos profissionais e empreendimentos na ficha da empresa, com fontes, data de observação, histórico, deduplicação e preenchimento explícito a partir de pesquisa aprovada. Canais públicos podem ser registrados sem inventar e-mail.
 
-Leia [o fluxo de rascunhos e simulação](docs/OUTBOUND.md) antes de usar a fila. Aprovar um rascunho não habilita envio de campanhas. O [teste individual de conexão](docs/SENDER_TESTS.md) usa um canal separado e exige sua própria aprovação na prévia.
+Leia [o fluxo de rascunhos e simulação](docs/OUTBOUND.md) e [envios reais autorizados](docs/REAL_DELIVERY.md). Aprovar o texto não aprova o envio: são necessários permissão do destinatário, prévia aprovada e fila/campanha ativas. O [teste individual de conexão](docs/SENDER_TESTS.md) usa um canal separado e exige sua própria aprovação na prévia.
 
-Leia [o fluxo de tarefas e empresas](docs/RESEARCH.md) para preparar/importar pesquisas. O Resend proíbe prospecção fria e mensagens não solicitadas em sua [política de uso](https://resend.com/legal/acceptable-use); a fila comercial permanece em simulação, mesmo após um teste individual bem-sucedido.
+Leia [o fluxo de tarefas e empresas](docs/RESEARCH.md) para preparar/importar pesquisas. O Resend proíbe prospecção fria e mensagens não solicitadas em sua [política de uso](https://resend.com/legal/acceptable-use); contatos de pesquisa não são opt-in. O transporte real atende comunicações autorizadas; teste individual não autoriza campanhas.
 
 Leia [o fluxo comercial](docs/COMMERCIAL.md) para ligar conversas a empresas e acompanhar oportunidades. Datas e etapas não executam ações automaticamente.
 
@@ -96,13 +100,13 @@ No sandbox do Codex/Windows, o loop de eventos do Python pode travar em `socketp
 
 ## Limites desta etapa
 
-Não há download de anexos de mensagens enviadas, prévia de arquivos recebidos, classificação automática por IA, pesquisa automática ou execução de agentes. A análise assistida permite exportar manualmente trechos revisados e importar sugestões; não há transmissão ou execução de modelo pelo CRM. O envio real continua limitado ao teste individual aprovado; campanhas seguem simuladas. Anexos recebidos podem ser consultados e baixados sob demanda; os originais da biblioteca também podem ser baixados. A leitura de HTML é convertida para texto no backend e escapada pelo React, sem imagens remotas ou iframes. A triagem não resume fatos nem toma decisões comerciais: apenas sugere categorias com evidência e revisão humana.
+Não há download de anexos enviados, prévia de arquivos recebidos nem decisão automática por IA. A análise assistida permite pacote manual ou execução isolada após revisão e confirmação dos trechos compartilhados. A pesquisa automática usa somente fontes públicas. A fila real exige permissão do destinatário e aprovação específica; a simulação continua separada. Anexos recebidos podem ser consultados e baixados sob demanda; os originais da biblioteca também podem ser baixados. A leitura de HTML é convertida para texto no backend e escapada pelo React, sem imagens remotas ou iframes. A triagem não resume fatos nem toma decisões comerciais: apenas sugere categorias com evidência e revisão humana.
 
 O adaptador usa as Inboxes do Resend, sem presumir IMAP. Lê as mensagens que o provedor disponibiliza, inclusive as enviadas dentro da Inbox; não importa o log transacional global de `/emails`. A conexão real de `contact` foi validada em 08/11/2026, com leitura em modo somente consulta. Todos os testes automatizados usam respostas HTTP simuladas.
 
 As regras são heurísticas, não uma análise semântica completa. Mensagens enviadas não geram descadastro; assinaturas e histórico citado são excluídos da busca de intenção. Os cabeçalhos automáticos só são usados quando realmente disponíveis: a API Inboxes não os fornece no contrato consultado, portanto a falta deles não vira prova de que uma resposta é humana. Recusas e descadastros bloqueiam o endereço globalmente; novas campanhas deverão consultar essa lista antes de aprovar/agendar/enviar. Não há desbloqueio automático.
 
-O servidor aceita somente hosts localhost/127.0.0.1 na porta 8765, verifica Origin e Sec-Fetch-Site e exige token aleatório em memória para a API. Não usa CORS aberto, nem grava token no navegador ou em disco. Isso protege contra páginas externas; **não isola processos/agentes que já rodam como o usuário do Windows**. Não execute agentes sobre o cache ou como processos com acesso às credenciais. O executor de agentes permanece ausente até existir separação efetiva de permissões.
+O servidor aceita somente hosts localhost/127.0.0.1 na porta 8765, verifica Origin e Sec-Fetch-Site e exige token aleatório em memória para a API. Não usa CORS aberto, nem grava token no navegador ou em disco. Isso protege contra páginas externas; **não isola processos/agentes que já rodam como o usuário do Windows**. Não execute agentes sobre o cache ou como processos com acesso às credenciais. O executor opcional usa o sandbox nativo MXC, sonda obrigatória e ferramentas limitadas, conforme [execução de agentes](docs/AGENT_EXECUTION.md). Ele não recebe credenciais do Resend nem o cache; a análise recebe somente os trechos revisados e confirmados pelo operador.
 
 O cache passa a ficar em `%LOCALAPPDATA%/ConectaCRM/cache.sqlite3`; o banco SQLite fica em claro sob as permissões do perfil Windows. O antigo `data/crm.sqlite3` contém apenas a demonstração anterior e não é importado automaticamente. Credenciais não ficam em banco, `.env` ou logs. Backups ficam na subpasta `backups`, criptografados para o mesmo usuário Windows. Dados, dependências e build são ignorados pelo Git. Não há exposição à rede local ou acesso remoto.
 
@@ -117,7 +121,7 @@ O comando informa uma cópia SQLite restaurada e verificada. Para trocar o cache
 ## Próximas entregas
 
 1. Decisão humana sobre os candidatos do piloto FL, com fontes e pendências registradas no relatório de conferência. O teste individual de e-mail já foi confirmado pelo operador; isso não habilita prospecção pelo Resend.
-2. Executor isolado de agentes e agendador de pesquisa continuam pendentes. O acompanhamento manual de produção e entrega já está disponível.
+2. Conferir os candidatos sugeridos pelo executor Codex. Agenda e filas funcionam enquanto o servidor local está aberto; Claude continua por importação manual. O acompanhamento de produção e entrega depende de registros do operador.
 3. Avaliar ajustes das regras a partir das revisões humanas registradas. A revisão manual e seus indicadores já estão disponíveis; não há treinamento ou envio de mensagens a terceiros.
 
 Documentação técnica consultada: [FastAPI TestClient](https://fastapi.tiangolo.com/tutorial/testing/), [SQLite no SQLAlchemy](https://docs.sqlalchemy.org/en/20/dialects/sqlite.html) e [migrações Alembic](https://alembic.sqlalchemy.org/en/latest/tutorial.html).
