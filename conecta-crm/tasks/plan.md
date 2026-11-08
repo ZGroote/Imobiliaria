@@ -97,3 +97,14 @@ Resultado estrito, vinculado ao pacote, com modelo declarado, até seis afirmaç
 Snapshot por conteúdo da conversa inteira: resposta nova ou mudança de texto invalida exportação/primeira importação e identifica sugestões antigas, preservando histórico. Leitura local/regras não invalidam. Vínculos por mensagem preservam pacotes no agrupamento de threads. Preparação e importação idempotentes; não sobrescrever resultados. Proteção de edições e modos de análise/revisão mutuamente exclusivos na conversa.
 
 Incrementos: (27) migração/contrato/API/testes; (28) preparação, exportação, importação e evidências na interface; (29) suíte, build/auditoria, QA com conteúdo fictício, documentação e atualização principal com backups. Não preparar, exportar ou importar análise em mensagens reais nesta etapa. Execução real do modelo/qualidade de resumo fora da verificação deste incremento.
+
+
+## Qualificação comercial explicável
+
+Etapa separada do checkpoint do PR #110. Pontuação manual somente para empresas cadastradas após revisão. Cinco critérios do plano: relevância (25), estágio (20), recorrência (20), evidências/contatos (20) e adequação da demonstração (15). Pesos positivos editáveis com soma 100, versão e histórico; nenhuma previsão estatística ou autorização de contato decorre da pontuação.
+
+Cada nota, inclusive zero, exige justificativa e fonte já cadastrada para a mesma empresa em pesquisa aprovada ou contato/empreendimento revisado. Ausência de nota permanece desconhecida, sem virar zero. Avaliação parcial guarda pontos/capacidade conhecidos, sem total comparável. Apenas avaliações completas com modelo e base cadastral vigentes participam da ordenação por pontos. Mudanças nos pesos, fontes, versões de contatos/empreendimentos ou dados da empresa exigem nova conferência e preservam o histórico anterior.
+
+Cadastros de fontes e avaliações são confirmações do operador; o CRM valida formato e vínculo, não prova conteúdo ou atualidade da página. Não buscar fontes, executar agentes, aprovar candidatos, criar rascunhos ou iniciar envios. Proteger edição e concorrência por versões/hash da base. Política global e avaliações possuem histórico imutável.
+
+Incrementos: (30) migração, política, catálogo de fontes, avaliação/ranking e testes; (31) tela de qualificação, acesso pela empresa e edição protegida; (32) suíte, build/auditoria, QA com empresas fictícias, documentação, atualização local com backups e novo commit/PR separado do checkpoint. Empresas reais e candidatos pendentes não serão avaliados automaticamente.
