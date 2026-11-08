@@ -22,6 +22,8 @@ from .attachment_files import read_attachment
 from .attachments_api import router as attachments_router
 from .analysis_api import router as analysis_router
 from .qualification_api import router as qualification_router
+from .agent_runs import router as agent_runs_router
+from .agent_worker import AgentWorker
 from .provider import MockProvider
 from .resend_client import ResendClient, ResendError
 from .windows_store import CredentialError, WindowsCredentials, default_cache, encrypted_backup
@@ -57,7 +59,7 @@ class ConnectRequest(BaseModel):
 
 def create_app(db_path: Path | None = None, provider=None, credentials=None, client_factory=ResendClient,
                sender_transport_factory=SenderTestTransport,dns_resolver=dmarc, start_mail_worker=True,
-               attachment_reader=read_attachment):
+               attachment_reader=read_attachment, agent_runner=None, start_agent_worker=None):
     token = secrets.token_urlsafe(32)
     mail_provider = provider or MockProvider()
     credential_store = credentials or WindowsCredentials()
@@ -81,9 +83,14 @@ def create_app(db_path: Path | None = None, provider=None, credentials=None, cli
         app.state.mail_worker = MailWorker(app)
         if start_mail_worker:
             app.state.mail_worker.start()
+        app.state.agent_worker = AgentWorker(app,agent_runner)
+        agent_enabled = start_mail_worker if start_agent_worker is None else start_agent_worker
+        if agent_enabled:
+            app.state.agent_worker.start()
         try:
             yield
         finally:
+            await asyncio.to_thread(app.state.agent_worker.stop)
             if start_mail_worker:
                 await asyncio.to_thread(app.state.mail_worker.stop)
             app.state.engine.dispose()
@@ -112,6 +119,7 @@ def create_app(db_path: Path | None = None, provider=None, credentials=None, cli
     app.include_router(attachments_router)
     app.include_router(analysis_router)
     app.include_router(qualification_router)
+    app.include_router(agent_runs_router)
 
     @app.exception_handler(RequestValidationError)
     async def validation_error(request, exc):

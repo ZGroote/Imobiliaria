@@ -92,10 +92,12 @@ Publicação pública explicitamente autorizada pelo usuário e concluída no [P
 ## Automação de agentes, pesquisa e envio autorizado
 
 - [x] 33. Isolamento MXC comprovado, adaptador Codex limitado e testes.
-- [ ] 34. Execuções/agenda de pesquisa persistentes, fila, cancelamento e importação para revisão.
+- [x] 34. Execuções/agenda de pesquisa persistentes, fila, cancelamento e importação para revisão.
 - [ ] 35. Interface e QA da pesquisa automática, preservando decisão humana.
 - [ ] 36. Envio autorizado com tentativas/idempotência/consulta remota e testes.
 - [ ] 37. Interface de aprovação real e acompanhamento, QA fictício sem enviar e-mails reais.
 - [ ] 38. Validação integrada, documentação, atualização local com backups e publicação separada.
 
 Sonda real do MXC: pasta da tarefa legível, arquivo externo/credencial fictícia/rede local inacessíveis. Credencial de sonda removida após cada teste. Codex CLI 0.167.0-alpha.3.2 executou uma resposta estruturada mínima, sem ferramentas ou conteúdo privado. Dez testes do adaptador passaram; o agente recebe configuração fixa sem shell, conectores, plugins ou hooks do usuário.
+
+Fila/API: 71 testes do adaptador, pesquisa e análise passaram, incluindo oito novos fluxos de execução. Verificados pausa inicial, agenda, isolamento de contas, confirmação de compartilhamento, importação somente em revisão, cancelamento vencendo saída tardia, exclusão de processos simultâneos por lease e interrupção preservada no reinício. Pacotes de análise usam apenas aliases/trechos revisados, sem pesquisa web.
