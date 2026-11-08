@@ -68,6 +68,8 @@ def view(c, run_id):
 def packet(c, kind, reference_id, account_id=None):
     if kind == 'research':
         job = research_api.load(c,reference_id)
+        from .company_research import guard
+        guard(c,job)
         if job['status']=='cancelled' or job['result_hash']:
             raise HTTPException(409,'A pesquisa foi cancelada ou já tem resultado.')
         if job['agent']!='codex_assisted':

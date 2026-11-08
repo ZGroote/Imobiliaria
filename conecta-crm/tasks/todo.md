@@ -125,3 +125,12 @@ Materiais/PDF: 35 testes focados aprovados, build aprovado e pip check sem incom
 Validação integrada: 496 testes passaram, build TypeScript/esbuild e pip check aprovados. Atualização principal para migração 0018 com backups DPAPI anterior/posterior e integridade SQLite aprovada. Hashes das 51 tabelas anteriores e dos nove originais preservados. Quatro materiais derivados disponíveis e ainda pendentes; zero revisões reais de material. contact/team mantidas em 30 minutos; filas de agentes/envios pausadas. Vinte arquivos desta etapa e três arquivos de build copiados; nenhum envio, nova pesquisa ou proposta real.
 
 Publicação concluída no [PR #113](https://github.com/ZGroote/Imobiliaria/pull/113), em rascunho: base codex/crm-automacao e head codex/crm-materiais. PR #112 e seus commits preservados; nenhum merge. Código desta etapa commitado na worktree isolada. A pasta principal mantém a cópia de execução e os trabalhos locais preexistentes, que não foram incluídos neste PR.
+
+
+## Pesquisa direcionada de empresa cadastrada
+
+- [x] 43. Vínculo/snapshot público, preparação idempotente, guardas e testes de pesquisa focada.
+- [ ] 44. Formulário na empresa, navegação para tarefa e edição protegida.
+- [ ] 45. QA fictício, suíte/build, documentação, atualização com backups e publicação separada.
+
+Base/API: 46 casos de pesquisa e fila passaram, incluindo 12 casos novos focados. Conferidos request idempotente, estado cadastrado, origem pública sem caminhos/query/fragmentos, domínio exato (www normalizado), identidade/atuação alterada antes ou depois do executor fictício, importação atômica, confirmação do vínculo existente e ausência de atualização automática de contatos/empreendimentos/envios. Nenhum modelo real executado.
