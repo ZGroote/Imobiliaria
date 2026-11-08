@@ -96,7 +96,7 @@ Publicação pública explicitamente autorizada pelo usuário e concluída no [P
 - [x] 35. Interface e QA da pesquisa automática, preservando decisão humana.
 - [x] 36. Envio autorizado com tentativas/idempotência/consulta remota e testes.
 - [x] 37. Interface de aprovação real e acompanhamento, QA fictício sem enviar e-mails reais.
-- [ ] 38. Validação integrada, documentação, atualização local com backups e publicação separada.
+- [x] 38. Validação integrada, documentação, atualização local com backups e publicação separada.
 
 Sonda real do MXC: pasta da tarefa legível, arquivo externo/credencial fictícia/rede local inacessíveis. Credencial de sonda removida após cada teste. Codex CLI 0.167.0-alpha.3.2 executou uma resposta estruturada mínima, sem ferramentas ou conteúdo privado. Dez testes do adaptador passaram; o agente recebe configuração fixa sem shell, conectores, plugins ou hooks do usuário.
 
@@ -109,3 +109,5 @@ Envio autorizado: 487 testes passaram na suíte integrada anterior à interface;
 Interface de envio: permissão editada/salva com histórico v2; prévia imutável, aprovação específica, pausa independente de campanha, aceite e entrega fictícios. Timeout pausou a fila, UUID de outra tentativa foi recusado e reconciliação correta confirmou entrega sem novo POST. Duas tentativas fictícias, duas cópias locais e nenhum envio real; estado persistiu após reabrir. Autorização, preparação e detalhe sem overflow em 320/768/1024/1440 px; console sem erros/avisos. Campo nativo de data não foi automatizado de ponta a ponta: datas/agenda cobertas por API, edição de permissão já datada conferida na UI. QA encerrada. Suíte completa: 487 testes; ajuste de aviso após reconciliação conferido em 34 casos focados. Build aprovado e npm audit completo sem vulnerabilidades.
 
 Atualização principal: migrações 0016/0017 aplicadas, backups DPAPI anterior/posterior criados, integridade SQLite aprovada e hashes das 42 tabelas anteriores preservados. Nove originais da marca conferidos. Novas tabelas de execução, permissões, campanhas e tentativas vazias. Sonda MXC na instância principal aprovada, fila de agentes pausada e verificada, fila real pausada sem prévias. contact/team mantidas em 30 minutos. Nenhum e-mail real enviado nem conversa real transmitida ao modelo nesta etapa. Revisão final também conferida em 46 casos de rascunhos/envio. Limites: Claude manual, funcionamento enquanto servidor aberto, agrupamento transacional/Inboxes não garantido, revisão humana dos fatos e permissões.
+
+Publicação concluída no [PR #112](https://github.com/ZGroote/Imobiliaria/pull/112), em rascunho: base codex/crm-qualificacao, head codex/crm-automacao, somente os 41 arquivos desta etapa. PRs #110/#111 e seus heads foram conferidos e preservados; nenhum merge feito. Código commitado na worktree isolada. A pasta principal mantém a cópia local de execução do CRM e as alterações preexistentes de outros trabalhos; estas não foram incluídas no PR.
