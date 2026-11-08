@@ -94,7 +94,7 @@ Publicação pública explicitamente autorizada pelo usuário e concluída no [P
 - [x] 33. Isolamento MXC comprovado, adaptador Codex limitado e testes.
 - [x] 34. Execuções/agenda de pesquisa persistentes, fila, cancelamento e importação para revisão.
 - [x] 35. Interface e QA da pesquisa automática, preservando decisão humana.
-- [ ] 36. Envio autorizado com tentativas/idempotência/consulta remota e testes.
+- [x] 36. Envio autorizado com tentativas/idempotência/consulta remota e testes.
 - [ ] 37. Interface de aprovação real e acompanhamento, QA fictício sem enviar e-mails reais.
 - [ ] 38. Validação integrada, documentação, atualização local com backups e publicação separada.
 
@@ -103,3 +103,5 @@ Sonda real do MXC: pasta da tarefa legível, arquivo externo/credencial fictíci
 Fila/API: 71 testes do adaptador, pesquisa e análise passaram, incluindo oito novos fluxos de execução. Verificados pausa inicial, agenda, isolamento de contas, confirmação de compartilhamento, importação somente em revisão, cancelamento vencendo saída tardia, exclusão de processos simultâneos por lease e interrupção preservada no reinício. Pacotes de análise usam apenas aliases/trechos revisados, sem pesquisa web.
 
 Interface de agentes: build aprovado. No banco fictício, conferidos diagnóstico/ativação, fila pausada, confirmação obrigatória, pesquisa para candidatos sem aprovação, cancelamento e análise de trecho editado com confirmação de compartilhamento. Modo de revisão bloqueado durante edição; resultado continua sugestão com citação. Telas sem overflow horizontal em 320/768/1024/1440 px e console sem erros/avisos. O campo nativo de data não foi concluído pela automação de UI; agenda futura conferida nos testes de API. QA encerrada. Pesquisa pública real em banco separado: quatro consultas web e uma candidata com fontes, sem cadastro ou envio; estágio histórico não confirmado permaneceu unknown. A primeira tentativa retornou research_unavailable ao detectar host da busca desativado; configuração corrigida mantendo shell, conectores e acesso local bloqueados.
+
+Envio autorizado: 487 testes passaram na suíte integrada anterior à interface; filtros adicionais cobertos por 28 testes focados. Transporte, permissão e versão, aprovação específica, pausas, limites, backups, recusa, incerteza sem repetição, reconciliação por conteúdo/tag e devolução conferidos com HTTP simulado. Nenhum envio real.

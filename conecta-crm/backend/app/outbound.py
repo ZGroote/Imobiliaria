@@ -97,6 +97,8 @@ def save(c, data, now, draft_id=None, version=None):
     old = load(c,draft_id) if draft_id else None
     if old and old["version"] != version:
         raise HTTPException(409,"Este rascunho foi alterado. Reabra a versão atual antes de salvar.")
+    if old and c.execute(text("SELECT id FROM real_deliveries WHERE draft_id=:id AND status IN ('sending','unknown')"),dict(id=draft_id)).first():
+        raise HTTPException(409,"Há tentativa em andamento ou incerta desta mensagem. Confira a fila real antes de editar.")
     raw_recipient = data["recipient"].strip()
     recipient = normalize_address(raw_recipient) if raw_recipient else ""
     if raw_recipient and (not recipient or not re.fullmatch(r"[^@\s<>,;]{1,64}@[^@\s<>,;]{1,253}",raw_recipient)):

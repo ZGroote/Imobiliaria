@@ -24,6 +24,10 @@ from .analysis_api import router as analysis_router
 from .qualification_api import router as qualification_router
 from .agent_runs import router as agent_runs_router
 from .agent_worker import AgentWorker
+from .recipient_authorizations import router as recipient_authorizations_router
+from .real_delivery_api import router as real_delivery_router
+from .real_delivery_worker import DeliveryWorker
+from .real_transport import RealTransport
 from .provider import MockProvider
 from .resend_client import ResendClient, ResendError
 from .windows_store import CredentialError, WindowsCredentials, default_cache, encrypted_backup
@@ -59,7 +63,7 @@ class ConnectRequest(BaseModel):
 
 def create_app(db_path: Path | None = None, provider=None, credentials=None, client_factory=ResendClient,
                sender_transport_factory=SenderTestTransport,dns_resolver=dmarc, start_mail_worker=True,
-               attachment_reader=read_attachment, agent_runner=None, start_agent_worker=None):
+               attachment_reader=read_attachment, agent_runner=None, start_agent_worker=None, real_transport_factory=RealTransport, start_delivery_worker=None):
     token = secrets.token_urlsafe(32)
     mail_provider = provider or MockProvider()
     credential_store = credentials or WindowsCredentials()
@@ -87,9 +91,14 @@ def create_app(db_path: Path | None = None, provider=None, credentials=None, cli
         agent_enabled = start_mail_worker if start_agent_worker is None else start_agent_worker
         if agent_enabled:
             app.state.agent_worker.start()
+        app.state.delivery_worker = DeliveryWorker(app,real_transport_factory)
+        delivery_enabled = start_mail_worker if start_delivery_worker is None else start_delivery_worker
+        if delivery_enabled:
+            app.state.delivery_worker.start()
         try:
             yield
         finally:
+            await asyncio.to_thread(app.state.delivery_worker.stop)
             await asyncio.to_thread(app.state.agent_worker.stop)
             if start_mail_worker:
                 await asyncio.to_thread(app.state.mail_worker.stop)
@@ -120,6 +129,8 @@ def create_app(db_path: Path | None = None, provider=None, credentials=None, cli
     app.include_router(analysis_router)
     app.include_router(qualification_router)
     app.include_router(agent_runs_router)
+    app.include_router(recipient_authorizations_router)
+    app.include_router(real_delivery_router)
 
     @app.exception_handler(RequestValidationError)
     async def validation_error(request, exc):

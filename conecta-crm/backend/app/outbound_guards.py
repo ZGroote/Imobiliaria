@@ -9,6 +9,10 @@ def invalidate(c, drafts, reason, status="blocked", actor="rules"):
             WHERE id=:id"""),dict(status=status,id=draft["id"]))
         c.execute(text("UPDATE outbound_queue SET status=:status,reason=:r WHERE draft_id=:id AND status='scheduled'"),
                   dict(status="cancelled" if status=="pending_review" else status,r=reason,id=draft["id"]))
+        deliveries=c.execute(text("SELECT id FROM real_deliveries WHERE draft_id=:id AND status IN ('prepared','approved')"),dict(id=draft['id'])).mappings().all()
+        for delivery in deliveries:
+            c.execute(text("UPDATE real_deliveries SET status='blocked',error_code='draft_changed' WHERE id=:id"),dict(id=delivery['id']))
+            c.execute(text("INSERT INTO real_delivery_events(delivery_id,action,occurred_at) VALUES(:id,:a,:d)"),dict(id=delivery['id'],a=reason,d=datetime.now(timezone.utc).isoformat()))
         c.execute(text("INSERT INTO outbound_history(draft_id,version,action,actor,occurred_at) VALUES(:id,:v,:r,:actor,:d)"),
                   dict(id=draft["id"],v=draft["version"],r=reason,actor=actor,d=datetime.now(timezone.utc).isoformat()))
 
