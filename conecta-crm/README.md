@@ -36,6 +36,7 @@ Implementação incremental do plano v2 de 08/11/2026, preservado em `docs/`. Ap
 - Acompanhamento de produção por oportunidade: briefing, origem comercial preservada, etapas manuais, orientações/link/data de entrega, pós-venda, feedback e histórico. Visão de projetos com busca, filtros e próximas datas.
 - Revisão humana por mensagem recebida, correção de categoria com histórico, natureza humana/automática/incerta e contagens de respostas confirmadas. Regras posteriores preservam a decisão; correção não remove bloqueios.
 - Análise assistida de trechos de conversa, com seleção/revisão antes da exportação manual, pacote JSON para Codex/Claude, importação de resumo/categoria sugeridos e citações literais. Sem executar agente ou alterar a triagem humana.
+- Qualificação comercial com notas manuais, fontes por critério, pesos configuráveis, histórico e ordenação de avaliações completas na base cadastrada. Ausências permanecem desconhecidas; mudanças pedem nova conferência.
 - Contatos profissionais e empreendimentos na ficha da empresa, com fontes, data de observação, histórico, deduplicação e preenchimento explícito a partir de pesquisa aprovada. Canais públicos podem ser registrados sem inventar e-mail.
 
 Leia [o fluxo de rascunhos e simulação](docs/OUTBOUND.md) antes de usar a fila. Aprovar um rascunho não habilita envio de campanhas. O [teste individual de conexão](docs/SENDER_TESTS.md) usa um canal separado e exige sua própria aprovação na prévia.
@@ -55,6 +56,8 @@ Leia [análise assistida de conversas](docs/THREAD_ANALYSIS.md) para revisar os 
 Leia [anexos recebidos](docs/ATTACHMENTS.md) para consultar/baixar arquivos e entender os limites de tamanho, origem e verificação.
 
 Leia [a rotina automática de leitura](docs/AUTO_SYNC.md) para controlar intervalos, pausas, falhas e atualizações da visualização.
+
+Leia [qualificação comercial](docs/QUALIFICATION.md) para avaliar empresas com fontes e ajustar os pesos sem perder o histórico.
 
 Leia [contatos e empreendimentos](docs/DIRECTORY.md) para enriquecer empresas revisadas e o [relatório de conferência do piloto FL](docs/FL_PILOT_SOURCE_REVIEW_2026-11-08.md) para consultar fontes e pendências dos candidatos atuais.
 
