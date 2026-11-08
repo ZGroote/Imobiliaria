@@ -12,11 +12,15 @@ Cada alteração cria uma versão com conteúdo e contexto comercial preservados
 
 A revisão é interna: não registra aceite do cliente, assinatura, contratação ou pagamento. Não envia mensagens nem muda a etapa da oportunidade. O histórico registra salvamento, aprovação e exportação. Dados e versões entram no backup criptografado do cache.
 
-## Exportar Word
+## Exportar Word ou PDF
 
 **Baixar rascunho Word** gera um arquivo identificado como rascunho em todas as páginas. **Baixar Word revisado** exige revisão interna vigente. Edições não salvas impedem ambos os downloads. O arquivo usa o papel timbrado fornecido, preserva logo, dimensões, margens e os demais componentes do pacote original; somente corpo e rodapé são derivados. O hash da fonte é conferido antes da geração.
 
-Mudanças feitas no Word baixado não atualizam o CRM nem sua aprovação. Confira o arquivo final antes de compartilhá-lo. O download é manual e não anexa o arquivo a nenhuma conversa. A aplicação exporta DOCX; PDF pode ser gerado pelo Word do operador.
+Mudanças feitas no Word baixado não atualizam o CRM nem sua aprovação. Confira o arquivo final antes de compartilhá-lo. O download é manual e não anexa o arquivo a nenhuma conversa. O PDF é gerado localmente, em memória, a partir do mesmo DOCX derivado e da mesma versão salva. Não depende de Office nem de serviço externo. Usa o logo e a geometria do timbrado, fonte incorporada, status em todas as páginas e numeração. A paginação é própria e pode diferir do Word.
+
+**Baixar rascunho PDF** e **Baixar PDF revisado** respeitam as mesmas guardas do Word, incluindo edição pendente, versão e revisão vigente. Rascunho histórico é permitido; arquivo histórico não pode ser apresentado como revisão atual. O registro de exportação identifica o formato. Nenhum arquivo é anexado ou enviado.
+
+O conteúdo digitado é texto literal, inclusive sequências parecidas com HTML; o PDF não carrega recursos remotos, cria scripts ou ativa links. A exportação recusa caracteres sem representação na fonte, mais de mil parágrafos ou mais de cinquenta páginas, com mensagem para revisar ou usar Word. Os limites são específicos do PDF. A fonte preferida é Arial do Windows, com fallback Vera distribuída pelo ReportLab. O rodapé US usa +55; o logo original conserva o lema em português incorporado à imagem, conforme [materiais da marca](BRAND_MATERIALS.md).
 
 ## Indicadores
 
@@ -32,8 +36,14 @@ As estimativas são somadas separadamente em BRL e USD, divididas entre abertas,
 - `GET /api/proposals?opportunity_id=...`: propostas da oportunidade.
 - `GET /api/proposals/{id}?version=N`: versão salva e condições para revisão.
 - `POST /api/proposals/{id}/approve`: confirmação explícita, versão e hash.
-- `GET /api/proposals/{id}/docx?version=N&reviewed=true|false`: exportação auditada.
+- `GET /api/proposals/{id}/docx?version=N&reviewed=true|false`: exportação Word auditada.
+- `GET /api/proposals/{id}/pdf?version=N&reviewed=true|false`: exportação PDF auditada, com a mesma revisão.
 
 As rotas usam a proteção de sessão/origem local existente. Textos têm limites e validação XML; valores usam centavos inteiros. A migração 0008 adiciona propostas e versões sem modificar correio ou candidatos.
 
 Validação desta etapa: 207 testes passando, build TypeScript/esbuild e auditoria npm sem vulnerabilidades. Testes cobrem concorrência, integridade, invalidação, ausência de preenchimento, moedas e preservação dos componentes do timbrado. Dois DOCX fictícios BR/US foram abertos no Microsoft Word e conferidos em todas as páginas por PDF renderizado. LibreOffice não estava disponível. No navegador separado: edição, salvamento de versão, prévia, revisão interna, download, histórico e indicadores; em 320 px, sem overflow horizontal ou erros de console. Os dados fictícios ficaram exclusivamente no banco de testes.
+
+
+Atualização PDF: 35 testes focados de propostas/materiais passaram. Quatro exemplos fictícios BR/US, rascunho/revisado, com duas páginas cada, foram renderizados e todas as oito páginas inspecionadas. Extração confirmou status em todas as páginas e markup visível literalmente. QA no navegador conferiu PDF revisado BR e histórico US baixados, guardas durante edição, quatro larguras sem overflow e console sem erros/avisos. Nenhuma proposta ou aprovação comercial real foi criada nesta verificação.
+
+Implementação: [Paragraphs e texto literal](https://docs.reportlab.com/reportlab/userguide/ch6_paragraphs/), [paginação Platypus](https://docs.reportlab.com/reportlab/userguide/ch5_platypus/) e [desenho do cabeçalho/rodapé](https://docs.reportlab.com/reportlab/userguide/ch2_graphics/).

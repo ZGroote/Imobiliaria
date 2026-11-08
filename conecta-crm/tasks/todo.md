@@ -111,3 +111,17 @@ Interface de envio: permissão editada/salva com histórico v2; prévia imutáve
 Atualização principal: migrações 0016/0017 aplicadas, backups DPAPI anterior/posterior criados, integridade SQLite aprovada e hashes das 42 tabelas anteriores preservados. Nove originais da marca conferidos. Novas tabelas de execução, permissões, campanhas e tentativas vazias. Sonda MXC na instância principal aprovada, fila de agentes pausada e verificada, fila real pausada sem prévias. contact/team mantidas em 30 minutos. Nenhum e-mail real enviado nem conversa real transmitida ao modelo nesta etapa. Revisão final também conferida em 46 casos de rascunhos/envio. Limites: Claude manual, funcionamento enquanto servidor aberto, agrupamento transacional/Inboxes não garantido, revisão humana dos fatos e permissões.
 
 Publicação concluída no [PR #112](https://github.com/ZGroote/Imobiliaria/pull/112), em rascunho: base codex/crm-qualificacao, head codex/crm-automacao, somente os 41 arquivos desta etapa. PRs #110/#111 e seus heads foram conferidos e preservados; nenhum merge feito. Código commitado na worktree isolada. A pasta principal mantém a cópia local de execução do CRM e as alterações preexistentes de outros trabalhos; estas não foram incluídas no PR.
+
+
+## Materiais BR US e proposta PDF
+
+- [x] 39. PDF local da proposta, mesmos dados/revisão do Word, timbrado e segurança, testes e conferência visual.
+- [x] 40. Downloads PDF na interface e QA fictício.
+- [x] 41. Materiais derivados BR/US na biblioteca, revisão gráfica por hash e histórico.
+- [x] 42. Validação integrada, documentação, atualização com backups e publicação separada.
+
+Materiais/PDF: 35 testes focados aprovados, build aprovado e pip check sem incompatibilidades. OSV não retornou advisories para ReportLab 5.1.0/Pillow 13.0.0/charset-normalizer 3.5.2. Quatro propostas fictícias com duas páginas cada: oito páginas renderizadas e inspecionadas após correção da quebra de linha do rodapé; estado presente em todas as páginas, texto de markup literal e URLs sem ação. Dois timbrados derivados conferidos por Word somente leitura/instância exclusiva, PDF rasterizado e inspeção visual; renderer padrão tentou e diagnosticou falta do LibreOffice. Nenhum original editado. QA no navegador: download do PDF BR revisado e US histórico, bloqueio de PDF durante edição, assinatura/timbrado US, revisão/retirada com histórico persistente e perfil bloqueado durante confirmação. Quatro larguras sem overflow e console limpo. QA encerrada, duas revisões de material somente no banco fictício, zero envios/execuções de agentes.
+
+Validação integrada: 496 testes passaram, build TypeScript/esbuild e pip check aprovados. Atualização principal para migração 0018 com backups DPAPI anterior/posterior e integridade SQLite aprovada. Hashes das 51 tabelas anteriores e dos nove originais preservados. Quatro materiais derivados disponíveis e ainda pendentes; zero revisões reais de material. contact/team mantidas em 30 minutos; filas de agentes/envios pausadas. Vinte arquivos desta etapa e três arquivos de build copiados; nenhum envio, nova pesquisa ou proposta real.
+
+Publicação concluída no [PR #113](https://github.com/ZGroote/Imobiliaria/pull/113), em rascunho: base codex/crm-automacao e head codex/crm-materiais. PR #112 e seus commits preservados; nenhum merge. Código desta etapa commitado na worktree isolada. A pasta principal mantém a cópia de execução e os trabalhos locais preexistentes, que não foram incluídos neste PR.
