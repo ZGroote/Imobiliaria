@@ -87,3 +87,15 @@ Validação da implementação: 423 testes passaram (23 novos), build TypeScript
 Atualização local conferida: migração 0015 aplicada com backups DPAPI anterior/posterior; nove originais da marca preservados. Instância QA encerrada. No CRM principal: zero empresas, avaliações e histórico de qualificação, modelo inicial v1, três candidatos e três mensagens sem revisão; zero oportunidades/propostas/projetos e zero pacotes/revisões de análise. contact/team mantidas em 30 minutos. Nenhum envio nesta etapa. Código salvo em codex/crm-qualificacao, separado do snapshot do PR #110; este permanece inalterado. Auditoria npm completa sem vulnerabilidades. Limite: notas manuais e vigência na base local, sem monitoramento ou validação factual automática das fontes.
 
 Publicação pública explicitamente autorizada pelo usuário e concluída no [PR #111](https://github.com/ZGroote/Imobiliaria/pull/111), em rascunho. Base codex/crm-prospeccao, head codex/crm-qualificacao; o checkpoint do PR #110 permanece inalterado. Nenhum PR foi incorporado à main.
+
+
+## Automação de agentes, pesquisa e envio autorizado
+
+- [x] 33. Isolamento MXC comprovado, adaptador Codex limitado e testes.
+- [ ] 34. Execuções/agenda de pesquisa persistentes, fila, cancelamento e importação para revisão.
+- [ ] 35. Interface e QA da pesquisa automática, preservando decisão humana.
+- [ ] 36. Envio autorizado com tentativas/idempotência/consulta remota e testes.
+- [ ] 37. Interface de aprovação real e acompanhamento, QA fictício sem enviar e-mails reais.
+- [ ] 38. Validação integrada, documentação, atualização local com backups e publicação separada.
+
+Sonda real do MXC: pasta da tarefa legível, arquivo externo/credencial fictícia/rede local inacessíveis. Credencial de sonda removida após cada teste. Codex CLI 0.167.0-alpha.3.2 executou uma resposta estruturada mínima, sem ferramentas ou conteúdo privado. Dez testes do adaptador passaram; o agente recebe configuração fixa sem shell, conectores, plugins ou hooks do usuário.
