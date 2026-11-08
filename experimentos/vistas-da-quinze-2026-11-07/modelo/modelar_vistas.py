@@ -376,7 +376,12 @@ marcar(flush('caixa-dagua'), 0, A1+1, 'cobertura')
 
 # ---------- Embasamento (garagem) e o lazer em cima (galeria-00 e galeria-15) ----------
 E0 = 1.0   # recuo do embasamento para dentro do lote
-(lx0, ly0), (lx1, ly1) = arq(LOTE[0][0]+E0, LOTE[0][1]+E0), arq(LOTE[2][0]-E0, LOTE[2][1]-E0)
+# Mas nunca menor que o pé das alas: com o recuo, a ponta da ala leste ficava 0,8 m para fora da garagem,
+# pendurada sobre a XV (e a ala sul 0,2 m sobre a Major Manoel).
+PE_SUL = QX-FUNDO-ALAS['sul']['comprimentoM']
+PE_LESTE = QZ-FUNDO-ALAS['leste']['comprimentoM']
+(lx0, ly0), (lx1, ly1) = (arq(min(LOTE[0][0]+E0, PE_SUL), min(LOTE[0][1]+E0, PE_LESTE)),
+                          arq(max(LOTE[2][0]-E0, QX), max(LOTE[2][1]-E0, QZ)))
 box('embasamento', (lx0+lx1)/2, H0/2, (ly0+ly1)/2, lx1-lx0, H0, ly1-ly0)
 for zz in (1.5, 4.5, 7.5):    # três faixas escuras de ventilação da garagem nas fachadas das ruas
     box('garagem-vao', (lx0+lx1)/2, zz, ly0-.02, lx1-lx0-2, .9, .06)            # norte (XV)

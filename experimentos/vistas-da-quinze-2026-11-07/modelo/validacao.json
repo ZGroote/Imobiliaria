@@ -47,7 +47,7 @@
   "geometries": 415,
   "groups": 415,
   "web_bytes": 10000180,
-  "glb_bytes": 7844076,
+  "glb_bytes": 7844124,
   "checks": {
     "pavimentos_e_lajes": true,
     "exportacao": true,

@@ -248,8 +248,10 @@ def torre():
 
 def embasamento_e_lazer():
     lote = IMPL['loteM']
-    E0 = 1.0
-    r = retangulo(lote[0][0]+E0, lote[0][1]+E0, lote[2][0]-E0, lote[2][1]-E0)
+    E0 = 1.0   # recuo do lote, mas cobrindo o pé das alas (a ala leste passava 0,8 m da garagem)
+    r = retangulo(min(lote[0][0]+E0, QX-FUNDO-ALAS['sul']['comprimentoM']),
+                  min(lote[0][1]+E0, QZ-FUNDO-ALAS['leste']['comprimentoM']),
+                  max(lote[2][0]-E0, QX), max(lote[2][1]-E0, QZ))
     for s in (0, 1, 2):
         A = ANDARES[s]
         A.lajes.append((r, s*3.0))
