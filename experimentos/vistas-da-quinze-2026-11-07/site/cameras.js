@@ -49,7 +49,11 @@ export function buildingFacadeView(aspect,side,bounds=null){
 export function towerFacadeView(aspect,dir,bounds,others=[],focusY=null){
   if(!Number.isFinite(aspect)||aspect<=0||!/^[+-][xz]$/.test(dir))throw Error('Vista da fachada inválida.');
   const {min,max}=bounds,target=min.map((n,i)=>(n+max[i])/2),axis=dir[1]==='x'?0:2,across=axis===0?2:0,sign=dir[0]==='+'?1:-1;
-  let halfHeight=Math.max((max[1]-min[1])/2+1.5,((max[across]-min[across])/2+1.5)/aspect),fov=34;
+  // A barra de botões (Ver planta, Entrar...) cobre ~14% de baixo e os controles ~8% de cima: a fachada
+  // cabe na faixa livre do meio, senão o apartamento escolhido nos primeiros andares fica atrás da barra.
+  const BOTTOM=.14,TOP=.08,span=(max[1]-min[1]+3)/(1-BOTTOM-TOP);
+  let halfHeight=Math.max(span/2,((max[across]-min[across])/2+1.5)/aspect),fov=34;
+  target[1]=min[1]-1.5-BOTTOM*2*halfHeight+halfHeight;
   const depth=(max[axis]-min[axis])/2;
   let distance=halfHeight/Math.tan(fov*Math.PI/360);
   let free=Infinity;
