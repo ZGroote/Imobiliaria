@@ -88,7 +88,7 @@ def view(c, draft):
     value["metadata"] = json.loads(draft["metadata"])
     value["review_errors"] = review_errors(c,draft)
     value["send_enabled"] = False
-    value["send_blockers"] = ["Fila em modo de simulação; transporte real não habilitado.","Autorização de remetente e entregabilidade ainda precisam ser verificadas."]
+    value["send_blockers"] = ["Este editor aprova somente o texto. Prepare e aprove uma prévia na aba Envios reais.","Envio exige permissão válida do destinatário e conferência atual do remetente."]
     value["history"] = [dict(r) for r in c.execute(text("SELECT version,action,actor,occurred_at FROM outbound_history WHERE draft_id=:id ORDER BY id DESC"),dict(id=draft["id"])).mappings()]
     return value
 
@@ -97,6 +97,8 @@ def save(c, data, now, draft_id=None, version=None):
     old = load(c,draft_id) if draft_id else None
     if old and old["version"] != version:
         raise HTTPException(409,"Este rascunho foi alterado. Reabra a versão atual antes de salvar.")
+    if old and c.execute(text("SELECT id FROM real_deliveries WHERE draft_id=:id AND status IN ('sending','unknown')"),dict(id=draft_id)).first():
+        raise HTTPException(409,"Há tentativa em andamento ou incerta desta mensagem. Confira a fila real antes de editar.")
     raw_recipient = data["recipient"].strip()
     recipient = normalize_address(raw_recipient) if raw_recipient else ""
     if raw_recipient and (not recipient or not re.fullmatch(r"[^@\s<>,;]{1,64}@[^@\s<>,;]{1,253}",raw_recipient)):

@@ -77,7 +77,8 @@ def view(c,job_id):
     job['candidates']=candidates
     job['counts']={s:sum(candidate['status']==s for candidate in candidates) for s in ('pending','approved','rejected')}
     job['events']=[dict(r) for r in c.execute(text('SELECT candidate_id,action,occurred_at FROM research_events WHERE job_id=:id ORDER BY id DESC'),dict(id=job_id)).mappings()]
-    return dict(job,executor_enabled=False,send_enabled=False)
+    verified=c.execute(text('SELECT verified FROM agent_control WHERE id=1')).scalar_one()
+    return dict(job,executor_enabled=bool(verified) and job['agent']=='codex_assisted',send_enabled=False)
 
 
 def prompt(job_id,body):
@@ -141,10 +142,7 @@ def export(job_id: str,request: Request):
         instructions='Use o prompt e o schema em uma sessão assistida. Importe no CRM somente o JSON de resultado. Nenhum agente é iniciado.')
 
 
-@router.post('/api/jobs/{job_id}/import')
-def import_result(job_id: str,body: ImportResult,request: Request):
-    result=body.result
-    when=request.app.state.clock()
+def store_result(c,job_id,result,when):
     sources=[source for company in result.companies for source in [*company.projects,*company.contacts,*company.evidence]]
     if result.generated_at>when or any(s.observed_at>when for s in sources):
         raise HTTPException(422,'As datas de geração e observação não podem estar no futuro.')
@@ -153,24 +151,31 @@ def import_result(job_id: str,body: ImportResult,request: Request):
     if any(day>when.date() for day in dates):raise HTTPException(422,'Datas de estágio/documento não podem estar no futuro.')
     data=result.model_dump(mode='json')
     hashed=digest(data)
+    job=load(c,job_id)
+    if job['status']=='cancelled':raise HTTPException(409,'Esta tarefa está cancelada.')
+    if result.job_id!=job_id or result.state!=job['state'] or result.target_count!=job['target_count']:
+        raise HTTPException(409,'O JSON não corresponde à tarefa, estado ou meta selecionados.')
+    if job['result_hash']:
+        if job['result_hash']==hashed:return view(c,job_id)
+        raise HTTPException(409,'Esta tarefa já tem um resultado preservado. Prepare outra tarefa para uma pesquisa diferente.')
+    warnings=list(result.warnings)
+    if len(result.companies)<job['target_count']:warnings.append('A pesquisa retornou menos empresas que a meta; a quantidade não foi completada artificialmente.')
+    c.execute(text('''UPDATE research_jobs SET result_hash=:h,warnings=:w,generated_at=:g,imported_at=:d,status=:s WHERE id=:id'''),
+        dict(id=job_id,h=hashed,w=encoded(warnings),g=result.generated_at.isoformat(),d=when.isoformat(),s='reviewing' if result.companies else 'partial'))
+    for company in data['companies']:
+        c.execute(text('''INSERT INTO job_candidates(id,job_id,domain,payload,content_hash) VALUES(:id,:j,:d,:p,:h)'''),
+            dict(id=uuid4().hex,j=job_id,d=company_domain(company['website']),p=encoded(company),h=digest(company)))
+    event(c,job_id,'result_imported_for_review',when)
+    return view(c,job_id)
+
+
+@router.post('/api/jobs/{job_id}/import')
+def import_result(job_id: str,body: ImportResult,request: Request):
     with request.app.state.engine.begin() as c:
         c.exec_driver_sql('BEGIN IMMEDIATE')
-        job=load(c,job_id)
-        if job['status']=='cancelled':raise HTTPException(409,'Esta tarefa está cancelada.')
-        if result.job_id!=job_id or result.state!=job['state'] or result.target_count!=job['target_count']:
-            raise HTTPException(409,'O JSON não corresponde à tarefa, estado ou meta selecionados.')
-        if job['result_hash']:
-            if job['result_hash']==hashed:return view(c,job_id)
-            raise HTTPException(409,'Esta tarefa já tem um resultado preservado. Prepare outra tarefa para uma pesquisa diferente.')
-        warnings=list(result.warnings)
-        if len(result.companies)<job['target_count']:warnings.append('A pesquisa retornou menos empresas que a meta; a quantidade não foi completada artificialmente.')
-        c.execute(text('''UPDATE research_jobs SET result_hash=:h,warnings=:w,generated_at=:g,imported_at=:d,status=:s WHERE id=:id'''),
-            dict(id=job_id,h=hashed,w=encoded(warnings),g=result.generated_at.isoformat(),d=when.isoformat(),s='reviewing' if result.companies else 'partial'))
-        for company in data['companies']:
-            c.execute(text('''INSERT INTO job_candidates(id,job_id,domain,payload,content_hash) VALUES(:id,:j,:d,:p,:h)'''),
-                dict(id=uuid4().hex,j=job_id,d=company_domain(company['website']),p=encoded(company),h=digest(company)))
-        event(c,job_id,'result_imported_for_review',when)
-        return view(c,job_id)
+        if c.execute(text("SELECT id FROM agent_runs WHERE kind='research' AND reference_id=:id AND status IN ('queued','running')"),dict(id=job_id)).first():
+            raise HTTPException(409,'Cancele a execução do agente antes de importar manualmente.')
+        return store_result(c,job_id,body.result,request.app.state.clock())
 
 
 @router.post('/api/jobs/{job_id}/candidates/{candidate_id}/review')
@@ -217,7 +222,11 @@ def cancel(job_id: str,body: Confirmation,request: Request):
         if job['status']!='cancelled':
             c.execute(text("UPDATE research_jobs SET status='cancelled' WHERE id=:id"),dict(id=job_id))
             event(c,job_id,'job_cancelled',request.app.state.clock())
-        return view(c,job_id)
+        from .agent_runs import cancel_reference
+        cancel_reference(c,'research',job_id,request.app.state.clock())
+        result=view(c,job_id)
+    request.app.state.agent_worker.cancel_reference('research',job_id)
+    return result
 
 
 @router.get('/api/companies')

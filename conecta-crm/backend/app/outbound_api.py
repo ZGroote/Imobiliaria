@@ -89,11 +89,11 @@ def policy(request: Request):
 
 
 @router.get("/api/outbound/drafts")
-def drafts(request: Request, offset: int=Query(0,ge=0), limit: int=Query(25,ge=1,le=100)):
+def drafts(request: Request, offset: int=Query(0,ge=0), limit: int=Query(25,ge=1,le=100), approved_only: bool=False):
     with request.app.state.engine.connect() as c:
-        total = c.execute(text("SELECT COUNT(*) FROM outbound_drafts")).scalar_one()
+        total = c.execute(text("SELECT COUNT(*) FROM outbound_drafts WHERE :only=0 OR status='approved'"),dict(only=int(approved_only))).scalar_one()
         items = [dict(r) for r in c.execute(text("""SELECT id,recipient,subject,status,version,purpose,account_id,profile_id,updated_at
-            FROM outbound_drafts ORDER BY updated_at DESC,id LIMIT :n OFFSET :o"""),dict(n=limit,o=offset)).mappings()]
+            FROM outbound_drafts WHERE :only=0 OR status='approved' ORDER BY updated_at DESC,id LIMIT :n OFFSET :o"""),dict(n=limit,o=offset,only=int(approved_only))).mappings()]
     return dict(total=total,items=items)
 
 
@@ -154,6 +154,8 @@ def cancel(draft_id: str, body: Cancel, request: Request):
     with request.app.state.engine.begin() as c:
         c.exec_driver_sql("BEGIN IMMEDIATE")
         value = outbound.load(c,draft_id)
+        if c.execute(text("SELECT id FROM real_deliveries WHERE draft_id=:id AND status IN ('sending','unknown')"),dict(id=draft_id)).first():
+            raise HTTPException(409,"Uma tentativa iniciada ou incerta precisa ser conferida na fila real.")
         if value["version"]!=body.version:
             raise HTTPException(409,"O rascunho mudou. Reabra a versão atual para cancelar.")
         invalidate(c,[value],"cancelled_by_operator",status="cancelled",actor="operator")

@@ -4,5 +4,5 @@ export type DraftSummary=Pick<Draft,'id'|'recipient'|'subject'|'status'|'version
 export type Template={id:string;profile_id:string;purpose:string;title:string;subject:string;body:string;required_fields:string[];source_asset_id?:string};
 export type Policy={paused:boolean;timezones:Record<string,string>;mode:string;send_enabled:boolean};
 export type ReplyContext={account_id:string;thread_id:string;recipient:string;profile_id:string|null;original_subject:string};
-export const statusLabels:Record<string,string>={draft:'Rascunho',pending_review:'Revisão necessária',approved:'Texto aprovado',scheduled:'Agendado para simulação',simulated:'Simulado; não enviado',cancelled:'Cancelado',blocked:'Bloqueado'};
+export const statusLabels:Record<string,string>={sending:'Envio em andamento',sent:'Enviado',delivery_unknown:'Tentativa incerta · conferir',draft:'Rascunho',pending_review:'Revisão necessária',approved:'Texto aprovado',scheduled:'Agendado para simulação',simulated:'Simulado; não enviado',cancelled:'Cancelado',blocked:'Bloqueado'};
 export function inputFrom(draft:Draft):DraftInput{return {account_id:draft.account_id,profile_id:draft.profile_id,recipient:draft.recipient,subject:draft.subject,body_text:draft.body_text,purpose:draft.purpose,thread_id:draft.thread_id,metadata:draft.metadata};}

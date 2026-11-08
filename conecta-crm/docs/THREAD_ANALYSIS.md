@@ -1,5 +1,10 @@
 # Análise assistida de trechos de conversa
 
+## Atualização: agentes e comunicações autorizadas
+
+Além do pacote manual, é possível executar Codex após confirmar o compartilhamento dos trechos revisados. O agente usa aliases, sem web, cache ou credenciais. Resultado continua sugestão com citações, sem alterar revisão humana. Veja [execução de agentes](AGENT_EXECUTION.md).
+
+
 Na conversa, abra **Análise assistida**, ao lado de **Revisão humana**. Este fluxo prepara um arquivo para uma sessão escolhida pelo operador. Não inicia Codex/Claude, não lê credenciais, não transmite e-mails e não baixa anexos.
 
 ## Preparar e exportar
