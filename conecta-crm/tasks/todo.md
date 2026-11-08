@@ -80,10 +80,10 @@ Verificação: 400 testes passaram (27 casos novos), build TypeScript/esbuild ap
 
 - [x] 30. Migração, pesos versionados, catálogo de fontes da empresa, avaliação manual e ordenação com testes de vínculo, concorrência, histórico e efeitos proibidos.
 - [x] 31. Tela de avaliação, acesso pela ficha da empresa, edição protegida, critérios desconhecidos, fontes e histórico.
-- [ ] 32. Publicar a branch/PR separado do checkpoint #110 após confirmação da exposição pública. Documentação e atualização principal com backups já concluídas.
+- [x] 32. Documentação, atualização principal com backups e publicação autorizada na branch codex/crm-qualificacao, em PR separado do checkpoint #110.
 
 Validação da implementação: 423 testes passaram (23 novos), build TypeScript/esbuild aprovado. Em banco fictício separado, conferidos pontuação completa, parcial com zero, fontes, pesos, histórico, nova conferência após mudança de modelo/fonte e conflito preservando os campos editados. Telas de avaliação e modelo sem overflow horizontal em 320/768/1024/1440 px; console sem erros/avisos. Nenhuma empresa real foi avaliada.
 
 Atualização local conferida: migração 0015 aplicada com backups DPAPI anterior/posterior; nove originais da marca preservados. Instância QA encerrada. No CRM principal: zero empresas, avaliações e histórico de qualificação, modelo inicial v1, três candidatos e três mensagens sem revisão; zero oportunidades/propostas/projetos e zero pacotes/revisões de análise. contact/team mantidas em 30 minutos. Nenhum envio nesta etapa. Código salvo em codex/crm-qualificacao, separado do snapshot do PR #110; este permanece inalterado. Auditoria npm completa sem vulnerabilidades. Limite: notas manuais e vigência na base local, sem monitoramento ou validação factual automática das fontes.
 
-Publicação da nova etapa pendente: a revisão automática bloqueou o push porque o repositório está público e exige autorização explícita dessa exposição. Os commits locais estão prontos; a branch remota do checkpoint #110 não foi alterada.
+Publicação pública explicitamente autorizada pelo usuário e concluída no [PR #111](https://github.com/ZGroote/Imobiliaria/pull/111), em rascunho. Base codex/crm-prospeccao, head codex/crm-qualificacao; o checkpoint do PR #110 permanece inalterado. Nenhum PR foi incorporado à main.

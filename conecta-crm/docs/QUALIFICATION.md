@@ -34,3 +34,5 @@ Verificação em 08/11/2026: 423 testes passaram, incluindo 23 casos de qualific
 Não houve avaliação de empresas reais, aprovação de candidatos, criação de oportunidades, rascunhos ou envios. Não houve execução de agente externo. A qualidade comercial das notas depende da conferência do operador; o teste visual usou dados fictícios.
 
 Instalação principal atualizada para 0015 com backups DPAPI anterior/posterior e nove originais conferidos por hash. O modelo inicial segue em v1 e não há avaliações reais. As rotinas contact/team continuam em 30 minutos. Auditoria npm completa sem vulnerabilidades. O desenvolvimento desta etapa usa codex/crm-qualificacao, derivada de codex/crm-prospeccao; o snapshot do PR #110 foi preservado.
+
+Publicação pública autorizada pelo usuário: [PR #111 — qualificação comercial](https://github.com/ZGroote/Imobiliaria/pull/111), em rascunho, com base em codex/crm-prospeccao para revisão somente desta etapa. O checkpoint do PR #110 foi preservado; nenhuma incorporação à main foi realizada.
