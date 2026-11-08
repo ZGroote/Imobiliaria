@@ -21,6 +21,7 @@ from .mail_schedule import MailWorker, router as mail_schedule_router
 from .attachment_files import read_attachment
 from .attachments_api import router as attachments_router
 from .analysis_api import router as analysis_router
+from .qualification_api import router as qualification_router
 from .provider import MockProvider
 from .resend_client import ResendClient, ResendError
 from .windows_store import CredentialError, WindowsCredentials, default_cache, encrypted_backup
@@ -110,6 +111,7 @@ def create_app(db_path: Path | None = None, provider=None, credentials=None, cli
     app.include_router(mail_schedule_router)
     app.include_router(attachments_router)
     app.include_router(analysis_router)
+    app.include_router(qualification_router)
 
     @app.exception_handler(RequestValidationError)
     async def validation_error(request, exc):
@@ -135,7 +137,7 @@ def create_app(db_path: Path | None = None, provider=None, credentials=None, cli
                 return JSONResponse({"detail": "Sessão local necessária."}, status_code=401)
         if request.method in ("POST","PUT"):
             try:
-                limit = 262144 if request.url.path.startswith("/api/jobs/") else 131072 if request.url.path.startswith(("/api/proposals","/api/thread-analyses")) else 65536 if request.url.path.startswith(("/api/outbound/","/api/opportunities","/api/projects","/api/contacts","/api/developments")) else 16384
+                limit = 262144 if request.url.path.startswith("/api/jobs/") else 131072 if request.url.path.startswith(("/api/proposals","/api/thread-analyses")) else 65536 if request.url.path.startswith(("/api/outbound/","/api/opportunities","/api/projects","/api/contacts","/api/developments","/api/qualifications")) else 16384
                 if int(request.headers.get("content-length","0")) > limit or "transfer-encoding" in request.headers:
                     return JSONResponse({"detail":"Requisição excedeu o limite permitido."},status_code=413)
             except ValueError:

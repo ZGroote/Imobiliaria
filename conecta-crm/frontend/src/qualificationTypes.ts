@@ -1,0 +1,14 @@
+export type FactorKey='relevance'|'stage'|'recurrence'|'evidence'|'demo';
+export type Weights=Record<FactorKey,number>;
+export type Factor={points:number|null;reason:string;source_ids:string[]};
+export type Criteria=Record<FactorKey,Factor>;
+export type Source={id:string;kind:string;name:string;title:string;url:string;observed_at:string;revision:string};
+export type Policy={version:number;weights:Weights;factors:Record<FactorKey,string>;note:string;changed_at:string;history?:{version:number;weights:Weights;note:string;changed_at:string}[]};
+export type Metrics={status:string;eligible:boolean;score:number|null;known_points:number;assessed_capacity:number;pending_factors:number};
+export type Assessment={version:number;updated_at:string|null;criteria:Criteria;note:string;policy_version:number;weights:Weights;basis_hash:string;source_snapshot:Source[]};
+export type Qualification=Metrics&{company:{id:string;name:string;domain:string;website:string};policy:Policy;basis_hash:string;sources:Source[];assessment:Assessment;history:{version:number;payload:Omit<Assessment,'version'|'updated_at'>;occurred_at:string}[]};
+export type Ranking= {items:(Metrics&{id:string;name:string;domain:string})[];total:number;counts:Record<string,number>;policy:Policy;status_labels:Record<string,string>};
+export const factorKeys:FactorKey[]=['relevance','stage','recurrence','evidence','demo'];
+export const factorHints:Record<FactorKey,string>={relevance:'Explique como a apresentação 3D atende ao produto ou à atuação da empresa.',stage:'Confira o estágio e a data dos projetos. Um lançamento antigo não comprova atividade atual.',recurrence:'Considere o volume e a recorrência comprovados nas fontes disponíveis.',evidence:'Considere a qualidade das evidências e dos canais profissionais cadastrados.',demo:'Explique qual demonstração é adequada e por quê.'};
+export const statusLabels:Record<string,string>={not_assessed:'Sem avaliação',incomplete:'Avaliação parcial',needs_review:'Requer nova conferência',complete:'Completa na base cadastrada'};
+export const when=(value:string)=>new Date(value).toLocaleString('pt-BR');
