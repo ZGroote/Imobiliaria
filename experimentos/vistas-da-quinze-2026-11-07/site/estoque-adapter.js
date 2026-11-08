@@ -1,4 +1,4 @@
-import {attachCommercial,BOOK_SHA_LARANJEIRAS} from './comercial.js';
+import {attachCommercial,BOOK_SHA} from './comercial.js';
 
 const semTabela={schema:'liv-commercial-v1',status:'ausente',source:null,units:[]};
 
@@ -8,7 +8,7 @@ export function attachStock(catalog,snapshot){
     return {...next,units:next.units.map(unit=>({...unit,salesDetails:null}))};
   }
   const {settings,units,profiles}=snapshot;
-  if(settings.model!=='vistas-da-quinze'||settings.bookSHA256!==BOOK_SHA_LARANJEIRAS||
+  if(settings.model!=='vistas-da-quinze'||settings.bookSHA256!==BOOK_SHA||
       units.length!==catalog.units.length)throw Error('Estoque de outro empreendimento ou revisão.');
 
   const base=new Map(profiles.map(profile=>[profile.id,profile.info]));

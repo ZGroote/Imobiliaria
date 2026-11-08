@@ -469,16 +469,8 @@ for u in UNIDADES:
         box('vaso', x, zt+.25, y, .5, .5, .5)
         arvore(x, y, zt+.5, 1.6, .55, rng, cartoes=28, lado=.6)
 
-# Ruas (eixos no OSM: XV em z=0, Major Manoel em x=0), calçadas e palmeiras da XV (galeria-15).
-for (x0, z0, x1, z1, mat, h) in [(-30, -4.5, 100, 4.5, 'site-asfalto', .02), (-4.5, -30, 4.5, 100, 'site-asfalto', .02),
-                                 (-30, 4.5, 100, 6.0, 'site-piso', .12), (4.5, 6.0, 6.0, 100, 'site-piso', .12),
-                                 (-30, -6.0, 100, -4.5, 'site-piso', .12), (-6.0, 6.0, -4.5, 100, 'site-piso', .12)]:
-    (ax, ay), (bx, by) = arq(x0, z0), arq(x1, z1)
-    box(mat, (ax+bx)/2, h/2, (ay+by)/2, bx-ax, h, by-ay)
-(gx0, gy0), (gx1, gy1) = arq(-40, -40), arq(110, 110)
-box('site-grama', (gx0+gx1)/2, -.03, (gy0+gy1)/2, gx1-gx0, .02, gy1-gy0)
-for k in range(7):
-    mi.palm(*arq(12+k*8.5, 5.2), h=rng.uniform(6.5, 8), rng=rng)
+# Só o terreno, como no Laranjeiras: nada de rua, calçada, árvore ou gramado fora do lote
+# (o entorno real fica no mapa "Conhecer a região").
 for ob in flush('implantacao'):
     ob['tower'] = -1; ob['role'] = 'implantacao'
 

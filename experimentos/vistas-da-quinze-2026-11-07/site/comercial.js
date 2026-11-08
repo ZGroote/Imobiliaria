@@ -1,5 +1,6 @@
 export const AVAILABILITY=Object.freeze({nao_informada:'Não informada',disponivel:'Disponível',reservada:'Reservada',vendida:'Vendida',bloqueada:'Bloqueada'});
-export const BOOK_SHA_LARANJEIRAS='c90d9d22d6252f86a4597fb33ac22f9ea1d11ee2a5c8608fda8e7552af956911';
+// Vistas: a perspectiva colorida (cadastro unidade -> tipologia) faz o papel do book.
+export const BOOK_SHA='f5f6c5e2c8febd11f906feb48838bfd627451119a7a7bf285571f447a005ea49';
 const empty=Object.freeze({commercialNumber:null,availability:'nao_informada',priceCents:null,parking:null,conditions:null});
 const fields=new Set(['id','commercialNumber','availability','priceCents','parking','conditions']);
 function text(value,max){
@@ -19,7 +20,7 @@ export function validateCommercial(data,catalog){
     if(data.units.length||data.source!==null)fail('Tabela ausente não pode atribuir ofertas.');
     return {schema:data.schema,status:'ausente',source:null,units:[]};
   }
-  if(data.bookSHA256!==BOOK_SHA_LARANJEIRAS||!data.units.length||!date(data.source?.asOf))fail('Origem, revisão ou data comercial ausente.');
+  if(data.bookSHA256!==BOOK_SHA||!data.units.length||!date(data.source?.asOf))fail('Origem, revisão ou data comercial ausente.');
   const label=text(data.source.label,200);if(!label)fail('Identifique a tabela fornecida.');
   const known=new Set(catalog.units.map(unit=>unit.id)),ids=new Set(),numbers=new Set();
   const units=data.units.map(row=>{

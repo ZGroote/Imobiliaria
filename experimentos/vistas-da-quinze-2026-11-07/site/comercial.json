@@ -1,6 +1,1043 @@
 {
   "schema": "liv-commercial-v1",
-  "status": "ausente",
-  "source": null,
-  "units": []
+  "status": "simulado",
+  "bookSHA256": "f5f6c5e2c8febd11f906feb48838bfd627451119a7a7bf285571f447a005ea49",
+  "source": {
+    "label": "Demonstração com dados simulados",
+    "asOf": "2026-11-07"
+  },
+  "units": [
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-03/final-11",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-03/final-12",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-03/final-13",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-03/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-03/final-15",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-03/final-16",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-03/final-17",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-03/final-18",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-04/final-11",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-04/final-12",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-04/final-13",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-04/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-04/final-15",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-04/final-16",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-04/final-17",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-04/final-18",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-05/final-11",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-05/final-12",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-05/final-13",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-05/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-05/final-15",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-05/final-16",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-05/final-17",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-05/final-18",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-06/final-11",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-06/final-12",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-06/final-13",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-06/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-06/final-15",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-06/final-16",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-06/final-17",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-06/final-18",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-07/final-11",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-07/final-12",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-07/final-13",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-07/final-14",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-07/final-15",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-07/final-16",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-07/final-17",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-07/final-18",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-08/final-11",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-08/final-12",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-08/final-13",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-08/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-08/final-15",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-08/final-16",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-08/final-17",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-08/final-18",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-09/final-11",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-09/final-12",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-09/final-13",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-09/final-14",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-09/final-15",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-09/final-16",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-09/final-17",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-09/final-18",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-10/final-11",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-10/final-12",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-10/final-13",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-10/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-10/final-15",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-10/final-16",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-10/final-17",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-10/final-18",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-11/final-11",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-11/final-12",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-11/final-13",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-11/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-11/final-15",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-11/final-16",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-11/final-17",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-11/final-18",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-12/final-11",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-12/final-12",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-12/final-13",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-12/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-12/final-15",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-12/final-16",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-12/final-17",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-12/final-18",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-13/final-11",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-13/final-12",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-13/final-13",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-13/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-13/final-15",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-13/final-16",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-13/final-17",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-13/final-18",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-14/final-11",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-14/final-12",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-14/final-13",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-14/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-14/final-15",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-14/final-16",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-14/final-17",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-14/final-18",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-15/final-11",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-15/final-12",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-15/final-13",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-15/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-15/final-15",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-15/final-16",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-15/final-17",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-15/final-18",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-16/final-11",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-16/final-12",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-16/final-13",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-16/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-16/final-15",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-16/final-16",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-17/final-11",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-17/final-12",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-17/final-13",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-17/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-17/final-15",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-17/final-16",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-18/final-11",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-18/final-12",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-18/final-13",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-18/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-18/final-15",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-18/final-16",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-19/final-11",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-19/final-12",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-19/final-13",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-19/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-20/final-11",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-20/final-12",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-20/final-13",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-leste/pavimento-20/final-14",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-03/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-03/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-03/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-03/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-03/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-03/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-03/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-03/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-03/final-09",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-03/final-10",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-04/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-04/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-04/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-04/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-04/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-04/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-04/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-04/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-04/final-09",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-04/final-10",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-05/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-05/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-05/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-05/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-05/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-05/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-05/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-05/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-05/final-09",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-05/final-10",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-06/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-06/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-06/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-06/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-06/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-06/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-06/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-06/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-06/final-09",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-06/final-10",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-07/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-07/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-07/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-07/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-07/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-07/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-07/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-07/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-07/final-09",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-07/final-10",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-08/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-08/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-08/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-08/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-08/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-08/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-08/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-08/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-08/final-09",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-08/final-10",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-09/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-09/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-09/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-09/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-09/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-09/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-09/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-09/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-09/final-09",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-09/final-10",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-10/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-10/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-10/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-10/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-10/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-10/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-10/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-10/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-11/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-11/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-11/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-11/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-11/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-11/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-11/final-07",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-11/final-08",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-12/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-12/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-12/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-12/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-12/final-05",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-12/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-12/final-07",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-12/final-08",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-13/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-13/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-13/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-13/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-13/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-13/final-06",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-14/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-14/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-14/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-14/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-14/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-14/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-15/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-15/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-15/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-15/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-15/final-05",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-15/final-06",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-16/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-16/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-16/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-16/final-04",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-17/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-17/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-17/final-03",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-17/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-18/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-18/final-02",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-18/final-03",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-18/final-04",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-19/final-01",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-19/final-02",
+      "availability": "vendida"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-20/final-01",
+      "availability": "disponivel"
+    },
+    {
+      "id": "vistas-da-quinze/ala-sul/pavimento-20/final-02",
+      "availability": "disponivel"
+    }
+  ]
 }

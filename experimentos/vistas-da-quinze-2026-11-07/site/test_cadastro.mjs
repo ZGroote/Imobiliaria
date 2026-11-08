@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {validateUnits} from './unidades.js';
 import {attachStock} from './estoque-adapter.js';
-import {attachCommercial,BOOK_SHA_LARANJEIRAS} from './comercial.js';
+import {attachCommercial,BOOK_SHA} from './comercial.js';
 import {availableUnitIds} from './disponibilidade.js';
 
 const catalog=JSON.parse(readFileSync(new URL('../assets/unidades.json',import.meta.url),'utf8'));
@@ -42,7 +42,7 @@ test('cadastro adulterado é recusado', () => {
 test('o estoque atualiza só a torre correta e preserva as plantas ao ligar ou desligar', () => {
   const id='laranjeiras/torre-02/pavimento-10/final-03';
   const similar='laranjeiras/torre-01/pavimento-10/final-03';
-  const settings={model:'parque-das-laranjeiras',bookSHA256:BOOK_SHA_LARANJEIRAS,title:'Teste',
+  const settings={model:'parque-das-laranjeiras',bookSHA256:BOOK_SHA,title:'Teste',
     updatedAt:{toDate:()=>new Date('2026-11-05T00:00:00Z')}};
   const snapshot={settings,profiles:[],units:catalog.units.map(({id:technicalId})=>({
     technicalId,commercialNumber:null,availability:technicalId===id?'disponivel':'nao_informada',
