@@ -18,6 +18,7 @@ def test_command_and_environment_cannot_inherit_provider_secrets(tmp_path, monke
     assert '--ignore-user-config' in args and '--ignore-rules' in args and '--ephemeral' in args
     assert '--dangerously-bypass-approvals-and-sandbox' not in args
     assert 'approval_policy="never"' in args and 'windows.sandbox="mxc"' in args
+    assert 'features.code_mode_host=true' in args
     for key in ('shell_tool','apps','plugins','hooks','browser_use','view_image','multi_agent'):
         assert 'features.'+key+'=false' in args
     assert 'network={enabled=false}' in permission_profile()

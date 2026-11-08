@@ -13,7 +13,7 @@ from .agent_sandbox import AgentError, doctor, environment, executable, permissi
 
 DISABLED = ('shell_tool', 'view_image', 'apps', 'plugins', 'remote_plugin', 'browser_use',
             'browser_use_external', 'computer_use', 'in_app_browser', 'multi_agent', 'hooks',
-            'skill_search', 'skill_mcp_dependency_install', 'code_mode_host', 'code_mode', 'tool_suggest')
+            'skill_search', 'skill_mcp_dependency_install', 'code_mode', 'tool_suggest')
 
 
 def strict_schema(schema):
@@ -38,6 +38,7 @@ def arguments(cli, work, web=True):
     settings = ['windows.sandbox="mxc"', 'default_permissions="crm_research"', permission_profile(),
                 'approval_policy="never"', 'project_doc_max_bytes=0', 'shell_environment_policy.inherit="none"',
                 'skills.bundled.enabled=false', 'skills.include_instructions=false',
+                'features.code_mode_host=true',
                 'features.skip_host_skill_discovery=true', 'web_search="live"' if web else 'web_search="disabled"']
     settings += ['features.' + key + '=false' for key in DISABLED]
     args = [str(cli), 'exec', '--strict-config', '--ignore-user-config', '--ignore-rules', '--ephemeral',
