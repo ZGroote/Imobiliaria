@@ -1,0 +1,9 @@
+export type Source={source_url:string;source_title:string;observed_at:string;confidence:number};
+export type ResearchCompany={name:string;website:string;company_type:string;size_tier:string;states_active:string[];status:string;
+  projects:(Source&{name:string;city:string;address:string;state:string;building_type:string;stage:string;stage_as_of:string|null})[];
+  contacts:(Source&{name:string;role:string;email:string})[];evidence:(Source&{claim:string;document_date:string|null})[]};
+export type Candidate={id:string;domain:string;payload:ResearchCompany;content_hash:string;status:string;review_note:string;review_errors:string[];existing_company:{id:string;name:string;website:string}|null};
+export type Job={id:string;state:string;target_count:number;size_tier:string;agent:string;status:string;prompt:string;input_hash:string;result_hash:string|null;warnings:string[];candidates:Candidate[];counts:{pending:number;approved:number;rejected:number};events:{action:string;occurred_at:string}[]};
+export type JobSummary={id:string;state:string;target_count:number;status:string;candidate_count:number;pending_count:number};
+export const jobStates:Record<string,string>={draft:'Preparada · pesquisa assistida',reviewing:'Candidatos em revisão',imported:'Meta revisada e cadastrada',partial:'Resultado parcial',cancelled:'Cancelada'};
+export const decisions:Record<string,string>={pending:'Aguardando revisão',approved:'Aprovada pelo operador',rejected:'Rejeitada pelo operador'};

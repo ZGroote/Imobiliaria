@@ -1,0 +1,365 @@
+{
+  "$defs": {
+    "Company": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "website": {
+          "format": "uri",
+          "maxLength": 2000,
+          "minLength": 8,
+          "title": "Website",
+          "type": "string"
+        },
+        "company_type": {
+          "enum": [
+            "developer",
+            "integrated_developer_builder",
+            "general_contractor",
+            "broker",
+            "unknown"
+          ],
+          "title": "Company Type",
+          "type": "string"
+        },
+        "size_tier": {
+          "enum": [
+            "small_medium",
+            "large",
+            "unknown"
+          ],
+          "title": "Size Tier",
+          "type": "string"
+        },
+        "states_active": {
+          "items": {
+            "pattern": "^(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)$",
+            "type": "string"
+          },
+          "maxItems": 50,
+          "minItems": 1,
+          "title": "States Active",
+          "type": "array"
+        },
+        "projects": {
+          "items": {
+            "$ref": "#/$defs/Project"
+          },
+          "maxItems": 20,
+          "title": "Projects",
+          "type": "array"
+        },
+        "contacts": {
+          "items": {
+            "$ref": "#/$defs/Contact"
+          },
+          "maxItems": 20,
+          "title": "Contacts",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "status": {
+          "const": "unverified",
+          "default": "unverified",
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "website",
+        "company_type",
+        "size_tier",
+        "states_active",
+        "projects",
+        "contacts",
+        "evidence"
+      ],
+      "title": "Company",
+      "type": "object"
+    },
+    "Contact": {
+      "additionalProperties": false,
+      "properties": {
+        "source_url": {
+          "format": "uri",
+          "maxLength": 2000,
+          "minLength": 8,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "source_title": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Source Title",
+          "type": "string"
+        },
+        "observed_at": {
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "name": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "role": {
+          "default": "",
+          "maxLength": 1000,
+          "title": "Role",
+          "type": "string"
+        },
+        "email": {
+          "maxLength": 254,
+          "title": "Email",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_url",
+        "source_title",
+        "observed_at",
+        "confidence",
+        "name",
+        "email"
+      ],
+      "title": "Contact",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_url": {
+          "format": "uri",
+          "maxLength": 2000,
+          "minLength": 8,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "source_title": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Source Title",
+          "type": "string"
+        },
+        "observed_at": {
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "claim": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Claim",
+          "type": "string"
+        },
+        "document_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Document Date"
+        }
+      },
+      "required": [
+        "source_url",
+        "source_title",
+        "observed_at",
+        "confidence",
+        "claim"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Project": {
+      "additionalProperties": false,
+      "properties": {
+        "source_url": {
+          "format": "uri",
+          "maxLength": 2000,
+          "minLength": 8,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "source_title": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Source Title",
+          "type": "string"
+        },
+        "observed_at": {
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "name": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "address": {
+          "default": "",
+          "maxLength": 1000,
+          "title": "Address",
+          "type": "string"
+        },
+        "city": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "City",
+          "type": "string"
+        },
+        "state": {
+          "pattern": "^(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)$",
+          "title": "State",
+          "type": "string"
+        },
+        "building_type": {
+          "enum": [
+            "apartments",
+            "multifamily",
+            "condominium",
+            "single_family",
+            "unknown"
+          ],
+          "title": "Building Type",
+          "type": "string"
+        },
+        "stage": {
+          "enum": [
+            "under_review",
+            "approved",
+            "under_construction",
+            "completed_active_sales",
+            "unknown"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "stage_as_of": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stage As Of"
+        }
+      },
+      "required": [
+        "source_url",
+        "source_title",
+        "observed_at",
+        "confidence",
+        "name",
+        "city",
+        "state",
+        "building_type",
+        "stage"
+      ],
+      "title": "Project",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Job Id",
+      "type": "string"
+    },
+    "market": {
+      "const": "US",
+      "title": "Market",
+      "type": "string"
+    },
+    "state": {
+      "pattern": "^(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)$",
+      "title": "State",
+      "type": "string"
+    },
+    "target_count": {
+      "maximum": 50,
+      "minimum": 1,
+      "title": "Target Count",
+      "type": "integer"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "title": "Generated At",
+      "type": "string"
+    },
+    "companies": {
+      "items": {
+        "$ref": "#/$defs/Company"
+      },
+      "maxItems": 50,
+      "title": "Companies",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "maxLength": 500,
+        "type": "string"
+      },
+      "maxItems": 20,
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "job_id",
+    "market",
+    "state",
+    "target_count",
+    "generated_at",
+    "companies",
+    "warnings"
+  ],
+  "title": "ResearchResult",
+  "type": "object"
+}
