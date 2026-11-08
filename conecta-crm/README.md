@@ -4,6 +4,10 @@ Implementação incremental do plano v2 de 08/11/2026, preservado em `docs/`. Ap
 
 ## O que funciona
 
+- Propostas em PDF local, rascunho ou revisão vigente, com o mesmo conteúdo do Word, fontes incorporadas e status em todas as páginas.
+- Biblioteca com timbrados derivados e assinaturas em texto BR/US, conferência por hash e histórico, separados dos nove originais.
+
+
 - Codex isolado por MXC, pesquisa pública automática, agenda e cancelamento; resultados continuam pendentes de conferência.
 - Envios autorizados pelo Resend com permissão versionada, prévia imutável, campanhas, pausas, registro anterior à tentativa e reconciliação sem reenvio automático.
 
@@ -35,7 +39,7 @@ Implementação incremental do plano v2 de 08/11/2026, preservado em `docs/`. Ap
 - Cadastro de empresas após revisão humana, busca por nome/domínio, filtro estadual e vínculo entre estados com confirmação de identidade. Dados e decisões de origem preservados, sem autorização de contato implícita.
 - Funil de oportunidades com etapas, próxima ação, data, notas e valor estimado opcional BRL/USD. Versões impedem sobrescrita concorrente; histórico registra mudanças.
 - Vínculos manuais entre conversas, empresas e oportunidades, navegação entre fichas e preservação dos contextos no agrupamento posterior de conversas. Sem alterações no provedor ou aprovação de candidatos.
-- Propostas comerciais versionadas por oportunidade, condições preenchidas explicitamente, revisão interna por hash e exportação Word derivada do timbrado original. Perfis BR/US com rótulos e sites próprios; edição invalida a revisão.
+- Propostas comerciais versionadas por oportunidade, condições preenchidas explicitamente, revisão interna por hash e exportação Word/PDF derivada do timbrado original. Perfis BR/US com rótulos e sites próprios; edição invalida a revisão.
 - Indicadores comerciais locais: etapas, próximas ações, candidatos pendentes, propostas revisadas e estimativas separadas em BRL/USD.
 - Acompanhamento de produção por oportunidade: briefing, origem comercial preservada, etapas manuais, orientações/link/data de entrega, pós-venda, feedback e histórico. Visão de projetos com busca, filtros e próximas datas.
 - Revisão humana por mensagem recebida, correção de categoria com histórico, natureza humana/automática/incerta e contagens de respostas confirmadas. Regras posteriores preservam a decisão; correção não remove bloqueios.
@@ -49,7 +53,7 @@ Leia [o fluxo de tarefas e empresas](docs/RESEARCH.md) para preparar/importar pe
 
 Leia [o fluxo comercial](docs/COMMERCIAL.md) para ligar conversas a empresas e acompanhar oportunidades. Datas e etapas não executam ações automaticamente.
 
-Leia [propostas e indicadores](docs/PROPOSALS.md) para preparar condições comerciais, conferir versões e exportar Word. Revisão interna não registra aceite de cliente.
+Leia [propostas e indicadores](docs/PROPOSALS.md) para preparar condições comerciais, conferir versões e exportar Word/PDF. Revisão interna não registra aceite de cliente.
 
 Leia [produção e entrega](docs/PROJECTS.md) para acompanhar o briefing, registrar a entrega e organizar o pós-venda. Datas e etapas dependem de registro manual.
 
@@ -125,3 +129,5 @@ O comando informa uma cópia SQLite restaurada e verificada. Para trocar o cache
 3. Avaliar ajustes das regras a partir das revisões humanas registradas. A revisão manual e seus indicadores já estão disponíveis; não há treinamento ou envio de mensagens a terceiros.
 
 Documentação técnica consultada: [FastAPI TestClient](https://fastapi.tiangolo.com/tutorial/testing/), [SQLite no SQLAlchemy](https://docs.sqlalchemy.org/en/20/dialects/sqlite.html) e [migrações Alembic](https://alembic.sqlalchemy.org/en/latest/tutorial.html).
+
+Leia [materiais BR/US](docs/BRAND_MATERIALS.md) para baixar e conferir as adaptações. A revisão do material é separada das aprovações comerciais e de envio. O logo original mantém o lema incorporado em português; assinatura leve disponível em texto, sem HTML automático.

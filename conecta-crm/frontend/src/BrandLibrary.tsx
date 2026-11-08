@@ -1,5 +1,6 @@
 import {useEffect,useState} from 'react';
 import {api,assetBlob} from './api';
+import {BrandMaterials} from './BrandMaterials';
 
 type Asset={id:string;name:string;display_name:string;commercial_stage:string;locale:string;kind:string;preview:boolean};
 type Template={profile_id:string;locale:string;subject:string;body:string;website:string;required_fields:string[]};
@@ -22,7 +23,7 @@ function BrandAsset({asset}:{asset:Asset}){
   return <article className="brand-asset">{image?<img src={image} alt={asset.display_name}/>:<div className="asset-placeholder">{asset.preview?'Carregando prévia…':'Documento Word'}</div>}<div><span className="eyebrow">ORIGINAL · {asset.locale} · {stages[asset.commercial_stage]}</span><h3>{asset.display_name}</h3><button disabled={busy} onClick={download}>Baixar original</button>{error&&<p role="alert">{error}</p>}</div></article>;
 }
 
-export function BrandLibrary(){
+export function BrandLibrary({onDirtyChange}:{onDirtyChange:(dirty:boolean)=>void}){
   const [assets,setAssets]=useState<Asset[]>([]);
   const [templates,setTemplates]=useState<Template[]>([]);
   const [profile,setProfile]=useState('US');
@@ -30,7 +31,7 @@ export function BrandLibrary(){
   const [loading,setLoading]=useState(true);
   useEffect(()=>{let cancelled=false;Promise.all([api<Asset[]>('/brand-assets'),api<Template[]>('/email-templates')]).then(([a,t])=>{if(!cancelled){setAssets(a);setTemplates(t);}}).catch(e=>{if(!cancelled)setError(e.message);}).finally(()=>{if(!cancelled)setLoading(false);});return()=>{cancelled=true;};},[]);
   const selected=templates.find(t=>t.profile_id===profile);
-  return <div className="settings"><h2>Materiais originais da Conecta</h2><p>Identidade visual, contrato, briefing, entrega e pós-venda preservados como enviados. Adaptações gráficas em inglês ainda não foram criadas.</p>{error&&<p role="alert">{error}</p>}{loading&&<p role="status">Carregando biblioteca…</p>}<div className="brand-assets">{assets.map(a=><BrandAsset key={a.id} asset={a}/>)}</div>
-    <section className="template-preview"><h2>Primeiro contato · modelo leve</h2><p>Texto inicial para revisão. Os campos entre chaves precisam ser preenchidos antes de criar um rascunho. Esta prévia não envia mensagens.</p><label>Mercado do destinatário<select value={profile} onChange={e=>setProfile(e.target.value)}><option value="US">Estados Unidos · EN-US</option><option value="BR">Brasil · PT-BR</option></select></label>{selected&&<><span className="pill">Pendente de revisão · {selected.locale}</span><h3>{selected.subject}</h3><pre>{selected.body}</pre><small>Campos obrigatórios: {selected.required_fields.join(', ')}.</small></>}</section>
+  return <div className="settings"><h2>Materiais originais da Conecta</h2><p>Identidade visual, contrato, briefing, entrega e pós-venda preservados como enviados. Os materiais por mercado abaixo são derivados e exigem conferência própria.</p>{error&&<p role="alert">{error}</p>}{loading&&<p role="status">Carregando biblioteca…</p>}<div className="brand-assets">{assets.map(a=><BrandAsset key={a.id} asset={a}/>)}</div>
+    <BrandMaterials onDirtyChange={onDirtyChange}/><section className="template-preview"><h2>Primeiro contato · modelo leve</h2><p>Texto inicial para revisão. Os campos entre chaves precisam ser preenchidos antes de criar um rascunho. Esta prévia não envia mensagens.</p><label>Mercado do destinatário<select value={profile} onChange={e=>setProfile(e.target.value)}><option value="US">Estados Unidos · EN-US</option><option value="BR">Brasil · PT-BR</option></select></label>{selected&&<><span className="pill">Pendente de revisão · {selected.locale}</span><h3>{selected.subject}</h3><pre>{selected.body}</pre><small>Campos obrigatórios: {selected.required_fields.join(', ')}.</small></>}</section>
   </div>;
 }

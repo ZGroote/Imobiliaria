@@ -17,10 +17,12 @@ async function request(path:string, body?:unknown, method?:'PUT'):Promise<Respon
 }
 export async function api<T>(path:string,body?:unknown,method?:'PUT'):Promise<T>{return (await request(path,body,method)).json();}
 export async function assetBlob(id:string):Promise<Blob>{return (await request('/brand-assets/'+encodeURIComponent(id))).blob();}
-export async function proposalBlob(id:string,version:number,reviewed:boolean):Promise<Blob>{return (await request('/proposals/'+encodeURIComponent(id)+'/docx?version='+version+'&reviewed='+reviewed)).blob();}
+export async function proposalBlob(id:string,version:number,reviewed:boolean,format:'docx'|'pdf'='docx'):Promise<Blob>{return (await request('/proposals/'+encodeURIComponent(id)+'/'+format+'?version='+version+'&reviewed='+reviewed)).blob();}
 export async function attachmentFile(messageId:string,attachmentId:string,accountId:string):Promise<{blob:Blob;name:string}>{
   const response=await request('/mail/messages/'+encodeURIComponent(messageId)+'/attachments/'+encodeURIComponent(attachmentId)+'/download',{account_id:accountId});
   const match=/filename\*=UTF-8''([^;]+)/i.exec(response.headers.get('Content-Disposition')||'');
   if(!match)throw Error('O CRM não retornou o nome do arquivo. Consulte o anexo novamente.');
   return {blob:await response.blob(),name:decodeURIComponent(match[1])};
 }
+
+export async function materialBlob(profile:string,kind:string,hash:string):Promise<Blob>{return (await request('/brand-materials/'+encodeURIComponent(profile)+'/'+encodeURIComponent(kind)+'/download?content_hash='+encodeURIComponent(hash))).blob();}

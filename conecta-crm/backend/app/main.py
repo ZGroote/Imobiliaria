@@ -36,6 +36,7 @@ from .classification_api import router as classification_router
 from .classification_review_api import router as classification_review_router
 from .directory_api import router as directory_router
 from .branding_api import router as branding_router
+from .brand_materials import router as brand_material_router
 from .outbound_api import router as outbound_router
 from .sender_api import router as sender_router
 from .sender_diagnostics import dmarc
@@ -117,6 +118,7 @@ def create_app(db_path: Path | None = None, provider=None, credentials=None, cli
     app.include_router(classification_review_router)
     app.include_router(directory_router)
     app.include_router(branding_router)
+    app.include_router(brand_material_router)
     app.include_router(outbound_router)
     app.include_router(sender_router)
     app.include_router(research_router)

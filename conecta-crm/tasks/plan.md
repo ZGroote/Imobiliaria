@@ -127,3 +127,13 @@ Incrementos e aceite:
 - 36. Contrato oficial de envio/consulta, autorização de destinatário, política/registro de tentativa, idempotência e reconciliação. Aceite: nenhuma chamada sem aprovação, consentimento ou diagnóstico; falhas/incerteza não duplicam envio, testes de bloqueio e contexto alterado.
 - 37. Interface de autorização, prévia, aprovação real e acompanhamento, distinta da simulação. QA com transporte fictício; manter fila real pausada no cache principal.
 - 38. Suíte completa, build/auditoria, documentação, backups/migração local e publicação em PR separado. Relatar qualquer requisito de login/ambiente que impedir execução real, sem dizer que um teste fictício comprova entrega.
+
+
+## Materiais BR US e proposta PDF
+
+Próxima frente do plano após os itens 1–3: PDF de propostas e adaptações revisáveis da biblioteca por mercado. Branch codex/crm-materiais baseada no head publicado do PR #112, que deve permanecer intacto. Aplicar skills PDF/documentos, planejamento, git e revisão de dependências. Preservar os nove originais; não traduzir cláusulas contratuais nem inventar condições. Nenhum envio real, aceite de cliente, aprovação de candidato ou nova execução de agente nesta etapa.
+
+39. Gerar PDF local em memória a partir do mesmo DOCX derivado e da mesma versão salva: logo original, dimensões/margens do timbrado, rótulos BR/US, fontes incorporadas, status em todas as páginas. Escape literal de texto, sem imagens/URLs externas ou execução Office; limites de páginas/caracteres e revisão vigente para PDF revisado. ReportLab fixado no lock e dependências limitadas. Testes de guardas, versão, fonte alterada e conteúdo hostil; renderização e inspeção de todas as páginas fictícias.
+40. Downloads PDF rascunho/revisado no mesmo painel de propostas, protegidos contra edição pendente e com histórico de exportação. QA fictício BR/US, versão histórica, revisão vencida e quatro larguras.
+41. Biblioteca com timbrados derivados e assinatura leve BR/US separados dos originais, identidade explícita por perfil e revisão gráfica por hash com histórico. Assinaturas são materiais para conferência/download manual; a fila de e-mails permanece em texto simples. Logo original conserva sua marca e lema incorporados em português; o restante da adaptação US usa inglês/.com, sem alterar pixels do original. Aprovação gráfica não aprova conteúdo comercial nem envio. Usar dados públicos fornecidos; nenhum prazo/valor/endereço postal é inventado.
+42. Suíte integrada, build, revisão de dependências, docs, backups/migração local, conferência dos originais e publicação separada do PR #112. Mostrar o que foi validado e o que permanece manual.
