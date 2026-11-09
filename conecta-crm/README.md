@@ -2,6 +2,8 @@
 
 Implementação incremental do plano v2 de 08/11/2026, preservado em `docs/`. Aplicação separada do site e do painel Firebase. Caixa local e integração de leitura do Resend implementadas; a conexão com a conta real depende da chave cadastrada pelo operador. Ainda não é o MVP completo.
 
+Para retomar em outra sessão, leia o [guia de continuidade](docs/CONTINUIDADE.md): inventário, branches, testes, operação e próximos passos.
+
 ## O que funciona
 
 - Pesquisa direcionada pela ficha da empresa, com alvo público congelado, estado explícito, execução/exportação assistida e vínculo confirmado na revisão.

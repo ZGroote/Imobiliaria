@@ -4,7 +4,7 @@ Implementada em 08/11/2026 a partir da documentação oficial. Testes usam `http
 
 ## Dados e permissões
 
-- O cliente de leitura só chama GET em `https://api.resend.com`, sem redirects e sem proxies vindos do ambiente. Não responde, cria rascunhos ou modifica mensagens. O [teste individual aprovado](SENDER_TESTS.md) usa outro módulo, com uma única chamada POST por teste; a fila de campanhas continua sem transporte real.
+- O cliente de leitura só chama GET em `https://api.resend.com`, sem redirects e sem proxies vindos do ambiente. Não responde, cria rascunhos ou modifica mensagens. O [teste individual aprovado](SENDER_TESTS.md) usa outro módulo, com uma única chamada POST por teste; a [fila real autorizada](REAL_DELIVERY.md) usa um transporte separado e começa pausada.
 - O [leitor de arquivos recebidos](ATTACHMENTS.md) usa um cliente separado para o CDN oficial, sem chave ou token, sem redirects/proxies e com limite de tamanho. URLs assinadas não são expostas.
 - A chave pode ter permissões mais amplas na conta Resend; este código limita suas próprias operações, não reduz o escopo da chave no provedor.
 - A chave é validada contra o endereço exato da caixa, salva como credencial genérica `ConectaCRM/Resend/contact` ou `ConectaCRM/Resend/team` no Windows e nunca devolvida pela API. `noreply` não pode ser conectada para leitura.
@@ -24,7 +24,7 @@ As chamadas de leitura têm timeout de 15 segundos, limite de resposta de 4 MB e
 
 ## Cache e backups
 
-SQLite fica em `%LOCALAPPDATA%/ConectaCRM`, fora do workspace. DPAPI protege os backups; o SQLite ativo não está criptografado. Processos do mesmo usuário Windows podem acessar dados e credenciais: guardar fora do repositório reduz exposição acidental, mas não cria uma sandbox para agentes. Execução de agentes sobre mensagens reais permanece pendente de isolamento próprio.
+SQLite fica em `%LOCALAPPDATA%/ConectaCRM`, fora do workspace. DPAPI protege os backups; o SQLite ativo não está criptografado. Processos do mesmo usuário Windows podem acessar dados e credenciais: guardar fora do repositório reduz exposição acidental, mas não cria uma sandbox para agentes. O [executor Codex](AGENT_EXECUTION.md) usa isolamento próprio; para analisar uma conversa, só recebe trechos revisados e confirmados. Nunca recebe o cache nem credenciais Resend.
 
 Backups usam a API de backup do SQLite, incluindo dados do WAL. A restauração descriptografa, verifica integridade e grava uma nova cópia, sem substituir um banco aberto. Cada lote manual real gera backup anterior e posterior. Na rotina automática, as cópias são criadas somente quando uma conversa muda, inclusive em falha parcial; consultas sem mudança preservam cursor/horário/auditoria sem cópias redundantes. Retenção e limpeza de backups são manuais nesta etapa.
 
