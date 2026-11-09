@@ -4,6 +4,8 @@ Implementação incremental do plano v2 de 08/11/2026, preservado em `docs/`. Ap
 
 ## O que funciona
 
+- Pesquisa direcionada pela ficha da empresa, com alvo público congelado, estado explícito, execução/exportação assistida e vínculo confirmado na revisão.
+
 - Propostas em PDF local, rascunho ou revisão vigente, com o mesmo conteúdo do Word, fontes incorporadas e status em todas as páginas.
 - Biblioteca com timbrados derivados e assinaturas em texto BR/US, conferência por hash e histórico, separados dos nove originais.
 
@@ -131,3 +133,5 @@ O comando informa uma cópia SQLite restaurada e verificada. Para trocar o cache
 Documentação técnica consultada: [FastAPI TestClient](https://fastapi.tiangolo.com/tutorial/testing/), [SQLite no SQLAlchemy](https://docs.sqlalchemy.org/en/20/dialects/sqlite.html) e [migrações Alembic](https://alembic.sqlalchemy.org/en/latest/tutorial.html).
 
 Leia [materiais BR/US](docs/BRAND_MATERIALS.md) para baixar e conferir as adaptações. A revisão do material é separada das aprovações comerciais e de envio. O logo original mantém o lema incorporado em português; assinatura leve disponível em texto, sem HTML automático.
+
+Leia [pesquisa direcionada de empresa](docs/COMPANY_RESEARCH.md) para renovar as fontes de uma organização já cadastrada sem alterar o cadastro automaticamente.

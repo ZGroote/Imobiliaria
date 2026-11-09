@@ -42,6 +42,7 @@ from .sender_api import router as sender_router
 from .sender_diagnostics import dmarc
 from .test_transport import SenderTestTransport
 from .research_api import router as research_router
+from .company_research import router as company_research_router
 from .commercial_api import router as commercial_router
 from .insights_api import router as insights_router
 from .proposal_api import router as proposal_router
@@ -122,6 +123,7 @@ def create_app(db_path: Path | None = None, provider=None, credentials=None, cli
     app.include_router(outbound_router)
     app.include_router(sender_router)
     app.include_router(research_router)
+    app.include_router(company_research_router)
     app.include_router(commercial_router)
     app.include_router(insights_router)
     app.include_router(proposal_router)

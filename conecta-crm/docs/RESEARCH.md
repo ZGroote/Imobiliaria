@@ -51,3 +51,6 @@ A fila permanece em simulação. Endereço postal, origem/consentimento dos cont
 Foi importada uma pesquisa piloto de três candidatos na Flórida, com fontes oficiais e avisos de incerteza, todos aguardando revisão. Nenhum contato foi adivinhado nem cadastro aprovado automaticamente. O próximo passo é revisar esses resultados; os [vínculos com conversas e o funil de oportunidades](COMMERCIAL.md) já estão disponíveis para empresas cadastradas. Executor automático permanece pendente de isolamento efetivo do processo, sem acesso ao usuário Windows que guarda as credenciais.
 
 Referências técnicas: [validadores Pydantic](https://docs.pydantic.dev/latest/concepts/validators/) e [corpos validados no FastAPI](https://fastapi.tiangolo.com/tutorial/body/).
+
+
+A ficha de uma empresa cadastrada também permite [pesquisa direcionada](COMPANY_RESEARCH.md) de uma única organização em um estado de atuação conferido. O pacote é público e mínimo; o resultado passa pela mesma revisão e exige confirmação de vínculo.
