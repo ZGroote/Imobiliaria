@@ -146,6 +146,8 @@ Publicação concluída no [PR #114](https://github.com/ZGroote/Imobiliaria/pull
 
 - [x] 46. Resumo de leitura dos empreendimentos da ficha e testes de contagem, acesso, fontes e isolamento por empresa.
 - [x] 47. Aba Portfólio, estado vazio e QA fictício em 320/768/1024/1440 px, sem overflow horizontal nem avisos no console.
-- [ ] 48. Suíte, guia de continuidade, atualização local com backups e PR separado.
+- [x] 48. Suíte, guia de continuidade, atualização local com backups e PR separado.
 
 Validação: 509 testes passaram e o build TypeScript/esbuild foi aprovado. Em base fictícia, a ficha vazia orientou a conferência das fontes, e a ficha preenchida mostrou três registros de dois estados, com datas de consulta e de referência distintas. A API não incluiu sugestões de pesquisa, dados de outra empresa, notas ou endereços.
+
+A cópia principal foi atualizada em 8765 com backups DPAPI antes e depois. Esquema em 0019; 52 tabelas, nove originais e duas filas pausadas preservados. A instância fictícia foi encerrada. Nenhuma pesquisa, revisão ou tentativa real de envio foi iniciada. Publicado no [PR #115](https://github.com/ZGroote/Imobiliaria/pull/115), em rascunho sobre o #114, sem merge. O [guia de continuidade](../docs/CONTINUIDADE.md) reúne as entregas e instruções para a troca de conta.

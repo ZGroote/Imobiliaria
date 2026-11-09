@@ -4,7 +4,7 @@ Registro de passagem preparado em **8 de novembro de 2026**, horário de São Pa
 
 ## Por onde retomar
 
-O checkpoint funcional antes desta etapa é o **PR #114**, branch `codex/crm-pesquisa-empresa`, commit `95c2f6bbd633d7dd2a140784de4747073355a23d`. Ele contém as mudanças dos quatro checkpoints anteriores. A branch `codex/crm-portfolio` parte dele e contém este guia e a próxima etapa. Em um checkout limpo, use `git fetch origin` e abra a branch que corresponde ao escopo que vai revisar. Não troque de branch sobre a pasta principal com trabalho paralelo sem conferir `git status`.
+O checkpoint mais recente é o **PR #115**, branch `codex/crm-portfolio`, com a aba Portfólio e este guia. Ele parte do PR #114, commit `95c2f6bbd633d7dd2a140784de4747073355a23d`, e contém as entregas anteriores. Em um checkout limpo, use `git fetch origin` e abra a branch que corresponde ao escopo que vai revisar. Não troque de branch sobre a pasta principal com trabalho paralelo sem conferir `git status`.
 
 | PR | Base | Branch | Entrega e verificação registrada |
 | --- | --- | --- | --- |
@@ -13,8 +13,9 @@ O checkpoint funcional antes desta etapa é o **PR #114**, branch `codex/crm-pes
 | [#112](https://github.com/ZGroote/Imobiliaria/pull/112) | `codex/crm-qualificacao` | `codex/crm-automacao` | Codex isolado, fila de pesquisa/análise e envio autorizado; 487 testes. |
 | [#113](https://github.com/ZGroote/Imobiliaria/pull/113) | `codex/crm-automacao` | `codex/crm-materiais` | Materiais por mercado e PDF; 496 testes. |
 | [#114](https://github.com/ZGroote/Imobiliaria/pull/114) | `codex/crm-materiais` | `codex/crm-pesquisa-empresa` | Pesquisa direcionada de empresa cadastrada; 508 testes. |
+| [#115](https://github.com/ZGroote/Imobiliaria/pull/115) | `codex/crm-pesquisa-empresa` | `codex/crm-portfolio` | Panorama do portfólio e guia de continuidade; 509 testes. |
 
-Todos os cinco estavam abertos em rascunho e sem merge na conferência. O #110 mostra o checkpoint inicial; os recursos novos aparecem nos PRs seguintes. O repositório foi publicado com autorização do operador; não há merge da série na `main`. A cópia de execução está na pasta principal `conecta-crm/`; os commits foram feitos na worktree separada, em `conecta-crm/.tmp/git-crm-prospeccao`. Arquivos de trabalhos paralelos da pasta principal ficaram fora dos PRs.
+Os seis PRs estavam abertos em rascunho e sem merge na conferência. O #110 mostra o checkpoint inicial; os recursos novos aparecem nos PRs seguintes. O repositório foi publicado com autorização do operador; não há merge da série na `main`. A cópia de execução está na pasta principal `conecta-crm/`; os commits foram feitos na worktree separada, em `conecta-crm/.tmp/git-crm-prospeccao`. Arquivos de trabalhos paralelos da pasta principal ficaram fora dos PRs.
 
 ## Inventário do que foi entregue
 
@@ -47,6 +48,8 @@ Todos os cinco estavam abertos em rascunho e sem merge na conferência. O #110 m
 27. **Panorama do portfólio:** total dos empreendimentos efetivamente salvos por empresa, distribuição por estado, tipologia e estágio registrado, além das oito fontes consultadas mais recentemente. Distingue data de consulta e referência do estágio. A base local não comprova cobertura nem frequência anual. [Portfólio](PORTFOLIO.md).
 
 ## Estado da base principal ao preparar a passagem
+
+O panorama já está instalado na instância local. A atualização não mudou o esquema: a migração continua em `0019`. Foram conferidos a integridade, os dados das 52 tabelas, os nove originais da marca e as duas filas pausadas, com backup DPAPI antes e depois. A tela preenchida foi demonstrada em uma base fictícia separada.
 
 Migração `0019`, **duas tarefas e três candidatas FL pendentes**, sem empresa cadastrada. Sem contatos, empreendimentos, oportunidades, propostas ou projetos reais cadastrados. Zero revisões de mensagem, pacotes de análise, execuções de agente, tentativas da fila real, campanhas, permissões de destinatário e revisões de material. Há um teste individual anterior registrado. As filas de agentes e envios estão pausadas; a sonda de isolamento anterior foi aprovada. A leitura automática de `contact` e `team` está ligada a cada 30 minutos. Esses números são uma fotografia; leia a base novamente antes de atualizar e não assuma que permaneceram iguais.
 
