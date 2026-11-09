@@ -45,3 +45,10 @@
 .company-research fieldset{min-width:0;border:1px solid #c1d0dd;border-radius:10px;padding:16px;margin:18px 0}.company-research legend{font-weight:600;padding:0 6px}.company-research p{overflow-wrap:anywhere}.company-research select{width:100%;max-width:100%;min-width:0}@media(max-width:480px){.company-research fieldset{padding:10px}.company-research .editor-actions{flex-direction:column}.company-research button{width:100%;white-space:normal}}
 
 .company-target{overflow-wrap:anywhere}
+
+.company-portfolio{overflow-wrap:anywhere}
+.portfolio-breakdowns{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:12px;margin:16px 0 22px}
+.portfolio-breakdowns>div{min-width:0;border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--off-white)}
+.portfolio-breakdowns h4,.portfolio-counts{margin:0}
+.portfolio-counts>div{display:flex;justify-content:space-between;gap:10px;margin-top:8px}
+.portfolio-counts dd{margin:0;font-weight:600}

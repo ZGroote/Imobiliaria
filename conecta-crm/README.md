@@ -2,6 +2,8 @@
 
 Implementação incremental do plano v2 de 08/11/2026, preservado em `docs/`. Aplicação separada do site e do painel Firebase. Caixa local e integração de leitura do Resend implementadas; a conexão com a conta real depende da chave cadastrada pelo operador. Ainda não é o MVP completo.
 
+Para retomar em outra sessão, leia o [guia de continuidade](docs/CONTINUIDADE.md): inventário, branches, testes, operação e próximos passos.
+
 ## O que funciona
 
 - Pesquisa direcionada pela ficha da empresa, com alvo público congelado, estado explícito, execução/exportação assistida e vínculo confirmado na revisão.
@@ -135,3 +137,5 @@ Documentação técnica consultada: [FastAPI TestClient](https://fastapi.tiangol
 Leia [materiais BR/US](docs/BRAND_MATERIALS.md) para baixar e conferir as adaptações. A revisão do material é separada das aprovações comerciais e de envio. O logo original mantém o lema incorporado em português; assinatura leve disponível em texto, sem HTML automático.
 
 Leia [pesquisa direcionada de empresa](docs/COMPANY_RESEARCH.md) para renovar as fontes de uma organização já cadastrada sem alterar o cadastro automaticamente.
+
+Em [Portfólio](docs/PORTFOLIO.md), confira os empreendimentos salvos, a distribuição por estado, tipologia e estágio, e as fontes consultadas mais recentemente.
