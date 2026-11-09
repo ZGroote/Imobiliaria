@@ -137,3 +137,5 @@ Documentação técnica consultada: [FastAPI TestClient](https://fastapi.tiangol
 Leia [materiais BR/US](docs/BRAND_MATERIALS.md) para baixar e conferir as adaptações. A revisão do material é separada das aprovações comerciais e de envio. O logo original mantém o lema incorporado em português; assinatura leve disponível em texto, sem HTML automático.
 
 Leia [pesquisa direcionada de empresa](docs/COMPANY_RESEARCH.md) para renovar as fontes de uma organização já cadastrada sem alterar o cadastro automaticamente.
+
+Em [Portfólio](docs/PORTFOLIO.md), confira os empreendimentos salvos, a distribuição por estado, tipologia e estágio, e as fontes consultadas mais recentemente.

@@ -44,6 +44,7 @@ Todos os cinco estavam abertos em rascunho e sem merge na conferência. O #110 m
 24. **Materiais BR/US:** timbrados derivados Word e assinatura em texto, quatro materiais separados dos originais. Conferência/retirada por hash com histórico. Rodapé US em inglês e +55; imagem original conserva o lema em português. Sem tradução de cláusulas, assinatura HTML ou inserção automática. [Materiais](BRAND_MATERIALS.md).
 25. **Pesquisa direcionada:** na ficha de empresa cadastrada, prepara tarefa para um estado de atuação conferido. Pacote mínimo só com identidade pública; bloqueia outro domínio ou alvo desatualizado. Pode renovar fontes após aprovação de vínculo à mesma organização, sem substituir cadastros. Testado com dados e agente fictícios. [Pesquisa por empresa](COMPANY_RESEARCH.md).
 26. **Segurança e operação:** cache e backups fora do Git, credenciais no Gerenciador do Windows, dados/arquivos de testes em bases separadas, controle de versão para edições e snapshots de dados nas atualizações. Cada entrega local relevante teve backup DPAPI e conferência dos originais. A suíte e o build passaram nos checkpoints acima.
+27. **Panorama do portfólio:** total dos empreendimentos efetivamente salvos por empresa, distribuição por estado, tipologia e estágio registrado, além das oito fontes consultadas mais recentemente. Distingue data de consulta e referência do estágio. A base local não comprova cobertura nem frequência anual. [Portfólio](PORTFOLIO.md).
 
 ## Estado da base principal ao preparar a passagem
 
@@ -72,6 +73,5 @@ Os testes usam bancos temporários e provedor simulado; não exigem chaves. No W
 
 ## Próximos trabalhos
 
-- **Próximo incremento técnico:** panorama do portfólio na ficha da empresa, contando apenas empreendimentos efetivamente cadastrados e distinguindo estado, tipologia, estágio, data e lacunas. Contagem da base local não comprova frequência anual. Sem sugerir pacote, valor, prazo ou desconto automaticamente.
 - **Uso real:** operador confere as candidatas do piloto, materiais e fontes. Homologar a nova fila real com mensagem/destinatário de teste explicitamente autorizados antes de uso. O teste individual anterior não cobre essa fila. Endereço público e pesquisa não equivalem a consentimento.
 - **Mais adiante:** análise de recorrência com evidências suficientes, recomendações revisáveis, expansão geográfica e métricas com base real. A interface de correio não garante agrupamento de todas as respostas transacionais; a fila não oferece anexos enviados/webhooks. Agentes e filas só operam com o servidor aberto.

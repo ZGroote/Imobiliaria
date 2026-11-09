@@ -153,3 +153,44 @@ def detail(company_id: str,kind: Kind,record_id: str,request: Request):
         row=view(c,kind,record_id)
         if row['company_id']!=company_id:raise HTTPException(404,'Registro não encontrado nesta empresa.')
         return row
+
+
+@router.get('/api/companies/{company_id}/portfolio')
+def portfolio(company_id: str, request: Request):
+    """Summarize the current directory, excluding research suggestions and history."""
+    with request.app.state.engine.begin() as c:
+        c.exec_driver_sql('BEGIN')
+        commercial.company(c, company_id)
+        params = {'company': company_id}
+        counts = c.execute(text("""
+            SELECT json_extract(payload,'$.state') AS state,
+                   json_extract(payload,'$.building_type') AS building_type,
+                   json_extract(payload,'$.stage') AS stage, count(*) AS total
+            FROM developments WHERE company_id=:company
+            GROUP BY state, building_type, stage
+        """), params).mappings().all()
+        evidence = [dict(row) for row in c.execute(text("""
+            SELECT id, json_extract(payload,'$.name') AS name,
+                   json_extract(payload,'$.city') AS city,
+                   json_extract(payload,'$.state') AS state,
+                   json_extract(payload,'$.building_type') AS building_type,
+                   json_extract(payload,'$.stage') AS stage,
+                   json_extract(payload,'$.stage_as_of') AS stage_as_of,
+                   json_extract(payload,'$.source_url') AS source_url,
+                   json_extract(payload,'$.source_title') AS source_title,
+                   json_extract(payload,'$.observed_at') AS observed_at
+            FROM developments WHERE company_id=:company
+            ORDER BY julianday(observed_at) DESC, id LIMIT 8
+        """), params).mappings()]
+    totals = {key: {} for key in ('state', 'building_type', 'stage')}
+    for row in counts:
+        for key, values in totals.items():
+            value = row[key]
+            values[value] = values.get(value, 0) + row['total']
+    return {
+        'total': sum(totals['state'].values()),
+        'by_state': totals['state'],
+        'by_type': totals['building_type'],
+        'by_stage': totals['stage'],
+        'evidence': evidence,
+    }

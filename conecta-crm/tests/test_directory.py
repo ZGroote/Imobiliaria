@@ -117,11 +117,48 @@ def test_origin_requires_approved_candidate_from_same_company(setup):
     candidate=client.post('/api/jobs/'+job['id']+'/import',json=dict(result=result)).json()['candidates'][0]
     assert client.post('/api/contacts',json=contact(origin_candidate_id=candidate['id'])).status_code==409
     approved=client.post('/api/jobs/'+job['id']+'/candidates/'+candidate['id']+'/review',json=dict(confirm=True,decision='approved',sources_confirmed=True,content_hash=candidate['content_hash'])).json()['candidates'][0]
+    portfolio_url='/api/companies/'+approved['company_id']+'/portfolio'
+    assert client.get(portfolio_url).json()==dict(total=0,by_state={},by_type={},by_stage={},evidence=[])
     assert client.post('/api/contacts',json=contact(origin_candidate_id=candidate['id'])).status_code==409
     row=client.post('/api/contacts',json=contact(company_id=approved['company_id'],origin_candidate_id=candidate['id']))
     assert row.status_code==200,row.text
     assert row.json()['origin_candidate_id']==candidate['id']
     with app.state.engine.connect() as c:assert c.execute(text('SELECT status FROM job_candidates WHERE id=:id'),dict(id=candidate['id'])).scalar()=='approved'
+
+
+def test_portfolio_counts_only_saved_developments_and_shows_dated_evidence(setup):
+    client,app=setup
+    with app.state.engine.begin() as c:
+        c.execute(text("INSERT INTO company_states VALUES('fixture','TX')"))
+    for index in range(9):
+        newest=index==8
+        row=client.post('/api/developments',json=development(
+            request_id=f'{index:032x}', name=f'Empreendimento {index}',
+            state='TX' if newest else 'FL', building_type='multifamily' if newest else 'apartments',
+            stage='under_construction' if newest else 'unknown', stage_as_of='2025-09-23' if newest else None,
+            observed_at=f'2026-11-0{index if newest else 1}T12:00:00Z',
+            notes='Anotação privada',address='Endereço fora do panorama',
+        ))
+        assert row.status_code==200,row.text
+    assert client.post('/api/developments',json=development(company_id='other')).status_code==200
+
+    url='/api/companies/fixture/portfolio'
+    response=client.get(url)
+    assert response.status_code==200,response.text
+    assert 'Anotação privada' not in response.text and 'Endereço fora do panorama' not in response.text
+    data=response.json()
+    assert data['total']==9 and data['by_state']=={'FL':8,'TX':1}
+    assert data['by_type']=={'apartments':8,'multifamily':1}
+    assert data['by_stage']=={'unknown':8,'under_construction':1}
+    assert len(data['evidence'])==8
+    first=data['evidence'][0]
+    assert first['name']=='Empreendimento 8' and first['stage_as_of']=='2025-09-23'
+    assert first['observed_at']=='2026-11-08T12:00:00Z'
+    assert first['source_url']=='https://source-fixture.com/property'
+    assert all(row['stage_as_of'] is None for row in data['evidence'][1:])
+    assert client.get('/api/companies/other/portfolio').json()['total']==1
+    assert client.get('/api/companies/missing/portfolio').status_code==404
+    assert client.get(url,headers={'X-CRM-Token':'wrong'}).status_code==401
 
 
 def test_directory_api_uses_session_origin_and_kind_allowlist(setup):

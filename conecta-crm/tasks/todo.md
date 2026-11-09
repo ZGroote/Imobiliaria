@@ -140,3 +140,12 @@ Interface/QA: preparação na ficha, seleção restrita a estados conferidos, tr
 Atualização principal: migração 0019 aplicada com backups DPAPI anterior/posterior, integridade e chaves estrangeiras verificadas. Hashes das colunas anteriores das 52 tabelas preservados, inclusive tarefas e resultados anteriores; campos de alvo nulos nas duas tarefas existentes. Nove originais preservados. contact/team mantidas em 30 minutos, filas pausadas, zero pesquisas focadas reais criadas. 18 arquivos revisados e três arquivos de build instalados. Nenhum modelo ou envio real executado.
 
 Publicação concluída no [PR #114](https://github.com/ZGroote/Imobiliaria/pull/114), em rascunho: base codex/crm-materiais, head codex/crm-pesquisa-empresa. PR #113 preservado, sem merge. Código commitado na worktree isolada; a pasta principal mantém a cópia de execução e as alterações preexistentes de outros trabalhos fora do PR.
+
+
+## Panorama do portfólio e passagem
+
+- [x] 46. Resumo de leitura dos empreendimentos da ficha e testes de contagem, acesso, fontes e isolamento por empresa.
+- [x] 47. Aba Portfólio, estado vazio e QA fictício em 320/768/1024/1440 px, sem overflow horizontal nem avisos no console.
+- [ ] 48. Suíte, guia de continuidade, atualização local com backups e PR separado.
+
+Validação: 509 testes passaram e o build TypeScript/esbuild foi aprovado. Em base fictícia, a ficha vazia orientou a conferência das fontes, e a ficha preenchida mostrou três registros de dois estados, com datas de consulta e de referência distintas. A API não incluiu sugestões de pesquisa, dados de outra empresa, notas ou endereços.
