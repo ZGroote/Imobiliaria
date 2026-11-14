@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.7.0",
+ "versao_motor": "0.7.1",
  "lote": {
   "id": "SC-completo-37607",
   "lid": null,
@@ -825,20 +825,20 @@
     {
      "base_utm": [
       [
-       202331.44,
-       7556826.88
+       202331.35,
+       7556827.07
       ],
       [
-       202337.7,
-       7556751.67
+       202337.66,
+       7556751.46
       ],
       [
-       202362.52,
-       7556753.74
+       202362.6,
+       7556753.54
       ],
       [
-       202356.25,
-       7556828.94
+       202356.3,
+       7556829.15
       ]
      ],
      "z0_m": 0.0,
@@ -874,16 +874,16 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6026.13,
-    "area_computavel_m2": 3718.92,
+    "area_construida_m2": 6066.13,
+    "area_computavel_m2": 3758.92,
     "area_nao_computavel_m2": 2307.21,
-    "area_privativa_m2": 3007.13,
+    "area_privativa_m2": 3039.13,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 2267.21,
     "vagas": 50,
     "area_permeavel_m2": 417.73,
-    "ca_usado": 1.385,
-    "to_usada": 0.693,
+    "ca_usado": 1.4,
+    "to_usada": 0.7,
     "pavimentos": 2,
     "unidades_estimadas": 50,
     "vgv_estimado": null
@@ -891,8 +891,8 @@
    "alertas": [
     "Recuo lateral/fundos: residencial 1.50/1.50 m (recuo do topo no prédio todo).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.",
-    "No limite: CA 1.39 (máximo 1.40).",
-    "No limite: taxa de ocupação 69% (máximo 70%)."
+    "No limite: CA 1.40 (máximo 1.40).",
+    "No limite: taxa de ocupação 70% (máximo 70%)."
    ]
   },
   {

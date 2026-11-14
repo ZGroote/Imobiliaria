@@ -11,7 +11,7 @@ from shapely import affinity
 from shapely.geometry import LineString, Point, Polygon, box
 from shapely.ops import nearest_points, unary_union
 
-VERSAO = "0.7.0"
+VERSAO = "0.7.1"
 
 # Premissas de projeto (não são lei). Quem chamar pode trocar qualquer uma; as que ficarem
 # no valor daqui saem listadas em premissas.padrao (aparecem como "padrão" no relatório).
@@ -197,7 +197,7 @@ def _maior_s(viavel, lo, hi, passos=14, testa_lo=True):
     return lo
 
 
-@lru_cache(maxsize=4096)  # funções puras; a geometria do shapely 2 é imutável e hasheável, e vários pavimentos repetem a mesma região
+@lru_cache(maxsize=512)  # funções puras; a geometria do shapely 2 é imutável e hasheável, e vários pavimentos repetem a mesma região
 def maior_retangulo(regiao, proporcao, area_max=None, contem=None):
     """Maior retângulo com largura/profundidade = proporcao que cabe na região, EM QUALQUER POSIÇÃO.
     (Antes ele ficava centrado no centro da região: quando o recuo afrouxava de um lado só, o centro
@@ -241,7 +241,7 @@ def maior_retangulo(regiao, proporcao, area_max=None, contem=None):
 PROPORCOES_LAMINA = (0.2, 0.25, 0.33, 0.4, 0.5, 0.67, 0.8, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0)
 
 
-@lru_cache(maxsize=4096)  # funções puras; a geometria do shapely 2 é imutável e hasheável, e vários pavimentos repetem a mesma região
+@lru_cache(maxsize=512)  # funções puras; a geometria do shapely 2 é imutável e hasheável, e vários pavimentos repetem a mesma região
 def _maior_lamina(regiao, area_max, contem=None):
     """Maior retângulo (qualquer proporção da lista). Experimenta primeiro a proporção mais parecida com a da
     caixa e só troca por outra se for MAIOR (empate fica com a primeira); pula as que, pelo tamanho da caixa,
@@ -265,7 +265,7 @@ def _maior_lamina(regiao, area_max, contem=None):
     return melhor
 
 
-@lru_cache(maxsize=4096)  # funções puras; a geometria do shapely 2 é imutável e hasheável, e vários pavimentos repetem a mesma região
+@lru_cache(maxsize=512)  # funções puras; a geometria do shapely 2 é imutável e hasheável, e vários pavimentos repetem a mesma região
 def dois_quadrados(regiao, folga, area_max=None):
     """Dois quadrados IGUAIS, os maiores que cabem na região com `folga` entre eles (em x ou em y).
     Exato: dois quadrados de lado s cabem se os centros possíveis se estendem por pelo menos s + folga
@@ -346,10 +346,21 @@ class _Caixas:
             self._c[k] = caixa_recuada(self.lote, self.frente, self.rf, k[1], k[2])
         return self._c[k]
 
-    def fixa_limite(self, terreo):
-        """Com a permeabilidade apertada, prédio e subsolo ficam dentro do térreo encolhido (a união nunca passa de area_max)."""
+    def fixa_limite(self, terreo, rl0, rb0):
+        """Com a permeabilidade apertada, prédio e subsolo ficam dentro de um limite de area_max m² (a união nunca passa disso).
+        O limite é a caixa com recuo `e` igual nos dois lados, `e` escolhido pra dar area_max. NÃO é o térreo encolhido: aquele
+        mudava de proporção quando o recuo afrouxava (a caixa cresce, o encolhimento uniforme come mais da profundidade) e a
+        opção B sumia. Do jeito daqui o limite não depende do recuo da lei (quando a regra afrouxa, só `legal ∩ limite` cresce).
+        Recuo maior que `e` num dos lados (assimetria) continua valendo naquele lado."""
         if self.area_max is not None and terreo.area > self.area_max:
-            self.limite = _encolhe(terreo, self.area_max)
+            def caixa(e):  # direto, sem o cache de legal(): ele arredonda o recuo a 1 cm e a área passaria de area_max
+                return caixa_recuada(self.lote, self.frente, self.rf, max(e, rl0), max(e, rb0))
+            lo, hi = 0.0, math.sqrt(self.lote.area)
+            for _ in range(30):
+                mid = (lo + hi) / 2
+                lo, hi = (mid, hi) if caixa(mid).area > self.area_max else (lo, mid)
+            limite = caixa(hi)  # o lado de dentro: área <= area_max
+            self.limite = limite if limite.area > 0 else _encolhe(terreo, self.area_max)
         return self.limite
 
     def mundo(self, rl, rb, livre=False):
@@ -595,7 +606,7 @@ def gerar_estudo(lote, zona, premissas=None):
     caixa = caixas.legal(rl0, rb0)
 
     # subsolo: o térreo; se a caixa passa do que a permeabilidade deixa ocupar, prédio e subsolo ficam no térreo encolhido
-    caixas.fixa_limite(caixa)
+    caixas.fixa_limite(caixa, rl0, rb0)
     subsolo = caixas.mundo(rl0, rb0)
 
     # altura: zona e áreas especiais do lote (gabarito, cone), a mais baixa vale
@@ -612,8 +623,12 @@ def gerar_estudo(lote, zona, premissas=None):
            "rl": rl, "rb": rb, "altura_max": altura_max, "pav_cap": pav_cap,
            "cap": comp_max if comp_max is not None else math.inf, "perm_min": perm * A}
 
-    ocup_max = min(to_max, 1 - perm) * A  # projeção do prédio: TO e permeabilidade
-    laje_max = min(caixa.area, subsolo.area if caixas.limite is not None else math.inf, ocup_max)
+    def ocup(k):  # projeção bruta de k volumes no chão: a TO desconta o núcleo de cada um (_avaliar), a permeabilidade não
+        return min(to_max * A + k * pr["nucleo_nao_computavel_m2"], (1 - perm) * A)
+
+    def laje(k):
+        return min(caixa.area, subsolo.area if caixas.limite is not None else math.inf, ocup(k))
+    ocup_max, laje_max = ocup(1), laje(1)
     if comp_max is not None:
         n_max = min(PAV_BUSCA_MAX, int(comp_max // pr["laje_minima_m2"]) + 1)
     elif zp.get("pavimentos_max"):
@@ -721,7 +736,7 @@ def gerar_estudo(lote, zona, premissas=None):
     # B) Duas torres iguais: os dois maiores quadrados iguais que cabem na caixa, com o afastamento entre eles
     def fazer_b(n, f=1.0):
         r, c = topo(n)
-        lajes = dois_quadrados(c, pr["afastamento_entre_torres_m"], min(laje_max / 2, pr["laje_torre_max_m2"]))
+        lajes = dois_quadrados(c, pr["afastamento_entre_torres_m"], min(laje(2) / 2, pr["laje_torre_max_m2"]))
         if f < 1 and len(lajes) == 2:
             lajes = dois_quadrados(c, pr["afastamento_entre_torres_m"], f * lajes[0].area)
         if len(lajes) < 2 or lajes[0].area < pr["laje_minima_m2"]:

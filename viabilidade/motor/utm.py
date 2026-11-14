@@ -16,6 +16,11 @@ _C = 2 * math.sqrt(_n) / (1 + _n)
 
 
 def para_utm23s(lon, lat):
+    """Ordem (lon, lat), como no GeoJSON. Recusa ponto fora do fuso 23 (lon -48 a -42) ou do hemisfério sul,
+    em vez de devolver um UTM errado calado."""
+    if not (-48.0 <= lon <= -42.0 and -80.0 <= lat <= 0.0):
+        dica = " Parece (lat, lon) trocado: a ordem é (lon, lat)." if -48.0 <= lat <= -42.0 and -80.0 <= lon <= 0.0 else ""
+        raise ValueError(f"ponto (lon={lon}, lat={lat}) fora do fuso UTM 23S (lon entre -48 e -42, lat entre -80 e 0).{dica}")
     fi, dl = math.radians(lat), math.radians(lon) - _LON0
     t = math.sinh(math.atanh(math.sin(fi)) - _C * math.atanh(_C * math.sin(fi)))
     xi, eta = math.atan2(t, math.cos(dl)), math.atanh(math.sin(dl) / math.sqrt(1 + t * t))

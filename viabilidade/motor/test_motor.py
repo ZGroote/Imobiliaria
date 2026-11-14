@@ -14,6 +14,7 @@ sys.path.insert(0, AQUI)
 from shapely import affinity  # noqa: E402
 from shapely.geometry import LineString, Point, Polygon  # noqa: E402
 
+from utm import para_utm23s  # noqa: E402
 from motor import PREMISSAS_PADRAO, _avaliar, _maior_lamina, caixa_recuada, dois_quadrados, gerar_estudo, maior_retangulo, recuo_divisa  # noqa: E402
 
 
@@ -308,6 +309,49 @@ def auditoria3():
     assert not any("monot" in i for i in e["incertezas"])
 
 
+def tarefa6():
+    """Tarefa 6: afrouxar não tira opção com permeabilidade, TO desconta o núcleo, utm recusa ponto fora do fuso."""
+    # 3.1: lote 20x35, permeabilidade 50%: a opção B existia com recuo 3,0 m e sumia com 1,5 m
+    lote = {"id": "t6", "poligono_utm": [[205000.0, 7564000.0], [205020.0, 7564000.0], [205020.0, 7564035.0], [205000.0, 7564035.0]],
+            "frente": [[205000.0, 7564000.0], [205020.0, 7564000.0]], "area_m2": 700.0, "zona_id": "T", "zona_origem": "teste", "zona_conferida": False}
+    base = _carrega("zona-exemplo.json")["parametros"]
+    base.update(ca_maximo=3.5, ca_basico=2.0, taxa_ocupacao=0.7, taxa_permeabilidade=0.5, recuo_frontal_m=None, altura_max_m=None, pavimentos_max=None,
+                recuo_lateral_por_altura=None, recuo_fundos_por_altura=None, parede_cega_encosta_ate_m=None, garagem_computavel=False)
+    res = {}
+    for r in (3.0, 2.0, 1.5):
+        z = {"id": "T", "parametros": dict(base, recuo_lateral_m=r, recuo_fundos_m=r), "conferido": False}
+        e = gerar_estudo(lote, z)
+        confere(e)
+        res[r] = {o["id"]: o["metricas"]["unidades_estimadas"] for o in e["opcoes"]}
+    assert set(res[3.0]) == set(res[1.5]) == {"A", "B", "C", "D"}, res
+    for id_ in res[3.0]:
+        assert res[1.5][id_] >= res[2.0][id_] >= res[3.0][id_], (id_, res)
+
+    # MÉDIA 13: TO 20% de 1000 m² = 200 m²; a laje bruta pode ter 200 m² + o núcleo (20 m²), e a TO medida não passa de 20%
+    grande = dict(lote, poligono_utm=[[0, 0], [25, 0], [25, 40], [0, 40]], frente=[[0, 0], [25, 0]])
+    zt = _carrega("zona-exemplo.json")
+    zt["parametros"].update(taxa_ocupacao=0.2, taxa_permeabilidade=0.0, ca_maximo=6.0, recuo_lateral_por_altura=None, recuo_fundos_por_altura=None, parede_cega_encosta_ate_m=None)
+    e = gerar_estudo(grande, zt)
+    confere(e)
+    a = next(o for o in e["opcoes"] if o["id"] == "C")
+    laje = Polygon(a["volumes"][0]["base_utm"]).area
+    assert laje > 200.5 and a["metricas"]["to_usada"] <= 0.2 + 1e-3, (laje, a["metricas"]["to_usada"])
+
+    # BAIXA 16: (lat, lon) invertido e fora do fuso dão erro claro; São Carlos continua convertendo
+    assert 190000 < para_utm23s(-47.89, -22.01)[0] < 210000
+    for pt in ((-22.01, -47.89), (-60.0, -22.0), (-47.0, 10.0)):
+        try:
+            para_utm23s(*pt)
+        except ValueError as err:
+            assert "fuso" in str(err)
+        else:
+            raise AssertionError(f"utm aceitou {pt}")
+    try:
+        para_utm23s(-22.01, -47.89)
+    except ValueError as err:
+        assert "trocado" in str(err)
+
+
 def main():
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
 
@@ -387,6 +431,7 @@ def main():
         monotonia(id_, pilotos[id_], zonas[pilotos[id_]["zona_id"]])
     defeitos_da_auditoria(lote, zona)
     auditoria3()
+    tarefa6()
     print("ok")
 
 

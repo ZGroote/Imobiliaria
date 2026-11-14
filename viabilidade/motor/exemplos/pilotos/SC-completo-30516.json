@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.7.0",
+ "versao_motor": "0.7.1",
  "lote": {
   "id": "SC-completo-30516",
   "lid": null,
@@ -1624,20 +1624,20 @@
     {
      "base_utm": [
       [
-       201179.79,
-       7559725.6
+       201179.77,
+       7559725.55
       ],
       [
-       201172.56,
-       7559739.35
+       201172.55,
+       7559739.3
       ],
       [
-       201158.81,
-       7559732.13
+       201158.79,
+       7559732.08
       ],
       [
-       201166.03,
-       7559718.37
+       201166.01,
+       7559718.32
       ]
      ],
      "z0_m": 0.0,
@@ -1749,10 +1749,10 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 2236.42,
-    "area_computavel_m2": 885.83,
+    "area_construida_m2": 2236.61,
+    "area_computavel_m2": 886.02,
     "area_nao_computavel_m2": 1350.59,
-    "area_privativa_m2": 772.66,
+    "area_privativa_m2": 772.81,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 1270.59,
     "vagas": 12,

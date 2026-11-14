@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.7.0",
+ "versao_motor": "0.7.1",
  "lote": {
   "id": "SC-quadra1560-lid35038-35042",
   "lid": 35038,
@@ -735,20 +735,20 @@
     {
      "base_utm": [
       [
-       205209.45,
-       7564374.58
+       205209.5,
+       7564374.72
       ],
       [
-       205190.63,
-       7564374.58
+       205190.58,
+       7564374.72
       ],
       [
-       205190.63,
-       7564318.1
+       205190.58,
+       7564317.96
       ],
       [
-       205209.45,
-       7564318.1
+       205209.5,
+       7564317.96
       ]
      ],
      "z0_m": 0.0,
@@ -808,16 +808,16 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6505.84,
-    "area_computavel_m2": 4173.2,
+    "area_construida_m2": 6547.71,
+    "area_computavel_m2": 4215.07,
     "area_nao_computavel_m2": 2332.64,
-    "area_privativa_m2": 3402.56,
-    "area_acima_ca_basico_m2": 1135.2,
+    "area_privativa_m2": 3436.06,
+    "area_acima_ca_basico_m2": 1177.07,
     "area_garagem_m2": 2252.64,
     "vagas": 56,
     "area_permeavel_m2": 392.68,
-    "ca_usado": 2.747,
-    "to_usada": 0.687,
+    "ca_usado": 2.775,
+    "to_usada": 0.694,
     "pavimentos": 4,
     "unidades_estimadas": 56,
     "vgv_estimado": null
@@ -825,7 +825,7 @@
    "alertas": [
     "Recuo lateral/fundos: residencial 2.00/2.00 m (recuo do topo no prédio todo).",
     "No limite: taxa de ocupação 69% (máximo 70%).",
-    "1135 m² acima do CA básico: exige outorga onerosa."
+    "1177 m² acima do CA básico: exige outorga onerosa."
    ]
   },
   {
