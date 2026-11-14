@@ -1,0 +1,12 @@
+{
+ "id": "audit-descarte-d",
+ "lid": 35038,
+ "poligono_utm": [[205000, 7564000], [205025, 7564000], [205025, 7564028], [205000, 7564028]],
+ "frente": [[205000, 7564000], [205025, 7564000]],
+ "area_m2": 700.0,
+ "zona_id": "SC-Z2",
+ "zona_origem": "teste",
+ "zona_conferida": false,
+ "relevo": null,
+ "observacoes": "Lote médio 25x28 m (700 m²) para teste de monotonia."
+}

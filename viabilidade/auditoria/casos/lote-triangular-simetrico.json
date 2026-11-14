@@ -1,0 +1,12 @@
+{
+ "id": "audit-tri-sim",
+ "lid": 35038,
+ "poligono_utm": [[205000, 7564000], [205040, 7564000], [205020, 7564050]],
+ "frente": [[205000, 7564000], [205040, 7564000]],
+ "area_m2": 1000.0,
+ "zona_id": "SC-Z2",
+ "zona_origem": "teste",
+ "zona_conferida": false,
+ "relevo": null,
+ "observacoes": "Lote triangular isósceles 40x50 m (1000 m²)."
+}

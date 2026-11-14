@@ -1,0 +1,22 @@
+{
+ "id": "SC-Z6E-SEM-CA",
+ "nome": "Zona sem CA máximo (igual à SC-Z6E real)",
+ "parametros": {
+  "ca_basico": null,
+  "ca_maximo": null,
+  "taxa_ocupacao": 0.7,
+  "taxa_permeabilidade": 0.25,
+  "recuo_frontal_m": null,
+  "recuo_lateral_m": 1.5,
+  "recuo_fundos_m": 1.5,
+  "altura_max_m": null,
+  "pavimentos_max": null,
+  "recuo_lateral_por_altura": {"ate_pavimento": 2, "recuo_m": 1.5, "acima": {"fracao_h": 0.125, "minimo_m": 2.0}},
+  "recuo_fundos_por_altura": {"ate_pavimento": 2, "recuo_m": 1.5, "acima": {"fracao_h": 0.125, "minimo_m": 2.0}},
+  "parede_cega_encosta_ate_m": 12,
+  "garagem_computavel": false
+ },
+ "fontes": [{"lei": "Lei nº 18.927/2018 (PD art. 42A)", "artigo": "art. 42A", "url": "https://servico.saocarlos.sp.gov.br/consultaleis/", "data": "2018-12-01"}],
+ "conferido": false,
+ "observacoes": "Reproduz SC-Z6E onde ca_maximo é null."
+}

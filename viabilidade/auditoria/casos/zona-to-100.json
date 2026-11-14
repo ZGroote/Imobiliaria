@@ -1,0 +1,23 @@
+{
+ "id": "Z-TO-100",
+ "nome": "Zona com TO 100% e permeabilidade 15%",
+ "parametros": {
+  "ca_basico": 2.0,
+  "ca_maximo": 3.5,
+  "taxa_ocupacao": 1.0,
+  "taxa_permeabilidade": 0.15,
+  "recuo_frontal_m": null,
+  "recuo_lateral_m": 1.5,
+  "recuo_fundos_m": 1.5,
+  "altura_max_m": null,
+  "pavimentos_max": null,
+  "recuo_lateral_por_altura": {"ate_pavimento": 2, "recuo_m": 1.5, "acima": {"fracao_h": 0.125, "minimo_m": 2.0}},
+  "recuo_fundos_por_altura": {"ate_pavimento": 2, "recuo_m": 1.5, "acima": {"fracao_h": 0.125, "minimo_m": 2.0}},
+  "parede_cega_encosta_ate_m": 12,
+  "garagem_computavel": false,
+  "outorga_onerosa": true
+ },
+ "fontes": [],
+ "conferido": false,
+ "observacoes": "Teste extremo TO 100%."
+}
