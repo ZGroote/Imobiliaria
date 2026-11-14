@@ -9,12 +9,12 @@ Atualizado: 14/11/2026, ~13h. Galho `feat/viabilidade` (worktree `Desktop/imobil
 | Lei | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
 | Terreno | Codex Astra high / trabalho | **Trabalhando** na `terreno/TAREFA-2.md` (contrato v4 + lotes no Eixo e na Z2) |
 | Motor | Claude Opus / jaogroote | **Trabalhando**: opção D piorou quando o recuo AFROUXOU (38→37). Ao entregar: reabrir no **Sonnet** (`--command "claude --model sonnet"`) |
-| Visual | Codex **Luna** high / trabalho | Livre. Trocado do Astra em 14/11 |
+| Visual | Codex **Luna** medium / trabalho | Livre. Trocado do Astra em 14/11 |
 | Produto | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 |
 | Conferencia | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 |
 | Auditor | Antigravity (Gemini 4 Argon) | **Trabalhando** em `auditoria/TAREFA.md`: tentar quebrar o motor |
 
-Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota Gemini/Claude/GPT dele); programação em Claude/Codex; central no Opus. Antigravity não assina commit: só escreve na pasta dele e a central commita. Ajudantes (subagentes) só quando houver partes separadas. Esforço: o usuário pediu alto; médio só se ele confirmar.
+Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota Gemini/Claude/GPT dele); programação em Claude/Codex; central no Opus. Antigravity não assina commit: só escreve na pasta dele e a central commita. Ajudantes (subagentes) só quando houver partes separadas. Esforço (usuário, 14/11): **médio** no simples (ajuste de tela, pesquisa curta, tarefa bem definida); **alto** no Motor, Auditor, Conferência e em investigação de defeito.
 
 ## Ao chegar um relatório
 
