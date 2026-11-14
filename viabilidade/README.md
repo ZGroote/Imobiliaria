@@ -24,7 +24,8 @@ PRD completo: nota `prd-imobiliaria-3d` no Maestri.
 
 ## Contrato (o que passa entre as frentes)
 
-Coordenadas em metros, sistema UTM 23S (EPSG:31983), o mesmo dos campos `fx`/`fy` do `lotes_saocarlos.geojson`.
+Coordenadas em metros, SIRGAS 2000 / UTM 23S (EPSG:31983), convertidas da latitude/longitude do polígono do `lotes_saocarlos.geojson`.
+**Não usar `fx`/`fy` desse arquivo:** estão em SAD69 / UTM 23S (EPSG:29193), 40–57 m deslocados (achado do Motor, 14/11).
 
 ### Zona (`lei/zonas.json`: lista)
 
