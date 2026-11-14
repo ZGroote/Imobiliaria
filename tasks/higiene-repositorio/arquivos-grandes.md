@@ -21,6 +21,24 @@ a classificação principal informa por que ele precisa permanecer. Nenhum arqui
 da baseline foi considerado descartável. Os tetos globais existentes de 100 MiB
 por arquivo e 300 MiB no total continuam como política interna.
 
+### Teto total subiu para 400 MiB (14/11/2026, PR #116)
+
+Decisão do usuário. O repositório chegou a 333 MiB porque três prédios entraram
+(Laranjeiras, Containers Mooca e Vistas da Quinze, uns 20 MiB cada: site,
+interiores, mapa e plantas do book). Isso é produto, não sobra, e tirar do git
+quebraria a republicação. Cinco exceções novas, todas no `EXCECOES`:
+
+| MiB | Arquivo | Classe | Quem gera | Quem lê |
+|---:|---|---|---|---|
+| 2,72 | `plantas_fornecidas/vistas-da-quinze/anexos/7d1a70b6-….png` | fonte | foto enviada pelo usuário | referência do modelo da torre |
+| 2,54 | `plantas_fornecidas/vistas-da-quinze/anexos/5e434431-….png` | fonte | foto enviada pelo usuário | referência do modelo da torre |
+| 2,39 | `experimentos/liv-experimental-2026-10-14/mapa-modelos/laranjeiras.glb` | runtime | preparo do mapa do Laranjeiras | `mapa-2d.js` (sha256 no `mapa-2d-manifest.json`) |
+| 1,51 | `experimentos/containers-mooca-2026-11-05/site/mapa-modelos/containers.glb` | runtime | `mapa/preparar_mapa.py` (.blend fora do git) | mapa 2D do Mooca |
+| 1,14 | `experimentos/vistas-da-quinze-2026-11-07/site/mapa-pois.json` | runtime | `mapa/preparar_mapa.py` | `mapa-2d.js` do Vistas |
+
+Cada prédio novo no mesmo molde soma uns 20 MiB: cabem mais uns três antes de
+decidir de novo (repositório privado de artefatos ou teto maior).
+
 Para incluir uma exceção ou ampliar um teto, no mesmo PR:
 
 1. Registrar caminho, bytes, consumidor/gerador e razão da permanência no inventário.

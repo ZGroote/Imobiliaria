@@ -240,3 +240,7 @@ experimentos/containers-mooca-2026-11-05/site/interiores/*/source.json.gz
 experimentos/containers-mooca-2026-11-05/site/interiores/*/geometry-compact.json.gz
 experimentos/containers-mooca-2026-11-05/site/interiores/*/luz-horario/*.gz
 experimentos/containers-mooca-2026-11-05/mapa/osm-pois.json
+
+# Archicad: arquivo do projeto (binario, 19 MB) e a pasta de backup que ele cria sozinho
+/archicad/*.pln
+/archicad/*\ -\ [0-9]*_[0-9]*_[0-9]*/

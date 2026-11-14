@@ -7,10 +7,10 @@ import {deflateSync} from 'node:zlib';
 import {fileURLToPath} from 'node:url';
 import test from 'node:test';
 import vm from 'node:vm';
-import {localizedPlanImage} from '../experimentos/apresentacao-2026-11-01/planta2d-idioma.js';
-import * as ruler from '../experimentos/apresentacao-2026-11-01/site/demo/plan-ruler.js';
+import {localizedPlanImage} from '../planta2d-idioma.js';
+import * as ruler from '../site/demo/plan-ruler.js';
 
-const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'../../..');
 const presentation=join(root,'experimentos/apresentacao-2026-11-01');
 const source=join(presentation,'site/demo');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');

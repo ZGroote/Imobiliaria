@@ -6,10 +6,10 @@ import {dirname,join,resolve,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import test from 'node:test';
 import vm from 'node:vm';
-import {attachCommercial as attachBaseCommercial} from '../experimentos/apresentacao-2026-11-01/site/demo/comercial.js';
-import {expandBuildingCatalog} from '../experimentos/apresentacao-2026-11-01/site/demo/catalogo-unidades.js';
+import {attachCommercial as attachBaseCommercial} from '../site/demo/comercial.js';
+import {expandBuildingCatalog} from '../site/demo/catalogo-unidades.js';
 
-const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'../../..');
 const presentation=join(root,'experimentos/apresentacao-2026-11-01'),demo=join(presentation,'site/demo');
 const read=async name=>readFile(join(demo,name));
 const json=async name=>JSON.parse(await read(name));

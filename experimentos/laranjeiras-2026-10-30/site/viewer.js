@@ -42,7 +42,6 @@ const detailsDialog=document.getElementById('unitDetails');
 const inlineDetails=document.getElementById('inlineUnitDetails'),detailsBody=document.getElementById('detailsBody');
 const inlineDetailsMedia=window.matchMedia?.('(min-width: 1000px) and (min-height: 720px)');
 inlineDetailsMedia?.addEventListener('change',()=>updateInfoPanel());
-document.getElementById('demonstrationNote').hidden=!demonstration;
 state.geometry=geometry;
 state.unitScope=scope;
 const storageKey=`laranjeiras-viewer-v1:${location.pathname}${geometry==='base'?'':':'+geometry}${scope==='edificio'?':edificio':''}`;
@@ -295,9 +294,6 @@ function updateAvailability(){
   const informed=!unverified&&units?.units.some(unit=>unit.commercial?.availability&&unit.commercial.availability!=='nao_informada');
   const active=informed&&state.availabilityFilter==='disponiveis';
   const simulated=units?.commercialStatus==='simulado';
-  const note=document.getElementById('demonstrationNote');
-  note.hidden=!demonstration&&!simulated;
-  if(simulated)note.textContent='Demonstração · disponibilidade e vagas simuladas.';
   select.value=informed?state.availabilityFilter:'todos';
   select.disabled=!informed;
   select.options[0].textContent=informed?'Todos os apartamentos':'Estoque sob consulta';

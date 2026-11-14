@@ -25,6 +25,9 @@ existir para executar ou publicar a maquete. O script usa o payload publicado do
 LIV, remove a identidade do cliente e gera dados ilustrativos. Não substitua essa
 pasta por uma cópia do viewer compartilhado sem passar pela anonimização.
 
+Os testes que leem `site/demo` ficam em `testes/`, fora do CI (lá a demo não
+existe). Com a demo gerada, rode nesta pasta: `node --test testes/*.mjs`.
+
 ## Comportamento
 
 - A maquete começa a carregar assim que a apresentação abre, inclusive antes de
