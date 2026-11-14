@@ -1,5 +1,6 @@
 import { addDoc, collection, doc, serverTimestamp, updateDoc, type Firestore } from 'firebase/firestore'
 import { slug } from './formato.ts'
+import { validarRegiao, type Regiao } from './regiao.ts'
 
 // Só platform_admin escreve (regras: agencies). Não se apaga agência: desativa (active = false).
 export function criarAgencia(db: Firestore, nome: string) {
@@ -10,7 +11,8 @@ export function criarAgencia(db: Firestore, nome: string) {
   })
 }
 
-export function atualizarAgencia(db: Firestore, id: string, campos: { name?: string; active?: boolean }) {
+export function atualizarAgencia(db: Firestore, id: string, campos: { name?: string; active?: boolean; region?: Regiao }) {
   if (campos.name !== undefined && !campos.name.trim()) throw new Error('Informe o nome da imobiliária.')
+  if (campos.region) validarRegiao(campos.region)
   return updateDoc(doc(db, 'agencies', id), { ...campos, updatedAt: serverTimestamp() })
 }

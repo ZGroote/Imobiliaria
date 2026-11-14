@@ -69,9 +69,11 @@ service cloud.firestore {
     }
     function validPublicContact(u) {
       return !('publicContact' in u) || (u.publicContact is map
-        && u.publicContact.keys().hasOnly(['whatsapp'])
-        && u.publicContact.whatsapp is string
-        && u.publicContact.whatsapp.matches('^[1-9][0-9]{7,14}$'));
+        && u.publicContact.size() > 0
+        && u.publicContact.keys().hasOnly(['whatsapp', 'sms', 'email'])
+        && (!('whatsapp' in u.publicContact) || (u.publicContact.whatsapp is string && u.publicContact.whatsapp.matches('^[1-9][0-9]{7,14}$')))
+        && (!('sms' in u.publicContact) || (u.publicContact.sms is string && u.publicContact.sms.matches('^[1-9][0-9]{7,14}$')))
+        && (!('email' in u.publicContact) || (u.publicContact.email is string && u.publicContact.email.size() <= 254 && u.publicContact.email.matches('^[^@\\s<>]+@[^@\\s<>]+\\.[^@\\s<>]+$'))));
     }
     match /users/{uid} {
       allow read: if isStaff()
@@ -160,30 +162,12 @@ service cloud.firestore {
     function publicationPrepared(p) {
       return p.get('publicationReady', p.get('publishedBuild', '') is string && p.get('publishedBuild', '') != '');
     }
-    function visibilityAudit(pid) {
-      let log = getAfter(/databases/$(db)/documents/auditLogs/$(d().lastAuditId)).data;
-      return auditedAs(pid, d().status == 'active' ? 'publication:resume' : 'publication:pause')
-        && log.entityType == 'property' && log.agencyId == resource.data.agencyId && log.visibility == 'agency'
-        && log.before.status == resource.data.status && log.after.status == d().status;
-    }
-    function publicationVisibilityEdit(pid) {
-      return isManager(resource.data.agencyId) && changed('status') && publicationPrepared(resource.data)
-        && resource.data.status in ['active', 'inactive'] && d().status in ['active', 'inactive']
-        && changesOnly(['status', 'lastAuditId', 'updatedAt']) && visibilityAudit(pid);
-    }
     match /properties/{pid} {
       allow read: if isStaff() || inAgency(resource.data.agencyId);
-      allow create: if isStaff() && born() && !d().keys().hasAny(pubFields())
+      allow create: if isAdmin() && born() && !d().keys().hasAny(pubFields())
         && exists(/databases/$(db)/documents/agencies/$(d().agencyId));
       allow update: if stamped() && keeps(['createdAt'])
-        // Só o gerente da própria imobiliária pausa/reativa conteúdo preparado, com auditoria atômica.
-        && (publicationVisibilityEdit(pid)
-          || ((!changed('status') || !publicationPrepared(resource.data))
-            && ((isAdmin() && (!diffKeys().hasAny(pubFields()) || publicationOk(pid)))
-          || (isStaff() && keeps(['agencyId']) && !diffKeys().hasAny(pubFields()))
-          || (isManager(resource.data.agencyId)
-              && changesOnly(['assignedAgentId', 'updatedAt'])
-              && get(userPath(d().assignedAgentId)).data.agencyId == resource.data.agencyId))));
+        && isAdmin() && (!diffKeys().hasAny(pubFields()) || publicationOk(pid));
       allow delete: if false;                          // arquivar: status = archived
     }
 

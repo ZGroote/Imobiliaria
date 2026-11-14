@@ -126,7 +126,7 @@ test('republicar guarda o anterior; reverter volta a ele e fica no histórico', 
     agencyId: 'agA', title: 'Nova versão do Cedros', productionMode: 'leve', propertyId: 'cedros',
   })
   await aprovado(novo.id, '0f9e8d7c6b5a')
-  await alterarDisponibilidadePublicacao(gerente.db, gerente.uid, 'cedros', false)
+  await alterarDisponibilidadePublicacao(admin.db, admin.uid, 'cedros', false)
   noArAgora = '0f9e8d7c6b5a'
   await registrarPublicacao(admin.db, 'admin', await pedido(admin.db, novo.id), await imovel(admin.db, 'cedros'),
     SITE, siteRemoto)

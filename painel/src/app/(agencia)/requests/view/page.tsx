@@ -1,4 +1,6 @@
 'use client'
+import { useIdioma } from '@/components/Idioma'
+
 import { useState } from 'react'
 import Link from 'next/link'
 import { doc } from 'firebase/firestore'
@@ -13,12 +15,15 @@ import { usePerfil } from '@/lib/session'
 import { editavelPelaImobiliaria } from '@/lib/status'
 import type { Property, Request } from '@/lib/types'
 import { useDoc } from '@/lib/useFirestore'
+import { MateriaisDoPedido } from '@/components/MateriaisDoPedido'
 
 export default function VerSolicitacao() {
   return <ComId>{(id) => <Solicitacao id={id} />}</ComId>
 }
 
 function Solicitacao({ id }: { id: string }) {
+  const { t: tr } = useIdioma()
+
   const perfil = usePerfil()
   const r = useDoc<Request>(`pedido:${id}`, () => doc(db, 'requests', id))
   const p = r.dado
@@ -27,15 +32,15 @@ function Solicitacao({ id }: { id: string }) {
   const { nome, pessoas } = usePessoas(perfil.agencyId, gerente)
   const [editando, setEditando] = useState(false)
   // Quem fez cada passo: o gerente conhece a equipe da imobiliária, então o resto é a equipe interna.
-  const autor = (uid: string) => uid === perfil.id ? 'Você'
-    : pessoas.find((u) => u.id === uid)?.name ?? (gerente ? 'Equipe interna' : 'Outra pessoa')
+  const autor = (uid: string) => uid === perfil.id ? tr("Você")
+    : pessoas.find((u) => u.id === uid)?.name ?? (gerente ? 'Equipe interna' : tr("Outra pessoa"))
 
-  if (p === null) return <Pagina titulo="Solicitação"><Aviso>Solicitação não encontrada.</Aviso></Pagina>
+  if (p === null) return <Pagina titulo={tr("Solicitação")}><Aviso>{tr("Solicitação não encontrada.")}</Aviso></Pagina>
   const podeEditar = p && editavelPelaImobiliaria(p.status)
     && (perfil.role === 'agency_manager' || p.requestedBy === perfil.id)
   return (
-    <Pagina titulo={p?.title ?? 'Solicitação'}
-      acoes={podeEditar && !editando && <button className="btn" onClick={() => setEditando(true)}>Editar</button>}>
+    <Pagina titulo={p?.title ?? tr("Solicitação")}
+      acoes={podeEditar && !editando && <button className="btn" onClick={() => setEditando(true)}>{tr("Editar")}</button>}>
       <Estado r={r}>
         {p && (
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -45,6 +50,7 @@ function Solicitacao({ id }: { id: string }) {
                   : p.propertyId ? '…' : 'Ainda não cadastrado'} />
             )}
             <div className="space-y-6">
+              <MateriaisDoPedido pedido={p} />
               <PreviewEmRevisao r={p} pessoa={autor} />
               <AcoesDeStatus r={p} />
               <Historico r={p} interno={false} pessoa={autor} />

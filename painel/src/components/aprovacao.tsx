@@ -1,9 +1,10 @@
 'use client'
+import { useIdioma } from '@/components/Idioma'
+
 import { useState } from 'react'
 import { Aviso, Cartao, useAcao } from './ui'
 import { aprovar, pedirAjuste, registrarPreview } from '@/lib/aprovacao'
 import { db } from '@/lib/firebase'
-import { quando } from '@/lib/formato'
 import { comandosPreview, lerPreview } from '@/lib/publicacao'
 import { usePerfil } from '@/lib/session'
 import type { Preview, Property, Request } from '@/lib/types'
@@ -13,15 +14,17 @@ const Link = ({ href, children }: { href: string; children: string }) =>
 
 // O build em revisão e a decisão do gerente. Aprovar vale para ESTE build (hash), não para o pedido.
 export function PreviewEmRevisao({ r, pessoa }: { r: Request; pessoa: (uid: string) => string }) {
+  const { t: tr, dataHora: quando } = useIdioma()
+
   const perfil = usePerfil()
   const { executar, ocupado, erro } = useAcao()
   const [ajuste, setAjuste] = useState<string | null>(null)
   if (!r.preview) return null
   const decide = perfil.role === 'agency_manager' && r.status === 'agency_review'
   return (
-    <Cartao titulo={r.status === 'agency_review' ? 'Preview para revisão' : 'Preview'}>
+    <Cartao titulo={r.status === 'agency_review' ? tr("Preview para revisão") : 'Preview'}>
       <div className="space-y-1 text-sm">
-        <p><Link href={r.preview.tourUrl}>Abrir o tour</Link> · <Link href={r.preview.maqueteUrl}>Abrir a maquete</Link></p>
+        <p><Link href={r.preview.tourUrl}>{tr("Abrir o tour")}</Link> · <Link href={r.preview.maqueteUrl}>{tr("Abrir a maquete")}</Link></p>
         <p className="text-xs text-slate-500">Build <code>{r.preview.build}</code></p>
         {r.approvedBuild && r.status !== 'agency_review' && (
           <p className="text-emerald-700">
@@ -32,22 +35,18 @@ export function PreviewEmRevisao({ r, pessoa }: { r: Request; pessoa: (uid: stri
       {decide && ajuste === null && (
         <div className="mt-4 flex flex-wrap gap-2">
           <button disabled={ocupado} className="btn-primario" onClick={() =>
-            confirm(`Aprovar o build ${r.preview!.build} para publicação?`) && executar(() => aprovar(db, perfil.id, r))}>
-            Aprovar este build
-          </button>
-          <button disabled={ocupado} className="btn" onClick={() => setAjuste('')}>Pedir ajuste</button>
+            confirm(`Aprovar o build ${r.preview!.build} para publicação?`) && executar(() => aprovar(db, perfil.id, r))}>{tr("Aprovar este build")}</button>
+          <button disabled={ocupado} className="btn" onClick={() => setAjuste('')}>{tr("Pedir ajuste")}</button>
         </div>
       )}
       {decide && ajuste !== null && (
         <div className="mt-4 space-y-2">
           <textarea rows={3} value={ajuste} onChange={(e) => setAjuste(e.target.value)} className="campo"
-            placeholder="O que precisa mudar no tour?" />
+            placeholder={tr("O que precisa mudar no tour?")} />
           <div className="flex gap-2">
             <button disabled={ocupado} className="btn-primario"
-              onClick={async () => { if (await executar(() => pedirAjuste(db, perfil.id, r, ajuste))) setAjuste(null) }}>
-              Enviar pedido de ajuste
-            </button>
-            <button className="btn" onClick={() => setAjuste(null)}>Cancelar</button>
+              onClick={async () => { if (await executar(() => pedirAjuste(db, perfil.id, r, ajuste))) setAjuste(null) }}>{tr("Enviar pedido de ajuste")}</button>
+            <button className="btn" onClick={() => setAjuste(null)}>{tr("Cancelar")}</button>
           </div>
         </div>
       )}

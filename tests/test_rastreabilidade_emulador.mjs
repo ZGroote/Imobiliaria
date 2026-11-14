@@ -45,6 +45,15 @@ test('Firestore real: concorrência, queries, reabertura e distintos por imóvel
   const report=await service.gerarRelatorio(manager,{propertyId,from:'2026-10-04T00:00:00Z',to:'2026-10-05T00:00:00Z'})
   assert.equal(report.summary.sessions,2);assert.equal(report.summary.estimatedVisitors,1)
   assert.equal(report.summary.activeMs,30000);assert.equal(report.bySection[0].activeMs,30000)
+  const unitRef=db.doc(`salesInventory/${propertyId}/units/p03-f02`)
+  refs.push(unitRef);await unitRef.set({id:'p03-f02'})
+  const visit=opens[0],resumed=await service.criarSessao({visitId:visit.visitId,receipt:visit.receipt,visitorKey:'one-browser-local-fixture',page:'maquete'})
+  const event={visitId:visit.visitId,receipt:visit.receipt,sessionId:resumed.sessionId,page:'maquete',section:'ficha',unitKey:'p03-f02'}
+  await service.registrarEvento({...event,seq:3,type:'view',activeMs:0});ms+=10000
+  await Promise.all(Array.from({length:4},()=>service.registrarEvento({...event,seq:4,type:'heartbeat',activeMs:10000})))
+  const units=await service.gerarRelatorio(manager,{propertyId,from:'2026-10-04T00:00:00Z',to:'2026-10-05T00:00:00Z',units:'1'})
+  assert.deepEqual(units.byUnit,[{unitKey:'p03-f02',sessions:1,returns:0,activeMs:10000}])
+  assert.deepEqual(units.unitCoverage,{sessionsWithUnit:1,unassignedActiveMs:30000})
   assert.equal((await service.listarLinks(manager,{propertyId})).links.length,2)
   assert.equal((await service.listarLinks(brokers[0],{propertyId})).links.length,1)
   const restored=criarServicoRastreabilidade({db,secret:'segredo-sintetico-emulador-1234567890',publicOrigin:'http://localhost:8910',now:()=>ms})

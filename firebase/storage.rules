@@ -1,7 +1,5 @@
 rules_version = '2';
-// As primeiras regras reais do Storage (T03; tasks/painel/proposta.md, §5). O bucket ainda
-// não existe (D2, 24/09): até ele existir, isto roda só no emulator. Só request-assets/ tem
-// bloco; qualquer outro caminho é negado.
+// Materiais privados das solicitações; qualquer outro caminho é negado.
 service firebase.storage {
   match /b/{bucket}/o {
 
@@ -24,7 +22,8 @@ service firebase.storage {
       allow create: if resource == null && (staff() || ofAgency(agencyId))
         && firestore.get(/databases/(default)/documents/requests/$(requestId)).data.agencyId
              == agencyId
-        && request.resource.size < 200 * 1024 * 1024
+        && request.resource.size > 0
+        && file.matches('.*[.](pdf|jpg|jpeg|png|webp|heic|zip|dwg|dxf|ifc|rvt|skp|glb|obj|mp4|mov|doc|docx|xls|xlsx|ppt|pptx|txt|csv)')
         && !request.resource.contentType.matches('text/html.*|image/svg.*|application/xhtml.*');
       allow update: if false;
       allow delete: if staff();

@@ -23,18 +23,18 @@ test('publicação: pausa bloqueia raiz e encaminhamento; reativar recupera os m
   const corA = await entrar('corA'), gerB = await entrar('gerB')
   const ler = async () => (await getDoc(doc(admin.db, 'properties/cedros'))).data()!
 
-  for (const u of [admin, op, corA, gerB]) await assert.rejects(
+  for (const u of [gerA, op, corA, gerB]) await assert.rejects(
     alterarDisponibilidadePublicacao(u.db, u.uid, 'cedros', false), /permission/i)
   // Nem o gerente da própria imobiliária altera a disponibilidade sem auditoria atômica.
   await assert.rejects(updateDoc(doc(gerA.db, 'properties/cedros'),
     { status: 'inactive', updatedAt: serverTimestamp() }), /permission/i)
-  await alterarDisponibilidadePublicacao(gerA.db, gerA.uid, 'cedros', false)
+  await alterarDisponibilidadePublicacao(admin.db, admin.uid, 'cedros', false)
   assert.equal((await ler()).status, 'inactive')
   assert.equal(estaPublicado(await ler()), false)
   for (const token of tokens) await assert.rejects(api.abrirVisita({ token, attemptId: 'pausado-' + token }),
     (e: { status?: number }) => e.status === 410)
-  await alterarDisponibilidadePublicacao(gerA.db, gerA.uid, 'cedros', false) // repetir não gera outro log
-  await alterarDisponibilidadePublicacao(gerA.db, gerA.uid, 'cedros', true)
+  await alterarDisponibilidadePublicacao(admin.db, admin.uid, 'cedros', false) // repetir não gera outro log
+  await alterarDisponibilidadePublicacao(admin.db, admin.uid, 'cedros', true)
   assert.equal(estaPublicado(await ler()), true)
   for (const token of tokens) {
     const r = await api.abrirVisita({ token, attemptId: 'reativado-' + token })
@@ -47,12 +47,12 @@ test('publicação: pausa bloqueia raiz e encaminhamento; reativar recupera os m
   }
   const logs = await getDocs(query(collection(admin.db, 'auditLogs'), where('entityId', '==', 'cedros')))
   assert.deepEqual(logs.docs.map(d => d.data().action).sort(), ['publication:pause', 'publication:resume'])
-  assert.ok(logs.docs.every(d => d.data().userId === gerA.uid && d.data().agencyId === 'agA'))
+  assert.ok(logs.docs.every(d => d.data().userId === admin.uid && d.data().agencyId === 'agA'))
   assert.equal((await ler()).publishedBuild, 'a1b2c3d4e5f6')
 })
 
 test('publicação: não publica imóvel sem conteúdo preparado; registro avulso não exige fixar build', async () => {
-  const gerente = await entrar('gerA')
+  const gerente = await entrar('admin')
   await assert.rejects(alterarDisponibilidadePublicacao(gerente.db, gerente.uid, 'colinas', true), /preparad/)
   await adminDb().doc('properties/colinas').update({ publicationReady: false, publishedBuild: 'a1b2c3d4e5f6' })
   await assert.rejects(alterarDisponibilidadePublicacao(gerente.db, gerente.uid, 'colinas', true), /preparad/)
@@ -65,7 +65,7 @@ test('publicação: não publica imóvel sem conteúdo preparado; registro avuls
   assert.equal(estaPublicado(p), true)
 })
 
-test('gerente altera somente a visibilidade, com auditoria da própria agência e do estado real', async () => {
+test('gerente não altera visibilidade ou configuração, mesmo tentando incluir auditoria', async () => {
   const gerente = await entrar('gerA')
   const tentar = (extra: Record<string, unknown>, logExtra: Record<string, unknown> = {}) => {
     const b = writeBatch(gerente.db), log = doc(collection(gerente.db, 'auditLogs'))
