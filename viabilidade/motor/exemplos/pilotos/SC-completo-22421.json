@@ -1,0 +1,833 @@
+{
+ "versao_motor": "0.4.0",
+ "lote": {
+  "id": "SC-completo-22421",
+  "lid": null,
+  "poligono_utm": [
+   [
+    200460.699762,
+    7562459.741016
+   ],
+   [
+    200475.964685,
+    7562458.776279
+   ],
+   [
+    200477.784673,
+    7562415.852336
+   ],
+   [
+    200462.509148,
+    7562417.067135
+   ],
+   [
+    200460.699762,
+    7562459.741016
+   ]
+  ],
+  "frente": [
+   [
+    200477.784673,
+    7562415.852336
+   ],
+   [
+    200462.509148,
+    7562417.067135
+   ]
+  ],
+  "area_m2": 651.571,
+  "zona_id": "SC-Z1",
+  "relevo": {
+   "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+   "resolucao_m": 30,
+   "cota_min_m": 793.0,
+   "cota_max_m": 796.9,
+   "declividade_pct": 9.3
+  },
+  "crs": "EPSG:31983",
+  "categoria": "medio",
+  "centroide_lonlat": [
+   -47.90129352,
+   -22.01707996
+  ],
+  "distancia_centro_referencia_m": 1084.4,
+  "fonte": {
+   "arquivo": "sao-carlos/dados/lotes_saocarlos_completo.geojson",
+   "indice_feicao_zero_based": 22421,
+   "propriedades": {
+    "area_m2": 651.57,
+    "frente_m": 15.47,
+    "fundo_m": 53.37,
+    "quadra": 2757,
+    "loteamento": "Jardim São Carlos",
+    "planta": "000014",
+    "encaixe": 0.972,
+    "cobertura_quadra": 1.063,
+    "fonte": "planta",
+    "padrao_lote": true,
+    "plausivel": true,
+    "frente_padrao_m": 15.5,
+    "fundo_padrao_m": 53.5
+   }
+  },
+  "qualidade": {
+   "frentes": [
+    {
+     "aresta": 2,
+     "pontos": [
+      [
+       200477.78467340674,
+       7562415.852336318
+      ],
+      [
+       200462.50914817536,
+       7562417.0671352055
+      ]
+     ],
+     "comprimento_m": 15.324,
+     "distancia_max_asfalto_m": 4.614
+    }
+   ],
+   "esquina_indicada_pela_malha": false,
+   "sobreposicao_asfalto_m2": 0.0,
+   "maior_sobreposicao_vizinho_m2": 0.0,
+   "ocupacao_retangulo_minimo": 0.96106
+  },
+  "conferido": false,
+  "observacoes": "Geometria de ensaio derivada da maquete; não comprova lote cadastral, disponibilidade ou aptidão legal. Frente e eventual esquina inferidas da malha de asfalto, sem vistoria ou nome de rua confirmado. LID ausente na origem; ID local usa índice da feição.  Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade. Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md. ZONA AMBÍGUA: SC-Z1 é hipótese operacional; SC-Z2 também é possível. Borda oeste a poucos metros do traço divisório, comparável ao resíduo dos controles. Não certificar viabilidade por zona única. O ajuste inicial com três controles concentrados ao sul colocava o lote do outro lado da divisa. Ajuste final usa cinco controles distribuídos; a sensibilidade exige cadastro oficial. Gabarito aeronáutico indicado no Anexo 07, sem altura local definida. Próximo ao Gregório: verificar APP, drenagem e inundação. Anotação manual para simulação, não certidão municipal. A geometria de ensaio da maquete não comprova lote cadastral, disponibilidade ou aptidão legal. Mapas raster generalizados: o resíduo dos controles não mede o erro total do mapa ou do lote. Confirmar cadastro, matrícula, loteamento e normas atualizadas antes de projetar. Ausência de incidência visual não afasta APP, servidão, patrimônio individual, inundação, contaminação ou outras restrições não desenhadas. Consulta específica ao DECEA continua necessária para validar altura.",
+  "areas_especiais": [
+   {
+    "tipo": "gabarito_aeronautico",
+    "nome": "Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes",
+    "observacoes": "Lote dentro do tracejado roxo identificado na legenda como restrição de gabarito. O mapa não dá altura numérica local. Consultar DECEA; não equivale ao gabarito histórico de 9 m.",
+    "conferido": false,
+    "incidencia": "sobreposicao_visual",
+    "fonte": "Lei 18.053/2016, arts. 105 a 107, Anexo 07, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf",
+    "evidencia": "dados/zonas-mapas/SC-completo-22421-anexo07.jpg"
+   }
+  ],
+  "anotacao_zoneamento": {
+   "alternativas_zona_id": [
+    "SC-Z1",
+    "SC-Z2"
+   ],
+   "zona_ambigua": true,
+   "evidencia_zoneamento": "Ajuste final coloca o polígono no lado ocre Z1, imediatamente a leste da divisa amarela Z2, junto à Rua Conde do Pinhal. Classificação ambígua na escala do mapa.",
+   "areas_especiais_verificacao": {
+    "05": "Ao sul da AIA linear do Gregório, sem interseção visual.",
+    "06": "Fora da poligonal histórica, subárea de 9 m e Observatório.",
+    "07": "Dentro da superfície de aproximação/decolagem, em tracejado roxo."
+   },
+   "limitacoes": [
+    "ZONA AMBÍGUA: SC-Z1 é hipótese operacional; SC-Z2 também é possível. Borda oeste a poucos metros do traço divisório, comparável ao resíduo dos controles. Não certificar viabilidade por zona única.",
+    "O ajuste inicial com três controles concentrados ao sul colocava o lote do outro lado da divisa. Ajuste final usa cinco controles distribuídos; a sensibilidade exige cadastro oficial.",
+    "Gabarito aeronáutico indicado no Anexo 07, sem altura local definida. Próximo ao Gregório: verificar APP, drenagem e inundação.",
+    "Anotação manual para simulação, não certidão municipal. A geometria de ensaio da maquete não comprova lote cadastral, disponibilidade ou aptidão legal.",
+    "Mapas raster generalizados: o resíduo dos controles não mede o erro total do mapa ou do lote. Confirmar cadastro, matrícula, loteamento e normas atualizadas antes de projetar.",
+    "Ausência de incidência visual não afasta APP, servidão, patrimônio individual, inundação, contaminação ou outras restrições não desenhadas. Consulta específica ao DECEA continua necessária para validar altura."
+   ],
+   "poligono_sha256": "0093bfe02944418c2b4be3eccc9a5e13db7efd7e4396eb6381971b960a6099d9",
+   "conferido": false,
+   "data_anotacao": "2026-11-14",
+   "fontes": [
+    {
+     "lei": "Lei 18.053/2016",
+     "anexo": "02",
+     "pagina": 1,
+     "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf",
+     "sha256": "f2dbbf98a0698092a78be5585f479db4164267478a5a83b0dc8104917fdf5ef2",
+     "data": "2026-11-14"
+    },
+    {
+     "lei": "Lei 18.053/2016",
+     "anexo": "05",
+     "pagina": 1,
+     "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2005%20-%20AEIs%20Ambientais.pdf",
+     "sha256": "af2d54f9694ea9055273db821609798f51a0dd8d057bace97e9effee2ebddfa7",
+     "data": "2026-11-14"
+    },
+    {
+     "lei": "Lei 18.053/2016",
+     "anexo": "06",
+     "pagina": 1,
+     "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf",
+     "sha256": "3bfc5f7b8b79c5016a526cd08ac7f5f0f83f0fb51f27a2d1173785ee2bbc0f5d",
+     "data": "2026-11-14"
+    },
+    {
+     "lei": "Lei 18.053/2016",
+     "anexo": "07",
+     "pagina": 1,
+     "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf",
+     "sha256": "3c290bd44a8e6b5a5effca6715017bff21bdce5357a3d36167af95d3439e8031",
+     "data": "2026-11-14"
+    }
+   ],
+   "metodo": "Vértices EPSG:31983 transformados para EPSG:29183; ajuste afim sobre JPEG original usando cinco vértices do perímetro do Anexo 02.A. Leitura manual da legenda e do polígono completo. Sem fx/fy, KML de proposta ou inferência por bairro.",
+   "evidencias": [
+    "dados/zonas-mapas/SC-completo-22421-anexo02.jpg",
+    "dados/zonas-mapas/SC-completo-22421-anexo05.jpg",
+    "dados/zonas-mapas/SC-completo-22421-anexo06.jpg",
+    "dados/zonas-mapas/SC-completo-22421-anexo07.jpg"
+   ],
+   "controles": "dados/zonas-controles.json",
+   "posicionamento": "dados/zonas-posicionamento.json",
+   "rmse_controles_anexo02_m": 3.526,
+   "incerteza_posicional_total_m": null
+  },
+  "zona_origem": "anotada_a_mao",
+  "zona_conferida": false
+ },
+ "zona": {
+  "id": "SC-Z1",
+  "nome": "Zona 1 – Ocupação Consolidada",
+  "parametros": {
+   "ca_basico": 2.0,
+   "ca_maximo": 3.0,
+   "taxa_ocupacao": 0.7,
+   "taxa_permeabilidade": 0.15,
+   "recuo_frontal_m": null,
+   "recuo_lateral_m": 1.5,
+   "recuo_fundos_m": 1.5,
+   "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
+   "altura_max_m": null,
+   "pavimentos_max": null,
+   "recuo_lateral_por_altura": {
+    "ate_pavimento": 2,
+    "recuo_m": 1.5,
+    "acima": {
+     "fracao_h": 0.125,
+     "minimo_m": 2.0
+    }
+   },
+   "recuo_fundos_por_altura": {
+    "ate_pavimento": 2,
+    "recuo_m": 1.5,
+    "acima": {
+     "fracao_h": 0.125,
+     "minimo_m": 2.0
+    }
+   },
+   "parede_cega_encosta_ate_m": 12,
+   "garagem_computavel": false,
+   "garagem_conta_na_taxa_ocupacao": false,
+   "nao_computavel": [
+    "garagem/estacionamento com circulação e manobra (COE art. 51-I)",
+    "reservatório, barrilete, casa de máquinas, abrigo de gás, cabine primária (art. 51-II)",
+    "depósito de lixo/recicláveis (art. 51-III)",
+    "escada e antecâmara de escada (art. 51-IV)",
+    "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
+    "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+    "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
+    "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
+    "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
+    "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
+   ],
+   "vagas_min_por_unidade": null,
+   "vagas_regra": "COE Tabela 1 (art. 100): residencial multifamiliar vertical NÃO tem mínimo de vagas de carro ('-' na tabela). Se houver vagas: 2% para pessoa com deficiência (mín. 1), 1 bicicleta a cada 20 vagas. Comércio com 100 m² ou mais de área computável: 1 vaga a cada 100 m². Garagem não conta no CA, no CAB/CAM nem na taxa de ocupação (art. 51, caput). Varanda NÃO está na lista do art. 51, então conta como computável (leitura nossa, confirmar).",
+   "vaga_largura_m": 2.4,
+   "vaga_comprimento_m": 5.0,
+   "faixa_manobra_90graus_m": 5.0,
+   "ca_unifamiliar": 1.4,
+   "lote_min_m2": 200,
+   "testada_min_m": 10,
+   "outorga_onerosa": true
+  },
+  "fontes": [
+   {
+    "lei": "Lei nº 18.053/2016 (Plano Diretor)",
+    "artigo": "art. 17; art. 152-II; art. 176",
+    "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257",
+    "data": "2016-12-19"
+   },
+   {
+    "lei": "Lei nº 19.950/2020 (Código de Obras)",
+    "artigo": "arts. 67, 68, 69, 70, 71, 74",
+    "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
+    "data": "2020-12-15"
+   },
+   {
+    "lei": "Lei nº 20.072/2021",
+    "artigo": "art. 10 (nova redação do art. 67-I do COE) e art. 11 (§5º)",
+    "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2987",
+    "data": "2021-04-06"
+   },
+   {
+    "lei": "Lei nº 24.031/2026",
+    "artigo": "art. 2º (nova redação do art. 68 do COE)",
+    "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_7985",
+    "data": "2026-02-24"
+   },
+   {
+    "lei": "Lei nº 22.285/2024",
+    "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+    "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+    "data": "2024-03-08"
+   },
+   {
+    "lei": "Lei nº 19.950/2020 (Código de Obras)",
+    "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
+    "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
+    "data": "2020-12-15"
+   }
+  ],
+  "conferido": true,
+  "observacoes": "CAM 3,0 só para empreendimento com pelo menos 50% da área computável residencial multifamiliar (art. 152-II-b); se mais de 50% for comércio/serviço, vale só o CAB 2,0 (art. 17, parágrafo único). Acima do CAB paga outorga (art. 177 §1º, 5%). HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
+ },
+ "premissas": {
+  "pe_direito_m": 3.0,
+  "pe_direito_terreo_m": 4.5,
+  "area_privativa_por_unidade_m2": 60,
+  "eficiencia": 0.8,
+  "area_comum_por_pavimento_m2": 40,
+  "nucleo_nao_computavel_m2": 20,
+  "vagas_por_unidade": 1,
+  "area_por_vaga_m2": 27,
+  "garagem": "subsolo",
+  "subsolos_max": 2,
+  "garagem_computavel": false,
+  "recuo_frontal_m": 4.0,
+  "preco_venda_m2_privativo": null,
+  "laje_torre_max_m2": 500,
+  "laje_minima_m2": 80,
+  "afastamento_entre_torres_m": 6.0,
+  "pavimentos_lamina_max": 4,
+  "pavimentos_embasamento": 2,
+  "embasamento_ocupacao": 0.4,
+  "padrao": [
+   "afastamento_entre_torres_m",
+   "area_comum_por_pavimento_m2",
+   "area_por_vaga_m2",
+   "area_privativa_por_unidade_m2",
+   "eficiencia",
+   "embasamento_ocupacao",
+   "garagem",
+   "laje_minima_m2",
+   "laje_torre_max_m2",
+   "nucleo_nao_computavel_m2",
+   "pavimentos_embasamento",
+   "pavimentos_lamina_max",
+   "pe_direito_m",
+   "pe_direito_terreo_m",
+   "preco_venda_m2_privativo",
+   "recuo_frontal_m",
+   "subsolos_max",
+   "vagas_por_unidade"
+  ]
+ },
+ "caixa_maxima": {
+  "projecao_utm": [
+   [
+    200463.84,
+    7562420.97
+   ],
+   [
+    200462.27,
+    7562458.14
+   ],
+   [
+    200474.52,
+    7562457.36
+   ],
+   [
+    200476.11,
+    7562420.0
+   ]
+  ],
+  "altura_m": 19.5,
+  "area_projecao_m2": 455.44,
+  "area_lote_m2": 651.57,
+  "area_computavel_max_m2": 1954.71,
+  "ocupacao_max_m2": 456.1,
+  "recuo_frontal_m": 4.0,
+  "degraus": [
+   {
+    "z0_m": 0.0,
+    "recuo_lateral_m": 1.5,
+    "recuo_fundos_m": 1.5,
+    "projecao_utm": [
+     [
+      200463.84,
+      7562420.97
+     ],
+     [
+      200462.27,
+      7562458.14
+     ],
+     [
+      200474.52,
+      7562457.36
+     ],
+     [
+      200476.11,
+      7562420.0
+     ]
+    ]
+   },
+   {
+    "z0_m": 7.5,
+    "recuo_lateral_m": 2.0,
+    "recuo_fundos_m": 2.0,
+    "projecao_utm": [
+     [
+      200464.35,
+      7562420.93
+     ],
+     [
+      200462.79,
+      7562457.6
+     ],
+     [
+      200474.04,
+      7562456.89
+     ],
+     [
+      200475.61,
+      7562420.04
+     ]
+    ]
+   },
+   {
+    "z0_m": 13.5,
+    "recuo_lateral_m": 2.06,
+    "recuo_fundos_m": 2.06,
+    "projecao_utm": [
+     [
+      200464.41,
+      7562420.93
+     ],
+     [
+      200462.85,
+      7562457.54
+     ],
+     [
+      200473.99,
+      7562456.84
+     ],
+     [
+      200475.55,
+      7562420.04
+     ]
+    ]
+   },
+   {
+    "z0_m": 16.5,
+    "recuo_lateral_m": 2.44,
+    "recuo_fundos_m": 2.44,
+    "projecao_utm": [
+     [
+      200464.79,
+      7562420.9
+     ],
+     [
+      200463.25,
+      7562457.13
+     ],
+     [
+      200473.62,
+      7562456.48
+     ],
+     [
+      200475.16,
+      7562420.07
+     ]
+    ]
+   }
+  ],
+  "parede_cega_ate_m": 12,
+  "projecao_parede_cega_utm": [
+   [
+    200475.96,
+    7562458.78
+   ],
+   [
+    200477.61,
+    7562419.88
+   ],
+   [
+    200462.83,
+    7562421.05
+   ],
+   [
+    200462.43,
+    7562421.07
+   ],
+   [
+    200462.34,
+    7562421.06
+   ],
+   [
+    200460.7,
+    7562459.74
+   ]
+  ]
+ },
+ "opcoes": [
+  {
+   "id": "A",
+   "nome": "Torre única",
+   "volumes": [
+    {
+     "base_utm": [
+      [
+       200464.63,
+       7562444.19
+      ],
+      [
+       200463.84,
+       7562434.27
+      ],
+      [
+       200473.77,
+       7562433.48
+      ],
+      [
+       200474.55,
+       7562443.4
+      ]
+     ],
+     "z0_m": 0.0,
+     "altura_m": 16.5,
+     "pavimentos": 5,
+     "uso": "residencial",
+     "recuo_lateral_m": 2.06,
+     "recuo_fundos_m": 2.06
+    },
+    {
+     "base_utm": [
+      [
+       200463.84,
+       7562420.97
+      ],
+      [
+       200462.27,
+       7562458.14
+      ],
+      [
+       200474.52,
+       7562457.36
+      ],
+      [
+       200476.11,
+       7562420.0
+      ]
+     ],
+     "z0_m": -3.0,
+     "altura_m": 3.0,
+     "pavimentos": 1,
+     "uso": "garagem"
+    }
+   ],
+   "metricas": {
+    "area_construida_m2": 950.89,
+    "area_computavel_m2": 395.46,
+    "area_nao_computavel_m2": 555.44,
+    "area_privativa_m2": 295.46,
+    "area_acima_ca_basico_m2": 0.0,
+    "area_garagem_m2": 455.44,
+    "vagas": 4,
+    "area_permeavel_m2": 196.14,
+    "ca_usado": 0.607,
+    "to_usada": 0.121,
+    "pavimentos": 5,
+    "unidades_estimadas": 4,
+    "vgv_estimado": null
+   },
+   "alertas": [
+    "Recuo lateral/fundos: residencial 2.06/2.06 m (recuo do topo no prédio todo).",
+    "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: gabarito_aeronautico (Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes). O resultado pode passar do que o terreno permite; conferir antes de usar."
+   ]
+  },
+  {
+   "id": "B",
+   "nome": "Duas torres",
+   "volumes": [
+    {
+     "base_utm": [
+      [
+       200464.18,
+       7562454.83
+      ],
+      [
+       200463.39,
+       7562444.9
+      ],
+      [
+       200473.31,
+       7562444.11
+      ],
+      [
+       200474.1,
+       7562454.04
+      ]
+     ],
+     "z0_m": 0.0,
+     "altura_m": 16.5,
+     "pavimentos": 5,
+     "uso": "residencial",
+     "recuo_lateral_m": 2.06,
+     "recuo_fundos_m": 2.06
+    },
+    {
+     "base_utm": [
+      [
+       200465.08,
+       7562433.49
+      ],
+      [
+       200464.3,
+       7562423.57
+      ],
+      [
+       200474.22,
+       7562422.78
+      ],
+      [
+       200475.01,
+       7562432.7
+      ]
+     ],
+     "z0_m": 0.0,
+     "altura_m": 16.5,
+     "pavimentos": 5,
+     "uso": "residencial",
+     "recuo_lateral_m": 2.06,
+     "recuo_fundos_m": 2.06
+    },
+    {
+     "base_utm": [
+      [
+       200463.84,
+       7562420.97
+      ],
+      [
+       200462.27,
+       7562458.14
+      ],
+      [
+       200474.52,
+       7562457.36
+      ],
+      [
+       200476.11,
+       7562420.0
+      ]
+     ],
+     "z0_m": -3.0,
+     "altura_m": 3.0,
+     "pavimentos": 1,
+     "uso": "garagem"
+    }
+   ],
+   "metricas": {
+    "area_construida_m2": 1446.45,
+    "area_computavel_m2": 791.01,
+    "area_nao_computavel_m2": 655.44,
+    "area_privativa_m2": 591.01,
+    "area_acima_ca_basico_m2": 0.0,
+    "area_garagem_m2": 455.44,
+    "vagas": 8,
+    "area_permeavel_m2": 196.14,
+    "ca_usado": 1.214,
+    "to_usada": 0.243,
+    "pavimentos": 5,
+    "unidades_estimadas": 8,
+    "vgv_estimado": null
+   },
+   "alertas": [
+    "Recuo lateral/fundos: residencial 2.06/2.06 m, residencial 2.06/2.06 m (recuo do topo no prédio todo).",
+    "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: gabarito_aeronautico (Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes). O resultado pode passar do que o terreno permite; conferir antes de usar."
+   ]
+  },
+  {
+   "id": "C",
+   "nome": "Lâmina baixa",
+   "volumes": [
+    {
+     "base_utm": [
+      [
+       200467.09,
+       7562456.61
+      ],
+      [
+       200464.32,
+       7562421.68
+      ],
+      [
+       200471.3,
+       7562421.13
+      ],
+      [
+       200474.08,
+       7562456.05
+      ]
+     ],
+     "z0_m": 0.0,
+     "altura_m": 13.5,
+     "pavimentos": 4,
+     "uso": "residencial",
+     "recuo_lateral_m": 2.0,
+     "recuo_fundos_m": 2.0
+    },
+    {
+     "base_utm": [
+      [
+       200463.84,
+       7562420.97
+      ],
+      [
+       200462.27,
+       7562458.14
+      ],
+      [
+       200474.52,
+       7562457.36
+      ],
+      [
+       200476.11,
+       7562420.0
+      ]
+     ],
+     "z0_m": -3.0,
+     "altura_m": 3.0,
+     "pavimentos": 1,
+     "uso": "garagem"
+    }
+   ],
+   "metricas": {
+    "area_construida_m2": 1437.43,
+    "area_computavel_m2": 902.0,
+    "area_nao_computavel_m2": 535.44,
+    "area_privativa_m2": 785.6,
+    "area_acima_ca_basico_m2": 0.0,
+    "area_garagem_m2": 455.44,
+    "vagas": 13,
+    "area_permeavel_m2": 196.14,
+    "ca_usado": 1.384,
+    "to_usada": 0.346,
+    "pavimentos": 4,
+    "unidades_estimadas": 13,
+    "vgv_estimado": null
+   },
+   "alertas": [
+    "Recuo lateral/fundos: residencial 2.00/2.00 m (recuo do topo no prédio todo).",
+    "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: gabarito_aeronautico (Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes). O resultado pode passar do que o terreno permite; conferir antes de usar."
+   ]
+  },
+  {
+   "id": "D",
+   "nome": "Embasamento + torre",
+   "volumes": [
+    {
+     "base_utm": [
+      [
+       200464.38,
+       7562451.7
+      ],
+      [
+       200462.57,
+       7562428.94
+      ],
+      [
+       200473.95,
+       7562428.04
+      ],
+      [
+       200475.76,
+       7562450.8
+      ]
+     ],
+     "z0_m": 0.0,
+     "altura_m": 7.5,
+     "pavimentos": 2,
+     "uso": "embasamento",
+     "recuo_lateral_m": 0.0,
+     "recuo_fundos_m": 0.0,
+     "parede_cega": true
+    },
+    {
+     "base_utm": [
+      [
+       200464.9,
+       7562444.86
+      ],
+      [
+       200464.17,
+       7562435.61
+      ],
+      [
+       200473.41,
+       7562434.88
+      ],
+      [
+       200474.14,
+       7562444.12
+      ]
+     ],
+     "z0_m": 7.5,
+     "altura_m": 12.0,
+     "pavimentos": 4,
+     "uso": "residencial",
+     "recuo_lateral_m": 2.44,
+     "recuo_fundos_m": 2.44
+    },
+    {
+     "base_utm": [
+      [
+       200463.84,
+       7562420.97
+      ],
+      [
+       200462.27,
+       7562458.14
+      ],
+      [
+       200474.52,
+       7562457.36
+      ],
+      [
+       200476.11,
+       7562420.0
+      ]
+     ],
+     "z0_m": -3.0,
+     "altura_m": 3.0,
+     "pavimentos": 1,
+     "uso": "garagem"
+    }
+   ],
+   "metricas": {
+    "area_construida_m2": 1320.61,
+    "area_computavel_m2": 745.18,
+    "area_nao_computavel_m2": 575.44,
+    "area_privativa_m2": 183.92,
+    "area_acima_ca_basico_m2": 0.0,
+    "area_garagem_m2": 455.44,
+    "vagas": 3,
+    "area_permeavel_m2": 188.7,
+    "ca_usado": 1.144,
+    "to_usada": 0.369,
+    "pavimentos": 6,
+    "unidades_estimadas": 3,
+    "vgv_estimado": null
+   },
+   "alertas": [
+    "Recuo lateral/fundos: embasamento 0.00/0.00 m (parede cega na divisa), residencial 2.44/2.44 m (escalonado).",
+    "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: gabarito_aeronautico (Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes). O resultado pode passar do que o terreno permite; conferir antes de usar."
+   ]
+  }
+ ],
+ "incertezas": [
+  "Terreno na zona SC-Z1: NÃO conferido (lida à mão no anexo em PDF). Confirmar a zona do lote antes de usar o estudo.",
+  "A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.",
+  "Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).",
+  "Área especial gabarito_aeronautico sem número de altura: não aplicada (Lei 18.053/2016, arts. 105 a 107, Anexo 07, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf).",
+  "Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.",
+  "Parede cega (sem janela) encosta na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
+  "Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.",
+  "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
+  "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
+  "Relevo ignorado: volumes assentados em terreno plano, z=0.",
+  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade."
+ ]
+}

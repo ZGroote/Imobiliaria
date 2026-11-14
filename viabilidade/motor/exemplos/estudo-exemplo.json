@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.3.0",
+ "versao_motor": "0.4.0",
  "lote": {
   "id": "SC-quadra1560-lid35038-35042",
   "lid": 35038,
@@ -153,12 +153,14 @@
   "afastamento_entre_torres_m": 6.0,
   "pavimentos_lamina_max": 4,
   "pavimentos_embasamento": 2,
+  "embasamento_ocupacao": 0.4,
   "padrao": [
    "afastamento_entre_torres_m",
    "area_comum_por_pavimento_m2",
    "area_por_vaga_m2",
    "area_privativa_por_unidade_m2",
    "eficiencia",
+   "embasamento_ocupacao",
    "garagem",
    "laje_minima_m2",
    "laje_torre_max_m2",
@@ -192,7 +194,7 @@
     7564317.46
    ]
   ],
-  "altura_m": 43.5,
+  "altura_m": 55.5,
   "area_projecao_m2": 1126.32,
   "area_lote_m2": 1519.0,
   "area_computavel_max_m2": 5316.5,
@@ -269,29 +271,6 @@
     ]
    },
    {
-    "z0_m": 16.5,
-    "recuo_lateral_m": 2.44,
-    "recuo_fundos_m": 2.44,
-    "projecao_utm": [
-     [
-      205190.54,
-      7564374.28
-     ],
-     [
-      205209.1,
-      7564374.28
-     ],
-     [
-      205209.1,
-      7564318.4
-     ],
-     [
-      205190.54,
-      7564318.4
-     ]
-    ]
-   },
-   {
     "z0_m": 19.5,
     "recuo_lateral_m": 2.81,
     "recuo_fundos_m": 2.81,
@@ -357,29 +336,6 @@
      [
       205190.54,
       7564319.52
-     ]
-    ]
-   },
-   {
-    "z0_m": 28.5,
-    "recuo_lateral_m": 3.94,
-    "recuo_fundos_m": 3.94,
-    "projecao_utm": [
-     [
-      205190.54,
-      7564372.78
-     ],
-     [
-      205207.6,
-      7564372.78
-     ],
-     [
-      205207.6,
-      7564319.9
-     ],
-     [
-      205190.54,
-      7564319.9
      ]
     ]
    },
@@ -453,25 +409,71 @@
     ]
    },
    {
-    "z0_m": 40.5,
-    "recuo_lateral_m": 5.44,
-    "recuo_fundos_m": 5.44,
+    "z0_m": 43.5,
+    "recuo_lateral_m": 5.81,
+    "recuo_fundos_m": 5.81,
     "projecao_utm": [
      [
       205190.54,
-      7564371.28
+      7564370.91
      ],
      [
-      205206.1,
-      7564371.28
+      205205.73,
+      7564370.91
      ],
      [
-      205206.1,
-      7564321.4
+      205205.73,
+      7564321.77
      ],
      [
       205190.54,
-      7564321.4
+      7564321.77
+     ]
+    ]
+   },
+   {
+    "z0_m": 46.5,
+    "recuo_lateral_m": 6.19,
+    "recuo_fundos_m": 6.19,
+    "projecao_utm": [
+     [
+      205190.54,
+      7564370.53
+     ],
+     [
+      205205.35,
+      7564370.53
+     ],
+     [
+      205205.35,
+      7564322.15
+     ],
+     [
+      205190.54,
+      7564322.15
+     ]
+    ]
+   },
+   {
+    "z0_m": 49.5,
+    "recuo_lateral_m": 6.56,
+    "recuo_fundos_m": 6.56,
+    "projecao_utm": [
+     [
+      205190.54,
+      7564370.16
+     ],
+     [
+      205204.98,
+      7564370.16
+     ],
+     [
+      205204.98,
+      7564322.52
+     ],
+     [
+      205190.54,
+      7564322.52
      ]
     ]
    }
@@ -504,28 +506,28 @@
     {
      "base_utm": [
       [
-       205206.1,
-       7564354.12
+       205204.6,
+       7564353.37
       ],
       [
        205190.54,
-       7564354.12
+       7564353.37
       ],
       [
        205190.54,
-       7564338.56
+       7564339.31
       ],
       [
-       205206.1,
-       7564338.56
+       205204.6,
+       7564339.31
       ]
      ],
      "z0_m": 0.0,
-     "altura_m": 43.5,
-     "pavimentos": 14,
+     "altura_m": 55.5,
+     "pavimentos": 18,
      "uso": "residencial",
-     "recuo_lateral_m": 5.44,
-     "recuo_fundos_m": 5.44
+     "recuo_lateral_m": 6.94,
+     "recuo_fundos_m": 6.94
     },
     {
      "base_utm": [
@@ -577,23 +579,23 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 5642.23,
-    "area_computavel_m2": 3109.59,
-    "area_nao_computavel_m2": 2532.64,
-    "area_privativa_m2": 2711.67,
-    "area_acima_ca_basico_m2": 71.59,
+    "area_construida_m2": 5810.51,
+    "area_computavel_m2": 3197.87,
+    "area_nao_computavel_m2": 2612.64,
+    "area_privativa_m2": 2837.87,
+    "area_acima_ca_basico_m2": 159.87,
     "area_garagem_m2": 2252.64,
-    "vagas": 45,
+    "vagas": 47,
     "area_permeavel_m2": 392.68,
-    "ca_usado": 2.047,
-    "to_usada": 0.146,
-    "pavimentos": 14,
-    "unidades_estimadas": 45,
+    "ca_usado": 2.105,
+    "to_usada": 0.117,
+    "pavimentos": 18,
+    "unidades_estimadas": 47,
     "vgv_estimado": null
    },
    "alertas": [
-    "Recuo lateral/fundos: residencial 5.44/5.44 m (recuo do topo no prédio todo).",
-    "72 m² acima do CA básico: exige outorga onerosa."
+    "Recuo lateral/fundos: residencial 6.94/6.94 m (recuo do topo no prédio todo).",
+    "160 m² acima do CA básico: exige outorga onerosa."
    ]
   },
   {
@@ -603,54 +605,54 @@
     {
      "base_utm": [
       [
-       205207.98,
-       7564340.15
+       205205.16,
+       7564339.58
       ],
       [
-       205190.54,
-       7564340.15
+       205191.11,
+       7564339.58
       ],
       [
-       205190.54,
-       7564322.71
+       205191.11,
+       7564325.53
       ],
       [
-       205207.98,
-       7564322.71
+       205205.16,
+       7564325.53
       ]
      ],
      "z0_m": 0.0,
-     "altura_m": 28.5,
-     "pavimentos": 9,
+     "altura_m": 46.5,
+     "pavimentos": 15,
      "uso": "residencial",
-     "recuo_lateral_m": 3.56,
-     "recuo_fundos_m": 3.56
+     "recuo_lateral_m": 5.81,
+     "recuo_fundos_m": 5.81
     },
     {
      "base_utm": [
       [
-       205207.98,
-       7564369.97
+       205205.16,
+       7564367.15
       ],
       [
-       205190.54,
-       7564369.97
+       205191.11,
+       7564367.15
       ],
       [
-       205190.54,
-       7564352.53
+       205191.11,
+       7564353.1
       ],
       [
-       205207.98,
-       7564352.53
+       205205.16,
+       7564353.1
       ]
      ],
      "z0_m": 0.0,
-     "altura_m": 28.5,
-     "pavimentos": 9,
+     "altura_m": 46.5,
+     "pavimentos": 15,
      "uso": "residencial",
-     "recuo_lateral_m": 3.56,
-     "recuo_fundos_m": 3.56
+     "recuo_lateral_m": 5.81,
+     "recuo_fundos_m": 5.81
     },
     {
      "base_utm": [
@@ -702,23 +704,24 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 7727.41,
-    "area_computavel_m2": 5114.77,
-    "area_nao_computavel_m2": 2612.64,
-    "area_privativa_m2": 4379.81,
-    "area_acima_ca_basico_m2": 2076.77,
+    "area_construida_m2": 8168.87,
+    "area_computavel_m2": 5316.23,
+    "area_nao_computavel_m2": 2852.64,
+    "area_privativa_m2": 4716.23,
+    "area_acima_ca_basico_m2": 2278.23,
     "area_garagem_m2": 2252.64,
-    "vagas": 72,
+    "vagas": 78,
     "area_permeavel_m2": 392.68,
-    "ca_usado": 3.367,
-    "to_usada": 0.374,
-    "pavimentos": 9,
-    "unidades_estimadas": 72,
+    "ca_usado": 3.5,
+    "to_usada": 0.233,
+    "pavimentos": 15,
+    "unidades_estimadas": 78,
     "vgv_estimado": null
    },
    "alertas": [
-    "Recuo lateral/fundos: residencial 3.56/3.56 m, residencial 3.56/3.56 m (recuo do topo no prédio todo).",
-    "2077 m² acima do CA básico: exige outorga onerosa."
+    "Recuo lateral/fundos: residencial 5.81/5.81 m, residencial 5.81/5.81 m (recuo do topo no prédio todo).",
+    "No limite: CA 3.50 (máximo 3.50).",
+    "2278 m² acima do CA básico: exige outorga onerosa."
    ]
   },
   {
@@ -728,20 +731,20 @@
     {
      "base_utm": [
       [
-       205209.47,
-       7564374.52
+       205209.45,
+       7564374.58
       ],
       [
-       205190.61,
-       7564374.52
+       205190.63,
+       7564374.58
       ],
       [
-       205190.61,
-       7564318.16
+       205190.63,
+       7564318.1
       ],
       [
-       205209.47,
-       7564318.16
+       205209.45,
+       7564318.1
       ]
      ],
      "z0_m": 0.0,
@@ -828,20 +831,20 @@
     {
      "base_utm": [
       [
-       205209.76,
-       7564374.4
+       205204.77,
+       7564367.69
       ],
       [
-       205190.82,
-       7564374.4
+       205190.54,
+       7564367.69
       ],
       [
-       205190.82,
-       7564318.28
+       205190.54,
+       7564324.99
       ],
       [
-       205209.76,
-       7564318.28
+       205204.77,
+       7564324.99
       ]
      ],
      "z0_m": 0.0,
@@ -854,28 +857,28 @@
     {
      "base_utm": [
       [
-       205206.1,
-       7564353.98
+       205204.6,
+       7564353.37
       ],
       [
-       205190.82,
-       7564353.98
+       205190.54,
+       7564353.37
       ],
       [
-       205190.82,
-       7564338.7
+       205190.54,
+       7564339.31
       ],
       [
-       205206.1,
-       7564338.7
+       205204.6,
+       7564339.31
       ]
      ],
      "z0_m": 7.5,
-     "altura_m": 36.0,
-     "pavimentos": 12,
+     "altura_m": 48.0,
+     "pavimentos": 16,
      "uso": "residencial",
-     "recuo_lateral_m": 5.44,
-     "recuo_fundos_m": 5.44
+     "recuo_lateral_m": 6.94,
+     "recuo_fundos_m": 6.94
     },
     {
      "base_utm": [
@@ -900,27 +903,50 @@
      "altura_m": 3.0,
      "pavimentos": 1,
      "uso": "garagem"
+    },
+    {
+     "base_utm": [
+      [
+       205190.54,
+       7564375.22
+      ],
+      [
+       205210.04,
+       7564375.22
+      ],
+      [
+       205210.04,
+       7564317.46
+      ],
+      [
+       205190.54,
+       7564317.46
+      ]
+     ],
+     "z0_m": -6.0,
+     "altura_m": 3.0,
+     "pavimentos": 1,
+     "uso": "garagem"
     }
    ],
    "metricas": {
-    "area_construida_m2": 6055.87,
-    "area_computavel_m2": 4649.55,
-    "area_nao_computavel_m2": 1406.32,
-    "area_privativa_m2": 2242.36,
-    "area_acima_ca_basico_m2": 1611.55,
-    "area_garagem_m2": 1126.32,
-    "vagas": 37,
+    "area_construida_m2": 6630.39,
+    "area_computavel_m2": 4017.75,
+    "area_nao_computavel_m2": 2612.64,
+    "area_privativa_m2": 2522.55,
+    "area_acima_ca_basico_m2": 979.75,
+    "area_garagem_m2": 2252.64,
+    "vagas": 42,
     "area_permeavel_m2": 392.68,
-    "ca_usado": 3.061,
-    "to_usada": 0.687,
-    "pavimentos": 14,
-    "unidades_estimadas": 37,
+    "ca_usado": 2.645,
+    "to_usada": 0.387,
+    "pavimentos": 18,
+    "unidades_estimadas": 42,
     "vgv_estimado": null
    },
    "alertas": [
-    "Recuo lateral/fundos: embasamento 1.50/1.50 m, residencial 5.44/5.44 m (escalonado).",
-    "No limite: taxa de ocupação 69% (máximo 70%).",
-    "1612 m² acima do CA básico: exige outorga onerosa."
+    "Recuo lateral/fundos: embasamento 1.50/1.50 m, residencial 6.94/6.94 m (escalonado).",
+    "980 m² acima do CA básico: exige outorga onerosa."
    ]
   }
  ],
@@ -934,6 +960,6 @@
   "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
   "Relevo ignorado: volumes assentados em terreno plano, z=0.",
-  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade."
+  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade."
  ]
 }

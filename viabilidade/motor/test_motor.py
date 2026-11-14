@@ -60,6 +60,51 @@ def confere(estudo):
         assert not any(a.startswith("PASSOU") for a in o["alertas"]), o["alertas"]
 
 
+def _afrouxa_recuo(z, f):
+    p = z["parametros"]
+    for k in ("recuo_lateral_m", "recuo_fundos_m"):
+        if p.get(k):
+            p[k] *= f
+    for k in ("recuo_lateral_por_altura", "recuo_fundos_por_altura"):
+        r = p.get(k)
+        if r:
+            r["recuo_m"] *= f
+            r["acima"]["minimo_m"] *= f
+            r["acima"]["fracao_h"] *= f
+
+
+def _recuo_baixo(z, m):  # o caso da tarefa: recuo dos 2 primeiros pavimentos
+    for k in ("recuo_lateral_por_altura", "recuo_fundos_por_altura"):
+        if z["parametros"].get(k):
+            z["parametros"][k]["recuo_m"] = m
+
+
+def monotonia(nome, lote, zona):
+    """Afrouxar uma regra (recuo, CA, TO, altura) NUNCA pode dar menos área privativa em nenhuma opção."""
+    def priv(mexe):
+        z = copy.deepcopy(zona)
+        mexe(z)
+        return {o["id"]: o["metricas"]["area_privativa_m2"] for o in gerar_estudo(lote, z)["opcoes"]}
+
+    def altura(h):
+        return lambda z: z["parametros"].update(altura_max_m=h)
+
+    def to_mais(z):
+        z["parametros"]["taxa_ocupacao"] = min(1.0, z["parametros"]["taxa_ocupacao"] + 0.1)
+
+    def ca_mais(z):
+        z["parametros"]["ca_maximo"] *= 1.25
+
+    base = priv(lambda z: None)
+    casos = {"recuo -30%": lambda z: _afrouxa_recuo(z, 0.7), "TO +0,1": to_mais, "CA +25%": ca_mais}
+    pares = [(base, priv(f), c) for c, f in casos.items()]
+    pares.append((priv(altura(45.0)), priv(altura(63.0)), "altura 45 -> 63 m"))
+    pares.append((priv(lambda z: _recuo_baixo(z, 2.0)), priv(lambda z: _recuo_baixo(z, 1.5)), "recuo dos 2 primeiros pav. 2,00 -> 1,50"))
+    for antes, depois, caso in pares:
+        for id_, a in antes.items():
+            assert depois.get(id_, 0) >= a - 0.01, f"{nome}, opção {id_}, {caso}: área privativa {a} -> {depois.get(id_)} (afrouxar piorou)"
+
+
 def main():
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
 
@@ -117,7 +162,7 @@ def main():
     # 4) TO alta: o embasamento com parede cega (encostado na divisa até 12 m) ocupa mais e ganha
     zona4 = copy.deepcopy(zona)
     zona4["parametros"].update(taxa_ocupacao=0.9, taxa_permeabilidade=0.05)
-    e4 = gerar_estudo(lote, zona4)
+    e4 = gerar_estudo(lote, zona4, {"embasamento_ocupacao": 0.9})  # base de 90% do lote só cabe encostando na divisa
     confere(e4)
     d4 = next(o for o in e4["opcoes"] if o["id"] == "D")
     assert d4["volumes"][0].get("parede_cega"), "com TO 90% a base com parede cega devia ganhar"
@@ -125,6 +170,16 @@ def main():
     # 5) lote real pequeno (~300 m²): o que não cabe some, sem quebrar
     pequeno = dict(lote, poligono_utm=[[0, 0], [12, 0], [12, 25], [0, 25]], frente=[[0, 0], [12, 0]])
     confere(gerar_estudo(pequeno, zona))
+
+    # 6) monotonia, no exemplo e em 2 lotes-piloto (SC-Z2 remembrado e SC-Z1 com gabarito aeronáutico sem altura)
+    viab = os.path.join(AQUI, "..")
+    with open(os.path.join(viab, "terreno", "lotes-piloto.json"), encoding="utf-8") as f:
+        pilotos = {l["id"]: l for l in json.load(f)}
+    with open(os.path.join(viab, "lei", "zonas.json"), encoding="utf-8") as f:
+        zonas = {z["id"]: z for z in json.load(f)}
+    monotonia("exemplo SC-Z2", lote, zona)
+    for id_ in ("SC-completo-remembramento-75352-75354", "SC-completo-22426"):
+        monotonia(id_, pilotos[id_], zonas[pilotos[id_]["zona_id"]])
     print("ok")
 
 
