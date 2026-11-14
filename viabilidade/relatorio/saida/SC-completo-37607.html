@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Relatório de Viabilidade — SC-completo-37607</title>
+  <style>
+@page {
+  size: A4 portrait;
+  margin: 8mm;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 9.5pt;
+  line-height: 1.32;
+  color: #0f172a;
+  background: #e2e8f0;
+  padding: 12px 0;
+}
+.pagina {
+  width: 210mm;
+  min-height: 281mm;
+  margin: 0 auto 14px auto;
+  background: #ffffff;
+  padding: 8mm 9mm;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+  break-after: page;
+}
+.pagina:last-child {
+  page-break-after: auto;
+  break-after: auto;
+}
+@media print {
+  body {
+    background: #ffffff;
+    padding: 0;
+  }
+  .pagina {
+    width: 100%;
+    min-height: 278mm;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+}
+.cabecalho-pagina {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid #0f172a;
+  padding-bottom: 5px;
+  margin-bottom: 6px;
+}
+.cab-tag {
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #1d4ed8;
+  text-transform: uppercase;
+}
+.cab-titulo {
+  font-size: 13.5pt;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 1px 0;
+}
+.cab-subtitulo {
+  font-size: 8.2pt;
+  color: #334155;
+}
+.cab-direita {
+  text-align: right;
+  font-size: 7.5pt;
+  color: #475569;
+  white-space: nowrap;
+  margin-left: 10px;
+}
+.conferencia-dupla {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.conf-card {
+  border-radius: 5px;
+  padding: 5px 8px;
+  border: 1.5px solid #cbd5e1;
+  font-size: 7.8pt;
+}
+.conf-ok {
+  background: #f0fdf4;
+  border-color: #16a34a;
+}
+.conf-alerta, .conf-pendente {
+  background: #fffbeb;
+  border-color: #d97706;
+}
+.conf-titulo {
+  font-weight: 700;
+  font-size: 7.8pt;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+.conf-valor {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+.badge-conf {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 7pt;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+.conf-ok .badge-conf {
+  background: #15803d;
+  color: #ffffff;
+}
+.conf-alerta .badge-conf, .conf-pendente .badge-conf {
+  background: #b45309;
+  color: #ffffff;
+}
+.conf-explicacao {
+  font-size: 7.2pt;
+  color: #334155;
+}
+.conf-subalerta {
+  margin-top: 2px;
+  padding: 2px 5px;
+  background: #fef2f2;
+  border-left: 3px solid #dc2626;
+  color: #991b1b;
+  font-size: 7.2pt;
+}
+.grade-resumo-lote {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.card-info {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 5px 7px;
+  font-size: 7.6pt;
+}
+.card-info-titulo {
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 2px;
+  font-size: 8pt;
+}
+.secao-titulo {
+  font-size: 8.8pt;
+  font-weight: 800;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 4px 0 3px 0;
+  border-left: 3px solid #2563eb;
+  padding-left: 5px;
+}
+.subtitulo-leve {
+  font-size: 7.2pt;
+  font-weight: 400;
+  text-transform: none;
+  color: #475569;
+}
+.tabela-comparacao, .tabela-compacta {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 7.5pt;
+  margin-bottom: 5px;
+}
+.tabela-comparacao th, .tabela-comparacao td,
+.tabela-compacta th, .tabela-compacta td {
+  border: 1px solid #cbd5e1;
+  padding: 3px 5px;
+  vertical-align: top;
+}
+.tabela-comparacao thead th, .tabela-compacta thead th {
+  background: #1e293b;
+  color: #ffffff;
+  font-weight: 700;
+  text-align: left;
+}
+.tabela-comparacao tbody th {
+  background: #f1f5f9;
+  text-align: left;
+  font-weight: 600;
+  width: 24%;
+}
+.tabela-comparacao tr.linha-destaque th,
+.tabela-comparacao tr.linha-destaque td {
+  background: #eff6ff;
+  font-weight: 700;
+  font-size: 8.2pt;
+}
+.mini-dupla {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+.mini-legenda {
+  font-size: 6.5pt;
+  font-weight: 700;
+  color: #475569;
+  text-align: center;
+}
+.painel-desenhos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.desenho-box {
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  padding: 4px;
+  background: #ffffff;
+}
+.legenda-svg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 6.8pt;
+  color: #334155;
+  margin-top: 2px;
+  justify-content: center;
+}
+.cor-leg {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #334155;
+  margin-right: 3px;
+  vertical-align: middle;
+}
+.quatro-numeros {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  margin-bottom: 6px;
+}
+.card-numero {
+  background: #eff6ff;
+  border: 1.5px solid #93c5fd;
+  border-radius: 5px;
+  padding: 5px 7px;
+  text-align: center;
+}
+.card-numero-rotulo {
+  font-size: 7.2pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #1e3a8a;
+}
+.card-numero-valor {
+  font-size: 13pt;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 1px 0;
+}
+.card-numero-vgv {
+  font-size: 10.5pt;
+}
+.card-numero-sub {
+  font-size: 6.8pt;
+  color: #475569;
+}
+.grade-meio {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.tabela-totais-areas th {
+  background: #f1f5f9;
+  text-align: left;
+  font-weight: 600;
+}
+.semaforo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 5px;
+  border-radius: 10px;
+  font-size: 6.8pt;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.semaforo-ponto {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.semaforo-verde {
+  background: #dcfce7;
+  color: #166534;
+}
+.semaforo-verde .semaforo-ponto {
+  background: #16a34a;
+}
+.semaforo-amarelo {
+  background: #fef3c7;
+  color: #92400e;
+}
+.semaforo-amarelo .semaforo-ponto {
+  background: #d97706;
+}
+.semaforo-vermelho {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.semaforo-vermelho .semaforo-ponto {
+  background: #dc2626;
+}
+.bloco-premissas {
+  margin-bottom: 5px;
+}
+.grade-premissas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px 8px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 5px 7px;
+  font-size: 7.1pt;
+}
+.premissa-item {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.badge-padrao {
+  display: inline-block;
+  background: #e2e8f0;
+  color: #334155;
+  border: 1px solid #94a3b8;
+  border-radius: 3px;
+  padding: 0 4px;
+  font-size: 6.3pt;
+  font-weight: 700;
+  text-transform: lowercase;
+  vertical-align: middle;
+}
+.grade-alertas-opcao {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.caixa-alerta {
+  border-radius: 4px;
+  padding: 5px 7px;
+  font-size: 7.1pt;
+  margin-bottom: 5px;
+}
+.caixa-aviso {
+  background: #fffbeb;
+  border: 1.5px solid #f59e0b;
+}
+.caixa-perigo {
+  background: #fef2f2;
+  border: 1.5px solid #ef4444;
+}
+.caixa-incertezas {
+  background: #fff7ed;
+  border: 1.5px solid #fb923c;
+}
+.caixa-alerta-titulo {
+  font-weight: 800;
+  font-size: 7.6pt;
+  margin-bottom: 2px;
+  color: #7c2d12;
+}
+.lista-alertas, .lista-compacta {
+  padding-left: 13px;
+}
+.lista-alertas li, .lista-compacta li {
+  margin-bottom: 1.5px;
+}
+.observacoes-rodape {
+  font-size: 6.9pt;
+  color: #475569;
+  border-top: 1px dashed #cbd5e1;
+  padding-top: 3px;
+  margin-bottom: 4px;
+}
+.rodape-fixo {
+  border-top: 1.5px solid #0f172a;
+  padding-top: 4px;
+  text-align: center;
+  font-size: 7.4pt;
+  font-weight: 700;
+  color: #334155;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 90%;
+}
+</style>
+</head>
+<body>
+
+    <section class="pagina pagina-capa" id="capa">
+      <header class="cabecalho-pagina">
+        <div class="cab-esquerda">
+          <div class="cab-tag">CAPA — COMPARAÇÃO DE OPÇÕES DE VIABILIDADE</div>
+          <h1 class="cab-titulo">Estudo de Massa e Viabilidade — Lote SC-completo-37607</h1>
+          <div class="cab-subtitulo">
+            ID: <strong>SC-completo-37607</strong> · Loteamento: <strong>C.E.A.T. Centro Empresarial de Alta Tecnologia Dr. Emílio Fehr</strong> · Quadra: <strong>4817</strong> ·
+            Área do lote: <strong><span class="num" data-campo="lote.area_m2" data-valor="2684.942">2.684,942</span> m²</strong> ·
+            Zona: <strong>SC-Z4 — Zona 4 – Qualificação e Ocupação Controlada</strong>
+          </div>
+        </div>
+        <div class="cab-direita">
+          <div>Motor v<strong>0.5.0</strong></div>
+          <div>Leis de ref.: 2016-12-19, 2020-12-15, 2021-04-06, 2024-03-08, 2026-02-24</div>
+          <div>Opções geradas: <strong>4</strong></div>
+        </div>
+      </header>
+
+      
+    <div class="conferencia-dupla">
+      <div class="conf-card conf-ok">
+        <div class="conf-titulo">1. Números da zona conferidos na lei (<code>zona.conferido</code>)</div>
+        <div class="conf-valor">
+          <span class="badge-conf">CONFERIDO NA LEI</span>
+          <span>Valor no JSON: <span class="num num-bool" data-campo="zona.conferido" data-valor="true">Sim</span></span>
+        </div>
+        <div class="conf-explicacao">
+          Os índices urbanísticos da zona <strong>SC-Z4 — Zona 4 – Qualificação e Ocupação Controlada</strong>
+          foram conferidos no texto oficial da lei.
+          <br/><small><strong>Fontes:</strong> Lei nº 18.053/2016 (Plano Diretor) (art. 29; art. 152-V, 2016-12-19); Lei nº 19.950/2020 (Código de Obras) (arts. 67, 68, 69, 70, 71, 74, 2020-12-15); Lei nº 20.072/2021 (art. 10 (nova redação do art. 67-I do COE) e art. 11 (§5º), 2021-04-06); Lei nº 24.031/2026 (art. 2º (nova redação do art. 68 do COE), 2026-02-24); Lei nº 22.285/2024 (arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A), 2024-03-08); Lei nº 19.950/2020 (Código de Obras) (arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas, 2020-12-15)</small>
+        </div>
+      </div>
+      <div class="conf-card conf-alerta">
+        <div class="conf-titulo">2. O terreno está nessa zona? (<code>lote.zona_conferida</code>)</div>
+        <div class="conf-valor">
+          <span class="badge-conf">NÃO CONFERIDO</span>
+          <span>Valor no JSON: <span class="num num-bool" data-campo="lote.zona_conferida" data-valor="false">Não</span> | Origem: <strong>Anotada à mão (lida no anexo em PDF)</strong> (<code>anotada_a_mao</code>)</span>
+        </div>
+        <div class="conf-explicacao">
+          <strong>Importante:</strong> "números da zona conferidos" ≠ "o terreno está nessa zona".
+          O enquadramento do lote <strong>SC-completo-37607</strong> na zona <strong>SC-Z4</strong>
+          NÃO está conferido oficialmente e exige confirmação na prefeitura/matrícula.
+        </div>
+        
+      </div>
+    </div>
+    
+
+      <div class="grade-resumo-lote">
+        <div class="card-info">
+          <div class="card-info-titulo">Parâmetros da Zona (SC-Z4)</div>
+          <div class="card-info-corpo">
+            CA básico: <strong><span class="num" data-campo="zona.parametros.ca_basico" data-valor="1.4">1,4</span></strong> ·
+            CA máx.: <strong><span class="num" data-campo="zona.parametros.ca_maximo" data-valor="1.4">1,4</span></strong> ·
+            TO máx.: <strong><span class="num" data-campo="zona.parametros.taxa_ocupacao" data-valor="0.7">0,7</span></strong> (70,0%) ·
+            Permeab. mín.: <strong><span class="num" data-campo="zona.parametros.taxa_permeabilidade" data-valor="0.15">0,15</span></strong> (15,0%) ·
+            Recuo frontal lei: <strong><span class="num num-nulo" data-campo="zona.parametros.recuo_frontal_m" data-valor="null">—</span></strong> ·
+            Recuo lat./fundos mín.: <strong><span class="num" data-campo="zona.parametros.recuo_lateral_m" data-valor="1.5">1,5</span> m</strong> / <strong><span class="num" data-campo="zona.parametros.recuo_fundos_m" data-valor="1.5">1,5</span> m</strong> ·
+            Parede cega até: <strong><span class="num" data-campo="zona.parametros.parede_cega_encosta_ate_m" data-valor="12">12</span> m</strong> ·
+            Outorga onerosa: <strong><span class="num num-bool" data-campo="zona.parametros.outorga_onerosa" data-valor="false">Não</span></strong>
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="card-info-titulo">Caixa Máxima e Relevo do Terreno</div>
+          <div class="card-info-corpo">
+            Altura caixa máx.: <strong><span class="num" data-campo="caixa_maxima.altura_m" data-valor="61.5">61,5</span> m</strong> ·
+            Projeção máx.: <strong><span class="num" data-campo="caixa_maxima.area_projecao_m2" data-valor="2267.21">2.267,21</span> m²</strong> ·
+            Ocupação máx. (TO): <strong><span class="num" data-campo="caixa_maxima.ocupacao_max_m2" data-valor="1879.46">1.879,46</span> m²</strong> ·
+            Área computável máx. (CAM): <strong><span class="num" data-campo="caixa_maxima.area_computavel_max_m2" data-valor="3758.92">3.758,92</span> m²</strong> ·
+            Recuo frontal usado: <strong><span class="num" data-campo="caixa_maxima.recuo_frontal_m" data-valor="4.0">4,0</span> m</strong>
+            <span class='badge-padrao'>padrão</span>
+            <br/>Relevo: Cota mín.: <span class="num" data-campo="lote.relevo.cota_min_m" data-valor="820.4">820,4</span> m · Cota máx.: <span class="num" data-campo="lote.relevo.cota_max_m" data-valor="823.9">823,9</span> m · Declividade: <span class="num" data-campo="lote.relevo.declividade_pct" data-valor="14.2">14,2</span> % · Resolução: <span class="num" data-campo="lote.relevo.resolucao_m" data-valor="30">30</span> m <small>(Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008)</small>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="secao-titulo">Comparação Lado a Lado das Opções</h2>
+      <table class="tabela-comparacao">
+        <thead>
+          <tr>
+            <th class="col-indicador">Indicador / Métrica</th>
+            <th class="col-opcao">Opção A<br/><span>Torre única</span></th><th class="col-opcao">Opção B<br/><span>Duas torres</span></th><th class="col-opcao">Opção C<br/><span>Lâmina baixa</span></th><th class="col-opcao">Opção D<br/><span>Embasamento + torre</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="linha-miniaturas">
+            <th>Planta (2D) e Volumetria (3D)</th>
+            <td class="cel-miniatura"><div class="mini-dupla"><div class="mini-item"><div class="mini-legenda">Implantação</div><svg class="svg-planta" data-opcao="A" viewBox="0 0 155 112" width="100%" height="112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Planta de implantação da opção A"><defs><pattern id="hachura-subsolo-SC-completo-37607-A-mini" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="6" stroke="#64748b" stroke-width="1.2" stroke-opacity="0.45"/></pattern></defs><rect x="0" y="0" width="155" height="112" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon class="planta-lote" points="62.60,19.98 86.40,18.00 92.40,90.02 68.60,92.00 62.60,19.98" fill="#e6f4ea" stroke="#1e6b3b" stroke-width="1.8" stroke-linejoin="round"><title>Lote SC-completo-37607 (2.684,942 m²)</title></polygon><polygon class="planta-parede-cega" points="86.40,18.00 92.14,86.82 68.33,88.80 62.60,19.99" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"><title>Limite parede cega na divisa</title></polygon><polygon class="planta-caixa-maxima" points="63.90,21.09 85.30,19.30 90.94,86.92 69.54,88.70" fill="#ffffff" fill-opacity="0.45" stroke="#475569" stroke-width="1.2" stroke-dasharray="5,3" stroke-linejoin="round"><title>Projeção da caixa máxima (recuos)</title></polygon><polygon class="planta-volume planta-volume-garagem" data-volume-idx="1" data-uso="garagem" points="63.90,21.09 85.30,19.30 90.94,86.92 69.54,88.70" fill="url(#hachura-subsolo-SC-completo-37607-A-mini)" fill-opacity="0.85" stroke="#475569" stroke-width="1.3" stroke-dasharray="4,2" stroke-linejoin="round"><title>Subsolo / Garagem: 1 pav., h=3,0 m (z0=-3,0 m)</title></polygon><polygon class="planta-volume planta-volume-residencial" data-volume-idx="0" data-uso="residencial" points="71.39,51.20 72.35,62.71 83.86,61.75 82.90,50.24" fill="#2563eb" fill-opacity="0.72" stroke="#1e3a8a" stroke-width="1.8" stroke-linejoin="round"><title>Residencial: 20 pav., h=61,5 m (z0=0,0 m)</title></polygon><line class="planta-frente" x1="92.40" y1="90.02" x2="68.60" y2="92.00" stroke="#dc2626" stroke-width="3.0" stroke-linecap="round"><title>Frente do lote (acesso)</title></line><g transform="translate(135, 16)"><line x1="0" y1="8" x2="0" y2="-4" stroke="#0f172a" stroke-width="1.5"/><polygon points="0,-7 -3.5,-1 3.5,-1" fill="#0f172a"/><text x="0" y="16" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="700" fill="#0f172a">N</text></g><g class="planta-escala"><line x1="12.0" y1="104.0" x2="52.1" y2="104.0" stroke="#0f172a" stroke-width="2"/><line x1="12.0" y1="101.0" x2="12.0" y2="107.0" stroke="#0f172a" stroke-width="1.5"/><line x1="52.1" y1="101.0" x2="52.1" y2="107.0" stroke="#0f172a" stroke-width="1.5"/><text x="32.0" y="100.0" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="600" fill="#0f172a">50 m</text></g></svg></div><div class="mini-item"><div class="mini-legenda">Vista 3D</div><svg class="svg-vista3d" data-opcao="A" viewBox="0 0 155 112" width="100%" height="112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vista 3D axonométrica da opção A"><rect x="0" y="0" width="155" height="112" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon points="46.51,67.59 65.52,60.21 108.49,90.12 89.48,97.50 46.51,67.59" fill="#dcfce7" fill-opacity="0.7" stroke="#15803d" stroke-width="1.4"/><line x1="108.49" y1="90.12" x2="89.48" y2="97.50" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/><polygon points="48.18,69.92 65.27,63.27 65.27,61.08 48.18,67.72" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="65.27,63.27 105.63,91.36 105.63,89.16 65.27,61.08" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="88.53,98.00 48.18,69.92 48.18,67.72 88.53,95.80" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="105.63,91.36 88.53,98.00 88.53,95.80 105.63,89.16" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="48.18,67.72 65.27,61.08 105.63,89.16 88.53,95.80" fill="#cbd5e1" fill-opacity="0.5" stroke="#475569" stroke-width="1.1" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="79.54,75.29 70.35,78.86 70.35,33.79 79.54,30.21" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="86.41,80.07 79.54,75.29 79.54,30.21 86.41,35.00" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="70.35,78.86 77.22,83.64 77.22,38.57 70.35,33.79" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="77.22,83.64 86.41,80.07 86.41,35.00 77.22,38.57" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="70.35,33.79 77.22,38.57 86.41,35.00 79.54,30.21" fill="#60a5fa" fill-opacity="0.9199999999999999" stroke="#1e3a8a" stroke-width="1.1" stroke-linejoin="round"/><polygon class="vista3d-caixa-topo" points="48.18,22.64 65.27,16.00 105.63,44.09 88.53,50.73" fill="#0ea5e9" fill-opacity="0.06" stroke="#0284c7" stroke-width="1.0" stroke-dasharray="4,3"/><line x1="48.18" y1="67.72" x2="48.18" y2="22.64" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="65.27" y1="61.08" x2="65.27" y2="16.00" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="105.63" y1="89.16" x2="105.63" y2="44.09" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="88.53" y1="95.80" x2="88.53" y2="50.73" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/></svg></div></div></td><td class="cel-miniatura"><div class="mini-dupla"><div class="mini-item"><div class="mini-legenda">Implantação</div><svg class="svg-planta" data-opcao="B" viewBox="0 0 155 112" width="100%" height="112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Planta de implantação da opção B"><defs><pattern id="hachura-subsolo-SC-completo-37607-B-mini" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="6" stroke="#64748b" stroke-width="1.2" stroke-opacity="0.45"/></pattern></defs><rect x="0" y="0" width="155" height="112" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon class="planta-lote" points="62.60,19.98 86.40,18.00 92.40,90.02 68.60,92.00 62.60,19.98" fill="#e6f4ea" stroke="#1e6b3b" stroke-width="1.8" stroke-linejoin="round"><title>Lote SC-completo-37607 (2.684,942 m²)</title></polygon><polygon class="planta-parede-cega" points="86.40,18.00 92.14,86.82 68.33,88.80 62.60,19.99" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"><title>Limite parede cega na divisa</title></polygon><polygon class="planta-caixa-maxima" points="63.90,21.09 85.30,19.30 90.94,86.92 69.54,88.70" fill="#ffffff" fill-opacity="0.45" stroke="#475569" stroke-width="1.2" stroke-dasharray="5,3" stroke-linejoin="round"><title>Projeção da caixa máxima (recuos)</title></polygon><polygon class="planta-volume planta-volume-garagem" data-volume-idx="2" data-uso="garagem" points="63.90,21.09 85.30,19.30 90.94,86.92 69.54,88.70" fill="url(#hachura-subsolo-SC-completo-37607-B-mini)" fill-opacity="0.85" stroke="#475569" stroke-width="1.3" stroke-dasharray="4,2" stroke-linejoin="round"><title>Subsolo / Garagem: 1 pav., h=3,0 m (z0=-3,0 m)</title></polygon><polygon class="planta-volume planta-volume-residencial" data-volume-idx="0" data-uso="residencial" points="69.79,32.08 70.75,43.60 82.27,42.64 81.31,31.12" fill="#2563eb" fill-opacity="0.72" stroke="#1e3a8a" stroke-width="1.8" stroke-linejoin="round"><title>Residencial: 10 pav., h=31,5 m (z0=0,0 m)</title></polygon><polygon class="planta-volume planta-volume-residencial" data-volume-idx="1" data-uso="residencial" points="72.73,67.31 73.69,78.83 85.21,77.88 84.25,66.35" fill="#2563eb" fill-opacity="0.72" stroke="#1e3a8a" stroke-width="1.8" stroke-linejoin="round"><title>Residencial: 10 pav., h=31,5 m (z0=0,0 m)</title></polygon><line class="planta-frente" x1="92.40" y1="90.02" x2="68.60" y2="92.00" stroke="#dc2626" stroke-width="3.0" stroke-linecap="round"><title>Frente do lote (acesso)</title></line><g transform="translate(135, 16)"><line x1="0" y1="8" x2="0" y2="-4" stroke="#0f172a" stroke-width="1.5"/><polygon points="0,-7 -3.5,-1 3.5,-1" fill="#0f172a"/><text x="0" y="16" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="700" fill="#0f172a">N</text></g><g class="planta-escala"><line x1="12.0" y1="104.0" x2="52.1" y2="104.0" stroke="#0f172a" stroke-width="2"/><line x1="12.0" y1="101.0" x2="12.0" y2="107.0" stroke="#0f172a" stroke-width="1.5"/><line x1="52.1" y1="101.0" x2="52.1" y2="107.0" stroke="#0f172a" stroke-width="1.5"/><text x="32.0" y="100.0" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="600" fill="#0f172a">50 m</text></g></svg></div><div class="mini-item"><div class="mini-legenda">Vista 3D</div><svg class="svg-vista3d" data-opcao="B" viewBox="0 0 155 112" width="100%" height="112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vista 3D axonométrica da opção B"><rect x="0" y="0" width="155" height="112" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon points="46.51,67.59 65.52,60.21 108.49,90.12 89.48,97.50 46.51,67.59" fill="#dcfce7" fill-opacity="0.7" stroke="#15803d" stroke-width="1.4"/><line x1="108.49" y1="90.12" x2="89.48" y2="97.50" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/><polygon points="48.18,69.92 65.27,63.27 65.27,61.08 48.18,67.72" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="65.27,63.27 105.63,91.36 105.63,89.16 65.27,61.08" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="88.53,98.00 48.18,69.92 48.18,67.72 88.53,95.80" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="105.63,91.36 88.53,98.00 88.53,95.80 105.63,89.16" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="48.18,67.72 65.27,61.08 105.63,89.16 88.53,95.80" fill="#cbd5e1" fill-opacity="0.5" stroke="#475569" stroke-width="1.1" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="68.14,67.34 58.94,70.92 58.94,47.83 68.14,44.26" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="75.01,72.13 68.14,67.34 68.14,44.26 75.01,49.04" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="58.94,70.92 65.81,75.71 65.81,52.62 58.94,47.83" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="65.81,75.71 75.01,72.13 75.01,49.04 65.81,52.62" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="58.94,47.83 65.81,52.62 75.01,49.04 68.14,44.26" fill="#60a5fa" fill-opacity="0.9199999999999999" stroke="#1e3a8a" stroke-width="1.1" stroke-linejoin="round"/><polygon points="89.16,81.98 79.96,85.55 79.96,62.47 89.16,58.89" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="96.04,86.77 89.16,81.98 89.16,58.89 96.04,63.68" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="79.96,85.55 86.84,90.34 86.84,67.25 79.96,62.47" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="86.84,90.34 96.04,86.77 96.04,63.68 86.84,67.25" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="79.96,62.47 86.84,67.25 96.04,63.68 89.16,58.89" fill="#60a5fa" fill-opacity="0.9199999999999999" stroke="#1e3a8a" stroke-width="1.1" stroke-linejoin="round"/><polygon class="vista3d-caixa-topo" points="48.18,22.64 65.27,16.00 105.63,44.09 88.53,50.73" fill="#0ea5e9" fill-opacity="0.06" stroke="#0284c7" stroke-width="1.0" stroke-dasharray="4,3"/><line x1="48.18" y1="67.72" x2="48.18" y2="22.64" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="65.27" y1="61.08" x2="65.27" y2="16.00" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="105.63" y1="89.16" x2="105.63" y2="44.09" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="88.53" y1="95.80" x2="88.53" y2="50.73" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/></svg></div></div></td><td class="cel-miniatura"><div class="mini-dupla"><div class="mini-item"><div class="mini-legenda">Implantação</div><svg class="svg-planta" data-opcao="C" viewBox="0 0 155 112" width="100%" height="112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Planta de implantação da opção C"><defs><pattern id="hachura-subsolo-SC-completo-37607-C-mini" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="6" stroke="#64748b" stroke-width="1.2" stroke-opacity="0.45"/></pattern></defs><rect x="0" y="0" width="155" height="112" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon class="planta-lote" points="62.60,19.98 86.40,18.00 92.40,90.02 68.60,92.00 62.60,19.98" fill="#e6f4ea" stroke="#1e6b3b" stroke-width="1.8" stroke-linejoin="round"><title>Lote SC-completo-37607 (2.684,942 m²)</title></polygon><polygon class="planta-parede-cega" points="86.40,18.00 92.14,86.82 68.33,88.80 62.60,19.99" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"><title>Limite parede cega na divisa</title></polygon><polygon class="planta-caixa-maxima" points="63.90,21.09 85.30,19.30 90.94,86.92 69.54,88.70" fill="#ffffff" fill-opacity="0.45" stroke="#475569" stroke-width="1.2" stroke-dasharray="5,3" stroke-linejoin="round"><title>Projeção da caixa máxima (recuos)</title></polygon><polygon class="planta-volume planta-volume-garagem" data-volume-idx="1" data-uso="garagem" points="63.90,21.09 85.30,19.30 90.94,86.92 69.54,88.70" fill="url(#hachura-subsolo-SC-completo-37607-C-mini)" fill-opacity="0.85" stroke="#475569" stroke-width="1.3" stroke-dasharray="4,2" stroke-linejoin="round"><title>Subsolo / Garagem: 1 pav., h=3,0 m (z0=-3,0 m)</title></polygon><polygon class="planta-volume planta-volume-residencial" data-volume-idx="0" data-uso="residencial" points="68.53,33.25 72.12,76.34 86.34,75.15 82.75,32.06" fill="#2563eb" fill-opacity="0.72" stroke="#1e3a8a" stroke-width="1.8" stroke-linejoin="round"><title>Residencial: 4 pav., h=13,5 m (z0=0,0 m)</title></polygon><line class="planta-frente" x1="92.40" y1="90.02" x2="68.60" y2="92.00" stroke="#dc2626" stroke-width="3.0" stroke-linecap="round"><title>Frente do lote (acesso)</title></line><g transform="translate(135, 16)"><line x1="0" y1="8" x2="0" y2="-4" stroke="#0f172a" stroke-width="1.5"/><polygon points="0,-7 -3.5,-1 3.5,-1" fill="#0f172a"/><text x="0" y="16" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="700" fill="#0f172a">N</text></g><g class="planta-escala"><line x1="12.0" y1="104.0" x2="52.1" y2="104.0" stroke="#0f172a" stroke-width="2"/><line x1="12.0" y1="101.0" x2="12.0" y2="107.0" stroke="#0f172a" stroke-width="1.5"/><line x1="52.1" y1="101.0" x2="52.1" y2="107.0" stroke="#0f172a" stroke-width="1.5"/><text x="32.0" y="100.0" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="600" fill="#0f172a">50 m</text></g></svg></div><div class="mini-item"><div class="mini-legenda">Vista 3D</div><svg class="svg-vista3d" data-opcao="C" viewBox="0 0 155 112" width="100%" height="112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vista 3D axonométrica da opção C"><rect x="0" y="0" width="155" height="112" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon points="46.51,67.59 65.52,60.21 108.49,90.12 89.48,97.50 46.51,67.59" fill="#dcfce7" fill-opacity="0.7" stroke="#15803d" stroke-width="1.4"/><line x1="108.49" y1="90.12" x2="89.48" y2="97.50" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/><polygon points="48.18,69.92 65.27,63.27 65.27,61.08 48.18,67.72" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="65.27,63.27 105.63,91.36 105.63,89.16 65.27,61.08" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="88.53,98.00 48.18,69.92 48.18,67.72 88.53,95.80" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="105.63,91.36 88.53,98.00 88.53,95.80 105.63,89.16" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="48.18,67.72 65.27,61.08 105.63,89.16 88.53,95.80" fill="#cbd5e1" fill-opacity="0.5" stroke="#475569" stroke-width="1.1" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="69.85,67.37 58.48,71.78 58.48,61.89 69.85,57.47" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="95.56,85.26 69.85,67.37 69.85,57.47 95.56,75.37" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="58.48,71.78 84.20,89.68 84.20,79.78 58.48,61.89" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="84.20,89.68 95.56,85.26 95.56,75.37 84.20,79.78" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="58.48,61.89 84.20,79.78 95.56,75.37 69.85,57.47" fill="#60a5fa" fill-opacity="0.9199999999999999" stroke="#1e3a8a" stroke-width="1.1" stroke-linejoin="round"/><polygon class="vista3d-caixa-topo" points="48.18,22.64 65.27,16.00 105.63,44.09 88.53,50.73" fill="#0ea5e9" fill-opacity="0.06" stroke="#0284c7" stroke-width="1.0" stroke-dasharray="4,3"/><line x1="48.18" y1="67.72" x2="48.18" y2="22.64" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="65.27" y1="61.08" x2="65.27" y2="16.00" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="105.63" y1="89.16" x2="105.63" y2="44.09" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="88.53" y1="95.80" x2="88.53" y2="50.73" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/></svg></div></div></td><td class="cel-miniatura"><div class="mini-dupla"><div class="mini-item"><div class="mini-legenda">Implantação</div><svg class="svg-planta" data-opcao="D" viewBox="0 0 155 112" width="100%" height="112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Planta de implantação da opção D"><defs><pattern id="hachura-subsolo-SC-completo-37607-D-mini" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="6" stroke="#64748b" stroke-width="1.2" stroke-opacity="0.45"/></pattern></defs><rect x="0" y="0" width="155" height="112" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon class="planta-lote" points="62.60,19.98 86.40,18.00 92.40,90.02 68.60,92.00 62.60,19.98" fill="#e6f4ea" stroke="#1e6b3b" stroke-width="1.8" stroke-linejoin="round"><title>Lote SC-completo-37607 (2.684,942 m²)</title></polygon><polygon class="planta-parede-cega" points="86.40,18.00 92.14,86.82 68.33,88.80 62.60,19.99" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"><title>Limite parede cega na divisa</title></polygon><polygon class="planta-caixa-maxima" points="63.90,21.09 85.30,19.30 90.94,86.92 69.54,88.70" fill="#ffffff" fill-opacity="0.45" stroke="#475569" stroke-width="1.2" stroke-dasharray="5,3" stroke-linejoin="round"><title>Projeção da caixa máxima (recuos)</title></polygon><polygon class="planta-volume planta-volume-garagem" data-volume-idx="2" data-uso="garagem" points="63.90,21.09 85.30,19.30 90.94,86.92 69.54,88.70" fill="url(#hachura-subsolo-SC-completo-37607-D-mini)" fill-opacity="0.85" stroke="#475569" stroke-width="1.3" stroke-dasharray="4,2" stroke-linejoin="round"><title>Subsolo / Garagem: 1 pav., h=3,0 m (z0=-3,0 m)</title></polygon><polygon class="planta-volume planta-volume-embasamento" data-volume-idx="0" data-uso="embasamento" points="82.96,47.46 83.96,59.54 71.88,60.55 70.87,48.47" fill="#f59e0b" fill-opacity="0.55" stroke="#b45309" stroke-width="1.5" stroke-linejoin="round"><title>Embasamento: 2 pav., h=7,5 m (z0=0,0 m)</title></polygon><polygon class="planta-volume planta-volume-residencial" data-volume-idx="1" data-uso="residencial" points="71.21,48.75 72.17,60.21 83.62,59.25 82.67,47.79" fill="#2563eb" fill-opacity="0.72" stroke="#1e3a8a" stroke-width="1.8" stroke-linejoin="round"><title>Residencial: 18 pav., h=54,0 m (z0=7,5 m)</title></polygon><line class="planta-frente" x1="92.40" y1="90.02" x2="68.60" y2="92.00" stroke="#dc2626" stroke-width="3.0" stroke-linecap="round"><title>Frente do lote (acesso)</title></line><g transform="translate(135, 16)"><line x1="0" y1="8" x2="0" y2="-4" stroke="#0f172a" stroke-width="1.5"/><polygon points="0,-7 -3.5,-1 3.5,-1" fill="#0f172a"/><text x="0" y="16" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="700" fill="#0f172a">N</text></g><g class="planta-escala"><line x1="12.0" y1="104.0" x2="52.1" y2="104.0" stroke="#0f172a" stroke-width="2"/><line x1="12.0" y1="101.0" x2="12.0" y2="107.0" stroke="#0f172a" stroke-width="1.5"/><line x1="52.1" y1="101.0" x2="52.1" y2="107.0" stroke="#0f172a" stroke-width="1.5"/><text x="32.0" y="100.0" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="600" fill="#0f172a">50 m</text></g></svg></div><div class="mini-item"><div class="mini-legenda">Vista 3D</div><svg class="svg-vista3d" data-opcao="D" viewBox="0 0 155 112" width="100%" height="112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vista 3D axonométrica da opção D"><rect x="0" y="0" width="155" height="112" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon points="46.51,67.59 65.52,60.21 108.49,90.12 89.48,97.50 46.51,67.59" fill="#dcfce7" fill-opacity="0.7" stroke="#15803d" stroke-width="1.4"/><line x1="108.49" y1="90.12" x2="89.48" y2="97.50" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/><polygon points="48.18,69.92 65.27,63.27 65.27,61.08 48.18,67.72" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="65.27,63.27 105.63,91.36 105.63,89.16 65.27,61.08" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="88.53,98.00 48.18,69.92 48.18,67.72 88.53,95.80" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="105.63,91.36 88.53,98.00 88.53,95.80 105.63,89.16" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="48.18,67.72 65.27,61.08 105.63,89.16 88.53,95.80" fill="#cbd5e1" fill-opacity="0.5" stroke="#475569" stroke-width="1.1" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="68.48,77.81 78.13,74.05 78.13,68.56 68.48,72.31" fill="#f59e0b" fill-opacity="0.82" stroke="#92400e" stroke-width="0.9" stroke-linejoin="round"/><polygon points="78.13,74.05 85.33,79.07 85.33,73.58 78.13,68.56" fill="#f59e0b" fill-opacity="0.82" stroke="#92400e" stroke-width="0.9" stroke-linejoin="round"/><polygon points="75.68,82.83 68.48,77.81 68.48,72.31 75.68,77.33" fill="#d97706" fill-opacity="0.82" stroke="#92400e" stroke-width="0.9" stroke-linejoin="round"/><polygon points="85.33,79.07 75.68,82.83 75.68,77.33 85.33,73.58" fill="#d97706" fill-opacity="0.82" stroke="#92400e" stroke-width="0.9" stroke-linejoin="round"/><polygon points="78.13,68.56 85.33,73.58 75.68,77.33 68.48,72.31" fill="#fbbf24" fill-opacity="0.8999999999999999" stroke="#92400e" stroke-width="1.1" stroke-linejoin="round"/><polygon points="78.06,68.78 68.91,72.34 68.91,32.76 78.06,29.21" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="84.90,73.54 78.06,68.78 78.06,29.21 84.90,33.96" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="68.91,72.34 75.75,77.10 75.75,37.52 68.91,32.76" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="75.75,77.10 84.90,73.54 84.90,33.96 75.75,37.52" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="68.91,32.76 75.75,37.52 84.90,33.96 78.06,29.21" fill="#60a5fa" fill-opacity="0.9199999999999999" stroke="#1e3a8a" stroke-width="1.1" stroke-linejoin="round"/><polygon class="vista3d-caixa-topo" points="48.18,22.64 65.27,16.00 105.63,44.09 88.53,50.73" fill="#0ea5e9" fill-opacity="0.06" stroke="#0284c7" stroke-width="1.0" stroke-dasharray="4,3"/><line x1="48.18" y1="67.72" x2="48.18" y2="22.64" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="65.27" y1="61.08" x2="65.27" y2="16.00" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="105.63" y1="89.16" x2="105.63" y2="44.09" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="88.53" y1="95.80" x2="88.53" y2="50.73" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/></svg></div></div></td>
+          </tr>
+          <tr class="linha-destaque"><th>1. Unidades estimadas</th><td><span class="num" data-campo="opcoes.A.metricas.unidades_estimadas" data-valor="40">40</span> un.</td><td><span class="num" data-campo="opcoes.B.metricas.unidades_estimadas" data-valor="40">40</span> un.</td><td><span class="num" data-campo="opcoes.C.metricas.unidades_estimadas" data-valor="48">48</span> un.</td><td><span class="num" data-campo="opcoes.D.metricas.unidades_estimadas" data-valor="36">36</span> un.</td></tr>
+          <tr class="linha-destaque"><th>2. Área privativa vendável</th><td><span class="num" data-campo="opcoes.A.metricas.area_privativa_m2" data-valor="3321.59">3.321,59</span> m²</td><td><span class="num" data-campo="opcoes.B.metricas.area_privativa_m2" data-valor="3326.98">3.326,98</span> m²</td><td><span class="num" data-campo="opcoes.C.metricas.area_privativa_m2" data-valor="3070.98">3.070,98</span> m²</td><td><span class="num" data-campo="opcoes.D.metricas.area_privativa_m2" data-valor="2961.05">2.961,05</span> m²</td></tr>
+          <tr class="linha-destaque"><th>3. Vagas de garagem</th><td><span class="num" data-campo="opcoes.A.metricas.vagas" data-valor="40">40</span> vagas</td><td><span class="num" data-campo="opcoes.B.metricas.vagas" data-valor="40">40</span> vagas</td><td><span class="num" data-campo="opcoes.C.metricas.vagas" data-valor="48">48</span> vagas</td><td><span class="num" data-campo="opcoes.D.metricas.vagas" data-valor="36">36</span> vagas</td></tr>
+          <tr class="linha-destaque"><th>4. VGV estimado</th><td><span class="num num-nulo" data-campo="opcoes.A.metricas.vgv_estimado" data-valor="null">informe o preço</span></td><td><span class="num num-nulo" data-campo="opcoes.B.metricas.vgv_estimado" data-valor="null">informe o preço</span></td><td><span class="num num-nulo" data-campo="opcoes.C.metricas.vgv_estimado" data-valor="null">informe o preço</span></td><td><span class="num num-nulo" data-campo="opcoes.D.metricas.vgv_estimado" data-valor="null">informe o preço</span></td></tr>
+          <tr><th>CA usado</th><td><span class="num" data-campo="opcoes.A.metricas.ca_usado" data-valor="1.397">1,397</span></td><td><span class="num" data-campo="opcoes.B.metricas.ca_usado" data-valor="1.4">1,4</span></td><td><span class="num" data-campo="opcoes.C.metricas.ca_usado" data-valor="1.4">1,4</span></td><td><span class="num" data-campo="opcoes.D.metricas.ca_usado" data-valor="1.4">1,4</span></td></tr>
+          <tr><th>Taxa de ocupação usada (TO)</th><td><span class="num" data-campo="opcoes.A.metricas.to_usada" data-valor="0.07">0,07</span></td><td><span class="num" data-campo="opcoes.B.metricas.to_usada" data-valor="0.14">0,14</span></td><td><span class="num" data-campo="opcoes.C.metricas.to_usada" data-valor="0.35">0,35</span></td><td><span class="num" data-campo="opcoes.D.metricas.to_usada" data-valor="0.078">0,078</span></td></tr>
+          <tr><th>Pavimentos (acima do solo)</th><td><span class="num" data-campo="opcoes.A.metricas.pavimentos" data-valor="20">20</span> pav.</td><td><span class="num" data-campo="opcoes.B.metricas.pavimentos" data-valor="10">10</span> pav.</td><td><span class="num" data-campo="opcoes.C.metricas.pavimentos" data-valor="4">4</span> pav.</td><td><span class="num" data-campo="opcoes.D.metricas.pavimentos" data-valor="20">20</span> pav.</td></tr>
+          <tr><th>Altura máxima no topo</th><td><span class="num" data-campo="opcoes.A.altura_topo_m" data-valor="61.5">61,5</span> m</td><td><span class="num" data-campo="opcoes.B.altura_topo_m" data-valor="31.5">31,5</span> m</td><td><span class="num" data-campo="opcoes.C.altura_topo_m" data-valor="13.5">13,5</span> m</td><td><span class="num" data-campo="opcoes.D.altura_topo_m" data-valor="61.5">61,5</span> m</td></tr>
+          <tr><th>Área construída total</th><td><span class="num" data-campo="opcoes.A.metricas.area_construida_m2" data-valor="6419.2">6.419,2</span> m²</td><td><span class="num" data-campo="opcoes.B.metricas.area_construida_m2" data-valor="6425.94">6.425,94</span> m²</td><td><span class="num" data-campo="opcoes.C.metricas.area_construida_m2" data-valor="6105.94">6.105,94</span> m²</td><td><span class="num" data-campo="opcoes.D.metricas.area_construida_m2" data-valor="6425.94">6.425,94</span> m²</td></tr>
+          <tr><th>Área computável</th><td><span class="num" data-campo="opcoes.A.metricas.area_computavel_m2" data-valor="3751.99">3.751,99</span> m²</td><td><span class="num" data-campo="opcoes.B.metricas.area_computavel_m2" data-valor="3758.73">3.758,73</span> m²</td><td><span class="num" data-campo="opcoes.C.metricas.area_computavel_m2" data-valor="3758.73">3.758,73</span> m²</td><td><span class="num" data-campo="opcoes.D.metricas.area_computavel_m2" data-valor="3758.73">3.758,73</span> m²</td></tr>
+          <tr><th>Área não computável</th><td><span class="num" data-campo="opcoes.A.metricas.area_nao_computavel_m2" data-valor="2667.21">2.667,21</span> m²</td><td><span class="num" data-campo="opcoes.B.metricas.area_nao_computavel_m2" data-valor="2667.21">2.667,21</span> m²</td><td><span class="num" data-campo="opcoes.C.metricas.area_nao_computavel_m2" data-valor="2347.21">2.347,21</span> m²</td><td><span class="num" data-campo="opcoes.D.metricas.area_nao_computavel_m2" data-valor="2667.21">2.667,21</span> m²</td></tr>
+          <tr><th>Área acima do CA básico (outorga)</th><td><span class="num" data-campo="opcoes.A.metricas.area_acima_ca_basico_m2" data-valor="0.0">0,0</span> m²</td><td><span class="num" data-campo="opcoes.B.metricas.area_acima_ca_basico_m2" data-valor="0.0">0,0</span> m²</td><td><span class="num" data-campo="opcoes.C.metricas.area_acima_ca_basico_m2" data-valor="0.0">0,0</span> m²</td><td><span class="num" data-campo="opcoes.D.metricas.area_acima_ca_basico_m2" data-valor="0.0">0,0</span> m²</td></tr>
+          <tr><th>Área de garagem</th><td><span class="num" data-campo="opcoes.A.metricas.area_garagem_m2" data-valor="2267.21">2.267,21</span> m²</td><td><span class="num" data-campo="opcoes.B.metricas.area_garagem_m2" data-valor="2267.21">2.267,21</span> m²</td><td><span class="num" data-campo="opcoes.C.metricas.area_garagem_m2" data-valor="2267.21">2.267,21</span> m²</td><td><span class="num" data-campo="opcoes.D.metricas.area_garagem_m2" data-valor="2267.21">2.267,21</span> m²</td></tr>
+          <tr><th>Área permeável</th><td><span class="num" data-campo="opcoes.A.metricas.area_permeavel_m2" data-valor="417.73">417,73</span> m²</td><td><span class="num" data-campo="opcoes.B.metricas.area_permeavel_m2" data-valor="417.73">417,73</span> m²</td><td><span class="num" data-campo="opcoes.C.metricas.area_permeavel_m2" data-valor="417.73">417,73</span> m²</td><td><span class="num" data-campo="opcoes.D.metricas.area_permeavel_m2" data-valor="417.73">417,73</span> m²</td></tr>
+          <tr><th>Alertas da opção</th><td class="cel-alertas"><ul class="lista-compacta"><li>Recuo lateral/fundos: residencial 7.69/7.69 m (recuo do topo no prédio todo).</li><li>ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.</li><li>No limite: CA 1.40 (máximo 1.40).</li></ul></td><td class="cel-alertas"><ul class="lista-compacta"><li>Recuo lateral/fundos: residencial 3.94/3.94 m, residencial 3.94/3.94 m (recuo do topo no prédio todo).</li><li>ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.</li><li>No limite: CA 1.40 (máximo 1.40).</li></ul></td><td class="cel-alertas"><ul class="lista-compacta"><li>Recuo lateral/fundos: residencial 2.00/2.00 m (recuo do topo no prédio todo).</li><li>ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.</li><li>No limite: CA 1.40 (máximo 1.40).</li></ul></td><td class="cel-alertas"><ul class="lista-compacta"><li>Recuo lateral/fundos: embasamento 1.50/1.50 m, residencial 7.69/7.69 m (escalonado).</li><li>ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.</li><li>No limite: CA 1.40 (máximo 1.40).</li></ul></td></tr>
+        </tbody>
+      </table>
+
+      
+        <div class="caixa-alerta caixa-perigo">
+          <div class="caixa-alerta-titulo">Áreas Especiais / Restrições Sobrepostas no Lote</div>
+          <ul class="lista-alertas"><li><strong>interesse_industrial_servicos — AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo:</strong> Polígono na área laranja nº 42. Aptidão para prédio residencial não comprovada; conferir uso municipal e restrições registradas do CEAT. Não foi inferida proibição absoluta ou altura específica. <small>(Fonte: Lei 18.053/2016, arts. 84 a 86, Anexo 06, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf | Conferido: <span class="num num-bool" data-campo="lote.areas_especiais.0.conferido" data-valor="false">Não</span>)</small></li></ul>
+        </div>
+        
+      
+    <div class="caixa-alerta caixa-incertezas">
+      <div class="caixa-alerta-titulo">Incertezas e Limitações do Estudo (11)</div>
+      <ul class="lista-alertas"><li>Terreno na zona SC-Z4: NÃO conferido (lida à mão no anexo em PDF). Confirmar a zona do lote antes de usar o estudo.</li><li>A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.</li><li>Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).</li><li>Área especial interesse_industrial_servicos sem número de altura: não aplicada (Lei 18.053/2016, arts. 84 a 86, Anexo 06, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf).</li><li>Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.</li><li>Parede cega (sem janela) encosta na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).</li><li>Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.</li><li>Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.</li><li>A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.</li><li>Relevo ignorado: volumes assentados em terreno plano, z=0.</li><li>Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.</li></ul>
+    </div>
+    
+
+      <div class="observacoes-rodape">
+        <div><strong>Observações do Lote:</strong> Geometria de ensaio derivada da maquete; não comprova lote cadastral, disponibilidade ou aptidão legal. Frente e eventual esquina inferidas da malha de asfalto, sem vistoria ou nome de rua confirmado. LID ausente na origem; ID local usa índice da feição.  Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade. Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md. Área predominantemente industrial e de serviços de grande porte. Não apresentar como lote apto a residencial sem consulta de uso e matrícula. Há faixa AIA a oeste no Anexo 05, sem interseção nítida. Confirmar limites ambientais e áreas públicas. Anotação manual para simulação, não certidão municipal. A geometria de ensaio da maquete não comprova lote cadastral, disponibilidade ou aptidão legal. Mapas raster generalizados: o resíduo dos controles não mede o erro total do mapa ou do lote. Confirmar cadastro, matrícula, loteamento e normas atualizadas antes de projetar. Ausência de incidência visual não afasta APP, servidão, patrimônio individual, inundação, contaminação ou outras restrições não desenhadas. Consulta específica ao DECEA continua necessária para validar altura.</div>
+        <div><strong>Observações da Zona:</strong> CA único 1,4, repetido em ca_basico e ca_maximo. HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona.</div>
+      </div>
+
+      <footer class="rodape-fixo">Estudo preliminar automático. Não substitui o arquiteto responsável nem garante aprovação na prefeitura.</footer>
+    </section>
+    
+    <section class="pagina pagina-opcao" id="opcao-A" data-opcao-id="A">
+      <!-- 1. CABEÇALHO -->
+      <header class="cabecalho-pagina">
+        <div class="cab-esquerda">
+          <div class="cab-tag">OPÇÃO A — FICHA DE VIABILIDADE POR OPÇÃO</div>
+          <h1 class="cab-titulo">A — Torre única</h1>
+          <div class="cab-subtitulo">
+            Lote: <strong>SC-completo-37607</strong> (<span class="num" data-campo="lote.area_m2" data-valor="2684.942">2.684,942</span> m²) ·
+            Zona: <strong>SC-Z4 — Zona 4 – Qualificação e Ocupação Controlada</strong>
+          </div>
+        </div>
+        <div class="cab-direita">
+          <div>Motor v<strong>0.5.0</strong></div>
+          <div>Leis: 2016-12-19, 2020-12-15, 2021-04-06, 2024-03-08, 2026-02-24</div>
+          <div class="cab-fontes-curtas" title="Lei nº 18.053/2016 (Plano Diretor) (2016-12-19); Lei nº 19.950/2020 (Código de Obras) (2020-12-15); Lei nº 20.072/2021 (2021-04-06); Lei nº 24.031/2026 (2026-02-24); Lei nº 22.285/2024 (2024-03-08); Lei nº 19.950/2020 (Código de Obras) (2020-12-15)">6 fontes legais</div>
+        </div>
+      </header>
+
+      
+        <div class="conferencia-dupla conferencia-compacta">
+          <div class="conf-card conf-ok">
+            <div class="conf-titulo">1. Números da zona conferidos na lei (<code>zona.conferido</code>)</div>
+            <div class="conf-valor">
+              <span class="badge-conf">CONFERIDO NA LEI</span>
+              <span class="conf-detalhe"><span class="num num-bool" data-campo="zona.conferido" data-valor="true">Sim</span> — Zona <strong>SC-Z4</strong> (Zona 4 – Qualificação e Ocupação Controlada)</span>
+            </div>
+          </div>
+          <div class="conf-card conf-alerta">
+            <div class="conf-titulo">2. O terreno está nessa zona? (<code>lote.zona_conferida</code>)</div>
+            <div class="conf-valor">
+              <span class="badge-conf">NÃO CONFERIDO</span>
+              <span class="conf-detalhe"><span class="num num-bool" data-campo="lote.zona_conferida" data-valor="false">Não</span> — Origem: <strong>Anotada à mão (lida no anexo em PDF)</strong> (<code>anotada_a_mao</code>)</span>
+            </div>
+            
+          </div>
+        </div>
+        
+
+      <!-- 2. IMAGEM: VISTA 3D + IMPLANTAÇÃO DE CIMA AO LADO -->
+      <div class="painel-desenhos">
+        <div class="desenho-box">
+          <svg class="svg-planta" data-opcao="A" viewBox="0 0 350 215" width="100%" height="215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Planta de implantação da opção A"><defs><pattern id="hachura-subsolo-SC-completo-37607-A-full" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="6" stroke="#64748b" stroke-width="1.2" stroke-opacity="0.45"/></pattern></defs><rect x="0" y="0" width="350" height="215" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon class="planta-lote" points="143.79,30.16 193.64,26.00 206.21,176.85 156.36,181.00 143.79,30.16" fill="#e6f4ea" stroke="#1e6b3b" stroke-width="1.8" stroke-linejoin="round"><title>Lote SC-completo-37607 (2.684,942 m²)</title></polygon><polygon class="planta-parede-cega" points="193.64,26.00 205.66,170.16 155.80,174.31 143.79,30.16" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"><title>Limite parede cega na divisa</title></polygon><polygon class="planta-caixa-maxima" points="146.51,32.47 191.33,28.72 203.14,170.36 158.32,174.09" fill="#ffffff" fill-opacity="0.45" stroke="#475569" stroke-width="1.2" stroke-dasharray="5,3" stroke-linejoin="round"><title>Projeção da caixa máxima (recuos)</title></polygon><polygon class="planta-volume planta-volume-garagem" data-volume-idx="1" data-uso="garagem" points="146.51,32.47 191.33,28.72 203.14,170.36 158.32,174.09" fill="url(#hachura-subsolo-SC-completo-37607-A-full)" fill-opacity="0.85" stroke="#475569" stroke-width="1.3" stroke-dasharray="4,2" stroke-linejoin="round"><title>Subsolo / Garagem: 1 pav., h=3,0 m (z0=-3,0 m)</title></polygon><polygon class="planta-volume planta-volume-residencial" data-volume-idx="0" data-uso="residencial" points="162.20,95.54 164.21,119.64 188.31,117.64 186.31,93.53" fill="#2563eb" fill-opacity="0.72" stroke="#1e3a8a" stroke-width="1.8" stroke-linejoin="round"><title>Residencial: 20 pav., h=61,5 m (z0=0,0 m)</title></polygon><text x="175.3" y="106.6" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#ffffff" stroke="#0f172a" stroke-width="2" paint-order="stroke">20p (61,5m)</text><line class="planta-frente" x1="206.21" y1="176.85" x2="156.36" y2="181.00" stroke="#dc2626" stroke-width="3.8" stroke-linecap="round"><title>Frente do lote (acesso)</title></line><text x="181.3" y="173.9" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="700" fill="#b91c1c" stroke="#ffffff" stroke-width="2.2" paint-order="stroke">FRENTE / ACESSO</text><g transform="translate(330, 16)"><line x1="0" y1="8" x2="0" y2="-4" stroke="#0f172a" stroke-width="1.5"/><polygon points="0,-7 -3.5,-1 3.5,-1" fill="#0f172a"/><text x="0" y="16" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="700" fill="#0f172a">N</text></g><g class="planta-escala"><line x1="12.0" y1="207.0" x2="45.6" y2="207.0" stroke="#0f172a" stroke-width="2"/><line x1="12.0" y1="204.0" x2="12.0" y2="210.0" stroke="#0f172a" stroke-width="1.5"/><line x1="45.6" y1="204.0" x2="45.6" y2="210.0" stroke="#0f172a" stroke-width="1.5"/><text x="28.8" y="203.0" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="600" fill="#0f172a">20 m</text></g><text x="10" y="13" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#334155">IMPLANTAÇÃO (PROJEÇÃO UTM)</text></svg>
+          <div class="legenda-svg">
+            <span><i class="cor-leg" style="background:#e6f4ea;border-color:#1e6b3b"></i>Lote / Permeável</span>
+            <span><i class="cor-leg" style="background:#fff;border:1px dashed #475569"></i>Caixa máx. (recuos)</span>
+            <span><i class="cor-leg" style="background:#cbd5e1;border-color:#475569"></i>Subsolo</span>
+            <span><i class="cor-leg" style="background:#f59e0b;border-color:#b45309"></i>Embasamento</span>
+            <span><i class="cor-leg" style="background:#2563eb;border-color:#1e3a8a"></i>Residencial</span>
+            <span><i class="cor-leg" style="background:#dc2626;border-color:#dc2626"></i>Frente/Acesso</span>
+          </div>
+        </div>
+        <div class="desenho-box">
+          <svg class="svg-vista3d" data-opcao="A" viewBox="0 0 350 215" width="100%" height="215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vista 3D axonométrica da opção A"><rect x="0" y="0" width="350" height="215" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon points="111.12,130.33 150.30,115.11 238.88,176.75 199.70,191.98 111.12,130.33" fill="#dcfce7" fill-opacity="0.7" stroke="#15803d" stroke-width="1.4"/><line x1="238.88" y1="176.75" x2="199.70" y2="191.98" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/><polygon points="114.58,135.12 149.80,121.43 149.80,116.90 114.58,130.59" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="149.80,121.43 232.97,179.32 232.97,174.79 149.80,116.90" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="197.74,193.00 114.58,135.12 114.58,130.59 197.74,188.47" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="232.97,179.32 197.74,193.00 197.74,188.47 232.97,174.79" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="114.58,130.59 149.80,116.90 232.97,174.79 197.74,188.47" fill="#cbd5e1" fill-opacity="0.5" stroke="#475569" stroke-width="1.1" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="179.21,146.19 160.26,153.56 160.26,60.66 179.21,53.29" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="193.36,156.05 179.21,146.19 179.21,53.29 193.36,63.15" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="160.26,153.56 174.42,163.41 174.42,70.51 160.26,60.66" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="174.42,163.41 193.36,156.05 193.36,63.15 174.42,70.51" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="160.26,60.66 174.42,70.51 193.36,63.15 179.21,53.29" fill="#60a5fa" fill-opacity="0.9199999999999999" stroke="#1e3a8a" stroke-width="1.1" stroke-linejoin="round"/><polygon class="vista3d-caixa-topo" points="114.58,37.69 149.80,24.00 232.97,81.89 197.74,95.57" fill="#0ea5e9" fill-opacity="0.06" stroke="#0284c7" stroke-width="1.0" stroke-dasharray="4,3"/><line x1="114.58" y1="130.59" x2="114.58" y2="37.69" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="149.80" y1="116.90" x2="149.80" y2="24.00" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="232.97" y1="174.79" x2="232.97" y2="81.89" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="197.74" y1="188.47" x2="197.74" y2="95.57" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><text x="10" y="13" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#334155">VISTA 3D + CAIXA MÁXIMA (h=61,5 m)</text></svg>
+          <div class="legenda-svg">
+            <span>Envelope azul tracejado transparente = Caixa máxima (<span class="num" data-campo="caixa_maxima.altura_m" data-valor="61.5">61,5</span> m)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. OS 4 NÚMEROS GRANDES -->
+      <div class="quatro-numeros">
+        <div class="card-numero">
+          <div class="card-numero-rotulo">Unidades Estimadas</div>
+          <div class="card-numero-valor"><span class="num" data-campo="opcoes.A.metricas.unidades_estimadas" data-valor="40">40</span></div>
+          <div class="card-numero-sub">un. de <span class="num" data-campo="premissas.area_privativa_por_unidade_m2" data-valor="60">60</span> m²</div>
+        </div>
+        <div class="card-numero">
+          <div class="card-numero-rotulo">Área Privativa Vendável</div>
+          <div class="card-numero-valor"><span class="num" data-campo="opcoes.A.metricas.area_privativa_m2" data-valor="3321.59">3.321,59</span> m²</div>
+          <div class="card-numero-sub">Base de venda e VGV</div>
+        </div>
+        <div class="card-numero">
+          <div class="card-numero-rotulo">Vagas de Garagem</div>
+          <div class="card-numero-valor"><span class="num" data-campo="opcoes.A.metricas.vagas" data-valor="40">40</span></div>
+          <div class="card-numero-sub">Área gar.: <span class="num" data-campo="opcoes.A.metricas.area_garagem_m2" data-valor="2267.21">2.267,21</span> m²</div>
+        </div>
+        <div class="card-numero">
+          <div class="card-numero-rotulo">VGV Estimado</div>
+          <div class="card-numero-valor card-numero-vgv"><span class="num num-nulo" data-campo="opcoes.A.metricas.vgv_estimado" data-valor="null">informe o preço</span></div>
+          <div class="card-numero-sub">Preço de venda (R$/m²) não informado</div>
+        </div>
+      </div>
+
+      <!-- 4. USO DA LEI + 5. QUADRO DE ÁREAS LADO A LADO -->
+      <div class="grade-meio">
+        <div class="coluna-meio">
+          <h2 class="secao-titulo">4. Uso da Lei (Usado × Permitido × Folga)</h2>
+          <table class="tabela-compacta">
+            <thead>
+              <tr>
+                <th>Parâmetro</th>
+                <th>Usado na Opção</th>
+                <th>Permitido na Lei</th>
+                <th>Folga / Outorga</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>CA</strong></td>
+                <td><span class="num" data-campo="opcoes.A.metricas.ca_usado" data-valor="1.397">1,397</span> (<span class="num" data-campo="opcoes.A.metricas.area_computavel_m2" data-valor="3751.99">3.751,99</span> m²)</td>
+                <td>Bás. <span class="num" data-campo="zona.parametros.ca_basico" data-valor="1.4">1,4</span> / Máx. <span class="num" data-campo="zona.parametros.ca_maximo" data-valor="1.4">1,4</span> (<span class="num" data-campo="caixa_maxima.area_computavel_max_m2" data-valor="3758.92">3.758,92</span> m²)</td>
+                <td>Folga: 0,003 de CA<br/>Outorga: <span class="num" data-campo="opcoes.A.metricas.area_acima_ca_basico_m2" data-valor="0.0">0,0</span> m²</td>
+                <td><span class="semaforo semaforo-amarelo"><span class="semaforo-ponto"></span>No limite / Outorga</span></td>
+              </tr>
+              <tr>
+                <td><strong>TO (Ocupação)</strong></td>
+                <td><span class="num" data-campo="opcoes.A.metricas.to_usada" data-valor="0.07">0,07</span> (7,0%)</td>
+                <td>Máx. <span class="num" data-campo="zona.parametros.taxa_ocupacao" data-valor="0.7">0,7</span> (<span class="num" data-campo="caixa_maxima.ocupacao_max_m2" data-valor="1879.46">1.879,46</span> m²)</td>
+                <td>63,0 p.p. (0,63)</td>
+                <td><span class="semaforo semaforo-verde"><span class="semaforo-ponto"></span>Com folga</span></td>
+              </tr>
+              <tr>
+                <td><strong>Permeabilidade</strong></td>
+                <td><span class="num" data-campo="opcoes.A.metricas.area_permeavel_m2" data-valor="417.73">417,73</span> m² (15,6%)</td>
+                <td>Mín. <span class="num" data-campo="zona.parametros.taxa_permeabilidade" data-valor="0.15">0,15</span> (402,74 m²)</td>
+                <td>+14,99 m² (15,6%)</td>
+                <td><span class="semaforo semaforo-verde"><span class="semaforo-ponto"></span>Atende</span></td>
+              </tr>
+              <tr>
+                <td><strong>Altura e Pav.</strong></td>
+                <td><span class="num" data-campo="opcoes.A.metricas.pavimentos" data-valor="20">20</span> pav. / 61,5 m</td>
+                <td>Zona: <span class="num num-nulo" data-campo="zona.parametros.altura_max_m" data-valor="null">—</span> / <span class="num num-nulo" data-campo="zona.parametros.pavimentos_max" data-valor="null">—</span> (Caixa: <span class="num" data-campo="caixa_maxima.altura_m" data-valor="61.5">61,5</span> m)</td>
+                <td>Área especial no lote</td>
+                <td><span class="semaforo semaforo-amarelo"><span class="semaforo-ponto"></span>Conferir área esp.</span></td>
+              </tr>
+              <tr>
+                <td><strong>Recuos</strong></td>
+                <td>Frontal: <span class="num" data-campo="caixa_maxima.recuo_frontal_m" data-valor="4.0">4,0</span> m<br/><small>residencial: lat. 7,69 m / fundos 7,69 m</small></td>
+                <td>Frontal lei: <span class="num num-nulo" data-campo="zona.parametros.recuo_frontal_m" data-valor="null">—</span><br/>Lat./Fdo. mín.: <span class="num" data-campo="zona.parametros.recuo_lateral_m" data-valor="1.5">1,5</span> m / <span class="num" data-campo="zona.parametros.recuo_fundos_m" data-valor="1.5">1,5</span> m (h/8 acima 2º pav.)</td>
+                <td>Conferir loteamento</td>
+                <td><span class="semaforo semaforo-amarelo"><span class="semaforo-ponto"></span>Frontal padrão</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="coluna-meio">
+          <h2 class="secao-titulo">5. Quadro de Áreas Resumido (Espírito NBR 12721)</h2>
+          <table class="tabela-compacta">
+            <thead>
+              <tr>
+                <th>Volume / Uso</th>
+                <th>Cota z0</th>
+                <th>Altura</th>
+                <th>Pav.</th>
+                <th>Projeção</th>
+                <th>Recuo Lat./Fdo.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Residencial</strong> (bloco 1)</td><td><span class="num" data-campo="opcoes.A.volumes.0.z0_m" data-valor="0.0">0,0</span> m</td><td><span class="num" data-campo="opcoes.A.volumes.0.altura_m" data-valor="61.5">61,5</span> m</td><td><span class="num" data-campo="opcoes.A.volumes.0.pavimentos" data-valor="20">20</span> pav.</td><td>207,49 m²</td><td><span class="num" data-campo="opcoes.A.volumes.0.recuo_lateral_m" data-valor="7.69">7,69</span> m / <span class="num" data-campo="opcoes.A.volumes.0.recuo_fundos_m" data-valor="7.69">7,69</span> m</td></tr><tr><td><strong>Garagem</strong> (bloco 2)</td><td><span class="num" data-campo="opcoes.A.volumes.1.z0_m" data-valor="-3.0">-3,0</span> m</td><td><span class="num" data-campo="opcoes.A.volumes.1.altura_m" data-valor="3.0">3,0</span> m</td><td><span class="num" data-campo="opcoes.A.volumes.1.pavimentos" data-valor="1">1</span> pav.</td><td>2.266,54 m²</td><td>Subsolo</td></tr>
+            </tbody>
+          </table>
+
+          <table class="tabela-compacta tabela-totais-areas">
+            <tbody>
+              <tr>
+                <th>Área construída total</th>
+                <td><strong><span class="num" data-campo="opcoes.A.metricas.area_construida_m2" data-valor="6419.2">6.419,2</span> m²</strong></td>
+                <th>Área computável (CA)</th>
+                <td><strong><span class="num" data-campo="opcoes.A.metricas.area_computavel_m2" data-valor="3751.99">3.751,99</span> m²</strong></td>
+              </tr>
+              <tr>
+                <th>Área não computável</th>
+                <td><span class="num" data-campo="opcoes.A.metricas.area_nao_computavel_m2" data-valor="2667.21">2.667,21</span> m²</td>
+                <th>Área de garagem</th>
+                <td><span class="num" data-campo="opcoes.A.metricas.area_garagem_m2" data-valor="2267.21">2.267,21</span> m²</td>
+              </tr>
+              <tr>
+                <th>Área privativa vendável</th>
+                <td><strong><span class="num" data-campo="opcoes.A.metricas.area_privativa_m2" data-valor="3321.59">3.321,59</span> m²</strong></td>
+                <th>Acima do CA básico (outorga)</th>
+                <td><span class="num" data-campo="opcoes.A.metricas.area_acima_ca_basico_m2" data-valor="0.0">0,0</span> m²</td>
+              </tr>
+              <tr>
+                <th>Eficiência (s/ garagem)</th>
+                <td>80,0% (premissa: <span class="num" data-campo="premissas.eficiencia" data-valor="0.8">0,8</span>)</td>
+                <th>Eficiência (sobre total)</th>
+                <td>51,7%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 6. PREMISSAS USADAS -->
+      <div class="bloco-premissas">
+        <h2 class="secao-titulo">6. Premissas Usadas <span class="subtitulo-leve">(itens vindos de <code>premissas.padrao</code> marcados com <span class="badge-padrao">padrão</span>)</span></h2>
+        <div class="grade-premissas">
+          <div class="premissa-item" data-premissa="area_privativa_por_unidade_m2"><span class="premissa-nome">Tipologia (área privativa por unidade):</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.area_privativa_por_unidade_m2" data-valor="60">60</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="vagas_por_unidade"><span class="premissa-nome">Vagas por unidade:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.vagas_por_unidade" data-valor="1">1</span> vaga/un.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="area_por_vaga_m2"><span class="premissa-nome">Área por vaga (com circulação):</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.area_por_vaga_m2" data-valor="27">27</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="garagem"><span class="premissa-nome">Tipo de garagem:</span> <strong class="premissa-valor"><span class="num-texto" data-campo="premissas.garagem" data-valor="subsolo">subsolo</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="subsolos_max"><span class="premissa-nome">Subsolos máximos:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.subsolos_max" data-valor="2">2</span> subsolos</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="garagem_computavel"><span class="premissa-nome">Garagem computável no CA:</span> <strong class="premissa-valor"><span class="num num-bool" data-campo="premissas.garagem_computavel" data-valor="false">Não</span></strong></div><div class="premissa-item" data-premissa="pe_direito_m"><span class="premissa-nome">Pé-direito tipo:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pe_direito_m" data-valor="3.0">3,0</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pe_direito_terreo_m"><span class="premissa-nome">Pé-direito térreo:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pe_direito_terreo_m" data-valor="4.5">4,5</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="eficiencia"><span class="premissa-nome">Eficiência (privativa ÷ construída):</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.eficiencia" data-valor="0.8">0,8</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="area_comum_por_pavimento_m2"><span class="premissa-nome">Área comum por pavimento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.area_comum_por_pavimento_m2" data-valor="40">40</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="nucleo_nao_computavel_m2"><span class="premissa-nome">Núcleo não computável por pavimento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.nucleo_nao_computavel_m2" data-valor="20">20</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="recuo_frontal_m"><span class="premissa-nome">Recuo frontal adotado:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.recuo_frontal_m" data-valor="4.0">4,0</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="preco_venda_m2_privativo"><span class="premissa-nome">Preço de venda por m² privativo:</span> <strong class="premissa-valor"><span class="num num-nulo" data-campo="premissas.preco_venda_m2_privativo" data-valor="null">—</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="laje_torre_max_m2"><span class="premissa-nome">Laje máxima de torre:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.laje_torre_max_m2" data-valor="500">500</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="laje_minima_m2"><span class="premissa-nome">Laje mínima:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.laje_minima_m2" data-valor="80">80</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="afastamento_entre_torres_m"><span class="premissa-nome">Afastamento entre torres:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.afastamento_entre_torres_m" data-valor="6.0">6,0</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pavimentos_lamina_max"><span class="premissa-nome">Pavimentos máximos na lâmina:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pavimentos_lamina_max" data-valor="4">4</span> pav.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pavimentos_embasamento"><span class="premissa-nome">Pavimentos no embasamento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pavimentos_embasamento" data-valor="2">2</span> pav.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pavimentos_sem_ca"><span class="premissa-nome">Pavimentos limite quando sem CA:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pavimentos_sem_ca" data-valor="10">10</span> pav.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="embasamento_ocupacao"><span class="premissa-nome">Ocupação do embasamento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.embasamento_ocupacao" data-valor="0.4">0,4</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div>
+        </div>
+      </div>
+
+      <!-- 7. ALERTAS E INCERTEZAS -->
+      <div class="grade-alertas-opcao">
+        <div class="caixa-alerta caixa-aviso">
+          <div class="caixa-alerta-titulo">7a. Alertas da Opção A</div>
+          <ul class="lista-alertas"><li>Recuo lateral/fundos: residencial 7.69/7.69 m (recuo do topo no prédio todo).</li><li>ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.</li><li>No limite: CA 1.40 (máximo 1.40).</li></ul>
+        </div>
+        <div class="caixa-alerta caixa-incertezas">
+          <div class="caixa-alerta-titulo">7b. Incertezas do Estudo</div>
+          <ul class="lista-alertas"><li>Terreno na zona SC-Z4: NÃO conferido (lida à mão no anexo em PDF). Confirmar a zona do lote antes de usar o estudo.</li><li>A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.</li><li>Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).</li><li>Área especial interesse_industrial_servicos sem número de altura: não aplicada (Lei 18.053/2016, arts. 84 a 86, Anexo 06, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf).</li><li>Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.</li><li>Parede cega (sem janela) encosta na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).</li><li>Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.</li><li>Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.</li><li>A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.</li><li>Relevo ignorado: volumes assentados em terreno plano, z=0.</li><li>Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.</li></ul>
+        </div>
+      </div>
+
+      <!-- 8. RODAPÉ FIXO -->
+      <footer class="rodape-fixo">Estudo preliminar automático. Não substitui o arquiteto responsável nem garante aprovação na prefeitura.</footer>
+    </section>
+    
+    <section class="pagina pagina-opcao" id="opcao-B" data-opcao-id="B">
+      <!-- 1. CABEÇALHO -->
+      <header class="cabecalho-pagina">
+        <div class="cab-esquerda">
+          <div class="cab-tag">OPÇÃO B — FICHA DE VIABILIDADE POR OPÇÃO</div>
+          <h1 class="cab-titulo">B — Duas torres</h1>
+          <div class="cab-subtitulo">
+            Lote: <strong>SC-completo-37607</strong> (<span class="num" data-campo="lote.area_m2" data-valor="2684.942">2.684,942</span> m²) ·
+            Zona: <strong>SC-Z4 — Zona 4 – Qualificação e Ocupação Controlada</strong>
+          </div>
+        </div>
+        <div class="cab-direita">
+          <div>Motor v<strong>0.5.0</strong></div>
+          <div>Leis: 2016-12-19, 2020-12-15, 2021-04-06, 2024-03-08, 2026-02-24</div>
+          <div class="cab-fontes-curtas" title="Lei nº 18.053/2016 (Plano Diretor) (2016-12-19); Lei nº 19.950/2020 (Código de Obras) (2020-12-15); Lei nº 20.072/2021 (2021-04-06); Lei nº 24.031/2026 (2026-02-24); Lei nº 22.285/2024 (2024-03-08); Lei nº 19.950/2020 (Código de Obras) (2020-12-15)">6 fontes legais</div>
+        </div>
+      </header>
+
+      
+        <div class="conferencia-dupla conferencia-compacta">
+          <div class="conf-card conf-ok">
+            <div class="conf-titulo">1. Números da zona conferidos na lei (<code>zona.conferido</code>)</div>
+            <div class="conf-valor">
+              <span class="badge-conf">CONFERIDO NA LEI</span>
+              <span class="conf-detalhe"><span class="num num-bool" data-campo="zona.conferido" data-valor="true">Sim</span> — Zona <strong>SC-Z4</strong> (Zona 4 – Qualificação e Ocupação Controlada)</span>
+            </div>
+          </div>
+          <div class="conf-card conf-alerta">
+            <div class="conf-titulo">2. O terreno está nessa zona? (<code>lote.zona_conferida</code>)</div>
+            <div class="conf-valor">
+              <span class="badge-conf">NÃO CONFERIDO</span>
+              <span class="conf-detalhe"><span class="num num-bool" data-campo="lote.zona_conferida" data-valor="false">Não</span> — Origem: <strong>Anotada à mão (lida no anexo em PDF)</strong> (<code>anotada_a_mao</code>)</span>
+            </div>
+            
+          </div>
+        </div>
+        
+
+      <!-- 2. IMAGEM: VISTA 3D + IMPLANTAÇÃO DE CIMA AO LADO -->
+      <div class="painel-desenhos">
+        <div class="desenho-box">
+          <svg class="svg-planta" data-opcao="B" viewBox="0 0 350 215" width="100%" height="215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Planta de implantação da opção B"><defs><pattern id="hachura-subsolo-SC-completo-37607-B-full" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="6" stroke="#64748b" stroke-width="1.2" stroke-opacity="0.45"/></pattern></defs><rect x="0" y="0" width="350" height="215" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon class="planta-lote" points="143.79,30.16 193.64,26.00 206.21,176.85 156.36,181.00 143.79,30.16" fill="#e6f4ea" stroke="#1e6b3b" stroke-width="1.8" stroke-linejoin="round"><title>Lote SC-completo-37607 (2.684,942 m²)</title></polygon><polygon class="planta-parede-cega" points="193.64,26.00 205.66,170.16 155.80,174.31 143.79,30.16" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"><title>Limite parede cega na divisa</title></polygon><polygon class="planta-caixa-maxima" points="146.51,32.47 191.33,28.72 203.14,170.36 158.32,174.09" fill="#ffffff" fill-opacity="0.45" stroke="#475569" stroke-width="1.2" stroke-dasharray="5,3" stroke-linejoin="round"><title>Projeção da caixa máxima (recuos)</title></polygon><polygon class="planta-volume planta-volume-garagem" data-volume-idx="2" data-uso="garagem" points="146.51,32.47 191.33,28.72 203.14,170.36 158.32,174.09" fill="url(#hachura-subsolo-SC-completo-37607-B-full)" fill-opacity="0.85" stroke="#475569" stroke-width="1.3" stroke-dasharray="4,2" stroke-linejoin="round"><title>Subsolo / Garagem: 1 pav., h=3,0 m (z0=-3,0 m)</title></polygon><polygon class="planta-volume planta-volume-residencial" data-volume-idx="0" data-uso="residencial" points="158.86,55.49 160.85,79.62 184.99,77.61 182.99,53.47" fill="#2563eb" fill-opacity="0.72" stroke="#1e3a8a" stroke-width="1.8" stroke-linejoin="round"><title>Residencial: 10 pav., h=31,5 m (z0=0,0 m)</title></polygon><text x="171.9" y="66.5" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#ffffff" stroke="#0f172a" stroke-width="2" paint-order="stroke">10p (31,5m)</text><polygon class="planta-volume planta-volume-residencial" data-volume-idx="1" data-uso="residencial" points="165.00,129.28 167.02,153.42 191.15,151.42 189.13,127.28" fill="#2563eb" fill-opacity="0.72" stroke="#1e3a8a" stroke-width="1.8" stroke-linejoin="round"><title>Residencial: 10 pav., h=31,5 m (z0=0,0 m)</title></polygon><text x="178.1" y="140.3" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#ffffff" stroke="#0f172a" stroke-width="2" paint-order="stroke">10p (31,5m)</text><line class="planta-frente" x1="206.21" y1="176.85" x2="156.36" y2="181.00" stroke="#dc2626" stroke-width="3.8" stroke-linecap="round"><title>Frente do lote (acesso)</title></line><text x="181.3" y="173.9" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="700" fill="#b91c1c" stroke="#ffffff" stroke-width="2.2" paint-order="stroke">FRENTE / ACESSO</text><g transform="translate(330, 16)"><line x1="0" y1="8" x2="0" y2="-4" stroke="#0f172a" stroke-width="1.5"/><polygon points="0,-7 -3.5,-1 3.5,-1" fill="#0f172a"/><text x="0" y="16" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="700" fill="#0f172a">N</text></g><g class="planta-escala"><line x1="12.0" y1="207.0" x2="45.6" y2="207.0" stroke="#0f172a" stroke-width="2"/><line x1="12.0" y1="204.0" x2="12.0" y2="210.0" stroke="#0f172a" stroke-width="1.5"/><line x1="45.6" y1="204.0" x2="45.6" y2="210.0" stroke="#0f172a" stroke-width="1.5"/><text x="28.8" y="203.0" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="600" fill="#0f172a">20 m</text></g><text x="10" y="13" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#334155">IMPLANTAÇÃO (PROJEÇÃO UTM)</text></svg>
+          <div class="legenda-svg">
+            <span><i class="cor-leg" style="background:#e6f4ea;border-color:#1e6b3b"></i>Lote / Permeável</span>
+            <span><i class="cor-leg" style="background:#fff;border:1px dashed #475569"></i>Caixa máx. (recuos)</span>
+            <span><i class="cor-leg" style="background:#cbd5e1;border-color:#475569"></i>Subsolo</span>
+            <span><i class="cor-leg" style="background:#f59e0b;border-color:#b45309"></i>Embasamento</span>
+            <span><i class="cor-leg" style="background:#2563eb;border-color:#1e3a8a"></i>Residencial</span>
+            <span><i class="cor-leg" style="background:#dc2626;border-color:#dc2626"></i>Frente/Acesso</span>
+          </div>
+        </div>
+        <div class="desenho-box">
+          <svg class="svg-vista3d" data-opcao="B" viewBox="0 0 350 215" width="100%" height="215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vista 3D axonométrica da opção B"><rect x="0" y="0" width="350" height="215" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon points="111.12,130.33 150.30,115.11 238.88,176.75 199.70,191.98 111.12,130.33" fill="#dcfce7" fill-opacity="0.7" stroke="#15803d" stroke-width="1.4"/><line x1="238.88" y1="176.75" x2="199.70" y2="191.98" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/><polygon points="114.58,135.12 149.80,121.43 149.80,116.90 114.58,130.59" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="149.80,121.43 232.97,179.32 232.97,174.79 149.80,116.90" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="197.74,193.00 114.58,135.12 114.58,130.59 197.74,188.47" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="232.97,179.32 197.74,193.00 197.74,188.47 232.97,174.79" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="114.58,130.59 149.80,116.90 232.97,174.79 197.74,188.47" fill="#cbd5e1" fill-opacity="0.5" stroke="#475569" stroke-width="1.1" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="155.71,129.82 136.74,137.19 136.74,89.61 155.71,82.24" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="169.87,139.69 155.71,129.82 155.71,82.24 169.87,92.10" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="136.74,137.19 150.90,147.06 150.90,99.47 136.74,89.61" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="150.90,147.06 169.87,139.69 169.87,92.10 150.90,99.47" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="136.74,89.61 150.90,99.47 169.87,92.10 155.71,82.24" fill="#60a5fa" fill-opacity="0.9199999999999999" stroke="#1e3a8a" stroke-width="1.1" stroke-linejoin="round"/><polygon points="199.04,159.99 180.07,167.35 180.07,119.77 199.04,112.40" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="213.22,169.85 199.04,159.99 199.04,112.40 213.22,122.27" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="180.07,167.35 194.24,177.21 194.24,129.63 180.07,119.77" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="194.24,177.21 213.22,169.85 213.22,122.27 194.24,129.63" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="180.07,119.77 194.24,129.63 213.22,122.27 199.04,112.40" fill="#60a5fa" fill-opacity="0.9199999999999999" stroke="#1e3a8a" stroke-width="1.1" stroke-linejoin="round"/><polygon class="vista3d-caixa-topo" points="114.58,37.69 149.80,24.00 232.97,81.89 197.74,95.57" fill="#0ea5e9" fill-opacity="0.06" stroke="#0284c7" stroke-width="1.0" stroke-dasharray="4,3"/><line x1="114.58" y1="130.59" x2="114.58" y2="37.69" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="149.80" y1="116.90" x2="149.80" y2="24.00" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="232.97" y1="174.79" x2="232.97" y2="81.89" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="197.74" y1="188.47" x2="197.74" y2="95.57" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><text x="10" y="13" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#334155">VISTA 3D + CAIXA MÁXIMA (h=61,5 m)</text></svg>
+          <div class="legenda-svg">
+            <span>Envelope azul tracejado transparente = Caixa máxima (<span class="num" data-campo="caixa_maxima.altura_m" data-valor="61.5">61,5</span> m)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. OS 4 NÚMEROS GRANDES -->
+      <div class="quatro-numeros">
+        <div class="card-numero">
+          <div class="card-numero-rotulo">Unidades Estimadas</div>
+          <div class="card-numero-valor"><span class="num" data-campo="opcoes.B.metricas.unidades_estimadas" data-valor="40">40</span></div>
+          <div class="card-numero-sub">un. de <span class="num" data-campo="premissas.area_privativa_por_unidade_m2" data-valor="60">60</span> m²</div>
+        </div>
+        <div class="card-numero">
+          <div class="card-numero-rotulo">Área Privativa Vendável</div>
+          <div class="card-numero-valor"><span class="num" data-campo="opcoes.B.metricas.area_privativa_m2" data-valor="3326.98">3.326,98</span> m²</div>
+          <div class="card-numero-sub">Base de venda e VGV</div>
+        </div>
+        <div class="card-numero">
+          <div class="card-numero-rotulo">Vagas de Garagem</div>
+          <div class="card-numero-valor"><span class="num" data-campo="opcoes.B.metricas.vagas" data-valor="40">40</span></div>
+          <div class="card-numero-sub">Área gar.: <span class="num" data-campo="opcoes.B.metricas.area_garagem_m2" data-valor="2267.21">2.267,21</span> m²</div>
+        </div>
+        <div class="card-numero">
+          <div class="card-numero-rotulo">VGV Estimado</div>
+          <div class="card-numero-valor card-numero-vgv"><span class="num num-nulo" data-campo="opcoes.B.metricas.vgv_estimado" data-valor="null">informe o preço</span></div>
+          <div class="card-numero-sub">Preço de venda (R$/m²) não informado</div>
+        </div>
+      </div>
+
+      <!-- 4. USO DA LEI + 5. QUADRO DE ÁREAS LADO A LADO -->
+      <div class="grade-meio">
+        <div class="coluna-meio">
+          <h2 class="secao-titulo">4. Uso da Lei (Usado × Permitido × Folga)</h2>
+          <table class="tabela-compacta">
+            <thead>
+              <tr>
+                <th>Parâmetro</th>
+                <th>Usado na Opção</th>
+                <th>Permitido na Lei</th>
+                <th>Folga / Outorga</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>CA</strong></td>
+                <td><span class="num" data-campo="opcoes.B.metricas.ca_usado" data-valor="1.4">1,4</span> (<span class="num" data-campo="opcoes.B.metricas.area_computavel_m2" data-valor="3758.73">3.758,73</span> m²)</td>
+                <td>Bás. <span class="num" data-campo="zona.parametros.ca_basico" data-valor="1.4">1,4</span> / Máx. <span class="num" data-campo="zona.parametros.ca_maximo" data-valor="1.4">1,4</span> (<span class="num" data-campo="caixa_maxima.area_computavel_max_m2" data-valor="3758.92">3.758,92</span> m²)</td>
+                <td>Folga: 0,0 de CA<br/>Outorga: <span class="num" data-campo="opcoes.B.metricas.area_acima_ca_basico_m2" data-valor="0.0">0,0</span> m²</td>
+                <td><span class="semaforo semaforo-amarelo"><span class="semaforo-ponto"></span>No limite / Outorga</span></td>
+              </tr>
+              <tr>
+                <td><strong>TO (Ocupação)</strong></td>
+                <td><span class="num" data-campo="opcoes.B.metricas.to_usada" data-valor="0.14">0,14</span> (14,0%)</td>
+                <td>Máx. <span class="num" data-campo="zona.parametros.taxa_ocupacao" data-valor="0.7">0,7</span> (<span class="num" data-campo="caixa_maxima.ocupacao_max_m2" data-valor="1879.46">1.879,46</span> m²)</td>
+                <td>56,0 p.p. (0,56)</td>
+                <td><span class="semaforo semaforo-verde"><span class="semaforo-ponto"></span>Com folga</span></td>
+              </tr>
+              <tr>
+                <td><strong>Permeabilidade</strong></td>
+                <td><span class="num" data-campo="opcoes.B.metricas.area_permeavel_m2" data-valor="417.73">417,73</span> m² (15,6%)</td>
+                <td>Mín. <span class="num" data-campo="zona.parametros.taxa_permeabilidade" data-valor="0.15">0,15</span> (402,74 m²)</td>
+                <td>+14,99 m² (15,6%)</td>
+                <td><span class="semaforo semaforo-verde"><span class="semaforo-ponto"></span>Atende</span></td>
+              </tr>
+              <tr>
+                <td><strong>Altura e Pav.</strong></td>
+                <td><span class="num" data-campo="opcoes.B.metricas.pavimentos" data-valor="10">10</span> pav. / 31,5 m</td>
+                <td>Zona: <span class="num num-nulo" data-campo="zona.parametros.altura_max_m" data-valor="null">—</span> / <span class="num num-nulo" data-campo="zona.parametros.pavimentos_max" data-valor="null">—</span> (Caixa: <span class="num" data-campo="caixa_maxima.altura_m" data-valor="61.5">61,5</span> m)</td>
+                <td>Área especial no lote</td>
+                <td><span class="semaforo semaforo-amarelo"><span class="semaforo-ponto"></span>Conferir área esp.</span></td>
+              </tr>
+              <tr>
+                <td><strong>Recuos</strong></td>
+                <td>Frontal: <span class="num" data-campo="caixa_maxima.recuo_frontal_m" data-valor="4.0">4,0</span> m<br/><small>residencial: lat. 3,94 m / fundos 3,94 m; residencial: lat. 3,94 m / fundos 3,94 m</small></td>
+                <td>Frontal lei: <span class="num num-nulo" data-campo="zona.parametros.recuo_frontal_m" data-valor="null">—</span><br/>Lat./Fdo. mín.: <span class="num" data-campo="zona.parametros.recuo_lateral_m" data-valor="1.5">1,5</span> m / <span class="num" data-campo="zona.parametros.recuo_fundos_m" data-valor="1.5">1,5</span> m (h/8 acima 2º pav.)</td>
+                <td>Conferir loteamento</td>
+                <td><span class="semaforo semaforo-amarelo"><span class="semaforo-ponto"></span>Frontal padrão</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="coluna-meio">
+          <h2 class="secao-titulo">5. Quadro de Áreas Resumido (Espírito NBR 12721)</h2>
+          <table class="tabela-compacta">
+            <thead>
+              <tr>
+                <th>Volume / Uso</th>
+                <th>Cota z0</th>
+                <th>Altura</th>
+                <th>Pav.</th>
+                <th>Projeção</th>
+                <th>Recuo Lat./Fdo.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Residencial</strong> (bloco 1)</td><td><span class="num" data-campo="opcoes.B.volumes.0.z0_m" data-valor="0.0">0,0</span> m</td><td><span class="num" data-campo="opcoes.B.volumes.0.altura_m" data-valor="31.5">31,5</span> m</td><td><span class="num" data-campo="opcoes.B.volumes.0.pavimentos" data-valor="10">10</span> pav.</td><td>207,93 m²</td><td><span class="num" data-campo="opcoes.B.volumes.0.recuo_lateral_m" data-valor="3.94">3,94</span> m / <span class="num" data-campo="opcoes.B.volumes.0.recuo_fundos_m" data-valor="3.94">3,94</span> m</td></tr><tr><td><strong>Residencial</strong> (bloco 2)</td><td><span class="num" data-campo="opcoes.B.volumes.1.z0_m" data-valor="0.0">0,0</span> m</td><td><span class="num" data-campo="opcoes.B.volumes.1.altura_m" data-valor="31.5">31,5</span> m</td><td><span class="num" data-campo="opcoes.B.volumes.1.pavimentos" data-valor="10">10</span> pav.</td><td>207,92 m²</td><td><span class="num" data-campo="opcoes.B.volumes.1.recuo_lateral_m" data-valor="3.94">3,94</span> m / <span class="num" data-campo="opcoes.B.volumes.1.recuo_fundos_m" data-valor="3.94">3,94</span> m</td></tr><tr><td><strong>Garagem</strong> (bloco 3)</td><td><span class="num" data-campo="opcoes.B.volumes.2.z0_m" data-valor="-3.0">-3,0</span> m</td><td><span class="num" data-campo="opcoes.B.volumes.2.altura_m" data-valor="3.0">3,0</span> m</td><td><span class="num" data-campo="opcoes.B.volumes.2.pavimentos" data-valor="1">1</span> pav.</td><td>2.266,54 m²</td><td>Subsolo</td></tr>
+            </tbody>
+          </table>
+
+          <table class="tabela-compacta tabela-totais-areas">
+            <tbody>
+              <tr>
+                <th>Área construída total</th>
+                <td><strong><span class="num" data-campo="opcoes.B.metricas.area_construida_m2" data-valor="6425.94">6.425,94</span> m²</strong></td>
+                <th>Área computável (CA)</th>
+                <td><strong><span class="num" data-campo="opcoes.B.metricas.area_computavel_m2" data-valor="3758.73">3.758,73</span> m²</strong></td>
+              </tr>
+              <tr>
+                <th>Área não computável</th>
+                <td><span class="num" data-campo="opcoes.B.metricas.area_nao_computavel_m2" data-valor="2667.21">2.667,21</span> m²</td>
+                <th>Área de garagem</th>
+                <td><span class="num" data-campo="opcoes.B.metricas.area_garagem_m2" data-valor="2267.21">2.267,21</span> m²</td>
+              </tr>
+              <tr>
+                <th>Área privativa vendável</th>
+                <td><strong><span class="num" data-campo="opcoes.B.metricas.area_privativa_m2" data-valor="3326.98">3.326,98</span> m²</strong></td>
+                <th>Acima do CA básico (outorga)</th>
+                <td><span class="num" data-campo="opcoes.B.metricas.area_acima_ca_basico_m2" data-valor="0.0">0,0</span> m²</td>
+              </tr>
+              <tr>
+                <th>Eficiência (s/ garagem)</th>
+                <td>80,0% (premissa: <span class="num" data-campo="premissas.eficiencia" data-valor="0.8">0,8</span>)</td>
+                <th>Eficiência (sobre total)</th>
+                <td>51,8%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 6. PREMISSAS USADAS -->
+      <div class="bloco-premissas">
+        <h2 class="secao-titulo">6. Premissas Usadas <span class="subtitulo-leve">(itens vindos de <code>premissas.padrao</code> marcados com <span class="badge-padrao">padrão</span>)</span></h2>
+        <div class="grade-premissas">
+          <div class="premissa-item" data-premissa="area_privativa_por_unidade_m2"><span class="premissa-nome">Tipologia (área privativa por unidade):</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.area_privativa_por_unidade_m2" data-valor="60">60</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="vagas_por_unidade"><span class="premissa-nome">Vagas por unidade:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.vagas_por_unidade" data-valor="1">1</span> vaga/un.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="area_por_vaga_m2"><span class="premissa-nome">Área por vaga (com circulação):</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.area_por_vaga_m2" data-valor="27">27</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="garagem"><span class="premissa-nome">Tipo de garagem:</span> <strong class="premissa-valor"><span class="num-texto" data-campo="premissas.garagem" data-valor="subsolo">subsolo</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="subsolos_max"><span class="premissa-nome">Subsolos máximos:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.subsolos_max" data-valor="2">2</span> subsolos</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="garagem_computavel"><span class="premissa-nome">Garagem computável no CA:</span> <strong class="premissa-valor"><span class="num num-bool" data-campo="premissas.garagem_computavel" data-valor="false">Não</span></strong></div><div class="premissa-item" data-premissa="pe_direito_m"><span class="premissa-nome">Pé-direito tipo:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pe_direito_m" data-valor="3.0">3,0</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pe_direito_terreo_m"><span class="premissa-nome">Pé-direito térreo:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pe_direito_terreo_m" data-valor="4.5">4,5</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="eficiencia"><span class="premissa-nome">Eficiência (privativa ÷ construída):</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.eficiencia" data-valor="0.8">0,8</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="area_comum_por_pavimento_m2"><span class="premissa-nome">Área comum por pavimento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.area_comum_por_pavimento_m2" data-valor="40">40</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="nucleo_nao_computavel_m2"><span class="premissa-nome">Núcleo não computável por pavimento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.nucleo_nao_computavel_m2" data-valor="20">20</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="recuo_frontal_m"><span class="premissa-nome">Recuo frontal adotado:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.recuo_frontal_m" data-valor="4.0">4,0</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="preco_venda_m2_privativo"><span class="premissa-nome">Preço de venda por m² privativo:</span> <strong class="premissa-valor"><span class="num num-nulo" data-campo="premissas.preco_venda_m2_privativo" data-valor="null">—</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="laje_torre_max_m2"><span class="premissa-nome">Laje máxima de torre:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.laje_torre_max_m2" data-valor="500">500</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="laje_minima_m2"><span class="premissa-nome">Laje mínima:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.laje_minima_m2" data-valor="80">80</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="afastamento_entre_torres_m"><span class="premissa-nome">Afastamento entre torres:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.afastamento_entre_torres_m" data-valor="6.0">6,0</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pavimentos_lamina_max"><span class="premissa-nome">Pavimentos máximos na lâmina:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pavimentos_lamina_max" data-valor="4">4</span> pav.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pavimentos_embasamento"><span class="premissa-nome">Pavimentos no embasamento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pavimentos_embasamento" data-valor="2">2</span> pav.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pavimentos_sem_ca"><span class="premissa-nome">Pavimentos limite quando sem CA:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pavimentos_sem_ca" data-valor="10">10</span> pav.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="embasamento_ocupacao"><span class="premissa-nome">Ocupação do embasamento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.embasamento_ocupacao" data-valor="0.4">0,4</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div>
+        </div>
+      </div>
+
+      <!-- 7. ALERTAS E INCERTEZAS -->
+      <div class="grade-alertas-opcao">
+        <div class="caixa-alerta caixa-aviso">
+          <div class="caixa-alerta-titulo">7a. Alertas da Opção B</div>
+          <ul class="lista-alertas"><li>Recuo lateral/fundos: residencial 3.94/3.94 m, residencial 3.94/3.94 m (recuo do topo no prédio todo).</li><li>ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.</li><li>No limite: CA 1.40 (máximo 1.40).</li></ul>
+        </div>
+        <div class="caixa-alerta caixa-incertezas">
+          <div class="caixa-alerta-titulo">7b. Incertezas do Estudo</div>
+          <ul class="lista-alertas"><li>Terreno na zona SC-Z4: NÃO conferido (lida à mão no anexo em PDF). Confirmar a zona do lote antes de usar o estudo.</li><li>A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.</li><li>Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).</li><li>Área especial interesse_industrial_servicos sem número de altura: não aplicada (Lei 18.053/2016, arts. 84 a 86, Anexo 06, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf).</li><li>Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.</li><li>Parede cega (sem janela) encosta na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).</li><li>Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.</li><li>Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.</li><li>A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.</li><li>Relevo ignorado: volumes assentados em terreno plano, z=0.</li><li>Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.</li></ul>
+        </div>
+      </div>
+
+      <!-- 8. RODAPÉ FIXO -->
+      <footer class="rodape-fixo">Estudo preliminar automático. Não substitui o arquiteto responsável nem garante aprovação na prefeitura.</footer>
+    </section>
+    
+    <section class="pagina pagina-opcao" id="opcao-C" data-opcao-id="C">
+      <!-- 1. CABEÇALHO -->
+      <header class="cabecalho-pagina">
+        <div class="cab-esquerda">
+          <div class="cab-tag">OPÇÃO C — FICHA DE VIABILIDADE POR OPÇÃO</div>
+          <h1 class="cab-titulo">C — Lâmina baixa</h1>
+          <div class="cab-subtitulo">
+            Lote: <strong>SC-completo-37607</strong> (<span class="num" data-campo="lote.area_m2" data-valor="2684.942">2.684,942</span> m²) ·
+            Zona: <strong>SC-Z4 — Zona 4 – Qualificação e Ocupação Controlada</strong>
+          </div>
+        </div>
+        <div class="cab-direita">
+          <div>Motor v<strong>0.5.0</strong></div>
+          <div>Leis: 2016-12-19, 2020-12-15, 2021-04-06, 2024-03-08, 2026-02-24</div>
+          <div class="cab-fontes-curtas" title="Lei nº 18.053/2016 (Plano Diretor) (2016-12-19); Lei nº 19.950/2020 (Código de Obras) (2020-12-15); Lei nº 20.072/2021 (2021-04-06); Lei nº 24.031/2026 (2026-02-24); Lei nº 22.285/2024 (2024-03-08); Lei nº 19.950/2020 (Código de Obras) (2020-12-15)">6 fontes legais</div>
+        </div>
+      </header>
+
+      
+        <div class="conferencia-dupla conferencia-compacta">
+          <div class="conf-card conf-ok">
+            <div class="conf-titulo">1. Números da zona conferidos na lei (<code>zona.conferido</code>)</div>
+            <div class="conf-valor">
+              <span class="badge-conf">CONFERIDO NA LEI</span>
+              <span class="conf-detalhe"><span class="num num-bool" data-campo="zona.conferido" data-valor="true">Sim</span> — Zona <strong>SC-Z4</strong> (Zona 4 – Qualificação e Ocupação Controlada)</span>
+            </div>
+          </div>
+          <div class="conf-card conf-alerta">
+            <div class="conf-titulo">2. O terreno está nessa zona? (<code>lote.zona_conferida</code>)</div>
+            <div class="conf-valor">
+              <span class="badge-conf">NÃO CONFERIDO</span>
+              <span class="conf-detalhe"><span class="num num-bool" data-campo="lote.zona_conferida" data-valor="false">Não</span> — Origem: <strong>Anotada à mão (lida no anexo em PDF)</strong> (<code>anotada_a_mao</code>)</span>
+            </div>
+            
+          </div>
+        </div>
+        
+
+      <!-- 2. IMAGEM: VISTA 3D + IMPLANTAÇÃO DE CIMA AO LADO -->
+      <div class="painel-desenhos">
+        <div class="desenho-box">
+          <svg class="svg-planta" data-opcao="C" viewBox="0 0 350 215" width="100%" height="215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Planta de implantação da opção C"><defs><pattern id="hachura-subsolo-SC-completo-37607-C-full" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="6" stroke="#64748b" stroke-width="1.2" stroke-opacity="0.45"/></pattern></defs><rect x="0" y="0" width="350" height="215" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon class="planta-lote" points="143.79,30.16 193.64,26.00 206.21,176.85 156.36,181.00 143.79,30.16" fill="#e6f4ea" stroke="#1e6b3b" stroke-width="1.8" stroke-linejoin="round"><title>Lote SC-completo-37607 (2.684,942 m²)</title></polygon><polygon class="planta-parede-cega" points="193.64,26.00 205.66,170.16 155.80,174.31 143.79,30.16" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"><title>Limite parede cega na divisa</title></polygon><polygon class="planta-caixa-maxima" points="146.51,32.47 191.33,28.72 203.14,170.36 158.32,174.09" fill="#ffffff" fill-opacity="0.45" stroke="#475569" stroke-width="1.2" stroke-dasharray="5,3" stroke-linejoin="round"><title>Projeção da caixa máxima (recuos)</title></polygon><polygon class="planta-volume planta-volume-garagem" data-volume-idx="1" data-uso="garagem" points="146.51,32.47 191.33,28.72 203.14,170.36 158.32,174.09" fill="url(#hachura-subsolo-SC-completo-37607-C-full)" fill-opacity="0.85" stroke="#475569" stroke-width="1.3" stroke-dasharray="4,2" stroke-linejoin="round"><title>Subsolo / Garagem: 1 pav., h=3,0 m (z0=-3,0 m)</title></polygon><polygon class="planta-volume planta-volume-residencial" data-volume-idx="0" data-uso="residencial" points="156.20,57.94 163.73,148.19 193.52,145.71 185.99,55.46" fill="#2563eb" fill-opacity="0.72" stroke="#1e3a8a" stroke-width="1.8" stroke-linejoin="round"><title>Residencial: 4 pav., h=13,5 m (z0=0,0 m)</title></polygon><text x="174.9" y="101.8" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#ffffff" stroke="#0f172a" stroke-width="2" paint-order="stroke">4p (13,5m)</text><line class="planta-frente" x1="206.21" y1="176.85" x2="156.36" y2="181.00" stroke="#dc2626" stroke-width="3.8" stroke-linecap="round"><title>Frente do lote (acesso)</title></line><text x="181.3" y="173.9" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="700" fill="#b91c1c" stroke="#ffffff" stroke-width="2.2" paint-order="stroke">FRENTE / ACESSO</text><g transform="translate(330, 16)"><line x1="0" y1="8" x2="0" y2="-4" stroke="#0f172a" stroke-width="1.5"/><polygon points="0,-7 -3.5,-1 3.5,-1" fill="#0f172a"/><text x="0" y="16" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="700" fill="#0f172a">N</text></g><g class="planta-escala"><line x1="12.0" y1="207.0" x2="45.6" y2="207.0" stroke="#0f172a" stroke-width="2"/><line x1="12.0" y1="204.0" x2="12.0" y2="210.0" stroke="#0f172a" stroke-width="1.5"/><line x1="45.6" y1="204.0" x2="45.6" y2="210.0" stroke="#0f172a" stroke-width="1.5"/><text x="28.8" y="203.0" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="600" fill="#0f172a">20 m</text></g><text x="10" y="13" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#334155">IMPLANTAÇÃO (PROJEÇÃO UTM)</text></svg>
+          <div class="legenda-svg">
+            <span><i class="cor-leg" style="background:#e6f4ea;border-color:#1e6b3b"></i>Lote / Permeável</span>
+            <span><i class="cor-leg" style="background:#fff;border:1px dashed #475569"></i>Caixa máx. (recuos)</span>
+            <span><i class="cor-leg" style="background:#cbd5e1;border-color:#475569"></i>Subsolo</span>
+            <span><i class="cor-leg" style="background:#f59e0b;border-color:#b45309"></i>Embasamento</span>
+            <span><i class="cor-leg" style="background:#2563eb;border-color:#1e3a8a"></i>Residencial</span>
+            <span><i class="cor-leg" style="background:#dc2626;border-color:#dc2626"></i>Frente/Acesso</span>
+          </div>
+        </div>
+        <div class="desenho-box">
+          <svg class="svg-vista3d" data-opcao="C" viewBox="0 0 350 215" width="100%" height="215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vista 3D axonométrica da opção C"><rect x="0" y="0" width="350" height="215" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon points="111.12,130.33 150.30,115.11 238.88,176.75 199.70,191.98 111.12,130.33" fill="#dcfce7" fill-opacity="0.7" stroke="#15803d" stroke-width="1.4"/><line x1="238.88" y1="176.75" x2="199.70" y2="191.98" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/><polygon points="114.58,135.12 149.80,121.43 149.80,116.90 114.58,130.59" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="149.80,121.43 232.97,179.32 232.97,174.79 149.80,116.90" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="197.74,193.00 114.58,135.12 114.58,130.59 197.74,188.47" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="232.97,179.32 197.74,193.00 197.74,188.47 232.97,174.79" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="114.58,130.59 149.80,116.90 232.97,174.79 197.74,188.47" fill="#cbd5e1" fill-opacity="0.5" stroke="#475569" stroke-width="1.1" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="159.22,129.86 135.81,138.96 135.81,118.57 159.22,109.47" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="212.22,166.75 159.22,129.86 159.22,109.47 212.22,146.36" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="135.81,138.96 188.81,175.85 188.81,155.45 135.81,118.57" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="188.81,175.85 212.22,166.75 212.22,146.36 188.81,155.45" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="135.81,118.57 188.81,155.45 212.22,146.36 159.22,109.47" fill="#60a5fa" fill-opacity="0.9199999999999999" stroke="#1e3a8a" stroke-width="1.1" stroke-linejoin="round"/><polygon class="vista3d-caixa-topo" points="114.58,37.69 149.80,24.00 232.97,81.89 197.74,95.57" fill="#0ea5e9" fill-opacity="0.06" stroke="#0284c7" stroke-width="1.0" stroke-dasharray="4,3"/><line x1="114.58" y1="130.59" x2="114.58" y2="37.69" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="149.80" y1="116.90" x2="149.80" y2="24.00" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="232.97" y1="174.79" x2="232.97" y2="81.89" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="197.74" y1="188.47" x2="197.74" y2="95.57" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><text x="10" y="13" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#334155">VISTA 3D + CAIXA MÁXIMA (h=61,5 m)</text></svg>
+          <div class="legenda-svg">
+            <span>Envelope azul tracejado transparente = Caixa máxima (<span class="num" data-campo="caixa_maxima.altura_m" data-valor="61.5">61,5</span> m)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. OS 4 NÚMEROS GRANDES -->
+      <div class="quatro-numeros">
+        <div class="card-numero">
+          <div class="card-numero-rotulo">Unidades Estimadas</div>
+          <div class="card-numero-valor"><span class="num" data-campo="opcoes.C.metricas.unidades_estimadas" data-valor="48">48</span></div>
+          <div class="card-numero-sub">un. de <span class="num" data-campo="premissas.area_privativa_por_unidade_m2" data-valor="60">60</span> m²</div>
+        </div>
+        <div class="card-numero">
+          <div class="card-numero-rotulo">Área Privativa Vendável</div>
+          <div class="card-numero-valor"><span class="num" data-campo="opcoes.C.metricas.area_privativa_m2" data-valor="3070.98">3.070,98</span> m²</div>
+          <div class="card-numero-sub">Base de venda e VGV</div>
+        </div>
+        <div class="card-numero">
+          <div class="card-numero-rotulo">Vagas de Garagem</div>
+          <div class="card-numero-valor"><span class="num" data-campo="opcoes.C.metricas.vagas" data-valor="48">48</span></div>
+          <div class="card-numero-sub">Área gar.: <span class="num" data-campo="opcoes.C.metricas.area_garagem_m2" data-valor="2267.21">2.267,21</span> m²</div>
+        </div>
+        <div class="card-numero">
+          <div class="card-numero-rotulo">VGV Estimado</div>
+          <div class="card-numero-valor card-numero-vgv"><span class="num num-nulo" data-campo="opcoes.C.metricas.vgv_estimado" data-valor="null">informe o preço</span></div>
+          <div class="card-numero-sub">Preço de venda (R$/m²) não informado</div>
+        </div>
+      </div>
+
+      <!-- 4. USO DA LEI + 5. QUADRO DE ÁREAS LADO A LADO -->
+      <div class="grade-meio">
+        <div class="coluna-meio">
+          <h2 class="secao-titulo">4. Uso da Lei (Usado × Permitido × Folga)</h2>
+          <table class="tabela-compacta">
+            <thead>
+              <tr>
+                <th>Parâmetro</th>
+                <th>Usado na Opção</th>
+                <th>Permitido na Lei</th>
+                <th>Folga / Outorga</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>CA</strong></td>
+                <td><span class="num" data-campo="opcoes.C.metricas.ca_usado" data-valor="1.4">1,4</span> (<span class="num" data-campo="opcoes.C.metricas.area_computavel_m2" data-valor="3758.73">3.758,73</span> m²)</td>
+                <td>Bás. <span class="num" data-campo="zona.parametros.ca_basico" data-valor="1.4">1,4</span> / Máx. <span class="num" data-campo="zona.parametros.ca_maximo" data-valor="1.4">1,4</span> (<span class="num" data-campo="caixa_maxima.area_computavel_max_m2" data-valor="3758.92">3.758,92</span> m²)</td>
+                <td>Folga: 0,0 de CA<br/>Outorga: <span class="num" data-campo="opcoes.C.metricas.area_acima_ca_basico_m2" data-valor="0.0">0,0</span> m²</td>
+                <td><span class="semaforo semaforo-amarelo"><span class="semaforo-ponto"></span>No limite / Outorga</span></td>
+              </tr>
+              <tr>
+                <td><strong>TO (Ocupação)</strong></td>
+                <td><span class="num" data-campo="opcoes.C.metricas.to_usada" data-valor="0.35">0,35</span> (35,0%)</td>
+                <td>Máx. <span class="num" data-campo="zona.parametros.taxa_ocupacao" data-valor="0.7">0,7</span> (<span class="num" data-campo="caixa_maxima.ocupacao_max_m2" data-valor="1879.46">1.879,46</span> m²)</td>
+                <td>35,0 p.p. (0,35)</td>
+                <td><span class="semaforo semaforo-verde"><span class="semaforo-ponto"></span>Com folga</span></td>
+              </tr>
+              <tr>
+                <td><strong>Permeabilidade</strong></td>
+                <td><span class="num" data-campo="opcoes.C.metricas.area_permeavel_m2" data-valor="417.73">417,73</span> m² (15,6%)</td>
+                <td>Mín. <span class="num" data-campo="zona.parametros.taxa_permeabilidade" data-valor="0.15">0,15</span> (402,74 m²)</td>
+                <td>+14,99 m² (15,6%)</td>
+                <td><span class="semaforo semaforo-verde"><span class="semaforo-ponto"></span>Atende</span></td>
+              </tr>
+              <tr>
+                <td><strong>Altura e Pav.</strong></td>
+                <td><span class="num" data-campo="opcoes.C.metricas.pavimentos" data-valor="4">4</span> pav. / 13,5 m</td>
+                <td>Zona: <span class="num num-nulo" data-campo="zona.parametros.altura_max_m" data-valor="null">—</span> / <span class="num num-nulo" data-campo="zona.parametros.pavimentos_max" data-valor="null">—</span> (Caixa: <span class="num" data-campo="caixa_maxima.altura_m" data-valor="61.5">61,5</span> m)</td>
+                <td>Área especial no lote</td>
+                <td><span class="semaforo semaforo-amarelo"><span class="semaforo-ponto"></span>Conferir área esp.</span></td>
+              </tr>
+              <tr>
+                <td><strong>Recuos</strong></td>
+                <td>Frontal: <span class="num" data-campo="caixa_maxima.recuo_frontal_m" data-valor="4.0">4,0</span> m<br/><small>residencial: lat. 2,0 m / fundos 2,0 m</small></td>
+                <td>Frontal lei: <span class="num num-nulo" data-campo="zona.parametros.recuo_frontal_m" data-valor="null">—</span><br/>Lat./Fdo. mín.: <span class="num" data-campo="zona.parametros.recuo_lateral_m" data-valor="1.5">1,5</span> m / <span class="num" data-campo="zona.parametros.recuo_fundos_m" data-valor="1.5">1,5</span> m (h/8 acima 2º pav.)</td>
+                <td>Conferir loteamento</td>
+                <td><span class="semaforo semaforo-amarelo"><span class="semaforo-ponto"></span>Frontal padrão</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="coluna-meio">
+          <h2 class="secao-titulo">5. Quadro de Áreas Resumido (Espírito NBR 12721)</h2>
+          <table class="tabela-compacta">
+            <thead>
+              <tr>
+                <th>Volume / Uso</th>
+                <th>Cota z0</th>
+                <th>Altura</th>
+                <th>Pav.</th>
+                <th>Projeção</th>
+                <th>Recuo Lat./Fdo.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Residencial</strong> (bloco 1)</td><td><span class="num" data-campo="opcoes.C.volumes.0.z0_m" data-valor="0.0">0,0</span> m</td><td><span class="num" data-campo="opcoes.C.volumes.0.altura_m" data-valor="13.5">13,5</span> m</td><td><span class="num" data-campo="opcoes.C.volumes.0.pavimentos" data-valor="4">4</span> pav.</td><td>959,98 m²</td><td><span class="num" data-campo="opcoes.C.volumes.0.recuo_lateral_m" data-valor="2.0">2,0</span> m / <span class="num" data-campo="opcoes.C.volumes.0.recuo_fundos_m" data-valor="2.0">2,0</span> m</td></tr><tr><td><strong>Garagem</strong> (bloco 2)</td><td><span class="num" data-campo="opcoes.C.volumes.1.z0_m" data-valor="-3.0">-3,0</span> m</td><td><span class="num" data-campo="opcoes.C.volumes.1.altura_m" data-valor="3.0">3,0</span> m</td><td><span class="num" data-campo="opcoes.C.volumes.1.pavimentos" data-valor="1">1</span> pav.</td><td>2.266,54 m²</td><td>Subsolo</td></tr>
+            </tbody>
+          </table>
+
+          <table class="tabela-compacta tabela-totais-areas">
+            <tbody>
+              <tr>
+                <th>Área construída total</th>
+                <td><strong><span class="num" data-campo="opcoes.C.metricas.area_construida_m2" data-valor="6105.94">6.105,94</span> m²</strong></td>
+                <th>Área computável (CA)</th>
+                <td><strong><span class="num" data-campo="opcoes.C.metricas.area_computavel_m2" data-valor="3758.73">3.758,73</span> m²</strong></td>
+              </tr>
+              <tr>
+                <th>Área não computável</th>
+                <td><span class="num" data-campo="opcoes.C.metricas.area_nao_computavel_m2" data-valor="2347.21">2.347,21</span> m²</td>
+                <th>Área de garagem</th>
+                <td><span class="num" data-campo="opcoes.C.metricas.area_garagem_m2" data-valor="2267.21">2.267,21</span> m²</td>
+              </tr>
+              <tr>
+                <th>Área privativa vendável</th>
+                <td><strong><span class="num" data-campo="opcoes.C.metricas.area_privativa_m2" data-valor="3070.98">3.070,98</span> m²</strong></td>
+                <th>Acima do CA básico (outorga)</th>
+                <td><span class="num" data-campo="opcoes.C.metricas.area_acima_ca_basico_m2" data-valor="0.0">0,0</span> m²</td>
+              </tr>
+              <tr>
+                <th>Eficiência (s/ garagem)</th>
+                <td>80,0% (premissa: <span class="num" data-campo="premissas.eficiencia" data-valor="0.8">0,8</span>)</td>
+                <th>Eficiência (sobre total)</th>
+                <td>50,3%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 6. PREMISSAS USADAS -->
+      <div class="bloco-premissas">
+        <h2 class="secao-titulo">6. Premissas Usadas <span class="subtitulo-leve">(itens vindos de <code>premissas.padrao</code> marcados com <span class="badge-padrao">padrão</span>)</span></h2>
+        <div class="grade-premissas">
+          <div class="premissa-item" data-premissa="area_privativa_por_unidade_m2"><span class="premissa-nome">Tipologia (área privativa por unidade):</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.area_privativa_por_unidade_m2" data-valor="60">60</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="vagas_por_unidade"><span class="premissa-nome">Vagas por unidade:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.vagas_por_unidade" data-valor="1">1</span> vaga/un.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="area_por_vaga_m2"><span class="premissa-nome">Área por vaga (com circulação):</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.area_por_vaga_m2" data-valor="27">27</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="garagem"><span class="premissa-nome">Tipo de garagem:</span> <strong class="premissa-valor"><span class="num-texto" data-campo="premissas.garagem" data-valor="subsolo">subsolo</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="subsolos_max"><span class="premissa-nome">Subsolos máximos:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.subsolos_max" data-valor="2">2</span> subsolos</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="garagem_computavel"><span class="premissa-nome">Garagem computável no CA:</span> <strong class="premissa-valor"><span class="num num-bool" data-campo="premissas.garagem_computavel" data-valor="false">Não</span></strong></div><div class="premissa-item" data-premissa="pe_direito_m"><span class="premissa-nome">Pé-direito tipo:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pe_direito_m" data-valor="3.0">3,0</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pe_direito_terreo_m"><span class="premissa-nome">Pé-direito térreo:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pe_direito_terreo_m" data-valor="4.5">4,5</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="eficiencia"><span class="premissa-nome">Eficiência (privativa ÷ construída):</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.eficiencia" data-valor="0.8">0,8</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="area_comum_por_pavimento_m2"><span class="premissa-nome">Área comum por pavimento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.area_comum_por_pavimento_m2" data-valor="40">40</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="nucleo_nao_computavel_m2"><span class="premissa-nome">Núcleo não computável por pavimento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.nucleo_nao_computavel_m2" data-valor="20">20</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="recuo_frontal_m"><span class="premissa-nome">Recuo frontal adotado:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.recuo_frontal_m" data-valor="4.0">4,0</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="preco_venda_m2_privativo"><span class="premissa-nome">Preço de venda por m² privativo:</span> <strong class="premissa-valor"><span class="num num-nulo" data-campo="premissas.preco_venda_m2_privativo" data-valor="null">—</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="laje_torre_max_m2"><span class="premissa-nome">Laje máxima de torre:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.laje_torre_max_m2" data-valor="500">500</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="laje_minima_m2"><span class="premissa-nome">Laje mínima:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.laje_minima_m2" data-valor="80">80</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="afastamento_entre_torres_m"><span class="premissa-nome">Afastamento entre torres:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.afastamento_entre_torres_m" data-valor="6.0">6,0</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pavimentos_lamina_max"><span class="premissa-nome">Pavimentos máximos na lâmina:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pavimentos_lamina_max" data-valor="4">4</span> pav.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pavimentos_embasamento"><span class="premissa-nome">Pavimentos no embasamento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pavimentos_embasamento" data-valor="2">2</span> pav.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pavimentos_sem_ca"><span class="premissa-nome">Pavimentos limite quando sem CA:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pavimentos_sem_ca" data-valor="10">10</span> pav.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="embasamento_ocupacao"><span class="premissa-nome">Ocupação do embasamento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.embasamento_ocupacao" data-valor="0.4">0,4</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div>
+        </div>
+      </div>
+
+      <!-- 7. ALERTAS E INCERTEZAS -->
+      <div class="grade-alertas-opcao">
+        <div class="caixa-alerta caixa-aviso">
+          <div class="caixa-alerta-titulo">7a. Alertas da Opção C</div>
+          <ul class="lista-alertas"><li>Recuo lateral/fundos: residencial 2.00/2.00 m (recuo do topo no prédio todo).</li><li>ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.</li><li>No limite: CA 1.40 (máximo 1.40).</li></ul>
+        </div>
+        <div class="caixa-alerta caixa-incertezas">
+          <div class="caixa-alerta-titulo">7b. Incertezas do Estudo</div>
+          <ul class="lista-alertas"><li>Terreno na zona SC-Z4: NÃO conferido (lida à mão no anexo em PDF). Confirmar a zona do lote antes de usar o estudo.</li><li>A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.</li><li>Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).</li><li>Área especial interesse_industrial_servicos sem número de altura: não aplicada (Lei 18.053/2016, arts. 84 a 86, Anexo 06, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf).</li><li>Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.</li><li>Parede cega (sem janela) encosta na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).</li><li>Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.</li><li>Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.</li><li>A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.</li><li>Relevo ignorado: volumes assentados em terreno plano, z=0.</li><li>Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.</li></ul>
+        </div>
+      </div>
+
+      <!-- 8. RODAPÉ FIXO -->
+      <footer class="rodape-fixo">Estudo preliminar automático. Não substitui o arquiteto responsável nem garante aprovação na prefeitura.</footer>
+    </section>
+    
+    <section class="pagina pagina-opcao" id="opcao-D" data-opcao-id="D">
+      <!-- 1. CABEÇALHO -->
+      <header class="cabecalho-pagina">
+        <div class="cab-esquerda">
+          <div class="cab-tag">OPÇÃO D — FICHA DE VIABILIDADE POR OPÇÃO</div>
+          <h1 class="cab-titulo">D — Embasamento + torre</h1>
+          <div class="cab-subtitulo">
+            Lote: <strong>SC-completo-37607</strong> (<span class="num" data-campo="lote.area_m2" data-valor="2684.942">2.684,942</span> m²) ·
+            Zona: <strong>SC-Z4 — Zona 4 – Qualificação e Ocupação Controlada</strong>
+          </div>
+        </div>
+        <div class="cab-direita">
+          <div>Motor v<strong>0.5.0</strong></div>
+          <div>Leis: 2016-12-19, 2020-12-15, 2021-04-06, 2024-03-08, 2026-02-24</div>
+          <div class="cab-fontes-curtas" title="Lei nº 18.053/2016 (Plano Diretor) (2016-12-19); Lei nº 19.950/2020 (Código de Obras) (2020-12-15); Lei nº 20.072/2021 (2021-04-06); Lei nº 24.031/2026 (2026-02-24); Lei nº 22.285/2024 (2024-03-08); Lei nº 19.950/2020 (Código de Obras) (2020-12-15)">6 fontes legais</div>
+        </div>
+      </header>
+
+      
+        <div class="conferencia-dupla conferencia-compacta">
+          <div class="conf-card conf-ok">
+            <div class="conf-titulo">1. Números da zona conferidos na lei (<code>zona.conferido</code>)</div>
+            <div class="conf-valor">
+              <span class="badge-conf">CONFERIDO NA LEI</span>
+              <span class="conf-detalhe"><span class="num num-bool" data-campo="zona.conferido" data-valor="true">Sim</span> — Zona <strong>SC-Z4</strong> (Zona 4 – Qualificação e Ocupação Controlada)</span>
+            </div>
+          </div>
+          <div class="conf-card conf-alerta">
+            <div class="conf-titulo">2. O terreno está nessa zona? (<code>lote.zona_conferida</code>)</div>
+            <div class="conf-valor">
+              <span class="badge-conf">NÃO CONFERIDO</span>
+              <span class="conf-detalhe"><span class="num num-bool" data-campo="lote.zona_conferida" data-valor="false">Não</span> — Origem: <strong>Anotada à mão (lida no anexo em PDF)</strong> (<code>anotada_a_mao</code>)</span>
+            </div>
+            
+          </div>
+        </div>
+        
+
+      <!-- 2. IMAGEM: VISTA 3D + IMPLANTAÇÃO DE CIMA AO LADO -->
+      <div class="painel-desenhos">
+        <div class="desenho-box">
+          <svg class="svg-planta" data-opcao="D" viewBox="0 0 350 215" width="100%" height="215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Planta de implantação da opção D"><defs><pattern id="hachura-subsolo-SC-completo-37607-D-full" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="6" stroke="#64748b" stroke-width="1.2" stroke-opacity="0.45"/></pattern></defs><rect x="0" y="0" width="350" height="215" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon class="planta-lote" points="143.79,30.16 193.64,26.00 206.21,176.85 156.36,181.00 143.79,30.16" fill="#e6f4ea" stroke="#1e6b3b" stroke-width="1.8" stroke-linejoin="round"><title>Lote SC-completo-37607 (2.684,942 m²)</title></polygon><polygon class="planta-parede-cega" points="193.64,26.00 205.66,170.16 155.80,174.31 143.79,30.16" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"><title>Limite parede cega na divisa</title></polygon><polygon class="planta-caixa-maxima" points="146.51,32.47 191.33,28.72 203.14,170.36 158.32,174.09" fill="#ffffff" fill-opacity="0.45" stroke="#475569" stroke-width="1.2" stroke-dasharray="5,3" stroke-linejoin="round"><title>Projeção da caixa máxima (recuos)</title></polygon><polygon class="planta-volume planta-volume-garagem" data-volume-idx="2" data-uso="garagem" points="146.51,32.47 191.33,28.72 203.14,170.36 158.32,174.09" fill="url(#hachura-subsolo-SC-completo-37607-D-full)" fill-opacity="0.85" stroke="#475569" stroke-width="1.3" stroke-dasharray="4,2" stroke-linejoin="round"><title>Subsolo / Garagem: 1 pav., h=3,0 m (z0=-3,0 m)</title></polygon><polygon class="planta-volume planta-volume-embasamento" data-volume-idx="0" data-uso="embasamento" points="186.43,87.70 188.53,113.01 163.22,115.13 161.12,89.82" fill="#f59e0b" fill-opacity="0.55" stroke="#b45309" stroke-width="1.5" stroke-linejoin="round"><title>Embasamento: 2 pav., h=7,5 m (z0=0,0 m)</title></polygon><text x="174.8" y="101.4" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#ffffff" stroke="#0f172a" stroke-width="2" paint-order="stroke">2p (7,5m)</text><polygon class="planta-volume planta-volume-residencial" data-volume-idx="1" data-uso="residencial" points="161.83,90.40 163.83,114.40 187.82,112.40 185.83,88.41" fill="#2563eb" fill-opacity="0.72" stroke="#1e3a8a" stroke-width="1.8" stroke-linejoin="round"><title>Residencial: 18 pav., h=54,0 m (z0=7,5 m)</title></polygon><text x="174.8" y="101.4" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#ffffff" stroke="#0f172a" stroke-width="2" paint-order="stroke">18p (54,0m)</text><line class="planta-frente" x1="206.21" y1="176.85" x2="156.36" y2="181.00" stroke="#dc2626" stroke-width="3.8" stroke-linecap="round"><title>Frente do lote (acesso)</title></line><text x="181.3" y="173.9" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="700" fill="#b91c1c" stroke="#ffffff" stroke-width="2.2" paint-order="stroke">FRENTE / ACESSO</text><g transform="translate(330, 16)"><line x1="0" y1="8" x2="0" y2="-4" stroke="#0f172a" stroke-width="1.5"/><polygon points="0,-7 -3.5,-1 3.5,-1" fill="#0f172a"/><text x="0" y="16" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="700" fill="#0f172a">N</text></g><g class="planta-escala"><line x1="12.0" y1="207.0" x2="45.6" y2="207.0" stroke="#0f172a" stroke-width="2"/><line x1="12.0" y1="204.0" x2="12.0" y2="210.0" stroke="#0f172a" stroke-width="1.5"/><line x1="45.6" y1="204.0" x2="45.6" y2="210.0" stroke="#0f172a" stroke-width="1.5"/><text x="28.8" y="203.0" text-anchor="middle" font-family="sans-serif" font-size="7.5" font-weight="600" fill="#0f172a">20 m</text></g><text x="10" y="13" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#334155">IMPLANTAÇÃO (PROJEÇÃO UTM)</text></svg>
+          <div class="legenda-svg">
+            <span><i class="cor-leg" style="background:#e6f4ea;border-color:#1e6b3b"></i>Lote / Permeável</span>
+            <span><i class="cor-leg" style="background:#fff;border:1px dashed #475569"></i>Caixa máx. (recuos)</span>
+            <span><i class="cor-leg" style="background:#cbd5e1;border-color:#475569"></i>Subsolo</span>
+            <span><i class="cor-leg" style="background:#f59e0b;border-color:#b45309"></i>Embasamento</span>
+            <span><i class="cor-leg" style="background:#2563eb;border-color:#1e3a8a"></i>Residencial</span>
+            <span><i class="cor-leg" style="background:#dc2626;border-color:#dc2626"></i>Frente/Acesso</span>
+          </div>
+        </div>
+        <div class="desenho-box">
+          <svg class="svg-vista3d" data-opcao="D" viewBox="0 0 350 215" width="100%" height="215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vista 3D axonométrica da opção D"><rect x="0" y="0" width="350" height="215" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/><polygon points="111.12,130.33 150.30,115.11 238.88,176.75 199.70,191.98 111.12,130.33" fill="#dcfce7" fill-opacity="0.7" stroke="#15803d" stroke-width="1.4"/><line x1="238.88" y1="176.75" x2="199.70" y2="191.98" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/><polygon points="114.58,135.12 149.80,121.43 149.80,116.90 114.58,130.59" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="149.80,121.43 232.97,179.32 232.97,174.79 149.80,116.90" fill="#94a3b8" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="197.74,193.00 114.58,135.12 114.58,130.59 197.74,188.47" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="232.97,179.32 197.74,193.00 197.74,188.47 232.97,174.79" fill="#64748b" fill-opacity="0.42" stroke="#475569" stroke-width="0.9" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="114.58,130.59 149.80,116.90 232.97,174.79 197.74,188.47" fill="#cbd5e1" fill-opacity="0.5" stroke="#475569" stroke-width="1.1" stroke-dasharray="3,2" stroke-linejoin="round"/><polygon points="156.40,151.38 176.29,143.65 176.29,132.32 156.40,140.05" fill="#f59e0b" fill-opacity="0.82" stroke="#92400e" stroke-width="0.9" stroke-linejoin="round"/><polygon points="176.29,143.65 191.14,154.00 191.14,142.67 176.29,132.32" fill="#f59e0b" fill-opacity="0.82" stroke="#92400e" stroke-width="0.9" stroke-linejoin="round"/><polygon points="171.26,161.73 156.40,151.38 156.40,140.05 171.26,150.40" fill="#d97706" fill-opacity="0.82" stroke="#92400e" stroke-width="0.9" stroke-linejoin="round"/><polygon points="191.14,154.00 171.26,161.73 171.26,150.40 191.14,142.67" fill="#d97706" fill-opacity="0.82" stroke="#92400e" stroke-width="0.9" stroke-linejoin="round"/><polygon points="176.29,132.32 191.14,142.67 171.26,150.40 156.40,140.05" fill="#fbbf24" fill-opacity="0.8999999999999999" stroke="#92400e" stroke-width="1.1" stroke-linejoin="round"/><polygon points="176.16,132.79 157.29,140.11 157.29,58.54 176.16,51.22" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="190.25,142.60 176.16,132.79 176.16,51.22 190.25,61.03" fill="#1d4ed8" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="157.29,140.11 171.38,149.92 171.38,68.35 157.29,58.54" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="171.38,149.92 190.25,142.60 190.25,61.03 171.38,68.35" fill="#3b82f6" fill-opacity="0.84" stroke="#1e3a8a" stroke-width="0.9" stroke-linejoin="round"/><polygon points="157.29,58.54 171.38,68.35 190.25,61.03 176.16,51.22" fill="#60a5fa" fill-opacity="0.9199999999999999" stroke="#1e3a8a" stroke-width="1.1" stroke-linejoin="round"/><polygon class="vista3d-caixa-topo" points="114.58,37.69 149.80,24.00 232.97,81.89 197.74,95.57" fill="#0ea5e9" fill-opacity="0.06" stroke="#0284c7" stroke-width="1.0" stroke-dasharray="4,3"/><line x1="114.58" y1="130.59" x2="114.58" y2="37.69" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="149.80" y1="116.90" x2="149.80" y2="24.00" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="232.97" y1="174.79" x2="232.97" y2="81.89" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><line x1="197.74" y1="188.47" x2="197.74" y2="95.57" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/><text x="10" y="13" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#334155">VISTA 3D + CAIXA MÁXIMA (h=61,5 m)</text></svg>
+          <div class="legenda-svg">
+            <span>Envelope azul tracejado transparente = Caixa máxima (<span class="num" data-campo="caixa_maxima.altura_m" data-valor="61.5">61,5</span> m)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. OS 4 NÚMEROS GRANDES -->
+      <div class="quatro-numeros">
+        <div class="card-numero">
+          <div class="card-numero-rotulo">Unidades Estimadas</div>
+          <div class="card-numero-valor"><span class="num" data-campo="opcoes.D.metricas.unidades_estimadas" data-valor="36">36</span></div>
+          <div class="card-numero-sub">un. de <span class="num" data-campo="premissas.area_privativa_por_unidade_m2" data-valor="60">60</span> m²</div>
+        </div>
+        <div class="card-numero">
+          <div class="card-numero-rotulo">Área Privativa Vendável</div>
+          <div class="card-numero-valor"><span class="num" data-campo="opcoes.D.metricas.area_privativa_m2" data-valor="2961.05">2.961,05</span> m²</div>
+          <div class="card-numero-sub">Base de venda e VGV</div>
+        </div>
+        <div class="card-numero">
+          <div class="card-numero-rotulo">Vagas de Garagem</div>
+          <div class="card-numero-valor"><span class="num" data-campo="opcoes.D.metricas.vagas" data-valor="36">36</span></div>
+          <div class="card-numero-sub">Área gar.: <span class="num" data-campo="opcoes.D.metricas.area_garagem_m2" data-valor="2267.21">2.267,21</span> m²</div>
+        </div>
+        <div class="card-numero">
+          <div class="card-numero-rotulo">VGV Estimado</div>
+          <div class="card-numero-valor card-numero-vgv"><span class="num num-nulo" data-campo="opcoes.D.metricas.vgv_estimado" data-valor="null">informe o preço</span></div>
+          <div class="card-numero-sub">Preço de venda (R$/m²) não informado</div>
+        </div>
+      </div>
+
+      <!-- 4. USO DA LEI + 5. QUADRO DE ÁREAS LADO A LADO -->
+      <div class="grade-meio">
+        <div class="coluna-meio">
+          <h2 class="secao-titulo">4. Uso da Lei (Usado × Permitido × Folga)</h2>
+          <table class="tabela-compacta">
+            <thead>
+              <tr>
+                <th>Parâmetro</th>
+                <th>Usado na Opção</th>
+                <th>Permitido na Lei</th>
+                <th>Folga / Outorga</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>CA</strong></td>
+                <td><span class="num" data-campo="opcoes.D.metricas.ca_usado" data-valor="1.4">1,4</span> (<span class="num" data-campo="opcoes.D.metricas.area_computavel_m2" data-valor="3758.73">3.758,73</span> m²)</td>
+                <td>Bás. <span class="num" data-campo="zona.parametros.ca_basico" data-valor="1.4">1,4</span> / Máx. <span class="num" data-campo="zona.parametros.ca_maximo" data-valor="1.4">1,4</span> (<span class="num" data-campo="caixa_maxima.area_computavel_max_m2" data-valor="3758.92">3.758,92</span> m²)</td>
+                <td>Folga: 0,0 de CA<br/>Outorga: <span class="num" data-campo="opcoes.D.metricas.area_acima_ca_basico_m2" data-valor="0.0">0,0</span> m²</td>
+                <td><span class="semaforo semaforo-amarelo"><span class="semaforo-ponto"></span>No limite / Outorga</span></td>
+              </tr>
+              <tr>
+                <td><strong>TO (Ocupação)</strong></td>
+                <td><span class="num" data-campo="opcoes.D.metricas.to_usada" data-valor="0.078">0,078</span> (7,8%)</td>
+                <td>Máx. <span class="num" data-campo="zona.parametros.taxa_ocupacao" data-valor="0.7">0,7</span> (<span class="num" data-campo="caixa_maxima.ocupacao_max_m2" data-valor="1879.46">1.879,46</span> m²)</td>
+                <td>62,2 p.p. (0,622)</td>
+                <td><span class="semaforo semaforo-verde"><span class="semaforo-ponto"></span>Com folga</span></td>
+              </tr>
+              <tr>
+                <td><strong>Permeabilidade</strong></td>
+                <td><span class="num" data-campo="opcoes.D.metricas.area_permeavel_m2" data-valor="417.73">417,73</span> m² (15,6%)</td>
+                <td>Mín. <span class="num" data-campo="zona.parametros.taxa_permeabilidade" data-valor="0.15">0,15</span> (402,74 m²)</td>
+                <td>+14,99 m² (15,6%)</td>
+                <td><span class="semaforo semaforo-verde"><span class="semaforo-ponto"></span>Atende</span></td>
+              </tr>
+              <tr>
+                <td><strong>Altura e Pav.</strong></td>
+                <td><span class="num" data-campo="opcoes.D.metricas.pavimentos" data-valor="20">20</span> pav. / 61,5 m</td>
+                <td>Zona: <span class="num num-nulo" data-campo="zona.parametros.altura_max_m" data-valor="null">—</span> / <span class="num num-nulo" data-campo="zona.parametros.pavimentos_max" data-valor="null">—</span> (Caixa: <span class="num" data-campo="caixa_maxima.altura_m" data-valor="61.5">61,5</span> m)</td>
+                <td>Área especial no lote</td>
+                <td><span class="semaforo semaforo-amarelo"><span class="semaforo-ponto"></span>Conferir área esp.</span></td>
+              </tr>
+              <tr>
+                <td><strong>Recuos</strong></td>
+                <td>Frontal: <span class="num" data-campo="caixa_maxima.recuo_frontal_m" data-valor="4.0">4,0</span> m<br/><small>embasamento: lat. 1,5 m / fundos 1,5 m; residencial: lat. 7,69 m / fundos 7,69 m</small></td>
+                <td>Frontal lei: <span class="num num-nulo" data-campo="zona.parametros.recuo_frontal_m" data-valor="null">—</span><br/>Lat./Fdo. mín.: <span class="num" data-campo="zona.parametros.recuo_lateral_m" data-valor="1.5">1,5</span> m / <span class="num" data-campo="zona.parametros.recuo_fundos_m" data-valor="1.5">1,5</span> m (h/8 acima 2º pav.)</td>
+                <td>Conferir loteamento</td>
+                <td><span class="semaforo semaforo-amarelo"><span class="semaforo-ponto"></span>Frontal padrão</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="coluna-meio">
+          <h2 class="secao-titulo">5. Quadro de Áreas Resumido (Espírito NBR 12721)</h2>
+          <table class="tabela-compacta">
+            <thead>
+              <tr>
+                <th>Volume / Uso</th>
+                <th>Cota z0</th>
+                <th>Altura</th>
+                <th>Pav.</th>
+                <th>Projeção</th>
+                <th>Recuo Lat./Fdo.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Embasamento</strong> (bloco 1)</td><td><span class="num" data-campo="opcoes.D.volumes.0.z0_m" data-valor="0.0">0,0</span> m</td><td><span class="num" data-campo="opcoes.D.volumes.0.altura_m" data-valor="7.5">7,5</span> m</td><td><span class="num" data-campo="opcoes.D.volumes.0.pavimentos" data-valor="2">2</span> pav.</td><td>228,68 m²</td><td><span class="num" data-campo="opcoes.D.volumes.0.recuo_lateral_m" data-valor="1.5">1,5</span> m / <span class="num" data-campo="opcoes.D.volumes.0.recuo_fundos_m" data-valor="1.5">1,5</span> m</td></tr><tr><td><strong>Residencial</strong> (bloco 2)</td><td><span class="num" data-campo="opcoes.D.volumes.1.z0_m" data-valor="7.5">7,5</span> m</td><td><span class="num" data-campo="opcoes.D.volumes.1.altura_m" data-valor="54.0">54,0</span> m</td><td><span class="num" data-campo="opcoes.D.volumes.1.pavimentos" data-valor="18">18</span> pav.</td><td>205,62 m²</td><td><span class="num" data-campo="opcoes.D.volumes.1.recuo_lateral_m" data-valor="7.69">7,69</span> m / <span class="num" data-campo="opcoes.D.volumes.1.recuo_fundos_m" data-valor="7.69">7,69</span> m</td></tr><tr><td><strong>Garagem</strong> (bloco 3)</td><td><span class="num" data-campo="opcoes.D.volumes.2.z0_m" data-valor="-3.0">-3,0</span> m</td><td><span class="num" data-campo="opcoes.D.volumes.2.altura_m" data-valor="3.0">3,0</span> m</td><td><span class="num" data-campo="opcoes.D.volumes.2.pavimentos" data-valor="1">1</span> pav.</td><td>2.266,54 m²</td><td>Subsolo</td></tr>
+            </tbody>
+          </table>
+
+          <table class="tabela-compacta tabela-totais-areas">
+            <tbody>
+              <tr>
+                <th>Área construída total</th>
+                <td><strong><span class="num" data-campo="opcoes.D.metricas.area_construida_m2" data-valor="6425.94">6.425,94</span> m²</strong></td>
+                <th>Área computável (CA)</th>
+                <td><strong><span class="num" data-campo="opcoes.D.metricas.area_computavel_m2" data-valor="3758.73">3.758,73</span> m²</strong></td>
+              </tr>
+              <tr>
+                <th>Área não computável</th>
+                <td><span class="num" data-campo="opcoes.D.metricas.area_nao_computavel_m2" data-valor="2667.21">2.667,21</span> m²</td>
+                <th>Área de garagem</th>
+                <td><span class="num" data-campo="opcoes.D.metricas.area_garagem_m2" data-valor="2267.21">2.267,21</span> m²</td>
+              </tr>
+              <tr>
+                <th>Área privativa vendável</th>
+                <td><strong><span class="num" data-campo="opcoes.D.metricas.area_privativa_m2" data-valor="2961.05">2.961,05</span> m²</strong></td>
+                <th>Acima do CA básico (outorga)</th>
+                <td><span class="num" data-campo="opcoes.D.metricas.area_acima_ca_basico_m2" data-valor="0.0">0,0</span> m²</td>
+              </tr>
+              <tr>
+                <th>Eficiência (s/ garagem)</th>
+                <td>71,2% (premissa: <span class="num" data-campo="premissas.eficiencia" data-valor="0.8">0,8</span>)</td>
+                <th>Eficiência (sobre total)</th>
+                <td>46,1%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 6. PREMISSAS USADAS -->
+      <div class="bloco-premissas">
+        <h2 class="secao-titulo">6. Premissas Usadas <span class="subtitulo-leve">(itens vindos de <code>premissas.padrao</code> marcados com <span class="badge-padrao">padrão</span>)</span></h2>
+        <div class="grade-premissas">
+          <div class="premissa-item" data-premissa="area_privativa_por_unidade_m2"><span class="premissa-nome">Tipologia (área privativa por unidade):</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.area_privativa_por_unidade_m2" data-valor="60">60</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="vagas_por_unidade"><span class="premissa-nome">Vagas por unidade:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.vagas_por_unidade" data-valor="1">1</span> vaga/un.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="area_por_vaga_m2"><span class="premissa-nome">Área por vaga (com circulação):</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.area_por_vaga_m2" data-valor="27">27</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="garagem"><span class="premissa-nome">Tipo de garagem:</span> <strong class="premissa-valor"><span class="num-texto" data-campo="premissas.garagem" data-valor="subsolo">subsolo</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="subsolos_max"><span class="premissa-nome">Subsolos máximos:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.subsolos_max" data-valor="2">2</span> subsolos</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="garagem_computavel"><span class="premissa-nome">Garagem computável no CA:</span> <strong class="premissa-valor"><span class="num num-bool" data-campo="premissas.garagem_computavel" data-valor="false">Não</span></strong></div><div class="premissa-item" data-premissa="pe_direito_m"><span class="premissa-nome">Pé-direito tipo:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pe_direito_m" data-valor="3.0">3,0</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pe_direito_terreo_m"><span class="premissa-nome">Pé-direito térreo:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pe_direito_terreo_m" data-valor="4.5">4,5</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="eficiencia"><span class="premissa-nome">Eficiência (privativa ÷ construída):</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.eficiencia" data-valor="0.8">0,8</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="area_comum_por_pavimento_m2"><span class="premissa-nome">Área comum por pavimento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.area_comum_por_pavimento_m2" data-valor="40">40</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="nucleo_nao_computavel_m2"><span class="premissa-nome">Núcleo não computável por pavimento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.nucleo_nao_computavel_m2" data-valor="20">20</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="recuo_frontal_m"><span class="premissa-nome">Recuo frontal adotado:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.recuo_frontal_m" data-valor="4.0">4,0</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="preco_venda_m2_privativo"><span class="premissa-nome">Preço de venda por m² privativo:</span> <strong class="premissa-valor"><span class="num num-nulo" data-campo="premissas.preco_venda_m2_privativo" data-valor="null">—</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="laje_torre_max_m2"><span class="premissa-nome">Laje máxima de torre:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.laje_torre_max_m2" data-valor="500">500</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="laje_minima_m2"><span class="premissa-nome">Laje mínima:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.laje_minima_m2" data-valor="80">80</span> m²</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="afastamento_entre_torres_m"><span class="premissa-nome">Afastamento entre torres:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.afastamento_entre_torres_m" data-valor="6.0">6,0</span> m</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pavimentos_lamina_max"><span class="premissa-nome">Pavimentos máximos na lâmina:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pavimentos_lamina_max" data-valor="4">4</span> pav.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pavimentos_embasamento"><span class="premissa-nome">Pavimentos no embasamento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pavimentos_embasamento" data-valor="2">2</span> pav.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="pavimentos_sem_ca"><span class="premissa-nome">Pavimentos limite quando sem CA:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.pavimentos_sem_ca" data-valor="10">10</span> pav.</strong> <span class="badge-padrao" data-padrao="true">padrão</span></div><div class="premissa-item" data-premissa="embasamento_ocupacao"><span class="premissa-nome">Ocupação do embasamento:</span> <strong class="premissa-valor"><span class="num" data-campo="premissas.embasamento_ocupacao" data-valor="0.4">0,4</span></strong> <span class="badge-padrao" data-padrao="true">padrão</span></div>
+        </div>
+      </div>
+
+      <!-- 7. ALERTAS E INCERTEZAS -->
+      <div class="grade-alertas-opcao">
+        <div class="caixa-alerta caixa-aviso">
+          <div class="caixa-alerta-titulo">7a. Alertas da Opção D</div>
+          <ul class="lista-alertas"><li>Recuo lateral/fundos: embasamento 1.50/1.50 m, residencial 7.69/7.69 m (escalonado).</li><li>ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.</li><li>No limite: CA 1.40 (máximo 1.40).</li></ul>
+        </div>
+        <div class="caixa-alerta caixa-incertezas">
+          <div class="caixa-alerta-titulo">7b. Incertezas do Estudo</div>
+          <ul class="lista-alertas"><li>Terreno na zona SC-Z4: NÃO conferido (lida à mão no anexo em PDF). Confirmar a zona do lote antes de usar o estudo.</li><li>A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.</li><li>Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).</li><li>Área especial interesse_industrial_servicos sem número de altura: não aplicada (Lei 18.053/2016, arts. 84 a 86, Anexo 06, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf).</li><li>Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.</li><li>Parede cega (sem janela) encosta na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).</li><li>Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.</li><li>Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.</li><li>A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.</li><li>Relevo ignorado: volumes assentados em terreno plano, z=0.</li><li>Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.</li></ul>
+        </div>
+      </div>
+
+      <!-- 8. RODAPÉ FIXO -->
+      <footer class="rodape-fixo">Estudo preliminar automático. Não substitui o arquiteto responsável nem garante aprovação na prefeitura.</footer>
+    </section>
+    
+</body>
+</html>
