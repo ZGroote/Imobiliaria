@@ -87,7 +87,7 @@ export function criarServidorRastreabilidade({service,db,auth,secret,publicOrigi
       limitar(req)
       const privateRoute=path==='/links'||path==='/report'||!!revoke
       const uid=privateRoute?await usuario(req):null
-      const input=req.method==='GET'?query(url,path==='/links'?['propertyId']:['propertyId','from','to','brokerUid']):await corpo(req)
+      const input=req.method==='GET'?query(url,path==='/links'?['propertyId']:['propertyId','from','to','brokerUid','units']):await corpo(req)
       if(req.method==='POST'&&url.search)throw fail(400,'Parâmetros inválidos.')
       if(revoke&&Object.keys(input).length)throw fail(400,'Parâmetros inválidos.')
       const api=await getService()

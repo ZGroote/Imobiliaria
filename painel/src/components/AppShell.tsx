@@ -7,37 +7,53 @@ import { db } from '@/lib/firebase'
 import { itemAtivo, menuDoPapel } from '@/lib/menu'
 import { sair } from '@/lib/session'
 import { ROTULO_PAPEL, type User } from '@/lib/types'
+import { SeletorIdioma, useIdioma } from './Idioma'
+import { REGIAO_PADRAO } from '@/lib/regiao'
+import { TrocaPerfilTeste } from './TrocaPerfilTeste'
 
 export function AppShell({ perfil, children }: { perfil: User; children: ReactNode }) {
+  const { t: tr } = useIdioma()
+
   const caminho = usePathname()
   const itens = menuDoPapel(perfil.role)
   const ativo = itemAtivo(itens, caminho)
   const [agencia, setAgencia] = useState('')
+  const { configurar } = useIdioma()
 
   useEffect(() => {
+    let atual = true
+    configurar(REGIAO_PADRAO)
+    setAgencia('')
     if (!perfil.agencyId) return
-    getDoc(doc(db, 'agencies', perfil.agencyId)).then((s) => setAgencia(s.data()?.name ?? ''), () => {})
+    getDoc(doc(db, 'agencies', perfil.agencyId)).then((s) => {
+      if (!atual) return
+      setAgencia(s.data()?.name ?? '')
+      configurar(s.data()?.region ?? REGIAO_PADRAO)
+    }, () => {})
+    return () => { atual = false }
   }, [perfil.agencyId])
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
-      <aside className="border-b border-slate-200 bg-white md:w-60 md:shrink-0 md:border-r md:border-b-0">
+      <a href="#conteudo" className="sr-only focus:not-sr-only focus:fixed focus:z-50 focus:bg-white focus:p-3">{tr("Pular para o conteúdo")}</a>
+      <aside className="brand-sidebar border-b border-slate-200 md:sticky md:top-0 md:min-h-dvh md:w-64 md:shrink-0 md:self-start md:border-r md:border-b-0">
         <div className="px-5 py-4">
-          <p className="text-sm font-semibold">{agencia || 'Painel'}</p>
-          <p className="text-xs text-slate-500">{perfil.name} · {ROTULO_PAPEL[perfil.role]}</p>
+          <Link href={itens[0]?.href ?? '/'} aria-label={tr("Conecta Imóveis 3D — início")}><img className="brand-logo mb-6" src="/brand/logo-conecta.webp" alt="Conecta Imóveis 3D" width="190" height="60" /></Link>
+          <p className="brand-kicker mb-2">{tr("Gestão de empreendimentos")}</p>
+          <p className="text-sm font-semibold">{agencia || tr("Painel")}</p>
+          <p className="text-xs text-slate-500">{perfil.name} · {tr(ROTULO_PAPEL[perfil.role])}</p>
         </div>
-        <nav className="flex gap-1 overflow-x-auto px-3 pb-3 md:flex-col">
+        <nav aria-label={tr("Menu principal")} className="flex gap-1 overflow-x-auto px-3 pb-3 md:flex-col">
           {itens.map((i) => (
             <Link key={i.href} href={i.href} aria-current={ativo === i.href ? 'page' : undefined}
-              className={`whitespace-nowrap rounded-md px-3 py-2 text-sm ${ativo === i.href
-                ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'}`}>
-              {i.rotulo}
+              className="brand-nav whitespace-nowrap rounded-md px-3 py-3 text-sm text-slate-700">
+              {tr(i.rotulo)}
             </Link>
           ))}
-          <button onClick={sair} className="rounded-md px-3 py-2 text-left text-sm text-slate-500 hover:bg-slate-100">
-            Sair
-          </button>
+          <button onClick={sair} className="rounded-md px-3 py-2 text-left text-sm text-slate-500 hover:bg-slate-100">{tr("Sair")}</button>
         </nav>
+        <TrocaPerfilTeste perfil={perfil} />
+        <div className="px-5 pb-5"><SeletorIdioma /></div>
       </aside>
       <div className="min-w-0 flex-1">{children}</div>
     </div>
@@ -48,10 +64,10 @@ export function AppShell({ perfil, children }: { perfil: User; children: ReactNo
 export function Pagina({ titulo, sub, acoes, children }:
   { titulo: string; sub?: ReactNode; acoes?: ReactNode; children: ReactNode }) {
   return (
-    <main className="p-6 md:p-8">
+    <main id="conteudo" className="mx-auto max-w-[1600px] p-4 sm:p-6 lg:p-10">
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold">{titulo}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">{titulo}</h1>
           {sub && <p className="mt-1 text-sm text-slate-500">{sub}</p>}
         </div>
         {acoes && <div className="flex gap-2">{acoes}</div>}

@@ -20,6 +20,10 @@ export interface TrackingReport extends TrackingPeriod {
   bySection: { page: TrackingPage; section: TrackingSection; views: number; activeMs: number }[]
   coverage: { consentedOnly: true; truncated: boolean; retentionDays: 30 }
 }
+export interface UnitTrackingReport extends TrackingReport {
+  byUnit: { unitKey: string; sessions: number; returns: number; activeMs: number }[]
+  unitCoverage: { sessionsWithUnit: number; unassignedActiveMs: number }
+}
 
 const COUNT_KEYS = ['sessions', 'estimatedVisitors', 'pageViews', 'activeMs', 'rootEntries',
   'forwardedEntries', 'ownReturns', 'uncertainEntries']
@@ -119,6 +123,23 @@ export function validarRelatorio(value: unknown, scope: TrackingScope, expected:
   return v as unknown as TrackingReport
 }
 
+export function validarRelatorioUnidades(value: unknown, scope: TrackingScope, period: TrackingPeriod): UnitTrackingReport {
+  const v = closed(value, ['from', 'to', 'propertyId', 'summary', 'byBroker', 'bySource', 'bySection', 'coverage', 'byUnit', 'unitCoverage'])
+  const { byUnit, unitCoverage, ...base } = v
+  const report = validarRelatorio(base, scope, period), keys = new Set<string>()
+  for (const item of list(byUnit)) {
+    const u = closed(item, ['unitKey', 'sessions', 'returns', 'activeMs'])
+    if (typeof u.unitKey !== 'string' || !/^p\d{2}-f\d{2}$/.test(u.unitKey) || keys.has(u.unitKey)
+      || !count(u.sessions) || u.sessions > report.summary.sessions || !count(u.returns) || u.returns > u.sessions
+      || !count(u.activeMs) || u.activeMs > report.summary.activeMs) invalid()
+    keys.add(u.unitKey as string)
+  }
+  const c = closed(unitCoverage, ['sessionsWithUnit', 'unassignedActiveMs'])
+  if (!count(c.sessionsWithUnit) || c.sessionsWithUnit > report.summary.sessions
+    || !count(c.unassignedActiveMs) || c.unassignedActiveMs > report.summary.activeMs) invalid()
+  return value as UnitTrackingReport
+}
+
 export function criarClienteRastreabilidade({ baseUrl, getToken, fetcher = fetch }: {
   baseUrl: string; getToken: () => Promise<string>; fetcher?: typeof fetch
 }) {
@@ -179,6 +200,10 @@ export function criarClienteRastreabilidade({ baseUrl, getToken, fetcher = fetch
     async relatorio(scope: TrackingScope, period: TrackingPeriod, signal?: AbortSignal) {
       const query = new URLSearchParams({ propertyId: scope.propertyId, ...period, ...(scope.brokerUid ? { brokerUid: scope.brokerUid } : {}) })
       return validarRelatorio(await request('/report?' + query, undefined, signal), scope, period)
+    },
+    async unidades(scope: TrackingScope, period: TrackingPeriod, signal?: AbortSignal) {
+      const query = new URLSearchParams({ propertyId: scope.propertyId, ...period, units: '1', ...(scope.brokerUid ? { brokerUid: scope.brokerUid } : {}) })
+      return validarRelatorioUnidades(await request('/report?' + query, undefined, signal), scope, period)
     },
   }
 }

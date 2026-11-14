@@ -439,5 +439,6 @@
   "Baixando…": "Downloading…",
   "Baixar": "Download",
   "O arquivo deve ter conteúdo.": "The file must not be empty.",
-  "PDF, imagens, vídeos, arquivos CAD/BIM, documentos ou ZIP. Sem limite de tamanho definido pelo painel. Acesso restrito à imobiliária e à equipe responsável.": "PDF, images, videos, CAD/BIM files, documents or ZIP. No file size limit set by the dashboard. Access is restricted to the agency and our team."
+  "O arquivo passa de 5 GB. Divida em partes ou envie um link.": "The file is over 5 GB. Split it into parts or send a link.",
+  "PDF, imagens, vídeos, arquivos CAD/BIM, documentos ou ZIP. Até 5 GB por arquivo. Acesso restrito à imobiliária e à equipe responsável.": "PDF, images, videos, CAD/BIM files, documents or ZIP. Up to 5 GB per file. Access is restricted to the agency and our team."
 }

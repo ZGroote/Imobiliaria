@@ -66,3 +66,11 @@ test('confirmação respeita a cota compartilhada com convites e recusa link de 
   await assert.rejects(solicitarVerificacao(uid,deps),/Formato inesperado/)
   assert.equal(calls.length,0)
 })
+
+test('confirmação em inglês mantém destino seguro e idioma no código Firebase', async () => {
+  const {uid,deps,calls} = dependencias({locale:'en'})
+  await solicitarVerificacao(uid,deps)
+  assert.match(calls[0].message.subject,/Verify your email/)
+  assert.match(calls[0].message.text,/lang=en/)
+  await assert.rejects(solicitarVerificacao(uid,{...deps,locale:'xx'}),/Idioma/)
+})

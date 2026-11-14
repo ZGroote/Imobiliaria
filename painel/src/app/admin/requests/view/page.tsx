@@ -1,4 +1,6 @@
 'use client'
+import { useIdioma } from '@/components/Idioma'
+
 import { useState } from 'react'
 import Link from 'next/link'
 import { collection, doc, query, where, type Timestamp } from 'firebase/firestore'
@@ -9,19 +11,21 @@ import { PreviewEmRevisao, RegistrarPreview } from '@/components/aprovacao'
 import { RegistrarPublicacao } from '@/components/publicacao'
 import { Aviso, Cartao, ComId, Estado, Selo, useAcao } from '@/components/ui'
 import { db } from '@/lib/firebase'
-import { quando } from '@/lib/formato'
 import { bloqueioDaProducao, ESTADOS_ENTRADA, fixarEntrada, listarVersoes, type PropertyReading } from '@/lib/leituras'
 import { editarPedidoInterno, salvarNotaInterna } from '@/lib/pedidos'
 import { usePerfil } from '@/lib/session'
 import type { Property, Request } from '@/lib/types'
 import { useCatalogoInterno } from '@/lib/useEquipe'
 import { useColecao, useDoc } from '@/lib/useFirestore'
+import { MateriaisDoPedido } from '@/components/MateriaisDoPedido'
 
 export default function VerSolicitacaoInterno() {
   return <ComId>{(id) => <Solicitacao id={id} />}</ComId>
 }
 
 function Solicitacao({ id }: { id: string }) {
+  const { t: tr, dataHora: quando } = useIdioma()
+
   const r = useDoc<Request>(`pedido:${id}`, () => doc(db, 'requests', id))
   const cat = useCatalogoInterno()
   const [editando, setEditando] = useState(false)
@@ -29,21 +33,22 @@ function Solicitacao({ id }: { id: string }) {
   // o imóvel do pedido, ao vivo: os cartões de preview e de publicação dependem dele
   const im = useDoc<Property>(p?.propertyId ? `imovel:${p.propertyId}` : null, () => doc(db, 'properties', p!.propertyId!))
   const imovel = p?.propertyId && im.dado ? im.dado : undefined
-  if (p === null) return <Pagina titulo="Solicitação"><Aviso>Solicitação não encontrada.</Aviso></Pagina>
+  if (p === null) return <Pagina titulo={tr("Solicitação")}><Aviso>{tr("Solicitação não encontrada.")}</Aviso></Pagina>
   return (
-    <Pagina titulo={p?.title ?? 'Solicitação'} sub={p && cat.agencia(p.agencyId)}
-      acoes={p && !editando && <button className="btn" onClick={() => setEditando(true)}>Editar</button>}>
+    <Pagina titulo={p?.title ?? tr("Solicitação")} sub={p && cat.agencia(p.agencyId)}
+      acoes={p && !editando && <button className="btn" onClick={() => setEditando(true)}>{tr("Editar")}</button>}>
       <Estado r={r}>
         {p && (
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {editando ? <EditarPedido r={p} fechar={() => setEditando(false)} /> : (
-              <DadosDoPedido r={p} pessoa={cat.pessoa(p.requestedBy)}
+              <DadosDoPedido interno r={p} pessoa={cat.pessoa(p.requestedBy)}
                 imovel={p.propertyId
                   ? <Link href={`/admin/properties/view?id=${p.propertyId}`} className="hover:underline">{cat.imovel(p.propertyId)}</Link>
-                  : 'Não vinculado'}
+                  : tr("Não vinculado")}
                 extra={[['Responsável interno', cat.pessoa(p.assignedTo)]]} />
             )}
             <div className="space-y-6">
+              <MateriaisDoPedido pedido={p} />
               <AcoesDeStatus r={p} bloqueio={{ production: bloqueioDaProducao(p, imovel) }} />
               {p.propertyId && <EntradaDaPlanta p={p} pessoa={cat.pessoa} />}
               <PreviewEmRevisao r={p} pessoa={cat.pessoa} />
@@ -62,6 +67,8 @@ function Solicitacao({ id }: { id: string }) {
 
 // Campos que só a equipe mexe. O imóvel vinculado só pode ser da mesma imobiliária do pedido.
 function Producao({ p, cat }: { p: Request; cat: ReturnType<typeof useCatalogoInterno> }) {
+  const { t: tr, dataHora: quando } = useIdioma()
+
   const { executar, ocupado, erro } = useAcao()
   const salvar = (c: Parameters<typeof editarPedidoInterno>[2]) => executar(() => editarPedidoInterno(db, p.id, c))
   // Seletor: todos os imóveis DESTA imobiliária (a busca por prefixo, para imobiliária grande, é outro PR).
@@ -73,21 +80,19 @@ function Producao({ p, cat }: { p: Request; cat: ReturnType<typeof useCatalogoIn
         <label>Responsável interno
           <select disabled={ocupado} value={p.assignedTo ?? ''} onChange={(e) => salvar({ assignedTo: e.target.value })}
             className="campo mt-1">
-            <option value="">Ninguém</option>
+            <option value="">{tr("Ninguém")}</option>
             {cat.internos.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
           </select>
         </label>
-        <label>Prioridade
-          <select disabled={ocupado} value={p.priority ?? ''} className="campo mt-1"
+        <label>{tr("Prioridade")}<select disabled={ocupado} value={p.priority ?? ''} className="campo mt-1"
             onChange={(e) => salvar({ priority: (e.target.value || undefined) as Request['priority'] })}>
             <option value="">—</option>
             {Object.entries(ROTULO_PRIORIDADE).map(([v, t]) => <option key={v} value={v}>{t}</option>)}
           </select>
         </label>
-        <label>Imóvel vinculado
-          <select disabled={ocupado || !!p.preview} value={p.propertyId ?? ''}
+        <label>{tr("Imóvel vinculado")}<select disabled={ocupado || !!p.preview} value={p.propertyId ?? ''}
             onChange={(e) => salvar({ propertyId: e.target.value })} className="campo mt-1">
-            <option value="">Não vinculado</option>
+            <option value="">{tr("Não vinculado")}</option>
             {imoveis.dados?.map((i) => <option key={i.id} value={i.id}>{i.title}</option>)}
           </select>
         </label>
@@ -107,6 +112,8 @@ function Producao({ p, cat }: { p: Request; cat: ReturnType<typeof useCatalogoIn
 // M1-E: qual snapshot da planta é a entrada da produção deste pedido. Não é aprovação da planta:
 // aprovar continua sendo do build 3D. Trocar é explícito e auditado; salvar uma versão nova não muda nada aqui.
 function EntradaDaPlanta({ p, pessoa }: { p: Request; pessoa: (uid: string) => string }) {
+  const { t: tr, dataHora: quando } = useIdioma()
+
   const perfil = usePerfil()
   const { executar, ocupado, erro } = useAcao()
   const [versoes, setVersoes] = useState<PropertyReading[] | null>(null)
@@ -170,7 +177,7 @@ function EntradaDaPlanta({ p, pessoa }: { p: Request; pessoa: (uid: string) => s
               <button className="btn-primario" disabled={ocupado || !v || v.id === atual?.readingId} onClick={fixar}>
                 {v ? `Fixar v${v.version} como entrada` : 'Fixar como entrada'}
               </button>
-              <button className="btn" disabled={ocupado} onClick={() => { setVersoes(null); setEscolhida('') }}>Cancelar</button>
+              <button className="btn" disabled={ocupado} onClick={() => { setVersoes(null); setEscolhida('') }}>{tr("Cancelar")}</button>
             </div>
           </div>
         )}
@@ -181,6 +188,8 @@ function EntradaDaPlanta({ p, pessoa }: { p: Request; pessoa: (uid: string) => s
 }
 
 function NotaInterna({ rid }: { rid: string }) {
+  const { t: tr, dataHora: quando } = useIdioma()
+
   const perfil = usePerfil()
   const nota = useDoc<{ id: string; text: string; updatedAt?: Timestamp }>(`nota:${rid}`,
     () => doc(db, 'requests', rid, 'internal', 'notes'))
@@ -195,7 +204,7 @@ function NotaInterna({ rid }: { rid: string }) {
           onClick={async () => { if (await executar(() => salvarNotaInterna(db, rid, perfil.id, texto!))) setTexto(null) }}>
           Salvar nota
         </button>
-        {nota.dado && <span className="text-xs text-slate-500">Atualizada {quando(nota.dado.updatedAt)}</span>}
+        {nota.dado && <span className="text-xs text-slate-500">{tr("Atualizada")}{' '}{quando(nota.dado.updatedAt)}</span>}
       </div>
       {erro && <Aviso>{erro}</Aviso>}
     </Cartao>

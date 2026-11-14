@@ -1,4 +1,6 @@
 'use client'
+import { useIdioma } from '@/components/Idioma'
+
 import {useEffect,useState} from 'react'
 import {doc} from 'firebase/firestore'
 import {Portao} from '@/components/Portao'
@@ -12,15 +14,17 @@ import {listarVersoes,salvarVersao,requisitarMaquete3D,type PropertyReading} fro
 import type {Property} from '@/lib/types'
 
 export default function PlantaDoImovel(){
-  return <Portao papeis={['platform_admin','operator','agency_manager','agent']}>
+  return <Portao papeis={['platform_admin','operator']}>
     {perfil=><ComId>{id=><Imovel key={perfil.id+':'+id} id={id}/>}</ComId>}
   </Portao>
 }
 function Imovel({id}:{id:string}){
+  const { t: tr } = useIdioma()
+
   const r=useDoc<Property>('planta:'+id,()=>doc(db,'properties',id))
   if(r.erro) return <Aviso>{r.erro}</Aviso>
   if(r.dado===undefined) return <p>Carregando imóvel…</p>
-  if(!r.dado) return <Aviso>Imóvel não encontrado.</Aviso>
+  if(!r.dado) return <Aviso>{tr("Imóvel não encontrado.")}</Aviso>
   return <Versoes key={id+':'+r.dado.agencyId} property={r.dado}/>
 }
 function Versoes({property:p}:{property:Property}){

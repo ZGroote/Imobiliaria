@@ -1,4 +1,6 @@
 'use client'
+import { useIdioma } from '@/components/Idioma'
+
 import { useEffect, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import { EstadoDaConta } from './EstadoDaConta'
@@ -8,6 +10,8 @@ import type { User, UserRole } from '@/lib/types'
 
 // Só renderiza para quem está ativo e tem um dos papéis; os demais vão para o lugar certo.
 export function Portao({ papeis, children }: { papeis: UserRole[]; children: (perfil: User) => ReactNode }) {
+  const { t: tr } = useIdioma()
+
   const { sessao } = useSessao()
   const router = useRouter()
   const destino = sessao.tipo === 'fora' ? '/login'
@@ -16,7 +20,7 @@ export function Portao({ papeis, children }: { papeis: UserRole[]; children: (pe
   useEffect(() => { if (destino) router.replace(destino) }, [destino, router])
 
   if (sessao.tipo === 'carregando' || sessao.tipo === 'fora' || destino) {
-    return <p className="p-8 text-sm text-slate-500">Carregando…</p>
+    return <p className="p-8 text-sm text-slate-500">{tr("Carregando…")}</p>
   }
   if (sessao.tipo !== 'ativo') return <EstadoDaConta sessao={sessao} />
   return <>{children(sessao.perfil)}</>

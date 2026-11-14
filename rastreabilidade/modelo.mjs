@@ -130,15 +130,18 @@ export function criarServicoRastreabilidade({db,secret,publicOrigin,publications
       ||typeof property.pipelineUnitId!=='string'||property.pipelineUnitId.length>128||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(property.pipelineUnitId)
       ||!/^[0-9a-f]{12}$/.test(property.publishedBuild??''))
       throw erro(410,'Publicação indisponível.','LINK_DISABLED')
-    return {link,property,broker}
+    return {link,property,broker,agency}
   }
   function abertura(visit,context,sourceClass=visit.sourceClass){
-    const {property,broker}=context,base=publicOrigin+'/b/'+property.pipelineUnitId+'/'+property.publishedBuild+'/'
+    const {property,broker,agency}=context,base=publicOrigin+'/b/'+property.pipelineUnitId+'/'+property.publishedBuild+'/'
     const phone=broker.publicContact?.whatsapp
     return {visitId:visit.id,receipt:receiptFor(visit.id),shareToken:visit.canonicalLinkId,
       shareUrl:shareUrl(visit.canonicalLinkId),sourceClass,destinations:{tour:base+'tour.html',maquete:base+'maquete.html'},
       publishedBuild:property.publishedBuild,propertyTitle:label(property.title,'Imóvel',500),
       contact:{brokerName:label(broker.name,'Corretor',200),whatsappNumber:typeof phone==='string'&&/^[1-9][0-9]{7,14}$/.test(phone)?phone:null},
+      ...(typeof broker.publicContact?.sms==='string'&&/^[1-9][0-9]{7,14}$/.test(broker.publicContact.sms)?{smsNumber:broker.publicContact.sms}:{}),
+      ...(typeof broker.publicContact?.email==='string'&&broker.publicContact.email.length<=254&&/^[^@\s<>]+@[^@\s<>]+\.[^@\s<>]+$/.test(broker.publicContact.email)&&!/[\x00-\x1f\x7f]/.test(broker.publicContact.email)?{contactEmail:broker.publicContact.email}:{}),
+      ...(agency?.region?.locale==='en'?{locale:'en'}:{}),
       ...(visit.lineageLimited?{lineageLimited:true}:{})}
   }
   async function abrirVisita(input){
@@ -199,11 +202,14 @@ export function criarServicoRastreabilidade({db,secret,publicOrigin,publications
     })
   }
   async function registrarEvento(input){
-    campos(input,['visitId','receipt','sessionId','seq','type','page','section','activeMs'])
+    campos(input,['visitId','receipt','sessionId','seq','type','page','section','activeMs','unitKey'],['visitId','receipt','sessionId','seq','type','page','section','activeMs'])
     if(!token(input.visitId)||!token(input.sessionId)||!Number.isSafeInteger(input.seq)||input.seq<1
       ||!['view','heartbeat','pause'].includes(input.type)||!paginas.has(input.page)||!secoes.has(input.section)
-      ||!Number.isSafeInteger(input.activeMs)||input.activeMs<0||input.activeMs>30000)throw erro(400,'Evento inválido.')
-    const payloadHash=digest(JSON.stringify([input.type,input.page,input.section,input.activeMs]))
+      ||!Number.isSafeInteger(input.activeMs)||input.activeMs<0||input.activeMs>30000
+      ||(input.unitKey!==undefined&&(!/^p\d{2}-f\d{2}$/.test(input.unitKey)||typeof input.unitKey!=='string'
+        ||input.page!=='maquete'||!['maquete','ficha','planta2d','planta3d','visita'].includes(input.section))))throw erro(400,'Evento inválido.')
+    // Mantém o hash dos eventos antigos para permitir reenvio após a atualização.
+    const payloadHash=digest(JSON.stringify([input.type,input.page,input.section,input.activeMs,...(input.unitKey?[input.unitKey]:[])]))
     return db.runTransaction(async tx=>{
       const get=r=>tx.get(r),visit=await visitar(get,input.visitId,input.receipt)
       await publicacao(get,visit.canonicalLinkId)
@@ -217,22 +223,30 @@ export function criarServicoRastreabilidade({db,secret,publicOrigin,publications
         return {accepted:false,seq:input.seq}
       }
       if(input.seq!==session.lastSeq+1)throw erro(409,'Sequência fora de ordem.','EVENT_CONFLICT')
+      const unidade=input.unitKey?(await get(db.doc(`salesInventory/${visit.propertyId}/units/${input.unitKey}`))).data():null
+      const units={...session.units}
+      if(unidade&&units[input.unitKey]===undefined&&Object.keys(units).length>=500)throw erro(400,'Limite de unidades da sessão atingido.')
       const activeMs=Math.min(input.activeMs,Math.max(0,now()-millis(session.lastAcceptedAt)),30000)
       const key=input.page+':'+input.section,sections={...session.sections}
       const bucket={...(sections[key]??{page:input.page,section:input.section,views:0,activeMs:0})}
       const changedPage=input.page!==session.lastPage,changedSection=changedPage||input.section!==session.lastSection
       if(input.type==='view'&&changedSection)bucket.views++
       bucket.activeMs+=activeMs;sections[key]=bucket
+      if(unidade){
+        const unit={...(units[input.unitKey]??{activeMs:0})}
+        unit.activeMs+=activeMs;units[input.unitKey]=unit
+      }
       const recent={...session.recentPayloadHashes,[input.seq]:payloadHash}
       for(const seq of Object.keys(recent))if(Number(seq)<=input.seq-32)delete recent[seq]
       tx.update(sessionRef,{lastSeq:input.seq,recentPayloadHashes:recent,lastAcceptedAt:date(),
-        lastPage:input.page,lastSection:input.section,sections,
+        lastPage:input.page,lastSection:input.section,sections,...(unidade?{units}:{}),
         pageViews:session.pageViews+(input.type==='view'&&changedPage?1:0),activeMs:session.activeMs+activeMs})
       return {accepted:true,seq:input.seq}
     })
   }
   async function gerarRelatorio(uid,input){
-    campos(input,['propertyId','from','to','brokerUid'],['propertyId','from','to'])
+    campos(input,['propertyId','from','to','brokerUid','units'],['propertyId','from','to'])
+    if(input.units!==undefined&&input.units!=='1')throw erro(400,'Parâmetro de unidades inválido.')
     const validIso=value=>{
       if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(value)||!Number.isFinite(Date.parse(value)))return false
       const normalized=new Date(value).toISOString()
@@ -250,7 +264,7 @@ export function criarServicoRastreabilidade({db,secret,publicOrigin,publications
     if(brokerUid)query=query.where('brokerUid','==',brokerUid)
     const docs=from<to?(await query.where('startedAt','>=',from).where('startedAt','<',to).orderBy('startedAt','asc').limit(501).get()).docs:[]
     return resumir(docs.slice(0,500).map(s=>s.data()),{propertyId:input.propertyId,from:input.from,to:input.to,
-      now:now(),truncated:docs.length>500})
+      now:now(),truncated:docs.length>500,includeUnits:input.units==='1'})
   }
   return {criarLink,listarLinks,revogarLink,abrirVisita,criarSessao,registrarEvento,gerarRelatorio}
 }

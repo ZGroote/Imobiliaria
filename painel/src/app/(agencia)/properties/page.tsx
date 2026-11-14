@@ -1,4 +1,6 @@
 'use client'
+import { useIdioma } from '@/components/Idioma'
+
 import { Pagina } from '@/components/AppShell'
 import { ListaDeImoveis } from '@/components/imovel'
 import { CarregarMais, Estado } from '@/components/ui'
@@ -9,13 +11,15 @@ import { usePerfil } from '@/lib/session'
 import type { Property } from '@/lib/types'
 import { usePaginada } from '@/lib/useFirestore'
 
-// D4: o corretor vê todos os imóveis da imobiliária; cadastro é da equipe interna.
+// O corretor vê os imóveis da imobiliária; o gerente cuida do cadastro.
 export default function Imoveis() {
+  const { t: tr } = useIdioma()
+
   const perfil = usePerfil()
   const r = usePaginada<Property>(`imoveis:${perfil.agencyId}`, () => imoveisDa(db, perfil.agencyId ?? ''))
   const { nome } = usePessoas(perfil.agencyId, perfil.role === 'agency_manager')
   return (
-    <Pagina titulo="Imóveis" sub="Para cadastrar um imóvel novo, abra uma solicitação.">
+    <Pagina titulo={tr("Empreendimentos")} sub={tr("Apresentações, acessos e vendas. O cadastro dos empreendimentos é preparado pela equipe Conecta.")}>
       <Estado r={r}>
         <ListaDeImoveis imoveis={r.dados ?? []} base="/properties" nomeDoCorretor={(uid) => nome(uid, perfil.id)} />
       </Estado>

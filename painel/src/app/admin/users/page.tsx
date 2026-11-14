@@ -1,4 +1,6 @@
 'use client'
+import { useIdioma } from '@/components/Idioma'
+
 import { useState } from 'react'
 import { collection, orderBy, query } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
@@ -19,6 +21,8 @@ export default function Usuarios() {
 }
 
 function Conteudo() {
+  const { t: tr } = useIdioma()
+
   const agencias = useColecao<Agency>('agencias', () => query(collection(db, 'agencies'), orderBy('name')))
   const usuarios = usePaginada<User>('usuarios', () => usuariosPorNome(db))
   // invites/ guarda só os pendentes: o aceite consome o convite (regras), então a coleção inteira
@@ -28,21 +32,21 @@ function Conteudo() {
   const abertos = convites.dados ?? []
 
   return (
-    <Pagina titulo="Usuários e convites" sub="Todo acesso começa por um convite. Papel e imobiliária só mudam aqui.">
+    <Pagina titulo={tr("Usuários e convites")} sub={tr("Todo acesso começa por um convite. Papel e imobiliária só mudam aqui.")}>
       <div className="space-y-6">
         <NovoConvite agencias={(agencias.dados ?? []).filter((a) => a.active)} />
-        <Cartao titulo="Convites pendentes">
+        <Cartao titulo={tr("Convites pendentes")}>
           <Estado r={convites}>
             {abertos.length ? (
-              <Tabela cabecalho={['E-mail', 'Nome', 'Papel', 'Imobiliária', 'Criado', '']}>
+              <Tabela cabecalho={[tr("E-mail"), tr("Nome"), tr("Papel"), tr("Imobiliária"), tr("Criado"), '']}>
                 {abertos.map((c) => <LinhaConvite key={c.id} c={c} agencia={nomeDa(c.agencyId)} />)}
               </Tabela>
-            ) : <Vazio>Nenhum convite pendente.</Vazio>}
+            ) : <Vazio>{tr("Nenhum convite pendente.")}</Vazio>}
           </Estado>
         </Cartao>
-        <Cartao titulo="Usuários">
+        <Cartao titulo={tr("Usuários")}>
           <Estado r={usuarios}>
-            <Tabela cabecalho={['Nome', 'E-mail', 'Papel e imobiliária', 'Situação']}>
+            <Tabela cabecalho={[tr("Nome"), tr("E-mail"), tr("Papel e imobiliária"), tr("Situação")]}>
               {(usuarios.dados ?? []).map((u) => <LinhaUsuario key={u.id} u={u} agencias={agencias.dados ?? []} />)}
             </Tabela>
           </Estado>
@@ -54,6 +58,8 @@ function Conteudo() {
 }
 
 function LinhaUsuario({ u, agencias }: { u: User; agencias: Agency[] }) {
+  const { t: tr } = useIdioma()
+
   const perfil = usePerfil()
   const eu = u.id === perfil.id                     // não se tranca para fora por engano
   const { executar, ocupado, erro } = useAcao()
@@ -67,24 +73,24 @@ function LinhaUsuario({ u, agencias }: { u: User; agencias: Agency[] }) {
       <Td>
         <div className="flex flex-wrap gap-2">
           <select disabled={eu} value={role} onChange={(e) => setRole(e.target.value as UserRole)} className="campo w-auto">
-            {PAPEIS.map((r) => <option key={r} value={r}>{ROTULO_PAPEL[r]}</option>)}
+            {PAPEIS.map((r) => <option key={r} value={r}>{tr(ROTULO_PAPEL[r])}</option>)}
           </select>
           {!interno(role) && (
             <select disabled={eu} value={agencyId} onChange={(e) => setAgencyId(e.target.value)} className="campo w-auto">
-              <option value="">Escolha…</option>
+              <option value="">{tr("Escolha…")}</option>
               {agencias.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
             </select>
           )}
           {mudou && <button disabled={ocupado} className="btn-primario text-xs"
-            onClick={() => executar(() => mudarPapel(db, u.id, role, agencyId || undefined))}>Salvar</button>}
+            onClick={() => executar(() => mudarPapel(db, u.id, role, agencyId || undefined))}>{tr("Salvar")}</button>}
         </div>
         {erro && <Aviso>{erro}</Aviso>}
       </Td>
       <Td>
         <div className="flex items-center gap-2">
-          {u.active ? <Selo tom="verde">Ativo</Selo> : <Selo>Desativado</Selo>}
+          {u.active ? <Selo tom="verde">{tr("Ativo")}</Selo> : <Selo>{tr("Desativado")}</Selo>}
           {!eu && <button disabled={ocupado} className="btn text-xs"
-            onClick={() => executar(() => definirAtivo(db, u.id, !u.active))}>{u.active ? 'Desativar' : 'Reativar'}</button>}
+            onClick={() => executar(() => definirAtivo(db, u.id, !u.active))}>{u.active ? tr("Desativar") : tr("Reativar")}</button>}
         </div>
       </Td>
     </tr>

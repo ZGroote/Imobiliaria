@@ -1,7 +1,7 @@
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { doc, getDoc } from 'firebase/firestore'
-import { normalizarWhatsApp, salvarPerfil } from '../src/lib/perfil.ts'
+import { normalizarWhatsApp, salvarPerfil, salvarContato } from '../src/lib/perfil.ts'
 import { semear, adminDb } from '../scripts/seed.mjs'
 import { entrar, sairDeTodos } from './apoio.ts'
 import { criarServicoRastreabilidade } from '../../rastreabilidade/modelo.mjs'
@@ -49,4 +49,22 @@ test('perfil → link → encaminhamento: cada responsável usa seu contato atua
   await salvarPerfil(corretor.db, corretor.uid, 'Corretora de teste', '')
   assert.equal((await getDoc(doc(corretor.db, 'users', corretor.uid))).data()!.publicContact, undefined)
   assert.equal((await service.abrirVisita({ token: encaminhado.shareToken, attemptId: 'perfil-sem-numero' })).contact.whatsappNumber, null)
+})
+
+test('contato internacional público: SMS e e-mail chegam à API; e-mail de acesso não é divulgado automaticamente', async () => {
+  const c = await entrar('corA')
+  await adminDb().doc('properties/cedros').update({publishedBuild:'a1b2c3d4e5f6'})
+  await adminDb().doc('agencies/agA').update({region:{country:'US',locale:'en',currency:'USD',timeZone:'America/New_York'}})
+  const api = criarServicoRastreabilidade({db:adminDb(),secret:'segredo-local-internacional-123456789012',publicOrigin:'https://imoveis.example'})
+  const {link} = await api.criarLink('corA',{propertyId:'cedros',attemptId:'internacional'})
+  await salvarContato(c.db,c.uid,'Agent','sms','+1 212 555 0100','public-sms@example.com')
+  const sms = await api.abrirVisita({token:link.id,attemptId:'internacional-sms'})
+  assert.equal(sms.smsNumber,'12125550100');assert.equal(sms.contact.whatsappNumber,null)
+  assert.equal(sms.locale,'en');assert.equal(sms.contactEmail,'public-sms@example.com')
+  await salvarContato(c.db,c.uid,'Agent','email','public@example.com')
+  const email = await api.abrirVisita({token:link.id,attemptId:'internacional-email'})
+  assert.equal(email.contactEmail,'public@example.com');assert.equal(email.smsNumber,undefined)
+  await salvarContato(c.db,c.uid,'Agent','','')
+  const empty = await api.abrirVisita({token:link.id,attemptId:'internacional-sem-contato'})
+  assert.equal(empty.contactEmail,undefined);assert.equal(empty.smsNumber,undefined)
 })
