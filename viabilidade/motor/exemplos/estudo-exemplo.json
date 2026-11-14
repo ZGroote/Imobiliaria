@@ -53,7 +53,7 @@
    "altura_max_m": null,
    "pavimentos_max": null,
    "recuo_lateral_por_altura": {
-    "ate_pavimento": 1,
+    "ate_pavimento": 2,
     "recuo_m": 1.5,
     "acima": {
      "fracao_h": 0.125,
@@ -61,7 +61,7 @@
     }
    },
    "recuo_fundos_por_altura": {
-    "ate_pavimento": 1,
+    "ate_pavimento": 2,
     "recuo_m": 1.5,
     "acima": {
      "fracao_h": 0.125,
@@ -78,6 +78,7 @@
     "escada e antecâmara de escada (art. 51-IV)",
     "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
     "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+    "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
     "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
     "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
     "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -118,6 +119,12 @@
     "data": "2026-02-24"
    },
    {
+    "lei": "Lei nº 22.285/2024",
+    "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+    "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+    "data": "2024-03-08"
+   },
+   {
     "lei": "Lei nº 19.950/2020 (Código de Obras)",
     "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
     "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -125,7 +132,7 @@
    }
   ],
   "conferido": true,
-  "observacoes": "Acima do CAB 2,0 paga outorga onerosa (art. 177 §1º, 5% do valor de mercado da área excedente). HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+  "observacoes": "Acima do CAB 2,0 paga outorga onerosa (art. 177 §1º, 5% do valor de mercado da área excedente). HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
  },
  "premissas": {
   "pe_direito_m": 3.0,
@@ -216,7 +223,7 @@
     ]
    },
    {
-    "z0_m": 4.5,
+    "z0_m": 7.5,
     "recuo_lateral_m": 2.0,
     "recuo_fundos_m": 2.0,
     "projecao_utm": [
@@ -821,46 +828,46 @@
     {
      "base_utm": [
       [
-       205209.47,
-       7564374.52
+       205209.76,
+       7564374.4
       ],
       [
-       205190.61,
-       7564374.52
+       205190.82,
+       7564374.4
       ],
       [
-       205190.61,
-       7564318.16
+       205190.82,
+       7564318.28
       ],
       [
-       205209.47,
-       7564318.16
+       205209.76,
+       7564318.28
       ]
      ],
      "z0_m": 0.0,
      "altura_m": 7.5,
      "pavimentos": 2,
      "uso": "embasamento",
-     "recuo_lateral_m": 2.0,
-     "recuo_fundos_m": 2.0
+     "recuo_lateral_m": 1.5,
+     "recuo_fundos_m": 1.5
     },
     {
      "base_utm": [
       [
        205206.1,
-       7564354.09
+       7564353.98
       ],
       [
-       205190.61,
-       7564354.09
+       205190.82,
+       7564353.98
       ],
       [
-       205190.61,
-       7564338.59
+       205190.82,
+       7564338.7
       ],
       [
        205206.1,
-       7564338.59
+       7564338.7
       ]
      ],
      "z0_m": 7.5,
@@ -896,24 +903,24 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6133.35,
-    "area_computavel_m2": 4727.03,
+    "area_construida_m2": 6055.87,
+    "area_computavel_m2": 4649.55,
     "area_nao_computavel_m2": 1406.32,
-    "area_privativa_m2": 2304.34,
-    "area_acima_ca_basico_m2": 1689.03,
+    "area_privativa_m2": 2242.36,
+    "area_acima_ca_basico_m2": 1611.55,
     "area_garagem_m2": 1126.32,
-    "vagas": 38,
+    "vagas": 37,
     "area_permeavel_m2": 392.68,
-    "ca_usado": 3.112,
+    "ca_usado": 3.061,
     "to_usada": 0.687,
     "pavimentos": 14,
-    "unidades_estimadas": 38,
+    "unidades_estimadas": 37,
     "vgv_estimado": null
    },
    "alertas": [
-    "Recuo lateral/fundos: embasamento 2.00/2.00 m, residencial 5.44/5.44 m (escalonado).",
+    "Recuo lateral/fundos: embasamento 1.50/1.50 m, residencial 5.44/5.44 m (escalonado).",
     "No limite: taxa de ocupação 69% (máximo 70%).",
-    "1689 m² acima do CA básico: exige outorga onerosa."
+    "1612 m² acima do CA básico: exige outorga onerosa."
    ]
   }
  ],
@@ -921,7 +928,7 @@
   "Terreno na zona SC-Z2: NÃO conferido (escolhida só pra testar). Confirmar a zona do lote antes de usar o estudo.",
   "A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.",
   "Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).",
-  "Recuo lateral e de fundos por altura: 1.5 m até o 1º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.",
+  "Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.",
   "Parede cega (sem janela) encosta na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
   "Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.",
   "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
