@@ -12,7 +12,7 @@ import sys
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, AQUI)
 from shapely import affinity  # noqa: E402
-from shapely.geometry import LineString, Polygon  # noqa: E402
+from shapely.geometry import LineString, Point, Polygon  # noqa: E402
 
 from motor import PREMISSAS_PADRAO, _avaliar, caixa_recuada, gerar_estudo, recuo_divisa  # noqa: E402
 
@@ -66,6 +66,8 @@ def confere(estudo):
                 por_andar = max(0.0, min(laje * pr["eficiencia"], laje - pr["area_comum_por_pavimento_m2"]))
                 un += v["pavimentos"] * int(por_andar // pr["area_privativa_por_unidade_m2"] + 1e-9)
         assert un == m["unidades_estimadas"], f"{o['id']}: unidades {m['unidades_estimadas']} != {un} contadas por andar"
+        assert un >= 1, f"{o['id']}: opção sem nenhum apartamento"
+        assert m["pavimentos"] <= pr["pavimentos_max_projeto"], f"{o['id']}: {m['pavimentos']} pavimentos passou do teto de projeto"
         # vaga que falta nunca some calada
         if pr["garagem"] == "subsolo" and m["vagas"] < math.ceil(m["unidades_estimadas"] * pr["vagas_por_unidade"] - 1e-9):
             assert any(a.startswith("Faltam vagas") for a in o["alertas"]), f"{o['id']}: vagas caíram sem alerta"
@@ -101,35 +103,56 @@ def _fixo(z, r):  # recuo fixo r nas laterais e nos fundos, sem regra por altura
     p.update(recuo_lateral_m=r, recuo_fundos_m=r, parede_cega_encosta_ate_m=None, pavimentos_max=20)
 
 
+def _sumico(z, r):  # caso sumico-d da auditoria: CA 1,5, recuo fixo r, sem parede cega
+    z.update(ca_maximo=1.5, recuo_lateral_m=r, recuo_fundos_m=r, recuo_lateral_por_altura=None, recuo_fundos_por_altura=None, parede_cega_encosta_ate_m=None)
+
+
+def _garagem_comp(z, r):  # recuo fixo r com garagem que conta no CA
+    _fixo({"parametros": z}, r)
+    z["garagem_computavel"] = True
+
+
 def monotonia(nome, lote, zona, auditoria=False):
-    """Afrouxar uma regra (recuo, CA, TO, altura) NUNCA pode dar menos área privativa em nenhuma opção."""
-    def priv(mexe):
+    """Afrouxar uma regra (recuo, CA, TO, altura) NUNCA pode dar menos apartamentos em nenhuma opção; com as mesmas
+    unidades, nunca menos área privativa. (O "melhor" do motor é essa ordem: mais unidades, depois mais privativa.)"""
+    def res(mexe, l=lote):
         z = copy.deepcopy(zona)
-        mexe(z)
-        return {o["id"]: o["metricas"]["area_privativa_m2"] for o in gerar_estudo(lote, z)["opcoes"]}
+        mexe(z["parametros"])
+        return {o["id"]: (o["metricas"]["unidades_estimadas"], o["metricas"]["area_privativa_m2"]) for o in gerar_estudo(l, z)["opcoes"]}
 
     def altura(h):
-        return lambda z: z["parametros"].update(altura_max_m=h)
+        return lambda p: p.update(altura_max_m=h)
 
-    def to_mais(z):
-        z["parametros"]["taxa_ocupacao"] = min(1.0, z["parametros"]["taxa_ocupacao"] + 0.1)
+    def to_mais(p):
+        p["taxa_ocupacao"] = min(1.0, p["taxa_ocupacao"] + 0.1)
 
-    def ca_mais(z):
-        z["parametros"]["ca_maximo"] *= 1.25
+    def ca_mais(p):
+        p["ca_maximo"] *= 1.25
 
-    base = priv(lambda z: None)
-    casos = {"recuo -30%": lambda z: _afrouxa_recuo(z, 0.7), "TO +0,1": to_mais, "CA +25%": ca_mais}
-    pares = [(base, priv(f), c) for c, f in casos.items()]
-    pares.append((priv(altura(45.0)), priv(altura(63.0)), "altura 45 -> 63 m"))
-    pares.append((priv(lambda z: _recuo_baixo(z, 2.0)), priv(lambda z: _recuo_baixo(z, 1.5)), "recuo dos 2 primeiros pav. 2,00 -> 1,50"))
-    if auditoria:  # as quebras que a auditoria achou: recuo fixo (A, B, D), TO 25 -> 35% (B, D), CA 2,614 -> 2,620 com TO 95% (D)
-        pares.append((priv(lambda z: _fixo(z, 2.5)), priv(lambda z: _fixo(z, 2.0)), "recuo fixo 2,50 -> 2,00"))
-        pares.append((priv(lambda z: z["parametros"].update(taxa_ocupacao=0.25)), priv(lambda z: z["parametros"].update(taxa_ocupacao=0.35)), "TO 25 -> 35%"))
-        pares.append((priv(lambda z: z["parametros"].update(taxa_ocupacao=0.95, ca_maximo=2.614, pavimentos_max=10)),
-                      priv(lambda z: z["parametros"].update(taxa_ocupacao=0.95, ca_maximo=2.620, pavimentos_max=10)), "CA 2,614 -> 2,620 (TO 95%)"))
+    def recuo(f):
+        return lambda p: _afrouxa_recuo({"parametros": p}, f)
+
+    base = res(lambda p: None)
+    casos = {"recuo -30%": recuo(0.7), "TO +0,1": to_mais, "CA +25%": ca_mais}
+    pares = [(base, res(f), c) for c, f in casos.items()]
+    pares.append((res(altura(45.0)), res(altura(63.0)), "altura 45 -> 63 m"))
+    pares.append((res(lambda p: _recuo_baixo({"parametros": p}, 2.0)), res(lambda p: _recuo_baixo({"parametros": p}, 1.5)), "recuo dos 2 primeiros pav. 2,00 -> 1,50"))
+    if auditoria:  # as quebras que a auditoria achou
+        fixo = lambda r: (lambda p: _fixo({"parametros": p}, r))  # noqa: E731
+        pares.append((res(fixo(2.5)), res(fixo(2.0)), "recuo fixo 2,50 -> 2,00"))
+        pares.append((res(lambda p: p.update(taxa_ocupacao=0.25)), res(lambda p: p.update(taxa_ocupacao=0.35)), "TO 25 -> 35% (B caía de 64 pra 60 unidades)"))
+        pares.append((res(lambda p: p.update(taxa_ocupacao=0.95, ca_maximo=2.614, pavimentos_max=10)),
+                      res(lambda p: p.update(taxa_ocupacao=0.95, ca_maximo=2.620, pavimentos_max=10)), "CA 2,614 -> 2,620 (TO 95%)"))
+        l22 = dict(lote, poligono_utm=[[0, 0], [22, 0], [22, 41], [0, 41]], frente=[[0, 0], [22, 0]])
+        pares.append((res(lambda p: _sumico(p, 2.0), l22), res(lambda p: _sumico(p, 1.5), l22), "lote 22x41: recuo 2,0 -> 1,5 (a D sumia)"))
+        pares.append((res(lambda p: p.update(ca_maximo=2.0), l22), res(lambda p: p.update(ca_maximo=2.5), l22), "lote 22x41: CA 2,0 -> 2,5 (A e D perdiam apartamento)"))
+        for r0, r1 in ((2.5, 2.0), (2.0, 1.5)):
+            pares.append((res(lambda p: _garagem_comp(p, r0)), res(lambda p: _garagem_comp(p, r1)), f"garagem computável: recuo {r0} -> {r1}"))
     for antes, depois, caso in pares:
-        for id_, a in antes.items():
-            assert depois.get(id_, 0) >= a - 0.01, f"{nome}, opção {id_}, {caso}: área privativa {a} -> {depois.get(id_)} (afrouxar piorou)"
+        for id_, (ua, pa) in antes.items():
+            ud, pd = depois.get(id_, (0, 0))
+            assert ud >= ua, f"{nome}, opção {id_}, {caso}: unidades {ua} -> {ud} (afrouxar piorou)"
+            assert ud > ua or pd >= pa - 0.1, f"{nome}, opção {id_}, {caso}: mesmas {ua} unidades, privativa {pa} -> {pd} (afrouxar piorou)"
 
 
 def defeitos_da_auditoria(lote, zona):
@@ -192,8 +215,42 @@ def defeitos_da_auditoria(lote, zona):
     # MÉDIA 12: frente sem comprimento e polígono que se cruza não quebram; viram incerteza
     e = gerar_estudo(dict(lote, frente=[lote["frente"][0], lote["frente"][0]]), zona)
     assert e["opcoes"] and any("pontos iguais" in i for i in e["incertezas"]), e["incertezas"]
+    confere(e)  # a frente degenerada fica corrigida no lote do estudo: confere() dividia por zero nela
     laco = dict(lote, poligono_utm=[[0, 0], [50, 30], [50, 0], [0, 25]], frente=[[0, 0], [50, 0]])
-    assert gerar_estudo(laco, zona)["incertezas"]
+    e = gerar_estudo(laco, zona)
+    assert e["incertezas"]
+    confere(e)  # idem: o polígono em "8" corrigido vai no estudo (confere dava GEOSException)
+
+    # tarefa 4, item 1: opção sem apartamento não é opção (triângulos davam A/C/D, ou B, com 0 unidades)
+    tri_e = dict(lote, poligono_utm=[[0, 0], [30, 0], [50, 40]], frente=[[0, 0], [30, 0]])
+    tri_s = dict(lote, poligono_utm=[[0, 0], [40, 0], [20, 50]], frente=[[0, 0], [40, 0]])
+    for tri in (tri_e, tri_s):
+        confere(gerar_estudo(tri, zona))  # confere exige unidades >= 1 em toda opção
+
+    # item 4: teto de pavimentos de projeto vale pra toda opção, inclusive embasamento + torre da D
+    grande = dict(lote, poligono_utm=[[0, 0], [100, 0], [100, 200], [0, 200]], frente=[[0, 0], [100, 0]])
+    for prem, teto in (({}, 30), ({"pavimentos_max_projeto": 8}, 8)):
+        e = gerar_estudo(grande, zona, prem)
+        confere(e)
+        assert e["opcoes"] and all(o["metricas"]["pavimentos"] <= teto for o in e["opcoes"]), [o["metricas"]["pavimentos"] for o in e["opcoes"]]
+        assert any(a.startswith("Parou no teto de projeto") for o in e["opcoes"] for a in o["alertas"])
+    zsem = copy.deepcopy(zona)
+    zsem["parametros"].update(ca_maximo=None, ca_basico=None, altura_max_m=None, pavimentos_max=None)
+    e = gerar_estudo(grande, zsem)  # sem CA: pavimentos_sem_ca (10) também vale pra D, embasamento + torre
+    assert all(o["metricas"]["pavimentos"] <= PREMISSAS_PADRAO["pavimentos_sem_ca"] for o in e["opcoes"]), [o["metricas"]["pavimentos"] for o in e["opcoes"]]
+    assert "pavimentos_max_projeto" in e["premissas"]["padrao"]
+
+    # item 5: recuo_fundos no triângulo (sem aresta de fundos), degrau interno do L e quina côncava
+    tri = Polygon(tri_s["poligono_utm"])
+    assert caixa_recuada(tri, tri_s["frente"], 4.0, 1.5, 10.0).distance(Point(20, 50)) >= 10 - 0.02, "triângulo: caixa a menos de 10 m do vértice de fundos"
+    aba = Polygon([[0, 0], [40, 0], [40, 15], [20, 15], [20, 60], [0, 60]])
+    c = caixa_recuada(aba, [[0, 0], [40, 0]], 4.0, 1.5, 10.0)
+    assert c.contains(Point(30, 12.5)), "L: o degrau interno virado pro fundo levou o recuo de fundos (10 m) no meio do lote"
+    assert abs(c.bounds[3] - 50.0) < 0.01, c.bounds  # o fundo de verdade (y = 60) leva os 10 m
+    recuada = Polygon(rec["poligono_utm"])
+    c = caixa_recuada(recuada, rec["frente"], 4.0, 1.5, 1.5)
+    assert c.contains(Point(37.5, 17)) and c.contains(Point(37.5, 22)), "L: a faixa da frente (4 m) mordeu a lateral da perna do L"
+    assert not c.contains(Point(35.5, 17)) and not c.contains(Point(35.5, 22)), "L: a quina côncava ficou sem recuo"
 
 
 def main():
@@ -268,6 +325,8 @@ def main():
         pilotos = {l["id"]: l for l in json.load(f)}
     with open(os.path.join(viab, "lei", "zonas.json"), encoding="utf-8") as f:
         zonas = {z["id"]: z for z in json.load(f)}
+    for l in pilotos.values():  # todo piloto gera estudo e passa no confere (o 22421 quebrava com região de área zero)
+        confere(gerar_estudo(l, zonas[l["zona_id"]]))
     monotonia("exemplo SC-Z2", lote, zona, auditoria=True)
     for id_ in ("SC-completo-remembramento-75352-75354", "SC-completo-22426"):
         monotonia(id_, pilotos[id_], zonas[pilotos[id_]["zona_id"]])

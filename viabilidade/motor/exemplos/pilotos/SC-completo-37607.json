@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.5.0",
+ "versao_motor": "0.6.0",
  "lote": {
   "id": "SC-completo-37607",
   "lid": null,
@@ -287,6 +287,7 @@
   "pavimentos_lamina_max": 4,
   "pavimentos_embasamento": 2,
   "pavimentos_sem_ca": 10,
+  "pavimentos_max_projeto": 30,
   "embasamento_ocupacao": 0.4,
   "padrao": [
    "afastamento_entre_torres_m",
@@ -301,6 +302,7 @@
    "nucleo_nao_computavel_m2",
    "pavimentos_embasamento",
    "pavimentos_lamina_max",
+   "pavimentos_max_projeto",
    "pavimentos_sem_ca",
    "pe_direito_m",
    "pe_direito_terreo_m",
@@ -329,7 +331,7 @@
     7556747.03
    ]
   ],
-  "altura_m": 61.5,
+  "altura_m": 55.5,
   "area_projecao_m2": 2267.21,
   "area_lote_m2": 2684.94,
   "area_computavel_max_m2": 3758.92,
@@ -360,24 +362,24 @@
     ]
    },
    {
-    "z0_m": 13.5,
-    "recuo_lateral_m": 2.06,
-    "recuo_fundos_m": 2.06,
+    "z0_m": 7.5,
+    "recuo_lateral_m": 2.0,
+    "recuo_fundos_m": 2.0,
     "projecao_utm": [
      [
-      202330.72,
-      7556830.85
+      202330.66,
+      7556830.91
      ],
      [
-      202356.3,
-      7556832.98
+      202356.36,
+      7556833.05
      ],
      [
-      202363.28,
-      7556749.2
+      202363.34,
+      7556749.21
      ],
      [
-      202337.7,
+      202337.64,
       7556747.07
      ]
     ]
@@ -406,6 +408,29 @@
     ]
    },
    {
+    "z0_m": 19.5,
+    "recuo_lateral_m": 2.81,
+    "recuo_fundos_m": 2.81,
+    "projecao_utm": [
+     [
+      202331.53,
+      7556830.17
+     ],
+     [
+      202355.62,
+      7556832.17
+     ],
+     [
+      202362.54,
+      7556749.14
+     ],
+     [
+      202338.45,
+      7556747.13
+     ]
+    ]
+   },
+   {
     "z0_m": 22.5,
     "recuo_lateral_m": 3.19,
     "recuo_fundos_m": 3.19,
@@ -429,25 +454,25 @@
     ]
    },
    {
-    "z0_m": 25.5,
-    "recuo_lateral_m": 3.56,
-    "recuo_fundos_m": 3.56,
+    "z0_m": 28.5,
+    "recuo_lateral_m": 3.94,
+    "recuo_fundos_m": 3.94,
     "projecao_utm": [
      [
-      202332.34,
-      7556829.48
+      202332.75,
+      7556829.14
      ],
      [
-      202354.93,
-      7556831.37
+      202354.58,
+      7556830.96
      ],
      [
-      202361.79,
-      7556749.08
+      202361.41,
+      7556749.05
      ],
      [
-      202339.2,
-      7556747.2
+      202339.58,
+      7556747.23
      ]
     ]
    },
@@ -475,25 +500,25 @@
     ]
    },
    {
-    "z0_m": 34.5,
-    "recuo_lateral_m": 4.69,
-    "recuo_fundos_m": 4.69,
+    "z0_m": 37.5,
+    "recuo_lateral_m": 5.06,
+    "recuo_fundos_m": 5.06,
     "projecao_utm": [
      [
-      202333.56,
-      7556828.45
+      202333.96,
+      7556828.11
      ],
      [
-      202353.9,
-      7556830.15
+      202353.56,
+      7556829.75
      ],
      [
-      202360.66,
-      7556748.99
+      202360.29,
+      7556748.95
      ],
      [
-      202340.32,
-      7556747.29
+      202340.69,
+      7556747.32
      ]
     ]
    },
@@ -588,29 +613,6 @@
       7556747.48
      ]
     ]
-   },
-   {
-    "z0_m": 58.5,
-    "recuo_lateral_m": 7.69,
-    "recuo_fundos_m": 7.69,
-    "projecao_utm": [
-     [
-      202336.8,
-      7556825.71
-     ],
-     [
-      202351.16,
-      7556826.91
-     ],
-     [
-      202357.67,
-      7556748.74
-     ],
-     [
-      202343.31,
-      7556747.54
-     ]
-    ]
    }
   ],
   "parede_cega_ate_m": 12,
@@ -628,6 +630,10 @@
     7556746.9
    ],
    [
+    202335.98,
+    7556742.91
+   ],
+   [
     202328.5,
     7556832.73
    ]
@@ -641,28 +647,28 @@
     {
      "base_utm": [
       [
-       202339.46,
-       7556793.8
+       202339.04,
+       7556794.51
       ],
       [
-       202340.66,
-       7556779.45
+       202340.3,
+       7556779.43
       ],
       [
-       202355.01,
-       7556780.64
+       202355.37,
+       7556780.69
       ],
       [
-       202353.82,
-       7556795.0
+       202354.11,
+       7556795.76
       ]
      ],
      "z0_m": 0.0,
-     "altura_m": 61.5,
-     "pavimentos": 20,
+     "altura_m": 55.5,
+     "pavimentos": 18,
      "uso": "residencial",
-     "recuo_lateral_m": 7.69,
-     "recuo_fundos_m": 7.69
+     "recuo_lateral_m": 6.94,
+     "recuo_fundos_m": 6.94
     },
     {
      "base_utm": [
@@ -690,22 +696,22 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6419.2,
-    "area_computavel_m2": 3751.99,
-    "area_nao_computavel_m2": 2667.21,
-    "area_privativa_m2": 3321.59,
+    "area_construida_m2": 6385.94,
+    "area_computavel_m2": 3758.73,
+    "area_nao_computavel_m2": 2627.21,
+    "area_privativa_m2": 3294.99,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 2267.21,
-    "vagas": 40,
+    "vagas": 54,
     "area_permeavel_m2": 417.73,
-    "ca_usado": 1.397,
-    "to_usada": 0.07,
-    "pavimentos": 20,
-    "unidades_estimadas": 40,
+    "ca_usado": 1.4,
+    "to_usada": 0.078,
+    "pavimentos": 18,
+    "unidades_estimadas": 54,
     "vgv_estimado": null
    },
    "alertas": [
-    "Recuo lateral/fundos: residencial 7.69/7.69 m (recuo do topo no prédio todo).",
+    "Recuo lateral/fundos: residencial 6.94/6.94 m (recuo do topo no prédio todo).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.",
     "No limite: CA 1.40 (máximo 1.40)."
    ]
@@ -717,54 +723,54 @@
     {
      "base_utm": [
       [
-       202337.47,
-       7556817.65
+       202337.06,
+       7556818.26
       ],
       [
-       202338.66,
-       7556803.28
+       202338.32,
+       7556803.18
       ],
       [
-       202353.03,
-       7556804.48
+       202353.39,
+       7556804.44
       ],
       [
-       202351.84,
-       7556818.85
+       202352.14,
+       7556819.51
       ]
      ],
      "z0_m": 0.0,
-     "altura_m": 31.5,
-     "pavimentos": 10,
+     "altura_m": 28.5,
+     "pavimentos": 9,
      "uso": "residencial",
-     "recuo_lateral_m": 3.94,
-     "recuo_fundos_m": 3.94
+     "recuo_lateral_m": 3.56,
+     "recuo_fundos_m": 3.56
     },
     {
      "base_utm": [
       [
-       202341.13,
-       7556773.71
+       202340.74,
+       7556774.12
       ],
       [
-       202342.33,
-       7556759.34
+       202341.99,
+       7556759.05
       ],
       [
-       202356.7,
-       7556760.53
+       202357.07,
+       7556760.31
       ],
       [
-       202355.5,
-       7556774.9
+       202355.81,
+       7556775.38
       ]
      ],
      "z0_m": 0.0,
-     "altura_m": 31.5,
-     "pavimentos": 10,
+     "altura_m": 28.5,
+     "pavimentos": 9,
      "uso": "residencial",
-     "recuo_lateral_m": 3.94,
-     "recuo_fundos_m": 3.94
+     "recuo_lateral_m": 3.56,
+     "recuo_fundos_m": 3.56
     },
     {
      "base_utm": [
@@ -792,22 +798,22 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6425.94,
+    "area_construida_m2": 6385.94,
     "area_computavel_m2": 3758.73,
-    "area_nao_computavel_m2": 2667.21,
-    "area_privativa_m2": 3326.98,
+    "area_nao_computavel_m2": 2627.21,
+    "area_privativa_m2": 3294.99,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 2267.21,
-    "vagas": 40,
+    "vagas": 54,
     "area_permeavel_m2": 417.73,
     "ca_usado": 1.4,
-    "to_usada": 0.14,
-    "pavimentos": 10,
-    "unidades_estimadas": 40,
+    "to_usada": 0.156,
+    "pavimentos": 9,
+    "unidades_estimadas": 54,
     "vgv_estimado": null
    },
    "alertas": [
-    "Recuo lateral/fundos: residencial 3.94/3.94 m, residencial 3.94/3.94 m (recuo do topo no prédio todo).",
+    "Recuo lateral/fundos: residencial 3.56/3.56 m, residencial 3.56/3.56 m (recuo do topo no prédio todo).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.",
     "No limite: CA 1.40 (máximo 1.40)."
    ]
@@ -819,28 +825,28 @@
     {
      "base_utm": [
       [
-       202335.89,
-       7556816.19
+       202331.44,
+       7556826.88
       ],
       [
-       202340.37,
-       7556762.45
+       202337.7,
+       7556751.67
       ],
       [
-       202358.11,
-       7556763.93
+       202362.52,
+       7556753.74
       ],
       [
-       202353.63,
-       7556817.67
+       202356.25,
+       7556828.94
       ]
      ],
      "z0_m": 0.0,
-     "altura_m": 13.5,
-     "pavimentos": 4,
+     "altura_m": 7.5,
+     "pavimentos": 2,
      "uso": "residencial",
-     "recuo_lateral_m": 2.0,
-     "recuo_fundos_m": 2.0
+     "recuo_lateral_m": 1.5,
+     "recuo_fundos_m": 1.5
     },
     {
      "base_utm": [
@@ -868,24 +874,25 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6105.94,
-    "area_computavel_m2": 3758.73,
-    "area_nao_computavel_m2": 2347.21,
-    "area_privativa_m2": 3070.98,
+    "area_construida_m2": 6026.13,
+    "area_computavel_m2": 3718.92,
+    "area_nao_computavel_m2": 2307.21,
+    "area_privativa_m2": 3007.13,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 2267.21,
-    "vagas": 48,
+    "vagas": 50,
     "area_permeavel_m2": 417.73,
-    "ca_usado": 1.4,
-    "to_usada": 0.35,
-    "pavimentos": 4,
-    "unidades_estimadas": 48,
+    "ca_usado": 1.385,
+    "to_usada": 0.693,
+    "pavimentos": 2,
+    "unidades_estimadas": 50,
     "vgv_estimado": null
    },
    "alertas": [
-    "Recuo lateral/fundos: residencial 2.00/2.00 m (recuo do topo no prédio todo).",
+    "Recuo lateral/fundos: residencial 1.50/1.50 m (recuo do topo no prédio todo).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.",
-    "No limite: CA 1.40 (máximo 1.40)."
+    "No limite: CA 1.39 (máximo 1.40).",
+    "No limite: taxa de ocupação 69% (máximo 70%)."
    ]
   },
   {
@@ -895,20 +902,20 @@
     {
      "base_utm": [
       [
-       202353.89,
-       7556798.47
+       202354.22,
+       7556798.87
       ],
       [
-       202355.14,
-       7556783.4
+       202355.54,
+       7556783.07
       ],
       [
-       202340.07,
-       7556782.14
+       202339.74,
+       7556781.75
       ],
       [
-       202338.82,
-       7556797.21
+       202338.42,
+       7556797.55
       ]
      ],
      "z0_m": 0.0,
@@ -921,28 +928,28 @@
     {
      "base_utm": [
       [
-       202339.24,
-       7556796.86
+       202338.86,
+       7556797.17
       ],
       [
-       202340.43,
-       7556782.57
+       202340.11,
+       7556782.19
       ],
       [
-       202354.72,
-       7556783.76
+       202355.09,
+       7556783.44
       ],
       [
-       202353.53,
-       7556798.05
+       202353.85,
+       7556798.42
       ]
      ],
      "z0_m": 7.5,
-     "altura_m": 54.0,
-     "pavimentos": 18,
+     "altura_m": 48.0,
+     "pavimentos": 16,
      "uso": "residencial",
-     "recuo_lateral_m": 7.69,
-     "recuo_fundos_m": 7.69
+     "recuo_lateral_m": 6.94,
+     "recuo_fundos_m": 6.94
     },
     {
      "base_utm": [
@@ -970,22 +977,22 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6425.94,
+    "area_construida_m2": 6385.94,
     "area_computavel_m2": 3758.73,
-    "area_nao_computavel_m2": 2667.21,
-    "area_privativa_m2": 2961.05,
+    "area_nao_computavel_m2": 2627.21,
+    "area_privativa_m2": 2892.8,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 2267.21,
-    "vagas": 36,
+    "vagas": 48,
     "area_permeavel_m2": 417.73,
     "ca_usado": 1.4,
-    "to_usada": 0.078,
-    "pavimentos": 20,
-    "unidades_estimadas": 36,
+    "to_usada": 0.086,
+    "pavimentos": 18,
+    "unidades_estimadas": 48,
     "vgv_estimado": null
    },
    "alertas": [
-    "Recuo lateral/fundos: embasamento 1.50/1.50 m, residencial 7.69/7.69 m (escalonado).",
+    "Recuo lateral/fundos: embasamento 1.50/1.50 m, residencial 6.94/6.94 m (escalonado).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.",
     "No limite: CA 1.40 (máximo 1.40)."
    ]
@@ -1002,6 +1009,6 @@
   "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
   "Relevo ignorado: volumes assentados em terreno plano, z=0.",
-  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade."
+  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_max_projeto, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade."
  ]
 }

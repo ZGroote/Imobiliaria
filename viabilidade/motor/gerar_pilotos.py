@@ -22,8 +22,8 @@ def _json(*partes):
 
 
 def melhor_opcao(estudo):
-    """A de mais área privativa; empate fica com a de menos pavimentos."""
-    return max(estudo["opcoes"], key=lambda o: (o["metricas"]["area_privativa_m2"], -o["metricas"]["pavimentos"]), default=None)
+    """A de mais unidades; empate: mais área privativa, depois menos pavimentos (mesmo critério do motor)."""
+    return max(estudo["opcoes"], key=lambda o: (o["metricas"]["unidades_estimadas"], o["metricas"]["area_privativa_m2"], -o["metricas"]["pavimentos"]), default=None)
 
 
 def main():

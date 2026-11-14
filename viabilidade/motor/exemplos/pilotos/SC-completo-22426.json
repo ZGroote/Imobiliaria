@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.5.0",
+ "versao_motor": "0.6.0",
  "lote": {
   "id": "SC-completo-22426",
   "lid": null,
@@ -366,6 +366,7 @@
   "pavimentos_lamina_max": 4,
   "pavimentos_embasamento": 2,
   "pavimentos_sem_ca": 10,
+  "pavimentos_max_projeto": 30,
   "embasamento_ocupacao": 0.4,
   "padrao": [
    "afastamento_entre_torres_m",
@@ -380,6 +381,7 @@
    "nucleo_nao_computavel_m2",
    "pavimentos_embasamento",
    "pavimentos_lamina_max",
+   "pavimentos_max_projeto",
    "pavimentos_sem_ca",
    "pe_direito_m",
    "pe_direito_terreo_m",
@@ -391,6 +393,14 @@
  },
  "caixa_maxima": {
   "projecao_utm": [
+   [
+    200563.54,
+    7562411.06
+   ],
+   [
+    200556.92,
+    7562411.15
+   ],
    [
     200555.38,
     7562452.25
@@ -404,20 +414,24 @@
     7562450.32
    ],
    [
-    200563.97,
-    7562440.71
-   ],
-   [
-    200565.28,
-    7562440.71
-   ],
-   [
-    200565.86,
-    7562425.27
+    200563.98,
+    7562444.71
    ],
    [
     200563.98,
-    7562425.26
+    7562443.21
+   ],
+   [
+    200565.19,
+    7562443.21
+   ],
+   [
+    200565.95,
+    7562422.77
+   ],
+   [
+    200563.98,
+    7562422.76
    ],
    [
     200563.98,
@@ -429,31 +443,15 @@
    ],
    [
     200563.54,
-    7562413.98
-   ],
-   [
-    200563.54,
     7562413.97
    ],
    [
     200563.54,
-    7562413.97
-   ],
-   [
-    200563.54,
-    7562412.48
-   ],
-   [
-    200563.54,
-    7562411.06
-   ],
-   [
-    200556.92,
-    7562411.15
+    7562412.47
    ]
   ],
   "altura_m": 13.5,
-  "area_projecao_m2": 339.42,
+  "area_projecao_m2": 347.4,
   "area_lote_m2": 601.81,
   "area_computavel_max_m2": 1805.44,
   "ocupacao_max_m2": 421.27,
@@ -464,6 +462,14 @@
     "recuo_lateral_m": 1.5,
     "recuo_fundos_m": 1.5,
     "projecao_utm": [
+     [
+      200563.54,
+      7562411.06
+     ],
+     [
+      200556.92,
+      7562411.15
+     ],
      [
       200555.38,
       7562452.25
@@ -477,20 +483,24 @@
       7562450.32
      ],
      [
-      200563.97,
-      7562440.71
-     ],
-     [
-      200565.28,
-      7562440.71
-     ],
-     [
-      200565.86,
-      7562425.27
+      200563.98,
+      7562444.71
      ],
      [
       200563.98,
-      7562425.26
+      7562443.21
+     ],
+     [
+      200565.19,
+      7562443.21
+     ],
+     [
+      200565.95,
+      7562422.77
+     ],
+     [
+      200563.98,
+      7562422.76
      ],
      [
       200563.98,
@@ -502,27 +512,11 @@
      ],
      [
       200563.54,
-      7562413.98
-     ],
-     [
-      200563.54,
       7562413.97
      ],
      [
       200563.54,
-      7562413.97
-     ],
-     [
-      200563.54,
-      7562412.48
-     ],
-     [
-      200563.54,
-      7562411.06
-     ],
-     [
-      200556.92,
-      7562411.15
+      7562412.47
      ]
     ]
    },
@@ -531,6 +525,14 @@
     "recuo_lateral_m": 2.0,
     "recuo_fundos_m": 2.0,
     "projecao_utm": [
+     [
+      200563.04,
+      7562411.57
+     ],
+     [
+      200557.4,
+      7562411.65
+     ],
      [
       200555.9,
       7562451.72
@@ -544,20 +546,24 @@
       7562449.79
      ],
      [
-      200563.97,
-      7562440.71
-     ],
-     [
-      200565.28,
-      7562440.71
-     ],
-     [
-      200565.86,
-      7562425.27
+      200563.98,
+      7562444.71
      ],
      [
       200563.98,
-      7562425.26
+      7562442.71
+     ],
+     [
+      200565.21,
+      7562442.71
+     ],
+     [
+      200565.93,
+      7562423.27
+     ],
+     [
+      200563.98,
+      7562423.26
      ],
      [
       200563.98,
@@ -569,27 +575,11 @@
      ],
      [
       200563.04,
-      7562414.48
-     ],
-     [
-      200563.04,
-      7562414.47
-     ],
-     [
-      200563.04,
       7562414.47
      ],
      [
       200563.04,
       7562412.47
-     ],
-     [
-      200563.04,
-      7562411.57
-     ],
-     [
-      200557.4,
-      7562411.65
      ]
     ]
    }
@@ -601,28 +591,32 @@
     7562453.52
    ],
    [
-    200563.98,
-    7562451.9
+    200567.98,
+    7562450.56
    ],
    [
     200563.98,
     7562450.56
    ],
    [
-    200563.97,
-    7562440.71
-   ],
-   [
-    200565.28,
-    7562440.71
-   ],
-   [
-    200565.86,
-    7562425.27
-   ],
-   [
     200563.98,
-    7562425.26
+    7562444.71
+   ],
+   [
+    200567.98,
+    7562444.71
+   ],
+   [
+    200569.14,
+    7562444.71
+   ],
+   [
+    200565.14,
+    7562444.56
+   ],
+   [
+    200566.0,
+    7562421.27
    ],
    [
     200563.98,
@@ -630,7 +624,15 @@
    ],
    [
     200563.98,
-    7562409.55
+    7562412.48
+   ],
+   [
+    200565.04,
+    7562412.48
+   ],
+   [
+    200565.05,
+    7562409.54
    ],
    [
     200555.48,
@@ -644,57 +646,6 @@
  },
  "opcoes": [
   {
-   "id": "A",
-   "nome": "Torre única",
-   "volumes": [
-    {
-     "base_utm": [
-      [
-       200556.69,
-       7562430.74
-      ],
-      [
-       200565.64,
-       7562431.07
-      ],
-      [
-       200565.31,
-       7562440.02
-      ],
-      [
-       200556.36,
-       7562439.69
-      ]
-     ],
-     "z0_m": 0.0,
-     "altura_m": 13.5,
-     "pavimentos": 4,
-     "uso": "residencial",
-     "recuo_lateral_m": 2.0,
-     "recuo_fundos_m": 2.0
-    }
-   ],
-   "metricas": {
-    "area_construida_m2": 321.03,
-    "area_computavel_m2": 241.03,
-    "area_nao_computavel_m2": 80.0,
-    "area_privativa_m2": 161.03,
-    "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 0.0,
-    "vagas": 0,
-    "area_permeavel_m2": 521.56,
-    "ca_usado": 0.401,
-    "to_usada": 0.1,
-    "pavimentos": 4,
-    "unidades_estimadas": 0,
-    "vgv_estimado": null
-   },
-   "alertas": [
-    "Recuo lateral/fundos: residencial 2.00/2.00 m (recuo do topo no prédio todo).",
-    "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: gabarito_aeronautico (Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes). O resultado pode passar do que o terreno permite; conferir antes de usar."
-   ]
-  },
-  {
    "id": "C",
    "nome": "Lâmina baixa",
    "volumes": [
@@ -702,7 +653,7 @@
      "base_utm": [
       [
        200557.23,
-       7562416.23
+       7562416.22
       ],
       [
        200563.98,
@@ -727,6 +678,14 @@
     {
      "base_utm": [
       [
+       200563.54,
+       7562411.06
+      ],
+      [
+       200556.92,
+       7562411.15
+      ],
+      [
        200555.38,
        7562452.25
       ],
@@ -739,20 +698,24 @@
        7562450.32
       ],
       [
-       200563.97,
-       7562440.71
-      ],
-      [
-       200565.28,
-       7562440.71
-      ],
-      [
-       200565.86,
-       7562425.27
+       200563.98,
+       7562444.71
       ],
       [
        200563.98,
-       7562425.26
+       7562443.21
+      ],
+      [
+       200565.19,
+       7562443.21
+      ],
+      [
+       200565.95,
+       7562422.77
+      ],
+      [
+       200563.98,
+       7562422.76
       ],
       [
        200563.98,
@@ -764,27 +727,11 @@
       ],
       [
        200563.54,
-       7562413.98
-      ],
-      [
-       200563.54,
        7562413.97
       ],
       [
        200563.54,
-       7562413.97
-      ],
-      [
-       200563.54,
-       7562412.48
-      ],
-      [
-       200563.54,
-       7562411.06
-      ],
-      [
-       200556.92,
-       7562411.15
+       7562412.47
       ]
      ],
      "z0_m": -3.0,
@@ -794,14 +741,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 1250.74,
+    "area_construida_m2": 1258.72,
     "area_computavel_m2": 831.32,
-    "area_nao_computavel_m2": 419.42,
-    "area_privativa_m2": 729.05,
+    "area_nao_computavel_m2": 427.4,
+    "area_privativa_m2": 729.06,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 339.42,
+    "area_garagem_m2": 347.4,
     "vagas": 12,
-    "area_permeavel_m2": 262.39,
+    "area_permeavel_m2": 254.42,
     "ca_usado": 1.381,
     "to_usada": 0.345,
     "pavimentos": 4,
@@ -810,84 +757,6 @@
    },
    "alertas": [
     "Recuo lateral/fundos: residencial 2.00/2.00 m (recuo do topo no prédio todo).",
-    "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: gabarito_aeronautico (Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes). O resultado pode passar do que o terreno permite; conferir antes de usar."
-   ]
-  },
-  {
-   "id": "D",
-   "nome": "Embasamento + torre",
-   "volumes": [
-    {
-     "base_utm": [
-      [
-       200555.61,
-       7562424.95
-      ],
-      [
-       200565.85,
-       7562425.33
-      ],
-      [
-       200565.28,
-       7562440.71
-      ],
-      [
-       200555.03,
-       7562440.33
-      ]
-     ],
-     "z0_m": 0.0,
-     "altura_m": 7.5,
-     "pavimentos": 2,
-     "uso": "embasamento",
-     "recuo_lateral_m": 0.0,
-     "recuo_fundos_m": 0.0,
-     "parede_cega": true
-    },
-    {
-     "base_utm": [
-      [
-       200556.69,
-       7562430.74
-      ],
-      [
-       200565.64,
-       7562431.07
-      ],
-      [
-       200565.31,
-       7562440.02
-      ],
-      [
-       200556.36,
-       7562439.69
-      ]
-     ],
-     "z0_m": 7.5,
-     "altura_m": 6.0,
-     "pavimentos": 2,
-     "uso": "residencial",
-     "recuo_lateral_m": 2.0,
-     "recuo_fundos_m": 2.0
-    }
-   ],
-   "metricas": {
-    "area_construida_m2": 476.03,
-    "area_computavel_m2": 396.03,
-    "area_nao_computavel_m2": 80.0,
-    "area_privativa_m2": 80.52,
-    "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 0.0,
-    "vagas": 0,
-    "area_permeavel_m2": 444.06,
-    "ca_usado": 0.658,
-    "to_usada": 0.229,
-    "pavimentos": 4,
-    "unidades_estimadas": 0,
-    "vgv_estimado": null
-   },
-   "alertas": [
-    "Recuo lateral/fundos: embasamento 0.00/0.00 m (parede cega na divisa), residencial 2.00/2.00 m (escalonado).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: gabarito_aeronautico (Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes). O resultado pode passar do que o terreno permite; conferir antes de usar."
    ]
   }
@@ -903,7 +772,9 @@
   "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
   "Relevo ignorado: volumes assentados em terreno plano, z=0.",
-  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.",
-  "Opção B (Duas torres) não coube: cada torre ficaria abaixo da laje mínima."
+  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_max_projeto, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.",
+  "Opção A (Torre única) não coube: laje abaixo do mínimo, ou nenhuma laje que caiba dá 1 apartamento por andar.",
+  "Opção B (Duas torres) não coube: cada torre ficaria abaixo da laje mínima, ou sem apartamento por andar.",
+  "Opção D (Embasamento + torre) não coube: a torre não ficou menor que a base, a base passou do limite ou a torre não dá apartamento."
  ]
 }

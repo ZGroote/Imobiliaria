@@ -3,6 +3,7 @@
 Tudo em metros UTM. Determinístico: sem relógio, sem acaso, coordenadas arredondadas.
 """
 import math
+from functools import lru_cache
 
 import numpy as np
 import shapely
@@ -10,7 +11,7 @@ from shapely import affinity
 from shapely.geometry import LineString, Point, Polygon, box
 from shapely.ops import nearest_points, unary_union
 
-VERSAO = "0.5.0"
+VERSAO = "0.6.0"
 
 # Premissas de projeto (não são lei). Quem chamar pode trocar qualquer uma; as que ficarem
 # no valor daqui saem listadas em premissas.padrao (aparecem como "padrão" no relatório).
@@ -34,6 +35,7 @@ PREMISSAS_PADRAO = {
     "pavimentos_lamina_max": 4,        # "prédio baixo": até 4 andares
     "pavimentos_embasamento": 2,
     "pavimentos_sem_ca": 10,           # zona sem CA máximo (null na lei) e sem altura/pavimentos: até onde procurar (escolha de projeto, não lei)
+    "pavimentos_max_projeto": 30,      # teto de pavimentos de TODA opção (D: embasamento + torre), quando a lei não pede menos (escolha de projeto, não lei)
     "embasamento_ocupacao": 0.4,       # fração do lote que o embasamento ocupa (escolha de projeto, não lei). Fixa de propósito:
                                        # se crescesse com a TO ou o recuo, afrouxar a regra gastaria CA no embasamento e pioraria a torre
 }
@@ -77,27 +79,40 @@ def eixos_da_frente(frente, lote):
 
 
 def caixa_recuada(lote, frente, rf, rl, rb):
-    """Tira do lote a faixa de recuo de cada aresta. Frente (rf): aresta virada pra rua e perto da linha da frente.
-    Fundos (rb): aresta virada pro fundo. O resto, inclusive divisa interna de lote em L, é lateral (rl)."""
+    """Tira do lote a faixa de recuo de cada aresta (um retângulo pra dentro, sem ponta que invada a divisa vizinha).
+    Frente (rf): aresta virada pra rua e perto da linha da frente. Fundos (rb): aresta virada pro fundo e perto da
+    linha de fundos; sem aresta de fundos (triângulo), o vértice mais fundo ganha raio rb. O resto, inclusive divisa
+    interna de lote em L, é lateral (rl). Em quina côncava as duas faixas deixam um vão: preenchido com a quina reta."""
     u, v = eixos_da_frente(frente, lote)
     x1, y1 = frente[0]
-    pts = list(lote.exterior.coords)
+    cs = list(lote.exterior.coords)[:-1]
+    pts = [p for i, p in enumerate(cs) if p != cs[i - 1]]  # sem vértice repetido
     prof = [(p[0] - x1) * v[0] + (p[1] - y1) * v[1] for p in pts]
-    tol = max(0.5, 0.15 * (max(prof) - min(prof)))  # quanto a frente pode "andar" pra dentro e ainda ser frente
-    faixas = []
-    for a, b in zip(pts, pts[1:]):
+    pmax = max(prof)
+    tol = max(0.5, 0.15 * (pmax - min(prof)))  # quanto a frente (ou o fundo) pode "andar" pra dentro e ainda ser frente (fundo)
+    horario = 1 if lote.exterior.is_ccw else -1
+    n = len(pts)
+    arestas = []  # (a, b, normal pra dentro, recuo, é fundos)
+    for i in range(n):
+        a, b = pts[i], pts[(i + 1) % n]
         L = math.hypot(b[0] - a[0], b[1] - a[1])
-        if L < 1e-6:
-            continue
-        # normal da aresta apontando pra FORA do lote, comparada com v (que aponta pra dentro)
-        nx, ny = (b[1] - a[1]) / L, -(b[0] - a[0]) / L
+        nx, ny = (b[1] - a[1]) / L, -(b[0] - a[0]) / L  # normal pra fora do lote, comparada com v (que aponta pra dentro)
         if lote.contains(Point((a[0] + b[0]) / 2 + nx * 0.01, (a[1] + b[1]) / 2 + ny * 0.01)):
             nx, ny = -nx, -ny
         d = -(nx * v[0] + ny * v[1])  # 1 = aresta de frente, -1 = fundos
         p = ((a[0] + b[0]) / 2 - x1) * v[0] + ((a[1] + b[1]) / 2 - y1) * v[1]
-        recuo = rf if d > 0.7 and abs(p) <= tol else rb if d < -0.7 else rl
-        if recuo > 0:
-            faixas.append(LineString([a, b]).buffer(recuo, cap_style="square"))  # ponta quadrada: quina côncava sai reta, sem arco
+        frente_, fundos = d > 0.7 and abs(p) <= tol, d < -0.7 and p >= pmax - tol  # divisa de fundos só perto do fundo: degrau interno do L é lateral
+        arestas.append((a, b, (-nx, -ny), rf if frente_ else rb if fundos else rl, fundos))
+    faixas = []
+    for i, (a, b, ni, r, _) in enumerate(arestas):
+        if r > 0:
+            faixas.append(Polygon([a, b, (b[0] + ni[0] * r, b[1] + ni[1] * r), (a[0] + ni[0] * r, a[1] + ni[1] * r)]))
+        _, c, nj, rj, _ = arestas[(i + 1) % n]
+        if r > 0 and rj > 0 and ((b[0] - a[0]) * (c[1] - b[1]) - (b[1] - a[1]) * (c[0] - b[0])) * horario < -1e-9:  # quina côncava
+            faixas.append(Polygon([b, (b[0] + ni[0] * r, b[1] + ni[1] * r), (b[0] + ni[0] * r + nj[0] * rj, b[1] + ni[1] * r + nj[1] * rj),
+                                   (b[0] + nj[0] * rj, b[1] + nj[1] * rj)]))
+    if rb > 0 and not any(f for *_, f in arestas):
+        faixas += [Point(p).buffer(rb) for p, q in zip(pts, prof) if q >= pmax - 1e-6]
     return _maior_parte(lote.difference(unary_union(faixas)) if faixas else lote)
 
 
@@ -176,6 +191,7 @@ def _maior_s(viavel, lo, hi, passos=14, testa_lo=True):
     return lo
 
 
+@lru_cache(maxsize=4096)  # funções puras; a geometria do shapely 2 é imutável e hasheável, e vários pavimentos repetem a mesma região
 def maior_retangulo(regiao, proporcao, area_max=None, contem=None):
     """Maior retângulo com largura/profundidade = proporcao que cabe na região, EM QUALQUER POSIÇÃO.
     (Antes ele ficava centrado no centro da região: quando o recuo afrouxava de um lado só, o centro
@@ -207,6 +223,8 @@ def maior_retangulo(regiao, proporcao, area_max=None, contem=None):
     if s is None:
         return Polygon()
     e = centros(s)
+    if e.is_empty:  # região sem área (fiapo): _maior_s devolve o piso sem testar quando testa_lo é falso
+        return Polygon()
     c = nearest_points(e, _ancora(regiao))[0]
     w, d = s * sp, s / sp
     return box(c.x - w / 2, c.y - d / 2, c.x + w / 2, c.y + d / 2)
@@ -217,6 +235,7 @@ def maior_retangulo(regiao, proporcao, area_max=None, contem=None):
 PROPORCOES_LAMINA = (0.2, 0.25, 0.33, 0.4, 0.5, 0.67, 0.8, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0)
 
 
+@lru_cache(maxsize=4096)  # funções puras; a geometria do shapely 2 é imutável e hasheável, e vários pavimentos repetem a mesma região
 def _maior_lamina(regiao, area_max, contem=None):
     """Maior retângulo (qualquer proporção da lista). Experimenta primeiro a proporção mais parecida com a da
     caixa e só troca por outra se for MAIOR (empate fica com a primeira); pula as que, pelo tamanho da caixa,
@@ -240,6 +259,7 @@ def _maior_lamina(regiao, area_max, contem=None):
     return melhor
 
 
+@lru_cache(maxsize=4096)  # funções puras; a geometria do shapely 2 é imutável e hasheável, e vários pavimentos repetem a mesma região
 def dois_quadrados(regiao, folga, area_max=None):
     """Dois quadrados IGUAIS, os maiores que cabem na região com `folga` entre eles (em x ou em y).
     Exato: dois quadrados de lado s cabem se os centros possíveis se estendem por pelo menos s + folga
@@ -394,8 +414,12 @@ def _avaliar(vols, ctx):
             avisos.append(f"Faltam vagas: precisa de {vagas}, {niveis} subsolo(s) comportam {cabem}. Em metricas.vagas ficam as {cabem}.")
             vagas = cabem
         garagem = niveis * nivel
+        precisa = vagas * pr["area_por_vaga_m2"]
+        if pr["garagem_computavel"] and niveis and precisa < garagem - 0.01:
+            garagem = precisa  # subsolo conta no CA: só o que as vagas pedem, o nível encolhe (senão caixa maior roubava andar do prédio)
         subsolos = [{"base_utm": _coords(ctx["subsolo"]), "z0_m": _r(-(k + 1) * pr["pe_direito_m"]),
-                     "altura_m": _r(pr["pe_direito_m"]), "pavimentos": 1, "uso": "garagem"} for k in range(niveis)]
+                     "altura_m": _r(pr["pe_direito_m"]), "pavimentos": 1, "uso": "garagem",
+                     "_nivel_m2": garagem / niveis} for k in range(niveis)]
     else:
         garagem = vagas * pr["area_por_vaga_m2"]
     nao_comp = nucleos + (0 if pr["garagem_computavel"] else garagem)
@@ -434,9 +458,9 @@ def _cabe(m, vols, ctx):
         return False
     if ctx["altura_max"] and max(v["z0_m"] + v["altura_m"] for v in vols) > ctx["altura_max"] + 1e-6:
         return False
-    if zp.get("pavimentos_max") and m["pavimentos"] > zp["pavimentos_max"]:
+    if m["pavimentos"] > ctx["pav_cap"]:
         return False
-    return True
+    return m["unidades_estimadas"] >= 1  # opção sem apartamento não é opção
 
 
 def _ajusta_ao_ca(fazer, n, ctx, m, cap):
@@ -466,12 +490,25 @@ def _ajusta_ao_ca(fazer, n, ctx, m, cap):
     return achado
 
 
+def _sub_final(s, ctx):
+    """Subsolo que conta no CA: o nível sai encolhido à área que as vagas pedem."""
+    alvo = s.pop("_nivel_m2")
+    if ctx["pr"]["garagem_computavel"] and alvo < ctx["subsolo"].area - 0.01:
+        s["base_utm"] = _coords(_encolhe(ctx["subsolo"], alvo))
+    return s
+
+
+def _chave(achado):
+    m = achado[1]
+    return m["unidades_estimadas"], m["area_privativa_m2"]
+
+
 def _melhor(fazer, n_max, ctx):
-    """Pavimentos da parte variável: vale o prédio de MAIOR área privativa (empate: o mais baixo), com a laje
-    encolhida ao teto do CA quando o andar inteiro passaria dele (_ajusta_ao_ca). Escolher o máximo é o que
-    garante a monotonia: afrouxar uma regra (recuo, CA, TO, altura) só cria opções iguais ou melhores. Nada de
-    "o mais baixo que chega a 95%": esse limiar mudava o prédio escolhido quando a regra afrouxava e a opção piorava.
-    Efeito: o núcleo não conta no CA, então com o CA no teto mais andares dão um pouco mais de privativa."""
+    """Pavimentos da parte variável: vale o prédio com MAIS UNIDADES (o cliente compra apartamento); empate: maior área
+    privativa, depois o mais baixo. A laje é encolhida ao teto do CA quando o andar inteiro passaria dele (_ajusta_ao_ca).
+    Escolher o máximo dessa ordem é o que garante a monotonia: afrouxar uma regra (recuo, CA, TO, altura) só cria opções
+    iguais ou melhores, então as unidades nunca caem, e com as mesmas unidades a privativa nunca cai.
+    Nada de "o mais baixo que chega a 95%": esse limiar mudava o prédio escolhido quando a regra afrouxava e a opção piorava."""
     # ponytail: custo = 1 geração por pavimento (+ até 7 pra ajustar ao CA); sem poda além da altura/pavimentos da lei
     cap = ctx["cap"]
     achados = []
@@ -493,8 +530,8 @@ def _melhor(fazer, n_max, ctx):
         achados.append(achado)
     if not achados:
         return None
-    melhor = max(v[1]["area_privativa_m2"] for v in achados)
-    return next(v for v in achados if v[1]["area_privativa_m2"] >= melhor - 0.01)
+    unid, priv = max(_chave(v) for v in achados)
+    return next(v for v in achados if v[1]["unidades_estimadas"] == unid and v[1]["area_privativa_m2"] >= priv - 0.01)
 
 
 def gerar_estudo(lote, zona, premissas=None):
@@ -510,6 +547,7 @@ def gerar_estudo(lote, zona, premissas=None):
     poly = Polygon(lote["poligono_utm"])
     if not poly.is_valid:
         poly = _maior_parte(poly.buffer(0))  # laço (8) vira duas partes: fica a maior
+        lote = dict(lote, poligono_utm=_coords(poly))  # o estudo descreve o que foi calculado
         incertezas.append("O polígono do lote se cruza; o estudo usou só a maior parte dele. Conferir o desenho do terreno.")
     if poly.is_empty or poly.area <= 0:
         raise ValueError("lote sem área: poligono_utm não forma um polígono")
@@ -519,6 +557,7 @@ def gerar_estudo(lote, zona, premissas=None):
         pts = list(poly.exterior.coords)
         frente = list(max(zip(pts, pts[1:]), key=lambda ab: math.hypot(ab[1][0] - ab[0][0], ab[1][1] - ab[0][1])))
         frente = [list(p) for p in frente]
+        lote = dict(lote, frente=frente)
         incertezas.append("A frente do lote veio com dois pontos iguais; o estudo usou a maior aresta como frente. Conferir qual lado dá pra rua.")
     u, _ = eixos_da_frente(frente, poly)
     origem = tuple(frente[0])
@@ -544,8 +583,9 @@ def gerar_estudo(lote, zona, premissas=None):
     to_max = zp.get("taxa_ocupacao") or 1.0
     # sem CA máximo na lei (null, ex.: SC-Z6E): o teto de computável some; sobram TO, recuos, altura e pavimentos
     comp_max = zp["ca_maximo"] * A if zp.get("ca_maximo") is not None else None
+    pav_cap = min(pr["pavimentos_max_projeto"], zp.get("pavimentos_max") or math.inf)  # lei ou projeto, o menor, vale pra toda opção
     ctx = {"pr": pr, "zp": zp, "A": A, "subsolo": subsolo, "u": u, "origem": origem,
-           "rl": rl, "rb": rb, "altura_max": altura_max,
+           "rl": rl, "rb": rb, "altura_max": altura_max, "pav_cap": pav_cap,
            "cap": comp_max if comp_max is not None else math.inf, "perm_min": perm * A}
 
     ocup_max = min(to_max, 1 - perm) * A  # projeção do prédio: TO e permeabilidade
@@ -558,7 +598,9 @@ def gerar_estudo(lote, zona, premissas=None):
         n_max = PAV_BUSCA_MAX  # _melhor para na altura
     else:
         n_max = pr["pavimentos_sem_ca"]
+        ctx["pav_cap"] = pav_cap = min(pav_cap, n_max)  # o limite vale pro prédio todo (na D, embasamento + torre)
         incertezas.append(f"A lei não define CA máximo, nem altura, nem pavimentos pra essa zona: o motor procurou até {n_max} pavimentos (premissa pavimentos_sem_ca).")
+    n_max = min(n_max, pav_cap)
     if comp_max is None:
         incertezas.append("A lei não define CA máximo pra essa zona: o limite vem da taxa de ocupação, dos recuos, da altura e dos pavimentos.")
 
@@ -623,6 +665,9 @@ def gerar_estudo(lote, zona, premissas=None):
             incertezas.append(f"Opção {id_} ({nome}) não coube" + (f": {motivo}." if motivo else "."))
             return
         vols, m, sub, av = achado
+        sub = [_sub_final(s, ctx) for s in sub]
+        if m["pavimentos"] >= pr["pavimentos_max_projeto"] and not (zp.get("pavimentos_max") and zp["pavimentos_max"] <= pr["pavimentos_max_projeto"]):
+            av = av + [f"Parou no teto de projeto de {pr['pavimentos_max_projeto']} pavimentos (premissa pavimentos_max_projeto, escolha de projeto, não é lei)."]
         altura = max(v["z0_m"] + v["altura_m"] for v in vols)
         if regra or any(v.get("parede_cega") for v in vols):
             av = av + ["Recuo lateral/fundos: " + ", ".join(
@@ -646,7 +691,7 @@ def gerar_estudo(lote, zona, premissas=None):
         if laje.area < pr["laje_minima_m2"]:
             return None
         return [_volume(laje, ctx, 0, n, "residencial", True, *r)]
-    fecha("A", "Torre única", _melhor(fazer_a, n_max, ctx), "laje abaixo do mínimo")
+    fecha("A", "Torre única", _melhor(fazer_a, n_max, ctx), "laje abaixo do mínimo, ou nenhuma laje que caiba dá 1 apartamento por andar")
 
     # B) Duas torres iguais: os dois maiores quadrados iguais que cabem na caixa, com o afastamento entre eles
     def fazer_b(n, f=1.0):
@@ -657,7 +702,7 @@ def gerar_estudo(lote, zona, premissas=None):
         if len(lajes) < 2 or lajes[0].area < pr["laje_minima_m2"]:
             return None
         return [_volume(l, ctx, 0, n, "residencial", True, *r) for l in lajes]
-    fecha("B", "Duas torres", _melhor(fazer_b, n_max, ctx), "cada torre ficaria abaixo da laje mínima")
+    fecha("B", "Duas torres", _melhor(fazer_b, n_max, ctx), "cada torre ficaria abaixo da laje mínima, ou sem apartamento por andar")
 
     # C) Lâmina baixa e larga: ocupa o máximo que a TO deixa, poucos andares
     def fazer_c(n, f=1.0):
@@ -708,22 +753,22 @@ def gerar_estudo(lote, zona, premissas=None):
             # com a laje encolhida ao CA (f < 1) só a base menor: trocar de base no meio da busca dava um salto no computável
             # e a secante parava num f baixo (a D perdia 1% de privativa quando o recuo fixo caía de 2,5 pra 2,0 m)
             for base_l in ((base_g, base_m) if f >= 1 else (base_m,)):
-                if base_l.area < pr["laje_minima_m2"] or torre.area >= base_l.area * 0.9:
+                if base_l.area < pr["laje_minima_m2"] or torre.area > base_l.area * 0.9 + 0.01:  # folga de 1 cm²: a base crescida por bisseção sobra 1e-5 abaixo do alvo e matava a D
                     continue
                 base = _volume(base_l, ctx, 0, nb, "embasamento", True, *rb_)
                 if base_cega:
                     base["parede_cega"] = True
                 vols = [base, _volume(torre, ctx, hb, n, "residencial", False, *r, pav_abaixo=nb)]
                 m = _avaliar(vols, ctx)[0]
-                opcoes_d.append(((_cabe(m, vols, ctx), m["area_privativa_m2"], base_l.area), vols))
+                opcoes_d.append(((_cabe(m, vols, ctx), m["unidades_estimadas"], m["area_privativa_m2"], base_l.area), vols))
             return max(opcoes_d, key=lambda t: t[0])[1] if opcoes_d else None
-        return _melhor(fazer_d, n_max, ctx)
+        return _melhor(fazer_d, min(n_max, pav_cap - nb), ctx)  # o teto de pavimentos vale pro prédio todo: embasamento + torre
 
     # com parede cega e sem: fica a que dá mais área privativa
     tentativas = [t for t in (tenta_d(False), tenta_d(True) if cega and hb <= cega + 1e-6 else None) if t]
     fecha("D", "Embasamento + torre",
-          max(tentativas, key=lambda t: (t[1]["area_privativa_m2"], t[1]["area_computavel_m2"])) if tentativas else None,
-          "a torre não ficou menor que a base, ou a base passou do limite")
+          max(tentativas, key=lambda t: (*_chave(t), t[1]["area_computavel_m2"])) if tentativas else None,
+          "a torre não ficou menor que a base, a base passou do limite ou a torre não dá apartamento")
 
     alturas = [v["z0_m"] + v["altura_m"] for o in opcoes for v in o["volumes"]]
     lims = [altura_max]

@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.5.0",
+ "versao_motor": "0.6.0",
  "lote": {
   "id": "SC-completo-25297",
   "lid": null,
@@ -304,6 +304,7 @@
   "pavimentos_lamina_max": 4,
   "pavimentos_embasamento": 2,
   "pavimentos_sem_ca": 10,
+  "pavimentos_max_projeto": 30,
   "embasamento_ocupacao": 0.4,
   "padrao": [
    "afastamento_entre_torres_m",
@@ -318,6 +319,7 @@
    "nucleo_nao_computavel_m2",
    "pavimentos_embasamento",
    "pavimentos_lamina_max",
+   "pavimentos_max_projeto",
    "pavimentos_sem_ca",
    "pe_direito_m",
    "pe_direito_terreo_m",
@@ -330,20 +332,20 @@
  "caixa_maxima": {
   "projecao_utm": [
    [
-    201993.1,
-    7561467.77
-   ],
-   [
-    201998.55,
-    7561467.97
-   ],
-   [
     201999.51,
     7561441.02
    ],
    [
     201994.06,
     7561440.96
+   ],
+   [
+    201993.1,
+    7561467.77
+   ],
+   [
+    201998.55,
+    7561467.97
    ]
   ],
   "altura_m": 13.5,
@@ -359,20 +361,20 @@
     "recuo_fundos_m": 1.5,
     "projecao_utm": [
      [
-      201993.1,
-      7561467.77
-     ],
-     [
-      201998.55,
-      7561467.97
-     ],
-     [
       201999.51,
       7561441.02
      ],
      [
       201994.06,
       7561440.96
+     ],
+     [
+      201993.1,
+      7561467.77
+     ],
+     [
+      201998.55,
+      7561467.97
      ]
     ]
    },
@@ -382,26 +384,30 @@
     "recuo_fundos_m": 2.0,
     "projecao_utm": [
      [
-      201993.62,
-      7561467.29
-     ],
-     [
-      201998.57,
-      7561467.47
-     ],
-     [
       201999.49,
       7561441.52
      ],
      [
       201994.54,
       7561441.46
+     ],
+     [
+      201993.62,
+      7561467.29
+     ],
+     [
+      201998.57,
+      7561467.47
      ]
     ]
    }
   ],
   "parede_cega_ate_m": 12,
   "projecao_parede_cega_utm": [
+   [
+    202002.8,
+    7561439.55
+   ],
    [
     201992.61,
     7561439.44
@@ -411,16 +417,28 @@
     7561469.22
    ],
    [
-    201998.5,
-    7561469.46
+    202000.6,
+    7561469.54
+   ],
+   [
+    202000.6,
+    7561469.12
+   ],
+   [
+    202002.51,
+    7561469.12
    ],
    [
     201998.52,
     7561468.97
    ],
    [
-    201999.56,
-    7561439.52
+    201999.55,
+    7561439.95
+   ],
+   [
+    202003.54,
+    7561440.09
    ]
   ]
  },
@@ -458,20 +476,20 @@
     {
      "base_utm": [
       [
-       201993.1,
-       7561467.77
-      ],
-      [
-       201998.55,
-       7561467.97
-      ],
-      [
        201999.51,
        7561441.02
       ],
       [
        201994.06,
        7561440.96
+      ],
+      [
+       201993.1,
+       7561467.77
+      ],
+      [
+       201998.55,
+       7561467.97
       ]
      ],
      "z0_m": -3.0,
@@ -510,9 +528,9 @@
   "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
   "Relevo ignorado: volumes assentados em terreno plano, z=0.",
-  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.",
-  "Opção A (Torre única) não coube: laje abaixo do mínimo.",
-  "Opção B (Duas torres) não coube: cada torre ficaria abaixo da laje mínima.",
-  "Opção D (Embasamento + torre) não coube: a torre não ficou menor que a base, ou a base passou do limite."
+  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_max_projeto, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.",
+  "Opção A (Torre única) não coube: laje abaixo do mínimo, ou nenhuma laje que caiba dá 1 apartamento por andar.",
+  "Opção B (Duas torres) não coube: cada torre ficaria abaixo da laje mínima, ou sem apartamento por andar.",
+  "Opção D (Embasamento + torre) não coube: a torre não ficou menor que a base, a base passou do limite ou a torre não dá apartamento."
  ]
 }
