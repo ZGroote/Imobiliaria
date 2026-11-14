@@ -1,0 +1,66 @@
+{
+  "schema": "liv-pilot-units-v1",
+  "floorIndex": 1,
+  "sourceModelSHA256": "d1297c8d8cda75997d1b5450d5c6be7f692dbc2fbd13108258d30e0b7c36a888",
+  "registration": {
+    "confidence": "inferido"
+  },
+  "source": {
+    "label": "Pacote de teste do motor",
+    "bookSHA256": "6830fc959ece551c9c1207f668d4988c9cf3c0455956c45b52602ee30ba197ac"
+  },
+  "units": [
+    {
+      "id": "teste/pavimento-01/final-01",
+      "final": "01",
+      "side": "fundos",
+      "positionConfidence": "inferido",
+      "bounds": {
+        "min": [
+          -6,
+          3,
+          -4
+        ],
+        "max": [
+          6,
+          6,
+          -0.1
+        ]
+      },
+      "typology": null,
+      "plan2d": null,
+      "mirroring": null,
+      "areaM2": null,
+      "commercialNumber": null,
+      "availability": "nao_informada",
+      "price": null,
+      "parking": null
+    },
+    {
+      "id": "teste/pavimento-01/final-02",
+      "final": "02",
+      "side": "frente",
+      "positionConfidence": "inferido",
+      "bounds": {
+        "min": [
+          -6,
+          3,
+          0.1
+        ],
+        "max": [
+          6,
+          6,
+          4
+        ]
+      },
+      "typology": null,
+      "plan2d": null,
+      "mirroring": null,
+      "areaM2": null,
+      "commercialNumber": null,
+      "availability": "nao_informada",
+      "price": null,
+      "parking": null
+    }
+  ]
+}
