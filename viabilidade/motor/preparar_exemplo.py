@@ -25,22 +25,9 @@ EX = os.path.join(AQUI, "exemplos")
 ZONAS = os.path.join(AQUI, "..", "lei", "zonas.json")
 ZONA_ID = "SC-Z2"  # zona de prédio escolhida pra teste: a zona real deste lote NÃO foi conferida
 
-# Regra do COE art. 67 (texto em recuo_lateral_regra da própria zona), no formato do contrato v3.
-# Só entra se a frente Lei ainda não tiver posto o campo.
-REGRA_ART67 = {"ate_pavimento": 1, "recuo_m": 1.5, "acima": {"fracao_h": 0.125, "minimo_m": 2.0}}
-
-
 def carregar_zona():
     with open(ZONAS, encoding="utf-8") as f:
-        zona = next(z for z in json.load(f) if z["id"] == ZONA_ID)
-    p = zona["parametros"]
-    if "recuo_lateral_por_altura" not in p and "h/8" in (p.get("recuo_lateral_regra") or ""):
-        p["recuo_lateral_por_altura"] = REGRA_ART67
-        p.setdefault("parede_cega_encosta_ate_m", 12)
-        zona["observacoes"] = (zona.get("observacoes") or "") + (
-            " [motor] recuo_lateral_por_altura e parede_cega_encosta_ate_m montados pelo motor a partir do texto"
-            " de recuo_lateral_regra (COE art. 67 e 70), porque o campo ainda não estava no lei/zonas.json.")
-    return zona
+        return next(z for z in json.load(f) if z["id"] == ZONA_ID)
 
 
 def _salva(nome, obj):

@@ -36,16 +36,20 @@ def confere(estudo):
         m = o["metricas"]
         for v in o["volumes"]:
             base = Polygon(v["base_utm"])
+            topo = v["z0_m"] + v["altura_m"]
+            if v.get("parede_cega"):  # encosta na divisa: só até a altura da lei, e respeita a frente
+                assert v["z0_m"] == 0 and topo <= zp["parede_cega_encosta_ate_m"] + 1e-6, f"{o['id']}: parede cega alta demais"
+                assert caixa_recuada(lote, lote_d["frente"], rf, 0, 0).buffer(0.02).contains(base), f"{o['id']}: parede cega saiu do lote"
+                continue
             assert caixa.buffer(0.02).contains(base), f"{o['id']}: volume {v['uso']} saiu da caixa do térreo"
             if v["z0_m"] < 0:
                 continue
-            topo = v["z0_m"] + v["altura_m"]
             if hmax:
                 assert topo <= hmax + 1e-6, f"{o['id']}: passou da altura {topo} > {hmax}"
             # recuo por altura conferido aqui, sem confiar no motor: pavimento do topo e sua altura
             pav_topo = round((v["z0_m"] - pr["pe_direito_terreo_m"]) / pr["pe_direito_m"]) + 1 + v["pavimentos"] if v["z0_m"] > 0 else v["pavimentos"]
             rl = recuo_divisa(zp, zp.get("recuo_lateral_m") or 0, pav_topo, topo)
-            rb = recuo_divisa(zp, zp.get("recuo_fundos_m") or 0, pav_topo, topo)
+            rb = recuo_divisa(zp, zp.get("recuo_fundos_m") or 0, pav_topo, topo, "fundos")
             c = caixa_recuada(lote, lote_d["frente"], rf, rl, rb)
             assert c.buffer(0.02).contains(base), f"{o['id']}: {v['uso']} fura o recuo {rl:.2f}/{rb:.2f} m da altura {topo} m"
         assert m["ca_usado"] <= zp["ca_maximo"] + 1e-3, f"{o['id']}: CA {m['ca_usado']} > {zp['ca_maximo']}"
@@ -84,12 +88,21 @@ def main():
 
     # 3) gabarito de área especial (centro histórico, 9 m) e zona sem regra por altura
     zona3 = copy.deepcopy(zona)
-    del zona3["parametros"]["recuo_lateral_por_altura"]
+    for k in ("recuo_lateral_por_altura", "recuo_fundos_por_altura"):
+        zona3["parametros"].pop(k, None)
     e3 = gerar_estudo(dict(lote, areas_especiais=[{"tipo": "gabarito", "altura_max_m": 9, "fonte": "teste"}]), zona3)
     confere(e3)
     assert e3["opcoes"] and all(v["z0_m"] + v["altura_m"] <= 9 for o in e3["opcoes"] for v in o["volumes"])
 
-    # 4) lote real pequeno (~300 m²): o que não cabe some, sem quebrar
+    # 4) TO alta: o embasamento com parede cega (encostado na divisa até 12 m) ocupa mais e ganha
+    zona4 = copy.deepcopy(zona)
+    zona4["parametros"].update(taxa_ocupacao=0.9, taxa_permeabilidade=0.05)
+    e4 = gerar_estudo(lote, zona4)
+    confere(e4)
+    d4 = next(o for o in e4["opcoes"] if o["id"] == "D")
+    assert d4["volumes"][0].get("parede_cega"), "com TO 90% a base com parede cega devia ganhar"
+
+    # 5) lote real pequeno (~300 m²): o que não cabe some, sem quebrar
     pequeno = dict(lote, poligono_utm=[[0, 0], [12, 0], [12, 25], [0, 25]], frente=[[0, 0], [12, 0]])
     confere(gerar_estudo(pequeno, zona))
     print("ok")

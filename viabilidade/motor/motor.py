@@ -127,10 +127,10 @@ def _maior_lamina(regiao, area_max):
 
 # ---------- recuo por altura ----------
 
-def recuo_divisa(zp, base_m, pavimento, h):
-    """Recuo de lateral/fundos pro pavimento `pavimento` (1 = térreo) cujo teto fica a h metros.
-    Sem `recuo_lateral_por_altura` na zona, vale o fixo."""
-    regra = zp.get("recuo_lateral_por_altura")
+def recuo_divisa(zp, base_m, pavimento, h, lado="lateral"):
+    """Recuo de lateral ou fundos pro pavimento `pavimento` (1 = térreo) cujo teto fica a h metros.
+    Fundos usa `recuo_fundos_por_altura` e, se faltar, a regra lateral. Sem regra, vale o fixo."""
+    regra = zp.get(f"recuo_{lado}_por_altura") or zp.get("recuo_lateral_por_altura")
     if not regra:
         return base_m
     if pavimento <= regra.get("ate_pavimento", 1):
@@ -173,7 +173,7 @@ def _volume(base_local, ctx, z0, pav, uso, terreo, rl, rb, pav_abaixo=0):
 
 def _recuos_topo(ctx, pav_topo, h_topo):
     zp = ctx["zp"]
-    return (recuo_divisa(zp, ctx["rl"], pav_topo, h_topo), recuo_divisa(zp, ctx["rb"], pav_topo, h_topo))
+    return (recuo_divisa(zp, ctx["rl"], pav_topo, h_topo), recuo_divisa(zp, ctx["rb"], pav_topo, h_topo, "fundos"))
 
 
 def _avaliar(vols, ctx):
@@ -285,7 +285,7 @@ def gerar_estudo(lote, zona, premissas=None):
     caixas = _Caixas(poly, lote["frente"], rf, origem, u)
     regra = zp.get("recuo_lateral_por_altura")
     # térreo: recuo do 1º pavimento (com regra por altura, o de "ate_pavimento")
-    rl0, rb0 = recuo_divisa(zp, rl, 1, pr["pe_direito_terreo_m"]), recuo_divisa(zp, rb, 1, pr["pe_direito_terreo_m"])
+    rl0, rb0 = recuo_divisa(zp, rl, 1, pr["pe_direito_terreo_m"]), recuo_divisa(zp, rb, 1, pr["pe_direito_terreo_m"], "fundos")
     caixa = caixas.mundo(rl0, rb0)
 
     # subsolo: a caixa do térreo, encolhida no centro se for preciso pra sobrar a área permeável da lei
@@ -326,10 +326,12 @@ def gerar_estudo(lote, zona, premissas=None):
         incertezas.append(f"Recuo lateral e de fundos por altura: {regra.get('recuo_m')} m até o {regra.get('ate_pavimento', 1)}º pavimento; "
                           f"acima, o maior entre h×{a.get('fracao_h')} e {a.get('minimo_m')} m (h = altura até o teto do último pavimento). "
                           "Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.")
-        if zp.get("parede_cega_encosta_ate_m"):
-            incertezas.append(f"Parede cega pode encostar na divisa até {zp['parede_cega_encosta_ate_m']} m: não usado (o motor supõe janela em toda fachada).")
     elif zp.get("recuo_lateral_regra"):
         incertezas.append(f"Recuo lateral usado fixo ({rl} m): a regra por altura só veio em texto (\"{zp['recuo_lateral_regra'][:160]}...\"). Falta o campo recuo_lateral_por_altura na zona.")
+    cega = zp.get("parede_cega_encosta_ate_m")
+    if cega:
+        incertezas.append(f"Parede cega (sem janela) encosta na divisa lateral e de fundos até {cega} m: usada só no embasamento da opção D. "
+                          "Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).")
     incertezas.append("Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.")
     if pr["garagem"] == "subsolo":
         incertezas.append("Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.")
@@ -351,9 +353,10 @@ def gerar_estudo(lote, zona, premissas=None):
             return
         vols, m, sub, av = achado
         altura = max(v["z0_m"] + v["altura_m"] for v in vols)
-        if regra:
+        if regra or any(v.get("parede_cega") for v in vols):
             av = av + ["Recuo lateral/fundos: " + ", ".join(
-                f"{v['uso']} {v['recuo_lateral_m']:.2f}/{v['recuo_fundos_m']:.2f} m" for v in vols)
+                f"{v['uso']} {v['recuo_lateral_m']:.2f}/{v['recuo_fundos_m']:.2f} m"
+                + (" (parede cega na divisa)" if v.get("parede_cega") else "") for v in vols)
                 + (" (escalonado)." if len({v['recuo_lateral_m'] for v in vols}) > 1 else " (recuo do topo no prédio todo).")]
         opcoes.append({"id": id_, "nome": nome,
                        "volumes": [{k: x for k, x in v.items() if not k.startswith("_")} for v in vols] + sub,
@@ -404,19 +407,32 @@ def gerar_estudo(lote, zona, premissas=None):
 
     # D) Embasamento (lazer/comércio, sem unidades) + torre por cima, recuos escalonados
     nb = pr["pavimentos_embasamento"]
-    rb_, cb = topo(nb)
-    base_l = _maior_lamina(cb, laje_max) if nb > 0 else Polygon()
     hb = _altura(pr, nb, True)
-
-    def fazer_d(n):
-        r = _recuos_topo(ctx, nb + n, hb + _altura(pr, n, False))
-        torre = maior_retangulo(caixas.local(*r).intersection(base_l), 1.0, pr["laje_torre_max_m2"])
-        if torre.area < pr["laje_minima_m2"] or torre.area >= base_l.area * 0.9:
+    def tenta_d(base_cega):
+        if base_cega:  # embasamento sem janela encosta na divisa lateral e de fundos
+            rb_, cb = (0.0, 0.0), caixas.local(0.0, 0.0)
+            laje_base = min(caixas.mundo(0.0, 0.0).area, to_max * A)
+        else:
+            (rb_, cb), laje_base = topo(nb), laje_max
+        base_l = _maior_lamina(cb, laje_base) if nb > 0 else Polygon()
+        if base_l.area < pr["laje_minima_m2"]:
             return None
-        return [_volume(base_l, ctx, 0, nb, "embasamento", True, *rb_),
-                _volume(torre, ctx, hb, n, "residencial", False, *r, pav_abaixo=nb)]
+
+        def fazer_d(n):
+            r = _recuos_topo(ctx, nb + n, hb + _altura(pr, n, False))
+            torre = maior_retangulo(caixas.local(*r).intersection(base_l), 1.0, pr["laje_torre_max_m2"])
+            if torre.area < pr["laje_minima_m2"] or torre.area >= base_l.area * 0.9:
+                return None
+            base = _volume(base_l, ctx, 0, nb, "embasamento", True, *rb_)
+            if base_cega:
+                base["parede_cega"] = True
+            return [base, _volume(torre, ctx, hb, n, "residencial", False, *r, pav_abaixo=nb)]
+        return _melhor(fazer_d, n_max, ctx)
+
+    # com parede cega e sem: fica a que constrói mais (com a TO já no teto, encostar só muda o formato)
+    tentativas = [t for t in (tenta_d(False), tenta_d(True) if cega and hb <= cega + 1e-6 else None) if t]
     fecha("D", "Embasamento + torre",
-          _melhor(fazer_d, n_max, ctx) if base_l.area >= pr["laje_minima_m2"] else None,
+          max(tentativas, key=lambda t: t[1]["area_computavel_m2"]) if tentativas else None,
           "a torre não ficou menor que a base, ou a base passou do limite")
 
     alturas = [v["z0_m"] + v["altura_m"] for o in opcoes for v in o["volumes"]]
@@ -451,7 +467,9 @@ def gerar_estudo(lote, zona, premissas=None):
         "caixa_maxima": {"projecao_utm": _coords(caixa), "altura_m": _r(altura_caixa),
                          "area_projecao_m2": _r(caixa.area), "area_lote_m2": _r(A),
                          "area_computavel_max_m2": _r(comp_max), "ocupacao_max_m2": _r(to_max * A),
-                         "recuo_frontal_m": _r(rf), "degraus": degraus},
+                         "recuo_frontal_m": _r(rf), "degraus": degraus,
+                         "parede_cega_ate_m": cega,
+                         "projecao_parede_cega_utm": _coords(caixas.mundo(0.0, 0.0)) if cega else None},
         "opcoes": opcoes,
         "incertezas": incertezas,
     }
