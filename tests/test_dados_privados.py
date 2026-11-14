@@ -68,6 +68,7 @@ PASTAS_DE_IMAGEM = (
     'experimentos/moveis-referencia/', 'experimentos/cama-box-referencia/',
     # Site institucional e a marca da Conecta.
     'fachada/assets/', 'fachada/marca-fonte/',
+    'painel/public/brand/',  # logo e fontes da Conecta no painel; liberado pelo usuário em 14/11 (#117)
     'tasks/caminho1-liv/',
 )
 
