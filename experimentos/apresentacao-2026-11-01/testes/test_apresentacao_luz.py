@@ -7,7 +7,7 @@ import re
 import unittest
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[3]
 DEMO = ROOT / 'experimentos/apresentacao-2026-11-01/site/demo'
 APPROVED = ROOT / 'publicacao/correcao-vergas-20261101/payload/liv-classico'
 
