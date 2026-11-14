@@ -106,4 +106,12 @@ Definições (v2 do contrato, 14/11, a partir de `produto/ESTUDO-REAL.md`):
 - `area_acima_ca_basico_m2` = o que passa do CA básico e exige outorga onerosa.
 - `vgv_estimado` = `area_privativa_m2` × `preco_venda_m2_privativo`. Fica `null` se o preço não for informado. CUB, TIR e permuta ficam fora da Fase 0.
 - Premissa sem fonte (ex.: `pe_direito_terreo_m`, `area_comum_por_pavimento_m2`) entra com o nome em `premissas.padrao` e aparece no relatório como "padrão".
-- Vagas: se a zona trouxer regra de vagas (frente Lei), a lei manda; senão vale `vagas_por_unidade`.
+- Vagas: se a zona trouxer regra de vagas (frente Lei), a lei manda; senão vale `vagas_por_unidade`. Em São Carlos prédio residencial não tem vaga mínima (COE Tabela 1): `vagas_por_unidade` é premissa do cliente.
+
+v3 (14/11, a partir de `lei/FONTES.md`):
+
+- **Recuo frontal `null`** (São Carlos não define na lei). O motor usa `premissas.recuo_frontal_m` (padrão 4,0, marcado em `padrao`) e avisa "vale a restrição do loteamento".
+- **Recuo que muda com a altura:** a Zona pode trazer `recuo_lateral_por_altura` = `{"ate_pavimento": 1, "recuo_m": 1.5, "acima": {"fracao_h": 0.125, "minimo_m": 2.0}}`, mais `parede_cega_encosta_ate_m`: 12. Ou seja: recuo de 1,5 m até o 1º pavimento; acima dele, o maior entre h/8 e 2,0 m. O motor escalona o volume (embasamento + torre) ou usa o recuo do topo no prédio todo, e diz qual dos dois fez.
+- **`areas_especiais`** (lista no Lote, não na Zona): restrição por cima da zona, como `{"tipo": "gabarito", "altura_max_m": 9, "fonte": "..."}` (centro histórico) ou o cone do Observatório da USP. A frente Terreno preenche nos lotes-piloto.
+- **Não computável:** garagem, escada, elevador/shaft, casa de máquinas, reservatório, lixo e área técnica não contam no CA nem na TO (COE art. 51). Varanda conta até prova em contrário.
+- **Acesso a dado público:** só o que a fonte oferece abertamente. Nada de forçar parâmetro de URL, burlar bloqueio ou contornar login.
