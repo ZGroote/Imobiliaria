@@ -33,6 +33,8 @@
   ],
   "area_m2": 1519.13,
   "zona_id": "SC-Z2",
+  "zona_origem": "teste",
+  "zona_conferida": false,
   "relevo": null,
   "observacoes": "Remembramento de 5 lotes reais vizinhos (lid 35038, 35039, 35040, 35041, 35042) da quadra 1560. Polígono WGS84 do geojson convertido pra UTM 23S (EPSG:31983). Atenção: os campos fx/fy do geojson estão em SAD69 UTM 23S (EPSG:29193), ~57 m de diferença. Zona SC-Z2 escolhida pra teste, não conferida pro endereço. Relevo não preenchido (frente Terreno)."
  },
@@ -916,6 +918,7 @@
   }
  ],
  "incertezas": [
+  "Terreno na zona SC-Z2: NÃO conferido (escolhida só pra testar). Confirmar a zona do lote antes de usar o estudo.",
   "A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.",
   "Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).",
   "Recuo lateral e de fundos por altura: 1.5 m até o 1º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.",

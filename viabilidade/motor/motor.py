@@ -309,9 +309,19 @@ def gerar_estudo(lote, zona, premissas=None):
     comp_max = zp["ca_maximo"] * A
     n_max = min(PAV_BUSCA_MAX, int(comp_max // pr["laje_minima_m2"]) + 1)
 
+    # duas perguntas diferentes: o terreno está nessa zona? os números da zona foram conferidos?
     incertezas = []
+    origem_zona = lote.get("zona_origem")
+    texto_origem = {"oficial": "pelo mapa digital oficial", "anotada_a_mao": "lida à mão no anexo em PDF",
+                    "teste": "escolhida só pra testar"}.get(origem_zona, "sem origem informada (falta zona_origem no lote)")
+    if not lote.get("zona_conferida"):
+        incertezas.append(f"Terreno na zona {zona['id']}: NÃO conferido ({texto_origem}). Confirmar a zona do lote antes de usar o estudo.")
+    else:
+        incertezas.append(f"Terreno na zona {zona['id']}: conferido ({texto_origem}).")
+    if lote.get("zona_id") and lote["zona_id"] != zona["id"]:
+        incertezas.append(f"O lote diz zona {lote['zona_id']}, mas o estudo usou {zona['id']}.")
     if not zona.get("conferido"):
-        incertezas.append(f"Zona {zona['id']}: parâmetros não conferidos na lei.")
+        incertezas.append(f"Números da zona {zona['id']}: não conferidos na lei.")
     if zp.get("recuo_frontal_m") is None:
         incertezas.append(f"A lei não define recuo frontal: usado {rf:.1f} m (premissa). Vale a restrição do loteamento; conferir na matrícula.")
     if not altura_max and not zp.get("pavimentos_max"):

@@ -62,6 +62,8 @@ def montar_lote():
         "frente": [r(a), r(b)],
         "area_m2": round(uniao.area, 2),
         "zona_id": ZONA_ID,
+        "zona_origem": "teste",
+        "zona_conferida": False,
         "relevo": None,
         "observacoes": ("Remembramento de 5 lotes reais vizinhos (lid " + ", ".join(map(str, LIDS)) +
                         ") da quadra 1560. Polígono WGS84 do geojson convertido pra UTM 23S (EPSG:31983). "

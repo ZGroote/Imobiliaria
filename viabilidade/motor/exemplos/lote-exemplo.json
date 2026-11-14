@@ -31,6 +31,8 @@
  ],
  "area_m2": 1519.13,
  "zona_id": "SC-Z2",
+ "zona_origem": "teste",
+ "zona_conferida": false,
  "relevo": null,
  "observacoes": "Remembramento de 5 lotes reais vizinhos (lid 35038, 35039, 35040, 35041, 35042) da quadra 1560. Polígono WGS84 do geojson convertido pra UTM 23S (EPSG:31983). Atenção: os campos fx/fy do geojson estão em SAD69 UTM 23S (EPSG:29193), ~57 m de diferença. Zona SC-Z2 escolhida pra teste, não conferida pro endereço. Relevo não preenchido (frente Terreno)."
 }

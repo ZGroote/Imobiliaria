@@ -86,6 +86,12 @@ def main():
     assert all(o["metricas"]["vgv_estimado"] for o in e2["opcoes"]), "VGV sumiu com preço informado"
     assert "garagem_computavel" not in e2["premissas"]["padrao"]
 
+    # zona do terreno (v4): vai adiante no lote e vira incerteza; não se confunde com os números da zona
+    assert e["lote"]["zona_origem"] == "teste" and e["lote"]["zona_conferida"] is False
+    assert any(i.startswith("Terreno na zona") and "NÃO conferido" in i and "testar" in i for i in e["incertezas"])
+    e5 = gerar_estudo(dict(lote, zona_origem="oficial", zona_conferida=True), zona)
+    assert any(i.startswith("Terreno na zona") and ": conferido (pelo mapa" in i for i in e5["incertezas"])
+
     # 3) gabarito de área especial (centro histórico, 9 m) e zona sem regra por altura
     zona3 = copy.deepcopy(zona)
     for k in ("recuo_lateral_por_altura", "recuo_fundos_por_altura"):
