@@ -14,7 +14,7 @@ sys.path.insert(0, AQUI)
 from shapely import affinity  # noqa: E402
 from shapely.geometry import LineString, Point, Polygon  # noqa: E402
 
-from motor import PREMISSAS_PADRAO, _avaliar, caixa_recuada, gerar_estudo, recuo_divisa  # noqa: E402
+from motor import PREMISSAS_PADRAO, _avaliar, _maior_lamina, caixa_recuada, dois_quadrados, gerar_estudo, maior_retangulo, recuo_divisa  # noqa: E402
 
 
 def _carrega(nome):
@@ -253,6 +253,61 @@ def defeitos_da_auditoria(lote, zona):
     assert not c.contains(Point(35.5, 17)) and not c.contains(Point(35.5, 22)), "L: a quina côncava ficou sem recuo"
 
 
+def auditoria3():
+    """Tarefa 5 (auditoria 3): crash no escaleno, recuo de fundos em lote torto, pavimentos_sem_ca com altura, alerta falso, cache mutável."""
+    lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
+    # 3.5.1: triângulo escaleno em UTM: a interseção da torre com a base virava Point e quebrava com AttributeError
+    esc = dict(lote, poligono_utm=[[205000, 7564000], [205030, 7564000], [205050, 7564040]], frente=[[205000, 7564000], [205030, 7564000]])
+    z = copy.deepcopy(zona)
+    z["parametros"].update(recuo_lateral_por_altura=None, recuo_fundos_por_altura=None)
+    for zz in (zona, z):
+        confere(gerar_estudo(esc, zz))
+    assert not maior_retangulo(Point(1, 1), 1.0, 100).area and not _maior_lamina(Point(1, 1), 100).area and not dois_quadrados(Point(1, 1), 6.0)
+
+    # 3.5.2-3: recuo de fundos (10 m) em fundo inclinado, triângulo raso e pentágono: nenhuma divisa de fundos a menos de 10 m
+    def fundos_ok(pts, frente, nome, rb=10.0):
+        poly = Polygon(pts)
+        c = caixa_recuada(poly, frente, 4.0, 1.5, rb)
+        assert not c.is_empty, nome
+        for a, b in zip(pts, pts[1:] + pts[:1]):
+            if a == b or {tuple(a), tuple(b)} == {tuple(frente[0]), tuple(frente[1])}:
+                continue
+            nx, ny = b[1] - a[1], a[0] - b[0]
+            if ny > 0.7 * math.hypot(nx, ny):  # normal pra fora apontando pro fundo (+y): é divisa de fundos
+                assert c.distance(LineString([a, b])) >= rb - 0.02, f"{nome}: caixa a {c.distance(LineString([a, b])):.2f} m da divisa de fundos {a}->{b}"
+    fundos_ok([[0, 0], [40, 0], [40, 50], [0, 30]], [[0, 0], [40, 0]], "trapézio de fundo inclinado")
+    fundos_ok([[0, 0], [40, 0], [20, 15]], [[0, 0], [40, 0]], "triângulo raso", rb=3.0)
+    assert caixa_recuada(Polygon([[0, 0], [40, 0], [20, 15]]), [[0, 0], [40, 0]], 4.0, 1.5, 10.0).is_empty, "triângulo raso com fundos de 10 m não tem caixa"
+    fundos_ok([[0, 0], [40, 0], [40, 45], [20, 50], [0, 30]], [[0, 0], [40, 0]], "pentágono")
+
+    # 3.4.1: sem CA máximo, com altura de cone (90 m): pavimentos_sem_ca (10) ainda vale
+    grande = dict(lote, poligono_utm=[[0, 0], [100, 0], [100, 200], [0, 200]], frente=[[0, 0], [100, 0]])
+    zsem = copy.deepcopy(zona)
+    zsem["parametros"].update(ca_maximo=None, ca_basico=None, altura_max_m=None, pavimentos_max=None)
+    e = gerar_estudo(dict(grande, areas_especiais=[{"tipo": "cone", "altura_max_m": 90, "fonte": "teste"}]), zsem)
+    assert e["opcoes"] and all(o["metricas"]["pavimentos"] <= PREMISSAS_PADRAO["pavimentos_sem_ca"] for o in e["opcoes"]), [o["metricas"]["pavimentos"] for o in e["opcoes"]]
+    assert any("pavimentos_sem_ca" in i for i in e["incertezas"]), e["incertezas"]
+
+    # 3.4.2: parar no pavimento 30 porque a ALTURA da lei acaba ali não é "teto de projeto"
+    zalt = copy.deepcopy(zona)
+    zalt["parametros"].update(ca_maximo=50.0, altura_max_m=4.5 + 29 * 3.0, pavimentos_max=None, recuo_lateral_por_altura=None, recuo_fundos_por_altura=None)
+    e = gerar_estudo(grande, zalt)
+    assert any(o["metricas"]["pavimentos"] == 30 for o in e["opcoes"]), [o["metricas"]["pavimentos"] for o in e["opcoes"]]
+    assert not any(a.startswith("Parou no teto de projeto") for o in e["opcoes"] for a in o["alertas"]), "alerta falso: foi a altura da lei que parou"
+
+    # 3.6: a lista do cache não pode ser alterada por quem chama
+    r = dois_quadrados(Polygon([[0, 0], [30, 0], [30, 30], [0, 30]]), 6.0, 200)
+    assert len(r) == 2 and not hasattr(r, "clear"), type(r)
+
+    # 3.2: garagem que conta no CA (premissa) vira incerteza no estudo
+    zg = copy.deepcopy(zona)
+    zg["parametros"]["garagem_computavel"] = None  # a zona manda sobre a premissa
+    e = gerar_estudo(lote, zg, {"garagem_computavel": True})
+    assert any("garagem_computavel" in i and "monot" in i for i in e["incertezas"]), e["incertezas"]
+    e = gerar_estudo(lote, zona)
+    assert not any("monot" in i for i in e["incertezas"])
+
+
 def main():
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
 
@@ -331,6 +386,7 @@ def main():
     for id_ in ("SC-completo-remembramento-75352-75354", "SC-completo-22426"):
         monotonia(id_, pilotos[id_], zonas[pilotos[id_]["zona_id"]])
     defeitos_da_auditoria(lote, zona)
+    auditoria3()
     print("ok")
 
 
