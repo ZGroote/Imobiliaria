@@ -23,6 +23,8 @@ service firebase.storage {
         && firestore.get(/databases/(default)/documents/requests/$(requestId)).data.agencyId
              == agencyId
         && request.resource.size > 0
+        // teto de 5 GB: planta, vídeo e modelo grandes passam; sem teto, uma conta enche o bucket
+        && request.resource.size <= 5 * 1024 * 1024 * 1024
         && file.matches('.*[.](pdf|jpg|jpeg|png|webp|heic|zip|dwg|dxf|ifc|rvt|skp|glb|obj|mp4|mov|doc|docx|xls|xlsx|ppt|pptx|txt|csv)')
         && !request.resource.contentType.matches('text/html.*|image/svg.*|application/xhtml.*');
       allow update: if false;

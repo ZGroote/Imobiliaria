@@ -54,7 +54,6 @@ function Controles({ perfil }: { perfil: User }) {
     {!formulario ? <button type="button" className="btn w-full" disabled={!pronto || ocupado} onClick={() => trocar()}>
       {ocupado ? tr('Trocando…') : admin ? tr('Trocar para gerente') : tr('Voltar ao administrador')}</button>
       : <form onSubmit={trocar} className="space-y-3">
-        <p className="break-all text-xs">{par.gerenteEmail}</p>
         <label className="block text-xs">{tr('Senha da conta de gerente')}<input autoFocus type="password" required autoComplete="current-password" className="campo mt-1" value={senha} onChange={e => setSenha(e.target.value)} /></label>
         <p className="text-xs text-slate-500">{tr('Entre uma vez para alternar rapidamente nesta aba. A senha não é salva pelo painel.')}</p>
         <button className="btn-primario w-full" disabled={ocupado}>{ocupado ? tr('Trocando…') : tr('Entrar como gerente')}</button>

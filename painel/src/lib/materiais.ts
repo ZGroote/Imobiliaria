@@ -2,6 +2,8 @@ import { collection, doc, getDocFromServer, serverTimestamp, setDoc, type Firest
 import { getBlob, ref, uploadBytesResumable, type FirebaseStorage, type UploadTask } from 'firebase/storage'
 
 export const EXTENSOES_MATERIAIS = '.pdf,.jpg,.jpeg,.png,.webp,.heic,.zip,.dwg,.dxf,.ifc,.rvt,.skp,.glb,.obj,.mp4,.mov,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv'
+// O mesmo teto da regra do Storage (firebase/storage.rules).
+export const MAX_MATERIAL = 5 * 1024 ** 3
 export interface Material {
   id: string; agencyId: string; requestId: string; filename: string; storagePath: string
   type: 'photo' | 'video' | 'floorplan' | 'document' | 'reference' | 'other'; uploadedBy: string
@@ -10,6 +12,7 @@ export function validarMaterial(file: Pick<File, 'name' | 'size'>) {
   const ext = file.name.slice(file.name.lastIndexOf('.')).toLowerCase()
   if (!EXTENSOES_MATERIAIS.split(',').includes(ext)) throw Error('Formato não permitido. Envie plantas, imagens, vídeos, documentos ou um arquivo ZIP.')
   if (!Number.isSafeInteger(file.size) || file.size <= 0) throw Error('O arquivo deve ter conteúdo.')
+  if (file.size > MAX_MATERIAL) throw Error('O arquivo passa de 5 GB. Divida em partes ou envie um link.')
   const base = file.name.slice(0, -ext.length).normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9 _.-]/g, '_').slice(0, 120).trim() || 'arquivo'
   return base + ext
 }

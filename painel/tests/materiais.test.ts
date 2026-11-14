@@ -19,6 +19,7 @@ test('validação recusa executáveis e vazio, aceita arquivos grandes; nome nã
   for (const name of ['foto.svg', 'arquivo.html', 'programa.exe', 'sem-extensao']) assert.throws(() => validarMaterial({ name, size: 1 }), /Formato/)
   for (const size of [0, -1]) assert.throws(() => validarMaterial({ name: 'planta.pdf', size }), /conteúdo/)
   for (const size of [200 * 1024 * 1024, 5 * 1024 ** 3]) assert.equal(validarMaterial({ name: 'planta.pdf', size }), 'planta.pdf')
+  assert.throws(() => validarMaterial({ name: 'planta.pdf', size: 5 * 1024 ** 3 + 1 }), /5 GB/)
   assert.equal(validarMaterial({ name: '../../Plánta 42.PDF', size: 100 }), '.._.._Planta 42.pdf')
   assert.equal(nomeMaterial('abcdefghijklmnopqrst_planta.pdf'), 'planta.pdf')
 })

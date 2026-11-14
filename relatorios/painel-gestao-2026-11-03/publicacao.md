@@ -31,7 +31,7 @@ Validado no painel de produção já autenticado: inglês → português → ing
 
 ## Alternância das contas de teste
 
-Publicado somente no Hosting do painel o controle de administrador para gerente `testetibiamacro@gmail.com` e retorno. Restrito aos dois UIDs de teste verificados; nenhum papel ou regra de acesso foi alterado. Usa sessões reais Firebase: primeiro acesso exige a senha do gerente, depois as sessões auxiliares duram somente na aba. Sair encerra todas. Interface em português e inglês.
+Publicado somente no Hosting do painel o controle de administrador para a conta de gerente de teste e retorno. Restrito aos dois UIDs de teste verificados; nenhum papel ou regra de acesso foi alterado. Usa sessões reais Firebase: primeiro acesso exige a senha do gerente, depois as sessões auxiliares duram somente na aba. Sair encerra todas. Interface em português e inglês.
 
 Typecheck, build Webpack e três testes no emulador passaram: senha incorreta preserva administrador; troca aplica as regras reais de gerente; retorno reutiliza administrador autenticado; administrador inativo é recusado; gerente sem sessão original e outras contas não obtêm acesso; encerramento limpa as três sessões. Deploy concluído (`painel-troca-deploy.log`). O controle da aba autenticada ficou indisponível nesta etapa, portanto a troca real em produção aguarda o primeiro login do gerente pelo usuário. Alterações sem commit.
 

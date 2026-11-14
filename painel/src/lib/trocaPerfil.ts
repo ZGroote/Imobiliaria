@@ -1,12 +1,13 @@
 import { signInWithEmailAndPassword, signOut, updateCurrentUser, type Auth } from 'firebase/auth'
 import { doc, getDocFromServer, type Firestore } from 'firebase/firestore'
 
-export interface ParDeTeste { adminUid: string; gerenteUid: string; gerenteEmail: string; agencyId: string }
+// Sem e-mail aqui: este arquivo vai no JS público do painel. O e-mail do gerente é lido do
+// cadastro dele (users/{gerenteUid}) pela sessão do admin, na hora da troca.
+export interface ParDeTeste { adminUid: string; gerenteUid: string; agencyId: string }
 export const PAR_DE_TESTE: ParDeTeste = {
-  adminUid: 'p63bbLQ26HX08vN0KD3qbP0yk9O2', gerenteUid: 'cj8qMDx3F3epgJ1Kpern6dvzKYM2',
-  gerenteEmail: 'testetibiamacro@gmail.com', agencyId: 'SRBeethi2ltiOmKvENu9',
+  adminUid: 'p63bbLQ26HX08vN0KD3qbP0yk9O2', gerenteUid: 'cj8qMDx3F3epgJ1Kpern6dvzKYM2', agencyId: 'SRBeethi2ltiOmKvENu9',
 }
-export const PAR_EMULADOR: ParDeTeste = { adminUid: 'admin', gerenteUid: 'gerA', gerenteEmail: 'gerente.a@painel.test', agencyId: 'agA' }
+export const PAR_EMULADOR: ParDeTeste = { adminUid: 'admin', gerenteUid: 'gerA', agencyId: 'agA' }
 
 export function criarTrocaDeTeste({ principal, administrador, gerente, bancoAdmin, bancoGerente, par }: {
   principal: Auth; administrador: Auth; gerente: Auth; bancoAdmin: Firestore; bancoGerente: Firestore; par: ParDeTeste
@@ -16,7 +17,7 @@ export function criarTrocaDeTeste({ principal, administrador, gerente, bancoAdmi
     if (auth.currentUser?.uid !== uid) throw Error('Entre primeiro na conta de teste correspondente.')
     await auth.currentUser.getIdToken(true)
     const p = (await getDocFromServer(doc(db, 'users', uid))).data()
-    if (p?.active !== true || p.role !== role || (role === 'agency_manager' && (p.agencyId !== par.agencyId || p.email !== par.gerenteEmail)))
+    if (p?.active !== true || p.role !== role || (role === 'agency_manager' && p.agencyId !== par.agencyId))
       throw Error('A conta de teste não está ativa ou seu perfil foi alterado.')
   }
   return {
@@ -27,7 +28,9 @@ export function criarTrocaDeTeste({ principal, administrador, gerente, bancoAdmi
       await validar(administrador, bancoAdmin, 'platform_admin')
       if (gerente.currentUser?.uid !== par.gerenteUid) {
         if (!senha) throw Error('Informe a senha da conta de gerente no primeiro acesso.')
-        await signInWithEmailAndPassword(gerente, par.gerenteEmail, senha)
+        const email = (await getDocFromServer(doc(bancoAdmin, 'users', par.gerenteUid))).data()?.email
+        if (typeof email !== 'string') throw Error('A conta de teste não está ativa ou seu perfil foi alterado.')
+        await signInWithEmailAndPassword(gerente, email, senha)
       }
       try { await validar(gerente, bancoGerente, 'agency_manager') }
       catch (e) { await signOut(gerente); throw e }
