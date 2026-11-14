@@ -24,7 +24,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[1]
 MiB = 1 << 20
 LIMITE = 1 * MiB
-TOTAL_MAX = 300 * MiB           # 280,3 MiB em 27/09/2026; a folga é para o que é pequeno
+TOTAL_MAX = 400 * MiB           # 280,3 MiB em 27/09; 333 em 14/11 com Laranjeiras, Mooca e Vistas (~20 MiB por prédio)
 GITHUB_DURO = 100 * MiB         # o GitHub recusa acima disso; avisa a partir de 50
 
 # caminho -> (teto em MiB, classe principal, justificativa de permanência).
@@ -88,6 +88,16 @@ EXCECOES = {
         (3, 'gerado', 'Evidencia da paridade (decoder nativo) citada no BUFFERS.md, que traz o comando do qa_instancias.py.'),
     'experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/buffers-paridade-fallback-qualificada/runtime.json':
         (3, 'gerado', 'Evidencia da paridade (fallback) citada no BUFFERS.md, que traz o comando do qa_instancias.py.'),
+    'experimentos/liv-experimental-2026-10-14/mapa-modelos/laranjeiras.glb':
+        (3, 'runtime', 'Predio do Laranjeiras no mapa 2D; sha256 no mapa-2d-manifest.json e publicado em /laranjeiras/.'),
+    'experimentos/containers-mooca-2026-11-05/site/mapa-modelos/containers.glb':
+        (2, 'runtime', 'Containers no mapa 2D da pagina do Mooca; gerado por mapa/preparar_mapa.py a partir do .blend fora do git.'),
+    'experimentos/vistas-da-quinze-2026-11-07/site/mapa-pois.json':
+        (2, 'runtime', 'Estabelecimentos do mapa do Vistas, lidos por mapa-2d.js e publicados em /vistas-da-quinze/; gerado por mapa/preparar_mapa.py.'),
+    'plantas_fornecidas/vistas-da-quinze/anexos/5e434431-57ed-46a6-9781-b9ce1039efee.png':
+        (3, 'fonte', 'Foto da obra (lado externo) enviada pelo usuario; sem outra copia, referencia do modelo da torre.'),
+    'plantas_fornecidas/vistas-da-quinze/anexos/7d1a70b6-7c94-4f52-b9b6-f1153d17cae8.png':
+        (3, 'fonte', 'Foto da obra (lado do patio) enviada pelo usuario; sem outra copia, referencia do modelo da torre.'),
 }
 GRANDES = {c: dados[0] for c, dados in EXCECOES.items()}
 

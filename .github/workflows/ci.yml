@@ -39,6 +39,9 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.txt
       - run: npm ci --no-audit --no-fund
+      # testes do mapa e das maquetes importam o three da pasta do LIV
+      - run: npm ci --no-audit --no-fund
+        working-directory: experimentos/liv-experimental-2026-10-14
       - run: pip install -r requirements.txt
       - name: Tamanho dos arquivos versionados (indice Git)
         run: python -m unittest discover -s tests -p test_tamanho_versionado.py
