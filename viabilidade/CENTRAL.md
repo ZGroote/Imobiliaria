@@ -12,6 +12,7 @@ Atualizado: 14/11/2026, ~13h. Galho `feat/viabilidade` (worktree `Desktop/imobil
 | Visual | Codex **Luna** medium / trabalho (18% da semana) | **Trabalhando** na `visual/TAREFA-2.md` (7 pilotos, CA null, incertezas) |
 | Produto | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 |
 | Conferencia | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 |
+| Relatorio | Antigravity (Gemini 4 Argon), **cópia isolada** `Desktop/imobiliaria-viabilidade-gemini`, galho `exp/viabilidade-gemini` | **Trabalhando** em `viabilidade/relatorio/TAREFA.md` (lá): relatório HTML de 1 página por opção. A central revisa e traz pro principal só o que prestar (copiar a pasta `relatorio/`, nunca merge do galho) |
 | Auditor | Antigravity (Gemini 4 Argon) | **Trabalhando** na `auditoria/TAREFA-2.md` (conferir consertos do motor v0.5.0) |
 
 Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota Gemini/Claude/GPT dele); programação em Claude/Codex; central no Opus. Antigravity não assina commit: só escreve na pasta dele e a central commita. Ajudantes (subagentes) só quando houver partes separadas. Esforço (usuário, 14/11): **médio** no simples (ajuste de tela, pesquisa curta, tarefa bem definida); **alto** no Motor, Auditor, Conferência e em investigação de defeito.
