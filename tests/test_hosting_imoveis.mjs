@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import test from 'node:test';
 
 const IMUTAVEL = 'public, max-age=31536000, immutable';
-const PAINEL = 'https://imobilaria-deccb-painel.web.app';
+const PAINEL = 'https://painel.conectaimoveis3d.com.br';
 const VERSIONADOS = ['/b/**/manifest.json', '/b/**', '/quintais/**'];
 const SEM_CACHE = ['/', '/index.html', '/404.html', '/estado.json', '/imovel/**', '/maquete/**'];
 const COM_CORS = ['/b/**/manifest.json', '/estado.json'];

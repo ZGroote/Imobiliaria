@@ -1,0 +1,1407 @@
+{
+  "schema": "liv-interior-catalog-v1",
+  "shared": {
+    "runtime": {
+      "path": "interiores/shared/runtime.js",
+      "bytes": 93877,
+      "sha256": "005547b7bee15a30fd59b7ece8ce64d786ef8294d14eabc8bb2683ec56054c5f"
+    },
+    "materials": {
+      "path": "interiores/shared/materials.json.gz",
+      "bytes": 876068,
+      "sha256": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+      "compression": "gzip",
+      "decodedBytes": 1180661,
+      "decodedSHA256": "a04aecc426677a81f2cc41f64c224e9f1a0cdba634762a58cb91ade4b6bf3217"
+    },
+    "furniture": {
+      "path": "interiores/shared/furniture.json.gz",
+      "bytes": 201119,
+      "sha256": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd",
+      "compression": "gzip",
+      "decodedBytes": 1155377,
+      "decodedSHA256": "8affa3dc2b6f105282ec5b744729bd3f35193680d04eb85cb05a57bb693fbdc7"
+    }
+  },
+  "tipologias": {
+    "t01": {
+      "id": "t01",
+      "label": "T01 · 2 dormitórios",
+      "area": 44.79,
+      "unitId": "vistas-da-quinze-t01",
+      "unitSHA256": "93be694c84fe17011a1602fcb9afe18023791b378aeacf818d5ee575d0794d54",
+      "sourceSHA256": "1e051a7ab527e8b355f4cc0ed0e6f802a1fed2b327d85a6e3e9e87459014e94d",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
+      "files": {
+        "unit": {
+          "path": "interiores/t01/unidade.json",
+          "bytes": 6601,
+          "sha256": "93be694c84fe17011a1602fcb9afe18023791b378aeacf818d5ee575d0794d54"
+        },
+        "recipe": {
+          "path": "interiores/t01/recipe.json",
+          "bytes": 581,
+          "sha256": "91063fdebf294fd4a1df16c06d5a07d95582c583b58b73c16ef9f6288ba377fd"
+        },
+        "source": {
+          "path": "interiores/t01/source.json.gz",
+          "bytes": 3873905,
+          "sha256": "10800d26ee4d2d524f860ae631274e735badf3817b7ff9d9ae8875162e1db99b",
+          "compression": "gzip",
+          "decodedBytes": 15050052,
+          "decodedSHA256": "1e051a7ab527e8b355f4cc0ed0e6f802a1fed2b327d85a6e3e9e87459014e94d"
+        },
+        "compact": {
+          "path": "interiores/t01/geometry-compact.json.gz",
+          "bytes": 30525,
+          "sha256": "02a5bf8ed77f593da55d6e6a1bf50e934b29530b4c618a027aaadd1d8cc09099",
+          "compression": "gzip",
+          "decodedBytes": 61350,
+          "decodedSHA256": "e4b774a0724f580c6d5b2bd38b4ac43f391cac877855aebb91ccb1743f92cacb"
+        }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "91063fdebf294fd4a1df16c06d5a07d95582c583b58b73c16ef9f6288ba377fd",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        },
+        {
+          "id": "movel-23",
+          "index": 23,
+          "slots": [
+            30
+          ]
+        }
+      ]
+    },
+    "t02": {
+      "id": "t02",
+      "label": "T02 · 1 dormitório",
+      "area": 31.53,
+      "unitId": "vistas-da-quinze-t02",
+      "unitSHA256": "8459ca4af4d2b771f4cbd8c1c42cc49220b204e2f837a292fecc69d1cd4032e0",
+      "sourceSHA256": "9771d9e0d9bba897324d469d6e110cf530000510d5c9c41745dccff9a3c3a93e",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
+      "files": {
+        "unit": {
+          "path": "interiores/t02/unidade.json",
+          "bytes": 4739,
+          "sha256": "8459ca4af4d2b771f4cbd8c1c42cc49220b204e2f837a292fecc69d1cd4032e0"
+        },
+        "recipe": {
+          "path": "interiores/t02/recipe.json",
+          "bytes": 581,
+          "sha256": "95054dba2bf411b50251d8904115c2da7335cfe8f2ac296da1e9f86607330097"
+        },
+        "source": {
+          "path": "interiores/t02/source.json.gz",
+          "bytes": 3706726,
+          "sha256": "1b7c9b6c799ef98e8dd6b3f8f04f32a3629464435172d31f66f455d35e868b06",
+          "compression": "gzip",
+          "decodedBytes": 12218125,
+          "decodedSHA256": "9771d9e0d9bba897324d469d6e110cf530000510d5c9c41745dccff9a3c3a93e"
+        },
+        "compact": {
+          "path": "interiores/t02/geometry-compact.json.gz",
+          "bytes": 19536,
+          "sha256": "308377e94a912e3d817df328f0628570a4b479ca55445072ef20a72db6b92422",
+          "compression": "gzip",
+          "decodedBytes": 40291,
+          "decodedSHA256": "3b2b2fd6b6d5dd08bf435ecbac82f4f32dbd390ca794afa2038a61c5f3abae73"
+        }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "95054dba2bf411b50251d8904115c2da7335cfe8f2ac296da1e9f86607330097",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        }
+      ]
+    },
+    "t03": {
+      "id": "t03",
+      "label": "T03 · 2 dormitórios com terraço",
+      "area": 62.29,
+      "unitId": "vistas-da-quinze-t03",
+      "unitSHA256": "33d71387884dc2a8342460308e948323213f99a87e34cfacf01e1a7437c1e3d1",
+      "sourceSHA256": "97cc1f8aff15ed8ef8995c9430af450ce2676d34ad82c8b0559db04ef04bb969",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
+      "files": {
+        "unit": {
+          "path": "interiores/t03/unidade.json",
+          "bytes": 7916,
+          "sha256": "33d71387884dc2a8342460308e948323213f99a87e34cfacf01e1a7437c1e3d1"
+        },
+        "recipe": {
+          "path": "interiores/t03/recipe.json",
+          "bytes": 581,
+          "sha256": "0d22a71b29d16f76c95a463adde8413db1a23d67de4500823f9c147b029c72c8"
+        },
+        "source": {
+          "path": "interiores/t03/source.json.gz",
+          "bytes": 3901327,
+          "sha256": "b4d086a56fdc97ba00e0695a96d71eca9c2b8f23f7b017a31c3b543a527f3ac8",
+          "compression": "gzip",
+          "decodedBytes": 16125058,
+          "decodedSHA256": "97cc1f8aff15ed8ef8995c9430af450ce2676d34ad82c8b0559db04ef04bb969"
+        },
+        "compact": {
+          "path": "interiores/t03/geometry-compact.json.gz",
+          "bytes": 34969,
+          "sha256": "7bdb667323d914d561851b40c5a52ff3e66f82963a0650b399b1aae450c839f9",
+          "compression": "gzip",
+          "decodedBytes": 72889,
+          "decodedSHA256": "026affdafebac6cbf72bd728769b4aced8df6929f50b1d0901d827c55be9456e"
+        }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "0d22a71b29d16f76c95a463adde8413db1a23d67de4500823f9c147b029c72c8",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        },
+        {
+          "id": "movel-23",
+          "index": 23,
+          "slots": [
+            30
+          ]
+        },
+        {
+          "id": "movel-24",
+          "index": 24,
+          "slots": [
+            31
+          ]
+        },
+        {
+          "id": "movel-25",
+          "index": 25,
+          "slots": [
+            32
+          ]
+        },
+        {
+          "id": "movel-26",
+          "index": 26,
+          "slots": [
+            33
+          ]
+        }
+      ]
+    },
+    "t04": {
+      "id": "t04",
+      "label": "T04 · 2 dormitórios e escritório com terraço",
+      "area": 77.65,
+      "unitId": "vistas-da-quinze-t04",
+      "unitSHA256": "b7267a6b2bfd394cee99ee1d90fbab2956cffcba017d0009b976af3ed43fd3bd",
+      "sourceSHA256": "a175f4b00ce71fb88e23aeae06b951ad4e4801cec5d361a31213fa8322ef175e",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
+      "files": {
+        "unit": {
+          "path": "interiores/t04/unidade.json",
+          "bytes": 9178,
+          "sha256": "b7267a6b2bfd394cee99ee1d90fbab2956cffcba017d0009b976af3ed43fd3bd"
+        },
+        "recipe": {
+          "path": "interiores/t04/recipe.json",
+          "bytes": 581,
+          "sha256": "33f8ca5792c658a775340c3104e490787de298e6531d509a943c33b195f8328e"
+        },
+        "source": {
+          "path": "interiores/t04/source.json.gz",
+          "bytes": 4039326,
+          "sha256": "8af49a8d2cf8c10affa3681202099e5b122058eb5ce2102baf253ffde861aeb7",
+          "compression": "gzip",
+          "decodedBytes": 18767975,
+          "decodedSHA256": "a175f4b00ce71fb88e23aeae06b951ad4e4801cec5d361a31213fa8322ef175e"
+        },
+        "compact": {
+          "path": "interiores/t04/geometry-compact.json.gz",
+          "bytes": 40560,
+          "sha256": "4a560534b4ad291d5296ccaa78188012f5cc688c6a454d0552bc4f824339c010",
+          "compression": "gzip",
+          "decodedBytes": 84537,
+          "decodedSHA256": "03dcf55f36565656e235640b3001efb67011ca0c933362ab03a42c374be6bc23"
+        }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "33f8ca5792c658a775340c3104e490787de298e6531d509a943c33b195f8328e",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        },
+        {
+          "id": "movel-23",
+          "index": 23,
+          "slots": [
+            30
+          ]
+        },
+        {
+          "id": "movel-24",
+          "index": 24,
+          "slots": [
+            31
+          ]
+        },
+        {
+          "id": "movel-25",
+          "index": 25,
+          "slots": [
+            32
+          ]
+        },
+        {
+          "id": "movel-26",
+          "index": 26,
+          "slots": [
+            33
+          ]
+        },
+        {
+          "id": "movel-27",
+          "index": 27,
+          "slots": [
+            34
+          ]
+        },
+        {
+          "id": "movel-28",
+          "index": 28,
+          "slots": [
+            35
+          ]
+        },
+        {
+          "id": "movel-29",
+          "index": 29,
+          "slots": [
+            36
+          ]
+        },
+        {
+          "id": "movel-30",
+          "index": 30,
+          "slots": [
+            37
+          ]
+        },
+        {
+          "id": "movel-31",
+          "index": 31,
+          "slots": [
+            38
+          ]
+        },
+        {
+          "id": "movel-32",
+          "index": 32,
+          "slots": [
+            39
+          ]
+        },
+        {
+          "id": "movel-33",
+          "index": 33,
+          "slots": [
+            40
+          ]
+        },
+        {
+          "id": "movel-34",
+          "index": 34,
+          "slots": [
+            41
+          ]
+        }
+      ]
+    },
+    "t05": {
+      "id": "t05",
+      "label": "T05 · 2 dormitórios com terraço",
+      "area": 62.43,
+      "unitId": "vistas-da-quinze-t05",
+      "unitSHA256": "5b84c10e53aacae568618f6eba5f75d5901704961ccfced2662bb55b4bc2ab45",
+      "sourceSHA256": "4b35982b2a75b19cec6698829c057bb3505368c64815aad15adec3091ca50b0a",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
+      "files": {
+        "unit": {
+          "path": "interiores/t05/unidade.json",
+          "bytes": 7827,
+          "sha256": "5b84c10e53aacae568618f6eba5f75d5901704961ccfced2662bb55b4bc2ab45"
+        },
+        "recipe": {
+          "path": "interiores/t05/recipe.json",
+          "bytes": 581,
+          "sha256": "12c50ba284eb3e87a2b2426bc62514a99f9885d6b7fd254516a7ad9f77daaf4c"
+        },
+        "source": {
+          "path": "interiores/t05/source.json.gz",
+          "bytes": 3960015,
+          "sha256": "3fb202503d8c3f2eaa1ef759366cd18b94bbe91600db4dbc438ac61a4c78c7f3",
+          "compression": "gzip",
+          "decodedBytes": 16840691,
+          "decodedSHA256": "4b35982b2a75b19cec6698829c057bb3505368c64815aad15adec3091ca50b0a"
+        },
+        "compact": {
+          "path": "interiores/t05/geometry-compact.json.gz",
+          "bytes": 34755,
+          "sha256": "d47f22383de63cb7b6bdbb722e07a818d51bb82072279aa550cf556209c408e8",
+          "compression": "gzip",
+          "decodedBytes": 72249,
+          "decodedSHA256": "f42ddd74bc81614725ecc5f09f5b089835e5666b127560b7e8e67dce6db6da82"
+        }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "12c50ba284eb3e87a2b2426bc62514a99f9885d6b7fd254516a7ad9f77daaf4c",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        },
+        {
+          "id": "movel-23",
+          "index": 23,
+          "slots": [
+            30
+          ]
+        },
+        {
+          "id": "movel-24",
+          "index": 24,
+          "slots": [
+            31
+          ]
+        },
+        {
+          "id": "movel-25",
+          "index": 25,
+          "slots": [
+            32
+          ]
+        },
+        {
+          "id": "movel-26",
+          "index": 26,
+          "slots": [
+            33
+          ]
+        },
+        {
+          "id": "movel-27",
+          "index": 27,
+          "slots": [
+            34
+          ]
+        }
+      ]
+    },
+    "t06": {
+      "id": "t06",
+      "label": "T06 · 2 dormitórios com terraço frontal",
+      "area": 71.1,
+      "unitId": "vistas-da-quinze-t06",
+      "unitSHA256": "86bc6bace82847b0ac58be355b885fdfec7478be42dd7a91d5c11fe4b4dfcd3b",
+      "sourceSHA256": "16a71548a5e71eb0d7deb842e986e708b6d1d1c68c80df63928aa21834a1e2c6",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
+      "files": {
+        "unit": {
+          "path": "interiores/t06/unidade.json",
+          "bytes": 7677,
+          "sha256": "86bc6bace82847b0ac58be355b885fdfec7478be42dd7a91d5c11fe4b4dfcd3b"
+        },
+        "recipe": {
+          "path": "interiores/t06/recipe.json",
+          "bytes": 581,
+          "sha256": "d596867b2061cb33317ac4f83f1ef999535477828b904ce727a2ccc6f0ca1671"
+        },
+        "source": {
+          "path": "interiores/t06/source.json.gz",
+          "bytes": 3934528,
+          "sha256": "798387e38f53a500dca90ac86810bdf5c320d774cbf0201c0212b65c3969eca0",
+          "compression": "gzip",
+          "decodedBytes": 16443961,
+          "decodedSHA256": "16a71548a5e71eb0d7deb842e986e708b6d1d1c68c80df63928aa21834a1e2c6"
+        },
+        "compact": {
+          "path": "interiores/t06/geometry-compact.json.gz",
+          "bytes": 32361,
+          "sha256": "24818560c768eb5f8f5264334adfde43429a39250d7ff2f9521c4d442de51bee",
+          "compression": "gzip",
+          "decodedBytes": 67577,
+          "decodedSHA256": "e0b158c59841c5457b960976283c55d2f5a885198a845d8539fd34d3775b2108"
+        }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "d596867b2061cb33317ac4f83f1ef999535477828b904ce727a2ccc6f0ca1671",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        },
+        {
+          "id": "movel-23",
+          "index": 23,
+          "slots": [
+            30
+          ]
+        },
+        {
+          "id": "movel-24",
+          "index": 24,
+          "slots": [
+            31
+          ]
+        },
+        {
+          "id": "movel-25",
+          "index": 25,
+          "slots": [
+            32
+          ]
+        },
+        {
+          "id": "movel-26",
+          "index": 26,
+          "slots": [
+            33
+          ]
+        },
+        {
+          "id": "movel-27",
+          "index": 27,
+          "slots": [
+            34
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{"perfil": "fast4g", "variante": "base", "rodada": 1, "prontoMs": 22911, "transferBytes": 22903632, "erros": []}
+{"perfil": "fast4g", "variante": "base", "rodada": 2, "prontoMs": 22058, "transferBytes": 22903632, "erros": []}
+{"perfil": "fast4g", "variante": "webgl", "rodada": 1, "prontoMs": 26054, "transferBytes": 20903175, "erros": []}
+{"perfil": "fast4g", "variante": "webgl", "rodada": 2, "prontoMs": 21530, "transferBytes": 20903175, "erros": []}
+{"perfil": "fast4g", "variante": "webgpu", "rodada": 1, "prontoMs": 21430, "transferBytes": 20903175, "erros": []}
+{"perfil": "fast4g", "variante": "webgpu", "rodada": 2, "prontoMs": 21806, "transferBytes": 20903175, "erros": []}
+{"perfil": "slow4g", "variante": "base", "rodada": 1, "prontoMs": 116573, "transferBytes": 22903632, "erros": []}
+{"perfil": "slow4g", "variante": "base", "rodada": 2, "prontoMs": 116865, "transferBytes": 22903632, "erros": []}

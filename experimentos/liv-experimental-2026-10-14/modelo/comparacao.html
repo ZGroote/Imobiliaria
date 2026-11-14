@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:,">
+<title>LIV Ipanema — estudo dos recuos</title>
+<style>
+  :root{font-family:system-ui,sans-serif;color:#203638;background:#eef1ed}*{box-sizing:border-box}
+  body{margin:0}header{padding:16px 20px;background:white;border-bottom:1px solid #d5ddd7}
+  h1{font-size:20px;margin:0 0 6px}p{font-size:14px;margin:6px 0;line-height:1.5}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}button,select{min-height:44px;border:1px solid #a9bcb1;border-radius:8px;background:white;color:inherit;font:inherit;padding:8px 14px}
+  button[aria-pressed=true]{background:#235844;color:white;border-color:#235844}button:disabled{opacity:.5}
+  :focus-visible{outline:3px solid #8c6400;outline-offset:2px}label{display:flex;align-items:center;gap:8px}
+  main{display:grid;grid-template-columns:minmax(0,1fr) 210px;min-height:calc(100vh - 173px)}
+  #stage{min-height:480px;position:relative;background:radial-gradient(ellipse,#f4f2eb,#e3e6e5)}
+  iframe{border:0;width:100%;height:100%;position:absolute;inset:0}aside{padding:14px;background:white;border-left:1px solid #d5ddd7}
+  aside img{display:block;width:112px;height:auto;max-height:510px;object-fit:contain;margin:12px auto}
+  #message{position:absolute;inset:0;z-index:1;display:grid;place-items:center;padding:24px;background:#eef1ed;text-align:center;pointer-events:none}#message[hidden]{display:none}
+  a{color:#235844}#status{min-height:21px}small{font-size:12px}
+  @media(max-width:650px){main{display:block}#stage{height:62vh;min-height:360px}aside{border-left:0;border-top:1px solid #d5ddd7}aside img{width:80px;max-height:290px;float:left;margin:8px 16px 8px 0}aside:after{content:'';display:block;clear:both}header{padding:12px}}
+</style>
+<header>
+  <h1>LIV Ipanema — estudo dos recuos</h1>
+  <p>Os rasgos da implantação passam a recortar lajes e fachadas. A extensão vertical e as profundidades ainda são estimativas.</p>
+  <nav aria-label="Comparar volumes">
+    <button data-model="base" aria-pressed="false">Volume original</button>
+    <button data-model="contorno" aria-pressed="true">Contorno com recuos</button>
+    <label>Vista <select id="view"><option value="aerea">Aérea</option><option value="implantacao" selected>De cima</option><option value="fachada">Fachada</option><option value="varandas">Varandas</option><option value="perspectiva">Perspectiva</option></select></label>
+  </nav>
+  <p id="status" role="status" aria-live="polite">Carregando o estudo…</p>
+</header>
+<main>
+  <div id="stage"><div id="message">Preparando a maquete…</div></div>
+  <aside>
+    <strong>Contorno na referência</strong>
+    <img src="../evidencias/contorno-estudo/contorno-sobre-fonte.png" alt="Contorno verde com os rasgos das cabeceiras e das laterais sobre a imagem oficial; retângulo anterior em vermelho.">
+    <p>Verde: contorno adotado. Vermelho: laje retangular anterior.</p>
+    <p>Coincidência com a marcação da imagem: <strong>99,9%</strong>. Isso confere a reprodução da ilustração, sem comprovar cotas reais.</p>
+    <p><small>As posições dos finais são aproximadas. Planta e espelhamento por final continuam em conferência.</small></p>
+    <p><a href="../maquete-liv-ipanema.html?geometria=contorno">Explorar recuos, finais, plantas e Tour</a></p>
+    <p><a href="../maquete-liv-ipanema.html?geometria=entrada">Explorar a entrada revisada, plantas e Tour</a></p>
+    <p><a href="../maquete-liv-ipanema.html">Abrir a versão anterior</a></p>
+  </aside>
+</main>
+<script type="module" src="comparacao.js"></script>
+</html>

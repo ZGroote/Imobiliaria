@@ -1,0 +1,119 @@
+{
+  "status": "PASS",
+  "areaNominalM2": 29.7675,
+  "registro": {
+    "origemPx": [
+      620,
+      1355
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 7.087332251756118,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        620,
+        1355,
+        2335,
+        1700
+      ]
+    ],
+    "areaCalibracaoM2": 29.72,
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "moveis": [
+    {
+      "id": "m1",
+      "nome": "Cama de casal",
+      "comodos": [
+        "Quarto"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m2",
+      "nome": "Berço",
+      "comodos": [
+        "Quarto"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m3",
+      "nome": "Armário",
+      "comodos": [
+        "Quarto"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m4",
+      "nome": "Bancada de estudo",
+      "comodos": [
+        "Estudo e copa"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m5",
+      "nome": "Copa com pia e cooktop",
+      "comodos": [
+        "Estudo e copa"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m6",
+      "nome": "Geladeira",
+      "comodos": [
+        "Estudo e copa"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m7",
+      "nome": "Banheira",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m8",
+      "nome": "Vaso",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m9",
+      "nome": "Lavatório",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m10",
+      "nome": "Tapete",
+      "comodos": [
+        "Quarto"
+      ],
+      "contido": true
+    }
+  ],
+  "sobreposicoes": [],
+  "vaos": {
+    "portas": 3,
+    "janelas": 2
+  },
+  "conferenciaJPG": "543200e3f7a81fe179ecfa40acc7f2fc4a66908e7103f4932ce56d1977b9cc0a",
+  "unidadeSHA256": "73e6e51d89d2dce582cdf7bb08ffdba23c950bc48e033cea6ebb7f606273f327",
+  "limites": [
+    "Sobreposição na imagem do book; não é conferência executiva.",
+    "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
+  ]
+}

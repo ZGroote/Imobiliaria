@@ -1,0 +1,31 @@
+{
+  "filter": "OIDN RTLightmap",
+  "version": "2.3.3",
+  "device": "CPU",
+  "inputGuardPixels": 2.0,
+  "outputGuardPixels": 4.0,
+  "rawIrradiancePreserved": true,
+  "sourceSHA256": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+  "OIDNOutputReused": false,
+  "sourceRadianceSHA256": "84a5b460027b223e4aa9400c783618e51240929cd56a74f9d44f8f8b1b28a6f2",
+  "textureSHA256": "1149b5ab607b98665e9577ce0f0bc5f4df42ef023884889df665a83a30502e30",
+  "seconds": 30.08691660000477,
+  "coveredPixels": 8557446,
+  "inputBorderPixels": 2780531,
+  "outputBorderPixels": 5509337,
+  "farBackgroundPixels": 2710433,
+  "radianceMax": 1.2590605020523071,
+  "rangeClippedPixels": 0,
+  "meanAbsoluteDenoiseChange": 0.003724464448168874,
+  "rgbmMeanError": 0.00015624020306859165,
+  "rgbmMaxError": 0.0024095773696899414,
+  "textureGzipBytes": 13306085,
+  "checks": {
+    "modelHashMatches": true,
+    "UVHashMatches": true,
+    "finiteRadiance": true,
+    "farBackgroundZero": true,
+    "nearestIslandBorder": true,
+    "noRadianceClipping": true
+  }
+}

@@ -1,0 +1,2021 @@
+{
+  "base": "http://127.0.0.1:8791/",
+  "versao": "strict-circle-v3",
+  "status": "PASS",
+  "cenarios": [
+    {
+      "name": "desktop",
+      "errors": [],
+      "warnings": [
+        "THREE.LoaderUtils: decodeText() has been deprecated with r165 and will be removed with r175. Use TextDecoder instead.",
+        "THREE.LoaderUtils: decodeText() has been deprecated with r165 and will be removed with r175. Use TextDecoder instead.",
+        "THREE.LoaderUtils: decodeText() has been deprecated with r165 and will be removed with r175. Use TextDecoder instead."
+      ],
+      "httpFailures": [],
+      "requests": [
+        "http://127.0.0.1:8791/maquete-liv-ipanema.html",
+        "http://127.0.0.1:8791/mapa-liv-ipanema-5km.html",
+        "http://127.0.0.1:8791/liv-ipanema.glb",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-10_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-10_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-10_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-10_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-10_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-10_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/2_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/2_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/2_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/2_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/2_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-1_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-1_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/2_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-1_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-1_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-1_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-1_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-7.bin"
+      ],
+      "dados": {
+        "miniatura": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "site": 43,
+          "modes": 4,
+          "cameras": 6,
+          "controls": [
+            "livCameras",
+            "livAndar",
+            "livFoto"
+          ],
+          "link": "mapa-liv-ipanema-5km.html",
+          "linkText": "O que tem por perto?",
+          "lightReady": true
+        },
+        "centro": [
+          -3216.4283207855997,
+          -3179.4802476268346
+        ],
+        "raio": 5000,
+        "target": [
+          -3216.4283207855997,
+          133.2253465234348,
+          -3179.4802476268346
+        ],
+        "raster": {
+          "ndvi": {
+            "kind": "ndvi",
+            "format": "regional-raster-sparse-v2",
+            "source_grid": {
+              "n": 512,
+              "half_m": 9500
+            },
+            "outside": "not-transmitted",
+            "edge_policy": "nearest-inside",
+            "exported_cells": 56828,
+            "runtime_cells": 262144,
+            "max_sample_radius_m": 4999.985280598586
+          },
+          "elevation": {
+            "kind": "elevation",
+            "format": "regional-raster-sparse-v2",
+            "source_grid": {
+              "n": 80,
+              "half_m": 9500
+            },
+            "outside": "not-transmitted",
+            "edge_policy": "nearest-inside",
+            "exported_cells": 1352,
+            "runtime_cells": 6400,
+            "max_sample_radius_m": 4996.7922349056535
+          }
+        },
+        "maquete": {
+          "sourceMeshes": 1825,
+          "sourceInstances": 1825,
+          "instancedBatches": 87,
+          "fallbackMeshes": 0,
+          "estimatedDrawCalls": 87,
+          "triangles": 443561,
+          "units": "meters",
+          "anchor": "tower-origin",
+          "floorLocalY": 0,
+          "terrainY": 133.6253465234348,
+          "rotationRadians": -1.0471975511965976,
+          "dimensionsInferred": true,
+          "lighting": "map-lights",
+          "boundsLocal": {
+            "min": [
+              -36.71000091731548,
+              -0.949999988079071,
+              -39.75499700467814
+            ],
+            "max": [
+              52.425375152608844,
+              52.55500030517578,
+              49.6072612986009
+            ]
+          },
+          "boundsWorld": {
+            "min": [
+              -3269.7444697410183,
+              132.67534653535574,
+              -3237.149539496519
+            ],
+            "max": [
+              -3147.7867958758698,
+              186.1803468286106,
+              -3115.2749102924454
+            ]
+          },
+          "positionApproximate": true,
+          "placementOffsetMeters": [
+            8,
+            -6
+          ],
+          "floorClearanceMeters": 0.4
+        },
+        "circle": {
+          "geometries": 9917,
+          "clippedTriangles": 7,
+          "removedTriangles": 0,
+          "outputTriangles": 96289,
+          "center": [
+            -3216.4283207855997,
+            -3179.4802476268346
+          ],
+          "radius": 5000,
+          "sides": 720
+        },
+        "background": true,
+        "ground": {
+          "policy": "continuous-circle",
+          "center": [
+            -3216.4283207855997,
+            -3179.4802476268346
+          ],
+          "radius": 5000,
+          "vertices": 23575,
+          "triangles": 45292,
+          "area_m2": 78538505.33046249,
+          "max_radius_m": 4999.990000000002
+        },
+        "tiles": {
+          "prefix": "quintais/liv-v3-5b9e71f97064a6c5/",
+          "size": 640,
+          "keys": [
+            "-10_-7",
+            "-10_-8",
+            "-10_-9",
+            "-1_-1",
+            "-1_-10",
+            "-1_-11",
+            "-1_-12",
+            "-1_-2",
+            "-1_-3",
+            "-1_-4",
+            "-1_-5",
+            "-1_-6",
+            "-1_-7",
+            "-1_-8",
+            "-1_-9",
+            "-1_0",
+            "-1_1",
+            "-2_-1",
+            "-2_-10",
+            "-2_-11",
+            "-2_-2",
+            "-2_-3",
+            "-2_-4",
+            "-2_-5",
+            "-2_-6",
+            "-2_-7",
+            "-2_-8",
+            "-2_-9",
+            "-2_0",
+            "-2_1",
+            "-2_2",
+            "-3_-1",
+            "-3_-10",
+            "-3_-2",
+            "-3_-3",
+            "-3_-4",
+            "-3_-5",
+            "-3_-6",
+            "-3_-7",
+            "-3_-8",
+            "-3_-9",
+            "-3_0",
+            "-3_1",
+            "-3_2",
+            "-4_-1",
+            "-4_-2",
+            "-4_-3",
+            "-4_-4",
+            "-4_-5",
+            "-4_-6",
+            "-4_0",
+            "-4_1",
+            "-4_2",
+            "-5_-1",
+            "-5_-12",
+            "-5_-2",
+            "-5_-3",
+            "-5_-4",
+            "-5_-5",
+            "-5_0",
+            "-5_1",
+            "-5_2",
+            "-6_-1",
+            "-6_-10",
+            "-6_-2",
+            "-6_-3",
+            "-6_-4",
+            "-6_-5",
+            "-6_-6",
+            "-6_-7",
+            "-6_0",
+            "-6_1",
+            "-7_-10",
+            "-7_-11",
+            "-7_-3",
+            "-7_-4",
+            "-7_-5",
+            "-7_-6",
+            "-7_-7",
+            "-7_-8",
+            "-7_-9",
+            "-8_-10",
+            "-8_-11",
+            "-8_-5",
+            "-8_-6",
+            "-8_-7",
+            "-8_-8",
+            "-8_-9",
+            "-9_-10",
+            "-9_-5",
+            "-9_-6",
+            "-9_-7",
+            "-9_-8",
+            "-9_-9",
+            "0_-1",
+            "0_-10",
+            "0_-11",
+            "0_-2",
+            "0_-3",
+            "0_-4",
+            "0_-5",
+            "0_-6",
+            "0_-7",
+            "0_-8",
+            "0_0",
+            "0_1",
+            "1_-1",
+            "1_-2",
+            "1_-3",
+            "1_-4",
+            "1_-5",
+            "1_-6",
+            "1_-7",
+            "1_-9",
+            "2_-2",
+            "2_-3",
+            "2_-4",
+            "2_-5",
+            "2_-6",
+            "2_-7"
+          ],
+          "palette": [
+            "9C9685",
+            "B87154",
+            "A9AAA2",
+            "688448",
+            "927556",
+            "B9B2A4"
+          ],
+          "parcels": 28540,
+          "regional_format": "strict-circle-v3",
+          "ground_policy": "continuous-circle"
+        },
+        "pois": 614,
+        "listings": {
+          "imoveis": [],
+          "unidades": [],
+          "luz": {},
+          "assets": 0
+        },
+        "nav": [
+          {
+            "encoded": 8046477,
+            "decoded": 8046477,
+            "transfer": 8046777,
+            "load_ms": 173
+          }
+        ],
+        "resources": [
+          {
+            "url": "http://127.0.0.1:8791/liv-ipanema.glb",
+            "encoded": 2989904,
+            "transfer": 2990204
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-5.bin",
+            "encoded": 190573,
+            "transfer": 190873
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-5.bin",
+            "encoded": 70107,
+            "transfer": 70407
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-6.bin",
+            "encoded": 91589,
+            "transfer": 91889
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-4.bin",
+            "encoded": 123282,
+            "transfer": 123582
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-5.bin",
+            "encoded": 206883,
+            "transfer": 207183
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-4.bin",
+            "encoded": 178213,
+            "transfer": 178513
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-6.bin",
+            "encoded": 155610,
+            "transfer": 155910
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-5.bin",
+            "encoded": 7122,
+            "transfer": 7422
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-7.bin",
+            "encoded": 38990,
+            "transfer": 39290
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-6.bin",
+            "encoded": 1841,
+            "transfer": 2141
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-4.bin",
+            "encoded": 20328,
+            "transfer": 20628
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-4.bin",
+            "encoded": 124030,
+            "transfer": 124330
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-7.bin",
+            "encoded": 53698,
+            "transfer": 53998
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-3.bin",
+            "encoded": 98582,
+            "transfer": 98882
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-5.bin",
+            "encoded": 16712,
+            "transfer": 17012
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-3.bin",
+            "encoded": 164145,
+            "transfer": 164445
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-6.bin",
+            "encoded": 85878,
+            "transfer": 86178
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-5.bin",
+            "encoded": 38304,
+            "transfer": 38604
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-6.bin",
+            "encoded": 1045,
+            "transfer": 1345
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-3.bin",
+            "encoded": 384,
+            "transfer": 684
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+            "encoded": 165082,
+            "transfer": 165382
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-7.bin",
+            "encoded": 145109,
+            "transfer": 145409
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+            "encoded": 143896,
+            "transfer": 144196
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-8.bin",
+            "encoded": 720,
+            "transfer": 1020
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-7.bin",
+            "encoded": 83616,
+            "transfer": 83916
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-2.bin",
+            "encoded": 66015,
+            "transfer": 66315
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-5.bin",
+            "encoded": 958,
+            "transfer": 1258
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-2.bin",
+            "encoded": 125654,
+            "transfer": 125954
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-6.bin",
+            "encoded": 45269,
+            "transfer": 45569
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-3.bin",
+            "encoded": 116248,
+            "transfer": 116548
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-8.bin",
+            "encoded": 28804,
+            "transfer": 29104
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-5.bin",
+            "encoded": 157059,
+            "transfer": 157359
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-6.bin",
+            "encoded": 85970,
+            "transfer": 86270
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-8.bin",
+            "encoded": 33662,
+            "transfer": 33962
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-2.bin",
+            "encoded": 114180,
+            "transfer": 114480
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-7.bin",
+            "encoded": 61005,
+            "transfer": 61305
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-4.bin",
+            "encoded": 128628,
+            "transfer": 128928
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-9.bin",
+            "encoded": 74043,
+            "transfer": 74343
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-7.bin",
+            "encoded": 142353,
+            "transfer": 142653
+          }
+        ],
+        "interface": {
+          "viewport": [
+            1440,
+            900
+          ],
+          "bar": {
+            "x": 12,
+            "y": 12,
+            "w": 355.109375,
+            "h": 60,
+            "visible": true
+          },
+          "compass": {
+            "x": 1386,
+            "y": 16,
+            "w": 38,
+            "h": 38,
+            "visible": true
+          },
+          "minimap": {
+            "x": 1254,
+            "y": 704,
+            "w": 170,
+            "h": 170,
+            "visible": true
+          },
+          "nearbyPanel": {
+            "x": 12,
+            "y": 84,
+            "w": 320,
+            "h": 623,
+            "visible": true
+          },
+          "hidden": [
+            {
+              "id": "panel",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "houses",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "hsheet",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "usheet",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "mobileNav",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "mobileHint",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "etapas",
+              "box": null
+            },
+            {
+              "id": "isair",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "hud",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "livLocalizacao",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "mOpcoes",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "tRelief",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            }
+          ],
+          "compare": false,
+          "compareLinks": 0,
+          "text": "LIV Ipanema · São Carlos\nCentralizar\nAbrir maquete",
+          "contract": {
+            "completeOnly": true,
+            "terrainAlwaysOn": true,
+            "inspectionEnabled": false,
+            "version": 1
+          },
+          "actions": [
+            {
+              "text": "Centralizar",
+              "box": {
+                "x": 171.5,
+                "y": 22,
+                "w": 78.359375,
+                "h": 40,
+                "visible": true
+              }
+            },
+            {
+              "text": "Abrir maquete",
+              "box": {
+                "x": 257.859375,
+                "y": 22,
+                "w": 96.25,
+                "h": 40,
+                "visible": true
+              }
+            }
+          ],
+          "search": [
+            {
+              "id": "",
+              "box": {
+                "x": 25,
+                "y": 182.796875,
+                "w": 294,
+                "h": 143.59375,
+                "visible": true
+              },
+              "insideNearby": true
+            },
+            {
+              "id": "livProximosQuery",
+              "box": {
+                "x": 25,
+                "y": 282.390625,
+                "w": 294,
+                "h": 44,
+                "visible": true
+              },
+              "insideNearby": true
+            }
+          ]
+        },
+        "geometriaInicial": {
+          "objects": 313,
+          "terrainObjects": 146,
+          "instanceObjects": 166,
+          "instances": 43822,
+          "vertices": 7481911,
+          "maxRadius": 4999.998241220218,
+          "worst": {
+            "name": "",
+            "slot": null,
+            "index": 1061,
+            "x": -8124.5625,
+            "z": -2225.435546875
+          },
+          "violations": [],
+          "categories": {
+            "urban": 76,
+            "terrain": 146,
+            "exterior": 64,
+            "quintais": 2,
+            "arvores": 20,
+            "sombras": 1,
+            "portoes": 4
+          }
+        },
+        "busca": {
+          "catalogCount": 614,
+          "category": "farmacia",
+          "categoryCount": 18,
+          "selectedId": 10,
+          "max_distance_m": 4996.9687584719595,
+          "emptyState": true,
+          "keyboard": true
+        },
+        "relevo": {
+          "amount": 1,
+          "anchor": 133.2253465234348,
+          "heights": [
+            133.2253465234348,
+            133.2253465234348,
+            133.2253465234348,
+            133.2253465234348,
+            133.2253465234348
+          ],
+          "floor": 133.6253465234348,
+          "clearance": 0.4,
+          "outsideDelta": 0,
+          "diagnostics": {
+            "transitionMeters": 12,
+            "stepMeters": 5,
+            "refinedGeometries": 4,
+            "cutTriangles": 46,
+            "generatedTriangles": 70013,
+            "center": [
+              -3208.4283207855997,
+              -3185.4802476268346
+            ],
+            "rotationRadians": -1.0471975511965976,
+            "polygon": [
+              [
+                -3148.6267051767927,
+                -3161.070811017677
+              ],
+              [
+                -3207.1440417105073,
+                -3127.285811017677
+              ],
+              [
+                -3217.443873255042,
+                -3130.045642562212
+              ],
+              [
+                -3269.518946875721,
+                -3192.4023158811183
+              ],
+              [
+                -3192.793426227439,
+                -3236.699815881118
+              ]
+            ],
+            "centerHeightMeters": 133.2253465234348
+          }
+        },
+        "sondas": [
+          {
+            "name": "borda",
+            "targetDistance": 4950,
+            "geometria": {
+              "objects": 345,
+              "terrainObjects": 183,
+              "instanceObjects": 161,
+              "instances": 18395,
+              "vertices": 6105866,
+              "maxRadius": 4999.998035811743,
+              "worst": {
+                "name": "",
+                "slot": null,
+                "index": 404,
+                "x": 1402.967529296875,
+                "z": -1266.0638427734375
+              },
+              "violations": [],
+              "categories": {
+                "terrain": 183,
+                "urban": 74,
+                "exterior": 61,
+                "quintais": 2,
+                "arvores": 20,
+                "sombras": 1,
+                "portoes": 4
+              }
+            }
+          },
+          {
+            "name": "fora",
+            "targetDistance": 5500,
+            "geometria": {
+              "objects": 289,
+              "terrainObjects": 188,
+              "instanceObjects": 100,
+              "instances": 11915,
+              "vertices": 3722539,
+              "maxRadius": 4999.998035811743,
+              "worst": {
+                "name": "",
+                "slot": null,
+                "index": 404,
+                "x": 1402.967529296875,
+                "z": -1266.0638427734375
+              },
+              "violations": [],
+              "categories": {
+                "terrain": 188,
+                "urban": 74,
+                "quintais": 2,
+                "arvores": 20,
+                "sombras": 1,
+                "portoes": 4
+              }
+            }
+          }
+        ],
+        "geometriaRaioCompleto": {
+          "objects": 370,
+          "terrainObjects": 201,
+          "instanceObjects": 168,
+          "instances": 45258,
+          "vertices": 8389264,
+          "maxRadius": 4999.998241220218,
+          "worst": {
+            "name": "",
+            "slot": null,
+            "index": 1061,
+            "x": -8124.5625,
+            "z": -2225.435546875
+          },
+          "violations": [],
+          "categories": {
+            "terrain": 201,
+            "urban": 78,
+            "exterior": 64,
+            "quintais": 2,
+            "arvores": 20,
+            "sombras": 1,
+            "portoes": 4
+          }
+        },
+        "rede": {
+          "tilesPermitidos": 120,
+          "tilesBaixados": 75,
+          "requests": 136,
+          "foraContrato": []
+        }
+      }
+    },
+    {
+      "name": "mobile",
+      "errors": [],
+      "warnings": [
+        "THREE.LoaderUtils: decodeText() has been deprecated with r165 and will be removed with r175. Use TextDecoder instead.",
+        "THREE.LoaderUtils: decodeText() has been deprecated with r165 and will be removed with r175. Use TextDecoder instead.",
+        "THREE.LoaderUtils: decodeText() has been deprecated with r165 and will be removed with r175. Use TextDecoder instead."
+      ],
+      "httpFailures": [],
+      "requests": [
+        "http://127.0.0.1:8791/maquete-liv-ipanema.html",
+        "http://127.0.0.1:8791/mapa-liv-ipanema-5km.html",
+        "http://127.0.0.1:8791/liv-ipanema.glb",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-10_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-10_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-10_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-10_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-10_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-10_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-10.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/2_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/2_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/2_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/2_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/2_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-1_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-1_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/2_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-1_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-1_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/1_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-1_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-1_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/0_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-3.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-5.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-6.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-8.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-2.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-7.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-4.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-9.bin",
+        "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-7.bin"
+      ],
+      "dados": {
+        "miniatura": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "site": 43,
+          "modes": 4,
+          "cameras": 6,
+          "controls": [
+            "livCameras",
+            "livAndar",
+            "livFoto"
+          ],
+          "link": "mapa-liv-ipanema-5km.html",
+          "linkText": "O que tem por perto?",
+          "lightReady": true
+        },
+        "centro": [
+          -3216.4283207855997,
+          -3179.4802476268346
+        ],
+        "raio": 5000,
+        "target": [
+          -3216.4283207855997,
+          133.2253465234348,
+          -3179.4802476268346
+        ],
+        "raster": {
+          "ndvi": {
+            "kind": "ndvi",
+            "format": "regional-raster-sparse-v2",
+            "source_grid": {
+              "n": 512,
+              "half_m": 9500
+            },
+            "outside": "not-transmitted",
+            "edge_policy": "nearest-inside",
+            "exported_cells": 56828,
+            "runtime_cells": 262144,
+            "max_sample_radius_m": 4999.985280598586
+          },
+          "elevation": {
+            "kind": "elevation",
+            "format": "regional-raster-sparse-v2",
+            "source_grid": {
+              "n": 80,
+              "half_m": 9500
+            },
+            "outside": "not-transmitted",
+            "edge_policy": "nearest-inside",
+            "exported_cells": 1352,
+            "runtime_cells": 6400,
+            "max_sample_radius_m": 4996.7922349056535
+          }
+        },
+        "maquete": {
+          "sourceMeshes": 1825,
+          "sourceInstances": 1825,
+          "instancedBatches": 87,
+          "fallbackMeshes": 0,
+          "estimatedDrawCalls": 87,
+          "triangles": 443561,
+          "units": "meters",
+          "anchor": "tower-origin",
+          "floorLocalY": 0,
+          "terrainY": 133.6253465234348,
+          "rotationRadians": -1.0471975511965976,
+          "dimensionsInferred": true,
+          "lighting": "map-lights",
+          "boundsLocal": {
+            "min": [
+              -36.71000091731548,
+              -0.949999988079071,
+              -39.75499700467814
+            ],
+            "max": [
+              52.425375152608844,
+              52.55500030517578,
+              49.6072612986009
+            ]
+          },
+          "boundsWorld": {
+            "min": [
+              -3269.7444697410183,
+              132.67534653535574,
+              -3237.149539496519
+            ],
+            "max": [
+              -3147.7867958758698,
+              186.1803468286106,
+              -3115.2749102924454
+            ]
+          },
+          "positionApproximate": true,
+          "placementOffsetMeters": [
+            8,
+            -6
+          ],
+          "floorClearanceMeters": 0.4
+        },
+        "circle": {
+          "geometries": 9917,
+          "clippedTriangles": 7,
+          "removedTriangles": 0,
+          "outputTriangles": 96289,
+          "center": [
+            -3216.4283207855997,
+            -3179.4802476268346
+          ],
+          "radius": 5000,
+          "sides": 720
+        },
+        "background": true,
+        "ground": {
+          "policy": "continuous-circle",
+          "center": [
+            -3216.4283207855997,
+            -3179.4802476268346
+          ],
+          "radius": 5000,
+          "vertices": 23575,
+          "triangles": 45292,
+          "area_m2": 78538505.33046249,
+          "max_radius_m": 4999.990000000002
+        },
+        "tiles": {
+          "prefix": "quintais/liv-v3-5b9e71f97064a6c5/",
+          "size": 640,
+          "keys": [
+            "-10_-7",
+            "-10_-8",
+            "-10_-9",
+            "-1_-1",
+            "-1_-10",
+            "-1_-11",
+            "-1_-12",
+            "-1_-2",
+            "-1_-3",
+            "-1_-4",
+            "-1_-5",
+            "-1_-6",
+            "-1_-7",
+            "-1_-8",
+            "-1_-9",
+            "-1_0",
+            "-1_1",
+            "-2_-1",
+            "-2_-10",
+            "-2_-11",
+            "-2_-2",
+            "-2_-3",
+            "-2_-4",
+            "-2_-5",
+            "-2_-6",
+            "-2_-7",
+            "-2_-8",
+            "-2_-9",
+            "-2_0",
+            "-2_1",
+            "-2_2",
+            "-3_-1",
+            "-3_-10",
+            "-3_-2",
+            "-3_-3",
+            "-3_-4",
+            "-3_-5",
+            "-3_-6",
+            "-3_-7",
+            "-3_-8",
+            "-3_-9",
+            "-3_0",
+            "-3_1",
+            "-3_2",
+            "-4_-1",
+            "-4_-2",
+            "-4_-3",
+            "-4_-4",
+            "-4_-5",
+            "-4_-6",
+            "-4_0",
+            "-4_1",
+            "-4_2",
+            "-5_-1",
+            "-5_-12",
+            "-5_-2",
+            "-5_-3",
+            "-5_-4",
+            "-5_-5",
+            "-5_0",
+            "-5_1",
+            "-5_2",
+            "-6_-1",
+            "-6_-10",
+            "-6_-2",
+            "-6_-3",
+            "-6_-4",
+            "-6_-5",
+            "-6_-6",
+            "-6_-7",
+            "-6_0",
+            "-6_1",
+            "-7_-10",
+            "-7_-11",
+            "-7_-3",
+            "-7_-4",
+            "-7_-5",
+            "-7_-6",
+            "-7_-7",
+            "-7_-8",
+            "-7_-9",
+            "-8_-10",
+            "-8_-11",
+            "-8_-5",
+            "-8_-6",
+            "-8_-7",
+            "-8_-8",
+            "-8_-9",
+            "-9_-10",
+            "-9_-5",
+            "-9_-6",
+            "-9_-7",
+            "-9_-8",
+            "-9_-9",
+            "0_-1",
+            "0_-10",
+            "0_-11",
+            "0_-2",
+            "0_-3",
+            "0_-4",
+            "0_-5",
+            "0_-6",
+            "0_-7",
+            "0_-8",
+            "0_0",
+            "0_1",
+            "1_-1",
+            "1_-2",
+            "1_-3",
+            "1_-4",
+            "1_-5",
+            "1_-6",
+            "1_-7",
+            "1_-9",
+            "2_-2",
+            "2_-3",
+            "2_-4",
+            "2_-5",
+            "2_-6",
+            "2_-7"
+          ],
+          "palette": [
+            "9C9685",
+            "B87154",
+            "A9AAA2",
+            "688448",
+            "927556",
+            "B9B2A4"
+          ],
+          "parcels": 28540,
+          "regional_format": "strict-circle-v3",
+          "ground_policy": "continuous-circle"
+        },
+        "pois": 614,
+        "listings": {
+          "imoveis": [],
+          "unidades": [],
+          "luz": {},
+          "assets": 0
+        },
+        "nav": [
+          {
+            "encoded": 8046477,
+            "decoded": 8046477,
+            "transfer": 8046777,
+            "load_ms": 193.40000009536743
+          }
+        ],
+        "resources": [
+          {
+            "url": "http://127.0.0.1:8791/liv-ipanema.glb",
+            "encoded": 2989904,
+            "transfer": 2990204
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-5.bin",
+            "encoded": 190573,
+            "transfer": 190873
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-5.bin",
+            "encoded": 70107,
+            "transfer": 70407
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-6.bin",
+            "encoded": 91589,
+            "transfer": 91889
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-4.bin",
+            "encoded": 123282,
+            "transfer": 123582
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-5.bin",
+            "encoded": 206883,
+            "transfer": 207183
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-4.bin",
+            "encoded": 178213,
+            "transfer": 178513
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-6.bin",
+            "encoded": 155610,
+            "transfer": 155910
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-5.bin",
+            "encoded": 7122,
+            "transfer": 7422
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-7.bin",
+            "encoded": 38990,
+            "transfer": 39290
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-6.bin",
+            "encoded": 1841,
+            "transfer": 2141
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-4.bin",
+            "encoded": 20328,
+            "transfer": 20628
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-4.bin",
+            "encoded": 124030,
+            "transfer": 124330
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-7.bin",
+            "encoded": 53698,
+            "transfer": 53998
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-3.bin",
+            "encoded": 98582,
+            "transfer": 98882
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-5.bin",
+            "encoded": 16712,
+            "transfer": 17012
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-3.bin",
+            "encoded": 164145,
+            "transfer": 164445
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-6.bin",
+            "encoded": 85878,
+            "transfer": 86178
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-5.bin",
+            "encoded": 38304,
+            "transfer": 38604
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-6.bin",
+            "encoded": 1045,
+            "transfer": 1345
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-3.bin",
+            "encoded": 384,
+            "transfer": 684
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+            "encoded": 165082,
+            "transfer": 165382
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-7.bin",
+            "encoded": 145109,
+            "transfer": 145409
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+            "encoded": 143896,
+            "transfer": 144196
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-8.bin",
+            "encoded": 720,
+            "transfer": 1020
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-7.bin",
+            "encoded": 83616,
+            "transfer": 83916
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-6_-2.bin",
+            "encoded": 66015,
+            "transfer": 66315
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-5.bin",
+            "encoded": 958,
+            "transfer": 1258
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-5_-2.bin",
+            "encoded": 125654,
+            "transfer": 125954
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-6.bin",
+            "encoded": 45269,
+            "transfer": 45569
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-3.bin",
+            "encoded": 116248,
+            "transfer": 116548
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-8_-8.bin",
+            "encoded": 28804,
+            "transfer": 29104
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-5.bin",
+            "encoded": 157059,
+            "transfer": 157359
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-6.bin",
+            "encoded": 85970,
+            "transfer": 86270
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-3_-8.bin",
+            "encoded": 33662,
+            "transfer": 33962
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-4_-2.bin",
+            "encoded": 114180,
+            "transfer": 114480
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-9_-7.bin",
+            "encoded": 61005,
+            "transfer": 61305
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-4.bin",
+            "encoded": 128628,
+            "transfer": 128928
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-7_-9.bin",
+            "encoded": 74043,
+            "transfer": 74343
+          },
+          {
+            "url": "http://127.0.0.1:8791/quintais/liv-v3-5b9e71f97064a6c5/-2_-7.bin",
+            "encoded": 142353,
+            "transfer": 142653
+          }
+        ],
+        "interface": {
+          "viewport": [
+            390,
+            844
+          ],
+          "bar": {
+            "x": 12,
+            "y": 12,
+            "w": 310,
+            "h": 81.59375,
+            "visible": true
+          },
+          "compass": {
+            "x": 334,
+            "y": 12,
+            "w": 44,
+            "h": 48,
+            "visible": true
+          },
+          "minimap": {
+            "x": 290,
+            "y": 106,
+            "w": 88,
+            "h": 88,
+            "visible": true
+          },
+          "nearbyPanel": {
+            "x": 12,
+            "y": 393.125,
+            "w": 366,
+            "h": 438.875,
+            "visible": true
+          },
+          "hidden": [
+            {
+              "id": "panel",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "houses",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "hsheet",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "usheet",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "mobileNav",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "mobileHint",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "etapas",
+              "box": null
+            },
+            {
+              "id": "isair",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "hud",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "livLocalizacao",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "mOpcoes",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            },
+            {
+              "id": "tRelief",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "visible": false
+              }
+            }
+          ],
+          "compare": false,
+          "compareLinks": 0,
+          "text": "LIV Ipanema · São Carlos\nCentralizar\nAbrir maquete",
+          "contract": {
+            "completeOnly": true,
+            "terrainAlwaysOn": true,
+            "inspectionEnabled": false,
+            "version": 1
+          },
+          "actions": [
+            {
+              "text": "Centralizar",
+              "box": {
+                "x": 21,
+                "y": 40.59375,
+                "w": 144,
+                "h": 44,
+                "visible": true
+              }
+            },
+            {
+              "text": "Abrir maquete",
+              "box": {
+                "x": 169,
+                "y": 40.59375,
+                "w": 144,
+                "h": 44,
+                "visible": true
+              }
+            }
+          ],
+          "search": [
+            {
+              "id": "",
+              "box": {
+                "x": 25,
+                "y": 484.515625,
+                "w": 340,
+                "h": 70.796875,
+                "visible": true
+              },
+              "insideNearby": true
+            },
+            {
+              "id": "livProximosQuery",
+              "box": {
+                "x": 199,
+                "y": 505.3125,
+                "w": 166,
+                "h": 44,
+                "visible": true
+              },
+              "insideNearby": true
+            }
+          ]
+        },
+        "geometriaInicial": {
+          "objects": 313,
+          "terrainObjects": 153,
+          "instanceObjects": 159,
+          "instances": 42604,
+          "vertices": 5971198,
+          "maxRadius": 4999.998241220218,
+          "worst": {
+            "name": "",
+            "slot": null,
+            "index": 1061,
+            "x": -8124.5625,
+            "z": -2225.435546875
+          },
+          "violations": [],
+          "categories": {
+            "urban": 76,
+            "terrain": 153,
+            "exterior": 57,
+            "quintais": 2,
+            "arvores": 20,
+            "sombras": 1,
+            "portoes": 4
+          }
+        },
+        "busca": {
+          "catalogCount": 614,
+          "category": "farmacia",
+          "categoryCount": 18,
+          "selectedId": 10,
+          "max_distance_m": 4996.9687584719595,
+          "emptyState": true,
+          "keyboard": true
+        },
+        "relevo": {
+          "amount": 1,
+          "anchor": 133.2253465234348,
+          "heights": [
+            133.2253465234348,
+            133.2253465234348,
+            133.2253465234348,
+            133.2253465234348,
+            133.2253465234348
+          ],
+          "floor": 133.6253465234348,
+          "clearance": 0.4,
+          "outsideDelta": 0,
+          "diagnostics": {
+            "transitionMeters": 12,
+            "stepMeters": 5,
+            "refinedGeometries": 4,
+            "cutTriangles": 46,
+            "generatedTriangles": 70013,
+            "center": [
+              -3208.4283207855997,
+              -3185.4802476268346
+            ],
+            "rotationRadians": -1.0471975511965976,
+            "polygon": [
+              [
+                -3148.6267051767927,
+                -3161.070811017677
+              ],
+              [
+                -3207.1440417105073,
+                -3127.285811017677
+              ],
+              [
+                -3217.443873255042,
+                -3130.045642562212
+              ],
+              [
+                -3269.518946875721,
+                -3192.4023158811183
+              ],
+              [
+                -3192.793426227439,
+                -3236.699815881118
+              ]
+            ],
+            "centerHeightMeters": 133.2253465234348
+          }
+        },
+        "sondas": [
+          {
+            "name": "borda",
+            "targetDistance": 4950,
+            "geometria": {
+              "objects": 338,
+              "terrainObjects": 183,
+              "instanceObjects": 154,
+              "instances": 17454,
+              "vertices": 4998562,
+              "maxRadius": 4999.998035811743,
+              "worst": {
+                "name": "",
+                "slot": null,
+                "index": 404,
+                "x": 1402.967529296875,
+                "z": -1266.0638427734375
+              },
+              "violations": [],
+              "categories": {
+                "urban": 74,
+                "terrain": 183,
+                "exterior": 54,
+                "quintais": 2,
+                "arvores": 20,
+                "sombras": 1,
+                "portoes": 4
+              }
+            }
+          },
+          {
+            "name": "fora",
+            "targetDistance": 5500,
+            "geometria": {
+              "objects": 289,
+              "terrainObjects": 188,
+              "instanceObjects": 100,
+              "instances": 11915,
+              "vertices": 3722539,
+              "maxRadius": 4999.998035811743,
+              "worst": {
+                "name": "",
+                "slot": null,
+                "index": 404,
+                "x": 1402.967529296875,
+                "z": -1266.0638427734375
+              },
+              "violations": [],
+              "categories": {
+                "urban": 74,
+                "terrain": 188,
+                "quintais": 2,
+                "arvores": 20,
+                "sombras": 1,
+                "portoes": 4
+              }
+            }
+          }
+        ],
+        "geometriaRaioCompleto": {
+          "objects": 401,
+          "terrainObjects": 239,
+          "instanceObjects": 161,
+          "instances": 44576,
+          "vertices": 7188008,
+          "maxRadius": 4999.998241220218,
+          "worst": {
+            "name": "",
+            "slot": null,
+            "index": 1061,
+            "x": -8124.5625,
+            "z": -2225.435546875
+          },
+          "violations": [],
+          "categories": {
+            "urban": 78,
+            "terrain": 239,
+            "exterior": 57,
+            "quintais": 2,
+            "arvores": 20,
+            "sombras": 1,
+            "portoes": 4
+          }
+        },
+        "rede": {
+          "tilesPermitidos": 120,
+          "tilesBaixados": 75,
+          "requests": 136,
+          "foraContrato": []
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "activeFloor": 0,
+  "floors": [
+    {
+      "floor": 0,
+      "furniture": [
+        {
+          "alturaMm": 800,
+          "cor": "#D9D4CC",
+          "depthMm": 920,
+          "id": "m1",
+          "nome": "Sofá",
+          "rotDegrees": 270,
+          "tipo3D": "sofa",
+          "tipoCatalogo": "sofa-3",
+          "widthMm": 1960,
+          "xMm": 1800,
+          "yMm": 1200
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#55595D",
+          "depthMm": 800,
+          "id": "m2",
+          "nome": "Poltrona 1",
+          "rotDegrees": 270,
+          "tipo3D": "cadeira",
+          "tipoCatalogo": "poltrona",
+          "widthMm": 800,
+          "xMm": 1850,
+          "yMm": 3650
+        },
+        {
+          "alturaMm": 550,
+          "cor": "#A57A52",
+          "depthMm": 400,
+          "id": "m3",
+          "nome": "Mesinha",
+          "rotDegrees": 270,
+          "tipo3D": "criado",
+          "tipoCatalogo": "criado",
+          "widthMm": 450,
+          "xMm": 2000,
+          "yMm": 4550
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#55595D",
+          "depthMm": 800,
+          "id": "m4",
+          "nome": "Poltrona 2",
+          "rotDegrees": 270,
+          "tipo3D": "cadeira",
+          "tipoCatalogo": "poltrona",
+          "widthMm": 800,
+          "xMm": 1850,
+          "yMm": 5400
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#B9B2A8",
+          "depthMm": 800,
+          "id": "m5",
+          "nome": "Pufe",
+          "rotDegrees": 90,
+          "tipo3D": "cadeira",
+          "tipoCatalogo": "poltrona",
+          "widthMm": 800,
+          "xMm": 550,
+          "yMm": 2400
+        },
+        {
+          "alturaMm": 20,
+          "cor": "#CFC6B8",
+          "depthMm": 1600,
+          "id": "m6",
+          "nome": "Tapete",
+          "rotDegrees": 0,
+          "tipo3D": "tapete",
+          "tipoCatalogo": "tapete-sala",
+          "widthMm": 1100,
+          "xMm": 850,
+          "yMm": 4550
+        }
+      ],
+      "leitura": {
+        "ceilingHeightMm": 2350,
+        "geometry": "orthogonal-rectangles",
+        "id": "containers-mooca-convivencia",
+        "openings": [
+          {
+            "heightMm": 2100,
+            "id": "a1",
+            "kind": "door",
+            "offsetMm": 2950,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 0,
+            "wallId": "c1-west",
+            "widthMm": 850
+          },
+          {
+            "heightMm": 1500,
+            "id": "a2",
+            "kind": "window",
+            "offsetMm": 200,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 600,
+            "wallId": "c1-west",
+            "widthMm": 1700
+          },
+          {
+            "heightMm": 1500,
+            "id": "a3",
+            "kind": "window",
+            "offsetMm": 4200,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 600,
+            "wallId": "c1-west",
+            "widthMm": 1750
+          },
+          {
+            "heightMm": 1200,
+            "id": "a4",
+            "kind": "window",
+            "offsetMm": 350,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 1000,
+            "wallId": "c1-south",
+            "widthMm": 1700
+          }
+        ],
+        "provenance": {
+          "kind": "declared",
+          "referenceIds": []
+        },
+        "references": [],
+        "relations": [],
+        "revision": 12,
+        "rooms": [
+          {
+            "depthMm": 6150,
+            "id": "c1",
+            "name": "Convivência",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c1-east",
+              "north": "c1-north",
+              "south": "c1-south",
+              "west": "c1-west"
+            },
+            "widthMm": 2400,
+            "xMm": 0,
+            "yMm": 0
+          }
+        ],
+        "schemaVersion": "1.0.0",
+        "unit": "mm"
+      }
+    }
+  ],
+  "schemaVersion": "1.0.0"
+}

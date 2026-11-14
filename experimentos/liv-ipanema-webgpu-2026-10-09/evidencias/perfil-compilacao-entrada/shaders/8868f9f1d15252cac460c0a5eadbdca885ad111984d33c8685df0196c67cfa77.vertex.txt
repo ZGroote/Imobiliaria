@@ -1,0 +1,141 @@
+#version 300 es
+
+// Three.js r186 - Node System
+
+
+// extensions
+
+
+// precision
+
+precision highp float;
+precision highp int;
+precision highp sampler2D;
+precision highp sampler3D;
+precision highp samplerCube;
+precision highp sampler2DArray;
+
+precision highp usampler2D;
+precision highp usampler3D;
+precision highp usamplerCube;
+precision highp usampler2DArray;
+
+precision highp isampler2D;
+precision highp isampler3D;
+precision highp isamplerCube;
+precision highp isampler2DArray;
+
+precision highp sampler2DShadow;
+precision highp sampler2DArrayShadow;
+precision highp samplerCubeShadow;
+
+
+// structs
+
+
+
+
+
+// uniforms
+
+layout( std140 ) uniform render {
+	mat4 cameraProjectionMatrix;
+	mat4 cameraViewMatrix;
+	vec3 nodeUniform15;
+	vec3 nodeUniform31;
+	vec3 nodeUniform33;
+	vec3 nodeUniform34;
+	vec3 nodeUniform32;
+	vec3 nodeUniform13;
+	vec3 nodeUniform14;
+	vec3 nodeUniform29;
+	vec3 nodeUniform30;
+	mat4 nodeUniform16;
+	float nodeUniform17;
+	float nodeUniform18;
+	float nodeUniform28;
+	mat4 cameraWorldMatrix;
+	vec2 nodeUniform20;
+	float nodeUniform21;
+	vec2 nodeUniform22;
+};
+
+layout( std140 ) uniform object {
+	vec3 nodeUniform1;
+	float nodeUniform2;
+	float nodeUniform3;
+	float nodeUniform4;
+	mat3 nodeUniform6;
+	vec3 nodeUniform7;
+	float nodeUniform8;
+	mat4 nodeUniform10;
+	uint nodeUniform11;
+	uint nodeUniform23;
+	uint nodeUniform24;
+	uint nodeUniform25;
+	uint nodeUniform26;
+	uint nodeUniform27;
+	float nodeUniform35;
+	mat4 nodeUniform36;
+	float nodeUniform38;
+	float nodeUniform39;
+	uint nodeUniform41;
+	uint nodeUniform42;
+	float nodeUniform43;
+	uint nodeUniform44;
+	uint nodeUniform45;
+};
+uniform NodeBuffer_20457 {
+	mat4 buffer20457[1];
+};
+
+
+// varyings
+vec3 positionLocal;
+vec4 v_modelViewProjection;
+vec3 v_positionView;
+out vec3 v_normalViewGeometry;
+out vec3 v_positionViewDirection;
+out vec3 v_positionWorld;
+vec4 VERTEX_v_modelViewProjection;
+
+
+// attributes
+layout( location = 0 ) in vec3 position;
+layout( location = 1 ) in vec3 normal;
+
+
+// vars
+vec3 normalLocal;
+mat4 modelViewMatrix;
+vec4 VERTEX_nodeVar260;
+
+// codes
+
+
+void main() {
+
+	// transforms
+	
+
+	// flow
+	// code
+
+	positionLocal = position;
+	positionLocal = ( buffer20457[ uint( gl_InstanceID ) ] * vec4( positionLocal, 1.0 ) ).xyz;
+	normalLocal = normal;
+	normalLocal = normalize( ( transpose( inverse( mat3( buffer20457[ uint( gl_InstanceID ) ][ 0 ].xyz, buffer20457[ uint( gl_InstanceID ) ][ 1 ].xyz, buffer20457[ uint( gl_InstanceID ) ][ 2 ].xyz ) ) ) * normalLocal ) );
+	v_normalViewGeometry = normalize( ( cameraViewMatrix * vec4( ( nodeUniform6 * normalLocal ), 0.0 ) ).xyz );
+	modelViewMatrix = ( cameraViewMatrix * nodeUniform10 );
+	v_positionView = ( modelViewMatrix * vec4( positionLocal, 1.0 ) ).xyz;
+	v_positionViewDirection = ( - v_positionView );
+	v_positionWorld = ( nodeUniform10 * vec4( positionLocal, 1.0 ) ).xyz;
+	VERTEX_nodeVar260 = ( cameraProjectionMatrix * vec4( v_positionView, 1.0 ) );
+	VERTEX_v_modelViewProjection = VERTEX_nodeVar260;
+
+	// result
+	gl_Position = VERTEX_v_modelViewProjection;
+
+	gl_PointSize = 1.0;
+
+}

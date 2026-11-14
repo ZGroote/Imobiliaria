@@ -1,0 +1,103 @@
+{
+  "recordedAtUtc": "2026-10-09T19:36:45.669145+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "cases": [
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "backendRequested": "webgpu",
+      "errors": [],
+      "httpFailures": [],
+      "modes": {
+        "planta2d": {
+          "standaloneImage": true,
+          "no3DRenderer": true
+        },
+        "planta3d": {
+          "mode": "planta3d",
+          "plantVisible": true,
+          "exteriorVisible": false,
+          "image": false,
+          "orbit": 0,
+          "yaw": 0,
+          "walkable": null,
+          "touchDetection": [
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 476.3000000715256
+            },
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 3805.100000023842
+            }
+          ],
+          "coarseNow": false
+        },
+        "visita": {
+          "mode": "visita",
+          "plantVisible": true,
+          "exteriorVisible": false,
+          "image": false,
+          "orbit": 0.58,
+          "yaw": 2.443460952792061,
+          "walkable": true,
+          "touchDetection": [
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 309.8000000715256
+            },
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 1979.8999999761581
+            }
+          ],
+          "coarseNow": false
+        }
+      },
+      "cycles": 20,
+      "backend": "webgpu",
+      "memorySamples": [
+        {
+          "cycle": 0,
+          "hostJsHeapBytes": 13879568,
+          "documents": 3,
+          "nodes": 337
+        },
+        {
+          "cycle": 5,
+          "hostJsHeapBytes": 13851920,
+          "documents": 3,
+          "nodes": 337
+        },
+        {
+          "cycle": 10,
+          "hostJsHeapBytes": 13747396,
+          "documents": 3,
+          "nodes": 337
+        },
+        {
+          "cycle": 15,
+          "hostJsHeapBytes": 13778920,
+          "documents": 3,
+          "nodes": 337
+        },
+        {
+          "cycle": 20,
+          "hostJsHeapBytes": 13884420,
+          "documents": 3,
+          "nodes": 337
+        }
+      ],
+      "activeFrames": 1
+    }
+  ],
+  "browserVersion": "154.0.8037.98",
+  "fallback2D": "PASS"
+}

@@ -1,0 +1,452 @@
+{
+  "towers": 0,
+  "floors": 2,
+  "floorHeight": 2.69,
+  "width": 43.97,
+  "depth": 38.699999999999996,
+  "units": 20,
+  "origemM": [
+    5.175000000000001,
+    -56.92
+  ],
+  "ancoraGeo": [
+    -23.5581268,
+    -46.6057803
+  ],
+  "rumo_cima_graus": 0,
+  "source": "TCC Tamires Ruffino, Escola da Cidade (dez/2025)",
+  "containers": [
+    {
+      "id": "c01",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "Banheiros coletivos",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        -20.731,
+        -16.28099999999999
+      ]
+    },
+    {
+      "id": "c02",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "Refeitório",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        -20.731,
+        -10.195999999999998
+      ]
+    },
+    {
+      "id": "c03",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "Cozinha compartilhada",
+      "larguraX": 6.058,
+      "profundidadeZ": 2.438,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        -16.432000000000002,
+        -8.344999999999999
+      ]
+    },
+    {
+      "id": "c04",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "Sala de convivência",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        -12.133000000000001,
+        -16.28099999999999
+      ]
+    },
+    {
+      "id": "c05",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "Copa e despensa",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        -12.133000000000001,
+        -10.195999999999998
+      ]
+    },
+    {
+      "id": "c06",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "Sala de convivência (oeste)",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        -11.537,
+        1.1129999999999995
+      ]
+    },
+    {
+      "id": "c07",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "Escada e depósito",
+      "larguraX": 6.058,
+      "profundidadeZ": 2.438,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        -9.884,
+        5.411999999999999
+      ]
+    },
+    {
+      "id": "c08",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "Administração",
+      "larguraX": 6.058,
+      "profundidadeZ": 2.438,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        -3.799000000000001,
+        5.411999999999999
+      ]
+    },
+    {
+      "id": "c09",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "Lavanderia",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        -11.670000000000002,
+        9.645000000000003
+      ]
+    },
+    {
+      "id": "c10",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "Sala de estudos",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        -2.0800000000000005,
+        9.843000000000004
+      ]
+    },
+    {
+      "id": "d01",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "individual",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        -1.6830000000000007,
+        -13.768
+      ]
+    },
+    {
+      "id": "d02",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "individual",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        8.104999999999999,
+        -13.768
+      ]
+    },
+    {
+      "id": "d03",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "individual",
+      "larguraX": 6.058,
+      "profundidadeZ": 2.438,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        18.82,
+        -12.576999999999998
+      ]
+    },
+    {
+      "id": "d04",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "individual",
+      "larguraX": 6.058,
+      "profundidadeZ": 2.438,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        18.82,
+        -3.317999999999998
+      ]
+    },
+    {
+      "id": "d05",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "individual",
+      "larguraX": 6.058,
+      "profundidadeZ": 2.438,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        18.951999999999998,
+        6.469999999999999
+      ]
+    },
+    {
+      "id": "d06",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "individual",
+      "larguraX": 6.058,
+      "profundidadeZ": 2.438,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        18.951999999999998,
+        15.862000000000002
+      ]
+    },
+    {
+      "id": "d07",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "individual-pne",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        2.1529999999999996,
+        16.325000000000003
+      ]
+    },
+    {
+      "id": "d08",
+      "nivel": 0,
+      "tipo": "c6",
+      "uso": "individual-pne",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 0.0,
+      "topo": 2.591,
+      "centro": [
+        11.411999999999999,
+        16.325000000000003
+      ]
+    },
+    {
+      "id": "d09",
+      "nivel": 1,
+      "tipo": "c12",
+      "uso": "quadruplo",
+      "larguraX": 12.192,
+      "profundidadeZ": 2.438,
+      "base": 2.69,
+      "topo": 5.281,
+      "centro": [
+        3.1849999999999987,
+        -14.429000000000002
+      ]
+    },
+    {
+      "id": "d10",
+      "nivel": 1,
+      "tipo": "c12",
+      "uso": "quadruplo",
+      "larguraX": 2.438,
+      "profundidadeZ": 12.192,
+      "base": 2.69,
+      "topo": 5.281,
+      "centro": [
+        18.727,
+        -7.617000000000004
+      ]
+    },
+    {
+      "id": "d11",
+      "nivel": 1,
+      "tipo": "c12",
+      "uso": "casal-bebe",
+      "larguraX": 2.438,
+      "profundidadeZ": 12.192,
+      "base": 2.69,
+      "topo": 5.281,
+      "centro": [
+        18.727,
+        11.364000000000004
+      ]
+    },
+    {
+      "id": "d12",
+      "nivel": 1,
+      "tipo": "c12",
+      "uso": "quadruplo",
+      "larguraX": 12.192,
+      "profundidadeZ": 2.438,
+      "base": 2.69,
+      "topo": 5.281,
+      "centro": [
+        6.716999999999999,
+        16.391
+      ]
+    },
+    {
+      "id": "d13",
+      "nivel": 1,
+      "tipo": "c6",
+      "uso": "individual",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 2.69,
+      "topo": 5.281,
+      "centro": [
+        -20.770000000000003,
+        -16.307999999999993
+      ]
+    },
+    {
+      "id": "d14",
+      "nivel": 1,
+      "tipo": "c6",
+      "uso": "casal",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 2.69,
+      "topo": 5.281,
+      "centro": [
+        -20.770000000000003,
+        -10.170000000000002
+      ]
+    },
+    {
+      "id": "d15",
+      "nivel": 1,
+      "tipo": "c6",
+      "uso": "casal",
+      "larguraX": 6.058,
+      "profundidadeZ": 2.438,
+      "base": 2.69,
+      "topo": 5.281,
+      "centro": [
+        -10.572000000000001,
+        -18.132999999999996
+      ]
+    },
+    {
+      "id": "d16",
+      "nivel": 1,
+      "tipo": "c6",
+      "uso": "individual",
+      "larguraX": 6.058,
+      "profundidadeZ": 2.438,
+      "base": 2.69,
+      "topo": 5.281,
+      "centro": [
+        -13.389000000000001,
+        -8.344999999999999
+      ]
+    },
+    {
+      "id": "d17",
+      "nivel": 1,
+      "tipo": "c6",
+      "uso": "individual",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 2.69,
+      "topo": 5.281,
+      "centro": [
+        -11.670000000000002,
+        3.6529999999999987
+      ]
+    },
+    {
+      "id": "d18",
+      "nivel": 1,
+      "tipo": "c6",
+      "uso": "individual",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 2.69,
+      "topo": 5.281,
+      "centro": [
+        -11.670000000000002,
+        9.698
+      ]
+    },
+    {
+      "id": "d19",
+      "nivel": 1,
+      "tipo": "c6",
+      "uso": "individual",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 2.69,
+      "topo": 5.281,
+      "centro": [
+        -2.0800000000000005,
+        3.679000000000002
+      ]
+    },
+    {
+      "id": "d20",
+      "nivel": 1,
+      "tipo": "c6",
+      "uso": "individual",
+      "larguraX": 2.438,
+      "profundidadeZ": 6.058,
+      "base": 2.69,
+      "topo": 5.281,
+      "centro": [
+        -2.0800000000000005,
+        9.79
+      ]
+    }
+  ],
+  "blender": "5.2.3 LTS",
+  "geometries": 28,
+  "groups": 28,
+  "web_bytes": 2311973,
+  "glb_bytes": 1586680,
+  "checks": {
+    "pavimentos_e_lajes": true,
+    "exportacao": true,
+    "finite_geometry": true,
+    "normals_uv_indices": true,
+    "glb_header": true
+  }
+}

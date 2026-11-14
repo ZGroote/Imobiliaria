@@ -1,0 +1,244 @@
+{
+  "recordedAtUtc": "2026-10-10T13:14:22.465004+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "sourceSHA256": {
+    "viewer.js": "585b0fcbf16ae276afc03522bce9ffa091966a729d61990b9d560fef6bfa5f46",
+    "renderer.js": "246c8abe5b8efc93913fc8380ce92adb1e739822a60a9183fd5191e88e3a93fa",
+    "transfers.js": "f73e7fd2bfad24082fb8e34469dcb45316d496cda7f08d97fea43efb0ff70a36",
+    "transfer-worker.js": "33547604b5783c46ab5c0382db02ef383eb043e8cb941975dc8ed9dda677f5cf",
+    "maquete-liv-ipanema.html": "9515b694fcc7954dd19b13d1c4c271186b5fc52382c70b12b596ebfc247b3409"
+  },
+  "cases": [
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "backendRequested": "webgpu",
+      "errors": [],
+      "httpFailures": [],
+      "modes": {
+        "planta2d": {
+          "standaloneImage": true,
+          "no3DRenderer": true
+        },
+        "planta3d": {
+          "mode": "planta3d",
+          "plantVisible": true,
+          "exteriorVisible": false,
+          "image": false,
+          "orbit": 0,
+          "yaw": 0,
+          "walkable": null,
+          "touchDetection": [
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 596.5
+            },
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 4737.899999976158
+            }
+          ],
+          "coarseNow": false
+        },
+        "visita": {
+          "mode": "visita",
+          "plantVisible": true,
+          "exteriorVisible": false,
+          "image": false,
+          "orbit": 0.58,
+          "yaw": 2.443460952792061,
+          "walkable": true,
+          "touchDetection": [
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 290.90000009536743
+            },
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 2217.3000000715256
+            }
+          ],
+          "coarseNow": false
+        }
+      },
+      "cycles": 1,
+      "backend": "webgpu",
+      "memorySamples": [
+        {
+          "cycle": 0,
+          "hostJsHeapBytes": 13101124,
+          "documents": 3,
+          "nodes": 358
+        },
+        {
+          "cycle": 1,
+          "hostJsHeapBytes": 16337972,
+          "documents": 3,
+          "nodes": 358
+        }
+      ],
+      "activeFrames": 1
+    },
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "backendRequested": "webgl",
+      "errors": [],
+      "httpFailures": [],
+      "modes": {
+        "planta2d": {
+          "standaloneImage": true,
+          "no3DRenderer": true
+        },
+        "planta3d": {
+          "mode": "planta3d",
+          "plantVisible": true,
+          "exteriorVisible": false,
+          "image": false,
+          "orbit": 0,
+          "yaw": 0,
+          "walkable": null,
+          "touchDetection": [
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 655.3999999761581
+            },
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 2314.899999976158
+            }
+          ],
+          "coarseNow": false
+        },
+        "visita": {
+          "mode": "visita",
+          "plantVisible": true,
+          "exteriorVisible": false,
+          "image": false,
+          "orbit": 0.58,
+          "yaw": 2.443460952792061,
+          "walkable": true,
+          "touchDetection": [
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 293.8000000715256
+            },
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 2198.600000023842
+            }
+          ],
+          "coarseNow": false
+        }
+      },
+      "cycles": 1,
+      "backend": "webgl",
+      "memorySamples": [
+        {
+          "cycle": 0,
+          "hostJsHeapBytes": 14529712,
+          "documents": 3,
+          "nodes": 358
+        },
+        {
+          "cycle": 1,
+          "hostJsHeapBytes": 17844420,
+          "documents": 3,
+          "nodes": 358
+        }
+      ],
+      "activeFrames": 1
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "backendRequested": "auto",
+      "errors": [],
+      "httpFailures": [],
+      "modes": {
+        "planta2d": {
+          "standaloneImage": true,
+          "no3DRenderer": true
+        },
+        "planta3d": {
+          "mode": "planta3d",
+          "plantVisible": true,
+          "exteriorVisible": false,
+          "image": false,
+          "orbit": 0,
+          "yaw": 0,
+          "walkable": null,
+          "touchDetection": [
+            {
+              "query": "(pointer:coarse)",
+              "matches": true,
+              "atMs": 505.8000000715256
+            },
+            {
+              "query": "(pointer:coarse)",
+              "matches": true,
+              "atMs": 2195.9000000953674
+            }
+          ],
+          "coarseNow": true
+        },
+        "visita": {
+          "mode": "visita",
+          "plantVisible": true,
+          "exteriorVisible": false,
+          "image": false,
+          "orbit": 0.58,
+          "yaw": 2.443460952792061,
+          "walkable": true,
+          "touchDetection": [
+            {
+              "query": "(pointer:coarse)",
+              "matches": true,
+              "atMs": 281
+            },
+            {
+              "query": "(pointer:coarse)",
+              "matches": true,
+              "atMs": 2500
+            }
+          ],
+          "coarseNow": true
+        }
+      },
+      "cycles": 1,
+      "backend": "webgpu",
+      "memorySamples": [
+        {
+          "cycle": 0,
+          "hostJsHeapBytes": 13132092,
+          "documents": 3,
+          "nodes": 358
+        },
+        {
+          "cycle": 1,
+          "hostJsHeapBytes": 16392124,
+          "documents": 3,
+          "nodes": 358
+        }
+      ],
+      "activeFrames": 1
+    }
+  ],
+  "browserVersion": "154.0.8037.98",
+  "fallback2D": "PASS"
+}

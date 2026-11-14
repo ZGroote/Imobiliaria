@@ -1,0 +1,282 @@
+{
+  "status": "PASS",
+  "recordedAt": "2026-10-11T23:39:43.950622+00:00",
+  "physicalMobile": false,
+  "cases": [
+    {
+      "model": {
+        "sourceMeshes": 1815,
+        "sourceInstances": 1815,
+        "instancedBatches": 97,
+        "fallbackMeshes": 0,
+        "estimatedDrawCalls": 97,
+        "triangles": 278199,
+        "units": "meters",
+        "anchor": "tower-origin",
+        "floorLocalY": 0,
+        "terrainY": 133.6253465234348,
+        "rotationRadians": -1.0471975511965976,
+        "dimensionsInferred": true,
+        "lighting": "map-lights",
+        "boundsLocal": {
+          "min": [
+            -36.72817200724884,
+            -0.949999988079071,
+            -39.75499700467814
+          ],
+          "max": [
+            52.425375152608844,
+            52.70000076293945,
+            49.61268676321802
+          ]
+        },
+        "boundsWorld": {
+          "min": [
+            -3269.758253876171,
+            132.67534653535574,
+            -3237.1652761220157
+          ],
+          "max": [
+            -3147.7867958758698,
+            186.32534728637427,
+            -3115.2721975601366
+          ]
+        },
+        "positionApproximate": true,
+        "placementOffsetMeters": [
+          8,
+          -6
+        ],
+        "floorClearanceMeters": 0.4,
+        "edition": "entrada",
+        "sourceModelSHA256": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
+        "assetSHA256": "4947fee3d6eba10af3619493663a04a3fb478086a0953ae646f685b09e84ba01",
+        "assetBytes": 2535936,
+        "geometryVerified": true
+      },
+      "position": [
+        -3208.4283207855997,
+        133.6253465234348,
+        -3185.4802476268346
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation": -1.0471975511965976,
+      "terrain": {
+        "transitionMeters": 12,
+        "stepMeters": 5,
+        "refinedGeometries": 4,
+        "cutTriangles": 46,
+        "generatedTriangles": 70013,
+        "center": [
+          -3208.4283207855997,
+          -3185.4802476268346
+        ],
+        "rotationRadians": -1.0471975511965976,
+        "polygon": [
+          [
+            -3148.6267051767927,
+            -3161.070811017677
+          ],
+          [
+            -3207.1440417105073,
+            -3127.285811017677
+          ],
+          [
+            -3217.443873255042,
+            -3130.045642562212
+          ],
+          [
+            -3269.518946875721,
+            -3192.4023158811183
+          ],
+          [
+            -3192.793426227439,
+            -3236.699815881118
+          ]
+        ],
+        "centerHeightMeters": 133.2253465234348
+      },
+      "tiles": {
+        "walls": 1680,
+        "yards": 240,
+        "wallSegments": 258,
+        "triangles": 1550583,
+        "drawCalls": 74,
+        "groundParcels": 9715,
+        "props": 818,
+        "wallReach": 266.1070931035098,
+        "yardReach": 302.41010515027426,
+        "aerialProps": 34973,
+        "range": 360,
+        "coverage": 2120,
+        "aerialBuilds": 2,
+        "tileSize": 640,
+        "pendingTiles": 1,
+        "models": 65,
+        "placedYards": 28540,
+        "loadedTiles": 40,
+        "tileErrors": 0
+      },
+      "parcel": null,
+      "render": {
+        "calls": 369,
+        "triangles": 3177151
+      },
+      "name": "antes",
+      "errors": [],
+      "httpFailures": [],
+      "status": "PASS"
+    },
+    {
+      "model": {
+        "sourceMeshes": 1815,
+        "sourceInstances": 1815,
+        "instancedBatches": 97,
+        "fallbackMeshes": 0,
+        "estimatedDrawCalls": 97,
+        "triangles": 278199,
+        "units": "meters",
+        "anchor": "tower-origin",
+        "floorLocalY": 0,
+        "terrainY": 139.06797095352317,
+        "rotationRadians": 2.0943951023931957,
+        "dimensionsInferred": true,
+        "lighting": "map-lights",
+        "boundsLocal": {
+          "min": [
+            -36.72817200724884,
+            -0.949999988079071,
+            -39.75499700467814
+          ],
+          "max": [
+            52.425375152608844,
+            52.70000076293945,
+            49.61268676321802
+          ]
+        },
+        "boundsWorld": {
+          "min": [
+            -3398.44271206496,
+            138.1179709654441,
+            -3213.4306228906494
+          ],
+          "max": [
+            -3276.4712540646588,
+            191.76797171646263,
+            -3091.5375443287703
+          ]
+        },
+        "parcelSource": {
+          "kind": "user-satellite-outline",
+          "receivedAt": "2026-10-11",
+          "imageSHA256": "153c53dc4b4ada86c5a79a44a1bebe626bf244a36af191827cf969addc32c5dc",
+          "citySHA256": "8d5960a8f30a7d405af499682b65f06d07ad6d41de2b7d93277e843270150e56",
+          "note": "Contorno manual indicado no chat; amarração aproximada a três cruzamentos. Não é levantamento cadastral ou executivo."
+        },
+        "positionApproximate": true,
+        "placementOffsetMeters": [
+          -121.37286636963017,
+          36.25767480288323
+        ],
+        "placementFacing": "Avenida Miguel Petroni / João de Guzzi — implantação aproximada conforme imagem indicada pelo responsável",
+        "floorClearanceMeters": 1.05,
+        "edition": "entrada",
+        "sourceModelSHA256": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
+        "assetSHA256": "4947fee3d6eba10af3619493663a04a3fb478086a0953ae646f685b09e84ba01",
+        "assetBytes": 2535936,
+        "geometryVerified": true
+      },
+      "position": [
+        -3337.80118715523,
+        139.06797095352317,
+        -3143.2225728239514
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation": 2.0943951023931957,
+      "terrain": {
+        "transitionMeters": 12,
+        "stepMeters": 5,
+        "refinedGeometries": 7,
+        "cutTriangles": 509,
+        "generatedTriangles": 130436,
+        "center": [
+          -3337.80118715523,
+          -3143.2225728239514
+        ],
+        "rotationRadians": 2.0943951023931957,
+        "polygon": [
+          [
+            -3397.602802764037,
+            -3167.632009433109
+          ],
+          [
+            -3339.0854662303223,
+            -3201.417009433109
+          ],
+          [
+            -3328.7856346857875,
+            -3198.657177888574
+          ],
+          [
+            -3276.7105610651083,
+            -3136.3005045696677
+          ],
+          [
+            -3353.4360817133906,
+            -3092.003004569668
+          ]
+        ],
+        "centerHeightMeters": 138.01797095352316
+      },
+      "tiles": {
+        "walls": 1680,
+        "yards": 240,
+        "wallSegments": 251,
+        "triangles": 1638672,
+        "drawCalls": 74,
+        "groundParcels": 9710,
+        "props": 815,
+        "wallReach": 264.4417705280315,
+        "yardReach": 306.23503352817096,
+        "aerialProps": 34953,
+        "range": 360,
+        "coverage": 2120,
+        "aerialBuilds": 2,
+        "tileSize": 640,
+        "pendingTiles": 1,
+        "models": 65,
+        "placedYards": 28540,
+        "loadedTiles": 40,
+        "tileErrors": 0
+      },
+      "parcel": {
+        "excludedBuildings": 6,
+        "excludedYards": 5,
+        "clippedWalls": 30,
+        "clippedGroundTriangles": 131,
+        "parcelVertices": 19
+      },
+      "render": {
+        "calls": 360,
+        "triangles": 3075130
+      },
+      "name": "depois",
+      "errors": [],
+      "httpFailures": [],
+      "status": "PASS"
+    }
+  ],
+  "sameGeometry": true,
+  "halfTurn": true,
+  "oppositeSideOfAvenue": true,
+  "siteFit": "Approximate registration of the user satellite outline; original model scale retained.",
+  "scope": "Model rotation/relocation, terrain outline/access, exclusion of old context inside the parcel and runtime."
+}

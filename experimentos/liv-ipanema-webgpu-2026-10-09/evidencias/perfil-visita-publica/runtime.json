@@ -1,0 +1,1049 @@
+{
+  "recordedAtUtc": "2026-10-10T19:55:21.442566+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "gpu": "Desktop; não emulada pelo throttling de CPU",
+  "network": "Loopback; custo de rede pública não comparado",
+  "url": "http://127.0.0.1:8790/backups/liv-webgpu-2026-10-09/site-v3/maquete-liv-ipanema.html?modo=visita",
+  "publicURL": "https://imobilaria-deccb-miniaturas--liv-mapa-5km-20261008-onn3ia42.web.app/maquete-liv-ipanema.html",
+  "baselineSHA256": "31ffb45398aed3ad49b289600823232e37f668086ebfea458b96ecd2e1b9d018",
+  "baselineBytes": 38378801,
+  "sourceSHA256": "421500e74d98a7d0eb5ad2fd917ed14692c74961d0fe21ad7829138d0f33d1fc",
+  "viewport": [
+    390,
+    844
+  ],
+  "deviceScaleFactor": 3,
+  "cases": [
+    {
+      "cpuThrottlingRate": 1,
+      "status": "PASS",
+      "variants": [
+        {
+          "variant": "original",
+          "elapsedMs": 2505.2999999523163,
+          "pixelRatio": 1.75,
+          "shadowsEnabled": true,
+          "movementMeters": 1.4753219183325723,
+          "canvas": {
+            "width": 654,
+            "height": 735
+          },
+          "bakeStillReady": true,
+          "round": 1,
+          "frameCount": 150,
+          "cpuSubmit": {
+            "count": 150,
+            "unit": "ms",
+            "median": 0.8999999761581421,
+            "p95": 1.2000000476837158,
+            "max": 1.399999976158142
+          },
+          "frameIntervals": {
+            "count": 149,
+            "unit": "ms",
+            "median": 16.699999928474426,
+            "p95": 16.90000009536743,
+            "max": 17.100000023841858
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 150,
+            "unit": "calls/frame",
+            "median": 62.0,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 150,
+            "unit": "triangles/frame",
+            "median": 52059.0,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "original",
+          "elapsedMs": 2513.399999976158,
+          "pixelRatio": 1.75,
+          "shadowsEnabled": true,
+          "movementMeters": 1.484932747805219,
+          "canvas": {
+            "width": 654,
+            "height": 735
+          },
+          "bakeStillReady": true,
+          "round": 2,
+          "frameCount": 151,
+          "cpuSubmit": {
+            "count": 151,
+            "unit": "ms",
+            "median": 1,
+            "p95": 1.2999999523162842,
+            "max": 1.5
+          },
+          "frameIntervals": {
+            "count": 150,
+            "unit": "ms",
+            "median": 16.699999928474426,
+            "p95": 16.899999976158142,
+            "max": 17.0
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 151,
+            "unit": "calls/frame",
+            "median": 62,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 151,
+            "unit": "triangles/frame",
+            "median": 52059,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "resolution-1",
+          "elapsedMs": 2500.2000000476837,
+          "pixelRatio": 1,
+          "shadowsEnabled": true,
+          "movementMeters": 1.4753798788189552,
+          "canvas": {
+            "width": 374,
+            "height": 420
+          },
+          "bakeStillReady": true,
+          "round": 1,
+          "frameCount": 150,
+          "cpuSubmit": {
+            "count": 150,
+            "unit": "ms",
+            "median": 0.8999999761581421,
+            "p95": 1.0999999046325684,
+            "max": 1.3000000715255737
+          },
+          "frameIntervals": {
+            "count": 149,
+            "unit": "ms",
+            "median": 16.699999928474426,
+            "p95": 16.899999976158142,
+            "max": 17.100000023841858
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 150,
+            "unit": "calls/frame",
+            "median": 62.0,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 150,
+            "unit": "triangles/frame",
+            "median": 52059.0,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "resolution-1",
+          "elapsedMs": 2500.399999976158,
+          "pixelRatio": 1,
+          "shadowsEnabled": true,
+          "movementMeters": 1.4753106729212362,
+          "canvas": {
+            "width": 374,
+            "height": 420
+          },
+          "bakeStillReady": true,
+          "round": 2,
+          "frameCount": 150,
+          "cpuSubmit": {
+            "count": 150,
+            "unit": "ms",
+            "median": 0.7999999523162842,
+            "p95": 1,
+            "max": 1.2000000476837158
+          },
+          "frameIntervals": {
+            "count": 149,
+            "unit": "ms",
+            "median": 16.699999928474426,
+            "p95": 17.0,
+            "max": 17.200000047683716
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 150,
+            "unit": "calls/frame",
+            "median": 62.0,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 150,
+            "unit": "triangles/frame",
+            "median": 52059.0,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "without-shadow",
+          "elapsedMs": 2501.7000000476837,
+          "pixelRatio": 1.75,
+          "shadowsEnabled": false,
+          "movementMeters": 1.484943920349029,
+          "canvas": {
+            "width": 654,
+            "height": 735
+          },
+          "bakeStillReady": true,
+          "round": 1,
+          "frameCount": 151,
+          "cpuSubmit": {
+            "count": 151,
+            "unit": "ms",
+            "median": 0.7000000476837158,
+            "p95": 1.0999999046325684,
+            "max": 1.7000000476837158
+          },
+          "frameIntervals": {
+            "count": 150,
+            "unit": "ms",
+            "median": 16.699999928474426,
+            "p95": 16.899999976158142,
+            "max": 17.399999976158142
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 151,
+            "unit": "calls/frame",
+            "median": 62,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 151,
+            "unit": "triangles/frame",
+            "median": 52059,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "without-shadow",
+          "elapsedMs": 2507.600000023842,
+          "pixelRatio": 1.75,
+          "shadowsEnabled": false,
+          "movementMeters": 1.4752639578874411,
+          "canvas": {
+            "width": 654,
+            "height": 735
+          },
+          "bakeStillReady": true,
+          "round": 2,
+          "frameCount": 150,
+          "cpuSubmit": {
+            "count": 150,
+            "unit": "ms",
+            "median": 0.6000000238418579,
+            "p95": 0.8999999761581421,
+            "max": 1.100000023841858
+          },
+          "frameIntervals": {
+            "count": 149,
+            "unit": "ms",
+            "median": 16.699999928474426,
+            "p95": 16.899999976158142,
+            "max": 17.0
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 150,
+            "unit": "calls/frame",
+            "median": 62.0,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 150,
+            "unit": "triangles/frame",
+            "median": 52059.0,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "without-bake-check",
+          "elapsedMs": 2508,
+          "pixelRatio": 1.75,
+          "shadowsEnabled": true,
+          "movementMeters": 1.4849439203490316,
+          "canvas": {
+            "width": 654,
+            "height": 735
+          },
+          "bakeStillReady": true,
+          "round": 1,
+          "frameCount": 151,
+          "cpuSubmit": {
+            "count": 151,
+            "unit": "ms",
+            "median": 0.6999999284744263,
+            "p95": 1,
+            "max": 1
+          },
+          "frameIntervals": {
+            "count": 150,
+            "unit": "ms",
+            "median": 16.699999928474426,
+            "p95": 16.899999976158142,
+            "max": 17.100000023841858
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 151,
+            "unit": "calls/frame",
+            "median": 62,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 151,
+            "unit": "triangles/frame",
+            "median": 52059,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "without-bake-check",
+          "elapsedMs": 2500.100000023842,
+          "pixelRatio": 1.75,
+          "shadowsEnabled": true,
+          "movementMeters": 1.475205997483569,
+          "canvas": {
+            "width": 654,
+            "height": 735
+          },
+          "bakeStillReady": true,
+          "round": 2,
+          "frameCount": 150,
+          "cpuSubmit": {
+            "count": 150,
+            "unit": "ms",
+            "median": 0.7000000476837158,
+            "p95": 1.100000023841858,
+            "max": 1.3000000715255737
+          },
+          "frameIntervals": {
+            "count": 149,
+            "unit": "ms",
+            "median": 16.699999928474426,
+            "p95": 16.800000071525574,
+            "max": 17.0
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 150,
+            "unit": "calls/frame",
+            "median": 62.0,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 150,
+            "unit": "triangles/frame",
+            "median": 52059.0,
+            "p95": 53563,
+            "max": 53563
+          }
+        }
+      ],
+      "cpu": {
+        "checks": {
+          "count": 120,
+          "unit": "ms",
+          "median": 0.20000004768371582,
+          "p95": 0.3999999761581421,
+          "max": 0.5
+        },
+        "collisions": {
+          "count": 300,
+          "unit": "ms",
+          "median": 0.0,
+          "p95": 0.09999990463256836,
+          "max": 0.10000002384185791
+        },
+        "steps": {
+          "count": 120,
+          "unit": "ms",
+          "median": 0.0,
+          "p95": 0.10000002384185791,
+          "max": 0.10000002384185791
+        }
+      },
+      "routes": [
+        {
+          "room": "Sala integrada",
+          "target": {
+            "x": 1,
+            "z": 0.7749999999999998
+          },
+          "durationsMs": [
+            40.40000009536743,
+            23.699999928474426,
+            22.5
+          ],
+          "pathPoints": [
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "room": "Suíte",
+          "target": {
+            "x": -2.9000000000000004,
+            "z": -1.7750000000000008
+          },
+          "durationsMs": [
+            46,
+            48.199999928474426,
+            52.5
+          ],
+          "pathPoints": [
+            7,
+            7,
+            7
+          ]
+        },
+        {
+          "room": "Dormitório 01",
+          "target": {
+            "x": -0.19999999999999998,
+            "z": -1.475000000000001
+          },
+          "durationsMs": [
+            38.5,
+            55,
+            57
+          ],
+          "pathPoints": [
+            6,
+            6,
+            6
+          ]
+        },
+        {
+          "room": "Varanda / serviço",
+          "target": {
+            "x": 3.1999999999999984,
+            "z": -2.3750000000000004
+          },
+          "durationsMs": [
+            50.699999928474426,
+            46.89999997615814,
+            53.90000009536743
+          ],
+          "pathPoints": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "room": "Banho suíte",
+          "target": {
+            "x": -2.6000000000000005,
+            "z": 2.5249999999999995
+          },
+          "durationsMs": [
+            37.90000009536743,
+            34.59999990463257,
+            40
+          ],
+          "pathPoints": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "room": "Banho",
+          "target": {
+            "x": -1.4000000000000004,
+            "z": 2.5249999999999995
+          },
+          "durationsMs": [
+            48,
+            46.200000047683716,
+            43.699999928474426
+          ],
+          "pathPoints": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "cpuThrottlingRate": 4,
+      "status": "PASS",
+      "variants": [
+        {
+          "variant": "original",
+          "elapsedMs": 2507.2000000476837,
+          "pixelRatio": 1.75,
+          "shadowsEnabled": true,
+          "movementMeters": 1.4849907155089095,
+          "canvas": {
+            "width": 654,
+            "height": 735
+          },
+          "bakeStillReady": true,
+          "round": 1,
+          "frameCount": 151,
+          "cpuSubmit": {
+            "count": 151,
+            "unit": "ms",
+            "median": 6.299999952316284,
+            "p95": 9.5,
+            "max": 11.5
+          },
+          "frameIntervals": {
+            "count": 150,
+            "unit": "ms",
+            "median": 16.600000023841858,
+            "p95": 17.799999952316284,
+            "max": 18.200000047683716
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 151,
+            "unit": "calls/frame",
+            "median": 62,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 151,
+            "unit": "triangles/frame",
+            "median": 52059,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "original",
+          "elapsedMs": 2501.7999999523163,
+          "pixelRatio": 1.75,
+          "shadowsEnabled": true,
+          "movementMeters": 1.484885953121921,
+          "canvas": {
+            "width": 654,
+            "height": 735
+          },
+          "bakeStillReady": true,
+          "round": 2,
+          "frameCount": 149,
+          "cpuSubmit": {
+            "count": 149,
+            "unit": "ms",
+            "median": 6.899999976158142,
+            "p95": 12,
+            "max": 17.399999976158142
+          },
+          "frameIntervals": {
+            "count": 148,
+            "unit": "ms",
+            "median": 16.799999952316284,
+            "p95": 18.800000071525574,
+            "max": 24.100000023841858
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 149,
+            "unit": "calls/frame",
+            "median": 62,
+            "p95": 63,
+            "max": 65
+          },
+          "triangles": {
+            "count": 149,
+            "unit": "triangles/frame",
+            "median": 52059,
+            "p95": 52675,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "resolution-1",
+          "elapsedMs": 2514.600000023842,
+          "pixelRatio": 1,
+          "shadowsEnabled": true,
+          "movementMeters": 1.484874780141949,
+          "canvas": {
+            "width": 374,
+            "height": 420
+          },
+          "bakeStillReady": true,
+          "round": 1,
+          "frameCount": 151,
+          "cpuSubmit": {
+            "count": 151,
+            "unit": "ms",
+            "median": 5.600000023841858,
+            "p95": 8,
+            "max": 9.399999976158142
+          },
+          "frameIntervals": {
+            "count": 150,
+            "unit": "ms",
+            "median": 16.649999976158142,
+            "p95": 17.5,
+            "max": 18.399999976158142
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 151,
+            "unit": "calls/frame",
+            "median": 62,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 151,
+            "unit": "triangles/frame",
+            "median": 52059,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "resolution-1",
+          "elapsedMs": 2501.2000000476837,
+          "pixelRatio": 1,
+          "shadowsEnabled": true,
+          "movementMeters": 1.4752639578874405,
+          "canvas": {
+            "width": 374,
+            "height": 420
+          },
+          "bakeStillReady": true,
+          "round": 2,
+          "frameCount": 150,
+          "cpuSubmit": {
+            "count": 150,
+            "unit": "ms",
+            "median": 5.600000023841858,
+            "p95": 10,
+            "max": 23.299999952316284
+          },
+          "frameIntervals": {
+            "count": 149,
+            "unit": "ms",
+            "median": 16.699999928474426,
+            "p95": 17.800000071525574,
+            "max": 31.399999976158142
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 150,
+            "unit": "calls/frame",
+            "median": 62.0,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 150,
+            "unit": "triangles/frame",
+            "median": 52059.0,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "without-shadow",
+          "elapsedMs": 2502.899999976158,
+          "pixelRatio": 1.75,
+          "shadowsEnabled": false,
+          "movementMeters": 1.4751480371209593,
+          "canvas": {
+            "width": 654,
+            "height": 735
+          },
+          "bakeStillReady": true,
+          "round": 1,
+          "frameCount": 147,
+          "cpuSubmit": {
+            "count": 147,
+            "unit": "ms",
+            "median": 6.299999952316284,
+            "p95": 10.899999976158142,
+            "max": 49.40000009536743
+          },
+          "frameIntervals": {
+            "count": 146,
+            "unit": "ms",
+            "median": 16.600000023841858,
+            "p95": 19.199999928474426,
+            "max": 51.700000047683716
+          },
+          "framesOver33Ms": 2,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 147,
+            "unit": "calls/frame",
+            "median": 62,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 147,
+            "unit": "triangles/frame",
+            "median": 52059,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "without-shadow",
+          "elapsedMs": 2512.399999976158,
+          "pixelRatio": 1.75,
+          "shadowsEnabled": false,
+          "movementMeters": 1.4848747801419453,
+          "canvas": {
+            "width": 654,
+            "height": 735
+          },
+          "bakeStillReady": true,
+          "round": 2,
+          "frameCount": 151,
+          "cpuSubmit": {
+            "count": 151,
+            "unit": "ms",
+            "median": 4.799999952316284,
+            "p95": 7.299999952316284,
+            "max": 8.399999976158142
+          },
+          "frameIntervals": {
+            "count": 150,
+            "unit": "ms",
+            "median": 16.600000023841858,
+            "p95": 18.0,
+            "max": 18.799999952316284
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 151,
+            "unit": "calls/frame",
+            "median": 62,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 151,
+            "unit": "triangles/frame",
+            "median": 52059,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "without-bake-check",
+          "elapsedMs": 2500.6999999284744,
+          "pixelRatio": 1.75,
+          "shadowsEnabled": true,
+          "movementMeters": 1.4753106729212284,
+          "canvas": {
+            "width": 654,
+            "height": 735
+          },
+          "bakeStillReady": true,
+          "round": 1,
+          "frameCount": 150,
+          "cpuSubmit": {
+            "count": 150,
+            "unit": "ms",
+            "median": 5.699999928474426,
+            "p95": 9.899999976158142,
+            "max": 12.100000023841858
+          },
+          "frameIntervals": {
+            "count": 149,
+            "unit": "ms",
+            "median": 16.700000047683716,
+            "p95": 17.200000047683716,
+            "max": 20.199999928474426
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 150,
+            "unit": "calls/frame",
+            "median": 62.0,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 150,
+            "unit": "triangles/frame",
+            "median": 52059.0,
+            "p95": 53563,
+            "max": 53563
+          }
+        },
+        {
+          "variant": "without-bake-check",
+          "elapsedMs": 2507.100000023842,
+          "pixelRatio": 1.75,
+          "shadowsEnabled": true,
+          "movementMeters": 1.4849439203490387,
+          "canvas": {
+            "width": 654,
+            "height": 735
+          },
+          "bakeStillReady": true,
+          "round": 2,
+          "frameCount": 151,
+          "cpuSubmit": {
+            "count": 151,
+            "unit": "ms",
+            "median": 5.5,
+            "p95": 13.100000023841858,
+            "max": 19.700000047683716
+          },
+          "frameIntervals": {
+            "count": 150,
+            "unit": "ms",
+            "median": 16.699999928474426,
+            "p95": 17.899999976158142,
+            "max": 22.700000047683716
+          },
+          "framesOver33Ms": 0,
+          "sufficientFrames": true,
+          "drawCalls": {
+            "count": 151,
+            "unit": "calls/frame",
+            "median": 62,
+            "p95": 65,
+            "max": 65
+          },
+          "triangles": {
+            "count": 151,
+            "unit": "triangles/frame",
+            "median": 52059,
+            "p95": 53563,
+            "max": 53563
+          }
+        }
+      ],
+      "cpu": {
+        "checks": {
+          "count": 120,
+          "unit": "ms",
+          "median": 0.6000000238418579,
+          "p95": 1,
+          "max": 1.100000023841858
+        },
+        "collisions": {
+          "count": 300,
+          "unit": "ms",
+          "median": 0.0,
+          "p95": 0.10000002384185791,
+          "max": 0.30000007152557373
+        },
+        "steps": {
+          "count": 120,
+          "unit": "ms",
+          "median": 0.0,
+          "p95": 0.19999992847442627,
+          "max": 0.2999999523162842
+        }
+      },
+      "routes": [
+        {
+          "room": "Sala integrada",
+          "target": {
+            "x": 1,
+            "z": 0.7749999999999998
+          },
+          "durationsMs": [
+            93.29999995231628,
+            94.70000004768372,
+            107
+          ],
+          "pathPoints": [
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "room": "Suíte",
+          "target": {
+            "x": -2.9000000000000004,
+            "z": -1.7750000000000008
+          },
+          "durationsMs": [
+            230.89999997615814,
+            207,
+            219.20000004768372
+          ],
+          "pathPoints": [
+            7,
+            7,
+            7
+          ]
+        },
+        {
+          "room": "Dormitório 01",
+          "target": {
+            "x": -0.19999999999999998,
+            "z": -1.475000000000001
+          },
+          "durationsMs": [
+            170.60000002384186,
+            158.5,
+            176.10000002384186
+          ],
+          "pathPoints": [
+            6,
+            6,
+            6
+          ]
+        },
+        {
+          "room": "Varanda / serviço",
+          "target": {
+            "x": 3.1999999999999984,
+            "z": -2.3750000000000004
+          },
+          "durationsMs": [
+            282,
+            298.10000002384186,
+            273.5
+          ],
+          "pathPoints": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "room": "Banho suíte",
+          "target": {
+            "x": -2.6000000000000005,
+            "z": 2.5249999999999995
+          },
+          "durationsMs": [
+            285.39999997615814,
+            294,
+            303.1999999284744
+          ],
+          "pathPoints": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "room": "Banho",
+          "target": {
+            "x": -1.4000000000000004,
+            "z": 2.5249999999999995
+          },
+          "durationsMs": [
+            247.10000002384186,
+            248.5,
+            281.60000002384186
+          ],
+          "pathPoints": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "publicHTTP": 200,
+  "publicSHA256": "31ffb45398aed3ad49b289600823232e37f668086ebfea458b96ecd2e1b9d018",
+  "publicMatchesBaseline": true,
+  "browserVersion": "154.0.8037.98",
+  "metadata": {
+    "threeVersion": "168",
+    "mode": "visita",
+    "pixelRatio": 1.75,
+    "canvas": {
+      "width": 654,
+      "height": 735,
+      "cssWidth": 374,
+      "cssHeight": 420
+    },
+    "lights": [
+      {
+        "type": "DirectionalLight",
+        "castShadow": true,
+        "shadowAutoUpdate": false,
+        "shadowSize": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "castShadow": false,
+        "shadowAutoUpdate": true,
+        "shadowSize": [
+          512,
+          512
+        ]
+      },
+      {
+        "type": "HemisphereLight",
+        "castShadow": false
+      }
+    ],
+    "geometry": {
+      "meshes": 92,
+      "vertices": 213027,
+      "triangles": 71783,
+      "materials": 30
+    },
+    "interiorBake": {
+      "ready": true,
+      "reason": null
+    },
+    "exteriorBakeReady": true,
+    "rendererMemory": {
+      "geometries": 112,
+      "textures": 21
+    },
+    "camera": [
+      3.2,
+      1.62,
+      -1.125
+    ]
+  },
+  "errors": []
+}

@@ -1,0 +1,17 @@
+{
+  "experiment_name": "banho-social",
+  "method_name": "splatfacto",
+  "checkpoint": "comodo/banho-social/splatfacto/2026-10-16_023509/nerfstudio_models/step-000029999.ckpt",
+  "results": {
+    "psnr": 38.08910369873047,
+    "psnr_std": 7.348004341125488,
+    "ssim": 0.9947487711906433,
+    "ssim_std": 0.012357261963188648,
+    "lpips": 0.029734773561358452,
+    "lpips_std": 0.02045336924493313,
+    "num_rays_per_sec": 50797484.0,
+    "num_rays_per_sec_std": 9454323.0,
+    "fps": 55.11880111694336,
+    "fps_std": 10.258597373962402
+  }
+}

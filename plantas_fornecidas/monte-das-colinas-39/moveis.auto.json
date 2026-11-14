@@ -2,6 +2,7 @@
  "_gerado_por": "pipeline/mobiliar.py",
  "_nota": "layout automatico; mobilia posta a mao em unidade.json.planta.moveis GANHA deste arquivo",
  "_norma": "folgas conferidas contra ABNT NBR 15575-1 Anexo G (minimo) e NKBA/Panero-Zelnik (conforto)",
+ "_estilo": "minimalista",
  "_erros": [
   "Cozinha/pia: folga 0.35 m, norma pede 0.85",
   "Banho/pia: folga 0.05 m, norma pede 0.40",
@@ -90,19 +91,9 @@
    "rot": 1,
    "w": 1.95,
    "h": 0.8,
-   "d": 0.92
-  },
-  {
-   "tipo": "ripado",
-   "p": [
-    2.76,
-    5.415
-   ],
-   "rot": 3,
-   "w": 2.25,
-   "h": 2.4,
-   "d": 0.05,
-   "cor": "#8A6A45"
+   "d": 0.92,
+   "estilo": "palito",
+   "cor": "#C9A44A"
   },
   {
    "tipo": "rack",
@@ -111,7 +102,7 @@
     5.415
    ],
    "rot": 3,
-   "w": 1.9,
+   "w": 1.4,
    "h": 0.7,
    "d": 0.38
   },
@@ -125,17 +116,6 @@
    "w": 1.35,
    "h": 1.62,
    "d": 0.14
-  },
-  {
-   "tipo": "sofa",
-   "p": [
-    2.35,
-    6.05
-   ],
-   "rot": 2,
-   "w": 1.0,
-   "h": 0.8,
-   "d": 0.92
   },
   {
    "tipo": "cortina",

@@ -1,0 +1,359 @@
+{
+  "status": "PASS",
+  "areaNominalM2": 82.65,
+  "registro": {
+    "origemPx": [
+      3,
+      3
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 21.946161855115907,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        7,
+        7,
+        510,
+        258
+      ],
+      [
+        519,
+        7,
+        640,
+        296
+      ]
+    ],
+    "areaCalibracaoM2": 77.65,
+    "conferencia": [
+      "Faces internas: 161222 px².",
+      "Área anunciada da faixa: 76.16 m² (apartamento + terraço)."
+    ]
+  },
+  "moveis": [
+    {
+      "id": "m1",
+      "nome": "Cama do casal",
+      "comodos": [
+        "Suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m2",
+      "nome": "Criado 1",
+      "comodos": [
+        "Suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m3",
+      "nome": "Criado 2",
+      "comodos": [
+        "Suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m4",
+      "nome": "Guarda-roupa da suíte",
+      "comodos": [
+        "Suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m5",
+      "nome": "Cama de solteiro 1",
+      "comodos": [
+        "Dormitório 2"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m6",
+      "nome": "Cama de solteiro 2",
+      "comodos": [
+        "Dormitório 2"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m7",
+      "nome": "Criado do dormitório 2",
+      "comodos": [
+        "Dormitório 2"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m8",
+      "nome": "Guarda-roupa do dormitório 2",
+      "comodos": [
+        "Dormitório 2"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m9",
+      "nome": "Bancada de estudo 1",
+      "comodos": [
+        "Escritório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m10",
+      "nome": "Bancada de estudo 2",
+      "comodos": [
+        "Escritório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m11",
+      "nome": "Cadeira de estudo 1",
+      "comodos": [
+        "Escritório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m12",
+      "nome": "Cadeira de estudo 2",
+      "comodos": [
+        "Escritório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m13",
+      "nome": "Pufe 1",
+      "comodos": [
+        "Escritório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m14",
+      "nome": "Pufe 2",
+      "comodos": [
+        "Escritório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m15",
+      "nome": "Rack da TV",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m16",
+      "nome": "Sofá",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m17",
+      "nome": "Tapete",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m18",
+      "nome": "Mesa de jantar",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m19",
+      "nome": "Cadeira 1",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m20",
+      "nome": "Cadeira 2",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m21",
+      "nome": "Cadeira 3",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m22",
+      "nome": "Cadeira 4",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m23",
+      "nome": "Tanque",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m24",
+      "nome": "Cooktop",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m25",
+      "nome": "Bancada e cuba",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m26",
+      "nome": "Geladeira",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m27",
+      "nome": "Lavatório da suíte",
+      "comodos": [
+        "Banho suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m28",
+      "nome": "Vaso da suíte",
+      "comodos": [
+        "Banho suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m29",
+      "nome": "Box da suíte",
+      "comodos": [
+        "Banho suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m30",
+      "nome": "Box",
+      "comodos": [
+        "Banho social"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m31",
+      "nome": "Vaso",
+      "comodos": [
+        "Banho social"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m32",
+      "nome": "Lavatório",
+      "comodos": [
+        "Banho social"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m33",
+      "nome": "Poltrona do terraço 1",
+      "comodos": [
+        "Terraço"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m34",
+      "nome": "Poltrona do terraço 2",
+      "comodos": [
+        "Terraço"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m35",
+      "nome": "Bancada gourmet",
+      "comodos": [
+        "Terraço"
+      ],
+      "contido": true
+    }
+  ],
+  "sobreposicoes": [
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira 1"
+      ],
+      "areaM2": 0.025,
+      "revisar": false
+    },
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira 2"
+      ],
+      "areaM2": 0.03,
+      "revisar": false
+    },
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira 3"
+      ],
+      "areaM2": 0.025,
+      "revisar": false
+    },
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira 4"
+      ],
+      "areaM2": 0.03,
+      "revisar": false
+    }
+  ],
+  "vaos": {
+    "portas": 7,
+    "janelas": 6
+  },
+  "conferenciaJPG": "19605b299554558b7207f4eef299ce55fa388cca255538981c556cbf57b52c8b",
+  "unidadeSHA256": "b7267a6b2bfd394cee99ee1d90fbab2956cffcba017d0009b976af3ed43fd3bd",
+  "limites": [
+    "Sobreposição na imagem do book; não é conferência executiva.",
+    "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
+  ]
+}

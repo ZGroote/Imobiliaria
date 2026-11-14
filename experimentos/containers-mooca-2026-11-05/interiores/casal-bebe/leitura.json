@@ -1,0 +1,160 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "containers-mooca-casal-bebe",
+  "revision": 19,
+  "unit": "mm",
+  "geometry": "orthogonal-rectangles",
+  "ceilingHeightMm": 2350,
+  "provenance": {
+    "kind": "declared",
+    "referenceIds": []
+  },
+  "references": [],
+  "rooms": [
+    {
+      "id": "c1",
+      "name": "Quarto",
+      "widthMm": 6100,
+      "depthMm": 2450,
+      "xMm": 0,
+      "yMm": 0,
+      "walls": {
+        "south": "c1-south",
+        "east": "c1-east",
+        "north": "c1-north",
+        "west": "c1-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c2",
+      "name": "Estudo e copa",
+      "widthMm": 4350,
+      "depthMm": 2450,
+      "xMm": 6100,
+      "yMm": 0,
+      "walls": {
+        "south": "c2-south",
+        "east": "c2-east",
+        "north": "c2-north",
+        "west": "c2-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c3",
+      "name": "Banho",
+      "widthMm": 1700,
+      "depthMm": 2450,
+      "xMm": 10450,
+      "yMm": 0,
+      "walls": {
+        "south": "c3-south",
+        "east": "c3-east",
+        "north": "c3-north",
+        "west": "c3-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "rel-c1-east--c2-west",
+      "kind": "adjacent",
+      "wallA": "c1-east",
+      "wallB": "c2-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c2-east--c3-west",
+      "kind": "adjacent",
+      "wallA": "c2-east",
+      "wallB": "c3-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ],
+  "openings": [
+    {
+      "id": "a1",
+      "kind": "door",
+      "wallId": "c2-south",
+      "offsetMm": 3500,
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a2",
+      "kind": "door",
+      "wallId": "c1-east",
+      "offsetMm": 600,
+      "widthMm": 850,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "pairedWallId": "c2-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a3",
+      "kind": "door",
+      "wallId": "c3-west",
+      "offsetMm": 800,
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "pairedWallId": "c2-east",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a4",
+      "kind": "window",
+      "wallId": "c1-south",
+      "offsetMm": 2850,
+      "widthMm": 3100,
+      "heightMm": 1500,
+      "sillMm": 600,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a5",
+      "kind": "window",
+      "wallId": "c2-south",
+      "offsetMm": 150,
+      "widthMm": 3250,
+      "heightMm": 1500,
+      "sillMm": 600,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ]
+}

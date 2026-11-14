@@ -1,0 +1,26 @@
+{
+ "location": [
+  -2.1115184070407813,
+  -4.785183748964034,
+  1.0
+ ],
+ "rotation_euler": [
+  1.5707963267948966,
+  0.0,
+  0.0
+ ],
+ "res": [
+  517,
+  377
+ ],
+ "f": 717.8193939068823,
+ "cx": -141.19754430836363,
+ "cy": 76.46964713429836,
+ "medidas": {
+  "FW": 1.66,
+  "FL": 2.08,
+  "HBH": 1.05,
+  "zr": 0.1726749820096667
+ },
+ "nota": "nivelada, giro 0 (bordas horizontais); altura 1,0 por plausibilidade (ve o tampo do banco, nao o topo da cabeceira)"
+}

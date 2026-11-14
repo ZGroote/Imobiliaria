@@ -1,0 +1,20 @@
+{
+  "path": "ceu.hdr",
+  "bytes": 515401,
+  "sha256": "1443ff27e6bb21c124a81a58771eddcdf43ef0e97eb1e0bd04bd7b2bbf87c48c",
+  "sourceBlendSHA256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88",
+  "sourceWorld": "R3 | Ceu fisico e um unico sol",
+  "sourceExposureEV": 3.0,
+  "sourceSkyType": "MULTIPLE_SCATTERING",
+  "sunDisc": false,
+  "reason": "The website already has one moving directional sun.",
+  "width": 1024,
+  "height": 512,
+  "linearRGBMean": [
+    1.5448014736175537,
+    2.439192771911621,
+    3.910871982574463
+  ],
+  "linearRGBMax": 30.875,
+  "sourceUnchanged": true
+}

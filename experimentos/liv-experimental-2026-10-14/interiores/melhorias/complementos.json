@@ -1,0 +1,671 @@
+{
+  "assets": [
+    {
+      "id": "cortinas-janela",
+      "path": "cortinas-janela.glb",
+      "types": [],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 2.060976028442383,
+        "h": 2.5299999713897705,
+        "d": 0.09100008010864258
+      },
+      "source": {
+        "objects": [
+          "R2 | Cortina linho",
+          "R2 | Cortina linho.001"
+        ],
+        "pivotBlender": [
+          2.2895119190216064,
+          1.5605000257492065,
+          0.05999999865889549
+        ],
+        "positionThree": [
+          2.2895119190216064,
+          0.05999999865889549,
+          -1.5605000257492065
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "sourceAnchorCanto": "janela da sala",
+      "worldBoundsCanto": {
+        "min": [
+          1.259023904800415,
+          0.05999999865889549,
+          -1.6060000658035278
+        ],
+        "max": [
+          3.319999933242798,
+          2.589999970048666,
+          -1.5149999856948853
+        ]
+      },
+      "sourceWorldBoundsCanto": {
+        "min": [
+          1.259023904800415,
+          0.05999999865889549,
+          -1.6060000658035278
+        ],
+        "max": [
+          3.319999933242798,
+          2.5899999141693115,
+          -1.5149999856948853
+        ]
+      },
+      "sourcePoseMaxAbsErrorMeters": 5.587935447692871e-08,
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "source material-channel bake in CPU; geometry unchanged",
+        "bakedImages": 2,
+        "warnings": [],
+        "materialBakeReuse": [],
+        "thinTranslucency": {
+          "sourceUsed": false,
+          "introduced": false,
+          "note": "Source R2 materials use opaque Principled (Alpha=1, Transmission=0); no separate Translucent lobe exists or is approximated."
+        },
+        "sourceNgonsTriangulatedForTangents": []
+      },
+      "bytes": 1899312,
+      "sha256": "49c2dc49e65b8d3eff1c96c6fd1dad625c9a3fcc41567b4b961f01a1240ef212",
+      "triangles": 776,
+      "meshes": 2,
+      "textures": 2,
+      "materials": [
+        "R2 | Linho cru.001 | WEB",
+        "R2 | Linho cru.001 | WEB.001"
+      ],
+      "canonicalBounds": {
+        "min": [
+          -1.0304880142211914,
+          0,
+          -0.04550004005432129
+        ],
+        "max": [
+          1.0304880142211914,
+          2.5299999713897705,
+          0.04550004005432129
+        ]
+      }
+    },
+    {
+      "id": "pendente-jantar",
+      "path": "pendente-jantar.glb",
+      "types": [],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.5199999809265137,
+        "h": 0.7300000190734863,
+        "d": 0.5199999809265137
+      },
+      "source": {
+        "objects": [
+          "R2 | Pendente jantar",
+          "R2 | Cabo pendente"
+        ],
+        "pivotBlender": [
+          2.049999952316284,
+          0.3199999928474426,
+          1.9600000381469727
+        ],
+        "positionThree": [
+          2.049999952316284,
+          1.9600000381469727,
+          -0.3199999928474426
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "sourceAnchorCanto": "mesa de jantar",
+      "worldBoundsCanto": {
+        "min": [
+          1.7899999618530273,
+          1.9600000381469727,
+          -0.5799999833106995
+        ],
+        "max": [
+          2.309999942779541,
+          2.690000057220459,
+          -0.06000000238418579
+        ]
+      },
+      "sourceWorldBoundsCanto": {
+        "min": [
+          1.7899999618530273,
+          1.9600000381469727,
+          -0.5799999833106995
+        ],
+        "max": [
+          2.309999942779541,
+          2.690000057220459,
+          -0.06000000238418579
+        ]
+      },
+      "sourcePoseMaxAbsErrorMeters": 0.0,
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "source material-channel bake in CPU; geometry unchanged",
+        "bakedImages": 1,
+        "warnings": [],
+        "materialBakeReuse": [],
+        "thinTranslucency": {
+          "sourceUsed": false,
+          "introduced": false,
+          "note": "Source R2 materials use opaque Principled (Alpha=1, Transmission=0); no separate Translucent lobe exists or is approximated."
+        },
+        "sourceNgonsTriangulatedForTangents": [
+          "R2 | Pendente jantar",
+          "R2 | Cabo pendente"
+        ]
+      },
+      "bytes": 96648,
+      "sha256": "7f1b6884d2eeb564750d8b83190a2b857cb5e25b3de319bb0d64acebdffd7640",
+      "triangles": 352,
+      "meshes": 2,
+      "textures": 1,
+      "materials": [
+        "R2 | Metal grafite.001 | WEB",
+        "R2 | Ceramica areia.001 | WEB"
+      ],
+      "canonicalBounds": {
+        "min": [
+          -0.25999999046325684,
+          0,
+          -0.25999999046325684
+        ],
+        "max": [
+          0.25999999046325684,
+          0.7300000190734863,
+          0.25999999046325684
+        ]
+      }
+    },
+    {
+      "id": "fruteira-jantar",
+      "path": "fruteira-jantar.glb",
+      "types": [],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.2800000011920929,
+        "h": 0.07000000029802322,
+        "d": 0.2800000011920929
+      },
+      "source": {
+        "objects": [
+          "R2 | Fruteira"
+        ],
+        "pivotBlender": [
+          2.430000066757202,
+          0.27000001072883606,
+          0.7900000214576721
+        ],
+        "positionThree": [
+          2.430000066757202,
+          0.7900000214576721,
+          -0.27000001072883606
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "sourceAnchorCanto": "mesa de jantar",
+      "worldBoundsCanto": {
+        "min": [
+          2.2900000661611557,
+          0.7900000214576721,
+          -0.4100000113248825
+        ],
+        "max": [
+          2.5700000673532486,
+          0.8600000217556953,
+          -0.1300000101327896
+        ]
+      },
+      "sourceWorldBoundsCanto": {
+        "min": [
+          2.2899999618530273,
+          0.7900000214576721,
+          -0.4100000262260437
+        ],
+        "max": [
+          2.570000171661377,
+          0.8600000143051147,
+          -0.1300000101327896
+        ]
+      },
+      "sourcePoseMaxAbsErrorMeters": 1.043081283569336e-07,
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "source material-channel bake in CPU; geometry unchanged",
+        "bakedImages": 1,
+        "warnings": [],
+        "materialBakeReuse": [],
+        "thinTranslucency": {
+          "sourceUsed": false,
+          "introduced": false,
+          "note": "Source R2 materials use opaque Principled (Alpha=1, Transmission=0); no separate Translucent lobe exists or is approximated."
+        },
+        "sourceNgonsTriangulatedForTangents": [
+          "R2 | Fruteira"
+        ]
+      },
+      "bytes": 65324,
+      "sha256": "d755e614749777bc5a0cec26590864bbc877ccf5567511e0a5b3a70356b1e58b",
+      "triangles": 236,
+      "meshes": 1,
+      "textures": 1,
+      "materials": [
+        "R2 | Linho cru.002 | WEB"
+      ],
+      "canonicalBounds": {
+        "min": [
+          -0.14000000059604645,
+          0,
+          -0.14000000059604645
+        ],
+        "max": [
+          0.14000000059604645,
+          0.07000000029802322,
+          0.14000000059604645
+        ]
+      }
+    },
+    {
+      "id": "painel-tv-ripas",
+      "path": "painel-tv-ripas.glb",
+      "types": [],
+      "pivot": "center-xz-base-y",
+      "front": "+Z",
+      "dimensions": {
+        "w": 0.014000000432133675,
+        "h": 2.509999990463257,
+        "d": 1.90500009059906
+      },
+      "source": {
+        "objects": [
+          "R2 | Ripado painel TV",
+          "R2 | Ripado painel TV.001",
+          "R2 | Ripado painel TV.002",
+          "R2 | Ripado painel TV.003",
+          "R2 | Ripado painel TV.004",
+          "R2 | Ripado painel TV.005",
+          "R2 | Ripado painel TV.006",
+          "R2 | Ripado painel TV.007",
+          "R2 | Ripado painel TV.008",
+          "R2 | Ripado painel TV.009",
+          "R2 | Ripado painel TV.010",
+          "R2 | Ripado painel TV.011",
+          "R2 | Ripado painel TV.012",
+          "R2 | Ripado painel TV.013",
+          "R2 | Ripado painel TV.014",
+          "R2 | Ripado painel TV.015",
+          "R2 | Ripado painel TV.016",
+          "R2 | Ripado painel TV.017",
+          "R2 | Ripado painel TV.018",
+          "R2 | Ripado painel TV.019",
+          "R2 | Ripado painel TV.020",
+          "R2 | Ripado painel TV.021",
+          "R2 | Ripado painel TV.022",
+          "R2 | Ripado painel TV.023",
+          "R2 | Ripado painel TV.024",
+          "R2 | Ripado painel TV.025",
+          "R2 | Ripado painel TV.026",
+          "R2 | Ripado painel TV.027"
+        ],
+        "pivotBlender": [
+          -0.6140000224113464,
+          -2.0384998321533203,
+          0.09500002861022949
+        ],
+        "positionThree": [
+          -0.6140000224113464,
+          0.09500002861022949,
+          2.0384998321533203
+        ],
+        "rotationQuarterTurns": 0,
+        "coordinates": "Three=(Blender.x,Blender.z,-Blender.y)"
+      },
+      "sourceAnchorCanto": "parede do painel TV",
+      "worldBoundsCanto": {
+        "min": [
+          -0.6210000226274133,
+          0.09500002861022949,
+          1.0859999656677246
+        ],
+        "max": [
+          -0.6070000221952796,
+          2.6050000190734863,
+          2.9910000562667847
+        ]
+      },
+      "sourceWorldBoundsCanto": {
+        "min": [
+          -0.6210000514984131,
+          0.09500002861022949,
+          1.0859999656677246
+        ],
+        "max": [
+          -0.6069999933242798,
+          2.6050000190734863,
+          2.990999937057495
+        ]
+      },
+      "sourcePoseMaxAbsErrorMeters": 1.1920928955078125e-07,
+      "replaces": [],
+      "materialConversion": {
+        "bakeLighting": false,
+        "method": "source material-channel bake in CPU; geometry unchanged",
+        "bakedImages": 1,
+        "warnings": [],
+        "materialBakeReuse": [
+          {
+            "object": "R2 | Ripado painel TV.001",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.002",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.003",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.004",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.005",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.006",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.007",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.008",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.009",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.010",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.011",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.012",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.013",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.014",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.015",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.016",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.017",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.018",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.019",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.020",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.021",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.022",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.023",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.024",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.025",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.026",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          },
+          {
+            "object": "R2 | Ripado painel TV.027",
+            "from": "R2 | Ripado painel TV",
+            "localGeometryMaterialBasisSHA256": "c16894c9c0280ee028ac32601615138b423270e8222452a62b992fd7c903ea38"
+          }
+        ],
+        "thinTranslucency": {
+          "sourceUsed": false,
+          "introduced": false,
+          "note": "Source R2 materials use opaque Principled (Alpha=1, Transmission=0); no separate Translucent lobe exists or is approximated."
+        },
+        "sourceNgonsTriangulatedForTangents": []
+      },
+      "bytes": 625856,
+      "sha256": "f83f3a81514fd915f5825611b5a2f5f2bd577f9a9503f49e580f03d58e5dfaef",
+      "triangles": 5264,
+      "meshes": 28,
+      "textures": 1,
+      "materials": [
+        "R2 | Carvalho painel.001 | WEB"
+      ],
+      "canonicalBounds": {
+        "min": [
+          -0.007000000216066837,
+          0,
+          -0.9524998664855957
+        ],
+        "max": [
+          0.007000000216066837,
+          2.509999990463257,
+          0.9525002241134644
+        ]
+      }
+    }
+  ],
+  "schema": "liv-interior-complements-v1",
+  "complete": true,
+  "sourceBlendSha256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88",
+  "sourceBlend": {
+    "path": "experimentos/liv-luz-natural-2026-10-26/entrega/LIV_Luz_Natural.blend",
+    "scene": "03 | Sala e jantar",
+    "sha256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88"
+  },
+  "integration": "Merge assets and decorations by assetId into the main catalog; this script never writes catalogo.json.",
+  "exporterSHA256": "b2be52a3b7dfe6428cc0428ec13ba46931cb62e0b7c46daac4793c294b7fc74d",
+  "materialConverterSHA256": "b76948e2f8a3d68d70f8928060878bbfd5c73415eba61571333f842750c05a59",
+  "decorations": [
+    {
+      "assetId": "cortinas-janela",
+      "typology": "canto",
+      "position": [
+        2.2895119190216064,
+        0.05999999865889549,
+        -1.5605000257492065
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 2.060976028442383,
+        "h": 2.5299999713897705,
+        "d": 0.09100008010864258
+      }
+    },
+    {
+      "assetId": "pendente-jantar",
+      "typology": "canto",
+      "position": [
+        2.049999952316284,
+        1.9600000381469727,
+        -0.3199999928474426
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.5199999809265137,
+        "h": 0.7300000190734863,
+        "d": 0.5199999809265137
+      }
+    },
+    {
+      "assetId": "fruteira-jantar",
+      "typology": "canto",
+      "position": [
+        2.430000066757202,
+        0.7900000214576721,
+        -0.27000001072883606
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.2800000011920929,
+        "h": 0.07000000029802322,
+        "d": 0.2800000011920929
+      }
+    },
+    {
+      "assetId": "painel-tv-ripas",
+      "typology": "canto",
+      "position": [
+        -0.6140000224113464,
+        0.09500002861022949,
+        2.0384998321533203
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.014000000432133675,
+        "h": 2.509999990463257,
+        "d": 1.90500009059906
+      }
+    },
+    {
+      "assetId": "cortinas-janela",
+      "typology": "meio",
+      "position": [
+        -2.95,
+        0.06,
+        -1.1355
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 2.060976028442383,
+        "h": 2.5299999713897705,
+        "d": 0.09100008010864258
+      }
+    },
+    {
+      "assetId": "pendente-jantar",
+      "typology": "meio",
+      "anchorType": "mesa",
+      "anchorNamePattern": "jantar",
+      "offset": [
+        0,
+        1.93,
+        0.005
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.5199999809265137,
+        "h": 0.7300000190734863,
+        "d": 0.5199999809265137
+      }
+    },
+    {
+      "assetId": "fruteira-jantar",
+      "typology": "meio",
+      "anchorType": "mesa",
+      "anchorNamePattern": "jantar",
+      "offset": [
+        0.38,
+        0.76,
+        0.055
+      ],
+      "yaw": 0,
+      "dimensions": {
+        "w": 0.2800000011920929,
+        "h": 0.07000000029802322,
+        "d": 0.2800000011920929
+      }
+    },
+    {
+      "assetId": "painel-tv-ripas",
+      "typology": "meio",
+      "anchorType": "rack",
+      "offset": [
+        -0.0135,
+        0.065,
+        -0.139
+      ],
+      "yaw": -1.5707963267948966,
+      "dimensions": {
+        "w": 0.014000000432133675,
+        "h": 2.509999990463257,
+        "d": 1.90500009059906
+      }
+    }
+  ],
+  "sourceBlendSHA256After": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88"
+}

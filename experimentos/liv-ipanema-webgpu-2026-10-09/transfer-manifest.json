@@ -1,0 +1,1009 @@
+{
+  "schema": "liv-transfer-manifest-v1",
+  "order": [
+    "tour",
+    "map",
+    "planta2d"
+  ],
+  "groups": {
+    "tour": {
+      "label": "Tour 3D"
+    },
+    "map": {
+      "label": "Mapa"
+    },
+    "planta2d": {
+      "label": "Planta 2D"
+    }
+  },
+  "files": [
+    {
+      "path": "interiores/catalogo.json",
+      "group": "tour",
+      "bytes": 6507,
+      "sha256": "4e1830dfe1d7a16b3af5943eb7dbb36eb30df4589bb4ebe38a2c3fc50587c9e9",
+      "essential": true
+    },
+    {
+      "path": "interiores/shared/furniture.json.gz",
+      "group": "tour",
+      "bytes": 201119,
+      "sha256": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd",
+      "essential": false
+    },
+    {
+      "path": "interiores/shared/materials.json.gz",
+      "group": "tour",
+      "bytes": 876068,
+      "sha256": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+      "essential": false
+    },
+    {
+      "path": "interiores/shared/runtime.js",
+      "group": "tour",
+      "bytes": 93877,
+      "sha256": "005547b7bee15a30fd59b7ece8ce64d786ef8294d14eabc8bb2683ec56054c5f",
+      "essential": false
+    },
+    {
+      "path": "interiores/canto/geometry-compact.json.gz",
+      "group": "tour",
+      "bytes": 853375,
+      "sha256": "7b95a21fb17f44c8299ad886c646f925b2444da6f4d798e4ea0848adf80c24a9",
+      "essential": false
+    },
+    {
+      "path": "interiores/canto/irradiance.rgbm.gz",
+      "group": "tour",
+      "bytes": 4280892,
+      "sha256": "5331e36dc76a4c52e091d6c7c3b509f9706dd44de03ab20b3732f1e32d064d45",
+      "essential": false
+    },
+    {
+      "path": "interiores/canto/light.json",
+      "group": "tour",
+      "bytes": 1866,
+      "sha256": "a3842361aac913a0cac5fcc333d4c9d55718ab1609fcdc334eb85921f763214b",
+      "essential": false
+    },
+    {
+      "path": "interiores/canto/source.json.gz",
+      "group": "tour",
+      "bytes": 1954560,
+      "sha256": "68d12a321462da041c3a3b4e3189c67a8462d58cd04470c19647b965c98d818d",
+      "essential": false
+    },
+    {
+      "path": "interiores/canto/unidade.json",
+      "group": "tour",
+      "bytes": 13456,
+      "sha256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "essential": false
+    },
+    {
+      "path": "interiores/meio/geometry-compact.json.gz",
+      "group": "tour",
+      "bytes": 420295,
+      "sha256": "1280073e416187d1196f7c26ff46b3913efb5ceeb0a98c30f7004c4548b1bbab",
+      "essential": false
+    },
+    {
+      "path": "interiores/meio/irradiance.rgbm.gz",
+      "group": "tour",
+      "bytes": 4123602,
+      "sha256": "32638292dc72d64881f9c2c2c7f107da2e7157687e4cc6b24dab1bd815e2cf2b",
+      "essential": false
+    },
+    {
+      "path": "interiores/meio/light.json",
+      "group": "tour",
+      "bytes": 1883,
+      "sha256": "5e42b92f048cc90ab329f19597cec7983878c6438c838325b84390d61ccf38e1",
+      "essential": false
+    },
+    {
+      "path": "interiores/meio/recipe.json",
+      "group": "tour",
+      "bytes": 595,
+      "sha256": "a1a5f63ae35cfa8aa9b57413fe48df5042f8becd51c802534c10bb59803b977b",
+      "essential": false
+    },
+    {
+      "path": "interiores/meio/source.json.gz",
+      "group": "tour",
+      "bytes": 1372249,
+      "sha256": "1304108b7689b7591fae5a39fb447c02ccd844fcdf948fbc5029f609acbc365c",
+      "essential": false
+    },
+    {
+      "path": "interiores/meio/unidade.json",
+      "group": "tour",
+      "bytes": 8036,
+      "sha256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "essential": false
+    },
+    {
+      "path": "mapa-runtime/mapa-liv-ipanema-5km.html",
+      "group": "map",
+      "bytes": 8054703,
+      "sha256": "953de725cc37a394c5ffef8a9259f0cb5578fea575348c188eddfcf536d77f7d",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/liv-ipanema.glb",
+      "group": "map",
+      "bytes": 2989904,
+      "sha256": "f3bef61c2a844aae0062b1c15df7ebb942ed188c572ba455b8cddd86d57fadf1",
+      "essential": true
+    },
+    {
+      "path": "modelo/variante/liv-contorno.glb",
+      "group": "map",
+      "bytes": 2275324,
+      "sha256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686",
+      "essential": true
+    },
+    {
+      "path": "modelo/entrada/candidato/liv-contorno.glb",
+      "group": "map",
+      "bytes": 2535936,
+      "sha256": "4947fee3d6eba10af3619493663a04a3fb478086a0953ae646f685b09e84ba01",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-10_-7.bin",
+      "group": "map",
+      "bytes": 30765,
+      "sha256": "8f2333ad0669a0b4ed39510026a95eb0fdb3aa02031f9088f7e6abc4d7f39276",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-10_-8.bin",
+      "group": "map",
+      "bytes": 52671,
+      "sha256": "74cae84453ae43f0eeb64fee8bc9915e9ec6e19f5c644e717dfca22a6d3d3a0f",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-10_-9.bin",
+      "group": "map",
+      "bytes": 10823,
+      "sha256": "8af6a0e8810c0703585d1a4db824350217d9c635bb6e3c6d91d9c819093b65d1",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-1.bin",
+      "group": "map",
+      "bytes": 102404,
+      "sha256": "7fd26d95f4e5359cb338fb6362b27498898bb6f3dd3ce9e201de08972da36c65",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-10.bin",
+      "group": "map",
+      "bytes": 8751,
+      "sha256": "a574a69ba0e7ccf74056163409de2171d0578e661ed7a2e1d99995af92ab47f3",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-11.bin",
+      "group": "map",
+      "bytes": 16157,
+      "sha256": "287c665849cd038d8378f7752d73097e729089d3f23ff9631a8a08d4dd5fdb75",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-12.bin",
+      "group": "map",
+      "bytes": 1243,
+      "sha256": "4c9ab23dfcd7b09faa44a37706c43e7ae61c3c450da51c299cc966b93002c7ab",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-2.bin",
+      "group": "map",
+      "bytes": 52644,
+      "sha256": "e0c5b90047cfd0dddd1283d0d269d176b44e32b53d820a2346b76d793819a9ab",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-3.bin",
+      "group": "map",
+      "bytes": 125581,
+      "sha256": "10c7f7f05af27c9869716f2d5677e6c60f296661af98534e7307b9e1683eff15",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-4.bin",
+      "group": "map",
+      "bytes": 109829,
+      "sha256": "f81c9e135cefacc426967bf74c3127a7b8aa19ab264916e1b71a5dc8dbe1e0da",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-5.bin",
+      "group": "map",
+      "bytes": 98602,
+      "sha256": "a0ac26d2ecd2be64b086f9f2d6ccbecf4e6f2059f82f17afb1ba3aed3775e876",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-6.bin",
+      "group": "map",
+      "bytes": 18753,
+      "sha256": "80d58edea826930ef2500b6f963d594ab354abb4b7792cb38097860e96983acd",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-7.bin",
+      "group": "map",
+      "bytes": 17752,
+      "sha256": "8d98b00a9ad58cf8204f23757091ebee82d75e6462f1c80a1edb45a2dd097dfc",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-8.bin",
+      "group": "map",
+      "bytes": 68762,
+      "sha256": "306de7536f53c0181b191b2e9bbfae4b07f9c1eaa2f8e674d55e9c6d28287753",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-9.bin",
+      "group": "map",
+      "bytes": 56941,
+      "sha256": "0fe05c6caf60502f84d10269dcba21ed50dc021a83508a74576f7380c85dad74",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_0.bin",
+      "group": "map",
+      "bytes": 95591,
+      "sha256": "4bdd6eaf6f290fa6588f696736c33f1874f468882fd8569ead7f5c1a6efb6456",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_1.bin",
+      "group": "map",
+      "bytes": 38306,
+      "sha256": "060513dcb23dae193745ac215620d85f9324fce8b2589cba8d81a2e779727d28",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-1.bin",
+      "group": "map",
+      "bytes": 70166,
+      "sha256": "6de06e131941e918d542562fa73799a46eb333aa6a2cb9305ba56f36581e51ae",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-10.bin",
+      "group": "map",
+      "bytes": 43587,
+      "sha256": "c96e9dff5f964aea51075144fa3ed5dc6ec227e772fae64cb001ec993199122a",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-11.bin",
+      "group": "map",
+      "bytes": 2757,
+      "sha256": "9009454a5a17c57290bef0c5b7ad79422e4124765508402289c18be2e6b578fc",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-2.bin",
+      "group": "map",
+      "bytes": 92199,
+      "sha256": "9bc606462e6f0f85a154f80cc92c880305e581b48b65bb51ed6621f1e6c9b6c3",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-3.bin",
+      "group": "map",
+      "bytes": 72541,
+      "sha256": "1f5928059c28a76432de6a94b0d8ea69eee9c3cf7ce60b1f2d03067da38b902e",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-4.bin",
+      "group": "map",
+      "bytes": 128628,
+      "sha256": "f8659926d2bbcfa5fcf02ff5ffeea71729ab641ee2996118af5f6b4d3fa6c4c6",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-5.bin",
+      "group": "map",
+      "bytes": 157059,
+      "sha256": "89ebdb086e986c1f54ecb36adcc8871422bc6a543a8db79b8ca5ad44035072af",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-6.bin",
+      "group": "map",
+      "bytes": 85970,
+      "sha256": "ad1566ea67e78811dfee8ad1e801f6ffb96e047fd17a8e2710fc530bf9f73da3",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-7.bin",
+      "group": "map",
+      "bytes": 142353,
+      "sha256": "627eae29540d7b8d3cc363ff30d43ef5079caa071c6f6e1f9e9cf93f2e69307b",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-8.bin",
+      "group": "map",
+      "bytes": 124598,
+      "sha256": "ef3233a7ed50534011fc586f56159b8aef6af0865668c5ad8cf8c171b73e6e70",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-9.bin",
+      "group": "map",
+      "bytes": 96761,
+      "sha256": "095bb34d98f00becec076d99eca14c5bcb65c521f4c704673c8b86195b22b684",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_0.bin",
+      "group": "map",
+      "bytes": 106715,
+      "sha256": "2e48e24398229cf87ce4cc601244478acda064c8d774810d48d23606d882a5e1",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_1.bin",
+      "group": "map",
+      "bytes": 129299,
+      "sha256": "73f7ad741fe68fe5a52d1f0ece8b80bb797d46831d9852b84e2b7d5e1aedf32c",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_2.bin",
+      "group": "map",
+      "bytes": 12676,
+      "sha256": "2e7370dd9d37c43283d80be18546a9a414ee84f97f55bd2d2d22a4320239e117",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-1.bin",
+      "group": "map",
+      "bytes": 40864,
+      "sha256": "e20435647518497c06f00280e04d828b69de4c0c18ed28d6e8caf2faad99f3c5",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-10.bin",
+      "group": "map",
+      "bytes": 32264,
+      "sha256": "4606a55868094ae5395304746dd3c7bfae79f769ca2c3853d035dee26493b42b",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-2.bin",
+      "group": "map",
+      "bytes": 85481,
+      "sha256": "8616b1d0f7f10688aa52cb61e69add84c7f91d95d2b4c3899a6b5aa3f01ece81",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-3.bin",
+      "group": "map",
+      "bytes": 116248,
+      "sha256": "4f5576ef86531c43635fe1dd054bbc0d6d1dcad815e14d1fa88a9b87204fb42d",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+      "group": "map",
+      "bytes": 143896,
+      "sha256": "b5e3ce2c785be266858b4c62a5dde8a47a3401166b5fac2bea152e84c3ef5a4a",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-5.bin",
+      "group": "map",
+      "bytes": 38304,
+      "sha256": "b49de1b6d10de150ab765383a51364c2065a597cf1e1a515a17105e23f8d6cb8",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-6.bin",
+      "group": "map",
+      "bytes": 1045,
+      "sha256": "10d4ce53908d377d41b4e4d080148246f18ac3cb5b8c43a692db9a1cfa908ada",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-7.bin",
+      "group": "map",
+      "bytes": 83616,
+      "sha256": "7d659a4f708c440118fe4a33e89218ffd8d0a79340d3e155f6168cf1b7c3cee3",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-8.bin",
+      "group": "map",
+      "bytes": 33662,
+      "sha256": "bdf26d7e4d25e8e8559cb75a8a9130fafb5ac4538f1a7eb0a16c2973fddd5084",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-9.bin",
+      "group": "map",
+      "bytes": 13691,
+      "sha256": "b08866646a93662e79959026e7841a4d3752b77f02ad76b6a0befcf121c2b29e",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_0.bin",
+      "group": "map",
+      "bytes": 97764,
+      "sha256": "80c230c1c7a9a54d0fe976a734d25f96abf9907c50075d0c1535f00b57c54c84",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_1.bin",
+      "group": "map",
+      "bytes": 155283,
+      "sha256": "883745945775e2978f38aa4c897ac4115b8cc859e0b5f42b2348da1725bb8949",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_2.bin",
+      "group": "map",
+      "bytes": 62937,
+      "sha256": "a2f35b9a1505336713473c88773e3f9d8a246d3289841737035e19e6ef058584",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-1.bin",
+      "group": "map",
+      "bytes": 41246,
+      "sha256": "1d05344344c12fb0d7438eaaa2f82abc2b579957ff10f606d5c68c4a772956ae",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-2.bin",
+      "group": "map",
+      "bytes": 114180,
+      "sha256": "b21406d92099eb57d92338db9a79924be1dd73aa5957006ecc1496bd10f6513a",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+      "group": "map",
+      "bytes": 165082,
+      "sha256": "fd66f734865910a16a35e5fec35b3a191fafec9496a0652cecdbb0a300d54363",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-4.bin",
+      "group": "map",
+      "bytes": 124030,
+      "sha256": "e15990afec487fc6a783d217fa36265700c37b73baf25782b9d817ece757d978",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-5.bin",
+      "group": "map",
+      "bytes": 7122,
+      "sha256": "514a167d328641bd2a56bdf07a8fb5bf5ce7a404a32f4d85768bf663cfabae65",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-6.bin",
+      "group": "map",
+      "bytes": 1841,
+      "sha256": "915ea5711d5c9a6b80325eeb37e7c710e0f4dd77f23b4ea6d34ed3ffceb3d9c5",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_0.bin",
+      "group": "map",
+      "bytes": 21968,
+      "sha256": "11dac253a084daf56d97545cd801c1107dfc262d8b54cbae94af565e79ec6a04",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_1.bin",
+      "group": "map",
+      "bytes": 97347,
+      "sha256": "5c0afda2fab18e4a4e466cef11cbe5e86996a15872459b2c7a4b19d99cb27c2e",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_2.bin",
+      "group": "map",
+      "bytes": 81013,
+      "sha256": "4b7430576106bcb3dd6a405c6dc0ccae61b8b7b5373f0aeb33617f8096f0a456",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-1.bin",
+      "group": "map",
+      "bytes": 61967,
+      "sha256": "2ccd312df28b172c42a58cc31949b78ca6fbda267d80b30ef4d29d48f121cf59",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-12.bin",
+      "group": "map",
+      "bytes": 383,
+      "sha256": "f2c86401323da832d0996cb0a80aadf6ca2f6bff519917ebf2045acdeb849d0b",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-2.bin",
+      "group": "map",
+      "bytes": 125654,
+      "sha256": "457c5b009ebcdd41ba447917e5ba280c4172a605816dd77024bbf1e926d565f4",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-3.bin",
+      "group": "map",
+      "bytes": 164145,
+      "sha256": "095bb1bdf6b70c033706aadd29fff88a2420d764b5c64b52010fc5c8cb41a474",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-4.bin",
+      "group": "map",
+      "bytes": 178213,
+      "sha256": "0ea61f512fa1ed6fc773cee34eb7a8eeea23d9638a0ee70d8fac1be404bed25a",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-5.bin",
+      "group": "map",
+      "bytes": 70107,
+      "sha256": "5558f94a9c45d104cb1e32bd6b8f0e313434ab3f60773f7bb485274fb17d4657",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_0.bin",
+      "group": "map",
+      "bytes": 15787,
+      "sha256": "c90aff7b746766294c8c397d3a4886d6478cd51c0f717bfe56fb2abef0549172",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_1.bin",
+      "group": "map",
+      "bytes": 47889,
+      "sha256": "fa67e6c10aa1e532ef7a35181dcdb809cae910a0212f61403abb50edf97ec16c",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_2.bin",
+      "group": "map",
+      "bytes": 36242,
+      "sha256": "751ab0061d7c799c4537dbe7ef2c650c9e9e6db369094033eaf6f269a545a65d",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-1.bin",
+      "group": "map",
+      "bytes": 70040,
+      "sha256": "1e0a3eed9ce7b0bf653c80d25acdf6864ee0eaf763ecda633f01e6afee4641a0",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-10.bin",
+      "group": "map",
+      "bytes": 4666,
+      "sha256": "7a54fc36d765338a19a4565d3717d5c9851102c321d7eb975d8024936d8f7b07",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-2.bin",
+      "group": "map",
+      "bytes": 66015,
+      "sha256": "e66ac0e5d59176e84183ede94ae5b6ff003efbdccfdc22b7dcbd9fa4cd1b5d12",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-3.bin",
+      "group": "map",
+      "bytes": 98582,
+      "sha256": "c75f20fd1cfa8a1479b68c41e033902311017f93f56c8ae00a5b2b02293b166c",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-4.bin",
+      "group": "map",
+      "bytes": 123282,
+      "sha256": "d2692bfd2fdb71fa4a3daca3a6fdbc370bc56ba7ece29963c07678dc13ef2639",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-5.bin",
+      "group": "map",
+      "bytes": 190573,
+      "sha256": "61da70f254c8fba224b9b55cc9f52bafe2afde44592365615a330669c2fe2f7f",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-6.bin",
+      "group": "map",
+      "bytes": 91589,
+      "sha256": "2b69567fa9021c5611840841eb637b5cb76635151cef52469cc95e8fab1c05df",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-7.bin",
+      "group": "map",
+      "bytes": 38990,
+      "sha256": "bd729138606a71ebff311ce32a692b351c6b3f7478e607afc6b7b4cb0df666a1",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_0.bin",
+      "group": "map",
+      "bytes": 14206,
+      "sha256": "11765ec73c10e52fdccb04c0b5eefcad5ac97c1c5192eda5cbea4d8cb80d78c4",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_1.bin",
+      "group": "map",
+      "bytes": 4211,
+      "sha256": "74cf0b2d942c143f3428470e156b55f54ddb0ee5d0357035bd65fd4821f0e8ba",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-10.bin",
+      "group": "map",
+      "bytes": 23047,
+      "sha256": "cf599a7bb6eac1221603f5650166b90484fa268391637dc2393215d3b4058d23",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-11.bin",
+      "group": "map",
+      "bytes": 12157,
+      "sha256": "e179bf8c6c98d21977286205f581d653bc06fb5be620623880b0a7fe3cce56a7",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-3.bin",
+      "group": "map",
+      "bytes": 384,
+      "sha256": "32addb65b31b85be7f9b193ca3d71ab7b7d454243fc5ea03bbd9b9ae10ff5b44",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-4.bin",
+      "group": "map",
+      "bytes": 20328,
+      "sha256": "d187e43ff2add8ab2b3c90c80833164379f84b69e27eadd0cff8bdbae56f51c6",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-5.bin",
+      "group": "map",
+      "bytes": 206883,
+      "sha256": "793502d7762ef3ffc1d81c2d79a8a64843aeb6c7c13216d6ff59d3cd8c4aa1fb",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-6.bin",
+      "group": "map",
+      "bytes": 155610,
+      "sha256": "fbd403a38a2abab628ab52b69f0cccc440cc75e31df914eb8f0950f570a8b3a7",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-7.bin",
+      "group": "map",
+      "bytes": 53698,
+      "sha256": "c3636a06cb7aed42a2f5147ccf61a91a97e341351a845070b9deb122fe1713f1",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-8.bin",
+      "group": "map",
+      "bytes": 720,
+      "sha256": "72603dcf1d590d7563613d1b684d2b10f774dc93828d1a94bea790558e0bd23f",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-9.bin",
+      "group": "map",
+      "bytes": 74043,
+      "sha256": "dcc8551514ab4565c56a8a3c423e4d5a1865311c89e4bf61d7c62947f8cb9662",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-10.bin",
+      "group": "map",
+      "bytes": 38610,
+      "sha256": "aff8308f2fa8ea2c2154e29b188334c31a7c857a52544ef99d44055aef709798",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-11.bin",
+      "group": "map",
+      "bytes": 2495,
+      "sha256": "9010373d553a6138ca39850e1699335a88d1395a0e86051fc3672f3101741849",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-5.bin",
+      "group": "map",
+      "bytes": 16712,
+      "sha256": "74c9044319f51c010dc395aed6c23a8569b80904b471dd429b66cbfeb5d4b0bc",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-6.bin",
+      "group": "map",
+      "bytes": 85878,
+      "sha256": "4b3ad265b38e5734de739a74c8c2afcfbe2df22e6aabd94cf195fa2b5dc6bbb3",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-7.bin",
+      "group": "map",
+      "bytes": 145109,
+      "sha256": "0248d6fd3e5ac531355d081d06808ecf5a8e241f882187f5b02997354c3b55da",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-8.bin",
+      "group": "map",
+      "bytes": 28804,
+      "sha256": "2e662cc3394c18f8219768d719065a5de7c47e0c8dd3f271f0a6b18039b73cfb",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-9.bin",
+      "group": "map",
+      "bytes": 128241,
+      "sha256": "b7932d6a86e689e91d24cc08672e459e26daee56b413b4a508d1e20967f26deb",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-10.bin",
+      "group": "map",
+      "bytes": 58288,
+      "sha256": "8cf982637f5cc45870a46c7d3315aae5e780ded43e2cd3e7a151d7d1b4af97bc",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-5.bin",
+      "group": "map",
+      "bytes": 958,
+      "sha256": "67a2cf6394bee1ddd981d9c573b2cb394352bb15ff5e86dc0f76b85eb4effbfc",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-6.bin",
+      "group": "map",
+      "bytes": 45269,
+      "sha256": "091bbd8fc1cf164a7c3437222904bba9a70a2d2c7dc765b688b550ce92a96be6",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-7.bin",
+      "group": "map",
+      "bytes": 61005,
+      "sha256": "d9d932f1073766dfdf25efde3df336d2200920828a31c0d030a2e689d7d676a1",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-8.bin",
+      "group": "map",
+      "bytes": 1340,
+      "sha256": "cd9f10a631db661a5418ac79d350baca47561680fb420d1579c0a48c1f546196",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-9.bin",
+      "group": "map",
+      "bytes": 28315,
+      "sha256": "bb442c7587acd41ccb373d8a18167f4e173c65cb4b11a50efc4452de1ebbc869",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-1.bin",
+      "group": "map",
+      "bytes": 96389,
+      "sha256": "25cf3131884eef922106c92250057af6b9f082d9150f1d274c88ff7cb51bbb55",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-10.bin",
+      "group": "map",
+      "bytes": 18192,
+      "sha256": "da7f508e2efc6331fc2b42b7baca679746ed7b3e4a3e62405ed8d0c8476dab85",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-11.bin",
+      "group": "map",
+      "bytes": 38423,
+      "sha256": "c8107fa1450629f1203ac0cd6be3f8fbc31589e1ee34eb7f206a61f9754a4e14",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-2.bin",
+      "group": "map",
+      "bytes": 94419,
+      "sha256": "eb8091f7ee9c0f3c8b558c078498472e5686aad28f16a19de36bf9736d3ea392",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-3.bin",
+      "group": "map",
+      "bytes": 110578,
+      "sha256": "7f2f1012702a733b13127c7d8275ea472cee05fab933efdb4b2d5acafb32fcd3",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-4.bin",
+      "group": "map",
+      "bytes": 87704,
+      "sha256": "76b60566440057d637ab27c720ce26de00b22d648d6cd4175d2476e3c24d651d",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-5.bin",
+      "group": "map",
+      "bytes": 54082,
+      "sha256": "e8e8891239e95e1fbb78be3b16ccbff3e7442e0f98a800e20627cd64be127a47",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-6.bin",
+      "group": "map",
+      "bytes": 5559,
+      "sha256": "2d76cb1424bd4cdc1e24f62582355e65ff3a0a8f1fcf1836c9ce4cdeeb15d936",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-7.bin",
+      "group": "map",
+      "bytes": 25149,
+      "sha256": "4e1601ad7cd70e524d2d0c22c7ee03fa597586d8cd5437831c14e10229659bdc",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-8.bin",
+      "group": "map",
+      "bytes": 14896,
+      "sha256": "a56283f991af353e3b82d524fad6560b318fa241b3381195d2125c56d220adfe",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_0.bin",
+      "group": "map",
+      "bytes": 47169,
+      "sha256": "d43a8f5ac3064c17046950faf740a430db91c054c4a88d1b5b58aef8e614383e",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_1.bin",
+      "group": "map",
+      "bytes": 292,
+      "sha256": "05f6aac1d26eead53ee62dff2a312d67baadf06a7f23b141a111fe71d58b9af2",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-1.bin",
+      "group": "map",
+      "bytes": 41758,
+      "sha256": "1bd326f50aba4a6b3aecfe541a1bd3403750e7c6c784ade562fed290181582c4",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-2.bin",
+      "group": "map",
+      "bytes": 82895,
+      "sha256": "81c2ddee24017cb55a4968abc7a1c803a7b6460bbdb1d76c12c21c28bfac2746",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-3.bin",
+      "group": "map",
+      "bytes": 139157,
+      "sha256": "3779de15f54cea0c8e196513f28ced19513e57cb46e13c2472b242af22af1643",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-4.bin",
+      "group": "map",
+      "bytes": 169072,
+      "sha256": "5fa94c187dd43edb918b98f28347cdbdc235ad3639f5c2317011c0df41b29142",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-5.bin",
+      "group": "map",
+      "bytes": 5007,
+      "sha256": "a02d5dedc15da474efd28f15e4433a8fbf16b5393392c9e40c367e5fa1b80185",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-6.bin",
+      "group": "map",
+      "bytes": 1285,
+      "sha256": "0fb8ecd0c210e274c4873a71e89b6ce026bba8c112d47d3c8a61fb7dd8c02bd6",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-7.bin",
+      "group": "map",
+      "bytes": 1138,
+      "sha256": "a7e8861455715d83d3472b729d956ed9eb88b6867850fa0a302f19758d5fb8d3",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-9.bin",
+      "group": "map",
+      "bytes": 309,
+      "sha256": "93adb4cb5a4ea2c739e381298d4a60b8c1a4ccc41c33119c14c9c29deb86d9e1",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-2.bin",
+      "group": "map",
+      "bytes": 5026,
+      "sha256": "bde5a814a01d2a0b4df4865f2d8674d2c9cdfb5c15126f6e542de6a5b2f49c7c",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-3.bin",
+      "group": "map",
+      "bytes": 89838,
+      "sha256": "2f310af33cc9a49f5261c4944cf432cc53c527910e8e903db9c370ec43febde8",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-4.bin",
+      "group": "map",
+      "bytes": 57439,
+      "sha256": "49f6f1911f079721f812e3d4668239f24d43624cb2e75b70ae2def902d1fed13",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-5.bin",
+      "group": "map",
+      "bytes": 31622,
+      "sha256": "a02bd1e2b31b57560e5ab850a9a00e787323206a3b83ffa20dac0e4d75666f30",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-6.bin",
+      "group": "map",
+      "bytes": 998,
+      "sha256": "d4985f41577de2f7d9e6d9a9610dcac7d30d432580dd6509661086103d6d138c",
+      "essential": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-7.bin",
+      "group": "map",
+      "bytes": 461,
+      "sha256": "6eb03a9f2780d2c69ef2c3236dd52f3d2b394cebaec66695a1bf5cad577e8493",
+      "essential": false
+    },
+    {
+      "path": "plantas2d/canto.jpg",
+      "group": "planta2d",
+      "bytes": 63548,
+      "sha256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971",
+      "essential": false
+    },
+    {
+      "path": "plantas2d/meio.jpg",
+      "group": "planta2d",
+      "bytes": 56234,
+      "sha256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
+      "essential": false
+    }
+  ],
+  "version": "1556237f114f26c7301a43ac1cbbd5fb101fe7139492bf18c8860e24c6674f25"
+}

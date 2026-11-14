@@ -1,0 +1,17 @@
+{
+  "experiment_name": "muito-leve",
+  "method_name": "splatfacto",
+  "checkpoint": "var/muito-leve/splatfacto/2026-10-15_155558/nerfstudio_models/step-000029999.ckpt",
+  "results": {
+    "psnr": 31.01617431640625,
+    "psnr_std": 5.664801120758057,
+    "ssim": 0.9552059173583984,
+    "ssim_std": 0.03026714362204075,
+    "lpips": 0.09635944664478302,
+    "lpips_std": 0.05659535154700279,
+    "num_rays_per_sec": 51337584.0,
+    "num_rays_per_sec_std": 4902748.5,
+    "fps": 55.7048454284668,
+    "fps_std": 5.319822788238525
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "schema": "liv-molding-authoring-images-v1",
+  "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+  "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+  "views": {
+    "suite": [
+      [
+        -3.5,
+        2.25,
+        -2.0
+      ],
+      [
+        -4.16,
+        2.63,
+        -2.735
+      ]
+    ],
+    "sala": [
+      [
+        0.4,
+        2.25,
+        2.1
+      ],
+      [
+        1.045,
+        2.63,
+        3.035
+      ]
+    ],
+    "banho": [
+      [
+        -2.85,
+        2.25,
+        1.65
+      ],
+      [
+        -3.27,
+        2.63,
+        0.815
+      ]
+    ]
+  },
+  "images": [
+    {
+      "file": "antes-suite.png",
+      "sha256": "14728cc6e9e950f60510a7c6770c14463247b150831a0feaee9adef2be335186"
+    },
+    {
+      "file": "antes-sala.png",
+      "sha256": "23e74d237166e2fb30301c67406e20ef5f293b8a923926a60d0b8927309a194f"
+    },
+    {
+      "file": "antes-banho.png",
+      "sha256": "b511fe44b8c2480af3d07fe87e70792fd5a54bede70df46e0ea4b0b431877e49"
+    },
+    {
+      "file": "depois-suite.png",
+      "sha256": "c6c911845ca7bd5c3d01b744f01f4844de13b7507c3e9aa9d61a23a3906abb45"
+    },
+    {
+      "file": "depois-sala.png",
+      "sha256": "a888ed9d5d06e2eb25174225f8f6acbb280b4d5a7529f0cf9914eb84eee456c2"
+    },
+    {
+      "file": "depois-banho.png",
+      "sha256": "31979ddbb6295075ead09353e30f66978bb8c41de81cd1a38c54888241c23982"
+    }
+  ],
+  "scope": "Source PBR geometry preview before bake; identical scene/cameras/lighting, only moldings replaced"
+}

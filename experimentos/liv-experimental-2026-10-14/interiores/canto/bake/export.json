@@ -1,0 +1,355 @@
+{
+  "schema": "liv-interior-scene-v1",
+  "unitId": "liv-ipanema-referencia-47-59",
+  "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+  "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+  "sourceBytes": 33944593,
+  "sourcePath": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\interiores\\canto\\source.json",
+  "meshSlots": 92,
+  "objects": 92,
+  "targetObjects": 55,
+  "geometryFingerprints": {
+    "g0": "f577e8b26f8bdb78cb5d9e9f42c46f04341729f7aea18f80f2e44a917690516d",
+    "g1": "170ce9160423395a6534e80d7605922ec5b2779c6d3e6dbba84b4597f1d618a0",
+    "g2": "d5650c6af4d812ab6ea368cf646165621fd2e1a98898bd6f999a538410f8cd83",
+    "g3": "1626817421d9cc451fa7feba621f616c97b480c044e5596ea74c5a563e2abb09",
+    "g4": "27c5f6c3ebe735f6cf6816bab99cff8960d1cf0070eb7e92cd58ee8dd6030684",
+    "g5": "479d5f2d50585b679fc185a6a185130edaf91dfc9091516397e4b5422042e349",
+    "g6": "dd0d74e18e06b59b54e81229ef01b719f4d4f0b741e2e47e9d589d4d65668ab2",
+    "g7": "85dd2d1b537da41921a1600134be1f2b2ab5dc8594783be826d51716c91e64a0",
+    "g8": "79dfc480092be75e3c43d46324e4b507a0ed4aa3eb46fa3efc37190c9da9cc43",
+    "g9": "85dd2d1b537da41921a1600134be1f2b2ab5dc8594783be826d51716c91e64a0",
+    "g10": "79dfc480092be75e3c43d46324e4b507a0ed4aa3eb46fa3efc37190c9da9cc43",
+    "g11": "85dd2d1b537da41921a1600134be1f2b2ab5dc8594783be826d51716c91e64a0",
+    "g12": "79dfc480092be75e3c43d46324e4b507a0ed4aa3eb46fa3efc37190c9da9cc43",
+    "g13": "85dd2d1b537da41921a1600134be1f2b2ab5dc8594783be826d51716c91e64a0",
+    "g14": "79dfc480092be75e3c43d46324e4b507a0ed4aa3eb46fa3efc37190c9da9cc43",
+    "g15": "85dd2d1b537da41921a1600134be1f2b2ab5dc8594783be826d51716c91e64a0",
+    "g16": "79dfc480092be75e3c43d46324e4b507a0ed4aa3eb46fa3efc37190c9da9cc43",
+    "g17": "85dd2d1b537da41921a1600134be1f2b2ab5dc8594783be826d51716c91e64a0",
+    "g18": "79dfc480092be75e3c43d46324e4b507a0ed4aa3eb46fa3efc37190c9da9cc43",
+    "g19": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g20": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g21": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g22": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g23": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g24": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g25": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g26": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g27": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g28": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g29": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g30": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g31": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g32": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g33": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g34": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g35": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g36": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g37": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g38": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g39": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g40": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g41": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g42": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g43": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g44": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g45": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g46": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g47": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g48": "908a2fb677f7eafa8083249e485800dcef2907f99bf0369d1003f33a859b48df",
+    "g49": "06a573ccf28ef139a8d2f13c6eab23361913ffc4d9c73f83473b847372ca9d8c",
+    "g50": "1c539403974042efdaea62cae9ab60ad0e6caf1abdcfd8352fef2d9fc8b31399",
+    "g51": "d9bd40f2a7aff53220095d984a0a14b9209b056cdb26781c8f2a0024d13387e5",
+    "g52": "84abccb028ebb01a6117b1aa29d2900c23e67379f859a1d3cf96fa898b8d1622",
+    "g53": "ae8168f3209833fda611bd2d6c7c6de29410a975b12abaadf632057e8e5b7554",
+    "g54": "c7a712da0a2ec704a0113427c88d9a33b45f6a69b71aa139c8a9efc1e52eddc1",
+    "g55": "c7a712da0a2ec704a0113427c88d9a33b45f6a69b71aa139c8a9efc1e52eddc1",
+    "g56": "06a573ccf28ef139a8d2f13c6eab23361913ffc4d9c73f83473b847372ca9d8c",
+    "g57": "1c539403974042efdaea62cae9ab60ad0e6caf1abdcfd8352fef2d9fc8b31399",
+    "g58": "d9bd40f2a7aff53220095d984a0a14b9209b056cdb26781c8f2a0024d13387e5",
+    "g59": "84abccb028ebb01a6117b1aa29d2900c23e67379f859a1d3cf96fa898b8d1622",
+    "g60": "41713e8affe8f9d932b18e67dff6231ad33285221b63ea2fd5fe188ca06231bc",
+    "g61": "caa97519808a66c42b15a7b092f7b8064003aaf604c8513d2b48beeae40abcff",
+    "g62": "888ea413ffd9d48693b067f15a3ba67c2ff4d6e39d195b65bcc2ab1a549df249",
+    "g63": "31c3334aa410cb108342eda4c232f6be9502070d906f01f0f6c7cb6f92120dbc",
+    "g64": "b030ff938e5a19d206c314bad6a1083cf30c0ac61e0e3de51d166221b9f268b0",
+    "g65": "e05c1faf5c8a787e0e096c23ed6aa2195a03350ff1a50f05befdfee0a228f1b1",
+    "g66": "3185d10015fd2a2cefb5367a6b6cb90f1300744c7a88850d1a6deca666281739",
+    "g67": "17bda3f3a5683fb3838a586bd6b259065e4be73cf56453fe71c3ed8e78d298c6",
+    "g68": "44eae33df07cb3e36869eba72bfc882f11e663032b235138931e553ed814d9f5",
+    "g69": "795dbc49c5ca6b98cc5a1c1d5c356041c7f31b487ef52841e167f7b1c28d4579",
+    "g70": "8aba6ae5914a35152790cbe61156a44e67552d374aac406781e67e9b822ef826",
+    "g71": "8aba6ae5914a35152790cbe61156a44e67552d374aac406781e67e9b822ef826",
+    "g72": "8aba6ae5914a35152790cbe61156a44e67552d374aac406781e67e9b822ef826",
+    "g73": "8aba6ae5914a35152790cbe61156a44e67552d374aac406781e67e9b822ef826",
+    "g74": "ae7f9e7e4bfd287c7a205f7f95a402e3094695bc8ab4483506c7f2f45edf4eb7",
+    "g75": "c8fdcde7c9bdd4f280a8f506a4077774f97a365a4fa39088b159ff7bb980c11b",
+    "g76": "bf9043f7f753a220fe28f189061088b2c568c5e78d95beb11ce8737f9c727844",
+    "g77": "a20a9c5188cd36615e986fb0a7febefb5fc04749ab5312722fe5b64d8f2ebaaa",
+    "g78": "aa1373bada5fa697d4f92893aa447381d822c6cb6e1651159c50e5ea24d1cb2d",
+    "g79": "be41c37ce5ca9b94116508e9ee4bc23bb8ac437081e2844af4e01aea50854f08",
+    "g80": "a20a9c5188cd36615e986fb0a7febefb5fc04749ab5312722fe5b64d8f2ebaaa",
+    "g81": "aa1373bada5fa697d4f92893aa447381d822c6cb6e1651159c50e5ea24d1cb2d",
+    "g82": "698d778aa3355945f753ac024bf48d73faa9bffed94feb39629ed3dd3e8b1e9f",
+    "g83": "58c425518c2aa943e417ce7d5e97b3df35f4a99e2cf75161a4cb057868827d2b",
+    "g84": "ba9a46dc5e45a6399c395f067bbdcd892331679b3cbd0efa907b767317e76610",
+    "g85": "ba9a46dc5e45a6399c395f067bbdcd892331679b3cbd0efa907b767317e76610",
+    "g86": "ba9a46dc5e45a6399c395f067bbdcd892331679b3cbd0efa907b767317e76610",
+    "g87": "ba9a46dc5e45a6399c395f067bbdcd892331679b3cbd0efa907b767317e76610",
+    "g88": "a3fc8f7ac498305b09d9f5f8a23d4284c2f38af5095794aebbbab7ec45b02f22",
+    "g89": "a3fc8f7ac498305b09d9f5f8a23d4284c2f38af5095794aebbbab7ec45b02f22",
+    "g90": "288da8ffab05edab25221fa21daf0ae813251cd061f62bf9466a2e4062404c49",
+    "g91": "cfd340acdcd51d0a08291e6b20573bbcdc2fa9df460b59f86b6e5416dc0ed158",
+    "rodateto-unido": "50860995108549d234f0092f0f1588771213bd3a21ffa515f6187055b55a0bc5"
+  },
+  "textures": [
+    {
+      "key": "t0",
+      "sha256": "c79ae8e5e94d235f586a955f9a6ecbf85ef35fe71187e3a9843bc60b3d93ad86",
+      "bytes": 52952,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t1",
+      "sha256": "d2afc492ff64748453d2a277e4cf26648397fb065f31561c8e5e855d5f8ac803",
+      "bytes": 33770,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "key": "t2",
+      "sha256": "c7ac3051fbd25f5048f5fb01c2236d972fe491faa3e6def39dc40991695d6b7f",
+      "bytes": 8903,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "key": "t3",
+      "sha256": "9d723ab76044e176a471986da7fcdcb8e2c82965a91b985a9a58f18161af9c79",
+      "bytes": 34836,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t4",
+      "sha256": "e40a622c67b6b1be094ff185496e45a4941ac35c6360196e43a9ae7a5d8c0428",
+      "bytes": 127692,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t5",
+      "sha256": "95159d01574ac3ded86f4ec765f28101d9115dfc23a71ecfd4dce8f42ce25560",
+      "bytes": 7875,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "key": "t6",
+      "sha256": "e5f681079f42d087e0e16664b44fcadfbbbb56047ee79dcfd4f81f63b4c645a3",
+      "bytes": 62520,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t7",
+      "sha256": "cfaba4558b4edd788b007d9b2cbd8ba02b4573187e6251ad4a91fb63ac4294fd",
+      "bytes": 9447,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "key": "t8",
+      "sha256": "e5f681079f42d087e0e16664b44fcadfbbbb56047ee79dcfd4f81f63b4c645a3",
+      "bytes": 62520,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t9",
+      "sha256": "efe91103d85cb9fc7448c98b486da9bc0fb578bf24bf3111df4229fbb6f0f8fc",
+      "bytes": 67166,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t10",
+      "sha256": "efe91103d85cb9fc7448c98b486da9bc0fb578bf24bf3111df4229fbb6f0f8fc",
+      "bytes": 67166,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t11",
+      "sha256": "ac73d1185cbe98e0f0bd626b7182430e4546f68338289ef5df42f0b4aa3e0d4f",
+      "bytes": 91130,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t12",
+      "sha256": "ac73d1185cbe98e0f0bd626b7182430e4546f68338289ef5df42f0b4aa3e0d4f",
+      "bytes": 91130,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t13",
+      "sha256": "a61111428109c02847d5f03544600aa3ebc6b411dbdb6a62f4473ddf7015b244",
+      "bytes": 78211,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t14",
+      "sha256": "a61111428109c02847d5f03544600aa3ebc6b411dbdb6a62f4473ddf7015b244",
+      "bytes": 78211,
+      "width": 256,
+      "height": 256
+    }
+  ],
+  "materialsSHA256": "f8b7f1fc8f5a2c51a551ba697b51de9b4a141da4f77eb8b01438f44d8db53172",
+  "moldingAudit": {
+    "objects": 1,
+    "collinearOverlapPairs": 0,
+    "auditURL": "interior/luz/audit-moldings.json"
+  },
+  "metadata": {
+    "source": "FloorPlan + HouseMesh + FurnitureCatalog, actual browser scene",
+    "unitPath": "C:\\Users\\respawn\\Desktop\\imobiliaria\\v1.5\\miniaturas\\liv-ipanema\\interior\\previa\\unidade.json",
+    "captureMode": "visita",
+    "runtimeLights": [
+      {
+        "type": "DirectionalLight",
+        "color": [
+          1,
+          0.8879231178794776,
+          0.7230551289161951
+        ],
+        "intensity": 2.6,
+        "position": [
+          -30,
+          47.35,
+          22
+        ],
+        "target": [
+          0,
+          1.35,
+          0
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": [
+          0.4286904966038916,
+          0.5775804404214573,
+          0.8227857543924378
+        ],
+        "intensity": 0.75,
+        "position": [
+          -30,
+          21,
+          -26
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "type": "HemisphereLight",
+        "color": [
+          0.8227857543924378,
+          0.8713671191959567,
+          0.9386857284565036
+        ],
+        "intensity": 0.85,
+        "position": [
+          0,
+          1,
+          0
+        ],
+        "target": null
+      }
+    ],
+    "ceilingIncludedWhenHidden": true,
+    "albedoBeforeVertexAO": true,
+    "meshSlots": 92,
+    "objects": 92,
+    "bakeObjects": 84,
+    "normalRepair": {
+      "verticalTriangles": 22612,
+      "opposedBefore": 22612,
+      "opposedAfter": 0,
+      "flippedVertices": 67836,
+      "positionsChanged": false,
+      "floorsCeilingFurnitureChanged": false
+    },
+    "moldingRepair": {
+      "parentSourceSHA256": "270d61e914f9f3dfdb7a79327b694409b32ccb475c3187c92cf42490e8ae3fb6",
+      "originalSlots": [
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "activeSlot": 19,
+      "union": {
+        "solver": "Blender EXACT self UNION",
+        "inputVertices": 720,
+        "inputFaces": 360,
+        "outputVertices": 722,
+        "outputFaces": 1464,
+        "nonManifoldEdges": 0,
+        "volume": 1.0894313551804962,
+        "materials": [
+          "gesso"
+        ],
+        "flatFacadeWithoutSubpixelBevel": true
+      },
+      "rawUnitPreserved": true,
+      "scope": "Exact union of original perpendicular/collinear joins and touching stepped layers",
+      "sources": {
+        "experimentos/liv-ipanema-webgpu-2026-10-09/corrigir_rodateto.py": "fa8ef379fd50435729bb66e2645786eaae65474f800335869c9532f71d6586ec",
+        "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/unir_paredes.py": "16ddbb49572368f7f752e2d284a1e03314a07b4901b8412a061b90231283d09e"
+      }
+    }
+  },
+  "checks": {
+    "sceneFromBrowser": true,
+    "unitIdentity": true,
+    "texturesMatchPNG": true,
+    "geometryFingerprints": true,
+    "positiveTargetMatrices": true,
+    "approvalStillRequired": true
+  }
+}

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="data:,">
+<title>Containers da Mooca — mapa do entorno</title>
+<link rel="stylesheet" href="../vendor/maplibre/maplibre-gl.css">
+<link rel="stylesheet" href="../mapa-2d.css">
+<script src="../vendor/maplibre/maplibre-gl.js" defer></script>
+<script type="module" src="../mapa-2d.js"></script>
+</head>
+<body>
+<div id="satellite" aria-label="Mapa de satélite do entorno dos containers da Mooca"></div>
+<header id="livMapaBar">
+  <div><strong>Containers da Mooca</strong><span>Explore o entorno em 3D</span></div>
+  <a id="return" href="../maquete-containers.html">Voltar à maquete</a>
+</header>
+<nav class="tools" aria-label="Controles do mapa">
+  <button id="view-angle" type="button">Vista de cima</button>
+  <button id="center" type="button">Centralizar</button>
+  <button id="pins" type="button" aria-pressed="true">Pings ligados</button>
+  <button id="filters" type="button" aria-expanded="false" aria-controls="nearby">Pontos de interesse</button>
+</nav>
+<section class="map-solar" aria-label="Iluminação solar"><label for="map-hour">Sol · <output id="map-hour-value">06:30</output></label><input id="map-hour" type="range" min="0" max="24" step="0.05"><label for="map-date">Data</label><input id="map-date" type="date"></section>
+<section id="nearby" aria-label="Pontos de interesse" hidden>
+  <div class="panel-heading"><h1>O que há por perto</h1><button id="close-filters" aria-label="Fechar pontos de interesse">×</button></div>
+  <label for="search">Buscar no entorno</label><input id="search" type="search" placeholder="Nome do local" autocomplete="off">
+  <label for="category">Categoria</label><select id="category"><option value="">Todas as categorias</option></select>
+  <p id="count" role="status"></p><ul id="results"></ul><button id="more" hidden>Mostrar mais</button>
+</section>
+<p id="map-status" role="status">Carregando mapa…</p>
+<script>window.__livMap2DLoaded=false;</script>
+</body>
+</html>

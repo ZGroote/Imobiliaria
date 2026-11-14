@@ -1,0 +1,146 @@
+{
+  "schema": "liv-surface-look-v1",
+  "comparison": "Equivalent material regions in different cameras; diagnostic, not pixel alignment.",
+  "images": {
+    "web-usuario.png": {
+      "size": [
+        571,
+        332
+      ],
+      "regions": {
+        "parede": {
+          "polygon": [
+            [
+              279,
+              24
+            ],
+            [
+              314,
+              24
+            ],
+            [
+              314,
+              91
+            ],
+            [
+              279,
+              91
+            ]
+          ],
+          "pixels": 2448,
+          "meanRGB": [
+            0.8588235294117245,
+            0.8196078431372353,
+            0.749019607843138
+          ],
+          "meanSaturation": 0.1278538812785388,
+          "luminanceMean": 0.8228486274509803,
+          "luminanceStd": 0.0,
+          "luminanceP95": 0.8228486274509803,
+          "nearWhiteFraction": 0.0
+        },
+        "tampo": {
+          "polygon": [
+            [
+              122,
+              231
+            ],
+            [
+              272,
+              211
+            ],
+            [
+              322,
+              235
+            ],
+            [
+              184,
+              267
+            ]
+          ],
+          "pixels": 5825,
+          "meanRGB": [
+            0.833463603467206,
+            0.7753557182530489,
+            0.686244887654569
+          ],
+          "meanSaturation": 0.1793272003545752,
+          "luminanceMean": 0.7812756526802995,
+          "luminanceStd": 0.07525596455039964,
+          "luminanceP95": 0.8366407843137255,
+          "nearWhiteFraction": 0.0
+        }
+      }
+    },
+    "blender-referencia.png": {
+      "size": [
+        1184,
+        738
+      ],
+      "regions": {
+        "parede": {
+          "polygon": [
+            [
+              842,
+              58
+            ],
+            [
+              1050,
+              58
+            ],
+            [
+              1050,
+              163
+            ],
+            [
+              842,
+              163
+            ]
+          ],
+          "pixels": 22154,
+          "meanRGB": [
+            0.8039474126744962,
+            0.7563127625338983,
+            0.7019002455184262
+          ],
+          "meanSaturation": 0.12690622027130047,
+          "luminanceMean": 0.7625113054253027,
+          "luminanceStd": 0.006022251383903686,
+          "luminanceP95": 0.7707466666666666,
+          "nearWhiteFraction": 0.0
+        },
+        "tampo": {
+          "polygon": [
+            [
+              327,
+              586
+            ],
+            [
+              525,
+              562
+            ],
+            [
+              620,
+              587
+            ],
+            [
+              417,
+              629
+            ]
+          ],
+          "pixels": 9931,
+          "meanRGB": [
+            0.8297535346835395,
+            0.8231068885112324,
+            0.8128818257744347
+          ],
+          "meanSaturation": 0.021572962231873723,
+          "luminanceMean": 0.8237817159577555,
+          "luminanceStd": 0.020682875592904323,
+          "luminanceP95": 0.8568729411764706,
+          "nearWhiteFraction": 0.0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "id": "containers-mooca-casal-bebe",
+  "titulo": "Containers da Mooca · dormitório casal com bebê · 29,7 m²",
+  "imagem": "../../../../plantas_fornecidas/containers-mooca/fonte/dorm-quadruplo-e-casal-bebe.png",
+  "imagemSha256": "4674ddb731e7913f5bb36a7a8d67ee84ee8e7be16e6169a9a66ed7a95c454066",
+  "calibracao": {
+    "areaM2": 29.72,
+    "contornoFacesPx": [
+      [
+        620,
+        1355,
+        2335,
+        1700
+      ]
+    ],
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "origemPx": [
+    620,
+    1355
+  ],
+  "gradeMm": 50,
+  "peDireitoMm": 2350,
+  "comodos": [
+    {
+      "nome": "Quarto",
+      "partes": [
+        [
+          620,
+          1355,
+          1480,
+          1700
+        ]
+      ]
+    },
+    {
+      "nome": "Estudo e copa",
+      "partes": [
+        [
+          1480,
+          1355,
+          2095,
+          1700
+        ]
+      ]
+    },
+    {
+      "nome": "Banho",
+      "partes": [
+        [
+          2095,
+          1355,
+          2335,
+          1700
+        ]
+      ]
+    }
+  ],
+  "aberturas": [
+    {
+      "comodo": "Estudo e copa",
+      "lado": "south",
+      "de": 1975,
+      "ate": 2090,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Quarto",
+      "lado": "east",
+      "de": 1440,
+      "ate": 1560,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Banho",
+      "lado": "west",
+      "de": 1465,
+      "ate": 1580,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Quarto",
+      "lado": "south",
+      "de": 1020,
+      "ate": 1460,
+      "tipo": "window",
+      "alturaMm": 1500,
+      "peitorilMm": 600
+    },
+    {
+      "comodo": "Estudo e copa",
+      "lado": "south",
+      "de": 1500,
+      "ate": 1960,
+      "tipo": "window",
+      "alturaMm": 1500,
+      "peitorilMm": 600
+    }
+  ],
+  "moveis": [
+    {
+      "catalogo": "cama-queen",
+      "x": 842,
+      "y": 1530,
+      "rot": 180,
+      "w": 1600,
+      "d": 2000,
+      "cor": "#D9D4CC",
+      "nome": "Cama de casal"
+    },
+    {
+      "catalogo": "cama-solteiro",
+      "x": 1167,
+      "y": 1420,
+      "rot": 90,
+      "w": 650,
+      "d": 1250,
+      "cor": "#D9D4CC",
+      "nome": "Berço"
+    },
+    {
+      "catalogo": "guardaroupa",
+      "x": 1265,
+      "y": 1660,
+      "rot": 180,
+      "w": 2700,
+      "d": 500,
+      "cor": "#A57A52",
+      "nome": "Armário",
+      "h": 2300
+    },
+    {
+      "catalogo": "escrivaninha",
+      "x": 1790,
+      "y": 1405,
+      "rot": 0,
+      "w": 2400,
+      "d": 560,
+      "cor": "#A57A52",
+      "nome": "Bancada de estudo"
+    },
+    {
+      "catalogo": "pia-cozinha",
+      "x": 1760,
+      "y": 1655,
+      "rot": 180,
+      "w": 3200,
+      "d": 560,
+      "cor": "#C9C3BA",
+      "nome": "Copa com pia e cooktop"
+    },
+    {
+      "catalogo": "geladeira",
+      "x": 2045,
+      "y": 1655,
+      "rot": 180,
+      "w": 550,
+      "d": 550,
+      "cor": "#D6D9DA",
+      "nome": "Geladeira"
+    },
+    {
+      "catalogo": "box-chuveiro",
+      "x": 2215,
+      "y": 1645,
+      "rot": 180,
+      "w": 1600,
+      "d": 700,
+      "cor": "#DDE5E4",
+      "nome": "Banheira"
+    },
+    {
+      "catalogo": "vaso-sanitario",
+      "x": 2285,
+      "y": 1530,
+      "rot": 270,
+      "w": 400,
+      "d": 600,
+      "cor": "#F2F1EE",
+      "nome": "Vaso"
+    },
+    {
+      "catalogo": "gabinete-banheiro",
+      "x": 2300,
+      "y": 1430,
+      "rot": 270,
+      "w": 650,
+      "d": 500,
+      "cor": "#F2F1EE",
+      "nome": "Lavatório"
+    },
+    {
+      "catalogo": "tapete-sala",
+      "x": 1060,
+      "y": 1540,
+      "rot": 0,
+      "w": 1400,
+      "d": 800,
+      "cor": "#CFC6B8",
+      "nome": "Tapete"
+    }
+  ],
+  "ficha": {
+    "titulo": "Containers da Mooca · dormitório casal com bebê · 29,7 m²",
+    "empreendimento": "Moradia estudantil em containers (Mooca)",
+    "tipo": "casal-bebe",
+    "area_publicada_m2": 29.7,
+    "quartos": 1,
+    "banheiros": 1,
+    "aluguel_mensal": 900,
+    "observacao": "Reconstrução ilustrativa a partir do TCC de Tamires Ruffino (Escola da Cidade, 2025). Medidas pela área do container."
+  },
+  "cores": {
+    "parede": "#E6E3DC",
+    "piso_frio": "#C9C7C2",
+    "piso_madeira": "#C9A57B",
+    "teto": "#EFEDE8"
+  },
+  "lote": {
+    "predio": {
+      "largura_m": 45.0,
+      "profundidade_m": 40.0,
+      "pavimentos": 2
+    }
+  },
+  "limites": [
+    "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas.",
+    "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
+    "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
+    "O prédio declarado (45 x 40 m, 2 pavimentos) é a pegada do conjunto na planta 1:200; o container não é o prédio.",
+    "O berço é uma cama de solteiro pequena (o catálogo não tem berço)."
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "schema": "liv-sales-config-v1",
+  "mode": "emulador",
+  "propertyId": "liv-demo-disponibilidade",
+  "firebase": { "apiKey": "demo-key", "projectId": "demo-painel" },
+  "emulatorPort": 8180
+}

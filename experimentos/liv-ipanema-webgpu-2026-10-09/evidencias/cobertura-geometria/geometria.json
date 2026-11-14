@@ -1,0 +1,78 @@
+{
+  "schema": "liv-outline-geometry-qa-v1",
+  "atUtc": "2026-10-11T04:11:34.347831+00:00",
+  "result": "PASS",
+  "sourceSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+  "baselineSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+  "outlineSHA256": "8e6545269bfd0ebd97b80a82eff7a2feabff5aad6a0fb4a24b220f2d898bf878",
+  "annotationConfidence": "inferido, \u00b12 pixels",
+  "measurementScope": "Proje\u00e7\u00e3o dos tri\u00e2ngulos exportados contra anota\u00e7\u00e3o manual; n\u00e3o comprova dimens\u00f5es reais nem repeti\u00e7\u00e3o vertical.",
+  "mask": {
+    "baselineIoU": 0.9552850200904376,
+    "candidateIoU": 0.9987864385780513,
+    "boundaryMaxPixels": 0.3535533905932738,
+    "candidateTopTriangles": 30,
+    "baselineTopTriangles": 2,
+    "sampleScale": 4
+  },
+  "mesh": {
+    "closedEdges": 186,
+    "triangles": 124,
+    "volume": 99.75193801687203,
+    "expectedVolume": 99.75193268594523,
+    "structuralFloors": 17,
+    "slabs": 18,
+    "unchangedGroundSiteGroups": 69
+  },
+  "windowShifts": [
+    {
+      "oldX": -20.8926,
+      "newX": -20.8926,
+      "delta": 0.0
+    },
+    {
+      "oldX": -12.4974,
+      "newX": -12.4974,
+      "delta": 0.0
+    },
+    {
+      "oldX": -9.444600000000001,
+      "newX": -9.376701694915255,
+      "delta": 0.06789830508474637
+    },
+    {
+      "oldX": 0.14310000000000014,
+      "newX": 0.14310000000000014,
+      "delta": 0.0
+    },
+    {
+      "oldX": 3.386699999999998,
+      "newX": 3.791840000000002,
+      "delta": 0.40514000000000383
+    },
+    {
+      "oldX": 7.298100000000002,
+      "newX": 7.041359999999999,
+      "delta": -0.2567400000000024
+    },
+    {
+      "oldX": 9.873899999999999,
+      "newX": 9.873899999999999,
+      "delta": 0.0
+    },
+    {
+      "oldX": 19.6047,
+      "newX": 19.6047,
+      "delta": 0.0
+    }
+  ],
+  "sources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_geometria.py": "3487643a05edb051d4f70e17e920299c4c3b72bccb3f346049bc729d6ae9cef4",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py": "5698afe2f06c70a54658bfac1d259623850372ea83f9c445312c24cae0b3cb89",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno-torre.json": "8e6545269bfd0ebd97b80a82eff7a2feabff5aad6a0fb4a24b220f2d898bf878",
+    "v1.5/miniaturas/liv-ipanema/referencias/implantacao.jpg": "3217ae957969aed1ce9a177d914f038faff2fdee6fd6b10ec67063615a113677",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+    "v1.5/miniaturas/liv-ipanema/modelo.json": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919"
+  }
+}

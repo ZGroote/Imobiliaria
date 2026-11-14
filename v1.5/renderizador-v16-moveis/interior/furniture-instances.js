@@ -9,7 +9,7 @@ function salvaMoveis() {
   try {
     guarda.grava(chaveSalva(INT.pl.id), JSON.stringify(INT.moveis.map(m =>
       ({ t:m.tipo, u:+m.u.toFixed(3), v:+m.v.toFixed(3), r:m.rot,
-         w:+m.w.toFixed(3), d:+m.d.toFixed(3), h:+m.h.toFixed(3), c:m.cor }))));
+         w:+m.w.toFixed(3), d:+m.d.toFixed(3), h:+m.h.toFixed(3), c:m.cor, e:m.estilo }))));
   } catch (e) { /* aba anônima / cota cheia: o layout só não persiste */ }
 }
 function leMoveis(id) {
@@ -19,7 +19,7 @@ function leMoveis(id) {
     const a = JSON.parse(s);
     if (!Array.isArray(a) || !a.length) return null;
     return a.filter(m => MOVEIS[m.t]).map(m =>
-      ({ tipo:m.t, u:m.u, v:m.v, rot:m.r|0, w:m.w, d:m.d, h:m.h, cor:m.c }));
+      ({ tipo:m.t, u:m.u, v:m.v, rot:m.r|0, w:m.w, d:m.d, h:m.h, cor:m.c, estilo:m.e }));
   } catch (e) { return null; }
 }
 

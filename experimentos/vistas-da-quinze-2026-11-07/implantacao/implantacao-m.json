@@ -1,0 +1,6313 @@
+{
+ "titulo": "Vistas da Quinze · implantação",
+ "fonte": "implantacao.json",
+ "registro": {
+  "origemGeo": [
+   -22.012203,
+   -47.880943
+  ],
+  "origem": "Cruzamento dos eixos da R. Quinze de Novembro (corre leste-oeste) com a R. Major Manoel Antônio de Mattos (norte-sul), OSM ways 94053182 e 906060395. O pino do Google no site oficial cai uma quadra a oeste.",
+  "eixos": "metros; x para leste, z para sul",
+  "imagemPxPorM": 11.77,
+  "imagemReferencia": "Pavimento do lazer com o norte para BAIXO: a esquerda da imagem é o leste. x = 62 - (px - 160)/11,77; z = 47 - (py - 115)/11,77 (quina sudeste da torre em px 160, 115). A escala é a que faz a ala sul (645 px) medir 5 apartamentos T01 + a fundura da ala."
+ },
+ "referencial": "metros; x para leste, z para sul; origem no cruzamento das ruas",
+ "loteM": [
+  [
+   6,
+   6
+  ],
+  [
+   63,
+   6
+  ],
+  [
+   63,
+   48
+  ],
+  [
+   6,
+   48
+  ]
+ ],
+ "loteGeo": [
+  [
+   -22.0122569,
+   -47.8808849
+  ],
+  [
+   -22.0122569,
+   -47.8803326
+  ],
+  [
+   -22.0126342,
+   -47.8803326
+  ],
+  [
+   -22.0126342,
+   -47.8808849
+  ]
+ ],
+ "nucleoM": {
+  "x": [
+   49.2,
+   62
+  ],
+  "z": [
+   34.2,
+   47
+  ]
+ },
+ "torre": {
+  "quinaSE": [
+   62,
+   47
+  ],
+  "profundidadeUnidadeM": 5.6,
+  "corredorM": 1.6,
+  "pavimentoLazer": 2,
+  "primeiroAndar": 3,
+  "ultimoAndar": 20,
+  "alturaEmbasamentoM": 9.0,
+  "alturaAndarM": 2.88,
+  "peDireitoM": 2.6,
+  "degraus": "Cada andar a partir do primeiroDegrau recua a ponta da ala em 1/3 de apartamento (2,8 m na sul, 2,33 m na leste), e o recuo vira o terraço do andar de cima. Confere com a perspectiva: no 20º sobram só 01/02 na sul e 11..14 na leste.",
+  "tipologiaDaPonta": {
+   "corpo4/3": "T04",
+   "corpo3/3": {
+    "impar": "T03",
+    "par": "T05"
+   },
+   "corpo2/3": "T06",
+   "nota": "O par da ponta tem o corpo que sobra até o recuo do andar e o terraço sobre o recuo de baixo. Corpo de 4/3 de apartamento = T04 (roxo na perspectiva), 3/3 = T03/T05 (laranja), 2/3 = T06 (verde). Aproximado: as plantas públicas não dizem qual cor é qual."
+  },
+  "fundoAlaM": 12.799999999999999,
+  "alas": [
+   {
+    "id": "sul",
+    "rumo": "oeste",
+    "larguraM": 8.4,
+    "tipologia": "T01",
+    "primeiroDegrau": 9,
+    "nota": "Ímpares na face do pátio (norte), pares na face de fora (sul). 01/02 junto do núcleo.",
+    "comprimentoM": 42.0
+   },
+   {
+    "id": "leste",
+    "rumo": "norte",
+    "larguraM": 7.0,
+    "tipologia": "T02",
+    "primeiroDegrau": 15,
+    "nota": "Ímpares na face do pátio (oeste), pares na face de fora (leste). Na imagem a ala tem ~40 m: 4 apartamentos de 7,0 m (T02) + a fundura da ala sul.",
+    "comprimentoM": 28.0
+   }
+  ]
+ },
+ "lazer": [
+  {
+   "nome": "Piscina",
+   "px": [
+    640,
+    425,
+    750,
+    515
+   ],
+   "tipo": "piscina",
+   "m": [
+    11.87,
+    13.02,
+    21.22,
+    20.66
+   ]
+  },
+  {
+   "nome": "Deck da piscina",
+   "px": [
+    622,
+    345,
+    780,
+    550
+   ],
+   "tipo": "deck",
+   "m": [
+    9.32,
+    10.04,
+    22.75,
+    27.46
+   ]
+  },
+  {
+   "nome": "Academia",
+   "px": [
+    622,
+    340,
+    730,
+    400
+   ],
+   "tipo": "edificio",
+   "altura": 3.0,
+   "m": [
+    13.57,
+    22.79,
+    22.75,
+    27.88
+   ]
+  },
+  {
+   "nome": "Espaço gourmet",
+   "px": [
+    390,
+    435,
+    455,
+    525
+   ],
+   "tipo": "edificio",
+   "altura": 3.0,
+   "m": [
+    36.94,
+    12.17,
+    42.46,
+    19.81
+   ]
+  },
+  {
+   "nome": "Playground",
+   "px": [
+    510,
+    445,
+    595,
+    550
+   ],
+   "tipo": "piso",
+   "m": [
+    25.04,
+    10.04,
+    32.26,
+    18.96
+   ]
+  },
+  {
+   "nome": "Praça com árvores",
+   "px": [
+    380,
+    340,
+    610,
+    430
+   ],
+   "tipo": "piso",
+   "m": [
+    23.77,
+    20.24,
+    43.31,
+    27.88
+   ]
+  },
+  {
+   "nome": "Vestiários (WC)",
+   "px": [
+    510,
+    290,
+    690,
+    330
+   ],
+   "tipo": "edificio",
+   "altura": 3.0,
+   "m": [
+    16.97,
+    28.73,
+    32.26,
+    32.13
+   ]
+  }
+ ],
+ "unidades": [
+  {
+   "id": "301",
+   "andar": 3,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "302",
+   "andar": 3,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "303",
+   "andar": 3,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "304",
+   "andar": 3,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "305",
+   "andar": 3,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "306",
+   "andar": 3,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "307",
+   "andar": 3,
+   "final": "07",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "308",
+   "andar": 3,
+   "final": "08",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "309",
+   "andar": 3,
+   "final": "09",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    7.2,
+    15.6
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8808325
+   ]
+  },
+  {
+   "id": "310",
+   "andar": 3,
+   "final": "10",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    7.2,
+    15.6
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8808325
+   ]
+  },
+  {
+   "id": "401",
+   "andar": 4,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "402",
+   "andar": 4,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "403",
+   "andar": 4,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "404",
+   "andar": 4,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "405",
+   "andar": 4,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "406",
+   "andar": 4,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "407",
+   "andar": 4,
+   "final": "07",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "408",
+   "andar": 4,
+   "final": "08",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "409",
+   "andar": 4,
+   "final": "09",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    7.2,
+    15.6
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8808325
+   ]
+  },
+  {
+   "id": "410",
+   "andar": 4,
+   "final": "10",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    7.2,
+    15.6
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8808325
+   ]
+  },
+  {
+   "id": "501",
+   "andar": 5,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "502",
+   "andar": 5,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "503",
+   "andar": 5,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "504",
+   "andar": 5,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "505",
+   "andar": 5,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "506",
+   "andar": 5,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "507",
+   "andar": 5,
+   "final": "07",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "508",
+   "andar": 5,
+   "final": "08",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "509",
+   "andar": 5,
+   "final": "09",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    7.2,
+    15.6
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8808325
+   ]
+  },
+  {
+   "id": "510",
+   "andar": 5,
+   "final": "10",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    7.2,
+    15.6
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8808325
+   ]
+  },
+  {
+   "id": "601",
+   "andar": 6,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "602",
+   "andar": 6,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "603",
+   "andar": 6,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "604",
+   "andar": 6,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "605",
+   "andar": 6,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "606",
+   "andar": 6,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "607",
+   "andar": 6,
+   "final": "07",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "608",
+   "andar": 6,
+   "final": "08",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "609",
+   "andar": 6,
+   "final": "09",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    7.2,
+    15.6
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8808325
+   ]
+  },
+  {
+   "id": "610",
+   "andar": 6,
+   "final": "10",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    7.2,
+    15.6
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8808325
+   ]
+  },
+  {
+   "id": "701",
+   "andar": 7,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "702",
+   "andar": 7,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "703",
+   "andar": 7,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "704",
+   "andar": 7,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "705",
+   "andar": 7,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "706",
+   "andar": 7,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "707",
+   "andar": 7,
+   "final": "07",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "708",
+   "andar": 7,
+   "final": "08",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "709",
+   "andar": 7,
+   "final": "09",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    7.2,
+    15.6
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8808325
+   ]
+  },
+  {
+   "id": "710",
+   "andar": 7,
+   "final": "10",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    7.2,
+    15.6
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8808325
+   ]
+  },
+  {
+   "id": "801",
+   "andar": 8,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "802",
+   "andar": 8,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "803",
+   "andar": 8,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "804",
+   "andar": 8,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "805",
+   "andar": 8,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "806",
+   "andar": 8,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "807",
+   "andar": 8,
+   "final": "07",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "808",
+   "andar": 8,
+   "final": "08",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "809",
+   "andar": 8,
+   "final": "09",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    7.2,
+    15.6
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8808325
+   ]
+  },
+  {
+   "id": "810",
+   "andar": 8,
+   "final": "10",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    7.2,
+    15.6
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8808325
+   ]
+  },
+  {
+   "id": "901",
+   "andar": 9,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "902",
+   "andar": 9,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "903",
+   "andar": 9,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "904",
+   "andar": 9,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "905",
+   "andar": 9,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "906",
+   "andar": 9,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "907",
+   "andar": 9,
+   "final": "07",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "908",
+   "andar": 9,
+   "final": "08",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "909",
+   "andar": 9,
+   "final": "09",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T06",
+   "corpoM": 5.6,
+   "x": [
+    10.0,
+    15.6
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "terracoM": {
+    "x": [
+     7.2,
+     10.0
+    ],
+    "z": [
+     34.2,
+     39.8
+    ]
+   },
+   "centroGeo": [
+    -22.0125354,
+    -47.880819
+   ]
+  },
+  {
+   "id": "910",
+   "andar": 9,
+   "final": "10",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T06",
+   "corpoM": 5.6,
+   "x": [
+    10.0,
+    15.6
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "terracoM": {
+    "x": [
+     7.2,
+     10.0
+    ],
+    "z": [
+     41.4,
+     47
+    ]
+   },
+   "centroGeo": [
+    -22.0126001,
+    -47.880819
+   ]
+  },
+  {
+   "id": "1001",
+   "andar": 10,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1002",
+   "andar": 10,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1003",
+   "andar": 10,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1004",
+   "andar": 10,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1005",
+   "andar": 10,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "1006",
+   "andar": 10,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "1007",
+   "andar": 10,
+   "final": "07",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T04",
+   "corpoM": 11.2,
+   "x": [
+    12.8,
+    24.0
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "terracoM": {
+    "x": [
+     10.0,
+     12.8
+    ],
+    "z": [
+     34.2,
+     39.8
+    ]
+   },
+   "centroGeo": [
+    -22.0125354,
+    -47.8807647
+   ]
+  },
+  {
+   "id": "1008",
+   "andar": 10,
+   "final": "08",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T04",
+   "corpoM": 11.2,
+   "x": [
+    12.8,
+    24.0
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "terracoM": {
+    "x": [
+     10.0,
+     12.8
+    ],
+    "z": [
+     41.4,
+     47
+    ]
+   },
+   "centroGeo": [
+    -22.0126001,
+    -47.8807647
+   ]
+  },
+  {
+   "id": "1101",
+   "andar": 11,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1102",
+   "andar": 11,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1103",
+   "andar": 11,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1104",
+   "andar": 11,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1105",
+   "andar": 11,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "1106",
+   "andar": 11,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "1107",
+   "andar": 11,
+   "final": "07",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T03",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "terracoM": {
+    "x": [
+     12.8,
+     15.6
+    ],
+    "z": [
+     34.2,
+     39.8
+    ]
+   },
+   "centroGeo": [
+    -22.0125354,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "1108",
+   "andar": 11,
+   "final": "08",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T05",
+   "corpoM": 8.4,
+   "x": [
+    15.6,
+    24.0
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "terracoM": {
+    "x": [
+     12.8,
+     15.6
+    ],
+    "z": [
+     41.4,
+     47
+    ]
+   },
+   "centroGeo": [
+    -22.0126001,
+    -47.8807511
+   ]
+  },
+  {
+   "id": "1201",
+   "andar": 12,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1202",
+   "andar": 12,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1203",
+   "andar": 12,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1204",
+   "andar": 12,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1205",
+   "andar": 12,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "1206",
+   "andar": 12,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "1207",
+   "andar": 12,
+   "final": "07",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T06",
+   "corpoM": 5.6,
+   "x": [
+    18.4,
+    24.0
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "terracoM": {
+    "x": [
+     15.6,
+     18.4
+    ],
+    "z": [
+     34.2,
+     39.8
+    ]
+   },
+   "centroGeo": [
+    -22.0125354,
+    -47.8807376
+   ]
+  },
+  {
+   "id": "1208",
+   "andar": 12,
+   "final": "08",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T06",
+   "corpoM": 5.6,
+   "x": [
+    18.4,
+    24.0
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "terracoM": {
+    "x": [
+     15.6,
+     18.4
+    ],
+    "z": [
+     41.4,
+     47
+    ]
+   },
+   "centroGeo": [
+    -22.0126001,
+    -47.8807376
+   ]
+  },
+  {
+   "id": "1301",
+   "andar": 13,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1302",
+   "andar": 13,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1303",
+   "andar": 13,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1304",
+   "andar": 13,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1305",
+   "andar": 13,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T04",
+   "corpoM": 11.2,
+   "x": [
+    21.2,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "terracoM": {
+    "x": [
+     18.4,
+     21.2
+    ],
+    "z": [
+     34.2,
+     39.8
+    ]
+   },
+   "centroGeo": [
+    -22.0125354,
+    -47.8806833
+   ]
+  },
+  {
+   "id": "1306",
+   "andar": 13,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T04",
+   "corpoM": 11.2,
+   "x": [
+    21.2,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "terracoM": {
+    "x": [
+     18.4,
+     21.2
+    ],
+    "z": [
+     41.4,
+     47
+    ]
+   },
+   "centroGeo": [
+    -22.0126001,
+    -47.8806833
+   ]
+  },
+  {
+   "id": "1401",
+   "andar": 14,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1402",
+   "andar": 14,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1403",
+   "andar": 14,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1404",
+   "andar": 14,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1405",
+   "andar": 14,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T03",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "terracoM": {
+    "x": [
+     21.2,
+     24.0
+    ],
+    "z": [
+     34.2,
+     39.8
+    ]
+   },
+   "centroGeo": [
+    -22.0125354,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "1406",
+   "andar": 14,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T05",
+   "corpoM": 8.4,
+   "x": [
+    24.0,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "terracoM": {
+    "x": [
+     21.2,
+     24.0
+    ],
+    "z": [
+     41.4,
+     47
+    ]
+   },
+   "centroGeo": [
+    -22.0126001,
+    -47.8806698
+   ]
+  },
+  {
+   "id": "1501",
+   "andar": 15,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1502",
+   "andar": 15,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1503",
+   "andar": 15,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1504",
+   "andar": 15,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1505",
+   "andar": 15,
+   "final": "05",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T06",
+   "corpoM": 5.6,
+   "x": [
+    26.8,
+    32.4
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "terracoM": {
+    "x": [
+     24.0,
+     26.8
+    ],
+    "z": [
+     34.2,
+     39.8
+    ]
+   },
+   "centroGeo": [
+    -22.0125354,
+    -47.8806562
+   ]
+  },
+  {
+   "id": "1506",
+   "andar": 15,
+   "final": "06",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T06",
+   "corpoM": 5.6,
+   "x": [
+    26.8,
+    32.4
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "terracoM": {
+    "x": [
+     24.0,
+     26.8
+    ],
+    "z": [
+     41.4,
+     47
+    ]
+   },
+   "centroGeo": [
+    -22.0126001,
+    -47.8806562
+   ]
+  },
+  {
+   "id": "1601",
+   "andar": 16,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1602",
+   "andar": 16,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1603",
+   "andar": 16,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T04",
+   "corpoM": 11.2,
+   "x": [
+    29.6,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "terracoM": {
+    "x": [
+     26.8,
+     29.6
+    ],
+    "z": [
+     34.2,
+     39.8
+    ]
+   },
+   "centroGeo": [
+    -22.0125354,
+    -47.8806019
+   ]
+  },
+  {
+   "id": "1604",
+   "andar": 16,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T04",
+   "corpoM": 11.2,
+   "x": [
+    29.6,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "terracoM": {
+    "x": [
+     26.8,
+     29.6
+    ],
+    "z": [
+     41.4,
+     47
+    ]
+   },
+   "centroGeo": [
+    -22.0126001,
+    -47.8806019
+   ]
+  },
+  {
+   "id": "1701",
+   "andar": 17,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1702",
+   "andar": 17,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1703",
+   "andar": 17,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T03",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "terracoM": {
+    "x": [
+     29.6,
+     32.4
+    ],
+    "z": [
+     34.2,
+     39.8
+    ]
+   },
+   "centroGeo": [
+    -22.0125354,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1704",
+   "andar": 17,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T05",
+   "corpoM": 8.4,
+   "x": [
+    32.4,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "terracoM": {
+    "x": [
+     29.6,
+     32.4
+    ],
+    "z": [
+     41.4,
+     47
+    ]
+   },
+   "centroGeo": [
+    -22.0126001,
+    -47.8805884
+   ]
+  },
+  {
+   "id": "1801",
+   "andar": 18,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1802",
+   "andar": 18,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T01",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "1803",
+   "andar": 18,
+   "final": "03",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T06",
+   "corpoM": 5.6,
+   "x": [
+    35.2,
+    40.8
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "terracoM": {
+    "x": [
+     32.4,
+     35.2
+    ],
+    "z": [
+     34.2,
+     39.8
+    ]
+   },
+   "centroGeo": [
+    -22.0125354,
+    -47.8805748
+   ]
+  },
+  {
+   "id": "1804",
+   "andar": 18,
+   "final": "04",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T06",
+   "corpoM": 5.6,
+   "x": [
+    35.2,
+    40.8
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "terracoM": {
+    "x": [
+     32.4,
+     35.2
+    ],
+    "z": [
+     41.4,
+     47
+    ]
+   },
+   "centroGeo": [
+    -22.0126001,
+    -47.8805748
+   ]
+  },
+  {
+   "id": "1901",
+   "andar": 19,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T04",
+   "corpoM": 11.2,
+   "x": [
+    38.0,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "terracoM": {
+    "x": [
+     35.2,
+     38.0
+    ],
+    "z": [
+     34.2,
+     39.8
+    ]
+   },
+   "centroGeo": [
+    -22.0125354,
+    -47.8805205
+   ]
+  },
+  {
+   "id": "1902",
+   "andar": 19,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T04",
+   "corpoM": 11.2,
+   "x": [
+    38.0,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "terracoM": {
+    "x": [
+     35.2,
+     38.0
+    ],
+    "z": [
+     41.4,
+     47
+    ]
+   },
+   "centroGeo": [
+    -22.0126001,
+    -47.8805205
+   ]
+  },
+  {
+   "id": "2001",
+   "andar": 20,
+   "final": "01",
+   "ala": "sul",
+   "lado": "patio",
+   "tipologia": "T03",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    34.2,
+    39.8
+   ],
+   "terracoM": {
+    "x": [
+     38.0,
+     40.8
+    ],
+    "z": [
+     34.2,
+     39.8
+    ]
+   },
+   "centroGeo": [
+    -22.0125354,
+    -47.880507
+   ]
+  },
+  {
+   "id": "2002",
+   "andar": 20,
+   "final": "02",
+   "ala": "sul",
+   "lado": "fora",
+   "tipologia": "T05",
+   "corpoM": 8.4,
+   "x": [
+    40.8,
+    49.2
+   ],
+   "z": [
+    41.4,
+    47
+   ],
+   "terracoM": {
+    "x": [
+     38.0,
+     40.8
+    ],
+    "z": [
+     41.4,
+     47
+    ]
+   },
+   "centroGeo": [
+    -22.0126001,
+    -47.880507
+   ]
+  },
+  {
+   "id": "311",
+   "andar": 3,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "312",
+   "andar": 3,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "313",
+   "andar": 3,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "314",
+   "andar": 3,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "315",
+   "andar": 3,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "316",
+   "andar": 3,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "317",
+   "andar": 3,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "318",
+   "andar": 3,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "411",
+   "andar": 4,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "412",
+   "andar": 4,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "413",
+   "andar": 4,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "414",
+   "andar": 4,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "415",
+   "andar": 4,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "416",
+   "andar": 4,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "417",
+   "andar": 4,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "418",
+   "andar": 4,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "511",
+   "andar": 5,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "512",
+   "andar": 5,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "513",
+   "andar": 5,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "514",
+   "andar": 5,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "515",
+   "andar": 5,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "516",
+   "andar": 5,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "517",
+   "andar": 5,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "518",
+   "andar": 5,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "611",
+   "andar": 6,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "612",
+   "andar": 6,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "613",
+   "andar": 6,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "614",
+   "andar": 6,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "615",
+   "andar": 6,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "616",
+   "andar": 6,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "617",
+   "andar": 6,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "618",
+   "andar": 6,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "711",
+   "andar": 7,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "712",
+   "andar": 7,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "713",
+   "andar": 7,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "714",
+   "andar": 7,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "715",
+   "andar": 7,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "716",
+   "andar": 7,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "717",
+   "andar": 7,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "718",
+   "andar": 7,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "811",
+   "andar": 8,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "812",
+   "andar": 8,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "813",
+   "andar": 8,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "814",
+   "andar": 8,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "815",
+   "andar": 8,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "816",
+   "andar": 8,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "817",
+   "andar": 8,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "818",
+   "andar": 8,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "911",
+   "andar": 9,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "912",
+   "andar": 9,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "913",
+   "andar": 9,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "914",
+   "andar": 9,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "915",
+   "andar": 9,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "916",
+   "andar": 9,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "917",
+   "andar": 9,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "918",
+   "andar": 9,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1011",
+   "andar": 10,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1012",
+   "andar": 10,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1013",
+   "andar": 10,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1014",
+   "andar": 10,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1015",
+   "andar": 10,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1016",
+   "andar": 10,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1017",
+   "andar": 10,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1018",
+   "andar": 10,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1111",
+   "andar": 11,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1112",
+   "andar": 11,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1113",
+   "andar": 11,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1114",
+   "andar": 11,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1115",
+   "andar": 11,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1116",
+   "andar": 11,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1117",
+   "andar": 11,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1118",
+   "andar": 11,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1211",
+   "andar": 12,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1212",
+   "andar": 12,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1213",
+   "andar": 12,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1214",
+   "andar": 12,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1215",
+   "andar": 12,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1216",
+   "andar": 12,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1217",
+   "andar": 12,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1218",
+   "andar": 12,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1311",
+   "andar": 13,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1312",
+   "andar": 13,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1313",
+   "andar": 13,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1314",
+   "andar": 13,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1315",
+   "andar": 13,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1316",
+   "andar": 13,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1317",
+   "andar": 13,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1318",
+   "andar": 13,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1411",
+   "andar": 14,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1412",
+   "andar": 14,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1413",
+   "andar": 14,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1414",
+   "andar": 14,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1415",
+   "andar": 14,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1416",
+   "andar": 14,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1417",
+   "andar": 14,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1418",
+   "andar": 14,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    6.2,
+    13.2
+   ],
+   "centroGeo": [
+    -22.0122901,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1511",
+   "andar": 15,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1512",
+   "andar": 15,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1513",
+   "andar": 15,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1514",
+   "andar": 15,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1515",
+   "andar": 15,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1516",
+   "andar": 15,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1517",
+   "andar": 15,
+   "final": "17",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T06",
+   "corpoM": 4.667,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    8.533,
+    13.2
+   ],
+   "terracoM": {
+    "x": [
+     49.2,
+     54.8
+    ],
+    "z": [
+     6.2,
+     8.533
+    ]
+   },
+   "centroGeo": [
+    -22.0123006,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1518",
+   "andar": 15,
+   "final": "18",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T06",
+   "corpoM": 4.667,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    8.533,
+    13.2
+   ],
+   "terracoM": {
+    "x": [
+     56.4,
+     62
+    ],
+    "z": [
+     6.2,
+     8.533
+    ]
+   },
+   "centroGeo": [
+    -22.0123006,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1611",
+   "andar": 16,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1612",
+   "andar": 16,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1613",
+   "andar": 16,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1614",
+   "andar": 16,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1615",
+   "andar": 16,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T04",
+   "corpoM": 9.333,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    10.867,
+    20.2
+   ],
+   "terracoM": {
+    "x": [
+     49.2,
+     54.8
+    ],
+    "z": [
+     8.533,
+     10.867
+    ]
+   },
+   "centroGeo": [
+    -22.0123425,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1616",
+   "andar": 16,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T04",
+   "corpoM": 9.333,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    10.867,
+    20.2
+   ],
+   "terracoM": {
+    "x": [
+     56.4,
+     62
+    ],
+    "z": [
+     8.533,
+     10.867
+    ]
+   },
+   "centroGeo": [
+    -22.0123425,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1711",
+   "andar": 17,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1712",
+   "andar": 17,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1713",
+   "andar": 17,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1714",
+   "andar": 17,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1715",
+   "andar": 17,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T03",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "terracoM": {
+    "x": [
+     49.2,
+     54.8
+    ],
+    "z": [
+     10.867,
+     13.2
+    ]
+   },
+   "centroGeo": [
+    -22.012353,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1716",
+   "andar": 17,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T05",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    13.2,
+    20.2
+   ],
+   "terracoM": {
+    "x": [
+     56.4,
+     62
+    ],
+    "z": [
+     10.867,
+     13.2
+    ]
+   },
+   "centroGeo": [
+    -22.012353,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1811",
+   "andar": 18,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1812",
+   "andar": 18,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1813",
+   "andar": 18,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1814",
+   "andar": 18,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1815",
+   "andar": 18,
+   "final": "15",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T06",
+   "corpoM": 4.667,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    15.533,
+    20.2
+   ],
+   "terracoM": {
+    "x": [
+     49.2,
+     54.8
+    ],
+    "z": [
+     13.2,
+     15.533
+    ]
+   },
+   "centroGeo": [
+    -22.0123635,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1816",
+   "andar": 18,
+   "final": "16",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T06",
+   "corpoM": 4.667,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    15.533,
+    20.2
+   ],
+   "terracoM": {
+    "x": [
+     56.4,
+     62
+    ],
+    "z": [
+     13.2,
+     15.533
+    ]
+   },
+   "centroGeo": [
+    -22.0123635,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1911",
+   "andar": 19,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1912",
+   "andar": 19,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "1913",
+   "andar": 19,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T04",
+   "corpoM": 9.333,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    17.867,
+    27.2
+   ],
+   "terracoM": {
+    "x": [
+     49.2,
+     54.8
+    ],
+    "z": [
+     15.533,
+     17.867
+    ]
+   },
+   "centroGeo": [
+    -22.0124054,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "1914",
+   "andar": 19,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T04",
+   "corpoM": 9.333,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    17.867,
+    27.2
+   ],
+   "terracoM": {
+    "x": [
+     56.4,
+     62
+    ],
+    "z": [
+     15.533,
+     17.867
+    ]
+   },
+   "centroGeo": [
+    -22.0124054,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "2011",
+   "andar": 20,
+   "final": "11",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "2012",
+   "andar": 20,
+   "final": "12",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T02",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    27.2,
+    34.2
+   ],
+   "centroGeo": [
+    -22.0124788,
+    -47.8803694
+   ]
+  },
+  {
+   "id": "2013",
+   "andar": 20,
+   "final": "13",
+   "ala": "leste",
+   "lado": "patio",
+   "tipologia": "T03",
+   "corpoM": 7.0,
+   "x": [
+    49.2,
+    54.8
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "terracoM": {
+    "x": [
+     49.2,
+     54.8
+    ],
+    "z": [
+     17.867,
+     20.2
+    ]
+   },
+   "centroGeo": [
+    -22.0124159,
+    -47.8804391
+   ]
+  },
+  {
+   "id": "2014",
+   "andar": 20,
+   "final": "14",
+   "ala": "leste",
+   "lado": "fora",
+   "tipologia": "T05",
+   "corpoM": 7.0,
+   "x": [
+    56.4,
+    62
+   ],
+   "z": [
+    20.2,
+    27.2
+   ],
+   "terracoM": {
+    "x": [
+     56.4,
+     62
+    ],
+    "z": [
+     17.867,
+     20.2
+    ]
+   },
+   "centroGeo": [
+    -22.0124159,
+    -47.8803694
+   ]
+  }
+ ],
+ "porAndar": {
+  "3": [
+   "301",
+   "302",
+   "303",
+   "304",
+   "305",
+   "306",
+   "307",
+   "308",
+   "309",
+   "310",
+   "311",
+   "312",
+   "313",
+   "314",
+   "315",
+   "316",
+   "317",
+   "318"
+  ],
+  "4": [
+   "401",
+   "402",
+   "403",
+   "404",
+   "405",
+   "406",
+   "407",
+   "408",
+   "409",
+   "410",
+   "411",
+   "412",
+   "413",
+   "414",
+   "415",
+   "416",
+   "417",
+   "418"
+  ],
+  "5": [
+   "501",
+   "502",
+   "503",
+   "504",
+   "505",
+   "506",
+   "507",
+   "508",
+   "509",
+   "510",
+   "511",
+   "512",
+   "513",
+   "514",
+   "515",
+   "516",
+   "517",
+   "518"
+  ],
+  "6": [
+   "601",
+   "602",
+   "603",
+   "604",
+   "605",
+   "606",
+   "607",
+   "608",
+   "609",
+   "610",
+   "611",
+   "612",
+   "613",
+   "614",
+   "615",
+   "616",
+   "617",
+   "618"
+  ],
+  "7": [
+   "701",
+   "702",
+   "703",
+   "704",
+   "705",
+   "706",
+   "707",
+   "708",
+   "709",
+   "710",
+   "711",
+   "712",
+   "713",
+   "714",
+   "715",
+   "716",
+   "717",
+   "718"
+  ],
+  "8": [
+   "801",
+   "802",
+   "803",
+   "804",
+   "805",
+   "806",
+   "807",
+   "808",
+   "809",
+   "810",
+   "811",
+   "812",
+   "813",
+   "814",
+   "815",
+   "816",
+   "817",
+   "818"
+  ],
+  "9": [
+   "901",
+   "902",
+   "903",
+   "904",
+   "905",
+   "906",
+   "907",
+   "908",
+   "909",
+   "910",
+   "911",
+   "912",
+   "913",
+   "914",
+   "915",
+   "916",
+   "917",
+   "918"
+  ],
+  "10": [
+   "1001",
+   "1002",
+   "1003",
+   "1004",
+   "1005",
+   "1006",
+   "1007",
+   "1008",
+   "1011",
+   "1012",
+   "1013",
+   "1014",
+   "1015",
+   "1016",
+   "1017",
+   "1018"
+  ],
+  "11": [
+   "1101",
+   "1102",
+   "1103",
+   "1104",
+   "1105",
+   "1106",
+   "1107",
+   "1108",
+   "1111",
+   "1112",
+   "1113",
+   "1114",
+   "1115",
+   "1116",
+   "1117",
+   "1118"
+  ],
+  "12": [
+   "1201",
+   "1202",
+   "1203",
+   "1204",
+   "1205",
+   "1206",
+   "1207",
+   "1208",
+   "1211",
+   "1212",
+   "1213",
+   "1214",
+   "1215",
+   "1216",
+   "1217",
+   "1218"
+  ],
+  "13": [
+   "1301",
+   "1302",
+   "1303",
+   "1304",
+   "1305",
+   "1306",
+   "1311",
+   "1312",
+   "1313",
+   "1314",
+   "1315",
+   "1316",
+   "1317",
+   "1318"
+  ],
+  "14": [
+   "1401",
+   "1402",
+   "1403",
+   "1404",
+   "1405",
+   "1406",
+   "1411",
+   "1412",
+   "1413",
+   "1414",
+   "1415",
+   "1416",
+   "1417",
+   "1418"
+  ],
+  "15": [
+   "1501",
+   "1502",
+   "1503",
+   "1504",
+   "1505",
+   "1506",
+   "1511",
+   "1512",
+   "1513",
+   "1514",
+   "1515",
+   "1516",
+   "1517",
+   "1518"
+  ],
+  "16": [
+   "1601",
+   "1602",
+   "1603",
+   "1604",
+   "1611",
+   "1612",
+   "1613",
+   "1614",
+   "1615",
+   "1616"
+  ],
+  "17": [
+   "1701",
+   "1702",
+   "1703",
+   "1704",
+   "1711",
+   "1712",
+   "1713",
+   "1714",
+   "1715",
+   "1716"
+  ],
+  "18": [
+   "1801",
+   "1802",
+   "1803",
+   "1804",
+   "1811",
+   "1812",
+   "1813",
+   "1814",
+   "1815",
+   "1816"
+  ],
+  "19": [
+   "1901",
+   "1902",
+   "1911",
+   "1912",
+   "1913",
+   "1914"
+  ],
+  "20": [
+   "2001",
+   "2002",
+   "2011",
+   "2012",
+   "2013",
+   "2014"
+  ]
+ },
+ "totalUnidades": 258,
+ "porTipologia": {
+  "T01": 104,
+  "T06": 12,
+  "T04": 12,
+  "T03": 6,
+  "T05": 6,
+  "T02": 118
+ },
+ "limites": [
+  "O lote (57 x 42 m) é o retângulo que contém o L do pavimento do lazer (56 x 39 m na imagem); o desenho do cadastro municipal não foi consultado.",
+  "O embasamento foi tomado como 3 pavimentos de garagem (9,0 m), pelas três faixas escuras de galeria-00; os apartamentos começam no 3º andar, como na numeração.",
+  "Os degraus seguem a regra de 1/3 de apartamento por andar; o desenho real pode ter degraus diferentes nos andares do meio."
+ ]
+}

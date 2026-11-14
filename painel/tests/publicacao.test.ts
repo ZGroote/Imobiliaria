@@ -1,11 +1,11 @@
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
-import { collection, doc, getDoc, getDocs, orderBy, query, where, type Firestore } from 'firebase/firestore'
+import { collection, deleteField, doc, getDoc, getDocs, orderBy, query, serverTimestamp, updateDoc, where, type Firestore } from 'firebase/firestore'
 import { aprovar, registrarPreview } from '../src/lib/aprovacao.ts'
 import { comandoPromover, comandoReverter, comandosPreview, conferirNoAr, lerEstado, linksPublicos, noAr }
   from '../src/lib/publicacao.ts'
-import { conferirPublicacao, conferirReversao, registrarPublicacao, registrarReversao } from '../src/lib/publicar.ts'
+import { alterarDisponibilidadePublicacao, conferirPublicacao, conferirReversao, registrarPublicacao, registrarReversao } from '../src/lib/publicar.ts'
 import { criarPedido, editarPedidoInterno } from '../src/lib/pedidos.ts'
 import { mudarStatus } from '../src/lib/status.ts'
 import type { Property, Request } from '../src/lib/types.ts'
@@ -101,7 +101,15 @@ test('publicação: só o admin, só o aprovado; histórico visível só para a 
   const p = await imovel(admin.db, 'cedros')
   assert.deepEqual([p.publishedBuild, p.previousBuild, p.publishedRequestId, p.tourUrl, p.publicUrl],
     ['a1b2c3d4e5f6', undefined, 'pedCedros', links.tourUrl, links.tourUrl])
-  assert.equal((await pedido(admin.db, 'pedCedros')).status, 'published')
+  const publicado = await pedido(admin.db, 'pedCedros')
+  assert.equal(publicado.status, 'published')
+  assert.equal(publicado.publishedAt?.toMillis(), p.publishedAt?.toMillis())
+  await editarPedidoInterno(admin.db, 'pedCedros', { priority: 'high' })
+  assert.equal((await pedido(admin.db, 'pedCedros')).publishedAt?.toMillis(), publicado.publishedAt?.toMillis())
+  for (const publishedAt of [serverTimestamp(), deleteField()]) {
+    await assert.rejects(updateDoc(doc(admin.db, 'requests', 'pedCedros'),
+      { publishedAt, updatedAt: serverTimestamp() }), /permission/i)
+  }
   await assert.rejects(editarPedidoInterno(admin.db, 'pedCedros', { propertyId: 'colinas' }), /permission/i)  // publicado
 
   const historico = (db: Firestore, agencyId: string) => getDocs(query(collection(db, 'publications'),
@@ -113,14 +121,17 @@ test('publicação: só o admin, só o aprovado; histórico visível só para a 
 
 test('republicar guarda o anterior; reverter volta a ele e fica no histórico', async () => {
   const admin = await entrar('admin'), corA = await entrar('corA'), op = await entrar('op')
+  const gerente = await entrar('gerA')
   const novo = await criarPedido(corA.db, 'corA', {
     agencyId: 'agA', title: 'Nova versão do Cedros', productionMode: 'leve', propertyId: 'cedros',
   })
   await aprovado(novo.id, '0f9e8d7c6b5a')
+  await alterarDisponibilidadePublicacao(gerente.db, gerente.uid, 'cedros', false)
   noArAgora = '0f9e8d7c6b5a'
   await registrarPublicacao(admin.db, 'admin', await pedido(admin.db, novo.id), await imovel(admin.db, 'cedros'),
     SITE, siteRemoto)
   let p = await imovel(admin.db, 'cedros')
+  assert.equal(p.status, 'inactive') // registrar outro build não reativa o que o gerente pausou
   const par = (x: Property) => [x.publishedBuild, x.publishedRequestId, x.previousBuild, x.previousRequestId]
   assert.deepEqual(par(p), ['0f9e8d7c6b5a', novo.id, 'a1b2c3d4e5f6', 'pedCedros'])
   const links = [p.tourUrl, p.maqueteUrl, p.publicUrl]
@@ -144,6 +155,7 @@ test('republicar guarda o anterior; reverter volta a ele e fica no histórico', 
   await assert.rejects(registrarReversao(op.db, 'op', p, SITE, siteRemoto), /permission/i)
   await registrarReversao(admin.db, 'admin', p, SITE, siteRemoto)
   p = await imovel(admin.db, 'cedros')
+  assert.equal(p.status, 'inactive') // reverter o build também preserva a escolha do gerente
   // o pedido registrado volta junto com o build: o que está no ar foi aprovado por pedCedros
   assert.deepEqual(par(p), ['a1b2c3d4e5f6', 'pedCedros', '0f9e8d7c6b5a', novo.id])
   assert.deepEqual([p.tourUrl, p.maqueteUrl, p.publicUrl], links)   // reverter não mexe nos ponteiros

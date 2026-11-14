@@ -1,0 +1,37 @@
+# Versionado: codigo, documentos, referencias e medidas de cada peca, as comparacoes finais e os pacotes
+# web que o Cedros v8 usa (montar_cedros.py). O resto e regeneravel (cena.py/exporta.py no Blender,
+# texturas.py, prep.py) e pesado: renders, .blend, bakes brutos, texturas procedurais, caches.
+*.blend
+*.exr
+_cache_br_*/
+/materiais/
+web/**/*.png
+web/**/ambiente.bin
+web/**/amb.bin
+*.png
+!*/referencia.png
+!painel_3_pecas.webp
+!painel_rodada2.webp
+!cozinha/comp_r7.webp
+!geladeira/comp_r6.webp
+!sofa/comp_r7.webp
+!fogao-4b/comp_r10.webp
+!fogao-5b/comp_r3.webp
+!cortina/_r3_aberta.webp
+!painel-tv/comp_r3.webp
+!tapete/comp_r11.webp
+!jantar/comp_r3.webp
+!cama-madeira/comp_r5.webp
+!cama-madeira/_r6_solteiro.webp
+fotos/*
+!fotos/cama-bn-x-atual.webp
+!fotos/geladeira-comparacao-lado.webp
+!fotos/fogao-comparacao-lado.webp
+!fotos/cortina-comparacao_perto.webp
+!fotos/rack-comparacao.webp
+!fotos/cama-v8-x-v9.webp
+!fotos/cama-v8-x-v9-lado.webp
+# do pacote web, so o nivel que o Cedros carrega (512); 256/1024 e a textura unica saem do prep.py
+web/**/*-256.*
+web/**/*-1024.*
+web/**/unica-*

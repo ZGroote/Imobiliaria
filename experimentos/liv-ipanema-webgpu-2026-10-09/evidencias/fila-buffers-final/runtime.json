@@ -1,0 +1,4798 @@
+{
+  "status": "PASS",
+  "recordedAtUtc": "2026-10-11T18:37:59.920339+00:00",
+  "physicalMobile": false,
+  "manifestVersion": "03204482b5e3d8c2c0f74a7951118e290b6e0aaaf3810fc2b98fb00623c87ba5",
+  "sourceSHA256": {
+    "qa_fila_integrada.py": "7d95c552e0a7baddb7b36b9dae4431110b3be1f619fa33031a9261155c59860a",
+    "edicoes.js": "8fa10dd06d3bb5421d1ea171fdff6fb692d08a8f3e36113bef9a4e11a910f185",
+    "transfer-worker.js": "93582ea6e18be6a740958f8aeb7b6f40a42b1f88264a569b763dbd18d3c0e88c",
+    "transfers.js": "d3f18d35513422b0566e55d8fbf60f643686d42c2ec0588ca2bdb2e440abb146",
+    "viewer.js": "7cda21eeb9b7af8642efd1b71e9d042104ce921f171d4960583c03d2474d3979",
+    "mapa-retorno.js": "3ce5b6c76f09e29c7abede06d4726b093272cc6159985c519a2beadb43ba5ab8",
+    "transfer-manifest.json": "f1a4a1634d0ecc1879475c9baf9dc5a268de4c61d3a3e5418398667d1d711ae3",
+    "maquete-liv-ipanema.html": "e297c92f23d56f32edb456fa3e8a1a9ac05443945d538fcc6e171f626575efb8",
+    "mapa-liv-ipanema-5km.html": "ed7952a709d784ee258779a4ba694ae9f8298337ccbf1cd28602ebd36810e04c",
+    "modelo/entrada/candidato/mapa.json": "387b7a4ff4fa4dffbb49e81910fa99daff0320182053635aba40145754efc326"
+  },
+  "cases": [
+    {
+      "name": "real-priority-cache",
+      "status": "PASS",
+      "initialSceneFirst": true,
+      "preemptedTourRequests": 2,
+      "allCatalogFilesCached": 141,
+      "cachedNativeMapNoNetwork": true,
+      "sameInteriorReused": true,
+      "noHiddenScene": true,
+      "errors": []
+    },
+    {
+      "name": "cold-map-priority",
+      "status": "PASS",
+      "edition": "contorno",
+      "modelPath": "modelo/variante/liv-contorno.glb",
+      "modelBefore120Tiles": true,
+      "modelBeforeOtherEditions": true,
+      "nativeAndBackgroundDeduplicated": true,
+      "errors": []
+    },
+    {
+      "name": "cold-map-priority",
+      "status": "PASS",
+      "edition": "entrada",
+      "modelPath": "modelo/entrada/candidato/liv-contorno.glb",
+      "modelBefore120Tiles": true,
+      "modelBeforeOtherEditions": true,
+      "nativeAndBackgroundDeduplicated": true,
+      "errors": []
+    },
+    {
+      "name": "quota-foreground",
+      "status": "PASS",
+      "storageFailed": true,
+      "tourOpenedWithoutCache": true,
+      "plantOpenedWithoutCache": true,
+      "errors": []
+    },
+    {
+      "name": "unsupported-worker",
+      "status": "PASS",
+      "nativePlantOpened": true
+    }
+  ],
+  "httpRequests": [
+    {
+      "path": "maquete-liv-ipanema.html",
+      "at": 926660.3467982,
+      "sent": 7042,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-ui.css",
+      "at": 926660.4856193,
+      "sent": 1239,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "viewer.js",
+      "at": 926660.4872469,
+      "sent": 19190,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfers.js",
+      "at": 926660.5367739,
+      "sent": 5424,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926660.5402216,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "tipologias.js",
+      "at": 926660.5403967,
+      "sent": 667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926660.5405851,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-ui.js",
+      "at": 926660.5407222,
+      "sent": 2562,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926660.5462975,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.json",
+      "at": 926660.5775634,
+      "sent": 9079,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "prova-rgbm.html",
+      "at": 926660.5907644,
+      "sent": 2574,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "renderer.js",
+      "at": 926660.5989463,
+      "sent": 27884,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.webgpu.js",
+      "at": 926660.6063062,
+      "sent": 2284850,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "material-rgbm.js",
+      "at": 926660.6069215,
+      "sent": 2508,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "at": 926660.6070414,
+      "sent": 40755,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "exterior-finishes.js",
+      "at": 926660.6083177,
+      "sent": 4026,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "cameras.js",
+      "at": 926660.6087849,
+      "sent": 1677,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926660.6096435,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926660.6112384,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "ambiente.js",
+      "at": 926660.6113575,
+      "sent": 3323,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "picking.js",
+      "at": 926660.6114748,
+      "sent": 5922,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.tsl.js",
+      "at": 926660.6173522,
+      "sent": 36854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926660.6179045,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "at": 926660.6759247,
+      "sent": 1458113,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/manifest.json",
+      "at": 926661.0863526,
+      "sent": 1313,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/scene.json.gz",
+      "at": 926661.0938246,
+      "sent": 7063805,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/irradiance.rgbm.gz",
+      "at": 926661.58329,
+      "sent": 13023696,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/manifest.json",
+      "at": 926661.9925608,
+      "sent": 1090,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/ambiente.f16.gz",
+      "at": 926661.9983098,
+      "sent": 37854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/texture-01.png",
+      "at": 926662.0083544,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/texture-00.png",
+      "at": 926662.0085119,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.json",
+      "at": 926662.1206651,
+      "sent": 9079,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-worker.js",
+      "at": 926663.0953619,
+      "sent": 21440,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926663.1184989,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926663.1401736,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/catalogo.json",
+      "at": 926663.1502085,
+      "sent": 6377,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "plantas2d/canto.jpg",
+      "at": 926663.9097267,
+      "sent": 63548,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "plantas2d/meio.jpg",
+      "at": 926663.9197079,
+      "sent": 56234,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/catalogo.json",
+      "at": 926663.9272669,
+      "sent": 6377,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926663.9684677,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/shared/furniture.json.gz",
+      "at": 926663.9952125,
+      "sent": 201119,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/shared/materials.json.gz",
+      "at": 926664.0069065,
+      "sent": 876068,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/shared/runtime.js",
+      "at": 926664.032243,
+      "sent": 93877,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/canto/geometry-compact.json.gz",
+      "at": 926664.0403109,
+      "sent": 873741,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/canto/irradiance.rgbm.gz",
+      "at": 926664.0665302,
+      "sent": 4319873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/canto/light.json",
+      "at": 926664.1100873,
+      "sent": 1864,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/canto/source.json.gz",
+      "at": 926664.1162233,
+      "sent": 1970203,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/canto/unidade.json",
+      "at": 926664.1568449,
+      "sent": 13456,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/meio/geometry-compact.json.gz",
+      "at": 926664.1621282,
+      "sent": 418028,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/meio/irradiance.rgbm.gz",
+      "at": 926664.1766072,
+      "sent": 4171499,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/meio/light.json",
+      "at": 926664.2127436,
+      "sent": 1881,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/meio/recipe.json",
+      "at": 926664.2177221,
+      "sent": 595,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/meio/source.json.gz",
+      "at": 926664.2240458,
+      "sent": 1366048,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/meio/unidade.json",
+      "at": 926664.2725813,
+      "sent": 8038,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "mapa-runtime/mapa-liv-ipanema-5km.html",
+      "at": 926664.2822359,
+      "sent": 8048147,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/liv-ipanema.glb",
+      "at": 926664.3927805,
+      "sent": 2989904,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/variante/liv-contorno.glb",
+      "at": 926664.4594982,
+      "sent": 2275324,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/entrada/candidato/liv-contorno.glb",
+      "at": 926664.4836411,
+      "sent": 2535936,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-10_-7.bin",
+      "at": 926664.5187294,
+      "sent": 30765,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-10_-8.bin",
+      "at": 926664.5236171,
+      "sent": 52671,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-10_-9.bin",
+      "at": 926664.5284088,
+      "sent": 10823,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-1.bin",
+      "at": 926664.5330606,
+      "sent": 102404,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-10.bin",
+      "at": 926664.5390088,
+      "sent": 8751,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-11.bin",
+      "at": 926664.5438066,
+      "sent": 16157,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-12.bin",
+      "at": 926664.5485904,
+      "sent": 1243,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-2.bin",
+      "at": 926664.5534212,
+      "sent": 52644,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-3.bin",
+      "at": 926664.558382,
+      "sent": 125581,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-4.bin",
+      "at": 926664.5644546,
+      "sent": 109829,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-5.bin",
+      "at": 926664.5710372,
+      "sent": 98602,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-6.bin",
+      "at": 926664.5774058,
+      "sent": 18753,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-7.bin",
+      "at": 926664.582249,
+      "sent": 17752,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-8.bin",
+      "at": 926664.5877778,
+      "sent": 68762,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-9.bin",
+      "at": 926664.5939832,
+      "sent": 56941,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_0.bin",
+      "at": 926664.5999283,
+      "sent": 95591,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_1.bin",
+      "at": 926664.6066483,
+      "sent": 38306,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-1.bin",
+      "at": 926664.6127463,
+      "sent": 70166,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-10.bin",
+      "at": 926664.6185345,
+      "sent": 43587,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-11.bin",
+      "at": 926664.6253461,
+      "sent": 2757,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-2.bin",
+      "at": 926664.6309541,
+      "sent": 92199,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-3.bin",
+      "at": 926664.6376981,
+      "sent": 72541,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-4.bin",
+      "at": 926664.6445166,
+      "sent": 128628,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-5.bin",
+      "at": 926664.651979,
+      "sent": 157059,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-6.bin",
+      "at": 926664.6686825,
+      "sent": 85970,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-7.bin",
+      "at": 926664.6794727,
+      "sent": 142353,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-8.bin",
+      "at": 926664.6872565,
+      "sent": 124598,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-9.bin",
+      "at": 926664.6947996,
+      "sent": 96761,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_0.bin",
+      "at": 926664.7017513,
+      "sent": 106715,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_1.bin",
+      "at": 926664.7097051,
+      "sent": 129299,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_2.bin",
+      "at": 926664.7172469,
+      "sent": 12676,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-1.bin",
+      "at": 926664.7238107,
+      "sent": 40864,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-10.bin",
+      "at": 926664.730468,
+      "sent": 32264,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-2.bin",
+      "at": 926664.7373347,
+      "sent": 85481,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-3.bin",
+      "at": 926664.7447138,
+      "sent": 116248,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+      "at": 926664.7532229,
+      "sent": 143896,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-5.bin",
+      "at": 926664.7633107,
+      "sent": 38304,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-6.bin",
+      "at": 926664.7711259,
+      "sent": 1045,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-7.bin",
+      "at": 926664.778472,
+      "sent": 83616,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-8.bin",
+      "at": 926664.7869039,
+      "sent": 33662,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-9.bin",
+      "at": 926664.7947687,
+      "sent": 13691,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_0.bin",
+      "at": 926664.802164,
+      "sent": 97764,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_1.bin",
+      "at": 926664.8112946,
+      "sent": 155283,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_2.bin",
+      "at": 926664.8211971,
+      "sent": 62937,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-1.bin",
+      "at": 926664.8305639,
+      "sent": 41246,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-2.bin",
+      "at": 926664.8391174,
+      "sent": 114180,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+      "at": 926664.8480222,
+      "sent": 165082,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-4.bin",
+      "at": 926664.8583388,
+      "sent": 124030,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-5.bin",
+      "at": 926664.8673598,
+      "sent": 7122,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-6.bin",
+      "at": 926664.8748966,
+      "sent": 1841,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_0.bin",
+      "at": 926664.882027,
+      "sent": 21968,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_1.bin",
+      "at": 926664.8897124,
+      "sent": 97347,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_2.bin",
+      "at": 926664.898559,
+      "sent": 81013,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-1.bin",
+      "at": 926664.9074211,
+      "sent": 61967,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-12.bin",
+      "at": 926664.9161974,
+      "sent": 383,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-2.bin",
+      "at": 926664.9241471,
+      "sent": 125654,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-3.bin",
+      "at": 926664.9334847,
+      "sent": 164145,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-4.bin",
+      "at": 926664.9427328,
+      "sent": 178213,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-5.bin",
+      "at": 926664.9522853,
+      "sent": 70107,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_0.bin",
+      "at": 926664.9600981,
+      "sent": 15787,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_1.bin",
+      "at": 926664.9676223,
+      "sent": 47889,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_2.bin",
+      "at": 926664.9755008,
+      "sent": 36242,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-1.bin",
+      "at": 926664.9835181,
+      "sent": 70040,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-10.bin",
+      "at": 926664.9921166,
+      "sent": 4666,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-2.bin",
+      "at": 926664.9992921,
+      "sent": 66015,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-3.bin",
+      "at": 926665.0075755,
+      "sent": 98582,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-4.bin",
+      "at": 926665.0157398,
+      "sent": 123282,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-5.bin",
+      "at": 926665.0246908,
+      "sent": 190573,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-6.bin",
+      "at": 926665.0353119,
+      "sent": 91589,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-7.bin",
+      "at": 926665.0466437,
+      "sent": 38990,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_0.bin",
+      "at": 926665.0540883,
+      "sent": 14206,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_1.bin",
+      "at": 926665.060023,
+      "sent": 4211,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-10.bin",
+      "at": 926665.0665249,
+      "sent": 23047,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-11.bin",
+      "at": 926665.0738238,
+      "sent": 12157,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-3.bin",
+      "at": 926665.0801027,
+      "sent": 384,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-4.bin",
+      "at": 926665.0863855,
+      "sent": 20328,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-5.bin",
+      "at": 926665.0931043,
+      "sent": 206883,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-6.bin",
+      "at": 926665.1036653,
+      "sent": 155610,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-7.bin",
+      "at": 926665.112259,
+      "sent": 53698,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-8.bin",
+      "at": 926665.1196998,
+      "sent": 720,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-9.bin",
+      "at": 926665.1253313,
+      "sent": 74043,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-10.bin",
+      "at": 926665.132767,
+      "sent": 38610,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-11.bin",
+      "at": 926665.1400868,
+      "sent": 2495,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-5.bin",
+      "at": 926665.1454432,
+      "sent": 16712,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-6.bin",
+      "at": 926665.1520983,
+      "sent": 85878,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-7.bin",
+      "at": 926665.1594346,
+      "sent": 145109,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-8.bin",
+      "at": 926665.1687879,
+      "sent": 28804,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-9.bin",
+      "at": 926665.1758681,
+      "sent": 128241,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-10.bin",
+      "at": 926665.1836356,
+      "sent": 58288,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-5.bin",
+      "at": 926665.1907821,
+      "sent": 958,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-6.bin",
+      "at": 926665.1971627,
+      "sent": 45269,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-7.bin",
+      "at": 926665.2042219,
+      "sent": 61005,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-8.bin",
+      "at": 926665.2109115,
+      "sent": 1340,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-9.bin",
+      "at": 926665.216596,
+      "sent": 28315,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-1.bin",
+      "at": 926665.22292,
+      "sent": 96389,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-10.bin",
+      "at": 926665.2318303,
+      "sent": 18192,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-11.bin",
+      "at": 926665.2388526,
+      "sent": 38423,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-2.bin",
+      "at": 926665.2458681,
+      "sent": 94419,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-3.bin",
+      "at": 926665.2529646,
+      "sent": 110578,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-4.bin",
+      "at": 926665.2601947,
+      "sent": 87704,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-5.bin",
+      "at": 926665.267671,
+      "sent": 54082,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-6.bin",
+      "at": 926665.2748273,
+      "sent": 5559,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-7.bin",
+      "at": 926665.2811354,
+      "sent": 25149,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-8.bin",
+      "at": 926665.2883943,
+      "sent": 14896,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_0.bin",
+      "at": 926665.2948539,
+      "sent": 47169,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_1.bin",
+      "at": 926665.3019003,
+      "sent": 292,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-1.bin",
+      "at": 926665.3076885,
+      "sent": 41758,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-2.bin",
+      "at": 926665.3144006,
+      "sent": 82895,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-3.bin",
+      "at": 926665.3218143,
+      "sent": 139157,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-4.bin",
+      "at": 926665.329884,
+      "sent": 169072,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-5.bin",
+      "at": 926665.338586,
+      "sent": 5007,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-6.bin",
+      "at": 926665.3454813,
+      "sent": 1285,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-7.bin",
+      "at": 926665.3520086,
+      "sent": 1138,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-9.bin",
+      "at": 926665.3579924,
+      "sent": 309,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-2.bin",
+      "at": 926665.3637078,
+      "sent": 5026,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-3.bin",
+      "at": 926665.3700224,
+      "sent": 89838,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-4.bin",
+      "at": 926665.3771988,
+      "sent": 57439,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-5.bin",
+      "at": 926665.3843466,
+      "sent": 31622,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-6.bin",
+      "at": 926665.3923961,
+      "sent": 998,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-7.bin",
+      "at": 926665.399677,
+      "sent": 461,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interior.html",
+      "at": 926665.4719866,
+      "sent": 4834,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interior-renderer.js",
+      "at": 926665.4831289,
+      "sent": 42619,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interior-navigation.js",
+      "at": 926665.4937335,
+      "sent": 9793,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "material-rgbm.js",
+      "at": 926665.4940772,
+      "sent": 2508,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "at": 926665.4942584,
+      "sent": 40755,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.webgpu.js",
+      "at": 926665.4946843,
+      "sent": 2284850,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interior-camera.js",
+      "at": 926665.4955522,
+      "sent": 2475,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interior-cutaway.js",
+      "at": 926665.4959054,
+      "sent": 2843,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.tsl.js",
+      "at": 926665.5064901,
+      "sent": 36854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "at": 926665.5837485,
+      "sent": 1458113,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926668.1954143,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-worker.js",
+      "at": 926669.5788625,
+      "sent": 21440,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926670.9368426,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.json",
+      "at": 926672.8538272,
+      "sent": 9079,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "prova-rgbm.html",
+      "at": 926673.0486953,
+      "sent": 2574,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "renderer.js",
+      "at": 926673.0836144,
+      "sent": 27884,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "material-rgbm.js",
+      "at": 926673.0915936,
+      "sent": 2508,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "at": 926673.0917669,
+      "sent": 40755,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "exterior-finishes.js",
+      "at": 926673.0920422,
+      "sent": 4026,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "cameras.js",
+      "at": 926673.0921329,
+      "sent": 1677,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926673.09241,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.webgpu.js",
+      "at": 926673.0927003,
+      "sent": 2284850,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "picking.js",
+      "at": 926673.0958507,
+      "sent": 5922,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "ambiente.js",
+      "at": 926673.0961824,
+      "sent": 3323,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926673.0963711,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.tsl.js",
+      "at": 926673.1127175,
+      "sent": 36854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926673.1159663,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "at": 926673.1588053,
+      "sent": 1458113,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/manifest.json",
+      "at": 926673.2693451,
+      "sent": 1313,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/scene.json.gz",
+      "at": 926673.2767672,
+      "sent": 7063805,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/irradiance.rgbm.gz",
+      "at": 926673.7840681,
+      "sent": 13023696,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/manifest.json",
+      "at": 926674.1545201,
+      "sent": 1090,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/ambiente.f16.gz",
+      "at": 926674.1611698,
+      "sent": 37854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/texture-00.png",
+      "at": 926674.1731901,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/texture-01.png",
+      "at": 926674.1735039,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.json",
+      "at": 926674.2691612,
+      "sent": 9079,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926675.8411286,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "mapa-liv-ipanema-5km.html",
+      "at": 926676.0046965,
+      "sent": 1239,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "mapa-retorno.js",
+      "at": 926676.015212,
+      "sent": 2421,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfers.js",
+      "at": 926676.0276308,
+      "sent": 5424,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926676.0278077,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-worker.js",
+      "at": 926676.4935188,
+      "sent": 21440,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "maquete-liv-ipanema.html",
+      "at": 926684.3768038,
+      "sent": 7042,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-ui.css",
+      "at": 926684.5313862,
+      "sent": 1239,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "viewer.js",
+      "at": 926684.5323261,
+      "sent": 19190,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfers.js",
+      "at": 926684.5421805,
+      "sent": 5424,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926684.5449935,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "tipologias.js",
+      "at": 926684.5451072,
+      "sent": 667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-ui.js",
+      "at": 926684.5454105,
+      "sent": 2562,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926684.5457207,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926684.5598128,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.json",
+      "at": 926684.5664808,
+      "sent": 9079,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "prova-rgbm.html",
+      "at": 926684.5783791,
+      "sent": 2574,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "renderer.js",
+      "at": 926684.5879069,
+      "sent": 27884,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "material-rgbm.js",
+      "at": 926684.5952219,
+      "sent": 2508,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "at": 926684.5964535,
+      "sent": 40755,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.webgpu.js",
+      "at": 926684.5967638,
+      "sent": 2284850,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "exterior-finishes.js",
+      "at": 926684.5981041,
+      "sent": 4026,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "cameras.js",
+      "at": 926684.5982248,
+      "sent": 1677,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926684.599716,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "picking.js",
+      "at": 926684.6005297,
+      "sent": 5922,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "ambiente.js",
+      "at": 926684.6012022,
+      "sent": 3323,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926684.6033205,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.tsl.js",
+      "at": 926684.608568,
+      "sent": 36854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926684.6096195,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "at": 926684.6608722,
+      "sent": 1458113,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/manifest.json",
+      "at": 926684.9623416,
+      "sent": 1313,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/scene.json.gz",
+      "at": 926684.970594,
+      "sent": 7063805,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/irradiance.rgbm.gz",
+      "at": 926685.4312127,
+      "sent": 13023696,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/manifest.json",
+      "at": 926685.8610562,
+      "sent": 1090,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/ambiente.f16.gz",
+      "at": 926685.867455,
+      "sent": 37854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/texture-00.png",
+      "at": 926685.8775645,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/texture-01.png",
+      "at": 926685.8777348,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.json",
+      "at": 926685.966217,
+      "sent": 9079,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926687.6035265,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "maquete-liv-ipanema.html",
+      "at": 926688.158926,
+      "sent": 7042,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-ui.css",
+      "at": 926688.1916211,
+      "sent": 1239,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "viewer.js",
+      "at": 926688.1938176,
+      "sent": 19190,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfers.js",
+      "at": 926688.2348212,
+      "sent": 5424,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "tipologias.js",
+      "at": 926688.2382466,
+      "sent": 667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926688.2386863,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-ui.js",
+      "at": 926688.2393152,
+      "sent": 2562,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926688.2395277,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926688.2448936,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/unidades-contorno.json",
+      "at": 926688.2571291,
+      "sent": 16506,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "prova-rgbm.html",
+      "at": 926688.2755497,
+      "sent": 2574,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "renderer.js",
+      "at": 926688.2974362,
+      "sent": 27884,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "material-rgbm.js",
+      "at": 926688.3078795,
+      "sent": 2508,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.webgpu.js",
+      "at": 926688.3080122,
+      "sent": 2284850,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "exterior-finishes.js",
+      "at": 926688.3082675,
+      "sent": 4026,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "at": 926688.3084355,
+      "sent": 40755,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "cameras.js",
+      "at": 926688.3098506,
+      "sent": 1677,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926688.3099712,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "picking.js",
+      "at": 926688.3127874,
+      "sent": 5922,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "ambiente.js",
+      "at": 926688.3136329,
+      "sent": 3323,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926688.3137697,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926688.3340276,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.tsl.js",
+      "at": 926688.3343409,
+      "sent": 36854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "at": 926688.3986846,
+      "sent": 1458113,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/variante/assets/manifest.json",
+      "at": 926688.6526711,
+      "sent": 1791,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/variante/assets/scene.json.gz",
+      "at": 926688.6579961,
+      "sent": 2623617,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/variante/assets/irradiance.rgbm.gz",
+      "at": 926688.8293699,
+      "sent": 13377943,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/manifest.json",
+      "at": 926689.3059147,
+      "sent": 1090,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/ambiente.f16.gz",
+      "at": 926689.3131792,
+      "sent": 37854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/variante/assets/texture-00.png",
+      "at": 926689.3270716,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/variante/assets/texture-01.png",
+      "at": 926689.3274013,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/unidades-contorno.json",
+      "at": 926689.3886005,
+      "sent": 16506,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-worker.js",
+      "at": 926690.2838438,
+      "sent": 21440,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926690.2981491,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926690.3136216,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/catalogo.json",
+      "at": 926690.3212593,
+      "sent": 6377,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "mapa-runtime/mapa-liv-ipanema-5km.html",
+      "at": 926690.7282575,
+      "sent": 8048147,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "mapa-liv-ipanema-5km.html",
+      "at": 926690.828536,
+      "sent": 1239,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/variante/liv-contorno.glb",
+      "at": 926690.8304603,
+      "sent": 2275324,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "mapa-retorno.js",
+      "at": 926690.8406364,
+      "sent": 2421,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfers.js",
+      "at": 926690.8541639,
+      "sent": 5424,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926690.8545359,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-10_-7.bin",
+      "at": 926691.2585599,
+      "sent": 30765,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-10_-8.bin",
+      "at": 926691.2649621,
+      "sent": 52671,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-10_-9.bin",
+      "at": 926691.2715136,
+      "sent": 10823,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-1.bin",
+      "at": 926691.2769764,
+      "sent": 102404,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-10.bin",
+      "at": 926691.2837624,
+      "sent": 8751,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-11.bin",
+      "at": 926691.2894026,
+      "sent": 16157,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-12.bin",
+      "at": 926691.2955003,
+      "sent": 1243,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-2.bin",
+      "at": 926691.3008006,
+      "sent": 52644,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-3.bin",
+      "at": 926691.3076425,
+      "sent": 125581,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-4.bin",
+      "at": 926691.3157934,
+      "sent": 109829,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-5.bin",
+      "at": 926691.3228359,
+      "sent": 98602,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-6.bin",
+      "at": 926691.3294576,
+      "sent": 18753,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-7.bin",
+      "at": 926691.334994,
+      "sent": 17752,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-8.bin",
+      "at": 926691.3406281,
+      "sent": 68762,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-9.bin",
+      "at": 926691.347191,
+      "sent": 56941,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_0.bin",
+      "at": 926691.354054,
+      "sent": 95591,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_1.bin",
+      "at": 926691.3603929,
+      "sent": 38306,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-1.bin",
+      "at": 926691.3659765,
+      "sent": 70166,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-10.bin",
+      "at": 926691.3719781,
+      "sent": 43587,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-11.bin",
+      "at": 926691.3782673,
+      "sent": 2757,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-2.bin",
+      "at": 926691.3835297,
+      "sent": 92199,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-3.bin",
+      "at": 926691.3893314,
+      "sent": 72541,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-4.bin",
+      "at": 926691.3955777,
+      "sent": 128628,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-5.bin",
+      "at": 926691.4025763,
+      "sent": 157059,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-6.bin",
+      "at": 926691.4104015,
+      "sent": 85970,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-7.bin",
+      "at": 926691.4170274,
+      "sent": 142353,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-8.bin",
+      "at": 926691.4258476,
+      "sent": 124598,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-9.bin",
+      "at": 926691.4328962,
+      "sent": 96761,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_0.bin",
+      "at": 926691.4395272,
+      "sent": 106715,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_1.bin",
+      "at": 926691.446842,
+      "sent": 129299,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_2.bin",
+      "at": 926691.454426,
+      "sent": 12676,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-1.bin",
+      "at": 926691.4600982,
+      "sent": 40864,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-10.bin",
+      "at": 926691.46601,
+      "sent": 32264,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-2.bin",
+      "at": 926691.4722032,
+      "sent": 85481,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-3.bin",
+      "at": 926691.4779335,
+      "sent": 116248,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+      "at": 926691.484832,
+      "sent": 143896,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-5.bin",
+      "at": 926691.4957385,
+      "sent": 38304,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-6.bin",
+      "at": 926691.5021543,
+      "sent": 1045,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-7.bin",
+      "at": 926691.5081535,
+      "sent": 83616,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-8.bin",
+      "at": 926691.5149889,
+      "sent": 33662,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-9.bin",
+      "at": 926691.5209504,
+      "sent": 13691,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_0.bin",
+      "at": 926691.5265123,
+      "sent": 97764,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_1.bin",
+      "at": 926691.5326254,
+      "sent": 155283,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_2.bin",
+      "at": 926691.5404278,
+      "sent": 62937,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-1.bin",
+      "at": 926691.5477092,
+      "sent": 41246,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-2.bin",
+      "at": 926691.5536547,
+      "sent": 114180,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+      "at": 926691.5601671,
+      "sent": 165082,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-4.bin",
+      "at": 926691.56812,
+      "sent": 124030,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-5.bin",
+      "at": 926691.5756441,
+      "sent": 7122,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-6.bin",
+      "at": 926691.5812682,
+      "sent": 1841,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_0.bin",
+      "at": 926691.5866432,
+      "sent": 21968,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_1.bin",
+      "at": 926691.5927237,
+      "sent": 97347,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_2.bin",
+      "at": 926691.6002754,
+      "sent": 81013,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-1.bin",
+      "at": 926691.6071252,
+      "sent": 61967,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-12.bin",
+      "at": 926691.613471,
+      "sent": 383,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-2.bin",
+      "at": 926691.6191807,
+      "sent": 125654,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-3.bin",
+      "at": 926691.6263708,
+      "sent": 164145,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-4.bin",
+      "at": 926691.6337784,
+      "sent": 178213,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-5.bin",
+      "at": 926691.6414605,
+      "sent": 70107,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_0.bin",
+      "at": 926691.6479405,
+      "sent": 15787,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_1.bin",
+      "at": 926691.6542225,
+      "sent": 47889,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_2.bin",
+      "at": 926691.660858,
+      "sent": 36242,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-1.bin",
+      "at": 926691.6667433,
+      "sent": 70040,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-10.bin",
+      "at": 926691.6744012,
+      "sent": 4666,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-2.bin",
+      "at": 926691.6803942,
+      "sent": 66015,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-3.bin",
+      "at": 926691.6867496,
+      "sent": 98582,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-4.bin",
+      "at": 926691.6942342,
+      "sent": 123282,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-5.bin",
+      "at": 926691.7013353,
+      "sent": 190573,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-6.bin",
+      "at": 926691.7096617,
+      "sent": 91589,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-7.bin",
+      "at": 926691.7165962,
+      "sent": 38990,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_0.bin",
+      "at": 926691.7233481,
+      "sent": 14206,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_1.bin",
+      "at": 926691.7295157,
+      "sent": 4211,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-10.bin",
+      "at": 926691.7351953,
+      "sent": 23047,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-11.bin",
+      "at": 926691.7415843,
+      "sent": 12157,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-3.bin",
+      "at": 926691.7479148,
+      "sent": 384,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-4.bin",
+      "at": 926691.7541411,
+      "sent": 20328,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-5.bin",
+      "at": 926691.759912,
+      "sent": 206883,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-6.bin",
+      "at": 926691.7685299,
+      "sent": 155610,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-7.bin",
+      "at": 926691.7846937,
+      "sent": 53698,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-8.bin",
+      "at": 926691.7918052,
+      "sent": 720,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-9.bin",
+      "at": 926691.7975219,
+      "sent": 74043,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-10.bin",
+      "at": 926691.8045801,
+      "sent": 38610,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-11.bin",
+      "at": 926691.8113929,
+      "sent": 2495,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-5.bin",
+      "at": 926691.8194278,
+      "sent": 16712,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-6.bin",
+      "at": 926691.8264324,
+      "sent": 85878,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-7.bin",
+      "at": 926691.833501,
+      "sent": 145109,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-8.bin",
+      "at": 926691.8412573,
+      "sent": 28804,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-9.bin",
+      "at": 926691.847505,
+      "sent": 128241,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-10.bin",
+      "at": 926691.8560717,
+      "sent": 58288,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-5.bin",
+      "at": 926691.8634165,
+      "sent": 958,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-6.bin",
+      "at": 926691.8698075,
+      "sent": 45269,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-7.bin",
+      "at": 926691.8771387,
+      "sent": 61005,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-8.bin",
+      "at": 926691.8836674,
+      "sent": 1340,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-9.bin",
+      "at": 926691.8893698,
+      "sent": 28315,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-1.bin",
+      "at": 926691.8953167,
+      "sent": 96389,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-10.bin",
+      "at": 926691.9021184,
+      "sent": 18192,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-11.bin",
+      "at": 926691.908429,
+      "sent": 38423,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-2.bin",
+      "at": 926691.9144686,
+      "sent": 94419,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-3.bin",
+      "at": 926691.9219314,
+      "sent": 110578,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-4.bin",
+      "at": 926691.929776,
+      "sent": 87704,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-5.bin",
+      "at": 926691.9367039,
+      "sent": 54082,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-6.bin",
+      "at": 926691.9434284,
+      "sent": 5559,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-7.bin",
+      "at": 926691.9488157,
+      "sent": 25149,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-8.bin",
+      "at": 926691.9551236,
+      "sent": 14896,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_0.bin",
+      "at": 926691.9609129,
+      "sent": 47169,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_1.bin",
+      "at": 926691.9670141,
+      "sent": 292,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-1.bin",
+      "at": 926691.9726273,
+      "sent": 41758,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-2.bin",
+      "at": 926691.9781284,
+      "sent": 82895,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-3.bin",
+      "at": 926691.9839718,
+      "sent": 139157,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-4.bin",
+      "at": 926691.9908514,
+      "sent": 169072,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-5.bin",
+      "at": 926691.9981598,
+      "sent": 5007,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-6.bin",
+      "at": 926692.003828,
+      "sent": 1285,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-7.bin",
+      "at": 926692.0086195,
+      "sent": 1138,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-9.bin",
+      "at": 926692.0134643,
+      "sent": 309,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-2.bin",
+      "at": 926692.0185892,
+      "sent": 5026,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-3.bin",
+      "at": 926692.0240809,
+      "sent": 89838,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-4.bin",
+      "at": 926692.0297317,
+      "sent": 57439,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-5.bin",
+      "at": 926692.0359853,
+      "sent": 31622,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-6.bin",
+      "at": 926692.0414617,
+      "sent": 998,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-7.bin",
+      "at": 926692.0460627,
+      "sent": 461,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/liv-ipanema.glb",
+      "at": 926692.0529572,
+      "sent": 2989904,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/entrada/candidato/liv-contorno.glb",
+      "at": 926692.0906527,
+      "sent": 2535936,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/catalogo.json",
+      "at": 926692.1220302,
+      "sent": 6377,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/shared/furniture.json.gz",
+      "at": 926697.2088843,
+      "sent": 201119,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "maquete-liv-ipanema.html",
+      "at": 926697.4169724,
+      "sent": 7042,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-ui.css",
+      "at": 926697.4414952,
+      "sent": 1239,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "viewer.js",
+      "at": 926697.4440981,
+      "sent": 19190,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfers.js",
+      "at": 926697.4904141,
+      "sent": 5424,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "tipologias.js",
+      "at": 926697.4930309,
+      "sent": 667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926697.4940272,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-ui.js",
+      "at": 926697.4954084,
+      "sent": 2562,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926697.49609,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926697.4988289,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/entrada/unidades-entrada.json",
+      "at": 926697.5101839,
+      "sent": 16515,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "prova-rgbm.html",
+      "at": 926697.536381,
+      "sent": 2574,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "renderer.js",
+      "at": 926697.55714,
+      "sent": 27884,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "material-rgbm.js",
+      "at": 926697.5658818,
+      "sent": 2508,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "at": 926697.5663685,
+      "sent": 40755,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.webgpu.js",
+      "at": 926697.5666309,
+      "sent": 2284850,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "exterior-finishes.js",
+      "at": 926697.5668336,
+      "sent": 4026,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "cameras.js",
+      "at": 926697.5690646,
+      "sent": 1677,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "picking.js",
+      "at": 926697.5693351,
+      "sent": 5922,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926697.5694509,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "ambiente.js",
+      "at": 926697.5754786,
+      "sent": 3323,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926697.5756231,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.tsl.js",
+      "at": 926697.5849689,
+      "sent": 36854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926697.5853174,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "at": 926697.6410279,
+      "sent": 1458113,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/entrada/candidato/assets/manifest.json",
+      "at": 926697.9135645,
+      "sent": 2139,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/entrada/candidato/assets/scene.json.gz",
+      "at": 926697.9204005,
+      "sent": 2758268,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/entrada/candidato/assets/irradiance.rgbm.gz",
+      "at": 926698.149758,
+      "sent": 13290120,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/manifest.json",
+      "at": 926698.5585496,
+      "sent": 1090,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/ambiente.f16.gz",
+      "at": 926698.5654907,
+      "sent": 37854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/entrada/candidato/assets/texture-00.png",
+      "at": 926698.5775515,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/entrada/candidato/assets/texture-01.png",
+      "at": 926698.5780308,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/entrada/unidades-entrada.json",
+      "at": 926698.6421824,
+      "sent": 16515,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-worker.js",
+      "at": 926699.4944113,
+      "sent": 21440,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926699.5076279,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926699.5225635,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/catalogo.json",
+      "at": 926699.5295871,
+      "sent": 6377,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "mapa-runtime/mapa-liv-ipanema-5km.html",
+      "at": 926699.9199168,
+      "sent": 8048147,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "mapa-liv-ipanema-5km.html",
+      "at": 926699.9783672,
+      "sent": 1239,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "mapa-retorno.js",
+      "at": 926700.0022743,
+      "sent": 2421,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfers.js",
+      "at": 926700.0216159,
+      "sent": 5424,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926700.0218401,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/entrada/candidato/liv-contorno.glb",
+      "at": 926700.0238838,
+      "sent": 2535936,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-10_-7.bin",
+      "at": 926700.5020849,
+      "sent": 30765,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-10_-8.bin",
+      "at": 926700.5090912,
+      "sent": 52671,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-10_-9.bin",
+      "at": 926700.5161876,
+      "sent": 10823,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-1.bin",
+      "at": 926700.5225557,
+      "sent": 102404,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-10.bin",
+      "at": 926700.5307623,
+      "sent": 8751,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-11.bin",
+      "at": 926700.5371557,
+      "sent": 16157,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-12.bin",
+      "at": 926700.5438135,
+      "sent": 1243,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-2.bin",
+      "at": 926700.5501405,
+      "sent": 52644,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-3.bin",
+      "at": 926700.5573215,
+      "sent": 125581,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-4.bin",
+      "at": 926700.5664666,
+      "sent": 109829,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-5.bin",
+      "at": 926700.5756624,
+      "sent": 98602,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-6.bin",
+      "at": 926700.5835343,
+      "sent": 18753,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-7.bin",
+      "at": 926700.5907842,
+      "sent": 17752,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-8.bin",
+      "at": 926700.5976029,
+      "sent": 68762,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_-9.bin",
+      "at": 926700.6058152,
+      "sent": 56941,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_0.bin",
+      "at": 926700.6136791,
+      "sent": 95591,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-1_1.bin",
+      "at": 926700.6225404,
+      "sent": 38306,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-1.bin",
+      "at": 926700.6311707,
+      "sent": 70166,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-10.bin",
+      "at": 926700.6397998,
+      "sent": 43587,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-11.bin",
+      "at": 926700.6513594,
+      "sent": 2757,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-2.bin",
+      "at": 926700.6595921,
+      "sent": 92199,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-3.bin",
+      "at": 926700.6696701,
+      "sent": 72541,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-4.bin",
+      "at": 926700.6800692,
+      "sent": 128628,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-5.bin",
+      "at": 926700.690644,
+      "sent": 157059,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-6.bin",
+      "at": 926700.7027858,
+      "sent": 85970,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-7.bin",
+      "at": 926700.7127069,
+      "sent": 142353,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-8.bin",
+      "at": 926700.7248734,
+      "sent": 124598,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_-9.bin",
+      "at": 926700.7354131,
+      "sent": 96761,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_0.bin",
+      "at": 926700.7484963,
+      "sent": 106715,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_1.bin",
+      "at": 926700.7655279,
+      "sent": 129299,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-2_2.bin",
+      "at": 926700.7763375,
+      "sent": 12676,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-1.bin",
+      "at": 926700.7849143,
+      "sent": 40864,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-10.bin",
+      "at": 926700.7950313,
+      "sent": 32264,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-2.bin",
+      "at": 926700.8051592,
+      "sent": 85481,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-3.bin",
+      "at": 926700.815656,
+      "sent": 116248,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-4.bin",
+      "at": 926700.8265647,
+      "sent": 143896,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-5.bin",
+      "at": 926700.8373737,
+      "sent": 38304,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-6.bin",
+      "at": 926700.8466314,
+      "sent": 1045,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-7.bin",
+      "at": 926700.8549316,
+      "sent": 83616,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-8.bin",
+      "at": 926700.8650655,
+      "sent": 33662,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_-9.bin",
+      "at": 926700.8747127,
+      "sent": 13691,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_0.bin",
+      "at": 926700.8837401,
+      "sent": 97764,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_1.bin",
+      "at": 926700.8934755,
+      "sent": 155283,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-3_2.bin",
+      "at": 926700.9032366,
+      "sent": 62937,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-1.bin",
+      "at": 926700.9133039,
+      "sent": 41246,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-2.bin",
+      "at": 926700.9221022,
+      "sent": 114180,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-3.bin",
+      "at": 926700.9324773,
+      "sent": 165082,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-4.bin",
+      "at": 926700.9433736,
+      "sent": 124030,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-5.bin",
+      "at": 926700.953691,
+      "sent": 7122,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_-6.bin",
+      "at": 926700.9621424,
+      "sent": 1841,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_0.bin",
+      "at": 926700.9701364,
+      "sent": 21968,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_1.bin",
+      "at": 926700.9786596,
+      "sent": 97347,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-4_2.bin",
+      "at": 926700.988511,
+      "sent": 81013,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-1.bin",
+      "at": 926700.9984728,
+      "sent": 61967,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-12.bin",
+      "at": 926701.00754,
+      "sent": 383,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-2.bin",
+      "at": 926701.0154467,
+      "sent": 125654,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-3.bin",
+      "at": 926701.0258391,
+      "sent": 164145,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-4.bin",
+      "at": 926701.0376303,
+      "sent": 178213,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_-5.bin",
+      "at": 926701.0477877,
+      "sent": 70107,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_0.bin",
+      "at": 926701.0560848,
+      "sent": 15787,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_1.bin",
+      "at": 926701.0636328,
+      "sent": 47889,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-5_2.bin",
+      "at": 926701.0713685,
+      "sent": 36242,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-1.bin",
+      "at": 926701.0787096,
+      "sent": 70040,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-10.bin",
+      "at": 926701.0874145,
+      "sent": 4666,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-2.bin",
+      "at": 926701.094663,
+      "sent": 66015,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-3.bin",
+      "at": 926701.102434,
+      "sent": 98582,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-4.bin",
+      "at": 926701.1108703,
+      "sent": 123282,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-5.bin",
+      "at": 926701.1191962,
+      "sent": 190573,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-6.bin",
+      "at": 926701.1290482,
+      "sent": 91589,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_-7.bin",
+      "at": 926701.1374109,
+      "sent": 38990,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_0.bin",
+      "at": 926701.1447095,
+      "sent": 14206,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-6_1.bin",
+      "at": 926701.1520956,
+      "sent": 4211,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-10.bin",
+      "at": 926701.1592228,
+      "sent": 23047,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-11.bin",
+      "at": 926701.1662624,
+      "sent": 12157,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-3.bin",
+      "at": 926701.1737564,
+      "sent": 384,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-4.bin",
+      "at": 926701.1929193,
+      "sent": 20328,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-5.bin",
+      "at": 926701.2003619,
+      "sent": 206883,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-6.bin",
+      "at": 926701.2098104,
+      "sent": 155610,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-7.bin",
+      "at": 926701.2183305,
+      "sent": 53698,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-8.bin",
+      "at": 926701.2261051,
+      "sent": 720,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-7_-9.bin",
+      "at": 926701.2320437,
+      "sent": 74043,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-10.bin",
+      "at": 926701.2391195,
+      "sent": 38610,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-11.bin",
+      "at": 926701.2459449,
+      "sent": 2495,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-5.bin",
+      "at": 926701.2518763,
+      "sent": 16712,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-6.bin",
+      "at": 926701.2582546,
+      "sent": 85878,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-7.bin",
+      "at": 926701.2653148,
+      "sent": 145109,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-8.bin",
+      "at": 926701.274882,
+      "sent": 28804,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-8_-9.bin",
+      "at": 926701.2814972,
+      "sent": 128241,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-10.bin",
+      "at": 926701.2889124,
+      "sent": 58288,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-5.bin",
+      "at": 926701.2956716,
+      "sent": 958,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-6.bin",
+      "at": 926701.3015415,
+      "sent": 45269,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-7.bin",
+      "at": 926701.3084106,
+      "sent": 61005,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-8.bin",
+      "at": 926701.3148349,
+      "sent": 1340,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/-9_-9.bin",
+      "at": 926701.3207161,
+      "sent": 28315,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-1.bin",
+      "at": 926701.3269023,
+      "sent": 96389,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-10.bin",
+      "at": 926701.3340455,
+      "sent": 18192,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-11.bin",
+      "at": 926701.3400374,
+      "sent": 38423,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-2.bin",
+      "at": 926701.3466242,
+      "sent": 94419,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-3.bin",
+      "at": 926701.3538871,
+      "sent": 110578,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-4.bin",
+      "at": 926701.361869,
+      "sent": 87704,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-5.bin",
+      "at": 926701.369017,
+      "sent": 54082,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-6.bin",
+      "at": 926701.3763871,
+      "sent": 5559,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-7.bin",
+      "at": 926701.3824299,
+      "sent": 25149,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_-8.bin",
+      "at": 926701.3881733,
+      "sent": 14896,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_0.bin",
+      "at": 926701.3937737,
+      "sent": 47169,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/0_1.bin",
+      "at": 926701.3997729,
+      "sent": 292,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-1.bin",
+      "at": 926701.4050291,
+      "sent": 41758,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-2.bin",
+      "at": 926701.410762,
+      "sent": 82895,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-3.bin",
+      "at": 926701.4174359,
+      "sent": 139157,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-4.bin",
+      "at": 926701.4246875,
+      "sent": 169072,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-5.bin",
+      "at": 926701.433127,
+      "sent": 5007,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-6.bin",
+      "at": 926701.4392053,
+      "sent": 1285,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-7.bin",
+      "at": 926701.4449186,
+      "sent": 1138,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/1_-9.bin",
+      "at": 926701.4509193,
+      "sent": 309,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-2.bin",
+      "at": 926701.4561863,
+      "sent": 5026,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-3.bin",
+      "at": 926701.4612756,
+      "sent": 89838,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-4.bin",
+      "at": 926701.4680307,
+      "sent": 57439,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-5.bin",
+      "at": 926701.4740306,
+      "sent": 31622,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-6.bin",
+      "at": 926701.4799996,
+      "sent": 998,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/quintais/liv-v3-5b9e71f97064a6c5/2_-7.bin",
+      "at": 926701.4856011,
+      "sent": 461,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "site-baseline/liv-ipanema.glb",
+      "at": 926701.4921768,
+      "sent": 2989904,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "modelo/variante/liv-contorno.glb",
+      "at": 926701.5444957,
+      "sent": 2275324,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/catalogo.json",
+      "at": 926701.5755244,
+      "sent": 6377,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/shared/furniture.json.gz",
+      "at": 926706.5561452,
+      "sent": 201119,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "maquete-liv-ipanema.html",
+      "at": 926706.820384,
+      "sent": 7042,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-ui.css",
+      "at": 926706.8489841,
+      "sent": 1239,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "viewer.js",
+      "at": 926706.849972,
+      "sent": 19190,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfers.js",
+      "at": 926706.9016241,
+      "sent": 5424,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926706.9038049,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "tipologias.js",
+      "at": 926706.9046421,
+      "sent": 667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-ui.js",
+      "at": 926706.9053571,
+      "sent": 2562,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926706.9056013,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926706.9092042,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.json",
+      "at": 926706.9197703,
+      "sent": 9079,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "prova-rgbm.html",
+      "at": 926706.9379485,
+      "sent": 2574,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "renderer.js",
+      "at": 926706.9550845,
+      "sent": 27884,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "at": 926706.9641147,
+      "sent": 40755,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.webgpu.js",
+      "at": 926706.9651125,
+      "sent": 2284850,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "exterior-finishes.js",
+      "at": 926706.9653636,
+      "sent": 4026,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "material-rgbm.js",
+      "at": 926706.9656177,
+      "sent": 2508,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "cameras.js",
+      "at": 926706.9664998,
+      "sent": 1677,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926706.9670118,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "picking.js",
+      "at": 926706.969703,
+      "sent": 5922,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "ambiente.js",
+      "at": 926706.9701429,
+      "sent": 3323,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926706.9705616,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.tsl.js",
+      "at": 926706.9821226,
+      "sent": 36854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926706.9823424,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "at": 926707.0362297,
+      "sent": 1458113,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/manifest.json",
+      "at": 926707.2793431,
+      "sent": 1313,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/scene.json.gz",
+      "at": 926707.2864739,
+      "sent": 7063805,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/irradiance.rgbm.gz",
+      "at": 926707.8046312,
+      "sent": 13023696,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/manifest.json",
+      "at": 926708.2156931,
+      "sent": 1090,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/ambiente.f16.gz",
+      "at": 926708.2209847,
+      "sent": 37854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/texture-00.png",
+      "at": 926708.2293316,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/texture-01.png",
+      "at": 926708.2295509,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.json",
+      "at": 926708.3052248,
+      "sent": 9079,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-worker.js",
+      "at": 926709.7643551,
+      "sent": 21536,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926709.7797337,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926709.794786,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/catalogo.json",
+      "at": 926709.8044899,
+      "sent": 6377,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interior.html",
+      "at": 926709.9413004,
+      "sent": 4834,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interior-renderer.js",
+      "at": 926709.9521837,
+      "sent": 42619,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "at": 926709.9606077,
+      "sent": 40755,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interior-navigation.js",
+      "at": 926709.9607914,
+      "sent": 9793,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interior-camera.js",
+      "at": 926709.9609361,
+      "sent": 2475,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interior-cutaway.js",
+      "at": 926709.9610702,
+      "sent": 2843,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.webgpu.js",
+      "at": 926709.961243,
+      "sent": 2284850,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "material-rgbm.js",
+      "at": 926709.96148,
+      "sent": 2508,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.tsl.js",
+      "at": 926709.9700409,
+      "sent": 36854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "at": 926710.0340855,
+      "sent": 1458113,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/catalogo.json",
+      "at": 926710.179884,
+      "sent": 6377,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/shared/runtime.js",
+      "at": 926710.1873824,
+      "sent": 93877,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/canto/unidade.json",
+      "at": 926710.1994699,
+      "sent": 13456,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/shared/materials.json.gz",
+      "at": 926710.2041902,
+      "sent": 876068,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/canto/source.json.gz",
+      "at": 926710.3002683,
+      "sent": 1970203,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/canto/light.json",
+      "at": 926710.322649,
+      "sent": 1864,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/canto/geometry-compact.json.gz",
+      "at": 926710.7276243,
+      "sent": 873741,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "interiores/canto/irradiance.rgbm.gz",
+      "at": 926710.7414977,
+      "sent": 4319873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926712.6264118,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-worker.js",
+      "at": 926714.162516,
+      "sent": 21536,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "plantas2d/canto.jpg",
+      "at": 926715.0467731,
+      "sent": 63548,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfer-manifest.json",
+      "at": 926715.0770327,
+      "sent": 34679,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "maquete-liv-ipanema.html",
+      "at": 926715.4287922,
+      "sent": 7042,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-ui.css",
+      "at": 926715.4504159,
+      "sent": 1239,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "viewer.js",
+      "at": 926715.4543638,
+      "sent": 19190,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "transfers.js",
+      "at": 926715.5085668,
+      "sent": 5424,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "tipologias.js",
+      "at": 926715.5135751,
+      "sent": 667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-ui.js",
+      "at": 926715.5139914,
+      "sent": 2562,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926715.5142785,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926715.5145984,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926715.5204163,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.json",
+      "at": 926715.5315582,
+      "sent": 9079,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "prova-rgbm.html",
+      "at": 926715.545787,
+      "sent": 2574,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "renderer.js",
+      "at": 926715.5703954,
+      "sent": 27884,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "at": 926715.5789615,
+      "sent": 40755,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "material-rgbm.js",
+      "at": 926715.5792363,
+      "sent": 2508,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.webgpu.js",
+      "at": 926715.579561,
+      "sent": 2284850,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "exterior-finishes.js",
+      "at": 926715.5799015,
+      "sent": 4026,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "cameras.js",
+      "at": 926715.5817828,
+      "sent": 1677,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.js",
+      "at": 926715.5830114,
+      "sent": 4012,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "picking.js",
+      "at": 926715.5835308,
+      "sent": 5922,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "ambiente.js",
+      "at": 926715.5851151,
+      "sent": 3323,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "edicoes.js",
+      "at": 926715.5852442,
+      "sent": 873,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unit-footprint.js",
+      "at": 926715.5994006,
+      "sent": 2398,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.tsl.js",
+      "at": 926715.5996167,
+      "sent": 36854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "at": 926715.6553466,
+      "sent": 1458113,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/manifest.json",
+      "at": 926715.888158,
+      "sent": 1313,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/scene.json.gz",
+      "at": 926715.8954724,
+      "sent": 7063805,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/irradiance.rgbm.gz",
+      "at": 926716.4421668,
+      "sent": 13023696,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/manifest.json",
+      "at": 926716.8291998,
+      "sent": 1090,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-ambiente/ambiente.f16.gz",
+      "at": 926716.8349941,
+      "sent": 37854,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/texture-01.png",
+      "at": 926716.8443401,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "assets-prova/texture-00.png",
+      "at": 926716.8444835,
+      "sent": 21667,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "unidades.json",
+      "at": 926716.9423328,
+      "sent": 9079,
+      "complete": true,
+      "aborted": false
+    },
+    {
+      "path": "plantas2d/canto.jpg",
+      "at": 926718.5155053,
+      "sent": 63548,
+      "complete": true,
+      "aborted": false
+    }
+  ]
+}

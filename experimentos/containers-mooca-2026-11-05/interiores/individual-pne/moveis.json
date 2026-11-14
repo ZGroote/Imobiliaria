@@ -1,0 +1,96 @@
+{
+  "_gerado_por": "capturador-2d",
+  "moveis": [
+    {
+      "tipo": "cama",
+      "p": [
+        0.55,
+        1.2
+      ],
+      "rot": 0,
+      "w": 0.9,
+      "h": 0.95,
+      "d": 1.95,
+      "cor": "#D9D4CC",
+      "nome": "Cama"
+    },
+    {
+      "tipo": "mesa",
+      "p": [
+        0.35,
+        2.8
+      ],
+      "rot": 1,
+      "w": 1,
+      "h": 0.74,
+      "d": 0.56,
+      "cor": "#A57A52",
+      "nome": "Escrivaninha"
+    },
+    {
+      "tipo": "guardaroupa",
+      "p": [
+        1.85,
+        0.35
+      ],
+      "rot": 0,
+      "w": 1,
+      "h": 2.3,
+      "d": 0.52,
+      "cor": "#A57A52",
+      "nome": "Armário"
+    },
+    {
+      "tipo": "box",
+      "p": [
+        0.75,
+        4.1
+      ],
+      "rot": 0,
+      "w": 0.9,
+      "h": 2,
+      "d": 0.9,
+      "cor": "#DDE5E4",
+      "nome": "Área de banho"
+    },
+    {
+      "tipo": "vaso",
+      "p": [
+        0.5,
+        5.55
+      ],
+      "rot": 2,
+      "w": 0.4,
+      "h": 0.8,
+      "d": 0.65,
+      "cor": "#F2F1EE",
+      "nome": "Vaso"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        1.95,
+        5.75
+      ],
+      "rot": 2,
+      "w": 0.65,
+      "h": 0.85,
+      "d": 0.5,
+      "cor": "#F2F1EE",
+      "nome": "Lavatório"
+    },
+    {
+      "tipo": "tapete",
+      "p": [
+        1.65,
+        1.6
+      ],
+      "rot": 0,
+      "w": 1,
+      "h": 0.02,
+      "d": 1.2,
+      "cor": "#CFC6B8",
+      "nome": "Tapete"
+    }
+  ]
+}

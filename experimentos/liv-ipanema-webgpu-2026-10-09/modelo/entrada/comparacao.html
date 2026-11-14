@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Entrada do LIV Ipanema — comparação da forma</title>
+<style>
+  :root{font-family:system-ui,sans-serif;color:#203638;background:#edf1ee}*{box-sizing:border-box}body{margin:0}
+  header{padding:16px 20px;background:white;border-bottom:1px solid #d5ddd7}h1{font-size:20px;margin:0 0 8px}p{font-size:14px;line-height:1.5;margin:5px 0}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}button,select{min-height:44px;border:1px solid #a9bcb1;border-radius:8px;background:white;color:inherit;font:inherit;padding:8px 14px}
+  button[aria-pressed=true]{background:#235844;color:white;border-color:#235844}button:disabled,select:disabled{opacity:.5}:focus-visible{outline:3px solid #8c6400;outline-offset:2px}
+  main{display:grid;grid-template-columns:minmax(0,1fr) 260px}#stage{height:calc(100vh - 182px);min-height:460px;position:relative;background:linear-gradient(#c8d8de,#eef1e9)}
+  canvas{display:block;width:100%;height:100%;touch-action:none}#loading{position:absolute;inset:0;display:grid;place-items:center;background:#edf1ee;pointer-events:none;padding:24px;text-align:center}#loading[hidden]{display:none}
+  aside{padding:16px;background:white;border-left:1px solid #d5ddd7}aside img{display:block;width:100%;height:auto;margin:12px 0}a{color:#235844}#status{min-height:21px}
+  @media(max-width:700px){header{padding:12px}main{display:block}#stage{height:60vh;min-height:360px}aside{border-left:0;border-top:1px solid #d5ddd7}}
+</style>
+<header><h1>Entrada do LIV Ipanema</h1><p>Portal alto à esquerda, marquise baixa e guarita com janela para a rua. Estudo com medidas estimadas a partir da imagem de divulgação.</p>
+<nav aria-label="Comparar a entrada"><button data-model="original" aria-pressed="false" disabled>Entrada anterior</button><button data-model="candidato" aria-pressed="true" disabled>Entrada revisada</button>
+<label>Vista <select id="view" disabled><option value="entrada">Da rua</option><option value="aerea">De cima</option></select></label><button id="capture" disabled>Fotografar</button></nav>
+<p id="status" role="status" aria-live="polite">Preparando o estudo…</p></header>
+<main><div id="stage"><canvas id="canvas" aria-label="Comparação tridimensional da portaria do LIV"></canvas><div id="loading">Preparando a entrada…</div></div>
+<aside><strong>Referência de divulgação</strong><img src="../../../../v1.5/miniaturas/liv-ipanema/referencias/portaria.jpg" alt="Render oficial mostrando portal mais alto à esquerda e marquise baixa sobre a portaria e o acesso à direita.">
+<p>Compare a distribuição dos volumes. O estudo ainda não tem o acabamento final e suas medidas não vêm de uma planta executiva.</p>
+<p><a href="candidato/prova.html?geometria=entrada">Ver a entrada com iluminação preparada</a></p>
+<p><a href="../../maquete-liv-ipanema.html?geometria=entrada">Abrir maquete, plantas e Tour</a></p></aside></main>
+<script type="importmap">{"imports":{"three":"../../node_modules/three/build/three.webgpu.js","three/webgpu":"../../node_modules/three/build/three.webgpu.js","three/tsl":"../../node_modules/three/build/three.tsl.js","three/addons/":"../../node_modules/three/examples/jsm/"}}</script>
+<script type="module" src="comparacao.js"></script>
+</html>

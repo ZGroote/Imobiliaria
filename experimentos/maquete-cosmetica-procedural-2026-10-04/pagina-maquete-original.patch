@@ -1,0 +1,657 @@
+diff --git a/v1.5/miniaturas/pagina_maquete.py b/v1.5/miniaturas/pagina_maquete.py
+index cd9d4b8..648b44c 100644
+--- a/v1.5/miniaturas/pagina_maquete.py
++++ b/v1.5/miniaturas/pagina_maquete.py
+@@ -635,44 +635,47 @@ var cv = document.getElementById("c"), caixa = document.getElementById("cena");
+ var TOQUE = matchMedia("(pointer:coarse)").matches;
+ var PEQUENA = Math.min(screen.width, screen.height) <= 820;
+ var CELULAR = TOQUE && PEQUENA;
+-/* `alpha: true` e o que faz a maquete FLUTUAR. Sem ele o canvas e um retangulo
+-   opaco com o predio dentro, e qualquer sobreposicao com o cartao vira uma caixa
+-   por cima de outra. Com ele o que nao e predio e transparente, e o cartao aparece
+-   por tras -- que e o "em cima da janela de informacoes" do pedido. */
+-var ren = new THREE.WebGLRenderer({ canvas: cv, antialias: !CELULAR, alpha: true,
++/* Estratégia de carregamento e detecção de hardware (4G / mobile / low-end) */
++var _conn = typeof navigator !== "undefined" ? (navigator.connection || navigator.mozConnection || navigator.webkitConnection) : null;
++var CONEXAO_LENTA = !!(_conn && (_conn.effectiveType === '2g' || _conn.effectiveType === '3g' || _conn.saveData));
++var LOW_END = (typeof navigator !== "undefined" && (navigator.hardwareConcurrency || 4) <= 4) || CONEXAO_LENTA;
++var MODO_LITE = CELULAR || LOW_END;
++
++/* `alpha: true` faz a maquete flutuar. Em mobile/conexão fraca, desativa shadowMap para 60 FPS garantidos. */
++var ren = new THREE.WebGLRenderer({ canvas: cv, antialias: !CELULAR && !LOW_END, alpha: true,
+                                     powerPreference: "high-performance" });
+ ren.setClearAlpha(0);
+-ren.setPixelRatio(Math.min(devicePixelRatio, CELULAR ? 1.75 : 2));
++ren.setPixelRatio(Math.min(devicePixelRatio, MODO_LITE ? 1.5 : 2));
+ ren.outputColorSpace = THREE.SRGBColorSpace;
+ ren.toneMapping = THREE.ACESFilmicToneMapping;
+-ren.toneMappingExposure = 1.02;
+-ren.shadowMap.enabled = true;
+-ren.shadowMap.type = THREE.PCFSoftShadowMap;
++ren.toneMappingExposure = 1.05;
++ren.shadowMap.enabled = !MODO_LITE;
++if (!MODO_LITE) {
++  ren.shadowMap.type = THREE.PCFSoftShadowMap;
++}
+ 
+ var cena = new THREE.Scene();
+ /* Sem fundo e sem nevoa, de proposito. A nevoa fecha na COR dela, e sobre um fundo
+    transparente isso pinta uma borda cinza em volta do predio em vez de dissolve-lo. */
+ 
+-/* UM AMBIENTE, SEM ARQUIVO. Vidro e metal nao sao pintados pela luz: eles sao pintados
+-   pelo que REFLETEM. Sem mapa de ambiente, `metalness` alto nao da vidro -- da preto,
+-   que foi exatamente o primeiro resultado: 108 janelas que liam como buracos na
+-   fachada. Um HDR de verdade seria um arquivo (e esta pagina abre com duplo clique),
+-   entao o ceu e gerado: um degrade equirretangular de 64x32, passado pelo PMREM do
+-   proprio three. Custa ~1 ms no boot e nao custa nada por quadro. */
++/* AMBIENTE PROCEDURAL ENRIQUECIDO COM DEGRADÊ ARQUITETÔNICO */
+ (function ambiente() {
+-  var W = 64, H = 32, dados = new Uint8Array(W * H * 4);
++  var W = 128, H = 64, dados = new Uint8Array(W * H * 4);
+   for (var y = 0; y < H; y++) {
+     var t = y / (H - 1);                       // 0 = zenite, 1 = nadir
+-    // Ceu frio em cima, faixa clara no horizonte, chao escuro embaixo: e o que a
+-    // janela reflete numa foto de maquete, e e o que da a linha horizontal no vidro.
+-    var horiz = Math.exp(-Math.pow((t - 0.52) / 0.09, 2));
+-    var r = (30 + 130 * (1 - t) + 150 * horiz) | 0;
+-    var g = (44 + 150 * (1 - t) + 155 * horiz) | 0;
+-    var b = (66 + 175 * (1 - t) + 160 * horiz) | 0;
++    var horiz = Math.exp(-Math.pow((t - 0.50) / 0.11, 2));
++    var solGrad = Math.exp(-Math.pow((t - 0.36) / 0.16, 2));
++    var r = (36 + 135 * (1 - t) + 160 * horiz + 40 * solGrad) | 0;
++    var g = (48 + 155 * (1 - t) + 160 * horiz + 25 * solGrad) | 0;
++    var b = (72 + 180 * (1 - t) + 150 * horiz) | 0;
+     for (var x = 0; x < W; x++) {
++      var az = x / W;
++      var solAz = Math.exp(-Math.pow((az - 0.62) / 0.16, 2)) * solGrad * 45;
+       var i = (y * W + x) * 4;
+-      dados[i] = Math.min(255, r); dados[i+1] = Math.min(255, g);
+-      dados[i+2] = Math.min(255, b); dados[i+3] = 255;
++      dados[i]   = Math.min(255, r + (solAz | 0));
++      dados[i+1] = Math.min(255, g + ((solAz * 0.75) | 0));
++      dados[i+2] = Math.min(255, b);
++      dados[i+3] = 255;
+     }
+   }
+   var tex = new THREE.DataTexture(dados, W, H, THREE.RGBAFormat);
+@@ -1449,13 +1452,18 @@ var ESP = 0.13, PD_INT = 2.70, OLHO = 1.62, BUILDING_INSET = 0.50;
+    fosco. Degrade equirretangular num canvas, passado pelo PMREM. */
+ var ambientePBR = (function () {
+   var c = document.createElement("canvas");
+-  c.width = 256; c.height = 128;
++  c.width = 512; c.height = 256;
+   var g2 = c.getContext("2d");
+-  var grd = g2.createLinearGradient(0, 0, 0, 128);
+-  grd.addColorStop(0.00, "#E8F0FA"); grd.addColorStop(0.42, "#CFDCEA");
+-  grd.addColorStop(0.52, "#FBF3E4"); grd.addColorStop(0.68, "#B7AFA3");
+-  grd.addColorStop(1.00, "#6E665C");
+-  g2.fillStyle = grd; g2.fillRect(0, 0, 256, 128);
++  var grd = g2.createLinearGradient(0, 0, 0, 256);
++  grd.addColorStop(0.00, "#EAF2FC");
++  grd.addColorStop(0.40, "#D6E4F2");
++  grd.addColorStop(0.49, "#FFF8EE");
++  grd.addColorStop(0.53, "#E8DFD3");
++  grd.addColorStop(0.70, "#B8ADA0");
++  grd.addColorStop(1.00, "#6A6054");
++  g2.fillStyle = grd; g2.fillRect(0, 0, 512, 256);
++  g2.fillStyle = "rgba(255, 250, 240, 0.35)";
++  g2.fillRect(280, 70, 90, 60);
+   var tx = new THREE.CanvasTexture(c);
+   tx.mapping = THREE.EquirectangularReflectionMapping;
+   var pm = new THREE.PMREMGenerator(ren);
+@@ -1463,6 +1471,9 @@ var ambientePBR = (function () {
+   pm.dispose(); tx.dispose();
+   return env;
+ })();
++if (typeof cena !== "undefined" && cena) {
++  cena.environment = ambientePBR;
++}
+ 
+ /* A cor do acabamento e SATURADA antes de virar vertice, na medida do que o ACES vai
+    tirar dela: a parede declarada #D9D2C7 chega na tela com 40% menos croma. Nao e
+@@ -1484,15 +1495,332 @@ var rgbDe = function (hex) {
+   _corAux.setHex(hex);
+   return [Math.round(_corAux.r*255), Math.round(_corAux.g*255), Math.round(_corAux.b*255)];
+ };
+-// Um material so pra mobilia inteira: a cor de cada peca viaja no VERTICE (e o que o
+-// `geoDeParts` e a biblioteca do Blender produzem), entao 25 moveis continuam sendo
+-// poucas chamadas em vez de 25 materiais.
+-var matMovel = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.78,
+-                                                metalness: 0.04, envMapIntensity: 0.45 });
++/// Texturas procedurais de alta definição em canvas local (0 KB de download de rede)
++var texTecido = (function() {
++  var N = 256, c = document.createElement("canvas");
++  c.width = c.height = N;
++  var g = c.getContext("2d");
++  g.fillStyle = "#E8E2D8";
++  g.fillRect(0, 0, N, N);
++  var id = g.getImageData(0, 0, N, N);
++  for (var y = 0; y < N; y++) {
++    for (var x = 0; x < N; x++) {
++      var i = (y * N + x) * 4;
++      var fX = ((x % 4) < 2) ? 1.03 : 0.97;
++      var fY = ((y % 4) < 2) ? 0.97 : 1.03;
++      var noise = (Math.random() - 0.5) * 8;
++      var b = Math.min(255, Math.max(180, Math.round(236 * (fX * fY * 0.5 + 0.5) + noise)));
++      id.data[i] = b; id.data[i+1] = b; id.data[i+2] = Math.round(b * 0.96);
++      id.data[i+3] = 255;
++    }
++  }
++  g.putImageData(id, 0, 0);
++  var t = new THREE.CanvasTexture(c);
++  t.wrapS = t.wrapT = THREE.RepeatWrapping;
++  t.repeat.set(6, 6);
++  if (THREE.SRGBColorSpace) t.colorSpace = THREE.SRGBColorSpace;
++  return t;
++})();
++
++var nrmTecido = (function() {
++  var N = 256, c = document.createElement("canvas");
++  c.width = c.height = N;
++  var g = c.getContext("2d");
++  var id = g.createImageData(N, N);
++  for (var y = 0; y < N; y++) {
++    for (var x = 0; x < N; x++) {
++      var nx = Math.sin(x * 1.57) * 0.22;
++      var ny = Math.cos(y * 1.57) * 0.22;
++      var l = Math.hypot(nx, ny, 1);
++      var i = (y * N + x) * 4;
++      id.data[i]   = Math.round((-nx / l * 0.5 + 0.5) * 255);
++      id.data[i+1] = Math.round((-ny / l * 0.5 + 0.5) * 255);
++      id.data[i+2] = Math.round((1 / l * 0.5 + 0.5) * 255);
++      id.data[i+3] = 255;
++    }
++  }
++  g.putImageData(id, 0, 0);
++  var t = new THREE.CanvasTexture(c);
++  t.wrapS = t.wrapT = THREE.RepeatWrapping;
++  t.repeat.set(6, 6);
++  return t;
++})();
++
++var rugTecido = (function() {
++  var N = 128, c = document.createElement("canvas");
++  c.width = c.height = N;
++  var g = c.getContext("2d");
++  var id = g.createImageData(N, N);
++  for (var y = 0; y < N; y++) {
++    for (var x = 0; x < N; x++) {
++      var i = (y * N + x) * 4;
++      var r = 168 + Math.round((Math.sin(x * 0.6) + Math.cos(y * 0.6)) * 20 + Math.random() * 14);
++      id.data[i] = id.data[i+1] = id.data[i+2] = Math.min(255, Math.max(120, r));
++      id.data[i+3] = 255;
++    }
++  }
++  g.putImageData(id, 0, 0);
++  var t = new THREE.CanvasTexture(c);
++  t.wrapS = t.wrapT = THREE.RepeatWrapping;
++  t.repeat.set(4, 4);
++  return t;
++})();
++
++var texMadeiraMovel = (function() {
++  var W = 256, H = 256, c = document.createElement("canvas");
++  c.width = W; c.height = H;
++  var g = c.getContext("2d");
++  g.fillStyle = "#E8DFD3";
++  g.fillRect(0, 0, W, H);
++  var id = g.getImageData(0, 0, W, H);
++  for (var y = 0; y < H; y++) {
++    var linha = Math.sin(y * 0.12) * 16 + Math.sin(y * 0.35) * 8;
++    for (var x = 0; x < W; x++) {
++      var i = (y * W + x) * 4;
++      var v = Math.round(230 + linha + (Math.random() - 0.5) * 8);
++      id.data[i]   = Math.min(255, Math.max(170, v));
++      id.data[i+1] = Math.min(255, Math.max(160, Math.round(v * 0.94)));
++      id.data[i+2] = Math.min(255, Math.max(140, Math.round(v * 0.85)));
++      id.data[i+3] = 255;
++    }
++  }
++  g.putImageData(id, 0, 0);
++  var t = new THREE.CanvasTexture(c);
++  t.wrapS = t.wrapT = THREE.RepeatWrapping;
++  t.repeat.set(3, 3);
++  if (THREE.SRGBColorSpace) t.colorSpace = THREE.SRGBColorSpace;
++  return t;
++})();
++
++var nrmMadeiraMovel = (function() {
++  var N = 128, c = document.createElement("canvas");
++  c.width = c.height = N;
++  var g = c.getContext("2d");
++  var id = g.createImageData(N, N);
++  for (var y = 0; y < N; y++) {
++    for (var x = 0; x < N; x++) {
++      var ny = Math.sin(y * 0.4) * 0.22;
++      var l = Math.hypot(0, ny, 1);
++      var i = (y * N + x) * 4;
++      id.data[i]   = 128;
++      id.data[i+1] = Math.round((-ny / l * 0.5 + 0.5) * 255);
++      id.data[i+2] = Math.round((1 / l * 0.5 + 0.5) * 255);
++      id.data[i+3] = 255;
++    }
++  }
++  g.putImageData(id, 0, 0);
++  var t = new THREE.CanvasTexture(c);
++  t.wrapS = t.wrapT = THREE.RepeatWrapping;
++  t.repeat.set(3, 3);
++  return t;
++})();
++
++var rugMadeiraMovel = (function() {
++  var N = 128, c = document.createElement("canvas");
++  c.width = c.height = N;
++  var g = c.getContext("2d");
++  var id = g.createImageData(N, N);
++  for (var y = 0; y < N; y++) {
++    for (var x = 0; x < N; x++) {
++      var i = (y * N + x) * 4;
++      var r = 110 + Math.round(Math.sin(y * 0.2) * 16 + Math.random() * 10);
++      id.data[i] = id.data[i+1] = id.data[i+2] = Math.min(255, Math.max(80, r));
++      id.data[i+3] = 255;
++    }
++  }
++  g.putImageData(id, 0, 0);
++  var t = new THREE.CanvasTexture(c);
++  t.wrapS = t.wrapT = THREE.RepeatWrapping;
++  t.repeat.set(3, 3);
++  return t;
++})();
++
++var matInox = new THREE.MeshStandardMaterial({
++  color: 0xDCE0E3,
++  vertexColors: false,
++  metalness: 0.80,
++  roughness: 0.24,
++  envMap: ambientePBR,
++  envMapIntensity: 1.15
++});
++
++var matSofaTecido = new THREE.MeshStandardMaterial({
++  color: 0xDDD7CC,
++  vertexColors: false,
++  map: texTecido,
++  normalMap: nrmTecido,
++  normalScale: new THREE.Vector2(0.28, 0.28),
++  roughness: 0.65,
++  metalness: 0.02,
++  envMap: ambientePBR,
++  envMapIntensity: 0.70,
++  roughnessMap: rugTecido
++});
++
++var matCamaTecido = new THREE.MeshStandardMaterial({
++  color: 0xEAE6DF,
++  vertexColors: false,
++  roughness: 0.68,
++  metalness: 0.02,
++  envMap: ambientePBR,
++  envMapIntensity: 0.55,
++  map: texTecido,
++  normalMap: nrmTecido,
++  normalScale: new THREE.Vector2(0.25, 0.25),
++  roughnessMap: rugTecido
++});
++
++var matTV = new THREE.MeshStandardMaterial({
++  color: 0x141618,
++  vertexColors: false,
++  roughness: 0.15,
++  metalness: 0.85,
++  envMap: ambientePBR,
++  envMapIntensity: 1.05
++});
++
++var matCortina = new THREE.MeshStandardMaterial({
++  color: 0xEAE5DC,
++  vertexColors: false,
++  roughness: 0.72,
++  metalness: 0.01,
++  map: texTecido,
++  normalMap: nrmTecido,
++  normalScale: new THREE.Vector2(0.20, 0.20),
++  envMap: ambientePBR,
++  envMapIntensity: 0.40
++});
++
++var matTapete = new THREE.MeshStandardMaterial({
++  color: 0xC8C2B7,
++  vertexColors: false,
++  roughness: 0.85,
++  metalness: 0.01,
++  map: texTecido,
++  normalMap: nrmTecido,
++  normalScale: new THREE.Vector2(0.35, 0.35),
++  envMap: ambientePBR,
++  envMapIntensity: 0.35
++});
++
++var matMadeiraFina = new THREE.MeshStandardMaterial({
++  color: 0xBFA482,
++  vertexColors: false,
++  map: texMadeiraMovel,
++  normalMap: nrmMadeiraMovel,
++  normalScale: new THREE.Vector2(0.28, 0.28),
++  roughness: 0.42,
++  metalness: 0.02,
++  envMap: ambientePBR,
++  envMapIntensity: 0.78,
++  roughnessMap: rugMadeiraMovel
++});
++
++var matMetalNobre = new THREE.MeshStandardMaterial({
++  color: 0x24282D,
++  vertexColors: false,
++  roughness: 0.32,
++  metalness: 0.85,
++  envMap: ambientePBR,
++  envMapIntensity: 0.95
++});
++
++var matDeco = new THREE.MeshStandardMaterial({
++  color: 0xF0EDE6,
++  vertexColors: false,
++  roughness: 0.28,
++  metalness: 0.04,
++  envMap: ambientePBR,
++  envMapIntensity: 0.85
++});
++
++var matMovel = new THREE.MeshStandardMaterial({
++  color: 0xDDD7CC,
++  vertexColors: false,
++  roughness: 0.55,
++  metalness: 0.03,
++  envMap: ambientePBR,
++  envMapIntensity: 0.70,
++  map: texTecido,
++  normalMap: nrmTecido,
++  normalScale: new THREE.Vector2(0.25, 0.25)
++});
++
++var _cacheTecido = {};
++function getMatTecido(corHex) {
++  if (corHex == null || corHex === 0x4A5A6B) return matSofaTecido;
++  var key = Number(corHex);
++  if (!_cacheTecido[key]) {
++    _cacheTecido[key] = new THREE.MeshStandardMaterial({
++      color: new THREE.Color(key),
++      vertexColors: false,
++      map: texTecido,
++      normalMap: nrmTecido,
++      normalScale: new THREE.Vector2(0.28, 0.28),
++      roughness: 0.65,
++      metalness: 0.02,
++      envMap: ambientePBR,
++      envMapIntensity: 0.70,
++      roughnessMap: rugTecido
++    });
++  }
++  return _cacheTecido[key];
++}
++
++var _cacheMadeira = {};
++function getMatMadeira(corHex) {
++  if (corHex == null) return matMadeiraFina;
++  var key = Number(corHex);
++  if (key === 0x5A6249 || key === 0x7C8466) {
++    key = 0x3E444B; // marcenaria elegante em grafite suave
++  }
++  if (!_cacheMadeira[key]) {
++    _cacheMadeira[key] = new THREE.MeshStandardMaterial({
++      color: new THREE.Color(key),
++      vertexColors: false,
++      map: texMadeiraMovel,
++      normalMap: nrmMadeiraMovel,
++      normalScale: new THREE.Vector2(0.28, 0.28),
++      roughness: 0.42,
++      metalness: 0.02,
++      envMap: ambientePBR,
++      envMapIntensity: 0.78,
++      roughnessMap: rugMadeiraMovel
++    });
++  }
++  return _cacheMadeira[key];
++}
+ var FURN = null;
+ try {
+   var _fp = FurnitureParam.create({ THREE: THREE, getLib: function () { return FURN ? FURN.MOVEIS_LIB : {}; },
+                                     rgbDe: rgbDe });
++  // Envelopa geoDeParts para gerar UVs triplanares em todos os móveis paramétricos
++  var _origGeoDeParts = _fp.geoDeParts;
++  _fp.geoDeParts = function(parts, corPadrao) {
++    var geo = _origGeoDeParts(parts, corPadrao);
++    if (geo && !geo.attributes.uv) {
++      var pos = geo.attributes.position;
++      var norm = geo.attributes.normal;
++      if (pos) {
++        var nV = pos.count, uvs = new Float32Array(nV * 2);
++        for (var k = 0; k < nV; k++) {
++          var x = pos.getX(k), y = pos.getY(k), z = pos.getZ(k);
++          var nx = Math.abs(norm ? norm.getX(k) : 0);
++          var ny = Math.abs(norm ? norm.getY(k) : 1);
++          var nz = Math.abs(norm ? norm.getZ(k) : 0);
++          if (ny >= nx && ny >= nz) {
++            uvs[k * 2] = x * 2.2; uvs[k * 2 + 1] = z * 2.2;
++          } else if (nx >= ny && nx >= nz) {
++            uvs[k * 2] = z * 2.2; uvs[k * 2 + 1] = y * 2.2;
++          } else {
++            uvs[k * 2] = x * 2.2; uvs[k * 2 + 1] = y * 2.2;
++          }
++        }
++        geo.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
++      }
++    }
++    return geo;
++  };
+   FURN = FurnitureCatalog.create({ THREE: THREE, document: document, rgbDe: rgbDe,
+     geoDeParts: _fp.geoDeParts, getMaterial: function () { return matMovel; },
+     armarioParam: _fp.armarioParam, bancadaParam: _fp.bancadaParam, aereoParam: _fp.aereoParam,
+@@ -1516,20 +1844,92 @@ function montaMoveisDaPlanta(g) {
+     var obj = FURN.geoDoMovel(def, m.cor != null ? m.cor : def.cor,
+                               { w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2] });
+     if (!obj) continue;
+-    /* A peca mora em (u,v), o referencial do OBB da unidade -- o mesmo em que o
+-       cadastro a escreveu. `W` leva pro mundo e o giro do OBB entra somado ao `rot`
+-       do cadastro, que e em quartos de volta. Sem a parcela do OBB todo movel de um
+-       predio fora do eixo do mapa nasceria torto dentro da propria sala. */
++    /* Atribui material PBR especializado e gera UVs triplanares se faltarem */
++    obj.traverse(function(child) {
++      if (child.isMesh && child.geometry) {
++        if (!child.geometry.attributes.uv) {
++          var pos = child.geometry.attributes.position;
++          var norm = child.geometry.attributes.normal;
++          if (pos) {
++            var nV = pos.count, uvs = new Float32Array(nV * 2);
++            for (var k = 0; k < nV; k++) {
++              var x = pos.getX(k), y = pos.getY(k), z = pos.getZ(k);
++              var nx = Math.abs(norm ? norm.getX(k) : 0);
++              var ny = Math.abs(norm ? norm.getY(k) : 1);
++              var nz = Math.abs(norm ? norm.getZ(k) : 0);
++              if (ny >= nx && ny >= nz) {
++                uvs[k * 2] = x * 2.2; uvs[k * 2 + 1] = z * 2.2;
++              } else if (nx >= ny && nx >= nz) {
++                uvs[k * 2] = z * 2.2; uvs[k * 2 + 1] = y * 2.2;
++              } else {
++                uvs[k * 2] = x * 2.2; uvs[k * 2 + 1] = y * 2.2;
++              }
++            }
++            child.geometry.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
++          }
++        }
++        var tipoStr = (m.tipo || "").replace(/[-_ ]/g, "").toLowerCase();
++        var corVal = (m.cor != null) ? m.cor : def.cor;
++        if (typeof corVal === "string" && /^#[0-9a-fA-F]{6}$/.test(corVal)) {
++          corVal = parseInt(corVal.slice(1), 16);
++        }
++
++        if (tipoStr.indexOf("geladeira") >= 0 || tipoStr.indexOf("fogao") >= 0 || tipoStr.indexOf("coifa") >= 0 || tipoStr.indexOf("maquina") >= 0) {
++          child.material = matInox;
++        } else if (tipoStr.indexOf("tv") >= 0) {
++          child.material = matTV;
++        } else if (tipoStr.indexOf("box") >= 0) {
++          child.material = (typeof MAT !== "undefined" && MAT && MAT.matVidro) ? MAT.matVidro : matDeco;
++        } else if (tipoStr.indexOf("cortina") >= 0) {
++          child.material = matCortina;
++        } else if (tipoStr.indexOf("tapete") >= 0) {
++          child.material = matTapete;
++        } else if (tipoStr.indexOf("sofa") >= 0 || tipoStr.indexOf("poltrona") >= 0 || tipoStr.indexOf("pufe") >= 0) {
++          child.material = getMatTecido(corVal);
++        } else if (tipoStr.indexOf("cama") >= 0) {
++          child.material = matCamaTecido;
++        } else if (tipoStr.indexOf("vaso") >= 0 || tipoStr.indexOf("pia") >= 0 || tipoStr.indexOf("sanitario") >= 0 || tipoStr.indexOf("bacia") >= 0) {
++          child.material = matDeco;
++        } else {
++          child.material = getMatMadeira(corVal || 0xBFA482);
++        }
++      }
++    });
+     var w2 = PL_R.W(m.u, m.v);
+-    obj.position.set(w2[0], 0.03, w2[1]);
+-    // Peca parametrica ja nasce na medida (a malha e outra); o resto escala.
++    var altY = m.y != null ? m.y : (def.y != null ? def.y : 0.03);
++    obj.position.set(w2[0], altY, w2[1]);
+     if (!def.param) obj.scale.set(m.w/def.b[0], m.h/def.b[1], m.d/def.b[2]);
+-    obj.rotation.y = Math.atan2(-PL_R.ob.uz, PL_R.ob.ux) + (m.rot || 0) * Math.PI/2;
++    var rotAng = (m.rotF != null ? m.rotF : (m.rot || 0)) * Math.PI / 2;
++    obj.rotation.y = Math.atan2(-PL_R.ob.uz, PL_R.ob.ux) + rotAng;
+     obj.userData.movel=true;obj.userData.registroMovel=m;g.add(obj); n++;
+   }
+   return n;
+ }
+ 
++/* ---- ILUMINAÇÃO DE INTERIOR ACONCHEGANTE ---- */
++function montaStaging(g, pl) {
++  if (!pl || !pl.comodos || !pl.comodos.length) return;
++  var cSala = pl.comodos.find(function(c) {
++    var n = (c.nome || '').toLowerCase();
++    return n.includes('sala') || n.includes('living') || n.includes('estar');
++  }) || pl.comodos[0];
++  if (cSala) {
++    var pLightSala = new THREE.PointLight(0xFFEEDD, 0.40, 5.5, 2.0);
++    pLightSala.position.set(cSala.cx, 2.20, cSala.cz);
++    g.add(pLightSala);
++  }
++
++  var cQuarto = pl.comodos.find(function(c) {
++    var n = (c.nome || '').toLowerCase();
++    return n.includes('suíte') || n.includes('suite') || n.includes('dormit') || n.includes('quarto');
++  });
++  if (cQuarto) {
++    var pLightQuarto = new THREE.PointLight(0xFFF4E6, 0.35, 4.5, 2.0);
++    pLightQuarto.position.set(cQuarto.cx, 1.90, cQuarto.cz);
++    g.add(pLightQuarto);
++  }
++}
++
+ function montaMoveis(g) {
+   var lista = (PL.moveis || []);
+   if (!FURN || !lista.length) return 0;
+@@ -1541,11 +1941,50 @@ function montaMoveis(g) {
+             ? parseInt(m.cor.slice(1), 16) : def.cor;
+     var obj = FURN.geoDoMovel(def, cor, { w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2] });
+     if (!obj) continue;
+-    // `alto` marca a peca que nasce PENDURADA (aereo, coifa, ripado, box, cortina): o
+-    // catalogo ja traz a altura cheia dela, entao ela assenta no chao como as outras --
+-    // e a propria geometria que sobe. Sem esta distincao o aereo ficava no piso.
+-    obj.position.set(m.p[0], 0, m.p[1]);
+-    obj.rotation.y = (m.rot || 0) * Math.PI / 2;
++    obj.traverse(function(child) {
++      if (child.isMesh && child.geometry) {
++        if (!child.geometry.attributes.uv) {
++          var pos = child.geometry.attributes.position, norm = child.geometry.attributes.normal;
++          if (pos) {
++            var nV = pos.count, uvs = new Float32Array(nV * 2);
++            for (var k = 0; k < nV; k++) {
++              var x = pos.getX(k), y = pos.getY(k), z = pos.getZ(k);
++              var nx = Math.abs(norm ? norm.getX(k) : 0), ny = Math.abs(norm ? norm.getY(k) : 1), nz = Math.abs(norm ? norm.getZ(k) : 0);
++              if (ny >= nx && ny >= nz) { uvs[k * 2] = x * 2.2; uvs[k * 2 + 1] = z * 2.2; }
++              else if (nx >= ny && nx >= nz) { uvs[k * 2] = z * 2.2; uvs[k * 2 + 1] = y * 2.2; }
++              else { uvs[k * 2] = x * 2.2; uvs[k * 2 + 1] = y * 2.2; }
++            }
++            child.geometry.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
++          }
++        }
++        var tipoStr = (m.tipo || "").replace(/[-_ ]/g, "").toLowerCase();
++        var corVal = (typeof cor === "number") ? cor : def.cor;
++
++        if (tipoStr.indexOf("geladeira") >= 0 || tipoStr.indexOf("fogao") >= 0 || tipoStr.indexOf("coifa") >= 0 || tipoStr.indexOf("maquina") >= 0) {
++          child.material = matInox;
++        } else if (tipoStr.indexOf("tv") >= 0) {
++          child.material = matTV;
++        } else if (tipoStr.indexOf("box") >= 0) {
++          child.material = (typeof MAT !== "undefined" && MAT && MAT.matVidro) ? MAT.matVidro : matDeco;
++        } else if (tipoStr.indexOf("cortina") >= 0) {
++          child.material = matCortina;
++        } else if (tipoStr.indexOf("tapete") >= 0) {
++          child.material = matTapete;
++        } else if (tipoStr.indexOf("sofa") >= 0 || tipoStr.indexOf("poltrona") >= 0 || tipoStr.indexOf("pufe") >= 0) {
++          child.material = getMatTecido(corVal);
++        } else if (tipoStr.indexOf("cama") >= 0) {
++          child.material = matCamaTecido;
++        } else if (tipoStr.indexOf("vaso") >= 0 || tipoStr.indexOf("pia") >= 0 || tipoStr.indexOf("sanitario") >= 0 || tipoStr.indexOf("bacia") >= 0) {
++          child.material = matDeco;
++        } else {
++          child.material = getMatMadeira(corVal || 0xBFA482);
++        }
++      }
++    });
++    var altY = m.y != null ? m.y : (def.y != null ? def.y : 0.03);
++    obj.position.set(m.p[0], altY, m.p[1]);
++    var rotAng = (m.rot != null ? m.rot : 0) * Math.PI / 2;
++    obj.rotation.y = rotAng;
+     obj.userData.movel=true;g.add(obj);
+     postos++;
+   }
+@@ -1558,6 +1997,17 @@ var MAT = InteriorMaterials.create({ THREE: THREE, ambientePBR: ambientePBR,
+   texParede: TEX.texParede, texPiso: TEX.texPiso, texMadeira: TEX.texMadeira,
+   nrmParede: TEX.nrmParede, nrmPiso: TEX.nrmPiso, nrmMadeira: TEX.nrmMadeira,
+   rugParede: TEX.rugParede, rugPiso: TEX.rugPiso, rugMadeira: TEX.rugMadeira });
++if (MAT) {
++  if (MAT.matInt) {
++    MAT.matInt.roughness = 0.55;
++    MAT.matInt.metalness = 0.02;
++    MAT.matInt.envMapIntensity = 0.70;
++  }
++  if (MAT.matParede) MAT.matParede.envMapIntensity = 0.48;
++  if (MAT.matFrio) { MAT.matFrio.envMapIntensity = 0.75; MAT.matFrio.roughness = 0.52; }
++  if (MAT.matMadeira) { MAT.matMadeira.envMapIntensity = 0.78; MAT.matMadeira.roughness = 0.42; }
++  if (MAT.matVidro) { MAT.matVidro.envMapIntensity = 1.8; }
++}
+ var OPEN = Openings.create({ THREE: THREE, ESP: ESP, rgbDe: rgbDe,
+   matEsq: MAT.matEsq, matAlum: MAT.matAlum, matVidro: MAT.matVidro });
+ var FP2 = FloorPlan.create({ fecharQuinas: true, inside: MG.inside, shoelace: MG.shoelace, ESP: ESP,
+@@ -1595,6 +2045,13 @@ var PL_R = null;
+ try {
+   PL_R = D.cadastro ? FP2.plantaDaUnidade(REC_UNI, D.cadastro) : null;
+ } catch (e) { console.log("planta do renderizador indisponivel: " + e); }
++if (PL_R && D.cadastro && D.cadastro.planta && D.cadastro.planta.moveis) {
++  var cadMoveis = D.cadastro.planta.moveis;
++  for (var k = 0; k < PL_R.moveis.length && k < cadMoveis.length; k++) {
++    if (cadMoveis[k].y != null) PL_R.moveis[k].y = cadMoveis[k].y;
++    if (cadMoveis[k].rot != null) PL_R.moveis[k].rotF = cadMoveis[k].rot;
++  }
++}
+ if (PL_R) console.log("planta: " + PL_R.paredes.length + " paredes, " +
+                       PL_R.esquadrias.length + " esquadrias, " +
+                       PL_R.comodos.length + " comodos, " + PL_R.moveis.length + " moveis");
+@@ -1686,6 +2143,7 @@ function montaPlanta3D() {
+     gr.position.set(-PL_R.ob.cx, 0, -PL_R.ob.cz);   // a casa mora no centro do predio
+     var nm2 = montaMoveisDaPlanta(gr);
+     if (nm2) console.log("moveis do cadastro: " + nm2);
++    montaStaging(gr, PL_R);
+     gr.visible = false;
+     cena.add(gr);
+     planta3d = gr;
+@@ -2182,6 +2640,11 @@ function vaiPara(novo) {
+   var botoes = document.querySelectorAll("#modos button");
+   for (var i = 0; i < botoes.length; i++)
+     botoes[i].addEventListener("click", function () { vaiPara(this.dataset.modo); });
++  var params = new URLSearchParams(location.search);
++  var mInit = params.get("modo") || (location.hash ? location.hash.replace("#", "") : null);
++  if (mInit && ["maquete", "planta2d", "planta3d", "visita"].indexOf(mInit) !== -1) {
++    vaiPara(mInit);
++  }
+ })();
+ 
+ /* GIRAR OU MOVER: o mesmo arrasto, dois resultados.

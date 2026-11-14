@@ -1,0 +1,88 @@
+{
+  "recordedAtUtc": "2026-10-09T19:29:31.732702+00:00",
+  "status": "FAIL",
+  "physicalMobile": false,
+  "cases": [
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "backendRequested": "auto",
+      "errors": [],
+      "httpFailures": [],
+      "modes": {
+        "planta2d": {
+          "mode": "planta2d",
+          "plantVisible": false,
+          "exteriorVisible": false,
+          "image": true,
+          "orbit": 0.58,
+          "yaw": 0,
+          "walkable": null,
+          "touchDetection": [
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 467
+            },
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 2189.899999976158
+            }
+          ],
+          "coarseNow": false
+        },
+        "planta3d": {
+          "mode": "planta3d",
+          "plantVisible": true,
+          "exteriorVisible": false,
+          "image": false,
+          "orbit": 0,
+          "yaw": 0,
+          "walkable": null,
+          "touchDetection": [
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 264.10000002384186
+            },
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 2640.100000023842
+            }
+          ],
+          "coarseNow": false
+        },
+        "visita": {
+          "mode": "visita",
+          "plantVisible": true,
+          "exteriorVisible": false,
+          "image": false,
+          "orbit": 0.58,
+          "yaw": 2.443460952792061,
+          "walkable": true,
+          "touchDetection": [
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 249.10000002384186
+            },
+            {
+              "query": "(pointer:coarse)",
+              "matches": false,
+              "atMs": 1974.9000000953674
+            }
+          ],
+          "coarseNow": false
+        }
+      },
+      "cycles": 0,
+      "backend": "webgpu"
+    }
+  ],
+  "browserVersion": "154.0.8037.98",
+  "failure": "Locator.wait_for: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"#joy\") to be visible\n    61 × locator resolved to hidden <div id=\"joy\" hidden=\"\" aria-hidden=\"true\">…</div>\n"
+}

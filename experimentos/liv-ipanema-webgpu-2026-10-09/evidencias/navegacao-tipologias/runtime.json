@@ -1,0 +1,322 @@
+{
+  "recordedAtUtc": "2026-10-10T19:51:51.720400+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "sourceSHA256": {
+    "viewer.js": "4c5bf0a35819793b6513a64241c8f5a25c220661f9e8aa1c126b5b5aadfcfd0e",
+    "transfers.js": "d3f18d35513422b0566e55d8fbf60f643686d42c2ec0588ca2bdb2e440abb146",
+    "transfer-worker.js": "d215453785075ecaa187047a009aa3f2456bb45756207fef98d590bc5767cd2e",
+    "mapa-retorno.js": "d2b4fb45033a43caad5519007c44d1e94598a6dc746cb74e5e3de3b61651358e",
+    "maquete-liv-ipanema.html": "5b03753d8fc932cee83044538bd5bb4a3f361c4b26e453b66b2babf45f5f3336",
+    "mapa-liv-ipanema-5km.html": "ed7952a709d784ee258779a4ba694ae9f8298337ccbf1cd28602ebd36810e04c"
+  },
+  "cases": [
+    {
+      "viewport": [
+        320,
+        740
+      ],
+      "errors": [],
+      "mapReturnURL": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html",
+      "browserBackRestored": true,
+      "returnToNewViewer": true,
+      "status": "PASS"
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "errors": [],
+      "mapReturnURL": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html",
+      "browserBackRestored": true,
+      "returnToNewViewer": true,
+      "status": "PASS"
+    },
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "errors": [],
+      "mapReturnURL": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html",
+      "browserBackRestored": true,
+      "returnToNewViewer": true,
+      "status": "PASS"
+    }
+  ],
+  "decodedPNGs": [
+    {
+      "file": "evidencias\\integracao-final\\auto-390-planta2d.png",
+      "size": [
+        1000,
+        1000
+      ],
+      "maxRgbVariance": 4878.100386061203
+    },
+    {
+      "file": "evidencias\\integracao-final\\auto-390-planta3d.png",
+      "size": [
+        364,
+        454
+      ],
+      "maxRgbVariance": 7778.67592463989
+    },
+    {
+      "file": "evidencias\\integracao-final\\auto-390-visita.png",
+      "size": [
+        364,
+        454
+      ],
+      "maxRgbVariance": 1364.3064482277798
+    },
+    {
+      "file": "evidencias\\integracao-final\\fallback2d.png",
+      "size": [
+        390,
+        1166
+      ],
+      "maxRgbVariance": 10690.553600440777
+    },
+    {
+      "file": "evidencias\\integracao-final\\webgl-1440-planta2d.png",
+      "size": [
+        1000,
+        1000
+      ],
+      "maxRgbVariance": 4878.100386061203
+    },
+    {
+      "file": "evidencias\\integracao-final\\webgl-1440-planta3d.png",
+      "size": [
+        920,
+        556
+      ],
+      "maxRgbVariance": 6366.79196026947
+    },
+    {
+      "file": "evidencias\\integracao-final\\webgl-1440-visita.png",
+      "size": [
+        920,
+        556
+      ],
+      "maxRgbVariance": 1359.2783554602759
+    },
+    {
+      "file": "evidencias\\integracao-final\\webgpu-1440-planta2d.png",
+      "size": [
+        1000,
+        1000
+      ],
+      "maxRgbVariance": 4878.100386061203
+    },
+    {
+      "file": "evidencias\\integracao-final\\webgpu-1440-planta3d.png",
+      "size": [
+        920,
+        556
+      ],
+      "maxRgbVariance": 6366.79196026947
+    },
+    {
+      "file": "evidencias\\integracao-final\\webgpu-1440-visita.png",
+      "size": [
+        920,
+        556
+      ],
+      "maxRgbVariance": 1359.2783554602759
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgl-1440-aerea.png",
+      "size": [
+        1440,
+        736
+      ],
+      "maxRgbVariance": 2020.6886156199635
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgl-1440-captura.png",
+      "size": [
+        1440,
+        736
+      ],
+      "maxRgbVariance": 3094.881423946958
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgl-1440-fachada.png",
+      "size": [
+        1440,
+        736
+      ],
+      "maxRgbVariance": 2522.723126475304
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgl-1440-implantacao.png",
+      "size": [
+        1440,
+        736
+      ],
+      "maxRgbVariance": 5514.357725253428
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgl-1440-perspectiva.png",
+      "size": [
+        1440,
+        736
+      ],
+      "maxRgbVariance": 2049.6826757549447
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgl-1440-portaria.png",
+      "size": [
+        1440,
+        736
+      ],
+      "maxRgbVariance": 3915.135145338448
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgl-390-aerea.png",
+      "size": [
+        390,
+        680
+      ],
+      "maxRgbVariance": 2493.505400653468
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgl-390-captura.png",
+      "size": [
+        390,
+        680
+      ],
+      "maxRgbVariance": 2893.050839562034
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgl-390-fachada.png",
+      "size": [
+        390,
+        680
+      ],
+      "maxRgbVariance": 4364.967047731283
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgl-390-implantacao.png",
+      "size": [
+        390,
+        680
+      ],
+      "maxRgbVariance": 5792.965087726785
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgl-390-perspectiva.png",
+      "size": [
+        390,
+        680
+      ],
+      "maxRgbVariance": 1858.6000619182544
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgl-390-portaria.png",
+      "size": [
+        390,
+        680
+      ],
+      "maxRgbVariance": 4956.610872993987
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgpu-1440-aerea.png",
+      "size": [
+        1440,
+        736
+      ],
+      "maxRgbVariance": 2010.0348878690945
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgpu-1440-captura.png",
+      "size": [
+        1440,
+        736
+      ],
+      "maxRgbVariance": 3095.2879006541925
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgpu-1440-fachada.png",
+      "size": [
+        1440,
+        736
+      ],
+      "maxRgbVariance": 2522.3125151713975
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgpu-1440-implantacao.png",
+      "size": [
+        1440,
+        736
+      ],
+      "maxRgbVariance": 5516.088939955024
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgpu-1440-perspectiva.png",
+      "size": [
+        1440,
+        736
+      ],
+      "maxRgbVariance": 2050.926515560874
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgpu-1440-portaria.png",
+      "size": [
+        1440,
+        736
+      ],
+      "maxRgbVariance": 3917.1702569684544
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgpu-390-aerea.png",
+      "size": [
+        390,
+        680
+      ],
+      "maxRgbVariance": 2391.619331202255
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgpu-390-captura.png",
+      "size": [
+        390,
+        680
+      ],
+      "maxRgbVariance": 2856.132516214164
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgpu-390-fachada.png",
+      "size": [
+        390,
+        680
+      ],
+      "maxRgbVariance": 4361.681798659579
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgpu-390-implantacao.png",
+      "size": [
+        390,
+        680
+      ],
+      "maxRgbVariance": 5793.757552336435
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgpu-390-perspectiva.png",
+      "size": [
+        390,
+        680
+      ],
+      "maxRgbVariance": 1846.4439230996127
+    },
+    {
+      "file": "evidencias\\prova-webgpu-responsive\\webgpu-390-portaria.png",
+      "size": [
+        390,
+        680
+      ],
+      "maxRgbVariance": 4960.357908454416
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "data": "2026-10-15",
+  "cache": "PASS",
+  "ponte_camera_fallback_cleanup": "PASS",
+  "validacao_captura": "PASS",
+  "navegacao": {
+    "status": "PASS",
+    "rotas": 48,
+    "tipologias": 2
+  },
+  "camera": {
+    "status": "PASS",
+    "cantos": 80,
+    "foco": 3
+  },
+  "navegador": {
+    "webgl_1280": "6 rotas PASS",
+    "webgl_390": "6 rotas PASS",
+    "aprovacao_visual_splats_existentes": false
+  },
+  "render_local": {
+    "imagens": 12,
+    "resolucao": [
+      640,
+      360
+    ],
+    "amostras": 24
+  },
+  "pacotes": {
+    "pacote-piloto.zip": "710af744cf98ed32f644cc0307812b073f70c029fb2cb6405b90450e0aef77ee",
+    "pacote-apartamento.zip": "e46d369ec8d625a1e7bb49ae8768e16c14440b5823317b4479542ba037eb599e"
+  },
+  "integridade_pacotes": "PASS SHA-256, Python, sintaxe Bash, hash da cena e bloqueio de treino com imagens ausentes",
+  "pendente": [
+    "render final",
+    "treino GPU",
+    "inspecao visual splat novo",
+    "aparelho fisico",
+    "deploy"
+  ]
+}

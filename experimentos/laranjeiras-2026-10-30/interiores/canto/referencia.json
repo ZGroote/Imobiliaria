@@ -1,0 +1,60 @@
+{
+  "titulo": "Parque das Laranjeiras · planta tipo canto · 39,12 m²",
+  "tipologia": "canto",
+  "imagem": "../../../../plantas_fornecidas/parque-das-laranjeiras/fonte/planta-tipo-canto.jpg",
+  "imagemSha256": "9be0ffe3f419d2812550bc476cf83cc44885dc733adbb3823501493a86aa0e11",
+  "registro": {
+    "origemPx": [
+      44,
+      18
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 5.429379721054362,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        57,
+        48,
+        1203,
+        1198
+      ],
+      [
+        722,
+        20,
+        1050,
+        48
+      ]
+    ],
+    "areaCalibracaoM2": 39.12,
+    "conferencia": [
+      "vaso 68x128 px contra 0,37x0,68 m: 184-188 px/m",
+      "cooktop 4 bocas 108x94 px contra 0,58x0,51 m: 184-186 px/m"
+    ]
+  },
+  "areaContornoNominalAproximadaM2": 40.825,
+  "peDireitoMm": 2600,
+  "limites": [
+    "Planta humanizada sem cotas. Escala, eixos de parede, vãos e móveis são aproximações.",
+    "A escala supõe que os 39,12 m² do book são a área dentro das faces internas das paredes externas; vaso e cooktop conferem.",
+    "O corredor de distribuição faz parte da sala integrada (piso contínuo, sem divisória).",
+    "Varanda gourmet e área de serviço formam um contorno só; o guarda-corpo é registrado como janela com peitoril de 1,05 m.",
+    "A porta de entrada é a da parede de baixo da imagem; a TV fica na parede da direita, que é divisa com o vizinho.",
+    "Pé-direito de 2,60 m é o do book. A pegada do prédio em lote é provisória até a implantação ser traçada."
+  ],
+  "captura": {
+    "construtorSHA256": "c338b1159a5f6f9365a12a296b0d53c9421746465667d938ea46f41be0bbfb8f",
+    "inputsSHA256": {
+      "planta.json": "3a4b36f236abf2c7bc62c79952699fe0ebf09db202605a0e5cbaa2f45f8312d2",
+      "leitura.json": "165918dc311d3d9f6c29b234e32bf28c7b8995f6a80e5b6a72f0245522432180",
+      "projeto-planta.json": "ae77b33b0f01f08ce2ad4b2bca5042c112350e145fec67f9342ae309a3b2a687",
+      "moveis.json": "ea8bcbd30a077fb4c62dbcf183300e3ac6e36c2c28395d0c0eaf15240c18b860",
+      "contexto.json": "9f39d12dc2e05f3028e6cb3bc752d1336be5f627d92426e6bafbe3437aa13f88"
+    }
+  },
+  "contagens": {
+    "partes": 8,
+    "aberturas": 9,
+    "moveis": 23
+  }
+}

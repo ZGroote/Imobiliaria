@@ -1514,14 +1514,15 @@ function montaMoveisDaPlanta(g) {
     var m = PL_R.moveis[i], def = FURN.MOVEIS[m.tipo];
     if (!def) { console.log("movel sem catalogo: " + m.tipo); continue; }
     var obj = FURN.geoDoMovel(def, m.cor != null ? m.cor : def.cor,
-                              { w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2] });
+                              { w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2],
+                                estilo: m.estilo });
     if (!obj) continue;
     /* A peca mora em (u,v), o referencial do OBB da unidade -- o mesmo em que o
        cadastro a escreveu. `W` leva pro mundo e o giro do OBB entra somado ao `rot`
        do cadastro, que e em quartos de volta. Sem a parcela do OBB todo movel de um
        predio fora do eixo do mapa nasceria torto dentro da propria sala. */
     var w2 = PL_R.W(m.u, m.v);
-    obj.position.set(w2[0], 0.03, w2[1]);
+    obj.position.set(w2[0], m.y != null ? m.y : 0.03, w2[1]);
     // Peca parametrica ja nasce na medida (a malha e outra); o resto escala.
     if (!def.param) obj.scale.set(m.w/def.b[0], m.h/def.b[1], m.d/def.b[2]);
     obj.rotation.y = Math.atan2(-PL_R.ob.uz, PL_R.ob.ux) + (m.rot || 0) * Math.PI/2;
@@ -1539,12 +1540,13 @@ function montaMoveis(g) {
     if (!def) { console.log("movel sem catalogo: " + m.tipo); continue; }
     var cor = (typeof m.cor === "string" && /^#[0-9a-fA-F]{6}$/.test(m.cor))
             ? parseInt(m.cor.slice(1), 16) : def.cor;
-    var obj = FURN.geoDoMovel(def, cor, { w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2] });
+    var obj = FURN.geoDoMovel(def, cor, { w: m.w || def.b[0], h: m.h || def.b[1], d: m.d || def.b[2],
+                                          estilo: m.estilo });
     if (!obj) continue;
     // `alto` marca a peca que nasce PENDURADA (aereo, coifa, ripado, box, cortina): o
     // catalogo ja traz a altura cheia dela, entao ela assenta no chao como as outras --
     // e a propria geometria que sobe. Sem esta distincao o aereo ficava no piso.
-    obj.position.set(m.p[0], 0, m.p[1]);
+    obj.position.set(m.p[0], m.y != null ? m.y : 0, m.p[1]);
     obj.rotation.y = (m.rot || 0) * Math.PI / 2;
     obj.userData.movel=true;g.add(obj);
     postos++;
@@ -2182,6 +2184,11 @@ function vaiPara(novo) {
   var botoes = document.querySelectorAll("#modos button");
   for (var i = 0; i < botoes.length; i++)
     botoes[i].addEventListener("click", function () { vaiPara(this.dataset.modo); });
+  var params = new URLSearchParams(location.search);
+  var mInit = params.get("modo") || (location.hash ? location.hash.replace("#", "") : null);
+  if (mInit && ["maquete", "planta2d", "planta3d", "visita"].indexOf(mInit) !== -1) {
+    vaiPara(mInit);
+  }
 })();
 
 /* GIRAR OU MOVER: o mesmo arrasto, dois resultados.

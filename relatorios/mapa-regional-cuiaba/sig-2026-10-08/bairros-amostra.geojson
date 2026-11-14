@@ -1,0 +1,48 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "476_2026_bairros.1387312",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -56.124702,
+              -15.555248
+            ],
+            [
+              -56.123498,
+              -15.555248
+            ],
+            [
+              -56.123498,
+              -15.556202
+            ],
+            [
+              -56.124702,
+              -15.556202
+            ],
+            [
+              -56.124702,
+              -15.555248
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "featureid": 47
+      }
+    }
+  ],
+  "source_layer": "pmcba2020:476_2026_bairros",
+  "bbox": [
+    -56.12465,
+    -15.55615,
+    -56.12355,
+    -15.5553
+  ],
+  "data_consulta": "2026-10-08",
+  "source_url": "https://cdn-wms.geocloud.com.br/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=pmcba2020%3A476_2026_bairros&STYLES=&CRS=CRS%3A84&BBOX=-56.12465,-15.55615,-56.12355,-15.5553&WIDTH=512&HEIGHT=512&FORMAT=application%2Fjson%3Btype%3Dgeojson"
+}

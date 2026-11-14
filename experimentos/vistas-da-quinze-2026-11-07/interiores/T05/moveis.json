@@ -1,0 +1,369 @@
+{
+  "_gerado_por": "capturador-2d",
+  "moveis": [
+    {
+      "tipo": "cama",
+      "p": [
+        1.25,
+        1.3
+      ],
+      "rot": 1,
+      "w": 1.58,
+      "h": 0.95,
+      "d": 1.98,
+      "cor": "#E4E1DA",
+      "nome": "Cama do casal"
+    },
+    {
+      "tipo": "criado",
+      "p": [
+        0.25,
+        0.25
+      ],
+      "rot": 0,
+      "w": 0.4,
+      "h": 0.55,
+      "d": 0.35,
+      "cor": "#E9E5DD",
+      "nome": "Criado 1"
+    },
+    {
+      "tipo": "criado",
+      "p": [
+        0.25,
+        2.35
+      ],
+      "rot": 0,
+      "w": 0.4,
+      "h": 0.55,
+      "d": 0.35,
+      "cor": "#E9E5DD",
+      "nome": "Criado 2"
+    },
+    {
+      "tipo": "guardaroupa",
+      "p": [
+        0.8,
+        2.9
+      ],
+      "rot": 2,
+      "w": 1.4,
+      "h": 2.35,
+      "d": 0.5,
+      "cor": "#E9E5DD",
+      "nome": "Guarda-roupa da suíte"
+    },
+    {
+      "tipo": "cama",
+      "p": [
+        3.35,
+        1.15
+      ],
+      "rot": 0,
+      "w": 0.88,
+      "h": 0.95,
+      "d": 1.88,
+      "cor": "#E4E1DA",
+      "nome": "Cama de solteiro 1"
+    },
+    {
+      "tipo": "cama",
+      "p": [
+        5.05,
+        1.15
+      ],
+      "rot": 0,
+      "w": 0.88,
+      "h": 0.95,
+      "d": 1.88,
+      "cor": "#E4E1DA",
+      "nome": "Cama de solteiro 2"
+    },
+    {
+      "tipo": "criado",
+      "p": [
+        4.25,
+        0.45
+      ],
+      "rot": 0,
+      "w": 0.4,
+      "h": 0.55,
+      "d": 0.35,
+      "cor": "#E9E5DD",
+      "nome": "Criado do dormitório 2"
+    },
+    {
+      "tipo": "guardaroupa",
+      "p": [
+        4.8,
+        2.9
+      ],
+      "rot": 2,
+      "w": 1.3,
+      "h": 2.35,
+      "d": 0.5,
+      "cor": "#E9E5DD",
+      "nome": "Guarda-roupa do dormitório 2"
+    },
+    {
+      "tipo": "rack",
+      "p": [
+        5.95,
+        0.9
+      ],
+      "rot": 1,
+      "w": 1.6,
+      "h": 0.7,
+      "d": 0.35,
+      "cor": "#B07A4E",
+      "nome": "Rack da TV"
+    },
+    {
+      "tipo": "sofa",
+      "p": [
+        7.9,
+        1.1
+      ],
+      "rot": 3,
+      "w": 2,
+      "h": 0.8,
+      "d": 0.88,
+      "cor": "#8E8A86",
+      "nome": "Sofá"
+    },
+    {
+      "tipo": "tapete",
+      "p": [
+        6.85,
+        1.15
+      ],
+      "rot": 0,
+      "w": 1.4,
+      "h": 0.02,
+      "d": 1.7,
+      "cor": "#C9C6C2",
+      "nome": "Tapete"
+    },
+    {
+      "tipo": "mesa",
+      "p": [
+        6.4,
+        3.35
+      ],
+      "rot": 0,
+      "w": 0.8,
+      "h": 0.76,
+      "d": 1,
+      "cor": "#7A4E33",
+      "nome": "Mesa de jantar"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        6.1,
+        2.75
+      ],
+      "rot": 0,
+      "w": 0.4,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#CFC8BC",
+      "nome": "Cadeira 1"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        6.75,
+        2.75
+      ],
+      "rot": 0,
+      "w": 0.4,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#CFC8BC",
+      "nome": "Cadeira 2"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        6.1,
+        3.95
+      ],
+      "rot": 2,
+      "w": 0.4,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#CFC8BC",
+      "nome": "Cadeira 3"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        6.75,
+        3.95
+      ],
+      "rot": 2,
+      "w": 0.4,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#CFC8BC",
+      "nome": "Cadeira 4"
+    },
+    {
+      "tipo": "geladeira",
+      "p": [
+        5.6,
+        5.25
+      ],
+      "rot": 2,
+      "w": 0.7,
+      "h": 1.78,
+      "d": 0.65,
+      "cor": "#6E7275",
+      "nome": "Geladeira"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        6.75,
+        5.3
+      ],
+      "rot": 2,
+      "w": 1.2,
+      "h": 0.92,
+      "d": 0.58,
+      "cor": "#3B3A38",
+      "nome": "Bancada e cuba"
+    },
+    {
+      "tipo": "fogao",
+      "p": [
+        7.7,
+        5.3
+      ],
+      "rot": 2,
+      "w": 0.6,
+      "h": 0.92,
+      "d": 0.58,
+      "cor": "#2A2B2D",
+      "nome": "Cooktop"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        0.25,
+        3.65
+      ],
+      "rot": 1,
+      "w": 0.55,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#F2F1EE",
+      "nome": "Lavatório da suíte"
+    },
+    {
+      "tipo": "vaso",
+      "p": [
+        0.35,
+        4.3
+      ],
+      "rot": 1,
+      "w": 0.4,
+      "h": 0.8,
+      "d": 0.65,
+      "cor": "#F2F1EE",
+      "nome": "Vaso da suíte"
+    },
+    {
+      "tipo": "box",
+      "p": [
+        0.7,
+        5.2
+      ],
+      "rot": 0,
+      "w": 1.2,
+      "h": 2,
+      "d": 0.85,
+      "cor": "#DDE5E4",
+      "nome": "Box da suíte"
+    },
+    {
+      "tipo": "box",
+      "p": [
+        1.95,
+        5.05
+      ],
+      "rot": 0,
+      "w": 0.85,
+      "h": 2,
+      "d": 1.15,
+      "cor": "#DDE5E4",
+      "nome": "Box"
+    },
+    {
+      "tipo": "vaso",
+      "p": [
+        2.75,
+        5.25
+      ],
+      "rot": 2,
+      "w": 0.4,
+      "h": 0.8,
+      "d": 0.65,
+      "cor": "#F2F1EE",
+      "nome": "Vaso"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        3.5,
+        5.35
+      ],
+      "rot": 2,
+      "w": 0.55,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#F2F1EE",
+      "nome": "Lavatório"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        10,
+        2.9
+      ],
+      "rot": 0,
+      "w": 0.6,
+      "h": 0.85,
+      "d": 0.6,
+      "cor": "#CFC8BC",
+      "nome": "Poltrona do terraço 1"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        10,
+        4.3
+      ],
+      "rot": 2,
+      "w": 0.6,
+      "h": 0.85,
+      "d": 0.6,
+      "cor": "#CFC8BC",
+      "nome": "Poltrona do terraço 2"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        9.4,
+        6.15
+      ],
+      "rot": 2,
+      "w": 1.5,
+      "h": 0.92,
+      "d": 0.58,
+      "cor": "#3B3A38",
+      "nome": "Bancada gourmet"
+    }
+  ]
+}

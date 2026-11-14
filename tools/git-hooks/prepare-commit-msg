@@ -1,0 +1,21 @@
+#!/bin/sh
+# Assina o commit com o agente que o fez (Codex ou Claude). Nunca bloqueia o commit.
+# Codex: roda os comandos pelo pwsh dele (codex-runtimes), que entra no PSModulePath dos filhos.
+# Claude: o Claude Code exporta CLAUDECODE=1.
+# Instalar: cp tools/git-hooks/prepare-commit-msg .git/hooks/
+
+msg="$1"
+assina() {
+    git interpret-trailers --in-place --if-exists addIfDifferent \
+        --trailer "Co-Authored-By: $1" "$msg" 2>/dev/null
+}
+
+if [ -n "$CODEX_HOME" ]; then codex=1; else
+    case "$PSModulePath|$PATH" in *codex-runtimes*) codex=1 ;; esac
+fi
+[ -n "$codex" ] && assina "Codex <noreply@openai.com>"
+
+if [ "$CLAUDECODE" = 1 ] && ! grep -qi '^Co-Authored-By: Claude' "$msg"; then
+    assina "Claude <noreply@anthropic.com>"
+fi
+exit 0

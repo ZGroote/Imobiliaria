@@ -1,0 +1,801 @@
+{
+  "andar": 0,
+  "cidade": null,
+  "cores": {
+    "parede": "#E2DED5",
+    "piso_frio": "#B4B5B1",
+    "piso_madeira": "#B89369",
+    "teto": "#F2F0EC"
+  },
+  "ficha": {
+    "area_publicada_m2": 39.12,
+    "banheiros": 1,
+    "empreendimento": "Parque das Laranjeiras",
+    "observacao": "Reconstrução ilustrativa da planta tipo canto (1º ao último pavimento). Medidas inferidas pela área do book; sem final ou unidade comercial atribuídos. Espelhada para os finais em que a planta do book aparece invertida no prédio.",
+    "quartos": 2,
+    "suites": 0,
+    "titulo": "Parque das Laranjeiras · planta tipo canto · 39,12 m²"
+  },
+  "id": "laranjeiras-planta-canto-tipo-espelhada",
+  "lote": {
+    "predio": {
+      "largura_m": 40,
+      "pavimentos": 13,
+      "profundidade_m": 15
+    }
+  },
+  "planta": {
+    "comodos": [
+      {
+        "id": "c1",
+        "nome": "Dormitório casal",
+        "parts": [
+          {
+            "id": "c1",
+            "provenance": {
+              "declared": {
+                "kind": "declared",
+                "referenceIds": []
+              },
+              "kind": "derived"
+            },
+            "walls": {
+              "east": "c1-east",
+              "north": "c1-north",
+              "south": "c1-south",
+              "west": "c1-west"
+            }
+          },
+          {
+            "id": "c2",
+            "provenance": {
+              "declared": {
+                "kind": "declared",
+                "referenceIds": []
+              },
+              "kind": "derived"
+            },
+            "walls": {
+              "east": "c2-east",
+              "north": "c2-north",
+              "south": "c2-south",
+              "west": "c2-west"
+            }
+          }
+        ],
+        "poly": [
+          [
+            6.35,
+            2.8
+          ],
+          [
+            3.95,
+            2.8
+          ],
+          [
+            3.95,
+            3.15
+          ],
+          [
+            2.75,
+            3.15
+          ],
+          [
+            2.75,
+            0.1
+          ],
+          [
+            6.35,
+            0.1
+          ]
+        ]
+      },
+      {
+        "id": "c3",
+        "nome": "Banho",
+        "poly": [
+          [
+            6.35,
+            4.25
+          ],
+          [
+            3.95,
+            4.25
+          ],
+          [
+            3.95,
+            2.8
+          ],
+          [
+            6.35,
+            2.8
+          ]
+        ],
+        "provenance": {
+          "declared": {
+            "kind": "declared",
+            "referenceIds": []
+          },
+          "kind": "derived"
+        },
+        "walls": {
+          "east": "c3-east",
+          "north": "c3-north",
+          "south": "c3-south",
+          "west": "c3-west"
+        }
+      },
+      {
+        "id": "c4",
+        "nome": "Dormitório 02",
+        "poly": [
+          [
+            6.35,
+            6.5
+          ],
+          [
+            2.75,
+            6.5
+          ],
+          [
+            2.75,
+            4.25
+          ],
+          [
+            6.35,
+            4.25
+          ]
+        ],
+        "provenance": {
+          "declared": {
+            "kind": "declared",
+            "referenceIds": []
+          },
+          "kind": "derived"
+        },
+        "walls": {
+          "east": "c4-east",
+          "north": "c4-north",
+          "south": "c4-south",
+          "west": "c4-west"
+        }
+      },
+      {
+        "id": "c5",
+        "nome": "Sala integrada",
+        "parts": [
+          {
+            "id": "c5",
+            "provenance": {
+              "declared": {
+                "kind": "declared",
+                "referenceIds": []
+              },
+              "kind": "derived"
+            },
+            "walls": {
+              "east": "c5-east",
+              "north": "c5-north",
+              "south": "c5-south",
+              "west": "c5-west"
+            }
+          },
+          {
+            "id": "c6",
+            "provenance": {
+              "declared": {
+                "kind": "declared",
+                "referenceIds": []
+              },
+              "kind": "derived"
+            },
+            "walls": {
+              "east": "c6-east",
+              "north": "c6-north",
+              "south": "c6-south",
+              "west": "c6-west"
+            }
+          }
+        ],
+        "poly": [
+          [
+            2.75,
+            3.15
+          ],
+          [
+            3.95,
+            3.15
+          ],
+          [
+            3.95,
+            4.25
+          ],
+          [
+            2.75,
+            4.25
+          ],
+          [
+            2.75,
+            6.5
+          ],
+          [
+            0,
+            6.5
+          ],
+          [
+            0,
+            1.85
+          ],
+          [
+            2.75,
+            1.85
+          ]
+        ]
+      },
+      {
+        "id": "c7",
+        "nome": "Varanda gourmet",
+        "parts": [
+          {
+            "id": "c7",
+            "provenance": {
+              "declared": {
+                "kind": "declared",
+                "referenceIds": []
+              },
+              "kind": "derived"
+            },
+            "walls": {
+              "east": "c7-east",
+              "north": "c7-north",
+              "south": "c7-south",
+              "west": "c7-west"
+            }
+          },
+          {
+            "id": "c8",
+            "provenance": {
+              "declared": {
+                "kind": "declared",
+                "referenceIds": []
+              },
+              "kind": "derived"
+            },
+            "walls": {
+              "east": "c8-east",
+              "north": "c8-north",
+              "south": "c8-south",
+              "west": "c8-west"
+            }
+          }
+        ],
+        "poly": [
+          [
+            2.75,
+            1.85
+          ],
+          [
+            0,
+            1.85
+          ],
+          [
+            0,
+            0.1
+          ],
+          [
+            0.9,
+            0.1
+          ],
+          [
+            0.9,
+            0
+          ],
+          [
+            2.75,
+            0
+          ]
+        ]
+      }
+    ],
+    "entrada": {
+      "contentSha256": "bd66ef1aae203ac9e0373bca304d4e54d72cc7eeea4bbb8800aafaf3eae9a7c0",
+      "normalizer": "nominal-floor-plan@1.1.0",
+      "readingId": "laranjeiras-planta-canto-tipo",
+      "readingRevision": 38,
+      "readingVersion": 1,
+      "schemaVersion": "1.1.0"
+    },
+    "janelas": [
+      {
+        "id": "a6",
+        "largura": 1.25,
+        "p": [
+          6.35,
+          1.525
+        ],
+        "provenance": {
+          "declared": {
+            "kind": "declared",
+            "referenceIds": []
+          },
+          "kind": "derived"
+        },
+        "wallId": "c1-east",
+        "y0": 1,
+        "y1": 2.2
+      },
+      {
+        "id": "a7",
+        "largura": 0.55,
+        "p": [
+          6.35,
+          3.625
+        ],
+        "provenance": {
+          "declared": {
+            "kind": "declared",
+            "referenceIds": []
+          },
+          "kind": "derived"
+        },
+        "wallId": "c3-east",
+        "y0": 1.5,
+        "y1": 2.1
+      },
+      {
+        "id": "a8",
+        "largura": 1.2,
+        "p": [
+          6.35,
+          5.35
+        ],
+        "provenance": {
+          "declared": {
+            "kind": "declared",
+            "referenceIds": []
+          },
+          "kind": "derived"
+        },
+        "wallId": "c4-east",
+        "y0": 1,
+        "y1": 2.2
+      },
+      {
+        "id": "a9",
+        "largura": 1.75,
+        "p": [
+          1.775,
+          0
+        ],
+        "provenance": {
+          "declared": {
+            "kind": "declared",
+            "referenceIds": []
+          },
+          "kind": "derived"
+        },
+        "wallId": "c7-south",
+        "y0": 1.05,
+        "y1": 2.2
+      }
+    ],
+    "moveis": [
+      {
+        "cor": "#E4E1DA",
+        "d": 1.9,
+        "h": 0.95,
+        "nome": "Cama do casal",
+        "p": [
+          4.95,
+          1.2
+        ],
+        "rot": 0,
+        "tipo": "cama",
+        "w": 1.38
+      },
+      {
+        "cor": "#8A5A3C",
+        "d": 0.4,
+        "h": 0.55,
+        "nome": "Criado 1",
+        "p": [
+          6,
+          0.4
+        ],
+        "rot": 0,
+        "tipo": "criado",
+        "w": 0.45
+      },
+      {
+        "cor": "#8A5A3C",
+        "d": 0.4,
+        "h": 0.55,
+        "nome": "Criado 2",
+        "p": [
+          3.9,
+          0.4
+        ],
+        "rot": 0,
+        "tipo": "criado",
+        "w": 0.45
+      },
+      {
+        "cor": "#7A4A30",
+        "d": 0.5,
+        "h": 2.35,
+        "nome": "Guarda-roupa do casal",
+        "p": [
+          3.1,
+          1.15
+        ],
+        "rot": 1,
+        "tipo": "guardaroupa",
+        "w": 1.5
+      },
+      {
+        "cor": "#DDE5E4",
+        "d": 0.8,
+        "h": 2,
+        "nome": "Box",
+        "p": [
+          5.9,
+          3.5
+        ],
+        "rot": 3,
+        "tipo": "box",
+        "w": 1.22
+      },
+      {
+        "cor": "#F2F1EE",
+        "d": 0.65,
+        "h": 0.8,
+        "nome": "Vaso",
+        "p": [
+          5,
+          3.25
+        ],
+        "rot": 0,
+        "tipo": "vaso",
+        "w": 0.4
+      },
+      {
+        "cor": "#F2F1EE",
+        "d": 0.4,
+        "h": 0.85,
+        "nome": "Lavatório",
+        "p": [
+          4.4,
+          3.1
+        ],
+        "rot": 0,
+        "tipo": "pia",
+        "w": 0.55
+      },
+      {
+        "cor": "#E4E1DA",
+        "d": 1.95,
+        "h": 0.95,
+        "nome": "Cama do dormitório 02",
+        "p": [
+          5.75,
+          5.35
+        ],
+        "rot": 0,
+        "tipo": "cama",
+        "w": 0.9
+      },
+      {
+        "cor": "#8A5A3C",
+        "d": 0.48,
+        "h": 0.74,
+        "nome": "Escrivaninha",
+        "p": [
+          4.85,
+          6.15
+        ],
+        "rot": 2,
+        "tipo": "mesa",
+        "w": 0.8
+      },
+      {
+        "cor": "#7A4A30",
+        "d": 0.5,
+        "h": 2.35,
+        "nome": "Guarda-roupa do dormitório 02",
+        "p": [
+          3.65,
+          6.15
+        ],
+        "rot": 2,
+        "tipo": "guardaroupa",
+        "w": 1.5
+      },
+      {
+        "cor": "#CFC8BC",
+        "d": 0.65,
+        "h": 0.8,
+        "nome": "Sofá da varanda",
+        "p": [
+          2.3,
+          0.95
+        ],
+        "rot": 3,
+        "tipo": "sofa",
+        "w": 1.45
+      },
+      {
+        "cor": "#DADBD5",
+        "d": 0.55,
+        "h": 0.85,
+        "nome": "Tanque",
+        "p": [
+          0.35,
+          1.45
+        ],
+        "rot": 1,
+        "tipo": "pia",
+        "w": 0.6
+      },
+      {
+        "cor": "#5D6367",
+        "d": 0.58,
+        "h": 0.92,
+        "nome": "Cooktop",
+        "p": [
+          0.35,
+          2.3
+        ],
+        "rot": 1,
+        "tipo": "fogao",
+        "w": 0.6
+      },
+      {
+        "cor": "#C9C3BA",
+        "d": 0.58,
+        "h": 0.92,
+        "nome": "Bancada e cuba da cozinha",
+        "p": [
+          0.35,
+          3.25
+        ],
+        "rot": 1,
+        "tipo": "pia",
+        "w": 1.15
+      },
+      {
+        "cor": "#D6D9DA",
+        "d": 0.65,
+        "h": 1.78,
+        "nome": "Geladeira",
+        "p": [
+          0.35,
+          4.3
+        ],
+        "rot": 1,
+        "tipo": "geladeira",
+        "w": 0.7
+      },
+      {
+        "cor": "#8A5A3C",
+        "d": 0.75,
+        "h": 0.76,
+        "nome": "Mesa de jantar",
+        "p": [
+          2.05,
+          2.9
+        ],
+        "rot": 0,
+        "tipo": "mesa",
+        "w": 1.2
+      },
+      {
+        "cor": "#E8E6E1",
+        "d": 0.4,
+        "h": 0.85,
+        "nome": "Cadeira de jantar 1",
+        "p": [
+          2.4,
+          2.4
+        ],
+        "rot": 0,
+        "tipo": "cadeira",
+        "w": 0.4
+      },
+      {
+        "cor": "#E8E6E1",
+        "d": 0.4,
+        "h": 0.85,
+        "nome": "Cadeira de jantar 2",
+        "p": [
+          1.75,
+          2.4
+        ],
+        "rot": 0,
+        "tipo": "cadeira",
+        "w": 0.4
+      },
+      {
+        "cor": "#E8E6E1",
+        "d": 0.4,
+        "h": 0.85,
+        "nome": "Cadeira de jantar 3",
+        "p": [
+          2.4,
+          3.35
+        ],
+        "rot": 2,
+        "tipo": "cadeira",
+        "w": 0.4
+      },
+      {
+        "cor": "#E8E6E1",
+        "d": 0.4,
+        "h": 0.85,
+        "nome": "Cadeira de jantar 4",
+        "p": [
+          1.75,
+          3.35
+        ],
+        "rot": 2,
+        "tipo": "cadeira",
+        "w": 0.4
+      },
+      {
+        "cor": "#E4E1DA",
+        "d": 0.88,
+        "h": 0.8,
+        "nome": "Sofá da sala",
+        "p": [
+          2.25,
+          5.35
+        ],
+        "rot": 3,
+        "tipo": "sofa",
+        "w": 2
+      },
+      {
+        "cor": "#8A5A3C",
+        "d": 0.35,
+        "h": 0.7,
+        "nome": "Rack da TV",
+        "p": [
+          0.25,
+          5.6
+        ],
+        "rot": 1,
+        "tipo": "rack",
+        "w": 1.6
+      },
+      {
+        "cor": "#DCD8D2",
+        "d": 1.3,
+        "h": 0.02,
+        "nome": "Tapete da sala",
+        "p": [
+          1.4,
+          5.45
+        ],
+        "rot": 0,
+        "tipo": "tapete",
+        "w": 1.3
+      }
+    ],
+    "pe_direito": 2.6,
+    "portas": [
+      {
+        "id": "a1",
+        "largura": 0.85,
+        "p": [
+          3.375,
+          3.15
+        ],
+        "pairedWallId": "c6-south",
+        "provenance": {
+          "declared": {
+            "kind": "declared",
+            "referenceIds": []
+          },
+          "kind": "derived"
+        },
+        "wallId": "c2-north",
+        "y0": 0,
+        "y1": 2.1,
+        "tipo": "giro",
+        "dobradica": [
+          2.95,
+          3.1500000000000004
+        ]
+      },
+      {
+        "id": "a2",
+        "largura": 0.85,
+        "p": [
+          3.375,
+          4.25
+        ],
+        "pairedWallId": "c6-north",
+        "provenance": {
+          "declared": {
+            "kind": "declared",
+            "referenceIds": []
+          },
+          "kind": "derived"
+        },
+        "wallId": "c4-south",
+        "y0": 0,
+        "y1": 2.1,
+        "tipo": "giro",
+        "dobradica": [
+          2.95,
+          4.25
+        ]
+      },
+      {
+        "id": "a3",
+        "largura": 0.75,
+        "p": [
+          3.95,
+          3.725
+        ],
+        "pairedWallId": "c6-east",
+        "provenance": {
+          "declared": {
+            "kind": "declared",
+            "referenceIds": []
+          },
+          "kind": "derived"
+        },
+        "wallId": "c3-west",
+        "y0": 0,
+        "y1": 2.1,
+        "tipo": "giro",
+        "dobradica": [
+          3.95,
+          4.1
+        ]
+      },
+      {
+        "id": "a4",
+        "largura": 1.55,
+        "p": [
+          1.675,
+          1.85
+        ],
+        "pairedWallId": "c5-south",
+        "provenance": {
+          "declared": {
+            "kind": "declared",
+            "referenceIds": []
+          },
+          "kind": "derived"
+        },
+        "wallId": "c7-north",
+        "y0": 0,
+        "y1": 2.2
+      },
+      {
+        "id": "a5",
+        "largura": 0.8,
+        "p": [
+          0.9,
+          6.5
+        ],
+        "provenance": {
+          "declared": {
+            "kind": "declared",
+            "referenceIds": []
+          },
+          "kind": "derived"
+        },
+        "wallId": "c5-north",
+        "y0": 0,
+        "y1": 2.1,
+        "tipo": "giro",
+        "dobradica": [
+          0.5,
+          6.500000000000001
+        ]
+      }
+    ]
+  }
+}

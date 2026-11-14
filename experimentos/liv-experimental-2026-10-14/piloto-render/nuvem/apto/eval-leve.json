@@ -1,0 +1,17 @@
+{
+  "experiment_name": "leve",
+  "method_name": "splatfacto",
+  "checkpoint": "var/leve/splatfacto/2026-10-15_154500/nerfstudio_models/step-000029999.ckpt",
+  "results": {
+    "psnr": 31.64002799987793,
+    "psnr_std": 5.941214561462402,
+    "ssim": 0.959897518157959,
+    "ssim_std": 0.02991674840450287,
+    "lpips": 0.08451764285564423,
+    "lpips_std": 0.05604373291134834,
+    "num_rays_per_sec": 50845824.0,
+    "num_rays_per_sec_std": 4926270.0,
+    "fps": 55.17124938964844,
+    "fps_std": 5.3453450202941895
+  }
+}

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>LIV Ipanema — prova isolada RGBM/TSL</title>
+<style>
+  :root{font-family:system-ui,sans-serif;color:#183044;background:#e9ecea}*{box-sizing:border-box}body{margin:0}
+  header{padding:16px 20px;background:#fff}h1{font-size:18px;margin:0 0 6px}p{margin:4px 0;font-size:14px}
+  #stage{width:100%;height:calc(100vh - 164px);min-height:340px;background:radial-gradient(ellipse at 50% 42%,#f4f2eb,#e3e6e5);position:relative}
+  canvas{width:100%;height:100%;display:block;touch-action:none}nav{display:flex;flex-wrap:wrap;gap:8px;padding:12px 20px;background:#fff}
+  button,a{padding:10px 14px;min-height:44px;border:1px solid #a4b4bf;border-radius:6px;background:white;color:#183044;font:inherit}
+  button:focus-visible,a:focus-visible{outline:3px solid #097ea6}button:disabled{opacity:.45}#failure{position:absolute;inset:0;display:grid;place-items:center;padding:24px;background:#edf1f0;text-align:center}#failure[hidden]{display:none}
+  .embedded header,.embedded nav{display:none}.embedded #stage{height:100vh;min-height:0}
+  body.dark-theme{background:#0e151b}body.dark-theme #stage{background:radial-gradient(ellipse at 50% 45%,#17212b,#0e151b 72%)}
+</style>
+<script>/* modo embutido antes do 1º quadro: senão o palco pula quando o renderer.js chega */document.documentElement.classList.toggle('embedded',new URLSearchParams(location.search).get('embed')==='1')</script>
+<header><h1>LIV Ipanema — prova do transporte de luz</h1><p>Exterior da base preservada. Comparação técnica antes da integração dos modos e unidades.</p><p id="status" role="status">Carregando geometria e iluminação…</p></header>
+<div id="stage"><canvas id="c" aria-label="Maquete exterior do LIV Ipanema"></canvas><div id="failure" hidden><div><p id="error"></p><p><a id="retry" href="?backend=webgl">Tentar com WebGL2</a></p><p><a href="site-baseline/maquete-liv-ipanema.html">Abrir a versão preservada</a></p></div></div></div>
+<nav aria-label="Vistas da maquete"><button data-view="perspectiva" disabled>Perspectiva</button><button data-view="fachada" disabled>Fachada</button><button data-view="aerea" disabled>Aérea</button><button data-view="portaria" disabled>Portaria</button><button data-view="implantacao" disabled>Implantação</button><button data-view="varandas" disabled>Varandas</button><button data-view="acesso" disabled>Acesso de perto</button><button id="capture" disabled>Fotografar PNG</button></nav>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.webgpu.js","three/webgpu":"./node_modules/three/build/three.webgpu.js","three/tsl":"./node_modules/three/build/three.tsl.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+<script type="module" src="renderer.js?rev=2026-10-12-cache"></script>
+</html>

@@ -1,0 +1,434 @@
+{
+  "schemaVersion": "1.1.0",
+  "id": "laranjeiras-planta-canto-terreo",
+  "revision": 38,
+  "unit": "mm",
+  "geometry": "orthogonal-rectangles",
+  "ceilingHeightMm": 2600,
+  "provenance": {
+    "kind": "declared",
+    "referenceIds": []
+  },
+  "references": [],
+  "rooms": [
+    {
+      "id": "c1",
+      "name": "Dormitório casal",
+      "xMm": 0,
+      "yMm": 100,
+      "widthMm": 3600,
+      "depthMm": 2700,
+      "walls": {
+        "south": "c1-south",
+        "east": "c1-east",
+        "north": "c1-north",
+        "west": "c1-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c2",
+      "name": "Dormitório casal",
+      "xMm": 2400,
+      "yMm": 2800,
+      "widthMm": 1200,
+      "depthMm": 350,
+      "walls": {
+        "south": "c2-south",
+        "east": "c2-east",
+        "north": "c2-north",
+        "west": "c2-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c3",
+      "name": "Banho",
+      "widthMm": 2400,
+      "depthMm": 1450,
+      "xMm": 0,
+      "yMm": 2800,
+      "walls": {
+        "south": "c3-south",
+        "east": "c3-east",
+        "north": "c3-north",
+        "west": "c3-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c4",
+      "name": "Dormitório 02",
+      "widthMm": 3600,
+      "depthMm": 2250,
+      "xMm": 0,
+      "yMm": 4250,
+      "walls": {
+        "south": "c4-south",
+        "east": "c4-east",
+        "north": "c4-north",
+        "west": "c4-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c5",
+      "name": "Sala integrada",
+      "xMm": 3600,
+      "yMm": 1850,
+      "widthMm": 2750,
+      "depthMm": 4650,
+      "walls": {
+        "south": "c5-south",
+        "east": "c5-east",
+        "north": "c5-north",
+        "west": "c5-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c6",
+      "name": "Sala integrada",
+      "xMm": 2400,
+      "yMm": 3150,
+      "widthMm": 1200,
+      "depthMm": 1100,
+      "walls": {
+        "south": "c6-south",
+        "east": "c6-east",
+        "north": "c6-north",
+        "west": "c6-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c7",
+      "name": "Varanda gourmet",
+      "xMm": 3600,
+      "yMm": 0,
+      "widthMm": 1850,
+      "depthMm": 1850,
+      "walls": {
+        "south": "c7-south",
+        "east": "c7-east",
+        "north": "c7-north",
+        "west": "c7-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "c8",
+      "name": "Varanda gourmet",
+      "xMm": 5450,
+      "yMm": 100,
+      "widthMm": 900,
+      "depthMm": 1750,
+      "walls": {
+        "south": "c8-south",
+        "east": "c8-east",
+        "north": "c8-north",
+        "west": "c8-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "rel-c1-east--c5-west",
+      "kind": "adjacent",
+      "wallA": "c1-east",
+      "wallB": "c5-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c1-east--c7-west",
+      "kind": "adjacent",
+      "wallA": "c1-east",
+      "wallB": "c7-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c1-north--c2-south",
+      "kind": "merged",
+      "wallA": "c1-north",
+      "wallB": "c2-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c1-north--c3-south",
+      "kind": "adjacent",
+      "wallA": "c1-north",
+      "wallB": "c3-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c2-east--c5-west",
+      "kind": "adjacent",
+      "wallA": "c2-east",
+      "wallB": "c5-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c2-north--c6-south",
+      "kind": "adjacent",
+      "wallA": "c2-north",
+      "wallB": "c6-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c2-west--c3-east",
+      "kind": "adjacent",
+      "wallA": "c2-west",
+      "wallB": "c3-east",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c3-east--c6-west",
+      "kind": "adjacent",
+      "wallA": "c3-east",
+      "wallB": "c6-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c3-north--c4-south",
+      "kind": "adjacent",
+      "wallA": "c3-north",
+      "wallB": "c4-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c4-east--c5-west",
+      "kind": "adjacent",
+      "wallA": "c4-east",
+      "wallB": "c5-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c4-south--c6-north",
+      "kind": "adjacent",
+      "wallA": "c4-south",
+      "wallB": "c6-north",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c5-south--c7-north",
+      "kind": "adjacent",
+      "wallA": "c5-south",
+      "wallB": "c7-north",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c5-south--c8-north",
+      "kind": "adjacent",
+      "wallA": "c5-south",
+      "wallB": "c8-north",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c5-west--c6-east",
+      "kind": "merged",
+      "wallA": "c5-west",
+      "wallB": "c6-east",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "rel-c7-east--c8-west",
+      "kind": "merged",
+      "wallA": "c7-east",
+      "wallB": "c8-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ],
+  "openings": [
+    {
+      "id": "a1",
+      "kind": "door",
+      "wallId": "c2-north",
+      "offsetMm": 150,
+      "widthMm": 850,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "pairedWallId": "c6-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a2",
+      "kind": "door",
+      "wallId": "c4-south",
+      "offsetMm": 2550,
+      "widthMm": 850,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "pairedWallId": "c6-north",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a3",
+      "kind": "door",
+      "wallId": "c3-east",
+      "offsetMm": 550,
+      "widthMm": 750,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "pairedWallId": "c6-west",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a4",
+      "kind": "door",
+      "wallId": "c7-north",
+      "offsetMm": 300,
+      "widthMm": 1550,
+      "heightMm": 2200,
+      "sillMm": 0,
+      "pairedWallId": "c5-south",
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a5",
+      "kind": "door",
+      "wallId": "c5-north",
+      "offsetMm": 1450,
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a6",
+      "kind": "window",
+      "wallId": "c1-west",
+      "offsetMm": 800,
+      "widthMm": 1250,
+      "heightMm": 1200,
+      "sillMm": 1000,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a7",
+      "kind": "window",
+      "wallId": "c3-west",
+      "offsetMm": 550,
+      "widthMm": 550,
+      "heightMm": 600,
+      "sillMm": 1500,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a8",
+      "kind": "window",
+      "wallId": "c4-west",
+      "offsetMm": 500,
+      "widthMm": 1200,
+      "heightMm": 1200,
+      "sillMm": 1000,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a9",
+      "kind": "window",
+      "wallId": "c7-south",
+      "offsetMm": 100,
+      "widthMm": 1750,
+      "heightMm": 1150,
+      "sillMm": 1050,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ]
+}

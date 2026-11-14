@@ -1,0 +1,111 @@
+{
+  "status": "PASS",
+  "areaNominalM2": 14.8225,
+  "registro": {
+    "origemPx": [
+      1240,
+      1188
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 5.687137932375704,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        1240,
+        1188,
+        2302,
+        1618
+      ]
+    ],
+    "areaCalibracaoM2": 14.77,
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "moveis": [
+    {
+      "id": "m1",
+      "nome": "Banheira",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m2",
+      "nome": "Vaso",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m3",
+      "nome": "Lavatório",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m4",
+      "nome": "Copa com pia e frigobar",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m5",
+      "nome": "Escrivaninha",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m6",
+      "nome": "Cama de casal",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m7",
+      "nome": "Criado 1",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m8",
+      "nome": "Criado 2",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m9",
+      "nome": "Tapete",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    }
+  ],
+  "sobreposicoes": [],
+  "vaos": {
+    "portas": 2,
+    "janelas": 2
+  },
+  "conferenciaJPG": "65bd3c16417d44d2921d9b5381e2f7ab9f2d55d2c8492129bd40f5d52f8030c0",
+  "unidadeSHA256": "172883c564c357c802647b428922403e2f41c52b874c80890472467e8e143d31",
+  "limites": [
+    "Sobreposição na imagem do book; não é conferência executiva.",
+    "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
+  ]
+}

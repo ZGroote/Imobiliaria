@@ -2,6 +2,7 @@
  "_gerado_por": "pipeline/mobiliar.py",
  "_nota": "layout automatico; mobilia posta a mao em unidade.json.planta.moveis GANHA deste arquivo",
  "_norma": "folgas conferidas contra ABNT NBR 15575-1 Anexo G (minimo) e NKBA/Panero-Zelnik (conforto)",
+ "_estilo": "moderno",
  "_erros": [
   "Cozinha/fogao: folga 0.05 m, norma pede 0.85"
  ],

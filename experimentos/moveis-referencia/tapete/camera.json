@@ -1,0 +1,25 @@
+{
+ "location": [
+  0.25,
+  -0.75,
+  1.35
+ ],
+ "rotation_euler": [
+  0.8726646259971648,
+  0.0,
+  0.0
+ ],
+ "res": [
+  618,
+  422
+ ],
+ "f": 470.0,
+ "cx": 309.0,
+ "cy": 211.0,
+ "medidas": {
+  "A": 2.5,
+  "B": 3.0,
+  "giro": 40
+ },
+ "nota": "a mao (canto do tapete fora do quadro): altura 1,65, olhando 34 graus pra baixo; ajuste pela sobreposicao"
+}

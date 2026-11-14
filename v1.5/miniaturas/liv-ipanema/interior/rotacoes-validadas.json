@@ -1,0 +1,101 @@
+{
+  "valid": true,
+  "unitSHA256Before": "2dc4a4cbad4544933283101c2f183d398430edc5d4ff2fd0f4edb202269cbdd4",
+  "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+  "architectureGeometrySHA256": "739e270fd65a8fa7e2b59f80cd5bf2af78b8e8f97e4cee9aa8417d1dac3e560c",
+  "footprintsPreserved": true,
+  "changes": [
+    {
+      "index": 4,
+      "name": "Cama do dormitório",
+      "oldRot": 2,
+      "newRot": 0
+    },
+    {
+      "index": 6,
+      "name": "Bancada do dormitório",
+      "oldRot": 0,
+      "newRot": 2
+    },
+    {
+      "index": 7,
+      "name": "Sofá da sala TV",
+      "oldRot": 1,
+      "newRot": 3
+    },
+    {
+      "index": 11,
+      "name": "Cadeira de jantar 1",
+      "oldRot": 2,
+      "newRot": 0
+    },
+    {
+      "index": 12,
+      "name": "Cadeira de jantar 2",
+      "oldRot": 2,
+      "newRot": 0
+    },
+    {
+      "index": 13,
+      "name": "Cadeira de jantar 3",
+      "oldRot": 0,
+      "newRot": 2
+    },
+    {
+      "index": 14,
+      "name": "Cadeira de jantar 4",
+      "oldRot": 0,
+      "newRot": 2
+    },
+    {
+      "index": 15,
+      "name": "Fogão 4 Bocas",
+      "oldRot": 0,
+      "newRot": 3
+    },
+    {
+      "index": 16,
+      "name": "Bancada e cuba da cozinha",
+      "oldRot": 1,
+      "newRot": 3
+    },
+    {
+      "index": 17,
+      "name": "Geladeira Duplex",
+      "oldRot": 0,
+      "newRot": 3
+    },
+    {
+      "index": 18,
+      "name": "Lavatório suíte",
+      "oldRot": 1,
+      "newRot": 3
+    },
+    {
+      "index": 21,
+      "name": "Lavatório social",
+      "oldRot": 3,
+      "newRot": 1
+    },
+    {
+      "index": 25,
+      "name": "Cadeira da varanda 1",
+      "oldRot": 2,
+      "newRot": 0
+    },
+    {
+      "index": 27,
+      "name": "Máquina de Lavar",
+      "oldRot": 0,
+      "newRot": 3
+    },
+    {
+      "index": 28,
+      "name": "Tanque de Serviço",
+      "oldRot": 1,
+      "newRot": 3
+    }
+  ],
+  "editorStateValid": true,
+  "E2EGeometryVerified": true
+}

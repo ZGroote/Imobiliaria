@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "propertyId": "liv-ipanema-referencia-47-59",
+  "agencyId": "referencia-publica-local",
+  "andar": 0,
+  "ficha": {
+    "titulo": "LIV Ipanema · planta de referência 47,59 m²",
+    "empreendimento": "LIV Ipanema",
+    "area_util_m2": 47.59,
+    "quartos": 2,
+    "suites": 1,
+    "banheiros": 2,
+    "observacao": "Reconstrução local da planta publicitária; medidas inferidas. Sem unidade comercial selecionada."
+  },
+  "cores": {
+    "parede": "#E2DED5",
+    "piso_frio": "#B4B5B1",
+    "piso_madeira": "#B89369",
+    "teto": "#F2F0EC"
+  },
+  "lote": {
+    "predio": {
+      "largura_m": 47.7,
+      "profundidade_m": 12.7,
+      "pavimentos": 17
+    }
+  }
+}

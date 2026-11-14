@@ -1,0 +1,123 @@
+{
+  "schema": "liv-lightmap-corners-v1",
+  "sourceSHA256": "09407385ae2776910decbf433a365f000f61512e2c35c8fd7e3f3248086b172a",
+  "modelPath": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\modelo\\entrada\\candidato\\modelo.json",
+  "size": 4096,
+  "atlasWidth": 6044,
+  "atlasHeight": 6037,
+  "atlasCount": 1,
+  "utilization": 0.8088331818580627,
+  "groups": 82,
+  "instances": 995,
+  "triangles": 105307,
+  "mappedCorners": 315921,
+  "flippedTriangles": 1,
+  "degenerateTrianglesRemoved": 22,
+  "padding": 6,
+  "effectivePaddingPixels": 4.066181336863004,
+  "uvMaxPixelError": 0.03125047684443427,
+  "geometrySHA256": "ff4f54dba751cd25e5cf232374690c7b0c43f4c72734dce34317910abae90c12",
+  "geometryBytes": 2074052,
+  "geometryGzipBytes": 1095371,
+  "excludedGroups": [
+    {
+      "groupIndex": 5,
+      "geometry": "esquadrias-varandas-esquadria",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 6,
+      "geometry": "esquadrias-varandas-vidro",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 8,
+      "geometry": "esquadrias-varandas-vidro-claro",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 9,
+      "geometry": "esquadrias-varandas-luz-varanda",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 20,
+      "geometry": "entrada-torre-vidro-claro",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 29,
+      "geometry": "SITE-car-vidro",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 43,
+      "geometry": "entrada-janela-entrada-vidro",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 52,
+      "geometry": "SITE-organic-site-folha-media",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 53,
+      "geometry": "SITE-organic-site-folha-escura",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 61,
+      "geometry": "SITE-organic-site-folha-clara",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 64,
+      "geometry": "SITE-cylinder-site-tronco-palmeira-0.93-9",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 65,
+      "geometry": "SITE-palmeira-frondes-site-palmeira",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 85,
+      "geometry": "SITE-implantacao-site-agua",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 92,
+      "geometry": "SITE-implantacao-site-vidro",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    },
+    {
+      "groupIndex": 96,
+      "geometry": "SITE-implantacao-site-folha-media",
+      "reason": "dynamic glass/metal/foliage or emissive detail"
+    }
+  ],
+  "seconds": 5.043650300009176,
+  "checks": {
+    "oneAtlas": true,
+    "cornerOrderPreserved": true,
+    "finiteUV": true,
+    "UVInUnitSquare": true,
+    "independentInstanceUV": true
+  },
+  "chartDensity": {
+    "roofLinearMultiplier": 4,
+    "roofObjects": [
+      "cobertura-cobertura",
+      "cobertura-cinza",
+      "cobertura-laje",
+      "cobertura-reboco",
+      "cobertura-bege"
+    ],
+    "otherObjectsLinearMultiplier": 1,
+    "exportGeometryUnchanged": true,
+    "sources": {
+      "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/preparar_luz_densa.py": "b2abad32253ce583fbeb80f4f1b73b462e2f2dac121fc0562840ea768e9535ce",
+      "v1.5/miniaturas/liv-ipanema/preparar_luz.py": "8d486ec498162f56b57d9ee8fc71e40b476e6d604273882b2f3ff463390a1055"
+    }
+  }
+}

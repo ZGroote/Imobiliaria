@@ -1,0 +1,862 @@
+{
+  "recordedAtUtc": "2026-10-09T19:00:03.072220+00:00",
+  "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html",
+  "headless": true,
+  "physicalMobile": false,
+  "cases": [
+    {
+      "requestedBackend": "webgl",
+      "viewport": [
+        1440,
+        900
+      ],
+      "mobileEmulated": false,
+      "status": "PASS",
+      "errors": [],
+      "httpFailures": [],
+      "views": {
+        "perspectiva": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            118.78881998479889,
+            95.31661635989266,
+            174.24309480212509
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 34,
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 102,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "fachada": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -4.455257101505669,
+            1.7999999999999687,
+            158.5094636967404
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 34,
+          "target": [
+            7.857688249161878,
+            34.5119119747705,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 195,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "aerea": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            176.26165187068918,
+            164.63631413116494,
+            101.52596279914643
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 34,
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 282,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "portaria": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -15.311254221431632,
+            1.8000000000000078,
+            81.2210894605776
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 60,
+          "target": [
+            -6,
+            25,
+            10
+          ],
+          "renderInfo": {
+            "calls": 375,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "implantacao": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            7.857288231382156,
+            425.80250015854836,
+            4.9261322021484375
+          ],
+          "cameraType": "OrthographicCamera",
+          "fov": null,
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 468,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        }
+      },
+      "initial": {
+        "backend": "webgl",
+        "revision": null,
+        "gpu": null,
+        "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "meshes": 56,
+        "baked": 41,
+        "instances": 814,
+        "camera": [
+          102.20344276129471,
+          71.5246752481556,
+          148.9284168158305
+        ],
+        "cameraType": "PerspectiveCamera",
+        "fov": 34,
+        "target": [
+          7.857689240089097,
+          12.403655109229389,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "calls": 27,
+          "frameCalls": 3,
+          "drawCalls": 113,
+          "triangles": 883243,
+          "points": 0,
+          "lines": 0,
+          "timestamp": 0
+        }
+      },
+      "orbitChanged": true,
+      "pngBytes": 361318
+    },
+    {
+      "requestedBackend": "webgl",
+      "viewport": [
+        390,
+        844
+      ],
+      "mobileEmulated": true,
+      "status": "PASS",
+      "errors": [],
+      "httpFailures": [],
+      "views": {
+        "perspectiva": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            118.78881998479889,
+            95.31661635989266,
+            174.24309480212509
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 34,
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 102,
+            "frameCalls": 3,
+            "drawCalls": 108,
+            "triangles": 882717,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "fachada": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -4.455257101505669,
+            1.7999999999999687,
+            158.5094636967404
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 34,
+          "target": [
+            7.857688249161878,
+            34.5119119747705,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 192,
+            "frameCalls": 3,
+            "drawCalls": 108,
+            "triangles": 882717,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "aerea": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            176.26165187068918,
+            164.63631413116494,
+            101.52596279914643
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 34,
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 279,
+            "frameCalls": 3,
+            "drawCalls": 110,
+            "triangles": 882835,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "portaria": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -15.311254221431632,
+            1.8000000000000078,
+            81.2210894605776
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 60,
+          "target": [
+            -6,
+            25,
+            10
+          ],
+          "renderInfo": {
+            "calls": 366,
+            "frameCalls": 3,
+            "drawCalls": 107,
+            "triangles": 882739,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "implantacao": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            7.857288231382156,
+            425.80250015854836,
+            4.9261322021484375
+          ],
+          "cameraType": "OrthographicCamera",
+          "fov": null,
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 453,
+            "frameCalls": 3,
+            "drawCalls": 107,
+            "triangles": 882613,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        }
+      },
+      "initial": {
+        "backend": "webgl",
+        "revision": null,
+        "gpu": null,
+        "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "meshes": 56,
+        "baked": 41,
+        "instances": 814,
+        "camera": [
+          102.20344276129471,
+          71.5246752481556,
+          148.9284168158305
+        ],
+        "cameraType": "PerspectiveCamera",
+        "fov": 34,
+        "target": [
+          7.857689240089097,
+          12.403655109229389,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "calls": 27,
+          "frameCalls": 3,
+          "drawCalls": 107,
+          "triangles": 882613,
+          "points": 0,
+          "lines": 0,
+          "timestamp": 0
+        }
+      },
+      "orbitChanged": true,
+      "pngBytes": 279568
+    },
+    {
+      "requestedBackend": "webgpu",
+      "viewport": [
+        1440,
+        900
+      ],
+      "mobileEmulated": false,
+      "status": "PASS",
+      "errors": [],
+      "httpFailures": [],
+      "views": {
+        "perspectiva": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            118.78881998479889,
+            95.31661635989266,
+            174.24309480212509
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 34,
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 102,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "fachada": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -4.455257101505669,
+            1.7999999999999687,
+            158.5094636967404
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 34,
+          "target": [
+            7.857688249161878,
+            34.5119119747705,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 195,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "aerea": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            176.26165187068918,
+            164.63631413116494,
+            101.52596279914643
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 34,
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 288,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "portaria": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -15.311254221431632,
+            1.8000000000000078,
+            81.2210894605776
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 60,
+          "target": [
+            -6,
+            25,
+            10
+          ],
+          "renderInfo": {
+            "calls": 381,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "implantacao": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            7.857288231382156,
+            425.80250015854836,
+            4.9261322021484375
+          ],
+          "cameraType": "OrthographicCamera",
+          "fov": null,
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 465,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        }
+      },
+      "initial": {
+        "backend": "webgpu",
+        "revision": null,
+        "gpu": {
+          "vendor": "nvidia",
+          "architecture": "turing",
+          "device": "",
+          "description": "",
+          "isFallbackAdapter": false
+        },
+        "webglRenderer": null,
+        "meshes": 56,
+        "baked": 41,
+        "instances": 814,
+        "camera": [
+          102.20344276129471,
+          71.5246752481556,
+          148.9284168158305
+        ],
+        "cameraType": "PerspectiveCamera",
+        "fov": 34,
+        "target": [
+          7.857689240089097,
+          12.403655109229389,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "calls": 27,
+          "frameCalls": 3,
+          "drawCalls": 113,
+          "triangles": 883243,
+          "points": 0,
+          "lines": 0,
+          "timestamp": 0
+        }
+      },
+      "orbitChanged": true,
+      "pngBytes": 362211
+    },
+    {
+      "requestedBackend": "webgpu",
+      "viewport": [
+        390,
+        844
+      ],
+      "mobileEmulated": true,
+      "status": "PASS",
+      "errors": [],
+      "httpFailures": [],
+      "views": {
+        "perspectiva": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            118.78881998479889,
+            95.31661635989266,
+            174.24309480212509
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 34,
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 96,
+            "frameCalls": 3,
+            "drawCalls": 108,
+            "triangles": 882717,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "fachada": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -4.455257101505669,
+            1.7999999999999687,
+            158.5094636967404
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 34,
+          "target": [
+            7.857688249161878,
+            34.5119119747705,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 180,
+            "frameCalls": 3,
+            "drawCalls": 108,
+            "triangles": 882717,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "aerea": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            176.26165187068918,
+            164.63631413116494,
+            101.52596279914643
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 34,
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 273,
+            "frameCalls": 3,
+            "drawCalls": 110,
+            "triangles": 882835,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "portaria": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -15.311254221431632,
+            1.8000000000000078,
+            81.2210894605776
+          ],
+          "cameraType": "PerspectiveCamera",
+          "fov": 60,
+          "target": [
+            -6,
+            25,
+            10
+          ],
+          "renderInfo": {
+            "calls": 360,
+            "frameCalls": 3,
+            "drawCalls": 107,
+            "triangles": 882739,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "implantacao": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            7.857288231382156,
+            425.80250015854836,
+            4.9261322021484375
+          ],
+          "cameraType": "OrthographicCamera",
+          "fov": null,
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 450,
+            "frameCalls": 3,
+            "drawCalls": 107,
+            "triangles": 882613,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        }
+      },
+      "initial": {
+        "backend": "webgpu",
+        "revision": null,
+        "gpu": {
+          "vendor": "nvidia",
+          "architecture": "turing",
+          "device": "",
+          "description": "",
+          "isFallbackAdapter": false
+        },
+        "webglRenderer": null,
+        "meshes": 56,
+        "baked": 41,
+        "instances": 814,
+        "camera": [
+          102.20344276129471,
+          71.5246752481556,
+          148.9284168158305
+        ],
+        "cameraType": "PerspectiveCamera",
+        "fov": 34,
+        "target": [
+          7.857689240089097,
+          12.403655109229389,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "calls": 27,
+          "frameCalls": 3,
+          "drawCalls": 107,
+          "triangles": 882613,
+          "points": 0,
+          "lines": 0,
+          "timestamp": 0
+        }
+      },
+      "orbitChanged": true,
+      "pngBytes": 279289
+    }
+  ],
+  "status": "PASS",
+  "browserVersion": "154.0.8037.98"
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "liv-transfer-manifest-v1",
+  "version": "18f680bb262e813e5c228a73f145de1ae59fca5a90ae44d3cc5f760be89d172f",
+  "order": [
+    "tour",
+    "map",
+    "planta2d"
+  ],
+  "groups": {
+    "tour": {
+      "label": "Tour 3D"
+    },
+    "map": {
+      "label": "Mapa"
+    },
+    "planta2d": {
+      "label": "Planta 2D"
+    }
+  },
+  "files": [
+    {
+      "path": "interiores/canto/multi-tab-typology-scene.json.gz",
+      "group": "tour",
+      "bytes": 94301,
+      "sha256": "06747e91c264d3014b72f646f848a6cb77c9651b38bd8d57d81ee93c748cbbd4",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/multi-tab-typology-map.html",
+      "group": "map",
+      "bytes": 90204,
+      "sha256": "40b6c6ebb65a0e90a6df9fcd1e1c053bd4a1aa1dc9ae761a04b494afc4b87d1b",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/multi-tab-typology-map.glb",
+      "group": "map",
+      "bytes": 49152,
+      "sha256": "ada23801bf75295b0d1db8919ebc229f0e58423003da4249ac79603ca325418e",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/multi-tab-typology-map.bin",
+      "group": "map",
+      "bytes": 47104,
+      "sha256": "012187858ef359fd40da21f757c0e7600d447f00c46228be05ee6917ddaaf20f",
+      "essential": false
+    },
+    {
+      "path": "plantas2d/multi-tab-typology-planta.png",
+      "group": "planta2d",
+      "bytes": 77,
+      "sha256": "0acc39e4f83f9dc702736454906cc8e8dcb1e0cf8f7e325bd10251447cbf5ddf",
+      "essential": true
+    },
+    {
+      "path": "interiores/meio/multi-tab-typology-scene.json.gz",
+      "group": "tour",
+      "bytes": 16458,
+      "sha256": "b65452160ffb7d1134a249e496da86bfb44879d552a959e91742b14ccb28290a",
+      "essential": true
+    }
+  ]
+}

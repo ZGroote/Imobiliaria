@@ -1,0 +1,34 @@
+{
+  "sourceURL": "https://www.livonincorporadora.com.br/produtos/liv-ipanema/",
+  "sourceSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+  "checks": {
+    "oneTower": true,
+    "seventeenFloors": true,
+    "eighteenSlabs": true,
+    "fiveBalconyStacks": true,
+    "balconyPattern2plus1plus2": true,
+    "parkingSpaces175": true,
+    "comparisonCapturesPresent": true
+  },
+  "allHardGatesPass": true,
+  "visualReview": "Fachada, varandas, núcleo descentrado e volumes de implantação conferidos lado a lado.",
+  "limits": [
+    "Dimensões lineares inferidas de imagens sem cotas.",
+    "Fundos e detalhes ocultos inferidos.",
+    "Fotografias do marketing e maquete possuem iluminação, vegetação e câmeras diferentes.",
+    "Nenhum índice SSIM/IoU global é apresentado como prova de precisão dimensional."
+  ],
+  "captures": {
+    "aerea-recorte.png": "ed0b50c3d4ba48c722f04cf8e1783a6c77dfea9e31a92ad59ea87a12be0b545f",
+    "aerea.png": "f2a012c37dd846c5313ab554a34fec2f4263c6fcba79b4c4d8f665dbd4291a6f",
+    "comparativo-aerea.png": "40a62923b57e682d4002756527af89e2fe2fc929463e6f9e4319c17aedc495d5",
+    "comparativo-fachada.png": "9d76750080ed90b2bdc7f67e278395b36e19b397dabd0700d82e84a61f8eca9a",
+    "comparativo-geral.png": "5eb6d1274212ac6bf3518abfdc1f2094ea1297157be35550e9ee0d78d93a5727",
+    "comparativo-implantacao.png": "db90375f781c99fb0058e6a99dc5bc3059cfcd54a80441f1ae57c2780e7deb3f",
+    "comparativo-portaria.png": "13639b4b5343972576fbffa90e612b9f71312f1592822dc577e5c1eaf0be5e0e",
+    "fachada.png": "61e78f920e32bb9ed3290fb569e4cff96e4f0608ed0f3ea03a1b44cde9d72262",
+    "implantacao-recorte.png": "6432c4134f5f19f0b0ae25d1b0a61f2907c5bbc49ab0d1a06a078771f8d9cd10",
+    "implantacao.png": "7af955daa390f8ab3eb35075571c8b315691812d19e81ef076efccad1d3ba06f",
+    "portaria.png": "f68853021a3caba66260f0cb53f809911e843ae66f3e77e264dc2f54106e6f3a"
+  }
+}

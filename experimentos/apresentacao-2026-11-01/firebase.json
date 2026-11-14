@@ -1,0 +1,25 @@
+{
+  "hosting": {
+    "site": "imobilaria-deccb-miniaturas",
+    "public": "site",
+    "i18n": {"root": "/locales"},
+    "ignore": ["**/.*", "**/*.map"],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" },
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+          { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        ]
+      },
+      {
+        "source": "/region.json",
+        "headers": [
+          {"key": "Cache-Control", "value": "private, no-store"}
+        ]
+      }
+    ]
+  }
+}

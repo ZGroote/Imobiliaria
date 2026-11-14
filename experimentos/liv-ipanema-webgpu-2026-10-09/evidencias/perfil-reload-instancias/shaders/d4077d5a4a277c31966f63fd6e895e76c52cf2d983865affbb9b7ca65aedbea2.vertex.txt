@@ -1,0 +1,100 @@
+#version 300 es
+
+// Three.js r186 - Node System
+
+
+// extensions
+
+
+// precision
+
+precision highp float;
+precision highp int;
+precision highp sampler2D;
+precision highp sampler3D;
+precision highp samplerCube;
+precision highp sampler2DArray;
+
+precision highp usampler2D;
+precision highp usampler3D;
+precision highp usamplerCube;
+precision highp usampler2DArray;
+
+precision highp isampler2D;
+precision highp isampler3D;
+precision highp isamplerCube;
+precision highp isampler2DArray;
+
+precision highp sampler2DShadow;
+precision highp sampler2DArrayShadow;
+precision highp samplerCubeShadow;
+
+
+// structs
+
+
+
+
+
+// uniforms
+
+layout( std140 ) uniform render {
+	mat4 cameraProjectionMatrix;
+	mat4 cameraViewMatrix;
+};
+
+layout( std140 ) uniform object {
+	float nodeUniform4;
+	mat4 nodeUniform7;
+};
+
+
+// varyings
+vec3 positionLocal;
+vec4 v_modelViewProjection;
+vec3 v_positionView;
+vec4 VERTEX_v_modelViewProjection;
+
+
+// attributes
+layout( location = 0 ) in vec3 position;
+layout( location = 1 ) in vec3 normal;
+layout( location = 2 ) in vec4 nodeAttribute0;
+layout( location = 3 ) in vec4 nodeAttribute1;
+layout( location = 4 ) in vec4 nodeAttribute2;
+layout( location = 5 ) in vec4 nodeAttribute3;
+
+
+// vars
+mat4 nodeVar0;
+vec3 normalLocal;
+mat4 modelViewMatrix;
+vec4 VERTEX_nodeVar2;
+
+// codes
+
+
+void main() {
+
+	// transforms
+	
+
+	// flow
+	// code
+
+	positionLocal = position;
+	nodeVar0 = mat4( nodeAttribute0, nodeAttribute1, nodeAttribute2, nodeAttribute3 );
+	positionLocal = ( nodeVar0 * vec4( positionLocal, 1.0 ) ).xyz;
+	normalLocal = normal;
+	normalLocal = normalize( ( transpose( inverse( mat3( nodeVar0[ 0 ].xyz, nodeVar0[ 1 ].xyz, nodeVar0[ 2 ].xyz ) ) ) * normalLocal ) );
+	modelViewMatrix = ( cameraViewMatrix * nodeUniform7 );
+	v_positionView = ( modelViewMatrix * vec4( positionLocal, 1.0 ) ).xyz;
+	VERTEX_nodeVar2 = ( cameraProjectionMatrix * vec4( v_positionView, 1.0 ) );
+	VERTEX_v_modelViewProjection = VERTEX_nodeVar2;
+
+	// result
+	gl_Position = VERTEX_v_modelViewProjection;
+
+	gl_PointSize = 1.0;
+
+}

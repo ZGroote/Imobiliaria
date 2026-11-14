@@ -1,0 +1,28 @@
+{
+  "schema": "liv-tower-outline-v1",
+  "edition": "contorno-estudo-01",
+  "confidence": "inferido",
+  "source": {
+    "path": "v1.5/miniaturas/liv-ipanema/referencias/implantacao.jpg",
+    "sha256": "3217ae957969aed1ce9a177d914f038faff2fdee6fd6b10ec67063615a113677",
+    "dimensions": [1900, 720],
+    "role": "Contorno cinza ilustrado da torre; exclui jardins, sombra, texto e passeio.",
+    "uncertaintyPixels": 2
+  },
+  "registration": {
+    "imageAxisV": [271, 451, 477, 595],
+    "modelAxisX": [23.85, -4.3884, -8.0136, -23.85],
+    "imageBodySidesU": [276, 354],
+    "modelBodySidesZ": [-6.35, 6.35],
+    "method": "Registro por alas e núcleo para preservar eixos/escala aproximados da base; não é levantamento métrico."
+  },
+  "verticesUV": [[276,271],[301,271],[301,277],[329,277],[329,271],[354,271],[354,374],[348,374],[348,403],[354,403],[354,451],[361,451],[361,477],[348,477],[348,492],[354,492],[354,595],[329,595],[329,589],[301,589],[301,595],[276,595],[276,492],[282,492],[282,477],[280,477],[280,451],[276,451],[276,403],[282,403],[282,374],[276,374]],
+  "model": {"floors": 17, "floorHeight": 2.85, "width": 47.7, "bodyDepth": 12.7},
+  "hypotheses": [
+    "Estender este contorno a lajes/fachadas é uma hipótese visual, não comprovação da seção em todos os pavimentos.",
+    "Face oposta, altura dos recuos, retorno dos vãos e gardens não têm projeto executivo.",
+    "Janelas próximas às novas quinas são reposicionadas minimamente para manter o vão no mesmo pano; não altera vínculos comerciais.",
+    "Base térrea e implantação conservam a geometria anterior; a hipótese não reconstrói a portaria."
+  ],
+  "validation": {"roofMaskIoUMin": 0.98, "boundaryTolerancePixels": 2, "structuralFloorCount": 17, "slabCount": 18, "closedSlab": true}
+}

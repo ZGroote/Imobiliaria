@@ -1,0 +1,10 @@
+{
+  "zip_sha256": "b87a49bf1ec2a96898417088f788333040d1749117dcd725cee90d50b1d8bb49",
+  "bytes": 25322678,
+  "manifest_entries_verified": 33,
+  "extracted_plan_reproduced": true,
+  "shell_syntax_pass": true,
+  "capture_validator_pass": true,
+  "full_render_pending": 2572,
+  "neural_training_pending": true
+}

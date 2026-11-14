@@ -1,0 +1,826 @@
+{
+  "schema": "liv-interior-catalog-v1",
+  "shared": {
+    "runtime": {
+      "path": "interiores/shared/runtime.js",
+      "bytes": 93877,
+      "sha256": "005547b7bee15a30fd59b7ece8ce64d786ef8294d14eabc8bb2683ec56054c5f"
+    },
+    "materials": {
+      "path": "interiores/shared/materials.json.gz",
+      "bytes": 876068,
+      "sha256": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+      "compression": "gzip",
+      "decodedBytes": 1180661,
+      "decodedSHA256": "a04aecc426677a81f2cc41f64c224e9f1a0cdba634762a58cb91ade4b6bf3217"
+    },
+    "furniture": {
+      "path": "interiores/shared/furniture.json.gz",
+      "bytes": 201119,
+      "sha256": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd",
+      "compression": "gzip",
+      "decodedBytes": 1155377,
+      "decodedSHA256": "8affa3dc2b6f105282ec5b744729bd3f35193680d04eb85cb05a57bb693fbdc7"
+    }
+  },
+  "tipologias": {
+    "canto": {
+      "id": "canto",
+      "label": "Apartamento de canto",
+      "area": 39.12,
+      "unitId": "laranjeiras-planta-canto-tipo",
+      "unitSHA256": "d4e6256773aee72bad2e27f70dae1bfdcd42abddbc8c7a3aedb0248c51fa0e87",
+      "sourceSHA256": "2dfedba163a0e70965d454df17b1142eed74fdaa20182f50358c829dc4e46b16",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
+      "files": {
+        "unit": {
+          "path": "interiores/canto/unidade.json",
+          "bytes": 6770,
+          "sha256": "d4e6256773aee72bad2e27f70dae1bfdcd42abddbc8c7a3aedb0248c51fa0e87"
+        },
+        "recipe": {
+          "path": "interiores/canto/recipe.json",
+          "bytes": 590,
+          "sha256": "178a06fbf4ce0d6d1535e100fc3f5dc662194f7d3fee2de3ab03c66c2f421012"
+        },
+        "source": {
+          "path": "interiores/canto/source.json.gz",
+          "bytes": 3841230,
+          "sha256": "a2ebfdc1d0a4deb79a7b5f991923ac87081754c428d964534ddbb3dc13499020",
+          "compression": "gzip",
+          "decodedBytes": 15167244,
+          "decodedSHA256": "2dfedba163a0e70965d454df17b1142eed74fdaa20182f50358c829dc4e46b16"
+        },
+        "compact": {
+          "path": "interiores/canto/geometry-compact.json.gz",
+          "bytes": 30227,
+          "sha256": "6676e68f871cde9e2acd13507352a31ae5532fded212d88d1dbb94e655a92574",
+          "compression": "gzip",
+          "decodedBytes": 61424,
+          "decodedSHA256": "c53495daea804cf10298bc7ec1e28f6dc79f9976613697bdd2610d325f2d92f9"
+        }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "178a06fbf4ce0d6d1535e100fc3f5dc662194f7d3fee2de3ab03c66c2f421012",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        }
+      ]
+    },
+    "meio": {
+      "id": "meio",
+      "label": "Apartamento de meio",
+      "area": 40.79,
+      "unitId": "laranjeiras-planta-meio-tipo",
+      "unitSHA256": "96e12485c076cc652da5927a31fc5932154eb9716fb2856a459a1b069e3233fb",
+      "sourceSHA256": "08bb9124c5528cedf85eb00e6efdc37b3a4385eb0a3189d501d237d44579b2dc",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
+      "files": {
+        "unit": {
+          "path": "interiores/meio/unidade.json",
+          "bytes": 6806,
+          "sha256": "96e12485c076cc652da5927a31fc5932154eb9716fb2856a459a1b069e3233fb"
+        },
+        "recipe": {
+          "path": "interiores/meio/recipe.json",
+          "bytes": 589,
+          "sha256": "3d37d6c0453213a471c68768390ade8a93d31d94807326844f9268a7408459ec"
+        },
+        "source": {
+          "path": "interiores/meio/source.json.gz",
+          "bytes": 3832797,
+          "sha256": "76b293ee4dcbe75d8570e6664f046b1c091e8077b50871b6629193df6c79d8e8",
+          "compression": "gzip",
+          "decodedBytes": 15021796,
+          "decodedSHA256": "08bb9124c5528cedf85eb00e6efdc37b3a4385eb0a3189d501d237d44579b2dc"
+        },
+        "compact": {
+          "path": "interiores/meio/geometry-compact.json.gz",
+          "bytes": 29165,
+          "sha256": "7af435b36ba98438bffc172e76844f82927afc072f9e4c3aa97f817da9695411",
+          "compression": "gzip",
+          "decodedBytes": 59119,
+          "decodedSHA256": "dbb02958a0a87b58aea859c065422583b4af921744fb409660e6c33e4229744d"
+        }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "3d37d6c0453213a471c68768390ade8a93d31d94807326844f9268a7408459ec",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        }
+      ]
+    },
+    "canto-espelhado": {
+      "id": "canto-espelhado",
+      "label": "Apartamento de canto (espelhado)",
+      "area": 39.12,
+      "unitId": "laranjeiras-planta-canto-tipo-espelhada",
+      "unitSHA256": "3a22c7e963b87aebb65107a01f0bce070b1b27f7dbf52a32dca9ab685475ad17",
+      "sourceSHA256": "5b69f7f3865c37b652b8edbf4fc0d5c3f37ff93f722fe114b883ecc9478c6eca",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
+      "files": {
+        "unit": {
+          "path": "interiores/canto-espelhado/unidade.json",
+          "bytes": 15511,
+          "sha256": "3a22c7e963b87aebb65107a01f0bce070b1b27f7dbf52a32dca9ab685475ad17"
+        },
+        "recipe": {
+          "path": "interiores/canto-espelhado/recipe.json",
+          "bytes": 600,
+          "sha256": "2f10267ecba7de035bc59933bf69e78447b42614fd559bdbc01b1fce09ae9579"
+        },
+        "source": {
+          "path": "interiores/canto-espelhado/source.json.gz",
+          "bytes": 3841280,
+          "sha256": "a3ef355df209f5b4a23a658cce58b579d9f5c5e670bf5ec4d9b1acbab99da6b7",
+          "compression": "gzip",
+          "decodedBytes": 15166909,
+          "decodedSHA256": "5b69f7f3865c37b652b8edbf4fc0d5c3f37ff93f722fe114b883ecc9478c6eca"
+        },
+        "compact": {
+          "path": "interiores/canto-espelhado/geometry-compact.json.gz",
+          "bytes": 30037,
+          "sha256": "db89f71eb9eb88dde98db1db0a739437e22f784d0a8f4bdc2464fcd6c055cd80",
+          "compression": "gzip",
+          "decodedBytes": 61434,
+          "decodedSHA256": "db8a550cf1b65daeecdbc7ed7e7cd68202223c502f02c04554c6dcc41f021ee1"
+        }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "2f10267ecba7de035bc59933bf69e78447b42614fd559bdbc01b1fce09ae9579",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        },
+        {
+          "id": "movel-22",
+          "index": 22,
+          "slots": [
+            29
+          ]
+        }
+      ]
+    },
+    "meio-espelhado": {
+      "id": "meio-espelhado",
+      "label": "Apartamento de meio (espelhado)",
+      "area": 40.79,
+      "unitId": "laranjeiras-planta-meio-tipo-espelhada",
+      "unitSHA256": "8f621eadb36a956b4ccccb49b0a15d16146a22411ce0a35b7e82dbe3879a7552",
+      "sourceSHA256": "e47c3ef7c1235a8469c22258720743f7e603758f5e48462f1253bff44ec7a8e5",
+      "geometryKind": "frozen-source",
+      "lighting": "time-rgbm",
+      "files": {
+        "unit": {
+          "path": "interiores/meio-espelhado/unidade.json",
+          "bytes": 15423,
+          "sha256": "8f621eadb36a956b4ccccb49b0a15d16146a22411ce0a35b7e82dbe3879a7552"
+        },
+        "recipe": {
+          "path": "interiores/meio-espelhado/recipe.json",
+          "bytes": 599,
+          "sha256": "facf22b05d366afe4b77a2a6ef9bdf89c98eaacad2221a1a1773beae4de4734c"
+        },
+        "source": {
+          "path": "interiores/meio-espelhado/source.json.gz",
+          "bytes": 3832790,
+          "sha256": "1f96ac2aa425913c53435b8e8d72e9ad2c1b8a4bfa4d5daff07c350300a47c55",
+          "compression": "gzip",
+          "decodedBytes": 15023335,
+          "decodedSHA256": "e47c3ef7c1235a8469c22258720743f7e603758f5e48462f1253bff44ec7a8e5"
+        },
+        "compact": {
+          "path": "interiores/meio-espelhado/geometry-compact.json.gz",
+          "bytes": 29248,
+          "sha256": "6f4c66d2e329d7edb3cf44ecd6c52ed86f303f3d378254f0b4a890950cd830e1",
+          "compression": "gzip",
+          "decodedBytes": 59129,
+          "decodedSHA256": "747815a4becdbf3484c69a5c085b92c4ff40738e50087b16db40daa76a08837b"
+        }
+      },
+      "materialsOrigin": "source",
+      "nativeRecipeSHA256": "facf22b05d366afe4b77a2a6ef9bdf89c98eaacad2221a1a1773beae4de4734c",
+      "furnitureSlots": [
+        {
+          "id": "movel-0",
+          "index": 0,
+          "slots": [
+            7
+          ]
+        },
+        {
+          "id": "movel-1",
+          "index": 1,
+          "slots": [
+            8
+          ]
+        },
+        {
+          "id": "movel-2",
+          "index": 2,
+          "slots": [
+            9
+          ]
+        },
+        {
+          "id": "movel-3",
+          "index": 3,
+          "slots": [
+            10
+          ]
+        },
+        {
+          "id": "movel-4",
+          "index": 4,
+          "slots": [
+            11
+          ]
+        },
+        {
+          "id": "movel-5",
+          "index": 5,
+          "slots": [
+            12
+          ]
+        },
+        {
+          "id": "movel-6",
+          "index": 6,
+          "slots": [
+            13
+          ]
+        },
+        {
+          "id": "movel-7",
+          "index": 7,
+          "slots": [
+            14
+          ]
+        },
+        {
+          "id": "movel-8",
+          "index": 8,
+          "slots": [
+            15
+          ]
+        },
+        {
+          "id": "movel-9",
+          "index": 9,
+          "slots": [
+            16
+          ]
+        },
+        {
+          "id": "movel-10",
+          "index": 10,
+          "slots": [
+            17
+          ]
+        },
+        {
+          "id": "movel-11",
+          "index": 11,
+          "slots": [
+            18
+          ]
+        },
+        {
+          "id": "movel-12",
+          "index": 12,
+          "slots": [
+            19
+          ]
+        },
+        {
+          "id": "movel-13",
+          "index": 13,
+          "slots": [
+            20
+          ]
+        },
+        {
+          "id": "movel-14",
+          "index": 14,
+          "slots": [
+            21
+          ]
+        },
+        {
+          "id": "movel-15",
+          "index": 15,
+          "slots": [
+            22
+          ]
+        },
+        {
+          "id": "movel-16",
+          "index": 16,
+          "slots": [
+            23
+          ]
+        },
+        {
+          "id": "movel-17",
+          "index": 17,
+          "slots": [
+            24
+          ]
+        },
+        {
+          "id": "movel-18",
+          "index": 18,
+          "slots": [
+            25
+          ]
+        },
+        {
+          "id": "movel-19",
+          "index": 19,
+          "slots": [
+            26
+          ]
+        },
+        {
+          "id": "movel-20",
+          "index": 20,
+          "slots": [
+            27
+          ]
+        },
+        {
+          "id": "movel-21",
+          "index": 21,
+          "slots": [
+            28
+          ]
+        }
+      ]
+    }
+  }
+}

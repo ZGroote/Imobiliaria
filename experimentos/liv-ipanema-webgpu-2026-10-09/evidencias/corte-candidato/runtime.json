@@ -1,0 +1,3603 @@
+{
+  "status": "PASS",
+  "recordedAtUtc": "2026-10-10T22:25:12.560604+00:00",
+  "physicalMobile": false,
+  "sourceSHA256": {
+    "interior-cutaway.js": "2581b9382be2fbf8da635cb8da7dbc85b4e41cc5e0c797f30e5b15e426b0ab09",
+    "interior-renderer.js": "98d796cd1218f7d0c85c427643bc8fcb7fd6bc45c9e19d32d4e4365868f41e56",
+    "interior.html": "d99d98ea1236ecc771f11cad0c0f7eefa5f6641e4e7a1f8db396cd25839956a6",
+    "material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+    "interior-camera.js": "dd071e3a006b6b2105d0bd5de42f38f38cb2f347679761f33ecec0a5066a2947",
+    "interior-navigation.js": "a93e4ddb3dae17a1c82f073ca7f36758b1e94309a3e73f67c9ee4abc5c1702f1",
+    "interiores/catalogo.json": "b320d0d6f64a5e320678604b60e2b738c2ee30aea50a2506d7e859c60ec6d869",
+    "qa_corte_interiores.py": "bb9c83feabe137553698bbcc3071440bd608d0b0a63d176fedb4ef534557d5b9",
+    "qa_cameras_interiores.py": "b592ccf0ded05271e3c580e71b125caa2a2d239f1b3248e3ac37f491df7f49df"
+  },
+  "cases": [
+    {
+      "profile": "webgl",
+      "typology": "canto",
+      "errors": [],
+      "status": "PASS",
+      "backend": "webgl",
+      "presentation": {
+        "enabled": true,
+        "active": true,
+        "height": 1.2,
+        "objects": 4,
+        "capTriangles": 48,
+        "clipShadows": false
+      },
+      "probes": {
+        "upper": [
+          {
+            "ndc": [
+              -0.6000000000000001,
+              -0.65
+            ],
+            "sourcePoint": [
+              -3.0726698974859294,
+              1.6999675632570774,
+              3.1900000572204585
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 206.88888549804688
+          },
+          {
+            "ndc": [
+              -0.55,
+              -0.65
+            ],
+            "sourcePoint": [
+              -2.816614072695435,
+              1.6999675632570774,
+              3.1900000572204585
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 207.0
+          },
+          {
+            "ndc": [
+              -0.5,
+              -0.65
+            ],
+            "sourcePoint": [
+              -2.560558247904941,
+              1.6999675632570774,
+              3.190000057220458
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 22.22222900390625
+          },
+          {
+            "ndc": [
+              -0.45,
+              -0.65
+            ],
+            "sourcePoint": [
+              -2.3045024231144464,
+              1.6999675632570792,
+              3.190000057220459
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 206.6666717529297
+          },
+          {
+            "ndc": [
+              -0.4,
+              -0.65
+            ],
+            "sourcePoint": [
+              -2.0484465983239515,
+              1.6999675632570828,
+              3.19000005722046
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 206.55555725097656
+          },
+          {
+            "ndc": [
+              -0.30000000000000004,
+              -0.65
+            ],
+            "sourcePoint": [
+              -1.5363349487429647,
+              1.6999675632570774,
+              3.1900000572204585
+            ],
+            "revealedSlot": 82,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 206.0
+          },
+          {
+            "ndc": [
+              -0.25,
+              -0.65
+            ],
+            "sourcePoint": [
+              -1.2802791239524705,
+              1.6999675632570774,
+              3.190000057220458
+            ],
+            "revealedSlot": 82,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 171.2222137451172
+          },
+          {
+            "ndc": [
+              -0.2,
+              -0.65
+            ],
+            "sourcePoint": [
+              -1.0242232991619762,
+              1.6999675632570774,
+              3.1900000572204585
+            ],
+            "revealedSlot": 82,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 206.44444274902344
+          },
+          {
+            "ndc": [
+              -0.15000000000000002,
+              -0.65
+            ],
+            "sourcePoint": [
+              -0.7681674743714823,
+              1.6999675632570792,
+              3.1900000572204585
+            ],
+            "revealedSlot": 82,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 206.77777099609375
+          },
+          {
+            "ndc": [
+              -0.1,
+              -0.65
+            ],
+            "sourcePoint": [
+              -0.512111649580988,
+              1.6999675632570792,
+              3.190000057220459
+            ],
+            "revealedSlot": 66,
+            "revealedFurniture": "movel-8",
+            "maxMeanRgbDelta": 125.11111450195312
+          },
+          {
+            "ndc": [
+              -0.05,
+              -0.65
+            ],
+            "sourcePoint": [
+              -0.25605582479049405,
+              1.6999675632570792,
+              3.190000057220459
+            ],
+            "revealedSlot": 66,
+            "revealedFurniture": "movel-8",
+            "maxMeanRgbDelta": 171.11111450195312
+          },
+          {
+            "ndc": [
+              0,
+              -0.65
+            ],
+            "sourcePoint": [
+              0,
+              1.699967563257081,
+              3.1900000572204594
+            ],
+            "revealedSlot": 68,
+            "revealedFurniture": "movel-9",
+            "maxMeanRgbDelta": 87.66666412353516
+          },
+          {
+            "ndc": [
+              0.05,
+              -0.65
+            ],
+            "sourcePoint": [
+              0.25605582479049405,
+              1.6999675632570792,
+              3.190000057220459
+            ],
+            "revealedSlot": 68,
+            "revealedFurniture": "movel-9",
+            "maxMeanRgbDelta": 81.44444274902344
+          },
+          {
+            "ndc": [
+              0.1,
+              -0.65
+            ],
+            "sourcePoint": [
+              0.5121116495809879,
+              1.699967563257081,
+              3.1900000572204594
+            ],
+            "revealedSlot": 68,
+            "revealedFurniture": "movel-9",
+            "maxMeanRgbDelta": 80.44444274902344
+          },
+          {
+            "ndc": [
+              0.15000000000000002,
+              -0.65
+            ],
+            "sourcePoint": [
+              0.7681674743714821,
+              1.699967563257081,
+              3.1900000572204594
+            ],
+            "revealedSlot": 63,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 119.0
+          },
+          {
+            "ndc": [
+              0.2,
+              -0.65
+            ],
+            "sourcePoint": [
+              1.0242232991619762,
+              1.6999675632570774,
+              3.1900000572204585
+            ],
+            "revealedSlot": 63,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 119.8888931274414
+          },
+          {
+            "ndc": [
+              0.25,
+              -0.65
+            ],
+            "sourcePoint": [
+              1.2802791239524705,
+              1.6999675632570774,
+              3.190000057220458
+            ],
+            "revealedSlot": 63,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 172.0
+          },
+          {
+            "ndc": [
+              -0.6000000000000001,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -2.895230109352805,
+              2.2948438826007713,
+              3.190000057220459
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 206.22222900390625
+          },
+          {
+            "ndc": [
+              -0.55,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -2.6539609335734045,
+              2.2948438826007713,
+              3.1900000572204585
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 205.55555725097656
+          },
+          {
+            "ndc": [
+              -0.5,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -2.4126917577940046,
+              2.2948438826007695,
+              3.190000057220458
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 206.44444274902344
+          },
+          {
+            "ndc": [
+              -0.45,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -2.171422582014604,
+              2.2948438826007713,
+              3.190000057220459
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 206.0
+          },
+          {
+            "ndc": [
+              -0.4,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -1.9301534062352026,
+              2.294843882600772,
+              3.190000057220459
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 191.88888549804688
+          },
+          {
+            "ndc": [
+              -0.35000000000000003,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -1.6888842304558034,
+              2.2948438826007695,
+              3.1900000572204585
+            ],
+            "revealedSlot": 82,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 204.77777099609375
+          },
+          {
+            "ndc": [
+              -0.30000000000000004,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -1.4476150546764024,
+              2.294843882600772,
+              3.1900000572204594
+            ],
+            "revealedSlot": 82,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 207.0
+          },
+          {
+            "ndc": [
+              -0.25,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -1.2063458788970018,
+              2.2948438826007713,
+              3.1900000572204594
+            ],
+            "revealedSlot": 82,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 91.33333587646484
+          },
+          {
+            "ndc": [
+              -0.2,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -0.9650767031176017,
+              2.2948438826007695,
+              3.190000057220458
+            ],
+            "revealedSlot": 82,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 205.7777862548828
+          },
+          {
+            "ndc": [
+              -0.15000000000000002,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -0.7238075273382011,
+              2.294843882600773,
+              3.1900000572204594
+            ],
+            "revealedSlot": 82,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 207.0
+          },
+          {
+            "ndc": [
+              -0.1,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -0.4825383515588008,
+              2.2948438826007713,
+              3.1900000572204585
+            ],
+            "revealedSlot": 66,
+            "revealedFurniture": "movel-8",
+            "maxMeanRgbDelta": 120.44445037841797
+          },
+          {
+            "ndc": [
+              -0.05,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -0.24126917577940032,
+              2.294843882600773,
+              3.1900000572204594
+            ],
+            "revealedSlot": 66,
+            "revealedFurniture": "movel-8",
+            "maxMeanRgbDelta": 170.7777862548828
+          },
+          {
+            "ndc": [
+              0,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              0,
+              2.294843882600772,
+              3.190000057220459
+            ],
+            "revealedSlot": 68,
+            "revealedFurniture": "movel-9",
+            "maxMeanRgbDelta": 82.44445037841797
+          },
+          {
+            "ndc": [
+              0.05,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              0.24126917577940032,
+              2.294843882600773,
+              3.1900000572204594
+            ],
+            "revealedSlot": 68,
+            "revealedFurniture": "movel-9",
+            "maxMeanRgbDelta": 74.4444580078125
+          },
+          {
+            "ndc": [
+              0.1,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              0.4825383515588006,
+              2.294843882600774,
+              3.19000005722046
+            ],
+            "revealedSlot": 68,
+            "revealedFurniture": "movel-9",
+            "maxMeanRgbDelta": 73.88890075683594
+          },
+          {
+            "ndc": [
+              0.15000000000000002,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              0.7238075273382011,
+              2.294843882600773,
+              3.1900000572204594
+            ],
+            "revealedSlot": 63,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 66.88888549804688
+          },
+          {
+            "ndc": [
+              0.2,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              0.9650767031176016,
+              2.2948438826007713,
+              3.190000057220459
+            ],
+            "revealedSlot": 63,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 69.11111450195312
+          },
+          {
+            "ndc": [
+              0.25,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              1.206345878897002,
+              2.2948438826007695,
+              3.1900000572204585
+            ],
+            "revealedSlot": 63,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 111.0
+          },
+          {
+            "ndc": [
+              -0.6000000000000001,
+              -0.55
+            ],
+            "sourcePoint": [
+              -2.760915786441393,
+              2.759999990463257,
+              3.167230392133816
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 19.111114501953125
+          },
+          {
+            "ndc": [
+              -0.55,
+              -0.55
+            ],
+            "sourcePoint": [
+              -2.5308394709046103,
+              2.759999990463257,
+              3.167230392133816
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 22.111114501953125
+          },
+          {
+            "ndc": [
+              -0.5,
+              -0.55
+            ],
+            "sourcePoint": [
+              -2.300763155367828,
+              2.759999990463256,
+              3.167230392133816
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 21.888900756835938
+          },
+          {
+            "ndc": [
+              -0.45,
+              -0.55
+            ],
+            "sourcePoint": [
+              -2.0706868398310454,
+              2.759999990463257,
+              3.1672303921338156
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 33.666656494140625
+          },
+          {
+            "ndc": [
+              -0.4,
+              -0.55
+            ],
+            "sourcePoint": [
+              -1.840610524294262,
+              2.759999990463256,
+              3.1672303921338156
+            ],
+            "revealedSlot": 79,
+            "revealedFurniture": "movel-20",
+            "maxMeanRgbDelta": 177.0
+          }
+        ],
+        "lower": [
+          {
+            "ndc": [
+              -0.6000000000000001,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              -3.273279153967461,
+              1.0274143699872358,
+              3.1900000572204585
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.55,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              -3.000505891136839,
+              1.0274143699872393,
+              3.190000057220459
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.5,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              -2.727732628306217,
+              1.0274143699872376,
+              3.190000057220459
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.45,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              -2.4549593654755952,
+              1.0274143699872376,
+              3.190000057220459
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.4,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              -2.1821861026449736,
+              1.0274143699872358,
+              3.1900000572204585
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.35000000000000003,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              -1.9094128398143524,
+              1.0274143699872376,
+              3.1900000572204585
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.30000000000000004,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              -1.636639576983731,
+              1.0274143699872358,
+              3.1900000572204585
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.25,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              -1.3638663141531082,
+              1.0274143699872393,
+              3.1900000572204594
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.2,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              -1.091093051322487,
+              1.0274143699872358,
+              3.1900000572204585
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.15000000000000002,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              -0.8183197884918652,
+              1.0274143699872376,
+              3.190000057220459
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.1,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              -0.5455465256612434,
+              1.0274143699872358,
+              3.1900000572204585
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.05,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              -0.2727732628306216,
+              1.0274143699872411,
+              3.19000005722046
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              0,
+              1.0274143699872411,
+              3.1900000572204594
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.05,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              0.27277326283062164,
+              1.0274143699872393,
+              3.1900000572204594
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.1,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              0.5455465256612434,
+              1.0274143699872358,
+              3.1900000572204585
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.15000000000000002,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              0.8183197884918652,
+              1.0274143699872376,
+              3.190000057220459
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.2,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              1.091093051322487,
+              1.0274143699872358,
+              3.1900000572204585
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.25,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              1.3638663141531082,
+              1.0274143699872393,
+              3.1900000572204594
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.30000000000000004,
+              -0.7000000000000001
+            ],
+            "sourcePoint": [
+              1.6366395769837305,
+              1.0274143699872376,
+              3.190000057220459
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.5,
+              -0.55
+            ],
+            "sourcePoint": [
+              3.01982633529812,
+              0.407039695049642,
+              2.339999914169311
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.55,
+              -0.55
+            ],
+            "sourcePoint": [
+              3.321808968827931,
+              0.40703969504964377,
+              2.3399999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.6000000000000001,
+              -0.55
+            ],
+            "sourcePoint": [
+              3.6237916023577426,
+              0.40703969504964377,
+              2.3399999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.65,
+              -0.55
+            ],
+            "sourcePoint": [
+              3.9257742358875545,
+              0.40703969504964377,
+              2.339999914169312
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.7000000000000001,
+              -0.55
+            ],
+            "sourcePoint": [
+              4.227756869417367,
+              0.40703969504964377,
+              2.339999914169312
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.55,
+              -0.5
+            ],
+            "sourcePoint": [
+              3.1498432294093557,
+              1.0359752733653025,
+              2.3399999141693124
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.6000000000000001,
+              -0.5
+            ],
+            "sourcePoint": [
+              3.4361926139011167,
+              1.035975273365299,
+              2.3399999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.65,
+              -0.5
+            ],
+            "sourcePoint": [
+              3.722541998392875,
+              1.0359752733653007,
+              2.339999914169312
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.7000000000000001,
+              -0.5
+            ],
+            "sourcePoint": [
+              4.008891382884637,
+              1.035975273365299,
+              2.3399999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.75,
+              -0.5
+            ],
+            "sourcePoint": [
+              4.295240767376396,
+              1.035975273365299,
+              2.339999914169311
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.55,
+              -0.4
+            ],
+            "sourcePoint": [
+              -3.285000085830688,
+              0.8837733998012105,
+              1.8157968907057151
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.30000000000000004,
+              -0.4
+            ],
+            "sourcePoint": [
+              -1.934999942779541,
+              0.1322394701134435,
+              1.4962985879865371
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.55,
+              -0.35000000000000003
+            ],
+            "sourcePoint": [
+              -3.2850000858306885,
+              1.0061851909184139,
+              1.6282304365747118
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.5,
+              -0.35000000000000003
+            ],
+            "sourcePoint": [
+              -3.2850000858306885,
+              0.07793463007790002,
+              1.2096441856493412
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.1,
+              -0.25
+            ],
+            "sourcePoint": [
+              -0.634999990463257,
+              0.680135798517501,
+              0.9649983217067888
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.30000000000000004,
+              -0.2
+            ],
+            "sourcePoint": [
+              -1.8957868777059388,
+              0.8561199878894943,
+              0.7900000214576721
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.1,
+              -0.2
+            ],
+            "sourcePoint": [
+              -0.634999990463257,
+              0.8102798359256393,
+              0.7655840708395738
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.05,
+              -0.1
+            ],
+            "sourcePoint": [
+              -0.3511163981997071,
+              0.09456747519594622,
+              -0.20999999344348996
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0,
+              -0.1
+            ],
+            "sourcePoint": [
+              0,
+              0.09456747519594799,
+              -0.20999999344348907
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.05,
+              -0.1
+            ],
+            "sourcePoint": [
+              0.3511163981997071,
+              0.09456747519594622,
+              -0.20999999344348996
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.1,
+              -0.1
+            ],
+            "sourcePoint": [
+              0.702232796399414,
+              0.09456747519594622,
+              -0.20999999344348907
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          }
+        ]
+      },
+      "capVoids": [
+        {
+          "point": [
+            -1.5499999999999998,
+            0.2250000000000001
+          ],
+          "hits": 0
+        },
+        {
+          "point": [
+            -1.025,
+            -0.2749999999999999
+          ],
+          "hits": 0
+        },
+        {
+          "point": [
+            -2.8,
+            0.7250000000000001
+          ],
+          "hits": 0
+        },
+        {
+          "point": [
+            -1.2000000000000002,
+            0.7250000000000001
+          ],
+          "hits": 0
+        },
+        {
+          "point": [
+            2.5,
+            2.2750000000000004
+          ],
+          "hits": 0
+        },
+        {
+          "point": [
+            2.3499999999999996,
+            -1.625
+          ],
+          "hits": 0
+        }
+      ],
+      "tour": {
+        "version": 1,
+        "typology": "canto",
+        "mode": "visita",
+        "backend": "webgl",
+        "ready": true,
+        "error": null,
+        "disposed": false,
+        "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+        "sourceSHA256": "270d61e914f9f3dfdb7a79327b694409b32ccb475c3187c92cf42490e8ae3fb6",
+        "geometry": {
+          "objects": 93,
+          "vertices": 213171,
+          "triangles": 71831
+        },
+        "camera": {
+          "position": [
+            0.9500000000000002,
+            1.62,
+            0.7750000000000004
+          ],
+          "target": [
+            0,
+            1.379999995231628,
+            6.661338147750938e-16
+          ],
+          "yaw": -2.9441970937399127,
+          "pitch": -0.55,
+          "autoFrame": true
+        },
+        "framing": {
+          "limits": {
+            "x": 0.9733333333333334,
+            "y": 0.8044444444444444
+          },
+          "bounds": [
+            [
+              -4.365,
+              0,
+              -3.24
+            ],
+            [
+              4.365,
+              2.759999990463257,
+              3.2400000000000015
+            ]
+          ]
+        },
+        "roomView": {
+          "roomId": "c5",
+          "focusId": "movel-7",
+          "target": [
+            1.2000000000000002,
+            0.68,
+            2.0250000000000004
+          ],
+          "yaw": -2.9441970937399127,
+          "pitch": -0.55
+        },
+        "presentation": {
+          "enabled": true,
+          "active": false,
+          "height": 1.2,
+          "objects": 4,
+          "capTriangles": 48,
+          "clipShadows": false
+        },
+        "ceiling": {
+          "visible": true,
+          "count": 43
+        },
+        "rooms": [
+          {
+            "id": "c1",
+            "name": "Suíte",
+            "reachable": true,
+            "target": [
+              -2.9,
+              -1.775
+            ]
+          },
+          {
+            "id": "c2",
+            "name": "Dormitório 01",
+            "reachable": true,
+            "target": [
+              -0.25,
+              -1.575
+            ]
+          },
+          {
+            "id": "c3",
+            "name": "Banho suíte",
+            "reachable": true,
+            "target": [
+              -2.75,
+              1.4249999999999998
+            ]
+          },
+          {
+            "id": "c4",
+            "name": "Banho",
+            "reachable": true,
+            "target": [
+              -1.25,
+              1.4249999999999998
+            ]
+          },
+          {
+            "id": "c5",
+            "name": "Sala integrada",
+            "reachable": true,
+            "target": [
+              0.9500000000000002,
+              0.7750000000000004
+            ]
+          },
+          {
+            "id": "c10",
+            "name": "Varanda / serviço",
+            "reachable": true,
+            "target": [
+              2.6500000000000004,
+              -1.6749999999999998
+            ]
+          }
+        ],
+        "furniture": [
+          {
+            "id": "movel-0",
+            "name": "Cama da suíte",
+            "position": [
+              -3.15,
+              -0.7749999999999999
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -3.15,
+              -0.7749999999999999
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-1",
+            "name": "Armário da suíte",
+            "position": [
+              -2.95,
+              -2.525
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.95,
+              -2.525
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-2",
+            "name": "Criado-Mudo",
+            "position": [
+              -3.85,
+              -1.825
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.85,
+              -1.825
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-3",
+            "name": "Criado-Mudo",
+            "position": [
+              -3.85,
+              0.17499999999999982
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.85,
+              0.17499999999999982
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-4",
+            "name": "Cama do dormitório",
+            "position": [
+              0.5,
+              -1.725
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              0.5,
+              -1.725
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-5",
+            "name": "Armário do dormitório",
+            "position": [
+              -1.2999999999999998,
+              -2.025
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.2999999999999998,
+              -2.025
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-6",
+            "name": "Bancada do dormitório",
+            "position": [
+              0.25,
+              -0.5249999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              0.25,
+              -0.5249999999999999
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-7",
+            "name": "Sofá da sala TV",
+            "position": [
+              1.2000000000000002,
+              2.0250000000000004
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              1.2000000000000002,
+              2.0250000000000004
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-8",
+            "name": "Rack da sala TV",
+            "position": [
+              -0.4500000000000002,
+              2.0250000000000004
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -0.4500000000000002,
+              2.0250000000000004
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-9",
+            "name": "Tapete",
+            "position": [
+              0.40000000000000036,
+              2.075
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              0.40000000000000036,
+              2.075
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-10",
+            "name": "Mesa de jantar",
+            "position": [
+              2.05,
+              -0.3250000000000002
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.05,
+              -0.3250000000000002
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-11",
+            "name": "Cadeira de jantar 1",
+            "position": [
+              1.5499999999999998,
+              -0.9249999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              1.5499999999999998,
+              -0.9249999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-12",
+            "name": "Cadeira de jantar 2",
+            "position": [
+              2.3,
+              -0.9249999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.3,
+              -0.9249999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-13",
+            "name": "Cadeira de jantar 3",
+            "position": [
+              1.5499999999999998,
+              0.2250000000000001
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              1.5499999999999998,
+              0.2250000000000001
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-14",
+            "name": "Cadeira de jantar 4",
+            "position": [
+              2.3,
+              0.2250000000000001
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              2.3,
+              0.2250000000000001
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-15",
+            "name": "Fogão 4 Bocas",
+            "position": [
+              3.8499999999999996,
+              -1.175
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8499999999999996,
+              -1.175
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-16",
+            "name": "Bancada e cuba da cozinha",
+            "position": [
+              3.8499999999999996,
+              0.2749999999999999
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8499999999999996,
+              0.2749999999999999
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-17",
+            "name": "Geladeira Duplex",
+            "position": [
+              3.8000000000000007,
+              1.7249999999999996
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              1.7249999999999996
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-18",
+            "name": "Lavatório suíte",
+            "position": [
+              -2.3,
+              1.2750000000000004
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              -2.3,
+              1.2750000000000004
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-19",
+            "name": "Vaso Sanitário",
+            "position": [
+              -2.45,
+              1.9249999999999998
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              -2.45,
+              1.9249999999999998
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-20",
+            "name": "Box suíte",
+            "position": [
+              -2.7,
+              2.7249999999999996
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.7,
+              2.7249999999999996
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-21",
+            "name": "Lavatório social",
+            "position": [
+              -1.7000000000000002,
+              1.2750000000000004
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.7000000000000002,
+              1.2750000000000004
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-22",
+            "name": "Vaso Sanitário",
+            "position": [
+              -1.5,
+              1.9249999999999998
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -1.5,
+              1.9249999999999998
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-23",
+            "name": "Box social",
+            "position": [
+              -1.2999999999999998,
+              2.7249999999999996
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -1.2999999999999998,
+              2.7249999999999996
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-24",
+            "name": "Mesa da varanda",
+            "position": [
+              2.3499999999999996,
+              -2.425
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.3499999999999996,
+              -2.425
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-25",
+            "name": "Cadeira da varanda 1",
+            "position": [
+              2.0999999999999996,
+              -2.925
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              2.0999999999999996,
+              -2.925
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-26",
+            "name": "Cadeira da varanda 2",
+            "position": [
+              1.9000000000000004,
+              -2.225
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              1.9000000000000004,
+              -2.225
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-27",
+            "name": "Máquina de Lavar",
+            "position": [
+              3.8000000000000007,
+              -2.775
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              -2.775
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-28",
+            "name": "Tanque de Serviço",
+            "position": [
+              3.8000000000000007,
+              -2.225
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.8000000000000007,
+              -2.225
+            ],
+            "originalRotation": 3,
+            "modified": false
+          }
+        ],
+        "lighting": {
+          "bakedActive": true,
+          "reason": "atlas aprovado da planta de canto"
+        },
+        "shadows": {
+          "autoUpdate": false,
+          "needsUpdate": true,
+          "mapSize": [
+            1024,
+            1024
+          ]
+        },
+        "navigation": {
+          "safe": true,
+          "current": [
+            0.9500000000000002,
+            0.7750000000000004
+          ],
+          "radius": 0.3,
+          "eye": 1.62,
+          "reachableRooms": 6,
+          "totalRooms": 6,
+          "followingRoute": false
+        },
+        "renderer": {
+          "calls": 0,
+          "framePasses": 0,
+          "totalPasses": 19,
+          "triangles": 0,
+          "geometries": 53,
+          "textures": 24
+        },
+        "ownership": {
+          "created": 258,
+          "disposed": 3,
+          "bitmapsClosed": 0
+        }
+      },
+      "ownership": {
+        "created": 258,
+        "disposed": 258,
+        "bitmapsClosed": 15
+      }
+    },
+    {
+      "profile": "webgl",
+      "typology": "meio",
+      "errors": [],
+      "status": "PASS",
+      "backend": "webgl",
+      "presentation": {
+        "enabled": true,
+        "active": true,
+        "height": 1.2,
+        "objects": 4,
+        "capTriangles": 52,
+        "clipShadows": false
+      },
+      "probes": {
+        "upper": [
+          {
+            "ndc": [
+              -0.75,
+              -0.5
+            ],
+            "sourcePoint": [
+              -4.276941328304113,
+              1.6380390808048197,
+              2.714999914169312
+            ],
+            "revealedSlot": 24,
+            "revealedFurniture": "movel-17",
+            "maxMeanRgbDelta": 205.6666717529297
+          },
+          {
+            "ndc": [
+              -0.7000000000000001,
+              -0.5
+            ],
+            "sourcePoint": [
+              -3.9918119064171735,
+              1.638039080804818,
+              2.7149999141693115
+            ],
+            "revealedSlot": 24,
+            "revealedFurniture": "movel-17",
+            "maxMeanRgbDelta": 201.33334350585938
+          },
+          {
+            "ndc": [
+              -0.65,
+              -0.5
+            ],
+            "sourcePoint": [
+              -3.706682484530231,
+              1.6380390808048197,
+              2.714999914169312
+            ],
+            "revealedSlot": 24,
+            "revealedFurniture": "movel-17",
+            "maxMeanRgbDelta": 154.77777099609375
+          },
+          {
+            "ndc": [
+              -0.6000000000000001,
+              -0.5
+            ],
+            "sourcePoint": [
+              -3.421553062643291,
+              1.638039080804818,
+              2.7149999141693115
+            ],
+            "revealedSlot": 2,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 164.77777099609375
+          },
+          {
+            "ndc": [
+              -0.4,
+              -0.5
+            ],
+            "sourcePoint": [
+              -2.281035375095527,
+              1.638039080804818,
+              2.7149999141693115
+            ],
+            "revealedSlot": 2,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 105.77777862548828
+          },
+          {
+            "ndc": [
+              -0.35000000000000003,
+              -0.5
+            ],
+            "sourcePoint": [
+              -1.9959059532085868,
+              1.6380390808048197,
+              2.7149999141693115
+            ],
+            "revealedSlot": 2,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 99.11111450195312
+          },
+          {
+            "ndc": [
+              -0.30000000000000004,
+              -0.5
+            ],
+            "sourcePoint": [
+              -1.710776531321645,
+              1.6380390808048215,
+              2.7149999141693124
+            ],
+            "revealedSlot": 14,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 62.888885498046875
+          },
+          {
+            "ndc": [
+              -0.25,
+              -0.5
+            ],
+            "sourcePoint": [
+              -1.4256471094347043,
+              1.6380390808048197,
+              2.7149999141693115
+            ],
+            "revealedSlot": 14,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 45.44444274902344
+          },
+          {
+            "ndc": [
+              -0.2,
+              -0.5
+            ],
+            "sourcePoint": [
+              -1.1405176875477634,
+              1.6380390808048197,
+              2.7149999141693115
+            ],
+            "revealedSlot": 14,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 45.55555725097656
+          },
+          {
+            "ndc": [
+              -0.15000000000000002,
+              -0.5
+            ],
+            "sourcePoint": [
+              -0.8553882656608227,
+              1.6380390808048197,
+              2.714999914169312
+            ],
+            "revealedSlot": 14,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 48.0
+          },
+          {
+            "ndc": [
+              -0.1,
+              -0.5
+            ],
+            "sourcePoint": [
+              -0.5702588437738818,
+              1.6380390808048197,
+              2.7149999141693115
+            ],
+            "revealedSlot": 14,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 51.77778625488281
+          },
+          {
+            "ndc": [
+              -0.05,
+              -0.5
+            ],
+            "sourcePoint": [
+              -0.28512942188694085,
+              1.6380390808048197,
+              2.714999914169312
+            ],
+            "revealedSlot": 14,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 103.66666412353516
+          },
+          {
+            "ndc": [
+              0,
+              -0.5
+            ],
+            "sourcePoint": [
+              0,
+              1.638039080804818,
+              2.714999914169311
+            ],
+            "revealedSlot": 30,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 173.11111450195312
+          },
+          {
+            "ndc": [
+              0.05,
+              -0.5
+            ],
+            "sourcePoint": [
+              0.28512942188694085,
+              1.6380390808048197,
+              2.714999914169312
+            ],
+            "revealedSlot": 30,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 150.88888549804688
+          },
+          {
+            "ndc": [
+              0.1,
+              -0.5
+            ],
+            "sourcePoint": [
+              0.5702588437738818,
+              1.6380390808048197,
+              2.7149999141693115
+            ],
+            "revealedSlot": 30,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 102.8888931274414
+          },
+          {
+            "ndc": [
+              0.15000000000000002,
+              -0.5
+            ],
+            "sourcePoint": [
+              0.8553882656608228,
+              1.638039080804818,
+              2.714999914169311
+            ],
+            "revealedSlot": 28,
+            "revealedFurniture": "movel-21",
+            "maxMeanRgbDelta": 64.88890075683594
+          },
+          {
+            "ndc": [
+              0.2,
+              -0.5
+            ],
+            "sourcePoint": [
+              1.1405176875477636,
+              1.638039080804818,
+              2.714999914169311
+            ],
+            "revealedSlot": 28,
+            "revealedFurniture": "movel-21",
+            "maxMeanRgbDelta": 84.1111068725586
+          },
+          {
+            "ndc": [
+              0.25,
+              -0.5
+            ],
+            "sourcePoint": [
+              1.4256471094347045,
+              1.638039080804818,
+              2.714999914169311
+            ],
+            "revealedSlot": 29,
+            "revealedFurniture": "movel-22",
+            "maxMeanRgbDelta": 28.444442749023438
+          },
+          {
+            "ndc": [
+              0.30000000000000004,
+              -0.5
+            ],
+            "sourcePoint": [
+              1.7107765313216452,
+              1.6380390808048197,
+              2.7149999141693115
+            ],
+            "revealedSlot": 29,
+            "revealedFurniture": "movel-22",
+            "maxMeanRgbDelta": 27.77777099609375
+          },
+          {
+            "ndc": [
+              -0.8,
+              -0.45
+            ],
+            "sourcePoint": [
+              -4.337522822705998,
+              2.2026457257854624,
+              2.7149999141693115
+            ],
+            "revealedSlot": 24,
+            "revealedFurniture": "movel-17",
+            "maxMeanRgbDelta": 200.6666717529297
+          },
+          {
+            "ndc": [
+              -0.75,
+              -0.45
+            ],
+            "sourcePoint": [
+              -4.066427646286874,
+              2.2026457257854624,
+              2.714999914169312
+            ],
+            "revealedSlot": 24,
+            "revealedFurniture": "movel-17",
+            "maxMeanRgbDelta": 193.88888549804688
+          },
+          {
+            "ndc": [
+              -0.7000000000000001,
+              -0.45
+            ],
+            "sourcePoint": [
+              -3.79533246986775,
+              2.2026457257854624,
+              2.714999914169312
+            ],
+            "revealedSlot": 24,
+            "revealedFurniture": "movel-17",
+            "maxMeanRgbDelta": 147.33334350585938
+          },
+          {
+            "ndc": [
+              -0.65,
+              -0.45
+            ],
+            "sourcePoint": [
+              -3.524237293448624,
+              2.2026457257854624,
+              2.714999914169312
+            ],
+            "revealedSlot": 24,
+            "revealedFurniture": "movel-17",
+            "maxMeanRgbDelta": 145.22222900390625
+          },
+          {
+            "ndc": [
+              -0.6000000000000001,
+              -0.45
+            ],
+            "sourcePoint": [
+              -3.2531421170294994,
+              2.2026457257854606,
+              2.7149999141693115
+            ],
+            "revealedSlot": 2,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 159.2222137451172
+          },
+          {
+            "ndc": [
+              -0.55,
+              -0.45
+            ],
+            "sourcePoint": [
+              -2.982046940610374,
+              2.202645725785464,
+              2.714999914169312
+            ],
+            "revealedSlot": 2,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 154.66665649414062
+          },
+          {
+            "ndc": [
+              -0.5,
+              -0.45
+            ],
+            "sourcePoint": [
+              -2.7109517641912495,
+              2.2026457257854606,
+              2.7149999141693115
+            ],
+            "revealedSlot": 4,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 29.77777099609375
+          },
+          {
+            "ndc": [
+              -0.45,
+              -0.45
+            ],
+            "sourcePoint": [
+              -2.439856587772124,
+              2.2026457257854624,
+              2.714999914169312
+            ],
+            "revealedSlot": 2,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 142.3333282470703
+          },
+          {
+            "ndc": [
+              -0.4,
+              -0.45
+            ],
+            "sourcePoint": [
+              -2.168761411352999,
+              2.202645725785464,
+              2.714999914169312
+            ],
+            "revealedSlot": 2,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 132.11111450195312
+          },
+          {
+            "ndc": [
+              -0.35000000000000003,
+              -0.45
+            ],
+            "sourcePoint": [
+              -1.8976662349338753,
+              2.2026457257854624,
+              2.7149999141693115
+            ],
+            "revealedSlot": 2,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 92.22221374511719
+          },
+          {
+            "ndc": [
+              -0.30000000000000004,
+              -0.45
+            ],
+            "sourcePoint": [
+              -1.62657105851475,
+              2.2026457257854624,
+              2.7149999141693115
+            ],
+            "revealedSlot": 14,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 34.44444274902344
+          },
+          {
+            "ndc": [
+              -0.25,
+              -0.45
+            ],
+            "sourcePoint": [
+              -1.3554758820956243,
+              2.202645725785464,
+              2.7149999141693124
+            ],
+            "revealedSlot": 14,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 31.777786254882812
+          },
+          {
+            "ndc": [
+              -0.2,
+              -0.45
+            ],
+            "sourcePoint": [
+              -1.0843807056764996,
+              2.2026457257854624,
+              2.714999914169311
+            ],
+            "revealedSlot": 14,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 35.22222900390625
+          },
+          {
+            "ndc": [
+              -0.15000000000000002,
+              -0.45
+            ],
+            "sourcePoint": [
+              -0.813285529257375,
+              2.2026457257854624,
+              2.714999914169312
+            ],
+            "revealedSlot": 14,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 36.22222900390625
+          },
+          {
+            "ndc": [
+              -0.1,
+              -0.45
+            ],
+            "sourcePoint": [
+              -0.5421903528382499,
+              2.2026457257854606,
+              2.714999914169311
+            ],
+            "revealedSlot": 14,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 42.111114501953125
+          },
+          {
+            "ndc": [
+              -0.05,
+              -0.45
+            ],
+            "sourcePoint": [
+              -0.271095176419125,
+              2.202645725785459,
+              2.7149999141693106
+            ],
+            "revealedSlot": 14,
+            "revealedFurniture": "movel-7",
+            "maxMeanRgbDelta": 82.77777862548828
+          },
+          {
+            "ndc": [
+              0,
+              -0.45
+            ],
+            "sourcePoint": [
+              0,
+              2.2026457257854606,
+              2.714999914169311
+            ],
+            "revealedSlot": 30,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 131.66665649414062
+          },
+          {
+            "ndc": [
+              0.05,
+              -0.45
+            ],
+            "sourcePoint": [
+              0.271095176419125,
+              2.202645725785459,
+              2.7149999141693106
+            ],
+            "revealedSlot": 30,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 92.22222137451172
+          },
+          {
+            "ndc": [
+              0.1,
+              -0.45
+            ],
+            "sourcePoint": [
+              0.5421903528382499,
+              2.2026457257854606,
+              2.714999914169311
+            ],
+            "revealedSlot": 30,
+            "revealedFurniture": "movel-23",
+            "maxMeanRgbDelta": 17.666671752929688
+          },
+          {
+            "ndc": [
+              0.15000000000000002,
+              -0.45
+            ],
+            "sourcePoint": [
+              0.813285529257375,
+              2.2026457257854624,
+              2.714999914169312
+            ],
+            "revealedSlot": 28,
+            "revealedFurniture": "movel-21",
+            "maxMeanRgbDelta": 76.22222137451172
+          },
+          {
+            "ndc": [
+              0.2,
+              -0.45
+            ],
+            "sourcePoint": [
+              1.0843807056764996,
+              2.2026457257854624,
+              2.714999914169311
+            ],
+            "revealedSlot": 28,
+            "revealedFurniture": "movel-21",
+            "maxMeanRgbDelta": 88.66667175292969
+          }
+        ],
+        "lower": [
+          {
+            "ndc": [
+              -0.75,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -4.770908847413809,
+              0.31319719394257994,
+              2.7149999141693124
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.7000000000000001,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -4.452848257586222,
+              0.31319719394257817,
+              2.714999914169312
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.65,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -4.134787667758635,
+              0.3131971939425764,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.6000000000000001,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -3.8167270779310476,
+              0.3131971939425764,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.55,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -3.49866648810346,
+              0.31319719394257817,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.35000000000000003,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -2.2264241287931115,
+              0.3131971939425764,
+              2.714999914169311
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.30000000000000004,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -1.908363538965524,
+              0.3131971939425764,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.25,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -1.5903029491379366,
+              0.3131971939425746,
+              2.714999914169311
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.2,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -1.2722423593103493,
+              0.3131971939425746,
+              2.7149999141693106
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.15000000000000002,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -0.954181769482762,
+              0.31319719394257817,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.1,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -0.6361211796551745,
+              0.31319719394257817,
+              2.714999914169312
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.05,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              -0.3180605898275872,
+              0.31319719394257817,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              0,
+              0.31319719394257817,
+              2.714999914169312
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.05,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              0.31806058982758717,
+              0.31319719394257994,
+              2.7149999141693124
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.1,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              0.6361211796551743,
+              0.31319719394257994,
+              2.7149999141693124
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.15000000000000002,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              0.9541817694827617,
+              0.3131971939425817,
+              2.7149999141693124
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.2,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              1.2722423593103493,
+              0.3131971939425746,
+              2.7149999141693106
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.25,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              1.5903029491379366,
+              0.3131971939425746,
+              2.714999914169311
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.30000000000000004,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              1.9083635389655238,
+              0.31319719394257817,
+              2.714999914169312
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.35000000000000003,
+              -0.6000000000000001
+            ],
+            "sourcePoint": [
+              2.2264241287931115,
+              0.3131971939425764,
+              2.714999914169311
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.8,
+              -0.55
+            ],
+            "sourcePoint": [
+              -4.811137072765961,
+              1.0117830189398322,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.75,
+              -0.55
+            ],
+            "sourcePoint": [
+              -4.510441005718089,
+              1.0117830189398305,
+              2.714999914169311
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.7000000000000001,
+              -0.55
+            ],
+            "sourcePoint": [
+              -4.209744938670216,
+              1.011783018939834,
+              2.714999914169312
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.65,
+              -0.55
+            ],
+            "sourcePoint": [
+              -3.909048871622343,
+              1.0117830189398322,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.1110992431640625
+          },
+          {
+            "ndc": [
+              -0.6000000000000001,
+              -0.55
+            ],
+            "sourcePoint": [
+              -3.60835280457447,
+              1.011783018939834,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.55,
+              -0.55
+            ],
+            "sourcePoint": [
+              -3.307656737526598,
+              1.0117830189398322,
+              2.714999914169311
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.35000000000000003,
+              -0.55
+            ],
+            "sourcePoint": [
+              -2.104872469335108,
+              1.011783018939834,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.30000000000000004,
+              -0.55
+            ],
+            "sourcePoint": [
+              -1.804176402287235,
+              1.0117830189398358,
+              2.714999914169312
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.25,
+              -0.55
+            ],
+            "sourcePoint": [
+              -1.5034803352393624,
+              1.011783018939834,
+              2.714999914169312
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.111114501953125
+          },
+          {
+            "ndc": [
+              -0.2,
+              -0.55
+            ],
+            "sourcePoint": [
+              -1.2027842681914904,
+              1.0117830189398305,
+              2.7149999141693106
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.15000000000000002,
+              -0.55
+            ],
+            "sourcePoint": [
+              -0.9020882011436178,
+              1.011783018939834,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.1,
+              -0.55
+            ],
+            "sourcePoint": [
+              -0.6013921340957451,
+              1.0117830189398322,
+              2.714999914169311
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              -0.05,
+              -0.55
+            ],
+            "sourcePoint": [
+              -0.3006960670478724,
+              1.0117830189398376,
+              2.7149999141693124
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0,
+              -0.55
+            ],
+            "sourcePoint": [
+              0,
+              1.0117830189398322,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.05,
+              -0.55
+            ],
+            "sourcePoint": [
+              0.3006960670478724,
+              1.0117830189398376,
+              2.7149999141693124
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.1,
+              -0.55
+            ],
+            "sourcePoint": [
+              0.601392134095745,
+              1.011783018939834,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.15000000000000002,
+              -0.55
+            ],
+            "sourcePoint": [
+              0.9020882011436178,
+              1.011783018939834,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.2,
+              -0.55
+            ],
+            "sourcePoint": [
+              1.2027842681914902,
+              1.0117830189398322,
+              2.7149999141693115
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.25,
+              -0.55
+            ],
+            "sourcePoint": [
+              1.5034803352393624,
+              1.011783018939834,
+              2.714999914169312
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          },
+          {
+            "ndc": [
+              0.30000000000000004,
+              -0.55
+            ],
+            "sourcePoint": [
+              1.804176402287235,
+              1.0117830189398358,
+              2.714999914169312
+            ],
+            "revealedSlot": 0,
+            "revealedFurniture": null,
+            "maxMeanRgbDelta": 0.0
+          }
+        ]
+      },
+      "capVoids": [
+        {
+          "point": [
+            0.8250000000000002,
+            0.8250000000000002
+          ],
+          "hits": 0
+        },
+        {
+          "point": [
+            0.4500000000000002,
+            0.25
+          ],
+          "hits": 0
+        },
+        {
+          "point": [
+            1.375,
+            0.25
+          ],
+          "hits": 0
+        },
+        {
+          "point": [
+            0.4249999999999998,
+            1.25
+          ],
+          "hits": 0
+        },
+        {
+          "point": [
+            -2.825,
+            2.65
+          ],
+          "hits": 0
+        },
+        {
+          "point": [
+            -2.95,
+            -1.2
+          ],
+          "hits": 0
+        }
+      ],
+      "tour": {
+        "version": 1,
+        "typology": "meio",
+        "mode": "visita",
+        "backend": "webgl",
+        "ready": true,
+        "error": null,
+        "disposed": false,
+        "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+        "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+        "geometry": {
+          "objects": 37,
+          "vertices": 98784,
+          "triangles": 32928
+        },
+        "camera": {
+          "position": [
+            -1.475,
+            1.62,
+            0.7500000000000004
+          ],
+          "target": [
+            0,
+            1.3799999952316284,
+            -0.006999969482421876
+          ],
+          "yaw": -2.922923707715851,
+          "pitch": -0.55,
+          "autoFrame": true
+        },
+        "framing": {
+          "limits": {
+            "x": 0.9733333333333334,
+            "y": 0.8044444444444444
+          },
+          "bounds": [
+            [
+              -4.906000137329102,
+              0,
+              -2.744999885559082
+            ],
+            [
+              4.906000137329102,
+              2.759999990463257,
+              2.7309999465942383
+            ]
+          ]
+        },
+        "roomView": {
+          "roomId": "c6",
+          "focusId": "movel-7",
+          "target": [
+            -1.1750000000000003,
+            0.68,
+            2.1
+          ],
+          "yaw": -2.922923707715851,
+          "pitch": -0.55
+        },
+        "presentation": {
+          "enabled": true,
+          "active": false,
+          "height": 1.2,
+          "objects": 4,
+          "capTriangles": 52,
+          "clipShadows": false
+        },
+        "ceiling": {
+          "visible": true,
+          "count": 1
+        },
+        "rooms": [
+          {
+            "id": "c1",
+            "name": "Suíte",
+            "reachable": true,
+            "target": [
+              2.425,
+              0.6000000000000001
+            ]
+          },
+          {
+            "id": "c3",
+            "name": "Dormitório 01",
+            "reachable": true,
+            "target": [
+              0.22500000000000053,
+              -0.34999999999999964
+            ]
+          },
+          {
+            "id": "c4",
+            "name": "Banho suíte",
+            "reachable": true,
+            "target": [
+              1.375,
+              -0.34999999999999964
+            ]
+          },
+          {
+            "id": "c5",
+            "name": "Banho",
+            "reachable": true,
+            "target": [
+              1.0750000000000002,
+              1.85
+            ]
+          },
+          {
+            "id": "c6",
+            "name": "Sala integrada",
+            "reachable": true,
+            "target": [
+              -1.475,
+              0.7500000000000004
+            ]
+          },
+          {
+            "id": "c9",
+            "name": "Varanda / serviço",
+            "reachable": true,
+            "target": [
+              -2.275,
+              -1.9499999999999997
+            ]
+          }
+        ],
+        "furniture": [
+          {
+            "id": "movel-0",
+            "name": "Cama da suíte",
+            "position": [
+              3.624999999999999,
+              0.25
+            ],
+            "rotation": 3,
+            "originalPosition": [
+              3.624999999999999,
+              0.25
+            ],
+            "originalRotation": 3,
+            "modified": false
+          },
+          {
+            "id": "movel-1",
+            "name": "Armário da suíte",
+            "position": [
+              3.624999999999999,
+              1.6
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              3.624999999999999,
+              1.6
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-2",
+            "name": "Criado da suíte 1",
+            "position": [
+              4.5249999999999995,
+              -0.75
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              4.5249999999999995,
+              -0.75
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-3",
+            "name": "Criado da suíte 2",
+            "position": [
+              4.5249999999999995,
+              1.2000000000000002
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              4.5249999999999995,
+              1.2000000000000002
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-4",
+            "name": "Cama do dormitório",
+            "position": [
+              -1.225,
+              -1.25
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -1.225,
+              -1.25
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-5",
+            "name": "Armário do dormitório",
+            "position": [
+              0.5750000000000002,
+              -1.45
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              0.5750000000000002,
+              -1.45
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-6",
+            "name": "Bancada do dormitório",
+            "position": [
+              -0.7750000000000004,
+              -0.04999999999999982
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              -0.7750000000000004,
+              -0.04999999999999982
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-7",
+            "name": "Sofá da sala TV",
+            "position": [
+              -1.1750000000000003,
+              2.1
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              -1.1750000000000003,
+              2.1
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-8",
+            "name": "Rack da sala TV",
+            "position": [
+              -1.0750000000000002,
+              0.4500000000000002
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -1.0750000000000002,
+              0.4500000000000002
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-9",
+            "name": "Tapete",
+            "position": [
+              -1.1750000000000003,
+              1.4
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -1.1750000000000003,
+              1.4
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-10",
+            "name": "Mesa de jantar",
+            "position": [
+              -2.7750000000000004,
+              0.050000000000000266
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.7750000000000004,
+              0.050000000000000266
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-11",
+            "name": "Cadeira de jantar 1",
+            "position": [
+              -3.125,
+              -0.5499999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.125,
+              -0.5499999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-12",
+            "name": "Cadeira de jantar 2",
+            "position": [
+              -2.375,
+              -0.5499999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.375,
+              -0.5499999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-13",
+            "name": "Cadeira de jantar 3",
+            "position": [
+              -3.125,
+              0.6499999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              -3.125,
+              0.6499999999999999
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-14",
+            "name": "Cadeira de jantar 4",
+            "position": [
+              -2.375,
+              0.6499999999999999
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              -2.375,
+              0.6499999999999999
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-15",
+            "name": "Fogão 4 Bocas",
+            "position": [
+              -4.4750000000000005,
+              -0.7
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -4.4750000000000005,
+              -0.7
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-16",
+            "name": "Bancada e cuba da cozinha",
+            "position": [
+              -4.4750000000000005,
+              0.6000000000000001
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -4.4750000000000005,
+              0.6000000000000001
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-17",
+            "name": "Geladeira Duplex",
+            "position": [
+              -4.4750000000000005,
+              2.1999999999999997
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -4.4750000000000005,
+              2.1999999999999997
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-18",
+            "name": "Lavatório suíte",
+            "position": [
+              1.3250000000000002,
+              -0.7999999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              1.3250000000000002,
+              -0.7999999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-19",
+            "name": "Vaso da suíte",
+            "position": [
+              1.875,
+              -0.19999999999999973
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              1.875,
+              -0.19999999999999973
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-20",
+            "name": "Box suíte",
+            "position": [
+              1.5750000000000002,
+              -1.7999999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              1.5750000000000002,
+              -1.7999999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-21",
+            "name": "Lavatório social",
+            "position": [
+              1.0249999999999995,
+              2.3000000000000003
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              1.0249999999999995,
+              2.3000000000000003
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-22",
+            "name": "Vaso social",
+            "position": [
+              1.7749999999999995,
+              2.1
+            ],
+            "rotation": 2,
+            "originalPosition": [
+              1.7749999999999995,
+              2.1
+            ],
+            "originalRotation": 2,
+            "modified": false
+          },
+          {
+            "id": "movel-23",
+            "name": "Box social",
+            "position": [
+              0.3250000000000002,
+              1.9
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              0.3250000000000002,
+              1.9
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-24",
+            "name": "Mesa da varanda",
+            "position": [
+              -3.0250000000000004,
+              -1.7999999999999998
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -3.0250000000000004,
+              -1.7999999999999998
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-25",
+            "name": "Cadeira da varanda 1",
+            "position": [
+              -2.975,
+              -2.35
+            ],
+            "rotation": 0,
+            "originalPosition": [
+              -2.975,
+              -2.35
+            ],
+            "originalRotation": 0,
+            "modified": false
+          },
+          {
+            "id": "movel-26",
+            "name": "Cadeira da varanda 2",
+            "position": [
+              -3.625,
+              -1.5999999999999999
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -3.625,
+              -1.5999999999999999
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-27",
+            "name": "Máquina de Lavar",
+            "position": [
+              -4.4750000000000005,
+              -2.3
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -4.4750000000000005,
+              -2.3
+            ],
+            "originalRotation": 1,
+            "modified": false
+          },
+          {
+            "id": "movel-28",
+            "name": "Tanque de Serviço",
+            "position": [
+              -4.4750000000000005,
+              -1.5499999999999998
+            ],
+            "rotation": 1,
+            "originalPosition": [
+              -4.4750000000000005,
+              -1.5499999999999998
+            ],
+            "originalRotation": 1,
+            "modified": false
+          }
+        ],
+        "lighting": {
+          "bakedActive": true,
+          "reason": "atlas aprovado da planta de meio"
+        },
+        "shadows": {
+          "autoUpdate": false,
+          "needsUpdate": true,
+          "mapSize": [
+            1024,
+            1024
+          ]
+        },
+        "navigation": {
+          "safe": true,
+          "current": [
+            -1.475,
+            0.7500000000000004
+          ],
+          "radius": 0.3,
+          "eye": 1.62,
+          "reachableRooms": 6,
+          "totalRooms": 6,
+          "followingRoute": false
+        },
+        "renderer": {
+          "calls": 0,
+          "framePasses": 0,
+          "totalPasses": 19,
+          "triangles": 0,
+          "geometries": 39,
+          "textures": 24
+        },
+        "ownership": {
+          "created": 163,
+          "disposed": 3,
+          "bitmapsClosed": 0
+        }
+      },
+      "ownership": {
+        "created": 163,
+        "disposed": 163,
+        "bitmapsClosed": 15
+      }
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

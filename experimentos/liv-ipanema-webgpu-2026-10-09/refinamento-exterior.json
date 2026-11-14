@@ -1,0 +1,108 @@
+{
+  "schema": "liv-reference-finish-v1",
+  "preparedOn": "2026-10-10",
+  "profile": "painted-frames-v1",
+  "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+  "references": [
+    {
+      "id": "varanda-oficial",
+      "path": "relatorios/liv-referencias-publicas-2026-10-09/varanda-render-oficial-1.png",
+      "publication": "https://www.livonincorporadora.com.br/wp-content/uploads/2024/08/BOOK_LIV_Ipanema.pdf",
+      "sha256": "f335a3b9c16dfc2a6773443ed478afca06a9385bed10cff2449785b8662e8368",
+      "bytes": 1555345,
+      "dimensions": [
+        2208,
+        1106
+      ],
+      "landmark": {
+        "part": "guarda-corpo metálico com barras verticais",
+        "approximateROI": [
+          1450,
+          535,
+          2208,
+          1106
+        ]
+      },
+      "observation": "Barras verticais escuras com acabamento pintado. A imagem não mostra um painel de vidro substituindo o guarda-corpo.",
+      "confidence": "confirmado-na-imagem",
+      "limitations": "Render comercial ilustrativo; região aproximada para localizar o componente, sem cotas ou medição fotométrica.",
+      "sourcePdfPage": 12
+    },
+    {
+      "id": "fachada-oficial",
+      "path": "v1.5/miniaturas/liv-ipanema/referencias/fachada.jpg",
+      "sha256": "623ab176a612422e618d2a9d6fc0a139256091bac2f2ffb53f12c057af33bd88",
+      "dimensions": [
+        1200,
+        628
+      ],
+      "observation": "Cinco prumadas de varandas em ritmo 2+1+2; núcleo elevado descentrado."
+    },
+    {
+      "id": "implantacao-oficial",
+      "path": "v1.5/miniaturas/liv-ipanema/referencias/implantacao.jpg",
+      "sha256": "3217ae957969aed1ce9a177d914f038faff2fdee6fd6b10ec67063615a113677",
+      "dimensions": [
+        1900,
+        720
+      ],
+      "observation": "Perímetro da lâmina com reentrâncias; cobertura atual simplifica esse contorno. Correção coordenada de paredes/lajes/cobertura depende de nova autoria e bake."
+    }
+  ],
+  "implemented": {
+    "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+    "sourceMaterialSignature": {
+      "type": "MeshStandardMaterial",
+      "baked": false,
+      "colorLinear": [
+        0.01850022003054619,
+        0.02518685907125473,
+        0.024157632142305374
+      ],
+      "metalness": 1,
+      "roughness": 0.3799999952316284
+    },
+    "paintedParameters": {
+      "metalness": 0,
+      "roughness": 0.55
+    },
+    "parameterConfidence": "calibracao-visual-inferida",
+    "scope": "Clone da atribuição da torre. Tipografia da portaria compartilha o material fonte e permanece independente.",
+    "camera": "varandas",
+    "cameraBounds": {
+      "min": [
+        -21,
+        20,
+        4.2
+      ],
+      "max": [
+        -11.5,
+        29,
+        6.9
+      ]
+    },
+    "geometryChanged": false,
+    "rgbmChanged": false,
+    "extraTextures": 0,
+    "extraMeshes": 0
+  },
+  "validationProtocol": {
+    "comparison": "Antes/depois no mesmo renderer, câmera, viewport e luz. A imagem oficial identifica o componente e o acabamento; não é alvo de igualdade de pixels.",
+    "hardGates": [
+      "SHA da edição e assinatura do material correspondem",
+      "posição, UV1, matrizes e materiais baked intactos",
+      "material compartilhado da tipografia intacto",
+      "clone descartado com a cena",
+      "enquadramento das varandas cabe em desktop e toque emulado",
+      "restauro da vista e destaque de pavimento após trocar modo"
+    ],
+    "report": "evidencias/refinamento-exterior-final/runtime.json"
+  },
+  "pending": [
+    "Perímetro escalonado com iluminação da própria malha",
+    "Revestimento localizado da portaria",
+    "Vidros com leitura de profundidade conferida",
+    "Qualificação física e orçamento definitivo",
+    "Estados de dia e entardecer"
+  ]
+}

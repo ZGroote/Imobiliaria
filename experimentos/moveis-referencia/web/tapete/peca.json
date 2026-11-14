@@ -1,0 +1,423 @@
+{
+ "peca": "tapete",
+ "grupos": [
+  {
+   "material": "la",
+   "nv": 184,
+   "ni": 564,
+   "min": [
+    -1.6683399677276611,
+    0.0,
+    -3.749160051345825
+   ],
+   "max": [
+    2.168339967727661,
+    0.02500000037252903,
+    0.1491599977016449
+   ],
+   "uvmin": [
+    -1.0080000162124634,
+    -0.2882300019264221
+   ],
+   "uvmax": [
+    1.9919999837875366,
+    2.2117700576782227
+   ],
+   "i32": false,
+   "formato": 2,
+   "q": 4095,
+   "pos": 0,
+   "nor": 1104,
+   "uv": 1840,
+   "uv2": 2576,
+   "tan": 3312,
+   "idx": 4048
+  },
+  {
+   "material": "debrum",
+   "nv": 368,
+   "ni": 1128,
+   "min": [
+    -1.6737899780273438,
+    0.0,
+    -2.150749921798706
+   ],
+   "max": [
+    2.1730499267578125,
+    0.02199999988079071,
+    0.15459999442100525
+   ],
+   "uvmin": [
+    -1.397379994392395,
+    -1.118209958076477
+   ],
+   "uvmax": [
+    2.45455002784729,
+    0.5645099878311157
+   ],
+   "i32": false,
+   "formato": 2,
+   "q": 4095,
+   "pos": 5176,
+   "nor": 7384,
+   "uv": 8856,
+   "uv2": 10328,
+   "tan": 11800,
+   "idx": 13272
+  }
+ ],
+ "materiais": {
+  "la": {
+   "cor": [
+    200,
+    200,
+    200
+   ],
+   "rough": 0.95,
+   "metal": 0.0,
+   "tex": "la_fios",
+   "tinta": [
+    1.18,
+    1.16,
+    1.1
+   ],
+   "relevo": 0.8,
+   "sheen": 0.6,
+   "coat": 0.0,
+   "emissao": 0.0,
+   "spec": 0.2,
+   "alpha": 1.0,
+   "duplo": false,
+   "escala": 1.0
+  },
+  "debrum": {
+   "cor": [
+    150,
+    150,
+    152
+   ],
+   "rough": 0.8,
+   "metal": 0.0,
+   "tex": null,
+   "tinta": [
+    1,
+    1,
+    1
+   ],
+   "relevo": 0.5,
+   "sheen": 0.3,
+   "coat": 0.0,
+   "emissao": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0,
+   "duplo": false,
+   "escala": 1.0
+  }
+ },
+ "atlas": 512,
+ "amb": [
+  {
+   "nome": "piso",
+   "n": 36,
+   "pos": 0,
+   "material": "porcelanato",
+   "nor": 432
+  },
+  {
+   "nome": "rej_x-1",
+   "n": 36,
+   "pos": 864,
+   "material": "rejunte",
+   "nor": 1296
+  },
+  {
+   "nome": "rej_x-2",
+   "n": 36,
+   "pos": 1728,
+   "material": "rejunte",
+   "nor": 2160
+  },
+  {
+   "nome": "rej_x-3",
+   "n": 36,
+   "pos": 2592,
+   "material": "rejunte",
+   "nor": 3024
+  },
+  {
+   "nome": "rej_x-4",
+   "n": 36,
+   "pos": 3456,
+   "material": "rejunte",
+   "nor": 3888
+  },
+  {
+   "nome": "rej_x-5",
+   "n": 36,
+   "pos": 4320,
+   "material": "rejunte",
+   "nor": 4752
+  },
+  {
+   "nome": "rej_x-6",
+   "n": 36,
+   "pos": 5184,
+   "material": "rejunte",
+   "nor": 5616
+  },
+  {
+   "nome": "rej_x0",
+   "n": 36,
+   "pos": 6048,
+   "material": "rejunte",
+   "nor": 6480
+  },
+  {
+   "nome": "rej_x1",
+   "n": 36,
+   "pos": 6912,
+   "material": "rejunte",
+   "nor": 7344
+  },
+  {
+   "nome": "rej_x2",
+   "n": 36,
+   "pos": 7776,
+   "material": "rejunte",
+   "nor": 8208
+  },
+  {
+   "nome": "rej_x3",
+   "n": 36,
+   "pos": 8640,
+   "material": "rejunte",
+   "nor": 9072
+  },
+  {
+   "nome": "rej_x4",
+   "n": 36,
+   "pos": 9504,
+   "material": "rejunte",
+   "nor": 9936
+  },
+  {
+   "nome": "rej_x5",
+   "n": 36,
+   "pos": 10368,
+   "material": "rejunte",
+   "nor": 10800
+  },
+  {
+   "nome": "rej_x6",
+   "n": 36,
+   "pos": 11232,
+   "material": "rejunte",
+   "nor": 11664
+  },
+  {
+   "nome": "rej_y-1",
+   "n": 36,
+   "pos": 12096,
+   "material": "rejunte",
+   "nor": 12528
+  },
+  {
+   "nome": "rej_y-2",
+   "n": 36,
+   "pos": 12960,
+   "material": "rejunte",
+   "nor": 13392
+  },
+  {
+   "nome": "rej_y-3",
+   "n": 36,
+   "pos": 13824,
+   "material": "rejunte",
+   "nor": 14256
+  },
+  {
+   "nome": "rej_y-4",
+   "n": 36,
+   "pos": 14688,
+   "material": "rejunte",
+   "nor": 15120
+  },
+  {
+   "nome": "rej_y0",
+   "n": 36,
+   "pos": 15552,
+   "material": "rejunte",
+   "nor": 15984
+  },
+  {
+   "nome": "rej_y1",
+   "n": 36,
+   "pos": 16416,
+   "material": "rejunte",
+   "nor": 16848
+  },
+  {
+   "nome": "rej_y2",
+   "n": 36,
+   "pos": 17280,
+   "material": "rejunte",
+   "nor": 17712
+  },
+  {
+   "nome": "rej_y3",
+   "n": 36,
+   "pos": 18144,
+   "material": "rejunte",
+   "nor": 18576
+  },
+  {
+   "nome": "rej_y4",
+   "n": 36,
+   "pos": 19008,
+   "material": "rejunte",
+   "nor": 19440
+  },
+  {
+   "nome": "rej_y5",
+   "n": 36,
+   "pos": 19872,
+   "material": "rejunte",
+   "nor": 20304
+  }
+ ],
+ "amb_materiais": {
+  "porcelanato": {
+   "cor": [
+    165,
+    168,
+    174
+   ],
+   "rough": 0.3,
+   "metal": 0.0,
+   "tex": null,
+   "tinta": [
+    1,
+    1,
+    1
+   ],
+   "relevo": 0.5,
+   "sheen": 0.0,
+   "coat": 0.0,
+   "emissao": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0,
+   "duplo": false,
+   "escala": 1.0
+  },
+  "rejunte": {
+   "cor": [
+    95,
+    95,
+    97
+   ],
+   "rough": 0.8,
+   "metal": 0.0,
+   "tex": null,
+   "tinta": [
+    1,
+    1,
+    1
+   ],
+   "relevo": 0.5,
+   "sheen": 0.0,
+   "coat": 0.0,
+   "emissao": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0,
+   "duplo": false,
+   "escala": 1.0
+  }
+ },
+ "luzes": [
+  {
+   "nome": "sol_janela",
+   "tipo": "AREA",
+   "pos": [
+    3.0,
+    2.6,
+    -3.5
+   ],
+   "dir": [
+    -0.6029,
+    -0.5225,
+    0.6029
+   ],
+   "w": 300.0,
+   "cor": [
+    1.0,
+    0.9800000190734863,
+    0.949999988079071
+   ],
+   "tam": 3.0,
+   "tam_y": 2.5
+  },
+  {
+   "nome": "ceu",
+   "tipo": "AREA",
+   "pos": [
+    0.0,
+    3.0,
+    1.0
+   ],
+   "dir": [
+    0.0,
+    -0.8944,
+    -0.4472
+   ],
+   "w": 80.0,
+   "cor": [
+    0.949999988079071,
+    0.9700000286102295,
+    1.0
+   ],
+   "tam": 4.0,
+   "tam_y": null
+  }
+ ],
+ "mundo": {
+  "cor": [
+   0.6444796919822693,
+   0.6583748459815979,
+   0.68668532371521
+  ],
+  "forca": 0.15000000596046448
+ },
+ "ambiente": [
+  512,
+  256
+ ],
+ "vista": "Standard",
+ "look": "None",
+ "px_por_m": 85.0,
+ "tri": 564,
+ "camera": {
+  "location": [
+   0.25,
+   -0.75,
+   1.35
+  ],
+  "rotation_euler": [
+   0.8726646259971648,
+   0.0,
+   0.0
+  ],
+  "res": [
+   618,
+   422
+  ],
+  "f": 470.0,
+  "cx": 309.0,
+  "cy": 211.0,
+  "medidas": {
+   "A": 2.5,
+   "B": 3.0,
+   "giro": 40
+  },
+  "nota": "a mao (canto do tapete fora do quadro): altura 1,65, olhando 34 graus pra baixo; ajuste pela sobreposicao"
+ }
+}

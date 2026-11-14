@@ -1,0 +1,80 @@
+{
+  "titulo": "Planta pública LIV Ipanema 47,59 m²",
+  "site": "https://www.livonincorporadora.com.br/produtos/liv-ipanema/",
+  "imagem": "../referencias/planta-47-59.jpg",
+  "imagemSha256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971",
+  "tamanhoImagem": [
+    1000,
+    1000
+  ],
+  "registro": {
+    "origemPx": [
+      105,
+      225
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 11,
+    "gradeMm": 50
+  },
+  "areaPublicadaM2": 47.59,
+  "areaContornoNominalAproximadaM2": 47.235,
+  "peDireitoMm": 2700,
+  "limites": [
+    "A planta publicitária não fornece cotas; escala, altura, vãos e dimensões de móveis são aproximações.",
+    "A área nominal entre eixos de paredes não é medição de área útil e não foi deformada para igualar a área publicada.",
+    "Sala TV, jantar, circulação e cozinha formam o contorno integrado observado; varanda e serviço compartilham o mesmo recinto.",
+    "Materiais e móveis usam o catálogo existente do construtor; o desenho público não fornece especificação executiva."
+  ],
+  "construtor": {
+    "modelo": "painel/src/components/construtor-planta/modelo.ts",
+    "editor": "painel/src/components/construtor-planta/editorDocument.ts",
+    "apis": [
+      "iniciar",
+      "aplicar",
+      "documento",
+      "exportar",
+      "exportarMoveis",
+      "exportarEditor",
+      "carregarEditorState"
+    ],
+    "roundTrip": true
+  },
+  "contagens": {
+    "partes": 10,
+    "gruposMesclados": 1,
+    "aberturas": 10,
+    "moveis": 29
+  },
+  "pontosObservados": {
+    "suite": [
+      105,
+      250,
+      349,
+      576
+    ],
+    "dormitorio": [
+      349,
+      250,
+      590,
+      484
+    ],
+    "banhoSuite": [
+      187,
+      576,
+      308,
+      795
+    ],
+    "banhoSocial": [
+      308,
+      576,
+      429,
+      795
+    ],
+    "varandaServico": [
+      590,
+      225,
+      876,
+      362
+    ]
+  }
+}

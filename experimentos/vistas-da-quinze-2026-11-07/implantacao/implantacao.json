@@ -1,0 +1,53 @@
+{
+  "titulo": "Vistas da Quinze · implantação",
+  "imagem": "../../../plantas_fornecidas/vistas-da-quinze/anexos/6c9856b4-c876-4201-9182-e6747503954a.png",
+  "imagemSha256": "12cd22925bef4bb532970d0972866056bd27c3f3a1bb84e44b31b91856808f63",
+  "registro": {
+    "origemGeo": [-22.012203, -47.880943],
+    "origem": "Cruzamento dos eixos da R. Quinze de Novembro (corre leste-oeste) com a R. Major Manoel Antônio de Mattos (norte-sul), OSM ways 94053182 e 906060395. O pino do Google no site oficial cai uma quadra a oeste.",
+    "eixos": "metros; x para leste, z para sul",
+    "imagemPxPorM": 11.77,
+    "imagemReferencia": "Pavimento do lazer com o norte para BAIXO: a esquerda da imagem é o leste. x = 62 - (px - 160)/11,77; z = 47 - (py - 115)/11,77 (quina sudeste da torre em px 160, 115). A escala é a que faz a ala sul (645 px) medir 5 apartamentos T01 + a fundura da ala."
+  },
+  "lote": [[6, 6], [63, 6], [63, 48], [6, 48]],
+  "torre": {
+    "quinaSE": [62, 47],
+    "profundidadeUnidadeM": 5.6,
+    "corredorM": 1.6,
+    "pavimentoLazer": 2,
+    "primeiroAndar": 3,
+    "ultimoAndar": 20,
+    "alturaEmbasamentoM": 9.0,
+    "alturaAndarM": 2.88,
+    "peDireitoM": 2.6,
+    "alas": [
+      {"id": "sul", "rumo": "oeste", "pares": [["01", "02"], ["03", "04"], ["05", "06"], ["07", "08"], ["09", "10"]],
+       "larguraM": 8.4, "tipologia": "T01", "primeiroDegrau": 9,
+       "nota": "Ímpares na face do pátio (norte), pares na face de fora (sul). 01/02 junto do núcleo."},
+      {"id": "leste", "rumo": "norte", "pares": [["11", "12"], ["13", "14"], ["15", "16"], ["17", "18"]],
+       "larguraM": 7.0, "tipologia": "T02", "primeiroDegrau": 15,
+       "nota": "Ímpares na face do pátio (oeste), pares na face de fora (leste). Na imagem a ala tem ~40 m: 4 apartamentos de 7,0 m (T02) + a fundura da ala sul."}
+    ],
+    "degraus": "Cada andar a partir do primeiroDegrau recua a ponta da ala em 1/3 de apartamento (2,8 m na sul, 2,33 m na leste), e o recuo vira o terraço do andar de cima. Confere com a perspectiva: no 20º sobram só 01/02 na sul e 11..14 na leste.",
+    "tipologiaDaPonta": {
+      "corpo4/3": "T04",
+      "corpo3/3": {"impar": "T03", "par": "T05"},
+      "corpo2/3": "T06",
+      "nota": "O par da ponta tem o corpo que sobra até o recuo do andar e o terraço sobre o recuo de baixo. Corpo de 4/3 de apartamento = T04 (roxo na perspectiva), 3/3 = T03/T05 (laranja), 2/3 = T06 (verde). Aproximado: as plantas públicas não dizem qual cor é qual."
+    }
+  },
+  "lazer": [
+    {"nome": "Piscina", "px": [640, 425, 750, 515], "tipo": "piscina"},
+    {"nome": "Deck da piscina", "px": [622, 345, 780, 550], "tipo": "deck"},
+    {"nome": "Academia", "px": [622, 340, 730, 400], "tipo": "edificio", "altura": 3.0},
+    {"nome": "Espaço gourmet", "px": [390, 435, 455, 525], "tipo": "edificio", "altura": 3.0},
+    {"nome": "Playground", "px": [510, 445, 595, 550], "tipo": "piso"},
+    {"nome": "Praça com árvores", "px": [380, 340, 610, 430], "tipo": "piso"},
+    {"nome": "Vestiários (WC)", "px": [510, 290, 690, 330], "tipo": "edificio", "altura": 3.0}
+  ],
+  "limites": [
+    "O lote (57 x 42 m) é o retângulo que contém o L do pavimento do lazer (56 x 39 m na imagem); o desenho do cadastro municipal não foi consultado.",
+    "O embasamento foi tomado como 3 pavimentos de garagem (9,0 m), pelas três faixas escuras de galeria-00; os apartamentos começam no 3º andar, como na numeração.",
+    "Os degraus seguem a regra de 1/3 de apartamento por andar; o desenho real pode ter degraus diferentes nos andares do meio."
+  ]
+}

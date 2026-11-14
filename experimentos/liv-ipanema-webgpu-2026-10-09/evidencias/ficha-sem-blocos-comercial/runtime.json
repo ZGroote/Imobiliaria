@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "physicalMobile": false,
+  "syntheticCommercialOnly": true,
+  "recordedAt": "2026-10-12T00:52:46.166859+00:00",
+  "sources": {
+    "comercial.js": "6edf291bebec42a31c38c8c2809d7f0a543dcfa36e38ee26fafd30aac0a8a6b1",
+    "comercial.json": "a1e20d1e0b6096ed00861a44633a8e9043e59d5f755e3f10d753d94e574c345d",
+    "viewer.js": "0c6552fcf73de8d2224e5683a39b3851ebc497af87bb491923d0ed19b8e8db88",
+    "unit-ui.js": "7aace394f942b08f54754fcaf76adc79de6b4aae6accfba036f5e544a702f1d6",
+    "espelho.js": "70f65a0fc82fe36a418fd0a1a09110a45a6a4b9283218600377255319fc2135f",
+    "maquete-liv-ipanema.html": "c349412aa4b8ef8b408b5841ffae27ffdf297deb44c8689cc3a049fd508e5db9",
+    "unit-ui.css": "5066f8265a8cf83b0d9dcf206587c2063fa6989668520f6be0c3b83d1df18f12",
+    "qa_comercial.py": "801b0a0008c38fe77316024999d1a8e7b4c776d1ea80ae009e29071732836818"
+  },
+  "cases": [
+    {
+      "backendRequested": "webgpu",
+      "touchEmulated": false,
+      "syntheticRecords": 4,
+      "filters": true,
+      "invalidAndHTTPRecovery": true,
+      "textRenderedSafely": true,
+      "sourceFileUnchanged": true,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "backendRequested": "webgl",
+      "touchEmulated": false,
+      "syntheticRecords": 4,
+      "filters": true,
+      "invalidAndHTTPRecovery": true,
+      "textRenderedSafely": true,
+      "sourceFileUnchanged": true,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "backendRequested": "auto",
+      "touchEmulated": true,
+      "syntheticRecords": 4,
+      "filters": true,
+      "invalidAndHTTPRecovery": true,
+      "textRenderedSafely": true,
+      "sourceFileUnchanged": true,
+      "errors": [],
+      "status": "PASS"
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

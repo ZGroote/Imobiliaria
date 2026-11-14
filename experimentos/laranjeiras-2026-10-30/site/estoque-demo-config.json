@@ -1,0 +1,8 @@
+{
+  "schema": "liv-sales-config-v1",
+  "mode": "emulador",
+  "model": "parque-das-laranjeiras",
+  "propertyId": "laranjeiras-demo-disponibilidade",
+  "firebase": { "apiKey": "demo-key", "projectId": "demo-painel" },
+  "emulatorPort": 8180
+}

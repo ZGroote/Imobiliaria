@@ -1,0 +1,95 @@
+{
+  "status": "PASS",
+  "areaNominalM2": 14.64,
+  "registro": {
+    "origemPx": [
+      451,
+      795
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 7.902050256837785,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        451,
+        795,
+        757,
+        1568
+      ]
+    ],
+    "areaCalibracaoM2": 14.77,
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "moveis": [
+    {
+      "id": "m1",
+      "nome": "Cama",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m2",
+      "nome": "Escrivaninha",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m3",
+      "nome": "Armário",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m4",
+      "nome": "Área de banho",
+      "comodos": [
+        "Banho acessível"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m5",
+      "nome": "Vaso",
+      "comodos": [
+        "Banho acessível"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m6",
+      "nome": "Lavatório",
+      "comodos": [
+        "Banho acessível"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m7",
+      "nome": "Tapete",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    }
+  ],
+  "sobreposicoes": [],
+  "vaos": {
+    "portas": 2,
+    "janelas": 2
+  },
+  "conferenciaJPG": "4295a0f5f79e238aa418496a7751e8caefdf71992997999cb0a73988a6a62664",
+  "unidadeSHA256": "b50045f4004220f64d1247d226ed1b7ed1f5cf47574bf1e5855ee69397b9d1ac",
+  "limites": [
+    "Sobreposição na imagem do book; não é conferência executiva.",
+    "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "recordedAtUtc": "2026-10-10T01:56:50.516696+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "limits": "Casos determinísticos aceleram somente o relógio do parent durante download. Slow 4G usa CDP e relógio normal, servidor local sem compressão HTTP. Não mede celular físico ou melhoria de FPS.",
+  "sourceSHA256": {
+    "viewer.js": "f0987028d12ef6155820dc3c2a061e2955ab8bb832ff6285218f5b8ca5b6e5cd",
+    "renderer.js": "a68f6d4935199226d53ee17ba79dc628e997f6fb4f6088f5b9871f16afda2059",
+    "maquete-liv-ipanema.html": "b033d35f19ada1963465187deae928b3f13183f8a397048c0ec56822b1fe4562",
+    "transfers.js": "f73e7fd2bfad24082fb8e34469dcb45316d496cda7f08d97fea43efb0ff70a36",
+    "transfer-worker.js": "33547604b5783c46ab5c0382db02ef383eb043e8cb941975dc8ed9dda677f5cf",
+    "qa_carregamento.py": "4b11e48e1a3699b6509aa365d6713d9c750e06d07cdb124e2423904a372ac7af"
+  },
+  "cases": [
+    {
+      "behavior": "steady",
+      "acceleratedParentClock": true,
+      "errors": [],
+      "repeatedMaqueteDuringDownload": "PASS",
+      "final": {
+        "ready": true,
+        "error": null,
+        "clockMs": 236256.10000240803,
+        "progress": {
+          "version": 66,
+          "phase": "ready",
+          "message": "Maquete carregada"
+        },
+        "iframes": 1
+      },
+      "status": "PASS"
+    },
+    {
+      "behavior": "stall",
+      "acceleratedParentClock": true,
+      "errors": [],
+      "final": {
+        "ready": false,
+        "error": "Error: O visualizador demorou para responder. Tente novamente.",
+        "clockMs": 175923.9999976158,
+        "progress": {
+          "version": 26,
+          "phase": "download",
+          "message": "Baixando a iluminação",
+          "resource": "irradiance.rgbm.gz",
+          "loaded": 0,
+          "total": 13023696
+        },
+        "iframes": 0
+      },
+      "fallback2D": "PASS",
+      "status": "PASS"
+    },
+    {
+      "behavior": "interior-to-tour-before-ready",
+      "status": "PASS",
+      "final": {
+        "ready": true,
+        "error": null,
+        "mode": "visita",
+        "iframes": 1
+      }
+    },
+    {
+      "behavior": "slow4g",
+      "acceleratedParentClock": false,
+      "network": {
+        "latencyMs": 150,
+        "downloadBitsPerSecond": 1600000
+      },
+      "errors": [],
+      "final": {
+        "ready": true,
+        "error": null,
+        "readyMs": 124556.19999992847,
+        "progress": {
+          "version": 7134,
+          "phase": "ready",
+          "message": "Maquete carregada"
+        }
+      },
+      "status": "PASS"
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

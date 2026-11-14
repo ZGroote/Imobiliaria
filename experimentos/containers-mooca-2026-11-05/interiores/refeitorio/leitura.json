@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "containers-mooca-refeitorio",
+  "revision": 10,
+  "unit": "mm",
+  "geometry": "orthogonal-rectangles",
+  "ceilingHeightMm": 2350,
+  "provenance": {
+    "kind": "declared",
+    "referenceIds": []
+  },
+  "references": [],
+  "rooms": [
+    {
+      "id": "c1",
+      "name": "Refeitório",
+      "widthMm": 2400,
+      "depthMm": 6150,
+      "xMm": 0,
+      "yMm": 0,
+      "walls": {
+        "south": "c1-south",
+        "east": "c1-east",
+        "north": "c1-north",
+        "west": "c1-west"
+      },
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ],
+  "relations": [],
+  "openings": [
+    {
+      "id": "a1",
+      "kind": "door",
+      "wallId": "c1-east",
+      "offsetMm": 3750,
+      "widthMm": 850,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a2",
+      "kind": "window",
+      "wallId": "c1-east",
+      "offsetMm": 250,
+      "widthMm": 3150,
+      "heightMm": 1500,
+      "sillMm": 600,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a3",
+      "kind": "window",
+      "wallId": "c1-east",
+      "offsetMm": 4800,
+      "widthMm": 1150,
+      "heightMm": 1500,
+      "sillMm": 600,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    },
+    {
+      "id": "a4",
+      "kind": "window",
+      "wallId": "c1-west",
+      "offsetMm": 1250,
+      "widthMm": 3850,
+      "heightMm": 1200,
+      "sillMm": 1000,
+      "provenance": {
+        "kind": "declared",
+        "referenceIds": []
+      }
+    }
+  ]
+}

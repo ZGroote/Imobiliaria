@@ -1,0 +1,259 @@
+{
+  "eye": 1.65,
+  "radius": 0.19,
+  "ground": 0.59,
+  "upper": 3.71,
+  "stair": {
+    "xmin": -1.2,
+    "xmax": -0.04,
+    "ymin": 1.65,
+    "ymax": 6.35,
+    "rise": 3.12,
+    "steps": 18
+  },
+  "upperFootprint": [
+    -6.48,
+    0.58,
+    0.55,
+    7.26
+  ],
+  "balcony": [
+    -6.36,
+    -1.96,
+    -0.46,
+    0.55
+  ],
+  "rooms": [
+    {
+      "id": "fachada",
+      "name": "Fachada",
+      "floor": 0,
+      "position": [
+        2,
+        -5.5,
+        0.16
+      ],
+      "target": [
+        -1,
+        2,
+        3.0
+      ],
+      "bounds": [
+        -9,
+        8,
+        -5.2,
+        0.55
+      ]
+    },
+    {
+      "id": "sala",
+      "name": "Sala de estar",
+      "floor": 0,
+      "position": [
+        -3.95,
+        1.1,
+        0.59
+      ],
+      "target": [
+        -4.7,
+        4.4,
+        1.4
+      ],
+      "bounds": [
+        -6.48,
+        -3.4,
+        0.6,
+        4.5
+      ]
+    },
+    {
+      "id": "jantar",
+      "name": "Jantar",
+      "floor": 0,
+      "position": [
+        -3.7,
+        6.15,
+        0.59
+      ],
+      "target": [
+        -4.9,
+        5.65,
+        1.2
+      ],
+      "bounds": [
+        -6.48,
+        -3.4,
+        4.5,
+        7.27
+      ]
+    },
+    {
+      "id": "cozinha",
+      "name": "Cozinha",
+      "floor": 0,
+      "position": [
+        -2.0,
+        5.55,
+        0.59
+      ],
+      "target": [
+        -3.0,
+        6.5,
+        1.4
+      ],
+      "bounds": [
+        -3.4,
+        -1.48,
+        4.4,
+        7.27
+      ]
+    },
+    {
+      "id": "lavabo",
+      "name": "Lavabo",
+      "floor": 0,
+      "position": [
+        -0.75,
+        6.1,
+        0.59
+      ],
+      "target": [
+        -0.3,
+        5.6,
+        1.4
+      ],
+      "bounds": [
+        -1.3,
+        0.56,
+        5.24,
+        7.27
+      ]
+    },
+    {
+      "id": "escada",
+      "name": "Escada",
+      "floor": 0,
+      "position": [
+        -0.5,
+        1.3,
+        0.59
+      ],
+      "target": [
+        -0.5,
+        5.6,
+        3.5
+      ],
+      "bounds": [
+        -1.3,
+        0.23,
+        1.6,
+        6.4
+      ]
+    },
+    {
+      "id": "hall",
+      "name": "Hall superior",
+      "floor": 1,
+      "position": [
+        -2.05,
+        1.45,
+        3.71
+      ],
+      "target": [
+        -2.1,
+        3.1,
+        4.3
+      ],
+      "bounds": [
+        -3.14,
+        -1.38,
+        0.55,
+        4.36
+      ]
+    },
+    {
+      "id": "suite",
+      "name": "Suíte",
+      "floor": 1,
+      "position": [
+        -3.64,
+        1.58,
+        3.71
+      ],
+      "target": [
+        -4.9,
+        4.2,
+        4.5
+      ],
+      "bounds": [
+        -6.48,
+        -3.33,
+        0.55,
+        5.6
+      ]
+    },
+    {
+      "id": "escritorio",
+      "name": "Escritório",
+      "floor": 1,
+      "position": [
+        -5.93,
+        6.15,
+        3.71
+      ],
+      "target": [
+        -4.87,
+        6.98,
+        4.6
+      ],
+      "bounds": [
+        -6.48,
+        -3.33,
+        5.6,
+        7.27
+      ]
+    },
+    {
+      "id": "banheiro",
+      "name": "Banheiro",
+      "floor": 1,
+      "position": [
+        -1.95,
+        6.8,
+        3.71
+      ],
+      "target": [
+        -2.3,
+        5.6,
+        4.6
+      ],
+      "bounds": [
+        -3.14,
+        -1.56,
+        4.5,
+        7.27
+      ]
+    },
+    {
+      "id": "varanda",
+      "name": "Varanda",
+      "floor": 1,
+      "position": [
+        -4.15,
+        -0.1,
+        3.71
+      ],
+      "target": [
+        -5.0,
+        1.5,
+        4.5
+      ],
+      "bounds": [
+        -6.36,
+        -1.96,
+        -0.46,
+        0.55
+      ]
+    }
+  ]
+}

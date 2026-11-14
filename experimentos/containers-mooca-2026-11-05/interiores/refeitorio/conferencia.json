@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "areaNominalM2": 14.76,
+  "registro": {
+    "origemPx": [
+      915,
+      1102
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 8.529026136671849,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        915,
+        1102,
+        1197,
+        1822
+      ]
+    ],
+    "areaCalibracaoM2": 14.77,
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "moveis": [
+    {
+      "id": "m1",
+      "nome": "Mesa 1",
+      "comodos": [
+        "Refeitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m2",
+      "nome": "Mesa 2",
+      "comodos": [
+        "Refeitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m3",
+      "nome": "Mesa 3",
+      "comodos": [
+        "Refeitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m4",
+      "nome": "Tapete",
+      "comodos": [
+        "Refeitório"
+      ],
+      "contido": true
+    }
+  ],
+  "sobreposicoes": [],
+  "vaos": {
+    "portas": 1,
+    "janelas": 3
+  },
+  "conferenciaJPG": "9cd762a26fcd49d7c09a68b5cdae7f69cce9a99d869a76371ce29f4ecc08d512",
+  "unidadeSHA256": "70cdebae9e52be97fa4e0cf9485dd8acddb12fa7eb52735e320337399401cdde",
+  "limites": [
+    "Sobreposição na imagem do book; não é conferência executiva.",
+    "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
+  ]
+}

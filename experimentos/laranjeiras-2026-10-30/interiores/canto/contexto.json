@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "propertyId": "laranjeiras-planta-canto-tipo",
+  "agencyId": "referencia-publica-local",
+  "andar": 0,
+  "ficha": {
+    "titulo": "Parque das Laranjeiras · planta tipo canto · 39,12 m²",
+    "empreendimento": "Parque das Laranjeiras",
+    "area_publicada_m2": 39.12,
+    "quartos": 2,
+    "suites": 0,
+    "banheiros": 1,
+    "observacao": "Reconstrução ilustrativa da planta tipo canto (1º ao último pavimento). Medidas inferidas pela área do book; sem final ou unidade comercial atribuídos."
+  },
+  "cores": {
+    "parede": "#E2DED5",
+    "piso_frio": "#B4B5B1",
+    "piso_madeira": "#B89369",
+    "teto": "#F2F0EC"
+  },
+  "lote": {
+    "predio": {
+      "largura_m": 40,
+      "profundidade_m": 15,
+      "pavimentos": 13
+    }
+  }
+}

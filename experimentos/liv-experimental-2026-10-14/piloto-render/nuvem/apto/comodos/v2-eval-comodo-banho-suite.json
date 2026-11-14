@@ -1,0 +1,17 @@
+{
+  "experiment_name": "banho-suite",
+  "method_name": "splatfacto",
+  "checkpoint": "comodo/banho-suite/splatfacto/2026-10-16_023509/nerfstudio_models/step-000029999.ckpt",
+  "results": {
+    "psnr": 38.30653381347656,
+    "psnr_std": 5.973024368286133,
+    "ssim": 1.0042871236801147,
+    "ssim_std": 0.012384533882141113,
+    "lpips": 0.02619038335978985,
+    "lpips_std": 0.013072428293526173,
+    "num_rays_per_sec": 27745392.0,
+    "num_rays_per_sec_std": 4970358.5,
+    "fps": 30.105676651000977,
+    "fps_std": 5.393183708190918
+  }
+}

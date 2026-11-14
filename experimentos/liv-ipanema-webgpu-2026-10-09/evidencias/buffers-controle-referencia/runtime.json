@@ -1,0 +1,1338 @@
+{
+  "status": "PASS",
+  "recordedAtUtc": "2026-10-11T18:21:42.867725+00:00",
+  "method": "Mesmo renderer Git 40317f5 nos dois bra\u00e7os, antes do decoder nativo; contextos descart\u00e1veis sequenciais, base e toque emulado. Instrumenta\u00e7\u00e3o/capturas apenas no QA, sem tempos de abertura.",
+  "physicalMobile": false,
+  "sourceRendererSHA256": "9999d0152dda6e72c3b595f527cc90d52932c23e8bce3aca204e99dee8402a1a",
+  "sourceQASHA256": "a3597b2dcd31de2350770986f8db74f27e4c72eec32cfd8c1ba49490831ecdb0",
+  "cases": [
+    {
+      "round": 1,
+      "maxRgbaDelta": 0,
+      "sourceEqual": true,
+      "arms": [
+        {
+          "initialMemory": {
+            "attributes": 322,
+            "attributesSize": 40970828,
+            "geometries": 57,
+            "indexAttributes": 15,
+            "indexAttributesSize": 96192,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 20,
+            "programsSize": 194014,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 2,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 9,
+            "texturesSize": 104193470,
+            "uniformBuffers": 133,
+            "uniformBuffersSize": 27312,
+            "total": 145481816
+          },
+          "settledMemory": {
+            "attributes": 325,
+            "attributesSize": 40971692,
+            "geometries": 59,
+            "indexAttributes": 16,
+            "indexAttributesSize": 96336,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 24,
+            "programsSize": 201185,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 2,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 9,
+            "texturesSize": 104193470,
+            "uniformBuffers": 137,
+            "uniformBuffersSize": 27824,
+            "total": 145490507
+          },
+          "programInventory": [
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 3842,
+              "sha256": "a5a7091bcf20c73fb3ef3060900c27b1581fe5f34c17543840c4b02f2f21aa61"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 39,
+              "bytes": 1293,
+              "sha256": "4f4d25f43a37d79a1363ff52086980f12201026a3d8289d1e383c223b01bdd5a"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 2,
+              "bytes": 1425,
+              "sha256": "2f329a34f3deb5ed2d3b1015afe4282f816f3899a5a0c847b399cda5c30f7c11"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 10,
+              "bytes": 2568,
+              "sha256": "31a33777c3444ed587e7e89c8a01f4bb516681ecdc30e62df64d330526885062"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 5,
+              "bytes": 2699,
+              "sha256": "c9d9f4faf544b5792f40df9855f1daeb7e2e237ce0eba737e24776a462860039"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 39,
+              "bytes": 2758,
+              "sha256": "d39ea41e9dab94538feeb09cd4228b90a35e17937c07b21e633ae490fca3a4e6"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 10,
+              "bytes": 3709,
+              "sha256": "c6184f542b320fb17facf95d14398d88f0398ce38c2b5e0a0455efc594a269f8"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 2,
+              "bytes": 3006,
+              "sha256": "473ac6e6cbc823284fabd3d6acc4a131ded8e42c646d3aa9e3e59b4f9f238f3e"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 4,
+              "bytes": 3842,
+              "sha256": "cc676d9453eeaeb98ffd17b0a23e61f255bd8c26176d96d2335277e165eadad4"
+            },
+            {
+              "stage": "vertex",
+              "name": "outputColorTransform",
+              "usedTimes": 1,
+              "bytes": 1320,
+              "sha256": "3a242e8d95104b86278c17c948966c33988953ae9302dea4cfff014454363acd"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 1320,
+              "sha256": "27e7adcfe83bf646c0e6b325e8a859a9557467d914504aae1dbc3e769ad7b6ae"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 1717,
+              "sha256": "95411bfb00ceb2606ab3494c7eb8c751f1df22e612a71aee0ae259dbdc7d6fbb"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 32570,
+              "sha256": "0a557cc317b887c9d232e39c4c2738f349eeabe4c568a32e88d3cec61543af5d"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 39,
+              "bytes": 802,
+              "sha256": "fcfa70eeadb3d00818fe2733907c5c8a012a6b2048db1fa2e523911fb4f7cfaa"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 2,
+              "bytes": 1185,
+              "sha256": "28ced8fd134d5b619ae129654eac6a40e579e7443feeb8358da75ed797c9e989"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 10,
+              "bytes": 802,
+              "sha256": "4b8404d29ddcba8478f84b7a9a6eb3828dac53fae7aa1a0d098168e8ffed7a8b"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 5,
+              "bytes": 882,
+              "sha256": "80b879cde2193cc201686291640845c37efa269c7150200a737d60f5e5b6f917"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 39,
+              "bytes": 30865,
+              "sha256": "9dead2f7b8d602473f3e41cec4ea3f2f98c8df511be324e7317cdb095257f2d1"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 10,
+              "bytes": 32438,
+              "sha256": "3945ba27db9ef910f37aa7505389823ad631efa00134ae2cca323fba689dc3e4"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 2,
+              "bytes": 33070,
+              "sha256": "c9530a55d8cb93e9d4ecdd0407c0ef20be99f4bc0398dd2c2e9dbaf3b07f8d2a"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 4,
+              "bytes": 32504,
+              "sha256": "d4ea864ffff7bf8b70c4856e13aa332772a142802997ffc3ea756a7536d81aa6"
+            },
+            {
+              "stage": "fragment",
+              "name": "outputColorTransform",
+              "usedTimes": 1,
+              "bytes": 2434,
+              "sha256": "d4284ffee12b7107830f929f54000f7a1df1e859951b8f8ca0fdebe454dae6e1"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 858,
+              "sha256": "a8b491081337eb7b7ef6f7443cf65de98188af8ecc9379681a54bd3097d7d2ec"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 3276,
+              "sha256": "858c838cb457c6edd076ef33278aeb36e3fe8d06af2d37cc4a254c4013ef3067"
+            }
+          ],
+          "disposed": {
+            "geometry": 56,
+            "material": 51,
+            "atlas": 1,
+            "environment": 1
+          }
+        },
+        {
+          "initialMemory": {
+            "attributes": 322,
+            "attributesSize": 40970828,
+            "geometries": 57,
+            "indexAttributes": 15,
+            "indexAttributesSize": 96192,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 20,
+            "programsSize": 194014,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 2,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 9,
+            "texturesSize": 104193470,
+            "uniformBuffers": 133,
+            "uniformBuffersSize": 27312,
+            "total": 145481816
+          },
+          "settledMemory": {
+            "attributes": 325,
+            "attributesSize": 40971692,
+            "geometries": 59,
+            "indexAttributes": 16,
+            "indexAttributesSize": 96336,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 24,
+            "programsSize": 201185,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 2,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 9,
+            "texturesSize": 104193470,
+            "uniformBuffers": 137,
+            "uniformBuffersSize": 27824,
+            "total": 145490507
+          },
+          "programInventory": [
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 3842,
+              "sha256": "a5a7091bcf20c73fb3ef3060900c27b1581fe5f34c17543840c4b02f2f21aa61"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 39,
+              "bytes": 1293,
+              "sha256": "4f4d25f43a37d79a1363ff52086980f12201026a3d8289d1e383c223b01bdd5a"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 2,
+              "bytes": 1425,
+              "sha256": "2f329a34f3deb5ed2d3b1015afe4282f816f3899a5a0c847b399cda5c30f7c11"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 10,
+              "bytes": 2568,
+              "sha256": "31a33777c3444ed587e7e89c8a01f4bb516681ecdc30e62df64d330526885062"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 5,
+              "bytes": 2699,
+              "sha256": "c9d9f4faf544b5792f40df9855f1daeb7e2e237ce0eba737e24776a462860039"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 39,
+              "bytes": 2758,
+              "sha256": "d39ea41e9dab94538feeb09cd4228b90a35e17937c07b21e633ae490fca3a4e6"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 10,
+              "bytes": 3709,
+              "sha256": "c6184f542b320fb17facf95d14398d88f0398ce38c2b5e0a0455efc594a269f8"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 2,
+              "bytes": 3006,
+              "sha256": "473ac6e6cbc823284fabd3d6acc4a131ded8e42c646d3aa9e3e59b4f9f238f3e"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 4,
+              "bytes": 3842,
+              "sha256": "cc676d9453eeaeb98ffd17b0a23e61f255bd8c26176d96d2335277e165eadad4"
+            },
+            {
+              "stage": "vertex",
+              "name": "outputColorTransform",
+              "usedTimes": 1,
+              "bytes": 1320,
+              "sha256": "3a242e8d95104b86278c17c948966c33988953ae9302dea4cfff014454363acd"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 1320,
+              "sha256": "27e7adcfe83bf646c0e6b325e8a859a9557467d914504aae1dbc3e769ad7b6ae"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 1717,
+              "sha256": "95411bfb00ceb2606ab3494c7eb8c751f1df22e612a71aee0ae259dbdc7d6fbb"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 32570,
+              "sha256": "0a557cc317b887c9d232e39c4c2738f349eeabe4c568a32e88d3cec61543af5d"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 39,
+              "bytes": 802,
+              "sha256": "fcfa70eeadb3d00818fe2733907c5c8a012a6b2048db1fa2e523911fb4f7cfaa"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 2,
+              "bytes": 1185,
+              "sha256": "28ced8fd134d5b619ae129654eac6a40e579e7443feeb8358da75ed797c9e989"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 10,
+              "bytes": 802,
+              "sha256": "4b8404d29ddcba8478f84b7a9a6eb3828dac53fae7aa1a0d098168e8ffed7a8b"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 5,
+              "bytes": 882,
+              "sha256": "80b879cde2193cc201686291640845c37efa269c7150200a737d60f5e5b6f917"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 39,
+              "bytes": 30865,
+              "sha256": "9dead2f7b8d602473f3e41cec4ea3f2f98c8df511be324e7317cdb095257f2d1"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 10,
+              "bytes": 32438,
+              "sha256": "3945ba27db9ef910f37aa7505389823ad631efa00134ae2cca323fba689dc3e4"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 2,
+              "bytes": 33070,
+              "sha256": "c9530a55d8cb93e9d4ecdd0407c0ef20be99f4bc0398dd2c2e9dbaf3b07f8d2a"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 4,
+              "bytes": 32504,
+              "sha256": "d4ea864ffff7bf8b70c4856e13aa332772a142802997ffc3ea756a7536d81aa6"
+            },
+            {
+              "stage": "fragment",
+              "name": "outputColorTransform",
+              "usedTimes": 1,
+              "bytes": 2434,
+              "sha256": "d4284ffee12b7107830f929f54000f7a1df1e859951b8f8ca0fdebe454dae6e1"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 858,
+              "sha256": "a8b491081337eb7b7ef6f7443cf65de98188af8ecc9379681a54bd3097d7d2ec"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 3276,
+              "sha256": "858c838cb457c6edd076ef33278aeb36e3fe8d06af2d37cc4a254c4013ef3067"
+            }
+          ],
+          "disposed": {
+            "geometry": 56,
+            "material": 51,
+            "atlas": 1,
+            "environment": 1
+          }
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "maxRgbaDelta": 0,
+      "sourceEqual": true,
+      "arms": [
+        {
+          "initialMemory": {
+            "attributes": 322,
+            "attributesSize": 40970828,
+            "geometries": 57,
+            "indexAttributes": 15,
+            "indexAttributesSize": 96192,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 20,
+            "programsSize": 194014,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 2,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 9,
+            "texturesSize": 104193470,
+            "uniformBuffers": 133,
+            "uniformBuffersSize": 27312,
+            "total": 145481816
+          },
+          "settledMemory": {
+            "attributes": 325,
+            "attributesSize": 40971692,
+            "geometries": 59,
+            "indexAttributes": 16,
+            "indexAttributesSize": 96336,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 24,
+            "programsSize": 201185,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 2,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 9,
+            "texturesSize": 104193470,
+            "uniformBuffers": 137,
+            "uniformBuffersSize": 27824,
+            "total": 145490507
+          },
+          "programInventory": [
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 3842,
+              "sha256": "a5a7091bcf20c73fb3ef3060900c27b1581fe5f34c17543840c4b02f2f21aa61"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 39,
+              "bytes": 1293,
+              "sha256": "4f4d25f43a37d79a1363ff52086980f12201026a3d8289d1e383c223b01bdd5a"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 2,
+              "bytes": 1425,
+              "sha256": "2f329a34f3deb5ed2d3b1015afe4282f816f3899a5a0c847b399cda5c30f7c11"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 10,
+              "bytes": 2568,
+              "sha256": "31a33777c3444ed587e7e89c8a01f4bb516681ecdc30e62df64d330526885062"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 5,
+              "bytes": 2699,
+              "sha256": "c9d9f4faf544b5792f40df9855f1daeb7e2e237ce0eba737e24776a462860039"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 39,
+              "bytes": 2758,
+              "sha256": "d39ea41e9dab94538feeb09cd4228b90a35e17937c07b21e633ae490fca3a4e6"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 10,
+              "bytes": 3709,
+              "sha256": "c6184f542b320fb17facf95d14398d88f0398ce38c2b5e0a0455efc594a269f8"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 2,
+              "bytes": 3006,
+              "sha256": "473ac6e6cbc823284fabd3d6acc4a131ded8e42c646d3aa9e3e59b4f9f238f3e"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 4,
+              "bytes": 3842,
+              "sha256": "cc676d9453eeaeb98ffd17b0a23e61f255bd8c26176d96d2335277e165eadad4"
+            },
+            {
+              "stage": "vertex",
+              "name": "outputColorTransform",
+              "usedTimes": 1,
+              "bytes": 1320,
+              "sha256": "3a242e8d95104b86278c17c948966c33988953ae9302dea4cfff014454363acd"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 1320,
+              "sha256": "27e7adcfe83bf646c0e6b325e8a859a9557467d914504aae1dbc3e769ad7b6ae"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 1717,
+              "sha256": "95411bfb00ceb2606ab3494c7eb8c751f1df22e612a71aee0ae259dbdc7d6fbb"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 32570,
+              "sha256": "0a557cc317b887c9d232e39c4c2738f349eeabe4c568a32e88d3cec61543af5d"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 39,
+              "bytes": 802,
+              "sha256": "fcfa70eeadb3d00818fe2733907c5c8a012a6b2048db1fa2e523911fb4f7cfaa"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 2,
+              "bytes": 1185,
+              "sha256": "28ced8fd134d5b619ae129654eac6a40e579e7443feeb8358da75ed797c9e989"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 10,
+              "bytes": 802,
+              "sha256": "4b8404d29ddcba8478f84b7a9a6eb3828dac53fae7aa1a0d098168e8ffed7a8b"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 5,
+              "bytes": 882,
+              "sha256": "80b879cde2193cc201686291640845c37efa269c7150200a737d60f5e5b6f917"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 39,
+              "bytes": 30865,
+              "sha256": "9dead2f7b8d602473f3e41cec4ea3f2f98c8df511be324e7317cdb095257f2d1"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 10,
+              "bytes": 32438,
+              "sha256": "3945ba27db9ef910f37aa7505389823ad631efa00134ae2cca323fba689dc3e4"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 2,
+              "bytes": 33070,
+              "sha256": "c9530a55d8cb93e9d4ecdd0407c0ef20be99f4bc0398dd2c2e9dbaf3b07f8d2a"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 4,
+              "bytes": 32504,
+              "sha256": "d4ea864ffff7bf8b70c4856e13aa332772a142802997ffc3ea756a7536d81aa6"
+            },
+            {
+              "stage": "fragment",
+              "name": "outputColorTransform",
+              "usedTimes": 1,
+              "bytes": 2434,
+              "sha256": "d4284ffee12b7107830f929f54000f7a1df1e859951b8f8ca0fdebe454dae6e1"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 858,
+              "sha256": "a8b491081337eb7b7ef6f7443cf65de98188af8ecc9379681a54bd3097d7d2ec"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 3276,
+              "sha256": "858c838cb457c6edd076ef33278aeb36e3fe8d06af2d37cc4a254c4013ef3067"
+            }
+          ],
+          "disposed": {
+            "geometry": 56,
+            "material": 51,
+            "atlas": 1,
+            "environment": 1
+          }
+        },
+        {
+          "initialMemory": {
+            "attributes": 322,
+            "attributesSize": 40970828,
+            "geometries": 57,
+            "indexAttributes": 15,
+            "indexAttributesSize": 96192,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 20,
+            "programsSize": 194014,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 2,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 9,
+            "texturesSize": 104193470,
+            "uniformBuffers": 133,
+            "uniformBuffersSize": 27312,
+            "total": 145481816
+          },
+          "settledMemory": {
+            "attributes": 325,
+            "attributesSize": 40971692,
+            "geometries": 59,
+            "indexAttributes": 16,
+            "indexAttributesSize": 96336,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 24,
+            "programsSize": 201185,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 2,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 9,
+            "texturesSize": 104193470,
+            "uniformBuffers": 137,
+            "uniformBuffersSize": 27824,
+            "total": 145490507
+          },
+          "programInventory": [
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 3842,
+              "sha256": "a5a7091bcf20c73fb3ef3060900c27b1581fe5f34c17543840c4b02f2f21aa61"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 39,
+              "bytes": 1293,
+              "sha256": "4f4d25f43a37d79a1363ff52086980f12201026a3d8289d1e383c223b01bdd5a"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 2,
+              "bytes": 1425,
+              "sha256": "2f329a34f3deb5ed2d3b1015afe4282f816f3899a5a0c847b399cda5c30f7c11"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 10,
+              "bytes": 2568,
+              "sha256": "31a33777c3444ed587e7e89c8a01f4bb516681ecdc30e62df64d330526885062"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 5,
+              "bytes": 2699,
+              "sha256": "c9d9f4faf544b5792f40df9855f1daeb7e2e237ce0eba737e24776a462860039"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 39,
+              "bytes": 2758,
+              "sha256": "d39ea41e9dab94538feeb09cd4228b90a35e17937c07b21e633ae490fca3a4e6"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 10,
+              "bytes": 3709,
+              "sha256": "c6184f542b320fb17facf95d14398d88f0398ce38c2b5e0a0455efc594a269f8"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 2,
+              "bytes": 3006,
+              "sha256": "473ac6e6cbc823284fabd3d6acc4a131ded8e42c646d3aa9e3e59b4f9f238f3e"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 4,
+              "bytes": 3842,
+              "sha256": "cc676d9453eeaeb98ffd17b0a23e61f255bd8c26176d96d2335277e165eadad4"
+            },
+            {
+              "stage": "vertex",
+              "name": "outputColorTransform",
+              "usedTimes": 1,
+              "bytes": 1320,
+              "sha256": "3a242e8d95104b86278c17c948966c33988953ae9302dea4cfff014454363acd"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 1320,
+              "sha256": "27e7adcfe83bf646c0e6b325e8a859a9557467d914504aae1dbc3e769ad7b6ae"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 1717,
+              "sha256": "95411bfb00ceb2606ab3494c7eb8c751f1df22e612a71aee0ae259dbdc7d6fbb"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 32570,
+              "sha256": "0a557cc317b887c9d232e39c4c2738f349eeabe4c568a32e88d3cec61543af5d"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 39,
+              "bytes": 802,
+              "sha256": "fcfa70eeadb3d00818fe2733907c5c8a012a6b2048db1fa2e523911fb4f7cfaa"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 2,
+              "bytes": 1185,
+              "sha256": "28ced8fd134d5b619ae129654eac6a40e579e7443feeb8358da75ed797c9e989"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 10,
+              "bytes": 802,
+              "sha256": "4b8404d29ddcba8478f84b7a9a6eb3828dac53fae7aa1a0d098168e8ffed7a8b"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 5,
+              "bytes": 882,
+              "sha256": "80b879cde2193cc201686291640845c37efa269c7150200a737d60f5e5b6f917"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 39,
+              "bytes": 30865,
+              "sha256": "9dead2f7b8d602473f3e41cec4ea3f2f98c8df511be324e7317cdb095257f2d1"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 10,
+              "bytes": 32438,
+              "sha256": "3945ba27db9ef910f37aa7505389823ad631efa00134ae2cca323fba689dc3e4"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 2,
+              "bytes": 33070,
+              "sha256": "c9530a55d8cb93e9d4ecdd0407c0ef20be99f4bc0398dd2c2e9dbaf3b07f8d2a"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 4,
+              "bytes": 32504,
+              "sha256": "d4ea864ffff7bf8b70c4856e13aa332772a142802997ffc3ea756a7536d81aa6"
+            },
+            {
+              "stage": "fragment",
+              "name": "outputColorTransform",
+              "usedTimes": 1,
+              "bytes": 2434,
+              "sha256": "d4284ffee12b7107830f929f54000f7a1df1e859951b8f8ca0fdebe454dae6e1"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 858,
+              "sha256": "a8b491081337eb7b7ef6f7443cf65de98188af8ecc9379681a54bd3097d7d2ec"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 3276,
+              "sha256": "858c838cb457c6edd076ef33278aeb36e3fe8d06af2d37cc4a254c4013ef3067"
+            }
+          ],
+          "disposed": {
+            "geometry": 56,
+            "material": 51,
+            "atlas": 1,
+            "environment": 1
+          }
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "maxRgbaDelta": 0,
+      "sourceEqual": true,
+      "arms": [
+        {
+          "initialMemory": {
+            "attributes": 322,
+            "attributesSize": 40970828,
+            "geometries": 57,
+            "indexAttributes": 15,
+            "indexAttributesSize": 96192,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 20,
+            "programsSize": 194014,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 2,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 9,
+            "texturesSize": 104193470,
+            "uniformBuffers": 133,
+            "uniformBuffersSize": 27312,
+            "total": 145481816
+          },
+          "settledMemory": {
+            "attributes": 325,
+            "attributesSize": 40971692,
+            "geometries": 59,
+            "indexAttributes": 16,
+            "indexAttributesSize": 96336,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 24,
+            "programsSize": 201185,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 2,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 9,
+            "texturesSize": 104193470,
+            "uniformBuffers": 137,
+            "uniformBuffersSize": 27824,
+            "total": 145490507
+          },
+          "programInventory": [
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 3842,
+              "sha256": "a5a7091bcf20c73fb3ef3060900c27b1581fe5f34c17543840c4b02f2f21aa61"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 39,
+              "bytes": 1293,
+              "sha256": "4f4d25f43a37d79a1363ff52086980f12201026a3d8289d1e383c223b01bdd5a"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 2,
+              "bytes": 1425,
+              "sha256": "2f329a34f3deb5ed2d3b1015afe4282f816f3899a5a0c847b399cda5c30f7c11"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 10,
+              "bytes": 2568,
+              "sha256": "31a33777c3444ed587e7e89c8a01f4bb516681ecdc30e62df64d330526885062"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 5,
+              "bytes": 2699,
+              "sha256": "c9d9f4faf544b5792f40df9855f1daeb7e2e237ce0eba737e24776a462860039"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 39,
+              "bytes": 2758,
+              "sha256": "d39ea41e9dab94538feeb09cd4228b90a35e17937c07b21e633ae490fca3a4e6"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 10,
+              "bytes": 3709,
+              "sha256": "c6184f542b320fb17facf95d14398d88f0398ce38c2b5e0a0455efc594a269f8"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 2,
+              "bytes": 3006,
+              "sha256": "473ac6e6cbc823284fabd3d6acc4a131ded8e42c646d3aa9e3e59b4f9f238f3e"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 4,
+              "bytes": 3842,
+              "sha256": "cc676d9453eeaeb98ffd17b0a23e61f255bd8c26176d96d2335277e165eadad4"
+            },
+            {
+              "stage": "vertex",
+              "name": "outputColorTransform",
+              "usedTimes": 1,
+              "bytes": 1320,
+              "sha256": "3a242e8d95104b86278c17c948966c33988953ae9302dea4cfff014454363acd"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 1320,
+              "sha256": "27e7adcfe83bf646c0e6b325e8a859a9557467d914504aae1dbc3e769ad7b6ae"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 1717,
+              "sha256": "95411bfb00ceb2606ab3494c7eb8c751f1df22e612a71aee0ae259dbdc7d6fbb"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 32570,
+              "sha256": "0a557cc317b887c9d232e39c4c2738f349eeabe4c568a32e88d3cec61543af5d"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 39,
+              "bytes": 802,
+              "sha256": "fcfa70eeadb3d00818fe2733907c5c8a012a6b2048db1fa2e523911fb4f7cfaa"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 2,
+              "bytes": 1185,
+              "sha256": "28ced8fd134d5b619ae129654eac6a40e579e7443feeb8358da75ed797c9e989"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 10,
+              "bytes": 802,
+              "sha256": "4b8404d29ddcba8478f84b7a9a6eb3828dac53fae7aa1a0d098168e8ffed7a8b"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 5,
+              "bytes": 882,
+              "sha256": "80b879cde2193cc201686291640845c37efa269c7150200a737d60f5e5b6f917"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 39,
+              "bytes": 30865,
+              "sha256": "9dead2f7b8d602473f3e41cec4ea3f2f98c8df511be324e7317cdb095257f2d1"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 10,
+              "bytes": 32438,
+              "sha256": "3945ba27db9ef910f37aa7505389823ad631efa00134ae2cca323fba689dc3e4"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 2,
+              "bytes": 33070,
+              "sha256": "c9530a55d8cb93e9d4ecdd0407c0ef20be99f4bc0398dd2c2e9dbaf3b07f8d2a"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 4,
+              "bytes": 32504,
+              "sha256": "d4ea864ffff7bf8b70c4856e13aa332772a142802997ffc3ea756a7536d81aa6"
+            },
+            {
+              "stage": "fragment",
+              "name": "outputColorTransform",
+              "usedTimes": 1,
+              "bytes": 2434,
+              "sha256": "d4284ffee12b7107830f929f54000f7a1df1e859951b8f8ca0fdebe454dae6e1"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 858,
+              "sha256": "a8b491081337eb7b7ef6f7443cf65de98188af8ecc9379681a54bd3097d7d2ec"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 3276,
+              "sha256": "858c838cb457c6edd076ef33278aeb36e3fe8d06af2d37cc4a254c4013ef3067"
+            }
+          ],
+          "disposed": {
+            "geometry": 56,
+            "material": 51,
+            "atlas": 1,
+            "environment": 1
+          }
+        },
+        {
+          "initialMemory": {
+            "attributes": 322,
+            "attributesSize": 40970828,
+            "geometries": 57,
+            "indexAttributes": 15,
+            "indexAttributesSize": 96192,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 18,
+            "programsSize": 157602,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 2,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 9,
+            "texturesSize": 104193470,
+            "uniformBuffers": 133,
+            "uniformBuffersSize": 27312,
+            "total": 145445404
+          },
+          "settledMemory": {
+            "attributes": 325,
+            "attributesSize": 40971692,
+            "geometries": 59,
+            "indexAttributes": 16,
+            "indexAttributesSize": 96336,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 22,
+            "programsSize": 164773,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 2,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 9,
+            "texturesSize": 104193470,
+            "uniformBuffers": 137,
+            "uniformBuffersSize": 27824,
+            "total": 145454095
+          },
+          "programInventory": [
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 39,
+              "bytes": 1293,
+              "sha256": "4f4d25f43a37d79a1363ff52086980f12201026a3d8289d1e383c223b01bdd5a"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 2,
+              "bytes": 1425,
+              "sha256": "2f329a34f3deb5ed2d3b1015afe4282f816f3899a5a0c847b399cda5c30f7c11"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 10,
+              "bytes": 2568,
+              "sha256": "31a33777c3444ed587e7e89c8a01f4bb516681ecdc30e62df64d330526885062"
+            },
+            {
+              "stage": "vertex",
+              "name": "ShadowMaterial",
+              "usedTimes": 5,
+              "bytes": 2699,
+              "sha256": "c9d9f4faf544b5792f40df9855f1daeb7e2e237ce0eba737e24776a462860039"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 39,
+              "bytes": 2758,
+              "sha256": "d39ea41e9dab94538feeb09cd4228b90a35e17937c07b21e633ae490fca3a4e6"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 10,
+              "bytes": 3709,
+              "sha256": "c6184f542b320fb17facf95d14398d88f0398ce38c2b5e0a0455efc594a269f8"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 2,
+              "bytes": 3006,
+              "sha256": "473ac6e6cbc823284fabd3d6acc4a131ded8e42c646d3aa9e3e59b4f9f238f3e"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 5,
+              "bytes": 3842,
+              "sha256": "cc676d9453eeaeb98ffd17b0a23e61f255bd8c26176d96d2335277e165eadad4"
+            },
+            {
+              "stage": "vertex",
+              "name": "outputColorTransform",
+              "usedTimes": 1,
+              "bytes": 1320,
+              "sha256": "3a242e8d95104b86278c17c948966c33988953ae9302dea4cfff014454363acd"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 1320,
+              "sha256": "27e7adcfe83bf646c0e6b325e8a859a9557467d914504aae1dbc3e769ad7b6ae"
+            },
+            {
+              "stage": "vertex",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 1717,
+              "sha256": "95411bfb00ceb2606ab3494c7eb8c751f1df22e612a71aee0ae259dbdc7d6fbb"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 39,
+              "bytes": 802,
+              "sha256": "fcfa70eeadb3d00818fe2733907c5c8a012a6b2048db1fa2e523911fb4f7cfaa"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 2,
+              "bytes": 1185,
+              "sha256": "28ced8fd134d5b619ae129654eac6a40e579e7443feeb8358da75ed797c9e989"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 10,
+              "bytes": 802,
+              "sha256": "4b8404d29ddcba8478f84b7a9a6eb3828dac53fae7aa1a0d098168e8ffed7a8b"
+            },
+            {
+              "stage": "fragment",
+              "name": "ShadowMaterial",
+              "usedTimes": 5,
+              "bytes": 882,
+              "sha256": "80b879cde2193cc201686291640845c37efa269c7150200a737d60f5e5b6f917"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 39,
+              "bytes": 30865,
+              "sha256": "9dead2f7b8d602473f3e41cec4ea3f2f98c8df511be324e7317cdb095257f2d1"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 10,
+              "bytes": 32438,
+              "sha256": "3945ba27db9ef910f37aa7505389823ad631efa00134ae2cca323fba689dc3e4"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 2,
+              "bytes": 33070,
+              "sha256": "c9530a55d8cb93e9d4ecdd0407c0ef20be99f4bc0398dd2c2e9dbaf3b07f8d2a"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 5,
+              "bytes": 32504,
+              "sha256": "d4ea864ffff7bf8b70c4856e13aa332772a142802997ffc3ea756a7536d81aa6"
+            },
+            {
+              "stage": "fragment",
+              "name": "outputColorTransform",
+              "usedTimes": 1,
+              "bytes": 2434,
+              "sha256": "d4284ffee12b7107830f929f54000f7a1df1e859951b8f8ca0fdebe454dae6e1"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 858,
+              "sha256": "a8b491081337eb7b7ef6f7443cf65de98188af8ecc9379681a54bd3097d7d2ec"
+            },
+            {
+              "stage": "fragment",
+              "name": "",
+              "usedTimes": 1,
+              "bytes": 3276,
+              "sha256": "858c838cb457c6edd076ef33278aeb36e3fe8d06af2d37cc4a254c4013ef3067"
+            }
+          ],
+          "disposed": {
+            "geometry": 56,
+            "material": 51,
+            "atlas": 1,
+            "environment": 1
+          }
+        }
+      ]
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

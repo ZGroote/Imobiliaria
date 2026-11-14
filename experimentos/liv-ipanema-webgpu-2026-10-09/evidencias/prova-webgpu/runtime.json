@@ -1,0 +1,814 @@
+{
+  "recordedAtUtc": "2026-10-09T18:55:59.636482+00:00",
+  "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html",
+  "headless": true,
+  "physicalMobile": false,
+  "cases": [
+    {
+      "requestedBackend": "webgl",
+      "viewport": [
+        1440,
+        900
+      ],
+      "mobileEmulated": false,
+      "status": "PASS",
+      "errors": [],
+      "httpFailures": [],
+      "views": {
+        "perspectiva": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            118.78881998479889,
+            95.31661635989266,
+            174.24309480212509
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 101,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "fachada": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -4.72349386674785,
+            39.45943234526645,
+            161.8552672280615
+          ],
+          "target": [
+            7.857688249161878,
+            34.5119119747705,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 193,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "aerea": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            176.26165187068918,
+            164.63631413116494,
+            101.52596279914643
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 282,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "portaria": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -15.780087894668128,
+            27.370915855145284,
+            84.80716327938198
+          ],
+          "target": [
+            -6,
+            25,
+            10
+          ],
+          "renderInfo": {
+            "calls": 374,
+            "frameCalls": 3,
+            "drawCalls": 105,
+            "triangles": 882437,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "implantacao": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            7.857688249161877,
+            325.80250015839835,
+            4.926432215483229
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 466,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        }
+      },
+      "initial": {
+        "backend": "webgl",
+        "revision": null,
+        "gpu": null,
+        "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "meshes": 56,
+        "baked": 41,
+        "instances": 814,
+        "camera": [
+          102.20344276129471,
+          71.5246752481556,
+          148.9284168158305
+        ],
+        "target": [
+          7.857689240089097,
+          12.403655109229389,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "calls": 30,
+          "frameCalls": 3,
+          "drawCalls": 113,
+          "triangles": 883243,
+          "points": 0,
+          "lines": 0,
+          "timestamp": 0
+        }
+      },
+      "orbitChanged": true,
+      "pngBytes": 361318
+    },
+    {
+      "requestedBackend": "webgl",
+      "viewport": [
+        390,
+        844
+      ],
+      "mobileEmulated": true,
+      "status": "PASS",
+      "errors": [],
+      "httpFailures": [],
+      "views": {
+        "perspectiva": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            118.78881998479889,
+            95.31661635989266,
+            174.24309480212509
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 110,
+            "frameCalls": 3,
+            "drawCalls": 108,
+            "triangles": 882717,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "fachada": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -4.72349386674785,
+            39.45943234526645,
+            161.8552672280615
+          ],
+          "target": [
+            7.857688249161878,
+            34.5119119747705,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 199,
+            "frameCalls": 3,
+            "drawCalls": 108,
+            "triangles": 882717,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "aerea": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            176.26165187068918,
+            164.63631413116494,
+            101.52596279914643
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 291,
+            "frameCalls": 3,
+            "drawCalls": 110,
+            "triangles": 882835,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "portaria": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -15.780087894668128,
+            27.370915855145284,
+            84.80716327938198
+          ],
+          "target": [
+            -6,
+            25,
+            10
+          ],
+          "renderInfo": {
+            "calls": 383,
+            "frameCalls": 3,
+            "drawCalls": 100,
+            "triangles": 866353,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "implantacao": {
+          "backend": "webgl",
+          "revision": null,
+          "gpu": null,
+          "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            7.857688249161877,
+            325.80250015839835,
+            4.926432215483229
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 478,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        }
+      },
+      "initial": {
+        "backend": "webgl",
+        "revision": null,
+        "gpu": null,
+        "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "meshes": 56,
+        "baked": 41,
+        "instances": 814,
+        "camera": [
+          102.20344276129471,
+          71.5246752481556,
+          148.9284168158305
+        ],
+        "target": [
+          7.857689240089097,
+          12.403655109229389,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "calls": 27,
+          "frameCalls": 3,
+          "drawCalls": 107,
+          "triangles": 882613,
+          "points": 0,
+          "lines": 0,
+          "timestamp": 0
+        }
+      },
+      "orbitChanged": true,
+      "pngBytes": 279568
+    },
+    {
+      "requestedBackend": "webgpu",
+      "viewport": [
+        1440,
+        900
+      ],
+      "mobileEmulated": false,
+      "status": "PASS",
+      "errors": [],
+      "httpFailures": [],
+      "views": {
+        "perspectiva": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            118.78881998479889,
+            95.31661635989266,
+            174.24309480212509
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 92,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "fachada": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -4.72349386674785,
+            39.45943234526645,
+            161.8552672280615
+          ],
+          "target": [
+            7.857688249161878,
+            34.5119119747705,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 181,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "aerea": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            176.26165187068918,
+            164.63631413116494,
+            101.52596279914643
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 273,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "portaria": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -15.780087894668128,
+            27.370915855145284,
+            84.80716327938198
+          ],
+          "target": [
+            -6,
+            25,
+            10
+          ],
+          "renderInfo": {
+            "calls": 356,
+            "frameCalls": 3,
+            "drawCalls": 105,
+            "triangles": 882437,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "implantacao": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            7.857688249161877,
+            325.80250015839835,
+            4.926432215483229
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 448,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        }
+      },
+      "initial": {
+        "backend": "webgpu",
+        "revision": null,
+        "gpu": {
+          "vendor": "nvidia",
+          "architecture": "turing",
+          "device": "",
+          "description": "",
+          "isFallbackAdapter": false
+        },
+        "webglRenderer": null,
+        "meshes": 56,
+        "baked": 41,
+        "instances": 814,
+        "camera": [
+          102.20344276129471,
+          71.5246752481556,
+          148.9284168158305
+        ],
+        "target": [
+          7.857689240089097,
+          12.403655109229389,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "calls": 27,
+          "frameCalls": 3,
+          "drawCalls": 113,
+          "triangles": 883243,
+          "points": 0,
+          "lines": 0,
+          "timestamp": 0
+        }
+      },
+      "orbitChanged": true,
+      "pngBytes": 362211
+    },
+    {
+      "requestedBackend": "webgpu",
+      "viewport": [
+        390,
+        844
+      ],
+      "mobileEmulated": true,
+      "status": "PASS",
+      "errors": [],
+      "httpFailures": [],
+      "views": {
+        "perspectiva": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            118.78881998479889,
+            95.31661635989266,
+            174.24309480212509
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 98,
+            "frameCalls": 3,
+            "drawCalls": 108,
+            "triangles": 882717,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "fachada": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -4.72349386674785,
+            39.45943234526645,
+            161.8552672280615
+          ],
+          "target": [
+            7.857688249161878,
+            34.5119119747705,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 184,
+            "frameCalls": 3,
+            "drawCalls": 108,
+            "triangles": 882717,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "aerea": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            176.26165187068918,
+            164.63631413116494,
+            101.52596279914643
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 270,
+            "frameCalls": 3,
+            "drawCalls": 110,
+            "triangles": 882835,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "portaria": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            -15.780087894668128,
+            27.370915855145284,
+            84.80716327938198
+          ],
+          "target": [
+            -6,
+            25,
+            10
+          ],
+          "renderInfo": {
+            "calls": 353,
+            "frameCalls": 3,
+            "drawCalls": 100,
+            "triangles": 866353,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        },
+        "implantacao": {
+          "backend": "webgpu",
+          "revision": null,
+          "gpu": {
+            "vendor": "nvidia",
+            "architecture": "turing",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          },
+          "webglRenderer": null,
+          "meshes": 56,
+          "baked": 41,
+          "instances": 814,
+          "camera": [
+            7.857688249161877,
+            325.80250015839835,
+            4.926432215483229
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ],
+          "renderInfo": {
+            "calls": 442,
+            "frameCalls": 3,
+            "drawCalls": 113,
+            "triangles": 883243,
+            "points": 0,
+            "lines": 0,
+            "timestamp": 0
+          }
+        }
+      },
+      "initial": {
+        "backend": "webgpu",
+        "revision": null,
+        "gpu": {
+          "vendor": "nvidia",
+          "architecture": "turing",
+          "device": "",
+          "description": "",
+          "isFallbackAdapter": false
+        },
+        "webglRenderer": null,
+        "meshes": 56,
+        "baked": 41,
+        "instances": 814,
+        "camera": [
+          102.20344276129471,
+          71.5246752481556,
+          148.9284168158305
+        ],
+        "target": [
+          7.857689240089097,
+          12.403655109229389,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "calls": 27,
+          "frameCalls": 3,
+          "drawCalls": 107,
+          "triangles": 882613,
+          "points": 0,
+          "lines": 0,
+          "timestamp": 0
+        }
+      },
+      "orbitChanged": true,
+      "pngBytes": 279289
+    }
+  ],
+  "status": "PASS",
+  "browserVersion": "154.0.8037.98"
+}

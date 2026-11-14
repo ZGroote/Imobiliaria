@@ -1,0 +1,193 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Peça no navegador</title>
+<style>html,body{margin:0;background:#000}canvas{display:block}</style>
+<canvas id="c"></canvas>
+<!-- o MESMO three do app (r168, build proprio) -->
+<script src="../../v1.5/renderizador-v16-moveis/lib/three.min.js"></script>
+<script>
+// Peca exportada (exporta.py + prep.py) com a camera da foto e as luzes da cena do Cycles.
+//   ?peca=cozinha&modo=A|B|B0|BN  (A textura unica + relevo assado; B compartilhado + AO; B0 sem AO;
+//   BN = B + relevo assado da malha alta)
+//   t=512 (textura da peca) tm=1024 (material compartilhado) fmt=avif|webp tom=none|aces|agx
+//   fa=fator area->direcional fw=fator do mundo ao=intensidade do aoMap x=exposicao amb=0 (sem cenario)
+const P = new URLSearchParams(location.search);
+const num = (k, d) => (P.has(k) ? +P.get(k) : d);
+const PECA = P.get("peca") || "cozinha", MODO = P.get("modo") || "B";
+const T = num("t", 1024), TM = num("tm", 1024), FMT = P.get("fmt") || "avif";
+const BASE = "web/" + PECA + "/";
+(async () => {
+  const J = await (await fetch(BASE + "peca.json")).json();
+  const bin = await (await fetch(BASE + "geo.bin")).arrayBuffer();
+  const C = J.camera, [IW, IH] = C.res, K = num("escala", 2), W = IW * K, H = IH * K;
+  const cv = document.getElementById("c");
+  const ren = new THREE.WebGLRenderer({ canvas: cv, antialias: true, preserveDrawingBuffer: true });
+  ren.setPixelRatio(1);
+  ren.setSize(W, H, false);
+  ren.outputColorSpace = THREE.SRGBColorSpace;
+  const tom = P.get("tom") || (J.vista === "Standard" ? "none" : "agx");
+  ren.toneMapping = { none: THREE.NoToneMapping, aces: THREE.ACESFilmicToneMapping, agx: THREE.AgXToneMapping }[tom];
+  ren.toneMappingExposure = num("x", 1.0);
+  ren.shadowMap.enabled = true;
+  ren.shadowMap.type = THREE.PCFSoftShadowMap;
+  const cena = new THREE.Scene();
+  window.__cena = cena;                  // inspecao (sondas)
+  const srgb = (c) => new THREE.Color().setRGB(c[0] / 255, c[1] / 255, c[2] / 255, THREE.SRGBColorSpace);
+  const bytes = { geo: bin.byteLength, tex: 0 };
+  const tex = (url, cor, canal = 0, repete = false) => new Promise((ok, erro) => fetch(url).then((r) => {
+    if (!r.ok) throw Error(url + " " + r.status);
+    return r.blob();
+  }).then((b) => { bytes.tex += b.size; return createImageBitmap(b, { imageOrientation: "flipY" }); }).then((bmp) => {
+    const t = new THREE.Texture(bmp);
+    t.flipY = false;
+    t.colorSpace = cor ? THREE.SRGBColorSpace : THREE.NoColorSpace;
+    t.channel = canal;
+    if (repete) t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.anisotropy = 8;
+    t.needsUpdate = true;
+    ok(t);
+  }).catch(erro));
+  const aoB = MODO !== "B0" ? await tex(BASE + "ao-" + num("tao", 512) + "." + FMT, false, 1) : null;
+  const unica = MODO === "A" ? await tex(BASE + "unica-" + T + "." + FMT, true, 1) : null;
+  // relevo unico: A e BN (= B + ruga assada); ?rel=0 desliga
+  const relevoU = (MODO === "A" || MODO === "BN") && P.get("rel") !== "0"
+    ? await tex(BASE + "relevo-" + num("trel", T) + "." + FMT, false, 1).catch(() => null) : null;
+  const cacheTex = {};
+  const compart = (nome, cor) => cacheTex[nome] || (cacheTex[nome] = tex("web/materiais/" + nome + "-" + TM + "." + FMT, cor, 0, true));
+  let tris = 0;
+  for (const g of J.grupos) {
+    const m = J.materiais[g.material];
+    const geo = new THREE.BufferGeometry();
+    // formato 2 (exporta.py): 12 bits em diferenca do vertice anterior; indice em diferenca zigzag
+    const soma = (src, n, c) => { const o = new Float32Array(n * c), a = new Int32Array(c);
+      for (let i = 0; i < n * c; i++) { const k = i % c; a[k] = (a[k] + src[i]) & 0xffff; o[i] = a[k]; } return o; };
+    const p = soma(new Int16Array(bin, g.pos, g.nv * 3), g.nv, 3);
+    for (let i = 0; i < p.length; i++) { const k = i % 3; p[i] = g.min[k] + p[i] / g.q * (g.max[k] - g.min[k]); }
+    geo.setAttribute("position", new THREE.BufferAttribute(p, 3));
+    geo.setAttribute("normal", new THREE.InterleavedBufferAttribute(new THREE.InterleavedBuffer(new Int8Array(bin, g.nor, g.nv * 4), 4), 3, 0, true));
+    const u = soma(new Int16Array(bin, g.uv, g.nv * 2), g.nv, 2);
+    for (let i = 0; i < u.length; i++) { const k = i % 2; u[i] = g.uvmin[k] + u[i] / g.q * (g.uvmax[k] - g.uvmin[k]); }
+    geo.setAttribute("uv", new THREE.BufferAttribute(u, 2));
+    const u2 = soma(new Int16Array(bin, g.uv2, g.nv * 2), g.nv, 2);
+    for (let i = 0; i < u2.length; i++) u2[i] /= g.q;
+    geo.setAttribute("uv1", new THREE.BufferAttribute(u2, 2));
+    // tangente do Blender (MikkTSpace da UV do atlas): sem ela o three monta a base por triangulo
+    // (derivada de tela) e a malha decimada aparece facetada mesmo com o relevo assado
+    if (g.tan !== undefined && relevoU && P.get("tan") !== "0")
+      geo.setAttribute("tangent", new THREE.BufferAttribute(new Int8Array(bin, g.tan, g.nv * 4), 4, true));
+    const zz = g.i32 ? new Uint32Array(bin, g.idx, g.ni) : new Uint16Array(bin, g.idx, g.ni);
+    const ix = g.nv > 65535 ? new Uint32Array(g.ni) : new Uint16Array(g.ni);
+    for (let i = 0, a = 0; i < g.ni; i++) { const z = zz[i]; a += (z >>> 1) ^ -(z & 1); ix[i] = a; }
+    geo.setIndex(new THREE.BufferAttribute(ix, 1));
+    tris += g.ni / 3;
+    // especular baixo (melamina fosca) so existe no Physical; o Standard fixa F0 = 4%
+    const mat = (m.spec ?? 0.5) !== 0.5 ? new THREE.MeshPhysicalMaterial({ roughness: m.rough, metalness: m.metal, specularIntensity: m.spec * 2 })
+      : new THREE.MeshStandardMaterial({ roughness: m.rough, metalness: m.metal });
+    const metal = m.metal > 0.5;
+    // A: cor+AO da peca (metal nao tem cor difusa: fica com a cor de material, como na B)
+    const unicaAqui = MODO === "A" && !metal;
+    if (unicaAqui) {
+      mat.map = unica;
+    } else if (m.tex) {
+      mat.map = await compart(m.tex + "-cor", true);
+      if ((m.escala ?? 1) !== 1) mat.map.repeat.setScalar(1 / m.escala);
+      mat.color.setRGB(m.tinta[0], m.tinta[1], m.tinta[2], THREE.LinearSRGBColorSpace);
+      if (m.relevo && !relevoU && !P.get("sem_relevo")) {
+        mat.normalMap = await compart(m.tex + "-nor", false);
+        if ((m.escala ?? 1) !== 1) mat.normalMap.repeat.setScalar(1 / m.escala);
+        mat.normalScale.setScalar(m.relevo);
+      }
+    } else {
+      mat.color.copy(srgb(m.cor));
+    }
+    // relevo assado da malha ALTA (ruga do pano, chanfro) -- ja traz o relevo do material dentro
+    if (relevoU && !metal) { mat.normalMap = relevoU; mat.normalScale.setScalar(num("rs", 1.0)); }
+    if (!unicaAqui && aoB) { mat.aoMap = aoB; mat.aoMapIntensity = num("ao", 1.0); }
+    if (m.emissao) { mat.emissive.copy(srgb(m.cor)); mat.emissiveIntensity = m.emissao; }
+    if ((m.alpha ?? 1) < 1) { mat.transparent = true; mat.opacity = m.alpha; mat.depthWrite = false; }
+        if (m.duplo) mat.side = THREE.DoubleSide;
+    const me = new THREE.Mesh(geo, mat);
+    me.castShadow = me.receiveShadow = true;
+    cena.add(me);
+  }
+  // ---- cenario (parede, piso...) com cor lisa: so pra comparar, nao conta no peso
+  if (P.get("amb") !== "0") {
+    const visivel = (o) => !/softbox|teto_estudio/.test(o.nome);
+    const ab = await (await fetch(BASE + "amb.bin")).arrayBuffer();
+    for (const o of J.amb) {
+      if (!visivel(o)) continue;
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(ab, o.pos, o.n * 3), 3));
+      geo.setAttribute("normal", new THREE.BufferAttribute(new Float32Array(ab, o.nor, o.n * 3), 3));
+      const m = J.amb_materiais[o.material];
+      const mat = new THREE.MeshStandardMaterial({ color: srgb(m.cor), roughness: m.rough, metalness: m.metal });
+      if (m.emissao) { mat.emissive.copy(srgb(m.cor)); mat.emissiveIntensity = m.emissao; }
+      const me = new THREE.Mesh(geo, mat);
+      me.receiveShadow = true;
+      cena.add(me);
+    }
+  }
+  // ---- camera da foto: f e centro otico (cx, cy) em px; inclinacao = 90 graus - rotacao X do Blender.
+  // `ortho` (fogao): ortografica, quadro centrado na posicao.
+  const yaw = C.rotation_euler[2], L = C.location, incl = Math.PI / 2 - C.rotation_euler[0];
+  const dir = new THREE.Vector3(-Math.sin(yaw) * Math.cos(incl), -Math.sin(incl), -Math.cos(yaw) * Math.cos(incl));
+  let cam;
+  if (C.ortho) {
+    const w2 = C.ortho / 2, h2 = w2 * IH / IW;
+    cam = new THREE.OrthographicCamera(-w2, w2, h2, -h2, 0.05, 60);
+  } else {
+    cam = new THREE.PerspectiveCamera(2 * Math.atan(IH / 2 / C.f) * 180 / Math.PI, IW / IH, 0.05, 60);
+  }
+  cam.position.set(L[0], L[2], -L[1]);
+  cam.lookAt(cam.position.clone().add(dir));
+  window.__cam = cam;                    // inspecao (sondas)
+  // janela deslocada: o centro otico vai pra (cx, cy) do quadro (a ortografica ja vem centrada)
+  if (!C.ortho) cam.setViewOffset(W, H, (W / 2 - C.cx * K), (H / 2 - C.cy * K), W, H);
+  // ---- luzes do Cycles: area -> direcional com E = P/(pi d^2) (emissor lambertiano no eixo)
+  const box = new THREE.Box3().setFromObject(cena.children.find((o) => o.isMesh));
+  for (const g of cena.children) if (g.isMesh && g.castShadow) box.expandByObject(g);
+  const centro = box.getCenter(new THREE.Vector3());
+  for (const l of J.luzes) {
+    const pos = new THREE.Vector3(...l.pos), d = pos.distanceTo(centro);
+    const cor = new THREE.Color(l.cor[0], l.cor[1], l.cor[2]);
+    if (l.tipo === "AREA" || l.tipo === "SUN") {
+      const dl = new THREE.DirectionalLight(cor, l.w / (Math.PI * d * d) * num("fa", 1.0));
+      dl.position.copy(pos);
+      dl.target.position.copy(pos.clone().add(new THREE.Vector3(...l.dir)));
+      dl.castShadow = l.nome === (P.get("sombra") || l.nome);
+      dl.shadow.mapSize.set(2048, 2048);
+      dl.shadow.radius = 6;
+      Object.assign(dl.shadow.camera, { left: -3, right: 3, top: 3, bottom: -3, near: 0.2, far: 12 });
+      dl.shadow.bias = -0.0003;
+      dl.shadow.normalBias = 0.01;
+      cena.add(dl, dl.target);
+    } else {
+      const pl = new THREE.PointLight(cor, l.w / (4 * Math.PI) * num("fp", 1.0), 0, 2);
+      pl.position.copy(pos);
+      cena.add(pl);
+    }
+  }
+  const pm = new THREE.PMREMGenerator(ren);
+  if (J.ambiente && P.get("panorama") !== "0") {
+    // o estudio do Cycles visto do centro da peca (exporta.py): reflexo de metal igual
+    const buf = await (await fetch(BASE + "ambiente.bin")).arrayBuffer();
+    const t = new THREE.DataTexture(new Uint16Array(buf), J.ambiente[0], J.ambiente[1], THREE.RGBAFormat, THREE.HalfFloatType);
+    t.mapping = THREE.EquirectangularReflectionMapping;
+    t.needsUpdate = true;
+    cena.environment = pm.fromEquirectangular(t).texture;
+    cena.environmentIntensity = num("fw", 1.0);
+  } else {
+    const amb = new THREE.Scene();
+    amb.background = new THREE.Color(J.mundo.cor[0], J.mundo.cor[1], J.mundo.cor[2]);
+    cena.environment = pm.fromScene(amb).texture;
+    cena.environmentIntensity = J.mundo.forca * num("fw", 1.0);
+  }
+  cena.background = new THREE.Color(P.get("fundo") || "#000");
+  await new Promise((r) => setTimeout(r, 50));
+  const t0 = performance.now();
+  ren.render(cena, cam);
+  window.INFO = { modo: MODO, tom, calls: ren.info.render.calls, tris, bytes,
+                  ms: Math.round(performance.now() - t0) };
+  window.PRONTO = true;
+})().catch((e) => { window.ERRO = String(e.stack || e); window.PRONTO = true; });
+</script>

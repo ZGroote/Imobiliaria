@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "physicalMobile": false,
+  "recordedAt": "2026-10-11T21:29:23.915581+00:00",
+  "sources": {
+    "ambiencia.js": "ac5a369bdc15d6748eb693d1d5275f25a326ec3a72ea4b822ff9dbe3f8d68a59",
+    "ambiencia-perfis.js": "7e2756780faa481d8bc6ab4342acbbef3de4256c2c72de6a6c4156b784177f28",
+    "renderer.js": "e16ce0fef1afb4951d7f27e29956482d8a1c88fe9bad1e708180eeda037c2e1f",
+    "viewer.js": "652a30f12a82d2cccb6c5fc82fbdc344b7f80879b00eda15d51a3a5e40864712",
+    "mapa-retorno.js": "5e3fd7cc348b52a12803defa37b3be15d9a2d18b01ee7a6b5f328605048a2721",
+    "maquete-liv-ipanema.html": "2623a6014732e1685b9ecb5ebd0afec552eccaefa45f775b52d76e1d09ac32ca",
+    "qa_ambiencia.py": "9f0b087314233e93f613bc8c1383e7c45d1e71d6c48b2f242493f23c204d1fd7"
+  },
+  "cases": [
+    {
+      "backendRequested": "webgpu",
+      "touchEmulated": false,
+      "errors": [],
+      "views": [
+        {
+          "view": "perspectiva",
+          "meanRgbaChange": 177.2879750547388,
+          "restoredMaxDelta": 0
+        },
+        {
+          "view": "varandas",
+          "meanRgbaChange": 28.18794768533,
+          "restoredMaxDelta": 0
+        },
+        {
+          "view": "acesso",
+          "meanRgbaChange": 92.58102860103222,
+          "restoredMaxDelta": 0
+        }
+      ],
+      "backendEffective": "webgpu",
+      "shadowUpdatesOnChange": 0,
+      "additionalAtlasOrEnvironmentDownloads": 0,
+      "uniformChangeMs": 45.300000071525574,
+      "status": "PASS"
+    },
+    {
+      "backendRequested": "webgl",
+      "touchEmulated": false,
+      "errors": [],
+      "views": [
+        {
+          "view": "perspectiva",
+          "meanRgbaChange": 177.2899285462934,
+          "restoredMaxDelta": 0
+        },
+        {
+          "view": "varandas",
+          "meanRgbaChange": 28.18879027213012,
+          "restoredMaxDelta": 0
+        },
+        {
+          "view": "acesso",
+          "meanRgbaChange": 92.58581824757586,
+          "restoredMaxDelta": 0
+        }
+      ],
+      "backendEffective": "webgl",
+      "shadowUpdatesOnChange": 0,
+      "additionalAtlasOrEnvironmentDownloads": 0,
+      "uniformChangeMs": 38.89999997615814,
+      "status": "PASS"
+    },
+    {
+      "backendRequested": "auto",
+      "touchEmulated": true,
+      "errors": [],
+      "views": [
+        {
+          "view": "perspectiva",
+          "meanRgbaChange": 175.61373112020138,
+          "restoredMaxDelta": 0
+        },
+        {
+          "view": "varandas",
+          "meanRgbaChange": 14.0325298325023,
+          "restoredMaxDelta": 0
+        },
+        {
+          "view": "acesso",
+          "meanRgbaChange": 119.86884742460182,
+          "restoredMaxDelta": 0
+        }
+      ],
+      "backendEffective": "webgpu",
+      "shadowUpdatesOnChange": 0,
+      "additionalAtlasOrEnvironmentDownloads": 0,
+      "uniformChangeMs": 53.60000002384186,
+      "status": "PASS"
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

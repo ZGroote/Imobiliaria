@@ -1,0 +1,382 @@
+{
+  "_gerado_por": "capturador-2d",
+  "moveis": [
+    {
+      "tipo": "cama",
+      "p": [
+        1.1,
+        2.35
+      ],
+      "rot": 1,
+      "w": 1.5,
+      "h": 0.95,
+      "d": 1.9,
+      "cor": "#AAC0B4",
+      "nome": "Cama da suíte"
+    },
+    {
+      "tipo": "guardaroupa",
+      "p": [
+        1.3,
+        0.6
+      ],
+      "rot": 0,
+      "w": 2.3,
+      "h": 2.35,
+      "d": 0.45,
+      "cor": "#A28B6B",
+      "nome": "Armário da suíte"
+    },
+    {
+      "tipo": "criado",
+      "p": [
+        0.4,
+        1.3
+      ],
+      "rot": 0,
+      "w": 0.45,
+      "h": 0.55,
+      "d": 0.45,
+      "cor": "#B3A58F",
+      "nome": "Criado-Mudo"
+    },
+    {
+      "tipo": "criado",
+      "p": [
+        0.4,
+        3.3
+      ],
+      "rot": 0,
+      "w": 0.45,
+      "h": 0.55,
+      "d": 0.45,
+      "cor": "#B3A58F",
+      "nome": "Criado-Mudo"
+    },
+    {
+      "tipo": "cama",
+      "p": [
+        4.75,
+        1.4
+      ],
+      "rot": 0,
+      "w": 0.9,
+      "h": 0.95,
+      "d": 1.95,
+      "cor": "#99B7AA",
+      "nome": "Cama do dormitório"
+    },
+    {
+      "tipo": "guardaroupa",
+      "p": [
+        2.95,
+        1.1
+      ],
+      "rot": 1,
+      "w": 1.4,
+      "h": 2.35,
+      "d": 0.45,
+      "cor": "#A28B6B",
+      "nome": "Armário do dormitório"
+    },
+    {
+      "tipo": "mesa",
+      "p": [
+        4.5,
+        2.6
+      ],
+      "rot": 2,
+      "w": 1.1,
+      "h": 0.74,
+      "d": 0.45,
+      "cor": "#A28B6B",
+      "nome": "Bancada do dormitório"
+    },
+    {
+      "tipo": "sofa",
+      "p": [
+        5.45,
+        5.15
+      ],
+      "rot": 3,
+      "w": 1.95,
+      "h": 0.8,
+      "d": 0.9,
+      "cor": "#BAC3C8",
+      "nome": "Sofá da sala TV"
+    },
+    {
+      "tipo": "rack",
+      "p": [
+        3.8,
+        5.15
+      ],
+      "rot": 1,
+      "w": 1.8,
+      "h": 0.7,
+      "d": 0.35,
+      "cor": "#A28B6B",
+      "nome": "Rack da sala TV"
+    },
+    {
+      "tipo": "tapete",
+      "p": [
+        4.65,
+        5.2
+      ],
+      "rot": 0,
+      "w": 1.7,
+      "h": 0.02,
+      "d": 1.95,
+      "cor": "#D4D1C7",
+      "nome": "Tapete"
+    },
+    {
+      "tipo": "mesa",
+      "p": [
+        6.3,
+        2.8
+      ],
+      "rot": 0,
+      "w": 1.4,
+      "h": 0.76,
+      "d": 0.9,
+      "cor": "#C7C7BB",
+      "nome": "Mesa de jantar"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        5.8,
+        2.2
+      ],
+      "rot": 0,
+      "w": 0.45,
+      "h": 0.85,
+      "d": 0.45,
+      "cor": "#D6D6CC",
+      "nome": "Cadeira de jantar 1"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        6.55,
+        2.2
+      ],
+      "rot": 0,
+      "w": 0.45,
+      "h": 0.85,
+      "d": 0.45,
+      "cor": "#D6D6CC",
+      "nome": "Cadeira de jantar 2"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        5.8,
+        3.35
+      ],
+      "rot": 2,
+      "w": 0.45,
+      "h": 0.85,
+      "d": 0.45,
+      "cor": "#D6D6CC",
+      "nome": "Cadeira de jantar 3"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        6.55,
+        3.35
+      ],
+      "rot": 2,
+      "w": 0.45,
+      "h": 0.85,
+      "d": 0.45,
+      "cor": "#D6D6CC",
+      "nome": "Cadeira de jantar 4"
+    },
+    {
+      "tipo": "fogao",
+      "p": [
+        8.1,
+        1.95
+      ],
+      "rot": 3,
+      "w": 0.6,
+      "h": 0.92,
+      "d": 0.6,
+      "cor": "#5D6367",
+      "nome": "Fogão 4 Bocas"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        8.1,
+        3.4
+      ],
+      "rot": 3,
+      "w": 2.1,
+      "h": 0.92,
+      "d": 0.6,
+      "cor": "#C5C3BD",
+      "nome": "Bancada e cuba da cozinha"
+    },
+    {
+      "tipo": "geladeira",
+      "p": [
+        8.05,
+        4.85
+      ],
+      "rot": 3,
+      "w": 0.7,
+      "h": 1.78,
+      "d": 0.7,
+      "cor": "#D6D9DA",
+      "nome": "Geladeira Duplex"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        1.95,
+        4.4
+      ],
+      "rot": 3,
+      "w": 0.65,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#C8C5BF",
+      "nome": "Lavatório suíte"
+    },
+    {
+      "tipo": "vaso",
+      "p": [
+        1.8,
+        5.05
+      ],
+      "rot": 3,
+      "w": 0.45,
+      "h": 0.8,
+      "d": 0.65,
+      "cor": "#F2F1EE",
+      "nome": "Vaso Sanitário"
+    },
+    {
+      "tipo": "box",
+      "p": [
+        1.55,
+        5.85
+      ],
+      "rot": 0,
+      "w": 1.15,
+      "h": 2,
+      "d": 0.65,
+      "cor": "#DDE5E4",
+      "nome": "Box suíte"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        2.55,
+        4.4
+      ],
+      "rot": 1,
+      "w": 0.65,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#C8C5BF",
+      "nome": "Lavatório social"
+    },
+    {
+      "tipo": "vaso",
+      "p": [
+        2.75,
+        5.05
+      ],
+      "rot": 1,
+      "w": 0.45,
+      "h": 0.8,
+      "d": 0.65,
+      "cor": "#F2F1EE",
+      "nome": "Vaso Sanitário"
+    },
+    {
+      "tipo": "box",
+      "p": [
+        2.95,
+        5.85
+      ],
+      "rot": 0,
+      "w": 1.1,
+      "h": 2,
+      "d": 0.65,
+      "cor": "#DDE5E4",
+      "nome": "Box social"
+    },
+    {
+      "tipo": "mesa",
+      "p": [
+        6.6,
+        0.7
+      ],
+      "rot": 0,
+      "w": 0.95,
+      "h": 0.76,
+      "d": 0.95,
+      "cor": "#C1AB88",
+      "nome": "Mesa da varanda"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        6.35,
+        0.2
+      ],
+      "rot": 0,
+      "w": 0.45,
+      "h": 0.85,
+      "d": 0.45,
+      "cor": "#8E9D96",
+      "nome": "Cadeira da varanda 1"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        6.15,
+        0.9
+      ],
+      "rot": 1,
+      "w": 0.45,
+      "h": 0.85,
+      "d": 0.45,
+      "cor": "#8E9D96",
+      "nome": "Cadeira da varanda 2"
+    },
+    {
+      "tipo": "maquina",
+      "p": [
+        8.05,
+        0.35
+      ],
+      "rot": 3,
+      "w": 0.6,
+      "h": 0.85,
+      "d": 0.6,
+      "cor": "#DCE2E4",
+      "nome": "Máquina de Lavar"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        8.05,
+        0.9
+      ],
+      "rot": 3,
+      "w": 0.6,
+      "h": 0.85,
+      "d": 0.6,
+      "cor": "#DADBD5",
+      "nome": "Tanque de Serviço"
+    }
+  ]
+}

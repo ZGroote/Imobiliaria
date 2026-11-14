@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reverse: dependências e CI"
+  short_description: "Revisar dependências, advisories e GitHub Actions"
+  default_prompt: "Use $reverse-supply-chain para revisar os lockfiles da raiz e do painel e a segurança do CI."

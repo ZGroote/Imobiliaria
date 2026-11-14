@@ -1,0 +1,17 @@
+{
+  "experiment_name": "quarto",
+  "method_name": "splatfacto",
+  "checkpoint": "comodo/quarto/splatfacto/2026-10-15_160955/nerfstudio_models/step-000029999.ckpt",
+  "results": {
+    "psnr": 37.53508377075195,
+    "psnr_std": 6.389424800872803,
+    "ssim": 0.9817569851875305,
+    "ssim_std": 0.01878828927874565,
+    "lpips": 0.03399240970611572,
+    "lpips_std": 0.027705591171979904,
+    "num_rays_per_sec": 43074476.0,
+    "num_rays_per_sec_std": 11064428.0,
+    "fps": 46.738800048828125,
+    "fps_std": 12.0056734085083
+  }
+}

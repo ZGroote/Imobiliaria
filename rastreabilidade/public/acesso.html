@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Conheça o imóvel</title>
+  <style>
+    :root{color-scheme:dark;--bg:#171e27;--surface:#222d3a;--text:#eef3f7;--muted:#bdc8d5;--line:#3f5065;--accent:#79dda4;font:14px/1.5 system-ui,sans-serif}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text)}
+    body{height:100dvh;display:flex;flex-direction:column}header{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .75rem;padding:.5rem .75rem;background:var(--surface);border-bottom:1px solid var(--line)}
+    h1{font-size:1rem;font-weight:600;margin:0;flex:1;min-width:8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}nav{display:flex;flex-wrap:wrap;gap:.5rem}
+    button,a{font:inherit}button,nav a{background:transparent;color:var(--text);border:1px solid var(--line);border-radius:.375rem;padding:.375rem .625rem;cursor:pointer;text-decoration:none}button:hover,nav a:hover{border-color:var(--accent)}button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}button:disabled{opacity:.5;cursor:default}nav a[aria-current=page]{border-color:var(--accent)}
+    main{flex:1;min-height:0;position:relative}iframe{width:100%;height:100%;border:0;background:var(--bg)}#estado{padding:.5rem .75rem;margin:0;color:var(--muted)}#estado:empty{display:none}
+    .whatsapp{position:absolute;right:16px;bottom:16px;z-index:5;display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:#128c4a;color:#fff;box-shadow:0 3px 14px #0006;text-decoration:none}.whatsapp:hover{background:#0e7540}.whatsapp svg{width:32px;height:32px;fill:currentColor}
+    #consentimento{padding:.75rem;background:var(--surface);border-top:1px solid var(--line)}#consentimento p{margin:0 0 .5rem;max-width:70ch}#consentimento .acoes{display:flex;gap:.5rem;flex-wrap:wrap}#aceitar{background:var(--accent);color:#14251c;border-color:var(--accent)}[hidden]{display:none!important}footer{padding:.25rem .75rem;font-size:.75rem;color:var(--muted)}#escolha{font-size:.75rem;padding:.125rem .375rem}
+    @media(max-width:480px){header{gap:.375rem}h1{flex-basis:100%}nav{width:100%}nav a,nav button{flex:1;text-align:center;padding:.375rem .25rem}footer{display:flex;justify-content:space-between;align-items:center;gap:.5rem}}
+  </style>
+</head>
+<body>
+  <header><h1 id="titulo">Conheça o imóvel</h1><nav aria-label="Visualizações do imóvel"><a id="paginaMaquete" href="#" hidden>Maquete</a><a id="paginaTour" href="#" hidden>Mapa e visita</a><button id="copiar" disabled>Copiar link</button><button id="compartilhar" hidden>Compartilhar</button></nav></header>
+  <p id="estado" role="status" aria-live="polite">Abrindo o imóvel…</p>
+  <main><iframe id="conteudo" title="Visualização do imóvel" referrerpolicy="no-referrer" allow="fullscreen" hidden></iframe>
+    <a id="whatsapp" class="whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Conversar pelo WhatsApp, em nova aba" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 2 17.7L.4 23.6l6-1.6A11.8 11.8 0 0 0 20.5 3.5ZM12.1 21a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.6.9 1-3.5-.3-.4A9.8 9.8 0 1 1 12.1 21Zm5.4-7.4-1.7-.8c-.3-.1-.5-.2-.7.1l-.8 1c-.2.2-.3.2-.6.1a8 8 0 0 1-3.9-3.4c-.2-.3 0-.4.1-.6l.6-.8c.1-.2.1-.4 0-.6l-.8-2c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.6.6-.9 1.3-.9 2.1 0 1.3.9 2.5 1.1 2.7.1.2 1.9 3 4.6 4.2 2.2 1 2.7.8 3.2.7.5-.1 1.6-.7 1.8-1.3.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+    </a>
+  </main>
+  <aside id="consentimento" aria-label="Métricas de navegação" hidden><p>Podemos medir as páginas e seções abertas e o tempo ativo para ajudar a imobiliária a entender o interesse neste imóvel? Usamos um identificador aleatório do navegador. Não gravamos sua tela, posição no 3D, nome ou e-mail. Você pode continuar e compartilhar sem aceitar.</p><div class="acoes"><button id="aceitar">Aceitar métricas</button><button id="recusar">Continuar sem métricas</button></div></aside>
+  <footer><span id="privacidade">A escolha de métricas é sua.</span><button id="escolha" hidden>Alterar escolha</button></footer>
+  <script id="configRastreabilidade" type="application/json">__TRACKING_CONFIG__</script>
+  <script type="module" src="__TRACKING_RUNTIME__"></script>
+</body>
+</html>

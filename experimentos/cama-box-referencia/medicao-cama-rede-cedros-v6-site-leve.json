@@ -1,0 +1,228 @@
+{
+ "perfis": {
+  "4g-bom": [
+   70,
+   2500000.0,
+   625000.0,
+   1
+  ],
+  "4g-fraco": [
+   150,
+   625000.0,
+   187500.0,
+   1
+  ],
+  "3g": [
+   300,
+   200000.0,
+   96000.0,
+   1
+  ],
+  "celular-lighthouse": [
+   562.5,
+   188743.68,
+   86400.0,
+   4
+  ]
+ },
+ "res": {
+  "4g-bom": {
+   "mediana": {
+    "quadro1": 1.65,
+    "inicio": 2.14,
+    "casa": 4.09,
+    "pedido": 4.09,
+    "geo": 4.22,
+    "q1": 4.24,
+    "instalado": 4.26,
+    "q3": 4.59,
+    "pbr_fim": 0.0,
+    "kb_pagina": 327.94,
+    "kb_cama": 229.12
+   },
+   "rodadas": [
+    {
+     "quadro1": 1.6135999999642372,
+     "inicio": 2.152,
+     "casa": 3.892,
+     "pedido": 3.892,
+     "geo": 4.019,
+     "q1": 4.039,
+     "instalado": 4.062,
+     "q3": 4.438,
+     "pbr_fim": 0.0,
+     "kb_pagina": 327.9423828125,
+     "kb_cama": 229.115234375,
+     "erro": null,
+     "erros": []
+    },
+    {
+     "quadro1": 1.6837999999523163,
+     "inicio": 2.132,
+     "casa": 4.287,
+     "pedido": 4.287,
+     "geo": 4.418,
+     "q1": 4.447,
+     "instalado": 4.463,
+     "q3": 4.736,
+     "pbr_fim": 0.0,
+     "kb_pagina": 327.9423828125,
+     "kb_cama": 229.115234375,
+     "erro": null,
+     "erros": []
+    }
+   ]
+  },
+  "4g-fraco": {
+   "mediana": {
+    "quadro1": 1.96,
+    "inicio": 2.37,
+    "casa": 4.31,
+    "pedido": 4.31,
+    "geo": 4.64,
+    "q1": 4.64,
+    "instalado": 4.65,
+    "q2": 4.92,
+    "q3": 5.44,
+    "pbr_fim": 0.0,
+    "kb_pagina": 327.94,
+    "kb_cama": 286.58
+   },
+   "rodadas": [
+    {
+     "quadro1": 2.0911000000238418,
+     "inicio": 2.483,
+     "casa": 4.477,
+     "pedido": 4.477,
+     "geo": 4.722,
+     "q1": 4.722,
+     "instalado": 4.738,
+     "q2": 5.011,
+     "q3": 5.53,
+     "pbr_fim": 0.0,
+     "kb_pagina": 327.9423828125,
+     "kb_cama": 286.580078125,
+     "erro": null,
+     "erros": []
+    },
+    {
+     "quadro1": 1.8209000000357627,
+     "inicio": 2.249,
+     "casa": 4.147,
+     "pedido": 4.147,
+     "geo": 4.549,
+     "q1": 4.553,
+     "instalado": 4.569,
+     "q2": 4.829,
+     "q3": 5.344,
+     "pbr_fim": 0.0,
+     "kb_pagina": 327.9423828125,
+     "kb_cama": 286.580078125,
+     "erro": null,
+     "erros": []
+    }
+   ]
+  },
+  "3g": {
+   "mediana": {
+    "quadro1": 3.0,
+    "inicio": 3.58,
+    "casa": 5.45,
+    "pedido": 5.45,
+    "geo": 5.96,
+    "q1": 5.96,
+    "instalado": 5.97,
+    "q2": 6.59,
+    "q3": 7.95,
+    "pbr_fim": 0.0,
+    "kb_pagina": 327.94,
+    "kb_cama": 286.58
+   },
+   "rodadas": [
+    {
+     "quadro1": 2.914,
+     "inicio": 3.634,
+     "casa": 5.525,
+     "pedido": 5.525,
+     "geo": 6.044,
+     "q1": 6.045,
+     "instalado": 6.053,
+     "q2": 6.679,
+     "q3": 8.031,
+     "pbr_fim": 0.0,
+     "kb_pagina": 327.9423828125,
+     "kb_cama": 286.580078125,
+     "erro": null,
+     "erros": []
+    },
+    {
+     "quadro1": 3.0837000000476835,
+     "inicio": 3.533,
+     "casa": 5.368,
+     "pedido": 5.368,
+     "geo": 5.879,
+     "q1": 5.883,
+     "instalado": 5.897,
+     "q2": 6.508,
+     "q3": 7.872,
+     "pbr_fim": 0.0,
+     "kb_pagina": 327.9423828125,
+     "kb_cama": 286.580078125,
+     "erro": null,
+     "erros": []
+    }
+   ]
+  },
+  "celular-lighthouse": {
+   "mediana": {
+    "quadro1": 5.84,
+    "inicio": 6.47,
+    "casa": 9.38,
+    "pedido": 9.38,
+    "geo": 10.25,
+    "q1": 10.53,
+    "instalado": 10.57,
+    "q2": 11.57,
+    "q3": 13.51,
+    "pbr_fim": 0.0,
+    "kb_pagina": 327.94,
+    "kb_cama": 286.58
+   },
+   "rodadas": [
+    {
+     "quadro1": 5.938800000011921,
+     "inicio": 6.606,
+     "casa": 9.405,
+     "pedido": 9.405,
+     "geo": 10.258,
+     "q1": 10.486,
+     "instalado": 10.517,
+     "q2": 11.536,
+     "q3": 13.268,
+     "pbr_fim": 0.0,
+     "kb_pagina": 327.9423828125,
+     "kb_cama": 286.580078125,
+     "erro": null,
+     "erros": []
+    },
+    {
+     "quadro1": 5.734,
+     "inicio": 6.342,
+     "casa": 9.362,
+     "pedido": 9.362,
+     "geo": 10.241,
+     "q1": 10.581,
+     "instalado": 10.628,
+     "q2": 11.604,
+     "q3": 13.753,
+     "pbr_fim": 0.0,
+     "kb_pagina": 327.9423828125,
+     "kb_cama": 286.580078125,
+     "erro": null,
+     "erros": []
+    }
+   ]
+  }
+ },
+ "faltou": []
+}

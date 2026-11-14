@@ -11,10 +11,12 @@ export const MENU: ItemDeMenu[] = [
   { href: '/admin/properties', rotulo: 'Imóveis', papeis: EQUIPE },
   { href: '/admin/agencies', rotulo: 'Imobiliárias', papeis: EQUIPE },
   { href: '/admin/users', rotulo: 'Usuários e convites', papeis: ['platform_admin'] },
+  { href: '/admin/profile', rotulo: 'Meu perfil', papeis: EQUIPE },
   { href: '/dashboard', rotulo: 'Início', papeis: ['agency_manager', 'agent'] },
   { href: '/properties', rotulo: 'Imóveis', papeis: ['agency_manager', 'agent'] },
   { href: '/requests', rotulo: 'Solicitações', papeis: ['agency_manager', 'agent'] },
   { href: '/team', rotulo: 'Equipe', papeis: ['agency_manager'] },
+  { href: '/profile', rotulo: 'Meu perfil', papeis: ['agency_manager', 'agent'] },
 ]
 
 export const menuDoPapel = (r: UserRole) => MENU.filter((i) => i.papeis.includes(r))

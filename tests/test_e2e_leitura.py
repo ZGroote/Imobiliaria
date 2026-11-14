@@ -293,6 +293,27 @@ class Conferencia(Base):
         self.assertFalse((self.tmp / "divergente").exists())
         self.assertEqual(list(self.tmp.glob(".e2e-*")), [])
 
+    def test_ocupacao_durante_a_geracao_preserva_destino(self):
+        destino = self.tmp / "concorrente"
+        destino.mkdir()
+
+        def gerar_local(_unid, trabalho):
+            path = trabalho / "maquete.html"
+            path.write_bytes((self.pasta / "v1/maquete.html").read_bytes())
+            return path
+
+        def sondar_e_ocupar(_path):
+            (destino / "usuario.txt").write_text("preservar", encoding="utf-8")
+            return self.sonda
+
+        with mock.patch.object(e2e, "gerar", side_effect=gerar_local), mock.patch.object(e2e, "sondar", side_effect=sondar_e_ocupar):
+            with self.assertRaises(e2e.Recusa) as cm:
+                e2e.executar(self.ent, CONTEXTO, destino)
+        self.assertEqual({e["code"] for e in cm.exception.errors}, {"DESTINO_OCUPADO"})
+        self.assertEqual((destino / "usuario.txt").read_text(encoding="utf-8"), "preservar")
+        self.assertEqual(list(destino.iterdir()), [destino / "usuario.txt"])
+        self.assertEqual(list(self.tmp.glob(".e2e-*")), [])
+
 
 class Cli(Base):
     def test_codigos_de_saida(self):

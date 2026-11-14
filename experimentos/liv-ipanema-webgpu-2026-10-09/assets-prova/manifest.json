@@ -1,0 +1,30 @@
+{
+  "schema": "liv-proof-manifest-v1",
+  "exportedAtUtc": "2026-10-09T19:05:26.746658+00:00",
+  "baselineHTMLSHA256": "31ffb45398aed3ad49b289600823232e37f668086ebfea458b96ecd2e1b9d018",
+  "httpHTMLSHA256": "31ffb45398aed3ad49b289600823232e37f668086ebfea458b96ecd2e1b9d018",
+  "sourceURL": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+  "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+  "sceneJSONSHA256": "78a8a344a91d3fbfe98ba8ed39f92dfa178e87047094ea1305966744af956593",
+  "files": {
+    "irradiance.rgbm.gz": {
+      "bytes": 13023696,
+      "sha256": "ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62"
+    },
+    "scene.json.gz": {
+      "bytes": 7063805,
+      "sha256": "9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba"
+    },
+    "texture-00.png": {
+      "bytes": 21667,
+      "sha256": "84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e"
+    },
+    "texture-01.png": {
+      "bytes": 21667,
+      "sha256": "84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e"
+    }
+  },
+  "meshCount": 56,
+  "bakedMeshes": 41,
+  "exportPurpose": "Transporte exato da geometria da base; não comprova paridade do renderer."
+}

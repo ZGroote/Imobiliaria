@@ -1,0 +1,39 @@
+{
+ "compartilhado": {
+  "linho-cor-256.webp": 5366,
+  "linho-cor-256.avif": 4810,
+  "linho-cor-512.webp": 17266,
+  "linho-cor-512.avif": 14198,
+  "linho-cor-1024.webp": 69904,
+  "linho-cor-1024.avif": 47283,
+  "linho-nor-256.webp": 12934,
+  "linho-nor-256.avif": 6575,
+  "linho-nor-512.webp": 56314,
+  "linho-nor-512.avif": 27917,
+  "linho-nor-1024.webp": 300980,
+  "linho-nor-1024.avif": 109072
+ },
+ "peca": {
+  "ao-256.webp": 9986,
+  "ao-256.avif": 6848,
+  "ao-512.webp": 24780,
+  "ao-512.avif": 17459,
+  "ao-1024.webp": 101276,
+  "ao-1024.avif": 67291,
+  "unica-256.webp": 6676,
+  "unica-256.avif": 4895,
+  "unica-512.webp": 19794,
+  "unica-512.avif": 14951,
+  "unica-1024.webp": 64212,
+  "unica-1024.avif": 51808,
+  "relevo-256.webp": 3578,
+  "relevo-256.avif": 2856,
+  "relevo-512.webp": 14612,
+  "relevo-512.avif": 9682,
+  "relevo-1024.webp": 89698,
+  "relevo-1024.avif": 51945
+ },
+ "geo_bin": 232640,
+ "geo_br": 85947,
+ "json_br": 1108
+}

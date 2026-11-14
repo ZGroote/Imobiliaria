@@ -1,6 +1,11 @@
 # M2 — Fonte LEVE genérica
 
-Estado: **inventário e contrato de migração**. Este documento não altera a geração atual.
+Estado em 04/10/2026: **implementado para Cedros, Colinas e Castanheiras**, com
+`fonte_leve.py`, perfis declarativos, `modelar_imovel.py` e `pipeline/artefatos_leve.py`.
+As provas de equivalência dos fixtures permanecem nos testes. Isso não comprova suporte
+a todo imóvel nem entrega o worker operacional M2 do Plano Diretor.
+O inventário e a sequência abaixo preservam o raciocínio da migração; próximos passos
+estão em [tasks/README.md](../README.md).
 
 Objetivo do M2:
 
@@ -394,7 +399,8 @@ Um único entry point gera as três fixtures sem editar código ou escolher scri
 
 ## 10. Primeiro PR funcional autorizado
 
-O próximo PR depois deste inventário é **M2.1a — normalização LEVE dos Montes**.
+**Sequência histórica, já executada nos perfis piloto:** o primeiro PR depois deste inventário
+foi **M2.1a — normalização LEVE dos Montes**.
 
 Escopo:
 

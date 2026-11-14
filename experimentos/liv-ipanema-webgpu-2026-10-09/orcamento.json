@@ -1,0 +1,36 @@
+{
+  "schema": "liv-performance-budget-v1",
+  "status": "provisorio-aguarda-aparelhos-fisicos",
+  "setBeforeArtisticRefinement": true,
+  "baselineHTMLBytes": 38378801,
+  "initialLoad": {
+    "encodedBodyBytesMax": 30703041,
+    "reason": "Meta de reduzir pelo menos 20% do conteúdo inicial em condições HTTP comparáveis; inclui runtime e assets.",
+    "preloadInterior": false,
+    "preloadMap": false,
+    "preloadUnusedLightStates": false,
+    "readyTimeCriterion": "Mediana de 3 rodadas: não superar a base comparável em mais de 10%; registrar qualquer regressão antes de efeitos novos.",
+    "physicalMobileReadyTimeMsMax": null
+  },
+  "rendering": {
+    "diagnosticSubmissionIntervalP95MsMax": 33.34,
+    "meaning": "Triagem de cadência; não mede tempo de execução GPU nem garante FPS em celular.",
+    "rgbmAtlasMaxDimension": 4096,
+    "rgbmAtlasRawBytesCurrent": 67108864,
+    "additionalAtlasLoadedSimultaneously": false,
+    "physicalMobileGpuMemoryMax": null
+  },
+  "modeSwitching": {
+    "simultaneousSceneIframesMax": 1,
+    "repeatedCyclesMin": 20,
+    "domGrowthAllowed": false,
+    "controlledGcJsHeapGrowthRatioDiagnosticMax": 0.15,
+    "limit": "Amostra do heap via CDP complementa a contagem de documentos/nós; não demonstra ausência de todo vazamento de GPU."
+  },
+  "qualificationRequired": [
+    "Android físico: GPU/navegador/rede/cache declarados",
+    "iPhone físico: GPU/navegador/rede/cache declarados",
+    "Rede móvel com três rodadas e capacidade efetiva registrada",
+    "Recalibrar limites físicos antes de qualificar o produto"
+  ]
+}

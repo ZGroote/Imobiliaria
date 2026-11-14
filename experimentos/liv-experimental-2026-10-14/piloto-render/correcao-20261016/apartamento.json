@@ -1,0 +1,23 @@
+{
+  "source": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-experimental-2026-10-14\\piloto-render\\nuvem\\apto-empacotado.blend",
+  "source_sha256": "ceeb56383b2766e3b362341e902e5d8f3d5cc0087e1fa6b40e52d69b4588b8c3",
+  "corrected_sha256": "fb1cdfb78b9d0635c78113a1899e9497558a46b739c9291b7b01756fa2db6b82",
+  "entry_id": "a5",
+  "entry_center": [
+    -2.825,
+    -2.65
+  ],
+  "entry_size": [
+    0.8,
+    0.04,
+    2.1
+  ],
+  "door_ray_pass": true,
+  "glass": "Vidro fino: transmissão reta + reflexão Fresnel; não simula espessura/refracao",
+  "external_background": "Céu original com radiância mínima neutra; não representa vista real do imóvel",
+  "created_objects": [
+    "GEO-porta-entrada-fechada",
+    "GEO-macaneta-entrada"
+  ],
+  "packed_images": 15
+}

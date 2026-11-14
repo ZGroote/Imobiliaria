@@ -1,0 +1,18 @@
+✔ stock material constructors preserve physical settings and texture references (3.2909ms)
+✔ inspection reports properties, UV channels and color spaces without mutating references (1.9525ms)
+✔ shader materials, custom compile hooks and missing conversion fail explicitly (2.5109ms)
+✔ disposal is unique across meshes/scenes, closes shared bitmaps and ignores environment (1.2291ms)
+✔ inspection excludes unassigned owned originals while disposal releases both resource sets (0.9036ms)
+✔ local selection rejects missing/duplicate dependencies and remote resource URLs before fetch (2.5837ms)
+✔ multifile VFS resolves relative paths exactly and keeps GLTFLoader Physical materials intact (48.4016ms)
+✔ data URIs stay in memory and cancellation after parse disposes the produced asset (4.0229ms)
+✔ a self-contained GLB parses; incomplete headers and external GLB dependencies fail (2.1557ms)
+✔ a failed geometry sibling disposes the material and bitmap that already loaded (31.4889ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 266.9304

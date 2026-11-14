@@ -1,0 +1,355 @@
+{
+  "sourceURL": "https://www.livonincorporadora.com.br/produtos/liv-ipanema/",
+  "geometrySHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+  "interiorUnidadeSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+  "files": {
+    "maquete-liv-ipanema.html": {
+      "bytes": 53580328,
+      "sha256": "60a6d359e8db365cb7e94f0ee8ef2ee1ddd2ef8c7c2598446a28bd7635e0dedb"
+    },
+    "liv-ipanema.blend": {
+      "bytes": 1337529,
+      "sha256": "d6e40c43edf3e90445011a86f143188c893fef19a615b42ca8ff80ca2ca7e498"
+    },
+    "liv-ipanema.glb": {
+      "bytes": 2989904,
+      "sha256": "f3bef61c2a844aae0062b1c15df7ebb942ed188c572ba455b8cddd86d57fadf1"
+    },
+    "LEIA-ME.md": {
+      "bytes": 2499,
+      "sha256": "19f10694b461a9160e9b170b0605b9cd06e7647f0da639e31fab4c8339a8607e"
+    },
+    "BUILD_NOTES.md": {
+      "bytes": 11457,
+      "sha256": "52130bf9752d4cc8746d347e7841c1f8f9a90e7192b08dc3fa7704b93711d453"
+    },
+    "validacao-referencias.json": {
+      "bytes": 1942,
+      "sha256": "f7fdb12e5b5fde0dbb2a136cc45ad2bd3fedf7c00f2c9639721151b56cba3b3f"
+    },
+    "validacao-visual.json": {
+      "bytes": 1036,
+      "sha256": "2d54b2b3666682c9c5066113e6b08f46e06321b8b6fada1b1f1cf5cbcf9ede9f"
+    },
+    "validacao-interior.json": {
+      "bytes": 7427,
+      "sha256": "93d38a055ed842cb4c6e8b4edaee861409ecfbbe5949c8cdf461e3c9045d7fa9"
+    },
+    "gerar_pagina.py": {
+      "bytes": 17693,
+      "sha256": "c1e1cea8bd56788f69c80e327219d3df49876b6ddf07b5579b049ad21cbad166"
+    },
+    "liv-viewer.js": {
+      "bytes": 20011,
+      "sha256": "03a1bf8d594b4545c959cab88c287f5040c138bdd9b55eed9ce5fc3c67e09b3e"
+    },
+    "liv-interior.js": {
+      "bytes": 14818,
+      "sha256": "5a0388eb3880006d9d893d0ce593e984f23867a9b4638b3a7837b42496d883c0"
+    },
+    "liv-interior-lightmap.js": {
+      "bytes": 16622,
+      "sha256": "97ccb5a3c7da06f24e65ba7717e32d0de7bf087ca6d9372589c332ac33e8a0bb"
+    },
+    "comparar_interior.py": {
+      "bytes": 3451,
+      "sha256": "0800bdf77eb9ba63a36b1ae948e5262d265570c407bfdda7da2cda36ae66eb51"
+    },
+    "validar_interior.py": {
+      "bytes": 6351,
+      "sha256": "afdae46bc73e99d4c806d922d837c0e20af8dcb7294a38a2796714b39e7e542d"
+    },
+    "empacotar.py": {
+      "bytes": 3999,
+      "sha256": "e5144c3783bf461fff25b56d4675543862758ad6d33d497be896bc1103d666c6"
+    },
+    "qa/interior-ui-final.png": {
+      "bytes": 50350,
+      "sha256": "0e28688ff792fc7e21a5e7f8bf3d43eed74d26c9d210c4ff2209b164d5bfbc4f"
+    },
+    "interior/README.md": {
+      "bytes": 2689,
+      "sha256": "3add1fab0c9ddb0ed59e403dce63e1c6175336774b7ceed12c0855d344d4f1d6"
+    },
+    "interior/referencia.json": {
+      "bytes": 1933,
+      "sha256": "4e721f9b5d93530f777c7432ec1f2270a51aa8688a0996398594c6b5282b2176"
+    },
+    "interior/projeto-planta.json": {
+      "bytes": 23708,
+      "sha256": "019247ed3191acec479e7f92950b87dd1cd21c74f190705c794532122017fc93"
+    },
+    "interior/leitura.json": {
+      "bytes": 10790,
+      "sha256": "71c17c7ae0934c9398c2514a15cd8402e8b064dc9e9a3ad5f5d77cad0687712c"
+    },
+    "interior/moveis.json": {
+      "bytes": 6074,
+      "sha256": "46dccfa888dbaa03443a69ed89cc7667f66934ab449444bdb1b534d9fbf36a49"
+    },
+    "interior/contexto.json": {
+      "bytes": 684,
+      "sha256": "b124e4da557dc1d047ab39336987559ebe717524ee703f2193af9d92e5b80aa4"
+    },
+    "interior/construir-interior.ts": {
+      "bytes": 9198,
+      "sha256": "c4b1e6c790eaf4ed0ade033fb4534421f320c628704f905862d27a4539da1698"
+    },
+    "interior/comparativo-captura.png": {
+      "bytes": 976763,
+      "sha256": "dac71410dfa46602b48c9e0870bd15bc3ea23b5c8bf1f9eac68ef4bbfbc009a5"
+    },
+    "interior/previa/unidade.json": {
+      "bytes": 13456,
+      "sha256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c"
+    },
+    "interior/previa/relatorio.json": {
+      "bytes": 1216,
+      "sha256": "99c3468deea14dd705c5a80f88b233b46e556defd2075a8382ab404488e3ea58"
+    },
+    "interior/LUZ.md": {
+      "bytes": 10663,
+      "sha256": "3a82f747eede36861659e850e29daddf279f0b88e83bee61b7e2dbd5451706f6"
+    },
+    "interior/exporter-interior.js": {
+      "bytes": 9351,
+      "sha256": "89132446c4b74cabf229c904dff142a0a041b5c1105ff7f810ddab51ba8461f7"
+    },
+    "interior/preparar_luz.py": {
+      "bytes": 14689,
+      "sha256": "86dda890623f73093b495c6c8e5046b71416eb39a9d530aecf41bc17d3d9c988"
+    },
+    "interior/bake_luz.py": {
+      "bytes": 22906,
+      "sha256": "24cdbfc03052a8939745f4f4a2bf56916a0cf8706fc01d764cbe77f568dd508d"
+    },
+    "interior/denoise_luz.py": {
+      "bytes": 8089,
+      "sha256": "4bf55c066bf4a604155e2543069fd1e687148c643886ab122d9675b731545838"
+    },
+    "interior/auditar_cena.py": {
+      "bytes": 7078,
+      "sha256": "e94d5c9f04c3e656c6f6d138d875f6a2f7439371fefdcf3ca1ae245b079f27a6"
+    },
+    "interior/auditar_saida.py": {
+      "bytes": 6013,
+      "sha256": "4b0e2beaf6f2803316513803dfd351fdc92c387042181ffd35eda6d2cc00ca3c"
+    },
+    "interior/luz/source.json": {
+      "bytes": 33592663,
+      "sha256": "270d61e914f9f3dfdb7a79327b694409b32ccb475c3187c92cf42490e8ae3fb6"
+    },
+    "interior/luz/export.json": {
+      "bytes": 12774,
+      "sha256": "15fc089b92eb4fb6afd2446b819d70ffddd0caaaaf44975276574a9498440c67"
+    },
+    "interior/luz/unwrap.json": {
+      "bytes": 1100,
+      "sha256": "a561a2e00f3e42a25f0f6250aec8321c4e324a7b979e3a46aa570bebe85358d0"
+    },
+    "interior/luz/approval.json": {
+      "bytes": 694,
+      "sha256": "1968064c7a427e75837eeab8efd96bb5261bc5d72cda04f9f270adb27c9f7478"
+    },
+    "interior/luz/manifest.json": {
+      "bytes": 1851,
+      "sha256": "fa372d273c42254a0d9cd107db89bdbf8618c785df5f9050d9bfb3a6d9efe4e3"
+    },
+    "interior/luz/bake.json": {
+      "bytes": 3713,
+      "sha256": "9889c0465264c78d0188b2dac43156f685f4a75c863f5040df0d6b7f6e29d727"
+    },
+    "interior/luz/denoise.json": {
+      "bytes": 1305,
+      "sha256": "a39f44c652e2612d2be211a31b3a939c4295adbac840e1a7f24ed08e0f1baf7f"
+    },
+    "interior/luz/audit-transport.json": {
+      "bytes": 1305,
+      "sha256": "a39f44c652e2612d2be211a31b3a939c4295adbac840e1a7f24ed08e0f1baf7f"
+    },
+    "interior/luz/audit-runtime-payload.json": {
+      "bytes": 798,
+      "sha256": "8b66b4d2e5bebb608d7cd8febad150898827959af9162c2b8ea3eb7aba2bd9b9"
+    },
+    "interior/luz/audit-moldings.json": {
+      "bytes": 611,
+      "sha256": "ce2ade34cf86a6c379865f908980a32461d07a8db31cfbbd6d65a6d47f0bcf51"
+    },
+    "interior/luz/audit-authoring.json": {
+      "bytes": 530,
+      "sha256": "be9379ffc89bd5f9dedc71adc4ea47abec8d9dd2ddf164e44952beccb5c05a2a"
+    },
+    "interior/luz/audit-scene.json": {
+      "bytes": 1767,
+      "sha256": "afe35ec6d097396c893fdd802a0e2dc4b45a39ec4527c70880cb75adf25ce05d"
+    },
+    "interior/luz/geometry-compact.json": {
+      "bytes": 2255654,
+      "sha256": "a203719adc18db7c6ff1714907368566ce2d398590b08693716a5a5e41d4a56f"
+    },
+    "interior/luz/geometry-compact.json.gz": {
+      "bytes": 857241,
+      "sha256": "be8e5a5530f488043bd2b173850158079b61ea7b48989a4c9c8ee6472f809385"
+    },
+    "interior/luz/irradiance.rgbm.gz": {
+      "bytes": 4646752,
+      "sha256": "25a42a2014ae77fe034e65e86585b233335273af7b4309e952a2cd9193e96366"
+    },
+    "interior/luz/interior-source.blend": {
+      "bytes": 3077228,
+      "sha256": "11e6ed91fe2f951ead1f7eb1b1e661dadd4a1f23c4fe8cdd697b27dc4cd1e8f5"
+    },
+    "interior/luz/interior-source.glb": {
+      "bytes": 10400312,
+      "sha256": "7868299d0d41ca5b1f159ab336710169de306ca9ba594722d85bc6f9c33603a8"
+    },
+    "interior/luz/interior-baked.blend": {
+      "bytes": 20526347,
+      "sha256": "f614801074097dc13cebccb74c9228a4c722d46986dae37c4290d9e06728c772"
+    },
+    "revisao-interior.json": {
+      "bytes": 2090,
+      "sha256": "979261ab1270c66486f578c9e68969e712560e4b7e6d7b0e509d5ca81b60bff6"
+    },
+    "qa/interior-runtime.json": {
+      "bytes": 15577,
+      "sha256": "fabdca6917744a79ac608e417a1521de6f5a46b7b2724d4e2dc50a00c29d1c18"
+    },
+    "qa/interior-capturas.json": {
+      "bytes": 5575,
+      "sha256": "be4f6b9ff3e926b0ed3e6271660ee0b802428f0d5c6b5c1b1669bca2a0e1c242"
+    },
+    "qa/final-smoke.json": {
+      "bytes": 621,
+      "sha256": "4ac19c53e5335a44f89471f33f7534c3b77ecdeaf62dd8a43799bda3307e6496"
+    },
+    "qa/interior-planta3d.png": {
+      "bytes": 1038345,
+      "sha256": "1c0af444c18cdb9bec27cdf21bd9e5d9378598bbf6d93787ed913e44c3e0c7ce"
+    },
+    "qa/interior-topo.png": {
+      "bytes": 1589144,
+      "sha256": "3902ebb16f71a0e2048503c67218de9c706af042100275d81e4a8552a5e395bf"
+    },
+    "qa/interior-visita.png": {
+      "bytes": 2491333,
+      "sha256": "9b94a7815c81bdc81ed85796db3fab169a8511ab4cbb07818c6272e527ac6cdc"
+    },
+    "qa/interior-sala.png": {
+      "bytes": 2860012,
+      "sha256": "6037d38066d911f618764541a0b0540115f02031cf1fe7527744f41bfc09efce"
+    },
+    "qa/interior-suite.png": {
+      "bytes": 3123412,
+      "sha256": "1aa3c60690edbcb4d08b411eb07cd2e6428f63da14b52f6d1f01406541bc54d1"
+    },
+    "qa/interior-teto.png": {
+      "bytes": 2054302,
+      "sha256": "b45e935654673195b01f7f66f24d7aedcbc2272ae2ae3208c7c33e4767a2ccb4"
+    },
+    "comparacoes/aerea-recorte.png": {
+      "bytes": 496389,
+      "sha256": "ed0b50c3d4ba48c722f04cf8e1783a6c77dfea9e31a92ad59ea87a12be0b545f"
+    },
+    "comparacoes/aerea.png": {
+      "bytes": 897581,
+      "sha256": "f2a012c37dd846c5313ab554a34fec2f4263c6fcba79b4c4d8f665dbd4291a6f"
+    },
+    "comparacoes/comparativo-aerea.png": {
+      "bytes": 1246347,
+      "sha256": "40a62923b57e682d4002756527af89e2fe2fc929463e6f9e4319c17aedc495d5"
+    },
+    "comparacoes/comparativo-fachada.png": {
+      "bytes": 738139,
+      "sha256": "9d76750080ed90b2bdc7f67e278395b36e19b397dabd0700d82e84a61f8eca9a"
+    },
+    "comparacoes/comparativo-geral.png": {
+      "bytes": 3635386,
+      "sha256": "5eb6d1274212ac6bf3518abfdc1f2094ea1297157be35550e9ee0d78d93a5727"
+    },
+    "comparacoes/comparativo-implantacao.png": {
+      "bytes": 869751,
+      "sha256": "db90375f781c99fb0058e6a99dc5bc3059cfcd54a80441f1ae57c2780e7deb3f"
+    },
+    "comparacoes/comparativo-interior.png": {
+      "bytes": 1066172,
+      "sha256": "b40b5d0129773d4fb45663dc30bcadfacd8f53c36be920ac5d3b2644124e3706"
+    },
+    "comparacoes/comparativo-portaria.png": {
+      "bytes": 783957,
+      "sha256": "13639b4b5343972576fbffa90e612b9f71312f1592822dc577e5c1eaf0be5e0e"
+    },
+    "comparacoes/fachada.png": {
+      "bytes": 549034,
+      "sha256": "61e78f920e32bb9ed3290fb569e4cff96e4f0608ed0f3ea03a1b44cde9d72262"
+    },
+    "comparacoes/implantacao-recorte.png": {
+      "bytes": 790659,
+      "sha256": "6432c4134f5f19f0b0ae25d1b0a61f2907c5bbc49ab0d1a06a078771f8d9cd10"
+    },
+    "comparacoes/implantacao.png": {
+      "bytes": 1675700,
+      "sha256": "7af955daa390f8ab3eb35075571c8b315691812d19e81ef076efccad1d3ba06f"
+    },
+    "comparacoes/interior-planta3d.png": {
+      "bytes": 679993,
+      "sha256": "03a8a82a9a629ae6b4e67c284ec3a66d6e076649b938def0f9ed92690f82432f"
+    },
+    "comparacoes/interior-sala.png": {
+      "bytes": 1951018,
+      "sha256": "36ae204ce18b0f36c28d368937c854dd5c3057661190b5f8ed6b9887060de6d8"
+    },
+    "comparacoes/interior-suite.png": {
+      "bytes": 2248356,
+      "sha256": "96a08982e47609b451271273015fafebe5615189a05a5999c088905766dedba2"
+    },
+    "comparacoes/portaria.png": {
+      "bytes": 775020,
+      "sha256": "f68853021a3caba66260f0cb53f809911e843ae66f3e77e264dc2f54106e6f3a"
+    },
+    "referencias/aerea.jpg": {
+      "bytes": 161334,
+      "sha256": "6257d22fbb288b479f233c98ce6a549bf221c6d959be814ff79a6466d344ad1e"
+    },
+    "referencias/fachada.jpg": {
+      "bytes": 87275,
+      "sha256": "623ab176a612422e618d2a9d6fc0a139256091bac2f2ffb53f12c057af33bd88"
+    },
+    "referencias/fitness.jpg": {
+      "bytes": 106834,
+      "sha256": "199f6a2db0086645185e00397a5d3abfaa23a74e9e843bf0313ab5d1afd268b2"
+    },
+    "referencias/happy-hour.jpg": {
+      "bytes": 71430,
+      "sha256": "0c0352824ffc44579a7349c585945d878dfb70570be11b09155151df90821f84"
+    },
+    "referencias/implantacao.jpg": {
+      "bytes": 125088,
+      "sha256": "3217ae957969aed1ce9a177d914f038faff2fdee6fd6b10ec67063615a113677"
+    },
+    "referencias/piscina.jpg": {
+      "bytes": 105001,
+      "sha256": "f929b3f25417e868208309169b28adcd401fca2cc8b95af840b62492dc6d016b"
+    },
+    "referencias/planta-47-59.jpg": {
+      "bytes": 63548,
+      "sha256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    "referencias/planta-tipo.jpg": {
+      "bytes": 56234,
+      "sha256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    "referencias/playground.jpg": {
+      "bytes": 92682,
+      "sha256": "e8bd104b32739ef03af9b491586308fd59b842193336f1db33b4b8df879addd4"
+    },
+    "referencias/portaria.jpg": {
+      "bytes": 78340,
+      "sha256": "5c66690329183ba4adf56401cf0d6c6b470cbb42feba810499ddec7acc379cc2"
+    },
+    "referencias/steakhouse.jpg": {
+      "bytes": 74345,
+      "sha256": "2fb9709d340e013129e73cebc029a7566b919e7a26ed8ff6fa8ea56faf2c822a"
+    }
+  }
+}

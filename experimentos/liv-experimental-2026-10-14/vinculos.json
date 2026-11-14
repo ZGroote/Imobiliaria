@@ -1,0 +1,1371 @@
+{
+  "schema": "liv-unit-relations-v1",
+  "status": "fornecido",
+  "bookSHA256": "c7dae676c82eab758370e386cea7fe6bd31dded9fa436eb53ebdfe70be7bb50b",
+  "source": {
+    "label": "Implantação e Book Oficial do LIV Ipanema",
+    "asOf": "2026-10-12"
+  },
+  "units": [
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-00/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-01/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-02/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-03/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-04/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-05/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-06/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-07/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-08/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-09/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-10/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-11/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-12/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-13/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-14/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-15/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-01",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-02",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-03",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-04",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-05",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-06",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-07",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-08",
+      "typology": "meio",
+      "orientation": "original",
+      "interiorUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+      "interiorSourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17",
+      "planSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-09",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    },
+    {
+      "id": "liv-ipanema/pavimento-modelo-16/final-10",
+      "typology": "canto",
+      "orientation": "original",
+      "interiorUnitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiorSourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df",
+      "planSHA256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+    }
+  ]
+}

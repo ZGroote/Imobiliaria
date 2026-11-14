@@ -1,0 +1,71 @@
+#version 300 es
+
+// Three.js r186 - Node System
+
+
+// extensions
+
+
+// precision
+
+precision highp float;
+precision highp int;
+precision highp sampler2D;
+precision highp sampler3D;
+precision highp samplerCube;
+precision highp sampler2DArray;
+
+precision highp usampler2D;
+precision highp usampler3D;
+precision highp usamplerCube;
+precision highp usampler2DArray;
+
+precision highp isampler2D;
+precision highp isampler3D;
+precision highp isamplerCube;
+precision highp isampler2DArray;
+
+precision highp sampler2DShadow;
+precision highp sampler2DArrayShadow;
+precision highp samplerCubeShadow;
+
+
+// structs
+
+layout( location = 0 ) out vec4 fragColor;
+
+
+
+// uniforms
+
+layout( std140 ) uniform object {
+	float nodeUniform4;
+	mat4 nodeUniform7;
+};
+
+
+// varyings
+
+
+// vars
+vec4 DiffuseColor;
+vec4 Output;
+vec4 nodeVar1;
+
+// codes
+
+
+void main() {
+
+	// flow
+	// code
+
+	DiffuseColor = vec4( 0.0, 0.0, 0.0, 1.0 );
+	DiffuseColor.w = ( DiffuseColor.w * nodeUniform4 );
+	nodeVar1 = max( vec4( DiffuseColor.xyz, DiffuseColor.w ), 0.0 );
+	Output = nodeVar1;
+
+	// result
+	fragColor = nodeVar1;
+
+}

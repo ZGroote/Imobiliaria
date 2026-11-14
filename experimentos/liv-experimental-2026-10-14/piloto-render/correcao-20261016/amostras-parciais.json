@@ -1,0 +1,32 @@
+{
+  "source_sha256": "fb1cdfb78b9d0635c78113a1899e9497558a46b739c9291b7b01756fa2db6b82",
+  "samples": 128,
+  "resolution": [
+    1280,
+    720
+  ],
+  "glass_override": null,
+  "entry_rays": [
+    {
+      "pixel": [
+        1100,
+        250
+      ],
+      "object": "GEO-porta-entrada-fechada"
+    },
+    {
+      "pixel": [
+        1120,
+        350
+      ],
+      "object": "GEO-porta-entrada-fechada"
+    }
+  ],
+  "images": [
+    {
+      "room": "Varanda / serviço",
+      "pitch": 0,
+      "file_path": "dataset\\images\\f2011.png"
+    }
+  ]
+}

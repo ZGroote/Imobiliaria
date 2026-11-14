@@ -447,11 +447,14 @@ function maquinaParam(m) {
   return P;
 }
 
+/* `m.estilo` escolhe o PAR modulo+braco (`sofa_mod_<estilo>`); estilo que a biblioteca
+   nao tem cai no par padrao, entao registro antigo e lib antiga continuam montando. */
 function sofaParam(m) {
-  const L = getLib();
-  if (!L.sofa_mod || !L.sofa_braco) return [];
-  const bw = L.sofa_braco.b[0], mw0 = L.sofa_mod.b[0];
-  const h0 = L.sofa_mod.b[1], d0 = L.sofa_mod.b[2];
+  const L = getLib(), e = m.estilo && L["sofa_mod_" + m.estilo] ? "_" + m.estilo : "";
+  const MOD = "sofa_mod" + e, BRACO = "sofa_braco" + e;
+  if (!L[MOD] || !L[BRACO]) return [];
+  const bw = L[BRACO].b[0], mw0 = L[MOD].b[0];
+  const h0 = L[MOD].b[1], d0 = L[MOD].b[2];
   const w = Math.max(2 * bw + 0.62, m.w);
   const sy = m.h / h0, sz = m.d / d0;
   const util = w - 2 * bw;
@@ -459,9 +462,9 @@ function sofaParam(m) {
   const mw = util / n;
   const P = [];
   for (let i = 0; i < n; i++)
-    P.push({ malha:"sofa_mod", x: -w/2 + bw + mw * (i + 0.5), sx: mw / mw0, sy, sz });
+    P.push({ malha:MOD, x: -w/2 + bw + mw * (i + 0.5), sx: mw / mw0, sy, sz });
   for (const s of [-1, 1])
-    P.push({ malha:"sofa_braco", x: s * (w/2 - bw/2), sx: s, sy, sz });
+    P.push({ malha:BRACO, x: s * (w/2 - bw/2), sx: s, sy, sz });
   return P;
 }
 

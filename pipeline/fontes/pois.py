@@ -83,7 +83,7 @@ def main():
                     "a": (rua + (", " + num if num else "")) if rua else None,
                     "h": t.get("opening_hours"), "t": t.get("phone"),
                     "w": t.get("website")})
-    saida = CID.caminho("pois")
+    saida = CID.caminho("pois_osm")
     os.makedirs(os.path.dirname(saida), exist_ok=True)
     json.dump(out, open(saida, "w", encoding="utf-8"), ensure_ascii=False,
               separators=(",", ":"))

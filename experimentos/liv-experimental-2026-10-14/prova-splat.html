@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LIV — diagnóstico do Tour</title>
+<style>
+  body{margin:0;background:#111b20;color:#eef5f5;font:14px system-ui}
+  header{padding:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  button,select{padding:8px;background:#223740;color:inherit;border:1px solid #58717c;border-radius:5px}
+  iframe{width:100%;height:65vh;border:0} pre{white-space:pre-wrap;padding:12px;font-size:12px}
+</style>
+<header><strong>Diagnóstico do Tour · Meio</strong>
+  <button id="run" disabled>Percorrer os seis ambientes</button>
+  <button id="look" disabled>Olhar para o piso</button>
+  <button id="ceiling" disabled>Olhar para o teto</button>
+  <button id="forward" disabled>Olhar em frente</button>
+  <select id="room" aria-label="Ir para ambiente" disabled><option value="">Ir para ambiente…</option></select>
+  <button id="download">Baixar diagnóstico</button>
+  <button id="capture" disabled>Salvar vista</button>
+  <a id="saved" hidden style="color:#eef5f5">Baixar vista salva</a>
+  <span id="status" role="status">Carregando…</span>
+</header>
+<iframe title="Tour em teste"></iframe>
+<pre id="report" aria-label="Diagnóstico"></pre>
+<script type="module">
+  const frame = document.querySelector('iframe'), report = document.querySelector('#report');
+  const variante = new URLSearchParams(location.search).get('piloto');
+  const global = variante === 'global';
+  const piloto = global || variante === '1';
+  frame.src = 'interior.html?embed=1&tipologia=meio&modo=visita&backend=webgl' +
+    (piloto ? '&splat-piloto=' + (global ? 'global' : '1') : '');
+  const status = document.querySelector('#status'), run = document.querySelector('#run'), look = document.querySelector('#look');
+  const ceiling = document.querySelector('#ceiling'), forward = document.querySelector('#forward');
+  const roomSelect = document.querySelector('#room');
+  const capture = document.querySelector('#capture');
+  if (piloto) {
+    if (!global) run.textContent = 'Sala → varanda → sala';
+    document.querySelector('header strong').textContent = global ?
+      'Piloto experimental · apartamento contínuo · qualidade em avaliação' :
+      'Piloto experimental · sala e varanda · qualidade em avaliação';
+  }
+  const results = [];
+  let api, running = false;
+  const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+  async function until(predicate, ms = 30000) {
+    const end = performance.now() + ms;
+    while (!predicate()) {
+      if (performance.now() > end) throw Error('Tempo esgotado ao preparar a vista.');
+      await wait(100);
+    }
+  }
+  const snapshot = () => ({navigation: api?.navigationDiagnostics(),
+    camera: api?.camera ? {position:api.camera.position.toArray(),quaternion:api.camera.quaternion.toArray(),fov:api.camera.fov,aspect:api.camera.aspect} : null,
+    splat: api?.splat?.getState(), results});
+  setInterval(() => {
+    api = frame.contentWindow?.__livInterior;
+    if (api?.ready && roomSelect.options.length === 1) {
+      for (const room of api.rooms) roomSelect.add(new Option(room.name,room.id));
+    }
+    report.textContent = JSON.stringify(snapshot(), null, 2);
+    run.disabled = look.disabled = ceiling.disabled = forward.disabled = running || !api?.ready;
+    roomSelect.disabled = running || !api?.ready;
+    capture.disabled = running || !api?.splat?.getState()?.ligado;
+    if (!api?.ready) status.textContent = api?.error || 'Carregando…';
+    else if (status.textContent === 'Carregando…') status.textContent = 'Pronto para percorrer.';
+  }, 500);
+  function olhar(pitch) {
+    const state = api.getState(); state.camera.pitch = pitch;
+    api.restoreState(state);
+  }
+  look.onclick = () => olhar(-1.05);
+  ceiling.onclick = () => olhar(1.05);
+  forward.onclick = () => olhar(0);
+  capture.onclick = async () => {
+    try {
+      const viewer = frame.contentDocument.querySelector('iframe[title="Tour do apartamento em Gaussian Splatting"]');
+      const image = new Image();
+      image.src = viewer.contentWindow.__splatVisita.capture();
+      await image.decode();
+      const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height + 64;
+      const ctx = canvas.getContext('2d'); ctx.fillStyle = '#111b20'; ctx.fillRect(0,0,canvas.width,64);
+      ctx.fillStyle = '#eef5f5'; ctx.font = '14px sans-serif';
+      ctx.fillText(document.querySelector('header strong').textContent,12,24);
+      ctx.fillText(api.splat.getState().viewer.selected,12,48);
+      ctx.drawImage(image,0,64);
+      const link = document.querySelector('#saved'); link.download = 'vista-tour.png'; link.href = canvas.toDataURL('image/png');
+      // O servidor local opcional preserva a mesma imagem na pasta de evidências.
+      const blob = await new Promise(resolve => canvas.toBlob(resolve,'image/png'));
+      const saved = await fetch('/_qa/vista',{method:'POST',headers:{'Content-Type':'image/png'},body:blob});
+      if (saved.ok) link.href = (await saved.json()).url;
+      link.hidden = false; link.click();
+      status.textContent = 'Vista salva. Qualidade visual continua em avaliação.';
+    } catch (error) { status.textContent = 'Falha na captura: ' + error.message; }
+  };
+  roomSelect.onchange = async () => {
+    if (!roomSelect.value) return;
+    running = true;
+    status.textContent = 'Caminhando para o ambiente selecionado…';
+    try {
+      const room = api.rooms.find(r => String(r.id) === roomSelect.value);
+      const arrived = await api.goToRoom(room.id);
+      status.textContent = arrived ? 'Ambiente alcançado. Qualidade em avaliação.' : 'Rota interrompida.';
+    } finally { running = false; roomSelect.value = ''; }
+  };
+  run.onclick = async () => {
+    running = true; results.length = 0;
+    try {
+      // Primeiro sala → varanda; depois o restante. As rotas usam a mesma colisão do produto.
+      let rooms = [...api.rooms].sort((a,b) => {
+        const rank = r => /sala/i.test(r.name) ? 0 : /varanda/i.test(r.name) ? 1 : 2;
+        return rank(a)-rank(b);
+      });
+      if (piloto && !global) {
+        const sala = rooms.find(r => /sala/i.test(r.name));
+        const varanda = rooms.find(r => /varanda/i.test(r.name));
+        rooms = [sala, varanda, sala];
+      }
+      for (const room of rooms) {
+        status.textContent = `Caminhando: ${room.name}`;
+        let arrived = null;
+        api.goToRoom(room.id).then(value => { arrived = value; });
+        await until(() => arrived !== null, 60000);
+        if (!arrived) throw Error(`Rota interrompida: ${room.name}`);
+        await until(() => api.splat?.getState()?.ligado || api.splat?.getState()?.error);
+        const state = api.splat.getState();
+        results.push({room: room.name, safe: api.navigationDiagnostics().safe, ...state});
+        if (state.error || !state.ligado) throw Error(`Splat indisponível: ${room.name}`);
+        await wait(500);
+      }
+      status.textContent = `PASS · ${rooms.length} rotas concluídas e splats apresentados. Qualidade visual exige revisão.`;
+    } catch (error) { status.textContent = `FAIL · ${error.message}`; }
+    finally { running = false; }
+  };
+  document.querySelector('#download').onclick = () => {
+    const url = URL.createObjectURL(new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'}));
+    const link = document.createElement('a'); link.href = url; link.download = 'diagnostico-tour.json'; link.click();
+    setTimeout(() => URL.revokeObjectURL(url),1000);
+  };
+</script>
+</html>

@@ -1,0 +1,11 @@
+import {NodeIO} from '@gltf-transform/core';
+import {ALL_EXTENSIONS} from '@gltf-transform/extensions';
+import {dedup,weld,draco,prune} from '@gltf-transform/functions';
+import draco3d from 'draco3d';
+import fs from 'node:fs';
+const source=new URL('../casa-vistalar-web.glb',import.meta.url).pathname.replace(/^\/(\w:)/,'$1');
+const io=new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({'draco3d.decoder':await draco3d.createDecoderModule(),'draco3d.encoder':await draco3d.createEncoderModule()});
+const doc=await io.read(source), before=fs.statSync(source).size;
+await doc.transform(dedup(),weld(),prune(),draco({method:'edgebreaker'}));
+await io.write(source.replace('.glb','-draco.glb'),doc);
+console.log(JSON.stringify({before,after:fs.statSync(source.replace('.glb','-draco.glb')).size}));

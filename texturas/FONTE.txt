@@ -1,0 +1,5 @@
+ambientCG (https://ambientcg.com) -- licenca CC0 / dominio publico.
+Uso comercial permitido, atribuicao nao exigida.
+tijolo <- Bricks023
+chao <- Ground037
+reboco <- Plaster001

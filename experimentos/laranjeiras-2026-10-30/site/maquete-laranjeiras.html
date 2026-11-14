@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <link rel="icon" href="data:,">
+  <title>Parque das Laranjeiras — maquete interativa</title>
+  <meta name="description" content="Maquete 3D interativa do Parque das Laranjeiras, em São Carlos: escolha o apartamento nas 3 torres e veja a planta dos 2 quartos com varanda gourmet.">
+  <script>
+    // File pages cannot load the ES modules and JSON used by the viewer.
+    // Forward only this workspace entry; exported packages use their own server.
+    const localPreviewPath='/experimentos/laranjeiras-2026-10-30/site/maquete-laranjeiras.html';
+    if(location.protocol==='file:'&&location.pathname.endsWith(localPreviewPath)){
+      const localPreview=new URL(localPreviewPath,'http://localhost:8765');
+      localPreview.search=location.search;localPreview.hash=location.hash;
+      location.replace(localPreview.href);
+    }
+  </script>
+  <script id="experience-interaction">
+    // Segurar os controles não deve iniciar seleção nem o menu nativo de toque prolongado.
+    for (const type of ['selectstart', 'contextmenu']) {
+      document.addEventListener(type, event => {
+        if (!event.target.closest?.('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) {
+          event.preventDefault();
+        }
+      }, true);
+    }
+  </script>
+  <link rel="stylesheet" href="unit-ui.css?rev=2026-10-28-orientacao">
+  <link rel="stylesheet" href="viewer-ui.css?rev=2026-10-28-orientacao">
+  <link rel="stylesheet" href="viewer-compact.css?rev=2026-10-30">
+</head>
+<body>
+  <a class="skip-link" href="#stage">Ir para o visualizador</a>
+  <h1 class="sr-only">Parque das Laranjeiras · São Carlos</h1>
+  <header id="mobileToolbar" class="mobile-toolbar" aria-label="Navegação da maquete" hidden>
+    <div id="mobileAvailability"></div>
+    <div id="mobileHome"><button type="button" id="mobileBackToBuilding" hidden>Maquete</button></div>
+    <div id="mobileOrientation"></div>
+  </header>
+  <header id="orientationControls" class="orientation-controls" hidden>
+    <p id="orientationHint" role="status" aria-live="polite">Mais espaço na horizontal.</p>
+    <div class="orientation-options" role="group" aria-label="Orientação preferida da maquete">
+      <button type="button" id="orientationLandscape" aria-pressed="true">Horizontal</button>
+      <button type="button" id="orientationPortrait" aria-pressed="false">Vertical</button>
+    </div>
+  </header>
+  <!-- EXPERIMENTO-COMPRA-20261023: comparação removível, sem alterar estoque ou links existentes. -->
+  <div id="experienceBar" class="experience-bar" hidden><span id="experienceLabel"></span><a id="experienceCompare" href="?experiencia=original">Usar versão anterior</a></div>
+  <main class="layout">
+    <section class="visual" aria-label="Visualizador do empreendimento">
+      <div class="stage" id="stage" tabindex="-1">
+        <div class="stage-toolbar">
+          <p class="stage-badge"><span aria-hidden="true"></span>Parque das Laranjeiras</p>
+          <div id="availabilityFilter" hidden><label for="availability">Apartamentos</label><select id="availability" aria-describedby="availabilitySummary"><option value="todos">Todos os apartamentos</option><option value="disponiveis">Disponíveis (em verde)</option></select><p id="availabilitySummary" class="sr-only" role="status" aria-live="polite"></p></div>
+        </div>
+        <button type="button" id="plan2dMeasurements" class="plan2d-measures-toggle" hidden aria-pressed="false" aria-label="Mostrar medidas estimadas da planta 2D" title="Mostrar ou ocultar medidas aproximadas"><span aria-hidden="true">↔</span> Medidas</button>
+        <p id="plan2dMeasurementsNote" class="plan2d-measures-note" hidden title="Estimativas entre eixos das paredes, inferidas a partir da planta ilustrativa.">Medidas aproximadas</p>
+        <button type="button" id="plan2dRuler" class="plan2d-ruler-toggle" hidden aria-pressed="false" aria-controls="plan2dRulerControls">Régua</button>
+        <div id="plan2dRulerControls" class="plan2d-ruler-controls" hidden><p id="plan2dRulerHint" role="status" aria-live="polite"></p><div><button type="button" id="plan2dRulerUndo" aria-label="Desfazer última medida" title="Desfazer última medida" disabled>Desfazer</button><button type="button" id="plan2dRulerClear" aria-label="Limpar todas as medidas" title="Limpar todas as medidas" disabled>Limpar</button><button type="button" id="plan2dRulerDone">Concluir</button></div><small>Setas movem o cursor · Enter marca · Esc cancela o ponto</small></div>
+        <div class="overlay" id="loading" role="status">
+          <div><span class="loading-mark" aria-hidden="true"></span><p id="loadingText">Abrindo a maquete…</p><progress id="downloadProgress" aria-label="Download do recurso atual" hidden></progress><div class="recovery-actions"><button type="button" id="retry" hidden>Tentar novamente</button><button type="button" id="fallback" hidden>Ver planta 2D</button></div></div>
+        </div>
+      </div>
+      <p id="unitAnnouncement" class="sr-only" role="status"></p>
+    </section>
+    <aside id="projectPanel" class="viewer-panel" data-collapsed="true" aria-label="Opções de exploração">
+      <p id="panelSummary" class="panel-summary">Informações do empreendimento</p>
+      <button type="button" id="toggleProjectPanel" class="panel-toggle" aria-expanded="false" aria-controls="projectPanelDetails projectPanelFooter" aria-label="Expandir informações" title="Expandir informações"><span id="panelToggleIcon" aria-hidden="true">+</span></button>
+      <div id="projectPanelDetails" hidden>
+        <section id="projectSummary" class="project-summary" aria-label="Informações do empreendimento">
+          <div class="project-heading"><span class="eyebrow">Empreendimento · ADN Construtora</span><span class="project-name">Parque das Laranjeiras · São Carlos</span><span class="project-address">Rua José Quatrochi, s/n · Loteamento Habitacional São Carlos 1 · São Carlos, SP</span></div>
+          <p class="project-facts">2 quartos · varanda gourmet · 39,12 e 40,79 m² · 3 torres de térreo + 12 · 312 apartamentos</p>
+          <details class="typology-info"><summary>Planta Meio</summary><p>Até 40,79 m² · 2 quartos · 1 banheiro. No térreo, até 54,17 m² com jardim.</p><p>Sala e cozinha integradas, varanda gourmet com área de serviço. Finais 03 a 06.</p></details>
+          <details class="typology-info"><summary>Planta Canto</summary><p>39,12 m² · 2 quartos · 1 banheiro. No térreo, 60,11 m² com jardim.</p><p>Sala e cozinha integradas, varanda gourmet com área de serviço. Finais 01, 02, 07 e 08.</p></details>
+        </section>
+        <section id="selectedApartment" class="selected-apartment" hidden aria-labelledby="selectedApartmentTitle">
+          <p class="eyebrow">Apartamento selecionado</p><h2 id="selectedApartmentTitle"></h2>
+          <p id="selectedApartmentSale" class="apartment-sale"></p><p id="selectedApartmentMeta" class="apartment-meta"></p>
+          <p id="selectedApartmentNote" class="apartment-note" role="status"></p>
+          <button type="button" id="btnApartmentInfo" class="apartment-info">Ficha completa</button>
+          <details id="inlineUnitDetails" class="inline-unit-details" hidden><summary id="inlineDetailsTitle">Ficha completa</summary></details>
+        </section>
+      </div>
+      <div id="projectPanelFooter" class="sr-only">
+        <div class="viewer-caption"><p class="hint" id="hint">Selecione um apartamento · arraste para girar</p><p id="status" role="status" aria-live="polite">Preparando visualizador…</p></div>
+        <div id="transferStatus" hidden><span data-transfer-text role="status"></span><progress aria-label="Preparação dos próximos conteúdos" hidden></progress></div>
+        <p id="sceneCacheStatus" class="scene-cache-status" role="status" aria-live="polite"></p>
+        <p id="buyerGroundNote" class="buyer-ground-note" hidden>Base visual ilustrativa · consulte o mapa para conhecer a região.</p>
+      </div>
+    </aside>
+    <div class="viewer-controls" role="group" aria-label="Controles da visualização">
+      <div class="project-action-row">
+        <button type="button" id="btnBackToMaquete" data-mode="maquete" aria-pressed="true">← Voltar ao prédio</button>
+        <div id="selectedApartmentActions" class="apartment-actions" aria-label="Conhecer o apartamento selecionado" hidden>
+          <button type="button" data-unit-open="planta2d" class="primary">Ver planta</button><button type="button" data-unit-open="planta3d">Planta 3D</button><button type="button" data-unit-open="visita">Tour 3D</button>
+        </div>
+        <nav id="viewModes" class="mode-switch" aria-label="Visualizações do apartamento selecionado" hidden>
+          <button type="button" data-mode="planta2d" aria-pressed="false">Planta 2D</button><button type="button" data-mode="planta3d" id="btnModePlanta3d" aria-pressed="false">Planta 3D</button><button type="button" data-mode="visita" id="btnModeVisita" aria-pressed="false">Tour 3D</button>
+        </nav>
+        <a class="map-link" href="mapa-liv-ipanema-5km.html">O que tem por perto?</a>
+      </div>
+      <nav id="interiorNavbar" class="interior-navbar" hidden aria-label="Controles da planta">
+        <div class="interior-info-box sr-only"><strong id="interiorUnitTitle">Planta de referência</strong><span id="interiorUnitSubtitle">Interior ilustrativo</span></div>
+        <button type="button" id="btnOpenUnitCard" hidden>Informações do apartamento</button>
+        <div id="hostPlan2dControls" class="host-plan2d-controls" hidden><button type="button" id="plan2dZoomOut" aria-label="Diminuir zoom da planta 2D">−</button><output id="plan2dZoomValue" aria-label="Zoom da planta 2D" aria-live="polite">100%</output><button type="button" id="plan2dZoomIn" aria-label="Aumentar zoom da planta 2D">+</button><button type="button" id="plan2dReset">Centralizar</button></div>
+        <div id="hostTourControls" class="host-tour-controls" hidden>
+          <label for="hostRoomSelect" class="sr-only">Ambiente</label><select id="hostRoomSelect" aria-label="Ambiente"></select><button type="button" id="hostRoomGo">Ir ao ambiente</button>
+        </div>
+        <div id="hostPlanControls" class="host-plan-controls"><button type="button" id="hostCutParedes" aria-pressed="false">Paredes baixas</button><button type="button" id="hostFramePlan">Centralizar</button></div>
+      </nav>
+      <section id="buyerContact" class="buyer-contact" hidden aria-label="Conversar sobre este apartamento">
+        <a id="buyerContactLink" class="buyer-contact-action" target="_blank" rel="noopener noreferrer" hidden></a>
+        <button type="button" id="buyerContactCopy" class="buyer-contact-action" hidden></button>
+        <p id="buyerContactNote"></p><p id="buyerContactStatus" role="status"></p>
+        <textarea id="buyerContactMessage" aria-label="Mensagem sobre o apartamento para copiar" readonly hidden></textarea>
+      </section>
+      <div id="referenceControls" hidden>
+        <div id="typologyControls" class="setting-field"><label for="typology">Planta do apartamento</label><select id="typology"><option value="canto">Canto · 39,12 m²</option><option value="meio">Meio · até 40,79 m²</option><option value="canto-espelhado">Canto espelhada (finais 02 e 07)</option><option value="meio-espelhado">Meio espelhada (finais 03 e 06)</option></select></div>
+        <p id="interiorNote" class="reference-note">Interior ilustrativo · medidas inferidas a partir das plantas publicadas.</p>
+      </div>
+    </div>
+  </main>
+  <div class="data-warnings"><p id="stockWarning" class="mirror-note" role="status" hidden></p><p id="commercialWarning" class="mirror-note" role="status" hidden></p><p id="relationWarning" class="mirror-note" role="status" hidden></p></div>
+  <dialog id="unitDetails" class="unit-details" aria-labelledby="detailsTitle">
+    <div class="details-head"><div><p class="eyebrow">Apartamento selecionado</p><h2 id="detailsTitle">Informações do apartamento</h2></div><button type="button" id="closeDetails" aria-label="Fechar informações" autofocus>Fechar</button></div>
+    <p id="detailsStockWarning" class="mirror-note" role="status" hidden></p>
+    <div id="modalUnitDetails"><div id="detailsBody">
+      <dl><dt>Situação e preço</dt><dd id="unitSale">Não informados</dd><dt>Área</dt><dd id="unitArea">A confirmar</dd><dt>Quartos / banheiros</dt><dd id="unitRooms">Não informados</dd><dt>Número e vaga</dt><dd id="unitCommercial">Não informados</dd><dt>Planta</dt><dd id="unitLayout">Em conferência</dd><dt>Posição</dt><dd id="unitPosition"></dd></dl>
+      <p id="gardenNote" class="note" hidden>Térreo: a área inclui o jardim privativo (book da ADN).</p>
+      <p id="unitDescription" hidden></p><p id="commercialConditions" hidden></p>
+      <details class="source-details"><summary>Origem dos dados</summary><p class="note">Posição aproximada, conforme a ordem da implantação.</p><p id="unitReferenceNote" class="note"></p><p id="commercialSource" class="note" hidden></p><p id="relationSource" class="note" hidden></p><span>Fonte: book digital da ADN Construtora.</span></details>
+    </div>
+    </div><div class="details-actions"><button type="button" data-unit-open="planta2d" class="primary" hidden>Ver planta</button><button type="button" data-unit-open="planta3d" hidden>Planta 3D</button><button type="button" data-unit-open="visita" hidden>Tour 3D</button></div>
+  </dialog>
+  <dialog id="mapPanel" aria-labelledby="mapTitle" aria-hidden="true" inert><div class="map-panel-head"><h2 id="mapTitle">Entorno do Parque das Laranjeiras</h2><button type="button" id="closeMap" autofocus>← Voltar à maquete</button></div></dialog>
+  <script type="module" src="orientacao.js?rev=2026-10-28"></script>
+  <script type="module" src="viewer.js?rev=2026-10-13-medidas2"></script>
+</body>
+</html>

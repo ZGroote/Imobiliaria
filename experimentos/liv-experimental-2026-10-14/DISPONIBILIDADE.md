@@ -1,0 +1,13 @@
+# Filtro de apartamentos disponíveis
+
+O filtro no canto superior esquerdo substitui a etiqueta fixa de final/pavimento. **Todos** mostra a maquete habitual; **Disponíveis** acrescenta uma camada verde luminosa sobre as posições aproximadas com disponibilidade explicitamente cadastrada. A quantidade exibida abrange todo o catálogo aberto. A ficha continua abrindo por clique/toque na fachada, sem mudar a câmera. Dados comerciais, final e pavimento aparecem na ficha; os blocos redundantes do painel lateral foram removidos.
+
+Não se presume disponibilidade: sem dados, há um aviso e nenhum brilho. Vendidos, reservados e bloqueados ficam sem destaque. Uma mudança no painel atualiza a camada sem recriar a cena. Retirada da publicação, conexão perdida ou falha na validação/atualização suspendem o brilho; o retorno de uma consulta confirmada restaura somente as ofertas disponíveis.
+
+O efeito usa dois objetos agrupados, preenchimento e contorno, com materiais padrão sem cálculo de iluminação. Mantém materiais PBR, luz pré-calculada e sombras da cena. As geometrias seguem os contornos já verificados dos finais, sem bloco retangular preenchendo seus recuos. Os buffers só são reconstruídos quando muda o conjunto destacado; não há animação de brilho, novas luzes, pós-processamento ou raycasting por quadro. Recursos e eventos são descartados junto com a cena. O seletor tem rótulo, mensagem acessível e área de interação de pelo menos 44 px, também no viewport de toque.
+
+Verificação: `node --test test_disponibilidade.mjs test_catalogo_unidades.mjs test_unidades.mjs` passou em 22 casos. `qa_disponibilidade.py` passou em WebGPU, WebGL e toque emulado, com clique real num destaque, câmera preservada, venda, retirada da tabela, erro HTTP, retorno de modo e encaixe do filtro no celular. Relatório em `evidencias/disponibilidade-filtro/runtime.json`. As capturas dessa pasta usam exclusivamente **DEMONSTRAÇÃO SINTÉTICA — SEM OFERTA REAL**, interceptada no navegador privado; `comercial.json` continua sem ofertas. O ensaio do painel em emulador inclui brilho após publicação, venda ao vivo, desconexão e revogação; seu estado está registrado em `evidencias/estoque-admin/runtime.json`.
+
+O estoque real ainda depende de preenchimento/vinculação/publicação pelo responsável. Teste em aparelhos físicos permanece pendente. Este filtro não modifica a implantação nem acrescenta terreno ao redor da maquete.
+
+O teste visual atual usa um cadastro real no emulador local, separado da produção: 136 posições marcadas como vendidas/ocupadas e 34 disponíveis em todos os pavimentos. `qa_demo_disponibilidade.py` conferiu o conjunto inteiro, as duas faces, clique/toque e edição pelo painel com atualização ao vivo. Veja [DEMONSTRACAO.md](DEMONSTRACAO.md).

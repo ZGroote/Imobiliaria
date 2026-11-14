@@ -1,0 +1,191 @@
+{
+ "perfis": {
+  "4g-bom": [
+   70,
+   2500000.0,
+   625000.0,
+   1
+  ],
+  "4g-fraco": [
+   150,
+   625000.0,
+   187500.0,
+   1
+  ],
+  "3g": [
+   300,
+   200000.0,
+   96000.0,
+   1
+  ],
+  "celular-lighthouse": [
+   562.5,
+   188743.68,
+   86400.0,
+   4
+  ]
+ },
+ "res": {
+  "4g-bom": {
+   "mediana": {
+    "quadro1": 0.94,
+    "pedido": 2.42,
+    "pronto_cortina": 2.88,
+    "pronto_cama": 2.88,
+    "instalado_cortina": 2.89,
+    "instalado_cama": 2.89,
+    "pronto_fogao": 3.21,
+    "pronto_geladeira": 3.21,
+    "instalado_geladeira": 3.22,
+    "instalado_fogao": 3.22,
+    "pronto_rack": 3.6,
+    "instalado_rack": 3.61,
+    "kb_pagina": 323.85,
+    "kb_cama": 0.0,
+    "kb_moveis": 246.46
+   },
+   "rodadas": [
+    {
+     "quadro1": 0.9351000000238419,
+     "pedido": 2.424,
+     "pronto_cortina": 2.876,
+     "pronto_cama": 2.88,
+     "instalado_cortina": 2.891,
+     "instalado_cama": 2.891,
+     "pronto_fogao": 3.213,
+     "pronto_geladeira": 3.213,
+     "instalado_geladeira": 3.224,
+     "instalado_fogao": 3.224,
+     "pronto_rack": 3.6,
+     "instalado_rack": 3.607,
+     "kb_pagina": 323.8505859375,
+     "kb_cama": 0.0,
+     "kb_moveis": 246.455078125,
+     "erro": null,
+     "erros": []
+    }
+   ]
+  },
+  "4g-fraco": {
+   "mediana": {
+    "quadro1": 1.35,
+    "pedido": 2.77,
+    "pronto_cortina": 3.5,
+    "instalado_cortina": 3.51,
+    "pronto_cama": 3.82,
+    "pronto_fogao": 3.82,
+    "pronto_geladeira": 3.82,
+    "instalado_geladeira": 3.83,
+    "instalado_fogao": 3.83,
+    "instalado_cama": 3.83,
+    "pronto_rack": 4.47,
+    "instalado_rack": 4.48,
+    "kb_pagina": 323.85,
+    "kb_cama": 0.0,
+    "kb_moveis": 246.46
+   },
+   "rodadas": [
+    {
+     "quadro1": 1.3471000000238418,
+     "pedido": 2.768,
+     "pronto_cortina": 3.498,
+     "instalado_cortina": 3.514,
+     "pronto_cama": 3.821,
+     "pronto_fogao": 3.823,
+     "pronto_geladeira": 3.823,
+     "instalado_geladeira": 3.83,
+     "instalado_fogao": 3.83,
+     "instalado_cama": 3.83,
+     "pronto_rack": 4.472,
+     "instalado_rack": 4.48,
+     "kb_pagina": 323.8505859375,
+     "kb_cama": 0.0,
+     "kb_moveis": 246.455078125,
+     "erro": null,
+     "erros": []
+    }
+   ]
+  },
+  "3g": {
+   "mediana": {
+    "quadro1": 2.59,
+    "pedido": 3.97,
+    "pronto_cortina": 5.45,
+    "instalado_cortina": 5.46,
+    "pronto_fogao": 5.77,
+    "pronto_geladeira": 5.77,
+    "pronto_cama": 5.77,
+    "instalado_geladeira": 5.78,
+    "instalado_fogao": 5.78,
+    "instalado_cama": 5.78,
+    "pronto_rack": 6.77,
+    "instalado_rack": 6.78,
+    "kb_pagina": 323.85,
+    "kb_cama": 0.0,
+    "kb_moveis": 246.46
+   },
+   "rodadas": [
+    {
+     "quadro1": 2.5903000000119207,
+     "pedido": 3.969,
+     "pronto_cortina": 5.448,
+     "instalado_cortina": 5.462,
+     "pronto_fogao": 5.77,
+     "pronto_geladeira": 5.77,
+     "pronto_cama": 5.772,
+     "instalado_geladeira": 5.778,
+     "instalado_fogao": 5.778,
+     "instalado_cama": 5.778,
+     "pronto_rack": 6.774,
+     "instalado_rack": 6.779,
+     "kb_pagina": 323.8505859375,
+     "kb_cama": 0.0,
+     "kb_moveis": 246.455078125,
+     "erro": null,
+     "erros": []
+    }
+   ]
+  },
+  "celular-lighthouse": {
+   "mediana": {
+    "quadro1": 3.94,
+    "pedido": 5.94,
+    "pronto_cortina": 8.46,
+    "instalado_cortina": 8.46,
+    "pronto_cama": 8.84,
+    "instalado_cama": 8.85,
+    "pronto_fogao": 9.46,
+    "pronto_geladeira": 9.46,
+    "instalado_geladeira": 9.47,
+    "instalado_fogao": 9.47,
+    "pronto_rack": 10.68,
+    "instalado_rack": 10.69,
+    "kb_pagina": 323.85,
+    "kb_cama": 0.0,
+    "kb_moveis": 246.46
+   },
+   "rodadas": [
+    {
+     "quadro1": 3.944800000011921,
+     "pedido": 5.941,
+     "pronto_cortina": 8.459,
+     "instalado_cortina": 8.464,
+     "pronto_cama": 8.838,
+     "instalado_cama": 8.847,
+     "pronto_fogao": 9.458,
+     "pronto_geladeira": 9.459,
+     "instalado_geladeira": 9.466,
+     "instalado_fogao": 9.466,
+     "pronto_rack": 10.68,
+     "instalado_rack": 10.685,
+     "kb_pagina": 323.8505859375,
+     "kb_cama": 0.0,
+     "kb_moveis": 246.455078125,
+     "erro": null,
+     "erros": []
+    }
+   ]
+  }
+ },
+ "faltou": []
+}

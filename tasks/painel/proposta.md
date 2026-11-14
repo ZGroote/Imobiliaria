@@ -95,10 +95,11 @@ export interface User {                   // users/{uid}; id = uid do Auth; FONT
   agencyId?: string                       // obrigatório para papel de imobiliária; proibido para interno
   name: string; email: string             // email minúsculo, igual ao token
   role: UserRole; active: boolean
+  publicContact?: { whatsapp: string }    // editável pelo próprio usuário; público nos links individuais
   createdAt: Timestamp; updatedAt: Timestamp
 }
 
-export interface Invite {                 // invites/{email}; só platform_admin escreve
+export interface Invite {                 // invites/{email}; admin ou gerente (corretores da própria agência)
   email: string; name: string; role: UserRole; agencyId?: string
   createdBy: string; createdAt: Timestamp
 }
@@ -214,7 +215,8 @@ export interface AuditLog {               // auditLogs/{id}; só cresce
 |---|---|
 | requests | agencyId, updatedAt ↓ |
 | requests | agencyId, status, updatedAt ↓ |
-| requests | status, updatedAt ↓ (Kanban) |
+| requests | status, updatedAt ↓ (Kanban); status, publishedAt ↓ (Publicado: últimas 48h) |
+| properties | agencyId, status, publicationReady (contador de publicações ativas) |
 | properties | agencyId, status, updatedAt ↓ |
 | requestAssets | agencyId, requestId, createdAt |
 | auditLogs | agencyId, visibility, entityId, timestamp ↓ |
@@ -244,8 +246,8 @@ cair:**
 
 | Proteção | Teste |
 |---|---|
-| Ninguém muda o próprio `role`, `agencyId` ou `active`; o próprio usuário só muda `name` | 8 (e a mutação M1) |
-| Papel de imobiliária não muda o papel de ninguém nem cria convite | 4 |
+| Ninguém muda o próprio `role`, `agencyId` ou `active`; o próprio usuário muda `name` e o WhatsApp público em Meu perfil | 8 e teste de perfil (e a mutação M1) |
+| Gerente convida, lista e cancela somente convites de corretores da própria imobiliária; corretor não convida. Nenhum dos dois muda papéis | 4 e teste de convites da equipe |
 | Operador não muda papéis, não convida e não cria agência | 5 |
 | Só platform_admin escreve `role`, `agencyId`, `active`, e só em combinação válida: interno **sem** agência, imobiliária **com** agência existente | 6, 8 |
 | `users/{uid}` só nasce de convite: próprio uid, e-mail verificado, papel e agência **iguais ao convite**, sem campos extras | 7 |
@@ -271,11 +273,12 @@ garantem, e o teste de cada garantia:
 |---|---|---|
 | 1, 1b | Corretor A não lê nada de B (`get` e `list`; query sem filtro de agência é negada inteira). Lê tudo de A (D4). | ✔ |
 | 2 | Gerente A não altera B, não cria pedido em nome de B, não liga pedido de A a imóvel de B, não anexa material a pedido de B | ✔ |
-| 3 | Nota interna, log interno e convites invisíveis à imobiliária | ✔ |
+| 3 | Nota interna e log interno invisíveis à imobiliária; convites de corretores da própria agência visíveis ao gerente | ✔ |
 | 4 | Papel de imobiliária não faz nada de área admin | ✔ |
 | 5 | Operador produz, mas não aprova, não publica e não administra | ✔ |
 | 6 | platform_admin lê e administra todos os tenants e publica o aprovado | ✔ |
 | 7, 8, 9, 10 | Convite, autopromoção, inativo e pendente, anônimo | ✔ |
+| Convites da equipe | Gerente cadastra corretores pelo convite em `/team`, acompanha pendentes e cancela; não cria outros papéis nem lê, sobrescreve ou cancela convites de outra agência. Corretor convidado cria a própria senha e confirma o e-mail | ✔ |
 | 11 | Status só muda com AuditLog **no mesmo batch, do mesmo autor, da mesma ação** | ✔ |
 | 12 | Aprovar: só o gerente da agência, só em `agency_review`, só o build em revisão | ✔ |
 | 13, 13b | Publicar só o aprovado; trocar o preview derruba a aprovação; o imóvel só aponta para build aprovado de pedido dele; reverter para o anterior | ✔ |
@@ -818,7 +821,31 @@ firebase.painel.json           site imobilaria-deccb-painel (só hosting)
   - Produção: `accepted`, `production`
   - Revisão: `internal_review`
   - Aprovação: `agency_review`, `approved`
-  - Publicado: `published`
+  - Publicado: `published`, durante as 48h após `requests.publishedAt`. Depois sai só do Kanban;
+    o pedido e os registros de publicação continuam no histórico. Pedidos antigos sem esse campo
+    ficam fora da coluna. A consulta aplica o corte antes da paginação e do contador; o relógio
+    reconsulta no vencimento dos cartões visíveis, ao voltar à janela e a cada minuto para atualizar
+    também o total além da página, preservando a quantidade de cartões carregada.
+
+Na lista de imóveis e na ficha, somente o gerente da própria imobiliária altera a visibilidade.
+A chave fica cinza à esquerda quando desligada e verde à direita quando ligada. Administrador,
+operador e corretor consultam o estado, sem poder alterá-lo, inclusive por acesso direto ao banco.
+Essas ações alternam `properties.status` entre `inactive` e `active`, com AuditLog atômico.
+O servidor consulta esse estado em cada abertura de página pública e de link individual, incluindo encaminhamentos;
+os tokens, seus prazos, os builds e o histórico não são alterados. Reativar permite usar os mesmos
+endereços novamente, enquanto o link não tiver sido revogado ou expirado por suas próprias regras.
+O prazo de 48h dos cartões do Kanban não muda ao pausar ou reativar um imóvel.
+Registrar ou reverter um build preserva o estado escolhido pelo gerente.
+Os HTMLs públicos do LIV são servidos pela função, com consulta privada ao Firestore e sem cache;
+o Hosting entrega os demais recursos e não publica esses HTMLs como arquivos estáticos.
+
+`publicationReady: true` identifica conteúdo preparado, inclusive publicação avulsa cadastrada
+no servidor (LIV). Uma publicação convencional grava esse campo junto com o build aprovado.
+A implantação preenche somente esse marcador nos imóveis existentes cujo conteúdo foi conferido;
+não fixa o build do LIV no documento, para preservar a atualização pela configuração do servidor.
+`publicationReady: false` prevalece sobre metadados antigos de um Hosting que já foi desativado.
+O contador de publicados exige esse marcador e `status == active`. Imóvel sem conteúdo preparado
+mostra o motivo e acesso às solicitações aprovadas; a ação não declara uma publicação inexistente.
 - **`PublishPanel`** só habilita "Registrar publicação" quando o `estado.json` do site
   mostra o `approvedBuild` no ar com o `approvedManifestSha256`.
 - **`CopyLinkButton`** copia sempre `tourUrl`/`maqueteUrl` (ponteiros), nunca a URL de

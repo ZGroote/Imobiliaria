@@ -1,0 +1,506 @@
+{
+  "size": 1024,
+  "samples": 256,
+  "backend": "OPTIX",
+  "devices": [
+    "NVIDIA GeForce GTX 1650"
+  ],
+  "blendSHA256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88",
+  "sourceSHA256": "171f69535e42be033e97db62c79c024417c11c3d089df86825ef5e47d1149e91",
+  "geometrySHA256": "b5ddfccb306c0f7e7b2c72a188166681b85e800d88c027e4fc1c40641c0b8ef3",
+  "targets": [
+    "mesh-0",
+    "mesh-1",
+    "mesh-2",
+    "forro-original",
+    "mesh-4",
+    "rodateto-liso-continuo"
+  ],
+  "exposureEV": 3.0,
+  "keys": {
+    "maisx-06": {
+      "kind": "dia",
+      "side": "+x",
+      "hour": 6,
+      "elevationDegrees": 7.68886113806362,
+      "daylight": 1,
+      "sunStrength": 0.518882121866173,
+      "sunIrradianceRGB": [
+        94.36161804199219,
+        57.768280029296875,
+        21.233633041381836
+      ],
+      "rawSHA256": "9647dd38aa18c672bfdba5d67c4ae77bc24a8a5e05143faf559b76bf30fbed60",
+      "probesSHA256": "9f9a182c426e2ff43295b480b3e2beb30f1aaeac9017d90e9bf0c3becd9087fd",
+      "seconds": 92.39725320000434,
+      "max": 15.683218002319336
+    },
+    "maisx-08": {
+      "kind": "dia",
+      "side": "+x",
+      "hour": 8,
+      "elevationDegrees": 34.99304776350392,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        152.9129638671875,
+        127.19145965576172,
+        93.36590576171875
+      ],
+      "rawSHA256": "ce27cc419dfeeaec49d9ffeac9cc18ff141c8556375eb12e64c351a8a2ae4f08",
+      "probesSHA256": "a341fb628d1bacd3e555dca87a20592065aefd337d8614901b546b24bbdd4bb1",
+      "seconds": 97.35243800000171,
+      "max": 13.409797668457031
+    },
+    "maisx-10": {
+      "kind": "dia",
+      "side": "+x",
+      "hour": 10,
+      "elevationDegrees": 62.2472136852664,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        161.65478515625,
+        139.22032165527344,
+        110.31343841552734
+      ],
+      "rawSHA256": "d337e612d064eccd2f3f26ba30d5eda4b832166d0fcb53026fb7e157d9a30de3",
+      "probesSHA256": "61522b6ac7aa38316ef3d96d5a794c8c7b1a7a113ac0ef6b90e54315f2c7d8de",
+      "seconds": 101.13741080000182,
+      "max": 12.718326568603516
+    },
+    "maisx-12": {
+      "kind": "dia",
+      "side": "+x",
+      "hour": 12,
+      "elevationDegrees": 80.02449379677131,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        163.3834991455078,
+        141.57122802734375,
+        113.76602172851562
+      ],
+      "rawSHA256": "ace951acd37f6dab9f3df161693ee85666f4e04795816c7484d719cfde5e7257",
+      "probesSHA256": "24b5eacaad87fd30e8f540ac101835fc303fbdc319721af5c76406b08b31d614",
+      "seconds": 98.49641189997783,
+      "max": 12.497716903686523
+    },
+    "maisx-14": {
+      "kind": "dia",
+      "side": "+x",
+      "hour": 14,
+      "elevationDegrees": 57.83918567751366,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        160.84019470214844,
+        138.1255645751953,
+        108.80492401123047
+      ],
+      "rawSHA256": "b6b811142d8436ba154afbdc3e36b9e7650ede4eb52361cf6cbd9db5e950cb08",
+      "probesSHA256": "dba3caa86e3de27e6f93a8d473695df64b2947ee9780e7cd7534ef0bb59101ce",
+      "seconds": 98.40995899998234,
+      "max": 12.464747428894043
+    },
+    "maisx-16": {
+      "kind": "dia",
+      "side": "+x",
+      "hour": 16,
+      "elevationDegrees": 30.47473525389141,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        149.50257873535156,
+        122.73190307617188,
+        87.56439971923828
+      ],
+      "rawSHA256": "a1beaff90982bf9fe5fc9cb1187c0b08d6c7e935ba18356a853d55b0b656f4c0",
+      "probesSHA256": "101e89cb2608844d310119ddf3f899e818ef860eeb8adf9507e7c9924a06f04f",
+      "seconds": 106.38686280002003,
+      "max": 11.43835163116455
+    },
+    "maisx-18": {
+      "kind": "dia",
+      "side": "+x",
+      "hour": 18,
+      "elevationDegrees": 3.308692673126792,
+      "daylight": 0.8716632758569401,
+      "sunStrength": 0.12450122889467755,
+      "sunIrradianceRGB": [
+        52.56645965576172,
+        21.66230010986328,
+        2.3917629718780518
+      ],
+      "rawSHA256": "cc239ae883626c1abce33a6926d0a6bafa61b4fa376078999fc0fe68ad1dfdb2",
+      "probesSHA256": "b8e1f66b0c0284ba24375805024166cdb2e001775dff9dec0e976accd45c480d",
+      "seconds": 117.14179789999616,
+      "max": 7.88029670715332
+    },
+    "menosx-06": {
+      "kind": "dia",
+      "side": "-x",
+      "hour": 6,
+      "elevationDegrees": 7.68886113806362,
+      "daylight": 1,
+      "sunStrength": 0.518882121866173,
+      "sunIrradianceRGB": [
+        94.46891784667969,
+        57.750003814697266,
+        21.139667510986328
+      ],
+      "rawSHA256": "65572839d1a38362747505c39fe18fe6ae574a7bc80bbc26fd244bda5ac4229e",
+      "probesSHA256": "01a1b948427bdeff543e495f66436192215a5e89d5e4ee43c44f87b025419abb",
+      "seconds": 130.17312740001944,
+      "max": 10.837902069091797
+    },
+    "menosx-08": {
+      "kind": "dia",
+      "side": "-x",
+      "hour": 8,
+      "elevationDegrees": 34.99304776350392,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        152.68409729003906,
+        126.99756622314453,
+        93.23344421386719
+      ],
+      "rawSHA256": "ffcc701dd5bfee41ba9524da9ceba9cb59f8386c6dcc9c36f5e5c72c2fc39c8c",
+      "probesSHA256": "974f5ca369aab751247e996a66e116cb87bf22614279c29beab90b2e335c2fe7",
+      "seconds": 123.87411900001462,
+      "max": 11.729057312011719
+    },
+    "menosx-10": {
+      "kind": "dia",
+      "side": "-x",
+      "hour": 10,
+      "elevationDegrees": 62.2472136852664,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        161.737548828125,
+        139.2728729248047,
+        110.36334991455078
+      ],
+      "rawSHA256": "bb5ebf65a593beffaabb9369db8bc64e2983345c685e69e72540bcf5af5ef215",
+      "probesSHA256": "46eb1d9016c2c51f4206d133a525e69c4edeb932c0612243b8443d762c0da1fd",
+      "seconds": 128.00551160000032,
+      "max": 12.48135757446289
+    },
+    "menosx-12": {
+      "kind": "dia",
+      "side": "-x",
+      "hour": 12,
+      "elevationDegrees": 80.02449379677131,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        163.33023071289062,
+        141.54110717773438,
+        113.76053619384766
+      ],
+      "rawSHA256": "739a3bf2a9e90d6ed641708b6f8541603663a63855c6f6d4f50d36260c516598",
+      "probesSHA256": "69c1dd8c6820b41c8d595afdd8fd2ab4c51c28291a4f9b7ff2696b60a9052915",
+      "seconds": 140.61451349998242,
+      "max": 12.288870811462402
+    },
+    "menosx-14": {
+      "kind": "dia",
+      "side": "-x",
+      "hour": 14,
+      "elevationDegrees": 57.83918567751366,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        160.82388305664062,
+        138.07164001464844,
+        108.6941909790039
+      ],
+      "rawSHA256": "d74bc178a590f741224085e5ae2d94754d462d1c2ded3728b9fbe0a42012ab6e",
+      "probesSHA256": "f532e456f671f0bb0398e153c979c46a0a251485fae2c4e0eae74dd7ffa56881",
+      "seconds": 115.50055880000582,
+      "max": 12.68714714050293
+    },
+    "menosx-16": {
+      "kind": "dia",
+      "side": "-x",
+      "hour": 16,
+      "elevationDegrees": 30.47473525389141,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        149.86045837402344,
+        123.0869369506836,
+        87.88510131835938
+      ],
+      "rawSHA256": "ab9076dd96ee22efea7ce62941d0330c2f4d509fb7bee0cc068285928d53e162",
+      "probesSHA256": "9f5fff2fae6ca320e0472d1359fd369ba9ebedf9935646384d996bfa42771cb0",
+      "seconds": 225.00102129997686,
+      "max": 14.521906852722168
+    },
+    "menosx-18": {
+      "kind": "dia",
+      "side": "-x",
+      "hour": 18,
+      "elevationDegrees": 3.308692673126792,
+      "daylight": 0.8716632758569401,
+      "sunStrength": 0.12450122889467755,
+      "sunIrradianceRGB": [
+        52.4898567199707,
+        21.662424087524414,
+        2.408369779586792
+      ],
+      "rawSHA256": "bb71efaef95eddbb240eb91ff8a1f67ee568144577a6e65512ae35fdf7ac8637",
+      "probesSHA256": "059e0e600fecfcbed8809b5c865ea362100ced2a60e5c97ed0b452067c662cd0",
+      "seconds": 104.2707575999957,
+      "max": 14.553020477294922
+    },
+    "maisz-06": {
+      "kind": "dia",
+      "side": "+z",
+      "hour": 6,
+      "elevationDegrees": 7.68886113806362,
+      "daylight": 1,
+      "sunStrength": 0.518882121866173,
+      "sunIrradianceRGB": [
+        94.319580078125,
+        57.69603729248047,
+        21.174785614013672
+      ],
+      "rawSHA256": "913de66026f0f35daa4d7bf54b1555eedaaa4f60df9d0c5607e0325934cb7122",
+      "probesSHA256": "bcbc6d267bb335cb1fc32a1db47dab07eb75ddde7c5adf98b9910cbaacf4dc84",
+      "seconds": 110.98823069999344,
+      "max": 10.893375396728516
+    },
+    "maisz-08": {
+      "kind": "dia",
+      "side": "+z",
+      "hour": 8,
+      "elevationDegrees": 34.99304776350392,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        152.8367919921875,
+        127.12114715576172,
+        93.32830810546875
+      ],
+      "rawSHA256": "8b5f9b0a6b75be43ad26b8fc34c88aa34b39b6e3edb7deee1c53fb43f55e5c94",
+      "probesSHA256": "8012b0c5407444f5beedff795ccc4960c70f0fbdcdfb46499e25e156b18e2a85",
+      "seconds": 123.83041900000535,
+      "max": 12.18053913116455
+    },
+    "maisz-10": {
+      "kind": "dia",
+      "side": "+z",
+      "hour": 10,
+      "elevationDegrees": 62.2472136852664,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        161.518798828125,
+        139.0704803466797,
+        110.20014953613281
+      ],
+      "rawSHA256": "96e965b12b4e4776d78597232168c7baacbf009ff22d081a7c514f32d2bc076b",
+      "probesSHA256": "a5b543e8c031932835e1f0109a465446ab077b021a14a7e25628f5c5decc4ca7",
+      "seconds": 125.84088430000702,
+      "max": 12.766206741333008
+    },
+    "maisz-12": {
+      "kind": "dia",
+      "side": "+z",
+      "hour": 12,
+      "elevationDegrees": 80.02449379677131,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        163.28526306152344,
+        141.4888916015625,
+        113.69182586669922
+      ],
+      "rawSHA256": "d88cda9d0ee1b60866d4286c23fb28cd0db0974c2b29701ef4ee866727b57f71",
+      "probesSHA256": "d645b78e40eed6bb12352544abdb3c400f60aee58e8a005ccefd99425f0d280f",
+      "seconds": 134.15884430002188,
+      "max": 12.114849090576172
+    },
+    "maisz-14": {
+      "kind": "dia",
+      "side": "+z",
+      "hour": 14,
+      "elevationDegrees": 57.83918567751366,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        160.89552307128906,
+        138.1519012451172,
+        108.78594207763672
+      ],
+      "rawSHA256": "615d0376173afc26c7d9c9868734bea5b7fa3eb557b2a7fc0f8d6935461e1687",
+      "probesSHA256": "7b8640b52609284d7a2a2306c2bf2aca05024aae7a43a90ee8341f33a61cc21e",
+      "seconds": 161.01462120001088,
+      "max": 12.640573501586914
+    },
+    "maisz-16": {
+      "kind": "dia",
+      "side": "+z",
+      "hour": 16,
+      "elevationDegrees": 30.47473525389141,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        149.63238525390625,
+        122.90451049804688,
+        87.74798583984375
+      ],
+      "rawSHA256": "10efd8527081021175415ba6b2d286a4fb119d2b7f86f8278ec0b18bff63068b",
+      "probesSHA256": "592a1ccedcf39534e9dd9bcfdb62b8fb939268cab522aa173788c75cd3199b54",
+      "seconds": 297.99602869999944,
+      "max": 11.704906463623047
+    },
+    "maisz-18": {
+      "kind": "dia",
+      "side": "+z",
+      "hour": 18,
+      "elevationDegrees": 3.308692673126792,
+      "daylight": 0.8716632758569401,
+      "sunStrength": 0.12450122889467755,
+      "sunIrradianceRGB": [
+        52.50181579589844,
+        21.644195556640625,
+        2.4045891761779785
+      ],
+      "rawSHA256": "c38d247e9ebc7389c910304b9890709d1eef68d4336eaa121342d1a7ff4e1c0e",
+      "probesSHA256": "f9099459126d4368b6337c329924cd75e2f33ee5d812c327b3eb679a50088e6c",
+      "seconds": 113.11719429999357,
+      "max": 7.878315448760986
+    },
+    "menosz-06": {
+      "kind": "dia",
+      "side": "-z",
+      "hour": 6,
+      "elevationDegrees": 7.68886113806362,
+      "daylight": 1,
+      "sunStrength": 0.518882121866173,
+      "sunIrradianceRGB": [
+        94.2615737915039,
+        57.668636322021484,
+        21.17254638671875
+      ],
+      "rawSHA256": "65d9c8da1432a1f38290a1bf5ff2a15847c0c8f69eb388fbc190313ffb1c6f90",
+      "probesSHA256": "d9ff4198bf23180d9ce139af4bccba0d356145a95c0b9728f022b8bbc542747c",
+      "seconds": 178.47912979999091,
+      "max": 10.547589302062988
+    },
+    "menosz-08": {
+      "kind": "dia",
+      "side": "-z",
+      "hour": 8,
+      "elevationDegrees": 34.99304776350392,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        152.79214477539062,
+        127.11213684082031,
+        93.34668731689453
+      ],
+      "rawSHA256": "95eee0741615f2c665480d58738a9590133d68259cffac2e3afc99fb36edda2a",
+      "probesSHA256": "666c5c53ebf70d0fb6e6de8bd5ed32adf55e457e0d783859302cba2ffbfd33b0",
+      "seconds": 119.80376999999862,
+      "max": 12.010942459106445
+    },
+    "menosz-10": {
+      "kind": "dia",
+      "side": "-z",
+      "hour": 10,
+      "elevationDegrees": 62.2472136852664,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        161.58949279785156,
+        139.1079559326172,
+        110.19401550292969
+      ],
+      "rawSHA256": "2d99193847b2e99a43c6f34dded252df448718413e3e43b2da6784b795fd6ee8",
+      "probesSHA256": "dbbaea706361c5bf2aaea26ef5cabd3364008e7e900c5650ba1fa9e132f6a7f7",
+      "seconds": 242.66098139999667,
+      "max": 12.577095031738281
+    },
+    "menosz-12": {
+      "kind": "dia",
+      "side": "-z",
+      "hour": 12,
+      "elevationDegrees": 80.02449379677131,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        163.2552490234375,
+        141.49533081054688,
+        113.75711822509766
+      ],
+      "rawSHA256": "d5bc03e2535d8397b3099d0a47ec58b3c07ed982c7e93144e8ecd9b4f46fabf8",
+      "probesSHA256": "ad02a846bc1ec2db0bdce72ead2651b4a9b35de50453073537c5454c3519a1a4",
+      "seconds": 214.52292879999732,
+      "max": 12.426152229309082
+    },
+    "menosz-14": {
+      "kind": "dia",
+      "side": "-z",
+      "hour": 14,
+      "elevationDegrees": 57.83918567751366,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        160.85337829589844,
+        138.1114044189453,
+        108.77674865722656
+      ],
+      "rawSHA256": "6a9f4800024504b51d6904b351408258ac433777628d1e3d22bbf9d95e8380c1",
+      "probesSHA256": "db9e37c4c13adc5666d9c5ba328613fac0adae8a844ff9d32866dd851bd6abc2",
+      "seconds": 148.44207229997846,
+      "max": 12.781965255737305
+    },
+    "menosz-16": {
+      "kind": "dia",
+      "side": "-z",
+      "hour": 16,
+      "elevationDegrees": 30.47473525389141,
+      "daylight": 1,
+      "sunStrength": 1,
+      "sunIrradianceRGB": [
+        149.74285888671875,
+        122.97382354736328,
+        87.79716491699219
+      ],
+      "rawSHA256": "0764702e139242177f4bcfb18ef7650ae3748fc3f81e81c36f0e5712b3341110",
+      "probesSHA256": "05292d280ce6436ddf854fdb813dea07cd8c43e25772c7d6a044e282b5a54a14",
+      "seconds": 265.3805466000049,
+      "max": 11.773477554321289
+    },
+    "menosz-18": {
+      "kind": "dia",
+      "side": "-z",
+      "hour": 18,
+      "elevationDegrees": 3.308692673126792,
+      "daylight": 0.8716632758569401,
+      "sunStrength": 0.12450122889467755,
+      "sunIrradianceRGB": [
+        52.62834167480469,
+        21.737348556518555,
+        2.4389419555664062
+      ],
+      "rawSHA256": "b3612d4b65a981609cf2b035ced693a41238879d622ba2e33c629119d3d33490",
+      "probesSHA256": "b3aa678b41b2cfaeb402908e5af592db52da5172a9067c1be5bdbadc4471287b",
+      "seconds": 90.11561229999643,
+      "max": 9.305564880371094
+    },
+    "noite": {
+      "kind": "noite",
+      "rawSHA256": "1a1ed23da6846a684c89bde8fae0a980a8a3afbb02a23067aa78bd9b528611f6",
+      "probesSHA256": "27638faa8bcea4210b1db4257b06af469a033fb025866b0625dd68b6ab5e82ea",
+      "seconds": 38.433027799997944,
+      "max": 2.3521311283111572
+    }
+  },
+  "v1": 0.31830981373786926
+}

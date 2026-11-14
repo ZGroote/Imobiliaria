@@ -1,0 +1,419 @@
+{
+  "towers": 1,
+  "floors": 17,
+  "floorHeight": 2.85,
+  "width": 47.7,
+  "depth": 12.7,
+  "balcony_stacks_front": 5,
+  "balcony_layout": "2+1+2",
+  "core_x": -6.2010000000000005,
+  "site": {
+    "parking_spaces": 175,
+    "cars": 36,
+    "trees": 146,
+    "palms": 13,
+    "site_objects": 1631,
+    "unique_site_meshes": 75,
+    "unique_site_vertices": 12315,
+    "official_site_area_m2": 6921.79,
+    "site_dimensions_are_inferred": true,
+    "amenities": [
+      "portaria",
+      "livon-shop",
+      "pergolado",
+      "playground",
+      "quiosque-happy-hour",
+      "quiosque-steak-house",
+      "kids-air",
+      "pomar",
+      "horta",
+      "lounge",
+      "piquenique",
+      "espaco-fitness",
+      "bicicletario",
+      "redario",
+      "piscina-adulto",
+      "piscina-infantil",
+      "pet-care",
+      "car-wash",
+      "bosque",
+      "caixa-agua"
+    ]
+  },
+  "dimensions": "proportional estimates from official images",
+  "source_url": "https://www.livonincorporadora.com.br/produtos/liv-ipanema/",
+  "variant": "contorno-estudo-01",
+  "confidence": "inferido",
+  "outlineSHA256": "8e6545269bfd0ebd97b80a82eff7a2feabff5aad6a0fb4a24b220f2d898bf878",
+  "outlineSource": {
+    "path": "v1.5/miniaturas/liv-ipanema/referencias/implantacao.jpg",
+    "sha256": "3217ae957969aed1ce9a177d914f038faff2fdee6fd6b10ec67063615a113677",
+    "dimensions": [
+      1900,
+      720
+    ],
+    "role": "Contorno cinza ilustrado da torre; exclui jardins, sombra, texto e passeio.",
+    "uncertaintyPixels": 2
+  },
+  "hypotheses": [
+    "Estender este contorno a lajes/fachadas é uma hipótese visual, não comprovação da seção em todos os pavimentos.",
+    "Face oposta, altura dos recuos, retorno dos vãos e gardens não têm projeto executivo.",
+    "Janelas próximas às novas quinas são reposicionadas minimamente para manter o vão no mesmo pano; não altera vínculos comerciais.",
+    "Base térrea e implantação conservam a geometria anterior; a hipótese não reconstrói a portaria."
+  ],
+  "windowShifts": [
+    {
+      "oldX": -20.8926,
+      "newX": -20.8926,
+      "delta": 0.0
+    },
+    {
+      "oldX": -12.4974,
+      "newX": -12.4974,
+      "delta": 0.0
+    },
+    {
+      "oldX": -9.444600000000001,
+      "newX": -9.376701694915255,
+      "delta": 0.06789830508474637
+    },
+    {
+      "oldX": 0.14310000000000014,
+      "newX": 0.14310000000000014,
+      "delta": 0.0
+    },
+    {
+      "oldX": 3.386699999999998,
+      "newX": 3.791840000000002,
+      "delta": 0.40514000000000383
+    },
+    {
+      "oldX": 7.298100000000002,
+      "newX": 7.041359999999999,
+      "delta": -0.2567400000000024
+    },
+    {
+      "oldX": 9.873899999999999,
+      "newX": 9.873899999999999,
+      "delta": 0.0
+    },
+    {
+      "oldX": 19.6047,
+      "newX": 19.6047,
+      "delta": 0.0
+    }
+  ],
+  "wallUnion": {
+    "walls": {
+      "solver": "Blender EXACT self UNION",
+      "inputVertices": 1352,
+      "inputFaces": 1014,
+      "outputVertices": 1266,
+      "outputFaces": 2704,
+      "nonManifoldEdges": 0,
+      "volume": 119.69193878735628,
+      "materials": [
+        "cinza",
+        "reboco",
+        "bege",
+        "recuo"
+      ],
+      "flatFacadeWithoutSubpixelBevel": true
+    },
+    "roof": {
+      "solver": "Blender EXACT self UNION",
+      "inputVertices": 656,
+      "inputFaces": 536,
+      "outputVertices": 1296,
+      "outputFaces": 2588,
+      "nonManifoldEdges": 0,
+      "volume": 70.94416582580335,
+      "materials": [
+        "cobertura",
+        "cinza",
+        "laje",
+        "reboco",
+        "bege"
+      ],
+      "flatFacadeWithoutSubpixelBevel": true
+    }
+  },
+  "recipeSources": {
+    "experimentos/liv-experimental-2026-10-14/modelo/modelar_exterior.py": "5698afe2f06c70a54658bfac1d259623850372ea83f9c445312c24cae0b3cb89",
+    "experimentos/liv-experimental-2026-10-14/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
+    "experimentos/liv-experimental-2026-10-14/modelo/unir_paredes.py": "16ddbb49572368f7f752e2d284a1e03314a07b4901b8412a061b90231283d09e",
+    "v1.5/miniaturas/blender_maquete_base.py": "656e755d43600072aa5477b44a2531f38963ad1cc3c9169396a9d8889fe6be81",
+    "v1.5/miniaturas/liv-ipanema/modelar_implantacao.py": "90a8a5081c601786ea3f908d88ae49a3cb6420ffca2c2fed81464cf4cdf1a3d1",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/modelar_entrada.py": "06ade05735e05dbd13f989b5c20a025297c52140d637600938a06618f67813f6",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/entrada_site.py": "3becb22b75c453672abde6d8a20b989b28285062c6b00db2b651e9a62804c435",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/vagas_oficiais.py": "37bb19a045a703daa652b4526d0e12d27b47f9b7adef0b59ca91261342c8dd2f"
+  },
+  "entryStudy": {
+    "dimensionsAreInferred": true,
+    "streetTangent": [
+      0.9852117548196744,
+      -0.17134117475124772
+    ],
+    "inward": [
+      -0.17134117475124772,
+      -0.9852117548196744
+    ],
+    "originXZ": [
+      -31.10710352863806,
+      48.04339384076593
+    ],
+    "portalClearWidth": 4.06,
+    "portalClearHeight": 4.06,
+    "guardhouseWindowWidth": 2.76,
+    "lowCanopyWidth": 9.0,
+    "lowCanopyDepth": 5.0,
+    "unions": {
+      "portal": {
+        "solver": "Blender EXACT self UNION",
+        "inputVertices": 144,
+        "inputFaces": 108,
+        "outputVertices": 183,
+        "outputFaces": 318,
+        "nonManifoldEdges": 0,
+        "volume": 2.818051730223423,
+        "materials": [
+          "entrada-carbono"
+        ],
+        "flatFacadeWithoutSubpixelBevel": true
+      },
+      "guarita-marquise": {
+        "solver": "Blender EXACT self UNION",
+        "inputVertices": 64,
+        "inputFaces": 48,
+        "outputVertices": 84,
+        "outputFaces": 168,
+        "nonManifoldEdges": 0,
+        "volume": 20.63602215292045,
+        "materials": [
+          "entrada-carbono",
+          "entrada-reboco"
+        ],
+        "flatFacadeWithoutSubpixelBevel": true
+      },
+      "janela": {
+        "solver": "Blender EXACT self UNION",
+        "inputVertices": 8,
+        "inputFaces": 6,
+        "outputVertices": 8,
+        "outputFaces": 12,
+        "nonManifoldEdges": 0,
+        "volume": 0.38198425396159086,
+        "materials": [
+          "entrada-vidro"
+        ],
+        "flatFacadeWithoutSubpixelBevel": true
+      },
+      "caixilho": {
+        "solver": "Blender EXACT self UNION",
+        "inputVertices": 40,
+        "inputFaces": 30,
+        "outputVertices": 84,
+        "outputFaces": 172,
+        "nonManifoldEdges": 0,
+        "volume": 0.04274763939220217,
+        "materials": [
+          "entrada-metal"
+        ],
+        "flatFacadeWithoutSubpixelBevel": true
+      },
+      "portao-entrada": {
+        "solver": "Blender EXACT self UNION",
+        "inputVertices": 240,
+        "inputFaces": 180,
+        "outputVertices": 680,
+        "outputFaces": 1564,
+        "nonManifoldEdges": 0,
+        "volume": 0.10839216020578168,
+        "materials": [
+          "entrada-metal"
+        ],
+        "flatFacadeWithoutSubpixelBevel": true
+      },
+      "portao-saida": {
+        "solver": "Blender EXACT self UNION",
+        "inputVertices": 264,
+        "inputFaces": 198,
+        "outputVertices": 752,
+        "outputFaces": 1732,
+        "nonManifoldEdges": 0,
+        "volume": 0.1204137959986703,
+        "materials": [
+          "entrada-metal"
+        ],
+        "flatFacadeWithoutSubpixelBevel": true
+      },
+      "pedestres": {
+        "solver": "Blender EXACT self UNION",
+        "inputVertices": 88,
+        "inputFaces": 66,
+        "outputVertices": 224,
+        "outputFaces": 500,
+        "nonManifoldEdges": 0,
+        "volume": 0.029591091643225546,
+        "materials": [
+          "entrada-metal"
+        ],
+        "flatFacadeWithoutSubpixelBevel": true
+      },
+      "piso": {
+        "solver": "Blender EXACT self UNION",
+        "inputVertices": 10,
+        "inputFaces": 11,
+        "outputVertices": 10,
+        "outputFaces": 16,
+        "nonManifoldEdges": 0,
+        "volume": 7.115280861074654,
+        "materials": [
+          "site-piso"
+        ],
+        "flatFacadeWithoutSubpixelBevel": true
+      },
+      "placa": {
+        "solver": "Blender EXACT self UNION",
+        "inputVertices": 8,
+        "inputFaces": 6,
+        "outputVertices": 8,
+        "outputFaces": 12,
+        "nonManifoldEdges": 0,
+        "volume": 0.7571199641084672,
+        "materials": [
+          "entrada-reboco"
+        ],
+        "flatFacadeWithoutSubpixelBevel": true
+      },
+      "jardim": {
+        "solver": "Blender EXACT self UNION",
+        "inputVertices": 8,
+        "inputFaces": 6,
+        "outputVertices": 8,
+        "outputFaces": 12,
+        "nonManifoldEdges": 0,
+        "volume": 0.14118000800251965,
+        "materials": [
+          "site-grama"
+        ],
+        "flatFacadeWithoutSubpixelBevel": true
+      }
+    },
+    "objects": [
+      "GEO-SITE-entrada-portal-entrada-carbono",
+      "GEO-SITE-entrada-guarita-marquise-entrada-carbono",
+      "GEO-SITE-entrada-guarita-marquise-entrada-reboco",
+      "GEO-SITE-entrada-janela-entrada-vidro",
+      "GEO-SITE-entrada-caixilho-entrada-metal",
+      "GEO-SITE-entrada-portao-entrada-entrada-metal",
+      "GEO-SITE-entrada-portao-saida-entrada-metal",
+      "GEO-SITE-entrada-pedestres-entrada-metal",
+      "GEO-SITE-entrada-piso-site-piso",
+      "GEO-SITE-entrada-placa-entrada-reboco",
+      "GEO-SITE-entrada-letreiro",
+      "GEO-SITE-entrada-jardim-site-grama"
+    ],
+    "adaptations": {
+      "removedEntryBoxes": 29,
+      "removedEntryRods": 28,
+      "removedOldSignBoxes": 1,
+      "palmMoves": [
+        {
+          "fromUV": [
+            618,
+            593
+          ],
+          "toUV": [
+            612,
+            575
+          ],
+          "reason": "fora da nova marquise"
+        }
+      ],
+      "fenceMoves": [
+        {
+          "fromUV": [
+            [
+              508,
+              80
+            ],
+            [
+              560,
+              132
+            ],
+            [
+              633,
+              565
+            ]
+          ],
+          "toUV": [
+            [
+              508,
+              80
+            ],
+            [
+              560,
+              132
+            ],
+            [
+              636.2,
+              584
+            ]
+          ],
+          "reason": "conectar às laterais da entrada sem bloquear a pista"
+        },
+        {
+          "fromUV": [
+            [
+              651,
+              668
+            ],
+            [
+              656,
+              684
+            ]
+          ],
+          "toUV": [
+            [
+              655.5,
+              681
+            ],
+            [
+              656,
+              684
+            ]
+          ],
+          "reason": "conectar às laterais da entrada sem bloquear a pista"
+        }
+      ]
+    },
+    "baselineModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+    "reference": {
+      "path": "v1.5/miniaturas/liv-ipanema/referencias/portaria.jpg",
+      "sha256": "5c66690329183ba4adf56401cf0d6c6b470cbb42feba810499ddec7acc379cc2"
+    },
+    "status": "inferido; sem projeto executivo; sem qualificação do bake desta entrada"
+  },
+  "parkingStudy": {
+    "spaces": 175,
+    "numbering": {
+      "path": "relatorios/liv-referencias-publicas-2026-10-09/implantacao-finais-e-vagas.png",
+      "sha256": "5ee381ceacbe6d52ece70ac2bf4854c4c07c2f5e287d278d2c92cff8d733a2eb"
+    },
+    "file": "vagas.json",
+    "status": "centros medidos na implantação oficial; dimensões inferidas"
+  },
+  "blender": "5.2.3 LTS",
+  "geometries": 97,
+  "groups": 97,
+  "web_bytes": 3825540,
+  "glb_bytes": 2536272,
+  "checks": {
+    "pavimentos_e_lajes": true,
+    "exportacao": true,
+    "finite_geometry": true,
+    "normals_uv_indices": true,
+    "glb_header": true
+  }
+}

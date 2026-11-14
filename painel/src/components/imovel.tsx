@@ -1,12 +1,15 @@
 'use client'
 import { useState, type ReactNode } from 'react'
 import Link from 'next/link'
-import { Aviso, Cartao, Selo, Tabela, Td, useAcao, Vazio } from './ui'
+import { Aviso, Cartao, Tabela, Td, useAcao, Vazio } from './ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
 import { atribuirCorretor } from '@/lib/imoveis'
 import { estaPublicado } from '@/lib/listas'
-import type { Property, User } from '@/lib/types'
+import { interno, type Property, type User } from '@/lib/types'
+import { usePerfil } from '@/lib/session'
+import { RastreabilidadeImovel } from './rastreabilidade'
+import { ControlePublicacao } from './publicacao'
 
 export const ROTULO_SITUACAO: Record<Property['status'], string> = { active: 'Ativo', inactive: 'Inativo', archived: 'Arquivado' }
 
@@ -16,7 +19,7 @@ export function ListaDeImoveis({ imoveis, base, nomeDaAgencia, nomeDoCorretor }:
   if (!imoveis.length) return <Vazio>Nenhum imóvel.</Vazio>
   // Na ordem da consulta (mais recentes primeiro): com a lista paginada, reordenar aqui misturaria
   // as páginas e "Carregar mais" encaixaria itens no meio.
-  const cab = ['Imóvel', ...(nomeDaAgencia ? ['Imobiliária'] : []), 'Corretor', 'No ar', 'Atualizado']
+  const cab = ['Imóvel', ...(nomeDaAgencia ? ['Imobiliária'] : []), 'Corretor', 'Publicação', 'Atualizado']
   return (
     <Tabela cabecalho={cab}>
       {imoveis.map((p) => (
@@ -27,7 +30,7 @@ export function ListaDeImoveis({ imoveis, base, nomeDaAgencia, nomeDoCorretor }:
           </Td>
           {nomeDaAgencia && <Td>{nomeDaAgencia(p.agencyId)}</Td>}
           <Td>{nomeDoCorretor(p.assignedAgentId)}</Td>
-          <Td>{estaPublicado(p) ? <Selo tom="verde">Publicado</Selo> : <Selo>Não publicado</Selo>}</Td>
+          <Td><ControlePublicacao p={p} compacto /></Td>
           <Td>{quando(p.updatedAt)}</Td>
         </tr>
       ))}
@@ -49,18 +52,21 @@ export function CopiarLink({ url, rotulo }: { url?: string; rotulo: string }) {
   )
 }
 
-// Links públicos: sempre os ponteiros estáveis (tourUrl/maqueteUrl), nunca a URL do build.
+// Compartilhamento atribuído passa pela rastreabilidade; URLs canônicas são referência interna.
 export function LinksPublicos({ p }: { p: Property }) {
+  const perfil = usePerfil()
   return (
-    <Cartao titulo="Links para compartilhar">
-      <div className="space-y-2">
-        <CopiarLink url={p.tourUrl} rotulo="Tour" />
-        <CopiarLink url={p.maqueteUrl} rotulo="Maquete" />
-      </div>
-      {estaPublicado(p) && (
-        <p className="mt-3 text-xs text-slate-500">Build no ar: <code>{p.publishedBuild}</code> desde {quando(p.publishedAt)}</p>
-      )}
-    </Cartao>
+    <div className="min-w-0 space-y-6 lg:col-span-2">
+      <RastreabilidadeImovel p={p} />
+      {interno(perfil.role) && <Cartao>
+        <details>
+          <summary className="cursor-pointer text-sm font-medium">Referências internas da publicação</summary>
+          <p className="mt-2 text-xs text-slate-500">Estes endereços não atribuem acessos a um corretor. Para compartilhar, use um link criado acima.</p>
+          <div className="mt-3 space-y-2"><CopiarLink url={p.tourUrl} rotulo="Tour" /><CopiarLink url={p.maqueteUrl} rotulo="Maquete" /></div>
+          {estaPublicado(p) && <p className="mt-3 text-xs text-slate-500">Build registrado: <code>{p.publishedBuild}</code> desde {quando(p.publishedAt)}</p>}
+        </details>
+      </Cartao>}
+    </div>
   )
 }
 

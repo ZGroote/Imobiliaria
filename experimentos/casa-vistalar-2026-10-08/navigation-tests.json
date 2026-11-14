@@ -1,0 +1,104 @@
+[
+  {
+    "room": "sala",
+    "spawnClear": true
+  },
+  {
+    "room": "jantar",
+    "spawnClear": true
+  },
+  {
+    "room": "cozinha",
+    "spawnClear": true
+  },
+  {
+    "room": "lavabo",
+    "spawnClear": true
+  },
+  {
+    "room": "escada",
+    "spawnClear": true
+  },
+  {
+    "room": "hall",
+    "spawnClear": true
+  },
+  {
+    "room": "suite",
+    "spawnClear": true
+  },
+  {
+    "room": "escritorio",
+    "spawnClear": true
+  },
+  {
+    "room": "banheiro",
+    "spawnClear": true
+  },
+  {
+    "room": "varanda",
+    "spawnClear": true
+  },
+  {
+    "stairAscent": true,
+    "arrivedHeight": 3.71,
+    "failures": []
+  },
+  {
+    "stairDescent": true,
+    "arrivedHeight": 0.59,
+    "failures": []
+  },
+  {
+    "upperCorridorClear": true,
+    "failures": []
+  },
+  {
+    "floor": 0,
+    "connected": true,
+    "accessible": [
+      {
+        "room": "sala",
+        "reachable": true
+      },
+      {
+        "room": "jantar",
+        "reachable": true
+      },
+      {
+        "room": "cozinha",
+        "reachable": true
+      },
+      {
+        "room": "lavabo",
+        "reachable": true
+      }
+    ]
+  },
+  {
+    "floor": 1,
+    "connected": false,
+    "accessible": [
+      {
+        "room": "hall",
+        "reachable": true
+      },
+      {
+        "room": "suite",
+        "reachable": true
+      },
+      {
+        "room": "escritorio",
+        "reachable": true
+      },
+      {
+        "room": "banheiro",
+        "reachable": false
+      },
+      {
+        "room": "varanda",
+        "reachable": true
+      }
+    ]
+  }
+]

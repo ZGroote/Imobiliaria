@@ -1,0 +1,307 @@
+{
+  "status": "PASS",
+  "areaNominalM2": 66.565,
+  "registro": {
+    "origemPx": [
+      3,
+      3
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 21.945870426040358,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        7,
+        7,
+        382,
+        186
+      ],
+      [
+        67,
+        186,
+        382,
+        258
+      ],
+      [
+        262,
+        258,
+        382,
+        296
+      ],
+      [
+        390,
+        7,
+        511,
+        296
+      ]
+    ],
+    "areaCalibracaoM2": 62.29,
+    "conferencia": [
+      "Faces internas: 129334 px².",
+      "Área anunciada da faixa: 61.59 m² (apartamento + terraço)."
+    ]
+  },
+  "moveis": [
+    {
+      "id": "m1",
+      "nome": "Cama do casal",
+      "comodos": [
+        "Suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m2",
+      "nome": "Criado 1",
+      "comodos": [
+        "Suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m3",
+      "nome": "Criado 2",
+      "comodos": [
+        "Suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m4",
+      "nome": "Guarda-roupa da suíte",
+      "comodos": [
+        "Suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m5",
+      "nome": "Cama de solteiro",
+      "comodos": [
+        "Dormitório 2"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m6",
+      "nome": "Criado do dormitório 2",
+      "comodos": [
+        "Dormitório 2"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m7",
+      "nome": "Guarda-roupa do dormitório 2",
+      "comodos": [
+        "Dormitório 2"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m8",
+      "nome": "Rack da TV",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m9",
+      "nome": "Sofá",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m10",
+      "nome": "Tapete",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m11",
+      "nome": "Mesa de jantar",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m12",
+      "nome": "Cadeira 1",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m13",
+      "nome": "Cadeira 2",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m14",
+      "nome": "Cadeira 3",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m15",
+      "nome": "Cadeira 4",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m16",
+      "nome": "Geladeira",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m17",
+      "nome": "Bancada e cuba",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m18",
+      "nome": "Cooktop",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m19",
+      "nome": "Lavatório da suíte",
+      "comodos": [
+        "Banho suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m20",
+      "nome": "Vaso da suíte",
+      "comodos": [
+        "Banho suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m21",
+      "nome": "Box da suíte",
+      "comodos": [
+        "Banho suíte"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m22",
+      "nome": "Lavatório",
+      "comodos": [
+        "Banho social"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m23",
+      "nome": "Vaso",
+      "comodos": [
+        "Banho social"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m24",
+      "nome": "Box",
+      "comodos": [
+        "Banho social"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m25",
+      "nome": "Poltrona do terraço 1",
+      "comodos": [
+        "Terraço"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m26",
+      "nome": "Poltrona do terraço 2",
+      "comodos": [
+        "Terraço"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m27",
+      "nome": "Bancada gourmet",
+      "comodos": [
+        "Terraço"
+      ],
+      "contido": true
+    }
+  ],
+  "sobreposicoes": [
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira 1"
+      ],
+      "areaM2": 0.03,
+      "revisar": false
+    },
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira 2"
+      ],
+      "areaM2": 0.025,
+      "revisar": false
+    },
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira 3"
+      ],
+      "areaM2": 0.03,
+      "revisar": false
+    },
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira 4"
+      ],
+      "areaM2": 0.025,
+      "revisar": false
+    }
+  ],
+  "vaos": {
+    "portas": 6,
+    "janelas": 5
+  },
+  "conferenciaJPG": "f08ebb90c03209d19a0374a5a27607eafb58d9580ab042b6815bd175d47a98d0",
+  "unidadeSHA256": "33d71387884dc2a8342460308e948323213f99a87e34cfacf01e1a7437c1e3d1",
+  "limites": [
+    "Sobreposição na imagem do book; não é conferência executiva.",
+    "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
+  ]
+}

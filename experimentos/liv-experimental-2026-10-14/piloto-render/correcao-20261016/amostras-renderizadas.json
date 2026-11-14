@@ -1,0 +1,117 @@
+{
+  "source_sha256": "fb1cdfb78b9d0635c78113a1899e9497558a46b739c9291b7b01756fa2db6b82",
+  "samples": 128,
+  "resolution": [
+    1280,
+    720
+  ],
+  "glass_override": null,
+  "entry_rays": [
+    {
+      "pixel": [
+        1100,
+        250
+      ],
+      "object": "GEO-porta-entrada-fechada"
+    },
+    {
+      "pixel": [
+        1120,
+        350
+      ],
+      "object": "GEO-porta-entrada-fechada"
+    }
+  ],
+  "images": [
+    {
+      "room": "Banho",
+      "pitch": -60,
+      "file_path": "dataset\\images\\f1179.png"
+    },
+    {
+      "room": "Banho",
+      "pitch": 0,
+      "file_path": "dataset\\images\\f0454.png"
+    },
+    {
+      "room": "Banho",
+      "pitch": 60,
+      "file_path": "dataset\\images\\f2222.png"
+    },
+    {
+      "room": "Banho suíte",
+      "pitch": -60,
+      "file_path": "dataset\\images\\f2399.png"
+    },
+    {
+      "room": "Banho suíte",
+      "pitch": 0,
+      "file_path": "dataset\\images\\f2457.png"
+    },
+    {
+      "room": "Banho suíte",
+      "pitch": 60,
+      "file_path": "dataset\\images\\f1087.png"
+    },
+    {
+      "room": "Dormitório 01",
+      "pitch": -60,
+      "file_path": "dataset\\images\\f2370.png"
+    },
+    {
+      "room": "Dormitório 01",
+      "pitch": 0,
+      "file_path": "dataset\\images\\f0876.png"
+    },
+    {
+      "room": "Dormitório 01",
+      "pitch": 60,
+      "file_path": "dataset\\images\\f0347.png"
+    },
+    {
+      "room": "Sala integrada",
+      "pitch": -60,
+      "file_path": "dataset\\images\\f1829.png"
+    },
+    {
+      "room": "Sala integrada",
+      "pitch": 0,
+      "file_path": "dataset\\images\\f0313.png"
+    },
+    {
+      "room": "Sala integrada",
+      "pitch": 60,
+      "file_path": "dataset\\images\\f1348.png"
+    },
+    {
+      "room": "Suíte",
+      "pitch": -60,
+      "file_path": "dataset\\images\\f0862.png"
+    },
+    {
+      "room": "Suíte",
+      "pitch": 0,
+      "file_path": "dataset\\images\\f0611.png"
+    },
+    {
+      "room": "Suíte",
+      "pitch": 60,
+      "file_path": "dataset\\images\\f1649.png"
+    },
+    {
+      "room": "Varanda / serviço",
+      "pitch": -60,
+      "file_path": "dataset\\images\\f1330.png"
+    },
+    {
+      "room": "Varanda / serviço",
+      "pitch": 0,
+      "file_path": "dataset\\images\\f2011.png"
+    },
+    {
+      "room": "Varanda / serviço",
+      "pitch": 60,
+      "file_path": "dataset\\images\\f2233.png"
+    }
+  ]
+}

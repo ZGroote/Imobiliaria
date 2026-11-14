@@ -1,0 +1,230 @@
+{
+  "status": "PASS",
+  "areaNominalM2": 33.255,
+  "registro": {
+    "origemPx": [
+      4,
+      4
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 21.944929073101612,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        8,
+        8,
+        256,
+        256
+      ],
+      [
+        256,
+        194,
+        320,
+        256
+      ]
+    ],
+    "areaCalibracaoM2": 31.53,
+    "conferencia": [
+      "Faces internas: 65472 px²."
+    ]
+  },
+  "moveis": [
+    {
+      "id": "m1",
+      "nome": "Cama do casal",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m2",
+      "nome": "Criado 1",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m3",
+      "nome": "Criado 2",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m4",
+      "nome": "Guarda-roupa",
+      "comodos": [
+        "Dormitório"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m5",
+      "nome": "Rack da TV",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m6",
+      "nome": "Sofá",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m7",
+      "nome": "Tapete",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m8",
+      "nome": "Mesa de jantar",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m9",
+      "nome": "Cadeira 1",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m10",
+      "nome": "Cadeira 2",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m11",
+      "nome": "Cadeira 3",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m12",
+      "nome": "Cadeira 4",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m13",
+      "nome": "Geladeira",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m14",
+      "nome": "Bancada e cuba",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m15",
+      "nome": "Cooktop",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m16",
+      "nome": "Tanque",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m17",
+      "nome": "Lavatório",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m18",
+      "nome": "Vaso",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m19",
+      "nome": "Box",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    }
+  ],
+  "sobreposicoes": [
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira 1"
+      ],
+      "areaM2": 0.0375,
+      "revisar": false
+    },
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira 2"
+      ],
+      "areaM2": 0.045,
+      "revisar": false
+    },
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira 3"
+      ],
+      "areaM2": 0.025,
+      "revisar": false
+    },
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira 4"
+      ],
+      "areaM2": 0.03,
+      "revisar": false
+    }
+  ],
+  "vaos": {
+    "portas": 3,
+    "janelas": 2
+  },
+  "conferenciaJPG": "db26fd086bf831c0617c75ee99b73a20c4c7d5c100a4b11d58ef0b181d82fb1e",
+  "unidadeSHA256": "8459ca4af4d2b771f4cbd8c1c42cc49220b204e2f837a292fecc69d1cd4032e0",
+  "limites": [
+    "Sobreposição na imagem do book; não é conferência executiva.",
+    "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
+  ]
+}

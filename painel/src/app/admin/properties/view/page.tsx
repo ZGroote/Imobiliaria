@@ -6,9 +6,10 @@ import { CorretorResponsavel, Dados, LinksPublicos, ROTULO_SITUACAO } from '@/co
 import { Aviso, Cartao, ComId, Estado, useAcao } from '@/components/ui'
 import { db } from '@/lib/firebase'
 import { editarImovel } from '@/lib/imoveis'
+import { temPublicacao } from '@/lib/listas'
 import { usePessoas } from '@/lib/usePessoas'
 import { useCatalogoInterno } from '@/lib/useEquipe'
-import { HistoricoDePublicacoes, ReverterPublicacao } from '@/components/publicacao'
+import { HistoricoDePublicacoes, PublicacaoDoImovel, ReverterPublicacao } from '@/components/publicacao'
 import type { Agency, Property } from '@/lib/types'
 import { useDoc } from '@/lib/useFirestore'
 
@@ -32,7 +33,9 @@ function Imovel({ id }: { id: string }) {
         {p && (
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <a className="btn" href={'/imoveis/planta?id='+encodeURIComponent(p.id)}>Editar planta e versões</a>
+            <a className="btn" href={'/admin/properties/units?id='+encodeURIComponent(p.id)}>Unidades e disponibilidade do empreendimento</a>
             {editando ? <Editar p={p} fechar={() => setEditando(false)} /> : <Dados p={p} nomeDaAgencia={ag.dado?.name} />}
+            <PublicacaoDoImovel p={p} />
             <LinksPublicos p={p} />
             <CorretorResponsavel p={p} pessoas={pessoas} />
             <HistoricoDePublicacoes p={p} interno pessoa={cat.pessoa} basePedido="/admin/requests" />
@@ -52,7 +55,7 @@ function Editar({ p, fechar }: { p: Property; fechar: () => void }) {
     const ok = await executar(() => editarImovel(db, p.id, {
       title: s('title'), developmentName: s('developmentName'), address: s('address'),
       externalListingUrl: s('externalListingUrl'), pipelineUnitId: s('pipelineUnitId'),
-      status: s('status') as Property['status'],
+      ...(!temPublicacao(p) ? { status: s('status') as Property['status'] } : {}),
     }))
     if (ok) fechar()
   }
@@ -67,11 +70,11 @@ function Editar({ p, fechar }: { p: Property; fechar: () => void }) {
           <input name="externalListingUrl" type="url" defaultValue={p.externalListingUrl} className="campo mt-1" /></label>
         <label className="block text-sm">Id no pipeline
           <input name="pipelineUnitId" defaultValue={p.pipelineUnitId} className="campo mt-1" /></label>
-        <label className="block text-sm">Situação
+        {temPublicacao(p) ? <p className="text-sm text-slate-600">Situação: {ROTULO_SITUACAO[p.status]}. A visibilidade é controlada pelo gerente da imobiliária.</p> : <label className="block text-sm">Situação
           <select name="status" defaultValue={p.status} className="campo mt-1">
             {Object.entries(ROTULO_SITUACAO).map(([v, r]) => <option key={v} value={v}>{r}</option>)}
           </select>
-        </label>
+        </label>}
         <div className="flex gap-2">
           <button disabled={ocupado} className="btn-primario">Salvar</button>
           <button type="button" className="btn" onClick={fechar}>Cancelar</button>
