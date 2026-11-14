@@ -24,17 +24,19 @@ def preparar(lotes, anotacoes, zonas):
         a = por_id[lote["id"]]
         digest = hashlib.sha256(json.dumps(lote["poligono_utm"], separators=(",", ":"), allow_nan=False).encode()).hexdigest()
         assert a["poligono_sha256"] == digest, "Geometria mudou: revisar anotação do mapa"
-        assert a["zona_id"] in zonas and a["zona_anotada_a_mao"] is True
+        assert a["zona_id"] in zonas and a["zona_origem"] == "anotada_a_mao"
+        assert a["zona_conferida"] is False
         assert a["conferido"] is False and a["fontes"]
         assert isinstance(a["areas_especiais"], list)
         for especial in a["areas_especiais"]:
             assert especial["tipo"] and especial["fonte"]
             if especial.get("altura_max_m") is not None:
                 assert math.isfinite(especial["altura_max_m"]) and especial["altura_max_m"] > 0
-        for campo in ("zona_id", "zona_anotada_a_mao", "areas_especiais"):
+        lote.pop("zona_anotada_a_mao", None)
+        for campo in ("zona_id", "zona_origem", "zona_conferida", "areas_especiais"):
             lote[campo] = a[campo]
         lote["anotacao_zoneamento"] = {k: v for k, v in a.items()
-                                       if k not in ("id", "zona_id", "zona_anotada_a_mao", "areas_especiais")}
+                                       if k not in ("id", "zona_id", "zona_origem", "zona_conferida", "areas_especiais")}
         lote["conferido"] = False
         lote["observacoes"] = lote["observacoes"].replace("Relevo e zona pendentes. ", "")
         aviso = "Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md."

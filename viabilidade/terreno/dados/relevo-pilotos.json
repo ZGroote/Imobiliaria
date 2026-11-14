@@ -49,6 +49,24 @@
       "cota_max_m": 844.8,
       "declividade_pct": 6.5,
       "pixels_distintos_cotas_e_declividade": 13
+    },
+    {
+      "id": "SC-completo-q1382-11984-11988",
+      "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+      "resolucao_m": 30,
+      "cota_min_m": 855.4,
+      "cota_max_m": 857.3,
+      "declividade_pct": 2.5,
+      "pixels_distintos_cotas_e_declividade": 13
+    },
+    {
+      "id": "SC-completo-remembramento-75352-75354",
+      "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+      "resolucao_m": 30,
+      "cota_min_m": 865.2,
+      "cota_max_m": 867.7,
+      "declividade_pct": 6.2,
+      "pixels_distintos_cotas_e_declividade": 15
     }
   ]
 }

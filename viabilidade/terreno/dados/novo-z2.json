@@ -1,0 +1,159 @@
+{
+  "id": "SC-completo-remembramento-75352-75354",
+  "lid": null,
+  "poligono_utm": [
+    [
+      202778.515728,
+      7562461.691146
+    ],
+    [
+      202778.62862,
+      7562458.108275
+    ],
+    [
+      202733.899241,
+      7562456.698909
+    ],
+    [
+      202733.522093,
+      7562468.668532
+    ],
+    [
+      202733.144946,
+      7562480.638154
+    ],
+    [
+      202732.767798,
+      7562492.607777
+    ],
+    [
+      202777.497177,
+      7562494.017143
+    ],
+    [
+      202777.713422,
+      7562487.15413
+    ],
+    [
+      202777.874325,
+      7562482.04752
+    ],
+    [
+      202778.015505,
+      7562477.566835
+    ],
+    [
+      202778.251472,
+      7562470.077897
+    ],
+    [
+      202778.515728,
+      7562461.691146
+    ]
+  ],
+  "frente": [
+    [
+      202778.251472,
+      7562470.077897
+    ],
+    [
+      202778.515728,
+      7562461.691146
+    ]
+  ],
+  "area_m2": 1607.776,
+  "zona_id": "SC-Z2",
+  "zona_origem": "anotada_a_mao",
+  "zona_conferida": false,
+  "relevo": null,
+  "areas_especiais": [],
+  "crs": "EPSG:31983",
+  "categoria": "z2",
+  "centroide_lonlat": [
+    -47.879161249755434,
+    -22.01713207790613
+  ],
+  "distancia_centro_referencia_m": 1202.6,
+  "fonte": {
+    "arquivo": "sao-carlos/dados/lotes_saocarlos_completo.geojson",
+    "sha256": "1177ae3affd876b406a0de980678b0655343834a6b5ac96b8524964f7566d538",
+    "indices_feicoes_zero_based": [
+      75352,
+      75353,
+      75354
+    ],
+    "quadra": 2725,
+    "propriedades_componentes": [
+      {
+        "lid": 61162,
+        "quadra": 2725,
+        "nx": -0.9995,
+        "ny": -0.0315,
+        "fx": 202809.4,
+        "fy": 7562533.1,
+        "fonte": "sintetico",
+        "area_m2": 535.92
+      },
+      {
+        "lid": 61163,
+        "quadra": 2725,
+        "nx": -0.9995,
+        "ny": -0.0315,
+        "fx": 202809.7,
+        "fy": 7562521.2,
+        "fonte": "sintetico",
+        "area_m2": 535.92
+      },
+      {
+        "lid": 61164,
+        "quadra": 2725,
+        "nx": -0.9995,
+        "ny": -0.0315,
+        "fx": 202810.1,
+        "fy": 7562509.2,
+        "fonte": "sintetico",
+        "area_m2": 535.92
+      }
+    ],
+    "operacao": "União exata das geometrias lon/lat convertidas para EPSG:31983; sem buffer, fechamento de gaps ou simplificação."
+  },
+  "qualidade": {
+    "frentes": [
+      {
+        "aresta": 10,
+        "pontos": [
+          [
+            202778.251472,
+            7562470.077897
+          ],
+          [
+            202778.515728,
+            7562461.691146
+          ]
+        ],
+        "comprimento_m": 8.391,
+        "distancia_max_asfalto_m": 1.874
+      }
+    ],
+    "sobreposicao_asfalto_m2": 0.0,
+    "maior_sobreposicao_vizinho_m2": 0.0,
+    "ocupacao_retangulo_minimo": 1.0,
+    "esquina_indicada_pela_malha": false,
+    "sobreposicao_pilotos_m2": {
+      "SC-completo-30516": 0.0,
+      "SC-completo-37607": 0.0,
+      "SC-completo-22426": 0.0,
+      "SC-completo-22421": 0.0,
+      "SC-completo-25297": 0.0
+    },
+    "uniao_sem_buffer_ou_simplificacao": true,
+    "area_soma_componentes_m2": 1607.7759764922966,
+    "area_acrescentada_em_gaps_m2": 0,
+    "divisas_compartilhadas_m": [
+      44.75157743722588,
+      44.75157743742879
+    ]
+  },
+  "conferido": false,
+  "observacoes": "Remembramento de ensaio de três feições sintéticas contíguas da mesma quadra da maquete. Não representa três lotes cadastrais confirmados nem disponibilidade ou viabilidade de remembramento real. Zona lida manualmente nos anexos, sem certidão. Frente inferida da malha de asfalto. Matrículas, loteamento e consulta urbanística pendentes."
+}

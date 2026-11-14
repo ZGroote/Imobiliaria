@@ -134,7 +134,6 @@
     },
     "conferido": false,
     "observacoes": "Geometria de ensaio derivada da maquete; não comprova lote cadastral, disponibilidade ou aptidão legal. Frente e eventual esquina inferidas da malha de asfalto, sem vistoria ou nome de rua confirmado. LID ausente na origem; ID local usa índice da feição.  Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade. Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md. AIA indicada no Anexo 05: parâmetros da Z4 sozinhos não demonstram aptidão construtiva. Junto ao extremo noroeste da AEIS tipo 1 nº 21 (Jardim Gonzaga/Monte Carlo). Incidência não confirmada no Anexo 06; conferir limite cadastral antes de afastar a restrição. Anotação manual para simulação, não certidão municipal. A geometria de ensaio da maquete não comprova lote cadastral, disponibilidade ou aptidão legal. Mapas raster generalizados: o resíduo dos controles não mede o erro total do mapa ou do lote. Confirmar cadastro, matrícula, loteamento e normas atualizadas antes de projetar. Ausência de incidência visual não afasta APP, servidão, patrimônio individual, inundação, contaminação ou outras restrições não desenhadas. Consulta específica ao DECEA continua necessária para validar altura.",
-    "zona_anotada_a_mao": true,
     "areas_especiais": [
       {
         "tipo": "interesse_ambiental",
@@ -208,7 +207,9 @@
       "posicionamento": "dados/zonas-posicionamento.json",
       "rmse_controles_anexo02_m": 3.526,
       "incerteza_posicional_total_m": null
-    }
+    },
+    "zona_origem": "anotada_a_mao",
+    "zona_conferida": false
   },
   {
     "id": "SC-completo-37607",
@@ -305,7 +306,6 @@
     },
     "conferido": false,
     "observacoes": "Geometria de ensaio derivada da maquete; não comprova lote cadastral, disponibilidade ou aptidão legal. Frente e eventual esquina inferidas da malha de asfalto, sem vistoria ou nome de rua confirmado. LID ausente na origem; ID local usa índice da feição.  Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade. Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md. Área predominantemente industrial e de serviços de grande porte. Não apresentar como lote apto a residencial sem consulta de uso e matrícula. Há faixa AIA a oeste no Anexo 05, sem interseção nítida. Confirmar limites ambientais e áreas públicas. Anotação manual para simulação, não certidão municipal. A geometria de ensaio da maquete não comprova lote cadastral, disponibilidade ou aptidão legal. Mapas raster generalizados: o resíduo dos controles não mede o erro total do mapa ou do lote. Confirmar cadastro, matrícula, loteamento e normas atualizadas antes de projetar. Ausência de incidência visual não afasta APP, servidão, patrimônio individual, inundação, contaminação ou outras restrições não desenhadas. Consulta específica ao DECEA continua necessária para validar altura.",
-    "zona_anotada_a_mao": true,
     "areas_especiais": [
       {
         "tipo": "interesse_industrial_servicos",
@@ -379,7 +379,9 @@
       "posicionamento": "dados/zonas-posicionamento.json",
       "rmse_controles_anexo02_m": 3.526,
       "incerteza_posicional_total_m": null
-    }
+    },
+    "zona_origem": "anotada_a_mao",
+    "zona_conferida": false
   },
   {
     "id": "SC-completo-22426",
@@ -549,7 +551,6 @@
     },
     "conferido": false,
     "observacoes": "Geometria de ensaio derivada da maquete; não comprova lote cadastral, disponibilidade ou aptidão legal. Frente e eventual esquina inferidas da malha de asfalto, sem vistoria ou nome de rua confirmado. LID ausente na origem; ID local usa índice da feição. Há mais de uma frente candidata; o motor deve considerar as demais testadas antes de validar recuos. Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade. Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md. A malha indica frente candidata norte. Se for testada para a Av. Comendador Alfredo Maffei no trecho do art. 11-III, a zona aplicável pode ser SC-EIXO. Confirmar cadastro; proximidade não basta. Gabarito aeronáutico indicado no Anexo 07, sem altura numérica local calculada. Próximo ao Córrego do Gregório e AIA linear: verificar APP, inundação e faixas não edificáveis. Anotação manual para simulação, não certidão municipal. A geometria de ensaio da maquete não comprova lote cadastral, disponibilidade ou aptidão legal. Mapas raster generalizados: o resíduo dos controles não mede o erro total do mapa ou do lote. Confirmar cadastro, matrícula, loteamento e normas atualizadas antes de projetar. Ausência de incidência visual não afasta APP, servidão, patrimônio individual, inundação, contaminação ou outras restrições não desenhadas. Consulta específica ao DECEA continua necessária para validar altura.",
-    "zona_anotada_a_mao": true,
     "areas_especiais": [
       {
         "tipo": "gabarito_aeronautico",
@@ -628,7 +629,9 @@
       "posicionamento": "dados/zonas-posicionamento.json",
       "rmse_controles_anexo02_m": 3.526,
       "incerteza_posicional_total_m": null
-    }
+    },
+    "zona_origem": "anotada_a_mao",
+    "zona_conferida": false
   },
   {
     "id": "SC-completo-22421",
@@ -725,7 +728,6 @@
     },
     "conferido": false,
     "observacoes": "Geometria de ensaio derivada da maquete; não comprova lote cadastral, disponibilidade ou aptidão legal. Frente e eventual esquina inferidas da malha de asfalto, sem vistoria ou nome de rua confirmado. LID ausente na origem; ID local usa índice da feição.  Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade. Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md. ZONA AMBÍGUA: SC-Z1 é hipótese operacional; SC-Z2 também é possível. Borda oeste a poucos metros do traço divisório, comparável ao resíduo dos controles. Não certificar viabilidade por zona única. O ajuste inicial com três controles concentrados ao sul colocava o lote do outro lado da divisa. Ajuste final usa cinco controles distribuídos; a sensibilidade exige cadastro oficial. Gabarito aeronáutico indicado no Anexo 07, sem altura local definida. Próximo ao Gregório: verificar APP, drenagem e inundação. Anotação manual para simulação, não certidão municipal. A geometria de ensaio da maquete não comprova lote cadastral, disponibilidade ou aptidão legal. Mapas raster generalizados: o resíduo dos controles não mede o erro total do mapa ou do lote. Confirmar cadastro, matrícula, loteamento e normas atualizadas antes de projetar. Ausência de incidência visual não afasta APP, servidão, patrimônio individual, inundação, contaminação ou outras restrições não desenhadas. Consulta específica ao DECEA continua necessária para validar altura.",
-    "zona_anotada_a_mao": true,
     "areas_especiais": [
       {
         "tipo": "gabarito_aeronautico",
@@ -805,7 +807,9 @@
       "posicionamento": "dados/zonas-posicionamento.json",
       "rmse_controles_anexo02_m": 3.526,
       "incerteza_posicional_total_m": null
-    }
+    },
+    "zona_origem": "anotada_a_mao",
+    "zona_conferida": false
   },
   {
     "id": "SC-completo-25297",
@@ -929,7 +933,6 @@
     },
     "conferido": false,
     "observacoes": "Geometria de ensaio derivada da maquete; não comprova lote cadastral, disponibilidade ou aptidão legal. Frente e eventual esquina inferidas da malha de asfalto, sem vistoria ou nome de rua confirmado. LID ausente na origem; ID local usa índice da feição. Há mais de uma frente candidata; o motor deve considerar as demais testadas antes de validar recuos. Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade. Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md. A leitura da zona não confirma testadas cadastrais, esquina ou alinhamento. Lista vazia de áreas especiais significa apenas nenhuma incidência identificada nos anexos inspecionados. Anotação manual para simulação, não certidão municipal. A geometria de ensaio da maquete não comprova lote cadastral, disponibilidade ou aptidão legal. Mapas raster generalizados: o resíduo dos controles não mede o erro total do mapa ou do lote. Confirmar cadastro, matrícula, loteamento e normas atualizadas antes de projetar. Ausência de incidência visual não afasta APP, servidão, patrimônio individual, inundação, contaminação ou outras restrições não desenhadas. Consulta específica ao DECEA continua necessária para validar altura.",
-    "zona_anotada_a_mao": true,
     "areas_especiais": [],
     "anotacao_zoneamento": {
       "evidencia_zoneamento": "Polígono completo no ocre Z1, a norte da divisa azul Z3, entre Rua Silvério Ignarra Sobrinho e Rua Raimundo Corrêa, próximo à Rua Amadeu Amaral.",
@@ -992,6 +995,561 @@
       "posicionamento": "dados/zonas-posicionamento.json",
       "rmse_controles_anexo02_m": 3.526,
       "incerteza_posicional_total_m": null
+    },
+    "zona_origem": "anotada_a_mao",
+    "zona_conferida": false
+  },
+  {
+    "id": "SC-completo-q1382-11984-11988",
+    "lid": null,
+    "poligono_utm": [
+      [
+        199238.11331,
+        7564524.256558
+      ],
+      [
+        199238.076796,
+        7564524.206359
+      ],
+      [
+        199238.084738,
+        7564524.200582
+      ],
+      [
+        199235.918677,
+        7564519.95694
+      ],
+      [
+        199226.977514,
+        7564524.520735
+      ],
+      [
+        199218.036351,
+        7564529.084529
+      ],
+      [
+        199216.409655,
+        7564529.914836
+      ],
+      [
+        199209.095188,
+        7564533.648323
+      ],
+      [
+        199200.154026,
+        7564538.212117
+      ],
+      [
+        199191.212863,
+        7564542.775911
+      ],
+      [
+        199204.652459,
+        7564569.106113
+      ],
+      [
+        199212.795814,
+        7564566.590006
+      ],
+      [
+        199228.727624,
+        7564561.34493
+      ],
+      [
+        199238.262734,
+        7564558.205778
+      ],
+      [
+        199236.796563,
+        7564553.752313
+      ],
+      [
+        199240.843644,
+        7564551.686581
+      ],
+      [
+        199249.784807,
+        7564547.122787
+      ],
+      [
+        199238.11331,
+        7564524.256558
+      ]
+    ],
+    "frente": [
+      [
+        199212.795814,
+        7564566.590006
+      ],
+      [
+        199228.727624,
+        7564561.34493
+      ]
+    ],
+    "area_m2": 1599.108,
+    "zona_id": "SC-EIXO",
+    "zona_origem": "anotada_a_mao",
+    "zona_conferida": false,
+    "relevo": {
+      "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+      "resolucao_m": 30,
+      "cota_min_m": 855.4,
+      "cota_max_m": 857.3,
+      "declividade_pct": 2.5
+    },
+    "areas_especiais": [
+      {
+        "tipo": "gabarito_aeronautico",
+        "nome": "Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes",
+        "conferido": false,
+        "incidencia": "sobreposicao_visual",
+        "fonte": "Lei 18.053/2016, arts. 105 a 107, Anexo 07, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf",
+        "evidencia": "dados/eixo-anexo07.jpg",
+        "observacoes": "Polígono dentro do perímetro tracejado roxo de restrição aeronáutica. Sem altura local numérica; consultar DECEA."
+      }
+    ],
+    "crs": "EPSG:31983",
+    "categoria": "eixo",
+    "centroide_lonlat": [
+      -47.91298471,
+      -21.99784798
+    ],
+    "distancia_centro_referencia_m": 3142.8,
+    "fonte": {
+      "arquivo": "sao-carlos/dados/lotes_saocarlos_completo.geojson",
+      "sha256": "1177ae3affd876b406a0de980678b0655343834a6b5ac96b8524964f7566d538",
+      "indices_feicoes_zero_based": [
+        11984,
+        11985,
+        11986,
+        11987,
+        11988
+      ],
+      "quadra": 1382,
+      "operacao": "uniao_exata_sem_buffer_sem_fechamento_de_lacunas",
+      "propriedades_componentes": [
+        {
+          "quadra": 1382,
+          "loteamento": "Morada dos Deuses",
+          "planta": "000141",
+          "fonte": "planta_refeita",
+          "area_m2": 306.18,
+          "frente_padrao_m": 10.0,
+          "fundo_padrao_m": 30.5,
+          "nx": 0.4546,
+          "ny": 0.8907
+        },
+        {
+          "quadra": 1382,
+          "loteamento": "Morada dos Deuses",
+          "planta": "000141",
+          "fonte": "planta_refeita",
+          "area_m2": 345.43,
+          "frente_padrao_m": 10.0,
+          "fundo_padrao_m": 30.5,
+          "nx": 0.4546,
+          "ny": 0.8907
+        },
+        {
+          "quadra": 1382,
+          "loteamento": "Morada dos Deuses",
+          "planta": "000141",
+          "fonte": "planta_refeita",
+          "area_m2": 306.18,
+          "frente_padrao_m": 10.0,
+          "fundo_padrao_m": 30.5,
+          "nx": 0.4546,
+          "ny": 0.8907
+        },
+        {
+          "quadra": 1382,
+          "loteamento": "Morada dos Deuses",
+          "planta": "000141",
+          "fonte": "planta_refeita",
+          "area_m2": 306.18,
+          "frente_padrao_m": 10.0,
+          "fundo_padrao_m": 30.5,
+          "nx": 0.4546,
+          "ny": 0.8907
+        },
+        {
+          "quadra": 1382,
+          "loteamento": "Morada dos Deuses",
+          "planta": "000141",
+          "fonte": "planta_refeita",
+          "area_m2": 335.15,
+          "frente_padrao_m": 10.0,
+          "fundo_padrao_m": 30.5,
+          "nx": 0.4546,
+          "ny": 0.8907
+        }
+      ]
+    },
+    "qualidade": {
+      "frentes": [
+        {
+          "aresta": 11,
+          "pontos": [
+            [
+              199212.795814,
+              7564566.590006
+            ],
+            [
+              199228.727624,
+              7564561.34493
+            ]
+          ],
+          "comprimento_m": 16.773,
+          "distancia_max_asfalto_m": 4.403
+        },
+        {
+          "aresta": 10,
+          "pontos": [
+            [
+              199204.652459,
+              7564569.106113
+            ],
+            [
+              199212.795814,
+              7564566.590006
+            ]
+          ],
+          "comprimento_m": 8.523,
+          "distancia_max_asfalto_m": 5.15
+        }
+      ],
+      "esquina_indicada_pela_malha": false,
+      "maior_sobreposicao_vizinho_m2": 0.0,
+      "sobreposicao_asfalto_m2": 0.0,
+      "ocupacao_retangulo_minimo": 0.90681
+    },
+    "conferido": false,
+    "observacoes": "Remembramento geométrico de cinco parcelas planta_refeita da maquete, não cadastro ou matrícula. A origem representa reconstrução de planta com lotes padronizados; divisas e disponibilidade exigem conferência. A classificação Eixo é hipótese manual apoiada no nome e trecho do Anexo 02, art. 11-I e testada próxima ao asfalto. Confirmar endereço, alinhamento e testadas cadastrais. Não foi usado apenas o bairro ou a proximidade do centro. A frente representa o maior segmento reto elegível da borda norte; não soma toda a testada fragmentada. O Motor usa esta única frente. Sem sobreposição visual com AIA ou área industrial nos Anexos 05/06. Lista não certifica ausência de APP, patrimônio individual, servidão, inundação ou contaminação. Incidência aeronáutica visual no Anexo 07; altura depende de consulta DECEA. Resíduo do ajuste não mede erro posicional total; conferir divisas em cadastro oficial. Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md. Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade.",
+    "anotacao_zoneamento": {
+      "poligono_sha256": "415b107c5049207b14d5fee8a4de8c84b87a59984f1b2cfe738e5ae2b3d4340a",
+      "conferido": false,
+      "data_anotacao": "2026-11-14",
+      "fontes": [
+        {
+          "lei": "Lei 18.053/2016",
+          "anexo": "02",
+          "pagina": 1,
+          "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf",
+          "sha256": "f2dbbf98a0698092a78be5585f479db4164267478a5a83b0dc8104917fdf5ef2",
+          "data": "2026-11-14"
+        },
+        {
+          "lei": "Lei 18.053/2016",
+          "anexo": "05",
+          "pagina": 1,
+          "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2005%20-%20AEIs%20Ambientais.pdf",
+          "sha256": "af2d54f9694ea9055273db821609798f51a0dd8d057bace97e9effee2ebddfa7",
+          "data": "2026-11-14"
+        },
+        {
+          "lei": "Lei 18.053/2016",
+          "anexo": "06",
+          "pagina": 1,
+          "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf",
+          "sha256": "3bfc5f7b8b79c5016a526cd08ac7f5f0f83f0fb51f27a2d1173785ee2bbc0f5d",
+          "data": "2026-11-14"
+        },
+        {
+          "lei": "Lei 18.053/2016",
+          "anexo": "07",
+          "pagina": 1,
+          "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf",
+          "sha256": "3c290bd44a8e6b5a5effca6715017bff21bdce5357a3d36167af95d3439e8031",
+          "data": "2026-11-14"
+        },
+        {
+          "lei": "Lei 18.053/2016",
+          "artigo": "11-I",
+          "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257",
+          "data": "2026-11-14",
+          "observacoes": "Texto oficial acessível consultado: o Eixo inclui testadas para Miguel Petroni/Miguel João no trecho Francisco Pereira Lopes–rotatória Bruno Ruggieiro Filho."
+        }
+      ],
+      "evidencia_zoneamento": "Polígono na faixa entre as vias do eixo Miguel Petroni/Miguel João, a leste da rotatória da Av. Bruno Ruggieiro Filho e a oeste da Av. Francisco Pereira Lopes. Borda norte com segmento de 16,773 m a até 4,403 m da malha de asfalto; o Anexo 02 nomeia expressamente o trecho como Eixo. Fundo de mapa Z2, mas classificação operacional SC-EIXO pela testada (art. 11-I).",
+      "areas_especiais_verificacao": {
+        "05": "Fora das manchas verdes AIA/áreas ambientais na leitura visual; manchas próximas a leste e norte não interceptam o polígono.",
+        "06": "Fora das áreas industriais, históricas, subárea de 9 m, Observatório e AEIS representadas neste entorno.",
+        "07": "Dentro do perímetro tracejado roxo de restrição aeronáutica; fora das áreas rurais coloridas."
+      },
+      "metodo": "União exata das geometrias completas lonlat projetadas EPSG:31983; transformação EPSG:29183 e ajuste afim existente com cinco controles por anexo. Leitura manual dos quatro anexos e nome de via/trecho; testada corroborada pela malha de asfalto. Sem fx/fy, buffer de fechamento ou classificação por cor.",
+      "evidencias": [
+        "dados/eixo-anexo02.jpg",
+        "dados/eixo-anexo06.jpg",
+        "dados/eixo-anexo05.jpg",
+        "dados/eixo-anexo07.jpg",
+        "dados/eixo-trecho-art11.jpg",
+        "dados/eixo-contiguidade.json"
+      ],
+      "controles": "dados/zonas-controles.json",
+      "posicionamento": "dados/eixo-posicionamento.json",
+      "rmse_controles_anexo02_m": 3.526,
+      "incerteza_posicional_total_m": null,
+      "limitacoes": [
+        "Remembramento geométrico de cinco parcelas planta_refeita da maquete, não cadastro ou matrícula. A origem representa reconstrução de planta com lotes padronizados; divisas e disponibilidade exigem conferência.",
+        "A classificação Eixo é hipótese manual apoiada no nome e trecho do Anexo 02, art. 11-I e testada próxima ao asfalto. Confirmar endereço, alinhamento e testadas cadastrais. Não foi usado apenas o bairro ou a proximidade do centro.",
+        "A frente representa o maior segmento reto elegível da borda norte; não soma toda a testada fragmentada. O Motor usa esta única frente.",
+        "Sem sobreposição visual com AIA ou área industrial nos Anexos 05/06. Lista não certifica ausência de APP, patrimônio individual, servidão, inundação ou contaminação.",
+        "Incidência aeronáutica visual no Anexo 07; altura depende de consulta DECEA. Resíduo do ajuste não mede erro posicional total; conferir divisas em cadastro oficial."
+      ]
+    }
+  },
+  {
+    "id": "SC-completo-remembramento-75352-75354",
+    "lid": null,
+    "poligono_utm": [
+      [
+        202778.515728,
+        7562461.691146
+      ],
+      [
+        202778.62862,
+        7562458.108275
+      ],
+      [
+        202733.899241,
+        7562456.698909
+      ],
+      [
+        202733.522093,
+        7562468.668532
+      ],
+      [
+        202733.144946,
+        7562480.638154
+      ],
+      [
+        202732.767798,
+        7562492.607777
+      ],
+      [
+        202777.497177,
+        7562494.017143
+      ],
+      [
+        202777.713422,
+        7562487.15413
+      ],
+      [
+        202777.874325,
+        7562482.04752
+      ],
+      [
+        202778.015505,
+        7562477.566835
+      ],
+      [
+        202778.251472,
+        7562470.077897
+      ],
+      [
+        202778.515728,
+        7562461.691146
+      ]
+    ],
+    "frente": [
+      [
+        202778.251472,
+        7562470.077897
+      ],
+      [
+        202778.515728,
+        7562461.691146
+      ]
+    ],
+    "area_m2": 1607.776,
+    "zona_id": "SC-Z2",
+    "zona_origem": "anotada_a_mao",
+    "zona_conferida": false,
+    "relevo": {
+      "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+      "resolucao_m": 30,
+      "cota_min_m": 865.2,
+      "cota_max_m": 867.7,
+      "declividade_pct": 6.2
+    },
+    "areas_especiais": [],
+    "crs": "EPSG:31983",
+    "categoria": "z2",
+    "centroide_lonlat": [
+      -47.879161249755434,
+      -22.01713207790613
+    ],
+    "distancia_centro_referencia_m": 1202.6,
+    "fonte": {
+      "arquivo": "sao-carlos/dados/lotes_saocarlos_completo.geojson",
+      "sha256": "1177ae3affd876b406a0de980678b0655343834a6b5ac96b8524964f7566d538",
+      "indices_feicoes_zero_based": [
+        75352,
+        75353,
+        75354
+      ],
+      "quadra": 2725,
+      "propriedades_componentes": [
+        {
+          "lid": 61162,
+          "quadra": 2725,
+          "nx": -0.9995,
+          "ny": -0.0315,
+          "fx": 202809.4,
+          "fy": 7562533.1,
+          "fonte": "sintetico",
+          "area_m2": 535.92
+        },
+        {
+          "lid": 61163,
+          "quadra": 2725,
+          "nx": -0.9995,
+          "ny": -0.0315,
+          "fx": 202809.7,
+          "fy": 7562521.2,
+          "fonte": "sintetico",
+          "area_m2": 535.92
+        },
+        {
+          "lid": 61164,
+          "quadra": 2725,
+          "nx": -0.9995,
+          "ny": -0.0315,
+          "fx": 202810.1,
+          "fy": 7562509.2,
+          "fonte": "sintetico",
+          "area_m2": 535.92
+        }
+      ],
+      "operacao": "União exata das geometrias lon/lat convertidas para EPSG:31983; sem buffer, fechamento de gaps ou simplificação."
+    },
+    "qualidade": {
+      "frentes": [
+        {
+          "aresta": 10,
+          "pontos": [
+            [
+              202778.251472,
+              7562470.077897
+            ],
+            [
+              202778.515728,
+              7562461.691146
+            ]
+          ],
+          "comprimento_m": 8.391,
+          "distancia_max_asfalto_m": 1.874
+        }
+      ],
+      "sobreposicao_asfalto_m2": 0.0,
+      "maior_sobreposicao_vizinho_m2": 0.0,
+      "ocupacao_retangulo_minimo": 1.0,
+      "esquina_indicada_pela_malha": false,
+      "sobreposicao_pilotos_m2": {
+        "SC-completo-30516": 0.0,
+        "SC-completo-37607": 0.0,
+        "SC-completo-22426": 0.0,
+        "SC-completo-22421": 0.0,
+        "SC-completo-25297": 0.0
+      },
+      "uniao_sem_buffer_ou_simplificacao": true,
+      "area_soma_componentes_m2": 1607.7759764922966,
+      "area_acrescentada_em_gaps_m2": 0,
+      "divisas_compartilhadas_m": [
+        44.75157743722588,
+        44.75157743742879
+      ]
+    },
+    "conferido": false,
+    "observacoes": "Remembramento de ensaio de três feições sintéticas contíguas da mesma quadra da maquete. Não representa três lotes cadastrais confirmados nem disponibilidade ou viabilidade de remembramento real. Zona lida manualmente nos anexos, sem certidão. Frente inferida da malha de asfalto. Matrículas, loteamento e consulta urbanística pendentes. Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md. Três feições de origem sintetico: são parcelas de ensaio da maquete. A união exata comprova contiguidade apenas nessa base; não demonstra lotes reais, matrícula ou possibilidade legal de remembramento. Triagem de componentes planta até 3,5 km do centro não encontrou remembramento exato que passasse os filtros adotados; não é inventário exaustivo de imóveis disponíveis. Frente registrada é somente o segmento de 8,391 m que passou o teste de três pontos junto ao asfalto; a malha tem lacunas. Não tratar esse segmento como testada cadastral total nem usar para certificar lote mínimo. A testada e os recuos exigem cadastro. Ausência visual de incidência nos anexos não afasta APP, inundação, servidão, patrimônio individual, contaminação ou restrições do loteamento. Consulta específica ao DECEA continua necessária para altura. Anotação manual para simulação. Resíduos do ajuste não representam acurácia cadastral nem erro total; não há certidão municipal. Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade.",
+    "anotacao_zoneamento": {
+      "poligono_sha256": "850d757338e609a8dd098920625cf9bf96450207e474c1d491513f2ee8aa8724",
+      "conferido": false,
+      "data_anotacao": "2026-11-14",
+      "fontes": [
+        {
+          "lei": "Lei 18.053/2016",
+          "anexo": "02",
+          "pagina": 1,
+          "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf",
+          "sha256": "f2dbbf98a0698092a78be5585f479db4164267478a5a83b0dc8104917fdf5ef2",
+          "data": "2026-11-14"
+        },
+        {
+          "lei": "Lei 18.053/2016",
+          "anexo": "05",
+          "pagina": 1,
+          "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2005%20-%20AEIs%20Ambientais.pdf",
+          "sha256": "af2d54f9694ea9055273db821609798f51a0dd8d057bace97e9effee2ebddfa7",
+          "data": "2026-11-14"
+        },
+        {
+          "lei": "Lei 18.053/2016",
+          "anexo": "06",
+          "pagina": 1,
+          "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf",
+          "sha256": "3bfc5f7b8b79c5016a526cd08ac7f5f0f83f0fb51f27a2d1173785ee2bbc0f5d",
+          "data": "2026-11-14"
+        },
+        {
+          "lei": "Lei 18.053/2016",
+          "anexo": "07",
+          "pagina": 1,
+          "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf",
+          "sha256": "3c290bd44a8e6b5a5effca6715017bff21bdce5357a3d36167af95d3439e8031",
+          "data": "2026-11-14"
+        },
+        {
+          "lei": "Lei 18.053/2016",
+          "artigo": "11",
+          "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257",
+          "data": "2026-11-14"
+        }
+      ],
+      "evidencia_zoneamento": "Polígono inteiro na mancha amarela Z2, a leste da divisa Z1/Z2 e a oeste da Rua Dona Maria Izabel de Oliveira Botelho, entre Major José Inácio e Conde do Pinhal. Afastamento aproximado de 200 m do traço divisório mais próximo. A rua inferida para a frente não consta no art. 11; nenhum Eixo desenhado toca o polígono.",
+      "areas_especiais_verificacao": {
+        "05": "Fora das manchas ambientais e AIA do Gregório/Lazarini. Mancha verde isolada ao norte, sem interseção.",
+        "06": "Fora da poligonal histórica, subárea de 9 m, Observatório, áreas industriais e demais manchas especiais visíveis.",
+        "07": "A leste da borda da superfície de aproximação/decolagem em tracejado roxo; nenhuma incidência rural desenhada."
+      },
+      "metodo": "Vértices EPSG:31983 transformados para EPSG:29183; ajuste afim sobre JPEG original usando cinco vértices do perímetro do Anexo 02.A. Leitura manual da legenda e do polígono completo. Sem fx/fy, KML de proposta ou inferência por bairro.",
+      "controles": "dados/zonas-controles.json",
+      "posicionamento": "dados/z2-posicionamento.json",
+      "evidencias": [
+        "dados/z2-anexo02.jpg",
+        "dados/z2-anexo05.jpg",
+        "dados/z2-anexo06.jpg",
+        "dados/z2-anexo07.jpg",
+        "dados/z2-componentes.png"
+      ],
+      "rmse_controles_anexo02_m": 3.526,
+      "incerteza_posicional_total_m": null,
+      "afastamento_divisa": {
+        "anexo": "02",
+        "distancia_aproximada_m": 213,
+        "linha_pixels_original": [
+          [
+            5563,
+            4999
+          ],
+          [
+            5569,
+            5728
+          ],
+          [
+            5356,
+            5733
+          ]
+        ],
+        "metodo": "Distância do polígono projetado ao traço local Z1/Z2 marcado manualmente no JPEG. Não é distância cadastral nem levantamento de toda a zona."
+      },
+      "limitacoes": [
+        "Três feições de origem sintetico: são parcelas de ensaio da maquete. A união exata comprova contiguidade apenas nessa base; não demonstra lotes reais, matrícula ou possibilidade legal de remembramento.",
+        "Triagem de componentes planta até 3,5 km do centro não encontrou remembramento exato que passasse os filtros adotados; não é inventário exaustivo de imóveis disponíveis.",
+        "Frente registrada é somente o segmento de 8,391 m que passou o teste de três pontos junto ao asfalto; a malha tem lacunas. Não tratar esse segmento como testada cadastral total nem usar para certificar lote mínimo. A testada e os recuos exigem cadastro.",
+        "Ausência visual de incidência nos anexos não afasta APP, inundação, servidão, patrimônio individual, contaminação ou restrições do loteamento. Consulta específica ao DECEA continua necessária para altura.",
+        "Anotação manual para simulação. Resíduos do ajuste não representam acurácia cadastral nem erro total; não há certidão municipal."
+      ]
     }
   }
 ]

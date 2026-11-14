@@ -8,7 +8,7 @@ from pathlib import Path
 from urllib.parse import quote
 
 BASE = Path(__file__).resolve().parent
-lotes = json.loads((BASE.parent / "lotes-piloto.json").read_text(encoding="utf-8"))
+todos_lotes = json.loads((BASE.parent / "lotes-piloto.json").read_text(encoding="utf-8"))
 hashes_inspecionados = {
     "SC-completo-30516": "d8d3c8e088a394c2fee067cf70c48d048834681c14184ad9c670093c36a6a1c2",
     "SC-completo-37607": "18f40c4e0480f75bbaf456ad000d2eb0c24710ce0e2464d8a9f232fd2384d695",
@@ -16,6 +16,7 @@ hashes_inspecionados = {
     "SC-completo-22421": "0093bfe02944418c2b4be3eccc9a5e13db7efd7e4396eb6381971b960a6099d9",
     "SC-completo-25297": "948e248a952a6099815918b86c0157fe3bd7b2ed048ba4f3a9c0f20048bacee4",
 }
+lotes = [l for l in todos_lotes if l["id"] in hashes_inspecionados]
 for lote in lotes:
     atual = hashlib.sha256(json.dumps(lote["poligono_utm"], separators=(",", ":"), allow_nan=False).encode()).hexdigest()
     if atual != hashes_inspecionados.get(lote["id"]):
@@ -81,10 +82,20 @@ for lote in lotes:
         anexo = area.pop("anexo")
         artigos = area.pop("artigos")
         area.update({"conferido": False, "incidencia": "sobreposicao_visual", "fonte": f"Lei 18.053/2016, arts. {artigos}, Anexo {anexo}, p. 1; " + url_base + quote(nomes[anexo]), "evidencia": f"dados/zonas-mapas/{ident}-anexo{anexo}.jpg"})
-    item.update({"id": ident, "poligono_sha256": hashlib.sha256(json.dumps(lote["poligono_utm"], separators=(",", ":"), allow_nan=False).encode()).hexdigest(), "zona_anotada_a_mao": True, "conferido": False, "data_anotacao": "2026-11-14", "fontes": fontes, "metodo": "Vértices EPSG:31983 transformados para EPSG:29183; ajuste afim sobre JPEG original usando cinco vértices do perímetro do Anexo 02.A. Leitura manual da legenda e do polígono completo. Sem fx/fy, KML de proposta ou inferência por bairro.", "evidencias": [f"dados/zonas-mapas/{ident}-anexo{n}.jpg" for n in nomes], "controles": "dados/zonas-controles.json", "posicionamento": "dados/zonas-posicionamento.json", "rmse_controles_anexo02_m": round(pos["02"]["rmse_controles_m"], 3), "incerteza_posicional_total_m": None})
+    item.update({"id": ident, "poligono_sha256": hashlib.sha256(json.dumps(lote["poligono_utm"], separators=(",", ":"), allow_nan=False).encode()).hexdigest(), "zona_origem": "anotada_a_mao", "zona_conferida": False, "conferido": False, "data_anotacao": "2026-11-14", "fontes": fontes, "metodo": "Vértices EPSG:31983 transformados para EPSG:29183; ajuste afim sobre JPEG original usando cinco vértices do perímetro do Anexo 02.A. Leitura manual da legenda e do polígono completo. Sem fx/fy, KML de proposta ou inferência por bairro.", "evidencias": [f"dados/zonas-mapas/{ident}-anexo{n}.jpg" for n in nomes], "controles": "dados/zonas-controles.json", "posicionamento": "dados/zonas-posicionamento.json", "rmse_controles_anexo02_m": round(pos["02"]["rmse_controles_m"], 3), "incerteza_posicional_total_m": None})
     item["limitacoes"] += comuns
     resultado.append(item)
 assert len(resultado) == 5 and sum(len(r["areas_especiais"]) for r in resultado) == 4
 assert {r["zona_id"] for r in resultado} == {"SC-Z1", "SC-Z4"}
+for lote in todos_lotes:
+    if lote["id"] in hashes_inspecionados:
+        continue
+    assert lote["categoria"] in ("eixo", "z2")
+    anotacao = json.loads((BASE / f"anotacao-{lote['categoria']}.json").read_text(encoding="utf-8"))
+    atual = hashlib.sha256(json.dumps(lote["poligono_utm"], separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+    assert anotacao["id"] == lote["id"] and anotacao["poligono_sha256"] == atual
+    assert anotacao["zona_origem"] == "anotada_a_mao" and anotacao["zona_conferida"] is False
+    resultado.append(anotacao)
+assert len(resultado) == len(todos_lotes) and len({r["id"] for r in resultado}) == len(resultado)
 (BASE / "anotacoes-zonas.json").write_text(json.dumps(resultado, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-print("5 anotações manuais gravadas, com 4 incidências especiais e hashes dos polígonos.")
+print(f"{len(resultado)} anotações manuais gravadas, com incidências especiais e hashes dos polígonos.")

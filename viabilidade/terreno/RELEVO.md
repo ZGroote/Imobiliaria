@@ -4,7 +4,7 @@ Consulta às fontes: **2026-11-14**. Pesquisa em páginas dos produtores e distr
 
 ## Resultado local entregue
 
-O download público e a aplicação nos **cinco lotes-piloto foram concluídos em 2026-11-14**. Foram lidas janelas de quatro COGs AWS (`S23/W049`, `S23/W048`, `S22/W049`, `S22/W048`), sem login. Só o recorte da área urbana de trabalho foi gravado; ele não representa o limite municipal inteiro.
+O download público e a aplicação nos **sete lotes-piloto foram concluídos em 2026-11-14**. Foram lidas janelas de quatro COGs AWS (`S23/W049`, `S23/W048`, `S22/W049`, `S22/W048`), sem login. Só o recorte da área urbana de trabalho foi gravado; ele não representa o limite municipal inteiro. A tarefa 2 reutilizou esse recorte local para os dois novos remembramentos, sem novo download e sem alterar os valores dos cinco originais.
 
 - Raster: `dados/copernicus-glo30-sao-carlos.tif`, **1.155 colunas × 682 linhas**, 1.904.215 bytes; 787.710 células válidas, sem NoData ou valores não finitos.
 - Referência: horizontal EPSG:4326, vertical EGM2008, metros. Grade original de **1 segundo de arco** nos dois eixos, nominalmente 30 m; a distância em metros varia com a latitude. Espelho AWS da versão 2021, conforme o [registro do distribuidor](https://registry.opendata.aws/copernicus-dem/).
@@ -21,6 +21,8 @@ O download público e a aplicação nos **cinco lotes-piloto foram concluídos e
 | SC-completo-22426 | 793,9 | 797,6 | 7,0 | 12 |
 | SC-completo-22421 | 793,0 | 796,9 | 9,3 | 12 |
 | SC-completo-25297 | 842,6 | 844,8 | 6,5 | 13 |
+| SC-completo-q1382-11984-11988 | 855,4 | 857,3 | 2,5 | 13 |
+| SC-completo-remembramento-75352-75354 | 865,2 | 867,7 | 6,2 | 15 |
 
 A contagem inclui as células do entorno usadas na declividade; não representa medições estatisticamente independentes nem pixels integralmente contidos no lote. Os resultados e a contagem estão em `dados/relevo-pilotos.json`. O objeto `relevo` segue o contrato; as ressalvas foram acrescentadas em `observacoes`. A comparação antes/depois confirmou que nenhum outro campo dos lotes foi alterado pela aplicação.
 
@@ -52,7 +54,7 @@ MDS/DSM representa a superfície, incluindo árvores e construções. MDT/DTM pr
 
 | Fonte | Tipo e resolução/escala | Precisão vertical documentada | Cobertura de São Carlos | Acesso e licença |
 |---|---|---|---|---|
-| Copernicus GLO-30 | MDS; 1 segundo de arco, nominal 30 m | Especificação absoluta < 4 m, erro linear a 90%. Não é RMSE nem validação do lote | Recorte urbano baixado e validado, incluindo os cinco lotes | AWS sem conta; portal CDSE requer cadastro/CCM. Licença gratuita específica, com atribuição |
+| Copernicus GLO-30 | MDS; 1 segundo de arco, nominal 30 m | Especificação absoluta < 4 m, erro linear a 90%. Não é RMSE nem validação do lote | Recorte urbano baixado e validado, incluindo os sete lotes | AWS sem conta; portal CDSE requer cadastro/CCM. Licença gratuita específica, com atribuição |
 | ALOS AW3D30/JAXA | MDS óptico; 1 segundo de arco, nominal 30 m | **Meta** de 5 m RMS; não garantia pontual | Global declarada; tiles de São Carlos não baixados nesta pesquisa | Portal de download pede cadastro. Gratuito; crédito JAXA; condições atuais pedem notificação prévia para uso comercial |
 | FABDEM V1-2 | Terreno estimado por remoção de vieses de árvores/prédios do Copernicus; 1 segundo de arco | Artigo original relata erro absoluto médio de 1,12 m em áreas construídas e 2,88 m em florestas, na amostra do estudo; não são RMSE local nem garantia da V1-2 | Pacote de 10° que contém São Carlos consta no índice; pixels locais não inspecionados | HTTPS sem login; **CC BY-NC-SA 4.0**, não adotar para produto comercial sem licença separada |
 | IBGE, produto MDE | A definição do IBGE inclui vegetação/edificações; coleções em escalas 1:25.000 e 1:50.000 | Não conferida para São Carlos | Existe coleção `spmggo50`, mas o nome não comprova cobertura do município; índice ainda precisa de interseção com os lotes | Diretório público, TIF/ASCII. Licença específica de redistribuição não conferida |

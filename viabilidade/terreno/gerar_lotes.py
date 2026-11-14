@@ -126,7 +126,9 @@ def avaliar(g, indice, geos, tree, malha, tree_ruas):
 
 
 def checar(lotes):
-    assert len(lotes) == 5 and len({l["id"] for l in lotes}) == 5
+    assert len(lotes) in (5, 7) and len({l["id"] for l in lotes}) == len(lotes)
+    originais = {"SC-completo-30516", "SC-completo-37607", "SC-completo-22426", "SC-completo-22421", "SC-completo-25297"}
+    assert originais <= {l["id"] for l in lotes}
     assert sum(l["categoria"] == "grande" for l in lotes) == 2
     assert sum(l["categoria"] == "medio" for l in lotes) == 2
     assert sum(l["categoria"] == "esquina" for l in lotes) == 1
@@ -134,16 +136,27 @@ def checar(lotes):
     for l in lotes:
         g = Polygon(l["poligono_utm"])
         assert l["fonte"]["arquivo"] == BASES[1]
-        fonte = origem[l["fonte"]["indice_feicao_zero_based"]]["geometry"]["coordinates"][0]
-        esperado = [UTM.transform(lon, lat) for lon, lat in fonte]
-        assert len(esperado) == len(l["poligono_utm"])
-        assert all(math.dist(a, b) < 0.000002 for a, b in zip(esperado, l["poligono_utm"]))
+        if "indices_feicoes_zero_based" in l["fonte"]:
+            indices = l["fonte"]["indices_feicoes_zero_based"]
+            assert len(set(indices)) == len(indices) > 1
+            partes = [origem[i] for i in indices]
+            assert len({p["properties"]["quadra"] for p in partes}) == 1
+        else:
+            partes = [origem[l["fonte"]["indice_feicao_zero_based"]]]
+        geometrias = [sh.transform(shape(p["geometry"]), UTM.transform, interleaved=False) for p in partes]
+        assert all(p.is_valid for p in geometrias)
+        assert all(a.intersection(b).area <= 0.1 for i, a in enumerate(geometrias) for b in geometrias[i + 1:])
+        esperado = sh.union_all(geometrias)
+        assert esperado.geom_type == "Polygon" and esperado.is_valid
+        assert g.hausdorff_distance(esperado) < 0.000002
+        assert g.symmetric_difference(esperado).area < 0.02
         assert g.is_valid and not g.interiors and abs(g.area - l["area_m2"]) < 0.02
         assert LineString(l["frente"]).difference(g.boundary).length < 0.001
         assert l["crs"] == "EPSG:31983"
         if l["zona_id"] is not None:
             assert l["zona_id"] in {z["id"] for z in ler("viabilidade/lei/zonas.json")}
-            assert l["zona_anotada_a_mao"] is True
+            assert l["zona_origem"] == "anotada_a_mao" and l["zona_conferida"] is False
+            assert "zona_anotada_a_mao" not in l
         assert isinstance(l.get("areas_especiais", []), list)
         for especial in l.get("areas_especiais", []):
             assert especial["tipo"] and especial["fonte"]
@@ -159,12 +172,17 @@ def checar(lotes):
             assert g.area > 1500
         elif l["categoria"] == "medio":
             assert 600 <= g.area <= 1500
-        else:
+        elif l["categoria"] == "esquina":
             assert l["qualidade"]["esquina_indicada_pela_malha"]
+        else:
+            assert l["categoria"] in ("eixo", "z2") and 1200 <= g.area <= 3000
+            assert l["zona_id"] == {"eixo": "SC-EIXO", "z2": "SC-Z2"}[l["categoria"]]
         for x, y in l["poligono_utm"]:
             assert math.dist((x, y), UTM.transform(*GEO.transform(x, y))) < 0.001
     gs = [Polygon(l["poligono_utm"]) for l in lotes]
     assert all(a.intersection(b).area < 0.1 for i, a in enumerate(gs) for b in gs[i + 1:])
+    if len(lotes) == 7:
+        assert sum(l["categoria"] == "eixo" for l in lotes) == sum(l["categoria"] == "z2" for l in lotes) == 1
 
 
 def main():
@@ -229,6 +247,6 @@ if __name__ == "__main__":
     parser.add_argument("--testar", action="store_true")
     if parser.parse_args().testar:
         checar(ler("viabilidade/terreno/lotes-piloto.json"))
-        print("OK: cinco lotes existentes verificados, sem regravar.")
+        print("OK: lotes existentes verificados, sem regravar.")
     else:
         main()
