@@ -2,10 +2,10 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
-import * as THREE from '../experimentos/liv-experimental-2026-10-14/node_modules/three/build/three.webgpu.js';
-import {EXTERIOR_EDITIONS} from '../experimentos/apresentacao-2026-11-01/site/demo/edicoes.js';
+import * as THREE from '../../liv-experimental-2026-10-14/node_modules/three/build/three.webgpu.js';
+import {EXTERIOR_EDITIONS} from '../site/demo/edicoes.js';
 
-const demo=new URL('../experimentos/apresentacao-2026-11-01/site/demo/',import.meta.url);
+const demo=new URL('../site/demo/',import.meta.url);
 const read=name=>readFileSync(new URL(name,demo),'utf8');
 const spaces=JSON.parse(read('modelo/entrada/candidato/vagas.json'));
 const plain=value=>JSON.parse(JSON.stringify(value));
