@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Viabilidade · Estudo de volumes</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root{color-scheme:dark;font:15px/1.5 system-ui,sans-serif;--page:#0e151b;--surface:#131c23;--raised:#212c34;--line:#40505c;--ink:#e5eaee;--muted:#abb8c1;--accent:#91dcba;--gold:#f3d397;color:var(--ink);background:var(--page)}
+    *{box-sizing:border-box}body{margin:0;padding-bottom:80px}main,header{max-width:1560px;margin:auto;padding:24px}header{display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line)}h1{font-size:26px;line-height:1.2;margin:4px 0 8px;letter-spacing:-.5px}h2{font-size:19px;margin:0}h3{font-size:15px;margin:16px 0 8px}p{margin:8px 0}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}.muted,.help{color:var(--muted);font-size:13px}.actions,nav,.legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center}button{font:inherit;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:6px;background:var(--raised);color:var(--ink);cursor:pointer}button:hover{border-color:var(--accent)}button[aria-pressed=true]{background:#244336;border-color:var(--accent);color:#e9fff2}button:focus-visible,summary:focus-visible,canvas:focus-visible{outline:3px solid var(--accent);outline-offset:3px}button:disabled{opacity:.5;cursor:default}#status{overflow-wrap:anywhere}#erro,.notice{padding:12px 16px;border:1px solid #826c44;border-radius:6px;background:#322c20;color:var(--gold)}#erro{border-color:#da9b86;color:#ffd6c8;background:#412b25}#resumo{margin-bottom:20px}#lote{font-size:19px;font-weight:600;overflow-wrap:anywhere}.legend{font-size:12px;color:var(--muted);margin:16px 0}.legend span{display:inline-flex;gap:8px;align-items:center;margin-right:12px}.swatch{display:inline-block;width:16px;height:12px;background:#8a9e84}.swatch.box{background:transparent;border:1px solid #f3d397}.swatch.volume{background:#96c5b9}.swatch.garagem{background:#b0a8c5}nav{margin:16px 0}.cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr))}.option{min-width:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}.option>h2{padding:16px;border-bottom:1px solid var(--line)}.viewport{height:340px;position:relative;background:#e1e5e2}.single .option-body{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr)}.single .viewport{height:540px}.viewport canvas{display:block;width:100%;height:100%;touch-action:none}.view-actions{position:absolute;bottom:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap}.view-actions button{font-size:12px;padding:8px 12px;background:#18252bec;border-color:#6b7b80}.metrics{padding:16px}.highlights{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px}.highlights div{border-bottom:1px solid var(--line);padding-bottom:12px}.highlights dt{font-size:12px;color:var(--muted)}.highlights dd{margin:4px 0 0;font-size:21px;font-weight:600;overflow-wrap:anywhere}.details{margin:0}.details div{display:flex;justify-content:space-between;gap:16px;padding:6px 0;border-bottom:1px solid #303b43;font-size:13px}.details dt{color:var(--muted)}.details dd{margin:0;text-align:right}.alerts{font-size:13px;color:var(--gold);padding-left:20px;margin:8px 0}.alerts li{margin:8px 0}details.context{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}summary{cursor:pointer;min-height:44px;display:list-item}.context ul{padding-left:20px;color:var(--muted);font-size:13px}.context li{margin:8px 0;overflow-wrap:anywhere}#premissas{max-width:800px}footer{position:fixed;bottom:0;left:0;right:0;z-index:5;padding:12px 24px;background:#1c292ff5;border-top:1px solid #5b707c;color:var(--gold);font-size:13px;text-align:center}.drop{outline:3px dashed var(--accent);outline-offset:-8px}[hidden]{display:none!important}
+    @media(max-width:760px){header{align-items:flex-start;flex-direction:column;gap:12px}main,header{padding:16px}h1{font-size:24px}.single .option-body{grid-template-columns:1fr}.single .viewport{height:360px}.actions button{flex:1}.cards{grid-template-columns:1fr}footer{padding:12px 16px}.details{font-size:12px}}
+  </style>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"}}</script>
+</head>
+<body>
+  <header>
+    <div><span class="eyebrow">Viabilidade / fase 0</span><h1>Um lote, diferentes possibilidades.</h1><p class="muted">Compare os volumes e os números de cada opção.</p></div>
+    <div><div class="actions"><button id="abrir">Abrir estudo.json</button><button id="exemplo">Exemplo do Motor</button></div><input id="arquivo" type="file" accept=".json,application/json" hidden><p class="help">Ou arraste um arquivo JSON para esta página.</p></div>
+  </header>
+  <main>
+    <p id="status" class="muted" role="status" aria-live="polite">Preparando visualização…</p>
+    <p id="erro" role="alert" hidden></p>
+    <section id="estudo" hidden>
+      <div id="resumo"><p id="lote"></p><p id="zona" class="muted"></p><p id="conferencia" class="notice"></p></div>
+      <nav id="opcoes" aria-label="Escolha uma opção"></nav>
+      <div class="legend" aria-label="Legenda da maquete"><span><i class="swatch"></i>Lote</span><span><i class="swatch box"></i>Caixa máxima</span><span><i class="swatch volume"></i>Volume da opção</span><span><i class="swatch garagem"></i>Garagem / subsolo</span></div>
+      <p class="help">Arraste para girar; use a roda ou dois dedos para aproximar. Comparação com escala e vista inicial iguais. No celular, as opções ficam uma abaixo da outra.</p>
+      <div id="cards" class="cards single"></div>
+      <details class="context" open><summary>Incertezas e origem dos dados</summary><ul id="incertezas"></ul></details>
+      <details class="context"><summary>Premissas do estudo</summary><dl id="premissas" class="details"></dl></details>
+    </section>
+  </main>
+  <footer>estudo preliminar, não substitui projeto nem aprovação</footer>
+  <script type="module">
+    const $ = id => document.getElementById(id);
+    const exemplo = '../motor/exemplos/estudo-exemplo.json';
+    const numero = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
+    const reais = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+    let THREE, OrbitControls, estudo, selecionada = 0, comparar = false, vistas = [], pedido = 0;
+    const el = (tag, texto, classe) => { const node = document.createElement(tag); if (texto !== undefined) node.textContent = texto; if (classe) node.className = classe; return node; };
+    const finito = n => typeof n === 'number' && Number.isFinite(n);
+    const formatar = (n, unidade = '') => finito(n) ? numero.format(n) + unidade : 'Não informado';
+    const falha = texto => { $('erro').textContent = texto; $('erro').hidden = false; };
+    function poligono(p, nome) {
+      if (!Array.isArray(p) || p.length < 3 || p.length > 10000 || p.some(v => !Array.isArray(v) || v.length !== 2 || !v.every(finito))) throw Error(nome + ': polígono inválido.');
+      const [x, y] = p[0];
+      const area = p.reduce((a, v, i) => { const w = p[(i + 1) % p.length]; return a + (v[0] - x) * (w[1] - y) - (w[0] - x) * (v[1] - y); }, 0);
+      if (!finito(area) || Math.abs(area) < 0.000001) throw Error(nome + ': polígono sem área válida.');
+    }
+    function validar(d) {
+      if (!d || !d.lote || !d.zona || !d.premissas || !d.caixa_maxima || !Array.isArray(d.opcoes)) throw Error('Use um JSON no formato Estudo do Motor (lote, zona, premissas, caixa_maxima e opcoes).');
+      if (d.zona.fontes !== undefined && (!Array.isArray(d.zona.fontes) || d.zona.fontes.some(f => !f || typeof f !== 'object' || Array.isArray(f)))) throw Error('Fontes da zona: use uma lista de objetos com lei, artigo, URL e data.');
+      const preco = d.premissas.preco_venda_m2_privativo;
+      if (preco !== undefined && preco !== null && (!finito(preco) || preco < 0)) throw Error('Preço por m² privativo inválido.');
+      poligono(d.lote.poligono_utm, 'Lote');
+      // O Motor pode devolver caixa vazia quando os recuos consomem o lote.
+      if (d.caixa_maxima.projecao_utm?.length) poligono(d.caixa_maxima.projecao_utm, 'Caixa máxima');
+      else if (!Array.isArray(d.caixa_maxima.projecao_utm)) throw Error('Caixa máxima: projeção inválida.');
+      if (!finito(d.caixa_maxima.altura_m) || d.caixa_maxima.altura_m < 0) throw Error('Caixa máxima: altura inválida.');
+      if (d.opcoes.length > 12) throw Error('Abra um estudo com até 12 opções.');
+      const ids = new Set();
+      for (const o of d.opcoes) {
+        if (!o || typeof o.id !== 'string' || !o.id.trim() || ids.has(o.id) || !Array.isArray(o.volumes) || !o.metricas || !Array.isArray(o.alertas) || o.alertas.some(a => typeof a !== 'string')) throw Error('Opção inválida: confira id único, volumes, métricas e alertas.');
+        ids.add(o.id);
+        if (o.volumes.length > 200) throw Error('Opção com volumes demais para este visualizador.');
+        for (const v of o.volumes) {
+          poligono(v.base_utm, 'Volume ' + o.id);
+          if (!finito(v.z0_m) || !finito(v.altura_m) || v.altura_m < 0) throw Error('Volume ' + o.id + ': base ou altura inválida.');
+        }
+        for (const [k, v] of Object.entries(o.metricas)) {
+          if (v !== null && (!finito(v) || v < 0 || (['vagas', 'unidades_estimadas', 'pavimentos'].includes(k) && !Number.isInteger(v)))) throw Error('Opção ' + o.id + ': métrica inválida (' + k + ').');
+        }
+      }
+      if (d.incertezas !== undefined && (!Array.isArray(d.incertezas) || d.incertezas.some(v => typeof v !== 'string'))) throw Error('Incertezas devem ser uma lista de textos.');
+      return d;
+    }
+    async function carregar(origem, arquivo = false) {
+      const atual = ++pedido;
+      $('status').textContent = 'Lendo estudo…'; $('erro').hidden = true;
+      try {
+        let texto;
+        if (arquivo) { if (origem.size > 10 * 1024 * 1024) throw Error('O arquivo deve ter até 10 MB.'); texto = await origem.text(); }
+        else {
+          const url = new URL(origem, location.href);
+          if (!['http:', 'https:'].includes(url.protocol)) throw Error('Abra a página por um servidor local HTTP e use um caminho para o JSON.');
+          const resposta = await fetch(url, { signal: AbortSignal.timeout(15000) });
+          if (!resposta.ok) throw Error('Não foi possível abrir o estudo (HTTP ' + resposta.status + ').');
+          texto = await resposta.text();
+          if (texto.length > 10 * 1024 * 1024) throw Error('O arquivo deve ter até 10 MB.');
+        }
+        const novo = validar(JSON.parse(texto));
+        if (atual !== pedido) return;
+        estudo = novo; selecionada = 0; comparar = false; apresentar();
+        $('status').textContent = (arquivo ? origem.name : origem) + ' · Motor ' + (estudo.versao_motor || 'não informado');
+      } catch (erro) {
+        if (atual !== pedido) return;
+        falha(erro instanceof SyntaxError ? 'JSON inválido. Confira o arquivo e tente novamente.' : erro.message);
+        $('status').textContent = estudo ? 'O último estudo carregado continua em exibição.' : 'Nenhum estudo carregado. Abra um arquivo ou tente o exemplo do Motor.';
+      }
+    }
+    const campos = [
+      ['area_construida_m2', 'Área construída', ' m²'], ['area_computavel_m2', 'Área computável', ' m²'],
+      ['area_nao_computavel_m2', 'Área não computável', ' m²'], ['area_acima_ca_basico_m2', 'Área acima do CA básico', ' m²'],
+      ['area_garagem_m2', 'Área de garagem', ' m²'], ['area_permeavel_m2', 'Área permeável', ' m²'],
+      ['ca_usado', 'CA utilizado', ''], ['to_usada', 'Taxa de ocupação', '%'], ['pavimentos', 'Pavimentos', '']
+    ];
+    function linha(dl, nome, valor) { const row = el('div'); row.append(el('dt', nome), el('dd', valor)); dl.append(row); }
+    function painel(o) {
+      const painel = el('div', undefined, 'metrics'), destaques = el('dl', undefined, 'highlights'), m = o.metricas;
+      linha(destaques, 'Unidades estimadas', formatar(m.unidades_estimadas));
+      linha(destaques, 'Área privativa', formatar(m.area_privativa_m2, ' m²'));
+      linha(destaques, 'Vagas', formatar(m.vagas));
+      const preco = estudo.premissas.preco_venda_m2_privativo;
+      linha(destaques, 'VGV estimado', !finito(preco) ? 'Informe o preço' : finito(m.vgv_estimado) ? reais.format(m.vgv_estimado) : 'Não informado');
+      painel.append(destaques);
+      const dl = el('dl', undefined, 'details');
+      for (const [key, label, unit] of campos) linha(dl, label, formatar(key === 'to_usada' && finito(m[key]) ? m[key] * 100 : m[key], unit));
+      painel.append(dl, el('h3', 'Alertas da opção'));
+      if (o.alertas.length) { const ul = el('ul', undefined, 'alerts'); o.alertas.forEach(a => ul.append(el('li', a))); painel.append(ul); }
+      else painel.append(el('p', 'Nenhum alerta informado pelo Motor. Isso não comprova aprovação.', 'muted'));
+      return painel;
+    }
+    function apresentar() {
+      $('estudo').hidden = false;
+      $('lote').textContent = (estudo.lote.id || 'Lote sem identificação') + ' · ' + formatar(estudo.lote.area_m2, ' m²');
+      $('zona').textContent = (estudo.zona.nome || estudo.zona.id || 'Zona não informada') + ' · SIRGAS 2000 / UTM 23S';
+      const fontes = Array.isArray(estudo.zona.fontes) ? estudo.zona.fontes : [];
+      const conferido = estudo.zona.conferido === true && fontes.length > 0 && fontes.every(f => ['lei', 'artigo', 'url', 'data'].every(k => typeof f[k] === 'string' && f[k].trim()));
+      $('conferencia').textContent = conferido ? 'Zona marcada como conferida no arquivo. Consulte as fontes e incertezas abaixo.' : 'Não conferido: parâmetros da zona sem validação ou sem fonte. Os números não comprovam viabilidade legal.';
+      const incertezas = [...(estudo.incertezas || []), 'A maquete mostra volumes sobre um plano; não representa o relevo do terreno.'];
+      if (estudo.lote.observacoes) incertezas.push('Lote: ' + estudo.lote.observacoes);
+      if (estudo.zona.observacoes) incertezas.push('Zona: ' + estudo.zona.observacoes);
+      if (!fontes.length) incertezas.push('Fontes da legislação: não informadas.');
+      fontes.forEach(f => incertezas.push('Fonte: ' + [f.lei, f.artigo, f.data, f.url].filter(Boolean).join(' · ')));
+      if (estudo.opcoes.some(o => ['area_privativa_m2', 'vagas', 'area_nao_computavel_m2'].some(k => !finito(o.metricas[k])))) incertezas.push('O arquivo não informa todas as métricas do contrato v2. Campos ausentes não foram estimados pelo Visual.');
+      $('incertezas').replaceChildren(...incertezas.map(a => el('li', a)));
+      const nomes = { pe_direito_m:'Pé-direito (m)', pe_direito_terreo_m:'Pé-direito térreo (m)', area_privativa_por_unidade_m2:'Área privativa por unidade (m²)', area_util_por_unidade_m2:'Área útil por unidade (m²)', eficiencia:'Eficiência', area_comum_por_pavimento_m2:'Área comum por pavimento (m²)', vagas_por_unidade:'Vagas por unidade', area_por_vaga_m2:'Área por vaga (m²)', garagem:'Garagem', subsolos_max:'Máximo de subsolos', garagem_computavel:'Garagem computável', preco_venda_m2_privativo:'Preço por m² privativo (R$)' };
+      $('premissas').replaceChildren();
+      for (const [k, v] of Object.entries(estudo.premissas)) {
+        if (k === 'padrao') continue;
+        const padrao = Array.isArray(estudo.premissas.padrao) && estudo.premissas.padrao.includes(k);
+        linha($('premissas'), (nomes[k] || k.replaceAll('_', ' ')) + (padrao ? ' · padrão' : ''), v === null ? 'Não informado' : typeof v === 'number' ? numero.format(v) : typeof v === 'boolean' ? (v ? 'Sim' : 'Não') : String(v));
+      }
+      $('opcoes').replaceChildren();
+      estudo.opcoes.forEach((o, i) => { const b = el('button', 'Opção ' + o.id); b.onclick = () => { selecionada = i; comparar = false; mostrar(); }; $('opcoes').append(b); });
+      const compararBotao = el('button', 'Lado a lado'); compararBotao.disabled = estudo.opcoes.length < 2;
+      compararBotao.onclick = () => { comparar = !comparar; mostrar(); }; $('opcoes').append(compararBotao);
+      mostrar();
+    }
+    function mostrar() {
+      vistas.forEach(v => v()); vistas = []; $('cards').replaceChildren();
+      $('cards').classList.toggle('single', !comparar);
+      [...$('opcoes').children].forEach((b, i) => b.setAttribute('aria-pressed', String(i === estudo.opcoes.length ? comparar : !comparar && i === selecionada)));
+      if (!estudo.opcoes.length) { $('cards').append(el('p', 'O Motor não gerou opções para este lote. Confira as incertezas.')); return; }
+      const opcoes = comparar ? estudo.opcoes : [estudo.opcoes[selecionada]];
+      for (const o of opcoes) {
+        const card = el('article', undefined, 'option'), body = el('div', undefined, 'option-body'), viewport = el('div', undefined, 'viewport');
+        card.append(el('h2', o.id + ' · ' + (o.nome || 'Opção sem nome'))); body.append(viewport, painel(o)); card.append(body); $('cards').append(card);
+        if (THREE) { try { vistas.push(criarVista(viewport, o)); } catch { viewport.append(el('p', 'Não foi possível iniciar o 3D neste navegador. Os números continuam disponíveis.', 'notice')); } }
+        else viewport.append(el('p', '3D indisponível. Confira a conexão com a biblioteca e o suporte a WebGL.', 'notice'));
+      }
+    }
+    function criarVista(container, opcao) {
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setClearColor(0xe1e5e2);
+      const scene = new THREE.Scene(), camera = new THREE.OrthographicCamera(-1, 1, 1, -1, .1, 10000);
+      const canvas = renderer.domElement; canvas.tabIndex = 0; canvas.setAttribute('aria-label', 'Maquete da opção ' + opcao.id + '. Use os botões Vista inicial e Vista de cima para navegar pelo teclado.');
+      container.append(canvas);
+      const controls = new OrbitControls(camera, canvas); controls.enablePan = false; controls.maxPolarAngle = Math.PI * .49;
+      scene.add(new THREE.HemisphereLight(0xffffff, 0x68746d, 2.5));
+      const luz = new THREE.DirectionalLight(0xffffff, 2.5); luz.position.set(60, 100, 30); scene.add(luz);
+      const pontos = estudo.lote.poligono_utm;
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      pontos.forEach(([x,y]) => { minX = Math.min(minX,x); maxX = Math.max(maxX,x); minY = Math.min(minY,y); maxY = Math.max(maxY,y); });
+      const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+      // Subtrair UTM em double antes de criar buffers Float32 evita tremedeira.
+      const shape = p => new THREE.Shape(p.map(([x,y]) => new THREE.Vector2(x - cx, y - cy)));
+      function geometria(p, altura, z0 = 0) {
+        const g = altura > 0 ? new THREE.ExtrudeGeometry(shape(p), { depth: altura, bevelEnabled: false, steps: 1 }) : new THREE.ShapeGeometry(shape(p));
+        g.rotateX(-Math.PI / 2); g.translate(0, z0, 0); return g;
+      }
+      function solido(g, cor, opacidade = 1) {
+        scene.add(new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: cor, roughness: 1, side: THREE.DoubleSide, transparent: opacidade < 1, opacity: opacidade, depthWrite: opacidade === 1 })));
+        scene.add(new THREE.LineSegments(new THREE.EdgesGeometry(g), new THREE.LineBasicMaterial({ color: 0x3c5854, transparent: true, opacity: .65 })));
+      }
+      const temSubsolo = opcao.volumes.some(v => v.z0_m < 0);
+      solido(geometria(pontos, 0, -.04), 0x8a9e84, temSubsolo ? .24 : 1);
+      const caixa = estudo.caixa_maxima;
+      if (caixa.projecao_utm.length) {
+        const g = geometria(caixa.projecao_utm, caixa.altura_m);
+        const edges = new THREE.EdgesGeometry(g); g.dispose();
+        scene.add(new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x82642d, transparent: true, opacity: .8 })));
+      }
+      opcao.volumes.forEach(v => solido(geometria(v.base_utm, v.altura_m, v.z0_m), v.z0_m < 0 || /garagem|subsolo/i.test(v.uso || '') ? 0xb0a8c5 : v.uso === 'embasamento' ? 0xc2c8c1 : 0x96c5b9, v.z0_m < 0 ? .75 : 1));
+      let topo = caixa.altura_m, base = 0;
+      estudo.opcoes.forEach(o => o.volumes.forEach(v => { topo = Math.max(topo, v.z0_m + v.altura_m); base = Math.min(base, v.z0_m); }));
+      const tamanho = Math.max(maxX - minX, maxY - minY, topo - base, 1), alvo = new THREE.Vector3(0, (topo + base) / 2, 0);
+      camera.far = tamanho * 30; controls.target.copy(alvo);
+      const render = () => renderer.render(scene, camera);
+      function reset(cima = false) { camera.position.copy(alvo).add(new THREE.Vector3(cima ? 0 : tamanho * 1.5, tamanho * 1.3, cima ? .001 : tamanho * 1.7)); camera.zoom = 1; camera.updateProjectionMatrix(); controls.update(); render(); }
+      const barra = el('div', undefined, 'view-actions');
+      for (const [texto, cima] of [['Vista inicial', false], ['Vista de cima', true]]) { const b = el('button', texto); b.onclick = () => reset(cima); barra.append(b); } container.append(barra);
+      const resize = () => { const w = container.clientWidth, h = container.clientHeight; const a = w / h, meio = tamanho * .85; camera.left = -meio * Math.max(1,a); camera.right = -camera.left; camera.top = meio * Math.max(1,1/a); camera.bottom = -camera.top; camera.updateProjectionMatrix(); renderer.setSize(w,h,false); render(); };
+      controls.addEventListener('change', render); const observer = new ResizeObserver(resize); observer.observe(container); resize(); reset();
+      return () => { observer.disconnect(); controls.dispose(); scene.traverse(obj => { obj.geometry?.dispose(); if (obj.material) obj.material.dispose(); }); renderer.dispose(); renderer.forceContextLoss(); };
+    }
+    $('abrir').onclick = () => $('arquivo').click();
+    $('arquivo').onchange = e => { if (e.target.files[0]) carregar(e.target.files[0], true); e.target.value = ''; };
+    $('exemplo').onclick = () => carregar(exemplo);
+    document.addEventListener('dragover', e => { e.preventDefault(); document.body.classList.add('drop'); });
+    document.addEventListener('dragleave', e => { if (!e.relatedTarget) document.body.classList.remove('drop'); });
+    document.addEventListener('drop', e => { e.preventDefault(); document.body.classList.remove('drop'); if (e.dataTransfer.files[0]) carregar(e.dataTransfer.files[0], true); });
+    try { THREE = await import('three'); ({ OrbitControls } = await import('three/addons/controls/OrbitControls.js')); }
+    catch { falha('Não foi possível carregar o 3D pela CDN. As métricas do estudo ainda podem ser consultadas.'); }
+    if (pedido === 0) await carregar(new URLSearchParams(location.search).get('estudo') || exemplo);
+    else if (estudo) mostrar();
+  </script>
+</body>
+</html>

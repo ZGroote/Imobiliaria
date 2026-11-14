@@ -1,0 +1,28 @@
+[
+  {
+    "perfil": "desktop",
+    "versaoMotor": "0.2.0",
+    "opcoes": 4,
+    "comparacao": true,
+    "upload": true,
+    "contratoV2": true,
+    "jsonInvalido": 7,
+    "largurasExtras": [
+      320,
+      768,
+      1024
+    ],
+    "errosConsole": []
+  },
+  {
+    "perfil": "celular",
+    "versaoMotor": "0.2.0",
+    "opcoes": 4,
+    "comparacao": true,
+    "upload": true,
+    "contratoV2": true,
+    "jsonInvalido": 2,
+    "largurasExtras": [],
+    "errosConsole": []
+  }
+]
