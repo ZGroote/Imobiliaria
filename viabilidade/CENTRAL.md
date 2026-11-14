@@ -8,7 +8,7 @@ Atualizado: 14/11/2026, ~13h. Galho `feat/viabilidade` (worktree `Desktop/imobil
 |---|---|---|
 | Lei | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
 | Terreno | Codex Astra high / trabalho | Livre. TAREFA-2 entregue e commitada (7 pilotos, v4) |
-| Motor | Claude **Sonnet** high / jaogroote | **Trabalhando** na `motor/TAREFA-5.md` (auditoria 3: crash no escaleno, recuo de fundos, pavimentos_sem_ca, cache) |
+| Motor | Claude **Sonnet** high / jaogroote | v0.7.0 commitado. **Trabalhando** na `motor/TAREFA-6.md` (pendências finais: 3.1, MÉDIA 13, utm) |
 | Visual | Codex **Luna** medium / trabalho (18% da semana) | TAREFA-3 quase pronta; **parado pedindo permissão** pra subir servidor local (127.0.0.1:8766) — aprovar é com o usuário |
 | Produto | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 |
 | Conferencia | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 |
