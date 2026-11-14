@@ -128,7 +128,8 @@ def _maior_lamina(regiao, area_max):
 # ---------- recuo por altura ----------
 
 def recuo_divisa(zp, base_m, pavimento, h, lado="lateral"):
-    """Recuo de lateral ou fundos pro pavimento `pavimento` (1 = térreo) cujo teto fica a h metros.
+    """Recuo de lateral ou fundos pro pavimento `pavimento` cujo teto fica a h metros.
+    Contagem do contrato v4: térreo = 1, então "1,50 m no térreo e no 1º pavimento" é ate_pavimento 2.
     Fundos usa `recuo_fundos_por_altura` e, se faltar, a regra lateral. Sem regra, vale o fixo."""
     regra = zp.get(f"recuo_{lado}_por_altura") or zp.get("recuo_lateral_por_altura")
     if not regra:

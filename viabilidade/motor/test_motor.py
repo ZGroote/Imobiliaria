@@ -86,6 +86,20 @@ def main():
     assert all(o["metricas"]["vgv_estimado"] for o in e2["opcoes"]), "VGV sumiu com preço informado"
     assert "garagem_computavel" not in e2["premissas"]["padrao"]
 
+    # contagem v4: térreo = pavimento 1. "1,50 m no térreo e no 1º pavimento" = ate_pavimento 2
+    regra = {"ate_pavimento": 2, "recuo_m": 1.5, "acima": {"fracao_h": 0.125, "minimo_m": 2.0}}
+    zp6 = {"recuo_lateral_por_altura": regra, "recuo_fundos_por_altura": regra}
+    assert recuo_divisa(zp6, 1.5, 1, 4.5) == 1.5     # térreo
+    assert recuo_divisa(zp6, 1.5, 2, 7.5) == 1.5     # 1º pavimento acima do térreo
+    assert recuo_divisa(zp6, 1.5, 3, 10.5) == 2.0    # 2º acima: max(10,5/8, 2,0)
+    assert recuo_divisa(zp6, 1.5, 17, 52.5) == 52.5 / 8
+    zona6 = copy.deepcopy(zona)
+    zona6["parametros"].update(zp6, parede_cega_encosta_ate_m=None)
+    e6 = gerar_estudo(lote, zona6)
+    confere(e6)
+    base6 = next(o for o in e6["opcoes"] if o["id"] == "D")["volumes"][0]
+    assert base6["pavimentos"] == 2 and base6["recuo_lateral_m"] == 1.5, base6  # embasamento térreo + 1: 1,50 m
+
     # zona do terreno (v4): vai adiante no lote e vira incerteza; não se confunde com os números da zona
     assert e["lote"]["zona_origem"] == "teste" and e["lote"]["zona_conferida"] is False
     assert any(i.startswith("Terreno na zona") and "NÃO conferido" in i and "testar" in i for i in e["incertezas"])
