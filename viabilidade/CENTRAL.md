@@ -8,7 +8,7 @@ Atualizado: 14/11/2026, ~13h. Galho `feat/viabilidade` (worktree `Desktop/imobil
 |---|---|---|
 | Lei | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
 | Terreno | Codex Astra high / trabalho | Livre. TAREFA-2 entregue e commitada (7 pilotos, v4) |
-| Motor | Claude **Sonnet** high / jaogroote | **Trabalhando** na `motor/TAREFA-7.md` (auditoria 4: arredondamento no limiar de unidades, rótulo de parede cega, subsolo do tamanho das vagas) |
+| Motor | Claude **Sonnet** high / jaogroote | **Parado** (fase 0 fechada). TAREFA-7 commitada. Limitações conhecidas: recuo assimétrico + permeabilidade apertada; garagem_computavel=True |
 | Visual | Codex **Luna** medium / trabalho (18% da semana) | Livre. TAREFA-3 commitada (botão do relatório, menos de 4 opções) |
 | Produto | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 |
 | Conferencia | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 |
@@ -25,7 +25,7 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 
 1. **Auditor/QA**: FEITO no Antigravity (Gemini), não no Codex. O "AI: Out of credits" na barra do Antigravity é só rótulo: ele responde. O Antigravity também tem cota de modelos Claude e GPT, que dá pra usar pra poupar Claude e Codex.
 2. **Economia de uso**: APROVADA e aplicada em 14/11 (ver regra acima). Falta trocar o Motor pro Sonnet quando ele entregar. IAs Claude → Sonnet (Opus só na central); ajudantes só quando necessário e em Haiku; Codex Luna pra tela/ajuste e Astra pro Auditor; esforço médio no rotineiro (o usuário tinha pedido alto em tudo, então só mudar o esforço se ele confirmar). Trocar cada IA só quando ela entregar (reabrir = perde a conversa, retoma pelo TAREFA.md).
-3. Esperando Motor TAREFA-7. Depois disso o motor fica parado (fase 0 fechada) e vem a próxima fase com o usuário.
+3. **Fase 0 fechada (14/11).** Próxima fase: decidir com o usuário (ver PRD). Nada rodando.
    - Antigravity trava pedindo permissão pro `maestri ask` final: o trabalho já está no arquivo; cancelar com Esc.
 4. Quando o Terreno entregar os lotes do Eixo e da Z2: Motor roda os 7 pilotos e o Visual mostra.
 5. Pra conferência humana (arquiteto de São Carlos): Z5A/Z5B, Z6B, Z6E; zona dos lotes 22421 (fronteira Z1/Z2) e 22426 (Z1 ou Eixo); decretos com link quebrado (`BLOQUEIOS.md`).
