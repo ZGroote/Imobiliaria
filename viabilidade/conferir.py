@@ -11,6 +11,7 @@ RAIZ = Path(__file__).resolve().parent.parent
 TESTES = {
     "motor": [sys.executable, "-I", "-X", "utf8", "viabilidade/motor/test_motor.py"],
     "terreno": [sys.executable, "-I", "-X", "utf8", "viabilidade/terreno/testar_pilotos.py", "--reproduzir"],
+    "relatorio": [sys.executable, "-I", "-X", "utf8", "viabilidade/relatorio/test_relatorio.py"],
 }
 TMP = RAIZ / "viabilidade" / "lei" / "__zonas_conferir.json"
 
