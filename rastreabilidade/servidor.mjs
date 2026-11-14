@@ -30,9 +30,10 @@ function query(url,allowed){
   return result
 }
 
-export function criarServidorRastreabilidade({service,db,auth,secret,publicOrigin,panelOrigin,now=Date.now,
+export function criarServidorRastreabilidade({service,db,auth,secret,publicOrigin,panelOrigin,legacyPanelOrigin,now=Date.now,
   requestsPerMinute=240,log=e=>console.log(JSON.stringify(e))}){
   const origins=new Set([origemExata(publicOrigin),origemExata(panelOrigin)])
+  if(legacyPanelOrigin)origins.add(origemExata(legacyPanelOrigin))
   if(!Number.isSafeInteger(requestsPerMinute)||requestsPerMinute<1)throw new Error('Limite de frequência inválido.')
   const ipSalt=randomBytes(32),rates=new Map()
   let load

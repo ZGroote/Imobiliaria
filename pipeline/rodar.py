@@ -105,6 +105,9 @@ ETAPAS = [
     ("0.10", "Sentinel-2: densidade de vegetacao (NDVI)",
      ["pipeline/fontes/vegetacao.py"], [], [F("vegetacao")], True,
      "substitui o 'e parque ou nao e' do OSM por um numero continuo; ~2 min por cidade"),
+    ("0.11", "Overture: lugares (POIs)",
+     ["pipeline/fontes/overture.py place"], [], [F("overture_lugares")], True,
+     "~12 mil lugares em Sao Carlos, 3 s; a 0g filtra e junta com o OSM"),
     ("0.9", "OpenPlots: plantas",
      ["pipeline/plantas/baixar_openplots.py"], [], [F("plantas")], True, "retomavel"),
 
@@ -133,8 +136,12 @@ ETAPAS = [
      "o filtro devolve ZERO lote confiavel, sem erro nenhum"),
 
     ("0f", "POIs da pagina",
-     ["pipeline/fontes/pois.py"], [F("osm_pois")], [F("pois")], False,
+     ["pipeline/fontes/pois.py"], [F("osm_pois")], [F("pois_osm")], False,
      "converte as tags do OSM na lista que o renderizador desenha (nao entra supermercado: o build_pois ja traz)"),
+    ("0g", "POIs: soma o Overture",
+     ["pipeline/fontes/pois_overture.py"], [F("pois_osm"), O(F("overture_lugares"))],
+     [F("pois")], False,
+     "OSM primeiro (ganha no duplicado); sem o Overture baixado, sai so o OSM"),
 
     ("1b", "Quadra do grafo onde falta cadastro",
      ["pipeline/quadras_grafo.py"], [O(F("quadras")), F("faces_ruas"), F("city_base")],

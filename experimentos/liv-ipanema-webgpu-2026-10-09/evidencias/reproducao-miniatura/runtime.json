@@ -1,0 +1,1030 @@
+{
+  "base": "http://127.0.0.1:8791",
+  "status": "PASS",
+  "cenarios": [
+    {
+      "name": "desktop",
+      "estados": {
+        "inicial": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 0,
+          "officialImage": false,
+          "viewBox": null,
+          "camera": [
+            102.20344276129471,
+            71.52467524815563,
+            148.9284168158305
+          ],
+          "orbit": {
+            "theta": 0.58,
+            "phi": 1.24,
+            "radius": 182.02492753598756
+          },
+          "fp": {
+            "x": 0,
+            "z": 0,
+            "yaw": 0,
+            "pitch": -0.05
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "planta2d": {
+          "mode": "planta2d",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": false,
+          "plantVisible": false,
+          "plantMeshes": 0,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            102.20344276129471,
+            71.52467524815563,
+            148.9284168158305
+          ],
+          "orbit": {
+            "theta": 0.58,
+            "phi": 1.24,
+            "radius": 182.02492753598756
+          },
+          "fp": {
+            "x": 0,
+            "z": 0,
+            "yaw": 0,
+            "pitch": -0.05
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "planta2d"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "voltaDaPlanta2d": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 0,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            93.376706518705,
+            105.38854340941526,
+            135.45595003938286
+          ],
+          "orbit": {
+            "theta": 0.58,
+            "phi": 1.03,
+            "radius": 182.02492753598756
+          },
+          "fp": {
+            "x": 0,
+            "z": 0,
+            "yaw": 0,
+            "pitch": -0.05
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "planta3d": {
+          "mode": "planta3d",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": false,
+          "plantVisible": true,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            -1.2310854147573924,
+            21.266381434763062,
+            2.47454571699544
+          ],
+          "orbit": {
+            "theta": -0.51,
+            "phi": 0.13500000000000006,
+            "radius": 18.736861887661302
+          },
+          "fp": {
+            "x": 0,
+            "z": 0,
+            "yaw": 0,
+            "pitch": -0.05
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "planta3d"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "voltaDaPlanta3d": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            -68.3222668443137,
+            105.87426269044381,
+            141.11772618784235
+          ],
+          "orbit": {
+            "theta": -0.51,
+            "phi": 1.03,
+            "radius": 182.02492753598756
+          },
+          "fp": {
+            "x": 0,
+            "z": 0,
+            "yaw": 0,
+            "pitch": -0.05
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "tour3d": {
+          "mode": "visita",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": false,
+          "plantVisible": true,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            3.2,
+            1.62,
+            -1.125
+          ],
+          "orbit": {
+            "theta": -0.51,
+            "phi": 1.03,
+            "radius": 182.02492753598756
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "visita"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "voltaDoTour3d": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            -68.3222668443137,
+            105.87426269044381,
+            141.11772618784235
+          ],
+          "orbit": {
+            "theta": -0.51,
+            "phi": 1.03,
+            "radius": 182.02492753598756
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "camera-perspectiva": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            118.78881998479889,
+            95.31661635989266,
+            174.24309480212509
+          ],
+          "orbit": {
+            "theta": 0.58,
+            "phi": 1.24,
+            "radius": 214.02374205560733
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "camera-fachada": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            -4.455257101505664,
+            1.7999999999999972,
+            158.5094636967403
+          ],
+          "orbit": {
+            "theta": -0.08,
+            "phi": 1.78,
+            "radius": 157.5103727417066
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "camera-aerea": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            176.26165187068918,
+            164.63631413116494,
+            101.52596279914643
+          ],
+          "orbit": {
+            "theta": 1.05,
+            "phi": 0.95,
+            "radius": 238.67603595039137
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "camera-portaria": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            -15.311254221431632,
+            1.8000000000000078,
+            81.2210894605776
+          ],
+          "orbit": {
+            "theta": -0.13,
+            "phi": 1.8832159949222123,
+            "radius": 75.48101111622529
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "camera-implantacao": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            7.857688249161878,
+            425.80250015854836,
+            4.9261322021484375
+          ],
+          "orbit": {
+            "theta": -1.5707963267948966,
+            "phi": 0,
+            "radius": 48.133106440198354
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        }
+      },
+      "errors": [],
+      "httpFailures": [],
+      "mapaURL": "http://127.0.0.1:8791/mapa-liv-ipanema-5km.html?em=-21.988640293284593%2C-47.921966616665976&r=400&p=1.05&t=-0.40"
+    },
+    {
+      "name": "mobile",
+      "estados": {
+        "inicial": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 0,
+          "officialImage": false,
+          "viewBox": null,
+          "camera": [
+            144.62917792802642,
+            102.64180485163098,
+            213.68387817379246
+          ],
+          "orbit": {
+            "theta": 0.58,
+            "phi": 1.24,
+            "radius": 263.87854660374546
+          },
+          "fp": {
+            "x": 0,
+            "z": 0,
+            "yaw": 0,
+            "pitch": -0.05
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "planta2d": {
+          "mode": "planta2d",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": false,
+          "plantVisible": false,
+          "plantMeshes": 0,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            176.66875137049215,
+            122.71915010606124,
+            262.5866809614289
+          ],
+          "orbit": {
+            "theta": 0.58,
+            "phi": 1.24,
+            "radius": 325.6937403616495
+          },
+          "fp": {
+            "x": 0,
+            "z": 0,
+            "yaw": 0,
+            "pitch": -0.05
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "planta2d"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "voltaDaPlanta2d": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 0,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            131.83320387454026,
+            152.15544076868753,
+            194.1530643899459
+          ],
+          "orbit": {
+            "theta": 0.58,
+            "phi": 1.03,
+            "radius": 263.87854660374546
+          },
+          "fp": {
+            "x": 0,
+            "z": 0,
+            "yaw": 0,
+            "pitch": -0.05
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "planta3d": {
+          "mode": "planta3d",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": false,
+          "plantVisible": true,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            -1.429408411449297,
+            24.25735212637509,
+            2.8290999433709745
+          ],
+          "orbit": {
+            "theta": -0.51,
+            "phi": 0.13499999999999995,
+            "radius": 21.75529631440305
+          },
+          "fp": {
+            "x": 0,
+            "z": 0,
+            "yaw": 0,
+            "pitch": -0.05
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "planta3d"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "voltaDaPlanta3d": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            -102.57914093968964,
+            152.4730227373279,
+            202.36084824392307
+          ],
+          "orbit": {
+            "theta": -0.51,
+            "phi": 1.03,
+            "radius": 263.87854660374546
+          },
+          "fp": {
+            "x": 0,
+            "z": 0,
+            "yaw": 0,
+            "pitch": -0.05
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "tour3d": {
+          "mode": "visita",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": false,
+          "plantVisible": true,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            3.2,
+            1.62,
+            -1.125
+          ],
+          "orbit": {
+            "theta": -0.51,
+            "phi": 1.03,
+            "radius": 263.87854660374546
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "visita"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "voltaDoTour3d": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            -102.57914093968964,
+            152.4730227373279,
+            202.36084824392307
+          ],
+          "orbit": {
+            "theta": -0.51,
+            "phi": 1.03,
+            "radius": 263.87854660374546
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "camera-perspectiva": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            120.8745011556577,
+            96.62359196720507,
+            177.42652217076815
+          ],
+          "orbit": {
+            "theta": 0.58,
+            "phi": 1.24,
+            "radius": 218.04772776582183
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "camera-fachada": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            -8.178825380270261,
+            1.7999999999999972,
+            204.95472963542537
+          ],
+          "orbit": {
+            "theta": -0.08,
+            "phi": 1.78,
+            "radius": 205.14321856487186
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "camera-aerea": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            176.26165187068918,
+            164.63631413116494,
+            101.52596279914643
+          ],
+          "orbit": {
+            "theta": 1.05,
+            "phi": 0.95,
+            "radius": 238.67603595039137
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "camera-portaria": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            -17.432062009203804,
+            1.79999999999999,
+            97.44299014007466
+          ],
+          "orbit": {
+            "theta": -0.13,
+            "phi": 1.8280443464975784,
+            "radius": 91.18776544262654
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        },
+        "camera-implantacao": {
+          "mode": "maquete",
+          "total": 56,
+          "visible": 56,
+          "siteVisible": 43,
+          "exteriorVisible": true,
+          "plantVisible": false,
+          "plantMeshes": 92,
+          "officialImage": true,
+          "viewBox": "100 215 790 600",
+          "camera": [
+            7.857688249161878,
+            425.80250015854836,
+            4.9261322021484375
+          ],
+          "orbit": {
+            "theta": -1.5707963267948966,
+            "phi": 0,
+            "radius": 48.133106440198354
+          },
+          "fp": {
+            "x": 3.2,
+            "z": -1.125,
+            "yaw": 2.203460952792061,
+            "pitch": -0.09000000000000002
+          },
+          "modes": [
+            "maquete",
+            "planta2d",
+            "planta3d",
+            "visita"
+          ],
+          "pressed": [
+            "maquete"
+          ],
+          "cameras": 5,
+          "towerButton": false,
+          "lightReady": true,
+          "mapLabel": "O que tem por perto?",
+          "mapAccessibleLabel": "O que tem por perto?",
+          "mapHref": "mapa-liv-ipanema-5km.html"
+        }
+      },
+      "errors": [],
+      "httpFailures": [],
+      "mapaURL": "http://127.0.0.1:8791/mapa-liv-ipanema-5km.html?em=-21.988640293284593%2C-47.921966616665976&r=400&p=1.05&t=-0.40"
+    }
+  ]
+}

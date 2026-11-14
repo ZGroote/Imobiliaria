@@ -1,0 +1,342 @@
+{
+  "schema": 1,
+  "license": "CC0-1.0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "licenseSummary": "Os assets CC0 podem ser modificados, redistribuídos e usados comercialmente. Previews, texto do site e logotipos não fazem parte dos downloads deste piloto.",
+  "credit": "Texturas CC0 de Poly Haven; preparação offline para o piloto da imobiliária.",
+  "apiTermsUrl": "https://github.com/Poly-Haven/Public-API/blob/master/ToS.md",
+  "userAgent": "ImobiliariaVisualPilot/2026.10 (offline CC0 texture preparation)",
+  "sourceResolution": "1k",
+  "maxPreparedBytes": 3000000,
+  "processing": {
+    "pillowVersion": "12.3.0",
+    "resize": "LANCZOS",
+    "color": {
+      "encoding": "WebP",
+      "quality": 82,
+      "method": 6,
+      "colorSpace": "SRGBColorSpace"
+    },
+    "normal": {
+      "encoding": "WebP lossless",
+      "method": 6,
+      "colorSpace": "NoColorSpace",
+      "normalConvention": "OpenGL",
+      "renormalize": true
+    },
+    "roughness": {
+      "encoding": "WebP lossless",
+      "method": 6,
+      "colorSpace": "NoColorSpace"
+    },
+    "libwebpVersion": "1.6.0"
+  },
+  "materials": [
+    {
+      "id": "madeira",
+      "name": "Wood Floor",
+      "sourceId": "wood_floor",
+      "sourcePage": "https://polyhaven.com/a/wood_floor",
+      "metadataUrl": "https://api.polyhaven.com/info/wood_floor",
+      "filesUrl": "https://api.polyhaven.com/files/wood_floor",
+      "author": "Dimitrios Savva",
+      "tileMeters": 1.7,
+      "sourceDimensionsMillimeters": [
+        1699.9996900558472,
+        1699.9996900558472
+      ],
+      "usage": "Somente piso de madeira; marcenaria usa o material madeira_movel independente, sem juntas de tábuas.",
+      "maps": {
+        "color": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_floor/wood_floor_diff_1k.jpg",
+          "bytes": 734493,
+          "md5": "b7e927d2bf2f8f103820ff3890c8407c",
+          "sha256": "2a1c07687b6dbb214c4b9213739c6d92d425f1f0fc8ab3ac157f105d78240789",
+          "maxDimension": 1024,
+          "prepared": {
+            "file": "madeira-color.webp",
+            "width": 1024,
+            "height": 1024,
+            "bytes": 122212,
+            "sha256": "3b85d1780bdb3d95b714767c1a8b03bc802957fa25ec2043812e9fda14d97c92"
+          }
+        },
+        "normal": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/wood_floor/wood_floor_nor_gl_1k.png",
+          "bytes": 4873122,
+          "md5": "2ae3e80b1a9b5e0aba44047839b75837",
+          "sha256": "70e1a41420a161bb7dd046b1e6c5e5d4cbacb681f1731279c06ffd54855682c6",
+          "maxDimension": 512,
+          "prepared": {
+            "file": "madeira-normal.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 162708,
+            "sha256": "0667ff57616f3d445f855a639c0a94ce7f3e6375e0c7525e0f235d6986c5b198"
+          }
+        },
+        "roughness": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/wood_floor/wood_floor_rough_1k.png",
+          "bytes": 1786545,
+          "md5": "e1d039c5c59fc0ddf571ad288cd2bebd",
+          "sha256": "4a9f632f8ce6db0c80ee70a9bcfb8e4d7afa03f4ae9e1becf0b1fcfc95136747",
+          "maxDimension": 512,
+          "prepared": {
+            "file": "madeira-roughness.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 130130,
+            "sha256": "c3556beee1c3ac323e968f2505c2fffc93b67bcfb6a0093e509247def417203e"
+          }
+        }
+      }
+    },
+    {
+      "id": "frio",
+      "name": "Floor Tiles 08",
+      "sourceId": "floor_tiles_08",
+      "sourcePage": "https://polyhaven.com/a/floor_tiles_08",
+      "metadataUrl": "https://api.polyhaven.com/info/floor_tiles_08",
+      "filesUrl": "https://api.polyhaven.com/files/floor_tiles_08",
+      "author": "Rob Tuytel",
+      "tileMeters": 1.5,
+      "sourceDimensionsMillimeters": [
+        1500,
+        1500
+      ],
+      "usage": "Cerâmica bege com juntas para áreas de piso frio.",
+      "maps": {
+        "color": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/floor_tiles_08/floor_tiles_08_diff_1k.jpg",
+          "bytes": 414119,
+          "md5": "9bc91e302a76ad75a9b7e539fe48c28d",
+          "sha256": "c618d589b732e22ae68d9a18af6baed551e1e736deb8d2039b2d8e7ffa320036",
+          "maxDimension": 1024,
+          "prepared": {
+            "file": "frio-color.webp",
+            "width": 1024,
+            "height": 1024,
+            "bytes": 94442,
+            "sha256": "7a2d25cf2a7e29aff8a402e932f61c7322773fb1158bdad607909cbc03ffca2c"
+          }
+        },
+        "normal": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/floor_tiles_08/floor_tiles_08_nor_gl_1k.png",
+          "bytes": 1317717,
+          "md5": "0f31c95ffbf78a1d0a213aac90b0c08f",
+          "sha256": "c59104cba5baca14eec940fe3fb1ea99e2c705c85e033defc1c22fec94bf010a",
+          "maxDimension": 512,
+          "prepared": {
+            "file": "frio-normal.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 193776,
+            "sha256": "6cfeb77fe805c8e5ed8bbd74f844a41bc8274e1e282367e37365b872089721fc"
+          }
+        },
+        "roughness": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/floor_tiles_08/floor_tiles_08_rough_1k.png",
+          "bytes": 1719328,
+          "md5": "dd3a92cf46dce27077f095732bef4825",
+          "sha256": "ccb659d41376fe0c5626e13131652a9da1656f2e6a148f49b907e38861d5b766",
+          "maxDimension": 512,
+          "prepared": {
+            "file": "frio-roughness.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 86696,
+            "sha256": "ee9ba8d0cd1d465593239e60b76f1a3af75b79d4488fe288897fed89780b2ed0"
+          }
+        }
+      }
+    },
+    {
+      "id": "tecido",
+      "name": "Wool Boucle",
+      "sourceId": "wool_boucle",
+      "sourcePage": "https://polyhaven.com/a/wool_boucle",
+      "metadataUrl": "https://api.polyhaven.com/info/wool_boucle",
+      "filesUrl": "https://api.polyhaven.com/files/wool_boucle",
+      "authors": {
+        "colormass": "Photography",
+        "Rico Cilliers": "Processing"
+      },
+      "tileMeters": 0.315,
+      "sourceDimensionsMillimeters": [
+        314.78237097288206,
+        390.10000228881836
+      ],
+      "usage": "Boucle de estofado: trama grossa preta/branca e fios rosa/amarelos. Proporção nativa preservada por tileHeightMeters.",
+      "maps": {
+        "color": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wool_boucle/wool_boucle_diff_1k.jpg",
+          "bytes": 1284379,
+          "md5": "e3d4b30b5f36d4763f9bd2f2e8d92f8e",
+          "maxDimension": 1024,
+          "sha256": "fee39653b3c78efe89636508f2c10ceb38ecb10c0d735ae8dd4e9935cf26540e",
+          "prepared": {
+            "file": "tecido-color.webp",
+            "width": 826,
+            "height": 1024,
+            "bytes": 240038,
+            "sha256": "9a62c2da30db54a03aa43898e7366cdd3e0334b6fc04a0e766b135b03b687bb8"
+          }
+        },
+        "normal": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/wool_boucle/wool_boucle_nor_gl_1k.png",
+          "bytes": 6997708,
+          "md5": "f4d1062f8cc151b43a237212a7e7064c",
+          "maxDimension": 512,
+          "sha256": "3c65b2c4b2bb2e01cfcb1b604891ecb8951ba0e58d02aa9453061df8b3eeafd1",
+          "prepared": {
+            "file": "tecido-normal.webp",
+            "width": 413,
+            "height": 512,
+            "bytes": 369278,
+            "sha256": "1479e93b15ed0a484f2f799b432ae585e62ffcf9b78bfbfef32c9c715283fc8f"
+          }
+        },
+        "roughness": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/wool_boucle/wool_boucle_rough_1k.png",
+          "bytes": 2493056,
+          "md5": "fbd80e3e57036710288ae9a792001c88",
+          "maxDimension": 512,
+          "sha256": "7c2acf30ec0513216532848c746680b3ea3e0bad3b14e33f739e65520c8d86f2",
+          "prepared": {
+            "file": "tecido-roughness.webp",
+            "width": 413,
+            "height": 512,
+            "bytes": 170952,
+            "sha256": "525c27f5d9bd40abe67206201076d14d793b8048de995c044ce8ad8fea3e57ac"
+          }
+        }
+      },
+      "tileHeightMeters": 0.3901
+    },
+    {
+      "id": "parede",
+      "name": "Patterned Clay Plaster",
+      "sourceId": "patterned_clay_plaster",
+      "sourcePage": "https://polyhaven.com/a/patterned_clay_plaster",
+      "metadataUrl": "https://api.polyhaven.com/info/patterned_clay_plaster",
+      "filesUrl": "https://api.polyhaven.com/files/patterned_clay_plaster",
+      "authors": {
+        "Amal Kumar": "All"
+      },
+      "tileMeters": 2.0,
+      "sourceDimensionsMillimeters": [
+        2000,
+        2000
+      ],
+      "usage": "Reboco decorativo bege com marcas curvas de desempenadeira. Textura real de parede, sem relevo procedural.",
+      "maps": {
+        "color": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/patterned_clay_plaster/patterned_clay_plaster_diff_1k.jpg",
+          "bytes": 647943,
+          "md5": "767f5f813174ed65c438cc3839e9f804",
+          "maxDimension": 1024,
+          "sha256": "228a74bbdee4272f86d1d4c9fa79c181600249bccf9fd25e200180c60050a64c",
+          "prepared": {
+            "file": "parede-color.webp",
+            "width": 1024,
+            "height": 1024,
+            "bytes": 94374,
+            "sha256": "8c8e3d92a07b07095063227f36be18ebe0e51c2b2ce170587c5d407c7ca41cad"
+          }
+        },
+        "normal": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/patterned_clay_plaster/patterned_clay_plaster_nor_gl_1k.png",
+          "bytes": 5448635,
+          "md5": "f072968ff0906c2d1616e3ceecae878f",
+          "maxDimension": 512,
+          "sha256": "ec1440a84861e6c5b4dd22524bc3e820e8cafad1f88d2fdf443d4fe3b497ce75",
+          "prepared": {
+            "file": "parede-normal.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 310746,
+            "sha256": "3c4ffd430bab8e3d0138a923ffd2d476538eb3faf8e149dd0d9b95a323e2e422"
+          }
+        },
+        "roughness": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/patterned_clay_plaster/patterned_clay_plaster_rough_1k.png",
+          "bytes": 1739120,
+          "md5": "9d2d71b68d9e62ec096c6fba13eea0cd",
+          "maxDimension": 512,
+          "sha256": "b7a9f0fb0e702e5d9934fb7aaf37599b27244c6c0489f51a8ef209f2f445bdd4",
+          "prepared": {
+            "file": "parede-roughness.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 103736,
+            "sha256": "3d19ac80911c4d02263ffb730d53137beeff2c2979b59c8e5c664919b810512c"
+          }
+        }
+      }
+    },
+    {
+      "id": "madeira_movel",
+      "name": "Natural Walnut Veneer",
+      "sourceId": "natural_walnut_veneer",
+      "sourcePage": "https://polyhaven.com/a/natural_walnut_veneer",
+      "metadataUrl": "https://api.polyhaven.com/info/natural_walnut_veneer",
+      "filesUrl": "https://api.polyhaven.com/files/natural_walnut_veneer",
+      "authors": {
+        "Jenelle van Heerden": "All"
+      },
+      "tileMeters": 1.0,
+      "sourceDimensionsMillimeters": [
+        1000,
+        1000
+      ],
+      "usage": "Lâmina de nogueira para marcenaria e partes de madeira de móveis; veios contínuos, sem emendas de tábuas de piso.",
+      "maps": {
+        "color": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/natural_walnut_veneer/natural_walnut_veneer_diff_1k.jpg",
+          "bytes": 633330,
+          "md5": "b9dd8a10990c388322b2b2ca15824b8a",
+          "maxDimension": 1024,
+          "sha256": "41fe45f6457bddd4d97627bc610d2980d91683bc521c9692a6c4f2a6a3b05efd",
+          "prepared": {
+            "file": "madeira_movel-color.webp",
+            "width": 1024,
+            "height": 1024,
+            "bytes": 98272,
+            "sha256": "3b87b5de2160194af6a4089b889c36ca97f9ff2669c732f13ad85b6fc94912ed"
+          }
+        },
+        "normal": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/natural_walnut_veneer/natural_walnut_veneer_nor_gl_1k.png",
+          "bytes": 4776434,
+          "md5": "4d85f4460a5080be82a4671c8c7ab40c",
+          "maxDimension": 512,
+          "sha256": "1bc1a08f06aae075d4a165557a8105a1af8dbdb5f5c0298df464fa20417825a8",
+          "prepared": {
+            "file": "madeira_movel-normal.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 163716,
+            "sha256": "86397b1f20076ef070ab096306e423adc633ac9400175f3cc57eafe0fc55d8f5"
+          }
+        },
+        "roughness": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/natural_walnut_veneer/natural_walnut_veneer_rough_1k.png",
+          "bytes": 1805788,
+          "md5": "51f1c38daff39e8d903dc1c98c8c9b00",
+          "maxDimension": 512,
+          "sha256": "1e32235f1d6e08f2e4bfffcfbb8cd1e92137327db50a1789c6ba1b0c54890a5c",
+          "prepared": {
+            "file": "madeira_movel-roughness.webp",
+            "width": 512,
+            "height": 512,
+            "bytes": 122646,
+            "sha256": "20656d87153e9042d72ada8ec41b73a2884fbf7ea0e3f3d53959e0ac65d2d2d4"
+          }
+        }
+      }
+    }
+  ],
+  "generation": "materiais-v2",
+  "targetPreparedBytes": 2000000,
+  "budgetNote": "Meta aproximada 2 MB; limite explícito 3 MB para 15 mapas reais de cinco materiais. Bytes finais e dimensões conferidos no manifesto."
+}

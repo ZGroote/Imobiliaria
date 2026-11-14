@@ -1,0 +1,2 @@
+# O preparador identifica este inventário byte a byte, inclusive no Windows.
+assets.json text eol=lf

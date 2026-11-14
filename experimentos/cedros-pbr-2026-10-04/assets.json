@@ -1,0 +1,338 @@
+{
+ "schema": 1,
+ "license": "CC0-1.0",
+ "licenseUrl": "https://polyhaven.com/license",
+ "licenseSummary": "Os assets CC0 podem ser modificados, redistribuídos e usados comercialmente. Previews, texto do site e logotipos não fazem parte dos downloads deste piloto.",
+ "credit": "Texturas CC0 de Poly Haven; preparação offline para o Cedros PBR da imobiliária.",
+ "apiTermsUrl": "https://github.com/Poly-Haven/Public-API/blob/master/ToS.md",
+ "userAgent": "ImobiliariaVisualPilot/2026.10 (offline CC0 texture preparation)",
+ "sourceResolution": "1k",
+ "maxPreparedBytes": 3000000,
+ "processing": {
+  "pillowVersion": "12.3.0",
+  "resize": "LANCZOS",
+  "color": {
+   "encoding": "WebP",
+   "quality": 82,
+   "method": 6,
+   "colorSpace": "SRGBColorSpace"
+  },
+  "normal": {
+   "encoding": "WebP lossless",
+   "method": 6,
+   "colorSpace": "NoColorSpace",
+   "normalConvention": "OpenGL",
+   "renormalize": true
+  },
+  "roughness": {
+   "encoding": "WebP lossless",
+   "method": 6,
+   "colorSpace": "NoColorSpace"
+  },
+  "libwebpVersion": "1.6.0"
+ },
+ "generation": "cedros-v3",
+ "targetPreparedBytes": 2000000,
+ "budgetNote": "Meta aproximada 2 MB; limite explícito 3 MB para 15 mapas reais de cinco materiais. Bytes finais e dimensões conferidos no manifesto.",
+ "consultedAt": "2026-10-04",
+ "paletteNote": "Rebalanceamento pedido em 04/10/2026: o conjunto materiais-v2 era todo marrom/bege. Parede em reboco de escamas branco-gelo, piso de carvalho acinzentado, piso frio grafite, tecido sálvia e marcenaria em carvalho defumado.",
+ "materials": [
+  {
+   "id": "madeira",
+   "name": "Laminate Floor 02",
+   "sourceId": "laminate_floor_02",
+   "sourcePage": "https://polyhaven.com/a/laminate_floor_02",
+   "metadataUrl": "https://api.polyhaven.com/info/laminate_floor_02",
+   "filesUrl": "https://api.polyhaven.com/files/laminate_floor_02",
+   "author": "Dario Barresi (Processing), Charlotte Baglioni (photography)",
+   "tileMeters": 1.7,
+   "sourceDimensionsMillimeters": [
+    1699.9999284744263,
+    1700.0000476837158
+   ],
+   "usage": "Piso de madeira; carvalho acinzentado, mais claro e menos laranja que o Wood Floor.",
+   "maps": {
+    "color": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/laminate_floor_02/laminate_floor_02_diff_1k.jpg",
+     "bytes": 721641,
+     "md5": "34ab81c5882c1083028ffa71d40fe44d",
+     "sha256": "c112a8fb107d8600a2974af2f9fa9b595c491a33a59982e22706e9650990bf8f",
+     "maxDimension": 1024,
+     "prepared": {
+      "file": "madeira-color.webp",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 137130,
+      "sha256": "096deb26ab28d90fe482cdbddc2504f84f2ea437e4f2e21fad75a19d81ff24ab"
+     }
+    },
+    "normal": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/laminate_floor_02/laminate_floor_02_nor_gl_1k.png",
+     "bytes": 5039843,
+     "md5": "4103f126295257487fbf8a4a1eb8050c",
+     "sha256": "835acb884ec5d79eb03d0e7d35cc5b791f67e2ca69c94f87962cf438368fb749",
+     "maxDimension": 512,
+     "prepared": {
+      "file": "madeira-normal.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 173514,
+      "sha256": "1b747e2cc70825633bf84f8b36eae646783fe3d525a8158851e535c0447eb797"
+     }
+    },
+    "roughness": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/laminate_floor_02/laminate_floor_02_rough_1k.png",
+     "bytes": 2455778,
+     "md5": "8bdcee292d461f8201e3a5241be37bf1",
+     "sha256": "284f8d083a43036e6a9c548f68b3a4410f338e84eaf8c7706a59f8ea7698ef7d",
+     "maxDimension": 512,
+     "prepared": {
+      "file": "madeira-roughness.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 110076,
+      "sha256": "fb75516806fbf9c039bb7586d5bf604acccf88ebc3ef939fb756bb88421cd441"
+     }
+    }
+   }
+  },
+  {
+   "id": "tecido",
+   "name": "Ribbed Corduroy",
+   "sourceId": "ribbed_corduroy",
+   "sourcePage": "https://polyhaven.com/a/ribbed_corduroy",
+   "metadataUrl": "https://api.polyhaven.com/info/ribbed_corduroy",
+   "filesUrl": "https://api.polyhaven.com/files/ribbed_corduroy",
+   "author": "colormass (Photography), Rico Cilliers (Processing)",
+   "tileMeters": 0.2664,
+   "sourceDimensionsMillimeters": [
+    266.40417517521894,
+    266.69999957084656
+   ],
+   "usage": "Sofá, cortinas, tapetes e roupa de cama; sálvia liso no lugar da trama xadrez.",
+   "maps": {
+    "color": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/ribbed_corduroy/ribbed_corduroy_diff_1k.jpg",
+     "bytes": 777770,
+     "md5": "24ae6556664651ba5d3390f35967c217",
+     "sha256": "4ca8faa90670d9ac921bc0d8a7edebbe6cd807078fa2ba0a5362c962206f70fe",
+     "maxDimension": 1024,
+     "prepared": {
+      "file": "tecido-color.webp",
+      "width": 1023,
+      "height": 1024,
+      "bytes": 147910,
+      "sha256": "7c70b04d12262f2d67e00b3bc58f9df12abecea3e7126ff37c70c9bc42e73e44"
+     }
+    },
+    "normal": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/ribbed_corduroy/ribbed_corduroy_nor_gl_1k.png",
+     "bytes": 5701885,
+     "md5": "4daf91c8a64b1704d5b6a563c207941b",
+     "sha256": "7472e983244fe0c9cae2c184641245e42ef5d45f2f00cc8cba1b5b51c731257b",
+     "maxDimension": 512,
+     "prepared": {
+      "file": "tecido-normal.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 460692,
+      "sha256": "34a54e946c1c7cb322986557ecfb4f70abd4cd753b1126f5186bf50d02748989"
+     }
+    },
+    "roughness": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/ribbed_corduroy/ribbed_corduroy_rough_1k.png",
+     "bytes": 2035737,
+     "md5": "de819fe7402d8dc2cb391deea39b937d",
+     "sha256": "950424a51bcc6530281819eb2f915b5b4d05a756fefb7dd8819337020b760639",
+     "maxDimension": 512,
+     "prepared": {
+      "file": "tecido-roughness.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 213516,
+      "sha256": "e921427a2d0d3eda67a7697826651d0764cd6534a3ab9e34e972eead450400ed"
+     }
+    }
+   }
+  },
+  {
+   "id": "frio",
+   "name": "Granite Tile",
+   "sourceId": "granite_tile",
+   "sourcePage": "https://polyhaven.com/a/granite_tile",
+   "metadataUrl": "https://api.polyhaven.com/info/granite_tile",
+   "filesUrl": "https://api.polyhaven.com/files/granite_tile",
+   "author": "Charlotte Baglioni",
+   "tileMeters": 2.3,
+   "sourceDimensionsMillimeters": [
+    2299.999952316284,
+    2299.999952316284
+   ],
+   "usage": "Piso frio (banho, serviço, sacada); grafite neutro no lugar do ladrilho terroso.",
+   "maps": {
+    "color": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/granite_tile/granite_tile_diff_1k.jpg",
+     "bytes": 676597,
+     "md5": "5dfd6dbdb5c0b22ca04505c6209cea9f",
+     "sha256": "9df48b66055588708d446e69f37ea6146b8d5d3df54cd1ff088ec688acdca95c",
+     "maxDimension": 1024,
+     "prepared": {
+      "file": "frio-color.webp",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 109618,
+      "sha256": "77c3b850f543f574b770b8b5836c791fc2928cf563bc685991f126d17c021767"
+     }
+    },
+    "normal": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/granite_tile/granite_tile_nor_gl_1k.png",
+     "bytes": 5117076,
+     "md5": "ae2c56d4217e526e2263c6b09d3bce26",
+     "sha256": "461e2561d7588c16386025b7c56bf19b1dd820efd556f4433eb602f7123f52d8",
+     "maxDimension": 512,
+     "prepared": {
+      "file": "frio-normal.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 224056,
+      "sha256": "5b332684d4433aeb3133f54050f65b7c95f00eb109c34bd36dc99b036196b6a7"
+     }
+    },
+    "roughness": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/granite_tile/granite_tile_rough_1k.png",
+     "bytes": 1885499,
+     "md5": "75a03a0d335b61a0c6c67ce1939feab1",
+     "sha256": "7ddf855058d5dd194388800202cd111cb9515fe08a6007fb59b5c034dbc7957e",
+     "maxDimension": 512,
+     "prepared": {
+      "file": "frio-roughness.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 152592,
+      "sha256": "79aae813e445024c554a8f83a76a23e35ed2edafa9f2e4b9d666c54e0534e883"
+     }
+    }
+   }
+  },
+  {
+   "id": "parede",
+   "name": "Patterned Clay Plaster",
+   "sourceId": "patterned_clay_plaster",
+   "sourcePage": "https://polyhaven.com/a/patterned_clay_plaster",
+   "metadataUrl": "https://api.polyhaven.com/info/patterned_clay_plaster",
+   "filesUrl": "https://api.polyhaven.com/files/patterned_clay_plaster",
+   "authors": {
+    "Amal Kumar": "All"
+   },
+   "tileMeters": 2.0,
+   "sourceDimensionsMillimeters": [
+    2000,
+    2000
+   ],
+   "usage": "Paredes e rodapés; o mesmo reboco de escamas do piloto, com o matiz de argila neutralizado por ganho por canal (CALIBRACAO em montar.mjs). Substituiu a White Stucco da cedros-v2, cujo relevo não aparecia na distância de navegação.",
+   "maps": {
+    "color": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/patterned_clay_plaster/patterned_clay_plaster_diff_1k.jpg",
+     "bytes": 647943,
+     "md5": "767f5f813174ed65c438cc3839e9f804",
+     "maxDimension": 1024,
+     "sha256": "228a74bbdee4272f86d1d4c9fa79c181600249bccf9fd25e200180c60050a64c",
+     "prepared": {
+      "file": "parede-color.webp",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 94374,
+      "sha256": "8c8e3d92a07b07095063227f36be18ebe0e51c2b2ce170587c5d407c7ca41cad"
+     }
+    },
+    "normal": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/patterned_clay_plaster/patterned_clay_plaster_nor_gl_1k.png",
+     "bytes": 5448635,
+     "md5": "f072968ff0906c2d1616e3ceecae878f",
+     "maxDimension": 512,
+     "sha256": "ec1440a84861e6c5b4dd22524bc3e820e8cafad1f88d2fdf443d4fe3b497ce75",
+     "prepared": {
+      "file": "parede-normal.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 310746,
+      "sha256": "3c4ffd430bab8e3d0138a923ffd2d476538eb3faf8e149dd0d9b95a323e2e422"
+     }
+    },
+    "roughness": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/patterned_clay_plaster/patterned_clay_plaster_rough_1k.png",
+     "bytes": 1739120,
+     "md5": "9d2d71b68d9e62ec096c6fba13eea0cd",
+     "maxDimension": 512,
+     "sha256": "b7a9f0fb0e702e5d9934fb7aaf37599b27244c6c0489f51a8ef209f2f445bdd4",
+     "prepared": {
+      "file": "parede-roughness.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 103736,
+      "sha256": "3d19ac80911c4d02263ffb730d53137beeff2c2979b59c8e5c664919b810512c"
+     }
+    }
+   }
+  },
+  {
+   "id": "madeira_movel",
+   "name": "Black Oak Veneer",
+   "sourceId": "black_oak_veneer",
+   "sourcePage": "https://polyhaven.com/a/black_oak_veneer",
+   "metadataUrl": "https://api.polyhaven.com/info/black_oak_veneer",
+   "filesUrl": "https://api.polyhaven.com/files/black_oak_veneer",
+   "author": "Jenelle van Heerden",
+   "tileMeters": 1.0,
+   "sourceDimensionsMillimeters": [
+    1000,
+    1000
+   ],
+   "usage": "Marcenaria (rack, ripado, armários, cama); carvalho defumado de veio calmo. Substituiu a Natural Walnut Veneer do guia, cuja figura ondulada e cinzenta lia como pedra nos móveis do Cedros.",
+   "maps": {
+    "color": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/black_oak_veneer/black_oak_veneer_diff_1k.jpg",
+     "bytes": 580236,
+     "md5": "83abcaef4fd86aa32cc258ea331003ca",
+     "sha256": "7893f9bfeda626364f0a803dea6327c9f3a7b2f2fe330f6b4f326f6b06c0c265",
+     "maxDimension": 1024,
+     "prepared": {
+      "file": "madeira_movel-color.webp",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 80634,
+      "sha256": "73596e3523464fb7c9d157a211ad57ae31e8a7534a5491130144041dcb4cd668"
+     }
+    },
+    "normal": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/black_oak_veneer/black_oak_veneer_nor_gl_1k.png",
+     "bytes": 4747114,
+     "md5": "a583ee6cb73390342fd92bdb6e010782",
+     "sha256": "2c80b562ae40eaa972dbd62b1cbb0cfd455c4a7b58205d1a978ca76abb530ca2",
+     "maxDimension": 512,
+     "prepared": {
+      "file": "madeira_movel-normal.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 141662,
+      "sha256": "416f8549309dcca4cbfe497d954d81a2ed195a28acc8e4c9a964a5bf1e726ada"
+     }
+    },
+    "roughness": {
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/black_oak_veneer/black_oak_veneer_rough_1k.png",
+     "bytes": 1797735,
+     "md5": "4ef7faf0e55550ff32be8e4a636b05d3",
+     "sha256": "dd174de05482538c9f7169133a8e3ee5bf5713a8cf779a60ab17675e0028157e",
+     "maxDimension": 512,
+     "prepared": {
+      "file": "madeira_movel-roughness.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 121732,
+      "sha256": "8e574199fe067085e47021a0a13eb71595b32afad10cf2dcdb48004a95fdf86d"
+     }
+    }
+   }
+  }
+ ]
+}

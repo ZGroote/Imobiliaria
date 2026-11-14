@@ -1,0 +1,106 @@
+{
+  "schema": "liv-outline-runtime-qa-v1",
+  "atUtc": "2026-10-11T03:04:13.212426+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "transport": {
+    "nativeGroups": 15,
+    "verifiedBakedInstances": 1012,
+    "verticesNormalsUV0UV1Preserved": true
+  },
+  "sources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_runtime.py": "01700bbd6a50be9ee6efbe903b77ad81b54c140d224fc399e921969ac66d7ab3",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno-torre.json": "8e6545269bfd0ebd97b80a82eff7a2feabff5aad6a0fb4a24b220f2d898bf878",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py": "a7dfafabe6fdc4332bb20da0d002897704adffbbbf7deff89f43a623320693c3",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/exportar_variante.py": "f54a980c340b9b7c13ddaa781514b65634891abe7ffbe70cbbe6cf95c8ff70a4",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/comparacao.html": "0626411864ed4925997d71b6d0fe29c0d734a724eb29f8ce91842914c17b9c5f",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/comparacao.js": "8bab0e8254b6d32f093bc71096b0158317f214f361fd2065b51acded75848b4a",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/assets/manifest.json": "f821c06ae81538a4ecc550262aec5f7512baba416b4797c0ba415b96b04c3e11",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/manifest.json": "ea9648419fbfd770142c246245f6a2e4775ad0c6b30b2b51579cb3b584d3dc00",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/geometry-compact.json": "9da623378d9825df61bc544118b8c7c858aef4bbd8eea454b483c0c3d43101e0",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js": "7b457b5dfdf3d5434ce028c3eb3a4fc4a67a203f2e3c36053028389681c8ccc9",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/cameras.js": "6272d526e886a7c32ddca6735007c3dd6f629ee7117fac8e882b6ff4e3dec0dd",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/exterior-finishes.js": "43a8bec60381c24652b97b3f817753aa82902f721e6a30f2e6278a6a796ea575",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html": "042b44a38583a06135622c2924d7dbe29adca152245fc556bf17ad9d00087a81",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/unidades.json": "dcc72736e33fcd2cd613442600324a126bbfc6aa4d35a85097306d8eae24176b",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/catalogo.json": "b320d0d6f64a5e320678604b60e2b738c2ee30aea50a2506d7e859c60ec6d869"
+  },
+  "cases": [
+    {
+      "backend": "webgpu",
+      "state": {
+        "view": "aerea",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu",
+        "camera": {
+          "type": "PerspectiveCamera",
+          "fov": 34,
+          "near": 0.2,
+          "far": 900,
+          "zoom": 1,
+          "left": null,
+          "right": null,
+          "top": null,
+          "bottom": null,
+          "aspect": 1.6312997347480107,
+          "position": [
+            175.2444811665591,
+            163.79774902094604,
+            100.94249364798071
+          ],
+          "target": [
+            7.857688249161877,
+            25.80250015854836,
+            4.9261322021484375
+          ]
+        }
+      },
+      "source": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1",
+      "atlas": "5cb4616a64f12ae53b6c8f4ccd916943b35d3235b10d5c8a8186ae8cbc924c00",
+      "frames": 1,
+      "meshes": 56,
+      "baked": 41,
+      "native": true,
+      "units": null,
+      "picking": false,
+      "calibration": [
+        {
+          "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+          "sourceMaterial": 5,
+          "material": 51,
+          "sourceMetalness": 1,
+          "metalness": 0,
+          "roughness": 0.55
+        },
+        {
+          "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+          "sourceMaterial": 19,
+          "material": 52,
+          "sourceMetalness": 0.25,
+          "metalness": 0,
+          "roughness": 0.16
+        },
+        {
+          "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+          "sourceMaterial": 5,
+          "material": 53,
+          "sourceMetalness": 1,
+          "metalness": 0,
+          "roughness": 0.65
+        }
+      ],
+      "status": "PASS",
+      "floorHighlightVertices": 40800,
+      "resourcesDisposedOnce": 114,
+      "switchBackToCandidate": true,
+      "touchEmulated": false
+    }
+  ],
+  "browserVersion": "154.0.8037.98",
+  "incompatibleAtlasRejectedBeforeDownload": true
+}

@@ -1,0 +1,52 @@
+{
+  "titulo": "Containers da Mooca · dormitório casal com bebê · 29,7 m²",
+  "tipologia": "casal-bebe",
+  "imagem": "../../../../plantas_fornecidas/containers-mooca/fonte/dorm-quadruplo-e-casal-bebe.png",
+  "imagemSha256": "4674ddb731e7913f5bb36a7a8d67ee84ee8e7be16e6169a9a66ed7a95c454066",
+  "registro": {
+    "origemPx": [
+      620,
+      1355
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 7.087332251756118,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        620,
+        1355,
+        2335,
+        1700
+      ]
+    ],
+    "areaCalibracaoM2": 29.72,
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "areaContornoNominalAproximadaM2": 29.7675,
+  "peDireitoMm": 2350,
+  "limites": [
+    "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas.",
+    "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
+    "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
+    "O prédio declarado (45 x 40 m, 2 pavimentos) é a pegada do conjunto na planta 1:200; o container não é o prédio.",
+    "O berço é uma cama de solteiro pequena (o catálogo não tem berço)."
+  ],
+  "captura": {
+    "construtorSHA256": "b0b29a9032fb6e65933909944fc2c6adbf942333cb17cd249ebd012e94b83b93",
+    "inputsSHA256": {
+      "planta.json": "c67d0ff5e8fe088abf8c239b9b0448a933f45c3b1dadddd890dd0f1319d050ea",
+      "leitura.json": "65bb1cf89cfd11b88d48d272bbdf0f468bc0b6e173bdeeaa32e25e3b4796c922",
+      "projeto-planta.json": "5b5450939c1634cc7fbccea0799680c7af635348a9893854d8e35d04f4e8d10b",
+      "moveis.json": "10ad89e4afca037336b2068be2e72c24b0ac1175ef58efcbddcfd2c0bfce6a1b",
+      "contexto.json": "735c5bde7f6795e257f7b78105c483713aabc8fe6b8ddbb0688a6bb5dde02df7"
+    }
+  },
+  "contagens": {
+    "partes": 3,
+    "aberturas": 5,
+    "moveis": 10
+  }
+}

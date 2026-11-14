@@ -1,0 +1,62 @@
+{
+  "project": "LIV Ipanema",
+  "coordinate_convention": "Implantacao image: x increases toward street at right; y increases toward gate at bottom. Normalized site envelope is x=0..1,y=0..1. Coordinates are approximate image-reading guides, not cadastral dimensions.",
+  "site_image_envelope_pixels": {"left": 41, "top": 40, "right_at_top": 550, "right_at_gate": 658, "bottom": 691},
+  "observations": {
+    "tower": {
+      "form": "One tall elongated residential slab; stepped/notched roof footprint, shallow recesses along long elevations, solid pale end walls.",
+      "plan_roof_bbox_pixels": [266, 260, 364, 604],
+      "plan_footprint_length_to_width": 3.51,
+      "floor_rows": 17,
+      "plan_apartment_finals": "Five longitudinal apartment pairs, ordered from gate toward planted buffer: 01/02,03/04,05/06,07/08,09/10.",
+      "main_facade_balconies": "Five repeated full-height balcony stacks arranged as paired stacks near one end, one single stack at middle, paired stacks at other end (2+1+2). Balcony glazing is dark gray/green; horizontal slab lips and pale vertical piers remain visible.",
+      "core": "A pale beige/off-white opaque vertical shaft projects above the main roof by roughly one to one-and-a-half floor pitches, with one narrow window stack visible on its face. It is offset toward the gate-side pair of balcony stacks, at approximately 0.37 of main face length from gate-side end, rather than exactly centered.",
+      "main_facade_screen_landmarks": {"source": "fachada.jpg", "main_face_horizontal_range_pixels": [581, 996], "balcony_stack_centers_x_pixels": [628, 658, 766, 897, 934], "balcony_stack_centers_t_from_left": [0.113, 0.186, 0.446, 0.761, 0.851], "opaque_shaft_range_x_pixels": [718, 752], "opaque_shaft_center_t_from_left": 0.371, "shaft_top_y_pixels": 79, "adjacent_roof_y_pixels": 111, "limitation": "Unrectified perspective landmarks; use as camera-view guides and refine against render."},
+      "roof": "Flat roofs with stepped shallow pale parapets; no pitched roof or decorative crown. Several roof levels reflect the segmented slab footprint.",
+      "colors": "Warm off-white/ivory main walls, pale warm gray recessed strips, medium charcoal/green-gray vertical balcony backing, dark charcoal window frames, muted beige slab edges.",
+      "windows": "Small rectangular apartment windows in many straight vertical stacks; several center strips have 1 or 2 narrow window columns. End elevation seen from aerial has small aligned windows and no broad projecting balcony bands.",
+      "base": "Tower descends to near grade with glazed/covered access and small canopy; landscaped fence and entry structures partly obscure lowest level in street views. No broad multi-storey podium."
+    },
+    "site": {
+      "shape": "Long roughly rectangular/trapezoidal lot, street-side edge diagonal in plan; corners softened by sidewalk landscaping.",
+      "forest_buffer": "Dense irregular woodland occupies approximately the upper 25-30% of lot plan, beyond the far end of tower. Preserve substantial mass and irregular canopy variation.",
+      "parking": "Extensive open surface parking. Multiple long drives run parallel to tower, with narrow green/permeable bays, painted stalls and crosswalks. Rows also wrap near the gate-side short end. Accessible stalls are adjacent to the tower on street-side row.",
+      "street": "Rua Joao de Guzzi along right long edge of plan. Wide divided avenue illustrated in street/aerial references; another street borders forest end/corner.",
+      "gate": "Gatehouse in lower-right corner of plan, beside street, toward one short end. Charcoal horizontal canopy, white/light masonry, one raised rectangular charcoal portal at car entrance, metal vertical fences, pedestrian/vehicle access lanes.",
+      "pool": "Pool complex upper-right, between tower/parking and street, immediately beside planted buffer end. Long rectangular blue adult pool, a small blue basin to one side, white deck and changing-room strip at near end.",
+      "amenity_strip": "Landscaped outdoor amenity band runs from pool down street-side edge to gate. Fitness/lounges/picnic lie below pool; orchard/kids area lies further down; two quiosques occupy one elongated grey rectangular roof footprint; playground sits nearest gate.",
+      "court": "No sports court is identified in the 17-item official amenity legend. The elongated grey rectangle marked 05/06 is the pair of quiosques, not a court.",
+      "water_tank": "Circular white tank at upper-left far end, outside main woodland edge beside left parking/service area."
+    }
+  },
+  "normalized_layout_guides": {
+    "tower_bbox": [0.365, 0.338, 0.524, 0.866],
+    "forest_bbox": [0.225, 0.056, 0.808, 0.296],
+    "pool_complex_bbox": [0.697, 0.299, 0.831, 0.506],
+    "pool_adult_bbox": [0.723, 0.335, 0.774, 0.465],
+    "gatehouse_bbox": [0.821, 0.831, 0.923, 0.957],
+    "quiosque_pair_bbox": [0.708, 0.667, 0.783, 0.802],
+    "playground_center": [0.837, 0.8],
+    "fitness_center": [0.784, 0.566],
+    "orchard_center": [0.827, 0.674],
+    "kids_air_center": [0.833, 0.732],
+    "water_tank_center": [0.173, 0.128],
+    "left_outer_parking_strip": [0.0, 0.099, 0.065, 1.0],
+    "tower_left_drive": [0.236, 0.296, 0.283, 0.944],
+    "tower_right_drive": [0.605, 0.296, 0.652, 0.933]
+  },
+  "inferences_for_modeling": {
+    "reasonable_working_units": "Parent proposes approximate tower width 12.7m, length 47.7m and 17*2.85m=48.45m body height. Ratios L/W=3.76,H/W=3.82,H/L=1.02 are consistent with the long slab in the sources. Plan outer roof bbox L/W near3.51 differs because bbox includes projections/notches. Use these as proportional working estimates, not official measurements.",
+    "site_dimensions": "Scale can be estimated from official site area and approximate marketing-plan boundary, but uncertainty in included sidewalks and curved boundaries propagates to every derived length. Parent polygon pixel coordinates [(42,80),(508,80),(560,132),(656,684),(45,684)] and factor0.145m/px give a broadly consistent ~6960m2 estimate. Do not label inferred side lengths as measured.",
+    "balcony_depth": "Keep balcony ledges shallow, roughly 0.7-1.1m at a 12m-width working scale. Full protruding deep balconies would change facade silhouette from references.",
+    "back_elevation": "Back-face repetition and precise end-wall window positions are not completely visible; repeating related apartment rhythms is an inference."
+  },
+  "priority_recommendations": [
+    "Build the long stepped slab first. A square tower cannot resemble these sources.",
+    "Match 17 rows and five balcony stacks arranged 2+1+2 before detailing windows or trees.",
+    "Keep central vertical shaft taller than all roof parapets and model stepped pale roof edges.",
+    "Place tower inside parking field, woodland at far end, pool along street-side far end, entry on opposite street-side end.",
+    "Use narrow permeable parking strips and repeated painted bays. Do not invent a sports court.",
+    "Render one street main-facade camera, one low entry camera, and one high oblique/top camera to compare against the supplied references."
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "titulo": "Parque das Laranjeiras · planta térreo canto · 60,11 m²",
+  "tipologia": "terreo-canto",
+  "imagem": "../../../../plantas_fornecidas/parque-das-laranjeiras/fonte/planta-tipo-canto.jpg",
+  "imagemSha256": "9be0ffe3f419d2812550bc476cf83cc44885dc733adbb3823501493a86aa0e11",
+  "registro": {
+    "origemPx": [
+      44,
+      18
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 5.429379721054362,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        57,
+        48,
+        1203,
+        1198
+      ],
+      [
+        722,
+        20,
+        1050,
+        48
+      ]
+    ],
+    "areaCalibracaoM2": 39.12,
+    "conferencia": [
+      "vaso 68x128 px contra 0,37x0,68 m: 184-188 px/m",
+      "cooktop 4 bocas 108x94 px contra 0,58x0,51 m: 184-186 px/m"
+    ]
+  },
+  "areaContornoNominalAproximadaM2": 40.825,
+  "peDireitoMm": 2600,
+  "limites": [
+    "O apartamento é o mesmo traçado do tipo canto (comparacao-tipo.png); só o jardim é novo.",
+    "A área do jardim (60,11 - 39,12 = 20,99 m²) confere com o L medido na imagem (22,4 m² até a borda externa, contando parede).",
+    "A varanda mantém o guarda-corpo do tipo; a imagem do térreo mostra uma linha fina no mesmo lugar.",
+    "O jardim fica registrado em referencia.json para a maquete externa; ele não vira cômodo, porque cômodo ganha parede de 2,60 m."
+  ],
+  "base": "canto",
+  "jardim": {
+    "descricao": "Jardim privativo em L: faixa de cima (lado da varanda) e faixa da esquerda (lado dos dormitórios), com calçada junto às paredes.",
+    "poly_m": [
+      [
+        -1.66,
+        -1.58
+      ],
+      [
+        6.29,
+        -1.58
+      ],
+      [
+        6.29,
+        0
+      ],
+      [
+        -0.13,
+        0
+      ],
+      [
+        -0.13,
+        6.41
+      ],
+      [
+        -1.66,
+        6.41
+      ]
+    ],
+    "areaM2": 22.4,
+    "areaBookM2": 20.99,
+    "calcada_m": 0.48,
+    "referencial": "metros do traçado da base (mesma origem e eixos do unidade.json do canto)"
+  },
+  "comparacao": {
+    "imagemTerreo": "../../../../plantas_fornecidas/parque-das-laranjeiras/fonte/planta-terreo-canto.jpg",
+    "imagemTerreoSha256": "c5c82be0a679b507361ca7d02bc28c41976180d448e36fc6451b0bc801b21fe1",
+    "caixaTipoPx": [
+      57,
+      48,
+      1203,
+      1198
+    ],
+    "caixaTerreoPx": [
+      297,
+      313,
+      1255,
+      1274
+    ],
+    "iouParedes": 0.704,
+    "imagem": "comparacao-tipo.png",
+    "leitura": "Paredes pretas coincidem nas duas imagens; a diferença é borda de 1-2 px e detalhe de móvel. O apartamento do térreo é o do tipo."
+  },
+  "captura": {
+    "construtorSHA256": "c338b1159a5f6f9365a12a296b0d53c9421746465667d938ea46f41be0bbfb8f",
+    "inputsSHA256": {
+      "planta.json": "6dd07c5695bc4ca6b4815d9b07bb89d7a2d34e30264b96668bdc321c6e914388",
+      "leitura.json": "ba8c0b964b33ecb7949d3c239fe64078fd59bab43211d01a1226eb439a241d9b",
+      "projeto-planta.json": "5bc5e24e67a71aa444279cdcae991c0ddf92dd62fb3a52703d03961c8fc1693d",
+      "moveis.json": "ea8bcbd30a077fb4c62dbcf183300e3ac6e36c2c28395d0c0eaf15240c18b860",
+      "contexto.json": "3bc5355a36ca48747ed240c18fa6bfefcb28772dbfc40b7fa1ed118e88f35d26"
+    }
+  },
+  "contagens": {
+    "partes": 8,
+    "aberturas": 9,
+    "moveis": 23
+  }
+}

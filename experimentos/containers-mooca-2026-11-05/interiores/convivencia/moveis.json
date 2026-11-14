@@ -1,0 +1,83 @@
+{
+  "_gerado_por": "capturador-2d",
+  "moveis": [
+    {
+      "tipo": "sofa",
+      "p": [
+        1.8,
+        1.2
+      ],
+      "rot": 3,
+      "w": 1.96,
+      "h": 0.8,
+      "d": 0.92,
+      "cor": "#D9D4CC",
+      "nome": "Sofá"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        1.85,
+        3.65
+      ],
+      "rot": 3,
+      "w": 0.8,
+      "h": 0.85,
+      "d": 0.8,
+      "cor": "#55595D",
+      "nome": "Poltrona 1"
+    },
+    {
+      "tipo": "criado",
+      "p": [
+        2,
+        4.55
+      ],
+      "rot": 3,
+      "w": 0.45,
+      "h": 0.55,
+      "d": 0.4,
+      "cor": "#A57A52",
+      "nome": "Mesinha"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        1.85,
+        5.4
+      ],
+      "rot": 3,
+      "w": 0.8,
+      "h": 0.85,
+      "d": 0.8,
+      "cor": "#55595D",
+      "nome": "Poltrona 2"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        0.55,
+        2.4
+      ],
+      "rot": 1,
+      "w": 0.8,
+      "h": 0.85,
+      "d": 0.8,
+      "cor": "#B9B2A8",
+      "nome": "Pufe"
+    },
+    {
+      "tipo": "tapete",
+      "p": [
+        0.85,
+        4.55
+      ],
+      "rot": 0,
+      "w": 1.1,
+      "h": 0.02,
+      "d": 1.6,
+      "cor": "#CFC6B8",
+      "nome": "Tapete"
+    }
+  ]
+}

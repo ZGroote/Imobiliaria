@@ -1,7 +1,7 @@
 'use client'
 import { useState, type ReactNode } from 'react'
 import Link from 'next/link'
-import { Aviso, Cartao, Selo, Tabela, Td, useAcao, Vazio } from './ui'
+import { Aviso, Cartao, Tabela, Td, useAcao, Vazio } from './ui'
 import { db } from '@/lib/firebase'
 import { quando } from '@/lib/formato'
 import { atribuirCorretor } from '@/lib/imoveis'
@@ -9,6 +9,7 @@ import { estaPublicado } from '@/lib/listas'
 import { interno, type Property, type User } from '@/lib/types'
 import { usePerfil } from '@/lib/session'
 import { RastreabilidadeImovel } from './rastreabilidade'
+import { ControlePublicacao } from './publicacao'
 
 export const ROTULO_SITUACAO: Record<Property['status'], string> = { active: 'Ativo', inactive: 'Inativo', archived: 'Arquivado' }
 
@@ -18,7 +19,7 @@ export function ListaDeImoveis({ imoveis, base, nomeDaAgencia, nomeDoCorretor }:
   if (!imoveis.length) return <Vazio>Nenhum imóvel.</Vazio>
   // Na ordem da consulta (mais recentes primeiro): com a lista paginada, reordenar aqui misturaria
   // as páginas e "Carregar mais" encaixaria itens no meio.
-  const cab = ['Imóvel', ...(nomeDaAgencia ? ['Imobiliária'] : []), 'Corretor', 'No ar', 'Atualizado']
+  const cab = ['Imóvel', ...(nomeDaAgencia ? ['Imobiliária'] : []), 'Corretor', 'Publicação', 'Atualizado']
   return (
     <Tabela cabecalho={cab}>
       {imoveis.map((p) => (
@@ -29,7 +30,7 @@ export function ListaDeImoveis({ imoveis, base, nomeDaAgencia, nomeDoCorretor }:
           </Td>
           {nomeDaAgencia && <Td>{nomeDaAgencia(p.agencyId)}</Td>}
           <Td>{nomeDoCorretor(p.assignedAgentId)}</Td>
-          <Td>{estaPublicado(p) ? <Selo tom="verde">Publicado</Selo> : <Selo>Não publicado</Selo>}</Td>
+          <Td><ControlePublicacao p={p} compacto /></Td>
           <Td>{quando(p.updatedAt)}</Td>
         </tr>
       ))}

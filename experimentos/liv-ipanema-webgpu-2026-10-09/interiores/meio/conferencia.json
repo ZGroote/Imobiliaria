@@ -1,0 +1,378 @@
+{
+  "schema": "liv-meio-source-check-v1",
+  "status": "PASS",
+  "source2D": {
+    "path": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\plantas2d\\meio.jpg",
+    "sha256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
+    "pixels": [
+      1000,
+      1000
+    ]
+  },
+  "sourceUnitSHA256": "3d245c057bc407664a8fa06abd4107a9865ad3bcbfa3ef42492f755848bccc15",
+  "sourceConstructionSHA256": "1c2297001f4eaf2b5f99a01a48037952c10b6b26ac4435e155449f78d53220c5",
+  "overlay": {
+    "path": "conferencia.png",
+    "sha256": "d499b023dc7d858cb90f4a1efa316725df499faadf2fa702439d00ac765cf38a",
+    "pixels": [
+      1000,
+      1000
+    ],
+    "legend": {
+      "polygons": "contornos físicos registrados",
+      "orange": "portas",
+      "cyan": "janelas",
+      "brown": "footprints dos móveis"
+    }
+  },
+  "registration": {
+    "origemPx": [
+      95,
+      275
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 11.31422162724767,
+    "gradeMm": 50,
+    "metodoEscala": "Escala uniforme estimada pela caixa aparente da varanda e componente publicado de 4,41 m²; sem cotas executivas.",
+    "caixaCalibracaoPx": [
+      95,
+      275,
+      360,
+      405
+    ],
+    "areaCalibracaoPublicadaM2": 4.41
+  },
+  "areaNominalM2": 44.6,
+  "areaPublishedRangeM2": [
+    47.5,
+    47.89
+  ],
+  "furnitureChecks": [
+    {
+      "id": "m1",
+      "nome": "Cama da suíte",
+      "containedPhysicalRooms": [
+        "Suíte"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m2",
+      "nome": "Armário da suíte",
+      "containedPhysicalRooms": [
+        "Suíte"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m3",
+      "nome": "Criado da suíte 1",
+      "containedPhysicalRooms": [
+        "Suíte"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m4",
+      "nome": "Criado da suíte 2",
+      "containedPhysicalRooms": [
+        "Suíte"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m5",
+      "nome": "Cama do dormitório",
+      "containedPhysicalRooms": [
+        "Dormitório 01"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m6",
+      "nome": "Armário do dormitório",
+      "containedPhysicalRooms": [
+        "Dormitório 01"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m7",
+      "nome": "Bancada do dormitório",
+      "containedPhysicalRooms": [
+        "Dormitório 01"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m8",
+      "nome": "Sofá da sala TV",
+      "containedPhysicalRooms": [
+        "Sala integrada"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m9",
+      "nome": "Rack da sala TV",
+      "containedPhysicalRooms": [
+        "Sala integrada"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m10",
+      "nome": "Tapete",
+      "containedPhysicalRooms": [
+        "Sala integrada"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m11",
+      "nome": "Mesa de jantar",
+      "containedPhysicalRooms": [
+        "Sala integrada"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m12",
+      "nome": "Cadeira de jantar 1",
+      "containedPhysicalRooms": [
+        "Sala integrada"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m13",
+      "nome": "Cadeira de jantar 2",
+      "containedPhysicalRooms": [
+        "Sala integrada"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m14",
+      "nome": "Cadeira de jantar 3",
+      "containedPhysicalRooms": [
+        "Sala integrada"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m15",
+      "nome": "Cadeira de jantar 4",
+      "containedPhysicalRooms": [
+        "Sala integrada"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m16",
+      "nome": "Fogão 4 Bocas",
+      "containedPhysicalRooms": [
+        "Sala integrada"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m17",
+      "nome": "Bancada e cuba da cozinha",
+      "containedPhysicalRooms": [
+        "Sala integrada"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m18",
+      "nome": "Geladeira Duplex",
+      "containedPhysicalRooms": [
+        "Sala integrada"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m19",
+      "nome": "Lavatório suíte",
+      "containedPhysicalRooms": [
+        "Banho suíte"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m20",
+      "nome": "Vaso da suíte",
+      "containedPhysicalRooms": [
+        "Banho suíte"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m21",
+      "nome": "Box suíte",
+      "containedPhysicalRooms": [
+        "Banho suíte"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m22",
+      "nome": "Lavatório social",
+      "containedPhysicalRooms": [
+        "Banho"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m23",
+      "nome": "Vaso social",
+      "containedPhysicalRooms": [
+        "Banho"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m24",
+      "nome": "Box social",
+      "containedPhysicalRooms": [
+        "Banho"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m25",
+      "nome": "Mesa da varanda",
+      "containedPhysicalRooms": [
+        "Varanda / serviço"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m26",
+      "nome": "Cadeira da varanda 1",
+      "containedPhysicalRooms": [
+        "Varanda / serviço"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m27",
+      "nome": "Cadeira da varanda 2",
+      "containedPhysicalRooms": [
+        "Varanda / serviço"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m28",
+      "nome": "Máquina de Lavar",
+      "containedPhysicalRooms": [
+        "Varanda / serviço"
+      ],
+      "fourCornerFootprintContained": true
+    },
+    {
+      "id": "m29",
+      "nome": "Tanque de Serviço",
+      "containedPhysicalRooms": [
+        "Varanda / serviço"
+      ],
+      "fourCornerFootprintContained": true
+    }
+  ],
+  "footprintOverlaps": [
+    {
+      "a": "m11",
+      "b": "m12",
+      "names": [
+        "Mesa de jantar",
+        "Cadeira de jantar 1"
+      ],
+      "areaM2": 0.02,
+      "tableChairTuckedPlacement": true,
+      "requiresReview": false
+    },
+    {
+      "a": "m11",
+      "b": "m13",
+      "names": [
+        "Mesa de jantar",
+        "Cadeira de jantar 2"
+      ],
+      "areaM2": 0.02,
+      "tableChairTuckedPlacement": true,
+      "requiresReview": false
+    },
+    {
+      "a": "m11",
+      "b": "m14",
+      "names": [
+        "Mesa de jantar",
+        "Cadeira de jantar 3"
+      ],
+      "areaM2": 0.02,
+      "tableChairTuckedPlacement": true,
+      "requiresReview": false
+    },
+    {
+      "a": "m11",
+      "b": "m15",
+      "names": [
+        "Mesa de jantar",
+        "Cadeira de jantar 4"
+      ],
+      "areaM2": 0.02,
+      "tableChairTuckedPlacement": true,
+      "requiresReview": false
+    },
+    {
+      "a": "m25",
+      "b": "m26",
+      "names": [
+        "Mesa da varanda",
+        "Cadeira da varanda 1"
+      ],
+      "areaM2": 0.05,
+      "tableChairTuckedPlacement": true,
+      "requiresReview": false
+    },
+    {
+      "a": "m25",
+      "b": "m27",
+      "names": [
+        "Mesa da varanda",
+        "Cadeira da varanda 2"
+      ],
+      "areaM2": 0.03,
+      "tableChairTuckedPlacement": true,
+      "requiresReview": false
+    }
+  ],
+  "openingCounts": {
+    "doors": 6,
+    "windows": 5
+  },
+  "corrections": [
+    {
+      "items": [
+        "m3",
+        "m4"
+      ],
+      "reason": "Separar criados da cama e armário; posições y445 e615px."
+    },
+    {
+      "items": [
+        "m22"
+      ],
+      "reason": "Separar lavatório social do box; posição x610px."
+    }
+  ],
+  "limits": [
+    "Sobreposição documental na imagem original; não é render 3D ou conferência executiva.",
+    "Contenção e AABB não validam interação 3D, folgas para acessibilidade, sentido/marcha de portas ou todos os modelos do catálogo.",
+    "Sobreposições mesa-cadeira registram encaixe visual sob tampo; requerem conferência no runtime 3D.",
+    "Direções north/south pertencem ao contrato do construtor, não à orientação solar.",
+    "Contorno, portas, móveis e escala são leituras inferidas de uma planta comercial sem cotas."
+  ]
+}

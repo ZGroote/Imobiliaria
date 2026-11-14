@@ -20,3 +20,5 @@ shapely>=2.1
 numpy>=2.0
 jsonschema>=4.26,<5
 pillow>=11
+# tests/test_suavizar_paredes.py -- o suavizar_paredes.py do interior do LIV usa scipy.ndimage
+scipy>=1.14

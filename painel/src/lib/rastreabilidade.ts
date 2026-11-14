@@ -53,8 +53,7 @@ function summary(v: Record<string, unknown>) {
 function safeHttp(v: string) {
   let u: URL
   try { u = new URL(v) } catch { return invalid() }
-  // Sem o endereço literal: a varredura do bundle no CI recusa a string do loopback (o mesmo de leituras.ts).
-  const local = /^127(?:\.\d{1,3}){3}$/.test(u.hostname) || u.hostname === 'localhost' || u.hostname === '[::1]'
+  const local = process.env.NODE_ENV !== 'production' && ['localhost', '127.0.0.1', '[::1]'].includes(u.hostname)
   if ((u.protocol !== 'https:' && !(u.protocol === 'http:' && local)) || u.username || u.password) return invalid()
   return u
 }
@@ -67,6 +66,10 @@ export function baseRastreabilidade(value?: string): string | null {
 }
 export const corretoresAtivos = <T extends Pick<User, 'id' | 'agencyId' | 'role' | 'active' | 'name'>>(users: T[], agencyId: string) =>
   users.filter(u => u.agencyId === agencyId && u.role === 'agent' && u.active)
+
+export const responsaveisAtivos = <T extends Pick<User, 'id' | 'agencyId' | 'role' | 'active' | 'name'>>(users: T[], agencyId: string, equipeInterna = false) =>
+  users.filter(u => u.active && ((u.agencyId === agencyId && ['agent', 'agency_manager'].includes(u.role))
+    || (equipeInterna && ['platform_admin', 'operator'].includes(u.role))))
 
 export function periodo30Dias(now = new Date()): TrackingPeriod {
   return { from: new Date(now.getTime() - 30 * 86400000).toISOString(), to: now.toISOString() }

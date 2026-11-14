@@ -1,0 +1,11 @@
+{
+  "bytes": 21342300,
+  "objects": 1053,
+  "doors": [
+    "Entrada principal",
+    "Lavabo",
+    "Suíte",
+    "Banheiro da suíte",
+    "Varanda"
+  ]
+}

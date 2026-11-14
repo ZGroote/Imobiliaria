@@ -1,0 +1,62 @@
+{
+  "status": "PASS",
+  "recordedAtUtc": "2026-10-11T08:08:23.604180+00:00",
+  "physicalMobile": false,
+  "sourceSHA256": {
+    "perf_ambiente.py": "68e81071e81faa27ff2f0d34a6a80294a050d0446c894c12d844a45f3a411c5c",
+    "renderer.js": "bdff26ba4b206560c02e0f517465093be923829bc45e8b45df20674f8055f0f6",
+    "material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+    "node_modules/three/src/nodes/pmrem/PMREMNode.js": "12643da2b87b9eb68eca3ba5cad78e15e2d490db91a06d99c794fec0836932ee",
+    "node_modules/three/src/renderers/common/extras/PMREMGenerator.js": "00a0f5ec3ea38b6c9bdf9a133df8b11b9ee3e1c6561480b85409b84b10c8025d"
+  },
+  "cases": [
+    {
+      "backend": "webgpu",
+      "errors": [],
+      "candidates": [
+        {
+          "width": 336,
+          "height": 64,
+          "bytes": 180096,
+          "flipInput": false,
+          "maxRgbDelta": 64.0,
+          "meanRgbDelta": 0.6517953872680664,
+          "sha256": "eb8a3fddf95020c68970a480865b89b997993b4a44f505035e953b610662285a"
+        },
+        {
+          "width": 336,
+          "height": 64,
+          "bytes": 180096,
+          "flipInput": true,
+          "maxRgbDelta": 64.0,
+          "meanRgbDelta": 0.6739534139633179,
+          "sha256": "374afcba784210c20074926c3e15621c99dec7743bce2b7ec2be1769e273c98c"
+        }
+      ]
+    },
+    {
+      "backend": "webgl",
+      "errors": [],
+      "candidates": [
+        {
+          "width": 336,
+          "height": 64,
+          "bytes": 172032,
+          "flipInput": false,
+          "maxRgbDelta": 110.0,
+          "meanRgbDelta": 1.8413296937942505,
+          "sha256": "30131266e94483a2a252d22f6c8922677b2804faf9663c837c5499c9d4c47234"
+        },
+        {
+          "width": 336,
+          "height": 64,
+          "bytes": 172032,
+          "flipInput": true,
+          "maxRgbDelta": 110.0,
+          "meanRgbDelta": 1.8413296937942505,
+          "sha256": "a75a7f940e6b8a77e63a8ebbca33333cc78118212f8f582248fd39e601145dfc"
+        }
+      ]
+    }
+  ]
+}

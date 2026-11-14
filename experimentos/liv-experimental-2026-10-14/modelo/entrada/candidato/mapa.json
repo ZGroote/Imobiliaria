@@ -1,0 +1,29 @@
+{
+  "schema": "liv-map-model-v1",
+  "edition": "entrada",
+  "sourceModelSHA256": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+  "asset": {
+    "path": "modelo/entrada/candidato/liv-contorno.glb",
+    "bytes": 2536272,
+    "sha256": "1e43cf429a4ea1408c2f2e16f96cd40d3a3640fac18e41aee3bb816d15647941"
+  },
+  "validation": {
+    "status": "PASS",
+    "meshes": 97,
+    "instances": 1827,
+    "materials": 54,
+    "triangles": 278703,
+    "maxVertexAttributeError": 5.600627899171595e-05,
+    "topology": "all geometric triangles matched; duplicate backfaces are doubleSided",
+    "transforms": "all instances matched",
+    "units": "meters",
+    "up": "Y"
+  },
+  "lighting": "map-lights",
+  "dimensionsInferred": true,
+  "sources": {
+    "experimentos/liv-experimental-2026-10-14/modelo/registrar_mapa.py": "61827fa89f29d1047037ad72c01c6574f92f060fda6251ca19147b29d0b2ae09",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/candidato/modelo.json": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/candidato/liv-contorno.glb": "1e43cf429a4ea1408c2f2e16f96cd40d3a3640fac18e41aee3bb816d15647941"
+  }
+}

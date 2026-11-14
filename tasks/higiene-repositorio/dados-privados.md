@@ -128,3 +128,27 @@ quatro remanescentes voltem à pasta experimental versionada.
    for de terceiro, a licença entra antes no [THIRD_PARTY.md](../../THIRD_PARTY.md).
 3. **Migração para armazenamento privado,** que vem com a política de artefatos: o dado sai do
    repositório, e o item sai da lista no mesmo PR.
+
+## Comparativo A/B — classificação de 04/10/2026
+
+Os 11 JPGs de `experimentos/comparativo-planos-3d/assets_planob/` são material
+procedural próprio, sem imóvel real, produzido por NumPy/Pillow com semente fixa.
+O gerador canônico é `experimentos/comparativo-planos-3d/gerar_texturas_planob.py`.
+Os paths estão liberados individualmente em `tests/test_dados_privados.py`; uma nova
+foto nessa pasta continua exigindo classificação. Os HTMLs A/B usam uma casa sintética
+como experimento isolado, não cadastro comercial nem saída aprovada da fábrica.
+
+## Lançamentos e imagens de outubro e novembro, liberados em 14/11/2026 (PR #116)
+
+Decisão do usuário. O repositório é privado desde 20/10/2026, e tudo isso já está
+publicado nos sites. Entraram em `tests/test_dados_privados.py`:
+
+- `EMPREENDIMENTOS`: `parque-das-laranjeiras`, `containers-mooca` e `vistas-da-quinze` em
+  `plantas_fornecidas/` (book, plantas e fotos da obra enviadas pela incorporadora).
+- `PASTAS_DE_IMAGEM`, por pasta e não uma a uma (eram umas 400 imagens): as maquetes
+  publicadas (LIV, Laranjeiras, Mooca, Vistas), a demo Vila Aurora, as referências de
+  móveis, o site institucional (`fachada/`) e `tasks/caminho1-liv/`.
+
+Pendente: as fotos de `experimentos/moveis-referencia/` e `cama-box-referencia/` são de
+lojas (terceiros). Servem só de referência interna e não vão ao ar, mas ainda não têm
+linha no THIRD_PARTY.md.

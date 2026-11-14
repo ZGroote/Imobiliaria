@@ -1,0 +1,3 @@
+import fs from 'node:fs';import {createNavigation} from './navigation.mjs';
+const {config,boxes}=JSON.parse(fs.readFileSync(new URL('./browser-geometry.json',import.meta.url),'utf8'));const nav=createNavigation(config);
+for(const r of config.rooms.filter(r=>['jantar','lavabo','banheiro'].includes(r.id))){let options=[];for(let x=r.bounds[0]+.21;x<r.bounds[1]-.21;x+=.04)for(let y=r.bounds[2]+.21;y<r.bounds[3]-.21;y+=.04)if(!nav.blocked(x,y,r.position[2],boxes))options.push({position:[+x.toFixed(2),+y.toFixed(2),r.position[2]],distance:Math.hypot(x-r.position[0],y-r.position[1])});options.sort((a,b)=>a.distance-b.distance);console.log(r.id,options.slice(0,3));}

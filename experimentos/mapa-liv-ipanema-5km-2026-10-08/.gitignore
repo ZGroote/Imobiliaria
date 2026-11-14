@@ -1,0 +1,10 @@
+/mapas/
+/mapas-estrito/
+/mapas-v3/
+/site/
+/site-estrito/
+/site-v3/
+/qa-local/
+/qa-publica/
+/qa-*/
+/deploy*.json

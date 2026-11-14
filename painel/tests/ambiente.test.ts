@@ -26,6 +26,7 @@ test('.env.production: app web "painel" completo, emulador desligado, nada além
   assert.deepEqual(Object.keys(o).sort(),
     ['apiKey', 'appId', 'authDomain', 'messagingSenderId', 'projectId', 'storageBucket'])
   assert.equal(o.projectId, 'imobilaria-deccb')
+  assert.equal(o.authDomain, 'painel.conectaimoveis3d.com.br')
   assert.ok(Object.keys(env).every((k) => k.startsWith('NEXT_PUBLIC_')))    // nada de segredo de servidor
 })
 

@@ -1,0 +1,96 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "nearby": {
+      "ready": true,
+      "catalogCount": 582,
+      "categoryCount": 21,
+      "total": 582,
+      "shown": 20,
+      "pins": true,
+      "selectedId": 10
+    },
+    "errors": [],
+    "pitch": 55.00000000000001
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "nearby": {
+      "ready": true,
+      "catalogCount": 582,
+      "categoryCount": 21,
+      "total": 582,
+      "shown": 20,
+      "pins": true,
+      "selectedId": 10
+    },
+    "errors": [],
+    "pitch": 55.00000000000001
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "nearby": {
+      "ready": true,
+      "catalogCount": 582,
+      "categoryCount": 21,
+      "total": 582,
+      "shown": 20,
+      "pins": true,
+      "selectedId": 10
+    },
+    "errors": [],
+    "pitch": 55.00000000000001
+  },
+  {
+    "width": 780,
+    "height": 280,
+    "nearby": {
+      "ready": true,
+      "catalogCount": 582,
+      "categoryCount": 21,
+      "total": 582,
+      "shown": 20,
+      "pins": true,
+      "selectedId": 10
+    },
+    "errors": [],
+    "pitch": 55.00000000000001
+  },
+  {
+    "focus": "parque-das-laranjeiras",
+    "width": 1440,
+    "positions": [
+      {
+        "id": "liv-ipanema",
+        "x": 1036.7955870006592,
+        "y": 430.1069455628267
+      },
+      {
+        "id": "parque-das-laranjeiras",
+        "x": 719.9999999957614,
+        "y": 449.9999999971743
+      }
+    ],
+    "errors": []
+  },
+  {
+    "focus": "parque-das-laranjeiras",
+    "width": 390,
+    "positions": [
+      {
+        "id": "liv-ipanema",
+        "x": 344.3700366133645,
+        "y": 412.6203672257464
+      },
+      {
+        "id": "parque-das-laranjeiras",
+        "x": 194.9999999984934,
+        "y": 421.9999999969868
+      }
+    ],
+    "errors": []
+  }
+]

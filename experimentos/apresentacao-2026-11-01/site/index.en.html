@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en" data-visual="novo">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f8ff">
+    <meta name="description" content="A 3D model, a floor plan with dimensions and a room-by-room tour, all in a link that opens on your phone. Discover Conecta Imóveis 3D.">
+    <title>Conecta — a new perspective</title>
+    <link rel="canonical" href="https://conectaimoveis3d.com/">
+    <link rel="alternate" hreflang="pt-BR" href="https://conectaimoveis3d.com.br/">
+    <link rel="alternate" hreflang="en" href="https://conectaimoveis3d.com/">
+    <link rel="alternate" hreflang="x-default" href="https://conectaimoveis3d.com/">
+    <link rel="icon" href="assets/marca.svg" type="image/svg+xml">
+    <link rel="preload" href="fonts/Satoshi-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <script>document.documentElement.classList.add("js")</script>
+    <link rel="stylesheet" href="styles.css?rev=20261108-contato">
+    <script defer src="i18n.js"></script>
+    <script defer src="idiomas.js"></script>
+    <script defer src="site.js?rev=20261103-vagas"></script>
+    <script defer src="contato.js?rev=20261108-contato"></script>
+  </head>
+  <body>
+    <a class="pular" href="#demonstracao">Skip to the demo</a>
+
+    <header class="topo">
+      <a class="marca" href="#inicio" aria-label="Conecta, home"><img src="assets/logo-conecta.webp" width="883" height="236" alt="Conecta Imóveis 3D — A new perspective."></a>
+      <nav class="menu" aria-label="Sections">
+        <a href="#demonstracao">Demo</a>
+        <a href="#como-funciona">How it works</a>
+        <a href="#duvidas">Questions</a>
+      </nav>
+      <a class="botao botao-linha botao-topo" data-contato-en href="#contato">Let's talk <span aria-hidden="true">↗</span></a>
+      <nav class="idiomas" aria-label="Language">
+        <a data-idioma="pt-BR" href="https://conectaimoveis3d.com.br/?lang=pt-BR" lang="pt-BR" hreflang="pt-BR" aria-label="Portuguese">PT</a>
+        <a data-idioma="en" href="https://conectaimoveis3d.com/?lang=en" lang="en" hreflang="en" aria-label="English" aria-current="page">EN</a>
+      </nav>
+      <details class="menu-celular">
+        <summary aria-label="Open menu"><span></span><span></span></summary>
+        <nav aria-label="Sections">
+          <a href="#demonstracao">Demo</a>
+          <a href="#como-funciona">How it works</a>
+          <a href="#duvidas">Questions</a>
+          <a href="#contato" data-english-only>Let's talk</a>
+        </nav>
+      </details>
+    </header>
+
+    <main>
+      <section class="vitrine" id="demonstracao" aria-labelledby="titulo">
+      <div class="abertura" id="inicio">
+        <div class="abertura-titulo">
+          <p class="rotulo"><span class="rotulo-ponto" aria-hidden="true"></span> Bring your property closer</p>
+          <h1 id="titulo"><span class="titulo-entrada">Your property,</span><br><em>a new perspective.</em></h1>
+        </div>
+        <div class="abertura-convite">
+          <p class="abertura-sub">Invite your clients to explore every space. From a first impression to a tour inside, all in one link.</p>
+          <div class="acoes">
+            <a class="link-explorar" href="#explorar" data-abrir-maquete>Try it below <span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
+      </div>
+
+        <div class="demo-workbench" id="explorar">
+          <aside class="demo-navegacao" aria-label="Explore the property">
+            <div class="demo-nome"><p class="rotulo">See for yourself</p><h2 id="titulo-vitrine">Vila Aurora<span aria-hidden="true"> ↘</span></h2></div>
+            <div class="abas" role="tablist" aria-label="Choose a view">
+              <button type="button" role="tab" id="aba-predio" aria-selected="true" aria-controls="painel-demonstracao" tabindex="0" data-modo="predio"><span class="aba-numero" aria-hidden="true">01</span><span class="aba-texto"><strong>Building</strong><span class="aba-detalhe">The first impression.</span><span class="aba-preparo" data-preparo="predio" data-pronto="false">Preparing</span></span><span class="aba-seta" aria-hidden="true">↗</span></button>
+              <button type="button" role="tab" id="aba-planta" aria-selected="false" aria-controls="painel-demonstracao" tabindex="-1" data-modo="planta"><span class="aba-numero" aria-hidden="true">02</span><span class="aba-texto"><strong>Floor plan</strong><span class="aba-detalhe">See the potential in every space.</span><span class="aba-preparo" data-preparo="planta" data-pronto="false">Preparing</span></span><span class="aba-seta" aria-hidden="true">↗</span></button>
+              <button type="button" role="tab" id="aba-apartamento" aria-label="3D apartment" aria-selected="false" aria-controls="painel-demonstracao" tabindex="-1" data-modo="apartamento"><span class="aba-numero" aria-hidden="true">03</span><span class="aba-texto"><strong><span class="aba-nome-longo">Apartment</span><span class="aba-nome-curto">Apt.</span> <span class="aba-3d">3D</span></strong><span class="aba-detalhe">A new point of view.</span><span class="aba-preparo" data-preparo="apartamento" data-pronto="false">Preparing</span></span><span class="aba-seta" aria-hidden="true">↗</span></button>
+              <button type="button" role="tab" id="aba-tour" aria-selected="false" aria-controls="painel-demonstracao" tabindex="-1" data-modo="tour"><span class="aba-numero" aria-hidden="true">04</span><span class="aba-texto"><strong>Tour</strong><span class="aba-detalhe">Step inside. Feel at home.</span><span class="aba-preparo" data-preparo="tour" data-pronto="false">Preparing</span></span><span class="aba-seta" aria-hidden="true">↗</span></button>
+            </div>
+            <div class="demo-preparo"><progress class="demo-progresso" max="4" value="0" aria-label="Preparing the views"></progress><p class="demo-preparo-texto" role="status">Preparing all four views…</p></div>
+          <div class="demo-resumo">
+            <div><p class="demo-etapa">Step 01 of 04</p><h3 class="demo-titulo">A first look at the building.</h3><p class="demo-descricao">Rotate the building and discover the available apartments.</p></div>
+            <p class="demo-status" role="status">Preparing the experience</p>
+          </div>
+          </aside>
+        <div class="demo-painel" id="painel-demonstracao" role="tabpanel" aria-labelledby="aba-predio">
+          <dialog open class="janela" aria-label="Interactive 3D model of Vila Aurora" data-estado="inicial" data-ativa="false">
+            <div class="janela-barra">
+              <p class="janela-projeto"><span aria-hidden="true"></span> Live <span class="janela-projeto-detalhe">Drag to explore</span></p>
+              <div class="janela-acoes">
+                <button class="janela-pausar" type="button" aria-label="Enable page scrolling" hidden>Scroll</button>
+                <button class="janela-tela-cheia" type="button">Expand <span aria-hidden="true">↗</span></button>
+                <button class="maquete-voltar" type="button">← Back to the presentation</button>
+              </div>
+            </div>
+            <div class="demo-passeio-barra">
+              <button class="demo-passeio" type="button" aria-pressed="false">Start guided tour</button>
+              <span class="demo-passeio-etapa" role="status"></span>
+              <progress class="demo-passeio-progresso" max="1" value="0" aria-label="Guided tour progress" hidden></progress>
+            </div>
+            <div class="janela-palco">
+              <img class="janela-capa" src="assets/predio-real.jpg" width="1280" height="720" alt="" decoding="async">
+              <iframe title="Interactive 3D model of Vila Aurora, a fictional development" tabindex="-1" aria-hidden="true" allow="fullscreen; xr-spatial-tracking"></iframe>
+              <div class="janela-espera"><span class="janela-carregando" aria-hidden="true"></span><p class="janela-mensagem" role="status">Preparing your experience…</p><button class="janela-repetir" type="button" hidden>Try again</button></div>
+              <button class="janela-ativar" type="button"><span>Explore the building</span><small>You're in control.</small></button>
+            </div>
+          </dialog>
+          <div class="demo-rodape"><p class="vitrine-dica" aria-live="polite">Tap a green apartment to see its details. Double-tap to open the floor plan.</p><button class="demo-proxima" type="button">Next: floor plan <span aria-hidden="true">→</span></button></div>
+        </div>
+        </div>
+        <p class="vitrine-aviso">A demo by Conecta. Vila Aurora is a fictional development; prices and availability are for illustration only.</p>
+        <noscript><p class="vitrine-aviso">Enable JavaScript to explore the interactive 3D model. You can still find information about working with us below.</p></noscript>
+      </section>
+
+      <section class="secao passos" id="como-funciona" aria-labelledby="titulo-passos">
+        <figure class="passos-imagem" data-revelar><img src="assets/arquitetura.webp" width="2000" height="1125" alt="Architectural visualization of a contemporary home with wood, glass and lighting at dusk" loading="lazy" decoding="async"><figcaption>Architectural visualization study <span>Conecta / 2026</span></figcaption></figure>
+        <div class="passos-conteudo">
+        <div class="secao-cabeca">
+          <p class="rotulo rotulo-claro">Made for your project</p>
+          <h2 id="titulo-passos">Your next viewing<br><em>starts here.</em></h2>
+          <p>We turn your materials into an experience that helps clients picture themselves in the property.</p>
+        </div>
+        <ol class="passos-lista">
+          <li data-revelar><span>01</span><h3>Tell us what you need</h3><p>We get to know the property, the available materials and what you want the presentation to achieve.</p></li>
+          <li data-revelar><span>02</span><h3>We agree on a proposal</h3><p>We agree on deliverables, pricing and timelines before production begins.</p></li>
+          <li data-revelar><span>03</span><h3>We create and review together</h3><p>You review the presentation before it is published as agreed.</p></li>
+          <li data-revelar><span>04</span><h3>We publish your link</h3><p>Your property, ready to explore on a phone or computer.</p></li>
+        </ol>
+        </div>
+      </section>
+
+<section class="secao duvidas" id="duvidas" aria-labelledby="titulo-duvidas">
+        <div class="secao-cabeca">
+          <p class="rotulo">Questions</p>
+          <h2 id="titulo-duvidas">Before you<br> <em>take the next step.</em></h2>
+        </div>
+        <div class="duvidas-lista">
+          <details>
+            <summary>What do I need to send for a quote?</summary>
+            <p>Tell us about the property, what you want to present and which materials you already have. Floor plans, dimensions, photos and references help us assess the project. We agree on the materials needed before production begins.</p>
+          </details>
+          <details>
+            <summary>How much does it cost, and how long does it take?</summary>
+            <p>Both are set out in the proposal, based on the property and deliverables. Send us a message using the contact form so we can review your project.</p>
+          </details>
+          <details>
+            <summary>Does the presentation replace an in-person viewing?</summary>
+            <p>It complements the property listing. Dimensions, finishes, the property's condition and transaction details should be confirmed with the person responsible for the listing and the relevant documents.</p>
+          </details>
+          <details>
+            <summary>Can I request more than one property?</summary>
+            <p>Yes. We can discuss a proposal covering multiple properties. The production schedule and terms are agreed with our team.</p>
+          </details>
+          <details>
+            <summary>Does the presentation reproduce every real-world detail?</summary>
+            <p>The level of detail depends on the materials available and the agreed scope. The proposal states what will be represented, simplified or shown for illustration.</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="chamada" id="contato" tabindex="-1" aria-labelledby="titulo-chamada">
+        <div class="chamada-copy">
+        <p class="rotulo">Ready to bring your idea to life?</p>
+        <h2 id="titulo-chamada">A fresh perspective<br>for <em>your property.</em></h2>
+        <a class="botao botao-cheio" data-contato-en href="#contato">Tell us about your project <span aria-hidden="true">↗</span></a>
+        <p class="chamada-numero" data-portuguese-only hidden>WhatsApp +55 16 98128-8075</p>
+        <p class="contato-intro">Your name, email and a few details. We’ll get back to you by email.</p>
+        </div>
+        <div class="contato-card" role="region" aria-labelledby="contato-titulo">
+          <form class="contato-form" data-contato-form method="post" action="/api/contact" novalidate aria-labelledby="contato-titulo" aria-describedby="contato-nota">
+            <h3 id="contato-titulo">Tell us about your project.</h3>
+            <p id="contato-nota" class="contato-nota">Fields marked with an asterisk are required.</p>
+            <div class="contato-campos">
+              <label for="contato-nome"><span>Name <span aria-hidden="true">*</span></span><input id="contato-nome" name="name" type="text" autocomplete="name" maxlength="120" required></label>
+              <label for="contato-email"><span>Email <span aria-hidden="true">*</span></span><input id="contato-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required></label>
+              <label class="contato-largo" for="contato-empresa"><span>Company <span class="contato-opcional">(optional)</span></span><input id="contato-empresa" name="company" type="text" autocomplete="organization" maxlength="160"></label>
+              <label class="contato-largo" for="contato-mensagem"><span>Your project <span aria-hidden="true">*</span></span><textarea id="contato-mensagem" name="message" rows="5" minlength="10" maxlength="5000" placeholder="Tell us about the property and what you’d like to showcase." required aria-describedby="contato-mensagem-ajuda"></textarea><span class="contato-ajuda" id="contato-mensagem-ajuda">10–5,000 characters.</span></label>
+            </div>
+            <div class="contato-armadilha" aria-hidden="true"><label for="contato-website">Website<input id="contato-website" name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+            <p class="contato-privacidade">We’ll use your details to respond to your enquiry. <a href="assets/contact-privacy.html" data-contact-privacy-en>Read how this form uses your information.</a></p>
+            <button class="botao botao-cheio contato-enviar" type="submit" disabled><span data-contato-submit-text>Send message</span><span aria-hidden="true">→</span></button>
+            <p class="contato-status" data-contato-status role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
+            <p class="contato-alternativa">Prefer email? <a href="mailto:contact@conectaimoveis3d.com">contact@conectaimoveis3d.com</a></p>
+            <noscript><p class="contato-nota">Enable JavaScript to send the form, or write to the email address above.</p></noscript>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <a class="marca" href="#inicio" aria-label="Conecta, home"><img src="assets/logo-conecta.webp" width="883" height="236" alt="Conecta Imóveis 3D — A new perspective."></a>
+      <p>Vila Aurora is a fictional development created for this demo.</p>
+      <nav aria-label="Documents">
+        <a href="https://conectaimoveis3d.com.br/termos.html">Terms</a>
+        <a href="assets/contact-privacy.html" data-contact-privacy-en>Privacy</a>
+        <a href="https://conectaimoveis3d.com.br/cookies.html">Cookies</a>
+      </nav>
+      <p class="rodape-creditos">Vehicles in the architectural visualization: <a href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CarConcept" target="_blank" rel="noopener">CarConcept — Eric Chadwick / Darmstadt Graphics Group</a>, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.</p>
+    </footer>
+
+    <aside class="idioma-sugestao" aria-labelledby="idioma-sugestao-titulo" hidden>
+      <p id="idioma-sugestao-titulo"></p>
+      <div><a data-idioma-sugerido href="index.en.html"></a><button type="button" data-idioma-manter></button></div>
+    </aside>
+
+  </body>
+</html>

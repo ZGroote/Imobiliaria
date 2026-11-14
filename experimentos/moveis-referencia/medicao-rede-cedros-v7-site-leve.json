@@ -1,0 +1,183 @@
+{
+ "perfis": {
+  "4g-bom": [
+   70,
+   2500000.0,
+   625000.0,
+   1
+  ],
+  "4g-fraco": [
+   150,
+   625000.0,
+   187500.0,
+   1
+  ],
+  "3g": [
+   300,
+   200000.0,
+   96000.0,
+   1
+  ],
+  "celular-lighthouse": [
+   562.5,
+   188743.68,
+   86400.0,
+   4
+  ]
+ },
+ "res": {
+  "4g-bom": {
+   "mediana": {
+    "quadro1": 1.06,
+    "cama_q3": 2.96,
+    "pedido": 2.59,
+    "pronto_cortina": 3.09,
+    "instalado_cortina": 3.1,
+    "pronto_fogao": 3.11,
+    "pronto_geladeira": 3.11,
+    "instalado_geladeira": 3.4,
+    "instalado_fogao": 3.4,
+    "pronto_rack": 3.88,
+    "instalado_rack": 3.88,
+    "kb_pagina": 328.0,
+    "kb_cama": 229.12,
+    "kb_moveis": 190.49
+   },
+   "rodadas": [
+    {
+     "quadro1": 1.0574000000357628,
+     "cama_q3": 2.964,
+     "pedido": 2.589,
+     "pronto_cortina": 3.094,
+     "instalado_cortina": 3.099,
+     "pronto_fogao": 3.11,
+     "pronto_geladeira": 3.11,
+     "instalado_geladeira": 3.397,
+     "instalado_fogao": 3.398,
+     "pronto_rack": 3.879,
+     "instalado_rack": 3.882,
+     "kb_pagina": 328.0029296875,
+     "kb_cama": 229.115234375,
+     "kb_moveis": 190.4921875,
+     "erro": null,
+     "erros": []
+    }
+   ]
+  },
+  "4g-fraco": {
+   "mediana": {
+    "quadro1": 1.49,
+    "cama_q3": 4.69,
+    "pedido": 3.23,
+    "pronto_cortina": 4.06,
+    "instalado_cortina": 4.07,
+    "pronto_fogao": 4.37,
+    "pronto_geladeira": 4.37,
+    "instalado_geladeira": 4.37,
+    "instalado_fogao": 4.37,
+    "pronto_rack": 4.85,
+    "instalado_rack": 4.85,
+    "kb_pagina": 328.0,
+    "kb_cama": 286.58,
+    "kb_moveis": 190.49
+   },
+   "rodadas": [
+    {
+     "quadro1": 1.488600000023842,
+     "cama_q3": 4.686,
+     "pedido": 3.225,
+     "pronto_cortina": 4.063,
+     "instalado_cortina": 4.071,
+     "pronto_fogao": 4.371,
+     "pronto_geladeira": 4.371,
+     "instalado_geladeira": 4.372,
+     "instalado_fogao": 4.372,
+     "pronto_rack": 4.848,
+     "instalado_rack": 4.854,
+     "kb_pagina": 328.0029296875,
+     "kb_cama": 286.580078125,
+     "kb_moveis": 190.4921875,
+     "erro": null,
+     "erros": []
+    }
+   ]
+  },
+  "3g": {
+   "mediana": {
+    "quadro1": 2.65,
+    "cama_q3": 7.22,
+    "pedido": 4.14,
+    "pronto_geladeira": 6.08,
+    "instalado_geladeira": 6.08,
+    "pronto_cortina": 6.57,
+    "instalado_cortina": 6.57,
+    "pronto_fogao": 6.58,
+    "instalado_fogao": 6.8,
+    "pronto_rack": 7.61,
+    "instalado_rack": 7.62,
+    "kb_pagina": 328.0,
+    "kb_cama": 286.58,
+    "kb_moveis": 190.49
+   },
+   "rodadas": [
+    {
+     "quadro1": 2.6459000000357626,
+     "cama_q3": 7.221,
+     "pedido": 4.144,
+     "pronto_geladeira": 6.081,
+     "instalado_geladeira": 6.085,
+     "pronto_cortina": 6.568,
+     "instalado_cortina": 6.573,
+     "pronto_fogao": 6.577,
+     "instalado_fogao": 6.797,
+     "pronto_rack": 7.607,
+     "instalado_rack": 7.619,
+     "kb_pagina": 328.0029296875,
+     "kb_cama": 286.580078125,
+     "kb_moveis": 190.4921875,
+     "erro": null,
+     "erros": []
+    }
+   ]
+  },
+  "celular-lighthouse": {
+   "mediana": {
+    "quadro1": 4.03,
+    "cama_q3": 10.68,
+    "pedido": 5.96,
+    "pronto_cortina": 9.0,
+    "instalado_cortina": 9.01,
+    "pronto_fogao": 9.47,
+    "pronto_geladeira": 9.47,
+    "instalado_geladeira": 9.47,
+    "instalado_fogao": 9.48,
+    "pronto_rack": 11.1,
+    "instalado_rack": 11.11,
+    "kb_pagina": 328.0,
+    "kb_cama": 286.58,
+    "kb_moveis": 190.49
+   },
+   "rodadas": [
+    {
+     "quadro1": 4.025299999952316,
+     "cama_q3": 10.683,
+     "pedido": 5.958,
+     "pronto_cortina": 9.0,
+     "instalado_cortina": 9.006,
+     "pronto_fogao": 9.467,
+     "pronto_geladeira": 9.469,
+     "instalado_geladeira": 9.475,
+     "instalado_fogao": 9.476,
+     "pronto_rack": 11.1,
+     "instalado_rack": 11.106,
+     "kb_pagina": 328.0029296875,
+     "kb_cama": 286.580078125,
+     "kb_moveis": 190.4921875,
+     "erro": null,
+     "erros": []
+    }
+   ]
+  }
+ },
+ "faltou": []
+}

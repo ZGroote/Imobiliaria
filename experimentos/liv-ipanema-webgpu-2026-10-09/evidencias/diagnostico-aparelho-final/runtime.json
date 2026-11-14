@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "recordedAt": "2026-10-11T20:37:09.307763+00:00",
+  "physicalMobile": false,
+  "sources": {
+    "diagnostico.html": "6922a64c68b70f548ca6ea4351ed1ed0a763073e26d0bc797e940d8154d904d9",
+    "diagnostico.js": "ca993b2185adef72d5d06669f9f78332c47e39adc081cdc31ce8dc0dfe81e8a8",
+    "diagnostic-recorder.js": "297a097da04137568db9f2fef4905c2aa0348cb27ed4ccf2b260cd6e13b26890",
+    "viewer.js": "7cda21eeb9b7af8642efd1b71e9d042104ce921f171d4960583c03d2474d3979",
+    "renderer.js": "6cd5cb2063df0bf0f1ce63ef8d691b435a3be85a2996d49513e132b23b98c7b6",
+    "interior-renderer.js": "6fbac9f97c975461a45561176c33cba833b409cb2a3a273553e59d5d4a2e0b58"
+  },
+  "cases": [
+    {
+      "backend": "webgpu",
+      "touchEmulated": false,
+      "segments": 5,
+      "physicalDeviceDeclared": false,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "backend": "webgl",
+      "touchEmulated": false,
+      "segments": 5,
+      "physicalDeviceDeclared": false,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "backend": "auto",
+      "touchEmulated": true,
+      "segments": 5,
+      "physicalDeviceDeclared": false,
+      "errors": [],
+      "status": "PASS"
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

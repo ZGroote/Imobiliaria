@@ -19,7 +19,7 @@ dado de produção.
 3. **Quem vê o lead.** Sugestão: o corretor da raiz vê os dele; o gerente vê a agência; a plataforma vê tudo. Mesmo recorte do relatório.
 4. **Clique no WhatsApp sem aceite de métricas.** Sugestão: registrar mesmo assim. O evento fica preso à visita, que já existe sem aceite, e não usa `visitorKey` nem sessão.
 5. **Aviso ao corretor** (e-mail ou push). Sugestão: nesta etapa não há aviso; o lead só aparece no painel.
-6. **Branch base.** A rastreabilidade entrou no `main` pelo PR que juntou painel, link por corretor e regras da `liv-melhorado`. A unidade (L5) depende do LIV.
+6. **Branch base.** A rastreabilidade já está no `main` (PR #116, com painel e regras do PR #86). A unidade (L5) depende do LIV.
 
 ## Fases
 

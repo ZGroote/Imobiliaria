@@ -1,0 +1,304 @@
+{
+  "_gerado_por": "capturador-2d",
+  "moveis": [
+    {
+      "tipo": "cama",
+      "p": [
+        1.4,
+        1.2
+      ],
+      "rot": 0,
+      "w": 1.38,
+      "h": 0.95,
+      "d": 1.9,
+      "cor": "#E4E1DA",
+      "nome": "Cama do casal"
+    },
+    {
+      "tipo": "criado",
+      "p": [
+        0.35,
+        0.4
+      ],
+      "rot": 0,
+      "w": 0.45,
+      "h": 0.55,
+      "d": 0.4,
+      "cor": "#8A5A3C",
+      "nome": "Criado 1"
+    },
+    {
+      "tipo": "criado",
+      "p": [
+        2.45,
+        0.4
+      ],
+      "rot": 0,
+      "w": 0.45,
+      "h": 0.55,
+      "d": 0.4,
+      "cor": "#8A5A3C",
+      "nome": "Criado 2"
+    },
+    {
+      "tipo": "guardaroupa",
+      "p": [
+        3.25,
+        1.15
+      ],
+      "rot": 3,
+      "w": 1.5,
+      "h": 2.35,
+      "d": 0.5,
+      "cor": "#7A4A30",
+      "nome": "Guarda-roupa do casal"
+    },
+    {
+      "tipo": "box",
+      "p": [
+        0.45,
+        3.5
+      ],
+      "rot": 1,
+      "w": 1.22,
+      "h": 2,
+      "d": 0.8,
+      "cor": "#DDE5E4",
+      "nome": "Box"
+    },
+    {
+      "tipo": "vaso",
+      "p": [
+        1.35,
+        3.25
+      ],
+      "rot": 0,
+      "w": 0.4,
+      "h": 0.8,
+      "d": 0.65,
+      "cor": "#F2F1EE",
+      "nome": "Vaso"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        1.95,
+        3.1
+      ],
+      "rot": 0,
+      "w": 0.55,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#F2F1EE",
+      "nome": "Lavatório"
+    },
+    {
+      "tipo": "cama",
+      "p": [
+        0.6,
+        5.35
+      ],
+      "rot": 0,
+      "w": 0.9,
+      "h": 0.95,
+      "d": 1.95,
+      "cor": "#E4E1DA",
+      "nome": "Cama do dormitório 02"
+    },
+    {
+      "tipo": "mesa",
+      "p": [
+        1.5,
+        6.15
+      ],
+      "rot": 2,
+      "w": 0.8,
+      "h": 0.74,
+      "d": 0.48,
+      "cor": "#8A5A3C",
+      "nome": "Escrivaninha"
+    },
+    {
+      "tipo": "guardaroupa",
+      "p": [
+        2.7,
+        6.15
+      ],
+      "rot": 2,
+      "w": 1.5,
+      "h": 2.35,
+      "d": 0.5,
+      "cor": "#7A4A30",
+      "nome": "Guarda-roupa do dormitório 02"
+    },
+    {
+      "tipo": "sofa",
+      "p": [
+        4.05,
+        0.95
+      ],
+      "rot": 1,
+      "w": 1.45,
+      "h": 0.8,
+      "d": 0.65,
+      "cor": "#CFC8BC",
+      "nome": "Sofá da varanda"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        6,
+        1.45
+      ],
+      "rot": 3,
+      "w": 0.6,
+      "h": 0.85,
+      "d": 0.55,
+      "cor": "#DADBD5",
+      "nome": "Tanque"
+    },
+    {
+      "tipo": "fogao",
+      "p": [
+        6,
+        2.3
+      ],
+      "rot": 3,
+      "w": 0.6,
+      "h": 0.92,
+      "d": 0.58,
+      "cor": "#5D6367",
+      "nome": "Cooktop"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        6,
+        3.25
+      ],
+      "rot": 3,
+      "w": 1.15,
+      "h": 0.92,
+      "d": 0.58,
+      "cor": "#C9C3BA",
+      "nome": "Bancada e cuba da cozinha"
+    },
+    {
+      "tipo": "geladeira",
+      "p": [
+        6,
+        4.3
+      ],
+      "rot": 3,
+      "w": 0.7,
+      "h": 1.78,
+      "d": 0.65,
+      "cor": "#D6D9DA",
+      "nome": "Geladeira"
+    },
+    {
+      "tipo": "mesa",
+      "p": [
+        4.3,
+        2.9
+      ],
+      "rot": 0,
+      "w": 1.2,
+      "h": 0.76,
+      "d": 0.75,
+      "cor": "#8A5A3C",
+      "nome": "Mesa de jantar"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        3.95,
+        2.4
+      ],
+      "rot": 0,
+      "w": 0.4,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#E8E6E1",
+      "nome": "Cadeira de jantar 1"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        4.6,
+        2.4
+      ],
+      "rot": 0,
+      "w": 0.4,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#E8E6E1",
+      "nome": "Cadeira de jantar 2"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        3.95,
+        3.35
+      ],
+      "rot": 2,
+      "w": 0.4,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#E8E6E1",
+      "nome": "Cadeira de jantar 3"
+    },
+    {
+      "tipo": "cadeira",
+      "p": [
+        4.6,
+        3.35
+      ],
+      "rot": 2,
+      "w": 0.4,
+      "h": 0.85,
+      "d": 0.4,
+      "cor": "#E8E6E1",
+      "nome": "Cadeira de jantar 4"
+    },
+    {
+      "tipo": "sofa",
+      "p": [
+        4.1,
+        5.35
+      ],
+      "rot": 1,
+      "w": 2,
+      "h": 0.8,
+      "d": 0.88,
+      "cor": "#E4E1DA",
+      "nome": "Sofá da sala"
+    },
+    {
+      "tipo": "rack",
+      "p": [
+        6.1,
+        5.6
+      ],
+      "rot": 3,
+      "w": 1.6,
+      "h": 0.7,
+      "d": 0.35,
+      "cor": "#8A5A3C",
+      "nome": "Rack da TV"
+    },
+    {
+      "tipo": "tapete",
+      "p": [
+        4.95,
+        5.45
+      ],
+      "rot": 0,
+      "w": 1.3,
+      "h": 0.02,
+      "d": 1.3,
+      "cor": "#DCD8D2",
+      "nome": "Tapete da sala"
+    }
+  ]
+}

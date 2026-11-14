@@ -1,0 +1,172 @@
+{
+  "canto": {
+    "size": [
+      1000,
+      1000
+    ],
+    "regions": [
+      [
+        738,
+        250,
+        61,
+        19
+      ],
+      [
+        758,
+        314,
+        64,
+        19
+      ],
+      [
+        758,
+        475,
+        65,
+        20
+      ],
+      [
+        629,
+        560,
+        78,
+        22
+      ],
+      [
+        478,
+        685,
+        82,
+        21
+      ],
+      [
+        363,
+        520,
+        75,
+        20
+      ],
+      [
+        362,
+        449,
+        79,
+        20
+      ],
+      [
+        289,
+        508,
+        64,
+        31
+      ],
+      [
+        213,
+        607,
+        45,
+        29
+      ],
+      [
+        349,
+        613,
+        65,
+        21
+      ]
+    ],
+    "editedPixels": 13087,
+    "originalSha256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971",
+    "englishSha256": "fbd93bd76fc8b19b3d265af9878af07b6a3b772a9d0089fc41ad76f69ac583aa",
+    "labels": [
+      "BALCONY",
+      "LAUNDRY",
+      "KITCHEN",
+      "DINING",
+      "LIVING ROOM",
+      "HALLWAY",
+      "BEDROOM 01",
+      "PRIMARY BEDROOM",
+      "EN SUITE",
+      "BATHROOM"
+    ],
+    "changedPixelsOutsideLabels": 0,
+    "changedPixelsInsideLabels": 13075
+  },
+  "meio": {
+    "size": [
+      1000,
+      1000
+    ],
+    "regions": [
+      [
+        149,
+        301,
+        60,
+        20
+      ],
+      [
+        148,
+        360,
+        65,
+        22
+      ],
+      [
+        149,
+        499,
+        64,
+        21
+      ],
+      [
+        249,
+        594,
+        75,
+        21
+      ],
+      [
+        384,
+        609,
+        82,
+        23
+      ],
+      [
+        526,
+        565,
+        75,
+        21
+      ],
+      [
+        514,
+        487,
+        82,
+        22
+      ],
+      [
+        689,
+        550,
+        72,
+        35
+      ],
+      [
+        650,
+        470,
+        47,
+        28
+      ],
+      [
+        571,
+        644,
+        75,
+        23
+      ]
+    ],
+    "editedPixels": 14549,
+    "originalSha256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
+    "englishSha256": "fe581d3fc409db854d8c24355f924445ba2649ef2c54491895682c59f077d9ef",
+    "labels": [
+      "BALCONY",
+      "LAUNDRY",
+      "KITCHEN",
+      "DINING",
+      "LIVING ROOM",
+      "HALLWAY",
+      "BEDROOM 01",
+      "PRIMARY BEDROOM",
+      "EN SUITE",
+      "BATHROOM"
+    ],
+    "changedPixelsOutsideLabels": 0,
+    "changedPixelsInsideLabels": 14536
+  }
+}

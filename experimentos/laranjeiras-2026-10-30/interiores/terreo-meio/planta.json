@@ -1,0 +1,35 @@
+{
+  "base": "meio",
+  "id": "laranjeiras-planta-meio-terreo",
+  "titulo": "Parque das Laranjeiras · planta térreo meio · até 54,17 m²",
+  "comparacao": {
+    "imagemTerreo": "../../../../plantas_fornecidas/parque-das-laranjeiras/fonte/planta-terreo-meio.jpg",
+    "imagemTerreoSha256": "c28e9e83b952f325eaed1f0eae81282e2f6e037e4a3b92be1006cdca962e2210",
+    "caixaTipoPx": [45, 78, 930, 1355],
+    "caixaTerreoPx": [268, 36, 1105, 1247],
+    "iouParedes": 0.702,
+    "imagem": "comparacao-tipo.png",
+    "leitura": "Paredes pretas coincidem; o bloco vermelho embaixo à esquerda é o recuo do dormitório casal, que no tipo é fundo preto e no térreo é jardim."
+  },
+  "jardim": {
+    "descricao": "Jardim privativo na lateral da varanda e dos dormitórios, entrando no recuo ao lado do dormitório casal; calçada junto às paredes.",
+    "poly_m": [[-1.58, 0.0], [0.0, 0.0], [0.0, 5.44], [0.6, 5.44], [0.6, 8.13], [-1.58, 8.13]],
+    "areaM2": 14.46,
+    "areaBookM2": 13.38,
+    "calcada_m": 0.45,
+    "referencial": "metros do traçado da base (mesma origem e eixos do unidade.json do meio)"
+  },
+  "ficha": {
+    "titulo": "Parque das Laranjeiras · planta térreo meio · até 54,17 m²",
+    "empreendimento": "Parque das Laranjeiras",
+    "area_publicada_max_m2": 54.17, "area_apartamento_max_m2": 40.79, "area_jardim_max_m2": 13.38,
+    "quartos": 2, "suites": 0, "banheiros": 1,
+    "observacao": "Reconstrução ilustrativa da planta térreo meio: o apartamento tipo meio mais o jardim privativo. O book diz 'de até', então o jardim varia por unidade; aqui está o maior."
+  },
+  "limites": [
+    "O apartamento é o mesmo traçado do tipo meio (comparacao-tipo.png); só o jardim é novo.",
+    "A área do jardim (54,17 - 40,79 = 13,38 m², no máximo) confere com o polígono medido na imagem (14,46 m² até a borda externa, contando parede).",
+    "O book diz 'de até 54,17 m²': o tamanho do jardim muda entre unidades do térreo e só o maior foi traçado.",
+    "O jardim fica registrado em referencia.json para a maquete externa; ele não vira cômodo, porque cômodo ganha parede de 2,60 m."
+  ]
+}

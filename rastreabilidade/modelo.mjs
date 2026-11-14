@@ -11,14 +11,22 @@ const digest=value=>createHash('sha256').update(value).digest('hex')
 const identifier=v=>typeof v==='string'&&/^[a-zA-Z0-9_-]{1,128}$/.test(v)
 const token=v=>typeof v==='string'&&/^[a-zA-Z0-9_-]{32}$/.test(v)
 const label=(value,fallback,max)=>typeof value==='string'&&value.trim()?value.trim().slice(0,max):fallback
+const interno=user=>['platform_admin','operator'].includes(user?.role)
+const responsavel=(user,agencyId)=>user?.active===true&&(interno(user)
+  ||(['agent','agency_manager'].includes(user.role)&&user.agencyId===agencyId))
 function campos(input,allowed,required=allowed){
   if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!allowed.includes(k))
     ||required.some(k=>input[k]===undefined))throw erro(400,'Campos inválidos.')
 }
 
-export function criarServicoRastreabilidade({db,secret,publicOrigin,now=Date.now}){
+export function criarServicoRastreabilidade({db,secret,publicOrigin,publications={},now=Date.now}){
   if(typeof secret!=='string'||Buffer.byteLength(secret)<32)throw Error('Configure segredo de rastreabilidade com pelo menos 32 bytes.')
   if(!publicOrigin||new URL(publicOrigin).origin!==publicOrigin||!['http:','https:'].includes(new URL(publicOrigin).protocol))throw Error('Configure a origem pública exata.')
+  const registered=new Map(Object.entries(publications).map(([id,p])=>{
+    if(!identifier(id)||!p||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.pipelineUnitId??'')
+      ||p.pipelineUnitId.length>128||!/^[0-9a-f]{12}$/.test(p.publishedBuild??''))throw Error('Publicação registrada inválida.')
+    return [id,{pipelineUnitId:p.pipelineUnitId,publishedBuild:p.publishedBuild}]
+  }))
   const date=()=>new Date(now()),ref=(collection,id)=>db.doc(collection+'/'+id)
   const shareUrl=id=>publicOrigin+'/acesso.html?l='+id+'&pagina=maquete'
   const wireLink=link=>({id:link.id,propertyId:link.propertyId,agencyId:link.agencyId,brokerUid:link.brokerUid,
@@ -33,9 +41,9 @@ export function criarServicoRastreabilidade({db,secret,publicOrigin,now=Date.now
     if(agency?.active!==true)throw erro(403,'Agência inativa.')
     return {user,property}
   }
-  async function corretor(get,brokerUid,agencyId){
+  async function corretor(get,brokerUid,agencyId,allowInternal=true){
     const user=(await get(ref('users',brokerUid))).data()
-    if(user?.active!==true||user.role!=='agent'||user.agencyId!==agencyId)throw erro(403,'Corretor não pertence à agência ativa.')
+    if(!responsavel(user,agencyId)||(!allowInternal&&interno(user)))throw erro(403,'Responsável não autorizado para este imóvel.')
     return user
   }
   const read=r=>r.get()
@@ -47,7 +55,7 @@ export function criarServicoRastreabilidade({db,secret,publicOrigin,now=Date.now
       const get=r=>tx.get(r),{user,property}=await contexto(get,uid,input.propertyId)
       const brokerUid=input.brokerUid??uid
       if(user.role==='agent'&&brokerUid!==uid)throw erro(403,'Corretor gerencia somente seus links.')
-      const broker=await corretor(get,brokerUid,property.agencyId)
+      const broker=await corretor(get,brokerUid,property.agencyId,interno(user))
       const payloadHash=digest(JSON.stringify([input.propertyId,brokerUid])),attempt=(await get(attemptRef)).data()
       if(attempt){
         if(attempt.payloadHash!==payloadHash)throw erro(409,'Tentativa reutilizada com outro conteúdo.')
@@ -112,9 +120,13 @@ export function criarServicoRastreabilidade({db,secret,publicOrigin,now=Date.now
     if(!link||!current)throw erro(410,'Link indisponível.','LINK_DISABLED')
     const [propertySnap,brokerSnap,agencySnap]=await Promise.all([
       get(ref('properties',link.propertyId)),get(ref('users',link.brokerUid)),get(ref('agencies',link.agencyId))])
-    const property=propertySnap.data(),broker=brokerSnap.data(),agency=agencySnap.data()
+    let property=propertySnap.data()
+    const broker=brokerSnap.data(),agency=agencySnap.data()
+    // Publicações avulsas aprovadas no servidor, sem aceitar destinos do cliente.
+    if(property&&property.pipelineUnitId==null&&property.publishedBuild==null&&registered.has(link.propertyId))
+      property={...property,...registered.get(link.propertyId)}
     if(property?.status!=='active'||property.agencyId!==link.agencyId||agency?.active!==true
-      ||broker?.active!==true||broker.role!=='agent'||broker.agencyId!==link.agencyId
+      ||!responsavel(broker,link.agencyId)
       ||typeof property.pipelineUnitId!=='string'||property.pipelineUnitId.length>128||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(property.pipelineUnitId)
       ||!/^[0-9a-f]{12}$/.test(property.publishedBuild??''))
       throw erro(410,'Publicação indisponível.','LINK_DISABLED')

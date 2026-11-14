@@ -1,0 +1,21 @@
+# Versionado: codigo, documentos, a referencia, medidas, o pacote web atual (web-solteiro-bn) e as
+# imagens que os documentos citam. O resto e regeneravel (cena.py/assa.py no Blender, prep_*.py) e pesado.
+*.blend
+*.exr
+_cache_br_*/
+tex/
+assado*/
+web-solteiro/
+web-solteiro-v2/
+*_log.txt
+*.png
+!evolucao.webp
+!comp_r6c.webp
+!comp3_t3.webp
+!zoom3_tampo.webp
+!zoom_tampo_r6.webp
+!zoom_trav_p3.webp
+fotos/*
+!fotos/niveis-perto-recorte.webp
+!fotos/niveis-quarto.webp
+!fotos/v5-x-v6-perto.webp

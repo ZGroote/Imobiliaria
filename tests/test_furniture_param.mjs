@@ -106,8 +106,37 @@ test('parametric part lists and merged buffers match the monolith across measure
           }
   assert.equal(cases, NAMES.length * 280);
   assert.ok(b.sofaParam({w: 3.2, h: 0.8, d: 0.9}).length > 2, 'sofa uses the real library modules');
+  const estilo = Object.keys(pecas).find(k => k.startsWith('sofa_mod_')).slice('sofa_mod_'.length);
+  assert.deepEqual(new Set(b.sofaParam({w: 2, h: 0.8, d: 0.92, estilo}).map(p => p.malha)),
+                   new Set(['sofa_mod_' + estilo, 'sofa_braco_' + estilo]), 'estilo picks its own pair');
+  assert.deepEqual(b.sofaParam({w: 2, h: 0.8, d: 0.92, estilo: 'nao-existe'}),
+                   b.sofaParam({w: 2, h: 0.8, d: 0.92}), 'unknown estilo falls back to the default pair');
   // Sem isto o teste passaria também se `incoerentes` estivesse quebrada e devolvesse
   // 0 sempre: o monólito TEM o defeito, e medi-lo prova que a sonda enxerga.
   assert.ok(incoerentesNoMonolito > 0,
             'o monólito deveria ter faces com volta invertida -- a sonda não está medindo');
+});
+
+test('layout automático exporta a largura que cada estilo de sofá renderiza', () => {
+  const codigo = `import json
+from pipeline.mobiliar import mobilia, estilos_sofa
+saida = []
+for estilo in estilos_sofa() + ['nao-existe']:
+    unidade = {'id': '2', 'planta': {'estilo_sofa': estilo, 'comodos': [
+        {'nome': 'sala', 'poly': [[0, 0], [4.5, 0], [4.5, 3.6], [0, 3.6]], 'area': 16.2}]}}
+    saida.extend(m for m in mobilia(unidade)[0] if m['tipo'] == 'sofa')
+print(json.dumps(saida))`;
+  const moveis = JSON.parse(execFileSync('python', ['-c', codigo], {cwd: root, encoding: 'utf8'}));
+  const b = modular();
+  assert.equal(moveis.length, 2 * (Object.keys(pecas).filter(k => k.startsWith('sofa_mod_')).length + 1));
+  for (const m of moveis) {
+    const g = b.geoDeParts(b.sofaParam(m), 0xCFC6B8);
+    g.computeBoundingBox();
+    const largura = g.boundingBox.max.x - g.boundingBox.min.x;
+    assert.ok(Math.abs(m.w - largura) < 1e-5, `${m.estilo}: exportou ${m.w}, renderizou ${largura}`);
+    const w = m.rot % 2 ? m.d : largura, d = m.rot % 2 ? largura : m.d;
+    assert.ok(m.p[0] - w / 2 >= 0.065 && m.p[0] + w / 2 <= 4.5 - 0.065);
+    assert.ok(m.p[1] - d / 2 >= 0.065 && m.p[1] + d / 2 <= 3.6 - 0.065);
+    g.dispose();
+  }
 });

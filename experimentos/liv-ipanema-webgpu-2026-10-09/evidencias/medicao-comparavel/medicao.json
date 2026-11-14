@@ -1,0 +1,1882 @@
+{
+  "recordedAtUtc": "2026-10-09T19:53:26.155913+00:00",
+  "status": "PASS",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "headless": true,
+  "physicalMobile": false,
+  "viewport": [
+    1440,
+    900
+  ],
+  "network": "loopback sem compressão HTTP; recursos .gz já comprimidos no arquivo",
+  "execution": "sequencial, sem outros QAs em execução",
+  "limits": "Contexto novo para cache HTTP frio; caches do driver não controlados. Canvas da interface pode diferir; cadência de submissão não é tempo GPU.",
+  "sourceSHA256": {
+    "renderer.js": "a57787f5de1ee1d1ca59de3812f5e2dc17607b4e85c71f90b2974bcdfd9a9046",
+    "viewer.js": "8efb7c84e661f210bad29aaf6b931e154ac093a6d9340f62248f538740af0c27",
+    "maquete-liv-ipanema.html": "7f34f32474d123d4df3435f176b0884c865876f2a9b3ccf308edabe521d992d9"
+  },
+  "rounds": [
+    {
+      "variant": "base",
+      "round": 1,
+      "phases": {
+        "cold": {
+          "readyMs": 2314.899999976158,
+          "metrics": {
+            "renderSubmissions": 241,
+            "sampleMs": 4003.899999976158,
+            "intervalP50Ms": 16.699999928474426,
+            "intervalP95Ms": 17,
+            "cpuSubmitP50Ms": 0.6000000238418579,
+            "cpuSubmitP95Ms": 0.8999999761581421,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              720,
+              390
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "frame": 279,
+              "calls": 56,
+              "triangles": 441621,
+              "points": 0,
+              "lines": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+              "encodedBytes": 38378801,
+              "decodedBytes": 38378801,
+              "transferBytes": 38379101,
+              "type": "navigation"
+            }
+          ],
+          "encodedBodyBytes": 38378801,
+          "transferBytes": 38379101
+        },
+        "warm": {
+          "readyMs": 1268.5999999046326,
+          "metrics": {
+            "renderSubmissions": 240,
+            "sampleMs": 4003.7999999523163,
+            "intervalP50Ms": 16.699999928474426,
+            "intervalP95Ms": 17,
+            "cpuSubmitP50Ms": 0.6000000238418579,
+            "cpuSubmitP95Ms": 0.8000000715255737,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              720,
+              390
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "frame": 279,
+              "calls": 56,
+              "triangles": 441621,
+              "points": 0,
+              "lines": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+              "encodedBytes": 38378801,
+              "decodedBytes": 38378801,
+              "transferBytes": 38379101,
+              "type": "navigation"
+            }
+          ],
+          "encodedBodyBytes": 38378801,
+          "transferBytes": 38379101
+        }
+      }
+    },
+    {
+      "variant": "base",
+      "round": 2,
+      "phases": {
+        "cold": {
+          "readyMs": 1451.2000000476837,
+          "metrics": {
+            "renderSubmissions": 241,
+            "sampleMs": 4008.1999999284744,
+            "intervalP50Ms": 16.699999928474426,
+            "intervalP95Ms": 17,
+            "cpuSubmitP50Ms": 0.6000000238418579,
+            "cpuSubmitP95Ms": 0.8999999761581421,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              720,
+              390
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "frame": 278,
+              "calls": 56,
+              "triangles": 441621,
+              "points": 0,
+              "lines": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+              "encodedBytes": 38378801,
+              "decodedBytes": 38378801,
+              "transferBytes": 38379101,
+              "type": "navigation"
+            }
+          ],
+          "encodedBodyBytes": 38378801,
+          "transferBytes": 38379101
+        },
+        "warm": {
+          "readyMs": 1291.7999999523163,
+          "metrics": {
+            "renderSubmissions": 241,
+            "sampleMs": 4013.2000000476837,
+            "intervalP50Ms": 16.699999928474426,
+            "intervalP95Ms": 17,
+            "cpuSubmitP50Ms": 0.6000000238418579,
+            "cpuSubmitP95Ms": 0.8999999761581421,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              720,
+              390
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "frame": 280,
+              "calls": 56,
+              "triangles": 441621,
+              "points": 0,
+              "lines": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+              "encodedBytes": 38378801,
+              "decodedBytes": 38378801,
+              "transferBytes": 38379101,
+              "type": "navigation"
+            }
+          ],
+          "encodedBodyBytes": 38378801,
+          "transferBytes": 38379101
+        }
+      }
+    },
+    {
+      "variant": "base",
+      "round": 3,
+      "phases": {
+        "cold": {
+          "readyMs": 1433.1000000238419,
+          "metrics": {
+            "renderSubmissions": 240,
+            "sampleMs": 4011,
+            "intervalP50Ms": 16.699999928474426,
+            "intervalP95Ms": 17,
+            "cpuSubmitP50Ms": 0.6000000238418579,
+            "cpuSubmitP95Ms": 0.8999999761581421,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              720,
+              390
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "frame": 278,
+              "calls": 56,
+              "triangles": 441621,
+              "points": 0,
+              "lines": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+              "encodedBytes": 38378801,
+              "decodedBytes": 38378801,
+              "transferBytes": 38379101,
+              "type": "navigation"
+            }
+          ],
+          "encodedBodyBytes": 38378801,
+          "transferBytes": 38379101
+        },
+        "warm": {
+          "readyMs": 1255.2999999523163,
+          "metrics": {
+            "renderSubmissions": 240,
+            "sampleMs": 4002.6999999284744,
+            "intervalP50Ms": 16.600000023841858,
+            "intervalP95Ms": 17,
+            "cpuSubmitP50Ms": 0.6000000238418579,
+            "cpuSubmitP95Ms": 0.8999999761581421,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              720,
+              390
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "frame": 279,
+              "calls": 56,
+              "triangles": 441621,
+              "points": 0,
+              "lines": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+              "encodedBytes": 38378801,
+              "decodedBytes": 38378801,
+              "transferBytes": 38379101,
+              "type": "navigation"
+            }
+          ],
+          "encodedBodyBytes": 38378801,
+          "transferBytes": 38379101
+        }
+      }
+    },
+    {
+      "variant": "webgl",
+      "round": 1,
+      "phases": {
+        "cold": {
+          "readyMs": 5712.800000071526,
+          "metrics": {
+            "renderSubmissions": 482,
+            "sampleMs": 4014.600000023842,
+            "intervalP50Ms": 0.5,
+            "intervalP95Ms": 16.700000047683716,
+            "cpuSubmitP50Ms": 1.399999976158142,
+            "cpuSubmitP95Ms": 2.6999999284744263,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              920,
+              556
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "calls": 775,
+              "frameCalls": 8,
+              "drawCalls": 283,
+              "triangles": 2208108,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?backend=webgl",
+              "encodedBytes": 4788,
+              "decodedBytes": 4788,
+              "transferBytes": 5088,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+              "encodedBytes": 10293,
+              "decodedBytes": 10293,
+              "transferBytes": 10593,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html?embed=1&backend=webgl",
+              "encodedBytes": 2459,
+              "decodedBytes": 2459,
+              "transferBytes": 2759,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+              "encodedBytes": 20145,
+              "decodedBytes": 20145,
+              "transferBytes": 20445,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+              "encodedBytes": 40755,
+              "decodedBytes": 40755,
+              "transferBytes": 41055,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+              "encodedBytes": 2284850,
+              "decodedBytes": 2284850,
+              "transferBytes": 2285150,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+              "encodedBytes": 1991,
+              "decodedBytes": 1991,
+              "transferBytes": 2291,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+              "encodedBytes": 36854,
+              "decodedBytes": 36854,
+              "transferBytes": 37154,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+              "encodedBytes": 1458113,
+              "decodedBytes": 1458113,
+              "transferBytes": 1458413,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json",
+              "encodedBytes": 1313,
+              "decodedBytes": 1313,
+              "transferBytes": 1613,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/scene.json.gz?v=9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+              "encodedBytes": 7063805,
+              "decodedBytes": 7063805,
+              "transferBytes": 7064105,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/irradiance.rgbm.gz?v=ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+              "encodedBytes": 13023696,
+              "decodedBytes": 13023696,
+              "transferBytes": 13023996,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-00.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 21967,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-01.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 21967,
+              "type": "fetch"
+            }
+          ],
+          "encodedBodyBytes": 23992396,
+          "transferBytes": 23996596
+        },
+        "warm": {
+          "readyMs": 2184.600000023842,
+          "metrics": {
+            "renderSubmissions": 482,
+            "sampleMs": 4010.3000000715256,
+            "intervalP50Ms": 0.5,
+            "intervalP95Ms": 16.700000047683716,
+            "cpuSubmitP50Ms": 1.600000023841858,
+            "cpuSubmitP95Ms": 2.8000000715255737,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              920,
+              556
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "calls": 775,
+              "frameCalls": 8,
+              "drawCalls": 283,
+              "triangles": 2208108,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?backend=webgl",
+              "encodedBytes": 4788,
+              "decodedBytes": 4788,
+              "transferBytes": 300,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+              "encodedBytes": 10293,
+              "decodedBytes": 10293,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html?embed=1&backend=webgl",
+              "encodedBytes": 2459,
+              "decodedBytes": 2459,
+              "transferBytes": 0,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+              "encodedBytes": 0,
+              "decodedBytes": 0,
+              "transferBytes": 300,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+              "encodedBytes": 2284850,
+              "decodedBytes": 2284850,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+              "encodedBytes": 40755,
+              "decodedBytes": 40755,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+              "encodedBytes": 1991,
+              "decodedBytes": 1991,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+              "encodedBytes": 1458113,
+              "decodedBytes": 1458113,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+              "encodedBytes": 36854,
+              "decodedBytes": 36854,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json",
+              "encodedBytes": 1313,
+              "decodedBytes": 1313,
+              "transferBytes": 300,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/scene.json.gz?v=9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+              "encodedBytes": 7063805,
+              "decodedBytes": 7063805,
+              "transferBytes": 7064105,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/irradiance.rgbm.gz?v=ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+              "encodedBytes": 13023696,
+              "decodedBytes": 13023696,
+              "transferBytes": 13023996,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-00.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 0,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-01.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 0,
+              "type": "fetch"
+            }
+          ],
+          "encodedBodyBytes": 23972251,
+          "transferBytes": 20089001
+        }
+      }
+    },
+    {
+      "variant": "webgl",
+      "round": 2,
+      "phases": {
+        "cold": {
+          "readyMs": 2364.100000023842,
+          "metrics": {
+            "renderSubmissions": 482,
+            "sampleMs": 4022.899999976158,
+            "intervalP50Ms": 0.5999999046325684,
+            "intervalP95Ms": 16.700000047683716,
+            "cpuSubmitP50Ms": 1.399999976158142,
+            "cpuSubmitP95Ms": 2.5999999046325684,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              920,
+              556
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "calls": 778,
+              "frameCalls": 8,
+              "drawCalls": 283,
+              "triangles": 2208108,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?backend=webgl",
+              "encodedBytes": 4788,
+              "decodedBytes": 4788,
+              "transferBytes": 5088,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+              "encodedBytes": 10293,
+              "decodedBytes": 10293,
+              "transferBytes": 10593,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html?embed=1&backend=webgl",
+              "encodedBytes": 2459,
+              "decodedBytes": 2459,
+              "transferBytes": 2759,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+              "encodedBytes": 20145,
+              "decodedBytes": 20145,
+              "transferBytes": 20445,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+              "encodedBytes": 1991,
+              "decodedBytes": 1991,
+              "transferBytes": 2291,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+              "encodedBytes": 40755,
+              "decodedBytes": 40755,
+              "transferBytes": 41055,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+              "encodedBytes": 2284850,
+              "decodedBytes": 2284850,
+              "transferBytes": 2285150,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+              "encodedBytes": 36854,
+              "decodedBytes": 36854,
+              "transferBytes": 37154,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+              "encodedBytes": 1458113,
+              "decodedBytes": 1458113,
+              "transferBytes": 1458413,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json",
+              "encodedBytes": 1313,
+              "decodedBytes": 1313,
+              "transferBytes": 1613,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/scene.json.gz?v=9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+              "encodedBytes": 7063805,
+              "decodedBytes": 7063805,
+              "transferBytes": 7064105,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/irradiance.rgbm.gz?v=ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+              "encodedBytes": 13023696,
+              "decodedBytes": 13023696,
+              "transferBytes": 13023996,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-00.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 21967,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-01.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 21967,
+              "type": "fetch"
+            }
+          ],
+          "encodedBodyBytes": 23992396,
+          "transferBytes": 23996596
+        },
+        "warm": {
+          "readyMs": 2159.399999976158,
+          "metrics": {
+            "renderSubmissions": 480,
+            "sampleMs": 4014.3000000715256,
+            "intervalP50Ms": 0.5,
+            "intervalP95Ms": 16.699999928474426,
+            "cpuSubmitP50Ms": 1.6999999284744263,
+            "cpuSubmitP95Ms": 2.899999976158142,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              920,
+              556
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "calls": 778,
+              "frameCalls": 8,
+              "drawCalls": 283,
+              "triangles": 2208108,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?backend=webgl",
+              "encodedBytes": 4788,
+              "decodedBytes": 4788,
+              "transferBytes": 300,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+              "encodedBytes": 10293,
+              "decodedBytes": 10293,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html?embed=1&backend=webgl",
+              "encodedBytes": 2459,
+              "decodedBytes": 2459,
+              "transferBytes": 0,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+              "encodedBytes": 20145,
+              "decodedBytes": 20145,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+              "encodedBytes": 2284850,
+              "decodedBytes": 2284850,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+              "encodedBytes": 40755,
+              "decodedBytes": 40755,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+              "encodedBytes": 1991,
+              "decodedBytes": 1991,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+              "encodedBytes": 1458113,
+              "decodedBytes": 1458113,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+              "encodedBytes": 36854,
+              "decodedBytes": 36854,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json",
+              "encodedBytes": 1313,
+              "decodedBytes": 1313,
+              "transferBytes": 300,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/scene.json.gz?v=9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+              "encodedBytes": 7063805,
+              "decodedBytes": 7063805,
+              "transferBytes": 7064105,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/irradiance.rgbm.gz?v=ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+              "encodedBytes": 13023696,
+              "decodedBytes": 13023696,
+              "transferBytes": 13023996,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-00.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 0,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-01.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 0,
+              "type": "fetch"
+            }
+          ],
+          "encodedBodyBytes": 23992396,
+          "transferBytes": 20088701
+        }
+      }
+    },
+    {
+      "variant": "webgl",
+      "round": 3,
+      "phases": {
+        "cold": {
+          "readyMs": 2425.899999976158,
+          "metrics": {
+            "renderSubmissions": 482,
+            "sampleMs": 4020.2999999523163,
+            "intervalP50Ms": 0.6000000238418579,
+            "intervalP95Ms": 16.799999952316284,
+            "cpuSubmitP50Ms": 1.5,
+            "cpuSubmitP95Ms": 2.600000023841858,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              920,
+              556
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "calls": 778,
+              "frameCalls": 8,
+              "drawCalls": 283,
+              "triangles": 2208108,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?backend=webgl",
+              "encodedBytes": 4788,
+              "decodedBytes": 4788,
+              "transferBytes": 5088,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+              "encodedBytes": 10293,
+              "decodedBytes": 10293,
+              "transferBytes": 10593,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html?embed=1&backend=webgl",
+              "encodedBytes": 2459,
+              "decodedBytes": 2459,
+              "transferBytes": 2759,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+              "encodedBytes": 20145,
+              "decodedBytes": 20145,
+              "transferBytes": 20445,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+              "encodedBytes": 2284850,
+              "decodedBytes": 2284850,
+              "transferBytes": 2285150,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+              "encodedBytes": 1991,
+              "decodedBytes": 1991,
+              "transferBytes": 2291,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+              "encodedBytes": 40755,
+              "decodedBytes": 40755,
+              "transferBytes": 41055,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+              "encodedBytes": 36854,
+              "decodedBytes": 36854,
+              "transferBytes": 37154,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+              "encodedBytes": 1458113,
+              "decodedBytes": 1458113,
+              "transferBytes": 1458413,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json",
+              "encodedBytes": 1313,
+              "decodedBytes": 1313,
+              "transferBytes": 1613,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/scene.json.gz?v=9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+              "encodedBytes": 7063805,
+              "decodedBytes": 7063805,
+              "transferBytes": 7064105,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/irradiance.rgbm.gz?v=ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+              "encodedBytes": 13023696,
+              "decodedBytes": 13023696,
+              "transferBytes": 13023996,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-00.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 21967,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-01.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 21967,
+              "type": "fetch"
+            }
+          ],
+          "encodedBodyBytes": 23992396,
+          "transferBytes": 23996596
+        },
+        "warm": {
+          "readyMs": 2195.1999999284744,
+          "metrics": {
+            "renderSubmissions": 480,
+            "sampleMs": 4018.600000023842,
+            "intervalP50Ms": 0.5,
+            "intervalP95Ms": 16.799999952316284,
+            "cpuSubmitP50Ms": 1.6999999284744263,
+            "cpuSubmitP95Ms": 2.799999952316284,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              920,
+              556
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "calls": 775,
+              "frameCalls": 8,
+              "drawCalls": 283,
+              "triangles": 2208108,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?backend=webgl",
+              "encodedBytes": 4788,
+              "decodedBytes": 4788,
+              "transferBytes": 300,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+              "encodedBytes": 10293,
+              "decodedBytes": 10293,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html?embed=1&backend=webgl",
+              "encodedBytes": 2459,
+              "decodedBytes": 2459,
+              "transferBytes": 0,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+              "encodedBytes": 20145,
+              "decodedBytes": 20145,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+              "encodedBytes": 2284850,
+              "decodedBytes": 2284850,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+              "encodedBytes": 40755,
+              "decodedBytes": 40755,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+              "encodedBytes": 1991,
+              "decodedBytes": 1991,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+              "encodedBytes": 1458113,
+              "decodedBytes": 1458113,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+              "encodedBytes": 36854,
+              "decodedBytes": 36854,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json",
+              "encodedBytes": 1313,
+              "decodedBytes": 1313,
+              "transferBytes": 300,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/scene.json.gz?v=9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+              "encodedBytes": 7063805,
+              "decodedBytes": 7063805,
+              "transferBytes": 7064105,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/irradiance.rgbm.gz?v=ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+              "encodedBytes": 13023696,
+              "decodedBytes": 13023696,
+              "transferBytes": 13023996,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-00.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 0,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-01.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 0,
+              "type": "fetch"
+            }
+          ],
+          "encodedBodyBytes": 23992396,
+          "transferBytes": 20088701
+        }
+      }
+    },
+    {
+      "variant": "webgpu",
+      "round": 1,
+      "phases": {
+        "cold": {
+          "readyMs": 3006.3000000715256,
+          "metrics": {
+            "renderSubmissions": 480,
+            "sampleMs": 4015.899999976158,
+            "intervalP50Ms": 0.5,
+            "intervalP95Ms": 16.700000047683716,
+            "cpuSubmitP50Ms": 1.1999999284744263,
+            "cpuSubmitP95Ms": 2.299999952316284,
+            "backend": "webgpu",
+            "gpu": {
+              "vendor": "nvidia",
+              "architecture": "turing",
+              "isFallbackAdapter": false
+            },
+            "webglRenderer": null,
+            "canvas": [
+              920,
+              556
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "calls": 778,
+              "frameCalls": 8,
+              "drawCalls": 283,
+              "triangles": 2208108,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?backend=webgpu",
+              "encodedBytes": 4788,
+              "decodedBytes": 4788,
+              "transferBytes": 5088,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+              "encodedBytes": 10293,
+              "decodedBytes": 10293,
+              "transferBytes": 10593,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html?embed=1&backend=webgpu",
+              "encodedBytes": 2459,
+              "decodedBytes": 2459,
+              "transferBytes": 2759,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+              "encodedBytes": 20145,
+              "decodedBytes": 20145,
+              "transferBytes": 20445,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+              "encodedBytes": 40755,
+              "decodedBytes": 40755,
+              "transferBytes": 41055,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+              "encodedBytes": 2284850,
+              "decodedBytes": 2284850,
+              "transferBytes": 2285150,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+              "encodedBytes": 1991,
+              "decodedBytes": 1991,
+              "transferBytes": 2291,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+              "encodedBytes": 36854,
+              "decodedBytes": 36854,
+              "transferBytes": 37154,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+              "encodedBytes": 1458113,
+              "decodedBytes": 1458113,
+              "transferBytes": 1458413,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json",
+              "encodedBytes": 1313,
+              "decodedBytes": 1313,
+              "transferBytes": 1613,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/scene.json.gz?v=9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+              "encodedBytes": 7063805,
+              "decodedBytes": 7063805,
+              "transferBytes": 7064105,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/irradiance.rgbm.gz?v=ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+              "encodedBytes": 13023696,
+              "decodedBytes": 13023696,
+              "transferBytes": 13023996,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-00.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 21967,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-01.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 21967,
+              "type": "fetch"
+            }
+          ],
+          "encodedBodyBytes": 23992396,
+          "transferBytes": 23996596
+        },
+        "warm": {
+          "readyMs": 2736.2999999523163,
+          "metrics": {
+            "renderSubmissions": 480,
+            "sampleMs": 4014.2999999523163,
+            "intervalP50Ms": 0.5,
+            "intervalP95Ms": 16.799999952316284,
+            "cpuSubmitP50Ms": 1.3000000715255737,
+            "cpuSubmitP95Ms": 2.3000000715255737,
+            "backend": "webgpu",
+            "gpu": {
+              "vendor": "nvidia",
+              "architecture": "turing",
+              "isFallbackAdapter": false
+            },
+            "webglRenderer": null,
+            "canvas": [
+              920,
+              556
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "calls": 778,
+              "frameCalls": 8,
+              "drawCalls": 283,
+              "triangles": 2208108,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?backend=webgpu",
+              "encodedBytes": 4788,
+              "decodedBytes": 4788,
+              "transferBytes": 300,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+              "encodedBytes": 10293,
+              "decodedBytes": 10293,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html?embed=1&backend=webgpu",
+              "encodedBytes": 2459,
+              "decodedBytes": 2459,
+              "transferBytes": 0,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+              "encodedBytes": 20145,
+              "decodedBytes": 20145,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+              "encodedBytes": 2284850,
+              "decodedBytes": 2284850,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+              "encodedBytes": 40755,
+              "decodedBytes": 40755,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+              "encodedBytes": 1991,
+              "decodedBytes": 1991,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+              "encodedBytes": 1458113,
+              "decodedBytes": 1458113,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+              "encodedBytes": 36854,
+              "decodedBytes": 36854,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json",
+              "encodedBytes": 1313,
+              "decodedBytes": 1313,
+              "transferBytes": 300,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/scene.json.gz?v=9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+              "encodedBytes": 7063805,
+              "decodedBytes": 7063805,
+              "transferBytes": 7064105,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/irradiance.rgbm.gz?v=ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+              "encodedBytes": 13023696,
+              "decodedBytes": 13023696,
+              "transferBytes": 13023996,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-00.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 0,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-01.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 0,
+              "type": "fetch"
+            }
+          ],
+          "encodedBodyBytes": 23992396,
+          "transferBytes": 20088701
+        }
+      }
+    },
+    {
+      "variant": "webgpu",
+      "round": 2,
+      "phases": {
+        "cold": {
+          "readyMs": 2953.0999999046326,
+          "metrics": {
+            "renderSubmissions": 480,
+            "sampleMs": 4018.7000000476837,
+            "intervalP50Ms": 0.6000000238418579,
+            "intervalP95Ms": 16.700000047683716,
+            "cpuSubmitP50Ms": 1.2999999523162842,
+            "cpuSubmitP95Ms": 2.399999976158142,
+            "backend": "webgpu",
+            "gpu": {
+              "vendor": "nvidia",
+              "architecture": "turing",
+              "isFallbackAdapter": false
+            },
+            "webglRenderer": null,
+            "canvas": [
+              920,
+              556
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "calls": 778,
+              "frameCalls": 8,
+              "drawCalls": 283,
+              "triangles": 2208108,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?backend=webgpu",
+              "encodedBytes": 4788,
+              "decodedBytes": 4788,
+              "transferBytes": 5088,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+              "encodedBytes": 10293,
+              "decodedBytes": 10293,
+              "transferBytes": 10593,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html?embed=1&backend=webgpu",
+              "encodedBytes": 2459,
+              "decodedBytes": 2459,
+              "transferBytes": 2759,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+              "encodedBytes": 20145,
+              "decodedBytes": 20145,
+              "transferBytes": 20445,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+              "encodedBytes": 2284850,
+              "decodedBytes": 2284850,
+              "transferBytes": 2285150,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+              "encodedBytes": 1991,
+              "decodedBytes": 1991,
+              "transferBytes": 2291,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+              "encodedBytes": 40755,
+              "decodedBytes": 40755,
+              "transferBytes": 41055,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+              "encodedBytes": 36854,
+              "decodedBytes": 36854,
+              "transferBytes": 37154,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+              "encodedBytes": 1458113,
+              "decodedBytes": 1458113,
+              "transferBytes": 1458413,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json",
+              "encodedBytes": 1313,
+              "decodedBytes": 1313,
+              "transferBytes": 1613,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/scene.json.gz?v=9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+              "encodedBytes": 7063805,
+              "decodedBytes": 7063805,
+              "transferBytes": 7064105,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/irradiance.rgbm.gz?v=ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+              "encodedBytes": 13023696,
+              "decodedBytes": 13023696,
+              "transferBytes": 13023996,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-00.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 21967,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-01.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 21967,
+              "type": "fetch"
+            }
+          ],
+          "encodedBodyBytes": 23992396,
+          "transferBytes": 23996596
+        },
+        "warm": {
+          "readyMs": 2741.600000023842,
+          "metrics": {
+            "renderSubmissions": 482,
+            "sampleMs": 4016.7000000476837,
+            "intervalP50Ms": 0.5,
+            "intervalP95Ms": 16.699999928474426,
+            "cpuSubmitP50Ms": 1.2000000476837158,
+            "cpuSubmitP95Ms": 2.200000047683716,
+            "backend": "webgpu",
+            "gpu": {
+              "vendor": "nvidia",
+              "architecture": "turing",
+              "isFallbackAdapter": false
+            },
+            "webglRenderer": null,
+            "canvas": [
+              920,
+              556
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "calls": 778,
+              "frameCalls": 8,
+              "drawCalls": 283,
+              "triangles": 2208108,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?backend=webgpu",
+              "encodedBytes": 4788,
+              "decodedBytes": 4788,
+              "transferBytes": 300,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+              "encodedBytes": 10293,
+              "decodedBytes": 10293,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html?embed=1&backend=webgpu",
+              "encodedBytes": 2459,
+              "decodedBytes": 2459,
+              "transferBytes": 0,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+              "encodedBytes": 20145,
+              "decodedBytes": 20145,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+              "encodedBytes": 2284850,
+              "decodedBytes": 2284850,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+              "encodedBytes": 40755,
+              "decodedBytes": 40755,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+              "encodedBytes": 1991,
+              "decodedBytes": 1991,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+              "encodedBytes": 1458113,
+              "decodedBytes": 1458113,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+              "encodedBytes": 36854,
+              "decodedBytes": 36854,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json",
+              "encodedBytes": 1313,
+              "decodedBytes": 1313,
+              "transferBytes": 300,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/scene.json.gz?v=9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+              "encodedBytes": 7063805,
+              "decodedBytes": 7063805,
+              "transferBytes": 7064105,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/irradiance.rgbm.gz?v=ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+              "encodedBytes": 13023696,
+              "decodedBytes": 13023696,
+              "transferBytes": 13023996,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-00.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 0,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-01.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 0,
+              "type": "fetch"
+            }
+          ],
+          "encodedBodyBytes": 23992396,
+          "transferBytes": 20088701
+        }
+      }
+    },
+    {
+      "variant": "webgpu",
+      "round": 3,
+      "phases": {
+        "cold": {
+          "readyMs": 3181,
+          "metrics": {
+            "renderSubmissions": 482,
+            "sampleMs": 4022.899999976158,
+            "intervalP50Ms": 0.7000000476837158,
+            "intervalP95Ms": 16.699999928474426,
+            "cpuSubmitP50Ms": 1.3000000715255737,
+            "cpuSubmitP95Ms": 2.200000047683716,
+            "backend": "webgpu",
+            "gpu": {
+              "vendor": "nvidia",
+              "architecture": "turing",
+              "isFallbackAdapter": false
+            },
+            "webglRenderer": null,
+            "canvas": [
+              920,
+              556
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "calls": 781,
+              "frameCalls": 8,
+              "drawCalls": 283,
+              "triangles": 2208108,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?backend=webgpu",
+              "encodedBytes": 4788,
+              "decodedBytes": 4788,
+              "transferBytes": 5088,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+              "encodedBytes": 10293,
+              "decodedBytes": 10293,
+              "transferBytes": 10593,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html?embed=1&backend=webgpu",
+              "encodedBytes": 2459,
+              "decodedBytes": 2459,
+              "transferBytes": 2759,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+              "encodedBytes": 20145,
+              "decodedBytes": 20145,
+              "transferBytes": 20445,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+              "encodedBytes": 2284850,
+              "decodedBytes": 2284850,
+              "transferBytes": 2285150,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+              "encodedBytes": 40755,
+              "decodedBytes": 40755,
+              "transferBytes": 41055,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+              "encodedBytes": 1991,
+              "decodedBytes": 1991,
+              "transferBytes": 2291,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+              "encodedBytes": 36854,
+              "decodedBytes": 36854,
+              "transferBytes": 37154,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+              "encodedBytes": 1458113,
+              "decodedBytes": 1458113,
+              "transferBytes": 1458413,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json",
+              "encodedBytes": 1313,
+              "decodedBytes": 1313,
+              "transferBytes": 1613,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/scene.json.gz?v=9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+              "encodedBytes": 7063805,
+              "decodedBytes": 7063805,
+              "transferBytes": 7064105,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/irradiance.rgbm.gz?v=ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+              "encodedBytes": 13023696,
+              "decodedBytes": 13023696,
+              "transferBytes": 13023996,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-00.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 21967,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-01.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 21967,
+              "type": "fetch"
+            }
+          ],
+          "encodedBodyBytes": 23992396,
+          "transferBytes": 23996596
+        },
+        "warm": {
+          "readyMs": 2861.100000023842,
+          "metrics": {
+            "renderSubmissions": 480,
+            "sampleMs": 4011.0999999046326,
+            "intervalP50Ms": 0.5,
+            "intervalP95Ms": 16.700000047683716,
+            "cpuSubmitP50Ms": 1.1999999284744263,
+            "cpuSubmitP95Ms": 2.299999952316284,
+            "backend": "webgpu",
+            "gpu": {
+              "vendor": "nvidia",
+              "architecture": "turing",
+              "isFallbackAdapter": false
+            },
+            "webglRenderer": null,
+            "canvas": [
+              920,
+              556
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "calls": 781,
+              "frameCalls": 8,
+              "drawCalls": 283,
+              "triangles": 2208108,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html?backend=webgpu",
+              "encodedBytes": 4788,
+              "decodedBytes": 4788,
+              "transferBytes": 300,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+              "encodedBytes": 10293,
+              "decodedBytes": 10293,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html?embed=1&backend=webgpu",
+              "encodedBytes": 2459,
+              "decodedBytes": 2459,
+              "transferBytes": 0,
+              "type": "navigation"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+              "encodedBytes": 20145,
+              "decodedBytes": 20145,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+              "encodedBytes": 2284850,
+              "decodedBytes": 2284850,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+              "encodedBytes": 40755,
+              "decodedBytes": 40755,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+              "encodedBytes": 1991,
+              "decodedBytes": 1991,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+              "encodedBytes": 1458113,
+              "decodedBytes": 1458113,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+              "encodedBytes": 36854,
+              "decodedBytes": 36854,
+              "transferBytes": 0,
+              "type": "script"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json",
+              "encodedBytes": 1313,
+              "decodedBytes": 1313,
+              "transferBytes": 300,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/scene.json.gz?v=9cd592ffa08e6666973ca1392bdeb79c4e0bce3b422b9dd4290709a8d87bebba",
+              "encodedBytes": 7063805,
+              "decodedBytes": 7063805,
+              "transferBytes": 7064105,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/irradiance.rgbm.gz?v=ad05081c8fa3fd222764a54fb7053d53a90880a93e1e3979ac0f66f1128cba62",
+              "encodedBytes": 13023696,
+              "decodedBytes": 13023696,
+              "transferBytes": 13023996,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-00.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 0,
+              "type": "fetch"
+            },
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/texture-01.png?v=84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e",
+              "encodedBytes": 21667,
+              "decodedBytes": 21667,
+              "transferBytes": 0,
+              "type": "fetch"
+            }
+          ],
+          "encodedBodyBytes": 23992396,
+          "transferBytes": 20088701
+        }
+      }
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

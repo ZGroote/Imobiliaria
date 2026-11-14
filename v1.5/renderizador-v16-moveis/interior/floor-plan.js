@@ -299,6 +299,7 @@ function moveisDaUnidade(P, mcx, mcz) {
                    cor: m.cor ? parseInt(String(m.cor).replace("#", ""), 16) : def.cor };
     // Altura acompanha a própria peça; índices mudam quando um tipo não existe no catálogo.
     if (m.y != null) item.y = m.y;
+    if (m.estilo) item.estilo = m.estilo;   // par de malhas do sofa (`sofaParam`)
     out.push(item);
   }
   return out;

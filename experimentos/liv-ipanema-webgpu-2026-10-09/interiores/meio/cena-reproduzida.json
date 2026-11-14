@@ -1,0 +1,21 @@
+{
+  "recordedAtUtc": "2026-10-10T22:26:43.882600+00:00",
+  "status": "PASS",
+  "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+  "recipeSHA256": "dc206ab5c031941b614fd889af9c843ee67a53371311dfcb2a7d61358177609d",
+  "sharedSHA256": {
+    "runtime": "cf84c09e1c243b0d48c31560c1c9d3d4cdd26586777144c559f4868c15f31da2",
+    "materials": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+    "furniture": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd"
+  },
+  "exporterSHA256": "89132446c4b74cabf229c904dff142a0a041b5c1105ff7f810ddab51ba8461f7",
+  "nativeFactorySHA256": "8cdcb146c77f61820dea230ce4c9c33f6654171ebb61059cdafb515311bae48a",
+  "errors": [],
+  "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+  "sourceBytes": 12788516,
+  "objects": 36,
+  "bakeObjects": 34,
+  "furnitureCount": 29,
+  "browserVersion": "154.0.8037.98",
+  "validatedExistingSource": true
+}

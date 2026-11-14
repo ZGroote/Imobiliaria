@@ -25,6 +25,9 @@ RAIZ = Path(__file__).resolve().parents[1]
 UNIDADES_REAIS = {'mirra-114', 'monte-das-colinas-39', 'monte-dos-cedros-37',
                   'sanca-135-29', 'wish-castanheiras-58'}
 UNIDADES_SINTETICAS = {'_exemplo'}          # gabarito, sem imóvel por trás
+# Lançamentos de incorporadora (book, plantas e fotos da obra), no ar de 25/10 a 07/11.
+# Liberados pelo usuário em 14/11 no PR #116; o repositório é privado desde 20/10/2026.
+EMPREENDIMENTOS = {'parque-das-laranjeiras', 'containers-mooca', 'vistas-da-quinze'}
 MODELOS_BLENDER = {'castanheiras_blender', 'monte-das-colinas_blender',
                    'monte-dos-cedros_blender'}
 PAGINAS_DE_MAQUETE = {'maquete-monte-das-colinas-39.html', 'maquete-wish-castanheiras-58.html'}
@@ -35,9 +38,38 @@ EXT_IMAGEM = {'.png', '.jpg', '.jpeg', '.webp', '.gif', '.bmp', '.tif', '.tiff',
 IMAGENS = {
     'texturas/chao.webp', 'texturas/reboco.webp', 'texturas/tijolo.webp',   # ambientCG, CC0
     'exteriores/v1/atlas-distante.png',                                    # gerada aqui
+    # Procedurais NumPy/Pillow com semente fixa; sem terceiro ou imóvel real.
+    'experimentos/comparativo-planos-3d/assets_planob/ambiente_hdri.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/marmore_albedo.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/marmore_roughness.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/piso_madeira_albedo.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/piso_madeira_normal.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/piso_madeira_roughness.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/tapete_sala_albedo.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/tapete_sala_normal.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/tecido_linho_albedo.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/tecido_linho_normal.jpg',
+    'experimentos/comparativo-planos-3d/assets_planob/tecido_linho_roughness.jpg',
 }
 # Pastas inteiras classificadas como dado privado do Cedros: bake, texturas, QA e renders.
-PASTAS_DE_IMAGEM = ('v1.5/miniaturas/padrao-atual/',)
+PASTAS_DE_IMAGEM = (
+    'v1.5/miniaturas/padrao-atual/',
+    # Liberadas pelo usuário em 14/11 (PR #116): o que entrou de outubro a novembro.
+    # Book, plantas e fotos dos três lançamentos (EMPREENDIMENTOS):
+    'plantas_fornecidas/parque-das-laranjeiras/', 'plantas_fornecidas/containers-mooca/',
+    'plantas_fornecidas/vistas-da-quinze/',
+    # Maquetes publicadas (site, interiores, modelo, implantação, plantas 2D, bake):
+    'experimentos/liv-experimental-2026-10-14/', 'experimentos/liv-ipanema-webgpu-2026-10-09/',
+    'experimentos/laranjeiras-2026-10-30/', 'experimentos/containers-mooca-2026-11-05/',
+    'experimentos/vistas-da-quinze-2026-11-07/',
+    # Demo Vila Aurora: LIV clonado sem nada do cliente.
+    'experimentos/apresentacao-2026-11-01/',
+    # Fotos de referência de móveis (lojas) e renders de comparação; sem imóvel real.
+    'experimentos/moveis-referencia/', 'experimentos/cama-box-referencia/',
+    # Site institucional e a marca da Conecta.
+    'fachada/assets/', 'fachada/marca-fonte/',
+    'tasks/caminho1-liv/',
+)
 
 
 def versionados():
@@ -67,7 +99,8 @@ class DadosPrivadosTests(unittest.TestCase):
                 if len(p.parts) > n + 1 and p.parts[:n] == PurePosixPath(pasta).parts}
 
     def test_no_new_real_unit(self):
-        novas = self.filhos('plantas_fornecidas') - UNIDADES_REAIS - UNIDADES_SINTETICAS
+        novas = (self.filhos('plantas_fornecidas') - UNIDADES_REAIS - UNIDADES_SINTETICAS
+                 - EMPREENDIMENTOS)
         self.assertFalse(novas, 'unidade nova em plantas_fornecidas/ sem classificação')
 
     def test_mirante7_keeps_only_sanitized_study_and_own_measurements(self):
@@ -107,6 +140,8 @@ class DadosPrivadosTests(unittest.TestCase):
     def test_the_check_itself(self):
         P = PurePosixPath
         self.assertFalse(imagem_classificada(P('experimentos/novo/fotos/01.jpg')))
+        self.assertTrue(imagem_classificada(P('experimentos/comparativo-planos-3d/assets_planob/piso_madeira_albedo.jpg')))
+        self.assertFalse(imagem_classificada(P('experimentos/comparativo-planos-3d/assets_planob/foto-cliente.jpg')))
         self.assertFalse(imagem_classificada(P('unreal/lightmaps/cliente-novo-12.png')))
         self.assertFalse(imagem_classificada(P('v1.5/miniaturas/outro_blender/preview.png')))
         self.assertTrue(imagem_classificada(P('v1.5/miniaturas/castanheiras_blender/preview.png')))

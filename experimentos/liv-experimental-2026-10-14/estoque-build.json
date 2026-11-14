@@ -1,0 +1,74 @@
+{
+  "schema": "liv-sales-bundle-v1",
+  "file": {
+    "path": "estoque-runtime.js",
+    "bytes": 577885,
+    "sha256": "a1088b481c1ae0b5f6642dd3aa983b368ae97f7015f920bbce9f4adfdf040033"
+  },
+  "sources": {
+    "../../node_modules/@firebase/util/dist/postinstall.mjs": {
+      "bytes": 768,
+      "sha256": "56e40adf04426e6b07df5d1ca7d4142a5b2c91ea9df5800589e357f9a2433252"
+    },
+    "../../node_modules/@firebase/util/dist/index.esm.js": {
+      "bytes": 75224,
+      "sha256": "32948a014a1fb0bc1a62ac2a6e8a9f9c622d02bb5ed3210ae39045447f601cc6"
+    },
+    "../../node_modules/@firebase/component/dist/esm/index.esm.js": {
+      "bytes": 16394,
+      "sha256": "edfe167f6cebf2aca3031410a5f6bca96dd2d841065772b01bcf3616721cc69a"
+    },
+    "../../node_modules/@firebase/logger/dist/esm/index.esm.js": {
+      "bytes": 7270,
+      "sha256": "f055d17650d5409ae05a29d1be09f0b30b98e39e7f0cbc319897f8e21607eb52"
+    },
+    "../../node_modules/idb/build/wrap-idb-value.js": {
+      "bytes": 7495,
+      "sha256": "242ebd613b0184fed073ea2c108fa0a809eb09b97c6078edd61fe80e37338d5d"
+    },
+    "../../node_modules/idb/build/index.js": {
+      "bytes": 3524,
+      "sha256": "5550d5cad84dcf5a27a95e18a2147f74aaca9e71f03e08b42a813865bcac939e"
+    },
+    "../../node_modules/@firebase/app/dist/esm/index.esm.js": {
+      "bytes": 45660,
+      "sha256": "b2a9862f40e19f27897190db795dfcd9e0ee25bfc5cf473748a1c11ea0d4a1be"
+    },
+    "../../node_modules/firebase/app/dist/esm/index.esm.js": {
+      "bytes": 812,
+      "sha256": "724decbe530e1490c595b90b9b52dfcbaa5ba7bcaf477485e26d078e44cc8826"
+    },
+    "../../node_modules/@firebase/webchannel-wrapper/dist/bloom-blob/esm/bloom_blob_es2018.js": {
+      "bytes": 11629,
+      "sha256": "db66b6e965b745e50c275eee412d52153f6e3bcde89fb0bdb7d3cefcfb72ee62"
+    },
+    "../../node_modules/@firebase/webchannel-wrapper/dist/webchannel-blob/esm/webchannel_blob_es2018.js": {
+      "bytes": 41647,
+      "sha256": "ffb869dc24afd692dee8736f9052850cce4ff28ec65ab4de89a001a57a2d4655"
+    },
+    "../../node_modules/re2js/build/index.js": {
+      "bytes": 251827,
+      "sha256": "1cd1da133e67a261232d16e99e4186c5fb7410c1a89c8fec9e23765d22e89df8"
+    },
+    "../../node_modules/@firebase/firestore/dist/common-CE5hrKY-.esm.js": {
+      "bytes": 1163762,
+      "sha256": "f3972ea2c13dc60079f21a1ec82f42e8b89fefd2933547d4207d29aed8385d68"
+    },
+    "../../node_modules/@firebase/firestore/dist/index.esm.js": {
+      "bytes": 78784,
+      "sha256": "5c7c45188603286ce088fbd2273ab441b1f745ff6a4bff8a2c09adf520065981"
+    },
+    "../../node_modules/firebase/firestore/dist/esm/index.esm.js": {
+      "bytes": 75,
+      "sha256": "9cf4bde1596e6c804064067770f76b808e687a781ff9c0e5041b8266d152b1f8"
+    },
+    "../../painel/src/lib/estoque-modelo.ts": {
+      "bytes": 7616,
+      "sha256": "ea5077f4d925e9ace86862453963a10c27429c1e88e64c5774934f5de9ed36b6"
+    },
+    "estoque-publico-src.ts": {
+      "bytes": 6771,
+      "sha256": "3193b958e035bccf66e5e22876f649c895296107eecbb1a6cd47546f19b29bfa"
+    }
+  }
+}

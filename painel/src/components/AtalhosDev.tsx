@@ -6,6 +6,7 @@ import { ROTULO_PAPEL } from '@/lib/types'
 
 // Só no emulador: entra com as contas fictícias do seed, que não existem no projeto real.
 export default function AtalhosDev() {
+  if (process.env.NEXT_PUBLIC_FIREBASE_EMULATOR !== '1') return null
   return (
     <div className="mt-8 border-t border-dashed border-slate-300 pt-4">
       <p className="text-xs font-medium uppercase tracking-wide text-amber-700">Emulador: entrar como</p>

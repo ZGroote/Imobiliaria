@@ -1,0 +1,86 @@
+[
+  {
+    "backend": "webgl",
+    "round": 1,
+    "milestones": {
+      "module": 157.60000002384186,
+      "backendReady": 290.5,
+      "sceneDecoded": 553.3999999761581,
+      "sceneParsed": 624.1000000238419,
+      "atlasReady": 925.7999999523163,
+      "sceneBuilt": 1145.6000000238419,
+      "compiled": 5176.899999976158,
+      "ready": 5602.100000023842
+    }
+  },
+  {
+    "backend": "webgl",
+    "round": 2,
+    "milestones": {
+      "module": 100,
+      "backendReady": 110.79999995231628,
+      "sceneDecoded": 362.7000000476837,
+      "sceneParsed": 421.89999997615814,
+      "atlasReady": 722.7000000476837,
+      "sceneBuilt": 939.1000000238419,
+      "compiled": 1618.2999999523163,
+      "ready": 1695.7999999523163
+    }
+  },
+  {
+    "backend": "webgl",
+    "round": 3,
+    "milestones": {
+      "module": 133.60000002384186,
+      "backendReady": 146.5,
+      "sceneDecoded": 398.7000000476837,
+      "sceneParsed": 463.7000000476837,
+      "atlasReady": 777.5,
+      "sceneBuilt": 1016.8999999761581,
+      "compiled": 1682.8999999761581,
+      "ready": 1755.7000000476837
+    }
+  },
+  {
+    "backend": "webgpu",
+    "round": 1,
+    "milestones": {
+      "module": 111.69999992847443,
+      "backendReady": 266.39999997615814,
+      "sceneDecoded": 602.5999999046326,
+      "sceneParsed": 670.1999999284744,
+      "atlasReady": 1022.6999999284744,
+      "sceneBuilt": 1241.6999999284744,
+      "compiled": 2994.2999999523163,
+      "ready": 3036.1999999284744
+    }
+  },
+  {
+    "backend": "webgpu",
+    "round": 2,
+    "milestones": {
+      "module": 109.40000009536743,
+      "backendReady": 238.30000007152557,
+      "sceneDecoded": 472.8000000715256,
+      "sceneParsed": 534,
+      "atlasReady": 841.5,
+      "sceneBuilt": 1070.4000000953674,
+      "compiled": 2787.100000023842,
+      "ready": 2828
+    }
+  },
+  {
+    "backend": "webgpu",
+    "round": 3,
+    "milestones": {
+      "module": 108.10000002384186,
+      "backendReady": 228.39999997615814,
+      "sceneDecoded": 483.10000002384186,
+      "sceneParsed": 555.6999999284744,
+      "atlasReady": 897.6999999284744,
+      "sceneBuilt": 1133.8999999761581,
+      "compiled": 2771.899999976158,
+      "ready": 2812.2999999523163
+    }
+  }
+]

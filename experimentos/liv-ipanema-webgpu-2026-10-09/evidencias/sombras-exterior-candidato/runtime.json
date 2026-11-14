@@ -1,0 +1,449 @@
+{
+  "status": "PASS",
+  "recordedAtUtc": "2026-10-11T07:50:37.304831+00:00",
+  "physicalMobile": false,
+  "sourceSHA256": {
+    "qa_sombras_exterior.py": "27850c3997852e77c1a9a2d01a8063aad05c8a6ef523afa94becab901b3f84cf",
+    "renderer.js": "bdff26ba4b206560c02e0f517465093be923829bc45e8b45df20674f8055f0f6",
+    "material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+    "viewer.js": "5ce4f91feff00786f4723d943558b033b6ddbfc8edef6b1b1eb5f68db98ddda4",
+    "picking.js": "6aac9a34546a3ec3ae779d2ee396bc028bbe0df8950b0b11b358f72f06913d0a",
+    "assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57",
+    "modelo/variante/assets/manifest.json": "e22c8e38057ebdcfdb1d61c3961dc3a30d1fa394e50b37f83da3e9fbe2d588ea"
+  },
+  "cases": [
+    {
+      "profile": "webgpu",
+      "geometry": "base",
+      "errors": [],
+      "initial": {
+        "backend": "webgpu",
+        "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+        "canvas": [
+          920,
+          556
+        ],
+        "lightCount": 1,
+        "automatic": [
+          false
+        ]
+      },
+      "views": [
+        {
+          "view": "perspectiva",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "aerea",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "varandas",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "acesso",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "implantacao",
+          "maxRgbDelta": 0.0
+        }
+      ],
+      "selection": {
+        "id": "liv-ipanema/pavimento-modelo-01/final-01",
+        "maxRgbDelta": 0.0
+      },
+      "refresh": {
+        "pending": true,
+        "updates": 1,
+        "repeatedUpdates": 0,
+        "settled": true
+      },
+      "orbit": [
+        {
+          "automatic": false,
+          "frames": 24,
+          "shadowPasses": 0,
+          "totalPasses": 48,
+          "drawCallsLastFrame": 56
+        },
+        {
+          "automatic": true,
+          "frames": 24,
+          "shadowPasses": 24,
+          "totalPasses": 72,
+          "drawCallsLastFrame": 112
+        }
+      ],
+      "disposed": {
+        "disposed": true,
+        "ready": false,
+        "sceneChildren": 0,
+        "canInvalidate": false
+      },
+      "status": "PASS"
+    },
+    {
+      "profile": "webgpu",
+      "geometry": "contorno",
+      "errors": [],
+      "initial": {
+        "backend": "webgpu",
+        "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+        "canvas": [
+          920,
+          556
+        ],
+        "lightCount": 1,
+        "automatic": [
+          false
+        ]
+      },
+      "views": [
+        {
+          "view": "perspectiva",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "aerea",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "varandas",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "acesso",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "implantacao",
+          "maxRgbDelta": 0.0
+        }
+      ],
+      "selection": {
+        "id": "liv-ipanema/pavimento-modelo-01/final-01",
+        "maxRgbDelta": 0.0
+      },
+      "refresh": {
+        "pending": true,
+        "updates": 1,
+        "repeatedUpdates": 0,
+        "settled": true
+      },
+      "orbit": [
+        {
+          "automatic": false,
+          "frames": 24,
+          "shadowPasses": 0,
+          "totalPasses": 48,
+          "drawCallsLastFrame": 56
+        },
+        {
+          "automatic": true,
+          "frames": 24,
+          "shadowPasses": 24,
+          "totalPasses": 72,
+          "drawCallsLastFrame": 112
+        }
+      ],
+      "disposed": {
+        "disposed": true,
+        "ready": false,
+        "sceneChildren": 0,
+        "canInvalidate": false
+      },
+      "status": "PASS"
+    },
+    {
+      "profile": "webgl",
+      "geometry": "base",
+      "errors": [],
+      "initial": {
+        "backend": "webgl",
+        "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+        "canvas": [
+          920,
+          556
+        ],
+        "lightCount": 1,
+        "automatic": [
+          false
+        ]
+      },
+      "views": [
+        {
+          "view": "perspectiva",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "aerea",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "varandas",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "acesso",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "implantacao",
+          "maxRgbDelta": 0.0
+        }
+      ],
+      "selection": {
+        "id": "liv-ipanema/pavimento-modelo-01/final-01",
+        "maxRgbDelta": 0.0
+      },
+      "refresh": {
+        "pending": true,
+        "updates": 1,
+        "repeatedUpdates": 0,
+        "settled": true
+      },
+      "orbit": [
+        {
+          "automatic": false,
+          "frames": 24,
+          "shadowPasses": 0,
+          "totalPasses": 48,
+          "drawCallsLastFrame": 56
+        },
+        {
+          "automatic": true,
+          "frames": 24,
+          "shadowPasses": 24,
+          "totalPasses": 72,
+          "drawCallsLastFrame": 112
+        }
+      ],
+      "disposed": {
+        "disposed": true,
+        "ready": false,
+        "sceneChildren": 0,
+        "canInvalidate": false
+      },
+      "status": "PASS"
+    },
+    {
+      "profile": "webgl",
+      "geometry": "contorno",
+      "errors": [],
+      "initial": {
+        "backend": "webgl",
+        "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+        "canvas": [
+          920,
+          556
+        ],
+        "lightCount": 1,
+        "automatic": [
+          false
+        ]
+      },
+      "views": [
+        {
+          "view": "perspectiva",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "aerea",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "varandas",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "acesso",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "implantacao",
+          "maxRgbDelta": 1.0
+        }
+      ],
+      "selection": {
+        "id": "liv-ipanema/pavimento-modelo-01/final-01",
+        "maxRgbDelta": 0.0
+      },
+      "refresh": {
+        "pending": true,
+        "updates": 1,
+        "repeatedUpdates": 0,
+        "settled": true
+      },
+      "orbit": [
+        {
+          "automatic": false,
+          "frames": 24,
+          "shadowPasses": 0,
+          "totalPasses": 48,
+          "drawCallsLastFrame": 56
+        },
+        {
+          "automatic": true,
+          "frames": 24,
+          "shadowPasses": 24,
+          "totalPasses": 72,
+          "drawCallsLastFrame": 112
+        }
+      ],
+      "disposed": {
+        "disposed": true,
+        "ready": false,
+        "sceneChildren": 0,
+        "canInvalidate": false
+      },
+      "status": "PASS"
+    },
+    {
+      "profile": "toque",
+      "geometry": "base",
+      "errors": [],
+      "initial": {
+        "backend": "webgpu",
+        "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+        "canvas": [
+          364,
+          454
+        ],
+        "lightCount": 1,
+        "automatic": [
+          false
+        ]
+      },
+      "views": [
+        {
+          "view": "perspectiva",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "aerea",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "varandas",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "acesso",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "implantacao",
+          "maxRgbDelta": 0.0
+        }
+      ],
+      "selection": {
+        "id": "liv-ipanema/pavimento-modelo-01/final-01",
+        "maxRgbDelta": 0.0
+      },
+      "refresh": {
+        "pending": true,
+        "updates": 1,
+        "repeatedUpdates": 0,
+        "settled": true
+      },
+      "orbit": [
+        {
+          "automatic": false,
+          "frames": 24,
+          "shadowPasses": 0,
+          "totalPasses": 48,
+          "drawCallsLastFrame": 56
+        },
+        {
+          "automatic": true,
+          "frames": 24,
+          "shadowPasses": 24,
+          "totalPasses": 72,
+          "drawCallsLastFrame": 112
+        }
+      ],
+      "disposed": {
+        "disposed": true,
+        "ready": false,
+        "sceneChildren": 0,
+        "canInvalidate": false
+      },
+      "status": "PASS"
+    },
+    {
+      "profile": "toque",
+      "geometry": "contorno",
+      "errors": [],
+      "initial": {
+        "backend": "webgpu",
+        "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+        "canvas": [
+          364,
+          454
+        ],
+        "lightCount": 1,
+        "automatic": [
+          false
+        ]
+      },
+      "views": [
+        {
+          "view": "perspectiva",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "aerea",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "varandas",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "acesso",
+          "maxRgbDelta": 0.0
+        },
+        {
+          "view": "implantacao",
+          "maxRgbDelta": 0.0
+        }
+      ],
+      "selection": {
+        "id": "liv-ipanema/pavimento-modelo-01/final-01",
+        "maxRgbDelta": 0.0
+      },
+      "refresh": {
+        "pending": true,
+        "updates": 1,
+        "repeatedUpdates": 0,
+        "settled": true
+      },
+      "orbit": [
+        {
+          "automatic": false,
+          "frames": 24,
+          "shadowPasses": 0,
+          "totalPasses": 48,
+          "drawCallsLastFrame": 56
+        },
+        {
+          "automatic": true,
+          "frames": 24,
+          "shadowPasses": 24,
+          "totalPasses": 72,
+          "drawCallsLastFrame": 112
+        }
+      ],
+      "disposed": {
+        "disposed": true,
+        "ready": false,
+        "sceneChildren": 0,
+        "canInvalidate": false
+      },
+      "status": "PASS"
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

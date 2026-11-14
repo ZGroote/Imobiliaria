@@ -1,6 +1,7 @@
 // Modelo canônico (tasks/painel/proposta.md, §3). As regras em firebase/firestore.rules são a
 // autoridade: estes tipos só descrevem o que elas aceitam.
 import type { Timestamp } from 'firebase/firestore'
+import type { Regiao } from './regiao.ts'
 
 export type UserRole = 'platform_admin' | 'operator' | 'agency_manager' | 'agent'
 export const PAPEIS_INTERNOS: UserRole[] = ['platform_admin', 'operator']
@@ -15,6 +16,7 @@ export const interno = (r: UserRole) => PAPEIS_INTERNOS.includes(r)
 export interface Agency {                 // agencies/{id}
   id: string; name: string; slug?: string; logoUrl?: string; active: boolean
   createdAt: Timestamp; updatedAt: Timestamp
+  region?: Regiao
 }
 
 export interface User {                   // users/{uid}: FONTE DE AUTORIZAÇÃO
@@ -22,13 +24,15 @@ export interface User {                   // users/{uid}: FONTE DE AUTORIZAÇÃO
   agencyId?: string                       // obrigatório para papel de imobiliária; proibido para interno
   name: string; email: string
   role: UserRole; active: boolean
+  publicContact?: { whatsapp: string }    // público nos links deste responsável; dígitos internacionais sem +
   createdAt: Timestamp; updatedAt: Timestamp
 }
 
-export interface Invite {                 // invites/{email}; só platform_admin escreve
+export interface Invite {                 // invites/{email}; admin ou gerente (corretores da própria agência)
   email: string; name: string; role: UserRole; agencyId?: string
   agencyName?: string                     // só para exibir: o convidado ainda não lê agencies/
   createdBy: string; createdAt: Timestamp
+  emailDelivery?: { status: 'processing' | 'accepted' | 'failed'; eventId: string; updatedAt: Timestamp; messageId?: string; code?: string }
 }
 
 export interface Property {               // properties/{id}
@@ -37,6 +41,7 @@ export interface Property {               // properties/{id}
   assignedAgentId?: string
   pipelineUnitId?: string                 // plantas_fornecidas/<id>/; também é o slug público
   status: 'active' | 'inactive' | 'archived'
+  publicationReady?: boolean             // há conteúdo preparado, inclusive publicação avulsa do servidor
   tourUrl?: string; maqueteUrl?: string; publicUrl?: string
   publishedBuild?: string; previousBuild?: string
   publishedRequestId?: string             // o pedido que aprovou o publishedBuild
@@ -83,6 +88,7 @@ export interface Request {                // requests/{id}
   productionInput?: ProductionInput       // só a equipe, só em accepted/production, sempre com AuditLog
   approvedBuild?: string; approvedBy?: string; approvedAt?: Timestamp
   approvedManifestSha256?: string         // o artefato congelado pela aprovação; a promoção parte dele
+  publishedAt?: Timestamp                 // início das 48h no Kanban; ausente nos pedidos antigos
   lastAuditId?: string
   createdAt: Timestamp; updatedAt: Timestamp
 }

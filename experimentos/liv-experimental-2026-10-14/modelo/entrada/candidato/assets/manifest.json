@@ -1,0 +1,44 @@
+{
+  "schema": "liv-proof-manifest-v1",
+  "exportedAtUtc": "2026-10-24T03:47:29.440660+00:00",
+  "sourceModelSHA256": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+  "sceneJSONSHA256": "98200b814f7b0b346c4c3b999ea32110373b74850b5b0556a5cb1e368d1a7d0a",
+  "files": {
+    "irradiance.rgbm.gz": {
+      "bytes": 13306085,
+      "sha256": "562b96a78b3bb5658a05177cf8a1862fecaac2ca1b998b4f7210c385f1f522b7"
+    },
+    "texture-00.png": {
+      "bytes": 21667,
+      "sha256": "84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e"
+    },
+    "texture-01.png": {
+      "bytes": 21667,
+      "sha256": "84f15e8e6a196ab5567e6e6b92feede638c796e268a965d3559d2b072aee9a9e"
+    },
+    "scene.json.gz": {
+      "bytes": 2783149,
+      "sha256": "b8ccec85bca8b60baf0a0edfcd489e6e47b324993260b3cefe32ea6a1dcbaecf"
+    },
+    "irradiance-previa.rgbm.gz": {
+      "bytes": 1925670,
+      "sha256": "e2afb1cf1755c1a8fa1194342021c3dcd586bd8363eb66139ab3d08644c98f2e",
+      "width": 1024,
+      "height": 1024,
+      "decodedSHA256": "3c669aa65b34b9031eea098b863ce4358ba8dda8689a61f2003da256030b5ded",
+      "previewOf": "irradiance.rgbm.gz"
+    }
+  },
+  "meshCount": 57,
+  "bakedMeshes": 42,
+  "exportPurpose": "Estudo inferido da entrada: quatro materiais padr\u00e3o, UV/bake pr\u00f3prios; ainda sem integra\u00e7\u00e3o no piloto comercial.",
+  "sources": {
+    "experimentos/liv-experimental-2026-10-14/modelo/exportar_variante.py": "f54a980c340b9b7c13ddaa781514b65634891abe7ffbe70cbbe6cf95c8ff70a4",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/candidato/modelo.json": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/candidato/luz/manifest.json": "7a898ae1eb238cb63ab22744aac2a4b53df09d6f253c1103b6d59c675a2b9ab9",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/candidato/luz/geometry-compact.json": "c20fecf9ce865089c6c17b091c169cd4d736d3340388bad28ba0c0fbbf2a86a3",
+    "experimentos/liv-experimental-2026-10-14/assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57",
+    "experimentos/liv-experimental-2026-10-14/modelo/entrada/exportar_entrada.py": "6047021db6e4a06002453937ec83c39d1870053b21e7268b631eb1822c40bca5"
+  },
+  "entryMaterialPolicy": "Principled BSDF \u2192 MeshStandardMaterial; RGBM existente somente no transporte de luz."
+}

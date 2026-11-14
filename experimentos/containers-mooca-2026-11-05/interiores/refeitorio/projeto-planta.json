@@ -1,0 +1,151 @@
+{
+  "activeFloor": 0,
+  "floors": [
+    {
+      "floor": 0,
+      "furniture": [
+        {
+          "alturaMm": 760,
+          "cor": "#A57A52",
+          "depthMm": 800,
+          "id": "m1",
+          "nome": "Mesa 1",
+          "rotDegrees": 90,
+          "tipo3D": "mesa",
+          "tipoCatalogo": "mesa-jantar-4",
+          "widthMm": 1200,
+          "xMm": 1150,
+          "yMm": 1250
+        },
+        {
+          "alturaMm": 760,
+          "cor": "#A57A52",
+          "depthMm": 800,
+          "id": "m2",
+          "nome": "Mesa 2",
+          "rotDegrees": 90,
+          "tipo3D": "mesa",
+          "tipoCatalogo": "mesa-jantar-4",
+          "widthMm": 1200,
+          "xMm": 1150,
+          "yMm": 3050
+        },
+        {
+          "alturaMm": 760,
+          "cor": "#A57A52",
+          "depthMm": 800,
+          "id": "m3",
+          "nome": "Mesa 3",
+          "rotDegrees": 90,
+          "tipo3D": "mesa",
+          "tipoCatalogo": "mesa-jantar-4",
+          "widthMm": 1200,
+          "xMm": 1150,
+          "yMm": 5000
+        },
+        {
+          "alturaMm": 20,
+          "cor": "#CFC6B8",
+          "depthMm": 2000,
+          "id": "m4",
+          "nome": "Tapete",
+          "rotDegrees": 0,
+          "tipo3D": "tapete",
+          "tipoCatalogo": "tapete-sala",
+          "widthMm": 1600,
+          "xMm": 1200,
+          "yMm": 3050
+        }
+      ],
+      "leitura": {
+        "ceilingHeightMm": 2350,
+        "geometry": "orthogonal-rectangles",
+        "id": "containers-mooca-refeitorio",
+        "openings": [
+          {
+            "heightMm": 2100,
+            "id": "a1",
+            "kind": "door",
+            "offsetMm": 3750,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 0,
+            "wallId": "c1-east",
+            "widthMm": 850
+          },
+          {
+            "heightMm": 1500,
+            "id": "a2",
+            "kind": "window",
+            "offsetMm": 250,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 600,
+            "wallId": "c1-east",
+            "widthMm": 3150
+          },
+          {
+            "heightMm": 1500,
+            "id": "a3",
+            "kind": "window",
+            "offsetMm": 4800,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 600,
+            "wallId": "c1-east",
+            "widthMm": 1150
+          },
+          {
+            "heightMm": 1200,
+            "id": "a4",
+            "kind": "window",
+            "offsetMm": 1250,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 1000,
+            "wallId": "c1-west",
+            "widthMm": 3850
+          }
+        ],
+        "provenance": {
+          "kind": "declared",
+          "referenceIds": []
+        },
+        "references": [],
+        "relations": [],
+        "revision": 10,
+        "rooms": [
+          {
+            "depthMm": 6150,
+            "id": "c1",
+            "name": "Refeitório",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c1-east",
+              "north": "c1-north",
+              "south": "c1-south",
+              "west": "c1-west"
+            },
+            "widthMm": 2400,
+            "xMm": 0,
+            "yMm": 0
+          }
+        ],
+        "schemaVersion": "1.0.0",
+        "unit": "mm"
+      }
+    }
+  ],
+  "schemaVersion": "1.0.0"
+}

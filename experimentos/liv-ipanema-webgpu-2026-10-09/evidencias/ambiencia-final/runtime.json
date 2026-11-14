@@ -1,0 +1,44 @@
+{
+  "status": "FAIL",
+  "physicalMobile": false,
+  "recordedAt": "2026-10-11T21:26:48.376155+00:00",
+  "sources": {
+    "ambiencia.js": "ac5a369bdc15d6748eb693d1d5275f25a326ec3a72ea4b822ff9dbe3f8d68a59",
+    "ambiencia-perfis.js": "7e2756780faa481d8bc6ab4342acbbef3de4256c2c72de6a6c4156b784177f28",
+    "renderer.js": "e16ce0fef1afb4951d7f27e29956482d8a1c88fe9bad1e708180eeda037c2e1f",
+    "viewer.js": "652a30f12a82d2cccb6c5fc82fbdc344b7f80879b00eda15d51a3a5e40864712",
+    "mapa-retorno.js": "5e3fd7cc348b52a12803defa37b3be15d9a2d18b01ee7a6b5f328605048a2721",
+    "maquete-liv-ipanema.html": "2623a6014732e1685b9ecb5ebd0afec552eccaefa45f775b52d76e1d09ac32ca",
+    "qa_ambiencia.py": "f502260db244e730913ad6a00c93bc5a1fafb4720ba26e7179fc3f79a5b6d8ef"
+  },
+  "cases": [
+    {
+      "backendRequested": "webgpu",
+      "touchEmulated": false,
+      "errors": [],
+      "views": [
+        {
+          "view": "perspectiva",
+          "meanRgbaChange": 177.2879750547388,
+          "restoredMaxDelta": 0
+        },
+        {
+          "view": "varandas",
+          "meanRgbaChange": 28.18794768533,
+          "restoredMaxDelta": 0
+        },
+        {
+          "view": "acesso",
+          "meanRgbaChange": 92.58102860103222,
+          "restoredMaxDelta": 0
+        }
+      ],
+      "backendEffective": "webgpu",
+      "shadowUpdatesOnChange": 0,
+      "additionalAtlasOrEnvironmentDownloads": 0,
+      "uniformChangeMs": 51.39999997615814
+    }
+  ],
+  "browserVersion": "154.0.8037.98",
+  "failure": "TimeoutError('Page.wait_for_function: Timeout 120000ms exceeded.')"
+}

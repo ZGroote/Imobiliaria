@@ -1,0 +1,57 @@
+{
+  "titulo": "Vistas da Quinze · T02 · 1 dormitório sem terraço",
+  "tipologia": "T02",
+  "imagem": "../../../../plantas_fornecidas/vistas-da-quinze/anexos/6af7544a-a6d4-49ee-927d-8865576bc67d.png",
+  "imagemSha256": "45b893be9d92a452480ae3f63349c73d98ce6186057f4f3d93482ac013d8777c",
+  "registro": {
+    "origemPx": [
+      4,
+      4
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 21.944929073101612,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        8,
+        8,
+        256,
+        256
+      ],
+      [
+        256,
+        194,
+        320,
+        256
+      ]
+    ],
+    "areaCalibracaoM2": 31.53,
+    "conferencia": [
+      "Faces internas: 65472 px²."
+    ]
+  },
+  "areaContornoNominalAproximadaM2": 33.255,
+  "peDireitoMm": 2600,
+  "limites": [
+    "Planta humanizada pública sem cotas. Eixos de parede, vãos e móveis são aproximações de ±5 cm.",
+    "Embaixo na imagem fica o corredor do andar (porta de entrada); em cima e do lado do terraço, a fachada.",
+    "Pé-direito de 2,60 m é suposto. A pegada do prédio é provisória até a implantação.",
+    "A escala é a do T01 (mesma largura de dormitório na imagem)."
+  ],
+  "captura": {
+    "construtorSHA256": "cf9d5b86b9288c02a9d9e93f6c101e61ea6dd5897b698c958c48dca554d4dc84",
+    "inputsSHA256": {
+      "planta.json": "bef555bc2eb7f309e3ca6959e546e9ff5756e1ca0dcfc8d8887e2b7b4c156469",
+      "leitura.json": "8edc4ae66a77869163e8261f486cca463dbf03bf85d37f80bcb2cb1c650b37f2",
+      "projeto-planta.json": "cde4b7ec7df5c789a6b4471f172e01784cab94e6ed0a81cadbb1db44cb42b26e",
+      "moveis.json": "2fff5906889f0134a8126719d9e36e7b45d89a822fcdfd57c9efa036d75c3f75",
+      "contexto.json": "80cf9377707121ac89adbe8ac88d5f38627568ed5e125e3b3882f9bdef257397"
+    }
+  },
+  "contagens": {
+    "partes": 5,
+    "aberturas": 5,
+    "moveis": 19
+  }
+}

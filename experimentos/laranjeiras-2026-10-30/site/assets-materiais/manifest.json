@@ -1,0 +1,27 @@
+{
+  "schema": "liv-pbr-fixture-v1",
+  "source": "geometria/texturas próprias geradas por gerar_amostra_pbr.py",
+  "architecturalReference": false,
+  "files": {
+    "amostra.gltf": {
+      "bytes": 4386,
+      "sha256": "f496299d5f616af9053e87f4129135e58b917099ee6d12e37fbe6d2c90bf86c8"
+    },
+    "amostra.bin": {
+      "bytes": 45160,
+      "sha256": "80f226ef0efdfd7e0816f5902344dd3309b376a08d767a324ce05d0d43d3fb34"
+    },
+    "cor.png": {
+      "bytes": 223,
+      "sha256": "bf74f188fedb76224ebe4fc31e79908fba72237de088dd22ce31dbc8b504fc4a"
+    },
+    "rugosidade.png": {
+      "bytes": 156,
+      "sha256": "303109322615bf1d52a3146c233d7de3b35826bf377f1f8b82bff4cbcbb85b88"
+    },
+    "amostra.glb": {
+      "bytes": 50072,
+      "sha256": "c72c4beb08e764bb13083d5d677d7901d2546f02366cb03a5995bb3dbeab402f"
+    }
+  }
+}

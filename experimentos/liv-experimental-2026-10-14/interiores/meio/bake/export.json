@@ -1,0 +1,396 @@
+{
+  "schema": "liv-interior-scene-v1",
+  "unitId": "liv-ipanema-planta-meio-referencia",
+  "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+  "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+  "sourceBytes": 12788516,
+  "sourcePath": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\interiores\\meio\\source.json",
+  "meshSlots": 36,
+  "objects": 36,
+  "targetObjects": 34,
+  "geometryFingerprints": {
+    "g0": "e1b823947362a7fa8d4b1e4e75e290a1715ed2cbc99be4631399223d2dc26ca3",
+    "g1": "ca175a45e44ed022dddd5cfb7f83ae39e7a81ff98e309b67df28a7709a2c3a82",
+    "g2": "92da67cd0948da82dcf8e8e9364c19735d5c4b431773268bcfeb60d123b1d191",
+    "g3": "e4a29249891e14096c8843f389766f9f2d2b24624bcb88f11978d6305630463b",
+    "g4": "48648afe01b832db0e4d0768445760fd1cbe5b3b656a6ae9ebf7f689a4a051ab",
+    "g5": "235062ec736803700fc06ebb6c4a877aac387abb185579e5d8c7c6ab26b1bdf1",
+    "g6": "d75243be77be9bc01f2ab4a70b66bfb50f149f805ef81fe675a3d02382207b20",
+    "g7": "3a717b229e4bd1f9ced2ecb8966ae0e1a55fb3476d2f3140a5384a9741724f2a",
+    "g8": "df52fbe188fa352d8d2cd4b11d525b5c09df8b8ea63f930edc9b60164c18aba7",
+    "g9": "5ba7dc49e6e48791761eba5213441d011c2d92ea073d5c0a639bb2c2006dd2f5",
+    "g10": "5ba7dc49e6e48791761eba5213441d011c2d92ea073d5c0a639bb2c2006dd2f5",
+    "g11": "c1926fe3da8d25db54f56303bc0dec5603b20c17ed1f861fc81c57a905868fdc",
+    "g12": "8d06b66372aa301da414a50cbe42dd0a6498bd03d485bff84759c4525ef8126a",
+    "g13": "6fb8b48337b577f52c8ed4092c8210a93d9a2bdfdaaf8ea78234ca38a3ada7c1",
+    "g14": "36a2feef6a87c6c0f74961cfcbefbb1c919b4b518819244d379044d2fa08888e",
+    "g15": "ac38d9096f69595bdef88cef10266702c2ba0092253afbd4dda6131ac5e6cd6e",
+    "g16": "8e5d83df40eaf0f02bcfe402cb29f8a0897f05d3da65b14e4f5c7846c5af9155",
+    "g17": "cd15638984f50a9ddaf6a3eb31aa00a6e4fb60a2507493783c3e7bb48a746da6",
+    "g18": "e4da5e47c93832c401dfbbf868ca960f010a43580aded3a4afa74474eae9b74c",
+    "g19": "e4da5e47c93832c401dfbbf868ca960f010a43580aded3a4afa74474eae9b74c",
+    "g20": "e4da5e47c93832c401dfbbf868ca960f010a43580aded3a4afa74474eae9b74c",
+    "g21": "e4da5e47c93832c401dfbbf868ca960f010a43580aded3a4afa74474eae9b74c",
+    "g22": "5045bfc6e22f638724fe7c15dfb9b54c980cc613d1ae759336812cc1fef68ea2",
+    "g23": "6c9a5a2fc37b39edcd6db3870d070c6976a1292439b055a9f629f3639c6c4eb1",
+    "g24": "a84648c8e082d0160ea1aec1e8dc5f0855b136e896eecbe56399129e0d4283d5",
+    "g25": "6f126320a8d78c5165e623563e288a89fa14e3bb7d671e25b461143f1c388fa6",
+    "g26": "cb31d480869c4f406d7c44c332f11e1f48642ac68e08a3d33407b3ad2f990acc",
+    "g27": "6e1d2a4a5cd9ec96edd5374c750821a1dec3b92bbcf93ead0dcbc13e468e769e",
+    "g28": "6f126320a8d78c5165e623563e288a89fa14e3bb7d671e25b461143f1c388fa6",
+    "g29": "cb31d480869c4f406d7c44c332f11e1f48642ac68e08a3d33407b3ad2f990acc",
+    "g30": "610da45903830ae4763a3b1849fbddfe81e6bd110f8fcf54bb625de84dab2b50",
+    "g31": "93f283df60ec260c5fd37049eed6ff8dc1c7791c1057975dcd42e2ffea7fcc83",
+    "g32": "466bf7e35207c4f210cc5dce8ded9abfbfee04ecdc55ad644b8fc6653f9f4bff",
+    "g33": "466bf7e35207c4f210cc5dce8ded9abfbfee04ecdc55ad644b8fc6653f9f4bff",
+    "g34": "115d1ff9df69f947e808a0c2335a74fcf3dfe5c82b1f4316aa68cb452f234425",
+    "g35": "5b9e27c1eea5dd541f02617b49da7d6de307e2be956ddb927fbf021d7bd544de"
+  },
+  "textures": [
+    {
+      "key": "t0",
+      "sha256": "2d70e9e7c2b14efd18365e9f7e13ec95a9407beee97d81b39c1d42c283cd422d",
+      "bytes": 50701,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t1",
+      "sha256": "46c3e1746e9b89d065cfb7915311bf1bf9df7fee2e5280d859b1c4c18486c855",
+      "bytes": 33822,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "key": "t2",
+      "sha256": "708f406e77741f5fcb7ce6213a2f402845abdc73e24f4858cec81169f11c3010",
+      "bytes": 8151,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "key": "t3",
+      "sha256": "e0f466ca4014f242313377daf59228badfb5023040e29abd1aadc6fd005ccc0d",
+      "bytes": 34839,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t4",
+      "sha256": "5f2d0d71a24ec783faf00a2ddeab81765917a0ec377d952cef202ef86cddb144",
+      "bytes": 127598,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t5",
+      "sha256": "2d48ba718564a153528852b5d5c98493d16ba1edbc8fb08476df1afc831370d1",
+      "bytes": 8572,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "key": "t6",
+      "sha256": "7a8e118e055fa3041113d6e069ce402f07ac3562e47db7d6a117bc7be5a447d1",
+      "bytes": 61637,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t7",
+      "sha256": "03fbba4f000752767cd95e48dc0a9e599713ce4c01b41a4f86243ea08472bc29",
+      "bytes": 9674,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "key": "t8",
+      "sha256": "7a8e118e055fa3041113d6e069ce402f07ac3562e47db7d6a117bc7be5a447d1",
+      "bytes": 61637,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t9",
+      "sha256": "c280563f276b7e6ad724121309921718591ab0b4d5bf6376d8824ba940fbf8fe",
+      "bytes": 90580,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t10",
+      "sha256": "c280563f276b7e6ad724121309921718591ab0b4d5bf6376d8824ba940fbf8fe",
+      "bytes": 90580,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t11",
+      "sha256": "97833c6fc820b003a42108f8fcdf7987f36f1d5b444cf3912b021655ac125d14",
+      "bytes": 61194,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t12",
+      "sha256": "97833c6fc820b003a42108f8fcdf7987f36f1d5b444cf3912b021655ac125d14",
+      "bytes": 61194,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t13",
+      "sha256": "e3a98be35149d0780393c8f4a93528951d6fc64c8aa2dd5cb5c0bf2610e24b8e",
+      "bytes": 79121,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "key": "t14",
+      "sha256": "e3a98be35149d0780393c8f4a93528951d6fc64c8aa2dd5cb5c0bf2610e24b8e",
+      "bytes": 79121,
+      "width": 256,
+      "height": 256
+    }
+  ],
+  "materialsSHA256": "c7f26ec71eabea8fc7ba39b6499c432a7901e973b455c3d111b8a579ea2b8324",
+  "moldingAudit": {
+    "objects": 0,
+    "collinearOverlapPairs": 0,
+    "auditURL": "interior/luz/audit-moldings.json"
+  },
+  "metadata": {
+    "source": "FloorPlan + HouseMesh + FurnitureCatalog, actual browser scene",
+    "unitPath": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\interiores\\meio\\unidade.json",
+    "captureMode": "planta3d",
+    "runtimeLights": null,
+    "ceilingIncludedWhenHidden": true,
+    "albedoBeforeVertexAO": true,
+    "meshSlots": 36,
+    "objects": 36,
+    "bakeObjects": 34,
+    "nativeRecipeSHA256": "dc206ab5c031941b614fd889af9c843ee67a53371311dfcb2a7d61358177609d",
+    "nativeAssetsSHA256": {
+      "runtime": "cf84c09e1c243b0d48c31560c1c9d3d4cdd26586777144c559f4868c15f31da2",
+      "materials": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+      "furniture": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd"
+    },
+    "nativeFactorySHA256": "8cdcb146c77f61820dea230ce4c9c33f6654171ebb61059cdafb515311bae48a",
+    "exporterSHA256": "89132446c4b74cabf229c904dff142a0a041b5c1105ff7f810ddab51ba8461f7",
+    "furnitureSlots": [
+      {
+        "id": "movel-0",
+        "index": 0,
+        "slots": [
+          7
+        ]
+      },
+      {
+        "id": "movel-1",
+        "index": 1,
+        "slots": [
+          8
+        ]
+      },
+      {
+        "id": "movel-2",
+        "index": 2,
+        "slots": [
+          9
+        ]
+      },
+      {
+        "id": "movel-3",
+        "index": 3,
+        "slots": [
+          10
+        ]
+      },
+      {
+        "id": "movel-4",
+        "index": 4,
+        "slots": [
+          11
+        ]
+      },
+      {
+        "id": "movel-5",
+        "index": 5,
+        "slots": [
+          12
+        ]
+      },
+      {
+        "id": "movel-6",
+        "index": 6,
+        "slots": [
+          13
+        ]
+      },
+      {
+        "id": "movel-7",
+        "index": 7,
+        "slots": [
+          14
+        ]
+      },
+      {
+        "id": "movel-8",
+        "index": 8,
+        "slots": [
+          15
+        ]
+      },
+      {
+        "id": "movel-9",
+        "index": 9,
+        "slots": [
+          16
+        ]
+      },
+      {
+        "id": "movel-10",
+        "index": 10,
+        "slots": [
+          17
+        ]
+      },
+      {
+        "id": "movel-11",
+        "index": 11,
+        "slots": [
+          18
+        ]
+      },
+      {
+        "id": "movel-12",
+        "index": 12,
+        "slots": [
+          19
+        ]
+      },
+      {
+        "id": "movel-13",
+        "index": 13,
+        "slots": [
+          20
+        ]
+      },
+      {
+        "id": "movel-14",
+        "index": 14,
+        "slots": [
+          21
+        ]
+      },
+      {
+        "id": "movel-15",
+        "index": 15,
+        "slots": [
+          22
+        ]
+      },
+      {
+        "id": "movel-16",
+        "index": 16,
+        "slots": [
+          23
+        ]
+      },
+      {
+        "id": "movel-17",
+        "index": 17,
+        "slots": [
+          24
+        ]
+      },
+      {
+        "id": "movel-18",
+        "index": 18,
+        "slots": [
+          25
+        ]
+      },
+      {
+        "id": "movel-19",
+        "index": 19,
+        "slots": [
+          26
+        ]
+      },
+      {
+        "id": "movel-20",
+        "index": 20,
+        "slots": [
+          27
+        ]
+      },
+      {
+        "id": "movel-21",
+        "index": 21,
+        "slots": [
+          28
+        ]
+      },
+      {
+        "id": "movel-22",
+        "index": 22,
+        "slots": [
+          29
+        ]
+      },
+      {
+        "id": "movel-23",
+        "index": 23,
+        "slots": [
+          30
+        ]
+      },
+      {
+        "id": "movel-24",
+        "index": 24,
+        "slots": [
+          31
+        ]
+      },
+      {
+        "id": "movel-25",
+        "index": 25,
+        "slots": [
+          32
+        ]
+      },
+      {
+        "id": "movel-26",
+        "index": 26,
+        "slots": [
+          33
+        ]
+      },
+      {
+        "id": "movel-27",
+        "index": 27,
+        "slots": [
+          34
+        ]
+      },
+      {
+        "id": "movel-28",
+        "index": 28,
+        "slots": [
+          35
+        ]
+      }
+    ],
+    "materialOrigin": "native PBR snapshots",
+    "source2DSHA256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+  },
+  "checks": {
+    "sceneFromBrowser": true,
+    "unitIdentity": true,
+    "texturesMatchPNG": true,
+    "geometryFingerprints": true,
+    "positiveTargetMatrices": true,
+    "approvalStillRequired": true
+  }
+}

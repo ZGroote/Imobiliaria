@@ -1,0 +1,240 @@
+[
+  {
+    "radius": 0.3,
+    "step": 0.1,
+    "omit": [],
+    "walkableCells": 883,
+    "connectedCells": 795,
+    "rooms": [
+      {
+        "room": "Sala integrada",
+        "total": 582,
+        "reached": 582
+      },
+      {
+        "room": "Suíte",
+        "total": 104,
+        "reached": 77
+      },
+      {
+        "room": "Dormitório 01",
+        "total": 125,
+        "reached": 125
+      },
+      {
+        "room": "Varanda / serviço",
+        "total": 17,
+        "reached": 0
+      },
+      {
+        "room": "Banho suíte",
+        "total": 29,
+        "reached": 0
+      },
+      {
+        "room": "Banho",
+        "total": 26,
+        "reached": 11
+      }
+    ]
+  },
+  {
+    "radius": 0.3,
+    "step": 0.05,
+    "omit": [],
+    "walkableCells": 3660,
+    "connectedCells": 3435,
+    "rooms": [
+      {
+        "room": "Sala integrada",
+        "total": 2425,
+        "reached": 2425
+      },
+      {
+        "room": "Suíte",
+        "total": 390,
+        "reached": 390
+      },
+      {
+        "room": "Dormitório 01",
+        "total": 513,
+        "reached": 513
+      },
+      {
+        "room": "Varanda / serviço",
+        "total": 85,
+        "reached": 21
+      },
+      {
+        "room": "Banho suíte",
+        "total": 127,
+        "reached": 43
+      },
+      {
+        "room": "Banho",
+        "total": 120,
+        "reached": 43
+      }
+    ]
+  },
+  {
+    "radius": 0.25,
+    "step": 0.05,
+    "omit": [],
+    "walkableCells": 4514,
+    "connectedCells": 4122,
+    "rooms": [
+      {
+        "room": "Sala integrada",
+        "total": 2775,
+        "reached": 2775
+      },
+      {
+        "room": "Suíte",
+        "total": 594,
+        "reached": 594
+      },
+      {
+        "room": "Dormitório 01",
+        "total": 581,
+        "reached": 581
+      },
+      {
+        "room": "Varanda / serviço",
+        "total": 179,
+        "reached": 46
+      },
+      {
+        "room": "Banho suíte",
+        "total": 205,
+        "reached": 63
+      },
+      {
+        "room": "Banho",
+        "total": 180,
+        "reached": 63
+      }
+    ]
+  },
+  {
+    "radius": 0.22,
+    "step": 0.05,
+    "omit": [],
+    "walkableCells": 5000,
+    "connectedCells": 4488,
+    "rooms": [
+      {
+        "room": "Sala integrada",
+        "total": 3027,
+        "reached": 3027
+      },
+      {
+        "room": "Suíte",
+        "total": 648,
+        "reached": 648
+      },
+      {
+        "room": "Dormitório 01",
+        "total": 635,
+        "reached": 635
+      },
+      {
+        "room": "Varanda / serviço",
+        "total": 220,
+        "reached": 50
+      },
+      {
+        "room": "Banho suíte",
+        "total": 256,
+        "reached": 64
+      },
+      {
+        "room": "Banho",
+        "total": 214,
+        "reached": 64
+      }
+    ]
+  },
+  {
+    "radius": 0.3,
+    "step": 0.05,
+    "omit": [
+      24
+    ],
+    "walkableCells": 3928,
+    "connectedCells": 3764,
+    "rooms": [
+      {
+        "room": "Sala integrada",
+        "total": 2425,
+        "reached": 2425
+      },
+      {
+        "room": "Suíte",
+        "total": 390,
+        "reached": 390
+      },
+      {
+        "room": "Dormitório 01",
+        "total": 513,
+        "reached": 513
+      },
+      {
+        "room": "Varanda / serviço",
+        "total": 353,
+        "reached": 350
+      },
+      {
+        "room": "Banho suíte",
+        "total": 127,
+        "reached": 43
+      },
+      {
+        "room": "Banho",
+        "total": 120,
+        "reached": 43
+      }
+    ]
+  },
+  {
+    "radius": 0.3,
+    "step": 0.05,
+    "omit": [
+      17
+    ],
+    "walkableCells": 3767,
+    "connectedCells": 3542,
+    "rooms": [
+      {
+        "room": "Sala integrada",
+        "total": 2532,
+        "reached": 2532
+      },
+      {
+        "room": "Suíte",
+        "total": 390,
+        "reached": 390
+      },
+      {
+        "room": "Dormitório 01",
+        "total": 513,
+        "reached": 513
+      },
+      {
+        "room": "Varanda / serviço",
+        "total": 85,
+        "reached": 21
+      },
+      {
+        "room": "Banho suíte",
+        "total": 127,
+        "reached": 43
+      },
+      {
+        "room": "Banho",
+        "total": 120,
+        "reached": 43
+      }
+    ]
+  }
+]

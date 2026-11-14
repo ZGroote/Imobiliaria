@@ -1,0 +1,764 @@
+{
+  "status": "PASS",
+  "environment": "Chrome desktop; viewport estreito emulado, sem aparelho fÃ­sico",
+  "origin": "https://conectaimoveis3d.com.br",
+  "packageOverlay": null,
+  "cases": [
+    {
+      "site": "liv",
+      "typology": "canto",
+      "backend": "webgl",
+      "manifestSHA256": "af1b8deb730a14beb630373d9ea9ce32e74fbb0e13ecef8e0a6b3402bb87560a",
+      "errors": [],
+      "frames": [
+        {
+          "hour": 14,
+          "kind": "porta",
+          "image": "liv-canto-webgl-14-porta.png",
+          "pose": {
+            "opening": "a3",
+            "position": [
+              -2.8000000000000003,
+              1.62,
+              1.5250000000000006
+            ]
+          }
+        },
+        {
+          "hour": 14,
+          "kind": "janela",
+          "image": "liv-canto-webgl-14-janela.png",
+          "pose": {
+            "opening": "a9",
+            "position": [
+              -2.55,
+              1.62,
+              2.599999999999999
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "porta",
+          "image": "liv-canto-webgl-22-porta.png",
+          "pose": {
+            "opening": "a3",
+            "position": [
+              -2.8000000000000003,
+              1.62,
+              1.5250000000000006
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "janela",
+          "image": "liv-canto-webgl-22-janela.png",
+          "pose": {
+            "opening": "a9",
+            "position": [
+              -2.55,
+              1.62,
+              2.599999999999999
+            ]
+          }
+        }
+      ],
+      "status": "PASS",
+      "sourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df"
+    },
+    {
+      "site": "liv",
+      "typology": "canto",
+      "backend": "webgpu",
+      "manifestSHA256": "af1b8deb730a14beb630373d9ea9ce32e74fbb0e13ecef8e0a6b3402bb87560a",
+      "errors": [],
+      "frames": [
+        {
+          "hour": 14,
+          "kind": "porta",
+          "image": "liv-canto-webgpu-14-porta.png",
+          "pose": {
+            "opening": "a3",
+            "position": [
+              -2.8000000000000003,
+              1.62,
+              1.5250000000000006
+            ]
+          }
+        },
+        {
+          "hour": 14,
+          "kind": "janela",
+          "image": "liv-canto-webgpu-14-janela.png",
+          "pose": {
+            "opening": "a9",
+            "position": [
+              -2.55,
+              1.62,
+              2.599999999999999
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "porta",
+          "image": "liv-canto-webgpu-22-porta.png",
+          "pose": {
+            "opening": "a3",
+            "position": [
+              -2.8000000000000003,
+              1.62,
+              1.5250000000000006
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "janela",
+          "image": "liv-canto-webgpu-22-janela.png",
+          "pose": {
+            "opening": "a9",
+            "position": [
+              -2.55,
+              1.62,
+              2.599999999999999
+            ]
+          }
+        }
+      ],
+      "status": "PASS",
+      "sourceSHA256": "8644ebf8ca9e08d565a624d5c2e58055756a06ba56f1ad0510f0c0f1d86962df"
+    },
+    {
+      "site": "liv",
+      "typology": "meio",
+      "backend": "webgl",
+      "manifestSHA256": "e1ee0864f416cc0905393438b859f166138572cd4b4ae3fd0eee7350dcd6affa",
+      "errors": [],
+      "frames": [
+        {
+          "hour": 14,
+          "kind": "porta",
+          "image": "liv-meio-webgl-14-porta.png",
+          "pose": {
+            "opening": "a4",
+            "position": [
+              0.4249999999999998,
+              1.62,
+              2.0500000000000007
+            ]
+          }
+        },
+        {
+          "hour": 14,
+          "kind": "janela",
+          "image": "liv-meio-webgl-14-janela.png",
+          "pose": {
+            "opening": "a10",
+            "position": [
+              1.4250000000000005,
+              1.62,
+              2.225
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "porta",
+          "image": "liv-meio-webgl-22-porta.png",
+          "pose": {
+            "opening": "a4",
+            "position": [
+              0.4249999999999998,
+              1.62,
+              2.0500000000000007
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "janela",
+          "image": "liv-meio-webgl-22-janela.png",
+          "pose": {
+            "opening": "a10",
+            "position": [
+              1.4250000000000005,
+              1.62,
+              2.225
+            ]
+          }
+        }
+      ],
+      "status": "PASS",
+      "sourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17"
+    },
+    {
+      "site": "liv",
+      "typology": "meio",
+      "backend": "webgpu",
+      "manifestSHA256": "e1ee0864f416cc0905393438b859f166138572cd4b4ae3fd0eee7350dcd6affa",
+      "errors": [],
+      "frames": [
+        {
+          "hour": 14,
+          "kind": "porta",
+          "image": "liv-meio-webgpu-14-porta.png",
+          "pose": {
+            "opening": "a4",
+            "position": [
+              0.4249999999999998,
+              1.62,
+              2.0500000000000007
+            ]
+          }
+        },
+        {
+          "hour": 14,
+          "kind": "janela",
+          "image": "liv-meio-webgpu-14-janela.png",
+          "pose": {
+            "opening": "a10",
+            "position": [
+              1.4250000000000005,
+              1.62,
+              2.225
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "porta",
+          "image": "liv-meio-webgpu-22-porta.png",
+          "pose": {
+            "opening": "a4",
+            "position": [
+              0.4249999999999998,
+              1.62,
+              2.0500000000000007
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "janela",
+          "image": "liv-meio-webgpu-22-janela.png",
+          "pose": {
+            "opening": "a10",
+            "position": [
+              1.4250000000000005,
+              1.62,
+              2.225
+            ]
+          }
+        }
+      ],
+      "status": "PASS",
+      "sourceSHA256": "ee511db6ae1ac0e3dd87e70c0154ca30a2f2ed2684fd95e24600161be80c5d17"
+    },
+    {
+      "site": "laranjeiras",
+      "typology": "canto",
+      "backend": "webgl",
+      "manifestSHA256": "f3f5f8f3352136d645902e52550a45ae12aceca51794f0bccbde791dd62f0d87",
+      "errors": [],
+      "frames": [
+        {
+          "hour": 14,
+          "kind": "porta",
+          "image": "laranjeiras-canto-webgl-14-porta.png",
+          "pose": {
+            "opening": "a3",
+            "position": [
+              -1.5749999999999995,
+              1.62,
+              0.47499999999999987
+            ]
+          }
+        },
+        {
+          "hour": 14,
+          "kind": "janela",
+          "image": "laranjeiras-canto-webgl-14-janela.png",
+          "pose": {
+            "opening": "a7",
+            "position": [
+              -2.375,
+              1.62,
+              0.375
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "porta",
+          "image": "laranjeiras-canto-webgl-22-porta.png",
+          "pose": {
+            "opening": "a3",
+            "position": [
+              -1.5749999999999995,
+              1.62,
+              0.47499999999999987
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "janela",
+          "image": "laranjeiras-canto-webgl-22-janela.png",
+          "pose": {
+            "opening": "a7",
+            "position": [
+              -2.375,
+              1.62,
+              0.375
+            ]
+          }
+        }
+      ],
+      "status": "PASS",
+      "sourceSHA256": "2dfedba163a0e70965d454df17b1142eed74fdaa20182f50358c829dc4e46b16"
+    },
+    {
+      "site": "laranjeiras",
+      "typology": "canto",
+      "backend": "webgpu",
+      "manifestSHA256": "f3f5f8f3352136d645902e52550a45ae12aceca51794f0bccbde791dd62f0d87",
+      "errors": [],
+      "frames": [
+        {
+          "hour": 14,
+          "kind": "porta",
+          "image": "laranjeiras-canto-webgpu-14-porta.png",
+          "pose": {
+            "opening": "a3",
+            "position": [
+              -1.5749999999999995,
+              1.62,
+              0.47499999999999987
+            ]
+          }
+        },
+        {
+          "hour": 14,
+          "kind": "janela",
+          "image": "laranjeiras-canto-webgpu-14-janela.png",
+          "pose": {
+            "opening": "a7",
+            "position": [
+              -2.375,
+              1.62,
+              0.375
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "porta",
+          "image": "laranjeiras-canto-webgpu-22-porta.png",
+          "pose": {
+            "opening": "a3",
+            "position": [
+              -1.5749999999999995,
+              1.62,
+              0.47499999999999987
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "janela",
+          "image": "laranjeiras-canto-webgpu-22-janela.png",
+          "pose": {
+            "opening": "a7",
+            "position": [
+              -2.375,
+              1.62,
+              0.375
+            ]
+          }
+        }
+      ],
+      "status": "PASS",
+      "sourceSHA256": "2dfedba163a0e70965d454df17b1142eed74fdaa20182f50358c829dc4e46b16"
+    },
+    {
+      "site": "laranjeiras",
+      "typology": "meio",
+      "backend": "webgl",
+      "manifestSHA256": "1a28f8ad5e76095a25cc65cba94bcf991b7ca3a306bcf6e25c2a93946cb5fdec",
+      "errors": [],
+      "frames": [
+        {
+          "hour": 14,
+          "kind": "porta",
+          "image": "laranjeiras-meio-webgl-14-porta.png",
+          "pose": {
+            "opening": "a5",
+            "position": [
+              1.9249999999999998,
+              1.62,
+              2.1500000000000004
+            ]
+          }
+        },
+        {
+          "hour": 14,
+          "kind": "janela",
+          "image": "laranjeiras-meio-webgl-14-janela.png",
+          "pose": {
+            "opening": "a9",
+            "position": [
+              2.0250000000000004,
+              1.62,
+              3.649999999999999
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "porta",
+          "image": "laranjeiras-meio-webgl-22-porta.png",
+          "pose": {
+            "opening": "a5",
+            "position": [
+              1.9249999999999998,
+              1.62,
+              2.1500000000000004
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "janela",
+          "image": "laranjeiras-meio-webgl-22-janela.png",
+          "pose": {
+            "opening": "a9",
+            "position": [
+              2.0250000000000004,
+              1.62,
+              3.649999999999999
+            ]
+          }
+        }
+      ],
+      "status": "PASS",
+      "sourceSHA256": "08bb9124c5528cedf85eb00e6efdc37b3a4385eb0a3189d501d237d44579b2dc"
+    },
+    {
+      "site": "laranjeiras",
+      "typology": "meio",
+      "backend": "webgpu",
+      "manifestSHA256": "1a28f8ad5e76095a25cc65cba94bcf991b7ca3a306bcf6e25c2a93946cb5fdec",
+      "errors": [],
+      "frames": [
+        {
+          "hour": 14,
+          "kind": "porta",
+          "image": "laranjeiras-meio-webgpu-14-porta.png",
+          "pose": {
+            "opening": "a5",
+            "position": [
+              1.9249999999999998,
+              1.62,
+              2.1500000000000004
+            ]
+          }
+        },
+        {
+          "hour": 14,
+          "kind": "janela",
+          "image": "laranjeiras-meio-webgpu-14-janela.png",
+          "pose": {
+            "opening": "a9",
+            "position": [
+              2.0250000000000004,
+              1.62,
+              3.649999999999999
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "porta",
+          "image": "laranjeiras-meio-webgpu-22-porta.png",
+          "pose": {
+            "opening": "a5",
+            "position": [
+              1.9249999999999998,
+              1.62,
+              2.1500000000000004
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "janela",
+          "image": "laranjeiras-meio-webgpu-22-janela.png",
+          "pose": {
+            "opening": "a9",
+            "position": [
+              2.0250000000000004,
+              1.62,
+              3.649999999999999
+            ]
+          }
+        }
+      ],
+      "status": "PASS",
+      "sourceSHA256": "08bb9124c5528cedf85eb00e6efdc37b3a4385eb0a3189d501d237d44579b2dc"
+    },
+    {
+      "site": "laranjeiras",
+      "typology": "canto-espelhado",
+      "backend": "webgl",
+      "manifestSHA256": "6a0cebd1982f3da70a406ea03ca3a1b247cc3dba638d93e1b28dc58fa0fd1843",
+      "errors": [],
+      "frames": [
+        {
+          "hour": 14,
+          "kind": "porta",
+          "image": "laranjeiras-canto-espelhado-webgl-14-porta.png",
+          "pose": {
+            "opening": "a3",
+            "position": [
+              -0.02499999999999969,
+              1.62,
+              0.47499999999999987
+            ]
+          }
+        },
+        {
+          "hour": 14,
+          "kind": "janela",
+          "image": "laranjeiras-canto-espelhado-webgl-14-janela.png",
+          "pose": {
+            "opening": "a7",
+            "position": [
+              2.375000000000001,
+              1.62,
+              0.375
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "porta",
+          "image": "laranjeiras-canto-espelhado-webgl-22-porta.png",
+          "pose": {
+            "opening": "a3",
+            "position": [
+              -0.02499999999999969,
+              1.62,
+              0.47499999999999987
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "janela",
+          "image": "laranjeiras-canto-espelhado-webgl-22-janela.png",
+          "pose": {
+            "opening": "a7",
+            "position": [
+              2.375000000000001,
+              1.62,
+              0.375
+            ]
+          }
+        }
+      ],
+      "status": "PASS",
+      "sourceSHA256": "5b69f7f3865c37b652b8edbf4fc0d5c3f37ff93f722fe114b883ecc9478c6eca"
+    },
+    {
+      "site": "laranjeiras",
+      "typology": "canto-espelhado",
+      "backend": "webgpu",
+      "manifestSHA256": "6a0cebd1982f3da70a406ea03ca3a1b247cc3dba638d93e1b28dc58fa0fd1843",
+      "errors": [],
+      "frames": [
+        {
+          "hour": 14,
+          "kind": "porta",
+          "image": "laranjeiras-canto-espelhado-webgpu-14-porta.png",
+          "pose": {
+            "opening": "a3",
+            "position": [
+              -0.02499999999999969,
+              1.62,
+              0.47499999999999987
+            ]
+          }
+        },
+        {
+          "hour": 14,
+          "kind": "janela",
+          "image": "laranjeiras-canto-espelhado-webgpu-14-janela.png",
+          "pose": {
+            "opening": "a7",
+            "position": [
+              2.375000000000001,
+              1.62,
+              0.375
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "porta",
+          "image": "laranjeiras-canto-espelhado-webgpu-22-porta.png",
+          "pose": {
+            "opening": "a3",
+            "position": [
+              -0.02499999999999969,
+              1.62,
+              0.47499999999999987
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "janela",
+          "image": "laranjeiras-canto-espelhado-webgpu-22-janela.png",
+          "pose": {
+            "opening": "a7",
+            "position": [
+              2.375000000000001,
+              1.62,
+              0.375
+            ]
+          }
+        }
+      ],
+      "status": "PASS",
+      "sourceSHA256": "5b69f7f3865c37b652b8edbf4fc0d5c3f37ff93f722fe114b883ecc9478c6eca"
+    },
+    {
+      "site": "laranjeiras",
+      "typology": "meio-espelhado",
+      "backend": "webgl",
+      "manifestSHA256": "a6d29d62b85f72b9789d4b35892dc8eccefce0c863c102c35d73abab7877f51d",
+      "errors": [],
+      "frames": [
+        {
+          "hour": 14,
+          "kind": "porta",
+          "image": "laranjeiras-meio-espelhado-webgl-14-porta.png",
+          "pose": {
+            "opening": "a5",
+            "position": [
+              1.9249999999999998,
+              1.62,
+              -0.5499999999999992
+            ]
+          }
+        },
+        {
+          "hour": 14,
+          "kind": "janela",
+          "image": "laranjeiras-meio-espelhado-webgl-14-janela.png",
+          "pose": {
+            "opening": "a9",
+            "position": [
+              2.0250000000000004,
+              1.62,
+              -3.6499999999999995
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "porta",
+          "image": "laranjeiras-meio-espelhado-webgl-22-porta.png",
+          "pose": {
+            "opening": "a5",
+            "position": [
+              1.9249999999999998,
+              1.62,
+              -0.5499999999999992
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "janela",
+          "image": "laranjeiras-meio-espelhado-webgl-22-janela.png",
+          "pose": {
+            "opening": "a9",
+            "position": [
+              2.0250000000000004,
+              1.62,
+              -3.6499999999999995
+            ]
+          }
+        }
+      ],
+      "status": "PASS",
+      "sourceSHA256": "e47c3ef7c1235a8469c22258720743f7e603758f5e48462f1253bff44ec7a8e5"
+    },
+    {
+      "site": "laranjeiras",
+      "typology": "meio-espelhado",
+      "backend": "webgpu",
+      "manifestSHA256": "a6d29d62b85f72b9789d4b35892dc8eccefce0c863c102c35d73abab7877f51d",
+      "errors": [],
+      "frames": [
+        {
+          "hour": 14,
+          "kind": "porta",
+          "image": "laranjeiras-meio-espelhado-webgpu-14-porta.png",
+          "pose": {
+            "opening": "a5",
+            "position": [
+              1.9249999999999998,
+              1.62,
+              -0.5499999999999992
+            ]
+          }
+        },
+        {
+          "hour": 14,
+          "kind": "janela",
+          "image": "laranjeiras-meio-espelhado-webgpu-14-janela.png",
+          "pose": {
+            "opening": "a9",
+            "position": [
+              2.0250000000000004,
+              1.62,
+              -3.6499999999999995
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "porta",
+          "image": "laranjeiras-meio-espelhado-webgpu-22-porta.png",
+          "pose": {
+            "opening": "a5",
+            "position": [
+              1.9249999999999998,
+              1.62,
+              -0.5499999999999992
+            ]
+          }
+        },
+        {
+          "hour": 22,
+          "kind": "janela",
+          "image": "laranjeiras-meio-espelhado-webgpu-22-janela.png",
+          "pose": {
+            "opening": "a9",
+            "position": [
+              2.0250000000000004,
+              1.62,
+              -3.6499999999999995
+            ]
+          }
+        }
+      ],
+      "status": "PASS",
+      "sourceSHA256": "e47c3ef7c1235a8469c22258720743f7e603758f5e48462f1253bff44ec7a8e5"
+    }
+  ]
+}

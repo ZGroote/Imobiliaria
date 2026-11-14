@@ -9,7 +9,7 @@ import { entrar, sairDeTodos } from './apoio.ts'
 before(semear)
 after(sairDeTodos)
 
-test('convites: só o admin convida; papel de imobiliária exige imobiliária', async () => {
+test('convites: admin convida para todos os papéis; papel de imobiliária exige imobiliária', async () => {
   const admin = await entrar('admin'), op = await entrar('op')
   await convidar(admin.db, 'admin', { email: ' Nova.Corretora@Painel.test ', name: 'Nova', role: 'agent',
     agencyId: 'agA', agencyName: 'Imobiliária Fictícia A (dev)' })
@@ -33,6 +33,33 @@ test('convites: só o admin convida; papel de imobiliária exige imobiliária', 
   await assert.rejects(getDocs(query(usuariosPorNome(corA.db), limit(3))), /permission/i)   // só a equipe lista todos
   await cancelarConvite(admin.db, 'op2@painel.test')
   assert.equal((await getDoc(doc(admin.db, 'invites/op2@painel.test'))).exists(), false)
+})
+
+test('convites: gerente cadastra, lista e cancela corretores só da própria imobiliária', async () => {
+  await semear()
+  const admin = await entrar('admin'), gerente = await entrar('gerA'), corretor = await entrar('corA')
+  const convite = { email: 'equipe@painel.test', name: 'Equipe', role: 'agent' as const, agencyId: 'agA' }
+  await convidar(gerente.db, gerente.uid, convite)
+  const ref = doc(gerente.db, 'invites', convite.email)
+  assert.equal((await getDoc(ref)).data()!.createdBy, 'gerA')
+  const pendentes = () => query(collection(gerente.db, 'invites'),
+    where('agencyId', '==', 'agA'), where('role', '==', 'agent'))
+  assert.deepEqual((await getDocs(pendentes())).docs.map((d) => d.id), [convite.email])
+
+  for (const role of ['agency_manager', 'platform_admin', 'operator'] as const) {
+    await assert.rejects(convidar(gerente.db, gerente.uid, { ...convite, role }), /permission/i)
+  }
+  await assert.rejects(convidar(gerente.db, gerente.uid, { ...convite, agencyId: 'agB' }), /permission/i)
+  await assert.rejects(convidar(gerente.db, 'admin', convite), /permission/i)
+  await assert.rejects(convidar(corretor.db, corretor.uid, convite), /permission/i)
+  await assert.rejects(cancelarConvite(corretor.db, convite.email), /permission/i)
+  await cancelarConvite(gerente.db, convite.email)
+  assert.equal((await getDocs(pendentes())).size, 0)
+
+  await convidar(admin.db, admin.uid, { ...convite, agencyId: 'agB' })
+  await assert.rejects(convidar(gerente.db, gerente.uid, convite), /permission/i)
+  await assert.rejects(getDoc(ref), /permission/i)
+  await assert.rejects(cancelarConvite(gerente.db, convite.email), /permission/i)
 })
 
 test('usuários: admin muda papel e desativa; desativar vale na hora', async () => {

@@ -1,0 +1,8 @@
+{
+  "functions": [{
+    "source": "rastreabilidade/functions",
+    "codebase": "tracking",
+    "ignore": ["node_modules", ".git", "*.log", ".env*"],
+    "predeploy": ["npm --prefix rastreabilidade/functions run build"]
+  }]
+}

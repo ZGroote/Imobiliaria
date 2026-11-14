@@ -1,0 +1,51 @@
+{
+  "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+  "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+  "sourceObjects": 36,
+  "targetObjects": 34,
+  "totalSceneTriangles": 32876,
+  "splitNormalsPreserved": true,
+  "lighting": {
+    "name": "LIV Meio, luz diurna ilustrativa e plafons por ambiente",
+    "world": {
+      "color": [
+        0.72,
+        0.82,
+        1
+      ],
+      "strength": 0.45
+    },
+    "sun": {
+      "position": [
+        -7,
+        9,
+        10
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "energy": 2.2,
+      "angleDegrees": 4,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    "ceiling": {
+      "energy": 45,
+      "size": 0.32,
+      "color": [
+        1,
+        0.95,
+        0.86
+      ]
+    }
+  },
+  "blendBytes": 1774236,
+  "glbBytes": null,
+  "glbError": null,
+  "note": "GLB contains same meshes/PBR/UV1, RGBM transport is integrated separately in LIV viewer"
+}

@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "physicalMobile": false,
+  "recordedAt": "2026-10-11T20:47:21.265987+00:00",
+  "sources": {
+    "catalogo-unidades.js": "833916dc1fc589fa9a96e2d5b24141aff07386957bf69eed21865d5a4ba6d7eb",
+    "viewer.js": "8d23900823a3a0053190158b9b24753fc1a9136805b9feb64b8517cbcd1be152",
+    "renderer.js": "45c04fb62ac2325778b88981852a2a3a62bdb054ed481558441d553dda3ed9b5",
+    "picking.js": "a8fa0391cd8618e64322a933a4dbcbbe7bc094d05b092609793ba137c5cec103",
+    "unit-ui.js": "ff6379391d65bf6ef3f2bfe0785f2c7c61d6d0aceb978a2b342c0c30c3d78ab1",
+    "espelho.js": "f9ac4e9cf8c1237f008fa486d9edebdb9350a5a441c01e080bb4b882c0cb7877",
+    "cameras.js": "b24990b0fcc994e0316011e600fe8581a8c7eab2df441209c9c7936c67a98e6f",
+    "maquete-liv-ipanema.html": "fc6650a000960461bc49b4e5eb60378370091a202336ccea90a2d1d10df84ef1",
+    "unit-ui.css": "ae06d1d589ed7eaeb77fb92f5e83da7b6a14ca918c2243b8a3764607f25fcaf3",
+    "mapa-retorno.js": "791b1ee55b467fe0851631b0cd2f6ebfd56750259a4b64fd79fbcaf8c2dedc1f",
+    "qa_catalogo.py": "c2518b28e2d85719624818678ebf195e02f19e0070cd5776c865fb578e58883a"
+  },
+  "cases": [
+    {
+      "backendRequested": "webgpu",
+      "touchEmulated": false,
+      "status": "PASS",
+      "errors": [],
+      "backendEffective": "webgpu",
+      "synchronizedPositions": 170,
+      "sourceUnchanged": true,
+      "twoTypologiesFourModes": true,
+      "reloadAndMapReturn": true
+    },
+    {
+      "backendRequested": "webgl",
+      "touchEmulated": false,
+      "status": "PASS",
+      "errors": [],
+      "backendEffective": "webgl",
+      "synchronizedPositions": 170,
+      "sourceUnchanged": true,
+      "twoTypologiesFourModes": true,
+      "reloadAndMapReturn": true
+    },
+    {
+      "backendRequested": "auto",
+      "touchEmulated": true,
+      "status": "PASS",
+      "errors": [],
+      "backendEffective": "webgpu",
+      "synchronizedPositions": 170,
+      "sourceUnchanged": true,
+      "twoTypologiesFourModes": true,
+      "reloadAndMapReturn": true
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

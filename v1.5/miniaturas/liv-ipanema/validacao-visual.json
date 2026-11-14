@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "date": "2026-10-08",
+  "modeloSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+  "capturasSHA256": {
+    "comparacoes/fachada.png": "61e78f920e32bb9ed3290fb569e4cff96e4f0608ed0f3ea03a1b44cde9d72262",
+    "comparacoes/aerea.png": "f2a012c37dd846c5313ab554a34fec2f4263c6fcba79b4c4d8f665dbd4291a6f",
+    "comparacoes/portaria.png": "f68853021a3caba66260f0cb53f809911e843ae66f3e77e264dc2f54106e6f3a",
+    "comparacoes/implantacao.png": "7af955daa390f8ab3eb35075571c8b315691812d19e81ef076efccad1d3ba06f"
+  },
+  "scope": "Revisao visual independente das quatro vistas e pranchas contra as fotos oficiais.",
+  "finding": "Silhueta, varandas, nucleo descentrado, portal, lazer, bosque e estacionamento coerentes com as referencias; implantacao ortografica sem ampliacao da cobertura.",
+  "limits": [
+    "Medidas inferidas de imagens sem cotas.",
+    "Detalhes ocultos e interiores aproximados.",
+    "Vegetacao, cameras e iluminacao diferem das imagens de marketing."
+  ]
+}

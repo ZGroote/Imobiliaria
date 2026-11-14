@@ -1,0 +1,148 @@
+{
+  "_gerado_por": "capturador-2d",
+  "moveis": [
+    {
+      "tipo": "cama",
+      "p": [
+        3.15,
+        0.45
+      ],
+      "rot": 3,
+      "w": 0.9,
+      "h": 0.95,
+      "d": 1.95,
+      "cor": "#D9D4CC",
+      "nome": "Beliche 1"
+    },
+    {
+      "tipo": "cama",
+      "p": [
+        1.05,
+        1.9
+      ],
+      "rot": 3,
+      "w": 0.9,
+      "h": 0.95,
+      "d": 1.95,
+      "cor": "#D9D4CC",
+      "nome": "Beliche 2"
+    },
+    {
+      "tipo": "guardaroupa",
+      "p": [
+        1.05,
+        0.3
+      ],
+      "rot": 0,
+      "w": 1.8,
+      "h": 2.3,
+      "d": 0.52,
+      "cor": "#A57A52",
+      "nome": "Armário 1"
+    },
+    {
+      "tipo": "guardaroupa",
+      "p": [
+        3.05,
+        2.1
+      ],
+      "rot": 2,
+      "w": 1.8,
+      "h": 2.3,
+      "d": 0.52,
+      "cor": "#A57A52",
+      "nome": "Armário 2"
+    },
+    {
+      "tipo": "mesa",
+      "p": [
+        6.2,
+        0.3
+      ],
+      "rot": 0,
+      "w": 3.8,
+      "h": 0.74,
+      "d": 0.56,
+      "cor": "#A57A52",
+      "nome": "Bancada de estudo para 4"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        7.95,
+        2.1
+      ],
+      "rot": 2,
+      "w": 1.7,
+      "h": 0.92,
+      "d": 0.56,
+      "cor": "#C9C3BA",
+      "nome": "Copa com pia e cooktop"
+    },
+    {
+      "tipo": "geladeira",
+      "p": [
+        6.7,
+        2.1
+      ],
+      "rot": 2,
+      "w": 0.6,
+      "h": 1.78,
+      "d": 0.56,
+      "cor": "#D6D9DA",
+      "nome": "Geladeira"
+    },
+    {
+      "tipo": "box",
+      "p": [
+        11.55,
+        0.4
+      ],
+      "rot": 0,
+      "w": 1.5,
+      "h": 2,
+      "d": 0.7,
+      "cor": "#DDE5E4",
+      "nome": "Banheira"
+    },
+    {
+      "tipo": "vaso",
+      "p": [
+        11.95,
+        1.2
+      ],
+      "rot": 3,
+      "w": 0.4,
+      "h": 0.8,
+      "d": 0.65,
+      "cor": "#F2F1EE",
+      "nome": "Vaso"
+    },
+    {
+      "tipo": "pia",
+      "p": [
+        12.15,
+        1.95
+      ],
+      "rot": 3,
+      "w": 0.65,
+      "h": 0.85,
+      "d": 0.5,
+      "cor": "#F2F1EE",
+      "nome": "Lavatório"
+    },
+    {
+      "tipo": "tapete",
+      "p": [
+        5.45,
+        1.25
+      ],
+      "rot": 0,
+      "w": 2,
+      "h": 0.02,
+      "d": 1,
+      "cor": "#CFC6B8",
+      "nome": "Tapete"
+    }
+  ]
+}

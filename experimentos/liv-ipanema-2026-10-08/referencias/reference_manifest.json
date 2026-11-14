@@ -1,0 +1,20 @@
+{
+  "project": "LIV Ipanema",
+  "analysis_date": "2026-10-08",
+  "source_url": "https://www.livonincorporadora.com.br/produtos/liv-ipanema/",
+  "official_information_supplied_by_parent": {"towers": 1, "floors": 17, "units": 170, "site_area_m2": 6921.79},
+  "sources": [
+    {"file": "fachada.jpg", "role": "street-perspective-main-long-facade", "limitations": "Perspective render, landscaping partially conceals base; dimensions are not survey measurements."},
+    {"file": "aerea.jpg", "role": "aerial-perspective-site-and-tower", "limitations": "Perspective render useful for volume, planted buffer and surrounding streets; no dimensions."},
+    {"file": "implantacao.jpg", "role": "top-plan-site-and-apartment-finals", "limitations": "Marketing plan with numbered amenity legend; diagram has no dimensional scale."},
+    {"file": "portaria.jpg", "role": "street-perspective-gate-and-main-long-facade", "limitations": "Dusk render useful for entry composition and main facade; tree occlusion and perspective."}
+  ],
+  "hard_expected_counts": {"tower": 1, "repeated_apartment_floors": 17, "apartment_finals_per_floor": 10, "main_long_facade_balcony_stacks": 5, "main_long_facade_balcony_groups": 3, "outdoor_pool_complex": 1, "gatehouse_complex": 1},
+  "hard_expected_shapes": ["elongated slab tower with approximately 3.5:1 roof footprint aspect ratio", "flat stepped parapets", "projecting central opaque vertical shaft", "surface parking around slab", "substantial planted buffer at opposite end to gate"],
+  "reference_validation": {
+    "method": "Side-by-side images from cameras matched to reference perspectives, plus separate top-plan comparison. Rendered marketing references do not justify dimensionally exact reconstruction.",
+    "must_check": ["17 repeated floor rows", "5 balcony stacks arranged 2+1+2 on the main long face", "tower footprint width/length and height proportions", "pool and entry at opposite ends of street-side amenity strip", "parking circulation wrapping tower", "forest occupying far end of site", "stepped roof and tall central shaft"],
+    "qualitative_gate": "All hard expected counts and layout relationships must match. Any guessed dimensions, back-face details or unseen geometry must be marked as inferred.",
+    "silhouette_metrics": "Use only after perspective alignment and architectural masks; do not compare full scenes with different landscape/background by raw SSIM or IoU."
+  }
+}

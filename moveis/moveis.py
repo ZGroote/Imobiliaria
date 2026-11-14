@@ -429,6 +429,122 @@ def sofa_braco(estofado=HERDA, pe=GRAFITE):
     return obs
 
 
+"""ESTILOS de sofa: o mesmo contrato do par acima, outra silhueta.
+
+   Cada estilo e um par `sofa_mod_<estilo>` + `sofa_braco_<estilo>`, e `sofaParam` escolhe
+   o par pelo `estilo` do registro (o `mobiliar.py` sorteia). O que nao muda entre eles,
+   e por isso a troca nao mexe no layout: MOD_W de largura, 0,92 de fundo e 0,80 de
+   altura -- `sofaParam` escala a altura e o fundo pela caixa MEDIDA do modulo, entao um
+   estilo mais baixo chegaria esticado. O que muda e o que o olho usa pra dizer "outro
+   sofa": braco (largura e altura), pe (some, palito, bloco, dourado) e encosto (solto,
+   justo, canelado). No Blender o braco direito fica no +X do app, e o -X daqui e o lado
+   de FORA do braco -- e onde o pe vai."""
+OURO = 0xC9A45C
+# Pe e travessa do palito. MADEIRA (0xA9793F) chega creme na sala depois do ACES e le
+# como plastico; o pe palito so le madeira mais escuro.
+NOGUEIRA = 0x5E3F27
+
+
+def sofa_mod_nuvem(estofado=HERDA, base=GRAFITE):
+    """Cloud/slouch: tudo gordo e arredondado, sem pe a mostra (rodape recuado)."""
+    return [
+        caixa("rodape", (0, 0, 0.02), (MOD_W - 0.06, 0.78, 0.04), base, 0.004, 1),
+        # A base fica com aresta de CORPO (3 cm, sem subsurf): redonda como o resto,
+        # o sofa lia como duas almofadas empilhadas, e a junta entre lugares abria um V.
+        caixa("base", (0, 0, 0.14), (MOD_W, 0.92, 0.20), estofado, 0.03, 2),
+        caixa("assento", (0, 0.06, 0.33), (MOD_W - 0.01, 0.80, 0.20), estofado, 0.08, 2,
+              subsurf=1, suave=True),
+        caixa("encosto", (0, -0.39, 0.43), (MOD_W, 0.14, 0.42), estofado, 0.05, 2,
+              subsurf=1, suave=True),
+        caixa("almofada", (0, -0.25, 0.58), (MOD_W - 0.03, 0.22, 0.40), estofado, 0.09, 2,
+              subsurf=1, suave=True, rot=(0.18, 0, 0)),
+    ]
+
+
+def sofa_braco_nuvem(estofado=HERDA, base=GRAFITE):
+    return [
+        caixa("rodape", (0, 0, 0.02), (0.20, 0.78, 0.04), base, 0.004, 1),
+        caixa("braco", (0, 0, 0.32), (0.28, 0.92, 0.56), estofado, 0.09, 2,
+              subsurf=1, suave=True),
+    ]
+
+
+def sofa_mod_palito(estofado=HERDA, madeira=NOGUEIRA):
+    """Mid-century: caixa fina sobre travessa de madeira, encosto baixo e justo."""
+    return [
+        caixa("travessa", (0, 0.43, 0.22), (MOD_W, 0.035, 0.05), madeira, 0.006, 2),
+        caixa("base", (0, 0, 0.30), (MOD_W, 0.86, 0.13), estofado, 0.02, 2),
+        caixa("assento", (0, 0.07, 0.42), (MOD_W - 0.015, 0.72, 0.12), estofado, 0.035, 2,
+              subsurf=1, suave=True),
+        caixa("encosto", (0, -0.36, 0.56), (MOD_W, 0.13, 0.46), estofado, 0.025, 2,
+              rot=(0.12, 0, 0)),
+        caixa("almofada", (0, -0.25, 0.62), (MOD_W - 0.06, 0.10, 0.30), estofado, 0.04, 2,
+              subsurf=1, suave=True, rot=(0.16, 0, 0)),
+    ]
+
+
+def sofa_braco_palito(estofado=HERDA, madeira=NOGUEIRA):
+    obs = [caixa("braco", (0, 0, 0.42), (0.11, 0.86, 0.38), estofado, 0.025, 2)]
+    # Pe PALITO: afina ate o chao (r embaixo, r2 em cima). E a assinatura do estilo.
+    for sy in (-1, 1):
+        obs.append(cilindro("pe", (-0.015, sy * 0.36, 0.0), 0.011, 0.24, madeira,
+                            lados=10, r2=0.022))
+    return obs
+
+
+def sofa_mod_tuxedo(estofado=HERDA):
+    """Tuxedo: encosto justo e reto, almofada solta fina, aresta viva de alfaiataria."""
+    return [
+        caixa("base", (0, 0, 0.215), (MOD_W, 0.92, 0.31), estofado, 0.02, 2),
+        caixa("assento", (0, 0.08, 0.43), (MOD_W - 0.01, 0.74, 0.13), estofado, 0.035, 2,
+              subsurf=1, suave=True),
+        caixa("encosto", (0, -0.37, 0.58), (MOD_W, 0.18, 0.44), estofado, 0.02, 2),
+        caixa("almofada", (0, -0.225, 0.64), (MOD_W - 0.03, 0.12, 0.30), estofado, 0.04, 2,
+              subsurf=1, suave=True, rot=(0.10, 0, 0)),
+    ]
+
+
+def sofa_braco_tuxedo(estofado=HERDA, pe=INOX):
+    """O braco SOBE ate a altura do encosto -- e isso que faz o tuxedo."""
+    obs = [caixa("braco", (0, 0, 0.43), (0.17, 0.92, 0.74), estofado, 0.02, 2)]
+    for sy in (-1, 1):
+        obs.append(caixa("pe", (-0.02, sy * 0.40, 0.03), (0.045, 0.045, 0.06), pe,
+                         0.004, 1))
+    return obs
+
+
+def sofa_mod_canelado(estofado=HERDA, metal=OURO):
+    """Art deco: encosto em CANALETAS verticais e base sobre faixa dourada."""
+    obs = [
+        caixa("faixa", (0, 0, 0.06), (MOD_W, 0.84, 0.02), metal, 0.004, 1),
+        caixa("base", (0, 0, 0.19), (MOD_W, 0.90, 0.24), estofado, 0.03, 2),
+        caixa("assento", (0, 0.10, 0.38), (MOD_W - 0.01, 0.70, 0.15), estofado, 0.05, 2,
+              subsurf=1, suave=True),
+    ]
+    # Quatro canaletas por lugar. A folga entre elas e o vinco que le "canelado";
+    # encostadas, viram um encosto liso de novo.
+    n = 4
+    cw = MOD_W / n
+    for i in range(n):
+        obs.append(caixa("canal", (-MOD_W / 2 + cw * (i + 0.5), -0.35, 0.55),
+                         (cw - 0.006, 0.20, 0.50), estofado, 0.07, 3,
+                         subsurf=1, suave=True))
+    return obs
+
+
+def sofa_braco_canelado(estofado=HERDA, metal=OURO):
+    obs = [caixa("faixa", (0, 0, 0.06), (0.20, 0.84, 0.02), metal, 0.004, 1),
+           caixa("braco", (0, 0, 0.385), (0.20, 0.90, 0.63), estofado, 0.07, 3,
+                 subsurf=1, suave=True)]
+    for sy in (-1, 1):
+        obs.append(cilindro("pe", (0, sy * 0.36, 0.0), 0.016, 0.05, metal, lados=10,
+                            r2=0.022))
+    return obs
+
+
+ESTILOS_SOFA = ("nuvem", "palito", "tuxedo", "canelado")
+
+
 # -------------------------------------------------------------- geladeira --
 def geladeira(corpo=HERDA):
     """0,68 x 1,78 x 0,68 -- duas portas SALIENTES, canaleta no lugar da barra.
@@ -659,3 +775,6 @@ CATALOGO = {"sofa_mod": sofa_mod, "sofa_braco": sofa_braco,
             "geladeira": geladeira, "mesa": mesa, "cadeira": cadeira,
             "estante": estante,
             "vaso": vaso, "tapete": tapete}
+for _e in ESTILOS_SOFA:
+    CATALOGO["sofa_mod_" + _e] = globals()["sofa_mod_" + _e]
+    CATALOGO["sofa_braco_" + _e] = globals()["sofa_braco_" + _e]

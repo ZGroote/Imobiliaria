@@ -1,0 +1,7 @@
+{
+  "functions": [{
+    "source": "emails",
+    "codebase": "emails",
+    "ignore": ["node_modules", ".git", "*.log", ".env*", "README.md", "dns.json"]
+  }]
+}

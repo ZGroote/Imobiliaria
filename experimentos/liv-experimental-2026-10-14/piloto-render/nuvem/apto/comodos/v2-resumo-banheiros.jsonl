@@ -1,0 +1,2 @@
+{"nome": "banho-suite", "vistas": 355, "gaussianas": 382204, "minutos": 8.2, "psnr": 38.31, "ssim": 1.0043, "lpips": 0.0262}
+{"nome": "banho-social", "vistas": 347, "gaussianas": 418985, "minutos": 14.0, "psnr": 38.09, "ssim": 0.9947, "lpips": 0.0297}

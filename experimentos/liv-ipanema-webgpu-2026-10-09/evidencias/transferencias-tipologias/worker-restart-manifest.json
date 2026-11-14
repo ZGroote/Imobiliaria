@@ -1,0 +1,57 @@
+{
+  "schema": "liv-transfer-manifest-v1",
+  "version": "0b0d1900de3628ac37fb28e8cf054a820389cf6297fcf22a20fc6b5e752762b1",
+  "order": [
+    "tour",
+    "map",
+    "planta2d"
+  ],
+  "groups": {
+    "tour": {
+      "label": "Tour 3D"
+    },
+    "map": {
+      "label": "Mapa"
+    },
+    "planta2d": {
+      "label": "Planta 2D"
+    }
+  },
+  "files": [
+    {
+      "path": "site-baseline/worker-restart-tour.html",
+      "group": "tour",
+      "bytes": 77913,
+      "sha256": "4e86c9f77b4e34fb5db0c365524410f284c23199eae4d6211d7e5903388f3502",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/worker-restart-map.html",
+      "group": "map",
+      "bytes": 73816,
+      "sha256": "aea3b5f068a2759f75cbf7937e4300e41606272f762c5f9cccaa794e4cc62939",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/worker-restart-map.glb",
+      "group": "map",
+      "bytes": 40960,
+      "sha256": "1f86232b7150d4703b07b66cdef32ac3f20f8b34c3e6142afe25a8dcab7d6836",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/worker-restart-map.bin",
+      "group": "map",
+      "bytes": 38912,
+      "sha256": "75c92e1370b64a0b2b027ee82ca87581549e8a98c34afa52b7912f67f354b6d1",
+      "essential": false
+    },
+    {
+      "path": "plantas2d/worker-restart-planta.png",
+      "group": "planta2d",
+      "bytes": 77,
+      "sha256": "0acc39e4f83f9dc702736454906cc8e8dcb1e0cf8f7e325bd10251447cbf5ddf",
+      "essential": true
+    }
+  ]
+}

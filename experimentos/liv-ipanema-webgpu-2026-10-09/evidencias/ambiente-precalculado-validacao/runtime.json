@@ -1,0 +1,557 @@
+{
+  "status": "PASS",
+  "recordedAtUtc": "2026-10-11T08:21:37.744404+00:00",
+  "physicalMobile": false,
+  "sourceSHA256": {
+    "qa_ambiente.py": "c03197bebd8f89a4f4cd551712364723cec14c3cd366cb63524654da9e987c8c",
+    "ambiente.js": "0d0d20f2c38fdb073d93363f581e81e9f62c6efddc529b090bb56ccaef0efd41",
+    "renderer.js": "a1549885541083d26058160585b7693ac5760f5819ae719c33aebdf96332946b",
+    "viewer.js": "a898a2a64cc8e6f40bec85a8a5fe12a6008bf74b679cc801d2f6ee5826212cf0",
+    "material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+    "assets-ambiente/manifest.json": "9f1b6ed426bc8ea129cb25864409de7f22c317b9e463717e41a186fce3d91b56",
+    "assets-ambiente/ambiente.f16.gz": "33d907b23422b798625ef6674617d7890f9d8addd9bbf51dfc7562fd4526bdb8",
+    "assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57",
+    "modelo/variante/assets/manifest.json": "e22c8e38057ebdcfdb1d61c3961dc3a30d1fa394e50b37f83da3e9fbe2d588ea"
+  },
+  "cases": [
+    {
+      "profile": "webgpu",
+      "geometry": "base",
+      "procedural": {
+        "backend": "webgpu",
+        "environment": "procedural",
+        "fallback": null,
+        "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+        "canvas": [
+          920,
+          556
+        ],
+        "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+        "disposed": {
+          "disposed": true,
+          "ready": false,
+          "children": 0,
+          "environmentDisposes": 1
+        }
+      },
+      "precalculado": {
+        "backend": "webgpu",
+        "environment": "precalculado",
+        "fallback": null,
+        "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+        "canvas": [
+          920,
+          556
+        ],
+        "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+        "disposed": {
+          "disposed": true,
+          "ready": false,
+          "children": 0,
+          "environmentDisposes": 1
+        }
+      },
+      "views": [
+        {
+          "view": "perspectiva",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 1.3033052255195798e-06
+        },
+        {
+          "view": "aerea",
+          "maxRgbDelta": 0.0,
+          "meanRgbDelta": 0.0
+        },
+        {
+          "view": "varandas",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 7.168178399297176e-06
+        },
+        {
+          "view": "acesso",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 3.909915449185064e-06
+        },
+        {
+          "view": "implantacao",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 6.516526127597899e-07
+        },
+        {
+          "view": "final",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 1.8246271793032065e-05
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "profile": "webgpu",
+      "geometry": "contorno",
+      "procedural": {
+        "backend": "webgpu",
+        "environment": "procedural",
+        "fallback": null,
+        "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+        "canvas": [
+          920,
+          556
+        ],
+        "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+        "disposed": {
+          "disposed": true,
+          "ready": false,
+          "children": 0,
+          "environmentDisposes": 1
+        }
+      },
+      "precalculado": {
+        "backend": "webgpu",
+        "environment": "precalculado",
+        "fallback": null,
+        "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+        "canvas": [
+          920,
+          556
+        ],
+        "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+        "disposed": {
+          "disposed": true,
+          "ready": false,
+          "children": 0,
+          "environmentDisposes": 1
+        }
+      },
+      "views": [
+        {
+          "view": "perspectiva",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 6.516526127597899e-07
+        },
+        {
+          "view": "aerea",
+          "maxRgbDelta": 0.0,
+          "meanRgbDelta": 0.0
+        },
+        {
+          "view": "varandas",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 3.909915449185064e-06
+        },
+        {
+          "view": "acesso",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 1.954957724592532e-06
+        },
+        {
+          "view": "implantacao",
+          "maxRgbDelta": 0.0,
+          "meanRgbDelta": 0.0
+        },
+        {
+          "view": "final",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 2.0852883608313277e-05
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "profile": "webgl",
+      "geometry": "base",
+      "procedural": {
+        "backend": "webgl",
+        "environment": "procedural",
+        "fallback": null,
+        "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+        "canvas": [
+          920,
+          556
+        ],
+        "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+        "disposed": {
+          "disposed": true,
+          "ready": false,
+          "children": 0,
+          "environmentDisposes": 1
+        }
+      },
+      "precalculado": {
+        "backend": "webgl",
+        "environment": "precalculado",
+        "fallback": null,
+        "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+        "canvas": [
+          920,
+          556
+        ],
+        "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+        "disposed": {
+          "disposed": true,
+          "ready": false,
+          "children": 0,
+          "environmentDisposes": 1
+        }
+      },
+      "views": [
+        {
+          "view": "perspectiva",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 5.8648734011512715e-06
+        },
+        {
+          "view": "aerea",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 7.819830898370128e-06
+        },
+        {
+          "view": "varandas",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 2.6066104510391597e-06
+        },
+        {
+          "view": "acesso",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 1.0426441804156639e-05
+        },
+        {
+          "view": "implantacao",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 8.471483852190431e-06
+        },
+        {
+          "view": "final",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 0.00010296110849594697
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "profile": "webgl",
+      "geometry": "contorno",
+      "procedural": {
+        "backend": "webgl",
+        "environment": "procedural",
+        "fallback": null,
+        "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+        "canvas": [
+          920,
+          556
+        ],
+        "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+        "disposed": {
+          "disposed": true,
+          "ready": false,
+          "children": 0,
+          "environmentDisposes": 1
+        }
+      },
+      "precalculado": {
+        "backend": "webgl",
+        "environment": "precalculado",
+        "fallback": null,
+        "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+        "canvas": [
+          920,
+          556
+        ],
+        "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+        "disposed": {
+          "disposed": true,
+          "ready": false,
+          "children": 0,
+          "environmentDisposes": 1
+        }
+      },
+      "views": [
+        {
+          "view": "perspectiva",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 1.2381398846628144e-05
+        },
+        {
+          "view": "aerea",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 1.3033051800448447e-05
+        },
+        {
+          "view": "varandas",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 2.6066104510391597e-06
+        },
+        {
+          "view": "acesso",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 1.8246271793032065e-05
+        },
+        {
+          "view": "implantacao",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 1.107809384848224e-05
+        },
+        {
+          "view": "final",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 0.0001120842425734736
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "profile": "toque",
+      "geometry": "base",
+      "procedural": {
+        "backend": "webgpu",
+        "environment": "procedural",
+        "fallback": null,
+        "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+        "canvas": [
+          364,
+          454
+        ],
+        "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+        "disposed": {
+          "disposed": true,
+          "ready": false,
+          "children": 0,
+          "environmentDisposes": 1
+        }
+      },
+      "precalculado": {
+        "backend": "webgpu",
+        "environment": "precalculado",
+        "fallback": null,
+        "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919",
+        "canvas": [
+          364,
+          454
+        ],
+        "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+        "disposed": {
+          "disposed": true,
+          "ready": false,
+          "children": 0,
+          "environmentDisposes": 1
+        }
+      },
+      "views": [
+        {
+          "view": "perspectiva",
+          "maxRgbDelta": 0.0,
+          "meanRgbDelta": 0.0
+        },
+        {
+          "view": "aerea",
+          "maxRgbDelta": 0.0,
+          "meanRgbDelta": 0.0
+        },
+        {
+          "view": "varandas",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 1.0085362191603053e-05
+        },
+        {
+          "view": "acesso",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 2.017072574744816e-06
+        },
+        {
+          "view": "implantacao",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 2.017072574744816e-06
+        },
+        {
+          "view": "final",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 2.017072574744816e-06
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "profile": "toque",
+      "geometry": "contorno",
+      "procedural": {
+        "backend": "webgpu",
+        "environment": "procedural",
+        "fallback": null,
+        "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+        "canvas": [
+          364,
+          454
+        ],
+        "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+        "disposed": {
+          "disposed": true,
+          "ready": false,
+          "children": 0,
+          "environmentDisposes": 1
+        }
+      },
+      "precalculado": {
+        "backend": "webgpu",
+        "environment": "precalculado",
+        "fallback": null,
+        "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+        "canvas": [
+          364,
+          454
+        ],
+        "selectedUnitId": "liv-ipanema/pavimento-modelo-01/final-01",
+        "disposed": {
+          "disposed": true,
+          "ready": false,
+          "children": 0,
+          "environmentDisposes": 1
+        }
+      },
+      "views": [
+        {
+          "view": "perspectiva",
+          "maxRgbDelta": 0.0,
+          "meanRgbDelta": 0.0
+        },
+        {
+          "view": "aerea",
+          "maxRgbDelta": 0.0,
+          "meanRgbDelta": 0.0
+        },
+        {
+          "view": "varandas",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 1.0085362191603053e-05
+        },
+        {
+          "view": "acesso",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 6.051217496860772e-06
+        },
+        {
+          "view": "implantacao",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 2.017072574744816e-06
+        },
+        {
+          "view": "final",
+          "maxRgbDelta": 1.0,
+          "meanRgbDelta": 2.017072574744816e-06
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "fallbacks": [
+    {
+      "failure": "http",
+      "backend": "webgpu",
+      "environment": "procedural",
+      "fallback": "Error: Ambiente: recurso HTTP 503.",
+      "ready": true,
+      "status": "PASS"
+    },
+    {
+      "failure": "hash",
+      "backend": "webgpu",
+      "environment": "procedural",
+      "fallback": "Error: Ambiente comprimido inv\u00e1lido.",
+      "ready": true,
+      "status": "PASS"
+    },
+    {
+      "failure": "source",
+      "backend": "webgpu",
+      "environment": "procedural",
+      "fallback": "Error: Ambiente pr\u00e9-calculado n\u00e3o corresponde ao gradiente/runtime atual.",
+      "ready": true,
+      "status": "PASS"
+    },
+    {
+      "failure": "http",
+      "backend": "webgl",
+      "environment": "procedural",
+      "fallback": "Error: Ambiente: recurso HTTP 503.",
+      "ready": true,
+      "status": "PASS"
+    },
+    {
+      "failure": "hash",
+      "backend": "webgl",
+      "environment": "procedural",
+      "fallback": "Error: Ambiente comprimido inv\u00e1lido.",
+      "ready": true,
+      "status": "PASS"
+    },
+    {
+      "failure": "source",
+      "backend": "webgl",
+      "environment": "procedural",
+      "fallback": "Error: Ambiente pr\u00e9-calculado n\u00e3o corresponde ao gradiente/runtime atual.",
+      "ready": true,
+      "status": "PASS"
+    }
+  ],
+  "cancellations": [
+    {
+      "backend": "webgpu",
+      "phase": "environment",
+      "mode": "planta2d",
+      "ready": true,
+      "disposed": true,
+      "sceneChildren": 0,
+      "counts": {
+        "atlas": 1,
+        "environment": 0
+      },
+      "cleanupError": null,
+      "cleanupTimeouts": 0,
+      "status": "PASS"
+    },
+    {
+      "backend": "webgpu",
+      "phase": "texture",
+      "mode": "planta2d",
+      "ready": true,
+      "disposed": true,
+      "sceneChildren": 0,
+      "counts": {
+        "atlas": 1,
+        "environment": 1
+      },
+      "cleanupError": null,
+      "cleanupTimeouts": 0,
+      "status": "PASS"
+    },
+    {
+      "backend": "webgl",
+      "phase": "environment",
+      "mode": "planta2d",
+      "ready": true,
+      "disposed": true,
+      "sceneChildren": 0,
+      "counts": {
+        "atlas": 1,
+        "environment": 0
+      },
+      "cleanupError": null,
+      "cleanupTimeouts": 0,
+      "status": "PASS"
+    },
+    {
+      "backend": "webgl",
+      "phase": "texture",
+      "mode": "planta2d",
+      "ready": true,
+      "disposed": true,
+      "sceneChildren": 0,
+      "counts": {
+        "atlas": 1,
+        "environment": 1
+      },
+      "cleanupError": null,
+      "cleanupTimeouts": 0,
+      "status": "PASS"
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

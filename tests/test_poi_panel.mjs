@@ -35,17 +35,22 @@ function fixture(modular) {
       getAttribute:function(k){return this.dataset['aria_'+k.replace('aria-','')];},
       addEventListener(t,fn){(this.ouvintes[t]=this.ouvintes[t]||[]).push(fn);},
       appendChild(f){const i=this.children.indexOf(f);if(i>=0)this.children.splice(i,1);this.children.push(f);},
-      querySelector:function(){return this._b||(this._b=node(this.id+'-b'));}};
+      // largura por measureText: nome de 0 px deixa a parte fixa = offsetWidth (64),
+      // a mesma que o codigo antigo lia do DOM. Solto, fora do `el`: nao entra no estado.
+      querySelector:function(sel){if(sel==='.nm') return {getBoundingClientRect:()=>({width:0})};
+        return this._b||(this._b=node(this.id+'-b'));}};
     el.set(id,e); return e;
   };
   let criados=0;
   const ctx=vm.createContext({console,CAT,CAT_KEYS,POI_Y:24,POI_MAX:4200,POI_NAME:1400,POI_HALO:30,
-    document:{createElement:()=>node('novo-'+(++criados)),
+    document:{createElement:t=>t==='canvas'?{getContext:()=>({measureText:()=>({width:0})})}
+      :node('novo-'+(++criados)),
       body:{classList:{add:c=>log.push(['corpo+',c]),remove:c=>log.push(['corpo-',c])}}},
     $:node, esc:t=>String(t), terrainY:(x,z)=>x/1000, registerTerrain:()=>log.push(['terreno']),
     flyTo:(x,z,r)=>log.push(['voo',x,z,Math.round(r)]), streamUpdate:f=>log.push(['stream',f]),
     requestAnimationFrame:fn=>{log.push(['raf']);fn();},
     innerWidth:1200, innerHeight:800,
+    getComputedStyle:()=>({fontWeight:'600',fontSize:'11px',fontFamily:'sans-serif',maxWidth:'none'}),
     PoiLayer:{create:({pois})=>{log.push(['camada',pois.length]);
         const layer={};for(const k of CAT_KEYS) layer[k]=[{visible:true}];
         return {group:{visible:true,tipo:'gPoi'},layer};},

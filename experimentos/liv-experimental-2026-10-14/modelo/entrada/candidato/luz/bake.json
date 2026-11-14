@@ -1,0 +1,92 @@
+{
+  "schema": "liv-lightmap-v1",
+  "sourceSHA256": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+  "geometryURL": "luz/geometry-compact.json",
+  "geometryGzipURL": "luz/geometry-compact.json.gz",
+  "geometrySHA256": "c20fecf9ce865089c6c17b091c169cd4d736d3340388bad28ba0c0fbbf2a86a3",
+  "textureURL": "luz/irradiance.rgbm.gz",
+  "textureCompression": "gzip",
+  "textureEncoding": "linear-rgbm-u8",
+  "textureSHA256": "1149b5ab607b98665e9577ce0f0bc5f4df42ef023884889df665a83a30502e30",
+  "width": 4096,
+  "height": 4096,
+  "range": 16.0,
+  "origin": "bottom-left",
+  "premultiplyAlpha": false,
+  "lightMapIntensity": 3.141592653589793,
+  "samples": 64,
+  "passes": [
+    "DIRECT",
+    "INDIRECT"
+  ],
+  "colorPass": false,
+  "sunWebPosition": [
+    -18,
+    110,
+    55
+  ],
+  "sunWebTarget": [
+    0,
+    22,
+    0
+  ],
+  "sunIntensity": 2.4,
+  "groups": 82,
+  "instances": 1007,
+  "triangles": 105811,
+  "seconds": 129.85889819997828,
+  "backend": "OPTIX",
+  "devices": [
+    "NVIDIA GeForce GTX 1650"
+  ],
+  "sourceMatchesCurrent": true,
+  "totalSceneTriangles": 280843,
+  "coveragePixels": 8557446,
+  "radianceMin": 0.0,
+  "radianceMax": 1.4267524480819702,
+  "rangeClippedPixels": 0,
+  "rgbmMeanError": 0.00015624020306859165,
+  "rgbmMaxError": 0.0024095773696899414,
+  "textureBytes": 67108864,
+  "textureGzipBytes": 13306085,
+  "checks": {
+    "hashesMatch": true,
+    "sourceMatchesCurrent": true,
+    "directIndirectWithoutColor": true,
+    "finiteRadiance": true,
+    "nonBlackAtlas": true,
+    "independentInstanceUV": true,
+    "noRadianceClipping": true
+  },
+  "denoise": {
+    "filter": "OIDN RTLightmap",
+    "version": "2.3.3",
+    "device": "CPU",
+    "inputGuardPixels": 2.0,
+    "outputGuardPixels": 4.0,
+    "rawIrradiancePreserved": true,
+    "sourceSHA256": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+    "OIDNOutputReused": false,
+    "sourceRadianceSHA256": "84a5b460027b223e4aa9400c783618e51240929cd56a74f9d44f8f8b1b28a6f2",
+    "textureSHA256": "1149b5ab607b98665e9577ce0f0bc5f4df42ef023884889df665a83a30502e30",
+    "seconds": 30.08691660000477,
+    "coveredPixels": 8557446,
+    "inputBorderPixels": 2780531,
+    "outputBorderPixels": 5509337,
+    "farBackgroundPixels": 2710433,
+    "radianceMax": 1.2590605020523071,
+    "rangeClippedPixels": 0,
+    "meanAbsoluteDenoiseChange": 0.003724464448168874,
+    "rgbmMeanError": 0.00015624020306859165,
+    "rgbmMaxError": 0.0024095773696899414,
+    "textureGzipBytes": 13306085,
+    "checks": {
+      "modelHashMatches": true,
+      "UVHashMatches": true,
+      "finiteRadiance": true,
+      "farBackgroundZero": true,
+      "nearestIslandBorder": true,
+      "noRadianceClipping": true
+    }
+  }
+}

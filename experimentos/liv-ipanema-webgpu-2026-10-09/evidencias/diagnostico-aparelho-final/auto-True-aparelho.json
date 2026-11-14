@@ -1,0 +1,2074 @@
+{
+  "schema": "liv-device-diagnostic-v1",
+  "recordedAt": "2026-10-11T20:38:12.608Z",
+  "origin": "http://127.0.0.1:8790",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "secureContext": true,
+  "qualification": "pendente-de-revisao",
+  "openings": [
+    {
+      "device": "Desktop QA · toque emulado",
+      "physicalDevice": false,
+      "executionDeclared": "emulado",
+      "networkDeclared": "",
+      "cacheDeclared": "nao_controlado",
+      "viewport": [
+        390,
+        844
+      ],
+      "pixelRatio": 1,
+      "hardwareConcurrency": 16,
+      "deviceMemoryGiB": 32,
+      "connection": {
+        "effectiveType": "4g",
+        "rttMs": 100,
+        "downlinkMbps": 1.5,
+        "saveData": false
+      },
+      "edition": "entrada",
+      "backendRequested": "auto",
+      "cleanupDelayMs": 0.10000002384185791,
+      "readyMs": 2095,
+      "modeUponReady": "maquete",
+      "backendEffective": "webgpu",
+      "resources": {
+        "viewer": [
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html",
+            "type": "navigation",
+            "durationMs": 53.5,
+            "transferBytes": 7342,
+            "encodedBytes": 7042,
+            "decodedBytes": 7042,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-ui.css",
+            "type": "link",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 1539,
+            "encodedBytes": 1239,
+            "decodedBytes": 1239,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+            "type": "script",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 19490,
+            "encodedBytes": 19190,
+            "decodedBytes": 19190,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/transfers.js",
+            "type": "script",
+            "durationMs": 3.8000000715255737,
+            "transferBytes": 5724,
+            "encodedBytes": 5424,
+            "decodedBytes": 5424,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/tipologias.js",
+            "type": "script",
+            "durationMs": 5.299999952316284,
+            "transferBytes": 967,
+            "encodedBytes": 667,
+            "decodedBytes": 667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unidades.js",
+            "type": "script",
+            "durationMs": 6.700000047683716,
+            "transferBytes": 4312,
+            "encodedBytes": 4012,
+            "decodedBytes": 4012,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-ui.js",
+            "type": "script",
+            "durationMs": 6.100000023841858,
+            "transferBytes": 2862,
+            "encodedBytes": 2562,
+            "decodedBytes": 2562,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/edicoes.js",
+            "type": "script",
+            "durationMs": 7.099999904632568,
+            "transferBytes": 1173,
+            "encodedBytes": 873,
+            "decodedBytes": 873,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-footprint.js",
+            "type": "script",
+            "durationMs": 2.399999976158142,
+            "transferBytes": 2698,
+            "encodedBytes": 2398,
+            "decodedBytes": 2398,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 2.8000000715255737,
+            "transferBytes": 16815,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 0,
+            "deliveryType": null
+          }
+        ],
+        "scene": [
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html",
+            "type": "navigation",
+            "durationMs": 121.09999990463257,
+            "transferBytes": 2874,
+            "encodedBytes": 2574,
+            "decodedBytes": 2574,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+            "type": "script",
+            "durationMs": 2.799999952316284,
+            "transferBytes": 28184,
+            "encodedBytes": 27884,
+            "decodedBytes": 27884,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+            "type": "script",
+            "durationMs": 17.300000071525574,
+            "transferBytes": 2285150,
+            "encodedBytes": 2284850,
+            "decodedBytes": 2284850,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/exterior-finishes.js",
+            "type": "script",
+            "durationMs": 5.299999952316284,
+            "transferBytes": 4326,
+            "encodedBytes": 4026,
+            "decodedBytes": 4026,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+            "type": "script",
+            "durationMs": 5.899999976158142,
+            "transferBytes": 2808,
+            "encodedBytes": 2508,
+            "decodedBytes": 2508,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+            "type": "script",
+            "durationMs": 5,
+            "transferBytes": 41055,
+            "encodedBytes": 40755,
+            "decodedBytes": 40755,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/cameras.js",
+            "type": "script",
+            "durationMs": 12.899999976158142,
+            "transferBytes": 1977,
+            "encodedBytes": 1677,
+            "decodedBytes": 1677,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unidades.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 4012,
+            "decodedBytes": 4012,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/picking.js",
+            "type": "script",
+            "durationMs": 14.699999928474426,
+            "transferBytes": 6222,
+            "encodedBytes": 5922,
+            "decodedBytes": 5922,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/ambiente.js",
+            "type": "script",
+            "durationMs": 15,
+            "transferBytes": 3623,
+            "encodedBytes": 3323,
+            "decodedBytes": 3323,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/edicoes.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 873,
+            "decodedBytes": 873,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-footprint.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 2398,
+            "decodedBytes": 2398,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+            "type": "script",
+            "durationMs": 5.199999928474426,
+            "transferBytes": 37154,
+            "encodedBytes": 36854,
+            "decodedBytes": 36854,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+            "type": "script",
+            "durationMs": 7.100000023841858,
+            "transferBytes": 1458413,
+            "encodedBytes": 1458113,
+            "decodedBytes": 1458113,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/assets/manifest.json",
+            "type": "fetch",
+            "durationMs": 3,
+            "transferBytes": 2439,
+            "encodedBytes": 2139,
+            "decodedBytes": 2139,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/assets/scene.json.gz",
+            "type": "fetch",
+            "durationMs": 18.899999976158142,
+            "transferBytes": 2758568,
+            "encodedBytes": 2758268,
+            "decodedBytes": 2758268,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/assets/irradiance.rgbm.gz",
+            "type": "fetch",
+            "durationMs": 47.89999997615814,
+            "transferBytes": 13290420,
+            "encodedBytes": 13290120,
+            "decodedBytes": 13290120,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/assets-ambiente/manifest.json",
+            "type": "fetch",
+            "durationMs": 3,
+            "transferBytes": 1390,
+            "encodedBytes": 1090,
+            "decodedBytes": 1090,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/assets-ambiente/ambiente.f16.gz",
+            "type": "fetch",
+            "durationMs": 2.899999976158142,
+            "transferBytes": 38154,
+            "encodedBytes": 37854,
+            "decodedBytes": 37854,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/assets/texture-00.png",
+            "type": "fetch",
+            "durationMs": 3.4000000953674316,
+            "transferBytes": 21967,
+            "encodedBytes": 21667,
+            "decodedBytes": 21667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/assets/texture-01.png",
+            "type": "fetch",
+            "durationMs": 3.600000023841858,
+            "transferBytes": 21967,
+            "encodedBytes": 21667,
+            "decodedBytes": 21667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 3.799999952316284,
+            "transferBytes": 300,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          }
+        ],
+        "note": "Tempos dos documentos; não somar como tráfego integral do worker ou pico de rede."
+      },
+      "status": "carregado"
+    }
+  ],
+  "segments": [
+    {
+      "device": "Desktop QA · toque emulado",
+      "physicalDevice": false,
+      "executionDeclared": "emulado",
+      "networkDeclared": "",
+      "cacheDeclared": "nao_controlado",
+      "viewport": [
+        390,
+        844
+      ],
+      "pixelRatio": 1,
+      "hardwareConcurrency": 16,
+      "deviceMemoryGiB": 32,
+      "connection": {
+        "effectiveType": "4g",
+        "rttMs": 100,
+        "downlinkMbps": 1.5,
+        "saveData": false
+      },
+      "label": "maquete",
+      "startedAt": "2026-10-11T20:38:14.837Z",
+      "openMs": 30.799999952316284,
+      "backendEffective": "webgpu",
+      "initialViewerState": {
+        "mode": "maquete",
+        "typology": "canto",
+        "view": "perspectiva",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu"
+      },
+      "measurement": {
+        "backend": "webgpu",
+        "durationMs": 1266.7999999523163,
+        "hiddenMs": 0,
+        "submissions": 76,
+        "droppedSamples": 0,
+        "submissionIntervalMs": {
+          "count": 75,
+          "p50": 16.699999928474426,
+          "p95": 17.100000023841858,
+          "max": 17.299999952316284
+        },
+        "cpuSubmitMs": {
+          "count": 76,
+          "p50": 1.5,
+          "p95": 2.3000000715255737,
+          "max": 2.799999952316284
+        },
+        "intervalsOver33Ms": 0,
+        "intervalMeaning": "Cadência de submissão, incluindo trabalho CPU; não é tempo GPU ou FPS garantido.",
+        "cameraDisplacementMeters": 0,
+        "canvas": [
+          330,
+          380
+        ],
+        "pixelRatio": 1,
+        "memoryPeakSampled": {
+          "rendererTrackedBytes": 118174558,
+          "jsHeapEstimateBytes": 191326165
+        },
+        "memoryMeaning": "Contabilidade do renderer e estimativa do heap JS; não mede VRAM total ou pico exato.",
+        "error": null,
+        "disposed": false
+      },
+      "observation": "",
+      "resources": {
+        "viewer": [
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html",
+            "type": "navigation",
+            "durationMs": 53.5,
+            "transferBytes": 7342,
+            "encodedBytes": 7042,
+            "decodedBytes": 7042,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-ui.css",
+            "type": "link",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 1539,
+            "encodedBytes": 1239,
+            "decodedBytes": 1239,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+            "type": "script",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 19490,
+            "encodedBytes": 19190,
+            "decodedBytes": 19190,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/transfers.js",
+            "type": "script",
+            "durationMs": 3.8000000715255737,
+            "transferBytes": 5724,
+            "encodedBytes": 5424,
+            "decodedBytes": 5424,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/tipologias.js",
+            "type": "script",
+            "durationMs": 5.299999952316284,
+            "transferBytes": 967,
+            "encodedBytes": 667,
+            "decodedBytes": 667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unidades.js",
+            "type": "script",
+            "durationMs": 6.700000047683716,
+            "transferBytes": 4312,
+            "encodedBytes": 4012,
+            "decodedBytes": 4012,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-ui.js",
+            "type": "script",
+            "durationMs": 6.100000023841858,
+            "transferBytes": 2862,
+            "encodedBytes": 2562,
+            "decodedBytes": 2562,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/edicoes.js",
+            "type": "script",
+            "durationMs": 7.099999904632568,
+            "transferBytes": 1173,
+            "encodedBytes": 873,
+            "decodedBytes": 873,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-footprint.js",
+            "type": "script",
+            "durationMs": 2.399999976158142,
+            "transferBytes": 2698,
+            "encodedBytes": 2398,
+            "decodedBytes": 2398,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 2.8000000715255737,
+            "transferBytes": 16815,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 5.600000023841858,
+            "transferBytes": 300,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 2149.600000023842,
+            "deliveryType": "cache"
+          }
+        ],
+        "scene": [
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html",
+            "type": "navigation",
+            "durationMs": 121.09999990463257,
+            "transferBytes": 2874,
+            "encodedBytes": 2574,
+            "decodedBytes": 2574,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js",
+            "type": "script",
+            "durationMs": 2.799999952316284,
+            "transferBytes": 28184,
+            "encodedBytes": 27884,
+            "decodedBytes": 27884,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+            "type": "script",
+            "durationMs": 17.300000071525574,
+            "transferBytes": 2285150,
+            "encodedBytes": 2284850,
+            "decodedBytes": 2284850,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/exterior-finishes.js",
+            "type": "script",
+            "durationMs": 5.299999952316284,
+            "transferBytes": 4326,
+            "encodedBytes": 4026,
+            "decodedBytes": 4026,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+            "type": "script",
+            "durationMs": 5.899999976158142,
+            "transferBytes": 2808,
+            "encodedBytes": 2508,
+            "decodedBytes": 2508,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+            "type": "script",
+            "durationMs": 5,
+            "transferBytes": 41055,
+            "encodedBytes": 40755,
+            "decodedBytes": 40755,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/cameras.js",
+            "type": "script",
+            "durationMs": 12.899999976158142,
+            "transferBytes": 1977,
+            "encodedBytes": 1677,
+            "decodedBytes": 1677,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unidades.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 4012,
+            "decodedBytes": 4012,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/picking.js",
+            "type": "script",
+            "durationMs": 14.699999928474426,
+            "transferBytes": 6222,
+            "encodedBytes": 5922,
+            "decodedBytes": 5922,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/ambiente.js",
+            "type": "script",
+            "durationMs": 15,
+            "transferBytes": 3623,
+            "encodedBytes": 3323,
+            "decodedBytes": 3323,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/edicoes.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 873,
+            "decodedBytes": 873,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-footprint.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 2398,
+            "decodedBytes": 2398,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+            "type": "script",
+            "durationMs": 5.199999928474426,
+            "transferBytes": 37154,
+            "encodedBytes": 36854,
+            "decodedBytes": 36854,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+            "type": "script",
+            "durationMs": 7.100000023841858,
+            "transferBytes": 1458413,
+            "encodedBytes": 1458113,
+            "decodedBytes": 1458113,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/assets/manifest.json",
+            "type": "fetch",
+            "durationMs": 3,
+            "transferBytes": 2439,
+            "encodedBytes": 2139,
+            "decodedBytes": 2139,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/assets/scene.json.gz",
+            "type": "fetch",
+            "durationMs": 18.899999976158142,
+            "transferBytes": 2758568,
+            "encodedBytes": 2758268,
+            "decodedBytes": 2758268,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/assets/irradiance.rgbm.gz",
+            "type": "fetch",
+            "durationMs": 47.89999997615814,
+            "transferBytes": 13290420,
+            "encodedBytes": 13290120,
+            "decodedBytes": 13290120,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/assets-ambiente/manifest.json",
+            "type": "fetch",
+            "durationMs": 3,
+            "transferBytes": 1390,
+            "encodedBytes": 1090,
+            "decodedBytes": 1090,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/assets-ambiente/ambiente.f16.gz",
+            "type": "fetch",
+            "durationMs": 2.899999976158142,
+            "transferBytes": 38154,
+            "encodedBytes": 37854,
+            "decodedBytes": 37854,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/assets/texture-00.png",
+            "type": "fetch",
+            "durationMs": 3.4000000953674316,
+            "transferBytes": 21967,
+            "encodedBytes": 21667,
+            "decodedBytes": 21667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/candidato/assets/texture-01.png",
+            "type": "fetch",
+            "durationMs": 3.600000023841858,
+            "transferBytes": 21967,
+            "encodedBytes": 21667,
+            "decodedBytes": 21667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 3.799999952316284,
+            "transferBytes": 300,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          }
+        ],
+        "note": "Tempos dos documentos; não somar como tráfego integral do worker ou pico de rede."
+      },
+      "viewerState": {
+        "mode": "maquete",
+        "typology": "canto",
+        "view": "perspectiva",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu"
+      },
+      "error": null,
+      "interrupted": false
+    },
+    {
+      "device": "Desktop QA · toque emulado",
+      "physicalDevice": false,
+      "executionDeclared": "emulado",
+      "networkDeclared": "",
+      "cacheDeclared": "nao_controlado",
+      "viewport": [
+        390,
+        844
+      ],
+      "pixelRatio": 1,
+      "hardwareConcurrency": 16,
+      "deviceMemoryGiB": 32,
+      "connection": {
+        "effectiveType": "4g",
+        "rttMs": 100,
+        "downlinkMbps": 1.5,
+        "saveData": false
+      },
+      "label": "canto:visita",
+      "startedAt": "2026-10-11T20:38:16.168Z",
+      "openMs": 1931.1000000238419,
+      "backendEffective": "webgpu",
+      "initialViewerState": {
+        "mode": "visita",
+        "typology": "canto",
+        "view": "perspectiva",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu"
+      },
+      "measurement": {
+        "backend": "webgpu",
+        "durationMs": 5337.5,
+        "hiddenMs": 0,
+        "submissions": 240,
+        "droppedSamples": 0,
+        "submissionIntervalMs": {
+          "count": 239,
+          "p50": 16.699999928474426,
+          "p95": 16.90000009536743,
+          "max": 1326.2999999523163
+        },
+        "cpuSubmitMs": {
+          "count": 240,
+          "p50": 1,
+          "p95": 1.899999976158142,
+          "max": 45.200000047683716
+        },
+        "intervalsOver33Ms": 2,
+        "intervalMeaning": "Cadência de submissão, incluindo trabalho CPU; não é tempo GPU ou FPS garantido.",
+        "cameraDisplacementMeters": 2.6386549603917526,
+        "canvas": [
+          330,
+          380
+        ],
+        "pixelRatio": 1,
+        "memoryPeakSampled": {
+          "rendererTrackedBytes": 41023998,
+          "jsHeapEstimateBytes": 227082528
+        },
+        "memoryMeaning": "Contabilidade do renderer e estimativa do heap JS; não mede VRAM total ou pico exato.",
+        "error": null,
+        "disposed": false
+      },
+      "observation": "",
+      "resources": {
+        "viewer": [
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html",
+            "type": "navigation",
+            "durationMs": 53.5,
+            "transferBytes": 7342,
+            "encodedBytes": 7042,
+            "decodedBytes": 7042,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-ui.css",
+            "type": "link",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 1539,
+            "encodedBytes": 1239,
+            "decodedBytes": 1239,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+            "type": "script",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 19490,
+            "encodedBytes": 19190,
+            "decodedBytes": 19190,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/transfers.js",
+            "type": "script",
+            "durationMs": 3.8000000715255737,
+            "transferBytes": 5724,
+            "encodedBytes": 5424,
+            "decodedBytes": 5424,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/tipologias.js",
+            "type": "script",
+            "durationMs": 5.299999952316284,
+            "transferBytes": 967,
+            "encodedBytes": 667,
+            "decodedBytes": 667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unidades.js",
+            "type": "script",
+            "durationMs": 6.700000047683716,
+            "transferBytes": 4312,
+            "encodedBytes": 4012,
+            "decodedBytes": 4012,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-ui.js",
+            "type": "script",
+            "durationMs": 6.100000023841858,
+            "transferBytes": 2862,
+            "encodedBytes": 2562,
+            "decodedBytes": 2562,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/edicoes.js",
+            "type": "script",
+            "durationMs": 7.099999904632568,
+            "transferBytes": 1173,
+            "encodedBytes": 873,
+            "decodedBytes": 873,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-footprint.js",
+            "type": "script",
+            "durationMs": 2.399999976158142,
+            "transferBytes": 2698,
+            "encodedBytes": 2398,
+            "decodedBytes": 2398,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 2.8000000715255737,
+            "transferBytes": 16815,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 5.600000023841858,
+            "transferBytes": 300,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 2149.600000023842,
+            "deliveryType": "cache"
+          }
+        ],
+        "scene": [
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior.html",
+            "type": "navigation",
+            "durationMs": 107.89999997615814,
+            "transferBytes": 5134,
+            "encodedBytes": 4834,
+            "decodedBytes": 4834,
+            "workerStartMs": 3.100000023841858,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior-renderer.js",
+            "type": "script",
+            "durationMs": 3.8000000715255737,
+            "transferBytes": 42919,
+            "encodedBytes": 42619,
+            "decodedBytes": 42619,
+            "workerStartMs": 9.600000023841858,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+            "type": "script",
+            "durationMs": 2.899999976158142,
+            "transferBytes": 0,
+            "encodedBytes": 2508,
+            "decodedBytes": 2508,
+            "workerStartMs": 15.799999952316284,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+            "type": "script",
+            "durationMs": 2.799999952316284,
+            "transferBytes": 0,
+            "encodedBytes": 40755,
+            "decodedBytes": 40755,
+            "workerStartMs": 15.699999928474426,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+            "type": "script",
+            "durationMs": 9.199999928474426,
+            "transferBytes": 0,
+            "encodedBytes": 2284850,
+            "decodedBytes": 2284850,
+            "workerStartMs": 15.699999928474426,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior-camera.js",
+            "type": "script",
+            "durationMs": 6.800000071525574,
+            "transferBytes": 2775,
+            "encodedBytes": 2475,
+            "decodedBytes": 2475,
+            "workerStartMs": 16,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior-navigation.js",
+            "type": "script",
+            "durationMs": 7.400000095367432,
+            "transferBytes": 10093,
+            "encodedBytes": 9793,
+            "decodedBytes": 9793,
+            "workerStartMs": 15.899999976158142,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior-cutaway.js",
+            "type": "script",
+            "durationMs": 7,
+            "transferBytes": 3143,
+            "encodedBytes": 2843,
+            "decodedBytes": 2843,
+            "workerStartMs": 16.100000023841858,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+            "type": "script",
+            "durationMs": 1.5,
+            "transferBytes": 0,
+            "encodedBytes": 36854,
+            "decodedBytes": 36854,
+            "workerStartMs": 22.199999928474426,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+            "type": "script",
+            "durationMs": 2,
+            "transferBytes": 0,
+            "encodedBytes": 1458113,
+            "decodedBytes": 1458113,
+            "workerStartMs": 64.60000002384186,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/catalogo.json",
+            "type": "fetch",
+            "durationMs": 2.100000023841858,
+            "transferBytes": 0,
+            "encodedBytes": 6377,
+            "decodedBytes": 6377,
+            "workerStartMs": 178,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/shared/runtime.js",
+            "type": "fetch",
+            "durationMs": 0.8999999761581421,
+            "transferBytes": 0,
+            "encodedBytes": 93877,
+            "decodedBytes": 93877,
+            "workerStartMs": 181,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/canto/unidade.json",
+            "type": "fetch",
+            "durationMs": 1,
+            "transferBytes": 0,
+            "encodedBytes": 13456,
+            "decodedBytes": 13456,
+            "workerStartMs": 186.79999995231628,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/shared/materials.json.gz",
+            "type": "fetch",
+            "durationMs": 1.4000000953674316,
+            "transferBytes": 0,
+            "encodedBytes": 876068,
+            "decodedBytes": 876068,
+            "workerStartMs": 186.79999995231628,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/canto/source.json.gz",
+            "type": "fetch",
+            "durationMs": 2.5999999046325684,
+            "transferBytes": 0,
+            "encodedBytes": 1970203,
+            "decodedBytes": 1970203,
+            "workerStartMs": 254.79999995231628,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/canto/light.json",
+            "type": "fetch",
+            "durationMs": 2.8000000715255737,
+            "transferBytes": 0,
+            "encodedBytes": 1864,
+            "decodedBytes": 1864,
+            "workerStartMs": 255,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/canto/geometry-compact.json.gz",
+            "type": "fetch",
+            "durationMs": 1.8000000715255737,
+            "transferBytes": 0,
+            "encodedBytes": 873741,
+            "decodedBytes": 873741,
+            "workerStartMs": 511.7999999523163,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/canto/irradiance.rgbm.gz",
+            "type": "fetch",
+            "durationMs": 9.699999928474426,
+            "transferBytes": 0,
+            "encodedBytes": 4319873,
+            "decodedBytes": 4319873,
+            "workerStartMs": 511.7999999523163,
+            "deliveryType": "cache-storage"
+          }
+        ],
+        "note": "Tempos dos documentos; não somar como tráfego integral do worker ou pico de rede."
+      },
+      "viewerState": {
+        "mode": "visita",
+        "typology": "canto",
+        "view": "perspectiva",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu"
+      },
+      "error": null,
+      "interrupted": false
+    },
+    {
+      "device": "Desktop QA · toque emulado",
+      "physicalDevice": false,
+      "executionDeclared": "emulado",
+      "networkDeclared": "",
+      "cacheDeclared": "nao_controlado",
+      "viewport": [
+        390,
+        844
+      ],
+      "pixelRatio": 1,
+      "hardwareConcurrency": 16,
+      "deviceMemoryGiB": 32,
+      "connection": {
+        "effectiveType": "4g",
+        "rttMs": 100,
+        "downlinkMbps": 1.5,
+        "saveData": false
+      },
+      "label": "meio:visita",
+      "startedAt": "2026-10-11T20:38:23.486Z",
+      "openMs": 1610.1000000238419,
+      "backendEffective": "webgpu",
+      "initialViewerState": {
+        "mode": "visita",
+        "typology": "meio",
+        "view": "perspectiva",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu"
+      },
+      "measurement": {
+        "backend": "webgpu",
+        "durationMs": 6870.899999976158,
+        "hiddenMs": 0,
+        "submissions": 353,
+        "droppedSamples": 0,
+        "submissionIntervalMs": {
+          "count": 352,
+          "p50": 16.699999928474426,
+          "p95": 16.899999976158142,
+          "max": 1010.3000000715256
+        },
+        "cpuSubmitMs": {
+          "count": 353,
+          "p50": 0.7999999523162842,
+          "p95": 1.2000000476837158,
+          "max": 29.100000023841858
+        },
+        "intervalsOver33Ms": 1,
+        "intervalMeaning": "Cadência de submissão, incluindo trabalho CPU; não é tempo GPU ou FPS garantido.",
+        "cameraDisplacementMeters": 2.816025568065745,
+        "canvas": [
+          330,
+          380
+        ],
+        "pixelRatio": 1,
+        "memoryPeakSampled": {
+          "rendererTrackedBytes": 35883549,
+          "jsHeapEstimateBytes": 353862477
+        },
+        "memoryMeaning": "Contabilidade do renderer e estimativa do heap JS; não mede VRAM total ou pico exato.",
+        "error": null,
+        "disposed": false
+      },
+      "observation": "",
+      "resources": {
+        "viewer": [
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html",
+            "type": "navigation",
+            "durationMs": 53.5,
+            "transferBytes": 7342,
+            "encodedBytes": 7042,
+            "decodedBytes": 7042,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-ui.css",
+            "type": "link",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 1539,
+            "encodedBytes": 1239,
+            "decodedBytes": 1239,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+            "type": "script",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 19490,
+            "encodedBytes": 19190,
+            "decodedBytes": 19190,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/transfers.js",
+            "type": "script",
+            "durationMs": 3.8000000715255737,
+            "transferBytes": 5724,
+            "encodedBytes": 5424,
+            "decodedBytes": 5424,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/tipologias.js",
+            "type": "script",
+            "durationMs": 5.299999952316284,
+            "transferBytes": 967,
+            "encodedBytes": 667,
+            "decodedBytes": 667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unidades.js",
+            "type": "script",
+            "durationMs": 6.700000047683716,
+            "transferBytes": 4312,
+            "encodedBytes": 4012,
+            "decodedBytes": 4012,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-ui.js",
+            "type": "script",
+            "durationMs": 6.100000023841858,
+            "transferBytes": 2862,
+            "encodedBytes": 2562,
+            "decodedBytes": 2562,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/edicoes.js",
+            "type": "script",
+            "durationMs": 7.099999904632568,
+            "transferBytes": 1173,
+            "encodedBytes": 873,
+            "decodedBytes": 873,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-footprint.js",
+            "type": "script",
+            "durationMs": 2.399999976158142,
+            "transferBytes": 2698,
+            "encodedBytes": 2398,
+            "decodedBytes": 2398,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 2.8000000715255737,
+            "transferBytes": 16815,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 5.600000023841858,
+            "transferBytes": 300,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 2149.600000023842,
+            "deliveryType": "cache"
+          }
+        ],
+        "scene": [
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior.html",
+            "type": "navigation",
+            "durationMs": 53.5,
+            "transferBytes": 5134,
+            "encodedBytes": 4834,
+            "decodedBytes": 4834,
+            "workerStartMs": 2.700000047683716,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior-renderer.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 42619,
+            "decodedBytes": 42619,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 2284850,
+            "decodedBytes": 2284850,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 40755,
+            "decodedBytes": 40755,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 2508,
+            "decodedBytes": 2508,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior-navigation.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 9793,
+            "decodedBytes": 9793,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior-camera.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 2475,
+            "decodedBytes": 2475,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior-cutaway.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 2843,
+            "decodedBytes": 2843,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 1458113,
+            "decodedBytes": 1458113,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 36854,
+            "decodedBytes": 36854,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/catalogo.json",
+            "type": "fetch",
+            "durationMs": 1.399999976158142,
+            "transferBytes": 0,
+            "encodedBytes": 6377,
+            "decodedBytes": 6377,
+            "workerStartMs": 188.70000004768372,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/shared/runtime.js",
+            "type": "fetch",
+            "durationMs": 1,
+            "transferBytes": 0,
+            "encodedBytes": 93877,
+            "decodedBytes": 93877,
+            "workerStartMs": 190.60000002384186,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/unidade.json",
+            "type": "fetch",
+            "durationMs": 0.8999999761581421,
+            "transferBytes": 0,
+            "encodedBytes": 8038,
+            "decodedBytes": 8038,
+            "workerStartMs": 196.79999995231628,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/source.json.gz",
+            "type": "fetch",
+            "durationMs": 1.9000000953674316,
+            "transferBytes": 0,
+            "encodedBytes": 1366048,
+            "decodedBytes": 1366048,
+            "workerStartMs": 196.89999997615814,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/light.json",
+            "type": "fetch",
+            "durationMs": 1.5,
+            "transferBytes": 0,
+            "encodedBytes": 1881,
+            "decodedBytes": 1881,
+            "workerStartMs": 346.7999999523163,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/geometry-compact.json.gz",
+            "type": "fetch",
+            "durationMs": 1.399999976158142,
+            "transferBytes": 0,
+            "encodedBytes": 418028,
+            "decodedBytes": 418028,
+            "workerStartMs": 366,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/irradiance.rgbm.gz",
+            "type": "fetch",
+            "durationMs": 7.799999952316284,
+            "transferBytes": 0,
+            "encodedBytes": 4171499,
+            "decodedBytes": 4171499,
+            "workerStartMs": 366.2000000476837,
+            "deliveryType": "cache-storage"
+          }
+        ],
+        "note": "Tempos dos documentos; não somar como tráfego integral do worker ou pico de rede."
+      },
+      "viewerState": {
+        "mode": "visita",
+        "typology": "meio",
+        "view": "perspectiva",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu"
+      },
+      "error": null,
+      "interrupted": false
+    },
+    {
+      "device": "Desktop QA · toque emulado",
+      "physicalDevice": false,
+      "executionDeclared": "emulado",
+      "networkDeclared": "",
+      "cacheDeclared": "nao_controlado",
+      "viewport": [
+        390,
+        844
+      ],
+      "pixelRatio": 1,
+      "hardwareConcurrency": 16,
+      "deviceMemoryGiB": 32,
+      "connection": {
+        "effectiveType": "4g",
+        "rttMs": 100,
+        "downlinkMbps": 1.5,
+        "saveData": false
+      },
+      "label": "canto:planta2d",
+      "startedAt": "2026-10-11T20:38:32.000Z",
+      "openMs": 3942.2000000476837,
+      "backendEffective": "webgpu",
+      "initialViewerState": {
+        "mode": "planta2d",
+        "typology": "canto",
+        "view": "perspectiva",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu"
+      },
+      "measurement": null,
+      "observation": "",
+      "resources": {
+        "viewer": [
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html",
+            "type": "navigation",
+            "durationMs": 53.5,
+            "transferBytes": 7342,
+            "encodedBytes": 7042,
+            "decodedBytes": 7042,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-ui.css",
+            "type": "link",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 1539,
+            "encodedBytes": 1239,
+            "decodedBytes": 1239,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+            "type": "script",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 19490,
+            "encodedBytes": 19190,
+            "decodedBytes": 19190,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/transfers.js",
+            "type": "script",
+            "durationMs": 3.8000000715255737,
+            "transferBytes": 5724,
+            "encodedBytes": 5424,
+            "decodedBytes": 5424,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/tipologias.js",
+            "type": "script",
+            "durationMs": 5.299999952316284,
+            "transferBytes": 967,
+            "encodedBytes": 667,
+            "decodedBytes": 667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unidades.js",
+            "type": "script",
+            "durationMs": 6.700000047683716,
+            "transferBytes": 4312,
+            "encodedBytes": 4012,
+            "decodedBytes": 4012,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-ui.js",
+            "type": "script",
+            "durationMs": 6.100000023841858,
+            "transferBytes": 2862,
+            "encodedBytes": 2562,
+            "decodedBytes": 2562,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/edicoes.js",
+            "type": "script",
+            "durationMs": 7.099999904632568,
+            "transferBytes": 1173,
+            "encodedBytes": 873,
+            "decodedBytes": 873,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-footprint.js",
+            "type": "script",
+            "durationMs": 2.399999976158142,
+            "transferBytes": 2698,
+            "encodedBytes": 2398,
+            "decodedBytes": 2398,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 2.8000000715255737,
+            "transferBytes": 16815,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 5.600000023841858,
+            "transferBytes": 300,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 2149.600000023842,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/plantas2d/canto.jpg",
+            "type": "img",
+            "durationMs": 1.2000000476837158,
+            "transferBytes": 0,
+            "encodedBytes": 63548,
+            "decodedBytes": 63548,
+            "workerStartMs": 23244.400000095367,
+            "deliveryType": "cache-storage"
+          }
+        ],
+        "scene": [],
+        "note": "Tempos dos documentos; não somar como tráfego integral do worker ou pico de rede."
+      },
+      "viewerState": {
+        "mode": "planta2d",
+        "typology": "canto",
+        "view": "perspectiva",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu"
+      },
+      "error": null,
+      "interrupted": false
+    },
+    {
+      "device": "Desktop QA · toque emulado",
+      "physicalDevice": false,
+      "executionDeclared": "emulado",
+      "networkDeclared": "",
+      "cacheDeclared": "nao_controlado",
+      "viewport": [
+        390,
+        844
+      ],
+      "pixelRatio": 1,
+      "hardwareConcurrency": 16,
+      "deviceMemoryGiB": 32,
+      "connection": {
+        "effectiveType": "4g",
+        "rttMs": 100,
+        "downlinkMbps": 1.5,
+        "saveData": false
+      },
+      "label": "meio:planta3d",
+      "startedAt": "2026-10-11T20:38:37.216Z",
+      "openMs": 1985.8999999761581,
+      "backendEffective": "webgpu",
+      "initialViewerState": {
+        "mode": "planta3d",
+        "typology": "meio",
+        "view": "perspectiva",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu"
+      },
+      "measurement": {
+        "backend": "webgpu",
+        "durationMs": 1249.7000000476837,
+        "hiddenMs": 0,
+        "submissions": 26,
+        "droppedSamples": 0,
+        "submissionIntervalMs": {
+          "count": 25,
+          "p50": 16.600000023841858,
+          "p95": 17,
+          "max": 897.1999999284744
+        },
+        "cpuSubmitMs": {
+          "count": 26,
+          "p50": 1.399999976158142,
+          "p95": 3.0999999046325684,
+          "max": 5.299999952316284
+        },
+        "intervalsOver33Ms": 1,
+        "intervalMeaning": "Cadência de submissão, incluindo trabalho CPU; não é tempo GPU ou FPS garantido.",
+        "cameraDisplacementMeters": 0,
+        "canvas": [
+          330,
+          380
+        ],
+        "pixelRatio": 1,
+        "memoryPeakSampled": {
+          "rendererTrackedBytes": 36458557,
+          "jsHeapEstimateBytes": 523982883
+        },
+        "memoryMeaning": "Contabilidade do renderer e estimativa do heap JS; não mede VRAM total ou pico exato.",
+        "error": null,
+        "disposed": false
+      },
+      "observation": "",
+      "resources": {
+        "viewer": [
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/maquete-liv-ipanema.html",
+            "type": "navigation",
+            "durationMs": 53.5,
+            "transferBytes": 7342,
+            "encodedBytes": 7042,
+            "decodedBytes": 7042,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-ui.css",
+            "type": "link",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 1539,
+            "encodedBytes": 1239,
+            "decodedBytes": 1239,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/viewer.js",
+            "type": "script",
+            "durationMs": 4.100000023841858,
+            "transferBytes": 19490,
+            "encodedBytes": 19190,
+            "decodedBytes": 19190,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/transfers.js",
+            "type": "script",
+            "durationMs": 3.8000000715255737,
+            "transferBytes": 5724,
+            "encodedBytes": 5424,
+            "decodedBytes": 5424,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/tipologias.js",
+            "type": "script",
+            "durationMs": 5.299999952316284,
+            "transferBytes": 967,
+            "encodedBytes": 667,
+            "decodedBytes": 667,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unidades.js",
+            "type": "script",
+            "durationMs": 6.700000047683716,
+            "transferBytes": 4312,
+            "encodedBytes": 4012,
+            "decodedBytes": 4012,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-ui.js",
+            "type": "script",
+            "durationMs": 6.100000023841858,
+            "transferBytes": 2862,
+            "encodedBytes": 2562,
+            "decodedBytes": 2562,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/edicoes.js",
+            "type": "script",
+            "durationMs": 7.099999904632568,
+            "transferBytes": 1173,
+            "encodedBytes": 873,
+            "decodedBytes": 873,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/unit-footprint.js",
+            "type": "script",
+            "durationMs": 2.399999976158142,
+            "transferBytes": 2698,
+            "encodedBytes": 2398,
+            "decodedBytes": 2398,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 2.8000000715255737,
+            "transferBytes": 16815,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 0,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/modelo/entrada/unidades-entrada.json",
+            "type": "fetch",
+            "durationMs": 5.600000023841858,
+            "transferBytes": 300,
+            "encodedBytes": 16515,
+            "decodedBytes": 16515,
+            "workerStartMs": 2149.600000023842,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/plantas2d/canto.jpg",
+            "type": "img",
+            "durationMs": 1.2000000476837158,
+            "transferBytes": 0,
+            "encodedBytes": 63548,
+            "decodedBytes": 63548,
+            "workerStartMs": 23244.400000095367,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/plantas2d/meio.jpg",
+            "type": "img",
+            "durationMs": 1,
+            "transferBytes": 0,
+            "encodedBytes": 56234,
+            "decodedBytes": 56234,
+            "workerStartMs": 24542.600000023842,
+            "deliveryType": "cache-storage"
+          }
+        ],
+        "scene": [
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior.html",
+            "type": "navigation",
+            "durationMs": 21.5,
+            "transferBytes": 5134,
+            "encodedBytes": 4834,
+            "decodedBytes": 4834,
+            "workerStartMs": 1.8000000715255737,
+            "deliveryType": null
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior-renderer.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 42619,
+            "decodedBytes": 42619,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.webgpu.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 2284850,
+            "decodedBytes": 2284850,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/examples/jsm/controls/OrbitControls.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 40755,
+            "decodedBytes": 40755,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 2508,
+            "decodedBytes": 2508,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior-navigation.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 9793,
+            "decodedBytes": 9793,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior-camera.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 2475,
+            "decodedBytes": 2475,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interior-cutaway.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 2843,
+            "decodedBytes": 2843,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.core.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 1458113,
+            "decodedBytes": 1458113,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/node_modules/three/build/three.tsl.js",
+            "type": "script",
+            "durationMs": 0,
+            "transferBytes": 0,
+            "encodedBytes": 36854,
+            "decodedBytes": 36854,
+            "workerStartMs": 0,
+            "deliveryType": "cache"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/catalogo.json",
+            "type": "fetch",
+            "durationMs": 1.2999999523162842,
+            "transferBytes": 0,
+            "encodedBytes": 6377,
+            "decodedBytes": 6377,
+            "workerStartMs": 87,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/shared/runtime.js",
+            "type": "fetch",
+            "durationMs": 0.8999999761581421,
+            "transferBytes": 0,
+            "encodedBytes": 93877,
+            "decodedBytes": 93877,
+            "workerStartMs": 89.10000002384186,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/unidade.json",
+            "type": "fetch",
+            "durationMs": 0.8000000715255737,
+            "transferBytes": 0,
+            "encodedBytes": 8038,
+            "decodedBytes": 8038,
+            "workerStartMs": 94.60000002384186,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/source.json.gz",
+            "type": "fetch",
+            "durationMs": 1.7000000476837158,
+            "transferBytes": 0,
+            "encodedBytes": 1366048,
+            "decodedBytes": 1366048,
+            "workerStartMs": 94.70000004768372,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/light.json",
+            "type": "fetch",
+            "durationMs": 1,
+            "transferBytes": 0,
+            "encodedBytes": 1881,
+            "decodedBytes": 1881,
+            "workerStartMs": 231.10000002384186,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/geometry-compact.json.gz",
+            "type": "fetch",
+            "durationMs": 1.5,
+            "transferBytes": 0,
+            "encodedBytes": 418028,
+            "decodedBytes": 418028,
+            "workerStartMs": 243.30000007152557,
+            "deliveryType": "cache-storage"
+          },
+          {
+            "path": "/experimentos/liv-ipanema-webgpu-2026-10-09/interiores/meio/irradiance.rgbm.gz",
+            "type": "fetch",
+            "durationMs": 7.5,
+            "transferBytes": 0,
+            "encodedBytes": 4171499,
+            "decodedBytes": 4171499,
+            "workerStartMs": 243.40000009536743,
+            "deliveryType": "cache-storage"
+          }
+        ],
+        "note": "Tempos dos documentos; não somar como tráfego integral do worker ou pico de rede."
+      },
+      "viewerState": {
+        "mode": "planta3d",
+        "typology": "meio",
+        "view": "perspectiva",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu"
+      },
+      "error": null,
+      "interrupted": false
+    }
+  ],
+  "failures": [],
+  "exportedAt": "2026-10-11T20:38:40.486Z"
+}

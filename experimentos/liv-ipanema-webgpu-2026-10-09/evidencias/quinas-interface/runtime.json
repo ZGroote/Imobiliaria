@@ -1,0 +1,261 @@
+{
+  "schema": "liv-outline-runtime-qa-v1",
+  "atUtc": "2026-10-11T03:35:37.712935+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "transport": {
+    "nativeGroups": 15,
+    "verifiedBakedInstances": 1012,
+    "verticesNormalsUV0UV1Preserved": true
+  },
+  "sources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_runtime.py": "f956c30f9c53049669bd3908259fcdaa97b1a91f3a16577630343e50e198f3e1",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno-torre.json": "8e6545269bfd0ebd97b80a82eff7a2feabff5aad6a0fb4a24b220f2d898bf878",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py": "a49c89f18720c8a9a05f9029bcfb24124a3268f2fbf381e46469f32526b9462c",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/exportar_variante.py": "f54a980c340b9b7c13ddaa781514b65634891abe7ffbe70cbbe6cf95c8ff70a4",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/comparacao.html": "9f7732ad21b0fa742ac8e85c0a1d78d00b734c2bae7419ca6fced747a31c2adf",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/comparacao.js": "8bab0e8254b6d32f093bc71096b0158317f214f361fd2065b51acded75848b4a",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/assets/manifest.json": "c289b58805b215bd11dca1ae4c6c1de2d2ef08ff55cb730a922d90f090bb42d9",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/manifest.json": "030d810ee0de010acc703e2187cfdd2584ab9975c257d187a8414d3ff486ceaf",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/geometry-compact.json": "94445d4106472c86d29cbd6d4bb9b082144bf21c1d66d8b5e96946f1d3726bc6",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/renderer.js": "7b457b5dfdf3d5434ce028c3eb3a4fc4a67a203f2e3c36053028389681c8ccc9",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/cameras.js": "6272d526e886a7c32ddca6735007c3dd6f629ee7117fac8e882b6ff4e3dec0dd",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/exterior-finishes.js": "43a8bec60381c24652b97b3f817753aa82902f721e6a30f2e6278a6a796ea575",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/prova-rgbm.html": "042b44a38583a06135622c2924d7dbe29adca152245fc556bf17ad9d00087a81",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/unidades.json": "dcc72736e33fcd2cd613442600324a126bbfc6aa4d35a85097306d8eae24176b",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/interiores/catalogo.json": "b320d0d6f64a5e320678604b60e2b738c2ee30aea50a2506d7e859c60ec6d869"
+  },
+  "cases": [
+    {
+      "backend": "webgpu",
+      "state": {
+        "view": "livre",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu",
+        "camera": {
+          "type": "OrthographicCamera",
+          "fov": null,
+          "near": 0.2,
+          "far": 2000,
+          "zoom": 1,
+          "left": -42.41379310344828,
+          "right": 42.41379310344828,
+          "top": 26,
+          "bottom": -26,
+          "aspect": 1.6312997347480107,
+          "position": [
+            -0.00040001777972147013,
+            450,
+            2.449402467689647e-20
+          ],
+          "target": [
+            0,
+            50,
+            0
+          ]
+        }
+      },
+      "source": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+      "atlas": "855de0d7960d6eb25fe865f640f87faaf7226c99000e0b6cadea72d11b1716c6",
+      "frames": 1,
+      "meshes": 56,
+      "baked": 41,
+      "native": true,
+      "units": null,
+      "picking": false,
+      "calibration": [
+        {
+          "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+          "sourceMaterial": 5,
+          "material": 51,
+          "sourceMetalness": 1,
+          "metalness": 0,
+          "roughness": 0.55
+        },
+        {
+          "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+          "sourceMaterial": 19,
+          "material": 52,
+          "sourceMetalness": 0.25,
+          "metalness": 0,
+          "roughness": 0.16
+        },
+        {
+          "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+          "sourceMaterial": 5,
+          "material": 53,
+          "sourceMetalness": 1,
+          "metalness": 0,
+          "roughness": 0.65
+        }
+      ],
+      "status": "PASS",
+      "profile": "webgpu",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "floorHighlightVertices": 10572,
+      "resourcesDisposedOnce": 114,
+      "switchBackToCandidate": true,
+      "touchEmulated": false
+    },
+    {
+      "backend": "webgl",
+      "state": {
+        "view": "livre",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgl",
+        "camera": {
+          "type": "OrthographicCamera",
+          "fov": null,
+          "near": 0.2,
+          "far": 2000,
+          "zoom": 1,
+          "left": -42.41379310344828,
+          "right": 42.41379310344828,
+          "top": 26,
+          "bottom": -26,
+          "aspect": 1.6312997347480107,
+          "position": [
+            -0.00040001777972147013,
+            450,
+            2.449402467689647e-20
+          ],
+          "target": [
+            0,
+            50,
+            0
+          ]
+        }
+      },
+      "source": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+      "atlas": "855de0d7960d6eb25fe865f640f87faaf7226c99000e0b6cadea72d11b1716c6",
+      "frames": 1,
+      "meshes": 56,
+      "baked": 41,
+      "native": true,
+      "units": null,
+      "picking": false,
+      "calibration": [
+        {
+          "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+          "sourceMaterial": 5,
+          "material": 51,
+          "sourceMetalness": 1,
+          "metalness": 0,
+          "roughness": 0.55
+        },
+        {
+          "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+          "sourceMaterial": 19,
+          "material": 52,
+          "sourceMetalness": 0.25,
+          "metalness": 0,
+          "roughness": 0.16
+        },
+        {
+          "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+          "sourceMaterial": 5,
+          "material": 53,
+          "sourceMetalness": 1,
+          "metalness": 0,
+          "roughness": 0.65
+        }
+      ],
+      "status": "PASS",
+      "profile": "webgl",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "floorHighlightVertices": 10572,
+      "resourcesDisposedOnce": 114,
+      "switchBackToCandidate": true,
+      "touchEmulated": false
+    },
+    {
+      "backend": "webgpu",
+      "state": {
+        "view": "livre",
+        "floor": -1,
+        "selectedUnitId": null,
+        "backend": "webgpu",
+        "camera": {
+          "type": "OrthographicCamera",
+          "fov": null,
+          "near": 0.2,
+          "far": 2000,
+          "zoom": 1,
+          "left": -19.388145315487574,
+          "right": 19.388145315487574,
+          "top": 26,
+          "bottom": -26,
+          "aspect": 0.745697896749522,
+          "position": [
+            -0.00040001777972147013,
+            450,
+            2.449402467689647e-20
+          ],
+          "target": [
+            0,
+            50,
+            0
+          ]
+        }
+      },
+      "source": "69e51cdf27f7be95e040d86fc752c79ef0abf490fe4a8defe18a06b98f5030bd",
+      "atlas": "855de0d7960d6eb25fe865f640f87faaf7226c99000e0b6cadea72d11b1716c6",
+      "frames": 1,
+      "meshes": 56,
+      "baked": 41,
+      "native": true,
+      "units": null,
+      "picking": false,
+      "calibration": [
+        {
+          "mesh": "Blender / esquadrias-varandas-esquadria / torre 0",
+          "sourceMaterial": 5,
+          "material": 51,
+          "sourceMetalness": 1,
+          "metalness": 0,
+          "roughness": 0.55
+        },
+        {
+          "mesh": "Blender / SITE-implantacao-site-vidro / torre -1",
+          "sourceMaterial": 19,
+          "material": 52,
+          "sourceMetalness": 0.25,
+          "metalness": 0,
+          "roughness": 0.16
+        },
+        {
+          "mesh": "Blender / LIV-IPANEMA-tipografia / torre -1",
+          "sourceMaterial": 5,
+          "material": 53,
+          "sourceMetalness": 1,
+          "metalness": 0,
+          "roughness": 0.65
+        }
+      ],
+      "status": "PASS",
+      "profile": "toque",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "floorHighlightVertices": 10572,
+      "resourcesDisposedOnce": 114,
+      "switchBackToCandidate": true,
+      "touchEmulated": true
+    }
+  ],
+  "browserVersion": "154.0.8037.98",
+  "incompatibleAtlasRejectedBeforeDownload": true
+}

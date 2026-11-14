@@ -1,0 +1,263 @@
+{
+  "status": "PASS",
+  "areaNominalM2": 40.825,
+  "registro": {
+    "origemPx": [
+      44,
+      18
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 5.429379721054362,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        57,
+        48,
+        1203,
+        1198
+      ],
+      [
+        722,
+        20,
+        1050,
+        48
+      ]
+    ],
+    "areaCalibracaoM2": 39.12,
+    "conferencia": [
+      "vaso 68x128 px contra 0,37x0,68 m: 184-188 px/m",
+      "cooktop 4 bocas 108x94 px contra 0,58x0,51 m: 184-186 px/m"
+    ]
+  },
+  "moveis": [
+    {
+      "id": "m1",
+      "nome": "Cama do casal",
+      "comodos": [
+        "Dormitório casal"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m2",
+      "nome": "Criado 1",
+      "comodos": [
+        "Dormitório casal"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m3",
+      "nome": "Criado 2",
+      "comodos": [
+        "Dormitório casal"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m4",
+      "nome": "Guarda-roupa do casal",
+      "comodos": [
+        "Dormitório casal"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m5",
+      "nome": "Box",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m6",
+      "nome": "Vaso",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m7",
+      "nome": "Lavatório",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m8",
+      "nome": "Cama do dormitório 02",
+      "comodos": [
+        "Dormitório 02"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m9",
+      "nome": "Escrivaninha",
+      "comodos": [
+        "Dormitório 02"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m10",
+      "nome": "Guarda-roupa do dormitório 02",
+      "comodos": [
+        "Dormitório 02"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m11",
+      "nome": "Sofá da varanda",
+      "comodos": [
+        "Varanda gourmet"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m12",
+      "nome": "Tanque",
+      "comodos": [
+        "Varanda gourmet"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m13",
+      "nome": "Cooktop",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m14",
+      "nome": "Bancada e cuba da cozinha",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m15",
+      "nome": "Geladeira",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m16",
+      "nome": "Mesa de jantar",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m17",
+      "nome": "Cadeira de jantar 1",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m18",
+      "nome": "Cadeira de jantar 2",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m19",
+      "nome": "Cadeira de jantar 3",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m20",
+      "nome": "Cadeira de jantar 4",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m21",
+      "nome": "Sofá da sala",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m22",
+      "nome": "Rack da TV",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m23",
+      "nome": "Tapete da sala",
+      "comodos": [
+        "Sala integrada"
+      ],
+      "contido": true
+    }
+  ],
+  "sobreposicoes": [
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira de jantar 1"
+      ],
+      "areaM2": 0.03,
+      "revisar": false
+    },
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira de jantar 2"
+      ],
+      "areaM2": 0.03,
+      "revisar": false
+    },
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira de jantar 3"
+      ],
+      "areaM2": 0.05,
+      "revisar": false
+    },
+    {
+      "nomes": [
+        "Mesa de jantar",
+        "Cadeira de jantar 4"
+      ],
+      "areaM2": 0.05,
+      "revisar": false
+    }
+  ],
+  "vaos": {
+    "portas": 5,
+    "janelas": 4
+  },
+  "conferenciaJPG": "da6bf134e10f71db33a068df972b662b00817e5c613e630557b9aac2b2e59486",
+  "unidadeSHA256": "849d48dbef1260de68e229ad7799ca1d772f4cef0d2d7814c99b3cdd9a7781d1",
+  "limites": [
+    "Sobreposição na imagem do book; não é conferência executiva.",
+    "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
+  ]
+}

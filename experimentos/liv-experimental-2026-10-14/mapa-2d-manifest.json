@@ -1,0 +1,65 @@
+{
+  "schema": "liv-map-2d-v1",
+  "files": {
+    "mapa-runtime/mapa-2d.html": {
+      "bytes": 2114,
+      "sha256": "bfaea2d8d985d9eb68cfea48651726da8df5a0bb15d85304155075126aafe4da"
+    },
+    "mapa-2d.js": {
+      "bytes": 13622,
+      "sha256": "8878855ccbcd575a07361c493f8349aae9d3ef8973990263fea3c8caa1ff5a16"
+    },
+    "mapa-2d.css": {
+      "bytes": 4109,
+      "sha256": "4f7c38a98c60f4ce19047d6ad77f111661eef27e0f8d525db92cdcd6c2393488"
+    },
+    "mapa-pois.json": {
+      "bytes": 84236,
+      "sha256": "caaed109e262e5f60cdf90c0c21a8deaa0fe198078fab13a1c5b5c80ee3f4382"
+    },
+    "vendor/maplibre/maplibre-gl.js": {
+      "bytes": 941827,
+      "sha256": "2986bbddce2c7a944775791201fad5108ec8768fc2e3243cac607b23826e4bc0"
+    },
+    "vendor/maplibre/maplibre-gl.css": {
+      "bytes": 69430,
+      "sha256": "43c1d886b5fdf0aac4e7135bd6f84b823d9f48283a648012665f9be52c01389f"
+    },
+    "vendor/maplibre/LICENSE.txt": {
+      "bytes": 5984,
+      "sha256": "ee5fc05a0677eaf69601d2c7db0d9ecd6cc27c3abc1d0733bc9ed34707cf8ef2"
+    },
+    "mapa-edificio.bundle.js": {
+      "bytes": 797451,
+      "sha256": "c320e44d9cc9bfaeb742c4bf5cd6a2d5d4b454954a8b88335134cf1e3e8dcc58"
+    },
+    "horario-solar.js": {
+      "bytes": 6913,
+      "sha256": "305a38ed7b4644782af8be39bf194c2947f84c9611ee8fe65a6219923687f318"
+    },
+    "mapa-runtime/imagem-tratada.json": {
+      "bytes": 599,
+      "sha256": "97977ca2d91a585a5652e154c547102bf81c99efc27813a5e1dffa18265c0408"
+    },
+    "mapa-runtime/area-tratada.webp": {
+      "bytes": 258544,
+      "sha256": "039823a83ad01d7c5a3ac06eeb0df8b44e62efd76d22a47eff7936e19473bbde"
+    },
+    "site-baseline/liv-ipanema.glb": {
+      "bytes": 2989904,
+      "sha256": "f3bef61c2a844aae0062b1c15df7ebb942ed188c572ba455b8cddd86d57fadf1"
+    },
+    "modelo/variante/liv-contorno.glb": {
+      "bytes": 2275324,
+      "sha256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686"
+    },
+    "modelo/entrada/candidato/liv-contorno.glb": {
+      "bytes": 2536272,
+      "sha256": "1e43cf429a4ea1408c2f2e16f96cd40d3a3640fac18e41aee3bb816d15647941"
+    },
+    "mapa-modelos/laranjeiras.glb": {
+      "bytes": 2505876,
+      "sha256": "4c0bca719fc78456d93d5694a4dd916f059edf2c8efe76110585863c977d8fbb"
+    }
+  }
+}

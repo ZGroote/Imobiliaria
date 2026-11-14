@@ -1,0 +1,51 @@
+{
+  "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+  "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+  "sourceObjects": 63,
+  "targetObjects": 55,
+  "totalSceneTriangles": 72887,
+  "splitNormalsPreserved": true,
+  "lighting": {
+    "name": "canonical interior style, LIV room positions",
+    "world": {
+      "color": [
+        0.72,
+        0.82,
+        1
+      ],
+      "strength": 0.45
+    },
+    "sun": {
+      "position": [
+        -7,
+        9,
+        10
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "energy": 2.2,
+      "angleDegrees": 4,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    "ceiling": {
+      "energy": 45,
+      "size": 0.32,
+      "color": [
+        1,
+        0.95,
+        0.86
+      ]
+    }
+  },
+  "blendBytes": 3177931,
+  "glbBytes": null,
+  "glbError": null,
+  "note": "GLB contains same meshes/PBR/UV1, RGBM transport is integrated separately in LIV viewer"
+}

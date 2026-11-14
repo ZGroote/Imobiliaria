@@ -76,9 +76,22 @@ for (const p of POIS) {
   p.el = el;
 }
 // Larguras medidas de uma vez so: ler offsetWidth marcador a marcador dentro do
-// laco de render forcaria um reflow por quadro.
+// laco de render forcaria um reflow por quadro. E nem aqui pelo DOM: mostrar-ler-
+// esconder cada um custava um reflow por marcador -- 247 ms com 931 POIs, 6,7 s com
+// os 8.253 do Overture. Um marcador de verdade calibra a parte fixa (icone + respiro)
+// e a fonte; o nome vem do measureText, cortado no max-width do .nm. Medido contra o
+// offsetWidth: erro <= 4 px (mediana 0,2), contra a folga de 26 px da colisao.
 requestAnimationFrame(() => {
-  for (const p of POIS) { p.el.style.display = "flex"; p.nw = p.el.offsetWidth; p.el.style.display = "none"; }
+  const p0 = POIS[0];
+  if (!p0) return;
+  p0.el.style.display = "flex";
+  const nm = p0.el.querySelector(".nm"), cs = getComputedStyle(nm);
+  const fixo = p0.el.offsetWidth - nm.getBoundingClientRect().width;
+  p0.el.style.display = "none";
+  const ctx = document.createElement("canvas").getContext("2d");
+  ctx.font = cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
+  const mx = parseFloat(cs.maxWidth) || Infinity;
+  for (const p of POIS) p.nw = Math.round(fixo + Math.min(mx, ctx.measureText(p.n).width));
 });
 
 /* --- categorias: quem liga e desliga --------------------------------------

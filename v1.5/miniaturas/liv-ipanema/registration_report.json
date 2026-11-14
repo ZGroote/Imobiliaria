@@ -1,0 +1,27 @@
+{
+  "coordinateConvention": "Architectural (X,Y,Z) -> Blender (X,-Y,Z) -> Three.js (X,Z,Y)",
+  "sitePlanPixels": "referencias/implantacao.jpg",
+  "siteTransform": {
+    "x": "(432-v)*0.145",
+    "depth": "(u-315)*0.145"
+  },
+  "primaryFacade": "positive architectural depth / positive Three.js Z",
+  "towerDimensionsM": [
+    47.7,
+    12.7,
+    48.45
+  ],
+  "dimensionsAreInferred": true,
+  "referenceViewsArePerspective": true,
+  "canonicalFacadeLandmarks": {
+    "balconyCentersNormalized": [
+      0.11,
+      0.19,
+      0.45,
+      0.76,
+      0.85
+    ],
+    "coreCenterNormalized": 0.37
+  },
+  "hiddenGeometry": "Back facade and technical roof volumes are inferred, not survey-derived."
+}

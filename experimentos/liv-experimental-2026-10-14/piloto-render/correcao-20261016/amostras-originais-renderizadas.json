@@ -1,0 +1,22 @@
+{
+  "source_sha256": "fb1cdfb78b9d0635c78113a1899e9497558a46b739c9291b7b01756fa2db6b82",
+  "samples": 128,
+  "resolution": [
+    1280,
+    720
+  ],
+  "glass_override": "MAT-vidro-volumetrico-original",
+  "entry_rays": [],
+  "images": [
+    {
+      "room": "Banho",
+      "pitch": 0,
+      "file_path": "originais\\images\\f0454.png"
+    },
+    {
+      "room": "Sala integrada",
+      "pitch": 0,
+      "file_path": "originais\\images\\f0313.png"
+    }
+  ]
+}

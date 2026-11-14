@@ -204,7 +204,8 @@ test('3. comentário/nota interna e log interno invisíveis à imobiliária', as
     const f = db(uid);
     await assertFails(getDoc(doc(f, 'requests/reqA/internal/notes')));
     await assertFails(getDoc(doc(f, 'auditLogs/logAint')));
-    await assertFails(getDoc(doc(f, 'invites/novo@a.test')));
+    if (uid === 'gerA') await assertSucceeds(getDoc(doc(f, 'invites/novo@a.test')));
+    else await assertFails(getDoc(doc(f, 'invites/novo@a.test')));
     await assertSucceeds(getDoc(doc(f, 'auditLogs/logA')));
     await assertFails(getDocs(query(collection(f, 'auditLogs'), where('agencyId', '==', 'agA'))));  // sem filtro de visibilidade
     await assertSucceeds(getDocs(query(collection(f, 'auditLogs'), where('agencyId', '==', 'agA'), where('visibility', '==', 'agency'))));
@@ -252,6 +253,62 @@ test('6. platform_admin acessa e administra todos os tenants', async () => {
 
 // ── identidade (T03 / REVISAO-1.5) ──
 
+test('convites da equipe: gerente só gerencia corretores da própria agência, sem tomar convites alheios', async () => {
+  const convite = (extra = {}) => ({ email: 'equipe@a.test', name: 'Equipe', role: 'agent', agencyId: 'agA',
+    createdBy: 'gerA', createdAt: now(), ...extra });
+  const ref = (f, email = 'equipe@a.test') => doc(f, 'invites', email);
+  const f = db('gerA');
+  await assertSucceeds(setDoc(ref(f), convite()));
+  await assertSucceeds(getDoc(ref(f)));
+  await assertSucceeds(getDocs(query(collection(f, 'invites'), where('agencyId', '==', 'agA'), where('role', '==', 'agent'))));
+  await assertFails(getDocs(collection(f, 'invites')));
+  await assertFails(getDocs(query(collection(f, 'invites'), where('agencyId', '==', 'agB'), where('role', '==', 'agent'))));
+  await assertSucceeds(setDoc(ref(f), convite({ name: 'Nome corrigido' })));
+  for (const role of ['agency_manager', 'operator', 'platform_admin']) {
+    await assertFails(setDoc(ref(f), convite({ role })));
+  }
+  await assertFails(setDoc(ref(f), convite({ agencyId: 'agB' })));
+  await assertFails(setDoc(ref(f), convite({ createdBy: 'admin' })));
+  await assertFails(setDoc(ref(f), convite({ createdAt: T })));
+  await assertFails(updateDoc(doc(f, 'users/corA'), { role: 'agency_manager', updatedAt: now() }));
+  for (const outro of [anon(), db('corA'), db('gerB'), db('op')]) {
+    await assertFails(getDoc(ref(outro)));
+    await assertFails(deleteDoc(ref(outro)));
+    await assertFails(setDoc(ref(outro, 'proibido@a.test'), convite({ email: 'proibido@a.test' })));
+  }
+  await assertSucceeds(deleteDoc(ref(f)));
+
+  // Mesmo conhecendo o e-mail, o gerente não sobrescreve nem cancela outro papel ou agência.
+  for (const dados of [{ role: 'agent', agencyId: 'agB' }, { role: 'agency_manager', agencyId: 'agA' }, { role: 'operator' }]) {
+    const anterior = convite({ createdBy: 'admin', ...dados });
+    if (dados.role === 'operator') delete anterior.agencyId;
+    await env.withSecurityRulesDisabled((ctx) => setDoc(ref(ctx.firestore()), anterior));
+    await assertFails(getDoc(ref(f)));
+    await assertFails(setDoc(ref(f), convite()));
+    await assertFails(deleteDoc(ref(f)));
+  }
+  await env.withSecurityRulesDisabled((ctx) => updateDoc(doc(ctx.firestore(), 'users/gerA'), { active: false }));
+  await assertFails(setDoc(ref(f, 'inativo@a.test'), convite({ email: 'inativo@a.test' })));
+  await assertFails(getDoc(doc(f, 'invites/novo@a.test')));
+  await assertFails(deleteDoc(doc(f, 'invites/novo@a.test')));
+});
+
+test('e-mail dos convites: só o servidor grava o resultado e a cota de envio', async () => {
+  for (const uid of ['admin', 'gerA']) {
+    const f = db(uid), ref = doc(f, 'invites', `email-${uid}@a.test`);
+    const convite = {email:`email-${uid}@a.test`,name:'Pessoa',role:'agent',agencyId:'agA',createdBy:uid,createdAt:now()};
+    await assertFails(setDoc(ref, {...convite, emailDelivery:{status:'accepted'}}));
+    await assertSucceeds(setDoc(ref, convite));
+    await assertFails(updateDoc(ref, {createdAt:now(),emailDelivery:{status:'accepted'}}));
+    await assertFails(setDoc(doc(f,'emailQuota/2026-10-23'),{count:0}));
+    await env.withSecurityRulesDisabled(ctx => updateDoc(doc(ctx.firestore(),ref.path), {emailDelivery:{status:'accepted'}}));
+    await assertSucceeds(getDoc(ref));
+    // Recriar o convite para reenviar remove o resultado antigo, sem poder forjá-lo.
+    await assertSucceeds(setDoc(ref, {...convite,createdAt:now()}));
+    await assertSucceeds(deleteDoc(ref));
+  }
+});
+
 test('7. users/{uid} só nasce de convite, com o papel do convite, e o convite é consumido no aceite', async () => {
   const novo = (token) => db('novo', { email: 'novo@a.test', ...token });
   const base = { name: 'Novo', email: 'novo@a.test', role: 'agent', agencyId: 'agA', active: true, createdAt: now(), updatedAt: now() };
@@ -285,6 +342,25 @@ test('7. users/{uid} só nasce de convite, com o papel do convite, e o convite �
   await assertFails(deleteDoc(doc(novo(), 'invites/novo@a.test')));
   await assertFails(deleteDoc(doc(db('corA'), 'invites/outro@a.test')));       // usuário comum, idem
   await assertSucceeds(deleteDoc(doc(db('admin'), 'invites/outro@a.test')));    // o admin continua cancelando
+});
+
+test('perfil: cada usuário salva somente o próprio WhatsApp público válido, sem mudar permissões', async () => {
+  for (const uid of ['corA', 'gerA', 'op', 'admin']) {
+    const f = db(uid), ref = doc(f, 'users', uid);
+    await assertSucceeds(updateDoc(ref, { publicContact: { whatsapp: '5516999990000' }, updatedAt: now() }));
+    assert.equal((await getDoc(ref)).data().publicContact.whatsapp, '5516999990000');
+    for (const publicContact of [{ whatsapp: '+55 16 99999-0000' }, { whatsapp: 'javascript:alert(1)' },
+      { whatsapp: 5516999990000 }, { whatsapp: '' }, { whatsapp: '0123456789' }, { whatsapp: '1234567890123456' },
+      { whatsapp: '5516999990000', privatePhone: 'outro' }, null, []]) {
+      await assertFails(updateDoc(ref, { publicContact, updatedAt: now() }));
+    }
+    if (uid !== 'admin') {
+      await assertFails(updateDoc(doc(f, 'users/corB'), { publicContact: { whatsapp: '5516999990000' }, updatedAt: now() }));
+      await assertFails(updateDoc(ref, { publicContact: { whatsapp: '5516999990000' }, role: 'platform_admin', updatedAt: now() }));
+    }
+    await assertSucceeds(updateDoc(ref, { publicContact: deleteField(), updatedAt: now() }));
+  }
+  await assertFails(updateDoc(doc(db('gerA'), 'users/corA'), { publicContact: { whatsapp: '5516999990000' }, updatedAt: now() }));
 });
 
 test('8. ninguém muda o próprio role, agencyId ou active', async () => {

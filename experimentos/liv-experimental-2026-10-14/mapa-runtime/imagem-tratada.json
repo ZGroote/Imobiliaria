@@ -1,0 +1,28 @@
+{
+  "url": "mapa-runtime/area-tratada.webp",
+  "sha256": "039823a83ad01d7c5a3ac06eeb0df8b44e62efd76d22a47eff7936e19473bbde",
+  "coordinates": [
+    [
+      -47.9282729241933,
+      -21.985301486263516
+    ],
+    [
+      -47.920727075806695,
+      -21.985301486263516
+    ],
+    [
+      -47.920727075806695,
+      -21.992298427478566
+    ],
+    [
+      -47.9282729241933,
+      -21.992298427478566
+    ]
+  ],
+  "source": "Esri World Imagery",
+  "treatment": "Restauração visual por IA aprovada pelo usuário; sem precisão cadastral",
+  "size": [
+    1254,
+    1254
+  ]
+}

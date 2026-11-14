@@ -1,0 +1,272 @@
+{
+  "activeFloor": 0,
+  "floors": [
+    {
+      "floor": 0,
+      "furniture": [
+        {
+          "alturaMm": 950,
+          "cor": "#D9D4CC",
+          "depthMm": 1950,
+          "id": "m1",
+          "nome": "Beliche 1",
+          "rotDegrees": 270,
+          "tipo3D": "cama",
+          "tipoCatalogo": "cama-solteiro",
+          "widthMm": 900,
+          "xMm": 3150,
+          "yMm": 450
+        },
+        {
+          "alturaMm": 950,
+          "cor": "#D9D4CC",
+          "depthMm": 1950,
+          "id": "m2",
+          "nome": "Beliche 2",
+          "rotDegrees": 270,
+          "tipo3D": "cama",
+          "tipoCatalogo": "cama-solteiro",
+          "widthMm": 900,
+          "xMm": 1050,
+          "yMm": 1900
+        },
+        {
+          "alturaMm": 2300,
+          "cor": "#A57A52",
+          "depthMm": 520,
+          "id": "m3",
+          "nome": "Armário 1",
+          "rotDegrees": 0,
+          "tipo3D": "guardaroupa",
+          "tipoCatalogo": "guardaroupa",
+          "widthMm": 1800,
+          "xMm": 1050,
+          "yMm": 300
+        },
+        {
+          "alturaMm": 2300,
+          "cor": "#A57A52",
+          "depthMm": 520,
+          "id": "m4",
+          "nome": "Armário 2",
+          "rotDegrees": 180,
+          "tipo3D": "guardaroupa",
+          "tipoCatalogo": "guardaroupa",
+          "widthMm": 1800,
+          "xMm": 3050,
+          "yMm": 2100
+        },
+        {
+          "alturaMm": 740,
+          "cor": "#A57A52",
+          "depthMm": 560,
+          "id": "m5",
+          "nome": "Bancada de estudo para 4",
+          "rotDegrees": 0,
+          "tipo3D": "mesa",
+          "tipoCatalogo": "escrivaninha",
+          "widthMm": 3800,
+          "xMm": 6200,
+          "yMm": 300
+        },
+        {
+          "alturaMm": 920,
+          "cor": "#C9C3BA",
+          "depthMm": 560,
+          "id": "m6",
+          "nome": "Copa com pia e cooktop",
+          "rotDegrees": 180,
+          "tipo3D": "pia",
+          "tipoCatalogo": "pia-cozinha",
+          "widthMm": 1700,
+          "xMm": 7950,
+          "yMm": 2100
+        },
+        {
+          "alturaMm": 1780,
+          "cor": "#D6D9DA",
+          "depthMm": 560,
+          "id": "m7",
+          "nome": "Geladeira",
+          "rotDegrees": 180,
+          "tipo3D": "geladeira",
+          "tipoCatalogo": "geladeira",
+          "widthMm": 600,
+          "xMm": 6700,
+          "yMm": 2100
+        },
+        {
+          "alturaMm": 2000,
+          "cor": "#DDE5E4",
+          "depthMm": 700,
+          "id": "m8",
+          "nome": "Banheira",
+          "rotDegrees": 0,
+          "tipo3D": "box",
+          "tipoCatalogo": "box-chuveiro",
+          "widthMm": 1500,
+          "xMm": 11550,
+          "yMm": 400
+        },
+        {
+          "alturaMm": 800,
+          "cor": "#F2F1EE",
+          "depthMm": 650,
+          "id": "m9",
+          "nome": "Vaso",
+          "rotDegrees": 270,
+          "tipo3D": "vaso",
+          "tipoCatalogo": "vaso-sanitario",
+          "widthMm": 400,
+          "xMm": 11950,
+          "yMm": 1200
+        },
+        {
+          "alturaMm": 850,
+          "cor": "#F2F1EE",
+          "depthMm": 500,
+          "id": "m10",
+          "nome": "Lavatório",
+          "rotDegrees": 270,
+          "tipo3D": "pia",
+          "tipoCatalogo": "gabinete-banheiro",
+          "widthMm": 650,
+          "xMm": 12150,
+          "yMm": 1950
+        },
+        {
+          "alturaMm": 20,
+          "cor": "#CFC6B8",
+          "depthMm": 1000,
+          "id": "m11",
+          "nome": "Tapete",
+          "rotDegrees": 0,
+          "tipo3D": "tapete",
+          "tipoCatalogo": "tapete-sala",
+          "widthMm": 2000,
+          "xMm": 5450,
+          "yMm": 1250
+        }
+      ],
+      "leitura": {
+        "ceilingHeightMm": 2350,
+        "geometry": "orthogonal-rectangles",
+        "id": "containers-mooca-quadruplo",
+        "openings": [
+          {
+            "heightMm": 2100,
+            "id": "a1",
+            "kind": "door",
+            "offsetMm": 9700,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 0,
+            "wallId": "c1-south",
+            "widthMm": 850
+          },
+          {
+            "heightMm": 2100,
+            "id": "a2",
+            "kind": "door",
+            "offsetMm": 1000,
+            "pairedWallId": "c1-east",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 0,
+            "wallId": "c2-west",
+            "widthMm": 750
+          },
+          {
+            "heightMm": 1500,
+            "id": "a3",
+            "kind": "window",
+            "offsetMm": 3000,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 600,
+            "wallId": "c1-south",
+            "widthMm": 3000
+          },
+          {
+            "heightMm": 1500,
+            "id": "a4",
+            "kind": "window",
+            "offsetMm": 6450,
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "sillMm": 600,
+            "wallId": "c1-south",
+            "widthMm": 3150
+          }
+        ],
+        "provenance": {
+          "kind": "declared",
+          "referenceIds": []
+        },
+        "references": [],
+        "relations": [
+          {
+            "id": "rel-c1-east--c2-west",
+            "kind": "adjacent",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "wallA": "c1-east",
+            "wallB": "c2-west"
+          }
+        ],
+        "revision": 18,
+        "rooms": [
+          {
+            "depthMm": 2400,
+            "id": "c1",
+            "name": "Quarto e estudo",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c1-east",
+              "north": "c1-north",
+              "south": "c1-south",
+              "west": "c1-west"
+            },
+            "widthMm": 10700,
+            "xMm": 0,
+            "yMm": 0
+          },
+          {
+            "depthMm": 2400,
+            "id": "c2",
+            "name": "Banho",
+            "provenance": {
+              "kind": "declared",
+              "referenceIds": []
+            },
+            "walls": {
+              "east": "c2-east",
+              "north": "c2-north",
+              "south": "c2-south",
+              "west": "c2-west"
+            },
+            "widthMm": 1800,
+            "xMm": 10700,
+            "yMm": 0
+          }
+        ],
+        "schemaVersion": "1.0.0",
+        "unit": "mm"
+      }
+    }
+  ],
+  "schemaVersion": "1.0.0"
+}

@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "propertyId": "liv-ipanema-planta-meio-referencia",
+  "agencyId": "referencia-publica-local",
+  "andar": 0,
+  "ficha": {
+    "titulo": "LIV Ipanema · planta de meio · 47,5 a 47,89 m²",
+    "empreendimento": "LIV Ipanema",
+    "area_publicada_min_m2": 47.5,
+    "area_publicada_max_m2": 47.89,
+    "quartos": 2,
+    "suites": 1,
+    "banheiros": 2,
+    "observacao": "Reconstrução ilustrativa da Planta 2 de meio. Medidas inferidas; sem final, unidade comercial ou garden atribuído."
+  },
+  "cores": {
+    "parede": "#E2DED5",
+    "piso_frio": "#B4B5B1",
+    "piso_madeira": "#B89369",
+    "teto": "#F2F0EC"
+  },
+  "lote": {
+    "predio": {
+      "largura_m": 47.7,
+      "profundidade_m": 12.7,
+      "pavimentos": 17
+    }
+  }
+}

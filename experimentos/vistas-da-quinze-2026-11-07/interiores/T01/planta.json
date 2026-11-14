@@ -1,0 +1,78 @@
+{
+  "id": "vistas-da-quinze-t01",
+  "titulo": "Vistas da Quinze · T01 · 2 dormitórios sem terraço · 44,79 m²",
+  "imagem": "../../../../plantas_fornecidas/vistas-da-quinze/anexos/bfb10206-b423-443d-9120-5a01807b430f.png",
+  "imagemSha256": "7aa9e027edfd16c2f11caabf909ffd6b380be04d29c047722d91397136b682cc",
+  "calibracao": {
+    "areaM2": 44.79,
+    "contornoFacesPx": [[7, 8, 382, 256]],
+    "conferencia": [
+      "Área de 44,79 m² do anúncio (2 dormitórios, 1 suíte, sem terraço) contra as faces internas do contorno.",
+      "Cama de solteiro 40 x 82 px contra 0,88 x 1,88 m: 44-45 px/m."
+    ]
+  },
+  "origemPx": [3, 4],
+  "gradeMm": 50,
+  "peDireitoMm": 2600,
+  "comodos": [
+    {"nome": "Dormitório 2", "partes": [[3, 4, 132, 153]]},
+    {"nome": "Banho social", "partes": [[3, 153, 68, 260]]},
+    {"nome": "Suíte", "partes": [[257, 4, 386, 153], [257, 153, 323, 188]]},
+    {"nome": "Banho suíte", "partes": [[323, 153, 386, 260]]},
+    {"nome": "Sala integrada", "partes": [[132, 4, 257, 260], [68, 153, 132, 260], [257, 188, 323, 260]]}
+  ],
+  "aberturas": [
+    {"comodo": "Dormitório 2", "lado": "north", "de": 86, "ate": 119, "tipo": "door", "alturaMm": 2100},
+    {"comodo": "Banho social", "lado": "east", "de": 171, "ate": 203, "tipo": "door", "alturaMm": 2100},
+    {"comodo": "Suíte", "parte": 1, "lado": "north", "de": 274, "ate": 306, "tipo": "door", "alturaMm": 2100},
+    {"comodo": "Banho suíte", "lado": "west", "de": 199, "ate": 232, "tipo": "door", "alturaMm": 2100},
+    {"comodo": "Sala integrada", "parte": 1, "lado": "north", "de": 84, "ate": 120, "tipo": "door", "alturaMm": 2100},
+    {"comodo": "Dormitório 2", "lado": "south", "de": 34, "ate": 98, "tipo": "window", "alturaMm": 1200, "peitorilMm": 1000},
+    {"comodo": "Sala integrada", "lado": "south", "de": 148, "ate": 239, "tipo": "window", "alturaMm": 1400, "peitorilMm": 800},
+    {"comodo": "Suíte", "lado": "south", "de": 282, "ate": 344, "tipo": "window", "alturaMm": 1200, "peitorilMm": 1000}
+  ],
+  "moveis": [
+    {"catalogo": "cama-solteiro", "x": 30, "y": 58, "w": 880, "d": 1880, "cor": "#E4E1DA", "nome": "Cama de solteiro 1"},
+    {"catalogo": "cama-solteiro", "x": 105, "y": 58, "w": 880, "d": 1880, "cor": "#E4E1DA", "nome": "Cama de solteiro 2"},
+    {"catalogo": "criado", "x": 67, "y": 22, "w": 400, "d": 350, "cor": "#E9E5DD", "nome": "Criado do dormitório 2"},
+    {"catalogo": "guardaroupa", "x": 42, "y": 136, "rot": 180, "w": 1400, "d": 500, "cor": "#E9E5DD", "nome": "Guarda-roupa do dormitório 2"},
+    {"catalogo": "cama-queen", "x": 318, "y": 56, "rot": 270, "w": 1580, "d": 1980, "cor": "#E4E1DA", "nome": "Cama da suíte"},
+    {"catalogo": "guardaroupa", "x": 346, "y": 136, "rot": 180, "w": 1300, "d": 500, "cor": "#E9E5DD", "nome": "Guarda-roupa da suíte"},
+    {"catalogo": "sofa-3", "x": 234, "y": 57, "rot": 270, "w": 2000, "d": 880, "cor": "#8E8A86", "nome": "Sofá"},
+    {"catalogo": "rack-tv", "x": 141, "y": 57, "rot": 90, "w": 1600, "d": 350, "cor": "#B07A4E", "nome": "Rack da TV"},
+    {"catalogo": "tapete-sala", "x": 188, "y": 57, "w": 1400, "d": 1700, "cor": "#C9C6C2", "nome": "Tapete"},
+    {"catalogo": "mesa-jantar-4", "x": 165, "y": 158, "w": 800, "d": 800, "cor": "#7A4E33", "nome": "Mesa de jantar"},
+    {"catalogo": "poltrona", "x": 150, "y": 141, "w": 400, "d": 400, "cor": "#CFC8BC", "nome": "Cadeira 1"},
+    {"catalogo": "poltrona", "x": 180, "y": 141, "w": 400, "d": 400, "cor": "#CFC8BC", "nome": "Cadeira 2"},
+    {"catalogo": "poltrona", "x": 150, "y": 176, "rot": 180, "w": 400, "d": 400, "cor": "#CFC8BC", "nome": "Cadeira 3"},
+    {"catalogo": "poltrona", "x": 180, "y": 176, "rot": 180, "w": 400, "d": 400, "cor": "#CFC8BC", "nome": "Cadeira 4"},
+    {"catalogo": "geladeira", "x": 146, "y": 241, "rot": 180, "w": 700, "d": 650, "cor": "#6E7275", "nome": "Geladeira"},
+    {"catalogo": "pia-cozinha", "x": 196, "y": 245, "rot": 180, "w": 1300, "d": 580, "cor": "#3B3A38", "nome": "Bancada e cuba"},
+    {"catalogo": "fogao", "x": 240, "y": 245, "rot": 180, "w": 600, "d": 580, "cor": "#2A2B2D", "nome": "Cooktop"},
+    {"catalogo": "maquina-lavar", "x": 303, "y": 245, "rot": 180, "w": 600, "d": 600, "cor": "#E8E8E6", "nome": "Lavadora"},
+    {"catalogo": "vaso-sanitario", "x": 22, "y": 197, "rot": 90, "w": 400, "d": 650, "cor": "#F2F1EE", "nome": "Vaso"},
+    {"catalogo": "gabinete-banheiro", "x": 30, "y": 166, "w": 550, "d": 400, "cor": "#F2F1EE", "nome": "Lavatório"},
+    {"catalogo": "box-chuveiro", "x": 35, "y": 238, "w": 1250, "d": 850, "cor": "#DDE5E4", "nome": "Box"},
+    {"catalogo": "vaso-sanitario", "x": 367, "y": 203, "rot": 270, "w": 400, "d": 650, "cor": "#F2F1EE", "nome": "Vaso da suíte"},
+    {"catalogo": "gabinete-banheiro", "x": 358, "y": 166, "w": 550, "d": 400, "cor": "#F2F1EE", "nome": "Lavatório da suíte"},
+    {"catalogo": "box-chuveiro", "x": 355, "y": 238, "w": 1250, "d": 850, "cor": "#DDE5E4", "nome": "Box da suíte"}
+  ],
+  "ficha": {
+    "titulo": "Vistas da Quinze · T01 · 2 dormitórios sem terraço · 44,79 m²",
+    "empreendimento": "Vistas da Quinze",
+    "area_publicada_m2": 44.79,
+    "quartos": 2,
+    "suites": 1,
+    "banheiros": 2,
+    "observacao": "Reconstrução ilustrativa da planta humanizada pública; medidas inferidas pela área anunciada."
+  },
+  "cores": {"parede": "#E6E2DA", "piso_frio": "#D8D4CC", "piso_madeira": "#B8916A", "teto": "#F2F0EC"},
+  "lote": {"predio": {"largura_m": 45.0, "profundidade_m": 45.0, "pavimentos": 20}},
+  "limites": [
+    "Planta humanizada de 390 px sem cotas (~45 px/m). Eixos de parede, vãos e móveis são aproximações de ±5 cm.",
+    "A escala supõe que os 44,79 m² do anúncio são a área dentro das faces internas das paredes externas; as camas de solteiro conferem.",
+    "Embaixo na imagem fica o corredor do andar (porta de entrada); em cima, a fachada.",
+    "O banho da direita abre para a cozinha, como no desenho, e é chamado de banho da suíte só pela posição.",
+    "Pé-direito de 2,60 m é suposto. A pegada do prédio é provisória até a implantação."
+  ]
+}

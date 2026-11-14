@@ -38,3 +38,209 @@ __pycache__/
 # serem recomitadas por engano (25 MiB). Ver tasks/higiene-repositorio/arquivos-grandes.md.
 /v1.5/miniaturas/padrao-atual/piloto-v3/source.json
 /v1.5/miniaturas/padrao-atual/exterior-v3/source.json
+
+# Saidas locais: a fonte ativa e v1.5/renderizador-v16-moveis/.
+# Nao ignorar v16-moveis inteiro: os tiles de quintal versionados sao entradas do piloto.
+/v15/
+/v17/
+/v18/
+/v16-moveis/*.html
+/v16-moveis/publicado/*.html
+/v16-moveis/publicado/mapa/*.html
+/visitas/*.html
+/pipeline/_estado*.json
+/pipeline/_hashes.json
+/pipeline/_ue_tools.json
+*.blend1
+*.bak
+
+# Fontes brutas, intermediarios GIS e cidades fora do piloto: preservados no disco.
+/fontes_raster/
+/osm_tiles/
+/osm_poi_tiles/
+/loteamentos_oficial_tiles/
+/plantas_openplots/
+/plantas_pipeline/
+/araraquara/
+/ribeirao-preto/
+/sao-jose-do-rio-preto/
+/sorocaba/
+/*.geojson
+/*.city.json
+/blocks.json
+/casas_para_inspecao_3d.json
+/loteamentos_oficiais_openplots.json
+/osm_buildings_raw.json
+/osm_pois_raw.json
+/pois_sao_carlos.json
+/sao-carlos/dados/address_points*.json
+/sao-carlos/dados/lotes_confiaveis_saocarlos.geojson
+/sao-carlos/dados/lotes_ocupados.json
+/sao-carlos/dados/lotes_oficiais_saocarlos.geojson
+/sao-carlos/dados/lotes_sinteticos_miolo.geojson
+/sao-carlos/dados/quadras_miolo.geojson
+/sao-carlos/sao-carlos-v4.city.json
+/sao-carlos/fontes/
+/sao-carlos/relatorios/
+
+# Bibliotecas editaveis/exportadas e provas visuais locais. Os runtimes ja versionados
+# continuam visiveis; novos assets entram por selecao explicita e pelos inventarios.
+/arvores/*.blend
+/arvores/*.png
+/arvores/validacao*.json
+/exteriores/v1/*.blend
+/exteriores/v1/*.jpg
+/exteriores/v1/*.png
+/exteriores/v1/*.html
+/exteriores/v1/previas/
+/exteriores/v1/glb/
+/exteriores/v1/*.json
+/modelos_urbanos/v1/*.blend
+/modelos_urbanos/v1/*.jpg
+/modelos_urbanos/v1/catalogo.json
+/modelos_urbanos/v1/compactos/
+/modelos_urbanos/v1/fbx/
+/modelos_urbanos/v1/glb/
+/modelos_urbanos/v1/glb_lod1/
+/modelos_urbanos/v1/previas/
+/modelos_urbanos/v1/integracao/antes/
+/modelos_urbanos/v1/integracao/*.png
+/modelos_urbanos/v1/integracao/*.json
+/modelos_urbanos/v1/validation/*.json
+/modelos_urbanos/v1/validation/*.png
+/modelos_cadastrados/[0-9]*/
+/modelos_cadastrados/processados/
+/modelos_cadastrados/status.json
+/modelos_cadastrados/pipeline/fixtures_blender/manifesto/
+/modelos_cadastrados/pipeline/fixtures_blender/saida/
+/modelos_cadastrados/pipeline/fixtures_blender/receita.json
+/modelos_cadastrados/pipeline/fixtures_blender/verificacao-*.json
+/plantas_fornecidas/*/fotos/
+/plantas_fornecidas/*/leitura.json
+/plantas_fornecidas/*/unidade.extraida.json
+/unreal/_*.png
+/unreal/capturas/
+/unreal/plantas/
+/unreal/malhas/*.obj
+/unreal/malhas/*.mtl
+/unreal/malhas/*.cena.json
+/unreal/lightmaps/*.json
+
+# Estudos encerrados, capturas e pacotes de auditoria locais; indice em experimentos/README.md.
+/experimentos/cedros-estudo-completo/
+/experimentos/mirante-7-2026-09-22/*.html
+/experimentos/mirante-7-2026-09-22/modelo/
+/experimentos/mirante-7-2026-09-22/next-data.json
+/experimentos/qualidade-progressiva-cedros/*.png
+/experimentos/qualidade-progressiva-cedros/*.csv
+/experimentos/qualidade-progressiva-cedros/*.json
+!/experimentos/qualidade-progressiva-cedros/medicao-rede.json
+/v1.5/miniaturas/estudo-render/
+/v1.5/miniaturas/mapa_botao_voltar.html
+/v1.5/miniaturas/maquete-monte-dos-cedros-37.html
+/v1.5/miniaturas/miniatura-cedros.webp
+/v1.5/miniaturas/publicado/
+/v1.5/miniaturas/qa/*.png
+/v1.5/miniaturas/qa/*.json
+/v1.5/miniaturas/padrao-atual/qa/*.png
+/v1.5/miniaturas/padrao-atual/qa/*.json
+/v1.5/miniaturas/padrao-atual/*/lightmap.webp
+/tasks/modularizacao/baseline/*.png
+/tasks/modularizacao/baseline/*.json
+/relatorios/**/*.png
+/relatorios/**/*.jpg
+/relatorios/**/*.json
+/relatorios/**/*.html
+/relatorios/**/*.docx
+/relatorios/**/*.pdf
+/.claude/launch.json
+# Referências visuais locais de origem externa e pacotes completos de QA.
+/v1.5/miniaturas/referencias/
+/v1.5/miniaturas/qa/mapa-retorno/
+
+# Organização de 19/10 (tools/quem_mexeu.py): saídas que um comando refaz e material que não
+# vai pro repo público. Tudo continua no disco.
+/.next/
+/tmp/
+/rastreabilidade/functions/lib/
+/rastreabilidade/functions/publication.json
+/output/
+/sao-carlos/poidata.json
+# Antigravity: maquete de São Carlos, telas de teste, plano de preço e sofás do Blender
+/teste_maquete_sao_carlos/
+/pacote_maquete_sao_carlos_completa/
+/pacote_maquete_sao_carlos_completa.zip
+/mobile_*.png
+/Plano_de_Precificacao_Comercial.docx
+/gerar_plano_precificacao.py
+/atualizar_pacote_3camadas.py
+/montar_e_zipar.py
+/test_e2e_mobile.py
+/blender/
+# Plano de negócio e contrato: privados (o repo é público)
+/founder/
+/documentos/
+# Fotos do site da Livon (terceiros)
+/experimentos/liv-ipanema-2026-10-08/referencias/*.jpg
+/experimentos/liv-ipanema-2026-10-08/referencias/pagina.html
+# Saídas pesadas da casa-vistalar, prévias antigas do splat e as 2 evidências acima de 1 MiB
+/experimentos/casa-vistalar-2026-10-08/*.glb
+/experimentos/casa-vistalar-2026-10-08/*.blend
+/experimentos/casa-vistalar-2026-10-08/*.png
+/experimentos/casa-vistalar-2026-10-08/vendor/
+/experimentos/liv-experimental-2026-10-14/splat/apartamento-continuo.sog
+/experimentos/liv-experimental-2026-10-14/splat/piloto-continuo.sog
+/experimentos/liv-experimental-2026-10-14/splat/piloto-previa-gpu.sog
+# Splats por cômodo (19/10): saíram do git pela trava de tamanho; o Tour no ar usa old60k e jateado3
+/experimentos/liv-experimental-2026-10-14/splat/sala.sog
+/experimentos/liv-experimental-2026-10-14/splat/quarto.sog
+/experimentos/liv-experimental-2026-10-14/splat/suite.sog
+/experimentos/liv-experimental-2026-10-14/splat/varanda.sog
+/experimentos/liv-experimental-2026-10-14/splat/banho-social.sog
+/experimentos/liv-experimental-2026-10-14/splat/banho-suite.sog
+/experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/mapa-giro-avenida/cidade-recortada.json
+/experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/buffers-paridade-nativa-final/runtime.json
+
+# Book do Parque das Laranjeiras (9,4 MiB): fica no disco, o sha256 está em plantas_fornecidas/parque-das-laranjeiras/LEIA-ME.md
+plantas_fornecidas/parque-das-laranjeiras/fonte/book.pdf
+
+# Laranjeiras: saidas do Blender (regeneraveis por modelo/modelar_laranjeiras.py)
+experimentos/laranjeiras-2026-10-30/modelo/laranjeiras.blend*
+experimentos/laranjeiras-2026-10-30/modelo/laranjeiras.glb
+experimentos/laranjeiras-2026-10-30/modelo/modelo.json
+experimentos/laranjeiras-2026-10-30/modelo/luz/
+experimentos/laranjeiras-2026-10-30/assets/
+experimentos/laranjeiras-2026-10-30/sketchup/entrega/
+experimentos/laranjeiras-2026-10-30/sketchup/dados/
+# Laranjeiras: luz por hora dos interiores (regeneravel por interiores/luz/*; fica no disco, como no LIV)
+experimentos/laranjeiras-2026-10-30/interiores/luz/*/source.json
+experimentos/laranjeiras-2026-10-30/interiores/luz/*/moveis-site.glb
+experimentos/laranjeiras-2026-10-30/interiores/luz/*/gravado/*.f32
+experimentos/laranjeiras-2026-10-30/interiores/luz/*/bake/
+experimentos/laranjeiras-2026-10-30/site/interiores/*/source.json.gz
+experimentos/laranjeiras-2026-10-30/site/interiores/*/geometry-compact.json.gz
+experimentos/laranjeiras-2026-10-30/site/interiores/*/luz-horario/*.gz
+
+# Caderno do TCC dos containers da Mooca (80 MiB): fica no disco, o sha256 está em plantas_fornecidas/containers-mooca/LEIA-ME.md
+plantas_fornecidas/containers-mooca/fonte/caderno.pdf
+
+# Containers da Mooca: saídas do Blender e da luz (regeneráveis por modelo/modelar_containers.py e pelos scripts de luz do LIV)
+experimentos/containers-mooca-2026-11-05/modelo/containers.blend*
+experimentos/containers-mooca-2026-11-05/modelo/containers.glb
+experimentos/containers-mooca-2026-11-05/modelo/modelo.json
+experimentos/containers-mooca-2026-11-05/modelo/luz/
+experimentos/containers-mooca-2026-11-05/assets/
+# Containers da Mooca: luz por hora dos interiores (regenerável por interiores/luz/*; fica no disco, como no LIV)
+experimentos/containers-mooca-2026-11-05/interiores/luz/*/source.json
+experimentos/containers-mooca-2026-11-05/interiores/luz/*/moveis-site.glb
+experimentos/containers-mooca-2026-11-05/interiores/luz/*/gravado/*.f32
+experimentos/containers-mooca-2026-11-05/interiores/luz/*/bake/
+experimentos/containers-mooca-2026-11-05/interiores/luz/logs/
+experimentos/containers-mooca-2026-11-05/site/interiores/*/source.json.gz
+experimentos/containers-mooca-2026-11-05/site/interiores/*/geometry-compact.json.gz
+experimentos/containers-mooca-2026-11-05/site/interiores/*/luz-horario/*.gz
+experimentos/containers-mooca-2026-11-05/mapa/osm-pois.json
+
+# Archicad: arquivo do projeto (binario, 19 MB) e a pasta de backup que ele cria sozinho
+/archicad/*.pln
+/archicad/*\ -\ [0-9]*_[0-9]*_[0-9]*/

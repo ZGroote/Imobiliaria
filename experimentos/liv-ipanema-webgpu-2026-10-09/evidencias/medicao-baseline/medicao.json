@@ -1,0 +1,668 @@
+{
+  "recordedAtUtc": "2026-10-09T18:48:19.888948+00:00",
+  "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "headless": true,
+  "physicalMobile": false,
+  "network": "loopback; sem simulação de 4G",
+  "timingMeaning": "intervalo entre submissões ao renderer; não tempo GPU",
+  "softwareAllowed": false,
+  "rounds": [
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "mobileEmulated": false,
+      "round": 1,
+      "coldReadyMs": 2812.5999999046326,
+      "warmReadyMs": 1762.8000000715256,
+      "cold": {
+        "sampleMs": 4014.3000000715256,
+        "renderSubmissions": 240,
+        "intervalP50Ms": 16.699999928474426,
+        "intervalP95Ms": 16.899999976158142,
+        "cpuSubmitP50Ms": 0.7999999523162842,
+        "cpuSubmitP95Ms": 1,
+        "gpuVendor": "Google Inc. (NVIDIA)",
+        "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "runtime": "168",
+        "dpr": 1,
+        "camera": [
+          102.20344276129471,
+          71.91350419403567,
+          148.9284168158305
+        ],
+        "target": [
+          7.857689240089098,
+          12.79248405510942,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "frame": 324,
+          "calls": 56,
+          "triangles": 441621,
+          "points": 0,
+          "lines": 0
+        },
+        "memoryObjects": {
+          "geometries": 128,
+          "textures": 6
+        },
+        "jsHeap": {
+          "used": 243709957,
+          "total": 268165389
+        },
+        "navigation": {
+          "transferBytes": 38379101,
+          "encodedBytes": 38378801,
+          "decodedBytes": 38378801,
+          "domContentLoadedMs": 1760.1999999284744,
+          "loadMs": 1766.6999999284744,
+          "responseMs": 599.1999999284744
+        },
+        "resourceTransferBytes": 0,
+        "meshes": 56,
+        "visibleMeshes": 56
+      },
+      "warm": {
+        "sampleMs": 4002.4000000953674,
+        "renderSubmissions": 240,
+        "intervalP50Ms": 16.699999928474426,
+        "intervalP95Ms": 16.90000009536743,
+        "cpuSubmitP50Ms": 0.6999999284744263,
+        "cpuSubmitP95Ms": 0.8999999761581421,
+        "gpuVendor": "Google Inc. (NVIDIA)",
+        "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "runtime": "168",
+        "dpr": 1,
+        "camera": [
+          102.20344276129471,
+          71.91366111911262,
+          148.9284168158305
+        ],
+        "target": [
+          7.857689240089098,
+          12.792640980186365,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "frame": 326,
+          "calls": 56,
+          "triangles": 441621,
+          "points": 0,
+          "lines": 0
+        },
+        "memoryObjects": {
+          "geometries": 128,
+          "textures": 6
+        },
+        "jsHeap": {
+          "used": 253164700,
+          "total": 312504144
+        },
+        "navigation": {
+          "transferBytes": 38379101,
+          "encodedBytes": 38378801,
+          "decodedBytes": 38378801,
+          "domContentLoadedMs": 678.7000000476837,
+          "loadMs": 686.4000000953674,
+          "responseMs": 247.90000009536743
+        },
+        "resourceTransferBytes": 0,
+        "meshes": 56,
+        "visibleMeshes": 56
+      },
+      "errors": []
+    },
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "mobileEmulated": false,
+      "round": 2,
+      "coldReadyMs": 1635.6999999284744,
+      "warmReadyMs": 1515.4000000953674,
+      "cold": {
+        "sampleMs": 4005.0999999046326,
+        "renderSubmissions": 241,
+        "intervalP50Ms": 16.699999928474426,
+        "intervalP95Ms": 17,
+        "cpuSubmitP50Ms": 0.6000000238418579,
+        "cpuSubmitP95Ms": 0.8000000715255737,
+        "gpuVendor": "Google Inc. (NVIDIA)",
+        "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "runtime": "168",
+        "dpr": 1,
+        "camera": [
+          102.20344276129471,
+          71.91711659770738,
+          148.9284168158305
+        ],
+        "target": [
+          7.857689240089098,
+          12.796096458781124,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "frame": 324,
+          "calls": 56,
+          "triangles": 441621,
+          "points": 0,
+          "lines": 0
+        },
+        "memoryObjects": {
+          "geometries": 128,
+          "textures": 6
+        },
+        "jsHeap": {
+          "used": 289896044,
+          "total": 303766700
+        },
+        "navigation": {
+          "transferBytes": 38379101,
+          "encodedBytes": 38378801,
+          "decodedBytes": 38378801,
+          "domContentLoadedMs": 988.3999999761581,
+          "loadMs": 996.7999999523163,
+          "responseMs": 378.1999999284744
+        },
+        "resourceTransferBytes": 0,
+        "meshes": 56,
+        "visibleMeshes": 56
+      },
+      "warm": {
+        "sampleMs": 4008.100000023842,
+        "renderSubmissions": 240,
+        "intervalP50Ms": 16.699999928474426,
+        "intervalP95Ms": 16.899999976158142,
+        "cpuSubmitP50Ms": 0.7999999523162842,
+        "cpuSubmitP95Ms": 1,
+        "gpuVendor": "Google Inc. (NVIDIA)",
+        "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "runtime": "168",
+        "dpr": 1,
+        "camera": [
+          102.20344276129471,
+          71.90778489596646,
+          148.9284168158305
+        ],
+        "target": [
+          7.857689240089098,
+          12.78676475704021,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "frame": 325,
+          "calls": 56,
+          "triangles": 441621,
+          "points": 0,
+          "lines": 0
+        },
+        "memoryObjects": {
+          "geometries": 128,
+          "textures": 6
+        },
+        "jsHeap": {
+          "used": 253014308,
+          "total": 312503796
+        },
+        "navigation": {
+          "transferBytes": 38379101,
+          "encodedBytes": 38378801,
+          "decodedBytes": 38378801,
+          "domContentLoadedMs": 637.3000000715256,
+          "loadMs": 644.8000000715256,
+          "responseMs": 231.40000009536743
+        },
+        "resourceTransferBytes": 0,
+        "meshes": 56,
+        "visibleMeshes": 56
+      },
+      "errors": []
+    },
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "mobileEmulated": false,
+      "round": 3,
+      "coldReadyMs": 1876.8999999761581,
+      "warmReadyMs": 1627,
+      "cold": {
+        "sampleMs": 4004.100000023842,
+        "renderSubmissions": 240,
+        "intervalP50Ms": 16.699999928474426,
+        "intervalP95Ms": 16.899999976158142,
+        "cpuSubmitP50Ms": 0.7000000476837158,
+        "cpuSubmitP95Ms": 1,
+        "gpuVendor": "Google Inc. (NVIDIA)",
+        "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "runtime": "168",
+        "dpr": 1,
+        "camera": [
+          102.20344276129471,
+          71.90622084254915,
+          148.9284168158305
+        ],
+        "target": [
+          7.857689240089098,
+          12.785200703622902,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "frame": 323,
+          "calls": 56,
+          "triangles": 441621,
+          "points": 0,
+          "lines": 0
+        },
+        "memoryObjects": {
+          "geometries": 128,
+          "textures": 6
+        },
+        "jsHeap": {
+          "used": 243739625,
+          "total": 268165389
+        },
+        "navigation": {
+          "transferBytes": 38379101,
+          "encodedBytes": 38378801,
+          "decodedBytes": 38378801,
+          "domContentLoadedMs": 1107,
+          "loadMs": 1114.2000000476837,
+          "responseMs": 401.5
+        },
+        "resourceTransferBytes": 0,
+        "meshes": 56,
+        "visibleMeshes": 56
+      },
+      "warm": {
+        "sampleMs": 4002.1999999284744,
+        "renderSubmissions": 241,
+        "intervalP50Ms": 16.699999928474426,
+        "intervalP95Ms": 17,
+        "cpuSubmitP50Ms": 0.6000000238418579,
+        "cpuSubmitP95Ms": 0.8000000715255737,
+        "gpuVendor": "Google Inc. (NVIDIA)",
+        "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "runtime": "168",
+        "dpr": 1,
+        "camera": [
+          102.20344276129471,
+          71.91491696448368,
+          148.9284168158305
+        ],
+        "target": [
+          7.857689240089098,
+          12.793896825557434,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "frame": 325,
+          "calls": 56,
+          "triangles": 441621,
+          "points": 0,
+          "lines": 0
+        },
+        "memoryObjects": {
+          "geometries": 128,
+          "textures": 6
+        },
+        "jsHeap": {
+          "used": 253023400,
+          "total": 311979508
+        },
+        "navigation": {
+          "transferBytes": 38379101,
+          "encodedBytes": 38378801,
+          "decodedBytes": 38378801,
+          "domContentLoadedMs": 670.3000000715256,
+          "loadMs": 677.5,
+          "responseMs": 254.60000002384186
+        },
+        "resourceTransferBytes": 0,
+        "meshes": 56,
+        "visibleMeshes": 56
+      },
+      "errors": []
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "mobileEmulated": true,
+      "round": 1,
+      "coldReadyMs": 2059.1999999284744,
+      "warmReadyMs": 2065.600000023842,
+      "cold": {
+        "sampleMs": 4005.2999999523163,
+        "renderSubmissions": 241,
+        "intervalP50Ms": 16.699999928474426,
+        "intervalP95Ms": 16.800000071525574,
+        "cpuSubmitP50Ms": 0.7999999523162842,
+        "cpuSubmitP95Ms": 1,
+        "gpuVendor": "Google Inc. (NVIDIA)",
+        "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "runtime": "168",
+        "dpr": 1,
+        "camera": [
+          144.62917792802642,
+          102.88742360446557,
+          213.68387817379246
+        ],
+        "target": [
+          7.857689240089098,
+          17.180652124464594,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "frame": 324,
+          "calls": 56,
+          "triangles": 441621,
+          "points": 0,
+          "lines": 0
+        },
+        "memoryObjects": {
+          "geometries": 128,
+          "textures": 6
+        },
+        "jsHeap": {
+          "used": 243749445,
+          "total": 267903245
+        },
+        "navigation": {
+          "transferBytes": 38379101,
+          "encodedBytes": 38378801,
+          "decodedBytes": 38378801,
+          "domContentLoadedMs": 1280.5,
+          "loadMs": 1289.8999999761581,
+          "responseMs": 505.09999990463257
+        },
+        "resourceTransferBytes": 0,
+        "meshes": 56,
+        "visibleMeshes": 56
+      },
+      "warm": {
+        "sampleMs": 4001.5,
+        "renderSubmissions": 241,
+        "intervalP50Ms": 16.699999928474426,
+        "intervalP95Ms": 16.800000071525574,
+        "cpuSubmitP50Ms": 0.7999999523162842,
+        "cpuSubmitP95Ms": 0.9000000953674316,
+        "gpuVendor": "Google Inc. (NVIDIA)",
+        "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "runtime": "168",
+        "dpr": 1,
+        "camera": [
+          144.62917792802642,
+          102.88565193248033,
+          213.68387817379246
+        ],
+        "target": [
+          7.857689240089098,
+          17.17888045247934,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "frame": 326,
+          "calls": 56,
+          "triangles": 441621,
+          "points": 0,
+          "lines": 0
+        },
+        "memoryObjects": {
+          "geometries": 128,
+          "textures": 6
+        },
+        "jsHeap": {
+          "used": 253215732,
+          "total": 312504144
+        },
+        "navigation": {
+          "transferBytes": 38379101,
+          "encodedBytes": 38378801,
+          "decodedBytes": 38378801,
+          "domContentLoadedMs": 801.8999999761581,
+          "loadMs": 809.3999999761581,
+          "responseMs": 317.7999999523163
+        },
+        "resourceTransferBytes": 0,
+        "meshes": 56,
+        "visibleMeshes": 56
+      },
+      "errors": []
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "mobileEmulated": true,
+      "round": 2,
+      "coldReadyMs": 1936.3000000715256,
+      "warmReadyMs": 2028.6000000238419,
+      "cold": {
+        "sampleMs": 4013,
+        "renderSubmissions": 241,
+        "intervalP50Ms": 16.699999928474426,
+        "intervalP95Ms": 16.899999976158142,
+        "cpuSubmitP50Ms": 0.8999999761581421,
+        "cpuSubmitP95Ms": 1.1999999284744263,
+        "gpuVendor": "Google Inc. (NVIDIA)",
+        "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "runtime": "168",
+        "dpr": 1,
+        "camera": [
+          144.62917792802642,
+          102.8912215942282,
+          213.68387817379246
+        ],
+        "target": [
+          7.857689240089098,
+          17.184450114227218,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "frame": 325,
+          "calls": 56,
+          "triangles": 441621,
+          "points": 0,
+          "lines": 0
+        },
+        "memoryObjects": {
+          "geometries": 128,
+          "textures": 6
+        },
+        "jsHeap": {
+          "used": 243777509,
+          "total": 268427533
+        },
+        "navigation": {
+          "transferBytes": 38379101,
+          "encodedBytes": 38378801,
+          "decodedBytes": 38378801,
+          "domContentLoadedMs": 1195.8999999761581,
+          "loadMs": 1204.5,
+          "responseMs": 432.10000002384186
+        },
+        "resourceTransferBytes": 0,
+        "meshes": 56,
+        "visibleMeshes": 56
+      },
+      "warm": {
+        "sampleMs": 4004.1999999284744,
+        "renderSubmissions": 240,
+        "intervalP50Ms": 16.699999928474426,
+        "intervalP95Ms": 16.899999976158142,
+        "cpuSubmitP50Ms": 0.7999999523162842,
+        "cpuSubmitP95Ms": 1.100000023841858,
+        "gpuVendor": "Google Inc. (NVIDIA)",
+        "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "runtime": "168",
+        "dpr": 1,
+        "camera": [
+          144.62917792802642,
+          102.88319552014501,
+          213.68387817379246
+        ],
+        "target": [
+          7.857689240089098,
+          17.176424040144028,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "frame": 326,
+          "calls": 56,
+          "triangles": 441621,
+          "points": 0,
+          "lines": 0
+        },
+        "memoryObjects": {
+          "geometries": 128,
+          "textures": 6
+        },
+        "jsHeap": {
+          "used": 263998589,
+          "total": 315497101
+        },
+        "navigation": {
+          "transferBytes": 38379101,
+          "encodedBytes": 38378801,
+          "decodedBytes": 38378801,
+          "domContentLoadedMs": 839.2999999523163,
+          "loadMs": 851.5,
+          "responseMs": 326.89999997615814
+        },
+        "resourceTransferBytes": 0,
+        "meshes": 56,
+        "visibleMeshes": 56
+      },
+      "errors": []
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "mobileEmulated": true,
+      "round": 3,
+      "coldReadyMs": 1946.6000000238419,
+      "warmReadyMs": 1934,
+      "cold": {
+        "sampleMs": 4001.399999976158,
+        "renderSubmissions": 241,
+        "intervalP50Ms": 16.699999928474426,
+        "intervalP95Ms": 16.899999976158142,
+        "cpuSubmitP50Ms": 0.8999999761581421,
+        "cpuSubmitP95Ms": 1.100000023841858,
+        "gpuVendor": "Google Inc. (NVIDIA)",
+        "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "runtime": "168",
+        "dpr": 1,
+        "camera": [
+          144.62917792802642,
+          102.88555358121705,
+          213.68387817379246
+        ],
+        "target": [
+          7.857689240089098,
+          17.17878210121607,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "frame": 325,
+          "calls": 56,
+          "triangles": 441621,
+          "points": 0,
+          "lines": 0
+        },
+        "memoryObjects": {
+          "geometries": 128,
+          "textures": 6
+        },
+        "jsHeap": {
+          "used": 243807725,
+          "total": 268165389
+        },
+        "navigation": {
+          "transferBytes": 38379101,
+          "encodedBytes": 38378801,
+          "decodedBytes": 38378801,
+          "domContentLoadedMs": 1127.1000000238419,
+          "loadMs": 1134.6000000238419,
+          "responseMs": 439.10000002384186
+        },
+        "resourceTransferBytes": 0,
+        "meshes": 56,
+        "visibleMeshes": 56
+      },
+      "warm": {
+        "sampleMs": 4003.2999999523163,
+        "renderSubmissions": 241,
+        "intervalP50Ms": 16.699999928474426,
+        "intervalP95Ms": 16.800000071525574,
+        "cpuSubmitP50Ms": 0.8000000715255737,
+        "cpuSubmitP95Ms": 1.100000023841858,
+        "gpuVendor": "Google Inc. (NVIDIA)",
+        "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "runtime": "168",
+        "dpr": 1,
+        "camera": [
+          144.62917792802642,
+          102.88648823673633,
+          213.68387817379246
+        ],
+        "target": [
+          7.857689240089098,
+          17.179716756735345,
+          4.926132060587406
+        ],
+        "renderInfo": {
+          "frame": 325,
+          "calls": 56,
+          "triangles": 441621,
+          "points": 0,
+          "lines": 0
+        },
+        "memoryObjects": {
+          "geometries": 128,
+          "textures": 6
+        },
+        "jsHeap": {
+          "used": 253053836,
+          "total": 312503796
+        },
+        "navigation": {
+          "transferBytes": 38379101,
+          "encodedBytes": 38378801,
+          "decodedBytes": 38378801,
+          "domContentLoadedMs": 840.6999999284744,
+          "loadMs": 849,
+          "responseMs": 318.7999999523163
+        },
+        "resourceTransferBytes": 0,
+        "meshes": 56,
+        "visibleMeshes": 56
+      },
+      "errors": []
+    }
+  ],
+  "status": "PASS",
+  "browserVersion": "154.0.8037.98"
+}

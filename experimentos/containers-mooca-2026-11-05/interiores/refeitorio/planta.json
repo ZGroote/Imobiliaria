@@ -1,0 +1,148 @@
+{
+  "id": "containers-mooca-refeitorio",
+  "titulo": "Containers da Mooca · refeitório · 14,8 m²",
+  "imagem": "../../../../plantas_fornecidas/containers-mooca/fonte/areas-comuns-b.png",
+  "imagemSha256": "41ae76bf271d80c4f1aa6d9d062ed87d59a183ac0a24b13e27308a460cbc4231",
+  "calibracao": {
+    "areaM2": 14.77,
+    "contornoFacesPx": [
+      [
+        915,
+        1102,
+        1197,
+        1822
+      ]
+    ],
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "origemPx": [
+    915,
+    1102
+  ],
+  "gradeMm": 50,
+  "peDireitoMm": 2350,
+  "comodos": [
+    {
+      "nome": "Refeitório",
+      "partes": [
+        [
+          915,
+          1102,
+          1197,
+          1822
+        ]
+      ]
+    }
+  ],
+  "aberturas": [
+    {
+      "comodo": "Refeitório",
+      "lado": "east",
+      "de": 1540,
+      "ate": 1640,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Refeitório",
+      "lado": "east",
+      "de": 1130,
+      "ate": 1500,
+      "tipo": "window",
+      "alturaMm": 1500,
+      "peitorilMm": 600
+    },
+    {
+      "comodo": "Refeitório",
+      "lado": "east",
+      "de": 1665,
+      "ate": 1800,
+      "tipo": "window",
+      "alturaMm": 1500,
+      "peitorilMm": 600
+    },
+    {
+      "comodo": "Refeitório",
+      "lado": "west",
+      "de": 1250,
+      "ate": 1700,
+      "tipo": "window",
+      "alturaMm": 1200,
+      "peitorilMm": 1000
+    }
+  ],
+  "moveis": [
+    {
+      "catalogo": "mesa-jantar-4",
+      "x": 1050,
+      "y": 1250,
+      "rot": 90,
+      "w": 1200,
+      "d": 800,
+      "cor": "#A57A52",
+      "nome": "Mesa 1"
+    },
+    {
+      "catalogo": "mesa-jantar-4",
+      "x": 1050,
+      "y": 1462,
+      "rot": 90,
+      "w": 1200,
+      "d": 800,
+      "cor": "#A57A52",
+      "nome": "Mesa 2"
+    },
+    {
+      "catalogo": "mesa-jantar-4",
+      "x": 1050,
+      "y": 1690,
+      "rot": 90,
+      "w": 1200,
+      "d": 800,
+      "cor": "#A57A52",
+      "nome": "Mesa 3"
+    },
+    {
+      "catalogo": "tapete-sala",
+      "x": 1056,
+      "y": 1462,
+      "rot": 0,
+      "w": 1600,
+      "d": 2000,
+      "cor": "#CFC6B8",
+      "nome": "Tapete"
+    }
+  ],
+  "ficha": {
+    "titulo": "Containers da Mooca · refeitório · 14,8 m²",
+    "empreendimento": "Moradia estudantil em containers (Mooca)",
+    "tipo": "refeitorio",
+    "area_publicada_m2": 14.8,
+    "quartos": 0,
+    "banheiros": 0,
+    "uso": "área comum",
+    "observacao": "Reconstrução ilustrativa a partir do TCC de Tamires Ruffino (Escola da Cidade, 2025). Medidas pela área do container."
+  },
+  "cores": {
+    "parede": "#E6E3DC",
+    "piso_frio": "#C9C7C2",
+    "piso_madeira": "#C9A57B",
+    "teto": "#EFEDE8"
+  },
+  "lote": {
+    "predio": {
+      "largura_m": 45.0,
+      "profundidade_m": 40.0,
+      "pavimentos": 2
+    }
+  },
+  "limites": [
+    "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas.",
+    "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
+    "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
+    "O prédio declarado (45 x 40 m, 2 pavimentos) é a pegada do conjunto na planta 1:200; o container não é o prédio.",
+    "As 3 mesas redondas de 6 lugares do caderno viraram mesas de 4 lugares do catálogo (não há mesa redonda)."
+  ]
+}

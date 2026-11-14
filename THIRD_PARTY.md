@@ -116,3 +116,13 @@ e o registro das duas retiradas. O histórico do git não foi reescrito. O inven
 
 **Imagem nova só entra classificada.** `tests/test_dados_privados.py` reprova qualquer imagem
 versionada fora da lista dele ou de uma pasta já classificada.
+
+## Experimento A/B de 04/10/2026: material procedural próprio
+
+`experimentos/comparativo-planos-3d/assets_planob/` contém 11 JPGs gerados aqui por
+`gerar_texturas_planob.py` (NumPy/Pillow, semente 42). Madeira, mármore, linho, tapete e
+ambiente são desenhos procedurais, sem fotografia, escaneamento ou fonte externa.
+`ambiente_hdri.jpg` é um JPEG LDR sintético apesar do nome histórico. Nenhuma imagem
+contém dados de cliente. Os caminhos exatos estão classificados em
+`tests/test_dados_privados.py`. A biblioteca three.js embutida nos protótipos é a mesma
+já inventariada acima; esta classificação das imagens não concede licença sobre ela.

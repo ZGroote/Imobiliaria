@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "classe": "derivacao-experimental",
+  "fonte": {
+    "arquivo_base": "plano-a.html",
+    "sha256_sem_banner": "84c5ff76bb8c73a848c8fd10f754a4c33e8ac7736f80bdb0f2c4c97990abe265"
+  },
+  "gerador_sha256": "564ec12246eaa4df14e6dc4d25cab626e4fa1449f6807678a5e862c25a76dc3c",
+  "transformacoes": [
+    "banner responsivo",
+    "Plano B: override de materiais e decoração"
+  ],
+  "geometria_reverificada": false,
+  "arquivos": [
+    {
+      "arquivo": "plano-a.html",
+      "bytes": 1838283,
+      "gzip_local_bytes": 417656,
+      "sha256": "c2423daac90da9e6dd1a7ebdf32ecdce87aa1004ae7413961591dd968929a29c"
+    },
+    {
+      "arquivo": "plano-b.html",
+      "bytes": 1844282,
+      "gzip_local_bytes": 419020,
+      "sha256": "6ecab2897592a5c9884ecb32a8c974740ebd4680256ab1f5cc14e49594871f76"
+    },
+    {
+      "arquivo": "comparativo.html",
+      "bytes": 3540,
+      "gzip_local_bytes": 1744,
+      "sha256": "965f77872f5fa7f8dbf52c9659fd738bd659b2721b5ec5925afa051d5376df3e"
+    },
+    {
+      "arquivo": "metricas_comparativo.json",
+      "bytes": 5959,
+      "gzip_local_bytes": 1543,
+      "sha256": "f87c33fe4c0abd5465010d4f37f776c3929e556965367896564bb2c4966b28e1"
+    },
+    {
+      "arquivo": "assets_planob/ambiente_hdri.jpg",
+      "bytes": 30942,
+      "gzip_local_bytes": 6441,
+      "sha256": "e62cc084d8eb3f45a1f9521bb659338ca13957eca7c7d15629155b826d51b5a4"
+    },
+    {
+      "arquivo": "assets_planob/marmore_albedo.jpg",
+      "bytes": 53861,
+      "gzip_local_bytes": 45688,
+      "sha256": "9a330b7403614b4185e05882fe825d24116961e2ab2c62ba1e113c28175d927f"
+    },
+    {
+      "arquivo": "assets_planob/marmore_roughness.jpg",
+      "bytes": 12620,
+      "gzip_local_bytes": 416,
+      "sha256": "377459204b3902a8b92d1d7a30581b3a8f7ba868257f59f896013f8786119276"
+    },
+    {
+      "arquivo": "assets_planob/piso_madeira_albedo.jpg",
+      "bytes": 235579,
+      "gzip_local_bytes": 223378,
+      "sha256": "67c44cfe965a329c06e3debf0bd889e47f914a651e01d8e43d8fb5dd3e4e3b13"
+    },
+    {
+      "arquivo": "assets_planob/piso_madeira_normal.jpg",
+      "bytes": 318571,
+      "gzip_local_bytes": 286814,
+      "sha256": "b645206691fbbbce5dbc3777cfd83f1b0e71f6ad5090607de105c575691f8148"
+    },
+    {
+      "arquivo": "assets_planob/piso_madeira_roughness.jpg",
+      "bytes": 230944,
+      "gzip_local_bytes": 219269,
+      "sha256": "e565f1dabbbcb282026622a3b482725dd85db482a399c1b8242def08ec36fede"
+    },
+    {
+      "arquivo": "assets_planob/tapete_sala_albedo.jpg",
+      "bytes": 202983,
+      "gzip_local_bytes": 135916,
+      "sha256": "31e4f9cfa2b999d528248ec27e3b503f946d2e3c3efd05a9d4cd653394e76c53"
+    },
+    {
+      "arquivo": "assets_planob/tapete_sala_normal.jpg",
+      "bytes": 490629,
+      "gzip_local_bytes": 485106,
+      "sha256": "3276d030fc1260fde5157a1bd60c672c900bcdd2a8388e65ab2486d23e3ee43b"
+    },
+    {
+      "arquivo": "assets_planob/tecido_linho_albedo.jpg",
+      "bytes": 209304,
+      "gzip_local_bytes": 204847,
+      "sha256": "f56d36569c2c481acb365783efe1e3186a85d1b00c2cdd18016509e315e383b1"
+    },
+    {
+      "arquivo": "assets_planob/tecido_linho_normal.jpg",
+      "bytes": 482372,
+      "gzip_local_bytes": 479647,
+      "sha256": "4d800cb98bd880350244025944c198a06188e5d1ef2b33709baad8f7eefa592f"
+    },
+    {
+      "arquivo": "assets_planob/tecido_linho_roughness.jpg",
+      "bytes": 241532,
+      "gzip_local_bytes": 237360,
+      "sha256": "3d9c7f6046b481f3984a07ffee4df4db77e820e5bff40360981a1bcd57b7f7ba"
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "recordedAtUtc": "2026-10-10T19:03:08.621953+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "serviceWorkers": "blocked for foreground fault injection",
+  "caseTimeoutMs": 30000,
+  "cases": [
+    {
+      "name": "cancelamento-init-webgpu",
+      "errors": [],
+      "status": "PASS",
+      "startedAtUtc": "2026-10-10T19:03:09.226686+00:00",
+      "phase": "release disparado sem aguardar Promise",
+      "gate": {
+        "blocked": true,
+        "releaseCalled": true,
+        "settled": true,
+        "requestDeviceResolved": true,
+        "error": null
+      },
+      "gateResolutionTimedOut": false,
+      "ownership": {
+        "created": 1,
+        "disposed": 1,
+        "bitmapsClosed": 0
+      },
+      "disposingFramesAfterCleanup": 0,
+      "injection": "requestDevice retido no iframe; dispositivo liberado após navegação para 2D",
+      "finishedAtUtc": "2026-10-10T19:03:21.901963+00:00",
+      "durationMs": 12675
+    }
+  ],
+  "updatedAtUtc": "2026-10-10T19:03:22.093584+00:00",
+  "records": {
+    "catalogo": "b333126b4b0686ddf750cc554e85d681cbc9fce27f850c21d1e6b99f51b75ffa",
+    "assets": {
+      "interiores/shared/runtime.js": {
+        "bytes": 93877,
+        "sha256": "cf84c09e1c243b0d48c31560c1c9d3d4cdd26586777144c559f4868c15f31da2",
+        "decodedSHA256": null
+      },
+      "interiores/shared/materials.json.gz": {
+        "bytes": 876068,
+        "sha256": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+        "decodedSHA256": "a04aecc426677a81f2cc41f64c224e9f1a0cdba634762a58cb91ade4b6bf3217"
+      },
+      "interiores/shared/furniture.json.gz": {
+        "bytes": 201119,
+        "sha256": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd",
+        "decodedSHA256": "8affa3dc2b6f105282ec5b744729bd3f35193680d04eb85cb05a57bb693fbdc7"
+      },
+      "interiores/canto/unidade.json": {
+        "bytes": 13456,
+        "sha256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+        "decodedSHA256": null
+      },
+      "interiores/canto/source.json.gz": {
+        "bytes": 1946610,
+        "sha256": "c8c03c3d42a71dbbdef215e20a01072f24d684e6691e610d7e99072e47429b57",
+        "decodedSHA256": "270d61e914f9f3dfdb7a79327b694409b32ccb475c3187c92cf42490e8ae3fb6"
+      },
+      "interiores/canto/geometry-compact.json.gz": {
+        "bytes": 850749,
+        "sha256": "a37b719fe821258f7ca7ad5ce4074afc4029050f65a3ce68b41785d721b19ab0",
+        "decodedSHA256": "a203719adc18db7c6ff1714907368566ce2d398590b08693716a5a5e41d4a56f"
+      },
+      "interiores/canto/light.json": {
+        "bytes": 1851,
+        "sha256": "fa372d273c42254a0d9cd107db89bdbf8618c785df5f9050d9bfb3a6d9efe4e3",
+        "decodedSHA256": null
+      },
+      "interiores/canto/irradiance.rgbm.gz": {
+        "bytes": 4646752,
+        "sha256": "25a42a2014ae77fe034e65e86585b233335273af7b4309e952a2cd9193e96366",
+        "decodedSHA256": "1f32fd51333c05cc2ca1405ce45ba529ca0e760e007f7a4fd6464c3c3539cbde"
+      },
+      "interiores/meio/unidade.json": {
+        "bytes": 8038,
+        "sha256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+        "decodedSHA256": null
+      },
+      "interiores/meio/recipe.json": {
+        "bytes": 595,
+        "sha256": "dc206ab5c031941b614fd889af9c843ee67a53371311dfcb2a7d61358177609d",
+        "decodedSHA256": null
+      }
+    },
+    "sourceSHA256": {
+      "gerar_manifesto_transferencias.py": "f87e000da94b2cb0a645d13e5621466eb7310614ac3e364a84f845ef6aac1c87",
+      "gerar_pacote_interiores.py": "9c005d5f5d172bf35000c6829c4876f9a2d52c7f297d2863d5a6051289af40b5",
+      "interior-navigation.js": "a93e4ddb3dae17a1c82f073ca7f36758b1e94309a3e73f67c9ee4abc5c1702f1",
+      "interior-renderer.js": "4892d942e56d14e18dab258109f1545097383305c48f21d30516151beb0ae56a",
+      "interior.html": "794cf562a7b64f81d04a6b9e65bdc374714958f1fe0a9ae3496c2d78389bb6e3",
+      "interiores/canto/geometry-compact.json.gz": "a37b719fe821258f7ca7ad5ce4074afc4029050f65a3ce68b41785d721b19ab0",
+      "interiores/canto/irradiance.rgbm.gz": "25a42a2014ae77fe034e65e86585b233335273af7b4309e952a2cd9193e96366",
+      "interiores/canto/light.json": "fa372d273c42254a0d9cd107db89bdbf8618c785df5f9050d9bfb3a6d9efe4e3",
+      "interiores/canto/source.json.gz": "c8c03c3d42a71dbbdef215e20a01072f24d684e6691e610d7e99072e47429b57",
+      "interiores/canto/unidade.json": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+      "interiores/catalogo.json": "b333126b4b0686ddf750cc554e85d681cbc9fce27f850c21d1e6b99f51b75ffa",
+      "interiores/meio/conferencia.json": "5b2b128d0b6095ac89af7d214bf2ca0475f0e293ed7d8c684fabe356a3faa200",
+      "interiores/meio/construir-meio.ts": "cef5d70aff9480d78d87991ca990b6bb4f4caa28fe75940869b7352e647c7ad7",
+      "interiores/meio/contexto.json": "48bf6cac891e21284bf49747f08a7c53ed2740ae782f1d895fb076e1cca7be27",
+      "interiores/meio/exportacao.json": "55ccc40a8d7a95b88470ff0d615f3f7d87fe798c7f61923b048ea75180f4b5dd",
+      "interiores/meio/leitura.json": "eb6c6444028b0b2467859cdf5575648bf531876430a19f9c065aaff6919316bf",
+      "interiores/meio/moveis.json": "6490104ff5989cac254aabd30072bc522a4d606b51f78e4ac8c1cd1879b9c898",
+      "interiores/meio/projeto-planta.json": "271d30b63157971807e97b68d4930819f08411f63dc0621c66fa3e56a0450660",
+      "interiores/meio/recipe.json": "dc206ab5c031941b614fd889af9c843ee67a53371311dfcb2a7d61358177609d",
+      "interiores/meio/referencia.json": "fe68313ca6c21f8ca78ad326646ba06d188b2d23128d639ab839cc5fb62e7edc",
+      "interiores/meio/unidade.json": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+      "interiores/shared/furniture.json.gz": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd",
+      "interiores/shared/materials.json.gz": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+      "interiores/shared/runtime.js": "cf84c09e1c243b0d48c31560c1c9d3d4cdd26586777144c559f4868c15f31da2",
+      "maquete-liv-ipanema.html": "5b03753d8fc932cee83044538bd5bb4a3f361c4b26e453b66b2babf45f5f3336",
+      "material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+      "plantas2d/canto.jpg": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971",
+      "plantas2d/manifest.json": "a249468806b17861a8c7b8771808115c2313ec4b071ead527960e91d480cf34a",
+      "plantas2d/meio.jpg": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
+      "qa_falhas_interiores.py": "f6ec861aed0e55f805a0091d3a7569eedd010556bc21b21af52b4982c8733503",
+      "renderer.js": "414672e6e89b2483df55a45d0fa84fe24213d7f0fbb5289cee9a2b6ba7ad7da0",
+      "tipologias.js": "bead10376b812f56a9e1ee7513049c108664e38c43120aafec5c00d396856403",
+      "transfer-manifest.json": "ede3b7e7d20267de4f6558ae36922ddf1c33521757fa24355c9b91d873294a4c",
+      "transfer-worker.js": "d215453785075ecaa187047a009aa3f2456bb45756207fef98d590bc5767cd2e",
+      "transfers.js": "d3f18d35513422b0566e55d8fbf60f643686d42c2ec0588ca2bdb2e440abb146",
+      "viewer.js": "2a73f43e5b125674bb4f6bb16ef8d8d203212485083beaf66e5f664a7ba7c927"
+    }
+  },
+  "browserVersion": "154.0.8037.98",
+  "currentCase": null
+}

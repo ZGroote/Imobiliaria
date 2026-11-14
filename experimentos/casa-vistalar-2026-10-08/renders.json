@@ -1,0 +1,17 @@
+{
+  "dia": {
+    "path": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\casa-vistalar-2026-10-08\\casa-vistalar-dia.png",
+    "seconds": 311.85,
+    "bytes": 2705253
+  },
+  "resolution": [
+    2000,
+    1125
+  ],
+  "samples_max": 96,
+  "fim-de-tarde": {
+    "path": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\casa-vistalar-2026-10-08\\casa-vistalar-fim-de-tarde.png",
+    "seconds": 288.19,
+    "bytes": 2583110
+  }
+}

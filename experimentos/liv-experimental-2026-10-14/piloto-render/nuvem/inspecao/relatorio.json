@@ -1,0 +1,751 @@
+{
+ "meta": {
+  "psnr": 33.0,
+  "ssim": 0.96
+ },
+ "geral": {
+  "psnr": 36.17019903129471,
+  "ssim": 0.9748682215809822,
+  "lpips": null
+ },
+ "ns_eval": {
+  "psnr": 36.20022964477539,
+  "psnr_std": 3.542733669281006,
+  "ssim": 0.9781098365783691,
+  "ssim_std": 0.009142909198999405,
+  "lpips": 0.04425676167011261,
+  "lpips_std": 0.02082131989300251,
+  "num_rays_per_sec": 1681453.75,
+  "num_rays_per_sec_std": 179209.6875,
+  "fps": 1.8244941234588623,
+  "fps_std": 0.19445495307445526
+ },
+ "comodos": [
+  {
+   "comodo": "Sala integrada · jantar",
+   "vistas": 9,
+   "psnr": 34.22842424726554,
+   "psnr_min": 30.10428965579377,
+   "ssim": 0.9722127649519179,
+   "lpips": null,
+   "abaixo_da_meta": 4,
+   "ok": false,
+   "recaptura": "blender -b apartamento.blend --python capturar_splat.py -- --saida captura-extra --zona \"Sala integrada\" --passo 0.25 --prefixo salainte_",
+   "piores_pontos": [
+    [
+     -2.33,
+     -0.39,
+     1.15
+    ],
+    [
+     -3.02,
+     -0.01,
+     1.15
+    ],
+    [
+     -3.11,
+     0.71,
+     1.15
+    ]
+   ]
+  },
+  {
+   "comodo": "Sala integrada · cozinha",
+   "vistas": 12,
+   "psnr": 35.57462741765373,
+   "psnr_min": 23.05597697765866,
+   "ssim": 0.9731454153855642,
+   "lpips": null,
+   "abaixo_da_meta": 1,
+   "ok": false,
+   "recaptura": "blender -b apartamento.blend --python capturar_splat.py -- --saida captura-extra --zona \"Sala integrada\" --passo 0.25 --prefixo salainte_",
+   "piores_pontos": [
+    [
+     -3.71,
+     -2.08,
+     1.6
+    ],
+    [
+     -4.14,
+     0.37,
+     1.6
+    ],
+    [
+     -4.15,
+     -1.03,
+     1.15
+    ]
+   ]
+  },
+  {
+   "comodo": "Sala integrada · estar",
+   "vistas": 19,
+   "psnr": 37.466137579713354,
+   "psnr_min": 33.01467223001817,
+   "ssim": 0.9772141575813293,
+   "lpips": null,
+   "abaixo_da_meta": 0,
+   "ok": true
+  }
+ ],
+ "piores": [
+  {
+   "imagem": "eval_img_0037.png",
+   "quadro": "images/f0379.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -3.71,
+    -2.08,
+    1.6
+   ],
+   "psnr": 23.05597697765866,
+   "ssim": 0.9363054633140564,
+   "lpips": null,
+   "folha": "piores\\eval_img_0037-cycles-splat-erro.jpg"
+  },
+  {
+   "imagem": "eval_img_0019.png",
+   "quadro": "images/f0199.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -2.33,
+    -0.39,
+    1.15
+   ],
+   "psnr": 30.10428965579377,
+   "ssim": 0.9504734873771667,
+   "lpips": null,
+   "folha": "piores\\eval_img_0019-cycles-splat-erro.jpg"
+  },
+  {
+   "imagem": "eval_img_0007.png",
+   "quadro": "images/f0079.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -3.02,
+    -0.01,
+    1.15
+   ],
+   "psnr": 31.134112637836697,
+   "ssim": 0.9599511623382568,
+   "lpips": null,
+   "folha": "piores\\eval_img_0007-cycles-splat-erro.jpg"
+  },
+  {
+   "imagem": "eval_img_0024.png",
+   "quadro": "images/f0249.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -3.11,
+    0.71,
+    1.15
+   ],
+   "psnr": 31.302138294810934,
+   "ssim": 0.9605157971382141,
+   "lpips": null,
+   "folha": "piores\\eval_img_0024-cycles-splat-erro.jpg"
+  },
+  {
+   "imagem": "eval_img_0027.png",
+   "quadro": "images/f0279.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -2.66,
+    -0.31,
+    1.6
+   ],
+   "psnr": 31.615356078940465,
+   "ssim": 0.9748749732971191,
+   "lpips": null,
+   "folha": "piores\\eval_img_0027-cycles-splat-erro.jpg"
+  },
+  {
+   "imagem": "eval_img_0010.png",
+   "quadro": "images/f0109.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.98,
+    -2.05,
+    1.6
+   ],
+   "psnr": 33.01467223001817,
+   "ssim": 0.9624921679496765,
+   "lpips": null,
+   "folha": "piores\\eval_img_0010-cycles-splat-erro.jpg"
+  }
+ ],
+ "vistas": [
+  {
+   "imagem": "eval_img_0000.png",
+   "quadro": "images/f0009.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.98,
+    -1.44,
+    1.6
+   ],
+   "psnr": 33.74261442830248,
+   "ssim": 0.9690027236938477,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0001.png",
+   "quadro": "images/f0019.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -0.99,
+    -0.68,
+    1.6
+   ],
+   "psnr": 36.14596862292536,
+   "ssim": 0.9704406261444092,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0002.png",
+   "quadro": "images/f0029.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.95,
+    -1.4,
+    1.15
+   ],
+   "psnr": 42.71007972919545,
+   "ssim": 0.982186496257782,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0003.png",
+   "quadro": "images/f0039.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.6,
+    -1.8,
+    1.6
+   ],
+   "psnr": 36.39182997519883,
+   "ssim": 0.9854195713996887,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0004.png",
+   "quadro": "images/f0049.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -3.39,
+    -1.43,
+    1.6
+   ],
+   "psnr": 36.85791465992702,
+   "ssim": 0.979228675365448,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0005.png",
+   "quadro": "images/f0059.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.61,
+    -0.65,
+    1.6
+   ],
+   "psnr": 35.82519924757908,
+   "ssim": 0.9758317470550537,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0006.png",
+   "quadro": "images/f0069.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.63,
+    -1.05,
+    1.15
+   ],
+   "psnr": 37.916524513655276,
+   "ssim": 0.9750499725341797,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0007.png",
+   "quadro": "images/f0079.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -3.02,
+    -0.01,
+    1.15
+   ],
+   "psnr": 31.134112637836697,
+   "ssim": 0.9599511623382568,
+   "lpips": null,
+   "folha": "piores\\eval_img_0007-cycles-splat-erro.jpg"
+  },
+  {
+   "imagem": "eval_img_0008.png",
+   "quadro": "images/f0089.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.67,
+    -0.71,
+    1.15
+   ],
+   "psnr": 37.857057912702935,
+   "ssim": 0.9834893345832825,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0009.png",
+   "quadro": "images/f0099.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.98,
+    -2.05,
+    1.6
+   ],
+   "psnr": 35.66591347291606,
+   "ssim": 0.9714879989624023,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0010.png",
+   "quadro": "images/f0109.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.98,
+    -2.05,
+    1.6
+   ],
+   "psnr": 33.01467223001817,
+   "ssim": 0.9624921679496765,
+   "lpips": null,
+   "folha": "piores\\eval_img_0010-cycles-splat-erro.jpg"
+  },
+  {
+   "imagem": "eval_img_0011.png",
+   "quadro": "images/f0119.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -3.79,
+    -0.39,
+    1.6
+   ],
+   "psnr": 38.981613813327264,
+   "ssim": 0.9841322898864746,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0012.png",
+   "quadro": "images/f0129.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.34,
+    -0.71,
+    1.15
+   ],
+   "psnr": 37.40527593661754,
+   "ssim": 0.9771350026130676,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0013.png",
+   "quadro": "images/f0139.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -2.03,
+    -0.65,
+    1.15
+   ],
+   "psnr": 38.717543654169155,
+   "ssim": 0.9850490093231201,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0014.png",
+   "quadro": "images/f0149.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -2.74,
+    -1.79,
+    1.15
+   ],
+   "psnr": 36.58868504562907,
+   "ssim": 0.9764337539672852,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0015.png",
+   "quadro": "images/f0159.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -3.41,
+    -0.75,
+    1.15
+   ],
+   "psnr": 38.3233285515375,
+   "ssim": 0.9859494566917419,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0016.png",
+   "quadro": "images/f0169.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -4.04,
+    -1.41,
+    1.6
+   ],
+   "psnr": 36.27226479582685,
+   "ssim": 0.9732918739318848,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0017.png",
+   "quadro": "images/f0179.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -4.14,
+    0.37,
+    1.6
+   ],
+   "psnr": 34.4982278245605,
+   "ssim": 0.9721841216087341,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0018.png",
+   "quadro": "images/f0189.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.61,
+    -1.04,
+    1.6
+   ],
+   "psnr": 40.387731107804896,
+   "ssim": 0.9790708422660828,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0019.png",
+   "quadro": "images/f0199.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -2.33,
+    -0.39,
+    1.15
+   ],
+   "psnr": 30.10428965579377,
+   "ssim": 0.9504734873771667,
+   "lpips": null,
+   "folha": "piores\\eval_img_0019-cycles-splat-erro.jpg"
+  },
+  {
+   "imagem": "eval_img_0020.png",
+   "quadro": "images/f0209.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -3.78,
+    -0.04,
+    1.6
+   ],
+   "psnr": 35.56253486632115,
+   "ssim": 0.9796478748321533,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0021.png",
+   "quadro": "images/f0219.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -0.96,
+    -1.06,
+    1.6
+   ],
+   "psnr": 36.63582452297132,
+   "ssim": 0.9792699813842773,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0022.png",
+   "quadro": "images/f0229.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -4.04,
+    -0.67,
+    1.6
+   ],
+   "psnr": 37.471650580441974,
+   "ssim": 0.9750383496284485,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0023.png",
+   "quadro": "images/f0239.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -3.46,
+    -1.08,
+    1.6
+   ],
+   "psnr": 37.93603092298272,
+   "ssim": 0.9831871390342712,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0024.png",
+   "quadro": "images/f0249.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -3.11,
+    0.71,
+    1.15
+   ],
+   "psnr": 31.302138294810934,
+   "ssim": 0.9605157971382141,
+   "lpips": null,
+   "folha": "piores\\eval_img_0024-cycles-splat-erro.jpg"
+  },
+  {
+   "imagem": "eval_img_0025.png",
+   "quadro": "images/f0259.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -3.02,
+    -0.01,
+    1.15
+   ],
+   "psnr": 36.57692409147006,
+   "ssim": 0.9792593121528625,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0026.png",
+   "quadro": "images/f0269.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -4.04,
+    -1.41,
+    1.6
+   ],
+   "psnr": 37.73480621971386,
+   "ssim": 0.9797515869140625,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0027.png",
+   "quadro": "images/f0279.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -2.66,
+    -0.31,
+    1.6
+   ],
+   "psnr": 31.615356078940465,
+   "ssim": 0.9748749732971191,
+   "lpips": null,
+   "folha": "piores\\eval_img_0027-cycles-splat-erro.jpg"
+  },
+  {
+   "imagem": "eval_img_0028.png",
+   "quadro": "images/f0289.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.65,
+    -2.07,
+    1.15
+   ],
+   "psnr": 37.99602189882589,
+   "ssim": 0.9860124588012695,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0029.png",
+   "quadro": "images/f0299.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -4.15,
+    -1.03,
+    1.15
+   ],
+   "psnr": 34.52057776375911,
+   "ssim": 0.9698440432548523,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0030.png",
+   "quadro": "images/f0309.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -3.1,
+    0.38,
+    1.6
+   ],
+   "psnr": 36.125526858777384,
+   "ssim": 0.9761096835136414,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0031.png",
+   "quadro": "images/f0319.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.68,
+    -1.4,
+    1.15
+   ],
+   "psnr": 43.394896441348855,
+   "ssim": 0.9851781725883484,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0032.png",
+   "quadro": "images/f0329.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.65,
+    -2.07,
+    1.15
+   ],
+   "psnr": 37.931456172123966,
+   "ssim": 0.9756544232368469,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0033.png",
+   "quadro": "images/f0339.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -3.78,
+    -1.78,
+    1.6
+   ],
+   "psnr": 34.52075637209143,
+   "ssim": 0.9657281041145325,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0034.png",
+   "quadro": "images/f0349.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.97,
+    -1.01,
+    1.15
+   ],
+   "psnr": 35.40119609110799,
+   "ssim": 0.9734739661216736,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0035.png",
+   "quadro": "images/f0359.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -1.26,
+    -0.65,
+    1.6
+   ],
+   "psnr": 37.688350408888745,
+   "ssim": 0.9791120886802673,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0036.png",
+   "quadro": "images/f0369.png",
+   "casou": true,
+   "comodo": "Sala integrada · jantar",
+   "pos": [
+    -2.68,
+    0.7,
+    1.15
+   ],
+   "psnr": 34.15659840205381,
+   "ssim": 0.9777320027351379,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0037.png",
+   "quadro": "images/f0379.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -3.71,
+    -2.08,
+    1.6
+   ],
+   "psnr": 23.05597697765866,
+   "ssim": 0.9363054633140564,
+   "lpips": null,
+   "folha": "piores\\eval_img_0037-cycles-splat-erro.jpg"
+  },
+  {
+   "imagem": "eval_img_0038.png",
+   "quadro": "images/f0389.png",
+   "casou": true,
+   "comodo": "Sala integrada · estar",
+   "pos": [
+    -2.01,
+    -1.74,
+    1.15
+   ],
+   "psnr": 39.157316256741865,
+   "ssim": 0.9803276658058167,
+   "lpips": null
+  },
+  {
+   "imagem": "eval_img_0039.png",
+   "quadro": "images/f0398.png",
+   "casou": true,
+   "comodo": "Sala integrada · cozinha",
+   "pos": [
+    -4.06,
+    -0.04,
+    1.15
+   ],
+   "psnr": 39.483174215234264,
+   "ssim": 0.9794054627418518,
+   "lpips": null
+  }
+ ]
+}

@@ -1,0 +1,58 @@
+{
+  "towers": 0,
+  "floors": 21,
+  "floorHeight": 2.88,
+  "baseHeight": 9.0,
+  "firstFloor": 3,
+  "laje": 0.15,
+  "units": 258,
+  "origemM": [
+    34.5,
+    27.0
+  ],
+  "ancoraGeo": [
+    -22.012203,
+    -47.880943
+  ],
+  "rumo_cima_graus": 0,
+  "alas": [
+    {
+      "id": "sul",
+      "indice": 0,
+      "caixa": [
+        -27.299999999999997,
+        7.200000000000003,
+        27.5,
+        20.0
+      ]
+    },
+    {
+      "id": "leste",
+      "indice": 1,
+      "caixa": [
+        14.700000000000003,
+        -20.799999999999997,
+        27.5,
+        7.200000000000003
+      ]
+    }
+  ],
+  "quinaSE": [
+    62,
+    47
+  ],
+  "fundoAla": 12.799999999999999,
+  "source": "Plantas e renders públicos do Grupo Plano (grupoplano.eng.br, nov/2026)",
+  "blender": "5.2.3 LTS",
+  "geometries": 415,
+  "groups": 415,
+  "web_bytes": 10000180,
+  "glb_bytes": 7844124,
+  "checks": {
+    "pavimentos_e_lajes": true,
+    "exportacao": true,
+    "finite_geometry": true,
+    "normals_uv_indices": true,
+    "glb_header": true
+  }
+}

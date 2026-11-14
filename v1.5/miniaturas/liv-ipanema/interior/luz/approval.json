@@ -1,0 +1,18 @@
+{
+  "approved": true,
+  "sourceSHA256": "270d61e914f9f3dfdb7a79327b694409b32ccb475c3187c92cf42490e8ae3fb6",
+  "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+  "scope": "Geometria e fluxo do construtor; acabamento e luz finais ainda dependem de revisão das fotos após o bake.",
+  "checks": {
+    "constructorPipeline": true,
+    "rawUnitPreserved": true,
+    "referenceLayoutReviewed": true,
+    "sixRoomsReachable": true,
+    "fixturesAndFurnitureReviewed": true,
+    "collinearMoldingOverlapPairs": 0,
+    "lightingContractValid": true,
+    "houseMeshVerticalNormalsOutward": true,
+    "rugCoplanarFaces": 0,
+    "diagnosticRoomAndTopReviewed": true
+  }
+}

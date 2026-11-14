@@ -1,0 +1,178 @@
+{
+  "schema": "liv-wall-join-qa-v1",
+  "status": "PASS",
+  "atUtc": "2026-10-11T04:11:33.010025+00:00",
+  "before": {
+    "overlappingTrianglePairs": 871,
+    "summedIntersectionAreaModel": 54.28684999999991,
+    "examples": [
+      {
+        "plane": [
+          2,
+          -6.35
+        ],
+        "a": [
+          "panos-reboco",
+          11040
+        ],
+        "b": [
+          "panos-reboco",
+          12360
+        ],
+        "intersectionAreaModel": 0.0827227697229263
+      },
+      {
+        "plane": [
+          2,
+          -6.35
+        ],
+        "a": [
+          "panos-reboco",
+          11041
+        ],
+        "b": [
+          "panos-reboco",
+          12361
+        ],
+        "intersectionAreaModel": 0.2915000000000032
+      },
+      {
+        "plane": [
+          2,
+          -6.35
+        ],
+        "a": [
+          "panos-reboco",
+          11041
+        ],
+        "b": [
+          "panos-reboco",
+          12360
+        ],
+        "intersectionAreaModel": 0.2087772302770769
+      },
+      {
+        "plane": [
+          2,
+          -6.35
+        ],
+        "a": [
+          "panos-reboco",
+          11196
+        ],
+        "b": [
+          "panos-cinza",
+          305
+        ],
+        "intersectionAreaModel": 0.2911431343456111
+      },
+      {
+        "plane": [
+          2,
+          -6.35
+        ],
+        "a": [
+          "panos-reboco",
+          11196
+        ],
+        "b": [
+          "panos-cinza",
+          304
+        ],
+        "intersectionAreaModel": 0.2924914944029843
+      },
+      {
+        "plane": [
+          2,
+          -6.35
+        ],
+        "a": [
+          "panos-reboco",
+          11197
+        ],
+        "b": [
+          "panos-cinza",
+          305
+        ],
+        "intersectionAreaModel": 0.03911537125140305
+      },
+      {
+        "plane": [
+          2,
+          -6.35
+        ],
+        "a": [
+          "panos-reboco",
+          11208
+        ],
+        "b": [
+          "panos-bege",
+          136
+        ],
+        "intersectionAreaModel": 0.0934045506765384
+      },
+      {
+        "plane": [
+          2,
+          -6.35
+        ],
+        "a": [
+          "panos-reboco",
+          11209
+        ],
+        "b": [
+          "panos-bege",
+          137
+        ],
+        "intersectionAreaModel": 0.29249149440298544
+      }
+    ],
+    "positionQuantumMeters": 1e-05,
+    "quantizationSliverPairs": 0,
+    "quantizationSliverAreaModel": 0.0
+  },
+  "after": {
+    "overlappingTrianglePairs": 0,
+    "summedIntersectionAreaModel": 0.0,
+    "examples": [],
+    "positionQuantumMeters": 1e-05,
+    "quantizationSliverPairs": 0,
+    "quantizationSliverAreaModel": 0.0
+  },
+  "roofOverlaps": {
+    "overlappingTrianglePairs": 0,
+    "summedIntersectionAreaModel": 0.0,
+    "examples": [],
+    "positionQuantumMeters": 1e-05,
+    "quantizationSliverPairs": 3,
+    "quantizationSliverAreaModel": 1.0775804970896512e-06
+  },
+  "exportedMeshes": {
+    "panos-": {
+      "triangles": 2704,
+      "edges": 4056,
+      "nonManifoldEdges": 0,
+      "degenerateTriangles": 0
+    },
+    "cobertura-": {
+      "triangles": 2588,
+      "edges": 3882,
+      "nonManifoldEdges": 0,
+      "degenerateTriangles": 0
+    }
+  },
+  "openingChecks": 34,
+  "perimeterEdgesCovered": 32,
+  "wallVolumeWithinOutline": true,
+  "flatFacade": true,
+  "sourceSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+  "sources": {
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/qa_paredes.py": "33f3ac56a3d47e18f7eb159c6b1c8fb4a55d28d877a96421987bc38146750a3e",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/unir_paredes.py": "16ddbb49572368f7f752e2d284a1e03314a07b4901b8412a061b90231283d09e",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/modelar_exterior.py": "5698afe2f06c70a54658bfac1d259623850372ea83f9c445312c24cae0b3cb89",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno.py": "d051aaf044801200f0389783da7dad47e83a0a276c11b053ad669c2cb9499cd9",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/contorno-torre.json": "8e6545269bfd0ebd97b80a82eff7a2feabff5aad6a0fb4a24b220f2d898bf878",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/modelo.json": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1",
+    "experimentos/liv-ipanema-webgpu-2026-10-09/modelo/variante/luz/antes-quinas/modelo.json": "575c58780328a1223fc200cb45ad2c9f8fd022c08f8481e86f858c8068a89db1"
+  }
+}

@@ -1,0 +1,611 @@
+{
+  "id": "vistas-da-quinze-t04",
+  "titulo": "Vistas da Quinze · T04 · 2 dormitórios, cômodo extra e terraço lateral",
+  "imagem": "../../../../plantas_fornecidas/vistas-da-quinze/anexos/34ca545e-2a7b-4db2-8d7a-c75f57e82dfe.png",
+  "imagemSha256": "fbfafde8c621197ff9287efcb65d17e49340110d9bc49ee70e7f136d6f7c9a01",
+  "calibracao": {
+    "areaM2": 77.65,
+    "contornoFacesPx": [
+      [
+        7,
+        7,
+        510,
+        258
+      ],
+      [
+        519,
+        7,
+        640,
+        296
+      ]
+    ],
+    "conferencia": [
+      "Faces internas: 161222 px².",
+      "Área anunciada da faixa: 76.16 m² (apartamento + terraço)."
+    ]
+  },
+  "origemPx": [
+    3,
+    3
+  ],
+  "gradeMm": 50,
+  "peDireitoMm": 2600,
+  "comodos": [
+    {
+      "nome": "Suíte",
+      "partes": [
+        [
+          3,
+          3,
+          131,
+          153
+        ],
+        [
+          68,
+          153,
+          131,
+          198
+        ]
+      ]
+    },
+    {
+      "nome": "Dormitório 2",
+      "partes": [
+        [
+          131,
+          3,
+          262,
+          153
+        ]
+      ]
+    },
+    {
+      "nome": "Escritório",
+      "partes": [
+        [
+          262,
+          3,
+          390,
+          153
+        ]
+      ]
+    },
+    {
+      "nome": "Banho suíte",
+      "partes": [
+        [
+          3,
+          153,
+          68,
+          262
+        ]
+      ]
+    },
+    {
+      "nome": "Banho social",
+      "partes": [
+        [
+          68,
+          198,
+          195,
+          262
+        ]
+      ]
+    },
+    {
+      "nome": "Sala integrada",
+      "partes": [
+        [
+          390,
+          3,
+          515,
+          262
+        ],
+        [
+          131,
+          153,
+          390,
+          198
+        ],
+        [
+          195,
+          198,
+          390,
+          262
+        ]
+      ]
+    },
+    {
+      "nome": "Terraço",
+      "partes": [
+        [
+          515,
+          3,
+          645,
+          300
+        ]
+      ]
+    }
+  ],
+  "aberturas": [
+    {
+      "comodo": "Suíte",
+      "lado": "east",
+      "de": 161,
+      "ate": 192,
+      "tipo": "door",
+      "alturaMm": 2100,
+      "parte": 1
+    },
+    {
+      "comodo": "Dormitório 2",
+      "lado": "north",
+      "de": 140,
+      "ate": 175,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Escritório",
+      "lado": "north",
+      "de": 269,
+      "ate": 303,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Banho suíte",
+      "lado": "east",
+      "de": 161,
+      "ate": 192,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Banho social",
+      "lado": "south",
+      "de": 153,
+      "ate": 185,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Sala integrada",
+      "lado": "north",
+      "de": 397,
+      "ate": 438,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Terraço",
+      "lado": "west",
+      "de": 138,
+      "ate": 252,
+      "tipo": "door",
+      "alturaMm": 2200
+    },
+    {
+      "comodo": "Suíte",
+      "lado": "south",
+      "de": 34,
+      "ate": 99,
+      "tipo": "window",
+      "alturaMm": 1200,
+      "peitorilMm": 1000
+    },
+    {
+      "comodo": "Dormitório 2",
+      "lado": "south",
+      "de": 158,
+      "ate": 228,
+      "tipo": "window",
+      "alturaMm": 1200,
+      "peitorilMm": 1000
+    },
+    {
+      "comodo": "Escritório",
+      "lado": "south",
+      "de": 273,
+      "ate": 344,
+      "tipo": "window",
+      "alturaMm": 1200,
+      "peitorilMm": 1000
+    },
+    {
+      "comodo": "Sala integrada",
+      "lado": "south",
+      "de": 409,
+      "ate": 489,
+      "tipo": "window",
+      "alturaMm": 1400,
+      "peitorilMm": 800
+    },
+    {
+      "comodo": "Terraço",
+      "lado": "east",
+      "de": 3,
+      "ate": 300,
+      "tipo": "window",
+      "alturaMm": 1550,
+      "peitorilMm": 1050
+    },
+    {
+      "comodo": "Terraço",
+      "lado": "south",
+      "de": 515,
+      "ate": 645,
+      "tipo": "window",
+      "alturaMm": 1550,
+      "peitorilMm": 1050
+    }
+  ],
+  "moveis": [
+    {
+      "catalogo": "cama-queen",
+      "x": 60,
+      "y": 62,
+      "w": 1580,
+      "d": 1980,
+      "nome": "Cama do casal",
+      "rot": 90,
+      "cor": "#E4E1DA"
+    },
+    {
+      "catalogo": "criado",
+      "x": 15,
+      "y": 14,
+      "w": 400,
+      "d": 350,
+      "nome": "Criado 1",
+      "cor": "#E9E5DD"
+    },
+    {
+      "catalogo": "criado",
+      "x": 15,
+      "y": 110,
+      "w": 400,
+      "d": 350,
+      "nome": "Criado 2",
+      "cor": "#E9E5DD"
+    },
+    {
+      "catalogo": "guardaroupa",
+      "x": 40,
+      "y": 136,
+      "w": 1400,
+      "d": 500,
+      "nome": "Guarda-roupa da suíte",
+      "rot": 180,
+      "cor": "#E9E5DD"
+    },
+    {
+      "catalogo": "cama-solteiro",
+      "x": 156,
+      "y": 56,
+      "w": 880,
+      "d": 1880,
+      "nome": "Cama de solteiro 1",
+      "cor": "#E4E1DA"
+    },
+    {
+      "catalogo": "cama-solteiro",
+      "x": 234,
+      "y": 56,
+      "w": 880,
+      "d": 1880,
+      "nome": "Cama de solteiro 2",
+      "cor": "#E4E1DA"
+    },
+    {
+      "catalogo": "criado",
+      "x": 195,
+      "y": 24,
+      "w": 400,
+      "d": 350,
+      "nome": "Criado do dormitório 2",
+      "cor": "#E9E5DD"
+    },
+    {
+      "catalogo": "guardaroupa",
+      "x": 222,
+      "y": 136,
+      "w": 1300,
+      "d": 500,
+      "nome": "Guarda-roupa do dormitório 2",
+      "rot": 180,
+      "cor": "#E9E5DD"
+    },
+    {
+      "catalogo": "escrivaninha",
+      "x": 374,
+      "y": 55,
+      "w": 800,
+      "d": 480,
+      "nome": "Bancada de estudo 1",
+      "rot": 270,
+      "cor": "#B07A4E"
+    },
+    {
+      "catalogo": "escrivaninha",
+      "x": 374,
+      "y": 112,
+      "w": 800,
+      "d": 480,
+      "nome": "Bancada de estudo 2",
+      "rot": 270,
+      "cor": "#B07A4E"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 352,
+      "y": 55,
+      "w": 450,
+      "d": 450,
+      "nome": "Cadeira de estudo 1",
+      "rot": 90,
+      "cor": "#CFC8BC"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 352,
+      "y": 112,
+      "w": 450,
+      "d": 450,
+      "nome": "Cadeira de estudo 2",
+      "rot": 90,
+      "cor": "#CFC8BC"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 285,
+      "y": 40,
+      "w": 550,
+      "d": 550,
+      "nome": "Pufe 1",
+      "cor": "#CFC8BC"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 285,
+      "y": 95,
+      "w": 550,
+      "d": 550,
+      "nome": "Pufe 2",
+      "cor": "#CFC8BC"
+    },
+    {
+      "catalogo": "rack-tv",
+      "x": 402,
+      "y": 45,
+      "w": 1600,
+      "d": 350,
+      "nome": "Rack da TV",
+      "rot": 90,
+      "cor": "#B07A4E"
+    },
+    {
+      "catalogo": "sofa-3",
+      "x": 490,
+      "y": 55,
+      "w": 2000,
+      "d": 880,
+      "nome": "Sofá",
+      "rot": 270,
+      "cor": "#8E8A86"
+    },
+    {
+      "catalogo": "tapete-sala",
+      "x": 445,
+      "y": 55,
+      "w": 1400,
+      "d": 1700,
+      "nome": "Tapete",
+      "cor": "#C9C6C2"
+    },
+    {
+      "catalogo": "mesa-jantar-4",
+      "x": 422,
+      "y": 158,
+      "w": 800,
+      "d": 1000,
+      "nome": "Mesa de jantar",
+      "cor": "#7A4E33"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 407,
+      "y": 131,
+      "w": 400,
+      "d": 400,
+      "nome": "Cadeira 1",
+      "cor": "#CFC8BC"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 437,
+      "y": 131,
+      "w": 400,
+      "d": 400,
+      "nome": "Cadeira 2",
+      "cor": "#CFC8BC"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 407,
+      "y": 185,
+      "w": 400,
+      "d": 400,
+      "nome": "Cadeira 3",
+      "rot": 180,
+      "cor": "#CFC8BC"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 437,
+      "y": 185,
+      "w": 400,
+      "d": 400,
+      "nome": "Cadeira 4",
+      "rot": 180,
+      "cor": "#CFC8BC"
+    },
+    {
+      "catalogo": "tanque-lavar",
+      "x": 211,
+      "y": 245,
+      "w": 550,
+      "d": 500,
+      "nome": "Tanque",
+      "rot": 180,
+      "cor": "#E8E8E6"
+    },
+    {
+      "catalogo": "fogao",
+      "x": 285,
+      "y": 245,
+      "w": 600,
+      "d": 580,
+      "nome": "Cooktop",
+      "rot": 180,
+      "cor": "#2A2B2D"
+    },
+    {
+      "catalogo": "pia-cozinha",
+      "x": 330,
+      "y": 245,
+      "w": 1100,
+      "d": 580,
+      "nome": "Bancada e cuba",
+      "rot": 180,
+      "cor": "#3B3A38"
+    },
+    {
+      "catalogo": "geladeira",
+      "x": 372,
+      "y": 243,
+      "w": 700,
+      "d": 650,
+      "nome": "Geladeira",
+      "rot": 180,
+      "cor": "#6E7275"
+    },
+    {
+      "catalogo": "gabinete-banheiro",
+      "x": 15,
+      "y": 170,
+      "w": 550,
+      "d": 400,
+      "nome": "Lavatório da suíte",
+      "rot": 90,
+      "cor": "#F2F1EE"
+    },
+    {
+      "catalogo": "vaso-sanitario",
+      "x": 18,
+      "y": 200,
+      "w": 400,
+      "d": 650,
+      "nome": "Vaso da suíte",
+      "rot": 90,
+      "cor": "#F2F1EE"
+    },
+    {
+      "catalogo": "box-chuveiro",
+      "x": 35,
+      "y": 240,
+      "w": 1200,
+      "d": 850,
+      "nome": "Box da suíte",
+      "cor": "#DDE5E4"
+    },
+    {
+      "catalogo": "box-chuveiro",
+      "x": 91,
+      "y": 232,
+      "w": 850,
+      "d": 1150,
+      "nome": "Box",
+      "cor": "#DDE5E4"
+    },
+    {
+      "catalogo": "vaso-sanitario",
+      "x": 137,
+      "y": 243,
+      "w": 400,
+      "d": 650,
+      "nome": "Vaso",
+      "rot": 180,
+      "cor": "#F2F1EE"
+    },
+    {
+      "catalogo": "gabinete-banheiro",
+      "x": 176,
+      "y": 247,
+      "w": 550,
+      "d": 400,
+      "nome": "Lavatório",
+      "rot": 180,
+      "cor": "#F2F1EE"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 587,
+      "y": 135,
+      "w": 600,
+      "d": 600,
+      "nome": "Poltrona do terraço 1",
+      "cor": "#CFC8BC"
+    },
+    {
+      "catalogo": "poltrona",
+      "x": 587,
+      "y": 198,
+      "w": 600,
+      "d": 600,
+      "nome": "Poltrona do terraço 2",
+      "rot": 180,
+      "cor": "#CFC8BC"
+    },
+    {
+      "catalogo": "pia-cozinha",
+      "x": 565,
+      "y": 284,
+      "w": 1500,
+      "d": 580,
+      "nome": "Bancada gourmet",
+      "rot": 180,
+      "cor": "#3B3A38"
+    }
+  ],
+  "ficha": {
+    "titulo": "Vistas da Quinze · T04 · 2 dormitórios, cômodo extra e terraço lateral",
+    "empreendimento": "Vistas da Quinze",
+    "area_publicada_m2": 77.65,
+    "quartos": 2,
+    "suites": 1,
+    "banheiros": 2,
+    "observacao": "Reconstrução ilustrativa da planta humanizada pública; medidas inferidas pela área anunciada do T01."
+  },
+  "cores": {
+    "parede": "#E6E2DA",
+    "piso_frio": "#D8D4CC",
+    "piso_madeira": "#B8916A",
+    "teto": "#F2F0EC"
+  },
+  "lote": {
+    "predio": {
+      "largura_m": 45.0,
+      "profundidade_m": 45.0,
+      "pavimentos": 20
+    }
+  },
+  "limites": [
+    "Planta humanizada pública sem cotas. Eixos de parede, vãos e móveis são aproximações de ±5 cm.",
+    "Embaixo na imagem fica o corredor do andar (porta de entrada); em cima e do lado do terraço, a fachada.",
+    "Pé-direito de 2,60 m é suposto. A pegada do prédio é provisória até a implantação.",
+    "A escala é a do T01; com ela o apartamento mais o terraço somam 77,6 m², contra 76,16 m² anunciados (a maior planta).",
+    "O terraço é descoberto no prédio (degrau da torre). Aqui ele é um cômodo cuja borda de fora é um vão do peitoril de 1,05 m até o forro; o site tira o forro e o vão (interior-renderer.js, abrirTerracos).",
+    "A banheira de hidromassagem, as plantas e a churrasqueira não existem no catálogo do construtor e entram na etapa dos interiores."
+  ]
+}

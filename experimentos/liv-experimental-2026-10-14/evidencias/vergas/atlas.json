@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "site": "liv",
+      "typology": "canto",
+      "maps": 15,
+      "untouchedOutsideWallMask": true,
+      "probeEntriesIdentical": true,
+      "sourceAndGeometryIdentical": true,
+      "wallTexels": 57551,
+      "status": "PASS"
+    },
+    {
+      "site": "liv",
+      "typology": "meio",
+      "maps": 15,
+      "untouchedOutsideWallMask": true,
+      "probeEntriesIdentical": true,
+      "sourceAndGeometryIdentical": true,
+      "wallTexels": 63135,
+      "status": "PASS"
+    },
+    {
+      "site": "laranjeiras",
+      "typology": "canto",
+      "maps": 29,
+      "untouchedOutsideWallMask": true,
+      "probeEntriesIdentical": true,
+      "sourceAndGeometryIdentical": true,
+      "wallTexels": 99097,
+      "status": "PASS"
+    },
+    {
+      "site": "laranjeiras",
+      "typology": "meio",
+      "maps": 29,
+      "untouchedOutsideWallMask": true,
+      "probeEntriesIdentical": true,
+      "sourceAndGeometryIdentical": true,
+      "wallTexels": 97534,
+      "status": "PASS"
+    },
+    {
+      "site": "laranjeiras",
+      "typology": "canto-espelhado",
+      "maps": 29,
+      "untouchedOutsideWallMask": true,
+      "probeEntriesIdentical": true,
+      "sourceAndGeometryIdentical": true,
+      "wallTexels": 99421,
+      "status": "PASS"
+    },
+    {
+      "site": "laranjeiras",
+      "typology": "meio-espelhado",
+      "maps": 29,
+      "untouchedOutsideWallMask": true,
+      "probeEntriesIdentical": true,
+      "sourceAndGeometryIdentical": true,
+      "wallTexels": 96817,
+      "status": "PASS"
+    }
+  ],
+  "totalMaps": 146,
+  "regressionSeam": {
+    "points": [
+      [
+        -1.485,
+        2.4,
+        -0.176
+      ],
+      [
+        -1.485,
+        2.4,
+        -0.174
+      ]
+    ],
+    "samples": [
+      {
+        "version": "before",
+        "luminance": [
+          0.04987454453919754,
+          0.14539519676643933
+        ],
+        "relativeJump": 0.656972543465
+      },
+      {
+        "version": "after",
+        "luminance": [
+          0.10789765996308771,
+          0.10855443354918845
+        ],
+        "relativeJump": 0.006050177451325725
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "version": "projects/163406298617/sites/imobilaria-deccb-miniaturas/versions/e777c369933136ea",
+  "previousVersion": "projects/imobilaria-deccb/sites/imobilaria-deccb-miniaturas/versions/461a1ae2c283dbfe",
+  "release": "projects/163406298617/sites/imobilaria-deccb-miniaturas/channels/live/releases/1793571184280000",
+  "changed": 161,
+  "uploaded": 160,
+  "at": "2026-11-01T22:11:05.006Z",
+  "status": "PASS",
+  "checked": 161,
+  "configPreserved": true,
+  "untouched": 1219,
+  "packageBrowserCases": 12,
+  "urls": [
+    "https://conectaimoveis3d.com.br/maquetes/liv/",
+    "https://conectaimoveis3d.com.br/laranjeiras/"
+  ]
+}

@@ -1,0 +1,4 @@
+{"nome": "leve", "gaussianas": 389888, "minutos": 11.0, "psnr": 31.64, "ssim": 0.9599, "lpips": 0.0845}
+{"nome": "completo", "gaussianas": 482902, "minutos": 13.1, "psnr": 32.89, "ssim": 0.9671, "lpips": 0.0691}
+{"nome": "muito-leve", "gaussianas": 455109, "minutos": 11.1, "psnr": 31.02, "ssim": 0.9552, "lpips": 0.0964}
+{"nome": "media", "gaussianas": 417918, "minutos": 10.9, "psnr": 31.88, "ssim": 0.9621, "lpips": 0.08}

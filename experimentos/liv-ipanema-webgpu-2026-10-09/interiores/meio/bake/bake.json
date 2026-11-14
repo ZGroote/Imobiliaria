@@ -1,0 +1,127 @@
+{
+  "schema": "liv-interior-lightmap-v1",
+  "unitId": "liv-ipanema-planta-meio-referencia",
+  "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+  "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+  "geometrySHA256": "9110a84a7302f5ea6f29cf3a09c0da02d0336d8c7bec0f73de230a44890f01f3",
+  "geometryApproved": true,
+  "approvalSHA256": "59b75bb0080926111a6336fae8ab5a292718bd6a3f78e3f150c9365205609b2b",
+  "geometryURL": "interior/luz/geometry-compact.json",
+  "textureURL": "interior/luz/irradiance.rgbm.gz",
+  "textureCompression": "gzip",
+  "textureEncoding": "linear-rgbm-u8",
+  "textureSHA256": "5d636586c1d7b1a5c8b2266fb45ee8e88cddcb2670c3516f4dcaff7d117dc870",
+  "width": 2048,
+  "height": 2048,
+  "range": 16.0,
+  "origin": "bottom-left",
+  "premultiplyAlpha": false,
+  "lightMapIntensity": 3.141592653589793,
+  "samples": 512,
+  "passes": [
+    "DIRECT",
+    "INDIRECT"
+  ],
+  "colorPass": false,
+  "objects": 34,
+  "triangles": 31700,
+  "lighting": {
+    "name": "LIV Meio, luz diurna ilustrativa e plafons por ambiente",
+    "world": {
+      "color": [
+        0.72,
+        0.82,
+        1
+      ],
+      "strength": 0.45
+    },
+    "sun": {
+      "position": [
+        -7,
+        9,
+        10
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "energy": 2.2,
+      "angleDegrees": 4,
+      "color": [
+        1,
+        1,
+        1
+      ]
+    },
+    "ceiling": {
+      "energy": 45,
+      "size": 0.32,
+      "color": [
+        1,
+        0.95,
+        0.86
+      ]
+    }
+  },
+  "effectivePaddingPixels": 7.185964912280702,
+  "recommendedGuardPixels": 3.342982456140351,
+  "ready": true,
+  "seconds": 167.4407818999607,
+  "backend": "OPTIX",
+  "devices": [
+    "NVIDIA GeForce GTX 1650"
+  ],
+  "totalSceneTriangles": 32876,
+  "coveragePixels": 1792051,
+  "sourceRadianceSHA256": "02be5af8c53cd709e18172935f5749d744fa4ce5c34264ed791ab6ef3e70f25a",
+  "radianceMin": 0.0,
+  "radianceMax": 12.55406379699707,
+  "checks": {
+    "sceneHash": true,
+    "unitHash": true,
+    "UVHash": true,
+    "visualGeometryApproval": true,
+    "splitNormalsPreserved": true,
+    "finiteRadiance": true,
+    "nonBlackAtlas": true,
+    "colorPassDisabled": true
+  },
+  "denoise": {
+    "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+    "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+    "geometrySHA256": "9110a84a7302f5ea6f29cf3a09c0da02d0336d8c7bec0f73de230a44890f01f3",
+    "sourceRadianceSHA256": "02be5af8c53cd709e18172935f5749d744fa4ce5c34264ed791ab6ef3e70f25a",
+    "textureSHA256": "5d636586c1d7b1a5c8b2266fb45ee8e88cddcb2670c3516f4dcaff7d117dc870",
+    "filter": "OIDN RTLightmap",
+    "version": "2.3.3",
+    "device": "CPU",
+    "auxiliaryImages": [],
+    "rawIrradiancePreserved": true,
+    "guardPixels": 3.342982456140351,
+    "coveredPixels": 1792051,
+    "borderPixels": 750576,
+    "width": 2048,
+    "height": 2048,
+    "seconds": 6.272734600002877,
+    "radianceMax": 12.449755668640137,
+    "rangeClippedPixels": 0,
+    "meanAbsoluteDenoiseChange": 0.011324970051646233,
+    "rgbmMeanError": 0.00022498508042190224,
+    "rgbmMaxError": 0.023535728454589844,
+    "textureBytes": 16777216,
+    "textureGzipBytes": 4171499,
+    "checks": {
+      "sceneHash": true,
+      "unitHash": true,
+      "UVHash": true,
+      "finiteRadiance": true,
+      "nearestIslandGuard": true,
+      "farBackgroundZero": true,
+      "rangeNoClipping": true,
+      "colorPassDisabled": true,
+      "noAuxiliaryAlbedo": true,
+      "RGBMNoPremultiply": true
+    }
+  }
+}

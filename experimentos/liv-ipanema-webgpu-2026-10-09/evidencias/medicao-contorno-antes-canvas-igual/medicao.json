@@ -1,0 +1,323 @@
+{
+  "recordedAtUtc": "2026-10-11T07:48:58.666192+00:00",
+  "status": "FAIL",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "headless": true,
+  "physicalMobile": false,
+  "viewport": [
+    1440,
+    900
+  ],
+  "network": "loopback sem compressão HTTP; recursos .gz já comprimidos no arquivo",
+  "execution": "sequencial; Chrome novo por rodada, reload no mesmo contexto; fila pausada após primeira cena utilizável para isolar a amostra de órbita",
+  "limits": "Contexto novo para cache HTTP frio; caches do driver e outras aplicações não controlados. Cadência de submissão não é tempo GPU. Tráfego do worker não é contabilizado pelos documentos.",
+  "sourceSHA256": {
+    "medir_runtime.py": "de8442d3801b4ec279254a776ffa1b8345bcc9092669405e39fa8f08c989c0f0",
+    "renderer.js": "1c48c491ff6b86b3e723649bc12491c72a6d32f5a6986847544bcdc9795d4b06",
+    "material-rgbm.js": "6ced8c9709afcde35148487e80c61a7f49e990e72946f9c51ac2fa8b2a9215af",
+    "viewer.js": "5ce4f91feff00786f4723d943558b033b6ddbfc8edef6b1b1eb5f68db98ddda4",
+    "maquete-liv-ipanema.html": "e297c92f23d56f32edb456fa3e8a1a9ac05443945d538fcc6e171f626575efb8",
+    "prova-rgbm.html": "042b44a38583a06135622c2924d7dbe29adca152245fc556bf17ad9d00087a81",
+    "transfers.js": "d3f18d35513422b0566e55d8fbf60f643686d42c2ec0588ca2bdb2e440abb146",
+    "transfer-worker.js": "c3c52b59e332f319ce6be0999690beabdb8580dd11d4690c7b382d352ba9cb3b",
+    "transfer-manifest.json": "be7b47fd33b8b0ccb6ca5cf7fffb5524fe7011907d1fe3ab503c0f3f09b73346",
+    "cameras.js": "6272d526e886a7c32ddca6735007c3dd6f629ee7117fac8e882b6ff4e3dec0dd",
+    "exterior-finishes.js": "43a8bec60381c24652b97b3f817753aa82902f721e6a30f2e6278a6a796ea575",
+    "assets-prova/manifest.json": "dc10126edb51f329364dc4631e03fbbd9e09d42973e92a6f4fb6e246e428cb57",
+    "modelo/variante/assets/manifest.json": "e22c8e38057ebdcfdb1d61c3961dc3a30d1fa394e50b37f83da3e9fbe2d588ea",
+    "unidades.json": "dcc72736e33fcd2cd613442600324a126bbfc6aa4d35a85097306d8eae24176b",
+    "modelo/unidades-contorno.json": "17f0e171c8bf088ca8b7c271baf13d2e36f117f5b2185d516103281b36678bc7"
+  },
+  "matchedCanvas": true,
+  "geometrySelection": "ambas",
+  "baseURL": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/",
+  "rounds": [
+    {
+      "variant": "base",
+      "round": 1,
+      "phases": {
+        "cold": {
+          "readyMs": 2398.8000000715256,
+          "metrics": {
+            "renderSubmissions": 241,
+            "sampleMs": 4013.8000000715256,
+            "intervalP50Ms": 16.699999928474426,
+            "intervalP95Ms": 16.899999976158142,
+            "cpuSubmitP50Ms": 0.6999999284744263,
+            "cpuSubmitP95Ms": 1.1999999284744263,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              720,
+              390
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "frame": 280,
+              "calls": 56,
+              "triangles": 441621,
+              "points": 0,
+              "lines": 0
+            },
+            "memoryObjects": {
+              "geometries": 128,
+              "textures": 6
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+              "encodedBytes": 38378801,
+              "decodedBytes": 38378801,
+              "transferBytes": 38379101,
+              "type": "navigation"
+            }
+          ],
+          "encodedBodyBytes": 38378801,
+          "transferBytes": 38379101,
+          "queueAtSample": null,
+          "identity": null
+        },
+        "warm": {
+          "readyMs": 1332.6000000238419,
+          "metrics": {
+            "renderSubmissions": 241,
+            "sampleMs": 4003.0999999046326,
+            "intervalP50Ms": 16.699999928474426,
+            "intervalP95Ms": 17,
+            "cpuSubmitP50Ms": 0.6000000238418579,
+            "cpuSubmitP95Ms": 0.8999999761581421,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              720,
+              390
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "frame": 280,
+              "calls": 56,
+              "triangles": 441621,
+              "points": 0,
+              "lines": 0
+            },
+            "memoryObjects": {
+              "geometries": 128,
+              "textures": 6
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+              "encodedBytes": 38378801,
+              "decodedBytes": 38378801,
+              "transferBytes": 38379101,
+              "type": "navigation"
+            }
+          ],
+          "encodedBodyBytes": 38378801,
+          "transferBytes": 38379101,
+          "queueAtSample": null,
+          "identity": null
+        }
+      },
+      "errors": []
+    },
+    {
+      "variant": "base",
+      "round": 2,
+      "phases": {
+        "cold": {
+          "readyMs": 2354.899999976158,
+          "metrics": {
+            "renderSubmissions": 241,
+            "sampleMs": 4014.7999999523163,
+            "intervalP50Ms": 16.699999928474426,
+            "intervalP95Ms": 17,
+            "cpuSubmitP50Ms": 0.6000000238418579,
+            "cpuSubmitP95Ms": 0.8999999761581421,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              720,
+              390
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "frame": 279,
+              "calls": 56,
+              "triangles": 441621,
+              "points": 0,
+              "lines": 0
+            },
+            "memoryObjects": {
+              "geometries": 128,
+              "textures": 6
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+              "encodedBytes": 38378801,
+              "decodedBytes": 38378801,
+              "transferBytes": 38379101,
+              "type": "navigation"
+            }
+          ],
+          "encodedBodyBytes": 38378801,
+          "transferBytes": 38379101,
+          "queueAtSample": null,
+          "identity": null
+        },
+        "warm": {
+          "readyMs": 1316.3999999761581,
+          "metrics": {
+            "renderSubmissions": 241,
+            "sampleMs": 4004.399999976158,
+            "intervalP50Ms": 16.699999928474426,
+            "intervalP95Ms": 16.899999976158142,
+            "cpuSubmitP50Ms": 0.6000000238418579,
+            "cpuSubmitP95Ms": 0.8999999761581421,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              720,
+              390
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "frame": 280,
+              "calls": 56,
+              "triangles": 441621,
+              "points": 0,
+              "lines": 0
+            },
+            "memoryObjects": {
+              "geometries": 128,
+              "textures": 6
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+              "encodedBytes": 38378801,
+              "decodedBytes": 38378801,
+              "transferBytes": 38379101,
+              "type": "navigation"
+            }
+          ],
+          "encodedBodyBytes": 38378801,
+          "transferBytes": 38379101,
+          "queueAtSample": null,
+          "identity": null
+        }
+      },
+      "errors": []
+    },
+    {
+      "variant": "base",
+      "round": 3,
+      "phases": {
+        "cold": {
+          "readyMs": 2242.399999976158,
+          "metrics": {
+            "renderSubmissions": 240,
+            "sampleMs": 4002.6999999284744,
+            "intervalP50Ms": 16.699999928474426,
+            "intervalP95Ms": 16.90000009536743,
+            "cpuSubmitP50Ms": 0.6000000238418579,
+            "cpuSubmitP95Ms": 0.8999999761581421,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              720,
+              390
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "frame": 278,
+              "calls": 56,
+              "triangles": 441621,
+              "points": 0,
+              "lines": 0
+            },
+            "memoryObjects": {
+              "geometries": 128,
+              "textures": 6
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+              "encodedBytes": 38378801,
+              "decodedBytes": 38378801,
+              "transferBytes": 38379101,
+              "type": "navigation"
+            }
+          ],
+          "encodedBodyBytes": 38378801,
+          "transferBytes": 38379101,
+          "queueAtSample": null,
+          "identity": null
+        },
+        "warm": {
+          "readyMs": 1272.1000000238419,
+          "metrics": {
+            "renderSubmissions": 240,
+            "sampleMs": 4009.8000000715256,
+            "intervalP50Ms": 16.699999928474426,
+            "intervalP95Ms": 16.90000009536743,
+            "cpuSubmitP50Ms": 0.6000000238418579,
+            "cpuSubmitP95Ms": 0.8000000715255737,
+            "backend": "webgl",
+            "gpu": null,
+            "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F9D) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas": [
+              720,
+              390
+            ],
+            "dpr": 1,
+            "renderInfo": {
+              "frame": 280,
+              "calls": 56,
+              "triangles": 441621,
+              "points": 0,
+              "lines": 0
+            },
+            "memoryObjects": {
+              "geometries": 128,
+              "textures": 6
+            }
+          },
+          "resources": [
+            {
+              "url": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/site-baseline/maquete-liv-ipanema.html",
+              "encodedBytes": 38378801,
+              "decodedBytes": 38378801,
+              "transferBytes": 38379101,
+              "type": "navigation"
+            }
+          ],
+          "encodedBodyBytes": 38378801,
+          "transferBytes": 38379101,
+          "queueAtSample": null,
+          "identity": null
+        }
+      },
+      "errors": []
+    },
+    {
+      "variant": "webgl",
+      "round": 1,
+      "phases": {},
+      "errors": []
+    }
+  ],
+  "browserVersion": "154.0.8037.98",
+  "failure": "[718, 388]"
+}

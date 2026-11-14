@@ -1,0 +1,10 @@
+{
+  "name": "liv-ipanema-webgpu-pilot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Experimento isolado do LIV; runtime fixado para prova WebGPU e WebGL2",
+  "dependencies": {
+    "three": "0.186.1"
+  }
+}

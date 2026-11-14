@@ -1,0 +1,6313 @@
+{
+  "recordedAtUtc": "2026-10-11T04:30:54.401481+00:00",
+  "status": "PASS",
+  "physicalMobile": false,
+  "sourceSHA256": {
+    "gerar_manifesto_transferencias.py": "f87e000da94b2cb0a645d13e5621466eb7310614ac3e364a84f845ef6aac1c87",
+    "gerar_pacote_interiores.py": "faa6989c91da7d12f11acd0af1868bbb66af337336a85028c1b76b9f9ebde9da",
+    "interior-camera.js": "dd071e3a006b6b2105d0bd5de42f38f38cb2f347679761f33ecec0a5066a2947",
+    "interior-cutaway.js": "2581b9382be2fbf8da635cb8da7dbc85b4e41cc5e0c797f30e5b15e426b0ab09",
+    "interior-navigation.js": "a93e4ddb3dae17a1c82f073ca7f36758b1e94309a3e73f67c9ee4abc5c1702f1",
+    "interior-renderer.js": "6fbac9f97c975461a45561176c33cba833b409cb2a3a273553e59d5d4a2e0b58",
+    "interior.html": "d99d98ea1236ecc771f11cad0c0f7eefa5f6641e4e7a1f8db396cd25839956a6",
+    "interiores/canto/geometry-compact.json.gz": "d9c89dd186fb20c962bcbae6c64a3a5e1738b0bf46665e6857437b9ba0e24d68",
+    "interiores/canto/irradiance.rgbm.gz": "8c689dc306b778a68afec4c9ab82620650b0257decaac574a4c5ff36b9afe8d5",
+    "interiores/canto/light.json": "1ade6244b526999eeee8950c96718223c98aefa64cce687ae5eb4247a891c887",
+    "interiores/canto/source.json.gz": "d55346eaea3a69ae9bd60127a252d2e9f5541503627c653dc4cfb9bc24052137",
+    "interiores/canto/unidade.json": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+    "interiores/catalogo.json": "977ae20cbdfe565f62cc9628181991c6e9974fbca2b721ea04ece4e603c39a6c",
+    "interiores/meio/cena-exportada.json": "ab2e93d70397cf02afda6dae0dedf9f494dbf78995775f49367f740d0c784686",
+    "interiores/meio/cena-reproduzida.json": "39988066641ade4c89fbb0252d748b19b3c7ddc691114b112bde4f1f5f1c88ce",
+    "interiores/meio/conferencia.json": "5b2b128d0b6095ac89af7d214bf2ca0475f0e293ed7d8c684fabe356a3faa200",
+    "interiores/meio/construir-meio.ts": "cef5d70aff9480d78d87991ca990b6bb4f4caa28fe75940869b7352e647c7ad7",
+    "interiores/meio/contexto.json": "48bf6cac891e21284bf49747f08a7c53ed2740ae782f1d895fb076e1cca7be27",
+    "interiores/meio/exportacao.json": "55ccc40a8d7a95b88470ff0d615f3f7d87fe798c7f61923b048ea75180f4b5dd",
+    "interiores/meio/geometry-compact.json.gz": "9be16641a2cb189d559124d8f8590b554dbf9a2b40bcccd5ad904bfa1253f51e",
+    "interiores/meio/irradiance.rgbm.gz": "fca0a7a95292bfccda31893ecfd6164e624c9a7aa1cf58c3d1869eed41d322e9",
+    "interiores/meio/leitura.json": "eb6c6444028b0b2467859cdf5575648bf531876430a19f9c065aaff6919316bf",
+    "interiores/meio/light.json": "1230dcf4dfc6b64364907cafae95e8543a22546a2f25ab34356fe3f119cbe012",
+    "interiores/meio/moveis.json": "6490104ff5989cac254aabd30072bc522a4d606b51f78e4ac8c1cd1879b9c898",
+    "interiores/meio/projeto-planta.json": "271d30b63157971807e97b68d4930819f08411f63dc0621c66fa3e56a0450660",
+    "interiores/meio/recipe.json": "dc206ab5c031941b614fd889af9c843ee67a53371311dfcb2a7d61358177609d",
+    "interiores/meio/referencia.json": "fe68313ca6c21f8ca78ad326646ba06d188b2d23128d639ab839cc5fb62e7edc",
+    "interiores/meio/source.json": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+    "interiores/meio/source.json.gz": "94b259f6b377d4a06680f61813362abdc5b1b49bf8688e18c247ebe7ad1ed6b7",
+    "interiores/meio/unidade.json": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+    "interiores/shared/furniture.json.gz": "1b7d77717b2911b1fa49292a96477066d9eff74cf097f9bceb9540978ad41edd",
+    "interiores/shared/materials.json.gz": "749750da763a32450f5280d3a473e7afe190d778061ad9475dd7541c881da86c",
+    "interiores/shared/runtime.js": "cf84c09e1c243b0d48c31560c1c9d3d4cdd26586777144c559f4868c15f31da2",
+    "maquete-liv-ipanema.html": "e297c92f23d56f32edb456fa3e8a1a9ac05443945d538fcc6e171f626575efb8",
+    "plantas2d/canto.jpg": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971",
+    "plantas2d/manifest.json": "a249468806b17861a8c7b8771808115c2313ec4b071ead527960e91d480cf34a",
+    "plantas2d/meio.jpg": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a",
+    "qa_interiores.py": "1d984c5d638efb2125f5a7723a79f7f400db5366aad663f0a01643877d62096e",
+    "tipologias.js": "bead10376b812f56a9e1ee7513049c108664e38c43120aafec5c00d396856403",
+    "transfer-manifest.json": "c88c3a4afc8e4ddcb36643da25fe1310b3b706da72be26d5a3cd1c38c35bf75f",
+    "transfer-worker.js": "d215453785075ecaa187047a009aa3f2456bb45756207fef98d590bc5767cd2e",
+    "transfers.js": "d3f18d35513422b0566e55d8fbf60f643686d42c2ec0588ca2bdb2e440abb146",
+    "viewer.js": "5ce4f91feff00786f4723d943558b033b6ddbfc8edef6b1b1eb5f68db98ddda4"
+  },
+  "cases": [
+    {
+      "profile": "desktop-webgpu",
+      "viewport": [
+        1440,
+        900
+      ],
+      "backendRequested": "webgpu",
+      "errors": [],
+      "httpFailures": [],
+      "typologies": {
+        "canto": {
+          "captures": [
+            {
+              "file": "desktop-webgpu-canto-planta2d.png",
+              "size": [
+                1000,
+                1000
+              ],
+              "maxRgbVariance": 4878.100386061203,
+              "sha256": "a6cb3b32dac0f8b8da7930424414fa960b158734ba28c91b2169426be58057b2"
+            },
+            {
+              "file": "desktop-webgpu-canto-planta3d.png",
+              "size": [
+                920,
+                556
+              ],
+              "maxRgbVariance": 2634.2613613442777,
+              "sha256": "f9f35d0d8f1819e69ccefa5a5d3e3c3489c07f29b9a8887fb5428ab5d48e48cb"
+            },
+            {
+              "file": "desktop-webgpu-canto-visita.png",
+              "size": [
+                920,
+                556
+              ],
+              "maxRgbVariance": 3983.323360155965,
+              "sha256": "b5cf00006a4d30b6459eb8e50032a9d03ce708517b85f2e37d9b8d0696b332bf"
+            }
+          ],
+          "image2D": {
+            "src": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/plantas2d/canto.jpg",
+            "alt": "Planta 1 de canto do LIV Ipanema, área publicada 47,59 m², incluindo varanda",
+            "width": 1000,
+            "height": 1000,
+            "bytes": 63548,
+            "sha256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+          },
+          "backend": "webgpu",
+          "state3D": {
+            "version": 1,
+            "typology": "canto",
+            "mode": "planta3d",
+            "backend": "webgpu",
+            "ready": true,
+            "error": null,
+            "disposed": false,
+            "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+            "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+            "geometry": {
+              "objects": 64,
+              "vertices": 216483,
+              "triangles": 72935
+            },
+            "camera": {
+              "position": [
+                0,
+                11.588818004421057,
+                6.662597016523627
+              ],
+              "target": [
+                0,
+                1.379999995231628,
+                0
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "framing": {
+              "limits": {
+                "x": 0.9652173913043478,
+                "y": 0.6834532374100719
+              },
+              "bounds": [
+                [
+                  -4.364999771118164,
+                  0,
+                  -3.240000009536743
+                ],
+                [
+                  4.364999771118164,
+                  2.759999990463257,
+                  3.240000009536743
+                ]
+              ]
+            },
+            "roomView": {
+              "roomId": "c5",
+              "focusId": "movel-7",
+              "target": [
+                1.2000000000000002,
+                0.68,
+                2.0250000000000004
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55
+            },
+            "presentation": {
+              "enabled": true,
+              "active": true,
+              "height": 1.2,
+              "objects": 4,
+              "capTriangles": 48,
+              "clipShadows": false
+            },
+            "ceiling": {
+              "visible": false,
+              "count": 14
+            },
+            "rooms": [
+              {
+                "id": "c1",
+                "name": "Suíte",
+                "reachable": true,
+                "target": [
+                  -2.9,
+                  -1.775
+                ]
+              },
+              {
+                "id": "c2",
+                "name": "Dormitório 01",
+                "reachable": true,
+                "target": [
+                  -0.25,
+                  -1.575
+                ]
+              },
+              {
+                "id": "c3",
+                "name": "Banho suíte",
+                "reachable": true,
+                "target": [
+                  -2.75,
+                  1.4249999999999998
+                ]
+              },
+              {
+                "id": "c4",
+                "name": "Banho",
+                "reachable": true,
+                "target": [
+                  -1.25,
+                  1.4249999999999998
+                ]
+              },
+              {
+                "id": "c5",
+                "name": "Sala integrada",
+                "reachable": true,
+                "target": [
+                  0.9500000000000002,
+                  0.7750000000000004
+                ]
+              },
+              {
+                "id": "c10",
+                "name": "Varanda / serviço",
+                "reachable": true,
+                "target": [
+                  2.6500000000000004,
+                  -1.6749999999999998
+                ]
+              }
+            ],
+            "furniture": [
+              {
+                "id": "movel-0",
+                "name": "Cama da suíte",
+                "position": [
+                  -3.15,
+                  -0.7749999999999999
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -3.15,
+                  -0.7749999999999999
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-1",
+                "name": "Armário da suíte",
+                "position": [
+                  -2.95,
+                  -2.525
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.95,
+                  -2.525
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-2",
+                "name": "Criado-Mudo",
+                "position": [
+                  -3.85,
+                  -1.825
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -3.85,
+                  -1.825
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-3",
+                "name": "Criado-Mudo",
+                "position": [
+                  -3.85,
+                  0.17499999999999982
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -3.85,
+                  0.17499999999999982
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-4",
+                "name": "Cama do dormitório",
+                "position": [
+                  0.5,
+                  -1.725
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  0.5,
+                  -1.725
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-5",
+                "name": "Armário do dormitório",
+                "position": [
+                  -1.2999999999999998,
+                  -2.025
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -1.2999999999999998,
+                  -2.025
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-6",
+                "name": "Bancada do dormitório",
+                "position": [
+                  0.25,
+                  -0.5249999999999999
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  0.25,
+                  -0.5249999999999999
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-7",
+                "name": "Sofá da sala TV",
+                "position": [
+                  1.2000000000000002,
+                  2.0250000000000004
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  1.2000000000000002,
+                  2.0250000000000004
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-8",
+                "name": "Rack da sala TV",
+                "position": [
+                  -0.4500000000000002,
+                  2.0250000000000004
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -0.4500000000000002,
+                  2.0250000000000004
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-9",
+                "name": "Tapete",
+                "position": [
+                  0.40000000000000036,
+                  2.075
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  0.40000000000000036,
+                  2.075
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-10",
+                "name": "Mesa de jantar",
+                "position": [
+                  2.05,
+                  -0.3250000000000002
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  2.05,
+                  -0.3250000000000002
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-11",
+                "name": "Cadeira de jantar 1",
+                "position": [
+                  1.5499999999999998,
+                  -0.9249999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  1.5499999999999998,
+                  -0.9249999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-12",
+                "name": "Cadeira de jantar 2",
+                "position": [
+                  2.3,
+                  -0.9249999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  2.3,
+                  -0.9249999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-13",
+                "name": "Cadeira de jantar 3",
+                "position": [
+                  1.5499999999999998,
+                  0.2250000000000001
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  1.5499999999999998,
+                  0.2250000000000001
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-14",
+                "name": "Cadeira de jantar 4",
+                "position": [
+                  2.3,
+                  0.2250000000000001
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  2.3,
+                  0.2250000000000001
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-15",
+                "name": "Fogão 4 Bocas",
+                "position": [
+                  3.8499999999999996,
+                  -1.175
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8499999999999996,
+                  -1.175
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-16",
+                "name": "Bancada e cuba da cozinha",
+                "position": [
+                  3.8499999999999996,
+                  0.2749999999999999
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8499999999999996,
+                  0.2749999999999999
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-17",
+                "name": "Geladeira Duplex",
+                "position": [
+                  3.8000000000000007,
+                  1.7249999999999996
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8000000000000007,
+                  1.7249999999999996
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-18",
+                "name": "Lavatório suíte",
+                "position": [
+                  -2.3,
+                  1.2750000000000004
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  -2.3,
+                  1.2750000000000004
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-19",
+                "name": "Vaso Sanitário",
+                "position": [
+                  -2.45,
+                  1.9249999999999998
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  -2.45,
+                  1.9249999999999998
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-20",
+                "name": "Box suíte",
+                "position": [
+                  -2.7,
+                  2.7249999999999996
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.7,
+                  2.7249999999999996
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-21",
+                "name": "Lavatório social",
+                "position": [
+                  -1.7000000000000002,
+                  1.2750000000000004
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -1.7000000000000002,
+                  1.2750000000000004
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-22",
+                "name": "Vaso Sanitário",
+                "position": [
+                  -1.5,
+                  1.9249999999999998
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -1.5,
+                  1.9249999999999998
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-23",
+                "name": "Box social",
+                "position": [
+                  -1.2999999999999998,
+                  2.7249999999999996
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -1.2999999999999998,
+                  2.7249999999999996
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-24",
+                "name": "Mesa da varanda",
+                "position": [
+                  2.3499999999999996,
+                  -2.425
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  2.3499999999999996,
+                  -2.425
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-25",
+                "name": "Cadeira da varanda 1",
+                "position": [
+                  2.0999999999999996,
+                  -2.925
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  2.0999999999999996,
+                  -2.925
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-26",
+                "name": "Cadeira da varanda 2",
+                "position": [
+                  1.9000000000000004,
+                  -2.225
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  1.9000000000000004,
+                  -2.225
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-27",
+                "name": "Máquina de Lavar",
+                "position": [
+                  3.8000000000000007,
+                  -2.775
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8000000000000007,
+                  -2.775
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-28",
+                "name": "Tanque de Serviço",
+                "position": [
+                  3.8000000000000007,
+                  -2.225
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8000000000000007,
+                  -2.225
+                ],
+                "originalRotation": 3,
+                "modified": false
+              }
+            ],
+            "lighting": {
+              "bakedActive": true,
+              "reason": "atlas aprovado da planta de canto"
+            },
+            "shadows": {
+              "autoUpdate": false,
+              "needsUpdate": false,
+              "mapSize": [
+                1024,
+                1024
+              ]
+            },
+            "navigation": {
+              "safe": true,
+              "current": [
+                0.9500000000000002,
+                0.7750000000000004
+              ],
+              "radius": 0.3,
+              "eye": 1.62,
+              "reachableRooms": 6,
+              "totalRooms": 6,
+              "followingRoute": false
+            },
+            "renderer": {
+              "calls": 52,
+              "framePasses": 2,
+              "totalPasses": 13,
+              "triangles": 70074,
+              "geometries": 53,
+              "textures": 24
+            },
+            "ownership": {
+              "created": 200,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            }
+          },
+          "renderedGeometry": {
+            "sha256": "d596b0a4cd70288b55975f526cd8d72c4518761cbcd0ff29cc2e13ba8c44335c",
+            "meshes": 64,
+            "vertices": 216483
+          },
+          "furniture": {
+            "selectedFurniture": "movel-0",
+            "movementChanged": true,
+            "rotationChanged": true,
+            "bakeAfterMove": {
+              "bakedActive": false,
+              "reason": "móveis alterados: iluminação dinâmica"
+            },
+            "bakeAfterReset": {
+              "bakedActive": true,
+              "reason": "atlas aprovado da planta de canto"
+            },
+            "resetExact": true,
+            "restoreRouteQueries": 1
+          },
+          "navigation": {
+            "routes": [
+              {
+                "id": "c1",
+                "name": "Suíte",
+                "reachable": true,
+                "target": [
+                  -2.9,
+                  -1.775
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    -0.75,
+                    0.3250000000000002
+                  ],
+                  [
+                    -1.9499999999999997,
+                    0.025000000000000355
+                  ],
+                  [
+                    -1.9499999999999997,
+                    -1.775
+                  ],
+                  [
+                    -2.9,
+                    -1.775
+                  ]
+                ]
+              },
+              {
+                "id": "c2",
+                "name": "Dormitório 01",
+                "reachable": true,
+                "target": [
+                  -0.25,
+                  -1.575
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    -0.75,
+                    0.3250000000000002
+                  ],
+                  [
+                    -0.8999999999999999,
+                    -0.32499999999999973
+                  ],
+                  [
+                    -0.7999999999999998,
+                    -0.5749999999999997
+                  ],
+                  [
+                    -0.5499999999999998,
+                    -1.025
+                  ],
+                  [
+                    -0.25,
+                    -1.575
+                  ]
+                ]
+              },
+              {
+                "id": "c3",
+                "name": "Banho suíte",
+                "reachable": true,
+                "target": [
+                  -2.75,
+                  1.4249999999999998
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    -0.75,
+                    0.3250000000000002
+                  ],
+                  [
+                    -2.75,
+                    0.2250000000000001
+                  ],
+                  [
+                    -2.75,
+                    1.4249999999999998
+                  ]
+                ]
+              },
+              {
+                "id": "c4",
+                "name": "Banho",
+                "reachable": true,
+                "target": [
+                  -1.25,
+                  1.4249999999999998
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    -0.75,
+                    0.3250000000000002
+                  ],
+                  [
+                    -1.25,
+                    0.5750000000000002
+                  ],
+                  [
+                    -1.25,
+                    1.4249999999999998
+                  ]
+                ]
+              },
+              {
+                "id": "c5",
+                "name": "Sala integrada",
+                "reachable": true,
+                "target": [
+                  0.9500000000000002,
+                  0.7750000000000004
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ]
+                ]
+              },
+              {
+                "id": "c10",
+                "name": "Varanda / serviço",
+                "reachable": true,
+                "target": [
+                  2.6500000000000004,
+                  -1.6749999999999998
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    3,
+                    0.7250000000000001
+                  ],
+                  [
+                    3,
+                    -1.025
+                  ],
+                  [
+                    2.75,
+                    -1.4249999999999998
+                  ],
+                  [
+                    2.6500000000000004,
+                    -1.6749999999999998
+                  ]
+                ]
+              }
+            ],
+            "visited": [
+              {
+                "room": {
+                  "id": "c1",
+                  "label": "Suíte"
+                },
+                "camera": {
+                  "position": [
+                    -2.7545177728078074,
+                    1.62,
+                    -1.775
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -2.7545177728078074,
+                    -1.775
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c2",
+                  "label": "Dormitório 01"
+                },
+                "camera": {
+                  "position": [
+                    -0.31849706194186433,
+                    1.62,
+                    -1.4494220531065818
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": -0.49934672168012956,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -0.31849706194186433,
+                    -1.4494220531065818
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c3",
+                  "label": "Banho suíte"
+                },
+                "camera": {
+                  "position": [
+                    -2.75,
+                    1.62,
+                    1.271545072396035
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": -3.141592653589793,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -2.75,
+                    1.271545072396035
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c4",
+                  "label": "Banho"
+                },
+                "camera": {
+                  "position": [
+                    -1.25,
+                    1.62,
+                    1.2675497302247192
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": -3.141592653589793,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -1.25,
+                    1.2675497302247192
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c5",
+                  "label": "Sala integrada"
+                },
+                "camera": {
+                  "position": [
+                    0.7990451269443472,
+                    1.62,
+                    0.7350413571323277
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": -1.8295672187585936,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    0.7990451269443472,
+                    0.7350413571323277
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c10",
+                  "label": "Varanda / serviço"
+                },
+                "camera": {
+                  "position": [
+                    2.704012847533354,
+                    1.62,
+                    -1.5399678811666149
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": 0.38050637711236246,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    2.704012847533354,
+                    -1.5399678811666149
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              }
+            ],
+            "realInputWalked": true
+          }
+        },
+        "meio": {
+          "captures": [
+            {
+              "file": "desktop-webgpu-meio-planta2d.png",
+              "size": [
+                1000,
+                1000
+              ],
+              "maxRgbVariance": 4518.596733034309,
+              "sha256": "aedbac8fe925d906a263b4b3f6239ae572a96aec59b5875261d0a870cb3b19cb"
+            },
+            {
+              "file": "desktop-webgpu-meio-planta3d.png",
+              "size": [
+                920,
+                556
+              ],
+              "maxRgbVariance": 3298.0760708378075,
+              "sha256": "60c9a96b1d942066ab7cb38ac0bd19a9ace9cb79126473dfce4bc0fb404d7993"
+            },
+            {
+              "file": "desktop-webgpu-meio-visita.png",
+              "size": [
+                920,
+                556
+              ],
+              "maxRgbVariance": 1185.0054954200807,
+              "sha256": "c7f39f6257a52281f3329cabb464d63a54526eafea3d248705cf29002c612c4e"
+            }
+          ],
+          "image2D": {
+            "src": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/plantas2d/meio.jpg",
+            "alt": "Planta 2 de meio do LIV Ipanema, área publicada de 47,5 a 47,89 m², incluindo varanda",
+            "width": 1000,
+            "height": 1000,
+            "bytes": 56234,
+            "sha256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+          },
+          "backend": "webgpu",
+          "state3D": {
+            "version": 1,
+            "typology": "meio",
+            "mode": "planta3d",
+            "backend": "webgpu",
+            "ready": true,
+            "error": null,
+            "disposed": false,
+            "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+            "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+            "geometry": {
+              "objects": 37,
+              "vertices": 98784,
+              "triangles": 32928
+            },
+            "camera": {
+              "position": [
+                0,
+                10.181308303775662,
+                5.737011768725263
+              ],
+              "target": [
+                0,
+                1.3799999952316284,
+                -0.006999969482421876
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "framing": {
+              "limits": {
+                "x": 0.9652173913043478,
+                "y": 0.6834532374100719
+              },
+              "bounds": [
+                [
+                  -4.906000137329102,
+                  0,
+                  -2.744999885559082
+                ],
+                [
+                  4.906000137329102,
+                  2.759999990463257,
+                  2.7309999465942383
+                ]
+              ]
+            },
+            "roomView": {
+              "roomId": "c6",
+              "focusId": "movel-7",
+              "target": [
+                -1.1750000000000003,
+                0.68,
+                2.1
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55
+            },
+            "presentation": {
+              "enabled": true,
+              "active": true,
+              "height": 1.2,
+              "objects": 4,
+              "capTriangles": 52,
+              "clipShadows": false
+            },
+            "ceiling": {
+              "visible": false,
+              "count": 1
+            },
+            "rooms": [
+              {
+                "id": "c1",
+                "name": "Suíte",
+                "reachable": true,
+                "target": [
+                  2.425,
+                  0.6000000000000001
+                ]
+              },
+              {
+                "id": "c3",
+                "name": "Dormitório 01",
+                "reachable": true,
+                "target": [
+                  0.22500000000000053,
+                  -0.34999999999999964
+                ]
+              },
+              {
+                "id": "c4",
+                "name": "Banho suíte",
+                "reachable": true,
+                "target": [
+                  1.375,
+                  -0.34999999999999964
+                ]
+              },
+              {
+                "id": "c5",
+                "name": "Banho",
+                "reachable": true,
+                "target": [
+                  1.0750000000000002,
+                  1.85
+                ]
+              },
+              {
+                "id": "c6",
+                "name": "Sala integrada",
+                "reachable": true,
+                "target": [
+                  -1.475,
+                  0.7500000000000004
+                ]
+              },
+              {
+                "id": "c9",
+                "name": "Varanda / serviço",
+                "reachable": true,
+                "target": [
+                  -2.275,
+                  -1.9499999999999997
+                ]
+              }
+            ],
+            "furniture": [
+              {
+                "id": "movel-0",
+                "name": "Cama da suíte",
+                "position": [
+                  3.624999999999999,
+                  0.25
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.624999999999999,
+                  0.25
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-1",
+                "name": "Armário da suíte",
+                "position": [
+                  3.624999999999999,
+                  1.6
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  3.624999999999999,
+                  1.6
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-2",
+                "name": "Criado da suíte 1",
+                "position": [
+                  4.5249999999999995,
+                  -0.75
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  4.5249999999999995,
+                  -0.75
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-3",
+                "name": "Criado da suíte 2",
+                "position": [
+                  4.5249999999999995,
+                  1.2000000000000002
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  4.5249999999999995,
+                  1.2000000000000002
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-4",
+                "name": "Cama do dormitório",
+                "position": [
+                  -1.225,
+                  -1.25
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -1.225,
+                  -1.25
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-5",
+                "name": "Armário do dormitório",
+                "position": [
+                  0.5750000000000002,
+                  -1.45
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  0.5750000000000002,
+                  -1.45
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-6",
+                "name": "Bancada do dormitório",
+                "position": [
+                  -0.7750000000000004,
+                  -0.04999999999999982
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  -0.7750000000000004,
+                  -0.04999999999999982
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-7",
+                "name": "Sofá da sala TV",
+                "position": [
+                  -1.1750000000000003,
+                  2.1
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  -1.1750000000000003,
+                  2.1
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-8",
+                "name": "Rack da sala TV",
+                "position": [
+                  -1.0750000000000002,
+                  0.4500000000000002
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -1.0750000000000002,
+                  0.4500000000000002
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-9",
+                "name": "Tapete",
+                "position": [
+                  -1.1750000000000003,
+                  1.4
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -1.1750000000000003,
+                  1.4
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-10",
+                "name": "Mesa de jantar",
+                "position": [
+                  -2.7750000000000004,
+                  0.050000000000000266
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.7750000000000004,
+                  0.050000000000000266
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-11",
+                "name": "Cadeira de jantar 1",
+                "position": [
+                  -3.125,
+                  -0.5499999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -3.125,
+                  -0.5499999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-12",
+                "name": "Cadeira de jantar 2",
+                "position": [
+                  -2.375,
+                  -0.5499999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.375,
+                  -0.5499999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-13",
+                "name": "Cadeira de jantar 3",
+                "position": [
+                  -3.125,
+                  0.6499999999999999
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  -3.125,
+                  0.6499999999999999
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-14",
+                "name": "Cadeira de jantar 4",
+                "position": [
+                  -2.375,
+                  0.6499999999999999
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  -2.375,
+                  0.6499999999999999
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-15",
+                "name": "Fogão 4 Bocas",
+                "position": [
+                  -4.4750000000000005,
+                  -0.7
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  -0.7
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-16",
+                "name": "Bancada e cuba da cozinha",
+                "position": [
+                  -4.4750000000000005,
+                  0.6000000000000001
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  0.6000000000000001
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-17",
+                "name": "Geladeira Duplex",
+                "position": [
+                  -4.4750000000000005,
+                  2.1999999999999997
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  2.1999999999999997
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-18",
+                "name": "Lavatório suíte",
+                "position": [
+                  1.3250000000000002,
+                  -0.7999999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  1.3250000000000002,
+                  -0.7999999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-19",
+                "name": "Vaso da suíte",
+                "position": [
+                  1.875,
+                  -0.19999999999999973
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  1.875,
+                  -0.19999999999999973
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-20",
+                "name": "Box suíte",
+                "position": [
+                  1.5750000000000002,
+                  -1.7999999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  1.5750000000000002,
+                  -1.7999999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-21",
+                "name": "Lavatório social",
+                "position": [
+                  1.0249999999999995,
+                  2.3000000000000003
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  1.0249999999999995,
+                  2.3000000000000003
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-22",
+                "name": "Vaso social",
+                "position": [
+                  1.7749999999999995,
+                  2.1
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  1.7749999999999995,
+                  2.1
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-23",
+                "name": "Box social",
+                "position": [
+                  0.3250000000000002,
+                  1.9
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  0.3250000000000002,
+                  1.9
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-24",
+                "name": "Mesa da varanda",
+                "position": [
+                  -3.0250000000000004,
+                  -1.7999999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -3.0250000000000004,
+                  -1.7999999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-25",
+                "name": "Cadeira da varanda 1",
+                "position": [
+                  -2.975,
+                  -2.35
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.975,
+                  -2.35
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-26",
+                "name": "Cadeira da varanda 2",
+                "position": [
+                  -3.625,
+                  -1.5999999999999999
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -3.625,
+                  -1.5999999999999999
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-27",
+                "name": "Máquina de Lavar",
+                "position": [
+                  -4.4750000000000005,
+                  -2.3
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  -2.3
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-28",
+                "name": "Tanque de Serviço",
+                "position": [
+                  -4.4750000000000005,
+                  -1.5499999999999998
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  -1.5499999999999998
+                ],
+                "originalRotation": 1,
+                "modified": false
+              }
+            ],
+            "lighting": {
+              "bakedActive": true,
+              "reason": "atlas aprovado da planta de meio"
+            },
+            "shadows": {
+              "autoUpdate": false,
+              "needsUpdate": false,
+              "mapSize": [
+                1024,
+                1024
+              ]
+            },
+            "navigation": {
+              "safe": true,
+              "current": [
+                -1.475,
+                0.7500000000000004
+              ],
+              "radius": 0.3,
+              "eye": 1.62,
+              "reachableRooms": 6,
+              "totalRooms": 6,
+              "followingRoute": false
+            },
+            "renderer": {
+              "calls": 38,
+              "framePasses": 2,
+              "totalPasses": 13,
+              "triangles": 33029,
+              "geometries": 39,
+              "textures": 24
+            },
+            "ownership": {
+              "created": 163,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            }
+          },
+          "renderedGeometry": {
+            "sha256": "f6050dde8507086245558c1023ec262be6fcd9fbd69fbe156a485c6f2692642c",
+            "meshes": 37,
+            "vertices": 98784
+          },
+          "furniture": {
+            "selectedFurniture": "movel-0",
+            "movementChanged": true,
+            "rotationChanged": true,
+            "bakeAfterMove": {
+              "bakedActive": false,
+              "reason": "móveis alterados: iluminação dinâmica"
+            },
+            "bakeAfterReset": {
+              "bakedActive": true,
+              "reason": "atlas aprovado da planta de meio"
+            },
+            "resetExact": true,
+            "restoreRouteQueries": 1
+          },
+          "navigation": {
+            "routes": [
+              {
+                "id": "c1",
+                "name": "Suíte",
+                "reachable": true,
+                "target": [
+                  2.425,
+                  0.6000000000000001
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    2.425,
+                    0.6500000000000004
+                  ],
+                  [
+                    2.425,
+                    0.6000000000000001
+                  ]
+                ]
+              },
+              {
+                "id": "c3",
+                "name": "Dormitório 01",
+                "reachable": true,
+                "target": [
+                  0.22500000000000053,
+                  -0.34999999999999964
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    0.3250000000000002,
+                    0.6000000000000001
+                  ],
+                  [
+                    0.3250000000000002,
+                    0.10000000000000009
+                  ],
+                  [
+                    0.22500000000000053,
+                    -0.34999999999999964
+                  ]
+                ]
+              },
+              {
+                "id": "c4",
+                "name": "Banho suíte",
+                "reachable": true,
+                "target": [
+                  1.375,
+                  -0.34999999999999964
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    1.375,
+                    0.7000000000000002
+                  ],
+                  [
+                    1.375,
+                    -0.34999999999999964
+                  ]
+                ]
+              },
+              {
+                "id": "c5",
+                "name": "Banho",
+                "reachable": true,
+                "target": [
+                  1.0750000000000002,
+                  1.85
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    0.5250000000000004,
+                    0.9000000000000004
+                  ],
+                  [
+                    0.5250000000000004,
+                    1.4
+                  ],
+                  [
+                    0.7250000000000005,
+                    1.6
+                  ],
+                  [
+                    1.0750000000000002,
+                    1.85
+                  ]
+                ]
+              },
+              {
+                "id": "c6",
+                "name": "Sala integrada",
+                "reachable": true,
+                "target": [
+                  -1.475,
+                  0.7500000000000004
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ]
+                ]
+              },
+              {
+                "id": "c9",
+                "name": "Varanda / serviço",
+                "reachable": true,
+                "target": [
+                  -2.275,
+                  -1.9499999999999997
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    -1.9249999999999998,
+                    1.1
+                  ],
+                  [
+                    -3.625,
+                    1.1
+                  ],
+                  [
+                    -3.625,
+                    -0.6499999999999999
+                  ],
+                  [
+                    -3.575,
+                    -0.9999999999999998
+                  ],
+                  [
+                    -2.275,
+                    -1.0499999999999998
+                  ],
+                  [
+                    -2.275,
+                    -1.9499999999999997
+                  ]
+                ]
+              }
+            ],
+            "visited": [
+              {
+                "room": {
+                  "id": "c1",
+                  "label": "Suíte"
+                },
+                "camera": {
+                  "position": [
+                    2.280245736782851,
+                    1.62,
+                    0.6537116477747992
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": -1.5451609182732187,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    2.280245736782851,
+                    0.6537116477747992
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c3",
+                  "label": "Dormitório 01"
+                },
+                "camera": {
+                  "position": [
+                    0.25683901872356685,
+                    1.62,
+                    -0.20672441574395076
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": 0.2186689458739411,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    0.25683901872356685,
+                    -0.20672441574395076
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c4",
+                  "label": "Banho suíte"
+                },
+                "camera": {
+                  "position": [
+                    1.375,
+                    1.62,
+                    -0.20546323238644873
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": -0.0,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    1.375,
+                    -0.20546323238644873
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c5",
+                  "label": "Banho"
+                },
+                "camera": {
+                  "position": [
+                    0.9630110204296688,
+                    1.62,
+                    1.7700078717354775
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": -2.1910458127777193,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    0.9630110204296688,
+                    1.7700078717354775
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c6",
+                  "label": "Sala integrada"
+                },
+                "camera": {
+                  "position": [
+                    -1.3382866745723938,
+                    1.62,
+                    0.7594285052019044
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": 1.501939837493851,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -1.3382866745723938,
+                    0.7594285052019044
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c9",
+                  "label": "Varanda / serviço"
+                },
+                "camera": {
+                  "position": [
+                    -2.275,
+                    1.62,
+                    -1.7917377137313895
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": -0.0,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -2.275,
+                    -1.7917377137313895
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              }
+            ],
+            "realInputWalked": true
+          }
+        }
+      },
+      "rapidTypologyLastWins": true,
+      "sessionRestored": {
+        "mode": "visita",
+        "typology": "meio"
+      },
+      "embeddedModesSynced": true,
+      "directTourOrbitFramed": true,
+      "status": "PASS"
+    },
+    {
+      "profile": "desktop-webgl",
+      "viewport": [
+        1440,
+        900
+      ],
+      "backendRequested": "webgl",
+      "errors": [],
+      "httpFailures": [],
+      "typologies": {
+        "canto": {
+          "captures": [
+            {
+              "file": "desktop-webgl-canto-planta2d.png",
+              "size": [
+                1000,
+                1000
+              ],
+              "maxRgbVariance": 4878.100386061203,
+              "sha256": "a6cb3b32dac0f8b8da7930424414fa960b158734ba28c91b2169426be58057b2"
+            },
+            {
+              "file": "desktop-webgl-canto-planta3d.png",
+              "size": [
+                920,
+                556
+              ],
+              "maxRgbVariance": 2635.923777832163,
+              "sha256": "92a3e8cb3c25a0a1b4b70be7597f3484b0d6badac19bd51faf6428d90f555e64"
+            },
+            {
+              "file": "desktop-webgl-canto-visita.png",
+              "size": [
+                920,
+                556
+              ],
+              "maxRgbVariance": 3974.950916377421,
+              "sha256": "b25ca226507fe8beb4f17cedb70e19f3110c4f4207502ad8e5debd6b94b42ebc"
+            }
+          ],
+          "image2D": {
+            "src": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/plantas2d/canto.jpg",
+            "alt": "Planta 1 de canto do LIV Ipanema, área publicada 47,59 m², incluindo varanda",
+            "width": 1000,
+            "height": 1000,
+            "bytes": 63548,
+            "sha256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+          },
+          "backend": "webgl",
+          "state3D": {
+            "version": 1,
+            "typology": "canto",
+            "mode": "planta3d",
+            "backend": "webgl",
+            "ready": true,
+            "error": null,
+            "disposed": false,
+            "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+            "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+            "geometry": {
+              "objects": 64,
+              "vertices": 216483,
+              "triangles": 72935
+            },
+            "camera": {
+              "position": [
+                0,
+                11.588818004421057,
+                6.662597016523627
+              ],
+              "target": [
+                0,
+                1.379999995231628,
+                0
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "framing": {
+              "limits": {
+                "x": 0.9652173913043478,
+                "y": 0.6834532374100719
+              },
+              "bounds": [
+                [
+                  -4.364999771118164,
+                  0,
+                  -3.240000009536743
+                ],
+                [
+                  4.364999771118164,
+                  2.759999990463257,
+                  3.240000009536743
+                ]
+              ]
+            },
+            "roomView": {
+              "roomId": "c5",
+              "focusId": "movel-7",
+              "target": [
+                1.2000000000000002,
+                0.68,
+                2.0250000000000004
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55
+            },
+            "presentation": {
+              "enabled": true,
+              "active": true,
+              "height": 1.2,
+              "objects": 4,
+              "capTriangles": 48,
+              "clipShadows": false
+            },
+            "ceiling": {
+              "visible": false,
+              "count": 14
+            },
+            "rooms": [
+              {
+                "id": "c1",
+                "name": "Suíte",
+                "reachable": true,
+                "target": [
+                  -2.9,
+                  -1.775
+                ]
+              },
+              {
+                "id": "c2",
+                "name": "Dormitório 01",
+                "reachable": true,
+                "target": [
+                  -0.25,
+                  -1.575
+                ]
+              },
+              {
+                "id": "c3",
+                "name": "Banho suíte",
+                "reachable": true,
+                "target": [
+                  -2.75,
+                  1.4249999999999998
+                ]
+              },
+              {
+                "id": "c4",
+                "name": "Banho",
+                "reachable": true,
+                "target": [
+                  -1.25,
+                  1.4249999999999998
+                ]
+              },
+              {
+                "id": "c5",
+                "name": "Sala integrada",
+                "reachable": true,
+                "target": [
+                  0.9500000000000002,
+                  0.7750000000000004
+                ]
+              },
+              {
+                "id": "c10",
+                "name": "Varanda / serviço",
+                "reachable": true,
+                "target": [
+                  2.6500000000000004,
+                  -1.6749999999999998
+                ]
+              }
+            ],
+            "furniture": [
+              {
+                "id": "movel-0",
+                "name": "Cama da suíte",
+                "position": [
+                  -3.15,
+                  -0.7749999999999999
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -3.15,
+                  -0.7749999999999999
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-1",
+                "name": "Armário da suíte",
+                "position": [
+                  -2.95,
+                  -2.525
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.95,
+                  -2.525
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-2",
+                "name": "Criado-Mudo",
+                "position": [
+                  -3.85,
+                  -1.825
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -3.85,
+                  -1.825
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-3",
+                "name": "Criado-Mudo",
+                "position": [
+                  -3.85,
+                  0.17499999999999982
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -3.85,
+                  0.17499999999999982
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-4",
+                "name": "Cama do dormitório",
+                "position": [
+                  0.5,
+                  -1.725
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  0.5,
+                  -1.725
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-5",
+                "name": "Armário do dormitório",
+                "position": [
+                  -1.2999999999999998,
+                  -2.025
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -1.2999999999999998,
+                  -2.025
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-6",
+                "name": "Bancada do dormitório",
+                "position": [
+                  0.25,
+                  -0.5249999999999999
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  0.25,
+                  -0.5249999999999999
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-7",
+                "name": "Sofá da sala TV",
+                "position": [
+                  1.2000000000000002,
+                  2.0250000000000004
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  1.2000000000000002,
+                  2.0250000000000004
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-8",
+                "name": "Rack da sala TV",
+                "position": [
+                  -0.4500000000000002,
+                  2.0250000000000004
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -0.4500000000000002,
+                  2.0250000000000004
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-9",
+                "name": "Tapete",
+                "position": [
+                  0.40000000000000036,
+                  2.075
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  0.40000000000000036,
+                  2.075
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-10",
+                "name": "Mesa de jantar",
+                "position": [
+                  2.05,
+                  -0.3250000000000002
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  2.05,
+                  -0.3250000000000002
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-11",
+                "name": "Cadeira de jantar 1",
+                "position": [
+                  1.5499999999999998,
+                  -0.9249999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  1.5499999999999998,
+                  -0.9249999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-12",
+                "name": "Cadeira de jantar 2",
+                "position": [
+                  2.3,
+                  -0.9249999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  2.3,
+                  -0.9249999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-13",
+                "name": "Cadeira de jantar 3",
+                "position": [
+                  1.5499999999999998,
+                  0.2250000000000001
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  1.5499999999999998,
+                  0.2250000000000001
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-14",
+                "name": "Cadeira de jantar 4",
+                "position": [
+                  2.3,
+                  0.2250000000000001
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  2.3,
+                  0.2250000000000001
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-15",
+                "name": "Fogão 4 Bocas",
+                "position": [
+                  3.8499999999999996,
+                  -1.175
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8499999999999996,
+                  -1.175
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-16",
+                "name": "Bancada e cuba da cozinha",
+                "position": [
+                  3.8499999999999996,
+                  0.2749999999999999
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8499999999999996,
+                  0.2749999999999999
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-17",
+                "name": "Geladeira Duplex",
+                "position": [
+                  3.8000000000000007,
+                  1.7249999999999996
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8000000000000007,
+                  1.7249999999999996
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-18",
+                "name": "Lavatório suíte",
+                "position": [
+                  -2.3,
+                  1.2750000000000004
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  -2.3,
+                  1.2750000000000004
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-19",
+                "name": "Vaso Sanitário",
+                "position": [
+                  -2.45,
+                  1.9249999999999998
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  -2.45,
+                  1.9249999999999998
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-20",
+                "name": "Box suíte",
+                "position": [
+                  -2.7,
+                  2.7249999999999996
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.7,
+                  2.7249999999999996
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-21",
+                "name": "Lavatório social",
+                "position": [
+                  -1.7000000000000002,
+                  1.2750000000000004
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -1.7000000000000002,
+                  1.2750000000000004
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-22",
+                "name": "Vaso Sanitário",
+                "position": [
+                  -1.5,
+                  1.9249999999999998
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -1.5,
+                  1.9249999999999998
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-23",
+                "name": "Box social",
+                "position": [
+                  -1.2999999999999998,
+                  2.7249999999999996
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -1.2999999999999998,
+                  2.7249999999999996
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-24",
+                "name": "Mesa da varanda",
+                "position": [
+                  2.3499999999999996,
+                  -2.425
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  2.3499999999999996,
+                  -2.425
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-25",
+                "name": "Cadeira da varanda 1",
+                "position": [
+                  2.0999999999999996,
+                  -2.925
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  2.0999999999999996,
+                  -2.925
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-26",
+                "name": "Cadeira da varanda 2",
+                "position": [
+                  1.9000000000000004,
+                  -2.225
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  1.9000000000000004,
+                  -2.225
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-27",
+                "name": "Máquina de Lavar",
+                "position": [
+                  3.8000000000000007,
+                  -2.775
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8000000000000007,
+                  -2.775
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-28",
+                "name": "Tanque de Serviço",
+                "position": [
+                  3.8000000000000007,
+                  -2.225
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8000000000000007,
+                  -2.225
+                ],
+                "originalRotation": 3,
+                "modified": false
+              }
+            ],
+            "lighting": {
+              "bakedActive": true,
+              "reason": "atlas aprovado da planta de canto"
+            },
+            "shadows": {
+              "autoUpdate": false,
+              "needsUpdate": false,
+              "mapSize": [
+                1024,
+                1024
+              ]
+            },
+            "navigation": {
+              "safe": true,
+              "current": [
+                0.9500000000000002,
+                0.7750000000000004
+              ],
+              "radius": 0.3,
+              "eye": 1.62,
+              "reachableRooms": 6,
+              "totalRooms": 6,
+              "followingRoute": false
+            },
+            "renderer": {
+              "calls": 52,
+              "framePasses": 2,
+              "totalPasses": 15,
+              "triangles": 70074,
+              "geometries": 53,
+              "textures": 24
+            },
+            "ownership": {
+              "created": 200,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            }
+          },
+          "renderedGeometry": {
+            "sha256": "d596b0a4cd70288b55975f526cd8d72c4518761cbcd0ff29cc2e13ba8c44335c",
+            "meshes": 64,
+            "vertices": 216483
+          },
+          "furniture": {
+            "selectedFurniture": "movel-0",
+            "movementChanged": true,
+            "rotationChanged": true,
+            "bakeAfterMove": {
+              "bakedActive": false,
+              "reason": "móveis alterados: iluminação dinâmica"
+            },
+            "bakeAfterReset": {
+              "bakedActive": true,
+              "reason": "atlas aprovado da planta de canto"
+            },
+            "resetExact": true,
+            "restoreRouteQueries": 1
+          },
+          "navigation": {
+            "routes": [
+              {
+                "id": "c1",
+                "name": "Suíte",
+                "reachable": true,
+                "target": [
+                  -2.9,
+                  -1.775
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    -0.75,
+                    0.3250000000000002
+                  ],
+                  [
+                    -1.9499999999999997,
+                    0.025000000000000355
+                  ],
+                  [
+                    -1.9499999999999997,
+                    -1.775
+                  ],
+                  [
+                    -2.9,
+                    -1.775
+                  ]
+                ]
+              },
+              {
+                "id": "c2",
+                "name": "Dormitório 01",
+                "reachable": true,
+                "target": [
+                  -0.25,
+                  -1.575
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    -0.75,
+                    0.3250000000000002
+                  ],
+                  [
+                    -0.8999999999999999,
+                    -0.32499999999999973
+                  ],
+                  [
+                    -0.7999999999999998,
+                    -0.5749999999999997
+                  ],
+                  [
+                    -0.5499999999999998,
+                    -1.025
+                  ],
+                  [
+                    -0.25,
+                    -1.575
+                  ]
+                ]
+              },
+              {
+                "id": "c3",
+                "name": "Banho suíte",
+                "reachable": true,
+                "target": [
+                  -2.75,
+                  1.4249999999999998
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    -0.75,
+                    0.3250000000000002
+                  ],
+                  [
+                    -2.75,
+                    0.2250000000000001
+                  ],
+                  [
+                    -2.75,
+                    1.4249999999999998
+                  ]
+                ]
+              },
+              {
+                "id": "c4",
+                "name": "Banho",
+                "reachable": true,
+                "target": [
+                  -1.25,
+                  1.4249999999999998
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    -0.75,
+                    0.3250000000000002
+                  ],
+                  [
+                    -1.25,
+                    0.5750000000000002
+                  ],
+                  [
+                    -1.25,
+                    1.4249999999999998
+                  ]
+                ]
+              },
+              {
+                "id": "c5",
+                "name": "Sala integrada",
+                "reachable": true,
+                "target": [
+                  0.9500000000000002,
+                  0.7750000000000004
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ]
+                ]
+              },
+              {
+                "id": "c10",
+                "name": "Varanda / serviço",
+                "reachable": true,
+                "target": [
+                  2.6500000000000004,
+                  -1.6749999999999998
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    3,
+                    0.7250000000000001
+                  ],
+                  [
+                    3,
+                    -1.025
+                  ],
+                  [
+                    2.75,
+                    -1.4249999999999998
+                  ],
+                  [
+                    2.6500000000000004,
+                    -1.6749999999999998
+                  ]
+                ]
+              }
+            ],
+            "visited": [
+              {
+                "room": {
+                  "id": "c1",
+                  "label": "Suíte"
+                },
+                "camera": {
+                  "position": [
+                    -2.7546577728077946,
+                    1.62,
+                    -1.775
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -2.7546577728077946,
+                    -1.775
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c2",
+                  "label": "Dormitório 01"
+                },
+                "camera": {
+                  "position": [
+                    -0.31843002264356624,
+                    1.62,
+                    -1.4495449584867952
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": -0.4993467216801303,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -0.31843002264356624,
+                    -1.4495449584867952
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c3",
+                  "label": "Banho suíte"
+                },
+                "camera": {
+                  "position": [
+                    -2.75,
+                    1.62,
+                    1.2700404493246382
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": -3.141592653589793,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -2.75,
+                    1.2700404493246382
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c4",
+                  "label": "Banho"
+                },
+                "camera": {
+                  "position": [
+                    -1.25,
+                    1.62,
+                    1.2694743532961081
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": -3.141592653589793,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -1.25,
+                    1.2694743532961081
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c5",
+                  "label": "Sala integrada"
+                },
+                "camera": {
+                  "position": [
+                    0.797100709004305,
+                    1.62,
+                    0.7345266582658456
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": -1.829567218758595,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    0.797100709004305,
+                    0.7345266582658456
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c10",
+                  "label": "Varanda / serviço"
+                },
+                "camera": {
+                  "position": [
+                    2.704463942610179,
+                    1.62,
+                    -1.5388401434745516
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": 0.3805063771123615,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    2.704463942610179,
+                    -1.5388401434745516
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              }
+            ],
+            "realInputWalked": true
+          }
+        },
+        "meio": {
+          "captures": [
+            {
+              "file": "desktop-webgl-meio-planta2d.png",
+              "size": [
+                1000,
+                1000
+              ],
+              "maxRgbVariance": 4518.596733034309,
+              "sha256": "aedbac8fe925d906a263b4b3f6239ae572a96aec59b5875261d0a870cb3b19cb"
+            },
+            {
+              "file": "desktop-webgl-meio-planta3d.png",
+              "size": [
+                920,
+                556
+              ],
+              "maxRgbVariance": 3303.097582134859,
+              "sha256": "a8649e10af81ff1dd87adac82f5308c884adf1c7a5887f24f25f095afb8cf8ac"
+            },
+            {
+              "file": "desktop-webgl-meio-visita.png",
+              "size": [
+                920,
+                556
+              ],
+              "maxRgbVariance": 1168.31210626036,
+              "sha256": "5548c328c84686b2fba2388de82bacaed3374e7ddae3612446aec6888aaccb7b"
+            }
+          ],
+          "image2D": {
+            "src": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/plantas2d/meio.jpg",
+            "alt": "Planta 2 de meio do LIV Ipanema, área publicada de 47,5 a 47,89 m², incluindo varanda",
+            "width": 1000,
+            "height": 1000,
+            "bytes": 56234,
+            "sha256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+          },
+          "backend": "webgl",
+          "state3D": {
+            "version": 1,
+            "typology": "meio",
+            "mode": "planta3d",
+            "backend": "webgl",
+            "ready": true,
+            "error": null,
+            "disposed": false,
+            "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+            "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+            "geometry": {
+              "objects": 37,
+              "vertices": 98784,
+              "triangles": 32928
+            },
+            "camera": {
+              "position": [
+                0,
+                10.181308303775662,
+                5.737011768725263
+              ],
+              "target": [
+                0,
+                1.3799999952316284,
+                -0.006999969482421876
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "framing": {
+              "limits": {
+                "x": 0.9652173913043478,
+                "y": 0.6834532374100719
+              },
+              "bounds": [
+                [
+                  -4.906000137329102,
+                  0,
+                  -2.744999885559082
+                ],
+                [
+                  4.906000137329102,
+                  2.759999990463257,
+                  2.7309999465942383
+                ]
+              ]
+            },
+            "roomView": {
+              "roomId": "c6",
+              "focusId": "movel-7",
+              "target": [
+                -1.1750000000000003,
+                0.68,
+                2.1
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55
+            },
+            "presentation": {
+              "enabled": true,
+              "active": true,
+              "height": 1.2,
+              "objects": 4,
+              "capTriangles": 52,
+              "clipShadows": false
+            },
+            "ceiling": {
+              "visible": false,
+              "count": 1
+            },
+            "rooms": [
+              {
+                "id": "c1",
+                "name": "Suíte",
+                "reachable": true,
+                "target": [
+                  2.425,
+                  0.6000000000000001
+                ]
+              },
+              {
+                "id": "c3",
+                "name": "Dormitório 01",
+                "reachable": true,
+                "target": [
+                  0.22500000000000053,
+                  -0.34999999999999964
+                ]
+              },
+              {
+                "id": "c4",
+                "name": "Banho suíte",
+                "reachable": true,
+                "target": [
+                  1.375,
+                  -0.34999999999999964
+                ]
+              },
+              {
+                "id": "c5",
+                "name": "Banho",
+                "reachable": true,
+                "target": [
+                  1.0750000000000002,
+                  1.85
+                ]
+              },
+              {
+                "id": "c6",
+                "name": "Sala integrada",
+                "reachable": true,
+                "target": [
+                  -1.475,
+                  0.7500000000000004
+                ]
+              },
+              {
+                "id": "c9",
+                "name": "Varanda / serviço",
+                "reachable": true,
+                "target": [
+                  -2.275,
+                  -1.9499999999999997
+                ]
+              }
+            ],
+            "furniture": [
+              {
+                "id": "movel-0",
+                "name": "Cama da suíte",
+                "position": [
+                  3.624999999999999,
+                  0.25
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.624999999999999,
+                  0.25
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-1",
+                "name": "Armário da suíte",
+                "position": [
+                  3.624999999999999,
+                  1.6
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  3.624999999999999,
+                  1.6
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-2",
+                "name": "Criado da suíte 1",
+                "position": [
+                  4.5249999999999995,
+                  -0.75
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  4.5249999999999995,
+                  -0.75
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-3",
+                "name": "Criado da suíte 2",
+                "position": [
+                  4.5249999999999995,
+                  1.2000000000000002
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  4.5249999999999995,
+                  1.2000000000000002
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-4",
+                "name": "Cama do dormitório",
+                "position": [
+                  -1.225,
+                  -1.25
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -1.225,
+                  -1.25
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-5",
+                "name": "Armário do dormitório",
+                "position": [
+                  0.5750000000000002,
+                  -1.45
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  0.5750000000000002,
+                  -1.45
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-6",
+                "name": "Bancada do dormitório",
+                "position": [
+                  -0.7750000000000004,
+                  -0.04999999999999982
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  -0.7750000000000004,
+                  -0.04999999999999982
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-7",
+                "name": "Sofá da sala TV",
+                "position": [
+                  -1.1750000000000003,
+                  2.1
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  -1.1750000000000003,
+                  2.1
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-8",
+                "name": "Rack da sala TV",
+                "position": [
+                  -1.0750000000000002,
+                  0.4500000000000002
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -1.0750000000000002,
+                  0.4500000000000002
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-9",
+                "name": "Tapete",
+                "position": [
+                  -1.1750000000000003,
+                  1.4
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -1.1750000000000003,
+                  1.4
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-10",
+                "name": "Mesa de jantar",
+                "position": [
+                  -2.7750000000000004,
+                  0.050000000000000266
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.7750000000000004,
+                  0.050000000000000266
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-11",
+                "name": "Cadeira de jantar 1",
+                "position": [
+                  -3.125,
+                  -0.5499999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -3.125,
+                  -0.5499999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-12",
+                "name": "Cadeira de jantar 2",
+                "position": [
+                  -2.375,
+                  -0.5499999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.375,
+                  -0.5499999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-13",
+                "name": "Cadeira de jantar 3",
+                "position": [
+                  -3.125,
+                  0.6499999999999999
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  -3.125,
+                  0.6499999999999999
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-14",
+                "name": "Cadeira de jantar 4",
+                "position": [
+                  -2.375,
+                  0.6499999999999999
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  -2.375,
+                  0.6499999999999999
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-15",
+                "name": "Fogão 4 Bocas",
+                "position": [
+                  -4.4750000000000005,
+                  -0.7
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  -0.7
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-16",
+                "name": "Bancada e cuba da cozinha",
+                "position": [
+                  -4.4750000000000005,
+                  0.6000000000000001
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  0.6000000000000001
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-17",
+                "name": "Geladeira Duplex",
+                "position": [
+                  -4.4750000000000005,
+                  2.1999999999999997
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  2.1999999999999997
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-18",
+                "name": "Lavatório suíte",
+                "position": [
+                  1.3250000000000002,
+                  -0.7999999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  1.3250000000000002,
+                  -0.7999999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-19",
+                "name": "Vaso da suíte",
+                "position": [
+                  1.875,
+                  -0.19999999999999973
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  1.875,
+                  -0.19999999999999973
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-20",
+                "name": "Box suíte",
+                "position": [
+                  1.5750000000000002,
+                  -1.7999999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  1.5750000000000002,
+                  -1.7999999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-21",
+                "name": "Lavatório social",
+                "position": [
+                  1.0249999999999995,
+                  2.3000000000000003
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  1.0249999999999995,
+                  2.3000000000000003
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-22",
+                "name": "Vaso social",
+                "position": [
+                  1.7749999999999995,
+                  2.1
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  1.7749999999999995,
+                  2.1
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-23",
+                "name": "Box social",
+                "position": [
+                  0.3250000000000002,
+                  1.9
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  0.3250000000000002,
+                  1.9
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-24",
+                "name": "Mesa da varanda",
+                "position": [
+                  -3.0250000000000004,
+                  -1.7999999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -3.0250000000000004,
+                  -1.7999999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-25",
+                "name": "Cadeira da varanda 1",
+                "position": [
+                  -2.975,
+                  -2.35
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.975,
+                  -2.35
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-26",
+                "name": "Cadeira da varanda 2",
+                "position": [
+                  -3.625,
+                  -1.5999999999999999
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -3.625,
+                  -1.5999999999999999
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-27",
+                "name": "Máquina de Lavar",
+                "position": [
+                  -4.4750000000000005,
+                  -2.3
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  -2.3
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-28",
+                "name": "Tanque de Serviço",
+                "position": [
+                  -4.4750000000000005,
+                  -1.5499999999999998
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  -1.5499999999999998
+                ],
+                "originalRotation": 1,
+                "modified": false
+              }
+            ],
+            "lighting": {
+              "bakedActive": true,
+              "reason": "atlas aprovado da planta de meio"
+            },
+            "shadows": {
+              "autoUpdate": false,
+              "needsUpdate": false,
+              "mapSize": [
+                1024,
+                1024
+              ]
+            },
+            "navigation": {
+              "safe": true,
+              "current": [
+                -1.475,
+                0.7500000000000004
+              ],
+              "radius": 0.3,
+              "eye": 1.62,
+              "reachableRooms": 6,
+              "totalRooms": 6,
+              "followingRoute": false
+            },
+            "renderer": {
+              "calls": 38,
+              "framePasses": 2,
+              "totalPasses": 21,
+              "triangles": 33029,
+              "geometries": 39,
+              "textures": 24
+            },
+            "ownership": {
+              "created": 163,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            }
+          },
+          "renderedGeometry": {
+            "sha256": "f6050dde8507086245558c1023ec262be6fcd9fbd69fbe156a485c6f2692642c",
+            "meshes": 37,
+            "vertices": 98784
+          },
+          "furniture": {
+            "selectedFurniture": "movel-0",
+            "movementChanged": true,
+            "rotationChanged": true,
+            "bakeAfterMove": {
+              "bakedActive": false,
+              "reason": "móveis alterados: iluminação dinâmica"
+            },
+            "bakeAfterReset": {
+              "bakedActive": true,
+              "reason": "atlas aprovado da planta de meio"
+            },
+            "resetExact": true,
+            "restoreRouteQueries": 1
+          },
+          "navigation": {
+            "routes": [
+              {
+                "id": "c1",
+                "name": "Suíte",
+                "reachable": true,
+                "target": [
+                  2.425,
+                  0.6000000000000001
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    2.425,
+                    0.6500000000000004
+                  ],
+                  [
+                    2.425,
+                    0.6000000000000001
+                  ]
+                ]
+              },
+              {
+                "id": "c3",
+                "name": "Dormitório 01",
+                "reachable": true,
+                "target": [
+                  0.22500000000000053,
+                  -0.34999999999999964
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    0.3250000000000002,
+                    0.6000000000000001
+                  ],
+                  [
+                    0.3250000000000002,
+                    0.10000000000000009
+                  ],
+                  [
+                    0.22500000000000053,
+                    -0.34999999999999964
+                  ]
+                ]
+              },
+              {
+                "id": "c4",
+                "name": "Banho suíte",
+                "reachable": true,
+                "target": [
+                  1.375,
+                  -0.34999999999999964
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    1.375,
+                    0.7000000000000002
+                  ],
+                  [
+                    1.375,
+                    -0.34999999999999964
+                  ]
+                ]
+              },
+              {
+                "id": "c5",
+                "name": "Banho",
+                "reachable": true,
+                "target": [
+                  1.0750000000000002,
+                  1.85
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    0.5250000000000004,
+                    0.9000000000000004
+                  ],
+                  [
+                    0.5250000000000004,
+                    1.4
+                  ],
+                  [
+                    0.7250000000000005,
+                    1.6
+                  ],
+                  [
+                    1.0750000000000002,
+                    1.85
+                  ]
+                ]
+              },
+              {
+                "id": "c6",
+                "name": "Sala integrada",
+                "reachable": true,
+                "target": [
+                  -1.475,
+                  0.7500000000000004
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ]
+                ]
+              },
+              {
+                "id": "c9",
+                "name": "Varanda / serviço",
+                "reachable": true,
+                "target": [
+                  -2.275,
+                  -1.9499999999999997
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    -1.9249999999999998,
+                    1.1
+                  ],
+                  [
+                    -3.625,
+                    1.1
+                  ],
+                  [
+                    -3.625,
+                    -0.6499999999999999
+                  ],
+                  [
+                    -3.575,
+                    -0.9999999999999998
+                  ],
+                  [
+                    -2.275,
+                    -1.0499999999999998
+                  ],
+                  [
+                    -2.275,
+                    -1.9499999999999997
+                  ]
+                ]
+              }
+            ],
+            "visited": [
+              {
+                "room": {
+                  "id": "c1",
+                  "label": "Suíte"
+                },
+                "camera": {
+                  "position": [
+                    2.280245736782852,
+                    1.62,
+                    0.6537116477747991
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": -1.5451609182732189,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    2.280245736782852,
+                    0.6537116477747991
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c3",
+                  "label": "Dormitório 01"
+                },
+                "camera": {
+                  "position": [
+                    0.2568997682279263,
+                    1.62,
+                    -0.20645104297433312
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": 0.21866894587394134,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    0.2568997682279263,
+                    -0.20645104297433312
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c4",
+                  "label": "Banho suíte"
+                },
+                "camera": {
+                  "position": [
+                    1.375,
+                    1.62,
+                    -0.2058828195046845
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": -0.0,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    1.375,
+                    -0.2058828195046845
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c5",
+                  "label": "Banho"
+                },
+                "camera": {
+                  "position": [
+                    0.9630554865344534,
+                    1.62,
+                    1.7700396332388952
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": -2.1910458127777175,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    0.9630554865344534,
+                    1.7700396332388952
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c6",
+                  "label": "Sala integrada"
+                },
+                "camera": {
+                  "position": [
+                    -1.337813248358236,
+                    1.62,
+                    0.7594611552856395
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": 1.5019398374938513,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -1.337813248358236,
+                    0.7594611552856395
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c9",
+                  "label": "Varanda / serviço"
+                },
+                "camera": {
+                  "position": [
+                    -2.275,
+                    1.62,
+                    -1.81021342367182
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": -0.0,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -2.275,
+                    -1.81021342367182
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              }
+            ],
+            "realInputWalked": true
+          }
+        }
+      },
+      "rapidTypologyLastWins": true,
+      "sessionRestored": {
+        "mode": "visita",
+        "typology": "meio"
+      },
+      "embeddedModesSynced": true,
+      "directTourOrbitFramed": true,
+      "status": "PASS"
+    },
+    {
+      "profile": "toque",
+      "viewport": [
+        390,
+        844
+      ],
+      "backendRequested": "auto",
+      "errors": [],
+      "httpFailures": [],
+      "typologies": {
+        "canto": {
+          "captures": [
+            {
+              "file": "toque-canto-planta2d.png",
+              "size": [
+                1000,
+                1000
+              ],
+              "maxRgbVariance": 4878.100386061203,
+              "sha256": "a6cb3b32dac0f8b8da7930424414fa960b158734ba28c91b2169426be58057b2"
+            },
+            {
+              "file": "toque-canto-planta3d.png",
+              "size": [
+                364,
+                454
+              ],
+              "maxRgbVariance": 2856.4823512941152,
+              "sha256": "5da2df3e84597f5c8ad77be21432471aae88b58dfedae6b4ec29b2e3702c642e"
+            },
+            {
+              "file": "toque-canto-visita.png",
+              "size": [
+                364,
+                454
+              ],
+              "maxRgbVariance": 1628.1922273080704,
+              "sha256": "ff4bb338e203afd62f3fc46246560e094a8df5f520d7d40115928dd3b2c472b3"
+            }
+          ],
+          "image2D": {
+            "src": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/plantas2d/canto.jpg",
+            "alt": "Planta 1 de canto do LIV Ipanema, área publicada 47,59 m², incluindo varanda",
+            "width": 1000,
+            "height": 1000,
+            "bytes": 63548,
+            "sha256": "a25114ef2c6fb455b38c787ae6b3c8420c81b534e19031a8cc0a34e4e1d95971"
+          },
+          "backend": "webgpu",
+          "state3D": {
+            "version": 1,
+            "typology": "canto",
+            "mode": "planta3d",
+            "backend": "webgpu",
+            "ready": true,
+            "error": null,
+            "disposed": false,
+            "unitSHA256": "27faa1c03c4868e86103b5afd82ebcbf4507767ddf31f30b9dae907c7b1a410c",
+            "sourceSHA256": "2f35122895a96a536c671b755d6e6391daf495e5707d573dbb41157be36253f8",
+            "geometry": {
+              "objects": 64,
+              "vertices": 216483,
+              "triangles": 72935
+            },
+            "camera": {
+              "position": [
+                0,
+                15.440856974152736,
+                9.17655929150641
+              ],
+              "target": [
+                0,
+                1.379999995231628,
+                0
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "framing": {
+              "limits": {
+                "x": 0.9120879120879121,
+                "y": 0.4889867841409692
+              },
+              "bounds": [
+                [
+                  -4.364999771118164,
+                  0,
+                  -3.240000009536743
+                ],
+                [
+                  4.364999771118164,
+                  2.759999990463257,
+                  3.240000009536743
+                ]
+              ]
+            },
+            "roomView": {
+              "roomId": "c5",
+              "focusId": "movel-7",
+              "target": [
+                1.2000000000000002,
+                0.68,
+                2.0250000000000004
+              ],
+              "yaw": -2.9441970937399127,
+              "pitch": -0.55
+            },
+            "presentation": {
+              "enabled": true,
+              "active": true,
+              "height": 1.2,
+              "objects": 4,
+              "capTriangles": 48,
+              "clipShadows": false
+            },
+            "ceiling": {
+              "visible": false,
+              "count": 14
+            },
+            "rooms": [
+              {
+                "id": "c1",
+                "name": "Suíte",
+                "reachable": true,
+                "target": [
+                  -2.9,
+                  -1.775
+                ]
+              },
+              {
+                "id": "c2",
+                "name": "Dormitório 01",
+                "reachable": true,
+                "target": [
+                  -0.25,
+                  -1.575
+                ]
+              },
+              {
+                "id": "c3",
+                "name": "Banho suíte",
+                "reachable": true,
+                "target": [
+                  -2.75,
+                  1.4249999999999998
+                ]
+              },
+              {
+                "id": "c4",
+                "name": "Banho",
+                "reachable": true,
+                "target": [
+                  -1.25,
+                  1.4249999999999998
+                ]
+              },
+              {
+                "id": "c5",
+                "name": "Sala integrada",
+                "reachable": true,
+                "target": [
+                  0.9500000000000002,
+                  0.7750000000000004
+                ]
+              },
+              {
+                "id": "c10",
+                "name": "Varanda / serviço",
+                "reachable": true,
+                "target": [
+                  2.6500000000000004,
+                  -1.6749999999999998
+                ]
+              }
+            ],
+            "furniture": [
+              {
+                "id": "movel-0",
+                "name": "Cama da suíte",
+                "position": [
+                  -3.15,
+                  -0.7749999999999999
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -3.15,
+                  -0.7749999999999999
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-1",
+                "name": "Armário da suíte",
+                "position": [
+                  -2.95,
+                  -2.525
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.95,
+                  -2.525
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-2",
+                "name": "Criado-Mudo",
+                "position": [
+                  -3.85,
+                  -1.825
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -3.85,
+                  -1.825
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-3",
+                "name": "Criado-Mudo",
+                "position": [
+                  -3.85,
+                  0.17499999999999982
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -3.85,
+                  0.17499999999999982
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-4",
+                "name": "Cama do dormitório",
+                "position": [
+                  0.5,
+                  -1.725
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  0.5,
+                  -1.725
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-5",
+                "name": "Armário do dormitório",
+                "position": [
+                  -1.2999999999999998,
+                  -2.025
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -1.2999999999999998,
+                  -2.025
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-6",
+                "name": "Bancada do dormitório",
+                "position": [
+                  0.25,
+                  -0.5249999999999999
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  0.25,
+                  -0.5249999999999999
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-7",
+                "name": "Sofá da sala TV",
+                "position": [
+                  1.2000000000000002,
+                  2.0250000000000004
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  1.2000000000000002,
+                  2.0250000000000004
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-8",
+                "name": "Rack da sala TV",
+                "position": [
+                  -0.4500000000000002,
+                  2.0250000000000004
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -0.4500000000000002,
+                  2.0250000000000004
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-9",
+                "name": "Tapete",
+                "position": [
+                  0.40000000000000036,
+                  2.075
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  0.40000000000000036,
+                  2.075
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-10",
+                "name": "Mesa de jantar",
+                "position": [
+                  2.05,
+                  -0.3250000000000002
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  2.05,
+                  -0.3250000000000002
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-11",
+                "name": "Cadeira de jantar 1",
+                "position": [
+                  1.5499999999999998,
+                  -0.9249999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  1.5499999999999998,
+                  -0.9249999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-12",
+                "name": "Cadeira de jantar 2",
+                "position": [
+                  2.3,
+                  -0.9249999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  2.3,
+                  -0.9249999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-13",
+                "name": "Cadeira de jantar 3",
+                "position": [
+                  1.5499999999999998,
+                  0.2250000000000001
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  1.5499999999999998,
+                  0.2250000000000001
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-14",
+                "name": "Cadeira de jantar 4",
+                "position": [
+                  2.3,
+                  0.2250000000000001
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  2.3,
+                  0.2250000000000001
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-15",
+                "name": "Fogão 4 Bocas",
+                "position": [
+                  3.8499999999999996,
+                  -1.175
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8499999999999996,
+                  -1.175
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-16",
+                "name": "Bancada e cuba da cozinha",
+                "position": [
+                  3.8499999999999996,
+                  0.2749999999999999
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8499999999999996,
+                  0.2749999999999999
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-17",
+                "name": "Geladeira Duplex",
+                "position": [
+                  3.8000000000000007,
+                  1.7249999999999996
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8000000000000007,
+                  1.7249999999999996
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-18",
+                "name": "Lavatório suíte",
+                "position": [
+                  -2.3,
+                  1.2750000000000004
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  -2.3,
+                  1.2750000000000004
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-19",
+                "name": "Vaso Sanitário",
+                "position": [
+                  -2.45,
+                  1.9249999999999998
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  -2.45,
+                  1.9249999999999998
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-20",
+                "name": "Box suíte",
+                "position": [
+                  -2.7,
+                  2.7249999999999996
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.7,
+                  2.7249999999999996
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-21",
+                "name": "Lavatório social",
+                "position": [
+                  -1.7000000000000002,
+                  1.2750000000000004
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -1.7000000000000002,
+                  1.2750000000000004
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-22",
+                "name": "Vaso Sanitário",
+                "position": [
+                  -1.5,
+                  1.9249999999999998
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -1.5,
+                  1.9249999999999998
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-23",
+                "name": "Box social",
+                "position": [
+                  -1.2999999999999998,
+                  2.7249999999999996
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -1.2999999999999998,
+                  2.7249999999999996
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-24",
+                "name": "Mesa da varanda",
+                "position": [
+                  2.3499999999999996,
+                  -2.425
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  2.3499999999999996,
+                  -2.425
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-25",
+                "name": "Cadeira da varanda 1",
+                "position": [
+                  2.0999999999999996,
+                  -2.925
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  2.0999999999999996,
+                  -2.925
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-26",
+                "name": "Cadeira da varanda 2",
+                "position": [
+                  1.9000000000000004,
+                  -2.225
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  1.9000000000000004,
+                  -2.225
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-27",
+                "name": "Máquina de Lavar",
+                "position": [
+                  3.8000000000000007,
+                  -2.775
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8000000000000007,
+                  -2.775
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-28",
+                "name": "Tanque de Serviço",
+                "position": [
+                  3.8000000000000007,
+                  -2.225
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.8000000000000007,
+                  -2.225
+                ],
+                "originalRotation": 3,
+                "modified": false
+              }
+            ],
+            "lighting": {
+              "bakedActive": true,
+              "reason": "atlas aprovado da planta de canto"
+            },
+            "shadows": {
+              "autoUpdate": false,
+              "needsUpdate": false,
+              "mapSize": [
+                1024,
+                1024
+              ]
+            },
+            "navigation": {
+              "safe": true,
+              "current": [
+                0.9500000000000002,
+                0.7750000000000004
+              ],
+              "radius": 0.3,
+              "eye": 1.62,
+              "reachableRooms": 6,
+              "totalRooms": 6,
+              "followingRoute": false
+            },
+            "renderer": {
+              "calls": 52,
+              "framePasses": 2,
+              "totalPasses": 15,
+              "triangles": 70074,
+              "geometries": 53,
+              "textures": 24
+            },
+            "ownership": {
+              "created": 200,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            }
+          },
+          "mobileHelpUncovered": true,
+          "renderedGeometry": {
+            "sha256": "d596b0a4cd70288b55975f526cd8d72c4518761cbcd0ff29cc2e13ba8c44335c",
+            "meshes": 64,
+            "vertices": 216483
+          },
+          "furniture": {
+            "selectedFurniture": "movel-0",
+            "movementChanged": true,
+            "rotationChanged": true,
+            "bakeAfterMove": {
+              "bakedActive": false,
+              "reason": "móveis alterados: iluminação dinâmica"
+            },
+            "bakeAfterReset": {
+              "bakedActive": true,
+              "reason": "atlas aprovado da planta de canto"
+            },
+            "resetExact": true,
+            "restoreRouteQueries": 1
+          },
+          "navigation": {
+            "routes": [
+              {
+                "id": "c1",
+                "name": "Suíte",
+                "reachable": true,
+                "target": [
+                  -2.9,
+                  -1.775
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    -0.75,
+                    0.3250000000000002
+                  ],
+                  [
+                    -1.9499999999999997,
+                    0.025000000000000355
+                  ],
+                  [
+                    -1.9499999999999997,
+                    -1.775
+                  ],
+                  [
+                    -2.9,
+                    -1.775
+                  ]
+                ]
+              },
+              {
+                "id": "c2",
+                "name": "Dormitório 01",
+                "reachable": true,
+                "target": [
+                  -0.25,
+                  -1.575
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    -0.75,
+                    0.3250000000000002
+                  ],
+                  [
+                    -0.8999999999999999,
+                    -0.32499999999999973
+                  ],
+                  [
+                    -0.7999999999999998,
+                    -0.5749999999999997
+                  ],
+                  [
+                    -0.5499999999999998,
+                    -1.025
+                  ],
+                  [
+                    -0.25,
+                    -1.575
+                  ]
+                ]
+              },
+              {
+                "id": "c3",
+                "name": "Banho suíte",
+                "reachable": true,
+                "target": [
+                  -2.75,
+                  1.4249999999999998
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    -0.75,
+                    0.3250000000000002
+                  ],
+                  [
+                    -2.75,
+                    0.2250000000000001
+                  ],
+                  [
+                    -2.75,
+                    1.4249999999999998
+                  ]
+                ]
+              },
+              {
+                "id": "c4",
+                "name": "Banho",
+                "reachable": true,
+                "target": [
+                  -1.25,
+                  1.4249999999999998
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    -0.75,
+                    0.3250000000000002
+                  ],
+                  [
+                    -1.25,
+                    0.5750000000000002
+                  ],
+                  [
+                    -1.25,
+                    1.4249999999999998
+                  ]
+                ]
+              },
+              {
+                "id": "c5",
+                "name": "Sala integrada",
+                "reachable": true,
+                "target": [
+                  0.9500000000000002,
+                  0.7750000000000004
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ]
+                ]
+              },
+              {
+                "id": "c10",
+                "name": "Varanda / serviço",
+                "reachable": true,
+                "target": [
+                  2.6500000000000004,
+                  -1.6749999999999998
+                ],
+                "path": [
+                  [
+                    0.9500000000000002,
+                    0.7750000000000004
+                  ],
+                  [
+                    3,
+                    0.7250000000000001
+                  ],
+                  [
+                    3,
+                    -1.025
+                  ],
+                  [
+                    2.75,
+                    -1.4249999999999998
+                  ],
+                  [
+                    2.6500000000000004,
+                    -1.6749999999999998
+                  ]
+                ]
+              }
+            ],
+            "visited": [
+              {
+                "room": {
+                  "id": "c1",
+                  "label": "Suíte"
+                },
+                "camera": {
+                  "position": [
+                    -2.7540977728078033,
+                    1.62,
+                    -1.775
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -2.7540977728078033,
+                    -1.775
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c2",
+                  "label": "Dormitório 01"
+                },
+                "camera": {
+                  "position": [
+                    -0.31822890474868715,
+                    1.62,
+                    -1.4499136746274068
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": -0.4993467216801301,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -0.31822890474868715,
+                    -1.4499136746274068
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c3",
+                  "label": "Banho suíte"
+                },
+                "camera": {
+                  "position": [
+                    -2.75,
+                    1.62,
+                    1.2700404493246473
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": -3.141592653589793,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -2.75,
+                    1.2700404493246473
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c4",
+                  "label": "Banho"
+                },
+                "camera": {
+                  "position": [
+                    -1.25,
+                    1.62,
+                    1.2690543532961156
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": -3.141592653589793,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -1.25,
+                    1.2690543532961156
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c5",
+                  "label": "Sala integrada"
+                },
+                "camera": {
+                  "position": [
+                    0.7977599805682196,
+                    1.62,
+                    0.7347011713268818
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": -1.8295672187585947,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    0.7977599805682196,
+                    0.7347011713268818
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c10",
+                  "label": "Varanda / serviço"
+                },
+                "camera": {
+                  "position": [
+                    2.7042700395464414,
+                    1.62,
+                    -1.5393249011338959
+                  ],
+                  "target": [
+                    0,
+                    1.379999995231628,
+                    0
+                  ],
+                  "yaw": 0.38050637711236296,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    2.7042700395464414,
+                    -1.5393249011338959
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              }
+            ],
+            "realInputWalked": true
+          }
+        },
+        "meio": {
+          "captures": [
+            {
+              "file": "toque-meio-planta2d.png",
+              "size": [
+                1000,
+                1000
+              ],
+              "maxRgbVariance": 4518.596733034309,
+              "sha256": "aedbac8fe925d906a263b4b3f6239ae572a96aec59b5875261d0a870cb3b19cb"
+            },
+            {
+              "file": "toque-meio-planta3d.png",
+              "size": [
+                364,
+                454
+              ],
+              "maxRgbVariance": 2398.663308777479,
+              "sha256": "e0a4ae96186f52e214c52a543b8ee3afb0deee994c162d554dee6815a07497ef"
+            },
+            {
+              "file": "toque-meio-visita.png",
+              "size": [
+                364,
+                454
+              ],
+              "maxRgbVariance": 738.7908551968956,
+              "sha256": "ff1340f93d4f2a9104597f5be0aa7dc50de7ecd431401cc630ce24186554f36d"
+            }
+          ],
+          "image2D": {
+            "src": "http://127.0.0.1:8790/experimentos/liv-ipanema-webgpu-2026-10-09/plantas2d/meio.jpg",
+            "alt": "Planta 2 de meio do LIV Ipanema, área publicada de 47,5 a 47,89 m², incluindo varanda",
+            "width": 1000,
+            "height": 1000,
+            "bytes": 56234,
+            "sha256": "bc846b68c7ce1204578336829d205ea3c60aee80258429aed6f45d331a3e032a"
+          },
+          "backend": "webgpu",
+          "state3D": {
+            "version": 1,
+            "typology": "meio",
+            "mode": "planta3d",
+            "backend": "webgpu",
+            "ready": true,
+            "error": null,
+            "disposed": false,
+            "unitSHA256": "53785157d4aa37a2ff8387273139475a3f618339d9af115039416519d1eac035",
+            "sourceSHA256": "677d11f09f5b86b81f1599ef15d64cbf109e51ca1abd40dbb991b844065bf188",
+            "geometry": {
+              "objects": 37,
+              "vertices": 98784,
+              "triangles": 32928
+            },
+            "camera": {
+              "position": [
+                0,
+                16.44220189251719,
+                9.823068637167106
+              ],
+              "target": [
+                0,
+                1.3799999952316284,
+                -0.006999969482421876
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55,
+              "autoFrame": true
+            },
+            "framing": {
+              "limits": {
+                "x": 0.9120879120879121,
+                "y": 0.4889867841409692
+              },
+              "bounds": [
+                [
+                  -4.906000137329102,
+                  0,
+                  -2.744999885559082
+                ],
+                [
+                  4.906000137329102,
+                  2.759999990463257,
+                  2.7309999465942383
+                ]
+              ]
+            },
+            "roomView": {
+              "roomId": "c6",
+              "focusId": "movel-7",
+              "target": [
+                -1.1750000000000003,
+                0.68,
+                2.1
+              ],
+              "yaw": -2.922923707715851,
+              "pitch": -0.55
+            },
+            "presentation": {
+              "enabled": true,
+              "active": true,
+              "height": 1.2,
+              "objects": 4,
+              "capTriangles": 52,
+              "clipShadows": false
+            },
+            "ceiling": {
+              "visible": false,
+              "count": 1
+            },
+            "rooms": [
+              {
+                "id": "c1",
+                "name": "Suíte",
+                "reachable": true,
+                "target": [
+                  2.425,
+                  0.6000000000000001
+                ]
+              },
+              {
+                "id": "c3",
+                "name": "Dormitório 01",
+                "reachable": true,
+                "target": [
+                  0.22500000000000053,
+                  -0.34999999999999964
+                ]
+              },
+              {
+                "id": "c4",
+                "name": "Banho suíte",
+                "reachable": true,
+                "target": [
+                  1.375,
+                  -0.34999999999999964
+                ]
+              },
+              {
+                "id": "c5",
+                "name": "Banho",
+                "reachable": true,
+                "target": [
+                  1.0750000000000002,
+                  1.85
+                ]
+              },
+              {
+                "id": "c6",
+                "name": "Sala integrada",
+                "reachable": true,
+                "target": [
+                  -1.475,
+                  0.7500000000000004
+                ]
+              },
+              {
+                "id": "c9",
+                "name": "Varanda / serviço",
+                "reachable": true,
+                "target": [
+                  -2.275,
+                  -1.9499999999999997
+                ]
+              }
+            ],
+            "furniture": [
+              {
+                "id": "movel-0",
+                "name": "Cama da suíte",
+                "position": [
+                  3.624999999999999,
+                  0.25
+                ],
+                "rotation": 3,
+                "originalPosition": [
+                  3.624999999999999,
+                  0.25
+                ],
+                "originalRotation": 3,
+                "modified": false
+              },
+              {
+                "id": "movel-1",
+                "name": "Armário da suíte",
+                "position": [
+                  3.624999999999999,
+                  1.6
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  3.624999999999999,
+                  1.6
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-2",
+                "name": "Criado da suíte 1",
+                "position": [
+                  4.5249999999999995,
+                  -0.75
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  4.5249999999999995,
+                  -0.75
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-3",
+                "name": "Criado da suíte 2",
+                "position": [
+                  4.5249999999999995,
+                  1.2000000000000002
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  4.5249999999999995,
+                  1.2000000000000002
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-4",
+                "name": "Cama do dormitório",
+                "position": [
+                  -1.225,
+                  -1.25
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -1.225,
+                  -1.25
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-5",
+                "name": "Armário do dormitório",
+                "position": [
+                  0.5750000000000002,
+                  -1.45
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  0.5750000000000002,
+                  -1.45
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-6",
+                "name": "Bancada do dormitório",
+                "position": [
+                  -0.7750000000000004,
+                  -0.04999999999999982
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  -0.7750000000000004,
+                  -0.04999999999999982
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-7",
+                "name": "Sofá da sala TV",
+                "position": [
+                  -1.1750000000000003,
+                  2.1
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  -1.1750000000000003,
+                  2.1
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-8",
+                "name": "Rack da sala TV",
+                "position": [
+                  -1.0750000000000002,
+                  0.4500000000000002
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -1.0750000000000002,
+                  0.4500000000000002
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-9",
+                "name": "Tapete",
+                "position": [
+                  -1.1750000000000003,
+                  1.4
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -1.1750000000000003,
+                  1.4
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-10",
+                "name": "Mesa de jantar",
+                "position": [
+                  -2.7750000000000004,
+                  0.050000000000000266
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.7750000000000004,
+                  0.050000000000000266
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-11",
+                "name": "Cadeira de jantar 1",
+                "position": [
+                  -3.125,
+                  -0.5499999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -3.125,
+                  -0.5499999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-12",
+                "name": "Cadeira de jantar 2",
+                "position": [
+                  -2.375,
+                  -0.5499999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.375,
+                  -0.5499999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-13",
+                "name": "Cadeira de jantar 3",
+                "position": [
+                  -3.125,
+                  0.6499999999999999
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  -3.125,
+                  0.6499999999999999
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-14",
+                "name": "Cadeira de jantar 4",
+                "position": [
+                  -2.375,
+                  0.6499999999999999
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  -2.375,
+                  0.6499999999999999
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-15",
+                "name": "Fogão 4 Bocas",
+                "position": [
+                  -4.4750000000000005,
+                  -0.7
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  -0.7
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-16",
+                "name": "Bancada e cuba da cozinha",
+                "position": [
+                  -4.4750000000000005,
+                  0.6000000000000001
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  0.6000000000000001
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-17",
+                "name": "Geladeira Duplex",
+                "position": [
+                  -4.4750000000000005,
+                  2.1999999999999997
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  2.1999999999999997
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-18",
+                "name": "Lavatório suíte",
+                "position": [
+                  1.3250000000000002,
+                  -0.7999999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  1.3250000000000002,
+                  -0.7999999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-19",
+                "name": "Vaso da suíte",
+                "position": [
+                  1.875,
+                  -0.19999999999999973
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  1.875,
+                  -0.19999999999999973
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-20",
+                "name": "Box suíte",
+                "position": [
+                  1.5750000000000002,
+                  -1.7999999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  1.5750000000000002,
+                  -1.7999999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-21",
+                "name": "Lavatório social",
+                "position": [
+                  1.0249999999999995,
+                  2.3000000000000003
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  1.0249999999999995,
+                  2.3000000000000003
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-22",
+                "name": "Vaso social",
+                "position": [
+                  1.7749999999999995,
+                  2.1
+                ],
+                "rotation": 2,
+                "originalPosition": [
+                  1.7749999999999995,
+                  2.1
+                ],
+                "originalRotation": 2,
+                "modified": false
+              },
+              {
+                "id": "movel-23",
+                "name": "Box social",
+                "position": [
+                  0.3250000000000002,
+                  1.9
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  0.3250000000000002,
+                  1.9
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-24",
+                "name": "Mesa da varanda",
+                "position": [
+                  -3.0250000000000004,
+                  -1.7999999999999998
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -3.0250000000000004,
+                  -1.7999999999999998
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-25",
+                "name": "Cadeira da varanda 1",
+                "position": [
+                  -2.975,
+                  -2.35
+                ],
+                "rotation": 0,
+                "originalPosition": [
+                  -2.975,
+                  -2.35
+                ],
+                "originalRotation": 0,
+                "modified": false
+              },
+              {
+                "id": "movel-26",
+                "name": "Cadeira da varanda 2",
+                "position": [
+                  -3.625,
+                  -1.5999999999999999
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -3.625,
+                  -1.5999999999999999
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-27",
+                "name": "Máquina de Lavar",
+                "position": [
+                  -4.4750000000000005,
+                  -2.3
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  -2.3
+                ],
+                "originalRotation": 1,
+                "modified": false
+              },
+              {
+                "id": "movel-28",
+                "name": "Tanque de Serviço",
+                "position": [
+                  -4.4750000000000005,
+                  -1.5499999999999998
+                ],
+                "rotation": 1,
+                "originalPosition": [
+                  -4.4750000000000005,
+                  -1.5499999999999998
+                ],
+                "originalRotation": 1,
+                "modified": false
+              }
+            ],
+            "lighting": {
+              "bakedActive": true,
+              "reason": "atlas aprovado da planta de meio"
+            },
+            "shadows": {
+              "autoUpdate": false,
+              "needsUpdate": false,
+              "mapSize": [
+                1024,
+                1024
+              ]
+            },
+            "navigation": {
+              "safe": true,
+              "current": [
+                -1.475,
+                0.7500000000000004
+              ],
+              "radius": 0.3,
+              "eye": 1.62,
+              "reachableRooms": 6,
+              "totalRooms": 6,
+              "followingRoute": false
+            },
+            "renderer": {
+              "calls": 38,
+              "framePasses": 2,
+              "totalPasses": 13,
+              "triangles": 33029,
+              "geometries": 39,
+              "textures": 24
+            },
+            "ownership": {
+              "created": 163,
+              "disposed": 3,
+              "bitmapsClosed": 0
+            }
+          },
+          "mobileHelpUncovered": true,
+          "renderedGeometry": {
+            "sha256": "f6050dde8507086245558c1023ec262be6fcd9fbd69fbe156a485c6f2692642c",
+            "meshes": 37,
+            "vertices": 98784
+          },
+          "furniture": {
+            "selectedFurniture": "movel-0",
+            "movementChanged": true,
+            "rotationChanged": true,
+            "bakeAfterMove": {
+              "bakedActive": false,
+              "reason": "móveis alterados: iluminação dinâmica"
+            },
+            "bakeAfterReset": {
+              "bakedActive": true,
+              "reason": "atlas aprovado da planta de meio"
+            },
+            "resetExact": true,
+            "restoreRouteQueries": 1
+          },
+          "navigation": {
+            "routes": [
+              {
+                "id": "c1",
+                "name": "Suíte",
+                "reachable": true,
+                "target": [
+                  2.425,
+                  0.6000000000000001
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    2.425,
+                    0.6500000000000004
+                  ],
+                  [
+                    2.425,
+                    0.6000000000000001
+                  ]
+                ]
+              },
+              {
+                "id": "c3",
+                "name": "Dormitório 01",
+                "reachable": true,
+                "target": [
+                  0.22500000000000053,
+                  -0.34999999999999964
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    0.3250000000000002,
+                    0.6000000000000001
+                  ],
+                  [
+                    0.3250000000000002,
+                    0.10000000000000009
+                  ],
+                  [
+                    0.22500000000000053,
+                    -0.34999999999999964
+                  ]
+                ]
+              },
+              {
+                "id": "c4",
+                "name": "Banho suíte",
+                "reachable": true,
+                "target": [
+                  1.375,
+                  -0.34999999999999964
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    1.375,
+                    0.7000000000000002
+                  ],
+                  [
+                    1.375,
+                    -0.34999999999999964
+                  ]
+                ]
+              },
+              {
+                "id": "c5",
+                "name": "Banho",
+                "reachable": true,
+                "target": [
+                  1.0750000000000002,
+                  1.85
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    0.5250000000000004,
+                    0.9000000000000004
+                  ],
+                  [
+                    0.5250000000000004,
+                    1.4
+                  ],
+                  [
+                    0.7250000000000005,
+                    1.6
+                  ],
+                  [
+                    1.0750000000000002,
+                    1.85
+                  ]
+                ]
+              },
+              {
+                "id": "c6",
+                "name": "Sala integrada",
+                "reachable": true,
+                "target": [
+                  -1.475,
+                  0.7500000000000004
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ]
+                ]
+              },
+              {
+                "id": "c9",
+                "name": "Varanda / serviço",
+                "reachable": true,
+                "target": [
+                  -2.275,
+                  -1.9499999999999997
+                ],
+                "path": [
+                  [
+                    -1.475,
+                    0.7500000000000004
+                  ],
+                  [
+                    -1.9249999999999998,
+                    1.1
+                  ],
+                  [
+                    -3.625,
+                    1.1
+                  ],
+                  [
+                    -3.625,
+                    -0.6499999999999999
+                  ],
+                  [
+                    -3.575,
+                    -0.9999999999999998
+                  ],
+                  [
+                    -2.275,
+                    -1.0499999999999998
+                  ],
+                  [
+                    -2.275,
+                    -1.9499999999999997
+                  ]
+                ]
+              }
+            ],
+            "visited": [
+              {
+                "room": {
+                  "id": "c1",
+                  "label": "Suíte"
+                },
+                "camera": {
+                  "position": [
+                    2.280525644783502,
+                    1.62,
+                    0.6537044706465773
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": -1.5451609182732184,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    2.280525644783502,
+                    0.6537044706465773
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c3",
+                  "label": "Dormitório 01"
+                },
+                "camera": {
+                  "position": [
+                    0.25699086988369085,
+                    1.62,
+                    -0.20604108552339256
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": 0.21866894587394117,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    0.25699086988369085,
+                    -0.20604108552339256
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c4",
+                  "label": "Banho suíte"
+                },
+                "camera": {
+                  "position": [
+                    1.375,
+                    1.62,
+                    -0.2060223229664148
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": -0.0,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    1.375,
+                    -0.2060223229664148
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c5",
+                  "label": "Banho"
+                },
+                "camera": {
+                  "position": [
+                    0.9627849909693621,
+                    1.62,
+                    1.7698464221209729
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": -2.1910458127777184,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    0.9627849909693621,
+                    1.7698464221209729
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c6",
+                  "label": "Sala integrada"
+                },
+                "camera": {
+                  "position": [
+                    -1.3156572364756074,
+                    1.62,
+                    0.7609891561051312
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": 1.501939837493851,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -1.3156572364756074,
+                    0.7609891561051312
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              },
+              {
+                "room": {
+                  "id": "c9",
+                  "label": "Varanda / serviço"
+                },
+                "camera": {
+                  "position": [
+                    -2.275,
+                    1.62,
+                    -1.7923777267973555
+                  ],
+                  "target": [
+                    0,
+                    1.3799999952316284,
+                    -0.006999969482421876
+                  ],
+                  "yaw": -0.0,
+                  "pitch": 0,
+                  "autoFrame": false
+                },
+                "navigation": {
+                  "safe": true,
+                  "current": [
+                    -2.275,
+                    -1.7923777267973555
+                  ],
+                  "radius": 0.3,
+                  "eye": 1.62,
+                  "reachableRooms": 6,
+                  "totalRooms": 6,
+                  "followingRoute": true
+                }
+              }
+            ],
+            "realInputWalked": true
+          }
+        }
+      },
+      "rapidTypologyLastWins": true,
+      "sessionRestored": {
+        "mode": "visita",
+        "typology": "meio"
+      },
+      "embeddedModesSynced": true,
+      "directTourOrbitFramed": true,
+      "status": "PASS"
+    }
+  ],
+  "browserVersion": "154.0.8037.98"
+}

@@ -1,6 +1,6 @@
 # Documentação: onde está a verdade atual
 
-Índice curto, de 26/09/2026. Os documentos **vivos** são mantidos e descrevem o estado atual. Os
+Índice atualizado em 04/10/2026. Os documentos **vivos** são mantidos e descrevem o estado atual. Os
 **registros históricos** têm um aviso no topo, descrevem o que valia na data deles e não são
 atualizados. Os arquivos não foram movidos, porque vários são citados pelo caminho em código,
 configuração e scripts.
@@ -9,6 +9,10 @@ configuração e scripts.
 
 | Assunto | Onde |
 |---|---|
+| Continuidade: marcos entregues, próximos passos e nomes dos planos | [tasks/README.md](tasks/README.md) |
+| Rastreabilidade local: links por corretor, repasses, métricas e relatórios | [Execução/contrato](rastreabilidade/README.md), [entrega e evidências](tasks/rastreabilidade/entrega-2026-10-04.md); ativação pública pendente |
+| Consolidação de 04/10: correções, organização e validação do trabalho local | [tasks/organizacao-2026-10-04.md](tasks/organizacao-2026-10-04.md) |
+| Experimentos: quais aproveitar, método e limites das evidências | [experimentos/README.md](experimentos/README.md) |
 | M1-0 aprovado (#75): contrato declarado de planta, schema versionado e validação sem Blender | [tasks/miniaturas/m1-0-contrato-planta.md](tasks/miniaturas/m1-0-contrato-planta.md) |
 | M1-A aprovado (#76): planta derivada nominal, contrato de saída e normalizador isolado | [tasks/miniaturas/m1-a-normalizador-planta.md](tasks/miniaturas/m1-a-normalizador-planta.md) |
 | M1-B aprovado (#77): captura local de cômodos, SVG e exportação M1-0 | [tasks/miniaturas/m1-b-capturador-comodos.md](tasks/miniaturas/m1-b-capturador-comodos.md) |
@@ -16,17 +20,18 @@ configuração e scripts.
 | M1-D aprovado (#79): snapshots validados e imutáveis vinculados ao imóvel | [tasks/miniaturas/m1-d-persistencia-leitura.md](tasks/miniaturas/m1-d-persistencia-leitura.md) |
 | M1-E aprovado (#80): fixação da leitura de entrada para produção no pedido | [tasks/miniaturas/m1-e-fixar-leitura-producao.md](tasks/miniaturas/m1-e-fixar-leitura-producao.md) |
 | M1-F aprovado (#81): E2E controlado da leitura fixada até a maquete LEVE local | [tasks/miniaturas/m1-f-e2e-leitura-artefato.md](tasks/miniaturas/m1-f-e2e-leitura-artefato.md) |
-| M1.1-B: capturador em tela cheia para o celular (em revisão) | [tasks/miniaturas/m1-1b-capturador-mobile.md](tasks/miniaturas/m1-1b-capturador-mobile.md) |
-| M1.1-C1: cômodo composto (leitura 1.1.0), validador, normalizador e prova no consumidor 3D (em revisão) | [tasks/miniaturas/m1-1c-comodo-composto.md](tasks/miniaturas/m1-1c-comodo-composto.md) |
-| M1.1-C2: UI de cômodo composto no capturador (mesclar e separar) | [tasks/miniaturas/m1-1c2-mesclar-ui.md](tasks/miniaturas/m1-1c2-mesclar-ui.md) |
+| M1.1-B: capturador em tela cheia para o celular (integrado pelo #83) | [tasks/miniaturas/m1-1b-capturador-mobile.md](tasks/miniaturas/m1-1b-capturador-mobile.md) |
+| M1.1-C1: cômodo composto (leitura 1.1.0), validador, normalizador e prova no consumidor 3D (integrado pelo #83) | [tasks/miniaturas/m1-1c-comodo-composto.md](tasks/miniaturas/m1-1c-comodo-composto.md) |
+| M1.1-C2: UI de cômodo composto no capturador, mesclar e separar (integrado pelo #83) | [tasks/miniaturas/m1-1c2-mesclar-ui.md](tasks/miniaturas/m1-1c2-mesclar-ui.md) |
 | Base M0-A de 30/09: estado público observado, BuildJob, depreciação de CV e continuidade | [tasks/checkpoints/m0a-2026-09-30.md](tasks/checkpoints/m0a-2026-09-30.md) |
 | Visão geral, instalar, testar e montar o piloto | [README.md](README.md) |
 | Dependências por ambiente e comandos de verificação | [DEPENDENCIAS.md](DEPENDENCIAS.md) |
+| Serviço de leituras/prévias: companion do editor, autenticação e demonstração local | [tools/leitura-api.md](tools/leitura-api.md), [schemas/editor-state/1.0.0.schema.json](schemas/editor-state/1.0.0.schema.json) |
 | O que o CI roda em todo PR | [.github/workflows/ci.yml](.github/workflows/ci.yml) |
 | Painel: decisões (D1–D11), onde cada dado mora, modelo do Firestore, autorização | [tasks/painel/proposta.md](tasks/painel/proposta.md) §1–§4 |
 | Regras do Firestore e do Storage, e seus testes | [firebase/firestore.rules](firebase/firestore.rules), [firebase/storage.rules](firebase/storage.rules), [firebase/tests/regras.test.mjs](firebase/tests/regras.test.mjs); o que é cada arquivo: [firebase/README.md](firebase/README.md) |
 | Índices do Firestore | [firebase/firestore.indexes.json](firebase/firestore.indexes.json) |
-| Link por corretor: links por corretor, repasses, métricas por seção e relatórios (só local, sem ativação pública) | [rastreabilidade/README.md](rastreabilidade/README.md), [contrato](rastreabilidade/CONTRATO.md), [entrega de 04/10](tasks/rastreabilidade/entrega-2026-10-04.md); próximo passo (WhatsApp e lead): [SPEC-captura-lead.md](SPEC-captura-lead.md) |
+| Link por corretor: links por corretor, repasses, métricas por seção e relatórios (no ar em conectaimoveis3d.com.br desde 22/10) | [rastreabilidade/README.md](rastreabilidade/README.md), [contrato](rastreabilidade/CONTRATO.md), [entrega de 04/10](tasks/rastreabilidade/entrega-2026-10-04.md); próximo passo (WhatsApp e lead): [SPEC-captura-lead.md](SPEC-captura-lead.md) |
 | Unidades e disponibilidade no painel (`salesInventory/`): hoje só o modelo do LIV, 170 posições fixas | [painel/src/lib/estoque-modelo.ts](painel/src/lib/estoque-modelo.ts), regras em [firebase/firestore.rules](firebase/firestore.rules) |
 | Serviço de leituras e prévias do capturador: projeto completo (companion), autenticação e demonstração local | [tools/leitura-api.md](tools/leitura-api.md), [schemas/editor-state/1.0.0.schema.json](schemas/editor-state/1.0.0.schema.json) |
 | Publicação de imóveis: cache, preview por imóvel, promoção e reversão ("build once, promote the exact artifact") | [tasks/painel/proposta.md](tasks/painel/proposta.md) §6–§9; código em `pipeline/build_imovel.py` e `pipeline/publicar_imovel.py` |
@@ -46,6 +51,7 @@ Não descrevem o estado atual. Servem para entender por que as coisas são como 
 
 | Documento | O que é |
 |---|---|
+| [relatorios/avaliacao-atual-2026-10-04.md](relatorios/avaliacao-atual-2026-10-04.md) | Diagnóstico anterior à consolidação; correções e estado posterior em [organização](tasks/organizacao-2026-10-04.md) |
 | [REVISAO-1.5.md](REVISAO-1.5.md) | Revisão da base 1.5 em 21/09/2026. As falhas de teste citadas foram resolvidas |
 | [tasks/modularizacao/](tasks/modularizacao/plan.md) | Plano, execução e aceite da modularização, concluída em 18/09/2026 ([aceite-final.md](tasks/modularizacao/aceite-final.md)) |
 | [tasks/plan.md](tasks/plan.md), [tasks/todo.md](tasks/todo.md) | Plano de proporção e ocupação dos quarteirões (09/09/2026), sem acompanhamento nestes arquivos |

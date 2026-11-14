@@ -1,0 +1,170 @@
+{
+  "status": "PASS",
+  "recordedAt": "2026-10-11T22:01:44.773482+00:00",
+  "physicalMobile": false,
+  "packageVersion": "ac93e25ff9739851bed5a6a011a80501414535c367a822235217e6300548d936",
+  "packageDirectory": "C:\\Users\\respawn\\Desktop\\imobiliaria\\experimentos\\liv-ipanema-webgpu-2026-10-09\\entregas\\liv-avaliacao-20261011-v4",
+  "packageManifestSHA256": "9bb284d6e0714619e7adf8073124a12660d6f2b9a27521a983d931599fe57ea1",
+  "recipeSHA256": "2f79ad905499a61e1f1a7f9fbadb6492a81b8486cad925a61107adbcb89d973c",
+  "cases": [
+    {
+      "backendRequested": "webgpu",
+      "touchEmulated": false,
+      "errors": [],
+      "httpFailures": [],
+      "externalRequests": [],
+      "backendEffective": "webgpu",
+      "facadeBounds": {
+        "min": [
+          -24.007999420166016,
+          0,
+          -8.899999618530273
+        ],
+        "max": [
+          24.007999420166016,
+          52.70000076293945,
+          8.899999618530273
+        ]
+      },
+      "pngSize": [
+        920,
+        556
+      ],
+      "mapTiles": {
+        "walls": 1680,
+        "yards": 240,
+        "wallSegments": 252,
+        "triangles": 1379814,
+        "drawCalls": 72,
+        "groundParcels": 0,
+        "props": 819,
+        "wallReach": 270.82749042235724,
+        "yardReach": 352.4475289608142,
+        "aerialProps": 0,
+        "range": 360,
+        "coverage": 2120,
+        "aerialBuilds": 1,
+        "tileSize": 640,
+        "pendingTiles": 0,
+        "models": 65,
+        "placedYards": 28540,
+        "loadedTiles": 39,
+        "tileErrors": 0
+      },
+      "status": "PASS",
+      "positions": 170,
+      "twoTypologiesFourModes": true,
+      "png": true,
+      "mapReturn": true,
+      "sceneIframes": 1
+    },
+    {
+      "backendRequested": "webgl",
+      "touchEmulated": false,
+      "errors": [],
+      "httpFailures": [],
+      "externalRequests": [],
+      "backendEffective": "webgl",
+      "facadeBounds": {
+        "min": [
+          -24.007999420166016,
+          0,
+          -8.899999618530273
+        ],
+        "max": [
+          24.007999420166016,
+          52.70000076293945,
+          8.899999618530273
+        ]
+      },
+      "pngSize": [
+        920,
+        556
+      ],
+      "mapTiles": {
+        "walls": 1680,
+        "yards": 240,
+        "wallSegments": 252,
+        "triangles": 1379814,
+        "drawCalls": 72,
+        "groundParcels": 0,
+        "props": 819,
+        "wallReach": 270.82749042235724,
+        "yardReach": 352.4475289608142,
+        "aerialProps": 0,
+        "range": 360,
+        "coverage": 2120,
+        "aerialBuilds": 1,
+        "tileSize": 640,
+        "pendingTiles": 0,
+        "models": 65,
+        "placedYards": 28540,
+        "loadedTiles": 39,
+        "tileErrors": 0
+      },
+      "status": "PASS",
+      "positions": 170,
+      "twoTypologiesFourModes": true,
+      "png": true,
+      "mapReturn": true,
+      "sceneIframes": 1
+    },
+    {
+      "backendRequested": "auto",
+      "touchEmulated": true,
+      "errors": [],
+      "httpFailures": [],
+      "externalRequests": [],
+      "backendEffective": "webgpu",
+      "facadeBounds": {
+        "min": [
+          -24.007999420166016,
+          0,
+          -8.899999618530273
+        ],
+        "max": [
+          24.007999420166016,
+          52.70000076293945,
+          8.899999618530273
+        ]
+      },
+      "pngSize": [
+        364,
+        454
+      ],
+      "mapTiles": {
+        "walls": 840,
+        "yards": 75,
+        "wallSegments": 130,
+        "triangles": 585342,
+        "drawCalls": 63,
+        "groundParcels": 0,
+        "props": 261,
+        "wallReach": 211.69612206117324,
+        "yardReach": 239.62643883640186,
+        "aerialProps": 0,
+        "range": 240,
+        "coverage": 2120,
+        "aerialBuilds": 1,
+        "tileSize": 640,
+        "pendingTiles": 0,
+        "models": 65,
+        "placedYards": 28540,
+        "loadedTiles": 39,
+        "tileErrors": 0
+      },
+      "status": "PASS",
+      "positions": 170,
+      "twoTypologiesFourModes": true,
+      "png": true,
+      "mapReturn": true,
+      "sceneIframes": 1
+    }
+  ],
+  "httpVerifiedFiles": 234,
+  "browserVersion": "154.0.8037.98",
+  "packagedPbrAndDraco": "PASS",
+  "baselineRecovery": "PASS",
+  "packagedDiagnostic": "PASS",
+  "noGpu2DRecovery": "PASS"
+}

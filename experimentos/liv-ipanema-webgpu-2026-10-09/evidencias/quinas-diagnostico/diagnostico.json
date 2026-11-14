@@ -1,0 +1,57 @@
+{
+  "backend": "webgpu",
+  "canvas": [
+    1200,
+    836
+  ],
+  "mats": [
+    {
+      "name": "MAT-reboco",
+      "map": true,
+      "bump": true,
+      "normal": false,
+      "side": 0,
+      "opacity": 1
+    },
+    {
+      "name": "MAT-cinza",
+      "map": false,
+      "bump": false,
+      "normal": false,
+      "side": 0,
+      "opacity": 1
+    },
+    {
+      "name": "MAT-bege",
+      "map": false,
+      "bump": false,
+      "normal": false,
+      "side": 0,
+      "opacity": 1
+    },
+    {
+      "name": "MAT-site-reboco",
+      "map": false,
+      "bump": false,
+      "normal": false,
+      "side": 0,
+      "opacity": 1
+    }
+  ],
+  "lights": [
+    {
+      "type": "DirectionalLight",
+      "shadow": true
+    },
+    {
+      "type": "DirectionalLight",
+      "shadow": false
+    },
+    {
+      "type": "HemisphereLight",
+      "shadow": false
+    }
+  ],
+  "errors": [],
+  "atlasSHA256": "5cb4616a64f12ae53b6c8f4ccd916943b35d3235b10d5c8a8186ae8cbc924c00"
+}

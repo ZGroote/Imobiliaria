@@ -1,0 +1,232 @@
+{
+  "id": "containers-mooca-quadruplo",
+  "titulo": "Containers da Mooca · dormitório quádruplo · 29,7 m²",
+  "imagem": "../../../../plantas_fornecidas/containers-mooca/fonte/dorm-quadruplo-e-casal-bebe.png",
+  "imagemSha256": "4674ddb731e7913f5bb36a7a8d67ee84ee8e7be16e6169a9a66ed7a95c454066",
+  "calibracao": {
+    "areaM2": 29.72,
+    "contornoFacesPx": [
+      [
+        545,
+        277,
+        2281,
+        608
+      ]
+    ],
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "origemPx": [
+    545,
+    277
+  ],
+  "gradeMm": 50,
+  "peDireitoMm": 2350,
+  "comodos": [
+    {
+      "nome": "Quarto e estudo",
+      "partes": [
+        [
+          545,
+          277,
+          2030,
+          608
+        ]
+      ]
+    },
+    {
+      "nome": "Banho",
+      "partes": [
+        [
+          2030,
+          277,
+          2281,
+          608
+        ]
+      ]
+    }
+  ],
+  "aberturas": [
+    {
+      "comodo": "Quarto e estudo",
+      "lado": "south",
+      "de": 1895,
+      "ate": 2010,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Banho",
+      "lado": "west",
+      "de": 413,
+      "ate": 519,
+      "tipo": "door",
+      "alturaMm": 2100
+    },
+    {
+      "comodo": "Quarto e estudo",
+      "lado": "south",
+      "de": 960,
+      "ate": 1380,
+      "tipo": "window",
+      "alturaMm": 1500,
+      "peitorilMm": 600
+    },
+    {
+      "comodo": "Quarto e estudo",
+      "lado": "south",
+      "de": 1440,
+      "ate": 1880,
+      "tipo": "window",
+      "alturaMm": 1500,
+      "peitorilMm": 600
+    }
+  ],
+  "moveis": [
+    {
+      "catalogo": "cama-solteiro",
+      "x": 985,
+      "y": 342,
+      "rot": 270,
+      "w": 900,
+      "d": 1950,
+      "cor": "#D9D4CC",
+      "nome": "Beliche 1"
+    },
+    {
+      "catalogo": "cama-solteiro",
+      "x": 693,
+      "y": 540,
+      "rot": 270,
+      "w": 900,
+      "d": 1950,
+      "cor": "#D9D4CC",
+      "nome": "Beliche 2"
+    },
+    {
+      "catalogo": "guardaroupa",
+      "x": 690,
+      "y": 316,
+      "rot": 0,
+      "w": 1800,
+      "d": 520,
+      "cor": "#A57A52",
+      "nome": "Armário 1",
+      "h": 2300
+    },
+    {
+      "catalogo": "guardaroupa",
+      "x": 968,
+      "y": 572,
+      "rot": 180,
+      "w": 1800,
+      "d": 520,
+      "cor": "#A57A52",
+      "nome": "Armário 2",
+      "h": 2300
+    },
+    {
+      "catalogo": "escrivaninha",
+      "x": 1405,
+      "y": 318,
+      "rot": 0,
+      "w": 3800,
+      "d": 560,
+      "cor": "#A57A52",
+      "nome": "Bancada de estudo para 4"
+    },
+    {
+      "catalogo": "pia-cozinha",
+      "x": 1650,
+      "y": 568,
+      "rot": 180,
+      "w": 1700,
+      "d": 560,
+      "cor": "#C9C3BA",
+      "nome": "Copa com pia e cooktop"
+    },
+    {
+      "catalogo": "geladeira",
+      "x": 1475,
+      "y": 568,
+      "rot": 180,
+      "w": 600,
+      "d": 560,
+      "cor": "#D6D9DA",
+      "nome": "Geladeira"
+    },
+    {
+      "catalogo": "box-chuveiro",
+      "x": 2150,
+      "y": 330,
+      "rot": 0,
+      "w": 1500,
+      "d": 700,
+      "cor": "#DDE5E4",
+      "nome": "Banheira"
+    },
+    {
+      "catalogo": "vaso-sanitario",
+      "x": 2210,
+      "y": 446,
+      "rot": 270,
+      "w": 400,
+      "d": 650,
+      "cor": "#F2F1EE",
+      "nome": "Vaso"
+    },
+    {
+      "catalogo": "gabinete-banheiro",
+      "x": 2235,
+      "y": 550,
+      "rot": 270,
+      "w": 650,
+      "d": 500,
+      "cor": "#F2F1EE",
+      "nome": "Lavatório"
+    },
+    {
+      "catalogo": "tapete-sala",
+      "x": 1300,
+      "y": 450,
+      "rot": 0,
+      "w": 2000,
+      "d": 1000,
+      "cor": "#CFC6B8",
+      "nome": "Tapete"
+    }
+  ],
+  "ficha": {
+    "titulo": "Containers da Mooca · dormitório quádruplo · 29,7 m²",
+    "empreendimento": "Moradia estudantil em containers (Mooca)",
+    "tipo": "quadruplo",
+    "area_publicada_m2": 29.7,
+    "quartos": 1,
+    "banheiros": 1,
+    "aluguel_mensal": 1000,
+    "moradores": 4,
+    "observacao": "Reconstrução ilustrativa a partir do TCC de Tamires Ruffino (Escola da Cidade, 2025). Medidas pela área do container."
+  },
+  "cores": {
+    "parede": "#E6E3DC",
+    "piso_frio": "#C9C7C2",
+    "piso_madeira": "#C9A57B",
+    "teto": "#EFEDE8"
+  },
+  "lote": {
+    "predio": {
+      "largura_m": 45.0,
+      "profundidade_m": 40.0,
+      "pavimentos": 2
+    }
+  },
+  "limites": [
+    "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas.",
+    "Pé-direito interno de 2,35 m: o corte dá 2,69 m de piso a piso (container de 2,59 m + laje).",
+    "Portas e janelas lidas no desenho; a altura segue o padrão do LIV. A esquadria exata não está no caderno.",
+    "O prédio declarado (45 x 40 m, 2 pavimentos) é a pegada do conjunto na planta 1:200; o container não é o prédio.",
+    "Os dois beliches viraram camas de solteiro (o catálogo não tem beliche); a ficha registra 4 moradores.",
+    "Quarto e estudo são um cômodo só: a divisória do meio do container não chega à bancada de estudo."
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "titulo": "Vistas da Quinze · T04 · 2 dormitórios, cômodo extra e terraço lateral",
+  "tipologia": "T04",
+  "imagem": "../../../../plantas_fornecidas/vistas-da-quinze/anexos/34ca545e-2a7b-4db2-8d7a-c75f57e82dfe.png",
+  "imagemSha256": "fbfafde8c621197ff9287efcb65d17e49340110d9bc49ee70e7f136d6f7c9a01",
+  "registro": {
+    "origemPx": [
+      3,
+      3
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 21.946161855115907,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        7,
+        7,
+        510,
+        258
+      ],
+      [
+        519,
+        7,
+        640,
+        296
+      ]
+    ],
+    "areaCalibracaoM2": 77.65,
+    "conferencia": [
+      "Faces internas: 161222 px².",
+      "Área anunciada da faixa: 76.16 m² (apartamento + terraço)."
+    ]
+  },
+  "areaContornoNominalAproximadaM2": 82.65,
+  "peDireitoMm": 2600,
+  "limites": [
+    "Planta humanizada pública sem cotas. Eixos de parede, vãos e móveis são aproximações de ±5 cm.",
+    "Embaixo na imagem fica o corredor do andar (porta de entrada); em cima e do lado do terraço, a fachada.",
+    "Pé-direito de 2,60 m é suposto. A pegada do prédio é provisória até a implantação.",
+    "A escala é a do T01; com ela o apartamento mais o terraço somam 77,6 m², contra 76,16 m² anunciados (a maior planta).",
+    "O terraço é descoberto no prédio (degrau da torre). Aqui ele é um cômodo cuja borda de fora é um vão do peitoril de 1,05 m até o forro; o site tira o forro e o vão (interior-renderer.js, abrirTerracos).",
+    "A banheira de hidromassagem, as plantas e a churrasqueira não existem no catálogo do construtor e entram na etapa dos interiores."
+  ],
+  "captura": {
+    "construtorSHA256": "cf9d5b86b9288c02a9d9e93f6c101e61ea6dd5897b698c958c48dca554d4dc84",
+    "inputsSHA256": {
+      "planta.json": "1973be89cfe2368901602bcab365dca30a7c02de556435614205b463936a6be1",
+      "leitura.json": "8d98ae923f9a80778424e34f1cd8eda7ba8105fc06ce08013aa15686b30d0b07",
+      "projeto-planta.json": "2e1a34e67c3114a8325a362643c8326e989c1e9f0755cb715c46a4c0924b2a65",
+      "moveis.json": "5a8f668b4f7465c28f17e60563e185be34fb697035bd5866eff7d21051ebb74e",
+      "contexto.json": "fbc4b86d778386af2134749b76d8da3d8237be57f31d482fa689275b3ed1bb47"
+    }
+  },
+  "contagens": {
+    "partes": 10,
+    "aberturas": 13,
+    "moveis": 35
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "status": "FAIL",
+  "recordedAtUtc": "2026-10-11T05:05:38.147856+00:00",
+  "physicalMobile": false,
+  "sourceSHA256": {
+    "mapa-retorno.js": "468fc74b6466b982b210d7811b69c43b31618b4dca06c5e7fff35367ec5959cb",
+    "mapa-loader.js": "ad5b5e53519e3f647863ac8e463ec96a04f3362b2c4528e4a42d57e547cceee9",
+    "preparar_mapa.py": "60847a5a78e45ac9aab5efe3105eab36f8ea9eb62128a6b133683959a63def9d",
+    "modelo/registrar_mapa.py": "a1982edcbb8c211e0f5ba9540028ff5915141515ea6c04fb1b7c20d32bc83795",
+    "modelo/variante/mapa.json": "5a090b874d8319637a9d553b14c459937913b8974e3beee0e8348432f71c19e6",
+    "mapa-runtime/manifest.json": "0cfc6141a81d1b6b854853e2245738aaca12bff56d2928bf7d0732b0fadbb253",
+    "transfer-worker.js": "7f4d62f3dd6eb5f8e39ff6db870895658881ef56c9d18a3d5d8cd08b73c4bab1",
+    "transfer-manifest.json": "8fe59cc28073a78d265477017096b2d95f4afa5c623e81d19915e6fd13237b90"
+  },
+  "cases": [
+    {
+      "name": "base-desktop",
+      "edition": "base",
+      "viewport": [
+        1440,
+        900
+      ],
+      "serviceWorkersBlocked": false,
+      "errors": [
+        "__livMapAdapter is not defined"
+      ]
+    }
+  ],
+  "modelManifest": {
+    "base": {
+      "url": "liv-ipanema.glb",
+      "bytes": 2989904,
+      "sha256": "f3bef61c2a844aae0062b1c15df7ebb942ed188c572ba455b8cddd86d57fadf1",
+      "sourceModelSHA256": "89f552ec2c030afdcd1ab2167df78e6ff530bf40dd3e7c598d356b5582ebd919"
+    },
+    "contorno": {
+      "url": "../modelo/variante/liv-contorno.glb",
+      "bytes": 2275324,
+      "sha256": "fdf52e0c85ea87040464ef85d72848d488a6dd1e3e91a48a45d3c3bee5795686",
+      "sourceModelSHA256": "618c4f5510f3cecb02999306c2f12fc5cbe1743b39074b75353ee34f560d33c1"
+    }
+  },
+  "failure": "Page.wait_for_function: ReferenceError: __livMapAdapter is not defined\n    at eval (eval at predicate (eval at evaluate (:311:30)), <anonymous>:1:1)\n    at eval (<anonymous>)\n    at predicate (eval at evaluate (:311:30), <anonymous>:4:60)\n    at next (eval at evaluate (:311:30), <anonymous>:29:33)\n    at eval (eval at evaluate (:311:30), <anonymous>:42:13)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+}

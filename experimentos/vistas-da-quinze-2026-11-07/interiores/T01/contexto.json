@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "propertyId": "vistas-da-quinze-t01",
+  "agencyId": "referencia-publica-local",
+  "andar": 0,
+  "ficha": {
+    "titulo": "Vistas da Quinze · T01 · 2 dormitórios sem terraço · 44,79 m²",
+    "empreendimento": "Vistas da Quinze",
+    "area_publicada_m2": 44.79,
+    "quartos": 2,
+    "suites": 1,
+    "banheiros": 2,
+    "observacao": "Reconstrução ilustrativa da planta humanizada pública; medidas inferidas pela área anunciada."
+  },
+  "cores": {
+    "parede": "#E6E2DA",
+    "piso_frio": "#D8D4CC",
+    "piso_madeira": "#B8916A",
+    "teto": "#F2F0EC"
+  },
+  "lote": {
+    "predio": {
+      "largura_m": 45,
+      "profundidade_m": 45,
+      "pavimentos": 20
+    }
+  }
+}

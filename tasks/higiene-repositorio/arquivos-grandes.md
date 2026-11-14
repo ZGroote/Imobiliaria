@@ -21,6 +21,24 @@ a classificação principal informa por que ele precisa permanecer. Nenhum arqui
 da baseline foi considerado descartável. Os tetos globais existentes de 100 MiB
 por arquivo e 300 MiB no total continuam como política interna.
 
+### Teto total subiu para 400 MiB (14/11/2026, PR #116)
+
+Decisão do usuário. O repositório chegou a 333 MiB porque três prédios entraram
+(Laranjeiras, Containers Mooca e Vistas da Quinze, uns 20 MiB cada: site,
+interiores, mapa e plantas do book). Isso é produto, não sobra, e tirar do git
+quebraria a republicação. Cinco exceções novas, todas no `EXCECOES`:
+
+| MiB | Arquivo | Classe | Quem gera | Quem lê |
+|---:|---|---|---|---|
+| 2,72 | `plantas_fornecidas/vistas-da-quinze/anexos/7d1a70b6-….png` | fonte | foto enviada pelo usuário | referência do modelo da torre |
+| 2,54 | `plantas_fornecidas/vistas-da-quinze/anexos/5e434431-….png` | fonte | foto enviada pelo usuário | referência do modelo da torre |
+| 2,39 | `experimentos/liv-experimental-2026-10-14/mapa-modelos/laranjeiras.glb` | runtime | preparo do mapa do Laranjeiras | `mapa-2d.js` (sha256 no `mapa-2d-manifest.json`) |
+| 1,51 | `experimentos/containers-mooca-2026-11-05/site/mapa-modelos/containers.glb` | runtime | `mapa/preparar_mapa.py` (.blend fora do git) | mapa 2D do Mooca |
+| 1,14 | `experimentos/vistas-da-quinze-2026-11-07/site/mapa-pois.json` | runtime | `mapa/preparar_mapa.py` | `mapa-2d.js` do Vistas |
+
+Cada prédio novo no mesmo molde soma uns 20 MiB: cabem mais uns três antes de
+decidir de novo (repositório privado de artefatos ou teto maior).
+
 Para incluir uma exceção ou ampliar um teto, no mesmo PR:
 
 1. Registrar caminho, bytes, consumidor/gerador e razão da permanência no inventário.
@@ -115,7 +133,13 @@ marcadas "saiu", e as provas estão nas seções do fim deste documento.
 | 1,33 | `v1.5/miniaturas/monte-das-colinas_blender/modelo.json` | E | `modelar_montes.py` (Blender) | a página das Colinas | Colinas | não testado |
 | 1,26 | `arvores/arvores_lib.json` | E | `arvores/export_arvores.py` (Blender) | a montagem | todo imóvel | não testado |
 | 1,13 | `sao-carlos/dados/portoes.json` | E | `pipeline/portoes.py` (etapa 6b) | a montagem | todo imóvel | não |
+| 1,10 | `moveis/moveis_lib.json` | E, entrou em 19/10 (estilos de sofá) | `moveis/moveis.py` (Blender) | o interior (`furniture-param.js`) e `pipeline/mobiliar.py` | todo imóvel com móvel | não testado |
 | 1,10 | `v1.5/miniaturas/castanheiras_blender/castanheiras.blend` | F, leve | `modelar_castanheiras.py` | quem edita o modelo | não | não testado |
+| 2,60 | `experimentos/liv-experimental-2026-10-14/splat/lib/spark.module.min.js` | E, terceiros, entrou em 19/10 | biblioteca Spark (MIT), copiada sem build | `splat/visita.html` e `piloto-render/web/index.html` (importmap) | não | sim, pelo npm (`@sparkjsdev/spark`); a versão não foi registrada |
+| 2,42 | `experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/buffers-paridade-nativa-qualificada/runtime.json` | I, evidência, entrou em 19/10 | `qa_instancias.py --referencia 40317f5` | o `BUFFERS.md` (link da prova) | não | o comando está no `BUFFERS.md`; não testado |
+| 2,42 | `experimentos/liv-ipanema-webgpu-2026-10-09/evidencias/buffers-paridade-fallback-qualificada/runtime.json` | I, evidência, entrou em 19/10 | `qa_instancias.py --referencia 40317f5 --decoder-nativo ausente` | o `BUFFERS.md` (link da prova) | não | o comando está no `BUFFERS.md`; não testado |
+| 1,34 | `experimentos/liv-experimental-2026-10-14/splat/lib/three/build/three.core.js` | E, terceiros, entrou em 19/10 | three r180 (MIT), copiado sem build | `splat/lib/three/build/three.module.js` | não | sim, pelo npm (`three@0.180.0`) |
+| 40,57 (6) | `experimentos/liv-experimental-2026-10-14/splat/{sala,quarto,suite,varanda,banho-social,banho-suite}.sog` | **I, saiu em 19/10**, sem ir para o repositório privado | treino por cômodo (`piloto-render/nuvem/comodos.sh`) | o Tour do experimento, por `splat/comodos.json` | não | não: treino em GPU no servidor. Ficam no disco e no `.gitignore`; o Tour publicado usa `old60k.sog` e `jateado3.sog`, que já estavam fora do git |
 | 15,90 (239) | `v16-moveis/publicado/mapa/quintais/d9ef5bf4b34f/*.bin` | E | `exteriores/v1/dividir_terrenos.py` | o site do mapa; `publicar_imovel.py` e `preparar_piloto.py` copiam para o build por imóvel | o prefixo vai no manifest, e cada arquivo vai para o `estado.json` na publicação | não testado |
 
 ## Provas de regenerabilidade
@@ -236,7 +260,7 @@ Para só conferir o que está no disco, sem rede: `python tools/baixar_artefatos
 
 - um arquivo versionado acima de **1 MiB** não está na lista `GRANDES`;
 - um arquivo da lista **cresce além do teto** dele, que é o tamanho de hoje arredondado para cima até o MiB inteiro;
-- o repositório inteiro passa de **300 MiB** (eram 280,3 na base; 238,3 depois do #37 e 213,5 depois do #39);
+- o repositório inteiro passa de **300 MiB** (eram 280,3 na base; 238,3 depois do #37 e 213,5 depois do #39; 273,9 na `liv-melhorado` em 19/10, depois da saída dos 6 `.sog`);
 - algum arquivo passa de 100 MiB, o limite duro do GitHub;
 - uma entrada da lista não existe mais, ou deixou de estar acima de 1 MiB. A lista é o inventário exato, então quando um arquivo sai ou encolhe, a linha dele sai da lista e do inventário no mesmo PR.
 
@@ -277,3 +301,15 @@ Os atlas saíram com 2943 × 2948 e 6275 × 6273, as mesmas dimensões do `unwra
 
 O reparo, quando roda, reescreve o `normal-repair.json` com as contagens daquela rodada (383
 triângulos), sem mudar o `source.json`.
+
+## Exceções do experimento A/B — 04/10/2026
+
+| Caminho | Classe | Teto | Razão e reprodução |
+|---|---|---|---|
+| `experimentos/comparativo-planos-3d/plano-a.html` | gerado | 2 MiB | Protótipo sintético autossuficiente, com base preservada no próprio arquivo para inspeção e reprodução sem cópia adicional. |
+| `experimentos/comparativo-planos-3d/plano-b.html` | gerado | 2 MiB | Derivado experimental de A com override de JPGs procedurais; mantido para inspeção imediata junto dos assets. |
+
+Gerador único: `experimentos/comparativo-planos-3d/gerar_planos_comparativo.py`.
+`manifest.json` registra os bytes e SHA-256 exatos; `metricas_comparativo.json` mede
+somente disco/compressão local. São exceções por caminho, sem ampliar o limite global
+nem incluir estes protótipos na publicação do produto.

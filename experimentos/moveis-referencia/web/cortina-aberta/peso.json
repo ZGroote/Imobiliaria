@@ -1,0 +1,39 @@
+{
+ "compartilhado": {
+  "blackout-cor-256.webp": 5254,
+  "blackout-cor-256.avif": 5349,
+  "blackout-cor-512.webp": 14398,
+  "blackout-cor-512.avif": 9482,
+  "blackout-cor-1024.webp": 42602,
+  "blackout-cor-1024.avif": 30879,
+  "blackout-nor-256.webp": 8206,
+  "blackout-nor-256.avif": 4900,
+  "blackout-nor-512.webp": 33298,
+  "blackout-nor-512.avif": 20353,
+  "blackout-nor-1024.webp": 161628,
+  "blackout-nor-1024.avif": 69209
+ },
+ "peca": {
+  "ao-256.webp": 3662,
+  "ao-256.avif": 2594,
+  "ao-512.webp": 9352,
+  "ao-512.avif": 6350,
+  "ao-1024.webp": 50122,
+  "ao-1024.avif": 36505,
+  "unica-256.webp": 1334,
+  "unica-256.avif": 1326,
+  "unica-512.webp": 4648,
+  "unica-512.avif": 4895,
+  "unica-1024.webp": 16894,
+  "unica-1024.avif": 16631,
+  "relevo-256.webp": 520,
+  "relevo-256.avif": 573,
+  "relevo-512.webp": 1994,
+  "relevo-512.avif": 1267,
+  "relevo-1024.webp": 11380,
+  "relevo-1024.avif": 6024
+ },
+ "geo_bin": 165968,
+ "geo_br": 25029,
+ "json_br": 1100
+}

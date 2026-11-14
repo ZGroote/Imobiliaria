@@ -1,0 +1,57 @@
+{
+  "schema": "liv-transfer-manifest-v1",
+  "version": "af23e9115e864250deaa82b6a59ea5639097c4e8e1ce9f12d379bfb3e6756a3b",
+  "order": [
+    "tour",
+    "map",
+    "planta2d"
+  ],
+  "groups": {
+    "tour": {
+      "label": "Tour 3D"
+    },
+    "map": {
+      "label": "Mapa"
+    },
+    "planta2d": {
+      "label": "Planta 2D"
+    }
+  },
+  "files": [
+    {
+      "path": "site-baseline/preempt-tour.html",
+      "group": "tour",
+      "bytes": 49234,
+      "sha256": "37a8df6c5325dcc9a9706736787d0732ddefc416cafcce5ea269feb2a0eb3b5f",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/preempt-map.html",
+      "group": "map",
+      "bytes": 45137,
+      "sha256": "7843574f4bb13ad9ff78602ac46fcb9b17531a546164bad6ed9b2b73d417d059",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/preempt-map.glb",
+      "group": "map",
+      "bytes": 26624,
+      "sha256": "f845f48f67455bfc7a45a39dfc2f0dd79cc721db03e059a7af2a691ef5a5d466",
+      "essential": true
+    },
+    {
+      "path": "site-baseline/preempt-map.bin",
+      "group": "map",
+      "bytes": 24576,
+      "sha256": "e926271dbdf31aab88202f54e1e83730e11092653e9be69613d0306125341c09",
+      "essential": false
+    },
+    {
+      "path": "plantas2d/preempt-planta.png",
+      "group": "planta2d",
+      "bytes": 77,
+      "sha256": "0acc39e4f83f9dc702736454906cc8e8dcb1e0cf8f7e325bd10251447cbf5ddf",
+      "essential": true
+    }
+  ]
+}

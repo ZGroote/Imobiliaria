@@ -1,0 +1,43 @@
+{
+  "schema": "liv-lightmap-v1",
+  "sourceSHA256": "9ba4c3d261fae716b51ee6fa65464c574074f082ea5873bc7603407ed2b56bac",
+  "geometryURL": "luz/geometry-compact.json",
+  "geometryGzipURL": "luz/geometry-compact.json.gz",
+  "geometrySHA256": "c20fecf9ce865089c6c17b091c169cd4d736d3340388bad28ba0c0fbbf2a86a3",
+  "textureURL": "luz/irradiance.rgbm.gz",
+  "textureCompression": "gzip",
+  "textureEncoding": "linear-rgbm-u8",
+  "textureSHA256": "1149b5ab607b98665e9577ce0f0bc5f4df42ef023884889df665a83a30502e30",
+  "width": 4096,
+  "height": 4096,
+  "range": 16.0,
+  "origin": "bottom-left",
+  "premultiplyAlpha": false,
+  "lightMapIntensity": 3.141592653589793,
+  "samples": 64,
+  "passes": [
+    "DIRECT",
+    "INDIRECT"
+  ],
+  "colorPass": false,
+  "sunWebPosition": [
+    -18,
+    110,
+    55
+  ],
+  "sunWebTarget": [
+    0,
+    22,
+    0
+  ],
+  "sunIntensity": 2.4,
+  "groups": 82,
+  "instances": 1007,
+  "triangles": 105811,
+  "denoise": {
+    "filter": "OIDN RTLightmap",
+    "version": "2.3.3",
+    "inputGuardPixels": 2.0,
+    "outputGuardPixels": 4.0
+  }
+}

@@ -6,15 +6,17 @@ import { nomeEmCache, pedirNome } from '../src/lib/nomes.ts'
 import { adminDb, semear } from '../scripts/seed.mjs'
 import { entrar, sairDeTodos } from './apoio.ts'
 
-// Imóveis da agA para a semântica de "publicado": texto não vazio em publishedBuild. Os do seed
-// (cedros, colinas) não têm o campo; aqui entram um publicado, um vazio e um null. E um publicado
-// na agB, que não pode contar para a agA.
+// Publicações convencionais e avulsas ativas contam; pausadas e sem conteúdo ficam de fora.
+// Um imóvel da agB não pode contar para a agA.
 before(async () => {
   await semear()
   const adm = adminDb()
   const b = adm.batch()
   const base = { status: 'active', createdAt: new Date(), updatedAt: new Date() }
-  b.set(adm.doc('properties/pub1'), { ...base, agencyId: 'agA', title: 'Publicado A', publishedBuild: 'a1b2c3d4e5f6' })
+  b.set(adm.doc('properties/pub1'), { ...base, agencyId: 'agA', title: 'Publicado A', publicationReady: true, publishedBuild: 'a1b2c3d4e5f6' })
+  b.set(adm.doc('properties/pausado'), { ...base, agencyId: 'agA', title: 'Pausado', status: 'inactive', publicationReady: true, publishedBuild: 'a1b2c3d4e5f6' })
+  b.set(adm.doc('properties/avulso'), { ...base, agencyId: 'agA', title: 'Avulso', publicationReady: true })
+  b.set(adm.doc('properties/antigo'), { ...base, agencyId: 'agA', title: 'Hosting antigo desativado', publicationReady: false, publishedBuild: 'a1b2c3d4e5f6' })
   b.set(adm.doc('properties/vazio'), { ...base, agencyId: 'agA', title: 'Vazio A', publishedBuild: '' })
   b.set(adm.doc('properties/nulo'), { ...base, agencyId: 'agA', title: 'Nulo A', publishedBuild: null })
   b.set(adm.doc('properties/pubB'), { ...base, agencyId: 'agB', title: 'Publicado B', publishedBuild: '0f9e8d7c6b5a' })
@@ -43,17 +45,20 @@ test('nome por id: uma busca por documento, em cache, e separada por usuário', 
   assert.equal(nomeEmCache('corA', 'properties', 'naoExiste', 'title'), null)
 })
 
-test('Início: "publicado" é texto não vazio em publishedBuild, igual na lista e no contador', async () => {
+test('Início: conta só publicações ativas, incluindo avulsas e excluindo pausadas', async () => {
   const corA = await entrar('corA')
-  assert.equal(estaPublicado({ publishedBuild: 'a1b2c3d4e5f6' }), true)
+  assert.equal(estaPublicado({ status: 'active', publishedBuild: 'a1b2c3d4e5f6' }), true)
+  assert.equal(estaPublicado({ status: 'inactive', publishedBuild: 'a1b2c3d4e5f6' }), false)
+  assert.equal(estaPublicado({ status: 'active', publicationReady: true }), true)
+  assert.equal(estaPublicado({ status: 'active', publicationReady: false, publishedBuild: 'a1b2c3d4e5f6' }), false)
   for (const p of [{}, { publishedBuild: '' }, { publishedBuild: null }]) assert.equal(estaPublicado(p), false)
 
   // o contador (count no Firestore) bate com a etiqueta da lista (estaPublicado) sobre os mesmos imóveis
   const todos = (await getDocs(query(collection(corA.db, 'properties'), where('agencyId', '==', 'agA')))).docs.map((d) => d.data())
-  assert.equal(todos.length, 5)                                                   // cedros, colinas, pub1, vazio, nulo
+  assert.equal(todos.length, 8)                                                   // seed + publicados, pausado, avulso e antigo
   const contador = (await getCountFromServer(publicadosDa(corA.db, 'agA'))).data().count
   assert.equal(contador, todos.filter(estaPublicado).length)
-  assert.equal(contador, 1)
+  assert.equal(contador, 2)
 
   // etapas contadas no servidor, só da própria imobiliária
   const pedidos = (await getDocs(query(collection(corA.db, 'requests'), where('agencyId', '==', 'agA')))).docs.map((d) => d.data())

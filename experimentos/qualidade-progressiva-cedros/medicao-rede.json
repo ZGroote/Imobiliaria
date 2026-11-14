@@ -1,0 +1,2480 @@
+{
+ "data": "2026-10-04 04:01",
+ "perfis": {
+  "referencia": [
+   0,
+   null,
+   null,
+   1
+  ],
+  "4g-bom": [
+   70,
+   2500000.0,
+   625000.0,
+   1
+  ],
+  "4g-fraco": [
+   150,
+   625000.0,
+   187500.0,
+   1
+  ],
+  "celular-lighthouse": [
+   562.5,
+   188743.68,
+   86400.0,
+   4
+  ]
+ },
+ "brotli_leve_qualidade": 11,
+ "viewport": "1280x720 dpr1",
+ "404": [],
+ "medianas": {
+  "referencia/leve": {
+   "html_s": 0.04,
+   "primeiro_quadro_s": 0.85,
+   "draws_primeiro_quadro": 30,
+   "draws_estavel": 45.0,
+   "luz_exterior_s": [
+    null,
+    null,
+    null
+   ],
+   "bake_vertice_s": [
+    null,
+    null,
+    null
+   ],
+   "exterior_pronto_s": 0.85,
+   "rede_abrir_mb": 0.46,
+   "interior_1o_quadro_s": 0.07,
+   "interior_pronto_s": 1.6,
+   "rede_interior_mb": 0.0,
+   "textura_pico_mib": 20.9,
+   "buffer_pico_mib": 4.5,
+   "heap_pico_mib": 56.7,
+   "upload_textura_ms": 5,
+   "pior_travada_exterior_ms": 447,
+   "pior_travada_interior_ms": 1230,
+   "bloqueio_exterior_ms": 77,
+   "bloqueio_interior_ms": 1287,
+   "erros": 0
+  },
+  "referencia/premium": {
+   "html_s": 0.04,
+   "primeiro_quadro_s": 0.98,
+   "draws_primeiro_quadro": 31,
+   "draws_estavel": 43.0,
+   "luz_exterior_s": 1.89,
+   "bake_vertice_s": [
+    null,
+    null,
+    null
+   ],
+   "exterior_pronto_s": 1.89,
+   "rede_abrir_mb": 8.66,
+   "interior_1o_quadro_s": 0.11,
+   "interior_pronto_s": 3.38,
+   "rede_interior_mb": 6.73,
+   "textura_pico_mib": 104.2,
+   "buffer_pico_mib": 13.7,
+   "heap_pico_mib": 163.9,
+   "upload_textura_ms": 37,
+   "pior_travada_exterior_ms": 519,
+   "pior_travada_interior_ms": 2667,
+   "bloqueio_exterior_ms": 667,
+   "bloqueio_interior_ms": 3580,
+   "erros": 0
+  },
+  "4g-bom/leve": {
+   "html_s": 0.29,
+   "primeiro_quadro_s": 0.97,
+   "draws_primeiro_quadro": 30,
+   "draws_estavel": 45.0,
+   "luz_exterior_s": [
+    null,
+    null,
+    null
+   ],
+   "bake_vertice_s": [
+    null,
+    null,
+    null
+   ],
+   "exterior_pronto_s": 0.97,
+   "rede_abrir_mb": 0.46,
+   "interior_1o_quadro_s": 0.07,
+   "interior_pronto_s": 1.77,
+   "rede_interior_mb": 0.0,
+   "textura_pico_mib": 20.9,
+   "buffer_pico_mib": 4.5,
+   "heap_pico_mib": 57.1,
+   "upload_textura_ms": 5,
+   "pior_travada_exterior_ms": 467,
+   "pior_travada_interior_ms": 1344,
+   "bloqueio_exterior_ms": 14,
+   "bloqueio_interior_ms": 1423,
+   "erros": 0
+  },
+  "4g-bom/premium": {
+   "html_s": 0.29,
+   "primeiro_quadro_s": 1.02,
+   "draws_primeiro_quadro": 31,
+   "draws_estavel": 43.0,
+   "luz_exterior_s": 4.67,
+   "bake_vertice_s": [
+    null,
+    null,
+    null
+   ],
+   "exterior_pronto_s": 4.67,
+   "rede_abrir_mb": 8.66,
+   "interior_1o_quadro_s": 0.11,
+   "interior_pronto_s": 6.07,
+   "rede_interior_mb": 6.73,
+   "textura_pico_mib": 104.2,
+   "buffer_pico_mib": 13.7,
+   "heap_pico_mib": 204.2,
+   "upload_textura_ms": 35,
+   "pior_travada_exterior_ms": 502,
+   "pior_travada_interior_ms": 2629,
+   "bloqueio_exterior_ms": 698,
+   "bloqueio_interior_ms": 3744,
+   "erros": 0
+  },
+  "4g-fraco/leve": {
+   "html_s": 0.92,
+   "primeiro_quadro_s": 1.49,
+   "draws_primeiro_quadro": 30,
+   "draws_estavel": 45.0,
+   "luz_exterior_s": [
+    null,
+    null,
+    null
+   ],
+   "bake_vertice_s": [
+    null,
+    null,
+    null
+   ],
+   "exterior_pronto_s": 1.49,
+   "rede_abrir_mb": 0.46,
+   "interior_1o_quadro_s": 0.09,
+   "interior_pronto_s": 1.65,
+   "rede_interior_mb": 0.0,
+   "textura_pico_mib": 20.9,
+   "buffer_pico_mib": 4.5,
+   "heap_pico_mib": 57.3,
+   "upload_textura_ms": 4,
+   "pior_travada_exterior_ms": 485,
+   "pior_travada_interior_ms": 1286,
+   "bloqueio_exterior_ms": 39,
+   "bloqueio_interior_ms": 1333,
+   "erros": 0
+  },
+  "4g-fraco/premium": {
+   "html_s": 0.91,
+   "primeiro_quadro_s": 1.58,
+   "draws_primeiro_quadro": 31,
+   "draws_estavel": 43.0,
+   "luz_exterior_s": 15.18,
+   "bake_vertice_s": [
+    null,
+    null,
+    null
+   ],
+   "exterior_pronto_s": 15.18,
+   "rede_abrir_mb": 8.66,
+   "interior_1o_quadro_s": 0.1,
+   "interior_pronto_s": 14.14,
+   "rede_interior_mb": 6.73,
+   "textura_pico_mib": 104.2,
+   "buffer_pico_mib": 13.7,
+   "heap_pico_mib": 171.8,
+   "upload_textura_ms": 38,
+   "pior_travada_exterior_ms": 559,
+   "pior_travada_interior_ms": 2544,
+   "bloqueio_exterior_ms": 588,
+   "bloqueio_interior_ms": 3374,
+   "erros": 0
+  },
+  "celular-lighthouse/leve": {
+   "html_s": 3.0,
+   "primeiro_quadro_s": 5.05,
+   "draws_primeiro_quadro": 30,
+   "draws_estavel": 45.0,
+   "luz_exterior_s": [
+    null,
+    null,
+    null
+   ],
+   "bake_vertice_s": [
+    null,
+    null,
+    null
+   ],
+   "exterior_pronto_s": 5.05,
+   "rede_abrir_mb": 0.46,
+   "interior_1o_quadro_s": 0.39,
+   "interior_pronto_s": 3.17,
+   "rede_interior_mb": 0.0,
+   "textura_pico_mib": 20.9,
+   "buffer_pico_mib": 4.5,
+   "heap_pico_mib": 58.3,
+   "upload_textura_ms": 21,
+   "pior_travada_exterior_ms": 696,
+   "pior_travada_interior_ms": 1321,
+   "bloqueio_exterior_ms": 351,
+   "bloqueio_interior_ms": 1787,
+   "erros": 0
+  },
+  "celular-lighthouse/premium": {
+   "html_s": 3.05,
+   "primeiro_quadro_s": 5.25,
+   "draws_primeiro_quadro": 31,
+   "draws_estavel": 43.0,
+   "luz_exterior_s": 51.16,
+   "bake_vertice_s": [
+    null,
+    null,
+    null
+   ],
+   "exterior_pronto_s": 51.16,
+   "rede_abrir_mb": 8.66,
+   "interior_1o_quadro_s": 0.5,
+   "interior_pronto_s": 42.19,
+   "rede_interior_mb": 6.73,
+   "textura_pico_mib": 104.2,
+   "buffer_pico_mib": 13.7,
+   "heap_pico_mib": 158.4,
+   "upload_textura_ms": 95,
+   "pior_travada_exterior_ms": 1074,
+   "pior_travada_interior_ms": 2923,
+   "bloqueio_exterior_ms": 3049,
+   "bloqueio_interior_ms": 4996,
+   "erros": 0
+  }
+ },
+ "rodadas": [
+  {
+   "rodada": 0,
+   "perfil": "referencia",
+   "variante": "leve",
+   "resumo": {
+    "html_s": 0.05,
+    "primeiro_quadro_s": 0.82,
+    "draws_primeiro_quadro": 30,
+    "draws_estavel": 45.0,
+    "luz_exterior_s": null,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 0.82,
+    "rede_abrir_mb": 0.46,
+    "interior_1o_quadro_s": 0.07,
+    "interior_pronto_s": 1.6,
+    "rede_interior_mb": 0.0,
+    "textura_pico_mib": 20.9,
+    "buffer_pico_mib": 4.5,
+    "heap_pico_mib": 54.7,
+    "upload_textura_ms": 5,
+    "pior_travada_exterior_ms": 446,
+    "pior_travada_interior_ms": 1230,
+    "bloqueio_exterior_ms": 86,
+    "bloqueio_interior_ms": 1287,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     661,
+     "bake",
+     false
+    ],
+    [
+     3435,
+     "bake",
+     true
+    ],
+    [
+     4964,
+     "bake",
+     false
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 663,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": []
+  },
+  {
+   "rodada": 0,
+   "perfil": "referencia",
+   "variante": "premium",
+   "resumo": {
+    "html_s": 0.04,
+    "primeiro_quadro_s": 1.0,
+    "draws_primeiro_quadro": 31,
+    "draws_estavel": 43.0,
+    "luz_exterior_s": 1.89,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 1.89,
+    "rede_abrir_mb": 8.66,
+    "interior_1o_quadro_s": 0.11,
+    "interior_pronto_s": 3.28,
+    "rede_interior_mb": 6.73,
+    "textura_pico_mib": 104.2,
+    "buffer_pico_mib": 13.7,
+    "heap_pico_mib": 163.9,
+    "upload_textura_ms": 34,
+    "pior_travada_exterior_ms": 519,
+    "pior_travada_interior_ms": 2663,
+    "bloqueio_exterior_ms": 655,
+    "bloqueio_interior_ms": 3459,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     819,
+     "bake",
+     false
+    ],
+    [
+     819,
+     "exLuz",
+     "parado"
+    ],
+    [
+     819,
+     "inLuz",
+     "parado"
+    ],
+    [
+     1338,
+     "exLuz",
+     "baixando"
+    ],
+    [
+     1893,
+     "exLuz",
+     "pronto"
+    ],
+    [
+     3620,
+     "bake",
+     true
+    ],
+    [
+     6567,
+     "bake",
+     false
+    ],
+    [
+     6567,
+     "inLuz",
+     "baixando"
+    ],
+    [
+     6788,
+     "inLuz",
+     "pronto"
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 824,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    },
+    {
+     "t": 2053,
+     "w": 4096,
+     "h": 4096,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 64
+    },
+    {
+     "t": 6894,
+     "w": 2048,
+     "h": 2048,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": [
+    {
+     "u": "exterior-uv.json",
+     "ini": 821.6999999880791,
+     "fim": 1521.199999988079,
+     "rede": 1178787
+    },
+    {
+     "u": "exterior-luz.rgbm.gz",
+     "ini": 822,
+     "fim": 1478.300000011921,
+     "rede": 7016248
+    },
+    {
+     "u": "interior-uv.json",
+     "ini": 6555.5,
+     "fim": 6623.199999988079,
+     "rede": 443280
+    },
+    {
+     "u": "interior-luz.rgbm.gz",
+     "ini": 6555.599999964237,
+     "fim": 6624.699999988079,
+     "rede": 6287398
+    }
+   ]
+  },
+  {
+   "rodada": 0,
+   "perfil": "4g-bom",
+   "variante": "leve",
+   "resumo": {
+    "html_s": 0.29,
+    "primeiro_quadro_s": 0.95,
+    "draws_primeiro_quadro": 30,
+    "draws_estavel": 45.0,
+    "luz_exterior_s": null,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 0.95,
+    "rede_abrir_mb": 0.46,
+    "interior_1o_quadro_s": 0.08,
+    "interior_pronto_s": 1.77,
+    "rede_interior_mb": 0.0,
+    "textura_pico_mib": 20.9,
+    "buffer_pico_mib": 4.5,
+    "heap_pico_mib": 56.8,
+    "upload_textura_ms": 5,
+    "pior_travada_exterior_ms": 445,
+    "pior_travada_interior_ms": 1344,
+    "bloqueio_exterior_ms": 0,
+    "bloqueio_interior_ms": 1423,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     777,
+     "bake",
+     false
+    ],
+    [
+     3550,
+     "bake",
+     true
+    ],
+    [
+     5238,
+     "bake",
+     false
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 780,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": []
+  },
+  {
+   "rodada": 0,
+   "perfil": "4g-bom",
+   "variante": "premium",
+   "resumo": {
+    "html_s": 0.3,
+    "primeiro_quadro_s": 1.1,
+    "draws_primeiro_quadro": 31,
+    "draws_estavel": 43.0,
+    "luz_exterior_s": 4.78,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 4.78,
+    "rede_abrir_mb": 8.66,
+    "interior_1o_quadro_s": 0.11,
+    "interior_pronto_s": 6.26,
+    "rede_interior_mb": 6.73,
+    "textura_pico_mib": 104.2,
+    "buffer_pico_mib": 13.7,
+    "heap_pico_mib": 204.2,
+    "upload_textura_ms": 43,
+    "pior_travada_exterior_ms": 569,
+    "pior_travada_interior_ms": 2878,
+    "bloqueio_exterior_ms": 718,
+    "bloqueio_interior_ms": 3744,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     918,
+     "bake",
+     false
+    ],
+    [
+     918,
+     "exLuz",
+     "parado"
+    ],
+    [
+     918,
+     "inLuz",
+     "parado"
+    ],
+    [
+     1487,
+     "exLuz",
+     "baixando"
+    ],
+    [
+     4781,
+     "exLuz",
+     "pronto"
+    ],
+    [
+     6414,
+     "bake",
+     true
+    ],
+    [
+     9562,
+     "bake",
+     false
+    ],
+    [
+     9562,
+     "inLuz",
+     "baixando"
+    ],
+    [
+     12557,
+     "inLuz",
+     "pronto"
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 923,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    },
+    {
+     "t": 4937,
+     "w": 4096,
+     "h": 4096,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 64
+    },
+    {
+     "t": 12666,
+     "w": 2048,
+     "h": 2048,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": [
+    {
+     "u": "exterior-uv.json",
+     "ini": 920.3999999761581,
+     "fim": 2348.800000011921,
+     "rede": 1178787
+    },
+    {
+     "u": "exterior-luz.rgbm.gz",
+     "ini": 920.8999999761581,
+     "fim": 4370,
+     "rede": 7016248
+    },
+    {
+     "u": "interior-uv.json",
+     "ini": 9541.100000023842,
+     "fim": 9993,
+     "rede": 443280
+    },
+    {
+     "u": "interior-luz.rgbm.gz",
+     "ini": 9541.300000011921,
+     "fim": 12420.699999988079,
+     "rede": 6287398
+    }
+   ]
+  },
+  {
+   "rodada": 0,
+   "perfil": "4g-fraco",
+   "variante": "leve",
+   "resumo": {
+    "html_s": 0.92,
+    "primeiro_quadro_s": 1.49,
+    "draws_primeiro_quadro": 30,
+    "draws_estavel": 45.0,
+    "luz_exterior_s": null,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 1.49,
+    "rede_abrir_mb": 0.46,
+    "interior_1o_quadro_s": 0.09,
+    "interior_pronto_s": 1.65,
+    "rede_interior_mb": 0.0,
+    "textura_pico_mib": 20.9,
+    "buffer_pico_mib": 4.5,
+    "heap_pico_mib": 57.4,
+    "upload_textura_ms": 4,
+    "pior_travada_exterior_ms": 485,
+    "pior_travada_interior_ms": 1286,
+    "bloqueio_exterior_ms": 39,
+    "bloqueio_interior_ms": 1333,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     1311,
+     "bake",
+     false
+    ],
+    [
+     4136,
+     "bake",
+     true
+    ],
+    [
+     5699,
+     "bake",
+     false
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 1315,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": []
+  },
+  {
+   "rodada": 0,
+   "perfil": "4g-fraco",
+   "variante": "premium",
+   "resumo": {
+    "html_s": 0.92,
+    "primeiro_quadro_s": 1.67,
+    "draws_primeiro_quadro": 31,
+    "draws_estavel": 43.0,
+    "luz_exterior_s": 15.18,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 15.18,
+    "rede_abrir_mb": 8.66,
+    "interior_1o_quadro_s": 0.09,
+    "interior_pronto_s": 13.88,
+    "rede_interior_mb": 6.73,
+    "textura_pico_mib": 104.2,
+    "buffer_pico_mib": 13.7,
+    "heap_pico_mib": 171.8,
+    "upload_textura_ms": 39,
+    "pior_travada_exterior_ms": 703,
+    "pior_travada_interior_ms": 2400,
+    "bloqueio_exterior_ms": 564,
+    "bloqueio_interior_ms": 3197,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     1455,
+     "bake",
+     false
+    ],
+    [
+     1455,
+     "exLuz",
+     "parado"
+    ],
+    [
+     1455,
+     "inLuz",
+     "parado"
+    ],
+    [
+     2158,
+     "exLuz",
+     "baixando"
+    ],
+    [
+     15182,
+     "exLuz",
+     "pronto"
+    ],
+    [
+     16673,
+     "bake",
+     true
+    ],
+    [
+     19306,
+     "bake",
+     false
+    ],
+    [
+     19306,
+     "inLuz",
+     "baixando"
+    ],
+    [
+     30471,
+     "inLuz",
+     "pronto"
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 1461,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    },
+    {
+     "t": 15331,
+     "w": 4096,
+     "h": 4096,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 64
+    },
+    {
+     "t": 30579,
+     "w": 2048,
+     "h": 2048,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": [
+    {
+     "u": "exterior-uv.json",
+     "ini": 1457.800000011921,
+     "fim": 5463.800000011921,
+     "rede": 1178787
+    },
+    {
+     "u": "exterior-luz.rgbm.gz",
+     "ini": 1458.300000011921,
+     "fim": 14839.900000035763,
+     "rede": 7016248
+    },
+    {
+     "u": "interior-uv.json",
+     "ini": 19294.100000023842,
+     "fim": 20909,
+     "rede": 443280
+    },
+    {
+     "u": "interior-luz.rgbm.gz",
+     "ini": 19294.200000047684,
+     "fim": 30360.80000001192,
+     "rede": 6287398
+    }
+   ]
+  },
+  {
+   "rodada": 0,
+   "perfil": "celular-lighthouse",
+   "variante": "leve",
+   "resumo": {
+    "html_s": 3.01,
+    "primeiro_quadro_s": 5.24,
+    "draws_primeiro_quadro": 30,
+    "draws_estavel": 45.0,
+    "luz_exterior_s": null,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 5.24,
+    "rede_abrir_mb": 0.46,
+    "interior_1o_quadro_s": 0.39,
+    "interior_pronto_s": 3.17,
+    "rede_interior_mb": 0.0,
+    "textura_pico_mib": 20.9,
+    "buffer_pico_mib": 4.5,
+    "heap_pico_mib": 58.3,
+    "upload_textura_ms": 29,
+    "pior_travada_exterior_ms": 697,
+    "pior_travada_interior_ms": 1368,
+    "bloqueio_exterior_ms": 351,
+    "bloqueio_interior_ms": 1834,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     5014,
+     "bake",
+     false
+    ],
+    [
+     8218,
+     "bake",
+     true
+    ],
+    [
+     11003,
+     "bake",
+     false
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 5032,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": []
+  },
+  {
+   "rodada": 0,
+   "perfil": "celular-lighthouse",
+   "variante": "premium",
+   "resumo": {
+    "html_s": 3.06,
+    "primeiro_quadro_s": 5.25,
+    "draws_primeiro_quadro": 31,
+    "draws_estavel": 43.0,
+    "luz_exterior_s": 51.16,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 51.16,
+    "rede_abrir_mb": 8.66,
+    "interior_1o_quadro_s": 0.5,
+    "interior_pronto_s": 42.19,
+    "rede_interior_mb": 6.73,
+    "textura_pico_mib": 104.2,
+    "buffer_pico_mib": 13.7,
+    "heap_pico_mib": 159.6,
+    "upload_textura_ms": 88,
+    "pior_travada_exterior_ms": 1080,
+    "pior_travada_interior_ms": 2918,
+    "bloqueio_exterior_ms": 3049,
+    "bloqueio_interior_ms": 5045,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     4991,
+     "bake",
+     false
+    ],
+    [
+     4991,
+     "exLuz",
+     "parado"
+    ],
+    [
+     4991,
+     "inLuz",
+     "parado"
+    ],
+    [
+     5842,
+     "exLuz",
+     "baixando"
+    ],
+    [
+     51163,
+     "exLuz",
+     "pronto"
+    ],
+    [
+     53221,
+     "bake",
+     true
+    ],
+    [
+     57737,
+     "bake",
+     false
+    ],
+    [
+     57737,
+     "inLuz",
+     "baixando"
+    ],
+    [
+     94915,
+     "inLuz",
+     "pronto"
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 5026,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    },
+    {
+     "t": 51372,
+     "w": 4096,
+     "h": 4096,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 64
+    },
+    {
+     "t": 95058,
+     "w": 2048,
+     "h": 2048,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": [
+    {
+     "u": "exterior-uv.json",
+     "ini": 5005.600000023842,
+     "fim": 18090.399999976158,
+     "rede": 1178787
+    },
+    {
+     "u": "exterior-luz.rgbm.gz",
+     "ini": 5009.5,
+     "fim": 49174.60000002384,
+     "rede": 7016248
+    },
+    {
+     "u": "interior-uv.json",
+     "ini": 57708.60000002384,
+     "fim": 63008.5,
+     "rede": 443280
+    },
+    {
+     "u": "interior-luz.rgbm.gz",
+     "ini": 57710,
+     "fim": 94149.5,
+     "rede": 6287398
+    }
+   ]
+  },
+  {
+   "rodada": 1,
+   "perfil": "referencia",
+   "variante": "leve",
+   "resumo": {
+    "html_s": 0.04,
+    "primeiro_quadro_s": 0.85,
+    "draws_primeiro_quadro": 30,
+    "draws_estavel": 45.0,
+    "luz_exterior_s": null,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 0.85,
+    "rede_abrir_mb": 0.46,
+    "interior_1o_quadro_s": 0.07,
+    "interior_pronto_s": 1.53,
+    "rede_interior_mb": 0.0,
+    "textura_pico_mib": 20.9,
+    "buffer_pico_mib": 4.5,
+    "heap_pico_mib": 56.9,
+    "upload_textura_ms": 5,
+    "pior_travada_exterior_ms": 447,
+    "pior_travada_interior_ms": 1180,
+    "bloqueio_exterior_ms": 77,
+    "bloqueio_interior_ms": 1212,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     679,
+     "bake",
+     false
+    ],
+    [
+     3439,
+     "bake",
+     true
+    ],
+    [
+     4904,
+     "bake",
+     false
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 682,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": []
+  },
+  {
+   "rodada": 1,
+   "perfil": "referencia",
+   "variante": "premium",
+   "resumo": {
+    "html_s": 0.03,
+    "primeiro_quadro_s": 0.93,
+    "draws_primeiro_quadro": 31,
+    "draws_estavel": 43.0,
+    "luz_exterior_s": 1.89,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 1.89,
+    "rede_abrir_mb": 8.66,
+    "interior_1o_quadro_s": 0.12,
+    "interior_pronto_s": 3.38,
+    "rede_interior_mb": 6.73,
+    "textura_pico_mib": 104.2,
+    "buffer_pico_mib": 13.7,
+    "heap_pico_mib": 192.0,
+    "upload_textura_ms": 37,
+    "pior_travada_exterior_ms": 497,
+    "pior_travada_interior_ms": 2667,
+    "bloqueio_exterior_ms": 667,
+    "bloqueio_interior_ms": 3580,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     750,
+     "bake",
+     false
+    ],
+    [
+     750,
+     "exLuz",
+     "parado"
+    ],
+    [
+     750,
+     "inLuz",
+     "parado"
+    ],
+    [
+     1247,
+     "exLuz",
+     "baixando"
+    ],
+    [
+     1892,
+     "exLuz",
+     "pronto"
+    ],
+    [
+     3631,
+     "bake",
+     true
+    ],
+    [
+     6635,
+     "bake",
+     false
+    ],
+    [
+     6635,
+     "inLuz",
+     "baixando"
+    ],
+    [
+     6887,
+     "inLuz",
+     "pronto"
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 756,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    },
+    {
+     "t": 2031,
+     "w": 4096,
+     "h": 4096,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 64
+    },
+    {
+     "t": 6994,
+     "w": 2048,
+     "h": 2048,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": [
+    {
+     "u": "exterior-uv.json",
+     "ini": 752.5999999642372,
+     "fim": 1450.800000011921,
+     "rede": 1178787
+    },
+    {
+     "u": "exterior-luz.rgbm.gz",
+     "ini": 753,
+     "fim": 1397.0999999642372,
+     "rede": 7016248
+    },
+    {
+     "u": "interior-uv.json",
+     "ini": 6621.099999964237,
+     "fim": 6691.699999988079,
+     "rede": 443280
+    },
+    {
+     "u": "interior-luz.rgbm.gz",
+     "ini": 6621.399999976158,
+     "fim": 6735.5,
+     "rede": 6287398
+    }
+   ]
+  },
+  {
+   "rodada": 1,
+   "perfil": "4g-bom",
+   "variante": "leve",
+   "resumo": {
+    "html_s": 0.28,
+    "primeiro_quadro_s": 1.02,
+    "draws_primeiro_quadro": 30,
+    "draws_estavel": 45.0,
+    "luz_exterior_s": null,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 1.02,
+    "rede_abrir_mb": 0.46,
+    "interior_1o_quadro_s": 0.07,
+    "interior_pronto_s": 2.69,
+    "rede_interior_mb": 0.0,
+    "textura_pico_mib": 20.9,
+    "buffer_pico_mib": 4.5,
+    "heap_pico_mib": 58.1,
+    "upload_textura_ms": 6,
+    "pior_travada_exterior_ms": 502,
+    "pior_travada_interior_ms": 2072,
+    "bloqueio_exterior_ms": 14,
+    "bloqueio_interior_ms": 2236,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     834,
+     "bake",
+     false
+    ],
+    [
+     3647,
+     "bake",
+     true
+    ],
+    [
+     6274,
+     "bake",
+     false
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 837,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": []
+  },
+  {
+   "rodada": 1,
+   "perfil": "4g-bom",
+   "variante": "premium",
+   "resumo": {
+    "html_s": 0.28,
+    "primeiro_quadro_s": 1.0,
+    "draws_primeiro_quadro": 31,
+    "draws_estavel": 43.0,
+    "luz_exterior_s": 4.59,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 4.59,
+    "rede_abrir_mb": 8.66,
+    "interior_1o_quadro_s": 0.11,
+    "interior_pronto_s": 6.07,
+    "rede_interior_mb": 6.73,
+    "textura_pico_mib": 104.2,
+    "buffer_pico_mib": 13.7,
+    "heap_pico_mib": 167.6,
+    "upload_textura_ms": 34,
+    "pior_travada_exterior_ms": 495,
+    "pior_travada_interior_ms": 2629,
+    "bloqueio_exterior_ms": 562,
+    "bloqueio_interior_ms": 3849,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     832,
+     "bake",
+     false
+    ],
+    [
+     832,
+     "exLuz",
+     "parado"
+    ],
+    [
+     832,
+     "inLuz",
+     "parado"
+    ],
+    [
+     1327,
+     "exLuz",
+     "baixando"
+    ],
+    [
+     4590,
+     "exLuz",
+     "pronto"
+    ],
+    [
+     6079,
+     "bake",
+     true
+    ],
+    [
+     8985,
+     "bake",
+     false
+    ],
+    [
+     8985,
+     "inLuz",
+     "baixando"
+    ],
+    [
+     12041,
+     "inLuz",
+     "pronto"
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 837,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    },
+    {
+     "t": 4726,
+     "w": 4096,
+     "h": 4096,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 64
+    },
+    {
+     "t": 12205,
+     "w": 2048,
+     "h": 2048,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": [
+    {
+     "u": "exterior-uv.json",
+     "ini": 834,
+     "fim": 2173.099999964237,
+     "rede": 1178787
+    },
+    {
+     "u": "exterior-luz.rgbm.gz",
+     "ini": 834.3999999761581,
+     "fim": 4266.399999976158,
+     "rede": 7016248
+    },
+    {
+     "u": "interior-uv.json",
+     "ini": 8975.399999976158,
+     "fim": 9425.5,
+     "rede": 443280
+    },
+    {
+     "u": "interior-luz.rgbm.gz",
+     "ini": 8975.5,
+     "fim": 11852.5,
+     "rede": 6287398
+    }
+   ]
+  },
+  {
+   "rodada": 1,
+   "perfil": "4g-fraco",
+   "variante": "leve",
+   "resumo": {
+    "html_s": 0.92,
+    "primeiro_quadro_s": 1.61,
+    "draws_primeiro_quadro": 30,
+    "draws_estavel": 45.0,
+    "luz_exterior_s": null,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 1.61,
+    "rede_abrir_mb": 0.46,
+    "interior_1o_quadro_s": 0.09,
+    "interior_pronto_s": 1.71,
+    "rede_interior_mb": 0.0,
+    "textura_pico_mib": 20.9,
+    "buffer_pico_mib": 4.5,
+    "heap_pico_mib": 57.2,
+    "upload_textura_ms": 5,
+    "pior_travada_exterior_ms": 584,
+    "pior_travada_interior_ms": 1319,
+    "bloqueio_exterior_ms": 44,
+    "bloqueio_interior_ms": 1352,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     1412,
+     "bake",
+     false
+    ],
+    [
+     4247,
+     "bake",
+     true
+    ],
+    [
+     5862,
+     "bake",
+     false
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 1418,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": []
+  },
+  {
+   "rodada": 1,
+   "perfil": "4g-fraco",
+   "variante": "premium",
+   "resumo": {
+    "html_s": 0.91,
+    "primeiro_quadro_s": 1.55,
+    "draws_primeiro_quadro": 31,
+    "draws_estavel": 43.0,
+    "luz_exterior_s": 15.11,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 15.11,
+    "rede_abrir_mb": 8.66,
+    "interior_1o_quadro_s": 0.1,
+    "interior_pronto_s": 14.14,
+    "rede_interior_mb": 6.73,
+    "textura_pico_mib": 104.2,
+    "buffer_pico_mib": 13.7,
+    "heap_pico_mib": 196.8,
+    "upload_textura_ms": 33,
+    "pior_travada_exterior_ms": 559,
+    "pior_travada_interior_ms": 2622,
+    "bloqueio_exterior_ms": 605,
+    "bloqueio_interior_ms": 3374,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     1387,
+     "bake",
+     false
+    ],
+    [
+     1387,
+     "exLuz",
+     "parado"
+    ],
+    [
+     1387,
+     "inLuz",
+     "parado"
+    ],
+    [
+     1946,
+     "exLuz",
+     "baixando"
+    ],
+    [
+     15114,
+     "exLuz",
+     "pronto"
+    ],
+    [
+     16618,
+     "bake",
+     true
+    ],
+    [
+     19500,
+     "bake",
+     false
+    ],
+    [
+     19500,
+     "inLuz",
+     "baixando"
+    ],
+    [
+     30654,
+     "inLuz",
+     "pronto"
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 1392,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    },
+    {
+     "t": 15242,
+     "w": 4096,
+     "h": 4096,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 64
+    },
+    {
+     "t": 30767,
+     "w": 2048,
+     "h": 2048,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": [
+    {
+     "u": "exterior-uv.json",
+     "ini": 1389.5,
+     "fim": 5375.300000011921,
+     "rede": 1178787
+    },
+    {
+     "u": "exterior-luz.rgbm.gz",
+     "ini": 1389.800000011921,
+     "fim": 14772.800000011921,
+     "rede": 7016248
+    },
+    {
+     "u": "interior-uv.json",
+     "ini": 19479.899999976158,
+     "fim": 21093.899999976158,
+     "rede": 443280
+    },
+    {
+     "u": "interior-luz.rgbm.gz",
+     "ini": 19480,
+     "fim": 30532.80000001192,
+     "rede": 6287398
+    }
+   ]
+  },
+  {
+   "rodada": 1,
+   "perfil": "celular-lighthouse",
+   "variante": "leve",
+   "resumo": {
+    "html_s": 3.0,
+    "primeiro_quadro_s": 4.99,
+    "draws_primeiro_quadro": 30,
+    "draws_estavel": 45.0,
+    "luz_exterior_s": null,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 4.99,
+    "rede_abrir_mb": 0.46,
+    "interior_1o_quadro_s": 0.39,
+    "interior_pronto_s": 3.25,
+    "rede_interior_mb": 0.0,
+    "textura_pico_mib": 20.9,
+    "buffer_pico_mib": 4.5,
+    "heap_pico_mib": 58.5,
+    "upload_textura_ms": 21,
+    "pior_travada_exterior_ms": 687,
+    "pior_travada_interior_ms": 1321,
+    "bloqueio_exterior_ms": 361,
+    "bloqueio_interior_ms": 1787,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     4739,
+     "bake",
+     false
+    ],
+    [
+     7923,
+     "bake",
+     true
+    ],
+    [
+     10774,
+     "bake",
+     false
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 4757,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": []
+  },
+  {
+   "rodada": 1,
+   "perfil": "celular-lighthouse",
+   "variante": "premium",
+   "resumo": {
+    "html_s": 3.05,
+    "primeiro_quadro_s": 5.27,
+    "draws_primeiro_quadro": 31,
+    "draws_estavel": 43.0,
+    "luz_exterior_s": 51.2,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 51.2,
+    "rede_abrir_mb": 8.66,
+    "interior_1o_quadro_s": 0.52,
+    "interior_pronto_s": 42.3,
+    "rede_interior_mb": 6.73,
+    "textura_pico_mib": 104.2,
+    "buffer_pico_mib": 13.7,
+    "heap_pico_mib": 158.4,
+    "upload_textura_ms": 95,
+    "pior_travada_exterior_ms": 1074,
+    "pior_travada_interior_ms": 2964,
+    "bloqueio_exterior_ms": 3103,
+    "bloqueio_interior_ms": 4996,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     5016,
+     "bake",
+     false
+    ],
+    [
+     5016,
+     "exLuz",
+     "parado"
+    ],
+    [
+     5016,
+     "inLuz",
+     "parado"
+    ],
+    [
+     5743,
+     "exLuz",
+     "baixando"
+    ],
+    [
+     51203,
+     "exLuz",
+     "pronto"
+    ],
+    [
+     53321,
+     "bake",
+     true
+    ],
+    [
+     57910,
+     "bake",
+     false
+    ],
+    [
+     57910,
+     "inLuz",
+     "baixando"
+    ],
+    [
+     95103,
+     "inLuz",
+     "pronto"
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 5051,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    },
+    {
+     "t": 51430,
+     "w": 4096,
+     "h": 4096,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 64
+    },
+    {
+     "t": 95253,
+     "w": 2048,
+     "h": 2048,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": [
+    {
+     "u": "exterior-uv.json",
+     "ini": 5034,
+     "fim": 18095.80000001192,
+     "rede": 1178787
+    },
+    {
+     "u": "exterior-luz.rgbm.gz",
+     "ini": 5036.199999988079,
+     "fim": 49211,
+     "rede": 7016248
+    },
+    {
+     "u": "interior-uv.json",
+     "ini": 57881.89999997616,
+     "fim": 63186.10000002384,
+     "rede": 443280
+    },
+    {
+     "u": "interior-luz.rgbm.gz",
+     "ini": 57883.30000001192,
+     "fim": 94356.39999997616,
+     "rede": 6287398
+    }
+   ]
+  },
+  {
+   "rodada": 2,
+   "perfil": "referencia",
+   "variante": "leve",
+   "resumo": {
+    "html_s": 0.04,
+    "primeiro_quadro_s": 0.92,
+    "draws_primeiro_quadro": 30,
+    "draws_estavel": 45.0,
+    "luz_exterior_s": null,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 0.92,
+    "rede_abrir_mb": 0.46,
+    "interior_1o_quadro_s": 0.07,
+    "interior_pronto_s": 1.63,
+    "rede_interior_mb": 0.0,
+    "textura_pico_mib": 20.9,
+    "buffer_pico_mib": 4.5,
+    "heap_pico_mib": 56.7,
+    "upload_textura_ms": 4,
+    "pior_travada_exterior_ms": 447,
+    "pior_travada_interior_ms": 1283,
+    "bloqueio_exterior_ms": 77,
+    "bloqueio_interior_ms": 1318,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     751,
+     "bake",
+     false
+    ],
+    [
+     3509,
+     "bake",
+     true
+    ],
+    [
+     5068,
+     "bake",
+     false
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 755,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": []
+  },
+  {
+   "rodada": 2,
+   "perfil": "referencia",
+   "variante": "premium",
+   "resumo": {
+    "html_s": 0.04,
+    "primeiro_quadro_s": 0.98,
+    "draws_primeiro_quadro": 31,
+    "draws_estavel": 43.0,
+    "luz_exterior_s": 1.87,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 1.87,
+    "rede_abrir_mb": 8.66,
+    "interior_1o_quadro_s": 0.11,
+    "interior_pronto_s": 3.49,
+    "rede_interior_mb": 6.73,
+    "textura_pico_mib": 104.2,
+    "buffer_pico_mib": 13.7,
+    "heap_pico_mib": 163.9,
+    "upload_textura_ms": 49,
+    "pior_travada_exterior_ms": 587,
+    "pior_travada_interior_ms": 2839,
+    "bloqueio_exterior_ms": 855,
+    "bloqueio_interior_ms": 3643,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     823,
+     "bake",
+     false
+    ],
+    [
+     823,
+     "exLuz",
+     "parado"
+    ],
+    [
+     823,
+     "inLuz",
+     "parado"
+    ],
+    [
+     1307,
+     "exLuz",
+     "baixando"
+    ],
+    [
+     1874,
+     "exLuz",
+     "pronto"
+    ],
+    [
+     3681,
+     "bake",
+     true
+    ],
+    [
+     6800,
+     "bake",
+     false
+    ],
+    [
+     6800,
+     "inLuz",
+     "baixando"
+    ],
+    [
+     7055,
+     "inLuz",
+     "pronto"
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 828,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    },
+    {
+     "t": 2095,
+     "w": 4096,
+     "h": 4096,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 64
+    },
+    {
+     "t": 7173,
+     "w": 2048,
+     "h": 2048,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": [
+    {
+     "u": "exterior-uv.json",
+     "ini": 825.6000000238419,
+     "fim": 1472.5,
+     "rede": 1178787
+    },
+    {
+     "u": "exterior-luz.rgbm.gz",
+     "ini": 826.1000000238419,
+     "fim": 1435.9000000357628,
+     "rede": 7016248
+    },
+    {
+     "u": "interior-uv.json",
+     "ini": 6793.199999988079,
+     "fim": 6876.400000035763,
+     "rede": 443280
+    },
+    {
+     "u": "interior-luz.rgbm.gz",
+     "ini": 6793.400000035763,
+     "fim": 6870.900000035763,
+     "rede": 6287398
+    }
+   ]
+  },
+  {
+   "rodada": 2,
+   "perfil": "4g-bom",
+   "variante": "leve",
+   "resumo": {
+    "html_s": 0.29,
+    "primeiro_quadro_s": 0.97,
+    "draws_primeiro_quadro": 30,
+    "draws_estavel": 45.0,
+    "luz_exterior_s": null,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 0.97,
+    "rede_abrir_mb": 0.46,
+    "interior_1o_quadro_s": 0.07,
+    "interior_pronto_s": 1.56,
+    "rede_interior_mb": 0.0,
+    "textura_pico_mib": 20.9,
+    "buffer_pico_mib": 4.5,
+    "heap_pico_mib": 57.1,
+    "upload_textura_ms": 4,
+    "pior_travada_exterior_ms": 467,
+    "pior_travada_interior_ms": 1228,
+    "bloqueio_exterior_ms": 16,
+    "bloqueio_interior_ms": 1259,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     815,
+     "bake",
+     false
+    ],
+    [
+     3594,
+     "bake",
+     true
+    ],
+    [
+     5087,
+     "bake",
+     false
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 818,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": []
+  },
+  {
+   "rodada": 2,
+   "perfil": "4g-bom",
+   "variante": "premium",
+   "resumo": {
+    "html_s": 0.29,
+    "primeiro_quadro_s": 1.02,
+    "draws_primeiro_quadro": 31,
+    "draws_estavel": 43.0,
+    "luz_exterior_s": 4.67,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 4.67,
+    "rede_abrir_mb": 8.66,
+    "interior_1o_quadro_s": 0.12,
+    "interior_pronto_s": 5.95,
+    "rede_interior_mb": 6.73,
+    "textura_pico_mib": 104.2,
+    "buffer_pico_mib": 13.7,
+    "heap_pico_mib": 206.2,
+    "upload_textura_ms": 35,
+    "pior_travada_exterior_ms": 502,
+    "pior_travada_interior_ms": 2565,
+    "bloqueio_exterior_ms": 698,
+    "bloqueio_interior_ms": 3477,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     867,
+     "bake",
+     false
+    ],
+    [
+     867,
+     "exLuz",
+     "parado"
+    ],
+    [
+     867,
+     "inLuz",
+     "parado"
+    ],
+    [
+     1369,
+     "exLuz",
+     "baixando"
+    ],
+    [
+     4666,
+     "exLuz",
+     "pronto"
+    ],
+    [
+     6235,
+     "bake",
+     true
+    ],
+    [
+     9058,
+     "bake",
+     false
+    ],
+    [
+     9058,
+     "inLuz",
+     "baixando"
+    ],
+    [
+     12065,
+     "inLuz",
+     "pronto"
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 871,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    },
+    {
+     "t": 4842,
+     "w": 4096,
+     "h": 4096,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 64
+    },
+    {
+     "t": 12183,
+     "w": 2048,
+     "h": 2048,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": [
+    {
+     "u": "exterior-uv.json",
+     "ini": 869.2000000476837,
+     "fim": 2208,
+     "rede": 1178787
+    },
+    {
+     "u": "exterior-luz.rgbm.gz",
+     "ini": 869.6000000238419,
+     "fim": 4296.900000035763,
+     "rede": 7016248
+    },
+    {
+     "u": "interior-uv.json",
+     "ini": 9046.400000035763,
+     "fim": 9492.100000023842,
+     "rede": 443280
+    },
+    {
+     "u": "interior-luz.rgbm.gz",
+     "ini": 9046.600000023842,
+     "fim": 11910.300000011921,
+     "rede": 6287398
+    }
+   ]
+  },
+  {
+   "rodada": 2,
+   "perfil": "4g-fraco",
+   "variante": "leve",
+   "resumo": {
+    "html_s": 0.93,
+    "primeiro_quadro_s": 1.49,
+    "draws_primeiro_quadro": 30,
+    "draws_estavel": 45.0,
+    "luz_exterior_s": null,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 1.49,
+    "rede_abrir_mb": 0.46,
+    "interior_1o_quadro_s": 0.08,
+    "interior_pronto_s": 1.56,
+    "rede_interior_mb": 0.0,
+    "textura_pico_mib": 20.9,
+    "buffer_pico_mib": 4.5,
+    "heap_pico_mib": 57.3,
+    "upload_textura_ms": 4,
+    "pior_travada_exterior_ms": 441,
+    "pior_travada_interior_ms": 1189,
+    "bloqueio_exterior_ms": 33,
+    "bloqueio_interior_ms": 1226,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     1336,
+     "bake",
+     false
+    ],
+    [
+     4116,
+     "bake",
+     true
+    ],
+    [
+     5593,
+     "bake",
+     false
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 1340,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": []
+  },
+  {
+   "rodada": 2,
+   "perfil": "4g-fraco",
+   "variante": "premium",
+   "resumo": {
+    "html_s": 0.91,
+    "primeiro_quadro_s": 1.58,
+    "draws_primeiro_quadro": 31,
+    "draws_estavel": 43.0,
+    "luz_exterior_s": 15.2,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 15.2,
+    "rede_abrir_mb": 8.66,
+    "interior_1o_quadro_s": 0.1,
+    "interior_pronto_s": 14.21,
+    "rede_interior_mb": 6.73,
+    "textura_pico_mib": 104.2,
+    "buffer_pico_mib": 13.7,
+    "heap_pico_mib": 166.6,
+    "upload_textura_ms": 38,
+    "pior_travada_exterior_ms": 506,
+    "pior_travada_interior_ms": 2544,
+    "bloqueio_exterior_ms": 588,
+    "bloqueio_interior_ms": 3435,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     1415,
+     "bake",
+     false
+    ],
+    [
+     1415,
+     "exLuz",
+     "parado"
+    ],
+    [
+     1415,
+     "inLuz",
+     "parado"
+    ],
+    [
+     1921,
+     "exLuz",
+     "baixando"
+    ],
+    [
+     15200,
+     "exLuz",
+     "pronto"
+    ],
+    [
+     16738,
+     "bake",
+     true
+    ],
+    [
+     19580,
+     "bake",
+     false
+    ],
+    [
+     19580,
+     "inLuz",
+     "baixando"
+    ],
+    [
+     30855,
+     "inLuz",
+     "pronto"
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 1420,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    },
+    {
+     "t": 15366,
+     "w": 4096,
+     "h": 4096,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 64
+    },
+    {
+     "t": 30966,
+     "w": 2048,
+     "h": 2048,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": [
+    {
+     "u": "exterior-uv.json",
+     "ini": 1417.5999999642372,
+     "fim": 5408.300000011921,
+     "rede": 1178787
+    },
+    {
+     "u": "exterior-luz.rgbm.gz",
+     "ini": 1418.0999999642372,
+     "fim": 14867.5,
+     "rede": 7016248
+    },
+    {
+     "u": "interior-uv.json",
+     "ini": 19569.69999998808,
+     "fim": 21206.19999998808,
+     "rede": 443280
+    },
+    {
+     "u": "interior-luz.rgbm.gz",
+     "ini": 19569.899999976158,
+     "fim": 30702.30000001192,
+     "rede": 6287398
+    }
+   ]
+  },
+  {
+   "rodada": 2,
+   "perfil": "celular-lighthouse",
+   "variante": "leve",
+   "resumo": {
+    "html_s": 3.0,
+    "primeiro_quadro_s": 5.05,
+    "draws_primeiro_quadro": 30,
+    "draws_estavel": 45.0,
+    "luz_exterior_s": null,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 5.05,
+    "rede_abrir_mb": 0.46,
+    "interior_1o_quadro_s": 0.32,
+    "interior_pronto_s": 3.09,
+    "rede_interior_mb": 0.0,
+    "textura_pico_mib": 20.9,
+    "buffer_pico_mib": 4.5,
+    "heap_pico_mib": 57.3,
+    "upload_textura_ms": 18,
+    "pior_travada_exterior_ms": 696,
+    "pior_travada_interior_ms": 1259,
+    "bloqueio_exterior_ms": 285,
+    "bloqueio_interior_ms": 1773,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     4789,
+     "bake",
+     false
+    ],
+    [
+     7902,
+     "bake",
+     true
+    ],
+    [
+     10664,
+     "bake",
+     false
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 4809,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": []
+  },
+  {
+   "rodada": 2,
+   "perfil": "celular-lighthouse",
+   "variante": "premium",
+   "resumo": {
+    "html_s": 3.03,
+    "primeiro_quadro_s": 5.23,
+    "draws_primeiro_quadro": 31,
+    "draws_estavel": 43.0,
+    "luz_exterior_s": 50.98,
+    "bake_vertice_s": null,
+    "exterior_pronto_s": 50.98,
+    "rede_abrir_mb": 8.66,
+    "interior_1o_quadro_s": 0.49,
+    "interior_pronto_s": 42.11,
+    "rede_interior_mb": 6.73,
+    "textura_pico_mib": 104.2,
+    "buffer_pico_mib": 13.7,
+    "heap_pico_mib": 150.8,
+    "upload_textura_ms": 99,
+    "pior_travada_exterior_ms": 1047,
+    "pior_travada_interior_ms": 2923,
+    "bloqueio_exterior_ms": 2911,
+    "bloqueio_interior_ms": 4877,
+    "erros": 0
+   },
+   "erros": [],
+   "eventos": [
+    [
+     4980,
+     "bake",
+     false
+    ],
+    [
+     4980,
+     "exLuz",
+     "parado"
+    ],
+    [
+     4980,
+     "inLuz",
+     "parado"
+    ],
+    [
+     5747,
+     "exLuz",
+     "baixando"
+    ],
+    [
+     50985,
+     "exLuz",
+     "pronto"
+    ],
+    [
+     53043,
+     "bake",
+     true
+    ],
+    [
+     57559,
+     "bake",
+     false
+    ],
+    [
+     57559,
+     "inLuz",
+     "baixando"
+    ],
+    [
+     94661,
+     "inLuz",
+     "pronto"
+    ]
+   ],
+   "texturas_grandes": [
+    {
+     "t": 5011,
+     "w": 2048,
+     "h": 2048,
+     "fi": "8058",
+     "via": "texImage2D",
+     "mib": 16
+    },
+    {
+     "t": 51162,
+     "w": 4096,
+     "h": 4096,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 64
+    },
+    {
+     "t": 94797,
+     "w": 2048,
+     "h": 2048,
+     "niveis": 1,
+     "fi": "8058",
+     "via": "texStorage2D",
+     "mib": 16
+    }
+   ],
+   "recursos": [
+    {
+     "u": "exterior-uv.json",
+     "ini": 4994.900000035763,
+     "fim": 18060.700000047684,
+     "rede": 1178787
+    },
+    {
+     "u": "exterior-luz.rgbm.gz",
+     "ini": 4997.5,
+     "fim": 49094.80000001192,
+     "rede": 7016248
+    },
+    {
+     "u": "interior-uv.json",
+     "ini": 57529.200000047684,
+     "fim": 62821.10000002384,
+     "rede": 443280
+    },
+    {
+     "u": "interior-luz.rgbm.gz",
+     "ini": 57530.60000002384,
+     "fim": 93978.10000002384,
+     "rede": 6287398
+    }
+   ]
+  }
+ ]
+}

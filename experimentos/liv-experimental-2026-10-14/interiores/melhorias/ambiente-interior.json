@@ -1,0 +1,66 @@
+{
+  "path": "ambiente-interior.hdr",
+  "bytes": 469014,
+  "sha256": "fc9765749487f57599977bc834813b326e1eff1731ff8f548badba34a11f9f77",
+  "kind": "local-interior-radiance-probe",
+  "encoding": "Radiance RGBE; scene-linear Rec.709; EV 0",
+  "sourceBlend": "experimentos/liv-luz-natural-2026-10-26/entrega/LIV_Luz_Natural.blend",
+  "sourceBlendSHA256": "517be435ec7072839a9088f2675c264e7fd297ff7c0f98c2bb2534035017db88",
+  "sourceScene": "03 | Sala e jantar",
+  "sourceWorld": "R3 | Ceu fisico e um unico sol",
+  "sourceCamera": "CAM | 03 | Sala e jantar",
+  "sourcePositionBlender": [
+    -0.550000011920929,
+    -0.3499999940395355,
+    1.4299999475479126
+  ],
+  "sourcePositionThree": [
+    -0.550000011920929,
+    1.4299999475479126,
+    0.3499999940395355
+  ],
+  "sourceExposureEV": 3.0,
+  "outputExposureEV": 0,
+  "sunDisc": false,
+  "sunDiscCamera": false,
+  "sunDiscIndirect": true,
+  "worldRayPolicy": "Only Is Camera Ray uses sky without solar disc; all indirect and light-sampling rays retain the approved World including sunlight.",
+  "reason": "Capture geometry-occluded local radiance and approved solar bounce; the website already has one moving directional sun.",
+  "geometryIncluded": true,
+  "width": 512,
+  "height": 256,
+  "samples": 16,
+  "device": "CPU",
+  "denoising": false,
+  "panoramaRotationBlender": [
+    1.5707963705062866,
+    0.0,
+    -1.5707963705062866
+  ],
+  "linearRGBMean": [
+    0.28792697191238403,
+    0.1962760090827942,
+    0.10816247761249542
+  ],
+  "linearRGBSolidAngleMean": [
+    0.26327312177729717,
+    0.1872429268916387,
+    0.11251653686462074
+  ],
+  "exteriorLinearRGBMean": [
+    1.5448014736175537,
+    2.439192771911621,
+    3.910871982574463
+  ],
+  "ratioToExteriorRGBMean": [
+    0.1863844492833945,
+    0.08046760852319623,
+    0.027656869898690428
+  ],
+  "linearRGBMax": 16.75,
+  "sourceUnchanged": true,
+  "protectedGLBs": 13,
+  "catalogSHA256Before": "d7df05e840c6d0d4a5277bd1081ab0c91c5e01b530e8ce44def654350d9c758f",
+  "catalogSHA256After": "d7df05e840c6d0d4a5277bd1081ab0c91c5e01b530e8ce44def654350d9c758f",
+  "catalogWrittenByExport": false
+}

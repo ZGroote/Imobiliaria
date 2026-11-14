@@ -64,6 +64,34 @@ test('raízes de dois corretores são opacas e criação repetida é idempotente
   await assert.rejects(service.criarLink('manager',{...input,brokerUid:'brokerB'}),{status:409})
 })
 
+test('links da equipe preservam escopo e param ao desativar o responsável',async()=>{
+  const {service,db}=fixture()
+  const manager=(await service.criarLink('manager',{propertyId:'p',attemptId:'gestor-proprio'})).link
+  const staff=(await service.criarLink('admin',{propertyId:'p',attemptId:'equipe-propria'})).link
+  assert.equal(manager.brokerUid,'manager');assert.equal(staff.brokerUid,'admin')
+  assert.equal((await service.abrirVisita({token:staff.id,attemptId:'abrir-equipe'})).contact.brokerName,'Equipe')
+  await assert.rejects(service.criarLink('manager',{propertyId:'p',brokerUid:'admin',attemptId:'atribuir-interno'}),{status:403})
+  await assert.rejects(service.criarLink('brokerA',{propertyId:'p',brokerUid:'manager',attemptId:'atribuir-gestor'}),{status:403})
+  await assert.rejects(service.criarLink('manager',{propertyId:'q',attemptId:'outra-agencia'}),{status:403})
+  assert.equal((await service.listarLinks('brokerA',{propertyId:'p'})).links.length,0)
+  db.data.set('users/admin',{...db.data.get('users/admin'),active:false})
+  await assert.rejects(service.abrirVisita({token:staff.id,attemptId:'inativo'}),{status:410,code:'LINK_DISABLED'})
+})
+
+test('publicação avulsa registrada no servidor conserva autorização viva',async()=>{
+  const {options,db}=fixture(),original=db.data.get('properties/p')
+  db.data.set('properties/p',{...original,pipelineUnitId:null,publishedBuild:null})
+  const service=criarServicoRastreabilidade({...options,publications:{p:{pipelineUnitId:'liv-ipanema',publishedBuild:'abcdef123456'}}})
+  const {link}=await service.criarLink('brokerA',{propertyId:'p',attemptId:'liv'})
+  assert.equal((await service.abrirVisita({token:link.id,attemptId:'abrir-liv'})).destinations.maquete,
+    'https://publico.test/b/liv-ipanema/abcdef123456/maquete.html')
+  await assert.rejects(criarServicoRastreabilidade(options).abrirVisita({token:link.id,attemptId:'sem-registro'}),{status:410})
+  db.data.set('properties/p',{...original,pipelineUnitId:'../invalido'})
+  await assert.rejects(service.abrirVisita({token:link.id,attemptId:'metadados-invalidos'}),{status:410})
+  db.data.set('properties/p',{...original,status:'inactive'})
+  await assert.rejects(service.abrirVisita({token:link.id,attemptId:'imovel-inativo'}),{status:410})
+})
+
 test('autoridade viva impede agência cruzada, agência imóvel e corretor inativos',async()=>{
   const {service,db}=fixture()
   await assert.rejects(service.criarLink('brokerA',{propertyId:'p',brokerUid:'brokerB',attemptId:'a'}),{status:403})

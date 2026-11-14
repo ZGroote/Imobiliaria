@@ -1,0 +1,127 @@
+{
+  "status": "PASS",
+  "areaNominalM2": 30,
+  "registro": {
+    "origemPx": [
+      545,
+      277
+    ],
+    "eixos": "x para direita; y para baixo na imagem",
+    "mmPorPixel": 7.19176595051712,
+    "gradeMm": 50,
+    "metodoEscala": "Área das faces internas do contorno contra a área do book; sem cotas.",
+    "contornoFacesPx": [
+      [
+        545,
+        277,
+        2281,
+        608
+      ]
+    ],
+    "areaCalibracaoM2": 29.72,
+    "conferencia": [
+      "Escala pela área externa do container (6 m: 6,058 x 2,438 m = 14,8 m², igual ao caderno; 12 m: 12,192 x 2,438 m = 29,7 m², igual ao caderno). A planta é 1:50, mas sem cotas."
+    ]
+  },
+  "moveis": [
+    {
+      "id": "m1",
+      "nome": "Beliche 1",
+      "comodos": [
+        "Quarto e estudo"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m2",
+      "nome": "Beliche 2",
+      "comodos": [
+        "Quarto e estudo"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m3",
+      "nome": "Armário 1",
+      "comodos": [
+        "Quarto e estudo"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m4",
+      "nome": "Armário 2",
+      "comodos": [
+        "Quarto e estudo"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m5",
+      "nome": "Bancada de estudo para 4",
+      "comodos": [
+        "Quarto e estudo"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m6",
+      "nome": "Copa com pia e cooktop",
+      "comodos": [
+        "Quarto e estudo"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m7",
+      "nome": "Geladeira",
+      "comodos": [
+        "Quarto e estudo"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m8",
+      "nome": "Banheira",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m9",
+      "nome": "Vaso",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m10",
+      "nome": "Lavatório",
+      "comodos": [
+        "Banho"
+      ],
+      "contido": true
+    },
+    {
+      "id": "m11",
+      "nome": "Tapete",
+      "comodos": [
+        "Quarto e estudo"
+      ],
+      "contido": true
+    }
+  ],
+  "sobreposicoes": [],
+  "vaos": {
+    "portas": 2,
+    "janelas": 2
+  },
+  "conferenciaJPG": "4bcba90c0fcee06d3c8dc447ba01c33f81822e66da47bd18f2424684ae6b579c",
+  "unidadeSHA256": "59303afc521422d921287197401db7c32356911206ed30def49be7a731106631",
+  "limites": [
+    "Sobreposição na imagem do book; não é conferência executiva.",
+    "Contorno, vãos, móveis e escala são leituras de planta humanizada sem cotas."
+  ]
+}

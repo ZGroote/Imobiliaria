@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "caso": null,
+  "baselineCommit": null,
+  "rodada": null,
+  "status": "nao-iniciada",
+  "physicalAccepted": false,
+  "sessaoEm": null,
+  "fonte": {
+    "origemGenerica": null,
+    "convencaoMedidas": null,
+    "contextoPredioConhecido": null,
+    "fotosReferenciasDisponiveis": null
+  },
+  "operador": {
+    "idAnonimo": null,
+    "participouImplementacao": null,
+    "conheciaCapturador": null,
+    "consentiuObservacao": null,
+    "consentiuGravacao": null
+  },
+  "aparelho": {
+    "modelo": null,
+    "sistemaVersao": null,
+    "navegadorVersao": null,
+    "viewport": null,
+    "userAgentAuxiliar": null,
+    "observacaoFisica": null,
+    "evidenciasLocais": []
+  },
+  "temposMs": {
+    "primeiroToqueAteLeituraArquitetura": null,
+    "primeiroToqueAteProjetoCompleto": null,
+    "leituraAteProjetoCompleto": null,
+    "transferenciaAoPc": null,
+    "avaliacaoTecnica": null,
+    "geracao3d": null,
+    "smokeFisico3d": null,
+    "aberturaMaqueteAtePrimeiroRender": null
+  },
+  "metricas": {
+    "intervencoes": null,
+    "toquesIncorretos": null,
+    "toquesTotaisObservados": null,
+    "falhasSnap": null,
+    "correcoes": null,
+    "perdasEstado": null,
+    "usosDesfazer": null,
+    "usosRefazer": null
+  },
+  "eventos": [],
+  "arquivos": {
+    "leituraArquitetura": {"caminhoLocal": null, "sha256": null},
+    "projetoCompleto": {"caminhoLocal": null, "sha256": null},
+    "relatorioAvaliacao": {"caminhoLocal": null, "sha256": null}
+  },
+  "pavimentos": [],
+  "preservacao": {
+    "andarAtivo": null,
+    "todosPavimentos": null,
+    "moveis": null,
+    "roundtripProjeto": null,
+    "detalhes": []
+  },
+  "fidelidade": {
+    "comparacaoConcluida": null,
+    "diferencas": []
+  },
+  "contextoFotos": {
+    "modoGeracao": null,
+    "origemContextoGenerica": null,
+    "encaixeRealAvaliado": null,
+    "pendencias": []
+  },
+  "smoke3d": {
+    "mesmoAparelho": null,
+    "origemArtefato": null,
+    "modoPredio": null,
+    "modoPlanta2d": null,
+    "modoPlanta3d": null,
+    "modoVisita": null,
+    "atravessouPorta": null,
+    "evidenciasLocais": []
+  },
+  "parada": {"ocorreu": null, "motivo": null, "tempoMs": null},
+  "achados": [],
+  "revisaoAceite": {"responsavelAnonimo": null, "data": null, "justificativa": null}
+}

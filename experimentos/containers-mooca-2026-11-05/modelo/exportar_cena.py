@@ -1,0 +1,309 @@
+"""Monta a cena do visualizador WebGPU do LIV (schema liv-exterior-proof-v1) a partir do modelo.
+
+Faz em Python o que a página antiga do LIV fazia no navegador (liv-lightmap.js + exportar_cena.py):
+grupos com luz gravada viram uma malha por material/torre com UV de luz por instância; vidro, metal e
+vegetação ficam como instâncias. Saída em ../assets/: scene.json.gz, irradiance.rgbm.gz, manifest.json.
+
+Rode depois de preparar_luz.py, bake_luz.py e denoise_luz.py (v1.5/miniaturas/liv-ipanema).
+python experimentos/containers-mooca-2026-11-05/modelo/exportar_cena.py
+"""
+import base64
+import gzip
+import hashlib
+import json
+import math
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+
+AQUI = Path(__file__).resolve().parent
+LUZ = AQUI/'luz'
+SAIDA = AQUI.parent/'assets'
+
+
+def sha(b):
+    return hashlib.sha256(b).hexdigest()
+
+
+def enc(a):
+    a = np.ascontiguousarray(a)
+    tipo = {np.float32: 'Float32Array', np.uint32: 'Uint32Array', np.uint16: 'Uint16Array'}[a.dtype.type]
+    return {'type': tipo, 'base64': base64.b64encode(a.tobytes()).decode('ascii'), 'length': int(a.size)}
+
+
+def attr(a, item):
+    return {**enc(a), 'itemSize': item, 'normalized': False}
+
+
+def material(nome, m, baked):
+    return {'name': 'MAT-'+nome, 'type': 'MeshStandardMaterial', 'baked': baked,
+            'color': [float(v) for v in m['color']], 'emissive': [0, 0, 0], 'normalScale': [1, 1],
+            'roughness': float(m['roughness']), 'metalness': float(m['metalness']), 'opacity': 1,
+            'transparent': False, 'side': 0, 'depthWrite': True, 'depthTest': True, 'alphaTest': 0,
+            'vertexColors': False, 'emissiveIntensity': 0, 'envMapIntensity': .8, 'flatShading': False,
+            'polygonOffset': False, 'polygonOffsetFactor': 0, 'polygonOffsetUnits': 0, 'blending': 1,
+            'visible': True, 'toneMapped': True}
+
+
+def vista(tipo, alvo, th, ph, r, fov=34, **extra):
+    d = (math.sin(th)*math.sin(ph), math.cos(ph), math.cos(th)*math.sin(ph))
+    pos = [alvo[i]+d[i]*r for i in range(3)]
+    v = {'type': tipo, 'fov': fov, 'near': .5, 'far': 2000, 'zoom': 1, 'left': None, 'right': None, 'top': None,
+         'bottom': None, 'aspect': 1.6, 'position': pos, 'target': list(alvo), 'up': [0, 1, 0],
+         'quaternion': [0, 0, 0, 1], 'orbit': {'r': r, 'th': th, 'ph': ph}}
+    v.update(extra)
+    return v
+
+
+AREA = {'individual': 14.8, 'individual-pne': 14.8, 'casal': 14.8, 'quadruplo': 29.7, 'casal-bebe': 29.7, 'refeitorio': 14.8, 'convivencia': 14.8}
+ALUGUEL = {'individual': 500, 'individual-pne': 500, 'casal': 800, 'quadruplo': 1000, 'casal-bebe': 900, 'refeitorio': None, 'convivencia': None}
+NOME = {'individual': 'Individual', 'individual-pne': 'Individual PNE', 'casal': 'Casal', 'quadruplo': 'Quádruplo',
+        'casal-bebe': 'Casal com bebê', 'refeitorio': 'Área comum', 'convivencia': 'Área comum'}
+
+
+COMUNS = {'c02': ('refeitorio', '+x'), 'c04': ('convivencia', '-x')}
+
+
+def cadastro(md, sha_modelo):
+    """20 dormitórios: caixa de clique em coordenadas da web (x, altura, z), uma por container.
+
+    Cada container é uma "torre" do seletor do LIV (o clique acha primeiro a torre atingida e depois a unidade
+    dentro dela): os 10 containers de área comum também são torres, sem unidade, e só barram o clique.
+    O pavimento é o nível do container e o "final" é o número do dormitório (d01..d20 da implantação).
+    """
+    folga = .05
+
+    def caixa(c):
+        x, z = c['centro']
+        w, d = c['larguraX']/2+folga, c['profundidadeZ']/2+folga
+        return {'min': [round(x-w, 4), round(c['base'], 4), round(z-d, 4)],
+                'max': [round(x+w, 4), round(c['topo'], 4), round(z+d, 4)]}
+    torres = [{'id': c['id'], 'nome': (f"Dormitório {c['id'][1:]}" if c['id'].startswith('d') else c['uso']),
+               'bounds': caixa(c)} for c in md['containers']]
+    units = []
+    for c in md['containers']:
+        comum = COMUNS.get(c['id'])                       # área comum com interior (refeitório e convivência)
+        if not c['id'].startswith('d') and not comum:
+            continue
+        x, z = c['centro']
+        pe = c['larguraX'] < c['profundidadeZ']          # comprido no sentido norte-sul: o lado comprido dá para ±x
+        lado = ('+' if (x if pe else z) > 0 else '-')+('x' if pe else 'z')
+        tipo = c['uso']
+        if comum:
+            tipo, lado = comum                            # o lado é o do vidro grande, voltado ao refeitório coberto
+        units.append({
+            'id': f'containers-mooca/{c["id"]}/pavimento-{c["nivel"]:02d}/final-{c["id"][1:]}', 'tower': c['id'],
+            'towerIndex': next(i for i, t in enumerate(torres) if t['id'] == c['id']),
+            'towerName': c['uso'] if comum else f"Dormitório {c['id'][1:]}",
+            'final': c['id'][1:], 'floorIndex': c['nivel'],
+            'side': f'{c["id"]}:{lado}', 'sideLabel': 'Lado comprido do container',
+            'bounds': caixa(c),
+            'typology': tipo, 'typologyLabel': NOME[tipo], 'areaM2': AREA[tipo], 'container': c['tipo'],
+            'garden': None, 'relation': {'typology': tipo, 'orientation': 'original'},
+            'positionConfidence': 'caderno', 'commercialNumber': None, 'availability': 'nao_informada',
+            'rentMonthlyBRL': ALUGUEL[tipo], 'price': None, 'parking': None})
+    return {'schema': 'containers-mooca-units-v1', 'floorIndex': None, 'sourceModelSHA256': sha_modelo,
+            'floors': md['floors'], 'towers': torres, 'units': units,
+            'source': {'label': 'Caderno do TCC de Tamires Ruffino (Escola da Cidade, 2025)', 'pages': [41, 77, 90, 91]},
+            'relationStatus': 'fornecido', 'relationSource': {'label': 'plantas gerais do caderno (p. 90-91)', 'asOf': '2025-12-10'},
+            'limitations': ['Posição de cada dormitório pela planta geral do caderno; o tipo de cada container 6 m é aproximado.',
+                            'Valores de aluguel da p. 41 do caderno (proposta acadêmica, não oferta).']}
+
+
+TEX = AQUI/'texturas'
+# Material do modelo -> (cor, relevo, metros por repetição, extras). A UV das caixas sai em metros (flush do LIV).
+TEXTURAS = {
+    'grama': ('grama-cor.webp', 'grama-normal.webp', 2.0, {}),
+    'piso-pátio': ('concreto-cor.webp', 'concreto-normal.webp', 2.5, {}),
+    'calcada': ('concreto-cor.webp', 'concreto-normal.webp', 2.5, {}),
+    'deck': (AQUI.parents[1]/'moveis-referencia/web/materiais/madeira_nature-cor-512.webp',
+             AQUI.parents[1]/'moveis-referencia/web/materiais/madeira_nature-nor-512.webp', 1.2, {}),
+    # Cartões da copa (modelar_containers.arvore): UV 0..1 por cartão, recorte por alphaTest, os dois lados.
+    'folhas-cartao': ('folhas.webp', None, 1.0, {'alphaTest': .5, 'side': 2}),
+}
+
+
+def texturizar(materials, modelo):
+    """Põe cor e relevo dos materiais de TEXTURAS na cena (o renderer já lê data.textures). A cor do material vira
+    (cor calibrada do modelo / média linear da textura): a média da superfície continua no tom de antes."""
+    from PIL import Image
+    textures, por_arquivo = [], {}
+
+    def tex(caminho, srgb, metros):
+        caminho = Path(caminho) if Path(caminho).is_absolute() else TEX/caminho
+        k = (caminho.name, metros)
+        if k not in por_arquivo:
+            nome = 'tex-'+caminho.name
+            (SAIDA/nome).write_bytes(caminho.read_bytes())
+            por_arquivo[k] = len(textures)
+            textures.append({'url': nome, 'colorSpace': 'srgb' if srgb else '', 'premultiplyAlpha': False, 'channel': 0,
+                             'wrapS': 1000, 'wrapT': 1000, 'minFilter': 1008, 'magFilter': 1006, 'generateMipmaps': True,
+                             'rotation': 0, 'anisotropy': 8, 'repeat': [1/metros, 1/metros], 'offset': [0, 0],
+                             'center': [0, 0], 'flipY': False})
+        return por_arquivo[k]
+
+    def media(caminho):
+        caminho = Path(caminho) if Path(caminho).is_absolute() else TEX/caminho
+        px = np.asarray(Image.open(caminho).convert('RGBA'), np.float64).reshape(-1, 4)
+        px = px[px[:, 3] > 0, :3]/255
+        return np.where(px <= .04045, px/12.92, ((px+.055)/1.055)**2.4).mean(0).tolist()
+
+    SAIDA.mkdir(parents=True, exist_ok=True)
+    for spec in materials:
+        nome = spec['name'].removeprefix('MAT-')
+        if nome not in TEXTURAS:
+            continue
+        cor, relevo, metros, extras = TEXTURAS[nome]
+        if 'alphaTest' in extras:            # folhas: a cor é a da própria textura
+            spec['color'] = [.9, .9, .9]
+        else:
+            alvo, m = modelo['materials']['MAT-'+nome]['color'], media(cor)
+            spec['color'] = [round(min(a/b, 4), 4) for a, b in zip(alvo, m)]
+        spec['map'] = tex(cor, True, metros)
+        if relevo:
+            spec['normalMap'] = tex(relevo, False, metros)
+            spec['normalScale'] = [1, 1]
+        spec.update(extras)
+    return textures
+
+
+def main():
+    modelo_bytes = (AQUI/'modelo.json').read_bytes()
+    modelo = json.loads(modelo_bytes)
+    luz = json.loads((LUZ/'manifest.json').read_text(encoding='utf-8'))
+    compact = json.loads((LUZ/'geometry-compact.json').read_bytes())
+    if luz['sourceSHA256'] != sha(modelo_bytes) or compact['sourceSHA256'] != sha(modelo_bytes):
+        raise SystemExit('A luz gravada é de outra versão do modelo.json: refazer preparar_luz/bake.')
+    atlas_gz = (LUZ/Path(luz['textureURL']).name).read_bytes()
+    if sha(gzip.decompress(atlas_gz)) != luz['textureSHA256']:
+        raise SystemExit('Atlas RGBM corrompido.')
+
+    geometries, materials, meshes = [], [], []
+    mat_ids = {}
+
+    def mat_id(nome, baked):
+        k = (nome, baked)
+        if k not in mat_ids:
+            mat_ids[k] = len(materials)
+            materials.append(material(nome.removeprefix('MAT-'), modelo['materials'][nome], baked))
+        return mat_ids[k]
+
+    pavimentos = sorted({i['floor'] for g in modelo['groups'] for i in g['instances'] if i['floor'] >= 0})
+    baked = {b['groupIndex']: b for b in compact['groups']}
+    # 1) Luz gravada: expande as instâncias (posição de mundo + UV de luz próprio) e junta por material/torre.
+    baldes = {}
+    for gi, b in baked.items():
+        g = modelo['groups'][gi]
+        geo = modelo['geometries'][g['geometry']]
+        pos = np.asarray(geo['position'], np.float64).reshape(-1, 3)
+        nor = np.asarray(geo['normal'], np.float64).reshape(-1, 3)
+        uv = np.asarray(geo['uv'], np.float64).reshape(-1, 2)
+        idx = np.asarray(b['indices'], np.int64)
+        for inst in b['instances']:
+            src = g['instances'][inst['instanceIndex']]
+            M = np.asarray(src['matrix'], np.float64).reshape(4, 4).T
+            N = np.linalg.inv(M[:3, :3]).T
+            p = (np.c_[pos[idx], np.ones(len(idx))] @ M.T)[:, :3]
+            n = nor[idx] @ N.T
+            n /= np.linalg.norm(n, axis=1, keepdims=True)+1e-12
+            u1 = np.frombuffer(base64.b64decode(inst['uv1U16']), '<u2').reshape(-1, 2)/compact['uvScale']
+            k = (g['material'], g['tower'])
+            baldes.setdefault(k, []).append((p, n, uv[idx], u1, src['floor'], gi, inst['instanceIndex'], g['role']))
+    for (nome, torre), itens in baldes.items():
+        P = np.concatenate([i[0] for i in itens]).astype(np.float32)
+        Nn = np.concatenate([i[1] for i in itens]).astype(np.float32)
+        U = np.concatenate([i[2] for i in itens]).astype(np.float32)
+        U1 = np.concatenate([i[3] for i in itens]).astype(np.float32)
+        F = np.concatenate([np.full(len(i[0]), i[4], np.float32) for i in itens])
+        ranges, off = [], 0
+        for p, _, _, _, floor, gi, ii, _ in itens:
+            ranges.append({'floor': floor, 'start': off, 'count': len(p), 'instanceIndex': ii, 'groupIndex': gi})
+            off += len(p)
+        geometries.append({'attributes': {'position': attr(P, 3), 'normal': attr(Nn, 3), 'uv': attr(U, 2),
+                                          'uv1': attr(U1, 2), 'livFloorIndex': attr(F, 1)},
+                           'index': None, 'groups': [], 'drawRange': {'start': 0, 'count': None}})
+        meshes.append({'name': f'CONTAINERS / {nome} / torre {torre}', 'geometry': len(geometries)-1,
+                       'material': mat_id(nome, True), 'matrix': list(np.eye(4).flatten()),
+                       'castShadow': True, 'receiveShadow': True, 'renderOrder': 0,
+                       'userData': {'tower': torre, 'role': itens[0][7], 'livBakedTransport': True,
+                                    'livPavimentos': pavimentos if torre >= 0 else [], 'livFloorRanges': ranges},
+                       'instances': None})
+    # 2) Sem luz gravada (vidro, esquadria, árvore, guarda-corpo metálico): instâncias com luz dinâmica.
+    for gi, g in enumerate(modelo['groups']):
+        if gi in baked:
+            continue
+        geo = modelo['geometries'][g['geometry']]
+        geometries.append({'attributes': {'position': attr(np.asarray(geo['position'], np.float32), 3),
+                                          'normal': attr(np.asarray(geo['normal'], np.float32), 3),
+                                          'uv': attr(np.asarray(geo['uv'], np.float32), 2)},
+                           'index': {**enc(np.asarray(geo['index'], np.uint32)), 'itemSize': 1, 'normalized': False},
+                           'groups': [], 'drawRange': {'start': 0, 'count': None}})
+        mats = np.asarray([i['matrix'] for i in g['instances']], np.float32).reshape(-1)
+        meshes.append({'name': f'Blender / {g["geometry"]} / torre {g["tower"]}', 'geometry': len(geometries)-1,
+                       'material': mat_id(g['material'], False), 'matrix': list(np.eye(4).flatten()),
+                       'castShadow': True, 'receiveShadow': True, 'renderOrder': 0,
+                       'userData': {'tower': g['tower'], 'role': g['role'],
+                                    'livPavimentos': pavimentos if g['tower'] >= 0 else []},
+                       'instances': {'count': len(g['instances']), 'matrix': attr(mats, 16), 'color': None}})
+
+    mins, maxs = np.full(3, np.inf), np.full(3, -np.inf)
+    for g in modelo['groups']:
+        p = np.asarray(modelo['geometries'][g['geometry']]['position'], np.float64).reshape(-1, 3)
+        for inst in g['instances']:
+            M = np.asarray(inst['matrix'], np.float64).reshape(4, 4).T
+            w = (np.c_[p, np.ones(len(p))] @ M.T)[:, :3]
+            mins, maxs = np.minimum(mins, w.min(0)), np.maximum(maxs, w.max(0))
+    centro = ((mins+maxs)/2).tolist()
+    centro[1] = 2.5
+    raio = float(np.linalg.norm(maxs-mins))/2
+    md = modelo['metadata']
+    # Sol na mesma direção do bake (bake_luz.py grava com o sol do LIV em (-18, 110, 55)).
+    lights = [
+        {'type': 'DirectionalLight', 'color': [1, .888, .723], 'groundColor': None, 'intensity': luz.get('sunIntensity', 2.4),
+         'position': luz.get('sunWebPosition', [-18, 110, 55]), 'target': luz.get('sunWebTarget', [0, 22, 0]), 'castShadow': True,
+         'shadow': {'bias': -.0004, 'normalBias': .02, 'mapSize': [2048, 2048],
+                    'camera': {'left': -raio, 'right': raio, 'top': raio, 'bottom': -raio, 'near': 1, 'far': 400}}},
+        {'type': 'DirectionalLight', 'color': [.429, .578, .823], 'groundColor': None, 'intensity': .75,
+         'position': [-30, 21, -26], 'target': [0, 0, 0], 'castShadow': False, 'shadow': None},
+        {'type': 'HemisphereLight', 'color': [.823, .871, .939], 'groundColor': [.0086, .0091, .0072], 'intensity': .55,
+         'position': [0, 1, 0], 'target': None, 'castShadow': False, 'shadow': None},
+    ]
+    views = {
+        'perspectiva': vista('PerspectiveCamera', centro, .58, 1.18, raio*2.2),
+        'aerea': vista('PerspectiveCamera', centro, 1.05, .9, raio*2.4),
+        'fachada': vista('PerspectiveCamera', [centro[0], 3, centro[2]], 0, 1.45, raio*1.8),
+        'portaria': vista('PerspectiveCamera', [centro[0], 2, centro[2]], -.6, 1.52, 22, fov=60),
+        'implantacao': vista('OrthographicCamera', centro, 0, 0, raio, fov=90, left=-raio*1.6, right=raio*1.6, top=raio, bottom=-raio),
+    }
+    textures = texturizar(materials, modelo)
+    data = {'schema': 'liv-exterior-proof-v1', 'sourceModelSHA256': sha(modelo_bytes), 'originalRuntime': 'containers-mooca-python',
+            'geometries': geometries, 'materials': materials, 'textures': textures, 'meshes': meshes, 'lights': lights,
+            'visibleBounds': {'min': mins.tolist(), 'max': maxs.tolist()}, 'camera': views['perspectiva'],
+            'canvasBounds': {}, 'renderer': {'exposure': 1.02, 'toneMapping': 4, 'pixelRatio': 1},
+            'bake': {'ready': True, 'textureHashVerified': True, 'geometryHashVerified': True},
+            'orbit': views['perspectiva']['orbit'], 'views': views,
+            'rgbm': {**luz, 'textureURL': 'irradiance.rgbm.gz'},
+            'empreendimento': {'nome': 'Moradia estudantil em containers (Mooca)', 'torres': 1, 'pavimentos': md['floors'],
+                               'unidades': md['units'], 'ancoraGeo': md['ancoraGeo'], 'origemM': md['origemM'],
+                               'rumoCimaGraus': md['rumo_cima_graus']}}
+    SAIDA.mkdir(parents=True, exist_ok=True)
+    (SAIDA/'irradiance.rgbm.gz').write_bytes(atlas_gz)
+    cat = cadastro(md, data['sourceModelSHA256'])
+    (SAIDA/'unidades.json').write_text(json.dumps(cat, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+    encoded = json.dumps(data, ensure_ascii=True, separators=(',', ':')).encode()
+    (SAIDA/'scene.json.gz').write_bytes(gzip.compress(encoded, compresslevel=6, mtime=0))
+    files = {p.name: {'bytes': p.stat().st_size, 'sha256': sha(p.read_bytes())}
+             for p in SAIDA.iterdir() if p.is_file() and p.name != 'manifest.json'}
+    manifest = {'schema': 'liv-proof-manifest-v1', 'exportedAtUtc': datetime.now(timezone.utc).isoformat(),
+                'sourceModelSHA256': data['sourceModelSHA256'], 'sceneJSONSHA256': sha(encoded), 'files': files,
+                'meshCount': len(meshes), 'bakedMeshes': sum(m['instances'] is None for m in meshes),
+                'exportPurpose': 'Containers da Mooca: cena gerada direto do modelo.json.'}
+    (SAIDA/'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+    print(json.dumps({k: manifest[k] for k in ('meshCount', 'bakedMeshes')} |
+                     {'sceneMB': round(files['scene.json.gz']['bytes']/2**20, 1),
+                      'atlasMB': round(files['irradiance.rgbm.gz']['bytes']/2**20, 1)}))
+
+
+if __name__ == '__main__':
+    main()

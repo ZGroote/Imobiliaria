@@ -1,0 +1,23 @@
+{
+  "schema": "liv-pmrem-v1",
+  "runtime": "186",
+  "sourceWidth": 64,
+  "sourceHeight": 32,
+  "width": 336,
+  "height": 64,
+  "format": "rgba-f16-le-cubeuv",
+  "sourceRGBA_SHA256": "95ad90f998fccd2d9a0c0c13c8b3e52e42489affd899f69d15a4ffc5c8c1beb1",
+  "rawSHA256": "69ca917c948c2843b4f9564bbe67c57d78084e677aa5017403dab930e7994c0b",
+  "file": {
+    "name": "ambiente.f16.gz",
+    "bytes": 37854,
+    "sha256": "33d907b23422b798625ef6674617d7890f9d8addd9bbf51dfc7562fd4526bdb8"
+  },
+  "recipeSHA256": {
+    "preparar_ambiente.py": "b3d29293c285698bdc72aebe82d368d0cdb6f9fa5b57bf732cc21a37f4dce19f",
+    "ambiente.js": "0d0d20f2c38fdb073d93363f581e81e9f62c6efddc529b090bb56ccaef0efd41",
+    "node_modules/three/build/three.webgpu.js": "15cfce5c653541704fd9a3463c39d3e8b854bb6265ccd854d7cfe74090625cc6",
+    "node_modules/three/src/nodes/pmrem/PMREMNode.js": "12643da2b87b9eb68eca3ba5cad78e15e2d490db91a06d99c794fec0836932ee",
+    "node_modules/three/src/renderers/common/extras/PMREMGenerator.js": "00a0f5ec3ea38b6c9bdf9a133df8b11b9ee3e1c6561480b85409b84b10c8025d"
+  }
+}
