@@ -139,7 +139,20 @@ Como chegar a um vetor do zoneamento em vigor (não feito; GDAL não está insta
 
 Para os KMLs, se alguém quiser só comparar: `ogrmerge.py -single -f GeoJSON -o saida.geojson 105_zoneamento_urbano_proposto.kml -src_layer_field_name zona -t_srs EPSG:31983 -nlt PROMOTE_TO_MULTI`, e depois descartar as linhas.
 
-**Peso:** `mapa/` tem cerca de 95 MB, a maior parte em PDF. Contra o teto de 400 MiB do repositório, talvez valha não commitar os PDFs e guardar só o link, ou mandá-los para o repositório de artefatos.
+**Os PDFs ficam fora do git** (decisão de 14/11/2026; a pasta `lei/mapa/` inteira está no `viabilidade/.gitignore`). Para baixar de novo, salve cada um em `mapa/lei18053_anexos_2017_pdf/`. Todos os links responderam 200 em 14/11/2026. O sha256 abaixo traz só os 16 primeiros dígitos, para conferir se é o mesmo arquivo.
+
+| Arquivo | sha256 (início) | Link oficial |
+|---|---|---|
+| ANEXO 01 - Macrozoneamento.pdf | 7ecf688bf4c978c9 | https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2001%20-%20Macrozoneamento.pdf |
+| ANEXO 02 - Zoneamento Urbano.pdf | f2dbbf98a0698092 | https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf |
+| ANEXO 02ABC - Descrições Perímetros.pdf | ed21eba28b9aa8f4 | https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002ABC%20-%20Descri%C3%A7%C3%B5es%20Per%C3%ADmetros.pdf |
+| ANEXO 03 - Zoneamento da macrozona urbana e das zonas passiveis de expansão.pdf | a77c5a64ce414335 | https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2003%20-%20Zoneamento%20da%20macrozona%20urbana%20e%20das%20zonas%20passiveis%20de%20expans%C3%A3o.pdf |
+| ANEXO 04 - Zoneamento rural.pdf | c7bd5c8361f6697d | https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2004%20-%20Zoneamento%20rural.pdf |
+| ANEXO 05 - AEIs Ambientais.pdf | af2d54f9694ea905 | https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2005%20-%20AEIs%20Ambientais.pdf |
+| ANEXO 06 - AEIs Urbanas.pdf | 3bfc5f7b8b79c501 | https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf |
+| ANEXO 07 - AEIs Rurais.pdf | 3c290bd44a8e6b5a | https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf |
+
+Os KMLs da proposta (cerca de 15 MB) também não foram commitados. Baixar de: `https://www.saocarlos.sp.gov.br/images/stories/plano_diretor/{101,103,104,105,106,31}.kml`.
 
 ## Proposta de mudança no contrato (não mexi no README)
 
