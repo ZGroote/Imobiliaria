@@ -11,6 +11,13 @@ PRD completo: nota `prd-imobiliaria-3d` no Maestri.
 - Nada vai pro ar. Nada de Firebase, painel ou deploy.
 - Todo número da lei carrega fonte (lei, artigo, anexo, data). Sem fonte = `"conferido": false`.
 - Português simples nos textos.
+- **Fonte bloqueada** (login, erro 403/404, captcha, servidor que recusa, arquivo só em imagem etc.): não insista e não contorne. Registre em `viabilidade/BLOQUEIOS.md` (cada frente acrescenta linhas, nunca apaga) com:
+  - o endereço;
+  - o tipo de bloqueio;
+  - a informação que ficou pendente de verificação;
+  - o que você fez em seguida: **achou fonte oficial alternativa acessível** (dê o endereço) ou **encaminhou pra conferência humana**.
+
+  Todo dado que dependia da fonte bloqueada fica `"conferido": false` até ser resolvido.
 
 ## Frentes
 
