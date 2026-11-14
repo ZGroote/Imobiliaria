@@ -440,17 +440,14 @@ class TestRelatorioViabilidade(unittest.TestCase):
         estudo_dict = json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))
         html_correto = relatorio.gerar_html(estudo_dict)
 
-        # Adulterar um número visível no HTML (ex.: trocar 4.684,19 por 4.999,19)
-        html_adulterado = html_correto.replace("4.684,19", "4.999,19", 1)
-        self.assertNotEqual(html_correto, html_adulterado)
-        with self.assertRaises(AssertionError):
-            validar_html_contra_json(html_adulterado, estudo_dict)
-
-        # Adulterar um CA visível no HTML (ex.: trocar 2,105 por 2,205)
-        html_adulterado_ca = html_correto.replace(">2,105<", ">2,205<", 1)
-        self.assertNotEqual(html_correto, html_adulterado_ca)
-        with self.assertRaises(AssertionError):
-            validar_html_contra_json(html_adulterado_ca, estudo_dict)
+        # O HTML certo, conferido contra um JSON com um número trocado, tem que falhar.
+        import copy
+        for campo in ("area_privativa_m2", "ca_usado", "unidades_estimadas"):
+            adulterado = copy.deepcopy(estudo_dict)
+            m = adulterado["opcoes"][0]["metricas"]
+            m[campo] = m[campo] + 7
+            with self.assertRaises(AssertionError, msg=campo):
+                validar_html_contra_json(html_correto, adulterado)
 
     def test_vgv_preenchido_quando_preco_informado(self) -> None:
         """Testa que quando vgv_estimado e preco_venda_m2_privativo estão preenchidos, o valor numérico aparece e bate."""
