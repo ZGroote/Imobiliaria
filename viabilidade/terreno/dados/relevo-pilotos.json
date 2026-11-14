@@ -1,0 +1,54 @@
+{
+  "raster_sha256": "1d4e386afa3ef3770b6e637a83d6132e5ef9856b68ab366076a5db6c9dc00173",
+  "metodo": "Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade.",
+  "conferido_em_campo": false,
+  "atribuicao": "produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved",
+  "contagem_pixels": "Células distintas usadas na interpolação, inclusive fora do lote para declividade; não são medições estatisticamente independentes.",
+  "lotes": [
+    {
+      "id": "SC-completo-30516",
+      "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+      "resolucao_m": 30,
+      "cota_min_m": 827.5,
+      "cota_max_m": 833.5,
+      "declividade_pct": 9.5,
+      "pixels_distintos_cotas_e_declividade": 13
+    },
+    {
+      "id": "SC-completo-37607",
+      "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+      "resolucao_m": 30,
+      "cota_min_m": 820.4,
+      "cota_max_m": 823.9,
+      "declividade_pct": 14.2,
+      "pixels_distintos_cotas_e_declividade": 19
+    },
+    {
+      "id": "SC-completo-22426",
+      "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+      "resolucao_m": 30,
+      "cota_min_m": 793.9,
+      "cota_max_m": 797.6,
+      "declividade_pct": 7.0,
+      "pixels_distintos_cotas_e_declividade": 12
+    },
+    {
+      "id": "SC-completo-22421",
+      "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+      "resolucao_m": 30,
+      "cota_min_m": 793.0,
+      "cota_max_m": 796.9,
+      "declividade_pct": 9.3,
+      "pixels_distintos_cotas_e_declividade": 12
+    },
+    {
+      "id": "SC-completo-25297",
+      "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+      "resolucao_m": 30,
+      "cota_min_m": 842.6,
+      "cota_max_m": 844.8,
+      "declividade_pct": 6.5,
+      "pixels_distintos_cotas_e_declividade": 13
+    }
+  ]
+}

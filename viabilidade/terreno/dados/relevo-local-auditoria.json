@@ -1,0 +1,25 @@
+{
+  "arquivo": "sao-carlos/relevo_wide.json",
+  "sha256": "594160be496a8fe4cb046d5d5706a1b6e95f3f41d69ba6bf117f45709a508bb8",
+  "origem_no_codigo": "pipeline/fontes/relevo.py",
+  "servico": "Open-Elevation",
+  "quantidade": 6400,
+  "colunas": 80,
+  "linhas": 80,
+  "extensao_m": 19000,
+  "passo_m": 240.50632911392404,
+  "centro_lon_lat": [
+    -47.8908,
+    -22.01725
+  ],
+  "min_relativo_m": -181.0,
+  "max_relativo_m": 125.0,
+  "amostra_referencia_indice": 3159,
+  "tratamento": "Mediana 3x3, subtração da amostra i=39,j=39; ordem por linhas norte-sul.",
+  "datum_vertical": null,
+  "cota_absoluta_referencia_m": null,
+  "precisao_vertical_local_m": null,
+  "data_aquisicao": null,
+  "conferido_em_campo": false,
+  "observacoes": "Grade visual relativa, não levantamento topográfico. Passo da grade não é precisão."
+}
