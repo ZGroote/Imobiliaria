@@ -75,7 +75,7 @@ function Materiais({ pedido }: { pedido: { id: string; agencyId: string } }) {
   const pendentes = fila.some(f => f.estado !== 'enviado')
   return <Cartao titulo={t('Materiais da solicitação')}>
     <p className="mb-3 text-sm text-slate-600">{t('Envie plantas, fotos, medidas e documentos por aqui. Nossa equipe recebe os arquivos vinculados a esta solicitação.')}</p>
-    <p className="mb-4 text-xs text-slate-500">{t('PDF, imagens, vídeos, arquivos CAD/BIM, documentos ou ZIP. Sem limite de tamanho definido pelo painel. Acesso restrito à imobiliária e à equipe responsável.')}</p>
+    <p className="mb-4 text-xs text-slate-500">{t('PDF, imagens, vídeos, arquivos CAD/BIM, documentos ou ZIP. Até 5 GB por arquivo. Acesso restrito à imobiliária e à equipe responsável.')}</p>
     <label className="block text-sm">{t('Selecionar arquivos')}<input type="file" multiple accept={EXTENSOES_MATERIAIS} disabled={ocupado} className="campo mt-2 max-w-full" onChange={e => { escolher(e.target.files); e.target.value = '' }} /></label>
     {!!fila.length && <ul className="mt-4 space-y-3" aria-live="polite">{fila.map(f => <li key={f.id} className="rounded border border-slate-200 p-3 text-sm">
       <div className="flex items-center justify-between gap-3"><span className="min-w-0 break-all">{f.nome}</span>{!ocupado && f.estado !== 'enviado' && <button type="button" className="text-xs text-slate-500 hover:underline" onClick={() => setFila(antes => antes.filter(x => x.id !== f.id))}>{t('Retirar da fila')}</button>}</div>
