@@ -60,6 +60,17 @@ async function checkWidth(page) {
       await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
       await page.locator('canvas').first().waitFor();
+      assert.equal(await page.locator('#relatorio').getAttribute('href'), '../relatorio/saida/estudo-exemplo.html');
+      if (!mobile) {
+        const twoOptions = structuredClone(example);
+        twoOptions.opcoes = [example.opcoes[0], example.opcoes.at(-1)];
+        await upload(page, JSON.stringify(twoOptions), 'duas-opcoes.json');
+        await page.waitForFunction(() => document.querySelector('#status').textContent.includes('duas-opcoes.json'));
+        assert.equal(await page.locator('#opcoes button').count(), 3, 'Duas opções e o controle de comparação.');
+        assert.equal(await page.getByRole('button', { name: 'Lado a lado' }).isDisabled(), false);
+      }
+      await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+      await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
       assert.match(await page.locator('body').innerText(), /estudo preliminar, não substitui projeto nem aprovação/i);
       assert.equal(example.zona.id, 'SC-Z2', 'Usar o exemplo atualizado da zona real.');
       assert.match(await page.locator('#conferencia-lote').innerText(), /não conferid/i,
@@ -69,6 +80,7 @@ async function checkWidth(page) {
         await page.locator('#piloto').selectOption(pilot.value);
         const filename = pilot.value.split('/').at(-1);
         await page.waitForFunction(filename => document.querySelector('#status').textContent.includes(filename), filename);
+        assert.equal(await page.locator('#relatorio').getAttribute('href'), '../relatorio/saida/' + filename.replace(/\.json$/, '') + '.html');
         assert.match(await page.locator('#lote').innerText(), /m²/);
         if (/22421|22426|30516|37607|q1382/.test(filename)) {
           assert.equal(await page.locator('#incertezas.critical').count(), 1, `${filename}: alerta de área especial destacado.`);

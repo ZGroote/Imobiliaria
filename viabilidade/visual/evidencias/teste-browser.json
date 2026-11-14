@@ -1,7 +1,7 @@
 [
   {
     "perfil": "desktop",
-    "versaoMotor": "0.5.0",
+    "versaoMotor": "0.7.1",
     "zona": "SC-Z2",
     "estudosPiloto": 7,
     "caNuloSemLimite": true,
@@ -28,7 +28,7 @@
   },
   {
     "perfil": "celular",
-    "versaoMotor": "0.5.0",
+    "versaoMotor": "0.7.1",
     "zona": "SC-Z2",
     "estudosPiloto": 7,
     "caNuloSemLimite": false,

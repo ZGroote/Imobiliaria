@@ -9,6 +9,7 @@ python -m http.server 8765 --bind 127.0.0.1
 Abra `http://127.0.0.1:8765/viabilidade/visual/`.
 O exemplo padrão é `../motor/exemplos/estudo-exemplo.json`, produzido pelo Motor.
 Também é possível escolher os sete estudos em `../motor/exemplos/pilotos/` no seletor **Estudo piloto**.
+Quando houver relatório pronto para o estudo aberto, **Relatório para imprimir** abre o HTML correspondente em outra aba. Estudos com menos opções continuam mostrando apenas as opções disponíveis.
 A zona foi escolhida para teste: não foi confirmado que o terreno pertence
 a ela. O aviso distingue essas duas conferências; o estudo não é uma
 conclusão de viabilidade legal.
