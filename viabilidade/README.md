@@ -119,6 +119,7 @@ v3 (14/11, a partir de `lei/FONTES.md`):
 
 - **Recuo frontal `null`** (São Carlos não define na lei). O motor usa `premissas.recuo_frontal_m` (padrão 4,0, marcado em `padrao`) e avisa "vale a restrição do loteamento".
 - **Recuo que muda com a altura:** a Zona pode trazer `recuo_lateral_por_altura` = `{"ate_pavimento": 1, "recuo_m": 1.5, "acima": {"fracao_h": 0.125, "minimo_m": 2.0}}`, mais `parede_cega_encosta_ate_m`: 12. Ou seja: recuo de 1,5 m até o 1º pavimento; acima dele, o maior entre h/8 e 2,0 m. O motor escalona o volume (embasamento + torre) ou usa o recuo do topo no prédio todo, e diz qual dos dois fez.
+- **Contagem de pavimentos** (v4, achado da Conferência): no contrato, o **térreo é o pavimento 1**. A lei diz "1,50 m no térreo e no 1º pavimento", então `ate_pavimento` = 2. Quem ler `ate_pavimento` conta a partir do térreo = 1.
 - A mesma regra por altura vale pros **fundos** (o art. 67 fala da divisa, que inclui os fundos; a frente é alinhamento e fica fora).
 - No Estudo: cada volume traz `recuo_lateral_m` e `recuo_fundos_m` usados; `caixa_maxima` traz `recuo_frontal_m` e `degraus` (lista de `{z0_m, altura_m, projecao_utm}` quando a caixa escalona com a altura).
 - **`areas_especiais`** (lista no Lote, não na Zona): restrição por cima da zona, como `{"tipo": "gabarito", "altura_max_m": 9, "fonte": "..."}` (centro histórico) ou o cone do Observatório da USP. A frente Terreno preenche nos lotes-piloto.
