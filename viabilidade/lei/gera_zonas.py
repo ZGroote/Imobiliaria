@@ -13,7 +13,13 @@ FONTE_COE = [
   {"lei": "Lei nº 20.072/2021", "artigo": "art. 10 (nova redação do art. 67-I do COE) e art. 11 (§5º)", "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2987", "data": "2021-04-06"},
   {"lei": "Lei nº 24.031/2026", "artigo": "art. 2º (nova redação do art. 68 do COE)", "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_7985", "data": "2026-02-24"},
 ]
+# COE art. 67 (redação da Lei 20.072/2021): abertura recuada "da divisa" (vale para lateral e fundos;
+# a frente é "alinhamento", não divisa). Art. 70: parede sem abertura, 2,00 m a partir de 12 m de altura.
+RECUO_POR_ALTURA = {"ate_pavimento": 1, "recuo_m": 1.5, "acima": {"fracao_h": 0.125, "minimo_m": 2.0}}
 COMUM = {
+  "recuo_lateral_por_altura": RECUO_POR_ALTURA,
+  "recuo_fundos_por_altura": RECUO_POR_ALTURA,
+  "parede_cega_encosta_ate_m": 12,
   "garagem_computavel": False,
   "garagem_conta_na_taxa_ocupacao": False,
   "nao_computavel": [

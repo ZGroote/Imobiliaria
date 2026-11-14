@@ -13,6 +13,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -85,6 +102,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -157,6 +191,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -229,6 +280,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -300,6 +368,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -371,6 +456,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -442,6 +544,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -513,6 +632,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -586,6 +722,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -659,6 +812,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -732,6 +902,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -804,6 +991,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -876,6 +1080,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -948,6 +1169,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
@@ -1020,6 +1258,23 @@
       "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
       "altura_max_m": null,
       "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 1,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
       "garagem_computavel": false,
       "garagem_conta_na_taxa_ocupacao": false,
       "nao_computavel": [
