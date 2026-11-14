@@ -24,7 +24,9 @@ def rodar(cmd):
 def main():
     falhou = False
     for frente, cmd in TESTES.items():
-        if not (RAIZ / cmd[4]).exists():
+        if not (RAIZ / cmd[4]).exists():  # teste obrigatório: sumiu = falha, nunca "ok"
+            print(f"FALHOU {frente}\n   teste não encontrado: {cmd[4]}")
+            falhou = True
             continue
         cod, fim = rodar(cmd)
         print(f"{'OK ' if cod == 0 else 'FALHOU'} {frente}" + ("" if cod == 0 else "\n   " + "\n   ".join(fim)))
