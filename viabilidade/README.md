@@ -11,6 +11,8 @@ PRD completo: nota `prd-imobiliaria-3d` no Maestri.
 - Nada vai pro ar. Nada de Firebase, painel ou deploy.
 - Todo número da lei carrega fonte (lei, artigo, anexo, data). Sem fonte = `"conferido": false`.
 - Português simples nos textos.
+- **Relatório curto** (14/11, pra poupar cota): o relatório completo vai num arquivo da sua pasta (`RELATORIO.md`). Pra central mande só UMA linha: `maestri ask "Claude Code" "<Frente> concluída. Testes ok/falhou. Relatório: <pasta>/RELATORIO.md"`.
+- Leia só o que a tarefa pede (README + TAREFA + arquivos citados). Nada de reler o PRD inteiro.
 - **Fonte bloqueada** (login, erro 403/404, captcha, servidor que recusa, arquivo só em imagem etc.): não insista e não contorne. Registre em `viabilidade/BLOQUEIOS.md` (cada frente acrescenta linhas, nunca apaga) com:
   - o endereço;
   - o tipo de bloqueio;

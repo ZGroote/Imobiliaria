@@ -7,8 +7,8 @@ Atualizado: 14/11/2026, ~13h. Galho `feat/viabilidade` (worktree `Desktop/imobil
 | IA | Modelo / conta | Situação |
 |---|---|---|
 | Lei | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
-| Terreno | Codex Astra high / trabalho | **Trabalhando** na `terreno/TAREFA-2.md` (contrato v4 + lotes no Eixo e na Z2) |
-| Motor | Claude Opus / jaogroote | **Trabalhando**: opção D piorou quando o recuo AFROUXOU (38→37). Ao entregar: reabrir no **Sonnet** (`--command "claude --model sonnet"`) |
+| Terreno | Codex Astra high / trabalho | Livre. TAREFA-2 entregue e commitada (7 pilotos, v4) |
+| Motor | Claude **Sonnet** high / jaogroote | **Trabalhando** na `motor/TAREFA-2.md`: causa da opção D (38→37) + teste de monotonia + estudos dos 7 pilotos |
 | Visual | Codex **Luna** medium / trabalho | Livre. Trocado do Astra em 14/11 |
 | Produto | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 |
 | Conferencia | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 |
@@ -18,7 +18,7 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
 
 ## Ao chegar um relatório
 
-Conferir (rodar o teste da frente), commitar só a pasta da frente, `git push`, atualizar `maestri floor status --floor "Viabilidade"`.
+Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + arquivos soltos, sem gastar IA; só abrir o relatório se algo falhar), commitar só a pasta da frente, `git push`, atualizar `maestri floor status --floor "Viabilidade"`.
 
 ## Pendências da central
 
@@ -26,6 +26,14 @@ Conferir (rodar o teste da frente), commitar só a pasta da frente, `git push`, 
 2. **Economia de uso**: APROVADA e aplicada em 14/11 (ver regra acima). Falta trocar o Motor pro Sonnet quando ele entregar. IAs Claude → Sonnet (Opus só na central); ajudantes só quando necessário e em Haiku; Codex Luna pra tela/ajuste e Astra pro Auditor; esforço médio no rotineiro (o usuário tinha pedido alto em tudo, então só mudar o esforço se ele confirmar). Trocar cada IA só quando ela entregar (reabrir = perde a conversa, retoma pelo TAREFA.md).
 3. Quando o Terreno entregar os lotes do Eixo e da Z2: Motor roda os 7 pilotos e o Visual mostra.
 4. Pra conferência humana (arquiteto de São Carlos): Z5A/Z5B, Z6B, Z6E; zona dos lotes 22421 (fronteira Z1/Z2) e 22426 (Z1 ou Eixo); decretos com link quebrado (`BLOQUEIOS.md`).
+
+## Economia (14/11, revisão externa aplicada)
+
+- Tarefa nova pra uma IA que terminou: mandar `/clear` antes (sessão limpa = mais barato); o contexto mora no TAREFA.md e no README.
+- Relatório da IA: 1 linha + `RELATORIO.md` na pasta (regra no README).
+- IA parada não gasta: só mandar tarefa quando a dependência estiver resolvida.
+- Lembrete automático da central: de hora em hora (as IAs acordam a central quando entregam).
+- **Repo público:** desde 14/11 a central commita mas NÃO dá push até o usuário decidir a visibilidade.
 
 ## Armadilhas já vistas
 
