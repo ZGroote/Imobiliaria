@@ -65,6 +65,30 @@ async function checkWidth(page) {
       assert.match(await page.locator('#conferencia-lote').innerText(), /não conferid/i,
         'O exemplo não comprova que o lote pertence à zona escolhida.');
       assert.doesNotMatch(await page.locator('#conferencia-lei').innerText(), /não conferid/i);
+      for (const pilot of await page.locator('#piloto option').evaluateAll(options => options.slice(1).map(option => ({ value: option.value })))) {
+        await page.locator('#piloto').selectOption(pilot.value);
+        const filename = pilot.value.split('/').at(-1);
+        await page.waitForFunction(filename => document.querySelector('#status').textContent.includes(filename), filename);
+        assert.match(await page.locator('#lote').innerText(), /m²/);
+        if (/22421|22426|30516|37607|q1382/.test(filename)) {
+          assert.equal(await page.locator('#incertezas.critical').count(), 1, `${filename}: alerta de área especial destacado.`);
+          assert.match(await page.locator('#incertezas').innerText(), /sem n.mero de altura.*n.o aplicada/i);
+        }
+        await checkWidth(page);
+        await page.screenshot({ path: path.join(output, `${profile}-piloto-${filename.replace('.json', '')}.png`), fullPage: true });
+      }
+      await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+      await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+      if (!mobile) {
+        const noCa = structuredClone(example);
+        noCa.caixa_maxima.area_computavel_max_m2 = null;
+        await upload(page, JSON.stringify(noCa), 'zona-sem-ca.json');
+        await page.waitForFunction(() => document.querySelector('#status').textContent.includes('zona-sem-ca.json'));
+        assert.match(await page.locator('.details').first().innerText(), /Sem limite na lei/);
+        assert.equal(await page.getByRole('alert').isVisible(), false);
+        await upload(page, JSON.stringify(example), 'exemplo-restaurado.json');
+        await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+      }
       const snapshots = [];
       for (const { id: option, volumes } of example.opcoes) {
         const button = page.getByRole('button', { name: `Opção ${option}`, exact: true });
@@ -279,7 +303,7 @@ async function checkWidth(page) {
       }
       await checkWidth(page);
       assert.deepEqual(errors, [], 'Nenhum erro JavaScript/console nos fluxos válidos e inválidos.');
-      report.push({ perfil: profile, versaoMotor: example.versao_motor, zona: example.zona.id, opcoes: example.opcoes.length, degraus: example.caixa_maxima.degraus.length, alturasExplicitasEFallback: !mobile, recuos: true, avisoSemSobreposicao: true, vgvSemCorte: true, comparacao: true, upload: true, contratoV2: true, conferenciaLoteIndependente: mobile ? 1 : zoningCases.length, paredeCega: true, faixaParedeCega: true, jsonInvalido: invalid.length, largurasExtras: mobile ? [] : [320, 768, 1024], errosConsole: errors });
+      report.push({ perfil: profile, versaoMotor: example.versao_motor, zona: example.zona.id, estudosPiloto: 7, caNuloSemLimite: !mobile, alertasAreaEspecialDestacados: true, opcoes: example.opcoes.length, degraus: example.caixa_maxima.degraus.length, alturasExplicitasEFallback: !mobile, recuos: true, avisoSemSobreposicao: true, vgvSemCorte: true, comparacao: true, upload: true, contratoV2: true, conferenciaLoteIndependente: mobile ? 1 : zoningCases.length, paredeCega: true, faixaParedeCega: true, jsonInvalido: invalid.length, largurasExtras: mobile ? [] : [320, 768, 1024], errosConsole: errors });
       await page.close();
     }
     fs.writeFileSync(path.join(output, 'teste-browser.json'), JSON.stringify(report, null, 2) + '\n');

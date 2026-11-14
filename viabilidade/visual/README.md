@@ -8,7 +8,7 @@ python -m http.server 8765 --bind 127.0.0.1
 
 Abra `http://127.0.0.1:8765/viabilidade/visual/`.
 O exemplo padrão é `../motor/exemplos/estudo-exemplo.json`, produzido pelo Motor.
-O Motor 0.3.0 usa lote real e números da zona SC-Z2 conferidos na lei.
+Também é possível escolher os sete estudos em `../motor/exemplos/pilotos/` no seletor **Estudo piloto**.
 A zona foi escolhida para teste: não foi confirmado que o terreno pertence
 a ela. O aviso distingue essas duas conferências; o estudo não é uma
 conclusão de viabilidade legal.
@@ -21,7 +21,8 @@ de acesso à CDN e WebGL. Sem o 3D, as métricas continuam disponíveis.
 
 ## O que aparece
 
-- Lote, caixa máxima escalonada e volumes das opções A–D do exemplo.
+- Lote, caixa máxima escalonada e volumes das opções do estudo selecionado.
+- Área computável máxima conforme a lei; `null` aparece como **Sem limite na lei**.
 - Recuos frontal, lateral e de fundos informados pelo Motor em cada opção.
   O frontal aparece como premissa quando a zona não o define; recuos
   ausentes (por exemplo, na garagem) aparecem como não informados.
@@ -33,6 +34,7 @@ de acesso à CDN e WebGL. Sem o 3D, as métricas continuam disponíveis.
 - Vista inicial e vista de cima por botões acessíveis pelo teclado.
 - Unidades, área privativa, vagas e VGV em destaque. Sem preço informado,
   aparece **Informe o preço**; o preço deve entrar no estudo pelo Motor.
+- Alertas de área especial sem altura numérica aparecem em destaque com a indicação **não aplicada**.
 - Demais métricas v2, alertas, fontes, incertezas e premissas identificadas
   como **padrão**, conforme o arquivo. Ausente ou `null` não vira zero.
 - Contrato v4: `zona.conferido` indica conferência dos números da lei;
