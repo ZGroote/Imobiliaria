@@ -14,7 +14,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -22,7 +22,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -39,6 +39,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -79,6 +80,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -86,7 +93,7 @@
       }
     ],
     "conferido": true,
-    "observacoes": "Do CAB 2,0 ao CAM 4,0 paga outorga onerosa: 5% do valor de mercado da área acima do CAB (art. 177 §1º). Térreo comercial de prédio misto não conta no CA (art. 11, parágrafo único). HIS: lote 150 m², testada 7,5 m. Não é mancha de mapa: são os lotes com frente para as vias listadas no art. 11. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "Do CAB 2,0 ao CAM 4,0 paga outorga onerosa: 5% do valor de mercado da área acima do CAB (art. 177 §1º). Térreo comercial de prédio misto não conta no CA (art. 11, parágrafo único). HIS: lote 150 m², testada 7,5 m. Não é mancha de mapa: são os lotes com frente para as vias listadas no art. 11. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z1",
@@ -103,7 +110,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -111,7 +118,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -128,6 +135,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -168,6 +176,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -175,7 +189,7 @@
       }
     ],
     "conferido": true,
-    "observacoes": "CAM 3,0 só para empreendimento com pelo menos 50% da área computável residencial multifamiliar (art. 152-II-b); se mais de 50% for comércio/serviço, vale só o CAB 2,0 (art. 17, parágrafo único). Acima do CAB paga outorga (art. 177 §1º, 5%). HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "CAM 3,0 só para empreendimento com pelo menos 50% da área computável residencial multifamiliar (art. 152-II-b); se mais de 50% for comércio/serviço, vale só o CAB 2,0 (art. 17, parágrafo único). Acima do CAB paga outorga (art. 177 §1º, 5%). HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z2",
@@ -192,7 +206,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -200,7 +214,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -217,6 +231,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -257,6 +272,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -264,7 +285,7 @@
       }
     ],
     "conferido": true,
-    "observacoes": "Acima do CAB 2,0 paga outorga onerosa (art. 177 §1º, 5% do valor de mercado da área excedente). HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "Acima do CAB 2,0 paga outorga onerosa (art. 177 §1º, 5% do valor de mercado da área excedente). HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z3",
@@ -281,7 +302,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -289,7 +310,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -306,6 +327,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -345,6 +367,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -352,7 +380,7 @@
       }
     ],
     "conferido": true,
-    "observacoes": "A lei dá um CA único de 1,4 (sem básico/máximo e sem outorga): repetido em ca_basico e ca_maximo. HIS: lote 160 m², testada 8 m. As áreas industriais da Lei 19.166/2019 usam os coeficientes desta zona. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "A lei dá um CA único de 1,4 (sem básico/máximo e sem outorga): repetido em ca_basico e ca_maximo. HIS: lote 160 m², testada 8 m. As áreas industriais da Lei 19.166/2019 usam os coeficientes desta zona. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z4",
@@ -369,7 +397,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -377,7 +405,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -394,6 +422,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -433,6 +462,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -440,7 +475,7 @@
       }
     ],
     "conferido": true,
-    "observacoes": "CA único 1,4, repetido em ca_basico e ca_maximo. HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "CA único 1,4, repetido em ca_basico e ca_maximo. HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z5A",
@@ -457,7 +492,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -465,7 +500,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -482,6 +517,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -491,7 +527,7 @@
       "vaga_largura_m": 2.4,
       "vaga_comprimento_m": 5.0,
       "faixa_manobra_90graus_m": 5.0,
-      "taxa_cobertura_vegetal": 0.1,
+      "taxa_cobertura_vegetal": 0.2,
       "testada_min_m": null,
       "outorga_onerosa": false
     },
@@ -521,6 +557,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -528,7 +570,7 @@
       }
     ],
     "conferido": false,
-    "observacoes": "Valores para lote maior que 300 m² (coluna 'Regulares Exist. 3' do quadro do art. 36). O quadro varia com o lote: até 125 m² CO 70% e CP 15%; de 125 a 300 m² CO 70%→50% e CP 15%→30%; CA 1,4 para HIS. CONFLITO: o art. 153 dá CP mínimo de 20% e o art. 154 dá CCV de 20%, contra 30% e 10% do quadro. O quadro remete à Lei 13.944/2006 (APREM), que não foi conferida. Testada mínima: 'não há'. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "Usado o MAIS RESTRITIVO de cada conflito: CP 30% (quadro) e CCV 20% (art. 154). Valores para lote maior que 300 m² (coluna 'Regulares Exist. 3' do quadro do art. 36). O quadro varia com o lote: até 125 m² CO 70% e CP 15%; de 125 a 300 m² CO 70%→50% e CP 15%→30%; CA 1,4 para HIS. CONFLITO: o art. 153 dá CP mínimo de 20% e o art. 154 dá CCV de 20%, contra 30% e 10% do quadro. O quadro remete à Lei 13.944/2006 (APREM), que não foi conferida. Testada mínima: 'não há'. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z5B",
@@ -545,7 +587,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -553,7 +595,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -570,6 +612,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -579,7 +622,7 @@
       "vaga_largura_m": 2.4,
       "vaga_comprimento_m": 5.0,
       "faixa_manobra_90graus_m": 5.0,
-      "taxa_cobertura_vegetal": 0.1,
+      "taxa_cobertura_vegetal": 0.2,
       "testada_min_m": null,
       "outorga_onerosa": false
     },
@@ -609,6 +652,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -616,7 +665,7 @@
       }
     ],
     "conferido": false,
-    "observacoes": "Mesmo quadro e mesmos conflitos da Zona 5A (art. 153 dá CP 20%, art. 154 dá CCV 20%). Valores para lote maior que 300 m². Lei 13.944/2006 (APREM) não conferida. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "Usado o MAIS RESTRITIVO de cada conflito: CP 30% (quadro) e CCV 20% (art. 154). Mesmo quadro e mesmos conflitos da Zona 5A (art. 153 dá CP 20%, art. 154 dá CCV 20%). Valores para lote maior que 300 m². Lei 13.944/2006 (APREM) não conferida. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z6A",
@@ -633,7 +682,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -641,7 +690,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -658,6 +707,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -699,6 +749,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -706,7 +762,7 @@
       }
     ],
     "conferido": true,
-    "observacoes": "CA 1,4; sobe para 2,0 em lote nos eixos viários arteriais tipo 1 (campo ca_eixo_arterial_tipo1; quais vias são tipo 1 está no anexo do sistema viário, não conferido). Zona de expansão: o CP de 20% vale depois do loteamento (art. 153-VIII). HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "CA 1,4; sobe para 2,0 em lote nos eixos viários arteriais tipo 1 (campo ca_eixo_arterial_tipo1; quais vias são tipo 1 está no anexo do sistema viário, não conferido). Zona de expansão: o CP de 20% vale depois do loteamento (art. 153-VIII). HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z6B",
@@ -723,7 +779,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -731,7 +787,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -748,6 +804,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -789,6 +846,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -796,7 +859,7 @@
       }
     ],
     "conferido": false,
-    "observacoes": "CONFLITO: o art. 45 dá CP 40% e o art. 153-IX dá CP mínimo de 30%; usei 40% (o mais restritivo). CA 1,0; 2,0 nos eixos viários arteriais tipo 1. HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "Zona de expansão: os índices valem nos parcelamentos do solo para fins urbanos; antes do parcelamento não se aplicam (arts. 150, 152, 153-IX, 154). CONFLITO: o art. 45 dá CP 40% e o art. 153-IX dá CP mínimo de 30%; usei 40% (o mais restritivo). CA 1,0; 2,0 nos eixos viários arteriais tipo 1. HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z6C",
@@ -813,7 +876,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -821,7 +884,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -838,6 +901,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -879,6 +943,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -886,7 +956,7 @@
       }
     ],
     "conferido": true,
-    "observacoes": "CA 1,0 (1,4 para HIS). Em loteamento de chácara de recreio: CO 25%, CP 50%, CA 0,25 (arts. 150, 152, 153-X-a). HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "CA 1,0 (1,4 para HIS). Em loteamento de chácara de recreio: CO 25%, CP 50%, CA 0,25 (arts. 150, 152, 153-X-a). HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z6D",
@@ -903,7 +973,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -911,7 +981,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -928,6 +998,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -968,6 +1039,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -975,7 +1052,7 @@
       }
     ],
     "conferido": true,
-    "observacoes": "Zona industrial/serviços, não é para prédio residencial. Em loteamento misto com residencial de apoio: lote 200 m² e testada 10 m, mesmos CO/CP/CA (art. 53, parágrafo único). Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "Zona industrial/serviços, não é para prédio residencial. Em loteamento misto com residencial de apoio: lote 200 m² e testada 10 m, mesmos CO/CP/CA (art. 53, parágrafo único). Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z6E",
@@ -992,7 +1069,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -1000,7 +1077,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -1017,6 +1094,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -1057,6 +1135,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -1064,7 +1148,7 @@
       }
     ],
     "conferido": false,
-    "observacoes": "A Lei 18.927/2018 NÃO define coeficiente de aproveitamento para a 6E e não a incluiu nos arts. 150–154: CA = null. Perguntar à Prefeitura. O portal lista a data como 11/11/2018; o texto da lei diz 11/12/2018. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "A Lei 18.927/2018 NÃO define coeficiente de aproveitamento para a 6E e não a incluiu nos arts. 150–154: CA = null. Perguntar à Prefeitura. O portal lista a data como 11/11/2018; o texto da lei diz 11/12/2018. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z7",
@@ -1081,7 +1165,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -1089,7 +1173,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -1106,6 +1190,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -1146,6 +1231,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -1153,7 +1244,7 @@
       }
     ],
     "conferido": true,
-    "observacoes": "Zona de baixíssima densidade (manancial/ambiental). Não serve para prédio. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "Zona de baixíssima densidade (manancial/ambiental). Não serve para prédio. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z8A",
@@ -1170,7 +1261,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -1178,7 +1269,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -1195,6 +1286,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -1235,6 +1327,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -1242,7 +1340,7 @@
       }
     ],
     "conferido": true,
-    "observacoes": "Fora do perímetro urbano; segue também a Lei 13.944/2006 (APREM, não conferida). Não serve para prédio. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "Fora do perímetro urbano; segue também a Lei 13.944/2006 (APREM, não conferida). Não serve para prédio. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   },
   {
     "id": "SC-Z8B",
@@ -1259,7 +1357,7 @@
       "altura_max_m": null,
       "pavimentos_max": null,
       "recuo_lateral_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -1267,7 +1365,7 @@
         }
       },
       "recuo_fundos_por_altura": {
-        "ate_pavimento": 1,
+        "ate_pavimento": 2,
         "recuo_m": 1.5,
         "acima": {
           "fracao_h": 0.125,
@@ -1284,6 +1382,7 @@
         "escada e antecâmara de escada (art. 51-IV)",
         "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
         "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
         "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
         "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
         "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -1324,6 +1423,12 @@
         "data": "2026-02-24"
       },
       {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
         "lei": "Lei nº 19.950/2020 (Código de Obras)",
         "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
         "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
@@ -1331,6 +1436,6 @@
       }
     ],
     "conferido": true,
-    "observacoes": "Fora do perímetro urbano. Não serve para prédio. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8."
+    "observacoes": "Fora do perímetro urbano. Não serve para prédio. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
   }
 ]

@@ -12,10 +12,12 @@ FONTE_COE = [
   {"lei": "Lei nº 19.950/2020 (Código de Obras)", "artigo": "arts. 67, 68, 69, 70, 71, 74", "url": COE, "data": "2020-12-15"},
   {"lei": "Lei nº 20.072/2021", "artigo": "art. 10 (nova redação do art. 67-I do COE) e art. 11 (§5º)", "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2987", "data": "2021-04-06"},
   {"lei": "Lei nº 24.031/2026", "artigo": "art. 2º (nova redação do art. 68 do COE)", "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_7985", "data": "2026-02-24"},
+  {"lei": "Lei nº 22.285/2024", "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)", "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661", "data": "2024-03-08"},
 ]
 # COE art. 67 (redação da Lei 20.072/2021): abertura recuada "da divisa" (vale para lateral e fundos;
 # a frente é "alinhamento", não divisa). Art. 70: parede sem abertura, 2,00 m a partir de 12 m de altura.
-RECUO_POR_ALTURA = {"ate_pavimento": 1, "recuo_m": 1.5, "acima": {"fracao_h": 0.125, "minimo_m": 2.0}}
+# Contrato v4: térreo = pavimento 1. "Térreo e 1º pavimento" = pavimentos 1 e 2.
+RECUO_POR_ALTURA = {"ate_pavimento": 2, "recuo_m": 1.5, "acima": {"fracao_h": 0.125, "minimo_m": 2.0}}
 COMUM = {
   "recuo_lateral_por_altura": RECUO_POR_ALTURA,
   "recuo_fundos_por_altura": RECUO_POR_ALTURA,
@@ -29,6 +31,7 @@ COMUM = {
     "escada e antecâmara de escada (art. 51-IV)",
     "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
     "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+    "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
     "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
     "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
     "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
@@ -42,7 +45,10 @@ COMUM = {
 FONTE_VAGAS = {"lei": "Lei nº 19.950/2020 (Código de Obras)", "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas", "url": COE, "data": "2020-12-15"}
 OBS_COMUM = ("Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). "
              "Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. "
-             "recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento; acima disso vale a regra h/8.")
+             "recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. "
+             "Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); "
+             "ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); "
+             "linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona.")
 
 def zona(id, nome, art, data, co, cp, cab, cam, extra, conferido=True, obs="", lei="Lei nº 18.053/2016 (Plano Diretor)", url=PD):
     p = {"ca_basico": cab, "ca_maximo": cam, "taxa_ocupacao": co, "taxa_permeabilidade": cp,
@@ -72,17 +78,17 @@ z = [
       0.70, 0.15, 1.4, 1.4, {"lote_min_m2": 200, "testada_min_m": 10, "outorga_onerosa": False},
       obs="CA único 1,4, repetido em ca_basico e ca_maximo. HIS: lote 160 m², testada 8 m."),
  zona("SC-Z5A", "Zona 5A – Proteção e Ocupação Controlada SUC Monjolinho-Espraiado (manancial)", "art. 36 (quadro) e arts. 150, 153, 154", D,
-      0.50, 0.30, 1.0, 1.0, {"taxa_cobertura_vegetal": 0.10, "testada_min_m": None, "outorga_onerosa": False}, conferido=False,
-      obs="Valores para lote maior que 300 m² (coluna 'Regulares Exist. 3' do quadro do art. 36). O quadro varia com o lote: até 125 m² CO 70% e CP 15%; de 125 a 300 m² CO 70%→50% e CP 15%→30%; CA 1,4 para HIS. CONFLITO: o art. 153 dá CP mínimo de 20% e o art. 154 dá CCV de 20%, contra 30% e 10% do quadro. O quadro remete à Lei 13.944/2006 (APREM), que não foi conferida. Testada mínima: 'não há'."),
+      0.50, 0.30, 1.0, 1.0, {"taxa_cobertura_vegetal": 0.20, "testada_min_m": None, "outorga_onerosa": False}, conferido=False,
+      obs="Usado o MAIS RESTRITIVO de cada conflito: CP 30% (quadro) e CCV 20% (art. 154). Valores para lote maior que 300 m² (coluna 'Regulares Exist. 3' do quadro do art. 36). O quadro varia com o lote: até 125 m² CO 70% e CP 15%; de 125 a 300 m² CO 70%→50% e CP 15%→30%; CA 1,4 para HIS. CONFLITO: o art. 153 dá CP mínimo de 20% e o art. 154 dá CCV de 20%, contra 30% e 10% do quadro. O quadro remete à Lei 13.944/2006 (APREM), que não foi conferida. Testada mínima: 'não há'."),
  zona("SC-Z5B", "Zona 5B – Proteção e Ocupação Controlada SUC Ribeirão do Feijão (manancial)", "art. 38 (quadro) e arts. 150, 153, 154", D,
-      0.50, 0.30, 1.0, 1.0, {"taxa_cobertura_vegetal": 0.10, "testada_min_m": None, "outorga_onerosa": False}, conferido=False,
-      obs="Mesmo quadro e mesmos conflitos da Zona 5A (art. 153 dá CP 20%, art. 154 dá CCV 20%). Valores para lote maior que 300 m². Lei 13.944/2006 (APREM) não conferida."),
+      0.50, 0.30, 1.0, 1.0, {"taxa_cobertura_vegetal": 0.20, "testada_min_m": None, "outorga_onerosa": False}, conferido=False,
+      obs="Usado o MAIS RESTRITIVO de cada conflito: CP 30% (quadro) e CCV 20% (art. 154). Mesmo quadro e mesmos conflitos da Zona 5A (art. 153 dá CP 20%, art. 154 dá CCV 20%). Valores para lote maior que 300 m². Lei 13.944/2006 (APREM) não conferida."),
  zona("SC-Z6A", "Zona 6A – Regulação e Ocupação Controlada de Maior Densidade", "art. 41", D,
       0.70, 0.20, 1.4, 1.4, {"taxa_cobertura_vegetal": 0.10, "ca_eixo_arterial_tipo1": 2.0, "lote_min_m2": 200, "testada_min_m": 10, "outorga_onerosa": False},
       obs="CA 1,4; sobe para 2,0 em lote nos eixos viários arteriais tipo 1 (campo ca_eixo_arterial_tipo1; quais vias são tipo 1 está no anexo do sistema viário, não conferido). Zona de expansão: o CP de 20% vale depois do loteamento (art. 153-VIII). HIS: lote 160 m², testada 8 m."),
  zona("SC-Z6B", "Zona 6B – Regulação e Ocupação Controlada de Média Densidade", "art. 45; art. 153-IX", D,
       0.50, 0.40, 1.0, 1.0, {"taxa_cobertura_vegetal": 0.20, "ca_eixo_arterial_tipo1": 2.0, "lote_min_m2": 250, "testada_min_m": 10, "outorga_onerosa": False}, conferido=False,
-      obs="CONFLITO: o art. 45 dá CP 40% e o art. 153-IX dá CP mínimo de 30%; usei 40% (o mais restritivo). CA 1,0; 2,0 nos eixos viários arteriais tipo 1. HIS: lote 160 m², testada 8 m."),
+      obs="Zona de expansão: os índices valem nos parcelamentos do solo para fins urbanos; antes do parcelamento não se aplicam (arts. 150, 152, 153-IX, 154). CONFLITO: o art. 45 dá CP 40% e o art. 153-IX dá CP mínimo de 30%; usei 40% (o mais restritivo). CA 1,0; 2,0 nos eixos viários arteriais tipo 1. HIS: lote 160 m², testada 8 m."),
  zona("SC-Z6C", "Zona 6C – Regulação e Ocupação Controlada de Menor Densidade", "art. 49; art. 153-X", D,
       0.70, 0.20, 1.0, 1.0, {"taxa_cobertura_vegetal": 0.15, "ca_his": 1.4, "lote_min_m2": 200, "testada_min_m": 10, "outorga_onerosa": False},
       obs="CA 1,0 (1,4 para HIS). Em loteamento de chácara de recreio: CO 25%, CP 50%, CA 0,25 (arts. 150, 152, 153-X-a). HIS: lote 160 m², testada 8 m."),

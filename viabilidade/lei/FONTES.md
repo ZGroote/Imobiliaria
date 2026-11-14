@@ -24,7 +24,7 @@ O portal publica o texto **original, sem as alterações incorporadas**. Por iss
 
 Não conferidos:
 - Lei 13.944/2006 (APREM, mananciais), que rege as Zonas 5, 7 e 8.
-- Decretos ligados ao Plano Diretor: 580/2019, 471/2024, 199/2025, 412/2025, 413/2025 e 792/2025. Os links no portal estão quebrados.
+- Decretos ligados ao Plano Diretor: 580/2019, 471/2024, 199/2025, 412/2025, 413/2025 e 792/2025. Os links no portal estão quebrados (ver `viabilidade/BLOQUEIOS.md`).
 
 **Revisão do Plano Diretor:** começou em setembro de 2025, com audiências até dezembro de 2025. Em 12/11/2026 a Prefeitura disse que quer mandar o projeto à Câmara ainda este ano. **Ainda não há projeto de lei protocolado**, então vale a 18.053. Quando a revisão sair, refazer tudo.
 
@@ -112,7 +112,7 @@ Não conferidos:
 ## Ambiguidades
 
 1. **Zona 6B, permeabilidade:** o art. 45 dá 40% e o art. 153-IX dá 30%. Usei 40%, o valor mais restritivo. `conferido: false`.
-2. **Zonas 5A/5B:** o quadro dos arts. 36/38 varia com o tamanho do lote. Ele conflita com os arts. 150, 153 e 154 (permeabilidade de 20% e cobertura vegetal de 20%). Usei a coluna de lote maior que 300 m². `conferido: false`.
+2. **Zonas 5A/5B:** o quadro dos arts. 36/38 varia com o tamanho do lote. Ele conflita com os arts. 150, 153 e 154 (permeabilidade de 20% e cobertura vegetal de 20%). Usei a coluna de lote maior que 300 m² e, em cada conflito, o valor MAIS RESTRITIVO: permeabilidade 30% (quadro) e cobertura vegetal 20% (art. 154). Qual artigo vale precisa de profissional ou consulta à Prefeitura. `conferido: false`.
 3. **Zona 6E:** a lei que criou a zona **não deu CA** a ela. `ca_basico` e `ca_maximo` ficaram `null`.
 4. **Zona 1:** o CA máximo de 3,0 só vale com pelo menos 50% de área residencial multifamiliar (art. 152-II).
 5. **"CA = 2,0 nos eixos viários arteriais tipo 1"** (Zonas 6A e 6B): quais vias são tipo 1 está no Anexo 08 (sistema viário), que **não foi conferido**. Ficou no campo extra `ca_eixo_arterial_tipo1`.
@@ -170,7 +170,7 @@ Os KMLs da proposta (cerca de 15 MB) também não foram commitados. Baixar de: `
 3. **Recuo por pavimento:** `recuo_lateral_m` fixo não descreve a regra h/8. Sugestão para o motor:
 
    ```
-   recuo(h) = 1,5 se pavimento ≤ 1
+   recuo(h) = 1,5 se pavimento ≤ 2   (contrato v4: térreo = pavimento 1)
             = max(2,0; h/8) acima disso
    recuo de parede cega = 0 até 12 m, depois 2,0
    ```
