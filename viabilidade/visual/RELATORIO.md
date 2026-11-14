@@ -1,17 +1,13 @@
-# Entrega da frente Visual
+# Ajustes da frente Visual — contrato v3
 
-- `index.html`: página única com Three.js 0.186.1 por CDN, arquivo por caminho, seleção ou arrastar e soltar.
-- Usa `../motor/exemplos/estudo-exemplo.json` por padrão; o provisório foi removido.
-- Lote, caixa máxima, volumes A–D, subsolos, troca de opção e comparação com mesma escala inicial.
-- Contrato v2: unidades, área privativa, vagas e VGV destacados; sem preço, “Informe o preço”.
-- Demais métricas, alertas, fontes, incertezas e premissas identificadas como padrão.
-- SIRGAS 2000 / UTM 23S recebido do Motor, centralizado antes dos buffers 3D. Não usa fx/fy.
-- `README.md`: como abrir e testar; `testar.cjs`: teste com Chrome headless já instalado.
-- `evidencias/`: 14 capturas e `teste-browser.json` com resultado do teste.
-- Chrome: desktop 1440 px, celular 390 px e verificação de largura em 320/768/1024 px; sem overflow horizontal.
-- Passaram A–D, comparação, caminho, exemplo padrão, upload, arrastar, VGV com/sem preço e sete entradas inválidas preservando o estudo anterior; zero erros de console.
-- Conferência das capturas: quatro volumes distintos, caixa em linha, subsolos lilás, métricas legíveis e comparação empilhada no celular.
-- Revisão de dados: 34 verificações passaram; fontes inválidas e métricas impossíveis rejeitadas; ausente/null não vira zero.
-- Somente `viabilidade/visual/` alterada. Sem commit e sem publicação; integração pela central.
-- Limites: terreno plano, 3D dependente de CDN/WebGL, exemplo com zona fictícia; sem validação legal ou de relevo.
-- Dúvidas de contrato: nenhuma; campos v2 ausentes em arquivos antigos aparecem como não informados.
+- `index.html`: aviso no fluxo da página, sem cobrir botões ou alertas; VGV sem preço menor e sem quebra.
+- Caixa máxima desenhada por degraus, respeitando projeção, cota inicial e altura de cada faixa.
+- Recuos lateral/fundos por volume e frontal de cada opção; valores ausentes não viram zero.
+- Frontal destacado como premissa, com aviso de restrição do loteamento e conferência da matrícula.
+- Exemplo atual do Motor 0.3.0, zona SC-Z2, opções A–D; README atualizado.
+- Contrato: o exemplo omite `altura_m` dos degraus. O Visual usa próximo `z0_m` ou topo da caixa; aceita altura explícita e mantém caixa simples em arquivos antigos.
+- `evidencias/`: 14 capturas de página renovadas e 2 dos degraus; opção B, comparação e celular conferidos sem cortes ou sobreposição.
+- Chrome headless PASS: 12 degraus, alturas explícitas/inferidas equivalentes, caixa antiga, recuos zero/ausentes e 14 entradas inválidas preservando o estudo.
+- Sem erros de console ou overflow em 320/390/768/1024/1440 px; resultados em `evidencias/teste-browser.json`, regressões em `testar.cjs`.
+- Somente `viabilidade/visual/` alterada; sem commit nem publicação. Integração pela central.
+- Limites: sem aparelho físico, validação legal ou relevo; 3D depende de CDN/WebGL e o Motor pode amostrar os degraus.

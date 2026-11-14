@@ -122,5 +122,6 @@ v3 (14/11, a partir de `lei/FONTES.md`):
 - A mesma regra por altura vale pros **fundos** (o art. 67 fala da divisa, que inclui os fundos; a frente é alinhamento e fica fora).
 - No Estudo: cada volume traz `recuo_lateral_m` e `recuo_fundos_m` usados; `caixa_maxima` traz `recuo_frontal_m` e `degraus` (lista de `{z0_m, altura_m, projecao_utm}` quando a caixa escalona com a altura).
 - **`areas_especiais`** (lista no Lote, não na Zona): restrição por cima da zona, como `{"tipo": "gabarito", "altura_max_m": 9, "fonte": "..."}` (centro histórico) ou o cone do Observatório da USP. A frente Terreno preenche nos lotes-piloto.
+- **De onde veio a zona do lote** (v4): o Lote traz `zona_origem` = `"oficial"` (mapa digital oficial), `"anotada_a_mao"` (lida no anexo em PDF) ou `"teste"` (escolhida só pra testar), e `zona_conferida` (true/false). `zona.conferido` diz se os NÚMEROS da zona foram conferidos na lei. É outra coisa. O aviso da página tem que separar os dois: "números da zona conferidos" ≠ "o terreno está nessa zona".
 - **Não computável:** garagem, escada, elevador/shaft, casa de máquinas, reservatório, lixo e área técnica não contam no CA nem na TO (COE art. 51). Varanda conta até prova em contrário.
 - **Acesso a dado público:** só o que a fonte oferece abertamente. Nada de forçar parâmetro de URL, burlar bloqueio ou contornar login.

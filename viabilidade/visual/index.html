@@ -7,7 +7,7 @@
   <link rel="icon" href="data:,">
   <style>
     :root{color-scheme:dark;font:15px/1.5 system-ui,sans-serif;--page:#0e151b;--surface:#131c23;--raised:#212c34;--line:#40505c;--ink:#e5eaee;--muted:#abb8c1;--accent:#91dcba;--gold:#f3d397;color:var(--ink);background:var(--page)}
-    *{box-sizing:border-box}body{margin:0;padding-bottom:80px}main,header{max-width:1560px;margin:auto;padding:24px}header{display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line)}h1{font-size:26px;line-height:1.2;margin:4px 0 8px;letter-spacing:-.5px}h2{font-size:19px;margin:0}h3{font-size:15px;margin:16px 0 8px}p{margin:8px 0}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}.muted,.help{color:var(--muted);font-size:13px}.actions,nav,.legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center}button{font:inherit;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:6px;background:var(--raised);color:var(--ink);cursor:pointer}button:hover{border-color:var(--accent)}button[aria-pressed=true]{background:#244336;border-color:var(--accent);color:#e9fff2}button:focus-visible,summary:focus-visible,canvas:focus-visible{outline:3px solid var(--accent);outline-offset:3px}button:disabled{opacity:.5;cursor:default}#status{overflow-wrap:anywhere}#erro,.notice{padding:12px 16px;border:1px solid #826c44;border-radius:6px;background:#322c20;color:var(--gold)}#erro{border-color:#da9b86;color:#ffd6c8;background:#412b25}#resumo{margin-bottom:20px}#lote{font-size:19px;font-weight:600;overflow-wrap:anywhere}.legend{font-size:12px;color:var(--muted);margin:16px 0}.legend span{display:inline-flex;gap:8px;align-items:center;margin-right:12px}.swatch{display:inline-block;width:16px;height:12px;background:#8a9e84}.swatch.box{background:transparent;border:1px solid #f3d397}.swatch.volume{background:#96c5b9}.swatch.garagem{background:#b0a8c5}nav{margin:16px 0}.cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr))}.option{min-width:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}.option>h2{padding:16px;border-bottom:1px solid var(--line)}.viewport{height:340px;position:relative;background:#e1e5e2}.single .option-body{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr)}.single .viewport{height:540px}.viewport canvas{display:block;width:100%;height:100%;touch-action:none}.view-actions{position:absolute;bottom:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap}.view-actions button{font-size:12px;padding:8px 12px;background:#18252bec;border-color:#6b7b80}.metrics{padding:16px}.highlights{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px}.highlights div{border-bottom:1px solid var(--line);padding-bottom:12px}.highlights dt{font-size:12px;color:var(--muted)}.highlights dd{margin:4px 0 0;font-size:21px;font-weight:600;overflow-wrap:anywhere}.details{margin:0}.details div{display:flex;justify-content:space-between;gap:16px;padding:6px 0;border-bottom:1px solid #303b43;font-size:13px}.details dt{color:var(--muted)}.details dd{margin:0;text-align:right}.alerts{font-size:13px;color:var(--gold);padding-left:20px;margin:8px 0}.alerts li{margin:8px 0}details.context{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}summary{cursor:pointer;min-height:44px;display:list-item}.context ul{padding-left:20px;color:var(--muted);font-size:13px}.context li{margin:8px 0;overflow-wrap:anywhere}#premissas{max-width:800px}footer{position:fixed;bottom:0;left:0;right:0;z-index:5;padding:12px 24px;background:#1c292ff5;border-top:1px solid #5b707c;color:var(--gold);font-size:13px;text-align:center}.drop{outline:3px dashed var(--accent);outline-offset:-8px}[hidden]{display:none!important}
+    *{box-sizing:border-box}body{margin:0}main,header{max-width:1560px;margin:auto;padding:24px}header{display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line)}h1{font-size:26px;line-height:1.2;margin:4px 0 8px;letter-spacing:-.5px}h2{font-size:19px;margin:0}h3{font-size:15px;margin:16px 0 8px}p{margin:8px 0}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}.muted,.help{color:var(--muted);font-size:13px}.actions,nav,.legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center}button{font:inherit;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:6px;background:var(--raised);color:var(--ink);cursor:pointer}button:hover{border-color:var(--accent)}button[aria-pressed=true]{background:#244336;border-color:var(--accent);color:#e9fff2}button:focus-visible,summary:focus-visible,canvas:focus-visible{outline:3px solid var(--accent);outline-offset:3px}button:disabled{opacity:.5;cursor:default}#status{overflow-wrap:anywhere}#erro,.notice{padding:12px 16px;border:1px solid #826c44;border-radius:6px;background:#322c20;color:var(--gold)}#erro{border-color:#da9b86;color:#ffd6c8;background:#412b25}#resumo{margin-bottom:20px}#lote{font-size:19px;font-weight:600;overflow-wrap:anywhere}.legend{font-size:12px;color:var(--muted);margin:16px 0}.legend span{display:inline-flex;gap:8px;align-items:center;margin-right:12px}.swatch{display:inline-block;width:16px;height:12px;background:#8a9e84}.swatch.box{background:transparent;border:1px solid #f3d397}.swatch.volume{background:#96c5b9}.swatch.garagem{background:#b0a8c5}nav{margin:16px 0}.cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr))}.option{min-width:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}.option>h2{padding:16px;border-bottom:1px solid var(--line)}.viewport{height:340px;position:relative;background:#e1e5e2}.single .option-body{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr)}.single .viewport{height:540px}.viewport canvas{display:block;width:100%;height:100%;touch-action:none}.view-actions{position:absolute;bottom:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap}.view-actions button{font-size:12px;padding:8px 12px;background:#18252bec;border-color:#6b7b80}.metrics{padding:16px}.highlights{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px}.highlights div{border-bottom:1px solid var(--line);padding-bottom:12px}.highlights dt{font-size:12px;color:var(--muted)}.highlights dd{margin:4px 0 0;font-size:21px;font-weight:600;overflow-wrap:anywhere}.highlights .sem-preco{font-size:14px;line-height:21px;white-space:nowrap}.recuos dd{max-width:55%}.details{margin:0}.details div{display:flex;justify-content:space-between;gap:16px;padding:6px 0;border-bottom:1px solid #303b43;font-size:13px}.details dt{color:var(--muted)}.details dd{margin:0;text-align:right}.alerts{font-size:13px;color:var(--gold);padding-left:20px;margin:8px 0}.alerts li{margin:8px 0}details.context{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}summary{cursor:pointer;min-height:44px;display:list-item}.context ul{padding-left:20px;color:var(--muted);font-size:13px}.context li{margin:8px 0;overflow-wrap:anywhere}#premissas{max-width:800px}footer{padding:12px 24px;background:#1c292ff5;border-top:1px solid #5b707c;color:var(--gold);font-size:13px;text-align:center}.drop{outline:3px dashed var(--accent);outline-offset:-8px}[hidden]{display:none!important}
     @media(max-width:760px){header{align-items:flex-start;flex-direction:column;gap:12px}main,header{padding:16px}h1{font-size:24px}.single .option-body{grid-template-columns:1fr}.single .viewport{height:360px}.actions button{flex:1}.cards{grid-template-columns:1fr}footer{padding:12px 16px}.details{font-size:12px}}
   </style>
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"}}</script>
@@ -41,6 +41,11 @@
     const finito = n => typeof n === 'number' && Number.isFinite(n);
     const formatar = (n, unidade = '') => finito(n) ? numero.format(n) + unidade : 'Não informado';
     const falha = texto => { $('erro').textContent = texto; $('erro').hidden = false; };
+    function degrausDaCaixa(caixa) {
+      if (!caixa.degraus?.length) return [{ z0_m: 0, altura_m: caixa.altura_m, projecao_utm: caixa.projecao_utm }];
+      // O Motor 0.3 fornece cotas de início; a próxima cota delimita cada faixa.
+      return caixa.degraus.map((d, i) => ({ ...d, altura_m: d.altura_m === undefined ? (caixa.degraus[i + 1]?.z0_m ?? caixa.altura_m) - d.z0_m : d.altura_m }));
+    }
     function poligono(p, nome) {
       if (!Array.isArray(p) || p.length < 3 || p.length > 10000 || p.some(v => !Array.isArray(v) || v.length !== 2 || !v.every(finito))) throw Error(nome + ': polígono inválido.');
       const [x, y] = p[0];
@@ -57,6 +62,18 @@
       if (d.caixa_maxima.projecao_utm?.length) poligono(d.caixa_maxima.projecao_utm, 'Caixa máxima');
       else if (!Array.isArray(d.caixa_maxima.projecao_utm)) throw Error('Caixa máxima: projeção inválida.');
       if (!finito(d.caixa_maxima.altura_m) || d.caixa_maxima.altura_m < 0) throw Error('Caixa máxima: altura inválida.');
+      if (d.caixa_maxima.degraus !== undefined) {
+        const degraus = d.caixa_maxima.degraus;
+        if (!Array.isArray(degraus) || degraus.length > 200 || degraus.some(g => !g || !finito(g.z0_m) || g.z0_m < 0)) throw Error('Caixa máxima: degraus inválidos.');
+        if (degraus.length) degrausDaCaixa(d.caixa_maxima).forEach((g, i) => {
+          const limite = degraus[i + 1]?.z0_m ?? d.caixa_maxima.altura_m;
+          if (!finito(g.altura_m) || g.altura_m <= 0 || g.z0_m + g.altura_m > limite + 0.000001) throw Error('Caixa máxima: confira a ordem e a altura dos degraus.');
+          if (g.projecao_utm?.length) poligono(g.projecao_utm, 'Degrau da caixa');
+          else if (!Array.isArray(g.projecao_utm)) throw Error('Degrau da caixa: projeção inválida.');
+        });
+      }
+      const frontal = d.caixa_maxima.recuo_frontal_m;
+      if (frontal !== undefined && frontal !== null && (!finito(frontal) || frontal < 0)) throw Error('Caixa máxima: recuo frontal inválido.');
       if (d.opcoes.length > 12) throw Error('Abra um estudo com até 12 opções.');
       const ids = new Set();
       for (const o of d.opcoes) {
@@ -66,6 +83,7 @@
         for (const v of o.volumes) {
           poligono(v.base_utm, 'Volume ' + o.id);
           if (!finito(v.z0_m) || !finito(v.altura_m) || v.altura_m < 0) throw Error('Volume ' + o.id + ': base ou altura inválida.');
+          for (const k of ['recuo_lateral_m', 'recuo_fundos_m']) if (v[k] !== undefined && v[k] !== null && (!finito(v[k]) || v[k] < 0)) throw Error('Volume ' + o.id + ': recuo inválido.');
         }
         for (const [k, v] of Object.entries(o.metricas)) {
           if (v !== null && (!finito(v) || v < 0 || (['vagas', 'unidades_estimadas', 'pavimentos'].includes(k) && !Number.isInteger(v)))) throw Error('Opção ' + o.id + ': métrica inválida (' + k + ').');
@@ -112,10 +130,22 @@
       linha(destaques, 'Vagas', formatar(m.vagas));
       const preco = estudo.premissas.preco_venda_m2_privativo;
       linha(destaques, 'VGV estimado', !finito(preco) ? 'Informe o preço' : finito(m.vgv_estimado) ? reais.format(m.vgv_estimado) : 'Não informado');
+      if (!finito(preco)) destaques.lastElementChild.querySelector('dd').className = 'sem-preco';
       painel.append(destaques);
       const dl = el('dl', undefined, 'details');
       for (const [key, label, unit] of campos) linha(dl, label, formatar(key === 'to_usada' && finito(m[key]) ? m[key] * 100 : m[key], unit));
-      painel.append(dl, el('h3', 'Alertas da opção'));
+      painel.append(dl, el('h3', 'Recuos usados'));
+      const recuos = el('dl', undefined, 'details recuos');
+      const frontalPremissa = estudo.zona.parametros?.recuo_frontal_m == null;
+      linha(recuos, 'Frontal' + (frontalPremissa ? ' (premissa)' : ''), formatar(estudo.caixa_maxima.recuo_frontal_m, ' m'));
+      painel.append(recuos, el('p', 'Volumes: recuo lateral / recuo de fundos.', 'help'));
+      o.volumes.forEach((v, i) => {
+        const valor = !finito(v.recuo_lateral_m) && !finito(v.recuo_fundos_m) ? 'Não informados' : formatar(v.recuo_lateral_m, ' m') + ' / ' + formatar(v.recuo_fundos_m, ' m');
+        linha(recuos, 'Volume ' + (i + 1) + ' · ' + (v.uso || 'uso não informado') + (v.parede_cega ? ' (parede cega)' : ''), valor);
+      });
+      if (frontalPremissa && finito(estudo.caixa_maxima.recuo_frontal_m)) painel.append(el('p', 'Recuo frontal adotado como premissa, não como regra da lei. Vale a restrição do loteamento; confira a matrícula.', 'alerts'));
+      if (o.volumes.some(v => v.parede_cega)) painel.append(el('p', 'A exceção de parede cega informada pelo Motor não está representada na caixa escalonada.', 'help'));
+      painel.append(el('h3', 'Alertas da opção'));
       if (o.alertas.length) { const ul = el('ul', undefined, 'alerts'); o.alertas.forEach(a => ul.append(el('li', a))); painel.append(ul); }
       else painel.append(el('p', 'Nenhum alerta informado pelo Motor. Isso não comprova aprovação.', 'muted'));
       return painel;
@@ -186,8 +216,9 @@
       const temSubsolo = opcao.volumes.some(v => v.z0_m < 0);
       solido(geometria(pontos, 0, -.04), 0x8a9e84, temSubsolo ? .24 : 1);
       const caixa = estudo.caixa_maxima;
-      if (caixa.projecao_utm.length) {
-        const g = geometria(caixa.projecao_utm, caixa.altura_m);
+      for (const degrau of degrausDaCaixa(caixa)) {
+        if (!degrau.projecao_utm.length) continue;
+        const g = geometria(degrau.projecao_utm, degrau.altura_m, degrau.z0_m);
         const edges = new THREE.EdgesGeometry(g); g.dispose();
         scene.add(new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x82642d, transparent: true, opacity: .8 })));
       }
