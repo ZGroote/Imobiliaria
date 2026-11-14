@@ -76,6 +76,44 @@ chat. Branch: `liv-melhorado`; remoto: `origin` no repositório
   `codex-autorizado-20261030`; planos, cópias anteriores e verificação ficam na
   mesma pasta. A tabela local não representa a disponibilidade online atual.
 
+- Realces corrigidos em 29/10/2026: Hosting `54b5ae8eebaa81bb`; build
+  `b5fae286741c` e função `conectatracking-00020-zot` preservados. Em `picking.js`,
+  os dois `polygonOffsetFactor` (verde/dourado) agora são zero; o deslocamento
+  constante continua. O viés proporcional à inclinação puxava tampas vistas de
+  perfil através da fachada. Não aumentar esses fatores para evitar cintilação.
+  Fonte passou em WebGL e WebGPU; pacote e site público em cinco vistas WebGL,
+  com destaque traseiro frontal zerado e frente preservada. 29 testes passaram.
+  Quatro assets publicados, 1189 recursos remotos preservados. QA, relatório,
+  captura com estoque real e retorno em `publicacao/qa-oclusao-verdes-20261029/`.
+- Correção visual de 29/10/2026, após capturas do celular revelarem cortes e
+  sobreposição: Hosting `e69401e6c9a33711`, build `b5fae286741c`, função ACTIVE
+  `conectatracking-00020-zot`, mesmo segredo versão 2. O interior embutido não
+  força mais canvas de 300 px dentro de iframe menor. Paisagem curta usa painel
+  compacto, ações desobstruídas, Privacidade/WhatsApp na faixa superior e horário
+  solar recolhível. A câmera automática inclui o letreiro; a manual é preservada.
+  Viewer e iframe do Tour bloqueiam seleção/menu de toque prolongado fora dos
+  campos de formulário; as setas mantêm movimento e soltura normais. Painéis de
+  links embutidos com até 260 px úteis permitem rolar todas as ações. QA de gestos
+  e de espaço embutido: `qa_selecao.py --source online` e
+  `qa_embutido.py --source online` na pasta de capturas abaixo.
+  QA canônico: `qa_orientacao.py --assert-fixed` na pasta do viewer. Preservar
+  a UI real do Analytics nos testes (métricas recusadas), pois ela muda o espaço
+  disponível. Retorno em `publicacao/qa-orientacao-reparo-publicacao-20261029/`;
+  capturas de regressão em `publicacao/qa-orientacao-reparo-20261028/`.
+- Atualização de 28/10/2026: orientação Horizontal/Vertical publicada no LIV.
+  Hosting `3677eb748f943059`, build individual `7f4bbd849709`, função ACTIVE
+  `conectatracking-00018-yoq`; TRACKING_SECRET versão 2 preservado. A escolha
+  fica neste navegador; paisagem nativa exige toque e suporte da plataforma.
+  Layout vertical mantém painel abaixo; paisagem curta usa painel lateral.
+  Fonte e testes em `experimentos/liv-experimental-2026-10-14/`; preparação,
+  inventários, retorno e evidências em `publicacao/qa-orientacao-20261028/`.
+- O Hosting atual tem recursos que não estão no payload local. Para mudanças
+  pontuais do LIV, usar publicação parcial que preserve inventário e configuração
+  remotos, como `publicacao/qa-orientacao-20261028/hosting.mjs`. Os HTMLs são
+  entregues pela função; publicar estáticos antes dela. O mapa `publications`
+  também tem outra propriedade e deve ser preservado ao gerar build do LIV.
+  O HTML publicado contém CSS embutido e usa `viewer.bundle.js`; só copiar CSS
+  solto ou o HTML experimental inteiro não reproduz o pacote online.
 - Viewer: `experimentos/liv-experimental-2026-10-14/`.
 - Comparação e reversão: `EXPERIMENTO-COMPRA.md` nessa pasta, com os marcadores
   `EXPERIMENTO-COMPRA-20261023`, `FUNDO-3D-20261023`, `FUNDO-2D-20261023` e
