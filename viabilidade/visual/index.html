@@ -8,6 +8,7 @@
   <style>
     :root{color-scheme:dark;font:15px/1.5 system-ui,sans-serif;--page:#0e151b;--surface:#131c23;--raised:#212c34;--line:#40505c;--ink:#e5eaee;--muted:#abb8c1;--accent:#91dcba;--gold:#f3d397;color:var(--ink);background:var(--page)}
     *{box-sizing:border-box}body{margin:0}main,header{max-width:1560px;margin:auto;padding:24px}header{display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line)}h1{font-size:26px;line-height:1.2;margin:4px 0 8px;letter-spacing:-.5px}h2{font-size:19px;margin:0}h3{font-size:15px;margin:16px 0 8px}p{margin:8px 0}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}.muted,.help{color:var(--muted);font-size:13px}.actions,nav,.legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center}button{font:inherit;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:6px;background:var(--raised);color:var(--ink);cursor:pointer}button:hover{border-color:var(--accent)}button[aria-pressed=true]{background:#244336;border-color:var(--accent);color:#e9fff2}button:focus-visible,summary:focus-visible,canvas:focus-visible{outline:3px solid var(--accent);outline-offset:3px}button:disabled{opacity:.5;cursor:default}#status{overflow-wrap:anywhere}#erro,.notice{padding:12px 16px;border:1px solid #826c44;border-radius:6px;background:#322c20;color:var(--gold)}#erro{border-color:#da9b86;color:#ffd6c8;background:#412b25}#resumo{margin-bottom:20px}#lote{font-size:19px;font-weight:600;overflow-wrap:anywhere}.legend{font-size:12px;color:var(--muted);margin:16px 0}.legend span{display:inline-flex;gap:8px;align-items:center;margin-right:12px}.swatch{display:inline-block;width:16px;height:12px;background:#8a9e84}.swatch.box{background:transparent;border:1px solid #f3d397}.swatch.volume{background:#96c5b9}.swatch.garagem{background:#b0a8c5}nav{margin:16px 0}.cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr))}.option{min-width:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}.option>h2{padding:16px;border-bottom:1px solid var(--line)}.viewport{height:340px;position:relative;background:#e1e5e2}.single .option-body{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr)}.single .viewport{height:540px}.viewport canvas{display:block;width:100%;height:100%;touch-action:none}.view-actions{position:absolute;bottom:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap}.view-actions button{font-size:12px;padding:8px 12px;background:#18252bec;border-color:#6b7b80}.metrics{padding:16px}.highlights{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px}.highlights div{border-bottom:1px solid var(--line);padding-bottom:12px}.highlights dt{font-size:12px;color:var(--muted)}.highlights dd{margin:4px 0 0;font-size:21px;font-weight:600;overflow-wrap:anywhere}.highlights .sem-preco{font-size:14px;line-height:21px;white-space:nowrap}.recuos dd{max-width:55%}.details{margin:0}.details div{display:flex;justify-content:space-between;gap:16px;padding:6px 0;border-bottom:1px solid #303b43;font-size:13px}.details dt{color:var(--muted)}.details dd{margin:0;text-align:right}.alerts{font-size:13px;color:var(--gold);padding-left:20px;margin:8px 0}.alerts li{margin:8px 0}details.context{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}summary{cursor:pointer;min-height:44px;display:list-item}.context ul{padding-left:20px;color:var(--muted);font-size:13px}.context li{margin:8px 0;overflow-wrap:anywhere}#premissas{max-width:800px}footer{padding:12px 24px;background:#1c292ff5;border-top:1px solid #5b707c;color:var(--gold);font-size:13px;text-align:center}.drop{outline:3px dashed var(--accent);outline-offset:-8px}[hidden]{display:none!important}
+    .conferencia-item{display:block}.swatch.cega{background:#729bbd;border:1px dashed #bddff4}.parede-cega{padding:8px;border-left:3px solid #9ec8e6;color:#c2e0f5;font-size:13px}
     @media(max-width:760px){header{align-items:flex-start;flex-direction:column;gap:12px}main,header{padding:16px}h1{font-size:24px}.single .option-body{grid-template-columns:1fr}.single .viewport{height:360px}.actions button{flex:1}.cards{grid-template-columns:1fr}footer{padding:12px 16px}.details{font-size:12px}}
   </style>
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"}}</script>
@@ -23,7 +24,7 @@
     <section id="estudo" hidden>
       <div id="resumo"><p id="lote"></p><p id="zona" class="muted"></p><p id="conferencia" class="notice"></p></div>
       <nav id="opcoes" aria-label="Escolha uma opção"></nav>
-      <div class="legend" aria-label="Legenda da maquete"><span><i class="swatch"></i>Lote</span><span><i class="swatch box"></i>Caixa máxima</span><span><i class="swatch volume"></i>Volume da opção</span><span><i class="swatch garagem"></i>Garagem / subsolo</span></div>
+      <div class="legend" aria-label="Legenda da maquete"><span><i class="swatch"></i>Lote</span><span><i class="swatch box"></i>Caixa máxima</span><span><i class="swatch volume"></i>Volume da opção</span><span><i class="swatch garagem"></i>Garagem / subsolo</span><span id="legenda-parede-cega" hidden><i class="swatch cega"></i><span id="texto-parede-cega"></span></span></div>
       <p class="help">Arraste para girar; use a roda ou dois dedos para aproximar. Comparação com escala e vista inicial iguais. No celular, as opções ficam uma abaixo da outra.</p>
       <div id="cards" class="cards single"></div>
       <details class="context" open><summary>Incertezas e origem dos dados</summary><ul id="incertezas"></ul></details>
@@ -41,6 +42,7 @@
     const finito = n => typeof n === 'number' && Number.isFinite(n);
     const formatar = (n, unidade = '') => finito(n) ? numero.format(n) + unidade : 'Não informado';
     const falha = texto => { $('erro').textContent = texto; $('erro').hidden = false; };
+    const temFaixaCega = caixa => finito(caixa.parede_cega_ate_m) && caixa.parede_cega_ate_m > 0 && caixa.projecao_parede_cega_utm?.length >= 3;
     function degrausDaCaixa(caixa) {
       if (!caixa.degraus?.length) return [{ z0_m: 0, altura_m: caixa.altura_m, projecao_utm: caixa.projecao_utm }];
       // O Motor 0.3 fornece cotas de início; a próxima cota delimita cada faixa.
@@ -74,6 +76,12 @@
       }
       const frontal = d.caixa_maxima.recuo_frontal_m;
       if (frontal !== undefined && frontal !== null && (!finito(frontal) || frontal < 0)) throw Error('Caixa máxima: recuo frontal inválido.');
+      const alturaCega = d.caixa_maxima.parede_cega_ate_m, projecaoCega = d.caixa_maxima.projecao_parede_cega_utm;
+      if (alturaCega !== undefined && alturaCega !== null && (!finito(alturaCega) || alturaCega < 0)) throw Error('Parede cega: altura da faixa inválida.');
+      if (projecaoCega !== undefined && projecaoCega !== null) {
+        if (!Array.isArray(projecaoCega)) throw Error('Parede cega: projeção inválida.');
+        if (projecaoCega.length) poligono(projecaoCega, 'Faixa da parede cega');
+      }
       if (d.opcoes.length > 12) throw Error('Abra um estudo com até 12 opções.');
       const ids = new Set();
       for (const o of d.opcoes) {
@@ -83,6 +91,7 @@
         for (const v of o.volumes) {
           poligono(v.base_utm, 'Volume ' + o.id);
           if (!finito(v.z0_m) || !finito(v.altura_m) || v.altura_m < 0) throw Error('Volume ' + o.id + ': base ou altura inválida.');
+          if (v.parede_cega !== undefined && typeof v.parede_cega !== 'boolean') throw Error('Volume ' + o.id + ': parede_cega deve ser verdadeiro ou falso.');
           for (const k of ['recuo_lateral_m', 'recuo_fundos_m']) if (v[k] !== undefined && v[k] !== null && (!finito(v[k]) || v[k] < 0)) throw Error('Volume ' + o.id + ': recuo inválido.');
         }
         for (const [k, v] of Object.entries(o.metricas)) {
@@ -144,7 +153,8 @@
         linha(recuos, 'Volume ' + (i + 1) + ' · ' + (v.uso || 'uso não informado') + (v.parede_cega ? ' (parede cega)' : ''), valor);
       });
       if (frontalPremissa && finito(estudo.caixa_maxima.recuo_frontal_m)) painel.append(el('p', 'Recuo frontal adotado como premissa, não como regra da lei. Vale a restrição do loteamento; confira a matrícula.', 'alerts'));
-      if (o.volumes.some(v => v.parede_cega)) painel.append(el('p', 'A exceção de parede cega informada pelo Motor não está representada na caixa escalonada.', 'help'));
+      const volumesCegos = o.volumes.flatMap((v, i) => v.parede_cega === true ? [i + 1] : []);
+      if (volumesCegos.length) painel.append(el('p', 'Parede cega na divisa: volume(s) ' + volumesCegos.join(', ') + ', em azul, conforme o Motor.' + (temFaixaCega(estudo.caixa_maxima) ? ' Faixa tracejada de 0 a ' + formatar(estudo.caixa_maxima.parede_cega_ate_m, ' m') + '.' : ' A faixa permitida não foi informada.'), 'parede-cega'));
       painel.append(el('h3', 'Alertas da opção'));
       if (o.alertas.length) { const ul = el('ul', undefined, 'alerts'); o.alertas.forEach(a => ul.append(el('li', a))); painel.append(ul); }
       else painel.append(el('p', 'Nenhum alerta informado pelo Motor. Isso não comprova aprovação.', 'muted'));
@@ -156,7 +166,16 @@
       $('zona').textContent = (estudo.zona.nome || estudo.zona.id || 'Zona não informada') + ' · SIRGAS 2000 / UTM 23S';
       const fontes = Array.isArray(estudo.zona.fontes) ? estudo.zona.fontes : [];
       const conferido = estudo.zona.conferido === true && fontes.length > 0 && fontes.every(f => ['lei', 'artigo', 'url', 'data'].every(k => typeof f[k] === 'string' && f[k].trim()));
-      $('conferencia').textContent = conferido ? 'Zona marcada como conferida no arquivo. Consulte as fontes e incertezas abaixo.' : 'Não conferido: parâmetros da zona sem validação ou sem fonte. Os números não comprovam viabilidade legal.';
+      const lei = el('span', 'Números da zona ' + (estudo.zona.id || '') + ': ' + (conferido ? 'conferidos na lei, conforme o arquivo.' : 'não conferidos ou sem fonte completa.'), 'conferencia-item'); lei.id = 'conferencia-lei';
+      const origem = estudo.lote.zona_origem;
+      const origemTexto = origem === 'oficial' ? 'mapa digital oficial' : origem === 'anotada_a_mao' ? 'anotada à mão no anexo' : origem === 'teste' ? 'escolhida para teste' : 'origem não informada ou não reconhecida';
+      const mesmaZona = typeof estudo.zona.id === 'string' && estudo.zona.id.trim().length > 0 && estudo.lote.zona_id === estudo.zona.id;
+      const loteConferido = estudo.lote.zona_conferida === true && ['oficial', 'anotada_a_mao'].includes(origem) && mesmaZona;
+      const lote = el('span', 'Zona do terreno: ' + origemTexto + ' · ' + (loteConferido ? 'conferida no arquivo.' : 'não conferida para este terreno.') + (!mesmaZona ? ' Os identificadores da zona estão ausentes ou diferem entre lote e estudo.' : ''), 'conferencia-item'); lote.id = 'conferencia-lote';
+      $('conferencia').replaceChildren(lei, lote);
+      const faixaCega = temFaixaCega(estudo.caixa_maxima);
+      $('legenda-parede-cega').hidden = !faixaCega && !estudo.opcoes.some(o => o.volumes.some(v => v.parede_cega === true));
+      $('texto-parede-cega').textContent = faixaCega ? 'Parede cega: faixa tracejada até ' + formatar(estudo.caixa_maxima.parede_cega_ate_m, ' m') + '; volumes em azul' : 'Volumes com parede cega em azul';
       const incertezas = [...(estudo.incertezas || []), 'A maquete mostra volumes sobre um plano; não representa o relevo do terreno.'];
       if (estudo.lote.observacoes) incertezas.push('Lote: ' + estudo.lote.observacoes);
       if (estudo.zona.observacoes) incertezas.push('Zona: ' + estudo.zona.observacoes);
@@ -222,8 +241,14 @@
         const edges = new THREE.EdgesGeometry(g); g.dispose();
         scene.add(new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x82642d, transparent: true, opacity: .8 })));
       }
-      opcao.volumes.forEach(v => solido(geometria(v.base_utm, v.altura_m, v.z0_m), v.z0_m < 0 || /garagem|subsolo/i.test(v.uso || '') ? 0xb0a8c5 : v.uso === 'embasamento' ? 0xc2c8c1 : 0x96c5b9, v.z0_m < 0 ? .75 : 1));
-      let topo = caixa.altura_m, base = 0;
+      if (temFaixaCega(caixa)) {
+        const g = geometria(caixa.projecao_parede_cega_utm, caixa.parede_cega_ate_m);
+        const edges = new THREE.EdgesGeometry(g); g.dispose();
+        const faixa = new THREE.LineSegments(edges, new THREE.LineDashedMaterial({ color: 0x28648a, dashSize: 1, gapSize: .5 }));
+        faixa.computeLineDistances(); scene.add(faixa);
+      }
+      opcao.volumes.forEach(v => solido(geometria(v.base_utm, v.altura_m, v.z0_m), v.parede_cega === true ? 0x729bbd : v.z0_m < 0 || /garagem|subsolo/i.test(v.uso || '') ? 0xb0a8c5 : v.uso === 'embasamento' ? 0xc2c8c1 : 0x96c5b9, v.z0_m < 0 ? .75 : 1));
+      let topo = Math.max(caixa.altura_m, temFaixaCega(caixa) ? caixa.parede_cega_ate_m : 0), base = 0;
       estudo.opcoes.forEach(o => o.volumes.forEach(v => { topo = Math.max(topo, v.z0_m + v.altura_m); base = Math.min(base, v.z0_m); }));
       const tamanho = Math.max(maxX - minX, maxY - minY, topo - base, 1), alvo = new THREE.Vector3(0, (topo + base) / 2, 0);
       camera.far = tamanho * 30; controls.target.copy(alvo);

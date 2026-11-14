@@ -62,6 +62,9 @@ async function checkWidth(page) {
       await page.locator('canvas').first().waitFor();
       assert.match(await page.locator('body').innerText(), /estudo preliminar, não substitui projeto nem aprovação/i);
       assert.equal(example.zona.id, 'SC-Z2', 'Usar o exemplo atualizado da zona real.');
+      assert.match(await page.locator('#conferencia-lote').innerText(), /não conferid/i,
+        'O exemplo não comprova que o lote pertence à zona escolhida.');
+      assert.doesNotMatch(await page.locator('#conferencia-lei').innerText(), /não conferid/i);
       const snapshots = [];
       for (const { id: option, volumes } of example.opcoes) {
         const button = page.getByRole('button', { name: `Opção ${option}`, exact: true });
@@ -126,6 +129,72 @@ async function checkWidth(page) {
         assert.equal(await page.getByRole('alert').isVisible(), false);
       }
 
+      const zoningCases = [
+        { lei: true, origem: 'oficial', conferida: false, esperado: false },
+        { lei: true, esperado: false },
+        { lei: false, origem: 'oficial', conferida: true, esperado: true },
+        { lei: true, origem: 'teste', conferida: true, esperado: false },
+        { lei: true, origem: 'anotada_a_mao', conferida: false, esperado: false },
+        { lei: true, conferida: true, esperado: false },
+        { lei: false, origem: 'anotada_a_mao', conferida: true, esperado: true },
+        { lei: true, origem: 'oficial', conferida: true, zonaId: 'SC-OUTRA', esperado: false },
+        { lei: true, origem: 'oficial', conferida: true, idsAusentes: true, esperado: false },
+        { lei: true, origem: 'oficial', conferida: true, idsVazios: true, esperado: false },
+      ];
+      if (!mobile) {
+        for (const [index, testCase] of zoningCases.entries()) {
+          const zoning = structuredClone(example);
+          zoning.lote.id = 'TESTE SINTÉTICO — conferência da lei e do lote independentes';
+          zoning.zona.conferido = testCase.lei;
+          delete zoning.lote.zona_origem;
+          delete zoning.lote.zona_conferida;
+          if (testCase.origem !== undefined) zoning.lote.zona_origem = testCase.origem;
+          if (testCase.conferida !== undefined) zoning.lote.zona_conferida = testCase.conferida;
+          if (testCase.zonaId) zoning.lote.zona_id = testCase.zonaId;
+          if (testCase.idsAusentes) { delete zoning.zona.id; delete zoning.lote.zona_id; }
+          if (testCase.idsVazios) { zoning.zona.id = ''; zoning.lote.zona_id = ''; }
+          const name = `conferencia-${index}.json`;
+          await upload(page, JSON.stringify(zoning), name);
+          await page.waitForFunction(name => document.querySelector('#status').textContent.includes(name), name);
+          const lawUnverified = /não conferid/i.test(await page.locator('#conferencia-lei').innerText());
+          const lotUnverified = /não conferid/i.test(await page.locator('#conferencia-lote').innerText());
+          assert.equal(lawUnverified, !testCase.lei, `Conferência da lei: caso ${index}.`);
+          assert.equal(lotUnverified, !testCase.esperado, `Conferência do lote: caso ${index}.`);
+        }
+      }
+      const wall = structuredClone(example);
+      wall.lote.id = 'TESTE SINTÉTICO — parede cega e faixa na divisa';
+      wall.lote.zona_origem = 'teste';
+      wall.lote.zona_conferida = false;
+      wall.opcoes = [wall.opcoes[0]];
+      Object.assign(wall.opcoes[0].volumes[0], {
+        z0_m: 0, altura_m: 8, base_utm: wall.caixa_maxima.projecao_parede_cega_utm,
+        recuo_lateral_m: 0, recuo_fundos_m: 0, parede_cega: false,
+      });
+      await upload(page, JSON.stringify(wall), 'parede-desmarcada.json');
+      await page.waitForFunction(() => document.querySelector('#status').textContent.includes('parede-desmarcada.json'));
+      const unmarkedWall = await page.locator('canvas').first().screenshot();
+      wall.opcoes[0].volumes[0].parede_cega = true;
+      await upload(page, JSON.stringify(wall), 'parede-cega.json');
+      await page.waitForFunction(() => document.querySelector('#status').textContent.includes('parede-cega.json'));
+      assert(await page.locator('.parede-cega').filter({ hasText: /parede cega/i }).count() > 0,
+        'Volume com parede cega precisa de identificação textual.');
+      assert(pixelDifference(await page.locator('canvas').first().screenshot(), unmarkedWall) > .01,
+        'Parede cega deve ter uma cor diferente do volume comum.');
+      await page.screenshot({ path: path.join(output, `${profile}-parede-cega.png`), fullPage: true });
+      wall.opcoes[0].volumes[0].parede_cega = false;
+      delete wall.caixa_maxima.parede_cega_ate_m;
+      delete wall.caixa_maxima.projecao_parede_cega_utm;
+      await upload(page, JSON.stringify(wall), 'sem-faixa-parede-cega.json');
+      await page.waitForFunction(() => document.querySelector('#status').textContent.includes('sem-faixa-parede-cega.json'));
+      assert(pixelDifference(await page.locator('canvas').first().screenshot(), unmarkedWall) > .01,
+        'A faixa da parede cega deve mudar a maquete; sua ausência continua compatível.');
+      wall.caixa_maxima.parede_cega_ate_m = null;
+      wall.caixa_maxima.projecao_parede_cega_utm = null;
+      await upload(page, JSON.stringify(wall), 'faixa-nula.json');
+      await page.waitForFunction(() => document.querySelector('#status').textContent.includes('faixa-nula.json'));
+      assert.equal(await page.getByRole('alert').isVisible(), false, 'Faixa nula significa ausente.');
+
       const v2 = structuredClone(example);
       v2.lote.id = 'TESTE SINTÉTICO — valores inventados para validar a interface';
       v2.premissas.preco_venda_m2_privativo = null;
@@ -161,6 +230,11 @@ async function checkWidth(page) {
           study => { study.caixa_maxima.degraus[0].projecao_utm = [[0, 0], [1, 0], [2, 0]]; },
           study => { study.caixa_maxima.recuo_frontal_m = -1; },
           study => { study.opcoes[0].volumes[0].recuo_lateral_m = -1; },
+          study => { study.caixa_maxima.parede_cega_ate_m = -1; },
+          study => { study.caixa_maxima.parede_cega_ate_m = '12'; },
+          study => { study.caixa_maxima.projecao_parede_cega_utm = {}; },
+          study => { study.caixa_maxima.projecao_parede_cega_utm = [[0, 0], [1, 0], [2, 0]]; },
+          study => { study.opcoes[0].volumes[0].parede_cega = 'sim'; },
         ]) {
           const bad = structuredClone(v2);
           mutate(bad);
@@ -182,7 +256,7 @@ async function checkWidth(page) {
         unsourced.zona.fontes = [{}];
         await upload(page, JSON.stringify(unsourced), 'fonte-vazia.json');
         await page.waitForFunction(() => document.querySelector('#status').textContent.includes('fonte-vazia.json'));
-        assert.match(await page.locator('#conferencia').innerText(), /Não conferido/);
+        assert.match(await page.locator('#conferencia-lei').innerText(), /não conferid/i);
       }
       await upload(page, JSON.stringify(example), 'exemplo-valido.json');
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
@@ -205,7 +279,7 @@ async function checkWidth(page) {
       }
       await checkWidth(page);
       assert.deepEqual(errors, [], 'Nenhum erro JavaScript/console nos fluxos válidos e inválidos.');
-      report.push({ perfil: profile, versaoMotor: example.versao_motor, zona: example.zona.id, opcoes: example.opcoes.length, degraus: example.caixa_maxima.degraus.length, alturasExplicitasEFallback: !mobile, recuos: true, avisoSemSobreposicao: true, vgvSemCorte: true, comparacao: true, upload: true, contratoV2: true, jsonInvalido: invalid.length, largurasExtras: mobile ? [] : [320, 768, 1024], errosConsole: errors });
+      report.push({ perfil: profile, versaoMotor: example.versao_motor, zona: example.zona.id, opcoes: example.opcoes.length, degraus: example.caixa_maxima.degraus.length, alturasExplicitasEFallback: !mobile, recuos: true, avisoSemSobreposicao: true, vgvSemCorte: true, comparacao: true, upload: true, contratoV2: true, conferenciaLoteIndependente: mobile ? 1 : zoningCases.length, paredeCega: true, faixaParedeCega: true, jsonInvalido: invalid.length, largurasExtras: mobile ? [] : [320, 768, 1024], errosConsole: errors });
       await page.close();
     }
     fs.writeFileSync(path.join(output, 'teste-browser.json'), JSON.stringify(report, null, 2) + '\n');

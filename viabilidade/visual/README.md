@@ -8,8 +8,10 @@ python -m http.server 8765 --bind 127.0.0.1
 
 Abra `http://127.0.0.1:8765/viabilidade/visual/`.
 O exemplo padrão é `../motor/exemplos/estudo-exemplo.json`, produzido pelo Motor.
-O Motor 0.3.0 usa lote real e zona SC-Z2. As premissas e restrições ainda
-precisam ser conferidas; o estudo não é uma conclusão de viabilidade legal.
+O Motor 0.3.0 usa lote real e números da zona SC-Z2 conferidos na lei.
+A zona foi escolhida para teste: não foi confirmado que o terreno pertence
+a ela. O aviso distingue essas duas conferências; o estudo não é uma
+conclusão de viabilidade legal.
 
 Para outro estudo, use `?estudo=caminho/estudo.json` (relativo à página),
 o botão **Abrir estudo.json** ou arraste o arquivo para a página.
@@ -24,12 +26,19 @@ de acesso à CDN e WebGL. Sem o 3D, as métricas continuam disponíveis.
   O frontal aparece como premissa quando a zona não o define; recuos
   ausentes (por exemplo, na garagem) aparecem como não informados.
 - Garagem/subsolo com outra cor e lote transparente quando há subsolo.
+- Faixa de parede cega em linha azul tracejada, da cota zero até a altura
+  informada em `parede_cega_ate_m`, com a projeção recebida do Motor.
+  Volumes com `parede_cega: true` ficam azuis e identificados no painel.
 - Troca de opção e comparação lado a lado; no celular, comparação vertical.
 - Vista inicial e vista de cima por botões acessíveis pelo teclado.
 - Unidades, área privativa, vagas e VGV em destaque. Sem preço informado,
   aparece **Informe o preço**; o preço deve entrar no estudo pelo Motor.
 - Demais métricas v2, alertas, fontes, incertezas e premissas identificadas
   como **padrão**, conforme o arquivo. Ausente ou `null` não vira zero.
+- Contrato v4: `zona.conferido` indica conferência dos números da lei;
+  `lote.zona_origem` e `lote.zona_conferida` indicam a situação do terreno.
+  Origem de teste, ausente ou não reconhecida nunca aparece como conferida.
+  O vínculo também não é confirmado se os identificadores de zona divergem.
 - Aviso de estudo preliminar no fluxo da página, sem cobrir botões ou alertas.
 
 O Visual exibe os cálculos recebidos; não calcula preço, VGV, legislação ou
@@ -60,3 +69,6 @@ arquitetura ou validação legal. A vista inicial usa escala comum entre as
 opções; câmeras podem ser giradas separadamente. Arquivos de até 10 MB,
 12 opções e 200 volumes por opção. Não verifica interseções de polígonos.
 Sem commit ou publicação: a integração fica com a central.
+Nenhuma fonte bloqueada foi encontrada nesta rodada. Se houver bloqueio,
+vale a regra do projeto: registrar em `viabilidade/BLOQUEIOS.md`, sem
+contornar a restrição, e manter o dado pendente como não conferido.

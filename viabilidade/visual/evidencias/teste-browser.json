@@ -12,7 +12,10 @@
     "comparacao": true,
     "upload": true,
     "contratoV2": true,
-    "jsonInvalido": 14,
+    "conferenciaLoteIndependente": 10,
+    "paredeCega": true,
+    "faixaParedeCega": true,
+    "jsonInvalido": 19,
     "largurasExtras": [
       320,
       768,
@@ -33,6 +36,9 @@
     "comparacao": true,
     "upload": true,
     "contratoV2": true,
+    "conferenciaLoteIndependente": 1,
+    "paredeCega": true,
+    "faixaParedeCega": true,
     "jsonInvalido": 2,
     "largurasExtras": [],
     "errosConsole": []
