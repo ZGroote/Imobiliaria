@@ -1,44 +1,44 @@
-# Relatório do Motor, tarefa 2 (14/11)
+# Relatório do Motor, tarefa 3 (14/11): defeitos da auditoria
 
-Testes: `python -I viabilidade/motor/test_motor.py` passa ("ok", ~80 s). Varrimento extra de 5 lotes × 7 casos (recuo, TO, CA, altura, pavimentos, frente): 0 piora real; 1 diferença de 0,05 m² em 640 (C do 30516, ruído da busca binária, 0,008%).
+Motor v0.5.0. `python -I viabilidade/motor/test_motor.py` passa ("ok", ~110 s). Cada defeito tem um teste em `test_motor.py` (função `defeitos_da_auditoria`, mais as checagens novas em `confere` e em `monotonia`). Rodei os blocos contra o `motor.py` do commit anterior: todos falham nele (crash, `AssertionError` ou `ZeroDivisionError`).
 
-## 1. Por que a D piorou (3 causas, todas corrigidas)
+## 1. O que foi corrigido
 
-1. **Geometria.** Base e torre eram retângulos centrados no centroide, com proporção tirada do bbox. Afrouxar o recuo mudava o bbox, a proporção e a posição: a torre saía num formato pior. Agora o retângulo é o maior que cabe na região (erosão exata por retângulo, qualquer posição); `maior_retangulo`, `_maior_lamina`, `dois_quadrados`.
-2. **Andar é inteiro.** Laje maior estoura o CA no último andar e o prédio escolhido cai um andar. Agora `_ajusta_ao_ca` encolhe a laje até bater no teto do CA, e `_melhor` escolhe o prédio de **maior área privativa** (não mais "o mais baixo que chega a 95%", que não é monotônico). Vale para A, B, C e D.
-3. **Só na D.** O embasamento não rende área privativa mas gasta CA. Deixá-lo crescer com a TO ou o recuo tirava andar da torre. Agora ele ocupa uma fração fixa do lote (premissa `embasamento_ocupacao`, padrão 0,4).
+| # | Defeito | O que o motor faz agora | Teste |
+|---|---|---|---|
+| 1 ALTA | `ca_maximo` null quebrava (`TypeError`, zona real SC-Z6E) | Sem CA o teto de área é infinito. A procura de andares vem da altura, de `pavimentos_max` ou da premissa nova `pavimentos_sem_ca` (padrão 10). Entra uma incerteza explicando. | zona sem CA: 4 opções, sem crash |
+| 6 ALTA | `_cabe` não olhava a permeabilidade | `_cabe` rejeita opção com área permeável abaixo do mínimo. A caixa do térreo, o subsolo e a parede cega ficam limitados a `(1 − permeabilidade) × lote`. `confere` agora confere a permeabilidade em todo estudo. | perm 35% e TO 100% + perm 25% |
+| 2 ALTA | Subsolo saía do lote em L (escala pelo centroide) | O subsolo é a caixa encolhida igualmente em todo lado (buffer negativo com quina reta), sempre dentro do lote. | L com perm 35%: subsolo dentro do lote |
+| 5 ALTA | Frente e fundos trocados em L com frente recuada | O sentido "rua pra dentro" vem de um passo a partir do meio da frente (o centroide é só reserva). Aresta é frente só se for paralela à rua e estiver perto da linha da frente; divisa interna do L vira lateral. | L com frente no trecho recuado: nada a menos do recuo da frente; quina do L reta |
+| 3 e 4 ALTA | Monotonia em A, B e D | A e B já estavam ok desde a tarefa 2. A D ainda piorava (recuo fixo 2,5 → 2,0 m: 3703 → 3658 m²). Duas causas novas: base maior comia CA, e a base mínima só existia se a proporção casasse com a lista (dava vazio num lote estreito). Agora a base mínima é a torre crescida igualmente em volta (`_cresce`), e na busca por CA (laje encolhida) só ela entra, porque trocar de base no meio dava salto e a secante parava cedo. A secante também não aborta mais quando passa do tamanho natural. Resultado: D no recuo fixo 2,5 e 2,0 m dá **4070,01** nos dois (era 3703 → 3658). | casos mono-*: recuo fixo 2,5 → 2,0, TO 25 → 35%, CA 2,614 → 2,620 com TO 95%, mais os cinco que já existiam, em 3 lotes |
+| 8 MÉDIA | Unidades fatiadas entre andares | Unidades = soma por pavimento de `int(privativa do andar / 60)`. Laje de 80,9 m² dá 55,9 m² por andar: 0 unidade (antes 3 em 4 andares). `confere` recalcula a conta por andar em todo estudo. | laje 80,9 m² |
+| 9 MÉDIA | Vaga sumia calada; subsolo sem área dividia por zero | Sem área de subsolo, vira o alerta "Faltam vagas: precisa de N, S subsolo(s) comportam C. Em metricas.vagas ficam as C." `confere` exige o alerta sempre que `vagas` ficar abaixo do necessário. | subsolo vazio com vaga a fazer |
+| 12 MÉDIA | Frente com dois pontos iguais e polígono em "8" quebravam | Polígono inválido: fica a maior parte, com incerteza. Área zero: `ValueError` claro. Frente degenerada: usa a maior aresta, com incerteza. | frente repetida, polígono em "8" |
+| 11 MÉDIA | Último degrau da caixa (topo) sumia | A amostra de 12 degraus inclui o primeiro e o último. | exercitado pelos estudos com regra por altura |
+| 14 BAIXA | `parede_cega_ate_m` passava da altura da caixa | `min(parede cega, altura da caixa)`. | idem |
+| 15 BAIXA | Sem alerta quando o lote é menor que o mínimo da zona | Incerteza de lote abaixo de `lote_min_m2` e de testada abaixo de `testada_min_m` (a testada é o comprimento da frente). | lote 8 × 20 m |
 
-## 2. O que mudou
+## 2. Mudanças que a Visual e a central precisam saber
 
-- `motor.py` (versão 0.4.0): itens acima; área especial sem altura numérica vira alerta em cada opção ("ÁREA ESPECIAL sem altura numérica, NÃO aplicada: ..."), sem número inventado.
-- `test_motor.py`: teste de monotonia (recuo −30%, TO +0,1, CA +25%, altura 45→63 m, recuo dos 2 primeiros pavimentos 2,00→1,50) em 3 lotes: exemplo, remembramento 75352-75354 (Z2) e 22426 (Z1). No teste "TO alta" a premissa sobe para 0,9 (base de 90% só cabe encostando na divisa).
-- `gerar_pilotos.py` (novo): refaz os 7 estudos em `exemplos/pilotos/<id>.json` e imprime a tabela. `python -I viabilidade/motor/gerar_pilotos.py` (~1 min).
-- `exemplos/estudo-exemplo.json` regenerado: **a Visual usa esse arquivo e ele mudou.** Exemplo SC-Z2 agora: A 47 un., B 78, C 56, D 42 (a D era 38).
+- **Os números mudaram.** `exemplos/estudo-exemplo.json` e os 7 `exemplos/pilotos/*.json` foram regenerados. **A Visual usa o `estudo-exemplo.json`.** Exemplo SC-Z2, unidades (antes → agora): A 47 → 36, B 78 → 60, C 56 → 56, D 42 → 32. A queda é só a conta certa por andar; antes o motor inventava apartamento atravessando andar. Pilotos (melhor opção): 30516 de 30 → 28, 37607 de 54 → 40, 22426 e 22421 em 12, 25297 de 5 → 4, q1382 de 94 → 72, remembramento de 82 → 64.
+- **`caixa_maxima.area_computavel_max_m2` pode ser `null`** (zona sem CA). A Visual precisa tratar.
+- **Premissa nova `pavimentos_sem_ca`** (padrão 10, escolha de projeto, não lei): só vale quando a zona não tem CA, altura nem pavimentos. Aparece em `premissas` e em `premissas.padrao`.
+- Frente degenerada ou polígono inválido: o campo `lote` do estudo continua com o que veio; o motor só usa a versão corrigida por dentro e avisa em `incertezas`.
+- O README não foi mexido.
 
-## 3. Custo de tempo (é "melhor de várias tentativas")
+## 3. Lentidão (MÉDIA 7): meta não atingida
 
-Por andar o motor refaz a laje (até 7 vezes, no que estoura o CA) e testa até 15 proporções de lâmina; depois escolhe o máximo, sem parar cedo. Por estudo: exemplo ~2,3 s (antes ~0,9 s), remembramento ~3 s, 22426 ~4 s, 30516 ~20 s, q1382 ~40 s. Os lotes grandes com CA alto (muitos andares possíveis) pesam mais.
+Exemplo: **~2,5 s** (a meta era < 1 s; a auditoria mediu 7,8 s, então caiu a um terço, mas isso já vinha da tarefa 2 e não mudou nesta). Perfil: 2,1 s dos 3,0 s ficam em `_centros` (erosão exata dos retângulos, via `union_all` do shapely), chamada ~5.400 vezes. A D gasta ~1,7 s (134 gerações) e a B ~0,8 s.
 
-## 4. Os 7 lotes-piloto (zona anotada à mão, premissas padrão)
+Por que não dá pra baixar a 1 s sem risco: o motor gera um prédio por pavimento possível e escolhe o de maior privativa, sem cortar cedo. Isso é o que garante a monotonia (cortar quando "parou de subir" já provou piorar ao afrouxar a regra). Caminhos, em ordem de custo: (a) cache de `_centros` por região e tamanho (vários pavimentos repetem a mesma região); (b) trocar a erosão exata por uma grade grosseira com refino só no melhor; (c) podar só os pavimentos em que a laje ajustada ao CA já ficou abaixo da mínima. Nenhum foi feito; (a) é o de menor risco. Lotes grandes com CA alto continuam levando dezenas de segundos.
 
-| Lote | Zona | Melhor opção | Unidades | CA usado | Alertas |
-|---|---|---|---|---|---|
-| SC-completo-30516 | SC-Z4 | B Duas torres | 30 | 1,40 | 3: área especial (interesse ambiental, sem altura, não aplicada); no limite do CA |
-| SC-completo-37607 | SC-Z4 | B Duas torres | 54 | 1,40 | 3: área especial (interesse industrial/serviços, sem altura); no limite do CA |
-| SC-completo-22426 | SC-Z1 | C Lâmina baixa | 12 | 1,38 | 2: gabarito aeronáutico sem altura, não aplicado |
-| SC-completo-22421 | SC-Z1 | C Lâmina baixa | 13 | 1,38 | 2: gabarito aeronáutico sem altura, não aplicado |
-| SC-completo-25297 | SC-Z1 | C Lâmina baixa | 5 | 1,18 | 1: só o recuo (sem área especial) |
-| SC-completo-q1382-11984-11988 | SC-EIXO | B Duas torres | 94 | 4,00 | 5: gabarito aeronáutico não aplicado; faltam vagas (precisa 94, 2 subsolos comportam 90); CA no limite; 3.198 m² de outorga onerosa |
-| SC-completo-remembramento-75352-75354 | SC-Z2 | B Duas torres | 82 | 3,50 | 3: CA no limite; 2.411 m² de outorga onerosa |
+## 4. Pendentes (não cabem em 1–2 linhas)
 
-"Melhor" = maior área privativa (empate: menos pavimentos). Em lote com área especial sem altura o resultado **pode passar do que o terreno permite**: conferir o gabarito antes de usar.
+- **MÉDIA 10:** zona sem limite de altura num lote grande dá prédio de ~98 pavimentos e subsolo de 100% da caixa por nível. Falta decidir um teto de projeto (premissa) e um teto de subsolo. A SC-Z6E cai nisso, agora com `pavimentos_sem_ca`.
+- **MÉDIA 13:** `laje_max` trava a laje bruta em `TO × A`, mas a TO real desconta o núcleo (20 m² por prédio); a C não chega a 100% da TO permitida. Pequeno, mexe no limite de TO e na parede cega ao mesmo tempo.
+- **BAIXA 16:** `utm.para_utm23s` não valida inversão (lat, lon) nem coordenadas fora do fuso 23S. Arquivo `utm.py`, não mexido.
+- Triângulo isósceles da auditoria: o `recuo_fundos` parece não ser aplicado (a aresta oposta à frente vira lateral). Não mexi nem confirmei de novo.
 
-## 5. Riscos e proposta de contrato (README não foi mexido)
+## 5. Sem commit
 
-- Opções ficaram mais altas que antes (ex.: B do exemplo foi de 9 para 15 pavimentos): o núcleo não conta no CA, então com o CA no teto mais andar rende um pouco mais de privativa. Sem corte de altura se a zona não limita; o alerta de gabarito cobre isso.
-- Premissa nova `embasamento_ocupacao` (fração do lote, padrão 0,4, é escolha de projeto, não lei): entra em `premissas` e em `premissas.padrao`. A Visual não precisa mudar nada, só ler o campo se quiser mostrar.
-- O 95% antigo ficou fora; o ganho é monotonia garantida, a perda é opção mais alta onde a lei não limita.
-
-## Sem commit
-
-`motor.py`, `test_motor.py`, `gerar_pilotos.py`, `exemplos/estudo-exemplo.json`, `exemplos/pilotos/` (7 arquivos), `RELATORIO.md`. Também solto, mas não é meu: `viabilidade/auditoria/` (AUDITORIA.md e casos/).
+`motor.py`, `test_motor.py`, `RELATORIO.md`, `exemplos/estudo-exemplo.json`, `exemplos/pilotos/` (7 arquivos). Também solto, mas não é meu: `viabilidade/auditoria/`.

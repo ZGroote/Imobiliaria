@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.4.0",
+ "versao_motor": "0.5.0",
  "lote": {
   "id": "SC-completo-25297",
   "lid": null,
@@ -303,6 +303,7 @@
   "afastamento_entre_torres_m": 6.0,
   "pavimentos_lamina_max": 4,
   "pavimentos_embasamento": 2,
+  "pavimentos_sem_ca": 10,
   "embasamento_ocupacao": 0.4,
   "padrao": [
    "afastamento_entre_torres_m",
@@ -317,6 +318,7 @@
    "nucleo_nao_computavel_m2",
    "pavimentos_embasamento",
    "pavimentos_lamina_max",
+   "pavimentos_sem_ca",
    "pe_direito_m",
    "pe_direito_terreo_m",
    "preco_venda_m2_privativo",
@@ -332,40 +334,8 @@
     7561467.77
    ],
    [
-    201996.79,
-    7561467.9
-   ],
-   [
-    201996.91,
-    7561467.58
-   ],
-   [
-    201997.07,
-    7561467.23
-   ],
-   [
-    201997.28,
-    7561466.89
-   ],
-   [
-    201997.51,
-    7561466.57
-   ],
-   [
-    201997.77,
-    7561466.28
-   ],
-   [
-    201998.06,
-    7561466.02
-   ],
-   [
-    201998.38,
-    7561465.79
-   ],
-   [
-    201998.63,
-    7561465.64
+    201998.55,
+    7561467.97
    ],
    [
     201999.51,
@@ -377,7 +347,7 @@
    ]
   ],
   "altura_m": 13.5,
-  "area_projecao_m2": 144.02,
+  "area_projecao_m2": 146.62,
   "area_lote_m2": 326.68,
   "area_computavel_max_m2": 980.03,
   "ocupacao_max_m2": 228.67,
@@ -393,40 +363,8 @@
       7561467.77
      ],
      [
-      201996.79,
-      7561467.9
-     ],
-     [
-      201996.91,
-      7561467.58
-     ],
-     [
-      201997.07,
-      7561467.23
-     ],
-     [
-      201997.28,
-      7561466.89
-     ],
-     [
-      201997.51,
-      7561466.57
-     ],
-     [
-      201997.77,
-      7561466.28
-     ],
-     [
-      201998.06,
-      7561466.02
-     ],
-     [
-      201998.38,
-      7561465.79
-     ],
-     [
-      201998.63,
-      7561465.64
+      201998.55,
+      7561467.97
      ],
      [
       201999.51,
@@ -448,36 +386,8 @@
       7561467.29
      ],
      [
-      201996.99,
-      7561467.41
-     ],
-     [
-      201997.07,
-      7561467.23
-     ],
-     [
-      201997.28,
-      7561466.89
-     ],
-     [
-      201997.51,
-      7561466.57
-     ],
-     [
-      201997.77,
-      7561466.28
-     ],
-     [
-      201998.06,
-      7561466.02
-     ],
-     [
-      201998.38,
-      7561465.79
-     ],
-     [
-      201998.63,
-      7561465.64
+      201998.57,
+      7561467.47
      ],
      [
       201999.49,
@@ -501,67 +411,15 @@
     7561469.22
    ],
    [
-    201996.6,
-    7561469.4
+    201998.5,
+    7561469.46
    ],
    [
-    201996.6,
-    7561469.11
+    201998.52,
+    7561468.97
    ],
    [
-    201996.62,
-    7561468.72
-   ],
-   [
-    201996.68,
-    7561468.33
-   ],
-   [
-    201996.77,
-    7561467.95
-   ],
-   [
-    201996.91,
-    7561467.58
-   ],
-   [
-    201997.07,
-    7561467.23
-   ],
-   [
-    201997.28,
-    7561466.89
-   ],
-   [
-    201997.51,
-    7561466.57
-   ],
-   [
-    201997.77,
-    7561466.28
-   ],
-   [
-    201998.06,
-    7561466.02
-   ],
-   [
-    201998.38,
-    7561465.79
-   ],
-   [
-    201998.63,
-    7561465.64
-   ],
-   [
-    201999.55,
-    7561439.95
-   ],
-   [
-    201999.58,
-    7561439.56
-   ],
-   [
-    201999.59,
+    201999.56,
     7561439.52
    ]
   ]
@@ -574,20 +432,20 @@
     {
      "base_utm": [
       [
-       201994.54,
-       7561441.47
+       201994.52,
+       7561441.98
       ],
       [
-       201999.36,
-       7561441.64
+       201999.47,
+       7561442.16
       ],
       [
-       201998.5,
-       7561465.72
+       201998.59,
+       7561466.89
       ],
       [
-       201993.69,
-       7561465.54
+       201993.64,
+       7561466.71
       ]
      ],
      "z0_m": 0.0,
@@ -604,40 +462,8 @@
        7561467.77
       ],
       [
-       201996.79,
-       7561467.9
-      ],
-      [
-       201996.91,
-       7561467.58
-      ],
-      [
-       201997.07,
-       7561467.23
-      ],
-      [
-       201997.28,
-       7561466.89
-      ],
-      [
-       201997.51,
-       7561466.57
-      ],
-      [
-       201997.77,
-       7561466.28
-      ],
-      [
-       201998.06,
-       7561466.02
-      ],
-      [
-       201998.38,
-       7561465.79
-      ],
-      [
-       201998.63,
-       7561465.64
+       201998.55,
+       7561467.97
       ],
       [
        201999.51,
@@ -655,18 +481,18 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 608.41,
-    "area_computavel_m2": 384.39,
-    "area_nao_computavel_m2": 224.02,
-    "area_privativa_m2": 304.39,
+    "area_construida_m2": 636.52,
+    "area_computavel_m2": 409.9,
+    "area_nao_computavel_m2": 226.62,
+    "area_privativa_m2": 329.9,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 144.02,
-    "vagas": 5,
-    "area_permeavel_m2": 182.66,
-    "ca_usado": 1.177,
-    "to_usada": 0.294,
+    "area_garagem_m2": 146.62,
+    "vagas": 4,
+    "area_permeavel_m2": 180.06,
+    "ca_usado": 1.255,
+    "to_usada": 0.314,
     "pavimentos": 4,
-    "unidades_estimadas": 5,
+    "unidades_estimadas": 4,
     "vgv_estimado": null
    },
    "alertas": [
@@ -684,7 +510,7 @@
   "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
   "Relevo ignorado: volumes assentados em terreno plano, z=0.",
-  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.",
+  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.",
   "Opção A (Torre única) não coube: laje abaixo do mínimo.",
   "Opção B (Duas torres) não coube: cada torre ficaria abaixo da laje mínima.",
   "Opção D (Embasamento + torre) não coube: a torre não ficou menor que a base, ou a base passou do limite."

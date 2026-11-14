@@ -5,15 +5,16 @@ ou se a mesma entrada der arquivo diferente.
 """
 import copy
 import json
+import math
 import os
 import sys
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, AQUI)
 from shapely import affinity  # noqa: E402
-from shapely.geometry import Polygon  # noqa: E402
+from shapely.geometry import LineString, Polygon  # noqa: E402
 
-from motor import caixa_recuada, gerar_estudo, recuo_divisa  # noqa: E402
+from motor import PREMISSAS_PADRAO, _avaliar, caixa_recuada, gerar_estudo, recuo_divisa  # noqa: E402
 
 
 def _carrega(nome):
@@ -52,8 +53,22 @@ def confere(estudo):
             rb = recuo_divisa(zp, zp.get("recuo_fundos_m") or 0, pav_topo, topo, "fundos")
             c = caixa_recuada(lote, lote_d["frente"], rf, rl, rb)
             assert c.buffer(0.02).contains(base), f"{o['id']}: {v['uso']} fura o recuo {rl:.2f}/{rb:.2f} m da altura {topo} m"
-        assert m["ca_usado"] <= zp["ca_maximo"] + 1e-3, f"{o['id']}: CA {m['ca_usado']} > {zp['ca_maximo']}"
-        assert m["area_computavel_m2"] <= zp["ca_maximo"] * A + 0.05, f"{o['id']}: computável passou"
+        if zp.get("ca_maximo") is not None:  # null = a lei não limita (SC-Z6E)
+            assert m["ca_usado"] <= zp["ca_maximo"] + 1e-3, f"{o['id']}: CA {m['ca_usado']} > {zp['ca_maximo']}"
+            assert m["area_computavel_m2"] <= zp["ca_maximo"] * A + 0.05, f"{o['id']}: computável passou"
+        # permeabilidade: o que sobra sem prédio e sem subsolo não pode ser menos que a lei pede
+        assert m["area_permeavel_m2"] >= (zp.get("taxa_permeabilidade") or 0) * A - 0.1, f"{o['id']}: permeável {m['area_permeavel_m2']} abaixo do exigido"
+        # apartamento não atravessa andar: unidades = soma por pavimento de (privativa do andar // área da unidade)
+        un = 0
+        for v in o["volumes"]:
+            if v["uso"] == "residencial":
+                laje = Polygon(v["base_utm"]).area
+                por_andar = max(0.0, min(laje * pr["eficiencia"], laje - pr["area_comum_por_pavimento_m2"]))
+                un += v["pavimentos"] * int(por_andar // pr["area_privativa_por_unidade_m2"] + 1e-9)
+        assert un == m["unidades_estimadas"], f"{o['id']}: unidades {m['unidades_estimadas']} != {un} contadas por andar"
+        # vaga que falta nunca some calada
+        if pr["garagem"] == "subsolo" and m["vagas"] < math.ceil(m["unidades_estimadas"] * pr["vagas_por_unidade"] - 1e-9):
+            assert any(a.startswith("Faltam vagas") for a in o["alertas"]), f"{o['id']}: vagas caíram sem alerta"
         assert m["to_usada"] <= (zp.get("taxa_ocupacao") or 1) + 1e-3, f"{o['id']}: TO passou"
         if zp.get("pavimentos_max"):
             assert m["pavimentos"] <= zp["pavimentos_max"], f"{o['id']}: pavimentos passou"
@@ -79,7 +94,14 @@ def _recuo_baixo(z, m):  # o caso da tarefa: recuo dos 2 primeiros pavimentos
             z["parametros"][k]["recuo_m"] = m
 
 
-def monotonia(nome, lote, zona):
+def _fixo(z, r):  # recuo fixo r nas laterais e nos fundos, sem regra por altura nem parede cega (casos mono-recuo-fixo da auditoria)
+    p = z["parametros"]
+    for k in ("recuo_lateral_por_altura", "recuo_fundos_por_altura"):
+        p.pop(k, None)
+    p.update(recuo_lateral_m=r, recuo_fundos_m=r, parede_cega_encosta_ate_m=None, pavimentos_max=20)
+
+
+def monotonia(nome, lote, zona, auditoria=False):
     """Afrouxar uma regra (recuo, CA, TO, altura) NUNCA pode dar menos área privativa em nenhuma opção."""
     def priv(mexe):
         z = copy.deepcopy(zona)
@@ -100,9 +122,78 @@ def monotonia(nome, lote, zona):
     pares = [(base, priv(f), c) for c, f in casos.items()]
     pares.append((priv(altura(45.0)), priv(altura(63.0)), "altura 45 -> 63 m"))
     pares.append((priv(lambda z: _recuo_baixo(z, 2.0)), priv(lambda z: _recuo_baixo(z, 1.5)), "recuo dos 2 primeiros pav. 2,00 -> 1,50"))
+    if auditoria:  # as quebras que a auditoria achou: recuo fixo (A, B, D), TO 25 -> 35% (B, D), CA 2,614 -> 2,620 com TO 95% (D)
+        pares.append((priv(lambda z: _fixo(z, 2.5)), priv(lambda z: _fixo(z, 2.0)), "recuo fixo 2,50 -> 2,00"))
+        pares.append((priv(lambda z: z["parametros"].update(taxa_ocupacao=0.25)), priv(lambda z: z["parametros"].update(taxa_ocupacao=0.35)), "TO 25 -> 35%"))
+        pares.append((priv(lambda z: z["parametros"].update(taxa_ocupacao=0.95, ca_maximo=2.614, pavimentos_max=10)),
+                      priv(lambda z: z["parametros"].update(taxa_ocupacao=0.95, ca_maximo=2.620, pavimentos_max=10)), "CA 2,614 -> 2,620 (TO 95%)"))
     for antes, depois, caso in pares:
         for id_, a in antes.items():
             assert depois.get(id_, 0) >= a - 0.01, f"{nome}, opção {id_}, {caso}: área privativa {a} -> {depois.get(id_)} (afrouxar piorou)"
+
+
+def defeitos_da_auditoria(lote, zona):
+    # ALTA 1: zona sem CA máximo (null, como a SC-Z6E real) quebrava com TypeError
+    z = copy.deepcopy(zona)
+    z["parametros"].update(ca_maximo=None, ca_basico=None, altura_max_m=None, pavimentos_max=None)
+    e = gerar_estudo(lote, z)
+    confere(e)
+    assert [o["id"] for o in e["opcoes"]] == ["A", "B", "C", "D"] and e["caixa_maxima"]["area_computavel_max_m2"] is None
+    assert any("CA" in i and "pavimentos" in i for i in e["incertezas"]), e["incertezas"]
+
+    # ALTA 6: a permeabilidade mínima vale pra toda opção (perm 35% aperta a caixa; TO 100% + perm 25% aperta a parede cega)
+    for mexe in (dict(taxa_permeabilidade=0.35), dict(taxa_ocupacao=1.0, taxa_permeabilidade=0.25)):
+        z = copy.deepcopy(zona)
+        z["parametros"].update(mexe)
+        confere(gerar_estudo(lote, z))
+
+    # ALTA 2: lote em L, subsolo dentro do lote, com permeabilidade apertada (escalar pelo centroide tirava o subsolo do lote)
+    em_l = dict(lote, poligono_utm=[[0, 0], [50, 0], [50, 20], [20, 20], [20, 50], [0, 50]], frente=[[0, 0], [50, 0]])
+    z = copy.deepcopy(zona)
+    z["parametros"].update(taxa_permeabilidade=0.35, parede_cega_encosta_ate_m=None)
+    e = gerar_estudo(em_l, z)
+    confere(e)
+    subs = [v for o in e["opcoes"] for v in o["volumes"] if v["uso"] == "garagem"]
+    assert subs, "L sem subsolo desenhado"
+    assert all(Polygon(em_l["poligono_utm"]).buffer(0.02).contains(Polygon(v["base_utm"])) for v in subs), "subsolo saiu do lote"
+
+    # ALTA 5: lote em L com a frente no trecho recuado: nada chega a menos do recuo frontal da linha da frente
+    rec = dict(lote, poligono_utm=[[0, 0], [50, 0], [50, 50], [35, 50], [35, 20], [0, 20]], frente=[[35, 20], [0, 20]])
+    z = copy.deepcopy(zona)
+    z["parametros"].update(taxa_ocupacao=0.9, taxa_permeabilidade=0.05)
+    e = gerar_estudo(rec, z, {"embasamento_ocupacao": 0.9})
+    confere(e)
+    rf = e["caixa_maxima"]["recuo_frontal_m"]
+    for o in e["opcoes"]:
+        for v in o["volumes"]:
+            if v["z0_m"] >= 0:
+                d = Polygon(v["base_utm"]).distance(LineString(rec["frente"]))
+                assert d >= rf - 0.02, f"{o['id']}: {v['uso']} a {d:.2f} m da frente (recuo {rf})"
+    # divisa interna do L (paralela à rua, 30 m pra dentro) é lateral, não frente
+    c = caixa_recuada(Polygon(em_l["poligono_utm"]), em_l["frente"], 4.0, 1.5, 1.5)
+    assert abs(c.bounds[3] - 48.5) < 0.01 and abs(c.bounds[2] - 48.5) < 0.01, c.bounds
+
+    # MÉDIA 8: laje de 80,9 m² dá 55,9 m² privativos por andar, nenhum apartamento de 60 m² (somando os 4 andares dava 3)
+    vol = {"uso": "residencial", "pavimentos": 4, "_geom": Polygon([(0, 0), (80.9, 0), (80.9, 1), (0, 1)]), "z0_m": 0, "_pav_abaixo": 0}
+    ctx = {"pr": dict(PREMISSAS_PADRAO), "A": 1000.0, "zp": {}, "subsolo": Polygon([(0, 0), (30, 0), (30, 30), (0, 30)])}
+    assert _avaliar([vol], ctx)[0]["unidades_estimadas"] == 0
+
+    # MÉDIA 9: subsolo sem área e com vaga a fazer dividia por zero; agora vira alerta de falta de vaga
+    sala = {"uso": "residencial", "pavimentos": 3, "_geom": Polygon([(0, 0), (20, 0), (20, 20), (0, 20)]), "z0_m": 0, "_pav_abaixo": 0}
+    ctx["subsolo"] = Polygon()
+    m, _, av = _avaliar([sala], ctx)
+    assert m["vagas"] == 0 and any(a.startswith("Faltam vagas") for a in av), (m["vagas"], av)
+
+    # BAIXA 15: lote menor que o mínimo da zona vira incerteza (o exemplo tem lote_min_m2 200 e testada_min_m 10)
+    peq = dict(lote, poligono_utm=[[0, 0], [8, 0], [8, 20], [0, 20]], frente=[[0, 0], [8, 0]])
+    inc = gerar_estudo(peq, zona)["incertezas"]
+    assert any("abaixo do mínimo da zona" in i and "Lote" in i for i in inc) and any("Testada" in i for i in inc), inc
+
+    # MÉDIA 12: frente sem comprimento e polígono que se cruza não quebram; viram incerteza
+    e = gerar_estudo(dict(lote, frente=[lote["frente"][0], lote["frente"][0]]), zona)
+    assert e["opcoes"] and any("pontos iguais" in i for i in e["incertezas"]), e["incertezas"]
+    laco = dict(lote, poligono_utm=[[0, 0], [50, 30], [50, 0], [0, 25]], frente=[[0, 0], [50, 0]])
+    assert gerar_estudo(laco, zona)["incertezas"]
 
 
 def main():
@@ -177,9 +268,10 @@ def main():
         pilotos = {l["id"]: l for l in json.load(f)}
     with open(os.path.join(viab, "lei", "zonas.json"), encoding="utf-8") as f:
         zonas = {z["id"]: z for z in json.load(f)}
-    monotonia("exemplo SC-Z2", lote, zona)
+    monotonia("exemplo SC-Z2", lote, zona, auditoria=True)
     for id_ in ("SC-completo-remembramento-75352-75354", "SC-completo-22426"):
         monotonia(id_, pilotos[id_], zonas[pilotos[id_]["zona_id"]])
+    defeitos_da_auditoria(lote, zona)
     print("ok")
 
 

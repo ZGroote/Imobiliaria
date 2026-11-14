@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.4.0",
+ "versao_motor": "0.5.0",
  "lote": {
   "id": "SC-completo-37607",
   "lid": null,
@@ -286,6 +286,7 @@
   "afastamento_entre_torres_m": 6.0,
   "pavimentos_lamina_max": 4,
   "pavimentos_embasamento": 2,
+  "pavimentos_sem_ca": 10,
   "embasamento_ocupacao": 0.4,
   "padrao": [
    "afastamento_entre_torres_m",
@@ -300,6 +301,7 @@
    "nucleo_nao_computavel_m2",
    "pavimentos_embasamento",
    "pavimentos_lamina_max",
+   "pavimentos_sem_ca",
    "pe_direito_m",
    "pe_direito_terreo_m",
    "preco_venda_m2_privativo",
@@ -358,24 +360,24 @@
     ]
    },
    {
-    "z0_m": 7.5,
-    "recuo_lateral_m": 2.0,
-    "recuo_fundos_m": 2.0,
+    "z0_m": 13.5,
+    "recuo_lateral_m": 2.06,
+    "recuo_fundos_m": 2.06,
     "projecao_utm": [
      [
-      202330.66,
-      7556830.91
+      202330.72,
+      7556830.85
      ],
      [
-      202356.36,
-      7556833.05
+      202356.3,
+      7556832.98
      ],
      [
-      202363.34,
-      7556749.21
+      202363.28,
+      7556749.2
      ],
      [
-      202337.64,
+      202337.7,
       7556747.07
      ]
     ]
@@ -404,25 +406,25 @@
     ]
    },
    {
-    "z0_m": 19.5,
-    "recuo_lateral_m": 2.81,
-    "recuo_fundos_m": 2.81,
+    "z0_m": 22.5,
+    "recuo_lateral_m": 3.19,
+    "recuo_fundos_m": 3.19,
     "projecao_utm": [
      [
-      202331.53,
-      7556830.17
+      202331.94,
+      7556829.82
      ],
      [
-      202355.62,
-      7556832.17
+      202355.27,
+      7556831.76
      ],
      [
-      202362.54,
-      7556749.14
+      202362.16,
+      7556749.11
      ],
      [
-      202338.45,
-      7556747.13
+      202338.83,
+      7556747.17
      ]
     ]
    },
@@ -450,25 +452,25 @@
     ]
    },
    {
-    "z0_m": 28.5,
-    "recuo_lateral_m": 3.94,
-    "recuo_fundos_m": 3.94,
+    "z0_m": 31.5,
+    "recuo_lateral_m": 4.31,
+    "recuo_fundos_m": 4.31,
     "projecao_utm": [
      [
-      202332.75,
-      7556829.14
+      202333.15,
+      7556828.8
      ],
      [
-      202354.58,
-      7556830.96
+      202354.25,
+      7556830.56
      ],
      [
-      202361.41,
-      7556749.05
+      202361.04,
+      7556749.02
      ],
      [
-      202339.58,
-      7556747.23
+      202339.95,
+      7556747.26
      ]
     ]
    },
@@ -496,25 +498,25 @@
     ]
    },
    {
-    "z0_m": 37.5,
-    "recuo_lateral_m": 5.06,
-    "recuo_fundos_m": 5.06,
+    "z0_m": 40.5,
+    "recuo_lateral_m": 5.44,
+    "recuo_fundos_m": 5.44,
     "projecao_utm": [
      [
-      202333.96,
-      7556828.11
+      202334.37,
+      7556827.77
      ],
      [
-      202353.56,
-      7556829.75
+      202353.21,
+      7556829.34
      ],
      [
-      202360.29,
-      7556748.95
+      202359.92,
+      7556748.92
      ],
      [
-      202340.69,
-      7556747.32
+      202341.07,
+      7556747.35
      ]
     ]
    },
@@ -542,25 +544,25 @@
     ]
    },
    {
-    "z0_m": 46.5,
-    "recuo_lateral_m": 6.19,
-    "recuo_fundos_m": 6.19,
+    "z0_m": 49.5,
+    "recuo_lateral_m": 6.56,
+    "recuo_fundos_m": 6.56,
     "projecao_utm": [
      [
-      202335.18,
-      7556827.08
+      202335.58,
+      7556826.74
      ],
      [
-      202352.53,
-      7556828.53
+      202352.19,
+      7556828.13
      ],
      [
-      202359.17,
-      7556748.86
+      202358.8,
+      7556748.83
      ],
      [
-      202341.82,
-      7556747.41
+      202342.19,
+      7556747.45
      ]
     ]
    },
@@ -588,25 +590,25 @@
     ]
    },
    {
-    "z0_m": 55.5,
-    "recuo_lateral_m": 7.31,
-    "recuo_fundos_m": 7.31,
+    "z0_m": 58.5,
+    "recuo_lateral_m": 7.69,
+    "recuo_fundos_m": 7.69,
     "projecao_utm": [
      [
-      202336.39,
-      7556826.06
+      202336.8,
+      7556825.71
      ],
      [
-      202351.51,
-      7556827.32
+      202351.16,
+      7556826.91
      ],
      [
-      202358.05,
-      7556748.77
+      202357.67,
+      7556748.74
      ],
      [
-      202342.94,
-      7556747.51
+      202343.31,
+      7556747.54
      ]
     ]
    }
@@ -620,10 +622,6 @@
    [
     202365.34,
     7556749.37
-   ],
-   [
-    202335.65,
-    7556746.9
    ],
    [
     202335.65,
@@ -698,12 +696,12 @@
     "area_privativa_m2": 3321.59,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 2267.21,
-    "vagas": 55,
+    "vagas": 40,
     "area_permeavel_m2": 417.73,
     "ca_usado": 1.397,
     "to_usada": 0.07,
     "pavimentos": 20,
-    "unidades_estimadas": 55,
+    "unidades_estimadas": 40,
     "vgv_estimado": null
    },
    "alertas": [
@@ -800,12 +798,12 @@
     "area_privativa_m2": 3326.98,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 2267.21,
-    "vagas": 54,
+    "vagas": 40,
     "area_permeavel_m2": 417.73,
     "ca_usado": 1.4,
     "to_usada": 0.14,
     "pavimentos": 10,
-    "unidades_estimadas": 54,
+    "unidades_estimadas": 40,
     "vgv_estimado": null
    },
    "alertas": [
@@ -876,12 +874,12 @@
     "area_privativa_m2": 3070.98,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 2267.21,
-    "vagas": 51,
+    "vagas": 48,
     "area_permeavel_m2": 417.73,
     "ca_usado": 1.4,
     "to_usada": 0.35,
     "pavimentos": 4,
-    "unidades_estimadas": 51,
+    "unidades_estimadas": 48,
     "vgv_estimado": null
    },
    "alertas": [
@@ -897,20 +895,20 @@
     {
      "base_utm": [
       [
-       202335.23,
-       7556817.95
+       202353.89,
+       7556798.47
       ],
       [
-       202339.97,
-       7556761.1
+       202355.14,
+       7556783.4
       ],
       [
-       202358.73,
-       7556762.66
+       202340.07,
+       7556782.14
       ],
       [
-       202353.99,
-       7556819.51
+       202338.82,
+       7556797.21
       ]
      ],
      "z0_m": 0.0,
@@ -923,28 +921,28 @@
     {
      "base_utm": [
       [
-       202339.28,
-       7556796.82
+       202339.24,
+       7556796.86
       ],
       [
-       202340.47,
-       7556782.61
+       202340.43,
+       7556782.57
       ],
       [
-       202354.68,
-       7556783.79
+       202354.72,
+       7556783.76
       ],
       [
-       202353.49,
-       7556798.01
+       202353.53,
+       7556798.05
       ]
      ],
      "z0_m": 7.5,
-     "altura_m": 27.0,
-     "pavimentos": 9,
+     "altura_m": 54.0,
+     "pavimentos": 18,
      "uso": "residencial",
-     "recuo_lateral_m": 4.31,
-     "recuo_fundos_m": 4.31
+     "recuo_lateral_m": 7.69,
+     "recuo_fundos_m": 7.69
     },
     {
      "base_utm": [
@@ -972,22 +970,22 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6245.93,
-    "area_computavel_m2": 3758.72,
-    "area_nao_computavel_m2": 2487.21,
-    "area_privativa_m2": 1464.62,
+    "area_construida_m2": 6425.94,
+    "area_computavel_m2": 3758.73,
+    "area_nao_computavel_m2": 2667.21,
+    "area_privativa_m2": 2961.05,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 2267.21,
-    "vagas": 24,
+    "vagas": 36,
     "area_permeavel_m2": 417.73,
     "ca_usado": 1.4,
-    "to_usada": 0.393,
-    "pavimentos": 11,
-    "unidades_estimadas": 24,
+    "to_usada": 0.078,
+    "pavimentos": 20,
+    "unidades_estimadas": 36,
     "vgv_estimado": null
    },
    "alertas": [
-    "Recuo lateral/fundos: embasamento 1.50/1.50 m, residencial 4.31/4.31 m (escalonado).",
+    "Recuo lateral/fundos: embasamento 1.50/1.50 m, residencial 7.69/7.69 m (escalonado).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.",
     "No limite: CA 1.40 (máximo 1.40)."
    ]
@@ -1004,6 +1002,6 @@
   "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
   "Relevo ignorado: volumes assentados em terreno plano, z=0.",
-  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade."
+  "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade."
  ]
 }
