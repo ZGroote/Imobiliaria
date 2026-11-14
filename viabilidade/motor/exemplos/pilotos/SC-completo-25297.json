@@ -476,20 +476,20 @@
     {
      "base_utm": [
       [
-       201993.1,
-       7561467.77
+       201993.74,
+       7561467.17
       ],
       [
-       201998.55,
-       7561467.97
+       201997.95,
+       7561467.32
       ],
       [
-       201999.51,
-       7561441.02
+       201998.87,
+       7561441.63
       ],
       [
-       201994.06,
-       7561440.96
+       201994.66,
+       7561441.59
       ]
      ],
      "z0_m": -3.0,
@@ -499,15 +499,15 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 636.52,
-    "area_computavel_m2": 409.9,
-    "area_nao_computavel_m2": 226.62,
-    "area_privativa_m2": 329.9,
+    "area_construida_m2": 598.29,
+    "area_computavel_m2": 410.29,
+    "area_nao_computavel_m2": 188.0,
+    "area_privativa_m2": 330.29,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 146.62,
+    "area_garagem_m2": 108.0,
     "vagas": 4,
-    "area_permeavel_m2": 180.06,
-    "ca_usado": 1.255,
+    "area_permeavel_m2": 200.28,
+    "ca_usado": 1.256,
     "to_usada": 0.314,
     "pavimentos": 4,
     "unidades_estimadas": 4,

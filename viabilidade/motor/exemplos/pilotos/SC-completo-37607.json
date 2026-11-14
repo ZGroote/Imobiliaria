@@ -673,20 +673,20 @@
     {
      "base_utm": [
       [
-       202330.12,
-       7556831.36
+       202334.33,
+       7556827.8
       ],
       [
-       202356.81,
-       7556833.59
+       202353.25,
+       7556829.37
       ],
       [
-       202363.84,
-       7556749.25
+       202359.63,
+       7556752.82
       ],
       [
-       202337.15,
-       7556747.03
+       202340.71,
+       7556751.24
       ]
      ],
      "z0_m": -3.0,
@@ -696,14 +696,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6385.94,
-    "area_computavel_m2": 3758.73,
-    "area_nao_computavel_m2": 2627.21,
-    "area_privativa_m2": 3294.99,
+    "area_construida_m2": 5575.71,
+    "area_computavel_m2": 3757.71,
+    "area_nao_computavel_m2": 1818.0,
+    "area_privativa_m2": 3294.17,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 2267.21,
+    "area_garagem_m2": 1458.0,
     "vagas": 54,
-    "area_permeavel_m2": 417.73,
+    "area_permeavel_m2": 1226.94,
     "ca_usado": 1.4,
     "to_usada": 0.078,
     "pavimentos": 18,
@@ -775,20 +775,20 @@
     {
      "base_utm": [
       [
-       202330.12,
-       7556831.36
+       202334.33,
+       7556827.8
       ],
       [
-       202356.81,
-       7556833.59
+       202353.25,
+       7556829.37
       ],
       [
-       202363.84,
-       7556749.25
+       202359.63,
+       7556752.82
       ],
       [
-       202337.15,
-       7556747.03
+       202340.71,
+       7556751.24
       ]
      ],
      "z0_m": -3.0,
@@ -798,14 +798,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6385.94,
-    "area_computavel_m2": 3758.73,
-    "area_nao_computavel_m2": 2627.21,
-    "area_privativa_m2": 3294.99,
+    "area_construida_m2": 5576.33,
+    "area_computavel_m2": 3758.33,
+    "area_nao_computavel_m2": 1818.0,
+    "area_privativa_m2": 3294.66,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 2267.21,
+    "area_garagem_m2": 1458.0,
     "vagas": 54,
-    "area_permeavel_m2": 417.73,
+    "area_permeavel_m2": 1226.94,
     "ca_usado": 1.4,
     "to_usada": 0.156,
     "pavimentos": 9,
@@ -851,20 +851,20 @@
     {
      "base_utm": [
       [
-       202330.12,
-       7556831.36
+       202334.95,
+       7556827.28
       ],
       [
-       202356.81,
-       7556833.59
+       202352.73,
+       7556828.76
       ],
       [
-       202363.84,
-       7556749.25
+       202359.01,
+       7556753.34
       ],
       [
-       202337.15,
-       7556747.03
+       202341.23,
+       7556751.86
       ]
      ],
      "z0_m": -3.0,
@@ -874,14 +874,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6066.13,
-    "area_computavel_m2": 3758.92,
-    "area_nao_computavel_m2": 2307.21,
-    "area_privativa_m2": 3039.13,
+    "area_construida_m2": 5148.41,
+    "area_computavel_m2": 3758.41,
+    "area_nao_computavel_m2": 1390.0,
+    "area_privativa_m2": 3038.73,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 2267.21,
+    "area_garagem_m2": 1350.0,
     "vagas": 50,
-    "area_permeavel_m2": 417.73,
+    "area_permeavel_m2": 785.74,
     "ca_usado": 1.4,
     "to_usada": 0.7,
     "pavimentos": 2,
@@ -902,46 +902,46 @@
     {
      "base_utm": [
       [
-       202354.22,
-       7556798.87
+       202354.16,
+       7556799.61
       ],
       [
-       202355.54,
-       7556783.07
+       202355.48,
+       7556783.81
       ],
       [
-       202339.74,
-       7556781.75
+       202339.67,
+       7556782.49
       ],
       [
-       202338.42,
-       7556797.55
+       202338.36,
+       7556798.3
       ]
      ],
      "z0_m": 0.0,
      "altura_m": 7.5,
      "pavimentos": 2,
      "uso": "embasamento",
-     "recuo_lateral_m": 1.5,
-     "recuo_fundos_m": 1.5
+     "recuo_lateral_m": 6.96,
+     "recuo_fundos_m": 6.96
     },
     {
      "base_utm": [
       [
-       202338.86,
-       7556797.17
+       202338.8,
+       7556797.92
       ],
       [
-       202340.11,
-       7556782.19
+       202340.05,
+       7556782.94
       ],
       [
-       202355.09,
-       7556783.44
+       202355.03,
+       7556784.19
       ],
       [
-       202353.85,
-       7556798.42
+       202353.78,
+       7556799.17
       ]
      ],
      "z0_m": 7.5,
@@ -954,20 +954,20 @@
     {
      "base_utm": [
       [
-       202330.12,
-       7556831.36
+       202335.26,
+       7556827.01
       ],
       [
-       202356.81,
-       7556833.59
+       202352.46,
+       7556828.44
       ],
       [
-       202363.84,
-       7556749.25
+       202358.7,
+       7556753.6
       ],
       [
-       202337.15,
-       7556747.03
+       202341.5,
+       7556752.17
       ]
      ],
      "z0_m": -3.0,
@@ -977,14 +977,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6385.94,
-    "area_computavel_m2": 3758.73,
-    "area_nao_computavel_m2": 2627.21,
-    "area_privativa_m2": 2892.8,
+    "area_construida_m2": 5414.46,
+    "area_computavel_m2": 3758.46,
+    "area_nao_computavel_m2": 1656.0,
+    "area_privativa_m2": 2892.33,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 2267.21,
+    "area_garagem_m2": 1296.0,
     "vagas": 48,
-    "area_permeavel_m2": 417.73,
+    "area_permeavel_m2": 1388.94,
     "ca_usado": 1.4,
     "to_usada": 0.086,
     "pavimentos": 18,
@@ -992,7 +992,7 @@
     "vgv_estimado": null
    },
    "alertas": [
-    "Recuo lateral/fundos: embasamento 1.50/1.50 m, residencial 6.94/6.94 m (escalonado).",
+    "Recuo lateral/fundos: embasamento 6.96/6.96 m, residencial 6.94/6.94 m (escalonado).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.",
     "No limite: CA 1.40 (máximo 1.40)."
    ]

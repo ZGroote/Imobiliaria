@@ -145,6 +145,11 @@ def _cresce(poly, limite, alvo):
     return _maior_parte(poly.buffer(lo, join_style="mitre").intersection(limite))
 
 
+@lru_cache(maxsize=512)  # o alvo (vagas x 27 / níveis) se repete muito entre as tentativas
+def _subsolo_do_tamanho(subsolo, alvo):
+    return _encolhe(subsolo, alvo)
+
+
 def _para_local(geom, origem, u):
     """Gira pra o eixo u virar x (frente na horizontal)."""
     return affinity.rotate(geom, -math.degrees(math.atan2(u[1], u[0])), origin=origem)
@@ -390,6 +395,9 @@ def _altura(pr, pav, terreo):
 
 def _volume(base_local, ctx, z0, pav, uso, terreo, rl, rb, pav_abaixo=0):
     base = _para_mundo(base_local, ctx["origem"], ctx["u"])
+    arred = Polygon(_coords(base))  # a MESMA área da métrica e do base_utm exportado (sem arredondar, a laje no limiar do múltiplo de 60 m² dava unidade diferente)
+    if arred.is_valid and arred.area > 0:
+        base = arred
     return {"base_utm": _coords(base), "z0_m": _r(z0), "altura_m": _r(_altura(ctx["pr"], pav, terreo)),
             "pavimentos": pav, "uso": uso, "recuo_lateral_m": _r(rl), "recuo_fundos_m": _r(rb),
             "_geom": base, "_pav_abaixo": pav_abaixo}
@@ -431,12 +439,13 @@ def _avaliar(vols, ctx):
             avisos.append(f"Faltam vagas: precisa de {vagas}, {niveis} subsolo(s) comportam {cabem}. Em metricas.vagas ficam as {cabem}.")
             vagas = cabem
         garagem = niveis * nivel
-        precisa = vagas * pr["area_por_vaga_m2"]
-        if pr["garagem_computavel"] and niveis and precisa < garagem - 0.01:
-            garagem = precisa  # subsolo conta no CA: só o que as vagas pedem, o nível encolhe (senão caixa maior roubava andar do prédio)
-        subsolos = [{"base_utm": _coords(ctx["subsolo"]), "z0_m": _r(-(k + 1) * pr["pe_direito_m"]),
-                     "altura_m": _r(pr["pe_direito_m"]), "pavimentos": 1, "uso": "garagem",
-                     "_nivel_m2": garagem / niveis} for k in range(niveis)]
+        precisa = vagas * pr["area_por_vaga_m2"]  # a vaga já traz a circulação (area_por_vaga_m2)
+        sub = ctx["subsolo"]
+        if niveis and precisa > 0 and precisa < garagem - 0.01:
+            garagem = precisa  # o nível encolhe ao que as vagas pedem, dentro da caixa (antes: 100% da projeção, 17.000 m² pra 180 vagas)
+            sub = _subsolo_do_tamanho(sub, precisa / niveis)
+        subsolos = [{"base_utm": _coords(sub), "z0_m": _r(-(k + 1) * pr["pe_direito_m"]),
+                     "altura_m": _r(pr["pe_direito_m"]), "pavimentos": 1, "uso": "garagem"} for k in range(niveis)]
     else:
         garagem = vagas * pr["area_por_vaga_m2"]
     nao_comp = nucleos + (0 if pr["garagem_computavel"] else garagem)
@@ -444,7 +453,7 @@ def _avaliar(vols, ctx):
     no_chao = [v for v in vols if v["z0_m"] == 0]
     proj = unary_union([v["_geom"] for v in vols]).area
     proj_to = max(0.0, proj - sum(min(nucleo, v["_geom"].area) for v in no_chao))  # núcleo fora da TO
-    ocupado = unary_union([v["_geom"] for v in vols] + ([ctx["subsolo"]] if subsolos else [])).area
+    ocupado = unary_union([v["_geom"] for v in vols] + ([sub] if subsolos else [])).area
     basico = zp.get("ca_basico")
     preco = pr["preco_venda_m2_privativo"]
     m = {
@@ -486,33 +495,29 @@ def _ajusta_ao_ca(fazer, n, ctx, m, cap):
     f0, c0, f = 1.0, m["area_computavel_m2"], 1.0
     achado = None
     f = f0 * cap / c0 * 0.9995
-    for _ in range(7):
+    ok, ko = 0.0, 1.0  # f que cabe / f que passa do CA: a laje sai com coordenada a 1 cm, a área vira escada e a secante sozinha empaca num degrau
+    for _ in range(12):
         vols = fazer(n, f)
         if vols is None:
             return achado
         m1, sub, av = _avaliar(vols, ctx)
         if _cabe(m1, vols, ctx):
             achado = (vols, m1, sub, av)
+            ok = max(ok, f)
             if m1["area_computavel_m2"] >= cap * 0.9999:
                 return achado
+        else:
+            ko = min(ko, f)
         c1 = m1["area_computavel_m2"]
-        if abs(c1 - c0) < 1e-6:
-            break
-        nf = f + (cap * 0.99995 - c1) * (f - f0) / (c1 - c0)
-        if nf >= 1.0:  # a secante passou do tamanho natural: a resposta está perto do topo, vai pro meio do caminho
-            nf = (f + 1.0) / 2
+        nf = f + (cap * 0.99995 - c1) * (f - f0) / (c1 - c0) if abs(c1 - c0) >= 1e-6 else ok  # ok: cai fora do intervalo e força a bisseção
+        if not ok < nf < ko:  # a secante saiu do intervalo (ou empacou): vai pro meio dele
+            nf = (ok + ko) / 2
+            if ko - ok < 1e-9:
+                break
         f, f0, c0 = nf, f, c1
         if f <= 0.05:
             break
     return achado
-
-
-def _sub_final(s, ctx):
-    """Subsolo que conta no CA: o nível sai encolhido à área que as vagas pedem."""
-    alvo = s.pop("_nivel_m2")
-    if ctx["pr"]["garagem_computavel"] and alvo < ctx["subsolo"].area - 0.01:
-        s["base_utm"] = _coords(_encolhe(ctx["subsolo"], alvo))
-    return s
 
 
 def _chave(achado):
@@ -707,7 +712,6 @@ def gerar_estudo(lote, zona, premissas=None):
             incertezas.append(f"Opção {id_} ({nome}) não coube" + (f": {motivo}." if motivo else "."))
             return
         vols, m, sub, av = achado
-        sub = [_sub_final(s, ctx) for s in sub]
         altura = max(v["z0_m"] + v["altura_m"] for v in vols)
         if regra or any(v.get("parede_cega") for v in vols):
             av = av + ["Recuo lateral/fundos: " + ", ".join(
@@ -796,8 +800,11 @@ def gerar_estudo(lote, zona, premissas=None):
                 if base_l.area < pr["laje_minima_m2"] or torre.area > base_l.area * 0.9 + 0.01:  # folga de 1 cm²: a base crescida por bisseção sobra 1e-5 abaixo do alvo e matava a D
                     continue
                 base = _volume(base_l, ctx, 0, nb, "embasamento", True, *rb_)
-                if base_cega:
-                    base["parede_cega"] = True
+                if base_cega:  # o rótulo diz o que a base faz: recuo = distância real até a divisa; "parede cega" só se usa a isenção
+                    g = base["_geom"]
+                    base["recuo_lateral_m"] = base["recuo_fundos_m"] = _r(g.distance(poly.exterior))
+                    if not caixas.legal(*topo(nb)[0]).buffer(0.02).contains(g):
+                        base["parede_cega"] = True
                 vols = [base, _volume(torre, ctx, hb, n, "residencial", False, *r, pav_abaixo=nb)]
                 m = _avaliar(vols, ctx)[0]
                 opcoes_d.append(((_cabe(m, vols, ctx), m["unidades_estimadas"], m["area_privativa_m2"], base_l.area), vols))
@@ -842,7 +849,7 @@ def gerar_estudo(lote, zona, premissas=None):
                          "area_projecao_m2": _r(caixa.area), "area_lote_m2": _r(A),
                          "area_computavel_max_m2": _r(comp_max) if comp_max is not None else None, "ocupacao_max_m2": _r(to_max * A),
                          "recuo_frontal_m": _r(rf), "degraus": degraus,
-                         "parede_cega_ate_m": min(cega, altura_caixa) if cega and altura_caixa else cega,
+                         "parede_cega_ate_m": min(cega, altura_caixa) if cega else cega,
                          "projecao_parede_cega_utm": _coords(caixas.legal(0.0, 0.0)) if cega else None},
         "opcoes": opcoes,
         "incertezas": incertezas,

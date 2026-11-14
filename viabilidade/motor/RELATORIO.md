@@ -1,28 +1,28 @@
-# Relatório do Motor, tarefa 6 (14/11): fechar as pendências
+# Relatório do Motor, tarefa 7 (14/11): auditoria 4
 
-Motor **v0.7.1**. `python -I viabilidade/motor/test_motor.py` passa ("ok"); os 3 consertos têm teste em `tarefa6()`. `relatorio/test_relatorio.py` passa. Exemplo e os 7 pilotos regenerados (`preparar_exemplo.py`, `gerar_pilotos.py`).
+Motor **v0.7.1** (sem troca de versão). `python -I viabilidade/motor/test_motor.py` passa ("ok"); os 4 consertos têm teste em `tarefa7()`. Exemplo e os 7 pilotos regenerados (`preparar_exemplo.py`, `gerar_pilotos.py`).
 
 ## 1. O que foi feito
 
 | # | Item | Causa e conserto | Teste |
 |---|---|---|---|
-| 1 | Auditoria 3, item 3.1: afrouxar o recuo tirava a opção B (`lote-20x35-perm-b`) | **Reproduzi**: B existia com recuo 3,0 m (30 unidades) e sumia com 1,5 m. A causa não era a caixa legal (que só cresce): era o limite de permeabilidade. `_encolhe(térreo, area_max)` recua igual em todo lado até sobrar `area_max`; com a caixa maior o recuo extra come mais da profundidade (26,98 → 25,96 m), as duas torres ficam com 99,7 m² e 99,7 − 40 de área comum < 60 m²: zero apartamento. Dois limites de mesma área não podem um conter o outro, então "limite maior" não existe; o que dá pra garantir é o limite **não depender do recuo da lei**. Agora `_Caixas.fixa_limite` usa a caixa com recuo `e` igual nos dois lados (frente fica a da lei), com `e` achado por bisseção pra dar `area_max`. Com recuo igual dos dois lados, `e` não depende do recuo da lei: afrouxar só faz `legal ∩ limite` crescer. Recuo da lei maior que `e` num lado continua valendo naquele lado. O cache de `legal()` arredonda o recuo a 1 cm e deixaria a área passar de `area_max`, então a bisseção chama `caixa_recuada` direto. | lote 20×35, permeabilidade 50%, recuos 3,0 / 2,0 / 1,5 m: as 4 opções existem nos três, unidades nunca caem, `confere` passa |
-| 2 | MÉDIA 13: `laje_max` × núcleo | `laje_max` travava a laje **bruta** em `TO × A`, mas `_avaliar` mede a TO descontando o núcleo (20 m²) de cada volume no chão. A TO sobrava 20 m² sem uso. Agora a projeção bruta máxima é `min(TO × A + k × núcleo, (1 − perm) × A)`, com k = volumes no chão (1; duas torres: 2). A permeabilidade continua contando a área bruta. A TO medida nunca passa da lei (`_cabe` confere). | lote 25×40, TO 20%: a lâmina passa de 200 m² e `to_usada` ≤ 0,20 |
-| 3 | BAIXA 16: `utm.para_utm23s` | Recusa ponto fora do fuso 23 (lon −48 a −42) ou fora do hemisfério sul (lat −80 a 0) com `ValueError` claro. Se (lat, lon) parece trocado, diz isso ("a ordem é (lon, lat)"). Ponto de São Carlos converte igual. | (lat, lon) invertido, lon −60, lat +10, e São Carlos |
-| 4 | Cache | `lru_cache(maxsize=4096)` → `512` nas 3 funções (1 linha cada). | — |
+| 1 | ALTA 1: unidades na métrica ≠ unidades da geometria exportada | **Reproduzi** no lote 20×40, TO 0,35 (sem permeabilidade, CA 6): a opção B dava 68 unidades na métrica e 34 contando pelo `base_utm`. A métrica usava a área sem arredondar; o `base_utm` sai a 1 cm. Agora `_volume` guarda como `_geom` o polígono **já arredondado**, então métrica e `confere` medem a mesma área. Efeito colateral: com a área em degraus de 1 cm a secante do `_ajusta_ao_ca` empacava num degrau (a opção A do exemplo parava a 3,47 de CA em vez de 3,50). Ela agora guarda o intervalo (cabe / passa) e cai na bisseção quando empaca; até 12 rodadas (era 7). | lote 20×40, TO 0,35: `confere` passa |
+| 2 | MÉDIA 4: rótulo `parede_cega` / recuo 0,0 em base que não toca a divisa | Na base do D com parede cega, o recuo agora é a **distância real** até a divisa (`recuo_lateral_m` = `recuo_fundos_m`) e `parede_cega` só vale se a base sai da caixa do recuo normal (ou seja, usa a isenção). Base encostada: 0,0. Base solta a 0,19 m: 0,19 (antes dizia 0,0). | TO 90% com base de 90% (encosta, 0,0) e de 80% (solta, 0,19 m); exemplo sem parede cega ganha e mantém 1,5 m |
+| 3 | BAIXA 5: `parede_cega_ate_m` 12 com caixa de altura 0 | Sem opção a altura da caixa é 0 e o valor sai 0 (não 12). | lote 10×15: sem opções, altura 0, parede cega até 0 |
+| 4 | BAIXA 6: subsolo ocupava 100% da projeção | Em qualquer regime (não só `garagem_computavel`), cada nível sai com `vagas × area_por_vaga_m2 / níveis` (a vaga de 27 m² já traz a circulação), encolhido pra dentro da caixa (`_encolhe`, com cache). A área permeável e a garagem da métrica usam esse mesmo polígono (antes a permeável contava o subsolo cheio; também resolve a parte "não atualiza `area_permeavel_m2`" da MÉDIA 3). `_sub_final` e `_nivel_m2` saíram. | lote 100×200: nível = vagas × 27 m² nas 4 opções, bem abaixo da projeção; `confere` passa |
 
 ## 2. O que mudou nos números
 
 - **Unidades e pavimentos por opção: iguais** no exemplo e nos 7 pilotos (conferi contra o `HEAD`).
-- Mudou só a área privativa e a geometria: exemplo, opção C, 3.402,56 → 3.436,06 m² (TO 0,687 → 0,694, o item 2). Os JSON dos pilotos também mudam na versão (`0.7.1`).
-- No caso 20×35 com permeabilidade 50% a privativa de A e C caiu ~1–3% com recuo 3,0 m (A 2.109,88 → 2.095,68; C 1.077,31 → 1.044,96) com as mesmas unidades: é o preço do limite novo, que tem outra proporção que o encolhimento uniforme antigo. Em troca, os resultados com recuo 3,0 e 1,5 m ficaram iguais.
-- `relatorio/saida/*.html` citam `0.6.0`: não regerei, é da frente Relatório (o teste dela regrava 3 deles; desfiz).
+- `area_garagem_m2` cai muito (exemplo A: 2.252,64 → 1.215,00; piloto 22421: 455,44 → 108,00 a 324,00) e a `area_permeavel_m2` sobe (exemplo A: 392,68 → 855,11). `area_construida_m2` cai junto (a garagem não conta no CA, então o computável não muda).
+- Área privativa mexe ±0,1% (arredondamento a 1 cm da laje; exemplo A 2.768,50 → 2.767,01).
+- Custo do arredondamento: a laje agora só assume valores a 1 cm, então o ajuste ao CA pode parar até ~0,2% abaixo do teto (opção A do exemplo, antes 3,500 de CA, agora 3,492). Mesmas unidades.
 
-## 3. Pendentes
+## 3. Limitações conhecidas (não mexi, como pedido)
 
-- Recuo assimétrico (por exemplo lateral 1,5 m e fundos 10 m) com permeabilidade apertada: o limite novo não é provado monotônico; o caso simétrico, que é o da auditoria, é.
-- `garagem_computavel=True` continua limitação conhecida (tarefa 5).
+- **MÉDIA 2**: recuo assimétrico (lateral 1,5 m, fundos 10 → 3 m) com permeabilidade apertada pode perder unidades. O limite de permeabilidade só é provado monotônico no recuo simétrico. Não achei jeito simples de detectar no estudo pra pôr incerteza.
+- **MÉDIA 3**: `garagem_computavel = True` continua não monotônico (já tem incerteza no estudo).
 
 ## 4. Sem commit
 
-`motor.py`, `test_motor.py`, `utm.py`, `RELATORIO.md`, `exemplos/estudo-exemplo.json`, `exemplos/pilotos/` (7 arquivos). Nada commitado (sem autorização). Na árvore há 4 arquivos da frente Visual (Codex), que não toquei.
+`motor.py`, `test_motor.py`, `RELATORIO.md`, `exemplos/estudo-exemplo.json`, `exemplos/pilotos/` (7 arquivos). Nada commitado (sem autorização).

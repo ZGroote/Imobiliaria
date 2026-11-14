@@ -450,20 +450,20 @@
     {
      "base_utm": [
       [
-       200462.27,
-       7562458.14
+       200466.69,
+       7562453.62
       ],
       [
-       200474.52,
-       7562457.36
+       200470.46,
+       7562453.38
       ],
       [
-       200476.11,
-       7562420.0
+       200471.68,
+       7562424.59
       ],
       [
-       200463.84,
-       7562420.97
+       200467.91,
+       7562424.89
       ]
      ],
      "z0_m": -3.0,
@@ -473,14 +473,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 860.41,
-    "area_computavel_m2": 324.98,
-    "area_nao_computavel_m2": 535.44,
-    "area_privativa_m2": 244.98,
+    "area_construida_m2": 512.96,
+    "area_computavel_m2": 324.96,
+    "area_nao_computavel_m2": 188.0,
+    "area_privativa_m2": 244.96,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 455.44,
+    "area_garagem_m2": 108.0,
     "vagas": 4,
-    "area_permeavel_m2": 196.14,
+    "area_permeavel_m2": 480.36,
     "ca_usado": 0.499,
     "to_usada": 0.125,
     "pavimentos": 4,
@@ -551,20 +551,20 @@
     {
      "base_utm": [
       [
-       200462.27,
-       7562458.14
+       200465.11,
+       7562455.24
       ],
       [
-       200474.52,
-       7562457.36
+       200471.92,
+       7562454.81
       ],
       [
-       200476.11,
-       7562420.0
+       200473.27,
+       7562422.95
       ],
       [
-       200463.84,
-       7562420.97
+       200466.45,
+       7562423.49
       ]
      ],
      "z0_m": -3.0,
@@ -574,16 +574,16 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 1265.5,
-    "area_computavel_m2": 650.06,
-    "area_nao_computavel_m2": 615.44,
-    "area_privativa_m2": 490.06,
+    "area_construida_m2": 1026.3,
+    "area_computavel_m2": 650.3,
+    "area_nao_computavel_m2": 376.0,
+    "area_privativa_m2": 490.3,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 455.44,
+    "area_garagem_m2": 216.0,
     "vagas": 8,
-    "area_permeavel_m2": 196.14,
+    "area_permeavel_m2": 369.65,
     "ca_usado": 0.998,
-    "to_usada": 0.249,
+    "to_usada": 0.25,
     "pavimentos": 4,
     "unidades_estimadas": 8,
     "vgv_estimado": null
@@ -626,20 +626,20 @@
     {
      "base_utm": [
       [
-       200462.27,
-       7562458.14
+       200463.74,
+       7562456.64
       ],
       [
-       200474.52,
-       7562457.36
+       200473.17,
+       7562456.04
       ],
       [
-       200476.11,
-       7562420.0
+       200474.64,
+       7562421.53
       ],
       [
-       200463.84,
-       7562420.97
+       200465.2,
+       7562422.28
       ]
      ],
      "z0_m": -3.0,
@@ -649,14 +649,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 1437.43,
-    "area_computavel_m2": 902.0,
-    "area_nao_computavel_m2": 535.44,
-    "area_privativa_m2": 785.6,
+    "area_construida_m2": 1305.97,
+    "area_computavel_m2": 901.97,
+    "area_nao_computavel_m2": 404.0,
+    "area_privativa_m2": 785.57,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 455.44,
+    "area_garagem_m2": 324.0,
     "vagas": 12,
-    "area_permeavel_m2": 196.14,
+    "area_permeavel_m2": 315.93,
     "ca_usado": 1.384,
     "to_usada": 0.346,
     "pavimentos": 4,
@@ -695,8 +695,8 @@
      "altura_m": 7.5,
      "pavimentos": 2,
      "uso": "embasamento",
-     "recuo_lateral_m": 0.0,
-     "recuo_fundos_m": 0.0,
+     "recuo_lateral_m": 0.54,
+     "recuo_fundos_m": 0.54,
      "parede_cega": true
     },
     {
@@ -728,20 +728,20 @@
     {
      "base_utm": [
       [
-       200462.27,
-       7562458.14
+       200467.61,
+       7562452.69
       ],
       [
-       200474.52,
-       7562457.36
+       200469.62,
+       7562452.56
       ],
       [
-       200476.11,
-       7562420.0
+       200470.76,
+       7562425.55
       ],
       [
-       200463.84,
-       7562420.97
+       200468.75,
+       7562425.71
       ]
      ],
      "z0_m": -3.0,
@@ -751,14 +751,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 1179.2,
-    "area_computavel_m2": 643.77,
-    "area_nao_computavel_m2": 535.44,
-    "area_privativa_m2": 122.51,
+    "area_construida_m2": 777.76,
+    "area_computavel_m2": 643.76,
+    "area_nao_computavel_m2": 134.0,
+    "area_privativa_m2": 122.48,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 455.44,
+    "area_garagem_m2": 54.0,
     "vagas": 2,
-    "area_permeavel_m2": 188.7,
+    "area_permeavel_m2": 382.9,
     "ca_usado": 0.988,
     "to_usada": 0.369,
     "pavimentos": 4,
@@ -766,7 +766,7 @@
     "vgv_estimado": null
    },
    "alertas": [
-    "Recuo lateral/fundos: embasamento 0.00/0.00 m (parede cega na divisa), residencial 2.00/2.00 m (escalonado).",
+    "Recuo lateral/fundos: embasamento 0.54/0.54 m (parede cega na divisa), residencial 2.00/2.00 m (escalonado).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: gabarito_aeronautico (Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes). O resultado pode passar do que o terreno permite; conferir antes de usar."
    ]
   }

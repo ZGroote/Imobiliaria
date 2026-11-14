@@ -352,6 +352,47 @@ def tarefa6():
         assert "trocado" in str(err)
 
 
+def tarefa7():
+    """Tarefa 7 (auditoria 4): área medida = a do base_utm, rótulo da parede cega, caixa sem altura, subsolo do tamanho das vagas."""
+    lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
+
+    def retangulo(w, d):
+        return dict(lote, poligono_utm=[[0, 0], [w, 0], [w, d], [0, d]], frente=[[0, 0], [w, 0]])
+
+    # ALTA 1: lote 20x40, TO 0,35: a opção B contava 68 unidades na métrica e 34 na geometria exportada (área sem arredondar x base_utm a 1 cm)
+    z = copy.deepcopy(zona)
+    z["parametros"].update(taxa_ocupacao=0.35, taxa_permeabilidade=0.0, ca_maximo=6.0, recuo_lateral_por_altura=None, recuo_fundos_por_altura=None)
+    confere(gerar_estudo(retangulo(20, 40), z))  # confere recalcula as unidades pela área do base_utm
+
+    # MÉDIA 4: parede cega só com o recuo que a base de fato tem. Encostada: 0,0. Solta (0,19 m da divisa): 0,19, não "0,0"
+    for eo, encosta in ((0.9, True), (0.8, False)):
+        z = copy.deepcopy(zona)
+        z["parametros"].update(taxa_ocupacao=0.9, taxa_permeabilidade=0.05)
+        e = gerar_estudo(lote, z, {"embasamento_ocupacao": eo})
+        confere(e)
+        base = next(o for o in e["opcoes"] if o["id"] == "D")["volumes"][0]
+        assert base.get("parede_cega"), base
+        dist = Polygon(base["base_utm"]).distance(Polygon(e["lote"]["poligono_utm"]).exterior)
+        assert abs(base["recuo_lateral_m"] - dist) < 0.011 and base["recuo_fundos_m"] == base["recuo_lateral_m"], (base["recuo_lateral_m"], dist)
+        assert (base["recuo_lateral_m"] == 0) == encosta, base["recuo_lateral_m"]
+    d_normal = next(o for o in gerar_estudo(lote, zona)["opcoes"] if o["id"] == "D")["volumes"][0]  # zona do exemplo: a base sem parede cega ganha
+    assert not d_normal.get("parede_cega") and d_normal["recuo_lateral_m"] == 1.5, d_normal
+
+    # BAIXA 5: lote sem nenhuma opção tem caixa de altura 0, e a parede cega não pode subir a 12 m
+    e = gerar_estudo(retangulo(10, 15), zona)
+    assert e["opcoes"] == [] and e["caixa_maxima"]["altura_m"] == 0 and e["caixa_maxima"]["parede_cega_ate_m"] == 0, e["caixa_maxima"]
+
+    # BAIXA 6: lote enorme (100x200): cada nível de subsolo tem o tamanho das vagas (27 m² por vaga), não a projeção toda
+    e = gerar_estudo(retangulo(100, 200), zona)
+    confere(e)
+    for o in e["opcoes"]:
+        m, subs = o["metricas"], [v for v in o["volumes"] if v["uso"] == "garagem"]
+        assert m["vagas"] and subs
+        area_subs = sum(Polygon(v["base_utm"]).area for v in subs)
+        assert abs(area_subs - m["vagas"] * 27) < 5.0 and abs(m["area_garagem_m2"] - m["vagas"] * 27) < 0.01, (o["id"], area_subs, m["area_garagem_m2"])
+        assert all(Polygon(v["base_utm"]).area < 0.7 * Polygon(e["caixa_maxima"]["projecao_utm"]).area for v in subs)  # antes: 100% da projeção em cada nível
+
+
 def main():
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
 
@@ -432,6 +473,7 @@ def main():
     defeitos_da_auditoria(lote, zona)
     auditoria3()
     tarefa6()
+    tarefa7()
     print("ok")
 
 
