@@ -34,7 +34,7 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 - Relatório da IA: 1 linha + `RELATORIO.md` na pasta (regra no README).
 - IA parada não gasta: só mandar tarefa quando a dependência estiver resolvida.
 - Lembrete automático da central: de hora em hora (as IAs acordam a central quando entregam).
-- **Repo público:** desde 14/11 a central commita mas NÃO dá push até o usuário decidir a visibilidade.
+- **Repo público:** o usuário decidiu (14/11) manter público. Commit + push a cada entrega.
 
 ## Armadilhas já vistas
 
