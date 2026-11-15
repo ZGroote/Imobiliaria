@@ -15,4 +15,4 @@ Medido pela central em 15/11/2026, Windows 11, Python 3.14.4: `gerar_estudo` de 
 | **Total** | **28,1 s** | **36,2 s** | **1,29×** |
 
 - A suíte `test_motor.py` foi de ~113 s para ~396 s (3,5×): a maior parte é **teste novo** (matriz de monotonia D1, linha de base, D1–D8). A geração por estudo subiu 1,29× no total e no máximo 1,78× (dentro do teto de 2×).
-- **Orçamento da TAREFA-9:** cada estudo ≤ 2× o valor da coluna 0.7.1.
+- **Orçamento da TAREFA-9:** cada estudo ≤ 2× o valor da coluna 0.8.0 (o tempo de antes da tarefa 9). Medir com `medir_tempo.py` pelo mesmo método.
