@@ -473,6 +473,28 @@ def test_relevo():
     assert all("A lei mede acima do nível da via e o lote ~1 m abaixo da rua" in a for a in folga(com)), folga(com)[0]
 
 
+def test_frente_osm_e_acrescimo_invalido():
+    """Tarefa 28: frente pela rua do OSM tem aviso próprio (nome ou "via sem nome"); acrescimo_topo_m inválido dá erro mesmo sem gabarito."""
+    lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
+    frente = lambda via: {"qualidade": {"frentes": [{"regra": "rua_osm", "via_osm": via, "distancia_eixo_osm_m": 5, "angulo_via_graus": 2}]}}
+    for via, nome in (({"id": 7, "nome": "Rua das Flores", "classe": "residential"}, "Rua das Flores"), ({"id": 8, "nome": None, "classe": "tertiary"}, "via sem nome")):
+        e = _ge(dict(lote, **frente(via)), zona)
+        esperado = (f"Frente presumida pela rua do OpenStreetMap ({nome}, {via['classe']}): indica frente provável, não prova testada legal nem acesso público; "
+                    "pode ser estrada de terra. Conferir na matrícula e no local.")
+        assert e["opcoes"] and all(o["alertas"].count(esperado) == 1 for o in e["opcoes"]), nome
+        assert e["incertezas"].count(esperado) == 1 and not any("asfalto a" in i for i in e["incertezas"])
+    base = _ge(lote, zona)
+    assert not any("OpenStreetMap" in a for o in base["opcoes"] for a in o["alertas"])
+    for ruim in (-5, "abc", True, None, 50):
+        try:
+            _ge(lote, zona, {"acrescimo_topo_m": ruim})
+        except ValueError as erro:
+            assert "acrescimo_topo_m" in str(erro), erro
+        else:
+            raise AssertionError(f"acrescimo_topo_m={ruim!r} sem gabarito devia dar ValueError")
+    assert _ge(lote, zona, {"acrescimo_topo_m": 3.0})["opcoes"] == base["opcoes"]  # válido sem gabarito: ignorado na conta
+
+
 def test_d3_rotulo_parede_cega():
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
     # MÉDIA 4: parede cega só com o recuo que a base de fato tem. Encostada: 0,0. Solta (0,19 m da divisa): 0,19, não "0,0"
@@ -865,6 +887,7 @@ def main():
         test_d3_rotulo_parede_cega,
         test_alerta_unico_nao_verificada,
         test_relevo,
+        test_frente_osm_e_acrescimo_invalido,
         test_d4_caixa_sem_altura,
         test_d5_subsolo_dimensionado_pelas_vagas,
         test_d7_criterio_reflete_chave,
