@@ -44,3 +44,28 @@ Tempos por requisição (Playwright `request.timing()`), contexto novo a cada ro
 ## Depois da tarefa 10 (three local, 15/11)
 
 Bundle `vendor/three-viabilidade.min.js` (592.249 bytes, three 0.186.1 + OrbitControls, esbuild 0.25.10; `gerar.mjs` refaz o mesmo SHA-256). Nenhum pedido fora da origem (o `testar.cjs` falha se houver). Primeira maquete, desktop, contexto novo a cada rodada: remembramento **210–527 ms**, exemplo **196–217 ms** (antes 1,3–9,5 s com o CDN). A tabela de cima é a linha de base com CDN; refazer o `medir.cjs` completo para o celular.
+
+## Medição completa com o three local (15/11, rodada pela central; dados em `medicao/2026-11-15-three-local.json`)
+
+| Estudo | Perfil | Primeira maquete (ms) | Transferidos (bytes) | Órbita (FPS) | Troca A→B (ms) | Heap usado (MB) |
+|---|---|---:|---:|---:|---:|---:|
+| Exemplo | desktop | 237 | 649784 | 60.2 | 79 | 7.1 |
+| Exemplo | celular | 4447 | 649784 | 60.2 | 218 | 7.2 |
+| 22421 | desktop | 200 | 653923 | 60.1 | 79 | 9.6 |
+| 22421 | celular | 4428 | 653923 | 60.2 | 215 | 9.5 |
+| 22426 | desktop | 188 | 653638 | 60.0 | n/d (sem B) | 6.0 |
+| 22426 | celular | 4421 | 653638 | 60.1 | n/d (sem B) | 6.1 |
+| 25297 | desktop | 177 | 648543 | 60.1 | n/d (sem B) | 7.2 |
+| 25297 | celular | 4264 | 648543 | 60.1 | n/d (sem B) | 6.0 |
+| 30516 | desktop | 234 | 666508 | 60.1 | 83 | 8.1 |
+| 30516 | celular | 4855 | 666508 | 60.2 | 278 | 9.3 |
+| 37607 | desktop | 230 | 656635 | 60.1 | 118 | 9.3 |
+| 37607 | celular | 4619 | 656635 | 60.1 | 268 | 9.1 |
+| q1382-11984-11988 | desktop | 227 | 686951 | 60.2 | 83 | 8.3 |
+| q1382-11984-11988 | celular | 4830 | 686951 | 60.2 | 332 | 8.4 |
+| remembramento-75352-75354 | desktop | 242 | 677465 | 60.2 | 103 | 10.6 |
+| remembramento-75352-75354 | celular | 4766 | 677548 | 60.2 | 322 | 10.7 |
+
+- Desktop: primeira maquete **177–242 ms** em todos (antes 1,3–9,5 s com CDN).
+- Celular emulado: **4,3–4,9 s** (antes 4,4–13,4 s). Agora o tempo é dominado pelo **tamanho baixado na rede Fast 3G** (~650 KB sem compressão: o `http.server` local não comprime; o Hosting serve brotli/gzip, então no ar deve ser menor; medir no ar antes de fixar meta).
+- Transferidos subiram de ~400 KB para ~650 KB porque o CDN entregava comprimido e o servidor local não.
