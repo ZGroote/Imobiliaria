@@ -151,7 +151,10 @@ class Cadastro:
         invasao = g.intersection(rua).area / g.area
         if not rua.is_empty and invasao > 0.02:
             return f"Lote invade o asfalto: {invasao:.2%} da área (limite 2%)"
-        return "Lote sem frente para rua: nenhuma aresta de pelo menos 8 m aprovada por avaliar() a até 6 m do asfalto"
+        d = float(self.tree_ruas.query_nearest(g, return_distance=True)[1][0])
+        return ("Lote sem frente para rua: nenhum lado de pelo menos 8 m a até 6 m do asfalto (nem juntando arestas "
+                f"colineares, nem até {gl.TOLERANCIA_M} m sem lote no meio); o asfalto mais próximo da malha está a {d:.1f} m. "
+                "A malha de ruas tem buracos: se o lote dá pra rua, informe outro lote ou confira a base")
 
     def gerar(self, indices, zona):
         validar_zona(zona, permitir_auto=True)
@@ -170,14 +173,15 @@ class Cadastro:
         invalidos = [int(k) for k in vizinhos if not geos[k].is_valid]
         if invalidos:
             raise ValueError(f"Não foi possível validar sobreposição: vizinhos com geometria inválida {invalidos}")
-        qualidade = gl.avaliar(g, indice, geos, tree, self.malha, self.tree_ruas)
+        qualidade = gl.avaliar(g, indice, geos, tree, self.malha, self.tree_ruas, ampliar=True)
         if qualidade is None:
             raise ValueError(self.motivo_recusa(g, indice, geos, tree))
         coords = [[round(x, 6), round(y, 6)] for x, y in g.exterior.coords]
         pol = gl.Polygon(coords)
         if not pol.is_valid or pol.area <= 0:
             raise ValueError("Polígono inválido após arredondamento das coordenadas")
-        aresta = qualidade["frentes"][0]["aresta"]
+        escolhida = qualidade["frentes"][0]
+        arestas = escolhida.get("arestas", [escolhida["aresta"]])
         resumo = relevo.resumir(coords, (pol.centroid.x, pol.centroid.y), self.altura)
         obs = ("Geometria de ensaio derivada do cadastro/maquete, sem vistoria. Zona informada pelo usuário, não conferida. "
                "Frente inferida da malha de asfalto, por comprimento decrescente e índice da aresta. "
@@ -185,10 +189,15 @@ class Cadastro:
                "Restrições do loteamento não verificadas. ")
         if len(qualidade["frentes"]) > 1:
             obs += "Há mais de uma frente candidata; as demais constam em qualidade.frentes. "
+        if escolhida.get("regra") == "arestas_colineares":
+            obs += f"Frente juntando {len(arestas)} arestas colineares contíguas ({arestas}), a até 6 m do asfalto. "
+        elif escolhida.get("regra"):
+            obs += (f"AVISO: frente presumida, asfalto da malha a até {escolhida['distancia_max_asfalto_m']:g} m "
+                    f"(acima dos 6 m da regra; sem lote entre o lado e o asfalto). A malha de ruas tem buracos: conferir no local. ")
         if qualidade["esquina_indicada_pela_malha"]:
             obs += "Esquina indicada pela malha de ruas, sem confirmação em campo. "
         lote = {"id": f"SC-{self.base}-{'-'.join(map(str, indices))}", "poligono_utm": coords,
-                "frente": [coords[aresta], coords[aresta + 1]], "area_m2": round(pol.area, 3),
+                "frente": [coords[arestas[0]], coords[arestas[-1] + 1]], "area_m2": round(pol.area, 3),
                 "crs": "EPSG:31983", "zona_id": zona, "zona_origem": "informada_pelo_usuario",
                 "zona_conferida": False, "conferido": False, "relevo": resumo,
                 "fonte": {"base": self.base, "arquivo": BASES[self.base], "indices_feicoes_zero_based": indices},

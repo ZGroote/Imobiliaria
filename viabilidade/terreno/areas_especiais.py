@@ -33,6 +33,9 @@ def registro(anexo, tipo, nome, incidencia, motivo, **evidencia):
             "anexo": anexo, **evidencia}
 
 
+NADA_ENCONTRADO = "Leitura automática dos Anexos 05/06/07: nenhuma área especial encontrada — não conferida"
+
+
 def nao_verificada(anexo, motivo):
     return registro(anexo, "nao_verificada", f"Áreas especiais do Anexo {anexo}: não verificada",
                     "nao_verificada", motivo)
@@ -128,4 +131,11 @@ class AreasEspeciais:
                 resultado.append(nao_verificada(anexo, mapa))
             else:
                 resultado.extend(mapa.ler(pol))
+        if not resultado:
+            # Lista vazia não pode virar silêncio: o motor alerta todo registro sem altura e o resumo do
+            # estudar.py lista os "nao_verificada", então "nada encontrado" sai como ressalva explícita.
+            resultado.append(registro("05/06/07", "nao_verificada", NADA_ENCONTRADO, "nao_verificada",
+                                      "Leitura automática sem cor da legenda nem cone no lote e na margem de ~10 m",
+                                      evidencia="dados/zonas-mapas/anexo05.jpg, anexo06.jpg e anexo07.jpg; "
+                                                "centros dos pixels do lote e margem de 10 m + 4 pixels"))
         return resultado

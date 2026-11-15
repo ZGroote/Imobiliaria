@@ -92,6 +92,13 @@ def testar():
     recusa(lambda: unir([caixa(0, 0, 10, 2), caixa(0, 8, 10, 10), caixa(0, 2, 2, 8), caixa(8, 2, 10, 8)]), "sem buracos")
     recusa(lambda: unir([gl.Polygon([(0, 0), (10, 10), (0, 10), (10, 0)])]), "polígono válido")
     print("OK: recusas reais completo/0 (sem frente), /104 (vizinho), /295 (asfalto), índices/zona e uniões inválidas.", flush=True)
+    # lado da rua picotado: as duas primeiras arestas (desvio ~2°) viram um lado só; a quina de 90° separa
+    assert [ks for ks, _ in gl.cadeias([(0, 0), (5, 0), (10, 0.2), (10, 10), (0, 10), (0, 0)])] == [[0, 1], [2], [3], [4]]
+    for i, regra in ((94130, "arestas_colineares"), (23249, "tolerancia_asfalto_12m")):  # REVISAO-6
+        lote = cadastro.gerar([i], "SC-Z1")
+        assert lote["qualidade"]["frentes"][0]["regra"] == regra, (i, lote["qualidade"]["frentes"][0])
+        assert ("AVISO: frente presumida" in lote["observacoes"]) == (regra != "arestas_colineares")
+    print("OK: frente ampliada: 94130 junta arestas colineares; 23249 aceita asfalto a 10 m com aviso.", flush=True)
     cadastro_antigo = Cadastro("antigo")
     antigo = cadastro_antigo.gerar([542], "SC-Z1")
     assert antigo["id"] == "SC-antigo-542" and antigo["crs"] == "EPSG:31983" and antigo["relevo"]

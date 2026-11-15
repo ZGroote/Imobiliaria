@@ -88,7 +88,56 @@ def ruas():
     return tris[sh.is_valid(tris) & (sh.area(tris) > 0)], len(dados)
 
 
-def avaliar(g, indice, geos, tree, malha, tree_ruas):
+GIRO_MAX = 10  # graus: arestas contíguas que não desviam mais que isso da primeira formam um lado só
+TOLERANCIA_M = 12  # asfalto a mais de 6 m e até isso só vale com aviso e sem lote no meio (largura do corredor entre quadras)
+
+
+def cadeias(coords):
+    """Arestas contíguas quase colineares (a base picota o lado da rua): [(índices, pontos)], a partir de uma quina."""
+    n = len(coords) - 1
+    rumo = [math.atan2(coords[k+1][1] - coords[k][1], coords[k+1][0] - coords[k][0]) for k in range(n)]
+    desvio = lambda a, b: abs(math.degrees((rumo[a] - rumo[b] + math.pi) % (2*math.pi) - math.pi))
+    inicio = next((k for k in range(n) if desvio(k, k-1) > GIRO_MAX), None)
+    if inicio is None:
+        return []  # sem quina (quase círculo): não há lado reto pra juntar
+    grupos = [[inicio]]
+    for k in (j % n for j in range(inicio + 1, inicio + n)):
+        if desvio(k, grupos[-1][0]) > GIRO_MAX:
+            grupos.append([])
+        grupos[-1].append(k)
+    return [(ks, [coords[k] for k in ks] + [coords[ks[-1] + 1]]) for ks in grupos]
+
+
+def frentes_ampliadas(g, indice, geos, tree, rua):
+    """Só quando nenhuma aresta passa: junta arestas colineares e aceita asfalto até TOLERANCIA_M sem lote no meio."""
+    frentes = []
+    for ks, pts in cadeias(list(g.exterior.coords)):
+        corda = math.dist(pts[0], pts[-1])
+        if corda < 8:
+            continue
+        linha = LineString(pts)
+        amostras = [linha.interpolate(t, normalized=True) for t in (0.15, 0.5, 0.85)]
+        distancias = [p.distance(rua) for p in amostras]
+        if max(distancias) <= 6:
+            regra = "arestas_colineares"
+        elif max(distancias) <= TOLERANCIA_M:
+            # o caminho até o asfalto não pode cortar o próprio lote nem outro (fundo de quadra, miolo)
+            caminhos = [sh.shortest_line(p, rua) for p in amostras]
+            if any(g.intersection(c).length > 0.5 or any(j != indice and geos[j].intersection(c).length > 0.5
+                                                         for j in tree.query(c, predicate="intersects"))
+                   for c in caminhos):
+                continue
+            regra = "tolerancia_asfalto_12m"
+        else:
+            continue
+        frentes.append({"aresta": ks[0], "arestas": ks, "pontos": [list(pts[0]), list(pts[-1])],
+                        "comprimento_m": round(corda, 3), "distancia_max_asfalto_m": round(max(distancias), 3),
+                        "regra": regra})
+    frentes.sort(key=lambda f: (f["regra"] != "arestas_colineares", -f["comprimento_m"], f["aresta"]))
+    return frentes
+
+
+def avaliar(g, indice, geos, tree, malha, tree_ruas, ampliar=False):
     vizinhos = tree.query(g, predicate="intersects")
     vizinhos = vizinhos[vizinhos != indice]
     inter = sh.area(sh.intersection(g, geos[vizinhos]))
@@ -109,6 +158,8 @@ def avaliar(g, indice, geos, tree, malha, tree_ruas):
         if max(distancias) <= 6:
             frentes.append({"aresta": k, "pontos": [list(a), list(b)], "comprimento_m": round(lado.length, 3),
                             "distancia_max_asfalto_m": round(max(distancias), 3)})
+    if not frentes and ampliar:
+        frentes = frentes_ampliadas(g, indice, geos, tree, rua)
     if not frentes:
         return None
     esquina = False
@@ -120,7 +171,8 @@ def avaliar(g, indice, geos, tree, malha, tree_ruas):
             juntas = any(math.dist(a, b) < 2 for a in f["pontos"] for b in h["pontos"])
             if juntas and 45 <= ang <= 135:
                 esquina = True
-    frentes.sort(key=lambda f: (-f["comprimento_m"], f["aresta"]))
+    if "regra" not in frentes[0]:
+        frentes.sort(key=lambda f: (-f["comprimento_m"], f["aresta"]))
     return {"frentes": frentes, "esquina_indicada_pela_malha": esquina,
             "sobreposicao_asfalto_m2": round(invasao, 3), "maior_sobreposicao_vizinho_m2": round(float(max(inter, default=0)), 6)}
 
