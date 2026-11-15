@@ -116,6 +116,8 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - **T24 entregue (e3ecfafd):** COE art. 3º-IV mede do piso ao forro sem caixa d'água; art. 80 não diz a origem. Premissa `acrescimo_topo_m` 1,5 m só no gabarito de área especial + alerta de folga. Pilotos e linha de base iguais.
   - **T20 (medida):** 500 sorteados → 34% aceitos; sem frente 31% (periferia: malha de asfalto não cobre); zona incerta 22%; vizinho inválido 6,6%. Os 20 da REVISAO-6: sem frente de 80% para 25%.
   - **Decisão (com 2ª opinião do ChatGPT, portal `chatgpt.com`):** Terreno T21 = make_valid no vizinho + rua do OSM como 2ª fonte de frente com salvaguardas (tipo de via, paralelismo, ligada à rede, alerta em ambiguidade, `regra: rua_osm`). Testada de 5 m fora. Margem de 10 m fica. Motor T25 = investigar os 29 "cor sem zona segura" (só leitura).
+  - **T25 entregue:** os 29 "cor sem zona" são texto do mapa por cima da zona (15) ou recusa certa (campus, branco, fora do mapa). Conserto A+B daria só 6/500 a mais (a divisa de 10 m pega o resto); **adiado** (zona errada é pior que recusar; ganho 1,2%). Fica na fila se a cobertura voltar a ser prioridade.
+  - Terreno T21: OSM em `dados/osm-vias-sao-carlos.json.gz` (gzip, < 1 MiB, sem mexer no teste de tamanho da main). Motor T26: investigar se o relevo Copernicus (DSM, 30 m) serve.
   - PR para a main só no fim, e merge só com nova autorização do usuário.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
