@@ -126,6 +126,7 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - **T28 entregue:** alerta próprio pra frente `rua_osm`; `acrescimo_topo_m` validado sempre (BAIXA da REVISAO-9 fechada). Pilotos iguais. `test_estudar` só falha pelo campo novo da T22 em andamento (lista de alertas do lote novo) → ajuste pedido ao Motor.
   - **T22 entregue:** lote novo grava `relevo.desnivel_lote_rua_m` (DSM no centroide − mediana do asfalto a ≤25 m da frente). 26/214 aceitos (12%) com |desnível| ≥2 m ganham o aviso da T27; 53 sem asfalto perto ficam sem o campo. 77015 −5,0, 77022 +5,2. `lotes-piloto.json` NÃO ganhou o campo (30516 e 22421 dariam −2,4 → aviso): pilotos ficam como referência fixa. conferir 8/8.
   - **Retomada 15/11:** amostra ok (5 provedores); conferir 8/8; sem entrega nova (soltos = evidências do visual regeradas pelo conferir + fim de linha dos exemplos do motor). Revisor na T10.
+  - **REVISAO-10:** T21, T22, T27, T28 aprovadas, sem achados (5 rua_osm inéditos certos na foto; `.gz` reproduz byte a byte). → **PR #125** aberto (`viabilidade/pos-124` → main, 27 commits, só `viabilidade/`). Merge espera o usuário.
   - PR para a main só no fim, e merge só com nova autorização do usuário.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
