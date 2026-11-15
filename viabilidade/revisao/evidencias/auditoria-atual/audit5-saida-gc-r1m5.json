@@ -1,0 +1,612 @@
+{
+  "versao_motor": "0.8.1",
+  "lote": {
+    "id": "rect_24x40",
+    "lid": 99000,
+    "poligono_utm": [
+      [
+        205000.0,
+        7564000.0
+      ],
+      [
+        205024.0,
+        7564000.0
+      ],
+      [
+        205024.0,
+        7564040.0
+      ],
+      [
+        205000.0,
+        7564040.0
+      ]
+    ],
+    "frente": [
+      [
+        205000.0,
+        7564000.0
+      ],
+      [
+        205024.0,
+        7564000.0
+      ]
+    ],
+    "area_m2": 960.0,
+    "zona_id": "AUDIT5",
+    "zona_origem": "teste",
+    "zona_conferida": false,
+    "relevo": null,
+    "observacoes": "Caso sintético auditoria 5: rect_24x40"
+  },
+  "zona": {
+    "id": "Z-AUDIT5-GC-R1M5",
+    "nome": "Zona Z-AUDIT5-GC-R1M5",
+    "parametros": {
+      "ca_basico": 2.0,
+      "ca_maximo": 5.0,
+      "taxa_ocupacao": 0.7,
+      "taxa_permeabilidade": 0.15,
+      "recuo_frontal_m": 4.0,
+      "recuo_lateral_m": 1.5,
+      "recuo_fundos_m": 1.5,
+      "altura_max_m": null,
+      "pavimentos_max": null,
+      "recuo_lateral_por_altura": null,
+      "recuo_fundos_por_altura": null,
+      "parede_cega_encosta_ate_m": null,
+      "garagem_computavel": true,
+      "vagas_min_por_unidade": null,
+      "outorga_onerosa": true
+    },
+    "fontes": [],
+    "conferido": false,
+    "observacoes": "Teste auditoria 5"
+  },
+  "premissas": {
+    "pe_direito_m": 3.0,
+    "pe_direito_terreo_m": 4.5,
+    "area_privativa_por_unidade_m2": 60,
+    "eficiencia": 0.8,
+    "area_comum_por_pavimento_m2": 40,
+    "nucleo_nao_computavel_m2": 20,
+    "vagas_por_unidade": 1,
+    "area_por_vaga_m2": 27,
+    "garagem": "subsolo",
+    "subsolos_max": 2,
+    "garagem_computavel": true,
+    "recuo_frontal_m": 4.0,
+    "preco_venda_m2_privativo": null,
+    "laje_torre_max_m2": 500,
+    "laje_minima_m2": 80,
+    "afastamento_entre_torres_m": 6.0,
+    "pavimentos_lamina_max": 4,
+    "pavimentos_embasamento": 2,
+    "pavimentos_sem_ca": 10,
+    "pavimentos_max_projeto": 30,
+    "embasamento_ocupacao": 0.4,
+    "padrao": [
+      "afastamento_entre_torres_m",
+      "area_comum_por_pavimento_m2",
+      "area_por_vaga_m2",
+      "area_privativa_por_unidade_m2",
+      "eficiencia",
+      "embasamento_ocupacao",
+      "garagem",
+      "laje_minima_m2",
+      "laje_torre_max_m2",
+      "nucleo_nao_computavel_m2",
+      "pavimentos_embasamento",
+      "pavimentos_lamina_max",
+      "pavimentos_max_projeto",
+      "pavimentos_sem_ca",
+      "pe_direito_m",
+      "pe_direito_terreo_m",
+      "preco_venda_m2_privativo",
+      "recuo_frontal_m",
+      "subsolos_max",
+      "vagas_por_unidade"
+    ]
+  },
+  "caixa_maxima": {
+    "projecao_utm": [
+      [
+        205001.5,
+        7564038.5
+      ],
+      [
+        205022.5,
+        7564038.5
+      ],
+      [
+        205022.5,
+        7564004.0
+      ],
+      [
+        205001.5,
+        7564004.0
+      ]
+    ],
+    "altura_m": 91.5,
+    "area_projecao_m2": 724.5,
+    "area_lote_m2": 960.0,
+    "area_computavel_max_m2": 4800.0,
+    "ocupacao_max_m2": 672.0,
+    "recuo_frontal_m": 4.0,
+    "degraus": [],
+    "parede_cega_ate_m": null,
+    "projecao_parede_cega_utm": null
+  },
+  "opcoes": [
+    {
+      "id": "A",
+      "nome": "Torre única",
+      "volumes": [
+        {
+          "base_utm": [
+            [
+              205019.5498,
+              7564013.7002
+            ],
+            [
+              205019.5498,
+              7564028.7998
+            ],
+            [
+              205004.4502,
+              7564028.7998
+            ],
+            [
+              205004.4502,
+              7564013.7002
+            ]
+          ],
+          "z0_m": 0.0,
+          "altura_m": 64.5,
+          "pavimentos": 21,
+          "uso": "residencial",
+          "recuo_lateral_m": 1.5,
+          "recuo_fundos_m": 1.5
+        },
+        {
+          "base_utm": [
+            [
+              205004.6515,
+              7564028.5985
+            ],
+            [
+              205019.3485,
+              7564028.5985
+            ],
+            [
+              205019.3485,
+              7564013.9015
+            ],
+            [
+              205004.6515,
+              7564013.9015
+            ]
+          ],
+          "z0_m": -3.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        },
+        {
+          "base_utm": [
+            [
+              205004.6515,
+              7564028.5985
+            ],
+            [
+              205019.3485,
+              7564028.5985
+            ],
+            [
+              205019.3485,
+              7564013.9015
+            ],
+            [
+              205004.6515,
+              7564013.9015
+            ]
+          ],
+          "z0_m": -6.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        }
+      ],
+      "metricas": {
+        "area_construida_m2": 5219.96,
+        "area_computavel_m2": 4799.96,
+        "area_nao_computavel_m2": 420.0,
+        "area_privativa_m2": 3830.37,
+        "area_acima_ca_basico_m2": 2879.96,
+        "area_garagem_m2": 432.0,
+        "vagas": 16,
+        "area_permeavel_m2": 732.0,
+        "ca_usado": 5.0,
+        "to_usada": 0.217,
+        "pavimentos": 21,
+        "unidades_estimadas": 63,
+        "vgv_estimado": null
+      },
+      "alertas": [
+        "Faltam vagas: precisa de 63, 2 subsolo(s) comportam 16. Em metricas.vagas ficam as 16.",
+        "No limite: CA 5.00 (máximo 5.00).",
+        "2880 m² acima do CA básico: exige outorga onerosa."
+      ]
+    },
+    {
+      "id": "B",
+      "nome": "Duas torres",
+      "volumes": [
+        {
+          "base_utm": [
+            [
+              205018.3926,
+              7564005.4647
+            ],
+            [
+              205018.3926,
+              7564018.25
+            ],
+            [
+              205005.6074,
+              7564018.25
+            ],
+            [
+              205005.6074,
+              7564005.4647
+            ]
+          ],
+          "z0_m": 0.0,
+          "altura_m": 43.5,
+          "pavimentos": 14,
+          "uso": "residencial",
+          "recuo_lateral_m": 1.5,
+          "recuo_fundos_m": 1.5
+        },
+        {
+          "base_utm": [
+            [
+              205018.3926,
+              7564024.25
+            ],
+            [
+              205018.3926,
+              7564037.0353
+            ],
+            [
+              205005.6074,
+              7564037.0353
+            ],
+            [
+              205005.6074,
+              7564024.25
+            ]
+          ],
+          "z0_m": 0.0,
+          "altura_m": 43.5,
+          "pavimentos": 14,
+          "uso": "residencial",
+          "recuo_lateral_m": 1.5,
+          "recuo_fundos_m": 1.5
+        },
+        {
+          "base_utm": [
+            [
+              205005.7451,
+              7564036.8976
+            ],
+            [
+              205018.2549,
+              7564036.8976
+            ],
+            [
+              205018.2549,
+              7564005.6024
+            ],
+            [
+              205005.7451,
+              7564005.6024
+            ]
+          ],
+          "z0_m": -3.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        },
+        {
+          "base_utm": [
+            [
+              205005.7451,
+              7564036.8976
+            ],
+            [
+              205018.2549,
+              7564036.8976
+            ],
+            [
+              205018.2549,
+              7564005.6024
+            ],
+            [
+              205005.7451,
+              7564005.6024
+            ]
+          ],
+          "z0_m": -6.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        }
+      ],
+      "metricas": {
+        "area_construida_m2": 5359.95,
+        "area_computavel_m2": 4799.95,
+        "area_nao_computavel_m2": 560.0,
+        "area_privativa_m2": 3456.95,
+        "area_acima_ca_basico_m2": 2879.95,
+        "area_garagem_m2": 782.99,
+        "vagas": 29,
+        "area_permeavel_m2": 558.02,
+        "ca_usado": 5.0,
+        "to_usada": 0.299,
+        "pavimentos": 14,
+        "unidades_estimadas": 56,
+        "vgv_estimado": null
+      },
+      "alertas": [
+        "Faltam vagas: precisa de 56, 2 subsolo(s) comportam 29. Em metricas.vagas ficam as 29.",
+        "No limite: CA 5.00 (máximo 5.00).",
+        "2880 m² acima do CA básico: exige outorga onerosa."
+      ]
+    },
+    {
+      "id": "C",
+      "nome": "Lâmina baixa",
+      "volumes": [
+        {
+          "base_utm": [
+            [
+              205022.5,
+              7564005.5784
+            ],
+            [
+              205022.5,
+              7564036.9216
+            ],
+            [
+              205001.5,
+              7564036.9216
+            ],
+            [
+              205001.5,
+              7564005.5784
+            ]
+          ],
+          "z0_m": 0.0,
+          "altura_m": 13.5,
+          "pavimentos": 4,
+          "uso": "residencial",
+          "recuo_lateral_m": 1.5,
+          "recuo_fundos_m": 1.5
+        },
+        {
+          "base_utm": [
+            [
+              205004.4484,
+              7564035.5516
+            ],
+            [
+              205019.5516,
+              7564035.5516
+            ],
+            [
+              205019.5516,
+              7564006.9484
+            ],
+            [
+              205004.4484,
+              7564006.9484
+            ]
+          ],
+          "z0_m": -3.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        },
+        {
+          "base_utm": [
+            [
+              205004.4484,
+              7564035.5516
+            ],
+            [
+              205019.5516,
+              7564035.5516
+            ],
+            [
+              205019.5516,
+              7564006.9484
+            ],
+            [
+              205004.4484,
+              7564006.9484
+            ]
+          ],
+          "z0_m": -6.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        }
+      ],
+      "metricas": {
+        "area_construida_m2": 3496.83,
+        "area_computavel_m2": 3416.83,
+        "area_nao_computavel_m2": 80.0,
+        "area_privativa_m2": 2106.26,
+        "area_acima_ca_basico_m2": 1496.83,
+        "area_garagem_m2": 864.0,
+        "vagas": 32,
+        "area_permeavel_m2": 301.79,
+        "ca_usado": 3.559,
+        "to_usada": 0.665,
+        "pavimentos": 4,
+        "unidades_estimadas": 32,
+        "vgv_estimado": null
+      },
+      "alertas": [
+        "1497 m² acima do CA básico: exige outorga onerosa."
+      ]
+    },
+    {
+      "id": "D",
+      "nome": "Embasamento + torre",
+      "volumes": [
+        {
+          "base_utm": [
+            [
+              205005.1847,
+              7564014.4347
+            ],
+            [
+              205005.1847,
+              7564028.0653
+            ],
+            [
+              205018.8153,
+              7564028.0653
+            ],
+            [
+              205018.8153,
+              7564014.4347
+            ]
+          ],
+          "z0_m": 0.0,
+          "altura_m": 7.5,
+          "pavimentos": 2,
+          "uso": "embasamento",
+          "recuo_lateral_m": 1.5,
+          "recuo_fundos_m": 1.5
+        },
+        {
+          "base_utm": [
+            [
+              205018.4624,
+              7564014.7876
+            ],
+            [
+              205018.4624,
+              7564027.7124
+            ],
+            [
+              205005.5376,
+              7564027.7124
+            ],
+            [
+              205005.5376,
+              7564014.7876
+            ]
+          ],
+          "z0_m": 7.5,
+          "altura_m": 84.0,
+          "pavimentos": 28,
+          "uso": "residencial",
+          "recuo_lateral_m": 1.5,
+          "recuo_fundos_m": 1.5
+        },
+        {
+          "base_utm": [
+            [
+              205005.3762,
+              7564027.8738
+            ],
+            [
+              205018.6238,
+              7564027.8738
+            ],
+            [
+              205018.6238,
+              7564014.6262
+            ],
+            [
+              205005.3762,
+              7564014.6262
+            ]
+          ],
+          "z0_m": -3.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        },
+        {
+          "base_utm": [
+            [
+              205005.3762,
+              7564027.8738
+            ],
+            [
+              205018.6238,
+              7564027.8738
+            ],
+            [
+              205018.6238,
+              7564014.6262
+            ],
+            [
+              205005.3762,
+              7564014.6262
+            ]
+          ],
+          "z0_m": -6.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        }
+      ],
+      "metricas": {
+        "area_construida_m2": 5400.0,
+        "area_computavel_m2": 4800.0,
+        "area_nao_computavel_m2": 600.0,
+        "area_privativa_m2": 3557.41,
+        "area_acima_ca_basico_m2": 2880.0,
+        "area_garagem_m2": 351.0,
+        "vagas": 13,
+        "area_permeavel_m2": 774.21,
+        "ca_usado": 5.0,
+        "to_usada": 0.173,
+        "pavimentos": 30,
+        "unidades_estimadas": 56,
+        "vgv_estimado": null
+      },
+      "alertas": [
+        "Faltam vagas: precisa de 56, 2 subsolo(s) comportam 13. Em metricas.vagas ficam as 13.",
+        "Parou no teto de projeto de 30 pavimentos (premissa pavimentos_max_projeto, escolha de projeto, não é lei).",
+        "No limite: CA 5.00 (máximo 5.00).",
+        "2880 m² acima do CA básico: exige outorga onerosa."
+      ]
+    }
+  ],
+  "opcoes_ausentes": [],
+  "criterio_escolha": {
+    "ordem": [
+      "unidades_estimadas desc",
+      "area_privativa_m2 desc"
+    ],
+    "texto": "Mais unidades; empate: maior área privativa. Comparação entre candidatos da heurística, sem prova de ótimo global."
+  },
+  "incertezas": [
+    "Terreno na zona Z-AUDIT5-GC-R1M5: NÃO conferido (escolhida só pra testar). Confirmar a zona do lote antes de usar o estudo.",
+    "O lote diz zona AUDIT5, mas o estudo usou Z-AUDIT5-GC-R1M5.",
+    "Números da zona Z-AUDIT5-GC-R1M5: não conferidos na lei.",
+    "Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).",
+    "Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.",
+    "Garagem conta no CA (garagem_computavel): concorrem subsolos na caixa legal e junto à implantação do prédio. O critério prioriza unidades e área privativa; a meta de vagas pode não ser atendida, com déficit indicado nos alertas. Entre garagens viáveis para o mesmo prédio, escolhe a que oferece mais vagas. A busca não prova ótimo global.",
+    "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
+    "Vagas pela premissa vagas_por_unidade; a regra de vagas da lei ainda não entrou.",
+    "Relevo ignorado: volumes assentados em terreno plano, z=0.",
+    "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_max_projeto, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade."
+  ]
+}

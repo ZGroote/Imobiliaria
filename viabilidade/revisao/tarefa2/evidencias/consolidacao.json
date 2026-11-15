@@ -1,0 +1,162 @@
+{
+  "snapshot_83c107f0_arquivos_identicos_ao_git": 87,
+  "commits": {
+    "83c107f0": {
+      "estudos": [
+        {
+          "id": "estudo-exemplo",
+          "sha_json": "184217bede7d8a59d3110495423be1002ac4310488de56458ae5d152ef784b12",
+          "sha_relatorio": "435c5c4ee3b2705b89036bb8af50777a8d3833e5d96d0566064b3c87aa3015a3",
+          "hash_confere": false,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-22421",
+          "sha_json": "9c99e90d0ef08109acd97d80f71454575d0bf1f2f2e4eea3ebe9180c88b0d033",
+          "sha_relatorio": "52305594a11f736c42eaeb5d4b6cf7b65df89afa3cee555f830c42e186807027",
+          "hash_confere": false,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-22426",
+          "sha_json": "2ac0c12cec7d405c4a88214d2fbbe788ba24f6b1d6bd3ba101bb72daefcc3f84",
+          "sha_relatorio": "eaa1d3a0fe236dcc44a4efb4242265bc062113a643bfe3a5142628b6cde42552",
+          "hash_confere": false,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-25297",
+          "sha_json": "86687eb35e6d0920b0771eb5c340d588478eecfbff657b58a8899e45e3a5a66f",
+          "sha_relatorio": "de8bbe8a5792bc5576bc41c1b7025721f9587a2092021cbb62e10359eb199a41",
+          "hash_confere": false,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-30516",
+          "sha_json": "b9b2fdb9c9ceca744a7b29a3a9857b9dd389c4516a220c311a555f4fe1b41ae2",
+          "sha_relatorio": "397881e59ef89509273a5688ac820f06f67d15278af8b6dfb02114fc10096f0c",
+          "hash_confere": false,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-37607",
+          "sha_json": "4b2c947f67d8de9c2cd45196b81f6546b5cad9703ad4be1550a041adda28744b",
+          "sha_relatorio": "c55f5e3d0e93a4b77567dbd7ec7f03442d3294de14c0e39136fd7d5cef092cf5",
+          "hash_confere": false,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-q1382-11984-11988",
+          "sha_json": "0464b657e1c0991db3078a24326573c4174c11df70c57f7f5ea3001d2a4b2582",
+          "sha_relatorio": "9a853bba76b04e9ff9ab2ce986078ff83b86a32fc28bfea3c2a35fe0343190b6",
+          "hash_confere": false,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-remembramento-75352-75354",
+          "sha_json": "734412116ad81da443fa4256869287ec16c000428efeee7a08bf708172b112e2",
+          "sha_relatorio": "00273b5f93472da3b05e8db0b0108018fa265d23bb05b51d5a733581a51a290a",
+          "hash_confere": false,
+          "metricas_divergentes": []
+        }
+      ],
+      "xss_numericos": [
+        {
+          "campo": "taxa_ocupacao",
+          "imgs_onerror": 100
+        },
+        {
+          "campo": "taxa_permeabilidade",
+          "imgs_onerror": 100
+        }
+      ],
+      "dominio_relatorio": null,
+      "formatacao_visual": "const numero = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });"
+    },
+    "cad94ecd": {
+      "estudos": [
+        {
+          "id": "estudo-exemplo",
+          "sha_json": "e5634ff2a112cea34f8d3adfcc5f65f59eec657afdaca8ef930aff7ba7c07e34",
+          "sha_relatorio": "e5634ff2a112cea34f8d3adfcc5f65f59eec657afdaca8ef930aff7ba7c07e34",
+          "hash_confere": true,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-22421",
+          "sha_json": "0589d1266844c33175ff77f0dec78d2c93435c0780fdbc51cd25bfeb5a30bee0",
+          "sha_relatorio": "0589d1266844c33175ff77f0dec78d2c93435c0780fdbc51cd25bfeb5a30bee0",
+          "hash_confere": true,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-22426",
+          "sha_json": "0b9ec6f2ceedcb711de0357d0c659cba7a076def9e5e25ac89972969271583b2",
+          "sha_relatorio": "0b9ec6f2ceedcb711de0357d0c659cba7a076def9e5e25ac89972969271583b2",
+          "hash_confere": true,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-25297",
+          "sha_json": "eef3a5d0abc885fc615267ab6457690bfd5d441b21c79c9a98c9d200a82c94bd",
+          "sha_relatorio": "eef3a5d0abc885fc615267ab6457690bfd5d441b21c79c9a98c9d200a82c94bd",
+          "hash_confere": true,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-30516",
+          "sha_json": "07bf9fb0c887ec5d4f77826a2129490073b8e72f30d0b17fcca7455ce2d28f31",
+          "sha_relatorio": "07bf9fb0c887ec5d4f77826a2129490073b8e72f30d0b17fcca7455ce2d28f31",
+          "hash_confere": true,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-37607",
+          "sha_json": "9025091849b8d9a65db8107a6e606b96b84f28bbe03b2af092514fbf2ab69995",
+          "sha_relatorio": "9025091849b8d9a65db8107a6e606b96b84f28bbe03b2af092514fbf2ab69995",
+          "hash_confere": true,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-q1382-11984-11988",
+          "sha_json": "28a2430f321e4bb0ea8cecf76a3436e3a16b21589621214ec4e33b2d57c19f88",
+          "sha_relatorio": "28a2430f321e4bb0ea8cecf76a3436e3a16b21589621214ec4e33b2d57c19f88",
+          "hash_confere": true,
+          "metricas_divergentes": []
+        },
+        {
+          "id": "SC-completo-remembramento-75352-75354",
+          "sha_json": "f6bdb1ed903cfbe01d8eb913f7f0fb12eff49340dcf3cb6b8d1b6ec897c1ab11",
+          "sha_relatorio": "f6bdb1ed903cfbe01d8eb913f7f0fb12eff49340dcf3cb6b8d1b6ec897c1ab11",
+          "hash_confere": true,
+          "metricas_divergentes": []
+        }
+      ],
+      "xss_numericos": [
+        {
+          "campo": "taxa_ocupacao",
+          "imgs_onerror": 100
+        },
+        {
+          "campo": "taxa_permeabilidade",
+          "imgs_onerror": 100
+        }
+      ],
+      "dominio_relatorio": [
+        {
+          "status": "dentro",
+          "tags_ativas": 0
+        },
+        {
+          "status": "fora",
+          "tags_ativas": 0
+        },
+        {
+          "status": "dados_insuficientes",
+          "tags_ativas": 0
+        }
+      ],
+      "formatacao_visual": "const numero = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });"
+    }
+  }
+}

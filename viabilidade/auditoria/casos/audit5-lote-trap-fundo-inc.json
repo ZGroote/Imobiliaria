@@ -1,0 +1,38 @@
+{
+  "id": "trap_fundo_inc",
+  "lid": 99000,
+  "poligono_utm": [
+    [
+      205000.0,
+      7564000.0
+    ],
+    [
+      205035.0,
+      7564000.0
+    ],
+    [
+      205035.0,
+      7564045.0
+    ],
+    [
+      205000.0,
+      7564030.0
+    ]
+  ],
+  "frente": [
+    [
+      205000.0,
+      7564000.0
+    ],
+    [
+      205035.0,
+      7564000.0
+    ]
+  ],
+  "area_m2": 1312.5,
+  "zona_id": "AUDIT5",
+  "zona_origem": "teste",
+  "zona_conferida": false,
+  "relevo": null,
+  "observacoes": "Caso sintético auditoria 5: trap_fundo_inc"
+}

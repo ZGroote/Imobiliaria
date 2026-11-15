@@ -1,0 +1,58 @@
+[
+  {
+    "numero": 1,
+    "codigo": "import json, sys; sys.path.insert(0, 'viabilidade/motor'); import motor; l=json.load(open('viabilidade/auditoria/casos/audit5-lote-20x35.json')); e1=motor.gerar_estudo(l, json.load(open('viabilidade/auditoria/casos/audit5-zona-perm55.json'))); e2=motor.gerar_estudo(l, json.load(open('viabilidade/auditoria/casos/audit5-zona-perm25.json'))); print([(o['id'], o['metricas']['unidades_estimadas'], o['metricas']['area_privativa_m2']) for o in e1['opcoes']]); print([(o['id'], o['metricas']['unidades_estimadas'], o['metricas']['area_privativa_m2']) for o in e2['opcoes']])",
+    "exit_code": 0,
+    "stdout": "[('A', 34, 2109.98), ('B', 30, 1850.01), ('C', 16, 1008.01), ('D', 30, 1829.65)]\n[('A', 34, 2109.98), ('B', 30, 1850.01), ('C', 20, 1392.4), ('D', 30, 1829.65)]\n",
+    "stderr": ""
+  },
+  {
+    "numero": 2,
+    "codigo": "import json, sys; sys.path.insert(0, 'viabilidade/motor'); import motor; l=json.load(open('viabilidade/auditoria/casos/audit5-lote-trap-fundo-inc.json')); e1=motor.gerar_estudo(l, json.load(open('viabilidade/auditoria/casos/audit5-zona-trap-rb10.json'))); e2=motor.gerar_estudo(l, json.load(open('viabilidade/auditoria/casos/audit5-zona-trap-rb02.json'))); print([(o['id'], o['metricas']['unidades_estimadas'], o['metricas']['area_privativa_m2']) for o in e1['opcoes']]); print([(o['id'], o['metricas']['unidades_estimadas'], o['metricas']['area_privativa_m2']) for o in e2['opcoes']])",
+    "exit_code": 0,
+    "stdout": "[('A', 66, 4026.99), ('B', 64, 3953.75), ('C', 24, 1638.4), ('D', 60, 3623.94)]\n[('A', 66, 4026.99), ('B', 64, 3953.75), ('C', 40, 2472.24), ('D', 60, 3623.94)]\n",
+    "stderr": ""
+  },
+  {
+    "numero": 3,
+    "codigo": "import json, sys; sys.path.insert(0, 'viabilidade/motor'); import motor; from shapely.geometry import Polygon, box; l=json.load(open('viabilidade/auditoria/casos/audit5-lote-impossivel-falso-13x40.json')); z=json.load(open('viabilidade/auditoria/casos/audit5-zona-impossivel-falso-13x40.json')); e=motor.gerar_estudo(l, z, {'vagas_por_unidade': 0}); c=motor.caixa_recuada(Polygon(l['poligono_utm']), l['frente'], 4.0, 1.5, 20.0); q=box(205001.5,7564004.0,205011.5,7564014.0); lam=box(205001.5,7564004.0,205011.5,7564018.0); print('opcoes:', e['opcoes'], 'ausentes:', [(o['id'], o['motivo'], o['detalhe']) for o in e['opcoes_ausentes']]); print('caixa_legal=', round(c.area,2), 'quad10x10_contido=', c.contains(q), 'lam10x14_contido=', c.contains(lam))",
+    "exit_code": 0,
+    "stdout": "opcoes: [{'id': 'A', 'nome': 'Torre única', 'volumes': [{'base_utm': [[205011.5, 7564007.0], [205011.5, 7564017.0], [205001.5, 7564017.0], [205001.5, 7564007.0]], 'z0_m': 0.0, 'altura_m': 58.5, 'pavimentos': 19, 'uso': 'residencial', 'recuo_lateral_m': 1.5, 'recuo_fundos_m': 20.0}], 'metricas': {'area_construida_m2': 1900.0, 'area_computavel_m2': 1520.0, 'area_nao_computavel_m2': 380.0, 'area_privativa_m2': 1140.0, 'area_acima_ca_basico_m2': 480.0, 'area_garagem_m2': 0.0, 'vagas': 0, 'area_permeavel_m2': 420.0, 'ca_usado': 2.923, 'to_usada': 0.154, 'pavimentos': 19, 'unidades_estimadas': 19, 'vgv_estimado': None}, 'alertas': ['480 m² acima do CA básico: exige outorga onerosa.']}, {'id': 'C', 'nome': 'Lâmina baixa', 'volumes': [{'base_utm': [[205011.3494, 7564004.762], [205011.3494, 7564019.238], [205001.6506, 7564019.238], [205001.6506, 7564004.762]], 'z0_m': 0.0, 'altura_m': 13.5, 'pavimentos': 4, 'uso': 'residencial', 'recuo_lateral_m': 1.5, 'recuo_fundos_m': 20.0}], 'metricas': {'area_construida_m2': 561.6, 'area_computavel_m2': 481.6, 'area_nao_computavel_m2': 80.0, 'area_privativa_m2': 401.6, 'area_acima_ca_basico_m2': 0.0, 'area_garagem_m2': 0.0, 'vagas': 0, 'area_permeavel_m2': 379.6, 'ca_usado': 0.926, 'to_usada': 0.232, 'pavimentos': 4, 'unidades_estimadas': 4, 'vgv_estimado': None}, 'alertas': []}, {'id': 'D', 'nome': 'Embasamento + torre', 'volumes': [{'base_utm': [[205001.5, 7564006.4389], [205001.5, 7564017.5611], [205011.5, 7564017.5611], [205011.5, 7564006.4389]], 'z0_m': 0.0, 'altura_m': 7.5, 'pavimentos': 2, 'uso': 'embasamento', 'recuo_lateral_m': 1.5, 'recuo_fundos_m': 20.0}, {'base_utm': [[205011.5, 7564007.0], [205011.5, 7564017.0], [205001.5, 7564017.0], [205001.5, 7564007.0]], 'z0_m': 7.5, 'altura_m': 51.0, 'pavimentos': 17, 'uso': 'residencial', 'recuo_lateral_m': 1.5, 'recuo_fundos_m': 20.0}], 'metricas': {'area_construida_m2': 1922.44, 'area_computavel_m2': 1542.44, 'area_nao_computavel_m2': 380.0, 'area_privativa_m2': 1020.0, 'area_acima_ca_basico_m2': 502.44, 'area_garagem_m2': 0.0, 'vagas': 0, 'area_permeavel_m2': 408.78, 'ca_usado': 2.966, 'to_usada': 0.175, 'pavimentos': 19, 'unidades_estimadas': 17, 'vgv_estimado': None}, 'alertas': ['No limite: CA 2.97 (máximo 3.00).', '502 m² acima do CA básico: exige outorga onerosa.']}] ausentes: [('B', 'impossivel', 'Área disponível de no máximo 70.20 m² por laje, abaixo da laje mínima de 80.00 m²')]\ncaixa_legal= 160.0 quad10x10_contido= True lam10x14_contido= True\n",
+    "stderr": ""
+  },
+  {
+    "numero": 4,
+    "codigo": "import json, sys; sys.path.insert(0, 'viabilidade/motor'); import motor; from shapely.geometry import Polygon; l=json.load(open('viabilidade/auditoria/casos/audit5-lote-impossivel-falso-d-cega.json')); z=json.load(open('viabilidade/auditoria/casos/audit5-zona-impossivel-falso-d-cega.json')); e=motor.gerar_estudo(l, z); p=Polygon(l['poligono_utm']); print('ausentes:', [(o['id'], o['motivo'], o['detalhe']) for o in e['opcoes_ausentes']]); print('c_pav2=', round(motor.caixa_recuada(p, l['frente'], 4.0, 4.0, 4.0).area, 2), 'c_pav3=', round(motor.caixa_recuada(p, l['frente'], 4.0, 1.5, 1.5).area, 2), 'c_cega=', round(motor.caixa_recuada(p, l['frente'], 4.0, 0.0, 0.0).area, 2))",
+    "exit_code": 0,
+    "stdout": "ausentes: [('B', 'impossivel', 'Área disponível de no máximo 79.75 m² por laje, abaixo da laje mínima de 80.00 m²')]\nc_pav2= 72.0 c_pav3= 159.5 c_cega= 224.0\n",
+    "stderr": ""
+  },
+  {
+    "numero": 5,
+    "codigo": "import json, sys; sys.path.insert(0, 'viabilidade/motor'); import motor; l=json.load(open('viabilidade/auditoria/casos/audit5-lote-trap-lat-inc.json')); e1=motor.gerar_estudo(l, json.load(open('viabilidade/auditoria/casos/audit5-zona-trap-to20.json'))); e2=motor.gerar_estudo(l, json.load(open('viabilidade/auditoria/casos/audit5-zona-trap-to50.json'))); print('TO 0.20->0.50 D:', [o['metricas'] for o in e1['opcoes'] if o['id']=='D'][0]['area_privativa_m2'], '->', [o['metricas'] for o in e2['opcoes'] if o['id']=='D'][0]['area_privativa_m2'])",
+    "exit_code": 0,
+    "stdout": "TO 0.20->0.50 D: 4068.58 -> 4068.58\n",
+    "stderr": ""
+  },
+  {
+    "numero": 6,
+    "codigo": "import json; from shapely.geometry import Polygon; e=json.load(open('viabilidade/auditoria/casos/audit5-saida-haltere-subsolo.json')); o=[x for x in e['opcoes'] if x['id']=='C'][0]; subs=[v for v in o['volumes'] if v['uso']=='garagem']; print('C vagas=', o['metricas']['vagas'], 'area_garagem=', o['metricas']['area_garagem_m2'], 'geom_subs=', round(sum(Polygon(v['base_utm']).area for v in subs), 2), 'necessario=', o['metricas']['vagas']*e['premissas']['area_por_vaga_m2'], 'alertas=', o['alertas'])",
+    "exit_code": 0,
+    "stdout": "C vagas= 20 area_garagem= 270.23 geom_subs= 270.23 necessario= 540 alertas= ['419 m² acima do CA básico: exige outorga onerosa.']\n",
+    "stderr": ""
+  },
+  {
+    "numero": 7,
+    "codigo": "import json; from pathlib import Path; [print(f, [(o['id'], o['motivo'], o['detalhe']) for o in json.loads(Path(f'viabilidade/motor/exemplos/pilotos/{f}').read_text(encoding='utf-8'))['opcoes_ausentes']]) for f in ['SC-completo-22426.json', 'SC-completo-25297.json']]",
+    "exit_code": 0,
+    "stdout": "SC-completo-22426.json [('A', 'busca_inconclusiva', 'Melhor pavimento tentado: 1 pavimento(s), 0 unidade(s), computável 69.47 m², permeável 512.34 m² (mínimo 90.27 m²), TO 0.12; nenhum ajuste viável encontrado; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.44 m², laje mínima 80.00 m²'), ('B', 'busca_inconclusiva', 'Par de torres com afastamento 6.00 m: laje encontrada de 68.03 m² por torre no pavimento 1; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.44 m², laje mínima 80.00 m²'), ('D', 'busca_inconclusiva', 'Melhor pavimento tentado: 3 pavimento(s), 0 unidade(s), computável 376.25 m², permeável 423.82 m² (mínimo 90.27 m²), TO 0.26; nenhum ajuste viável encontrado; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.44 m², laje mínima 80.00 m²')]\nSC-completo-25297.json [('A', 'busca_inconclusiva', 'Torre quadrada tentada com 29.73 m² no pavimento 1, abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.03 m², laje mínima 80.00 m²'), ('B', 'impossivel', 'Área disponível de no máximo 73.31 m² por laje, abaixo da laje mínima de 80.00 m²'), ('D', 'busca_inconclusiva', 'Torre de 1 pavimento(s) sobre embasamento de 2 pavimento(s): laje de 24.52 m², abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.03 m², laje mínima 80.00 m²')]\n",
+    "stderr": ""
+  },
+  {
+    "numero": 8,
+    "codigo": "import json, sys; from pathlib import Path; sys.path.insert(0, 'viabilidade/relatorio'); import relatorio, test_relatorio; d=json.loads(Path('viabilidade/auditoria/casos/audit5-saida-impossivel-falso-13x40.json').read_text(encoding='utf-8')); h=relatorio.gerar_html(d); test_relatorio.validar_html_contra_json(h, d)",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

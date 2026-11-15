@@ -1,0 +1,14 @@
+{
+  "origem": "947e2ec8 (motor 0.8.1)",
+  "metodo": "SHA-256 do JSON sem versao_motor, sort_keys=True, ensure_ascii=False, separators=(comma, colon), UTF-8. A comparacao remove apenas dominio e AVISO_FORA da versao nova.",
+  "sha256": {
+    "estudo-exemplo.json": "98b72388c3734510df85ab2a0fba261225dc791d325122f7e6cba736fd8c211f",
+    "pilotos/SC-completo-22421.json": "5ecf64991de231df356af98c1b313e0d89a841cde3637b3e58afb3d453ca1f1e",
+    "pilotos/SC-completo-22426.json": "405f4aeb76668f793c09239ef6e0c91abd3c2d0c5c8f471027d80029866d7363",
+    "pilotos/SC-completo-25297.json": "df87385ea1a34dabdf4c85b03cbf346489f96759f93062a86c4a9c8521544975",
+    "pilotos/SC-completo-30516.json": "70509b20ea0516a7547749fd13a2276f1cae584b84ba93230673979d7d49fe1b",
+    "pilotos/SC-completo-37607.json": "8ee07767c2452be5419b254a6087936aab8e86f2167bb70d9c5466153ff9d624",
+    "pilotos/SC-completo-q1382-11984-11988.json": "e89ae2d163c2ca95a604b13c8625e1b0140c1071e7c826deb1e6d58406b549aa",
+    "pilotos/SC-completo-remembramento-75352-75354.json": "25de336177e9a8357fdf7379faa958f352a4a295ae28cec7fd53acfb6330c949"
+  }
+}

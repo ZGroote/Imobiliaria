@@ -76,7 +76,8 @@ Parâmetro que a lei não define: `null`. Parâmetro que não achamos: ausente +
 
 ```json
 {
-  "versao_motor": "0.1.0",
+  "versao_motor": "0.8.3",
+  "dominio": {"status": "dentro", "motivos": [], "versao": "dominio-0.8"},
   "lote": { "...": "o objeto Lote acima" },
   "zona": { "...": "o objeto Zona acima" },
   "premissas": {
@@ -105,7 +106,9 @@ Parâmetro que a lei não define: `null`. Parâmetro que não achamos: ausente +
       "alertas": ["texto de cada regra violada ou no limite"]
     }
   ],
-  "incertezas": ["dado que faltou ou é estimativa"]
+  "incertezas": ["dado que faltou ou é estimativa"],
+  "opcoes_ausentes": [{"id": "C", "nome": "Lâmina baixa", "motivo": "busca_inconclusiva", "detalhe": "Descrição específica da tentativa e dos limites"}],
+  "criterio_escolha": {"ordem": ["unidades_estimadas desc", "area_privativa_m2 desc"], "texto": "Mais unidades; empate: maior área privativa. Comparação entre candidatos da heurística, sem prova de ótimo global."}
 }
 ```
 
@@ -128,3 +131,15 @@ v3 (14/11, a partir de `lei/FONTES.md`):
 - **De onde veio a zona do lote** (v4): o Lote traz `zona_origem` = `"oficial"` (mapa digital oficial), `"anotada_a_mao"` (lida no anexo em PDF) ou `"teste"` (escolhida só pra testar), e `zona_conferida` (true/false). `zona.conferido` diz se os NÚMEROS da zona foram conferidos na lei. É outra coisa. O aviso da página tem que separar os dois: "números da zona conferidos" ≠ "o terreno está nessa zona".
 - **Não computável:** garagem, escada, elevador/shaft, casa de máquinas, reservatório, lixo e área técnica não contam no CA nem na TO (COE art. 51). Varanda conta até prova em contrário.
 - **Acesso a dado público:** só o que a fonte oferece abertamente. Nada de forçar parâmetro de URL, burlar bloqueio ou contornar login.
+
+v5 (15/11, motor 0.8.0; aditivo, estudos v4 continuam válidos):
+
+- `opcoes_ausentes` e `criterio_escolha` são opcionais para os leitores. O motor 0.8.0 sempre os emite; a lista de ausentes pode ser vazia. Cada ausência mantém também sua frase em `incertezas` para leitores v4.
+- `opcoes_ausentes[].motivo`: `impossivel` exige limite numérico que prove a impossibilidade sob as hipóteses; `busca_inconclusiva` significa que a heurística não achou; `dados_insuficientes` identifica parâmetro ausente durante a geração; `erro` identifica exceção capturada na geração da opção. `detalhe` informa a causa específica. Entradas inválidas antes da busca continuam podendo interromper o estudo.
+- `criterio_escolha.ordem` reproduz `_chave`: unidades decrescentes, depois área privativa decrescente. Não há pavimentos em `_chave`; a busca percorre alturas crescentes e aceita empate de privativa até 0,01 m². Entre variantes D com a mesma chave, desempata pela maior área computável. Não é prova de ótimo global.
+- Garagem e permeabilidade são medidas sobre os polígonos finais exportados. A partir da 0.8.1, vértices usam quatro casas decimais em metros para evitar perdas numéricas acumuladas por pavimento; isso não aumenta a precisão do levantamento. Se a geometria final não comportar todas as vagas previstas, o motor reduz a contagem e emite alerta de déficit.
+- `parede_cega` indica uso da isenção de recuo no embasamento; pode haver afastamento da divisa. Os recuos dessa base são a distância mínima medida até o contorno, não uma promessa de contato.
+- Na 0.8.1, as buscas com e sem envelope de permeabilidade concorrem pelo mesmo critério. `impossivel` usa limites legais independentes do envelope. Com garagem computável, concorrem o subsolo da caixa legal e o limitado à implantação do prédio: a meta `vagas_por_unidade` continua sendo informada, e déficits geométricos permanecem explícitos. Para um mesmo prédio viável, prefere-se a garagem com mais vagas; a escolha entre prédios continua priorizando unidades e área privativa.
+- Na 0.8.2, `dominio` é opcional para leitores v5: `{status: "dentro" | "fora" | "dados_insuficientes", motivos: string[], versao: "dominio-0.8"}`. As faixas e categorias medidas por `motor/dominio.py` ficam em `motor/dominio-0.8.json`, com a lista dos estudos de origem. São faixas marginais observadas, sem garantia de que toda combinação entre elas foi testada. Medidas contínuas admitem 0,1% de cada extremo (piso numérico 1e-9); número de vértices e categorias não têm folga. Profundidade é a amplitude do lote no eixo normal à frente; ângulos internos consideram concavidade e orientação. `null` explícito nos parâmetros é distinto de parâmetro ausente.
+- Na 0.8.3, a busca de dimensões também atende TO/permeabilidade quando o CA já cabe. Com garagem computável, concorrem patamares positivos menores de vagas, na caixa legal, na envoltória conjunta e nas projeções individuais dos volumes. O saldo de CA elimina patamares que comprovadamente não cabem; para o mesmo prédio viável, prefere-se o maior número de vagas. A prioridade entre prédios segue unidades → privativa, podendo resultar em apenas uma vaga, com déficit explícito frente à meta. Não se escolhe garagem zero para ganhar CA. O aviso "Garagem conta no CA: nesse regime o resultado NÃO é monotônico; afrouxar uma regra pode reduzir apartamentos." fica explícito quando `garagem_computavel` é verdadeiro e `vagas_por_unidade > 0`: passar nos pares conhecidos não é prova de preservação de toda implantação anterior.
+- Qualquer medida ou categoria fora do conjunto medido dá `fora`, mesmo se também faltarem dados; ambos os motivos são listados. As opções calculadas são preservadas e `incertezas` inclui "Lote fora do domínio testado do motor: resultado não validado; encaminhar a profissional." Sem extrapolação conhecida, dados ausentes dão `dados_insuficientes`; `zona_conferida: false` não altera esse status, e a zona só falta quando não há identificação/parâmetros disponíveis. Sem polígono, frente ou parâmetros de zona utilizáveis, o estudo retorna sem opções, com ausências por dados insuficientes e caixa não calculada (`projecao_utm: []`, `altura_m: null`), sem inventar geometria. As correções preexistentes de frente degenerada e polígono cruzado continuam, mas o domínio avalia a entrada original. A classificação não muda a busca nem as métricas.

@@ -1,0 +1,38 @@
+{
+  "id": "trap_lat_inc",
+  "lid": 99000,
+  "poligono_utm": [
+    [
+      205000.0,
+      7564000.0
+    ],
+    [
+      205040.0,
+      7564000.0
+    ],
+    [
+      205032.0,
+      7564040.0
+    ],
+    [
+      205008.0,
+      7564040.0
+    ]
+  ],
+  "frente": [
+    [
+      205000.0,
+      7564000.0
+    ],
+    [
+      205040.0,
+      7564000.0
+    ]
+  ],
+  "area_m2": 1280.0,
+  "zona_id": "AUDIT5",
+  "zona_origem": "teste",
+  "zona_conferida": false,
+  "relevo": null,
+  "observacoes": "Caso sintético auditoria 5: trap_lat_inc"
+}

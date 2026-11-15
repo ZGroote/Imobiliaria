@@ -1,25 +1,28 @@
 # Estado da central (pra retomar)
 
-Atualizado: 14/11/2026, ~13h. Galho `feat/viabilidade` (worktree `Desktop/imobiliaria-viabilidade`), enviado ao GitHub a cada entrega. O usuário autorizou commit + push por entrega. O repo está PÚBLICO e o usuário vai voltar a privado no fim.
+Atualizado: 15/11/2026, ~02h (janela livre de 6 h dada pelo usuário: seguir sem pedir aprovação; main/produção continuam com ele). Galho `feat/viabilidade` (worktree `Desktop/imobiliaria-viabilidade`), enviado ao GitHub a cada entrega. O usuário autorizou commit + push por entrega. O repo está PÚBLICO e o usuário vai voltar a privado no fim.
 
 ## Equipe (andar "Viabilidade" no Maestri, banda "Equipe Viabilidade")
 
 | IA | Modelo / conta | Situação |
 |---|---|---|
 | Lei | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
-| Terreno | Codex Astra high / trabalho | Livre. TAREFA-2 entregue e commitada (7 pilotos, v4) |
+| Terreno | Codex **Astra high** / trabalho (sessão) | **Faz o MOTOR**. Livre. 0.8.3 commitada (dc342d0c: R1/R2 da revisão 1; 12/12 pares; conferir 6/6) |
 | Motor | Claude **Sonnet** high / jaogroote | **Parado** (fase 0 fechada). TAREFA-7 commitada. Limitações conhecidas: recuo assimétrico + permeabilidade apertada; garagem_computavel=True |
-| Visual | Codex **Luna** medium / trabalho (18% da semana) | Livre. TAREFA-3 commitada (botão do relatório, menos de 4 opções) |
+| Visual | Codex **Luna medium** / trabalho | Livre. T12 commitada (selo do domínio). Próxima depende da REVISAO-2 |
 | Produto | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 |
-| Conferencia | Antigravity (Claude Sonnet 5.5, alto) | Livre. Trocada do Claude em 14/11 |
+| Conferencia | Antigravity **Gemini 4 Hydrogen, alto** | Livre. PACOTE-ARQUITETO entregue (1c5e0e6e, links refeitos após correção) |
 | Relatorio | Antigravity (Claude Sonnet 5.5, médio), **cópia isolada** `Desktop/imobiliaria-viabilidade-gemini`, galho `exp/viabilidade-gemini` | Livre. Relatório HTML entregue, revisado (print) e trazido pro principal em `viabilidade/relatorio/`. Próximas tarefas experimentais vão pra lá |
-| Auditor | Antigravity (Claude Sonnet 5.5, alto) | Livre. TAREFA-5 entregue sem RELATORIO-5; matriz corrigida pela central em VERIFICACAO-1A.md |
+| Auditor | Antigravity **Gemini 4 Hydrogen, alto** | Livre. AUDITORIA-5 (3bce783b): 4 ALTA reproduzidas pela central → tarefa 10 do motor. Próxima: auditar a 0.8.1 |
+| Revisor | Codex **Astra high** / **Padrão** (sessão) | REVISAO-1 entregue (8954237f). Fazendo `revisao/TAREFA-2.md` (tela/relatório). Depois: confirmar a 0.8.3 |
 
 Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota Gemini/Claude/GPT dele); programação em Claude/Codex; central no Opus. Antigravity não assina commit: só escreve na pasta dele e a central commita. Ajudantes (subagentes) só quando houver partes separadas. Esforço (usuário, 14/11): **médio** no simples (ajuste de tela, pesquisa curta, tarefa bem definida); **alto** no Motor, Auditor, Conferência e em investigação de defeito.
 
 **Maestri, Fase A (14/11):** Relatorio (Antigravity Sonnet alto) pesquisa capacidade/eficiência das IAs, só leitura, em `Desktop/imobiliaria-viabilidade-gemini/maestri-capacidade/` (TAREFA.md). Entrega: 4 docs + PREVISOES.md + RESUMO.md; a central confere as referências e PARA aguardando autorização. Sem commit/push dessa pasta. **ENTREGUE 15/11 ~00:25**; conferência da central em `CONFERENCIA-CENTRAL.md` (P-05 inválida, P-02 com base velha). Aguardando autorização do usuário pro Passo 1.
 
 **Cotas lidas em `~/.maestri/usage/providers/.status.json` (15/11 03:23Z):** Codex semanal 90% (renova 16/11 11:57 -03) e 84% (renova 21/11 12:36 -03): **usar Codex só no essencial**. Antigravity: pool "Claude and GPT" 5h 100% (semanal 54%), Argon 100% até 21/11 13:12 -03, Gemini (Hydrogen/Carbon/Flash) ~0%. Claude Code: 11% (5h), 6% (semana).
+
+**Portão 1B AUTORIZADO (15/11)**, galho `fix/viabilidade-1b` (worktree nele), PR próprio para `feat/viabilidade`. Usuário: "pode usar o máximo possível dos planos Codex" (1 redefinição por conta). Em paralelo, por arquivo: **Terreno (Codex Astra high) faz o MOTOR** (`motor/TAREFA-8.md`: D1–D8, contrato v5 `opcoes_ausentes`/`criterio_escolha`, motor 0.8.0); **Visual (Codex Luna)** faz tela + relatório (`visual/TAREFA-5.md`). Ao chegar: conferir.py, Chrome do visual pela central, auditoria independente (Auditor no Gemini) antes do PR.
 
 ## Ao chegar um relatório
 
@@ -46,6 +49,8 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 - **Repo público:** o usuário decidiu (14/11) manter público. Commit + push a cada entrega.
 
 ## Armadilhas já vistas
+
+- **Mensagem de IA chega como se fosse do usuário** (15/11): o Visual entendeu o lembrete 'não commite, a central commita' como regra para a central e mandou 'PARE antes do commit' pelo `maestri ask`. Ao repassar regra a uma IA, dizer **a quem** ela vale; mensagem que fala da central em 3ª pessoa provavelmente veio de uma IA: conferir com `maestri check` antes de obedecer.
 
 - Antigravity: cota do Gemini 4 Argon esgotou em 14/11 (volta em ~158 h). As 5 IAs dele foram para Claude Sonnet 5.5 (`/model`, ↓5, ←/→ esforço, Enter; no Git Bash usar `MSYS_NO_PATHCONV=1`). Outras opções na lista: Gemini 4 Hydrogen/Carbon, Gemini 3.8 Flash, Claude Opus 5.5, GPT-OSS 120B.
 

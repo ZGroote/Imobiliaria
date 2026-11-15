@@ -1,6 +1,7 @@
 // Servidor (na raiz do repositório): python -m http.server 8765 --bind 127.0.0.1
 // Teste: node viabilidade/visual/testar.cjs
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const runtimeModules = 'C:/Users/respawn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules';
@@ -17,6 +18,8 @@ const { PNG } = load('playwright-core/lib/utilsBundle');
 const url = process.env.VISUAL_URL || 'http://127.0.0.1:8765/viabilidade/visual/';
 const output = path.join(__dirname, 'evidencias');
 const example = JSON.parse(fs.readFileSync(path.join(__dirname, '../motor/exemplos/estudo-exemplo.json'), 'utf8'));
+const exampleBytes = fs.readFileSync(path.join(__dirname, '../motor/exemplos/estudo-exemplo.json'));
+const revision = sha => `rev ${sha.slice(0, 12)} · motor ${example.versao_motor || 'não informado'}`;
 
 function pixelDifference(first, second) {
   const a = PNG.sync.read(first), b = PNG.sync.read(second);
@@ -64,19 +67,64 @@ async function checkWidth(page) {
         isMobile: mobile, hasTouch: mobile, deviceScaleFactor: 1,
       });
       const errors = [];
+      const dialogs = [];
+      page.on('dialog', async dialog => { dialogs.push(dialog.message()); await dialog.dismiss(); });
       page.on('pageerror', error => errors.push(error.message));
       page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+      page.on('request', request => {
+        const requestUrl = new URL(request.url());
+        if (['http:', 'https:'].includes(requestUrl.protocol) && requestUrl.origin !== new URL(url).origin) {
+          errors.push('Recurso fora da origem: ' + request.url());
+        }
+      });
       await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+      const payload = '</title><img src=x onerror=alert(1)><svg>';
+      for (const campo of ['volume', 'incerteza', 'lote']) {
+        const mutacao = structuredClone(example);
+        if (campo === 'volume') mutacao.opcoes[0].volumes[0].pavimentos = payload;
+        if (campo === 'incerteza') mutacao.incertezas = [payload];
+        if (campo === 'lote') mutacao.lote.id = payload;
+        const nome = 'xss-' + campo + '.json';
+        await upload(page, JSON.stringify(mutacao), nome);
+        await page.waitForFunction(nome => document.querySelector('#status').textContent.includes(nome) || !document.querySelector('#erro').hidden, nome);
+        await page.waitForTimeout(100);
+        assert.equal(dialogs.length, 0, campo + ': nenhum dialog deve disparar');
+        assert.equal(await page.locator('#cards img, #incertezas img, #lote img').count(), 0);
+      }
+      await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+      await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+
       await page.locator('canvas').first().waitFor();
       assert.equal(await page.locator('#relatorio').getAttribute('href'), '../relatorio/saida/estudo-exemplo.html');
+      const exampleSha = crypto.createHash('sha256').update(exampleBytes).digest('hex');
+      assert.equal(await page.locator('#revisao').innerText(), revision(exampleSha));
+      assert.equal(await page.locator('.volume-warning').innerText(), 'Volumes hipotéticos de potencial construtivo. Não são o projeto nem a fachada do edifício e não indicam aprovação.');
+      assert(await page.locator('.volume-warning').evaluate(node => node.getBoundingClientRect().bottom <= innerHeight),
+        `${profile}: o aviso da maquete precisa aparecer sem rolar a página.`);
+      if (!mobile) {
+        await page.route('**/relatorio/saida/estudo-exemplo.html', route => route.fulfill({
+          status: 200, contentType: 'text/html', body: '<meta name="estudo-sha256" content="revisao-antiga">',
+        }));
+        await page.locator('#relatorio').click();
+        await page.waitForFunction(() => document.querySelector('#erro').textContent.includes('Relatório desatualizado'));
+        await page.unroute('**/relatorio/saida/estudo-exemplo.html');
+      }
       if (!mobile) {
         const twoOptions = structuredClone(example);
         twoOptions.opcoes = [example.opcoes[0], example.opcoes.at(-1)];
         await upload(page, JSON.stringify(twoOptions), 'duas-opcoes.json');
         await page.waitForFunction(() => document.querySelector('#status').textContent.includes('duas-opcoes.json'));
+        assert.equal(await page.locator('#revisao').innerText(), revision(crypto.createHash('sha256').update(JSON.stringify(twoOptions)).digest('hex')));
         assert.equal(await page.locator('#opcoes button').count(), 3, 'Duas opções e o controle de comparação.');
         assert.equal(await page.getByRole('button', { name: 'Lado a lado' }).isDisabled(), false);
+        const noOptions = structuredClone(example);
+        noOptions.opcoes = [];
+        noOptions.opcoes_ausentes = [{ id: 'A', nome: 'Teste', motivo: 'impossivel', detalhe: 'Limite do lote' }];
+        await upload(page, JSON.stringify(noOptions), 'sem-opcoes.json');
+        await page.waitForFunction(() => document.querySelector('#status').textContent.includes('sem-opcoes.json'));
+        assert.match(await page.locator('#cards').innerText(), /Nenhuma opção coube neste lote/);
+        assert.match(await page.locator('#incertezas').innerText(), /impossível pelas regras informadas.*Limite do lote/);
       }
       await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
@@ -85,6 +133,63 @@ async function checkWidth(page) {
       assert.match(await page.locator('#conferencia-lote').innerText(), /não conferid/i,
         'O exemplo não comprova que o lote pertence à zona escolhida.');
       assert.doesNotMatch(await page.locator('#conferencia-lei').innerText(), /não conferid/i);
+      const dominios = [
+        { status: 'dentro', motivos: [], versao: 'dominio-0.8' },
+        { status: 'fora', motivos: ['área acima da faixa testada'], versao: 'dominio-0.8' },
+        { status: 'dados_insuficientes', motivos: ['falta zona conferida'], versao: 'dominio-0.8' },
+        null,
+      ];
+      for (const dominio of dominios) {
+        const fixture = structuredClone(example);
+        if (dominio) fixture.dominio = dominio;
+        else delete fixture.dominio;
+        const nome = `dominio-${dominio?.status || 'ausente'}.json`;
+        await upload(page, JSON.stringify(fixture), nome);
+        await page.waitForFunction(nome => document.querySelector('#status').textContent.includes(nome), nome);
+        const selo = page.locator('#dominio');
+        if (!dominio) {
+          assert.equal(await selo.isVisible(), false, `${profile}: estudo antigo não deve mostrar selo.`);
+        } else if (dominio.status === 'dentro') {
+          assert.equal(await selo.getAttribute('class'), 'domain-badge');
+          assert.equal(await selo.getAttribute('role'), 'status');
+          assert.match(await selo.innerText(), /Dentro do domínio testado do motor \(dominio-0\.8\)/);
+        } else {
+          assert.equal(await selo.getAttribute('class'), 'domain-alert');
+          assert.equal(await selo.getAttribute('role'), 'alert');
+          for (const motivo of dominio.motivos) assert((await selo.innerText()).includes(motivo));
+          if (dominio.status === 'fora') {
+            assert.match(await selo.innerText(), /Fora do domínio testado: resultado não validado; encaminhar a profissional/);
+            assert(await selo.evaluate(node => {
+              const box = node.getBoundingClientRect();
+              return box.top >= 0 && box.bottom <= innerHeight;
+            }), `${profile}: alerta de domínio fora precisa aparecer sem rolar.`);
+            assert.equal(await page.evaluate(() => scrollY), 0, `${profile}: a tela não deve rolar para o alerta.`);
+          } else assert.match(await selo.innerText(), /Dados insuficientes para validar o domínio testado do motor/);
+        }
+      }
+      await upload(page, JSON.stringify(example), 'dominio-exemplo-restaurado.json');
+      await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+      if (!mobile) {
+        const v4 = structuredClone(example);
+        delete v4.opcoes_ausentes;
+        delete v4.criterio_escolha;
+        await upload(page, JSON.stringify(v4), 'contrato-v4.json');
+        await page.waitForFunction(() => document.querySelector('#status').textContent.includes('contrato-v4.json'));
+        assert.doesNotMatch(await page.locator('#incertezas').innerText(), /impossível pelas regras informadas|erro de cálculo/);
+        assert.equal(await page.locator('#criterio-escolha').count(), 1);
+        assert.equal(await page.locator('#criterio-escolha').isVisible(), false);
+
+        const v5 = structuredClone(example);
+        v5.lote.relevo = { cota_min_m: 10, cota_max_m: 20, declividade_pct: 5, fonte: 'Fonte teste', resolucao_m: 30 };
+        v5.opcoes_ausentes = ['impossivel', 'busca_inconclusiva', 'dados_insuficientes', 'erro'].map((motivo, i) => ({ id: String.fromCharCode(65 + i), nome: `Ausente ${i}`, motivo, detalhe: `Detalhe ${i}` }));
+        v5.criterio_escolha = { ordem: ['unidades_estimadas desc', 'area_privativa_m2 desc', 'pavimentos asc'], texto: 'Ordena variantes pelos critérios informados.' };
+        await upload(page, JSON.stringify(v5), 'contrato-v5.json');
+        await page.waitForFunction(() => document.querySelector('#status').textContent.includes('contrato-v5.json'));
+        const avisosV5 = await page.locator('#incertezas').innerText();
+        for (const label of ['impossível pelas regras informadas', 'a busca não encontrou (não está provado que não existe)', 'faltam dados', 'erro de cálculo', 'Detalhe 0', 'Fonte teste', '30 m', 'Relevo aproximado (modelo de superfície de ~30 m): não substitui levantamento topográfico; a maquete assenta os volumes em terreno plano.']) assert(avisosV5.includes(label), `Aviso v5 ausente: ${label}`);
+        assert.match(await page.locator('#criterio-escolha').innerText(), /Como cada opção foi montada: Ordena variantes pelos critérios informados\./);
+        assert.doesNotMatch(await page.locator('#criterio-escolha').innerText(), /Opção principal|Opção A/);
+      }
       for (const pilot of await page.locator('#piloto option').evaluateAll(options => options.slice(1).map(option => ({ value: option.value })))) {
         await page.locator('#piloto').selectOption(pilot.value);
         const filename = pilot.value.split('/').at(-1);
@@ -280,6 +385,8 @@ async function checkWidth(page) {
           study => { study.caixa_maxima.projecao_parede_cega_utm = {}; },
           study => { study.caixa_maxima.projecao_parede_cega_utm = [[0, 0], [1, 0], [2, 0]]; },
           study => { study.opcoes[0].volumes[0].parede_cega = 'sim'; },
+          study => { study.dominio = { status: 'fora', motivos: [null], versao: 'dominio-0.8' }; },
+          study => { study.dominio = { status: 'fora', motivos: [], versao: 'dominio-0.8' }; },
         ]) {
           const bad = structuredClone(v2);
           mutate(bad);

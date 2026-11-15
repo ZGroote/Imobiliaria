@@ -27,6 +27,10 @@ def melhor_opcao(estudo):
 
 
 def main():
+    estudo = gerar_estudo(_json("motor", "exemplos", "lote-exemplo.json"), _json("motor", "exemplos", "zona-exemplo.json"))
+    with open(os.path.join(AQUI, "exemplos", "estudo-exemplo.json"), "w", encoding="utf-8", newline="\n") as f:
+        json.dump(estudo, f, ensure_ascii=False, indent=1)
+        f.write("\n")
     zonas = {z["id"]: z for z in _json("lei", "zonas.json")}
     os.makedirs(SAIDA, exist_ok=True)
     print("lote | zona | melhor opção | unidades | CA usado | alertas")

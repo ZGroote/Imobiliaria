@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.7.1",
+ "versao_motor": "0.8.3",
  "lote": {
   "id": "SC-completo-22421",
   "lid": null,
@@ -322,20 +322,20 @@
  "caixa_maxima": {
   "projecao_utm": [
    [
-    200462.27,
-    7562458.14
+    200462.269,
+    7562458.1388
    ],
    [
-    200474.52,
-    7562457.36
+    200474.5232,
+    7562457.3644
    ],
    [
-    200476.11,
-    7562420.0
+    200476.1075,
+    7562419.9983
    ],
    [
-    200463.84,
-    7562420.97
+    200463.8449,
+    7562420.9735
    ]
   ],
   "altura_m": 13.5,
@@ -351,20 +351,20 @@
     "recuo_fundos_m": 1.5,
     "projecao_utm": [
      [
-      200462.27,
-      7562458.14
+      200462.269,
+      7562458.1388
      ],
      [
-      200474.52,
-      7562457.36
+      200474.5232,
+      7562457.3644
      ],
      [
-      200476.11,
-      7562420.0
+      200476.1075,
+      7562419.9983
      ],
      [
-      200463.84,
-      7562420.97
+      200463.8449,
+      7562420.9735
      ]
     ]
    },
@@ -374,20 +374,20 @@
     "recuo_fundos_m": 2.0,
     "projecao_utm": [
      [
-      200462.79,
-      7562457.6
+      200462.7921,
+      7562457.6048
      ],
      [
-      200474.04,
-      7562456.89
+      200474.0427,
+      7562456.8938
      ],
      [
-      200475.61,
-      7562420.04
+      200475.6054,
+      7562420.0383
      ],
      [
-      200464.35,
-      7562420.93
+      200464.347,
+      7562420.9336
      ]
     ]
    }
@@ -395,24 +395,24 @@
   "parede_cega_ate_m": 12,
   "projecao_parede_cega_utm": [
    [
-    200475.96,
-    7562458.78
+    200475.9647,
+    7562458.7763
    ],
    [
-    200477.61,
-    7562419.88
+    200477.614,
+    7562419.8785
    ],
    [
-    200462.83,
-    7562421.05
+    200462.8263,
+    7562421.0545
    ],
    [
-    200462.51,
-    7562417.07
+    200462.5091,
+    7562417.0671
    ],
    [
-    200460.7,
-    7562459.74
+    200460.6998,
+    7562459.741
    ]
   ]
  },
@@ -424,20 +424,20 @@
     {
      "base_utm": [
       [
-       200464.58,
-       7562444.28
+       200464.581,
+       7562444.2811
       ],
       [
-       200463.78,
-       7562434.25
+       200463.7833,
+       7562434.2507
       ],
       [
-       200473.81,
-       7562433.45
+       200473.8136,
+       7562433.4531
       ],
       [
-       200474.61,
-       7562443.48
+       200474.6113,
+       7562443.4834
       ]
      ],
      "z0_m": 0.0,
@@ -450,20 +450,20 @@
     {
      "base_utm": [
       [
-       200466.69,
-       7562453.62
+       200466.6936,
+       7562453.6215
       ],
       [
-       200470.46,
-       7562453.38
+       200470.459,
+       7562453.3836
       ],
       [
-       200471.68,
-       7562424.59
+       200471.6797,
+       7562424.5931
       ],
       [
-       200467.91,
-       7562424.89
+       200467.9117,
+       7562424.8927
       ]
      ],
      "z0_m": -3.0,
@@ -473,10 +473,10 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 512.96,
-    "area_computavel_m2": 324.96,
+    "area_construida_m2": 512.98,
+    "area_computavel_m2": 324.97,
     "area_nao_computavel_m2": 188.0,
-    "area_privativa_m2": 244.96,
+    "area_privativa_m2": 244.97,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 108.0,
     "vagas": 4,
@@ -499,20 +499,20 @@
     {
      "base_utm": [
       [
-       200464.13,
-       7562454.93
+       200464.1294,
+       7562454.9282
       ],
       [
-       200463.33,
-       7562444.9
+       200463.3317,
+       7562444.8978
       ],
       [
-       200473.36,
-       7562444.1
+       200473.3621,
+       7562444.1002
       ],
       [
-       200474.16,
-       7562454.13
+       200474.1598,
+       7562454.1306
       ]
      ],
      "z0_m": 0.0,
@@ -525,20 +525,20 @@
     {
      "base_utm": [
       [
-       200465.03,
-       7562433.56
+       200465.0346,
+       7562433.563
       ],
       [
-       200464.24,
-       7562423.53
+       200464.2369,
+       7562423.5326
       ],
       [
-       200474.27,
-       7562422.73
+       200474.2673,
+       7562422.7349
       ],
       [
-       200475.07,
-       7562432.77
+       200475.065,
+       7562432.7653
       ]
      ],
      "z0_m": 0.0,
@@ -551,20 +551,20 @@
     {
      "base_utm": [
       [
-       200465.11,
-       7562455.24
+       200465.1073,
+       7562455.2411
       ],
       [
-       200471.92,
-       7562454.81
+       200471.9161,
+       7562454.8108
       ],
       [
-       200473.27,
-       7562422.95
+       200473.2671,
+       7562422.9458
       ],
       [
-       200466.45,
-       7562423.49
+       200466.4537,
+       7562423.4876
       ]
      ],
      "z0_m": -3.0,
@@ -574,16 +574,16 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 1026.3,
-    "area_computavel_m2": 650.3,
+    "area_construida_m2": 1025.96,
+    "area_computavel_m2": 649.96,
     "area_nao_computavel_m2": 376.0,
-    "area_privativa_m2": 490.3,
+    "area_privativa_m2": 489.96,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 216.0,
     "vagas": 8,
-    "area_permeavel_m2": 369.65,
+    "area_permeavel_m2": 369.73,
     "ca_usado": 0.998,
-    "to_usada": 0.25,
+    "to_usada": 0.249,
     "pavimentos": 4,
     "unidades_estimadas": 8,
     "vgv_estimado": null
@@ -600,20 +600,20 @@
     {
      "base_utm": [
       [
-       200467.09,
-       7562456.61
+       200467.0933,
+       7562456.6075
       ],
       [
-       200464.32,
-       7562421.68
+       200464.3158,
+       7562421.6821
       ],
       [
-       200471.3,
-       7562421.13
+       200471.3009,
+       7562421.1266
       ],
       [
-       200474.08,
-       7562456.05
+       200474.0784,
+       7562456.052
       ]
      ],
      "z0_m": 0.0,
@@ -626,20 +626,20 @@
     {
      "base_utm": [
       [
-       200463.74,
-       7562456.64
+       200463.7394,
+       7562456.6377
       ],
       [
-       200473.17,
-       7562456.04
+       200473.1726,
+       7562456.0415
       ],
       [
-       200474.64,
-       7562421.53
+       200474.6361,
+       7562421.5252
       ],
       [
-       200465.2,
-       7562422.28
+       200465.1963,
+       7562422.2759
       ]
      ],
      "z0_m": -3.0,
@@ -649,14 +649,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 1305.97,
-    "area_computavel_m2": 901.97,
+    "area_construida_m2": 1306.0,
+    "area_computavel_m2": 902.0,
     "area_nao_computavel_m2": 404.0,
-    "area_privativa_m2": 785.57,
+    "area_privativa_m2": 785.6,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 324.0,
     "vagas": 12,
-    "area_permeavel_m2": 315.93,
+    "area_permeavel_m2": 315.91,
     "ca_usado": 1.384,
     "to_usada": 0.346,
     "pavimentos": 4,
@@ -675,47 +675,47 @@
     {
      "base_utm": [
       [
-       200464.38,
-       7562451.7
+       200464.377,
+       7562451.7042
       ],
       [
-       200462.57,
-       7562428.94
+       200462.567,
+       7562428.945
       ],
       [
-       200473.95,
+       200473.9466,
        7562428.04
       ],
       [
-       200475.76,
-       7562450.8
+       200475.7566,
+       7562450.7992
       ]
      ],
      "z0_m": 0.0,
      "altura_m": 7.5,
      "pavimentos": 2,
      "uso": "embasamento",
-     "recuo_lateral_m": 0.54,
-     "recuo_fundos_m": 0.54,
+     "recuo_lateral_m": 0.55,
+     "recuo_fundos_m": 0.55,
      "parede_cega": true
     },
     {
      "base_utm": [
       [
-       200464.54,
-       7562445.28
+       200464.538,
+       7562445.2825
       ],
       [
-       200463.74,
-       7562435.25
+       200463.7402,
+       7562435.2516
       ],
       [
-       200473.77,
-       7562434.45
+       200473.7711,
+       7562434.4538
       ],
       [
-       200474.57,
-       7562444.48
+       200474.5689,
+       7562444.4847
       ]
      ],
      "z0_m": 7.5,
@@ -728,20 +728,20 @@
     {
      "base_utm": [
       [
-       200467.61,
-       7562452.69
+       200467.6108,
+       7562452.6851
       ],
       [
-       200469.62,
-       7562452.56
+       200469.6165,
+       7562452.5584
       ],
       [
-       200470.76,
-       7562425.55
+       200470.7618,
+       7562425.5455
       ],
       [
-       200468.75,
-       7562425.71
+       200468.7548,
+       7562425.7051
       ]
      ],
      "z0_m": -3.0,
@@ -751,14 +751,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 777.76,
-    "area_computavel_m2": 643.76,
+    "area_construida_m2": 777.77,
+    "area_computavel_m2": 643.77,
     "area_nao_computavel_m2": 134.0,
-    "area_privativa_m2": 122.48,
+    "area_privativa_m2": 122.51,
     "area_acima_ca_basico_m2": 0.0,
     "area_garagem_m2": 54.0,
     "vagas": 2,
-    "area_permeavel_m2": 382.9,
+    "area_permeavel_m2": 382.91,
     "ca_usado": 0.988,
     "to_usada": 0.369,
     "pavimentos": 4,
@@ -766,22 +766,35 @@
     "vgv_estimado": null
    },
    "alertas": [
-    "Recuo lateral/fundos: embasamento 0.54/0.54 m (parede cega na divisa), residencial 2.00/2.00 m (escalonado).",
+    "Recuo lateral/fundos: embasamento 0.55/0.55 m (parede cega; recuo medido), residencial 2.00/2.00 m (escalonado).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: gabarito_aeronautico (Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes). O resultado pode passar do que o terreno permite; conferir antes de usar."
    ]
   }
  ],
+ "opcoes_ausentes": [],
+ "criterio_escolha": {
+  "ordem": [
+   "unidades_estimadas desc",
+   "area_privativa_m2 desc"
+  ],
+  "texto": "Mais unidades; empate: maior área privativa. Comparação entre candidatos da heurística, sem prova de ótimo global."
+ },
  "incertezas": [
   "Terreno na zona SC-Z1: NÃO conferido (lida à mão no anexo em PDF). Confirmar a zona do lote antes de usar o estudo.",
   "A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.",
   "Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).",
   "Área especial gabarito_aeronautico sem número de altura: não aplicada (Lei 18.053/2016, arts. 105 a 107, Anexo 07, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf).",
   "Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.",
-  "Parede cega (sem janela) encosta na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
+  "Parede cega (sem janela) pode encostar na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
   "Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.",
   "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
   "Relevo ignorado: volumes assentados em terreno plano, z=0.",
   "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_max_projeto, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade."
- ]
+ ],
+ "dominio": {
+  "status": "dentro",
+  "motivos": [],
+  "versao": "dominio-0.8"
+ }
 }

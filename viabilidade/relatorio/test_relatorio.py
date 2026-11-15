@@ -11,7 +11,7 @@ ou via unittest:
 O que este teste faz:
 1. Gera os relatórios HTML dos 7 estudos de `viabilidade/motor/exemplos/pilotos/`
    e do estudo de exemplo (`viabilidade/motor/exemplos/estudo-exemplo.json`),
-   salvando em `viabilidade/relatorio/saida/`.
+   em uma pasta temporária dentro do projeto.
 2. Analisa o HTML gerado e confere todos os números visíveis no texto contra
    os valores exatos do JSON (lote, relevo, zona, caixa máxima, premissas,
    volumes e todas as 13 métricas de cada opção).
@@ -24,6 +24,7 @@ O que este teste faz:
 from __future__ import annotations
 
 from html.parser import HTMLParser
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -36,6 +37,7 @@ DIR_RELATORIO = Path(__file__).resolve().parent
 DIR_VIABILIDADE = DIR_RELATORIO.parent
 DIR_EXEMPLOS = DIR_VIABILIDADE / "motor" / "exemplos"
 DIR_PILOTOS = DIR_EXEMPLOS / "pilotos"
+DIR_AUDITORIA = DIR_VIABILIDADE / "auditoria" / "casos"
 
 sys.path.insert(0, str(DIR_RELATORIO))
 import relatorio  # noqa: E402
@@ -223,6 +225,8 @@ def validar_html_contra_json(html_str: str, estudo: Dict[str, Any]) -> None:
 
         existe, valor_json = _resolver_campo_no_estudo(estudo, campo)
         if not existe:
+            if valor_attr == "null" and texto_visivel == "—":
+                continue
             raise AssertionError(f"Campo '{campo}' presente no HTML não existe no JSON.")
 
         if valor_json is None:
@@ -329,7 +333,8 @@ def validar_html_contra_json(html_str: str, estudo: Dict[str, Any]) -> None:
                 campos_obrigatorios.append(f"opcoes.{oid}.volumes.{idx_v}.recuo_fundos_m")
 
     for c_obrig in campos_obrigatorios:
-        if c_obrig not in campos_vistos:
+        existe, _ = _resolver_campo_no_estudo(estudo, c_obrig)
+        if existe and c_obrig not in campos_vistos:
             raise AssertionError(f"Campo obrigatório do JSON ausente no HTML: '{c_obrig}'")
 
     # 3. Conferir que premissas em premissas.padrao estão marcadas com "padrão"
@@ -379,18 +384,94 @@ class TestRelatorioViabilidade(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        dir_preferido = DIR_RELATORIO / "saida"
-        try:
-            dir_preferido.mkdir(parents=True, exist_ok=True)
-            probe = dir_preferido / ".probe_write"
-            probe.write_text("ok", encoding="utf-8")
-            probe.unlink()
-            cls.dir_saida = dir_preferido
-        except PermissionError:
-            cls._tmpdir = tempfile.TemporaryDirectory(prefix="relatorio_viabilidade_")
-            cls.dir_saida = Path(cls._tmpdir.name)
+        cls._tmpdir = tempfile.TemporaryDirectory(prefix=".relatorio-teste-", dir=DIR_RELATORIO)
+        cls.dir_saida = Path(cls._tmpdir.name)
         cls.arquivos_pilotos = sorted(DIR_PILOTOS.glob("*.json"))
         cls.arquivo_exemplo = DIR_EXEMPLOS / "estudo-exemplo.json"
+
+    def test_payload_em_todas_as_folhas_dos_oito_estudos(self) -> None:
+        import copy
+
+        payload = '<img src=x onerror=alert(1)>'
+        casos = DIR_VIABILIDADE / "revisao" / "tarefa2" / "casos"
+        with tempfile.TemporaryDirectory() as temporario:
+            for campo in ("taxa_ocupacao", "taxa_permeabilidade"):
+                entrada = casos / f"xss-numerico-{campo}.json"
+                saida = Path(temporario) / f"{campo}.html"
+                with self.subTest(campo=campo), self.assertRaisesRegex(ValueError, rf"zona\.parametros\.{campo} deve ser número ou null"):
+                    relatorio.gerar_relatorio(entrada, saida)
+                self.assertFalse(saida.exists())
+
+        estudo = json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))
+        estudo_metrica_invalida = copy.deepcopy(estudo)
+        estudo_metrica_invalida["opcoes"][0]["metricas"]["ca_usado"] = payload
+        with self.assertRaisesRegex(ValueError, r"opcoes\[0\]\.metricas\.ca_usado deve ser número ou null"):
+            relatorio.gerar_html(estudo_metrica_invalida)
+
+        class DetectorTagsAtivas(HTMLParser):
+            def __init__(self) -> None:
+                super().__init__()
+                self.ativas: List[str] = []
+
+            def handle_starttag(self, tag: str, attrs: List[Tuple[str, Optional[str]]]) -> None:
+                if tag in {"img", "script", "iframe", "object", "embed"} or any(nome.lower().startswith("on") for nome, _ in attrs):
+                    self.ativas.append(tag)
+
+        fixo = DIR_VIABILIDADE / "revisao/tarefa3/casos/xss-pavimentos.json"
+        with self.assertRaisesRegex(ValueError, r"opcoes\[.*\]\.volumes\[.*\]\.pavimentos"):
+            relatorio.gerar_html(json.loads(fixo.read_text(encoding="utf-8")))
+        payload = '</title><img src=x onerror=alert(1)><svg>'
+        for valor in (-1, 1.5, True, None, [], {}):
+            invalido = copy.deepcopy(estudo)
+            invalido["opcoes"][0]["volumes"][0]["pavimentos"] = valor
+            with self.subTest(pavimentos=valor), self.assertRaisesRegex(ValueError, r"opcoes\[0\]\.volumes\[0\]\.pavimentos"):
+                relatorio.gerar_html(invalido)
+
+        # Mesmo sem passar pela validação de entrada, o SVG deve escapar o valor.
+        direto = copy.deepcopy(estudo)
+        direto["opcoes"][0]["volumes"][0]["pavimentos"] = payload
+        detector = DetectorTagsAtivas()
+        detector.feed(relatorio.gerar_svg_planta(direto["lote"], direto["caixa_maxima"], direto["opcoes"][0]))
+        self.assertEqual(detector.ativas, [])
+
+        def folhas(valor, caminho=()):
+            if isinstance(valor, dict):
+                for chave, item in valor.items():
+                    yield from folhas(item, (*caminho, chave))
+            elif isinstance(valor, list):
+                for indice, item in enumerate(valor):
+                    yield from folhas(item, (*caminho, indice))
+            else:
+                yield caminho, valor
+
+        total = recusadas = 0
+        tipos = set()
+        for arquivo in [self.arquivo_exemplo, *self.arquivos_pilotos]:
+            base = json.loads(arquivo.read_text(encoding="utf-8"))
+            for caminho, original in list(folhas(base)):
+                with self.subTest(estudo=arquivo.name, caminho=caminho):
+                    pai = base
+                    for chave in caminho[:-1]:
+                        pai = pai[chave]
+                    pai[caminho[-1]] = payload
+                    total += 1
+                    tipos.add(type(original))
+                    try:
+                        try:
+                            resultado = relatorio.gerar_html(base)
+                        except ValueError as erro:
+                            self.assertTrue(str(erro))
+                            recusadas += 1
+                        else:
+                            detector = DetectorTagsAtivas()
+                            detector.feed(resultado)
+                            self.assertEqual(detector.ativas, [])
+                    finally:
+                        pai[caminho[-1]] = original
+        self.assertEqual(tipos, {str, int, float, bool, type(None)})
+        self.assertGreater(total - recusadas, 0)
+        self.assertEqual(relatorio.formatar_numero_ptbr(payload), relatorio.esc(payload))
+        print(f"Mutações: {total}; recusadas: {recusadas}; HTML seguro: {total - recusadas}; sem amostragem.")
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -433,7 +514,35 @@ class TestRelatorioViabilidade(unittest.TestCase):
 
                 estudo_dict = json.loads(caminho_json.read_text(encoding="utf-8"))
                 html_gerado = caminho_html.read_text(encoding="utf-8")
+                sha = hashlib.sha256(caminho_json.read_bytes()).hexdigest()
+                revisao = f"rev {sha[:12]} · motor {estudo_dict.get('versao_motor') or 'não informado'}"
+                self.assertIn(f'<meta name="estudo-sha256" content="{sha}"/>', html_gerado)
+                self.assertEqual(html_gerado.count('class="revisao-estudo"'), 1 + len(estudo_dict.get("opcoes", [])))
+                self.assertEqual(html_gerado.count(revisao), 2 * (1 + len(estudo_dict.get("opcoes", []))))
+                self.assertEqual(html_gerado.count("Volumes hipotéticos de potencial construtivo."), 1 + len(estudo_dict.get("opcoes", [])))
                 validar_html_contra_json(html_gerado, estudo_dict)
+
+    def test_casos_auditoria_com_lote(self) -> None:
+        casos = sorted({*DIR_AUDITORIA.glob("saida-*.json"), *DIR_AUDITORIA.glob("audit5-saida-*.json")})
+        pulados = 0
+        for caminho in casos:
+            estudo = json.loads(caminho.read_text(encoding="utf-8"))
+            if "lote" not in estudo:
+                pulados += 1
+                continue
+            with self.subTest(caso=caminho.name):
+                validar_html_contra_json(relatorio.gerar_html(estudo), estudo)
+        print(f"Casos de auditoria sem lote pulados: {pulados}")
+
+    def test_estudo_sem_opcoes_explicado(self) -> None:
+        estudo = json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))
+        estudo["opcoes"] = []
+        estudo["opcoes_ausentes"] = [{"id": "A", "nome": "Teste", "motivo": "impossivel", "detalhe": "Limite do lote"}]
+        html = relatorio.gerar_html(estudo)
+        validar_html_contra_json(html, estudo)
+        self.assertIn("Nenhuma opção coube neste lote", html)
+        self.assertIn("impossível pelas regras informadas", html)
+        self.assertIn("Limite do lote", html)
 
     def test_falha_quando_numero_html_diverge_do_json(self) -> None:
         """Garante que o validador falha imediatamente se qualquer número do HTML não bater com o JSON."""
@@ -461,6 +570,73 @@ class TestRelatorioViabilidade(unittest.TestCase):
 
         html_com_vgv = relatorio.gerar_html(estudo_dict)
         validar_html_contra_json(html_com_vgv, estudo_dict)
+
+    def test_contrato_v4_e_campos_v5_opcionais(self) -> None:
+        """Mantém v4 e apresenta ausências, critério e ressalva de relevo v5."""
+        import copy
+
+        base = json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))
+        v4 = copy.deepcopy(base)
+        v4.pop("opcoes_ausentes", None)
+        v4.pop("criterio_escolha", None)
+        html_v4 = relatorio.gerar_html(v4)
+        self.assertNotIn("Como cada opção foi montada:", html_v4)
+        self.assertNotIn("impossível pelas regras informadas", html_v4)
+
+        v5 = copy.deepcopy(base)
+        v5["lote"]["relevo"] = {
+            "cota_min_m": 10, "cota_max_m": 20, "declividade_pct": 5,
+            "fonte": "Fonte teste", "resolucao_m": 30,
+        }
+        v5["opcoes_ausentes"] = [
+            {"id": "A", "nome": "Opção teste", "motivo": motivo, "detalhe": f"Detalhe {motivo}"}
+            for motivo in ("impossivel", "busca_inconclusiva", "dados_insuficientes", "erro")
+        ]
+        v5["criterio_escolha"] = {
+            "ordem": ["unidades_estimadas desc", "area_privativa_m2 desc", "pavimentos asc"],
+            "texto": "Ordena variantes pelos critérios informados.",
+        }
+        html_v5 = relatorio.gerar_html(v5)
+        for texto in (
+            "impossível pelas regras informadas",
+            "a busca não encontrou (não está provado que não existe)",
+            "faltam dados", "erro de cálculo", "Detalhe erro",
+            "Como cada opção foi montada: Ordena variantes pelos critérios informados.",
+            "Relevo aproximado (modelo de superfície de ~30 m): não substitui levantamento topográfico; a maquete assenta os volumes em terreno plano.",
+        ):
+            self.assertIn(texto, html_v5)
+        self.assertNotIn("Opção principal:", html_v5)
+
+    def test_dominio_de_validade_em_capa_e_rodapes(self) -> None:
+        import copy
+
+        base = json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))
+        legado = copy.deepcopy(base)
+        legado.pop("dominio", None)
+        html_legado = relatorio.gerar_html(legado)
+        self.assertNotIn('class="selo-dominio ', html_legado)
+
+        casos = (
+            ("dentro", "selo-dentro", "Dentro do domínio testado do motor (dominio-0.8)", []),
+            ("fora", "selo-fora", "Fora do domínio testado: resultado não validado; encaminhar a profissional", ["área acima da faixa testada", "<script>alert(1)</script>"]),
+            ("dados_insuficientes", "selo-insuficiente", "Domínio testado: dados insuficientes para validar o resultado", ["falta zona conferida"]),
+        )
+        for status, classe, texto, motivos in casos:
+            with self.subTest(status=status):
+                estudo = copy.deepcopy(base)
+                estudo["dominio"] = {"status": status, "motivos": motivos, "versao": "dominio-0.8"}
+                html = relatorio.gerar_html(estudo)
+                self.assertEqual(html.count(f'class="selo-dominio {classe}"'), 1)
+                self.assertIn(texto, html)
+                for motivo in motivos:
+                    esperado = relatorio.esc(motivo)
+                    self.assertIn(esperado, html)
+                if status == "fora":
+                    self.assertEqual(html.count('class="aviso-dominio-rodape"'), 1 + len(estudo.get("opcoes", [])))
+                    self.assertNotIn("<script>alert(1)</script>", html)
+                else:
+                    self.assertNotIn('class="aviso-dominio-rodape"', html)
+                validar_html_contra_json(html, estudo)
 
 
 if __name__ == "__main__":

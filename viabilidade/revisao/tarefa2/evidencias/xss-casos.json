@@ -1,0 +1,1968 @@
+[
+  {
+    "id": "xss-00-img",
+    "campo": "versao_motor",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-00-aspas",
+    "campo": "versao_motor",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-01-img",
+    "campo": "lote.id",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-01-aspas",
+    "campo": "lote.id",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-02-img",
+    "campo": "lote.zona_id",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-02-aspas",
+    "campo": "lote.zona_id",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-03-img",
+    "campo": "lote.observacoes",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-03-aspas",
+    "campo": "lote.observacoes",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-04-img",
+    "campo": "lote.zona_origem",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-04-aspas",
+    "campo": "lote.zona_origem",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-05-img",
+    "campo": "lote.relevo.fonte",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-05-aspas",
+    "campo": "lote.relevo.fonte",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-06-img",
+    "campo": "lote.areas_especiais.0.tipo",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-06-aspas",
+    "campo": "lote.areas_especiais.0.tipo",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-07-img",
+    "campo": "lote.areas_especiais.0.nome",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-07-aspas",
+    "campo": "lote.areas_especiais.0.nome",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-08-img",
+    "campo": "lote.areas_especiais.0.fonte",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-08-aspas",
+    "campo": "lote.areas_especiais.0.fonte",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-09-img",
+    "campo": "lote.areas_especiais.0.observacoes",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-09-aspas",
+    "campo": "lote.areas_especiais.0.observacoes",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-10-img",
+    "campo": "lote.anotacao_zoneamento.alternativas_zona_id.0",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-10-aspas",
+    "campo": "lote.anotacao_zoneamento.alternativas_zona_id.0",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-11-img",
+    "campo": "lote.fonte.propriedades.loteamento",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-11-aspas",
+    "campo": "lote.fonte.propriedades.loteamento",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-12-img",
+    "campo": "lote.fonte.propriedades.quadra",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-12-aspas",
+    "campo": "lote.fonte.propriedades.quadra",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-13-img",
+    "campo": "zona.id",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-13-aspas",
+    "campo": "zona.id",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-14-img",
+    "campo": "zona.nome",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-14-aspas",
+    "campo": "zona.nome",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-15-img",
+    "campo": "zona.observacoes",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-15-aspas",
+    "campo": "zona.observacoes",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-16-img",
+    "campo": "zona.fontes.0.lei",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-16-aspas",
+    "campo": "zona.fontes.0.lei",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-17-img",
+    "campo": "zona.fontes.0.artigo",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-17-aspas",
+    "campo": "zona.fontes.0.artigo",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-18-img",
+    "campo": "zona.fontes.0.url",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": false,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-18-aspas",
+    "campo": "zona.fontes.0.url",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": false,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-19-img",
+    "campo": "zona.fontes.0.data",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-19-aspas",
+    "campo": "zona.fontes.0.data",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-20-img",
+    "campo": "opcoes.0.id",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-20-aspas",
+    "campo": "opcoes.0.id",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-21-img",
+    "campo": "opcoes.0.nome",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-21-aspas",
+    "campo": "opcoes.0.nome",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-22-img",
+    "campo": "opcoes.0.volumes.0.uso",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-22-aspas",
+    "campo": "opcoes.0.volumes.0.uso",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-23-img",
+    "campo": "opcoes.0.alertas.0",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-23-aspas",
+    "campo": "opcoes.0.alertas.0",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-24-img",
+    "campo": "opcoes_ausentes.0.id",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-24-aspas",
+    "campo": "opcoes_ausentes.0.id",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-25-img",
+    "campo": "opcoes_ausentes.0.nome",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-25-aspas",
+    "campo": "opcoes_ausentes.0.nome",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-26-img",
+    "campo": "opcoes_ausentes.0.detalhe",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-26-aspas",
+    "campo": "opcoes_ausentes.0.detalhe",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-27-img",
+    "campo": "incertezas.0",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-27-aspas",
+    "campo": "incertezas.0",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-28-img",
+    "campo": "criterio_escolha.texto",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-28-aspas",
+    "campo": "criterio_escolha.texto",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-29-img",
+    "campo": "premissas.texto_revisor",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-29-aspas",
+    "campo": "premissas.texto_revisor",
+    "tipo": "aspas",
+    "carga": "\"><img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "texto_literal_presente": true,
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-motivo",
+    "campo": "opcoes_ausentes.0.motivo",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [],
+    "rejeicao_visual_esperada": true
+  },
+  {
+    "id": "xss-numerico-taxa_ocupacao",
+    "campo": "zona.parametros.taxa_ocupacao",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      }
+    ],
+    "rejeicao_visual_esperada": false
+  },
+  {
+    "id": "xss-numerico-taxa_permeabilidade",
+    "campo": "zona.parametros.taxa_permeabilidade",
+    "tipo": "img",
+    "carga": "<img src=x onerror=alert(1)>",
+    "tags_ativas": [
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      },
+      {
+        "tag": "img",
+        "atributos": {
+          "src": "x",
+          "onerror": "alert(1)"
+        }
+      }
+    ],
+    "rejeicao_visual_esperada": false
+  }
+]

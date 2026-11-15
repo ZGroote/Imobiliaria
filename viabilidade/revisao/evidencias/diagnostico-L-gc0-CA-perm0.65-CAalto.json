@@ -1,0 +1,106 @@
+[
+  {
+    "subsolo_disponivel": 779.5,
+    "cap": 3043.6,
+    "perm_min": 706.5500000000001,
+    "n": 14,
+    "natural": {
+      "area_construida_m2": 6082.29,
+      "area_computavel_m2": 4766.29,
+      "area_nao_computavel_m2": 1315.99,
+      "area_privativa_m2": 4206.29,
+      "area_acima_ca_basico_m2": 3679.29,
+      "area_garagem_m2": 755.99,
+      "vagas": 28,
+      "area_permeavel_m2": 618.17,
+      "ca_usado": 4.385,
+      "to_usada": 0.313,
+      "pavimentos": 14,
+      "unidades_estimadas": 56,
+      "vgv_estimado": null
+    },
+    "natural_cabe": false,
+    "ajuste_chamado": true,
+    "retorno_busca": {
+      "area_construida_m2": 3763.68,
+      "area_computavel_m2": 2447.68,
+      "area_nao_computavel_m2": 1316.0,
+      "area_privativa_m2": 1887.68,
+      "area_acima_ca_basico_m2": 1360.68,
+      "area_garagem_m2": 756.0,
+      "vagas": 28,
+      "area_permeavel_m2": 706.45,
+      "ca_usado": 2.252,
+      "to_usada": 0.161,
+      "pavimentos": 14,
+      "unidades_estimadas": 28,
+      "vgv_estimado": null
+    },
+    "amostras_viaveis": [
+      {
+        "f": 0.55,
+        "metricas": {
+          "area_construida_m2": 3685.47,
+          "area_computavel_m2": 2369.46,
+          "area_nao_computavel_m2": 1316.0,
+          "area_privativa_m2": 1809.46,
+          "area_acima_ca_basico_m2": 1282.46,
+          "area_garagem_m2": 756.0,
+          "vagas": 28,
+          "area_permeavel_m2": 709.0,
+          "ca_usado": 2.18,
+          "to_usada": 0.156,
+          "pavimentos": 14,
+          "unidades_estimadas": 28,
+          "vgv_estimado": null
+        }
+      }
+    ],
+    "regra": "antes"
+  },
+  {
+    "subsolo_disponivel": 779.5,
+    "cap": 13044.0,
+    "perm_min": 706.5500000000001,
+    "n": 14,
+    "natural": {
+      "area_construida_m2": 6082.29,
+      "area_computavel_m2": 4766.29,
+      "area_nao_computavel_m2": 1315.99,
+      "area_privativa_m2": 4206.29,
+      "area_acima_ca_basico_m2": 3679.29,
+      "area_garagem_m2": 755.99,
+      "vagas": 28,
+      "area_permeavel_m2": 618.17,
+      "ca_usado": 4.385,
+      "to_usada": 0.313,
+      "pavimentos": 14,
+      "unidades_estimadas": 56,
+      "vgv_estimado": null
+    },
+    "natural_cabe": false,
+    "ajuste_chamado": false,
+    "retorno_busca": null,
+    "amostras_viaveis": [
+      {
+        "f": 0.55,
+        "metricas": {
+          "area_construida_m2": 3685.47,
+          "area_computavel_m2": 2369.46,
+          "area_nao_computavel_m2": 1316.0,
+          "area_privativa_m2": 1809.46,
+          "area_acima_ca_basico_m2": 1282.46,
+          "area_garagem_m2": 756.0,
+          "vagas": 28,
+          "area_permeavel_m2": 709.0,
+          "ca_usado": 2.18,
+          "to_usada": 0.156,
+          "pavimentos": 14,
+          "unidades_estimadas": 28,
+          "vgv_estimado": null
+        }
+      }
+    ],
+    "regra": "depois"
+  }
+]

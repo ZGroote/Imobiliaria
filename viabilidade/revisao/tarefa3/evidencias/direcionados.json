@@ -1,0 +1,1852 @@
+[
+  {
+    "id": "retangulo-gc0-CA-perm0.45-CAalto",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 33,
+        "area_privativa_m2": 2082.24,
+        "area_computavel_m2": 2382.8,
+        "vagas": 33,
+        "pavimentos": 11
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1822.81,
+        "area_computavel_m2": 2382.81,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1497.77,
+        "area_computavel_m2": 1792.21,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 27,
+        "area_privativa_m2": 1669.58,
+        "area_computavel_m2": 2382.79,
+        "vagas": 27,
+        "pavimentos": 11
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 70,
+        "area_privativa_m2": 4480.0,
+        "area_computavel_m2": 5320.0,
+        "vagas": 34,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 3254.86,
+        "area_computavel_m2": 3814.86,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1497.77,
+        "area_computavel_m2": 1792.21,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 2941.08,
+        "area_computavel_m2": 4077.15,
+        "vagas": 34,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.811,
+    "avisos_garagem": [
+      {
+        "exigido": false,
+        "presente": false
+      },
+      {
+        "exigido": false,
+        "presente": false
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "retangulo-gc0-CA-perm0.65-CAalto",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 33,
+        "area_privativa_m2": 2082.24,
+        "area_computavel_m2": 2382.8,
+        "vagas": 22,
+        "pavimentos": 11
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1822.81,
+        "area_computavel_m2": 2382.81,
+        "vagas": 22,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 953.12,
+        "area_computavel_m2": 1111.4,
+        "vagas": 12,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 27,
+        "area_privativa_m2": 1669.58,
+        "area_computavel_m2": 2382.79,
+        "vagas": 22,
+        "pavimentos": 11
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 3335.95,
+        "area_computavel_m2": 3889.93,
+        "vagas": 22,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1970.53,
+        "area_computavel_m2": 2530.53,
+        "vagas": 22,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 953.12,
+        "area_computavel_m2": 1111.4,
+        "vagas": 12,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2573.4,
+        "area_computavel_m2": 3532.45,
+        "vagas": 22,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 3.156,
+    "avisos_garagem": [
+      {
+        "exigido": false,
+        "presente": false
+      },
+      {
+        "exigido": false,
+        "presente": false
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "estreito-gc0-CA-perm0.45-CAalto",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 983.5,
+        "area_computavel_m2": 1263.5,
+        "vagas": 14,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1263.19,
+        "area_computavel_m2": 1663.19,
+        "vagas": 20,
+        "pavimentos": 10
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1045.43,
+        "area_computavel_m2": 1226.79,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 843.0,
+        "area_computavel_m2": 1484.0,
+        "vagas": 12,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 983.5,
+        "area_computavel_m2": 1263.5,
+        "vagas": 14,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1785.73,
+        "area_computavel_m2": 2345.73,
+        "vagas": 24,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1045.43,
+        "area_computavel_m2": 1226.79,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 843.0,
+        "area_computavel_m2": 1484.0,
+        "vagas": 12,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.105,
+    "avisos_garagem": [
+      {
+        "exigido": false,
+        "presente": false
+      },
+      {
+        "exigido": false,
+        "presente": false
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "estreito-gc0-CA-perm0.65-CAalto",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 983.5,
+        "area_computavel_m2": 1263.5,
+        "vagas": 14,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 8,
+        "area_privativa_m2": 665.28,
+        "area_computavel_m2": 751.6,
+        "vagas": 8,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 843.0,
+        "area_computavel_m2": 1372.1,
+        "vagas": 12,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 983.5,
+        "area_computavel_m2": 1263.5,
+        "vagas": 14,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 8,
+        "area_privativa_m2": 665.28,
+        "area_computavel_m2": 751.6,
+        "vagas": 8,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 843.0,
+        "area_computavel_m2": 1372.1,
+        "vagas": 12,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.419,
+    "avisos_garagem": [
+      {
+        "exigido": false,
+        "presente": false
+      },
+      {
+        "exigido": false,
+        "presente": false
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "L-gc0-CA-perm0.45-CAalto",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2658.88,
+        "area_computavel_m2": 3043.6,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2658.88,
+        "area_computavel_m2": 3043.6,
+        "vagas": 41,
+        "pavimentos": 7
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1752.32,
+        "area_computavel_m2": 2110.4,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2243.08,
+        "area_computavel_m2": 3043.6,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.07,
+        "area_computavel_m2": 3303.84,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 84,
+        "area_privativa_m2": 5381.46,
+        "area_computavel_m2": 6166.83,
+        "vagas": 44,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1752.32,
+        "area_computavel_m2": 2110.4,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 3555.89,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.322,
+    "avisos_garagem": [
+      {
+        "exigido": false,
+        "presente": false
+      },
+      {
+        "exigido": false,
+        "presente": false
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "L-gc0-CA-perm0.65-CAalto",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2658.88,
+        "area_computavel_m2": 3043.6,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1887.68,
+        "area_computavel_m2": 2447.68,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1217.44,
+        "area_computavel_m2": 1441.8,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2243.08,
+        "area_computavel_m2": 3043.6,
+        "vagas": 28,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2866.93,
+        "area_computavel_m2": 3303.66,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1887.68,
+        "area_computavel_m2": 2447.68,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1217.44,
+        "area_computavel_m2": 1441.8,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.4,
+        "area_computavel_m2": 3431.74,
+        "vagas": 28,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 3.384,
+    "avisos_garagem": [
+      {
+        "exigido": false,
+        "presente": false
+      },
+      {
+        "exigido": false,
+        "presente": false
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "trapezio-gc0-CA-perm0.45-CAalto",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2670.08,
+        "area_computavel_m2": 3057.6,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 40,
+        "area_privativa_m2": 2657.61,
+        "area_computavel_m2": 3057.61,
+        "vagas": 40,
+        "pavimentos": 10
+      },
+      "C": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 1921.92,
+        "area_computavel_m2": 2322.4,
+        "vagas": 32,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2252.53,
+        "area_computavel_m2": 3057.6,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 84,
+        "area_privativa_m2": 5335.88,
+        "area_computavel_m2": 6389.85,
+        "vagas": 44,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 5039.46,
+        "area_computavel_m2": 5739.33,
+        "vagas": 44,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 1921.92,
+        "area_computavel_m2": 2322.4,
+        "vagas": 32,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 60,
+        "area_privativa_m2": 3773.93,
+        "area_computavel_m2": 5311.02,
+        "vagas": 44,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.236,
+    "avisos_garagem": [
+      {
+        "exigido": false,
+        "presente": false
+      },
+      {
+        "exigido": false,
+        "presente": false
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "trapezio-gc0-CA-perm0.65-CAalto",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2670.08,
+        "area_computavel_m2": 3057.6,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 2497.59,
+        "area_computavel_m2": 3057.59,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1223.04,
+        "area_computavel_m2": 1448.79,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2252.53,
+        "area_computavel_m2": 3057.6,
+        "vagas": 28,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 70,
+        "area_privativa_m2": 4280.67,
+        "area_computavel_m2": 5070.83,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 2725.51,
+        "area_computavel_m2": 3285.51,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1223.04,
+        "area_computavel_m2": 1448.79,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 3302.19,
+        "area_computavel_m2": 4612.14,
+        "vagas": 28,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 2.957,
+    "avisos_garagem": [
+      {
+        "exigido": false,
+        "presente": false
+      },
+      {
+        "exigido": false,
+        "presente": false
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "triangulo-gc0-CA-perm0.45-CAalto",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2192.32,
+        "area_computavel_m2": 2500.4,
+        "vagas": 36,
+        "pavimentos": 12
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1789.41,
+        "area_computavel_m2": 2349.41,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 983.44,
+        "area_computavel_m2": 1149.3,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 27,
+        "area_privativa_m2": 1745.03,
+        "area_computavel_m2": 2500.41,
+        "vagas": 27,
+        "pavimentos": 11
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3403.36,
+        "area_computavel_m2": 3974.2,
+        "vagas": 36,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1789.41,
+        "area_computavel_m2": 2349.41,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 983.44,
+        "area_computavel_m2": 1149.3,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 2917.55,
+        "area_computavel_m2": 4042.97,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.048,
+    "avisos_garagem": [
+      {
+        "exigido": false,
+        "presente": false
+      },
+      {
+        "exigido": false,
+        "presente": false
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "triangulo-gc0-CA-perm0.65-CAalto",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2192.32,
+        "area_computavel_m2": 2500.4,
+        "vagas": 23,
+        "pavimentos": 12
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1789.18,
+        "area_computavel_m2": 2349.18,
+        "vagas": 23,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 983.5,
+        "area_computavel_m2": 1149.37,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 27,
+        "area_privativa_m2": 1745.02,
+        "area_computavel_m2": 2500.41,
+        "vagas": 23,
+        "pavimentos": 11
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3403.83,
+        "area_computavel_m2": 3974.78,
+        "vagas": 23,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1789.18,
+        "area_computavel_m2": 2349.18,
+        "vagas": 23,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 983.5,
+        "area_computavel_m2": 1149.37,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2700.43,
+        "area_computavel_m2": 3720.64,
+        "vagas": 23,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 0.958,
+    "avisos_garagem": [
+      {
+        "exigido": false,
+        "presente": false
+      },
+      {
+        "exigido": false,
+        "presente": false
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "L-gc1-frontal-ca2.8",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2637.29,
+        "area_computavel_m2": 3043.61,
+        "vagas": 1,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 40,
+        "area_privativa_m2": 2616.6,
+        "area_computavel_m2": 3043.6,
+        "vagas": 1,
+        "pavimentos": 10
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1638.36,
+        "area_computavel_m2": 2615.95,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2224.85,
+        "area_computavel_m2": 3043.59,
+        "vagas": 1,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2637.29,
+        "area_computavel_m2": 3043.61,
+        "vagas": 1,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2637.29,
+        "area_computavel_m2": 3043.61,
+        "vagas": 1,
+        "pavimentos": 7
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1848.32,
+        "area_computavel_m2": 2986.39,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2224.86,
+        "area_computavel_m2": 3043.61,
+        "vagas": 1,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 3.506,
+    "avisos_garagem": [
+      {
+        "exigido": true,
+        "presente": true
+      },
+      {
+        "exigido": true,
+        "presente": true
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "L-gc1-frontal-ca3",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2811.21,
+        "area_computavel_m2": 3261.01,
+        "vagas": 1,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 44,
+        "area_privativa_m2": 2794.0,
+        "area_computavel_m2": 3261.0,
+        "vagas": 1,
+        "pavimentos": 11
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1638.36,
+        "area_computavel_m2": 2615.95,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2371.58,
+        "area_computavel_m2": 3261.0,
+        "vagas": 1,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2811.21,
+        "area_computavel_m2": 3261.01,
+        "vagas": 1,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 44,
+        "area_privativa_m2": 2794.02,
+        "area_computavel_m2": 3261.01,
+        "vagas": 1,
+        "pavimentos": 11
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1848.32,
+        "area_computavel_m2": 2986.39,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2371.58,
+        "area_computavel_m2": 3261.0,
+        "vagas": 1,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 3.425,
+    "avisos_garagem": [
+      {
+        "exigido": true,
+        "presente": true
+      },
+      {
+        "exigido": true,
+        "presente": true
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "L-gc1-frontal-ca3.4",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 3681.86,
+        "vagas": 14,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3148.79,
+        "area_computavel_m2": 3695.78,
+        "vagas": 1,
+        "pavimentos": 13
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1638.36,
+        "area_computavel_m2": 2615.95,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 3690.89,
+        "vagas": 5,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 3681.86,
+        "vagas": 14,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3148.8,
+        "area_computavel_m2": 3695.8,
+        "vagas": 1,
+        "pavimentos": 13
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1848.32,
+        "area_computavel_m2": 2986.39,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 3690.89,
+        "vagas": 5,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 2.534,
+    "avisos_garagem": [
+      {
+        "exigido": true,
+        "presente": true
+      },
+      {
+        "exigido": true,
+        "presente": true
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "L-gc1-frontal-ca3.8",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 3789.87,
+        "vagas": 18,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3543.6,
+        "area_computavel_m2": 4130.6,
+        "vagas": 1,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1638.36,
+        "area_computavel_m2": 2615.95,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4041.89,
+        "vagas": 18,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 3789.87,
+        "vagas": 18,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 60,
+        "area_privativa_m2": 3602.88,
+        "area_computavel_m2": 4130.6,
+        "vagas": 1,
+        "pavimentos": 10
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1848.32,
+        "area_computavel_m2": 2986.39,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4041.89,
+        "vagas": 18,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.964,
+    "avisos_garagem": [
+      {
+        "exigido": true,
+        "presente": true
+      },
+      {
+        "exigido": true,
+        "presente": true
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "L-gc1-frontal-ca4",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 3789.87,
+        "vagas": 18,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3761.01,
+        "area_computavel_m2": 4348.01,
+        "vagas": 1,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1638.36,
+        "area_computavel_m2": 2615.95,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4311.89,
+        "vagas": 28,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 3789.87,
+        "vagas": 18,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 60,
+        "area_privativa_m2": 3776.79,
+        "area_computavel_m2": 4347.99,
+        "vagas": 1,
+        "pavimentos": 10
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1848.32,
+        "area_computavel_m2": 2986.39,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4311.89,
+        "vagas": 28,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.597,
+    "avisos_garagem": [
+      {
+        "exigido": true,
+        "presente": true
+      },
+      {
+        "exigido": true,
+        "presente": true
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "L-gc1-frontal-ca4.2",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 4437.87,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3978.39,
+        "area_computavel_m2": 4565.39,
+        "vagas": 1,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1638.36,
+        "area_computavel_m2": 2615.95,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4527.89,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 4437.88,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 3982.71,
+        "area_computavel_m2": 4565.39,
+        "vagas": 1,
+        "pavimentos": 11
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1848.32,
+        "area_computavel_m2": 2986.39,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4527.89,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.544,
+    "avisos_garagem": [
+      {
+        "exigido": true,
+        "presente": true
+      },
+      {
+        "exigido": true,
+        "presente": true
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "L-gc1-frontal-ca4.4",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 4437.87,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 4195.79,
+        "area_computavel_m2": 4782.79,
+        "vagas": 1,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1638.36,
+        "area_computavel_m2": 2615.95,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4527.89,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 4437.88,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4156.63,
+        "area_computavel_m2": 4782.79,
+        "vagas": 1,
+        "pavimentos": 11
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1848.32,
+        "area_computavel_m2": 2986.39,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4527.89,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.172,
+    "avisos_garagem": [
+      {
+        "exigido": true,
+        "presente": true
+      },
+      {
+        "exigido": true,
+        "presente": true
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "L-gc1-frontal-ca4.8",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 4437.87,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 4367.84,
+        "area_computavel_m2": 5197.84,
+        "vagas": 10,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1638.36,
+        "area_computavel_m2": 2615.95,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4527.89,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 4437.88,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4536.49,
+        "area_computavel_m2": 5217.61,
+        "vagas": 1,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1848.32,
+        "area_computavel_m2": 2986.39,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4527.89,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.214,
+    "avisos_garagem": [
+      {
+        "exigido": true,
+        "presente": true
+      },
+      {
+        "exigido": true,
+        "presente": true
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "L-gc1-frontal-ca5.2",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 4437.87,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 4367.84,
+        "area_computavel_m2": 5305.85,
+        "vagas": 14,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1638.36,
+        "area_computavel_m2": 2615.95,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4527.89,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 4437.88,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 78,
+        "area_privativa_m2": 4916.32,
+        "area_computavel_m2": 5652.4,
+        "vagas": 1,
+        "pavimentos": 13
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1848.32,
+        "area_computavel_m2": 2986.39,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4527.89,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.27,
+    "avisos_garagem": [
+      {
+        "exigido": true,
+        "presente": true
+      },
+      {
+        "exigido": true,
+        "presente": true
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "L-gc1-frontal-ca6",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 4437.87,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 4367.84,
+        "area_computavel_m2": 6277.84,
+        "vagas": 50,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1638.36,
+        "area_computavel_m2": 2615.95,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4527.89,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2867.09,
+        "area_computavel_m2": 4437.88,
+        "vagas": 42,
+        "pavimentos": 14
+      },
+      "B": {
+        "unidades_estimadas": 84,
+        "area_privativa_m2": 5644.01,
+        "area_computavel_m2": 6522.01,
+        "vagas": 1,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1848.32,
+        "area_computavel_m2": 2986.39,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2457.37,
+        "area_computavel_m2": 4527.89,
+        "vagas": 36,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 0.766,
+    "avisos_garagem": [
+      {
+        "exigido": true,
+        "presente": true
+      },
+      {
+        "exigido": true,
+        "presente": true
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "degrau-13x23-gc0",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 840.0,
+        "area_computavel_m2": 1120.0,
+        "vagas": 5,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 4,
+        "area_privativa_m2": 452.5,
+        "area_computavel_m2": 532.5,
+        "vagas": 4,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 720.0,
+        "area_computavel_m2": 1142.44,
+        "vagas": 5,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 840.0,
+        "area_computavel_m2": 1120.0,
+        "vagas": 12,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 4,
+        "area_privativa_m2": 452.5,
+        "area_computavel_m2": 532.5,
+        "vagas": 4,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 720.0,
+        "area_computavel_m2": 1142.44,
+        "vagas": 12,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 0.685,
+    "avisos_garagem": [
+      {
+        "exigido": false,
+        "presente": false
+      },
+      {
+        "exigido": false,
+        "presente": false
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "degrau-13x23-gc1",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 840.0,
+        "area_computavel_m2": 1255.0,
+        "vagas": 5,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 4,
+        "area_privativa_m2": 452.5,
+        "area_computavel_m2": 640.5,
+        "vagas": 4,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 720.0,
+        "area_computavel_m2": 1277.44,
+        "vagas": 5,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 840.0,
+        "area_computavel_m2": 1282.0,
+        "vagas": 6,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 4,
+        "area_privativa_m2": 452.5,
+        "area_computavel_m2": 640.5,
+        "vagas": 4,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 720.0,
+        "area_computavel_m2": 1277.44,
+        "vagas": 5,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 0.858,
+    "avisos_garagem": [
+      {
+        "exigido": true,
+        "presente": true
+      },
+      {
+        "exigido": true,
+        "presente": true
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "degrau-15x22-gc0",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 1138.99,
+        "area_computavel_m2": 1418.99,
+        "vagas": 7,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 8,
+        "area_privativa_m2": 569.63,
+        "area_computavel_m2": 649.63,
+        "vagas": 7,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 945.6,
+        "area_computavel_m2": 1409.6,
+        "vagas": 7,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 1138.99,
+        "area_computavel_m2": 1418.99,
+        "vagas": 14,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 8,
+        "area_privativa_m2": 569.63,
+        "area_computavel_m2": 649.63,
+        "vagas": 8,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 945.62,
+        "area_computavel_m2": 1409.62,
+        "vagas": 12,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 0.677,
+    "avisos_garagem": [
+      {
+        "exigido": false,
+        "presente": false
+      },
+      {
+        "exigido": false,
+        "presente": false
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  },
+  {
+    "id": "degrau-15x22-gc1",
+    "antes": {
+      "A": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 1111.96,
+        "area_computavel_m2": 1418.96,
+        "vagas": 1,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 8,
+        "area_privativa_m2": 569.63,
+        "area_computavel_m2": 838.63,
+        "vagas": 7,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 930.54,
+        "area_computavel_m2": 1419.01,
+        "vagas": 1,
+        "pavimentos": 14
+      }
+    },
+    "depois": {
+      "A": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 1111.96,
+        "area_computavel_m2": 1418.96,
+        "vagas": 1,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 8,
+        "area_privativa_m2": 569.63,
+        "area_computavel_m2": 865.63,
+        "vagas": 8,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 930.54,
+        "area_computavel_m2": 1419.01,
+        "vagas": 1,
+        "pavimentos": 14
+      }
+    },
+    "perdas": [],
+    "invariantes": [
+      [],
+      []
+    ],
+    "segundos": 1.445,
+    "avisos_garagem": [
+      {
+        "exigido": true,
+        "presente": true
+      },
+      {
+        "exigido": true,
+        "presente": true
+      }
+    ],
+    "solucao_anterior_sob_regra_nova": []
+  }
+]

@@ -1,0 +1,7 @@
+/tmp/
+/referencia/viabilidade/relatorio/.relatorio-teste-*/
+**/__pycache__/
+# relatórios gerados: refeitos por auditar.py/consolidar.py a partir dos JSON (13 MB)
+/gerados/
+/casos/*.html
+!/casos/xss-numerico-*.html

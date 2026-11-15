@@ -22,6 +22,7 @@ Regras atendidas:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html
 import json
 import math
@@ -90,7 +91,7 @@ def formatar_numero_ptbr(valor: Any, casas_min: int = 0) -> str:
         v_abs = abs(valor)
         bruto = repr(v_abs)
         if "e" in bruto or "E" in bruto:
-            bruto = f"{v_abs:.8f}".rstrip("0").rstrip(".")
+            bruto = f"{esc(format(v_abs, ".8f"))}".rstrip("0").rstrip(".")
         if "." in bruto:
             parte_int_str, parte_dec_str = bruto.split(".", 1)
         else:
@@ -103,7 +104,93 @@ def formatar_numero_ptbr(valor: Any, casas_min: int = 0) -> str:
         s_int = f"{parte_int:,}".replace(",", ".")
         s = f"{s_int},{parte_dec_str}" if parte_dec_str else s_int
         return f"-{s}" if negativo else s
-    return str(valor)
+    return esc(valor)
+
+
+def validar_estudo(estudo):
+    def numero(v, caminho, nulo=True, inteiro=False):
+        if v is None and nulo:
+            return
+        if type(v) not in (int, float) or (type(v) is float and not math.isfinite(v)):
+            raise ValueError(f"{caminho} deve ser número ou null." if nulo else f"{caminho} deve ser número finito.")
+        if inteiro and (type(v) is not int or v < 0):
+            raise ValueError(f"{caminho} deve ser inteiro >= 0.")
+
+    def conferir(v, regra, caminho):
+        if isinstance(regra, tuple):
+            if v is None:
+                return
+            regra = regra[0]
+        if regra in ("numero", "coordenada", "inteiro"):
+            numero(v, caminho, regra == "numero", regra == "inteiro")
+        elif regra == "pares":
+            if not isinstance(v, list):
+                raise ValueError(f"{caminho} deve ser lista de pares numéricos.")
+            for i, par in enumerate(v):
+                if not isinstance(par, list) or len(par) != 2:
+                    raise ValueError(f"{caminho}[{i}] deve ser par numérico.")
+                for j, n in enumerate(par):
+                    numero(n, f"{caminho}[{i}][{j}]", False)
+        elif regra in (str, bool):
+            if type(v) is not regra:
+                raise ValueError(f"{caminho} deve ser {regra.__name__}.")
+        elif isinstance(regra, set):
+            if not isinstance(v, str) or v not in regra:
+                raise ValueError(f"{caminho} tem valor não reconhecido.")
+        elif isinstance(regra, list):
+            if not isinstance(v, list):
+                raise ValueError(f"{caminho} deve ser lista.")
+            for i, item in enumerate(v):
+                conferir(item, regra[0], f"{caminho}[{i}]")
+        elif isinstance(regra, dict):
+            if not isinstance(v, dict):
+                raise ValueError(f"{caminho} deve ser objeto.")
+            for k, item in v.items():
+                if k in regra or "*" in regra:
+                    conferir(item, regra.get(k, regra.get("*")), f"{caminho}.{k}".lstrip("."))
+
+    def numeros(chaves):
+        return dict.fromkeys(chaves.split(), "numero")
+
+    fonte = dict.fromkeys(("lei artigo url data anexo observacoes").split(), str)
+    recuo = {**numeros("ate_pavimento recuo_m"), "acima": numeros("fracao_h minimo_m")}
+    parametros = {
+        **numeros("ca_basico ca_maximo ca_unifamiliar taxa_ocupacao taxa_permeabilidade recuo_frontal_m recuo_lateral_m recuo_fundos_m altura_max_m pavimentos_max parede_cega_encosta_ate_m vagas_min_por_unidade vaga_largura_m vaga_comprimento_m faixa_manobra_90graus_m lote_min_m2 testada_min_m"),
+        "recuo_lateral_por_altura": (recuo,), "recuo_fundos_por_altura": (recuo,),
+        "recuo_lateral_regra": str, "vagas_regra": str, "nao_computavel": [str],
+        "garagem_computavel": bool, "garagem_conta_na_taxa_ocupacao": bool, "outorga_onerosa": bool,
+    }
+    volume = {
+        "base_utm": "pares", "z0_m": "coordenada", "altura_m": "coordenada",
+        "pavimentos": "inteiro", "uso": {"residencial", "garagem", "embasamento", "comercial"},
+        **numeros("recuo_lateral_m recuo_fundos_m"), "parede_cega": bool,
+    }
+    caixa = {
+        **numeros("altura_m area_projecao_m2 area_lote_m2 area_computavel_max_m2 ocupacao_max_m2 recuo_frontal_m parede_cega_ate_m"),
+        "projecao_utm": "pares", "projecao_parede_cega_utm": ("pares",),
+        "degraus": [{**numeros("z0_m altura_m recuo_lateral_m recuo_fundos_m"), "projecao_utm": "pares"}],
+    }
+    premissas = {"*": "numero", "garagem": str, "garagem_computavel": bool, "padrao": [str]}
+    lote = {
+        **dict.fromkeys("id zona_id zona_origem observacoes crs categoria".split(), str),
+        **numeros("area_m2 lid"), "poligono_utm": "pares", "frente": "pares",
+        "zona_conferida": bool, "conferido": bool,
+        "areas_especiais": [{**dict.fromkeys("tipo nome observacoes fonte incidencia evidencia".split(), str), "conferido": bool}],
+        "anotacao_zoneamento": {"zona_ambigua": bool, "alternativas_zona_id": [str]},
+        "fonte": {"propriedades": {}, "propriedades_componentes": [{}]},
+    }
+    contrato = {
+        "versao_motor": str, "lote": lote, "caixa_maxima": caixa, "premissas": premissas,
+        "zona": {"id": str, "nome": str, "parametros": parametros, "conferido": bool, "observacoes": str, "fontes": [fonte]},
+        "opcoes": [{"id": str, "nome": str, "volumes": [volume], "metricas": {"*": "numero"}, "alertas": [str]}],
+        "incertezas": [str], "criterio_escolha": {"ordem": [str], "texto": str},
+        "opcoes_ausentes": [dict.fromkeys("id nome motivo detalhe".split(), str)],
+        "dominio": {"status": str, "versao": str, "motivos": [str]},
+    }
+    conferir(estudo, contrato, "")
+    relevo = estudo.get("lote", {}).get("relevo")
+    if relevo is not None:
+        conferir(relevo, {**numeros("resolucao_m cota_min_m cota_max_m declividade_pct"), "fonte": str}, "lote.relevo")
 
 
 def span_num(
@@ -189,8 +276,8 @@ def gerar_svg_planta(
     pontos = _coletar_pontos_estudo(lote, caixa_maxima, opcao)
     if not pontos:
         return (
-            f'<svg class="svg-planta" viewBox="0 0 {largura} {altura}" '
-            f'width="{largura}" height="{altura}" xmlns="http://www.w3.org/2000/svg">'
+            f'<svg class="svg-planta" viewBox="0 0 {esc(largura)} {esc(altura)}" '
+            f'width="{esc(largura)}" height="{esc(altura)}" xmlns="http://www.w3.org/2000/svg">'
             '<text x="50%" y="50%" text-anchor="middle" font-size="11">Sem coordenadas</text>'
             "</svg>"
         )
@@ -222,13 +309,13 @@ def gerar_svg_planta(
         return (px, py)
 
     def fmt_pts(seq: Sequence[Sequence[float]]) -> str:
-        return " ".join(f"{proj(p)[0]:.2f},{proj(p)[1]:.2f}" for p in seq)
+        return " ".join(f"{esc(format(proj(p)[0], ".2f"))},{esc(format(proj(p)[1], ".2f"))}" for p in seq)
 
     partes: List[str] = []
     id_suf = esc(f"{lote.get('id', 'lote')}-{opcao.get('id', 'op')}-{'mini' if compacto else 'full'}")
     partes.append(
         f'<svg class="svg-planta" data-opcao="{esc(opcao.get("id"))}" '
-        f'viewBox="0 0 {largura} {altura}" width="100%" height="{altura}" '
+        f'viewBox="0 0 {esc(largura)} {esc(altura)}" width="100%" height="{esc(altura)}" '
         f'xmlns="http://www.w3.org/2000/svg" role="img" '
         f'aria-label="Planta de implantação da opção {esc(opcao.get("id"))}">'
     )
@@ -243,7 +330,7 @@ def gerar_svg_planta(
 
     # Fundo suave
     partes.append(
-        f'<rect x="0" y="0" width="{largura}" height="{altura}" rx="4" '
+        f'<rect x="0" y="0" width="{esc(largura)}" height="{esc(altura)}" rx="4" '
         f'fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>'
     )
 
@@ -251,7 +338,7 @@ def gerar_svg_planta(
     pol_lote = lote.get("poligono_utm") or []
     if len(pol_lote) >= 3:
         partes.append(
-            f'<polygon class="planta-lote" points="{fmt_pts(pol_lote)}" '
+            f'<polygon class="planta-lote" points="{esc(fmt_pts(pol_lote))}" '
             f'fill="#e6f4ea" stroke="#1e6b3b" stroke-width="1.8" stroke-linejoin="round">'
             f"<title>Lote {esc(lote.get('id'))} ({formatar_numero_ptbr(lote.get('area_m2'))} m²)</title>"
             f"</polygon>"
@@ -261,7 +348,7 @@ def gerar_svg_planta(
     pol_cega = caixa_maxima.get("projecao_parede_cega_utm") or []
     if len(pol_cega) >= 3:
         partes.append(
-            f'<polygon class="planta-parede-cega" points="{fmt_pts(pol_cega)}" '
+            f'<polygon class="planta-parede-cega" points="{esc(fmt_pts(pol_cega))}" '
             f'fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2">'
             f"<title>Limite parede cega na divisa</title></polygon>"
         )
@@ -270,7 +357,7 @@ def gerar_svg_planta(
     pol_caixa = caixa_maxima.get("projecao_utm") or []
     if len(pol_caixa) >= 3:
         partes.append(
-            f'<polygon class="planta-caixa-maxima" points="{fmt_pts(pol_caixa)}" '
+            f'<polygon class="planta-caixa-maxima" points="{esc(fmt_pts(pol_caixa))}" '
             f'fill="#ffffff" fill-opacity="0.45" stroke="#475569" '
             f'stroke-width="1.2" stroke-dasharray="5,3" stroke-linejoin="round">'
             f"<title>Projeção da caixa máxima (recuos)</title></polygon>"
@@ -305,10 +392,10 @@ def gerar_svg_planta(
         z0_v = vol.get("z0_m", 0)
         partes.append(
             f'<polygon class="planta-volume planta-volume-{esc(uso)}" '
-            f'data-volume-idx="{idx_vol}" data-uso="{esc(uso)}" '
-            f'points="{fmt_pts(base)}" fill="{fill}" fill-opacity="{fill_op}" '
+            f'data-volume-idx="{esc(idx_vol)}" data-uso="{esc(uso)}" '
+            f'points="{esc(fmt_pts(base))}" fill="{fill}" fill-opacity="{fill_op}" '
             f'stroke="{stroke}" stroke-width="{sw}"{dash_attr} stroke-linejoin="round">'
-            f"<title>{esc(rotulo_uso)}: {pavs} pav., h={formatar_numero_ptbr(alt_v)} m (z0={formatar_numero_ptbr(z0_v)} m)</title>"
+            f"<title>{esc(rotulo_uso)}: {esc(pavs)} pav., h={formatar_numero_ptbr(alt_v)} m (z0={formatar_numero_ptbr(z0_v)} m)</title>"
             f"</polygon>"
         )
 
@@ -316,9 +403,9 @@ def gerar_svg_planta(
         if not compacto and uso != "garagem":
             cx = sum(proj(p)[0] for p in base) / len(base)
             cy = sum(proj(p)[1] for p in base) / len(base)
-            texto_curto = f"{pavs}p ({formatar_numero_ptbr(alt_v)}m)"
+            texto_curto = f"{esc(pavs)}p ({formatar_numero_ptbr(alt_v)}m)"
             partes.append(
-                f'<text x="{cx:.1f}" y="{cy:.1f}" text-anchor="middle" '
+                f'<text x="{esc(format(cx, ".1f"))}" y="{esc(format(cy, ".1f"))}" text-anchor="middle" '
                 f'dominant-baseline="central" font-family="sans-serif" '
                 f'font-size="8.5" font-weight="700" fill="#ffffff" '
                 f'stroke="#0f172a" stroke-width="2" paint-order="stroke">'
@@ -331,8 +418,8 @@ def gerar_svg_planta(
         p1 = proj(frente[0])
         p2 = proj(frente[1])
         partes.append(
-            f'<line class="planta-frente" x1="{p1[0]:.2f}" y1="{p1[1]:.2f}" '
-            f'x2="{p2[0]:.2f}" y2="{p2[1]:.2f}" stroke="#dc2626" '
+            f'<line class="planta-frente" x1="{esc(format(p1[0], ".2f"))}" y1="{esc(format(p1[1], ".2f"))}" '
+            f'x2="{esc(format(p2[0], ".2f"))}" y2="{esc(format(p2[1], ".2f"))}" stroke="#dc2626" '
             f'stroke-width="{3.0 if compacto else 3.8}" stroke-linecap="round">'
             f"<title>Frente do lote (acesso)</title></line>"
         )
@@ -340,7 +427,7 @@ def gerar_svg_planta(
             mx = (p1[0] + p2[0]) / 2.0
             my = (p1[1] + p2[1]) / 2.0
             partes.append(
-                f'<text x="{mx:.1f}" y="{my - 5:.1f}" text-anchor="middle" '
+                f'<text x="{esc(format(mx, ".1f"))}" y="{esc(format(my - 5, ".1f"))}" text-anchor="middle" '
                 f'font-family="sans-serif" font-size="8" font-weight="700" '
                 f'fill="#b91c1c" stroke="#ffffff" stroke-width="2.2" paint-order="stroke">'
                 f"FRENTE / ACESSO</text>"
@@ -368,15 +455,15 @@ def gerar_svg_planta(
     by = altura - 8.0
     partes.append(
         f'<g class="planta-escala">'
-        f'<line x1="{bx:.1f}" y1="{by:.1f}" x2="{bx + barra_px:.1f}" y2="{by:.1f}" '
+        f'<line x1="{esc(format(bx, ".1f"))}" y1="{esc(format(by, ".1f"))}" x2="{esc(format(bx + barra_px, ".1f"))}" y2="{esc(format(by, ".1f"))}" '
         f'stroke="#0f172a" stroke-width="2"/>'
-        f'<line x1="{bx:.1f}" y1="{by - 3:.1f}" x2="{bx:.1f}" y2="{by + 3:.1f}" '
+        f'<line x1="{esc(format(bx, ".1f"))}" y1="{esc(format(by - 3, ".1f"))}" x2="{esc(format(bx, ".1f"))}" y2="{esc(format(by + 3, ".1f"))}" '
         f'stroke="#0f172a" stroke-width="1.5"/>'
-        f'<line x1="{bx + barra_px:.1f}" y1="{by - 3:.1f}" x2="{bx + barra_px:.1f}" y2="{by + 3:.1f}" '
+        f'<line x1="{esc(format(bx + barra_px, ".1f"))}" y1="{esc(format(by - 3, ".1f"))}" x2="{esc(format(bx + barra_px, ".1f"))}" y2="{esc(format(by + 3, ".1f"))}" '
         f'stroke="#0f172a" stroke-width="1.5"/>'
-        f'<text x="{bx + barra_px / 2.0:.1f}" y="{by - 4:.1f}" text-anchor="middle" '
+        f'<text x="{esc(format(bx + barra_px / 2.0, ".1f"))}" y="{esc(format(by - 4, ".1f"))}" text-anchor="middle" '
         f'font-family="sans-serif" font-size="7.5" font-weight="600" fill="#0f172a">'
-        f"{barra_m} m</text>"
+        f"{esc(barra_m)} m</text>"
         f"</g>"
     )
 
@@ -405,8 +492,8 @@ def gerar_svg_vista_3d(
     pontos_2d = _coletar_pontos_estudo(lote, caixa_maxima, opcao)
     if not pontos_2d:
         return (
-            f'<svg class="svg-vista3d" viewBox="0 0 {largura} {altura}" '
-            f'width="{largura}" height="{altura}" xmlns="http://www.w3.org/2000/svg"></svg>'
+            f'<svg class="svg-vista3d" viewBox="0 0 {esc(largura)} {esc(altura)}" '
+            f'width="{esc(largura)}" height="{esc(altura)}" xmlns="http://www.w3.org/2000/svg"></svg>'
         )
 
     xs = [p[0] for p in pontos_2d]
@@ -464,17 +551,17 @@ def gerar_svg_vista_3d(
         return (off_u + (u - min_u) * escala, off_v + (v - min_v) * escala)
 
     def fmt_poly3d(pts: Sequence[Sequence[float]], z: float) -> str:
-        return " ".join(f"{proj3d(float(p[0]), float(p[1]), z)[0]:.2f},{proj3d(float(p[0]), float(p[1]), z)[1]:.2f}" for p in pts)
+        return " ".join(f"{esc(format(proj3d(float(p[0]), float(p[1]), z)[0], ".2f"))},{esc(format(proj3d(float(p[0]), float(p[1]), z)[1], ".2f"))}" for p in pts)
 
     partes: List[str] = []
     partes.append(
         f'<svg class="svg-vista3d" data-opcao="{esc(opcao.get("id"))}" '
-        f'viewBox="0 0 {largura} {altura}" width="100%" height="{altura}" '
+        f'viewBox="0 0 {esc(largura)} {esc(altura)}" width="100%" height="{esc(altura)}" '
         f'xmlns="http://www.w3.org/2000/svg" role="img" '
         f'aria-label="Vista 3D axonométrica da opção {esc(opcao.get("id"))}">'
     )
     partes.append(
-        f'<rect x="0" y="0" width="{largura}" height="{altura}" rx="4" '
+        f'<rect x="0" y="0" width="{esc(largura)}" height="{esc(altura)}" rx="4" '
         f'fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>'
     )
 
@@ -482,7 +569,7 @@ def gerar_svg_vista_3d(
     pol_lote = lote.get("poligono_utm") or []
     if len(pol_lote) >= 3:
         partes.append(
-            f'<polygon points="{fmt_poly3d(pol_lote, 0.0)}" '
+            f'<polygon points="{esc(fmt_poly3d(pol_lote, 0.0))}" '
             f'fill="#dcfce7" fill-opacity="0.7" stroke="#15803d" stroke-width="1.4"/>'
         )
 
@@ -492,7 +579,7 @@ def gerar_svg_vista_3d(
         f1 = proj3d(float(frente[0][0]), float(frente[0][1]), 0.0)
         f2 = proj3d(float(frente[1][0]), float(frente[1][1]), 0.0)
         partes.append(
-            f'<line x1="{f1[0]:.2f}" y1="{f1[1]:.2f}" x2="{f2[0]:.2f}" y2="{f2[1]:.2f}" '
+            f'<line x1="{esc(format(f1[0], ".2f"))}" y1="{esc(format(f1[1], ".2f"))}" x2="{esc(format(f2[0], ".2f"))}" y2="{esc(format(f2[1], ".2f"))}" '
             f'stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>'
         )
 
@@ -536,15 +623,15 @@ def gerar_svg_vista_3d(
         dash_attr = f' stroke-dasharray="{tracejado}"' if tracejado else ""
 
         for _, quad, cor_f in faces_laterais:
-            pts_str = " ".join(f"{q[0]:.2f},{q[1]:.2f}" for q in quad)
+            pts_str = " ".join(f"{esc(format(q[0], ".2f"))},{esc(format(q[1], ".2f"))}" for q in quad)
             partes.append(
-                f'<polygon points="{pts_str}" fill="{cor_f}" fill-opacity="{opacidade}" '
+                f'<polygon points="{esc(pts_str)}" fill="{cor_f}" fill-opacity="{opacidade}" '
                 f'stroke="{cor_borda}" stroke-width="0.9"{dash_attr} stroke-linejoin="round"/>'
             )
 
         # Topo do prisma
         partes.append(
-            f'<polygon points="{fmt_poly3d(pts_limpos, z1)}" fill="{cor_topo}" '
+            f'<polygon points="{esc(fmt_poly3d(pts_limpos, z1))}" fill="{cor_topo}" '
             f'fill-opacity="{min(opacidade + 0.08, 0.96)}" stroke="{cor_borda}" '
             f'stroke-width="1.1"{dash_attr} stroke-linejoin="round"/>'
         )
@@ -590,7 +677,7 @@ def gerar_svg_vista_3d(
             pts_c = pts_c[:-1]
         # Base e topo tracejados + arestas verticais da caixa máxima transparente
         partes.append(
-            f'<polygon class="vista3d-caixa-topo" points="{fmt_poly3d(pts_c, alt_caixa)}" '
+            f'<polygon class="vista3d-caixa-topo" points="{esc(fmt_poly3d(pts_c, alt_caixa))}" '
             f'fill="#0ea5e9" fill-opacity="0.06" stroke="#0284c7" '
             f'stroke-width="1.0" stroke-dasharray="4,3"/>'
         )
@@ -598,8 +685,8 @@ def gerar_svg_vista_3d(
             b_pt = proj3d(float(p[0]), float(p[1]), 0.0)
             t_pt = proj3d(float(p[0]), float(p[1]), alt_caixa)
             partes.append(
-                f'<line x1="{b_pt[0]:.2f}" y1="{b_pt[1]:.2f}" '
-                f'x2="{t_pt[0]:.2f}" y2="{t_pt[1]:.2f}" '
+                f'<line x1="{esc(format(b_pt[0], ".2f"))}" y1="{esc(format(b_pt[1], ".2f"))}" '
+                f'x2="{esc(format(t_pt[0], ".2f"))}" y2="{esc(format(t_pt[1], ".2f"))}" '
                 f'stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,3"/>'
             )
 
@@ -733,6 +820,32 @@ def _extrair_resumo_lote(lote: Dict[str, Any]) -> str:
     return " · ".join(partes)
 
 
+def _gerar_selo_dominio(estudo: Dict[str, Any], rodape: bool = False) -> str:
+    dominio = estudo.get("dominio")
+    if not isinstance(dominio, dict) or dominio.get("status") not in {"dentro", "fora", "dados_insuficientes"}:
+        return ""
+    versao = dominio.get("versao")
+    motivos = dominio.get("motivos")
+    if not isinstance(versao, str) or not versao.strip() or not isinstance(motivos, list) or any(not isinstance(m, str) for m in motivos):
+        return ""
+    status = dominio["status"]
+    if status == "dentro":
+        return "" if rodape else f'<div class="selo-dominio selo-dentro">Dentro do domínio testado do motor ({esc(versao)})</div>'
+    if status == "fora":
+        titulo = "Fora do domínio testado: resultado não validado; encaminhar a profissional"
+        if rodape:
+            return f'<span class="aviso-dominio-rodape">{esc(titulo)}</span>'
+        classe = "selo-fora"
+    else:
+        titulo = f"Domínio testado: dados insuficientes para validar o resultado ({esc(versao)})."
+        if rodape:
+            return ""
+        classe = "selo-insuficiente"
+    itens = "".join(f"<li>{esc(motivo)}</li>" for motivo in motivos)
+    lista = f"<ul>{itens}</ul>" if itens else ""
+    return f'<div class="selo-dominio {classe}" role="alert"><strong>{esc(titulo)}</strong>{lista}</div>'
+
+
 def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
     """
     Gera a página de Capa com:
@@ -749,7 +862,32 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
     caixa = estudo.get("caixa_maxima") or {}
     premissas = estudo.get("premissas") or {}
     opcoes = estudo.get("opcoes") or []
+    selo_dominio = _gerar_selo_dominio(estudo)
+    premissas_capa = "".join(
+        f'<div class="premissa-item" data-premissa="{esc(k)}"><span class="premissa-nome">{esc(NOMES_PREMISSAS.get(k, (k, ""))[0])}:</span> '
+        f'{span_num(f"premissas.{k}", v, NOMES_PREMISSAS.get(k, (k, ""))[1]) if isinstance(v, (int, float, bool)) or v is None else f"<span class=\'num-texto\' data-campo=\'premissas.{esc(k)}\' data-valor=\'{esc(v)}\'>{esc(v)}</span>"}'
+        f'{" <span class=\'badge-padrao\'>padrão</span>" if k in (premissas.get("padrao") or []) else ""}</div>'
+        for k, v in premissas.items() if k != "padrao"
+    )
     incertezas = estudo.get("incertezas") or []
+    motivos_ausencia = {
+        "impossivel": "impossível pelas regras informadas",
+        "busca_inconclusiva": "a busca não encontrou (não está provado que não existe)",
+        "dados_insuficientes": "faltam dados",
+        "erro": "erro de cálculo",
+    }
+    ausentes = estudo.get("opcoes_ausentes") or []
+    incertezas = [*incertezas, *(
+        f"Opção {op.get('id', '')} · {op.get('nome', 'sem nome')}: "
+        f"{motivos_ausencia.get(op.get('motivo'), 'motivo não reconhecido')}"
+        f"{(' · ' + op['detalhe']) if op.get('detalhe') else ''}"
+        for op in ausentes
+    )]
+    criterio = estudo.get("criterio_escolha") or {}
+    criterio_html = (
+        f'<p class="caixa-alerta">Como cada opção foi montada: {esc(criterio["texto"])}</p>'
+        if isinstance(criterio.get("texto"), str) and criterio["texto"].strip() else ""
+    )
     areas_especiais = lote.get("areas_especiais") or []
 
     datas_fontes = sorted({f.get("data", "") for f in (zona.get("fontes") or []) if f.get("data")})
@@ -763,7 +901,8 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
             f"Cota máx.: {span_num('lote.relevo.cota_max_m', relevo.get('cota_max_m'), 'm')} · "
             f"Declividade: {span_num('lote.relevo.declividade_pct', relevo.get('declividade_pct'), '%')} · "
             f"Resolução: {span_num('lote.relevo.resolucao_m', relevo.get('resolucao_m'), 'm')} "
-            f"<small>({esc(relevo.get('fonte', ''))})</small>"
+            f"<small>({esc(relevo.get('fonte', ''))})</small><br/>"
+            "Relevo aproximado (modelo de superfície de ~30 m): não substitui levantamento topográfico; a maquete assenta os volumes em terreno plano."
         )
     else:
         relevo_html = '<span class="texto-suave">Relevo não preenchido (considerado plano z=0 m)</span>'
@@ -878,6 +1017,10 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
 
       {_gerar_painel_conferencia(lote, zona, compacto=False)}
 
+      {selo_dominio}
+
+      {f'<div class="card-info"><div class="card-info-titulo">Premissas</div>{premissas_capa}</div>' if premissas_capa else ''}
+
       <div class="grade-resumo-lote">
         <div class="card-info">
           <div class="card-info-titulo">Parâmetros da Zona ({esc(zona.get("id"))})</div>
@@ -889,7 +1032,9 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
             Recuo frontal lei: <strong>{span_num("zona.parametros.recuo_frontal_m", params.get("recuo_frontal_m"), "m")}</strong> ·
             Recuo lat./fundos mín.: <strong>{span_num("zona.parametros.recuo_lateral_m", params.get("recuo_lateral_m"), "m")}</strong> / <strong>{span_num("zona.parametros.recuo_fundos_m", params.get("recuo_fundos_m"), "m")}</strong> ·
             Parede cega até: <strong>{span_num("zona.parametros.parede_cega_encosta_ate_m", params.get("parede_cega_encosta_ate_m"), "m")}</strong> ·
-            Outorga onerosa: <strong>{span_num("zona.parametros.outorga_onerosa", params.get("outorga_onerosa"))}</strong>
+            Outorga onerosa: <strong>{span_num("zona.parametros.outorga_onerosa", params.get("outorga_onerosa"))}</strong> ·
+            Altura máx.: <strong>{span_num("zona.parametros.altura_max_m", params.get("altura_max_m"), "m")}</strong> ·
+            Pavimentos máx.: <strong>{span_num("zona.parametros.pavimentos_max", params.get("pavimentos_max"), "pav.")}</strong>
           </div>
         </div>
         <div class="card-info">
@@ -907,6 +1052,7 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
       </div>
 
       <h2 class="secao-titulo">Comparação Lado a Lado das Opções</h2>
+      {('<p class="caixa-alerta">Nenhuma opção coube neste lote.</p>' if not opcoes else '')}
       <table class="tabela-comparacao">
         <thead>
           <tr>
@@ -937,6 +1083,7 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
         </tbody>
       </table>
 
+      {criterio_html}
       {bloco_areas_especiais}
       {bloco_incertezas}
 
@@ -945,7 +1092,7 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
         <div><strong>Observações da Zona:</strong> {esc(zona.get("observacoes") or "—")}</div>
       </div>
 
-      <footer class="rodape-fixo">{esc(RODAPE_FIXO)}</footer>
+      <footer class="rodape-fixo">{esc(RODAPE_FIXO)}{_gerar_selo_dominio(estudo, rodape=True)}</footer>
     </section>
     """
 
@@ -976,6 +1123,7 @@ def _gerar_pagina_opcao(estudo: Dict[str, Any], opcao: Dict[str, Any]) -> str:
     volumes = opcao.get("volumes") or []
     alertas_op = opcao.get("alertas") or []
     incertezas = estudo.get("incertezas") or []
+    aviso_dominio_rodape = _gerar_selo_dominio(estudo, rodape=True)
     areas_especiais = lote.get("areas_especiais") or []
 
     datas_fontes = sorted({f.get("data", "") for f in (zona.get("fontes") or []) if f.get("data")})
@@ -1103,7 +1251,7 @@ def _gerar_pagina_opcao(estudo: Dict[str, Any], opcao: Dict[str, Any]) -> str:
         )
         linhas_volumes.append(
             f"<tr>"
-            f"<td><strong>{esc(uso_v.capitalize())}</strong> (bloco {idx_v + 1})</td>"
+            f"<td><strong>{esc(uso_v.capitalize())}</strong> (bloco {esc(idx_v + 1)})</td>"
             f'<td>{span_num(f"opcoes.{oid}.volumes.{idx_v}.z0_m", z0_v, "m")}</td>'
             f'<td>{span_num(f"opcoes.{oid}.volumes.{idx_v}.altura_m", alt_v, "m")}</td>'
             f'<td>{span_num(f"opcoes.{oid}.volumes.{idx_v}.pavimentos", pav_v, "pav.")}</td>'
@@ -1336,7 +1484,7 @@ def _gerar_pagina_opcao(estudo: Dict[str, Any], opcao: Dict[str, Any]) -> str:
       </div>
 
       <!-- 8. RODAPÉ FIXO -->
-      <footer class="rodape-fixo">{esc(RODAPE_FIXO)}</footer>
+      <footer class="rodape-fixo">{esc(RODAPE_FIXO)}{aviso_dominio_rodape}</footer>
     </section>
     """
 
@@ -1359,6 +1507,15 @@ body {
   background: #e2e8f0;
   padding: 12px 0;
 }
+.aviso-volume {
+  padding: 7px;
+  margin: 4px 0;
+  border: 1.5px solid #92400e;
+  background: #fffbeb;
+  color: #451a03;
+  font-weight: 700;
+}
+.revisao-estudo { flex-basis: 100%; font-size: 8pt; font-weight: 700; text-align: right; }
 .pagina {
   width: 210mm;
   min-height: 281mm;
@@ -1391,6 +1548,7 @@ body {
 }
 .cabecalho-pagina {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
   border-bottom: 2px solid #0f172a;
@@ -1721,6 +1879,37 @@ body {
   background: #fff7ed;
   border: 1.5px solid #fb923c;
 }
+.selo-dominio {
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin: 5px 0;
+  font-size: 8pt;
+}
+.selo-dentro {
+  border-left: 3px solid #16a34a;
+  background: #f0fdf4;
+  color: #166534;
+}
+.selo-fora {
+  border: 1.5px solid #ef4444;
+  background: #fef2f2;
+  color: #991b1b;
+}
+.selo-insuficiente {
+  border: 1.5px solid #f59e0b;
+  background: #fffbeb;
+  color: #92400e;
+}
+.selo-dominio ul {
+  padding-left: 14px;
+  margin-top: 3px;
+}
+.aviso-dominio-rodape {
+  display: block;
+  margin-top: 2px;
+  color: #991b1b;
+  font-size: 6.7pt;
+}
 .caixa-alerta-titulo {
   font-weight: 800;
   font-size: 7.6pt;
@@ -1755,21 +1944,38 @@ code {
 """
 
 
-def gerar_html(estudo: Dict[str, Any]) -> str:
+def gerar_html(estudo: Dict[str, Any], estudo_sha256: Optional[str] = None) -> str:
     """Gera a string HTML completa (capa + uma página A4 por opção) a partir do dict do estudo."""
+    validar_estudo(estudo)
     lote = estudo.get("lote") or {}
     opcoes = estudo.get("opcoes") or []
     titulo_doc = f"Relatório de Viabilidade — {lote.get('id', 'Estudo')}"
 
+    if estudo_sha256 is None:
+        estudo_sha256 = hashlib.sha256(json.dumps(estudo, ensure_ascii=False).encode("utf-8")).hexdigest()
+    revisao = f"rev {estudo_sha256[:12]} · motor {estudo.get('versao_motor') or 'não informado'}"
+    aviso_volume = (
+        '<p class="aviso-volume">Volumes hipotéticos de potencial construtivo. '
+        'Não são o projeto nem a fachada do edifício e não indicam aprovação.</p>'
+    )
     paginas_html = [_gerar_capa_comparacao(estudo)]
     for op in opcoes:
         paginas_html.append(_gerar_pagina_opcao(estudo, op))
+
+    paginas_html = [
+        pagina.replace("</header>", f'<div class="revisao-estudo">{esc(revisao)}</div></header>')
+        .replace(esc(RODAPE_FIXO), esc(f"{RODAPE_FIXO} · {revisao}"))
+        .replace('<div class="grade-resumo-lote">', aviso_volume + '<div class="grade-resumo-lote">')
+        .replace('<div class="painel-desenhos">', aviso_volume + '<div class="painel-desenhos">')
+        for pagina in paginas_html
+    ]
 
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="estudo-sha256" content="{esc(estudo_sha256)}"/>
   <title>{esc(titulo_doc)}</title>
   <style>{CSS_ESTILOS}</style>
 </head>
@@ -1784,9 +1990,9 @@ def gerar_relatorio(caminho_estudo: Path | str, caminho_saida: Path | str) -> Pa
     """Lê o arquivo JSON de estudo e grava o relatório HTML correspondente."""
     p_in = Path(caminho_estudo)
     p_out = Path(caminho_saida)
-    with p_in.open("r", encoding="utf-8") as f:
-        estudo = json.load(f)
-    conteudo_html = gerar_html(estudo)
+    bytes_estudo = p_in.read_bytes()
+    estudo = json.loads(bytes_estudo)
+    conteudo_html = gerar_html(estudo, hashlib.sha256(bytes_estudo).hexdigest())
     p_out.parent.mkdir(parents=True, exist_ok=True)
     with p_out.open("w", encoding="utf-8") as f:
         f.write(conteudo_html)
