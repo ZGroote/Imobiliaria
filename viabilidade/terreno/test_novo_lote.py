@@ -11,7 +11,7 @@ import time
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from novo_lote import AQUI, BASES, Cadastro, gl, relevo, unir
+from novo_lote import AQUI, BASES, Cadastro, desnivel_lote_rua, gl, relevo, unir
 from testar_pilotos import comparar_json  # float com tolerância 1e-6: a última casa muda entre Windows e Linux
 
 # Campos manuais omitidos; os demais precisam reproduzir os cinco pilotos.
@@ -152,6 +152,23 @@ def testar():
     assert rua_osm(giro=30) is None  # perto e torta: não é a rua do lado
     assert rua_osm(solta=True) is None  # trecho que não chega à malha nem a outra via aceita
     print("OK: regra 4 (rua do OSM): via residencial a 5 m aceita; service/track/unclassified, 30° e trecho solto recusados.", flush=True)
+    # desnível lote - rua (T22): raster sintético = plano subindo 0,1 m por metro para o norte, rua 2 a 10 m ao sul da frente
+    x0, y0, topo = 202000, 7564000, 7564300
+    plano = gl.np.array([[500 + 0.1 * (topo - 30 * (j + 0.5) - y0)] * 20 for j in range(20)])
+    def altura(x, y):
+        return relevo.bilinear(plano, (x - (x0 - 300)) / 30 - 0.5, (topo - y) / 30 - 0.5)
+    lote, frente = caixa(x0, y0, x0 + 12, y0 + 30), [(x0, y0), (x0 + 12, y0)]
+    rua = gl.np.array([caixa(x0 - 40, y0 - 10, x0 + 52, y0 - 2)])
+    d = desnivel_lote_rua(lote, frente, altura, rua, gl.sh.STRtree(rua))
+    assert d == 2.1, d  # centroide em y0+15, mediana da rua em y0-6: 21 m x 0,1
+    assert desnivel_lote_rua(lote, frente, lambda x, y: 700 - altura(x, y), rua, gl.sh.STRtree(rua)) == -2.1
+    longe = gl.np.array([caixa(x0 - 40, y0 - 60, x0 + 52, y0 - 50)])  # asfalto além dos 25 m: não grava
+    assert desnivel_lote_rua(lote, frente, altura, longe, gl.sh.STRtree(longe)) is None
+    plano[9:11, 9:11] = -9999  # pixel sem dado sob o lote: não grava
+    assert desnivel_lote_rua(lote, frente, altura, rua, gl.sh.STRtree(rua)) is None
+    l = cadastro.gerar([77022], "SC-Z2")["relevo"]
+    assert l["desnivel_lote_rua_m"] == 5.2 and "DSM" in l["metodo_desnivel"], l  # T26: +5,2 m no DSM
+    print("OK: desnível lote-rua: raster sintético +2,1/-2,1, asfalto longe e pixel sem dado sem campo, 77022 +5,2.", flush=True)
     print("OK: regra 3 (borda da quadra): corredor aceito, viela e fundo recusados, 10 lotes reais, esquina 77033, miolo 76495, em L 75931, vizinho inválido.", flush=True)
     cadastro_antigo = Cadastro("antigo")
     antigo = cadastro_antigo.gerar([542], "SC-Z1")

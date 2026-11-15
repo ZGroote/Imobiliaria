@@ -30,6 +30,10 @@ DIVISA_PONTO_M = 0.5  # ponto mais perto que isso de duas feições não escolhe
 
 OSM_VIAS = AQUI / "dados/osm-vias-sao-carlos.json.gz"  # osm_vias.py; © OpenStreetMap contributors (ODbL)
 BASES = {"completo": gl.BASES[1], "antigo": gl.BASES[0]}
+DESNIVEL_RAIO_M, DESNIVEL_GRADE_M = 25, 3  # os números do via.py da T26 do Motor
+METODO_DESNIVEL = ("Copernicus GLO-30 (DSM de ~30 m: mede topo de prédio e árvore): cota no centroide do lote menos a mediana "
+                   "das cotas do asfalto da malha a até 25 m da frente principal (grade de 3 m mais um ponto por pedaço). Só triagem: entre "
+                   "fontes a diferença lote-rua variou mediana 0,6 m e p90 1,5 m (T26); não substitui levantamento planialtimétrico.")
 
 
 def ler_ponto(texto):
@@ -55,6 +59,28 @@ def validar_zona(zona, *, permitir_auto=False):
     validas = sorted(z["id"] for z in gl.ler("viabilidade/lei/zonas.json"))
     if zona not in validas:
         raise ValueError(f"Zona inexistente: {zona!r}. Zonas válidas: {', '.join(validas)}")
+
+
+def desnivel_lote_rua(g, frente, altura, malha, tree_ruas):
+    """Cota do lote menos a da rua em frente (m, 0,1), pelo método da T26; None sem asfalto perto ou sem raster.
+
+    A grade de 3 m da T26 cai pouco na malha (triângulos finos e picotados: 4 pontos no 22421), então cada pedaço de
+    asfalto a até 25 m da frente também dá um ponto."""
+    perto = gl.LineString(frente).buffer(DESNIVEL_RAIO_M).difference(g.buffer(1))
+    x0, y0, x1, y1 = perto.bounds
+    X, Y = gl.np.meshgrid(gl.np.arange(x0, x1, DESNIVEL_GRADE_M), gl.np.arange(y0, y1, DESNIVEL_GRADE_M))
+    pts = gl.sh.points(X.ravel(), Y.ravel())
+    pts = pts[gl.sh.contains(perto, pts)]
+    pts = list(pts[gl.np.unique(tree_ruas.query(pts, predicate="within")[0])])
+    pedacos = (malha[k].intersection(perto) for k in tree_ruas.query(perto, predicate="intersects"))
+    pts += [p.representative_point() for p in pedacos if p.area > 0]
+    if not pts:
+        return None
+    try:
+        c = g.centroid
+        return round(altura(c.x, c.y) - float(gl.np.median([altura(p.x, p.y) for p in pts])), 1) + 0.0
+    except ValueError:  # fora do recorte de relevo ou pixel sem dado
+        return None
 
 
 def unir(partes):
@@ -236,6 +262,9 @@ class Cadastro:
         escolhida = qualidade["frentes"][0]
         arestas = escolhida.get("arestas", [escolhida["aresta"]])
         resumo = relevo.resumir(coords, (pol.centroid.x, pol.centroid.y), self.altura)
+        desnivel = desnivel_lote_rua(pol, [coords[arestas[0]], coords[arestas[-1] + 1]], self.altura, self.malha, self.tree_ruas)
+        if desnivel is not None:
+            resumo.update(desnivel_lote_rua_m=desnivel, metodo_desnivel=METODO_DESNIVEL)
         obs = ("Geometria de ensaio derivada do cadastro/maquete, sem vistoria. Zona informada pelo usuário, não conferida. "
                "Frente inferida da malha de asfalto, por comprimento decrescente e índice da aresta. "
                "Áreas especiais: triagem raster dos Anexos 05/06/07, confirmar incidências e pendências em areas_especiais. "
