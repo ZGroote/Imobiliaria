@@ -43,6 +43,16 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - O site no ar continua com 404 em `/visual/`.
 - **Reversão:** reverter 186a0fd8 ou apagar o canal.
 - **Falta a decisão de publicação, que é do usuário:** domínio, caminho e quem acessa.
+- **Veredito da revisão (15/11): integração ACEITA; publicação pública BLOQUEADA.** Ordens:
+  1. Preservar o canal isolado sem alterá-lo.
+  2. Não publicar `/visual/` no domínio principal.
+  3. Inspecionar os arquivos liberados nas exceções de privacidade.
+     - **FEITO:** `conferencia/INSPECAO-PRIVACIDADE-1E.md`. São 89 arquivos, vistos um a um, com metadados e sha256. Nada privado.
+  4. Avançar no 1C com o arquiteto e registrar as limitações que ficarem.
+     - O pacote está pronto. Falta enviar; perguntei ao usuário quem envia.
+  5. Voltar para a decisão de publicação depois dessas evidências.
+- **Atenção:** reverter o merge ≠ desfazer o deploy. São operações diferentes; não executar nenhuma das duas sem ordem.
+- **Documento explicativo** do sistema, para o usuário: https://claude.ai/artifact/2epdS1PHAF7EBNZpxcEhC5
 
 ## Ao chegar um relatório
 
