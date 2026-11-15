@@ -23,3 +23,7 @@ Depois da tarefa 13 do terreno (que você fez), todo lote novo traz de 2 a 4 reg
 ## Relatório
 
 `viabilidade/motor/RELATORIO-21.md`, até 8 linhas. Depois: `maestri ask "Claude Code" "Motor tarefa 21 pronta"`.
+
+## Acréscimo (depois da tarefa 12 do terreno)
+
+O terreno agora marca `qualidade.frentes[0].regra: "borda_de_quadra"` com `largura_vao_m` (veja `terreno/RELATORIO-12.md`). Em `motor.py` (~linha 768) isso cai no ramo da tolerância e sai "Frente presumida (asfalto a 29.141 m, acima dos 6 m da regra)", que é enganoso. Dê um ramo próprio: "Frente presumida pela borda da quadra (sem asfalto no mapa; vão de X m entre quadras): conferir no local". Teste com um lote real dessa regra (ex.: 92058).
