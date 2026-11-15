@@ -37,6 +37,12 @@ def testar_cores(mapa):
                 rgb[:] = mapa.paleta[6]
             elif self.modo == "eixo":
                 rgb[:, 4500-x0:4503-x0] = mapa.cor_eixo
+            elif self.modo == "eixo_fino":  # borda/texto de 2 px na cor do Eixo (AUDITORIA-6, idx 100)
+                rgb[:, 4500-x0:4502-x0] = mapa.cor_eixo
+            elif self.modo == "represa":
+                rgb[:] = mapa.paleta[9]
+            elif self.modo == "ambigua":  # meio do caminho entre Z3 e Represa
+                rgb[:] = (mapa.paleta[2] + mapa.paleta[9]) / 2
             elif self.modo == "texto_fino":
                 rgb[:, 4530-x0:4532-x0] = (0, 0, 0)
             return Image.fromarray(rgb)
@@ -71,11 +77,19 @@ def testar_cores(mapa):
         for modo in ("desconhecida", "campus"):
             raster.modo = modo
             recusar(lote(4520, 4540), "Cor sem correspondência")
-        raster.modo = "eixo"
-        z, s = mapa.sugerir(lote(4520, 4540))
-        assert z == "SC-Z1" and s["alternativas"] == ["SC-EIXO"] and "testada" in s["motivo_duvida"]
+        raster.modo = "eixo"  # AUDITORIA-6 achado 1: Eixo a <=60 m recusa, com fundo + Eixo nas alternativas
+        s = recusar(lote(4520, 4540), "Traço de Eixo a até 60 m")
+        assert s["alternativas"] == ["SC-Z1", "SC-EIXO"], s["alternativas"]
         _, s = mapa.sugerir(lote(4560, 4580))
         assert "SC-EIXO" not in s["alternativas"]
+        raster.modo = "eixo_fino"
+        z, s = mapa.sugerir(lote(4520, 4540))
+        assert z == "SC-Z1" and "SC-EIXO" not in s["alternativas"]
+        for modo in ("represa", "ambigua"):  # achados 5/6: Represa não vira Z3; cor ambígua não decide
+            raster.modo = modo
+            recusar(lote(4520, 4540), "Cor sem correspondência")
+        raster.modo = "uniforme"
+        recusar(gl.Polygon(mapa.utm([(4000, 6000), (4800, 6000), (4800, 6800), (4000, 6800)])), "Lote grande demais")
         raster.modo = "texto_fino"
         z, s = mapa.sugerir(lote(4520, 4540))
         assert z == "SC-Z1" and any(p["cor_recuperada"] for p in s["pontos"])
@@ -83,7 +97,7 @@ def testar_cores(mapa):
         recusar(gl.Polygon(mapa.utm([(500, 10300), (550, 10300), (550, 10350), (500, 10350)])), "Fora do quadro")
     finally:
         mapa.imagem = original
-    print("OK: cores desconhecidas/campus, traços, lote multizona, divisa de 10 m e alternativa Eixo de 60 m.", flush=True)
+    print("OK: cores desconhecidas/campus, traços, lote multizona, divisa de 10 m e Eixo a 60 m recusa, borda fina não é Eixo, Represa e cor ambígua recusam, lote grande demais.", flush=True)
 
 
 def testar(cadastro, pilotos, pasta):

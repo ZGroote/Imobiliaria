@@ -11,6 +11,7 @@ import time
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from novo_lote import AQUI, BASES, Cadastro, gl, relevo, unir
+from testar_pilotos import comparar_json  # float com tolerância 1e-6: a última casa muda entre Windows e Linux
 
 # Campos manuais omitidos; os demais precisam reproduzir os cinco pilotos.
 OMITIDOS = {"lid", "categoria", "centroide_lonlat",
@@ -54,18 +55,18 @@ def testar():
         assert set(novo) == set(original) - OMITIDOS
         gl.np.testing.assert_allclose(novo["poligono_utm"], original["poligono_utm"], rtol=0, atol=1e-6)
         assert math.isclose(novo["area_m2"], original["area_m2"], rel_tol=0, abs_tol=1e-6)
-        assert novo["frente"] == original["frente"]
+        comparar_json(original["frente"], novo["frente"], f"piloto {indice}", "frente")
         for k, v in original["relevo"].items():
             if isinstance(v, (float, int)):
                 assert math.isclose(novo["relevo"][k], v, rel_tol=0, abs_tol=1e-6), (indice, k)
             else:
                 assert novo["relevo"][k] == v
         for k in set(novo) - DIFERENCAS_ESPERADAS - {"poligono_utm", "area_m2", "relevo"}:
-            assert novo[k] == original[k], (indice, k)
+            comparar_json(original[k], novo[k], f"piloto {indice}", k)
         assert novo["zona_origem"] == "informada_pelo_usuario" and not novo["zona_conferida"]
         assert novo["fonte"]["indices_feicoes_zero_based"] == [indice]
         assert relevo.AVISO in novo["observacoes"]
-        assert novo["qualidade"]["frentes"] == original["qualidade"]["frentes"]
+        comparar_json(original["qualidade"]["frentes"], novo["qualidade"]["frentes"], f"piloto {indice}", "qualidade.frentes")
         if novo["qualidade"]["esquina_indicada_pela_malha"]:
             assert "Esquina indicada" in novo["observacoes"]
         if len(novo["qualidade"]["frentes"]) > 1:

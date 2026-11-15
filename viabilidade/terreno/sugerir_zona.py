@@ -9,7 +9,7 @@ import warnings
 import cache
 import gerar_lotes as gl
 from cache import sha
-from PIL import Image
+from PIL import Image, ImageFilter
 from pyproj import Transformer
 
 AQUI = Path(__file__).resolve().parent
@@ -17,6 +17,10 @@ ZONAS = ["SC-Z1", "SC-Z2", "SC-Z3", "SC-Z4", "SC-Z5A", "SC-Z5B"]
 DIVISA_M = 10.0
 EIXO_M = 60.0
 BUSCA_M = 250.0
+TOLERANCIA_COR = 18
+# Cor a menos de 3 unidades RGB de empatar entre duas da paleta não decide (AUDITORIA-6: Represa x Z3 a 9,1;
+# Z5B x Parque a 22,2): vira 0, como traço, e só herda classe de vizinho a até 3 px.
+MARGEM_COR = 3
 # Um par por processo, não um por mapa: cada from_crs custa ~11 ms.
 SAD = Transformer.from_crs(31983, 29183, always_xy=True)
 SIRGAS = Transformer.from_crs(29183, 31983, always_xy=True)
@@ -41,6 +45,26 @@ def recuperar_tracos(classes):
         leitura[alvo][achou] = classes[fonte][achou]
         pendente[alvo] &= ~achou
     return (classes == 0) & ~pendente, leitura
+
+
+def classificar(rgb, paleta):
+    """Índice 1-based da cor da paleta; 0 se longe de todas ou ambígua entre as duas mais próximas."""
+    dist = gl.np.linalg.norm(rgb[..., None, :].astype(float) - paleta, axis=-1)
+    duas = gl.np.partition(dist, 1, axis=-1)
+    classes = dist.argmin(axis=-1) + 1
+    classes[(duas[..., 0] > TOLERANCIA_COR) | (duas[..., 1] - duas[..., 0] < MARGEM_COR)] = 0
+    return classes
+
+
+def mancha(mascara, lado):
+    """Abertura morfológica: some linha/borda com menos de `lado` px de largura, fica o preenchimento."""
+    m = Image.fromarray(mascara.astype(gl.np.uint8) * 255)
+    return gl.np.asarray(m.filter(ImageFilter.MinFilter(lado)).filter(ImageFilter.MaxFilter(lado))) > 0
+
+
+def erodir(mascara, lado):
+    m = Image.fromarray(mascara.astype(gl.np.uint8) * 255)
+    return gl.np.asarray(m.filter(ImageFilter.MinFilter(lado))) > 0
 
 
 class ZonaIncerta(ValueError):
@@ -89,6 +113,7 @@ class MapaGeorreferenciado:
         ajuste = gl.np.linalg.lstsq(gl.np.column_stack([mundo - self.origem, gl.np.ones(len(mundo))]), pixels, rcond=None)[0]
         if not gl.np.allclose(ajuste, self.coef, rtol=0, atol=1e-8):
             raise ValueError(f"Posicionamento não corresponde aos controles do Anexo {anexo}")
+        self.residuo_max = max(pos["residuos_controles_m"])
         self.sad, self.sirgas = SAD, SIRGAS
         self.escala_min, self.escala_max = sorted(gl.np.linalg.svd(self.coef[:2], compute_uv=False))
 
@@ -105,15 +130,19 @@ class MapaGeorreferenciado:
 class MapaZonas(MapaGeorreferenciado):
     def __init__(self):
         super().__init__("02")
-        # Seis zonas, campus e parque: amostras no miolo dos retângulos da legenda original.
-        self.paleta = gl.np.array([gl.np.median(gl.np.asarray(self.imagem.crop((4280, y-10, 4330, y+10))), axis=(0, 1))
-                                   for y in (10855, 10934, 11013, 11092, 11171, 11250, 11329, 11408)] + [[255, 255, 255]])
+        # Seis zonas, campus e parque: amostras no miolo dos retângulos da legenda original; depois branco e
+        # Represas (Hidrografia, a 9,1 da Z3): classes não zonais, que recusam em vez de virar Z3.
+        legenda = [gl.np.median(gl.np.asarray(self.imagem.crop((4280, y-10, 4330, y+10))), axis=(0, 1))
+                   for y in (10855, 10934, 11013, 11092, 11171, 11250, 11329, 11408)]
+        represa = gl.np.median(gl.np.asarray(self.imagem.crop((3280, 10920, 3330, 10940))), axis=(0, 1))
+        self.paleta = gl.np.array(legenda + [[255, 255, 255], represa])
         self.cor_eixo = gl.np.median(gl.np.asarray(self.imagem.crop((3265, 11165, 3345, 11170))), axis=(0, 1))
 
     def classificar(self, rgb):
-        dist = gl.np.linalg.norm(rgb[..., None, :].astype(float) - self.paleta, axis=-1)
-        classes = dist.argmin(axis=-1) + 1
-        classes[dist.min(axis=-1) > 18] = 0
+        classes = classificar(rgb, self.paleta)
+        # Pixel de Z3 com ruído de JPEG cai na Represa (a 9,1): água só conta em mancha de 5x5 px ou mais.
+        represa = classes == len(self.paleta)
+        classes[represa & ~mancha(represa, 5)] = 0
         return classes
 
     def sugerir(self, pol):
@@ -126,14 +155,18 @@ class MapaZonas(MapaGeorreferenciado):
                  int(gl.np.ceil(x1+margem)), int(gl.np.ceil(y1+margem)))
         info = {"metodo": "Anexo 02 verificado por SHA256; EPSG:31983→29183, afim de 5 controles; "
                 "centros de todos os pixels interiores (~1,4 m), RGB da legenda (tolerância 18); "
-                "traços recuperados até 3 pixels; divisa conservadora >=10 m; busca 250 m; eixo <=60 m. "
+                "cor ambígua (empate a menos de 3) não decide; traços recuperados até 3 pixels; divisa conservadora "
+                ">=10 m; busca 250 m; Eixo (traço de 3x3 px ou mais) a <=60 m recusa. "
                 "RMSE 3,53 m não é acurácia cadastral.", "pontos": [], "proporcao_por_zona": {},
                 "distancia_divisa_m": None, "alternativas": [], "motivo_duvida": None}
         # Fora do quadro principal há legendas e quadros sem o mesmo georreferenciamento.
-        if (x0 < 250 or y0 < 70 or x1 > 8770 or y1 > 10450 or pol.area > 1_000_000
-                or pixel_pol.intersects(gl.sh.box(250, 10150, 2500, 12746))
-                or (caixa[2]-caixa[0]) * (caixa[3]-caixa[1]) > 2_000_000):
-            info["motivo_duvida"] = "Fora do quadro georreferenciado ou lote excede a leitura local (1 km²/2 milhões de pixels)"
+        if pol.area > 1_000_000 or (caixa[2]-caixa[0]) * (caixa[3]-caixa[1]) > 2_000_000:
+            info["motivo_duvida"] = (f"Lote grande demais para a leitura local do mapa ({pol.area:,.0f} m²; limite 1 km² "
+                                     "e 2 milhões de pixels com a busca de 250 m): gleba/condomínio pode ter mais de uma zona")
+            raise ZonaIncerta(info)
+        if (x0 < 250 or y0 < 70 or x1 > 8770 or y1 > 10450
+                or pixel_pol.intersects(gl.sh.box(250, 10150, 2500, 12746))):
+            info["motivo_duvida"] = "Fora do quadro georreferenciado do Anexo 02 (borda, legenda ou encarte)"
             raise ZonaIncerta(info)
         rgb = gl.np.asarray(self.imagem.crop(caixa))
         classes = self.classificar(rgb)
@@ -153,13 +186,16 @@ class MapaZonas(MapaGeorreferenciado):
             info["proporcao_por_zona"][nome] = info["proporcao_por_zona"].get(nome, 0) + float(gl.np.mean(amostras == c))
         zonas = [ZONAS[c-1] for c in gl.np.unique(amostras) if 1 <= c <= 6]
         info["alternativas"] = zonas.copy()
-        eixo = gl.np.linalg.norm(rgb.astype(float) - self.cor_eixo, axis=-1).ravel() <= 35
+        motivos = []
+        # O traço do art. 11 tem ~6 px; borda vermelha anti-aliased junto de texto preto também cai a <=35 da cor,
+        # mas não enche um 3x3 (AUDITORIA-6, idx 100). A erosão come 1 px: desconta 2 px na distância.
+        eixo = erodir(gl.np.linalg.norm(rgb.astype(float) - self.cor_eixo, axis=-1) <= 35, 3).ravel()
         if eixo.any():
             de = float(gl.sh.distance(pol, gl.sh.points(self.utm(xy[eixo]))).min())
-            if de - 1/self.escala_min <= EIXO_M:
+            if de - 2/self.escala_min <= EIXO_M:
                 info["alternativas"].append("SC-EIXO")
-                info["motivo_duvida"] = "Traço de Eixo a até 60 m: art. 11 depende da testada; conferir via, trecho e alinhamento cadastral"
-        motivos = []
+                motivos.append("Traço de Eixo a até 60 m: art. 11 vale para lote com testada na via; "
+                               "conferir via, trecho e alinhamento cadastral (zona de fundo listada nas alternativas)")
         if len(amostras) < 3 or any(c < 1 or c > 6 for c in amostras):
             motivos.append("Cor sem correspondência segura com zona da legenda ou lote sem resolução suficiente")
         if len(zonas) > 1:
@@ -180,7 +216,7 @@ class MapaZonas(MapaGeorreferenciado):
                     if 1 <= c <= 6 and ZONAS[c-1] not in info["alternativas"]:
                         info["alternativas"].append(ZONAS[c-1])
         if motivos:
-            info["motivo_duvida"] = "; ".join(motivos + ([info["motivo_duvida"]] if info["motivo_duvida"] else []))
+            info["motivo_duvida"] = "; ".join(motivos)
             raise ZonaIncerta(info)
         info["alternativas"].remove(zonas[0])
         return zonas[0], info

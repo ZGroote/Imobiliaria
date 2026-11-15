@@ -25,6 +25,8 @@ import preparar_relevo as relevo
 from affine import Affine  # do rasterio, sem o custo de importar o rasterio
 import pyproj  # gerar_lotes já pôs o site do usuário no caminho
 
+DIVISA_PONTO_M = 0.5  # ponto mais perto que isso de duas feições não escolhe sozinho (AUDITORIA-6, achado 11)
+
 BASES = {"completo": gl.BASES[1], "antigo": gl.BASES[0]}
 
 
@@ -55,7 +57,8 @@ def validar_zona(zona, *, permitir_auto=False):
 
 def unir(partes):
     for i, p in enumerate(partes):
-        if p.geom_type != "Polygon" or p.is_empty or not p.is_valid or p.interiors:
+        # anel com buraco só entra junto do miolo que o fecha; a união é conferida abaixo
+        if p.geom_type != "Polygon" or p.is_empty or not p.is_valid or (p.interiors and len(partes) == 1):
             raise ValueError(f"Componente {i + 1}: exige polígono válido, não vazio e sem buracos")
     if len(partes) == 1:
         return partes[0]  # preserva a ordem das arestas usada pelos pilotos de um lote só
@@ -122,13 +125,35 @@ class Cadastro:
         if len(contatos) > 1 and dentro:
             raise ValueError(f"Sobreposição/divisa na base {self.base}: índices {contatos}; "
                              f"contêm o ponto no interior: {dentro}. Confira e informe --indices; nenhuma feição escolhida")
+        divisa = sorted(map(int, self.tree.query(ponto, predicate="dwithin", distance=DIVISA_PONTO_M)))
+        if len(divisa) > 1:
+            raise ValueError(f"Ponto a menos de {DIVISA_PONTO_M} m da divisa na base {self.base}: índices {divisa}; "
+                             "coordenada arredondada pode cair em qualquer um. Confira e informe --indices; nenhuma feição escolhida")
         if len(dentro) == 1:
             return dentro[0]
+        cercam = [int(i) for i in self.tree.query(ponto) if gl.Polygon(self.geos[i].exterior).contains(ponto)]
+        if cercam:
+            raise ValueError(f"Ponto no buraco interno da feição {cercam} na base {self.base}: {self.buracos(cercam[0])}")
         distancias = gl.sh.distance(self.geos, ponto)
         indices = gl.np.lexsort((gl.np.arange(len(self.geos)), distancias))[:3]
         proximas = "; ".join(f"índice {i}: {distancias[i]:.3f} m" for i in indices)
         raise ValueError(f"Nenhuma feição contém o ponto no interior na base {self.base} (rua, lacuna ou divisa). "
                          f"As 3 mais próximas, distância ao polígono: {proximas}. Confira e informe --indices; nenhuma feição escolhida")
+
+    def buracos(self, indice):
+        """Diz o que ocupa o buraco do anel (condomínio/gleba com miolo cadastrado à parte)."""
+        anel = self.geos[indice]
+        miolos = []
+        for furo in anel.interiors:
+            furo = gl.Polygon(furo)
+            miolos += sorted(int(i) for i in self.tree.query(furo, predicate="intersects")
+                             if i != indice and furo.intersection(self.geos[i]).area > 1)
+        if miolos:
+            return (f"a feição {indice} tem {len(anel.interiors)} buraco(s) ocupado(s) pelos índices {miolos}. "
+                    f"Para o terreno inteiro, junte tudo: --indices {indice} {' '.join(map(str, miolos))}; "
+                    "para só o miolo, use o índice dele. Lote grande pode passar de 1 km² e sair 'não verificada'")
+        return (f"a feição {indice} tem {len(anel.interiors)} buraco(s) sem lote cadastrado dentro (praça, área "
+                "comum ou falha da base): não dá para estudar o anel sozinho; conferir a planta do loteamento")
 
     def listar_vizinhos(self, indice):
         vizinhos = sorted(map(int, self.tree.query(self.geos[indice], predicate="touches")))
@@ -137,6 +162,8 @@ class Cadastro:
             print(f"{'Feição achada' if i == indice else 'Vizinha'}: índice {i}; área {self.geos[i].area:.3f} m²")
         if not vizinhos:
             print("Nenhuma vizinha encosta na feição.")
+        if self.geos[indice].interiors:
+            print(f"AVISO: {self.buracos(indice)}.")
 
     def motivo_recusa(self, g, indice, geos, tree):
         # avaliar() não expõe o motivo; diagnosticamos seus filtros sem repetir a seleção de frente.
@@ -163,6 +190,11 @@ class Cadastro:
         if len(set(indices)) != len(indices):
             raise ValueError("Índices repetidos: cada feição deve aparecer uma vez")
         indices = sorted(indices)
+        furados = [i for i in indices if self.geos[i].interiors]
+        if furados:
+            uniao = gl.sh.union_all([self.geos[i] for i in indices])
+            if uniao.geom_type != "Polygon" or uniao.interiors:
+                raise ValueError(f"Polígono com buraco: {self.buracos(furados[0])}")
         g = unir([self.geos[i] for i in indices])
         geos, tree, indice = self.geos, self.tree, indices[0]
         if len(indices) > 1:

@@ -31,8 +31,21 @@ def testar(cadastro, antigo, pilotos, pasta):
     sintetico.tree = gl.sh.STRtree(sintetico.geos)
     assert sintetico.localizar(gl.Point(5, 5)) == 0
     recusa(lambda: sintetico.localizar(gl.Point(9.5, 9.5)), "contêm o ponto no interior: [0, 2, 3]")
-    for p in (gl.Point(0, 5), gl.Point(10, 5)):
-        recusa(lambda: sintetico.localizar(p), "Nenhuma feição contém")
+    recusa(lambda: sintetico.localizar(gl.Point(0, 5)), "Nenhuma feição contém")
+    # AUDITORIA-6 achado 11: a menos de 0,5 m de duas feições, recusa e lista as duas
+    for p in (gl.Point(10, 5), gl.Point(9.6, 5), gl.Point(10.4, 5)):
+        recusa(lambda: sintetico.localizar(p), "da divisa na base completo: índices [0, 1]")
+    assert sintetico.localizar(gl.Point(9.4, 5)) == 0
+    recusa(lambda: cadastro.localizar(ler_ponto("-21.963013, -47.886674")), "índices [900, 901]")
+    recusa(lambda: cadastro.localizar(ler_ponto("-21.963013022579, -47.886674469625")), "índices [900, 901]")
+    # achado 10: anel com miolo cadastrado e buraco vazio dão a mesma explicação no ponto, nos vizinhos e no gerar
+    recusa(lambda: cadastro.gerar([14429], "auto"), "--indices 14429 14421")
+    recusa(lambda: cadastro.localizar(ler_ponto("-21.99203689, -47.88204138")), "buraco interno da feição [55999]")
+    captura = StringIO()
+    with redirect_stdout(captura):
+        cadastro.listar_vizinhos(14429)
+    assert "--indices 14429 14421" in captura.getvalue(), captura.getvalue()
+    recusa(lambda: cadastro.gerar([14421, 14429], "SC-Z2"), "sem frente para rua")  # a união fecha o buraco
     captura = StringIO()
     with redirect_stdout(captura):
         sintetico.listar_vizinhos(0)
