@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.8.1",
+ "versao_motor": "0.8.2",
  "lote": {
   "id": "SC-completo-22426",
   "lid": null,
@@ -803,5 +803,10 @@
   "Opção A (Torre única) não coube: busca_inconclusiva: Melhor pavimento tentado: 1 pavimento(s), 0 unidade(s), computável 69.47 m², permeável 512.34 m² (mínimo 90.27 m²), TO 0.12; nenhum ajuste viável encontrado; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.44 m², laje mínima 80.00 m².",
   "Opção B (Duas torres) não coube: busca_inconclusiva: Par de torres com afastamento 6.00 m: laje encontrada de 68.03 m² por torre no pavimento 1; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.44 m², laje mínima 80.00 m².",
   "Opção D (Embasamento + torre) não coube: busca_inconclusiva: Melhor pavimento tentado: 3 pavimento(s), 0 unidade(s), computável 376.25 m², permeável 423.82 m² (mínimo 90.27 m²), TO 0.26; nenhum ajuste viável encontrado; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.44 m², laje mínima 80.00 m²."
- ]
+ ],
+ "dominio": {
+  "status": "dentro",
+  "motivos": [],
+  "versao": "dominio-0.8"
+ }
 }

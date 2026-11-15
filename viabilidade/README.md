@@ -76,7 +76,8 @@ Parâmetro que a lei não define: `null`. Parâmetro que não achamos: ausente +
 
 ```json
 {
-  "versao_motor": "0.8.1",
+  "versao_motor": "0.8.2",
+  "dominio": {"status": "dentro", "motivos": [], "versao": "dominio-0.8"},
   "lote": { "...": "o objeto Lote acima" },
   "zona": { "...": "o objeto Zona acima" },
   "premissas": {
@@ -139,3 +140,5 @@ v5 (15/11, motor 0.8.0; aditivo, estudos v4 continuam válidos):
 - Garagem e permeabilidade são medidas sobre os polígonos finais exportados. A partir da 0.8.1, vértices usam quatro casas decimais em metros para evitar perdas numéricas acumuladas por pavimento; isso não aumenta a precisão do levantamento. Se a geometria final não comportar todas as vagas previstas, o motor reduz a contagem e emite alerta de déficit.
 - `parede_cega` indica uso da isenção de recuo no embasamento; pode haver afastamento da divisa. Os recuos dessa base são a distância mínima medida até o contorno, não uma promessa de contato.
 - Na 0.8.1, as buscas com e sem envelope de permeabilidade concorrem pelo mesmo critério. `impossivel` usa limites legais independentes do envelope. Com garagem computável, concorrem o subsolo da caixa legal e o limitado à implantação do prédio: a meta `vagas_por_unidade` continua sendo informada, e déficits geométricos permanecem explícitos. Para um mesmo prédio viável, prefere-se a garagem com mais vagas; a escolha entre prédios continua priorizando unidades e área privativa.
+- Na 0.8.2, `dominio` é opcional para leitores v5: `{status: "dentro" | "fora" | "dados_insuficientes", motivos: string[], versao: "dominio-0.8"}`. As faixas e categorias medidas por `motor/dominio.py` ficam em `motor/dominio-0.8.json`, com a lista dos estudos de origem. São faixas marginais observadas, sem garantia de que toda combinação entre elas foi testada. Medidas contínuas admitem 0,1% de cada extremo (piso numérico 1e-9); número de vértices e categorias não têm folga. Profundidade é a amplitude do lote no eixo normal à frente; ângulos internos consideram concavidade e orientação. `null` explícito nos parâmetros é distinto de parâmetro ausente.
+- Qualquer medida ou categoria fora do conjunto medido dá `fora`, mesmo se também faltarem dados; ambos os motivos são listados. As opções calculadas são preservadas e `incertezas` inclui "Lote fora do domínio testado do motor: resultado não validado; encaminhar a profissional." Sem extrapolação conhecida, dados ausentes dão `dados_insuficientes`; `zona_conferida: false` não altera esse status, e a zona só falta quando não há identificação/parâmetros disponíveis. Sem polígono, frente ou parâmetros de zona utilizáveis, o estudo retorna sem opções, com ausências por dados insuficientes e caixa não calculada (`projecao_utm: []`, `altura_m: null`), sem inventar geometria. As correções preexistentes de frente degenerada e polígono cruzado continuam, mas o domínio avalia a entrada original. A classificação não muda a busca nem as métricas.

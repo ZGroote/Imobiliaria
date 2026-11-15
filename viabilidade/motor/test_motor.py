@@ -9,6 +9,7 @@ import math
 import os
 import sys
 import re
+import hashlib
 from functools import lru_cache
 from pathlib import Path
 from unittest.mock import patch
@@ -21,6 +22,7 @@ from shapely.ops import unary_union  # noqa: E402
 
 from utm import para_utm23s  # noqa: E402
 from motor import PREMISSAS_PADRAO, _avaliar, _chave, _maior_lamina, caixa_recuada, dois_quadrados, gerar_estudo, maior_retangulo, recuo_divisa  # noqa: E402
+from dominio import AVISO_FORA, carregar, classificar, construir, corpus, medir  # noqa: E402
 
 
 def _carrega(nome):
@@ -487,7 +489,7 @@ def test_d7_criterio_reflete_chave():
     assert ordem == ["unidades_estimadas desc", "area_privativa_m2 desc"]
     for o in e["opcoes"]:
         assert _chave((None, o["metricas"])) == tuple(o["metricas"][campo.split()[0]] for campo in ordem)
-    assert e["versao_motor"] == "0.8.1"
+    assert e["versao_motor"] == "0.8.2"
 
 
 def test_d8_aviso_apenas_garagem_computavel_com_vagas():
@@ -557,12 +559,19 @@ def test_tarefa10():
 def test_8b_linha_de_base(estudos):
     """Contagens extraídas dos oito estudos versionados em 06ba272a (motor 0.7.1)."""
     base = _carrega("linha-de-base-0.7.1.json")
+    conteudo_081 = _carrega("linha-de-base-0.8.1.json")["sha256"]
     quedas_justificadas = []  # entradas {arquivo, opcao, motivo}: só para regra corrigida e comprovada
     assert len(base) == 8 and set(base) == set(estudos)
     ausente_a = next(o for o in estudos["pilotos/SC-completo-22426.json"]["opcoes_ausentes"] if o["id"] == "A")
     assert "Melhor pavimento tentado: 1 pavimento(s), 0 unidade(s)" in ausente_a["detalhe"], ausente_a
     for arquivo, opcoes in base.items():
         assert estudos[arquivo] == _carrega(arquivo), f"{arquivo} desatualizado: rode gerar_pilotos.py"
+        aditivo = copy.deepcopy(estudos[arquivo])
+        assert aditivo.pop("dominio")["status"] == "dentro", arquivo
+        del aditivo["versao_motor"]
+        aditivo["incertezas"] = [i for i in aditivo["incertezas"] if i != AVISO_FORA]
+        resumo = hashlib.sha256(json.dumps(aditivo, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")).hexdigest()
+        assert resumo == conteudo_081[arquivo], f"{arquivo}: tarefa 11 alterou conteúdo anterior à classificação"
         _impossivel_com_prova(estudos[arquivo])
         for ausente in estudos[arquivo]["opcoes_ausentes"]:
             assert not re.search(r"\d+\.\d{3,}", ausente["detalhe"]), ausente
@@ -573,7 +582,52 @@ def test_8b_linha_de_base(estudos):
                            for q in quedas_justificadas), (arquivo, opcao, unidades, atuais.get(opcao, 0))
 
 
+def test_dominio():
+    dominio = carregar()
+    assert construir() == dominio, "domínio desatualizado: rode dominio.py e revise as faixas"
+    for nome, e in corpus():
+        d = classificar(e["lote"], e.get("zona"), e.get("premissas"))
+        assert d["status"] in ("dentro", "dados_insuficientes"), (nome, d)
+        assert d["status"] == "dentro" or d["motivos"], (nome, d)
+    lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
+    assert classificar(dict(lote, zona_conferida=False), zona)["status"] == "dentro"
+    for pontos, frente, motivo in (
+        ([[0, 0], [2000, 0], [2000, 2000], [0, 2000]], [[0, 0], [2000, 0]], "área do lote"),
+        ([[0, 0], [50, 0], [50, 50], [47, 50], [47, 3], [3, 3], [3, 50], [0, 50]], [[0, 0], [50, 0]], "convexidade"),
+        ([[0, 0], [40, 0], [0, 400]], [[0, 0], [0, 100]], "menor ângulo interno"),
+    ):
+        l = dict(lote, poligono_utm=pontos, frente=frente)
+        e = gerar_estudo(l, zona)
+        assert e["dominio"]["status"] == "fora" and any(motivo in m for m in e["dominio"]["motivos"]), e["dominio"]
+        assert e["incertezas"].count(AVISO_FORA) == 1
+        if motivo == "área do lote":
+            assert e["opcoes"], "fora não deve apagar opções"
+        reverso = medir(dict(l, poligono_utm=list(reversed(pontos))), zona)[0]
+        original = medir(l, zona)[0]
+        assert math.isclose(reverso["angulo_min_graus"], original["angulo_min_graus"], abs_tol=1e-9)
+    for l, z, motivo in (({k: v for k, v in lote.items() if k != "frente"}, zona, "frente"),
+                         ({k: v for k, v in lote.items() if k != "poligono_utm"}, zona, "polígono"),
+                         (lote, None, "zona"), (lote, {k: v for k, v in zona.items() if k != "id"}, "zona"),
+                         (lote, {k: v for k, v in zona.items() if k != "parametros"}, "parâmetros")):
+        e = gerar_estudo(l, z)
+        assert e["dominio"]["status"] == "dados_insuficientes" and any(motivo in m for m in e["dominio"]["motivos"])
+        assert not e["opcoes"] and all(o["motivo"] == "dados_insuficientes" for o in e["opcoes_ausentes"])
+    repetido = dict(lote, poligono_utm=lote["poligono_utm"] + [lote["poligono_utm"][0]])
+    assert medir(repetido, zona)[0] == medir(lote, zona)[0]
+    assert classificar(lote, dict(zona, id="ZONA-NAO-TESTADA"))["status"] == "fora"
+    for area, status in ((20010, "dentro"), (20040, "fora")):
+        l = dict(lote, poligono_utm=[[0, 0], [100, 0], [100, area / 100], [0, area / 100]], frente=[[0, 0], [100, 0]])
+        assert classificar(l, zona)["status"] == status
+    for chave in ("ca_basico", "ca_maximo", "taxa_ocupacao", "taxa_permeabilidade"):
+        z = copy.deepcopy(zona)
+        z["parametros"][chave] = dominio["faixas"][chave]["max"] * 2
+        assert classificar(lote, z)["status"] == "fora", chave
+        del z["parametros"][chave]
+        assert classificar(lote, z)["status"] == "dados_insuficientes", chave
+
+
 def main():
+    test_dominio()
     test_tarefa10()
     test_42_casos_auditoria()
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")

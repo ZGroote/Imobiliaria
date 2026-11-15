@@ -10,8 +10,9 @@ import shapely
 from shapely import affinity
 from shapely.geometry import LineString, Point, Polygon, box
 from shapely.ops import nearest_points, unary_union
+from dominio import AVISO_FORA, classificar, entradas_calculaveis
 
-VERSAO = "0.8.1"
+VERSAO = "0.8.2"
 
 # Premissas de projeto (não são lei). Quem chamar pode trocar qualquer uma; as que ficarem
 # no valor daqui saem listadas em premissas.padrao (aparecem como "padrão" no relatório).
@@ -619,9 +620,20 @@ def _melhor(fazer, n_max, ctx, base=0, falhou=None):
 
 
 def gerar_estudo(lote, zona, premissas=None):
+    dominio = classificar(lote, zona, premissas)
+    if not entradas_calculaveis(lote, zona):
+        detalhe = "; ".join(dominio["motivos"])
+        return {"versao_motor": VERSAO, "lote": lote, "zona": zona, "premissas": premissas or {},
+                "caixa_maxima": {"projecao_utm": [], "altura_m": None}, "opcoes": [],
+                "opcoes_ausentes": [{"id": id_, "nome": nome, "motivo": "dados_insuficientes", "detalhe": detalhe}
+                                    for id_, nome in (("A", "Torre única"), ("B", "Duas torres"), ("C", "Lâmina baixa"), ("D", "Embasamento + torre"))],
+                "dominio": dominio, "incertezas": [AVISO_FORA] if dominio["status"] == "fora" else [f"Dados insuficientes para calcular o estudo: {detalhe}."]}
     estudo, tem_envelope = _gerar_estudo(lote, zona, premissas, envelope=True)
     if tem_envelope:
         estudo, _ = _gerar_estudo(lote, zona, premissas, envelope=False, opcoes_extra=estudo["opcoes"])
+    estudo["dominio"] = dominio
+    if dominio["status"] == "fora":
+        estudo["incertezas"].append(AVISO_FORA)
     return estudo
 
 

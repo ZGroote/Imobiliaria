@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.8.1",
+ "versao_motor": "0.8.2",
  "lote": {
   "id": "SC-completo-25297",
   "lid": null,
@@ -559,5 +559,10 @@
   "Opção A (Torre única) não coube: busca_inconclusiva: Torre quadrada tentada com 29.73 m² no pavimento 1, abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.03 m², laje mínima 80.00 m².",
   "Opção B (Duas torres) não coube: impossivel: Área disponível de no máximo 73.31 m² por laje, abaixo da laje mínima de 80.00 m².",
   "Opção D (Embasamento + torre) não coube: busca_inconclusiva: Torre de 1 pavimento(s) sobre embasamento de 2 pavimento(s): laje de 24.52 m², abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.03 m², laje mínima 80.00 m²."
- ]
+ ],
+ "dominio": {
+  "status": "dentro",
+  "motivos": [],
+  "versao": "dominio-0.8"
+ }
 }

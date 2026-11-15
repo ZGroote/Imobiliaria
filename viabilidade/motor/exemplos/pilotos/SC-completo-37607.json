@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.8.1",
+ "versao_motor": "0.8.2",
  "lote": {
   "id": "SC-completo-37607",
   "lid": null,
@@ -1019,5 +1019,10 @@
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
   "Relevo ignorado: volumes assentados em terreno plano, z=0.",
   "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_max_projeto, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade."
- ]
+ ],
+ "dominio": {
+  "status": "dentro",
+  "motivos": [],
+  "versao": "dominio-0.8"
+ }
 }
