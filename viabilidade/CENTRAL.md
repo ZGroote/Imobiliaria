@@ -22,7 +22,27 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
 
 **Cotas lidas em `~/.maestri/usage/providers/.status.json` (15/11 03:23Z):** Codex semanal 90% (renova 16/11 11:57 -03) e 84% (renova 21/11 12:36 -03): **usar Codex só no essencial**. Antigravity: pool "Claude and GPT" 5h 100% (semanal 54%), Argon 100% até 21/11 13:12 -03, Gemini (Hydrogen/Carbon/Flash) ~0%. Claude Code: 11% (5h), 6% (semana).
 
-**Portão 1B (código) FECHADO (15/11)**: PR #120 juntado em `feat/viabilidade` (3e4dd5b7), CI Linux verde (8m22s). Motor 0.8.3 (monotonia em 94 pares; garagem computável com aviso; opções ausentes classificadas; domínio de validade), contrato v5, tela/relatório (revisão do estudo, three local sem CDN, injeção corrigida com teste de 6.519 mutações). Revisões: AUDITORIA-5, REVISAO-1..4. **Próximo:** 1C depende do arquiteto (pacote pronto em `conferencia/PACOTE-ARQUITETO.md`); 1E (integração/publicação) precisa de autorização do usuário.
+**Portão 1B (código) FECHADO (15/11)**: PR #120 juntado em `feat/viabilidade` (3e4dd5b7), CI Linux verde (8m22s). Motor 0.8.3 (monotonia em 94 pares; garagem computável com aviso; opções ausentes classificadas; domínio de validade), contrato v5, tela/relatório (revisão do estudo, three local sem CDN, injeção corrigida com teste de 6.519 mutações). Revisões: AUDITORIA-5, REVISAO-1..4. **Próximo:** 1C depende do arquiteto (pacote pronto em `conferencia/PACOTE-ARQUITETO.md`); 1E: ver abaixo.
+
+**Portão 1E (integração) — autorizado pelo usuário em 15/11.**
+- **PR #121** `feat/viabilidade` → `main`, juntado em **186a0fd8**.
+  - Só entram `viabilidade/` e o workflow próprio, mais duas classificações nos testes da main.
+  - `tests/test_tamanho_versionado.py`: exceção para o tif Copernicus (1,9 MB).
+  - `tests/test_dados_privados.py`: libera `viabilidade/terreno/dados/` e `viabilidade/visual/evidencias/`, com OK do usuário.
+  - O `conferir.py` aceita essas 2 mudanças fora do módulo.
+  - CI 4/4 verde (Node+Python, Painel, Emulador, conferir).
+- **Deploy isolado:** canal `viabilidade-1e` do site `imobilaria-deccb-miniaturas`, que não é produção.
+  - Endereço: https://imobilaria-deccb-miniaturas--viabilidade-1e-uewepmnh.web.app/visual/
+  - Expira em 22/11 às 09:24.
+  - Leva 20 arquivos: tela, three local, exemplo, 7 pilotos e 8 relatórios.
+  - Responde com `noindex`.
+  - O pacote foi montado fora do repositório (scratchpad, `viab-1e/`), no mesmo molde da apresentação.
+- **Smoke:**
+  - `testar.cjs` com `VISUAL_URL` apontando para o canal: PASS no desktop e no celular.
+  - Os 20 arquivos no ar têm o mesmo sha256 dos locais.
+  - O site no ar continua com 404 em `/visual/`.
+- **Reversão:** reverter 186a0fd8 ou apagar o canal.
+- **Falta a decisão de publicação, que é do usuário:** domínio, caminho e quem acessa.
 
 ## Ao chegar um relatório
 
