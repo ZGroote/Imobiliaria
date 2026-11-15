@@ -37,6 +37,11 @@ def igual(a, b, caminho="estudo"):
         assert a == b, f"{caminho}: {a!r} != {b!r}"
 
 
+def _chave_alerta(a):
+    """ÁREA ESPECIAL: vale o tipo; o nome entre parênteses pode ser mais rico no piloto (enriquecimento manual)."""
+    return re.sub(r" \([^)]*\)\.", ".", a) if a.startswith("ÁREA ESPECIAL") else a
+
+
 def main():
     cad = novo_lote.Cadastro("completo")  # a leitura da base é o grosso do tempo; um só para todos os casos
     with tempfile.TemporaryDirectory() as tmp:
@@ -48,9 +53,22 @@ def main():
         novo = json.loads((tmp / "a" / "estudo.json").read_text(encoding="utf-8"))
         piloto = json.loads((AQUI / "exemplos" / "pilotos" / "SC-completo-30516.json").read_text(encoding="utf-8"))
         assert novo["versao_motor"] == piloto["versao_motor"], "piloto velho: rode gerar_pilotos.py"
-        # o alerta de ÁREA ESPECIAL vem do enriquecimento manual do piloto, que o lote do cadastro não traz
-        for o in piloto["opcoes"]:
-            o["alertas"] = [a for a in o["alertas"] if not a.startswith("ÁREA ESPECIAL")]
+        # alertas: o lote novo traz as áreas especiais sozinho (terreno tarefa 6). Todo alerta do piloto tem que estar no
+        # estudo novo (o de ÁREA ESPECIAL compara o tipo, não o nome entre parênteses, que o piloto enriqueceu à mão);
+        # os extras só podem ser de área especial "não verificada" ou "possível incidência".
+        extras = []
+        for on, op in zip(novo["opcoes"], piloto["opcoes"]):
+            novos = {_chave_alerta(a) for a in on["alertas"]}
+            faltam = [a for a in op["alertas"] if _chave_alerta(a) not in novos]
+            assert not faltam, f"opção {on['id']}: alerta do piloto sumiu no estudo novo: {faltam}"
+            velhos = {_chave_alerta(a) for a in op["alertas"]}
+            extras += [(on["id"], a) for a in on["alertas"] if _chave_alerta(a) not in velhos]
+        for id_, a in extras:
+            assert a.startswith("ÁREA ESPECIAL") and ("nao_verificada" in a or "possível incidência" in a), f"opção {id_}: alerta extra fora do combinado: {a}"
+        print(f"alertas extras no lote novo (todos de área especial não verificada): {len(extras)}")
+        for opcoes in (novo["opcoes"], piloto["opcoes"]):
+            for o in opcoes:
+                o["alertas"] = []
         for campo in ("opcoes", "opcoes_ausentes", "dominio", "caixa_maxima", "premissas", "zona"):
             igual(novo[campo], piloto[campo], campo)
         assert len(novo["opcoes"]) == 4
