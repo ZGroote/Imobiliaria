@@ -1,4 +1,5 @@
 """Triagem dos Anexos 05/06/07; não substitui conferência cadastral ou DECEA."""
+import cache
 import gerar_lotes as gl
 from sugerir_zona import MapaGeorreferenciado, DIVISA_M, distance_transform_edt
 
@@ -46,7 +47,11 @@ class MapaEspecial(MapaGeorreferenciado):
         self.paleta = gl.np.array([gl.np.median(gl.np.asarray(self.imagem.crop((x-10, y-10, x+10, y+10))),
                                              axis=(0, 1)) for x, y in pontos] + [[255, 255, 255]])
         if anexo == "07":
-            self.cones = self.ler_cones()
+            # O contorno só depende do JPEG e deste código: guardado em .cache/ (0,8 s a menos por lote).
+            import PIL
+            partes = cache.poligonos("cones-07", [self.arquivo, __file__], lambda: gl.sh.get_parts(self.ler_cones()),
+                                     f"Pillow {PIL.__version__}")
+            self.cones = partes[0] if len(partes) == 1 else gl.sh.multipolygons(partes)
 
     def ler_cones(self):
         # shortcut: dois contornos convexos neste raster; revalidar as janelas se a fonte mudar.

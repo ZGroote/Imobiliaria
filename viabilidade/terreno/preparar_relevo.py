@@ -6,6 +6,7 @@ python -I viabilidade/terreno/preparar_relevo.py
 """
 import argparse
 import hashlib
+import importlib.util
 import json
 import math
 from pathlib import Path
@@ -16,16 +17,11 @@ from contextlib import ExitStack
 
 sys.dont_write_bytecode = True
 # Dependências GIS já instaladas no computador; -I não inclui o site do usuário.
-try:
-    import rasterio
-    from pyproj import Transformer
-except ModuleNotFoundError:
+if importlib.util.find_spec("rasterio") is None or importlib.util.find_spec("pyproj") is None:
     sys.path.append(site.getusersitepackages())
-    import rasterio
-    from pyproj import Transformer
+from pyproj import Transformer
 import numpy as np
-from rasterio.merge import merge
-from rasterio.windows import Window, bounds as limites_janela
+# rasterio (~0,2 s de import) só nas funções que leem/gravam raster; o novo_lote lê o recorte do cache.
 
 AQUI = Path(__file__).resolve().parent
 RAIZ = AQUI.parent.parent
@@ -84,6 +80,8 @@ def auditar_local():
 
 
 def baixar():
+    import rasterio
+    from rasterio.merge import merge
     bbox = ler(CONFIG)["bbox"]
     oeste, sul, leste, norte = bbox
     fontes = []
@@ -137,6 +135,7 @@ def baixar():
 
 
 def alinhar_bbox(bbox, transform):
+    from rasterio.windows import Window, bounds as limites_janela
     oeste, sul, leste, norte = bbox
     col0, lin0 = ~transform * (oeste, norte)
     col1, lin1 = ~transform * (leste, sul)
@@ -167,6 +166,7 @@ def resumir(pontos, centro, altura):
 
 
 def aplicar():
+    import rasterio
     from shapely.geometry import Polygon
     caminho = AQUI / "lotes-piloto.json"
     lotes = ler(caminho)

@@ -6,8 +6,9 @@ import subprocess
 import tempfile
 import warnings
 
+import cache
 import gerar_lotes as gl
-from preparar_relevo import sha
+from cache import sha
 from PIL import Image
 from pyproj import Transformer
 from scipy.ndimage import distance_transform_edt
@@ -17,6 +18,9 @@ ZONAS = ["SC-Z1", "SC-Z2", "SC-Z3", "SC-Z4", "SC-Z5A", "SC-Z5B"]
 DIVISA_M = 10.0
 EIXO_M = 60.0
 BUSCA_M = 250.0
+# Um par por processo, não um por mapa: cada from_crs custa ~11 ms.
+SAD = Transformer.from_crs(31983, 29183, always_xy=True)
+SIRGAS = Transformer.from_crs(29183, 31983, always_xy=True)
 
 
 class ZonaIncerta(ValueError):
@@ -49,13 +53,13 @@ def mapa_local(anexo="02"):
 
 class MapaGeorreferenciado:
     def __init__(self, anexo):
-        arquivo = mapa_local(anexo)
+        self.arquivo = arquivo = mapa_local(anexo)
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", Image.DecompressionBombWarning)
             self.imagem = Image.open(BytesIO(arquivo.read_bytes()))
             if self.imagem.size != (8858, 12746):
                 raise ValueError(f"Dimensões do Anexo {anexo} incompatíveis com os controles")
-            self.imagem.load()
+            self.imagem = cache.Imagem(arquivo, self.imagem)  # decodifica uma vez; depois lê blocos de .cache/
         pos = json.loads((AQUI / "dados/zonas-posicionamento.json").read_text(encoding="utf-8"))[anexo]
         self.coef = gl.np.array(pos["afim_utm_menos_origem_para_pixel"])
         self.origem = gl.np.array(pos["origem_utm"])
@@ -65,8 +69,7 @@ class MapaGeorreferenciado:
         ajuste = gl.np.linalg.lstsq(gl.np.column_stack([mundo - self.origem, gl.np.ones(len(mundo))]), pixels, rcond=None)[0]
         if not gl.np.allclose(ajuste, self.coef, rtol=0, atol=1e-8):
             raise ValueError(f"Posicionamento não corresponde aos controles do Anexo {anexo}")
-        self.sad = Transformer.from_crs(31983, 29183, always_xy=True)
-        self.sirgas = Transformer.from_crs(29183, 31983, always_xy=True)
+        self.sad, self.sirgas = SAD, SIRGAS
         self.escala_min, self.escala_max = sorted(gl.np.linalg.svd(self.coef[:2], compute_uv=False))
 
     def pixel(self, coords):

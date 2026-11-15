@@ -132,6 +132,8 @@ def testar():
         testar_especiais(cadastro, pilotos, pasta)
         from test_ponto import testar as testar_ponto
         testar_ponto(cadastro, cadastro_antigo, pilotos, pasta)
+        from test_cache import testar as testar_cache
+        testar_cache(cadastro, pilotos, pasta)
     assert protegidos() == antes, "Fontes, dados, pilotos ou scripts preexistentes foram alterados"
     print("OK: --testar completo; fontes e arquivos protegidos inalterados, saídas temporárias removidas.", flush=True)
 

@@ -19,8 +19,11 @@ import tempfile
 sys.dont_write_bytecode = True
 AQUI = Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
+import cache
 import gerar_lotes as gl
 import preparar_relevo as relevo
+from affine import Affine  # do rasterio, sem o custo de importar o rasterio
+import pyproj  # gerar_lotes já pôs o site do usuário no caminho
 
 BASES = {"completo": gl.BASES[1], "antigo": gl.BASES[0]}
 
@@ -82,18 +85,27 @@ class Cadastro:
         if base not in BASES:
             raise ValueError("Base inválida: use completo ou antigo")
         self.base = base
-        features = gl.ler(BASES[base])["features"]
-        self.geos = gl.sh.transform(gl.np.array([gl.shape(f["geometry"]) for f in features], dtype=object),
-                                    gl.UTM.transform, interleaved=False)
+        # Ler o GeoJSON e montar os polígonos levava ~7 s; o cache em .cache/ volta o mesmo array.
+        codigo = [AQUI / "novo_lote.py", AQUI / "gerar_lotes.py"]
+        versoes = f"pyproj {pyproj.__version__}; PROJ {pyproj.proj_version_str}"
+        self.geos = cache.poligonos(f"base-{base}", [gl.ROOT / BASES[base], *codigo], lambda: gl.sh.transform(
+            gl.np.array([gl.shape(f["geometry"]) for f in gl.ler(BASES[base])["features"]], dtype=object),
+            gl.UTM.transform, interleaved=False), versoes)
         self.tree = gl.sh.STRtree(self.geos)
-        self.malha, _ = gl.ruas()
+        self.malha = cache.poligonos("ruas", [gl.ROOT / "sao-carlos/dados/street_tris.json", *codigo],
+                                     lambda: gl.ruas()[0], versoes)
         self.tree_ruas = gl.sh.STRtree(self.malha)
         if relevo.sha(relevo.RASTER) != relevo.ler(relevo.META)["sha256"]:
             raise ValueError("Raster Copernicus diferente do documentado; conferir os arquivos de relevo")
-        with relevo.rasterio.open(relevo.RASTER) as src:
-            if src.crs.to_epsg() != 4326:
-                raise ValueError("Raster Copernicus deve estar em EPSG:4326")
-            self.matriz, self.transform = src.read(1), src.transform
+        def montar_raster():
+            import rasterio
+            with rasterio.open(relevo.RASTER) as src:
+                if src.crs.to_epsg() != 4326:
+                    raise ValueError("Raster Copernicus deve estar em EPSG:4326")
+                return {"matriz": src.read(1), "transform": gl.np.array(src.transform[:6])}
+        # GeoTIFF float32 sem perda: o sha256 do arquivo basta; sem o cache, importar rasterio custava ~0,2 s.
+        with cache.carregar("relevo", [relevo.RASTER, AQUI / "novo_lote.py"], montar_raster) as r:
+            self.matriz, self.transform = r["matriz"], Affine(*r["transform"])
 
     def altura(self, x, y):
         lon, lat = gl.GEO.transform(x, y)
