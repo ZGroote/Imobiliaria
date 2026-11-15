@@ -54,6 +54,24 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
 - **Atenção:** reverter o merge ≠ desfazer o deploy. São operações diferentes; não executar nenhuma das duas sem ordem.
 - **Documento explicativo** do sistema, para o usuário: https://claude.ai/artifact/2epdS1PHAF7EBNZpxcEhC5
 
+**Trava de privacidade fechada (15/11, PR #123 → main a53f25aa).**
+- As imagens da viabilidade passam por sha256 (`conferencia/imagens-inspecionadas.json`), não por pasta.
+- Imagem nova ou alterada derruba o CI.
+- Inspeção independente (Revisor, `revisao/REVISAO-5.md`): sem dado pessoal.
+- Ressalvas para o usuário:
+  - base de republicação dos mapas municipais;
+  - lotes localizáveis (sem vínculo com cliente verificado).
+
+**Lote livre (galho `feat/viabilidade-lote`, PR #122 em rascunho → `feat/viabilidade`).** 1C: o usuário vai ao arquiteto pessoalmente.
+- Terreno T4 `novo_lote.py`: qualquer feição ou remembramento, com zona informada (5911fc3a).
+- Motor T13 `estudar.py`: um comando do lote ao relatório (f6d6bb6d).
+- Em andamento:
+  - Terreno T5: zona sugerida pelo mapa;
+  - Visual T15: rótulos das origens novas da zona;
+  - Motor T14: `test_motor` abaixo de 120 s.
+- **Lacuna conhecida:** lote novo não traz áreas especiais (aeroporto/AIA/AEI), então perde o alerta. Próxima tarefa do Terreno depois da T5.
+- **Ritmo:** 3 a 4 frentes em paralelo; entre entregas, conferir só a frente que entregou; o completo fica no CI.
+
 ## Ao chegar um relatório
 
 Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + arquivos soltos, sem gastar IA; só abrir o relatório se algo falhar), commitar só a pasta da frente, `git push`, atualizar `maestri floor status --floor "Viabilidade"`.
