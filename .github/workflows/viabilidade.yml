@@ -4,7 +4,8 @@ on:
   push:
     branches: [feat/viabilidade, ci/viabilidade-testes]
   pull_request:
-    branches: [feat/viabilidade]
+    branches: [feat/viabilidade, main]
+    paths: ['viabilidade/**', '.github/workflows/viabilidade.yml']
 
 permissions:
   contents: read
