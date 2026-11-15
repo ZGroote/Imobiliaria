@@ -10,6 +10,8 @@ import os
 import sys
 import re
 import hashlib
+import threading
+from concurrent.futures import Future, ProcessPoolExecutor, ThreadPoolExecutor
 from functools import lru_cache
 from pathlib import Path
 from unittest.mock import patch
@@ -23,6 +25,43 @@ from shapely.ops import unary_union  # noqa: E402
 from utm import para_utm23s  # noqa: E402
 from motor import AVISO_GARAGEM, PREMISSAS_PADRAO, _avaliar, _chave, _maior_lamina, caixa_recuada, dois_quadrados, gerar_estudo, maior_retangulo, recuo_divisa  # noqa: E402
 from dominio import AVISO_FORA, carregar, classificar, construir, corpus, medir  # noqa: E402
+
+
+# Velocidade: o tempo todo está em gerar_estudo (cada chamada é independente). Dentro de main() as chamadas vão para
+# um conjunto de processos e o mesmo (lote, zona, premissas) é calculado uma vez só; as conferências continuam aqui,
+# uma a uma, sobre o mesmo resultado. Fora de main() (sem processos) _ge chama o motor direto.
+_PROC = _FIOS = None
+_ESTUDOS, _TRAVA = {}, threading.Lock()
+
+
+def _ge(lote, zona, premissas=None):
+    """gerar_estudo sem repetir. NÃO usar onde o teste precisa de uma geração nova (determinismo) nem com patch."""
+    if _PROC is None:
+        return gerar_estudo(lote, zona, premissas)
+    chave = json.dumps([lote, zona, premissas], ensure_ascii=False)
+    with _TRAVA:
+        f = _ESTUDOS.get(chave)
+        if f is None:  # cópia profunda: quem chamou pode mexer no dict logo depois, e o envio aos processos é assíncrono
+            f = _ESTUDOS[chave] = _PROC.submit(gerar_estudo, *copy.deepcopy((lote, zona, premissas)))
+    return f.result()
+
+
+def _fio(fn, *args):
+    """Roda fn em outra thread (só espera resultado dos processos) e devolve um Future."""
+    if _FIOS is not None:
+        return _FIOS.submit(fn, *args)
+    f = Future()
+    try:
+        f.set_result(fn(*args))
+    except BaseException as erro:  # noqa: BLE001  (o erro volta no .result(), como na thread)
+        f.set_exception(erro)
+    return f
+
+
+def _pre(fn, itens):
+    """Dispara fn para todos os itens ao mesmo tempo e espera; o que fn guarda em cache fica pronto para o teste."""
+    for f in [_fio(fn, i) for i in itens]:
+        f.result()
 
 
 def _carrega(nome):
@@ -119,10 +158,10 @@ def _sumico(z, r):  # caso sumico-d da auditoria: CA 1,5, recuo fixo r, sem pare
 def monotonia(nome, lote, zona, auditoria=False, assimetrico=False):
     """Afrouxar uma regra (recuo, CA, TO, altura) NUNCA pode dar menos apartamentos em nenhuma opção; com as mesmas
     unidades, nunca menos área privativa. (O "melhor" do motor é essa ordem: mais unidades, depois mais privativa.)"""
-    def res(mexe, l=lote):
+    def res(mexe, l=lote):  # devolve um Future: os estudos do par são calculados juntos, a comparação vem depois
         z = copy.deepcopy(zona)
         mexe(z["parametros"])
-        return {o["id"]: (o["metricas"]["unidades_estimadas"], o["metricas"]["area_privativa_m2"]) for o in gerar_estudo(l, z)["opcoes"]}
+        return _fio(lambda: {o["id"]: (o["metricas"]["unidades_estimadas"], o["metricas"]["area_privativa_m2"]) for o in _ge(l, z)["opcoes"]})
 
     def altura(h):
         return lambda p: p.update(altura_max_m=h)
@@ -154,6 +193,7 @@ def monotonia(nome, lote, zona, auditoria=False, assimetrico=False):
         pares.append((res(lambda p: p.update(ca_maximo=2.0), l22), res(lambda p: p.update(ca_maximo=2.5), l22), "lote 22x41: CA 2,0 -> 2,5 (A e D perdiam apartamento)"))
         # Garagem computável: os pares também verificam monotonia em test_d2.
     for antes, depois, caso in pares:
+        antes, depois = antes.result(), depois.result()
         for id_, (ua, pa) in antes.items():
             ud, pd = depois.get(id_, (0, 0))
             assert ud >= ua, f"{nome}, opção {id_}, {caso}: unidades {ua} -> {ud} (afrouxar piorou)"
@@ -164,7 +204,7 @@ def defeitos_da_auditoria(lote, zona):
     # ALTA 1: zona sem CA máximo (null, como a SC-Z6E real) quebrava com TypeError
     z = copy.deepcopy(zona)
     z["parametros"].update(ca_maximo=None, ca_basico=None, altura_max_m=None, pavimentos_max=None)
-    e = gerar_estudo(lote, z)
+    e = _ge(lote, z)
     confere(e)
     assert [o["id"] for o in e["opcoes"]] == ["A", "B", "C", "D"] and e["caixa_maxima"]["area_computavel_max_m2"] is None
     assert any("CA" in i and "pavimentos" in i for i in e["incertezas"]), e["incertezas"]
@@ -173,13 +213,13 @@ def defeitos_da_auditoria(lote, zona):
     for mexe in (dict(taxa_permeabilidade=0.35), dict(taxa_ocupacao=1.0, taxa_permeabilidade=0.25)):
         z = copy.deepcopy(zona)
         z["parametros"].update(mexe)
-        confere(gerar_estudo(lote, z))
+        confere(_ge(lote, z))
 
     # ALTA 2: lote em L, subsolo dentro do lote, com permeabilidade apertada (escalar pelo centroide tirava o subsolo do lote)
     em_l = dict(lote, poligono_utm=[[0, 0], [50, 0], [50, 20], [20, 20], [20, 50], [0, 50]], frente=[[0, 0], [50, 0]])
     z = copy.deepcopy(zona)
     z["parametros"].update(taxa_permeabilidade=0.35, parede_cega_encosta_ate_m=None)
-    e = gerar_estudo(em_l, z)
+    e = _ge(em_l, z)
     confere(e)
     subs = [v for o in e["opcoes"] for v in o["volumes"] if v["uso"] == "garagem"]
     assert subs, "L sem subsolo desenhado"
@@ -189,7 +229,7 @@ def defeitos_da_auditoria(lote, zona):
     rec = dict(lote, poligono_utm=[[0, 0], [50, 0], [50, 50], [35, 50], [35, 20], [0, 20]], frente=[[35, 20], [0, 20]])
     z = copy.deepcopy(zona)
     z["parametros"].update(taxa_ocupacao=0.9, taxa_permeabilidade=0.05)
-    e = gerar_estudo(rec, z, {"embasamento_ocupacao": 0.9})
+    e = _ge(rec, z, {"embasamento_ocupacao": 0.9})
     confere(e)
     rf = e["caixa_maxima"]["recuo_frontal_m"]
     for o in e["opcoes"]:
@@ -214,15 +254,15 @@ def defeitos_da_auditoria(lote, zona):
 
     # BAIXA 15: lote menor que o mínimo da zona vira incerteza (o exemplo tem lote_min_m2 200 e testada_min_m 10)
     peq = dict(lote, poligono_utm=[[0, 0], [8, 0], [8, 20], [0, 20]], frente=[[0, 0], [8, 0]])
-    inc = gerar_estudo(peq, zona)["incertezas"]
+    inc = _ge(peq, zona)["incertezas"]
     assert any("abaixo do mínimo da zona" in i and "Lote" in i for i in inc) and any("Testada" in i for i in inc), inc
 
     # MÉDIA 12: frente sem comprimento e polígono que se cruza não quebram; viram incerteza
-    e = gerar_estudo(dict(lote, frente=[lote["frente"][0], lote["frente"][0]]), zona)
+    e = _ge(dict(lote, frente=[lote["frente"][0], lote["frente"][0]]), zona)
     assert e["opcoes"] and any("pontos iguais" in i for i in e["incertezas"]), e["incertezas"]
     confere(e)  # a frente degenerada fica corrigida no lote do estudo: confere() dividia por zero nela
     laco = dict(lote, poligono_utm=[[0, 0], [50, 30], [50, 0], [0, 25]], frente=[[0, 0], [50, 0]])
-    e = gerar_estudo(laco, zona)
+    e = _ge(laco, zona)
     assert e["incertezas"]
     confere(e)  # idem: o polígono em "8" corrigido vai no estudo (confere dava GEOSException)
 
@@ -230,18 +270,18 @@ def defeitos_da_auditoria(lote, zona):
     tri_e = dict(lote, poligono_utm=[[0, 0], [30, 0], [50, 40]], frente=[[0, 0], [30, 0]])
     tri_s = dict(lote, poligono_utm=[[0, 0], [40, 0], [20, 50]], frente=[[0, 0], [40, 0]])
     for tri in (tri_e, tri_s):
-        confere(gerar_estudo(tri, zona))  # confere exige unidades >= 1 em toda opção
+        confere(_ge(tri, zona))  # confere exige unidades >= 1 em toda opção
 
     # item 4: teto de pavimentos de projeto vale pra toda opção, inclusive embasamento + torre da D
     grande = dict(lote, poligono_utm=[[0, 0], [100, 0], [100, 200], [0, 200]], frente=[[0, 0], [100, 0]])
     for prem, teto in (({}, 30), ({"pavimentos_max_projeto": 8}, 8)):
-        e = gerar_estudo(grande, zona, prem)
+        e = _ge(grande, zona, prem)
         confere(e)
         assert e["opcoes"] and all(o["metricas"]["pavimentos"] <= teto for o in e["opcoes"]), [o["metricas"]["pavimentos"] for o in e["opcoes"]]
         assert any(a.startswith("Parou no teto de projeto") for o in e["opcoes"] for a in o["alertas"])
     zsem = copy.deepcopy(zona)
     zsem["parametros"].update(ca_maximo=None, ca_basico=None, altura_max_m=None, pavimentos_max=None)
-    e = gerar_estudo(grande, zsem)  # sem CA: pavimentos_sem_ca (10) também vale pra D, embasamento + torre
+    e = _ge(grande, zsem)  # sem CA: pavimentos_sem_ca (10) também vale pra D, embasamento + torre
     assert all(o["metricas"]["pavimentos"] <= PREMISSAS_PADRAO["pavimentos_sem_ca"] for o in e["opcoes"]), [o["metricas"]["pavimentos"] for o in e["opcoes"]]
     assert "pavimentos_max_projeto" in e["premissas"]["padrao"]
 
@@ -266,7 +306,7 @@ def auditoria3():
     z = copy.deepcopy(zona)
     z["parametros"].update(recuo_lateral_por_altura=None, recuo_fundos_por_altura=None)
     for zz in (zona, z):
-        confere(gerar_estudo(esc, zz))
+        confere(_ge(esc, zz))
     assert not maior_retangulo(Point(1, 1), 1.0, 100).area and not _maior_lamina(Point(1, 1), 100).area and not dois_quadrados(Point(1, 1), 6.0)
 
     # 3.5.2-3: recuo de fundos (10 m) em fundo inclinado, triângulo raso e pentágono: nenhuma divisa de fundos a menos de 10 m
@@ -289,14 +329,14 @@ def auditoria3():
     grande = dict(lote, poligono_utm=[[0, 0], [100, 0], [100, 200], [0, 200]], frente=[[0, 0], [100, 0]])
     zsem = copy.deepcopy(zona)
     zsem["parametros"].update(ca_maximo=None, ca_basico=None, altura_max_m=None, pavimentos_max=None)
-    e = gerar_estudo(dict(grande, areas_especiais=[{"tipo": "cone", "altura_max_m": 90, "fonte": "teste"}]), zsem)
+    e = _ge(dict(grande, areas_especiais=[{"tipo": "cone", "altura_max_m": 90, "fonte": "teste"}]), zsem)
     assert e["opcoes"] and all(o["metricas"]["pavimentos"] <= PREMISSAS_PADRAO["pavimentos_sem_ca"] for o in e["opcoes"]), [o["metricas"]["pavimentos"] for o in e["opcoes"]]
     assert any("pavimentos_sem_ca" in i for i in e["incertezas"]), e["incertezas"]
 
     # 3.4.2: parar no pavimento 30 porque a ALTURA da lei acaba ali não é "teto de projeto"
     zalt = copy.deepcopy(zona)
     zalt["parametros"].update(ca_maximo=50.0, altura_max_m=4.5 + 29 * 3.0, pavimentos_max=None, recuo_lateral_por_altura=None, recuo_fundos_por_altura=None)
-    e = gerar_estudo(grande, zalt)
+    e = _ge(grande, zalt)
     assert any(o["metricas"]["pavimentos"] == 30 for o in e["opcoes"]), [o["metricas"]["pavimentos"] for o in e["opcoes"]]
     assert not any(a.startswith("Parou no teto de projeto") for o in e["opcoes"] for a in o["alertas"]), "alerta falso: foi a altura da lei que parou"
 
@@ -307,9 +347,9 @@ def auditoria3():
     # 3.2: garagem que conta no CA (premissa) vira incerteza no estudo
     zg = copy.deepcopy(zona)
     zg["parametros"]["garagem_computavel"] = None  # a zona manda sobre a premissa
-    e = gerar_estudo(lote, zg, {"garagem_computavel": True})
+    e = _ge(lote, zg, {"garagem_computavel": True})
     assert any("garagem_computavel" in i and "meta de vagas" in i for i in e["incertezas"]), e["incertezas"]
-    e = gerar_estudo(lote, zona)
+    e = _ge(lote, zona)
     assert not any("monot" in i for i in e["incertezas"])
 
 
@@ -324,7 +364,7 @@ def tarefa6():
     res = {}
     for r in (3.0, 2.0, 1.5):
         z = {"id": "T", "parametros": dict(base, recuo_lateral_m=r, recuo_fundos_m=r), "conferido": False}
-        e = gerar_estudo(lote, z)
+        e = _ge(lote, z)
         confere(e)
         res[r] = {o["id"]: o["metricas"]["unidades_estimadas"] for o in e["opcoes"]}
     assert set(res[3.0]) == set(res[1.5]) == {"A", "B", "C", "D"}, res
@@ -335,7 +375,7 @@ def tarefa6():
     grande = dict(lote, poligono_utm=[[0, 0], [25, 0], [25, 40], [0, 40]], frente=[[0, 0], [25, 0]])
     zt = _carrega("zona-exemplo.json")
     zt["parametros"].update(taxa_ocupacao=0.2, taxa_permeabilidade=0.0, ca_maximo=6.0, recuo_lateral_por_altura=None, recuo_fundos_por_altura=None, parede_cega_encosta_ate_m=None)
-    e = gerar_estudo(grande, zt)
+    e = _ge(grande, zt)
     confere(e)
     a = next(o for o in e["opcoes"] if o["id"] == "C")
     laje = Polygon(a["volumes"][0]["base_utm"]).area
@@ -366,7 +406,7 @@ def tarefa7():
     # ALTA 1: lote 20x40, TO 0,35: a opção B contava 68 unidades na métrica e 34 na geometria exportada (área sem arredondar x base_utm a 1 cm)
     z = copy.deepcopy(zona)
     z["parametros"].update(taxa_ocupacao=0.35, taxa_permeabilidade=0.0, ca_maximo=6.0, recuo_lateral_por_altura=None, recuo_fundos_por_altura=None)
-    confere(gerar_estudo(retangulo(20, 40), z))  # confere recalcula as unidades pela área do base_utm
+    confere(_ge(retangulo(20, 40), z))  # confere recalcula as unidades pela área do base_utm
 
 
 def test_d3_rotulo_parede_cega():
@@ -375,28 +415,28 @@ def test_d3_rotulo_parede_cega():
     for eo, encosta in ((0.9, True), (0.8, False)):
         z = copy.deepcopy(zona)
         z["parametros"].update(taxa_ocupacao=0.9, taxa_permeabilidade=0.05)
-        e = gerar_estudo(lote, z, {"embasamento_ocupacao": eo})
+        e = _ge(lote, z, {"embasamento_ocupacao": eo})
         confere(e)
         base = next(o for o in e["opcoes"] if o["id"] == "D")["volumes"][0]
         assert base.get("parede_cega"), base
         dist = Polygon(base["base_utm"]).distance(Polygon(e["lote"]["poligono_utm"]).exterior)
         assert abs(base["recuo_lateral_m"] - dist) < 0.011 and base["recuo_fundos_m"] == base["recuo_lateral_m"], (base["recuo_lateral_m"], dist)
         assert (base["recuo_lateral_m"] == 0) == encosta, base["recuo_lateral_m"]
-    d_normal = next(o for o in gerar_estudo(lote, zona)["opcoes"] if o["id"] == "D")["volumes"][0]  # zona do exemplo: a base sem parede cega ganha
+    d_normal = next(o for o in _ge(lote, zona)["opcoes"] if o["id"] == "D")["volumes"][0]  # zona do exemplo: a base sem parede cega ganha
     assert not d_normal.get("parede_cega") and d_normal["recuo_lateral_m"] == 1.5, d_normal
 
 
 def test_d4_caixa_sem_altura():
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
     # BAIXA 5: lote sem nenhuma opção tem caixa de altura 0, e a parede cega não pode subir a 12 m
-    e = gerar_estudo(dict(lote, poligono_utm=[[0, 0], [10, 0], [10, 15], [0, 15]], frente=[[0, 0], [10, 0]]), zona)
+    e = _ge(dict(lote, poligono_utm=[[0, 0], [10, 0], [10, 15], [0, 15]], frente=[[0, 0], [10, 0]]), zona)
     assert e["opcoes"] == [] and e["caixa_maxima"]["altura_m"] == 0 and e["caixa_maxima"]["parede_cega_ate_m"] == 0, e["caixa_maxima"]
 
 
 def test_d5_subsolo_dimensionado_pelas_vagas():
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
     # BAIXA 6: lote enorme (100x200): cada nível de subsolo tem o tamanho das vagas (27 m² por vaga), não a projeção toda
-    e = gerar_estudo(dict(lote, poligono_utm=[[0, 0], [100, 0], [100, 200], [0, 200]], frente=[[0, 0], [100, 0]]), zona)
+    e = _ge(dict(lote, poligono_utm=[[0, 0], [100, 0], [100, 200], [0, 200]], frente=[[0, 0], [100, 0]]), zona)
     confere(e)
     for o in e["opcoes"]:
         m, subs = o["metricas"], [v for v in o["volumes"] if v["uso"] == "garagem"]
@@ -420,7 +460,7 @@ def test_d1_recuo_assimetrico_permeabilidade():
         monotonia(f"D1 {w}x{h}", lote, zona, assimetrico=True)
         for fundos in (10, 3):
             zona["parametros"]["recuo_fundos_m"] = fundos
-            confere(gerar_estudo(lote, zona))
+            confere(_ge(lote, zona))
 
 
 @lru_cache(maxsize=64)  # os testes só leem estes estudos; D2 e as matrizes reutilizam os mesmos casos
@@ -430,9 +470,9 @@ def _regera_caso(nome):
     if e.get("erro"):  # dois registros antigos guardam só a exceção; reproduzir com as entradas originais
         lote, zona = {"saida-frente-repetida.json": ("lote-frente-repetida.json", "zona-base.json"),
                       "saida-zona-sem-ca-maximo.json": ("lote-base.json", "zona-sem-ca-maximo.json")}[nome]
-        return gerar_estudo(json.loads((casos / lote).read_text(encoding="utf-8")), json.loads((casos / zona).read_text(encoding="utf-8")))
+        return _ge(json.loads((casos / lote).read_text(encoding="utf-8")), json.loads((casos / zona).read_text(encoding="utf-8")))
     premissas = {k: v for k, v in e["premissas"].items() if k != "padrao" and k not in e["premissas"]["padrao"]}
-    return gerar_estudo(e["lote"], e["zona"], premissas)
+    return _ge(e["lote"], e["zona"], premissas)
 
 
 def test_d2_metricas_subsolo_final():
@@ -441,7 +481,7 @@ def test_d2_metricas_subsolo_final():
         z = _carrega("zona-exemplo.json")
         _fixo(z, recuo)
         z["parametros"]["garagem_computavel"] = True
-        estudos.append(gerar_estudo(_carrega("lote-exemplo.json"), z))
+        estudos.append(_ge(_carrega("lote-exemplo.json"), z))
     for e in estudos:
         confere(e)
         assert AVISO_GARAGEM in e["incertezas"]
@@ -466,14 +506,14 @@ def test_d6_opcoes_ausentes_classificadas():
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
     for prem, motivo, trecho in (({"laje_minima_m2": 10000}, "impossivel", "10000"),
                                  ({"area_privativa_por_unidade_m2": 10000}, "busca_inconclusiva", "CA disponível")):
-        e = gerar_estudo(lote, zona, prem)
+        e = _ge(lote, zona, prem)
         assert len(e["opcoes_ausentes"]) == 4 and not e["opcoes"]
         for o in e["opcoes_ausentes"]:
             assert o["motivo"] == motivo and trecho in o["detalhe"], o
             assert any(o["detalhe"] in i for i in e["incertezas"])
     z = copy.deepcopy(zona)
     z["parametros"]["altura_max_m"] = 3
-    e = gerar_estudo(lote, z)
+    e = _ge(lote, z)
     c = next(o for o in e["opcoes_ausentes"] if o["id"] == "C")
     assert c["motivo"] == "impossivel" and "altura 3.00 m" in c["detalhe"]
     for erro, motivo in ((KeyError("parametro_teste"), "dados_insuficientes"), (RuntimeError("falha de teste"), "erro")):
@@ -484,7 +524,7 @@ def test_d6_opcoes_ausentes_classificadas():
 
 
 def test_d7_criterio_reflete_chave():
-    e = gerar_estudo(_carrega("lote-exemplo.json"), _carrega("zona-exemplo.json"))
+    e = _ge(_carrega("lote-exemplo.json"), _carrega("zona-exemplo.json"))
     ordem = e["criterio_escolha"]["ordem"]
     assert ordem == ["unidades_estimadas desc", "area_privativa_m2 desc"]
     for o in e["opcoes"]:
@@ -496,7 +536,7 @@ def test_d8_aviso_apenas_garagem_computavel_com_vagas():
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
     for gc, vagas in ((True, 1), (False, 1), (True, 0)):
         zona["parametros"]["garagem_computavel"] = gc
-        e = gerar_estudo(lote, zona, {"vagas_por_unidade": vagas})
+        e = _ge(lote, zona, {"vagas_por_unidade": vagas})
         assert (AVISO_GARAGEM in e["incertezas"]) == (gc and vagas > 0)
         assert any("garagem_computavel" in i and "meta de vagas" in i for i in e["incertezas"]) == (gc and vagas > 0)
 
@@ -504,6 +544,7 @@ def test_d8_aviso_apenas_garagem_computavel_com_vagas():
 def test_42_casos_auditoria():
     casos = sorted((Path(AQUI).parent / "auditoria" / "casos").glob("saida-*.json"))
     assert len(casos) == 42, len(casos)
+    _pre(_regera_caso, [c.name for c in casos])
     for caso in casos:
         e = _regera_caso(caso.name)
         assert not any(o["motivo"] in ("erro", "dados_insuficientes") for o in e["opcoes_ausentes"]), (caso.name, e["opcoes_ausentes"])
@@ -543,6 +584,7 @@ def _impossivel_com_prova(e):
 
 
 def test_tarefa10():
+    _pre(_regera_caso, [p.name for p in sorted((Path(AQUI).parent / "auditoria" / "casos").glob("audit5-saida-*.json"))])
     estudos = {p.stem.removeprefix("audit5-saida-"): _regera_caso(p.name) for p in sorted((Path(AQUI).parent / "auditoria" / "casos").glob("audit5-saida-*.json"))}
     for e in estudos.values():
         confere(e)
@@ -597,7 +639,7 @@ def test_dominio():
         ([[0, 0], [40, 0], [0, 400]], [[0, 0], [0, 100]], "menor ângulo interno"),
     ):
         l = dict(lote, poligono_utm=pontos, frente=frente)
-        e = gerar_estudo(l, zona)
+        e = _ge(l, zona)
         assert e["dominio"]["status"] == "fora" and any(motivo in m for m in e["dominio"]["motivos"]), e["dominio"]
         assert e["incertezas"].count(AVISO_FORA) == 1
         if motivo == "área do lote":
@@ -609,7 +651,7 @@ def test_dominio():
                          ({k: v for k, v in lote.items() if k != "poligono_utm"}, zona, "polígono"),
                          (lote, None, "zona"), (lote, {k: v for k, v in zona.items() if k != "id"}, "zona"),
                          (lote, {k: v for k, v in zona.items() if k != "parametros"}, "parâmetros")):
-        e = gerar_estudo(l, z)
+        e = _ge(l, z)
         assert e["dominio"]["status"] == "dados_insuficientes" and any(motivo in m for m in e["dominio"]["motivos"])
         assert not e["opcoes"] and all(o["motivo"] == "dados_insuficientes" for o in e["opcoes_ausentes"])
     repetido = dict(lote, poligono_utm=lote["poligono_utm"] + [lote["poligono_utm"][0]])
@@ -631,8 +673,9 @@ def test_revisao1():
     pares = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(pasta.glob("*.json"))]
     pares = [p for p in pares if "antes" in p]
     assert len(pares) == 12
+    _pre(lambda p: [_ge(p["lote"], p[k], p["premissas"]) for k in ("antes", "depois")], pares)
     for p in pares:
-        estudos = [gerar_estudo(p["lote"], p[k], p["premissas"]) for k in ("antes", "depois")]
+        estudos = [_ge(p["lote"], p[k], p["premissas"]) for k in ("antes", "depois")]
         for e in estudos:
             confere(e)
             assert (AVISO_GARAGEM in e["incertezas"]) == (e["premissas"]["garagem_computavel"] and e["premissas"]["vagas_por_unidade"] > 0)
@@ -643,16 +686,11 @@ def test_revisao1():
         confere(anterior)  # testemunha: a implantação/subsolo anterior ainda é legal na regra nova
 
 
-def main():
-    test_revisao1()
-    test_dominio()
-    test_tarefa10()
-    test_42_casos_auditoria()
+def secoes_1_a_5():
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
 
     # 1) exemplo: 4 opções, todas dentro dos limites, e o arquivo gravado bate com o que o motor gera agora
-    e = gerar_estudo(lote, zona)
-    estudos = {"estudo-exemplo.json": e}
+    e = _ge(lote, zona)
     confere(e)
     assert [o["id"] for o in e["opcoes"]] == ["A", "B", "C", "D"], [o["id"] for o in e["opcoes"]]
     assert json.dumps(e, ensure_ascii=False) == json.dumps(gerar_estudo(copy.deepcopy(lote), zona), ensure_ascii=False)
@@ -668,7 +706,7 @@ def main():
     lote2 = dict(lote, poligono_utm=pts, frente=[list(q) for q in frente])
     zona2 = copy.deepcopy(zona)
     zona2["parametros"].update(ca_maximo=6.0, altura_max_m=None, pavimentos_max=8, garagem_computavel=None)
-    e2 = gerar_estudo(lote2, zona2, {"garagem_computavel": True, "preco_venda_m2_privativo": 9000})
+    e2 = _ge(lote2, zona2, {"garagem_computavel": True, "preco_venda_m2_privativo": 9000})
     confere(e2)
     assert e2["opcoes"], "lote em L ficou sem opção"
     assert all(o["metricas"]["vgv_estimado"] for o in e2["opcoes"]), "VGV sumiu com preço informado"
@@ -683,7 +721,7 @@ def main():
     assert recuo_divisa(zp6, 1.5, 17, 52.5) == 52.5 / 8
     zona6 = copy.deepcopy(zona)
     zona6["parametros"].update(zp6, parede_cega_encosta_ate_m=None)
-    e6 = gerar_estudo(lote, zona6)
+    e6 = _ge(lote, zona6)
     confere(e6)
     base6 = next(o for o in e6["opcoes"] if o["id"] == "D")["volumes"][0]
     assert base6["pavimentos"] == 2 and base6["recuo_lateral_m"] == 1.5, base6  # embasamento térreo + 1: 1,50 m
@@ -691,55 +729,87 @@ def main():
     # zona do terreno (v4): vai adiante no lote e vira incerteza; não se confunde com os números da zona
     assert e["lote"]["zona_origem"] == "teste" and e["lote"]["zona_conferida"] is False
     assert any(i.startswith("Terreno na zona") and "NÃO conferido" in i and "testar" in i for i in e["incertezas"])
-    e5 = gerar_estudo(dict(lote, zona_origem="oficial", zona_conferida=True), zona)
+    e5 = _ge(dict(lote, zona_origem="oficial", zona_conferida=True), zona)
     assert any(i.startswith("Terreno na zona") and ": conferido (pelo mapa" in i for i in e5["incertezas"])
 
     # 3) gabarito de área especial (centro histórico, 9 m) e zona sem regra por altura
     zona3 = copy.deepcopy(zona)
     for k in ("recuo_lateral_por_altura", "recuo_fundos_por_altura"):
         zona3["parametros"].pop(k, None)
-    e3 = gerar_estudo(dict(lote, areas_especiais=[{"tipo": "gabarito", "altura_max_m": 9, "fonte": "teste"}]), zona3)
+    e3 = _ge(dict(lote, areas_especiais=[{"tipo": "gabarito", "altura_max_m": 9, "fonte": "teste"}]), zona3)
     confere(e3)
     assert e3["opcoes"] and all(v["z0_m"] + v["altura_m"] <= 9 for o in e3["opcoes"] for v in o["volumes"])
 
     # 4) TO alta: o embasamento com parede cega (encostado na divisa até 12 m) ocupa mais e ganha
     zona4 = copy.deepcopy(zona)
     zona4["parametros"].update(taxa_ocupacao=0.9, taxa_permeabilidade=0.05)
-    e4 = gerar_estudo(lote, zona4, {"embasamento_ocupacao": 0.9})  # base de 90% do lote só cabe encostando na divisa
+    e4 = _ge(lote, zona4, {"embasamento_ocupacao": 0.9})  # base de 90% do lote só cabe encostando na divisa
     confere(e4)
     d4 = next(o for o in e4["opcoes"] if o["id"] == "D")
     assert d4["volumes"][0].get("parede_cega"), "com TO 90% a base com parede cega devia ganhar"
 
     # 5) lote real pequeno (~300 m²): o que não cabe some, sem quebrar
     pequeno = dict(lote, poligono_utm=[[0, 0], [12, 0], [12, 25], [0, 25]], frente=[[0, 0], [12, 0]])
-    confere(gerar_estudo(pequeno, zona))
+    confere(_ge(pequeno, zona))
 
-    # 6) monotonia, no exemplo e em 2 lotes-piloto (SC-Z2 remembrado e SC-Z1 com gabarito aeronáutico sem altura)
+
+
+def _pilotos_e_zonas():
     viab = os.path.join(AQUI, "..")
     with open(os.path.join(viab, "terreno", "lotes-piloto.json"), encoding="utf-8") as f:
         pilotos = {l["id"]: l for l in json.load(f)}
     with open(os.path.join(viab, "lei", "zonas.json"), encoding="utf-8") as f:
         zonas = {z["id"]: z for z in json.load(f)}
-    for l in pilotos.values():  # todo piloto gera estudo e passa no confere (o 22421 quebrava com região de área zero)
-        estudo = gerar_estudo(l, zonas[l["zona_id"]])
+    return pilotos, zonas
+
+
+def secao6_linha_de_base():
+    # 6) todo piloto gera estudo e passa no confere (o 22421 quebrava com região de área zero), e a linha de base 0.7.1/0.8.1
+    lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
+    pilotos, zonas = _pilotos_e_zonas()
+    estudos = {"estudo-exemplo.json": _ge(lote, zona)}  # o mesmo estudo que a seção 1 já conferiu
+    _pre(lambda l: _ge(l, zonas[l["zona_id"]]), pilotos.values())
+    for l in pilotos.values():
+        estudo = _ge(l, zonas[l["zona_id"]])
         confere(estudo)
         estudos[f"pilotos/{l['id']}.json"] = estudo
     test_8b_linha_de_base(estudos)  # reutiliza as oito gerações já conferidas, sem duplicar a busca
-    monotonia("exemplo SC-Z2", lote, zona, auditoria=True)
-    for id_ in ("SC-completo-remembramento-75352-75354", "SC-completo-22426"):
-        monotonia(id_, pilotos[id_], zonas[pilotos[id_]["zona_id"]])
-    defeitos_da_auditoria(lote, zona)
-    auditoria3()
-    tarefa6()
-    tarefa7()
-    test_d1_recuo_assimetrico_permeabilidade()
-    test_d2_metricas_subsolo_final()
-    test_d3_rotulo_parede_cega()
-    test_d4_caixa_sem_altura()
-    test_d5_subsolo_dimensionado_pelas_vagas()
+
+
+def main():
+    """Os grupos são independentes: rodam juntos (cada um numa thread) e mandam as gerações para um conjunto de processos.
+    Só test_d6 fica por último e sozinho, porque troca `motor._maior_lamina` por um patch e isso vale pro processo todo."""
+    global _PROC, _FIOS
+    lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
+    pilotos, zonas = _pilotos_e_zonas()
+    grupos = [  # os mais caros primeiro
+        test_d1_recuo_assimetrico_permeabilidade,
+        # 6) monotonia, no exemplo e em 2 lotes-piloto (SC-Z2 remembrado e SC-Z1 com gabarito aeronáutico sem altura)
+        lambda: monotonia("exemplo SC-Z2", lote, zona, auditoria=True),
+        *[(lambda id_=id_: monotonia(id_, pilotos[id_], zonas[pilotos[id_]["zona_id"]]))
+          for id_ in ("SC-completo-remembramento-75352-75354", "SC-completo-22426")],
+        test_42_casos_auditoria,
+        test_tarefa10,
+        test_revisao1,
+        secao6_linha_de_base,
+        tarefa6,
+        lambda: defeitos_da_auditoria(lote, zona),
+        secoes_1_a_5,
+        auditoria3,
+        tarefa7,
+        test_d2_metricas_subsolo_final,
+        test_d3_rotulo_parede_cega,
+        test_d4_caixa_sem_altura,
+        test_d5_subsolo_dimensionado_pelas_vagas,
+        test_d7_criterio_reflete_chave,
+        test_d8_aviso_apenas_garagem_computavel_com_vagas,
+        test_dominio,
+    ]
+    with ProcessPoolExecutor() as _PROC, ThreadPoolExecutor(128) as _FIOS, ThreadPoolExecutor(len(grupos)) as threads:
+        for f in [threads.submit(g) for g in grupos]:
+            f.result()
+    _PROC = _FIOS = None
     test_d6_opcoes_ausentes_classificadas()
-    test_d7_criterio_reflete_chave()
-    test_d8_aviso_apenas_garagem_computavel_com_vagas()
     print("ok")
 
 
