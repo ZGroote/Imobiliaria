@@ -754,7 +754,11 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
     # duas perguntas diferentes: o terreno está nessa zona? os números da zona foram conferidos?
     origem_zona = lote.get("zona_origem")
     texto_origem = {"oficial": "pelo mapa digital oficial", "anotada_a_mao": "lida à mão no anexo em PDF",
-                    "teste": "escolhida só pra testar"}.get(origem_zona, "sem origem informada (falta zona_origem no lote)")
+                    "teste": "escolhida só pra testar",
+                    "informada_pelo_usuario": "informada pelo usuário",
+                    "sugerida_pelo_mapa": "sugerida pelo mapa do Plano Diretor; outras zonas por perto: "
+                    + (", ".join((lote.get("zona_sugestao") or {}).get("alternativas") or []) or "nenhuma")
+                    }.get(origem_zona, "sem origem informada (falta zona_origem no lote)")
     if not lote.get("zona_conferida"):
         incertezas.append(f"Terreno na zona {zona['id']}: NÃO conferido ({texto_origem}). Confirmar a zona do lote antes de usar o estudo.")
     else:

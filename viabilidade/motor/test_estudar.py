@@ -166,6 +166,13 @@ def main():
         igual(json.loads((tmp / "p" / "estudo.json").read_text(encoding="utf-8"))["opcoes"],
               json.loads((tmp / "q" / "estudo.json").read_text(encoding="utf-8"))["opcoes"], "opcoes ponto+auto x indices+Z1")
         assert "informada pelo usuário, não conferida" in (tmp / "q" / "resumo.txt").read_text(encoding="utf-8")
+        # a incerteza do estudo reconhece a origem da zona (antes dizia "sem origem informada")
+        inc_p = json.loads((tmp / "p" / "estudo.json").read_text(encoding="utf-8"))["incertezas"][0]
+        inc_q = json.loads((tmp / "q" / "estudo.json").read_text(encoding="utf-8"))["incertezas"][0]
+        assert "NÃO conferido (sugerida pelo mapa do Plano Diretor; outras zonas por perto: nenhuma)" in inc_p, inc_p
+        assert "NÃO conferido (informada pelo usuário)" in inc_q, inc_q
+        for pasta in ("p", "q", "b/fundo"):
+            assert "sem origem" not in (tmp / pasta / "relatorio.html").read_text(encoding="utf-8"), pasta
         # a área especial encontrada aparece na linha própria (piloto 30516: AIA)
         resumo30516 = (tmp / "a" / "resumo.txt").read_text(encoding="utf-8")
         assert "Áreas especiais encontradas: AIA (sobreposição visual)" in resumo30516, resumo30516
