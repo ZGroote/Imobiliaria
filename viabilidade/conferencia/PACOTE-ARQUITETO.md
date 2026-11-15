@@ -8,13 +8,13 @@
 
 ## (a) Zona de cada lote piloto
 
-> **Nota geral sobre a leitura de zonas nos 7 lotes piloto:** Nenhum dos 7 lotes foi obtido ainda do serviço vetorial da Prefeitura (o WFS do SigaSC está inacessível). Todas as zonas assumidas hoje têm `zona_origem = "anotada_a_mao"` e `zona_conferida = false`, tendo sido lidas por sobreposição visual da quadra/lote sobre o mapa raster do Anexo 02 (erro médio de ajuste de `3,53 m`) e conferência textual da lei.
+> **Nota geral sobre a leitura de zonas nos 7 lotes piloto:** Nenhum dos 7 lotes foi obtido ainda do serviço vetorial da Prefeitura (o WFS do SigaSC está inacessível). Todas as zonas assumidas hoje têm `zona_origem = "anotada_a_mao"` e `zona_conferida = false`, tendo sido lidas por sobreposição visual da quadra/lote sobre o mapa raster do Anexo 02 (lidas em 14/11 com um ajuste de 5 vértices do perímetro que errava 40–100 m na cidade; reconferidas em 15/11 com a afim de 21 cruzamentos de rua, RMSE `2,9 m` e máx. `6,2 m` no Anexo 02, sem mudar nenhuma zona — ver `terreno/RELATORIO-16.md`, `17` e `18`) e conferência textual da lei.
 
 ### P01 — Zona cadastral oficial do lote `SC-completo-30516` (Jardim Pacaembu)
 - **Identificação e leitura:** Loteamento Jardim Pacaembu, quadra `4263`, planta `000050` (base `planta`), área calculada `1.604,658 m²`, testada frontal inferida `23,50 m` (`5,31 m` do eixo viário), a oeste da Av. República do Líbano e próximo ao extremo oeste da Rua Sergipe. Leitura visual sobre o Anexo 02.
 - **Assumido hoje:** `SC-Z4` (CA único `1,4`; TO `70%`; permeabilidade mínima `15%`; lote mínimo `200 m²`; testada mínima `10 m`).
 - **Fonte:** Lei Municipal nº 18.053/2016 (Plano Diretor), art. 29 e art. 152-V ([portal `consultaleis` (`1_2257`)](https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257) — testado em 15/11: abre); [ANEXO 02 - Zoneamento Urbano.pdf](https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf) (testado em 15/11: abre); `viabilidade/terreno/lotes-piloto.json`.
-- **Por que há dúvida:** A leitura veio de PDF raster sem divisas de lote (erro `3,53 m`) e sem camada vetorial oficial do SigaSC; além disso, o lote sobrepõe área de AIA (ver P21).
+- **Por que há dúvida:** A leitura veio de PDF raster sem divisas de lote (posição pela afim de 21 cruzamentos: RMSE `2,9 m`, máx. `6,2 m`; reconferido em 15/11, segue `Z4`, sem divisa de zona a 250 m) e sem camada vetorial oficial do SigaSC; além disso, o lote sobrepõe área de AIA (ver P21).
 - **Respostas possíveis:** Sim, é `SC-Z4` / Não, é outra zona (especificar qual) / Depende de certidão oficial da Prefeitura.
 
 ### P02 — Zona cadastral oficial do lote `SC-completo-37607` (C.E.A.T. Dr. Emílio Fehr)
@@ -35,7 +35,7 @@
 - **Identificação e leitura:** Loteamento Jardim São Carlos, quadra `2757`, planta `000014` (base `planta`), área calculada `651,571 m²`, testada sul inferida `15,32 m` (`4,61 m` do eixo viário), junto à Rua Conde do Pinhal. Marcado com `zona_ambigua = true`.
 - **Assumido hoje:** `SC-Z1` (CAB `2,0`; CAM `3,0`; TO `70%`), com alternativa `SC-Z2` (CAB `2,0`; CAM `3,5`; TO `70%`).
 - **Fonte:** Lei Municipal nº 18.053/2016, arts. 17, 21 e 152 ([portal `consultaleis` (`1_2257`)](https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257) — testado em 15/11: abre); [ANEXO 02 - Zoneamento Urbano.pdf](https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf) (testado em 15/11: abre); `viabilidade/terreno/dados/anotacao-z2.json` e `viabilidade/terreno/ZONAS.md`.
-- **Por que há dúvida:** A borda oeste do lote fica a poucos metros do traço divisório entre `Z1` e `Z2` no Anexo 02 — distância comparável ao erro de ajuste do PDF (`3,53 m`). A diferença muda o CAM de `3,0` para `3,5` (e na `Z1` exige ≥50% residencial multifamiliar para passar do CAB `2,0`).
+- **Por que há dúvida:** Na leitura de 14/11 (ajuste antigo, erro real 40–100 m) a borda oeste ficava a ~1 m do traço divisório entre `Z1` e `Z2`. Reconferido em 15/11 com a afim de 21 cruzamentos (RMSE `2,9 m`, máx. `6,2 m`), o lote fica todo na `Z1`, a ~45 m da mancha `Z2`, e a ~3 m do traço de Eixo da Av. Com. Alfredo Maffei (a frente é para a Rua Conde do Pinhal); a dúvida Z1/Z2 ficou fraca, mas segue sem divisa cadastral. A diferença muda o CAM de `3,0` para `3,5` (e na `Z1` exige ≥50% residencial multifamiliar para passar do CAB `2,0`).
 - **Respostas possíveis:** Sim, é `SC-Z1` / Não, é `SC-Z2` / Há trecho em duas zonas (qual critério de prevalência a Prefeitura usa?).
 
 ### P05 — Zona e condição de esquina do lote `SC-completo-25297` (Vila Monteiro Gleba I)
@@ -211,7 +211,7 @@
   - **Encaminhamento:** Confirmar com o profissional em P19.
 
 - **Endereço:** PDFs raster dos mapas do PD (`ANEXO 02`, `ANEXO 05`, `ANEXO 06`, `ANEXO 07` — URLs oficiais abaixo abrem normalmente em HTTP 200, mas têm limitação técnica de formato)
-  - **Tipo de bloqueio:** Arquivos PDF compostos por imagens raster sem vetores nem divisas cadastrais de lote (erro médio de ajuste de `3,53 m` no Anexo 02, `4,09 m` no 05, `7,88 m` no 06 e `7,31 m` no 07) e sem cotas altimétricas numéricas para o aeroporto (Anexo 07).
+  - **Tipo de bloqueio:** Arquivos PDF compostos por imagens raster sem vetores nem divisas cadastrais de lote (posição pela afim de 21 cruzamentos de rua: RMSE/máx. `2,9`/`6,2 m` no Anexo 02, `2,9`/`6,1 m` no 05, `2,9`/`6,1 m` no 06 e `3,2`/`6,2 m` no 07, e até `6,8 m` nos 8 cruzamentos de verificação; o ajuste antigo de 5 vértices errava 40–100 m) e sem cotas altimétricas numéricas para o aeroporto (Anexo 07).
   - **Informação pendente:** Divisas exatas entre zonas/áreas especiais no nível de lote e teto aeronáutico numérico (DECEA).
   - **Encaminhamento:** Validar nesta reunião (P01–P07, P20–P22) e confirmar via Certidão de Uso e Ocupação do Solo / DECEA.
 

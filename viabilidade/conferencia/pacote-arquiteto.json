@@ -2,7 +2,7 @@
   {
     "id": "P01",
     "grupo": "a - Zona de cada lote piloto",
-    "pergunta": "Qual é a zona oficial do lote SC-completo-30516 (Jardim Pacaembu, quadra 4263, planta 000050, 1.604,658 m², a oeste da Av. República do Líbano / extremo oeste da Rua Sergipe), considerando que a leitura veio de mapa raster sem divisas cadastrais (erro 3,53 m) e que o lote sobrepõe área de AIA?",
+    "pergunta": "Qual é a zona oficial do lote SC-completo-30516 (Jardim Pacaembu, quadra 4263, planta 000050, 1.604,658 m², a oeste da Av. República do Líbano / extremo oeste da Rua Sergipe), considerando que a leitura veio de mapa raster sem divisas cadastrais (posição pela afim de 21 cruzamentos: RMSE 2,9 m, máx. 6,2 m) e que o lote sobrepõe área de AIA?",
     "assumido_hoje": "SC-Z4 (CA único 1,4; TO 70%; CP 15%; lote mínimo 200 m²; testada mínima 10 m), zona_origem='anotada_a_mao', zona_conferida=false, frente inferida de 23,50 m.",
     "fontes": [
       "Lei Municipal nº 18.053/2016 (Plano Diretor), art. 29 e art. 152-V — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
@@ -65,7 +65,7 @@
   {
     "id": "P04",
     "grupo": "a - Zona de cada lote piloto",
-    "pergunta": "O lote SC-completo-22421 (Jardim São Carlos, quadra 2757, planta 000014, 651,571 m², junto à Rua Conde do Pinhal, marcado com zona_ambigua=true por ficar a poucos metros da divisa Z1/Z2 dentro do erro de 3,53 m do PDF) pertence à SC-Z1 ou à SC-Z2?",
+    "pergunta": "O lote SC-completo-22421 (Jardim São Carlos, quadra 2757, planta 000014, 651,571 m², junto à Rua Conde do Pinhal, marcado com zona_ambigua=true por ficar a ~1 m da divisa Z1/Z2 no ajuste antigo de 14/11, que errava 40–100 m; reconferido em 15/11 com a afim de 21 cruzamentos (RMSE 2,9 m, máx. 6,2), fica todo na Z1, a ~45 m da Z2 e a ~3 m do traço de Eixo da Av. Alfredo Maffei) pertence à SC-Z1 ou à SC-Z2?",
     "assumido_hoje": "SC-Z1 (CAB 2,0; CAM 3,0; TO 70%; CP 15%), frente sul inferida de 15,32 m, alternativa anotada SC-Z2 (CAB 2,0; CAM 3,5).",
     "fontes": [
       "Lei Municipal nº 18.053/2016, arts. 17, 21 e 152 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",

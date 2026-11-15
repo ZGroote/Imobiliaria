@@ -126,14 +126,14 @@ Não há shapefile, GeoJSON, KML nem WFS oficial do zoneamento de 2016. Procuram
 | Pasta / fonte | O que é | Formato | Coordenadas | Problema |
 |---|---|---|---|---|
 | `mapa/lei18053_anexos_2017_pdf/` | Anexos 01 a 07 da Lei 18.053 (o Anexo 02 é o zoneamento urbano). Fonte: [página do Plano Diretor](https://www.saocarlos.sp.gov.br/index.php/habitacao-morar/166049-plano-diretor-estrategico.html) | PDF com uma imagem JPEG grande (8858×12746 px), escala 1:15.000 | SAD69 UTM 23S (EPSG:29183, impresso no mapa) | **É a lei em vigor**, mas é imagem. Precisa georreferenciar e vetorizar. |
-| `mapa/lei18053_anexos_2017_pdf/ANEXO 02ABC` | Coordenadas UTM SAD69 de cada vértice do perímetro urbano, em texto | PDF de texto | SAD69 UTM 23S | Dá o perímetro exato e serve de pontos de controle para georreferenciar o Anexo 02 |
+| `mapa/lei18053_anexos_2017_pdf/ANEXO 02ABC` | Coordenadas UTM SAD69 de cada vértice do perímetro urbano, em texto | PDF de texto | SAD69 UTM 23S | Dá o perímetro exato. Hoje serve **só de verificação**: usado como controle (5 vértices, 14/11) errou 40–100 m na cidade (`terreno/RELATORIO-16.md`). O controle é a afim de 21 cruzamentos de rua (`terreno/dados/zonas-controles.json`; RMSE 2,9 m, máx. 6,2 m) |
 | `mapa/proposta_revisao_kml/` | KMLs de **proposta** da revisão de 2014/15 | KML vetorial | WGS84 | **Não é a lei.** Os nomes de zona são outros (ZC, ZOI, ZCO…). A zona fica no nome da pasta do KML, não há tabela de atributos. **Não usar para decidir zona.** |
 | SigaSC, camada `zonas` (`saocarlos_mapa_legislacao.map`) | Zoneamento do **plano antigo** (Lei 13.691/2005) | PNG ou SVG pelo MapServer | SAD69 UTM 23S | **Desatualizada.** Vem só como desenho, não como dado. |
 
 Como chegar a um vetor do zoneamento em vigor (não feito; GDAL não está instalado nesta máquina):
 
 1. Tirar o JPEG do Anexo 02 (fluxo DCTDecode do PDF).
-2. Georreferenciar com `gdal_translate -gcp ...`, usando os vértices do Anexo 02ABC em EPSG:29183. Depois rodar `gdalwarp -t_srs EPSG:31983`.
+2. Georreferenciar com `gdal_translate -gcp ...` usando como controle os 21 cruzamentos de rua de `terreno/dados/zonas-controles.json` (já em EPSG:31983; é a afim que o `terreno/sugerir_zona.py` usa: RMSE 2,9 m, máx. 6,2 m no Anexo 02). Os vértices do Anexo 02ABC (EPSG:29183) só verificam: como controle erraram 40–100 m (`terreno/RELATORIO-16.md` e `17`).
 3. Vetorizar as cores das zonas com uma máscara por cor e `gdal_polygonize.py`. A legenda está no PDF.
 4. **Para o piloto, o mais barato:** olhar no Anexo 02 em que zona caem os poucos lotes piloto e anotar `zona_id` à mão, com a página e o trecho como fonte. **Eixo Estruturante não precisa de mapa:** é o lote com frente para uma das vias do art. 11.
 
