@@ -31,7 +31,8 @@ TESTES = {
 EVIDENCIAS_VISUAL = "viabilidade/visual/evidencias"
 TEMPO_MAX = 900
 # única exceção fora de viabilidade/: o workflow que roda este script no GitHub
-FORA_PERMITIDO = [":(exclude)viabilidade", ":(exclude).github/workflows/viabilidade.yml"]
+FORA_PERMITIDO = [":(exclude)viabilidade", ":(exclude).github/workflows/viabilidade.yml",
+                  ":(exclude)tests/test_tamanho_versionado.py"]  # exceção de tamanho do relevo (portão 1E)
 
 
 def git(*args):

@@ -98,6 +98,8 @@ EXCECOES = {
         (3, 'fonte', 'Foto da obra (lado externo) enviada pelo usuario; sem outra copia, referencia do modelo da torre.'),
     'plantas_fornecidas/vistas-da-quinze/anexos/7d1a70b6-7c94-4f52-b9b6-f1153d17cae8.png':
         (3, 'fonte', 'Foto da obra (lado do patio) enviada pelo usuario; sem outra copia, referencia do modelo da torre.'),
+    'viabilidade/terreno/dados/copernicus-glo30-sao-carlos.tif':
+        (2, 'fonte', 'Recorte do modelo de superficie Copernicus GLO-30 de Sao Carlos (licenca aberta); lido por viabilidade/terreno/preparar_relevo.py para o relevo dos estudos, sem outra copia no Git.'),
 }
 GRANDES = {c: dados[0] for c, dados in EXCECOES.items()}
 
