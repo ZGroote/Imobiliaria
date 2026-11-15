@@ -254,6 +254,15 @@ def main():
             else:
                 raise AssertionError(f"{nome}: devia recusar")
             assert trecho in erro.getvalue() and not (tmp / nome).exists(), f"{nome}: {erro.getvalue()}"
+
+        # (h) tarefa 19: frente presumida pelo terreno vira incerteza do estudo (e do relatório)
+        for indice, trecho in ((59281, "Frente presumida (asfalto a 8.312 m, acima dos 6 m da regra): confirmar testada e alinhamento na matrícula."),
+                               (94130, "Frente presumida (juntou 2 arestas colineares, asfalto a até 6 m): confirmar testada e alinhamento na matrícula.")):
+            estudar.estudar("completo", [indice], "auto", tmp / f"h{indice}", cadastro=cad)
+            inc = json.loads((tmp / f"h{indice}" / "estudo.json").read_text(encoding="utf-8"))["incertezas"]
+            assert sum(i.startswith("Frente presumida") for i in inc) == 1 and trecho in inc, inc
+            assert trecho in (tmp / f"h{indice}" / "relatorio.html").read_text(encoding="utf-8").replace("&#x27;", "'"), indice
+        assert not any(i.startswith("Frente presumida") for i in novo["incertezas"]), novo["incertezas"]  # 30516: frente normal, sem aviso
     print("ok")
 
 

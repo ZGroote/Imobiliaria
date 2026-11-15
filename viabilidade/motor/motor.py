@@ -763,6 +763,11 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
         incertezas.append(f"Terreno na zona {zona['id']}: NÃO conferido ({texto_origem}). Confirmar a zona do lote antes de usar o estudo.")
     else:
         incertezas.append(f"Terreno na zona {zona['id']}: conferido ({texto_origem}).")
+    frente0 = ((lote.get("qualidade") or {}).get("frentes") or [{}])[0]  # frente presumida pelo terreno (novo_lote.py): a regra vem marcada
+    if frente0.get("regra") == "arestas_colineares":
+        incertezas.append(f"Frente presumida (juntou {len(frente0.get('arestas') or [])} arestas colineares, asfalto a até 6 m): confirmar testada e alinhamento na matrícula.")
+    elif frente0.get("regra"):
+        incertezas.append(f"Frente presumida (asfalto a {frente0.get('distancia_max_asfalto_m', 0):g} m, acima dos 6 m da regra): confirmar testada e alinhamento na matrícula.")
     if lote.get("zona_id") and lote["zona_id"] != zona["id"]:
         incertezas.append(f"O lote diz zona {lote['zona_id']}, mas o estudo usou {zona['id']}.")
     if not zona.get("conferido"):
