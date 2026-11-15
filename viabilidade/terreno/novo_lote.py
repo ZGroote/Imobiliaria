@@ -5,8 +5,8 @@ python -I -X utf8 viabilidade/terreno/novo_lote.py --base completo --indices 19 
 python -I -X utf8 viabilidade/terreno/novo_lote.py --testar
 
 Índices começam em zero. Coordenadas: seis casas; área: três, como os pilotos.
-LID, categoria, anotação de zoneamento, áreas especiais e metadados manuais dos
-pilotos são omitidos; sua ausência não atesta ausência de restrições legais.
+LID, categoria, anotação de zoneamento e metadados manuais dos pilotos são omitidos.
+Áreas especiais são triadas nos Anexos 05/06/07, sem certificar restrições legais.
 """
 import argparse
 import json
@@ -124,7 +124,8 @@ class Cadastro:
         resumo = relevo.resumir(coords, (pol.centroid.x, pol.centroid.y), self.altura)
         obs = ("Geometria de ensaio derivada do cadastro/maquete, sem vistoria. Zona informada pelo usuário, não conferida. "
                "Frente inferida da malha de asfalto, por comprimento decrescente e índice da aresta. "
-               "Áreas especiais e restrições do loteamento não verificadas. ")
+               "Áreas especiais: triagem raster dos Anexos 05/06/07, confirmar incidências e pendências em areas_especiais. "
+               "Restrições do loteamento não verificadas. ")
         if len(qualidade["frentes"]) > 1:
             obs += "Há mais de uma frente candidata; as demais constam em qualidade.frentes. "
         if qualidade["esquina_indicada_pela_malha"]:
@@ -142,6 +143,10 @@ class Cadastro:
             lote["zona_id"], lote["zona_sugestao"] = self.mapa_zonas.sugerir(pol)
             lote["zona_origem"] = "sugerida_pelo_mapa"
             lote["observacoes"] = lote["observacoes"].replace("Zona informada pelo usuário", "Zona sugerida pelo mapa")
+        from areas_especiais import AreasEspeciais
+        if not hasattr(self, "areas_especiais"):
+            self.areas_especiais = AreasEspeciais()
+        lote["areas_especiais"] = self.areas_especiais.ler(pol)
         return lote
 
 

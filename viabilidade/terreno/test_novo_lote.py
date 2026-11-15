@@ -13,9 +13,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from novo_lote import AQUI, BASES, Cadastro, gl, relevo, unir
 
 # Campos manuais omitidos; os demais precisam reproduzir os cinco pilotos.
-OMITIDOS = {"lid", "categoria", "areas_especiais", "centroide_lonlat",
+OMITIDOS = {"lid", "categoria", "centroide_lonlat",
             "distancia_centro_referencia_m", "anotacao_zoneamento"}
-DIFERENCAS_ESPERADAS = {"zona_origem", "observacoes", "fonte", "qualidade"}
+DIFERENCAS_ESPERADAS = {"zona_origem", "observacoes", "fonte", "qualidade", "areas_especiais"}
 
 
 def recusa(funcao, trecho):
@@ -127,6 +127,8 @@ def testar():
         print(f"OK: CLI do motor para completo/19: {len(e['opcoes'])} opções, {len(e['opcoes_ausentes'])} ausentes.", flush=True)
         from test_sugerir_zona import testar as testar_auto
         testar_auto(cadastro, pilotos, pasta)
+        from test_areas_especiais import testar as testar_especiais
+        testar_especiais(cadastro, pilotos, pasta)
     assert protegidos() == antes, "Fontes, dados, pilotos ou scripts preexistentes foram alterados"
     print("OK: --testar completo; fontes e arquivos protegidos inalterados, saídas temporárias removidas.", flush=True)
 

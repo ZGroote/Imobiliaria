@@ -27,11 +27,13 @@ class ZonaIncerta(ValueError):
                          "Confira o mapa e informe --zona SC-XX explicitamente.")
 
 
-def mapa_local():
+def mapa_local(anexo="02"):
     manifesto = json.loads((AQUI / "dados/mapas-externos.json").read_text(encoding="utf-8"))
-    item = next(a for a in manifesto["arquivos"] if a["asset"] == "anexo02.jpg")
+    item = next(a for a in manifesto["arquivos"] if a["asset"] == f"anexo{anexo}.jpg")
     destino = gl.ROOT / item["destino"]
     if not destino.exists():
+        if anexo != "02":
+            raise ValueError(f"Anexo {anexo} indisponível; veja viabilidade/baixar_mapas.py")
         with tempfile.TemporaryDirectory(prefix="zona-mapa-") as pasta:
             resultado = subprocess.run(["gh", "release", "download", manifesto["release"], "-R", manifesto["repo"],
                                         "-p", item["asset"], "-D", pasta], capture_output=True, text=True)
@@ -41,35 +43,31 @@ def mapa_local():
             destino.parent.mkdir(parents=True, exist_ok=True)
             destino.write_bytes(baixado.read_bytes())
     if sha(destino) != item["sha256"]:
-        raise ValueError("Anexo 02 diferente do manifesto; conferir mapas-externos.json")
+        raise ValueError(f"Anexo {anexo} diferente do manifesto; conferir mapas-externos.json")
     return destino
 
 
-class MapaZonas:
-    def __init__(self):
-        arquivo = mapa_local()
+class MapaGeorreferenciado:
+    def __init__(self, anexo):
+        arquivo = mapa_local(anexo)
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", Image.DecompressionBombWarning)
             self.imagem = Image.open(BytesIO(arquivo.read_bytes()))
             if self.imagem.size != (8858, 12746):
-                raise ValueError("Dimensões do Anexo 02 incompatíveis com os controles")
+                raise ValueError(f"Dimensões do Anexo {anexo} incompatíveis com os controles")
             self.imagem.load()
-        pos = json.loads((AQUI / "dados/zonas-posicionamento.json").read_text(encoding="utf-8"))["02"]
+        pos = json.loads((AQUI / "dados/zonas-posicionamento.json").read_text(encoding="utf-8"))[anexo]
         self.coef = gl.np.array(pos["afim_utm_menos_origem_para_pixel"])
         self.origem = gl.np.array(pos["origem_utm"])
-        controles = json.loads((AQUI / "dados/zonas-controles.json").read_text(encoding="utf-8"))["mapas"]["02"]
+        controles = json.loads((AQUI / "dados/zonas-controles.json").read_text(encoding="utf-8"))["mapas"][anexo]
         mundo = gl.np.array([p["utm_sad69"] for p in controles])
         pixels = gl.np.array([p["pixel"] for p in controles])
         ajuste = gl.np.linalg.lstsq(gl.np.column_stack([mundo - self.origem, gl.np.ones(len(mundo))]), pixels, rcond=None)[0]
         if not gl.np.allclose(ajuste, self.coef, rtol=0, atol=1e-8):
-            raise ValueError("Posicionamento não corresponde aos controles do Anexo 02")
+            raise ValueError(f"Posicionamento não corresponde aos controles do Anexo {anexo}")
         self.sad = Transformer.from_crs(31983, 29183, always_xy=True)
         self.sirgas = Transformer.from_crs(29183, 31983, always_xy=True)
         self.escala_min, self.escala_max = sorted(gl.np.linalg.svd(self.coef[:2], compute_uv=False))
-        # Seis zonas, campus e parque: amostras no miolo dos retângulos da legenda original.
-        self.paleta = gl.np.array([gl.np.median(gl.np.asarray(self.imagem.crop((4280, y-10, 4330, y+10))), axis=(0, 1))
-                                   for y in (10855, 10934, 11013, 11092, 11171, 11250, 11329, 11408)] + [[255, 255, 255]])
-        self.cor_eixo = gl.np.median(gl.np.asarray(self.imagem.crop((3265, 11165, 3345, 11170))), axis=(0, 1))
 
     def pixel(self, coords):
         coords = gl.np.asarray(coords)
@@ -79,6 +77,15 @@ class MapaZonas:
     def utm(self, coords):
         sad = (gl.np.asarray(coords) - self.coef[2]) @ gl.np.linalg.inv(self.coef[:2]) + self.origem
         return gl.np.column_stack(self.sirgas.transform(sad[:, 0], sad[:, 1]))
+
+
+class MapaZonas(MapaGeorreferenciado):
+    def __init__(self):
+        super().__init__("02")
+        # Seis zonas, campus e parque: amostras no miolo dos retângulos da legenda original.
+        self.paleta = gl.np.array([gl.np.median(gl.np.asarray(self.imagem.crop((4280, y-10, 4330, y+10))), axis=(0, 1))
+                                   for y in (10855, 10934, 11013, 11092, 11171, 11250, 11329, 11408)] + [[255, 255, 255]])
+        self.cor_eixo = gl.np.median(gl.np.asarray(self.imagem.crop((3265, 11165, 3345, 11170))), axis=(0, 1))
 
     def classificar(self, rgb):
         dist = gl.np.linalg.norm(rgb[..., None, :].astype(float) - self.paleta, axis=-1)
