@@ -36,3 +36,11 @@ Nos 3 lotes de dentro da subárea (77015, 77022, 77375), sai 2 pavimentos com 7,
 ## Relatório
 
 `viabilidade/motor/RELATORIO-24.md`, até 10 linhas, com o artigo achado (ou "não achei"). Depois: `maestri ask "Claude Code" "Motor tarefa 24 pronta"`.
+
+## Mudança da central (15/11, depois da segunda opinião)
+
+Se a lei não disser como o gabarito é medido, o padrão de `acrescimo_topo_m` é **1,5 m**, não 0. Com 0, o estudo promete mais área do que dá, porque ignora o que fica acima da laje.
+- No relatório, esse valor aparece como premissa técnica que ninguém validou, e não como regra da lei.
+- Opção com folga menor que a premissa sai como "depende de confirmação na Prefeitura", nunca como "conforme".
+- Teste: o 77015 com o padrão (1,5 m) e com 0.
+- Diga quais estudos comparados byte a byte mudam com o padrão novo.
