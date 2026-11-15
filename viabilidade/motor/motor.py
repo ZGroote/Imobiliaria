@@ -733,6 +733,8 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
         pr["padrao"] = sorted(pr["padrao"] + ["acrescimo_topo_m"])
         incertezas.append(f"Altura máxima de {gabarito:g} m: o motor mede do térreo até o forro e reserva {ACRESCIMO_TOPO_PADRAO:g} m para platibanda/caixa d'água "
                           "(premissa acrescimo_topo_m, técnica, ninguém validou; não é regra da lei). A lei não diz de onde o gabarito é medido: confirmar na Prefeitura.")
+    declive, desnivel = _relevo(lote)
+    alerta_relevo = _alerta_relevo(declive, desnivel)
     acr = pr["acrescimo_topo_m"] if gabarito else 0
     if isinstance(acr, bool) or not isinstance(acr, (int, float)) or not 0 <= acr < 50:
         raise ValueError(f"acrescimo_topo_m deve ser um número de 0 a 50 m, veio {acr!r}")
@@ -892,11 +894,12 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
                 + (" (escalonado)." if len({v['recuo_lateral_m'] for v in vols}) > 1 else " (recuo do topo no prédio todo).")]
         folga = ([f"Altura: sobram {gabarito - altura:.1f} m até os {gabarito:g} m de {origem_altura} para platibanda/caixa d'água"
                   f" (premissa acrescimo_topo_m: {acr:g} m, não validada); medido do térreo, não da via; confirmar na Prefeitura."
+                  + (f" A lei mede acima do nível da via e o {_texto_desnivel(desnivel)} ({FONTE_RELEVO}): a folga pode ser outra." if desnivel is not None else "")
                   + (" DEPENDE DE CONFIRMAÇÃO NA PREFEITURA: a folga é menor que o acréscimo técnico de "
                      f"{ACRESCIMO_TOPO_PADRAO:g} m." if gabarito - altura < ACRESCIMO_TOPO_PADRAO - 1e-6 else "")] if gabarito else [])
         opcoes.append({"id": id_, "nome": nome,
                        "volumes": [{k: x for k, x in v.items() if not k.startswith("_")} for v in vols] + sub,
-                       "metricas": m, "alertas": av + alertas_esp + folga + _alertas(m, altura + acr, A, zp, altura_max)})
+                       "metricas": m, "alertas": av + alertas_esp + folga + alerta_relevo + _alertas(m, altura + acr, A, zp, altura_max)})
 
     def topo(n):  # recuos e caixa local de um prédio de n pavimentos a partir do chão
         r = _recuos_topo(ctx, n, _altura(pr, n, True))
@@ -1047,6 +1050,37 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
                              "texto": "Mais unidades; empate: maior área privativa. Comparação entre candidatos da heurística, sem prova de ótimo global."},
         "incertezas": incertezas,
     }, tem_envelope
+
+
+RELEVO_DECLIVE_PCT = 10  # a partir daqui o aviso de relevo aparece
+RELEVO_DESNIVEL_M = 2  # idem para o desnível lote-rua (campo opcional relevo.desnivel_lote_rua_m)
+FONTE_RELEVO = "Copernicus GLO-30, 30 m, mede topo de prédio e árvore"
+
+
+def _num(x):
+    return float(x) if isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(x) else None
+
+
+def _relevo(lote):
+    """(declive %, desnível lote-rua m) do lote; None quando o campo não existe ou não é número. Só avisa, a conta não usa."""
+    r = lote.get("relevo") if isinstance(lote.get("relevo"), dict) else {}
+    return _num(r.get("declividade_pct")), _num(r.get("desnivel_lote_rua_m"))
+
+
+def _texto_desnivel(d):
+    return f"lote ~{abs(round(d, 1)):g} m {'acima' if d > 0 else 'abaixo'} da rua"
+
+
+def _alerta_relevo(declive, desnivel):
+    partes = []
+    if declive is not None and declive >= RELEVO_DECLIVE_PCT:
+        partes.append(f"Terreno com ~{declive:.0f}% de declive ({FONTE_RELEVO})")
+    if desnivel is not None and abs(desnivel) >= RELEVO_DESNIVEL_M:
+        t = _texto_desnivel(desnivel)
+        partes.append(t if partes else f"{t.capitalize()} ({FONTE_RELEVO})")
+    if not partes:
+        return []
+    return ["; ".join(partes) + ": o térreo, o subsolo e a altura medida a partir da via podem mudar; conferir com levantamento planialtimétrico."]
 
 
 def _alertas(m, altura, A, zp, altura_max):
