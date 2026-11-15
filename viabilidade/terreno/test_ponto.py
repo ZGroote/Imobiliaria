@@ -45,7 +45,9 @@ def testar(cadastro, antigo, pilotos, pasta):
     with redirect_stdout(captura):
         cadastro.listar_vizinhos(14429)
     assert "--indices 14429 14421" in captura.getvalue(), captura.getvalue()
-    recusa(lambda: cadastro.gerar([14421, 14429], "SC-Z2"), "sem frente para rua")  # a união fecha o buraco
+    # a união fecha o buraco; o lado leste dá para a rua num buraco da malha de asfalto: frente pela rua do OSM (T21, foto aérea)
+    frentes = cadastro.gerar([14421, 14429], "SC-Z2")["qualidade"]["frentes"]
+    assert [(f["regra"], f["via_osm"]["id"]) for f in frentes] == [("rua_osm", 44782760)], frentes
     captura = StringIO()
     with redirect_stdout(captura):
         sintetico.listar_vizinhos(0)

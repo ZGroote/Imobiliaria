@@ -11,6 +11,7 @@ LID, categoria, anotação de zoneamento e metadados manuais dos pilotos são om
 """
 import argparse
 import json
+import math
 from pathlib import Path
 import re
 import sys
@@ -27,6 +28,7 @@ import pyproj  # gerar_lotes já pôs o site do usuário no caminho
 
 DIVISA_PONTO_M = 0.5  # ponto mais perto que isso de duas feições não escolhe sozinho (AUDITORIA-6, achado 11)
 
+OSM_VIAS = AQUI / "dados/osm-vias-sao-carlos.json.gz"  # osm_vias.py; © OpenStreetMap contributors (ODbL)
 BASES = {"completo": gl.BASES[1], "antigo": gl.BASES[0]}
 
 
@@ -165,6 +167,11 @@ class Cadastro:
         if self.geos[indice].interiors:
             print(f"AVISO: {self.buracos(indice)}.")
 
+    def vias_osm(self):
+        if not hasattr(self, "_osm"):
+            self._osm = gl.vias_osm(OSM_VIAS, self.tree_ruas)
+        return self._osm
+
     def motivo_recusa(self, g, indice, geos, tree):
         # avaliar() não expõe o motivo; diagnosticamos seus filtros sem repetir a seleção de frente.
         vizinhos = tree.query(g, predicate="intersects")
@@ -181,7 +188,7 @@ class Cadastro:
         d = float(self.tree_ruas.query_nearest(g, return_distance=True)[1][0])
         return ("Lote sem frente para rua: nenhum lado de pelo menos 8 m a até 6 m do asfalto (nem juntando arestas "
                 f"colineares, nem até {gl.TOLERANCIA_M} m sem lote no meio, nem pela borda da quadra com vão de 8 a 30 m "
-                f"até a quadra da frente ligado ao asfalto); o asfalto mais próximo da malha está a {d:.1f} m. "
+                f"até a quadra da frente ligado ao asfalto, nem por rua do OSM a até {gl.OSM_EIXO_M} m e paralela); o asfalto mais próximo da malha está a {d:.1f} m. "
                 "A malha de ruas tem buracos: se o lote dá pra rua, informe outro lote ou confira a base")
 
     def gerar(self, indices, zona):
@@ -202,11 +209,24 @@ class Cadastro:
             geos = self.geos.copy()
             geos[indices] = gl.Polygon()  # componentes da união não são vizinhos externos
             tree, indice = gl.sh.STRtree(geos), -1
-        vizinhos = tree.query(g, predicate="intersects")
-        invalidos = [int(k) for k in vizinhos if not geos[k].is_valid]
-        if invalidos:
-            raise ValueError(f"Não foi possível validar sobreposição: vizinhos com geometria inválida {invalidos}")
-        qualidade = gl.avaliar(g, indice, geos, tree, self.malha, self.tree_ruas, ampliar=True)
+        # Vizinho inválido no cadastro (laço, anel torto): conserta com make_valid só para cruzar com o lote estudado,
+        # que não muda. Se o conserto mexer na área mais de 1%, o desenho do vizinho é duvidoso demais: recusa.
+        consertados = {}
+        for k in map(int, tree.query(g, predicate="intersects")):
+            if geos[k].is_valid:
+                continue
+            valido = gl.sh.make_valid(geos[k])
+            mudou = abs(valido.area - geos[k].area) / geos[k].area if geos[k].area > 0 else math.inf
+            if mudou > 0.01:
+                raise ValueError(f"Não foi possível validar sobreposição: o vizinho de índice {k} tem geometria inválida "
+                                 f"({gl.sh.is_valid_reason(geos[k])}) e consertá-la muda a área em {mudou:.1%} (limite 1%)")
+            consertados[k] = (valido, mudou)
+        if consertados:
+            geos = geos.copy()
+            for k, (valido, _) in consertados.items():
+                geos[k] = valido
+            tree = gl.sh.STRtree(geos)
+        qualidade = gl.avaliar(g, indice, geos, tree, self.malha, self.tree_ruas, ampliar=True, osm=self.vias_osm)
         if qualidade is None:
             raise ValueError(self.motivo_recusa(g, indice, geos, tree))
         coords = [[round(x, 6), round(y, 6)] for x, y in g.exterior.coords]
@@ -228,9 +248,21 @@ class Cadastro:
             obs += (f"AVISO: frente presumida pela borda da quadra (sem asfalto no mapa): o lado dá para um vão de "
                     f"{escolhida['largura_vao_m']:g} m sem lote até a quadra da frente, e o asfalto mais próximo da malha "
                     f"está a {escolhida['distancia_max_asfalto_m']:g} m. Conferir no local que o vão é rua com acesso. ")
+        elif escolhida.get("regra") == "rua_osm":
+            via = escolhida["via_osm"]
+            obs += (f"AVISO: frente pela rua do OSM ({via['nome'] or 'sem nome'}, way {via['id']}, {via['classe']}): o lado fica a "
+                    f"{escolhida['distancia_eixo_osm_m']:g} m do eixo da via e a {escolhida['angulo_via_graus']:g}° dela, sem asfalto "
+                    "na malha. O OSM indica uma frente provável, mas não prova testada legal nem acesso público "
+                    f"(dados © OpenStreetMap contributors, ODbL, extrato de {via['data_osm'][:10]}). ")
+            if len(qualidade["frentes"]) > 1:
+                obs += "ALERTA: frente pela rua do OSM, conferir qual é a testada. "
         elif escolhida.get("regra"):
             obs += (f"AVISO: frente presumida, asfalto da malha a até {escolhida['distancia_max_asfalto_m']:g} m "
                     f"(acima dos 6 m da regra; sem lote entre o lado e o asfalto). A malha de ruas tem buracos: conferir no local. ")
+        if consertados:
+            qualidade["vizinhos_consertados"] = [{"indice": k, "mudanca_area": round(m, 6)} for k, (_, m) in consertados.items()]
+            obs += (f"Vizinho(s) {sorted(consertados)} com geometria inválida no cadastro, consertado(s) com make_valid "
+                    "só para conferir sobreposição e frente (área mudou até 1%); o lote estudado não muda. ")
         if qualidade["esquina_indicada_pela_malha"]:
             obs += "Esquina indicada pela malha de ruas, sem confirmação em campo. "
         lote = {"id": f"SC-{self.base}-{'-'.join(map(str, indices))}", "poligono_utm": coords,

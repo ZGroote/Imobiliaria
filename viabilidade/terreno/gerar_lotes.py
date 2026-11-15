@@ -212,7 +212,79 @@ def frentes_borda(g, indice, geos, tree, tree_ruas):
     return frentes
 
 
-def avaliar(g, indice, geos, tree, malha, tree_ruas, ampliar=False):
+OSM_FRENTE = {"residential", "primary", "secondary", "tertiary", "living_street"}  # track/unclassified/service: fora
+OSM_EIXO_M = 8  # o lado (3 pontos) a até isso do eixo da via: meia pista + calçada de rua local
+OSM_ANGULO = 20  # graus entre o lado e o trecho da via: 2x o GIRO_MAX que já junta o lado picotado; a lateral de esquina dá ~90
+
+
+def vias_osm(caminho, tree_ruas):
+    """Vias de carro do OSM (dados/osm-vias-sao-carlos.json.gz) em UTM; `ligada` = o grupo de vias que se tocam chega
+    a 6 m da malha de asfalto (trecho solto na mata não conta)."""
+    import gzip
+    dado = json.loads(gzip.decompress(Path(caminho).read_bytes()))
+    vias = dado["vias"]
+    linhas = np.array([LineString([UTM.transform(*c) for c in v["coords"]]) for v in vias], dtype=object)
+    tree = sh.STRtree(linhas)
+    pai = list(range(len(vias)))
+
+    def raiz(k):
+        while pai[k] != k:
+            pai[k] = pai[pai[k]]
+            k = pai[k]
+        return k
+    for a, b in zip(*tree.query(linhas, predicate="intersects")):
+        pai[raiz(a)] = raiz(b)
+    perto = {raiz(k) for k in np.flatnonzero([len(tree_ruas.query(l, predicate="dwithin", distance=6)) > 0 for l in linhas])}
+    ligada = np.array([raiz(k) in perto for k in range(len(vias))])
+    return {"vias": vias, "linhas": linhas, "tree": tree, "ligada": ligada, "data_osm": dado["data_osm"]}
+
+
+def frentes_osm(g, indice, geos, tree, osm):
+    """Regra 4, só quando a malha não deu frente: lado livre de lote (>= 8 m) a até OSM_EIXO_M do eixo de uma via de carro
+    do OSM ligada à rede, quase paralelo a ela e sem lote no caminho. Frente provável, não testada legal nem acesso público."""
+    def lote(j):
+        return geos[j] if geos[j].is_valid else sh.make_valid(geos[j])
+    frentes = []
+    for ks, pts in cadeias(list(g.exterior.coords)):
+        corda = math.dist(pts[0], pts[-1])
+        if corda < 8:
+            continue
+        linha = LineString(pts)
+        miolo = substring(linha, 0.1, 0.9, normalized=True)
+        if any(j != indice and lote(j).distance(miolo) <= 0.5 for j in tree.query(miolo, predicate="dwithin", distance=0.5)):
+            continue  # lado encostado em lote: divisa, não frente
+        amostras = [linha.interpolate(t, normalized=True) for t in (0.15, 0.5, 0.85)]
+        rumo = math.atan2(pts[-1][1] - pts[0][1], pts[-1][0] - pts[0][0])
+        melhor = None
+        for k in osm["tree"].query(linha, predicate="dwithin", distance=OSM_EIXO_M):
+            via, eixo = osm["vias"][k], osm["linhas"][k]
+            if via["highway"] not in OSM_FRENTE or not osm["ligada"][k]:
+                continue
+            d = max(p.distance(eixo) for p in amostras)
+            if d > OSM_EIXO_M:
+                continue
+            s = eixo.project(amostras[1])  # rumo do trecho da via em frente ao meio do lado
+            q0, q1 = eixo.interpolate(max(0, s - 5)), eixo.interpolate(min(eixo.length, s + 5))
+            ang = abs(math.degrees((math.atan2(q1.y - q0.y, q1.x - q0.x) - rumo + math.pi / 2) % math.pi - math.pi / 2))
+            if ang > OSM_ANGULO:
+                continue
+            caminho = sh.shortest_line(amostras[1], eixo)  # do meio do lado até o eixo, sem cortar lote (nem o próprio)
+            if g.intersection(caminho).length > 0.5 or any(j != indice and lote(j).intersection(caminho).length > 0.5
+                                                           for j in tree.query(caminho, predicate="intersects")):
+                continue
+            if melhor is None or d < melhor[0]:
+                melhor = (d, ang, via)
+        if melhor:
+            d, ang, via = melhor
+            frentes.append({"aresta": ks[0], "arestas": ks, "pontos": [list(pts[0]), list(pts[-1])],
+                            "comprimento_m": round(corda, 3), "regra": "rua_osm",
+                            "via_osm": {"id": via["id"], "nome": via["nome"], "classe": via["highway"], "data_osm": osm["data_osm"]},
+                            "distancia_eixo_osm_m": round(d, 3), "angulo_via_graus": round(ang, 1)})
+    frentes.sort(key=lambda f: (f["distancia_eixo_osm_m"], -f["comprimento_m"], f["aresta"]))  # principal: a mais perto
+    return frentes
+
+
+def avaliar(g, indice, geos, tree, malha, tree_ruas, ampliar=False, osm=None):
     vizinhos = tree.query(g, predicate="intersects")
     vizinhos = vizinhos[vizinhos != indice]
     inter = sh.area(sh.intersection(g, geos[vizinhos]))
@@ -237,6 +309,8 @@ def avaliar(g, indice, geos, tree, malha, tree_ruas, ampliar=False):
         frentes = frentes_ampliadas(g, indice, geos, tree, rua)
     if not frentes and ampliar:
         frentes = frentes_borda(g, indice, geos, tree, tree_ruas)
+        if not frentes and osm is not None:
+            frentes = frentes_osm(g, indice, geos, tree, osm() if callable(osm) else osm)  # carrega o OSM só se precisar
         asfalto = round(float(tree_ruas.query_nearest(g, return_distance=True)[1][0]), 3)
         for f in frentes:  # o motor lê este campo em toda frente com `regra`
             f["distancia_max_asfalto_m"] = asfalto

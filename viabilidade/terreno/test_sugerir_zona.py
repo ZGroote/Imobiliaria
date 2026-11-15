@@ -160,8 +160,9 @@ def testar(cadastro, pilotos, pasta):
             if ids == [75352, 75353, 75354]:
                 # Tarefa 17: na posição corrigida o rótulo da Av. Carlos Botelho fica a ~9 m; a única alternativa é a zona manual.
                 assert s["alternativas"] == ["SC-Z2"] and s["distancia_divisa_m"] < 10, s
-                recusa(lambda: cadastro.gerar(ids, "auto"), "vizinhos com geometria inválida [75351]")
-                resultado += " (montagem recusada antes: vizinho inválido 75351)"
+                # T21: o vizinho inválido 75351 é consertado com make_valid (área igual); quem recusa agora é a zona
+                recusa(lambda: cadastro.gerar(ids, "auto"), "Zona automática recusada: Divisa/cor não zonal a menos de 10 m")
+                resultado += " (vizinho inválido 75351 consertado na conferência)"
             else:
                 assert any(original["id"].endswith(fim) for fim in ("22426", "22421", "11984-11988")), str(erro)
                 assert "SC-EIXO" in s["alternativas"]

@@ -1,4 +1,5 @@
 """Autoteste chamado por novo_lote.py --testar; só escreve em diretório temporário."""
+import gzip
 import hashlib
 import json
 import math
@@ -126,7 +127,31 @@ def testar():
     assert [f["arestas"] for f in cadastro.gerar([75931], "SC-Z1")["qualidade"]["frentes"]] == [[9, 0], [3, 4]]
     assert [f["arestas"] for f in cadastro.gerar([77356], "SC-Z1")["qualidade"]["frentes"]] == [[1, 2]]  # vizinho 77317 inválido
     recusa(lambda: cadastro.gerar([76495], "SC-Z1"), "nem pela borda da quadra")  # lote solto no miolo vazio da quadra
-    recusa(lambda: cadastro.gerar([76495], "SC-Z1"), "ligado ao asfalto); o asfalto mais próximo da malha está a 26.6 m")
+    recusa(lambda: cadastro.gerar([76495], "SC-Z1"), "e paralela); o asfalto mais próximo da malha está a 26.6 m")
+
+    def rua_osm(classe="residential", giro=0, solta=False):  # regra 4 sintética: 1 fileira 12x30, via do OSM a 5 m da frente
+        x0, y0 = 202000, 7564000  # São Carlos, para a ida e volta lon/lat do arquivo
+        geos = gl.np.array([caixa(x0 + 12 * k, y0, x0 + 12 * k + 12, y0 + 30) for k in range(10)])
+        def eixo(x):  # reta pelo meio da frente (x0 + 54, y0 - 5), girada `giro` graus
+            return (x0 + x, y0 - 5 + (x - 54) * math.tan(math.radians(giro)))
+        fim = eixo(140)  # o asfalto fica na ponta da via, longe do lote
+        malha = gl.np.array([gl.Polygon([(fim[0] - 5, fim[1]), (fim[0] + 5, fim[1]), (fim[0], fim[1] - 10)])])
+        via = [eixo(-10), eixo(110 if solta else 140)]
+        with TemporaryDirectory() as pasta:
+            arq = Path(pasta) / "osm.json.gz"
+            arq.write_bytes(gzip.compress(json.dumps({"data_osm": "2026-08-28T20:20:46Z", "vias": [
+                {"id": 7, "nome": "Rua Teste", "highway": classe, "coords": [gl.GEO.transform(*p) for p in via]}]}).encode()))
+            osm = gl.vias_osm(arq, gl.sh.STRtree(malha))
+        return gl.avaliar(geos[4], 4, geos, gl.sh.STRtree(geos), malha, gl.sh.STRtree(malha), ampliar=True, osm=osm)
+    f = rua_osm()["frentes"]
+    assert [(x["regra"], x["pontos"], x["via_osm"]["id"], x["via_osm"]["classe"]) for x in f] == [
+        ("rua_osm", [[202048.0, 7564000.0], [202060.0, 7564000.0]], 7, "residential")], f  # o lado sul, voltado para a via
+    assert abs(f[0]["distancia_eixo_osm_m"] - 5) < 0.01 and f[0]["angulo_via_graus"] < 0.1 and f[0]["distancia_max_asfalto_m"] > 60, f
+    assert rua_osm(giro=15)["frentes"][0]["regra"] == "rua_osm"
+    assert rua_osm("service") is None and rua_osm("track") is None and rua_osm("unclassified") is None
+    assert rua_osm(giro=30) is None  # perto e torta: não é a rua do lado
+    assert rua_osm(solta=True) is None  # trecho que não chega à malha nem a outra via aceita
+    print("OK: regra 4 (rua do OSM): via residencial a 5 m aceita; service/track/unclassified, 30° e trecho solto recusados.", flush=True)
     print("OK: regra 3 (borda da quadra): corredor aceito, viela e fundo recusados, 10 lotes reais, esquina 77033, miolo 76495, em L 75931, vizinho inválido.", flush=True)
     cadastro_antigo = Cadastro("antigo")
     antigo = cadastro_antigo.gerar([542], "SC-Z1")

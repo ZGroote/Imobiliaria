@@ -52,6 +52,8 @@ Uma aresta é candidata a frente se mede pelo menos 8 m e os pontos de 15%, 50% 
 
 As demais candidatas estão em `qualidade.frentes`. **O Motor atual usa uma única `frente`**: o lote de esquina e outros com múltiplas testadas exigem revisão dos recuos antes de qualquer conclusão legal. A malha não confirma nome de rua, acesso de veículos ou alinhamento oficial.
 
+**Rua do OSM (T21), só para lote novo e só quando a malha não deu frente:** `dados/osm-vias-sao-carlos.json.gz` traz as vias de carro do OpenStreetMap (© OpenStreetMap contributors, licença ODbL 1.0), recortadas por `osm_vias.py` do extrato `sudeste-latest.osm.pbf` da Geofabrik (dados de 28/08/2026). O pbf fica fora do git. Um lado livre de pelo menos 8 m vira frente `rua_osm` se ficar a até 8 m do eixo de uma via `residential`, `primary`, `secondary`, `tertiary` ou `living_street`, a até 20° dela, e se essa via se ligar à malha de asfalto. O OSM indica uma frente provável, mas não prova testada legal nem acesso público.
+
 ## Verificação e reprodução
 
 ```powershell
