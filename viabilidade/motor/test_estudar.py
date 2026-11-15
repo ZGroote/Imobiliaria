@@ -271,6 +271,38 @@ def main():
         inc = json.loads((tmp / "i" / "estudo.json").read_text(encoding="utf-8"))["incertezas"]
         assert sum(i.startswith("Frente presumida") for i in inc) == 1 and trecho in inc and not any("acima dos 6 m" in i for i in inc), inc
         assert trecho in (tmp / "i" / "relatorio.html").read_text(encoding="utf-8").replace("&#x27;", "'")
+        # (j) tarefa 24: altura do art. 80 é medida do térreo; acrescimo_topo_m (padrão 1,5 m, não validado) soma platibanda/caixa d'água
+        def estudo_(nome, indice, premissas=None):
+            estudar.estudar("completo", [indice], "SC-Z1", tmp / nome, premissas=premissas, cadastro=cad)
+            return json.loads((tmp / nome / "estudo.json").read_text(encoding="utf-8"))
+
+        topo = lambda o: max(v["z0_m"] + v["altura_m"] for v in o["volumes"])
+        folga = lambda o: [a for a in o["alertas"] if a.startswith("Altura: sobram")]
+        e0 = estudo_("j0", 77015)  # dentro da subárea de 9 m, premissa no padrão
+        assert "acrescimo_topo_m" in e0["premissas"]["padrao"] and e0["premissas"]["acrescimo_topo_m"] == 1.5, e0["premissas"]
+        assert any("ninguém validou" in i for i in e0["incertezas"]), e0["incertezas"]
+        assert any(abs(topo(o) - 7.5) < 1e-6 for o in e0["opcoes"]), [topo(o) for o in e0["opcoes"]]  # 2 pavimentos, 7,5 m: cabe com 1,5 m de folga
+        for o in e0["opcoes"]:
+            assert topo(o) + 1.5 <= 9 + 1e-6 and len(folga(o)) == 1, (o["id"], topo(o), folga(o))
+            assert f"sobram {9 - topo(o):.1f} m até os 9 m de art. 80 do Plano Diretor" in folga(o)[0] and "medido do térreo, não da via" in folga(o)[0]
+            assert "DEPENDE DE CONFIRMAÇÃO" not in folga(o)[0]  # folga >= 1,5 m
+        z = estudo_("jz", 77015, {"acrescimo_topo_m": 0})  # sem acréscimo: cabe tudo que o motor mede até 9 m
+        assert "acrescimo_topo_m" not in z["premissas"]["padrao"] and z["premissas"]["acrescimo_topo_m"] == 0
+        assert all(topo(o) <= 9 + 1e-6 for o in z["opcoes"]) and len(z["opcoes"]) >= len(e0["opcoes"])
+        for o in z["opcoes"]:
+            assert ("DEPENDE DE CONFIRMAÇÃO" in folga(o)[0]) == (9 - topo(o) < 1.5 - 1e-6), (o["id"], topo(o), folga(o))
+        e2 = estudo_("j2", 77015, {"acrescimo_topo_m": 2})
+        assert e2["premissas"]["acrescimo_topo_m"] == 2
+        assert all(topo(o) + 2 <= 9 + 1e-6 for o in e2["opcoes"]) and not any(abs(topo(o) - 7.5) < 1e-6 for o in e2["opcoes"]), [topo(o) for o in e2["opcoes"]]  # a de 7,5 m saiu ou mudou
+        for ruim in (-1, 80, "2"):
+            try:
+                estudo_("jruim", 77015, {"acrescimo_topo_m": ruim})
+            except ValueError as erro:
+                assert "acrescimo_topo_m" in str(erro), erro
+            else:
+                raise AssertionError(f"acrescimo_topo_m={ruim!r} devia recusar")
+        ef = estudo_("jf", 74451)  # fora da subárea: nada novo na saída
+        assert "acrescimo_topo_m" not in ef["premissas"] and not any(a.startswith("Altura: sobram") for o in ef["opcoes"] for a in o["alertas"])
         assert not any(i.startswith("Frente presumida") for i in novo["incertezas"]), novo["incertezas"]  # 30516: frente normal, sem aviso
     print("ok")
 
