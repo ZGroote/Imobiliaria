@@ -1,0 +1,24 @@
+{
+  "id": "Z-AUDIT5-PERM25",
+  "nome": "Zona Z-AUDIT5-PERM25",
+  "parametros": {
+    "ca_basico": 2.0,
+    "ca_maximo": 3.5,
+    "taxa_ocupacao": 0.7,
+    "taxa_permeabilidade": 0.25,
+    "recuo_frontal_m": 4.0,
+    "recuo_lateral_m": 1.5,
+    "recuo_fundos_m": 1.5,
+    "altura_max_m": null,
+    "pavimentos_max": null,
+    "recuo_lateral_por_altura": null,
+    "recuo_fundos_por_altura": null,
+    "parede_cega_encosta_ate_m": null,
+    "garagem_computavel": false,
+    "vagas_min_por_unidade": null,
+    "outorga_onerosa": true
+  },
+  "fontes": [],
+  "conferido": false,
+  "observacoes": "Teste auditoria 5"
+}
