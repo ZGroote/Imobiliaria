@@ -80,6 +80,35 @@ async function checkWidth(page) {
       await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
       const payload = '</title><img src=x onerror=alert(1)><svg>';
+      const pilotoOrigem = JSON.parse(fs.readFileSync(path.join(__dirname, '../motor/exemplos/pilotos/SC-completo-22421.json'), 'utf8'));
+      for (const [origem, rotulo] of Object.entries({
+        informada_pelo_usuario: 'zona informada por quem pediu o estudo · não conferida',
+        sugerida_pelo_mapa: 'zona sugerida pela leitura automática do mapa do Plano Diretor · não conferida',
+      })) {
+        const fixture = structuredClone(pilotoOrigem);
+        fixture.lote.zona_origem = origem;
+        await upload(page, JSON.stringify(fixture), origem + '.json');
+        await page.waitForFunction(origem => document.querySelector('#status').textContent.includes(origem + '.json'), origem);
+        assert((await page.locator('#conferencia-lote').innerText()).includes(rotulo));
+        assert.doesNotMatch(await page.locator('#conferencia-lote').innerText(), /· conferida no arquivo/);
+        assert(await page.locator('#conferencia-lote').evaluate(node => node.getBoundingClientRect().top >= 0 && node.getBoundingClientRect().bottom <= innerHeight));
+        assert.equal(await page.evaluate(() => scrollY), 0);
+        if (origem === 'sugerida_pelo_mapa') {
+          fixture.lote.zona_conferida = true;
+          fixture.lote.zona_sugestao = { metodo: payload, alternativas: [payload], motivo_duvida: payload, proporcao_por_zona: { 'SC-Z1': 0.8 }, distancia_divisa_m: null };
+          await upload(page, JSON.stringify(fixture), 'sugestao-maliciosa.json');
+          await page.waitForFunction(() => document.querySelector('#status').textContent.includes('sugestao-maliciosa.json'));
+          assert((await page.locator('#conferencia-lote').innerText()).includes('Alternativas: ' + payload));
+          assert((await page.locator('#conferencia-lote').innerText()).includes('Motivo de dúvida: ' + payload));
+          assert.doesNotMatch(await page.locator('#conferencia-lote').innerText(), /· conferida no arquivo/);
+          assert.equal(await page.locator('#conferencia img').count(), 0);
+          assert.equal(dialogs.length, 0);
+          fixture.lote.zona_sugestao.distancia_divisa_m = payload;
+          await upload(page, JSON.stringify(fixture), 'sugestao-invalida.json');
+          await page.waitForFunction(() => !document.querySelector('#erro').hidden);
+          assert.match(await page.locator('#erro').innerText(), /lote.zona_sugestao.distancia_divisa_m/);
+        }
+      }
       for (const campo of ['volume', 'incerteza', 'lote']) {
         const mutacao = structuredClone(example);
         if (campo === 'volume') mutacao.opcoes[0].volumes[0].pavimentos = payload;
