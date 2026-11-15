@@ -1,0 +1,286 @@
+[
+  {
+    "id": "estudo-exemplo-v4",
+    "aceito": true
+  },
+  {
+    "id": "SC-completo-22421-v4",
+    "aceito": true
+  },
+  {
+    "id": "SC-completo-22426-v4",
+    "aceito": true
+  },
+  {
+    "id": "SC-completo-25297-v4",
+    "aceito": true
+  },
+  {
+    "id": "SC-completo-30516-v4",
+    "aceito": true
+  },
+  {
+    "id": "SC-completo-37607-v4",
+    "aceito": true
+  },
+  {
+    "id": "SC-completo-q1382-11984-11988-v4",
+    "aceito": true
+  },
+  {
+    "id": "SC-completo-remembramento-75352-75354-v4",
+    "aceito": true
+  },
+  {
+    "id": "xss-00-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-00-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-01-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-01-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-02-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-02-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-03-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-03-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-04-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-04-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-05-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-05-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-06-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-06-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-07-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-07-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-08-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-08-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-09-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-09-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-10-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-10-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-11-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-11-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-12-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-12-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-13-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-13-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-14-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-14-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-15-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-15-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-16-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-16-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-17-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-17-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-18-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-18-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-19-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-19-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-20-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-20-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-21-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-21-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-22-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-22-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-23-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-23-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-24-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-24-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-25-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-25-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-26-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-26-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-27-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-27-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-28-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-28-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-29-img",
+    "aceito": true
+  },
+  {
+    "id": "xss-29-aspas",
+    "aceito": true
+  },
+  {
+    "id": "xss-motivo",
+    "aceito": false
+  },
+  {
+    "id": "xss-numerico-taxa_ocupacao",
+    "aceito": true
+  },
+  {
+    "id": "xss-numerico-taxa_permeabilidade",
+    "aceito": true
+  }
+]

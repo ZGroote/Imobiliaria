@@ -1,0 +1,566 @@
+diff --git a/viabilidade/relatorio/relatorio.py b/viabilidade/relatorio/relatorio.py
+index 45c53c96..eb5df86a 100644
+--- a/viabilidade/relatorio/relatorio.py
++++ b/viabilidade/relatorio/relatorio.py
+@@ -22,6 +22,7 @@ Regras atendidas:
+ from __future__ import annotations
+ 
+ import argparse
++import hashlib
+ import html
+ import json
+ import math
+@@ -749,7 +750,31 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
+     caixa = estudo.get("caixa_maxima") or {}
+     premissas = estudo.get("premissas") or {}
+     opcoes = estudo.get("opcoes") or []
++    premissas_capa = "".join(
++        f'<div class="premissa-item" data-premissa="{esc(k)}"><span class="premissa-nome">{esc(NOMES_PREMISSAS.get(k, (k, ""))[0])}:</span> '
++        f'{span_num(f"premissas.{k}", v, NOMES_PREMISSAS.get(k, (k, ""))[1]) if isinstance(v, (int, float, bool)) or v is None else f"<span class=\'num-texto\' data-campo=\'premissas.{esc(k)}\' data-valor=\'{esc(v)}\'>{esc(v)}</span>"}'
++        f'{" <span class=\'badge-padrao\'>padrão</span>" if k in (premissas.get("padrao") or []) else ""}</div>'
++        for k, v in premissas.items() if k != "padrao"
++    )
+     incertezas = estudo.get("incertezas") or []
++    motivos_ausencia = {
++        "impossivel": "impossível pelas regras informadas",
++        "busca_inconclusiva": "a busca não encontrou (não está provado que não existe)",
++        "dados_insuficientes": "faltam dados",
++        "erro": "erro de cálculo",
++    }
++    ausentes = estudo.get("opcoes_ausentes") or []
++    incertezas = [*incertezas, *(
++        f"Opção {op.get('id', '')} · {op.get('nome', 'sem nome')}: "
++        f"{motivos_ausencia.get(op.get('motivo'), 'motivo não reconhecido')}"
++        f"{(' · ' + op['detalhe']) if op.get('detalhe') else ''}"
++        for op in ausentes
++    )]
++    criterio = estudo.get("criterio_escolha") or {}
++    criterio_html = (
++        f'<p class="caixa-alerta">Como cada opção foi montada: {esc(criterio["texto"])}</p>'
++        if isinstance(criterio.get("texto"), str) and criterio["texto"].strip() else ""
++    )
+     areas_especiais = lote.get("areas_especiais") or []
+ 
+     datas_fontes = sorted({f.get("data", "") for f in (zona.get("fontes") or []) if f.get("data")})
+@@ -763,7 +788,8 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
+             f"Cota máx.: {span_num('lote.relevo.cota_max_m', relevo.get('cota_max_m'), 'm')} · "
+             f"Declividade: {span_num('lote.relevo.declividade_pct', relevo.get('declividade_pct'), '%')} · "
+             f"Resolução: {span_num('lote.relevo.resolucao_m', relevo.get('resolucao_m'), 'm')} "
+-            f"<small>({esc(relevo.get('fonte', ''))})</small>"
++            f"<small>({esc(relevo.get('fonte', ''))})</small><br/>"
++            "Relevo aproximado (modelo de superfície de ~30 m): não substitui levantamento topográfico; a maquete assenta os volumes em terreno plano."
+         )
+     else:
+         relevo_html = '<span class="texto-suave">Relevo não preenchido (considerado plano z=0 m)</span>'
+@@ -878,6 +904,8 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
+ 
+       {_gerar_painel_conferencia(lote, zona, compacto=False)}
+ 
++      {f'<div class="card-info"><div class="card-info-titulo">Premissas</div>{premissas_capa}</div>' if premissas_capa else ''}
++
+       <div class="grade-resumo-lote">
+         <div class="card-info">
+           <div class="card-info-titulo">Parâmetros da Zona ({esc(zona.get("id"))})</div>
+@@ -889,7 +917,9 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
+             Recuo frontal lei: <strong>{span_num("zona.parametros.recuo_frontal_m", params.get("recuo_frontal_m"), "m")}</strong> ·
+             Recuo lat./fundos mín.: <strong>{span_num("zona.parametros.recuo_lateral_m", params.get("recuo_lateral_m"), "m")}</strong> / <strong>{span_num("zona.parametros.recuo_fundos_m", params.get("recuo_fundos_m"), "m")}</strong> ·
+             Parede cega até: <strong>{span_num("zona.parametros.parede_cega_encosta_ate_m", params.get("parede_cega_encosta_ate_m"), "m")}</strong> ·
+-            Outorga onerosa: <strong>{span_num("zona.parametros.outorga_onerosa", params.get("outorga_onerosa"))}</strong>
++            Outorga onerosa: <strong>{span_num("zona.parametros.outorga_onerosa", params.get("outorga_onerosa"))}</strong> ·
++            Altura máx.: <strong>{span_num("zona.parametros.altura_max_m", params.get("altura_max_m"), "m")}</strong> ·
++            Pavimentos máx.: <strong>{span_num("zona.parametros.pavimentos_max", params.get("pavimentos_max"), "pav.")}</strong>
+           </div>
+         </div>
+         <div class="card-info">
+@@ -907,6 +937,7 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
+       </div>
+ 
+       <h2 class="secao-titulo">Comparação Lado a Lado das Opções</h2>
++      {('<p class="caixa-alerta">Nenhuma opção coube neste lote.</p>' if not opcoes else '')}
+       <table class="tabela-comparacao">
+         <thead>
+           <tr>
+@@ -937,6 +968,7 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
+         </tbody>
+       </table>
+ 
++      {criterio_html}
+       {bloco_areas_especiais}
+       {bloco_incertezas}
+ 
+@@ -1359,6 +1391,15 @@ body {
+   background: #e2e8f0;
+   padding: 12px 0;
+ }
++.aviso-volume {
++  padding: 7px;
++  margin: 4px 0;
++  border: 1.5px solid #92400e;
++  background: #fffbeb;
++  color: #451a03;
++  font-weight: 700;
++}
++.revisao-estudo { flex-basis: 100%; font-size: 8pt; font-weight: 700; text-align: right; }
+ .pagina {
+   width: 210mm;
+   min-height: 281mm;
+@@ -1391,6 +1432,7 @@ body {
+ }
+ .cabecalho-pagina {
+   display: flex;
++  flex-wrap: wrap;
+   justify-content: space-between;
+   align-items: flex-start;
+   border-bottom: 2px solid #0f172a;
+@@ -1755,21 +1797,37 @@ code {
+ """
+ 
+ 
+-def gerar_html(estudo: Dict[str, Any]) -> str:
++def gerar_html(estudo: Dict[str, Any], estudo_sha256: Optional[str] = None) -> str:
+     """Gera a string HTML completa (capa + uma página A4 por opção) a partir do dict do estudo."""
+     lote = estudo.get("lote") or {}
+     opcoes = estudo.get("opcoes") or []
+     titulo_doc = f"Relatório de Viabilidade — {lote.get('id', 'Estudo')}"
+ 
++    if estudo_sha256 is None:
++        estudo_sha256 = hashlib.sha256(json.dumps(estudo, ensure_ascii=False).encode("utf-8")).hexdigest()
++    revisao = f"rev {estudo_sha256[:12]} · motor {estudo.get('versao_motor') or 'não informado'}"
++    aviso_volume = (
++        '<p class="aviso-volume">Volumes hipotéticos de potencial construtivo. '
++        'Não são o projeto nem a fachada do edifício e não indicam aprovação.</p>'
++    )
+     paginas_html = [_gerar_capa_comparacao(estudo)]
+     for op in opcoes:
+         paginas_html.append(_gerar_pagina_opcao(estudo, op))
+ 
++    paginas_html = [
++        pagina.replace("</header>", f'<div class="revisao-estudo">{esc(revisao)}</div></header>')
++        .replace(esc(RODAPE_FIXO), esc(f"{RODAPE_FIXO} · {revisao}"))
++        .replace('<div class="grade-resumo-lote">', aviso_volume + '<div class="grade-resumo-lote">')
++        .replace('<div class="painel-desenhos">', aviso_volume + '<div class="painel-desenhos">')
++        for pagina in paginas_html
++    ]
++
+     return f"""<!DOCTYPE html>
+ <html lang="pt-BR">
+ <head>
+   <meta charset="utf-8"/>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
++  <meta name="estudo-sha256" content="{estudo_sha256}"/>
+   <title>{esc(titulo_doc)}</title>
+   <style>{CSS_ESTILOS}</style>
+ </head>
+@@ -1784,9 +1842,9 @@ def gerar_relatorio(caminho_estudo: Path | str, caminho_saida: Path | str) -> Pa
+     """Lê o arquivo JSON de estudo e grava o relatório HTML correspondente."""
+     p_in = Path(caminho_estudo)
+     p_out = Path(caminho_saida)
+-    with p_in.open("r", encoding="utf-8") as f:
+-        estudo = json.load(f)
+-    conteudo_html = gerar_html(estudo)
++    bytes_estudo = p_in.read_bytes()
++    estudo = json.loads(bytes_estudo)
++    conteudo_html = gerar_html(estudo, hashlib.sha256(bytes_estudo).hexdigest())
+     p_out.parent.mkdir(parents=True, exist_ok=True)
+     with p_out.open("w", encoding="utf-8") as f:
+         f.write(conteudo_html)
+diff --git a/viabilidade/relatorio/test_relatorio.py b/viabilidade/relatorio/test_relatorio.py
+index 786e41f8..14b5b8af 100644
+--- a/viabilidade/relatorio/test_relatorio.py
++++ b/viabilidade/relatorio/test_relatorio.py
+@@ -11,7 +11,7 @@ ou via unittest:
+ O que este teste faz:
+ 1. Gera os relatórios HTML dos 7 estudos de `viabilidade/motor/exemplos/pilotos/`
+    e do estudo de exemplo (`viabilidade/motor/exemplos/estudo-exemplo.json`),
+-   salvando em `viabilidade/relatorio/saida/`.
++   em uma pasta temporária dentro do projeto.
+ 2. Analisa o HTML gerado e confere todos os números visíveis no texto contra
+    os valores exatos do JSON (lote, relevo, zona, caixa máxima, premissas,
+    volumes e todas as 13 métricas de cada opção).
+@@ -24,6 +24,7 @@ O que este teste faz:
+ from __future__ import annotations
+ 
+ from html.parser import HTMLParser
++import hashlib
+ import json
+ from pathlib import Path
+ import subprocess
+@@ -36,6 +37,7 @@ DIR_RELATORIO = Path(__file__).resolve().parent
+ DIR_VIABILIDADE = DIR_RELATORIO.parent
+ DIR_EXEMPLOS = DIR_VIABILIDADE / "motor" / "exemplos"
+ DIR_PILOTOS = DIR_EXEMPLOS / "pilotos"
++DIR_AUDITORIA = DIR_VIABILIDADE / "auditoria" / "casos"
+ 
+ sys.path.insert(0, str(DIR_RELATORIO))
+ import relatorio  # noqa: E402
+@@ -223,6 +225,8 @@ def validar_html_contra_json(html_str: str, estudo: Dict[str, Any]) -> None:
+ 
+         existe, valor_json = _resolver_campo_no_estudo(estudo, campo)
+         if not existe:
++            if valor_attr == "null" and texto_visivel == "—":
++                continue
+             raise AssertionError(f"Campo '{campo}' presente no HTML não existe no JSON.")
+ 
+         if valor_json is None:
+@@ -329,7 +333,8 @@ def validar_html_contra_json(html_str: str, estudo: Dict[str, Any]) -> None:
+                 campos_obrigatorios.append(f"opcoes.{oid}.volumes.{idx_v}.recuo_fundos_m")
+ 
+     for c_obrig in campos_obrigatorios:
+-        if c_obrig not in campos_vistos:
++        existe, _ = _resolver_campo_no_estudo(estudo, c_obrig)
++        if existe and c_obrig not in campos_vistos:
+             raise AssertionError(f"Campo obrigatório do JSON ausente no HTML: '{c_obrig}'")
+ 
+     # 3. Conferir que premissas em premissas.padrao estão marcadas com "padrão"
+@@ -379,16 +384,8 @@ class TestRelatorioViabilidade(unittest.TestCase):
+ 
+     @classmethod
+     def setUpClass(cls) -> None:
+-        dir_preferido = DIR_RELATORIO / "saida"
+-        try:
+-            dir_preferido.mkdir(parents=True, exist_ok=True)
+-            probe = dir_preferido / ".probe_write"
+-            probe.write_text("ok", encoding="utf-8")
+-            probe.unlink()
+-            cls.dir_saida = dir_preferido
+-        except PermissionError:
+-            cls._tmpdir = tempfile.TemporaryDirectory(prefix="relatorio_viabilidade_")
+-            cls.dir_saida = Path(cls._tmpdir.name)
++        cls._tmpdir = tempfile.TemporaryDirectory(prefix=".relatorio-teste-", dir=DIR_RELATORIO)
++        cls.dir_saida = Path(cls._tmpdir.name)
+         cls.arquivos_pilotos = sorted(DIR_PILOTOS.glob("*.json"))
+         cls.arquivo_exemplo = DIR_EXEMPLOS / "estudo-exemplo.json"
+ 
+@@ -433,8 +430,36 @@ class TestRelatorioViabilidade(unittest.TestCase):
+ 
+                 estudo_dict = json.loads(caminho_json.read_text(encoding="utf-8"))
+                 html_gerado = caminho_html.read_text(encoding="utf-8")
++                sha = hashlib.sha256(caminho_json.read_bytes()).hexdigest()
++                revisao = f"rev {sha[:12]} · motor {estudo_dict.get('versao_motor') or 'não informado'}"
++                self.assertIn(f'<meta name="estudo-sha256" content="{sha}"/>', html_gerado)
++                self.assertEqual(html_gerado.count('class="revisao-estudo"'), 1 + len(estudo_dict.get("opcoes", [])))
++                self.assertEqual(html_gerado.count(revisao), 2 * (1 + len(estudo_dict.get("opcoes", []))))
++                self.assertEqual(html_gerado.count("Volumes hipotéticos de potencial construtivo."), 1 + len(estudo_dict.get("opcoes", [])))
+                 validar_html_contra_json(html_gerado, estudo_dict)
+ 
++    def test_casos_auditoria_com_lote(self) -> None:
++        casos = sorted({*DIR_AUDITORIA.glob("saida-*.json"), *DIR_AUDITORIA.glob("audit5-saida-*.json")})
++        pulados = 0
++        for caminho in casos:
++            estudo = json.loads(caminho.read_text(encoding="utf-8"))
++            if "lote" not in estudo:
++                pulados += 1
++                continue
++            with self.subTest(caso=caminho.name):
++                validar_html_contra_json(relatorio.gerar_html(estudo), estudo)
++        print(f"Casos de auditoria sem lote pulados: {pulados}")
++
++    def test_estudo_sem_opcoes_explicado(self) -> None:
++        estudo = json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))
++        estudo["opcoes"] = []
++        estudo["opcoes_ausentes"] = [{"id": "A", "nome": "Teste", "motivo": "impossivel", "detalhe": "Limite do lote"}]
++        html = relatorio.gerar_html(estudo)
++        validar_html_contra_json(html, estudo)
++        self.assertIn("Nenhuma opção coube neste lote", html)
++        self.assertIn("impossível pelas regras informadas", html)
++        self.assertIn("Limite do lote", html)
++
+     def test_falha_quando_numero_html_diverge_do_json(self) -> None:
+         """Garante que o validador falha imediatamente se qualquer número do HTML não bater com o JSON."""
+         estudo_dict = json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))
+@@ -462,6 +487,42 @@ class TestRelatorioViabilidade(unittest.TestCase):
+         html_com_vgv = relatorio.gerar_html(estudo_dict)
+         validar_html_contra_json(html_com_vgv, estudo_dict)
+ 
++    def test_contrato_v4_e_campos_v5_opcionais(self) -> None:
++        """Mantém v4 e apresenta ausências, critério e ressalva de relevo v5."""
++        import copy
++
++        base = json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))
++        v4 = copy.deepcopy(base)
++        v4.pop("opcoes_ausentes", None)
++        v4.pop("criterio_escolha", None)
++        html_v4 = relatorio.gerar_html(v4)
++        self.assertNotIn("Como cada opção foi montada:", html_v4)
++        self.assertNotIn("impossível pelas regras informadas", html_v4)
++
++        v5 = copy.deepcopy(base)
++        v5["lote"]["relevo"] = {
++            "cota_min_m": 10, "cota_max_m": 20, "declividade_pct": 5,
++            "fonte": "Fonte teste", "resolucao_m": 30,
++        }
++        v5["opcoes_ausentes"] = [
++            {"id": "A", "nome": "Opção teste", "motivo": motivo, "detalhe": f"Detalhe {motivo}"}
++            for motivo in ("impossivel", "busca_inconclusiva", "dados_insuficientes", "erro")
++        ]
++        v5["criterio_escolha"] = {
++            "ordem": ["unidades_estimadas desc", "area_privativa_m2 desc", "pavimentos asc"],
++            "texto": "Ordena variantes pelos critérios informados.",
++        }
++        html_v5 = relatorio.gerar_html(v5)
++        for texto in (
++            "impossível pelas regras informadas",
++            "a busca não encontrou (não está provado que não existe)",
++            "faltam dados", "erro de cálculo", "Detalhe erro",
++            "Como cada opção foi montada: Ordena variantes pelos critérios informados.",
++            "Relevo aproximado (modelo de superfície de ~30 m): não substitui levantamento topográfico; a maquete assenta os volumes em terreno plano.",
++        ):
++            self.assertIn(texto, html_v5)
++        self.assertNotIn("Opção principal:", html_v5)
++
+ 
+ if __name__ == "__main__":
+     unittest.main(verbosity=2)
+diff --git a/viabilidade/visual/index.html b/viabilidade/visual/index.html
+index 5ff381dc..848b0a28 100644
+--- a/viabilidade/visual/index.html
++++ b/viabilidade/visual/index.html
+@@ -10,8 +10,9 @@
+     *{box-sizing:border-box}body{margin:0}main,header{max-width:1560px;margin:auto;padding:24px}header{display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line)}h1{font-size:26px;line-height:1.2;margin:4px 0 8px;letter-spacing:-.5px}h2{font-size:19px;margin:0}h3{font-size:15px;margin:16px 0 8px}p{margin:8px 0}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}.muted,.help{color:var(--muted);font-size:13px}.actions,nav,.legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center}button{font:inherit;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:6px;background:var(--raised);color:var(--ink);cursor:pointer}button:hover{border-color:var(--accent)}button[aria-pressed=true]{background:#244336;border-color:var(--accent);color:#e9fff2}button:focus-visible,summary:focus-visible,canvas:focus-visible{outline:3px solid var(--accent);outline-offset:3px}button:disabled{opacity:.5;cursor:default}#status{overflow-wrap:anywhere}#erro,.notice{padding:12px 16px;border:1px solid #826c44;border-radius:6px;background:#322c20;color:var(--gold)}#erro{border-color:#da9b86;color:#ffd6c8;background:#412b25}#resumo{margin-bottom:20px}#lote{font-size:19px;font-weight:600;overflow-wrap:anywhere}.legend{font-size:12px;color:var(--muted);margin:16px 0}.legend span{display:inline-flex;gap:8px;align-items:center;margin-right:12px}.swatch{display:inline-block;width:16px;height:12px;background:#8a9e84}.swatch.box{background:transparent;border:1px solid #f3d397}.swatch.volume{background:#96c5b9}.swatch.garagem{background:#b0a8c5}nav{margin:16px 0}.cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr))}.option{min-width:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}.option>h2{padding:16px;border-bottom:1px solid var(--line)}.viewport{height:340px;position:relative;background:#e1e5e2}.single .option-body{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr)}.single .viewport{height:540px}.viewport canvas{display:block;width:100%;height:100%;touch-action:none}.view-actions{position:absolute;bottom:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap}.view-actions button{font-size:12px;padding:8px 12px;background:#18252bec;border-color:#6b7b80}.metrics{padding:16px}.highlights{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px}.highlights div{border-bottom:1px solid var(--line);padding-bottom:12px}.highlights dt{font-size:12px;color:var(--muted)}.highlights dd{margin:4px 0 0;font-size:21px;font-weight:600;overflow-wrap:anywhere}.highlights .sem-preco{font-size:14px;line-height:21px;white-space:nowrap}.recuos dd{max-width:55%}.details{margin:0}.details div{display:flex;justify-content:space-between;gap:16px;padding:6px 0;border-bottom:1px solid #303b43;font-size:13px}.details dt{color:var(--muted)}.details dd{margin:0;text-align:right}.alerts{font-size:13px;color:var(--gold);padding-left:20px;margin:8px 0}.alerts li{margin:8px 0}details.context{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}summary{cursor:pointer;min-height:44px;display:list-item}.context ul{padding-left:20px;color:var(--muted);font-size:13px}.context li{margin:8px 0;overflow-wrap:anywhere}#premissas{max-width:800px}footer{padding:12px 24px;background:#1c292ff5;border-top:1px solid #5b707c;color:var(--gold);font-size:13px;text-align:center}.drop{outline:3px dashed var(--accent);outline-offset:-8px}[hidden]{display:none!important}
+     .conferencia-item{display:block}.swatch.cega{background:#729bbd;border:1px dashed #bddff4}.parede-cega{padding:8px;border-left:3px solid #9ec8e6;color:#c2e0f5;font-size:13px}.critical{border:1px solid #da9b86;border-left:4px solid #ff9a7a;border-radius:6px;padding:12px 16px;background:#412b25;color:#ffe0d5}.critical li{font-weight:600}.button{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:6px;background:var(--raised);color:var(--ink);text-decoration:none}.button:hover{border-color:var(--accent)}.button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+     @media(max-width:760px){header{align-items:flex-start;flex-direction:column;gap:12px}main,header{padding:16px}h1{font-size:24px}.single .option-body{grid-template-columns:1fr}.single .viewport{height:360px}.actions button{flex:1}.cards{grid-template-columns:1fr}footer{padding:12px 16px}.details{font-size:12px}}
++    .volume-warning{position:sticky;top:0;z-index:2;margin:0 0 12px;padding:10px 16px;border:2px solid #8d6321;border-radius:6px;background:#fff0c2;color:#30220a;font-weight:700;line-height:1.35}
+   </style>
+-  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"}}</script>
++  <script type="importmap">{"imports":{"viabilidade-three":"./vendor/three-viabilidade.min.js"}}</script>
+ </head>
+ <body>
+   <header>
+@@ -22,6 +23,8 @@
+     <p id="status" class="muted" role="status" aria-live="polite">Preparando visualização…</p>
+     <p id="erro" role="alert" hidden></p>
+     <section id="estudo" hidden>
++      <p class="volume-warning">Volumes hipotéticos de potencial construtivo. Não são o projeto nem a fachada do edifício e não indicam aprovação.</p>
++      <p id="revisao" class="muted"></p>
+       <div id="resumo"><p id="lote"></p><p id="zona" class="muted"></p><p id="conferencia" class="notice"></p></div>
+       <nav id="opcoes" aria-label="Escolha uma opção"></nav>
+       <div class="legend" aria-label="Legenda da maquete"><span><i class="swatch"></i>Lote</span><span><i class="swatch box"></i>Caixa máxima</span><span><i class="swatch volume"></i>Volume da opção</span><span><i class="swatch garagem"></i>Garagem / subsolo</span><span id="legenda-parede-cega" hidden><i class="swatch cega"></i><span id="texto-parede-cega"></span></span></div>
+@@ -39,7 +42,7 @@
+     const relatorios = new Set(['estudo-exemplo', ...pilotos.map(nome => nome.replace(/\.json$/, ''))]);
+     const numero = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
+     const reais = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+-    let fonte = null, THREE, OrbitControls, estudo, selecionada = 0, comparar = false, vistas = [], pedido = 0;
++    let fonte = null, THREE, OrbitControls, estudo, estudoSha, selecionada = 0, comparar = false, vistas = [], pedido = 0;
+     const el = (tag, texto, classe) => { const node = document.createElement(tag); if (texto !== undefined) node.textContent = texto; if (classe) node.className = classe; return node; };
+     const finito = n => typeof n === 'number' && Number.isFinite(n);
+     const formatar = (n, unidade = '') => finito(n) ? numero.format(n) + unidade : 'Não informado';
+@@ -101,6 +104,7 @@
+         }
+       }
+       if (d.incertezas !== undefined && (!Array.isArray(d.incertezas) || d.incertezas.some(v => typeof v !== 'string'))) throw Error('Incertezas devem ser uma lista de textos.');
++      if (d.opcoes_ausentes !== undefined && (!Array.isArray(d.opcoes_ausentes) || d.opcoes_ausentes.some(o => !o || typeof o !== 'object' || !['impossivel', 'busca_inconclusiva', 'dados_insuficientes', 'erro'].includes(o.motivo)))) throw Error('Opções ausentes devem informar um motivo reconhecido.');
+       return d;
+     }
+     async function carregar(origem, arquivo = false) {
+@@ -108,19 +112,22 @@
+       fonte = arquivo ? null : decodeURIComponent(String(origem).split('?')[0].split('/').pop().replace(/\.json$/, ''));
+       $('status').textContent = 'Lendo estudo…'; $('erro').hidden = true;
+       try {
+-        let texto;
+-        if (arquivo) { if (origem.size > 10 * 1024 * 1024) throw Error('O arquivo deve ter até 10 MB.'); texto = await origem.text(); }
++        let bytes;
++        if (arquivo) { if (origem.size > 10 * 1024 * 1024) throw Error('O arquivo deve ter até 10 MB.'); bytes = await origem.arrayBuffer(); }
+         else {
+           const url = new URL(origem, location.href);
+           if (!['http:', 'https:'].includes(url.protocol)) throw Error('Abra a página por um servidor local HTTP e use um caminho para o JSON.');
+           const resposta = await fetch(url, { signal: AbortSignal.timeout(15000) });
+           if (!resposta.ok) throw Error('Não foi possível abrir o estudo (HTTP ' + resposta.status + ').');
+-          texto = await resposta.text();
+-          if (texto.length > 10 * 1024 * 1024) throw Error('O arquivo deve ter até 10 MB.');
++          bytes = await resposta.arrayBuffer();
++          if (bytes.byteLength > 10 * 1024 * 1024) throw Error('O arquivo deve ter até 10 MB.');
+         }
++        if (bytes.byteLength > 10 * 1024 * 1024) throw Error('O arquivo deve ter até 10 MB.');
++        const texto = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+         const novo = validar(JSON.parse(texto));
++        const sha = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(v => v.toString(16).padStart(2, '0')).join('');
+         if (atual !== pedido) return;
+-        estudo = novo; selecionada = 0; comparar = false; apresentar();
++        estudo = novo; estudoSha = sha; selecionada = 0; comparar = false; apresentar();
+         $('status').textContent = (arquivo ? origem.name : origem) + ' · Motor ' + (estudo.versao_motor || 'não informado');
+       } catch (erro) {
+         if (atual !== pedido) return;
+@@ -170,6 +177,8 @@
+       const nomeRelatorio = relatorios.has(fonte) ? fonte : relatorios.has(estudo.lote.id) ? estudo.lote.id : null;
+       relatorio.hidden = !nomeRelatorio;
+       if (nomeRelatorio) relatorio.href = '../relatorio/saida/' + encodeURIComponent(nomeRelatorio) + '.html';
++      $('revisao').textContent = `rev ${estudoSha.slice(0, 12)} · motor ${estudo.versao_motor || 'não informado'}`;
++      $('resumo').append($('revisao'));
+       $('lote').textContent = (estudo.lote.id || 'Lote sem identificação') + ' · ' + formatar(estudo.lote.area_m2, ' m²');
+       $('zona').textContent = (estudo.zona.nome || estudo.zona.id || 'Zona não informada') + ' · SIRGAS 2000 / UTM 23S';
+       const fontes = Array.isArray(estudo.zona.fontes) ? estudo.zona.fontes : [];
+@@ -184,7 +193,12 @@
+       const faixaCega = temFaixaCega(estudo.caixa_maxima);
+       $('legenda-parede-cega').hidden = !faixaCega && !estudo.opcoes.some(o => o.volumes.some(v => v.parede_cega === true));
+       $('texto-parede-cega').textContent = faixaCega ? 'Parede cega: faixa tracejada até ' + formatar(estudo.caixa_maxima.parede_cega_ate_m, ' m') + '; volumes em azul' : 'Volumes com parede cega em azul';
+-      const incertezas = [...(estudo.incertezas || []), 'A maquete mostra volumes sobre um plano; não representa o relevo do terreno.'];
++      const motivoAusencia = { impossivel: 'impossível pelas regras informadas', busca_inconclusiva: 'a busca não encontrou (não está provado que não existe)', dados_insuficientes: 'faltam dados', erro: 'erro de cálculo' };
++      const incertezas = [...(estudo.incertezas || []), ...(estudo.opcoes_ausentes || []).map(o => `Opção ${o.id || ''} · ${o.nome || 'sem nome'}: ${motivoAusencia[o.motivo] || 'motivo não reconhecido'}${o.detalhe ? ' · ' + o.detalhe : ''}`)];
++      if (estudo.lote.relevo) {
++        const r = estudo.lote.relevo;
++        incertezas.push(`Relevo · cota mínima: ${formatar(r.cota_min_m, ' m')} · cota máxima: ${formatar(r.cota_max_m, ' m')} · declividade: ${formatar(r.declividade_pct, '%')} · fonte: ${r.fonte || 'não informada'} · resolução: ${formatar(r.resolucao_m, ' m')}. Relevo aproximado (modelo de superfície de ~30 m): não substitui levantamento topográfico; a maquete assenta os volumes em terreno plano.`);
++      } else incertezas.push('A maquete mostra volumes sobre um plano; não representa o relevo do terreno.');
+       if (estudo.lote.observacoes) incertezas.push('Lote: ' + estudo.lote.observacoes);
+       if (estudo.zona.observacoes) incertezas.push('Zona: ' + estudo.zona.observacoes);
+       if (!fontes.length) incertezas.push('Fontes da legislação: não informadas.');
+@@ -194,6 +208,11 @@
+       const especiais = incertezas.filter(a => /sem n.mero de altura.*n.o aplicada/i.test(a));
+       listaIncertezas.className = especiais.length ? 'alerts critical' : 'alerts';
+       listaIncertezas.replaceChildren(...incertezas.map(a => el('li', a)));
++      const criterioTexto = estudo.criterio_escolha?.texto;
++      let criterioAviso = $('criterio-escolha');
++      if (!criterioAviso) { criterioAviso = el('p'); criterioAviso.id = 'criterio-escolha'; criterioAviso.className = 'notice'; $('resumo').append(criterioAviso); }
++      criterioAviso.hidden = typeof criterioTexto !== 'string' || !criterioTexto.trim();
++      if (!criterioAviso.hidden) criterioAviso.textContent = `Como cada opção foi montada: ${criterioTexto}`;
+       const nomes = { pe_direito_m:'Pé-direito (m)', pe_direito_terreo_m:'Pé-direito térreo (m)', area_privativa_por_unidade_m2:'Área privativa por unidade (m²)', area_util_por_unidade_m2:'Área útil por unidade (m²)', eficiencia:'Eficiência', area_comum_por_pavimento_m2:'Área comum por pavimento (m²)', vagas_por_unidade:'Vagas por unidade', area_por_vaga_m2:'Área por vaga (m²)', garagem:'Garagem', subsolos_max:'Máximo de subsolos', garagem_computavel:'Garagem computável', preco_venda_m2_privativo:'Preço por m² privativo (R$)' };
+       $('premissas').replaceChildren();
+       for (const [k, v] of Object.entries(estudo.premissas)) {
+@@ -202,16 +221,33 @@
+         linha($('premissas'), (nomes[k] || k.replaceAll('_', ' ')) + (padrao ? ' · padrão' : ''), v === null ? 'Não informado' : typeof v === 'number' ? numero.format(v) : typeof v === 'boolean' ? (v ? 'Sim' : 'Não') : String(v));
+       }
+       $('opcoes').replaceChildren();
+-      estudo.opcoes.forEach((o, i) => { const b = el('button', 'Opção ' + o.id); b.onclick = () => { selecionada = i; comparar = false; mostrar(); }; $('opcoes').append(b); });
++      estudo.opcoes.forEach((o, i) => { const b = el('button', 'Opção ' + o.id); b.onclick = () => { selecionada = i; comparar = false; window.__maquetePronta = null; mostrar(); }; $('opcoes').append(b); });
+       const compararBotao = el('button', 'Lado a lado'); compararBotao.disabled = estudo.opcoes.length < 2;
+       compararBotao.onclick = () => { comparar = !comparar; mostrar(); }; $('opcoes').append(compararBotao);
+       mostrar();
+     }
++    $('relatorio').addEventListener('click', async event => {
++      event.preventDefault();
++      const href = event.currentTarget.href;
++      const janela = window.open('about:blank', '_blank');
++      if (!janela) { falha('Permita a abertura do relatório para conferir a revisão.'); return; }
++      try {
++        const resposta = await fetch(href);
++        if (!resposta.ok) throw Error();
++        const html = new DOMParser().parseFromString(await resposta.text(), 'text/html');
++        if (html.querySelector('meta[name="estudo-sha256"]')?.content !== estudoSha) {
++          janela.close(); falha('Relatório desatualizado para esta revisão.'); return;
++        }
++        janela.location.href = href;
++      } catch {
++        janela.close(); falha('Não foi possível conferir a revisão do relatório.');
++      }
++    });
+     function mostrar() {
+       vistas.forEach(v => v()); vistas = []; $('cards').replaceChildren();
+       $('cards').classList.toggle('single', !comparar);
+       [...$('opcoes').children].forEach((b, i) => b.setAttribute('aria-pressed', String(i === estudo.opcoes.length ? comparar : !comparar && i === selecionada)));
+-      if (!estudo.opcoes.length) { $('cards').append(el('p', 'O Motor não gerou opções para este lote. Confira as incertezas.')); return; }
++      if (!estudo.opcoes.length) { $('cards').append(el('p', 'Nenhuma opção coube neste lote. Confira as opções ausentes e os motivos em Incertezas.', 'notice')); return; }
+       const opcoes = comparar ? estudo.opcoes : [estudo.opcoes[selecionada]];
+       for (const o of opcoes) {
+         const card = el('article', undefined, 'option'), body = el('div', undefined, 'option-body'), viewport = el('div', undefined, 'viewport');
+@@ -263,7 +299,8 @@
+       estudo.opcoes.forEach(o => o.volumes.forEach(v => { topo = Math.max(topo, v.z0_m + v.altura_m); base = Math.min(base, v.z0_m); }));
+       const tamanho = Math.max(maxX - minX, maxY - minY, topo - base, 1), alvo = new THREE.Vector3(0, (topo + base) / 2, 0);
+       camera.far = tamanho * 30; controls.target.copy(alvo);
+-      const render = () => renderer.render(scene, camera);
++      const render = () => { renderer.render(scene, camera); if (!window.__maquetePronta) window.__maquetePronta = { opcao: opcao.id, time: performance.now() }; };
++      window.__medirOrbita = duration => new Promise(resolve => { let frames = 0, last = performance.now(), start = last; const tick = now => { controls.rotateLeft(2 * Math.PI * (now - last) / duration); controls.update(); render(); frames++; last = now; if (now - start >= duration) { window.__medirOrbita = null; resolve(frames * 1000 / (now - start)); } else requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
+       function reset(cima = false) { camera.position.copy(alvo).add(new THREE.Vector3(cima ? 0 : tamanho * 1.5, tamanho * 1.3, cima ? .001 : tamanho * 1.7)); camera.zoom = 1; camera.updateProjectionMatrix(); controls.update(); render(); }
+       const barra = el('div', undefined, 'view-actions');
+       for (const [texto, cima] of [['Vista inicial', false], ['Vista de cima', true]]) { const b = el('button', texto); b.onclick = () => reset(cima); barra.append(b); } container.append(barra);
+@@ -279,7 +316,7 @@
+     document.addEventListener('dragover', e => { e.preventDefault(); document.body.classList.add('drop'); });
+     document.addEventListener('dragleave', e => { if (!e.relatedTarget) document.body.classList.remove('drop'); });
+     document.addEventListener('drop', e => { e.preventDefault(); document.body.classList.remove('drop'); if (e.dataTransfer.files[0]) carregar(e.dataTransfer.files[0], true); });
+-    try { THREE = await import('three'); ({ OrbitControls } = await import('three/addons/controls/OrbitControls.js')); }
++    try { ({ THREE, OrbitControls } = await import('viabilidade-three')); }
+     catch { falha('Não foi possível carregar o 3D pela CDN. As métricas do estudo ainda podem ser consultadas.'); }
+     if (pedido === 0) await carregar(new URLSearchParams(location.search).get('estudo') || exemplo);
+     else if (estudo) mostrar();
+diff --git a/viabilidade/visual/testar.cjs b/viabilidade/visual/testar.cjs
+index b60f3555..5270b290 100644
+--- a/viabilidade/visual/testar.cjs
++++ b/viabilidade/visual/testar.cjs
+@@ -1,6 +1,7 @@
+ // Servidor (na raiz do repositório): python -m http.server 8765 --bind 127.0.0.1
+ // Teste: node viabilidade/visual/testar.cjs
+ const assert = require('node:assert/strict');
++const crypto = require('node:crypto');
+ const fs = require('node:fs');
+ const path = require('node:path');
+ const runtimeModules = 'C:/Users/respawn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules';
+@@ -17,6 +18,8 @@ const { PNG } = load('playwright-core/lib/utilsBundle');
+ const url = process.env.VISUAL_URL || 'http://127.0.0.1:8765/viabilidade/visual/';
+ const output = path.join(__dirname, 'evidencias');
+ const example = JSON.parse(fs.readFileSync(path.join(__dirname, '../motor/exemplos/estudo-exemplo.json'), 'utf8'));
++const exampleBytes = fs.readFileSync(path.join(__dirname, '../motor/exemplos/estudo-exemplo.json'));
++const revision = sha => `rev ${sha.slice(0, 12)} · motor ${example.versao_motor || 'não informado'}`;
+ 
+ function pixelDifference(first, second) {
+   const a = PNG.sync.read(first), b = PNG.sync.read(second);
+@@ -66,17 +69,44 @@ async function checkWidth(page) {
+       const errors = [];
+       page.on('pageerror', error => errors.push(error.message));
+       page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
++      page.on('request', request => {
++        const requestUrl = new URL(request.url());
++        if (['http:', 'https:'].includes(requestUrl.protocol) && requestUrl.origin !== new URL(url).origin) {
++          errors.push('Recurso fora da origem: ' + request.url());
++        }
++      });
+       await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+       await page.locator('canvas').first().waitFor();
+       assert.equal(await page.locator('#relatorio').getAttribute('href'), '../relatorio/saida/estudo-exemplo.html');
++      const exampleSha = crypto.createHash('sha256').update(exampleBytes).digest('hex');
++      assert.equal(await page.locator('#revisao').innerText(), revision(exampleSha));
++      assert.equal(await page.locator('.volume-warning').innerText(), 'Volumes hipotéticos de potencial construtivo. Não são o projeto nem a fachada do edifício e não indicam aprovação.');
++      assert(await page.locator('.volume-warning').evaluate(node => node.getBoundingClientRect().bottom <= innerHeight),
++        `${profile}: o aviso da maquete precisa aparecer sem rolar a página.`);
++      if (!mobile) {
++        await page.route('**/relatorio/saida/estudo-exemplo.html', route => route.fulfill({
++          status: 200, contentType: 'text/html', body: '<meta name="estudo-sha256" content="revisao-antiga">',
++        }));
++        await page.locator('#relatorio').click();
++        await page.waitForFunction(() => document.querySelector('#erro').textContent.includes('Relatório desatualizado'));
++        await page.unroute('**/relatorio/saida/estudo-exemplo.html');
++      }
+       if (!mobile) {
+         const twoOptions = structuredClone(example);
+         twoOptions.opcoes = [example.opcoes[0], example.opcoes.at(-1)];
+         await upload(page, JSON.stringify(twoOptions), 'duas-opcoes.json');
+         await page.waitForFunction(() => document.querySelector('#status').textContent.includes('duas-opcoes.json'));
++        assert.equal(await page.locator('#revisao').innerText(), revision(crypto.createHash('sha256').update(JSON.stringify(twoOptions)).digest('hex')));
+         assert.equal(await page.locator('#opcoes button').count(), 3, 'Duas opções e o controle de comparação.');
+         assert.equal(await page.getByRole('button', { name: 'Lado a lado' }).isDisabled(), false);
++        const noOptions = structuredClone(example);
++        noOptions.opcoes = [];
++        noOptions.opcoes_ausentes = [{ id: 'A', nome: 'Teste', motivo: 'impossivel', detalhe: 'Limite do lote' }];
++        await upload(page, JSON.stringify(noOptions), 'sem-opcoes.json');
++        await page.waitForFunction(() => document.querySelector('#status').textContent.includes('sem-opcoes.json'));
++        assert.match(await page.locator('#cards').innerText(), /Nenhuma opção coube neste lote/);
++        assert.match(await page.locator('#incertezas').innerText(), /impossível pelas regras informadas.*Limite do lote/);
+       }
+       await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+@@ -85,6 +115,27 @@ async function checkWidth(page) {
+       assert.match(await page.locator('#conferencia-lote').innerText(), /não conferid/i,
+         'O exemplo não comprova que o lote pertence à zona escolhida.');
+       assert.doesNotMatch(await page.locator('#conferencia-lei').innerText(), /não conferid/i);
++      if (!mobile) {
++        const v4 = structuredClone(example);
++        delete v4.opcoes_ausentes;
++        delete v4.criterio_escolha;
++        await upload(page, JSON.stringify(v4), 'contrato-v4.json');
++        await page.waitForFunction(() => document.querySelector('#status').textContent.includes('contrato-v4.json'));
++        assert.doesNotMatch(await page.locator('#incertezas').innerText(), /impossível pelas regras informadas|erro de cálculo/);
++        assert.equal(await page.locator('#criterio-escolha').count(), 1);
++        assert.equal(await page.locator('#criterio-escolha').isVisible(), false);
++
++        const v5 = structuredClone(example);
++        v5.lote.relevo = { cota_min_m: 10, cota_max_m: 20, declividade_pct: 5, fonte: 'Fonte teste', resolucao_m: 30 };
++        v5.opcoes_ausentes = ['impossivel', 'busca_inconclusiva', 'dados_insuficientes', 'erro'].map((motivo, i) => ({ id: String.fromCharCode(65 + i), nome: `Ausente ${i}`, motivo, detalhe: `Detalhe ${i}` }));
++        v5.criterio_escolha = { ordem: ['unidades_estimadas desc', 'area_privativa_m2 desc', 'pavimentos asc'], texto: 'Ordena variantes pelos critérios informados.' };
++        await upload(page, JSON.stringify(v5), 'contrato-v5.json');
++        await page.waitForFunction(() => document.querySelector('#status').textContent.includes('contrato-v5.json'));
++        const avisosV5 = await page.locator('#incertezas').innerText();
++        for (const label of ['impossível pelas regras informadas', 'a busca não encontrou (não está provado que não existe)', 'faltam dados', 'erro de cálculo', 'Detalhe 0', 'Fonte teste', '30 m', 'Relevo aproximado (modelo de superfície de ~30 m): não substitui levantamento topográfico; a maquete assenta os volumes em terreno plano.']) assert(avisosV5.includes(label), `Aviso v5 ausente: ${label}`);
++        assert.match(await page.locator('#criterio-escolha').innerText(), /Como cada opção foi montada: Ordena variantes pelos critérios informados\./);
++        assert.doesNotMatch(await page.locator('#criterio-escolha').innerText(), /Opção principal|Opção A/);
++      }
+       for (const pilot of await page.locator('#piloto option').evaluateAll(options => options.slice(1).map(option => ({ value: option.value })))) {
+         await page.locator('#piloto').selectOption(pilot.value);
+         const filename = pilot.value.split('/').at(-1);

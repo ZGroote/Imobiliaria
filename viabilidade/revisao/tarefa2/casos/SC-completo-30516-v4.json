@@ -1,0 +1,1811 @@
+{
+  "versao_motor": "0.8.2",
+  "lote": {
+    "id": "SC-completo-30516",
+    "lid": null,
+    "poligono_utm": [
+      [
+        201197.967501,
+        7559775.478077
+      ],
+      [
+        201195.890863,
+        7559770.407435
+      ],
+      [
+        201185.666855,
+        7559737.232642
+      ],
+      [
+        201181.242549,
+        7559736.994963
+      ],
+      [
+        201181.066182,
+        7559735.419462
+      ],
+      [
+        201184.259127,
+        7559734.285969
+      ],
+      [
+        201184.561324,
+        7559733.519191
+      ],
+      [
+        201178.935804,
+        7559716.773706
+      ],
+      [
+        201163.827133,
+        7559716.223053
+      ],
+      [
+        201159.10063,
+        7559716.752152
+      ],
+      [
+        201150.758544,
+        7559716.565009
+      ],
+      [
+        201171.487187,
+        7559771.152822
+      ],
+      [
+        201192.294925,
+        7559782.081435
+      ],
+      [
+        201198.209448,
+        7559779.719103
+      ],
+      [
+        201197.967501,
+        7559775.478077
+      ]
+    ],
+    "frente": [
+      [
+        201171.487187,
+        7559771.152822
+      ],
+      [
+        201192.294925,
+        7559782.081435
+      ]
+    ],
+    "area_m2": 1604.658,
+    "zona_id": "SC-Z4",
+    "relevo": {
+      "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+      "resolucao_m": 30,
+      "cota_min_m": 827.5,
+      "cota_max_m": 833.5,
+      "declividade_pct": 9.5
+    },
+    "crs": "EPSG:31983",
+    "categoria": "grande",
+    "centroide_lonlat": [
+      -47.89495253,
+      -22.04148409
+    ],
+    "distancia_centro_referencia_m": 2719.4,
+    "fonte": {
+      "arquivo": "sao-carlos/dados/lotes_saocarlos_completo.geojson",
+      "indice_feicao_zero_based": 30516,
+      "propriedades": {
+        "area_m2": 1604.65,
+        "frente_m": 26.53,
+        "fundo_m": 78.98,
+        "quadra": 4263,
+        "loteamento": "Jardim Pacaembu",
+        "planta": "000050",
+        "encaixe": 1.0,
+        "cobertura_quadra": 0.349,
+        "fonte": "planta",
+        "padrao_lote": true,
+        "plausivel": true,
+        "frente_padrao_m": 11.0,
+        "fundo_padrao_m": 35.0
+      }
+    },
+    "qualidade": {
+      "frentes": [
+        {
+          "aresta": 11,
+          "pontos": [
+            [
+              201171.48718659795,
+              7559771.152821988
+            ],
+            [
+              201192.29492472875,
+              7559782.08143464
+            ]
+          ],
+          "comprimento_m": 23.503,
+          "distancia_max_asfalto_m": 5.311
+        }
+      ],
+      "esquina_indicada_pela_malha": false,
+      "sobreposicao_asfalto_m2": 0.0,
+      "maior_sobreposicao_vizinho_m2": 0.033115,
+      "ocupacao_retangulo_minimo": 0.80385
+    },
+    "conferido": false,
+    "observacoes": "Geometria de ensaio derivada da maquete; não comprova lote cadastral, disponibilidade ou aptidão legal. Frente e eventual esquina inferidas da malha de asfalto, sem vistoria ou nome de rua confirmado. LID ausente na origem; ID local usa índice da feição.  Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade. Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md. AIA indicada no Anexo 05: parâmetros da Z4 sozinhos não demonstram aptidão construtiva. Junto ao extremo noroeste da AEIS tipo 1 nº 21 (Jardim Gonzaga/Monte Carlo). Incidência não confirmada no Anexo 06; conferir limite cadastral antes de afastar a restrição. Anotação manual para simulação, não certidão municipal. A geometria de ensaio da maquete não comprova lote cadastral, disponibilidade ou aptidão legal. Mapas raster generalizados: o resíduo dos controles não mede o erro total do mapa ou do lote. Confirmar cadastro, matrícula, loteamento e normas atualizadas antes de projetar. Ausência de incidência visual não afasta APP, servidão, patrimônio individual, inundação, contaminação ou outras restrições não desenhadas. Consulta específica ao DECEA continua necessária para validar altura.",
+    "areas_especiais": [
+      {
+        "tipo": "interesse_ambiental",
+        "nome": "AIA da bacia do Córrego da Água Quente",
+        "observacoes": "Sobreposição visual com a mancha verde AIA, perto de sua borda leste. Área edificável e APP não delimitadas; não tratar o lote integral como livre para construir.",
+        "conferido": false,
+        "incidencia": "sobreposicao_visual",
+        "fonte": "Lei 18.053/2016, arts. 73 e 74-IV, Anexo 05, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2005%20-%20AEIs%20Ambientais.pdf",
+        "evidencia": "dados/zonas-mapas/SC-completo-30516-anexo05.jpg"
+      }
+    ],
+    "anotacao_zoneamento": {
+      "evidencia_zoneamento": "Polígono no preenchimento rosa Z4, a oeste da Avenida República do Líbano, próximo ao extremo oeste da Rua Sergipe. Decisão por coordenadas, não por bairro.",
+      "areas_especiais_verificacao": {
+        "05": "Sobreposição visual AIA; fora da AECRA f a oeste.",
+        "06": "Fora das áreas históricas e Observatório. Muito próximo da AEIS 21, sem interseção nítida.",
+        "07": "Fora da superfície de aproximação/decolagem e áreas rurais desenhadas."
+      },
+      "limitacoes": [
+        "AIA indicada no Anexo 05: parâmetros da Z4 sozinhos não demonstram aptidão construtiva.",
+        "Junto ao extremo noroeste da AEIS tipo 1 nº 21 (Jardim Gonzaga/Monte Carlo). Incidência não confirmada no Anexo 06; conferir limite cadastral antes de afastar a restrição.",
+        "Anotação manual para simulação, não certidão municipal. A geometria de ensaio da maquete não comprova lote cadastral, disponibilidade ou aptidão legal.",
+        "Mapas raster generalizados: o resíduo dos controles não mede o erro total do mapa ou do lote. Confirmar cadastro, matrícula, loteamento e normas atualizadas antes de projetar.",
+        "Ausência de incidência visual não afasta APP, servidão, patrimônio individual, inundação, contaminação ou outras restrições não desenhadas. Consulta específica ao DECEA continua necessária para validar altura."
+      ],
+      "poligono_sha256": "d8d3c8e088a394c2fee067cf70c48d048834681c14184ad9c670093c36a6a1c2",
+      "conferido": false,
+      "data_anotacao": "2026-11-14",
+      "fontes": [
+        {
+          "lei": "Lei 18.053/2016",
+          "anexo": "02",
+          "pagina": 1,
+          "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf",
+          "sha256": "f2dbbf98a0698092a78be5585f479db4164267478a5a83b0dc8104917fdf5ef2",
+          "data": "2026-11-14"
+        },
+        {
+          "lei": "Lei 18.053/2016",
+          "anexo": "05",
+          "pagina": 1,
+          "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2005%20-%20AEIs%20Ambientais.pdf",
+          "sha256": "af2d54f9694ea9055273db821609798f51a0dd8d057bace97e9effee2ebddfa7",
+          "data": "2026-11-14"
+        },
+        {
+          "lei": "Lei 18.053/2016",
+          "anexo": "06",
+          "pagina": 1,
+          "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf",
+          "sha256": "3bfc5f7b8b79c5016a526cd08ac7f5f0f83f0fb51f27a2d1173785ee2bbc0f5d",
+          "data": "2026-11-14"
+        },
+        {
+          "lei": "Lei 18.053/2016",
+          "anexo": "07",
+          "pagina": 1,
+          "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf",
+          "sha256": "3c290bd44a8e6b5a5effca6715017bff21bdce5357a3d36167af95d3439e8031",
+          "data": "2026-11-14"
+        }
+      ],
+      "metodo": "Vértices EPSG:31983 transformados para EPSG:29183; ajuste afim sobre JPEG original usando cinco vértices do perímetro do Anexo 02.A. Leitura manual da legenda e do polígono completo. Sem fx/fy, KML de proposta ou inferência por bairro.",
+      "evidencias": [
+        "dados/zonas-mapas/SC-completo-30516-anexo02.jpg",
+        "dados/zonas-mapas/SC-completo-30516-anexo05.jpg",
+        "dados/zonas-mapas/SC-completo-30516-anexo06.jpg",
+        "dados/zonas-mapas/SC-completo-30516-anexo07.jpg"
+      ],
+      "controles": "dados/zonas-controles.json",
+      "posicionamento": "dados/zonas-posicionamento.json",
+      "rmse_controles_anexo02_m": 3.526,
+      "incerteza_posicional_total_m": null
+    },
+    "zona_origem": "anotada_a_mao",
+    "zona_conferida": false
+  },
+  "zona": {
+    "id": "SC-Z4",
+    "nome": "Zona 4 – Qualificação e Ocupação Controlada",
+    "parametros": {
+      "ca_basico": 1.4,
+      "ca_maximo": 1.4,
+      "taxa_ocupacao": 0.7,
+      "taxa_permeabilidade": 0.15,
+      "recuo_frontal_m": null,
+      "recuo_lateral_m": 1.5,
+      "recuo_fundos_m": 1.5,
+      "recuo_lateral_regra": "Código de Obras (Lei 19.950/2020): janela ou abertura voltada para a divisa (lateral ou fundos) = 1,50 m no térreo e no 1º pavimento; h/8 com mínimo de 2,00 m nos demais pavimentos, onde h = altura até o teto do pavimento da janela (art. 67, calculado pavimento a pavimento). Varanda aberta para a divisa: 1,50 m no 1º pavimento e h/8 (mín. 2,00 m) acima (art. 68). Janela perpendicular à divisa: 0,75 m. Parede sem abertura pode encostar na divisa até 12 m de altura; acima de 12 m, 2,00 m (art. 70). Pode escalonar (art. 71). Entre janelas de unidades diferentes ou entre blocos do mesmo lote: 2,00 m (art. 69). Valem também os recuos registrados do loteamento (art. 74).",
+      "altura_max_m": null,
+      "pavimentos_max": null,
+      "recuo_lateral_por_altura": {
+        "ate_pavimento": 2,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "recuo_fundos_por_altura": {
+        "ate_pavimento": 2,
+        "recuo_m": 1.5,
+        "acima": {
+          "fracao_h": 0.125,
+          "minimo_m": 2.0
+        }
+      },
+      "parede_cega_encosta_ate_m": 12,
+      "garagem_computavel": false,
+      "garagem_conta_na_taxa_ocupacao": false,
+      "nao_computavel": [
+        "garagem/estacionamento com circulação e manobra (COE art. 51-I)",
+        "reservatório, barrilete, casa de máquinas, abrigo de gás, cabine primária (art. 51-II)",
+        "depósito de lixo/recicláveis (art. 51-III)",
+        "escada e antecâmara de escada (art. 51-IV)",
+        "fosso de elevador, dutos, shafts (art. 51-V; contam só no pavimento mais baixo, §1º)",
+        "antecâmara de elevador de emergência (art. 51-VI, Lei 20.072/2021)",
+        "locais sem ocupação humana a serem definidos pelo Poder Executivo (art. 51-VII; depende de decreto, que não achamos)",
+        "área técnica de ar-condicionado e ventilação (art. 51-VIII)",
+        "beiral/marquise até 1,20 m não é área construída (art. 3º-IX e XV)",
+        "térreo comercial de prédio misto no Eixo Estruturante (PD art. 11 par. único; COE art. 52) e na fachada ativa (PD art. 141-IV)"
+      ],
+      "vagas_min_por_unidade": null,
+      "vagas_regra": "COE Tabela 1 (art. 100): residencial multifamiliar vertical NÃO tem mínimo de vagas de carro ('-' na tabela). Se houver vagas: 2% para pessoa com deficiência (mín. 1), 1 bicicleta a cada 20 vagas. Comércio com 100 m² ou mais de área computável: 1 vaga a cada 100 m². Garagem não conta no CA, no CAB/CAM nem na taxa de ocupação (art. 51, caput). Varanda NÃO está na lista do art. 51, então conta como computável (leitura nossa, confirmar).",
+      "vaga_largura_m": 2.4,
+      "vaga_comprimento_m": 5.0,
+      "faixa_manobra_90graus_m": 5.0,
+      "lote_min_m2": 200,
+      "testada_min_m": 10,
+      "outorga_onerosa": false
+    },
+    "fontes": [
+      {
+        "lei": "Lei nº 18.053/2016 (Plano Diretor)",
+        "artigo": "art. 29; art. 152-V",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257",
+        "data": "2016-12-19"
+      },
+      {
+        "lei": "Lei nº 19.950/2020 (Código de Obras)",
+        "artigo": "arts. 67, 68, 69, 70, 71, 74",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
+        "data": "2020-12-15"
+      },
+      {
+        "lei": "Lei nº 20.072/2021",
+        "artigo": "art. 10 (nova redação do art. 67-I do COE) e art. 11 (§5º)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2987",
+        "data": "2021-04-06"
+      },
+      {
+        "lei": "Lei nº 24.031/2026",
+        "artigo": "art. 2º (nova redação do art. 68 do COE)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_7985",
+        "data": "2026-02-24"
+      },
+      {
+        "lei": "Lei nº 22.285/2024",
+        "artigo": "arts. 1º a 3º (nova redação dos arts. 72 e 73 do COE e novo art. 72-A)",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661",
+        "data": "2024-03-08"
+      },
+      {
+        "lei": "Lei nº 19.950/2020 (Código de Obras)",
+        "artigo": "arts. 3º-IX/XV, 51, 52, 100; Tabelas 1 e 2 anexas",
+        "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015",
+        "data": "2020-12-15"
+      }
+    ],
+    "conferido": true,
+    "observacoes": "CA único 1,4, repetido em ca_basico e ca_maximo. HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
+  },
+  "premissas": {
+    "pe_direito_m": 3.0,
+    "pe_direito_terreo_m": 4.5,
+    "area_privativa_por_unidade_m2": 60,
+    "eficiencia": 0.8,
+    "area_comum_por_pavimento_m2": 40,
+    "nucleo_nao_computavel_m2": 20,
+    "vagas_por_unidade": 1,
+    "area_por_vaga_m2": 27,
+    "garagem": "subsolo",
+    "subsolos_max": 2,
+    "garagem_computavel": false,
+    "recuo_frontal_m": 4.0,
+    "preco_venda_m2_privativo": null,
+    "laje_torre_max_m2": 500,
+    "laje_minima_m2": 80,
+    "afastamento_entre_torres_m": 6.0,
+    "pavimentos_lamina_max": 4,
+    "pavimentos_embasamento": 2,
+    "pavimentos_sem_ca": 10,
+    "pavimentos_max_projeto": 30,
+    "embasamento_ocupacao": 0.4,
+    "padrao": [
+      "afastamento_entre_torres_m",
+      "area_comum_por_pavimento_m2",
+      "area_por_vaga_m2",
+      "area_privativa_por_unidade_m2",
+      "eficiencia",
+      "embasamento_ocupacao",
+      "garagem",
+      "laje_minima_m2",
+      "laje_torre_max_m2",
+      "nucleo_nao_computavel_m2",
+      "pavimentos_embasamento",
+      "pavimentos_lamina_max",
+      "pavimentos_max_projeto",
+      "pavimentos_sem_ca",
+      "pe_direito_m",
+      "pe_direito_terreo_m",
+      "preco_venda_m2_privativo",
+      "recuo_frontal_m",
+      "subsolos_max",
+      "vagas_por_unidade"
+    ]
+  },
+  "caixa_maxima": {
+    "projecao_utm": [
+      [
+        201159.2339,
+        7559719.7425
+      ],
+      [
+        201159.067,
+        7559718.2518
+      ],
+      [
+        201152.9515,
+        7559718.1146
+      ],
+      [
+        201172.4184,
+        7559769.3798
+      ],
+      [
+        201173.3471,
+        7559767.6115
+      ],
+      [
+        201194.1549,
+        7559778.5402
+      ],
+      [
+        201193.3685,
+        7559780.0374
+      ],
+      [
+        201196.6504,
+        7559778.7266
+      ],
+      [
+        201196.4842,
+        7559775.8142
+      ],
+      [
+        201194.5028,
+        7559770.9759
+      ],
+      [
+        201193.0693,
+        7559771.4177
+      ],
+      [
+        201194.4574,
+        7559770.8492
+      ],
+      [
+        201184.5416,
+        7559738.6744
+      ],
+      [
+        201181.1621,
+        7559738.4928
+      ],
+      [
+        201179.6714,
+        7559738.6597
+      ],
+      [
+        201179.7519,
+        7559737.1618
+      ],
+      [
+        201179.5755,
+        7559735.5863
+      ],
+      [
+        201179.0737,
+        7559734.1728
+      ],
+      [
+        201180.5644,
+        7559734.0059
+      ],
+      [
+        201182.8677,
+        7559733.1882
+      ],
+      [
+        201177.8443,
+        7559718.2349
+      ],
+      [
+        201163.8836,
+        7559717.7261
+      ],
+      [
+        201159.2675,
+        7559718.2428
+      ]
+    ],
+    "altura_m": 31.5,
+    "area_projecao_m2": 1270.59,
+    "area_lote_m2": 1604.66,
+    "area_computavel_max_m2": 2246.52,
+    "ocupacao_max_m2": 1123.26,
+    "recuo_frontal_m": 4.0,
+    "degraus": [
+      {
+        "z0_m": 0.0,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 1.5,
+        "projecao_utm": [
+          [
+            201159.2339,
+            7559719.7425
+          ],
+          [
+            201159.067,
+            7559718.2518
+          ],
+          [
+            201152.9515,
+            7559718.1146
+          ],
+          [
+            201172.4184,
+            7559769.3798
+          ],
+          [
+            201173.3471,
+            7559767.6115
+          ],
+          [
+            201194.1549,
+            7559778.5402
+          ],
+          [
+            201193.3685,
+            7559780.0374
+          ],
+          [
+            201196.6504,
+            7559778.7266
+          ],
+          [
+            201196.4842,
+            7559775.8142
+          ],
+          [
+            201194.5028,
+            7559770.9759
+          ],
+          [
+            201193.0693,
+            7559771.4177
+          ],
+          [
+            201194.4574,
+            7559770.8492
+          ],
+          [
+            201184.5416,
+            7559738.6744
+          ],
+          [
+            201181.1621,
+            7559738.4928
+          ],
+          [
+            201179.6714,
+            7559738.6597
+          ],
+          [
+            201179.7519,
+            7559737.1618
+          ],
+          [
+            201179.5755,
+            7559735.5863
+          ],
+          [
+            201179.0737,
+            7559734.1728
+          ],
+          [
+            201180.5644,
+            7559734.0059
+          ],
+          [
+            201182.8677,
+            7559733.1882
+          ],
+          [
+            201177.8443,
+            7559718.2349
+          ],
+          [
+            201163.8836,
+            7559717.7261
+          ],
+          [
+            201159.2675,
+            7559718.2428
+          ]
+        ]
+      },
+      {
+        "z0_m": 7.5,
+        "recuo_lateral_m": 2.0,
+        "recuo_fundos_m": 2.0,
+        "projecao_utm": [
+          [
+            201159.2783,
+            7559720.7392
+          ],
+          [
+            201159.0558,
+            7559718.7516
+          ],
+          [
+            201153.6824,
+            7559718.6311
+          ],
+          [
+            201172.7288,
+            7559768.7888
+          ],
+          [
+            201173.3471,
+            7559767.6115
+          ],
+          [
+            201194.1549,
+            7559778.5402
+          ],
+          [
+            201193.7263,
+            7559779.3561
+          ],
+          [
+            201196.1307,
+            7559778.3958
+          ],
+          [
+            201195.9898,
+            7559775.9262
+          ],
+          [
+            201194.0401,
+            7559771.1654
+          ],
+          [
+            201192.1288,
+            7559771.7544
+          ],
+          [
+            201193.9796,
+            7559770.9965
+          ],
+          [
+            201184.1665,
+            7559739.1549
+          ],
+          [
+            201181.1353,
+            7559738.9921
+          ],
+          [
+            201179.1477,
+            7559739.2146
+          ],
+          [
+            201179.255,
+            7559737.2175
+          ],
+          [
+            201179.0786,
+            7559735.642
+          ],
+          [
+            201178.4095,
+            7559733.7572
+          ],
+          [
+            201180.3971,
+            7559733.5347
+          ],
+          [
+            201182.2372,
+            7559732.8815
+          ],
+          [
+            201177.4805,
+            7559718.722
+          ],
+          [
+            201163.9024,
+            7559718.2271
+          ],
+          [
+            201159.3231,
+            7559718.7397
+          ]
+        ]
+      },
+      {
+        "z0_m": 13.5,
+        "recuo_lateral_m": 2.06,
+        "recuo_fundos_m": 2.06,
+        "projecao_utm": [
+          [
+            201172.7661,
+            7559768.7179
+          ],
+          [
+            201173.3471,
+            7559767.6115
+          ],
+          [
+            201194.1549,
+            7559778.5402
+          ],
+          [
+            201193.7693,
+            7559779.2743
+          ],
+          [
+            201196.0683,
+            7559778.3561
+          ],
+          [
+            201195.9305,
+            7559775.9397
+          ],
+          [
+            201193.9845,
+            7559771.1882
+          ],
+          [
+            201192.0159,
+            7559771.7949
+          ],
+          [
+            201193.9222,
+            7559771.0141
+          ],
+          [
+            201184.1214,
+            7559739.2126
+          ],
+          [
+            201181.132,
+            7559739.052
+          ],
+          [
+            201179.0848,
+            7559739.2812
+          ],
+          [
+            201179.1953,
+            7559737.2241
+          ],
+          [
+            201179.019,
+            7559735.6486
+          ],
+          [
+            201178.3298,
+            7559733.7073
+          ],
+          [
+            201180.377,
+            7559733.4782
+          ],
+          [
+            201182.1616,
+            7559732.8446
+          ],
+          [
+            201177.4368,
+            7559718.7804
+          ],
+          [
+            201163.9046,
+            7559718.2872
+          ],
+          [
+            201159.3298,
+            7559718.7994
+          ],
+          [
+            201159.2836,
+            7559720.8588
+          ],
+          [
+            201159.0544,
+            7559718.8116
+          ],
+          [
+            201153.7702,
+            7559718.6931
+          ]
+        ]
+      },
+      {
+        "z0_m": 16.5,
+        "recuo_lateral_m": 2.44,
+        "recuo_fundos_m": 2.44,
+        "projecao_utm": [
+          [
+            201173.002,
+            7559768.2687
+          ],
+          [
+            201173.3471,
+            7559767.6115
+          ],
+          [
+            201194.1549,
+            7559778.5402
+          ],
+          [
+            201194.0412,
+            7559778.7565
+          ],
+          [
+            201195.6734,
+            7559778.1046
+          ],
+          [
+            201195.5547,
+            7559776.0248
+          ],
+          [
+            201193.6329,
+            7559771.3322
+          ],
+          [
+            201191.3011,
+            7559772.0508
+          ],
+          [
+            201193.5591,
+            7559771.1261
+          ],
+          [
+            201183.8364,
+            7559739.5778
+          ],
+          [
+            201181.1117,
+            7559739.4314
+          ],
+          [
+            201178.6868,
+            7559739.7029
+          ],
+          [
+            201178.8177,
+            7559737.2664
+          ],
+          [
+            201178.6413,
+            7559735.6909
+          ],
+          [
+            201177.825,
+            7559733.3915
+          ],
+          [
+            201180.2499,
+            7559733.1201
+          ],
+          [
+            201181.6824,
+            7559732.6115
+          ],
+          [
+            201177.1603,
+            7559719.1506
+          ],
+          [
+            201163.9189,
+            7559718.668
+          ],
+          [
+            201159.3721,
+            7559719.177
+          ],
+          [
+            201159.3174,
+            7559721.6164
+          ],
+          [
+            201159.0459,
+            7559719.1915
+          ],
+          [
+            201154.3257,
+            7559719.0856
+          ]
+        ]
+      },
+      {
+        "z0_m": 19.5,
+        "recuo_lateral_m": 2.81,
+        "recuo_fundos_m": 2.81,
+        "projecao_utm": [
+          [
+            201173.2317,
+            7559767.8313
+          ],
+          [
+            201173.3471,
+            7559767.6115
+          ],
+          [
+            201193.9089,
+            7559778.411
+          ],
+          [
+            201195.2888,
+            7559777.8598
+          ],
+          [
+            201195.1889,
+            7559776.1077
+          ],
+          [
+            201193.2905,
+            7559771.4724
+          ],
+          [
+            201190.6051,
+            7559772.3
+          ],
+          [
+            201193.2055,
+            7559771.235
+          ],
+          [
+            201183.5588,
+            7559739.9334
+          ],
+          [
+            201181.0918,
+            7559739.8009
+          ],
+          [
+            201178.2993,
+            7559740.1135
+          ],
+          [
+            201178.45,
+            7559737.3076
+          ],
+          [
+            201178.2736,
+            7559735.7321
+          ],
+          [
+            201177.3336,
+            7559733.084
+          ],
+          [
+            201180.1261,
+            7559732.7714
+          ],
+          [
+            201181.2158,
+            7559732.3845
+          ],
+          [
+            201176.8911,
+            7559719.511
+          ],
+          [
+            201163.9328,
+            7559719.0388
+          ],
+          [
+            201159.4132,
+            7559719.5447
+          ],
+          [
+            201159.3502,
+            7559722.354
+          ],
+          [
+            201159.0376,
+            7559719.5614
+          ],
+          [
+            201154.8666,
+            7559719.4679
+          ]
+        ]
+      },
+      {
+        "z0_m": 22.5,
+        "recuo_lateral_m": 3.19,
+        "recuo_fundos_m": 3.19,
+        "projecao_utm": [
+          [
+            201173.6064,
+            7559767.7477
+          ],
+          [
+            201193.4663,
+            7559778.1785
+          ],
+          [
+            201194.8938,
+            7559777.6084
+          ],
+          [
+            201194.8131,
+            7559776.1929
+          ],
+          [
+            201192.9388,
+            7559771.6164
+          ],
+          [
+            201189.8903,
+            7559772.5559
+          ],
+          [
+            201192.8424,
+            7559771.3469
+          ],
+          [
+            201183.2737,
+            7559740.2987
+          ],
+          [
+            201181.0714,
+            7559740.1804
+          ],
+          [
+            201177.9012,
+            7559740.5353
+          ],
+          [
+            201178.0724,
+            7559737.3498
+          ],
+          [
+            201177.896,
+            7559735.7743
+          ],
+          [
+            201176.8288,
+            7559732.7682
+          ],
+          [
+            201179.999,
+            7559732.4133
+          ],
+          [
+            201180.7366,
+            7559732.1514
+          ],
+          [
+            201176.6146,
+            7559719.8812
+          ],
+          [
+            201163.9471,
+            7559719.4195
+          ],
+          [
+            201159.4555,
+            7559719.9224
+          ],
+          [
+            201159.384,
+            7559723.1115
+          ],
+          [
+            201159.0291,
+            7559719.9413
+          ],
+          [
+            201155.4222,
+            7559719.8604
+          ]
+        ]
+      },
+      {
+        "z0_m": 25.5,
+        "recuo_lateral_m": 3.56,
+        "recuo_fundos_m": 3.56,
+        "projecao_utm": [
+          [
+            201174.1008,
+            7559768.0074
+          ],
+          [
+            201193.0354,
+            7559777.9522
+          ],
+          [
+            201194.5093,
+            7559777.3635
+          ],
+          [
+            201194.4472,
+            7559776.2758
+          ],
+          [
+            201192.5964,
+            7559771.7566
+          ],
+          [
+            201189.1943,
+            7559772.8051
+          ],
+          [
+            201192.4888,
+            7559771.4559
+          ],
+          [
+            201182.9961,
+            7559740.6543
+          ],
+          [
+            201181.0516,
+            7559740.5498
+          ],
+          [
+            201177.5137,
+            7559740.9459
+          ],
+          [
+            201177.7046,
+            7559737.391
+          ],
+          [
+            201177.5283,
+            7559735.8155
+          ],
+          [
+            201176.3373,
+            7559732.4606
+          ],
+          [
+            201179.8752,
+            7559732.0646
+          ],
+          [
+            201180.2701,
+            7559731.9244
+          ],
+          [
+            201176.3453,
+            7559720.2417
+          ],
+          [
+            201163.9611,
+            7559719.7903
+          ],
+          [
+            201159.4967,
+            7559720.2901
+          ],
+          [
+            201159.4168,
+            7559723.8492
+          ],
+          [
+            201159.0208,
+            7559720.3113
+          ],
+          [
+            201155.9631,
+            7559720.2427
+          ]
+        ]
+      },
+      {
+        "z0_m": 28.5,
+        "recuo_lateral_m": 3.94,
+        "recuo_fundos_m": 3.94,
+        "projecao_utm": [
+          [
+            201174.6085,
+            7559768.2741
+          ],
+          [
+            201192.5929,
+            7559777.7198
+          ],
+          [
+            201194.1143,
+            7559777.1121
+          ],
+          [
+            201194.0715,
+            7559776.361
+          ],
+          [
+            201192.2448,
+            7559771.9007
+          ],
+          [
+            201188.4795,
+            7559773.0611
+          ],
+          [
+            201192.1256,
+            7559771.5678
+          ],
+          [
+            201182.7111,
+            7559741.0195
+          ],
+          [
+            201181.0312,
+            7559740.9293
+          ],
+          [
+            201177.1156,
+            7559741.3676
+          ],
+          [
+            201177.327,
+            7559737.4333
+          ],
+          [
+            201177.1506,
+            7559735.8578
+          ],
+          [
+            201175.8325,
+            7559732.1448
+          ],
+          [
+            201179.7481,
+            7559731.7065
+          ],
+          [
+            201179.7909,
+            7559731.6913
+          ],
+          [
+            201176.0688,
+            7559720.6118
+          ],
+          [
+            201163.9753,
+            7559720.1711
+          ],
+          [
+            201159.5389,
+            7559720.6677
+          ],
+          [
+            201159.4506,
+            7559724.6067
+          ],
+          [
+            201159.0123,
+            7559720.6912
+          ],
+          [
+            201156.5186,
+            7559720.6352
+          ]
+        ]
+      }
+    ],
+    "parede_cega_ate_m": 12,
+    "projecao_parede_cega_utm": [
+      [
+        201195.8909,
+        7559770.4074
+      ],
+      [
+        201185.6669,
+        7559737.2326
+      ],
+      [
+        201181.2425,
+        7559736.995
+      ],
+      [
+        201181.0662,
+        7559735.4195
+      ],
+      [
+        201184.2591,
+        7559734.286
+      ],
+      [
+        201184.5613,
+        7559733.5192
+      ],
+      [
+        201178.9358,
+        7559716.7737
+      ],
+      [
+        201163.8271,
+        7559716.2231
+      ],
+      [
+        201159.1006,
+        7559716.7522
+      ],
+      [
+        201150.7585,
+        7559716.565
+      ],
+      [
+        201171.4872,
+        7559771.1528
+      ],
+      [
+        201173.3471,
+        7559767.6115
+      ],
+      [
+        201194.1549,
+        7559778.5402
+      ],
+      [
+        201192.2949,
+        7559782.0814
+      ],
+      [
+        201198.2094,
+        7559779.7191
+      ],
+      [
+        201197.9675,
+        7559775.4781
+      ]
+    ]
+  },
+  "opcoes": [
+    {
+      "id": "A",
+      "nome": "Torre única",
+      "volumes": [
+        {
+          "base_utm": [
+            [
+              201177.9514,
+              7559726.2158
+            ],
+            [
+              201172.0037,
+              7559737.5401
+            ],
+            [
+              201160.6794,
+              7559731.5924
+            ],
+            [
+              201166.6271,
+              7559720.2681
+            ]
+          ],
+          "z0_m": 0.0,
+          "altura_m": 31.5,
+          "pavimentos": 10,
+          "uso": "residencial",
+          "recuo_lateral_m": 3.94,
+          "recuo_fundos_m": 3.94
+        },
+        {
+          "base_utm": [
+            [
+              201163.3559,
+              7559733.0639
+            ],
+            [
+              201174.8858,
+              7559763.4274
+            ],
+            [
+              201186.291,
+              7559769.4176
+            ],
+            [
+              201189.0438,
+              7559768.2902
+            ],
+            [
+              201181.229,
+              7559742.9327
+            ],
+            [
+              201174.9781,
+              7559743.6325
+            ],
+            [
+              201175.3188,
+              7559737.29
+            ],
+            [
+              201175.2398,
+              7559736.5846
+            ],
+            [
+              201173.0444,
+              7559730.4003
+            ],
+            [
+              201177.1155,
+              7559729.9446
+            ],
+            [
+              201174.6282,
+              7559722.5404
+            ],
+            [
+              201164.0498,
+              7559722.1549
+            ],
+            [
+              201163.5995,
+              7559722.2053
+            ]
+          ],
+          "z0_m": -3.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        }
+      ],
+      "metricas": {
+        "area_construida_m2": 2176.15,
+        "area_computavel_m2": 1436.15,
+        "area_nao_computavel_m2": 740.0,
+        "area_privativa_m2": 1236.15,
+        "area_acima_ca_basico_m2": 0.0,
+        "area_garagem_m2": 540.0,
+        "vagas": 20,
+        "area_permeavel_m2": 1041.9,
+        "ca_usado": 0.895,
+        "to_usada": 0.089,
+        "pavimentos": 10,
+        "unidades_estimadas": 20,
+        "vgv_estimado": null
+      },
+      "alertas": [
+        "Recuo lateral/fundos: residencial 3.94/3.94 m (recuo do topo no prédio todo).",
+        "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_ambiental (AIA da bacia do Córrego da Água Quente). O resultado pode passar do que o terreno permite; conferir antes de usar."
+      ]
+    },
+    {
+      "id": "B",
+      "nome": "Duas torres",
+      "volumes": [
+        {
+          "base_utm": [
+            [
+              201177.1244,
+              7559726.6515
+            ],
+            [
+              201171.2352,
+              7559737.8643
+            ],
+            [
+              201160.0225,
+              7559731.9751
+            ],
+            [
+              201165.9116,
+              7559720.7624
+            ]
+          ],
+          "z0_m": 0.0,
+          "altura_m": 25.5,
+          "pavimentos": 8,
+          "uso": "residencial",
+          "recuo_lateral_m": 3.19,
+          "recuo_fundos_m": 3.19
+        },
+        {
+          "base_utm": [
+            [
+              201186.9501,
+              7559752.5272
+            ],
+            [
+              201181.061,
+              7559763.74
+            ],
+            [
+              201169.8483,
+              7559757.8508
+            ],
+            [
+              201175.7374,
+              7559746.6381
+            ]
+          ],
+          "z0_m": 0.0,
+          "altura_m": 25.5,
+          "pavimentos": 8,
+          "uso": "residencial",
+          "recuo_lateral_m": 3.19,
+          "recuo_fundos_m": 3.19
+        },
+        {
+          "base_utm": [
+            [
+              201159.6933,
+              7559730.0538
+            ],
+            [
+              201173.0005,
+              7559765.0978
+            ],
+            [
+              201186.1677,
+              7559772.0135
+            ],
+            [
+              201191.9289,
+              7559769.654
+            ],
+            [
+              201182.9929,
+              7559740.6584
+            ],
+            [
+              201181.2219,
+              7559740.5633
+            ],
+            [
+              201177.4793,
+              7559740.9823
+            ],
+            [
+              201177.6814,
+              7559737.2217
+            ],
+            [
+              201177.5505,
+              7559736.0526
+            ],
+            [
+              201176.2577,
+              7559732.4108
+            ],
+            [
+              201180.0981,
+              7559731.9809
+            ],
+            [
+              201180.2646,
+              7559731.9218
+            ],
+            [
+              201176.3422,
+              7559720.2458
+            ],
+            [
+              201163.9612,
+              7559719.7946
+            ],
+            [
+              201161.2908,
+              7559720.0935
+            ],
+            [
+              201161.0687,
+              7559729.9925
+            ]
+          ],
+          "z0_m": -3.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        }
+      ],
+      "metricas": {
+        "area_construida_m2": 3430.52,
+        "area_computavel_m2": 2246.52,
+        "area_nao_computavel_m2": 1184.0,
+        "area_privativa_m2": 1926.52,
+        "area_acima_ca_basico_m2": 0.0,
+        "area_garagem_m2": 864.0,
+        "vagas": 32,
+        "area_permeavel_m2": 740.29,
+        "ca_usado": 1.4,
+        "to_usada": 0.175,
+        "pavimentos": 8,
+        "unidades_estimadas": 32,
+        "vgv_estimado": null
+      },
+      "alertas": [
+        "Recuo lateral/fundos: residencial 3.19/3.19 m, residencial 3.19/3.19 m (recuo do topo no prédio todo).",
+        "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_ambiental (AIA da bacia do Córrego da Água Quente). O resultado pode passar do que o terreno permite; conferir antes de usar.",
+        "No limite: CA 1.40 (máximo 1.40)."
+      ]
+    },
+    {
+      "id": "C",
+      "nome": "Lâmina baixa",
+      "volumes": [
+        {
+          "base_utm": [
+            [
+              201179.7727,
+              7559725.5454
+            ],
+            [
+              201172.5467,
+              7559739.3036
+            ],
+            [
+              201158.7884,
+              7559732.0775
+            ],
+            [
+              201166.0145,
+              7559718.3193
+            ]
+          ],
+          "z0_m": 0.0,
+          "altura_m": 13.5,
+          "pavimentos": 4,
+          "uso": "residencial",
+          "recuo_lateral_m": 2.0,
+          "recuo_fundos_m": 2.0
+        },
+        {
+          "base_utm": [
+            [
+              201165.1264,
+              7559732.7596
+            ],
+            [
+              201176.2971,
+              7559762.177
+            ],
+            [
+              201186.3833,
+              7559767.4744
+            ],
+            [
+              201186.8841,
+              7559767.2693
+            ],
+            [
+              201179.974,
+              7559744.8474
+            ],
+            [
+              201173.1057,
+              7559745.6163
+            ],
+            [
+              201173.5503,
+              7559737.3411
+            ],
+            [
+              201173.5102,
+              7559736.9828
+            ],
+            [
+              201170.6391,
+              7559728.8953
+            ],
+            [
+              201174.7485,
+              7559728.4353
+            ],
+            [
+              201173.3451,
+              7559724.2581
+            ],
+            [
+              201165.3237,
+              7559723.9657
+            ]
+          ],
+          "z0_m": -3.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        }
+      ],
+      "metricas": {
+        "area_construida_m2": 1290.02,
+        "area_computavel_m2": 886.02,
+        "area_nao_computavel_m2": 404.0,
+        "area_privativa_m2": 772.82,
+        "area_acima_ca_basico_m2": 0.0,
+        "area_garagem_m2": 324.0,
+        "vagas": 12,
+        "area_permeavel_m2": 1138.92,
+        "ca_usado": 0.552,
+        "to_usada": 0.138,
+        "pavimentos": 4,
+        "unidades_estimadas": 12,
+        "vgv_estimado": null
+      },
+      "alertas": [
+        "Recuo lateral/fundos: residencial 2.00/2.00 m (recuo do topo no prédio todo).",
+        "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_ambiental (AIA da bacia do Córrego da Água Quente). O resultado pode passar do que o terreno permite; conferir antes de usar."
+      ]
+    },
+    {
+      "id": "D",
+      "nome": "Embasamento + torre",
+      "volumes": [
+        {
+          "base_utm": [
+            [
+              201180.24,
+              7559725.3662
+            ],
+            [
+              201172.6844,
+              7559739.7519
+            ],
+            [
+              201158.2987,
+              7559732.1963
+            ],
+            [
+              201165.8543,
+              7559717.8106
+            ]
+          ],
+          "z0_m": 0.0,
+          "altura_m": 7.5,
+          "pavimentos": 2,
+          "uso": "embasamento",
+          "recuo_lateral_m": 1.5,
+          "recuo_fundos_m": 1.5
+        },
+        {
+          "base_utm": [
+            [
+              201177.9531,
+              7559726.2209
+            ],
+            [
+              201172.0055,
+              7559737.5451
+            ],
+            [
+              201160.6813,
+              7559731.5974
+            ],
+            [
+              201166.629,
+              7559720.2732
+            ]
+          ],
+          "z0_m": 7.5,
+          "altura_m": 24.0,
+          "pavimentos": 8,
+          "uso": "residencial",
+          "recuo_lateral_m": 3.94,
+          "recuo_fundos_m": 3.94
+        },
+        {
+          "base_utm": [
+            [
+              201164.219,
+              7559732.9156
+            ],
+            [
+              201175.5738,
+              7559762.8178
+            ],
+            [
+              201186.336,
+              7559768.4703
+            ],
+            [
+              201187.991,
+              7559767.7925
+            ],
+            [
+              201180.6172,
+              7559743.8662
+            ],
+            [
+              201174.0653,
+              7559744.5996
+            ],
+            [
+              201174.4566,
+              7559737.3149
+            ],
+            [
+              201174.3966,
+              7559736.7787
+            ],
+            [
+              201171.8718,
+              7559729.6666
+            ],
+            [
+              201175.9616,
+              7559729.2088
+            ],
+            [
+              201174.0027,
+              7559723.3778
+            ],
+            [
+              201164.4408,
+              7559723.0293
+            ]
+          ],
+          "z0_m": -3.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        }
+      ],
+      "metricas": {
+        "area_construida_m2": 2268.97,
+        "area_computavel_m2": 1636.97,
+        "area_nao_computavel_m2": 632.0,
+        "area_privativa_m2": 988.89,
+        "area_acima_ca_basico_m2": 0.0,
+        "area_garagem_m2": 432.0,
+        "vagas": 16,
+        "area_permeavel_m2": 1047.18,
+        "ca_usado": 1.02,
+        "to_usada": 0.152,
+        "pavimentos": 10,
+        "unidades_estimadas": 16,
+        "vgv_estimado": null
+      },
+      "alertas": [
+        "Recuo lateral/fundos: embasamento 1.50/1.50 m, residencial 3.94/3.94 m (escalonado).",
+        "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_ambiental (AIA da bacia do Córrego da Água Quente). O resultado pode passar do que o terreno permite; conferir antes de usar."
+      ]
+    }
+  ],
+  "incertezas": [
+    "Terreno na zona SC-Z4: NÃO conferido (lida à mão no anexo em PDF). Confirmar a zona do lote antes de usar o estudo.",
+    "A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.",
+    "Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).",
+    "Área especial interesse_ambiental sem número de altura: não aplicada (Lei 18.053/2016, arts. 73 e 74-IV, Anexo 05, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2005%20-%20AEIs%20Ambientais.pdf).",
+    "Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.",
+    "Parede cega (sem janela) pode encostar na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
+    "Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.",
+    "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
+    "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
+    "Relevo ignorado: volumes assentados em terreno plano, z=0.",
+    "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_max_projeto, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade."
+  ],
+  "dominio": {
+    "status": "dentro",
+    "motivos": [],
+    "versao": "dominio-0.8"
+  }
+}

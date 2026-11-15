@@ -1,0 +1,17 @@
+{
+  "sha256": "fd1b23dd766dd7bfa86853033f0598d15afed8a9136d28f443b4625a4d106741",
+  "bytes": 592249,
+  "metadata_confere": true,
+  "reproducao": "conferido pela central",
+  "commit_central": "df37e7b4",
+  "nota": "Tentativa local bloqueada em spawn EPERM; usuário dispensou reexecução com permissão.",
+  "aviso_copyright": true,
+  "spdx_mit": true,
+  "texto_completo_mit_no_bundle": false,
+  "arquivos_ao_lado": [
+    "entrada.js",
+    "gerar.mjs",
+    "three-viabilidade.json",
+    "three-viabilidade.min.js"
+  ]
+}

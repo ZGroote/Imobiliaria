@@ -1,0 +1,1172 @@
+[
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "A",
+    "campo": "unidades_estimadas",
+    "json": 45,
+    "tela": "45",
+    "tela_normalizada": 45,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "A",
+    "campo": "area_privativa_m2",
+    "json": 2768.83,
+    "tela": "2.768,83",
+    "tela_normalizada": 2768.83,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "A",
+    "campo": "ca_usado",
+    "json": 2.081,
+    "tela": "2,08",
+    "tela_normalizada": 2.08,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "A",
+    "campo": "to_usada",
+    "json": 0.139,
+    "tela": "13,9",
+    "tela_normalizada": 0.139,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "A",
+    "campo": "vagas",
+    "json": 45,
+    "tela": "45",
+    "tela_normalizada": 45,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "B",
+    "campo": "unidades_estimadas",
+    "json": 72,
+    "tela": "72",
+    "tela_normalizada": 72,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "B",
+    "campo": "area_privativa_m2",
+    "json": 4637.15,
+    "tela": "4.637,15",
+    "tela_normalizada": 4637.15,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "B",
+    "campo": "ca_usado",
+    "json": 3.5,
+    "tela": "3,5",
+    "tela_normalizada": 3.5,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "B",
+    "campo": "to_usada",
+    "json": 0.292,
+    "tela": "29,2",
+    "tela_normalizada": 0.292,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "B",
+    "campo": "vagas",
+    "json": 71,
+    "tela": "71",
+    "tela_normalizada": 71,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "C",
+    "campo": "unidades_estimadas",
+    "json": 56,
+    "tela": "56",
+    "tela_normalizada": 56,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "C",
+    "campo": "area_privativa_m2",
+    "json": 3436.48,
+    "tela": "3.436,48",
+    "tela_normalizada": 3436.48,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "C",
+    "campo": "ca_usado",
+    "json": 2.775,
+    "tela": "2,78",
+    "tela_normalizada": 2.78,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "C",
+    "campo": "to_usada",
+    "json": 0.694,
+    "tela": "69,4",
+    "tela_normalizada": 0.6940000000000001,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "C",
+    "campo": "vagas",
+    "json": 56,
+    "tela": "56",
+    "tela_normalizada": 56,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "D",
+    "campo": "unidades_estimadas",
+    "json": 39,
+    "tela": "39",
+    "tela_normalizada": 39,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "D",
+    "campo": "area_privativa_m2",
+    "json": 2399.66,
+    "tela": "2.399,66",
+    "tela_normalizada": 2399.66,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "D",
+    "campo": "ca_usado",
+    "json": 2.577,
+    "tela": "2,58",
+    "tela_normalizada": 2.58,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "D",
+    "campo": "to_usada",
+    "json": 0.387,
+    "tela": "38,7",
+    "tela_normalizada": 0.387,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "D",
+    "campo": "vagas",
+    "json": 39,
+    "tela": "39",
+    "tela_normalizada": 39,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "A",
+    "campo": "unidades_estimadas",
+    "json": 4,
+    "tela": "4",
+    "tela_normalizada": 4,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "A",
+    "campo": "area_privativa_m2",
+    "json": 244.97,
+    "tela": "244,97",
+    "tela_normalizada": 244.97,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "A",
+    "campo": "ca_usado",
+    "json": 0.499,
+    "tela": "0,5",
+    "tela_normalizada": 0.5,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "A",
+    "campo": "to_usada",
+    "json": 0.125,
+    "tela": "12,5",
+    "tela_normalizada": 0.125,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "A",
+    "campo": "vagas",
+    "json": 4,
+    "tela": "4",
+    "tela_normalizada": 4,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "B",
+    "campo": "unidades_estimadas",
+    "json": 8,
+    "tela": "8",
+    "tela_normalizada": 8,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "B",
+    "campo": "area_privativa_m2",
+    "json": 489.96,
+    "tela": "489,96",
+    "tela_normalizada": 489.96,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "B",
+    "campo": "ca_usado",
+    "json": 0.998,
+    "tela": "1",
+    "tela_normalizada": 1,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "B",
+    "campo": "to_usada",
+    "json": 0.249,
+    "tela": "24,9",
+    "tela_normalizada": 0.249,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "B",
+    "campo": "vagas",
+    "json": 8,
+    "tela": "8",
+    "tela_normalizada": 8,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "C",
+    "campo": "unidades_estimadas",
+    "json": 12,
+    "tela": "12",
+    "tela_normalizada": 12,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "C",
+    "campo": "area_privativa_m2",
+    "json": 785.6,
+    "tela": "785,6",
+    "tela_normalizada": 785.6,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "C",
+    "campo": "ca_usado",
+    "json": 1.384,
+    "tela": "1,38",
+    "tela_normalizada": 1.38,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "C",
+    "campo": "to_usada",
+    "json": 0.346,
+    "tela": "34,6",
+    "tela_normalizada": 0.34600000000000003,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "C",
+    "campo": "vagas",
+    "json": 12,
+    "tela": "12",
+    "tela_normalizada": 12,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "D",
+    "campo": "unidades_estimadas",
+    "json": 2,
+    "tela": "2",
+    "tela_normalizada": 2,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "D",
+    "campo": "area_privativa_m2",
+    "json": 122.51,
+    "tela": "122,51",
+    "tela_normalizada": 122.51,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "D",
+    "campo": "ca_usado",
+    "json": 0.988,
+    "tela": "0,99",
+    "tela_normalizada": 0.99,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "D",
+    "campo": "to_usada",
+    "json": 0.369,
+    "tela": "36,9",
+    "tela_normalizada": 0.369,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "D",
+    "campo": "vagas",
+    "json": 2,
+    "tela": "2",
+    "tela_normalizada": 2,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22426",
+    "opcao": "C",
+    "campo": "unidades_estimadas",
+    "json": 12,
+    "tela": "12",
+    "tela_normalizada": 12,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22426",
+    "opcao": "C",
+    "campo": "area_privativa_m2",
+    "json": 729.06,
+    "tela": "729,06",
+    "tela_normalizada": 729.06,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22426",
+    "opcao": "C",
+    "campo": "ca_usado",
+    "json": 1.381,
+    "tela": "1,38",
+    "tela_normalizada": 1.38,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-22426",
+    "opcao": "C",
+    "campo": "to_usada",
+    "json": 0.345,
+    "tela": "34,5",
+    "tela_normalizada": 0.345,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-22426",
+    "opcao": "C",
+    "campo": "vagas",
+    "json": 12,
+    "tela": "12",
+    "tela_normalizada": 12,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-25297",
+    "opcao": "C",
+    "campo": "unidades_estimadas",
+    "json": 4,
+    "tela": "4",
+    "tela_normalizada": 4,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-25297",
+    "opcao": "C",
+    "campo": "area_privativa_m2",
+    "json": 329.9,
+    "tela": "329,9",
+    "tela_normalizada": 329.9,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-25297",
+    "opcao": "C",
+    "campo": "ca_usado",
+    "json": 1.255,
+    "tela": "1,26",
+    "tela_normalizada": 1.26,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-25297",
+    "opcao": "C",
+    "campo": "to_usada",
+    "json": 0.314,
+    "tela": "31,4",
+    "tela_normalizada": 0.314,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-25297",
+    "opcao": "C",
+    "campo": "vagas",
+    "json": 4,
+    "tela": "4",
+    "tela_normalizada": 4,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "A",
+    "campo": "unidades_estimadas",
+    "json": 20,
+    "tela": "20",
+    "tela_normalizada": 20,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "A",
+    "campo": "area_privativa_m2",
+    "json": 1236.15,
+    "tela": "1.236,15",
+    "tela_normalizada": 1236.15,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "A",
+    "campo": "ca_usado",
+    "json": 0.895,
+    "tela": "0,9",
+    "tela_normalizada": 0.9,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "A",
+    "campo": "to_usada",
+    "json": 0.089,
+    "tela": "8,9",
+    "tela_normalizada": 0.08900000000000001,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "A",
+    "campo": "vagas",
+    "json": 20,
+    "tela": "20",
+    "tela_normalizada": 20,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "B",
+    "campo": "unidades_estimadas",
+    "json": 32,
+    "tela": "32",
+    "tela_normalizada": 32,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "B",
+    "campo": "area_privativa_m2",
+    "json": 1926.52,
+    "tela": "1.926,52",
+    "tela_normalizada": 1926.52,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "B",
+    "campo": "ca_usado",
+    "json": 1.4,
+    "tela": "1,4",
+    "tela_normalizada": 1.4,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "B",
+    "campo": "to_usada",
+    "json": 0.175,
+    "tela": "17,5",
+    "tela_normalizada": 0.175,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "B",
+    "campo": "vagas",
+    "json": 32,
+    "tela": "32",
+    "tela_normalizada": 32,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "C",
+    "campo": "unidades_estimadas",
+    "json": 12,
+    "tela": "12",
+    "tela_normalizada": 12,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "C",
+    "campo": "area_privativa_m2",
+    "json": 772.82,
+    "tela": "772,82",
+    "tela_normalizada": 772.82,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "C",
+    "campo": "ca_usado",
+    "json": 0.552,
+    "tela": "0,55",
+    "tela_normalizada": 0.55,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "C",
+    "campo": "to_usada",
+    "json": 0.138,
+    "tela": "13,8",
+    "tela_normalizada": 0.138,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "C",
+    "campo": "vagas",
+    "json": 12,
+    "tela": "12",
+    "tela_normalizada": 12,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "D",
+    "campo": "unidades_estimadas",
+    "json": 16,
+    "tela": "16",
+    "tela_normalizada": 16,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "D",
+    "campo": "area_privativa_m2",
+    "json": 988.89,
+    "tela": "988,89",
+    "tela_normalizada": 988.89,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "D",
+    "campo": "ca_usado",
+    "json": 1.02,
+    "tela": "1,02",
+    "tela_normalizada": 1.02,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "D",
+    "campo": "to_usada",
+    "json": 0.152,
+    "tela": "15,2",
+    "tela_normalizada": 0.152,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "D",
+    "campo": "vagas",
+    "json": 16,
+    "tela": "16",
+    "tela_normalizada": 16,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "A",
+    "campo": "unidades_estimadas",
+    "json": 54,
+    "tela": "54",
+    "tela_normalizada": 54,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "A",
+    "campo": "area_privativa_m2",
+    "json": 3295.13,
+    "tela": "3.295,13",
+    "tela_normalizada": 3295.13,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "A",
+    "campo": "ca_usado",
+    "json": 1.4,
+    "tela": "1,4",
+    "tela_normalizada": 1.4,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "A",
+    "campo": "to_usada",
+    "json": 0.078,
+    "tela": "7,8",
+    "tela_normalizada": 0.078,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "A",
+    "campo": "vagas",
+    "json": 54,
+    "tela": "54",
+    "tela_normalizada": 54,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "B",
+    "campo": "unidades_estimadas",
+    "json": 54,
+    "tela": "54",
+    "tela_normalizada": 54,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "B",
+    "campo": "area_privativa_m2",
+    "json": 3295.13,
+    "tela": "3.295,13",
+    "tela_normalizada": 3295.13,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "B",
+    "campo": "ca_usado",
+    "json": 1.4,
+    "tela": "1,4",
+    "tela_normalizada": 1.4,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "B",
+    "campo": "to_usada",
+    "json": 0.156,
+    "tela": "15,6",
+    "tela_normalizada": 0.156,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "B",
+    "campo": "vagas",
+    "json": 54,
+    "tela": "54",
+    "tela_normalizada": 54,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "C",
+    "campo": "unidades_estimadas",
+    "json": 50,
+    "tela": "50",
+    "tela_normalizada": 50,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "C",
+    "campo": "area_privativa_m2",
+    "json": 3039.14,
+    "tela": "3.039,14",
+    "tela_normalizada": 3039.14,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "C",
+    "campo": "ca_usado",
+    "json": 1.4,
+    "tela": "1,4",
+    "tela_normalizada": 1.4,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "C",
+    "campo": "to_usada",
+    "json": 0.7,
+    "tela": "70",
+    "tela_normalizada": 0.7,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "C",
+    "campo": "vagas",
+    "json": 50,
+    "tela": "50",
+    "tela_normalizada": 50,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "D",
+    "campo": "unidades_estimadas",
+    "json": 48,
+    "tela": "48",
+    "tela_normalizada": 48,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "D",
+    "campo": "area_privativa_m2",
+    "json": 2892.93,
+    "tela": "2.892,93",
+    "tela_normalizada": 2892.93,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "D",
+    "campo": "ca_usado",
+    "json": 1.4,
+    "tela": "1,4",
+    "tela_normalizada": 1.4,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "D",
+    "campo": "to_usada",
+    "json": 0.086,
+    "tela": "8,6",
+    "tela_normalizada": 0.086,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "D",
+    "campo": "vagas",
+    "json": 48,
+    "tela": "48",
+    "tela_normalizada": 48,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "A",
+    "campo": "unidades_estimadas",
+    "json": 84,
+    "tela": "84",
+    "tela_normalizada": 84,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "A",
+    "campo": "area_privativa_m2",
+    "json": 5107.08,
+    "tela": "5.107,08",
+    "tela_normalizada": 5107.08,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "A",
+    "campo": "ca_usado",
+    "json": 3.729,
+    "tela": "3,73",
+    "tela_normalizada": 3.73,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "A",
+    "campo": "to_usada",
+    "json": 0.178,
+    "tela": "17,8",
+    "tela_normalizada": 0.17800000000000002,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "A",
+    "campo": "vagas",
+    "json": 84,
+    "tela": "84",
+    "tela_normalizada": 84,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "B",
+    "campo": "unidades_estimadas",
+    "json": 68,
+    "tela": "68",
+    "tela_normalizada": 68,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "B",
+    "campo": "area_privativa_m2",
+    "json": 4183.95,
+    "tela": "4.183,95",
+    "tela_normalizada": 4183.95,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "B",
+    "campo": "ca_usado",
+    "json": 3.042,
+    "tela": "3,04",
+    "tela_normalizada": 3.04,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "B",
+    "campo": "to_usada",
+    "json": 0.179,
+    "tela": "17,9",
+    "tela_normalizada": 0.179,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "B",
+    "campo": "vagas",
+    "json": 68,
+    "tela": "68",
+    "tela_normalizada": 68,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "C",
+    "campo": "unidades_estimadas",
+    "json": 32,
+    "tela": "32",
+    "tela_normalizada": 32,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "C",
+    "campo": "area_privativa_m2",
+    "json": 2107.08,
+    "tela": "2.107,08",
+    "tela_normalizada": 2107.08,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "C",
+    "campo": "ca_usado",
+    "json": 1.597,
+    "tela": "1,6",
+    "tela_normalizada": 1.6,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "C",
+    "campo": "to_usada",
+    "json": 0.399,
+    "tela": "39,9",
+    "tela_normalizada": 0.39899999999999997,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "C",
+    "campo": "vagas",
+    "json": 32,
+    "tela": "32",
+    "tela_normalizada": 32,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "D",
+    "campo": "unidades_estimadas",
+    "json": 76,
+    "tela": "76",
+    "tela_normalizada": 76,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "D",
+    "campo": "area_privativa_m2",
+    "json": 4620.69,
+    "tela": "4.620,69",
+    "tela_normalizada": 4620.69,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "D",
+    "campo": "ca_usado",
+    "json": 3.945,
+    "tela": "3,95",
+    "tela_normalizada": 3.95,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "D",
+    "campo": "to_usada",
+    "json": 0.285,
+    "tela": "28,5",
+    "tela_normalizada": 0.285,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "D",
+    "campo": "vagas",
+    "json": 76,
+    "tela": "76",
+    "tela_normalizada": 76,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "A",
+    "campo": "unidades_estimadas",
+    "json": 81,
+    "tela": "81",
+    "tela_normalizada": 81,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "A",
+    "campo": "area_privativa_m2",
+    "json": 4933.78,
+    "tela": "4.933,78",
+    "tela_normalizada": 4933.78,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "A",
+    "campo": "ca_usado",
+    "json": 3.5,
+    "tela": "3,5",
+    "tela_normalizada": 3.5,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "A",
+    "campo": "to_usada",
+    "json": 0.13,
+    "tela": "13",
+    "tela_normalizada": 0.13,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "A",
+    "campo": "vagas",
+    "json": 81,
+    "tela": "81",
+    "tela_normalizada": 81,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "B",
+    "campo": "unidades_estimadas",
+    "json": 66,
+    "tela": "66",
+    "tela_normalizada": 66,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "B",
+    "campo": "area_privativa_m2",
+    "json": 4077.25,
+    "tela": "4.077,25",
+    "tela_normalizada": 4077.25,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "B",
+    "campo": "ca_usado",
+    "json": 2.896,
+    "tela": "2,9",
+    "tela_normalizada": 2.9,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "B",
+    "campo": "to_usada",
+    "json": 0.263,
+    "tela": "26,3",
+    "tela_normalizada": 0.263,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "B",
+    "campo": "vagas",
+    "json": 66,
+    "tela": "66",
+    "tela_normalizada": 66,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "C",
+    "campo": "unidades_estimadas",
+    "json": 52,
+    "tela": "52",
+    "tela_normalizada": 52,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "C",
+    "campo": "area_privativa_m2",
+    "json": 3261.4,
+    "tela": "3.261,4",
+    "tela_normalizada": 3261.4,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "C",
+    "campo": "ca_usado",
+    "json": 2.486,
+    "tela": "2,49",
+    "tela_normalizada": 2.49,
+    "valor_preservado": false
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "C",
+    "campo": "to_usada",
+    "json": 0.621,
+    "tela": "62,1",
+    "tela_normalizada": 0.621,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "C",
+    "campo": "vagas",
+    "json": 52,
+    "tela": "52",
+    "tela_normalizada": 52,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "D",
+    "campo": "unidades_estimadas",
+    "json": 75,
+    "tela": "75",
+    "tela_normalizada": 75,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "D",
+    "campo": "area_privativa_m2",
+    "json": 4530.65,
+    "tela": "4.530,65",
+    "tela_normalizada": 4530.65,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "D",
+    "campo": "ca_usado",
+    "json": 3.5,
+    "tela": "3,5",
+    "tela_normalizada": 3.5,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "D",
+    "campo": "to_usada",
+    "json": 0.144,
+    "tela": "14,4",
+    "tela_normalizada": 0.14400000000000002,
+    "valor_preservado": true
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "D",
+    "campo": "vagas",
+    "json": 75,
+    "tela": "75",
+    "tela_normalizada": 75,
+    "valor_preservado": true
+  }
+]
