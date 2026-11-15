@@ -71,6 +71,14 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - Motor T14: `test_motor` abaixo de 120 s.
 - **Lacuna conhecida:** lote novo não traz áreas especiais (aeroporto/AIA/AEI), então perde o alerta. Próxima tarefa do Terreno depois da T5.
 - **Ritmo:** 3 a 4 frentes em paralelo; entre entregas, conferir só a frente que entregou; o completo fica no CI.
+- **Entregas no galho até agora:** Terreno T5 zona auto (a9b98cd0), T6 áreas especiais (46c9f4a9), T7 `--ponto` (995f6739); Visual T15 (364a1024) e T16 acessibilidade (93378d7c); Motor T14 test_motor de 430 s para ~90 s (04c78042).
+- **Contas (15/11, tarde):** os dois Codex estão esgotando ("trabalho" 99% na semana; "Padrão" 93% na janela de 5 h). O usuário pediu para usar mais Claude e Antigravity.
+  - Terreno: Claude Code jaogroote.
+  - Motor: Claude Code jaogroote.
+  - Visual: Claude Code Padrão.
+  - Revisor: Antigravity (Gemini 4 Hydrogen).
+  - Os agentes reiniciados perdem o contexto: mandar o papel e onde estão os RELATORIO na primeira mensagem.
+  - **Armadilha:** comando `/` não enviado (por exemplo `/status`) fica na caixa de entrada e gruda na mensagem seguinte. Conferir com `maestri check` se a tarefa começou ("Working" ou "esc to interrupt").
 
 ## Ao chegar um relatório
 
