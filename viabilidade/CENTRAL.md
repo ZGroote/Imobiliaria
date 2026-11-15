@@ -100,6 +100,7 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
 - **Terreno T8/T9:** lote novo de ~13 s para ~1,5 s (cache `.npz` fora do git).
 - **Visual T18/T19:** simulação de VGV, com a frase de que não é lucro nem receita garantida.
 - **Armadilha:** o texto cinza na caixa de entrada do Claude Code é sugestão automática, não ordem pendente.
+- **Armadilha (15/11):** "UNAUTHENTICATED (code 401)" no Antigravity no meio de tarefa longa é o passe da sessão vencendo, não o login: mandar "continue de onde parou" resolve, sem relogar. Claude Code "Interrupted" sem pedido: mesma coisa, mandar continuar.
 
 ## Ao chegar um relatório
 
