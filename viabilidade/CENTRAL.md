@@ -7,13 +7,13 @@ Atualizado: 15/11/2026, ~02h (janela livre de 6 h dada pelo usuário: seguir sem
 | IA | Modelo / conta | Situação |
 |---|---|---|
 | Lei | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
-| Terreno | Codex **Astra high** / trabalho (sessão; cotas renovadas 15/11) | **Fazendo o MOTOR** no 1B: TAREFA-8 entregue (0.8.0), agora `motor/TAREFA-8B.md` (B do remembramento 66→56) |
+| Terreno | Codex **Astra high** / trabalho (sessão) | **Faz o MOTOR**: 0.8.0 commitado (b5e14eba; 8B recuperou B 66; 8 estudos = 0.7.1). Agora `motor/TAREFA-9.md` (garagem computável monotônica, ≤2× tempo) |
 | Motor | Claude **Sonnet** high / jaogroote | **Parado** (fase 0 fechada). TAREFA-7 commitada. Limitações conhecidas: recuo assimétrico + permeabilidade apertada; garagem_computavel=True |
 | Visual | Codex **Luna medium** / trabalho | TAREFA-5 commitada (contrato v5 na tela/relatório, 5c54dbda); fazendo `visual/TAREFA-6.md` (revisão do estudo, volume hipotético) |
 | Produto | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 |
 | Conferencia | Antigravity **Gemini 4 Hydrogen, alto** | Fazendo `conferencia/TAREFA-2.md` (pacote para o arquiteto, preparo do 1C) |
 | Relatorio | Antigravity (Claude Sonnet 5.5, médio), **cópia isolada** `Desktop/imobiliaria-viabilidade-gemini`, galho `exp/viabilidade-gemini` | Livre. Relatório HTML entregue, revisado (print) e trazido pro principal em `viabilidade/relatorio/`. Próximas tarefas experimentais vão pra lá |
-| Auditor | Antigravity (trocar p/ Gemini Hydrogen alto ao usar) | Próxima: `auditoria/TAREFA-6.md` (auditoria do 0.8.0) depois da 8B |
+| Auditor | Antigravity **Gemini 4 Hydrogen, alto** | Fazendo `auditoria/TAREFA-6.md` (auditoria independente do 0.8.0) |
 
 Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota Gemini/Claude/GPT dele); programação em Claude/Codex; central no Opus. Antigravity não assina commit: só escreve na pasta dele e a central commita. Ajudantes (subagentes) só quando houver partes separadas. Esforço (usuário, 14/11): **médio** no simples (ajuste de tela, pesquisa curta, tarefa bem definida); **alto** no Motor, Auditor, Conferência e em investigação de defeito.
 
