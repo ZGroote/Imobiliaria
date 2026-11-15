@@ -165,6 +165,103 @@ async function checkNewStudy(page) {
   }
 }
 
+// Página da varredura (tarefa 20): contagens, link da maquete, ordenação, filtros, CSV adulterado e pasta de fora.
+const tmpVarredura = path.join(__dirname, 'tmp-tarefa20');
+const payloadVarredura = '<img src=x onerror="window.__xss=1;alert(1)">, com "aspas", vírgula; e\nquebra de linha';
+let varreduraPronta = false;
+async function checkSweep(page, dialogs, mobile) {
+  const pasta = path.join(tmpVarredura, 'varredura');
+  if (!varreduraPronta) {
+    fs.rmSync(tmpVarredura, { recursive: true, force: true });
+    // mesmo recorte de motor/test_varrer.py: 40 m em volta do lote 30516
+    execFileSync('python', ['-I', '-X', 'utf8', path.join(__dirname, '../motor/varrer.py'), '--base', 'completo', '--ponto', '-22.041484, -47.894953', '--raio', '40', '--saida', pasta], { stdio: 'ignore' });
+    const adulterada = path.join(tmpVarredura, 'adulterada');
+    fs.mkdirSync(adulterada);
+    execFileSync('python', ['-I', '-X', 'utf8', '-c', [
+      'import csv, sys',
+      'linhas = list(csv.DictReader(open(sys.argv[1], encoding="utf-8-sig", newline="")))',
+      'for l in linhas: l["motivo"] = sys.argv[3] if l["status"] == "recusa" else l["motivo"]',
+      'w = csv.DictWriter(open(sys.argv[2], "w", encoding="utf-8-sig", newline=""), fieldnames=list(linhas[0]))',
+      'w.writeheader(); w.writerows(linhas)',
+    ].join('\n'), path.join(pasta, 'varredura.csv'), path.join(adulterada, 'varredura.csv'), payloadVarredura]);
+    varreduraPronta = true;
+  }
+  // referência: o leitor de CSV do próprio Python
+  const csvPython = JSON.parse(execFileSync('python', ['-I', '-X', 'utf8', '-c',
+    'import csv, json, sys; print(json.dumps(list(csv.DictReader(open(sys.argv[1], encoding="utf-8-sig", newline="")))))',
+    path.join(pasta, 'varredura.csv')], { encoding: 'utf8' }));
+  const conta = s => csvPython.filter(l => l.status === s).length;
+  const contagem = `${conta('estudo')} estudados · ${conta('recusa')} recusados · ${conta('erro')} erros`;
+  assert(conta('estudo') >= 2 && conta('recusa') >= 1, contagem);
+  const indices = () => page.locator('#linhas tr').evaluateAll(trs => trs.map(tr => tr.dataset.indice));
+
+  await page.goto(new URL('varredura.html?pasta=tmp-tarefa20/varredura', url).href);
+  await page.locator('#linhas tr').first().waitFor();
+  assert.equal(await page.locator('#contagem').innerText(), contagem);
+  const aviso = await page.locator('#aviso').boundingBox();
+  assert(aviso.y >= 0 && aviso.y + aviso.height <= page.viewportSize().height, 'Aviso da varredura visível sem rolar');
+  assert((await page.locator('#aviso').innerText()).startsWith('Varredura automática: zona e áreas especiais sugeridas pela leitura do mapa, não conferidas. Não é lista de lotes à venda nem garantia de aprovação.'));
+  assert.deepEqual(await indices(), csvPython.map(l => l.indice), 'Uma linha por lote, na ordem do CSV');
+  for (const lote of csvPython) {
+    const tr = page.locator(`#linhas tr[data-indice="${lote.indice}"]`);
+    assert.equal(await tr.locator('td.motivo').textContent(), lote.motivo, `Motivo completo do lote ${lote.indice}`);
+    assert.equal(await tr.getByRole('link', { name: 'abrir maquete' }).count(), lote.status === 'estudo' ? 1 : 0, lote.indice);
+  }
+  assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Varredura sem rolagem lateral da página');
+  await page.mouse.wheel(0, 2000);
+  await page.waitForTimeout(200);
+  assert.equal((await page.locator('#aviso').boundingBox()).y, 0, 'Aviso fixo ao rolar');
+  if (mobile) return;
+
+  const link = page.locator('#linhas tr[data-indice="30516"]').getByRole('link', { name: 'abrir maquete' });
+  assert.equal(await link.getAttribute('href'), 'index.html?estudo=tmp-tarefa20/varredura/lotes/30516/estudo.json');
+  await link.click();
+  await page.waitForFunction(() => document.querySelector('#lote').textContent.includes('30516'));
+  assert.equal(new URL(page.url()).searchParams.get('estudo'), 'tmp-tarefa20/varredura/lotes/30516/estudo.json');
+
+  await page.goto(new URL('varredura.html?pasta=tmp-tarefa20/varredura/', url).href);
+  await page.locator('#linhas tr').first().waitFor();
+  const area = page.getByRole('button', { name: 'Área (m²)' });
+  const porArea = csvPython.map(l => [l.indice, Number(l.area_m2)]);
+  await area.click();
+  assert.deepEqual(await indices(), [...porArea].sort((a, b) => a[1] - b[1]).map(l => l[0]));
+  assert.equal(await page.locator('th[data-coluna="area_m2"]').getAttribute('aria-sort'), 'ascending');
+  await area.click();
+  assert.deepEqual(await indices(), [...porArea].sort((a, b) => b[1] - a[1]).map(l => l[0]));
+  assert.equal(await page.locator('th[data-coluna="area_m2"]').getAttribute('aria-sort'), 'descending');
+  await page.getByRole('button', { name: 'Lote', exact: true }).click();
+  assert.deepEqual(await indices(), csvPython.map(l => l.indice).sort((a, b) => a - b));
+  assert.equal(await page.locator('th[aria-sort]').count(), 1);
+
+  for (const status of ['estudo', 'recusa', 'erro']) {
+    await page.getByLabel('Status').selectOption(status);
+    assert.deepEqual((await indices()).sort(), csvPython.filter(l => l.status === status).map(l => l.indice).sort(), status);
+  }
+  await page.getByLabel('Status').selectOption('');
+  await page.getByLabel('Zona').selectOption({ label: '(sem zona)' });
+  assert.deepEqual((await indices()).sort(), csvPython.filter(l => !l.zona).map(l => l.indice).sort());
+  const zona = csvPython.find(l => l.zona).zona;
+  await page.getByLabel('Zona').selectOption(zona);
+  assert.deepEqual((await indices()).sort(), csvPython.filter(l => l.zona === zona).map(l => l.indice).sort());
+  await page.getByLabel('Status').selectOption('recusa');
+  assert.equal(await page.locator('#linhas tr').count(), 0, 'Filtros combinados: recusa não tem zona');
+
+  await page.goto(new URL('varredura.html?pasta=tmp-tarefa20/adulterada', url).href);
+  await page.locator('#linhas tr').first().waitFor();
+  const recusada = csvPython.find(l => l.status === 'recusa').indice;
+  assert.equal(await page.locator(`#linhas tr[data-indice="${recusada}"] td.motivo`).textContent(), payloadVarredura);
+  assert.equal(await page.locator('#linhas img, #linhas svg').count(), 0, 'CSV adulterado não cria elemento');
+  assert.equal(await page.evaluate(() => window.__xss), undefined);
+  assert.deepEqual(dialogs, [], 'CSV adulterado não executa nada');
+
+  for (const recusado of ['https://exemplo.com/x', '//exemplo.com/x', 'javascript:alert(1)', 'data:text/csv,a']) {
+    await page.goto(new URL('varredura.html?pasta=' + encodeURIComponent(recusado), url).href);
+    await page.locator('#erro').waitFor();
+    assert.match(await page.locator('#erro').innerText(), /Pasta recusada: use um caminho relativo/, recusado);
+    assert.equal(await page.locator('#resultado').isVisible(), false, recusado);
+  }
+}
+
 // VGV simulado pelo preço digitado na tela: área privativa × preço, sem mexer no estudo nem na revisão.
 async function checkPriceSimulation(page) {
   const revisao = await page.locator('#revisao').innerText();
@@ -311,6 +408,7 @@ async function checkPriceSimulation(page) {
         await page.unroute('**/relatorio/saida/estudo-exemplo.html');
         await checkPriceSimulation(page);
         await checkNewStudy(page);
+        await checkSweep(page, dialogs, false);
         await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
         await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
       }
@@ -634,6 +732,7 @@ async function checkPriceSimulation(page) {
         await page.locator('canvas').first().waitFor();
       }
       await checkWidth(page);
+      if (mobile) await checkSweep(page, dialogs, true);
       assert.deepEqual(errors, [], 'Nenhum erro JavaScript/console nos fluxos válidos e inválidos.');
       report.push({ perfil: profile, versaoMotor: example.versao_motor, zona: example.zona.id, estudosPiloto: 7, caNuloSemLimite: !mobile, alertasAreaEspecialDestacados: true, opcoes: example.opcoes.length, degraus: example.caixa_maxima.degraus.length, alturasExplicitasEFallback: !mobile, recuos: true, avisoSemSobreposicao: true, vgvSemCorte: true, comparacao: true, upload: true, contratoV2: true, conferenciaLoteIndependente: mobile ? 1 : zoningCases.length, paredeCega: true, faixaParedeCega: true, jsonInvalido: invalid.length, largurasExtras: mobile ? [] : [320, 768, 1024], errosConsole: errors });
       await page.close();
@@ -643,5 +742,6 @@ async function checkPriceSimulation(page) {
   } finally {
     await browser.close();
     fs.rmSync(tmpEstudo, { recursive: true, force: true });
+    fs.rmSync(tmpVarredura, { recursive: true, force: true });
   }
 })().catch(error => { console.error(error); process.exitCode = 1; });

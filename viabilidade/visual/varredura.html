@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Viabilidade · Varredura de lotes</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root{color-scheme:dark;font:15px/1.5 system-ui,sans-serif;--page:#0e151b;--surface:#131c23;--raised:#212c34;--line:#40505c;--ink:#e5eaee;--muted:#abb8c1;--accent:#91dcba;--gold:#f3d397;color:var(--ink);background:var(--page)}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--page)}
+    #aviso{position:sticky;top:0;z-index:2;margin:0;padding:10px 16px;border-bottom:1px solid #826c44;background:#322c20;color:var(--gold);font-size:14px;line-height:1.4}
+    #contagem{display:block;margin-top:4px;font-weight:600}
+    main{padding:16px;max-width:1400px;margin:0 auto}
+    h1{font-size:20px;margin:0 0 4px}
+    .muted{color:var(--muted);margin:0 0 12px}
+    #erro{padding:12px 16px;border:1px solid #da9b86;border-radius:6px;background:#412b25;color:#ffd6c8}
+    .filtros{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 12px}
+    label{display:flex;flex-direction:column;gap:4px;color:var(--muted);font-size:13px}
+    select{font:inherit;min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--raised);color:var(--ink)}
+    .tabela{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+    table{border-collapse:collapse;width:100%;font-size:14px}
+    th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+    th{vertical-align:bottom}
+    td.num{text-align:right;white-space:nowrap}
+    td.motivo{min-width:260px;max-width:520px;white-space:pre-wrap;overflow-wrap:anywhere}
+    th button{font:inherit;font-weight:600;min-height:44px;padding:6px 8px;border:1px solid transparent;border-radius:6px;background:none;color:var(--ink);cursor:pointer;text-align:left}
+    th[aria-sort] button::after{content:" ▲";color:var(--accent)}
+    th[aria-sort=descending] button::after{content:" ▼"}
+    button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+    a{color:var(--accent);display:inline-flex;align-items:center;min-height:44px;white-space:nowrap}
+    .status-recusa{color:#ffd6c8}
+    .status-erro{color:#ffb4a3;font-weight:600}
+    [hidden]{display:none!important}
+  </style>
+</head>
+<body>
+  <p id="aviso" role="note">Varredura automática: zona e áreas especiais sugeridas pela leitura do mapa, não conferidas. Não é lista de lotes à venda nem garantia de aprovação.<span id="contagem" aria-live="polite"></span></p>
+  <main>
+    <h1>Varredura de lotes</h1>
+    <p class="muted" id="status" aria-live="polite">Carregando…</p>
+    <p id="erro" hidden></p>
+    <div id="resultado" hidden>
+      <div class="filtros">
+        <label>Status <select id="filtro-status"><option value="">Todos</option><option value="estudo">Estudado</option><option value="recusa">Recusado</option><option value="erro">Erro</option></select></label>
+        <label>Zona <select id="filtro-zona"><option value="">Todas</option></select></label>
+      </div>
+      <p class="muted" id="mostrando" aria-live="polite"></p>
+      <div class="tabela"><table><thead><tr id="cabecalho"></tr></thead><tbody id="linhas"></tbody></table></div>
+    </div>
+  </main>
+  <script type="module">
+    const $ = s => document.querySelector(s);
+    // [coluna do CSV, título, numérica]
+    const COLUNAS = [
+      ['indice', 'Lote', true], ['area_m2', 'Área (m²)', true], ['zona', 'Zona', false], ['status', 'Status', false],
+      ['n_opcoes', 'Opções', true], ['maior_area_computavel_m2', 'Maior área computável (m²)', true], ['maior_unidades', 'Maior nº de unidades', true],
+      ['areas_especiais_encontradas', 'Áreas especiais encontradas', true], ['areas_especiais_nao_verificadas', 'Áreas especiais não verificadas', true],
+      ['frente_presumida', 'Frente presumida', false], ['motivo', 'Motivo', false],
+    ];
+    const ROTULO = { estudo: 'Estudado', recusa: 'Recusado', erro: 'Erro' };
+    const numero = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
+    let pasta = '', lotes = [], ordem = null;
+
+    // CSV do csv.DictWriter do Python: aspas dobradas, vírgula e quebra de linha dentro de aspas.
+    function lerCsv(texto) {
+      const linhas = [];
+      let linha = [], campo = '', aspas = false;
+      for (let i = 0; i < texto.length; i++) {
+        const c = texto[i];
+        if (aspas) {
+          if (c !== '"') campo += c;
+          else if (texto[i + 1] === '"') { campo += '"'; i++; }
+          else aspas = false;
+        } else if (c === '"' && campo === '') aspas = true;
+        else if (c === ',') { linha.push(campo); campo = ''; }
+        else if (c === '\n' || c === '\r') {
+          if (c === '\r' && texto[i + 1] === '\n') i++;
+          linha.push(campo); linhas.push(linha); linha = []; campo = '';
+        } else campo += c;
+      }
+      if (aspas) throw Error('CSV inválido: aspas sem fechar.');
+      if (campo !== '' || linha.length) { linha.push(campo); linhas.push(linha); }
+      return linhas;
+    }
+
+    function validarPasta(bruto) {
+      if (!['http:', 'https:'].includes(location.protocol)) throw Error('Abra a página por um servidor local HTTP.');
+      if (!bruto) throw Error('Informe a pasta da varredura: varredura.html?pasta=<caminho relativo>.');
+      const url = new URL(bruto.replace(/\/*$/, '/'), location.href);
+      if (/^([a-z][a-z0-9+.-]*:|[\\/]{2})/i.test(bruto.trim()) || url.origin !== location.origin) throw Error('Pasta recusada: use um caminho relativo a esta página, no mesmo endereço (sem http://, javascript: ou data:).');
+      return bruto.replace(/\/*$/, '');
+    }
+
+    function chaveOrdem(lote, coluna, numerica) {
+      const v = lote[coluna] ?? '';
+      if (!numerica) return v.toLocaleLowerCase('pt-BR');
+      return v === '' || isNaN(Number(v)) ? null : Number(v);
+    }
+
+    function desenhar() {
+      const status = $('#filtro-status').value, zona = $('#filtro-zona').value;
+      let lista = lotes.filter(l => (!status || l.status === status) && (zona === '' || (zona === '\u0000' ? !l.zona : l.zona === zona)));
+      if (ordem) {
+        const [coluna, numerica] = [ordem.coluna, COLUNAS.find(c => c[0] === ordem.coluna)[2]], sinal = ordem.desc ? -1 : 1;
+        lista = [...lista].sort((a, b) => {
+          const x = chaveOrdem(a, coluna, numerica), y = chaveOrdem(b, coluna, numerica);
+          if (x === y) return a._linha - b._linha;
+          if (x === null || x === '') return 1; // vazio sempre no fim
+          if (y === null || y === '') return -1;
+          return (numerica ? x - y : x.localeCompare(y, 'pt-BR')) * sinal;
+        });
+      }
+      for (const th of document.querySelectorAll('#cabecalho th[data-coluna]')) {
+        if (ordem?.coluna === th.dataset.coluna) th.setAttribute('aria-sort', ordem.desc ? 'descending' : 'ascending');
+        else th.removeAttribute('aria-sort');
+      }
+      const corpo = $('#linhas');
+      corpo.replaceChildren();
+      for (const lote of lista) {
+        const tr = document.createElement('tr');
+        tr.dataset.indice = lote.indice;
+        tr.dataset.status = lote.status;
+        for (const [coluna, , numerica] of COLUNAS) {
+          const td = document.createElement('td');
+          const v = lote[coluna] ?? '';
+          if (coluna === 'indice') { td.className = 'num'; td.textContent = v; }
+          else if (numerica) { td.className = 'num'; td.textContent = v === '' || isNaN(Number(v)) ? v : numero.format(Number(v)); }
+          else if (coluna === 'status') { td.className = 'status-' + v; td.textContent = ROTULO[v] || v; }
+          else if (coluna === 'motivo') { td.className = 'motivo'; td.textContent = v; }
+          else td.textContent = v || '—';
+          tr.append(td);
+        }
+        const td = document.createElement('td');
+        if (lote.status === 'estudo' && /^lotes\/\d+\/estudo\.json$/.test(lote.estudo_json)) {
+          const a = document.createElement('a');
+          a.href = 'index.html?estudo=' + encodeURIComponent(pasta + '/' + lote.estudo_json).replaceAll('%2F', '/');
+          a.textContent = 'abrir maquete';
+          a.setAttribute('aria-label', `abrir maquete do lote ${lote.indice}`);
+          td.append(a);
+        }
+        tr.children[0].after(td);
+        corpo.append(tr);
+      }
+      $('#mostrando').textContent = `Mostrando ${lista.length} de ${lotes.length} lotes`;
+    }
+
+    async function iniciar() {
+      try {
+        pasta = validarPasta(new URLSearchParams(location.search).get('pasta') || '');
+        const resposta = await fetch(pasta + '/varredura.csv', { cache: 'no-store' });
+        if (!resposta.ok) throw Error(`Não achei varredura.csv em ${pasta} (HTTP ${resposta.status}).`);
+        const [cabecalho, ...linhas] = lerCsv((await resposta.text()).replace(/^﻿/, ''));
+        for (const coluna of ['indice', 'status', 'motivo', 'zona', 'estudo_json']) {
+          if (!cabecalho?.includes(coluna)) throw Error(`CSV sem a coluna "${coluna}": não parece um varredura.csv.`);
+        }
+        lotes = linhas.map((campos, n) => {
+          if (campos.length !== cabecalho.length) throw Error(`CSV inválido: a linha ${n + 2} tem ${campos.length} campos, o cabeçalho tem ${cabecalho.length}.`);
+          return Object.assign(Object.fromEntries(cabecalho.map((c, i) => [c, campos[i]])), { _linha: n });
+        });
+      } catch (erro) {
+        $('#status').hidden = true;
+        $('#erro').textContent = erro.message;
+        $('#erro').hidden = false;
+        return;
+      }
+      const conta = s => lotes.filter(l => l.status === s).length;
+      $('#contagem').textContent = `${conta('estudo')} estudados · ${conta('recusa')} recusados · ${conta('erro')} erros`;
+      $('#status').textContent = `Pasta: ${pasta} · ${lotes.length} lotes, na ordem do CSV. Clique no título da coluna para ordenar.`;
+      const zonas = [...new Set(lotes.map(l => l.zona))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+      for (const z of zonas) $('#filtro-zona').append(new Option(z || '(sem zona)', z || '\u0000'));
+      for (const [coluna, titulo] of COLUNAS) {
+        const th = document.createElement('th'), botao = document.createElement('button');
+        th.scope = 'col';
+        th.dataset.coluna = coluna;
+        botao.type = 'button';
+        botao.textContent = titulo;
+        botao.addEventListener('click', () => { ordem = { coluna, desc: ordem?.coluna === coluna && !ordem.desc }; desenhar(); });
+        th.append(botao);
+        $('#cabecalho').append(th);
+      }
+      const th = document.createElement('th');
+      th.scope = 'col';
+      th.textContent = 'Maquete';
+      $('#cabecalho').children[0].after(th);
+      $('#filtro-status').addEventListener('change', desenhar);
+      $('#filtro-zona').addEventListener('change', desenhar);
+      $('#resultado').hidden = false;
+      desenhar();
+    }
+    iniciar();
+  </script>
+</body>
+</html>
