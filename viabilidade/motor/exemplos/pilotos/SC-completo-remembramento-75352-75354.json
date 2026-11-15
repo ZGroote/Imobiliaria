@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.7.1",
+ "versao_motor": "0.8.0",
  "lote": {
   "id": "SC-completo-remembramento-75352-75354",
   "lid": null,
@@ -1695,14 +1695,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 8353.44,
+    "area_construida_m2": 8353.15,
     "area_computavel_m2": 5626.44,
-    "area_nao_computavel_m2": 2727.0,
+    "area_nao_computavel_m2": 2726.71,
     "area_privativa_m2": 4933.15,
     "area_acima_ca_basico_m2": 2410.89,
-    "area_garagem_m2": 2187.0,
+    "area_garagem_m2": 2186.71,
     "vagas": 81,
-    "area_permeavel_m2": 500.63,
+    "area_permeavel_m2": 500.79,
     "ca_usado": 3.5,
     "to_usada": 0.13,
     "pavimentos": 27,
@@ -1981,14 +1981,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 6879.12,
+    "area_construida_m2": 6879.24,
     "area_computavel_m2": 4657.12,
-    "area_nao_computavel_m2": 2222.0,
+    "area_nao_computavel_m2": 2222.12,
     "area_privativa_m2": 4077.7,
     "area_acima_ca_basico_m2": 1441.57,
-    "area_garagem_m2": 1782.0,
+    "area_garagem_m2": 1782.12,
     "vagas": 66,
-    "area_permeavel_m2": 615.32,
+    "area_permeavel_m2": 615.25,
     "ca_usado": 2.897,
     "to_usada": 0.263,
     "pavimentos": 11,
@@ -2240,14 +2240,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 5480.41,
+    "area_construida_m2": 5479.94,
     "area_computavel_m2": 3996.41,
-    "area_nao_computavel_m2": 1484.0,
+    "area_nao_computavel_m2": 1483.52,
     "area_privativa_m2": 3261.13,
     "area_acima_ca_basico_m2": 780.86,
-    "area_garagem_m2": 1404.0,
+    "area_garagem_m2": 1403.52,
     "vagas": 52,
-    "area_permeavel_m2": 546.63,
+    "area_permeavel_m2": 546.66,
     "ca_usado": 2.486,
     "to_usada": 0.621,
     "pavimentos": 4,
@@ -2525,14 +2525,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 8191.4,
+    "area_construida_m2": 8191.16,
     "area_computavel_m2": 5626.4,
-    "area_nao_computavel_m2": 2565.0,
+    "area_nao_computavel_m2": 2564.76,
     "area_privativa_m2": 4530.0,
     "area_acima_ca_basico_m2": 2410.85,
-    "area_garagem_m2": 2025.0,
+    "area_garagem_m2": 2024.76,
     "vagas": 75,
-    "area_permeavel_m2": 566.75,
+    "area_permeavel_m2": 566.83,
     "ca_usado": 3.499,
     "to_usada": 0.144,
     "pavimentos": 27,
@@ -2546,13 +2546,21 @@
    ]
   }
  ],
+ "opcoes_ausentes": [],
+ "criterio_escolha": {
+  "ordem": [
+   "unidades_estimadas desc",
+   "area_privativa_m2 desc"
+  ],
+  "texto": "Mais unidades; empate: maior área privativa. Comparação entre candidatos da heurística, sem prova de ótimo global."
+ },
  "incertezas": [
   "Terreno na zona SC-Z2: NÃO conferido (lida à mão no anexo em PDF). Confirmar a zona do lote antes de usar o estudo.",
   "Testada de 8.4 m abaixo do mínimo da zona (10 m): o estudo não diz se o lote é edificável.",
   "A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.",
   "Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).",
   "Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.",
-  "Parede cega (sem janela) encosta na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
+  "Parede cega (sem janela) pode encostar na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
   "Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.",
   "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",

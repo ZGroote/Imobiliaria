@@ -76,7 +76,7 @@ Parâmetro que a lei não define: `null`. Parâmetro que não achamos: ausente +
 
 ```json
 {
-  "versao_motor": "0.1.0",
+  "versao_motor": "0.8.0",
   "lote": { "...": "o objeto Lote acima" },
   "zona": { "...": "o objeto Zona acima" },
   "premissas": {
@@ -105,7 +105,9 @@ Parâmetro que a lei não define: `null`. Parâmetro que não achamos: ausente +
       "alertas": ["texto de cada regra violada ou no limite"]
     }
   ],
-  "incertezas": ["dado que faltou ou é estimativa"]
+  "incertezas": ["dado que faltou ou é estimativa"],
+  "opcoes_ausentes": [{"id": "C", "nome": "Lâmina baixa", "motivo": "busca_inconclusiva", "detalhe": "Descrição específica da tentativa e dos limites"}],
+  "criterio_escolha": {"ordem": ["unidades_estimadas desc", "area_privativa_m2 desc"], "texto": "Mais unidades; empate: maior área privativa. Comparação entre candidatos da heurística, sem prova de ótimo global."}
 }
 ```
 
@@ -128,3 +130,11 @@ v3 (14/11, a partir de `lei/FONTES.md`):
 - **De onde veio a zona do lote** (v4): o Lote traz `zona_origem` = `"oficial"` (mapa digital oficial), `"anotada_a_mao"` (lida no anexo em PDF) ou `"teste"` (escolhida só pra testar), e `zona_conferida` (true/false). `zona.conferido` diz se os NÚMEROS da zona foram conferidos na lei. É outra coisa. O aviso da página tem que separar os dois: "números da zona conferidos" ≠ "o terreno está nessa zona".
 - **Não computável:** garagem, escada, elevador/shaft, casa de máquinas, reservatório, lixo e área técnica não contam no CA nem na TO (COE art. 51). Varanda conta até prova em contrário.
 - **Acesso a dado público:** só o que a fonte oferece abertamente. Nada de forçar parâmetro de URL, burlar bloqueio ou contornar login.
+
+v5 (15/11, motor 0.8.0; aditivo, estudos v4 continuam válidos):
+
+- `opcoes_ausentes` e `criterio_escolha` são opcionais para os leitores. O motor 0.8.0 sempre os emite; a lista de ausentes pode ser vazia. Cada ausência mantém também sua frase em `incertezas` para leitores v4.
+- `opcoes_ausentes[].motivo`: `impossivel` exige limite numérico que prove a impossibilidade sob as hipóteses; `busca_inconclusiva` significa que a heurística não achou; `dados_insuficientes` identifica parâmetro ausente durante a geração; `erro` identifica exceção capturada na geração da opção. `detalhe` informa a causa específica. Entradas inválidas antes da busca continuam podendo interromper o estudo.
+- `criterio_escolha.ordem` reproduz `_chave`: unidades decrescentes, depois área privativa decrescente. Não há pavimentos em `_chave`; a busca percorre alturas crescentes e aceita empate de privativa até 0,01 m². Entre variantes D com a mesma chave, desempata pela maior área computável. Não é prova de ótimo global.
+- Garagem e permeabilidade são medidas sobre os polígonos finais exportados. O arredondamento a 1 cm pode deixar a área da garagem ligeiramente diferente de vagas × área por vaga.
+- `parede_cega` indica uso da isenção de recuo no embasamento; pode haver afastamento da divisa. Os recuos dessa base são a distância mínima medida até o contorno, não uma promessa de contato.

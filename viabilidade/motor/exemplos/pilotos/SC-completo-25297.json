@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.7.1",
+ "versao_motor": "0.8.0",
  "lote": {
   "id": "SC-completo-25297",
   "lid": null,
@@ -499,14 +499,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 598.29,
+    "area_construida_m2": 598.3,
     "area_computavel_m2": 410.29,
-    "area_nao_computavel_m2": 188.0,
+    "area_nao_computavel_m2": 188.01,
     "area_privativa_m2": 330.29,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 108.0,
+    "area_garagem_m2": 108.01,
     "vagas": 4,
-    "area_permeavel_m2": 200.28,
+    "area_permeavel_m2": 200.29,
     "ca_usado": 1.256,
     "to_usada": 0.314,
     "pavimentos": 4,
@@ -518,19 +518,46 @@
    ]
   }
  ],
+ "opcoes_ausentes": [
+  {
+   "id": "A",
+   "nome": "Torre única",
+   "motivo": "busca_inconclusiva",
+   "detalhe": "Torre quadrada tentada com 3.58 m² no pavimento 13, abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.0280726490289 m², laje mínima 80 m²"
+  },
+  {
+   "id": "B",
+   "nome": "Duas torres",
+   "motivo": "impossivel",
+   "detalhe": "Área disponível de no máximo 73.31 m² por laje, abaixo da laje mínima de 80 m²"
+  },
+  {
+   "id": "D",
+   "nome": "Embasamento + torre",
+   "motivo": "busca_inconclusiva",
+   "detalhe": "Torre sobre embasamento de 2 pavimento(s): laje de 1.30 m², abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.0280726490289 m², laje mínima 80 m²"
+  }
+ ],
+ "criterio_escolha": {
+  "ordem": [
+   "unidades_estimadas desc",
+   "area_privativa_m2 desc"
+  ],
+  "texto": "Mais unidades; empate: maior área privativa. Comparação entre candidatos da heurística, sem prova de ótimo global."
+ },
  "incertezas": [
   "Terreno na zona SC-Z1: NÃO conferido (lida à mão no anexo em PDF). Confirmar a zona do lote antes de usar o estudo.",
   "A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.",
   "Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).",
   "Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.",
-  "Parede cega (sem janela) encosta na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
+  "Parede cega (sem janela) pode encostar na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
   "Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.",
   "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
   "Relevo ignorado: volumes assentados em terreno plano, z=0.",
   "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_max_projeto, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.",
-  "Opção A (Torre única) não coube: laje abaixo do mínimo, ou nenhuma laje que caiba dá 1 apartamento por andar.",
-  "Opção B (Duas torres) não coube: cada torre ficaria abaixo da laje mínima, ou sem apartamento por andar.",
-  "Opção D (Embasamento + torre) não coube: a torre não ficou menor que a base, a base passou do limite ou a torre não dá apartamento."
+  "Opção A (Torre única) não coube: busca_inconclusiva: Torre quadrada tentada com 3.58 m² no pavimento 13, abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.0280726490289 m², laje mínima 80 m².",
+  "Opção B (Duas torres) não coube: impossivel: Área disponível de no máximo 73.31 m² por laje, abaixo da laje mínima de 80 m².",
+  "Opção D (Embasamento + torre) não coube: busca_inconclusiva: Torre sobre embasamento de 2 pavimento(s): laje de 1.30 m², abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.0280726490289 m², laje mínima 80 m²."
  ]
 }

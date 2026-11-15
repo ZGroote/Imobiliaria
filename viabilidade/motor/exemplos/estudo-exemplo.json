@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.7.1",
+ "versao_motor": "0.8.0",
  "lote": {
   "id": "SC-quadra1560-lid35038-35042",
   "lid": 35038,
@@ -583,14 +583,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 4673.76,
+    "area_construida_m2": 4674.98,
     "area_computavel_m2": 3158.76,
-    "area_nao_computavel_m2": 1515.0,
+    "area_nao_computavel_m2": 1516.21,
     "area_privativa_m2": 2767.01,
     "area_acima_ca_basico_m2": 120.76,
-    "area_garagem_m2": 1215.0,
+    "area_garagem_m2": 1216.21,
     "vagas": 45,
-    "area_permeavel_m2": 855.11,
+    "area_permeavel_m2": 854.57,
     "ca_usado": 2.08,
     "to_usada": 0.139,
     "pavimentos": 15,
@@ -708,14 +708,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 7732.34,
+    "area_construida_m2": 7731.16,
     "area_computavel_m2": 5308.34,
-    "area_nao_computavel_m2": 2424.0,
+    "area_nao_computavel_m2": 2422.82,
     "area_privativa_m2": 4630.67,
     "area_acima_ca_basico_m2": 2270.34,
-    "area_garagem_m2": 1944.0,
+    "area_garagem_m2": 1942.82,
     "vagas": 72,
-    "area_permeavel_m2": 527.25,
+    "area_permeavel_m2": 527.71,
     "ca_usado": 3.495,
     "to_usada": 0.291,
     "pavimentos": 12,
@@ -808,12 +808,12 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 5807.6,
+    "area_construida_m2": 5806.84,
     "area_computavel_m2": 4215.6,
-    "area_nao_computavel_m2": 1592.0,
+    "area_nao_computavel_m2": 1591.25,
     "area_privativa_m2": 3436.48,
     "area_acima_ca_basico_m2": 1177.6,
-    "area_garagem_m2": 1512.0,
+    "area_garagem_m2": 1511.25,
     "vagas": 56,
     "area_permeavel_m2": 445.1,
     "ca_usado": 2.775,
@@ -910,14 +910,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 5265.99,
+    "area_construida_m2": 5266.06,
     "area_computavel_m2": 3912.99,
-    "area_nao_computavel_m2": 1353.0,
+    "area_nao_computavel_m2": 1353.07,
     "area_privativa_m2": 2398.08,
     "area_acima_ca_basico_m2": 874.99,
-    "area_garagem_m2": 1053.0,
+    "area_garagem_m2": 1053.07,
     "vagas": 39,
-    "area_permeavel_m2": 447.27,
+    "area_permeavel_m2": 447.22,
     "ca_usado": 2.576,
     "to_usada": 0.387,
     "pavimentos": 15,
@@ -930,12 +930,20 @@
    ]
   }
  ],
+ "opcoes_ausentes": [],
+ "criterio_escolha": {
+  "ordem": [
+   "unidades_estimadas desc",
+   "area_privativa_m2 desc"
+  ],
+  "texto": "Mais unidades; empate: maior área privativa. Comparação entre candidatos da heurística, sem prova de ótimo global."
+ },
  "incertezas": [
   "Terreno na zona SC-Z2: NÃO conferido (escolhida só pra testar). Confirmar a zona do lote antes de usar o estudo.",
   "A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.",
   "Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).",
   "Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.",
-  "Parede cega (sem janela) encosta na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
+  "Parede cega (sem janela) pode encostar na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
   "Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.",
   "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",

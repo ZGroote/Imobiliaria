@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.7.1",
+ "versao_motor": "0.8.0",
  "lote": {
   "id": "SC-completo-q1382-11984-11988",
   "lid": null,
@@ -2276,14 +2276,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 8650.66,
+    "area_construida_m2": 8650.98,
     "area_computavel_m2": 5962.66,
-    "area_nao_computavel_m2": 2688.0,
+    "area_nao_computavel_m2": 2688.32,
     "area_privativa_m2": 5106.13,
     "area_acima_ca_basico_m2": 2764.44,
-    "area_garagem_m2": 2268.0,
+    "area_garagem_m2": 2268.32,
     "vagas": 84,
-    "area_permeavel_m2": 452.98,
+    "area_permeavel_m2": 452.87,
     "ca_usado": 3.729,
     "to_usada": 0.178,
     "pavimentos": 21,
@@ -2618,14 +2618,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 7380.62,
+    "area_construida_m2": 7380.43,
     "area_computavel_m2": 4864.62,
-    "area_nao_computavel_m2": 2516.0,
+    "area_nao_computavel_m2": 2515.82,
     "area_privativa_m2": 4184.62,
     "area_acima_ca_basico_m2": 1666.4,
-    "area_garagem_m2": 1836.0,
+    "area_garagem_m2": 1835.82,
     "vagas": 68,
-    "area_permeavel_m2": 656.18,
+    "area_permeavel_m2": 656.26,
     "ca_usado": 3.042,
     "to_usada": 0.179,
     "pavimentos": 17,
@@ -2802,14 +2802,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 3498.32,
+    "area_construida_m2": 3498.37,
     "area_computavel_m2": 2554.32,
-    "area_nao_computavel_m2": 944.0,
+    "area_nao_computavel_m2": 944.05,
     "area_privativa_m2": 2107.46,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 864.0,
+    "area_garagem_m2": 864.05,
     "vagas": 32,
-    "area_permeavel_m2": 638.45,
+    "area_permeavel_m2": 638.51,
     "ca_usado": 1.597,
     "to_usada": 0.399,
     "pavimentos": 4,
@@ -3143,14 +3143,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 8779.68,
+    "area_construida_m2": 8779.5,
     "area_computavel_m2": 6307.68,
-    "area_nao_computavel_m2": 2472.0,
+    "area_nao_computavel_m2": 2471.83,
     "area_privativa_m2": 4619.83,
     "area_acima_ca_basico_m2": 3109.46,
-    "area_garagem_m2": 2052.0,
+    "area_garagem_m2": 2051.83,
     "vagas": 76,
-    "area_permeavel_m2": 535.37,
+    "area_permeavel_m2": 535.48,
     "ca_usado": 3.944,
     "to_usada": 0.285,
     "pavimentos": 21,
@@ -3165,13 +3165,21 @@
    ]
   }
  ],
+ "opcoes_ausentes": [],
+ "criterio_escolha": {
+  "ordem": [
+   "unidades_estimadas desc",
+   "area_privativa_m2 desc"
+  ],
+  "texto": "Mais unidades; empate: maior área privativa. Comparação entre candidatos da heurística, sem prova de ótimo global."
+ },
  "incertezas": [
   "Terreno na zona SC-EIXO: NÃO conferido (lida à mão no anexo em PDF). Confirmar a zona do lote antes de usar o estudo.",
   "A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.",
   "Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).",
   "Área especial gabarito_aeronautico sem número de altura: não aplicada (Lei 18.053/2016, arts. 105 a 107, Anexo 07, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf).",
   "Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.",
-  "Parede cega (sem janela) encosta na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
+  "Parede cega (sem janela) pode encostar na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
   "Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.",
   "Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.",
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
