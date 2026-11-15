@@ -166,6 +166,8 @@
 ## (e) Decretos com link quebrado (`BLOQUEIOS.md`) e fontes inacessíveis
 
 ### P23 — Decretos vinculados ao Plano Diretor (`580/2019`, `471/2024`, `199/2025`, `412/2025`, `413/2025`, `792/2025`)
+> **Respondida em 15/11 por fonte oficial** (`viabilidade/lei/DECRETOS-P23.md`): os 6 decretos tratam só das comissões e do processo de revisão do Plano Diretor e não mudam índice, recuo, gabarito ou zona. Os textos foram lidos no portal de leis, e os links e os números foram conferidos pela central. **Não precisa ser discutida na reunião.** Isso não dispensa conferir outras normas aplicáveis nem a versão vigente dos parâmetros (P12).
+
 - **Assumido hoje:** Os parâmetros do sistema ignoram esses 6 decretos listados na ficha da Lei nº 18.053/2016, porque seus links publicados pelo portal apontam para código vazio (`lei=1_`).
 - **Fonte:** Ficha da Lei nº 18.053/2016 ([`1_2257`](https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257) — testado em 15/11: abre); links quebrados (`lei=1_`) documentados em `viabilidade/BLOQUEIOS.md`; `viabilidade/lei/FONTES.md`.
 - **Por que há dúvida:** Os 6 decretos aparecem vinculados à Lei do Plano Diretor sem que o link direto abra o texto da norma. Sem lê-los em fonte oficial consolidada, não dá para descartar com 100% de certeza se algum deles regulamenta ou suspende índice construtivo (ou se tratam apenas das comissões da revisão do PD citada em `FONTES.md`).
