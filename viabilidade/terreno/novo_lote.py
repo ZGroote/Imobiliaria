@@ -2,6 +2,7 @@
 
 python -I -X utf8 viabilidade/terreno/novo_lote.py --base completo --indices 30516 --zona SC-Z4 --saida lote.json
 python -I -X utf8 viabilidade/terreno/novo_lote.py --base completo --indices 19 --zona auto --saida lote.json
+python -I -X utf8 viabilidade/terreno/novo_lote.py --base completo --ponto "-22.0123, -47.8901" --listar-vizinhos
 python -I -X utf8 viabilidade/terreno/novo_lote.py --testar
 
 Índices começam em zero. Coordenadas: seis casas; área: três, como os pilotos.
@@ -11,6 +12,7 @@ LID, categoria, anotação de zoneamento e metadados manuais dos pilotos são om
 import argparse
 import json
 from pathlib import Path
+import re
 import sys
 import tempfile
 
@@ -21,6 +23,23 @@ import gerar_lotes as gl
 import preparar_relevo as relevo
 
 BASES = {"completo": gl.BASES[1], "antigo": gl.BASES[0]}
+
+
+def ler_ponto(texto):
+    """Texto lat, lon em WGS84 → ponto em EPSG:31983, dentro do recorte do projeto."""
+    numero = r"[+-]?\d+(?:\.\d+)?"
+    if not re.fullmatch(rf"\s*{numero}\s*,\s*{numero}\s*", texto):
+        raise ValueError('Ponto inválido: use "latitude, longitude", com ponto decimal, como "-22.0123, -47.8901"; não use vírgula decimal')
+    lat, lon = map(float, texto.split(","))
+    oeste, sul, leste, norte = gl.CONFIG["bbox"]
+    if oeste <= lat <= leste and sul <= lon <= norte:
+        raise ValueError('Coordenadas invertidas (longitude, latitude): use "latitude, longitude"')
+    if not (-90 <= lat <= 90 and -180 <= lon <= 180):
+        raise ValueError("Coordenadas inválidas: latitude entre -90 e 90, longitude entre -180 e 180")
+    # shortcut: recorte local, não limite municipal; substituir quando houver polígono oficial no projeto.
+    if not (oeste <= lon <= leste and sul <= lat <= norte):
+        raise ValueError("Ponto fora da área de São Carlos coberta pelo projeto (recorte de dados, não limite municipal)")
+    return gl.Point(gl.UTM.transform(lon, lat))
 
 
 def validar_zona(zona, *, permitir_auto=False):
@@ -80,6 +99,32 @@ class Cadastro:
         lon, lat = gl.GEO.transform(x, y)
         col, lin = ~self.transform * (lon, lat)
         return relevo.bilinear(self.matriz, col - 0.5, lin - 0.5)
+
+    def localizar(self, ponto):
+        """Encontra um único interior; divisas, sobreposições e lacunas exigem escolha explícita."""
+        contatos = sorted(map(int, self.tree.query(ponto, predicate="intersects")))
+        invalidos = [i for i in contatos if not self.geos[i].is_valid]
+        if invalidos:
+            raise ValueError(f"Ponto em geometria inválida na base {self.base}: índices {invalidos}; conferir antes de usar --indices")
+        dentro = sorted(map(int, self.tree.query(ponto, predicate="within")))
+        if len(contatos) > 1 and dentro:
+            raise ValueError(f"Sobreposição/divisa na base {self.base}: índices {contatos}; "
+                             f"contêm o ponto no interior: {dentro}. Confira e informe --indices; nenhuma feição escolhida")
+        if len(dentro) == 1:
+            return dentro[0]
+        distancias = gl.sh.distance(self.geos, ponto)
+        indices = gl.np.lexsort((gl.np.arange(len(self.geos)), distancias))[:3]
+        proximas = "; ".join(f"índice {i}: {distancias[i]:.3f} m" for i in indices)
+        raise ValueError(f"Nenhuma feição contém o ponto no interior na base {self.base} (rua, lacuna ou divisa). "
+                         f"As 3 mais próximas, distância ao polígono: {proximas}. Confira e informe --indices; nenhuma feição escolhida")
+
+    def listar_vizinhos(self, indice):
+        vizinhos = sorted(map(int, self.tree.query(self.geos[indice], predicate="touches")))
+        print(f"Base {self.base}; índices começam em zero. Contato não comprova aptidão para remembramento.")
+        for i in [indice, *vizinhos]:
+            print(f"{'Feição achada' if i == indice else 'Vizinha'}: índice {i}; área {self.geos[i].area:.3f} m²")
+        if not vizinhos:
+            print("Nenhuma vizinha encosta na feição.")
 
     def motivo_recusa(self, g, indice, geos, tree):
         # avaliar() não expõe o motivo; diagnosticamos seus filtros sem repetir a seleção de frente.
@@ -168,22 +213,43 @@ def gravar(saida, lote):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base", choices=BASES)
-    parser.add_argument("--indices", type=int, nargs="+")
+    selecao = parser.add_mutually_exclusive_group()
+    selecao.add_argument("--indices", type=int, nargs="+")
+    selecao.add_argument("--ponto", help='Latitude, longitude (WGS84), com ponto decimal')
+    parser.add_argument("--listar-vizinhos", action="store_true", help="Só lista a feição e os contatos; exige --ponto")
     parser.add_argument("--zona")
     parser.add_argument("--saida", type=Path)
     parser.add_argument("--testar", action="store_true")
-    args = parser.parse_args()
+    argv = sys.argv[1:]
+    # argparse confunde coordenada negativa sem espaço com uma opção.
+    if "--ponto" in argv:
+        i = argv.index("--ponto")
+        if i + 1 < len(argv) and not argv[i+1].startswith("--"):
+            argv[i:i+2] = [f"--ponto={argv[i+1]}"]
+    args = parser.parse_args(argv)
     if args.testar:
-        if any((args.base, args.indices, args.zona, args.saida)):
+        if any((args.base, args.indices, args.ponto, args.listar_vizinhos, args.zona, args.saida)):
             parser.error("--testar não aceita argumentos de geração")
         from test_novo_lote import testar
         testar()
         return
-    if any(x is None for x in (args.base, args.indices, args.zona, args.saida)):
-        parser.error("Geração exige --base, --indices, --zona e --saida")
+    if args.base is None or (args.indices is None and args.ponto is None):
+        parser.error("Exige --base e uma seleção: --indices ou --ponto")
+    if args.listar_vizinhos:
+        if args.ponto is None or args.zona is not None or args.saida is not None:
+            parser.error("--listar-vizinhos exige --ponto e não usa --zona nem --saida")
+    elif args.zona is None or args.saida is None:
+        parser.error("Geração exige --zona e --saida; para apenas consultar use --ponto com --listar-vizinhos")
     try:
-        validar_zona(args.zona, permitir_auto=True)
-        lote = Cadastro(args.base).gerar(args.indices, args.zona)
+        ponto = ler_ponto(args.ponto) if args.ponto is not None else None
+        if not args.listar_vizinhos:
+            validar_zona(args.zona, permitir_auto=True)
+        cadastro = Cadastro(args.base)
+        indices = [cadastro.localizar(ponto)] if ponto is not None else args.indices
+        if args.listar_vizinhos:
+            cadastro.listar_vizinhos(indices[0])
+            return
+        lote = cadastro.gerar(indices, args.zona)
         gravar(args.saida, lote)
     except (ValueError, OSError, gl.sh.errors.GEOSException) as erro:
         parser.exit(2, f"Erro: {erro}\n")
