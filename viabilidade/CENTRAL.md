@@ -6,14 +6,14 @@ Atualizado: 14/11/2026, ~13h. Galho `feat/viabilidade` (worktree `Desktop/imobil
 
 | IA | Modelo / conta | Situação |
 |---|---|---|
-| Lei | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
+| Lei | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
 | Terreno | Codex Astra high / trabalho | Livre. TAREFA-2 entregue e commitada (7 pilotos, v4) |
 | Motor | Claude **Sonnet** high / jaogroote | **Parado** (fase 0 fechada). TAREFA-7 commitada. Limitações conhecidas: recuo assimétrico + permeabilidade apertada; garagem_computavel=True |
 | Visual | Codex **Luna** medium / trabalho (18% da semana) | Livre. TAREFA-3 commitada (botão do relatório, menos de 4 opções) |
-| Produto | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 |
-| Conferencia | Antigravity (Gemini 4 Argon) | Livre. Trocada do Claude em 14/11 |
-| Relatorio | Antigravity (Gemini), **cópia isolada** `Desktop/imobiliaria-viabilidade-gemini`, galho `exp/viabilidade-gemini` | Livre. Relatório HTML entregue, revisado (print) e trazido pro principal em `viabilidade/relatorio/`. Próximas tarefas experimentais vão pra lá |
-| Auditor | Antigravity | Cota do Argon esgotada (14/11, ~158 h). TAREFA-5 entregue sem RELATORIO-5; matriz corrigida pela central em VERIFICACAO-1A.md |
+| Produto | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 |
+| Conferencia | Antigravity (Claude Sonnet 5.5, alto) | Livre. Trocada do Claude em 14/11 |
+| Relatorio | Antigravity (Claude Sonnet 5.5, médio), **cópia isolada** `Desktop/imobiliaria-viabilidade-gemini`, galho `exp/viabilidade-gemini` | Livre. Relatório HTML entregue, revisado (print) e trazido pro principal em `viabilidade/relatorio/`. Próximas tarefas experimentais vão pra lá |
+| Auditor | Antigravity (Claude Sonnet 5.5, alto) | Livre. TAREFA-5 entregue sem RELATORIO-5; matriz corrigida pela central em VERIFICACAO-1A.md |
 
 Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota Gemini/Claude/GPT dele); programação em Claude/Codex; central no Opus. Antigravity não assina commit: só escreve na pasta dele e a central commita. Ajudantes (subagentes) só quando houver partes separadas. Esforço (usuário, 14/11): **médio** no simples (ajuste de tela, pesquisa curta, tarefa bem definida); **alto** no Motor, Auditor, Conferência e em investigação de defeito.
 
@@ -40,6 +40,8 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 - **Repo público:** o usuário decidiu (14/11) manter público. Commit + push a cada entrega.
 
 ## Armadilhas já vistas
+
+- Antigravity: cota do Gemini 4 Argon esgotou em 14/11 (volta em ~158 h). As 5 IAs dele foram para Claude Sonnet 5.5 (`/model`, ↓5, ←/→ esforço, Enter; no Git Bash usar `MSYS_NO_PATHCONV=1`). Outras opções na lista: Gemini 4 Hydrogen/Carbon, Gemini 3.8 Flash, Claude Opus 5.5, GPT-OSS 120B.
 
 - O sandbox do Codex não abre o Chrome: o teste do Visual (`testar.cjs`) é rodado pela central, com `python -I -m http.server 8787 --bind 127.0.0.1` na worktree e `VISUAL_URL=http://127.0.0.1:8787/viabilidade/visual/`.
 
