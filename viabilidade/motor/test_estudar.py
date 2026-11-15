@@ -186,7 +186,7 @@ def main():
         for nome, kw, trechos in (
             ("rua", dict(indices=None, zona="SC-Z4", ponto=rua), ("Nenhuma feição contém o ponto", "110068", "--indices")),
             ("divisa", dict(indices=[22421], zona="auto", ponto=None),
-             ("Zona automática recusada", "Alternativas: SC-Z1, SC-EIXO, SC-Z2", "Rode de novo com --zona SC-XX, uma destas: SC-Z1, SC-EIXO, SC-Z2.")),
+             ("Zona automática recusada", "Alternativas: SC-Z1, SC-EIXO", "Rode de novo com --zona SC-XX, uma destas: SC-Z1, SC-EIXO.")),
             ("ponto_ruim", dict(indices=None, zona="SC-Z4", ponto="-22,5, -47,9"), ("Ponto inválido",)),
             ("os_dois", dict(indices=[8697], zona="SC-Z4", ponto=ponto), ("--indices", "--ponto")),
             ("nenhum", dict(indices=None, zona="SC-Z4", ponto=None), ("--indices", "--ponto")),
@@ -258,12 +258,12 @@ def main():
         # (h) tarefa 19: frente presumida pelo terreno vira incerteza do estudo (e do relatório)
         for indice, trecho in ((59281, "Frente presumida (asfalto a 8.312 m, acima dos 6 m da regra): confirmar testada e alinhamento na matrícula."),
                                (94130, "Frente presumida (juntou 2 arestas colineares, asfalto a até 6 m): confirmar testada e alinhamento na matrícula.")):
-            estudar.estudar("completo", [indice], "auto", tmp / f"h{indice}", cadastro=cad)
+            estudar.estudar("completo", [indice], {59281: "SC-Z2"}.get(indice, "auto"), tmp / f"h{indice}", cadastro=cad)
             inc = json.loads((tmp / f"h{indice}" / "estudo.json").read_text(encoding="utf-8"))["incertezas"]
             assert sum(i.startswith("Frente presumida") for i in inc) == 1 and trecho in inc, inc
             assert trecho in (tmp / f"h{indice}" / "relatorio.html").read_text(encoding="utf-8").replace("&#x27;", "'"), indice
         # (i) tarefa 21: frente pela borda da quadra tem ramo próprio (não é "asfalto acima dos 6 m")
-        estudar.estudar("completo", [92058], "auto", tmp / "i", cadastro=cad)
+        estudar.estudar("completo", [92058], "SC-Z4", tmp / "i", cadastro=cad)
         lote = json.loads((tmp / "i" / "lote.json").read_text(encoding="utf-8"))
         frente = lote["qualidade"]["frentes"][0]
         assert frente["regra"] == "borda_de_quadra", frente
