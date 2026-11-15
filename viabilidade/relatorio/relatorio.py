@@ -22,6 +22,7 @@ Regras atendidas:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html
 import json
 import math
@@ -1379,6 +1380,15 @@ body {
   background: #e2e8f0;
   padding: 12px 0;
 }
+.aviso-volume {
+  padding: 7px;
+  margin: 4px 0;
+  border: 1.5px solid #92400e;
+  background: #fffbeb;
+  color: #451a03;
+  font-weight: 700;
+}
+.revisao-estudo { flex-basis: 100%; font-size: 8pt; font-weight: 700; text-align: right; }
 .pagina {
   width: 210mm;
   min-height: 281mm;
@@ -1411,6 +1421,7 @@ body {
 }
 .cabecalho-pagina {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
   border-bottom: 2px solid #0f172a;
@@ -1775,21 +1786,37 @@ code {
 """
 
 
-def gerar_html(estudo: Dict[str, Any]) -> str:
+def gerar_html(estudo: Dict[str, Any], estudo_sha256: Optional[str] = None) -> str:
     """Gera a string HTML completa (capa + uma página A4 por opção) a partir do dict do estudo."""
     lote = estudo.get("lote") or {}
     opcoes = estudo.get("opcoes") or []
     titulo_doc = f"Relatório de Viabilidade — {lote.get('id', 'Estudo')}"
 
+    if estudo_sha256 is None:
+        estudo_sha256 = hashlib.sha256(json.dumps(estudo, ensure_ascii=False).encode("utf-8")).hexdigest()
+    revisao = f"rev {estudo_sha256[:12]} · motor {estudo.get('versao_motor') or 'não informado'}"
+    aviso_volume = (
+        '<p class="aviso-volume">Volumes hipotéticos de potencial construtivo. '
+        'Não são o projeto nem a fachada do edifício e não indicam aprovação.</p>'
+    )
     paginas_html = [_gerar_capa_comparacao(estudo)]
     for op in opcoes:
         paginas_html.append(_gerar_pagina_opcao(estudo, op))
+
+    paginas_html = [
+        pagina.replace("</header>", f'<div class="revisao-estudo">{esc(revisao)}</div></header>')
+        .replace(esc(RODAPE_FIXO), esc(f"{RODAPE_FIXO} · {revisao}"))
+        .replace('<div class="grade-resumo-lote">', aviso_volume + '<div class="grade-resumo-lote">')
+        .replace('<div class="painel-desenhos">', aviso_volume + '<div class="painel-desenhos">')
+        for pagina in paginas_html
+    ]
 
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="estudo-sha256" content="{estudo_sha256}"/>
   <title>{esc(titulo_doc)}</title>
   <style>{CSS_ESTILOS}</style>
 </head>
@@ -1804,9 +1831,9 @@ def gerar_relatorio(caminho_estudo: Path | str, caminho_saida: Path | str) -> Pa
     """Lê o arquivo JSON de estudo e grava o relatório HTML correspondente."""
     p_in = Path(caminho_estudo)
     p_out = Path(caminho_saida)
-    with p_in.open("r", encoding="utf-8") as f:
-        estudo = json.load(f)
-    conteudo_html = gerar_html(estudo)
+    bytes_estudo = p_in.read_bytes()
+    estudo = json.loads(bytes_estudo)
+    conteudo_html = gerar_html(estudo, hashlib.sha256(bytes_estudo).hexdigest())
     p_out.parent.mkdir(parents=True, exist_ok=True)
     with p_out.open("w", encoding="utf-8") as f:
         f.write(conteudo_html)

@@ -1,6 +1,7 @@
 // Servidor (na raiz do repositório): python -m http.server 8765 --bind 127.0.0.1
 // Teste: node viabilidade/visual/testar.cjs
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const runtimeModules = 'C:/Users/respawn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules';
@@ -17,6 +18,8 @@ const { PNG } = load('playwright-core/lib/utilsBundle');
 const url = process.env.VISUAL_URL || 'http://127.0.0.1:8765/viabilidade/visual/';
 const output = path.join(__dirname, 'evidencias');
 const example = JSON.parse(fs.readFileSync(path.join(__dirname, '../motor/exemplos/estudo-exemplo.json'), 'utf8'));
+const exampleBytes = fs.readFileSync(path.join(__dirname, '../motor/exemplos/estudo-exemplo.json'));
+const revision = sha => `rev ${sha.slice(0, 12)} · motor ${example.versao_motor || 'não informado'}`;
 
 function pixelDifference(first, second) {
   const a = PNG.sync.read(first), b = PNG.sync.read(second);
@@ -70,11 +73,25 @@ async function checkWidth(page) {
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
       await page.locator('canvas').first().waitFor();
       assert.equal(await page.locator('#relatorio').getAttribute('href'), '../relatorio/saida/estudo-exemplo.html');
+      const exampleSha = crypto.createHash('sha256').update(exampleBytes).digest('hex');
+      assert.equal(await page.locator('#revisao').innerText(), revision(exampleSha));
+      assert.equal(await page.locator('.volume-warning').innerText(), 'Volumes hipotéticos de potencial construtivo. Não são o projeto nem a fachada do edifício e não indicam aprovação.');
+      assert(await page.locator('.volume-warning').evaluate(node => node.getBoundingClientRect().bottom <= innerHeight),
+        `${profile}: o aviso da maquete precisa aparecer sem rolar a página.`);
+      if (!mobile) {
+        await page.route('**/relatorio/saida/estudo-exemplo.html', route => route.fulfill({
+          status: 200, contentType: 'text/html', body: '<meta name="estudo-sha256" content="revisao-antiga">',
+        }));
+        await page.locator('#relatorio').click();
+        await page.waitForFunction(() => document.querySelector('#erro').textContent.includes('Relatório desatualizado'));
+        await page.unroute('**/relatorio/saida/estudo-exemplo.html');
+      }
       if (!mobile) {
         const twoOptions = structuredClone(example);
         twoOptions.opcoes = [example.opcoes[0], example.opcoes.at(-1)];
         await upload(page, JSON.stringify(twoOptions), 'duas-opcoes.json');
         await page.waitForFunction(() => document.querySelector('#status').textContent.includes('duas-opcoes.json'));
+        assert.equal(await page.locator('#revisao').innerText(), revision(crypto.createHash('sha256').update(JSON.stringify(twoOptions)).digest('hex')));
         assert.equal(await page.locator('#opcoes button').count(), 3, 'Duas opções e o controle de comparação.');
         assert.equal(await page.getByRole('button', { name: 'Lado a lado' }).isDisabled(), false);
       }

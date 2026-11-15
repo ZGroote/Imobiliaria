@@ -11,7 +11,7 @@ ou via unittest:
 O que este teste faz:
 1. Gera os relatórios HTML dos 7 estudos de `viabilidade/motor/exemplos/pilotos/`
    e do estudo de exemplo (`viabilidade/motor/exemplos/estudo-exemplo.json`),
-   salvando em `viabilidade/relatorio/saida/`.
+   em uma pasta temporária dentro do projeto.
 2. Analisa o HTML gerado e confere todos os números visíveis no texto contra
    os valores exatos do JSON (lote, relevo, zona, caixa máxima, premissas,
    volumes e todas as 13 métricas de cada opção).
@@ -24,6 +24,7 @@ O que este teste faz:
 from __future__ import annotations
 
 from html.parser import HTMLParser
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -379,16 +380,8 @@ class TestRelatorioViabilidade(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        dir_preferido = DIR_RELATORIO / "saida"
-        try:
-            dir_preferido.mkdir(parents=True, exist_ok=True)
-            probe = dir_preferido / ".probe_write"
-            probe.write_text("ok", encoding="utf-8")
-            probe.unlink()
-            cls.dir_saida = dir_preferido
-        except PermissionError:
-            cls._tmpdir = tempfile.TemporaryDirectory(prefix="relatorio_viabilidade_")
-            cls.dir_saida = Path(cls._tmpdir.name)
+        cls._tmpdir = tempfile.TemporaryDirectory(prefix=".relatorio-teste-", dir=DIR_RELATORIO)
+        cls.dir_saida = Path(cls._tmpdir.name)
         cls.arquivos_pilotos = sorted(DIR_PILOTOS.glob("*.json"))
         cls.arquivo_exemplo = DIR_EXEMPLOS / "estudo-exemplo.json"
 
@@ -433,6 +426,12 @@ class TestRelatorioViabilidade(unittest.TestCase):
 
                 estudo_dict = json.loads(caminho_json.read_text(encoding="utf-8"))
                 html_gerado = caminho_html.read_text(encoding="utf-8")
+                sha = hashlib.sha256(caminho_json.read_bytes()).hexdigest()
+                revisao = f"rev {sha[:12]} · motor {estudo_dict.get('versao_motor') or 'não informado'}"
+                self.assertIn(f'<meta name="estudo-sha256" content="{sha}"/>', html_gerado)
+                self.assertEqual(html_gerado.count('class="revisao-estudo"'), 1 + len(estudo_dict.get("opcoes", [])))
+                self.assertEqual(html_gerado.count(revisao), 2 * (1 + len(estudo_dict.get("opcoes", []))))
+                self.assertEqual(html_gerado.count("Volumes hipotéticos de potencial construtivo."), 1 + len(estudo_dict.get("opcoes", [])))
                 validar_html_contra_json(html_gerado, estudo_dict)
 
     def test_falha_quando_numero_html_diverge_do_json(self) -> None:
