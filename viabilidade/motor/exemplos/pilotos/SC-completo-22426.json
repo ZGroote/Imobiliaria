@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.8.0",
+ "versao_motor": "0.8.1",
  "lote": {
   "id": "SC-completo-22426",
   "lid": null,
@@ -394,60 +394,60 @@
  "caixa_maxima": {
   "projecao_utm": [
    [
-    200563.98,
-    7562450.32
+    200563.9774,
+    7562450.3217
    ],
    [
-    200563.98,
-    7562444.71
+    200563.975,
+    7562444.7076
    ],
    [
-    200563.98,
-    7562443.21
+    200563.9752,
+    7562443.2076
    ],
    [
-    200565.19,
-    7562443.21
+    200565.1896,
+    7562443.207
    ],
    [
-    200565.95,
-    7562422.77
+    200565.9486,
+    7562422.7652
    ],
    [
-    200563.98,
-    7562422.76
+    200563.9757,
+    7562422.7648
    ],
    [
-    200563.98,
-    7562421.26
+    200563.9759,
+    7562421.2648
    ],
    [
-    200563.98,
-    7562413.98
+    200563.9772,
+    7562413.975
    ],
    [
-    200563.54,
-    7562413.97
+    200563.5424,
+    7562413.9744
    ],
    [
-    200563.54,
-    7562412.47
+    200563.5426,
+    7562412.4744
    ],
    [
-    200563.54,
-    7562411.06
+    200563.5445,
+    7562411.0608
    ],
    [
-    200556.92,
-    7562411.15
+    200556.9206,
+    7562411.1538
    ],
    [
-    200555.38,
-    7562452.25
+    200555.3818,
+    7562452.2542
    ],
    [
-    200558.9,
-    7562452.03
+    200558.8978,
+    7562452.0319
    ]
   ],
   "altura_m": 13.5,
@@ -463,60 +463,60 @@
     "recuo_fundos_m": 1.5,
     "projecao_utm": [
      [
-      200563.98,
-      7562450.32
+      200563.9774,
+      7562450.3217
      ],
      [
-      200563.98,
-      7562444.71
+      200563.975,
+      7562444.7076
      ],
      [
-      200563.98,
-      7562443.21
+      200563.9752,
+      7562443.2076
      ],
      [
-      200565.19,
-      7562443.21
+      200565.1896,
+      7562443.207
      ],
      [
-      200565.95,
-      7562422.77
+      200565.9486,
+      7562422.7652
      ],
      [
-      200563.98,
-      7562422.76
+      200563.9757,
+      7562422.7648
      ],
      [
-      200563.98,
-      7562421.26
+      200563.9759,
+      7562421.2648
      ],
      [
-      200563.98,
-      7562413.98
+      200563.9772,
+      7562413.975
      ],
      [
-      200563.54,
-      7562413.97
+      200563.5424,
+      7562413.9744
      ],
      [
-      200563.54,
-      7562412.47
+      200563.5426,
+      7562412.4744
      ],
      [
-      200563.54,
-      7562411.06
+      200563.5445,
+      7562411.0608
      ],
      [
-      200556.92,
-      7562411.15
+      200556.9206,
+      7562411.1538
      ],
      [
-      200555.38,
-      7562452.25
+      200555.3818,
+      7562452.2542
      ],
      [
-      200558.9,
-      7562452.03
+      200558.8978,
+      7562452.0319
      ]
     ]
    },
@@ -526,60 +526,60 @@
     "recuo_fundos_m": 2.0,
     "projecao_utm": [
      [
-      200563.98,
-      7562449.79
+      200563.9772,
+      7562449.7942
      ],
      [
-      200563.98,
-      7562444.71
+      200563.975,
+      7562444.7076
      ],
      [
-      200563.98,
-      7562442.71
+      200563.9752,
+      7562442.7076
      ],
      [
-      200565.21,
-      7562442.71
+      200565.2082,
+      7562442.707
      ],
      [
-      200565.93,
-      7562423.27
+      200565.9301,
+      7562423.2652
      ],
      [
-      200563.98,
-      7562423.26
+      200563.9756,
+      7562423.2648
      ],
      [
-      200563.98,
-      7562421.26
+      200563.9759,
+      7562421.2648
      ],
      [
-      200563.98,
-      7562414.48
+      200563.9771,
+      7562414.475
      ],
      [
-      200563.04,
-      7562414.47
+      200563.0423,
+      7562414.4737
      ],
      [
-      200563.04,
-      7562412.47
+      200563.0426,
+      7562412.4737
      ],
      [
-      200563.04,
-      7562411.57
+      200563.0438,
+      7562411.5679
      ],
      [
-      200557.4,
-      7562411.65
+      200557.4025,
+      7562411.6471
      ],
      [
-      200555.9,
-      7562451.72
+      200555.9021,
+      7562451.7203
      ],
      [
-      200558.8,
-      7562451.54
+      200558.8006,
+      7562451.5371
      ]
     ]
    }
@@ -587,60 +587,60 @@
   "parede_cega_ate_m": 12,
   "projecao_parede_cega_utm": [
    [
-    200559.19,
-    7562453.52
+    200559.1894,
+    7562453.5165
    ],
    [
-    200567.98,
-    7562450.56
+    200567.9776,
+    7562450.5576
    ],
    [
-    200563.98,
-    7562450.56
+    200563.9776,
+    7562450.5594
    ],
    [
-    200563.98,
-    7562444.71
+    200563.975,
+    7562444.7076
    ],
    [
-    200567.98,
-    7562444.71
+    200567.975,
+    7562444.7058
    ],
    [
-    200569.14,
-    7562444.71
+    200569.1367,
+    7562444.706
    ],
    [
-    200565.14,
-    7562444.56
+    200565.1395,
+    7562444.5575
    ],
    [
-    200566.0,
-    7562421.27
+    200566.0043,
+    7562421.2652
    ],
    [
-    200563.98,
-    7562421.26
+    200563.9759,
+    7562421.2648
    ],
    [
-    200563.98,
-    7562412.48
+    200563.9774,
+    7562412.4761
    ],
    [
-    200565.04,
-    7562412.48
+    200565.0426,
+    7562412.4763
    ],
    [
-    200565.05,
-    7562409.54
+    200565.0467,
+    7562409.5396
    ],
    [
-    200555.48,
-    7562409.67
+    200555.475,
+    7562409.6739
    ],
    [
-    200553.82,
-    7562453.86
+    200553.8207,
+    7562453.8558
    ]
   ]
  },
@@ -652,20 +652,20 @@
     {
      "base_utm": [
       [
-       200557.23,
-       7562416.22
+       200557.2311,
+       7562416.2246
       ],
       [
-       200563.98,
-       7562416.48
+       200563.9768,
+       7562416.475
       ],
       [
-       200562.72,
-       7562450.2
+       200562.7245,
+       7562450.2031
       ],
       [
-       200555.98,
-       7562449.95
+       200555.9789,
+       7562449.9526
       ]
      ],
      "z0_m": 0.0,
@@ -678,60 +678,60 @@
     {
      "base_utm": [
       [
-       200563.74,
-       7562450.15
+       200563.7401,
+       7562450.1512
       ],
       [
-       200563.74,
-       7562444.71
+       200563.7377,
+       7562444.7077
       ],
       [
-       200563.74,
-       7562442.97
+       200563.7379,
+       7562442.9704
       ],
       [
-       200564.96,
-       7562442.97
+       200564.961,
+       7562442.9698
       ],
       [
-       200565.7,
-       7562423.0
+       200565.7023,
+       7562423.0024
       ],
       [
-       200563.74,
-       7562423.0
+       200563.7384,
+       7562423.0021
       ],
       [
-       200563.74,
-       7562421.26
+       200563.7386,
+       7562421.2648
       ],
       [
-       200563.74,
-       7562414.21
+       200563.7398,
+       7562414.212
       ],
       [
-       200563.31,
-       7562414.21
+       200563.3051,
+       7562414.2114
       ],
       [
-       200563.31,
-       7562412.47
+       200563.3053,
+       7562412.4742
       ],
       [
-       200563.31,
-       7562411.3
+       200563.3069,
+       7562411.3015
       ],
       [
-       200557.15,
-       7562411.39
+       200557.1493,
+       7562411.3879
       ],
       [
-       200555.63,
-       7562452.0
+       200555.6287,
+       7562452.0008
       ],
       [
-       200558.85,
-       7562451.8
+       200558.8517,
+       7562451.7971
       ]
      ],
      "z0_m": -3.0,
@@ -741,14 +741,14 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 1235.15,
-    "area_computavel_m2": 831.18,
-    "area_nao_computavel_m2": 403.97,
-    "area_privativa_m2": 728.94,
+    "area_construida_m2": 1235.33,
+    "area_computavel_m2": 831.32,
+    "area_nao_computavel_m2": 404.0,
+    "area_privativa_m2": 729.06,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 323.97,
+    "area_garagem_m2": 324.0,
     "vagas": 12,
-    "area_permeavel_m2": 277.08,
+    "area_permeavel_m2": 277.05,
     "ca_usado": 1.381,
     "to_usada": 0.345,
     "pavimentos": 4,
@@ -766,19 +766,19 @@
    "id": "A",
    "nome": "Torre única",
    "motivo": "busca_inconclusiva",
-   "detalhe": "Torre quadrada tentada com 4.62 m² no pavimento 23, abaixo da laje mínima; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.443634946892 m², laje mínima 80 m²"
+   "detalhe": "Melhor pavimento tentado: 1 pavimento(s), 0 unidade(s), computável 69.47 m², permeável 512.34 m² (mínimo 90.27 m²), TO 0.12; nenhum ajuste viável encontrado; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.44 m², laje mínima 80.00 m²"
   },
   {
    "id": "B",
    "nome": "Duas torres",
    "motivo": "busca_inconclusiva",
-   "detalhe": "Par de torres com afastamento 6 m: laje encontrada de 0.78 m² por torre no pavimento 23; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.443634946892 m², laje mínima 80 m²"
+   "detalhe": "Par de torres com afastamento 6.00 m: laje encontrada de 68.03 m² por torre no pavimento 1; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.44 m², laje mínima 80.00 m²"
   },
   {
    "id": "D",
    "nome": "Embasamento + torre",
    "motivo": "busca_inconclusiva",
-   "detalhe": "Torre sobre embasamento de 2 pavimento(s): laje de 1.96 m², abaixo da laje mínima; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.443634946892 m², laje mínima 80 m²"
+   "detalhe": "Melhor pavimento tentado: 3 pavimento(s), 0 unidade(s), computável 376.25 m², permeável 423.82 m² (mínimo 90.27 m²), TO 0.26; nenhum ajuste viável encontrado; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.44 m², laje mínima 80.00 m²"
   }
  ],
  "criterio_escolha": {
@@ -800,8 +800,8 @@
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
   "Relevo ignorado: volumes assentados em terreno plano, z=0.",
   "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_max_projeto, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.",
-  "Opção A (Torre única) não coube: busca_inconclusiva: Torre quadrada tentada com 4.62 m² no pavimento 23, abaixo da laje mínima; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.443634946892 m², laje mínima 80 m².",
-  "Opção B (Duas torres) não coube: busca_inconclusiva: Par de torres com afastamento 6 m: laje encontrada de 0.78 m² por torre no pavimento 23; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.443634946892 m², laje mínima 80 m².",
-  "Opção D (Embasamento + torre) não coube: busca_inconclusiva: Torre sobre embasamento de 2 pavimento(s): laje de 1.96 m², abaixo da laje mínima; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.443634946892 m², laje mínima 80 m²."
+  "Opção A (Torre única) não coube: busca_inconclusiva: Melhor pavimento tentado: 1 pavimento(s), 0 unidade(s), computável 69.47 m², permeável 512.34 m² (mínimo 90.27 m²), TO 0.12; nenhum ajuste viável encontrado; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.44 m², laje mínima 80.00 m².",
+  "Opção B (Duas torres) não coube: busca_inconclusiva: Par de torres com afastamento 6.00 m: laje encontrada de 68.03 m² por torre no pavimento 1; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.44 m², laje mínima 80.00 m².",
+  "Opção D (Embasamento + torre) não coube: busca_inconclusiva: Melhor pavimento tentado: 3 pavimento(s), 0 unidade(s), computável 376.25 m², permeável 423.82 m² (mínimo 90.27 m²), TO 0.26; nenhum ajuste viável encontrado; busca de 1 a 23 pavimento(s) residencial(is), CA disponível 1805.44 m², laje mínima 80.00 m²."
  ]
 }

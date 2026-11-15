@@ -76,7 +76,7 @@ Parâmetro que a lei não define: `null`. Parâmetro que não achamos: ausente +
 
 ```json
 {
-  "versao_motor": "0.8.0",
+  "versao_motor": "0.8.1",
   "lote": { "...": "o objeto Lote acima" },
   "zona": { "...": "o objeto Zona acima" },
   "premissas": {
@@ -136,5 +136,6 @@ v5 (15/11, motor 0.8.0; aditivo, estudos v4 continuam válidos):
 - `opcoes_ausentes` e `criterio_escolha` são opcionais para os leitores. O motor 0.8.0 sempre os emite; a lista de ausentes pode ser vazia. Cada ausência mantém também sua frase em `incertezas` para leitores v4.
 - `opcoes_ausentes[].motivo`: `impossivel` exige limite numérico que prove a impossibilidade sob as hipóteses; `busca_inconclusiva` significa que a heurística não achou; `dados_insuficientes` identifica parâmetro ausente durante a geração; `erro` identifica exceção capturada na geração da opção. `detalhe` informa a causa específica. Entradas inválidas antes da busca continuam podendo interromper o estudo.
 - `criterio_escolha.ordem` reproduz `_chave`: unidades decrescentes, depois área privativa decrescente. Não há pavimentos em `_chave`; a busca percorre alturas crescentes e aceita empate de privativa até 0,01 m². Entre variantes D com a mesma chave, desempata pela maior área computável. Não é prova de ótimo global.
-- Garagem e permeabilidade são medidas sobre os polígonos finais exportados. O arredondamento a 1 cm pode deixar a área da garagem ligeiramente diferente de vagas × área por vaga.
+- Garagem e permeabilidade são medidas sobre os polígonos finais exportados. A partir da 0.8.1, vértices usam quatro casas decimais em metros para evitar perdas numéricas acumuladas por pavimento; isso não aumenta a precisão do levantamento. Se a geometria final não comportar todas as vagas previstas, o motor reduz a contagem e emite alerta de déficit.
 - `parede_cega` indica uso da isenção de recuo no embasamento; pode haver afastamento da divisa. Os recuos dessa base são a distância mínima medida até o contorno, não uma promessa de contato.
+- Na 0.8.1, as buscas com e sem envelope de permeabilidade concorrem pelo mesmo critério. `impossivel` usa limites legais independentes do envelope. Com garagem computável, concorrem o subsolo da caixa legal e o limitado à implantação do prédio: a meta `vagas_por_unidade` continua sendo informada, e déficits geométricos permanecem explícitos. Para um mesmo prédio viável, prefere-se a garagem com mais vagas; a escolha entre prédios continua priorizando unidades e área privativa.

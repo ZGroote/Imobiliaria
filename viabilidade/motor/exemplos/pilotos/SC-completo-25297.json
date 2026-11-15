@@ -1,5 +1,5 @@
 {
- "versao_motor": "0.8.0",
+ "versao_motor": "0.8.1",
  "lote": {
   "id": "SC-completo-25297",
   "lid": null,
@@ -332,20 +332,20 @@
  "caixa_maxima": {
   "projecao_utm": [
    [
-    201993.1,
-    7561467.77
+    201993.1018,
+    7561467.7709
    ],
    [
-    201998.55,
-    7561467.97
+    201998.5515,
+    7561467.9652
    ],
    [
-    201999.51,
-    7561441.02
+    201999.5085,
+    7561441.0176
    ],
    [
-    201994.06,
-    7561440.96
+    201994.058,
+    7561440.9595
    ]
   ],
   "altura_m": 13.5,
@@ -361,20 +361,20 @@
     "recuo_fundos_m": 1.5,
     "projecao_utm": [
      [
-      201993.1,
-      7561467.77
+      201993.1018,
+      7561467.7709
      ],
      [
-      201998.55,
-      7561467.97
+      201998.5515,
+      7561467.9652
      ],
      [
-      201999.51,
-      7561441.02
+      201999.5085,
+      7561441.0176
      ],
      [
-      201994.06,
-      7561440.96
+      201994.058,
+      7561440.9595
      ]
     ]
    },
@@ -384,20 +384,20 @@
     "recuo_fundos_m": 2.0,
     "projecao_utm": [
      [
-      201993.62,
-      7561467.29
+      201993.6193,
+      7561467.289
      ],
      [
-      201998.57,
-      7561467.47
+      201998.5693,
+      7561467.4655
      ],
      [
-      201999.49,
-      7561441.52
+      201999.4907,
+      7561441.5174
      ],
      [
-      201994.54,
-      7561441.46
+      201994.5403,
+      7561441.4647
      ]
     ]
    }
@@ -405,40 +405,40 @@
   "parede_cega_ate_m": 12,
   "projecao_parede_cega_utm": [
    [
-    202002.8,
-    7561439.55
+    202002.7987,
+    7561439.5526
    ],
    [
-    201992.61,
-    7561439.44
+    201992.6111,
+    7561439.444
    ],
    [
-    201991.55,
-    7561469.22
+    201991.5493,
+    7561469.2165
    ],
    [
-    202000.6,
-    7561469.54
+    202000.5981,
+    7561469.5392
    ],
    [
-    202000.6,
-    7561469.12
+    202000.5986,
+    7561469.1159
    ],
    [
-    202002.51,
-    7561469.12
+    202002.5132,
+    7561469.1159
    ],
    [
-    201998.52,
-    7561468.97
+    201998.5157,
+    7561468.9739
    ],
    [
-    201999.55,
-    7561439.95
+    201999.5465,
+    7561439.9468
    ],
    [
-    202003.54,
-    7561440.09
+    202003.544,
+    7561440.0887
    ]
   ]
  },
@@ -450,20 +450,20 @@
     {
      "base_utm": [
       [
-       201994.52,
-       7561441.98
+       201994.5219,
+       7561441.9828
       ],
       [
-       201999.47,
-       7561442.16
+       201999.468,
+       7561442.1584
       ],
       [
-       201998.59,
-       7561466.89
+       201998.5897,
+       7561466.889
       ],
       [
-       201993.64,
-       7561466.71
+       201993.6436,
+       7561466.7134
       ]
      ],
      "z0_m": 0.0,
@@ -476,20 +476,20 @@
     {
      "base_utm": [
       [
-       201993.74,
-       7561467.17
+       201993.7442,
+       7561467.1727
       ],
       [
-       201997.95,
-       7561467.32
+       201997.9532,
+       7561467.3228
       ],
       [
-       201998.87,
-       7561441.63
+       201998.8656,
+       7561441.6315
       ],
       [
-       201994.66,
-       7561441.59
+       201994.6567,
+       7561441.5867
       ]
      ],
      "z0_m": -3.0,
@@ -499,15 +499,15 @@
     }
    ],
    "metricas": {
-    "area_construida_m2": 598.3,
-    "area_computavel_m2": 410.29,
-    "area_nao_computavel_m2": 188.01,
-    "area_privativa_m2": 330.29,
+    "area_construida_m2": 597.9,
+    "area_computavel_m2": 409.9,
+    "area_nao_computavel_m2": 188.0,
+    "area_privativa_m2": 329.9,
     "area_acima_ca_basico_m2": 0.0,
-    "area_garagem_m2": 108.01,
+    "area_garagem_m2": 108.0,
     "vagas": 4,
-    "area_permeavel_m2": 200.29,
-    "ca_usado": 1.256,
+    "area_permeavel_m2": 200.38,
+    "ca_usado": 1.255,
     "to_usada": 0.314,
     "pavimentos": 4,
     "unidades_estimadas": 4,
@@ -523,19 +523,19 @@
    "id": "A",
    "nome": "Torre única",
    "motivo": "busca_inconclusiva",
-   "detalhe": "Torre quadrada tentada com 3.58 m² no pavimento 13, abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.0280726490289 m², laje mínima 80 m²"
+   "detalhe": "Torre quadrada tentada com 29.73 m² no pavimento 1, abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.03 m², laje mínima 80.00 m²"
   },
   {
    "id": "B",
    "nome": "Duas torres",
    "motivo": "impossivel",
-   "detalhe": "Área disponível de no máximo 73.31 m² por laje, abaixo da laje mínima de 80 m²"
+   "detalhe": "Área disponível de no máximo 73.31 m² por laje, abaixo da laje mínima de 80.00 m²"
   },
   {
    "id": "D",
    "nome": "Embasamento + torre",
    "motivo": "busca_inconclusiva",
-   "detalhe": "Torre sobre embasamento de 2 pavimento(s): laje de 1.30 m², abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.0280726490289 m², laje mínima 80 m²"
+   "detalhe": "Torre de 1 pavimento(s) sobre embasamento de 2 pavimento(s): laje de 24.52 m², abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.03 m², laje mínima 80.00 m²"
   }
  ],
  "criterio_escolha": {
@@ -556,8 +556,8 @@
   "A lei não exige vaga mínima pra residencial: vagas vêm da premissa vagas_por_unidade.",
   "Relevo ignorado: volumes assentados em terreno plano, z=0.",
   "Premissas no valor padrão do motor (não vieram do cliente): afastamento_entre_torres_m, area_comum_por_pavimento_m2, area_por_vaga_m2, area_privativa_por_unidade_m2, eficiencia, embasamento_ocupacao, garagem, laje_minima_m2, laje_torre_max_m2, nucleo_nao_computavel_m2, pavimentos_embasamento, pavimentos_lamina_max, pavimentos_max_projeto, pavimentos_sem_ca, pe_direito_m, pe_direito_terreo_m, preco_venda_m2_privativo, recuo_frontal_m, subsolos_max, vagas_por_unidade.",
-  "Opção A (Torre única) não coube: busca_inconclusiva: Torre quadrada tentada com 3.58 m² no pavimento 13, abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.0280726490289 m², laje mínima 80 m².",
-  "Opção B (Duas torres) não coube: impossivel: Área disponível de no máximo 73.31 m² por laje, abaixo da laje mínima de 80 m².",
-  "Opção D (Embasamento + torre) não coube: busca_inconclusiva: Torre sobre embasamento de 2 pavimento(s): laje de 1.30 m², abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.0280726490289 m², laje mínima 80 m²."
+  "Opção A (Torre única) não coube: busca_inconclusiva: Torre quadrada tentada com 29.73 m² no pavimento 1, abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.03 m², laje mínima 80.00 m².",
+  "Opção B (Duas torres) não coube: impossivel: Área disponível de no máximo 73.31 m² por laje, abaixo da laje mínima de 80.00 m².",
+  "Opção D (Embasamento + torre) não coube: busca_inconclusiva: Torre de 1 pavimento(s) sobre embasamento de 2 pavimento(s): laje de 24.52 m², abaixo da laje mínima; busca de 1 a 13 pavimento(s) residencial(is), CA disponível 980.03 m², laje mínima 80.00 m²."
  ]
 }
