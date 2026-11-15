@@ -7,13 +7,13 @@ Atualizado: 15/11/2026, ~02h (janela livre de 6 h dada pelo usuário: seguir sem
 | IA | Modelo / conta | Situação |
 |---|---|---|
 | Lei | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
-| Terreno | Codex **Astra high** / trabalho (sessão) | **Faz o MOTOR**: 0.8.0 commitado (b5e14eba; 8B recuperou B 66; 8 estudos = 0.7.1). Agora `motor/TAREFA-9.md` (garagem computável monotônica, ≤2× tempo) |
+| Terreno | Codex **Astra high** / trabalho (sessão) | **Faz o MOTOR**: tarefas 9 (garagem computável) + 10 (AUDITORIA-5: A1–A4, M1–M2, B1) juntas → 0.8.1 |
 | Motor | Claude **Sonnet** high / jaogroote | **Parado** (fase 0 fechada). TAREFA-7 commitada. Limitações conhecidas: recuo assimétrico + permeabilidade apertada; garagem_computavel=True |
-| Visual | Codex **Luna medium** / trabalho | TAREFA-5 commitada (contrato v5 na tela/relatório, 5c54dbda); fazendo `visual/TAREFA-6.md` (revisão do estudo, volume hipotético) |
+| Visual | Codex **Luna medium** / trabalho | T5/T6 commitadas (contrato v5; revisão do estudo; volume hipotético). Fazendo `visual/TAREFA-7.md` (estudo sem opções) |
 | Produto | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 |
-| Conferencia | Antigravity **Gemini 4 Hydrogen, alto** | Fazendo `conferencia/TAREFA-2.md` (pacote para o arquiteto, preparo do 1C) |
+| Conferencia | Antigravity **Gemini 4 Hydrogen, alto** | Livre. PACOTE-ARQUITETO entregue (1c5e0e6e, links refeitos após correção) |
 | Relatorio | Antigravity (Claude Sonnet 5.5, médio), **cópia isolada** `Desktop/imobiliaria-viabilidade-gemini`, galho `exp/viabilidade-gemini` | Livre. Relatório HTML entregue, revisado (print) e trazido pro principal em `viabilidade/relatorio/`. Próximas tarefas experimentais vão pra lá |
-| Auditor | Antigravity **Gemini 4 Hydrogen, alto** | Fazendo `auditoria/TAREFA-6.md` (auditoria independente do 0.8.0) |
+| Auditor | Antigravity **Gemini 4 Hydrogen, alto** | Livre. AUDITORIA-5 (3bce783b): 4 ALTA reproduzidas pela central → tarefa 10 do motor. Próxima: auditar a 0.8.1 |
 
 Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota Gemini/Claude/GPT dele); programação em Claude/Codex; central no Opus. Antigravity não assina commit: só escreve na pasta dele e a central commita. Ajudantes (subagentes) só quando houver partes separadas. Esforço (usuário, 14/11): **médio** no simples (ajuste de tela, pesquisa curta, tarefa bem definida); **alto** no Motor, Auditor, Conferência e em investigação de defeito.
 
