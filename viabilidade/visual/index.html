@@ -25,7 +25,7 @@
 <body>
   <header>
     <div><span class="eyebrow">Viabilidade / fase 0</span><h1>Um lote, diferentes possibilidades.</h1><p class="muted">Compare os volumes e os números de cada opção.</p></div>
-    <div><div class="actions"><button id="abrir">Abrir estudo.json</button><button id="exemplo">Exemplo do Motor</button><label for="piloto">Estudo piloto</label><select id="piloto"><option value="">Escolha um lote</option></select><a id="relatorio" class="button" target="_blank" rel="noopener" hidden>Relatório para imprimir</a></div><input id="arquivo" type="file" accept=".json,application/json" hidden><p class="help">Ou arraste um arquivo JSON para esta página.</p></div>
+    <div><div class="actions"><button id="abrir">Abrir estudo.json</button><button id="exemplo">Exemplo do Motor</button><label for="piloto">Estudo piloto</label><select id="piloto"><option value="">Escolha um lote</option></select><a id="relatorio" class="button" target="_blank" rel="noopener" hidden>Relatório para imprimir</a></div><p id="relatorio-aviso" class="help" role="note" hidden>Relatório desatualizado para esta revisão.</p><input id="arquivo" type="file" accept=".json,application/json" hidden><p class="help">Ou arraste um arquivo JSON para esta página.</p></div>
   </header>
   <main>
     <p id="status" class="muted" role="status" aria-live="polite">Preparando visualização…</p>
@@ -51,7 +51,7 @@
     const numero = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
     const numeroPreciso = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 20 });
     const reais = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
-    let fonte = null, THREE, OrbitControls, estudo, estudoSha, selecionada = 0, comparar = false, vistas = [], pedido = 0;
+    let fonte = null, origemUrl = null, THREE, OrbitControls, estudo, estudoSha, selecionada = 0, comparar = false, vistas = [], pedido = 0;
     const el = (tag, texto, classe) => { const node = document.createElement(tag); if (texto !== undefined) node.textContent = texto; if (classe) node.className = classe; if (classe === 'notice') node.setAttribute('role', 'note'); return node; };
     const finito = n => typeof n === 'number' && Number.isFinite(n);
     const formatar = (n, unidade = '') => finito(n) ? numero.format(n) + unidade : 'Não informado';
@@ -135,7 +135,8 @@
         if (arquivo) { if (origem.size > 10 * 1024 * 1024) throw Error('O arquivo deve ter até 10 MB.'); bytes = await origem.arrayBuffer(); }
         else {
           const url = new URL(origem, location.href);
-          if (!['http:', 'https:'].includes(url.protocol)) throw Error('Abra a página por um servidor local HTTP e use um caminho para o JSON.');
+          if (!['http:', 'https:'].includes(location.protocol)) throw Error('Abra a página por um servidor local HTTP e use um caminho para o JSON.');
+          if (/^([a-z][a-z0-9+.-]*:|[\\/]{2})/i.test(String(origem).trim()) || url.origin !== location.origin) throw Error('Estudo recusado: use um caminho relativo a esta página, no mesmo endereço (sem http://, javascript: ou data:).');
           const resposta = await fetch(url, { signal: AbortSignal.timeout(15000) });
           if (!resposta.ok) throw Error('Não foi possível abrir o estudo (HTTP ' + resposta.status + ').');
           bytes = await resposta.arrayBuffer();
@@ -146,7 +147,7 @@
         const novo = validar(JSON.parse(texto));
         const sha = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(v => v.toString(16).padStart(2, '0')).join('');
         if (atual !== pedido) return;
-        estudo = novo; estudoSha = sha; selecionada = 0; comparar = false; apresentar();
+        estudo = novo; estudoSha = sha; origemUrl = arquivo ? null : new URL(origem, location.href); selecionada = 0; comparar = false; apresentar();
         $('status').textContent = (arquivo ? origem.name : origem) + ' · Motor ' + (estudo.versao_motor || 'não informado');
       } catch (erro) {
         if (atual !== pedido) return;
@@ -193,9 +194,18 @@
     function apresentar() {
       $('estudo').hidden = false;
       const relatorio = $('relatorio');
-      const nomeRelatorio = relatorios.has(fonte) ? fonte : relatorios.has(estudo.lote.id) ? estudo.lote.id : null;
+      $('relatorio-aviso').hidden = true;
+      const pasta = origemUrl?.pathname.endsWith('/estudo.json');
+      const nomeRelatorio = pasta ? null : relatorios.has(fonte) ? fonte : relatorios.has(estudo.lote.id) ? estudo.lote.id : null;
       relatorio.hidden = !nomeRelatorio;
       if (nomeRelatorio) relatorio.href = '../relatorio/saida/' + encodeURIComponent(nomeRelatorio) + '.html';
+      if (pasta) {
+        const href = new URL('relatorio.html', origemUrl).href, sha = estudoSha;
+        revisaoDoRelatorio(href).then(rev => {
+          if (sha !== estudoSha) return;
+          relatorio.href = href; relatorio.hidden = rev !== sha; $('relatorio-aviso').hidden = rev === sha;
+        }, () => {});
+      }
       $('revisao').textContent = `rev ${estudoSha.slice(0, 12)} · motor ${estudo.versao_motor || 'não informado'}`;
       $('resumo').append($('revisao'));
       $('lote').textContent = (estudo.lote.id || 'Lote sem identificação') + ' · ' + formatar(estudo.lote.area_m2, ' m²');
@@ -269,16 +279,18 @@
       compararBotao.onclick = () => { comparar = !comparar; mostrar(); }; $('opcoes').append(compararBotao);
       mostrar();
     }
+    async function revisaoDoRelatorio(href) {
+      const resposta = await fetch(href);
+      if (!resposta.ok) throw Error();
+      return new DOMParser().parseFromString(await resposta.text(), 'text/html').querySelector('meta[name="estudo-sha256"]')?.content;
+    }
     $('relatorio').addEventListener('click', async event => {
       event.preventDefault();
       const href = event.currentTarget.href;
       const janela = window.open('about:blank', '_blank');
       if (!janela) { falha('Permita a abertura do relatório para conferir a revisão.'); return; }
       try {
-        const resposta = await fetch(href);
-        if (!resposta.ok) throw Error();
-        const html = new DOMParser().parseFromString(await resposta.text(), 'text/html');
-        if (html.querySelector('meta[name="estudo-sha256"]')?.content !== estudoSha) {
+        if (await revisaoDoRelatorio(href) !== estudoSha) {
           janela.close(); falha('Relatório desatualizado para esta revisão.'); return;
         }
         janela.location.href = href;

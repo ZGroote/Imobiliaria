@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 const runtimeModules = 'C:/Users/respawn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules';
 const load = name => {
   try { return require(name); }
@@ -131,6 +132,39 @@ async function checkWidth(page) {
   })), 'Informe o preço deve caber inteiro em uma linha.');
 }
 
+// Estudo novo (fora dos pilotos) gerado pelo Motor numa pasta servida pelo mesmo servidor; apagada no fim.
+const tmpEstudo = path.join(__dirname, 'tmp-tarefa17');
+async function checkNewStudy(page) {
+  fs.rmSync(tmpEstudo, { recursive: true, force: true });
+  const novo = path.join(tmpEstudo, 'novo'), adulterado = path.join(tmpEstudo, 'adulterado');
+  execFileSync('python', ['-I', '-X', 'utf8', path.join(__dirname, '../motor/estudar.py'), '--base', 'completo', '--indices', '8697', '--zona', 'SC-Z4', '--pasta', novo], { stdio: 'ignore' });
+  fs.cpSync(novo, adulterado, { recursive: true });
+  const bytes = fs.readFileSync(path.join(novo, 'estudo.json')), sha = crypto.createHash('sha256').update(bytes).digest('hex');
+  const versao = JSON.parse(bytes.toString('utf8')).versao_motor;
+  assert.equal(/<meta name="estudo-sha256" content="([0-9a-f]{64})"/.exec(fs.readFileSync(path.join(novo, 'relatorio.html'), 'utf8'))[1], sha);
+  const trocado = Buffer.from(bytes); trocado[trocado.indexOf(0x20)] = 0x09; // um espaço vira tab: JSON válido, sha diferente
+  fs.writeFileSync(path.join(adulterado, 'estudo.json'), trocado);
+
+  await page.goto(new URL('?estudo=tmp-tarefa17/novo/estudo.json', url).href);
+  await page.locator('#relatorio').waitFor();
+  assert.equal(await page.locator('#relatorio').getAttribute('href'), new URL('tmp-tarefa17/novo/relatorio.html', url).href);
+  assert.equal(await page.locator('#relatorio-aviso').isVisible(), false);
+  assert.equal(await page.locator('#revisao').innerText(), `rev ${sha.slice(0, 12)} · motor ${versao}`);
+  assert((await page.locator('#conferencia-lote').innerText()).includes('zona informada por quem pediu o estudo · não conferida'));
+
+  await page.goto(new URL('?estudo=tmp-tarefa17/adulterado/estudo.json', url).href);
+  await page.locator('#relatorio-aviso').waitFor();
+  assert.match(await page.locator('#relatorio-aviso').innerText(), /relatório desatualizado para esta revisão/i);
+  assert.equal(await page.locator('#relatorio').isVisible(), false);
+
+  for (const recusado of ['https://exemplo.com/x.json', '//exemplo.com/x.json', 'javascript:alert(1)', 'data:application/json,{}']) {
+    await page.goto(new URL('?estudo=' + encodeURIComponent(recusado), url).href);
+    await page.locator('#erro').waitFor();
+    assert.match(await page.locator('#erro').innerText(), /Estudo recusado: use um caminho relativo/, recusado);
+    assert.equal(await page.locator('#estudo').isVisible(), false, recusado);
+  }
+}
+
 (async () => {
   fs.mkdirSync(output, { recursive: true });
   const winChrome = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
@@ -221,6 +255,9 @@ async function checkWidth(page) {
         await page.locator('#relatorio').click();
         await page.waitForFunction(() => document.querySelector('#erro').textContent.includes('Relatório desatualizado'));
         await page.unroute('**/relatorio/saida/estudo-exemplo.html');
+        await checkNewStudy(page);
+        await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+        await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
       }
       if (!mobile) {
         const twoOptions = structuredClone(example);
@@ -550,5 +587,6 @@ async function checkWidth(page) {
     console.log('PASS', JSON.stringify(report));
   } finally {
     await browser.close();
+    fs.rmSync(tmpEstudo, { recursive: true, force: true });
   }
 })().catch(error => { console.error(error); process.exitCode = 1; });
