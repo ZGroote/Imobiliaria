@@ -67,8 +67,10 @@ def main():
             velhos = {_chave_alerta(a) for a in op["alertas"]}
             extras += [(on["id"], a) for a in on["alertas"] if _chave_alerta(a) not in velhos]
         for id_, a in extras:
-            assert a.startswith("ÁREA ESPECIAL") and ("nao_verificada" in a or "possível incidência" in a), f"opção {id_}: alerta extra fora do combinado: {a}"
-        print(f"alertas extras no lote novo (todos de área especial não verificada): {len(extras)}")
+            area = a.startswith("ÁREA ESPECIAL") and ("nao_verificada" in a or "possível incidência" in a)
+            relevo = a.startswith(("Terreno com ~", "Lote ~")) and a.endswith("podem mudar; conferir com levantamento planialtimétrico.")  # T27, só com declive/desnível altos
+            assert area or relevo, f"opção {id_}: alerta extra fora do combinado: {a}"
+        print(f"alertas extras no lote novo (área especial não verificada ou relevo): {len(extras)}")
         for opcoes in (novo["opcoes"], piloto["opcoes"]):
             for o in opcoes:
                 o["alertas"] = []

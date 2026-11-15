@@ -4,3 +4,5 @@
 3. **Teste novo** `test_frente_osm_e_acrescimo_invalido` (no `main`): frente com nome (`Rua das Flores`) e sem nome (`via sem nome`), 1 alerta por opção e 1 incerteza; `-5`, `"abc"`, `True`, `None`, `50` dão erro sem gabarito; `3.0` não muda as opções.
 4. **Pilotos e linha de base não mudaram** (nenhum usa `rua_osm`; `git status` de `exemplos/` limpo; `test_8b` ok). `test_motor.py`, `test_estudar.py`, `test_varrer.py` ok; não rodei o `conferir.py` (não pedido).
 Sem commit: `motor.py`, `test_motor.py` e este relatório. Não toquei em `terreno/`.
+Ajuste (T22 do Terreno grava `relevo.desnivel_lote_rua_m`): `test_estudar.py` aceita como combinado o alerta de relevo da T27 (começa com "Terreno com ~" ou "Lote ~" e termina em "…podem mudar; conferir com levantamento planialtimétrico."), além do de área especial; qualquer outro extra continua reprovando.
+Rodado com o terreno solto como está: ok, 8 extras no 30516 (4 de área especial + 4 de relevo); sem o campo seriam 4 e também passa. Só `motor/test_estudar.py` mudou; sem commit.
