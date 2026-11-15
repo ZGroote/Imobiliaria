@@ -750,6 +750,24 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
     premissas = estudo.get("premissas") or {}
     opcoes = estudo.get("opcoes") or []
     incertezas = estudo.get("incertezas") or []
+    motivos_ausencia = {
+        "impossivel": "impossível pelas regras informadas",
+        "busca_inconclusiva": "a busca não encontrou (não está provado que não existe)",
+        "dados_insuficientes": "faltam dados",
+        "erro": "erro de cálculo",
+    }
+    ausentes = estudo.get("opcoes_ausentes") or []
+    incertezas = [*incertezas, *(
+        f"Opção {op.get('id', '')} · {op.get('nome', 'sem nome')}: "
+        f"{motivos_ausencia.get(op.get('motivo'), 'motivo não reconhecido')}"
+        f"{(' · ' + op['detalhe']) if op.get('detalhe') else ''}"
+        for op in ausentes
+    )]
+    criterio = estudo.get("criterio_escolha") or {}
+    criterio_html = (
+        f'<p class="caixa-alerta">Como cada opção foi montada: {esc(criterio["texto"])}</p>'
+        if isinstance(criterio.get("texto"), str) and criterio["texto"].strip() else ""
+    )
     areas_especiais = lote.get("areas_especiais") or []
 
     datas_fontes = sorted({f.get("data", "") for f in (zona.get("fontes") or []) if f.get("data")})
@@ -763,7 +781,8 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
             f"Cota máx.: {span_num('lote.relevo.cota_max_m', relevo.get('cota_max_m'), 'm')} · "
             f"Declividade: {span_num('lote.relevo.declividade_pct', relevo.get('declividade_pct'), '%')} · "
             f"Resolução: {span_num('lote.relevo.resolucao_m', relevo.get('resolucao_m'), 'm')} "
-            f"<small>({esc(relevo.get('fonte', ''))})</small>"
+            f"<small>({esc(relevo.get('fonte', ''))})</small><br/>"
+            "Relevo aproximado (modelo de superfície de ~30 m): não substitui levantamento topográfico; a maquete assenta os volumes em terreno plano."
         )
     else:
         relevo_html = '<span class="texto-suave">Relevo não preenchido (considerado plano z=0 m)</span>'
@@ -937,6 +956,7 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
         </tbody>
       </table>
 
+      {criterio_html}
       {bloco_areas_especiais}
       {bloco_incertezas}
 

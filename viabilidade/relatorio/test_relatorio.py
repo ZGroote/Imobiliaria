@@ -462,6 +462,42 @@ class TestRelatorioViabilidade(unittest.TestCase):
         html_com_vgv = relatorio.gerar_html(estudo_dict)
         validar_html_contra_json(html_com_vgv, estudo_dict)
 
+    def test_contrato_v4_e_campos_v5_opcionais(self) -> None:
+        """Mantém v4 e apresenta ausências, critério e ressalva de relevo v5."""
+        import copy
+
+        base = json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))
+        v4 = copy.deepcopy(base)
+        v4.pop("opcoes_ausentes", None)
+        v4.pop("criterio_escolha", None)
+        html_v4 = relatorio.gerar_html(v4)
+        self.assertNotIn("Como cada opção foi montada:", html_v4)
+        self.assertNotIn("impossível pelas regras informadas", html_v4)
+
+        v5 = copy.deepcopy(base)
+        v5["lote"]["relevo"] = {
+            "cota_min_m": 10, "cota_max_m": 20, "declividade_pct": 5,
+            "fonte": "Fonte teste", "resolucao_m": 30,
+        }
+        v5["opcoes_ausentes"] = [
+            {"id": "A", "nome": "Opção teste", "motivo": motivo, "detalhe": f"Detalhe {motivo}"}
+            for motivo in ("impossivel", "busca_inconclusiva", "dados_insuficientes", "erro")
+        ]
+        v5["criterio_escolha"] = {
+            "ordem": ["unidades_estimadas desc", "area_privativa_m2 desc", "pavimentos asc"],
+            "texto": "Ordena variantes pelos critérios informados.",
+        }
+        html_v5 = relatorio.gerar_html(v5)
+        for texto in (
+            "impossível pelas regras informadas",
+            "a busca não encontrou (não está provado que não existe)",
+            "faltam dados", "erro de cálculo", "Detalhe erro",
+            "Como cada opção foi montada: Ordena variantes pelos critérios informados.",
+            "Relevo aproximado (modelo de superfície de ~30 m): não substitui levantamento topográfico; a maquete assenta os volumes em terreno plano.",
+        ):
+            self.assertIn(texto, html_v5)
+        self.assertNotIn("Opção principal:", html_v5)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

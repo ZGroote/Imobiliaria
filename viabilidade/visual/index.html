@@ -101,6 +101,7 @@
         }
       }
       if (d.incertezas !== undefined && (!Array.isArray(d.incertezas) || d.incertezas.some(v => typeof v !== 'string'))) throw Error('Incertezas devem ser uma lista de textos.');
+      if (d.opcoes_ausentes !== undefined && (!Array.isArray(d.opcoes_ausentes) || d.opcoes_ausentes.some(o => !o || typeof o !== 'object' || !['impossivel', 'busca_inconclusiva', 'dados_insuficientes', 'erro'].includes(o.motivo)))) throw Error('Opções ausentes devem informar um motivo reconhecido.');
       return d;
     }
     async function carregar(origem, arquivo = false) {
@@ -184,7 +185,12 @@
       const faixaCega = temFaixaCega(estudo.caixa_maxima);
       $('legenda-parede-cega').hidden = !faixaCega && !estudo.opcoes.some(o => o.volumes.some(v => v.parede_cega === true));
       $('texto-parede-cega').textContent = faixaCega ? 'Parede cega: faixa tracejada até ' + formatar(estudo.caixa_maxima.parede_cega_ate_m, ' m') + '; volumes em azul' : 'Volumes com parede cega em azul';
-      const incertezas = [...(estudo.incertezas || []), 'A maquete mostra volumes sobre um plano; não representa o relevo do terreno.'];
+      const motivoAusencia = { impossivel: 'impossível pelas regras informadas', busca_inconclusiva: 'a busca não encontrou (não está provado que não existe)', dados_insuficientes: 'faltam dados', erro: 'erro de cálculo' };
+      const incertezas = [...(estudo.incertezas || []), ...(estudo.opcoes_ausentes || []).map(o => `Opção ${o.id || ''} · ${o.nome || 'sem nome'}: ${motivoAusencia[o.motivo]}${o.detalhe ? ' · ' + o.detalhe : ''}`)];
+      if (estudo.lote.relevo) {
+        const r = estudo.lote.relevo;
+        incertezas.push(`Relevo · cota mínima: ${formatar(r.cota_min_m, ' m')} · cota máxima: ${formatar(r.cota_max_m, ' m')} · declividade: ${formatar(r.declividade_pct, '%')} · fonte: ${r.fonte || 'não informada'} · resolução: ${formatar(r.resolucao_m, ' m')}. Relevo aproximado (modelo de superfície de ~30 m): não substitui levantamento topográfico; a maquete assenta os volumes em terreno plano.`);
+      } else incertezas.push('A maquete mostra volumes sobre um plano; não representa o relevo do terreno.');
       if (estudo.lote.observacoes) incertezas.push('Lote: ' + estudo.lote.observacoes);
       if (estudo.zona.observacoes) incertezas.push('Zona: ' + estudo.zona.observacoes);
       if (!fontes.length) incertezas.push('Fontes da legislação: não informadas.');
@@ -194,6 +200,11 @@
       const especiais = incertezas.filter(a => /sem n.mero de altura.*n.o aplicada/i.test(a));
       listaIncertezas.className = especiais.length ? 'alerts critical' : 'alerts';
       listaIncertezas.replaceChildren(...incertezas.map(a => el('li', a)));
+      const criterioTexto = estudo.criterio_escolha?.texto;
+      let criterioAviso = $('criterio-escolha');
+      if (!criterioAviso) { criterioAviso = el('p'); criterioAviso.id = 'criterio-escolha'; criterioAviso.className = 'notice'; $('resumo').append(criterioAviso); }
+      criterioAviso.hidden = typeof criterioTexto !== 'string' || !criterioTexto.trim();
+      if (!criterioAviso.hidden) criterioAviso.textContent = `Como cada opção foi montada: ${criterioTexto}`;
       const nomes = { pe_direito_m:'Pé-direito (m)', pe_direito_terreo_m:'Pé-direito térreo (m)', area_privativa_por_unidade_m2:'Área privativa por unidade (m²)', area_util_por_unidade_m2:'Área útil por unidade (m²)', eficiencia:'Eficiência', area_comum_por_pavimento_m2:'Área comum por pavimento (m²)', vagas_por_unidade:'Vagas por unidade', area_por_vaga_m2:'Área por vaga (m²)', garagem:'Garagem', subsolos_max:'Máximo de subsolos', garagem_computavel:'Garagem computável', preco_venda_m2_privativo:'Preço por m² privativo (R$)' };
       $('premissas').replaceChildren();
       for (const [k, v] of Object.entries(estudo.premissas)) {

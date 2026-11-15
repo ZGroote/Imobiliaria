@@ -85,6 +85,27 @@ async function checkWidth(page) {
       assert.match(await page.locator('#conferencia-lote').innerText(), /não conferid/i,
         'O exemplo não comprova que o lote pertence à zona escolhida.');
       assert.doesNotMatch(await page.locator('#conferencia-lei').innerText(), /não conferid/i);
+      if (!mobile) {
+        const v4 = structuredClone(example);
+        delete v4.opcoes_ausentes;
+        delete v4.criterio_escolha;
+        await upload(page, JSON.stringify(v4), 'contrato-v4.json');
+        await page.waitForFunction(() => document.querySelector('#status').textContent.includes('contrato-v4.json'));
+        assert.doesNotMatch(await page.locator('#incertezas').innerText(), /impossível pelas regras informadas|erro de cálculo/);
+        assert.equal(await page.locator('#criterio-escolha').count(), 1);
+        assert.equal(await page.locator('#criterio-escolha').isVisible(), false);
+
+        const v5 = structuredClone(example);
+        v5.lote.relevo = { cota_min_m: 10, cota_max_m: 20, declividade_pct: 5, fonte: 'Fonte teste', resolucao_m: 30 };
+        v5.opcoes_ausentes = ['impossivel', 'busca_inconclusiva', 'dados_insuficientes', 'erro'].map((motivo, i) => ({ id: String.fromCharCode(65 + i), nome: `Ausente ${i}`, motivo, detalhe: `Detalhe ${i}` }));
+        v5.criterio_escolha = { ordem: ['unidades_estimadas desc', 'area_privativa_m2 desc', 'pavimentos asc'], texto: 'Ordena variantes pelos critérios informados.' };
+        await upload(page, JSON.stringify(v5), 'contrato-v5.json');
+        await page.waitForFunction(() => document.querySelector('#status').textContent.includes('contrato-v5.json'));
+        const avisosV5 = await page.locator('#incertezas').innerText();
+        for (const label of ['impossível pelas regras informadas', 'a busca não encontrou (não está provado que não existe)', 'faltam dados', 'erro de cálculo', 'Detalhe 0', 'Fonte teste', '30 m', 'Relevo aproximado (modelo de superfície de ~30 m): não substitui levantamento topográfico; a maquete assenta os volumes em terreno plano.']) assert(avisosV5.includes(label), `Aviso v5 ausente: ${label}`);
+        assert.match(await page.locator('#criterio-escolha').innerText(), /Como cada opção foi montada: Ordena variantes pelos critérios informados\./);
+        assert.doesNotMatch(await page.locator('#criterio-escolha').innerText(), /Opção principal|Opção A/);
+      }
       for (const pilot of await page.locator('#piloto option').evaluateAll(options => options.slice(1).map(option => ({ value: option.value })))) {
         await page.locator('#piloto').selectOption(pilot.value);
         const filename = pilot.value.split('/').at(-1);
