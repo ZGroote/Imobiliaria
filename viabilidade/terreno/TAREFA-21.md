@@ -47,3 +47,14 @@ Use o que o projeto já tem. Se não houver vias do OSM salvas para São Carlos,
 ## Relatório
 
 `viabilidade/terreno/RELATORIO-21.md`, até 15 linhas. Depois: `maestri ask "Claude Code" "Terreno tarefa 21 pronta"`.
+
+## Decisão da central sobre o dado do OSM (15/11)
+
+**Opção (a), comprimido:** `viabilidade/terreno/dados/osm-vias-sao-carlos.json.gz`, no git.
+- O teste da main (`tests/test_tamanho_versionado.py`) barra arquivo acima de 1 MiB fora da lista de exceções, e essa lista fica fora de `viabilidade/`. O JSON puro (1,54 MB) obrigaria a mexer nela. Com gzip (~0,35 MB) não precisa. Leia com `gzip` da biblioteca padrão.
+- O script gerador fica em `terreno/` e recebe o caminho do pbf por argumento (o pbf fica só na pasta principal, fora do git).
+  - Grave a data do pbf (29/08/2026) e a origem (Geofabrik `sudeste-latest`) dentro do arquivo.
+  - Para a mesma entrada, a saída tem que sair igual byte a byte: use `mtime=0` no gzip.
+- Licença ODbL: o lote e o método citam "© OpenStreetMap contributors". Registre a fonte em `lei/FONTES.md` ou no documento do terreno que já lista as fontes.
+- Liberado mexer em `dados/` só para esse arquivo novo.
+- O `conferir.py` precisa passar 8/8. Se algum teste de dados privados reclamar do `.gz`, pare e diga qual.
