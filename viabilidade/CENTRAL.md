@@ -99,7 +99,7 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - Motor T21 (59a1b20c): um alerta só por opção para as áreas não verificadas; texto próprio da frente pela borda da quadra.
   - Terreno T14 (3cc2e9b5): 9 m do art. 80 no cálculo para lote dentro do tracejado; contorno da subárea pelo tracejado; cache tolerante a dois processos.
   - AUDITORIA-7 parte 1 (perguntas 4 e 5; arquivo sem commit até a parte 2): alertas agrupados OK; MÉDIA 75931 (frente pelo miolo da quadra) e BAIXA TopologyException → Terreno T15, feita pelo Visual (conta Padrão).
-  - Motor T22: `conferir.py` jogava o stderr do http.server num cano não lido; no Windows enchia e travava o visual (no CI passa). Em andamento.
+  - Motor T22: `conferir.py` jogava o stderr do http.server num cano não lido; no Windows enchia e travava o visual (no CI passa). Corrigido: `conferir.py` 8/8 no Windows.
   - Auditor parado no pedido de permissão do `maestri ask` final: cancelar é do usuário (o Esc da central foi bloqueado). Parte 2 (perguntas 1–3) sai depois.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
