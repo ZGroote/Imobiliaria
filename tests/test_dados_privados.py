@@ -16,6 +16,8 @@ este arquivo. Retirar um item nunca reprova: a trava é contra entrada, não con
 Vai pelo git, e não pelo disco: a pasta principal tem muito arquivo fora do git, e só o
 que está versionado conta.
 """
+import hashlib
+import json
 import subprocess
 import unittest
 from pathlib import Path, PurePosixPath
@@ -70,10 +72,11 @@ PASTAS_DE_IMAGEM = (
     'fachada/assets/', 'fachada/marca-fonte/',
     'painel/public/brand/',  # logo e fontes da Conecta no painel; liberado pelo usuário em 14/11 (#117)
     'tasks/caminho1-liv/',
-    # Viabilidade, liberada pelo usuário em 15/11 (PR #121): recortes dos anexos públicos do Plano
-    # Diretor de São Carlos, relevo Copernicus GLO-30 (licença aberta) e capturas da tela. Sem cliente.
-    'viabilidade/terreno/dados/', 'viabilidade/visual/evidencias/',
 )
+# Viabilidade (PR #121): não é pasta liberada. Só passam as imagens inspecionadas, uma a uma,
+# presas ao sha256 (viabilidade/conferencia/INSPECAO-PRIVACIDADE-1E.md). Imagem nova ou alterada = inspecionar.
+MANIFESTO_VIABILIDADE = RAIZ / 'viabilidade/conferencia/imagens-inspecionadas.json'
+IMAGENS_VIABILIDADE = json.loads(MANIFESTO_VIABILIDADE.read_text(encoding='utf-8'))['imagens']
 
 
 def versionados():
@@ -84,7 +87,7 @@ def versionados():
 
 def imagem_classificada(p):
     s = p.as_posix()
-    if s in IMAGENS or s.startswith(PASTAS_DE_IMAGEM):
+    if s in IMAGENS or s in IMAGENS_VIABILIDADE or s.startswith(PASTAS_DE_IMAGEM):
         return True
     if s.startswith('unreal/lightmaps/'):
         return p.stem in UNIDADES_REAIS
@@ -141,9 +144,18 @@ class DadosPrivadosTests(unittest.TestCase):
         todos = {p.as_posix() for p in self.arquivos}
         self.assertTrue(IMAGENS <= todos, IMAGENS - todos)
 
+    def test_viabilidade_images_are_the_inspected_bytes(self):
+        # Pasta liberada viraria autorização permanente: cada imagem vale só com o sha256 inspecionado.
+        mudadas = [c for c, h in IMAGENS_VIABILIDADE.items()
+                   if not (RAIZ / c).is_file() or hashlib.sha256((RAIZ / c).read_bytes()).hexdigest() != h]
+        self.assertFalse(mudadas, 'imagem da viabilidade ausente ou diferente da inspecionada; inspecionar de novo')
+
     def test_the_check_itself(self):
         P = PurePosixPath
         self.assertFalse(imagem_classificada(P('experimentos/novo/fotos/01.jpg')))
+        self.assertFalse(imagem_classificada(P('viabilidade/visual/evidencias/nova.png')))
+        self.assertFalse(imagem_classificada(P('viabilidade/terreno/dados/nova.jpg')))
+        self.assertTrue(imagem_classificada(P('viabilidade/terreno/dados/z2-anexo02.jpg')))
         self.assertTrue(imagem_classificada(P('experimentos/comparativo-planos-3d/assets_planob/piso_madeira_albedo.jpg')))
         self.assertFalse(imagem_classificada(P('experimentos/comparativo-planos-3d/assets_planob/foto-cliente.jpg')))
         self.assertFalse(imagem_classificada(P('unreal/lightmaps/cliente-novo-12.png')))
