@@ -29,6 +29,87 @@ function pixelDifference(first, second) {
   return difference / a.data.length;
 }
 
+async function checkAccessibility(page) {
+  const visibleFocus = async () => assert(await page.evaluate(() => {
+    const node = document.activeElement, style = getComputedStyle(node);
+    return node.matches(':focus-visible') && parseFloat(style.outlineWidth) >= 3 && style.outlineStyle !== 'none';
+  }), 'O controle deve ter foco visível ao navegar com Tab.');
+  await page.keyboard.press('Tab');
+  await page.locator('#abrir').focus();
+  await visibleFocus();
+  const optionCount = await page.locator('#opcoes button').count();
+  const order = ['#exemplo', '#piloto', '#relatorio', ...Array.from({ length: optionCount }, (_, i) => `#opcoes button:nth-child(${i + 1})`), '#cards canvas', '#cards .view-actions button:first-child', '#cards .view-actions button:last-child', 'details.context:first-of-type summary', 'details.context:last-of-type summary'];
+  for (const selector of order) {
+    await page.keyboard.press('Tab');
+    assert(await page.locator(selector).first().evaluate(node => node === document.activeElement), 'Ordem de Tab: ' + selector);
+    await visibleFocus();
+  }
+  const options = page.locator('#opcoes button');
+  await options.nth(1).focus();
+  await page.keyboard.press('Enter');
+  assert.equal(await options.nth(1).getAttribute('aria-pressed'), 'true');
+  assert.equal(await options.first().getAttribute('aria-pressed'), 'false');
+  await options.last().focus();
+  await page.keyboard.press('Space');
+  assert.equal(await options.last().getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('#cards canvas').count(), example.opcoes.length);
+  await options.first().focus();
+  await page.keyboard.press('Space');
+  assert.equal(await options.first().getAttribute('aria-pressed'), 'true');
+  assert.equal(await options.last().getAttribute('aria-pressed'), 'false');
+  const canvas = page.locator('#cards canvas').first();
+  assert.equal(await canvas.getAttribute('role'), 'img');
+  assert.match(await canvas.getAttribute('aria-label'), /Maquete 3D da opção A.*volumes hipotéticos.*envelope máximo/);
+  assert.equal(await canvas.getAttribute('aria-describedby'), 'ajuda-maquete');
+  assert(await page.locator('#cards dl dt').count() > 0);
+  assert.equal(await page.locator('#cards dl dt').count(), await page.locator('#cards dl dd').count());
+  for (const selector of ['.volume-warning', '#conferencia', '#criterio-escolha']) {
+    assert.equal(await page.locator(selector).getAttribute('role'), 'note');
+    assert.equal(await page.locator(selector).getAttribute('aria-live'), null);
+  }
+  await canvas.focus();
+  const before = await canvas.screenshot();
+  const scroll = await page.evaluate(() => scrollY);
+  await page.keyboard.press('ArrowRight');
+  assert.equal(await page.evaluate(() => scrollY), scroll, 'Girar não deve rolar a página.');
+  assert(pixelDifference(before, await canvas.screenshot()) > .1, 'A seta deve girar a maquete.');
+  await page.keyboard.press('Tab');
+  assert.equal(await page.evaluate(() => document.activeElement.textContent), 'Vista inicial');
+  await page.keyboard.press('Enter');
+  const initial = await canvas.screenshot();
+  await page.keyboard.press('Tab');
+  assert.equal(await page.evaluate(() => document.activeElement.textContent), 'Vista de cima');
+  await page.keyboard.press('Space');
+  assert(pixelDifference(initial, await canvas.screenshot()) > .1, 'Vista de cima deve funcionar com espaço.');
+
+  const contrasts = await page.evaluate(() => {
+    const rgb = value => value.match(/[\d.]+/g).map(Number);
+    const over = (a, b) => a.slice(0, 3).map((v, i) => v * (a[3] ?? 1) + b[i] * (1 - (a[3] ?? 1)));
+    const background = node => node ? over(rgb(getComputedStyle(node).backgroundColor), background(node.parentElement)) : [255, 255, 255];
+    const luminance = color => color.map(v => v / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4).reduce((s, v, i) => s + v * [.2126, .7152, .0722][i], 0);
+    const ratio = (a, b) => (Math.max(luminance(a), luminance(b)) + .05) / (Math.min(luminance(a), luminance(b)) + .05);
+    const result = [];
+    for (const selector of ['h1', '.muted', '.help', 'button:not(:disabled)', 'select', '.button', '.notice', '.volume-warning', '.highlights dt', '.highlights dd', '.details dt', '.details dd', '.alerts', '.context li', '.domain-badge', '.domain-alert', 'footer']) {
+      for (const node of document.querySelectorAll(selector)) {
+        if (!node.getClientRects().length) continue;
+        const bg = background(node), style = getComputedStyle(node);
+        result.push({ selector, kind: 'texto', ratio: ratio(over(rgb(style.color), bg), bg), minimum: 4.5 });
+      }
+    }
+    for (const node of document.querySelectorAll('button:not(:disabled), select, .button')) {
+      if (!node.getClientRects().length) continue;
+      const bg = background(node), outside = background(node.parentElement), border = over(rgb(getComputedStyle(node).borderTopColor), bg);
+      result.push({ selector: node.textContent.trim(), kind: 'borda', ratio: Math.min(ratio(border, bg), ratio(border, outside)), minimum: 3 });
+    }
+    return result;
+  });
+  for (const pair of contrasts) assert(pair.ratio >= pair.minimum, `${pair.kind} ${pair.selector}: ${pair.ratio.toFixed(2)}:1`);
+  await options.first().focus();
+  await page.keyboard.press('Enter');
+  await page.evaluate(() => { document.activeElement.blur(); window.scrollTo(0, 0); });
+  return contrasts;
+}
+
 async function upload(page, contents, name = 'teste.json') {
   await page.locator('#arquivo').setInputFiles({
     name, mimeType: 'application/json', buffer: Buffer.from(contents),
@@ -125,6 +206,8 @@ async function checkWidth(page) {
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
 
       await page.locator('canvas').first().waitFor();
+      const contrasts = await checkAccessibility(page);
+      fs.writeFileSync(path.join(output, `${profile}-contraste.json`), JSON.stringify(contrasts, null, 2) + '\n');
       assert.equal(await page.locator('#relatorio').getAttribute('href'), '../relatorio/saida/estudo-exemplo.html');
       const exampleSha = crypto.createHash('sha256').update(exampleBytes).digest('hex');
       assert.equal(await page.locator('#revisao').innerText(), revision(exampleSha));
