@@ -92,7 +92,8 @@ def testar():
     recusa(lambda: unir([caixa(0, 0, 10, 2), caixa(0, 8, 10, 10), caixa(0, 2, 2, 8), caixa(8, 2, 10, 8)]), "sem buracos")
     recusa(lambda: unir([gl.Polygon([(0, 0), (10, 10), (0, 10), (10, 0)])]), "polígono válido")
     print("OK: recusas reais completo/0 (sem frente), /104 (vizinho), /295 (asfalto), índices/zona e uniões inválidas.", flush=True)
-    antigo = Cadastro("antigo").gerar([542], "SC-Z1")
+    cadastro_antigo = Cadastro("antigo")
+    antigo = cadastro_antigo.gerar([542], "SC-Z1")
     assert antigo["id"] == "SC-antigo-542" and antigo["crs"] == "EPSG:31983" and antigo["relevo"]
     print("OK: base antiga, índice 542.", flush=True)
     with TemporaryDirectory(prefix="novo-lote-teste-") as pasta:
@@ -129,6 +130,8 @@ def testar():
         testar_auto(cadastro, pilotos, pasta)
         from test_areas_especiais import testar as testar_especiais
         testar_especiais(cadastro, pilotos, pasta)
+        from test_ponto import testar as testar_ponto
+        testar_ponto(cadastro, cadastro_antigo, pilotos, pasta)
     assert protegidos() == antes, "Fontes, dados, pilotos ou scripts preexistentes foram alterados"
     print("OK: --testar completo; fontes e arquivos protegidos inalterados, saídas temporárias removidas.", flush=True)
 
