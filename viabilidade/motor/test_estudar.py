@@ -147,6 +147,70 @@ def main():
         else:
             raise AssertionError("CLI devia sair com erro")
         assert not (tmp / "cli").exists()
+
+        # (e) --ponto e --zona auto (terreno tarefas 5 e 7): o mesmo lote e o mesmo estudo do caminho por índice
+        c = cad.geos[25297].centroid  # o Terreno testa este centroide como "concorda": 25297 -> SC-Z1
+        lon, lat = novo_lote.gl.GEO.transform(c.x, c.y)
+        ponto = f"{lat:.6f}, {lon:.6f}"
+        estudar.estudar("completo", None, "auto", tmp / "p", cadastro=cad, ponto=ponto)
+        assert lista(tmp / "p") == ARQUIVOS
+        lote = json.loads((tmp / "p" / "lote.json").read_text(encoding="utf-8"))
+        assert lote["fonte"]["indices_feicoes_zero_based"] == [25297] and lote["zona_id"] == "SC-Z1"
+        assert lote["zona_origem"] == "sugerida_pelo_mapa" and lote["zona_conferida"] is False
+        resumo = (tmp / "p" / "resumo.txt").read_text(encoding="utf-8")
+        assert "Zona: SC-Z1 (sugerida pelo mapa do Plano Diretor, não conferida; outras zonas por perto: nenhuma)" in resumo, resumo
+        assert "Áreas especiais encontradas: nenhuma" in resumo and "Áreas especiais não verificadas: Anexo 07" in resumo, resumo
+        assert "informada pelo usuário" not in resumo
+        assert 5 <= len(resumo.splitlines()) <= 12, resumo
+        estudar.estudar("completo", [25297], "SC-Z1", tmp / "q", cadastro=cad)
+        igual(json.loads((tmp / "p" / "estudo.json").read_text(encoding="utf-8"))["opcoes"],
+              json.loads((tmp / "q" / "estudo.json").read_text(encoding="utf-8"))["opcoes"], "opcoes ponto+auto x indices+Z1")
+        assert "informada pelo usuário, não conferida" in (tmp / "q" / "resumo.txt").read_text(encoding="utf-8")
+        # a área especial encontrada aparece na linha própria (piloto 30516: AIA)
+        resumo30516 = (tmp / "a" / "resumo.txt").read_text(encoding="utf-8")
+        assert "Áreas especiais encontradas: AIA (sobreposição visual)" in resumo30516, resumo30516
+        assert "Áreas especiais não verificadas: Anexo 05" in resumo30516, resumo30516
+
+        # recusas do terreno: a mensagem sai inteira e não fica pasta
+        rua = "-22.042271578900, -47.894003877937"  # rua real, já testada pelo Terreno (índices próximos 110068, 110067, 110065)
+        for nome, kw, trechos in (
+            ("rua", dict(indices=None, zona="SC-Z4", ponto=rua), ("Nenhuma feição contém o ponto", "110068", "--indices")),
+            ("divisa", dict(indices=[22421], zona="auto", ponto=None),
+             ("Zona automática recusada", "Alternativas: SC-Z1, SC-EIXO, SC-Z2", "Rode de novo com --zona SC-XX, uma destas: SC-Z1, SC-EIXO, SC-Z2.")),
+            ("ponto_ruim", dict(indices=None, zona="SC-Z4", ponto="-22,5, -47,9"), ("Ponto inválido",)),
+            ("os_dois", dict(indices=[8697], zona="SC-Z4", ponto=ponto), ("--indices", "--ponto")),
+            ("nenhum", dict(indices=None, zona="SC-Z4", ponto=None), ("--indices", "--ponto")),
+        ):
+            try:
+                estudar.estudar("completo", pasta=tmp / nome, cadastro=cad, **kw)
+            except ValueError as e:
+                for trecho in trechos:
+                    assert trecho in str(e), f"{nome}: falta {trecho!r} em: {e}"
+            else:
+                raise AssertionError(f"{nome}: devia recusar")
+            assert not (tmp / nome).exists(), f"{nome}: deixou pasta"
+
+        # a linha de comando aceita --ponto com coordenada negativa e mostra a recusa inteira, sem pasta
+        import contextlib
+        import io
+        erro = io.StringIO()
+        try:
+            with contextlib.redirect_stderr(erro):
+                estudar.main(["--base", "completo", "--ponto", rua, "--zona", "SC-Z4", "--pasta", str(tmp / "cli2")])
+        except SystemExit as e:
+            assert e.code == 2
+        else:
+            raise AssertionError("CLI devia recusar o ponto na rua")
+        assert "Nenhuma feição contém o ponto" in erro.getvalue() and not (tmp / "cli2").exists(), erro.getvalue()
+        # --indices e --ponto juntos: o próprio argparse recusa
+        try:
+            with contextlib.redirect_stderr(io.StringIO()):
+                estudar.main(["--base", "completo", "--indices", "1", "--ponto", rua, "--zona", "SC-Z4", "--pasta", str(tmp / "cli3")])
+        except SystemExit as e:
+            assert e.code == 2
+        else:
+            raise AssertionError("CLI devia recusar --indices com --ponto")
+        assert not (tmp / "cli3").exists()
     print("ok")
 
 
