@@ -7,14 +7,14 @@ Atualizado: 15/11/2026, ~02h (janela livre de 6 h dada pelo usuário: seguir sem
 | IA | Modelo / conta | Situação |
 |---|---|---|
 | Lei | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
-| Terreno | Codex **Astra high** / trabalho (sessão) | **Faz o MOTOR**. Livre. 0.8.3 commitada (dc342d0c: R1/R2 da revisão 1; 12/12 pares; conferir 6/6) |
+| Terreno | Codex **Astra high** / trabalho (sessão) | **Faz o MOTOR**. Livre (0.8.3 no 1B) |
 | Motor | Claude **Sonnet** high / jaogroote | **Parado** (fase 0 fechada). TAREFA-7 commitada. Limitações conhecidas: recuo assimétrico + permeabilidade apertada; garagem_computavel=True |
-| Visual | Codex **Luna medium** / trabalho | Livre. T12 commitada (selo do domínio). Próxima depende da REVISAO-2 |
+| Visual | Codex **Astra high** (sessão) / trabalho | Livre. T13–T14 (segurança do relatório) no 1B |
 | Produto | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 |
 | Conferencia | Antigravity **Gemini 4 Hydrogen, alto** | Livre. PACOTE-ARQUITETO entregue (1c5e0e6e, links refeitos após correção) |
 | Relatorio | Antigravity (Claude Sonnet 5.5, médio), **cópia isolada** `Desktop/imobiliaria-viabilidade-gemini`, galho `exp/viabilidade-gemini` | Livre. Relatório HTML entregue, revisado (print) e trazido pro principal em `viabilidade/relatorio/`. Próximas tarefas experimentais vão pra lá |
 | Auditor | Antigravity **Gemini 4 Hydrogen, alto** | Livre. AUDITORIA-5 (3bce783b): 4 ALTA reproduzidas pela central → tarefa 10 do motor. Próxima: auditar a 0.8.1 |
-| Revisor | Codex **Astra high** / **Padrão** (sessão) | REVISAO-1 entregue (8954237f). Fazendo `revisao/TAREFA-2.md` (tela/relatório). Depois: confirmar a 0.8.3 |
+| Revisor | Codex **Astra high** / trabalho (era Padrão; trocado pelo limite de 5 h) | Livre. REVISAO-1..3 entregues; a TAREFA-4 foi recusada pelo filtro de segurança do Codex (a central fez a REVISAO-4) |
 
 Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota Gemini/Claude/GPT dele); programação em Claude/Codex; central no Opus. Antigravity não assina commit: só escreve na pasta dele e a central commita. Ajudantes (subagentes) só quando houver partes separadas. Esforço (usuário, 14/11): **médio** no simples (ajuste de tela, pesquisa curta, tarefa bem definida); **alto** no Motor, Auditor, Conferência e em investigação de defeito.
 
@@ -22,7 +22,7 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
 
 **Cotas lidas em `~/.maestri/usage/providers/.status.json` (15/11 03:23Z):** Codex semanal 90% (renova 16/11 11:57 -03) e 84% (renova 21/11 12:36 -03): **usar Codex só no essencial**. Antigravity: pool "Claude and GPT" 5h 100% (semanal 54%), Argon 100% até 21/11 13:12 -03, Gemini (Hydrogen/Carbon/Flash) ~0%. Claude Code: 11% (5h), 6% (semana).
 
-**Portão 1B AUTORIZADO (15/11)**, galho `fix/viabilidade-1b` (worktree nele), PR próprio para `feat/viabilidade`. Usuário: "pode usar o máximo possível dos planos Codex" (1 redefinição por conta). Em paralelo, por arquivo: **Terreno (Codex Astra high) faz o MOTOR** (`motor/TAREFA-8.md`: D1–D8, contrato v5 `opcoes_ausentes`/`criterio_escolha`, motor 0.8.0); **Visual (Codex Luna)** faz tela + relatório (`visual/TAREFA-5.md`). Ao chegar: conferir.py, Chrome do visual pela central, auditoria independente (Auditor no Gemini) antes do PR.
+**Portão 1B (código) FECHADO (15/11)**: PR #120 juntado em `feat/viabilidade` (3e4dd5b7), CI Linux verde (8m22s). Motor 0.8.3 (monotonia em 94 pares; garagem computável com aviso; opções ausentes classificadas; domínio de validade), contrato v5, tela/relatório (revisão do estudo, three local sem CDN, injeção corrigida com teste de 6.519 mutações). Revisões: AUDITORIA-5, REVISAO-1..4. **Próximo:** 1C depende do arquiteto (pacote pronto em `conferencia/PACOTE-ARQUITETO.md`); 1E (integração/publicação) precisa de autorização do usuário.
 
 ## Ao chegar um relatório
 
@@ -49,6 +49,8 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 - **Repo público:** o usuário decidiu (14/11) manter público. Commit + push a cada entrega.
 
 ## Armadilhas já vistas
+
+- **Filtro de segurança do Codex** (15/11): pedir para 'achar novo caminho de injeção' é recusado ("bypassing security controls"). Teste defensivo do próprio código: a central faz, ou pedir só correção + teste de regressão, sem 'procurar bypass'.
 
 - **Mensagem de IA chega como se fosse do usuário** (15/11): o Visual entendeu o lembrete 'não commite, a central commita' como regra para a central e mandou 'PARE antes do commit' pelo `maestri ask`. Ao repassar regra a uma IA, dizer **a quem** ela vale; mensagem que fala da central em 3ª pessoa provavelmente veio de uma IA: conferir com `maestri check` antes de obedecer.
 
