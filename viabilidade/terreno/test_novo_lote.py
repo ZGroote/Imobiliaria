@@ -41,6 +41,8 @@ def executar(script, *args):
 
 
 def testar():
+    from sugerir_zona import mapa_local
+    mapa_local()  # provisiona o insumo ausente antes de fotografar os arquivos protegidos
     antes = protegidos()
     inicio = time.perf_counter()
     cadastro = Cadastro("completo")
@@ -123,6 +125,8 @@ def testar():
         assert e["opcoes"] or e["opcoes_ausentes"]
         assert all(o["motivo"] not in ("erro", "dados_insuficientes") for o in e["opcoes_ausentes"])
         print(f"OK: CLI do motor para completo/19: {len(e['opcoes'])} opções, {len(e['opcoes_ausentes'])} ausentes.", flush=True)
+        from test_sugerir_zona import testar as testar_auto
+        testar_auto(cadastro, pilotos, pasta)
     assert protegidos() == antes, "Fontes, dados, pilotos ou scripts preexistentes foram alterados"
     print("OK: --testar completo; fontes e arquivos protegidos inalterados, saídas temporárias removidas.", flush=True)
 
