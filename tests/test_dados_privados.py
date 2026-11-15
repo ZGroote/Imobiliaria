@@ -69,6 +69,9 @@ PASTAS_DE_IMAGEM = (
     # Site institucional e a marca da Conecta.
     'fachada/assets/', 'fachada/marca-fonte/',
     'tasks/caminho1-liv/',
+    # Viabilidade, liberada pelo usuário em 15/11 (PR #121): recortes dos anexos públicos do Plano
+    # Diretor de São Carlos, relevo Copernicus GLO-30 (licença aberta) e capturas da tela. Sem cliente.
+    'viabilidade/terreno/dados/', 'viabilidade/visual/evidencias/',
 )
 
 
