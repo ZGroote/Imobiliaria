@@ -31,3 +31,14 @@ O `testar_pilotos.py` guarda o SHA256 dos 5 pilotos originais (`ORIGINAIS`, linh
 ## Relatório
 
 `viabilidade/terreno/RELATORIO-19.md`, até 8 linhas. Depois: `maestri ask "Claude Code" "Terreno tarefa 19 pronta"`.
+
+## Decisão da central (15/11, depois do RELATORIO-19)
+
+**Opção 2.** Está liberado mexer em `terreno/preparar_zonas.py`, mas só para ele **não** copiar `reconferencia` para o lote.
+- O campo fica só em `dados/anotacoes-zonas.json`, junto da anotação original.
+- O lote, o motor e a linha de base do `test_8b` ficam iguais.
+- Aplique o seu patch e ajuste:
+  - o hash do `testar_pilotos.py` volta ao que era, porque o campo não chega ao lote;
+  - o teste da zona confirmada lê `anotacoes-zonas.json`.
+- Aceite: `testar_pilotos.py`, com e sem `--reproduzir`; `conferir.py` 8/8 contando só o que é seu (o Motor está mexendo em `motor/` na T24, então se der falha lá, diga qual é).
+- Atualize o `RELATORIO-19.md` (até 8 linhas) e avise como antes. Depois, siga para a `TAREFA-20.md`.
