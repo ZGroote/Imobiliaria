@@ -409,6 +409,28 @@ def tarefa7():
     confere(_ge(retangulo(20, 40), z))  # confere recalcula as unidades pela área do base_utm
 
 
+def test_alerta_unico_nao_verificada():
+    """Tarefa 21: os registros nao_verificada viram UM alerta por opção (as incertezas seguem uma por registro);
+    área encontrada sem altura mantém o alerta próprio. 3 nao_verificada + 1 encontrada = exatamente 2 alertas de área especial."""
+    lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
+    nv = lambda anexo: {"tipo": "nao_verificada", "nome": f"nada no {anexo}", "incidencia": "nao_verificada", "conferido": False, "fonte": "teste", "anexo": anexo}
+    achada = {"tipo": "gabarito_aeronautico", "nome": "Cone de teste", "incidencia": "dentro", "conferido": False, "fonte": "teste", "anexo": "07"}
+    e = _ge(dict(lote, areas_especiais=[nv("05"), nv("06"), achada, nv("06/09-A")]), zona)
+    assert e["opcoes"]
+    for o in e["opcoes"]:
+        esp = [a for a in o["alertas"] if a.startswith("ÁREA ESPECIAL")]
+        assert len(esp) == 2, esp
+        assert any("gabarito_aeronautico (Cone de teste)" in a for a in esp), esp
+        (agrupado,) = [a for a in esp if "nao_verificada" in a]
+        assert "Anexo 05, Anexo 06, Anexo 06/09-A" in agrupado and "pode passar do que o terreno permite" in agrupado, agrupado
+    assert sum("nao_verificada" in i for i in e["incertezas"]) == 3, e["incertezas"]  # o detalhe fica nas incertezas, um por registro
+    # um só registro: continua havendo o alerta; nenhum: nenhum alerta de área especial
+    um = _ge(dict(lote, areas_especiais=[nv("05")]), zona)
+    assert all(sum(a.startswith("ÁREA ESPECIAL") for a in o["alertas"]) == 1 for o in um["opcoes"])
+    zero = _ge(dict(lote, areas_especiais=[]), zona)
+    assert not any(a.startswith("ÁREA ESPECIAL") for o in zero["opcoes"] for a in o["alertas"])
+
+
 def test_d3_rotulo_parede_cega():
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
     # MÉDIA 4: parede cega só com o recuo que a base de fato tem. Encostada: 0,0. Solta (0,19 m da divisa): 0,19, não "0,0"
@@ -799,6 +821,7 @@ def main():
         tarefa7,
         test_d2_metricas_subsolo_final,
         test_d3_rotulo_parede_cega,
+        test_alerta_unico_nao_verificada,
         test_d4_caixa_sem_altura,
         test_d5_subsolo_dimensionado_pelas_vagas,
         test_d7_criterio_reflete_chave,

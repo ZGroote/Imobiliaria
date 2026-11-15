@@ -262,6 +262,15 @@ def main():
             inc = json.loads((tmp / f"h{indice}" / "estudo.json").read_text(encoding="utf-8"))["incertezas"]
             assert sum(i.startswith("Frente presumida") for i in inc) == 1 and trecho in inc, inc
             assert trecho in (tmp / f"h{indice}" / "relatorio.html").read_text(encoding="utf-8").replace("&#x27;", "'"), indice
+        # (i) tarefa 21: frente pela borda da quadra tem ramo próprio (não é "asfalto acima dos 6 m")
+        estudar.estudar("completo", [92058], "auto", tmp / "i", cadastro=cad)
+        lote = json.loads((tmp / "i" / "lote.json").read_text(encoding="utf-8"))
+        frente = lote["qualidade"]["frentes"][0]
+        assert frente["regra"] == "borda_de_quadra", frente
+        trecho = f"Frente presumida pela borda da quadra (sem asfalto no mapa; vão de {frente['largura_vao_m']:g} m entre quadras): conferir no local."
+        inc = json.loads((tmp / "i" / "estudo.json").read_text(encoding="utf-8"))["incertezas"]
+        assert sum(i.startswith("Frente presumida") for i in inc) == 1 and trecho in inc and not any("acima dos 6 m" in i for i in inc), inc
+        assert trecho in (tmp / "i" / "relatorio.html").read_text(encoding="utf-8").replace("&#x27;", "'")
         assert not any(i.startswith("Frente presumida") for i in novo["incertezas"]), novo["incertezas"]  # 30516: frente normal, sem aviso
     print("ok")
 
