@@ -18,6 +18,8 @@
     .view-actions button{border-color:#718186}
     select{font:inherit;min-height:44px;padding:10px;border:1px solid #6b7b80;border-radius:6px;background:var(--raised);color:var(--ink)}
     select:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+    .simulacao{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:8px 0}.simulacao input{font:inherit;min-height:44px;width:11em;max-width:100%;padding:10px;border:1px solid #6b7b80;border-radius:6px;background:var(--raised);color:var(--ink)}
+    .simulacao input:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.simulacao input[aria-invalid="true"]{border-color:#ff9a7a}#preco-erro{color:#ffc9b8}
     canvas:focus-visible{outline-color:#0e151b;outline-offset:-4px}
   </style>
   <script type="importmap">{"imports":{"viabilidade-three":"./vendor/three-viabilidade.min.js"}}</script>
@@ -34,6 +36,7 @@
       <p class="volume-warning" role="note">Volumes hipotéticos de potencial construtivo. Não são o projeto nem a fachada do edifício e não indicam aprovação.</p>
       <p id="revisao" class="muted"></p>
       <div id="resumo"><p id="lote"></p><p id="zona" class="muted"></p><div id="dominio" hidden></div><p id="conferencia" class="notice" role="note"></p></div>
+      <div class="simulacao"><label for="preco-tela">Preço por m² privativo (R$)</label><input id="preco-tela" inputmode="decimal" autocomplete="off" placeholder="ex.: 8.500" aria-describedby="preco-ajuda"><span id="preco-ajuda" class="help" aria-live="polite">Simulação: preço digitado na tela × área privativa de cada opção. O estudo não é alterado.</span></div>
       <nav id="opcoes" aria-label="Escolha uma opção"></nav>
       <div class="legend" aria-label="Legenda da maquete"><span><i class="swatch"></i>Lote</span><span><i class="swatch box"></i>Caixa máxima</span><span><i class="swatch volume"></i>Volume da opção</span><span><i class="swatch garagem"></i>Garagem / subsolo</span><span id="legenda-parede-cega" hidden><i class="swatch cega"></i><span id="texto-parede-cega"></span></span></div>
       <p class="help" id="ajuda-maquete">Arraste para girar; use a roda ou dois dedos para aproximar. Com foco na maquete, use as setas para girar e + ou − para aproximar ou afastar. Comparação com escala e vista inicial iguais. No celular, as opções ficam uma abaixo da outra.</p>
@@ -51,7 +54,7 @@
     const numero = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
     const numeroPreciso = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 20 });
     const reais = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
-    let fonte = null, origemUrl = null, THREE, OrbitControls, estudo, estudoSha, selecionada = 0, comparar = false, vistas = [], pedido = 0;
+    let fonte = null, origemUrl = null, precoTela = null, THREE, OrbitControls, estudo, estudoSha, selecionada = 0, comparar = false, vistas = [], pedido = 0;
     const el = (tag, texto, classe) => { const node = document.createElement(tag); if (texto !== undefined) node.textContent = texto; if (classe) node.className = classe; if (classe === 'notice') node.setAttribute('role', 'note'); return node; };
     const finito = n => typeof n === 'number' && Number.isFinite(n);
     const formatar = (n, unidade = '') => finito(n) ? numero.format(n) + unidade : 'Não informado';
@@ -170,6 +173,9 @@
       const preco = estudo.premissas.preco_venda_m2_privativo;
       linha(destaques, 'VGV estimado', !finito(preco) ? 'Informe o preço' : finito(m.vgv_estimado) ? reais.format(m.vgv_estimado) : 'Não informado');
       if (!finito(preco)) destaques.lastElementChild.querySelector('dd').className = 'sem-preco';
+      else destaques.lastElementChild.querySelector('dt').textContent = 'VGV estimado (preço do estudo)';
+      linha(destaques, 'VGV estimado (preço digitado na tela)', '');
+      Object.assign(destaques.lastElementChild, { className: 'vgv-tela', hidden: precoTela === null }).dataset.area = m.area_privativa_m2;
       painel.append(destaques);
       const dl = el('dl', undefined, 'details');
       linha(dl, 'Área computável máxima (lei)', estudo.caixa_maxima.area_computavel_max_m2 === null ? 'Sem limite na lei' : formatar(estudo.caixa_maxima.area_computavel_max_m2, ' m²'));
@@ -298,6 +304,31 @@
         janela.close(); falha('Não foi possível conferir a revisão do relatório.');
       }
     });
+    function atualizarVgv() {
+      for (const row of document.querySelectorAll('.vgv-tela')) {
+        const area = Number(row.dataset.area);
+        row.hidden = precoTela === null;
+        row.querySelector('dd').textContent = finito(area) ? reais.format(area * precoTela) : 'Área privativa não informada';
+      }
+    }
+    // Aceita 8500, 8.500, 8500,50 e 8.500,50 (ponto é milhar, vírgula é decimal).
+    function lerPreco(texto) {
+      const t = texto.replace(/\s|R\$/g, '');
+      if (!t) return { valor: null };
+      if (/^-/.test(t)) return { erro: 'O preço precisa ser maior que zero.' };
+      if (!/^(\d{1,3}(\.\d{3})+|\d+)(,\d{1,2})?$/.test(t)) return { erro: 'Digite só números, como 8.500 ou 8500,50.' };
+      const valor = Number(t.replace(/\./g, '').replace(',', '.'));
+      if (valor <= 0) return { erro: 'O preço precisa ser maior que zero.' };
+      if (valor > 200000) return { erro: 'Acima de R$ 200.000/m²: confira o valor.' };
+      return { valor };
+    }
+    $('preco-tela').addEventListener('input', event => {
+      const { valor, erro } = lerPreco(event.target.value);
+      precoTela = erro ? null : valor;
+      event.target.setAttribute('aria-invalid', String(Boolean(erro)));
+      $('preco-ajuda').textContent = erro || (valor === null ? 'Simulação: preço digitado na tela × área privativa de cada opção. O estudo não é alterado.' : 'Simulando ' + new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor) + '/m² digitado na tela. O estudo não é alterado.');
+      if (estudo) atualizarVgv();
+    });
     function mostrar() {
       vistas.forEach(v => v()); vistas = []; $('cards').replaceChildren();
       $('cards').classList.toggle('single', !comparar);
@@ -310,6 +341,7 @@
         if (THREE) { try { vistas.push(criarVista(viewport, o)); } catch { viewport.append(el('p', 'Não foi possível iniciar o 3D neste navegador. Os números continuam disponíveis.', 'notice')); } }
         else viewport.append(el('p', '3D indisponível. Confira a conexão com a biblioteca e o suporte a WebGL.', 'notice'));
       }
+      atualizarVgv();
     }
     function criarVista(container, opcao) {
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });

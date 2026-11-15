@@ -39,7 +39,7 @@ async function checkAccessibility(page) {
   await page.locator('#abrir').focus();
   await visibleFocus();
   const optionCount = await page.locator('#opcoes button').count();
-  const order = ['#exemplo', '#piloto', '#relatorio', ...Array.from({ length: optionCount }, (_, i) => `#opcoes button:nth-child(${i + 1})`), '#cards canvas', '#cards .view-actions button:first-child', '#cards .view-actions button:last-child', 'details.context:first-of-type summary', 'details.context:last-of-type summary'];
+  const order = ['#exemplo', '#piloto', '#relatorio', '#preco-tela', ...Array.from({ length: optionCount }, (_, i) => `#opcoes button:nth-child(${i + 1})`), '#cards canvas', '#cards .view-actions button:first-child', '#cards .view-actions button:last-child', 'details.context:first-of-type summary', 'details.context:last-of-type summary'];
   for (const selector of order) {
     await page.keyboard.press('Tab');
     assert(await page.locator(selector).first().evaluate(node => node === document.activeElement), 'Ordem de Tab: ' + selector);
@@ -165,6 +165,46 @@ async function checkNewStudy(page) {
   }
 }
 
+// VGV simulado pelo preço digitado na tela: área privativa × preço, sem mexer no estudo nem na revisão.
+async function checkPriceSimulation(page) {
+  const revisao = await page.locator('#revisao').innerText();
+  const valores = async () => (await page.locator('.vgv-tela dd').allInnerTexts()).map(t => Number(t.replace(/\D/g, '')));
+  const conferir = async (preco, opcoes) => {
+    const vgv = await valores();
+    assert.equal(vgv.length, opcoes.length);
+    opcoes.forEach((o, i) => assert(Math.abs(vgv[i] - o.metricas.area_privativa_m2 * preco) <= 1, `VGV ${o.id}: ${vgv[i]} x ${o.metricas.area_privativa_m2 * preco}`));
+  };
+  assert.equal(await page.locator('.vgv-tela').first().isVisible(), false, 'Campo vazio: sem VGV simulado.');
+  for (const [texto, preco] of [['8.500', 8500], ['8500', 8500], ['8500,50', 8500.5], ['R$ 8.500,50', 8500.5]]) {
+    await page.locator('#preco-tela').fill(texto);
+    assert.equal(await page.locator('#preco-tela').getAttribute('aria-invalid'), 'false', texto);
+    assert.match(await page.locator('.vgv-tela dt').first().innerText(), /VGV estimado \(preço digitado na tela\)/);
+    await conferir(preco, [example.opcoes[0]]);
+  }
+  await page.getByRole('button', { name: 'Lado a lado', exact: true }).click();
+  await conferir(8500.5, example.opcoes);
+  for (const [texto, mensagem] of [['-8500', /maior que zero/], ['0', /maior que zero/], ['abc', /Digite só números/], ['8.5', /Digite só números/], ['250.000', /Acima de R\$ 200\.000/]]) {
+    await page.locator('#preco-tela').fill(texto);
+    assert.match(await page.locator('#preco-ajuda').innerText(), mensagem, texto);
+    assert.equal(await page.locator('#preco-tela').getAttribute('aria-invalid'), 'true', texto);
+    assert.equal(await page.locator('.vgv-tela').first().isVisible(), false, texto + ': sem VGV com preço inválido.');
+  }
+  assert.equal(await page.locator('#revisao').innerText(), revisao, 'O preço da tela não muda a revisão.');
+  const comPreco = structuredClone(example);
+  comPreco.premissas.preco_venda_m2_privativo = 7000;
+  comPreco.opcoes.forEach(o => { o.metricas.vgv_estimado = o.metricas.area_privativa_m2 * 7000; });
+  await page.locator('#preco-tela').fill('9000');
+  await upload(page, JSON.stringify(comPreco), 'estudo-com-preco.json');
+  await page.waitForFunction(() => document.querySelector('#status').textContent.includes('estudo-com-preco.json'));
+  const destaques = await page.locator('.highlights').innerText();
+  assert.match(destaques, /VGV estimado \(preço do estudo\)/);
+  assert.match(destaques, /VGV estimado \(preço digitado na tela\)/);
+  assert(destaques.includes(new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(comPreco.opcoes[0].metricas.vgv_estimado)));
+  await conferir(9000, [comPreco.opcoes[0]]);
+  await page.locator('#preco-tela').fill('');
+  assert.equal(await page.locator('.vgv-tela').first().isVisible(), false);
+}
+
 (async () => {
   fs.mkdirSync(output, { recursive: true });
   const winChrome = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
@@ -255,6 +295,7 @@ async function checkNewStudy(page) {
         await page.locator('#relatorio').click();
         await page.waitForFunction(() => document.querySelector('#erro').textContent.includes('Relatório desatualizado'));
         await page.unroute('**/relatorio/saida/estudo-exemplo.html');
+        await checkPriceSimulation(page);
         await checkNewStudy(page);
         await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
         await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
