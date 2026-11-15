@@ -7,6 +7,7 @@ const pasta = path.dirname(fileURLToPath(import.meta.url));
 const threeDir = 'C:/Users/respawn/Desktop/imobiliaria/experimentos/liv-experimental-2026-10-14/node_modules/three';
 const esbuildDir = 'C:/Users/respawn/Desktop/imobiliaria/node_modules/esbuild';
 const three = JSON.parse(await readFile(path.join(threeDir, 'package.json'), 'utf8'));
+const threeLicense = await readFile(path.join(threeDir, 'LICENSE'));
 const esbuildPackage = JSON.parse(await readFile(path.join(esbuildDir, 'package.json'), 'utf8'));
 if (three.version !== '0.186.1') throw new Error(`Three.js esperado 0.186.1; encontrado ${three.version}.`);
 
@@ -36,9 +37,11 @@ const metadata = {
   formato: 'esm',
   tamanho_bytes: bundle.byteLength,
   sha256,
+  license_sha256: createHash('sha256').update(threeLicense).digest('hex'),
 };
 
 await mkdir(pasta, { recursive: true });
 await writeFile(path.join(pasta, 'three-viabilidade.min.js'), bundle);
+await writeFile(path.join(pasta, 'LICENSE-three.txt'), threeLicense);
 await writeFile(path.join(pasta, 'three-viabilidade.json'), `${JSON.stringify(metadata, null, 2)}\n`);
 console.log(`${metadata.arquivo}: ${metadata.tamanho_bytes} bytes · SHA-256 ${sha256}`);

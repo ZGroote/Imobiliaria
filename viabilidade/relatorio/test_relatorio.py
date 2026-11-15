@@ -389,6 +389,48 @@ class TestRelatorioViabilidade(unittest.TestCase):
         cls.arquivos_pilotos = sorted(DIR_PILOTOS.glob("*.json"))
         cls.arquivo_exemplo = DIR_EXEMPLOS / "estudo-exemplo.json"
 
+    def test_rejeita_payload_nos_numeros_e_escapa_todos_os_textos(self) -> None:
+        import copy
+
+        payload = '<img src=x onerror=alert(1)>'
+        casos = DIR_VIABILIDADE / "revisao" / "tarefa2" / "casos"
+        with tempfile.TemporaryDirectory() as temporario:
+            for campo in ("taxa_ocupacao", "taxa_permeabilidade"):
+                entrada = casos / f"xss-numerico-{campo}.json"
+                saida = Path(temporario) / f"{campo}.html"
+                with self.subTest(campo=campo), self.assertRaisesRegex(ValueError, rf"zona\.parametros\.{campo} deve ser número ou null"):
+                    relatorio.gerar_relatorio(entrada, saida)
+                self.assertFalse(saida.exists())
+
+        estudo = json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))
+        estudo_metrica_invalida = copy.deepcopy(estudo)
+        estudo_metrica_invalida["opcoes"][0]["metricas"]["ca_usado"] = payload
+        with self.assertRaisesRegex(ValueError, r"opcoes\[0\]\.metricas\.ca_usado deve ser número ou null"):
+            relatorio.gerar_html(estudo_metrica_invalida)
+
+        def injetar_textos(valor: Any) -> Any:
+            if isinstance(valor, dict):
+                return {chave: injetar_textos(item) for chave, item in valor.items()}
+            if isinstance(valor, list):
+                return [injetar_textos(item) for item in valor]
+            return payload if isinstance(valor, str) else valor
+
+        html_injetado = relatorio.gerar_html(injetar_textos(copy.deepcopy(estudo)))
+
+        class DetectorTagsAtivas(HTMLParser):
+            def __init__(self) -> None:
+                super().__init__()
+                self.ativas: List[str] = []
+
+            def handle_starttag(self, tag: str, attrs: List[Tuple[str, Optional[str]]]) -> None:
+                if tag in {"img", "script", "iframe", "object", "embed"} or any(nome.lower().startswith("on") for nome, _ in attrs):
+                    self.ativas.append(tag)
+
+        detector = DetectorTagsAtivas()
+        detector.feed(html_injetado)
+        self.assertEqual(detector.ativas, [])
+        self.assertEqual(relatorio.formatar_numero_ptbr(payload), relatorio.esc(payload))
+
     @classmethod
     def tearDownClass(cls) -> None:
         if cls._tmpdir is not None:

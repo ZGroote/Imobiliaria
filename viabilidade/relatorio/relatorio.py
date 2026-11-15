@@ -64,6 +64,13 @@ DESCRICAO_ZONA_ORIGEM: Dict[str, str] = {
     "teste": "Teste (escolhida só para testar)",
 }
 
+PARAMETROS_NUMERICOS_ZONA = {
+    "ca_basico", "ca_maximo", "ca_unifamiliar", "faixa_manobra_90graus_m",
+    "lote_min_m2", "parede_cega_encosta_ate_m", "recuo_fundos_m",
+    "recuo_lateral_m", "taxa_ocupacao", "taxa_permeabilidade",
+    "testada_min_m", "vaga_comprimento_m", "vaga_largura_m",
+}
+
 
 def esc(texto: Any) -> str:
     """Escapa texto para HTML seguro."""
@@ -104,7 +111,24 @@ def formatar_numero_ptbr(valor: Any, casas_min: int = 0) -> str:
         s_int = f"{parte_int:,}".replace(",", ".")
         s = f"{s_int},{parte_dec_str}" if parte_dec_str else s_int
         return f"-{s}" if negativo else s
-    return str(valor)
+    return esc(valor)
+
+
+def validar_numeros_relatorio(estudo: Dict[str, Any]) -> None:
+    """Impede que texto em campos numéricos alcance as rotinas do relatório."""
+    parametros = ((estudo.get("zona") or {}).get("parametros") or {})
+    for chave in PARAMETROS_NUMERICOS_ZONA:
+        valor = parametros.get(chave)
+        if valor is not None and (isinstance(valor, bool) or not isinstance(valor, (int, float)) or not math.isfinite(valor)):
+            raise ValueError(f"zona.parametros.{chave} deve ser número ou null.")
+
+    for indice, opcao in enumerate(estudo.get("opcoes") or []):
+        metricas = opcao.get("metricas") or {}
+        if not isinstance(metricas, dict):
+            raise ValueError(f"opcoes[{indice}].metricas deve ser um objeto.")
+        for chave, valor in metricas.items():
+            if valor is not None and (isinstance(valor, bool) or not isinstance(valor, (int, float)) or not math.isfinite(valor)):
+                raise ValueError(f"opcoes[{indice}].metricas.{chave} deve ser número ou null.")
 
 
 def span_num(
@@ -1860,6 +1884,7 @@ code {
 
 def gerar_html(estudo: Dict[str, Any], estudo_sha256: Optional[str] = None) -> str:
     """Gera a string HTML completa (capa + uma página A4 por opção) a partir do dict do estudo."""
+    validar_numeros_relatorio(estudo)
     lote = estudo.get("lote") or {}
     opcoes = estudo.get("opcoes") or []
     titulo_doc = f"Relatório de Viabilidade — {lote.get('id', 'Estudo')}"

@@ -42,6 +42,7 @@
     const pilotos = ['SC-completo-22421.json','SC-completo-22426.json','SC-completo-25297.json','SC-completo-30516.json','SC-completo-37607.json','SC-completo-q1382-11984-11988.json','SC-completo-remembramento-75352-75354.json'];
     const relatorios = new Set(['estudo-exemplo', ...pilotos.map(nome => nome.replace(/\.json$/, ''))]);
     const numero = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
+    const numeroPreciso = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 20 });
     const reais = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
     let fonte = null, THREE, OrbitControls, estudo, estudoSha, selecionada = 0, comparar = false, vistas = [], pedido = 0;
     const el = (tag, texto, classe) => { const node = document.createElement(tag); if (texto !== undefined) node.textContent = texto; if (classe) node.className = classe; return node; };
@@ -155,7 +156,7 @@
       painel.append(destaques);
       const dl = el('dl', undefined, 'details');
       linha(dl, 'Área computável máxima (lei)', estudo.caixa_maxima.area_computavel_max_m2 === null ? 'Sem limite na lei' : formatar(estudo.caixa_maxima.area_computavel_max_m2, ' m²'));
-      for (const [key, label, unit] of campos) linha(dl, label, formatar(key === 'to_usada' && finito(m[key]) ? m[key] * 100 : m[key], unit));
+      for (const [key, label, unit] of campos) linha(dl, label, finito(m[key]) ? (key === 'ca_usado' ? numeroPreciso.format(m[key]) : numero.format(key === 'to_usada' ? m[key] * 100 : m[key])) + unit : 'Não informado');
       painel.append(dl, el('h3', 'Recuos usados'));
       const recuos = el('dl', undefined, 'details recuos');
       const frontalPremissa = estudo.zona.parametros?.recuo_frontal_m == null;
