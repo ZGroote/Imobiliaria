@@ -1,4 +1,6 @@
 'use client'
+import { useIdioma } from '@/components/Idioma'
+
 import { useState } from 'react'
 import Link from 'next/link'
 import { Pagina } from '@/components/AppShell'
@@ -16,6 +18,8 @@ import { usePaginada } from '@/lib/useFirestore'
 // D4: o corretor vê os pedidos da imobiliária inteira. Status e "só as minhas" vão na consulta:
 // com a lista paginada, filtrar a página na tela perderia o que não coube nela.
 export default function Pedidos() {
+  const { t: tr } = useIdioma()
+
   const perfil = usePerfil()
   const [status, setStatus] = useState('')
   const [meus, setMeus] = useState(false)
@@ -25,15 +29,14 @@ export default function Pedidos() {
   const { nome } = usePessoas(perfil.agencyId, perfil.role === 'agency_manager')
 
   return (
-    <Pagina titulo="Solicitações" acoes={<Link href="/requests/new" className="btn-primario">Nova solicitação</Link>}>
+    <Pagina titulo={tr("Solicitações")} acoes={<Link href="/requests/new" className="btn-primario">{tr("Nova solicitação")}</Link>}>
       <div className="mb-4 flex flex-wrap items-center gap-4 text-sm">
         <select value={status} onChange={(e) => setStatus(e.target.value)} className="campo w-56">
-          <option value="">Todos os status</option>
-          {TODOS_STATUS.map((s) => <option key={s} value={s}>{ROTULO_STATUS[s]}</option>)}
+          <option value="">{tr("Todos os status")}</option>
+          {TODOS_STATUS.map((s) => <option key={s} value={s}>{tr(ROTULO_STATUS[s])}</option>)}
         </select>
         <label className="flex items-center gap-2">
-          <input type="checkbox" checked={meus} onChange={(e) => setMeus(e.target.checked)} /> Só as minhas
-        </label>
+          <input type="checkbox" checked={meus} onChange={(e) => setMeus(e.target.checked)} />{' '}{tr("Só as minhas")}</label>
       </div>
       <Estado r={r}>
         <ListaDePedidos pedidos={r.dados ?? []} base="/requests"

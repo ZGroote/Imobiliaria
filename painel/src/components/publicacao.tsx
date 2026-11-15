@@ -1,10 +1,11 @@
 'use client'
+import { useIdioma } from '@/components/Idioma'
+
 import { useState } from 'react'
 import Link from 'next/link'
 import { collection, orderBy, query, where } from 'firebase/firestore'
 import { Aviso, Cartao, Estado, Selo, useAcao } from './ui'
 import { db } from '@/lib/firebase'
-import { quando } from '@/lib/formato'
 import { comandoPromover, comandoReverter } from '@/lib/publicacao'
 import { estaPublicado, temPublicacao } from '@/lib/listas'
 import { alterarDisponibilidadePublicacao, APROVACAO_SEM_MANIFEST, conferirPublicacao, conferirReversao, registrarPublicacao, registrarReversao }
@@ -17,14 +18,16 @@ import { useColecao } from '@/lib/useFirestore'
 const SITE = process.env.NEXT_PUBLIC_SITE_IMOVEIS ?? ''
 
 export function ControlePublicacao({ p, compacto = false }: { p: Property; compacto?: boolean }) {
+  const { t: tr, dataHora: quando } = useIdioma()
+
   const perfil = usePerfil()
   const { executar, ocupado, erro } = useAcao()
   const preparado = temPublicacao(p), publicado = estaPublicado(p)
-  const gerente = perfil.role === 'agency_manager' && perfil.agencyId === p.agencyId
+  const gerente = perfil.role === 'platform_admin'
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap items-center gap-2">
-        <Selo tom={publicado ? 'verde' : 'cinza'}>{publicado ? 'Publicado' : preparado ? 'Fora do ar' : 'Não publicado'}</Selo>
+        <Selo tom={publicado ? 'verde' : 'cinza'}>{publicado ? tr("Publicado") : preparado ? tr("Fora do ar") : tr("Não publicado")}</Selo>
         {gerente && <button type="button" role="switch" aria-checked={publicado}
           className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full
             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2
@@ -35,32 +38,27 @@ export function ControlePublicacao({ p, compacto = false }: { p: Property; compa
           <span aria-hidden="true" className={`h-5 w-5 rounded-full bg-white shadow-sm transition-transform
             motion-reduce:transition-none ${publicado ? 'translate-x-6' : 'translate-x-1'}`} />
         </button>}
-        {ocupado && <span role="status" className="text-xs text-slate-500">Salvando…</span>}
+        {ocupado && <span role="status" className="text-xs text-slate-500">{tr("Salvando…")}</span>}
       </div>
-      {gerente && !preparado && <p className="text-xs text-slate-500">
-        O tour ou a maquete ainda precisa ser preparado pela equipe.
-      </p>}
+      {gerente && !preparado && <p className="text-xs text-slate-500">{tr("O tour ou a maquete ainda precisa ser preparado pela equipe.")}</p>}
       {perfil.role === 'platform_admin' && !preparado && <p className="text-xs text-slate-500">
-        {compacto ? <Link href={`/admin/properties/view?id=${p.id}#publicacao`} className="text-sky-700 hover:underline">
-          Preparar publicação
-        </Link> : 'Ainda não há tour ou maquete preparado para colocar no ar.'}
+        {compacto ? <Link href={`/admin/properties/view?id=${p.id}#publicacao`} className="text-sky-700 hover:underline">{tr("Preparar publicação")}</Link> : 'Ainda não há tour ou maquete preparado para colocar no ar.'}
       </p>}
-      {p.status === 'archived' && <p className="text-xs text-slate-500">O imóvel está arquivado.</p>}
+      {p.status === 'archived' && <p className="text-xs text-slate-500">{tr("O imóvel está arquivado.")}</p>}
       {erro && <Aviso>{erro}</Aviso>}
     </div>
   )
 }
 
 export function PublicacaoDoImovel({ p }: { p: Property }) {
+  const { t: tr, dataHora: quando } = useIdioma()
+
   const perfil = usePerfil()
   return (
     <div id="publicacao" className="lg:col-span-2">
-      <Cartao titulo="Publicação">
+      <Cartao titulo={tr("Publicação")}>
         <ControlePublicacao p={p} />
-        <p className="mt-3 text-sm text-slate-600">
-          Retirar do ar pausa as páginas públicas e os links individuais de tour e maquete. Ao colocar no ar novamente,
-          os mesmos links voltam a funcionar, com o histórico preservado.
-        </p>
+        <p className="mt-3 text-sm text-slate-600">{tr("Retirar do ar pausa as páginas públicas e os links individuais de tour e maquete. Ao colocar no ar novamente, os mesmos links voltam a funcionar, com o histórico preservado.")}</p>
         {!temPublicacao(p) && perfil.role === 'platform_admin' && <SolicitacoesParaPublicar p={p} />}
       </Cartao>
     </div>
@@ -83,6 +81,8 @@ function SolicitacoesParaPublicar({ p }: { p: Property }) {
 // isso no estado.json do site antes de gravar (§2). "Conferir o site" é visual e vale só para a
 // chave conferida: mudou o imóvel, o build ou o manifest, o botão some. Registrar relê o site.
 export function RegistrarPublicacao({ r, imovel }: { r: Request; imovel?: Property }) {
+  const { t: tr, dataHora: quando } = useIdioma()
+
   const perfil = usePerfil()
   const { executar, ocupado, erro } = useAcao()
   const [conferido, setConferido] = useState('')
@@ -93,7 +93,7 @@ export function RegistrarPublicacao({ r, imovel }: { r: Request; imovel?: Proper
     ? comandoPromover(unidade, r.approvedBuild, r.approvedManifestSha256) : ''
   const chave = `${unidade}:${r.approvedBuild}:${r.approvedManifestSha256}`
   return (
-    <Cartao titulo="Publicação">
+    <Cartao titulo={tr("Publicação")}>
       {!SITE ? <Aviso>Site de imóveis não configurado (NEXT_PUBLIC_SITE_IMOVEIS).</Aviso>
         : !imovel || !unidade ? <p className="text-sm text-slate-600">O pedido precisa de um imóvel com id do pipeline.</p>
         : !r.approvedManifestSha256 ? <Aviso>{APROVACAO_SEM_MANIFEST}</Aviso> : (
@@ -155,19 +155,21 @@ export function ReverterPublicacao({ p }: { p: Property }) {
 export function HistoricoDePublicacoes({ p, interno, pessoa, basePedido }: {
   p: Property; interno: boolean; pessoa: (uid: string) => string; basePedido: string
 }) {
+  const { t: tr, dataHora: quando } = useIdioma()
+
   const r = useColecao<Publication>(`publicacoes:${p.id}:${interno}`, () => interno
     ? query(collection(db, 'publications'), where('propertyId', '==', p.id), orderBy('publishedAt', 'desc'))
     : query(collection(db, 'publications'), where('agencyId', '==', p.agencyId), where('propertyId', '==', p.id),
       orderBy('publishedAt', 'desc')))
   return (
-    <Cartao titulo="Histórico de publicação">
+    <Cartao titulo={tr("Histórico de publicação")}>
       <Estado r={r}>
         {r.dados?.length ? (
           <ol className="space-y-3 text-sm">
             {r.dados.map((x) => (
               <li key={x.id} className="border-l-2 border-slate-200 pl-3">
                 <p>
-                  {x.action === 'publish' ? 'Publicado' : 'Revertido para'} o build <code>{x.build}</code>
+                  {x.action === 'publish' ? tr("Publicado") : 'Revertido para'} o build <code>{x.build}</code>
                   {x.previousBuild && <span className="text-slate-500"> (antes: <code>{x.previousBuild}</code>)</span>}
                 </p>
                 <p className="text-xs text-slate-500">
@@ -177,7 +179,7 @@ export function HistoricoDePublicacoes({ p, interno, pessoa, basePedido }: {
               </li>
             ))}
           </ol>
-        ) : <p className="text-sm text-slate-500">Nenhuma publicação registrada neste histórico.</p>}
+        ) : <p className="text-sm text-slate-500">{tr("Nenhuma publicação registrada neste histórico.")}</p>}
       </Estado>
     </Cartao>
   )

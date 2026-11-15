@@ -5,7 +5,7 @@ import { interno, type UserRole } from './types.ts'
 // O gerente convida só corretores da própria agência; administrar usuários é do platform_admin.
 // As regras conferem papel, agência e autoria, inclusive ao substituir um convite pendente.
 
-export interface NovoConvite { email: string; name: string; role: UserRole; agencyId?: string; agencyName?: string }
+export interface NovoConvite { email: string; name: string; role: UserRole; agencyId?: string; agencyName?: string; locale?: 'pt-BR' | 'en' }
 
 export function convidar(db: Firestore, autorUid: string, c: NovoConvite) {
   const email = idDoConvite(c.email), name = c.name.trim()
@@ -15,6 +15,7 @@ export function convidar(db: Firestore, autorUid: string, c: NovoConvite) {
   if (deAgencia && !c.agencyId) throw new Error('Escolha a imobiliária.')
   return setDoc(doc(db, 'invites', email), {
     email, name, role: c.role,
+    ...(c.locale ? { locale: c.locale } : {}),
     ...(deAgencia ? { agencyId: c.agencyId, ...(c.agencyName ? { agencyName: c.agencyName } : {}) } : {}),
     createdBy: autorUid, createdAt: serverTimestamp(),
   })

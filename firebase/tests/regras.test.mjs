@@ -238,7 +238,67 @@ test('5. operador: produz, mas não aprova, não publica e não administra', asy
   await assertFails(updateDoc(doc(f, 'users/corA'), { role: 'operator', updatedAt: now() }));
   await assertFails(setDoc(doc(f, 'invites/x@a.test'), { email: 'x@a.test', name: 'x', role: 'agent', agencyId: 'agA', createdBy: 'op', createdAt: now() }));
   await assertFails(setDoc(doc(f, 'agencies/agC'), { name: 'C', active: true, createdAt: now(), updatedAt: now() }));
-  await assertSucceeds(updateDoc(doc(f, 'properties/propA'), { title: 'Cedros 37', updatedAt: now() }));
+  await assertFails(updateDoc(doc(f, 'properties/propA'), { title: 'Cedros 37', updatedAt: now() }));
+  await assertFails(setDoc(doc(f, 'properties/novaDoOperador'), { agencyId: 'agA', title: 'Indevido', status: 'active', createdAt: now(), updatedAt: now() }));
+});
+
+test('cadastro de imóveis: gerente não cria nem altera a configuração, mesmo da própria imobiliária', async () => {
+  const f = db('gerA');
+  const novo = { agencyId: 'agA', title: 'Novo cadastro', status: 'active', createdAt: now(), updatedAt: now() };
+  await assertFails(setDoc(doc(f, 'properties/novoGerente'), novo));
+  await assertFails(updateDoc(doc(f, 'properties/propA'), {
+    title: 'Cedros atualizado', developmentName: 'Empreendimento', address: 'Rua Exemplo',
+    externalListingUrl: 'https://anuncio.example/cedros', updatedAt: now(),
+  }));
+  await assertFails(updateDoc(doc(f, 'properties/propA'), { address: deleteField(), status: 'inactive', updatedAt: now() }));
+  await assertFails(setDoc(doc(f, 'properties/novoOutraEmpresa'), { ...novo, agencyId: 'agB' }));
+  await assertFails(updateDoc(doc(f, 'properties/propB'), { title: 'Outra empresa', updatedAt: now() }));
+  for (const extra of [{ pipelineUnitId: 'slug-tecnico' }, { tourUrl: 'https://site.example/tour' }, { assignedAgentId: 'corB' }, { agencyId: 'agB' }]) {
+    await assertFails(setDoc(doc(f, 'properties/criacaoIndevida'), { ...novo, ...extra }));
+    await assertFails(updateDoc(doc(f, 'properties/propA'), { ...extra, updatedAt: now() }));
+  }
+  await assertFails(setDoc(doc(f, 'properties/novaArquivada'), { ...novo, status: 'archived' }));
+  await assertFails(setDoc(doc(db('corA'), 'properties/novaCorretor'), novo));
+  await assertFails(setDoc(doc(anon(), 'properties/novaAnonima'), novo));
+  await assertFails(setDoc(doc(db('inativo'), 'properties/novaInativa'), novo));
+});
+
+test('cadastro de imóveis: administrador mantém campos técnicos e acesso entre empresas', async () => {
+  const f = db('admin');
+  await assertSucceeds(setDoc(doc(f, 'properties/novaAdmin'), {
+    agencyId: 'agB', title: 'Cadastro admin', pipelineUnitId: 'slug-tecnico', status: 'active', createdAt: now(), updatedAt: now(),
+  }));
+  await assertSucceeds(updateDoc(doc(f, 'properties/propB'), { title: 'Atualizado pelo admin', pipelineUnitId: 'outro-slug', updatedAt: now() }));
+});
+
+test('cadastro de imóveis: gerente não grava dados comerciais que quebram a ficha', async () => {
+  const f = db('gerA');
+  const novo = { agencyId: 'agA', title: 'Cadastro válido', status: 'active', createdAt: now(), updatedAt: now() };
+  const invalidos = [
+    { title: { text: 'Objeto' } }, { title: ['Lista'] }, { title: null }, { title: '' }, { title: '   ' },
+    { status: null }, { status: 'publicado' }, { status: 42 },
+    { developmentName: { name: 'Objeto' } }, { address: ['Rua'] },
+    { externalListingUrl: 1 }, { externalListingUrl: 'javascript:alert(1)' },
+    { externalListingUrl: 'data:text/html,texto' }, { externalListingUrl: 'ftp://anuncio.example' },
+    { externalListingUrl: 'https://' }, { externalListingUrl: 'https:// /imovel' },
+  ];
+  for (const invalido of invalidos) {
+    await assertFails(setDoc(doc(f, 'properties/cadastroInvalido'), { ...novo, ...invalido }));
+    await assertFails(updateDoc(doc(f, 'properties/propA'), { ...invalido, updatedAt: now() }));
+  }
+  for (const campo of ['title', 'status']) {
+    const semCampo = { ...novo };
+    delete semCampo[campo];
+    await assertFails(setDoc(doc(f, 'properties/cadastroSemCampo'), semCampo));
+    await assertFails(updateDoc(doc(f, 'properties/propA'), { [campo]: deleteField(), updatedAt: now() }));
+  }
+  await assertFails(setDoc(doc(f, 'properties/cadastroValido'), {
+    ...novo, developmentName: 'Empreendimento', address: 'Rua Exemplo', externalListingUrl: 'HTTPS://anuncio.example/imovel',
+  }));
+  await assertFails(updateDoc(doc(f, 'properties/propA'), {
+    title: 'Título válido', developmentName: '', address: '', externalListingUrl: 'HTTP://anuncio.example/imovel',
+    status: 'archived', updatedAt: now(),
+  }));
 });
 
 test('6. platform_admin acessa e administra todos os tenants', async () => {
@@ -489,7 +549,7 @@ test('14. imutáveis e atribuição de corretor', async () => {
   await assertFails(updateDoc(doc(f, 'requests/reqA'), { requestedBy: 'gerA', updatedAt: now() }));
   await assertFails(updateDoc(doc(f, 'requests/reqA'), { title: 'x' }));                 // sem updatedAt do servidor
   await assertSucceeds(updateDoc(doc(f, 'requests/reqA'), { title: 'Novo título', updatedAt: now() }));
-  await assertSucceeds(updateDoc(doc(f, 'properties/propA'), { assignedAgentId: 'corA', updatedAt: now() }));
+  await assertFails(updateDoc(doc(f, 'properties/propA'), { assignedAgentId: 'corA', updatedAt: now() }));
   await assertFails(updateDoc(doc(f, 'properties/propA'), { assignedAgentId: 'corB', updatedAt: now() }));
   await assertFails(updateDoc(doc(f, 'properties/propA'), { title: 'x', updatedAt: now() }));
   // corretor edita o próprio pedido, não o do colega
@@ -580,6 +640,9 @@ test('18. Storage: tipo perigoso, sobrescrita e nada fora de request-assets/', a
   await env.clearStorage();
   await assertFails(sobe('corA', 'request-assets/agA/reqA/x.html', 'text/html'));
   await assertFails(sobe('corA', 'request-assets/agA/reqA/x.svg', 'image/svg+xml'));
+  await assertFails(sobe('corA', 'request-assets/agA/reqA/x.svg', 'application/octet-stream'));
+  await assertFails(sobe('corA', 'request-assets/agA/reqA/x.exe', 'application/octet-stream'));
+  await assertFails(uploadBytes(ref(as('corA').storage(), 'request-assets/agA/reqA/vazio.pdf'), new Uint8Array(), { contentType: 'application/pdf' }));
   await assertSucceeds(sobe('corA', 'request-assets/agA/reqA/dup.jpg'));
   await assertFails(sobe('corA', 'request-assets/agA/reqA/dup.jpg'));   // reenviar = arquivo novo
   // os prefixos do modelo antigo não têm regra: nem leitura pública, nem escrita, nem para o admin
@@ -857,4 +920,13 @@ test('M1-E revisão. legado também exige o imóvel na agência do pedido para i
   for (const uid of ['op', 'admin']) await assertFails(mudaStatus(db(uid), uid, 'legado', 'production'));
   await semRegras((f) => updateDoc(doc(f, 'properties/propA'), { agencyId: 'agA' }));
   await assertSucceeds(mudaStatus(db('op'), 'op', 'legado', 'production'));
+});
+
+test('contato internacional: SMS e e-mail explícitos, sem escalar acesso ou gravar URI', async () => {
+  const f = db('corA'), ref = doc(f, 'users/corA');
+  for (const publicContact of [{sms:'12125550100'}, {email:'agent@example.com'}])
+    await assertSucceeds(updateDoc(ref, {publicContact, updatedAt:now()}));
+  for (const publicContact of [{sms:'+1 212 555 0100'}, {sms:'javascript:alert(1)'}, {email:'a@x.test\nBcc:bad@x.test'}, {email:'mailto:a@x.test', extra:'x'}, {}])
+    await assertFails(updateDoc(ref, {publicContact, updatedAt:now()}));
+  await assertFails(updateDoc(doc(f,'users/corB'), {publicContact:{sms:'12125550100'},updatedAt:now()}));
 });

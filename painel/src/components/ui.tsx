@@ -1,4 +1,6 @@
 'use client'
+import { useIdioma } from '@/components/Idioma'
+
 import { Suspense, useState, type ReactNode } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { mensagemDoFirestore } from '@/lib/erros'
@@ -8,11 +10,13 @@ export function ComId({ children }: { children: (id: string) => ReactNode }) {
   return <Suspense fallback={<Carregando />}><LerId>{children}</LerId></Suspense>
 }
 function LerId({ children }: { children: (id: string) => ReactNode }) {
+  const { t: tr } = useIdioma()
+
   const id = useSearchParams().get('id')
-  return id ? <>{children(id)}</> : <Aviso>Endereço sem id.</Aviso>
+  return id ? <>{children(id)}</> : <Aviso>{tr("Endereço sem id.")}</Aviso>
 }
 
-export const Carregando = () => <p className="text-sm text-slate-500">Carregando…</p>
+export const Carregando = () => { const { t: tr } = useIdioma(); return <p className="text-sm text-slate-500">{tr("Carregando…")}</p> }
 export const Aviso = ({ children }: { children: ReactNode }) =>
   <p role="alert" className="text-sm text-red-700">{children}</p>
 export const Vazio = ({ children }: { children: ReactNode }) =>
@@ -27,22 +31,25 @@ export function Estado<T>({ r, children }: { r: { dados?: T[]; dado?: T | null; 
 
 // Paginação por limite crescente (usePaginada): some quando a consulta devolve menos que o pedido.
 export function CarregarMais({ r }: { r: { temMais: boolean; carregando: boolean; carregarMais: () => void } }) {
+  const { t: tr } = useIdioma()
+
   if (!r.temMais) return null
   return (
     <div className="mt-3 flex justify-center">
       <button className="btn" disabled={r.carregando} onClick={r.carregarMais}>
-        {r.carregando ? 'Carregando…' : 'Carregar mais'}
+        {r.carregando ? tr("Carregando…") : tr("Carregar mais")}
       </button>
     </div>
   )
 }
 
 export function Tabela({ cabecalho, children }: { cabecalho: string[]; children: ReactNode }) {
+  const { t: tr } = useIdioma()
   return (
     <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
       <table className="w-full text-left text-sm">
         <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-          <tr>{cabecalho.map((c) => <th key={c} className="px-4 py-2 font-medium">{c}</th>)}</tr>
+          <tr>{cabecalho.map((c) => <th key={c} className="px-4 py-2 font-medium">{tr(c)}</th>)}</tr>
         </thead>
         <tbody className="divide-y divide-slate-100">{children}</tbody>
       </table>
@@ -70,11 +77,12 @@ export const Selo = ({ children, tom = 'cinza' }: { children: ReactNode; tom?: '
 
 // Ação que escreve no Firestore: ocupado enquanto roda, erro traduzido se as regras negarem.
 export function useAcao() {
+  const { t: tr } = useIdioma()
   const [ocupado, setOcupado] = useState(false)
   const [erro, setErro] = useState('')
   async function executar(f: () => Promise<unknown>) {
     setOcupado(true); setErro('')
-    try { await f(); return true } catch (e) { setErro(mensagemDoFirestore(e)); return false } finally { setOcupado(false) }
+    try { await f(); return true } catch (e) { setErro(tr(mensagemDoFirestore(e))); return false } finally { setOcupado(false) }
   }
   return { executar, ocupado, erro }
 }

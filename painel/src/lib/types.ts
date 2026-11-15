@@ -1,7 +1,7 @@
 // Modelo canônico (tasks/painel/proposta.md, §3). As regras em firebase/firestore.rules são a
 // autoridade: estes tipos só descrevem o que elas aceitam.
 import type { Timestamp } from 'firebase/firestore'
-import type { Regiao } from './regiao.ts'
+import type { Regiao, Idioma } from './regiao.ts'
 
 export type UserRole = 'platform_admin' | 'operator' | 'agency_manager' | 'agent'
 export const PAPEIS_INTERNOS: UserRole[] = ['platform_admin', 'operator']
@@ -24,13 +24,14 @@ export interface User {                   // users/{uid}: FONTE DE AUTORIZAÇÃO
   agencyId?: string                       // obrigatório para papel de imobiliária; proibido para interno
   name: string; email: string
   role: UserRole; active: boolean
-  publicContact?: { whatsapp: string }    // público nos links deste responsável; dígitos internacionais sem +
+  publicContact?: { whatsapp?: string; sms?: string; email?: string }
   createdAt: Timestamp; updatedAt: Timestamp
 }
 
 export interface Invite {                 // invites/{email}; admin ou gerente (corretores da própria agência)
   email: string; name: string; role: UserRole; agencyId?: string
   agencyName?: string                     // só para exibir: o convidado ainda não lê agencies/
+  locale?: Idioma
   createdBy: string; createdAt: Timestamp
   emailDelivery?: { status: 'processing' | 'accepted' | 'failed'; eventId: string; updatedAt: Timestamp; messageId?: string; code?: string }
 }

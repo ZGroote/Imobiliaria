@@ -1,4 +1,6 @@
 'use client'
+import { useIdioma } from '@/components/Idioma'
+
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { EstadoDaConta } from '@/components/EstadoDaConta'
@@ -7,6 +9,8 @@ import { useSessao } from '@/lib/session'
 
 // A raiz só distribui: login, tela de estado da conta, ou a área do papel.
 export default function Inicio() {
+  const { t: tr } = useIdioma()
+
   const { sessao } = useSessao()
   const router = useRouter()
   useEffect(() => {
@@ -15,7 +19,7 @@ export default function Inicio() {
   }, [sessao, router])
 
   if (sessao.tipo === 'carregando' || sessao.tipo === 'fora' || sessao.tipo === 'ativo') {
-    return <p className="p-8 text-sm text-slate-500">Carregando…</p>
+    return <p className="p-8 text-sm text-slate-500">{tr("Carregando…")}</p>
   }
   return <EstadoDaConta sessao={sessao} />
 }

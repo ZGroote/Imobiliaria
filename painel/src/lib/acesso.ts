@@ -13,5 +13,10 @@ export const inicioDoPapel = (r: UserRole) => (PAPEIS_DA_AREA.admin.includes(r) 
 
 export const pode = (r: UserRole, papeis: UserRole[]) => papeis.includes(r)
 
+export const PAPEIS_CADASTRO: UserRole[] = ['platform_admin']
+
+export const podeGerenciarImovel = (perfil: Pick<User, 'role' | 'agencyId' | 'active'>, agencyId: string) =>
+  perfil.active && perfil.role === 'platform_admin'
+
 export const podeEditarComercial = (perfil: Pick<User, 'role' | 'agencyId' | 'active'>, agencyId: string) =>
   perfil.active && (perfil.role === 'platform_admin' || (perfil.role === 'agency_manager' && perfil.agencyId === agencyId))

@@ -71,8 +71,7 @@ export function gerarMaquete(text, contextoJson,options={}){
 }
 function authorize(user,property,agencyId){
   if(user?.active!==true||!property||property.agencyId!==agencyId
-    ||(!['platform_admin','operator'].includes(user.role)
-       &&!(['agency_manager','agent'].includes(user.role)&&user.agencyId===agencyId)))
+    ||!['platform_admin','operator'].includes(user.role))
     throw fail(403,'Sem permissão para este imóvel/agência.')
 }
 export async function criarVersao(db,uid,input){

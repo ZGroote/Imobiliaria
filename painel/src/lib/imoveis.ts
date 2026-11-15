@@ -22,7 +22,7 @@ function limpar(c: Partial<CamposDoImovel>) {
   return out
 }
 
-// Equipe interna cadastra (regras: properties create só isStaff, sem campos de publicação).
+// Administrador ou gerente da própria imobiliária cadastra, sem campos de publicação.
 export function criarImovel(db: Firestore, agencyId: string, c: CamposDoImovel) {
   if (!agencyId) throw new Error('Escolha a imobiliária.')
   return addDoc(collection(db, 'properties'), {

@@ -1,4 +1,6 @@
 'use client'
+import { useIdioma } from '@/components/Idioma'
+
 import { collection, doc, query, where } from 'firebase/firestore'
 import { Pagina } from '@/components/AppShell'
 import { Portao } from '@/components/Portao'
@@ -14,6 +16,8 @@ export default function Equipe() {
 }
 
 function Conteudo() {
+  const { t: tr } = useIdioma()
+
   const perfil = usePerfil()
   const agencia = useDoc<Agency>(`agencia:${perfil.agencyId}`, () => doc(db, 'agencies', perfil.agencyId!))
   const r = useColecao<User>(`equipe:${perfil.agencyId}`,
@@ -21,25 +25,25 @@ function Conteudo() {
   const convites = useColecao<Invite & { id: string }>(`convites:${perfil.agencyId}`,
     () => query(collection(db, 'invites'), where('agencyId', '==', perfil.agencyId), where('role', '==', 'agent')))
   return (
-    <Pagina titulo="Equipe" sub="Convide corretores para sua imobiliária. Cada pessoa cria a própria senha no primeiro acesso.">
+    <Pagina titulo={tr("Equipe")} sub={tr("Convide corretores para sua imobiliária. Cada pessoa cria a própria senha no primeiro acesso.")}>
       <div className="space-y-6">
         <NovoConvite agencias={agencia.dado ? [agencia.dado] : []} />
-        <Cartao titulo="Convites pendentes">
+        <Cartao titulo={tr("Convites pendentes")}>
           <Estado r={convites}>
             {convites.dados?.length ? (
-              <Tabela cabecalho={['E-mail', 'Nome', 'Papel', 'Criado', '']}>
+              <Tabela cabecalho={[tr("E-mail"), tr("Nome"), tr("Papel"), tr("Criado"), '']}>
                 {convites.dados.map((c) => <LinhaConvite key={c.id} c={c} />)}
               </Tabela>
-            ) : <Vazio>Nenhum convite pendente.</Vazio>}
+            ) : <Vazio>{tr("Nenhum convite pendente.")}</Vazio>}
           </Estado>
         </Cartao>
-        <Cartao titulo="Pessoas da equipe">
+        <Cartao titulo={tr("Pessoas da equipe")}>
           <Estado r={r}>
-            <Tabela cabecalho={['Nome', 'E-mail', 'Papel', 'Situação']}>
+            <Tabela cabecalho={[tr("Nome"), tr("E-mail"), tr("Papel"), tr("Situação")]}>
               {(r.dados ?? []).map((u) => (
                 <tr key={u.id}>
-                  <Td>{u.name}</Td><Td>{u.email}</Td><Td>{ROTULO_PAPEL[u.role]}</Td>
-                  <Td>{u.active ? <Selo tom="verde">Ativo</Selo> : <Selo>Desativado</Selo>}</Td>
+                  <Td>{u.name}</Td><Td>{u.email}</Td><Td>{tr(ROTULO_PAPEL[u.role])}</Td>
+                  <Td>{u.active ? <Selo tom="verde">{tr("Ativo")}</Selo> : <Selo>{tr("Desativado")}</Selo>}</Td>
                 </tr>
               ))}
             </Tabela>

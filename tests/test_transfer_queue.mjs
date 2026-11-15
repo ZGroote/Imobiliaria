@@ -2,6 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
+test('LIV: primeira demanda espera a instalação inicial do catálogo sem se cancelar',async()=>{
+ const source=readFileSync(new URL('../experimentos/liv-experimental-2026-10-14/transfer-worker.js',import.meta.url),'utf8');
+ const context=vm.createContext({URL,crypto:{randomUUID:()=> 'fixture'},self:{location:{href:'https://example.test/assets/transfer-worker.js'},addEventListener(){}},AbortController,DOMException,setTimeout,clearTimeout});
+ vm.runInContext(source+`;globalThis.openFirst=async()=>{
+   const url='https://example.test/assets/mapa-edificio.bundle.js';
+   ensureCatalog=async()=>{catalogEpoch++;jobs.set(url,{meta:{url,sha256:'verified'}});};
+   cachedResponse=async()=> 'verified response';
+   return foreground({url,signal:new AbortController().signal});
+ };`,context);
+ assert.equal(await context.openFirst(),'verified response');
+});
 for(const runtime of ['liv-experimental-2026-10-14','laranjeiras-2026-10-30/site']){
  const source=readFileSync(new URL(`../experimentos/${runtime}/transfer-worker.js`,import.meta.url),'utf8');
  const harness=()=>{

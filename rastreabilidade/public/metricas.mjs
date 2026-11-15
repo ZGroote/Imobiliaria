@@ -1,5 +1,5 @@
 // One principal section at a time. Monotonic elapsed time is never extrapolated.
-export function createMetrics({now, emit, page, section='carregando', heartbeatMs=15000, idleMs=60000}) {
+export function createMetrics({now, emit, page, section='carregando', unitKey=null, heartbeatMs=15000, idleMs=60000}) {
   let allowed=false, shown=true, running=false, last=now(), touched=last, sent=last, credit=0;
   function advance() {
     const time=now();
@@ -8,7 +8,7 @@ export function createMetrics({now, emit, page, section='carregando', heartbeatM
     return time;
   }
   function output(type) {
-    emit({type,page,section,activeMs:Math.min(30000,Math.floor(credit))});
+    emit({type,page,section,...(unitKey?{unitKey}:{}),activeMs:Math.min(30000,Math.floor(credit))});
     credit=0;sent=last;
   }
   function resume() {
@@ -26,11 +26,11 @@ export function createMetrics({now, emit, page, section='carregando', heartbeatM
       if(!shown&&running) {output('pause');running=false;}
       if(shown) {touched=last;resume();}
     },
-    context(nextPage,nextSection) {
+    context(nextPage,nextSection,nextUnit=null) {
       advance();
-      if(page===nextPage&&section===nextSection)return;
+      if(page===nextPage&&section===nextSection&&unitKey===nextUnit)return;
       if(running)output('pause');
-      page=nextPage;section=nextSection;
+      page=nextPage;section=nextSection;unitKey=nextUnit;
       if(running)output('view');
     },
     tick() {

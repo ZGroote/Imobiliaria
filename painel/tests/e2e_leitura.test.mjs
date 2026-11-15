@@ -58,7 +58,7 @@ test('snapshot gravado pela API e fixado pelas regras chega à maquete local, am
     createdAt: new Date(), updatedAt: new Date()});
   await db.doc('requests/pedidoM1f').set({agencyId: 'agA', requestedBy: 'gerA', propertyId: 'm1f-sintetico',
     title: 'M1-F', productionMode: 'leve', status: 'accepted', createdAt: new Date(), updatedAt: new Date()});
-  await entrar('corA');
+  await entrar('op');
   const token = await clientAuth(clientApps().at(-1)).currentUser.getIdToken();
   const v1 = await salvarVersao(url, token, {saveId: randomUUID(), propertyId: 'm1f-sintetico', agencyId: 'agA', leituraJson});
   const op = await entrar('op');

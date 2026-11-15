@@ -236,6 +236,22 @@ function browser({visible=true,deferredFrame=false,contact=opening().contact}={}
   return {win,doc,elements,requests,timers,clipboard,anchors,inner,loadFrame,settle,setNow:value=>{clock=value;}};
 }
 
+test('runtime transmite a unidade selecionada apenas após consentimento e separa transições',async()=>{
+  const b=browser()
+  b.inner.__livViewer={ready:true,mode:'maquete',selectedUnitId:'liv-ipanema/pavimento-modelo-03/final-02'}
+  b.inner.document={getElementById:()=>null}
+  await boot(b.win,b.doc);await b.elements.conteudo.dispatch('load')
+  assert.equal(b.requests.filter(r=>r.path==='/events').length,0)
+  await b.elements.aceitar.dispatch('click');await b.settle()
+  assert.equal(b.requests.find(r=>r.path==='/events').body.unitKey,'p03-f02')
+  b.setNow(15000);b.timers[0]();await b.settle()
+  b.inner.__livViewer.selectedUnitId='liv-ipanema/pavimento-modelo-04/final-02'
+  b.setNow(20000);b.timers[0]();await b.settle()
+  const events=b.requests.filter(r=>r.path==='/events').map(r=>r.body)
+  assert.ok(events.some(e=>e.unitKey==='p03-f02'&&e.activeMs===5000))
+  assert.ok(events.some(e=>e.unitKey==='p04-f02'&&e.type==='view'&&e.activeMs===0))
+})
+
 test('WhatsApp usa o responsável da abertura e compartilha só endereço público, sem depender de métricas',async()=>{
   const b=browser({contact:{brokerName:'Responsável do link',whatsappNumber:'5516999990000'}});
   b.win.location=new URL(origin+'/acesso.html?l='+token+'&receipt=privado&visitId=segredo');

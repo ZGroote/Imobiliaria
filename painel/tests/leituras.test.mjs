@@ -21,7 +21,7 @@ async function cliente(uid){const c=await entrar(uid);return {...c,token:await c
 const payload=(extra={})=>({saveId:randomUUID(),propertyId:'cedros',agencyId:'agA',leituraJson,...extra});
 const post=(token,data,method='POST')=>fetch(url,{method,headers:{authorization:`Bearer ${token}`,'content-type':'application/json',origin:'http://painel.test'},body:method==='POST'?JSON.stringify(data):undefined});
 test('usuário autenticado salva v1, recarrega via lista e salva v2 mantendo v1 intacta',async()=>{
-  const c=await cliente('corA'),p=payload();
+  const c=await cliente('op'),p=payload();
   const v1=await salvarVersao(url,c.token,p);const original=(await db.doc('propertyReadings/'+v1.id).get()).data();
   const listado=await listarVersoes(c.db,'cedros','agA');assert.equal(listado[0].version,1);
   const next=JSON.parse(leituraJson);next.revision++;next.rooms[0].name='Sala revisada';
@@ -43,7 +43,7 @@ test('outra agência, inativo, sem token, imóvel ausente e agência incompatív
   await db.doc('users/gerA').update({active:true});
 });
 test('Admin e operador usam a mesma autorização, updates/deletes e writes diretas sempre negados',async()=>{
-  for(const uid of ['admin','op','gerA','corA']){
+  for(const uid of ['admin','op']){
     const c=await cliente(uid),saved=await salvarVersao(url,c.token,payload());
     const ref=doc(c.db,'propertyReadings',saved.id);
     await assert.rejects(updateDoc(ref,{revision:999}),/permission/i);
@@ -53,7 +53,7 @@ test('Admin e operador usam a mesma autorização, updates/deletes e writes dire
   }
 });
 test('documento inválido não chega ao Firestore; campos de autoridade não vêm do cliente',async()=>{
-  const c=await cliente('corA'),before=(await db.collection('propertyReadings').get()).size;
+  const c=await cliente('op'),before=(await db.collection('propertyReadings').get()).size;
   const bad=JSON.parse(leituraJson);bad.rooms[0].widthMm=-1;
   const r=await post(c.token,payload({leituraJson:JSON.stringify(bad)}));assert.equal(r.status,422);
   assert.equal((await db.collection('propertyReadings').get()).size,before);
@@ -68,7 +68,7 @@ test('concorrência gera números únicos e predecessor de outro imóvel é recu
   assert.equal((await post(c.token,payload({basedOnVersionId:other.id}))).status,403);
 });
 test('histórico paginado recupera versões antigas sem repetir a fronteira',async()=>{
-  const c=await cliente('corA');
+  const c=await cliente('op');
   const original=(await db.collection('propertyReadings').where('propertyId','==','colinas').get()).docs[0].data();
   const batch=db.batch();for(let version=2;version<=52;version++) batch.create(db.doc('propertyReadings/page-'+version),{...original,version});
   await batch.commit();
@@ -78,7 +78,7 @@ test('histórico paginado recupera versões antigas sem repetir a fronteira',asy
 });
 
 test('snapshot guarda pisos/móveis com hash próprio e retry recusa companion diferente',async()=>{
-  const c=await cliente('corA'),leitura=JSON.parse(leituraJson);
+  const c=await cliente('op'),leitura=JSON.parse(leituraJson);
   const furniture=[{id:'m1',tipoCatalogo:'sofa-3',tipo3D:'sofa',nome:'Sofá',xMm:1000,yMm:1000,widthMm:1960,depthMm:920,alturaMm:800,rotDegrees:0}];
   const state={schemaVersion:'1.0.0',activeFloor:0,floors:[{floor:0,leitura,furniture},{floor:1,leitura:{...leitura,id:'leitura-superior'},furniture:[]}]};
   const p=payload({editorStateJson:JSON.stringify(state)}),r=await post(c.token,p);
@@ -93,4 +93,11 @@ test('snapshot guarda pisos/móveis com hash próprio e retry recusa companion d
   state.floors[1].leitura.rooms[0].widthMm=-1;
   assert.equal((await post(c.token,payload({editorStateJson:JSON.stringify(state)}))).status,422);
   assert.deepEqual((await db.doc('propertyReadings/'+saved.id).get()).data(),snap);
+});
+
+test('configuração de plantas: gerente e corretor não salvam nem geram sobre empreendimento', async () => {
+  for (const uid of ['gerA','corA']) {
+    const c=await cliente(uid);
+    assert.equal((await post(c.token,payload())).status,403);
+  }
 });

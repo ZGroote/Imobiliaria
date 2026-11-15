@@ -66,6 +66,32 @@ forwardedEntries,ownReturns,uncertainEntries}`;
 `bySource=[{sourceClass,sessions,estimatedVisitors,activeMs}]`;
 `bySection=[{page,section,views,activeMs}]`;
 `coverage={consentedOnly:true,truncated:boolean,retentionDays:30}`.
+
+### Apartamentos (extensão compatível)
+
+`Event` aceita `unitKey?`, posição canônica `pNN-fNN`, apenas em `maquete`
+nas seções `maquete|ficha|planta2d|planta3d|visita`. O runtime lê a seleção
+do visualizador pronto, nunca o texto do link como prova de seleção. Trocar
+unidade encerra o intervalo anterior antes de iniciar o novo. Mapa,
+carregamento e navegação geral ficam sem unidade. O servidor atribui o tempo
+somente se existir `salesInventory/{propertyId}/units/{unitKey}`; unidade
+não cadastrada permanece apenas no total geral. Até 500 unidades por sessão.
+
+`GET /report?...&units=1` mantém autenticação e escopo, acrescentando:
+
+- `byUnit=[{unitKey,sessions,returns,activeMs}]`, até 500 linhas, ordenadas por
+  sessões e tempo; corte adicional sinaliza `coverage.truncated`.
+- `unitCoverage={sessionsWithUnit,unassignedActiveMs}` para distinguir
+  cobertura da nova coleta e tempo geral/legado sem atribuição.
+
+Sessões por unidade contam uma vez cada sessão que explorou o apartamento.
+`returns` conta sessões posteriores do mesmo hash de navegador para a mesma
+unidade dentro da coorte consultada. Não herda o retorno ao empreendimento
+como retorno a um apartamento diferente. Uma sessão pode visitar várias
+unidades: somar sessões ou retornos das linhas não equivale ao total geral.
+Nenhum identificador de navegador é exposto. Sessões anteriores à extensão
+continuam no total, sem distribuição retroativa. O relatório sem `units=1`
+preserva exatamente o contrato anterior.
 `truncated` indica corte pelo limite de 500 sessões consultadas; retenção é
 informada separadamente, sem falso parcial pela latência da janela padrão.
 Distintos são calculados para todo o período, sem somar únicos diários ou

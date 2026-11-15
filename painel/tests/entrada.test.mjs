@@ -32,7 +32,7 @@ const FORA='O imóvel não pertence mais à imobiliária deste pedido.';
 async function transferido(id,fn){await db.doc('properties/'+id).update({agencyId:'agB'});try{await fn();}finally{await db.doc('properties/'+id).update({agencyId:'agA'});}}
 
 test('fluxo completo: v1/v2 → fixa v1 → inicia produção → v3 salva não muda o pedido → troca para v3 auditada',async()=>{
-  const cor=await token('corA'),op=await entrar('op'),ger=await entrar('gerA');
+  const cor=await token('op'),op=await entrar('op'),ger=await entrar('gerA');
   await db.doc('requests/entradaColinas').set({agencyId:'agA',requestedBy:'gerA',propertyId:'colinas',title:'Colinas M1-E',
     productionMode:'leve',status:'accepted',createdAt:new Date(),updatedAt:new Date()});
   const v1=await salvar(cor,1,'Sala v1'),v2=await salvar(cor,2,'Sala v2');

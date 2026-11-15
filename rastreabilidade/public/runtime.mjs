@@ -6,7 +6,22 @@ const stages=new Set(['mapa','interior','planta']);
 const navKeys=['pagina','modo','etapa','em','r','p','t','noite','geometria','unidades','unidade','estoque','luz','experiencia'];
 const openingKey='tracking.openings.v1',choicePrefix='tracking.choice.v1.',visitorKey='tracking.visitor.v1';
 
+export function selectedUnitKey(win,page,section) {
+  if(page!=='maquete'||!['maquete','ficha','planta2d','planta3d','visita'].includes(section))return null;
+  try {
+    const viewer=win.__livViewer;
+    if(!viewer?.ready)return null;
+    const id=viewer.selectedUnitId;
+    if(typeof id!=='string')return null;
+    if(/^p\d{2}-f\d{2}$/.test(id))return id;
+    const match=id.match(/^[a-z0-9-]+\/pavimento-modelo-(\d{2})\/final-(\d{2})$/);
+    return match?`p${match[1]}-f${match[2]}`:null;
+  } catch {return null;}
+}
+
 export function validateOpening(value,origin) {
+  if(value?.smsNumber!==undefined&&(typeof value.smsNumber!=='string'||!/^[1-9][0-9]{7,14}$/.test(value.smsNumber)))throw Error('Contato inválido');
+  if(value?.contactEmail!==undefined&&(typeof value.contactEmail!=='string'||value.contactEmail.length>254||!/^[^@\s<>]+@[^@\s<>]+\.[^@\s<>]+$/.test(value.contactEmail)||/[\x00-\x1f\x7f]/.test(value.contactEmail)))throw Error('Contato inválido');
   if(!value||!/^[A-Za-z0-9_-]{32}$/.test(value.visitId)||!/^[A-Za-z0-9_-]{32}\.[A-Za-z0-9_-]{43}$/.test(value.receipt)
     ||!value.receipt.startsWith(value.visitId+'.')||!/^[A-Za-z0-9_-]{32}$/.test(value.shareToken)
     ||!['root','forwarded','own_return','uncertain'].includes(value.sourceClass)
@@ -54,6 +69,13 @@ export function whatsappAddress(current,opening) {
   if(typeof phone!=='string'||!/^[1-9][0-9]{7,14}$/.test(phone))return null;
   const message=`Olá! Tenho interesse em ${opening.propertyTitle}.\n${shareAddress(current,opening)}`;
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+}
+
+export function contactAddress(channel,current,opening) {
+  const message=opening.locale==='en'?`Hello! I am interested in ${opening.propertyTitle}.\n${shareAddress(current,opening)}`:`Olá! Tenho interesse em ${opening.propertyTitle}.\n${shareAddress(current,opening)}`;
+  if(channel==='sms'&&typeof opening.smsNumber==='string'&&/^[1-9][0-9]{7,14}$/.test(opening.smsNumber))return `sms:+${opening.smsNumber}?body=${encodeURIComponent(message)}`;
+  if(channel==='email'&&typeof opening.contactEmail==='string'&&opening.contactEmail.length<=254&&/^[^@\s<>]+@[^@\s<>]+\.[^@\s<>]+$/.test(opening.contactEmail)&&!/[\x00-\x1f\x7f]/.test(opening.contactEmail))return `mailto:${encodeURIComponent(opening.contactEmail)}?subject=${encodeURIComponent(opening.propertyTitle)}&body=${encodeURIComponent(message)}`;
+  return null;
 }
 
 export function frameAddress(destination,outer) {
@@ -229,6 +251,7 @@ export async function boot(win=window,doc=document) {
     stopped=true;consentEpoch++;ledger?.consent(false);delivery?.clear();frame.hidden=true;frame.removeAttribute('src');status(message);
     for(const id of ['paginaTour','paginaMaquete','compartilhar','consentimento','escolha','whatsapp'])el(id).hidden=true;
     el('whatsapp').removeAttribute('href');
+    for(const id of ['sms','email']){const link=el(id);if(link){link.hidden=true;link.removeAttribute('href');}}
     el('copiar').disabled=true;
   }
   function saveAnalytics(snapshot) {
@@ -265,6 +288,7 @@ export async function boot(win=window,doc=document) {
           return result.nextSeq;
         }});
       ledger=createMetrics({now:()=>win.performance.now(),page,section:initializeFrame()?primarySection(frame.contentWindow,page):'carregando',
+        unitKey:approvedFrame()?selectedUnitKey(frame.contentWindow,page,primarySection(frame.contentWindow,page)):null,
         emit:event=>{if(choice!=='yes'||!approvedFrame())return;
           if(!delivery.add({visitId:opening.visitId,receipt:opening.receipt,sessionId:analytics.sessionId,...event}))status('A conexão está indisponível. Parte das métricas pode não ser registrada.');
           void delivery.drain();}});
@@ -286,6 +310,11 @@ export async function boot(win=window,doc=document) {
   el('escolha').addEventListener('click',()=>{el('consentimento').hidden=false;el('aceitar').focus();});
 
   function syncContact() {
+    for(const channel of ['sms','email']) {
+      const item=el(channel);if(!item)continue;
+      const address=contactAddress(channel,win.location.href,opening);
+      item.hidden=!address;if(address)item.href=address;else item.removeAttribute('href');
+    }
     const link=el('whatsapp'),address=whatsappAddress(win.location.href,opening);
     let inside=false;
     try {
@@ -316,7 +345,7 @@ export async function boot(win=window,doc=document) {
       const link=new URL(current);link.searchParams.set('pagina',targetPage);el(id).href=link.href;el(id).hidden=false;
       if(targetPage===page)el(id).setAttribute('aria-current','page');else el(id).removeAttribute('aria-current');
     }
-    syncContact();ledger?.context(page,section);
+    syncContact();ledger?.context(page,section,selectedUnitKey(frame.contentWindow,page,section));
   }
   function navigate(nextPage,destination) {
     if(!opening||stopped)return;

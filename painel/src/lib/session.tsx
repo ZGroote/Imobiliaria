@@ -2,7 +2,7 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
 import { onAuthStateChanged, signOut, type User as FbUser } from 'firebase/auth'
 import { doc, onSnapshot } from 'firebase/firestore'
-import { auth, db } from './firebase.ts'
+import { auth, db, sessoesDeTeste } from './firebase.ts'
 import { lerConvite } from './convite.ts'
 import { comId, type Invite, type User } from './types.ts'
 
@@ -68,4 +68,7 @@ export function usePerfil() {
   if (sessao.tipo !== 'ativo') throw new Error('usePerfil fora do Portão')
   return sessao.perfil
 }
-export const sair = () => signOut(auth)
+export const sair = async () => {
+  const { administrador, gerente } = sessoesDeTeste()
+  await Promise.all([signOut(auth), signOut(administrador.auth), signOut(gerente.auth)])
+}
