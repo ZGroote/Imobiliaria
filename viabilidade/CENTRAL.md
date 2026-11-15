@@ -1,19 +1,19 @@
 # Estado da central (pra retomar)
 
-Atualizado: 14/11/2026, ~13h. Galho `feat/viabilidade` (worktree `Desktop/imobiliaria-viabilidade`), enviado ao GitHub a cada entrega. O usuário autorizou commit + push por entrega. O repo está PÚBLICO e o usuário vai voltar a privado no fim.
+Atualizado: 15/11/2026, ~02h (janela livre de 6 h dada pelo usuário: seguir sem pedir aprovação; main/produção continuam com ele). Galho `feat/viabilidade` (worktree `Desktop/imobiliaria-viabilidade`), enviado ao GitHub a cada entrega. O usuário autorizou commit + push por entrega. O repo está PÚBLICO e o usuário vai voltar a privado no fim.
 
 ## Equipe (andar "Viabilidade" no Maestri, banda "Equipe Viabilidade")
 
 | IA | Modelo / conta | Situação |
 |---|---|---|
 | Lei | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
-| Terreno | Codex Astra high / trabalho | Livre. TAREFA-2 entregue e commitada (7 pilotos, v4) |
+| Terreno | Codex **Astra high** / trabalho (sessão; cotas renovadas 15/11) | **Fazendo o MOTOR** no 1B: TAREFA-8 entregue (0.8.0), agora `motor/TAREFA-8B.md` (B do remembramento 66→56) |
 | Motor | Claude **Sonnet** high / jaogroote | **Parado** (fase 0 fechada). TAREFA-7 commitada. Limitações conhecidas: recuo assimétrico + permeabilidade apertada; garagem_computavel=True |
-| Visual | Codex **Luna** medium / trabalho (18% da semana) | Livre. TAREFA-3 commitada (botão do relatório, menos de 4 opções) |
+| Visual | Codex **Luna medium** / trabalho | TAREFA-5 commitada (contrato v5 na tela/relatório, 5c54dbda); fazendo `visual/TAREFA-6.md` (revisão do estudo, volume hipotético) |
 | Produto | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 |
-| Conferencia | Antigravity (Claude Sonnet 5.5, alto) | Livre. Trocada do Claude em 14/11 |
+| Conferencia | Antigravity **Gemini 4 Hydrogen, alto** | Fazendo `conferencia/TAREFA-2.md` (pacote para o arquiteto, preparo do 1C) |
 | Relatorio | Antigravity (Claude Sonnet 5.5, médio), **cópia isolada** `Desktop/imobiliaria-viabilidade-gemini`, galho `exp/viabilidade-gemini` | Livre. Relatório HTML entregue, revisado (print) e trazido pro principal em `viabilidade/relatorio/`. Próximas tarefas experimentais vão pra lá |
-| Auditor | Antigravity (Claude Sonnet 5.5, alto) | Livre. TAREFA-5 entregue sem RELATORIO-5; matriz corrigida pela central em VERIFICACAO-1A.md |
+| Auditor | Antigravity (trocar p/ Gemini Hydrogen alto ao usar) | Próxima: `auditoria/TAREFA-6.md` (auditoria do 0.8.0) depois da 8B |
 
 Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota Gemini/Claude/GPT dele); programação em Claude/Codex; central no Opus. Antigravity não assina commit: só escreve na pasta dele e a central commita. Ajudantes (subagentes) só quando houver partes separadas. Esforço (usuário, 14/11): **médio** no simples (ajuste de tela, pesquisa curta, tarefa bem definida); **alto** no Motor, Auditor, Conferência e em investigação de defeito.
 
