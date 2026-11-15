@@ -92,6 +92,17 @@
   "viabilidade/visual/evidencias/desktop-piloto-SC-completo-37607.png": "d7033c12df68f9d76d608ef14bd3d00cee299b3f3fc50df06787b6afda094fc1",
   "viabilidade/visual/evidencias/desktop-piloto-SC-completo-q1382-11984-11988.png": "21bf6b22873a6a07bba48b6e52140f698983a6c3ab690429f6363a57f817b9b6",
   "viabilidade/visual/evidencias/desktop-piloto-SC-completo-remembramento-75352-75354.png": "d8b1cd394c4324ccc2bcc13050b67f1ca573d12422ca915dc6250e42cf36b6b9",
-  "viabilidade/visual/evidencias/desktop-v2.png": "14d1708f4682d7b8101548c9120fbf9096a07842dd0700683cc45ba59f09dfcf"
- }
+  "viabilidade/visual/evidencias/desktop-v2.png": "14d1708f4682d7b8101548c9120fbf9096a07842dd0700683cc45ba59f09dfcf",
+  "viabilidade/terreno/dados/zona-auto/completo-19.png": "99bb9b4560c1c2a53abcabb489184fd425434cfbb5af907284a9e01c86bbbdb6",
+  "viabilidade/terreno/dados/zona-auto/completo-25298.png": "4931c17db1d3bfca5327ce502c48e7c1126df111bf947bdba660bbe301914cc1",
+  "viabilidade/terreno/dados/zona-auto/completo-75355.png": "2390539409838a7117929eee6a5e31eb7379de683b44ef49df147a7ffd22ad6f"
+ },
+ "acrescimos": [
+  {
+   "data": "2026-11-15",
+   "quem": "central (Claude Code)",
+   "arquivos": "terreno/dados/zona-auto/completo-{19,25298,75355}.png",
+   "o_que_e": "recortes do Anexo 02 (Plano Diretor) com o lote marcado, conferência visual da zona sugerida (Terreno tarefa 5); vistos um a um, sem dado pessoal"
+  }
+ ]
 }

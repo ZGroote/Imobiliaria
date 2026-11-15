@@ -24,6 +24,8 @@ PY = [sys.executable, "-I", "-X", "utf8"]
 TESTES = {
     "motor": ("viabilidade/motor/test_motor.py", PY + ["viabilidade/motor/test_motor.py"]),
     "terreno": ("viabilidade/terreno/testar_pilotos.py", PY + ["viabilidade/terreno/testar_pilotos.py", "--reproduzir"]),
+    "lote-novo": ("viabilidade/terreno/novo_lote.py", PY + ["viabilidade/terreno/novo_lote.py", "--testar"]),
+    "estudar": ("viabilidade/motor/test_estudar.py", PY + ["viabilidade/motor/test_estudar.py"]),
     "relatorio": ("viabilidade/relatorio/test_relatorio.py", PY + ["viabilidade/relatorio/test_relatorio.py"]),
     "lei": ("viabilidade/lei/gera_zonas.py", None),  # refaz zonas.json e compara bytes
     "visual": ("viabilidade/visual/testar.cjs", ["node", "viabilidade/visual/testar.cjs"]),
@@ -74,7 +76,7 @@ def rodar_visual():
         return "nao_executado", None, "node não encontrado"
     _, sujo = git("status", "--porcelain", "--", EVIDENCIAS_VISUAL)
     srv = subprocess.Popen([sys.executable, "-I", "-u", "-m", "http.server", "0", "--bind", "127.0.0.1"],
-                           cwd=RAIZ, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+                           cwd=RAIZ, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)  # a linha da porta vem no stdout; o registro de cada pedido (stderr) enchia o cano no Windows e travava o servidor
     try:
         linha = srv.stdout.readline()  # "Serving HTTP on 127.0.0.1 port 54321 ..."
         porta = linha.split(" port ")[1].split()[0]

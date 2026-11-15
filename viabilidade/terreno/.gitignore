@@ -5,3 +5,4 @@ dados/zonas-mapas/anexo05.jpg
 dados/zonas-mapas/anexo06.jpg
 dados/zonas-mapas/anexo07.jpg
 __pycache__/
+.cache/

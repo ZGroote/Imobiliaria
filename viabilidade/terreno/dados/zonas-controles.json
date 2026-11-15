@@ -232,5 +232,538 @@
         ]
       }
     ]
+  },
+  "uso_mapas": "Os 5 vértices de 'mapas' (SAD69) ficam só como verificação e para reproduzir as anotações à mão de 14/11; a leitura automática (sugerir_zona.py, areas_especiais.py) usa 'cruzamentos' (tarefa 17 do terreno).",
+  "cruzamentos": {
+    "crs": "EPSG:31983",
+    "fonte_coordenadas": "Centro do cruzamento no cadastro completo: ponto mais distante dos lotes numa grade de 0,5 m a até 15 m do nó do OSM (Geofabrik), com lote nos quatro quadrantes e dentro da malha de asfalto. Nomes das ruas pelo OSM.",
+    "fonte_pixel": "Encontro dos eixos cinza das duas ruas no anexo (perfil transversal do cinza dos dois lados do cruzamento), conferido um a um em recorte; 21 cruzamentos em grade de 6x5 sobre a área urbana, inclusive norte e leste.",
+    "pontos": [
+      {
+        "nome": "Rua Carlos Luporini x Rua Mário de Cico",
+        "utm": [
+          196965.49,
+          7567719.33
+        ],
+        "pixel": {
+          "02": [
+            1742.64,
+            1660.35
+          ],
+          "05": [
+            2560.27,
+            4855.52
+          ],
+          "06": [
+            1709.95,
+            1794.05
+          ],
+          "07": [
+            4642.18,
+            7530.16
+          ]
+        }
+      },
+      {
+        "nome": "Via de Acesso 3 x Via de Acesso O",
+        "utm": [
+          200546.04,
+          7567836.17
+        ],
+        "pixel": {
+          "02": [
+            4277.75,
+            1621.9
+          ],
+          "05": [
+            3712.5,
+            4838.08
+          ],
+          "06": [
+            4243.93,
+            1755.89
+          ],
+          "07": [
+            5276.15,
+            7520.77
+          ]
+        }
+      },
+      {
+        "nome": "Rua Miguel Mazzei x Rua Nicola Bibbo",
+        "utm": [
+          202125.95,
+          7569047.31
+        ],
+        "pixel": {
+          "02": [
+            5409.64,
+            779.26
+          ],
+          "05": [
+            4226.88,
+            4454.89
+          ],
+          "06": [
+            5375.4,
+            913.35
+          ],
+          "07": [
+            5558.81,
+            7309.82
+          ]
+        }
+      },
+      {
+        "nome": "Rua Renato Talarico Lima Pereira x Rua Vereador Lucas Perroni Junior",
+        "utm": [
+          197211.44,
+          7565537.06
+        ],
+        "pixel": {
+          "02": [
+            1886.72,
+            3211.83
+          ],
+          "05": [
+            2625.56,
+            5560.68
+          ],
+          "06": [
+            1853.72,
+            3345.2
+          ],
+          "07": [
+            4677.66,
+            7918.41
+          ]
+        }
+      },
+      {
+        "nome": "Avenida João Dagnone x Rua Procóprio de Toledo Malta",
+        "utm": [
+          198175.74,
+          7565163.74
+        ],
+        "pixel": {
+          "02": [
+            2563.24,
+            3490.45
+          ],
+          "05": [
+            2932.94,
+            5687.27
+          ],
+          "06": [
+            2530.19,
+            3623.74
+          ],
+          "07": [
+            4847.11,
+            7987.82
+          ]
+        }
+      },
+      {
+        "nome": "Rua Doutor Alberto Cattani x Rua Luigi Mazziero",
+        "utm": [
+          200364.91,
+          7565504.05
+        ],
+        "pixel": {
+          "02": [
+            4118.37,
+            3278.13
+          ],
+          "05": [
+            3639.94,
+            5590.87
+          ],
+          "06": [
+            4084.6,
+            3411.45
+          ],
+          "07": [
+            5235.92,
+            7934.69
+          ]
+        }
+      },
+      {
+        "nome": "Rua Professor José Ferraz de Camargo x Rua Rotary Club",
+        "utm": [
+          202003.0,
+          7565033.49
+        ],
+        "pixel": {
+          "02": [
+            5266.96,
+            3635.88
+          ],
+          "05": [
+            4162.13,
+            5753.32
+          ],
+          "06": [
+            5232.84,
+            3769.15
+          ],
+          "07": [
+            5523.01,
+            8024.07
+          ]
+        }
+      },
+      {
+        "nome": "Rua Antonio Trofino x Rua Pedro Grosso Junior",
+        "utm": [
+          204736.83,
+          7564687.11
+        ],
+        "pixel": {
+          "02": [
+            7196.92,
+            3915.49
+          ],
+          "05": [
+            5039.47,
+            5880.58
+          ],
+          "06": [
+            7162.71,
+            4048.45
+          ],
+          "07": [
+            6005.97,
+            8094.12
+          ]
+        }
+      },
+      {
+        "nome": "Rua Armando Pisani x Rua Newton Luiz do Prado",
+        "utm": [
+          204898.28,
+          7564998.78
+        ],
+        "pixel": {
+          "02": [
+            7313.17,
+            3698.15
+          ],
+          "05": [
+            5092.34,
+            5781.71
+          ],
+          "06": [
+            7278.48,
+            3831.38
+          ],
+          "07": [
+            6034.69,
+            8039.64
+          ]
+        }
+      },
+      {
+        "nome": "Rua Cid Silva César x Rua Riskalla Haddad",
+        "utm": [
+          198507.4,
+          7563368.03
+        ],
+        "pixel": {
+          "02": [
+            2774.41,
+            4771.35
+          ],
+          "05": [
+            3029.11,
+            6269.61
+          ],
+          "06": [
+            2741.22,
+            4904.27
+          ],
+          "07": [
+            4899.99,
+            8308.01
+          ]
+        }
+      },
+      {
+        "nome": "Rua Maestro João Seppe x Rua Quinze de Novembro",
+        "utm": [
+          200415.96,
+          7562955.47
+        ],
+        "pixel": {
+          "02": [
+            4115.67,
+            5091.05
+          ],
+          "05": [
+            3639.01,
+            6414.67
+          ],
+          "06": [
+            4081.97,
+            5223.63
+          ],
+          "07": [
+            5235.35,
+            8388.02
+          ]
+        }
+      },
+      {
+        "nome": "Avenida Doutor Carlos Botelho x Rua São Paulo",
+        "utm": [
+          202055.09,
+          7563104.99
+        ],
+        "pixel": {
+          "02": [
+            5274.97,
+            5005.43
+          ],
+          "05": [
+            4165.72,
+            6376.11
+          ],
+          "06": [
+            5240.84,
+            5138.25
+          ],
+          "07": [
+            5525.12,
+            8366.63
+          ]
+        }
+      },
+      {
+        "nome": "Rua Francisco Crestana x Rua Primo Lazarini",
+        "utm": [
+          203594.67,
+          7563414.01
+        ],
+        "pixel": {
+          "02": [
+            6369.49,
+            4808.61
+          ],
+          "05": [
+            4663.15,
+            6286.8
+          ],
+          "06": [
+            6334.74,
+            4941.88
+          ],
+          "07": [
+            5798.5,
+            8317.46
+          ]
+        }
+      },
+      {
+        "nome": "Rua Alberto Lourenço Rodrigues x Rua Antonio Gigliote",
+        "utm": [
+          205072.56,
+          7563163.29
+        ],
+        "pixel": {
+          "02": [
+            7410.99,
+            5007.18
+          ],
+          "05": [
+            5136.78,
+            6376.91
+          ],
+          "06": [
+            7376.43,
+            5140.09
+          ],
+          "07": [
+            6059.18,
+            8366.98
+          ]
+        }
+      },
+      {
+        "nome": "Rua Doutor Gipsy Garcia Ferreira x Rua João Franco",
+        "utm": [
+          199232.39,
+          7560811.96
+        ],
+        "pixel": {
+          "02": [
+            3252.19,
+            6598.17
+          ],
+          "05": [
+            3246.29,
+            7100.2
+          ],
+          "06": [
+            3218.82,
+            6730.56
+          ],
+          "07": [
+            5019.45,
+            8764.9
+          ]
+        }
+      },
+      {
+        "nome": "Rua Desembargador Júlio de Faria x Rua Francisco Fiorentino",
+        "utm": [
+          200451.85,
+          7560695.96
+        ],
+        "pixel": {
+          "02": [
+            4112.03,
+            6696.78
+          ],
+          "05": [
+            3637.07,
+            7144.81
+          ],
+          "06": [
+            4078.37,
+            6829.04
+          ],
+          "07": [
+            5234.38,
+            8789.32
+          ]
+        }
+      },
+      {
+        "nome": "Rua Bispo Dom Gastão x Rua Santa Clotilde",
+        "utm": [
+          202081.53,
+          7560667.83
+        ],
+        "pixel": {
+          "02": [
+            5266.78,
+            6742.75
+          ],
+          "05": [
+            4161.97,
+            7165.73
+          ],
+          "06": [
+            5232.67,
+            6874.87
+          ],
+          "07": [
+            5523.07,
+            8800.82
+          ]
+        }
+      },
+      {
+        "nome": "Rua Marcilio A. Ferreira x Rua Sebastião Adão Junior",
+        "utm": [
+          204257.1,
+          7560282.46
+        ],
+        "pixel": {
+          "02": [
+            6794.72,
+            7043.88
+          ],
+          "05": [
+            4856.56,
+            7302.66
+          ],
+          "06": [
+            6760.12,
+            7176.0
+          ],
+          "07": [
+            5905.04,
+            8876.12
+          ]
+        }
+      },
+      {
+        "nome": "Avenida Donato Pedrino x Rua Jayme Bruno",
+        "utm": [
+          198700.22,
+          7558378.71
+        ],
+        "pixel": {
+          "02": [
+            2840.71,
+            8322.03
+          ],
+          "05": [
+            3059.18,
+            7883.54
+          ],
+          "06": [
+            2807.48,
+            8453.65
+          ],
+          "07": [
+            4916.55,
+            9195.56
+          ]
+        }
+      },
+      {
+        "nome": "Rua José Felonta Sobrinho x Rua Luiz Ollay",
+        "utm": [
+          200274.6,
+          7558375.52
+        ],
+        "pixel": {
+          "02": [
+            3956.37,
+            8346.45
+          ],
+          "05": [
+            3566.21,
+            7894.72
+          ],
+          "06": [
+            3922.71,
+            8478.03
+          ],
+          "07": [
+            5195.45,
+            9201.52
+          ]
+        }
+      },
+      {
+        "nome": "Rua Carlos Ribeiro Justiniano Chagas x Rua Francisco Marigo",
+        "utm": [
+          202097.53,
+          7559020.33
+        ],
+        "pixel": {
+          "02": [
+            5251.59,
+            7910.2
+          ],
+          "05": [
+            4155.0,
+            7696.5
+          ],
+          "06": [
+            5217.56,
+            8042.05
+          ],
+          "07": [
+            5519.16,
+            9092.8
+          ]
+        }
+      }
+    ]
   }
 }

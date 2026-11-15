@@ -1,0 +1,4 @@
+# Relatório da tarefa 23 do Motor (Claude Code, emprestado): expectativas do test_estudar depois da tarefa 17 do Terreno
+- **O que mudou em `test_estudar.py`.** Foram 3 linhas: (1) na recusa `divisa` do 22421, as duas mensagens agora esperam `SC-Z1, SC-EIXO` (a Z2 saiu); (2) no caso (h), o 59281 roda com `"SC-Z2"` e o 94130 continua com `"auto"`; (3) no caso (i), o 92058 roda com `"SC-Z4"`.
+- **Conferência das zonas no Anexo 02.** Com o posicionamento novo, a única cor de zona perto do 59281 é a Z2, e ele é recusado só por estar a 0 m da divisa, que corre na rua do lado. Perto do 92058 só aparece a Z4; ele é recusado porque cai em cima do rótulo "MIRANTE DA BELA VISTA". A posição antiga dava as mesmas zonas (Z2 a 38 m e Z4), então as duas são as zonas desses lotes.
+- **Testes.** `test_estudar.py` deu ok e `conferir.py` deu **8/8**. Não mexi no código do motor nem do terreno, e não fiz commit.

@@ -1,0 +1,240 @@
+"""Triagem dos Anexos 05/06/07; não substitui conferência cadastral ou DECEA."""
+import math
+
+import cache
+import gerar_lotes as gl
+from sugerir_zona import AQUI, MapaGeorreferenciado, DIVISA_M, classificar, mancha, recuperar_tracos
+
+# Centros das amostras das legendas dos JPEGs verificados pelo manifesto.
+LEGENDAS = {
+    "05": [(1336, 10832, "chacaras_recreio", "Chácaras de Recreio - Loteamentos rurais regulares"),
+           (1336, 11035, "controle_recuperacao_ambiental", "AECRA"),
+           (1336, 11103, "interesse_ambiental", "AIA")],
+    "06": [(3298, 11028, "interesse_social", "AEIS tipo 1"),
+           (3298, 11116, "interesse_social", "AEIS tipo 2"),
+           (3298, 11205, "interesse_social", "AEIS tipo 3"),
+           (2131, 12158, "observatorio_usp", "Influência no Observatório da USP"),
+           (2131, 12246, "interesse_historico", "Área de Interesse Histórico"),
+           (2131, 12424, "interesse_industrial_servicos", "AEI Industrial e de Serviços")],
+    "07": [(2900, 10980, "urbanizacao_especifica", "AEI de Urbanização Específica"),
+           (2900, 11160, "logistica", "AEI de Logística"),
+           (2900, 11250, "protecao_paisagistica", "AEI de Proteção Paisagística"),
+           (2900, 11340, "agricultura_familiar", "AEI de Agricultura Familiar e Camponesa")],
+}
+FUNDOS = {
+    "05": [(1336, y) for y in (11307, 11376, 11445, 11515, 11582, 11651, 11721)],
+    "06": [(3298, y) for y in (11448, 11537, 11626, 11714, 11803, 11892, 11981, 12070)],
+    "07": [(2900, y) for y in (11590, 11680, 11770, 11860, 11950, 12040, 12130, 12220, 12310)],
+}
+# O cinza das Chácaras é também o das ruas do Anexo 05: só conta mancha de 5x5 px ou mais (AUDITORIA-6).
+SO_MANCHA = {"chacaras_recreio"}
+# O Interesse Histórico do Anexo 06 foi pintado translúcido: no mapa sai legenda - (255 - fundo)/2
+# (sobre a Z1 [180,108,182], sobre a Z3 [153,107,232], medidos a ~1 da previsão); a cor opaca quase não aparece.
+TRANSLUCIDAS = {"06": {"interesse_historico"}}
+# Subárea Especial de Restrição de Gabarito (art. 80, 9 m): só borda tracejada magenta no Centro, sem preenchimento.
+SUBAREA_GABARITO = ((4250, 5100, 5200, 6250), (252, 1, 188))
+# shortcut: a hachura da AEI do Transporte Aéreo (itens 09, 10 e 11 do Anexo 07) não tem cor própria; retângulo
+# envolvente medido no raster, com folga. Revalidar se o JPEG mudar; trocar por vetor oficial quando houver.
+AEI_TRANSPORTE_AEREO = (4940, 4940, 5560, 6260)
+
+
+def registro(anexo, tipo, nome, incidencia, motivo, margem_m=DIVISA_M, **evidencia):
+    return {"tipo": tipo, "nome": nome, "incidencia": incidencia, "conferido": False,
+            "fonte": f"Lei 18.053/2016, Anexo {anexo}, p. 1; raster conferido por SHA256 quando disponível",
+            "observacoes": motivo + "; confirmar no cadastro e no órgão competente; sem altura numérica aplicada.",
+            "evidencia": f"dados/zonas-mapas/anexo{anexo}.jpg; centros dos pixels do lote e margem de {margem_m:g} m + 4 pixels",
+            "anexo": anexo, **evidencia}
+
+
+def subarea_gabarito(anexo, margem_m):
+    """Lote que encosta no tracejado magenta: os 9 m entram no cálculo (REVISAO-7). Só "perto" segue sem altura."""
+    r = registro(anexo, "restricao_gabarito_historico", "Subárea Especial de Restrição de Gabarito (art. 80: 9 m)",
+                 "sobreposicao_visual", "Lote dentro do tracejado magenta, no todo ou em parte", margem_m)
+    r["altura_max_m"] = 9
+    r["fonte"] = "Lei 18.053/2016, art. 80; mapa no Anexo 06, p. 1"
+    r["observacoes"] = ("Art. 80: \"limitação do gabarito a 9m (nove metros) acima do nível da via pública nas novas construções "
+                        "ou ampliações\". Aplicado como altura máxima de 9 m no lote todo, medida como a do motor; em lote acima "
+                        "do nível da rua, ou só em parte dentro do tracejado (margem de ~%g m do mapa), confirmar na Prefeitura." % margem_m)
+    return r
+
+
+def nada_encontrado(anexo, margem_m):
+    """Ressalva de um anexo lido que não achou nada no lote: silêncio não é "livre" (AUDITORIA-6b, achado 1)."""
+    return registro(anexo, "nao_verificada", f"Leitura automática do Anexo {anexo}: nenhuma área especial encontrada — não conferida",
+                    "nao_verificada", f"Leitura automática sem cor da legenda nem cone no lote e na margem de ~{margem_m:g} m",
+                    margem_m, evidencia=f"dados/zonas-mapas/anexo{anexo}.jpg; centros dos pixels do lote e margem de {margem_m:g} m + 4 pixels")
+
+
+LEI_19166 = "https://cidadao.saocarlos.sp.gov.br/servicos/consultaleis/index.php?acao=14&lei=1_339"
+LEI_18927 = "https://cidadao.saocarlos.sp.gov.br/servicos/consultaleis/index.php?acao=14&lei=1_754"
+LEI_18927_PDF = "https://www.saocarlos.sp.gov.br/images/stories/pdf/conselhos/lei18927-digital.pdf"
+
+
+def leis_posteriores():
+    """Registro fixo de todo lote: os mapas são de dez/2016 e duas leis depois deles não estão desenhadas (AUDITORIA-6b, achado 2).
+    Nada de polígono nem raio: o perímetro da Lei 19.166/2019 só existe em texto (rumos e distâncias, sem coordenadas)."""
+    return {"tipo": "nao_verificada", "nome": "Leis posteriores aos mapas de dez/2016 (19.166/2019 e 18.927/2018): não desenhadas", "incidencia": "nao_verificada",
+            "conferido": False,
+            "fonte": f"Lei 19.166/2019 ({LEI_19166}); Lei 18.927/2018 ({LEI_18927}; PDF {LEI_18927_PDF})",
+            "observacoes": ("Os mapas lidos (Anexos 05, 06 e 07 da Lei 18.053/2016) são de dez/2016 e não trazem estas alterações, que não estão desenhadas aqui: "
+                            "Lei 19.166/2019, AEI de Interesse Industrial e de Serviços 44 e 45 (Anexo 6), áreas N e O do Anexo 9-A e ZUPI-II, "
+                            "na SP-318 km 236, com perímetro só em texto (rumos e distâncias, sem coordenadas); "
+                            "Lei 18.927/2018, Zona 6E (Santa Eudóxia), sem mapa. "
+                            "O Anexo 9-A (áreas compatíveis com usos incômodos) não é lido por nenhum módulo: não verificado. "
+                            "Confirmar na Prefeitura, sobretudo perto da SP-318 km 236; sem altura numérica aplicada."),
+            "evidencia": "AUDITORIA-6b: a legenda do anexo06.jpg lista AEI só até o item 43; o Anexo 9-A de 2016 vai de A a M; os textos das leis não trazem coordenadas",
+            "anexo": "06/09-A"}
+
+
+def nao_verificada(anexo, motivo, margem_m=DIVISA_M):
+    return registro(anexo, "nao_verificada", f"Áreas especiais do Anexo {anexo}: não verificada",
+                    "nao_verificada", motivo, margem_m)
+
+
+class MapaEspecial(MapaGeorreferenciado):
+    def __init__(self, anexo):
+        super().__init__(anexo)
+        self.anexo = anexo
+        self.legenda = LEGENDAS[anexo]
+        # Margem >= maior resíduo dos 21 cruzamentos do anexo (tarefa 17: 6,1-6,3 m), nunca menos que 10 m.
+        self.divisa_m = max(DIVISA_M, float(math.ceil(self.residuo_max)))
+        pontos = [(x, y) for x, y, *_ in self.legenda] + FUNDOS[anexo]
+        cores = [gl.np.median(gl.np.asarray(self.imagem.crop((x-10, y-10, x+10, y+10))), axis=(0, 1)) for x, y in pontos]
+        # paleta: legendas, fundos, branco e as cores compostas; `codigo` leva a classe da paleta ao código da legenda
+        compostas, self.codigo = [], list(range(len(pontos) + 2))
+        for i, (*_, tipo, _) in enumerate(self.legenda):
+            if tipo in TRANSLUCIDAS.get(anexo, ()):
+                for f in cores[len(self.legenda):]:
+                    compostas.append(gl.np.clip(cores[i] - (255 - f)/2, 0, 255))
+                    self.codigo.append(i + 1)
+        self.paleta = gl.np.array(cores + [[255, 255, 255]] + compostas)
+        self.codigo = gl.np.array(self.codigo)
+        # A subárea e os cones são lidos em pixel e levados a UTM pela afim: mudou o posicionamento, refaz.
+        posicao = [self.arquivo, __file__, AQUI / "sugerir_zona.py",
+                   AQUI / "dados/zonas-controles.json", AQUI / "dados/zonas-posicionamento.json"]
+        if anexo == "06":
+            import PIL
+            self.subarea = cache.poligonos("subarea-06", posicao, lambda: [self.ler_subarea()],
+                                           f"Pillow {PIL.__version__}")[0]
+        if anexo == "07":
+            # Guardado em .cache/ (0,8 s a menos por lote).
+            import PIL
+            partes = cache.poligonos("cones-07", posicao, lambda: gl.sh.get_parts(self.ler_cones()),
+                                     f"Pillow {PIL.__version__}")
+            self.cones = partes[0] if len(partes) == 1 else gl.sh.multipolygons(partes)
+            self.aei_aerea = gl.Polygon(self.utm(gl.sh.box(*AEI_TRANSPORTE_AEREO).exterior.coords))
+
+    def contorno(self, caixa, cor, tolerancia):
+        rgb = gl.np.asarray(self.imagem.crop(caixa)).astype(float)
+        yy, xx = gl.np.where(gl.np.linalg.norm(rgb - cor, axis=-1) <= tolerancia)
+        return gl.np.column_stack([xx + caixa[0] + .5, yy + caixa[1] + .5])
+
+    def ler_cones(self):
+        # shortcut: os dois cones e a pista entre eles num contorno convexo só (o vão y=5380..5850 ficava
+        # descoberto, AUDITORIA-6); maior que o desenho, nunca menor. Revalidar as janelas se a fonte mudar.
+        pontos = [self.contorno(caixa, [97, 19, 190], 18) for caixa in ((4700, 2650, 5720, 5380), (4650, 5850, 5620, 8560))]
+        for p in pontos:
+            if len(p) < 1000 or gl.np.ptp(p[:, 0]) < 800 or gl.np.ptp(p[:, 1]) < 2500:
+                raise ValueError("Contorno tracejado do gabarito aeronáutico não recuperado")
+        return gl.Polygon(self.utm(gl.sh.MultiPoint(gl.np.vstack(pontos)).convex_hull.exterior.coords))
+
+    def ler_subarea(self):
+        # O tracejado é traço preto + ponto magenta e só o magenta é lido: entre os pontos há vãos de até ~70 px (o maior
+        # sob o rótulo "32"). Engordar cada pixel 40 px fecha o anel; o contorno de fora, recuado os mesmos 40 px, segue
+        # o desenho côncavo. Nas quinas para dentro sobra um arredondamento: maior que a subárea, nunca menor.
+        p = self.contorno(*SUBAREA_GABARITO, 30)
+        if len(p) < 3000 or gl.np.ptp(p[:, 0]) < 400 or gl.np.ptp(p[:, 1]) < 700:
+            raise ValueError("Contorno tracejado da Subárea de Restrição de Gabarito não recuperado")
+        pontos = gl.sh.points(gl.np.unique(gl.np.round(p / 2) * 2, axis=0))  # 20 mil pixels viram ~6 mil: 0,8 s
+        anel = max(gl.sh.get_parts(gl.sh.union_all(gl.sh.buffer(pontos, 40, quad_segs=4))), key=lambda g: g.area)
+        if len(anel.interiors) != 1:
+            raise ValueError("Tracejado da Subárea de Restrição de Gabarito não fechou")
+        return gl.Polygon(self.utm(gl.Polygon(anel.exterior).buffer(-40).exterior.coords))
+
+    def perto(self, pol, alvo, margem_m, tipo, nome, motivo):
+        d = pol.distance(alvo)
+        if d > margem_m:
+            return []
+        return [registro(self.anexo, tipo, nome, "possivel_incidencia", motivo, self.divisa_m,
+                         distancia_conservadora_m=round(max(0.0, d - 4/self.escala_min), 2))]
+
+    def ler(self, pol):
+        pix = gl.Polygon(self.pixel(pol.exterior.coords))
+        margem_m = self.divisa_m + 4/self.escala_min
+        margem = margem_m*self.escala_max + 2
+        x0, y0, x1, y1 = pix.bounds
+        caixa = (int(gl.np.floor(x0-margem)), int(gl.np.floor(y0-margem)),
+                 int(gl.np.ceil(x1+margem)), int(gl.np.ceil(y1+margem)))
+        quadro = gl.sh.box(250, 100, 8750, 10550 if self.anexo != "06" else 10450)
+        janela = gl.sh.box(*caixa)
+        if pol.area > 1_000_000 or (caixa[2]-caixa[0])*(caixa[3]-caixa[1]) > 2_000_000:
+            return [nao_verificada(self.anexo, f"Lote grande demais para a leitura local ({pol.area:,.0f} m²; limite "
+                                   "1 km² e 2 milhões de pixels): conferir a gleba no mapa", self.divisa_m)]
+        if (not quadro.covers(janela)
+                or (self.anexo == "06" and janela.intersects(gl.sh.box(250, 9900, 1900, 12746)))
+                or (self.anexo == "07" and janela.intersects(gl.sh.box(250, 100, 3400, 8400)))):
+            return [nao_verificada(self.anexo, "Fora do quadro georreferenciado, em encarte ou legenda", self.divisa_m)]
+        rgb = gl.np.asarray(self.imagem.crop(caixa))
+        classes = self.codigo[classificar(rgb, self.paleta)]
+        for codigo, (*_, tipo, _) in enumerate(self.legenda, 1):
+            if tipo in SO_MANCHA:
+                classes[(classes == codigo) & ~mancha(classes == codigo, 5)] = 0
+        _, leitura = recuperar_tracos(classes)
+        yy, xx = gl.np.indices(classes.shape)
+        xy = gl.np.column_stack([xx.ravel()+caixa[0]+.5, yy.ravel()+caixa[1]+.5])
+        interior = gl.sh.contains_xy(pix, xy[:, 0], xy[:, 1])
+        mundo = self.utm(xy)
+        dist_lote = gl.sh.distance(pol, gl.sh.points(mundo))
+        proximos = dist_lote <= margem_m
+        resultado = []
+        for codigo, (_, _, tipo, nome) in enumerate(self.legenda, 1):
+            cor = classes.ravel() == codigo
+            if not (cor & proximos).any():
+                continue
+            dentro = bool((cor & interior).any())
+            d = max(0.0, float(dist_lote[cor].min()) - 4/self.escala_min)
+            resultado.append(registro(self.anexo, tipo, nome,
+                                      "sobreposicao_visual" if dentro else "possivel_incidencia",
+                                      "Cor da legenda no lote" if dentro else f"Possível incidência, confirmar: mancha a até ~{self.divisa_m:g} m",
+                                      self.divisa_m, distancia_conservadora_m=round(d, 2), pixels_no_lote=int((cor & interior).sum())))
+        if self.anexo == "06" and pol.intersects(self.subarea):
+            resultado.append(subarea_gabarito(self.anexo, self.divisa_m))
+        elif self.anexo == "06":
+            resultado += self.perto(pol, self.subarea, margem_m, "restricao_gabarito_historico",
+                                    "Subárea Especial de Restrição de Gabarito (art. 80: 9 m)",
+                                    "Possível incidência, não verificada: perto do tracejado magenta, fora dele")
+        if self.anexo == "07":
+            resultado += self.perto(pol, self.cones, margem_m, "gabarito_aeronautico",
+                                    "Superfícies de aproximação e decolagem do Aeroporto Mário Pereira Lopes",
+                                    "Possível incidência, confirmar: interior ou proximidade do contorno dos cones e da pista; consultar DECEA")
+            resultado += self.perto(pol, self.aei_aerea, margem_m, "transporte_aereo",
+                                    "AEI do Transporte Aéreo (itens 09, 10 e 11)",
+                                    "Possível incidência, não verificada: hachura sem cor própria, lida pelo retângulo que a envolve")
+        if interior.sum() < 3 or (leitura.ravel()[proximos] == 0).any():
+            resultado.append(nao_verificada(self.anexo, "Cor encoberta/sem correspondência segura no lote ou margem de "
+                                            f"~{self.divisa_m:g} m, ou resolução insuficiente", self.divisa_m))
+        return resultado
+
+
+class AreasEspeciais:
+    def __init__(self):
+        self.mapas = {}
+        for anexo in LEGENDAS:
+            try:
+                self.mapas[anexo] = MapaEspecial(anexo)
+            except (OSError, ValueError) as erro:
+                self.mapas[anexo] = str(erro)
+
+    def ler(self, pol):
+        if pol.geom_type != "Polygon" or pol.is_empty or not pol.is_valid or pol.interiors:
+            raise ValueError("Áreas especiais exigem polígono válido, não vazio e sem buracos")
+        resultado = []
+        for anexo, mapa in self.mapas.items():
+            if isinstance(mapa, str):
+                resultado.append(nao_verificada(anexo, mapa))
+            else:
+                # Lista vazia não pode virar silêncio: o motor alerta todo registro sem altura e o resumo do estudar.py
+                # lista os "nao_verificada". Vale por anexo: o 07 acusar o cone não torna o 06 vazio "livre".
+                resultado.extend(mapa.ler(pol) or [nada_encontrado(anexo, mapa.divisa_m)])
+        resultado.append(leis_posteriores())
+        return resultado

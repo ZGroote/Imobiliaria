@@ -1,0 +1,178 @@
+"""Autoteste chamado por novo_lote.py --testar; só escreve em diretório temporário."""
+import hashlib
+import json
+import math
+from pathlib import Path
+import subprocess
+import sys
+from tempfile import TemporaryDirectory
+import time
+
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from novo_lote import AQUI, BASES, Cadastro, gl, relevo, unir
+from testar_pilotos import comparar_json  # float com tolerância 1e-6: a última casa muda entre Windows e Linux
+
+# Campos manuais omitidos; os demais precisam reproduzir os cinco pilotos.
+OMITIDOS = {"lid", "categoria", "centroide_lonlat",
+            "distancia_centro_referencia_m", "anotacao_zoneamento"}
+DIFERENCAS_ESPERADAS = {"zona_origem", "observacoes", "fonte", "qualidade", "areas_especiais"}
+
+
+def recusa(funcao, trecho):
+    try:
+        funcao()
+    except ValueError as erro:
+        assert trecho in str(erro), str(erro)
+        return
+    raise AssertionError(f"Recusa esperada: {trecho}")
+
+
+def protegidos():
+    arquivos = [AQUI / "lotes-piloto.json", *(gl.ROOT / p for p in BASES.values()),
+                gl.ROOT / "sao-carlos/dados/street_tris.json"]
+    arquivos += [p for p in (AQUI / "dados").rglob("*") if p.is_file()]
+    arquivos += [p for p in AQUI.glob("*.py") if p.name not in ("novo_lote.py", "test_novo_lote.py")]
+    return {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in arquivos}
+
+
+def executar(script, *args):
+    return subprocess.run([sys.executable, "-I", "-B", "-X", "utf8", str(script), *map(str, args)],
+                          cwd=gl.ROOT, capture_output=True, text=True, encoding="utf-8")
+
+
+def testar():
+    from sugerir_zona import mapa_local
+    mapa_local()  # provisiona o insumo ausente antes de fotografar os arquivos protegidos
+    antes = protegidos()
+    inicio = time.perf_counter()
+    cadastro = Cadastro("completo")
+    print(f"Carga da base completa + ruas + raster: {time.perf_counter() - inicio:.3f} s", flush=True)
+    pilotos = {p["id"]: p for p in gl.ler("viabilidade/terreno/lotes-piloto.json")}
+    for indice in (30516, 37607, 22426, 22421, 25297):
+        original = pilotos[f"SC-completo-{indice}"]
+        novo = cadastro.gerar([indice], original["zona_id"])
+        assert set(novo) == set(original) - OMITIDOS
+        gl.np.testing.assert_allclose(novo["poligono_utm"], original["poligono_utm"], rtol=0, atol=1e-6)
+        assert math.isclose(novo["area_m2"], original["area_m2"], rel_tol=0, abs_tol=1e-6)
+        comparar_json(original["frente"], novo["frente"], f"piloto {indice}", "frente")
+        for k, v in original["relevo"].items():
+            if isinstance(v, (float, int)):
+                assert math.isclose(novo["relevo"][k], v, rel_tol=0, abs_tol=1e-6), (indice, k)
+            else:
+                assert novo["relevo"][k] == v
+        for k in set(novo) - DIFERENCAS_ESPERADAS - {"poligono_utm", "area_m2", "relevo"}:
+            comparar_json(original[k], novo[k], f"piloto {indice}", k)
+        assert novo["zona_origem"] == "informada_pelo_usuario" and not novo["zona_conferida"]
+        assert novo["fonte"]["indices_feicoes_zero_based"] == [indice]
+        assert relevo.AVISO in novo["observacoes"]
+        comparar_json(original["qualidade"]["frentes"], novo["qualidade"]["frentes"], f"piloto {indice}", "qualidade.frentes")
+        if novo["qualidade"]["esquina_indicada_pela_malha"]:
+            assert "Esquina indicada" in novo["observacoes"]
+        if len(novo["qualidade"]["frentes"]) > 1:
+            assert "mais de uma frente" in novo["observacoes"]
+    print("OK: cinco pilotos reproduzidos; diferenças manuais listadas em OMITIDOS/DIFERENCAS_ESPERADAS.", flush=True)
+    original = pilotos["SC-completo-q1382-11984-11988"]
+    assert original["fonte"]["arquivo"] == BASES["completo"]
+    rem = cadastro.gerar(list(range(11988, 11983, -1)), original["zona_id"])
+    assert rem["id"] == "SC-completo-11984-11985-11986-11987-11988"
+    assert math.isclose(rem["area_m2"], original["area_m2"], rel_tol=0, abs_tol=1e-6)
+    print(f"OK: remembramento q1382, área {rem['area_m2']:.3f} m².", flush=True)
+    for ids, zona, motivo in (([len(cadastro.geos)], "SC-Z1", "Índice inexistente"),
+                              ([-1], "SC-Z1", "Índice inexistente"),
+                              ([19], "ZONA-INEXISTENTE", "Zonas válidas:"),
+                              ([30516, 37607], "SC-Z1", "não se tocam"),
+                              ([19, 19], "SC-Z1", "Índices repetidos"),
+                              ([0], "SC-Z1", "sem frente para rua"),
+                              ([104], "SC-Z1", "se sobrepõe ao vizinho"),
+                              ([295], "SC-Z1", "invade o asfalto")):
+        recusa(lambda: cadastro.gerar(ids, zona), motivo)
+    caixa = gl.sh.box
+    recusa(lambda: unir([caixa(0, 0, 10, 10), caixa(10, 10, 20, 20)]), "um polígono só")
+    recusa(lambda: unir([caixa(0, 0, 10, 10), caixa(5, 0, 15, 10)]), "se sobrepõem")
+    recusa(lambda: unir([caixa(0, 0, 10, 2), caixa(0, 8, 10, 10), caixa(0, 2, 2, 8), caixa(8, 2, 10, 8)]), "sem buracos")
+    recusa(lambda: unir([gl.Polygon([(0, 0), (10, 10), (0, 10), (10, 0)])]), "polígono válido")
+    print("OK: recusas reais completo/0 (sem frente), /104 (vizinho), /295 (asfalto), índices/zona e uniões inválidas.", flush=True)
+    # lado da rua picotado: as duas primeiras arestas (desvio ~2°) viram um lado só; a quina de 90° separa
+    assert [ks for ks, _ in gl.cadeias([(0, 0), (5, 0), (10, 0.2), (10, 10), (0, 10), (0, 0)])] == [[0, 1], [2], [3], [4]]
+    for i, regra in ((94130, "arestas_colineares"), (23249, "tolerancia_asfalto_12m")):  # REVISAO-6
+        lote = cadastro.gerar([i], "SC-Z1")
+        assert lote["qualidade"]["frentes"][0]["regra"] == regra, (i, lote["qualidade"]["frentes"][0])
+        assert ("AVISO: frente presumida" in lote["observacoes"]) == (regra != "arestas_colineares")
+    print("OK: frente ampliada: 94130 junta arestas colineares; 23249 aceita asfalto a 10 m com aviso.", flush=True)
+
+    def fileiras(vao, ampliar=True, laco=False):  # regra 3 sintética: 2 fileiras de lotes 12x30 com `vao` m entre elas; asfalto só na ponta
+        geos = gl.np.array([caixa(12 * k, y, 12 * k + 12, y + 30) for y in (0, 30 + vao) for k in range(10)])
+        if laco:  # o lote em frente vira anel que cruza a si mesmo (como o 77317 do cadastro, vizinho do 77356)
+            y = 30 + vao
+            geos[14] = gl.Polygon([(48, y), (60, y), (60, y + 30), (48, y + 30), (48, y + 15), (62, y + 17), (62, y + 15), (48, y + 17)])
+        malha = gl.np.array([gl.Polygon([(125, 30), (135, 30), (130, 30 + max(vao, 5))])])
+        return gl.avaliar(geos[4], 4, geos, gl.sh.STRtree(geos), malha, gl.sh.STRtree(malha), ampliar=ampliar)
+    q = fileiras(15)
+    assert [(f["regra"], f["pontos"], f["largura_vao_m"]) for f in q["frentes"]] == [("borda_de_quadra", [[60.0, 30.0], [48.0, 30.0]], 15.0)], q
+    assert fileiras(15, ampliar=False) is None  # pilotos: sem ampliar a regra 3 não roda
+    assert fileiras(15, laco=True)["frentes"] == q["frentes"]  # vizinho inválido: era TopologyException (AUDITORIA-7)
+    assert fileiras(5) is None and fileiras(0) is None  # viela de 5 m; fundo com fundo (e nada atrás da fileira)
+    # 10 lotes do raio de 300 m do centro e da amostra REVISAO-6, conferidos no desenho: a borda dá para a rua
+    for i, arestas in {92058: [0], 46087: [0, 1], 62350: [1, 2], 91412: [2, 3], 102159: [0], 104833: [4, 5],
+                       77017: [5, 0], 75926: [0], 73863: [0], 77039: [5, 6]}.items():
+        lote = cadastro.gerar([i], "SC-Z1")
+        assert [(f["regra"], f["arestas"]) for f in lote["qualidade"]["frentes"]] == [("borda_de_quadra", arestas)], (i, lote["qualidade"])
+        assert "frente presumida pela borda da quadra (sem asfalto no mapa)" in lote["observacoes"]
+    lote = cadastro.gerar([77033], "SC-Z1")  # esquina: as duas ruas sem asfalto no meio da quadra
+    assert [f["arestas"] for f in lote["qualidade"]["frentes"]] == [[3], [1, 2]] and lote["qualidade"]["esquina_indicada_pela_malha"]
+    assert "Esquina indicada" in lote["observacoes"]
+    # em L (AUDITORIA-7): o lado comprido dá para o miolo da quadra; a principal é a sul, que encosta no asfalto do cruzamento
+    assert [f["arestas"] for f in cadastro.gerar([75931], "SC-Z1")["qualidade"]["frentes"]] == [[9, 0], [3, 4]]
+    assert [f["arestas"] for f in cadastro.gerar([77356], "SC-Z1")["qualidade"]["frentes"]] == [[1, 2]]  # vizinho 77317 inválido
+    recusa(lambda: cadastro.gerar([76495], "SC-Z1"), "nem pela borda da quadra")  # lote solto no miolo vazio da quadra
+    recusa(lambda: cadastro.gerar([76495], "SC-Z1"), "ligado ao asfalto); o asfalto mais próximo da malha está a 26.6 m")
+    print("OK: regra 3 (borda da quadra): corredor aceito, viela e fundo recusados, 10 lotes reais, esquina 77033, miolo 76495, em L 75931, vizinho inválido.", flush=True)
+    cadastro_antigo = Cadastro("antigo")
+    antigo = cadastro_antigo.gerar([542], "SC-Z1")
+    assert antigo["id"] == "SC-antigo-542" and antigo["crs"] == "EPSG:31983" and antigo["relevo"]
+    print("OK: base antiga, índice 542.", flush=True)
+    with TemporaryDirectory(prefix="novo-lote-teste-") as pasta:
+        pasta = Path(pasta)
+        script = AQUI / "novo_lote.py"
+        for i, (ids, zona, motivo) in enumerate((([len(cadastro.geos)], "SC-Z1", "Índice inexistente"),
+                                                ([19], "ZONA-INEXISTENTE", "Zonas válidas:"),
+                                                ([30516, 37607], "SC-Z1", "não se tocam"),
+                                                ([0], "SC-Z1", "sem frente para rua"))):
+            saida = pasta / f"recusado-{i}.json"
+            resultado = executar(script, "--base", "completo", "--indices", *ids, "--zona", zona, "--saida", saida)
+            assert resultado.returncode == 2 and motivo in resultado.stderr, resultado.stderr
+            assert not saida.exists(), "Recusa deixou arquivo parcialmente montado"
+        saida = pasta / "lote.json"
+        saida.write_text("preservar", encoding="utf-8")
+        resultado = executar(script, "--base", "completo", "--indices", 19, "--zona", "invalida", "--saida", saida)
+        assert resultado.returncode == 2 and saida.read_text(encoding="utf-8") == "preservar"
+        inicio = time.perf_counter()
+        resultado = executar(script, "--base", "completo", "--indices", 19, "--zona", "SC-Z1", "--saida", saida)
+        segundos = time.perf_counter() - inicio
+        assert resultado.returncode == 0, resultado.stderr
+        lote = json.loads(saida.read_text(encoding="utf-8"))
+        assert lote["id"] not in pilotos and lote == cadastro.gerar([19], "SC-Z1")
+        print(f"Tempo CLI de um lote (completo/19, processo novo, sem cache da aplicação): {segundos:.3f} s", flush=True)
+        estudo = pasta / "estudo.json"
+        resultado = executar(AQUI.parent / "motor/gerar.py", "--lote", saida, "--zona", AQUI.parent / "lei/zonas.json",
+                             "--zona-id", "SC-Z1", "--saida", estudo)
+        assert resultado.returncode == 0, resultado.stderr
+        e = json.loads(estudo.read_text(encoding="utf-8"))
+        assert e["opcoes"] or e["opcoes_ausentes"]
+        assert all(o["motivo"] not in ("erro", "dados_insuficientes") for o in e["opcoes_ausentes"])
+        print(f"OK: CLI do motor para completo/19: {len(e['opcoes'])} opções, {len(e['opcoes_ausentes'])} ausentes.", flush=True)
+        from test_sugerir_zona import testar as testar_auto
+        testar_auto(cadastro, pilotos, pasta)
+        from test_areas_especiais import testar as testar_especiais
+        testar_especiais(cadastro, pilotos, pasta)
+        from test_ponto import testar as testar_ponto
+        testar_ponto(cadastro, cadastro_antigo, pilotos, pasta)
+        from test_cache import testar as testar_cache
+        testar_cache(cadastro, pilotos, pasta)
+    assert protegidos() == antes, "Fontes, dados, pilotos ou scripts preexistentes foram alterados"
+    print("OK: --testar completo; fontes e arquivos protegidos inalterados, saídas temporárias removidas.", flush=True)
+
+
+if __name__ == "__main__":
+    testar()

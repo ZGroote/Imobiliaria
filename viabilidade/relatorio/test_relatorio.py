@@ -478,6 +478,42 @@ class TestRelatorioViabilidade(unittest.TestCase):
         if cls._tmpdir is not None:
             cls._tmpdir.cleanup()
 
+    def test_origens_novas_e_sugestao_segura(self) -> None:
+        import copy
+
+        piloto = json.loads(self.arquivos_pilotos[0].read_text(encoding="utf-8"))
+        rotulos = {
+            "informada_pelo_usuario": "zona informada por quem pediu o estudo · não conferida",
+            "sugerida_pelo_mapa": "zona sugerida pela leitura automática do mapa do Plano Diretor · não conferida",
+        }
+        for origem, rotulo in rotulos.items():
+            estudo = copy.deepcopy(piloto)
+            estudo["lote"]["zona_origem"] = origem
+            self.assertIn(rotulo, relatorio.gerar_html(estudo))
+            estudo["lote"]["zona_conferida"] = True
+            for compacto in (False, True):
+                painel = relatorio._gerar_painel_conferencia(estudo["lote"], estudo["zona"], compacto)
+                self.assertIn('class="conf-card conf-alerta"', painel)
+                self.assertNotIn('<span class="badge-conf">CONFERIDO</span>', painel)
+
+        payload = '</title><img src=x onerror=alert(1)><svg>'
+        sugestao = {"metodo": payload, "alternativas": [payload], "motivo_duvida": payload,
+                    "proporcao_por_zona": {payload: 0.8}, "distancia_divisa_m": None}
+        estudo["lote"]["zona_sugestao"] = sugestao
+        html = relatorio.gerar_html(estudo)
+        self.assertIn("Alternativas: " + relatorio.esc(payload), html)
+        self.assertIn("Motivo de dúvida: " + relatorio.esc(payload), html)
+        self.assertNotIn("<img", html)
+        for campo, invalido in (("metodo", 1), ("alternativas", [1]), ("motivo_duvida", {}),
+                                ("proporcao_por_zona", {"SC-Z1": payload}), ("distancia_divisa_m", payload)):
+            adulterado = copy.deepcopy(estudo)
+            adulterado["lote"]["zona_sugestao"][campo] = invalido
+            with self.subTest(campo=campo), self.assertRaisesRegex(ValueError, "lote.zona_sugestao." + campo):
+                relatorio.gerar_html(adulterado)
+        estudo["lote"]["zona_sugestao"] = payload
+        with self.assertRaisesRegex(ValueError, "lote.zona_sugestao"):
+            relatorio.gerar_html(estudo)
+
     def test_quantidade_estudos_pilotos(self) -> None:
         """Confere que existem exatamente os 7 estudos pilotos e o exemplo."""
         self.assertEqual(
@@ -570,6 +606,12 @@ class TestRelatorioViabilidade(unittest.TestCase):
 
         html_com_vgv = relatorio.gerar_html(estudo_dict)
         validar_html_contra_json(html_com_vgv, estudo_dict)
+        # Tarefa 19: a frase do que o VGV não é fica perto do número (tabela + cartão de cada opção).
+        frase = "VGV = área privativa × preço por m² informado pelo usuário. Não é lucro, receita garantida nem valor de mercado validado."
+        self.assertEqual(relatorio.AVISO_VGV, frase)
+        self.assertEqual(html_com_vgv.count(frase), 1 + len(estudo_dict["opcoes"]))
+        self.assertIn(f'<tr class="linha-aviso-vgv"><td colspan="{len(estudo_dict["opcoes"]) + 1}">{frase}</td></tr>', html_com_vgv)
+        self.assertNotIn(frase, relatorio.gerar_html(json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))), "Sem preço, sem VGV e sem a frase.")
 
     def test_contrato_v4_e_campos_v5_opcionais(self) -> None:
         """Mantém v4 e apresenta ausências, critério e ressalva de relevo v5."""

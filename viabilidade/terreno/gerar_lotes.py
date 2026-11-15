@@ -16,6 +16,7 @@ from collections import Counter
 import numpy as np
 import shapely as sh
 from shapely.geometry import LineString, Point, Polygon, shape
+from shapely.ops import substring
 
 try:
     from pyproj import Transformer
@@ -88,7 +89,130 @@ def ruas():
     return tris[sh.is_valid(tris) & (sh.area(tris) > 0)], len(dados)
 
 
-def avaliar(g, indice, geos, tree, malha, tree_ruas):
+GIRO_MAX = 10  # graus: arestas contíguas que não desviam mais que isso da primeira formam um lado só
+TOLERANCIA_M = 12  # asfalto a mais de 6 m e até isso só vale com aviso e sem lote no meio (largura do corredor entre quadras)
+
+
+def cadeias(coords):
+    """Arestas contíguas quase colineares (a base picota o lado da rua): [(índices, pontos)], a partir de uma quina."""
+    n = len(coords) - 1
+    rumo = [math.atan2(coords[k+1][1] - coords[k][1], coords[k+1][0] - coords[k][0]) for k in range(n)]
+    desvio = lambda a, b: abs(math.degrees((rumo[a] - rumo[b] + math.pi) % (2*math.pi) - math.pi))
+    inicio = next((k for k in range(n) if desvio(k, k-1) > GIRO_MAX), None)
+    if inicio is None:
+        return []  # sem quina (quase círculo): não há lado reto pra juntar
+    grupos = [[inicio]]
+    for k in (j % n for j in range(inicio + 1, inicio + n)):
+        if desvio(k, grupos[-1][0]) > GIRO_MAX:
+            grupos.append([])
+        grupos[-1].append(k)
+    return [(ks, [coords[k] for k in ks] + [coords[ks[-1] + 1]]) for ks in grupos]
+
+
+def frentes_ampliadas(g, indice, geos, tree, rua):
+    """Só quando nenhuma aresta passa: junta arestas colineares e aceita asfalto até TOLERANCIA_M sem lote no meio."""
+    frentes = []
+    for ks, pts in cadeias(list(g.exterior.coords)):
+        corda = math.dist(pts[0], pts[-1])
+        if corda < 8:
+            continue
+        linha = LineString(pts)
+        amostras = [linha.interpolate(t, normalized=True) for t in (0.15, 0.5, 0.85)]
+        distancias = [p.distance(rua) for p in amostras]
+        if max(distancias) <= 6:
+            regra = "arestas_colineares"
+        elif max(distancias) <= TOLERANCIA_M:
+            # o caminho até o asfalto não pode cortar o próprio lote nem outro (fundo de quadra, miolo)
+            caminhos = [sh.shortest_line(p, rua) for p in amostras]
+            if any(g.intersection(c).length > 0.5 or any(j != indice and geos[j].intersection(c).length > 0.5
+                                                         for j in tree.query(c, predicate="intersects"))
+                   for c in caminhos):
+                continue
+            regra = "tolerancia_asfalto_12m"
+        else:
+            continue
+        frentes.append({"aresta": ks[0], "arestas": ks, "pontos": [list(pts[0]), list(pts[-1])],
+                        "comprimento_m": round(corda, 3), "distancia_max_asfalto_m": round(max(distancias), 3),
+                        "regra": regra})
+    frentes.sort(key=lambda f: (f["regra"] != "arestas_colineares", -f["comprimento_m"], f["aresta"]))
+    return frentes
+
+
+VAO_M = (8, 30)  # largura do corredor livre de lote em frente a uma borda de quadra (rua sem asfalto na malha)
+ALEM_M = 30  # faixa além do vão: a quadra do outro lado tem que estar lá (vazio grande = praça, área verde, gleba)
+LIVRE_MAX = 0.5  # fração livre de lote nessa faixa acima disso: não é corredor, recusa
+EIXO_M = (60, 250)  # o eixo do corredor segue livre de lote por 60 m ou mais (procura até 250 m para cada lado)
+
+
+def frentes_borda(g, indice, geos, tree, tree_ruas):
+    """Regra 3, só sem asfalto que sirva: lado que não encosta em lote e dá para um corredor de 8 a 30 m até a quadra
+    do outro lado, aberto nas duas pontas e ligado à malha de asfalto (viela, fundo de quadra e lote faltando no miolo
+    não passam)."""
+    def lote(j):  # vizinho inválido no cadastro (laço, anel de 3 pontos) é consertado antes de cruzar com qualquer coisa
+        return geos[j] if geos[j].is_valid else sh.make_valid(geos[j])
+
+    def livre(geom, minimo=0.5):  # nenhum lote (nem o próprio) ocupa mais que `minimo` m² de geom
+        return all(lote(j).intersection(geom).area <= minimo for j in tree.query(geom, predicate="intersects"))
+    frentes = []
+    for ks, pts in cadeias(list(g.exterior.coords)):
+        corda = math.dist(pts[0], pts[-1])
+        if corda < 8:
+            continue
+        a, b = np.array(pts[0]), np.array(pts[-1])
+        u = (b - a) / corda
+        n = np.array([u[1], -u[0]])
+        if g.contains(Point(*(a + b) / 2 + n * 0.5)):
+            n = -n  # normal para fora do lote
+        linha = LineString(pts)
+        # (a) lado livre: nenhum lote a 0,5 m do miolo do lado (as pontas podem encostar no vizinho de divisa)
+        miolo = substring(linha, 0.1, 0.9, normalized=True)
+        if any(j != indice and lote(j).distance(miolo) <= 0.5 for j in tree.query(miolo, predicate="dwithin", distance=0.5)):
+            continue
+        # (b) vão: faixa de 8 m à frente sem lote; raios (2 m de largura) de 30 m em 3 pontos batem num lote entre 8 e 30 m
+        p0, p1 = a + u * corda * 0.1, b - u * corda * 0.1
+        if not livre(Polygon([p0 + n * 0.3, p1 + n * 0.3, p1 + n * VAO_M[0], p0 + n * VAO_M[0]])):
+            continue
+        vaos = []
+        for t in (0.15, 0.5, 0.85):
+            p = a + (b - a) * t
+            raio = LineString([p + n * 0.3, p + n * VAO_M[1]]).buffer(1.0, cap_style="flat")  # faixa de 2 m: fresta entre lotes não vaza
+            batidas = [Point(*p).distance(lote(j).intersection(raio)) for j in tree.query(raio, predicate="intersects")
+                       if not lote(j).intersection(raio).is_empty]
+            vaos.append(min(batidas, default=math.inf))
+        if not all(VAO_M[0] <= v <= VAO_M[1] for v in vaos):
+            continue
+        w = float(np.median(vaos))
+        # (c) corredor aberto nas duas pontas: o eixo do vão continua livre 10 m além de cada ponta do lado
+        if not all(livre(Point(*q).buffer(1.0), 0.0) for q in (a - u * 10 + n * w / 2, b + u * 10 + n * w / 2)):
+            continue
+        # (c) praça/área verde: atrás do vão tem que haver quadra; faixa de ALEM_M além do vão mais da metade vazia = recusa
+        faixa = Polygon([a + n * (w + 1), b + n * (w + 1), b + n * (w + 1 + ALEM_M), a + n * (w + 1 + ALEM_M)])
+        ocupado = sh.union_all([lote(j) for j in tree.query(faixa, predicate="intersects")]).intersection(faixa).area
+        if 1 - ocupado / faixa.area > LIVRE_MAX:
+            continue
+        # (c) é rua: o eixo do vão, até o primeiro lote de cada lado, tem 60 m ou mais e passa a até 6 m do asfalto
+        m = (a + b) / 2 + n * w / 2
+        alcance = []
+        for s in (u, -u):
+            eixo = LineString([m, m + s * EIXO_M[1]])
+            alcance.append(min((Point(*m).distance(lote(j).intersection(eixo)) for j in tree.query(eixo, predicate="intersects")
+                                if not lote(j).intersection(eixo).is_empty), default=EIXO_M[1]))
+        eixo = LineString([m - u * alcance[1], m + u * alcance[0]])
+        if eixo.length < EIXO_M[0] or not len(tree_ruas.query(eixo, predicate="dwithin", distance=6)):
+            continue
+        frentes.append({"aresta": ks[0], "arestas": ks, "pontos": [list(pts[0]), list(pts[-1])],
+                        "comprimento_m": round(corda, 3), "largura_vao_m": round(w, 3), "regra": "borda_de_quadra"})
+    frentes.sort(key=lambda f: (-f["comprimento_m"], f["aresta"]))
+    # a principal é a que chega mais perto do asfalto (o cruzamento encosta na rua de verdade, o vazio do miolo fica longe
+    # dele); diferença de até 1 m fica a mais comprida
+    perto = [float(tree_ruas.query_nearest(LineString(f["pontos"]), return_distance=True)[1][0]) for f in frentes]
+    k = int(np.argmin(perto)) if frentes else 0
+    if frentes and perto[k] < perto[0] - 1:
+        frentes.insert(0, frentes.pop(k))
+    return frentes
+
+
+def avaliar(g, indice, geos, tree, malha, tree_ruas, ampliar=False):
     vizinhos = tree.query(g, predicate="intersects")
     vizinhos = vizinhos[vizinhos != indice]
     inter = sh.area(sh.intersection(g, geos[vizinhos]))
@@ -97,7 +221,7 @@ def avaliar(g, indice, geos, tree, malha, tree_ruas):
     perto = tree_ruas.query(g.buffer(12), predicate="intersects")
     rua = sh.union_all(malha[perto])
     invasao = g.intersection(rua).area
-    if rua.is_empty or invasao / g.area > 0.02:
+    if (rua.is_empty and not ampliar) or (not rua.is_empty and invasao / g.area > 0.02):
         return None
     frentes = []
     coords = list(g.exterior.coords)
@@ -106,9 +230,16 @@ def avaliar(g, indice, geos, tree, malha, tree_ruas):
         if lado.length < 8:
             continue
         distancias = [lado.interpolate(t, normalized=True).distance(rua) for t in (0.15, 0.5, 0.85)]
-        if max(distancias) <= 6:
+        if not rua.is_empty and max(distancias) <= 6:
             frentes.append({"aresta": k, "pontos": [list(a), list(b)], "comprimento_m": round(lado.length, 3),
                             "distancia_max_asfalto_m": round(max(distancias), 3)})
+    if not frentes and ampliar and not rua.is_empty:
+        frentes = frentes_ampliadas(g, indice, geos, tree, rua)
+    if not frentes and ampliar:
+        frentes = frentes_borda(g, indice, geos, tree, tree_ruas)
+        asfalto = round(float(tree_ruas.query_nearest(g, return_distance=True)[1][0]), 3)
+        for f in frentes:  # o motor lê este campo em toda frente com `regra`
+            f["distancia_max_asfalto_m"] = asfalto
     if not frentes:
         return None
     esquina = False
@@ -120,7 +251,8 @@ def avaliar(g, indice, geos, tree, malha, tree_ruas):
             juntas = any(math.dist(a, b) < 2 for a in f["pontos"] for b in h["pontos"])
             if juntas and 45 <= ang <= 135:
                 esquina = True
-    frentes.sort(key=lambda f: (-f["comprimento_m"], f["aresta"]))
+    if "regra" not in frentes[0]:
+        frentes.sort(key=lambda f: (-f["comprimento_m"], f["aresta"]))
     return {"frentes": frentes, "esquina_indicada_pela_malha": esquina,
             "sobreposicao_asfalto_m2": round(invasao, 3), "maior_sobreposicao_vizinho_m2": round(float(max(inter, default=0)), 6)}
 

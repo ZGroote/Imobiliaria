@@ -754,11 +754,22 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
     # duas perguntas diferentes: o terreno está nessa zona? os números da zona foram conferidos?
     origem_zona = lote.get("zona_origem")
     texto_origem = {"oficial": "pelo mapa digital oficial", "anotada_a_mao": "lida à mão no anexo em PDF",
-                    "teste": "escolhida só pra testar"}.get(origem_zona, "sem origem informada (falta zona_origem no lote)")
+                    "teste": "escolhida só pra testar",
+                    "informada_pelo_usuario": "informada pelo usuário",
+                    "sugerida_pelo_mapa": "sugerida pelo mapa do Plano Diretor; outras zonas por perto: "
+                    + (", ".join((lote.get("zona_sugestao") or {}).get("alternativas") or []) or "nenhuma")
+                    }.get(origem_zona, "sem origem informada (falta zona_origem no lote)")
     if not lote.get("zona_conferida"):
         incertezas.append(f"Terreno na zona {zona['id']}: NÃO conferido ({texto_origem}). Confirmar a zona do lote antes de usar o estudo.")
     else:
         incertezas.append(f"Terreno na zona {zona['id']}: conferido ({texto_origem}).")
+    frente0 = ((lote.get("qualidade") or {}).get("frentes") or [{}])[0]  # frente presumida pelo terreno (novo_lote.py): a regra vem marcada
+    if frente0.get("regra") == "arestas_colineares":
+        incertezas.append(f"Frente presumida (juntou {len(frente0.get('arestas') or [])} arestas colineares, asfalto a até 6 m): confirmar testada e alinhamento na matrícula.")
+    elif frente0.get("regra") == "borda_de_quadra":
+        incertezas.append(f"Frente presumida pela borda da quadra (sem asfalto no mapa; vão de {frente0.get('largura_vao_m', 0):g} m entre quadras): conferir no local.")
+    elif frente0.get("regra"):
+        incertezas.append(f"Frente presumida (asfalto a {frente0.get('distancia_max_asfalto_m', 0):g} m, acima dos 6 m da regra): confirmar testada e alinhamento na matrícula.")
     if lote.get("zona_id") and lote["zona_id"] != zona["id"]:
         incertezas.append(f"O lote diz zona {lote['zona_id']}, mas o estudo usou {zona['id']}.")
     if not zona.get("conferido"):
@@ -773,14 +784,21 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
     if not altura_max and not zp.get("pavimentos_max"):
         incertezas.append("Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).")
     alertas_esp = []  # em cada opção: restrição que o motor NÃO aplicou (sem número de altura), pra ninguém ler o resultado como livre
+    nao_verif = []  # anexos dos registros "nao_verificada": viram UM alerta só (as incertezas seguem uma por registro)
     for e in especiais:
         if not e.get("altura_max_m"):
-            alertas_esp.append(f"ÁREA ESPECIAL sem altura numérica, NÃO aplicada: {e.get('tipo', '?')}"
-                               + (f" ({e['nome']})" if e.get("nome") else "") + ". O resultado pode passar do que o terreno permite; conferir antes de usar.")
+            if e.get("tipo") == "nao_verificada":
+                nao_verif.append(f"Anexo {e.get('anexo', '?')}")
+            else:
+                alertas_esp.append(f"ÁREA ESPECIAL sem altura numérica, NÃO aplicada: {e.get('tipo', '?')}"
+                                   + (f" ({e['nome']})" if e.get("nome") else "") + ". O resultado pode passar do que o terreno permite; conferir antes de usar.")
         if e.get("altura_max_m"):
             incertezas.append(f"Área especial {e.get('tipo', '?')}: altura máxima {e['altura_max_m']} m ({e.get('fonte', 'sem fonte')}).")
         else:
             incertezas.append(f"Área especial {e.get('tipo', '?')} sem número de altura: não aplicada ({e.get('fonte', 'sem fonte')}).")
+    if nao_verif:
+        alertas_esp.append("ÁREA ESPECIAL não verificada (nao_verificada), sem altura numérica, NÃO aplicada: " + ", ".join(dict.fromkeys(nao_verif))
+                           + ". O resultado pode passar do que o terreno permite; conferir antes de usar.")
     if regra:
         a = regra["acima"]
         incertezas.append(f"Recuo lateral e de fundos por altura: {regra.get('recuo_m')} m até o {regra.get('ate_pavimento', 1)}º pavimento; "

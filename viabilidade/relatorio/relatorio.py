@@ -30,6 +30,12 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 
+# Pedido da revisão (tarefa 19): o VGV não é lucro nem valor validado; mesma frase da tela.
+AVISO_VGV = (
+    "VGV = área privativa × preço por m² informado pelo usuário. "
+    "Não é lucro, receita garantida nem valor de mercado validado."
+)
+
 RODAPE_FIXO = (
     "Estudo preliminar automático. Não substitui o arquiteto responsável "
     "nem garante aprovação na prefeitura."
@@ -59,6 +65,8 @@ NOMES_PREMISSAS: Dict[str, Tuple[str, str]] = {
 }
 
 DESCRICAO_ZONA_ORIGEM: Dict[str, str] = {
+    "informada_pelo_usuario": "zona informada por quem pediu o estudo · não conferida",
+    "sugerida_pelo_mapa": "zona sugerida pela leitura automática do mapa do Plano Diretor · não conferida",
     "oficial": "Mapa digital oficial",
     "anotada_a_mao": "Anotada à mão (lida no anexo em PDF)",
     "teste": "Teste (escolhida só para testar)",
@@ -175,6 +183,8 @@ def validar_estudo(estudo):
         **dict.fromkeys("id zona_id zona_origem observacoes crs categoria".split(), str),
         **numeros("area_m2 lid"), "poligono_utm": "pares", "frente": "pares",
         "zona_conferida": bool, "conferido": bool,
+        "zona_sugestao": {"metodo": str, "proporcao_por_zona": {"*": "numero"},
+                          "distancia_divisa_m": "numero", "alternativas": [str], "motivo_duvida": (str,)},
         "areas_especiais": [{**dict.fromkeys("tipo nome observacoes fonte incidencia evidencia".split(), str), "conferido": bool}],
         "anotacao_zoneamento": {"zona_ambigua": bool, "alternativas_zona_id": [str]},
         "fonte": {"propriedades": {}, "propriedades_componentes": [{}]},
@@ -720,7 +730,7 @@ def _gerar_painel_conferencia(lote: Dict[str, Any], zona: Dict[str, Any], compac
     2) O terreno está nessa zona (lote.zona_conferida e lote.zona_origem)
     """
     zona_conf = bool(zona.get("conferido"))
-    lote_zona_conf = bool(lote.get("zona_conferida"))
+    lote_zona_conf = bool(lote.get("zona_conferida")) and lote.get("zona_origem") not in {"informada_pelo_usuario", "sugerida_pelo_mapa"}
     zona_origem_cod = str(lote.get("zona_origem") or "não informada")
     zona_origem_desc = DESCRICAO_ZONA_ORIGEM.get(zona_origem_cod, zona_origem_cod)
 
@@ -734,6 +744,13 @@ def _gerar_painel_conferencia(lote: Dict[str, Any], zona: Dict[str, Any], compac
     zona_ambigua = bool(anotacao.get("zona_ambigua"))
     alternativas = anotacao.get("alternativas_zona_id") or []
     aviso_ambigua = ""
+    sugestao = lote.get("zona_sugestao") or {}
+    aviso_sugestao = ""
+    if zona_origem_cod == "sugerida_pelo_mapa":
+        if sugestao.get("alternativas"):
+            aviso_sugestao += f'<div class="conf-subalerta">Alternativas: {esc(", ".join(sugestao["alternativas"]))}.</div>'
+        if sugestao.get("motivo_duvida"):
+            aviso_sugestao += f'<div class="conf-subalerta">Motivo de dúvida: {esc(sugestao["motivo_duvida"])}.</div>'
     if zona_ambigua or alternativas:
         alt_str = ", ".join(str(a) for a in alternativas) if alternativas else ""
         aviso_ambigua = (
@@ -766,6 +783,7 @@ def _gerar_painel_conferencia(lote: Dict[str, Any], zona: Dict[str, Any], compac
               <span class="conf-detalhe">{span_num("lote.zona_conferida", lote.get("zona_conferida"))} — Origem: <strong>{esc(zona_origem_desc)}</strong> (<code>{esc(zona_origem_cod)}</code>)</span>
             </div>
             {aviso_ambigua}
+            {aviso_sugestao}
           </div>
         </div>
         """
@@ -796,6 +814,7 @@ def _gerar_painel_conferencia(lote: Dict[str, Any], zona: Dict[str, Any], compac
           {"foi conferido em mapa/certidão oficial" if lote_zona_conf else "NÃO está conferido oficialmente e exige confirmação na prefeitura/matrícula"}.
         </div>
         {aviso_ambigua}
+        {aviso_sugestao}
       </div>
     </div>
     """
@@ -1069,6 +1088,7 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
           {linha_metrica("2. Área privativa vendável", "area_privativa_m2", "m²", destaque=True)}
           {linha_metrica("3. Vagas de garagem", "vagas", "vagas", destaque=True)}
           {linha_metrica("4. VGV estimado", "vgv_estimado", "R$", destaque=True, eh_vgv=True)}
+          {f'<tr class="linha-aviso-vgv"><td colspan="{len(opcoes) + 1}">{esc(AVISO_VGV)}</td></tr>' if any((op.get("metricas") or {}).get("vgv_estimado") is not None for op in opcoes) else ""}
           {linha_metrica("CA usado", "ca_usado", "", destaque=False)}
           {linha_metrica("Taxa de ocupação usada (TO)", "to_usada", "", destaque=False)}
           {linha_metrica("Pavimentos (acima do solo)", "pavimentos", "pav.", destaque=False)}
@@ -1357,6 +1377,7 @@ def _gerar_pagina_opcao(estudo: Dict[str, Any], opcao: Dict[str, Any]) -> str:
           <div class="card-numero-rotulo">VGV Estimado</div>
           <div class="card-numero-valor card-numero-vgv">{vgv_html}</div>
           <div class="card-numero-sub">{esc(vgv_sub)}</div>
+          {f'<div class="card-numero-sub aviso-vgv">{esc(AVISO_VGV)}</div>' if vgv_val is not None else ""}
         </div>
       </div>
 
@@ -1776,6 +1797,16 @@ body {
 .card-numero-sub {
   font-size: 6.8pt;
   color: #475569;
+}
+.aviso-vgv,
+.tabela-comparacao tr.linha-aviso-vgv td {
+  font-size: 6.5pt;
+  line-height: 1.25;
+  color: #7c2d12;
+  font-weight: 600;
+}
+.tabela-comparacao tr.linha-aviso-vgv td {
+  text-align: left;
 }
 .grade-meio {
   display: grid;

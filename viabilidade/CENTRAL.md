@@ -22,7 +22,101 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
 
 **Cotas lidas em `~/.maestri/usage/providers/.status.json` (15/11 03:23Z):** Codex semanal 90% (renova 16/11 11:57 -03) e 84% (renova 21/11 12:36 -03): **usar Codex só no essencial**. Antigravity: pool "Claude and GPT" 5h 100% (semanal 54%), Argon 100% até 21/11 13:12 -03, Gemini (Hydrogen/Carbon/Flash) ~0%. Claude Code: 11% (5h), 6% (semana).
 
-**Portão 1B (código) FECHADO (15/11)**: PR #120 juntado em `feat/viabilidade` (3e4dd5b7), CI Linux verde (8m22s). Motor 0.8.3 (monotonia em 94 pares; garagem computável com aviso; opções ausentes classificadas; domínio de validade), contrato v5, tela/relatório (revisão do estudo, three local sem CDN, injeção corrigida com teste de 6.519 mutações). Revisões: AUDITORIA-5, REVISAO-1..4. **Próximo:** 1C depende do arquiteto (pacote pronto em `conferencia/PACOTE-ARQUITETO.md`); 1E (integração/publicação) precisa de autorização do usuário.
+**Portão 1B (código) FECHADO (15/11)**: PR #120 juntado em `feat/viabilidade` (3e4dd5b7), CI Linux verde (8m22s). Motor 0.8.3 (monotonia em 94 pares; garagem computável com aviso; opções ausentes classificadas; domínio de validade), contrato v5, tela/relatório (revisão do estudo, three local sem CDN, injeção corrigida com teste de 6.519 mutações). Revisões: AUDITORIA-5, REVISAO-1..4. **Próximo:** 1C depende do arquiteto (pacote pronto em `conferencia/PACOTE-ARQUITETO.md`); 1E: ver abaixo.
+
+**Portão 1E (integração) — autorizado pelo usuário em 15/11.**
+- **PR #121** `feat/viabilidade` → `main`, juntado em **186a0fd8**.
+  - Só entram `viabilidade/` e o workflow próprio, mais duas classificações nos testes da main.
+  - `tests/test_tamanho_versionado.py`: exceção para o tif Copernicus (1,9 MB).
+  - `tests/test_dados_privados.py`: libera `viabilidade/terreno/dados/` e `viabilidade/visual/evidencias/`, com OK do usuário.
+  - O `conferir.py` aceita essas 2 mudanças fora do módulo.
+  - CI 4/4 verde (Node+Python, Painel, Emulador, conferir).
+- **Deploy isolado:** canal `viabilidade-1e` do site `imobilaria-deccb-miniaturas`, que não é produção.
+  - Endereço: https://imobilaria-deccb-miniaturas--viabilidade-1e-uewepmnh.web.app/visual/
+  - Expira em 22/11 às 09:24.
+  - Leva 20 arquivos: tela, three local, exemplo, 7 pilotos e 8 relatórios.
+  - Responde com `noindex`.
+  - O pacote foi montado fora do repositório (scratchpad, `viab-1e/`), no mesmo molde da apresentação.
+- **Smoke:**
+  - `testar.cjs` com `VISUAL_URL` apontando para o canal: PASS no desktop e no celular.
+  - Os 20 arquivos no ar têm o mesmo sha256 dos locais.
+  - O site no ar continua com 404 em `/visual/`.
+- **Reversão:** reverter 186a0fd8 ou apagar o canal.
+- **Falta a decisão de publicação, que é do usuário:** domínio, caminho e quem acessa.
+- **Veredito da revisão (15/11): integração ACEITA; publicação pública BLOQUEADA.** Ordens:
+  1. Preservar o canal isolado sem alterá-lo.
+  2. Não publicar `/visual/` no domínio principal.
+  3. Inspecionar os arquivos liberados nas exceções de privacidade.
+     - **FEITO:** `conferencia/INSPECAO-PRIVACIDADE-1E.md`. São 89 arquivos, vistos um a um, com metadados e sha256. Nada privado.
+  4. Avançar no 1C com o arquiteto e registrar as limitações que ficarem.
+     - O pacote está pronto. Falta enviar; perguntei ao usuário quem envia.
+  5. Voltar para a decisão de publicação depois dessas evidências.
+- **Atenção:** reverter o merge ≠ desfazer o deploy. São operações diferentes; não executar nenhuma das duas sem ordem.
+- **Documento explicativo** do sistema, para o usuário: https://claude.ai/artifact/2epdS1PHAF7EBNZpxcEhC5
+
+**Trava de privacidade fechada (15/11, PR #123 → main a53f25aa).**
+- As imagens da viabilidade passam por sha256 (`conferencia/imagens-inspecionadas.json`), não por pasta.
+- Imagem nova ou alterada derruba o CI.
+- Inspeção independente (Revisor, `revisao/REVISAO-5.md`): sem dado pessoal.
+- Ressalvas para o usuário:
+  - base de republicação dos mapas municipais;
+  - lotes localizáveis (sem vínculo com cliente verificado).
+
+**Lote livre (galho `feat/viabilidade-lote`, PR #122 em rascunho → `feat/viabilidade`).** 1C: o usuário vai ao arquiteto pessoalmente.
+- Terreno T4 `novo_lote.py`: qualquer feição ou remembramento, com zona informada (5911fc3a).
+- Motor T13 `estudar.py`: um comando do lote ao relatório (f6d6bb6d).
+- Em andamento:
+  - Terreno T5: zona sugerida pelo mapa;
+  - Visual T15: rótulos das origens novas da zona;
+  - Motor T14: `test_motor` abaixo de 120 s.
+- **Lacuna conhecida:** lote novo não traz áreas especiais (aeroporto/AIA/AEI), então perde o alerta. Próxima tarefa do Terreno depois da T5.
+- **Ritmo:** 3 a 4 frentes em paralelo; entre entregas, conferir só a frente que entregou; o completo fica no CI.
+- **Entregas no galho até agora:** Terreno T5 zona auto (a9b98cd0), T6 áreas especiais (46c9f4a9), T7 `--ponto` (995f6739); Visual T15 (364a1024) e T16 acessibilidade (93378d7c); Motor T14 test_motor de 430 s para ~90 s (04c78042).
+- **Contas (15/11, tarde):** os dois Codex estão esgotando ("trabalho" 99% na semana; "Padrão" 93% na janela de 5 h). O usuário pediu para usar mais Claude e Antigravity.
+  - Terreno: Claude Code jaogroote.
+  - Motor: Claude Code jaogroote.
+  - Visual: Claude Code Padrão.
+  - Revisor: Antigravity (Gemini 4 Hydrogen).
+  - Os agentes reiniciados perdem o contexto: mandar o papel e onde estão os RELATORIO na primeira mensagem.
+  - **Armadilha:** comando `/` não enviado (por exemplo `/status`) fica na caixa de entrada e gruda na mensagem seguinte. Conferir com `maestri check` se a tarefa começou ("Working" ou "esc to interrupt").
+
+**PR #124 (`viabilidade/lote-livre` → main), 15/11.**
+- Substitui o #122, que mostrava 105 arquivos de outras frentes porque o `feat/viabilidade` estava 12 commits atrás da main.
+- Galho limpo a partir da main, commits em linha. Fora de `viabilidade/`, só o gatilho do CI.
+- **Ordem do usuário para o merge:**
+  1. CI verde no HEAD final;
+  2. Revisor e Auditor entregues;
+  3. achado ALTA corrigido e CI de novo;
+  4. pedir autorização. Sem publicação em produção.
+- **REVISAO-6 (Revisor):** sem quebra.
+  - Achado 2 corrigido (Motor T17).
+  - Achado 1 (área especial vazia sem menção) e Observação 3 (80% recusados por frente) estão na Terreno T10.
+- **CI quebrou por scipy:** removido na Terreno T9 (4965cec9).
+- **Rodada de 15/11 (tarde):**
+  - AUDITORIA-6b (92ba6da6): 1 ALTA (ressalva sumia quando outro anexo acusava; leis de 2018/2019 fora dos mapas) → corrigida na Terreno T13, feita pelo Motor (007a4a42).
+  - REVISAO-7 (e7a79f13): sem ALTA; os 4 ALTA anteriores conferidos (3 fechados, 1 parcial) → Terreno T14 (9 m do art. 80, contorno da subárea, cache entre processos).
+  - Terreno T12 (fc1b070e): frente presumida pela borda da quadra (`regra: borda_de_quadra`).
+  - Motor T21 (59a1b20c): um alerta só por opção para as áreas não verificadas; texto próprio da frente pela borda da quadra.
+  - Terreno T14 (3cc2e9b5): 9 m do art. 80 no cálculo para lote dentro do tracejado; contorno da subárea pelo tracejado; cache tolerante a dois processos.
+  - AUDITORIA-7 parte 1 (perguntas 4 e 5; arquivo sem commit até a parte 2): alertas agrupados OK; MÉDIA 75931 (frente pelo miolo da quadra) e BAIXA TopologyException → Terreno T15, feita pelo Visual (conta Padrão).
+  - Motor T22: `conferir.py` jogava o stderr do http.server num cano não lido; no Windows enchia e travava o visual (no CI passa). Corrigido: `conferir.py` 8/8 no Windows.
+  - Terreno T15 (db9eda3c, feita pelo Visual): frente principal pela borda = a mais perto do asfalto; vizinho inválido passa por make_valid.
+  - **ALTA nova (RELATORIO-16, 69da7562):** os anexos 02/05/06/07 estão ~44 m a leste + escala/rotação N-S (erro 40–75 m); cadastro e malha batem com o OSM. Os 3,53 m eram só resíduo de 5 vértices do perímetro. Efeito: 74451 ganhou os 9 m sem estar na subárea; 75352 muda de Z2 para recusado. Central conferiu na sobreposição (c02p.png). → Terreno T17 (Visual): ≥12 cruzamentos por anexo, afim direta 31983→pixel, teste com 8 cruzamentos de verificação, cache com os JSON na chave. **Bloqueia o merge do #124.**
+  - **Terreno T17 entregue (21b1330c):** afim direta por 21 cruzamentos; RMSE 2,9–3,2 m (máx. 6,2), 8 de verificação fora do ajuste a ≤6,8 m (antes 45–101 m). 74451 sai da subárea; 77015/77022/77375 dentro, 80172 fora; ponto do Auditor igual; 75352 recusado (divisa a 9,2 m); 22421 perde a Z2 das alternativas. Código revisado pela central. Resta texto velho "3,53 m" nos pilotos, `lei/FONTES.md` e pacote do arquiteto (tarefa à parte).
+  - Motor T23 (Visual): 3 expectativas do `test_estudar.py` pós-T17 (conferir deu 7/8 só por isso). Entregue; `conferir.py` **8/8** na central. **ALTA do RELATORIO-16 fechada.** Falta pro merge: CI verde no HEAD e a parte 2 da AUDITORIA-7 (perguntas 1–3, travada no prompt de permissão do Auditor, que é do usuário).
+  - CI verde em 61a1c88c (CI + Conferir Viabilidade). Terreno T18 (2bb1aea3) em andamento: os 7 pilotos foram lidos à mão em 14/11 com o ajuste antigo (40–100 m de erro); reconferir no lugar novo e trocar o texto "3,53 m". Se alguma zona anotada estiver errada, é achado que bloqueia o merge.
+  - **T18 entregue:** os 7 pilotos conferem no lugar novo (nenhuma zona errada); 22421 de 0 → 12,9 m da divisa Z1/Z2, 22426 a ~3 m do traço do Eixo. Pacote do arquiteto e `lei/FONTES.md` com os erros novos. Pendência BAIXA, pós-merge: o `metodo` de `lotes-piloto.json` vem de `dados/zonas-anotar.py` com SHA256 fixo no teste; acrescentar a reconferência lá exige mexer em `dados/` e nos `ORIGINAIS`. Revisor T8 (df3edc7f) em andamento.
+  - **REVISAO-8 (d6ba9791): aprovado, sem achados.** **AUDITORIA-7 completa: sem ALTA.** A MÉDIA (75931) e a BAIXA (TopologyException) eram da parte 1, no HEAD d9d48598, e já estão corrigidas pela T15 (central conferiu: frente principal do 75931 = [9, 0], 12,014 m). Pendência BAIXA, pós-merge: altura do art. 80 medida de z=0 e só por pavimentos (platibanda, caixa d'água, nível da via), já avisada no relatório. `conferir.py` 8/8. **Passos 1–3 da ordem do usuário cumpridos; falta o CI do HEAD final e a autorização do usuário para o merge na main (sem produção).**
+  - Auditor parado no pedido de permissão do `maestri ask` final: cancelar é do usuário (o Esc da central foi bloqueado). Parte 2 (perguntas 1–3) sai depois.
+- **Lei:**
+  - P23: os 6 decretos não mudam índice.
+  - P12: nenhuma alteração de índice desde 2016. A Lei 19.166/2019 acrescenta as AEI 44/45 ao Anexo 6, e a 18.927/2018 cria a Z6E; os dois casos foram passados ao Auditor.
+  - `DIREITOS-MAPAS.md`: a republicação dos recortes municipais fica como ressalva para advogado; Copernicus está ok com atribuição.
+- **Motor T16:** lote pequeno sem opção é geometria e premissa (apto de 60 m², laje de 80 m²), não falha da busca. A T18 expõe as premissas no comando.
+- **Terreno T8/T9:** lote novo de ~13 s para ~1,5 s (cache `.npz` fora do git).
+- **Visual T18/T19:** simulação de VGV, com a frase de que não é lucro nem receita garantida.
+- **Armadilha:** o texto cinza na caixa de entrada do Claude Code é sugestão automática, não ordem pendente.
+- **Armadilha (15/11):** "UNAUTHENTICATED (code 401)" no Antigravity no meio de tarefa longa é o passe da sessão vencendo, não o login: mandar "continue de onde parou" resolve, sem relogar. Claude Code "Interrupted" sem pedido: mesma coisa, mandar continuar.
 
 ## Ao chegar um relatório
 
