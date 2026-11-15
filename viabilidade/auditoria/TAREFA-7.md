@@ -36,3 +36,12 @@ Antes do merge na main, o usuário pediu uma conferência independente do que fo
 - achados classificados por gravidade (ALTA, MÉDIA, BAIXA).
 
 Depois: `maestri ask "Claude Code" "Auditor tarefa 7 pronta"`.
+
+## Parte 2 (perguntas 1, 2 e 3), no HEAD `18be7045` ou mais novo
+
+Depois da parte 1, mudou o posicionamento dos anexos: a T17 (`terreno/RELATORIO-16.md` e `RELATORIO-17.md`) trocou os 5 vértices via SAD69 pela afim direta de 21 cruzamentos, porque o ajuste antigo errava 40–100 m. A T18 (`RELATORIO-18.md`) reconferiu os pilotos. Por isso:
+- na pergunta 3, o **74451 agora deve sair FORA da subárea** de 9 m (era falso positivo do erro de posição); 77015, 77022 e 77375 dentro, 80172 fora. Confira isso no `anexo06.jpg` com o posicionamento novo;
+- na pergunta 1, rode no HEAD novo;
+- acrescente uma pergunta 6: pegue 2 cruzamentos de rua com nome fora de `terreno/dados/zonas-controles.json` e diga a distância, no Anexo 02, entre o pixel que a afim dá e o centro do cruzamento no mapa.
+
+Complete o `AUDITORIA-7.md` (veredito no topo valendo para as 6 perguntas). Depois: `maestri ask "Claude Code" "Auditor tarefa 7 pronta"`.
